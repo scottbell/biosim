@@ -1,21 +1,43 @@
 package com.traclabs.biosim.server.editor;
 
-import java.util.Locale;
 import java.util.Properties;
 
+import javax.swing.JFrame;
+
 import org.apache.log4j.PropertyConfigurator;
-import org.tigris.gef.graph.presentation.JGraphFrame;
-import org.tigris.gef.util.Localizer;
-import org.tigris.gef.util.ResourceLoader;
+import org.tigris.gef.graph.presentation.JGraph;
 
 /**
  * @author scott
  */
 public class BiosimEditor {
-    JGraphFrame myFrame;
+    JFrame myMainFrame;
+    JGraph myGraph;
     
     public BiosimEditor(){
-        //init logger
+        initLogger();
+        buildGui();
+    }
+    
+    
+    /**
+     * 
+     */
+    private void buildGui() {
+        myGraph = new JGraph();
+        myGraph.setDrawingSize(600,400);
+        
+        myMainFrame = new JFrame();
+        myMainFrame.setSize(640, 480);
+        myMainFrame.getContentPane().add(myGraph);
+        myMainFrame.setVisible(true);
+    }
+
+
+    /**
+     * 
+     */
+    private void initLogger() {
         Properties logProps = new Properties();
         logProps.setProperty("log4j.appender.editorAppender",
                 "org.apache.log4j.ConsoleAppender");
@@ -27,17 +49,9 @@ public class BiosimEditor {
         logProps.setProperty("log4j.logger.org.tigris.gef","INFO, editorAppender");
         logProps.setProperty("log4j.logger.com.traclabs.biosim","INFO, editorAppender");
         PropertyConfigurator.configure(logProps);
-        // init localizer and resourceloader
-        Localizer.addResource("GefBase","org.tigris.gef.base.BaseResourceBundle");
-        Localizer.addResource("GefPres","org.tigris.gef.presentation.PresentationResourceBundle");
-        Localizer.addLocale(Locale.getDefault());
-        Localizer.switchCurrentLocale(Locale.getDefault());
-        ResourceLoader.addResourceExtension("gif");
-        ResourceLoader.addResourceLocation("/org/tigris/gef/Images");
-        myFrame = new JGraphFrame();
-        myFrame.setVisible(true);
     }
-    
+
+
     public static void main(String args[]){
         BiosimEditor editor = new BiosimEditor();
     }
