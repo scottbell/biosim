@@ -10,7 +10,7 @@ public class PowerPSImpl extends BioModuleImpl implements PowerPSOperations {
 	private PowerStore myPowerStore;
 
 	public void tick(){
-		currentPowerProduced = 200;
+		currentPowerProduced = 700;
 		collectReferences();
 		myPowerStore.add(currentPowerProduced);
 	}

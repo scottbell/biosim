@@ -2,8 +2,7 @@ package biosim.server.water;
 
 public class BWP extends WaterRSSubSystem{
 	private final static float powerNeeded=100; 
-	private final static float waterWantedNominally  = 0.3f;
-	private float waterWantedNow = 0;
+	private final static float waterNeeded = 0.2f;
 	private float currentPower = 0;
 	private RO myRO;
 	private AES myAES;
@@ -24,12 +23,12 @@ public class BWP extends WaterRSSubSystem{
 	}
 	
 	public float getWaterWanted(){
-		if (hasEnoughPower)
-			waterWantedNow = waterWantedNominally;
-		else{
-			waterWantedNow = 0;
+		if (!hasEnoughPower){
+			hasEnoughWater = true;
+			return 0;
 		}
-		return waterWantedNow;
+		else
+			return waterNeeded;
 	}
 	
 	private void pushWater(){
