@@ -23,6 +23,7 @@ public class SimCommandLine
 		BufferedReader userInputReader = new BufferedReader(new InputStreamReader(System.in));
 		while (true){
 			try{
+				System.out.print("> ");
 				String userCommand = userInputReader.readLine();
 				processCommand(userCommand);
 			}
@@ -82,8 +83,8 @@ public class SimCommandLine
 			else
 				System.out.println("simulation needs to be paused frist");
 		}
-		else if (userCommand.equals("?")){
-			System.out.println("commands: start, stop, pause, resume, quit, startLog, stopLog");
+		else if (userCommand.equals("?") || userCommand.equals("help")){
+			System.out.println("commands: start, stop, pause, resume, quit, startLog, stopLog, help");
 		}
 		else{
 			System.out.println("unrecognized command: "+userCommand);
