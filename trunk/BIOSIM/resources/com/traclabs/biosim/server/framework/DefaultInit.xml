@@ -8,6 +8,8 @@
 	
 	<SimBioModules>
 		<air>
+			<H2Store name="H2Store" capacity="10000" level="9000"/>
+			<NitrogenStore name="NitrogenStore" capacity="5000" level="4000"/>
 			<AirRS name="AirRS">
 				<powerConsumer maxFlowRates="300" desiredFlowRates="300" inputs="PowerStore"/>
 				<potableWaterConsumer maxFlowRates="10" desiredFlowRates="10" inputs="PotableWaterStore"/>
@@ -21,9 +23,9 @@
 				<H2Producer maxFlowRates="100" desiredFlowRates="100" outputs="H2Store"/>
 			</AirRS>
 			<O2Store name="O2Store" capacity="2000" level="500"/>
+			<NitrogenStore name="NitrogenStore1" capacity="5000" level="4000"/>
 			<CO2Store name="CO2Store" capacity="2000" level="500"/>
-			<H2Store name="H2Store" capacity="10000" level="9000"/>
-			<NitrogenStore name="NitrogenStore" capacity="5000" level="4000"/>
+			<NitrogenStore name="NitrogenStore2" capacity="5000" level="4000"/>
 		</air>
 		<crew>
 			<CrewGroup name="CrewGroup">

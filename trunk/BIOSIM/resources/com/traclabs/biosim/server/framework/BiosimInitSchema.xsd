@@ -73,80 +73,98 @@
 			<xsd:element name="air" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="AirRS" type="AirRSType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="OGS" type="OGSType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="CRS" type="CRSType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="VCCR" type="VCCRType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="O2Store" type="O2StoreType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="CO2Store" type="CO2StoreType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="H2Store" type="H2StoreType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="NitrogenStore" type="NitrogenStoreType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element name="AirRS" type="AirRSType"/>
+							<xsd:element name="OGS" type="OGSType" />
+							<xsd:element name="CRS" type="CRSType"/>
+							<xsd:element name="VCCR" type="VCCRType"/>
+							<xsd:element name="O2Store" type="O2StoreType"/>
+							<xsd:element name="CO2Store" type="CO2StoreType"/>
+							<xsd:element name="H2Store" type="H2StoreType"/>
+							<xsd:element name="NitrogenStore" type="NitrogenStoreType"/>
+						</xsd:choice>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="crew" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="CrewGroup" type="CrewGroupType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element name="CrewGroup" type="CrewGroupType"/>
+						</xsd:choice>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="environment" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="SimEnvironment" type="SimEnvironmentType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="Dehumidifier" type="DehumidifierType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element name="SimEnvironment" type="SimEnvironmentType"/>
+							<xsd:element name="Dehumidifier" type="DehumidifierType"/>
+						</xsd:choice>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="food" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="FoodProcessor" type="FoodProcessorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="BiomassRS" type="BiomassRSType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="BiomassStore" type="BiomassStoreType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="FoodStore" type="FoodStoreType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element name="FoodProcessor" type="FoodProcessorType"/>
+							<xsd:element name="BiomassRS" type="BiomassRSType"/>
+							<xsd:element name="BiomassStore" type="BiomassStoreType"/>
+							<xsd:element name="FoodStore" type="FoodStoreType"/>
+						</xsd:choice>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="power" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:sequence>	
-						<xsd:element name="PowerPS" type="PowerPSType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="PowerStore" type="PowerStoreType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element name="PowerPS" type="PowerPSType"/>
+							<xsd:element name="PowerStore" type="PowerStoreType"/>
+						</xsd:choice>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="water" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="WaterRS" type="WaterRSType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="PotableWaterStore" type="PotableWaterStoreType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="GreyWaterStore" type="GreyWaterStoreType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="DirtyWaterStore" type="DirtyWaterStoreType" minOccurs="0" maxOccurs="unbounded"/>
-						</xsd:sequence>
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element name="WaterRS" type="WaterRSType"/>
+							<xsd:element name="PotableWaterStore" type="PotableWaterStoreType"/>
+							<xsd:element name="GreyWaterStore" type="GreyWaterStoreType"/>
+							<xsd:element name="DirtyWaterStore" type="DirtyWaterStoreType"/>
+						</xsd:choice>
+					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="waste" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="Incinerator" type="IncineratorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="DryWasteStore" type="DryWasteStoreType" minOccurs="0" maxOccurs="unbounded"/>
-						</xsd:sequence>
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element name="Incinerator" type="IncineratorType"/>
+							<xsd:element name="DryWasteStore" type="DryWasteStoreType"/>
+						</xsd:choice>
+					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="framework" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="Accumulator" type="AccumulatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="Injector" type="InjectorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element name="Accumulator" type="AccumulatorType"/>
+							<xsd:element name="Injector" type="InjectorType"/>
+						</xsd:choice>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="mission" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="EVAMission" type="EVAMissionType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element name="EVAMission" type="EVAMissionType"/>
+						</xsd:choice>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -158,120 +176,136 @@
 			<xsd:element name="air" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="CO2InFlowRateSensor" type="CO2InFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="CO2OutFlowRateSensor" type="CO2OutFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="CO2StoreLevelSensor" type="CO2StoreLevelSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="O2InFlowRateSensor" type="O2InFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="O2OutFlowRateSensor" type="O2OutFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="O2StoreLevelSensor" type="O2StoreLevelSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="H2InFlowRateSensor" type="H2InFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="H2OutFlowRateSensor" type="H2OutFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="H2StoreLevelSensor" type="H2StoreLevelSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="NitrogenInFlowRateSensor" type="NitrogenInFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="NitrogenOutFlowRateSensor" type="NitrogenOutFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="NitrogenStoreLevelSensor" type="NitrogenStoreLevelSensorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element name="CO2InFlowRateSensor" type="CO2InFlowRateSensorType"/>
+							<xsd:element name="CO2OutFlowRateSensor" type="CO2OutFlowRateSensorType"/>
+							<xsd:element name="CO2StoreLevelSensor" type="CO2StoreLevelSensorType"/>
+							<xsd:element name="O2InFlowRateSensor" type="O2InFlowRateSensorType"/>
+							<xsd:element name="O2OutFlowRateSensor" type="O2OutFlowRateSensorType"/>
+							<xsd:element name="O2StoreLevelSensor" type="O2StoreLevelSensorType"/>
+							<xsd:element name="H2InFlowRateSensor" type="H2InFlowRateSensorType"/>
+							<xsd:element name="H2OutFlowRateSensor" type="H2OutFlowRateSensorType"/>
+							<xsd:element name="H2StoreLevelSensor" type="H2StoreLevelSensorType"/>
+							<xsd:element name="NitrogenInFlowRateSensor" type="NitrogenInFlowRateSensorType"/>
+							<xsd:element name="NitrogenOutFlowRateSensor" type="NitrogenOutFlowRateSensorType"/>
+							<xsd:element name="NitrogenStoreLevelSensor" type="NitrogenStoreLevelSensorType"/>
+						</xsd:choice>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="crew" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="CrewGroupDeathSensor" type="CrewGroupDeathSensorType" minOccurs="0" maxOccurs="unbounded"/>			
-						<xsd:element name="CrewGroupProductivitySensor" type="CrewGroupProductivitySensorType" minOccurs="0" maxOccurs="unbounded"/>			
-						<xsd:element name="CrewGroupAnyDeadSensor" type="CrewGroupAnyDeadSensorType" minOccurs="0" maxOccurs="unbounded"/>			
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element name="CrewGroupDeathSensor" type="CrewGroupDeathSensorType"/>			
+							<xsd:element name="CrewGroupProductivitySensor" type="CrewGroupProductivitySensorType"/>			
+							<xsd:element name="CrewGroupAnyDeadSensor" type="CrewGroupAnyDeadSensorType"/>
+						</xsd:choice>			
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="environment" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="AirInFlowRateSensor" type="AirInFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="AirOutFlowRateSensor" type="AirOutFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="CO2AirConcentrationSensor" type="CO2AirConcentrationSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="CO2AirEnvironmentInFlowRateSensor" type="CO2AirEnvironmentInFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="CO2AirEnvironmentOutFlowRateSensor" type="CO2AirEnvironmentOutFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="CO2AirPressureSensor" type="CO2AirPressureSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="CO2AirStoreInFlowRateSensor" type="CO2AirStoreInFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="CO2AirStoreOutFlowRateSensor" type="CO2AirStoreOutFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="O2AirConcentrationSensor" type="O2AirConcentrationSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="O2AirEnvironmentInFlowRateSensor" type="O2AirEnvironmentInFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="O2AirEnvironmentOutFlowRateSensor" type="O2AirEnvironmentOutFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="O2AirPressureSensor" type="O2AirPressureSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="O2AirStoreInFlowRateSensor" type="O2AirStoreInFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="O2AirStoreOutFlowRateSensor" type="O2AirStoreOutFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="NitrogenAirConcentrationSensor" type="NitrogenAirConcentrationSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="NitrogenAirPressureSensor" type="NitrogenAirPressureSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="NitrogenAirEnvironmentInFlowRateSensor" type="NitrogenAirEnvironmentInFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="NitrogenAirEnvironmentOutFlowRateSensor" type="NitrogenAirEnvironmentOutFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="NitrogenAirStoreInFlowRateSensor" type="NitrogenAirStoreInFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="NitrogenAirStoreOutFlowRateSensor" type="NitrogenAirStoreOutFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="WaterAirConcentrationSensor" type="WaterAirConcentrationSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="WaterAirPressureSensor" type="WaterAirPressureSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="WaterAirEnvironmentInFlowRateSensor" type="WaterAirEnvironmentInFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="WaterAirEnvironmentOutFlowRateSensor" type="WaterAirEnvironmentOutFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="WaterAirStoreInFlowRateSensor" type="WaterAirStoreInFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="WaterAirStoreOutFlowRateSensor" type="WaterAirStoreOutFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>	
-						<xsd:element name="OtherAirConcentrationSensor" type="OtherAirConcentrationSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="OtherAirPressureSensor" type="OtherAirPressureSensorType" minOccurs="0" maxOccurs="unbounded"/>	
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element name="AirInFlowRateSensor" type="AirInFlowRateSensorType"/>
+							<xsd:element name="AirOutFlowRateSensor" type="AirOutFlowRateSensorType"/>
+							<xsd:element name="CO2AirConcentrationSensor" type="CO2AirConcentrationSensorType"/>
+							<xsd:element name="CO2AirEnvironmentInFlowRateSensor" type="CO2AirEnvironmentInFlowRateSensorType"/>
+							<xsd:element name="CO2AirEnvironmentOutFlowRateSensor" type="CO2AirEnvironmentOutFlowRateSensorType"/>
+							<xsd:element name="CO2AirPressureSensor" type="CO2AirPressureSensorType"/>
+							<xsd:element name="CO2AirStoreInFlowRateSensor" type="CO2AirStoreInFlowRateSensorType"/>
+							<xsd:element name="CO2AirStoreOutFlowRateSensor" type="CO2AirStoreOutFlowRateSensorType"/>
+							<xsd:element name="O2AirConcentrationSensor" type="O2AirConcentrationSensorType"/>
+							<xsd:element name="O2AirEnvironmentInFlowRateSensor" type="O2AirEnvironmentInFlowRateSensorType"/>
+							<xsd:element name="O2AirEnvironmentOutFlowRateSensor" type="O2AirEnvironmentOutFlowRateSensorType"/>
+							<xsd:element name="O2AirPressureSensor" type="O2AirPressureSensorType"/>
+							<xsd:element name="O2AirStoreInFlowRateSensor" type="O2AirStoreInFlowRateSensorType"/>
+							<xsd:element name="O2AirStoreOutFlowRateSensor" type="O2AirStoreOutFlowRateSensorType"/>
+							<xsd:element name="NitrogenAirConcentrationSensor" type="NitrogenAirConcentrationSensorType"/>
+							<xsd:element name="NitrogenAirPressureSensor" type="NitrogenAirPressureSensorType"/>
+							<xsd:element name="NitrogenAirEnvironmentInFlowRateSensor" type="NitrogenAirEnvironmentInFlowRateSensorType"/>
+							<xsd:element name="NitrogenAirEnvironmentOutFlowRateSensor" type="NitrogenAirEnvironmentOutFlowRateSensorType"/>
+							<xsd:element name="NitrogenAirStoreInFlowRateSensor" type="NitrogenAirStoreInFlowRateSensorType"/>
+							<xsd:element name="NitrogenAirStoreOutFlowRateSensor" type="NitrogenAirStoreOutFlowRateSensorType"/>
+							<xsd:element name="WaterAirConcentrationSensor" type="WaterAirConcentrationSensorType"/>
+							<xsd:element name="WaterAirPressureSensor" type="WaterAirPressureSensorType"/>
+							<xsd:element name="WaterAirEnvironmentInFlowRateSensor" type="WaterAirEnvironmentInFlowRateSensorType"/>
+							<xsd:element name="WaterAirEnvironmentOutFlowRateSensor" type="WaterAirEnvironmentOutFlowRateSensorType"/>
+							<xsd:element name="WaterAirStoreInFlowRateSensor" type="WaterAirStoreInFlowRateSensorType"/>
+							<xsd:element name="WaterAirStoreOutFlowRateSensor" type="WaterAirStoreOutFlowRateSensorType"/>	
+							<xsd:element name="OtherAirConcentrationSensor" type="OtherAirConcentrationSensorType"/>
+							<xsd:element name="OtherAirPressureSensor" type="OtherAirPressureSensorType"/>
+						</xsd:choice>				
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="food" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="BiomassInFlowRateSensor" type="BiomassInFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="BiomassOutFlowRateSensor" type="BiomassOutFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="BiomassStoreLevelSensor" type="BiomassStoreLevelSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="FoodInFlowRateSensor" type="FoodInFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="FoodOutFlowRateSensor" type="FoodOutFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="FoodStoreLevelSensor" type="FoodStoreLevelSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="HarvestSensor" type="HarvestSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="PlantDeathSensor" type="PlantDeathSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="BiomassStoreWaterContentSensor" type="BiomassStoreWaterContentSensorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element name="BiomassInFlowRateSensor" type="BiomassInFlowRateSensorType"/>
+							<xsd:element name="BiomassOutFlowRateSensor" type="BiomassOutFlowRateSensorType"/>
+							<xsd:element name="BiomassStoreLevelSensor" type="BiomassStoreLevelSensorType"/>
+							<xsd:element name="FoodInFlowRateSensor" type="FoodInFlowRateSensorType"/>
+							<xsd:element name="FoodOutFlowRateSensor" type="FoodOutFlowRateSensorType"/>
+							<xsd:element name="FoodStoreLevelSensor" type="FoodStoreLevelSensorType"/>
+							<xsd:element name="HarvestSensor" type="HarvestSensorType"/>
+							<xsd:element name="PlantDeathSensor" type="PlantDeathSensorType"/>
+							<xsd:element name="BiomassStoreWaterContentSensor" type="BiomassStoreWaterContentSensorType"/>
+						</xsd:choice>				
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="framework" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="StoreLevelSensor" type="StoreLevelSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="StoreOverflowSensor" type="StoreLevelSensorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element name="StoreLevelSensor" type="StoreLevelSensorType"/>
+							<xsd:element name="StoreOverflowSensor" type="StoreLevelSensorType"/>
+						</xsd:choice>				
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="power" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="PowerInFlowRateSensor" type="PowerInFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="PowerOutFlowRateSensor" type="PowerOutFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="PowerStoreLevelSensor" type="PowerStoreLevelSensorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element name="PowerInFlowRateSensor" type="PowerInFlowRateSensorType"/>
+							<xsd:element name="PowerOutFlowRateSensor" type="PowerOutFlowRateSensorType"/>
+							<xsd:element name="PowerStoreLevelSensor" type="PowerStoreLevelSensorType"/>
+						</xsd:choice>				
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="water" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="DirtyWaterInFlowRateSensor" type="DirtyWaterInFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="DirtyWaterOutFlowRateSensor" type="DirtyWaterOutFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="DirtyWaterStoreLevelSensor" type="DirtyWaterStoreLevelSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="GreyWaterInFlowRateSensor" type="GreyWaterInFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="GreyWaterOutFlowRateSensor" type="GreyWaterOutFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="GreyWaterStoreLevelSensor" type="GreyWaterStoreLevelSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="PotableWaterInFlowRateSensor" type="PotableWaterInFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="PotableWaterOutFlowRateSensor" type="PotableWaterOutFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="PotableWaterStoreLevelSensor" type="PotableWaterStoreLevelSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="WaterInFlowRateSensor" type="WaterInFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="WaterOutFlowRateSensor" type="WaterOutFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="WaterStoreLevelSensor" type="WaterStoreLevelSensorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element name="DirtyWaterInFlowRateSensor" type="DirtyWaterInFlowRateSensorType"/>
+							<xsd:element name="DirtyWaterOutFlowRateSensor" type="DirtyWaterOutFlowRateSensorType"/>
+							<xsd:element name="DirtyWaterStoreLevelSensor" type="DirtyWaterStoreLevelSensorType"/>
+							<xsd:element name="GreyWaterInFlowRateSensor" type="GreyWaterInFlowRateSensorType"/>
+							<xsd:element name="GreyWaterOutFlowRateSensor" type="GreyWaterOutFlowRateSensorType"/>
+							<xsd:element name="GreyWaterStoreLevelSensor" type="GreyWaterStoreLevelSensorType"/>
+							<xsd:element name="PotableWaterInFlowRateSensor" type="PotableWaterInFlowRateSensorType"/>
+							<xsd:element name="PotableWaterOutFlowRateSensor" type="PotableWaterOutFlowRateSensorType"/>
+							<xsd:element name="PotableWaterStoreLevelSensor" type="PotableWaterStoreLevelSensorType"/>
+							<xsd:element name="WaterInFlowRateSensor" type="WaterInFlowRateSensorType"/>
+							<xsd:element name="WaterOutFlowRateSensor" type="WaterOutFlowRateSensorType"/>
+							<xsd:element name="WaterStoreLevelSensor" type="WaterStoreLevelSensorType"/>
+						</xsd:choice>				
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="waste" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="DryWasteInFlowRateSensor" type="DryWasteInFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="DryWasteOutFlowRateSensor" type="DryWasteOutFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="DryWasteStoreLevelSensor" type="DryWasteStoreLevelSensorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element name="DryWasteInFlowRateSensor" type="DryWasteInFlowRateSensorType"/>
+							<xsd:element name="DryWasteOutFlowRateSensor" type="DryWasteOutFlowRateSensorType"/>
+							<xsd:element name="DryWasteStoreLevelSensor" type="DryWasteStoreLevelSensorType"/>
+						</xsd:choice>				
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -283,18 +317,20 @@
 			<xsd:element name="air" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="CO2InFlowRateActuator" type="CO2InFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="CO2OutFlowRateActuator" type="CO2OutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="O2InFlowRateActuator" type="O2InFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="O2OutFlowRateActuator" type="O2OutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="H2InFlowRateActuator" type="H2InFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="H2OutFlowRateActuator" type="H2OutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="NitrogenInFlowRateActuator" type="NitrogenInFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="NitrogenOutFlowRateActuator" type="NitrogenOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						</xsd:sequence>
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element name="CO2InFlowRateActuator" type="CO2InFlowRateActuatorType"/>
+							<xsd:element name="CO2OutFlowRateActuator" type="CO2OutFlowRateActuatorType"/>
+							<xsd:element name="O2InFlowRateActuator" type="O2InFlowRateActuatorType"/>
+							<xsd:element name="O2OutFlowRateActuator" type="O2OutFlowRateActuatorType"/>
+							<xsd:element name="H2InFlowRateActuator" type="H2InFlowRateActuatorType"/>
+							<xsd:element name="H2OutFlowRateActuator" type="H2OutFlowRateActuatorType"/>
+							<xsd:element name="NitrogenInFlowRateActuator" type="NitrogenInFlowRateActuatorType"/>
+							<xsd:element name="NitrogenOutFlowRateActuator" type="NitrogenOutFlowRateActuatorType"/>
+						</xsd:choice>				
+					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
-			<xsd:element name="crew" minOccurs="0" maxOccurs="1">
+			<xsd:element name="crew" minOccurs="0" maxOccurs="0">
 				<xsd:complexType>
 					<xsd:sequence>
 					</xsd:sequence>
@@ -303,66 +339,76 @@
 			<xsd:element name="environment" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="AirInFlowRateActuator" type="AirInFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="AirOutFlowRateActuator" type="AirOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="CO2AirEnvironmentInFlowRateActuator" type="CO2AirEnvironmentInFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="CO2AirEnvironmentOutFlowRateActuator" type="CO2AirEnvironmentOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="CO2AirStoreInFlowRateActuator" type="CO2AirStoreInFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="CO2AirStoreOutFlowRateActuator" type="CO2AirStoreOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="O2AirEnvironmentInFlowRateActuator" type="O2AirEnvironmentInFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="O2AirEnvironmentOutFlowRateActuator" type="O2AirEnvironmentOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="O2AirStoreInFlowRateActuator" type="O2AirStoreInFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="O2AirStoreOutFlowRateActuator" type="O2AirStoreOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="NitrogenAirEnvironmentInFlowRateActuator" type="NitrogenAirEnvironmentInFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="NitrogenAirEnvironmentOutFlowRateActuator" type="NitrogenAirEnvironmentOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="NitrogenAirStoreInFlowRateActuator" type="NitrogenAirStoreInFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="NitrogenAirStoreOutFlowRateActuator" type="NitrogenAirStoreOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="WaterAirEnvironmentInFlowRateActuator" type="WaterAirEnvironmentInFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="WaterAirEnvironmentOutFlowRateActuator" type="WaterAirEnvironmentOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="WaterAirStoreInFlowRateActuator" type="WaterAirStoreInFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="WaterAirStoreOutFlowRateActuator" type="WaterAirStoreOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element name="AirInFlowRateActuator" type="AirInFlowRateActuatorType"/>
+							<xsd:element name="AirOutFlowRateActuator" type="AirOutFlowRateActuatorType"/>
+							<xsd:element name="CO2AirEnvironmentInFlowRateActuator" type="CO2AirEnvironmentInFlowRateActuatorType"/>
+							<xsd:element name="CO2AirEnvironmentOutFlowRateActuator" type="CO2AirEnvironmentOutFlowRateActuatorType"/>
+							<xsd:element name="CO2AirStoreInFlowRateActuator" type="CO2AirStoreInFlowRateActuatorType"/>
+							<xsd:element name="CO2AirStoreOutFlowRateActuator" type="CO2AirStoreOutFlowRateActuatorType"/>
+							<xsd:element name="O2AirEnvironmentInFlowRateActuator" type="O2AirEnvironmentInFlowRateActuatorType"/>
+							<xsd:element name="O2AirEnvironmentOutFlowRateActuator" type="O2AirEnvironmentOutFlowRateActuatorType"/>
+							<xsd:element name="O2AirStoreInFlowRateActuator" type="O2AirStoreInFlowRateActuatorType"/>
+							<xsd:element name="O2AirStoreOutFlowRateActuator" type="O2AirStoreOutFlowRateActuatorType"/>
+							<xsd:element name="NitrogenAirEnvironmentInFlowRateActuator" type="NitrogenAirEnvironmentInFlowRateActuatorType"/>
+							<xsd:element name="NitrogenAirEnvironmentOutFlowRateActuator" type="NitrogenAirEnvironmentOutFlowRateActuatorType"/>
+							<xsd:element name="NitrogenAirStoreInFlowRateActuator" type="NitrogenAirStoreInFlowRateActuatorType"/>
+							<xsd:element name="NitrogenAirStoreOutFlowRateActuator" type="NitrogenAirStoreOutFlowRateActuatorType"/>
+							<xsd:element name="WaterAirEnvironmentInFlowRateActuator" type="WaterAirEnvironmentInFlowRateActuatorType"/>
+							<xsd:element name="WaterAirEnvironmentOutFlowRateActuator" type="WaterAirEnvironmentOutFlowRateActuatorType"/>
+							<xsd:element name="WaterAirStoreInFlowRateActuator" type="WaterAirStoreInFlowRateActuatorType"/>
+							<xsd:element name="WaterAirStoreOutFlowRateActuator" type="WaterAirStoreOutFlowRateActuatorType"/>
+						</xsd:choice>				
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="food" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="BiomassInFlowRateActuator" type="BiomassInFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="BiomassOutFlowRateActuator" type="BiomassOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="FoodInFlowRateActuator" type="FoodInFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="FoodOutFlowRateActuator" type="FoodOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="HarvestingActuator" type="HarvestingActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="PlantingActuator" type="PlantingActuatorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element name="BiomassInFlowRateActuator" type="BiomassInFlowRateActuatorType"/>
+							<xsd:element name="BiomassOutFlowRateActuator" type="BiomassOutFlowRateActuatorType"/>
+							<xsd:element name="FoodInFlowRateActuator" type="FoodInFlowRateActuatorType"/>
+							<xsd:element name="FoodOutFlowRateActuator" type="FoodOutFlowRateActuatorType"/>
+							<xsd:element name="HarvestingActuator" type="HarvestingActuatorType"/>
+							<xsd:element name="PlantingActuator" type="PlantingActuatorType"/>
+						</xsd:choice>				
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="power" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="PowerInFlowRateActuator" type="PowerInFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="PowerOutFlowRateActuator" type="PowerOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element name="PowerInFlowRateActuator" type="PowerInFlowRateActuatorType"/>
+							<xsd:element name="PowerOutFlowRateActuator" type="PowerOutFlowRateActuatorType"/>
+						</xsd:choice>				
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="water" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="DirtyWaterInFlowRateActuator" type="DirtyWaterInFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="DirtyWaterOutFlowRateActuator" type="DirtyWaterOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="GreyWaterInFlowRateActuator" type="GreyWaterInFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="GreyWaterOutFlowRateActuator" type="GreyWaterOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="PotableWaterInFlowRateActuator" type="PotableWaterInFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="PotableWaterOutFlowRateActuator" type="PotableWaterOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="WaterInFlowRateActuator" type="WaterInFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="WaterOutFlowRateActuator" type="WaterOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element name="DirtyWaterInFlowRateActuator" type="DirtyWaterInFlowRateActuatorType"/>
+							<xsd:element name="DirtyWaterOutFlowRateActuator" type="DirtyWaterOutFlowRateActuatorType"/>
+							<xsd:element name="GreyWaterInFlowRateActuator" type="GreyWaterInFlowRateActuatorType"/>
+							<xsd:element name="GreyWaterOutFlowRateActuator" type="GreyWaterOutFlowRateActuatorType"/>
+							<xsd:element name="PotableWaterInFlowRateActuator" type="PotableWaterInFlowRateActuatorType"/>
+							<xsd:element name="PotableWaterOutFlowRateActuator" type="PotableWaterOutFlowRateActuatorType"/>
+							<xsd:element name="WaterInFlowRateActuator" type="WaterInFlowRateActuatorType"/>
+							<xsd:element name="WaterOutFlowRateActuator" type="WaterOutFlowRateActuatorType"/>
+						</xsd:choice>				
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="waste" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="DryWasteInFlowRateActuator" type="DryWasteInFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="DryWasteOutFlowRateActuator" type="DryWasteOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element name="DryWasteInFlowRateActuator" type="DryWasteInFlowRateActuatorType"/>
+							<xsd:element name="DryWasteOutFlowRateActuator" type="DryWasteOutFlowRateActuatorType"/>
+						</xsd:choice>				
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
