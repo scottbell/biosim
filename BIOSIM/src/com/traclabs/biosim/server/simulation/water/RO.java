@@ -14,6 +14,8 @@ public class RO extends WaterRSSubSystem{
 	//The subsystem to send the water to next
 	private AES myAES;
 	private PPS myPPS;
+	private float currentAESWaterProduced = 0f;
+	private float currentPPSWaterProduced = 0f;
 
 	/**
 	* Constructor that creates the RO
@@ -23,13 +25,27 @@ public class RO extends WaterRSSubSystem{
 		super(pWaterRSImpl);
 	}
 	
+	public float getAESWaterProduced(){
+		return currentAESWaterProduced;
+	}
+	
+	public float getPPSWaterProduced(){
+		return currentPPSWaterProduced;
+	}
+	
 	/**
 	* Flushes the water from this subsystem to the AES
 	*/
 	private void pushWater(){
-		if (myAES.isEnabled())
-			myAES.addWater(new Double(waterLevel * 0.15f).floatValue());
-		myPPS.addWater(new Double(waterLevel * 0.85f).floatValue());
+		if (myAES.isEnabled()){
+			currentAESWaterProduced = (new Double(waterLevel * 0.15f)).floatValue();
+			myAES.addWater(currentAESWaterProduced);
+		}
+		else{
+			currentAESWaterProduced = 0f;
+		}
+		currentPPSWaterProduced = (new Double(waterLevel * 0.85f)).floatValue();
+		myPPS.addWater(currentPPSWaterProduced);
 		waterLevel = 0;
 	}
 
@@ -45,6 +61,15 @@ public class RO extends WaterRSSubSystem{
 			if (hasEnoughPower){
 				pushWater();
 			}
+			else{
+				currentAESWaterProduced = 0f;
+				currentPPSWaterProduced = 0f;
+			}
+		}
+		else{
+			currentAESWaterProduced = 0f;
+			currentPPSWaterProduced = 0f;
+			currentPowerConsumed = 0;
 		}
 	}
 
@@ -67,6 +92,8 @@ public class RO extends WaterRSSubSystem{
 
 	public void reset(){
 		currentPowerConsumed = 0;
+		currentAESWaterProduced = 0f;
+		currentPPSWaterProduced = 0f;
 		hasEnoughPower = false;
 		hasEnoughWater = false;
 		waterLevel = 0;

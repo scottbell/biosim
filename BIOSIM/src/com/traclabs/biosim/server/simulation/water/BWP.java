@@ -18,6 +18,8 @@ public class BWP extends WaterRSSubSystem{
 	private GreyWaterStore myGreyWaterStore;
 	private float currentDirtyWaterConsumed = 0f;
 	private float currentGreyWaterConsumed = 0f;
+	private float currentROWaterProduced = 0f;
+	private float currentAESWaterProduced = 0f;
 	private final float NORMAL_WATER_NEEDED = waterNeeded;
 	private final float RO_DISABLED_WATER_NEEDED = new Double(waterNeeded * 0.15).floatValue();
 	private final float BOTH_DISABLED_WATER_NEEDED = 0f;
@@ -90,17 +92,32 @@ public class BWP extends WaterRSSubSystem{
 	* Flushes the water from this subsystem to the RO
 	*/
 	private void pushWater(){
-		if (myRO.isEnabled())
-			myRO.addWater(waterLevel);
+		if (myRO.isEnabled()){
+			currentROWaterProduced = waterLevel;
+			currentAESWaterProduced = 0;
+			myRO.addWater(currentROWaterProduced);
+		}
 		else if (myAES.isEnabled()){
-			myAES.addWater(waterLevel);
+			System.out.println("BWP knows RO is disabled!");
+			currentROWaterProduced = 0;
+			currentAESWaterProduced = waterLevel;
+			myAES.addWater(currentAESWaterProduced);
 		}
 		else{
 			//dump water! no subsystem enabled to send water to
+			currentAESWaterProduced = 0f;
+			currentROWaterProduced = 0f;
 		}
 		waterLevel = 0;
 	}
-
+	
+	public float getROWaterProduced(){
+		return currentROWaterProduced;
+	}
+	
+	public float getAESWaterProduced(){
+		return currentAESWaterProduced;
+	}
 
 	/**
 	* In one tick, this subsystem:
@@ -114,12 +131,20 @@ public class BWP extends WaterRSSubSystem{
 			gatherWater();
 			pushWater();
 		}
+		else{
+			currentROWaterProduced = 0f;
+			currentAESWaterProduced = 0f;
+			currentDirtyWaterConsumed = 0f;
+			currentGreyWaterConsumed = 0f;
+		}
 	}
 	
 	public void reset(){
 		currentDirtyWaterConsumed = 0f;
 		currentGreyWaterConsumed = 0f;
 		currentPowerConsumed = 0;
+		currentROWaterProduced = 0f;
+		currentAESWaterProduced = 0f;
 		hasEnoughPower = false;
 		hasEnoughWater = false;
 		waterLevel = 0;
