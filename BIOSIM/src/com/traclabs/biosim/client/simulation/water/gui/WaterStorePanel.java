@@ -52,6 +52,9 @@ public class WaterStorePanel extends GraphPanel
 
 	public void refresh() {
 		if (myDataset == null){
+			float myPotableWaterStoreLevel = myPotableWaterStore.getLevel();
+			float myGreyWaterStoreLevel = myGreyWaterStore.getLevel();
+			float myDirtyWaterStoreLevel = myDirtyWaterStore.getLevel();
 			double[][] data = { {myPotableWaterStore.getLevel()}, {myGreyWaterStore.getLevel()}, {myDirtyWaterStore.getLevel()}};
 			myDataset = new DefaultCategoryDataset(data);
 			String[] theSeries = {"Potable Water", "Grey Water", "Dirty Water"};
@@ -60,10 +63,6 @@ public class WaterStorePanel extends GraphPanel
 			myDataset.setCategories(theCategory);
 		}
 		else{
-			if (rangeAxis.getRange().getUpperBound() != myPotableWaterStore.getCapacity()){
-				rangeAxis.setRange(0.0, myPotableWaterStore.getCapacity());
-				myChartPanel.repaint();
-			}
 			myDataset.setValue(0, "", new Float(myPotableWaterStore.getLevel()));
 			myDataset.setValue(1, "", new Float(myGreyWaterStore.getLevel()));
 			myDataset.setValue(2, "", new Float(myDirtyWaterStore.getLevel()));

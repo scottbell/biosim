@@ -316,7 +316,7 @@ public class SimDesktop extends BioFrame
 	* @param title the name of the new internal frame
 	* @param newPanel the panel to be added to the new internal frame
 	*/
-	private void addInternalFrame(String title, JPanel newPanel){
+	private SimDesktopFrame addInternalFrame(String title, JPanel newPanel){
 		SimDesktopFrame newFrame = new SimDesktopFrame(title, this);
 		if (newPanel instanceof BioTabbedPanel)
 			newFrame.addBioTabbedPanel((BioTabbedPanel)(newPanel));
@@ -330,6 +330,7 @@ public class SimDesktop extends BioFrame
 		newFrame.moveToFront();
 		newFrame.setVisible(true);
 		myFrames.put(title, newFrame);
+		return newFrame;
 	}
 
 	/**
@@ -506,8 +507,10 @@ public class SimDesktop extends BioFrame
 	*  Displays the Water panel with an internal frame inside this desktop.
 	*/
 	private void displayMalfunction(){
-		if (!tryExisitingInternalFrame("Malfunction Controller"))
-			addInternalFrame("Malfunction Controller",new MalfunctionPanel());
+		if (!tryExisitingInternalFrame("Malfunction Controller")){
+			SimDesktopFrame newFrame = addInternalFrame("Malfunction Controller",new MalfunctionPanel());
+			newFrame.setSize(550,350);
+		}
 	}
 
 	protected Hashtable getInternalFrames(){

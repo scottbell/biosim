@@ -42,6 +42,7 @@ public class MalfunctionPanel extends TimedPanel
 			if ((lastMalfunctionIndex != -1) && (lastMalfunctionIndex < currentMalfunctionList.getModel().getSize()))
 				currentMalfunctionList.setSelectedIndex(lastMalfunctionIndex);
 		}
+		repaint();
 	}
 
 	protected void buildGui(){
@@ -264,8 +265,6 @@ public class MalfunctionPanel extends TimedPanel
 	private class MalfunctionRenderer extends JLabel implements ListCellRenderer {
 		public MalfunctionRenderer(){
 			this.setOpaque(true);
-			//this.setHorizontalAlignment(LEFT_ALIGNMENT);
-			//this.setVerticalAlignment(CENTER);
 		}
 		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus){
 			if (isSelected){

@@ -58,10 +58,6 @@ public class AirStorePanel extends GraphPanel
 			myDataset.setCategories(theCategory);
 		}
 		else{
-			if (rangeAxis.getRange().getUpperBound() != myO2Store.getCapacity()){
-				rangeAxis.setRange(0.0, myO2Store.getCapacity());
-				myChartPanel.repaint();
-			}
 			myDataset.setValue(0, "", new Float(myO2Store.getLevel()));
 			myDataset.setValue(1, "", new Float(myCO2Store.getLevel()));
 		}

@@ -298,16 +298,23 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 				CO2Level -= (CO2Level * leakRate);
 				otherLevel -= (otherLevel * leakRate);
 			}
-			else if (currentMalfunction.getLength() == MalfunctionLength.PERMANENT_MALF){
-				if (capacity < 0){
+			else if ((currentMalfunction.getLength() == MalfunctionLength.PERMANENT_MALF) && (!currentMalfunction.hasPerformed())){
+				float O2percentage;
+				float CO2percentage;
+				float otherPercentage;
+				if (capacity <= 0){
 					O2Level = 0;
 					CO2Level = 0;
 					otherLevel = 0;
+					O2percentage = 0;
+					CO2percentage = 0;
+					otherPercentage = 0;
+					currentMalfunction.setPerformed(true);
 					return;
 				}
-				float O2percentage = O2Level / capacity;
-				float CO2percentage = CO2Level / capacity;
-				float otherPercentage = otherLevel / capacity;
+				O2percentage = O2Level / capacity;
+				CO2percentage = CO2Level / capacity;
+				otherPercentage = otherLevel / capacity;
 				if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
 					capacity = 0f;
 				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
@@ -317,6 +324,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 				O2Level = O2percentage * capacity;
 				CO2Level = CO2percentage * capacity;
 				otherLevel = otherPercentage * capacity;
+				currentMalfunction.setPerformed(true);
 			}
 		}
 	}

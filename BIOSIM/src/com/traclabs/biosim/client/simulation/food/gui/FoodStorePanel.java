@@ -58,10 +58,6 @@ public class FoodStorePanel extends GraphPanel
 			myDataset.setCategories(theCategory);
 		}
 		else{
-			if (rangeAxis.getRange().getUpperBound() != myFoodStore.getCapacity()){
-				rangeAxis.setRange(0.0, myFoodStore.getCapacity());
-				myChartPanel.repaint();
-			}
 			myDataset.setValue(0, "", new Float(myBiomassStore.getLevel()));
 			myDataset.setValue(1, "", new Float(myFoodStore.getLevel()));
 		}

@@ -114,13 +114,17 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
 					leakRate = .05f;
 				level -= (level * leakRate);
+				currentMalfunction.setPerformed(true);
 			}
-			else if (currentMalfunction.getLength() == MalfunctionLength.PERMANENT_MALF){
-				if (capacity < 0){
+			else if ((currentMalfunction.getLength() == MalfunctionLength.PERMANENT_MALF) && (!currentMalfunction.hasPerformed())){
+				float percentage;
+				if (capacity <= 0){
 					level = 0;
+					percentage = 0;
+					currentMalfunction.setPerformed(true);
 					return;
 				}
-				float percentage = level / capacity;
+				percentage = level / capacity;
 				if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
 					capacity = 0f;
 				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
@@ -128,6 +132,7 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
 					capacity *= .25f;
 				level = percentage * capacity;
+				currentMalfunction.setPerformed(true);
 			}
 		}
 	}

@@ -12,6 +12,7 @@ public class MalfunctionImpl extends MalfunctionPOA  {
 	private MalfunctionIntensity myIntensity;
 	private MalfunctionLength myLength;
 	private String myName;
+	private boolean performed;
 	
 	public MalfunctionImpl(String pName, MalfunctionIntensity pIntensity, MalfunctionLength pLength){
 		if (lastID > java.lang.Integer.MAX_VALUE)
@@ -25,6 +26,14 @@ public class MalfunctionImpl extends MalfunctionPOA  {
 	
 	public int getID(){
 		return myID;
+	}
+	
+	public boolean hasPerformed(){
+		return performed;
+	}
+	
+	public void setPerformed(boolean pPerformed){
+		performed = pPerformed;
 	}
 	
 	public String getName(){
