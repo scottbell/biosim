@@ -212,7 +212,71 @@
 				<isBreakdownEnabled>false</isBreakdownEnabled>
 				<initialVolume>1548930</initialVolume>
 			</SimEnvironment>
-		</environment>	
+		</environment>
+		<food>
+			<FoodProcessor>
+				<name>FoodProcessor</name>
+				<isLoggingEnabled>false</isLoggingEnabled>
+				<isBreakdownEnabled>false</isBreakdownEnabled>
+				<powerConsumer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<input>PowerStore</input>
+				</powerConsumer>
+				<biomassConsumer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<input>BiomassStore</input>
+				</biomassConsumer>
+				<foodProducer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<output>FoodStore</output>
+				</foodProducer>
+			</FoodProcessor>
+			<BiomassRS>
+				<name>BiomassRS</name>
+				<isLoggingEnabled>false</isLoggingEnabled>
+				<isBreakdownEnabled>false</isBreakdownEnabled>
+				<cropArea>100</cropArea>
+				<cropType>WHEAT</cropType>
+				<powerConsumer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<input>PowerStore</input>
+				</powerConsumer>
+				<potableWaterConsumer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<input>PotableWaterStore</input>
+				</potableWaterConsumer>
+				<greyWaterConsumer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<input>GreyWaterStore</input>
+				</greyWaterConsumer>
+				<airConsumer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<input>CrewEnvironment</input>
+				</airConsumer>
+				<dirtyWaterProducer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<output>DirtyWaterStore</output>
+				</dirtyWaterProducer>
+				<biomassProducer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<output>BiomassStore</output>
+				</biomassProducer>
+				<airProducer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<output>PlantEnvironment</output>
+				</airProducer>
+			</BiomassRS>
+		</food>
 		<water>
 			<PotableWaterStore>
 				<name>PotableWaterStore</name>

@@ -8,6 +8,10 @@
 		<xsd:list itemType="nonNegativeFloat"/>
 	</xsd:simpleType>
 	
+	<xsd:simpleType name="stringList">
+		<xsd:list itemType="xsd:string"/>
+	</xsd:simpleType>
+	
 	<xsd:simpleType name="nonNegativeFloat">
 		<xsd:restriction base="xsd:float">
 			<xsd:minInclusive value="0"/>
@@ -293,7 +297,7 @@
 		<xsd:complexContent>
 			<xsd:extension base="FlowRateType">
 				<xsd:sequence>
-					<xsd:element name="input" type="xsd:string"/>
+					<xsd:element name="input" type="stringList"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -303,7 +307,7 @@
 		<xsd:complexContent>
 			<xsd:extension base="FlowRateType">
 				<xsd:sequence>
-					<xsd:element name="output" type="xsd:string"/>
+					<xsd:element name="output" type="stringList"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -688,6 +692,8 @@
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
 				<xsd:sequence>
+					<xsd:element name="cropArea" type="nonNegativeFloat"/>
+					<xsd:element name="cropType" type="CropType"/>
 					<xsd:element name="powerConsumer" type="PowerConsumerType"/>
 					<xsd:element name="potableWaterConsumer" type="PotableWaterConsumerType"/>
 					<xsd:element name="greyWaterConsumer" type="GreyWaterConsumerType"/>
@@ -695,8 +701,6 @@
 					<xsd:element name="dirtyWaterProducer" type="DirtyWaterProducerType"/>
 					<xsd:element name="biomassProducer" type="BiomassProducerType"/>
 					<xsd:element name="airProducer" type="AirProducerType"/>
-					<xsd:element name="cropArea" type="nonNegativeFloat"/>
-					<xsd:element name="cropType" type="CropType"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
