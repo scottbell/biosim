@@ -26,6 +26,7 @@ module biosim{
                                 void setLogging(in boolean pLogging);
                                 boolean isLogging();
 				void setStochasticIntensity(in StochasticIntensity pIntensity);
+				StochasticIntensity getStochasticIntensity();
 				Malfunction startMalfunction(in MalfunctionIntensity pIntensity, in MalfunctionLength pLength);
 				void fixMalfunction(in long id);
 				void fixAllMalfunctions();
