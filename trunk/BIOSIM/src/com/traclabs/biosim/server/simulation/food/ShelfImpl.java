@@ -34,21 +34,15 @@ public class ShelfImpl extends ShelfPOA {
 
     private float waterLevel = 0f;
 
-    private static final float waterNeededPerMeterSquared = 50f; //grab up to
-
-    // 50 liters
-    // per meters
-    // squared of
-    // crops per
-    // hour(WAG)
-
+    /* grab up to 50 liters per meters squared of crops per hour (WAG) */
+    private static final float waterNeededPerMeterSquared = 50f;
+    
     private float waterNeeded = 0f;
 
     private float powerLevel = 0f;
 
-    private float powerPerLamp = 400f;
-
-    private float numberOfLamps = 1f;
+    /* grab 1520 watts per square meter (from table 4.2.2 in BVAD) */
+    private static final float POWER_PER_SQUARE_METER = 1520f;
 
     private int myStartTick;
 
@@ -110,10 +104,6 @@ public class ShelfImpl extends ShelfPOA {
         myStartTick = tick;
     }
 
-    private float calculatePowerNeeded() {
-        return powerPerLamp * numberOfLamps;
-    }
-
     private void gatherWater() {
         float extraWaterNeeded = waterNeeded - waterLevel;
         if (extraWaterNeeded < 0) {
@@ -129,13 +119,8 @@ public class ShelfImpl extends ShelfPOA {
     }
 
     private void gatherPower() {
-        float powerNeeded = calculatePowerNeeded();
-        powerLevel += myBiomassRSImpl.getPowerConsumerDefinitionImpl().getFractionalResourceFromStore(powerNeeded,
-                1f / myBiomassRSImpl.getNumberOfShelves());
-    }
-
-    private void flushWater() {
-        waterLevel -= myBiomassRSImpl.getDirtyWaterProducerDefinitionImpl().pushFractionalResourceToStore(waterLevel,
+        float powerNeeded = POWER_PER_SQUARE_METER * getCropAreaUsed();
+        powerLevel = myBiomassRSImpl.getPowerConsumerDefinitionImpl().getFractionalResourceFromStore(powerNeeded,
                 1f / myBiomassRSImpl.getNumberOfShelves());
     }
 
@@ -217,8 +202,6 @@ public class ShelfImpl extends ShelfPOA {
             gatherWater();
             lightPlants();
             myCrop.tick();
-            //flushWater();
-            flushPower();
         }
     }
 
