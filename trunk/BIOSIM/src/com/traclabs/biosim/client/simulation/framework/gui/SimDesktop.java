@@ -285,7 +285,7 @@ public class SimDesktop extends BaseJFrame
 		public void actionPerformed(ActionEvent ae){
 			isStarted = !isStarted;
 			if (isStarted){
-				myDesktop.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+				setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				myStartSimButton.setToolTipText("Starts the simulation");
 				myStartSimButton.setIcon(startIcon);
 				myStartSimItem.setText("Start");
@@ -294,10 +294,10 @@ public class SimDesktop extends BaseJFrame
 				myAdvanceSimButton.setEnabled(false);
 				myAdvanceSimItem.setEnabled(false);
 				myBiosim.endSimulation();
-				myDesktop.setCursor(Cursor.getDefaultCursor());
+				setCursor(Cursor.getDefaultCursor());
 			}
 			else{
-				myDesktop.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+				setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				myStartSimButton.setToolTipText("Ends the simulation");
 				myStartSimButton.setIcon(stopIcon);
 				myStartSimItem.setText("End");
@@ -306,7 +306,7 @@ public class SimDesktop extends BaseJFrame
 				myAdvanceSimButton.setEnabled(false);
 				myAdvanceSimItem.setEnabled(false);
 				myBiosim.spawnSimulation();
-				myDesktop.setCursor(Cursor.getDefaultCursor());
+				setCursor(Cursor.getDefaultCursor());
 			}
 		}
 	}
@@ -316,7 +316,7 @@ public class SimDesktop extends BaseJFrame
 			super(name);
 		}
 		public void actionPerformed(ActionEvent ae){
-			myDesktop.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			isPaused = !isPaused;
 			if (isPaused){
 				myPauseSimButton.setToolTipText("Resume the simulation");
@@ -334,7 +334,7 @@ public class SimDesktop extends BaseJFrame
 				myAdvanceSimItem.setEnabled(false);
 				myBiosim.resumeSimulation();
 			}
-			myDesktop.setCursor(Cursor.getDefaultCursor());
+			setCursor(Cursor.getDefaultCursor());
 		}
 	}
 
@@ -343,9 +343,9 @@ public class SimDesktop extends BaseJFrame
 			super(name);
 		}
 		public void actionPerformed(ActionEvent ae){
-			myDesktop.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			myBiosim.advanceOneTick();
-			myDesktop.setCursor(Cursor.getDefaultCursor());
+			setCursor(Cursor.getDefaultCursor());
 		}
 	}
 
@@ -387,14 +387,14 @@ public class SimDesktop extends BaseJFrame
 			super(name);
 		}
 		public void actionPerformed(ActionEvent ae){
-			myDesktop.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			displayAir();
 			displayEnvironment();
 			displayCrew();
 			displayFood();
 			displayPower();
 			displayWater();
-			myDesktop.setCursor(Cursor.getDefaultCursor());
+			setCursor(Cursor.getDefaultCursor());
 		}
 	}
 
@@ -403,9 +403,9 @@ public class SimDesktop extends BaseJFrame
 			super(name);
 		}
 		public void actionPerformed(ActionEvent ae){
-			myDesktop.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			displayEnvironment();
-			myDesktop.setCursor(Cursor.getDefaultCursor());
+			setCursor(Cursor.getDefaultCursor());
 		}
 	}
 
@@ -414,9 +414,9 @@ public class SimDesktop extends BaseJFrame
 			super(name);
 		}
 		public void actionPerformed(ActionEvent ae){
-			myDesktop.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			displayAir();
-			myDesktop.setCursor(Cursor.getDefaultCursor());
+			setCursor(Cursor.getDefaultCursor());
 		}
 	}
 
@@ -425,9 +425,9 @@ public class SimDesktop extends BaseJFrame
 			super(name);
 		}
 		public void actionPerformed(ActionEvent ae){
-			myDesktop.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			displayCrew();
-			myDesktop.setCursor(Cursor.getDefaultCursor());
+			setCursor(Cursor.getDefaultCursor());
 		}
 	}
 
@@ -436,9 +436,9 @@ public class SimDesktop extends BaseJFrame
 			super(name);
 		}
 		public void actionPerformed(ActionEvent ae){
-			myDesktop.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			displayFood();
-			myDesktop.setCursor(Cursor.getDefaultCursor());
+			setCursor(Cursor.getDefaultCursor());
 		}
 	}
 
@@ -447,9 +447,9 @@ public class SimDesktop extends BaseJFrame
 			super(name);
 		}
 		public void actionPerformed(ActionEvent ae){
-			myDesktop.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			displayPower();
-			myDesktop.setCursor(Cursor.getDefaultCursor());
+			setCursor(Cursor.getDefaultCursor());
 		}
 	}
 
@@ -458,9 +458,9 @@ public class SimDesktop extends BaseJFrame
 			super(name);
 		}
 		public void actionPerformed(ActionEvent ae){
-			myDesktop.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			displayWater();
-			myDesktop.setCursor(Cursor.getDefaultCursor());
+			setCursor(Cursor.getDefaultCursor());
 		}
 	}
 
@@ -469,7 +469,9 @@ public class SimDesktop extends BaseJFrame
 			super(name);
 		}
 		public void actionPerformed(ActionEvent ae){
+			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			frameClosing();
+			setCursor(Cursor.getDefaultCursor());
 		}
 	}
 }
