@@ -14,7 +14,7 @@ import biosim.idl.util.log.*;
  * @author    Scott Bell
  */
 
-public class InjectorImpl extends BioModuleImpl implements InjectorOperations, PowerConsumerOperations, PotableWaterConsumerOperations, GreyWaterConsumerOperations, DirtyWaterConsumerOperations, O2ConsumerOperations, CO2ConsumerOperations, AirConsumerOperations, BiomassConsumerOperations, FoodConsumerOperations, PowerProducerOperations, PotableWaterProducerOperations, GreyWaterProducerOperations, DirtyWaterProducerOperations, O2ProducerOperations, CO2ProducerOperations, AirProducerOperations, BiomassProducerOperations, FoodProducerOperations{
+public class InjectorImpl extends BioModuleImpl implements InjectorOperations, PowerConsumerOperations, PotableWaterConsumerOperations, GreyWaterConsumerOperations, DirtyWaterConsumerOperations, O2ConsumerOperations, CO2ConsumerOperations, AirConsumerOperations, BiomassConsumerOperations, FoodConsumerOperations, PowerProducerOperations, PotableWaterProducerOperations, GreyWaterProducerOperations, DirtyWaterProducerOperations, O2ProducerOperations, CO2ProducerOperations, AirProducerOperations, BiomassProducerOperations, FoodProducerOperations, O2AirConsumer, CO2AirConsumer, OtherAirConsumer, O2AirProducer, CO2AirProducer, OtherAirProducer{
 	private LogIndex myLogIndex;
 	private PowerStore[] myPowerInputs;
 	private PowerStore[] myPowerOutputs;
@@ -60,6 +60,21 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 	private CO2Store[] myCO2Outputs;
 	private float[] CO2OutFlowRates;
 	private float[] CO2InFlowRates;
+	
+	private SimEnvironment[] myCO2AirInputs;
+	private SimEnvironment[] myCO2AirOutputs;
+	private float[] CO2AirOutFlowRates;
+	private float[] CO2AirInFlowRates;
+	
+	private SimEnvironment[] myO2AirInputs;
+	private SimEnvironment[] myO2AirOutputs;
+	private float[] O2AirOutFlowRates;
+	private float[] O2AirInFlowRates;
+	
+	private SimEnvironment[] myOtherAirInputs;
+	private SimEnvironment[] myOtherAirOutputs;
+	private float[] otherAirOutFlowRates;
+	private float[] otherAirInFlowRates;
 
 	public InjectorImpl(int pID){
 		super(pID);
@@ -107,6 +122,21 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 		myCO2Inputs = new CO2Store[0];
 		CO2OutFlowRates = new float[0];
 		CO2InFlowRates = new float[0];
+		
+		myCO2AirOutputs = new SimEnvironment[0];
+		myCO2AirInputs = new SimEnvironment[0];
+		CO2AirOutFlowRates = new float[0];
+		CO2AirInFlowRates = new float[0];
+		
+		myO2AirOutputs = new SimEnvironment[0];
+		myO2AirInputs = new SimEnvironment[0];
+		O2AirOutFlowRates = new float[0];
+		O2AirInFlowRates = new float[0];
+		
+		myOtherAirOutputs = new SimEnvironment[0];
+		myOtherAirInputs = new SimEnvironment[0];
+		otherAirOutFlowRates = new float[0];
+		otherAirInFlowRates = new float[0];
 	}
 
 
@@ -208,8 +238,8 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 		public LogNode outIndex;
 	}
 
-	public void setPowerInputFlowrate(float watts, int index){
-		powerInFlowRates[index] = watts;
+	public void setPowerInputFlowrate(float amount, int index){
+		powerInFlowRates[index] = amount;
 	}
 
 	public float getPowerInputFlowrate(int index){
@@ -229,16 +259,16 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 		return powerInFlowRates;
 	}
 
-	public void setPowerOutputFlowrate(float watts, int index){
-		powerOutFlowRates[index] = watts;
+	public void setPowerOutputFlowrate(float amount, int index){
+		powerOutFlowRates[index] = amount;
 	}
 
 	public float getPowerOutputFlowrate(int index){
 		return powerOutFlowRates[index];
 	}
 
-	public void setPowerOutputs(PowerStore[] destinationss, float[] flowRates){
-		myPowerOutputs = destinationss;
+	public void setPowerOutputs(PowerStore[] destinations, float[] flowRates){
+		myPowerOutputs = destinations;
 		powerOutFlowRates = flowRates;
 	}
 
@@ -250,8 +280,8 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 		return powerOutFlowRates;
 	}
 
-	public void setGreyWaterInputFlowrate(float watts, int index){
-		greyWaterInFlowRates[index] = watts;
+	public void setGreyWaterInputFlowrate(float amount, int index){
+		greyWaterInFlowRates[index] = amount;
 	}
 
 	public float getGreyWaterInputFlowrate(int index){
@@ -271,16 +301,16 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 		return greyWaterInFlowRates;
 	}
 
-	public void setGreyWaterOutputFlowrate(float watts, int index){
-		greyWaterOutFlowRates[index] = watts;
+	public void setGreyWaterOutputFlowrate(float amount, int index){
+		greyWaterOutFlowRates[index] = amount;
 	}
 
 	public float getGreyWaterOutputFlowrate(int index){
 		return greyWaterOutFlowRates[index];
 	}
 
-	public void setGreyWaterOutputs(GreyWaterStore[] destinationss, float[] flowRates){
-		myGreyWaterOutputs = destinationss;
+	public void setGreyWaterOutputs(GreyWaterStore[] destinations, float[] flowRates){
+		myGreyWaterOutputs = destinations;
 		greyWaterOutFlowRates = flowRates;
 	}
 
@@ -292,8 +322,8 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 		return greyWaterOutFlowRates;
 	}
 
-	public void setDirtyWaterInputFlowrate(float watts, int index){
-		dirtyWaterInFlowRates[index] = watts;
+	public void setDirtyWaterInputFlowrate(float amount, int index){
+		dirtyWaterInFlowRates[index] = amount;
 	}
 
 	public float getDirtyWaterInputFlowrate(int index){
@@ -313,16 +343,16 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 		return dirtyWaterInFlowRates;
 	}
 
-	public void setDirtyWaterOutputFlowrate(float watts, int index){
-		dirtyWaterOutFlowRates[index] = watts;
+	public void setDirtyWaterOutputFlowrate(float amount, int index){
+		dirtyWaterOutFlowRates[index] = amount;
 	}
 
 	public float getDirtyWaterOutputFlowrate(int index){
 		return dirtyWaterOutFlowRates[index];
 	}
 
-	public void setDirtyWaterOutputs(DirtyWaterStore[] destinationss, float[] flowRates){
-		myDirtyWaterOutputs = destinationss;
+	public void setDirtyWaterOutputs(DirtyWaterStore[] destinations, float[] flowRates){
+		myDirtyWaterOutputs = destinations;
 		dirtyWaterOutFlowRates = flowRates;
 	}
 
@@ -334,8 +364,8 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 		return dirtyWaterOutFlowRates;
 	}
 
-	public void setPotableWaterInputFlowrate(float watts, int index){
-		potableWaterInFlowRates[index] = watts;
+	public void setPotableWaterInputFlowrate(float amount, int index){
+		potableWaterInFlowRates[index] = amount;
 	}
 
 	public float getPotableWaterInputFlowrate(int index){
@@ -355,16 +385,16 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 		return potableWaterInFlowRates;
 	}
 
-	public void setPotableWaterOutputFlowrate(float watts, int index){
-		potableWaterOutFlowRates[index] = watts;
+	public void setPotableWaterOutputFlowrate(float amount, int index){
+		potableWaterOutFlowRates[index] = amount;
 	}
 
 	public float getPotableWaterOutputFlowrate(int index){
 		return potableWaterOutFlowRates[index];
 	}
 
-	public void setPotableWaterOutputs(PotableWaterStore[] destinationss, float[] flowRates){
-		myPotableWaterOutputs = destinationss;
+	public void setPotableWaterOutputs(PotableWaterStore[] destinations, float[] flowRates){
+		myPotableWaterOutputs = destinations;
 		potableWaterOutFlowRates = flowRates;
 	}
 
@@ -376,8 +406,8 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 		return potableWaterOutFlowRates;
 	}
 
-	public void setFoodInputFlowrate(float watts, int index){
-		foodInFlowRates[index] = watts;
+	public void setFoodInputFlowrate(float amount, int index){
+		foodInFlowRates[index] = amount;
 	}
 
 	public float getFoodInputFlowrate(int index){
@@ -397,16 +427,16 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 		return foodInFlowRates;
 	}
 
-	public void setFoodOutputFlowrate(float watts, int index){
-		foodOutFlowRates[index] = watts;
+	public void setFoodOutputFlowrate(float amount, int index){
+		foodOutFlowRates[index] = amount;
 	}
 
 	public float getFoodOutputFlowrate(int index){
 		return foodOutFlowRates[index];
 	}
 
-	public void setFoodOutputs(FoodStore[] destinationss, float[] flowRates){
-		myFoodOutputs = destinationss;
+	public void setFoodOutputs(FoodStore[] destinations, float[] flowRates){
+		myFoodOutputs = destinations;
 		foodOutFlowRates = flowRates;
 	}
 
@@ -418,8 +448,8 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 		return foodOutFlowRates;
 	}
 	
-	public void setBiomassInputFlowrate(float watts, int index){
-		biomassInFlowRates[index] = watts;
+	public void setBiomassInputFlowrate(float amount, int index){
+		biomassInFlowRates[index] = amount;
 	}
 
 	public float getBiomassInputFlowrate(int index){
@@ -439,16 +469,16 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 		return biomassInFlowRates;
 	}
 
-	public void setBiomassOutputFlowrate(float watts, int index){
-		biomassOutFlowRates[index] = watts;
+	public void setBiomassOutputFlowrate(float amount, int index){
+		biomassOutFlowRates[index] = amount;
 	}
 
 	public float getBiomassOutputFlowrate(int index){
 		return biomassOutFlowRates[index];
 	}
 
-	public void setBiomassOutputs(BiomassStore[] destinationss, float[] flowRates){
-		myBiomassOutputs = destinationss;
+	public void setBiomassOutputs(BiomassStore[] destinations, float[] flowRates){
+		myBiomassOutputs = destinations;
 		biomassOutFlowRates = flowRates;
 	}
 
@@ -460,8 +490,8 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 		return biomassOutFlowRates;
 	}
 
-	public void setAirInputFlowrate(float watts, int index){
-		airInFlowRates[index] = watts;
+	public void setAirInputFlowrate(float amount, int index){
+		airInFlowRates[index] = amount;
 	}
 
 	public float getAirInputFlowrate(int index){
@@ -481,16 +511,16 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 		return airInFlowRates;
 	}
 
-	public void setAirOutputFlowrate(float watts, int index){
-		airOutFlowRates[index] = watts;
+	public void setAirOutputFlowrate(float amount, int index){
+		airOutFlowRates[index] = amount;
 	}
 
 	public float getAirOutputFlowrate(int index){
 		return airOutFlowRates[index];
 	}
 
-	public void setAirOutputs(SimEnvironment[] destinationss, float[] flowRates){
-		myAirOutputs = destinationss;
+	public void setAirOutputs(SimEnvironment[] destinations, float[] flowRates){
+		myAirOutputs = destinations;
 		airOutFlowRates = flowRates;
 	}
 
@@ -502,8 +532,8 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 		return airOutFlowRates;
 	}
 
-	public void setO2InputFlowrate(float watts, int index){
-		O2InFlowRates[index] = watts;
+	public void setO2InputFlowrate(float amount, int index){
+		O2InFlowRates[index] = amount;
 	}
 
 	public float getO2InputFlowrate(int index){
@@ -523,16 +553,16 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 		return O2InFlowRates;
 	}
 
-	public void setO2OutputFlowrate(float watts, int index){
-		O2OutFlowRates[index] = watts;
+	public void setO2OutputFlowrate(float amount, int index){
+		O2OutFlowRates[index] = amount;
 	}
 
 	public float getO2OutputFlowrate(int index){
 		return O2OutFlowRates[index];
 	}
 
-	public void setO2Outputs(O2Store[] destinationss, float[] flowRates){
-		myO2Outputs = destinationss;
+	public void setO2Outputs(O2Store[] destinations, float[] flowRates){
+		myO2Outputs = destinations;
 		O2OutFlowRates = flowRates;
 	}
 
@@ -544,8 +574,8 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 		return O2OutFlowRates;
 	}
 
-	public void setCO2InputFlowrate(float watts, int index){
-		CO2InFlowRates[index] = watts;
+	public void setCO2InputFlowrate(float amount, int index){
+		CO2InFlowRates[index] = amount;
 	}
 
 	public float getCO2InputFlowrate(int index){
@@ -565,16 +595,16 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 		return myCO2Inputs;
 	}
 
-	public void setCO2OutputFlowrate(float watts, int index){
-		CO2OutFlowRates[index] = watts;
+	public void setCO2OutputFlowrate(float amount, int index){
+		CO2OutFlowRates[index] = amount;
 	}
 
 	public float getCO2OutputFlowrate(int index){
 		return CO2OutFlowRates[index];
 	}
 
-	public void setCO2Outputs(CO2Store[] destinationss, float[] flowRates){
-		myCO2Outputs = destinationss;
+	public void setCO2Outputs(CO2Store[] destinations, float[] flowRates){
+		myCO2Outputs = destinations;
 		CO2OutFlowRates = flowRates;
 	}
 
@@ -584,6 +614,132 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 	
 	public float[] getCO2OutputFlowrates(){
 		return CO2OutFlowRates;
+	}
+
+	public void setCO2AirInputFlowrate(float amount, int index){
+		CO2AirInFlowRates[index] = amount;
+	}
+
+	public float getCO2AirInputFlowrate(int index){
+		return CO2AirInFlowRates[index];
+	}
+
+	public void setCO2AirInputs(SimEnvironment[] sources, float[] flowRates){
+		myCO2AirInputs = sources;
+		CO2AirInFlowRates = flowRates;
+	}
+	
+	public float[] getCO2AirInputFlowrates(){
+		return CO2AirInFlowRates;
+	}
+
+	public SimEnvironment[] getCO2AirInputs(){
+		return myCO2AirInputs;
+	}
+
+	public void setCO2AirOutputFlowrate(float amount, int index){
+		CO2AirOutFlowRates[index] = amount;
+	}
+
+	public float getCO2AirOutputFlowrate(int index){
+		return CO2AirOutFlowRates[index];
+	}
+
+	public void setCO2AirOutputs(SimEnvironment[] destinations, float[] flowRates){
+		myCO2AirOutputs = destinations;
+		CO2AirOutFlowRates = flowRates;
+	}
+
+	public SimEnvironment[] getCO2AirOutputs(){
+		return myCO2AirOutputs;
+	}
+	
+	public float[] getCO2AirOutputFlowrates(){
+		return CO2AirOutFlowRates;
+	}
+	
+	public void setO2AirInputFlowrate(float amount, int index){
+		O2AirInFlowRates[index] = amount;
+	}
+
+	public float getO2AirInputFlowrate(int index){
+		return O2AirInFlowRates[index];
+	}
+
+	public void setO2AirInputs(SimEnvironment[] sources, float[] flowRates){
+		myO2AirInputs = sources;
+		O2AirInFlowRates = flowRates;
+	}
+	
+	public float[] getO2AirInputFlowrates(){
+		return O2AirInFlowRates;
+	}
+
+	public SimEnvironment[] getO2AirInputs(){
+		return myO2AirInputs;
+	}
+
+	public void setO2AirOutputFlowrate(float amount, int index){
+		O2AirOutFlowRates[index] = amount;
+	}
+
+	public float getO2AirOutputFlowrate(int index){
+		return O2AirOutFlowRates[index];
+	}
+
+	public void setO2AirOutputs(SimEnvironment[] destinations, float[] flowRates){
+		myO2AirOutputs = destinations;
+		O2AirOutFlowRates = flowRates;
+	}
+
+	public SimEnvironment[] getO2AirOutputs(){
+		return myO2AirOutputs;
+	}
+	
+	public float[] getO2AirOutputFlowrates(){
+		return O2AirOutFlowRates;
+	}
+	
+	public void setOtherAirInputFlowrate(float amount, int index){
+		otherAirInFlowRates[index] = amount;
+	}
+
+	public float getOtherAirInputFlowrate(int index){
+		return OtherAirInFlowRates[index];
+	}
+
+	public void setOtherAirInputs(SimEnvironment[] sources, float[] flowRates){
+		myOtherAirInputs = sources;
+		otherAirInFlowRates = flowRates;
+	}
+	
+	public float[] getOtherAirInputFlowrates(){
+		return OtherAirInFlowRates;
+	}
+
+	public SimEnvironment[] getOtherAirInputs(){
+		return myOtherAirInputs;
+	}
+
+	public void setOtherAirOutputFlowrate(float amount, int index){
+		otherAirOutFlowRates[index] = amount;
+	}
+
+	public float getOtherAirOutputFlowrate(int index){
+		return OtherAirOutFlowRates[index];
+	}
+
+	public void setOtherAirOutputs(SimEnvironment[] destinations, float[] flowRates){
+		myOtherAirOutputs = destinations;
+		otherAirOutFlowRates = flowRates;
+	}
+
+	public SimEnvironment[] getOtherAirOutputs(){
+		return myOtherAirOutputs;
+	}
+	
+	public float[] getOtherAirOutputFlowrates(){
+		return otherAirOutFlowRates;
 	}
 	
 	/**
