@@ -97,6 +97,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		String machineType = null;
 		try{
 			machineType = System.getProperty("MACHINE_TYPE");
+			System.out.println("Machine type is "+machineType);
 		}
 		catch (Exception e){
 			e.printStackTrace();
@@ -253,7 +254,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			}
 			catch (InterruptedException e){}
 			tick();
-			checkIfDone();
+			if (isDone())
+				endSimulation();
 		}
 	}
 
@@ -266,17 +268,22 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	public int getDriverPauseLength(){
 		return driverPauseLength;
 	}
-
-	private void checkIfDone(){
+	
+	public synchronized boolean isDone(){
 		if (runTillN){
 			if (ticksGoneBy >= nTicks)
-				endSimulation();
+				return true;
 		}
 		else if (runTillDead){
 			CrewGroup myCrew = (CrewGroup)(getBioModule(crewName));
 			if (myCrew.isDead())
-				endSimulation();
+				return true;
 		}
+		return false;
+	}
+	
+	public synchronized int getTicks(){
+		return ticksGoneBy;
 	}
 
 	/**

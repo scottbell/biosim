@@ -36,6 +36,8 @@ module biosim{
 				void setDriverPauseLength(in long pDriverPauseLength);
 				long getDriverPauseLength();
 				string getName();
+				boolean isDone();
+				long getTicks();
                         };
                 };
 
