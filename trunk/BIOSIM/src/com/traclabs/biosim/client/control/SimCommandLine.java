@@ -4,7 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.client.util.OrbUtils;
+import com.traclabs.biosim.idl.actuator.framework.GenericActuator;
+import com.traclabs.biosim.idl.actuator.framework.GenericActuatorHelper;
 import com.traclabs.biosim.idl.framework.BioDriver;
 import com.traclabs.biosim.idl.framework.BioDriverHelper;
 
@@ -123,6 +126,9 @@ public class SimCommandLine {
     }
 
     private void runTest() {
+    	GenericActuator currentActuator = GenericActuatorHelper.narrow(BioHolderInitializer.grabModule("BaseBiomassRSPotableWaterInFlowRateActuator"));
+    	float max = currentActuator.getMax();
+    	System.out.println("max is "+max);
     }
 
 }
