@@ -19,7 +19,7 @@ import java.awt.event.*;
 import java.awt.*;
 import java.util.*;
 
-public class SimDesktop extends BaseJFrame
+public class SimDesktop extends BioFrame
 {
 	//The simulator
 	private BioSimulator myBiosim;

@@ -1,4 +1,4 @@
-package biosim.client.gui;
+package biosim.client.framework.gui;
 
 import java.awt.*;
 import javax.swing.*;
@@ -8,7 +8,7 @@ import javax.swing.*;
  * @author    Scott Bell
  */
 
-public class BaseJFrame extends javax.swing.JFrame
+public class BioFrame extends javax.swing.JFrame
 {
 	//Flag that decides if the frame pops up a dialog box when closing
 	private boolean showCloseDialog = true;
@@ -16,7 +16,7 @@ public class BaseJFrame extends javax.swing.JFrame
 	/**
 	* Default constructor makes the frame and registers the close listener
 	*/
-	public BaseJFrame(){
+	public BioFrame(){
 		buildGui();
 	}
 	
@@ -24,7 +24,7 @@ public class BaseJFrame extends javax.swing.JFrame
 	* Constructor that makes the frame with the title specified and registers the close listener
 	* @param newTitle The title of the frame
 	*/
-	public BaseJFrame(String newTitle )
+	public BioFrame(String newTitle )
 	{
 		super( newTitle );
 		buildGui();
@@ -36,7 +36,7 @@ public class BaseJFrame extends javax.swing.JFrame
 	* @param newTitle The title of the frame
 	* @param show_close_dialog if <code>true</code>, popup dialog comes up asking "Do you want to close?", on <code>true</code> it doesn't
 	*/
-	public BaseJFrame(String newTitle, boolean show_close_dialog )
+	public BioFrame(String newTitle, boolean show_close_dialog )
 	{
 		super( newTitle );
 		showCloseDialog = showCloseDialog;
