@@ -60,56 +60,56 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	//sensor
 	//
 	//Air
-		//AirRs
+	//AirRs
 	private String myAirRSPowerInFlowRateSensorName;
 	private String myAirRSAirInFlowRateSensorName;
 	private String myAirRSAirOutFlowRateSensorName;
 	private String myAirRSO2OutFlowRateSensorName;
 	private String myAirRSCO2InFlowRateSensorName;
 	private String myAirRSCO2OutFlowRateSensorName;
-		//Stores	
-	private String myO2StoreLevelSensorName; 
+	//Stores
+	private String myO2StoreLevelSensorName;
 	private String myCO2StoreLevelSensorName;
 	//Power
-		//PowerPS
+	//PowerPS
 	private String myPowerPSPowerOutFlowRateSensorName;
-		//Stores
+	//Stores
 	private String myPowerStoreLevelSensorName;
 	//Environment
 	private String myOtherAirLevelSensorName;
 	private String myCO2AirLevelSensorName;
 	private String myO2AirLevelSensorName;
 	//Water
-		//WaterRS	
+	//WaterRS
 	private String myWaterRSDirtyWaterInFlowRateSensorName;
 	private String myWaterRSGreyWaterInFlowRateSensorName;
 	private String myWaterRSPowerInFlowRateSensorName;
 	private String myWaterRSPotableWaterOutFlowRateSensorName;
-		//Stores
+	//Stores
 	private String myPotableWaterStoreLevelSensorName;
 	private String myGreyWaterStoreLevelSensorName;
 	private String myDirtyWaterStoreLevelSensorName;
 	//Food
-		//BiomassRS
+	//BiomassRS
 	private String myBiomassRSAirInFlowRateSensorName;
 	private String myBiomassRSAirOutFlowRateSensorName;
 	private String myBiomassRSPotableWaterInFlowRateSensorName;
 	private String myBiomassRSGreyWaterInFlowRateSensorName;
 	private String myBiomassRSBiomassInFlowRateSensorName;
-		//Food Processor
+	//Food Processor
 	private String myFoodProcessorPowerInFlowRateSensorName;
 	private String myFoodProcessorBiomassInFlowRateSensorName;
 	private String myFoodProcessorFoodOutFlowRateSensorName;
-		//Stores
+	//Stores
 	private String myBiomassStoreLevelSensorName;
 	private String myFoodStoreLevelSensorName;
 	//Framework
-		//Accumulator
+	//Accumulator
 	private String myAccumulatorCO2AirEnvironmentInFlowRateSensorName;
 	private String myAccumulatorO2AirEnvironmentInFlowRateSensorName;
 	private String myAccumulatorCO2AirStoreOutFlowRateSensorName;
 	private String myAccumulatorO2AirStoreOutFlowRateSensorName;
-		//Injector
+	//Injector
 	private String myInjectorCO2AirStoreInFlowRateSensorName;
 	private String myInjectorO2AirStoreInFlowRateSensorName;
 	private String myInjectorCO2AirEnvironmentOutFlowRateSensorName;
@@ -158,8 +158,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	*/
 	public BioDriverImpl(int pID){
 		myID = pID;
-		myModuleNames = new String[25];
-
+		myModuleNames = new String[56];
 		//
 		//framework
 		//
@@ -190,7 +189,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		//
 		//sensors
 		//
-
+		//Air
 		//AirRS
 		myModuleNames[18] = myAirRSPowerInFlowRateSensorName = "AirRSPowerInFlowRateSensor"+myID;
 		myModuleNames[19] = myAirRSAirInFlowRateSensorName = "AirRSAirInFlowRateSensor"+myID;
@@ -198,48 +197,53 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames[21] = myAirRSO2OutFlowRateSensorName = "AirRSO2OutFlowRateSensor"+myID;
 		myModuleNames[22] = myAirRSCO2InFlowRateSensorName = "AirRSCO2InFlowRateSensor"+myID;
 		myModuleNames[23] = myAirRSCO2OutFlowRateSensorName = "AirRSCO2OutFlowRateSensor"+myID;
-
+		//Stores
+		myModuleNames[24] = myO2StoreLevelSensorName = "O2StoreLevelSensor"+myID;
+		myModuleNames[25] = myCO2StoreLevelSensorName = "CO2StoreLevelSensor"+myID;
+		//Power
 		//PowerPS
-		myModuleNames[24] = myPowerPSPowerOutFlowRateSensorName = "PowerPSPowerOutFlowRateSensor"+myID;
-		/*
-		myModuleNames[18] = myCO2InFlowRateSensorName = "CO2InFlowRateSensor"+myID;
-		myModuleNames[19] = myCO2OutFlowRateSensorName = "CO2OutFlowRateSensor"+myID;
-		myModuleNames[20] = myCO2StoreLevelSensorName = "CO2StoreLevelSensor"+myID;
-		myModuleNames[21] = myO2InFlowRateSensorName = "O2InFlowRateSensor"+myID;
-		myModuleNames[22] = myO2OutFlowRateSensorName = "O2OutFlowRateSensor"+myID;
-		myModuleNames[23] = myO2StoreLevelSensorName = "O2StoreLevelSensor"+myID;
-		myModuleNames[24] = myAirInFlowRateSensorName = "AirInFlowRateSensor"+myID;
-		myModuleNames[25] = myAirOutFlowRateSensorName = "AirOutFlowRateSensor"+myID;
-		myModuleNames[26] = myCO2AirEnvironmentInFlowRateSensorName = "CO2AirEnvironmentInFlowRateSensor"+myID;
-		myModuleNames[27] = myCO2AirEnvironmentOutFlowRateSensorName = "CO2AirEnvironmentOutFlowRateSensor"+myID;
-		myModuleNames[28] = myCO2AirLevelSensorName = "CO2AirLevelSensor"+myID;
-		myModuleNames[29] = myCO2AirStoreInFlowRateSensorName = "CO2AirStoreInFlowRateSensor"+myID;
-		myModuleNames[30] = myCO2AirStoreOutFlowRateSensorName = "CO2AirStoreOutFlowRateSensor"+myID;
-		myModuleNames[31] = myO2AirEnvironmentInFlowRateSensorName = "O2AirEnvironmentInFlowRateSensor"+myID;
-		myModuleNames[32] = myO2AirEnvironmentOutFlowRateSensorName = "O2AirEnvironmentOutFlowRateSensor"+myID;
-		myModuleNames[33] = myO2AirLevelSensorName = "O2AirLevelSensor"+myID;
-		myModuleNames[34] = myO2AirStoreInFlowRateSensorName = "O2AirStoreInFlowRateSensor"+myID;
-		myModuleNames[35] = myO2AirStoreOutFlowRateSensorName = "O2AirStoreOutFlowRateSensor"+myID;
-		myModuleNames[36] = myOtherAirLevelSensorName = "OtherAirLevelSensor"+myID;
-		myModuleNames[37] = myBiomassInFlowRateSensorName = "BiomassInFlowRateSensor"+myID;
-		myModuleNames[38] = myBiomassOutFlowRateSensorName = "BiomassOutFlowRateSensor"+myID;
-		myModuleNames[39] = myBiomassStoreLevelSensorName = "BiomassStoreLevelSensor"+myID;
-		myModuleNames[40] = myFoodInFlowRateSensorName = "FoodInFlowRateSensor"+myID;
-		myModuleNames[41] = myFoodOutFlowRateSensorName = "FoodOutFlowRateSensor"+myID;
-		myModuleNames[42] = myFoodStoreLevelSensorName = "FoodStoreLevelSensor"+myID;
-		myModuleNames[43] = myPowerInFlowRateSensorName = "PowerInFlowRateSensor"+myID;
-		myModuleNames[44] = myPowerOutFlowRateSensorName = "PowerOutFlowRateSensor"+myID;
-		myModuleNames[45] = myPowerStoreLevelSensorName = "PowerStoreLevelSensor"+myID;
-		myModuleNames[46] = myDirtyWaterInFlowRateSensorName = "DirtyWaterInFlowRateSensor"+myID;
-		myModuleNames[47] = myDirtyWaterOutFlowRateSensorName = "DirtyWaterOutFlowRateSensor"+myID;
-		myModuleNames[48] = myDirtyWaterStoreLevelSensorName = "DirtyWaterStoreLevelSensor"+myID;
-		myModuleNames[49] = myGreyWaterInFlowRateSensorName = "GreyWaterInFlowRateSensor"+myID;
-		myModuleNames[50] = myGreyWaterOutFlowRateSensorName = "GreyWaterOutFlowRateSensor"+myID;
-		myModuleNames[51] = myGreyWaterStoreLevelSensorName = "GreyWaterStoreLevelSensor"+myID;
-		myModuleNames[52] = myPotableWaterInFlowRateSensorName = "PotableWaterInFlowRateSensor"+myID;
-		myModuleNames[53] = myPotableWaterOutFlowRateSensorName = "PotableWaterOutFlowRateSensor"+myID;
-		myModuleNames[54] = myPotableWaterStoreLevelSensorName = "PotableWaterStoreLevelSensor"+myID;
-		*/
+		myModuleNames[26] = myPowerPSPowerOutFlowRateSensorName = "PowerPSPowerOutFlowRateSensor"+myID;
+		//Stores
+		myModuleNames[27] = myPowerStoreLevelSensorName = "PowerStoreLevelSensor"+myID;
+		//Environment
+		myModuleNames[28] = myOtherAirLevelSensorName = "OtherAirLevelSensor"+myID;
+		myModuleNames[29] = myCO2AirLevelSensorName = "CO2AirLevelSensor"+myID;
+		myModuleNames[30] = myO2AirLevelSensorName = "O2AirLevelSensor"+myID;
+		//Water
+		//WaterRS
+		myModuleNames[31] = myWaterRSDirtyWaterInFlowRateSensorName = "WaterRSDirtyWaterInFlowRateSensor"+myID;
+		myModuleNames[32] = myWaterRSGreyWaterInFlowRateSensorName = "WaterRSGreyWaterInFlowRateSensor"+myID;
+		myModuleNames[33] = myWaterRSPowerInFlowRateSensorName = "WaterRSPowerInFlowRateSensor"+myID;
+		myModuleNames[34] = myWaterRSPotableWaterOutFlowRateSensorName = "WaterRSPotableWaterOutFlowRateSensor"+myID;
+		//Stores
+		myModuleNames[35] = myPotableWaterStoreLevelSensorName = "PotableWaterStoreLevelSensor"+myID;
+		myModuleNames[36] = myGreyWaterStoreLevelSensorName = "GreyWaterStoreLevelSensor"+myID;
+		myModuleNames[37] = myDirtyWaterStoreLevelSensorName = "DirtyWaterStoreLevelSensor"+myID;
+		//Food
+		//BiomassRS
+		myModuleNames[38] = myBiomassRSAirInFlowRateSensorName = "BiomassRSAirInFlowRateSensor"+myID;
+		myModuleNames[39] = myBiomassRSAirOutFlowRateSensorName = "BiomassRSAirOutFlowRateSensor"+myID;
+		myModuleNames[40] = myBiomassRSPotableWaterInFlowRateSensorName = "BiomassRSPotableWaterInFlowRateSensor"+myID;
+		myModuleNames[41] = myBiomassRSGreyWaterInFlowRateSensorName = "BiomassRSGreyWaterInFlowRateSensor"+myID;
+		myModuleNames[42] = myBiomassRSBiomassInFlowRateSensorName = "BiomassRSBiomassInFlowRateSensor"+myID;
+		//Food Processor
+		myModuleNames[43] = myFoodProcessorPowerInFlowRateSensorName = "FoodProcessorPowerInFlowRateSensor"+myID;
+		myModuleNames[44] = myFoodProcessorBiomassInFlowRateSensorName = "FoodProcessorBiomassInFlowRateSensor"+myID;
+		myModuleNames[45] = myFoodProcessorFoodOutFlowRateSensorName = "FoodProcessorFoodOutFlowRateSensor"+myID;
+		//Stores
+		myModuleNames[46] = myBiomassStoreLevelSensorName = "BiomassStoreLevelSensor"+myID;
+		myModuleNames[47] = myFoodStoreLevelSensorName = "FoodStoreLevelSensor"+myID;
+		//Framework
+		//Accumulator
+		myModuleNames[48] = myAccumulatorCO2AirEnvironmentInFlowRateSensorName = "AccumulatorCO2AirEnvironmentInFlowRateSensor"+myID;
+		myModuleNames[49] = myAccumulatorO2AirEnvironmentInFlowRateSensorName = "AccumulatorO2AirEnvironmentInFlowRateSensor"+myID;
+		myModuleNames[50] = myAccumulatorCO2AirStoreOutFlowRateSensorName = "AccumulatorCO2AirStoreOutFlowRateSensor"+myID;
+		myModuleNames[51] = myAccumulatorO2AirStoreOutFlowRateSensorName = "AccumulatorO2AirStoreOutFlowRateSensor"+myID;
+		//Injector
+		myModuleNames[52] = myInjectorCO2AirStoreInFlowRateSensorName = "InjectorCO2AirStoreInFlowRateSensor"+myID;
+		myModuleNames[53] = myInjectorO2AirStoreInFlowRateSensorName = "InjectorO2AirStoreInFlowRateSensor"+myID;
+		myModuleNames[54] = myInjectorCO2AirEnvironmentOutFlowRateSensorName = "InjectorCO2AirEnvironmentOutFlowRateSensor"+myID;
+		myModuleNames[55] = myInjectorO2AirEnvironmentOutFlowRateSensorName = "InjectorO2AirEnvironmentOutFlowRateSensor"+myID;
 
 		usedDefaultModules = true;
 		checkMachineType();
@@ -678,27 +682,27 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			{
 			}
 		}
-		
+
 		//
 		//Power
 		//
 		{
 			//PowerPS
 			{
-			PowerOutFlowRateSensor myPowerPSPowerOutFlowRateSensor = PowerOutFlowRateSensorHelper.narrow(getBioModule(myPowerPSPowerOutFlowRateSensorName));
-			myPowerPSPowerOutFlowRateSensor.setInput(myPowerPS, 0);
+				PowerOutFlowRateSensor myPowerPSPowerOutFlowRateSensor = PowerOutFlowRateSensorHelper.narrow(getBioModule(myPowerPSPowerOutFlowRateSensorName));
+				myPowerPSPowerOutFlowRateSensor.setInput(myPowerPS, 0);
 			}
 			//Stores
 			{
 			}
 		}
-		
+
 		//
 		//Environment
 		//
 		{
 		}
-		
+
 		//
 		//Food
 		//
@@ -713,7 +717,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			{
 			}
 		}
-		
+
 		//
 		//Water
 		//
@@ -725,7 +729,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			{
 			}
 		}
-		
+
 		//
 		//Framework
 		//
@@ -733,7 +737,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			//Accumulatr
 			{
 			}
-			
+
 			//Injector
 			{
 			}
