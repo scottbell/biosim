@@ -133,6 +133,9 @@ public class BioHolder{
 	public List theDirtyWaterInFlowRateSensors;
 	public List theDirtyWaterOutFlowRateSensors;
 	public List theDirtyWaterStoreLevelSensors;
+	public List theWaterInFlowRateSensors;
+	public List theWaterOutFlowRateSensors;
+	public List theWaterStoreLevelSensors;
 	//Actuators
 	//Air
 	public List theCO2InFlowRateActuators;
@@ -182,6 +185,8 @@ public class BioHolder{
 	public List theGreyWaterOutFlowRateActuators;
 	public List theDirtyWaterInFlowRateActuators;
 	public List theDirtyWaterOutFlowRateActuators;
+	public List theWaterInFlowRateActuators;
+	public List theWaterOutFlowRateActuators;
 
 	protected BioHolder(){
 		theModulesMapped = new Hashtable();
@@ -300,6 +305,9 @@ public class BioHolder{
 		theDirtyWaterInFlowRateSensors = new Vector();
 		theDirtyWaterOutFlowRateSensors = new Vector();
 		theDirtyWaterStoreLevelSensors = new Vector();
+		theWaterInFlowRateSensors = new Vector();
+		theWaterOutFlowRateSensors = new Vector();
+		theWaterStoreLevelSensors = new Vector();
 		//Actuators
 		//Air
 		theCO2InFlowRateActuators = new Vector();
@@ -349,6 +357,8 @@ public class BioHolder{
 		theGreyWaterOutFlowRateActuators = new Vector();
 		theDirtyWaterInFlowRateActuators = new Vector();
 		theDirtyWaterOutFlowRateActuators = new Vector();
+		theWaterInFlowRateActuators = new Vector();
+		theWaterOutFlowRateActuators = new Vector();
 	}
 	
 	public GenericSensor getShelfSensorAttachedTo(List sensorList, BioModule moduleWatched, int shelfIndex){
@@ -510,6 +520,9 @@ public class BioHolder{
 		theSensors.addAll(theDirtyWaterInFlowRateSensors);
 		theSensors.addAll(theDirtyWaterOutFlowRateSensors);
 		theSensors.addAll(theDirtyWaterStoreLevelSensors);
+		theSensors.addAll(theWaterInFlowRateSensors);
+		theSensors.addAll(theWaterOutFlowRateSensors);
+		theSensors.addAll(theWaterStoreLevelSensors);
 		//Actuators
 		//Air
 		theActuators.addAll(theCO2InFlowRateActuators);
@@ -559,6 +572,8 @@ public class BioHolder{
 		theActuators.addAll(theGreyWaterOutFlowRateActuators);
 		theActuators.addAll(theDirtyWaterInFlowRateActuators);
 		theActuators.addAll(theDirtyWaterOutFlowRateActuators);
+		theActuators.addAll(theWaterInFlowRateActuators);
+		theActuators.addAll(theWaterOutFlowRateActuators);
 
 		theModules.addAll(theSimModules);
 		theModules.addAll(theSensors);
@@ -682,6 +697,9 @@ public class BioHolder{
 		theDirtyWaterInFlowRateSensors.clear();
 		theDirtyWaterOutFlowRateSensors.clear();
 		theDirtyWaterStoreLevelSensors.clear();
+		theWaterInFlowRateSensors.clear();
+		theWaterOutFlowRateSensors.clear();
+		theWaterStoreLevelSensors.clear();
 		//Actuators
 		//Air
 		theCO2InFlowRateActuators.clear();
@@ -731,5 +749,7 @@ public class BioHolder{
 		theGreyWaterOutFlowRateActuators.clear();
 		theDirtyWaterInFlowRateActuators.clear();
 		theDirtyWaterOutFlowRateActuators.clear();
+		theWaterInFlowRateActuators.clear();
+		theWaterOutFlowRateActuators.clear();
 	}
 }

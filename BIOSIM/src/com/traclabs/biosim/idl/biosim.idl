@@ -129,6 +129,8 @@ module biosim{
                         interface GreyWaterProducer;
                         interface DirtyWaterConsumer;
                         interface DirtyWaterProducer;
+                        interface WaterConsumer;
+                        interface WaterProducer;
                         interface AirConsumer;
                         interface AirProducer;
                         interface H2Consumer;
@@ -295,6 +297,15 @@ module biosim{
                                 void setDirtyWaterInputs(in simulation::water::DirtyWaterStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                 simulation::water::DirtyWaterStoreList getDirtyWaterInputs();
                         };
+                        interface WaterConsumer : Consumer{
+                                void setWaterInputMaxFlowRate(in float liters, in long index);
+                                float getWaterInputMaxFlowRate(in long index);
+                                void setWaterInputDesiredFlowRate(in float liters, in long index);
+                                float getWaterInputDesiredFlowRate(in long index);
+                                float getWaterInputActualFlowRate(in long index);
+                                void setWaterInputs(in simulation::water::WaterStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                simulation::water::WaterStoreList getWaterInputs();
+                        };
                         interface PotableWaterProducer : Producer{
                                 void setPotableWaterOutputMaxFlowRate(in float liters, in long index);
                                 float getPotableWaterOutputMaxFlowRate(in long index);
@@ -321,6 +332,15 @@ module biosim{
                                 float getDirtyWaterOutputActualFlowRate(in long index);
                                 void setDirtyWaterOutputs(in simulation::water::DirtyWaterStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                 simulation::water::DirtyWaterStoreList getDirtyWaterOutputs();
+                        };
+                        interface WaterProducer : Producer{
+                                void setWaterOutputMaxFlowRate(in float liters, in long index);
+                                float getWaterOutputMaxFlowRate(in long index);
+                                void setWaterOutputDesiredFlowRate(in float liters, in long index);
+                                float getWaterOutputDesiredFlowRate(in long index);
+                                float getWaterOutputActualFlowRate(in long index);
+                                void setWaterOutputs(in simulation::water::WaterStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                simulation::water::WaterStoreList getWaterOutputs();
                         };
                         interface AirConsumer : Consumer{
                                 void setAirInputMaxFlowRate(in float liters, in long index);
@@ -767,7 +787,7 @@ module biosim{
                                         boolean autoHarvestAndReplantEnabled();
                                 };
 
-                                interface FoodProcessor : framework::SimBioModule, framework::PowerConsumer, framework::BiomassConsumer, framework::FoodProducer, framework::DryWasteProducer, framework::DirtyWaterProducer{
+                                interface FoodProcessor : framework::SimBioModule, framework::PowerConsumer, framework::BiomassConsumer, framework::FoodProducer, framework::DryWasteProducer, framework::WaterProducer{
                                         float getBiomassConsumed();
                                         float getPowerConsumed();
                                         float getFoodProduced();
@@ -1170,17 +1190,7 @@ module biosim{
                                         void setInput(in simulation::water::PotableWaterStore source);
                                         simulation::water::PotableWaterStore getInput();
                                 };
-                                interface GreyWaterStoreSensor : framework::GenericSensor{
-                                        void setInput(in simulation::water::GreyWaterStore source);
-                                        simulation::water::GreyWaterStore getInput();
-                                };
-                                interface DirtyWaterStoreSensor : framework::GenericSensor{
-                                        void setInput(in simulation::water::DirtyWaterStore source);
-                                        simulation::water::DirtyWaterStore getInput();
-                                };
                                 interface PotableWaterStoreLevelSensor : PotableWaterStoreSensor{};
-                                interface GreyWaterStoreLevelSensor : GreyWaterStoreSensor{};
-                                interface DirtyWaterStoreLevelSensor : DirtyWaterStoreSensor{};
 
                                 interface PotableWaterInFlowRateSensor : framework::GenericSensor{
                                         void setInput(in framework::PotableWaterConsumer pConsumer, in long pIndex);
@@ -1192,7 +1202,12 @@ module biosim{
                                         framework::PotableWaterProducer getInput();
                                         long getIndex();
                                 };
-
+				
+                                interface GreyWaterStoreSensor : framework::GenericSensor{
+                                        void setInput(in simulation::water::GreyWaterStore source);
+                                        simulation::water::GreyWaterStore getInput();
+                                };
+                                interface GreyWaterStoreLevelSensor : GreyWaterStoreSensor{};
                                 interface GreyWaterInFlowRateSensor : framework::GenericSensor{
                                         void setInput(in framework::GreyWaterConsumer pConsumer, in long pIndex);
                                         framework::GreyWaterConsumer getInput();
@@ -1203,7 +1218,12 @@ module biosim{
                                         framework::GreyWaterProducer getInput();
                                         long getIndex();
                                 };
-
+				
+                                interface DirtyWaterStoreSensor : framework::GenericSensor{
+                                        void setInput(in simulation::water::DirtyWaterStore source);
+                                        simulation::water::DirtyWaterStore getInput();
+                                };
+                                interface DirtyWaterStoreLevelSensor : DirtyWaterStoreSensor{};
                                 interface DirtyWaterInFlowRateSensor : framework::GenericSensor{
                                         void setInput(in framework::DirtyWaterConsumer pConsumer, in long pIndex);
                                         framework::DirtyWaterConsumer getInput();
@@ -1212,6 +1232,22 @@ module biosim{
                                 interface DirtyWaterOutFlowRateSensor : framework::GenericSensor{
                                         void setInput(in framework::DirtyWaterProducer pProducer, in long pIndex);
                                         framework::DirtyWaterProducer getInput();
+                                        long getIndex();
+                                };
+				
+				interface WaterStoreSensor : framework::GenericSensor{
+                                        void setInput(in simulation::water::WaterStore source);
+                                        simulation::water::WaterStore getInput();
+                                };
+                                interface WaterStoreLevelSensor : WaterStoreSensor{};
+                                interface WaterInFlowRateSensor : framework::GenericSensor{
+                                        void setInput(in framework::WaterConsumer pConsumer, in long pIndex);
+                                        framework::WaterConsumer getInput();
+                                        long getIndex();
+                                };
+                                interface WaterOutFlowRateSensor : framework::GenericSensor{
+                                        void setInput(in framework::WaterProducer pProducer, in long pIndex);
+                                        framework::WaterProducer getInput();
                                         long getIndex();
                                 };
                         };
@@ -1486,6 +1522,17 @@ module biosim{
                                 interface DirtyWaterOutFlowRateActuator : framework::GenericActuator{
                                         void setOutput(in framework::DirtyWaterProducer pProducer, in long pIndex);
                                         framework::DirtyWaterProducer getOutput();
+                                        long getIndex();
+                                };
+				
+				interface WaterInFlowRateActuator : framework::GenericActuator{
+                                        void setOutput(in framework::WaterConsumer pConsumer, in long pIndex);
+                                        framework::WaterConsumer getOutput();
+                                        long getIndex();
+                                };
+                                interface WaterOutFlowRateActuator : framework::GenericActuator{
+                                        void setOutput(in framework::WaterProducer pProducer, in long pIndex);
+                                        framework::WaterProducer getOutput();
                                         long getIndex();
                                 };
                         };

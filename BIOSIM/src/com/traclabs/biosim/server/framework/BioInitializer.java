@@ -3276,6 +3276,60 @@ public class BioInitializer{
 		myDirtyWaterStoreLevelSensor.setInput(DirtyWaterStoreHelper.narrow(grabModule(getInputName(node))));
 		mySensors.add(myDirtyWaterStoreLevelSensor);
 	}
+	
+	private void createWaterInFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating WaterInFlowRateSensor with moduleName: "+moduleName);
+			WaterInFlowRateSensorImpl myWaterInFlowRateSensorImpl = new WaterInFlowRateSensorImpl(myID, moduleName);
+			setupBioModule(myWaterInFlowRateSensorImpl, node);
+			BiosimServer.registerServer(new WaterInFlowRateSensorPOATie(myWaterInFlowRateSensorImpl), myWaterInFlowRateSensorImpl.getModuleName(), myWaterInFlowRateSensorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureWaterInFlowRateSensor(Node node){
+		WaterInFlowRateSensor myWaterInFlowRateSensor = WaterInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myWaterInFlowRateSensor.setInput(WaterConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myWaterInFlowRateSensor);
+	}
+
+	private void createWaterOutFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating WaterOutFlowRateSensor with moduleName: "+moduleName);
+			WaterOutFlowRateSensorImpl myWaterOutFlowRateSensorImpl = new WaterOutFlowRateSensorImpl(myID, moduleName);
+			setupBioModule(myWaterOutFlowRateSensorImpl, node);
+			BiosimServer.registerServer(new WaterOutFlowRateSensorPOATie(myWaterOutFlowRateSensorImpl), myWaterOutFlowRateSensorImpl.getModuleName(), myWaterOutFlowRateSensorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureWaterOutFlowRateSensor(Node node){
+		WaterOutFlowRateSensor myWaterOutFlowRateSensor = WaterOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myWaterOutFlowRateSensor.setInput(WaterProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myWaterOutFlowRateSensor);
+	}
+
+	private void createWaterStoreLevelSensor(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating WaterStoreLevelSensor with moduleName: "+moduleName);
+			WaterStoreLevelSensorImpl myWaterStoreLevelSensorImpl = new WaterStoreLevelSensorImpl(myID, moduleName);
+			setupBioModule(myWaterStoreLevelSensorImpl, node);
+			BiosimServer.registerServer(new WaterStoreLevelSensorPOATie(myWaterStoreLevelSensorImpl), myWaterStoreLevelSensorImpl.getModuleName(), myWaterStoreLevelSensorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureWaterStoreLevelSensor(Node node){
+		WaterStoreLevelSensor myWaterStoreLevelSensor = WaterStoreLevelSensorHelper.narrow(grabModule(getModuleName(node)));
+		myWaterStoreLevelSensor.setInput(WaterStoreHelper.narrow(grabModule(getInputName(node))));
+		mySensors.add(myWaterStoreLevelSensor);
+	}
 
 	private void crawlWaterSensors(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
@@ -3334,6 +3388,24 @@ public class BioInitializer{
 					createDirtyWaterStoreLevelSensor(child);
 				else
 					configureDirtyWaterStoreLevelSensor(child);
+			}
+			else if (childName.equals("WaterInFlowRateSensor")){
+				if (firstPass)
+					createWaterInFlowRateSensor(child);
+				else
+					configureWaterInFlowRateSensor(child);
+			}
+			else if (childName.equals("WaterOutFlowRateSensor")){
+				if (firstPass)
+					createWaterOutFlowRateSensor(child);
+				else
+					configureWaterOutFlowRateSensor(child);
+			}
+			else if (childName.equals("WaterStoreLevelSensor")){
+				if (firstPass)
+					createWaterStoreLevelSensor(child);
+				else
+					configureWaterStoreLevelSensor(child);
 			}
 			child = child.getNextSibling();
 		}
@@ -4388,6 +4460,42 @@ public class BioInitializer{
 		myDirtyWaterOutFlowRateActuator.setOutput(DirtyWaterProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myDirtyWaterOutFlowRateActuator);
 	}
+	
+	private void createWaterInFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating WaterInFlowRateActuator with moduleName: "+moduleName);
+			WaterInFlowRateActuatorImpl myWaterInFlowRateActuatorImpl = new WaterInFlowRateActuatorImpl(myID, moduleName);
+			setupBioModule(myWaterInFlowRateActuatorImpl, node);
+			BiosimServer.registerServer(new WaterInFlowRateActuatorPOATie(myWaterInFlowRateActuatorImpl), myWaterInFlowRateActuatorImpl.getModuleName(), myWaterInFlowRateActuatorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureWaterInFlowRateActuator(Node node){
+		WaterInFlowRateActuator myWaterInFlowRateActuator = WaterInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myWaterInFlowRateActuator.setOutput(WaterConsumerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
+		myActuators.add(myWaterInFlowRateActuator);
+	}
+
+	private void createWaterOutFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating WaterOutFlowRateActuator with moduleName: "+moduleName);
+			WaterOutFlowRateActuatorImpl myWaterOutFlowRateActuatorImpl = new WaterOutFlowRateActuatorImpl(myID, moduleName);
+			setupBioModule(myWaterOutFlowRateActuatorImpl, node);
+			BiosimServer.registerServer(new WaterOutFlowRateActuatorPOATie(myWaterOutFlowRateActuatorImpl), myWaterOutFlowRateActuatorImpl.getModuleName(), myWaterOutFlowRateActuatorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureWaterOutFlowRateActuator(Node node){
+		WaterOutFlowRateActuator myWaterOutFlowRateActuator = WaterOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myWaterOutFlowRateActuator.setOutput(WaterProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
+		myActuators.add(myWaterOutFlowRateActuator);
+	}
 
 	private void crawlWaterActuators(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
@@ -4428,6 +4536,18 @@ public class BioInitializer{
 					createDirtyWaterOutFlowRateActuator(child);
 				else
 					configureDirtyWaterOutFlowRateActuator(child);
+			}
+			else if (childName.equals("WaterInFlowRateActuator")){
+				if (firstPass)
+					createWaterInFlowRateActuator(child);
+				else
+					configureWaterInFlowRateActuator(child);
+			}
+			else if (childName.equals("WaterOutFlowRateActuator")){
+				if (firstPass)
+					createWaterOutFlowRateActuator(child);
+				else
+					configureWaterOutFlowRateActuator(child);
 			}
 			child = child.getNextSibling();
 		}
