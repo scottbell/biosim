@@ -5,4 +5,4 @@ sleep 10
 start /B run-distro-server.bat
 sleep 10
 start /B run-distro-client.bat
-echo "BioSim finished"
+echo CLOSE THIS WINDOW TO QUIT
