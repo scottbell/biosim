@@ -117,8 +117,8 @@ public class AirTextPanel extends TimedPanel
 		StringBuffer statusBuffer = new StringBuffer();
 		if (!myAirRS.VCCRHasPower())
 			statusBuffer.append("needs power, ");
-		if (!myAirRS.VCCRHasEnoughCO2())
-			statusBuffer.append("needs CO2, ");
+		if (!myAirRS.VCCRHasEnoughAir())
+			statusBuffer.append("needs air, ");
 		if (statusBuffer.length() < 1)
 			return "nominal";
 		else{
