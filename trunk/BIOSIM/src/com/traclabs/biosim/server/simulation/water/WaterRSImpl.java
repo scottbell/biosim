@@ -232,6 +232,8 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 		myRO.tick();
 		myAES.tick();
 		myPPS.tick();
+		myAES.setMalfunctioning(false);
+		myRO.setMalfunctioning(false);
 		if (isMalfunctioning())
 			performMalfunctions();
 		if (moduleLogging)
@@ -239,8 +241,6 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	}
 	
 	private void performMalfunctions(){
-		myAES.setMalfunctioning(false);
-		myRO.setMalfunctioning(false);
 		for (Enumeration e = myMalfunctions.elements(); e.hasMoreElements();){
 			Malfunction currentMalfunction = (Malfunction)(e.nextElement());
 			if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF){

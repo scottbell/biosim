@@ -40,6 +40,7 @@ public class SimDesktop extends BioFrame
 	private JButton myDisplayPowerButton;
 	private JButton myDisplayFoodButton;
 	private JButton myDisplayEnvironmentButton;
+	private JButton myDisplayMalfunctionButton;
 	private JToolBar.Separator myToolbarSeparator;
 	private JMenuBar myMenuBar;
 	private JMenu myFileMenu;
@@ -60,6 +61,7 @@ public class SimDesktop extends BioFrame
 	private JMenuItem myShowWaterDisplayItem;
 	private JMenuItem myShowPowerDisplayItem;
 	private JMenuItem myShowCrewDisplayItem;
+	private JMenuItem myShowMalfunctionDisplayItem;
 	private JMenuItem myTileItem;
 	private JMenuItem myStackItem;
 	
@@ -75,6 +77,7 @@ public class SimDesktop extends BioFrame
 	private Action myShowEnvironmentDisplayAction;
 	private Action myShowFoodDisplayAction;
 	private Action myShowPowerDisplayAction;
+	private Action myShowMalfunctionDisplayAction;
 	private Action myLoggingAction;
 	private Action myQuitAction;
 	private Action myRefreshGuiAction;
@@ -95,6 +98,7 @@ public class SimDesktop extends BioFrame
 	private ImageIcon pauseIcon;
 	private ImageIcon forwardIcon;
 	private ImageIcon biosimIcon;
+	private ImageIcon malfunctionIcon;
 
 	private javax.swing.Timer myRefreshGuiTimer;
 	private final static int TIMER_DELAY=500;
@@ -136,6 +140,7 @@ public class SimDesktop extends BioFrame
 		myShowEnvironmentDisplayAction = new ShowEnvironmentDisplayAction("Show Environment");
 		myShowFoodDisplayAction = new ShowFoodDisplayAction("Show Food");
 		myShowPowerDisplayAction = new ShowPowerDisplayAction("Show Power");
+		myShowMalfunctionDisplayAction = new ShowMalfunctionDisplayAction("Show Malfunction Controller");
 		myLoggingAction = new LoggingAction("Enable Logging");
 		myTileAction = new TileAction("Tile");
 		myStackAction = new StackAction("Stack");
@@ -159,6 +164,8 @@ public class SimDesktop extends BioFrame
 		myShowPowerDisplayItem.setMnemonic(KeyEvent.VK_P);
 		myShowEnvironmentDisplayItem = myNewMenu.add(myShowEnvironmentDisplayAction);
 		myShowEnvironmentDisplayItem.setMnemonic(KeyEvent.VK_E);
+		myShowMalfunctionDisplayItem = myNewMenu.add(myShowMalfunctionDisplayAction);
+		myShowMalfunctionDisplayItem.setMnemonic(KeyEvent.VK_M);
 		myFileMenu.add(myNewMenu);
 		myLoggingItem = myFileMenu.add(myLoggingAction);
 		myLoggingItem.setMnemonic(KeyEvent.VK_L);
@@ -229,6 +236,10 @@ public class SimDesktop extends BioFrame
 		myDisplayFoodButton.setToolTipText("Displays Food View");
 		myDisplayFoodButton.setIcon(foodIcon);
 		myDisplayFoodButton.setText("");
+		myDisplayMalfunctionButton = myToolBar.add(myShowMalfunctionDisplayAction);
+		myDisplayMalfunctionButton.setToolTipText("Displays Malfunction Controller");
+		myDisplayMalfunctionButton.setIcon(malfunctionIcon);
+		myDisplayMalfunctionButton.setText("");
 		getContentPane().add(myToolBar, BorderLayout.NORTH);
 		setTitle("BioSim: Advanced Life Support Simulation  Copyright "+ new Character( '\u00A9' ) + " 2002, TRACLabs");
 		myDesktop.setDragMode(JDesktopPane.LIVE_DRAG_MODE);
@@ -257,7 +268,7 @@ public class SimDesktop extends BioFrame
 			pauseIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/pause.gif"));
 			forwardIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/forward.gif"));
 			biosimIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/biosim.gif"));
-
+			malfunctionIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/gear.gif"));
 		}
 		catch (Exception e){
 			System.err.println("Couldn't find icon ("+e+"), skipping");
@@ -283,6 +294,8 @@ public class SimDesktop extends BioFrame
 			return environmentIcon;
 		else if (title.equals("Water"))
 			return waterIcon;
+		else if (title.equals("Malfunction Controller"))
+			return malfunctionIcon;
 		else
 			return new ImageIcon();
 	}
@@ -488,6 +501,14 @@ public class SimDesktop extends BioFrame
 		if (!tryExisitingInternalFrame("Water"))
 			addInternalFrame("Water",new WaterPanel());
 	}
+	
+	/**
+	*  Displays the Water panel with an internal frame inside this desktop.
+	*/
+	private void displayMalfunction(){
+		if (!tryExisitingInternalFrame("Malfunction Controller"))
+			addInternalFrame("Malfunction Controller",new MalfunctionPanel());
+	}
 
 	protected Hashtable getInternalFrames(){
 		return myFrames;
@@ -604,6 +625,20 @@ public class SimDesktop extends BioFrame
 		public void actionPerformed(ActionEvent ae){
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			displayWater();
+			setCursor(Cursor.getDefaultCursor());
+		}
+	}
+	
+	/**
+	* Action that displays the malfunction panel in an internal frame on the desktop.
+	*/
+	private class ShowMalfunctionDisplayAction extends AbstractAction{
+		public ShowMalfunctionDisplayAction(String name){
+			super(name);
+		}
+		public void actionPerformed(ActionEvent ae){
+			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			displayMalfunction();
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}
