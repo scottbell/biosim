@@ -1,0 +1,1 @@
+bash %BIOSIM_HOME%/bin/make-server
