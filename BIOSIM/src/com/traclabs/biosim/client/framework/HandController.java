@@ -387,7 +387,7 @@ public class HandController{
 		Accumulator myAccumulator = (Accumulator)myBioHolder.theAccumulators.get(0);
 		
 		//crew O2 feedback control
-		crewO2p = 200f;
+		crewO2p = 1000f;
 		crewO2i = 0.2f;
 		levelSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theO2AirConcentrationSensors, myCrewEnvironment));
 		crewO2 = levelSensor.getValue();
@@ -401,8 +401,8 @@ public class HandController{
 		currentActuator.setValue((float)(signal));
 
 		//crew CO2 feedback control
-		crewCO2p = -200f;
-		crewCO2i = -0.2f;
+		crewCO2p = -1000f;
+		crewCO2i = -2f;
 		levelSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theCO2AirConcentrationSensors, myCrewEnvironment));
 		crewCO2 = levelSensor.getValue();
 		delta = (float)(CrewCO2Level - crewCO2);
@@ -534,24 +534,30 @@ public class HandController{
 		GenericSensor harvestSensor; 
 		GenericSensor currentSensor; 
 		PlantingActuator currentActuator;
-		
+		HarvestingActuator harvestActuator; 
+		StoreOverflowSensor co2OverflowSensor, o2OverflowSensor; 
+
 		CO2Store myCO2Store = (CO2Store)myBioHolder.theCO2Stores.get(0);
+		O2Store myO2Store = (O2Store)myBioHolder.theO2Stores.get(0); 
 		BiomassRS myBiomassRS = (BiomassRS)(myBioHolder.theBiomassRSModules.get(0));  
 		currentActuator = PlantingActuatorHelper.narrow((myBioHolder.getActuatorAttachedTo(myBioHolder.thePlantingActuators, myBiomassRS)));
-		HarvestingActuator harvestActuator = HarvestingActuatorHelper.narrow((myBioHolder.getActuatorAttachedTo(myBioHolder.theHarvestingActuators, myBiomassRS)));
+		harvestActuator = HarvestingActuatorHelper.narrow((myBioHolder.getActuatorAttachedTo(myBioHolder.theHarvestingActuators, myBiomassRS)));
+		
+		co2OverflowSensor = (StoreOverflowSensor)myBioHolder.getSensorAttachedTo(myBioHolder.theStoreOverflowSensors, myCO2Store); 
+		o2OverflowSensor = (StoreOverflowSensor)myBioHolder.getSensorAttachedTo(myBioHolder.theStoreOverflowSensors, myO2Store); 
+
 		
 		int i; 
 		int num = myBioHolder.theHarvestSensors.size(); 
 		
 		
 		for (i=0;i<num;i++) { 
-//			currentSensor = (GenericSensor)myBioHolder.getShelfSensorAttachedTo(myBioHolder.theHarvestSensors, myBiomassRS, i); 
-//			currentActuator = (PlantingActuator)myBioHolder.getShelfActuatorAttachedTo(myBioHolder.thePlantingActuators, myBiomassRS, i);
- 			currentSensor = (HarvestSensor)myBioHolder.theHarvestSensors.get(i); 
+			currentSensor = (HarvestSensor)myBioHolder.theHarvestSensors.get(i); 
 			currentActuator = (PlantingActuator)myBioHolder.thePlantingActuators.get(i); 
 			
 			if (currentSensor.getValue() == 1f) { 
 				System.out.println(" Harvest Sensor "+currentSensor.getValue());
+				System.out.println(" CO2 Tank Overflow: "+co2OverflowSensor.getValue()+" O2 Tank Overflow: "+o2OverflowSensor.getValue());
 				myBiomassRS.getShelf(i).harvest(); 
 				cropacres = myBiomassRS.getShelf(i).getCropAreaTotal();
 	//			System.out.println("Planting "+cropacres+" m^2."+((Shelf)myBiomassRS.getShelf(i)).getTypeString()); 
