@@ -57,7 +57,7 @@ dirtyWaterStoreName="biosim.server.water.DirtyWaterStoreServer"
 potableWaterStoreName="biosim.server.water.PotableWaterStoreServer"
 greyWaterStoreName="biosim.server.water.GreyWaterStoreServer"
 frameworkName="biosim.server.framework.BioModuleServer"
-jacoClasspath="$JACORB_HOME/lib/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME/lib"
+jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME"
 jacoInvocation="$java_command -server -classpath $serverClassesDir$separator$resourceDir$separator$jacoClasspath $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
 echo "	-starting servers"
 case $userSelect in

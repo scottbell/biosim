@@ -66,7 +66,7 @@ if [ ! -e  "$clientClassesDir" ]; then
 fi
 relativeIDLDir="/src/biosim/idl/biosim.idl"
 fullIDLDir=$devRootDir$relativeIDLDir
-idlInvocation="$java_command -classpath $JACORB_HOME/lib/idl.jar org.jacorb.idl.parser"
+idlInvocation="$java_command -classpath $JACORB_HOME/idl.jar org.jacorb.idl.parser"
 if [ "$userSelect" == "all" ]; then
 	echo "			-generating stubs"
 	$idlInvocation  -noskel -d $stubDir $fullIDLDir
@@ -79,7 +79,7 @@ simString="biosim"
 simStubDir="$stubDir/$simString"
 clientDir="$devRootDir/src/biosim/client"
 sourceDir="$devRootDir/src"
-jacoClasspath="$JACORB_HOME/lib/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME/lib"
+jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME"
 compilationInvocation="$javac_command -d $clientClassesDir -classpath $stubDir$separator$clientClassesDir$separator$sourceDir$separator$jacoClasspath"
 if [ "$userSelect" == "all" ]; then
 	echo "			-compiling stubs"
