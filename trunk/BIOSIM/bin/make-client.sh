@@ -39,7 +39,7 @@ separator=":"
 machineType=`uname`
 winName="CYGWIN"
 case $machineType in
-	*$winName*) separator=";";echo "-machine type is $winName";;
+	*$winName*) separator=";";echo "		-machine type is $winName";;
 	*)separator=":";echo "		-assuming Unix machine type";;
 esac
 IBM_libs="$JRE_HOME/lib/core.jar$separator$JRE_HOME/lib/charsets.jar$separator$JRE_HOME/lib/graphics.jar$separator$JRE_HOME/lib/security.jar$separator$JRE_HOME/lib/server.jar$separator$JRE_HOME/lib/xml.jar"
