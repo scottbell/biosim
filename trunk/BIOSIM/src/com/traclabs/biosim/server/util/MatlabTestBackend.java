@@ -45,7 +45,7 @@ public class MatlabTestBackend {
                 "org.apache.log4j.PatternLayout");
         logProps.setProperty(
                 "log4j.appender.matlabAppender.layout.ConversionPattern",
-                "%5p [%c] - %m%n");
+                "%m%n");
         logProps.setProperty("log4j.logger." + MatlabTestBackend.class,
                 "DEBUG, matlabAppender");
         PropertyConfigurator.configure(logProps);
@@ -83,7 +83,10 @@ public class MatlabTestBackend {
 				    PrintWriter socketTextWriter = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream(), "8859_1"), true );
 				    DataOutputStream socketOutputDataStream =  new DataOutputStream(clientSocket.getOutputStream());
 				    
-				    socketTextWriter.print("Test!");
+				    socketTextWriter.println("Below this line is a float:");
+				    socketOutputDataStream.writeFloat((float)Math.PI * 2f);
+				    socketTextWriter.println("\nI multiply them by 2");
+				    socketTextWriter.flush();
 				    float readFloat = socketInputDataStream.readFloat();
 				    //send it back multiplied by 2
 				    socketOutputDataStream.writeFloat(readFloat * 2f);
