@@ -486,7 +486,7 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		//Convert to liters (for water store)
 		float gatheredWaterAirLiters = waterMolesToLiters(gatheredWaterAirMoles);
 		//Push water to stores/environment
-		float waterAirPushedLiters = pushResourceToStore(myWaterAirStoreOutputs, waterAirStoreOutMaxFlowRates, waterAirStoreOutDesiredFlowRates, waterAirStoreOutActualFlowRates, gatheredWaterAirMoles);
+		float waterAirPushedLiters = pushResourceToStore(myWaterAirStoreOutputs, waterAirStoreOutMaxFlowRates, waterAirStoreOutDesiredFlowRates, waterAirStoreOutActualFlowRates, gatheredWaterAirLiters);
 		
 		float waterAirLeft = gatheredWaterAirMoles - waterLitersToMoles(waterAirPushedLiters);
 		for (int i = 0; (i < myWaterAirEnvironmentOutputs.length) && (waterAirLeft > 0); i++){
