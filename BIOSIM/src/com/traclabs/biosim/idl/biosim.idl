@@ -11,6 +11,7 @@ module biosim{
 			interface Malfunction{
 				MalfunctionIntensity getIntensity();
 				long getID();
+				string getName();
 				MalfunctionLength getLength();
 			};
 			
