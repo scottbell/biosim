@@ -254,7 +254,7 @@ public class BioInitializer{
 	}
 
 	private static void printRemoteWarningMessage(String pName){
-		System.out.println("Instance of the module moduleNamed "+pName+" should be created remotely (if not already done)");
+		System.out.println("\nWarning: Instance of the module named "+pName+" should be created remotely (if not already done)");
 	}
 
 	private org.omg.CORBA.Object grabModule(String moduleName){

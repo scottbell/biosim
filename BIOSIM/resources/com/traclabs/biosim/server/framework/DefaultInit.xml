@@ -6,7 +6,7 @@
 	</Globals>
 	<SimBioModules>
 		<air>
-			<AirRS name="AirRS">
+			<AirRS name="NewAirRS">
 				<powerConsumer maxFlowRates="300" desiredFlowRates="300" inputs="PowerStore"/>
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
 				<airConsumer maxFlowRates="100" desiredFlowRates="100" inputs="CrewEnvironment"/>
