@@ -54,7 +54,12 @@ echo "		-compiling client";
 simString="SIMULATION"
 simStubDir="$stubDir/$simString"
 clientDir="$devRootDir/src/biosim/client"
-compilationInvocation="javac -d $clientClassesDir -classpath $stubDir:$clientClassesDir:$CLASSPATH"
+separator=":"
+if [ uname == "CYGWIN_NT-5.1" ]
+then
+	separator=";"
+fi
+compilationInvocation="javac -d $clientClassesDir -classpath $stubDir$separator$clientClassesDir$separator$CLASSPATH"
 echo "			-compiling stubs"
 $compilationInvocation $simStubDir/*.java
 echo "			-compiling control"

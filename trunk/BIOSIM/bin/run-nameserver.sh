@@ -13,7 +13,6 @@ then
 	echo "		-assuming BIOSIM_HOME is $devRootDir"
 fi
 JACORB_HOME="$devRootDir/lib/jacorb"
-jacoClasspath="$JACORB_HOME/lib/jacorb.jar:$JRE_HOME/lib/rt.jar"
 genString="/generated"
 genDir=$devRootDir$genString
 if [ ! -e "$genDir" ]
@@ -29,5 +28,11 @@ then
 	echo "		-creating ns directory"
 fi
 echo "	-invoking nameserver"
+separator=":"
+if [ uname == "CYGWIN_NT-5.1" ]
+then
+	separator=";"
+fi
+jacoClasspath="$JACORB_HOME/lib/jacorb.jar$separator$JRE_HOME/lib/rt.jar"
 java -classpath $jacoClasspath $jacoOrbClass $jacoSingletonOrbClass  $nameServer $nsDir/ior.txt
 echo "*done with nameserver"
