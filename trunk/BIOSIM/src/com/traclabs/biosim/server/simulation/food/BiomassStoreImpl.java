@@ -11,57 +11,67 @@ import biosim.idl.framework.*;
  */
 
 public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperations{
-	float capacity;
-	float currentLevel;
-	float cachedLevel;
 	List currentBiomassItems;
-	List cachedBiomassItems;
-	//Used for finding what the current tick is (to see if we're behind or ahead)
-	private BioDriver myDriver;
-	//What I think the current tick is.
-	private int myTicks = 0;
-	//What the capacity was before the permanent malfunction
-	private float preMalfunctionCapacity = 0.0f;
-	
+
 	public BiomassStoreImpl(int pID){
 		super(pID);
 		currentBiomassItems = new Vector();
-		cachedBiomassItems = new Vector();
-		capacity = 10f;
-		currentLevel = cachedLevel = 0f;
 	}
-	
+
 	public float addBiomatter(float pMass, PlantType pType){
 		float acutallyAdded = 0f;
-		if ((pMass + currentLevel) > capacity){
+		if ((pMass + level) > capacity){
 			//adding more than capacity
-			acutallyAdded = capacity - currentLevel;
-			currentLevel += acutallyAdded;
+			acutallyAdded = capacity - level;
+			level += acutallyAdded;
+			overflow += (pMass - acutallyAdded);
 			BioMatter newBiomatter = new BioMatter(acutallyAdded, pType);
 			currentBiomassItems.add(newBiomatter);
 			return acutallyAdded;
 		}
 		else{
 			acutallyAdded = randomFilter(pMass);
-			currentLevel += acutallyAdded;
+			level += acutallyAdded;
 			BioMatter newBiomatter = new BioMatter(acutallyAdded, pType);
 			currentBiomassItems.add(newBiomatter);
 			return acutallyAdded;
 		}
 	}
-	
-	public BioMatter takeBiomatter(float pMass){
-		return (new BioMatter(pMass, PlantType.WHEAT));
+
+	public BioMatter[] takeBiomatter(float pMass){
+		List itemsToReturn = new Vector();
+		float collectedMass = 0f;
+		for (Iterator iter = currentBiomassItems.iterator(); iter.hasNext() &&  (collectedMass <= pMass);){
+			BioMatter currentBioMatter = (BioMatter)(iter.next());
+			//we need to get more bio matter
+			if (currentBioMatter.mass < (pMass - collectedMass)){
+				itemsToReturn.add(currentBioMatter);
+				currentBiomassItems.remove(currentBioMatter);
+				collectedMass += currentBioMatter.mass;
+			}
+			//we have enough, let's cut up the biomass (if too much)
+			else if (currentBioMatter.mass >= (pMass - collectedMass)){
+				BioMatter partialReturnedBioMatter = new BioMatter(pMass - collectedMass, currentBioMatter.type);
+				currentBioMatter.mass -= partialReturnedBioMatter.mass;
+				itemsToReturn.add(partialReturnedBioMatter);
+				if (currentBioMatter.mass <= 0)
+					currentBiomassItems.remove(currentBioMatter);
+				collectedMass += partialReturnedBioMatter.mass;
+			}
+		}
+		//return the array
+		BioMatter[] returnArrayType = new BioMatter[0];
+		return (BioMatter[])(itemsToReturn.toArray(returnArrayType));
 	}
-	
+
 	public BioMatter takeBiomatter(float pMass, PlantType pType){
 		return (new BioMatter(pMass, pType));
 	}
-	
+
 	public BioMatter takeBiomatter(PlantType pType){
 		return (new BioMatter(10f, pType));
 	}
-	
+
 	/**
 	* Returns the name of this module (BiomassStore)
 	* @return the name of this module
