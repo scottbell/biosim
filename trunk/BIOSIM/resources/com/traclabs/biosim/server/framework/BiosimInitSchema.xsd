@@ -853,11 +853,13 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	
-	<xsd:complexType name="DeHumidifierType">  
+	<xsd:complexType name="DehumidifierType">  
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
+				<xsd:sequence>
 					<xsd:element name="airConsumer" type="AirConsumerType"/>
 					<xsd:element name="potableWaterProducer" type="PotableWaterProducerType"/>
+				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
