@@ -7,6 +7,10 @@
 	<SimBioModules>
 		<environment>
 			<SimEnvironment name="PlantEnvironment" initialVolume="100000000000000"/>
+			<Dehumidifier name="Dehumidifier">
+				<airConsumer maxFlowRates="20000" desiredFlowRates="20000" inputs="PlantEnvironment"/>
+				<dirtyWaterProducer maxFlowRates="20000" desiredFlowRates="20000" outputs="DirtyWaterStore"/>	
+			</Dehumidifier>
 		</environment>                    
 		<food>
 			<BiomassRS name="BiomassRS" autoHarvestAndReplant="false">
