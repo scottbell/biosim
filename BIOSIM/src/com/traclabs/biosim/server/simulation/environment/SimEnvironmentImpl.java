@@ -256,6 +256,10 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 		}
 	}
 	
+	public Breath addBreath(Breath pBreath){
+		return new Breath( addO2(pBreath.O2), addCO2(pBreath.CO2), addOther(pBreath.other));
+	}
+	
 	/**
 	* Attemps to return a breath of air given a needed amount of O2 (in liters)
 	* @param litersO2Requested the amount of O2 (in liters) wanted in this breath

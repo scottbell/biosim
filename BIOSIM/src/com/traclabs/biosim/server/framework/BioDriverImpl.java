@@ -43,6 +43,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	private String greyWaterStoreName;
 	private String crewEnvironmentName;
 	private String plantEnvironmentName;
+	private String accumulatorName;
+	private String injectorName;
 	private String loggerName;
 	//A hastable containing the server references
 	private Map modules;
@@ -371,6 +373,15 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			PowerPS myPowerPS = (PowerPS)(getBioModule(powerPSName));
 			myPowerPS.setPowerOutputs(powerOutput, powerOuputsFlowRates);
 			myPowerPS.setLightInput(lightInput);
+		}
+		
+		//Hook up Accumulator to other modules
+		{
+			SimEnvironment[] CO2Input = {myPlantEnvironment};
+			CO2Store CO2Output = myCO2Store;
+			float[] CO2InputFlowRates = {10000f};
+			float[] CO2OutputFlowRates = {10000f};
+			Accumulator myAccumulator = (Accumulator)(getBioModule(accumulatorName));
 		}
 	}
 
@@ -710,6 +721,20 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		}
 		catch (org.omg.CORBA.UserException e){
 			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+loggerName+", skipping...");
+		}
+		try{
+			Accumulator myAccumulator = AccumulatorHelper.narrow(OrbUtils.getNCRef().resolve_str(accumulatorName));
+			modules.put(accumulatorName , myAccumulator);
+		}
+		catch (org.omg.CORBA.UserException e){
+			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+accumulatorName+", skipping...");
+		}
+		try{
+			Injector myInjector = InjectorHelper.narrow(OrbUtils.getNCRef().resolve_str(injectorName));
+			modules.put(injectorName , myInjector);
+		}
+		catch (org.omg.CORBA.UserException e){
+			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+injectorName+", skipping...");
 		}
 		hasCollectedReferences = true;
 	}

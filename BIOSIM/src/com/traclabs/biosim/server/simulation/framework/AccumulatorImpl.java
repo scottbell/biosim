@@ -14,7 +14,7 @@ import biosim.idl.util.log.*;
  * @author    Scott Bell
  */
 
-public abstract class AccumulatorImpl extends BioModuleImpl implements AccumulatorOperations, PowerConsumerOperations, PotableWaterConsumerOperations, GreyWaterConsumerOperations, DirtyWaterConsumerOperations, O2ConsumerOperations, CO2ConsumerOperations, AirConsumerOperations, BiomassConsumerOperations, FoodConsumerOperations, PowerProducerOperations, PotableWaterProducerOperations, GreyWaterProducerOperations, DirtyWaterProducerOperations, O2ProducerOperations, CO2ProducerOperations, AirProducerOperations, BiomassProducerOperations, FoodProducerOperations{
+public class AccumulatorImpl extends BioModuleImpl implements AccumulatorOperations, PowerConsumerOperations, PotableWaterConsumerOperations, GreyWaterConsumerOperations, DirtyWaterConsumerOperations, O2ConsumerOperations, CO2ConsumerOperations, AirConsumerOperations, BiomassConsumerOperations, FoodConsumerOperations, PowerProducerOperations, PotableWaterProducerOperations, GreyWaterProducerOperations, DirtyWaterProducerOperations, O2ProducerOperations, CO2ProducerOperations, AirProducerOperations, BiomassProducerOperations, FoodProducerOperations{
 	private LogIndex myLogIndex;
 	private PowerStore[] myPowerInputs;
 	private PowerStore[] myPowerOutputs;
@@ -142,6 +142,19 @@ public abstract class AccumulatorImpl extends BioModuleImpl implements Accumulat
 		
 		float CO2Gathered = getMaxResourceFromStore(myCO2Inputs, CO2InFlowRates);
 		float CO2Pushed = pushResourceToStore(myCO2Outputs, CO2OutFlowRates, CO2Gathered);
+		
+		Breath gatheredAir = new Breath(0,0,0);
+		for (int i = 0; (i < myAirInputs.length) && ((gatheredAir.O2 + gatheredAir.CO2 + gatheredAir.other) < airInFlowRates[i]); i++){
+			Breath currentBreath = myAirInputs[i].takeVolume(airInFlowRates[i] - (gatheredAir.O2 + gatheredAir.CO2 + gatheredAir.other));
+			gatheredAir.O2 += currentBreath.O2;
+			gatheredAir.CO2 += currentBreath.CO2;
+			gatheredAir.other += currentBreath.other;
+		}
+		
+		Breath distributedAir = new Breath(gatheredAir.O2, gatheredAir.CO2, gatheredAir.other);
+		for (int i = 0; (i < myAirOutputs.length) && ((distributedAir.O2 + distributedAir.CO2 + distributedAir.other) > 0); i++){
+			distributedAir = myAirInputs[i].addBreath(distributedAir);
+		}
 	}
 
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
@@ -211,6 +224,10 @@ public abstract class AccumulatorImpl extends BioModuleImpl implements Accumulat
 	public PowerStore[] getPowerInputs(){
 		return myPowerInputs;
 	}
+	
+	public float[] getPowerInputFlowrates(){
+		return powerInFlowRates;
+	}
 
 	public void setPowerOutputFlowrate(float watts, int index){
 		powerOutFlowRates[index] = watts;
@@ -227,6 +244,10 @@ public abstract class AccumulatorImpl extends BioModuleImpl implements Accumulat
 
 	public PowerStore[] getPowerOutputs(){
 		return myPowerOutputs;
+	}
+	
+	public float[] getPowerOutputFlowrates(){
+		return powerOutFlowRates;
 	}
 
 	public void setGreyWaterInputFlowrate(float watts, int index){
@@ -245,6 +266,10 @@ public abstract class AccumulatorImpl extends BioModuleImpl implements Accumulat
 	public GreyWaterStore[] getGreyWaterInputs(){
 		return myGreyWaterInputs;
 	}
+	
+	public float[] getGreyWaterInputFlowrates(){
+		return greyWaterInFlowRates;
+	}
 
 	public void setGreyWaterOutputFlowrate(float watts, int index){
 		greyWaterOutFlowRates[index] = watts;
@@ -261,6 +286,10 @@ public abstract class AccumulatorImpl extends BioModuleImpl implements Accumulat
 
 	public GreyWaterStore[] getGreyWaterOutputs(){
 		return myGreyWaterOutputs;
+	}
+	
+	public float[] getGreyWaterOutputFlowrates(){
+		return greyWaterOutFlowRates;
 	}
 
 	public void setDirtyWaterInputFlowrate(float watts, int index){
@@ -279,6 +308,10 @@ public abstract class AccumulatorImpl extends BioModuleImpl implements Accumulat
 	public DirtyWaterStore[] getDirtyWaterInputs(){
 		return myDirtyWaterInputs;
 	}
+	
+	public float[] getDirtyWaterInputFlowrates(){
+		return dirtyWaterInFlowRates;
+	}
 
 	public void setDirtyWaterOutputFlowrate(float watts, int index){
 		dirtyWaterOutFlowRates[index] = watts;
@@ -295,6 +328,10 @@ public abstract class AccumulatorImpl extends BioModuleImpl implements Accumulat
 
 	public DirtyWaterStore[] getDirtyWaterOutputs(){
 		return myDirtyWaterOutputs;
+	}
+	
+	public float[] getDirtyWaterOutputFlowrates(){
+		return dirtyWaterOutFlowRates;
 	}
 
 	public void setPotableWaterInputFlowrate(float watts, int index){
@@ -313,6 +350,10 @@ public abstract class AccumulatorImpl extends BioModuleImpl implements Accumulat
 	public PotableWaterStore[] getPotableWaterInputs(){
 		return myPotableWaterInputs;
 	}
+	
+	public float[] getPotableWaterInputFlowrates(){
+		return potableWaterInFlowRates;
+	}
 
 	public void setPotableWaterOutputFlowrate(float watts, int index){
 		potableWaterOutFlowRates[index] = watts;
@@ -329,6 +370,10 @@ public abstract class AccumulatorImpl extends BioModuleImpl implements Accumulat
 
 	public PotableWaterStore[] getPotableWaterOutputs(){
 		return myPotableWaterOutputs;
+	}
+	
+	public float[] getPotableWaterOutputFlowrates(){
+		return potableWaterOutFlowRates;
 	}
 
 	public void setFoodInputFlowrate(float watts, int index){
@@ -347,6 +392,10 @@ public abstract class AccumulatorImpl extends BioModuleImpl implements Accumulat
 	public FoodStore[] getFoodInputs(){
 		return myFoodInputs;
 	}
+	
+	public float[] getFoodInFlowrates(){
+		return foodInFlowRates;
+	}
 
 	public void setFoodOutputFlowrate(float watts, int index){
 		foodOutFlowRates[index] = watts;
@@ -364,7 +413,11 @@ public abstract class AccumulatorImpl extends BioModuleImpl implements Accumulat
 	public FoodStore[] getFoodOutputs(){
 		return myFoodOutputs;
 	}
-
+	
+	public float[] getFoodOutputFlowrates(){
+		return foodOutFlowRates;
+	}
+	
 	public void setBiomassInputFlowrate(float watts, int index){
 		biomassInFlowRates[index] = watts;
 	}
@@ -380,6 +433,10 @@ public abstract class AccumulatorImpl extends BioModuleImpl implements Accumulat
 
 	public BiomassStore[] getBiomassInputs(){
 		return myBiomassInputs;
+	}
+	
+	public float[] getBiomassInputFlowrates(){
+		return biomassInFlowRates;
 	}
 
 	public void setBiomassOutputFlowrate(float watts, int index){
@@ -398,6 +455,10 @@ public abstract class AccumulatorImpl extends BioModuleImpl implements Accumulat
 	public BiomassStore[] getBiomassOutputs(){
 		return myBiomassOutputs;
 	}
+	
+	public float[] getBiomassOutputFlowrates(){
+		return biomassOutFlowRates;
+	}
 
 	public void setAirInputFlowrate(float watts, int index){
 		airInFlowRates[index] = watts;
@@ -414,6 +475,10 @@ public abstract class AccumulatorImpl extends BioModuleImpl implements Accumulat
 
 	public SimEnvironment[] getAirInputs(){
 		return myAirInputs;
+	}
+	
+	public float[] getAirInputFlowrates(){
+		return airInFlowRates;
 	}
 
 	public void setAirOutputFlowrate(float watts, int index){
@@ -432,6 +497,10 @@ public abstract class AccumulatorImpl extends BioModuleImpl implements Accumulat
 	public SimEnvironment[] getAirOutputs(){
 		return myAirOutputs;
 	}
+	
+	public float[] getAirOutputFlowrates(){
+		return airOutFlowRates;
+	}
 
 	public void setO2InputFlowrate(float watts, int index){
 		O2InFlowRates[index] = watts;
@@ -448,6 +517,10 @@ public abstract class AccumulatorImpl extends BioModuleImpl implements Accumulat
 
 	public O2Store[] getO2Inputs(){
 		return myO2Inputs;
+	}
+	
+	public float[] getO2InputFlowrates(){
+		return O2InFlowRates;
 	}
 
 	public void setO2OutputFlowrate(float watts, int index){
@@ -466,6 +539,10 @@ public abstract class AccumulatorImpl extends BioModuleImpl implements Accumulat
 	public O2Store[] getO2Outputs(){
 		return myO2Outputs;
 	}
+	
+	public float[] getO2OutputFlowrates(){
+		return O2OutFlowRates;
+	}
 
 	public void setCO2InputFlowrate(float watts, int index){
 		CO2InFlowRates[index] = watts;
@@ -478,6 +555,10 @@ public abstract class AccumulatorImpl extends BioModuleImpl implements Accumulat
 	public void setCO2Inputs(CO2Store[] sources, float[] flowRates){
 		myCO2Inputs = sources;
 		CO2InFlowRates = flowRates;
+	}
+	
+	public float[] getCO2InputFlowrates(){
+		return CO2InFlowRates;
 	}
 
 	public CO2Store[] getCO2Inputs(){
@@ -499,6 +580,10 @@ public abstract class AccumulatorImpl extends BioModuleImpl implements Accumulat
 
 	public CO2Store[] getCO2Outputs(){
 		return myCO2Outputs;
+	}
+	
+	public float[] getCO2OutputFlowrates(){
+		return CO2OutFlowRates;
 	}
 	
 	/**
