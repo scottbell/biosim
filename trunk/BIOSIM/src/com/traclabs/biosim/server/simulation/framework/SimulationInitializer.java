@@ -131,6 +131,7 @@ import com.traclabs.biosim.server.simulation.air.NitrogenStoreImpl;
 import com.traclabs.biosim.server.simulation.air.O2StoreImpl;
 import com.traclabs.biosim.server.simulation.crew.ActivityImpl;
 import com.traclabs.biosim.server.simulation.crew.CrewGroupImpl;
+import com.traclabs.biosim.server.simulation.crew.EVAActivityImpl;
 import com.traclabs.biosim.server.simulation.crew.Schedule;
 import com.traclabs.biosim.server.simulation.environment.DehumidifierImpl;
 import com.traclabs.biosim.server.simulation.environment.SimEnvironmentImpl;
@@ -861,7 +862,7 @@ public class SimulationInitializer {
     }
 
     private Activity createActivity(Node node) {
-        String name = node.getAttributes().getNamedItem("name").getNodeValue();
+        ActivityImpl newActivityImpl = null;
         int length = 0;
         int intensity = 0;
         try {
@@ -870,10 +871,20 @@ public class SimulationInitializer {
             intensity = Integer.parseInt(node.getAttributes().getNamedItem(
                     "intensity").getNodeValue());
         } catch (NumberFormatException e) {
-
             e.printStackTrace();
         }
-        ActivityImpl newActivityImpl = new ActivityImpl(name, length, intensity);
+        String name = node.getAttributes().getNamedItem("name").getNodeValue();
+        Node activityTypeNode = node.getAttributes().getNamedItem("xsi:type");
+        if (activityTypeNode != null){
+            if (activityTypeNode.getNodeValue().equals("EVAActivityType")){
+                myLogger.debug("Type is "+activityTypeNode.getNodeValue());
+                String outsideEnvironmentName = node.getAttributes().getNamedItem("outsideEnvironment").getNodeValue();
+                newActivityImpl = new EVAActivityImpl(name, length, intensity, outsideEnvironmentName);
+            }
+        }
+        else{
+            newActivityImpl = new ActivityImpl(name, length, intensity);
+        }
         return ActivityHelper.narrow(OrbUtils.poaToCorbaObj(newActivityImpl));
     }
 
