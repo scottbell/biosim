@@ -151,7 +151,7 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 			int i = 0;
 			for (Enumeration e = crewPeople.elements(); e.hasMoreElements(); ){
 				CrewPersonImpl currentPerson = (CrewPersonImpl)(e.nextElement());
-				LogNode newPersonLabel = myLog.addChild("Crew Person");
+				LogNode newPersonLabel = myLog.addChild("crew_person");
 				crewPeopleLogs.put(currentPerson, newPersonLabel);
 				currentPerson.log(newPersonLabel);
 				i++;

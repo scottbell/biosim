@@ -109,19 +109,19 @@ public abstract class WaterRSSubSystem{
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();
-			LogNode enabledHead = myHead.addChild("Enabled");
+			LogNode enabledHead = myHead.addChild("enabled");
 			myLogIndex.enabledIndex = enabledHead.addChild(""+enabled);
-			LogNode powerNeededHead = myHead.addChild("Power Needed");
+			LogNode powerNeededHead = myHead.addChild("power_needed");
 			myLogIndex.powerNeededIndex = powerNeededHead.addChild(""+powerNeeded);
-			LogNode currentPowerConsumedHead = myHead.addChild("Power Consumed");
+			LogNode currentPowerConsumedHead = myHead.addChild("power_consumed");
 			myLogIndex.currentPowerConsumedIndex = currentPowerConsumedHead.addChild(""+currentPowerConsumed);
-			LogNode waterNeededHead = myHead.addChild("Water Needed");
+			LogNode waterNeededHead = myHead.addChild("water_needed");
 			myLogIndex.waterNeededIndex = waterNeededHead.addChild(""+waterNeeded);
-			LogNode hasEnoughPowerHead = myHead.addChild("Has Enough Power");
+			LogNode hasEnoughPowerHead = myHead.addChild("has_enough_power");
 			myLogIndex.hasEnoughPowerIndex = hasEnoughPowerHead.addChild(""+hasEnoughPower);
-			LogNode hasEnoughWaterHead = myHead.addChild("Has Enough Water");
+			LogNode hasEnoughWaterHead = myHead.addChild("has_enough_water");
 			myLogIndex.hasEnoughWaterIndex = hasEnoughWaterHead.addChild(""+hasEnoughWater);
-			LogNode waterLevelHead = myHead.addChild("Water Level");
+			LogNode waterLevelHead = myHead.addChild("water_level");
 			myLogIndex.waterLevelIndex = waterLevelHead.addChild(""+waterLevel);
 			logInitialized = true;
 		}

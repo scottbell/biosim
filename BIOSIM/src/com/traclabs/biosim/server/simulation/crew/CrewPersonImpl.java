@@ -521,61 +521,66 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();
-			LogNode nameHead = myLogHead.addChild("Name");
+			LogNode nameHead = myLogHead.addChild("name");
 			myLogIndex.nameIndex = nameHead.addChild(""+myName);
-			LogNode currentActivityHead = myLogHead.addChild("Current Activity");
+			LogNode currentActivityHead = myLogHead.addChild("current_activity");
 			myLogIndex.currentActivityIndex = currentActivityHead.addChild(""+myCurrentActivity.getName());
-			LogNode currentActivityOrderHead = myLogHead.addChild("Current Activity Order");
+			LogNode currentActivityOrderHead = myLogHead.addChild("current_activity_order");
 			myLogIndex.currentActivityOrderIndex = currentActivityOrderHead.addChild(""+currentOrder);
-			LogNode timeActivityPerformedHead = myLogHead.addChild("Duration of Activity");
+			LogNode timeActivityPerformedHead = myLogHead.addChild("duration_of_activity");
 			myLogIndex.timeActivityPerformedIndex = timeActivityPerformedHead.addChild(""+timeActivityPerformed);
-			LogNode starvingTimeHead = myLogHead.addChild("Starving Time");
+			LogNode starvingTimeHead = myLogHead.addChild("starving_time");
 			myLogIndex.starvingTimeIndex = starvingTimeHead.addChild(""+starvingTime);
-			LogNode thirstTimeHead = myLogHead.addChild("Thirst Time");
+			LogNode thirstTimeHead = myLogHead.addChild("thirst_time");
 			myLogIndex.thirstTimeIndex = thirstTimeHead.addChild(""+thirstTime);
-			LogNode suffocateTimeHead = myLogHead.addChild("Suffocate Time");
+			LogNode suffocateTimeHead = myLogHead.addChild("suffocate_time");
 			myLogIndex.suffocateTimeIndex = suffocateTimeHead.addChild(""+suffocateTime);
-			LogNode poisonTimeHead = myLogHead.addChild("Poison Time");
+			LogNode poisonTimeHead = myLogHead.addChild("poison_time");
 			myLogIndex.poisonTimeIndex = poisonTimeHead.addChild(""+poisonTime);
-			LogNode personStarvingHead = myLogHead.addChild("Person Starving");
+			LogNode personStarvingHead = myLogHead.addChild("person_starving");
 			myLogIndex.personStarvingIndex = personStarvingHead.addChild(""+personStarving);
-			LogNode personThirstyHead = myLogHead.addChild("Person Thirsty");
+			LogNode personThirstyHead = myLogHead.addChild("person_thirsty");
 			myLogIndex.personThirstyIndex = personThirstyHead.addChild(""+personThirsty);
-			LogNode personSuffocatingHead = myLogHead.addChild("Person Suffocating");
+			LogNode personSuffocatingHead = myLogHead.addChild("person_suffocating");
 			myLogIndex.personSuffocatingIndex = personSuffocatingHead.addChild(""+personSuffocating);
-			LogNode personPoisonedHead = myLogHead.addChild("Person Poisoned");
+			LogNode personPoisonedHead = myLogHead.addChild("person_poisoned");
 			myLogIndex.personPoisonedIndex = personPoisonedHead.addChild(""+personPoisoned);
-			LogNode hasDiedHead = myLogHead.addChild("Has Died");
+			LogNode hasDiedHead = myLogHead.addChild("has_died");
 			myLogIndex.hasDiedIndex = hasDiedHead.addChild(""+hasDied);
-			LogNode ageHead = myLogHead.addChild("Age");
+			LogNode ageHead = myLogHead.addChild("age");
 			myLogIndex.ageIndex = ageHead.addChild(""+age);
-			LogNode weightHead = myLogHead.addChild("Weight");
+			LogNode weightHead = myLogHead.addChild("weight");
 			myLogIndex.weightIndex = weightHead.addChild(""+weight);
-			LogNode sexHead = myLogHead.addChild("Sex");
+			LogNode sexHead = myLogHead.addChild("sex");
 			if (sex == Sex.male)
 				myLogIndex.sexIndex = sexHead.addChild("male");
 			else if (sex == Sex.female)
 				myLogIndex.sexIndex = sexHead.addChild("female");
-			LogNode O2ConsumedHead = myLogHead.addChild("O2 Consumed");
+			LogNode O2ConsumedHead = myLogHead.addChild("O2_consumed");
 			myLogIndex.O2ConsumedIndex = O2ConsumedHead.addChild(""+O2Consumed);
-			LogNode CO2ProducedHead = myLogHead.addChild("CO2 Produced");
+			LogNode CO2ProducedHead = myLogHead.addChild("CO2_produced");
 			myLogIndex.CO2ProducedIndex = CO2ProducedHead.addChild(""+CO2Produced);
-			LogNode foodConsumedHead = myLogHead.addChild("Food Consumed");
+			LogNode foodConsumedHead = myLogHead.addChild("food_consumed");
 			myLogIndex.foodConsumedIndex = foodConsumedHead.addChild(""+foodConsumed);
-			LogNode cleanWaterConsumedHead = myLogHead.addChild("Potable Water Consumed");
+			LogNode cleanWaterConsumedHead = myLogHead.addChild("potable_water_consumed");
 			myLogIndex.cleanWaterConsumedIndex = cleanWaterConsumedHead.addChild(""+cleanWaterConsumed);
-			LogNode dirtyWaterProducedHead = myLogHead.addChild("Dirty Water Produced");
+			LogNode dirtyWaterProducedHead = myLogHead.addChild("dirty_water_produced");
 			myLogIndex.dirtyWaterProducedIndex = dirtyWaterProducedHead.addChild(""+dirtyWaterProduced);
-			LogNode greyWaterProducedHead = myLogHead.addChild("Grey Water Produced");
+			LogNode greyWaterProducedHead = myLogHead.addChild("grey_water_produced");
 			myLogIndex.greyWaterProducedIndex = greyWaterProducedHead.addChild(""+greyWaterProduced);
-			LogNode O2NeededHead = myLogHead.addChild("O2 Needed");
+			LogNode O2NeededHead = myLogHead.addChild("O2_needed");
 			myLogIndex.O2NeededIndex = O2NeededHead.addChild(""+O2Needed);
-			LogNode cleanWaterNeededHead = myLogHead.addChild("Potable Water Needed");
+			LogNode cleanWaterNeededHead = myLogHead.addChild("potable_water_needed");
 			myLogIndex.cleanWaterNeededIndex = cleanWaterNeededHead.addChild(""+cleanWaterNeeded);
-			LogNode foodNeededHead = myLogHead.addChild("Food Needed");
+			LogNode foodNeededHead = myLogHead.addChild("food_needed");
 			myLogIndex.foodNeededIndex = foodNeededHead.addChild(""+foodNeeded);
-			LogNode airRetrievedHead = myLogHead.addChild("Air Retrieved");
-			myLogIndex.airRetrievedIndex = airRetrievedHead.addChild(airRetrieved.O2 + " # " +airRetrieved.CO2 +" # " +airRetrieved.other);
+			LogNode airRetrievedHead = myLogHead.addChild("air_retrieved");
+			LogNode O2RetrievedHead = airRetrievedHead.addChild("O2_retrieved");
+			myLogIndex.O2RetrievedIndex = O2RetrievedHead.addChild(""+airRetrieved.O2);
+			LogNode CO2RetrievedHead = airRetrievedHead.addChild("CO2_retrieved");
+			myLogIndex.CO2RetrievedIndex = CO2RetrievedHead.addChild(""+airRetrieved.CO2);
+			LogNode otherRetrievedHead = airRetrievedHead.addChild("other_retrieved");
+			myLogIndex.otherRetrievedIndex = otherRetrievedHead.addChild(""+airRetrieved.other);
 			logInitialized = true; 
 		}
 		else{
@@ -607,7 +612,9 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			myLogIndex.O2NeededIndex.setValue(""+O2Needed);
 			myLogIndex.cleanWaterNeededIndex.setValue(""+cleanWaterNeeded);
 			myLogIndex.foodNeededIndex.setValue(""+foodNeeded);
-			myLogIndex.airRetrievedIndex.setValue(airRetrieved.O2 + " # " +airRetrieved.CO2 +" # " +airRetrieved.other);
+			myLogIndex.O2RetrievedIndex.setValue(""+airRetrieved.O2);
+			myLogIndex.CO2RetrievedIndex.setValue(""+airRetrieved.CO2);
+			myLogIndex.otherRetrievedIndex.setValue(""+airRetrieved.other);
 		}
 	}
 
@@ -640,6 +647,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		public LogNode O2NeededIndex;
 		public LogNode cleanWaterNeededIndex;
 		public LogNode foodNeededIndex;
-		public LogNode airRetrievedIndex;
+		public LogNode O2RetrievedIndex;
+		public LogNode CO2RetrievedIndex;
+		public LogNode otherRetrievedIndex;
 	}
 }

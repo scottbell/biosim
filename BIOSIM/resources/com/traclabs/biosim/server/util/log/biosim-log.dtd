@@ -3,7 +3,7 @@
 <!ELEMENT biosim (tick*)>
     <!ELEMENT tick (SimEnvironment | PowerPS | WaterRS | CrewGroup | AirRS | FoodProcessor | BiomassRS | SimEnvironment)>
     <!ATTLIST tick number (CDATA) #REQUIRED>
-    <!ELEMENT SimEnvironment (#PCDATA)>
+    <!ELEMENT SimEnvironment (O2 Level, CO2 Level, other Level, light intensity)>
     <!ELEMENT PowerPS (#PCDATA)>
     <!ELEMENT WaterRS (#PCDATA)>
     <!ELEMENT CrewGroup (#PCDATA)>
