@@ -51,8 +51,8 @@ public class BWP extends WaterRSSubSystem{
 		else{
 			waterNeeded = NORMAL_WATER_NEEDED;
 		}
-		currentDirtyWaterConsumed = myWaterRS.getResourceFromStore(myWaterRS.getDirtyWaterInputs(), myWaterRS.getDirtyWaterInputMaxFlowRates(), waterNeeded);
-		currentDirtyWaterConsumed = myWaterRS.getResourceFromStore(myWaterRS.getGreyWaterInputs(), myWaterRS.getGreyWaterInputMaxFlowRates(), waterNeeded - currentDirtyWaterConsumed);
+		currentDirtyWaterConsumed = myWaterRS.getResourceFromStore(myWaterRS.getDirtyWaterInputs(), myWaterRS.getDirtyWaterInputMaxFlowRates(), myWaterRS.getDirtyWaterInputDesiredFlowRates(), myWaterRS.getDirtyWaterInputActualFlowRates(), waterNeeded);
+		currentGreyWaterConsumed = myWaterRS.getResourceFromStore(myWaterRS.getGreyWaterInputs(), myWaterRS.getGreyWaterInputMaxFlowRates(), myWaterRS.getGreyWaterInputDesiredFlowRates(), myWaterRS.getGreyWaterInputActualFlowRates(), waterNeeded - currentDirtyWaterConsumed);
 		float gatheredWater = currentDirtyWaterConsumed + currentGreyWaterConsumed;
 		if (gatheredWater < waterNeeded){
 			hasEnoughWater = false;

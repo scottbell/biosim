@@ -45,7 +45,7 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements PowerPSOpe
 		currentPowerProduced = calculatePowerProduced();
 		if (isMalfunctioning())
 			performMalfunctions();
-		float distributedPowerLeft = pushResourceToStore(myPowerStores, powerMaxFlowRates, currentPowerProduced);
+		float distributedPowerLeft = pushResourceToStore(myPowerStores, powerMaxFlowRates, powerDesiredFlowRates, powerActualFlowRates, currentPowerProduced);
 		if (moduleLogging)
 			log();
 	}
