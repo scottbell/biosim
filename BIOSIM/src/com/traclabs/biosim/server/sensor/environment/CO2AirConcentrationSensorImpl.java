@@ -10,7 +10,7 @@ public class CO2AirConcentrationSensorImpl extends EnvironmentSensorImpl impleme
 	}
 
 	protected void gatherData(){
-		float preFilteredValue = getInput().getCO2Moles();
+		float preFilteredValue = getInput().getCO2Moles() / getInput().getTotalMoles();
 		myValue = randomFilter(preFilteredValue);
 	}
 	
