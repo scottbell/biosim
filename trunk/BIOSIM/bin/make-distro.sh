@@ -89,6 +89,7 @@ cp -f ../../lib/distro/win/run-biosim.bat . 2> /dev/null
 cp -f ../../lib/distro/win/biosim.ico . 2> /dev/null
 cp -f ../../lib/distro/win/LICENSE.txt . 2> /dev/null
 cp -f ../../lib/distro/win/BiosimStandalone.java . 2> /dev/null
+cp -f ../../lib/distro/win/mars.gif . 2> /dev/null
 ######################
 # BUILD STANDALONE   #
 ######################
@@ -126,8 +127,10 @@ $javac_command -classpath $distroDir$separator$biosimJar$separator$JRE_libs $dis
 echo "	-done building standalone"
 echo "	-adding to existing jar"
 $jarCommand -uf biosim.jar BiosimStandalone*.class
+$jarCommand -uf biosim.jar mars.gif
 echo "	-removing standalone file"
 rm -f BiosimStandalone*
+rm -f mars.gif
 echo "	-changing to back to invocation dir"
 cd $currentDir
 echo "*done creating biosim distro"

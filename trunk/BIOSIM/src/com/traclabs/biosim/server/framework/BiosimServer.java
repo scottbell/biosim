@@ -24,6 +24,10 @@ import biosim.server.util.log.*;
  */
 
 public class BiosimServer extends GenericServer{
+	
+	public BiosimServer(){
+	}
+	
 	/**
 	* Instantiates the server and binds it to the name server.
 	* @param args first element can be an ID to assign to this instance
@@ -33,6 +37,11 @@ public class BiosimServer extends GenericServer{
 		int id = myServer.getIDfromArgs(args);
 		myServer.createServers(id);
 		myServer.runServer("BiosimServer"+id);
+	}
+	
+	public void startBiosimServer(int id){
+		createServers(id);
+		runServer("BiosimServer"+id);
 	}
 	
 	/**
