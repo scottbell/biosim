@@ -46,6 +46,7 @@ module biosim{
                                 interface FoodProcessor;
                                 interface FoodStore;
                                 interface Shelf;
+				interface Plant;
 				interface BiomassConsumer;
                                 interface FoodConsumer;
 				interface BiomassProducer;
