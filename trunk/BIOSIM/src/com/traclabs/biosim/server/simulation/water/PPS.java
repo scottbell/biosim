@@ -28,12 +28,7 @@ public class PPS extends WaterRSSubSystem{
 	private void pushWater(){
 		potableWaterProduced = waterLevel;
 		waterLevel = 0;
-		float distributedWaterLeft = potableWaterProduced;
-		PotableWaterStore[] myPotableWaterStores = myWaterRS.getPotableWaterOutputs();
-		for (int i = 0; (i < myPotableWaterStores.length) && (distributedWaterLeft <= 0); i++){
-			float waterToDistribute = Math.min(distributedWaterLeft, myWaterRS.getPotableWaterOutputFlowrate(i));
-			distributedWaterLeft -= myPotableWaterStores[i].add(waterToDistribute);
-		}
+		float distributedWaterLeft = myWaterRS.pushResourceToStore(myWaterRS.getPotableWaterOutputs(), myWaterRS.getPotableWaterOutputFlowrates(), potableWaterProduced);
 	}
 
 	public float getPotableWaterProduced(){

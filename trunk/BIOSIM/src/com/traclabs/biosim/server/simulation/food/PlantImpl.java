@@ -156,12 +156,7 @@ public abstract class Plant {
 	private void produceBiomass(){
 		biomassProduced = calculateProducedBiomass() * myProductionRate;
 		if (biomassProduced > 0){
-			float distributedBiomassLeft = biomassProduced;
-			BiomassStore[] myBiomassStores = myBiomassImpl.getBiomassOutputs();
-			for (int i = 0; (i < myBiomassStores.length) && (distributedBiomassLeft <= 0); i++){
-				float biomassToDistribute = Math.min(distributedBiomassLeft, myBiomassImpl.getBiomassOutputFlowrate(i));
-				distributedBiomassLeft -= myBiomassStores[i].add(biomassToDistribute);
-			}
+			float distributedBiomassLeft = myBiomassImpl.pushResourceToStore(myBiomassImpl.getBiomassOutputs(), myBiomassImpl.getBiomassOutputFlowrates(), biomassProduced);
 			myAge = 0;
 		}
 	}

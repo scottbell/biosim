@@ -36,12 +36,7 @@ public class CRS extends AirRSSubSystem{
 	private void gatherGasses(){
 		float gatheredCO2 = 0f;
 		CO2Needed = myAirRS.randomFilter(CO2Needed);
-		CO2Store[] myCO2StoreInputs = myAirRS.getCO2Inputs();
-		for (int i = 0; (i < myCO2StoreInputs.length) && (gatheredCO2 < CO2Needed); i++){
-			float CO2ToGather = Math.min(CO2Needed, myAirRS.getCO2InputFlowrate(i));
-			gatheredCO2 += myCO2StoreInputs[i].take(CO2ToGather);
-		}
-		currentCO2Consumed = gatheredCO2;
+		currentCO2Consumed = myAirRS.getResourceFromStore(myAirRS.getCO2Inputs(), myAirRS.getCO2InputFlowrates(), CO2Needed);
 		currentH2Consumed = myAirRS.getOGS().takeH2(myAirRS.randomFilter(H2Needed));
 		if (CO2Needed < currentCO2Consumed)
 			enoughCO2 = false;

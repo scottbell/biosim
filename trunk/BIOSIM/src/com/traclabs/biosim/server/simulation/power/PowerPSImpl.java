@@ -39,11 +39,7 @@ public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperat
 		currentPowerProduced = calculatePowerProduced();
 		if (isMalfunctioning())
 			performMalfunctions();
-		float distributedPowerLeft = currentPowerProduced;
-		for (int i = 0; (i < myPowerStores.length) && (distributedPowerLeft > 0); i++){
-			float powerToDistribute = Math.min(distributedPowerLeft, powerFlowRates[i]);
-			distributedPowerLeft -= myPowerStores[i].add(powerToDistribute);
-		}
+		float distributedPowerLeft = pushResourceToStore(myPowerStores, powerFlowRates, currentPowerProduced);
 		if (moduleLogging)
 			log();
 	}

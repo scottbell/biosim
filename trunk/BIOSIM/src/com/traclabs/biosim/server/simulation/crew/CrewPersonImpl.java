@@ -598,13 +598,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* inhales/drinks/eats, then exhales/excretes
 	*/
 	private void consumeResources(){
-		//get server references from List
-		FoodStore[] myFoodInputs = myCrewGroup.getFoodInputs();
-		PotableWaterStore[] myPotableWaterInputs = myCrewGroup.getPotableWaterInputs();
-		SimEnvironment[] myAirInputs = myCrewGroup.getAirInputs();
-		SimEnvironment[] myAirOutputs = myCrewGroup.getAirOutputs();
-		DirtyWaterStore[] myDirtyWaterOutputs = myCrewGroup.getDirtyWaterOutputs();
-		GreyWaterStore[] myGreyWaterOutputs = myCrewGroup.getGreyWaterOutputs();
 		//calculate consumption
 		int currentActivityIntensity = myCurrentActivity.getActivityIntensity();
 		O2Needed = calculateO2Needed(currentActivityIntensity);
@@ -614,28 +607,13 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		greyWaterProduced = calculateGreyWaterProduced(dirtyWaterProduced);
 		CO2Produced = calculateCO2Produced(O2Needed);
 		//adjust tanks
-		float gatheredFood = 0f;
-		for (int i = 0; (i < myFoodInputs.length) && (gatheredFood < foodNeeded); i++){
-			float foodToGather = Math.min(foodNeeded, myCrewGroup.getFoodInputFlowrate(i)); 
-			gatheredFood += myFoodInputs[i].take(foodToGather);
-		}
-		foodConsumed = gatheredFood;
-		float gatheredPotableWater = 0f;
-		for (int i = 0; (i < myPotableWaterInputs.length) && (gatheredPotableWater < potableWaterNeeded); i++){
-			float potableWaterToGather = Math.min(potableWaterNeeded, myCrewGroup.getPotableWaterInputFlowrate(i)); 
-			gatheredPotableWater += myPotableWaterInputs[i].take(potableWaterToGather);
-		}
-		cleanWaterConsumed = gatheredPotableWater;
-		float distributedDirtyWaterLeft = dirtyWaterProduced;
-		for (int i = 0; (i < myDirtyWaterOutputs.length) && (distributedDirtyWaterLeft > 0); i++){
-			float dirtyWaterToDistribute = Math.min(distributedDirtyWaterLeft, myCrewGroup.getDirtyWaterOutputFlowrate(i));
-			distributedDirtyWaterLeft -= myDirtyWaterOutputs[i].add(dirtyWaterToDistribute);
-		}
-		float distributedGreyWaterLeft = greyWaterProduced;
-		for (int i = 0; (i < myGreyWaterOutputs.length) && (distributedGreyWaterLeft > 0); i++){
-			float greyWaterToDistribute = Math.min(distributedGreyWaterLeft, myCrewGroup.getGreyWaterOutputFlowrate(i));
-			distributedGreyWaterLeft -= myGreyWaterOutputs[i].add(greyWaterToDistribute);
-		}
+		foodConsumed = myCrewGroup.getResourceFromStore(myCrewGroup.getFoodInputs(), myCrewGroup.getFoodInputFlowrates(), foodNeeded);
+		cleanWaterConsumed = myCrewGroup.getResourceFromStore(myCrewGroup.getPotableWaterInputs(), myCrewGroup.getPotableWaterInputFlowrates(), potableWaterNeeded);
+		float distributedDirtyWaterLeft = myCrewGroup.pushResourceToStore(myCrewGroup.getDirtyWaterOutputs(), myCrewGroup.getDirtyWaterOutputFlowrates(), dirtyWaterProduced);
+		float distributedGreyWaterLeft = myCrewGroup.pushResourceToStore(myCrewGroup.getGreyWaterOutputs(), myCrewGroup.getGreyWaterOutputFlowrates(), greyWaterProduced);
+	
+		SimEnvironment[] myAirInputs = myCrewGroup.getAirInputs();
+		SimEnvironment[] myAirOutputs = myCrewGroup.getAirOutputs();
 		if (myAirInputs.length < 1){
 			airRetrieved.O2 = 0;
 			airRetrieved.CO2 = 0;
