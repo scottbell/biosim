@@ -21,9 +21,9 @@ public class Rice extends Erectophile{
 		canopyQYConstants[6] = 0.036186f;
 		canopyQYConstants[7] = 0.000061457f;
 		canopyQYConstants[8] = -0.000000024322f;
-		canopyQYConstants[11] = -0.0000000091477f;
-		canopyQYConstants[17] = 0.000000000003889f;
-		canopyQYConstants[18] = -0.0000000026712f;
+		canopyQYConstants[12] = -0.0000000091477f;
+		canopyQYConstants[13] = 0.000000000003889f;
+		canopyQYConstants[16] = -0.0000000026712f;
 	}
 
 	public PlantType getPlantType(){
@@ -31,7 +31,7 @@ public class Rice extends Erectophile{
 	}
 	
 	protected float getConstantPPF(){
-		return 33000000f;
+		return 381.944f;
 	}
 	
 	protected float getCarbonUseEfficiency24(){
@@ -55,7 +55,7 @@ public class Rice extends Erectophile{
 	}
 
 	protected float getCQYMin(){
-		return .001f;
+		return 0.01f;
 	}
 
 	protected float getTimeAtCanopySenescence(){

@@ -30,10 +30,10 @@ public abstract class Planophile extends PlantImpl{
 		float temperature = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0].getTemperature();
 		float vaporPressureDeficit = calculateVaporPressureDeficit();
 		float netCanopyPhotosynthesis = calculateNetCanopyPhotosynthesis();
-		System.out.println("Planophile: temperature: "+temperature);
-		System.out.println("Planophile: vaporPressureDeficit: "+vaporPressureDeficit);
-		System.out.println("Planophile: CO2Concentration: "+getAverageCO2Concentration());
-		System.out.println("Planophile: netCanopyPhotosynthesis: "+netCanopyPhotosynthesis);
+		//System.out.println("Planophile: temperature: "+temperature);
+		//System.out.println("Planophile: vaporPressureDeficit: "+vaporPressureDeficit);
+		//System.out.println("Planophile: CO2Concentration: "+getAverageCO2Concentration());
+		//System.out.println("Planophile: netCanopyPhotosynthesis: "+netCanopyPhotosynthesis);
 		return (1.717f * temperature - 19.96f - 10.54f * vaporPressureDeficit) * (netCanopyPhotosynthesis / getAverageCO2Concentration());
 	}
 	

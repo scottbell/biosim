@@ -29,7 +29,7 @@ public class DryBean extends Legume{
 	}
 
 	protected float getConstantPPF(){
-		return 24000000f;
+		return 277.77f;
 	}
 
 	protected float getBCF(){

@@ -29,7 +29,7 @@ public class Wheat extends Erectophile{
 	}
 	
 	protected float getConstantPPF(){
-		return 115f;
+		return 1331f;
 	}
 	
 	protected float getCarbonUseEfficiency24(){
@@ -53,7 +53,7 @@ public class Wheat extends Erectophile{
 	}
 
 	protected float getCQYMin(){
-		return .001f;
+		return 0.01f;
 	}
 
 	protected float getTimeAtCanopySenescence(){
