@@ -40,7 +40,7 @@ public class BiosimEditor {
         ResourceLoader.addResourceExtension("png");
         ResourceLoader.addResourceLocation("/org/tigris/gef/Images");
         ResourceLoader
-                .addResourceLocation("/com/traclabs/biosim/server/editor");
+                .addResourceLocation("/com/traclabs/biosim/editor");
 
         // Create and display the main window.
         VesprFrame frame = new VesprFrame("Biosim Editor");
