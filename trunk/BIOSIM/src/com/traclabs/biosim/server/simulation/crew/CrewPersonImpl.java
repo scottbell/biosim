@@ -20,7 +20,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	}
 
 	public void setCurrentActivity(org.omg.CORBA.Object pActivity){
-		//myCurrentActivity = BioSimUtilsImpl.corbaObjToPoa(pActivity);
+		myCurrentActivity = (ActivityImpl)(BioSimUtilsImpl.corbaObjToPoa(pActivity));
 	}
 
 	public String toString(){

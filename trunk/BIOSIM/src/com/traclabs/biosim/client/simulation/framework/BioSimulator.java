@@ -58,8 +58,11 @@ public class BioSimulator implements Runnable
 		System.out.println("Actually added "+actuallyAdded+" liters of dirty water");
 		System.out.println("Dirty water levels at: "+myDirtyWater.getWaterLevel());
 		CrewGroup myCrew = (CrewGroup)(getBioModule(crewName));
+		CrewPerson myCrewPerson = CrewPersonHelper.narrow(myCrew.createCrewPerson("Bob Roberts"));
 		Activity sleeping = ActivityHelper.narrow(myCrew.getScheduledActivityByName("sleeping"));
-		System.out.println("This activity is: "+sleeping.getName()+" for "+sleeping.getTimeLength());
+		myCrewPerson.setCurrentActivity(sleeping);
+		Activity currentActivity = ActivityHelper.narrow(myCrewPerson.getCurrentActivity());
+		System.out.println(myCrewPerson.getName()+" is "+currentActivity.getName()+" for "+currentActivity.getTimeLength()+" hours");
 		for (int i = 0; i < 10; i ++){
 			tick();
 		}
