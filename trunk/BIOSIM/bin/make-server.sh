@@ -60,9 +60,9 @@ then
 fi
 relativeIDLDir="/src/biosim/idl/biosim.idl"
 fullIDLDir=$devRootDir$relativeIDLDir
-echo "			-generating skeletons"
+echo "			-generating skeletons/stubs"
 idlInvocation="$java_command -classpath $JACORB_HOME/lib/idl.jar org.jacorb.idl.parser"
-$idlInvocation  -nostub -d $skeletonDir $fullIDLDir
+$idlInvocation -d $skeletonDir $fullIDLDir
 #######################
 #		SERVER COMPILATION	#
 #######################
@@ -73,22 +73,22 @@ serverDir="$devRootDir/src/biosim/server"
 sourceDir="$devRootDir/src"
 jacoClasspath="$JACORB_HOME/lib/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME/lib"
 compilationInvocation="$javac_command -d $serverClassesDir -classpath $skeletonDir$separator$serverClassesDir$separator$sourceDir$separator$jacoClasspath"
-echo "			-compiling skeletons"
-echo "				-compiling air skeletons"
+echo "			-compiling skeletons/stubs"
+echo "				-compiling air skeletons/stubs"
 $compilationInvocation $simSkeletonDir/idl/air/*.java
-echo "				-compiling water skeletons"
+echo "				-compiling water skeletons/stubs"
 $compilationInvocation $simSkeletonDir/idl/water/*.java
-echo "				-compiling power skeletons"
+echo "				-compiling power skeletons/stubs"
 $compilationInvocation $simSkeletonDir/idl/power/*.java
-echo "				-compiling crew skeletons"
+echo "				-compiling crew skeletons/stubs"
 $compilationInvocation $simSkeletonDir/idl/crew/*.java
-echo "				-compiling food skeletons"
+echo "				-compiling food skeletons/stubs"
 $compilationInvocation $simSkeletonDir/idl/food/*.java
-echo "				-compiling environment skeletons"
+echo "				-compiling environment skeletons/stubs"
 $compilationInvocation $simSkeletonDir/idl/environment/*.java
-echo "				-compiling framework skeletons"
+echo "				-compiling framework skeletons/stubs"
 $compilationInvocation $simSkeletonDir/idl/framework/*.java
-echo "				-compiling util skeletons"
+echo "				-compiling util skeletons/stubs"
 $compilationInvocation $simSkeletonDir/idl/util/*.java
 echo "			-compiling implementations"
 echo "				-compiling air implementation"
