@@ -26,16 +26,19 @@ import biosim.server.util.log.*;
 public class BiosimServer extends GenericServer{
 	/**
 	* Instantiates the server and binds it to the name server.
-	* @param args aren't used for anything
+	* @param args first element can be an ID to assign to this instance
 	*/
-
 	public static void main(String args[]) {
 		BiosimServer myServer = new BiosimServer();
 		int id = myServer.getIDfromArgs(args);
 		myServer.createServers(id);
 		myServer.runServer("BiosimServer"+id);
 	}
-
+	
+	/**
+	* Instantiates the server and binds it to the name server.
+	* @param id The ID this instance of BioSim will use.
+	*/
 	public void createServers(int id){
 		// create servants and register them with ORB
 		SimEnvironmentImpl myCrewEnvironmentImpl = new SimEnvironmentImpl(id, "CrewEnvironment");
