@@ -46,7 +46,7 @@ import biosim.idl.simulation.framework.*;
  To run:
  1)run run-nameserver.sh
  2)run run-server.sh
- 3)java -classpath .:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/lib/jacorb:$BIOSIM_HOME/generated/client/classes -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton -DORBInitRef.NameService=file:$BIOSIM_HOME/generated/ns/ior.txt HandController
+ 3)java -classpath .:$BIOSIM_HOME/resources:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/lib/jacorb:$BIOSIM_HOME/generated/client/classes:$BIOSIM_HOME/lib/xerces/xmlParserAPIs.jar:$BIOSIM_HOME/lib/xerces/xml-apis.jar:$BIOSIM_HOME/lib/xerces/xercesImpl.jar -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton -DORBInitRef.NameService=file:$BIOSIM_HOME/generated/ns/ior.txt HandController
  (all the above on one line)
  
  -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB - overriding Sun's default ORB (using Jacorb instead)
@@ -97,6 +97,7 @@ public class HandController{
 
 	public void runSim(){
 		GenericActuator currentActuator;
+		int i;
 
 		try { 	fw = new FileWriter(OutFile) ; }
 		catch (IOException e) {}
@@ -144,8 +145,11 @@ public class HandController{
 		//		PlantCO2Level = ((GenericSensor)(BioHolder.getBioModule(BioHolder.myPlantEnvironmentCO2AirConcentrationSensorName))).getValue(); ;
 		while (!myCrew.isDead()) {
 			// advance 10 ticks
-			//for (int i=0;i<10; i++)
-			myBioDriver.advanceOneTick();
+
+			for (i=0;i<10; i++) 
+				myBioDriver.advanceOneTick();
+
+			
 			// collect data on the states, using the sensors
 			System.out.println("Checking Sensors...");
 			setSimState();
@@ -222,9 +226,11 @@ public class HandController{
 		System.out.println("Oxygen..."+currentSensor.getValue()+"..."+SimState.get("oxygen"));
 
 		fileoutput += currentSensor.getValue()+"   ";
+
 		
 		CO2Store myCO2Store = (CO2Store)myBioHolder.theCO2Stores.get(0);
 		currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theCO2StoreLevelSensors, myCO2Store));
+
 		if (currentSensor.getValue() < CO2StoreLowLevel)
 			SimState.put("carbondioxyide", "low");
 		else if (currentSensor.getValue() > CO2StoreHighLevel)
@@ -233,10 +239,12 @@ public class HandController{
 		System.out.println("Carbon Dioxide..."+currentSensor.getValue()+"..."+SimState.get("carbondioxide"));
 
 		fileoutput += currentSensor.getValue()+"   ";
+
 		
 		H2Store myH2Store = (H2Store)myBioHolder.theH2Stores.get(0);
 		currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theH2StoreLevelSensors, myH2Store));
 		System.out.println("Hydrogen..."+currentSensor.getValue()+"..."+SimState.get("hydrogen"));
+
 
 		if (currentSensor.getValue() < H2StoreLowLevel)
 			SimState.put("hydrogen", "low");
@@ -327,8 +335,10 @@ public class HandController{
 			currentActuator.setValue(5);
 			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.thePotableWaterInFlowRateActuators, myBiomassRS));
 			currentActuator.setValue(10);
+
 			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.thePowerInFlowRateActuators, myFoodProcessor));
 			currentActuator.setValue(0);
+
 		}
 		if (SimState.get("food") == "low" ) {
 			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.thePowerInFlowRateActuators, myFoodProcessor));
@@ -365,6 +375,7 @@ public class HandController{
 			//turn off CRS
 			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theCO2InFlowRateActuators, myAirRS));
 			currentActuator.setValue(0f);
+
 		}
 		if (SimState.get("hydrogen") == "low") {
 			//turn off CRS
@@ -372,13 +383,16 @@ public class HandController{
 			currentActuator.setValue(0f);
 
 		}
+	
 		if (SimState.get("hydrogen") == "high") {
 			// OGS off
 			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.thePotableWaterInFlowRateActuators, myAirRS));
 			currentActuator.setValue(0f);
 
 		}
+
 		doAccumulatorsInjectors();
+		doPlants(); 
 	}
 
 	private void doAccumulatorsInjectors() {
@@ -451,6 +465,26 @@ public class HandController{
 		currentActuator.setValue((float)(signal));
 		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theCO2AirStoreInFlowRateActuators, myInjector));
 		currentActuator.setValue((float)(signal));
+	}
+	
+	private void doPlants() { 
+		GenericSensor harvestSensor; 
+		GenericActuator plantActuator;
+		BiomassRS myBiomassRS = (BiomassRS)(myBioHolder.theBiomassRSModules.get(0));  
+		PlantingActuator currentActuator = PlantingActuatorHelper.narrow((myBioHolder.getActuatorAttachedTo(myBioHolder.thePlantingActuators, myBiomassRS)));
+
+		int i; 
+		for (i=0;i<myBioHolder.theHarvestSensors.size();i++) {
+			harvestSensor = (GenericSensor)myBioHolder.theHarvestSensors.get(i); 
+			System.out.println("Reporting Harvest Sensor "+i+ " : "+harvestSensor.getValue());
+			
+		}
+		
+		harvestSensor = HarvestSensorHelper.narrow((myBioHolder.getSensorAttachedTo(myBioHolder.theHarvestSensors, myBiomassRS.getShelf(0))));
+
+		System.out.println(" Harvest Sensor "+harvestSensor.getValue());
+		
+		
 	}
 }
 
