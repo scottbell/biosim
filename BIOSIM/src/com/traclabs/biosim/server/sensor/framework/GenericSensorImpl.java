@@ -18,8 +18,14 @@ public abstract class GenericSensorImpl extends BioModuleImpl implements Generic
 	}
 	
 	public void tick(){
-		gatherData();
-		notifyListeners();
+		try{
+			gatherData();
+			notifyListeners();
+		}
+		catch (Exception e){
+			System.out.println(getModuleName()+" had an exception: "+e);
+			e.printStackTrace();
+		}
 	}
 	
 	/**
