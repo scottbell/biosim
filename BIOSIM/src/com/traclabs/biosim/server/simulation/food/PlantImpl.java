@@ -195,7 +195,8 @@ public abstract class PlantImpl extends PlantPOA{
 		myTotalPPF += pPPF;
 		myNumberOfPPFReadings++;
 		myAveragePPF = myTotalPPF / myNumberOfPPFReadings;
-		addAndTrimCanopyClosureList(pPPF, myCanopyClosurePPFValues, getInitialPPFValue());
+		if (!canopyClosed)
+			addAndTrimCanopyClosureList(pPPF, myCanopyClosurePPFValues, getInitialPPFValue());
 	}
 
 	/**
@@ -208,20 +209,20 @@ public abstract class PlantImpl extends PlantPOA{
 			//are we bigger than tA? trim some values
 			if (pList.size() > (canopyClosureInHours)){
 				int numberToRemove = pList.size() - (int)canopyClosureInHours;
-				System.out.println("Trimming Canopy Closure by "+numberToRemove+" items, tA = "+canopyClosureInHours+" while size is "+pList.size());
+				//System.out.println("Trimming Canopy Closure by "+numberToRemove+" items, tA = "+canopyClosureInHours+" while size is "+pList.size());
 				for (int i = 0; i < numberToRemove; i++)
 					pList.remove(pList.size() - 1);
 			}
 			//are we smaller than tA? then add some values
 			else if (pList.size() < (canopyClosureInHours)){
 				int numberToAdd = (int)canopyClosureInHours - pList.size();
-				System.out.println("Adding filler "+numberToAdd+" Canopy Closure items, tA = "+canopyClosureInHours+" while size is "+pList.size());
+				//System.out.println("Adding filler "+numberToAdd+" Canopy Closure items, tA = "+canopyClosureInHours+" while size is "+pList.size());
 				for (int i = 0; i < numberToAdd; i++)
 					pList.add(new Float(fillerValue));
 			}
 		}
 		//add
-		System.out.println("Inserting value "+pValueToInsert+" at index (age) "+myAge);
+		//System.out.println("Inserting value "+pValueToInsert+" at index (age) "+myAge);
 		pList.add(myAge, new Float(pValueToInsert));
 		//get rid of last value
 		pList.remove(pList.size() - 1);
@@ -368,9 +369,13 @@ public abstract class PlantImpl extends PlantPOA{
 		myLastEdibleWetBiomass = myCurrentEdibleWetBiomass;
 		calculateAverageCO2Concentration();
 		if (!canopyClosed){
-			myTimeTillCanopyClosure = calculateTimeTillCanopyClosure();
-			if (getDaysOfGrowth() >= myTimeTillCanopyClosure)
+			//System.out.println("getDaysOfGrowth() = "+getDaysOfGrowth()+" and myTimeTillCanopyClosure = "+myTimeTillCanopyClosure);
+			if ((getDaysOfGrowth() >= myTimeTillCanopyClosure) && (myAge > 1)){
 				canopyClosed = true;
+				//System.out.println("canopy closed");
+			}
+			else
+				myTimeTillCanopyClosure = calculateTimeTillCanopyClosure();
 		}
 		calculatePPFFractionAbsorbed();
 
@@ -544,7 +549,8 @@ public abstract class PlantImpl extends PlantPOA{
 		//System.out.println("PlantImpl: CO2Moles: "+CO2Moles);
 		//System.out.println("PlantImpl: airMoles: "+airMoles);
 		float CO2_Concentration = (CO2Moles / airMoles);
-		addAndTrimCanopyClosureList(CO2_Concentration, myCanopyClosureCO2Values, getInitialCO2Value());
+		if (!canopyClosed)
+			addAndTrimCanopyClosureList(CO2_Concentration, myCanopyClosureCO2Values, getInitialCO2Value());
 		myTotalCO2Concentration += CO2_Concentration;
 		myNumberOfCO2ConcentrationReadings ++;
 		myAverageCO2Concentration = myTotalCO2Concentration / myNumberOfCO2ConcentrationReadings;
@@ -568,7 +574,7 @@ public abstract class PlantImpl extends PlantPOA{
 			Float currentFloat = (Float)(iter.next());
 			total += currentFloat.floatValue();
 		}
-		System.out.println("getAverageForList returning "+(total / pList.size()));
+		//System.out.println("getAverageForList returning "+(total / pList.size()));
 		return total / pList.size();
 	}
 
