@@ -136,7 +136,7 @@ module biosim{
                                 float other;
                         };
                 };
-
+		
                 module food{
                         interface BiomassRS : framework::BioModule{
                                 float getPowerConsumed();
