@@ -16,7 +16,6 @@ public class EVAActivityImpl extends EVAActivityPOA{
     private String myBaseCrewGroupName;
 
     private String myEVACrewGroupName;
-
     
 //  The name of this activity
     private String myName = "unknown";

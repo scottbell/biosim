@@ -112,12 +112,17 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     private float[] airOutActualFlowRates;
 
     private float[] airOutDesiredFlowRates;
+    
+    private List crewScheduledForRemoval;
+    private List crewScheduledForAddition;
 
     /**
      * Default constructor. Uses a default schedule.
      */
     public CrewGroupImpl(int pID, String pName) {
         super(pID, pName);
+        crewScheduledForRemoval = new Vector();
+        crewScheduledForAddition = new Vector();
         crewPeople = new Hashtable();
         myRandom = new Random();
         myFoodStores = new FoodStore[0];
@@ -298,7 +303,18 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
             CrewPerson tempPerson = (CrewPerson) (iter.next());
             tempPerson.tick();
         }
-
+        //Add those scheduled
+        for (Iterator iter = crewScheduledForAddition.iterator(); iter.hasNext();){
+            CrewPerson crewPersonToAdd = (CrewPerson)(iter.next());
+            crewPeople.put(crewPersonToAdd.getName(), crewPersonToAdd);
+        }
+        crewScheduledForAddition.clear();
+        //Remove those scheduled
+        for (Iterator iter = crewScheduledForRemoval.iterator(); iter.hasNext();){
+            String crewPersonNameToRemove = (String)(iter.next());
+            crewPeople.remove(crewPersonNameToRemove);
+        }
+        crewScheduledForRemoval.clear();
     }
 
     protected void performMalfunctions() {
@@ -752,10 +768,10 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     }
 
     public void detachCrewPerson(String name) {
-        crewPeople.remove(name);
+        crewScheduledForRemoval.add(name);
     }
     
     public void attachCrewPerson(CrewPerson pCrewPerson) {
-        crewPeople.put(pCrewPerson.getName(),pCrewPerson);
+        crewScheduledForAddition.add(pCrewPerson);
     }
 }

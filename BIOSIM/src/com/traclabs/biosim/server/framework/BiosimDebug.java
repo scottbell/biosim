@@ -23,7 +23,7 @@ public class BiosimDebug {
 
     private Thread waitThread;
 
-    private static final String XML_INIT_FILENAME = "com/traclabs/biosim/server/framework/LunarInit5.xml";
+    private static final String XML_INIT_FILENAME = "com/traclabs/biosim/server/framework/LunarInit.xml";
 
     private static final int NAMESERVER_PORT = 16309;
 
