@@ -14,10 +14,12 @@ public class MalfunctionPanel extends TimedPanel
 {
 	private Hashtable myMalfunctionVariables;
 	private JList moduleList;
+	private JList currentMalfunctionList;
 	private JComboBox lengthComboBox;
 	private JComboBox severityComboBox;
 	private JPanel myModulePanel;
 	private JPanel myOperatorPanel;
+	private JPanel myCurrentMalfunctionsPanel;
 	/**
 	 * Default constructor.
 	 */
@@ -39,8 +41,8 @@ public class MalfunctionPanel extends TimedPanel
 		createOperatorPanel();
 		createCurrentMalfunctionsPanel();
 		
-		c.fill = GridBagConstraints.NONE;
-		c.gridheight = 1;
+		c.fill = GridBagConstraints.BOTH;
+		c.gridheight = 2;
 		c.weightx = 1.0;
 		c.weighty = 1.0;
 		c.gridx = 1;
@@ -48,12 +50,16 @@ public class MalfunctionPanel extends TimedPanel
 		c.gridwidth = 1;
 		gridbag.setConstraints(myModulePanel, c);
 		add(myModulePanel);
+		c.gridheight = 1;
 		c.gridx = 2;
 		c.gridwidth = GridBagConstraints.REMAINDER;
 		c.weightx = 0.1;
 		c.weighty = 0.1;
 		gridbag.setConstraints(myOperatorPanel, c);
 		add(myOperatorPanel);
+		c.gridy = 2;
+		gridbag.setConstraints(myCurrentMalfunctionsPanel, c);
+		add(myCurrentMalfunctionsPanel);
 	}
 	
 	private void createModuleSelectPanel(){
@@ -80,7 +86,7 @@ public class MalfunctionPanel extends TimedPanel
 		String[] severityStrings = {"Severe", "Medium", "Low"};
 		severityComboBox = new JComboBox(severityStrings);
 		JButton clearMalfunctionButton = new JButton(new ClearMalfunctionAction());
-		clearMalfunctionButton.setText("Clear All Malfunctions");
+		clearMalfunctionButton.setText("Clear All");
 		c.fill = GridBagConstraints.BOTH;
 		c.gridheight = 1;
 		c.weightx = 1.0;
@@ -106,6 +112,16 @@ public class MalfunctionPanel extends TimedPanel
 	}
 	
 	private void createCurrentMalfunctionsPanel(){
+		myCurrentMalfunctionsPanel = new JPanel();
+		myCurrentMalfunctionsPanel.setBorder(BorderFactory.createTitledBorder("Current Malfunctions"));
+		myCurrentMalfunctionsPanel.setLayout(new BorderLayout());
+		String[] dummyList = {"None1", "None2", "None3"};
+		currentMalfunctionList = new JList(dummyList);
+		myCurrentMalfunctionsPanel.add(currentMalfunctionList, BorderLayout.CENTER);
+		JButton deleteButton = new JButton(new DeleteMalfunctionAction());
+		deleteButton.setText("Delete");
+		myCurrentMalfunctionsPanel.add(deleteButton, BorderLayout.EAST);
+		
 	}
 	
 	public static void main(String[] args){
@@ -119,6 +135,12 @@ public class MalfunctionPanel extends TimedPanel
 	private class ClearMalfunctionAction extends AbstractAction{
 		public void actionPerformed(ActionEvent ae){
 			System.out.println("ClearMalfunctionAction button was pressed");
+		}
+	}
+	
+	private class DeleteMalfunctionAction extends AbstractAction{
+		public void actionPerformed(ActionEvent ae){
+			System.out.println("DeleteMalfunctionAction button was pressed");
 		}
 	}
 	
