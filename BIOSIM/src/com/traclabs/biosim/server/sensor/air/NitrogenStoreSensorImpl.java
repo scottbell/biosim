@@ -5,29 +5,31 @@ import com.traclabs.biosim.idl.sensor.air.NitrogenStoreSensorOperations;
 import com.traclabs.biosim.idl.simulation.air.NitrogenStore;
 import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
-public abstract class NitrogenStoreSensorImpl extends GenericSensorImpl implements NitrogenStoreSensorOperations{
-	private NitrogenStore myNitrogenStore;
-	
-	public NitrogenStoreSensorImpl(int pID, String pName){
-		super(pID, pName);
-	}
+public abstract class NitrogenStoreSensorImpl extends GenericSensorImpl
+        implements NitrogenStoreSensorOperations {
+    private NitrogenStore myNitrogenStore;
 
-	protected abstract void gatherData();
-	protected abstract void notifyListeners();
+    public NitrogenStoreSensorImpl(int pID, String pName) {
+        super(pID, pName);
+    }
 
-	public void setInput(NitrogenStore source){
-		myNitrogenStore = source;
-	}
-	
-	public NitrogenStore getInput(){
-		return myNitrogenStore;
-	}
-	
-	public float getMax(){
-		return myNitrogenStore.getCapacity();
-	}
-	
-	public BioModule getInputModule(){
-		return (BioModule)(getInput());
-	}
+    protected abstract void gatherData();
+
+    protected abstract void notifyListeners();
+
+    public void setInput(NitrogenStore source) {
+        myNitrogenStore = source;
+    }
+
+    public NitrogenStore getInput() {
+        return myNitrogenStore;
+    }
+
+    public float getMax() {
+        return myNitrogenStore.getCapacity();
+    }
+
+    public BioModule getInputModule() {
+        return (BioModule) (getInput());
+    }
 }

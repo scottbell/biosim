@@ -5,29 +5,31 @@ import com.traclabs.biosim.idl.sensor.water.PotableWaterStoreSensorOperations;
 import com.traclabs.biosim.idl.simulation.water.PotableWaterStore;
 import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
-public abstract class PotableWaterStoreSensorImpl extends GenericSensorImpl implements PotableWaterStoreSensorOperations{
-	protected PotableWaterStore myPotableWaterStore;
-	
-	public PotableWaterStoreSensorImpl(int pID, String pName){
-		super(pID, pName);
-	}
+public abstract class PotableWaterStoreSensorImpl extends GenericSensorImpl
+        implements PotableWaterStoreSensorOperations {
+    protected PotableWaterStore myPotableWaterStore;
 
-	protected abstract void gatherData();
-	protected abstract void notifyListeners();
+    public PotableWaterStoreSensorImpl(int pID, String pName) {
+        super(pID, pName);
+    }
 
-	public void setInput(PotableWaterStore source){
-		myPotableWaterStore = source;
-	}
-	
-	public PotableWaterStore getInput(){
-		return myPotableWaterStore;
-	}
-	
-	public float getMax(){
-		return myPotableWaterStore.getCapacity();
-	}
-	
-	public BioModule getInputModule(){
-		return (BioModule)(getInput());
-	}
+    protected abstract void gatherData();
+
+    protected abstract void notifyListeners();
+
+    public void setInput(PotableWaterStore source) {
+        myPotableWaterStore = source;
+    }
+
+    public PotableWaterStore getInput() {
+        return myPotableWaterStore;
+    }
+
+    public float getMax() {
+        return myPotableWaterStore.getCapacity();
+    }
+
+    public BioModule getInputModule() {
+        return (BioModule) (getInput());
+    }
 }

@@ -2,21 +2,27 @@ package com.traclabs.biosim.server.simulation.air;
 
 import com.traclabs.biosim.idl.simulation.air.O2StorePOATie;
 import com.traclabs.biosim.server.framework.GenericServer;
+
 /**
- * The O2 Store Server.  Creates an instance of the O2Store and registers it with the nameserver.
- *
- * @author    Scott Bell
+ * The O2 Store Server. Creates an instance of the O2Store and registers it with
+ * the nameserver.
+ * 
+ * @author Scott Bell
  */
-public class O2StoreServer extends GenericServer{
-	
-	/**
-	* Instantiates the server and binds it to the name server.
-	* @param args aren't used for anything
-	*/
-	public static void main(String args[]) {
-		O2StoreServer myServer = new O2StoreServer();
-		O2StoreImpl myO2Store = new O2StoreImpl(GenericServer.getIDfromArgs(args), GenericServer.getNamefromArgs(args));
-		myServer.registerServerAndRun(new O2StorePOATie(myO2Store), myO2Store.getModuleName(), myO2Store.getID());
-	}
+public class O2StoreServer extends GenericServer {
+
+    /**
+     * Instantiates the server and binds it to the name server.
+     * 
+     * @param args
+     *            aren't used for anything
+     */
+    public static void main(String args[]) {
+        O2StoreServer myServer = new O2StoreServer();
+        O2StoreImpl myO2Store = new O2StoreImpl(GenericServer
+                .getIDfromArgs(args), GenericServer.getNamefromArgs(args));
+        myServer.registerServerAndRun(new O2StorePOATie(myO2Store), myO2Store
+                .getModuleName(), myO2Store.getID());
+    }
 }
 

@@ -5,41 +5,43 @@ import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.framework.CO2Producer;
 import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
 
-public class CO2OutFlowRateActuatorImpl extends GenericActuatorImpl implements CO2OutFlowRateActuatorOperations{
-	private CO2Producer myProducer;
-	private int myIndex;
-	
-	public CO2OutFlowRateActuatorImpl(int pID, String pName){
-		super(pID, pName);
-	}
+public class CO2OutFlowRateActuatorImpl extends GenericActuatorImpl implements
+        CO2OutFlowRateActuatorOperations {
+    private CO2Producer myProducer;
 
-	protected void processData(){
-		float myFilteredValue = randomFilter(myValue);
-		getOutput().setCO2OutputDesiredFlowRate(myFilteredValue, myIndex);
-	}
-	
-	protected void notifyListeners(){
-		//does nothing right now
-	}
+    private int myIndex;
 
-	public void setOutput(CO2Producer pProducer, int pIndex){
-		myProducer = pProducer;
-		myIndex = pIndex;
-	}
-	
-	public BioModule getOutputModule(){
-		return (BioModule)(myProducer);
-	}
-	
-	public CO2Producer getOutput(){
-		return myProducer;
-	}
-	
-	public int getIndex(){
-		return myIndex;
-	}
-	
-	public float getMax(){
-		return myProducer.getCO2OutputMaxFlowRate(myIndex);
-	}
+    public CO2OutFlowRateActuatorImpl(int pID, String pName) {
+        super(pID, pName);
+    }
+
+    protected void processData() {
+        float myFilteredValue = randomFilter(myValue);
+        getOutput().setCO2OutputDesiredFlowRate(myFilteredValue, myIndex);
+    }
+
+    protected void notifyListeners() {
+        //does nothing right now
+    }
+
+    public void setOutput(CO2Producer pProducer, int pIndex) {
+        myProducer = pProducer;
+        myIndex = pIndex;
+    }
+
+    public BioModule getOutputModule() {
+        return (BioModule) (myProducer);
+    }
+
+    public CO2Producer getOutput() {
+        return myProducer;
+    }
+
+    public int getIndex() {
+        return myIndex;
+    }
+
+    public float getMax() {
+        return myProducer.getCO2OutputMaxFlowRate(myIndex);
+    }
 }

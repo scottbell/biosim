@@ -4,12 +4,11 @@ import javax.swing.JPanel;
 
 /**
  * 
- * @author    Scott Bell
+ * @author Scott Bell
  */
-public abstract class UpdatablePanel extends JPanel 
-{
-	public abstract void refresh();
+public abstract class UpdatablePanel extends JPanel {
+    public abstract void refresh();
 
-	public abstract void visibilityChange(boolean nowVisible);
+    public abstract void visibilityChange(boolean nowVisible);
 
 }

@@ -5,29 +5,31 @@ import com.traclabs.biosim.idl.sensor.power.PowerStoreSensorOperations;
 import com.traclabs.biosim.idl.simulation.power.PowerStore;
 import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
-public abstract class PowerStoreSensorImpl extends GenericSensorImpl implements PowerStoreSensorOperations{
-	protected PowerStore myPowerStore;
-	
-	public PowerStoreSensorImpl(int pID, String pName){
-		super(pID, pName);
-	}
+public abstract class PowerStoreSensorImpl extends GenericSensorImpl implements
+        PowerStoreSensorOperations {
+    protected PowerStore myPowerStore;
 
-	protected abstract void gatherData();
-	protected abstract void notifyListeners();
+    public PowerStoreSensorImpl(int pID, String pName) {
+        super(pID, pName);
+    }
 
-	public void setInput(PowerStore source){
-		myPowerStore = source;
-	}
-	
-	public PowerStore getInput(){
-		return myPowerStore;
-	}
-	
-	public float getMax(){
-		return myPowerStore.getCapacity();
-	}
-	
-	public BioModule getInputModule(){
-		return (BioModule)(getInput());
-	}
+    protected abstract void gatherData();
+
+    protected abstract void notifyListeners();
+
+    public void setInput(PowerStore source) {
+        myPowerStore = source;
+    }
+
+    public PowerStore getInput() {
+        return myPowerStore;
+    }
+
+    public float getMax() {
+        return myPowerStore.getCapacity();
+    }
+
+    public BioModule getInputModule() {
+        return (BioModule) (getInput());
+    }
 }

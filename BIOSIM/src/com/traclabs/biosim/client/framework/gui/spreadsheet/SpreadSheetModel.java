@@ -3,76 +3,90 @@ package com.traclabs.biosim.client.framework.gui.spreadsheet;
 import javax.swing.table.AbstractTableModel;
 
 /**
- * This class specifies the data format
- * for the SpreadSheet JTable
- *
+ * This class specifies the data format for the SpreadSheet JTable
+ * 
  * @version 1.0 July-2002
- * @author  Thierry Manfé
+ * @author Thierry Manfé
  */
 class SpreadSheetModel extends AbstractTableModel {
 
-	final private SpreadSheet _dpyTable;
+    final private SpreadSheet _dpyTable;
 
-	static Interpreter interpreter;
+    static Interpreter interpreter;
 
-	static final boolean DEBUG = false;
+    static final boolean DEBUG = false;
 
-	private int        _nbRow;
-	private int        _nbColumn;
+    private int _nbRow;
 
-	protected SheetCell[][] cells;
-	
-	private String[] myColumnNames;
+    private int _nbColumn;
 
-	/**
-	 * Create a nbRow by nbColumn SpreadSheetModel.
-	 *
-	 * @param cells[][] The cell array
-	 * @param table     The associated SpreadSheet
-	 */
-	SpreadSheetModel(SheetCell[][] cells, SpreadSheet table, String[] pColumnNames) {
-		_dpyTable   = table;
-		_nbRow      = cells.length;
-		_nbColumn   = cells[0].length;
-		myColumnNames = pColumnNames;
-		this.cells  = cells;
-		interpreter = new Interpreter(this);
-	}
+    protected SheetCell[][] cells;
 
-	private void clean() {
-		_nbRow  = _nbColumn = 0;
-		cells = null;
-	}
+    private String[] myColumnNames;
 
-	public int     getRowCount()    {return _nbRow;}
-	public int     getColumnCount() {return _nbColumn;}
+    /**
+     * Create a nbRow by nbColumn SpreadSheetModel.
+     * 
+     * @param cells[][]
+     *            The cell array
+     * @param table
+     *            The associated SpreadSheet
+     */
+    SpreadSheetModel(SheetCell[][] cells, SpreadSheet table,
+            String[] pColumnNames) {
+        _dpyTable = table;
+        _nbRow = cells.length;
+        _nbColumn = cells[0].length;
+        myColumnNames = pColumnNames;
+        this.cells = cells;
+        interpreter = new Interpreter(this);
+    }
 
-	public boolean isCellEditable(int row, int col) { return true; }
-	
-	public String getColumnName(int index) { 
-		return myColumnNames[index]; 
-	}
+    private void clean() {
+        _nbRow = _nbColumn = 0;
+        cells = null;
+    }
 
-	public Object  getValueAt(int row, int column) { return cells[row][column]; }
+    public int getRowCount() {
+        return _nbRow;
+    }
 
-	/**
-	 * Mark the corresponding cell
-	 * as being edited. Its formula
-	 * must be displayed instead of 
-	 * its result
-	 */
-	void setEditMode(int row, int column)    { cells[row][column].state=SheetCell.EDITED; }
+    public int getColumnCount() {
+        return _nbColumn;
+    }
 
-	void setDisplayMode(int row, int column) { cells[row][column].state=SheetCell.UPDATED; }
+    public boolean isCellEditable(int row, int col) {
+        return true;
+    }
 
-	public void setValueAt(Object value, int row, int column) {
+    public String getColumnName(int index) {
+        return myColumnNames[index];
+    }
 
-		String input = (String)value;
+    public Object getValueAt(int row, int column) {
+        return cells[row][column];
+    }
 
-		cells[row][column].formula = input;
-		cells[row][column].userUpdate();
-		_dpyTable.repaint();
+    /**
+     * Mark the corresponding cell as being edited. Its formula must be
+     * displayed instead of its result
+     */
+    void setEditMode(int row, int column) {
+        cells[row][column].state = SheetCell.EDITED;
+    }
 
-	}
+    void setDisplayMode(int row, int column) {
+        cells[row][column].state = SheetCell.UPDATED;
+    }
+
+    public void setValueAt(Object value, int row, int column) {
+
+        String input = (String) value;
+
+        cells[row][column].formula = input;
+        cells[row][column].userUpdate();
+        _dpyTable.repaint();
+
+    }
 
 }
