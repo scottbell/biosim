@@ -59,7 +59,7 @@ public abstract class PlantImpl extends PlantPOA{
 	private static final float HEAT_TILL_DEAD = 48f;
 	private static final float HEAT_RECOVERY_RATE=0.05f;
 	private static final float DANGEROUS_HEAT_LEVEL = 300000f;
-	private static final float LIGHT_TILL_DEAD = 1000f;
+	private static final float LIGHT_TILL_DEAD = 150f;
 	private static final float LIGHT_RECOVERY_RATE = 0.005f;
 	private float totalO2GramsProduced = 0f;
 	private float totalCO2GramsConsumed = 0f;
@@ -188,7 +188,7 @@ public abstract class PlantImpl extends PlantPOA{
 		//System.out.println("PlantImpl: before: water buffer at "+consumedWaterBuffer.getLevel()+" of "+consumedWaterBuffer.getCapacity());
 		//System.out.println("PlantImpl: before: light buffer at "+consumedLightBuffer.getLevel()+" of "+consumedLightBuffer.getCapacity());
 		consumedWaterBuffer.setCapacity(myAverageWaterNeeded * WATER_TILL_DEAD);
-		consumedLightBuffer.setCapacity(myAveragePPF * LIGHT_TILL_DEAD);
+		consumedLightBuffer.setCapacity(getPPFNeeded() * LIGHT_TILL_DEAD);
 		
 		//System.out.println("PlantImpl: after asked for "+myWaterNeeded+" and got "+myWaterLevel+", water buffer at "+consumedWaterBuffer.getLevel()+" of "+consumedWaterBuffer.getCapacity()+" and going to take "+(myWaterNeeded - myWaterLevel));
 		//System.out.println("PlantImpl: after asked for "+getPPFNeeded()+" and got "+myAveragePPF+", light buffer at "+consumedLightBuffer.getLevel()+" of "+consumedLightBuffer.getCapacity()+" and going to take "+(getPPFNeeded() - myAveragePPF));
