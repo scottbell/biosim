@@ -26,6 +26,7 @@ module biosim{
 				void fixMalfunction(in long id);
 				void fixAllMalfunctions();
 				boolean isMalfunctioning();
+				StringList getMalfunctionNames();
                         };
 			
                         interface Store : BioModule{

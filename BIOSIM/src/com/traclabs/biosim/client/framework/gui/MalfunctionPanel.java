@@ -16,7 +16,7 @@ public class MalfunctionPanel extends TimedPanel
 	private JList moduleList;
 	private JList currentMalfunctionList;
 	private JComboBox lengthComboBox;
-	private JComboBox severityComboBox;
+	private JComboBox intensityComboBox;
 	private JPanel myModulePanel;
 	private JPanel myOperatorPanel;
 	private JPanel myCurrentMalfunctionsPanel;
@@ -30,6 +30,12 @@ public class MalfunctionPanel extends TimedPanel
 	}
 	
 	public void refresh(){
+		BioModule myModule = getSelectedModule();
+		if (myModule == null)
+			return;
+		else{
+			currentMalfunctionList.setListData(myModule.getMalfunctionNames());
+		}
 	}
 
 	protected void buildGui(){
@@ -82,9 +88,9 @@ public class MalfunctionPanel extends TimedPanel
 		JLabel lengthLabel = new JLabel("Length");
 		String[] lengthStrings = {"Permanent", "Temporary"};
 		lengthComboBox = new JComboBox(lengthStrings);
-		JLabel severityLabel = new JLabel("Severity");
-		String[] severityStrings = {"Severe", "Medium", "Low"};
-		severityComboBox = new JComboBox(severityStrings);
+		JLabel intensityLabel = new JLabel("Intensity");
+		String[] intensityStrings = {"Severe", "Medium", "Low"};
+		intensityComboBox = new JComboBox(intensityStrings);
 		JButton fixAllMalfunctionButton = new JButton(new FixAllMalfunctionAction());
 		fixAllMalfunctionButton.setText("Fix All");
 		c.fill = GridBagConstraints.BOTH;
@@ -98,11 +104,11 @@ public class MalfunctionPanel extends TimedPanel
 		gridbag.setConstraints(lengthComboBox, c);
 		myOperatorPanel.add(lengthComboBox);
 		c.gridwidth = GridBagConstraints.RELATIVE;
-		gridbag.setConstraints(severityLabel, c);
-		myOperatorPanel.add(severityLabel);
+		gridbag.setConstraints(intensityLabel, c);
+		myOperatorPanel.add(intensityLabel);
 		c.gridwidth = GridBagConstraints.REMAINDER;
-		gridbag.setConstraints(severityComboBox, c);
-		myOperatorPanel.add(severityComboBox);
+		gridbag.setConstraints(intensityComboBox, c);
+		myOperatorPanel.add(intensityComboBox);
 		c.gridwidth = GridBagConstraints.RELATIVE;
 		gridbag.setConstraints(addMalfunctionButton, c);
 		myOperatorPanel.add(addMalfunctionButton);
@@ -129,17 +135,39 @@ public class MalfunctionPanel extends TimedPanel
 		myFrame.getContentPane().add(myMalfPanel);
 		myFrame.pack();
 		myFrame.setVisible(true);
+		myMalfPanel.setDelay(200);
+		myMalfPanel.visibilityChange(true);
 	}
 	
-	private BioModule getCurrentlySelectedModule(){
+	private BioModule getSelectedModule(){
 		String currentName = (String)(moduleList.getSelectedValue());
 		return (BioHolder.getBioModule(currentName));
+	}
+	
+	private MalfunctionIntensity getSelectedIntensity(){
+		String intensityString = (String)(intensityComboBox.getSelectedItem());
+		if (intensityString.equals("Severe"))
+			return MalfunctionIntensity.SEVERE_MALF;
+		else if (intensityString.equals("Medium"))
+			return MalfunctionIntensity.MEDIUM_MALF;
+		else if (intensityString.equals("Low"))
+			return MalfunctionIntensity.LOW_MALF;
+		else return null;
+	}
+	
+	private MalfunctionLength getSelectedLength(){
+		String lengthString = (String)(lengthComboBox.getSelectedItem());
+		if (lengthString.equals("Temporary"))
+			return MalfunctionLength.TEMPORARY_MALF;
+		else if (lengthString.equals("Permanent"))
+			return MalfunctionLength.PERMANENT_MALF;
+		else return null;
 	}
 	
 	private class FixAllMalfunctionAction extends AbstractAction{
 		public void actionPerformed(ActionEvent ae){
 			System.out.println("FixAllMalfunctionAction button was pressed");
-			BioModule myModule = getCurrentlySelectedModule();
+			BioModule myModule = getSelectedModule();
 			if (myModule == null)
 				return;
 			else
@@ -156,6 +184,14 @@ public class MalfunctionPanel extends TimedPanel
 	private class AddMalfunctionAction extends AbstractAction{
 		public void actionPerformed(ActionEvent ae){
 			System.out.println("AddMalfunctionAction button was pressed");
+			BioModule myModule = getSelectedModule();
+			MalfunctionIntensity myIntensity = getSelectedIntensity();
+			MalfunctionLength myLength = getSelectedLength();
+			if (myModule == null || myIntensity == null || myLength == null)
+				return;
+			else{
+				myModule.startMalfunction(myIntensity, myLength);
+			}
 		}
 	}
 }
