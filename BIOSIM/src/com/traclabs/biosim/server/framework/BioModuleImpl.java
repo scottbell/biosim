@@ -349,7 +349,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	protected void sendLog(LogNodeImpl logToProcess){
 		if (!collectedLogger){
 			try{
-				myLogger = LoggerHelper.narrow(OrbUtils.getNCRef().resolve_str("Logger"));
+				myLogger = LoggerHelper.narrow(OrbUtils.getNCRef().resolve_str("Logger"+myID));
 				collectedLogger = true;
 			}
 			catch (org.omg.CORBA.UserException e){

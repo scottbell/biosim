@@ -433,6 +433,7 @@ module biosim{
                                         LogHandlerTypeList getLogHandlerTypes();
                                         void addLogHandlerType(in LogHandlerType pLogType);
                                         void setProcessingLogs(in boolean pAllowLogging);
+					void endLog();
                                         boolean isProcessingLogs();
                                         string getName();
                                 };

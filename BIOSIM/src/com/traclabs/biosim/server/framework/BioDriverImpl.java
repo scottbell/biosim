@@ -791,6 +791,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		PowerStore myPowerStore = PowerStoreHelper.narrow(getBioModule(myPowerStoreName));
 		myPowerStore.setCapacity(10000f);
 		myPowerStore.setLevel(10000f);
+		
+		setSensorLogging(true);
 	}
 
 	private float pow(float a, float b){
@@ -1516,6 +1518,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myTickThread = null;
 		notify();
 		simulationStarted = false;
+		myLogger.endLog();
 		System.out.println("BioDriverImpl"+myID+": simulation ended");
 	}
 
