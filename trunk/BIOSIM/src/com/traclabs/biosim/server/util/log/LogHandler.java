@@ -6,6 +6,7 @@ import biosim.idl.util.*;
  * @author    Scott Bell
  */
 
-public abstract class LogHandler {
-	public abstract void writeLog(LogNode logToWrite);
+public interface LogHandler {
+	public void writeLog(LogNode logToWrite);
+	public void endLog();
 }

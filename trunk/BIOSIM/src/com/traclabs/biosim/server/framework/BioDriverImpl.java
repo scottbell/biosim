@@ -7,6 +7,7 @@ import biosim.idl.food.*;
 import biosim.idl.power.*;
 import biosim.idl.water.*;
 import biosim.idl.framework.*;
+import biosim.idl.util.*;
 import biosim.server.util.*;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
@@ -30,22 +31,22 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	private final static int DRIVER_PAUSED = 5;
 	
 	//Module Names
-	private final static  String crewName = "CrewGroup";
-	private final static  String powerPSName = "PowerPS";
-	private final static  String powerStoreName = "PowerStore";
-	private final static  String airRSName = "AirRS";
-	private final static  String CO2StoreName = "CO2Store";
-	private final static  String O2StoreName = "O2Store";
-	private final static  String biomassRSName = "BiomassRS";
-	private final static  String biomassStoreName = "BiomassStore";
-	private final static  String foodProcessorName = "FoodProcessor";
-	private final static  String foodStoreName = "FoodStore";
-	private final static  String waterRSName = "WaterRS";
-	private final static  String dirtyWaterStoreName = "DirtyWaterStore";
-	private final static  String potableWaterStoreName = "PotableWaterStore";
-	private final static  String greyWaterStoreName = "GreyWaterStore";
-	private final static  String simEnvironmentName = "SimEnvironment";
-	private final static  String bioModuleHarnessName = "BioModuleHarness";
+	private final static String crewName = "CrewGroup";
+	private final static String powerPSName = "PowerPS";
+	private final static String powerStoreName = "PowerStore";
+	private final static String airRSName = "AirRS";
+	private final static String CO2StoreName = "CO2Store";
+	private final static String O2StoreName = "O2Store";
+	private final static String biomassRSName = "BiomassRS";
+	private final static String biomassStoreName = "BiomassStore";
+	private final static String foodProcessorName = "FoodProcessor";
+	private final static String foodStoreName = "FoodStore";
+	private final static String waterRSName = "WaterRS";
+	private final static String dirtyWaterStoreName = "DirtyWaterStore";
+	private final static String potableWaterStoreName = "PotableWaterStore";
+	private final static String greyWaterStoreName = "GreyWaterStore";
+	private final static String simEnvironmentName = "SimEnvironment";
+	private final static String loggerName = "Logger";
 	//A hastable containing the server references
 	private Hashtable modules;
 	//A reference to the naming service
@@ -60,6 +61,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	private boolean useDefaultInitialization = false;
 	private boolean logging = false;
 	private SimEnvironment mySimEnvironment;
+	private Logger myLogger;
 	private boolean hasCollectedReferences = false;
 
 	/**
@@ -212,6 +214,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		notify();
 		simulationStarted = false;
 		System.out.println("BioDriverImpl: simulation ended");
+		myLogger.writeLog();
 	}
 
 	/**
@@ -254,6 +257,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			BioModule currentBioModule = (BioModule)(e.nextElement());
 			currentBioModule.setLogging(pLogSim);
 		}
+		myLogger.setProcessingLogs(pLogSim);
 	}
 
 	public boolean isLogging(){
@@ -372,6 +376,12 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		try{
 			WaterRS myWaterRS = WaterRSHelper.narrow(OrbUtils.getNCRef().resolve_str(waterRSName));
 			modules.put(waterRSName , myWaterRS);
+		}
+		catch (org.omg.CORBA.UserException e){
+			System.err.println("BioDriverImpl: Couldn't locate WaterRS, skipping...");
+		}
+		try{
+			myLogger = LoggerHelper.narrow(OrbUtils.getNCRef().resolve_str(loggerName));
 		}
 		catch (org.omg.CORBA.UserException e){
 			System.err.println("BioDriverImpl: Couldn't locate WaterRS, skipping...");

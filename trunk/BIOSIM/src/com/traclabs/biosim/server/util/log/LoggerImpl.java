@@ -54,6 +54,10 @@ public class LoggerImpl extends LoggerPOA  {
 		processingLogs = pAllowLogging;
 	}
 	
+	public void writeLog(){
+		myLogHandler.endLog();
+	}
+	
 	public boolean isProcessingLogs(){
 		return processingLogs;
 	}
