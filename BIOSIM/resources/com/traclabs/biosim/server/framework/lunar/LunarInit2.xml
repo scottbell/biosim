@@ -47,11 +47,11 @@
 				<malfunction occursAtTick="200" length="PERMANENT_MALF" intensity="MEDIUM_MALF"/>
 			</O2Store>
 			<O2Store name="EVAO2Store" capacity="800" level="800" resupplyAmount="800" resupplyFrequency="24"/>
-			<CO2Store name="BaseCO2Store" capacity="0" level="0"/>
+			<CO2Store name="BaseCO2Store" capacity="2000" level="2000"/>
 			<CO2Store name="EVACO2Store" capacity="10" level="10"/>
 			<H2Store name="BaseH2Store" capacity="1000" level="1000"/>
 			<H2Store name="EVAH2Store" capacity="10" level="10"/>
-			<NitrogenStore name="BaseNitrogenStore" capacity="5000" level="4000"/>
+			<NitrogenStore name="BaseNitrogenStore" capacity="5000" level="5000"/>
 			<NitrogenStore name="EVANitrogenStore" capacity="10" level="10"/>
 		</air>
 		<crew>
@@ -124,13 +124,13 @@
 			</CrewGroup>
 		</crew>
 		<environment>
-			<SimEnvironment name="BaseCrewEnvironment" initialVolume="2000000" leakRate="0.00224" airlockVolume="3.7"/>
+			<SimEnvironment name="BaseCrewEnvironment" initialVolume="20000000" leakRate="0.00224" airlockVolume="3.7" dangerousOxygenThreshold="0.3"/>
 			<SimEnvironment name="EVACrewEnvironment" initialVolume="1000" leakRate="0.00500" airlockVolume="999"/>
 			<Dehumidifier name="Dehumidifier">
-				<airConsumer maxFlowRates="100000000" desiredFlowRates="100000000" inputs="BaseCrewEnvironment"/>
-				<dirtyWaterProducer maxFlowRates="100000000" desiredFlowRates="100000000" outputs="CrewBaseDirtyWaterStore"/>	
+				<airConsumer maxFlowRates="200000" desiredFlowRates="200000" inputs="BaseCrewEnvironment"/>
+				<dirtyWaterProducer maxFlowRates="200000" desiredFlowRates="200000" outputs="CrewBaseDirtyWaterStore"/>	
 			</Dehumidifier>
-		</environment>                    
+		</environment>        
 		<food>
 			<FoodProcessor name="FoodProcessor">
 				<powerConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BasePowerStore"/>
@@ -141,8 +141,8 @@
 			</FoodProcessor>
 			<BiomassRS name="BaseBiomassRS">
 				<shelf cropArea="20" cropType="LETTUCE"/>
-				<shelf cropArea="20" cropType="TOMATO"/>
-				<powerConsumer maxFlowRates="500" desiredFlowRates="500" inputs="BasePowerStore"/>
+				<shelf cropArea="1.5" cropType="TOMATO"/>
+				<powerConsumer maxFlowRates="400" desiredFlowRates="400" inputs="BasePowerStore"/>
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="CrewBasePotableWaterStore"/>
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="CrewBaseGreyWaterStore"/>
 				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="BaseCrewEnvironment"/>
@@ -163,13 +163,21 @@
 					<environmentOutputs desiredFlowRates="30" maxFlowRates="30" outputs="EVACrewEnvironment"/>
 				</O2AirProducer>
 			</Injector>
-			<Injector name="BaseInjector">
+			<Injector name="BaseO2Injector">
 				<O2AirConsumer>
 					<storeInputs desiredFlowRates="30" maxFlowRates="30" inputs="BaseO2Store"/>
 				</O2AirConsumer>
 				<O2AirProducer>
 					<environmentOutputs desiredFlowRates="30" maxFlowRates="30" outputs="BaseCrewEnvironment"/>
 				</O2AirProducer>
+			</Injector>
+			<Injector name="BaseCO2Injector">
+				<CO2AirConsumer>
+					<storeInputs desiredFlowRates="30" maxFlowRates="30" inputs="BaseCO2Store"/>
+				</CO2AirConsumer>
+				<CO2AirProducer>
+					<environmentOutputs desiredFlowRates="30" maxFlowRates="30" outputs="BaseCrewEnvironment"/>
+				</CO2AirProducer>
 			</Injector>
 		</framework>
 		<power>
@@ -190,16 +198,17 @@
 			</WaterRS>
 			<PotableWaterStore name="CrewBasePotableWaterStore" capacity="8000" level="8000"/>
 			<PotableWaterStore name="EVAPotableWaterStore" capacity="2" level="2"/>
-			<GreyWaterStore name="CrewBaseGreyWaterStore" capacity="4000" level="0"/>
-			<GreyWaterStore name="EVAGreyWaterStore" capacity="1" level="0"/>
-			<DirtyWaterStore name="CrewBaseDirtyWaterStore" capacity="5000" level="0"/>
-			<DirtyWaterStore name="EVADirtyWaterStore" capacity="1" level="0"/>
+			<GreyWaterStore name="CrewBaseGreyWaterStore" capacity="4000" level="4000"/>
+			<GreyWaterStore name="EVAGreyWaterStore" capacity="1" level="1"/>
+			<DirtyWaterStore name="CrewBaseDirtyWaterStore" capacity="5000" level="5000"/>
+			<DirtyWaterStore name="EVADirtyWaterStore" capacity="1" level="1"/>
 		</water>
 		<waste>
-			<DryWasteStore name="BaseDryWasteStore" capacity="500" level="0"/>
-			<DryWasteStore name="EVADryWasteStore" capacity="2" level="0"/>
+			<DryWasteStore name="BaseDryWasteStore" capacity="500" level="500"/>
+			<DryWasteStore name="EVADryWasteStore" capacity="2" level="2"/>
 		</waste>
 	</SimBioModules>
+	
 	<Sensors>
 		<air>
 			<CO2StoreLevelSensor input="BaseCO2Store" name="BaseCO2StoreLevelSensor"/>
@@ -236,8 +245,10 @@
 			<H2OutFlowRateActuator index="0" output="BaseOGS" name="BaseOGSH2OutFlowRateActuator"/>
 		</air>
 		<environment>
-			<O2AirEnvironmentOutFlowRateActuator index="0" output="BaseInjector" name="BaseInjectorO2AirEnvironmentOutFlowRateActuator"/>
-			<O2AirStoreInFlowRateActuator index="0" output="BaseInjector" name="BaseInjectorO2AirStoreInFlowRateActuator"/>
+			<O2AirEnvironmentOutFlowRateActuator index="0" output="BaseO2Injector" name="BaseO2InjectorO2AirEnvironmentOutFlowRateActuator"/>
+			<O2AirStoreInFlowRateActuator index="0" output="BaseO2Injector" name="BaseO2InjectorO2AirStoreInFlowRateActuator"/>
+			<CO2AirEnvironmentOutFlowRateActuator index="0" output="BaseCO2Injector" name="BaseCO2InjectorO2AirEnvironmentOutFlowRateActuator"/>
+			<CO2AirStoreInFlowRateActuator index="0" output="BaseCO2Injector" name="BaseCO2InjectorO2AirStoreInFlowRateActuator"/>
 		</environment>
 		<food>
 			<BiomassInFlowRateActuator index="0" output="FoodProcessor" name="FoodProcessorBiomassInFlowRateActuator"/>
