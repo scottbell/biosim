@@ -1,7 +1,67 @@
 module biosim{
         module idl{
                 typedef sequence <string> StringList;
+		module util{
+                        module log{
+                                interface LogNode;
+                                enum LogHandlerType {SCREEN,XML,FLAT,DB};
+                                typedef sequence <LogHandlerType> LogHandlerTypeList;
+                                interface Logger;
+                                typedef sequence <LogNode> LogNodeList;
+                        };
+                };
+		
+		module power{
+                        interface PowerPS;
+                        interface PowerStore;
+                };
 
+                module crew{
+                        interface Activity;
+                        interface CrewPerson;
+                        interface CrewGroup;
+                        typedef sequence <CrewPerson> CrewPersonList;
+                        enum Sex {male, female};
+                        interface Activity;
+			interface RepairActivity;
+			interface MaitenanceActivity;
+                        interface CrewPerson;
+                        interface CrewGroup;
+                };
+
+                module air{
+                        interface AirRS;
+                        interface O2Store;
+                        interface CO2Store;
+
+                        struct Breath{
+                                float O2;
+                                float CO2;
+                                float other;
+                        };
+                };
+
+                module food{
+                        interface Shelf;
+                        typedef sequence <Shelf> ShelfList;
+                        interface BiomassRS;
+                        interface BiomassStore;
+                        interface FoodProcessor;
+                        interface FoodStore;
+                        interface Shelf;
+                };
+
+                module environment{
+                        interface SimEnvironment;
+                };
+
+                module water{
+                        interface WaterRS;
+                        interface PotableWaterStore;
+                        interface GreyWaterStore;
+                        interface DirtyWaterStore;
+                };
+		
                 module framework{
 			enum BioDriverInit {DEFAULT_INIT, OPTIMAL_INIT, NO_INIT};
 			enum StochasticIntensity {HIGH_STOCH, MEDIUM_STOCH, LOW_STOCH, NONE_STOCH};
@@ -73,14 +133,64 @@ module biosim{
 				void setStochasticIntensity(in StochasticIntensity pIntensity);
 				void startMalfunction(in MalfunctionIntensity pIntensity, in MalfunctionLength pLength);
                         };
+			
+			interface PowerConsumer{
+				void setPowerInputFlowrate(in float watts);
+				float getPowerInputFlowrate();
+				void setPowerInput(in biosim::idl::power::PowerStore source);
+			};
+			
+			interface PotableWaterConsumer{
+				void setPotableWaterInputFlowrate(in float liters);
+				float getPotableWaterInputFlowrate();
+				void setPotableWaterInput(in water::PotableWaterStore source);
+			};
+			
+			interface GreyWaterConsumer{
+				void setGreyWaterInputFlowrate(in float liters);
+				float getGreyWaterInputFlowrate();
+				void setGreyWaterInput(in water::GreyWaterStore source);
+			};
+			
+			interface DirtyWaterConsumer{
+				void setDirtyWaterInputFlowrate(in float liters);
+				float getDirtyWaterInputFlowrate();
+				void setDirtyWaterInput(in water::DirtyWaterStore source);
+			};
+			
+			interface O2Consumer{
+				void setO2InputFlowrate(in float liters);
+				float getO2InputFlowrate();
+				void setO2Input(in air::O2Store source);
+			};
+			
+			interface CO2Consumer{
+				void setCO2InputFlowrate(in float liters);
+				float getCO2InputFlowrate();
+				void setCO2Input(in air::CO2Store source);
+			};
+			
+			interface AirConsumer{
+				void setAirInputFlowrate(in float liters);
+				float getAirInputFlowrate();
+				void setAirInput(in environment::SimEnvironment source);
+			};
+			
+			interface BiomassConsumer{
+				void setCO2InputFlowrate(in float kilograms);
+				float getCO2InputFlowrate();
+				void setBiomassInput(in food::BiomassStore source);
+			};
+			
+			interface FoodConsumer{
+				void setCO2InputFlowrate(in float kilograms);
+				float getCO2InputFlowrate();
+				void setFoodInput(in food::FoodStore source);
+			};
                 };
 
                 module util{
                         module log{
-                                interface Logger;
-                                interface LogNode;
-                                enum LogHandlerType {SCREEN,XML,FLAT,DB};
-                                typedef sequence <LogHandlerType> LogHandlerTypeList;
                                 interface Logger{
                                         void processLog(in LogNode thingToLog);
                                         LogHandlerTypeList getLogHandlerTypes();
@@ -89,7 +199,6 @@ module biosim{
                                         boolean isProcessingLogs();
 					string getName();
                                 };
-                                typedef sequence <LogNode> LogNodeList;
                                 interface LogNode{
                                         LogNode getHead();
                                         string getValue();
@@ -102,13 +211,16 @@ module biosim{
                                 };
                         };
                 };
+		
+		module power{
+                        interface PowerPS : framework::BioModule{
+                                float getPowerProduced();
+                        };
+                        interface PowerStore : framework::Store{
+                        };
+                };
 
                 module crew{
-                        interface Activity;
-                        interface CrewPerson;
-                        interface CrewGroup;
-                        typedef sequence <CrewPerson> CrewPersonList;
-                        enum Sex {male, female};
                         interface Activity{
                                 string getName();
                                 long getTimeLength();
@@ -163,14 +275,6 @@ module biosim{
                         };
                 };
 
-                module power{
-                        interface PowerPS : framework::BioModule{
-                                float getPowerProduced();
-                        };
-                        interface PowerStore : framework::Store{
-                        };
-                };
-
                 module air{
                         interface AirRS : framework::BioModule{
                                 float getPowerConsumed();
@@ -189,17 +293,9 @@ module biosim{
                         };
                         interface CO2Store : framework::Store{
                         };
-
-                        struct Breath{
-                                float O2;
-                                float CO2;
-                                float other;
-                        };
                 };
 
                 module food{
-                        interface Shelf;
-                        typedef sequence <Shelf> ShelfList;
                         interface BiomassRS : framework::BioModule{
                                 ShelfList getShelves();
                                 float getTotalPotableWaterConsumed();
