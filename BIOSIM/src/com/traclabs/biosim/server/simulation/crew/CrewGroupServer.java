@@ -3,7 +3,7 @@ package biosim.server.crew;
 import biosim.server.framework.*;
 import biosim.idl.crew.*;
 /**
- * The Air Revitalization System Server.  Creates an instance of the AirRS and registers it with the nameserver.
+ * The Crew Server.  Creates an instance of the Crew and registers it with the nameserver.
  *
  * @author    Scott Bell
  */

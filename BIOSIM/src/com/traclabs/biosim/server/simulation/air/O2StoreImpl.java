@@ -3,7 +3,7 @@ package biosim.server.air;
 import biosim.idl.air.*;
 import biosim.server.framework.*;
 /**
- * The CO2 Store Implementation.  Used by the AirRS to store excess CO2 for plants.
+ * The O2 Store Implementation.  Used by the AirRS to store excess O2 for the crew.
  * Not really used right now.
  *
  * @author    Scott Bell
