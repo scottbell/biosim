@@ -1,3 +1,9 @@
+/**
+ * The Crew Server.  Creates an instance of the CrewGroup and registers it with the nameserver.
+ *
+ * @author    Scott Bell
+ */
+
 package biosim.server.crew;
 
 import biosim.idl.crew.*;
@@ -9,7 +15,11 @@ import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
 
 public class CrewGroupServer {
-
+	
+	/**
+	* Instantiates the server and binds it to the name server.
+	* @param args aren't used for anything
+	*/
 	public static void main(String args[]) {
 		try{
 			// create and initialize the ORB
