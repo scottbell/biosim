@@ -26,10 +26,8 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 	}
 
 	private void buildGui(){
-		setLayout(new BorderLayout());
 		myCrewPeople = myCrew.getCrewPeople();
-		crewPanel = new JPanel();
-		crewPanel.setLayout(new GridLayout(myCrewPeople.length, 2));
+		setLayout(new GridLayout(myCrewPeople.length / 2, 2));
 		
 		for (int i = 0; i < myCrewPeople.length; i++){
 			JPanel newPersonPanel = new JPanel();
@@ -59,9 +57,8 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 			newPersonGUI.activityIntensityLabel = new JLabel("	intensity: "+myCrewPeople[i].getCurrentActivity().getActivityIntensity());
 			newPersonPanel.add(newPersonGUI.activityIntensityLabel);
 			crewPeopleGUI.add(newPersonGUI);
-			crewPanel.add(newPersonPanel);
+			add(newPersonPanel);
 		}
-		add(crewPanel, BorderLayout.CENTER);
 	}
 
 	public void processTick(){
