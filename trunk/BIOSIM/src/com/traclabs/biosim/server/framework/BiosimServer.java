@@ -186,7 +186,7 @@ public class BiosimServer extends GenericServer{
 				registerServer(new PotableWaterInFlowRateSensorPOATie(myPotableWaterInFlowRateSensorImpl), "BiomassRS" + myPotableWaterInFlowRateSensorImpl.getModuleName());
 				registerServer(new GreyWaterInFlowRateSensorPOATie(myGreyWaterInFlowRateSensorImpl), "BiomassRS" + myGreyWaterInFlowRateSensorImpl.getModuleName());
 			}
-			
+
 			//Stores
 			{
 				BiomassStoreLevelSensorImpl myBiomassStoreLevelSensorImpl = new BiomassStoreLevelSensorImpl(id);
@@ -195,6 +195,208 @@ public class BiosimServer extends GenericServer{
 				registerServer(new FoodStoreLevelSensorPOATie(myFoodStoreLevelSensorImpl), "FoodStore" + myFoodStoreLevelSensorImpl.getModuleName());
 			}
 		}
+
+		//
+		//Water Sensors
+		//
+		{
+			//Water RS
+			{
+				PowerInFlowRateSensorImpl myPowerInFlowRateSensorImpl = new PowerInFlowRateSensorImpl(id);
+				GreyWaterInFlowRateSensorImpl myGreyWaterInFlowRateSensorImpl = new GreyWaterInFlowRateSensorImpl(id);
+				DirtyWaterInFlowRateSensorImpl myDirtyWaterInFlowRateSensorImpl = new DirtyWaterInFlowRateSensorImpl(id);
+				PotableWaterOutFlowRateSensorImpl myPotableWaterOutFlowRateSensorImpl = new PotableWaterOutFlowRateSensorImpl(id);
+				registerServer(new PowerInFlowRateSensorPOATie(myPowerInFlowRateSensorImpl), "WaterRS" + myPowerInFlowRateSensorImpl.getModuleName());
+				registerServer(new GreyWaterInFlowRateSensorPOATie(myGreyWaterInFlowRateSensorImpl), "WaterRS" + myGreyWaterInFlowRateSensorImpl.getModuleName());
+				registerServer(new DirtyWaterInFlowRateSensorPOATie(myDirtyWaterInFlowRateSensorImpl), "WaterRS" + myDirtyWaterInFlowRateSensorImpl.getModuleName());
+				registerServer(new PotableWaterOutFlowRateSensorPOATie(myPotableWaterOutFlowRateSensorImpl), "WaterRS" + myPotableWaterOutFlowRateSensorImpl.getModuleName());
+			}
+
+			//Stores
+			{
+				PotableWaterStoreLevelSensorImpl myPotableWaterStoreLevelSensorImpl = new PotableWaterStoreLevelSensorImpl(id);
+				GreyWaterStoreLevelSensorImpl myGreyWaterStoreLevelSensorImpl = new GreyWaterStoreLevelSensorImpl(id);
+				DirtyWaterStoreLevelSensorImpl myDirtyWaterStoreLevelSensorImpl = new DirtyWaterStoreLevelSensorImpl(id);
+				registerServer(new PotableWaterStoreLevelSensorPOATie(myPotableWaterStoreLevelSensorImpl), "PotableWaterStore" + myPotableWaterStoreLevelSensorImpl.getModuleName());
+				registerServer(new GreyWaterStoreLevelSensorPOATie(myGreyWaterStoreLevelSensorImpl), "GreyWaterStore" + myGreyWaterStoreLevelSensorImpl.getModuleName());
+				registerServer(new DirtyWaterStoreLevelSensorPOATie(myDirtyWaterStoreLevelSensorImpl), "DirtyWaterStore" + myDirtyWaterStoreLevelSensorImpl.getModuleName());
+			}
+		}
+
+		//
+		//Environment Sensors
+		//
+		{
+			O2AirLevelSensorImpl myO2AirLevelSensorImpl = new O2AirLevelSensorImpl(id);
+			CO2AirLevelSensorImpl myCO2AirLevelSensorImpl = new CO2AirLevelSensorImpl(id);
+			OtherAirLevelSensorImpl myOtherAirLevelSensorImpl = new OtherAirLevelSensorImpl(id);
+			registerServer(new O2AirLevelSensorPOATie(myO2AirLevelSensorImpl), "O2Air" + myO2AirLevelSensorImpl.getModuleName());
+			registerServer(new CO2AirLevelSensorPOATie(myCO2AirLevelSensorImpl), "CO2Air" + myCO2AirLevelSensorImpl.getModuleName());
+			registerServer(new OtherAirLevelSensorPOATie(myOtherAirLevelSensorImpl), "OtherAir" + myOtherAirLevelSensorImpl.getModuleName());
+
+		}
+
+		//
+		//Framework Sensors
+		//
+		{
+			//Accumulator
+			{
+				CO2InFlowRateSensorImpl myCO2InFlowRateSensorImpl = new CO2InFlowRateSensorImpl(id);
+				CO2OutFlowRateSensorImpl myCO2OutFlowRateSensorImpl = new CO2OutFlowRateSensorImpl(id);
+				CO2StoreLevelSensorImpl myCO2StoreLevelSensorImpl = new CO2StoreLevelSensorImpl(id);
+				O2InFlowRateSensorImpl myO2InFlowRateSensorImpl = new O2InFlowRateSensorImpl(id);
+				O2OutFlowRateSensorImpl myO2OutFlowRateSensorImpl = new O2OutFlowRateSensorImpl(id);
+				O2StoreLevelSensorImpl myO2StoreLevelSensorImpl = new O2StoreLevelSensorImpl(id);
+				AirInFlowRateSensorImpl myAirInFlowRateSensorImpl = new AirInFlowRateSensorImpl(id);
+				AirOutFlowRateSensorImpl myAirOutFlowRateSensorImpl = new AirOutFlowRateSensorImpl(id);
+				CO2AirEnvironmentInFlowRateSensorImpl myCO2AirEnvironmentInFlowRateSensorImpl = new CO2AirEnvironmentInFlowRateSensorImpl(id);
+				CO2AirEnvironmentOutFlowRateSensorImpl myCO2AirEnvironmentOutFlowRateSensorImpl = new CO2AirEnvironmentOutFlowRateSensorImpl(id);
+				CO2AirLevelSensorImpl myCO2AirLevelSensorImpl = new CO2AirLevelSensorImpl(id);
+				CO2AirStoreInFlowRateSensorImpl myCO2AirStoreInFlowRateSensorImpl = new CO2AirStoreInFlowRateSensorImpl(id);
+				CO2AirStoreOutFlowRateSensorImpl myCO2AirStoreOutFlowRateSensorImpl = new CO2AirStoreOutFlowRateSensorImpl(id);
+				O2AirEnvironmentInFlowRateSensorImpl myO2AirEnvironmentInFlowRateSensorImpl = new O2AirEnvironmentInFlowRateSensorImpl(id);
+				O2AirEnvironmentOutFlowRateSensorImpl myO2AirEnvironmentOutFlowRateSensorImpl = new O2AirEnvironmentOutFlowRateSensorImpl(id);
+				O2AirLevelSensorImpl myO2AirLevelSensorImpl = new O2AirLevelSensorImpl(id);
+				O2AirStoreInFlowRateSensorImpl myO2AirStoreInFlowRateSensorImpl = new O2AirStoreInFlowRateSensorImpl(id);
+				O2AirStoreOutFlowRateSensorImpl myO2AirStoreOutFlowRateSensorImpl = new O2AirStoreOutFlowRateSensorImpl(id);
+				OtherAirLevelSensorImpl myOtherAirLevelSensorImpl = new OtherAirLevelSensorImpl(id);
+				BiomassInFlowRateSensorImpl myBiomassInFlowRateSensorImpl = new BiomassInFlowRateSensorImpl(id);
+				BiomassOutFlowRateSensorImpl myBiomassOutFlowRateSensorImpl = new BiomassOutFlowRateSensorImpl(id);
+				BiomassStoreLevelSensorImpl myBiomassStoreLevelSensorImpl = new BiomassStoreLevelSensorImpl(id);
+				FoodInFlowRateSensorImpl myFoodInFlowRateSensorImpl = new FoodInFlowRateSensorImpl(id);
+				FoodOutFlowRateSensorImpl myFoodOutFlowRateSensorImpl = new FoodOutFlowRateSensorImpl(id);
+				FoodStoreLevelSensorImpl myFoodStoreLevelSensorImpl = new FoodStoreLevelSensorImpl(id);
+				PowerInFlowRateSensorImpl myPowerInFlowRateSensorImpl = new PowerInFlowRateSensorImpl(id);
+				PowerOutFlowRateSensorImpl myPowerOutFlowRateSensorImpl = new PowerOutFlowRateSensorImpl(id);
+				PowerStoreLevelSensorImpl myPowerStoreLevelSensorImpl = new PowerStoreLevelSensorImpl(id);
+				DirtyWaterInFlowRateSensorImpl myDirtyWaterInFlowRateSensorImpl = new DirtyWaterInFlowRateSensorImpl(id);
+				DirtyWaterOutFlowRateSensorImpl myDirtyWaterOutFlowRateSensorImpl = new DirtyWaterOutFlowRateSensorImpl(id);
+				DirtyWaterStoreLevelSensorImpl myDirtyWaterStoreLevelSensorImpl = new DirtyWaterStoreLevelSensorImpl(id);
+				GreyWaterInFlowRateSensorImpl myGreyWaterInFlowRateSensorImpl = new GreyWaterInFlowRateSensorImpl(id);
+				GreyWaterOutFlowRateSensorImpl myGreyWaterOutFlowRateSensorImpl = new GreyWaterOutFlowRateSensorImpl(id);
+				GreyWaterStoreLevelSensorImpl myGreyWaterStoreLevelSensorImpl = new GreyWaterStoreLevelSensorImpl(id);
+				PotableWaterInFlowRateSensorImpl myPotableWaterInFlowRateSensorImpl = new PotableWaterInFlowRateSensorImpl(id);
+				PotableWaterOutFlowRateSensorImpl myPotableWaterOutFlowRateSensorImpl = new PotableWaterOutFlowRateSensorImpl(id);
+				PotableWaterStoreLevelSensorImpl myPotableWaterStoreLevelSensorImpl = new PotableWaterStoreLevelSensorImpl(id);
+				registerServer(new CO2InFlowRateSensorPOATie(myCO2InFlowRateSensorImpl), "Accumulator" + myCO2InFlowRateSensorImpl.getModuleName());
+				registerServer(new CO2OutFlowRateSensorPOATie(myCO2OutFlowRateSensorImpl), "Accumulator" + myCO2OutFlowRateSensorImpl.getModuleName());
+				registerServer(new CO2StoreLevelSensorPOATie(myCO2StoreLevelSensorImpl), "Accumulator" + myCO2StoreLevelSensorImpl.getModuleName());
+				registerServer(new O2InFlowRateSensorPOATie(myO2InFlowRateSensorImpl), "Accumulator" + myO2InFlowRateSensorImpl.getModuleName());
+				registerServer(new O2OutFlowRateSensorPOATie(myO2OutFlowRateSensorImpl), "Accumulator" + myO2OutFlowRateSensorImpl.getModuleName());
+				registerServer(new O2StoreLevelSensorPOATie(myO2StoreLevelSensorImpl), "Accumulator" + myO2StoreLevelSensorImpl.getModuleName());
+				registerServer(new AirInFlowRateSensorPOATie(myAirInFlowRateSensorImpl), "Accumulator" + myAirInFlowRateSensorImpl.getModuleName());
+				registerServer(new AirOutFlowRateSensorPOATie(myAirOutFlowRateSensorImpl), "Accumulator" + myAirOutFlowRateSensorImpl.getModuleName());
+				registerServer(new CO2AirStoreInFlowRateSensorPOATie(myCO2AirStoreInFlowRateSensorImpl), "Accumulator" + myCO2AirStoreInFlowRateSensorImpl.getModuleName());
+				registerServer(new CO2AirStoreOutFlowRateSensorPOATie(myCO2AirStoreOutFlowRateSensorImpl), "Accumulator" + myCO2AirStoreOutFlowRateSensorImpl.getModuleName());
+				registerServer(new CO2AirEnvironmentInFlowRateSensorPOATie(myCO2AirEnvironmentInFlowRateSensorImpl), "Accumulator" + myCO2AirEnvironmentInFlowRateSensorImpl.getModuleName());
+				registerServer(new CO2AirEnvironmentOutFlowRateSensorPOATie(myCO2AirEnvironmentOutFlowRateSensorImpl), "Accumulator" + myCO2AirEnvironmentOutFlowRateSensorImpl.getModuleName());
+				registerServer(new O2AirStoreInFlowRateSensorPOATie(myO2AirStoreInFlowRateSensorImpl), "Accumulator" + myO2AirStoreInFlowRateSensorImpl.getModuleName());
+				registerServer(new O2AirStoreOutFlowRateSensorPOATie(myO2AirStoreOutFlowRateSensorImpl), "Accumulator" + myO2AirStoreOutFlowRateSensorImpl.getModuleName());
+				registerServer(new O2AirEnvironmentInFlowRateSensorPOATie(myO2AirEnvironmentInFlowRateSensorImpl), "Accumulator" + myO2AirEnvironmentInFlowRateSensorImpl.getModuleName());
+				registerServer(new O2AirEnvironmentOutFlowRateSensorPOATie(myO2AirEnvironmentOutFlowRateSensorImpl), "Accumulator" + myO2AirEnvironmentOutFlowRateSensorImpl.getModuleName());
+				registerServer(new OtherAirLevelSensorPOATie(myOtherAirLevelSensorImpl), "Accumulator" + myOtherAirLevelSensorImpl.getModuleName());
+				registerServer(new O2AirLevelSensorPOATie(myO2AirLevelSensorImpl), "Accumulator" + myO2AirLevelSensorImpl.getModuleName());
+				registerServer(new CO2AirLevelSensorPOATie(myCO2AirLevelSensorImpl), "Accumulator" + myCO2AirLevelSensorImpl.getModuleName());
+				registerServer(new BiomassInFlowRateSensorPOATie(myBiomassInFlowRateSensorImpl), "Accumulator" + myBiomassInFlowRateSensorImpl.getModuleName());
+				registerServer(new BiomassOutFlowRateSensorPOATie(myBiomassOutFlowRateSensorImpl), "Accumulator" + myBiomassOutFlowRateSensorImpl.getModuleName());
+				registerServer(new BiomassStoreLevelSensorPOATie(myBiomassStoreLevelSensorImpl), "Accumulator" + myBiomassStoreLevelSensorImpl.getModuleName());
+				registerServer(new FoodInFlowRateSensorPOATie(myFoodInFlowRateSensorImpl), "Accumulator" + myFoodInFlowRateSensorImpl.getModuleName());
+				registerServer(new FoodOutFlowRateSensorPOATie(myFoodOutFlowRateSensorImpl), "Accumulator" + myFoodOutFlowRateSensorImpl.getModuleName());
+				registerServer(new FoodStoreLevelSensorPOATie(myFoodStoreLevelSensorImpl), "Accumulator" + myFoodStoreLevelSensorImpl.getModuleName());
+				registerServer(new PowerInFlowRateSensorPOATie(myPowerInFlowRateSensorImpl), "Accumulator" + myPowerInFlowRateSensorImpl.getModuleName());
+				registerServer(new PowerOutFlowRateSensorPOATie(myPowerOutFlowRateSensorImpl), "Accumulator" + myPowerOutFlowRateSensorImpl.getModuleName());
+				registerServer(new PowerStoreLevelSensorPOATie(myPowerStoreLevelSensorImpl), "Accumulator" + myPowerStoreLevelSensorImpl.getModuleName());
+				registerServer(new DirtyWaterInFlowRateSensorPOATie(myDirtyWaterInFlowRateSensorImpl), "Accumulator" + myDirtyWaterInFlowRateSensorImpl.getModuleName());
+				registerServer(new DirtyWaterOutFlowRateSensorPOATie(myDirtyWaterOutFlowRateSensorImpl), "Accumulator" + myDirtyWaterOutFlowRateSensorImpl.getModuleName());
+				registerServer(new DirtyWaterStoreLevelSensorPOATie(myDirtyWaterStoreLevelSensorImpl), "Accumulator" + myDirtyWaterStoreLevelSensorImpl.getModuleName());
+				registerServer(new GreyWaterInFlowRateSensorPOATie(myGreyWaterInFlowRateSensorImpl), "Accumulator" + myGreyWaterInFlowRateSensorImpl.getModuleName());
+				registerServer(new GreyWaterOutFlowRateSensorPOATie(myGreyWaterOutFlowRateSensorImpl), "Accumulator" + myGreyWaterOutFlowRateSensorImpl.getModuleName());
+				registerServer(new GreyWaterStoreLevelSensorPOATie(myGreyWaterStoreLevelSensorImpl), "Accumulator" + myGreyWaterStoreLevelSensorImpl.getModuleName());
+				registerServer(new PotableWaterInFlowRateSensorPOATie(myPotableWaterInFlowRateSensorImpl), "Accumulator" + myPotableWaterInFlowRateSensorImpl.getModuleName());
+				registerServer(new PotableWaterOutFlowRateSensorPOATie(myPotableWaterOutFlowRateSensorImpl), "Accumulator" + myPotableWaterOutFlowRateSensorImpl.getModuleName());
+				registerServer(new PotableWaterStoreLevelSensorPOATie(myPotableWaterStoreLevelSensorImpl), "Accumulator" + myPotableWaterStoreLevelSensorImpl.getModuleName());
+			}
+
+			//Injector
+			{
+				CO2InFlowRateSensorImpl myCO2InFlowRateSensorImpl = new CO2InFlowRateSensorImpl(id);
+				CO2OutFlowRateSensorImpl myCO2OutFlowRateSensorImpl = new CO2OutFlowRateSensorImpl(id);
+				CO2StoreLevelSensorImpl myCO2StoreLevelSensorImpl = new CO2StoreLevelSensorImpl(id);
+				O2InFlowRateSensorImpl myO2InFlowRateSensorImpl = new O2InFlowRateSensorImpl(id);
+				O2OutFlowRateSensorImpl myO2OutFlowRateSensorImpl = new O2OutFlowRateSensorImpl(id);
+				O2StoreLevelSensorImpl myO2StoreLevelSensorImpl = new O2StoreLevelSensorImpl(id);
+				AirInFlowRateSensorImpl myAirInFlowRateSensorImpl = new AirInFlowRateSensorImpl(id);
+				AirOutFlowRateSensorImpl myAirOutFlowRateSensorImpl = new AirOutFlowRateSensorImpl(id);
+				CO2AirEnvironmentInFlowRateSensorImpl myCO2AirEnvironmentInFlowRateSensorImpl = new CO2AirEnvironmentInFlowRateSensorImpl(id);
+				CO2AirEnvironmentOutFlowRateSensorImpl myCO2AirEnvironmentOutFlowRateSensorImpl = new CO2AirEnvironmentOutFlowRateSensorImpl(id);
+				CO2AirLevelSensorImpl myCO2AirLevelSensorImpl = new CO2AirLevelSensorImpl(id);
+				CO2AirStoreInFlowRateSensorImpl myCO2AirStoreInFlowRateSensorImpl = new CO2AirStoreInFlowRateSensorImpl(id);
+				CO2AirStoreOutFlowRateSensorImpl myCO2AirStoreOutFlowRateSensorImpl = new CO2AirStoreOutFlowRateSensorImpl(id);
+				O2AirEnvironmentInFlowRateSensorImpl myO2AirEnvironmentInFlowRateSensorImpl = new O2AirEnvironmentInFlowRateSensorImpl(id);
+				O2AirEnvironmentOutFlowRateSensorImpl myO2AirEnvironmentOutFlowRateSensorImpl = new O2AirEnvironmentOutFlowRateSensorImpl(id);
+				O2AirLevelSensorImpl myO2AirLevelSensorImpl = new O2AirLevelSensorImpl(id);
+				O2AirStoreInFlowRateSensorImpl myO2AirStoreInFlowRateSensorImpl = new O2AirStoreInFlowRateSensorImpl(id);
+				O2AirStoreOutFlowRateSensorImpl myO2AirStoreOutFlowRateSensorImpl = new O2AirStoreOutFlowRateSensorImpl(id);
+				OtherAirLevelSensorImpl myOtherAirLevelSensorImpl = new OtherAirLevelSensorImpl(id);
+				BiomassInFlowRateSensorImpl myBiomassInFlowRateSensorImpl = new BiomassInFlowRateSensorImpl(id);
+				BiomassOutFlowRateSensorImpl myBiomassOutFlowRateSensorImpl = new BiomassOutFlowRateSensorImpl(id);
+				BiomassStoreLevelSensorImpl myBiomassStoreLevelSensorImpl = new BiomassStoreLevelSensorImpl(id);
+				FoodInFlowRateSensorImpl myFoodInFlowRateSensorImpl = new FoodInFlowRateSensorImpl(id);
+				FoodOutFlowRateSensorImpl myFoodOutFlowRateSensorImpl = new FoodOutFlowRateSensorImpl(id);
+				FoodStoreLevelSensorImpl myFoodStoreLevelSensorImpl = new FoodStoreLevelSensorImpl(id);
+				PowerInFlowRateSensorImpl myPowerInFlowRateSensorImpl = new PowerInFlowRateSensorImpl(id);
+				PowerOutFlowRateSensorImpl myPowerOutFlowRateSensorImpl = new PowerOutFlowRateSensorImpl(id);
+				PowerStoreLevelSensorImpl myPowerStoreLevelSensorImpl = new PowerStoreLevelSensorImpl(id);
+				DirtyWaterInFlowRateSensorImpl myDirtyWaterInFlowRateSensorImpl = new DirtyWaterInFlowRateSensorImpl(id);
+				DirtyWaterOutFlowRateSensorImpl myDirtyWaterOutFlowRateSensorImpl = new DirtyWaterOutFlowRateSensorImpl(id);
+				DirtyWaterStoreLevelSensorImpl myDirtyWaterStoreLevelSensorImpl = new DirtyWaterStoreLevelSensorImpl(id);
+				GreyWaterInFlowRateSensorImpl myGreyWaterInFlowRateSensorImpl = new GreyWaterInFlowRateSensorImpl(id);
+				GreyWaterOutFlowRateSensorImpl myGreyWaterOutFlowRateSensorImpl = new GreyWaterOutFlowRateSensorImpl(id);
+				GreyWaterStoreLevelSensorImpl myGreyWaterStoreLevelSensorImpl = new GreyWaterStoreLevelSensorImpl(id);
+				PotableWaterInFlowRateSensorImpl myPotableWaterInFlowRateSensorImpl = new PotableWaterInFlowRateSensorImpl(id);
+				PotableWaterOutFlowRateSensorImpl myPotableWaterOutFlowRateSensorImpl = new PotableWaterOutFlowRateSensorImpl(id);
+				PotableWaterStoreLevelSensorImpl myPotableWaterStoreLevelSensorImpl = new PotableWaterStoreLevelSensorImpl(id);
+				registerServer(new CO2InFlowRateSensorPOATie(myCO2InFlowRateSensorImpl), "Injector" + myCO2InFlowRateSensorImpl.getModuleName());
+				registerServer(new CO2OutFlowRateSensorPOATie(myCO2OutFlowRateSensorImpl), "Injector" + myCO2OutFlowRateSensorImpl.getModuleName());
+				registerServer(new CO2StoreLevelSensorPOATie(myCO2StoreLevelSensorImpl), "Injector" + myCO2StoreLevelSensorImpl.getModuleName());
+				registerServer(new O2InFlowRateSensorPOATie(myO2InFlowRateSensorImpl), "Injector" + myO2InFlowRateSensorImpl.getModuleName());
+				registerServer(new O2OutFlowRateSensorPOATie(myO2OutFlowRateSensorImpl), "Injector" + myO2OutFlowRateSensorImpl.getModuleName());
+				registerServer(new O2StoreLevelSensorPOATie(myO2StoreLevelSensorImpl), "Injector" + myO2StoreLevelSensorImpl.getModuleName());
+				registerServer(new AirInFlowRateSensorPOATie(myAirInFlowRateSensorImpl), "Injector" + myAirInFlowRateSensorImpl.getModuleName());
+				registerServer(new AirOutFlowRateSensorPOATie(myAirOutFlowRateSensorImpl), "Injector" + myAirOutFlowRateSensorImpl.getModuleName());
+				registerServer(new CO2AirStoreInFlowRateSensorPOATie(myCO2AirStoreInFlowRateSensorImpl), "Injector" + myCO2AirStoreInFlowRateSensorImpl.getModuleName());
+				registerServer(new CO2AirStoreOutFlowRateSensorPOATie(myCO2AirStoreOutFlowRateSensorImpl), "Injector" + myCO2AirStoreOutFlowRateSensorImpl.getModuleName());
+				registerServer(new CO2AirEnvironmentInFlowRateSensorPOATie(myCO2AirEnvironmentInFlowRateSensorImpl), "Injector" + myCO2AirEnvironmentInFlowRateSensorImpl.getModuleName());
+				registerServer(new CO2AirEnvironmentOutFlowRateSensorPOATie(myCO2AirEnvironmentOutFlowRateSensorImpl), "Injector" + myCO2AirEnvironmentOutFlowRateSensorImpl.getModuleName());
+				registerServer(new O2AirStoreInFlowRateSensorPOATie(myO2AirStoreInFlowRateSensorImpl), "Injector" + myO2AirStoreInFlowRateSensorImpl.getModuleName());
+				registerServer(new O2AirStoreOutFlowRateSensorPOATie(myO2AirStoreOutFlowRateSensorImpl), "Injector" + myO2AirStoreOutFlowRateSensorImpl.getModuleName());
+				registerServer(new O2AirEnvironmentInFlowRateSensorPOATie(myO2AirEnvironmentInFlowRateSensorImpl), "Injector" + myO2AirEnvironmentInFlowRateSensorImpl.getModuleName());
+				registerServer(new O2AirEnvironmentOutFlowRateSensorPOATie(myO2AirEnvironmentOutFlowRateSensorImpl), "Injector" + myO2AirEnvironmentOutFlowRateSensorImpl.getModuleName());
+				registerServer(new OtherAirLevelSensorPOATie(myOtherAirLevelSensorImpl), "Injector" + myOtherAirLevelSensorImpl.getModuleName());
+				registerServer(new O2AirLevelSensorPOATie(myO2AirLevelSensorImpl), "Injector" + myO2AirLevelSensorImpl.getModuleName());
+				registerServer(new CO2AirLevelSensorPOATie(myCO2AirLevelSensorImpl), "Injector" + myCO2AirLevelSensorImpl.getModuleName());
+				registerServer(new BiomassInFlowRateSensorPOATie(myBiomassInFlowRateSensorImpl), "Injector" + myBiomassInFlowRateSensorImpl.getModuleName());
+				registerServer(new BiomassOutFlowRateSensorPOATie(myBiomassOutFlowRateSensorImpl), "Injector" + myBiomassOutFlowRateSensorImpl.getModuleName());
+				registerServer(new BiomassStoreLevelSensorPOATie(myBiomassStoreLevelSensorImpl), "Injector" + myBiomassStoreLevelSensorImpl.getModuleName());
+				registerServer(new FoodInFlowRateSensorPOATie(myFoodInFlowRateSensorImpl), "Injector" + myFoodInFlowRateSensorImpl.getModuleName());
+				registerServer(new FoodOutFlowRateSensorPOATie(myFoodOutFlowRateSensorImpl), "Injector" + myFoodOutFlowRateSensorImpl.getModuleName());
+				registerServer(new FoodStoreLevelSensorPOATie(myFoodStoreLevelSensorImpl), "Injector" + myFoodStoreLevelSensorImpl.getModuleName());
+				registerServer(new PowerInFlowRateSensorPOATie(myPowerInFlowRateSensorImpl), "Injector" + myPowerInFlowRateSensorImpl.getModuleName());
+				registerServer(new PowerOutFlowRateSensorPOATie(myPowerOutFlowRateSensorImpl), "Injector" + myPowerOutFlowRateSensorImpl.getModuleName());
+				registerServer(new PowerStoreLevelSensorPOATie(myPowerStoreLevelSensorImpl), "Injector" + myPowerStoreLevelSensorImpl.getModuleName());
+				registerServer(new DirtyWaterInFlowRateSensorPOATie(myDirtyWaterInFlowRateSensorImpl), "Injector" + myDirtyWaterInFlowRateSensorImpl.getModuleName());
+				registerServer(new DirtyWaterOutFlowRateSensorPOATie(myDirtyWaterOutFlowRateSensorImpl), "Injector" + myDirtyWaterOutFlowRateSensorImpl.getModuleName());
+				registerServer(new DirtyWaterStoreLevelSensorPOATie(myDirtyWaterStoreLevelSensorImpl), "Injector" + myDirtyWaterStoreLevelSensorImpl.getModuleName());
+				registerServer(new GreyWaterInFlowRateSensorPOATie(myGreyWaterInFlowRateSensorImpl), "Injector" + myGreyWaterInFlowRateSensorImpl.getModuleName());
+				registerServer(new GreyWaterOutFlowRateSensorPOATie(myGreyWaterOutFlowRateSensorImpl), "Injector" + myGreyWaterOutFlowRateSensorImpl.getModuleName());
+				registerServer(new GreyWaterStoreLevelSensorPOATie(myGreyWaterStoreLevelSensorImpl), "Injector" + myGreyWaterStoreLevelSensorImpl.getModuleName());
+				registerServer(new PotableWaterInFlowRateSensorPOATie(myPotableWaterInFlowRateSensorImpl), "Injector" + myPotableWaterInFlowRateSensorImpl.getModuleName());
+				registerServer(new PotableWaterOutFlowRateSensorPOATie(myPotableWaterOutFlowRateSensorImpl), "Injector" + myPotableWaterOutFlowRateSensorImpl.getModuleName());
+				registerServer(new PotableWaterStoreLevelSensorPOATie(myPotableWaterStoreLevelSensorImpl), "Injector" + myPotableWaterStoreLevelSensorImpl.getModuleName());
+			}
+		}
+
 		/*
 		CO2InFlowRateSensorImpl myCO2InFlowRateSensorImpl = new CO2InFlowRateSensorImpl(id);
 		CO2OutFlowRateSensorImpl myCO2OutFlowRateSensorImpl = new CO2OutFlowRateSensorImpl(id);
