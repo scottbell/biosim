@@ -24,12 +24,14 @@ module biosim{
 			interface Log;
 			interface Logger;
 			interface LogNode;
-			
+			enum LogHandlerType {screen,xml,flat,db};
 			interface Log{
 				LogNode getHead();
 			};
 			interface Logger{
 				void processLog(in Log thingToLog);
+				LogHandlerType getLogHandlerType();
+				void setLogHandlerType(in LogHandlerType pLogType);
 			};
 			typedef sequence <LogNode> LogNodeList;
 			interface LogNode{
@@ -37,6 +39,7 @@ module biosim{
 				void setValue(in string newValue);
 				LogNode addChild (in string pChildName);
 				LogNodeList getChildren();
+				boolean hasChildren();
 			};
 		};
 
