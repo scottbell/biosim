@@ -2,8 +2,7 @@
 
 echo "*running server"
 echo "	-initializing"
-userSelect="$1"    
-idSelect="$2"
+userSelect="$1"
 devRootDir=$BIOSIM_HOME
 jacoOrbClass="-Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB"
 jacoSingletonOrbClass="-Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton"
@@ -73,26 +72,27 @@ case $userSelect in
 esac
 echo "	-starting servers"
 case $userSelect in
-	initializer) echo "			 -starting $userSelect";$jacoInvocation $initializerName $idSelect;;
-	airRS) echo "			 -starting $userSelect";$jacoInvocation $airRSName $idSelect;;
-	co2Store) echo "			 -starting $userSelect";$jacoInvocation $co2StoreName $idSelect;;
-	o2Store) echo "			 -starting $userSelect";$jacoInvocation $o2StoreName $idSelect;;
-	biomassRS) echo "			 -starting $userSelect";$jacoInvocation $biomassRSName $idSelect;;
-	biomassStore) echo "			 -starting $userSelect";$jacoInvocation $biomassStoreName $idSelect;;
-	foodProcessor) echo "			 -starting $userSelect";$jacoInvocation $foodProcessorName $idSelect;;
-	foodStore) echo "			 -starting $userSelect";$jacoInvocation $foodStoreName $idSelect;;
-	powerPS) echo "			 -starting $userSelect";$jacoInvocation $powerPSName $idSelect;;
-	powerStore) echo "			 -starting $userSelect";$jacoInvocation $powerStoreName $idSelect;;
-	crew) echo "			 -starting $userSelect";$jacoInvocation $crewNam $idSelecte;;
-	waterRS) echo "			 -starting $userSelect";$jacoInvocation $waterRSName $idSelect;;
-	dirtyWaterStore) echo "			 -starting $userSelect";$jacoInvocation $dirtyWaterStoreName $idSelect;;
-	potableWaterStore) echo "			 -starting $userSelect";$jacoInvocation $potableWaterStoreName $idSelect;;
-	greyWaterStore) echo "			 -starting $userSelect";$jacoInvocation $greyWaterStoreName $idSelect;;
-	simEnvironment) echo "			 -starting $userSelect";$jacoInvocation $simEnvironmentName $idSelect;;
-	logger) echo "			 -starting $userSelect";$jacoInvocation $loggerName $idSelect;;
-	all) echo "			-starting $userSelect";$jacoInvocation $frameworkName $idSelect;;
-	"-?") echo "choose from: [all, logger, greyWaterStore, potableWaterStore, dirtyWaterStore, powerStore, powerPS, simEnvironment, foodStore, foodProcessor, airRS, o2Store, co2Store, biomassRS, biomassStore, crew, waterRS]";;
-	"-id"*) echo "			-assuming all (id user specified)";$jacoInvocation $frameworkName $1;;
+	initializer) echo "			 -starting $userSelect";$jacoInvocation $initializerName $1 $2 $3;;
+	airRS) echo "			 -starting $userSelect";$jacoInvocation $airRSName $1 $2 $3;;
+	co2Store) echo "			 -starting $userSelect";$jacoInvocation $co2StoreName $1 $2 $3;;
+	o2Store) echo "			 -starting $userSelect";$jacoInvocation $o2StoreName $1 $2 $3;;
+	biomassRS) echo "			 -starting $userSelect";$jacoInvocation $biomassRSName $1 $2 $3;;
+	biomassStore) echo "			 -starting $userSelect";$jacoInvocation $biomassStoreName $1 $2 $3;;
+	foodProcessor) echo "			 -starting $userSelect";$jacoInvocation $foodProcessorName $1 $2 $3;;
+	foodStore) echo "			 -starting $userSelect";$jacoInvocation $foodStoreName $1 $2 $3;;
+	powerPS) echo "			 -starting $userSelect";$jacoInvocation $powerPSName $1 $2 $3;;
+	powerStore) echo "			 -starting $userSelect";$jacoInvocation $powerStoreName $1 $2 $3;;
+	crew) echo "			 -starting $userSelect";$jacoInvocation $crewNam $1 $2 $3e;;
+	waterRS) echo "			 -starting $userSelect";$jacoInvocation $waterRSName $1 $2 $3;;
+	dirtyWaterStore) echo "			 -starting $userSelect";$jacoInvocation $dirtyWaterStoreName $1 $2 $3;;
+	potableWaterStore) echo "			 -starting $userSelect";$jacoInvocation $potableWaterStoreName $1 $2 $3;;
+	greyWaterStore) echo "			 -starting $userSelect";$jacoInvocation $greyWaterStoreName $1 $2 $3;;
+	simEnvironment) echo "			 -starting $userSelect";$jacoInvocation $simEnvironmentName $1 $2 $3;;
+	logger) echo "			 -starting $userSelect";$jacoInvocation $loggerName $1 $2 $3;;
+	all) echo "			-starting $userSelect";$jacoInvocation $frameworkName $1 $2 $3;;
+	"-?") echo -e "choose from: [all, logger, greyWaterStore, potableWaterStore, dirtyWaterStore, powerStore, powerPS, simEnvironment, foodStore, foodProcessor, airRS, o2Store, co2Store, biomassRS, biomassStore, crew, waterRS]\nOptions include -id=(int) -xml=(string) -name=(string)\r\nExample: run-server.sh airRS -name=AirRS0 -id=3 -xml=/home/scott/init.xml";;
+	"-id"*) echo "			-assuming all (id user specified)";$jacoInvocation $frameworkName $1 $2 $3;;
+	"-xml"*) echo "			-assuming all (xml init user specified)";$jacoInvocation $frameworkName $1 $2 $3;;
 	*) echo "			-assuming all";$jacoInvocation $frameworkName;;
 esac
 echo "*done invoking servers"

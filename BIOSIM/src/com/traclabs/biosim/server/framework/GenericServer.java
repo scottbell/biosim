@@ -59,6 +59,23 @@ public class GenericServer{
 	}
 	
 	/**
+	* Grabs xml parameter from an array of string
+	* @param myArgs an array of strings to parse for the name server switch, "-xml".  Used for setting xml init of
+	* this instance of the server.  example, java myServer -xml=/home/bob/init.xml
+	*/
+	protected static String getXMLfromArgs(String[] myArgs){
+		String myName = "biosim/server/framework/DefaultInitialization.xml";
+		for (int i = 0; i < myArgs.length; i++){
+			if (myArgs[i].startsWith("-xml=")){
+				StringTokenizer st = new StringTokenizer(myArgs[i],"=");
+				st.nextToken();
+				myName = st.nextToken();
+			}
+		}
+		return myName;
+	}
+	
+	/**
 	* Registers this server with the CORBA naming service
 	* @param pPOA the object to register
 	* @param pServerName the name that will be associated with this server in the naming service
