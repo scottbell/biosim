@@ -20,6 +20,7 @@ public class AES extends WaterRSSubSystem {
      */
     public AES(WaterRSImpl pWaterRSImpl) {
         super(pWaterRSImpl);
+        currentPowerNeeded = basePowerNeeded = 168;
     }
 
     public float getPPSWaterProduced() {
@@ -35,9 +36,20 @@ public class AES extends WaterRSSubSystem {
      * Flushes the water from this subsystem to the PPS
      */
     private void pushWater() {
-        currentPPSWaterProduced = waterLevel;
-        myWaterRS.getPPS().addWater(currentPPSWaterProduced);
-        waterLevel = 0;
+        //if PPS is enabled, give it to it
+        if (myWaterRS.getPPS().isEnabled()){
+            currentPPSWaterProduced = waterLevel;
+            myWaterRS.getPPS().addWater(currentPPSWaterProduced);
+            waterLevel = 0;
+        }
+        //otherwise, push it to the grey water tank
+        else{
+            waterLevel = SimBioModuleImpl.pushResourceToStore(myWaterRS
+                    .getGreyWaterInputs(), myWaterRS
+                    .getGreyWaterInputMaxFlowRates(), myWaterRS
+                    .getGreyWaterInputDesiredFlowRates(), myWaterRS
+                    .getGreyWaterInputActualFlowRates(), waterLevel);
+        }
     }
 
     /**
@@ -51,12 +63,6 @@ public class AES extends WaterRSSubSystem {
                 pushWater();
             else {
                 currentPPSWaterProduced = 0f;
-                //try to put back into dirtyWater Store.
-                waterLevel = SimBioModuleImpl.pushResourceToStore(myWaterRS
-                        .getDirtyWaterInputs(), myWaterRS
-                        .getDirtyWaterInputMaxFlowRates(), myWaterRS
-                        .getDirtyWaterInputDesiredFlowRates(), myWaterRS
-                        .getDirtyWaterInputActualFlowRates(), waterLevel);
                 //dump extra water
                 waterLevel = 0f;
 
@@ -69,8 +75,6 @@ public class AES extends WaterRSSubSystem {
                     .getDirtyWaterInputMaxFlowRates(), myWaterRS
                     .getDirtyWaterInputDesiredFlowRates(), myWaterRS
                     .getDirtyWaterInputActualFlowRates(), waterLevel);
-            //dump extra water
-            waterLevel = 0f;
         }
     }
 

@@ -42,16 +42,30 @@ public class RO extends WaterRSSubSystem {
      * Flushes the water from this subsystem to the AES
      */
     private void pushWater() {
+        //if AES is enabled, send 15% of water to it
         if (myWaterRS.getAES().isEnabled()) {
             currentAESWaterProduced = (new Double(waterLevel * 0.15f))
                     .floatValue();
             myWaterRS.getAES().addWater(currentAESWaterProduced);
-        } else {
+        }
+        //otherwise send it to dirty water tank
+        else {
             currentAESWaterProduced = 0f;
         }
-        currentPPSWaterProduced = (new Double(waterLevel * 0.85f)).floatValue();
-        myWaterRS.getPPS().addWater(currentPPSWaterProduced);
-        waterLevel = 0;
+        //if PPS is enabled, give it to it
+        if (myWaterRS.getPPS().isEnabled()){
+            currentPPSWaterProduced = (new Double(waterLevel * 0.85f)).floatValue();
+        	myWaterRS.getPPS().addWater(currentPPSWaterProduced);
+            waterLevel = 0;
+        }
+        //if not, send it to grey water tank
+        else{
+            waterLevel = SimBioModuleImpl.pushResourceToStore(myWaterRS
+                    .getGreyWaterInputs(), myWaterRS
+                    .getGreyWaterInputMaxFlowRates(), myWaterRS
+                    .getGreyWaterInputDesiredFlowRates(), myWaterRS
+                    .getGreyWaterInputActualFlowRates(), waterLevel);
+        }
     }
 
     /**

@@ -11,6 +11,7 @@ import com.traclabs.biosim.idl.simulation.power.PowerStore;
 import com.traclabs.biosim.idl.simulation.water.DirtyWaterStore;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterStore;
 import com.traclabs.biosim.idl.simulation.water.PotableWaterStore;
+import com.traclabs.biosim.idl.simulation.water.WaterRSOperationMode;
 import com.traclabs.biosim.idl.simulation.water.WaterRSOperations;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 import com.traclabs.biosim.server.util.Engine;
@@ -66,6 +67,8 @@ public class WaterRSMatlabImpl extends SimBioModuleImpl implements
     private float[] greyWaterDesiredFlowRates;
 
     private float[] potableWaterDesiredFlowRates;
+    
+    private WaterRSOperationMode myMode;
 
     //MatLab specific
     private Engine myEngine;
@@ -315,5 +318,24 @@ public class WaterRSMatlabImpl extends SimBioModuleImpl implements
 
     public PotableWaterStore[] getPotableWaterOutputs() {
         return myPotableWaterOutputs;
+    }
+
+    /* (non-Javadoc)
+     * @see com.traclabs.biosim.idl.simulation.water.WaterRSOperations#setOperationMode(com.traclabs.biosim.idl.simulation.water.WaterRSOperationMode)
+     */
+    public void setOperationMode(WaterRSOperationMode pMode) {
+        myMode = pMode;
+        if (myMode == WaterRSOperationMode.FULL){
+            
+        }
+        
+    }
+
+    /* (non-Javadoc)
+     * @see com.traclabs.biosim.idl.simulation.water.WaterRSOperations#getOpertationMode()
+     */
+    public WaterRSOperationMode getOpertationMode() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

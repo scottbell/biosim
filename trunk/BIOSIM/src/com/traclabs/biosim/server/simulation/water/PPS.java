@@ -21,7 +21,6 @@ public class PPS extends WaterRSSubSystem {
      */
     public PPS(WaterRSImpl pWaterRSImpl) {
         super(pWaterRSImpl);
-        powerNeeded = 168;
     }
 
     /**

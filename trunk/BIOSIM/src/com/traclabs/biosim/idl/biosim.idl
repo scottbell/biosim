@@ -82,6 +82,7 @@ module com{
                                                 interface PlantMission;
                                         };
                                         module water{
+                                        		enum WaterRSOperationMode {FULL, OFF, GREY_WATER_ONLY, PARTIAL};
                                                 interface WaterRS;
                                                 interface PotableWaterStore;
                                                 interface GreyWaterStore;
@@ -832,6 +833,8 @@ module com{
                                         };
                                         module water{
                                                 interface WaterRS : framework::SimBioModule, framework::PowerConsumer, framework::GreyWaterConsumer, framework::DirtyWaterConsumer, framework::PotableWaterProducer{
+                                                	void setOperationMode(in WaterRSOperationMode pMode);
+                                                	WaterRSOperationMode getOpertationMode();
                                                 };
                                                 interface WaterStore : framework::Store{
                                                 };
