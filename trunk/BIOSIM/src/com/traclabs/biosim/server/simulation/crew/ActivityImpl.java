@@ -14,21 +14,33 @@ public class ActivityImpl extends ActivityPOA {
 	private int myTimeLength = 0;
 	//The intensity of this activity (how much exertion it takes to perform it)
 	private int myActivityIntensity = 0;
-	//The order in which this activity will be perfomed
-	private int order = 0;
+	//If this activity is "special" (i.e. meaningful and not in regular schedule)
+	private boolean special = false;
 	
 	/**
 	* Returns the power consumption of the AirRS at the current tick.
 	* @param pName The name of this activity
 	* @param pTimeLength How long this activity will be performed
 	* @param pActivityIntensity The intensity of this activity (how much exertion it takes to perform it)
-	* @param pOrder The order in which this activity will be perfomed
+	* @param pSpecial If this activity is "special" (i.e. meaningful and not in regular schedule)
 	*/
-	protected ActivityImpl(String pName, int pTimeLength, int pActivityIntensity, int pOrder){
+	protected ActivityImpl(String pName, int pTimeLength, int pActivityIntensity, boolean pSpecial){
 		myName = pName;
 		myTimeLength = pTimeLength;
 		myActivityIntensity = pActivityIntensity;
-		order = pOrder;
+		special = pSpecial;
+	}
+	
+	/**
+	* Returns the power consumption of the AirRS at the current tick.
+	* @param pName The name of this activity
+	* @param pTimeLength How long this activity will be performed
+	* @param pActivityIntensity The intensity of this activity (how much exertion it takes to perform it)
+	*/
+	protected ActivityImpl(String pName, int pTimeLength, int pActivityIntensity){
+		myName = pName;
+		myTimeLength = pTimeLength;
+		myActivityIntensity = pActivityIntensity;
 	}
 	
 	/**
@@ -56,11 +68,11 @@ public class ActivityImpl extends ActivityPOA {
 	}
 	
 	/**
-	* Returns the order in which this activity will be perfomed
-	* @return The order in which this activity will be perfomed
+	* Returns whether this activity is "special" (i.e. meaningful and not in regular schedule)
+	* @return whether this activity is "special" (i.e. meaningful and not in regular schedule)
 	*/
-	public int getOrder(){
-		return order;
+	public boolean isSpecial(){
+		return special;
 	}
 	
 	/**

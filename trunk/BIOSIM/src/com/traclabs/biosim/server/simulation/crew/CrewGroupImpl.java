@@ -130,6 +130,10 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 		return mySchedule.getNumberOfActivities();
 	}
 	
+	protected int getOrderOfActivity(String activityName){
+		return mySchedule.getOrderOfActivity(activityName);
+	}
+	
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
 		StringBuffer returnBuffer = new StringBuffer();
 		if (pIntensity == MalfunctionIntensity.SEVERE_MALF)

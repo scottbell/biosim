@@ -107,7 +107,6 @@ module biosim{
                                 string getName();
                                 long getTimeLength();
                                 long getActivityIntensity();
-                                long getOrder();
                         };
                         interface CrewPerson{
                                 Activity getCurrentActivity();
