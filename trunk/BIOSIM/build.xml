@@ -150,10 +150,6 @@
 	<target name="build-ga-dist" depends="build-server,init-dist" description="creates ga dist">
 		<mkdir dir="${gaDistDir}"/>
 		<mkdir dir="${gaDistTmpDir}"/>
-		<echo message="Unpacking libraries"/>
-		<unzip dest="${gaDistTmpDir}">
-			<fileset file="${log4jDir}/log4j.jar"/>
-		</unzip>
 		<echo message="Creating biosim jar for genetic algorithm engine"/>
 		<jar destfile="${gaDistDir}/biosim.jar">
 			<fileset dir="${buildDir}" includes="com/traclabs/biosim/server/**, com/traclabs/biosim/idl/**"/>
