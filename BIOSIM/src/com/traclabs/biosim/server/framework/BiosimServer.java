@@ -260,18 +260,38 @@ public class BiosimServer extends GenericServer{
 				O2AirConcentrationSensorImpl myO2AirConcentrationSensorImpl = new O2AirConcentrationSensorImpl(id);
 				CO2AirConcentrationSensorImpl myCO2AirConcentrationSensorImpl = new CO2AirConcentrationSensorImpl(id);
 				OtherAirConcentrationSensorImpl myOtherAirConcentrationSensorImpl = new OtherAirConcentrationSensorImpl(id);
+				WaterAirConcentrationSensorImpl myWaterAirConcentrationSensorImpl = new WaterAirConcentrationSensorImpl(id);
+				O2AirPressureSensorImpl myO2AirPressureSensorImpl = new O2AirPressureSensorImpl(id);
+				CO2AirPressureSensorImpl myCO2AirPressureSensorImpl = new CO2AirPressureSensorImpl(id);
+				OtherAirPressureSensorImpl myOtherAirPressureSensorImpl = new OtherAirPressureSensorImpl(id);
+				WaterAirPressureSensorImpl myWaterAirPressureSensorImpl = new WaterAirPressureSensorImpl(id);
 				registerServer(new O2AirConcentrationSensorPOATie(myO2AirConcentrationSensorImpl), "CrewEnvironment" + myO2AirConcentrationSensorImpl.getModuleName());
 				registerServer(new CO2AirConcentrationSensorPOATie(myCO2AirConcentrationSensorImpl), "CrewEnvironment" + myCO2AirConcentrationSensorImpl.getModuleName());
 				registerServer(new OtherAirConcentrationSensorPOATie(myOtherAirConcentrationSensorImpl), "CrewEnvironment" + myOtherAirConcentrationSensorImpl.getModuleName());
+				registerServer(new WaterAirConcentrationSensorPOATie(myWaterAirConcentrationSensorImpl), "CrewEnvironment" + myWaterAirConcentrationSensorImpl.getModuleName());
+				registerServer(new O2AirPressureSensorPOATie(myO2AirPressureSensorImpl), "CrewEnvironment" + myO2AirPressureSensorImpl.getModuleName());
+				registerServer(new CO2AirPressureSensorPOATie(myCO2AirPressureSensorImpl), "CrewEnvironment" + myCO2AirPressureSensorImpl.getModuleName());
+				registerServer(new OtherAirPressureSensorPOATie(myOtherAirPressureSensorImpl), "CrewEnvironment" + myOtherAirPressureSensorImpl.getModuleName());
+				registerServer(new WaterAirPressureSensorPOATie(myWaterAirPressureSensorImpl), "CrewEnvironment" + myWaterAirPressureSensorImpl.getModuleName());
 			}
 			//Plant Evnironment
 			{
 				O2AirConcentrationSensorImpl myO2AirConcentrationSensorImpl = new O2AirConcentrationSensorImpl(id);
 				CO2AirConcentrationSensorImpl myCO2AirConcentrationSensorImpl = new CO2AirConcentrationSensorImpl(id);
 				OtherAirConcentrationSensorImpl myOtherAirConcentrationSensorImpl = new OtherAirConcentrationSensorImpl(id);
+				WaterAirConcentrationSensorImpl myWaterAirConcentrationSensorImpl = new WaterAirConcentrationSensorImpl(id);
+				O2AirPressureSensorImpl myO2AirPressureSensorImpl = new O2AirPressureSensorImpl(id);
+				CO2AirPressureSensorImpl myCO2AirPressureSensorImpl = new CO2AirPressureSensorImpl(id);
+				OtherAirPressureSensorImpl myOtherAirPressureSensorImpl = new OtherAirPressureSensorImpl(id);
+				WaterAirPressureSensorImpl myWaterAirPressureSensorImpl = new WaterAirPressureSensorImpl(id);
 				registerServer(new O2AirConcentrationSensorPOATie(myO2AirConcentrationSensorImpl), "PlantEnvironment" + myO2AirConcentrationSensorImpl.getModuleName());
 				registerServer(new CO2AirConcentrationSensorPOATie(myCO2AirConcentrationSensorImpl), "PlantEnvironment" + myCO2AirConcentrationSensorImpl.getModuleName());
 				registerServer(new OtherAirConcentrationSensorPOATie(myOtherAirConcentrationSensorImpl), "PlantEnvironment" + myOtherAirConcentrationSensorImpl.getModuleName());
+				registerServer(new WaterAirConcentrationSensorPOATie(myWaterAirConcentrationSensorImpl), "PlantEnvironment" + myWaterAirConcentrationSensorImpl.getModuleName());
+				registerServer(new O2AirPressureSensorPOATie(myO2AirPressureSensorImpl), "PlantEnvironment" + myO2AirPressureSensorImpl.getModuleName());
+				registerServer(new CO2AirPressureSensorPOATie(myCO2AirPressureSensorImpl), "PlantEnvironment" + myCO2AirPressureSensorImpl.getModuleName());
+				registerServer(new OtherAirPressureSensorPOATie(myOtherAirPressureSensorImpl), "PlantEnvironment" + myOtherAirPressureSensorImpl.getModuleName());
+				registerServer(new WaterAirPressureSensorPOATie(myWaterAirPressureSensorImpl), "PlantEnvironment" + myWaterAirPressureSensorImpl.getModuleName());
 			}
 
 		}
