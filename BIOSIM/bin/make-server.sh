@@ -21,9 +21,8 @@ else
 	echo "		-using jikes compiler"
 fi
 if [ -z "$JAVA_HOME" ]; then
-	echo "		-JAVA_HOME not set, assuming java and javac are in path..."
+	echo "		-JAVA_HOME not set, assuming java is in path..."
 	java_command="java"
-	javac_command="javac"
 fi
 JRE_HOME="$JAVA_HOME/jre"
 genString="/generated"
