@@ -18,6 +18,8 @@ then
 	java_command="java"
 	javac_command="javac"
 fi
+javaVersion=`$java_command -version`
+echo "java version is $javaVersion"
 genString="/generated"
 genDir=$devRootDir$genString
 if [ ! -e "$genDir" ]
@@ -72,7 +74,7 @@ simSkeletonDir="$skeletonDir/$simString"
 serverDir="$devRootDir/src/biosim/server"
 sourceDir="$devRootDir/src"
 jacoClasspath="$JACORB_HOME/lib/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME/lib"
-compilationInvocation="$javac_command -d $serverClassesDir -classpath $skeletonDir$separator$serverClassesDir$separator$sourceDir"
+compilationInvocation="$javac_command -d $serverClassesDir -classpath $skeletonDir$separator$serverClassesDir$separator$sourceDir$separator$jacoClasspath"
 echo "			-compiling skeletons with $compilationInvocation $simSkeletonDir/*.java"
 $compilationInvocation $simSkeletonDir/*.java
 echo "			-compiling air"
