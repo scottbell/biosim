@@ -42,7 +42,8 @@ public class BioDriverImpl extends BioDriverPOA{
 	private CrewGroup[] crewsToWatch;
 	private BiomassRS[] plantsToWatch;
 	private BioModule[] modules;
-	private BioModule[] simModules;
+	private BioModule[] activeSimModules;
+	private BioModule[] passiveSimModules;
 	private BioModule[] sensors;
 	private BioModule[] actuators;
 
@@ -53,7 +54,8 @@ public class BioDriverImpl extends BioDriverPOA{
 	public BioDriverImpl(int pID){
 		myID = pID;
 		modules = new BioModule[0];
-		simModules = new BioModule[0];
+		activeSimModules = new BioModule[0];
+		passiveSimModules = new BioModule[0];
 		sensors = new BioModule[0];
 		actuators = new BioModule[0];
 		crewsToWatch = new CrewGroup[0];
@@ -127,8 +129,12 @@ public class BioDriverImpl extends BioDriverPOA{
 		actuators = pActuators;
 	}
 
-	public void setSimModules(BioModule[] pSimModules){
-		simModules = pSimModules;
+	public void setActiveSimModules(BioModule[] pSimModules){
+		activeSimModules = pSimModules;
+	}
+	
+	public void setPassiveSimModules(BioModule[] pSimModules){
+		passiveSimModules = pSimModules;
 	}
 
 	public BioModule[] getModules(){
@@ -139,8 +145,12 @@ public class BioDriverImpl extends BioDriverPOA{
 		return sensors;
 	}
 
-	public BioModule[] getSimModules(){
-		return simModules;
+	public BioModule[] getActiveSimModules(){
+		return activeSimModules;
+	}
+	
+	public BioModule[] getPassiveSimModules(){
+		return passiveSimModules;
 	}
 
 	public BioModule[] getActuators(){
@@ -168,10 +178,17 @@ public class BioDriverImpl extends BioDriverPOA{
 		return actuatorNameArray;
 	}
 
-	public String[] getSimModuleNames(){
-		String[] simModuleNameArray = new String[simModules.length];
+	public String[] getActiveSimModuleNames(){
+		String[] simModuleNameArray = new String[activeSimModules.length];
 		for (int i = 0; i < simModuleNameArray.length; i++)
-			simModuleNameArray[i] = simModules[i].getModuleName();
+			simModuleNameArray[i] = activeSimModules[i].getModuleName();
+		return simModuleNameArray;
+	}
+	
+	public String[] getPassiveSimModuleNames(){
+		String[] simModuleNameArray = new String[passiveSimModules.length];
+		for (int i = 0; i < simModuleNameArray.length; i++)
+			simModuleNameArray[i] = passiveSimModules[i].getModuleName();
 		return simModuleNameArray;
 	}
 
@@ -465,9 +482,14 @@ public class BioDriverImpl extends BioDriverPOA{
 			BioModule currentBioModule = (BioModule)(actuators[i]);
 			currentBioModule.tick();
 		}
-		//Iterate through the sim modules and tick them
-		for (int i = 0; i < simModules.length; i++){
-			BioModule currentBioModule = (BioModule)(simModules[i]);
+		//Iterate through the active sim modules and tick them
+		for (int i = 0; i < activeSimModules.length; i++){
+			BioModule currentBioModule = (BioModule)(activeSimModules[i]);
+			currentBioModule.tick();
+		}
+		//Iterate through the passive sim modules and tick them
+		for (int i = 0; i < passiveSimModules.length; i++){
+			BioModule currentBioModule = (BioModule)(passiveSimModules[i]);
 			currentBioModule.tick();
 		}
 		//Iterate through the sensors and tick them

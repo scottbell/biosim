@@ -7,6 +7,7 @@ import biosim.idl.simulation.framework.*;
 import biosim.idl.framework.*;
 import biosim.idl.framework.*;
 import biosim.server.simulation.framework.*;
+import biosim.server.util.*;
 import java.util.*;
 /**
  * The SimEnvironment acts as the environment in which the crew breathes from and as the keeper of time.
@@ -64,6 +65,10 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	private static final float DAY_LENGTH = 24f;
 	private String myName;
 	private LogIndex myLogIndex;
+	//Used for finding what the current tick is (to see if we're behind or ahead)
+	private BioDriver myDriver;
+	//Whether this Store has collected a reference to the BioDriver or not.
+	private boolean hasCollectedReferences = false;
 
 	/**
 	* Creates a SimEnvironment (with a volume of 100000 liters) and resets the gas levels to correct percantages of sea level air
@@ -167,7 +172,10 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	}
 
 	public float getAirPressure(){
-		return cachedCO2Pressure + cachedO2Pressure + cachedWaterPressure + cachedOtherPressure + cachedNitrogenPressure;
+		if (cachedValueNeeded())
+			return cachedCO2Pressure + cachedO2Pressure + cachedWaterPressure + cachedOtherPressure + cachedNitrogenPressure;
+		else
+			return CO2Pressure + O2Pressure + waterPressure + otherPressure + nitrogenPressure;
 	}
 
 	//constant for right now (function of temperature);
@@ -345,7 +353,10 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @return retrieves the the total level of gas in the environment (in moles)
 	*/
 	public float getTotalMoles(){
-		return CO2Moles + O2Moles + waterMoles + otherMoles + nitrogenMoles;
+		if (cachedValueNeeded())
+			return cachedO2Moles + cachedCO2Moles + cachedWaterMoles + cachedOtherMoles + cachedNitrogenMoles;
+		else
+			return O2Moles + CO2Moles + waterMoles + otherMoles + nitrogenMoles;
 	}
 
 	/**
@@ -353,7 +364,11 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @return retrieves the the total level of gas in the environment (in kPA)
 	*/
 	public float getTotalPressure(){
-		return CO2Pressure + O2Pressure + waterPressure + otherPressure + nitrogenPressure;
+		if (cachedValueNeeded())
+			return cachedCO2Pressure + cachedO2Pressure + cachedWaterPressure + cachedOtherPressure + cachedNitrogenPressure;
+		else
+			return CO2Pressure + O2Pressure + waterPressure + otherPressure + nitrogenPressure;
+		
 	}
 	
 	public float getVolume(){
@@ -407,7 +422,10 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @return the other gasses level (in moles)
 	*/
 	public float getOtherMoles(){
-		return cachedOtherMoles;
+		if (cachedValueNeeded())
+			return cachedOtherMoles;
+		else
+			return otherMoles;
 	}
 
 	/**
@@ -415,7 +433,10 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @return the O2 level (in moles)
 	*/
 	public float getO2Moles(){
-		return cachedO2Moles;
+		if (cachedValueNeeded())
+			return cachedO2Moles;
+		else
+			return O2Moles;
 	}
 
 	/**
@@ -423,7 +444,10 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @return the CO2 level (in moles)
 	*/
 	public float getCO2Moles(){
-		return cachedCO2Moles;
+		if (cachedValueNeeded())
+			return cachedCO2Moles;
+		else
+			return CO2Moles;
 	}
 
 	/**
@@ -431,7 +455,10 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @return the water gas level (in moles)
 	*/
 	public float getWaterMoles(){
-		return cachedWaterMoles;
+		if (cachedValueNeeded())
+			return cachedWaterMoles;
+		else
+			return waterMoles;
 	}
 
 	/**
@@ -439,7 +466,10 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @return the Nitrogen gas level (in moles)
 	*/
 	public float getNitrogenMoles(){
-		return cachedNitrogenMoles;
+		if (cachedValueNeeded())
+			return cachedNitrogenMoles;
+		else
+			return nitrogenMoles;
 	}
 
 	/**
@@ -447,7 +477,10 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @return the other gasses level (in kPA)
 	*/
 	public float getOtherPressure(){
-		return cachedOtherPressure;
+		if (cachedValueNeeded())
+			return cachedOtherPressure;
+		else
+			return otherPressure;
 	}
 
 	/**
@@ -455,7 +488,10 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @return the water gasses level (in kPA)
 	*/
 	public float getWaterPressure(){
-		return cachedWaterPressure;
+		if (cachedValueNeeded())
+			return cachedWaterPressure;
+		else
+			return waterPressure;
 	}
 
 	/**
@@ -463,7 +499,10 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @return the O2 level (in kPA)
 	*/
 	public float getO2Pressure(){
-		return cachedO2Pressure;
+		if (cachedValueNeeded())
+			return cachedO2Pressure;
+		else
+			return O2Pressure;
 	}
 
 	/**
@@ -471,7 +510,10 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @return the CO2 level (in kPA)
 	*/
 	public float getCO2Pressure(){
-		return cachedCO2Pressure;
+		if (cachedValueNeeded())
+			return cachedCO2Pressure;
+		else
+			return CO2Pressure; 
 	}
 
 	/**
@@ -479,7 +521,10 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @return the Nitrogen level (in kPA)
 	*/
 	public float getNitrogenPressure(){
-		return cachedNitrogenPressure;
+		if (cachedValueNeeded())
+			return cachedNitrogenPressure;
+		else
+			return nitrogenPressure;
 	}
 
 	/**
@@ -857,16 +902,32 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		cachedWaterPressure = waterPressure;
 		cachedNitrogenPressure = nitrogenPressure;
 		calculateLightIntensity();
-		//System.out.println(getModuleName()+": O2Moles: "+O2Moles);
-		//System.out.println(getModuleName()+": CO2Moles: "+CO2Moles);
-		//System.out.println(getModuleName()+": otherMoles: "+otherMoles);
-		//System.out.println(getModuleName()+": waterMoles: "+waterMoles);
+		//System.out.print("SimEnvironmentImpl: O2Moles\t"+O2Moles+"\t");
+		//System.out.print("CO2Moles\t"+CO2Moles+"\t");
+		//System.out.print("otherMoles\t"+otherMoles+"\t");
+		//System.out.println("waterMoles\t"+waterMoles);
 		//System.out.println(getModuleName()+": O2Pressure: "+O2Pressure);
 		//System.out.println(getModuleName()+": CO2Pressure: "+CO2Pressure);
 		//System.out.println(getModuleName()+": otherPressure: "+otherPressure);
 		//System.out.println(getModuleName()+": waterPressure: "+waterPressure);
 		//System.out.println(getModuleName()+": nitrogenPressure: "+nitrogenPressure);
 		//System.out.println(getModuleName()+": airPressure: "+getAirPressure());
+	}
+	
+	public void printCachedEnvironment(){
+		System.out.print("SimEnvironmentImpl (cached): cachedO2Moles\t"+cachedO2Moles+"\t");
+		System.out.print("cachedCO2Moles\t"+cachedCO2Moles+"\t");
+		System.out.print("cachedOtherMoles\t"+cachedOtherMoles+"\t");
+		System.out.print("cachedWaterMoles\t"+cachedWaterMoles+"\t");
+		System.out.println("cachedNitrogenMoles\t"+cachedNitrogenMoles);
+	}
+	
+	public void printEnvironment(){
+		System.out.print("SimEnvironmentImpl (instant): O2Moles\t"+O2Moles+"\t");
+		System.out.print("CO2Moles\t"+CO2Moles+"\t");
+		System.out.print("otherMoles\t"+otherMoles+"\t");
+		System.out.print("waterMoles\t"+waterMoles+"\t");
+		System.out.println("nitrogenMoles\t"+nitrogenMoles);
 	}
 
 	public void log(){
@@ -915,6 +976,28 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		}
 		System.out.println("Sending log()..");
 		sendLog(myLog);
+	}
+	
+	private boolean cachedValueNeeded(){
+		collectReferences();
+		return (getMyTicks() == myDriver.getTicks());
+	}
+	
+	/**
+	* Collects references to BioDriver for getting current tick
+	*/
+	private void collectReferences(){
+		if (!hasCollectedReferences){
+			try{
+				myDriver = BioDriverHelper.narrow(OrbUtils.getNamingContext(getID()).resolve_str("BioDriver"));
+				hasCollectedReferences = true;
+
+			}
+			catch (org.omg.CORBA.UserException e){
+				System.err.println(getModuleName()+": Couldn't find BioDriver!!");
+				e.printStackTrace(System.out);
+			}
+		}
 	}
 
 	/**
