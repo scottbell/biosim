@@ -24,6 +24,7 @@ import javax.swing.JTabbedPane;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.tigris.gef.graph.presentation.JGraph;
+import org.tigris.gef.presentation.FigCircle;
 
 import com.traclabs.biosim.client.framework.gui.BioFrame;
 
@@ -197,6 +198,7 @@ public class BiosimEditor {
         myGraphPanel = new JPanel();
         myGraphPanel.setLayout(new GridLayout(1, 1));
         myGraphPanel.add(myGraph);
+        myGraph.getEditor().add(new FigCircle(0,0,50,50));
         
         myGraphPanel.setBorder(BorderFactory
                 .createTitledBorder("Editing Pane"));
