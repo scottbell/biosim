@@ -533,6 +533,10 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @return the amount of CO2 gasses (in moles) actually added to the environment
 	*/
 	public float addCO2Moles(float molesRequested){
+		if (Float.isNaN(molesRequested)){
+			System.out.println(getModuleName()+": warning, in addCO2Moles, attemped to add "+molesRequested);
+			return 0f;
+		}
 		if (molesRequested <= 0)
 			return 0f;
 		float afterAdditionCO2 = 0f;
@@ -560,6 +564,10 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @return the amount of O2 gasses (in moles) actually added to the environment
 	*/
 	public float addO2Moles(float molesRequested){
+		if (Float.isNaN(molesRequested)){
+			System.out.println(getModuleName()+": warning, in addO2Moles, attemped to add "+molesRequested);
+			return 0f;
+		}
 		if (molesRequested <= 0)
 			return 0f;
 		float afterAdditionO2 = 0f;
@@ -586,6 +594,10 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @return the amount of other gasses (in moles) actually added to the environment
 	*/
 	public float addOtherMoles(float molesRequested){
+		if (Float.isNaN(molesRequested)){
+			System.out.println(getModuleName()+": warning, in addOtherMoles, attemped to add "+molesRequested);
+			return 0f;
+		}
 		if (molesRequested <= 0)
 			return 0f;
 		float afterAdditionOther = 0f;
@@ -613,6 +625,10 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @return the amount of water gasses (in moles) actually added to the environment
 	*/
 	public float addWaterMoles(float molesRequested){
+		if (Float.isNaN(molesRequested)){
+			System.out.println(getModuleName()+": warning, in addWaterMoles, attemped to add "+molesRequested);
+			return 0f;
+		}
 		if (molesRequested <= 0)
 			return 0f;
 		float afterAdditionWater = 0f;
@@ -640,6 +656,10 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @return the amount of nitrogen gasses (in moles) actually added to the environment
 	*/
 	public float addNitrogenMoles(float molesRequested){
+		if (Float.isNaN(molesRequested)){
+			System.out.println(getModuleName()+": warning, in addNitrogenMoles, attemped to add "+molesRequested);
+			return 0f;
+		}
 		if (molesRequested <= 0)
 			return 0f;
 		float afterAdditionNitrogen = 0f;
@@ -661,105 +681,120 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		return  actuallyAddedNitrogen;
 	}
 
-	public float takeCO2Moles(float amountRequested){
+	public float takeCO2Moles(float molesRequested){
 		//idiot check
-		if (amountRequested <= 0){
+		if (Float.isNaN(molesRequested)){
+			System.out.println(getModuleName()+": warning, in takeCO2Moles, attemped to remove "+molesRequested);
 			return 0f;
 		}
+		if (molesRequested <= 0)
+			return 0f;
 		float actuallyTaken;
 		//asking for more stuff than exists
-		if (amountRequested > CO2Moles){
+		if (molesRequested > CO2Moles){
 			actuallyTaken = randomFilter(CO2Moles);
 			CO2Moles = 0;
 			CO2Pressure = 0;
 		}
 		//stuff exists for request
 		else{
-			actuallyTaken = randomFilter(amountRequested);
+			actuallyTaken = randomFilter(molesRequested);
 			//take moles
 			CO2Moles -= actuallyTaken;
 		}
 		return actuallyTaken;
 	}
 
-	public float takeO2Moles(float amountRequested){
+	public float takeO2Moles(float molesRequested){
 		//idiot check
-		if (amountRequested <= 0){
+		if (Float.isNaN(molesRequested)){
+			System.out.println(getModuleName()+": warning, in takeO2Moles, attemped to remove "+molesRequested);
 			return 0f;
 		}
+		if (molesRequested <= 0)
+			return 0f;
 		float actuallyTaken;
 		//asking for more stuff than exists
-		if (amountRequested > O2Moles){
+		if (molesRequested > O2Moles){
 			actuallyTaken = randomFilter(O2Moles);
 			O2Moles = 0;
 			O2Pressure = 0;
 		}
 		//stuff exists for request
 		else{
-			actuallyTaken = randomFilter(amountRequested);
+			actuallyTaken = randomFilter(molesRequested);
 			//take moles
 			O2Moles -= actuallyTaken;
 		}
 		return actuallyTaken;
 	}
 
-	public float takeOtherMoles(float amountRequested){
+	public float takeOtherMoles(float molesRequested){
 		//idiot check
-		if (amountRequested <= 0){
+		if (Float.isNaN(molesRequested)){
+			System.out.println(getModuleName()+": warning, in takeOtherMoles, attemped to remove "+molesRequested);
 			return 0f;
 		}
+		if (molesRequested <= 0)
+			return 0f;
 		float actuallyTaken;
 		//asking for more stuff than exists
-		if (amountRequested > otherMoles){
+		if (molesRequested > otherMoles){
 			actuallyTaken = randomFilter(otherMoles);
 			otherMoles = 0;
 			otherPressure = 0;
 		}
 		//stuff exists for request
 		else{
-			actuallyTaken = randomFilter(amountRequested);
+			actuallyTaken = randomFilter(molesRequested);
 			//take moles
 			otherMoles -= actuallyTaken;
 		}
 		return actuallyTaken;
 	}
 
-	public float takeWaterMoles(float amountRequested){
+	public float takeWaterMoles(float molesRequested){
 		//idiot check
-		if (amountRequested <= 0){
+		if (Float.isNaN(molesRequested)){
+			System.out.println(getModuleName()+": warning, in takeWaterMoles, attemped to remove "+molesRequested);
 			return 0f;
 		}
+		if (molesRequested <= 0)
+			return 0f;
 		float actuallyTaken;
 		//asking for more stuff than exists
-		if (amountRequested > waterMoles){
+		if (molesRequested > waterMoles){
 			actuallyTaken = randomFilter(waterMoles);
 			waterMoles = 0;
 			waterPressure = 0;
 		}
 		//stuff exists for request
 		else{
-			actuallyTaken = randomFilter(amountRequested);
+			actuallyTaken = randomFilter(molesRequested);
 			//take moles
 			waterMoles -= actuallyTaken;
 		}
 		return actuallyTaken;
 	}
 	
-	public float takeNitrogenMoles(float amountRequested){
+	public float takeNitrogenMoles(float molesRequested){
 		//idiot check
-		if (amountRequested <= 0){
+		if (Float.isNaN(molesRequested)){
+			System.out.println(getModuleName()+": warning, in takeNitrogenMoles, attemped to remove "+molesRequested);
 			return 0f;
 		}
+		if (molesRequested <= 0)
+			return 0f;
 		float actuallyTaken;
 		//asking for more stuff than exists
-		if (amountRequested > nitrogenMoles){
+		if (molesRequested > nitrogenMoles){
 			actuallyTaken = randomFilter(nitrogenMoles);
 			nitrogenMoles = 0;
 			nitrogenPressure = 0;
 		}
 		//stuff exists for request
 		else{
-			actuallyTaken = randomFilter(amountRequested);
+			actuallyTaken = randomFilter(molesRequested);
 			//take moles
 			nitrogenMoles -= actuallyTaken;
 		}
@@ -772,9 +807,12 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 
 	public Breath takeAirMoles(float molesRequested){
 		//idiot check
-		if (molesRequested <= 0){
+		if (Float.isNaN(molesRequested)){
+			System.out.println(getModuleName()+": warning, in takeAirMoles, attemped to remove "+molesRequested);
 			return new Breath(0f, 0f, 0f, 0f, 0f);
 		}
+		if (molesRequested <= 0)
+			return new Breath(0f, 0f, 0f, 0f, 0f);
 		//asking for more gas than exists
 		if (molesRequested >= getTotalMoles()){
 			float afterRemovalCO2 = randomFilter(CO2Moles);

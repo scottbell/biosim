@@ -414,7 +414,6 @@ public abstract class PlantImpl extends PlantPOA{
 		//System.out.println("PlantImpl: totalCO2GramsConsumed: "+totalCO2GramsConsumed);
 		myShelfImpl.getBiomassRSImpl().addAirInputActualFlowRates(0,molesOfCO2Inhaled);
 		//System.out.println("PlantImpl: molesOfCO2ToInhale: "+molesOfCO2ToInhale);
-		//System.out.println("PlantImpl: molesOfCO2Inhaled: "+molesOfCO2Inhaled);
 
 		//Exhale Air
 		float dailyO2MolesProduced = 0f;
@@ -431,7 +430,6 @@ public abstract class PlantImpl extends PlantPOA{
 		float O2Exhaled = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0].addO2Moles(O2Produced);
 		myShelfImpl.getBiomassRSImpl().addAirOutputActualFlowRates(0,O2Exhaled);
 		//System.out.println("PlantImpl: O2Produced: "+O2Produced);
-		//System.out.println("PlantImpl: O2Exhaled: "+O2Exhaled);
 
 		//Water Vapor Produced
 		if (waterFraction < 1f)
@@ -553,14 +551,15 @@ public abstract class PlantImpl extends PlantPOA{
 		}
 		//System.out.println("]");
 		float totalFiller = fillerValue * ((myTimeTillCanopyClosure * 24f) - pList.size());
-		/*
-		System.out.println("fillerValue = "+fillerValue);
-		System.out.println("totalFiller = "+totalFiller);
-		System.out.println("totalReal = "+totalReal);
-		System.out.println("pList.size() = "+pList.size());
-		System.out.println("myTimeTillCanopyClosure * 24f = "+myTimeTillCanopyClosure * 24f);
-		System.out.println("getAverageForList returning "+((totalFiller + totalReal) / (myTimeTillCanopyClosure * 24f)));
-		*/
+		
+		//System.out.println("fillerValue = "+fillerValue);
+		//System.out.println("totalFiller = "+totalFiller);
+		//System.out.println("totalReal = "+totalReal);
+		//System.out.println("pList.size() = "+pList.size());
+		//System.out.println("myTimeTillCanopyClosure * 24f = "+myTimeTillCanopyClosure * 24f);
+		//System.out.println("myTimeTillCanopyClosure = "+myTimeTillCanopyClosure);
+		//System.out.println("getAverageForList returning "+((totalFiller + totalReal) / (myTimeTillCanopyClosure * 24f)));
+		
 		return (totalFiller + totalReal) / (myTimeTillCanopyClosure * 24f);
 	}
 
