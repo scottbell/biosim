@@ -318,7 +318,7 @@ public class BioHolderInitializer {
         }
     }
 
-    private static org.omg.CORBA.Object grabModule(String moduleName) {
+    public static org.omg.CORBA.Object grabModule(String moduleName) {
         org.omg.CORBA.Object moduleToReturn = null;
         while (moduleToReturn == null) {
             try {
