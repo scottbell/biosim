@@ -36,7 +36,7 @@ public class XMLLogHandler implements LogHandler{
 		String biosimPath = new String();
 		biosimPath = System.getProperty("BIOSIM_HOME");
 		if (biosimPath != null)
-			biosimPath = biosimPath + "/generated/";
+			biosimPath = biosimPath + "/tmp/";
 		if (biosimPath != null)
 			myOutputFile = new File(biosimPath + DEFAULT_FILENAME);
 		else
