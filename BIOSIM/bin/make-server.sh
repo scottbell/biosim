@@ -51,6 +51,8 @@ if [ ! -e  "$skeletonDir" ]
 then
 	mkdir $skeletonDir
 	echo "			-creating skeletons directory"
+	echo "				-no skeletons (switching to make all)"
+	userSelect="all"
 fi
 serverClassesString="/classes"
 serverClassesDir=$serverGenDir$serverClassesString
@@ -62,7 +64,7 @@ fi
 relativeIDLDir="/src/biosim/idl/biosim.idl"
 fullIDLDir=$devRootDir$relativeIDLDir
 idlInvocation="$java_command -classpath $JACORB_HOME/lib/idl.jar org.jacorb.idl.parser"
-if [ "$userSelect" = "all" ]
+if [ "$userSelect" == "all" ]
 then
 	echo "			-generating skeletons/stubs"
 	$idlInvocation -d $skeletonDir $fullIDLDir
@@ -77,7 +79,7 @@ serverDir="$devRootDir/src/biosim/server"
 sourceDir="$devRootDir/src"
 jacoClasspath="$JACORB_HOME/lib/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME/lib"
 compilationInvocation="$javac_command -d $serverClassesDir -classpath $skeletonDir$separator$serverClassesDir$separator$sourceDir$separator$jacoClasspath"
-if [ "$userSelect" = "all" ]
+if [ "$userSelect" == "all" ]
 then
 	echo "			-compiling skeletons/stubs"
 	echo "				-compiling air skeletons/stubs"
