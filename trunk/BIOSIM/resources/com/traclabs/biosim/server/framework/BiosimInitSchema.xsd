@@ -59,24 +59,64 @@
 	
 	<xsd:complexType name="SimModulesType">
 		<xsd:all>
-			<xsd:element name="PotableWaterStore" type="PotableWaterStoreType" minOccurs="0"/>
-			<xsd:element name="DirtyWaterStore" type="Store" minOccurs="0"/>
-			<xsd:element name="GreyWaterStore" type="Store" minOccurs="0"/>
-			<xsd:element name="O2Store" type="Store" minOccurs="0"/>
-			<xsd:element name="CO2Store" type="Store" minOccurs="0"/>
-			<xsd:element name="H2Store" type="Store" minOccurs="0"/>
-			<xsd:element name="FoodStore" type="Store" minOccurs="0"/>
-			<xsd:element name="BiomassStore" type="Store" minOccurs="0"/>
-			<xsd:element name="PowerStore" type="Store" minOccurs="0"/>
-			<xsd:element name="AirRS" type="AirRSType" minOccurs="0"/>
-			<xsd:element name="CrewGroup" type="CrewGroupType" minOccurs="0"/>
-			<xsd:element name="SimEnvironment" type="SimEnvironmentType" minOccurs="0"/>
-			<xsd:element name="BiomassRS" type="BiomassRSType" minOccurs="0"/>
-			<xsd:element name="FoodProcessor" type="FoodProcessorType" minOccurs="0"/>
-			<xsd:element name="PowerPS" type="PowerPSType" minOccurs="0"/>
-			<xsd:element name="WaterRS" type="WaterRSType" minOccurs="0"/>
+			<xsd:element name="air" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:all>
+						<xsd:element name="AirRS" type="AirRSType" minOccurs="0"/>
+						<xsd:element name="O2Store" type="Store" minOccurs="0"/>
+						<xsd:element name="CO2Store" type="Store" minOccurs="0"/>
+						<xsd:element name="H2Store" type="Store" minOccurs="0"/>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="crew" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:all>
+						<xsd:element name="CrewGroup" type="CrewGroupType" minOccurs="0"/>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="environment" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:all>
+						
+						<xsd:element name="SimEnvironment" type="SimEnvironmentType" minOccurs="0"/>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="food" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:all>
+						<xsd:element name="FoodProcessor" type="FoodProcessorType" minOccurs="0"/>
+						<xsd:element name="BiomassRS" type="BiomassRSType" minOccurs="0"/>
+						<xsd:element name="BiomassStore" type="Store" minOccurs="0"/>
+						<xsd:element name="FoodStore" type="Store" minOccurs="0"/>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="power" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:all>
+						<xsd:element name="PowerStore" type="Store" minOccurs="0"/>
+						<xsd:element name="PowerPS" type="PowerPSType" minOccurs="0"/>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="water" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:all>
+						<xsd:element name="WaterRS" type="WaterRSType" minOccurs="0"/>
+						<xsd:element name="PotableWaterStore" type="PotableWaterStoreType" minOccurs="0"/>
+						<xsd:element name="DirtyWaterStore" type="Store" minOccurs="0"/>
+						<xsd:element name="GreyWaterStore" type="Store" minOccurs="0"/>
+						<xsd:element name="H2Store" type="Store" minOccurs="0"/>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
 		</xsd:all>     
 	</xsd:complexType>
+	
+	
 	
 	<xsd:complexType name="SensorsType">
 		<xsd:all>
