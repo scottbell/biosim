@@ -30,7 +30,7 @@ case $javaVersionString in
 	*)java_command="$java_command -client";echo "		-assuming Sun VM";;
 esac
 JACORB_HOME="$devRootDir/lib/jacorb"
-jacoNameIOR="-DORBInitRef.NameService=file:$iorHome/generated/ns/ior.txt"
+jacoNameIOR="-DORBInitRef.NameService=file:$iorHome/build/ns/ior.txt"
 separator=":"
 machineType=`uname -s`
 winName="CYGWIN"
@@ -48,7 +48,7 @@ native3DDir="-Djava.library.path=$joglDir"
 ####################
 # CLIENTS START	   #
 ####################
-genString="/generated"
+genString="/build"
 genDir=$devRootDir$genString
 clientGenString="/client"
 clientGenDir=$genDir$clientGenString
