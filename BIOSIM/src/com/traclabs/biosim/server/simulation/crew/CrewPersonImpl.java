@@ -164,8 +164,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 
     private static final float CO2_HIGH_RECOVERY_RATE = 0.005f;
 
-    private static final float O2_HIGH_RATIO = 1.0f;
-
     private static final float O2_HIGH_TILL_DEAD = 8f;
 
     private static final float O2_HIGH_RECOVERY_RATE = 0.01f;
@@ -226,8 +224,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
                 CO2_HIGH_TILL_DEAD * CO2_HIGH_RATIO);
         consumedLowOxygenBuffer = new SimpleBuffer(O2_LOW_TILL_DEAD * O2_LOW_RATIO,
                 O2_LOW_TILL_DEAD * O2_LOW_RATIO);
-        highOxygenBuffer = new SimpleBuffer(O2_HIGH_TILL_DEAD * O2_HIGH_RATIO,
-                O2_HIGH_TILL_DEAD * O2_HIGH_RATIO);
+        highOxygenBuffer = new SimpleBuffer(O2_HIGH_TILL_DEAD * 1,
+                O2_HIGH_TILL_DEAD * 1);
         sleepBuffer = new SimpleBuffer(AWAKE_TILL_EXHAUSTION,
                 AWAKE_TILL_EXHAUSTION);
         leisureBuffer = new SimpleBuffer(LEISURE_TILL_BURNOUT,
@@ -987,9 +985,11 @@ public class CrewPersonImpl extends CrewPersonPOA {
             suffocating = true;
         } else
             suffocating = false;
-        if (getO2Ratio() > O2_HIGH_RATIO) {
-                highOxygenBuffer.take(getO2Ratio() - O2_HIGH_RATIO);
-                fireRisked = true;
+        
+        float dangerousOxygenThreshold = myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments()[0].getDangerousOxygenThreshold();
+        if (getO2Ratio() >  dangerousOxygenThreshold){
+            highOxygenBuffer.take(getO2Ratio() - dangerousOxygenThreshold);
+            fireRisked = true;
         } else
         if (getCO2Ratio() > CO2_HIGH_RATIO) {
             consumedCO2Buffer.take(getCO2Ratio() - CO2_HIGH_RATIO);

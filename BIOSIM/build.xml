@@ -79,7 +79,7 @@
 
 	<target name="build-server" depends="stub-idl, build-client" description="compile the server">
 		<echo message="Compling the server" />
-		<javac srcdir="${src}/com/traclabs/biosim/server" destdir="${buildDir}" nowarn="yes">
+		<javac srcdir="${src}/com/traclabs/biosim/server" destdir="${buildDir}" nowarn="yes" failonerror="yes">
 			<classpath>
 				<pathelement location="${src}" />
 				<pathelement location="${buildDir}" />
@@ -96,7 +96,7 @@
 
 	<target name="build-client" depends="stub-idl" description="compile the client">
 		<echo message="Compling the client" />
-		<javac srcdir="${src}/com/traclabs/biosim/client" destdir="${buildDir}" nowarn="yes">
+		<javac srcdir="${src}/com/traclabs/biosim/client" destdir="${buildDir}" nowarn="yes" failonerror="yes">
 			<classpath>
 				<pathelement location="${src}" />
 				<pathelement location="${buildDir}" />
@@ -113,7 +113,7 @@
 
 	<target name="build-editor" depends="build-client" description="builds editor">
 		<echo message="Compling the editor" />
-		<javac srcdir="${src}/com/traclabs/biosim/server/editor" destdir="${buildDir}" nowarn="yes">
+		<javac srcdir="${src}/com/traclabs/biosim/server/editor" destdir="${buildDir}" nowarn="yes" failonerror="yes">
 			<classpath>
 				<pathelement location="${src}" />
 				<pathelement location="${buildDir}" />

@@ -122,7 +122,7 @@
 			</CrewGroup>
 		</crew>
 		<environment>
-			<SimEnvironment name="BaseCrewEnvironment" initialVolume="2000000" leakRate="0.00224" airlockVolume="3.7"/>
+			<SimEnvironment name="BaseCrewEnvironment" initialVolume="2000000" leakRate="0.00224" airlockVolume="3.7" dangerousOxygenThreshold="0.3"/>
 			<SimEnvironment name="EVACrewEnvironment" initialVolume="1000" leakRate="0.00500" airlockVolume="999"/>
 			<Dehumidifier name="Dehumidifier">
 				<airConsumer maxFlowRates="200000" desiredFlowRates="200000" inputs="BaseCrewEnvironment"/>
