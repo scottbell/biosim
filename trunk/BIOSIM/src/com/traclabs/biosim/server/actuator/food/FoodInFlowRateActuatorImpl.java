@@ -17,7 +17,7 @@ public class FoodInFlowRateActuatorImpl extends GenericActuatorImpl implements
 
     protected void processData() {
         float myFilteredValue = randomFilter(myValue);
-        getOutput().setFoodInputDesiredFlowRate(myFilteredValue, myIndex);
+        getOutput().getFoodConsumerDefinition().setDesiredFlowRate(myFilteredValue, myIndex);
     }
 
     protected void notifyListeners() {
@@ -42,6 +42,6 @@ public class FoodInFlowRateActuatorImpl extends GenericActuatorImpl implements
     }
 
     public float getMax() {
-        return myConsumer.getFoodInputMaxFlowRate(myIndex);
+        return myConsumer.getFoodConsumerDefinition().getDesiredFlowRate(myIndex);
     }
 }

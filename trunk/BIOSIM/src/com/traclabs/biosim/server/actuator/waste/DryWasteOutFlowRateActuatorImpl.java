@@ -17,7 +17,7 @@ public class DryWasteOutFlowRateActuatorImpl extends GenericActuatorImpl
 
     protected void processData() {
         float myFilteredValue = randomFilter(myValue);
-        getOutput().setDryWasteOutputDesiredFlowRate(myFilteredValue, myIndex);
+        getOutput().getDryWasteProducerDefinition().setDesiredFlowRate(myFilteredValue, myIndex);
     }
 
     protected void notifyListeners() {
@@ -42,6 +42,6 @@ public class DryWasteOutFlowRateActuatorImpl extends GenericActuatorImpl
     }
 
     public float getMax() {
-        return myProducer.getDryWasteOutputMaxFlowRate(myIndex);
+        return myProducer.getDryWasteProducerDefinition().getDesiredFlowRate(myIndex);
     }
 }

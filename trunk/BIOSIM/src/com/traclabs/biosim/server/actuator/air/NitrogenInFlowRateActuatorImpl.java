@@ -17,7 +17,7 @@ public class NitrogenInFlowRateActuatorImpl extends GenericActuatorImpl
 
     protected void processData() {
         float myFilteredValue = randomFilter(myValue);
-        getOutput().setNitrogenInputDesiredFlowRate(myFilteredValue, myIndex);
+        getOutput().getNitrogenConsumerDefinition().setDesiredFlowRate(myFilteredValue, myIndex);
     }
 
     protected void notifyListeners() {
@@ -42,6 +42,6 @@ public class NitrogenInFlowRateActuatorImpl extends GenericActuatorImpl
     }
 
     public float getMax() {
-        return myConsumer.getNitrogenInputMaxFlowRate(myIndex);
+        return myConsumer.getNitrogenConsumerDefinition().getMaxFlowRate(myIndex);
     }
 }

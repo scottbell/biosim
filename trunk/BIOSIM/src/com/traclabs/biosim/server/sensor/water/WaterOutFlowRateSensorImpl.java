@@ -16,7 +16,7 @@ public class WaterOutFlowRateSensorImpl extends GenericSensorImpl implements
     }
 
     protected void gatherData() {
-        float preFilteredValue = getInput().getWaterOutputActualFlowRate(
+        float preFilteredValue = getInput().getWaterProducerDefinition().getActualFlowRate(
                 myIndex);
         myValue = randomFilter(preFilteredValue);
     }
@@ -35,7 +35,7 @@ public class WaterOutFlowRateSensorImpl extends GenericSensorImpl implements
     }
 
     public float getMax() {
-        return myProducer.getWaterOutputMaxFlowRate(myIndex);
+        return myProducer.getWaterProducerDefinition().getMaxFlowRate(myIndex);
     }
 
     public int getIndex() {

@@ -16,8 +16,8 @@ public class WaterAirStoreOutFlowRateSensorImpl extends GenericSensorImpl
     }
 
     protected void gatherData() {
-        float preFilteredValue = getInput()
-                .getWaterAirStoreOutputActualFlowRate(myIndex);
+        float preFilteredValue = getInput().getWaterAirProducerDefinition()
+                .getStoreActualFlowRate(myIndex);
         myValue = randomFilter(preFilteredValue);
     }
 
@@ -31,7 +31,7 @@ public class WaterAirStoreOutFlowRateSensorImpl extends GenericSensorImpl
     }
 
     public float getMax() {
-        return myProducer.getWaterAirStoreOutputMaxFlowRate(myIndex);
+        return myProducer.getWaterAirProducerDefinition().getStoreMaxFlowRate(myIndex);
     }
 
     public WaterAirProducer getInput() {

@@ -16,8 +16,8 @@ public class WaterAirEnvironmentOutFlowRateSensorImpl extends GenericSensorImpl
     }
 
     protected void gatherData() {
-        float preFilteredValue = getInput()
-                .getWaterAirEnvironmentOutputActualFlowRate(myIndex);
+        float preFilteredValue = getInput().getWaterAirProducerDefinition()
+                .getEnvironmentActualFlowRate(myIndex);
         myValue = randomFilter(preFilteredValue);
     }
 
@@ -31,7 +31,7 @@ public class WaterAirEnvironmentOutFlowRateSensorImpl extends GenericSensorImpl
     }
 
     public float getMax() {
-        return myProducer.getWaterAirEnvironmentOutputMaxFlowRate(myIndex);
+        return myProducer.getWaterAirProducerDefinition().getEnvironmentMaxFlowRate(myIndex);
     }
 
     public WaterAirProducer getInput() {

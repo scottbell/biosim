@@ -16,8 +16,8 @@ public class PotableWaterOutFlowRateSensorImpl extends GenericSensorImpl
     }
 
     protected void gatherData() {
-        float preFilteredValue = getInput()
-                .getPotableWaterOutputActualFlowRate(myIndex);
+        float preFilteredValue = getInput().getPotableWaterProducerDefinition()
+                .getActualFlowRate(myIndex);
         myValue = randomFilter(preFilteredValue);
     }
 
@@ -39,7 +39,7 @@ public class PotableWaterOutFlowRateSensorImpl extends GenericSensorImpl
     }
 
     public float getMax() {
-        return myProducer.getPotableWaterOutputMaxFlowRate(myIndex);
+        return myProducer.getPotableWaterProducerDefinition().getMaxFlowRate(myIndex);
     }
 
     public BioModule getInputModule() {

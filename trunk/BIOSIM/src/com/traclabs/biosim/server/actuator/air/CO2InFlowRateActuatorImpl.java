@@ -17,7 +17,7 @@ public class CO2InFlowRateActuatorImpl extends GenericActuatorImpl implements
 
     protected void processData() {
         float myFilteredValue = randomFilter(myValue);
-        getOutput().setCO2InputDesiredFlowRate(myFilteredValue, myIndex);
+        getOutput().getCO2ConsumerDefinition().setDesiredFlowRate(myFilteredValue, myIndex);
     }
 
     protected void notifyListeners() {
@@ -42,6 +42,6 @@ public class CO2InFlowRateActuatorImpl extends GenericActuatorImpl implements
     }
 
     public float getMax() {
-        return myConsumer.getCO2InputMaxFlowRate(myIndex);
+        return myConsumer.getCO2ConsumerDefinition().getMaxFlowRate(myIndex);
     }
 }
