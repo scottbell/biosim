@@ -73,14 +73,14 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private SimpleBuffer consumedCalories;
 	private SimpleBuffer consumedCO2;
 	private static final float WATER_TILL_DEAD = 8.1f;
-	private static final float WATER_RECOVERY_RATE=0.05f;
+	private static final float WATER_RECOVERY_RATE=0.01f;
 	private static final float OXYGEN_TILL_DEAD = 3f;
-	private static final float OXYGEN_RECOVERY_RATE=0.05f;
+	private static final float OXYGEN_RECOVERY_RATE=0.01f;
 	private static final float CALORIE_TILL_DEAD = 180000f;
-	private static final float CALORIE_RECOVERY_RATE=0.05f;
+	private static final float CALORIE_RECOVERY_RATE=0.01f;
 	private static final float DANGEROUS_CO2_RATION = 0.06f;
 	private static final float CO2_TILL_DEAD = 10f;
-	private static final float CO2_RECOVERY_RATE=0.05f;
+	private static final float CO2_RECOVERY_RATE=0.01f;
 	
 	/**
 	* Constructor that creates a new crew person
@@ -112,6 +112,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* Resets the state of this crew member
 	*/
 	void reset(){
+		consumedWater.reset();
+		consumedOxygen.reset();
+		consumedCalories.reset();
+		consumedCO2.reset();
 		myMissionProductivity = 0;
 		currentOrder = 0;
 		myCurrentActivity = mySchedule.getScheduledActivityByOrder(currentOrder);
@@ -562,7 +566,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		if (x >= 1f)
 			return 1f;
 		else if ((x < 1f) && (x > 0f))
-			return 0.6f * x * (1f - abs(x - 2f) / 2f);
+			return 0.3f * x * (1f - abs(x - 2f) / 2f);
 		else
 			return 0f;
 	}
@@ -577,13 +581,13 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		float waterRiskReturn = deathProbability((consumedWater.getCapacity() - consumedWater.getLevel()) / consumedWater.getCapacity());
 		float oxygenRiskReturn = deathProbability((consumedOxygen.getCapacity() - consumedOxygen.getLevel()) / consumedOxygen.getCapacity());
 		float CO2RiskReturn = deathProbability((consumedCO2.getCapacity() - consumedCO2.getLevel()) / consumedCO2.getCapacity());
-		/*
-		System.out.println(getName());
-		System.out.println("\tcalorie risk level = "+(consumedCalories.getCapacity() - consumedCalories.getLevel()) / consumedCalories.getCapacity());
-		System.out.println("\tthirst risk level = "+(consumedWater.getCapacity() - consumedWater.getLevel()) / consumedWater.getCapacity());
-		System.out.println("\toxygen risk level = "+(consumedOxygen.getCapacity() - consumedOxygen.getLevel()) / consumedOxygen.getCapacity());
-		System.out.println("\tCO2 risk level = "+(consumedCO2.getCapacity() - consumedCO2.getLevel()) / consumedCO2.getCapacity());
-		*/
+		
+		//System.out.println(getName());
+		//System.out.println("\tcalorie risk level="+(consumedCalories.getCapacity() - consumedCalories.getLevel()) / consumedCalories.getCapacity());
+		//System.out.println("\twater taken="+(potableWaterNeeded - cleanWaterConsumed)+", recovered "+WATER_RECOVERY_RATE * consumedWater.getCapacity()+" thirst risk level="+(consumedWater.getCapacity() - consumedWater.getLevel()) / consumedWater.getCapacity()+" (level="+consumedWater.getLevel()+", capacity="+consumedWater.getCapacity()+")");
+		//System.out.println("\toxygen risk level="+(consumedOxygen.getCapacity() - consumedOxygen.getLevel()) / consumedOxygen.getCapacity());
+		//System.out.println("\tCO2 risk level="+(consumedCO2.getCapacity() - consumedCO2.getLevel()) / consumedCO2.getCapacity());
+		
 		if (calorieRiskReturn > randomNumber){
 			hasDied = true;
 			System.out.println(getName()+" has died from starvation (risk was "+calorieRiskReturn+")");
