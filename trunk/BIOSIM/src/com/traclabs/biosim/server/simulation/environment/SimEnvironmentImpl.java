@@ -261,18 +261,6 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 		}
 	}
 	
-	public void startLeak(float percentage){
-		leakRate = percentage;
-	}
-	
-	public void stopLeak(){
-		leakRate = 0.0f;
-	}
-	
-	public boolean isLeaking(){
-		return (leakRate > 0);
-	}
-	
 	/**
 	* Attemps to return a breath of air given a needed amount of CO2 (in liters)
 	* @param litersCO2Requested the amount of CO2 (in liters) wanted in this breath
@@ -313,11 +301,6 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	*/
 	public void tick(){
 		calculateLightIntensity();
-		if (leakRate > 0){
-			O2Level -= O2Level * leakRate;
-			CO2Level -= CO2Level * leakRate;
-			otherLevel -= otherLevel * leakRate;
-		}
 		if (moduleLogging)
 			log();
 		ticks++;
