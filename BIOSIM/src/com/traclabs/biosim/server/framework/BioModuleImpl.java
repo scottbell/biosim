@@ -51,6 +51,11 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		}
 		return malfunctionNames;
 	}
+	
+	public Malfunction[] getMalfunctions(){
+		Malfunction[] arrayMalfunctions = new Malfunction[myMalfunctions.size()];
+		return (Malfunction[])(myMalfunctions.values().toArray(arrayMalfunctions));
+	}
 
 	/**
 	 * Override this to get custom malfunction names.

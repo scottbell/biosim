@@ -8,8 +8,10 @@ import javax.swing.*;
  */
 public abstract class UpdatablePanel extends JPanel 
 {
-	public abstract void refresh();
+	public void refresh(){
+	}
 
-	public abstract void visibilityChange(boolean nowVisible);
+	public void visibilityChange(boolean nowVisible){
+	}
 
 }
