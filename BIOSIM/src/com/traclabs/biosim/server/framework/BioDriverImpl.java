@@ -380,19 +380,17 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		//Hook up Accumulator to other modules
 		{
 			SimEnvironment[] CO2AirInput = {myPlantEnvironment};
-			CO2Store[] CO2Output = {myCO2Store};
+			CO2Store[] CO2AirOutput = {myCO2Store};
 			float[] CO2AirInputFlowRates = {10000f};
-			float[] CO2OutputFlowRates = {10000f};
+			float[] CO2AirOutputFlowRates = {10000f};
 			Accumulator myAccumulator = (Accumulator)(getBioModule(accumulatorName));
-			myAccumulator.setCO2AirInputs(CO2AirInput, CO2AirInputFlowRates);
-			myAccumulator.setCO2AirOutputs(CO2Output, CO2OutputFlowRates);
 		}
 
 		//Hook up Injector to other modules
 		{
+			O2Store O2AirInput = myO2Store;
 			SimEnvironment[] O2AirOutput = {myCrewEnvironment};
-			O2Store O2Input = myO2Store;
-			float[] O2InputFlowRates = {10000f};
+			float[] O2AirInputFlowRates = {10000f};
 			float[] O2AirOutputFlowRates = {10000f};
 			Injector myInjector = (Injector)(getBioModule(injectorName));
 		}
