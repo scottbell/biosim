@@ -65,7 +65,7 @@ public class CrewTextPanel extends BioTabPanel
 			setLayout(new GridLayout(1,1));
 			noCrewPanel = new JPanel();
 			noCrewPanel.setLayout(new BorderLayout());
-			noCrewLabel = new JLabel("\t\tNo crew to display");
+			noCrewLabel = new JLabel("No crew to display");
 			noCrewPanel.add(noCrewLabel);
 			add(noCrewPanel, BorderLayout.CENTER);
 		}

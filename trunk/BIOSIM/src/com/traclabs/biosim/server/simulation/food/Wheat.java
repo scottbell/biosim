@@ -33,8 +33,11 @@ public class Wheat extends Plant{
 	
 	
 	private double calculateCO2flowRate(){
-		
-		return 0d;
+		float time = 1.0;
+		float plantArea = 11.2
+		float CO2FlowRate = (-1.4950 + 0.1944 * time - 9.9587 * Math.exp(-3) * (time * time) + 1.1802 * Math.exp(-4) * (time * time * time) -
+		 5.0269 * Math.exp(-7) * (time * time * time* time)) / plantArea;
+		 return CO2FlowRate;
 	}
 	
 	
