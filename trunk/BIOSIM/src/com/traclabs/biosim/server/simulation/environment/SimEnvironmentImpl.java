@@ -415,22 +415,20 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	*/
 	public float addCO2Moles(float molesRequested){
 		float afterAddition = 0f;
+		float actuallyAdded = 0f;
 		if ((molesRequested + getTotalMoles()) > volume){
 			//adding more CO2 than volume
-			afterAddition = randomFilter(CO2Moles + volume - getTotalMoles());
-			//adjust pressure
-			if (CO2Moles > 0)
-				CO2Pressure = CO2Pressure * afterAddition / CO2Moles;
-			else
-				CO2Pressure = 0f;
+			afterAddition = randomFilter(CO2Moles + (volume - getTotalMoles()));
 			//add moles
+			actuallyAdded = afterAddition - CO2Moles;
 			CO2Moles = afterAddition;
-			return  afterAddition;
 		}
 		else{
 			afterAddition = randomFilter(CO2Moles + molesRequested);
-			return afterAddition;
+			actuallyAdded = afterAddition - CO2Moles;
+			CO2Moles = afterAddition;
 		}
+		return  actuallyAdded;
 	}
 
 	/**
@@ -440,22 +438,20 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	*/
 	public float addO2Moles(float molesRequested){
 		float afterAddition = 0f;
+		float actuallyAdded = 0f;
 		if ((molesRequested + getTotalMoles()) > volume){
 			//adding more O2 than volume
-			afterAddition = randomFilter(O2Moles + volume - getTotalMoles());
-			//adjust pressure
-			if (O2Moles > 0)
-				O2Pressure = O2Pressure * afterAddition / O2Moles;
-			else
-				O2Pressure = 0;
+			afterAddition = randomFilter(O2Moles + (volume - getTotalMoles()));
 			//add moles
+			actuallyAdded = afterAddition - O2Moles;
 			O2Moles = afterAddition;
-			return  afterAddition;
 		}
 		else{
 			afterAddition = randomFilter(O2Moles + molesRequested);
-			return afterAddition;
+			actuallyAdded = afterAddition - O2Moles;
+			O2Moles = afterAddition;
 		}
+		return  actuallyAdded;
 	}
 
 	/**
@@ -465,18 +461,20 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	*/
 	public float addOtherMoles(float molesRequested){
 		float afterAddition = 0f;
+		float actuallyAdded = 0f;
 		if ((molesRequested + getTotalMoles()) > volume){
-			//adding more Other than volume
-			afterAddition = randomFilter(otherMoles + volume - getTotalMoles());
+			//adding more other than volume
+			afterAddition = randomFilter(otherMoles + (volume - getTotalMoles()));
 			//add moles
+			actuallyAdded = afterAddition - otherMoles;
 			otherMoles = afterAddition;
-			return  afterAddition;
 		}
 		else{
 			afterAddition = randomFilter(otherMoles + molesRequested);
+			actuallyAdded = afterAddition - otherMoles;
 			otherMoles = afterAddition;
-			return afterAddition;
 		}
+		return  actuallyAdded;
 	}
 
 	/**
@@ -486,22 +484,20 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	*/
 	public float addWaterMoles(float molesRequested){
 		float afterAddition = 0f;
+		float actuallyAdded = 0f;
 		if ((molesRequested + getTotalMoles()) > volume){
-			//adding more Water than volume
-			afterAddition = randomFilter(waterMoles + volume - getTotalMoles());
+			//adding more water than volume
+			afterAddition = randomFilter(waterMoles + (volume - getTotalMoles()));
 			//add moles
+			actuallyAdded = afterAddition - waterMoles;
 			waterMoles = afterAddition;
-			return  afterAddition;
 		}
 		else{
 			afterAddition = randomFilter(waterMoles + molesRequested);
-			if (waterMoles > 0)
-				waterPressure = waterPressure * afterAddition / waterMoles;
-			else
-				waterPressure = 0f;
+			actuallyAdded = afterAddition - waterMoles;
 			waterMoles = afterAddition;
-			return afterAddition;
 		}
+		return  actuallyAdded;
 	}
 
 	public float takeCO2Moles(float amountRequested){
@@ -509,20 +505,20 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		if (amountRequested < 0){
 			return 0f;
 		}
-		float afterRemoval;
+		float actuallyTaken;
 		//asking for more stuff than exists
 		if (amountRequested > CO2Moles){
-			afterRemoval = randomFilter(CO2Moles);
+			actuallyTaken = randomFilter(CO2Moles);
 			CO2Moles = 0;
 			CO2Pressure = 0;
 		}
 		//stuff exists for request
 		else{
-			afterRemoval = randomFilter(amountRequested);
+			actuallyTaken = randomFilter(amountRequested);
 			//take moles
-			CO2Moles -= afterRemoval;
+			CO2Moles -= actuallyTaken;
 		}
-		return afterRemoval;
+		return actuallyTaken;
 	}
 
 	public float takeO2Moles(float amountRequested){
@@ -530,20 +526,20 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		if (amountRequested < 0){
 			return 0f;
 		}
-		float afterRemoval;
+		float actuallyTaken;
 		//asking for more stuff than exists
 		if (amountRequested > O2Moles){
-			afterRemoval = randomFilter(O2Moles);
+			actuallyTaken = randomFilter(O2Moles);
 			O2Moles = 0;
 			O2Pressure = 0;
 		}
 		//stuff exists for request
 		else{
-			afterRemoval = O2Moles - randomFilter(amountRequested);
+			actuallyTaken = O2Moles - randomFilter(amountRequested);
 			//take moles
-			O2Moles = afterRemoval;
+			O2Moles = actuallyTaken;
 		}
-		return afterRemoval;
+		return actuallyTaken;
 	}
 
 	public float takeOtherMoles(float amountRequested){
@@ -551,20 +547,20 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		if (amountRequested < 0){
 			return 0f;
 		}
-		float afterRemoval;
+		float actuallyTaken;
 		//asking for more stuff than exists
 		if (amountRequested > otherMoles){
-			afterRemoval = randomFilter(otherMoles);
+			actuallyTaken = randomFilter(otherMoles);
 			otherMoles = 0;
 			otherPressure = 0;
 		}
 		//stuff exists for request
 		else{
-			afterRemoval = otherMoles - randomFilter(amountRequested);
+			actuallyTaken = otherMoles - randomFilter(amountRequested);
 			//take moles
-			otherMoles = afterRemoval;
+			otherMoles = actuallyTaken;
 		}
-		return afterRemoval;
+		return actuallyTaken;
 	}
 
 	public float takeWaterMoles(float amountRequested){
@@ -572,20 +568,20 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		if (amountRequested < 0){
 			return 0f;
 		}
-		float afterRemoval;
+		float actuallyTaken;
 		//asking for more stuff than exists
 		if (amountRequested > waterMoles){
-			afterRemoval = randomFilter(waterMoles);
+			actuallyTaken = randomFilter(waterMoles);
 			waterMoles = 0;
 			waterPressure = 0;
 		}
 		//stuff exists for request
 		else{
-			afterRemoval = waterMoles - randomFilter(amountRequested);
+			actuallyTaken = waterMoles - randomFilter(amountRequested);
 			//take moles
-			waterMoles = afterRemoval;
+			waterMoles = actuallyTaken;
 		}
-		return afterRemoval;
+		return actuallyTaken;
 	}
 
 	public Breath addBreath(Breath pBreath){
