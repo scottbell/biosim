@@ -28,7 +28,7 @@ public class WhitePotato extends Planophile{
 	}
 	
 	protected float getConstantPPF(){
-		return 648.15f;
+		return 648f;
 	}
 	
 	protected float getCarbonUseEfficiency24(){
@@ -72,7 +72,8 @@ public class WhitePotato extends Planophile{
 	}
 
 	protected float getTimeAtCropMaturity(){
-		return 138f;
+		//return 138f;
+		return 132f;
 	}
 
 	protected float getOPF(){

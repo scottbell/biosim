@@ -36,7 +36,7 @@ public class Soybean extends Legume{
 	}
 
 	protected float getConstantPPF(){
-		return 462.96f;
+		return 648f;
 	}
 
 	protected float getBCF(){
@@ -76,7 +76,8 @@ public class Soybean extends Legume{
 	}
 
 	protected float getTimeAtCropMaturity(){
-		return 86f;
+		//return 86f;
+		return 97f;
 	}
 
 	protected float getOPF(){

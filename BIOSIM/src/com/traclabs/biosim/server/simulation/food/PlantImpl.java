@@ -56,6 +56,7 @@ public abstract class PlantImpl extends PlantPOA{
 	private static final float LIGHT_RECOVERY_RATE=0.1f;
 	private float totalO2GramsProduced = 0f;
 	private float totalCO2GramsConsumed = 0f;
+	private float totalWaterLitersTranspired = 0f;
 
 	public PlantImpl(ShelfImpl pShelfImpl){
 		myShelfImpl = pShelfImpl;
@@ -113,6 +114,7 @@ public abstract class PlantImpl extends PlantPOA{
 		myAge = 0;
 		totalO2GramsProduced = 0f;
 		totalCO2GramsConsumed = 0f;
+		totalWaterLitersTranspired = 0f;
 		hasDied = false;
 		consumedWaterBuffer.reset();
 		consumedCO2Buffer.reset();
@@ -203,7 +205,6 @@ public abstract class PlantImpl extends PlantPOA{
 	}
 
 	private float calculateDailyCanopyTranspirationRate(){
-		//assumes water is at 20 C and 101kPA of total pressure
 		float airPressure = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0].getTotalPressure();
 		float canopySurfaceConductance = calculateCanopySurfaceConductance();
 		float vaporPressureDeficit = calculateVaporPressureDeficit();
@@ -327,6 +328,8 @@ public abstract class PlantImpl extends PlantPOA{
 
 		//Water Vapor Produced
 		float litersOfWaterProduced = calculateDailyCanopyTranspirationRate() / 24f * myShelfImpl.getCropAreaUsed();
+		totalWaterLitersTranspired += litersOfWaterProduced;
+		//System.out.println("PlantImpl: totalWaterLitersTranspired: "+totalWaterLitersTranspired);
 		consumedWaterBuffer.take(litersOfWaterProduced);
 		//1/1000 liters per milliter, 1 gram per millilters, 8.016 grams per mole
 		float molesOfWaterProduced = waterLitersToMoles(litersOfWaterProduced);
@@ -464,6 +467,10 @@ public abstract class PlantImpl extends PlantPOA{
 			tA = 0;
 			//System.out.println("PlantImpl: Time till canopy closure is negative or NAN!");
 		}
+		
+		//round the number according to Jim
+		long tALong = Math.round(tA);
+		tA = (float)tALong;
 		//System.out.println("PlantImpl: tA: "+tA);
 		return tA;
 	}

@@ -83,7 +83,6 @@ public class ShelfImpl extends ShelfPOA {
 	}
 
 	private void flushWater(){
-		System.out.println(waterLevel+" liters remaining in shelf."); 
 		waterLevel -= myBiomassRSImpl.pushFractionalResourceToStore(myBiomassRSImpl.getDirtyWaterOutputs(), myBiomassRSImpl.getDirtyWaterOutputMaxFlowRates(), myBiomassRSImpl.getDirtyWaterOutputDesiredFlowRates(), myBiomassRSImpl.getDirtyWaterOutputActualFlowRates(), waterLevel, myBiomassRSImpl.getNumberOfShelves());
 	}
 

@@ -31,7 +31,7 @@ public class Rice extends Erectophile{
 	}
 	
 	protected float getConstantPPF(){
-		return 763.89f;
+		return 764f;
 	}
 	
 	protected float getCarbonUseEfficiency24(){
@@ -39,7 +39,8 @@ public class Rice extends Erectophile{
 	}
 
 	protected float getBCF(){
-		return 0.44f;
+		//return 0.44f;
+		return 0.45f;
 	}
 
 	protected float getPhotoperiod(){
@@ -67,7 +68,8 @@ public class Rice extends Erectophile{
 	}
 	
 	protected float getTimeAtCropMaturity(){
-		return 88f;
+		//return 88f;
+		return 85f;
 	}
 	
 	protected float getOPF(){

@@ -29,7 +29,7 @@ public class Tomato extends Planophile{
 	}
 	
 	protected float getConstantPPF(){
-		return 416.67f;
+		return 625f;
 	}
 	
 	protected float getCarbonUseEfficiency24(){
@@ -37,7 +37,8 @@ public class Tomato extends Planophile{
 	}
 
 	protected float getBCF(){
-		return 0.42f;
+		//return 0.42f;
+		return 0.43f;
 	}
 	
 	protected float getCUEMax(){
@@ -73,7 +74,8 @@ public class Tomato extends Planophile{
 	}
 
 	protected float getTimeAtCropMaturity(){
-		return 80f;
+		//return 80f;
+		return 85f;
 	}
 
 	protected float getOPF(){
