@@ -1,0 +1,56 @@
+<project name="BioSim" default="all" basedir=".">
+    <description>
+        Build file for BioSim
+    </description>
+  <!-- set global properties for this build -->
+  <property name="src" location="src"/>
+  <property name="generated" location="generated"/>
+  <property name="classes" location="${generated}/classes"/>
+  <property name="server" location="${generated}/server"/>
+  <property name="serverClasses" location="${server}/classes"/>
+  <property name="serverStubs" location="${server}/stubs"/>
+  <property name="lib" location="lib"/>
+  <property name="jacorbDir" location="${lib}/jacorb"/>
+
+  <target name="init">
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${generated}"/>
+  </target>
+  
+  <target name="stubServer" depends="init"
+        description="stub the IDL file" >
+    <mkdir dir="${serverStubs}"/>
+    <java classname="org.jacorb.idl.parser">
+    	 <arg value="-d"/> 
+	 <arg file="${serverStubs}"/>
+	 <arg file="${src}/biosim/idl/biosim.idl"/>
+         <classpath>
+           <pathelement location="${jacorbDir}/idl.jar"/>
+           <pathelement location="${jacorbDir}/logkit.jar"/>
+         </classpath>
+       </java>
+    <javac srcdir="${serverStubs}" destdir="${serverClasses}"/>
+  </target>
+
+  <target name="server" depends="stubServer"
+        description="compile the server" >
+    <!-- Compile the java code from ${src} into ${generated} -->
+    <mkdir dir="${server}"/>
+    <mkdir dir="${serverClasses}"/>
+    <javac srcdir="${src}" destdir="${generated}"/>
+  </target>
+  
+   <target name="client"
+        description="compile the client" >
+  </target>
+  
+  <target name="all" depends="server,client"
+        description="compile biosim" >
+  </target>
+
+  <target name="clean"
+        description="clean up" >
+    <!-- Delete the ${build} directory trees -->
+    <delete dir="${generated}"/>
+  </target>
+</project>
