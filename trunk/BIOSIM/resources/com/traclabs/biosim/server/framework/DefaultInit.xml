@@ -16,61 +16,61 @@
 		<isBreakdownEnabled>false</isBreakdownEnabled>
 		<capacity>500</capacity>
 		<level>100</level>
-		<PotableWaterStoreName>PotableWaterStore0</PotableWaterStoreName>
+		<name>PotableWaterStore0</name>
 	</PotableWaterStore>
 	<AirRS>
 		<isLoggingEnabled>false</isLoggingEnabled>
 		<isBreakdownEnabled>false</isBreakdownEnabled>
-		<airRSName>AirRS0</airRSName>
+		<name>AirRS0</name>
 		<powerConsumer>
 			<maxFlowrates>100</maxFlowrates>
 			<desiredFlowrates>100</desiredFlowrates>
-			<powerStoreInput>PowerStore0</powerStoreInput>
+			<input>PowerStore0</input>
 		</powerConsumer>
 		<potableWaterConsumer>
 			<maxFlowrates>100</maxFlowrates>
 			<desiredFlowrates>100</desiredFlowrates>
-			<potableWaterStoreInput>PotableWaterStore0</potableWaterStoreInput>
+			<input>PotableWaterStore0</input>
 		</potableWaterConsumer>
 		<airConsumer>
 			<maxFlowrates>100</maxFlowrates>
 			<desiredFlowrates>100</desiredFlowrates>
-			<simEnvironmentInput>SimEnvironment0</simEnvironmentInput>
+			<input>SimEnvironment0</input>
 		</airConsumer>
 		<CO2Consumer>
 			<maxFlowrates>100</maxFlowrates>
 			<desiredFlowrates>100</desiredFlowrates>
-			<CO2StoreInput>CO2Store0</CO2StoreInput>
+			<input>CO2Store0</input>
 		</CO2Consumer>
 		<H2Consumer>
 			<maxFlowrates>100</maxFlowrates>
 			<desiredFlowrates>100</desiredFlowrates>
-			<H2StoreInput>H2Store0</H2StoreInput>
+			<input>H2Store0</input>
 		</H2Consumer>
 		<potableWaterProducer>
 			<maxFlowrates>100</maxFlowrates>
 			<desiredFlowrates>100</desiredFlowrates>
-			<potableWaterStoreOutput>PotableWaterStore0</potableWaterStoreOutput>
+			<output>PotableWaterStore0</output>
 		</potableWaterProducer>
 		<O2Producer>
 			<maxFlowrates>100</maxFlowrates>
 			<desiredFlowrates>100</desiredFlowrates>
-			<O2StoreOutput>O2Store0</O2StoreOutput>
+			<output>O2Store0</output>
 		</O2Producer>
 		<airProducer>
 			<maxFlowrates>100</maxFlowrates>
 			<desiredFlowrates>100</desiredFlowrates>
-			<simEnvironmentOutput>SimEnvironment0</simEnvironmentOutput>
+			<output>SimEnvironment0</output>
 		</airProducer>
 		<CO2Producer>
 			<maxFlowrates>100</maxFlowrates>
 			<desiredFlowrates>100</desiredFlowrates>
-			<CO2StoreOutput>CO2Store0</CO2StoreOutput>
+			<output>CO2Store0</output>
 		</CO2Producer>
 		<H2Producer>
 			<maxFlowrates>100</maxFlowrates>
 			<desiredFlowrates>100</desiredFlowrates>
-			<H2StoreOutput>H2Store0</H2StoreOutput>
+			<output>H2Store0</output>
 		</H2Producer>
 	</AirRS>
 </biosim>
