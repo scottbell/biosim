@@ -91,7 +91,7 @@ public class LogNodeImpl extends LogNodePOA{
 	}
 	
 	public boolean hasChildren(){
-		return (childrenList == null);
+		return ((childrenList == null) || (childrenList.size() < 1));
 	}
 
 	public LogNode addChild(String pChildValue){
@@ -100,6 +100,14 @@ public class LogNodeImpl extends LogNodePOA{
 		LogNodeImpl newLogNodeImpl = new LogNodeImpl(pChildValue, this);
 		childrenList.add(newLogNodeImpl);
 		return  LogNodeHelper.narrow(OrbUtils.poaToCorbaObj(newLogNodeImpl));
+	}
+	
+	protected LogNodeImpl addChildImpl(String pChildValue){
+		if (childrenList == null)
+			childrenList = new LinkedList();
+		LogNodeImpl newLogNodeImpl = new LogNodeImpl(pChildValue, this);
+		childrenList.add(newLogNodeImpl);
+		return  newLogNodeImpl;
 	}
 	
 	protected LogNode addChild(LogNode pChildNode){

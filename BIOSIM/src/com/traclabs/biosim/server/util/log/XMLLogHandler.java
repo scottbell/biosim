@@ -22,6 +22,7 @@ public class XMLLogHandler implements LogHandler{
 	private TransformerHandler myHandler;
 	private AttributesImpl emptyAtts;
 	private boolean initialized = false;
+	private FileWriter myFileWriter;
 
 	public XMLLogHandler(){
 		String biosimPath = new String();
@@ -54,7 +55,7 @@ public class XMLLogHandler implements LogHandler{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void endLog(){
 		if (!initialized)
 			return;
@@ -65,12 +66,15 @@ public class XMLLogHandler implements LogHandler{
 		catch (SAXException e){
 			e.printStackTrace();
 		}
+		catch (IOException e){
+			e.printStackTrace();
+		}
 	}
 
 	private void initializeXML() throws IOException, TransformerConfigurationException, SAXException{
 		// PrintWriter from a Servlet
 		emptyAtts = new AttributesImpl();
-		FileWriter myFileWriter = new FileWriter(myOutputFile);
+		myFileWriter = new FileWriter(myOutputFile);
 		StreamResult streamResult = new StreamResult(myFileWriter);
 		SAXTransformerFactory tf = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
 		myHandler = tf.newTransformerHandler();
@@ -83,10 +87,12 @@ public class XMLLogHandler implements LogHandler{
 		myHandler.startElement("","","biosim",emptyAtts);
 		initialized = true;
 	}
-	
-	private void endXML() throws SAXException{
+
+	private void endXML() throws SAXException, IOException{
 		myHandler.endElement("","","biosim");
 		myHandler.endDocument();
+		myFileWriter.flush();
+		System.out.println("XML doc written");
 	}
 
 	private void printXMLTree(LogNode currentNode) throws SAXException{
@@ -94,12 +100,12 @@ public class XMLLogHandler implements LogHandler{
 			return;  // There is nothing to print in an empty tree.
 		}
 		String tagName = currentNode.getValue();
-		if (!currentNode.hasChildren()){
+		if (currentNode.getChildren().length < 1){
 			myHandler.characters(tagName.toCharArray(),0,tagName.length());
 		}
 		else{
 			myHandler.startElement("","",tagName,emptyAtts);
-			LogNode[] childrenNodes =currentNode.getChildren();
+			LogNode[] childrenNodes = currentNode.getChildren();
 			for (int i = 0; i < childrenNodes.length; i++){
 				printXMLTree(childrenNodes[i]);
 			}
