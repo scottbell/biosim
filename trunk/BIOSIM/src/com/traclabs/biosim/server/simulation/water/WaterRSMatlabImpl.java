@@ -36,7 +36,7 @@ public class WaterRSMatlabImpl extends SimBioModuleImpl implements WaterRSOperat
 	private float[] greyWaterDesiredFlowRates;
 	private float[] potableWaterDesiredFlowRates;
 	
-	private WaterRSMatlabTechInfoImpl myWaterRSMatlabTechInfoImpl;
+	private WaterRSMatlabTechInfoImpl myTechSpecificInfoImpl;
 
 	/**
 	* Creates the Water RS and it's subsystems
