@@ -383,7 +383,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			//System.out.println("adding mission!");
 		}
 		else if (myCurrentActivity.getName().equals("maitenance")){
-			System.out.println("");
+			//System.out.println("");
 		}
 		else if (myCurrentActivity.getName().startsWith("sleep") || myCurrentActivity.getName().startsWith("sick")){
 			sleepBuffer.add(SLEEP_RECOVERY_RATE);
