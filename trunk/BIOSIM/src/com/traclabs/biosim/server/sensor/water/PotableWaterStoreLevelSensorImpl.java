@@ -2,7 +2,7 @@ package biosim.server.sensor.water;
 
 import biosim.server.sensor.framework.*;
 import biosim.idl.sensor.water.*;
-import biosim.idl.simulation.water.*;
+import biosim.idl.framework.*;
 
 public class PotableWaterStoreLevelSensorImpl extends PotableWaterStoreSensorImpl implements PotableWaterStoreLevelSensorOperations{
 	public PotableWaterStoreLevelSensorImpl(int pID){

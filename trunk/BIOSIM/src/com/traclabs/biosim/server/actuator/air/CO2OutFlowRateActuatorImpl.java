@@ -2,7 +2,7 @@ package biosim.server.actuator.air;
 
 import biosim.server.actuator.framework.*;
 import biosim.idl.actuator.air.*;
-import biosim.idl.simulation.air.*;
+import biosim.idl.framework.*;
 
 public class CO2OutFlowRateActuatorImpl extends GenericActuatorImpl implements CO2OutFlowRateActuatorOperations{
 	private CO2Producer myProducer;

@@ -2,6 +2,7 @@ package biosim.server.actuator.air;
 
 import biosim.server.actuator.framework.*;
 import biosim.idl.actuator.air.*;
+import biosim.idl.framework.*;
 import biosim.idl.simulation.air.*;
 
 public abstract class O2StoreActuatorImpl extends GenericActuatorImpl implements O2StoreActuatorOperations{

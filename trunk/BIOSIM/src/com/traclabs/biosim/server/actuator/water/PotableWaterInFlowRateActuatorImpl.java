@@ -2,7 +2,7 @@ package biosim.server.actuator.water;
 
 import biosim.server.actuator.framework.*;
 import biosim.idl.actuator.water.*;
-import biosim.idl.simulation.water.*;
+import biosim.idl.framework.*;
 
 public class PotableWaterInFlowRateActuatorImpl extends GenericActuatorImpl implements PotableWaterInFlowRateActuatorOperations{
 	private PotableWaterConsumer myConsumer;

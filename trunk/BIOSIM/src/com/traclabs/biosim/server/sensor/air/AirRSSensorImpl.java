@@ -3,6 +3,7 @@ package biosim.server.sensor.air;
 import biosim.server.sensor.framework.*;
 import biosim.idl.sensor.air.*;
 import biosim.idl.simulation.air.*;
+import biosim.idl.framework.*;
 
 public abstract class AirRSSensorImpl extends GenericSensorImpl implements AirRSSensorOperations{
 	protected AirRS myAirRS;

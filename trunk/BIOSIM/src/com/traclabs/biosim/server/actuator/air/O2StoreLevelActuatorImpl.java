@@ -2,7 +2,7 @@ package biosim.server.actuator.air;
 
 import biosim.server.actuator.framework.*;
 import biosim.idl.actuator.air.*;
-import biosim.idl.simulation.air.*;
+import biosim.idl.framework.*;
 
 public class O2StoreLevelActuatorImpl extends O2StoreActuatorImpl implements O2StoreLevelActuatorOperations{
 	public O2StoreLevelActuatorImpl(int pID){

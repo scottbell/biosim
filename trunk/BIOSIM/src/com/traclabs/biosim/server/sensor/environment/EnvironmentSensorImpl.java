@@ -3,6 +3,7 @@ package biosim.server.sensor.environment;
 import biosim.server.sensor.framework.*;
 import biosim.idl.sensor.environment.*;
 import biosim.idl.simulation.environment.*;
+import biosim.idl.framework.*;
 
 public abstract class EnvironmentSensorImpl extends GenericSensorImpl implements EnvironmentSensorOperations{
 	protected SimEnvironment myEnvironment;
