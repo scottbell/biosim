@@ -95,6 +95,7 @@ public class StochasticPanel extends TimedPanel
 	private void createOperatorPanel(){
 		myOperatorPanel = new JPanel();
 		myOperatorPanel.setLayout(new BorderLayout());
+		myOperatorPanel.setBorder(BorderFactory.createTitledBorder("Stochastic Intensity"));
 		//Create the slider
 		mySlider = new JSlider(JSlider.HORIZONTAL,0, 3, 0);
 		mySlider.setSnapToTicks(true);

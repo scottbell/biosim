@@ -34,7 +34,7 @@ public class MalfunctionPanel extends TimedPanel
 
 	public void refresh(){
 		BioModule myModule = getSelectedModule();
-		if (myModule == null)
+		if ((myModule == null) || (currentMalfunctionList == null))
 			return;
 		else{
 			int lastMalfunctionIndex = currentMalfunctionList.getSelectedIndex();
