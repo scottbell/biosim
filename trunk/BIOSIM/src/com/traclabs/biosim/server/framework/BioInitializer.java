@@ -61,13 +61,19 @@ public class BioInitializer{
 		if (node == null) {
 			return;
 		}
-		int type = node.getNodeType();
+		short type = node.getNodeType();
 		if (type == Node.DOCUMENT_NODE) {
 			Document document = (Document)node;
 			crawl(document.getDocumentElement());
 		}
 		else if (type == Node.ELEMENT_NODE){
+			System.out.println("Nodename: "+node.getNodeName());
 			NamedNodeMap attrs = node.getAttributes();
+			Node child = node.getFirstChild();
+			while (child != null) {
+				crawl(child);
+				child = child.getNextSibling();
+			}
 			// drop through to entity reference
 		}
 		else if (type == Node.ENTITY_REFERENCE_NODE){
