@@ -22,7 +22,6 @@ public class BiosimServer extends GenericServer{
 			System.exit(1);
 		}
 		LoggerImpl myLoggerImpl = new LoggerImpl(id);
-		myLoggerImpl.addLogHandlerType(LogHandlerType.XML);
 		BioDriverImpl myBioDriverImpl = new BioDriverImpl(id);
 		myBioDriverImpl.setDriverStutterLength(stutterLength);
 		registerServer(myLoggerImpl, myLoggerImpl.getName(), myLoggerImpl.getID());

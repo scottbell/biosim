@@ -218,6 +218,12 @@ public class BioInitializer{
 					myDriver.setStochasticIntensity(StochasticIntensity.LOW_STOCH);
 				else
 					myDriver.setStochasticIntensity(StochasticIntensity.NONE_STOCH);
+				
+				String logHandlerString = node.getAttributes().getNamedItem("logHandler").getNodeValue();
+				if (logHandlerString.equals("XML"))
+					myLogger.addLogHandlerType(LogHandlerType.XML);
+				else if (logHandlerString.equals("STANDARD_OUT"))
+					myLogger.addLogHandlerType(LogHandlerType.SCREEN);
 			}
 			catch (Exception e){
 				e.printStackTrace();
