@@ -221,7 +221,7 @@ public class OrbUtils {
         return newPoa;
     }
     /**
-     * @param myORBProperties The myORBProperties to set.
+     * @param pORBProperties The myORBProperties to set.
      */
     public static void setMyORBProperties(Properties pORBProperties) {
         myORBProperties = pORBProperties;

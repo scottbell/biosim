@@ -11,6 +11,7 @@ import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.framework.BioModuleHelper;
 import com.traclabs.biosim.idl.simulation.air.AirRS;
 import com.traclabs.biosim.idl.simulation.air.AirRSHelper;
+import com.traclabs.biosim.idl.simulation.air.AirRSOperationMode;
 import com.traclabs.biosim.idl.simulation.air.AirRSPOATie;
 import com.traclabs.biosim.idl.simulation.air.CO2Store;
 import com.traclabs.biosim.idl.simulation.air.CO2StoreHelper;
@@ -117,6 +118,7 @@ import com.traclabs.biosim.idl.simulation.water.PotableWaterStoreHelper;
 import com.traclabs.biosim.idl.simulation.water.PotableWaterStorePOATie;
 import com.traclabs.biosim.idl.simulation.water.WaterRS;
 import com.traclabs.biosim.idl.simulation.water.WaterRSHelper;
+import com.traclabs.biosim.idl.simulation.water.WaterRSOperationMode;
 import com.traclabs.biosim.idl.simulation.water.WaterRSPOATie;
 import com.traclabs.biosim.idl.simulation.water.WaterStore;
 import com.traclabs.biosim.idl.simulation.water.WaterStoreHelper;
@@ -746,6 +748,17 @@ public class SimulationInitializer {
     private void configureAirRS(Node node) {
         AirRS myAirRS = AirRSHelper.narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
         configureSimBioModule(myAirRS, node);
+        String operationModeString = node.getAttributes().getNamedItem("operationMode").getNodeValue();
+        if (operationModeString.equals("FULL"))
+            myAirRS.setOperationMode(AirRSOperationMode.FULL);
+        else if (operationModeString.equals("MOST"))
+            myAirRS.setOperationMode(AirRSOperationMode.MOST);
+        else if (operationModeString.equals("LESS"))
+            myAirRS.setOperationMode(AirRSOperationMode.LESS);
+        else if (operationModeString.equals("OFF"))
+            myAirRS.setOperationMode(AirRSOperationMode.OFF);
+        else
+            myLogger.error("AirRSOperationMode not found!");
         myActiveSimModules.add(myAirRS);
     }
 
@@ -1383,6 +1396,17 @@ public class SimulationInitializer {
         WaterRS myWaterRS = WaterRSHelper
                 .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
         configureSimBioModule(myWaterRS, node);
+        String operationModeString = node.getAttributes().getNamedItem("operationMode").getNodeValue();
+        if (operationModeString.equals("FULL"))
+            myWaterRS.setOperationMode(WaterRSOperationMode.FULL);
+        else if (operationModeString.equals("PARTIAL"))
+            myWaterRS.setOperationMode(WaterRSOperationMode.PARTIAL);
+        else if (operationModeString.equals("GREY_WATER_ONLY"))
+            myWaterRS.setOperationMode(WaterRSOperationMode.GREY_WATER_ONLY);
+        else if (operationModeString.equals("OFF"))
+            myWaterRS.setOperationMode(WaterRSOperationMode.OFF);
+        else
+            myLogger.error("WaterRSOperationMode not found!");
         myActiveSimModules.add(myWaterRS);
     }
 

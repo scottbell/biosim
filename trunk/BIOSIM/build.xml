@@ -326,6 +326,7 @@
 		<delete dir="${buildDir}"/>
 		<delete dir="${distDir}"/>
 		<delete dir="${tmpDir}"/>
+		<delete dir="${javadocDir}"/>
 		<delete dir="${stubsDir}"/>
 	</target>
 	

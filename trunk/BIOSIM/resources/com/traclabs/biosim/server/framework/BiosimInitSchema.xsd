@@ -757,6 +757,16 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	
+	<!-- Special AirRS specific declarations -->
+	<xsd:simpleType name="AirRSOperationMode">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="FULL"/>
+			<xsd:enumeration value="OFF"/>
+			<xsd:enumeration value="LESS"/>
+			<xsd:enumeration value="MOST"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
 	
 	<!-- Special CrewGroup specific declarations -->
 	<xsd:complexType name="ScheduleType">
@@ -827,6 +837,15 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 	
+	<xsd:simpleType name="WaterRSOperationMode">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="FULL"/>
+			<xsd:enumeration value="OFF"/>
+			<xsd:enumeration value="GREY_WATER_ONLY"/>
+			<xsd:enumeration value="PARTIAL"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
 	<!-- SimModule declarations -->
 	
 	<xsd:complexType name="AirRSType">  
@@ -844,6 +863,7 @@
 					<xsd:element name="CO2Producer" type="CO2ProducerType"/>
 					<xsd:element name="H2Producer" type="H2ProducerType"/>
 				</xsd:sequence>
+			<xsd:attribute name="operationMode" type="AirRSOperationMode" default="FULL"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -946,6 +966,7 @@
 					<xsd:element name="greyWaterConsumer" type="GreyWaterConsumerType"/>
 					<xsd:element name="potableWaterProducer" type="PotableWaterProducerType"/>
 				</xsd:sequence>
+				<xsd:attribute name="operationMode" type="WaterRSOperationMode" default="FULL"/>
 				<xsd:attribute name="implementation" type="WaterRSImplementationType" default="BIOSIM"/>
 			</xsd:extension>
 		</xsd:complexContent>

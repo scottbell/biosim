@@ -85,6 +85,7 @@ public class BioInitializer {
         myID = pID;
         mySimulationInitializer = new SimulationInitializer(myID);
         mySensorInitializer = new SensorInitializer(myID);
+        myActuatorInitializer = new ActuatorInitializer(myID);
         myModules = new Vector();
         myLogger = Logger.getLogger(this.getClass());
         
