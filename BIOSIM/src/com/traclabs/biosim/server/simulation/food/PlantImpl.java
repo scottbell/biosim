@@ -359,7 +359,8 @@ public abstract class PlantImpl extends PlantPOA{
 		float dailyCarbonGain = calculateDailyCarbonGain();
 		//if (myAge % 24 == 0)
 		//	System.out.println(getDaysOfGrowth()+"\t"+dailyCarbonGain);
-		//totalCO2MolesConsumed += (dailyCarbonGain / 24f);
+		totalCO2MolesConsumed += (dailyCarbonGain / 24f);
+		//System.out.println("dailyCarbonGain: "+dailyCarbonGain);
 		float cropGrowthRate = molecularWeightOfCarbon * (dailyCarbonGain / getBCF());
 		//System.out.println("PlantImpl: cropGrowthRate: "+cropGrowthRate);
 		myCurrentDryBiomass += (cropGrowthRate / 1000 / 24f * myShelfImpl.getCropAreaUsed()); //in kilograms per hour
@@ -613,7 +614,7 @@ public abstract class PlantImpl extends PlantPOA{
 	private void calculatePPFFractionAbsorbed(){
 		float PPFFractionAbsorbedMax = 0.93f;
 		//System.out.println("PlantImpl: PPFFractionAbsorbedMax: "+PPFFractionAbsorbedMax);
-		//System.out.println("PlantImpl: timeTillCanopyClosure: "+timeTillCanopyClosure);
+		//System.out.println("PlantImpl: myTimeTillCanopyClosure: "+myTimeTillCanopyClosure);
 		//System.out.println("PlantImpl: getDaysOfGrowth(): "+getDaysOfGrowth());
 		//System.out.println("PlantImpl: getN(): "+getN());
 		if (canopyClosed)
@@ -624,7 +625,11 @@ public abstract class PlantImpl extends PlantPOA{
 
 	private float calculateDaDt(){
 		float PPFFractionAbsorbedMax = 0.93f;
-		return PPFFractionAbsorbedMax * getN() * pow((getDaysOfGrowth() / myTimeTillCanopyClosure), getN() - 1f) * (1f / myTimeTillCanopyClosure);
+		if (myTimeTillCanopyClosure <= 0)
+			return 0f;
+		float daDt = PPFFractionAbsorbedMax * getN() * pow((getDaysOfGrowth() / myTimeTillCanopyClosure), getN() - 1f) * (1f / myTimeTillCanopyClosure);
+		//System.out.println("PlantImpl: daDt: "+daDt);
+		return daDt;
 	}
 
 	private float calculateCQYMax(){
