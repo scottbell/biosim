@@ -38,7 +38,7 @@ public class EnvironmentPanel extends JPanel implements BioSimulatorListener
 		CO2Label = new JLabel("CO2: "+mySimEnvironment.getCO2Level() + " L");
 		otherLabel = new JLabel("other: "+mySimEnvironment.getOtherLevel() + " L");
 		airPanel.add(O2Label, BorderLayout.WEST);
-		airPanel.add(otherLabel, BorderLayout.CENTER);
+		airPanel.add(otherLabel, BorderLayout.NORTH);
 		airPanel.add(CO2Label, BorderLayout.EAST);
 		add(airPanel, BorderLayout.SOUTH);
 		add(tickPanel, BorderLayout.NORTH);
