@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<annotation>
-		<documentation xml:lang="en">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">
 			XML initialization schema for BioSim.
-		</documentation>
-	</annotation>
-	<complexType name="BioSim" minOccurs="1">
-			<complexType name = "SimModules">
-				<sequence>
-					<complexType name="AirRS" minOccurs="0" maxOccurs="unbounded">
-						<simpleType name="AirRSName"  type="string"/> 
-					</complexType>
-				</sequence>
-			</complexType>
-	</complexType>
-</schema>
+		</xsd:documentation>
+	</xsd:annotation>
+	
+   <xsd:element name="comment" minOccurs="0"/>
+  <xsd:sequence>
+   <xsd:element name="shipTo" type="xsd:string"/>
+   <xsd:element name="billTo" type="xsd:string"/>
+  </xsd:sequence>
+  <xsd:attribute name="orderDate" type="xsd:date"/>
+</xsd:schema>

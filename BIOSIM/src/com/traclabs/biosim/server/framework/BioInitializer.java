@@ -279,7 +279,6 @@ public class BioInitializer extends DefaultHandler {
 		URL docUrl = ClassLoader.getSystemClassLoader().getResource("biosim/server/framework/DefaultInitialization.xml");
 		argv = new String[1];
 		argv[0] = docUrl.toString();
-		System.out.println(docUrl);
 		// is there anything to do?
 		if (argv.length == 0) {
 			printUsage();
