@@ -603,13 +603,17 @@ module biosim{
                                 };
 
                                 interface FoodStore : framework::Store{
+                                        float addFoodMatter(in float mass, in PlantType type);
+                                        FoodMatterList takeFoodMatterMass(in float mass);
+                                        FoodMatter takeFoodMatterMassAndType(in float mass, in PlantType pType);
+                                        FoodMatter takeFoodMatterType(in PlantType pType);
                                 };
 
                                 interface BiomassStore : framework::Store{
-                                        float addBiomatter(in float mass, in PlantType type);
-                                        BioMatterList takeBiomatterMass(in float mass);
-                                        BioMatter takeBiomatterMassAndType(in float mass, in PlantType pType);
-                                        BioMatter takeBiomatterType(in PlantType pType);
+                                        float addBioMatter(in float mass, in PlantType type);
+                                        BioMatterList takeBioMatterMass(in float mass);
+                                        BioMatter takeBioMatterMassAndType(in float mass, in PlantType pType);
+                                        BioMatter takeBioMatterType(in PlantType pType);
                                 };
 
                                 interface Shelf{
