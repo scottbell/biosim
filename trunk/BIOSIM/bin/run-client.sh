@@ -62,15 +62,17 @@ help="-?"
 logviewer="logviewer"
 malfunction="malfunction"
 stochastic="stochastic"
+controller="controller"
 sensor="sensor"
 case $userSelect in
 	$console) echo "			 -starting $userSelect";$jacoInvocation $driverName $console;;
+	$controller) echo "			 -starting $userSelect";$jacoInvocation $driverName $controller;;
 	$gui) echo "			 -starting $userSelect";$jacoInvocation $driverName $gui;;
 	$logviewer) echo "			 -starting $userSelect";$jacoInvocation $logviewerName;;
 	$malfunction) echo "			 -starting $userSelect";$jacoInvocation $malfunctionName;;
 	$stochastic) echo "			 -starting $userSelect";$jacoInvocation $stochasticName;;
 	$sensor) echo "			 -starting $userSelect";$jacoInvocation $sensorName;;
-	$help) echo "Usage: make-client.sh (-ga) [console, gui, logviewer, malfunction, stochastic]";;
+	$help) echo "Usage: make-client.sh (-ga) [console, gui, logviewer, malfunction, stochastic, controller]";;
 	*) echo "			 -starting default";$jacoInvocation $driverName;;
 esac
 echo "*done invoking clients"
