@@ -153,14 +153,12 @@ public class OrbUtils {
             // get reference to rootpoa & activate the POAManager
 
             if (myRootPOA == null) {
-                myRootPOA = POAHelper.narrow(myOrb
-                        .resolve_initial_references("RootPOA"));
+                myRootPOA = POAHelper.narrow(myOrb.resolve_initial_references("RootPOA"));
                 myRootPOA.the_POAManager().activate();
             }
 
             if (myRootContext == null)
-                myRootContext = NamingContextExtHelper.narrow(myOrb
-                        .resolve_initial_references("NameService"));
+                myRootContext = NamingContextExtHelper.narrow(myOrb.resolve_initial_references("NameService"));
 
             //Attempt to create com.traclabs context, if already there, don't
             // bother
