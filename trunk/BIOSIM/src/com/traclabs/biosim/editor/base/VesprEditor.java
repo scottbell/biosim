@@ -14,8 +14,8 @@ import org.tigris.gef.base.Editor;
 import org.tigris.gef.base.ModeDragScroll;
 import org.tigris.gef.base.ModeSelect;
 
-import com.traclabs.biosim.editor.graph.VesprFigNode;
-import com.traclabs.biosim.editor.graph.VesprGraphModel;
+import com.traclabs.biosim.editor.graph.EditorFigNode;
+import com.traclabs.biosim.editor.graph.EditorGraphModel;
 
 /**
  * VesprEditor supports the nesting of graphs within nodes. VesprEditor simply
@@ -29,7 +29,7 @@ public class VesprEditor extends Editor {
         this(new VesprLayer("Root"));
     }
 
-    public VesprEditor(VesprGraphModel gm) {
+    public VesprEditor(EditorGraphModel gm) {
         this(new VesprLayer("Root", gm));
     }
 
@@ -93,7 +93,7 @@ public class VesprEditor extends Editor {
 
     public void showParent() {
         VesprLayer layer = (VesprLayer) getLayerManager().getActiveLayer();
-        VesprFigNode figNode = layer.getParent();
+        EditorFigNode figNode = layer.getParent();
         // Check for root.
         if (figNode != null) {
             layer = (VesprLayer) figNode.getLayer();
@@ -103,7 +103,7 @@ public class VesprEditor extends Editor {
         }
     }
 
-    public void expandNode(VesprFigNode figNode) {
+    public void expandNode(EditorFigNode figNode) {
         if (figNode != null && figNode.getNestedLayer() != null) {
             VesprLayer layer = (VesprLayer) figNode.getNestedLayer();
             getLayerManager().replaceActiveLayer(layer);

@@ -17,7 +17,7 @@ import org.tigris.gef.base.Globals;
 import org.tigris.gef.base.SelectionManager;
 import org.tigris.gef.presentation.Fig;
 
-import com.traclabs.biosim.editor.graph.VesprFigNode;
+import com.traclabs.biosim.editor.graph.EditorFigNode;
 
 /**
  * Displays the contents of the node that is current selected in the editor.
@@ -44,9 +44,9 @@ public class CmdExpandNode extends Cmd {
         if (selections.size() == 1) {
             Fig fig = (Fig) selections.get(0);
 
-            if (fig instanceof VesprFigNode) {
+            if (fig instanceof EditorFigNode) {
                 // Switch out the layer that is being displayed.
-                editor.expandNode((VesprFigNode) fig);
+                editor.expandNode((EditorFigNode) fig);
             }
         }
     }

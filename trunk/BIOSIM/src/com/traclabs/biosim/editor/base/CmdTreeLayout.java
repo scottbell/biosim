@@ -24,9 +24,9 @@ import org.tigris.gef.graph.presentation.NetPort;
 import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigNode;
 
-import com.traclabs.biosim.editor.graph.VesprFigNode;
-import com.traclabs.biosim.editor.graph.VesprNode;
-import com.traclabs.biosim.editor.graph.VesprPort;
+import com.traclabs.biosim.editor.graph.EditorFigNode;
+import com.traclabs.biosim.editor.graph.EditorNode;
+import com.traclabs.biosim.editor.graph.EditorPort;
 
 /**
  * Rearrange the selected node and all nodes that it leads to. Arrange them into
@@ -58,11 +58,11 @@ public class CmdTreeLayout extends Cmd {
         while (sel.hasMoreElements()) {
             Selection s = (Selection) sel.nextElement();
             Fig f = s.getContent();
-            if (f instanceof VesprFigNode) {
-                VesprNode source = (VesprNode) f.getOwner();
-                Rectangle rect = getBoundingBox((VesprFigNode) f);
+            if (f instanceof EditorFigNode) {
+                EditorNode source = (EditorNode) f.getOwner();
+                Rectangle rect = getBoundingBox((EditorFigNode) f);
 
-                arrangeRoot((VesprFigNode) f, rect);
+                arrangeRoot((EditorFigNode) f, rect);
             }
         }
         // Must force a refresh here
@@ -73,12 +73,12 @@ public class CmdTreeLayout extends Cmd {
      * Given an edge, return the destination node of the edge which is on the
      * given layer.
      */
-    private VesprFigNode getDestination(NetEdge edge, Layer layer) {
+    private EditorFigNode getDestination(NetEdge edge, Layer layer) {
         NetPort destPort = edge.getDestPort();
         NetNode destNode = destPort.getParentNode();
         FigNode destFig = destNode.presentationFor(layer);
 
-        return (VesprFigNode) destFig;
+        return (EditorFigNode) destFig;
     }
 
     /*
@@ -88,7 +88,7 @@ public class CmdTreeLayout extends Cmd {
      * top of the root. The children will be placed starting at (Height of
      * parent) + VerticalSep below the root.
      */
-    private void arrangeRoot(VesprFigNode fig, Rectangle rect) {
+    private void arrangeRoot(EditorFigNode fig, Rectangle rect) {
 
         // Child Rect is the portion of rect which will be used
         // to place the (remaining) children.
@@ -104,7 +104,7 @@ public class CmdTreeLayout extends Cmd {
         while (e.hasMoreElements()) {
             NetEdge edge = (NetEdge) e.nextElement();
             NetPort edgeSrc = (NetPort) edge.getSourcePort();
-            VesprFigNode vesprDestFig = getDestination(edge, fig.getLayer());
+            EditorFigNode vesprDestFig = getDestination(edge, fig.getLayer());
             // Arrange the child.
             Rectangle thisChildRect = arrange(vesprDestFig, childRect);
 
@@ -121,7 +121,7 @@ public class CmdTreeLayout extends Cmd {
      * arranged nodes should fit into the leftmost portion the rect. Return the
      * rectangle that the arranged nodes used.
      */
-    private Rectangle arrange(VesprFigNode fig, Rectangle rect) {
+    private Rectangle arrange(EditorFigNode fig, Rectangle rect) {
 
         // The 'childRect' is the rectangle that the children must
         // be placed into
@@ -139,7 +139,7 @@ public class CmdTreeLayout extends Cmd {
         while (e.hasMoreElements()) {
             NetEdge edge = (NetEdge) e.nextElement();
             NetPort edgeSrc = (NetPort) edge.getSourcePort();
-            VesprFigNode vesprDestFig = getDestination(edge, fig.getLayer());
+            EditorFigNode vesprDestFig = getDestination(edge, fig.getLayer());
             Rectangle thisChildRect = arrange(vesprDestFig, childRect);
 
             // Update the child rect to have the remainder
@@ -175,7 +175,7 @@ public class CmdTreeLayout extends Cmd {
      * go into the lower part of the rectangle (below the parent and the
      * Vertical Separation).
      */
-    private Rectangle getChildRect(VesprFigNode fig, Rectangle rect) {
+    private Rectangle getChildRect(EditorFigNode fig, Rectangle rect) {
         int verticalSpace = fig.getBounds().height + VerticalSep;
 
         return new Rectangle(rect.x, rect.y + verticalSpace, rect.width,
@@ -186,10 +186,10 @@ public class CmdTreeLayout extends Cmd {
      * Given a node, find all of the edges that lead away from the node. Return
      * a vector of NetEdge objects.
      */
-    private Vector getOutboundEdges(VesprFigNode fig) {
-        VesprNode source = (VesprNode) fig.getOwner();
+    private Vector getOutboundEdges(EditorFigNode fig) {
+        EditorNode source = (EditorNode) fig.getOwner();
         Vector outboundEdges = new Vector();
-        VesprPort port = (VesprPort) source.getPort();
+        EditorPort port = (EditorPort) source.getPort();
         Vector edges = port.getEdges();
         Enumeration e = edges.elements();
         while (e.hasMoreElements()) {
@@ -212,7 +212,7 @@ public class CmdTreeLayout extends Cmd {
      * the rectangle is irrelevant; all that we are concerned with is (width,
      * height); the size of the necessary rectangle.
      */
-    private Rectangle getBoundingBox(VesprFigNode fig) {
+    private Rectangle getBoundingBox(EditorFigNode fig) {
 
         // Child Boxes will be a Vector of Rectangles, each large
         // enough to hold one of the children of Fig.
@@ -224,7 +224,7 @@ public class CmdTreeLayout extends Cmd {
         while (e.hasMoreElements()) {
             NetEdge edge = (NetEdge) e.nextElement();
             NetPort edgeSrc = (NetPort) edge.getSourcePort();
-            VesprFigNode vesprDestFig = getDestination(edge, fig.getLayer());
+            EditorFigNode vesprDestFig = getDestination(edge, fig.getLayer());
             childBoxes.add(getBoundingBox(vesprDestFig));
         }
 

@@ -15,15 +15,15 @@ import org.tigris.gef.graph.presentation.NetEdge;
 import org.tigris.gef.graph.presentation.NetNode;
 import org.tigris.gef.graph.presentation.NetPort;
 
-public class VesprPort extends NetPort implements Serializable {
+public class EditorPort extends NetPort implements Serializable {
 
     /** Construct a new DecisionNodePort as a port of the given NetNode. */
-    public VesprPort(NetNode parent) {
+    public EditorPort(NetNode parent) {
         super(parent);
     }
 
     protected Class defaultEdgeClass(NetPort otherPort) {
-        return VesprEdge.class;
+        return EditorEdge.class;
     }
 
     public void printEdges() {

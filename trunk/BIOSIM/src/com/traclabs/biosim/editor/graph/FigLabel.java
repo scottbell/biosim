@@ -54,7 +54,7 @@ public class FigLabel extends FigText {
 
         // calculate x, y to center in the parent node.
         if (getGroup() != null && getGroup() instanceof FigLabelNode) {
-            VesprFigNode node = (VesprFigNode) getGroup();
+            EditorFigNode node = (EditorFigNode) getGroup();
             Rectangle rect = node.getHandleBox();
             int x = (int) rect.getX();
             int y = (int) rect.getY();

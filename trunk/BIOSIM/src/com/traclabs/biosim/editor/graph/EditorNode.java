@@ -24,8 +24,8 @@ import org.tigris.gef.graph.presentation.NetPort;
  * An abstract subclass of NetNode for use in the VESPR application. All nodes
  * in the VESPR application will be subclasses of VesprNode
  */
-public abstract class VesprNode extends NetNode implements Serializable {
-    protected VesprPort _port;
+public abstract class EditorNode extends NetNode implements Serializable {
+    protected EditorPort _port;
 
     protected int _number;
 
@@ -35,7 +35,7 @@ public abstract class VesprNode extends NetNode implements Serializable {
 
     protected MutableGraphModel _nestedModel;
 
-    public VesprNode() {
+    public EditorNode() {
         _nestedModel = createNestedGraphModel();
     }
 
@@ -45,7 +45,7 @@ public abstract class VesprNode extends NetNode implements Serializable {
      * <p>
      */
     public void initialize(Hashtable args) {
-        addPort(_port = new VesprPort(this));
+        addPort(_port = new EditorPort(this));
         //center.printEdges();
         _number = _NextNumber++;
 

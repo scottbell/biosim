@@ -18,34 +18,34 @@ import org.tigris.gef.base.LayerPerspective;
 import org.tigris.gef.graph.GraphEvent;
 import org.tigris.gef.presentation.Fig;
 
-import com.traclabs.biosim.editor.graph.VesprFigNode;
-import com.traclabs.biosim.editor.graph.VesprGraphModel;
+import com.traclabs.biosim.editor.graph.EditorFigNode;
+import com.traclabs.biosim.editor.graph.EditorGraphModel;
 
 public class VesprLayer extends LayerPerspective {
-    VesprFigNode _parent = null;
+    EditorFigNode _parent = null;
 
-    public VesprLayer(String name, VesprGraphModel gm, VesprFigNode parent) {
+    public VesprLayer(String name, EditorGraphModel gm, EditorFigNode parent) {
         super(name, gm);
         _parent = parent;
     }
 
-    public VesprLayer(String name, VesprGraphModel gm) {
+    public VesprLayer(String name, EditorGraphModel gm) {
         this(name, gm, null);
     }
 
-    public VesprLayer(VesprGraphModel gm) {
+    public VesprLayer(EditorGraphModel gm) {
         this("Root", gm, null);
     }
 
     public VesprLayer(String name) {
-        this(name, new VesprGraphModel());
+        this(name, new EditorGraphModel());
     }
 
-    public VesprFigNode getParent() {
+    public EditorFigNode getParent() {
         return _parent;
     }
 
-    void setParentLayer(VesprFigNode parent) {
+    void setParentLayer(EditorFigNode parent) {
         _parent = parent;
     }
 
@@ -116,8 +116,8 @@ public class VesprLayer extends LayerPerspective {
     /**
      * Determines if this diagram is a descendant of the specified fig node
      */
-    public boolean isDescendantDiagram(VesprFigNode node) {
-        VesprFigNode parent = _parent;
+    public boolean isDescendantDiagram(EditorFigNode node) {
+        EditorFigNode parent = _parent;
         while (parent != null) {
             if (parent == node) {
                 return true;
@@ -169,8 +169,8 @@ public class VesprLayer extends LayerPerspective {
         Iterator i = contents.iterator();
         while (i.hasNext()) {
             Fig f = (Fig) i.next();
-            if (f instanceof VesprFigNode) {
-                VesprFigNode node = (VesprFigNode) f;
+            if (f instanceof EditorFigNode) {
+                EditorFigNode node = (EditorFigNode) f;
                 if (node.getInputCount() == 0) {
                     result.add(node);
                 }

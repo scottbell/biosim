@@ -29,21 +29,21 @@ import org.tigris.gef.graph.presentation.NetNode;
  * 
  * @author kkusy
  */
-public class VesprGraphModel extends DefaultGraphModel {
-    public VesprGraphModel(NetList nl) {
+public class EditorGraphModel extends DefaultGraphModel {
+    public EditorGraphModel(NetList nl) {
         super(nl);
     }
 
-    public VesprGraphModel() {
+    public EditorGraphModel() {
         super();
     }
 
     public boolean canAddEdge(Object obj) {
-        return (obj instanceof VesprEdge);
+        return (obj instanceof EditorEdge);
     }
 
     public boolean canAddNode(Object obj) {
-        return (obj instanceof VesprNode);
+        return (obj instanceof EditorNode);
     }
 
     /** Add the given edge to the graph, if valid. */
@@ -86,7 +86,7 @@ public class VesprGraphModel extends DefaultGraphModel {
         Collection nodes = getNodes(null);
         Iterator i = nodes.iterator();
         while (i.hasNext()) {
-            VesprNode node = (VesprNode) i.next();
+            EditorNode node = (EditorNode) i.next();
             if (node.getSourceCount() == 0) {
                 roots.add(node);
             }

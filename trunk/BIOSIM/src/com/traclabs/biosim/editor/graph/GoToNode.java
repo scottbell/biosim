@@ -16,7 +16,7 @@ import org.tigris.gef.presentation.FigNode;
 /**
  * An example subclass of NetNode for use in the BasicApplication application.
  */
-public class GoToNode extends VesprNode implements Serializable {
+public class GoToNode extends EditorNode implements Serializable {
 
     public GoToNode() {
         setText("GoToNode");

@@ -19,7 +19,7 @@ import org.apache.log4j.PropertyConfigurator;
 import org.tigris.gef.util.Localizer;
 import org.tigris.gef.util.ResourceLoader;
 
-import com.traclabs.biosim.editor.presentation.VesprFrame;
+import com.traclabs.biosim.editor.presentation.EditorFrame;
 
 public class BiosimEditor {
     ////////////////////////////////////////////////////////////////
@@ -43,7 +43,7 @@ public class BiosimEditor {
                 .addResourceLocation("/com/traclabs/biosim/editor");
 
         // Create and display the main window.
-        VesprFrame frame = new VesprFrame("Biosim Editor");
+        EditorFrame frame = new EditorFrame("Biosim Editor");
         frame.setBounds(10, 10, 640, 480);
         frame.setVisible(true);
     }

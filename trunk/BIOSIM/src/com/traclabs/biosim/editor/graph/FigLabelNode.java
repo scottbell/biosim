@@ -15,7 +15,7 @@ import java.beans.PropertyChangeListener;
  * 
  * @author kkusy
  */
-public abstract class FigLabelNode extends VesprFigNode {
+public abstract class FigLabelNode extends EditorFigNode {
     protected FigLabel _label;
 
     public FigLabelNode() {
@@ -85,7 +85,7 @@ public abstract class FigLabelNode extends VesprFigNode {
         setHandleBox(x, y, w, h);
         endTrans();
 
-        VesprNode own = (VesprNode) getOwner();
+        EditorNode own = (EditorNode) getOwner();
         own.setText(_label.getText());
     }
 
@@ -123,7 +123,7 @@ public abstract class FigLabelNode extends VesprFigNode {
     }
 
     public void update() {
-        VesprNode node = (VesprNode) getOwner();
+        EditorNode node = (EditorNode) getOwner();
         if (!_label.getText().equals(node.getText())) {
             _label.setText(node.getText());
             doLayout();

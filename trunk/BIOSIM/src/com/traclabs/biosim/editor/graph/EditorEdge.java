@@ -17,9 +17,9 @@ import org.tigris.gef.presentation.FigEdge;
  * arrowhead.
  */
 
-public class VesprEdge extends NetEdge {
+public class EditorEdge extends NetEdge {
     /** Construct a new SampleEdge. */
-    public VesprEdge() {
+    public EditorEdge() {
     } /* needs-more-work */
 
     public String getId() {
@@ -27,7 +27,7 @@ public class VesprEdge extends NetEdge {
     }
 
     public FigEdge makePresentation(Layer lay) {
-        return new VesprFigEdge();
+        return new EditorFigEdge();
     }
 
 } /* end class VesprEdge */

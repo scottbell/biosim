@@ -31,10 +31,10 @@ import com.traclabs.biosim.editor.graph.GoToNode;
 import com.traclabs.biosim.editor.graph.OptionalNode;
 import com.traclabs.biosim.editor.graph.RequiredNode;
 import com.traclabs.biosim.editor.graph.TerminatorNode;
-import com.traclabs.biosim.editor.graph.VesprFigEdge;
-import com.traclabs.biosim.editor.graph.VesprFigNode;
-import com.traclabs.biosim.editor.graph.VesprNode;
-import com.traclabs.biosim.editor.graph.VesprPort;
+import com.traclabs.biosim.editor.graph.EditorFigEdge;
+import com.traclabs.biosim.editor.graph.EditorFigNode;
+import com.traclabs.biosim.editor.graph.EditorNode;
+import com.traclabs.biosim.editor.graph.EditorPort;
 
 public class VesprParser extends DefaultHandler implements DocumentReader {
 
@@ -54,7 +54,7 @@ public class VesprParser extends DefaultHandler implements DocumentReader {
 
     protected MutableGraphModel _graphModel;
 
-    protected VesprFigNode _figNode;
+    protected EditorFigNode _figNode;
 
     protected FigEdge _figEdge;
 
@@ -76,7 +76,7 @@ public class VesprParser extends DefaultHandler implements DocumentReader {
     /*
      * Set the display attributes that are common to the Vespr nodes.
      */
-    protected void handleAttributes(Attributes attrs, VesprFigNode node) {
+    protected void handleAttributes(Attributes attrs, EditorFigNode node) {
         // Get the known attributes from the AttributeList
         String strX = attrs.getValue("x");
         int x = (strX == null) ? 0 : Integer.parseInt(strX);
@@ -106,7 +106,7 @@ public class VesprParser extends DefaultHandler implements DocumentReader {
 
         // Get the FigNode used to present this Node in the new Diagram
         // Then add the Fig to the Layer and the Node to the GraphModel
-        _figNode = (VesprFigNode) node.makePresentation(_layer);
+        _figNode = (EditorFigNode) node.makePresentation(_layer);
         _layer.add(_figNode);
         _graphModel.addNode(node);
 
@@ -130,7 +130,7 @@ public class VesprParser extends DefaultHandler implements DocumentReader {
         }
 
         // Get the FigNode used to present this Node in the new Diagram
-        _figNode = (VesprFigNode) node.makePresentation(_layer);
+        _figNode = (EditorFigNode) node.makePresentation(_layer);
         _layer.add(_figNode);
         _graphModel.addNode(node);
 
@@ -154,7 +154,7 @@ public class VesprParser extends DefaultHandler implements DocumentReader {
         }
 
         // Get the FigNode used to present this Node in the new Diagram
-        _figNode = (VesprFigNode) node.makePresentation(_layer);
+        _figNode = (EditorFigNode) node.makePresentation(_layer);
         _layer.add(_figNode);
         _graphModel.addNode(node);
 
@@ -178,7 +178,7 @@ public class VesprParser extends DefaultHandler implements DocumentReader {
         }
 
         // Get the FigNode used to present this Node in the new Diagram
-        _figNode = (VesprFigNode) node.makePresentation(_layer);
+        _figNode = (EditorFigNode) node.makePresentation(_layer);
         _layer.add(_figNode);
         _graphModel.addNode(node);
 
@@ -202,7 +202,7 @@ public class VesprParser extends DefaultHandler implements DocumentReader {
         }
 
         // Get the FigNode used to present this Node in the new Diagram
-        _figNode = (VesprFigNode) node.makePresentation(_layer);
+        _figNode = (EditorFigNode) node.makePresentation(_layer);
         _layer.add(_figNode);
         _graphModel.addNode(node);
 
@@ -220,24 +220,24 @@ public class VesprParser extends DefaultHandler implements DocumentReader {
             return null;
         }
 
-        VesprNode fromNode = (VesprNode) _netNodeList.get(fromName);
-        VesprNode toNode = (VesprNode) _netNodeList.get(toName);
+        EditorNode fromNode = (EditorNode) _netNodeList.get(fromName);
+        EditorNode toNode = (EditorNode) _netNodeList.get(toName);
 
         if (fromNode == null || toNode == null) {
             System.out.println("In handleEdge, Nodes are null");
             return null;
         }
 
-        VesprFigNode fromFigNode = (VesprFigNode) _layer
+        EditorFigNode fromFigNode = (EditorFigNode) _layer
                 .presentationFor(fromNode);
-        VesprFigNode toFigNode = (VesprFigNode) _layer.presentationFor(toNode);
+        EditorFigNode toFigNode = (EditorFigNode) _layer.presentationFor(toNode);
 
         if (fromFigNode == null || toFigNode == null) {
             System.out.println("In handleEdge, FigNodes are null");
         }
 
-        VesprPort fromPort = (VesprPort) fromNode.getPort();
-        VesprPort toPort = (VesprPort) toNode.getPort();
+        EditorPort fromPort = (EditorPort) fromNode.getPort();
+        EditorPort toPort = (EditorPort) toNode.getPort();
 
         Fig fromPortFig = fromFigNode.getPortFig();
         Fig toPortFig = toFigNode.getPortFig();
@@ -252,8 +252,8 @@ public class VesprParser extends DefaultHandler implements DocumentReader {
         fe.setDestFigNode(toFigNode);
 
         String text = attrs.getValue("text");
-        if (text != null && fe instanceof VesprFigEdge) {
-            ((VesprFigEdge) fe).setText(text);
+        if (text != null && fe instanceof EditorFigEdge) {
+            ((EditorFigEdge) fe).setText(text);
         }
         return fe;
     }
@@ -261,7 +261,7 @@ public class VesprParser extends DefaultHandler implements DocumentReader {
     protected void handleGraph(Attributes attrs) {
         //Find the owner node.
         _layer = _figNode.getNestedLayer();
-        VesprNode netNode = (VesprNode) _figNode.getOwner();
+        EditorNode netNode = (EditorNode) _figNode.getOwner();
         _graphModel = netNode.getNestedModel();
 
         _layerStack.push(_layer);
