@@ -5,10 +5,10 @@ import java.net.*;
 import java.util.*;
 
 public class Schedule{
-	
+
 	private Hashtable scheduleNameHash;
 	private Hashtable scheduleOrderHash;
-	
+
 	int numberOfActivities = 0;
 
 	public Schedule(){
@@ -29,7 +29,7 @@ public class Schedule{
 			System.out.println("Problem finding default Schedule: "+e);
 		}
 	}
-	
+
 	public Schedule(File pScheduleFile){
 		scheduleNameHash = new Hashtable();
 		scheduleOrderHash = new Hashtable();
@@ -53,7 +53,7 @@ public class Schedule{
 		else
 			return null;
 	}
-	
+
 	public int getNumberOfActivities(){
 		return numberOfActivities;
 	}
@@ -61,30 +61,38 @@ public class Schedule{
 
 	private void parseSchedule(File scheduleFile){
 		//Add 2 defaults..
-		scheduleNameHash.put("Born", new ActivityImpl("Born", 0));
-		scheduleOrderHash.put(new Integer(0), new ActivityImpl("Born", 0));
-		scheduleNameHash.put("Dead", new ActivityImpl("Dead", -1));
-		scheduleOrderHash.put(new Integer(-1), new ActivityImpl("Dead", -1));
+		ActivityImpl bornActivity = new ActivityImpl("Dead", 0, 0);
+		ActivityImpl deadActivity = new ActivityImpl("Born", 0, 0);
+		scheduleNameHash.put("Born", bornActivity);
+		scheduleOrderHash.put(new Integer(0), bornActivity);
+		scheduleNameHash.put("Dead", deadActivity);
+		scheduleOrderHash.put(new Integer(-1), deadActivity);
 		try{
-			 BufferedReader inputReader = new BufferedReader(new FileReader(scheduleFile));
-			 String currentLine = inputReader.readLine().trim();
-			 int itemsRead = 1;
-			 while ((currentLine != null) && (!currentLine.equals("#DayEnd"))){
-			 	try{
-					StringTokenizer tokenizer = new StringTokenizer(currentLine);
-					String activityName = tokenizer.nextToken();
-					int lengthOfActivity = Integer.parseInt(tokenizer.nextToken());
-					Integer orderOfActivity = new Integer(itemsRead);
-					itemsRead++;
-					scheduleNameHash.put(activityName, new ActivityImpl(activityName, lengthOfActivity));
-					scheduleOrderHash.put(orderOfActivity, new ActivityImpl(activityName, lengthOfActivity));
+			BufferedReader inputReader = new BufferedReader(new FileReader(scheduleFile));
+			String currentLine = inputReader.readLine().trim();
+			int itemsRead = 1;
+			while ((currentLine != null) && (!(currentLine.equals("#DayEnd")))){
+				try{
+					if (currentLine.length() > 1){
+						if (currentLine.charAt(0) != '#'){
+							StringTokenizer tokenizer = new StringTokenizer(currentLine);
+							String activityName = tokenizer.nextToken();
+							int lengthOfActivity = Integer.parseInt(tokenizer.nextToken());
+							int intensityOfActivity = Integer.parseInt(tokenizer.nextToken());
+							Integer orderOfActivity = new Integer(itemsRead);
+							itemsRead++;
+							ActivityImpl newActivity = new ActivityImpl(activityName, lengthOfActivity, intensityOfActivity);
+							scheduleNameHash.put(activityName, newActivity);
+							scheduleOrderHash.put(orderOfActivity, newActivity);
+						}
+					}
 					currentLine = inputReader.readLine().trim();
 				}
 				catch(java.util.NoSuchElementException e){
 					System.out.println("Problem parsing line "+itemsRead+" in "+scheduleFile+": "+currentLine);
 				}
-			 }
-			 numberOfActivities = itemsRead;
+			}
+			numberOfActivities = itemsRead;
 		}
 		catch (IOException e){
 			System.out.println("Had problems parsing schedule file "+scheduleFile+" with exception: "+e);

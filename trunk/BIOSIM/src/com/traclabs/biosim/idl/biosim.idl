@@ -18,6 +18,7 @@ module biosim{
                         interface Activity{
                                 string getName();
                                 long getTimeLength();
+				long getActivityIntensity();
                         };
                         interface CrewPerson{
                                 Object getCurrentActivity();
