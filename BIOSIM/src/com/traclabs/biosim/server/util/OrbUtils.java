@@ -13,8 +13,7 @@ import org.omg.PortableServer.POA;
 
 public class OrbUtils{
 	//Flag to make sure OrbUtils only runs initialize once
-	private static boolean initializeOrbRunOnce = false;  
-	private static boolean initializeNamingRunOnce = false;
+	private static boolean initializeOrbRunOnce = false;
 	//The root POA for transformation methods and other things
 	private static POA myRootPOA = null;
 	//The server ORB used resolving references
@@ -67,23 +66,18 @@ public class OrbUtils{
 	* Forces OrbUtils to retrieve the RootPoa and Naming Service again on next request.
 	*/
 	public static void resetInit(){
-		initializeOrbRunOnce = false;  
-		initializeNamingRunOnce = false;
+		initializeOrbRunOnce = false;
 	}
 	
 	private static void initializeNamingContexts(int pID){
-		if (initializeNamingRunOnce)
-			return;
 		initialize();
 		try{
 			//Attempt to create id context, if already there, don't bother
 			NameComponent idComponent = new NameComponent(pID+"", "");
 			NameComponent[] idComponents = {idComponent};
 			NamingContext IDContext = myBiosimNamingContext.bind_new_context(idComponents);
-			initializeNamingRunOnce = true;
 		}
 		catch (org.omg.CosNaming.NamingContextPackage.AlreadyBound e){
-			initializeNamingRunOnce = true;
 		}
 		catch (Exception e){
 			e.printStackTrace();
