@@ -13,6 +13,7 @@ then
 	echo "		-assuming BIOSIM_HOME is $devRootDir"
 fi
 JACORB_HOME="$devRootDir/lib/jacorb"
+jacoNameIOR="-DORBInitRef.NameService=file:$devRootDir/generated/ns/ior.txt"
 ####################
 #		CLIENTS START	#
 ####################
@@ -31,8 +32,8 @@ if [ "$serverType" == "CYGWIN_NT-5.1" ]
 then
 	separator=";"
 fi
-jacoClasspath="$JACORB_HOME/lib/jacorb.jar$separator$JRE_HOME/lib/rt.jar"
-jacoInvocation="java -classpath $clientClassesDir$separator$jacoClasspath$separator$CLASSPATH $jacoOrbClass $jacoSingletonOrbClass"
+jacoClasspath="$JACORB_HOME/lib/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME/lib"
+jacoInvocation="java -classpath $clientClassesDir$separator$jacoClasspath$separator$CLASSPATH $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
 echo "	-starting client"
 case $userSelect in
 	control) echo "			 -starting $userSelect";$jacoInvocation $controlName;;
