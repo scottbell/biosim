@@ -12,7 +12,7 @@ module food{
         };
         interface BiomassStore : framework::Store{
         };
-        interface FoodProcessor : framework::BioModule{
+        interface FoodProcessor : framework::BioModule, framework::PowerConsumer, framework::BiomassConsumer, framework::FoodProducer{
                 float getBiomassConsumed();
                 float getPowerConsumed();
                 float getFoodProduced();

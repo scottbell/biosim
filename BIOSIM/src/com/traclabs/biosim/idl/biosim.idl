@@ -1,6 +1,7 @@
 module biosim{
         module idl{
                 typedef sequence <string> StringList;
+		typedef sequence <float> FloatList;
                 module util{
                         module log{
                                 interface LogNode;
@@ -13,6 +14,7 @@ module biosim{
                 module power{
                         interface PowerPS;
                         interface PowerStore;
+                        typedef sequence <PowerStore> PowerStoreList;
                 };
                 module crew{
                         interface Activity;
@@ -35,24 +37,32 @@ module biosim{
                                 float CO2;
                                 float other;
                         };
+                        typedef sequence <O2Store> O2StoreList;
+                        typedef sequence <CO2Store> CO2StoreList;
                 };
                 module food{
                         interface Shelf;
-                        typedef sequence <Shelf> ShelfList;
                         interface BiomassRS;
                         interface BiomassStore;
                         interface FoodProcessor;
                         interface FoodStore;
                         interface Shelf;
+                        typedef sequence <Shelf> ShelfList;
+                        typedef sequence <BiomassStore> BiomassStoreList;
+                        typedef sequence <FoodStore> FoodStoreList;
                 };
                 module environment{
                         interface SimEnvironment;
+                        typedef sequence <SimEnvironment> SimEnvironmentList;
                 };
                 module water{
                         interface WaterRS;
                         interface PotableWaterStore;
                         interface GreyWaterStore;
                         interface DirtyWaterStore;
+                        typedef sequence <PotableWaterStore> PotableWaterStoreList;
+                        typedef sequence <GreyWaterStore> GreyWaterStoreList;
+                        typedef sequence <DirtyWaterStore> DirtyWaterStoreList;
                 };
                 module framework{
                         enum BioDriverInit {DEFAULT_INIT, OPTIMAL_INIT, NO_INIT};
