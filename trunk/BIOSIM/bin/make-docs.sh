@@ -56,21 +56,17 @@ simString="biosim"
 simStubDir="$stubDir/$simString"
 sourceDir="$devRootDir/src"
 clientDir="$sourceDir/biosim/client"
-plotClasspath="$devRootDir/lib/jfreechart/jcommon.jar$separator$devRootDir/lib/jfreechart/junit.jar$separator$devRootDir/lib/jfreechart/jfreechart.jar"
+plotClasspath="$devRootDir/lib/jfreechart/jcommon.jar$separator$devRootDir/lib/jfreechart/jfreechart.jar"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME$separator$JACORB_HOME/idl.jar"
 docSourcepath="$sourceDir$separator$stubDir$separator$skeletonDir$"
 docClasspath="$clientClassesDir$separator$serverClassesDir$separator$jacoClasspath$separator$plotClasspath"
 ####################
-#	DOC BUILD             #
+#	DOC BUILD  #
 ####################
 echo "	-creating docs"
-echo "		-creating package list"
-java -classpath $devRootDir/lib/docutil/doccheck.jar com.sun.tools.doclets.util.PackageList -skipAll CVS $sourceDir $serverGenDir$skeletonString > $apiDir/package-list
 echo "		-creating html documentation"
-javadocInvocation="$javadocCommand -breakiterator -d $apiDir -classpath $docClasspath -sourcepath $docSourcepath"
-$javadocInvocation @$apiDir/package-list > /dev/null
-echo "		-removing package list"
-rm -f $apiDir/package-list
+javadocInvocation="$javadocCommand -breakiterator -d $apiDir -classpath $docClasspath -sourcepath $docSourcepath -subpackages biosim"
+$javadocInvocation > /dev/null
 echo "*done creating biosim docs"
 
 

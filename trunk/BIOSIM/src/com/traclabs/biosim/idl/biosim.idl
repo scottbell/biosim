@@ -130,6 +130,9 @@ module biosim{
 		module sensor{
                         #include "sensor/framework.idl"
                 };
+		module actuator{
+                        #include "actuator/framework.idl"
+                };
         };
 };
 
