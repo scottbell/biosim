@@ -28,6 +28,7 @@ import com.traclabs.biosim.idl.simulation.water.WaterRS;
 
 /**
  * @author Theresa Klein
+ * @author Scott Bell (modified original code)
  */
 
 public class HandController {
@@ -52,11 +53,11 @@ public class HandController {
 
     private Map classifiedState;
 
-    private static Map thresholdMap = new TreeMap();
+    private Map thresholdMap = new TreeMap();
 
-    private static BioDriver myBioDriver;
+    private BioDriver myBioDriver;
 
-    private static BioHolder myBioHolder;
+    private BioHolder myBioHolder;
 
     private OGS myOGS;
 
@@ -290,7 +291,7 @@ public class HandController {
      * @param myOGSPotableWaterInFlowRateMax
      *            The myOGSPotableWaterInFlowRateMax to set.
      */
-    protected void setOGSPotableWaterInFlowRateMax(
+    public void setOGSPotableWaterInFlowRateMax(
             float pOGSPotableWaterInFlowRateMax) {
         myActionMap.setOGSPotableWaterInFlowRateMax(pOGSPotableWaterInFlowRateMax);
     }
@@ -299,7 +300,7 @@ public class HandController {
      * @param myOGSPowerInFlowRateMax
      *            The myOGSPowerInFlowRateMax to set.
      */
-    protected void setOGSPowerInFlowRateMax(float pOGSPowerInFlowRateMax) {
+    public void setOGSPowerInFlowRateMax(float pOGSPowerInFlowRateMax) {
         myActionMap.setOGSPowerInFlowRateMax(pOGSPowerInFlowRateMax);
     }
 
@@ -307,7 +308,7 @@ public class HandController {
      * @param myWaterRSDirtyWaterInFlowRateMax
      *            The myWaterRSDirtyWaterInFlowRateMax to set.
      */
-    protected void setWaterRSDirtyWaterInFlowRateMax(
+    public void setWaterRSDirtyWaterInFlowRateMax(
             float pWaterRSDirtyWaterInFlowRateMax) {
         myActionMap.setWaterRSDirtyWaterInFlowRateMax(pWaterRSDirtyWaterInFlowRateMax);
     }
@@ -316,7 +317,7 @@ public class HandController {
      * @param myWaterRSGreyWaterInFlowRateMax
      *            The myWaterRSGreyWaterInFlowRateMax to set.
      */
-    protected void setWaterRSGreyWaterInFlowRateMax(
+    public void setWaterRSGreyWaterInFlowRateMax(
             float pWaterRSGreyWaterInFlowRateMax) {
         myActionMap.setWaterRSGreyWaterInFlowRateMax(pWaterRSGreyWaterInFlowRateMax);
     }
@@ -325,7 +326,7 @@ public class HandController {
      * @param myWaterRSPowerInFlowRateMax
      *            The myWaterRSPowerInFlowRateMax to set.
      */
-    protected void setWaterRSPowerInFlowRateMax(float pWaterRSPowerInFlowRateMax) {
+    public void setWaterRSPowerInFlowRateMax(float pWaterRSPowerInFlowRateMax) {
         myActionMap.setWaterRSPowerInFlowRateMax(pWaterRSPowerInFlowRateMax);
     }
 
