@@ -113,16 +113,20 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 			float resourceToGatherFirst = Math.min(amountNeeded, pMaxFlowRates[i]);
 			float resourceToGatherFinal = Math.min(resourceToGatherFirst, pDesiredFlowRates[i]);
 			FoodMatter[] takenMatter = pStores[i].takeFoodMatterCalories(resourceToGatherFinal);
+			System.out.println("CrewGroupImpl: length of takenMatter is "+takenMatter.length);
 			sizeOfMatter += takenMatter.length;
 			gatheredBioMatterArrays.add(takenMatter);
 			pActualFlowRates[i] = calculateSizeOfFoodMatter(takenMatter);
-			gatheredResource += pActualFlowRates[i];
+			gatheredResource += pStores[i].calculateCalories(takenMatter);
+			System.out.println("CrewGroupImpl: Got "+gatheredResource+" calories from "+pActualFlowRates[i]+" mass");
 		}
 		FoodMatter[] fullMatterTaken = new FoodMatter[sizeOfMatter];
 		int lastPosition = 0;
 		for (Iterator iter = gatheredBioMatterArrays.iterator(); iter.hasNext();){
 			FoodMatter[] matterArray = (FoodMatter[])(iter.next());
 			System.arraycopy(matterArray, 0, fullMatterTaken, lastPosition, matterArray.length);
+			System.out.println("CrewGroupImpl: length of matterArray is "+matterArray.length);
+			System.out.println("CrewGroupImpl: length of fullMatterTaken is "+fullMatterTaken.length);
 			lastPosition = matterArray.length;
 		}
 		return fullMatterTaken;

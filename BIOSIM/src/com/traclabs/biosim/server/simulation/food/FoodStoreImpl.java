@@ -118,7 +118,7 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 		else if (theType == PlantType.WHITE_POTATO)
 			return theMass * WhitePotato.getCaloriesPerKilogram();
 		else
-			return 1000f;
+			return theMass * 1000f;
 	}
 	
 	public float calculateCalories(FoodMatter[] foodArray){
