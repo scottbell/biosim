@@ -14,7 +14,7 @@ public class EnvironmentPanel extends BioTabbedPanel
 {
 	protected void createPanels(){
 		myTextPanel = new EnvironmentTextPanel();
-		myChartPanel = new BioTabPanel();
+		myChartPanel = new EnvironmentChartPanel();
 		mySchematicPanel = new BioTabPanel();
 	}
 }

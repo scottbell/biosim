@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import biosim.client.framework.*;
-import biosim.client.framework.gui.*;
 import biosim.idl.water.*;
 import com.jrefinery.chart.*;
 import com.jrefinery.data.*;
@@ -92,6 +91,8 @@ public class WaterStorePanel extends JPanel
 		rangeAxis.setAutoRange(false);
 		rangeAxis.setRange(0.0, myPotableWaterStore.getCapacity());
 		myPlot.setSeriesPaint(new Paint[] { Color.BLUE, Color.GRAY, Color.YELLOW });
+		TextTitle myTextTitle = (TextTitle)(myChart.getTitle(0));
+		myTextTitle.setFont(myTextTitle.getFont().deriveFont(12.0f));
 		myChartPanel = new ChartPanel(myChart);
 		myChartPanel.setMinimumDrawHeight(300);
 		myChartPanel.setMinimumDrawWidth(250);
