@@ -314,6 +314,27 @@
 			<CO2InFlowRateSensor name="AirRSCO2InFlowRateSensor">
 				<input>AirRS</input>
 			</CO2InFlowRateSensor>
+			<CO2OutFlowRateSensor name="AirRSCO2OutFlowRateSensor">
+				<input>AirRS</input>
+			</CO2OutFlowRateSensor>
+			<CO2StoreLevelSensor name="CO2StoreLevelSensor">
+				<input>CO2Store</input>
+			</CO2StoreLevelSensor>
+			<O2OutFlowRateSensor name="AirRSO2OutFlowRateSensor">
+				<input>AirRS</input>
+			</O2OutFlowRateSensor>
+			<O2StoreLevelSensor name="O2StoreLevelSensor">
+				<input>O2Store</input>
+			</O2StoreLevelSensor>
+			<H2InFlowRateSensor name="AirRSH2InFlowRateSensor">
+				<input>AirRS</input>
+			</H2InFlowRateSensor>
+			<H2OutFlowRateSensor name="AirRSH2OutFlowRateSensor">
+				<input>AirRS</input>
+			</H2OutFlowRateSensor>
+			<H2StoreLevelSensor name="H2StoreLevelSensor">
+				<input>H2Store</input>
+			</H2StoreLevelSensor>
 		</air>
 		<power>
 			<PowerInFlowRateSensor name="AirRSPowerInFlowRateSensor">
