@@ -82,9 +82,13 @@ public class SweetPotato extends Planophile{
 		return 7.3792f;
 	}
 
-	public float getFractionOfEdibleBiomass(){
-		if (myAge > getTimeAtCanopySenescence())
-			return 1.00f;
+	public static float getFractionOfEdibleBiomass(){
+		return 1.00f;
+	}
+	
+	protected float getCurrentFractionOfEdibleBiomass(){
+		if (myAge > getTimeAtOrganFormation())
+			return getFractionOfEdibleBiomass();
 		else
 			return 0f;
 	}

@@ -16,7 +16,7 @@ public abstract class Planophile extends PlantImpl{
 	protected abstract float getTimeAtCropMaturity();
 	protected abstract float getOPF();
 	protected abstract float getFreshFactor();
-	protected abstract float getFractionOfEdibleBiomass();
+	protected abstract float getCurrentFractionOfEdibleBiomass();
 	protected abstract float getEdibleFreshBasisWaterContent();
 	protected abstract float getInedibleFreshBasisWaterContent();
 	public abstract float getPPFNeeded();
