@@ -14,7 +14,7 @@ public class CrewPanel extends BioTabbedPanel
 {	
 	protected void createPanels(){
 		myTextPanel = new CrewTextPanel();
-		myChartPanel = new BioTabPanel();
+		myChartPanel = new CrewChartPanel();
 		mySchematicPanel = new BioTabPanel();
 	}
 }
