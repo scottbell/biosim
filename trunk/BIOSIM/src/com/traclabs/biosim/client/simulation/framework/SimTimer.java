@@ -14,8 +14,10 @@ public class SimTimer
 	private static int myDelay = 500;
 	
 	public static void addListener(ActionListener listener){
-		if (myTimer == null)
+		if (myTimer == null){
 			myTimer = new Timer(myDelay, listener);
+			myTimer.start();
+		}
 		else
 			myTimer.addActionListener(listener);
 	}

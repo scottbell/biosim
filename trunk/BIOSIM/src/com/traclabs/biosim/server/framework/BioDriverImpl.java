@@ -58,15 +58,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	private boolean useDefaultInitialization = false;
 	private boolean logging = false;
 	private SimEnvironment mySimEnvironment;
-
-	/**
-	* Creates the BioDriverImpl and collects references to the servers.
-	*/
-	public BioDriverImpl() {
-		System.out.println("BioDriverImpl: Getting server references...");
-		collectReferences();
-		setLogging(false);
-	}
+	private boolean hasCollectedReferences = false;
 
 	/**
 	* Checks to see if the simulation is paused.
@@ -91,6 +83,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	*/
 	public void spawnSimulation(boolean pUseDefaultInitialization){
 		useDefaultInitialization = pUseDefaultInitialization;
+		collectReferences();
 		myTickThread = new Thread(this);
 		myTickThread.start();
 	}
@@ -165,6 +158,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		PowerStore myPowerStore = (PowerStore)(getBioModule(powerStoreName));
 		myPowerStore.setCapacity(30000f);
 		myPowerStore.setLevel(30000f);
+		setLogging(false);
 	}
 	
 	/**
@@ -227,6 +221,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	* NOTICE: not pausing the simulation before using this method can be very risky.  Don't do it.
 	*/
 	public synchronized void advanceOneTick(){
+		collectReferences();
 		System.out.println("BioDriverImpl: ticking simulation once");
 		tick();
 	}
@@ -241,6 +236,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	}
 
 	public synchronized void setLogging(boolean pLogSim){
+		collectReferences();
 		logging = pLogSim;
 		if (logging){
 			System.out.println("Enabling logging");
@@ -262,6 +258,9 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	* Tries to collect references to all the servers and adds them to a hashtable than can be accessed by outside classes.
 	*/
 	private void collectReferences(){
+		if (hasCollectedReferences)
+			return;
+		System.out.println("BioDriverImpl: Getting server references...");
 		// resolve the Objects Reference in Naming
 		modules = new Hashtable();
 		System.out.println("BioDriverImpl: Collecting references to modules...");
@@ -371,6 +370,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		catch (org.omg.CORBA.UserException e){
 			System.out.println("BioDriverImpl: Couldn't locate WaterRS, skipping...");
 		}
+		hasCollectedReferences = true;
 	}
 
 	/**
