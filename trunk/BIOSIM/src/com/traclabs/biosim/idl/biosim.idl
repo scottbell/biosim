@@ -36,6 +36,7 @@ module biosim{
 				StringList getMalfunctionNames();
 				MalfunctionList getMalfunctions();
 				void maitenance();
+				void repair(in long long id);
                         };
 			
                         interface Store : BioModule{
@@ -113,7 +114,7 @@ module biosim{
                         };
 			interface RepairActivity : Activity{
 				string getModuleToRepair();
-				long getMalfunctionIDToRepair();
+				long long getMalfunctionIDToRepair();
 			};
 			interface MaitenanceActivity : Activity{
 				string getModuleToMaitenance();
@@ -123,6 +124,7 @@ module biosim{
                                 void setCurrentActivity(in Activity newActivity);
 				long getOrderOfScheduledActivity(in string name);
 				void insertActivityInSchedule(in Activity newActivity, in long order);
+				void insertActivityInScheduleNow(in Activity newActivity);
                                 void sicken();
 				string getName();
                                 float getAge();
@@ -147,6 +149,7 @@ module biosim{
                                 CrewPerson getCrewPerson(in string name);
                                 CrewPerson createCrewPerson(in string name, in float age, in float weight, in Sex pSex);
                                 CrewPersonList getCrewPeople();
+				void scheduleFix(in string moduleName, in long long malfunctionID, in long timeLength);
                                 long getCrewSize();
                                 float getGreyWaterProduced();
                                 float getDirtyWaterProduced();

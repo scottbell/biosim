@@ -391,33 +391,34 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		if (myCurrentActivity.getName().equals("Mission")){
 			addProductivity();
 		}
-		else if (myCurrentActivity.getName().startsWith("Maitenance")){
-			StringTokenizer strtok = new StringTokenizer(myCurrentActivity.getName(), "-");
-			if (strtok.countTokens() > 2){
-				strtok.nextToken();
-				maitenanceModule(strtok.nextToken());
-			}
+		else if (myCurrentActivity.getName().equals("Maitenance")){
 		}
-		else if (myCurrentActivity.getName().startsWith("Repair")){
-			StringTokenizer strtok = new StringTokenizer(myCurrentActivity.getName(), "-");
-			if (strtok.countTokens() > 2){
-				strtok.nextToken();
-				repairModule(strtok.nextToken());
+		else if (myCurrentActivity.getName().equals("Repair")){
+			if (myCurrentActivity instanceof RepairActivity){
+				RepairActivity repairActivity = (RepairActivity)(myCurrentActivity);
+				repairModule(repairActivity.getModuleToRepair(), repairActivity.getMalfunctionIDToRepair());
+			}
+			else{
+				System.err.println("Tried to repair, but activity wasn't of type RepairActivity!");
 			}
 		}
 	}
 
 	private void addProductivity(){
+		myMissionProductivity++;
 	}
 
-	private void repairModule(String moduleName){
+	private void repairModule(String moduleName, long id){
+		BioModule moduleToRepair = (BioModule)(myModules.get(moduleName));
+		if (moduleToRepair != null)
+			moduleToRepair.repair(id);
 	}
 
 	private void maitenanceModule(String moduleName){
 	}
 
 	private BioModule getBioModule(String moduleName){
-		return null;
+		return (BioModule)(myModules.get(moduleName));
 	}
 
 	/**
@@ -489,6 +490,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	
 	public void insertActivityInSchedule(Activity pActivity, int pOrder){
 		mySchedule.insertActivityInSchedule(pActivity, pOrder);	
+	}
+	
+	public void insertActivityInScheduleNow(Activity pActivity){
+		mySchedule.insertActivityInSchedule(pActivity, currentOrder + 1);	
 	}
 	
 	public int getOrderOfScheduledActivity(String activityName){

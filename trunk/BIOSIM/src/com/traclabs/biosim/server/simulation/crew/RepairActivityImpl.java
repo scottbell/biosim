@@ -8,11 +8,11 @@ import biosim.idl.crew.*;
  */
 
 public class RepairActivityImpl extends ActivityImpl implements RepairActivityOperations {
-	private int myMalfunctionID = 0;
+	private long myMalfunctionID = 0;
 	private String myModuleToRepair = "Unknown";
 	
-	public RepairActivityImpl(String pName, int pTimeLength, int pActivityIntensity, String pModuleToRepair, int pMalfunctionID){
-		super(pName, pTimeLength, pActivityIntensity);
+	public RepairActivityImpl(String pModuleToRepair, long pMalfunctionID, int pTimeLength){
+		super("Repair", pTimeLength, 3);
 		myMalfunctionID = pMalfunctionID;
 		myModuleToRepair = pModuleToRepair;
 	}
@@ -21,7 +21,7 @@ public class RepairActivityImpl extends ActivityImpl implements RepairActivityOp
 		return myModuleToRepair;
 	}
 	
-	public int getMalfunctionIDToRepair(){
+	public long getMalfunctionIDToRepair(){
 		return myMalfunctionID;
 	}
 }
