@@ -246,6 +246,7 @@ public class MalfunctionPanel extends TimedPanel {
 
     private BioModule getSelectedModule() {
         String currentName = (String) (moduleList.getSelectedValue());
+        myLogger.debug("module selected = "+currentName);
         return ((BioModule) (BioHolderInitializer.getBioHolder().theModulesMapped
                 .get(currentName)));
     }
@@ -320,6 +321,7 @@ public class MalfunctionPanel extends TimedPanel {
             BioModule myModule = getSelectedModule();
             MalfunctionIntensity myIntensity = getSelectedIntensity();
             MalfunctionLength myLength = getSelectedLength();
+            myLogger.debug("myModule = "+myModule);
             if (myModule == null || myIntensity == null || myLength == null)
                 return;
             else {
