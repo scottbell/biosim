@@ -21,4 +21,12 @@ public abstract class O2StoreSensorImpl extends GenericSensorImpl implements O2S
 	public O2Store getInput(){
 		return myO2Store;
 	}
+	
+	/**
+	* Returns the name of this module (O2StoreSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "O2StoreSensor"+getID();
+	}
 }

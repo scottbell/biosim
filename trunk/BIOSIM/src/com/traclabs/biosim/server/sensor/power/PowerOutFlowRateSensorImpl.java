@@ -33,4 +33,12 @@ public class PowerOutFlowRateSensorImpl extends GenericSensorImpl implements Pow
 	public int getIndex(){
 		return myIndex;
 	}
+	
+	/**
+	* Returns the name of this module (PowerOutFlowRateSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "PowerOutFlowRateSensor"+getID();
+	}
 }

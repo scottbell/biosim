@@ -16,4 +16,12 @@ public class DirtyWaterStoreLevelSensorImpl extends DirtyWaterStoreSensorImpl im
 	
 	protected void notifyListeners(){
 	}
+	
+	/**
+	* Returns the name of this module (DirtyWaterStoreLevelSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "DirtyWaterStoreLevelSensor"+getID();
+	}
 }

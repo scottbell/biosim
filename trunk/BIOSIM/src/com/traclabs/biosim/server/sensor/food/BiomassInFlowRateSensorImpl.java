@@ -33,4 +33,12 @@ public class BiomassInFlowRateSensorImpl extends GenericSensorImpl implements Bi
 	public int getIndex(){
 		return myIndex;
 	}
+	
+	/**
+	* Returns the name of this module (BiomassInFlowRateSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "BiomassInFlowRateSensor"+getID();
+	}
 }

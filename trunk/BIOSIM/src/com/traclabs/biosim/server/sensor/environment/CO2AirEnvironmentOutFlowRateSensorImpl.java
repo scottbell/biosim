@@ -33,4 +33,12 @@ public class CO2AirEnvironmentOutFlowRateSensorImpl extends GenericSensorImpl im
 	public int getIndex(){
 		return myIndex;
 	}
+	
+	/**
+	* Returns the name of this module (CO2AirEnvironmentOutFlowRateSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "CO2AirEnvironmentOutFlowRateSensor"+getID();
+	}
 }

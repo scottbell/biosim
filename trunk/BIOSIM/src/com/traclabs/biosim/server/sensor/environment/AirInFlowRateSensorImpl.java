@@ -33,4 +33,12 @@ public class AirInFlowRateSensorImpl extends GenericSensorImpl implements AirInF
 	public int getIndex(){
 		return myIndex;
 	}
+	
+	/**
+	* Returns the name of this module (AirInFlowRateSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "AirInFlowRateSensor"+getID();
+	}
 }

@@ -21,4 +21,12 @@ public abstract class GreyWaterStoreSensorImpl extends GenericSensorImpl impleme
 	public GreyWaterStore getInput(){
 		return myGreyWaterStore;
 	}
+	
+	/**
+	* Returns the name of this module (GreyWaterStoreSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "GreyWaterStoreSensor"+getID();
+	}
 }

@@ -21,4 +21,12 @@ public abstract class DirtyWaterStoreSensorImpl extends GenericSensorImpl implem
 	public DirtyWaterStore getInput(){
 		return myDirtyWaterStore;
 	}
+	
+	/**
+	* Returns the name of this module (DirtyWaterStoreSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "DirtyWaterStoreSensor"+getID();
+	}
 }

@@ -16,4 +16,12 @@ public class CO2AirLevelSensorImpl extends EnvironmentSensorImpl implements CO2A
 	
 	protected void notifyListeners(){
 	}
+	
+	/**
+	* Returns the name of this module (CO2AirLevelSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "CO2AirLevelSensor"+getID();
+	}
 }

@@ -21,4 +21,12 @@ public abstract class EnvironmentSensorImpl extends GenericSensorImpl implements
 	public SimEnvironment getInput(){
 		return myEnvironment;
 	}
+	
+	/**
+	* Returns the name of this module (EnvironmentSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "EnvironmentSensor"+getID();
+	}
 }

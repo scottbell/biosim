@@ -33,4 +33,12 @@ public class GreyWaterOutFlowRateSensorImpl extends GenericSensorImpl implements
 	public int getIndex(){
 		return myIndex;
 	}
+	
+	/**
+	* Returns the name of this module (GreyWaterOutFlowRateSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "GreyWaterOutFlowRateSensor"+getID();
+	}
 }

@@ -33,4 +33,12 @@ public class PowerInFlowRateSensorImpl extends GenericSensorImpl implements Powe
 	public int getIndex(){
 		return myIndex;
 	}
+	
+	/**
+	* Returns the name of this module (PowerInFlowRateSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "PowerInFlowRateSensor"+getID();
+	}
 }

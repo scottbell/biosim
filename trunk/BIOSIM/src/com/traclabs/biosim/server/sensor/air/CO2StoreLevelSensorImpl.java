@@ -16,4 +16,12 @@ public abstract class CO2StoreLevelSensorImpl extends CO2StoreSensorImpl impleme
 	protected void notifyListeners(){
 		//Does nothing right now..
 	}
+	
+	/**
+	* Returns the name of this module (CO2StoreLevelSensorImpl)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "CO2StoreLevelSensorImpl"+getID();
+	}
 }

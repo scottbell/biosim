@@ -21,4 +21,12 @@ public abstract class GenericSensorImpl extends BioModuleImpl implements Generic
 		gatherData();
 		notifyListeners();
 	}
+	
+	/**
+	* Returns the name of this module (GenericSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "GenericSensor"+getID();
+	}
 }

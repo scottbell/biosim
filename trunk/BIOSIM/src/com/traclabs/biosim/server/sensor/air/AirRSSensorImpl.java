@@ -21,4 +21,12 @@ public abstract class AirRSSensorImpl extends GenericSensorImpl implements AirRS
 	public AirRS getInput(){
 		return myAirRS;
 	}
+	
+	/**
+	* Returns the name of this module (AirRSSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "AirRSSensor"+getID();
+	}
 }

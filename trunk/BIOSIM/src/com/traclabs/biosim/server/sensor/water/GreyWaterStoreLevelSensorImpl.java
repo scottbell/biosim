@@ -16,4 +16,12 @@ public class GreyWaterStoreLevelSensorImpl extends GreyWaterStoreSensorImpl impl
 	
 	protected void notifyListeners(){
 	}
+	
+	/**
+	* Returns the name of this module (GreyWaterStoreLevelSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "GreyWaterStoreLevelSensor"+getID();
+	}
 }
