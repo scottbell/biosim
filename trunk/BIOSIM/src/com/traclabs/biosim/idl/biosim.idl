@@ -47,7 +47,6 @@ module biosim{
                                 interface BiomassStore;
                                 interface FoodProcessor;
                                 interface FoodStore;
-                                interface Shelf;
                                 interface Plant;
                                 enum PlantType {WHEAT, DRY_BEAN, LETTUCE, PEANUT, RICE, SOYBEAN, SWEET_POTATO, TOMATO, WHITE_POTATO, UNKNOWN_PLANT};
                                 struct BioMatter{
@@ -734,6 +733,8 @@ module biosim{
                                 interface Shelf{
                                         void harvest();
                                         void replant(in PlantType pType);
+					float getCropArea();
+					BiomassRS getBiomassRS();
                                         void setAutoHarvestEnabled(in boolean pHarvestEnabled);
                                         boolean isAutoHarvestEnabled();
                                 };
@@ -1323,8 +1324,14 @@ module biosim{
                                         framework::FoodProducer getOutput();
                                         long getIndex();
                                 };
-				interface PlantingActuator : BiomassRSActuator{
-                                        
+                                interface ShelfActuator : framework::GenericActuator{
+                                        void setOutput(in simulation::food::Shelf source);
+                                        simulation::food::Shelf getOutput();
+                                };
+				interface PlantingActuator : ShelfActuator{
+                                        void setPlantType(in simulation::food::PlantType type);
+                                }; 
+				interface HarvestingActuator : ShelfActuator{
                                 }; 
                         };
                         module power{
