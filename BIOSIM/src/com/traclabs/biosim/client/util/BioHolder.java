@@ -47,6 +47,8 @@ public class BioHolder
 	*/
 	public static BioModule getBioModule(String type){
 		collectReferences();
+		if (type == null)
+			return null;
 		return (BioModule)(modules.get(type));
 	}
 	

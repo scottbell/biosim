@@ -37,6 +37,10 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		if (moduleLogging)
 			log();
 	}
+	
+	public void fixAllMalfunctions(){
+		myMalfunctions.clear();
+	}
 
 	/**
 	 * Override this to get custom malfunction names.

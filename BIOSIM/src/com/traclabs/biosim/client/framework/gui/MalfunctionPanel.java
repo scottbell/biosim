@@ -85,8 +85,8 @@ public class MalfunctionPanel extends TimedPanel
 		JLabel severityLabel = new JLabel("Severity");
 		String[] severityStrings = {"Severe", "Medium", "Low"};
 		severityComboBox = new JComboBox(severityStrings);
-		JButton clearMalfunctionButton = new JButton(new ClearMalfunctionAction());
-		clearMalfunctionButton.setText("Clear All");
+		JButton fixAllMalfunctionButton = new JButton(new FixAllMalfunctionAction());
+		fixAllMalfunctionButton.setText("Fix All");
 		c.fill = GridBagConstraints.BOTH;
 		c.gridheight = 1;
 		c.weightx = 1.0;
@@ -107,20 +107,19 @@ public class MalfunctionPanel extends TimedPanel
 		gridbag.setConstraints(addMalfunctionButton, c);
 		myOperatorPanel.add(addMalfunctionButton);
 		c.gridwidth = GridBagConstraints.REMAINDER;
-		gridbag.setConstraints(clearMalfunctionButton, c);
-		myOperatorPanel.add(clearMalfunctionButton);
+		gridbag.setConstraints(fixAllMalfunctionButton, c);
+		myOperatorPanel.add(fixAllMalfunctionButton);
 	}
 	
 	private void createCurrentMalfunctionsPanel(){
 		myCurrentMalfunctionsPanel = new JPanel();
 		myCurrentMalfunctionsPanel.setBorder(BorderFactory.createTitledBorder("Current Malfunctions"));
 		myCurrentMalfunctionsPanel.setLayout(new BorderLayout());
-		String[] dummyList = {"Air Leak", "Solar Panel Damaged", "Crop Disease"};
-		currentMalfunctionList = new JList(dummyList);
+		currentMalfunctionList = new JList();
 		myCurrentMalfunctionsPanel.add(currentMalfunctionList, BorderLayout.CENTER);
-		JButton deleteButton = new JButton(new DeleteMalfunctionAction());
-		deleteButton.setText("Delete");
-		myCurrentMalfunctionsPanel.add(deleteButton, BorderLayout.EAST);
+		JButton fixButton = new JButton(new FixMalfunctionAction());
+		fixButton.setText("Fix");
+		myCurrentMalfunctionsPanel.add(fixButton, BorderLayout.EAST);
 		
 	}
 	
@@ -132,15 +131,25 @@ public class MalfunctionPanel extends TimedPanel
 		myFrame.setVisible(true);
 	}
 	
-	private class ClearMalfunctionAction extends AbstractAction{
+	private BioModule getCurrentlySelectedModule(){
+		String currentName = (String)(moduleList.getSelectedValue());
+		return (BioHolder.getBioModule(currentName));
+	}
+	
+	private class FixAllMalfunctionAction extends AbstractAction{
 		public void actionPerformed(ActionEvent ae){
-			System.out.println("ClearMalfunctionAction button was pressed");
+			System.out.println("FixAllMalfunctionAction button was pressed");
+			BioModule myModule = getCurrentlySelectedModule();
+			if (myModule == null)
+				return;
+			else
+				myModule.fixAllMalfunctions();
 		}
 	}
 	
-	private class DeleteMalfunctionAction extends AbstractAction{
+	private class FixMalfunctionAction extends AbstractAction{
 		public void actionPerformed(ActionEvent ae){
-			System.out.println("DeleteMalfunctionAction button was pressed");
+			System.out.println("FixMalfunctionAction button was pressed");
 		}
 	}
 	
