@@ -964,9 +964,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	}
 
 	public void log(){
-		//If not initialized, fill in the log
-		if (!logInitialized){
-			myLogIndex = new LogIndex();
+			/*
 			LogNode O2MolesHead = myLog.addChild("O2_moles");
 			myLogIndex.O2MolesIndex = O2MolesHead.addChild(""+O2Moles);
 			LogNode CO2MolesHead = myLog.addChild("CO2_moles");
@@ -991,23 +989,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 			myLogIndex.volumeIndex = volumeHead.addChild(""+volume);
 			LogNode lightIntensityHead = myLog.addChild("light_intensity");
 			myLogIndex.lightIntensityIndex = lightIntensityHead.addChild(""+lightIntensity);
-			logInitialized = true;
-		}
-		else{
-			myLogIndex.O2MolesIndex.setValue(""+O2Moles);
-			myLogIndex.CO2MolesIndex.setValue(""+CO2Moles);
-			myLogIndex.otherMolesIndex.setValue(""+otherMoles);
-			myLogIndex.waterMolesIndex.setValue(""+waterMoles);
-			myLogIndex.nitrogenMolesIndex.setValue(""+nitrogenMoles);
-			myLogIndex.O2PressureIndex.setValue(""+O2Pressure);
-			myLogIndex.CO2PressureIndex.setValue(""+CO2Pressure);
-			myLogIndex.otherPressureIndex.setValue(""+otherPressure);
-			myLogIndex.waterPressureIndex.setValue(""+waterPressure);
-			myLogIndex.nitrogenPressureIndex.setValue(""+nitrogenPressure);
-			myLogIndex.volumeIndex.setValue(""+volume);
-			myLogIndex.lightIntensityIndex.setValue(""+lightIntensity);
-		}
-		sendLog(myLog);
+			*/
 	}
 	
 	private boolean cachedValueNeeded(){

@@ -179,26 +179,10 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 	}
 
 	public void log(){
-		//If not initialized, fill in the log
-		if (!logInitialized){
-			shelfLogs = new Vector();
-			for (Iterator iter = myShelves.iterator(); iter.hasNext();){
-				ShelfImpl currentShelf = (ShelfImpl)(iter.next());
+		/*
 				LogNode newShelfHead= myLog.addChild("shelf");
-				shelfLogs.add(newShelfHead);
 				currentShelf.log(newShelfHead);
-			}
-			logInitialized = true;
-		}
-		else{
-			int i = 0;
-			for (Iterator iter = myShelves.iterator(); iter.hasNext(); i++){
-				ShelfImpl currentShelf = (ShelfImpl)(iter.next());
-				LogNode shelfHead = (LogNode)(shelfLogs.get(i));
-				currentShelf.log(shelfHead);
-			}
-		}
-		sendLog(myLog);
+			*/
 	}
 
 	/**

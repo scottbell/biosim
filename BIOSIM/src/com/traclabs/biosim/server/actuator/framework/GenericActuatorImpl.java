@@ -2,14 +2,11 @@ package biosim.server.actuator.framework;
 
 import biosim.idl.actuator.framework.GenericActuatorOperations;
 import biosim.idl.framework.BioModule;
-import biosim.idl.util.log.LogNode;
 import biosim.server.framework.BioModuleImpl;
 
 public abstract class GenericActuatorImpl extends BioModuleImpl implements GenericActuatorOperations{
 	protected float myValue;
 	protected boolean newValue = false;
-	private LogNode valueNode;
-	private LogNode outputNode;
 	
 	public GenericActuatorImpl(int pID, String pName){
 		super(pID, pName);
@@ -43,18 +40,10 @@ public abstract class GenericActuatorImpl extends BioModuleImpl implements Gener
 	public abstract BioModule getOutputModule();
 	
 	public void log(){
-		//If not initialized, fill in the log
-		if (!logInitialized){
+		/*
 			LogNode outputNodeHead = myLog.addChild("output");
 			outputNode = outputNodeHead.addChild(""+getOutputModule().getModuleName());
 			LogNode valueNodeHead = myLog.addChild("value");
-			valueNode = valueNodeHead.addChild(""+getValue());
-			logInitialized = true;
-		}
-		else{
-			outputNode.setValue(""+getOutputModule().getModuleName());
-			valueNode.setValue(""+getValue());
-		}
-		sendLog(myLog);
+			*/
 	}
 }

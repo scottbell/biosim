@@ -336,9 +336,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	}
 	
 	public void log(){
-		//If not initialized, fill in the log
-		if (!logInitialized){
-			myLogIndex = new LogIndex();
+		/*
 			LogNode powerNeededHead = myLog.addChild("power_needed");
 			myLogIndex.powerNeededIndex = powerNeededHead.addChild(""+powerNeeded);
 			LogNode hasEnoughPowerHead = myLog.addChild("has_enough_power");
@@ -351,17 +349,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 			myLogIndex.currentPowerConsumedIndex = currentPowerConsumedHead.addChild(""+currentPowerConsumed);
 			LogNode currentFoodProducedHead = myLog.addChild("current_food_produced");
 			myLogIndex.currentFoodProducedIndex = currentFoodProducedHead.addChild(""+currentFoodProduced);
-			logInitialized = true;
-		}
-		else{
-			myLogIndex.powerNeededIndex.setValue(""+powerNeeded);
-			myLogIndex.hasEnoughPowerIndex.setValue(""+hasEnoughPower);
-			myLogIndex.biomassNeededIndex.setValue(""+biomassNeeded);
-			myLogIndex.massConsumedIndex.setValue(""+massConsumed);
-			myLogIndex.currentPowerConsumedIndex.setValue(""+currentPowerConsumed);
-			myLogIndex.currentFoodProducedIndex.setValue(""+currentFoodProduced);
-		}
-		sendLog(myLog);
+		*/
 	}
 	
 	//Power Input

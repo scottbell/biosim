@@ -319,9 +319,7 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 	}
 	
 	public void log(){
-		//If not initialized, fill in the log
-		if (!logInitialized){
-			myLogIndex = new LogIndex();
+			/*
 			LogNode currentPotableWaterProducedHead = myLog.addChild("potable_water_produced");
 			myLogIndex.currentPotableWaterProducedIndex = currentPotableWaterProducedHead.addChild(""+getPotableWaterProduced());
 			LogNode currentGreyWaterProducedHead = myLog.addChild("grey_water_produced");
@@ -340,20 +338,7 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 			myRO.log(myLogIndex.ROIndex);
 			myLogIndex.PPSIndex = myLog.addChild("PPS");
 			myPPS.log(myLogIndex.PPSIndex);
-			logInitialized = true;
-		}
-		else{
-			myLogIndex.currentPotableWaterProducedIndex.setValue(""+getPotableWaterProduced());
-			myLogIndex.currentGreyWaterProducedIndex.setValue(""+getGreyWaterProduced());
-			myLogIndex.currentPowerConsumedIndex.setValue(""+getPowerConsumed());
-			myLogIndex.currentDirtyWaterConsumedIndex.setValue(""+getDirtyWaterConsumed());
-			myLogIndex.currentGreyWaterConsumedIndex.setValue(""+getGreyWaterConsumed());
-			myAES.log(myLogIndex.AESIndex);
-			myBWP.log(myLogIndex.BWPIndex);
-			myRO.log(myLogIndex.ROIndex);
-			myPPS.log(myLogIndex.PPSIndex);
-		}
-		sendLog(myLog);
+			*/
 	}
 
 	/**

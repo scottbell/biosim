@@ -2,7 +2,6 @@ package biosim.server.framework;
 
 import java.net.URL;
 
-import biosim.server.util.log.LoggerImpl;
 
 /**
  * The Biosim Server.  Creates an instance of each module (AirRS, FoodProcessor, WaterRS, etc..) and binds them to the nameserver.
@@ -20,10 +19,8 @@ public class BiosimServer extends GenericServer{
 			System.exit(1);
 		}
 		System.out.println("Loading init file: "+documentUrl);
-		LoggerImpl myLoggerImpl = new LoggerImpl(id);
 		BioDriverImpl myBioDriverImpl = new BioDriverImpl(id);
 		myBioDriverImpl.setDriverStutterLength(stutterLength);
-		registerServer(myLoggerImpl, myLoggerImpl.getName(), myLoggerImpl.getID());
 		registerServer(myBioDriverImpl, myBioDriverImpl.getName(), myBioDriverImpl.getID());
 		BioInitializer myInitializer = new BioInitializer(id);
 		String documentString = documentUrl.toString();

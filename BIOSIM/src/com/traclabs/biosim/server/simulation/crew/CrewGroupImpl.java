@@ -33,7 +33,6 @@ import biosim.idl.simulation.waste.DryWasteStore;
 import biosim.idl.simulation.water.DirtyWaterStore;
 import biosim.idl.simulation.water.GreyWaterStore;
 import biosim.idl.simulation.water.PotableWaterStore;
-import biosim.idl.util.log.LogNode;
 import biosim.server.simulation.framework.SimBioModuleImpl;
 import biosim.server.util.OrbUtils;
 /**
@@ -313,27 +312,10 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 	}
 
 	public void log(){
-		//If not initialized, fill in the log
-		if (!logInitialized){
-			crewPeopleLogs = new Hashtable();
-			int i = 0;
-			for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();){
-				CrewPersonImpl currentPerson = (CrewPersonImpl)(iter.next());
+		/*
 				LogNode newPersonLabel = myLog.addChild("crew_person");
-				crewPeopleLogs.put(currentPerson, newPersonLabel);
 				currentPerson.log(newPersonLabel);
-				i++;
-			}
-			logInitialized = true;
-		}
-		else{
-			for (Iterator iter = crewPeopleLogs.keySet().iterator(); iter.hasNext();){
-				CrewPersonImpl currentPerson = (CrewPersonImpl)(iter.next());
-				LogNode crewPersonLabel = (LogNode)(crewPeopleLogs.get(currentPerson));
-				currentPerson.log(crewPersonLabel);
-			}
-		}
-		sendLog(myLog);
+		*/
 	}
 
 	public int getCrewSize(){

@@ -109,17 +109,10 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements PowerPSOpe
 	}
 
 	public void log(){
-		//If not initialized, fill in the log
-		if (!logInitialized){
-			myLogIndex = new LogIndex();
+		/*
 			LogNode powerProducedHead = myLog.addChild("power_produced");
 			myLogIndex.powerProducedIndex = powerProducedHead.addChild(""+currentPowerProduced);
-			logInitialized = true;
-		}
-		else{
-			myLogIndex.powerProducedIndex.setValue(""+currentPowerProduced);
-		}
-		sendLog(myLog);
+			*/
 	}
 
 	/**
