@@ -30,14 +30,10 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 	}
 	
 	public float take(float pMass){
-		System.out.println("Taking "+pMass+" from BiomassStore!");
-		System.out.println("currentBiomassItems size = "+currentBiomassItems.size());
 		BioMatter[] massArray = takeBioMatterMass(pMass);
 		float matterToReturn = 0f;
 		for (int i = 0; i < massArray.length; i++)
 			matterToReturn += massArray[i].mass;
-		System.out.println("taken biomass: "+matterToReturn);
-		System.out.println("level now: "+level);
 		return matterToReturn;
 	}
 
