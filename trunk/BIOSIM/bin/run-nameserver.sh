@@ -23,7 +23,7 @@ fi
 javaVersionString=`$java_command -version 2>&1 | grep IBM`
 case $javaVersionString in
 	*"IBM"*)echo "	-VM is IBM";;
-	*)java_command="$java_command -server";echo "		-assuming Sun VM";;
+	*)java_command="$java_command";echo "		-assuming Sun VM";;
 esac
 separator=":"
 machineType=`uname`
