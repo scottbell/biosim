@@ -106,42 +106,6 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 	}
 	
 	/**
-	* Attempts to grab a specified amount from a collection of stores (for one crew person)
-	* @param pStores The stores to grab the resources from
-	* @param pMaxFlowRates The flow rates from this module to the stores
-	* @param amountNeeded The amount to gather from the stores
-	* @return The total amount of resource grabbed from the stores (equal to the amount needed if sucessful)
-	*/
-	public float getResourceFromStorePerPerson(Store[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates, float[] pActualFlowRates, float amountNeeded){
-		float gatheredResource = 0f;
-		for (int i = 0; (i < pStores.length) && (gatheredResource < amountNeeded); i++){
-			float resourceToGatherFirst = Math.min(amountNeeded, pMaxFlowRates[i] / getCrewSize());
-			float resourceToGatherFinal = Math.min(resourceToGatherFirst, pDesiredFlowRates[i]  / getCrewSize());
-			pActualFlowRates[i] = pStores[i].take(resourceToGatherFinal);
-			gatheredResource += pActualFlowRates[i];
-		}
-		return gatheredResource;
-	}
-	
-	/**
-	* Attempts to push a specified amount to a collection of stores (for one crew person)
-	* @param pStores The stores to push the resources to
-	* @param pMaxFlowRates The flow rates from this module to the stores
-	* @param amountToPush The amount to push to the stores
-	* @return The total amount of resource pushed to the stores (equal to the amount to push if sucessful)
-	*/
-	public float pushResourceToStorePerPerson(Store[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates, float[] pActualFlowRates, float amountToPush){
-		float resourceDistributed = amountToPush;
-		for (int i = 0; (i < pStores.length) && (resourceDistributed > 0); i++){
-			float resourceToDistributeFirst = Math.min(resourceDistributed, pMaxFlowRates[i] / getCrewSize());
-			float resourceToDistributeFinal = Math.min(resourceToDistributeFirst, pDesiredFlowRates[i] / getCrewSize());
-			pActualFlowRates[i] = pStores[i].add(resourceToDistributeFinal);
-			resourceDistributed -= pActualFlowRates[i];
-		}
-		return (amountToPush - resourceDistributed);
-	}
-	
-	/**
 	* Returns all the current crew persons who are in the crew
 	* @return an array of the crew persons in the crew
 	*/
