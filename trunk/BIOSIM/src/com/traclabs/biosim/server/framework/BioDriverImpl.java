@@ -127,7 +127,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	*/
 	public BioDriverImpl(int pID){
 		myID = pID;
-		myModuleNames = new String[18];
+		myModuleNames = new String[55];
+		//simulation
 		myModuleNames[0] = myCrewName = "CrewGroup"+myID;
 		myModuleNames[1] = myPowerPSName = "PowerPS"+myID;
 		myModuleNames[2] = myPowerStoreName = "PowerStore"+myID;
@@ -146,6 +147,45 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames[15] = myPlantEnvironmentName = "PlantEnvironment"+myID;
 		myModuleNames[16] = myAccumulatorName = "Accumulator"+myID;
 		myModuleNames[17] = myInjectorName = "Injector"+myID;
+		//sensors
+		myModuleNames[18] = myCO2InFlowRateSensorName = "CO2InFlowRateSensor"+myID;
+		myModuleNames[19] = myCO2OutFlowRateSensorName = "CO2OutFlowRateSensor"+myID;
+		myModuleNames[20] = myCO2StoreLevelSensorName = "CO2StoreLevelSensor"+myID;
+		myModuleNames[21] = myO2InFlowRateSensorName = "O2InFlowRateSensor"+myID;
+		myModuleNames[22] = myO2OutFlowRateSensorName = "O2OutFlowRateSensor"+myID;
+		myModuleNames[23] = myO2StoreLevelSensorName = "O2StoreLevelSensor"+myID;
+		myModuleNames[24] = myAirInFlowRateSensorName = "AirInFlowRateSensor"+myID;
+		myModuleNames[25] = myAirOutFlowRateSensorName = "AirOutFlowRateSensor"+myID;
+		myModuleNames[26] = myCO2AirEnvironmentInFlowRateSensorName = "CO2AirEnvironmentInFlowRateSensor"+myID;
+		myModuleNames[27] = myCO2AirEnvironmentOutFlowRateSensorName = "CO2AirEnvironmentOutFlowRateSensor"+myID;
+		myModuleNames[28] = myCO2AirLevelSensorName = "CO2AirLevelSensor"+myID;
+		myModuleNames[29] = myCO2AirStoreInFlowRateSensorName = "CO2AirStoreInFlowRateSensor"+myID;
+		myModuleNames[30] = myCO2AirStoreOutFlowRateSensorName = "CO2AirStoreOutFlowRateSensor"+myID;
+		myModuleNames[31] = myO2AirEnvironmentInFlowRateSensorName = "O2AirEnvironmentInFlowRateSensor"+myID;
+		myModuleNames[32] = myO2AirEnvironmentOutFlowRateSensorName = "O2AirEnvironmentOutFlowRateSensor"+myID;
+		myModuleNames[33] = myO2AirLevelSensorName = "O2AirLevelSensor"+myID;
+		myModuleNames[34] = myO2AirStoreInFlowRateSensorName = "O2AirStoreInFlowRateSensor"+myID;
+		myModuleNames[35] = myO2AirStoreOutFlowRateSensorName = "O2AirStoreOutFlowRateSensor"+myID;
+		myModuleNames[36] = myOtherAirLevelSensorName = "OtherAirLevelSensor"+myID;
+		myModuleNames[37] = myBiomassInFlowRateSensorName = "BiomassInFlowRateSensor"+myID;
+		myModuleNames[38] = myBiomassOutFlowRateSensorName = "BiomassOutFlowRateSensor"+myID;
+		myModuleNames[39] = myBiomassStoreLevelSensorName = "BiomassStoreLevelSensor"+myID;
+		myModuleNames[40] = myFoodInFlowRateSensorName = "FoodInFlowRateSensor"+myID;
+		myModuleNames[41] = myFoodOutFlowRateSensorName = "FoodOutFlowRateSensor"+myID;
+		myModuleNames[42] = myFoodStoreLevelSensorName = "FoodStoreLevelSensor"+myID;
+		myModuleNames[43] = myPowerInFlowRateSensorName = "PowerInFlowRateSensor"+myID;
+		myModuleNames[44] = myPowerOutFlowRateSensorName = "PowerOutFlowRateSensor"+myID;
+		myModuleNames[45] = myPowerStoreLevelSensorName = "PowerStoreLevelSensor"+myID;
+		myModuleNames[46] = myDirtyWaterInFlowRateSensorName = "DirtyWaterInFlowRateSensor"+myID;
+		myModuleNames[47] = myDirtyWaterOutFlowRateSensorName = "DirtyWaterOutFlowRateSensor"+myID;
+		myModuleNames[48] = myDirtyWaterStoreLevelSensorName = "DirtyWaterStoreLevelSensor"+myID;
+		myModuleNames[49] = myGreyWaterInFlowRateSensorName = "GreyWaterInFlowRateSensor"+myID;
+		myModuleNames[50] = myGreyWaterOutFlowRateSensorName = "GreyWaterOutFlowRateSensor"+myID;
+		myModuleNames[51] = myGreyWaterStoreLevelSensorName = "GreyWaterStoreLevelSensor"+myID;
+		myModuleNames[52] = myPotableWaterInFlowRateSensorName = "PotableWaterInFlowRateSensor"+myID;
+		myModuleNames[53] = myPotableWaterOutFlowRateSensorName = "PotableWaterOutFlowRateSensor"+myID;
+		myModuleNames[54] = myPotableWaterStoreLevelSensorName = "PotableWaterStoreLevelSensor"+myID;
+		
 		usedDefaultModules = true;
 		checkMachineType();
 	}
@@ -282,8 +322,9 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		}
 		else if (initializationToUse == BioDriverInit.FLOWS_ONLY_INIT){
 			System.out.println("BioDriverImpl:"+myID+" Initializing flows only simulation...");
-			configureFlows();
 		}
+		configureFlows();
+		configureSensors();
 		System.out.println("BioDriverImpl:"+myID+" Running simulation...");
 		runSimulation();
 	}
@@ -353,8 +394,6 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		PowerStore myPowerStore = PowerStoreHelper.narrow(getBioModule(myPowerStoreName));
 		myPowerStore.setCapacity(10000f);
 		myPowerStore.setLevel(10000f);
-
-		configureFlows();
 	}
 
 	/**
@@ -556,6 +595,14 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			myInjector.setCO2AirEnvironmentOutputs(CO2AirOutput, CO2AirOutputMaxFlowRates, CO2AirOutputActualFlowRates);
 		}
 	}
+	
+	private void configureSensors(){
+		
+		//CO2InFlowRateSensor
+		{
+			
+		}
+	}
 
 	/**
 	* Initializes the various servers with various optimal data.
@@ -609,7 +656,6 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		PowerStore myPowerStore = PowerStoreHelper.narrow(getBioModule(myPowerStoreName));
 		myPowerStore.setCapacity(100f);
 		myPowerStore.setLevel(100f);
-		configureFlows();
 	}
 
 	/**

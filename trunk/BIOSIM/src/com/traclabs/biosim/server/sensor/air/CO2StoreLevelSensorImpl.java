@@ -22,6 +22,6 @@ public class CO2StoreLevelSensorImpl extends CO2StoreSensorImpl implements CO2St
 	* @return the name of the module
 	*/
 	public String getModuleName(){
-		return "CO2StoreLevelSensorImpl"+getID();
+		return "CO2StoreLevelSensor"+getID();
 	}
 }

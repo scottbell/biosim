@@ -65,13 +65,17 @@ public class BiosimServer extends GenericServer{
 	public void createServers(int id){
 		// create servants and register them with ORB
 		
+		//
 		//Framework
+		//
 		LoggerImpl myLoggerImpl = new LoggerImpl(id);
 		BioDriverImpl myBioDriverImpl = new BioDriverImpl(id);
 		registerServer(myLoggerImpl, myLoggerImpl.getName());
 		registerServer(myBioDriverImpl, myBioDriverImpl.getName());
 		
+		//
 		//Simulation
+		//
 		SimEnvironmentImpl myCrewEnvironmentImpl = new SimEnvironmentImpl(id, "CrewEnvironment");
 		SimEnvironmentImpl myPlantEnvironmentImpl = new SimEnvironmentImpl(id, "PlantEnvironment");
 		AirRSImpl myAirRSImpl = new AirRSImpl(id);
@@ -109,7 +113,13 @@ public class BiosimServer extends GenericServer{
 		registerServer(new InjectorPOATie(myInjectorImpl), myInjectorImpl.getModuleName());
 		registerServer(new AccumulatorPOATie(myAccumulatorImpl), myAccumulatorImpl.getModuleName());
 
+		//
 		//Sensors
+		//
+		
+		//Accumulator
+		{
+		}
 		CO2InFlowRateSensorImpl myCO2InFlowRateSensorImpl = new CO2InFlowRateSensorImpl(id);
 		CO2OutFlowRateSensorImpl myCO2OutFlowRateSensorImpl = new CO2OutFlowRateSensorImpl(id);
 		CO2StoreLevelSensorImpl myCO2StoreLevelSensorImpl = new CO2StoreLevelSensorImpl(id);
