@@ -236,21 +236,21 @@ public class BiosimServer extends GenericServer{
 		{
 			//CrewEnvironment
 			{
-				O2AirLevelSensorImpl myO2AirLevelSensorImpl = new O2AirLevelSensorImpl(id);
-				CO2AirLevelSensorImpl myCO2AirLevelSensorImpl = new CO2AirLevelSensorImpl(id);
-				OtherAirLevelSensorImpl myOtherAirLevelSensorImpl = new OtherAirLevelSensorImpl(id);
-				registerServer(new O2AirLevelSensorPOATie(myO2AirLevelSensorImpl), "CrewEnvironment" + myO2AirLevelSensorImpl.getModuleName());
-				registerServer(new CO2AirLevelSensorPOATie(myCO2AirLevelSensorImpl), "CrewEnvironment" + myCO2AirLevelSensorImpl.getModuleName());
-				registerServer(new OtherAirLevelSensorPOATie(myOtherAirLevelSensorImpl), "CrewEnvironment" + myOtherAirLevelSensorImpl.getModuleName());
+				O2AirMolesSensorImpl myO2AirMolesSensorImpl = new O2AirMolesSensorImpl(id);
+				CO2AirMolesSensorImpl myCO2AirMolesSensorImpl = new CO2AirMolesSensorImpl(id);
+				OtherAirMolesSensorImpl myOtherAirMolesSensorImpl = new OtherAirMolesSensorImpl(id);
+				registerServer(new O2AirMolesSensorPOATie(myO2AirMolesSensorImpl), "CrewEnvironment" + myO2AirMolesSensorImpl.getModuleName());
+				registerServer(new CO2AirMolesSensorPOATie(myCO2AirMolesSensorImpl), "CrewEnvironment" + myCO2AirMolesSensorImpl.getModuleName());
+				registerServer(new OtherAirMolesSensorPOATie(myOtherAirMolesSensorImpl), "CrewEnvironment" + myOtherAirMolesSensorImpl.getModuleName());
 			}
 			//Plant Evnironment
 			{
-				O2AirLevelSensorImpl myO2AirLevelSensorImpl = new O2AirLevelSensorImpl(id);
-				CO2AirLevelSensorImpl myCO2AirLevelSensorImpl = new CO2AirLevelSensorImpl(id);
-				OtherAirLevelSensorImpl myOtherAirLevelSensorImpl = new OtherAirLevelSensorImpl(id);
-				registerServer(new O2AirLevelSensorPOATie(myO2AirLevelSensorImpl), "PlantEnvironment" + myO2AirLevelSensorImpl.getModuleName());
-				registerServer(new CO2AirLevelSensorPOATie(myCO2AirLevelSensorImpl), "PlantEnvironment" + myCO2AirLevelSensorImpl.getModuleName());
-				registerServer(new OtherAirLevelSensorPOATie(myOtherAirLevelSensorImpl), "PlantEnvironment" + myOtherAirLevelSensorImpl.getModuleName());
+				O2AirMolesSensorImpl myO2AirMolesSensorImpl = new O2AirMolesSensorImpl(id);
+				CO2AirMolesSensorImpl myCO2AirMolesSensorImpl = new CO2AirMolesSensorImpl(id);
+				OtherAirMolesSensorImpl myOtherAirMolesSensorImpl = new OtherAirMolesSensorImpl(id);
+				registerServer(new O2AirMolesSensorPOATie(myO2AirMolesSensorImpl), "PlantEnvironment" + myO2AirMolesSensorImpl.getModuleName());
+				registerServer(new CO2AirMolesSensorPOATie(myCO2AirMolesSensorImpl), "PlantEnvironment" + myCO2AirMolesSensorImpl.getModuleName());
+				registerServer(new OtherAirMolesSensorPOATie(myOtherAirMolesSensorImpl), "PlantEnvironment" + myOtherAirMolesSensorImpl.getModuleName());
 			}
 			
 		}
@@ -396,21 +396,21 @@ public class BiosimServer extends GenericServer{
 		{
 			//CrewEnvironment
 			{
-				O2AirLevelActuatorImpl myO2AirLevelActuatorImpl = new O2AirLevelActuatorImpl(id);
-				CO2AirLevelActuatorImpl myCO2AirLevelActuatorImpl = new CO2AirLevelActuatorImpl(id);
-				OtherAirLevelActuatorImpl myOtherAirLevelActuatorImpl = new OtherAirLevelActuatorImpl(id);
-				registerServer(new O2AirLevelActuatorPOATie(myO2AirLevelActuatorImpl), "CrewEnvironment" + myO2AirLevelActuatorImpl.getModuleName());
-				registerServer(new CO2AirLevelActuatorPOATie(myCO2AirLevelActuatorImpl), "CrewEnvironment" + myCO2AirLevelActuatorImpl.getModuleName());
-				registerServer(new OtherAirLevelActuatorPOATie(myOtherAirLevelActuatorImpl), "CrewEnvironment" + myOtherAirLevelActuatorImpl.getModuleName());
+				O2AirMolesActuatorImpl myO2AirMolesActuatorImpl = new O2AirMolesActuatorImpl(id);
+				CO2AirMolesActuatorImpl myCO2AirMolesActuatorImpl = new CO2AirMolesActuatorImpl(id);
+				OtherAirMolesActuatorImpl myOtherAirMolesActuatorImpl = new OtherAirMolesActuatorImpl(id);
+				registerServer(new O2AirMolesActuatorPOATie(myO2AirMolesActuatorImpl), "CrewEnvironment" + myO2AirMolesActuatorImpl.getModuleName());
+				registerServer(new CO2AirMolesActuatorPOATie(myCO2AirMolesActuatorImpl), "CrewEnvironment" + myCO2AirMolesActuatorImpl.getModuleName());
+				registerServer(new OtherAirMolesActuatorPOATie(myOtherAirMolesActuatorImpl), "CrewEnvironment" + myOtherAirMolesActuatorImpl.getModuleName());
 			}
 			//Plant Evnironment
 			{
-				O2AirLevelActuatorImpl myO2AirLevelActuatorImpl = new O2AirLevelActuatorImpl(id);
-				CO2AirLevelActuatorImpl myCO2AirLevelActuatorImpl = new CO2AirLevelActuatorImpl(id);
-				OtherAirLevelActuatorImpl myOtherAirLevelActuatorImpl = new OtherAirLevelActuatorImpl(id);
-				registerServer(new O2AirLevelActuatorPOATie(myO2AirLevelActuatorImpl), "PlantEnvironment" + myO2AirLevelActuatorImpl.getModuleName());
-				registerServer(new CO2AirLevelActuatorPOATie(myCO2AirLevelActuatorImpl), "PlantEnvironment" + myCO2AirLevelActuatorImpl.getModuleName());
-				registerServer(new OtherAirLevelActuatorPOATie(myOtherAirLevelActuatorImpl), "PlantEnvironment" + myOtherAirLevelActuatorImpl.getModuleName());
+				O2AirMolesActuatorImpl myO2AirMolesActuatorImpl = new O2AirMolesActuatorImpl(id);
+				CO2AirMolesActuatorImpl myCO2AirMolesActuatorImpl = new CO2AirMolesActuatorImpl(id);
+				OtherAirMolesActuatorImpl myOtherAirMolesActuatorImpl = new OtherAirMolesActuatorImpl(id);
+				registerServer(new O2AirMolesActuatorPOATie(myO2AirMolesActuatorImpl), "PlantEnvironment" + myO2AirMolesActuatorImpl.getModuleName());
+				registerServer(new CO2AirMolesActuatorPOATie(myCO2AirMolesActuatorImpl), "PlantEnvironment" + myCO2AirMolesActuatorImpl.getModuleName());
+				registerServer(new OtherAirMolesActuatorPOATie(myOtherAirMolesActuatorImpl), "PlantEnvironment" + myOtherAirMolesActuatorImpl.getModuleName());
 			}
 			
 		}

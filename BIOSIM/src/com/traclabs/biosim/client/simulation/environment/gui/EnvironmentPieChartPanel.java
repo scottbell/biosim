@@ -59,7 +59,7 @@ public class EnvironmentPieChartPanel extends GraphPanel
 		if (myDataset == null){
 			myDataset = new DefaultPieDataset();
 		}
-		else if ((mySimEnvironment.getO2Level() <= 0) && (mySimEnvironment.getCO2Level() <= 0) && (mySimEnvironment.getOtherLevel() <= 0)){
+		else if ((mySimEnvironment.getO2Moles() <= 0) && (mySimEnvironment.getCO2Moles() <= 0) && (mySimEnvironment.getOtherMoles() <= 0)){
 			//It isn't in a vacuum, set it up
 			if (!isVacuum){
 				myDataset = new DefaultPieDataset();
@@ -79,16 +79,16 @@ public class EnvironmentPieChartPanel extends GraphPanel
 				myPlot.setPaint(2, Color.RED);
 				isVacuum = false;
 			}
-			myDataset.setValue(O2Category, new Float(mySimEnvironment.getO2Level()));
-			myDataset.setValue(CO2Category, new Float(mySimEnvironment.getCO2Level()));
-			myDataset.setValue(otherCategory, new Float(mySimEnvironment.getOtherLevel()));
+			myDataset.setValue(O2Category, new Float(mySimEnvironment.getO2Moles()));
+			myDataset.setValue(CO2Category, new Float(mySimEnvironment.getCO2Moles()));
+			myDataset.setValue(otherCategory, new Float(mySimEnvironment.getOtherMoles()));
 		}
 	}
 
 	private void initDataset(){
 		if (mySimEnvironment == null)
 			System.err.println("EnvironmentPieChartPanel: mySimEnvironment is null!");
-		if ((mySimEnvironment.getO2Level() <= 0) && (mySimEnvironment.getCO2Level() <= 0) && (mySimEnvironment.getOtherLevel() <= 0)){
+		if ((mySimEnvironment.getO2Moles() <= 0) && (mySimEnvironment.getCO2Moles() <= 0) && (mySimEnvironment.getOtherMoles() <= 0)){
 			myDataset.setValue(vacuumCategory, new Float(1f));
 			myPlot.setPaint(0, Color.DARK_GRAY);
 			isVacuum = true;

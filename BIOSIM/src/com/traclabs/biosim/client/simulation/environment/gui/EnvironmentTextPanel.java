@@ -67,9 +67,9 @@ public class EnvironmentTextPanel extends TimedPanel
 		airPanel = new JPanel();
 		airPanel.setLayout(new GridLayout(3,1));
 		airPanel.setBorder(BorderFactory.createTitledBorder("Air"));
-		O2Label =    new JLabel("O2:     "+numFormat.format(mySimEnvironment.getO2Level()) +" L");
-		CO2Label =  new JLabel("CO2:   "+numFormat.format(mySimEnvironment.getCO2Level()) + " L");
-		otherLabel = new JLabel("other:  "+numFormat.format(mySimEnvironment.getOtherLevel()) + " L");
+		O2Label =    new JLabel("O2:     "+numFormat.format(mySimEnvironment.getO2Moles()) +" L");
+		CO2Label =  new JLabel("CO2:   "+numFormat.format(mySimEnvironment.getCO2Moles()) + " L");
+		otherLabel = new JLabel("other:  "+numFormat.format(mySimEnvironment.getOtherMoles()) + " L");
 		airPanel.add(O2Label);
 		airPanel.add(CO2Label);
 		airPanel.add(otherLabel);
@@ -95,8 +95,8 @@ public class EnvironmentTextPanel extends TimedPanel
 	public void refresh(){
 		long ticksExpired = mySimEnvironment.getTicks();
 		tickLabel.setText(ticksExpired + " hours ("+(ticksExpired/24)+" days)");
-		O2Label.setText("O2:     "+numFormat.format(mySimEnvironment.getO2Level()) +" L");
-		CO2Label.setText("CO2:   "+numFormat.format(mySimEnvironment.getCO2Level()) + " L");
-		otherLabel.setText("other:  "+numFormat.format(mySimEnvironment.getOtherLevel()) + " L");
+		O2Label.setText("O2:     "+numFormat.format(mySimEnvironment.getO2Moles()) +" L");
+		CO2Label.setText("CO2:   "+numFormat.format(mySimEnvironment.getCO2Moles()) + " L");
+		otherLabel.setText("other:  "+numFormat.format(mySimEnvironment.getOtherMoles()) + " L");
 	}
 }

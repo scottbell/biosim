@@ -36,13 +36,13 @@ public class SensorViewer extends SpreadSheet
 	private PowerStoreLevelSensor myPowerStoreLevelSensor;
 	//Environment
 	//Crew
-	private OtherAirLevelSensor myCrewEnvironmentOtherAirLevelSensor;
-	private CO2AirLevelSensor myCrewEnvironmentCO2AirLevelSensor;
-	private O2AirLevelSensor myCrewEnvironmentO2AirLevelSensor;
+	private OtherAirMolesSensor myCrewEnvironmentOtherAirMolesSensor;
+	private CO2AirMolesSensor myCrewEnvironmentCO2AirMolesSensor;
+	private O2AirMolesSensor myCrewEnvironmentO2AirMolesSensor;
 	//Plant
-	private OtherAirLevelSensor myPlantEnvironmentOtherAirLevelSensor;
-	private CO2AirLevelSensor myPlantEnvironmentCO2AirLevelSensor;
-	private O2AirLevelSensor myPlantEnvironmentO2AirLevelSensor;
+	private OtherAirMolesSensor myPlantEnvironmentOtherAirMolesSensor;
+	private CO2AirMolesSensor myPlantEnvironmentCO2AirMolesSensor;
+	private O2AirMolesSensor myPlantEnvironmentO2AirMolesSensor;
 	//Water
 	//WaterRS
 	private DirtyWaterInFlowRateSensor myWaterRSDirtyWaterInFlowRateSensor;
@@ -119,13 +119,13 @@ public class SensorViewer extends SpreadSheet
 		myPowerStoreLevelSensor = (PowerStoreLevelSensor)BioHolder.getBioModule(BioHolder.myPowerStoreLevelSensorName);
 		//Environment
 		//Crew
-		myCrewEnvironmentOtherAirLevelSensor = (OtherAirLevelSensor)BioHolder.getBioModule(BioHolder.myCrewEnvironmentOtherAirLevelSensorName);
-		myCrewEnvironmentCO2AirLevelSensor = (CO2AirLevelSensor)BioHolder.getBioModule(BioHolder.myCrewEnvironmentCO2AirLevelSensorName);
-		myCrewEnvironmentO2AirLevelSensor = (O2AirLevelSensor)BioHolder.getBioModule(BioHolder.myCrewEnvironmentO2AirLevelSensorName);
+		myCrewEnvironmentOtherAirMolesSensor = (OtherAirMolesSensor)BioHolder.getBioModule(BioHolder.myCrewEnvironmentOtherAirMolesSensorName);
+		myCrewEnvironmentCO2AirMolesSensor = (CO2AirMolesSensor)BioHolder.getBioModule(BioHolder.myCrewEnvironmentCO2AirMolesSensorName);
+		myCrewEnvironmentO2AirMolesSensor = (O2AirMolesSensor)BioHolder.getBioModule(BioHolder.myCrewEnvironmentO2AirMolesSensorName);
 		//Plant
-		myPlantEnvironmentOtherAirLevelSensor = (OtherAirLevelSensor)BioHolder.getBioModule(BioHolder.myPlantEnvironmentOtherAirLevelSensorName);
-		myPlantEnvironmentCO2AirLevelSensor = (CO2AirLevelSensor)BioHolder.getBioModule(BioHolder.myPlantEnvironmentCO2AirLevelSensorName);
-		myPlantEnvironmentO2AirLevelSensor = (O2AirLevelSensor)BioHolder.getBioModule(BioHolder.myPlantEnvironmentO2AirLevelSensorName);
+		myPlantEnvironmentOtherAirMolesSensor = (OtherAirMolesSensor)BioHolder.getBioModule(BioHolder.myPlantEnvironmentOtherAirMolesSensorName);
+		myPlantEnvironmentCO2AirMolesSensor = (CO2AirMolesSensor)BioHolder.getBioModule(BioHolder.myPlantEnvironmentCO2AirMolesSensorName);
+		myPlantEnvironmentO2AirMolesSensor = (O2AirMolesSensor)BioHolder.getBioModule(BioHolder.myPlantEnvironmentO2AirMolesSensorName);
 		//Water
 		//WaterRS
 		myWaterRSDirtyWaterInFlowRateSensor = (DirtyWaterInFlowRateSensor)BioHolder.getBioModule(BioHolder.myWaterRSDirtyWaterInFlowRateSensorName);
