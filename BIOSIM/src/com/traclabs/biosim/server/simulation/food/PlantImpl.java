@@ -16,7 +16,12 @@ public abstract class PlantImpl extends PlantPOA{
 	private LogIndex myLogIndex;
 	private boolean logInitialized = false;
 	protected ShelfImpl myShelfImpl;
-	private float myPPF = 0f;
+	private float myAveragePPF = 0f;
+	private float myTotalPPF = 0f;
+	private int myNumberOfPPFReadings = 0;
+	private float myAverageCO2Concentration = 0f;
+	private float myTotalCO2Concentration = 0f;
+	private int myNumberOfCO2ConcentrationReadings = 0;
 	//in dry weight
 	private float myCurrentTotalWetBiomass = 0f;
 	private float myCurrentEdibleWetBiomass = 0f;
@@ -56,7 +61,12 @@ public abstract class PlantImpl extends PlantPOA{
 	
 
 	public void reset(){
-		myPPF = 0f;
+		myAveragePPF = 0f;
+		myAverageCO2Concentration = 0f;
+		myTotalCO2Concentration = 0f;
+		myTotalPPF = 0f;
+		myNumberOfCO2ConcentrationReadings = 0;
+		myNumberOfPPFReadings = 0;
 		myCurrentTotalWetBiomass = 0f;
 		myLastTotalWetBiomass = 0f;
 		carbonUseEfficiency24 = 0f;
@@ -66,6 +76,8 @@ public abstract class PlantImpl extends PlantPOA{
 
 	public void tick(){
 		System.out.println("PlantImpl: **************Begin plant tick***********");
+		myAge++;
+		calculateAverageCO2Concentration();
 		growBiomass();
 		System.out.println("PlantImpl: **************End plant tick***********");
 	}
@@ -76,6 +88,10 @@ public abstract class PlantImpl extends PlantPOA{
 		myLastTotalWetBiomass = 0f;
 		myCurrentEdibleWetBiomass = 0f;
 		myLastEdibleWetBiomass = 0f;
+		myNumberOfCO2ConcentrationReadings = 0;
+		myTotalCO2Concentration = 0f;
+		myTotalPPF = 0f;
+		myNumberOfPPFReadings = 0;
 		myWaterNeeded = 0f;
 		myWaterLevel = 0f;
 		myAge = 0;
@@ -83,7 +99,9 @@ public abstract class PlantImpl extends PlantPOA{
 	}
 
 	public void shine(float pPPF){
-		myPPF = pPPF;
+		myTotalPPF += pPPF;
+		myNumberOfPPFReadings++;
+		myAveragePPF = myTotalPPF / myNumberOfPPFReadings;
 	}
 	
 	private float calculateDailyCanopyTranspirationRate(){
@@ -124,7 +142,7 @@ public abstract class PlantImpl extends PlantPOA{
 	}
 	
 	private float calculateGrossCanopyPhotosynthesis(){
-		float PPF = getPPF();
+		float PPF = getAveragePPF();
 		float PPFFractionAbsorbed = calculatePPFFractionAbsorbed();
 		System.out.println("PlantImpl: CQY: "+CQY);
 		System.out.println("PlantImpl: PPF: "+PPF);
@@ -192,7 +210,7 @@ public abstract class PlantImpl extends PlantPOA{
 	private float calculateDailyCarbonGain(){
 		float photoperiod = getPhotoperiod();
 		float PPFFractionAbsorbed = calculatePPFFractionAbsorbed();
-		float PPF = getPPF();
+		float PPF = getAveragePPF();
 		System.out.println("PlantImpl: photoperiod: "+photoperiod);
 		System.out.println("PlantImpl: carbonUseEfficiency24: "+carbonUseEfficiency24);
 		System.out.println("PlantImpl: PPFFractionAbsorbed: "+PPFFractionAbsorbed);
@@ -215,6 +233,13 @@ public abstract class PlantImpl extends PlantPOA{
 		float myCurrentInedibleWetBiomass = myCurrentTotalWetBiomass - myCurrentEdibleWetBiomass;
 		float myLastInedibleWetBiomass = myLastTotalWetBiomass - myLastEdibleWetBiomass;
 		float densityOfWater = myShelfImpl.getBiomassRSImpl().getAirInputs()[0].getWaterDensity();
+		System.out.println("PlantImpl: myCurrentTotalWetBiomass: "+myCurrentTotalWetBiomass);
+		System.out.println("PlantImpl: myCurrentEdibleWetBiomass: "+myCurrentEdibleWetBiomass);
+		System.out.println("PlantImpl: myLastTotalWetBiomass: "+myLastTotalWetBiomass);
+		System.out.println("PlantImpl: myLastEdibleWetBiomass: "+myLastEdibleWetBiomass);
+		System.out.println("PlantImpl: myCurrentInedibleWetBiomass: "+myCurrentInedibleWetBiomass);
+		System.out.println("PlantImpl: myLastInedibleWetBiomass: "+myLastInedibleWetBiomass);
+		System.out.println("PlantImpl: densityOfWater: "+densityOfWater);
 		return (((myCurrentEdibleWetBiomass - myLastEdibleWetBiomass) * getEdibleFreshBasisWaterContent()) + ((myCurrentInedibleWetBiomass + myLastInedibleWetBiomass) * getInedibleFreshBasisWaterContent())) / densityOfWater;
 	}
 	
@@ -225,9 +250,13 @@ public abstract class PlantImpl extends PlantPOA{
 	public float getWaterNeeded(){
 		return myWaterNeeded;
 	}
+	
+	protected float getAverageCO2Concentration(){
+		return myAverageCO2Concentration;
+	}
 
 	//Convert current CO2 levels to micromoles of CO2 / moles of air
-	protected float calculateCO2Concentration(){
+	private void calculateAverageCO2Concentration(){
 		SimEnvironment myEnvironment = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0];
 		float CO2Moles = myEnvironment.getCO2Moles() * pow (10,6); //in micro moles
 		float airMoles = myEnvironment.getTotalMoles(); //in moles
@@ -237,22 +266,28 @@ public abstract class PlantImpl extends PlantPOA{
 			airMoles = pow(1f, -30f);
 		System.out.println("PlantImpl: CO2Moles: "+CO2Moles);
 		System.out.println("PlantImpl: airMoles: "+airMoles);
-		return CO2Moles / airMoles;
+		myTotalCO2Concentration += (CO2Moles / airMoles);
+		myNumberOfCO2ConcentrationReadings ++;
+		myAverageCO2Concentration = myTotalCO2Concentration / myNumberOfCO2ConcentrationReadings;
 	}
 	
 	//returns the age in days
 	private float getDaysOfGrowth(){
-		return myAge / 24f;
+		Float myAgeInFloat = new Float(myAge);
+		float daysOfGrowth = myAgeInFloat.floatValue() / 24f;
+		System.out.println("PlantImpl: myAgeInFloat: "+myAgeInFloat.floatValue());
+		System.out.println("PlantImpl: daysOfGrowth: "+daysOfGrowth);
+		return daysOfGrowth;
 	}
 
 	private float calculateTimeTillCanopyClosure(){
-		float thePPF = getPPF();
+		float thePPF = getAveragePPF();
 		float oneOverPPf = 1f / thePPF;
 		float thePPFsquared = pow(thePPF, 2f);
 		float thePPFcubed = pow(thePPF, 3f);
 
 
-		float theCO2 = calculateCO2Concentration();
+		float theCO2 = getAverageCO2Concentration();
 		float oneOverCO2 = 1f / theCO2;
 		float theCO2squared = pow(theCO2, 2f);
 		float theCO2cubed = pow(theCO2, 3f);
@@ -282,12 +317,18 @@ public abstract class PlantImpl extends PlantPOA{
 			   canopyClosureConstants[22] * thePPFcubed  * theCO2 +
 			   canopyClosureConstants[23] * thePPFcubed  * theCO2squared +
 			   canopyClosureConstants[24] * thePPFcubed  * theCO2cubed;
+		if (tA < 0)
+			tA = 0;
 		return tA;
 	}
 	
 	private float calculatePPFFractionAbsorbed(){
 		float PPFFractionAbsorbedMax = 0.93f;
 		float timeTillCanopyClosure = calculateTimeTillCanopyClosure();
+		System.out.println("PlantImpl: PPFFractionAbsorbedMax: "+PPFFractionAbsorbedMax);
+		System.out.println("PlantImpl: timeTillCanopyClosure: "+timeTillCanopyClosure);
+		System.out.println("PlantImpl: getDaysOfGrowth(): "+getDaysOfGrowth());
+		System.out.println("PlantImpl: getN(): "+getN());
 		if (getDaysOfGrowth() < timeTillCanopyClosure){
 			return PPFFractionAbsorbedMax * pow((getDaysOfGrowth() / timeTillCanopyClosure), getN());
 		}
@@ -296,7 +337,7 @@ public abstract class PlantImpl extends PlantPOA{
 	}
 	
 	private float calculateCQYMax(){
-		float thePPF = getPPF();
+		float thePPF = getAveragePPF();
 		float oneOverPPf = 1f / thePPF;
 		float thePPFsquared = pow(thePPF, 2f);
 		float thePPFcubed = pow(thePPF, 3f);		
@@ -305,7 +346,7 @@ public abstract class PlantImpl extends PlantPOA{
 		System.out.println("PlantImpl: thePPFsquared: "+thePPFsquared);
 		System.out.println("PlantImpl: thePPFcubed: "+thePPFcubed);
 
-		float theCO2 = calculateCO2Concentration();
+		float theCO2 = getAverageCO2Concentration();
 		float oneOverCO2 = 1f / theCO2;
 		float theCO2squared = pow(theCO2, 2f);
 		float theCO2cubed = pow(theCO2, 3f);		
@@ -339,6 +380,8 @@ public abstract class PlantImpl extends PlantPOA{
 			   canopyQYConstants[22] * thePPFcubed  * theCO2 +
 			   canopyQYConstants[23] * thePPFcubed  * theCO2squared +
 			   canopyQYConstants[24] * thePPFcubed  * theCO2cubed;
+		if (theCQYMax < 0)
+			theCQYMax = 0;
 		return theCQYMax;
 	}
 
@@ -353,8 +396,8 @@ public abstract class PlantImpl extends PlantPOA{
 		}
 	}
 
-	private float getPPF(){
-		return myPPF;
+	private float getAveragePPF(){
+		return myAveragePPF;
 	}
 
 	protected float pow(float a, float b){

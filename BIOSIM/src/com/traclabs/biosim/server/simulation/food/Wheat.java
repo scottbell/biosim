@@ -29,7 +29,9 @@ public class Wheat extends PlantImpl{
 	}
 
 	public float getPPFNeeded(){
-		return 4791667f;
+		float cropArea = myShelfImpl.getCropArea();
+		float constantPPF = 115f; //in moles per meters squared days
+		return (constantPPF * cropArea) / 24;
 	}
 
 	protected float getBCF(){
@@ -86,7 +88,7 @@ public class Wheat extends PlantImpl{
 	protected float calculateCanopyStomatalConductance(){
 		float relativeHumdity = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0].getRelativeHumidity();
 		float netCanopyPhotosynthesis = calculateNetCanopyPhotosynthesis();
-		float CO2Concentration = calculateCO2Concentration();
+		float CO2Concentration = getAverageCO2Concentration();
 		System.out.println("Wheat: relativeHumdity: "+relativeHumdity);
 		System.out.println("Wheat: netCanopyPhotosynthesis: "+netCanopyPhotosynthesis);
 		System.out.println("Wheat: CO2Concentration: "+CO2Concentration);;
