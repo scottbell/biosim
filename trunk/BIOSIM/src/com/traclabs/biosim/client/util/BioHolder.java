@@ -55,6 +55,12 @@ public class BioHolder
 		BioModule[] arrayModules = new BioModule[modules.size()];
 		return (BioModule[])(modules.values().toArray(arrayModules));
 	}
+	
+	public static String[] getBioModuleNames(){
+		collectReferences();
+		String[] arrayModuleNames = new String[modules.size()];
+		return (String[])(modules.keySet().toArray(arrayModuleNames));
+	}
 
 	public static BioDriver getBioDriver(){
 		collectReferences();
