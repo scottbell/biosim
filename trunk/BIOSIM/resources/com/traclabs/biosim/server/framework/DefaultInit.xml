@@ -7,7 +7,7 @@
 	<SimBioModules>
 		<air>
 			<AirRS name="AirRS">
-				<powerConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PowerStore"/>
+				<powerConsumer maxFlowRates="300" desiredFlowRates="300" inputs="PowerStore"/>
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
 				<airConsumer maxFlowRates="100" desiredFlowRates="100" inputs="CrewEnvironment"/>
 				<CO2Consumer maxFlowRates="100" desiredFlowRates="100" inputs="CO2Store"/>
@@ -18,18 +18,18 @@
 				<CO2Producer maxFlowRates="100" desiredFlowRates="100" outputs="CO2Store"/>
 				<H2Producer maxFlowRates="100" desiredFlowRates="100" outputs="H2Store"/>
 			</AirRS>
-			<O2Store name="O2Store" capacity="500" level="100"/>
-			<CO2Store name="CO2Store" capacity="500" level="100"/>
-			<H2Store name="H2Store" capacity="500" level="100"/>
+			<O2Store name="O2Store" capacity="1000" level="250"/>
+			<CO2Store name="CO2Store" capacity="1000" level="500"/>
+			<H2Store name="H2Store" capacity="5000" level="2000"/>
 		</air>
 		<crew>
 			<CrewGroup name="CrewGroup">
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
-				<airConsumer maxFlowRates="100" desiredFlowRates="100" inputs="CrewEnvironment"/>
+				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="CrewEnvironment"/>
 				<foodConsumer maxFlowRates="100" desiredFlowRates="100" inputs="FoodStore"/>
 				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="DirtyWaterStore"/>
 				<greyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="GreyWaterStore"/>
-				<airProducer maxFlowRates="100" desiredFlowRates="100" outputs="CrewEnvironment"/>
+				<airProducer maxFlowRates="0" desiredFlowRates="0" outputs="CrewEnvironment"/>
 				<crewPerson name="Bob Roberts" age="43" weight="170" sex="MALE">
 					<schedule>
 						<activity name="sleeping" length="8" intensity="1"/>
@@ -90,22 +90,22 @@
 		</environment>                    
 		<food>
 			<FoodProcessor name="FoodProcessor">
-				<powerConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PowerStore"/>
+				<powerConsumer maxFlowRates="1" desiredFlowRates="1" inputs="PowerStore"/>
 				<biomassConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BiomassStore"/>
-				<foodProducer maxFlowRates="100" desiredFlowRates="100" outputs="FoodStore"/>
+				<foodProducer maxFlowRates="1" desiredFlowRates="1" outputs="FoodStore"/>
 			</FoodProcessor>
 			<BiomassRS name="BiomassRS">
 				<shelf  cropArea="100" cropType="WHEAT"/>
-				<powerConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PowerStore"/>
+				<powerConsumer maxFlowRates="400" desiredFlowRates="400" inputs="PowerStore"/>
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="GreyWaterStore"/>
-				<airConsumer maxFlowRates="100" desiredFlowRates="100" inputs="CrewEnvironment"/>
+				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="CrewEnvironment"/>
 				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="DirtyWaterStore"/>
 				<biomassProducer maxFlowRates="100" desiredFlowRates="100" outputs="BiomassStore"/>
-				<airProducer maxFlowRates="100" desiredFlowRates="100" outputs="PlantEnvironment"/>
+				<airProducer maxFlowRates="0" desiredFlowRates="0" outputs="PlantEnvironment"/>
 			</BiomassRS>
-			<BiomassStore name="BiomassStore" capacity="500" level="100"/>
-			<FoodStore name="FoodStore" capacity="500" level="100"/>
+			<BiomassStore name="BiomassStore" capacity="500" level="300"/>
+			<FoodStore name="FoodStore" capacity="2000" level="2000"/>
 		</food>
 		<framework>
 			<Accumulator name="Accumulator">
@@ -139,20 +139,20 @@
 		</framework>
 		<power>
 			<PowerPS name="PowerPS" generation="SOLAR">
-				<powerProducer maxFlowRates="100" desiredFlowRates="100" outputs="PowerStore"/>
+				<powerProducer maxFlowRates="10000" desiredFlowRates="10000" outputs="PowerStore"/>
 			</PowerPS>
-			<PowerStore name="PowerStore" capacity="500" level="100"/>
+			<PowerStore name="PowerStore" capacity="2000" level="2000"/>
 		</power>
 		<water>
 			<WaterRS name="WaterRS">
-				<powerConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PowerStore"/>
+				<powerConsumer maxFlowRates="500" desiredFlowRates="500" inputs="PowerStore"/>
 				<dirtyWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="DirtyWaterStore"/>
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="GreyWaterStore"/>
 				<potableWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="PotableWaterStore"/>
 			</WaterRS>
-			<PotableWaterStore name="PotableWaterStore" capacity="500" level="100"/>
-			<GreyWaterStore name="GreyWaterStore" capacity="500" level="100"/>
-			<DirtyWaterStore name="DirtyWaterStore" capacity="500" level="100"/>
+			<PotableWaterStore name="PotableWaterStore" capacity="500" level="500"/>
+			<GreyWaterStore name="GreyWaterStore" capacity="500" level="500"/>
+			<DirtyWaterStore name="DirtyWaterStore" capacity="500" level="250"/>
 		</water>
 	</SimBioModules>
 	
