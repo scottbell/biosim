@@ -14,7 +14,7 @@ public class CO2AirStoreOutFlowRateSensorImpl extends GenericSensorImpl implemen
 	}
 
 	protected void gatherData(){
-		double preFilteredValue = getInput().getCO2AirStoreOutputActualFlowRate(myIndex);
+		float preFilteredValue = getInput().getCO2AirStoreOutputActualFlowRate(myIndex);
 		myValue = randomFilter(preFilteredValue);
 	}
 	
