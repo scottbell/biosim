@@ -40,7 +40,7 @@ stubsClassesDir="$clientGenDir/stubs"
 clientDir="$devRootDir/src/biosim/client"
 driverName="biosim.client.control.TestDriver"
 jacoClasspath="$JACORB_HOME/lib/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME/lib"
-jacoInvocation="$java_command -classpath $clientClassesDir$separator$jacoClasspath $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
+jacoInvocation="$java_command -client -classpath $clientClassesDir$separator$jacoClasspath $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
 echo "	-starting client"
 case $userSelect in
 	control) echo "			 -starting $userSelect";$jacoInvocation $driverName;;

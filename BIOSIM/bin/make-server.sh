@@ -86,6 +86,8 @@ echo "			-compiling food"
 $compilationInvocation $serverDir/food/*.java
 echo "			-compiling environment"
 $compilationInvocation $serverDir/environment/*.java
+echo "			-compiling framework"
+$compilationInvocation $serverDir/framework/*.java
 echo "*done building biosim"
 
 
