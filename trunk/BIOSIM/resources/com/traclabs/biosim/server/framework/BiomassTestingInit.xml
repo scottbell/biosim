@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='BiosimInitialization.xsd'>
-	<Globals runTillCrewDeath="false" runTillPlantDeath="true" plantsToWatch="BiomassRS" runTillN="2040" isFullLoggingEnabled="false" startPaused="false" logHandler="STANDARD_OUT">
+	<Globals runTillCrewDeath="false" runTillPlantDeath="true" plantsToWatch="BiomassRS" runTillN="1488" isFullLoggingEnabled="false" startPaused="false" logHandler="STANDARD_OUT">
 		<comment>The default initialization for BioSim</comment>
 		<author>Scott Bell</author>
 	</Globals>
@@ -25,7 +25,7 @@
 			<PowerStore name="PowerStore" capacity="100000000000" level="100000000000"/>
 		</power>
 		<water>
-			<PotableWaterStore name="PotableWaterStore" capacity="500000000000" level="0"/>
+			<PotableWaterStore name="PotableWaterStore" capacity="500000000000" level="500000000000"/>
 			<GreyWaterStore name="GreyWaterStore" capacity="500000000000" level="0"/>
 			<DirtyWaterStore name="DirtyWaterStore" capacity="500000000000" level="0"/>
 		</water>
