@@ -48,10 +48,10 @@ public abstract class PlantImpl extends PlantPOA{
 	private static final float WATER_TILL_DEAD = 336f;
 	private static final float WATER_RECOVERY_RATE = 2f;
 	private static final float CO2_LOW_TILL_DEAD = 24f;
-	private static final float CO2_LOW_RECOVERY_RATE = 0.001f;
+	private static final float CO2_LOW_RECOVERY_RATE = 5f;
 	private static final float CO2_RATIO_LOW = 50f;
 	private static final float CO2_HIGH_TILL_DEAD = 24f;
-	private static final float CO2_HIGH_RECOVERY_RATE=2f;
+	private static final float CO2_HIGH_RECOVERY_RATE=100f;
 	private static final float CO2_RATIO_HIGH = 20000f;
 	private static final float HEAT_TILL_DEAD = 48f;
 	private static final float HEAT_RECOVERY_RATE=0.1f;
@@ -69,9 +69,9 @@ public abstract class PlantImpl extends PlantPOA{
 		Arrays.fill(canopyClosureConstants, 0f);
 		Arrays.fill(canopyQYConstants, 0f);
 		consumedWaterBuffer = new SimpleBuffer(WATER_TILL_DEAD, WATER_TILL_DEAD);
-		consumedCO2LowBuffer = new SimpleBuffer(CO2_LOW_TILL_DEAD, CO2_LOW_TILL_DEAD);
-		consumedCO2HighBuffer = new SimpleBuffer(CO2_HIGH_TILL_DEAD, CO2_HIGH_TILL_DEAD);
-		consumedHeatBuffer = new SimpleBuffer(HEAT_TILL_DEAD, HEAT_TILL_DEAD);
+		consumedCO2LowBuffer = new SimpleBuffer(CO2_LOW_TILL_DEAD * CO2_RATIO_LOW, CO2_LOW_TILL_DEAD * CO2_RATIO_LOW);
+		consumedCO2HighBuffer = new SimpleBuffer(CO2_HIGH_TILL_DEAD * CO2_RATIO_HIGH, CO2_HIGH_TILL_DEAD * CO2_RATIO_HIGH);
+		consumedHeatBuffer = new SimpleBuffer(HEAT_TILL_DEAD * DANGEROUS_HEAT_LEVEL, HEAT_TILL_DEAD * DANGEROUS_HEAT_LEVEL);
 		consumedLightBuffer = new SimpleBuffer(LIGHT_TILL_DEAD, LIGHT_TILL_DEAD);
 		myRandomGen = new Random();
 		numFormat = new DecimalFormat("#,##0.0;(#)");
