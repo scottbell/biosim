@@ -377,8 +377,8 @@ public class BioDriverImpl extends BioDriverPOA{
 			BioModule currentBioModule = (BioModule)(modules[i]);
 			currentBioModule.setLogging(pLogSim);
 		}
-		if (myLogger != null)
-			myLogger.setProcessingLogs(pLogSim);
+		if ((myLogger != null) && pLogSim)
+			myLogger.setProcessingLogs(true);
 	}
 
 	/**
@@ -390,8 +390,8 @@ public class BioDriverImpl extends BioDriverPOA{
 			BioModule currentBioModule = (BioModule)(sensors[i]);
 			currentBioModule.setLogging(pLogSim);
 		}
-		if (myLogger != null)
-			myLogger.setProcessingLogs(pLogSim);
+		if ((myLogger != null) && pLogSim)
+			myLogger.setProcessingLogs(true);
 	}
 
 	/**
@@ -403,8 +403,8 @@ public class BioDriverImpl extends BioDriverPOA{
 			BioModule currentBioModule = (BioModule)(actuators[i]);
 			currentBioModule.setLogging(pLogSim);
 		}
-		if (myLogger != null)
-			myLogger.setProcessingLogs(pLogSim);
+		if ((myLogger != null) && pLogSim)
+			myLogger.setProcessingLogs(true);
 	}
 
 	/**
@@ -494,7 +494,7 @@ public class BioDriverImpl extends BioDriverPOA{
 	*/
 	private void tick(){
 		if (!isStarted()){
-			System.err.println("BioDriverImpl"+myID+": Tick called when simulation wasn't started!");
+			//System.err.println("BioDriverImpl"+myID+": Tick called when simulation wasn't started!");
 			return;
 		}
 		//System.out.println("BioDriveImpl: begin Tick");
