@@ -30,8 +30,8 @@ public class CrewImpl extends CrewPOA {
 		crewPeople.put(name, newCrewPerson);
 	}
 
-	public Activity getScheduledActivityByName(String name){
-		Activity foundActivity = mySchedule.getActivityByName(name);
+	public ActivityImpl getScheduledActivityByName(String name){
+		ActivityImpl foundActivity = mySchedule.getActivityByName(name);
 		if (foundActivity != null)
 			return foundActivity;
 		else{
@@ -40,8 +40,8 @@ public class CrewImpl extends CrewPOA {
 		}
 	}
 
-	public Activity getScheduledActivityByOrder(int order){
-		Activity foundActivity = mySchedule.getActivityByOrder(order);
+	public ActivityImpl getScheduledActivityByOrder(int order){
+		ActivityImpl foundActivity = mySchedule.getActivityByOrder(order);
 		if (foundActivity != null)
 			return foundActivity;
 		else{

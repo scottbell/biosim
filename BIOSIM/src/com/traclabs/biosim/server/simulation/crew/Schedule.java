@@ -36,18 +36,18 @@ public class Schedule{
 		parseSchedule(myScheduleFile);
 	}
 	
-	public Activity getActivityByName(String activityName){
+	public ActivityImpl getActivityByName(String activityName){
 		Object foundActivity = scheduleNameHash.get(activityName);
 		if (foundActivity != null)
-			return (Activity)(foundActivity);
+			return (ActivityImpl)(foundActivity);
 		else
 			return null;
 	}
 	
-	public Activity getActivityByOrder(int order){
+	public ActivityImpl getActivityByOrder(int order){
 		Object foundActivity = scheduleOrderHash.get(new Integer(order));
 		if (foundActivity != null)
-			return (Activity)(foundActivity);
+			return (ActivityImpl)(foundActivity);
 		else
 			return null;
 	}
@@ -64,8 +64,8 @@ public class Schedule{
 					int lengthOfActivity = Integer.parseInt(tokenizer.nextToken());
 					Integer orderOfActivity = new Integer(itemsRead);
 					itemsRead++;
-					scheduleNameHash.put(activityName, new Activity(activityName, lengthOfActivity));
-					scheduleOrderHash.put(orderOfActivity, new Activity(activityName, lengthOfActivity));
+					scheduleNameHash.put(activityName, new ActivityImpl(activityName, lengthOfActivity));
+					scheduleOrderHash.put(orderOfActivity, new ActivityImpl(activityName, lengthOfActivity));
 					currentLine = inputReader.readLine().trim();
 				}
 				catch(java.util.NoSuchElementException e){
