@@ -27,6 +27,8 @@ module framework{
                 void maitenance();
                 void repair(in long long id);
                 void clearMalfunction(in long long id);
+		void setEnableBreakdown(in boolean pValue);
+		boolean breakdownIsEnabled();
         };
         interface BioDriver{
                 boolean isPaused();
