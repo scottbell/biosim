@@ -1,6 +1,6 @@
 package biosim.client.simulation.environment.gui;
 
-import biosim.client.simulation.framework.gui.*;
+import biosim.client.framework.gui.*;
 import biosim.client.simulation.framework.*;
 import javax.swing.*;
 import java.awt.*;

@@ -1,7 +1,7 @@
 package biosim.client.simulation.water.gui;
 
 import java.awt.*;
-import biosim.client.simulation.framework.gui.*;
+import biosim.client.framework.gui.*;
 import biosim.client.simulation.framework.*;
 import biosim.idl.simulation.water.*;
 import com.jrefinery.chart.*;

@@ -119,28 +119,31 @@ echo "			-compiling util"
 $compilationInvocation $clientDir/util/*.java
 echo "				-compiling log"
 $compilationInvocation $clientDir/util/log/*.java
-echo "			-compiling air"
-echo "				-compiling air.gui"
-$compilationInvocation $clientDir/air/gui/*.java
-echo "			-compiling water"
-echo "				-compiling water.gui"
-$compilationInvocation $clientDir/water/gui/*.java
-echo "			-compiling power"
-echo "				-compiling power.gui"
-$compilationInvocation $clientDir/power/gui/*.java
-echo "			-compiling environment"
-echo "				-compiling environment.gui"
-$compilationInvocation $clientDir/environment/gui/*.java
-echo "			-compiling crew"
-echo "				-compiling crew.gui"
-$compilationInvocation $clientDir/crew/gui/*.java
-echo "			-compiling food"
-echo "				-compiling food.gui"
-$compilationInvocation $clientDir/food/gui/*.java
 echo "			-compiling framework"
 $compilationInvocation $clientDir/framework/*.java
+echo "		-compiling simulation"
+echo "			-compiling air"
+echo "				-compiling air.gui"
+$compilationInvocation $clientDir/simulation/air/gui/*.java
+echo "			-compiling water"
+echo "				-compiling water.gui"
+$compilationInvocation $clientDir/simulation/water/gui/*.java
+echo "			-compiling power"
+echo "				-compiling power.gui"
+$compilationInvocation $clientDir/simulation/power/gui/*.java
+echo "			-compiling environment"
+echo "				-compiling environment.gui"
+$compilationInvocation $clientDir/simulation/environment/gui/*.java
+echo "			-compiling crew"
+echo "				-compiling crew.gui"
+$compilationInvocation $clientDir/simulation/crew/gui/*.java
+echo "			-compiling food"
+echo "				-compiling food.gui"
+$compilationInvocation $clientDir/simulation/food/gui/*.java
+echo "			-compiling framework"
+$compilationInvocation $clientDir/simulation/framework/*.java
 echo "				-compiling framework.gui"
-$compilationInvocation $clientDir/framework/gui/*.java
+$compilationInvocation $clientDir/simulation/framework/gui/*.java
 echo "*done building biosim"
 
 

@@ -2,7 +2,7 @@ package biosim.client.simulation.food.gui;
 
 import javax.swing.*;
 import java.awt.*;
-import biosim.client.simulation.framework.gui.*;
+import biosim.client.framework.gui.*;
 
 /**
  * This is the JPanel that displays a chart about the Food/Biomass

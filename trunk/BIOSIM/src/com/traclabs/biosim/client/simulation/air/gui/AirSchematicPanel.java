@@ -3,7 +3,7 @@ package biosim.client.simulation.air.gui;
 import java.awt.*;
 import javax.swing.*;
 import biosim.idl.simulation.air.*;
-import biosim.client.simulation.framework.gui.*;
+import biosim.client.framework.gui.*;
 
 /**
  * This is the JPanel that displays a schematic

@@ -8,8 +8,8 @@ package biosim.client.simulation.framework.gui;
 
 
 import biosim.client.simulation.framework.*;
-import biosim.client.simulation.framework.gui.*;
-import biosim.client.simulation.util.*;
+import biosim.client.framework.gui.*;
+import biosim.client.util.*;
 import biosim.client.simulation.environment.gui.*;
 import biosim.client.simulation.air.gui.*;
 import biosim.client.simulation.crew.gui.*;
@@ -583,7 +583,7 @@ public class SimDesktop extends BioFrame
 			displayMalfunction();
 			displayStochastic();
 			if (ae.getModifiers() == (ActionEvent.CTRL_MASK + 16)){
-				biosim.client.simulation.util.Fnorder myFnord = new Fnorder();
+				biosim.client.util.Fnorder myFnord = new Fnorder();
 				String message = myFnord.getFnord();
 				ImageIcon fnordIcon = new ImageIcon(ClassLoader.getSystemResource("biosim/client/framework/gui/pyramid.gif"));
 				JOptionPane fnordPane = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, fnordIcon);

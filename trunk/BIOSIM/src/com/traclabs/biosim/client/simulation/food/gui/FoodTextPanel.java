@@ -1,6 +1,6 @@
 package biosim.client.simulation.food.gui;
 
-import biosim.client.simulation.framework.gui.*;
+import biosim.client.framework.gui.*;
 import biosim.client.simulation.framework.*;
 import biosim.idl.simulation.food.*;
 import javax.swing.*;
