@@ -29,7 +29,8 @@ then
 fi
 echo "	-invoking nameserver"
 separator=":"
-if [ uname == "CYGWIN_NT-5.1" ]
+serverType=`uname`
+if [ "$serverType" == "CYGWIN_NT-5.1" ]
 then
 	separator=";"
 fi
