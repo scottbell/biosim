@@ -30,27 +30,55 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 		myOGS = new OGS(this);
 	}
 	
-	public VCCR getVCCR(){
+	public boolean VCCRHasPower(){
+		return myVCCR.hasPower();
+	}
+	
+	public boolean VCCRHasEnoughCO2(){
+		return myVCCR.hasEnoughCO2();
+	}
+	
+	public boolean CRSHasPower(){
+		return myCRS.hasPower();
+	}
+	
+	public boolean CRSHasEnoughCO2(){
+		return myCRS.hasEnoughCO2();
+	}
+	
+	public boolean CRSHasEnoughH2(){
+		return myCRS.hasEnoughH2();
+	}
+	
+	public boolean OGSHasPower(){
+		return myOGS.hasPower();
+	}
+	
+	public boolean OGSHasEnoughH2O(){
+		return myOGS.hasEnoughH2O();
+	}
+	
+	protected VCCR getVCCR(){
 		return myVCCR;
 	}
 	
-	public CO2Tank getCO2Tank(){
+	protected CO2Tank getCO2Tank(){
 		return myCO2Tank;
 	}
 	
-	public CRS getCRS(){
+	protected CRS getCRS(){
 		return myCRS;
 	}
 	
-	public H2Tank getH2Tank(){
+	protected H2Tank getH2Tank(){
 		return myH2Tank;
 	}
 	
-	public CH4Tank getCH4Tank(){
+	protected CH4Tank getCH4Tank(){
 		return myCH4Tank;
 	}
 	
-	public OGS getOGS(){
+	protected OGS getOGS(){
 		return myOGS;
 	}
 	
