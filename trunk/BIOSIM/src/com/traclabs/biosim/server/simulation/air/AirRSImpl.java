@@ -138,6 +138,21 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 		myOGS.setProductionRate(percentage);
 	}
 	
+	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
+		String returnName = new String();
+		if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
+			returnName += "Severe ";
+		else if (pIntensity == MalfunctionIntensity.MEDIUM_MALF)
+			returnName += "Medium ";
+		else if (pIntensity == MalfunctionIntensity.LOW_MALF)
+			returnName += "Low ";
+		if (pLength == MalfunctionLength.TEMPORARY_MALF)
+			returnName += "Production Rate Decrease (Temporary)";
+		else if (pLength == MalfunctionLength.PERMANENT_MALF)
+			returnName += "Production Rate Decrease (Permanent)";
+		return returnName;
+	}
+	
 	private void performMalfunctions(){
 		float productionRate = 1f;
 		for (Enumeration e = myMalfunctions.elements(); e.hasMoreElements();){

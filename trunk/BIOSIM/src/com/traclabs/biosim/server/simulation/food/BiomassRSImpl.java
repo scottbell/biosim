@@ -127,6 +127,21 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 		}
 	}
 	
+	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
+		String returnName = new String();
+		if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
+			returnName += "Severe ";
+		else if (pIntensity == MalfunctionIntensity.MEDIUM_MALF)
+			returnName += "Medium ";
+		else if (pIntensity == MalfunctionIntensity.LOW_MALF)
+			returnName += "Low ";
+		if (pLength == MalfunctionLength.TEMPORARY_MALF)
+			returnName += "Production Rate Decrease (temporary)";
+		else if (pLength == MalfunctionLength.PERMANENT_MALF)
+			returnName += "Production Rate Decrease (permanent)";
+		return returnName;
+	}
+	
 	private void performMalfunctions(){
 		float productionRate = 1f;
 		for (Enumeration e = myMalfunctions.elements(); e.hasMoreElements();){
