@@ -4,6 +4,7 @@ import biosim.server.framework.*;
 import biosim.idl.sensor.framework.*;
 
 public abstract class GenericSensorImpl extends BioModuleImpl implements GenericSensorOperations{
+	protected double myValue;
 	
 	public GenericSensorImpl(int pID){
 		super(pID);
@@ -12,5 +13,14 @@ public abstract class GenericSensorImpl extends BioModuleImpl implements Generic
 	protected abstract void gatherData();
 	protected abstract void processData();
 	protected abstract void notifyListeners();
-	public abstract double getValue();
+	
+	public double getValue(){
+		return myValue;
+	}
+	
+	public void tick(){
+		gatherData();
+		processData();
+		notifyListeners();
+	}
 }

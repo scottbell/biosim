@@ -14,13 +14,7 @@ import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
 import java.util.*;
-
-
-/**
- * BioDriverImpl exists as the driver for the simulation.  It gathers references to all the various servers, initializes them, then ticks them.<br>
- * This is all done multithreaded through the use of the spawnSimulation methods.<br>
- * BioDriverImpl also can notify listeners when it has sucessfully ticked all the servers.  The listener needs only to implement BioDriverImplListener and<br>
- * register with BioDriverImpl.  Note that any configuration of the simulation other than the one supplied will need to use <code>BioDriverInit.NONE_INIT</code> and specify the module names in the second constructor.
+/*
  *
  * @author    Scott Bell
  */
@@ -112,7 +106,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		usedDefaultModules = true;
 		checkMachineType();
 	}
-	
+
 	/**
 	* Constructs the BioDriver
 	* @param pModuleNames The module names this BioDriver should tick.

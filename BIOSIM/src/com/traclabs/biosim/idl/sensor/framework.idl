@@ -2,4 +2,52 @@ module framework{
         interface GenericSensor : framework::BioModule{
 		double getValue();
 	};
+	interface PowerSensor{
+                void setPowerSensorInput(in simulation::power::PowerStore source);
+		simulation::power::PowerStore getPowerSensorInput();
+        };
+        interface PotableWaterSensor{
+                void setPotableWaterSensorInput(in simulation::water::PotableWaterStore source);
+		simulation::water::PotableWaterStore getPotableWaterSensorInput();
+        };
+        interface GreyWaterSensor{
+                void setGreyWaterSensorInput(in simulation::water::GreyWaterStore source);
+		simulation::water::GreyWaterStore getGreyWaterSensorInput();
+        };
+        interface DirtyWaterSensor{
+                void setDirtyWaterSensorInput(in simulation::water::DirtyWaterStore source);
+		simulation::water::DirtyWaterStore getDirtyWaterSensorInput();
+        };
+        interface O2StoreSensor{
+                void setO2SensorInput(in simulation::air::O2Store source);
+		simulation::air::O2Store getO2SensorInput();
+        };
+        interface CO2StoreSensor{
+                void setCO2SensorInput(in simulation::air::CO2Store source);
+		simulation::air::CO2Store getCO2SensorInput();
+        };
+        interface AirSensor{
+                void setAirSensorInput(in simulation::environment::SimEnvironment source);
+		simulation::environment::SimEnvironment getAirSensorInput();
+        };
+        interface BiomassSensor{
+                void setBiomassSensorInput(in simulation::food::BiomassStore source);
+		simulation::food::BiomassStore getBiomassSensorInput();
+        };
+        interface FoodSensor{
+                void setFoodSensorInput(in simulation::food::FoodStore source);
+		simulation::food::FoodStore getFoodSensorInput();
+        };
+	interface LightSensor{
+                void setLightSensorInput(in simulation::environment::SimEnvironment source);
+		simulation::environment::SimEnvironment getLightSensorInput();
+        };
+	interface O2AirSensor{
+                void setO2AirSensorInput(in simulation::environment::SimEnvironment source);
+		simulation::environment::SimEnvironment getO2AirSensorInput();
+        };
+	interface CO2AirSensor{
+                void setCO2AirSensorInput(in simulation::environment::SimEnvironment source);
+		simulation::environment::SimEnvironment getCO2AirSensorInput();
+        };
 };

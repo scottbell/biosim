@@ -2,4 +2,55 @@ module framework{
         interface GenericActuator : framework::BioModule{
 		double getValue();
 	};
+	interface GenericActuator : framework::BioModule{
+		double getValue();
+	};
+	interface PowerActuator{
+                void setPowerActuatorOutput(in simulation::power::PowerStore destination);
+		simulation::power::PowerStore getPowerActuatorOutput();
+        };
+        interface PotableWaterActuator{
+                void setPotableWaterActuatorOutput(in simulation::water::PotableWaterStore destination);
+		simulation::water::PotableWaterStore getPotableWaterActuatorOutput();
+        };
+        interface GreyWaterActuator{
+                void setGreyWaterActuatorOutput(in simulation::water::GreyWaterStore destination);
+		simulation::water::GreyWaterStore getGreyWaterActuatorOutput();
+        };
+        interface DirtyWaterActuator{
+                void setDirtyWaterActuatorOutput(in simulation::water::DirtyWaterStore destination);
+		simulation::water::DirtyWaterStore getDirtyWaterActuatorOutput();
+        };
+        interface O2StoreActuator{
+                void setO2ActuatorOutput(in simulation::air::O2Store destination);
+		simulation::air::O2Store getO2ActuatorOutput();
+        };
+        interface CO2StoreActuator{
+                void setCO2ActuatorOutput(in simulation::air::CO2Store destination);
+		simulation::air::CO2Store getCO2ActuatorOutput();
+        };
+        interface AirActuator{
+                void setAirActuatorOutput(in simulation::environment::SimEnvironment destination);
+		simulation::environment::SimEnvironment getAirActuatorOutput();
+        };
+        interface BiomassActuator{
+                void setBiomassActuatorOutput(in simulation::food::BiomassStore destination);
+		simulation::food::BiomassStore getBiomassActuatorOutput();
+        };
+        interface FoodActuator{
+                void setFoodActuatorOutput(in simulation::food::FoodStore destination);
+		simulation::food::FoodStore getFoodActuatorOutput();
+        };
+	interface LightActuator{
+                void setLightActuatorOutput(in simulation::environment::SimEnvironment destination);
+		simulation::environment::SimEnvironment getLightActuatorOuput();
+        };
+	interface O2AirActuator{
+                void setO2AirActuatorOutput(in simulation::environment::SimEnvironment destination);
+		simulation::environment::SimEnvironment getO2AirActuatorOutput();
+        };
+	interface CO2AirActuator{
+                void setCO2AirActuatorOutput(in simulation::environment::SimEnvironment destination);
+		simulation::environment::SimEnvironment getCO2AirActuatorOutput();
+        };
 };
