@@ -13,7 +13,6 @@ then
 	echo "		-assuming BIOSIM_HOME is $devRootDir"
 fi
 JACORB_HOME="$devRootDir/lib/jacorb"
-jacoClasspath="$JACORB_HOME/lib/jacorb.jar:$JRE_HOME/lib/rt.jar"
 ####################
 #		SERVERS START	#
 ####################
@@ -34,7 +33,13 @@ energyStoreName="biosim.server.energy.EnergyStoreServer"
 crewName="biosim.server.crew.CrewServer"
 waterRSName="biosim.server.water.WaterRSServer"
 waterStoreName="biosim.server.water.WaterStoreServer"
-jacoInvocation="java -classpath $serverClassesDir:$jacoClasspath:$CLASSPATH $jacoOrbClass $jacoSingletonOrbClass"
+separator=":"
+if [ uname == "CYGWIN_NT-5.1" ]
+then
+	separator=";"
+fi
+jacoClasspath="$JACORB_HOME/lib/jacorb.jar$separator$JRE_HOME/lib/rt.jar"
+jacoInvocation="java -classpath $serverClassesDir$separator$jacoClasspath$separator$CLASSPATH $jacoOrbClass $jacoSingletonOrbClass"
 echo "	-starting servers"
 case $userSelect in
 	AirRS) echo "			 -starting $userSelect";$jacoInvocation $airRSName;;

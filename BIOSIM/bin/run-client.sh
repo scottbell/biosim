@@ -13,7 +13,6 @@ then
 	echo "		-assuming BIOSIM_HOME is $devRootDir"
 fi
 JACORB_HOME="$devRootDir/lib/jacorb"
-jacoClasspath="$JACORB_HOME/lib/jacorb.jar:$JRE_HOME/lib/rt.jar"
 ####################
 #		CLIENTS START	#
 ####################
@@ -26,7 +25,13 @@ clientClassesDir=$clientGenDir$clientClassesString
 stubsClassesDir="$clientGenDir/stubs"
 clientDir="$devRootDir/src/biosim/client"
 controlName="biosim.client.control.BioSimulator"
-jacoInvocation="java -classpath $clientClassesDir:$jacoClasspath:$CLASSPATH $jacoOrbClass $jacoSingletonOrbClass"
+separator=":"
+if [ uname == "CYGWIN_NT-5.1" ]
+then
+	separator=";"
+fi
+jacoClasspath="$JACORB_HOME/lib/jacorb.jar$separator$JRE_HOME/lib/rt.jar"
+jacoInvocation="java -classpath $clientClassesDir$separator$jacoClasspath$separator$CLASSPATH $jacoOrbClass $jacoSingletonOrbClass"
 echo "	-starting client"
 case $userSelect in
 	control) echo "			 -starting $userSelect";$jacoInvocation $controlName;;
