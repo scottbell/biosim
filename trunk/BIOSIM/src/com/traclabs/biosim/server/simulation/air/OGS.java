@@ -58,7 +58,7 @@ public class OGS extends AirRSSubSystem{
 		currentO2Produced = myAirRS.randomFilter(currentH2OConsumed * 0.70f) * myProductionRate;
 		currentH2Produced = myAirRS.randomFilter(currentH2OConsumed * 0.30f) * myProductionRate;
 		float distributedO2 = myAirRS.randomFilter(currentO2Produced);
-		for (int i = 0; (i < myO2Stores.length) && (distributedO2 <= 0); i++){
+		for (int i = 0; (i < myO2Stores.length) && (distributedO2 > 0); i++){
 			distributedO2 -= myO2Stores[i].add(distributedO2);
 		}
 	}

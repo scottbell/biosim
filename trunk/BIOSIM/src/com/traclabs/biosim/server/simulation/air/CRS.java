@@ -11,8 +11,8 @@ import biosim.server.util.*;
  */
 
 public class CRS extends AirRSSubSystem{
-	private float H2Needed = 576.0f;
-	private float CO2Needed = 576.0f;
+	private float H2Needed = 50.0f;
+	private float CO2Needed = 50.0f;
 	private boolean enoughCO2 = false;
 	private boolean enoughH2 = false;
 	private float currentCO2Consumed = 0;

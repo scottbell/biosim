@@ -74,7 +74,7 @@ public class VCCR extends AirRSSubSystem{
 		myBreath.O2 =  gatheredO2;
 		myBreath.CO2 = gatheredCO2;
 		myBreath.other = gatheredOther;
-		if (gatheredAir < airNeededFiltered)
+		if ((gatheredAir +.1) < airNeededFiltered)
 			enoughAir = false;
 		else
 			enoughAir = true;
