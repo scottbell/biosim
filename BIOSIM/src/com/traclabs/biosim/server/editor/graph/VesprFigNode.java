@@ -71,7 +71,7 @@ public abstract class VesprFigNode extends FigNode {
     }
 
     protected Fig createBgFig() {
-        Fig fig = new FigRect(0, 0, 1, 1, _lineColor, _fillColor);
+        Fig fig = new FigRect(0, 0, 1, 1, getLineColor(), getFillColor());
         return fig;
     }
 
@@ -266,16 +266,16 @@ public abstract class VesprFigNode extends FigNode {
 
     public void setLineColor(Color col) {
         if (col != null) {
-            firePropChange("lineColor", _lineColor, col);
-            _lineColor = col;
+            firePropChange("lineColor", super.getLineColor(), col);
+            super.setLineColor(col);
             _bgFig.setLineColor(col);
         }
     }
 
     public void setFillColor(Color col) {
         if (col != null) {
-            firePropChange("fillColor", _fillColor, col);
-            _fillColor = col;
+            firePropChange("fillColor", super.getFillColor(), col);
+            super.setFillColor(col);
             _bgFig.setFillColor(col);
         }
     }

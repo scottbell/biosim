@@ -42,7 +42,7 @@ public class VesprCmdSpawn extends Cmd {
                 copy.setSize((Dimension) d);
 
             copy.setLocation(frame.getX() + 20, frame.getY() + 20);
-            copy.show();
+            copy.setVisible(true);
         }
     }
 

@@ -62,18 +62,18 @@ public class VesprFigText extends FigText {
         StringTokenizer lines;
 
         if (_filled) {
-            g.setColor(_fillColor);
+            g.setColor(getFillColor());
             g.fillRect(_x, _y, _w, _h);
         }
-        if (_lineWidth > 0) {
-            g.setColor(_lineColor);
+        if (getLineWidth() > 0) {
+            g.setColor(getLineColor());
             // test linewidth
-            if (_lineWidth == 1) {
+            if (getLineWidth() == 1) {
                 // paint single rectangle
-                g.drawRect(_x, _y, _w - _lineWidth, _h - _lineWidth);
+                g.drawRect(_x, _y, _w - getLineWidth(), _h - getLineWidth());
             } else {
                 // paint <linewidth rectangles
-                for (int i = 0; i < _lineWidth; i++) {
+                for (int i = 0; i < getLineWidth(); i++) {
                     // a rectangle is painted as four connecting lines
                     g.drawLine(_x + i, _y + i, _x + _w - i - 1, _y + i);
                     g.drawLine(_x + _w - i - 1, _y + i, _x + _w - i - 1, _y
