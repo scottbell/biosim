@@ -7,4 +7,8 @@ public class AirRSImpl extends AirRSPOA {
 	public void tick(){
 		System.out.println("AirRS has been ticked!");
 	}
+	
+	public String getModuleName(){
+		return "AirRS";
+	}
 }

@@ -54,10 +54,11 @@ echo "		-compiling client";
 simString="SIMULATION"
 simStubDir="$stubDir/$simString"
 clientDir="$devRootDir/src/biosim/client"
+compilationInvocation="javac -d $clientClassesDir -classpath $stubDir:$clientClassesDir:$CLASSPATH"
 echo "			-compiling stubs"
-javac -d $clientClassesDir $simStubDir/*.java
+$compilationInvocation $simStubDir/*.java
 echo "			-compiling control"
-javac -d $clientClassesDir -classpath $stubDir:$clientClassesDir:$CLASSPATH $clientDir/control/*.java
+$compilationInvocation $clientDir/control/*.java
 echo "*done building biosim"
 
 

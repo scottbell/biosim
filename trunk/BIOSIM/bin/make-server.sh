@@ -54,18 +54,19 @@ echo "		-compiling server";
 simString="SIMULATION"
 simSkeletonDir="$skeletonDir/$simString"
 serverDir="$devRootDir/src/biosim/server"
+compilationInvocation="javac -d $serverClassesDir -classpath $skeletonDir:$serverClassesDir:$CLASSPATH"
 echo "			-compiling skeletons"
-javac -d $serverClassesDir $simSkeletonDir/*.java
+$compilationInvocation $simSkeletonDir/*.java
 echo "			-compiling air"
-javac -d $serverClassesDir -classpath $skeletonDir:$serverClassesDir:$CLASSPATH $serverDir/air/*.java
+$compilationInvocation $serverDir/air/*.java
 echo "			-compiling water"
-javac -d $serverClassesDir -classpath $skeletonDir:$serverClassesDir:$CLASSPATH $serverDir/water/*.java
+$compilationInvocation $serverDir/water/*.java
 echo "			-compiling energy"
-javac -d $serverClassesDir -classpath $skeletonDir:$serverClassesDir:$CLASSPATH $serverDir/energy/*.java
+$compilationInvocation $serverDir/energy/*.java
 echo "			-compiling crew"
-javac -d $serverClassesDir -classpath $skeletonDir:$serverClassesDir:$CLASSPATH $serverDir/crew/*.java
+$compilationInvocation $serverDir/crew/*.java
 echo "			-compiling biomass"
-javac -d $serverClassesDir -classpath $skeletonDir:$serverClassesDir:$CLASSPATH $serverDir/biomass/*.java
+$compilationInvocation $serverDir/biomass/*.java
 echo "*done building biosim"
 
 

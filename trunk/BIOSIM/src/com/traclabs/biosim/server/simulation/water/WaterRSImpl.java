@@ -7,4 +7,8 @@ public class WaterRSImpl extends WaterRSPOA {
 	public void tick(){
 		System.out.println("WaterRS has been ticked!");
 	}
+	
+	public String getModuleName(){
+		return "WaterRS";
+	}
 }
