@@ -29,14 +29,14 @@ public abstract class PlantImpl extends PlantPOA{
 		canopyQYConstants = new float[25];
 		Arrays.fill(canopyClosureConstants, 0f);
 		Arrays.fill(canopyQYConstants, 0f);
-		myCurrentBreath = new Breath(0f,0f,0f);
+		myCurrentBreath = new Breath(0f, 0f, 0f, 0f);
 	}
 
 	public void reset(){
 		myPPF = 0f;
 		myCurrentBiomass = 0f;
 		myAge = 0;
-		myCurrentBreath = new Breath(0f,0f,0f);
+		myCurrentBreath = new Breath(0f, 0f, 0f, 0f);
 	}
 
 	public void tick(){
@@ -98,7 +98,7 @@ public abstract class PlantImpl extends PlantPOA{
 		float cropGrowthRate = molecularWeightOfCarbon * dailyCarbonGain / getBCF();
 		myCurrentBiomass += cropGrowthRate * 1000 * myShelfImpl.getCropArea(); //in kilograms
 		float O2Produced = getOPF() * dailyCarbonGain * myShelfImpl.getCropArea() / 24; //in mol of oxygen per hour
-		myShelfImpl.getBiomassRSImpl().getAirOutputs()[0].addO2(O2Produced);
+		myShelfImpl.getBiomassRSImpl().getAirOutputs()[0].addO2Moles(O2Produced);
 		myShelfImpl.getBiomassRSImpl().addAirOutputActualFlowRates(0,O2Produced);
 	}
 	
