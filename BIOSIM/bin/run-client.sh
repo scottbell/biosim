@@ -56,6 +56,7 @@ logviewerName="biosim.client.util.log.LogViewer"
 malfunctionName="biosim.client.framework.gui.MalfunctionPanel"
 stochasticName="biosim.client.framework.gui.StochasticPanel"
 sensorName="biosim.client.sensor.framework.gui.SensorViewer"
+testName="TestBiosim"
 resourceString="/resources"
 resourceDir=$devRootDir$resourceString
 plotClasspath="$devRootDir/lib/jfreechart/jcommon.jar$separator$devRootDir/lib/jfreechart/jfreechart.jar"
@@ -73,7 +74,7 @@ stochastic="stochastic"
 controller="controller"
 sim3D="3D"
 sensor="sensor"
-echo "$jacoInvocation $mainName $console"
+test="test"
 case $userSelect in
 	$console) echo "			 -starting $userSelect";$jacoInvocation $mainName $console;;
 	$controller) echo "			 -starting $userSelect";$jacoInvocation $mainName $controller;;
@@ -83,6 +84,7 @@ case $userSelect in
 	$stochastic) echo "			 -starting $userSelect";$jacoInvocation $stochasticName;;
 	$sensor) echo "			 -starting $userSelect";$jacoInvocation $sensorName;;
 	$sim3D) echo "			 -starting $userSelect";$jacoInvocation $mainName $sim3D;;
+	$test) echo "			 -starting $userSelect";$jacoInvocation $testName $console;;
 	$help) echo "Usage: run-client.sh (-ga) [console, gui, logviewer, malfunction, stochastic, controller, 3D]";;
 	"-id"*) echo "			-assuming all (id user specified)";$jacoInvocation $mainName $1;;
 	"-xml"*) echo "			-assuming all (xml init user specified)";$jacoInvocation $mainName $1 $2;;
