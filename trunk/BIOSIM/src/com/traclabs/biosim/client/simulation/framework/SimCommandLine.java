@@ -19,7 +19,7 @@ public class SimCommandLine
 	public SimCommandLine(int pID){
 		myID = pID;
 	}
-	
+
 	public void runCommandLine(){
 		BioHolder.setID(myID);
 		myDriver = BioHolder.getBioDriver();
@@ -36,7 +36,7 @@ public class SimCommandLine
 			}
 		}
 	}
-	
+
 	/**
 	* Takes a command given by the user and performs and action.
 	* @param userCommand the user command taken from input
@@ -118,18 +118,42 @@ public class SimCommandLine
 			System.out.println("type ? for help");
 		}
 	}
-	
+
 	private void runTest(){
-		float molesOfCO2 = 40f;
-		float molesOfH2 = 20f;
-		
-		//CO2 + 4H2 => CH4 + 2H20
-		float limitingReactant = Math.min(molesOfCO2, molesOfH2 / 4f);
-		if (limitingReactant == molesOfH2){
-			
+		System.out.println("Function Test");
+		for (float i = 0.01f; i < 1.0f; i += 0.01f){
+			float value = function(i);
+			System.out.println("("+i+", "+value+")");
 		}
-		else{
-		}
+	}
+
+	private float sin(float a){
+		return (new Double(Math.sin(a))).floatValue();
+	}
+
+	private float exp(float a){
+		return (new Double(Math.exp(a))).floatValue();
+	}
+
+	private float pow(float a, float power){
+		return (new Double(Math.pow(a, power))).floatValue();
+	}
+
+	private float abs(float a){
+		return (new Double(Math.abs(a))).floatValue();
+	}
+
+	private float log(float a){
+		return (new Double(Math.log(a))).floatValue();
+	}
+
+	private float function(float x){
+		if (x >= 1f)
+			return 1f;
+		else if ((x < 1f) && (x > 0f))
+			return 0.3f * x * (1f - abs(x - 2f) / 2f);
+		else
+			return 0f;
 	}
 }
 

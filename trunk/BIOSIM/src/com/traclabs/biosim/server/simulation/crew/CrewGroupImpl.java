@@ -111,7 +111,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 			FoodMatter[] takenMatter = pStores[i].takeFoodMatterCalories(amountNeeded, limitingMassFactor);
 			sizeOfMatter += takenMatter.length;
 			gatheredBioMatterArrays.add(takenMatter);
-			pActualFlowRates[i] = calculateSizeOfFoodMatter(takenMatter);
+			pActualFlowRates[i] += calculateSizeOfFoodMatter(takenMatter);
 			gatheredResource += pStores[i].calculateCalories(takenMatter);
 		}
 		FoodMatter[] fullMatterTaken = new FoodMatter[sizeOfMatter];
@@ -184,12 +184,19 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 			returnBuffer.append("Sickness (Permanent)");
 		return returnBuffer.toString();
 	}
+	
+	private void clearActualFlowRates(){
+		Arrays.fill(potableWaterActualFlowRates, 0f);
+		Arrays.fill(greyWaterActualFlowRates, 0f);                  
+		Arrays.fill(dirtyWaterActualFlowRates, 0f);
+	}
 
 	/**
 	* Processes a tick by ticking each crew person it knows about.
 	*/
 	public void tick(){
 		super.tick();
+		clearActualFlowRates();
 		for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();){
 			CrewPersonImpl tempPerson = (CrewPersonImpl)(iter.next());
 			tempPerson.tick();

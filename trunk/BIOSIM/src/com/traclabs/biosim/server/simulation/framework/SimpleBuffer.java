@@ -59,7 +59,7 @@ public class SimpleBuffer {
 	*/
 	public float add(float amountRequested){
 		//idiot check
-		if (amountRequested < 0)
+		if (amountRequested <= 0)
 			return 0f;
 		float acutallyAdded = 0f;
 		if ((amountRequested + level) > capacity){
