@@ -225,15 +225,13 @@
 		<exec executable="latex" dir="${manualTmpDir}" error="${manualTmpDir}/latex2.err" output="${manualTmpDir}/latex2.out">
 			<arg line="${manualTmpDir}/users_manual.tex"/>
 		</exec>
-		<echo message="Creating ps file"/>
-		<exec executable="dvips" dir="${manualTmpDir}" error="${manualTmpDir}/ps.err" output="${manualTmpDir}/ps.out">
-			<arg line="-o"/>
-			<arg line="${manualTmpDir}/users_manual.ps"/>
-			<arg line="${manualTmpDir}/users_manual.dvi"/>
+		<echo message="Third latex pass"/>
+		<exec executable="latex" dir="${manualTmpDir}" error="${manualTmpDir}/latex3.err" output="${manualTmpDir}/latex3.out">
+			<arg line="${manualTmpDir}/users_manual.tex"/>
 		</exec>
 		<echo message="Creating users_manual.pdf file in ${doc}"/>
-		<exec executable="ps2pdf" dir="${doc}" error="${manualTmpDir}/pdf.err" output="${manualTmpDir}/pdf.out">
-			<arg line="${manualTmpDir}/users_manual.ps"/>
+		<exec executable="dvipdf" dir="${doc}" error="${manualTmpDir}/pdf.err" output="${manualTmpDir}/pdf.out">
+			<arg line="${manualTmpDir}/users_manual.dvi"/>
 		</exec>
 	</target>
 	
