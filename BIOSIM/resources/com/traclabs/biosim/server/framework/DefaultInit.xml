@@ -310,6 +310,11 @@
 		</water>
 	</SimModules>
 	<Sensors>
+		<air>
+			<CO2InFlowRateSensor name="AirRSCO2InFlowRateSensor">
+				<input>AirRS</input>
+			</CO2InFlowRateSensor>
+		</air>
 		<power>
 			<PowerInFlowRateSensor name="AirRSPowerInFlowRateSensor">
 				<input>AirRS</input>
