@@ -114,22 +114,30 @@
 			<fileset file="${plotDir}/jcommon.jar"/>
 			<fileset file="${plotDir}/jfreechart.jar"/>
 		</unzip>
+		<echo message="Copying necessary windows distro utilities"/>
+		<copy todir="${winDistroDir}">
+			<fileset dir="${winDistroLibDir}">
+				<exclude name="CVS"/>
+				<exclude name="BiosimStandalone.java"/>
+			</fileset>
+		</copy>
+		<copy file="${winDistroLibDir}/BiosimStandalone.java" todir="${winDistroTmpDir}"/>
+		<javac srcdir="${winDistroTmpDir}">
+			<classpath>
+				<pathelement location="${buildDir}"/>
+				<pathelement location="${jacorbDir}/jacorb.jar"/>
+			</classpath>
+		</javac>
 		<echo message="Create biosim jar"/>
 		<jar destfile="${winDistroDir}/biosim.jar">
 			<fileset dir="${buildDir}"/>
 			<fileset dir="${resourceDir}"/>
-			<fileset dir="${winDistroTmpDir}">
+			<fileset dir="${winDistroTmpDir}" excludesFile="${winDistroTmpDir}/BiosimStandalone.java">
 				<exclude name="META-INF"/>
 				<exclude name="license-INF"/>
 			</fileset>
 			<fileset file="${jacorbDir}/jacorb.properties"/>
 		</jar>
-		<echo message="Copying necessary windows distro utilities"/>
-		<copy todir="${winDistroDir}">
-			<fileset dir="${winDistroLibDir}">
-				<exclude name="CVS"/>
-			</fileset>
-		</copy>
 	</target>
 	
 	<target name="build-ga-distro" depends="build-server,init-distro" description="creates ga distro">

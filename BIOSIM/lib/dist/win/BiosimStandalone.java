@@ -52,19 +52,19 @@ public class BiosimStandalone
 	}
 	
 	public void beginSimulation(){
-		myFrame.setCursor(Cursor.WAIT_CURSOR);
+		myFrame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		myFrame.setVisible(true);
 		myNamingServiceThread.start();
 		try {
 			System.out.println("Sleeping until nameserver comes online...");
-			Thread.currentThread().sleep(5000);
+			Thread.sleep(5000);
         	}catch (Exception e){}
 		org.jacorb.util.Environment.setProperty("OAPort", Integer.toString(SERVER_OA_PORT));
 		org.jacorb.util.Environment.setProperty("ORBInitRef.NameService", "corbaloc::localhost:"+NAMESERVER_PORT+"/NameService");
 		myServerThread.start();
 		try {
 			System.out.println("Sleeping until servers comes online...");
-			Thread.currentThread().sleep(10000);
+			Thread.sleep(10000);
         	}catch (Exception e){}
 		org.jacorb.util.Environment.setProperty("OAPort", Integer.toString(CLIENT_OA_PORT));
 		myClientThread.start();
@@ -72,9 +72,8 @@ public class BiosimStandalone
 
 	private class NamingServiceThread implements Runnable{
 	        public void run(){
-			NameServer myNameserver = new NameServer();
 			String[] portArgs = {"-p", Integer.toString(NAMESERVER_PORT)};
-			myNameserver.main(portArgs);
+			NameServer.main(portArgs);
 	        }
 	}
 	
@@ -88,15 +87,14 @@ public class BiosimStandalone
 	
 	private class ClientThread implements Runnable{
 	        public void run(){
-			BiosimMain myBiosimClient = new BiosimMain();
 			String[] emptyArgs = new String[0];
-			myBiosimClient.main(emptyArgs);
+			BiosimMain.main(emptyArgs);
 	        }
 	}
 	
 	public class ReadyListener implements ActionListener{
 		public void actionPerformed(ActionEvent ae){
-			myFrame.setCursor(Cursor.DEFAULT_CURSOR);
+			myFrame.getContentPane().setCursor(Cursor.getDefaultCursor());
 			myFrame.dispose();
 		}
 	}
