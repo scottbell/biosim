@@ -11,13 +11,6 @@ import biosim.idl.air.*;
 import biosim.server.framework.*;
 
 public class CO2StoreImpl extends StoreImpl implements CO2StoreOperations {
-	
-	/**
-	* Processes a tick by doing nothing
-	*/
-	public void tick(){
-	}
-	
 	/**
 	* Returns the name of this module (CO2Store)
 	* @return the name of this module

@@ -1,3 +1,9 @@
+/**
+ * The Grey Water Store Server.  Creates an instance of the GreyWaterStore and registers it with the nameserver.
+ *
+ * @author    Scott Bell
+ */
+
 package biosim.server.water;
 
 import biosim.idl.water.*;
@@ -9,7 +15,10 @@ import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
 
 public class GreyWaterStoreServer {
-
+	/**
+	* Instantiates the server and binds it to the name server.
+	* @param args aren't used for anything
+	*/
 	public static void main(String args[]) {
 		try{
 			// create and initialize the ORB
