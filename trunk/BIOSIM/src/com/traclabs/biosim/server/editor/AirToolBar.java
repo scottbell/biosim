@@ -3,22 +3,13 @@
  */
 package com.traclabs.biosim.server.editor;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JPanel;
 
 
 /**
  * @author scott
  */
 public class AirToolBar extends EditorToolBar {
-    private JPanel myStorePanel;
-    private JPanel myModulesPanel;
-    private JPanel myConduitsPanel;
-    
     private JButton myH2StoreButton;
     private JButton myNitrogenStoreButton;
     private JButton myCH4StoreButton;
@@ -32,13 +23,7 @@ public class AirToolBar extends EditorToolBar {
     private JButton myO2ConduitButton;
     
     public AirToolBar() {
-        myStorePanel = new JPanel();
-        myModulesPanel = new JPanel();
-        myConduitsPanel = new JPanel();
-        myStorePanel.setBorder(BorderFactory.createTitledBorder("Stores"));
-        myModulesPanel.setBorder(BorderFactory.createTitledBorder("Modules"));
-        myConduitsPanel.setBorder(BorderFactory.createTitledBorder("Conduits"));
-        
+        super("Air");
         myH2StoreButton = new JButton("H2 Store");
         myNitrogenStoreButton = new JButton("N2 Store");
         myCH4StoreButton = new JButton("CH4 Store");
@@ -50,35 +35,17 @@ public class AirToolBar extends EditorToolBar {
         myAirRSButton = new JButton("AirRS");
         myO2ConduitButton = new JButton("O2 Conduit");
         
-        myStorePanel.add(myH2StoreButton);
-        myStorePanel.add(myNitrogenStoreButton);
-        myStorePanel.add(myCH4StoreButton);
-        myStorePanel.add(myO2StoreButton);
-        myStorePanel.add(myCO2StoreButton);
-        myModulesPanel.add(myCRSButton);
-        myModulesPanel.add(myOGSButton);
-        myModulesPanel.add(myVCCRButton);
-        myModulesPanel.add(myAirRSButton);
-        myConduitsPanel.add(myO2ConduitButton);
-        
-        //do gridbag
-        GridBagLayout gridbag = new GridBagLayout();
-        GridBagConstraints constraints = new GridBagConstraints();
-        setLayout(gridbag);
-        
-        constraints.fill = GridBagConstraints.BOTH;
-        constraints.gridwidth = 1;
-        constraints.weightx  = 1;
-        constraints.weighty  = 1;
-        gridbag.setConstraints(myModulesPanel, constraints);
-        add(myModulesPanel);
-        
-        //constraints.gridwidth = GridBagConstraints.RELATIVE;
-        gridbag.setConstraints(myStorePanel, constraints);
-        add(myStorePanel);
-        
-        constraints.gridwidth = GridBagConstraints.REMAINDER;
-        gridbag.setConstraints(myConduitsPanel, constraints);
-        add(myConduitsPanel);
+        add(myH2StoreButton);
+        add(myNitrogenStoreButton);
+        add(myCH4StoreButton);
+        add(myO2StoreButton);
+        add(myCO2StoreButton);
+        addSeparator();
+        add(myCRSButton);
+        add(myOGSButton);
+        add(myVCCRButton);
+        add(myAirRSButton);
+        addSeparator();
+        add(myO2ConduitButton);
     }
 }
