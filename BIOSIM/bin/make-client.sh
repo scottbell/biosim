@@ -105,6 +105,9 @@ $compilationInvocation $clientDir/gui/*.java
 echo "			-compiling air"
 echo "				-compiling air.gui"
 $compilationInvocation $clientDir/air/gui/*.java
+echo "			-compiling water"
+echo "				-compiling water.gui"
+$compilationInvocation $clientDir/water/gui/*.java
 echo "			-compiling power"
 echo "				-compiling power.gui"
 $compilationInvocation $clientDir/power/gui/*.java
