@@ -4,24 +4,24 @@ import biosim.server.actuator.framework.*;
 import biosim.idl.actuator.environment.*;
 import biosim.idl.simulation.environment.*;
 
-public class O2AirLevelActuatorImpl extends EnvironmentActuatorImpl implements O2AirLevelActuatorOperations{
-	public O2AirLevelActuatorImpl(int pID){
+public class O2AirMolesActuatorImpl extends EnvironmentActuatorImpl implements O2AirMolesActuatorOperations{
+	public O2AirMolesActuatorImpl(int pID){
 		super(pID);
 	}
 
 	protected void processData(){
 		float myFilteredValue = randomFilter(myValue);
-		getOutput().setO2Level(myFilteredValue);
+		getOutput().setO2Moles(myFilteredValue);
 	}
 
 	protected void notifyListeners(){
 	}
 	
 	/**
-	* Returns the name of this module (O2AirLevelActuator)
+	* Returns the name of this module (O2AirMolesActuator)
 	* @return the name of the module
 	*/
 	public String getModuleName(){
-		return "O2AirLevelActuator"+getID();
+		return "O2AirMolesActuator"+getID();
 	}
 }

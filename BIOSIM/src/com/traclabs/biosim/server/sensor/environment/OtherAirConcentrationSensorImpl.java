@@ -4,13 +4,13 @@ import biosim.server.sensor.framework.*;
 import biosim.idl.sensor.environment.*;
 import biosim.idl.simulation.environment.*;
 
-public class OtherAirLevelSensorImpl extends EnvironmentSensorImpl implements OtherAirLevelSensorOperations{
-	public OtherAirLevelSensorImpl(int pID){
+public class OtherAirMolesSensorImpl extends EnvironmentSensorImpl implements OtherAirMolesSensorOperations{
+	public OtherAirMolesSensorImpl(int pID){
 		super(pID);
 	}
 
 	protected void gatherData(){
-		float preFilteredValue = getInput().getOtherLevel();
+		float preFilteredValue = getInput().getOtherMoles();
 		myValue = randomFilter(preFilteredValue);
 	}
 	
@@ -18,10 +18,10 @@ public class OtherAirLevelSensorImpl extends EnvironmentSensorImpl implements Ot
 	}
 	
 	/**
-	* Returns the name of this module (OtherAirLevelSensor)
+	* Returns the name of this module (OtherAirMolesSensor)
 	* @return the name of the module
 	*/
 	public String getModuleName(){
-		return "OtherAirLevelSensor"+getID();
+		return "OtherAirMolesSensor"+getID();
 	}
 }
