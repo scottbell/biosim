@@ -39,7 +39,7 @@ public class BiosimStandalone
 		myProgressBar.setIndeterminate(true);
 		myFrame = new JFrame("BioSim Loader");
 		myFrame.getContentPane().setLayout(new BorderLayout());
-		ImageIcon marsIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("mars.gif"));
+		ImageIcon marsIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("mars.png"));
 		JLabel waitLabel = new JLabel("BioSim: Advanced Life Support Simulation", marsIcon, SwingConstants.CENTER);
 		myFrame.setUndecorated(true);
 		myFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
