@@ -42,7 +42,7 @@ public class SimCommandLine
 		}
 		else if (userCommand.equals("start")){
 			if (!myDriver.isStarted())
-				myDriver.spawnsimulationTillDead();
+				myDriver.spawnSimulationTillDead();
 			else
 				System.out.println("simulation has already started");
 		}
@@ -60,19 +60,19 @@ public class SimCommandLine
 		}
 		else if (userCommand.equals("pause")){
 			if (!myDriver.isPaused())
-				myDriver.pausesimulation();
+				myDriver.pauseSimulation();
 			else
 				System.out.println("simulation is already paused");
 		}
 		else if (userCommand.equals("resume")){
 			if (myDriver.isPaused())
-				myDriver.resumesimulation();
+				myDriver.resumeSimulation();
 			else
 				System.out.println("simulation isn't paused");
 		}
 		else if (userCommand.equals("stop")){
 			if (myDriver.isStarted())
-				myDriver.endsimulation();
+				myDriver.endSimulation();
 			else
 				System.out.println("simulation isn't running");
 		}
