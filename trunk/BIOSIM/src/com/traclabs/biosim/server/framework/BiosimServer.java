@@ -48,7 +48,7 @@ public class BiosimServer {
 			BiomassStoreImpl myBiomassStoreImpl = new BiomassStoreImpl();
 			FoodProcessorImpl myFoodProcessorImpl = new FoodProcessorImpl();
 			FoodStoreImpl myFoodStoreImpl = new FoodStoreImpl();
-			PowerPSImpl myPowerPSImpl = new PowerPSImpl();
+			PowerPSImpl myPowerPSImpl = new SolarPowerPS();
 			PowerStoreImpl myPowerStoreImpl = new PowerStoreImpl();
 			WaterRSImpl myWaterRSImpl = new WaterRSImpl();
 			GreyWaterStoreImpl myGreyWaterStoreImpl = new GreyWaterStoreImpl();
