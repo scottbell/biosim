@@ -239,10 +239,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		collectReferences();
 		logging = pLogSim;
 		if (logging){
-			System.out.println("Enabling logging");
+			System.out.println("BioDriverImpl: Enabling logging");
 		}
 		else{
-			System.out.println("Disabling logging");
+			System.out.println("BioDriverImpl: Disabling logging");
 		}
 		for (Enumeration e = modules.elements(); e.hasMoreElements();){
 			BioModule currentBioModule = (BioModule)(e.nextElement());
@@ -378,7 +378,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	* Typically this means resetting the various gas levels, crew people, water levels, etc.
 	*/
 	private void reset(){
-		System.out.println("Resetting simulation");
+		System.out.println("BioDriverImpl: Resetting simulation");
 		for (Enumeration e = modules.elements(); e.hasMoreElements();){
 			BioModule currentBioModule = (BioModule)(e.nextElement());
 			currentBioModule.reset();

@@ -32,6 +32,9 @@ public class WaterStorePanel extends JPanel
 	private Timer refreshTimer;
 	private final static int TIMER_DELAY=500;
 	private boolean trackingWanted = false;
+	ValueAxis rangeAxis;
+	CategoryPlot myPlot;
+	JFreeChart myChart;
 
 	/**
 	 * Default constructor.
@@ -56,20 +59,21 @@ public class WaterStorePanel extends JPanel
 	private void createGraph(){
 		// create the chart...
 		refresh();
-		JFreeChart chart = ChartFactory.createVerticalBarChart3D(
-		                           "Water Store Levels",  // chart title
-		                           "Stores",              // domain axis label
-		                           "Water Level",                 // range axis label
-		                           myDataset,                 // data
-		                           true                     // include legend
-		                   );
+		myChart = ChartFactory.createVerticalBarChart3D(
+		                  "Water Store Levels",  // chart title
+		                  "Stores",              // domain axis label
+		                  "Water Level",                 // range axis label
+		                  myDataset,                 // data
+		                  true                     // include legend
+		          );
 		// add the chart to a panel...
-		CategoryPlot plot = chart.getCategoryPlot();
-		ValueAxis axis = plot.getRangeAxis();
-		axis.setAutoRange(false);
-		axis.setRange(0.0, myPotableWaterStore.getCapacity());
-		plot.setSeriesPaint(new Paint[] { Color.BLUE, Color.GRAY, Color.YELLOW });
-		myChartPanel = new ChartPanel(chart);
+		myPlot = myChart.getCategoryPlot();
+		rangeAxis = myPlot.getRangeAxis();
+		rangeAxis.setAutoRange(false);
+		rangeAxis.setRange(0.0, myPotableWaterStore.getCapacity());
+		myPlot.setSeriesPaint(new Paint[] { Color.BLUE, Color.GRAY, Color.YELLOW });
+		myChartPanel = new ChartPanel(myChart);
+		
 	}
 
 	public void refresh() {
@@ -82,12 +86,14 @@ public class WaterStorePanel extends JPanel
 			myDataset.setCategories(theCategory);
 		}
 		else{
+			if (rangeAxis.getRange().getUpperBound() != myPotableWaterStore.getCapacity())
+				rangeAxis.setRange(0.0, myPotableWaterStore.getCapacity());
 			myDataset.setValue(0, "", new Float(myPotableWaterStore.getLevel()));
 			myDataset.setValue(1, "", new Float(myGreyWaterStore.getLevel()));
 			myDataset.setValue(2, "", new Float(myDirtyWaterStore.getLevel()));
 		}
 	}
-	
+
 	public void visibilityChange(boolean nowVisible){
 		if (nowVisible && trackingWanted){
 			refreshTimer.start();
@@ -96,7 +102,7 @@ public class WaterStorePanel extends JPanel
 			refreshTimer.stop();
 		}
 	}
-	
+
 	/**
 	* Action that displays the power panel in an internal frame on the desktop.
 	*/
@@ -110,7 +116,7 @@ public class WaterStorePanel extends JPanel
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}
-	
+
 	/**
 	* Action that displays the power panel in an internal frame on the desktop.
 	*/
