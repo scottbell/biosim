@@ -913,6 +913,7 @@ module com{
                                                 };
 
                                                 interface FoodStore : framework::Store{
+                                                        void setFoodMatterLevel(in FoodMatter pFoodMatter);
                                                         float addFoodMatterMass(in FoodMatter pMatter);
                                                         float addFoodMatterArray(in FoodMatterList pList);
                                                         FoodMatterList takeFoodMatterCalories(in float calories, in float limitingMass);
@@ -921,6 +922,7 @@ module com{
                                                 };
 
                                                 interface BiomassStore : framework::Store{
+                                                        void setBioMatterLevel(in BioMatter pBioMatter);
                                                         float addBioMatter(in BioMatter pBioMatter);
                                                         BioMatterList takeBioMatterMass(in float mass);
                                                         float calculateWaterContentInStore();

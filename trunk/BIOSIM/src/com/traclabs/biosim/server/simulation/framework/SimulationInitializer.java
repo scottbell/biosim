@@ -37,12 +37,14 @@ import com.traclabs.biosim.idl.simulation.environment.DehumidifierPOATie;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironmentHelper;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironmentPOATie;
+import com.traclabs.biosim.idl.simulation.food.BioMatter;
 import com.traclabs.biosim.idl.simulation.food.BiomassRS;
 import com.traclabs.biosim.idl.simulation.food.BiomassRSHelper;
 import com.traclabs.biosim.idl.simulation.food.BiomassRSPOATie;
 import com.traclabs.biosim.idl.simulation.food.BiomassStore;
 import com.traclabs.biosim.idl.simulation.food.BiomassStoreHelper;
 import com.traclabs.biosim.idl.simulation.food.BiomassStorePOATie;
+import com.traclabs.biosim.idl.simulation.food.FoodMatter;
 import com.traclabs.biosim.idl.simulation.food.FoodProcessor;
 import com.traclabs.biosim.idl.simulation.food.FoodProcessorHelper;
 import com.traclabs.biosim.idl.simulation.food.FoodProcessorPOATie;
@@ -1308,8 +1310,16 @@ public class SimulationInitializer {
             BiomassStoreImpl myBiomassStoreImpl = new BiomassStoreImpl(myID,
                     moduleName);
             BioInitializer.setupBioModule(myBiomassStoreImpl, node);
+            float inedibleFraction = Float.parseFloat(node.getAttributes().getNamedItem(
+            "inedibleFraction").getNodeValue());
+            float edibleWaterContent = Float.parseFloat(node.getAttributes().getNamedItem(
+            "edibleWaterContent").getNodeValue());
+            float inedibleWaterContent = Float.parseFloat(node.getAttributes().getNamedItem(
+            "inedibleWaterContent").getNodeValue());
+            PlantType theCropType = getCropType(node);
+            BioMatter newBioMatter = new BioMatter(getStoreLevel(node), inedibleFraction, edibleWaterContent, inedibleWaterContent, theCropType);
             myBiomassStoreImpl.setCapacity(getStoreCapacity(node));
-            myBiomassStoreImpl.setLevel(getStoreLevel(node));
+            myBiomassStoreImpl.setBioMatterLevel(newBioMatter);
             myBiomassStoreImpl.setResupply(getStoreResupplyFrequency(node),
                     getStoreResupplyAmount(node));
             BiosimServer.registerServer(new BiomassStorePOATie(
@@ -1325,8 +1335,12 @@ public class SimulationInitializer {
             myLogger.debug("Creating FoodStore with moduleName: " + moduleName);
             FoodStoreImpl myFoodStoreImpl = new FoodStoreImpl(myID, moduleName);
             BioInitializer.setupBioModule(myFoodStoreImpl, node);
+            float waterContent = Float.parseFloat(node.getAttributes().getNamedItem(
+            "waterContent").getNodeValue());
+            PlantType theCropType = getCropType(node);
+            FoodMatter newFoodMatter = new FoodMatter(getStoreLevel(node), waterContent, theCropType);
             myFoodStoreImpl.setCapacity(getStoreCapacity(node));
-            myFoodStoreImpl.setLevel(getStoreLevel(node));
+            myFoodStoreImpl.setFoodMatterLevel(newFoodMatter);
             myFoodStoreImpl.setResupply(getStoreResupplyFrequency(node),
                     getStoreResupplyAmount(node));
             BiosimServer.registerServer(new FoodStorePOATie(myFoodStoreImpl),

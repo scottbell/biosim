@@ -40,6 +40,14 @@ public class BiomassStoreImpl extends StoreImpl implements
             currentBiomassItems.add(newBioMatter);
         }
     }
+    
+    public void setBioMatterLevel(BioMatter pMatter) {
+        super.setLevel(pMatter.mass);
+        currentBiomassItems.clear();
+        if (pMatter.mass > 0) {
+            currentBiomassItems.add(pMatter);
+        }
+    }
 
     public float take(float pMass) {
         BioMatter[] massArray = takeBioMatterMass(pMass);
