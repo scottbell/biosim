@@ -1,6 +1,7 @@
 package biosim.client.crew.gui;
 
 import biosim.client.framework.*;
+import biosim.client.framework.gui.*;
 import javax.swing.*;
 import java.awt.*;
 /** 
@@ -9,29 +10,15 @@ import java.awt.*;
  * @author    Scott Bell
  */
 
-public class CrewPanel extends JPanel
+public class CrewPanel extends BioTabbedPanel
 {
-	private JTabbedPane myTabbedPane;
-	private JPanel myCrewTextPanel;
-	private BioSimulator myBioSimulator;
-	
-	/**
-	* Creates and registers this panel.
-	* @param pBioSimulator	The Biosimulator this Panel will register itself with.
-	*/
 	public CrewPanel(BioSimulator pBioSimulator){
-		myBioSimulator = pBioSimulator;
-		buildGui();
+		super(pBioSimulator);
 	}
 	
-	/**
-	* Contructs GUI components, adds them to the panel.
-	*/
-	private void buildGui(){
-		setLayout(new BorderLayout());
-		myTabbedPane = new JTabbedPane();
-		myCrewTextPanel = new CrewTextPanel(myBioSimulator);
-		myTabbedPane.addTab("Text", myCrewTextPanel);
-		add(myTabbedPane, BorderLayout.CENTER);
+	protected void createPanels(){
+		myTextPanel = new CrewTextPanel(myBioSimulator);
+		myChartPanel = new JPanel();
+		mySchematicPanel = new JPanel();
 	}
 }

@@ -1,6 +1,7 @@
 package biosim.client.food.gui;
 
 import biosim.client.framework.*;
+import biosim.client.framework.gui.*;
 import javax.swing.*;
 import java.awt.*;
 /** 
@@ -9,29 +10,15 @@ import java.awt.*;
  * @author    Scott Bell
  */
 
-public class FoodPanel extends JPanel
+public class FoodPanel extends BioTabbedPanel
 {
-	private JTabbedPane myTabbedPane;
-	private JPanel myFoodTextPanel;
-	private BioSimulator myBioSimulator;
-	
-	/**
-	* Creates and registers this panel.
-	* @param pBioSimulator	The Biosimulator this Panel will register itself with.
-	*/
 	public FoodPanel(BioSimulator pBioSimulator){
-		myBioSimulator = pBioSimulator;
-		buildGui();
+		super(pBioSimulator);
 	}
 	
-	/**
-	* Contructs GUI components, adds them to the panel.
-	*/
-	private void buildGui(){
-		setLayout(new BorderLayout());
-		myTabbedPane = new JTabbedPane();
-		myFoodTextPanel = new FoodTextPanel(myBioSimulator);
-		myTabbedPane.addTab("Text", myFoodTextPanel);
-		add(myTabbedPane, BorderLayout.CENTER);
+	protected void createPanels(){
+		myTextPanel = new FoodTextPanel(myBioSimulator);
+		myChartPanel = new JPanel();
+		mySchematicPanel = new JPanel();
 	}
 }

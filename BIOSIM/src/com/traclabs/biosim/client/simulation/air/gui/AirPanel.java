@@ -1,6 +1,7 @@
 package biosim.client.air.gui;
 
 import biosim.client.framework.*;
+import biosim.client.framework.gui.*;
 import javax.swing.*;
 import java.awt.*;
 /** 
@@ -9,29 +10,15 @@ import java.awt.*;
  * @author    Scott Bell
  */
 
-public class AirPanel extends JPanel
+public class AirPanel extends BioTabbedPanel
 {
-	private JTabbedPane myTabbedPane;
-	private JPanel myAirTextPanel;
-	private BioSimulator myBioSimulator;
-	
-	/**
-	* Creates and registers this panel.
-	* @param pBioSimulator	The Biosimulator this Panel will register itself with.
-	*/
 	public AirPanel(BioSimulator pBioSimulator){
-		myBioSimulator = pBioSimulator;
-		buildGui();
+		super(pBioSimulator);
 	}
 	
-	/**
-	* Contructs GUI components, adds them to the panel.
-	*/
-	private void buildGui(){
-		setLayout(new BorderLayout());
-		myTabbedPane = new JTabbedPane();
-		myAirTextPanel = new AirTextPanel(myBioSimulator);
-		myTabbedPane.addTab("Text", myAirTextPanel);
-		add(myTabbedPane, BorderLayout.CENTER);
+	protected void createPanels(){
+		myTextPanel = new AirTextPanel(myBioSimulator);
+		myChartPanel = new JPanel();
+		mySchematicPanel = new JPanel();
 	}
 }

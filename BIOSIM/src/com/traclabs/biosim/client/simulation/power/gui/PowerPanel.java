@@ -1,6 +1,7 @@
 package biosim.client.power.gui;
 
 import biosim.client.framework.*;
+import biosim.client.framework.gui.*;
 import javax.swing.*;
 import java.awt.*;
 /** 
@@ -9,29 +10,15 @@ import java.awt.*;
  * @author    Scott Bell
  */
 
-public class PowerPanel extends JPanel
+public class PowerPanel extends BioTabbedPanel
 {
-	private JTabbedPane myTabbedPane;
-	private JPanel myPowerTextPanel;
-	private BioSimulator myBioSimulator;
-	
-	/**
-	* Creates and registers this panel.
-	* @param pBioSimulator	The Biosimulator this Panel will register itself with.
-	*/
 	public PowerPanel(BioSimulator pBioSimulator){
-		myBioSimulator = pBioSimulator;
-		buildGui();
+		super(pBioSimulator);
 	}
 	
-	/**
-	* Contructs GUI components, adds them to the panel.
-	*/
-	private void buildGui(){
-		setLayout(new BorderLayout());
-		myTabbedPane = new JTabbedPane();
-		myPowerTextPanel = new PowerTextPanel(myBioSimulator);
-		myTabbedPane.addTab("Text", myPowerTextPanel);
-		add(myTabbedPane, BorderLayout.CENTER);
+	protected void createPanels(){
+		myTextPanel = new PowerTextPanel(myBioSimulator);
+		myChartPanel = new JPanel();
+		mySchematicPanel = new JPanel();
 	}
 }

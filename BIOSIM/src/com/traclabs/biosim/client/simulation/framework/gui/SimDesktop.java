@@ -7,7 +7,6 @@
 package biosim.client.framework.gui;
 
 import biosim.client.framework.*;
-import biosim.client.gui.*;
 import biosim.client.environment.gui.*;
 import biosim.client.air.gui.*;
 import biosim.client.crew.gui.*;
