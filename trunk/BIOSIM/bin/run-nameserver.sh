@@ -12,6 +12,15 @@ then
 	devRootDir=".."
 	echo "		-assuming BIOSIM_HOME is $devRootDir"
 fi
+separator=":"
+machineType=`uname`
+winName="CYGWIN"
+linuxName="Linux"
+case $machineType in
+	*$winName*) separator=";";echo "		-machine type is $winName";;
+	*$linuxName*) separator=":";echo "		-machine type is $linuxName";;
+	*)separator=":";echo "		-unknown machine type, using $linuxName separator";;
+esac
 JACORB_HOME="$devRootDir/lib/jacorb"
 genString="/generated"
 genDir=$devRootDir$genString
@@ -28,12 +37,6 @@ then
 	echo "		-creating ns directory"
 fi
 echo "	-invoking nameserver"
-separator=":"
-serverType=`uname`
-if [ "$serverType" == "CYGWIN_NT-5.1" ]
-then
-	separator=";"
-fi
 jacoClasspath="$JACORB_HOME/lib/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME/lib"
 java -classpath $jacoClasspath $jacoOrbClass $jacoSingletonOrbClass $nameServer $nsDir/ior.txt
 echo "*done with nameserver"

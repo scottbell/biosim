@@ -14,6 +14,15 @@ then
 fi
 JACORB_HOME="$devRootDir/lib/jacorb"
 jacoNameIOR="-DORBInitRef.NameService=file:$devRootDir/generated/ns/ior.txt"
+separator=":"
+machineType=`uname`
+winName="CYGWIN"
+linuxName="Linux"
+case $machineType in
+	*$winName*) separator=";";echo "		-machine type is $winName";;
+	*$linuxName*) separator=":";echo "		-machine type is $linuxName";;
+	*)separator=":";echo "		-unknown machine type, using $linuxName separator";;
+esac
 ####################
 #		CLIENTS START	#
 ####################
@@ -26,12 +35,6 @@ clientClassesDir=$clientGenDir$clientClassesString
 stubsClassesDir="$clientGenDir/stubs"
 clientDir="$devRootDir/src/biosim/client"
 controlName="biosim.client.control.BioSimulator"
-separator=":"
-serverType=`uname`
-if [ "$serverType" == "CYGWIN_NT-5.1" ]
-then
-	separator=";"
-fi
 jacoClasspath="$JACORB_HOME/lib/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME/lib"
 jacoInvocation="java -classpath $clientClassesDir$separator$jacoClasspath$separator$CLASSPATH $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
 echo "	-starting client"
