@@ -1,4 +1,5 @@
-; BIOSIM Installer Script using NSIS (SuperPimp)
+;--------------------------------
+;BIOSIM Installer Script using NSIS (SuperPimp)
 
 !define MUI_PRODUCT "BioSim" 
 !define MUI_VERSION "1.0"
@@ -67,9 +68,6 @@ Section "BioSim Program (must be installed)" ; (default section)
 
 	lbl_noWebsite:
 		File biosim.jar
-		File run-distro-server.bat
-		File run-distro-client.bat
-		File run-distro-nameserver.bat
 		File run-biosim.bat
 		File biosim.ico
 		File LICENSE.txt
