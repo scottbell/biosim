@@ -27,7 +27,7 @@ public abstract class DirtyWaterStoreSensorImpl extends GenericSensorImpl implem
 		return myDirtyWaterStore.getCapacity();
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(getInput());
 	}
 }

@@ -26,7 +26,7 @@ public class NitrogenInFlowRateActuatorImpl extends GenericActuatorImpl implemen
 		myIndex = pIndex;
 	}
 	
-	protected BioModule getOutputModule(){
+	public BioModule getOutputModule(){
 		return (BioModule)(myConsumer);
 	}
 	

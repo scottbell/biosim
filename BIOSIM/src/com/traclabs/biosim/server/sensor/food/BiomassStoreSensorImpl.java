@@ -27,7 +27,7 @@ public abstract class BiomassStoreSensorImpl extends GenericSensorImpl implement
 		return myBiomassStore.getCapacity();
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(getInput());
 	}
 }

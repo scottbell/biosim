@@ -34,7 +34,7 @@ public class H2InFlowRateSensorImpl extends GenericSensorImpl implements H2InFlo
 		return myConsumer;
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(myConsumer);
 	}
 	

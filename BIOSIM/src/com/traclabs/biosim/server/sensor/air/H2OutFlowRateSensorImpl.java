@@ -34,7 +34,7 @@ public class H2OutFlowRateSensorImpl extends GenericSensorImpl implements H2OutF
 		return myProducer;
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(myProducer);
 	}
 	

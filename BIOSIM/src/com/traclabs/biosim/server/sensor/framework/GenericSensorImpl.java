@@ -39,7 +39,7 @@ public abstract class GenericSensorImpl extends BioModuleImpl implements Generic
 		}
 	}
 	
-	protected abstract BioModule getInputModule();
+	public abstract BioModule getInputModule();
 	
 	public void log(){
 		//If not initialized, fill in the log

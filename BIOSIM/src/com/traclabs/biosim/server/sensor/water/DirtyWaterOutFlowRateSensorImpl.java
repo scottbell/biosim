@@ -38,7 +38,7 @@ public class DirtyWaterOutFlowRateSensorImpl extends GenericSensorImpl implement
 		return myIndex;
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(myProducer);
 	}
 }

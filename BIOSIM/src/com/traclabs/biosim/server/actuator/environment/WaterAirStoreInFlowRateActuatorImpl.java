@@ -31,7 +31,7 @@ public class WaterAirStoreInFlowRateActuatorImpl extends GenericActuatorImpl imp
 		return myConsumer.getWaterAirStoreInputMaxFlowRate(myIndex);
 	}
 	
-	protected BioModule getOutputModule(){
+	public BioModule getOutputModule(){
 		return (BioModule)(myConsumer);
 	}
 	

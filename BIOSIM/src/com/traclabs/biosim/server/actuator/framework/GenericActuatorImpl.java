@@ -40,7 +40,7 @@ public abstract class GenericActuatorImpl extends BioModuleImpl implements Gener
 	
 	protected abstract void processData();
 	
-	protected abstract BioModule getOutputModule();
+	public abstract BioModule getOutputModule();
 	
 	public void log(){
 		//If not initialized, fill in the log

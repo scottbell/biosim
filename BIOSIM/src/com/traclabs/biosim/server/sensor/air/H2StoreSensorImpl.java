@@ -27,7 +27,7 @@ public abstract class H2StoreSensorImpl extends GenericSensorImpl implements H2S
 		return myH2Store.getCapacity();
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(getInput());
 	}
 }

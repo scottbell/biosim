@@ -23,7 +23,7 @@ public abstract class FoodProcessorSensorImpl extends GenericSensorImpl implemen
 		return myFoodProcessor;
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(getInput());
 	}
 }

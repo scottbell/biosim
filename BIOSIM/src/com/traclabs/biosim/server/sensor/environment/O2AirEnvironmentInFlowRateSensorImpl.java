@@ -35,7 +35,7 @@ public class O2AirEnvironmentInFlowRateSensorImpl extends GenericSensorImpl impl
 		return myConsumer;
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(myConsumer);
 	}
 	

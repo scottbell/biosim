@@ -35,7 +35,7 @@ public class AirInFlowRateSensorImpl extends GenericSensorImpl implements AirInF
 		return myConsumer;
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(myConsumer);
 	}
 	

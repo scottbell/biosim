@@ -27,7 +27,7 @@ public abstract class NitrogenStoreSensorImpl extends GenericSensorImpl implemen
 		return myNitrogenStore.getCapacity();
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(getInput());
 	}
 }

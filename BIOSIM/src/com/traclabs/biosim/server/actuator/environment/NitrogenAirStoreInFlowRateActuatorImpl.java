@@ -31,7 +31,7 @@ public class NitrogenAirStoreInFlowRateActuatorImpl extends GenericActuatorImpl 
 		return myConsumer.getNitrogenAirStoreInputMaxFlowRate(myIndex);
 	}
 	
-	protected BioModule getOutputModule(){
+	public BioModule getOutputModule(){
 		return (BioModule)(myConsumer);
 	}
 	

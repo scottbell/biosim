@@ -35,7 +35,7 @@ public class WaterAirStoreInFlowRateSensorImpl extends GenericSensorImpl impleme
 		return myConsumer;
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(myConsumer);
 	}
 	

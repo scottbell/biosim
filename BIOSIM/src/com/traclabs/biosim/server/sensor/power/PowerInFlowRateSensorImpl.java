@@ -34,7 +34,7 @@ public class PowerInFlowRateSensorImpl extends GenericSensorImpl implements Powe
 		return myConsumer;
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(myConsumer);
 	}
 	

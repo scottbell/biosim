@@ -21,7 +21,7 @@ public class CrewGroupProductivitySensorImpl extends CrewGroupSensorImpl impleme
 	protected void notifyListeners(){
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(getInput());
 	}
 }

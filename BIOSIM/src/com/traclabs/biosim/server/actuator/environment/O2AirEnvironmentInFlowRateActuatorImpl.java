@@ -31,7 +31,7 @@ public class O2AirEnvironmentInFlowRateActuatorImpl extends GenericActuatorImpl 
 		return myConsumer.getO2AirEnvironmentInputMaxFlowRate(myIndex);
 	}
 	
-	protected BioModule getOutputModule(){
+	public BioModule getOutputModule(){
 		return (BioModule)(myConsumer);
 	}
 	

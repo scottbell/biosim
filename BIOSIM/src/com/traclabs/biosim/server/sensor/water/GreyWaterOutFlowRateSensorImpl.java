@@ -38,7 +38,7 @@ public class GreyWaterOutFlowRateSensorImpl extends GenericSensorImpl implements
 		return myIndex;
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(myProducer);
 	}
 }

@@ -23,7 +23,7 @@ public abstract class CrewGroupSensorImpl extends GenericSensorImpl implements C
 		return myCrewGroup;
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(getInput());
 	}
 }

@@ -34,7 +34,7 @@ public class DryWasteInFlowRateSensorImpl extends GenericSensorImpl implements D
 		return myConsumer.getDryWasteInputMaxFlowRate(myIndex);
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(myConsumer);
 	}
 	

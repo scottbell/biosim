@@ -26,7 +26,7 @@ public class H2InFlowRateActuatorImpl extends GenericActuatorImpl implements H2I
 		myIndex = pIndex;
 	}
 	
-	protected BioModule getOutputModule(){
+	public BioModule getOutputModule(){
 		return (BioModule)(myConsumer);
 	}
 	

@@ -23,7 +23,7 @@ public abstract class PowerPSSensorImpl extends GenericSensorImpl implements Pow
 		return myPowerPS;
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(getInput());
 	}
 }

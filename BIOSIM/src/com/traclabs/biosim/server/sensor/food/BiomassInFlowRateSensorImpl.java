@@ -34,7 +34,7 @@ public class BiomassInFlowRateSensorImpl extends GenericSensorImpl implements Bi
 		return myConsumer;
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(myConsumer);
 	}
 	
