@@ -490,11 +490,9 @@
 	
 	<!-- Module declarations -->
 	<xsd:complexType name="BioModuleType">
-		<xsd:sequence>
-			<xsd:element name="name" type="xsd:string"/>
-			<xsd:element name="isLoggingEnabled" type="xsd:string"/>
-			<xsd:element name="isBreakdownEnabled" type="xsd:boolean"/>
-		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="required"/>
+		<xsd:attribute name="isLoggingEnabled" type="xsd:boolean" default="false"/>
+		<xsd:attribute name="isBreakdownEnabled" type="xsd:boolean" default="false"/>
 	</xsd:complexType>
 	
 	<!-- Store declarations -->
