@@ -10,8 +10,6 @@ import biosim.idl.power.*;
  */
 
 public class AES extends WaterRSSubSystem{
-	//The subsystem to send the water to next
-	private PPS myPPS;
 	private float currentPPSWaterProduced = 0f;
 
 	/**
@@ -31,24 +29,8 @@ public class AES extends WaterRSSubSystem{
 	*/
 	private void pushWater(){
 		currentPPSWaterProduced = waterLevel;
-		myPPS.addWater(currentPPSWaterProduced);
+		myWaterRS.getPPS().addWater(currentPPSWaterProduced);
 		waterLevel = 0;
-	}
-
-	/**
-	* Collects references to subsystems needed for putting/getting resources
-	*/
-	private void collectReferences(){
-		if (!hasCollectedReferences){
-			try{
-				myPPS = myWaterRS.getPPS();
-				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"+myWaterRS.getID()));
-				hasCollectedReferences = true;
-			}
-			catch (org.omg.CORBA.UserException e){
-				e.printStackTrace();
-			}
-		}
 	}
 
 	/**
@@ -57,25 +39,18 @@ public class AES extends WaterRSSubSystem{
 	* 2) Flushes the water from this subsystem to the PPS.
 	*/
 	public void tick(){
-		if (enabled){
-			collectReferences();
-			gatherPower();
-			if (hasEnoughPower){
+		super.tick();
+		if (enabled)
+			if (hasEnoughPower)
 				pushWater();
-			}
-			else{
+			else
 				currentPPSWaterProduced = 0f;
-			}
-		}
-		else{
-				currentPowerConsumed = 0f;
+		else
 				currentPPSWaterProduced = 0f;
-		}
 	}
 
 	public void reset(){
 		super.reset();
-		currentPowerConsumed = 0f;
 		currentPPSWaterProduced = 0f;
 	}
 }

@@ -11,9 +11,6 @@ import biosim.idl.power.*;
  */
 
 public class RO extends WaterRSSubSystem{
-	//The subsystem to send the water to next
-	private AES myAES;
-	private PPS myPPS;
 	private float currentAESWaterProduced = 0f;
 	private float currentPPSWaterProduced = 0f;
 
@@ -37,15 +34,15 @@ public class RO extends WaterRSSubSystem{
 	* Flushes the water from this subsystem to the AES
 	*/
 	private void pushWater(){
-		if (myAES.isEnabled()){
+		if (myWaterRS.getAES().isEnabled()){
 			currentAESWaterProduced = (new Double(waterLevel * 0.15f)).floatValue();
-			myAES.addWater(currentAESWaterProduced);
+			myWaterRS.getAES().addWater(currentAESWaterProduced);
 		}
 		else{
 			currentAESWaterProduced = 0f;
 		}
 		currentPPSWaterProduced = (new Double(waterLevel * 0.85f)).floatValue();
-		myPPS.addWater(currentPPSWaterProduced);
+		myWaterRS.getPPS().addWater(currentPPSWaterProduced);
 		waterLevel = 0;
 	}
 
@@ -55,9 +52,8 @@ public class RO extends WaterRSSubSystem{
 	* 2) Flushes the water from this subsystem to the AES.
 	*/
 	public void tick(){
+		super.tick();
 		if (enabled){
-			collectReferences();
-			gatherPower();
 			if (hasEnoughPower){
 				pushWater();
 			}
@@ -69,30 +65,11 @@ public class RO extends WaterRSSubSystem{
 		else{
 			currentAESWaterProduced = 0f;
 			currentPPSWaterProduced = 0f;
-			currentPowerConsumed = 0;
-		}
-	}
-
-	/**
-	* Collects references to subsystems needed for putting/getting resources
-	*/
-	private void collectReferences(){
-		if (!hasCollectedReferences){
-			try{
-				myAES = myWaterRS.getAES();
-				myPPS = myWaterRS.getPPS();
-				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"+myWaterRS.getID()));
-				hasCollectedReferences = true;
-			}
-			catch (org.omg.CORBA.UserException e){
-				e.printStackTrace();
-			}
 		}
 	}
 
 	public void reset(){
 		super.reset();
-		currentPowerConsumed = 0;
 		currentAESWaterProduced = 0f;
 		currentPPSWaterProduced = 0f;
 	}
