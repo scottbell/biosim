@@ -20,6 +20,4 @@ public abstract class GenericSensor extends BioModuleImpl implements GenericSens
 	
 	public void registerListener(){
 	}
-	
-	
 }
