@@ -10,19 +10,10 @@ import java.io.*;
 
 public class SimCommandLine
 {
-	BioHolder myHolder;
 	BioDriver myDriver;
-	/**
-	* Runs the commandline front end for the simulation.
-	*/
-	
-	public SimCommandLine(){
-		myHolder = pHolder;
-	}
 	
 	public void runCommandLine(){
-		myHolder = new BioHolder();
-		myDriver = myHolder.getBioDriver();;
+		myDriver = BioHolder.getBioDriver();;
 		BufferedReader userInputReader = new BufferedReader(new InputStreamReader(System.in));
 		while (true){
 			try{

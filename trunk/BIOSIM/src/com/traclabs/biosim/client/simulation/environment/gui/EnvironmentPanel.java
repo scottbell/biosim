@@ -12,12 +12,8 @@ import java.awt.*;
 
 public class EnvironmentPanel extends BioTabbedPanel
 {
-	public EnvironmentPanel(BioSimulator pBioSimulator){
-		super(pBioSimulator);
-	}
-	
 	protected void createPanels(){
-		myTextPanel = new EnvironmentTextPanel(myBioSimulator);
+		myTextPanel = new EnvironmentTextPanel();
 		myChartPanel = new BioTabPanel();
 		mySchematicPanel = new BioTabPanel();
 	}

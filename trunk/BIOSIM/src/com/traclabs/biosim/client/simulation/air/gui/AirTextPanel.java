@@ -32,8 +32,6 @@ public class AirTextPanel extends BioTabPanel
 	private AirRS myAirRS;
 	private O2Store myO2Store;
 	private CO2Store myCO2Store;
-	//Used for registereing this panel (for knowing when a tick occurs)
-	private BioSimulator myBioSimulator;
 	//For formatting floats
 	private DecimalFormat numFormat;
 
@@ -41,11 +39,10 @@ public class AirTextPanel extends BioTabPanel
 	* Creates and registers this panel.
 	* @param pBioSimulator	The Biosimulator this Panel will register itself with.
 	*/
-	public AirTextPanel(BioSimulator pBioSimulator){
-		myBioSimulator = pBioSimulator;
-		myAirRS = (AirRS)(myBioSimulator.getBioModule(BioSimulator.airRSName));
-		myO2Store = (O2Store)(myBioSimulator.getBioModule(BioSimulator.O2StoreName));
-		myCO2Store = (CO2Store)(myBioSimulator.getBioModule(BioSimulator.CO2StoreName));
+	public AirTextPanel(){
+		myAirRS = (AirRS)(BioHolder.getBioModule(BioHolder.airRSName));
+		myO2Store = (O2Store)(BioHolder.getBioModule(BioHolder.O2StoreName));
+		myCO2Store = (CO2Store)(BioHolder.getBioModule(BioHolder.CO2StoreName));
 		buildGui();
 	}
 

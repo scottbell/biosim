@@ -25,8 +25,6 @@ public class CrewTextPanel extends BioTabPanel
 	private JLabel noCrewLabel;
 	//Refernce to the server where crew information is pulled
 	private CrewGroup myCrew;
-	//BioSimulator that CrewPanel registers with
-	private BioSimulator myBioSimulator;
 	//Array of crew people pulled from server
 	private CrewPerson[] myCrewPeople;
 	//Vector of crew people GUI's and their respective GUI components
@@ -38,10 +36,9 @@ public class CrewTextPanel extends BioTabPanel
 	* Creates and registers this panel.
 	* @param pBioSimulator	The Biosimulator this Panel will register itself with.
 	*/
-	public CrewTextPanel(BioSimulator pBioSimulator){
+	public CrewTextPanel(){
 		numFormat = new DecimalFormat("#,##0.00;(#)");
-		myBioSimulator = pBioSimulator;
-		myCrew = (CrewGroup)(myBioSimulator.getBioModule(BioSimulator.crewName));
+		myCrew = (CrewGroup)(BioHolder.getBioModule(BioHolder.crewName));
 		crewPersonGUIVector = new Vector();
 		buildGui();
 	}
@@ -50,7 +47,7 @@ public class CrewTextPanel extends BioTabPanel
 	* Refreshes GUI when simulation has been restarted and repacks panel
 	*/
 	private void rebuildGui(){
-		myCrew = (CrewGroup)(myBioSimulator.getBioModule(BioSimulator.crewName));
+		myCrew = (CrewGroup)(BioHolder.getBioModule(BioHolder.crewName));
 		crewPersonGUIVector = new Vector();
 		buildGui();
 		SimDesktopFrame mySimFrame = getSimFrame();

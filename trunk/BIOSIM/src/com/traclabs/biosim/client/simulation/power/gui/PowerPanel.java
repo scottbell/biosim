@@ -12,12 +12,8 @@ import java.awt.*;
 
 public class PowerPanel extends BioTabbedPanel
 {
-	public PowerPanel(BioSimulator pBioSimulator){
-		super(pBioSimulator);
-	}
-	
 	protected void createPanels(){
-		myTextPanel = new PowerTextPanel(myBioSimulator);
+		myTextPanel = new PowerTextPanel();
 		myChartPanel = new BioTabPanel();
 		mySchematicPanel = new BioTabPanel();
 	}

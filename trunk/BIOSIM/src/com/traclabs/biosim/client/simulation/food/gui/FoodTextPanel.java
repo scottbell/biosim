@@ -35,8 +35,6 @@ public class FoodTextPanel extends BioTabPanel
 	private BiomassStore myBiomassStore;
 	private FoodProcessor myFoodProcessor;
 	private FoodStore myFoodStore;
-	//Used for registereing this panel (for knowing when a tick occurs)
-	private BioSimulator myBioSimulator;
 	//For formatting floats
 	private DecimalFormat numFormat;
 	
@@ -44,12 +42,11 @@ public class FoodTextPanel extends BioTabPanel
 	* Creates and registers this panel.
 	* @param pBioSimulator	The Biosimulator this Panel will register itself with.
 	*/
-	public FoodTextPanel(BioSimulator pBioSimulator){
-		myBioSimulator = pBioSimulator;
-		myBiomassRS = (BiomassRS)(myBioSimulator.getBioModule(BioSimulator.biomassRSName));
-		myBiomassStore = (BiomassStore)(myBioSimulator.getBioModule(BioSimulator.biomassStoreName));
-		myFoodProcessor = (FoodProcessor)(myBioSimulator.getBioModule(BioSimulator.foodProcessorName));
-		myFoodStore = (FoodStore)(myBioSimulator.getBioModule(BioSimulator.foodStoreName));
+	public FoodTextPanel(){
+		myBiomassRS = (BiomassRS)(BioHolder.getBioModule(BioHolder.biomassRSName));
+		myBiomassStore = (BiomassStore)(BioHolder.getBioModule(BioHolder.biomassStoreName));
+		myFoodProcessor = (FoodProcessor)(BioHolder.getBioModule(BioHolder.foodProcessorName));
+		myFoodStore = (FoodStore)(BioHolder.getBioModule(BioHolder.foodStoreName));
 		buildGui();
 	}
 	

@@ -25,8 +25,6 @@ public class EnvironmentTextPanel extends BioTabPanel
 	private JPanel airPanel;
 	//Server required for data polling
 	private SimEnvironment mySimEnvironment;
-	//Used for registereing this panel (for knowing when a tick occurs)
-	private BioSimulator myBioSimulator;
 	//For formatting floats
 	private DecimalFormat numFormat;
 	
@@ -34,9 +32,8 @@ public class EnvironmentTextPanel extends BioTabPanel
 	* Creates and registers this panel.
 	* @param pBioSimulator	The Biosimulator this Panel will register itself with.
 	*/
-	public EnvironmentTextPanel(BioSimulator pBioSimulator){
-		myBioSimulator = pBioSimulator;
-		mySimEnvironment = (SimEnvironment)(myBioSimulator.getBioModule(BioSimulator.simEnvironmentName));
+	public EnvironmentTextPanel(){
+		mySimEnvironment = (SimEnvironment)(BioHolder.getBioModule(BioHolder.simEnvironmentName));
 		buildGui();
 	}
 	

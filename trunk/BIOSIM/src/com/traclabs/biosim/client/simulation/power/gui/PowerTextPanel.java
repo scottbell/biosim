@@ -25,19 +25,15 @@ public class PowerTextPanel extends BioTabPanel
 	//Servers required for data polling
 	private PowerPS myPowerPS;
 	private PowerStore myPowerStore;
-	//Used for registereing this panel (for knowing when a tick occurs)
-	private BioSimulator myBioSimulator;
 	//For formatting floats
 	private DecimalFormat numFormat;
 	
 	/**
 	* Creates and registers this panel.
-	* @param pBioSimulator	The Biosimulator this Panel will register itself with.
 	*/
-	public PowerTextPanel(BioSimulator pBioSimulator){
-		myBioSimulator = pBioSimulator;
-		myPowerPS = (PowerPS)(myBioSimulator.getBioModule(BioSimulator.powerPSName));
-		myPowerStore = (PowerStore)(myBioSimulator.getBioModule(BioSimulator.powerStoreName));
+	public PowerTextPanel(){
+		myPowerPS = (PowerPS)(BioHolder.getBioModule(BioHolder.powerPSName));
+		myPowerStore = (PowerStore)(BioHolder.getBioModule(BioHolder.powerStoreName));
 		buildGui();
 	}
 	

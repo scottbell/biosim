@@ -12,12 +12,8 @@ import java.awt.*;
 
 public class AirPanel extends BioTabbedPanel
 {
-	public AirPanel(BioSimulator pBioSimulator){
-		super(pBioSimulator);
-	}
-	
 	protected void createPanels(){
-		myTextPanel = new AirTextPanel(myBioSimulator);
+		myTextPanel = new AirTextPanel();
 		myChartPanel = new BioTabPanel();
 		mySchematicPanel = new BioTabPanel();
 	}

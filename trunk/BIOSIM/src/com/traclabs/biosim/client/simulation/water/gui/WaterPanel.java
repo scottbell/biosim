@@ -12,13 +12,9 @@ import java.awt.*;
 
 public class WaterPanel extends BioTabbedPanel
 {
-	public WaterPanel(BioSimulator pBioSimulator){
-		super(pBioSimulator);
-	}
-	
 	protected void createPanels(){
-		myTextPanel = new WaterTextPanel(myBioSimulator);
-		myChartPanel = new WaterChartPanel(myBioSimulator);
+		myTextPanel = new WaterTextPanel();
+		myChartPanel = new WaterChartPanel();
 		mySchematicPanel = new BioTabPanel();
 	}
 }
