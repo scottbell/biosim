@@ -11,7 +11,6 @@
 				- 1 daily EVA
 				- cabin leak (very small)
 				- small C02 tank
-				- AES off
 				- roughly 11.82 MJ of energy expended by each crew member
 				- 2 malfunctions
 		</comment>
@@ -171,7 +170,7 @@
 			</Injector>
 		</framework>
 		<power>
-			<PowerPS name="PowerPS" generation="SOLAR">
+			<PowerPS name="PowerPS" generationType="SOLAR">
 				<lightConsumer maxFlowRates="0" desiredFlowRates="0" inputs="BaseCrewEnvironment"/>
 				<powerProducer maxFlowRates="10000" desiredFlowRates="10000" outputs="BasePowerStore"/>
 			</PowerPS>

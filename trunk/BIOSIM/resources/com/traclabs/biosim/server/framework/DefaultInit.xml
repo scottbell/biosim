@@ -160,7 +160,7 @@
 			</Injector>
 		</framework>
 		<power>
-			<PowerPS name="PowerPS" generation="SOLAR">
+			<PowerPS name="PowerPS" generationType="SOLAR">
 				<lightConsumer maxFlowRates="0" desiredFlowRates="0" inputs="CrewEnvironment"/>
 				<powerProducer maxFlowRates="10000" desiredFlowRates="10000" outputs="PowerStore"/>
 			</PowerPS>
