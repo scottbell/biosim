@@ -271,7 +271,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myAirRSName = "AirRS"+myID;
 		myCO2StoreName = "CO2Store"+myID;
 		myO2StoreName = "O2Store"+myID;
-		myO2StoreName = "H2Store"+myID;
+		myH2StoreName = "H2Store"+myID;
 		myBiomassRSName = "BiomassRS"+myID;
 		myBiomassStoreName = "BiomassStore"+myID;
 		myFoodProcessorName = "FoodProcessor"+myID;
@@ -342,7 +342,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		//Stores
 		myO2StoreLevelSensorName = "O2StoreLevelSensor"+myID;
 		myCO2StoreLevelSensorName = "CO2StoreLevelSensor"+myID;
-		myCO2StoreLevelSensorName = "H2StoreLevelSensor"+myID;
+		myH2StoreLevelSensorName = "H2StoreLevelSensor"+myID;
 		myModuleNames.add(myO2StoreLevelSensorName);
 		myModuleNames.add(myCO2StoreLevelSensorName);
 		myModuleNames.add(myH2StoreLevelSensorName);
