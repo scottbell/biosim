@@ -46,8 +46,11 @@ public class EnvironmentTextPanel extends TimedPanel
 		GridBagLayout gridbag = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();
 		setLayout(gridbag);
-		
-		JLabel moduleLabel = new JLabel(mySimEnvironment.getModuleName());
+		JLabel moduleLabel = new JLabel("Environment");
+		if (mySimEnvironment.getModuleName().startsWith(BioHolder.crewEnvironmentName))
+			moduleLabel.setText("Crew Environment");
+		else if (mySimEnvironment.getModuleName().startsWith(BioHolder.plantEnvironmentName))
+			moduleLabel.setText("Plant Environment");
 		JPanel modulePanel =  new JPanel();
 		modulePanel.setLayout(new BorderLayout());
 		modulePanel.setBorder(BorderFactory.createTitledBorder("Module"));

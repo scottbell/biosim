@@ -34,7 +34,14 @@ public class EnvironmentPieChartPanel extends GraphPanel
 	protected void createGraph(){
 		// create the chart...
 		refresh();
-		myChart = ChartFactory.createPie3DChart(mySimEnvironment.getModuleName(), myDataset, true, true, false);
+		String titleText = "Environment";
+		if (mySimEnvironment.getModuleName().startsWith(BioHolder.crewEnvironmentName))
+			titleText = "Crew Environment";
+		else if (mySimEnvironment.getModuleName().startsWith(BioHolder.plantEnvironmentName))
+			titleText = "Plant Environment";
+		System.out.println(mySimEnvironment.getModuleName() +" + "+BioHolder.plantEnvironmentName);
+		System.out.println(mySimEnvironment.getModuleName() +" + "+BioHolder.crewEnvironmentName);
+		myChart = ChartFactory.createPie3DChart(titleText, myDataset, true, true, false);
 		myPlot = (Pie3DPlot)(myChart.getPlot());
 		myPlot.setDepthFactor(0.1d);
 		initDataset();

@@ -20,6 +20,7 @@ public class AirStorePanel extends GraphPanel
 	private O2Store myO2Store;
 	private CO2Store myCO2Store;
 	private DefaultCategoryDataset myDataset;
+	private ValueAxis rangeAxis;
 
 	protected void createGraph(){
 		// create the chart...
@@ -37,7 +38,7 @@ public class AirStorePanel extends GraphPanel
 		          );
 		// add the chart to a panel...
 		CategoryPlot myPlot = myChart.getCategoryPlot();
-		ValueAxis rangeAxis = myPlot.getRangeAxis();
+		rangeAxis = myPlot.getRangeAxis();
 		rangeAxis.setAutoRange(false);
 		rangeAxis.setRange(0.0, myO2Store.getCapacity());
 		Renderer renderer = myPlot.getRenderer();
@@ -61,6 +62,11 @@ public class AirStorePanel extends GraphPanel
 			myDataset.addValue(myCO2Store.getLevel(), series2, category);
 		}
 		else{
+			float capacity = Math.max(myO2Store.getCapacity(), myCO2Store.getCapacity());
+			if ((rangeAxis.getRange().getUpperBound() != capacity) && (capacity > 0)){
+				rangeAxis.setRange(0.0, capacity);
+				myChartPanel.repaint();
+			}
 			myDataset.setValue(new Float(myO2Store.getLevel()), "O2", "");
 			myDataset.setValue(new Float(myCO2Store.getLevel()), "CO2", "");
 		}
