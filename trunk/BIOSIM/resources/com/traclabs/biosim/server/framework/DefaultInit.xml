@@ -40,7 +40,7 @@
 						<activity name="mission" length="9" intensity="3"/>
 						<activity name="health" length="1" intensity="2"/>
 						<activity name="maintenance" length="1" intensity="2"/>
-						<activity name="recreation" length="2" intensity="2"/>
+						<activity name="leisure" length="2" intensity="2"/>
 					</schedule>
 				</crewPerson>
 				<crewPerson name="Stephanie Stevens" age="25" weight="56" sex="FEMALE">
@@ -52,7 +52,7 @@
 						<activity name="mission" length="9" intensity="3"/>
 						<activity name="health" length="1" intensity="2"/>
 						<activity name="maintenance" length="1" intensity="2"/>
-						<activity name="recreation" length="2" intensity="2"/>
+						<activity name="leisure" length="2" intensity="2"/>
 					</schedule>
 				</crewPerson>
 				<crewPerson name="Bill Williams" age="30" weight="75" sex="MALE">
@@ -64,7 +64,7 @@
 						<activity name="mission" length="9" intensity="3"/>
 						<activity name="health" length="1" intensity="2"/>
 						<activity name="maintenance" length="1" intensity="2"/>
-						<activity name="recreation" length="2" intensity="2"/>
+						<activity name="leisure" length="2" intensity="2"/>
 					</schedule>
 				</crewPerson>
 				<crewPerson name="Janet Janey" age="22" weight="58" sex="FEMALE">
@@ -76,7 +76,7 @@
 						<activity name="mission" length="9" intensity="3"/>
 						<activity name="health" length="1" intensity="2"/>
 						<activity name="maintenance" length="1" intensity="2"/>
-						<activity name="recreation" length="2" intensity="2"/>
+						<activity name="leisure" length="2" intensity="2"/>
 					</schedule>
 				</crewPerson>
 			</CrewGroup>
@@ -180,6 +180,7 @@
 		<crew>
 			<CrewGroupDeathSensor name="CrewGroupDeathSensor" input="CrewGroup"/>
 			<CrewGroupProductivitySensor name="CrewGroupProductivitySensor" input="CrewGroup"/>
+			<CrewGroupAnyDeadSensor name="CrewGroupAnyDeadSensor" input="CrewGroup"/>
 		</crew>
 		<environment>
 			<AirInFlowRateSensor name="AirRSAirInFlowRateSensor" index="0" input="AirRS"/>

@@ -29,7 +29,7 @@ public class Schedule{
 		orderedSchedule = new Vector();
 		ActivityImpl bornActivityImpl = new ActivityImpl("born", 0, 0);
 		ActivityImpl deadActivityImpl = new ActivityImpl("dead", 0, 0);
-		ActivityImpl sickActivityImpl = new ActivityImpl("sick", 24, 1);
+		ActivityImpl sickActivityImpl = new ActivityImpl("sick", 12, 1);
 		myBornActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(bornActivityImpl));
 		myDeadActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(deadActivityImpl));
 		mySickActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(sickActivityImpl));
