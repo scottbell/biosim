@@ -164,7 +164,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 
     private static final float CO2_HIGH_RECOVERY_RATE = 0.005f;
 
-    private static final float O2_HIGH_RATIO = 0.5f;
+    private static final float O2_HIGH_RATIO = 1.0f;
 
     private static final float O2_HIGH_TILL_DEAD = 8f;
 
@@ -225,7 +225,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
         consumedCO2Buffer = new SimpleBuffer(CO2_HIGH_TILL_DEAD * CO2_HIGH_RATIO,
                 CO2_HIGH_TILL_DEAD * CO2_HIGH_RATIO);
         consumedLowOxygenBuffer = new SimpleBuffer(O2_LOW_TILL_DEAD * O2_LOW_RATIO,
-                O2_HIGH_TILL_DEAD * O2_HIGH_RATIO);
+                O2_LOW_TILL_DEAD * O2_LOW_RATIO);
         highOxygenBuffer = new SimpleBuffer(O2_HIGH_TILL_DEAD * O2_HIGH_RATIO,
                 O2_HIGH_TILL_DEAD * O2_HIGH_RATIO);
         sleepBuffer = new SimpleBuffer(AWAKE_TILL_EXHAUSTION,
@@ -1036,7 +1036,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
         float sleepRiskReturn = sigmoidLikeProbability((sleepBuffer
                 .getCapacity() - sleepBuffer.getLevel())
                 / sleepBuffer.getCapacity());
-
         myLogger.debug(getName());
         myLogger
                 .debug("\tcalorie taken="
@@ -1060,12 +1059,22 @@ public class CrewPersonImpl extends CrewPersonPOA {
                         .getLevel()) / consumedWaterBuffer.getCapacity()
                 + " (level=" + consumedWaterBuffer.getLevel() + ", capacity="
                 + consumedWaterBuffer.getCapacity() + ")");
-        myLogger.debug("\toxygen taken="
+        myLogger.debug("\tlow oxygen taken="
                 + (O2Needed - O2Consumed)
-                + ", recovered "
+                + ", low recovered "
                 + O2_LOW_RECOVERY_RATE
                 * consumedLowOxygenBuffer.getCapacity()
-                + " O2 risk level="
+                + " low O2 risk level="
+                + (consumedLowOxygenBuffer.getCapacity() - consumedLowOxygenBuffer
+                        .getLevel()) / consumedLowOxygenBuffer.getCapacity()
+                + " (level=" + consumedLowOxygenBuffer.getLevel() + ", capacity="
+                + consumedLowOxygenBuffer.getCapacity() + ")");
+        myLogger.debug("\thigh oxygen taken="
+                + (O2Needed - O2Consumed)
+                + ", high recovered "
+                + O2_HIGH_RECOVERY_RATE
+                * highOxygenBuffer.getCapacity()
+                + " high O2 risk level="
                 + (consumedLowOxygenBuffer.getCapacity() - consumedLowOxygenBuffer
                         .getLevel()) / consumedLowOxygenBuffer.getCapacity()
                 + " (level=" + consumedLowOxygenBuffer.getLevel() + ", capacity="
