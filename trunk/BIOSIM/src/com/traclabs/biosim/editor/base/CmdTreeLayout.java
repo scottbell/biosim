@@ -104,9 +104,9 @@ public class CmdTreeLayout extends Cmd {
         while (e.hasMoreElements()) {
             NetEdge edge = (NetEdge) e.nextElement();
             NetPort edgeSrc = (NetPort) edge.getSourcePort();
-            EditorFigNode vesprDestFig = getDestination(edge, fig.getLayer());
+            EditorFigNode editorDestFig = getDestination(edge, fig.getLayer());
             // Arrange the child.
-            Rectangle thisChildRect = arrange(vesprDestFig, childRect);
+            Rectangle thisChildRect = arrange(editorDestFig, childRect);
 
             // Update UsedChildRect and ChildRect to reflect
             // the space taken by this child.
@@ -139,8 +139,8 @@ public class CmdTreeLayout extends Cmd {
         while (e.hasMoreElements()) {
             NetEdge edge = (NetEdge) e.nextElement();
             NetPort edgeSrc = (NetPort) edge.getSourcePort();
-            EditorFigNode vesprDestFig = getDestination(edge, fig.getLayer());
-            Rectangle thisChildRect = arrange(vesprDestFig, childRect);
+            EditorFigNode editorDestFig = getDestination(edge, fig.getLayer());
+            Rectangle thisChildRect = arrange(editorDestFig, childRect);
 
             // Update the child rect to have the remainder
             childRect.width -= thisChildRect.width + HorizontalSep;
@@ -224,8 +224,8 @@ public class CmdTreeLayout extends Cmd {
         while (e.hasMoreElements()) {
             NetEdge edge = (NetEdge) e.nextElement();
             NetPort edgeSrc = (NetPort) edge.getSourcePort();
-            EditorFigNode vesprDestFig = getDestination(edge, fig.getLayer());
-            childBoxes.add(getBoundingBox(vesprDestFig));
+            EditorFigNode editorDestFig = getDestination(edge, fig.getLayer());
+            childBoxes.add(getBoundingBox(editorDestFig));
         }
 
         /*

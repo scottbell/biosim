@@ -51,7 +51,7 @@ public class EditorCmdCopy extends Cmd implements ClipboardOwner {
             if (copies.size() > 0) {
 
                 if (_selection == null) {
-                    _tempFile = File.createTempFile("vespr", ".tmp");
+                    _tempFile = File.createTempFile("biosimEditor", ".tmp");
                     _tempFile.deleteOnExit();
                     _selection = new FileSelection(_tempFile);
                 }
@@ -68,7 +68,6 @@ public class EditorCmdCopy extends Cmd implements ClipboardOwner {
     }
 
     public void undoIt() {
-        System.out.println("VesprCmdCopy.undoIt");
     }
 
     public void lostOwnership(Clipboard parClipboard,

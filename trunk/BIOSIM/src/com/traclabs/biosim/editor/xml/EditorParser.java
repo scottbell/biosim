@@ -68,13 +68,13 @@ public class EditorParser extends DefaultHandler implements DocumentReader {
         // Note: we currently use a single instance to parse many files.
         // _netNodeList = new Hashtable();
     }
-
-    protected void handleVespr(Attributes attrs) {
-        //System.out.println("Handling VESPR tag");
+                                         
+    protected void handleEditor(Attributes attrs) {
+        //System.out.println("Handling EDITOR tag");
     }
 
     /*
-     * Set the display attributes that are common to the Vespr nodes.
+     * Set the display attributes that are common to the Editor nodes.
      */
     protected void handleAttributes(Attributes attrs, EditorFigNode node) {
         // Get the known attributes from the AttributeList
@@ -274,8 +274,8 @@ public class EditorParser extends DefaultHandler implements DocumentReader {
     public void startElement(String namespaceURI, String sName, String qName,
             Attributes attrs) throws SAXException {
         //System.out.println("Entering Start Element with " + qName);
-        if (qName.equals("VESPR")) {
-            handleVespr(attrs);
+        if (qName.equals("EDITOR")) {
+            handleEditor(attrs);
         } else if (qName.equals("Required")) {
             handleRequired(attrs);
         } else if (qName.equals("Optional")) {
@@ -338,4 +338,4 @@ public class EditorParser extends DefaultHandler implements DocumentReader {
         pc.parse(is, this);
         in.close();
     }
-} /* end class VesprParser */
+} /* end class EditorParser */

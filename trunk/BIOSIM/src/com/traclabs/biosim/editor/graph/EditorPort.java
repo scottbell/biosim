@@ -38,4 +38,4 @@ public class EditorPort extends NetPort implements Serializable {
 
         firePropertyChange("disposed", false, true);
     }
-} /* end class VesprPort */
+} /* end class EditorPort */

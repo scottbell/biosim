@@ -1,10 +1,3 @@
-/*
- * Copyright © 2004 S&K Technologies, Inc, 56 Old Hwy 93, St Ignatius, MT 98865
- * All rights reserved. U.S. Government Rights - Commercial software. Government
- * users are subject to S&K Technologies, Inc, standard license agreement and
- * applicable provisions of the FAR and its supplements. Use is subject to
- * license terms.
- */
 package com.traclabs.biosim.editor.base;
 
 import java.io.File;
@@ -34,7 +27,7 @@ public class CmdSaveEditor extends Cmd {
     }
 
     /**
-     * Saves a vespr document to a file. If the document does not have a
+     * Saves a editor document to a file. If the document does not have a
      * filename the user will be prompted for one.
      * 
      * @return Returns false if the save failed.
@@ -60,7 +53,7 @@ public class CmdSaveEditor extends Cmd {
     }
 
     /**
-     * Prompts the user for a filename and saves the vespr document to that
+     * Prompts the user for a filename and saves the editor document to that
      * file.
      * 
      * @return Returns false if the save failed or if it was cancelled by the

@@ -39,7 +39,7 @@ public class CmdExpandNode extends Cmd {
         SelectionManager sm = editor.getSelectionManager();
         Vector selections = sm.getFigs();
 
-        // If only one item is selected and it is a VesprFigNode then
+        // If only one item is selected and it is a EditorFigNode then
         //    Expand the node.
         if (selections.size() == 1) {
             Fig fig = (Fig) selections.get(0);

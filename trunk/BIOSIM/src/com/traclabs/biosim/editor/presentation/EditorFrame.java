@@ -1,10 +1,3 @@
-/*
- * Copyright © 2004 S&K Technologies, Inc, 56 Old Hwy 93, St Ignatius, MT 98865
- * All rights reserved. U.S. Government Rights - Commercial software. Government
- * users are subject to S&K Technologies, Inc, standard license agreement and
- * applicable provisions of the FAR and its supplements. Use is subject to
- * license terms.
- */
 package com.traclabs.biosim.editor.presentation;
 
 import java.awt.event.KeyEvent;
@@ -68,7 +61,7 @@ public class EditorFrame extends JGraphFrame {
     private static EditorFrame _active;
 
     public EditorFrame() {
-        this("VESPR - ", new BiosimEditor());
+        this("BiosimEditor - ", new BiosimEditor());
     }
 
     public EditorFrame(String title) {
@@ -148,7 +141,7 @@ public class EditorFrame extends JGraphFrame {
         KeyStroke ctrlN = KeyStroke.getKeyStroke(KeyEvent.VK_N,
                 KeyEvent.CTRL_MASK);
         newItem.setAccelerator(ctrlN);
-        file.add(newItem); //added for VESPR
+        file.add(newItem);
 
         // Create the Open menu item.
         JMenuItem openItem = file.add(new CmdOpenEditor());
@@ -240,7 +233,6 @@ public class EditorFrame extends JGraphFrame {
 
         edit.addSeparator();
 
-        //added for VESPR
         JMenuItem EditDomainName = new JMenuItem("Edit Domain Name");
         EditDomainName.setMnemonic('N');
         EditDomainName.setEnabled(false);
@@ -274,7 +266,6 @@ public class EditorFrame extends JGraphFrame {
         view.add(new CmdAdjustGuide());
         view.add(new CmdAdjustPageBreaks());
 
-        //added for VESPR
         JMenuItem Redraw = new JMenuItem("Redraw");
         Redraw.setMnemonic('R');
         view.add(Redraw);
@@ -291,7 +282,6 @@ public class EditorFrame extends JGraphFrame {
     }
 
     private void createZoomMenu() {
-        //added for VESPR
         JMenu zoom = new JMenu("Zoom");
         _menubar.add(zoom);
         zoom.setMnemonic('Z');
@@ -306,7 +296,6 @@ public class EditorFrame extends JGraphFrame {
                 KeyEvent.CTRL_MASK);
         zoomItem.setAccelerator(ctrlMinus);
 
-        //		zoom.add(new CmdZoom(0.0));
         zoom.add(new CmdZoomTo());
 
         zoom.addSeparator();
@@ -327,7 +316,6 @@ public class EditorFrame extends JGraphFrame {
     }
 
     private void createReportMenu() {
-        //added for VESPR
         JMenu report = new JMenu("Report");
         _menubar.add(report);
         report.setMnemonic('R');
@@ -447,14 +435,14 @@ public class EditorFrame extends JGraphFrame {
         CheckNetwork.setEnabled(false);
         help.add(CheckNetwork);
 
-        JMenuItem About = new JMenuItem("About VESPR");
+        JMenuItem About = new JMenuItem("About Biosim Editor");
         About.setMnemonic('A');
         About.setEnabled(false);
         help.add(About);
     }
 
     /**
-     * Close this vespr frame.
+     * Close this editor frame.
      */
     public void exit() {
         // Remove this editor from the document.
@@ -472,14 +460,8 @@ public class EditorFrame extends JGraphFrame {
 
         // Quit the application when no windows are left.
         _refCount--;
-
-        //		if (_refCount == 0) {
-        //			Main.getInstance().exit(0);
-        //		}
     }
-
-    ////////////////////////////////////////////////////////////////
-    // Cloneable implementation
+    
     public Object clone() {
         return new EditorFrame(getTitle(), (BiosimEditor) getGraph().getEditor()
                 .clone());

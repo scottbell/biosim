@@ -7,7 +7,7 @@
  * Use is subject to license terms.
  */
 /**
- * VesprSelectionManager marks the VESPR document dirty whenever figs are moved
+ * EditorSelectionManager marks the EDITOR document dirty whenever figs are moved
  * or resized.
  * 
  * @author Kevin Kusy

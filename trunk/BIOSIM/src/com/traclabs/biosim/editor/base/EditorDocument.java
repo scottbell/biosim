@@ -30,7 +30,7 @@ import com.traclabs.biosim.editor.xml.EditorParser;
 import com.traclabs.biosim.editor.xml.EditorWriter;
 
 /**
- * VesprDocument represents a document which contains a hierachy of nested vespr
+ * EditorDocument represents a document which contains a hierachy of nested editor
  * diagrams that can be saved to a file and opened to an editor for
  * modification. This class is used with the New, Open, and Save operations to
  * track modifications to the document. It is also used to store the filename
@@ -155,12 +155,12 @@ public class EditorDocument {
     }
 
     public SimpleFileFilter getFileFilter() {
-        String[] exts = { "vspr" };
-        return new SimpleFileFilter(exts, "VESPR Files (*.vspr)");
+        String[] exts = { "xml" };
+        return new SimpleFileFilter(exts, "Biosim Configuration Files (*.xml)");
     }
 
     public String getAppName() {
-        return "VESPR";
+        return "Biosim Editor";
     }
 
     public DocumentReader createReader() {

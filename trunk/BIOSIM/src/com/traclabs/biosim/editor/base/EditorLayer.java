@@ -80,7 +80,7 @@ public class EditorLayer extends LayerPerspective {
      * objects were being left in the GraphModel.
      */
     public void deleted(Fig f) {
-        // Notify the associated VESPR document that a fig has been
+        // Notify the associated EDITOR document that a fig has been
         // deleted. Any editor showing a child diagram for this fig
         // should switch to the root.
         // Assumes one layer can be displayed in several editors but

@@ -63,4 +63,4 @@ public class BiosimEditorMain {
         PropertyConfigurator.configure(logProps);
         BiosimEditorMain app = new BiosimEditorMain();
     }
-} /* end class VESPR */
+} /* end class EDITOR */

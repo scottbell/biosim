@@ -64,17 +64,15 @@ public class EditorWriter implements DocumentWriter {
     protected void saveFigs(java.util.List figs, Writer out, int indent) {
         EditorFigNode vf;
         try {
-            // For each VESPR Fig, write the information
+            // For each Editor Fig, write the information
             Iterator i = figs.iterator();
-            /* In the first loop, print out all the VesprFigNodes */
+            /* In the first loop, print out all the EditorFigNodes */
             while (i.hasNext()) {
                 Fig f = (Fig) i.next();
                 if (f instanceof EditorFigNode) {
-                    //System.out.println("VESPR Fig found");
                     vf = (EditorFigNode) f;
                     saveFigNode(vf, out, indent);
                 } else {
-                    //System.out.println("Non-VESPR Fig found");
                 }
             }
 
