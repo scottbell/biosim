@@ -334,16 +334,4 @@
 		<delete dir="${tmpDir}"/>
 		<delete dir="${javadocDir}"/>
 	</target>
-	
-	<target name="fetch" description="gets the latest version from CVS">
-		<cvs command="update -d"/>
-	</target>
-	
-	<target name="update" description="gets the latest version from CVS (alias to fetch)" depends="fetch">
-	</target>
-	
-	<target name="commit" description="gets the latest version from CVS">
-		<cvs command="commit -m ''"/>
-	</target>
-	
 </project>
