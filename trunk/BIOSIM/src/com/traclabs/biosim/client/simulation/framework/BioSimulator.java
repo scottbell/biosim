@@ -1,4 +1,4 @@
-package biosim.client.control;
+package biosim.client.framework;
 
 import biosim.idl.air.*;
 import biosim.idl.crew.*;
@@ -7,7 +7,7 @@ import biosim.idl.food.*;
 import biosim.idl.power.*;
 import biosim.idl.water.*;
 import biosim.idl.framework.*;
-import biosim.client.control.gui.*;
+import biosim.client.framework.gui.*;
 import biosim.client.util.*;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
