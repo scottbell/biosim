@@ -130,6 +130,8 @@ import com.traclabs.biosim.idl.simulation.air.CO2StoreHelper;
 import com.traclabs.biosim.idl.simulation.air.H2StoreHelper;
 import com.traclabs.biosim.idl.simulation.air.NitrogenStoreHelper;
 import com.traclabs.biosim.idl.simulation.air.O2StoreHelper;
+import com.traclabs.biosim.idl.simulation.air.OGSHelper;
+import com.traclabs.biosim.idl.simulation.air.VCCRHelper;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroupHelper;
 import com.traclabs.biosim.idl.simulation.environment.DehumidifierHelper;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironmentHelper;
@@ -362,6 +364,16 @@ public class BioHolderInitializer {
         myBioHolder.theAirRSModules.add(AirRSHelper
                 .narrow(grabModule(getModuleName(node))));
     }
+    
+    private static void fetchOGS(Node node) {
+        myBioHolder.theOGSModules.add(OGSHelper
+                .narrow(grabModule(getModuleName(node))));
+    }
+    
+    private static void fetchVCCR(Node node) {
+        myBioHolder.theVCCRModules.add(VCCRHelper
+                .narrow(grabModule(getModuleName(node))));
+    }
 
     private static void fetchO2Store(Node node) {
         myBioHolder.theO2Stores.add(O2StoreHelper
@@ -389,6 +401,10 @@ public class BioHolderInitializer {
             String childName = child.getNodeName();
             if (childName.equals("AirRS"))
                 fetchAirRS(child);
+            else if (childName.equals("OGS"))
+                fetchOGS(child);
+            else if (childName.equals("VCCR"))
+                fetchVCCR(child);
             else if (childName.equals("O2Store"))
                 fetchO2Store(child);
             else if (childName.equals("CO2Store"))

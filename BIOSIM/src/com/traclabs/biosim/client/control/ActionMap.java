@@ -1,4 +1,4 @@
-package com.traclabs.biosim.client.framework.control;
+package com.traclabs.biosim.client.control;
 
 import java.util.Map;
 import java.util.Random;
