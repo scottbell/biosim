@@ -1,0 +1,9 @@
+# activity	timeLength		intensity
+sleeping		6	1
+exercise		4	5
+eating		1	2
+maintenance	2	3
+science		11	3
+#DayEnd
+
+
