@@ -21,7 +21,6 @@ import com.traclabs.biosim.server.simulation.framework.GreyWaterConsumerDefiniti
 import com.traclabs.biosim.server.simulation.framework.PotableWaterProducerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.PowerConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
-import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
  * The Water Recovery System takes grey/dirty water and refines it to potable
@@ -81,23 +80,19 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
     }
     
     public PowerConsumerDefinition getPowerConsumerDefinition() {
-        return (PowerConsumerDefinition) (OrbUtils
-                .poaToCorbaObj(myPowerConsumerDefinitionImpl));
+        return myPowerConsumerDefinitionImpl.getCorbaObject();
     }
 
     public GreyWaterConsumerDefinition getGreyWaterConsumerDefinition() {
-        return (GreyWaterConsumerDefinition) (OrbUtils
-                .poaToCorbaObj(myGreyWaterConsumerDefinitionImpl));
+        return myGreyWaterConsumerDefinitionImpl.getCorbaObject();
     }
     
     public DirtyWaterConsumerDefinition getDirtyWaterConsumerDefinition() {
-        return (DirtyWaterConsumerDefinition) (OrbUtils
-                .poaToCorbaObj(myDirtyWaterConsumerDefinitionImpl));
+        return myDirtyWaterConsumerDefinitionImpl.getCorbaObject();
     }
 
     public PotableWaterProducerDefinition getPotableWaterProducerDefinition() {
-        return (PotableWaterProducerDefinition) (OrbUtils
-                .poaToCorbaObj(myPotableWaterProducerDefinitionImpl));
+        return myPotableWaterProducerDefinitionImpl.getCorbaObject();
     }
 
     /**

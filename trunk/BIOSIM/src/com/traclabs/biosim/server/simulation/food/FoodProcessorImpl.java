@@ -24,7 +24,6 @@ import com.traclabs.biosim.server.simulation.framework.FoodProducerDefinitionImp
 import com.traclabs.biosim.server.simulation.framework.PowerConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 import com.traclabs.biosim.server.simulation.framework.WaterProducerDefinitionImpl;
-import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
  * The Food Processor takes biomass (plants matter) and refines it to food for
@@ -92,23 +91,23 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements
     }
     
     public BiomassConsumerDefinition getBiomassConsumerDefinition(){
-        return (BiomassConsumerDefinition)(OrbUtils.poaToCorbaObj(myBiomassConsumerDefinitionImpl));
+        return myBiomassConsumerDefinitionImpl.getCorbaObject();
     }
     
     public PowerConsumerDefinition getPowerConsumerDefinition(){
-        return (PowerConsumerDefinition)(OrbUtils.poaToCorbaObj(myPowerConsumerDefinitionImpl));
+        return myPowerConsumerDefinitionImpl.getCorbaObject();
     }
     
     public WaterProducerDefinition getWaterProducerDefinition(){
-        return (WaterProducerDefinition)(OrbUtils.poaToCorbaObj(myWaterProducerDefinitionImpl));
+        return myWaterProducerDefinitionImpl.getCorbaObject();
     }
     
     public FoodProducerDefinition getFoodProducerDefinition(){
-        return (FoodProducerDefinition)(OrbUtils.poaToCorbaObj(myFoodProducerDefinitionImpl));
+        return myFoodProducerDefinitionImpl.getCorbaObject();
     }
     
     public DryWasteProducerDefinition getDryWasteProducerDefinition(){
-        return (DryWasteProducerDefinition)(OrbUtils.poaToCorbaObj(myDryWasteProducerDefinitionImpl));
+        return myDryWasteProducerDefinitionImpl.getCorbaObject();
     }
 
     /**

@@ -14,7 +14,6 @@ import com.traclabs.biosim.server.simulation.framework.O2ProducerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.PotableWaterConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.PowerConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
-import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
  * The Air Revitalization System Implementation. Takes in Air (O2, CO2, other)
@@ -53,19 +52,19 @@ public class OGSImpl extends SimBioModuleImpl implements OGSOperations,
     }
     
     public PowerConsumerDefinition getPowerConsumerDefinition(){
-        return (PowerConsumerDefinition)(OrbUtils.poaToCorbaObj(myPowerConsumerDefinitionImpl));
+        return myPowerConsumerDefinitionImpl.getCorbaObject();
     }
     
     public PotableWaterConsumerDefinition getPotableWaterConsumerDefinition(){
-        return (PotableWaterConsumerDefinition)(OrbUtils.poaToCorbaObj(myPotableWaterConsumerDefinitionImpl));
+        return myPotableWaterConsumerDefinitionImpl.getCorbaObject();
     }
     
     public O2ProducerDefinition getO2ProducerDefinition(){
-        return (O2ProducerDefinition)(OrbUtils.poaToCorbaObj(myO2ProducerDefinitionImpl));
+        return myO2ProducerDefinitionImpl.getCorbaObject();
     }
     
     public H2ProducerDefinition getH2ProducerDefinition(){
-        return (H2ProducerDefinition)(OrbUtils.poaToCorbaObj(myH2ProducerDefinitionImpl));
+        return myH2ProducerDefinitionImpl.getCorbaObject();
     }
 
     /**

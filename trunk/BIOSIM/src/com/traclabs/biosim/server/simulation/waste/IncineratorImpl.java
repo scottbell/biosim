@@ -20,7 +20,6 @@ import com.traclabs.biosim.server.simulation.framework.DryWasteConsumerDefinitio
 import com.traclabs.biosim.server.simulation.framework.O2ConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.PowerConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
-import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
  * The Incinerator takes dryWaste (plants matter) and refines it to food for the
@@ -93,23 +92,19 @@ public class IncineratorImpl extends SimBioModuleImpl implements
     }
     
     public PowerConsumerDefinition getPowerConsumerDefinition() {
-        return (PowerConsumerDefinition) (OrbUtils
-                .poaToCorbaObj(myPowerConsumerDefinitionImpl));
+        return myPowerConsumerDefinitionImpl.getCorbaObject();
     }
 
     public O2ConsumerDefinition getO2ConsumerDefinition() {
-        return (O2ConsumerDefinition) (OrbUtils
-                .poaToCorbaObj(myO2ConsumerDefinitionImpl));
+        return myO2ConsumerDefinitionImpl.getCorbaObject();
     }
     
     public DryWasteConsumerDefinition getDryWasteConsumerDefinition() {
-        return (DryWasteConsumerDefinition) (OrbUtils
-                .poaToCorbaObj(myDryWasteConsumerDefinitionImpl));
+        return myDryWasteConsumerDefinitionImpl.getCorbaObject();
     }
 
     public CO2ProducerDefinition getCO2ProducerDefinition() {
-        return (CO2ProducerDefinition) (OrbUtils
-                .poaToCorbaObj(myCO2ProducerDefinitionImpl));
+        return myCO2ProducerDefinitionImpl.getCorbaObject();
     }
 
     /**

@@ -1,14 +1,27 @@
 package com.traclabs.biosim.server.simulation.framework;
 
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.idl.simulation.framework.WaterAirProducerDefinition;
+import com.traclabs.biosim.idl.simulation.framework.WaterAirProducerDefinitionHelper;
+import com.traclabs.biosim.idl.simulation.framework.WaterAirProducerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.framework.WaterAirProducerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.water.WaterStore;
+import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
  * @author Scott Bell
  */
 
 public class WaterAirProducerDefinitionImpl extends StoreEnvironmentFlowRateControllableImpl implements WaterAirProducerDefinitionOperations {
+    private WaterAirProducerDefinition myWaterAirProducerDefinition;
+    
+    public WaterAirProducerDefinitionImpl(){
+        myWaterAirProducerDefinition = WaterAirProducerDefinitionHelper.narrow(OrbUtils.poaToCorbaObj(new WaterAirProducerDefinitionPOATie(this)));
+    }
+    
+    public WaterAirProducerDefinition getCorbaObject(){
+        return myWaterAirProducerDefinition;
+    }
     
     public void setWaterAirEnvironmentOutputs(SimEnvironment[] pEnvironments, float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setEnvironments(pEnvironments);

@@ -472,10 +472,10 @@ public class SimulationInitializer {
                 for (int i = 0; i < storeModules.length; i++)
                     storeInputs[i] = NitrogenStoreHelper
                             .narrow(storeModules[i]);
-                myNitrogenAirConsumer.getNitorgenAirConsumerDefinition().setNitrogenAirEnvironmentInputs(
+                myNitrogenAirConsumer.getNitrogenAirConsumerDefinition().setNitrogenAirEnvironmentInputs(
                         environmentInputs, getMaxFlowRates(environmentNode),
                         getDesiredFlowRates(environmentNode));
-                myNitrogenAirConsumer.getNitorgenAirConsumerDefinition().setNitrogenAirStoreInputs(storeInputs,
+                myNitrogenAirConsumer.getNitrogenAirConsumerDefinition().setNitrogenAirStoreInputs(storeInputs,
                         getMaxFlowRates(storeNode),
                         getDesiredFlowRates(storeNode));
             } else if (childName.equals("waterAirConsumer")) {

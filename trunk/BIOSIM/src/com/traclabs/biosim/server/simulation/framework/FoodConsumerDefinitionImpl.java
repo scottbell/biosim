@@ -8,14 +8,26 @@ import com.traclabs.biosim.idl.simulation.food.FoodMatter;
 import com.traclabs.biosim.idl.simulation.food.FoodStore;
 import com.traclabs.biosim.idl.simulation.food.FoodStoreHelper;
 import com.traclabs.biosim.idl.simulation.framework.FoodConsumerDefinition;
+import com.traclabs.biosim.idl.simulation.framework.FoodConsumerDefinitionHelper;
 import com.traclabs.biosim.idl.simulation.framework.FoodConsumerDefinitionOperations;
+import com.traclabs.biosim.idl.simulation.framework.FoodConsumerDefinitionPOATie;
 import com.traclabs.biosim.server.simulation.food.FoodStoreImpl;
+import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
  * @author Scott Bell
  */
 
 public class FoodConsumerDefinitionImpl extends StoreFlowRateControllableImpl implements FoodConsumerDefinitionOperations {
+    private FoodConsumerDefinition myFoodConsumerDefinition;
+    
+    public FoodConsumerDefinitionImpl(){
+        myFoodConsumerDefinition = FoodConsumerDefinitionHelper.narrow(OrbUtils.poaToCorbaObj(new FoodConsumerDefinitionPOATie(this)));
+    }
+    
+    public FoodConsumerDefinition getCorbaObject(){
+        return myFoodConsumerDefinition;
+    }
     public void setFoodInputs(FoodStore[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setStores(pStores);
         setMaxFlowRates(pMaxFlowRates);

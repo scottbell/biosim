@@ -81,31 +81,31 @@ public class BiomassRSImpl extends SimBioModuleImpl implements
     
 
     public PowerConsumerDefinition getPowerConsumerDefinition(){
-        return (PowerConsumerDefinition)(OrbUtils.poaToCorbaObj(myPowerConsumerDefinitionImpl));
+        return myPowerConsumerDefinitionImpl.getCorbaObject();
     }
     
     public AirConsumerDefinition getAirConsumerDefinition(){
-        return (AirConsumerDefinition)(OrbUtils.poaToCorbaObj(myAirConsumerDefinitionImpl));
+        return myAirConsumerDefinitionImpl.getCorbaObject();
     }
     
     public PotableWaterConsumerDefinition getPotableWaterConsumerDefinition(){
-        return (PotableWaterConsumerDefinition)(OrbUtils.poaToCorbaObj(myPotableWaterConsumerDefinitionImpl));
+        return myPotableWaterConsumerDefinitionImpl.getCorbaObject();
     }
     
     public GreyWaterConsumerDefinition getGreyWaterConsumerDefinition(){
-        return (GreyWaterConsumerDefinition)(OrbUtils.poaToCorbaObj(myGreyWaterConsumerDefinitionImpl));
+        return myGreyWaterConsumerDefinitionImpl.getCorbaObject();
     }
     
     public DirtyWaterProducerDefinition getDirtyWaterProducerDefinition(){
-        return (DirtyWaterProducerDefinition)(OrbUtils.poaToCorbaObj(myDirtyWaterProducerDefinitionImpl));
+        return myDirtyWaterProducerDefinitionImpl.getCorbaObject();
     }
     
     public AirProducerDefinition getAirProducerDefinition(){
-        return (AirProducerDefinition)(OrbUtils.poaToCorbaObj(myAirProducerDefinitionImpl));
+        return myAirProducerDefinitionImpl.getCorbaObject();
     }
     
     public BiomassProducerDefinition getBiomassProducerDefinition(){
-        return (BiomassProducerDefinition)(OrbUtils.poaToCorbaObj(myBiomassProducerDefinitionImpl));
+        return myBiomassProducerDefinitionImpl.getCorbaObject();
     }
 
     public Shelf[] getShelves() {

@@ -13,7 +13,6 @@ import com.traclabs.biosim.idl.simulation.power.PowerPSOperations;
 import com.traclabs.biosim.server.simulation.framework.LightConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.PowerProducerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
-import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
  * The Power Production System creates power from a generator (say a solar
@@ -47,13 +46,11 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements
     }
     
     public PowerProducerDefinition getPowerProducerDefinition() {
-        return (PowerProducerDefinition) (OrbUtils
-                .poaToCorbaObj(myPowerProducerDefinitionImpl));
+        return myPowerProducerDefinitionImpl.getCorbaObject();
     }
     
     public LightConsumerDefinition getLightConsumerDefinition() {
-        return (LightConsumerDefinition) (OrbUtils
-                .poaToCorbaObj(myLightConsumerDefinitionImpl));
+        return myLightConsumerDefinitionImpl.getCorbaObject();
     }
 
     /**

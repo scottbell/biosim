@@ -72,7 +72,6 @@ import com.traclabs.biosim.idl.simulation.framework.WaterConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.WaterConsumerOperations;
 import com.traclabs.biosim.idl.simulation.framework.WaterProducerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.WaterProducerOperations;
-import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
  * The basic Accumulator Implementation. Can be configured to take any modules
@@ -296,141 +295,142 @@ public class AccumulatorImpl extends SimBioModuleImpl implements
 
     public void log() {
     }
-
+    
+    //Consumers
     public PowerConsumerDefinition getPowerConsumerDefinition() {
-        return (PowerConsumerDefinition)(OrbUtils.poaToCorbaObj(myPowerConsumerDefinitionImpl));
+        return myPowerConsumerDefinitionImpl.getCorbaObject();
     }
 
     public PotableWaterConsumerDefinition getPotableWaterConsumerDefinition() {
-        return (PotableWaterConsumerDefinition)(OrbUtils.poaToCorbaObj(myPotableWaterConsumerDefinitionImpl));
+        return myPotableWaterConsumerDefinitionImpl.getCorbaObject();
     }
 
     public GreyWaterConsumerDefinition getGreyWaterConsumerDefinition() {
-        return (GreyWaterConsumerDefinition)(OrbUtils.poaToCorbaObj(myGreyWaterConsumerDefinitionImpl));
+        return myGreyWaterConsumerDefinitionImpl.getCorbaObject();
     }
 
     public DirtyWaterConsumerDefinition getDirtyWaterConsumerDefinition() {
-        return (DirtyWaterConsumerDefinition)(OrbUtils.poaToCorbaObj(myDirtyWaterConsumerDefinitionImpl));
+        return myDirtyWaterConsumerDefinitionImpl.getCorbaObject();
     }
 
     public O2ConsumerDefinition getO2ConsumerDefinition() {
-        return (O2ConsumerDefinition)(OrbUtils.poaToCorbaObj(myO2ConsumerDefinitionImpl));
+        return myO2ConsumerDefinitionImpl.getCorbaObject();
     }
 
     public CO2ConsumerDefinition getCO2ConsumerDefinition() {
-        return (CO2ConsumerDefinition)(OrbUtils.poaToCorbaObj(myCO2ConsumerDefinitionImpl));
+        return myCO2ConsumerDefinitionImpl.getCorbaObject();
     }
 
     public NitrogenConsumerDefinition getNitrogenConsumerDefinition() {
-        return (NitrogenConsumerDefinition)(OrbUtils.poaToCorbaObj(myNitrogenConsumerDefinitionImpl));
+        return myNitrogenConsumerDefinitionImpl.getCorbaObject();
     }
 
     public AirConsumerDefinition getAirConsumerDefinition() {
-        return (AirConsumerDefinition)(OrbUtils.poaToCorbaObj(myAirConsumerDefinitionImpl));
+        return myAirConsumerDefinitionImpl.getCorbaObject();
     }
 
     public BiomassConsumerDefinition getBiomassConsumerDefinition() {
-        return (BiomassConsumerDefinition)(OrbUtils.poaToCorbaObj(myBiomassConsumerDefinitionImpl));
+        return myBiomassConsumerDefinitionImpl.getCorbaObject();
     }
 
     public FoodConsumerDefinition getFoodConsumerDefinition() {
-        return (FoodConsumerDefinition)(OrbUtils.poaToCorbaObj(myFoodConsumerDefinitionImpl));
+        return myFoodConsumerDefinitionImpl.getCorbaObject();
     }
 
     public O2AirConsumerDefinition getO2AirConsumerDefinition() {
-        return (O2AirConsumerDefinition)(OrbUtils.poaToCorbaObj(myO2AirConsumerDefinitionImpl));
+        return myO2AirConsumerDefinitionImpl.getCorbaObject();
     }
 
     public CO2AirConsumerDefinition getCO2AirConsumerDefinition() {
-        return (CO2AirConsumerDefinition)(OrbUtils.poaToCorbaObj(myCO2AirConsumerDefinitionImpl));
+        return myCO2AirConsumerDefinitionImpl.getCorbaObject();
     }
 
-    public NitrogenAirConsumerDefinition getNitorgenAirConsumerDefinition() {
-        return (NitrogenAirConsumerDefinition)(OrbUtils.poaToCorbaObj(myNitrogenAirConsumerDefinitionImpl));
+    public NitrogenAirConsumerDefinition getNitrogenAirConsumerDefinition() {
+        return myNitrogenAirConsumerDefinitionImpl.getCorbaObject();
     }
 
     public DryWasteConsumerDefinition getDryWasteConsumerDefinition() {
-        return (DryWasteConsumerDefinition)(OrbUtils.poaToCorbaObj(myDryWasteConsumerDefinitionImpl));
+        return myDryWasteConsumerDefinitionImpl.getCorbaObject();
     }
     
     public WaterAirConsumerDefinition getWaterAirConsumerDefinition() {
-        return (WaterAirConsumerDefinition)(OrbUtils.poaToCorbaObj(myWaterAirConsumerDefinitionImpl));
+        return myWaterAirConsumerDefinitionImpl.getCorbaObject();
     }
     
     public H2ConsumerDefinition getH2ConsumerDefinition() {
-        return (H2ConsumerDefinition)(OrbUtils.poaToCorbaObj(myH2ConsumerDefinitionImpl));
+        return myH2ConsumerDefinitionImpl.getCorbaObject();
     }
     
     public WaterConsumerDefinition getWaterConsumerDefinition() {
-        return (WaterConsumerDefinition)(OrbUtils.poaToCorbaObj(myWaterConsumerDefinitionImpl));
+        return myWaterConsumerDefinitionImpl.getCorbaObject();
     }
     
     //Producers
     public PowerProducerDefinition getPowerProducerDefinition() {
-        return (PowerProducerDefinition)(OrbUtils.poaToCorbaObj(myPowerProducerDefinitionImpl));
+        return myPowerProducerDefinitionImpl.getCorbaObject();
     }
 
     public PotableWaterProducerDefinition getPotableWaterProducerDefinition() {
-        return (PotableWaterProducerDefinition)(OrbUtils.poaToCorbaObj(myPotableWaterProducerDefinitionImpl));
+        return myPotableWaterProducerDefinitionImpl.getCorbaObject();
     }
 
     public GreyWaterProducerDefinition getGreyWaterProducerDefinition() {
-        return (GreyWaterProducerDefinition)(OrbUtils.poaToCorbaObj(myGreyWaterProducerDefinitionImpl));
+        return myGreyWaterProducerDefinitionImpl.getCorbaObject();
     }
 
     public DirtyWaterProducerDefinition getDirtyWaterProducerDefinition() {
-        return (DirtyWaterProducerDefinition)(OrbUtils.poaToCorbaObj(myDirtyWaterProducerDefinitionImpl));
+        return myDirtyWaterProducerDefinitionImpl.getCorbaObject();
     }
 
     public O2ProducerDefinition getO2ProducerDefinition() {
-        return (O2ProducerDefinition)(OrbUtils.poaToCorbaObj(myO2ProducerDefinitionImpl));
+        return myO2ProducerDefinitionImpl.getCorbaObject();
     }
 
     public CO2ProducerDefinition getCO2ProducerDefinition() {
-        return (CO2ProducerDefinition)(OrbUtils.poaToCorbaObj(myCO2ProducerDefinitionImpl));
+        return myCO2ProducerDefinitionImpl.getCorbaObject();
     }
 
     public NitrogenProducerDefinition getNitrogenProducerDefinition() {
-        return (NitrogenProducerDefinition)(OrbUtils.poaToCorbaObj(myNitrogenProducerDefinitionImpl));
+        return myNitrogenProducerDefinitionImpl.getCorbaObject();
     }
 
     public AirProducerDefinition getAirProducerDefinition() {
-        return (AirProducerDefinition)(OrbUtils.poaToCorbaObj(myAirProducerDefinitionImpl));
+        return myAirProducerDefinitionImpl.getCorbaObject();
     }
 
     public BiomassProducerDefinition getBiomassProducerDefinition() {
-        return (BiomassProducerDefinition)(OrbUtils.poaToCorbaObj(myBiomassProducerDefinitionImpl));
+        return myBiomassProducerDefinitionImpl.getCorbaObject();
     }
 
     public FoodProducerDefinition getFoodProducerDefinition() {
-        return (FoodProducerDefinition)(OrbUtils.poaToCorbaObj(myFoodProducerDefinitionImpl));
+        return myFoodProducerDefinitionImpl.getCorbaObject();
     }
 
     public O2AirProducerDefinition getO2AirProducerDefinition() {
-        return (O2AirProducerDefinition)(OrbUtils.poaToCorbaObj(myO2AirProducerDefinitionImpl));
+        return myO2AirProducerDefinitionImpl.getCorbaObject();
     }
 
     public CO2AirProducerDefinition getCO2AirProducerDefinition() {
-        return (CO2AirProducerDefinition)(OrbUtils.poaToCorbaObj(myCO2AirProducerDefinitionImpl));
+        return myCO2AirProducerDefinitionImpl.getCorbaObject();
     }
 
     public NitrogenAirProducerDefinition getNitrogenAirProducerDefinition() {
-        return (NitrogenAirProducerDefinition)(OrbUtils.poaToCorbaObj(myNitrogenAirProducerDefinitionImpl));
+        return myNitrogenAirProducerDefinitionImpl.getCorbaObject();
     }
 
     public DryWasteProducerDefinition getDryWasteProducerDefinition() {
-        return (DryWasteProducerDefinition)(OrbUtils.poaToCorbaObj(myDryWasteProducerDefinitionImpl));
+        return myDryWasteProducerDefinitionImpl.getCorbaObject();
     }
     
     public WaterAirProducerDefinition getWaterAirProducerDefinition() {
-        return (WaterAirProducerDefinition)(OrbUtils.poaToCorbaObj(myWaterAirProducerDefinitionImpl));
+        return myWaterAirProducerDefinitionImpl.getCorbaObject();
     }
     
     public H2ProducerDefinition getH2ProducerDefinition() {
-        return (H2ProducerDefinition)(OrbUtils.poaToCorbaObj(myH2ProducerDefinitionImpl));
+        return myH2ProducerDefinitionImpl.getCorbaObject();
     }
     
     public WaterProducerDefinition getWaterProducerDefinition() {
-        return (WaterProducerDefinition)(OrbUtils.poaToCorbaObj(myWaterProducerDefinitionImpl));
+        return myWaterProducerDefinitionImpl.getCorbaObject();
     }
 }

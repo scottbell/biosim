@@ -97,31 +97,31 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     }
     
     public FoodConsumerDefinition getFoodConsumerDefinition(){
-        return (FoodConsumerDefinition)(OrbUtils.poaToCorbaObj(myFoodConsumerDefinitionImpl));
+        return myFoodConsumerDefinitionImpl.getCorbaObject();
     }
     
     public AirConsumerDefinition getAirConsumerDefinition(){
-        return (AirConsumerDefinition)(OrbUtils.poaToCorbaObj(myAirConsumerDefinitionImpl));
+        return myAirConsumerDefinitionImpl.getCorbaObject();
     }
     
     public PotableWaterConsumerDefinition getPotableWaterConsumerDefinition(){
-        return (PotableWaterConsumerDefinition)(OrbUtils.poaToCorbaObj(myPotableWaterConsumerDefinitionImpl));
+        return myPotableWaterConsumerDefinitionImpl.getCorbaObject();
     }
     
     public GreyWaterProducerDefinition getGreyWaterProducerDefinition(){
-        return (GreyWaterProducerDefinition)(OrbUtils.poaToCorbaObj(myGreyWaterProducerDefinitionImpl));
+        return myGreyWaterProducerDefinitionImpl.getCorbaObject();
     }
     
     public DirtyWaterProducerDefinition getDirtyWaterProducerDefinition(){
-        return (DirtyWaterProducerDefinition)(OrbUtils.poaToCorbaObj(myDirtyWaterProducerDefinitionImpl));
+        return myDirtyWaterProducerDefinitionImpl.getCorbaObject();
     }
     
     public AirProducerDefinition getAirProducerDefinition(){
-        return (AirProducerDefinition)(OrbUtils.poaToCorbaObj(myAirProducerDefinitionImpl));
+        return myAirProducerDefinitionImpl.getCorbaObject();
     }
     
     public DryWasteProducerDefinition getDryWasteProducerDefinition(){
-        return (DryWasteProducerDefinition)(OrbUtils.poaToCorbaObj(myDryWasteProducerDefinitionImpl));
+        return myDryWasteProducerDefinitionImpl.getCorbaObject();
     }
 
     /**

@@ -69,23 +69,19 @@ public class WaterRSMatlabImpl extends SimBioModuleImpl implements
 	}
 	
 	public PowerConsumerDefinition getPowerConsumerDefinition() {
-        return (PowerConsumerDefinition) (OrbUtils
-                .poaToCorbaObj(myPowerConsumerDefinitionImpl));
+        return myPowerConsumerDefinitionImpl.getCorbaObject();
     }
 
     public GreyWaterConsumerDefinition getGreyWaterConsumerDefinition() {
-        return (GreyWaterConsumerDefinition) (OrbUtils
-                .poaToCorbaObj(myGreyWaterConsumerDefinitionImpl));
+        return myGreyWaterConsumerDefinitionImpl.getCorbaObject();
     }
     
     public DirtyWaterConsumerDefinition getDirtyWaterConsumerDefinition() {
-        return (DirtyWaterConsumerDefinition) (OrbUtils
-                .poaToCorbaObj(myDirtyWaterConsumerDefinitionImpl));
+        return myDirtyWaterConsumerDefinitionImpl.getCorbaObject();
     }
 
     public PotableWaterProducerDefinition getPotableWaterProducerDefinition() {
-        return (PotableWaterProducerDefinition) (OrbUtils
-                .poaToCorbaObj(myPotableWaterProducerDefinitionImpl));
+        return myPotableWaterProducerDefinitionImpl.getCorbaObject();
     }
 
 	/**

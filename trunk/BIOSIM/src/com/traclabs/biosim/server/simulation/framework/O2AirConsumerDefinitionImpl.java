@@ -3,12 +3,25 @@ package com.traclabs.biosim.server.simulation.framework;
 import com.traclabs.biosim.idl.simulation.air.O2Store;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.idl.simulation.framework.O2AirConsumerDefinitionOperations;
+import com.traclabs.biosim.idl.simulation.framework.O2AirConsumerDefinition;
+import com.traclabs.biosim.idl.simulation.framework.O2AirConsumerDefinitionHelper;
+import com.traclabs.biosim.idl.simulation.framework.O2AirConsumerDefinitionPOATie;
+import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
  * @author Scott Bell
  */
 
 public class O2AirConsumerDefinitionImpl extends StoreEnvironmentFlowRateControllableImpl implements O2AirConsumerDefinitionOperations {
+    private O2AirConsumerDefinition myO2AirConsumerDefinition;
+    
+    public O2AirConsumerDefinitionImpl(){
+        myO2AirConsumerDefinition = O2AirConsumerDefinitionHelper.narrow(OrbUtils.poaToCorbaObj(new O2AirConsumerDefinitionPOATie(this)));
+    }
+    
+    public O2AirConsumerDefinition getCorbaObject(){
+        return myO2AirConsumerDefinition;
+    }
     
     public void setO2AirEnvironmentInputs(SimEnvironment[] pEnvironments, float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setEnvironments(pEnvironments);
