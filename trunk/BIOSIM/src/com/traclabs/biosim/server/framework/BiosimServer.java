@@ -1,6 +1,8 @@
 package biosim.server.framework;
 
 import java.net.*;
+import biosim.server.framework.*;
+import biosim.server.util.log.*;
 
 /**
  * The Biosim Server.  Creates an instance of each module (AirRS, FoodProcessor, WaterRS, etc..) and binds them to the nameserver.
@@ -9,12 +11,14 @@ import java.net.*;
  */
 
 public class BiosimServer extends GenericServer{
-
-	private BioInitializer myInitializer = new BioInitializer();
-
-	public BiosimServer(){
+	
+	public BiosimServer(int id){
 		URL documentUrl = ClassLoader.getSystemClassLoader().getResource("biosim/server/framework/DefaultInitialization.xml");
-		myInitializer = new BioInitializer();
+		LoggerImpl myLoggerImpl = new LoggerImpl(id);
+		BioDriverImpl myBioDriverImpl = new BioDriverImpl(id);
+		registerServer(myLoggerImpl, myLoggerImpl.getName());
+		registerServer(myBioDriverImpl, myBioDriverImpl.getName());
+		BioInitializer myInitializer = new BioInitializer(id);
 		String documentString = documentUrl.toString();
 		if (documentString.length() > 0)
 			myInitializer.parseFile(documentString);
@@ -25,8 +29,9 @@ public class BiosimServer extends GenericServer{
 	* @param args first element can be an ID to assign to this instance
 	*/
 	public static void main(String args[]) {
-		BiosimServer myServer = new BiosimServer();
-		myServer.runServer("BiosimServer");
+		int id = BiosimServer.getIDfromArgs(args);
+		BiosimServer server = new BiosimServer(id);
+		server.runServer("BiosimServer"+id);
 	}
 }
 

@@ -80,7 +80,8 @@ public class BioInitializer{
 	private int myID = 0;
 
 	/** Default constructor. */
-	public BioInitializer(){
+	public BioInitializer(int pID){
+		myID = pID;
 		try {
 			myParser = new DOMParser();
 			myParser.setFeature(SCHEMA_VALIDATION_FEATURE_ID, DEFAULT_SCHEMA_VALIDATION);
@@ -102,7 +103,8 @@ public class BioInitializer{
 	private void createAirRS(Node node){
 		System.out.println("Creating AirRS");
 		AirRSImpl myAirRSImpl = new AirRSImpl(myID);
-		//registerServer(new AirRSPOATie(myAirRSImpl), myAirRSImpl.getModuleName());
+		
+		BiosimServer.registerServer(new AirRSPOATie(myAirRSImpl), myAirRSImpl.getModuleName());
 	}
 
 	private void configureAirRS(Node node){
