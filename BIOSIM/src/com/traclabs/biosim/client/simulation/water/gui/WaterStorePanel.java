@@ -51,9 +51,34 @@ public class WaterStorePanel extends JPanel
 		myTrackingAction = new TrackingAction("Start Tracking");
 		trackingButton = new JButton(myTrackingAction);
 		refreshTimer = new Timer (TIMER_DELAY, myRefreshAction);
-		add(myChartPanel, BorderLayout.CENTER);
-		add(refreshButton, BorderLayout.NORTH);
-		add(trackingButton, BorderLayout.NORTH);
+		
+		GridBagLayout gridbag = new GridBagLayout();
+		GridBagConstraints c = new GridBagConstraints();
+		setLayout(gridbag);
+		
+		c.fill = GridBagConstraints.BOTH;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.weighty = 0.1;
+		c.weightx = 0.1;
+		gridbag.setConstraints(refreshButton, c);
+		add(refreshButton);
+		
+		c.fill = GridBagConstraints.BOTH;
+		c.gridheight = 1;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		c.weighty = 0.1;
+		c.weightx = 0.1;
+		gridbag.setConstraints(trackingButton, c);
+		add(trackingButton);
+		
+		c.fill = GridBagConstraints.BOTH;
+		c.gridheight = 1;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		c.weighty = 1.0;
+		c.weightx = 1.0;
+		gridbag.setConstraints(myChartPanel, c);
+		add(myChartPanel);
 	}
 
 	private void createGraph(){
@@ -73,7 +98,6 @@ public class WaterStorePanel extends JPanel
 		rangeAxis.setRange(0.0, myPotableWaterStore.getCapacity());
 		myPlot.setSeriesPaint(new Paint[] { Color.BLUE, Color.GRAY, Color.YELLOW });
 		myChartPanel = new ChartPanel(myChart);
-		
 	}
 
 	public void refresh() {
@@ -86,8 +110,10 @@ public class WaterStorePanel extends JPanel
 			myDataset.setCategories(theCategory);
 		}
 		else{
-			if (rangeAxis.getRange().getUpperBound() != myPotableWaterStore.getCapacity())
+			if (rangeAxis.getRange().getUpperBound() != myPotableWaterStore.getCapacity()){
 				rangeAxis.setRange(0.0, myPotableWaterStore.getCapacity());
+				myChartPanel.repaint();
+			}
 			myDataset.setValue(0, "", new Float(myPotableWaterStore.getLevel()));
 			myDataset.setValue(1, "", new Float(myGreyWaterStore.getLevel()));
 			myDataset.setValue(2, "", new Float(myDirtyWaterStore.getLevel()));
@@ -111,9 +137,7 @@ public class WaterStorePanel extends JPanel
 			super(name);
 		}
 		public void actionPerformed(ActionEvent ae){
-			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			refresh();
-			setCursor(Cursor.getDefaultCursor());
 		}
 	}
 
