@@ -1,6 +1,5 @@
 package biosim.client.air.gui;
 
-import biosim.client.framework.*;
 import biosim.client.framework.gui.*;
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +13,7 @@ public class AirPanel extends BioTabbedPanel
 {
 	protected void createPanels(){
 		myTextPanel = new AirTextPanel();
-		myChartPanel = new BioTabPanel();
+		myChartPanel = new AirChartPanel();
 		mySchematicPanel = new BioTabPanel();
 	}
 }

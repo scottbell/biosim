@@ -1,25 +1,24 @@
-package biosim.client.water.gui;
+package biosim.client.air.gui;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import biosim.client.framework.*;
 import biosim.client.framework.gui.*;
-import biosim.idl.water.*;
+import biosim.idl.air.*;
 import com.jrefinery.chart.*;
 import com.jrefinery.data.*;
 import com.jrefinery.ui.*;
 
 /**
- * This is the JPanel that displays a chart about the WaterStores
+ * This is the JPanel that displays a chart about the Air Stores
  *
  * @author    Scott Bell
  */
-public class WaterStorePanel extends JPanel
+public class AirStorePanel extends JPanel
 {
-	private PotableWaterStore myPotableWaterStore;
-	private GreyWaterStore myGreyWaterStore;
-	private DirtyWaterStore myDirtyWaterStore;
+	private O2Store myO2Store;
+	private CO2Store myCO2Store;
 	private DefaultCategoryDataset myDataset;
 	private JButton refreshButton;
 	private JButton trackingButton;
@@ -36,10 +35,9 @@ public class WaterStorePanel extends JPanel
 	/**
 	 * Default constructor.
 	 */
-	public WaterStorePanel() {
-		myPotableWaterStore = (PotableWaterStore)(BioHolder.getBioModule(BioHolder.potableWaterStoreName));
-		myDirtyWaterStore = (DirtyWaterStore)(BioHolder.getBioModule(BioHolder.dirtyWaterStoreName));
-		myGreyWaterStore = (GreyWaterStore)(BioHolder.getBioModule(BioHolder.greyWaterStoreName));
+	public AirStorePanel() {
+		myO2Store = (O2Store)(BioHolder.getBioModule(BioHolder.O2StoreName));
+		myCO2Store = (CO2Store)(BioHolder.getBioModule(BioHolder.CO2StoreName));
 		createGraph();
 		myRefreshAction = new RefreshAction("Refresh");
 		refreshButton = new JButton(myRefreshAction);
@@ -80,9 +78,9 @@ public class WaterStorePanel extends JPanel
 		// create the chart...
 		refresh();
 		myChart = ChartFactory.createVerticalBarChart3D(
-		                  "Water Store Levels",  // chart title
+		                  "Air Store Levels",  // chart title
 		                  "Stores",              // domain axis label
-		                  "Water Level",                 // range axis label
+		                  "Air Level",                 // range axis label
 		                  myDataset,                 // data
 		                  true                     // include legend
 		          );
@@ -90,31 +88,30 @@ public class WaterStorePanel extends JPanel
 		myPlot = myChart.getCategoryPlot();
 		rangeAxis = myPlot.getRangeAxis();
 		rangeAxis.setAutoRange(false);
-		rangeAxis.setRange(0.0, myPotableWaterStore.getCapacity());
-		myPlot.setSeriesPaint(new Paint[] { Color.BLUE, Color.GRAY, Color.YELLOW });
+		rangeAxis.setRange(0.0, myO2Store.getCapacity());
+		myPlot.setSeriesPaint(new Paint[] { Color.BLUE, Color.ORANGE});
 		myChartPanel = new ChartPanel(myChart);
-		myChartPanel.setMinimumDrawHeight(300);
+		myChartPanel.setMinimumDrawHeight(250);
 		myChartPanel.setMinimumDrawWidth(250);
-		myChartPanel.setPreferredSize(new Dimension(220, 300));
+		myChartPanel.setPreferredSize(new Dimension(220, 250));
 	}
 
 	public void refresh() {
 		if (myDataset == null){
-			double[][] data = { {myPotableWaterStore.getLevel()}, {myGreyWaterStore.getLevel()}, {myDirtyWaterStore.getLevel()}};
+			double[][] data = { {myO2Store.getLevel()}, {myCO2Store.getLevel()} };
 			myDataset = new DefaultCategoryDataset(data);
-			String[] theSeries = {"Potable Water", "Grey Water", "Dirty Water"};
+			String[] theSeries = {"CO2", "O2"};
 			String[] theCategory = {""};
 			myDataset.setSeriesNames(theSeries);
 			myDataset.setCategories(theCategory);
 		}
 		else{
-			if (rangeAxis.getRange().getUpperBound() != myPotableWaterStore.getCapacity()){
-				rangeAxis.setRange(0.0, myPotableWaterStore.getCapacity());
+			if (rangeAxis.getRange().getUpperBound() != myO2Store.getCapacity()){
+				rangeAxis.setRange(0.0, myO2Store.getCapacity());
 				myChartPanel.repaint();
 			}
-			myDataset.setValue(0, "", new Float(myPotableWaterStore.getLevel()));
-			myDataset.setValue(1, "", new Float(myGreyWaterStore.getLevel()));
-			myDataset.setValue(2, "", new Float(myDirtyWaterStore.getLevel()));
+			myDataset.setValue(0, "", new Float(myO2Store.getLevel()));
+			myDataset.setValue(1, "", new Float(myCO2Store.getLevel()));
 		}
 	}
 
