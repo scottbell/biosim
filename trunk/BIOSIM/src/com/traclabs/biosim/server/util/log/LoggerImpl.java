@@ -146,6 +146,7 @@ public class LoggerImpl extends LoggerPOA  {
 			for (Iterator iter = myLogHandlers.iterator(); iter.hasNext();){
 				LogHandler currentLogHandler = (LogHandler)(iter.next());
 				currentLogHandler.writeLog(LogNodeHelper.narrow(OrbUtils.poaToCorbaObj(currentTickLogNode)));
+				//System.out.println("wrote log!");
 			}
 		}
 		if (currentTick != myDriver.getTicks()){

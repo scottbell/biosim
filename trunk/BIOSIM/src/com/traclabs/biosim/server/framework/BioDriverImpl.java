@@ -294,8 +294,8 @@ public class BioDriverImpl extends BioDriverPOA{
 		if (myLogger != null)
 			myLogger.setProcessingLogs(true);
 		for (int i = 0; i < modules.length; i++){
-			BioModule currentBioModule = (BioModule)(sensors[i]);
-			currentBioModule.log();
+				BioModule currentBioModule = (BioModule)(modules[i]);
+				currentBioModule.log();
 		}
 	}
 	
