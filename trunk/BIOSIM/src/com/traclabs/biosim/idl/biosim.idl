@@ -15,16 +15,20 @@ module biosim{
                                 long getTimeLength();
 				long getActivityIntensity();
                         };
+			enum CrewPersonSex {male, female};
                         interface CrewPerson{
                                 Object getCurrentActivity();
                                 void setCurrentActivity(in Object newActivity);
                                 string getName();
+				float getAge();
+				float getWeight();
+				CrewPersonSex getSex();
                         };
                         interface CrewGroup : framework::BioModule{
                                 Object getScheduledActivityByName(in string name);
                                 Object getScheduledActivityByOrder(in long order);
                                 Object getCrewPerson(in string name);
-                                Object createCrewPerson(in string name);
+                                Object createCrewPerson(in string name, in float pAge, in float pWeight, in CrewPersonSex pSex);
                         };
                 };
 
