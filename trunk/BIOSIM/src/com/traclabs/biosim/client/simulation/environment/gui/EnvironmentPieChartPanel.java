@@ -25,7 +25,7 @@ public class EnvironmentPieChartPanel extends JPanel
 	private Timer refreshTimer;
 	private final static int TIMER_DELAY=500;
 	private boolean trackingWanted = false;
-	private Pie3DPlot myPlot;
+	private PiePlot myPlot;
 	private JFreeChart myChart;
 	private DefaultPieDataset myDataset;
 	
@@ -83,7 +83,7 @@ public class EnvironmentPieChartPanel extends JPanel
 		                  true                     // include legend
 		          );
 		// add the chart to a panel...
-		myPlot = (Pie3DPlot)(myChart.getPlot());
+		myPlot = (PiePlot)(myChart.getPlot());
 		myPlot.setSeriesPaint(new Paint[] { Color.BLUE, Color.GREEN, Color.RED});
 		TextTitle myTextTitle = (TextTitle)(myChart.getTitle(0));
 		myTextTitle.setFont(myTextTitle.getFont().deriveFont(12.0f));
@@ -94,11 +94,15 @@ public class EnvironmentPieChartPanel extends JPanel
 	}
 
 	public void refresh() {
+		System.out.println("Starting to refresh");
 		if (myDataset == null)
 			myDataset = new DefaultPieDataset();
 		myDataset.setValue(O2Category, new Float(mySimEnvironment.getO2Level()));
 		myDataset.setValue(CO2Category, new Float(mySimEnvironment.getCO2Level()));
 		myDataset.setValue(otherCategory, new Float(mySimEnvironment.getOtherLevel()));
+		if (myChartPanel != null)
+			myChartPanel.repaint();
+		System.out.println("Done refreshing...");
 	}
 
 	public void visibilityChange(boolean nowVisible){

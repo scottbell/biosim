@@ -100,6 +100,8 @@ public abstract class Plant {
 		noCO2Time = 0;
 		noLightTime = 0;
 		currentWaterLevel = 0f;
+		waterNeeded = 0f;
+		CO2Needed = 0f;
 		currentPowerLevel = 0f;
 		biomassProduced = 0f;
 		plantsDead = false;
@@ -111,6 +113,8 @@ public abstract class Plant {
 		calculateProducedBiomass();
 		if (biomassProduced > 0){
 			myBiomassStore.add(biomassProduced);
+			myAge = 0;
+			System.out.println("Harvested!");
 		}
 	}
 
