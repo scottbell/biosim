@@ -19,7 +19,9 @@ public class WaterSchematicPanel extends TimedPanel
 	private ImageIcon greyWaterStoreIcon;
 	private ImageIcon horizontalPipeIcon;
 	private ImageIcon horizontalWaterPipeIcon;
-	private ImageIcon susbsytemIcon;
+	private ImageIcon susbsytemDisabledIcon;
+	private ImageIcon susbsytemOkIcon;
+	private ImageIcon susbsytemProblemIcon;
 	private ImageIcon verticalPipeIcon;
 	private ImageIcon verticalWaterPipeIcon;
 	private ImageIcon tDownPipeIcon;
@@ -43,6 +45,8 @@ public class WaterSchematicPanel extends TimedPanel
 	private JLabel tDownPipeLabel1;
 	private JLabel tDownPipeLabel2;
 	private JLabel tUpPipeLabel;
+	private JPanel mainPanel;
+	private JScrollPane mainScrollPane;
 	private WaterRS myWaterRS;
 	private PotableWaterStore myPotableWaterStore;
 	private GreyWaterStore myGreyWaterStore;
@@ -62,16 +66,17 @@ public class WaterSchematicPanel extends TimedPanel
 
 	private void buildGui(){
 		loadIcons();
-		AESButton = new JButton(new AESAction("AES (nominal)", susbsytemIcon));
+		mainPanel = new JPanel();
+		AESButton = new JButton(new AESAction("AES (nominal)"));
 		AESButton.setVerticalTextPosition(SwingConstants.BOTTOM);
 		AESButton.setHorizontalTextPosition(SwingConstants.CENTER);
-		BWPButton = new JButton(new BWPAction("BWP (nominal)", susbsytemIcon));
+		BWPButton = new JButton(new BWPAction("BWP (nominal)"));
 		BWPButton.setVerticalTextPosition(SwingConstants.BOTTOM);
 		BWPButton.setHorizontalTextPosition(SwingConstants.CENTER);
-		PPSButton = new JButton(new PPSAction("PPS (nominal)", susbsytemIcon));
+		PPSButton = new JButton(new PPSAction("PPS (nominal)"));
 		PPSButton.setVerticalTextPosition(SwingConstants.BOTTOM);
 		PPSButton.setHorizontalTextPosition(SwingConstants.CENTER);
-		ROButton = new JButton(new ROAction("RO (nominal)", susbsytemIcon));
+		ROButton = new JButton(new ROAction("RO (nominal)"));
 		ROButton.setVerticalTextPosition(SwingConstants.BOTTOM);
 		ROButton.setHorizontalTextPosition(SwingConstants.CENTER);
 		tDownPipeLabel1 = new JLabel(tDownPipeIcon);
@@ -93,7 +98,7 @@ public class WaterSchematicPanel extends TimedPanel
 		//add components
 		GridBagLayout gridbag = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();
-		setLayout(gridbag);
+		mainPanel.setLayout(gridbag);
 
 		c.fill = GridBagConstraints.NONE;
 		c.gridheight = 1;
@@ -103,7 +108,7 @@ public class WaterSchematicPanel extends TimedPanel
 		c.ipadx = 0;
 		c.ipady = 0;
 		gridbag.setConstraints(greyWaterButton, c);
-		add(greyWaterButton);
+		mainPanel.add(greyWaterButton);
 
 		c.fill = GridBagConstraints.NONE;
 		c.gridheight = 1;
@@ -113,7 +118,7 @@ public class WaterSchematicPanel extends TimedPanel
 		c.ipadx = 0;
 		c.ipady = 0;
 		gridbag.setConstraints(dirtyWaterButton, c);
-		add(dirtyWaterButton);
+		mainPanel.add(dirtyWaterButton);
 
 		c.fill = GridBagConstraints.NONE;
 		c.gridheight = 1;
@@ -123,7 +128,7 @@ public class WaterSchematicPanel extends TimedPanel
 		c.ipadx = 0;
 		c.ipady = 0;
 		gridbag.setConstraints(tDownPipeLabel1, c);
-		add(tDownPipeLabel1);
+		mainPanel.add(tDownPipeLabel1);
 
 		c.fill = GridBagConstraints.NONE;
 		c.gridheight = 1;
@@ -133,7 +138,7 @@ public class WaterSchematicPanel extends TimedPanel
 		c.ipadx = 0;
 		c.ipady = 0;
 		gridbag.setConstraints(BWPButton, c);
-		add(BWPButton);
+		mainPanel.add(BWPButton);
 
 		c.fill = GridBagConstraints.NONE;
 		c.gridheight = 1;
@@ -143,7 +148,7 @@ public class WaterSchematicPanel extends TimedPanel
 		c.ipadx = 0;
 		c.ipady = 0;
 		gridbag.setConstraints(tUpPipeLabel, c);
-		add(tUpPipeLabel);
+		mainPanel.add(tUpPipeLabel);
 
 		c.fill = GridBagConstraints.NONE;
 		c.gridheight = 1;
@@ -153,7 +158,7 @@ public class WaterSchematicPanel extends TimedPanel
 		c.ipadx = 0;
 		c.ipady = 0;
 		gridbag.setConstraints(ROButton, c);
-		add(ROButton);
+		mainPanel.add(ROButton);
 
 		c.fill = GridBagConstraints.BOTH;
 		c.gridheight = 1;
@@ -163,7 +168,7 @@ public class WaterSchematicPanel extends TimedPanel
 		c.ipadx = 0;
 		c.ipady = 0;
 		gridbag.setConstraints(horizontalPipeLabel, c);
-		add(horizontalPipeLabel);
+		mainPanel.add(horizontalPipeLabel);
 
 		c.fill = GridBagConstraints.NONE;
 		c.gridheight = 1;
@@ -173,7 +178,7 @@ public class WaterSchematicPanel extends TimedPanel
 		c.ipadx = 0;
 		c.ipady = 0;
 		gridbag.setConstraints(AESButton, c);
-		add(AESButton);
+		mainPanel.add(AESButton);
 
 		c.fill = GridBagConstraints.NONE;
 		c.gridheight = 1;
@@ -183,7 +188,7 @@ public class WaterSchematicPanel extends TimedPanel
 		c.ipadx = 0;
 		c.ipady = 0;
 		gridbag.setConstraints(tDownPipeLabel2, c);
-		add(tDownPipeLabel2);
+		mainPanel.add(tDownPipeLabel2);
 
 		c.fill = GridBagConstraints.NONE;
 		c.gridheight = 1;
@@ -193,7 +198,7 @@ public class WaterSchematicPanel extends TimedPanel
 		c.ipadx = 0;
 		c.ipady = 0;
 		gridbag.setConstraints(PPSButton, c);
-		add(PPSButton);
+		mainPanel.add(PPSButton);
 
 		c.fill = GridBagConstraints.NONE;
 		c.gridheight = 1;
@@ -203,7 +208,7 @@ public class WaterSchematicPanel extends TimedPanel
 		c.ipadx = 0;
 		c.ipady = 0;
 		gridbag.setConstraints(verticalPipeLabel2, c);
-		add(verticalPipeLabel2);
+		mainPanel.add(verticalPipeLabel2);
 
 		c.fill = GridBagConstraints.NONE;
 		c.gridheight = 1;
@@ -213,8 +218,10 @@ public class WaterSchematicPanel extends TimedPanel
 		c.ipadx = 0;
 		c.ipady = 0;
 		gridbag.setConstraints(potableWaterButton, c);
-		add(potableWaterButton);
-
+		mainPanel.add(potableWaterButton);
+		//mainScrollPane = new JScrollPane(mainPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		refresh();
+		add(mainPanel);
 	}
 
 	public void refresh(){
@@ -258,15 +265,39 @@ public class WaterSchematicPanel extends TimedPanel
 		else
 			verticalPipeLabel2.setIcon(verticalPipeIcon);
 
-		if (myWaterRS.AESIsEnabled())
-			AESButton.setText("AES (nominal)");
-		else if (!myWaterRS.AESIsEnabled())
-			AESButton.setText("AES (off)");
+		if (!myWaterRS.AESIsEnabled()){
+			AESButton.setText("AES");
+			AESButton.setIcon(susbsytemDisabledIcon);
+		}
+		else if (!myWaterRS.AESHasPower()){
+			AESButton.setText("AES");
+			AESButton.setIcon(susbsytemProblemIcon);
+		}
+		else if (!myWaterRS.AESHasWater()){
+			AESButton.setText("AES");
+			AESButton.setIcon(susbsytemProblemIcon);
+		}
+		else if (myWaterRS.AESIsEnabled()){
+			AESButton.setText("AES");
+			AESButton.setIcon(susbsytemOkIcon);
+		}
 
-		if (myWaterRS.ROIsEnabled())
-			ROButton.setText("RO (nominal)");
-		else if (!myWaterRS.ROIsEnabled())
-			ROButton.setText("RO (off)");
+		if (!myWaterRS.ROIsEnabled()){
+			ROButton.setText("RO");
+			ROButton.setIcon(susbsytemDisabledIcon);
+		}
+		else if (!myWaterRS.ROHasPower()){
+			ROButton.setText("RO");
+			ROButton.setIcon(susbsytemProblemIcon);
+		}
+		else if (!myWaterRS.ROHasWater()){
+			ROButton.setText("RO");
+			ROButton.setIcon(susbsytemProblemIcon);
+		}
+		else if (myWaterRS.ROIsEnabled()){
+			ROButton.setText("RO");
+			ROButton.setIcon(susbsytemOkIcon);
+		}
 	}
 
 	/**
@@ -279,7 +310,9 @@ public class WaterSchematicPanel extends TimedPanel
 			greyWaterStoreIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/grey-watertank.jpg"));
 			horizontalPipeIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/horizontal-pipe.jpg"));
 			horizontalWaterPipeIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/horizontalWater-pipe.jpg"));
-			susbsytemIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/subsystem.jpg"));
+			susbsytemDisabledIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/subsystem-disabled.jpg"));
+			susbsytemOkIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/subsystem-ok.jpg"));
+			susbsytemProblemIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/subsystem-problem.jpg"));
 			verticalPipeIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/vertical-pipe.jpg"));
 			verticalWaterPipeIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/verticalWater-pipe.jpg"));
 			tUpPipeIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/tUp-pipe.jpg"));
@@ -328,8 +361,8 @@ public class WaterSchematicPanel extends TimedPanel
 	}
 
 	private class AESAction extends AbstractAction{
-		public AESAction(String pName, Icon pIcon){
-			super(pName, pIcon);
+		public AESAction(String pName){
+			super(pName);
 		}
 		public void actionPerformed(ActionEvent ae){
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -339,8 +372,8 @@ public class WaterSchematicPanel extends TimedPanel
 	}
 
 	private class BWPAction extends AbstractAction{
-		public BWPAction(String pName, Icon pIcon){
-			super(pName, pIcon);
+		public BWPAction(String pName){
+			super(pName);
 		}
 		public void actionPerformed(ActionEvent ae){
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -349,8 +382,8 @@ public class WaterSchematicPanel extends TimedPanel
 	}
 
 	private class PPSAction extends AbstractAction{
-		public PPSAction(String pName, Icon pIcon){
-			super(pName, pIcon);
+		public PPSAction(String pName){
+			super(pName);
 		}
 		public void actionPerformed(ActionEvent ae){
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -359,8 +392,8 @@ public class WaterSchematicPanel extends TimedPanel
 	}
 
 	private class ROAction extends AbstractAction{
-		public ROAction(String pName, Icon pIcon){
-			super(pName, pIcon);
+		public ROAction(String pName){
+			super(pName);
 		}
 		public void actionPerformed(ActionEvent ae){
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
