@@ -223,6 +223,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			System.out.println("BioDriverImpl:"+myID+" Initializing optimal simulation...");
 			optimalInitialization();
 		}
+		else if (initializationToUse == BioDriverInit.FLOWS_ONLY_INIT){
+			System.out.println("BioDriverImpl:"+myID+" Initializing flows only simulation...");
+			configureFlows();
+		}
 		System.out.println("BioDriverImpl:"+myID+" Running simulation...");
 		runSimulation();
 	}
