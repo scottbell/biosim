@@ -835,8 +835,12 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations,
     }
 
     /**
-     * Sets the current AirRS operation mode FULL - AirRS operates at full
-     * capacity (and power) PARTIAL - produces 85% potable OFF - turns off AirRS
+     * Sets the current AirRS operation 
+     * modes:
+     * FULL - AirRS operates at full capacity (and power) 
+     * MOST - turns off OGS
+     * LESS - turns off OGS, CRS
+     * OFF  - turns everything off
      */
     public void setOperationMode(AirRSOperationMode pMode) {
         myMode = pMode;
