@@ -6,6 +6,7 @@ module biosim{
                                 void tick();
                                 string getModuleName();
 				void reset();
+				void log();
                         };
 			
 			interface Store : BioModule{
@@ -16,6 +17,25 @@ module biosim{
                                 float getLevel();
 			};
                 };
+		
+		module util{
+			interface Log;
+			interface Logger;
+			interface LogNode;
+			
+			interface Log{
+				LogNode getHead();
+			};
+			interface Logger{
+				void processLog(in Log thingToLog);
+			};
+			typedef sequence <LogNode> LogNodeList;
+			interface LogNode{
+				string getName();
+				void addChild (in string pChildName);
+				LogNodeList getChildren();
+			};
+		};
 
                 module crew{
                         interface Activity;
