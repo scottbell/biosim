@@ -108,7 +108,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		myCrewGroup = pCrewGroup;
 		mySchedule = pSchedule;
 		myCurrentActivity = mySchedule.getScheduledActivityByOrder(currentOrder);
-		System.out.println(myCurrentActivity.getName());
 	}
 	
 	/**
