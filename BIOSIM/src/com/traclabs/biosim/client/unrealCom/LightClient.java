@@ -10,6 +10,10 @@ public class LightClient {
 	
 	private WaterMonitor myH2Owatch;
 	
+	private EnvironAirMonitor myCrewEnvWatch;
+	
+	private EnvironAirMonitor myPlantEnvWatch;
+	
 	public void initUnrealComm() {
 		
 		Socket unrealSocket = null;
@@ -34,8 +38,11 @@ public class LightClient {
 		}
 		
 		myH2Owatch = new WaterMonitor(unrealSocket,"waterTest",myBioHolder);
-		
-		myH2Owatch.start();
+		myCrewEnvWatch = new EnvironAirMonitor(unrealSocket,"changeMain",myBioHolder,true);
+		myPlantEnvWatch = new EnvironAirMonitor(unrealSocket,"plantLightChange",myBioHolder,false);
+		//myH2Owatch.start();
+		myCrewEnvWatch.start();
+		myPlantEnvWatch.start();
 		
 		
 	}
