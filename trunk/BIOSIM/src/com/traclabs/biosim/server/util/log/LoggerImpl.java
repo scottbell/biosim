@@ -29,6 +29,7 @@ public class LoggerImpl extends LoggerPOA  {
 	//The ID of this Logger (should be the same as all the rest of the modules sending logs and the BioDriver)
 	private int myID = 0;
 
+	
 	/**
 	* Creates a Logger Server with an ID (should be the same as all the rest of the modules sending logs and the BioDriver)<br>
 	* Also initializes logtypes and adds and XML handler.
@@ -39,8 +40,6 @@ public class LoggerImpl extends LoggerPOA  {
 		rootLogNode = new LogNodeImpl("");
 		myLogHandlers = new Vector();
 		logTypes = new Vector();
-		//addLogHandlerType(LogHandlerType.SCREEN);
-		addLogHandlerType(LogHandlerType.XML);
 	}
 
 	/**
