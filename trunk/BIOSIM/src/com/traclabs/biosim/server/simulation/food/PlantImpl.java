@@ -17,6 +17,7 @@ public abstract class PlantImpl extends PlantPOA{
 	private boolean logInitialized = false;
 	private ShelfImpl myShelfImpl;
 	private float waterNeeded = .01f;
+	private float myPPF = 0f;
 	protected float[] canopyClosureConstants;
 
 	public PlantImpl(ShelfImpl pShelfImpl){
@@ -26,6 +27,7 @@ public abstract class PlantImpl extends PlantPOA{
 	}
 
 	public void reset(){
+		myPPF = 0f;
 	}
 
 	public void tick(){
@@ -34,12 +36,14 @@ public abstract class PlantImpl extends PlantPOA{
 	public void harvest(){
 	}
 
-	public void shine(float pWatts){
+	public void shine(float pPPF){
+		myPPF = pPPF;
 	}
 
 	public float getWaterNeeded(){
 		return waterNeeded;
 	}
+	
 
 	private void calculateBiomass(){
 		float molecularWeightOfCarbon = 12.011f; // g/mol
@@ -55,10 +59,20 @@ public abstract class PlantImpl extends PlantPOA{
 	protected abstract float getCarbonUseEfficiency24();
 	protected abstract float getPhotoperiod();
 	protected abstract float getN();
+	protected abstract float getTimeTillCanopySenescence();
+	protected abstract float getCQYMin();
+	protected abstract float getTimeTillCropMaturity();
+	public abstract float getPPFNeeded();
+	public abstract PlantType getPlantType();
 
 	//Need to convert current CO2 levels to micromoles of CO2 / molecules of air
 	private float calculateCO2(){
 		return 0.1f;
+	}
+	
+	//returns the age in days
+	private float getDaysOfGrowth(){
+		return myAge / 24f;
 	}
 
 	private float calculateTimeTillCanopyClosure(float pPPF){
@@ -104,26 +118,34 @@ public abstract class PlantImpl extends PlantPOA{
 	private float calculatePPFFractionAbsorbed(float pPPF){
 		float PPFFractionAbsorbedMax = 0.93f;
 		float timeTillCanopyClosure = calculateTimeTillCanopyClosure(pPPF);
-		if (myAge < timeTillCanopyClosure){
-			return PPFFractionAbsorbedMax * pow((myAge / timeTillCanopyClosure), getN());
+		if (getDaysOfGrowth() < timeTillCanopyClosure){
+			return PPFFractionAbsorbedMax * pow((getDaysOfGrowth() / timeTillCanopyClosure), getN());
 		}
 		else
 			return PPFFractionAbsorbedMax;
 	}
-
-	private float calculateCQY(){
+	
+	private float calculateCQYMax(){
 		return 0.1f;
 	}
 
+	private float calculateCQY(){
+		float CQYMax = calculateCQYMax();
+		if (getDaysOfGrowth() < getTimeTillCanopySenescence()){
+			return CQYMax; 
+		}
+		else{
+			return CQYMax - (CQYMax - getCQYMin()) * ((getDaysOfGrowth() - getTimeTillCanopySenescence()) / (getTimeTillCropMaturity() - getTimeTillCanopySenescence()));
+		}
+	}
+
 	private float calculatePPF(){
-		return 0.1f;
+		return myPPF;
 	}
 
 	protected float pow(float a, float b){
 		return (new Double(Math.pow(a,b))).floatValue();
 	}
-
-	public abstract String getPlantType();
 
 	public void log(LogNode myLogHead){
 		//If not initialized, fill in the log
