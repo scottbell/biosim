@@ -33,7 +33,7 @@ public class BioHolder
 	public final static String dirtyWaterStoreName = "DirtyWaterStore";
 	public final static String potableWaterStoreName = "PotableWaterStore";
 	public final static String greyWaterStoreName = "GreyWaterStore";
-	public final static String simEnvironmentName = "SimEnvironment";
+	public final static String simEnvironmentName = "CrewEnvironment";
 
 	//A hastable containing the server references
 	private static Map modules;

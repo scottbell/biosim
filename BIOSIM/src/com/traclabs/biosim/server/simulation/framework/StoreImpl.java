@@ -78,12 +78,12 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 	private void collectReferences(){
 		if (!hasCollectedReferences){
 			try{
-				myCurrentEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str("SimEnvironment"+getID()));
+				myCurrentEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str("CrewEnvironment"+getID()));
 				hasCollectedReferences = true;
 
 			}
 			catch (org.omg.CORBA.UserException e){
-				System.err.println("Couldn't find SimEnvironment!!");
+				System.err.println("StoreImpl: Couldn't find SimEnvironment!!");
 				e.printStackTrace(System.out);
 			}
 		}

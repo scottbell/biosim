@@ -36,7 +36,8 @@ public class BiosimServer extends GenericServer{
 
 	public void createServers(int id){
 		// create servants and register them with ORB
-		SimEnvironmentImpl mySimEnvironmentImpl = new SimEnvironmentImpl(id);
+		SimEnvironmentImpl myCrewEnvironmentImpl = new SimEnvironmentImpl(id, "CrewEnvironment");
+		SimEnvironmentImpl myPlantEnvironmentImpl = new SimEnvironmentImpl(id, "PlantEnvironment");
 		AirRSImpl myAirRSImpl = new AirRSImpl(id);
 		CO2StoreImpl myCO2StoreImpl = new CO2StoreImpl(id);
 		O2StoreImpl myO2StoreImpl = new O2StoreImpl(id);
@@ -54,7 +55,8 @@ public class BiosimServer extends GenericServer{
 		LoggerImpl myLoggerImpl = new LoggerImpl(id);
 		BioDriverImpl myBioDriverImpl = new BioDriverImpl(id);
 		
-		registerServer(new SimEnvironmentPOATie(mySimEnvironmentImpl), mySimEnvironmentImpl.getModuleName());
+		registerServer(new SimEnvironmentPOATie(myCrewEnvironmentImpl), myCrewEnvironmentImpl.getModuleName());
+		registerServer(new SimEnvironmentPOATie(myPlantEnvironmentImpl), myPlantEnvironmentImpl.getModuleName());
 		registerServer(new AirRSPOATie(myAirRSImpl), myAirRSImpl.getModuleName());
 		registerServer(new CO2StorePOATie(myCO2StoreImpl), myCO2StoreImpl.getModuleName());
 		registerServer(new O2StorePOATie(myO2StoreImpl), myO2StoreImpl.getModuleName());

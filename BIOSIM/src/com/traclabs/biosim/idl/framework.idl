@@ -34,6 +34,10 @@ module framework{
                 float getLevel();
                 float getCapacity();
         };
+	interface Injector : BioModule{
+	};
+	interface Accumulator : BioModule{
+	};
         interface BioDriver{
                 boolean isPaused();
                 boolean isStarted();
@@ -166,5 +170,9 @@ module framework{
                 float getFoodOutputFlowrate(in long index);
                 void setFoodOutputs(in food::FoodStoreList destinations, in FloatList flowRates);
 		food::FoodStoreList getFoodOutputs();
+        };
+	interface LightConsumer{
+                void setLightInput(in environment::SimEnvironment source);
+		environment::SimEnvironment getLightInput();
         };
 };

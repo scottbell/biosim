@@ -41,7 +41,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	private String dirtyWaterStoreName;
 	private String potableWaterStoreName;
 	private String greyWaterStoreName;
-	private String simEnvironmentName;
+	private String crewEnvironmentName;
+	private String plantEnvironmentName;
 	private String loggerName;
 	//A hastable containing the server references
 	private Map modules;
@@ -60,7 +61,6 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	private int nTicks = 0;
 	private int ticksGoneBy = 0;
 	private boolean logging = false;
-	private SimEnvironment mySimEnvironment;
 	private Logger myLogger;
 	private boolean hasCollectedReferences = false;
 	private int driverPauseLength = 0;
@@ -84,7 +84,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		dirtyWaterStoreName = "DirtyWaterStore"+myID;
 		potableWaterStoreName = "PotableWaterStore"+myID;
 		greyWaterStoreName = "GreyWaterStore"+myID;
-		simEnvironmentName = "SimEnvironment"+myID;
+		crewEnvironmentName = "CrewEnvironment"+myID;
+		plantEnvironmentName = "PlantEnvironment"+myID;
 		loggerName = "Logger"+myID;
 		checkMachineType();
 	}
@@ -222,13 +223,17 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myCO2Store.setLevel(500f);
 		myO2Store.setLevel(250f);
 
-		//Put some air in the cabin
-		SimEnvironment mySimEnvironment = (SimEnvironment)(getBioModule(simEnvironmentName));
+		//Put some air in the crew cabin
+		SimEnvironment myCrewEnvironment = (SimEnvironment)(getBioModule(crewEnvironmentName));
 		double environmentCapacity = 1.54893 * Math.pow(10, 6);
 		//for dave, make bigger
 		environmentCapacity *= 10;
 		Double environmentCapacityObj = new Double(environmentCapacity);
-		mySimEnvironment.setCapacity(environmentCapacityObj.floatValue());
+		myCrewEnvironment.setCapacity(environmentCapacityObj.floatValue());
+
+		//Put some air in the plant cabin
+		SimEnvironment myPlantEnvironment = (SimEnvironment)(getBioModule(plantEnvironmentName));
+		myPlantEnvironment.setCapacity(environmentCapacityObj.floatValue());
 
 		//Add some crops and food
 		BiomassStore myBiomassStore = (BiomassStore)(getBioModule(biomassStoreName));
@@ -243,6 +248,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		PowerStore myPowerStore = (PowerStore)(getBioModule(powerStoreName));
 		myPowerStore.setCapacity(10000f);
 		myPowerStore.setLevel(10000f);
+		
+		configureFlows();
 	}
 	
 	private void configureFlows(){
@@ -252,7 +259,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		PotableWaterStore myPotableWaterStore = (PotableWaterStore)(getBioModule(potableWaterStoreName));
 		DirtyWaterStore myDirtyWaterStore = (DirtyWaterStore)(getBioModule(dirtyWaterStoreName));
 		GreyWaterStore myGreyWaterStore = (GreyWaterStore)(getBioModule(greyWaterStoreName));
-		SimEnvironment mySimEnvironment = (SimEnvironment)(getBioModule(simEnvironmentName));
+		SimEnvironment myCrewEnvironment = (SimEnvironment)(getBioModule(crewEnvironmentName));
+		SimEnvironment myPlantEnvironment = (SimEnvironment)(getBioModule(plantEnvironmentName));
 		O2Store myO2Store = (O2Store)(getBioModule(O2StoreName));
 		CO2Store myCO2Store = (CO2Store)(getBioModule(CO2StoreName));
 		//Hook up Food Processor to other modules
@@ -275,8 +283,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			PotableWaterStore[] potableWaterStoreInput = {myPotableWaterStore};
 			GreyWaterStore[] greyWaterStoreInput = {myGreyWaterStore};
 			BiomassStore[] biomassStoreOutput = {myBiomassStore};
-			SimEnvironment[] simEnvironmentInput = {mySimEnvironment};
-			SimEnvironment[] simEnvironmentOutput = {mySimEnvironment};
+			SimEnvironment[] simEnvironmentInput = {myPlantEnvironment};
+			SimEnvironment[] simEnvironmentOutput = {myPlantEnvironment};
 			float[] powerFlowRates = {10000f};
 			float[] potableWaterFlowRates = {10000f};
 			float[] greyWaterFlowRates = {10000f};
@@ -295,8 +303,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		//Hook up Air RS to other modules
 		{
 			PowerStore[] powerStoreInput = {myPowerStore};
-			SimEnvironment[] simEnvironmentInput = {mySimEnvironment};
-			SimEnvironment[] simEnvironmentOutput = {mySimEnvironment};
+			SimEnvironment[] simEnvironmentInput = {myPlantEnvironment};
+			SimEnvironment[] simEnvironmentOutput = {myCrewEnvironment};
 			O2Store[] O2StoreOutput = {myO2Store};
 			CO2Store[] CO2StoreOutput = {myCO2Store};
 			CO2Store[] CO2StoreInput = {myCO2Store};
@@ -317,8 +325,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		
 		//Hook up Crew to other modules
 		{
-			SimEnvironment[] airInputs = {mySimEnvironment};
-			SimEnvironment[] airOutputs = {mySimEnvironment};
+			SimEnvironment[] airInputs = {myCrewEnvironment};
+			SimEnvironment[] airOutputs = {myCrewEnvironment};
 			PotableWaterStore[] potableWaterInput = {myPotableWaterStore};
 			FoodStore[] foodInputs = {myFoodStore};
 			GreyWaterStore[] greyWaterOutputs = {myGreyWaterStore};
@@ -353,6 +361,16 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			myWaterRS.setGreyWaterInputs(greyWaterInputs, greyWaterInputFlowRates);
 			myWaterRS.setDirtyWaterInputs(dirtyWaterInputs, dirtyWaterInputFlowRates);
 			myWaterRS.setPowerInputs(powerInput, powerInputFlowRates);
+		}
+		
+		//Hook up Power to other modules
+		{
+			PowerStore[] powerOutput = {myPowerStore};
+			SimEnvironment lightInput = myCrewEnvironment;
+			float[] powerOuputsFlowRates = {10000f};
+			PowerPS myPowerPS = (PowerPS)(getBioModule(powerPSName));
+			myPowerPS.setPowerOutputs(powerOutput, powerOuputsFlowRates);
+			myPowerPS.setLightInput(lightInput);
 		}
 	}
 
@@ -390,8 +408,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myO2Store.setLevel(100f);
 
 		//Put some air in the cabin
-		SimEnvironment mySimEnvironment = (SimEnvironment)(getBioModule(simEnvironmentName));
-		mySimEnvironment.setCapacity(10000000f);
+		SimEnvironment myCrewEnvironment = (SimEnvironment)(getBioModule(crewEnvironmentName));
+		myCrewEnvironment.setCapacity(10000000f);
+		SimEnvironment myPlantEnvironment = (SimEnvironment)(getBioModule(plantEnvironmentName));
+		myPlantEnvironment.setCapacity(10000000f);
 
 		//Add some crops and food
 		BiomassStore myBiomassStore = (BiomassStore)(getBioModule(biomassStoreName));
@@ -600,11 +620,19 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+airRSName+", skipping...");
 		}
 		try{
-			mySimEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str(simEnvironmentName));
-			modules.put(simEnvironmentName , mySimEnvironment);
+			SimEnvironment myCrewEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str(crewEnvironmentName));
+			modules.put(crewEnvironmentName , myCrewEnvironment);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+simEnvironmentName+", ending!");
+			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+crewEnvironmentName+", ending!");
+			System.exit(0);
+		}
+		try{
+			SimEnvironment myPlantEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str(plantEnvironmentName));
+			modules.put(plantEnvironmentName , myPlantEnvironment);
+		}
+		catch (org.omg.CORBA.UserException e){
+			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+plantEnvironmentName+", ending!");
 			System.exit(0);
 		}
 		try{
@@ -705,14 +733,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	* When every server has been ticked, BioDriverImpl notifies all it's listeners that this has happened.
 	*/
 	private void tick(){
-		//first tick SimEnvironment
-		mySimEnvironment.tick();
 		//Iterate through the rest of the modules and tick them
 		for (Iterator iter = modules.values().iterator(); iter.hasNext();){
 			BioModule currentBioModule = (BioModule)(iter.next());
-			if (!(currentBioModule.getModuleName().equals(simEnvironmentName))){
-				currentBioModule.tick();
-			}
+			currentBioModule.tick();
 		}
 		ticksGoneBy++;
 	}

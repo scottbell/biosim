@@ -1,5 +1,5 @@
 module power{
-        interface PowerPS : framework::BioModule{
+        interface PowerPS : framework::BioModule, framework::PowerProducer, framework::LightConsumer{
                 float getPowerProduced();
         };
         interface PowerStore : framework::Store{

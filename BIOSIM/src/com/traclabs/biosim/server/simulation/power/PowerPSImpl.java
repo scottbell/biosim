@@ -14,35 +14,40 @@ import biosim.server.framework.*;
  * @author    Scott Bell
  */
 
-public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperations {
+public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperations, PowerProducerOperations, LightConsumerOperations {
 	//The power produced (in watts) by the Power PS at the current tick
 	float currentPowerProduced = 0f;
 	//Flag switched when the Power PS has collected references to other servers it need
 	private boolean hasCollectedReferences = false;
-	//References to the PowerStore the Power PS takes/puts power into
-	PowerStore myPowerStore;
-	SimEnvironment mySimEnvironment;
 	private LogIndex myLogIndex;
-	
+	private PowerStore[] myPowerStores;
+	private float[] powerFlowRates;
+	private SimEnvironment myLightInput;
+
 	public PowerPSImpl(int pID){
 		super(pID);
+		myPowerStores = new PowerStore[0];
+		powerFlowRates = new float[0];
 	}
-	
+
 	/**
 	* When ticked, the PowerPS does the following:
 	* 1) attempts to collect references to various server (if not already done).
 	* 2) creates power and places it into the power store.
 	*/
 	public void tick(){
-		collectReferences();
 		currentPowerProduced = calculatePowerProduced();
 		if (isMalfunctioning())
 			performMalfunctions();
-		myPowerStore.add(currentPowerProduced);
+		float distributedPowerLeft = currentPowerProduced;
+		for (int i = 0; (i < myPowerStores.length) && (distributedPowerLeft > 0); i++){
+			float powerToDistribute = Math.min(distributedPowerLeft, powerFlowRates[i]);
+			distributedPowerLeft -= myPowerStores[i].add(powerToDistribute);
+		}
 		if (moduleLogging)
 			log();
 	}
-	
+
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
 		StringBuffer returnBuffer = new StringBuffer();
 		if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
@@ -57,7 +62,7 @@ public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperat
 			returnBuffer.append("Production Rate Decrease (Permanent)");
 		return returnBuffer.toString();
 	}
-	
+
 	private void performMalfunctions(){
 		float productionRate = 1f;
 		for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); ){
@@ -81,9 +86,9 @@ public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperat
 		}
 		currentPowerProduced *= productionRate;
 	}
-	
+
 	abstract float calculatePowerProduced();
-	
+
 	/**
 	* Reset does nothing right now
 	*/
@@ -91,23 +96,7 @@ public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperat
 		super.reset();
 		currentPowerProduced = 0f;
 	}
-	
-	/**
-	* Collects reference to PowerStore needed for putting/getting power.
-	*/
-	void collectReferences(){
-		try{
-			if (!hasCollectedReferences){
-				mySimEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str("SimEnvironment"+getID()));
-				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"+getID()));
-				hasCollectedReferences = true;
-			}
-		}
-		catch (org.omg.CORBA.UserException e){
-			e.printStackTrace(System.out);
-		}
-	}
-	
+
 	/**
 	* Returns the power produced (in watts) by the Power PS during the current tick
 	* @return the power produced (in watts) by the Power PS during the current tick
@@ -115,7 +104,7 @@ public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperat
 	public  float getPowerProduced(){
 		return currentPowerProduced;
 	}
-	
+
 	/**
 	* Returns the name of this module (PowerPS)
 	* @return the name of the module
@@ -123,7 +112,7 @@ public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperat
 	public String getModuleName(){
 		return "PowerPS"+getID();
 	}
-	
+
 	void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
@@ -143,5 +132,30 @@ public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperat
 	*/
 	private class LogIndex{
 		public LogNode powerProducedIndex;
+	}
+
+	public void setPowerOutputFlowrate(float watts, int index){
+		powerFlowRates[index] = watts;
+	}
+
+	public float getPowerOutputFlowrate(int index){
+		return powerFlowRates[index];
+	}
+
+	public void setPowerOutputs(PowerStore[] destinations, float[] flowRates){
+		myPowerStores = destinations;
+		powerFlowRates = flowRates;
+	}
+
+	public PowerStore[] getPowerOutputs(){
+		return myPowerStores;
+	}
+
+	public void setLightInput(SimEnvironment source){
+		myLightInput = source;
+	}
+
+	public SimEnvironment getLightInput(){
+		return myLightInput;
 	}
 }

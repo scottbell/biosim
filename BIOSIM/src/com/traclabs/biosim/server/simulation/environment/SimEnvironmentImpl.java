@@ -33,13 +33,15 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	private static final float STARTING_HOUR = 0f;
 	private static final float DAY_LENGTH = 24f;
 	private float leakRate = 0.0f;
+	private String myName;
 	private LogIndex myLogIndex;
 	
 	/**
 	* Creates a SimEnvironment (with a capacity of 100 liters) and resets the gas levels to correct percantages of sea level air
 	*/
-	public SimEnvironmentImpl(int pID){
+	public SimEnvironmentImpl(int pID, String pName){
 		super(pID);
+		myName = pName;
 		reset();
 	}
 	
@@ -47,9 +49,10 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	* Creates a SimEnvironment with a set initial capacity and resets the gas levels to correct percantages of sea level air
 	* @param initialCapacity the initial capacity of the environment in liters
 	*/
-	public SimEnvironmentImpl(int pID, float initialCapacity){
+	public SimEnvironmentImpl(int pID, float initialCapacity, String pName){
 		super(pID);
 		capacity = oldCapacity = initialCapacity;
+		myName = pName;
 		reset();
 	}
 	
@@ -60,8 +63,9 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	* @param initialOtherLevel the initial capacity of the other gasses (in liters) in the environment
 	* @param initialCapacity the initial capacity of the environment in liters
 	*/
-	public SimEnvironmentImpl (int pID, float initialCO2Level, float initialO2Level, float initialOtherLevel, float initialCapacity){
+	public SimEnvironmentImpl (int pID, float initialCO2Level, float initialO2Level, float initialOtherLevel, float initialCapacity, String pName){
 		super(pID);
+		myName = pName;
 		CO2Level = oldCO2Level = initialCO2Level;
 		O2Level = oldO2Level = initialO2Level;
 		otherLevel = oldOtherLevel = initialOtherLevel;
@@ -411,7 +415,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	* @return the name of this module
 	*/
 	public String getModuleName(){
-		return "SimEnvironment"+getID();
+		return myName+getID();
 	}
 	
 	private void log(){
