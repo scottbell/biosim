@@ -6,6 +6,8 @@ module framework{
                 float take(in float metricAmount);
                 float getLevel();
                 float getCapacity();
+		boolean isPipe();
+		void setPipe(in boolean pPipe);
         };
 	interface SimBioModule : framework::BioModule{};
 	interface Injector : framework::SimBioModule, PowerConsumer, PotableWaterConsumer, GreyWaterConsumer, DirtyWaterConsumer, O2Consumer, CO2Consumer, AirConsumer, BiomassConsumer, FoodConsumer, O2AirConsumer, CO2AirConsumer, PowerProducer, PotableWaterProducer, GreyWaterProducer, DirtyWaterProducer, O2Producer, CO2Producer, AirProducer, BiomassProducer, FoodProducer, O2AirProducer, CO2AirProducer{
