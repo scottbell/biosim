@@ -10,4 +10,21 @@
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
+	
+	<xsd:complexType name="BioModuleType" abstract="true">
+		<xsd:sequence>
+			<xsd:element name="isLoggingEnabled" type="xsd:boolean" fixed="false"/>
+			<xsd:element name="isBreakdownEnabled" type="xsd:boolean" fixed="false"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="Store">  
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:sequence>
+					<xsd:element name="capacity" type="xsd:integer" fixed="20"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
 </xsd:schema>
