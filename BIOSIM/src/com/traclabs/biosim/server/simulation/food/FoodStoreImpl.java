@@ -71,6 +71,7 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 				collectedMass += partialReturnedFoodMatter.mass;
 			}
 		}
+		level -= collectedMass;
 		//return the array
 		FoodMatter[] returnArrayType = new FoodMatter[0];
 		return (FoodMatter[])(itemsToReturn.toArray(returnArrayType));
@@ -96,6 +97,7 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 				}
 			}
 		}
+		level -= matterToReturn.mass;
 		return matterToReturn;
 	}
 
@@ -108,6 +110,7 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 				currentFoodItems.remove(currentFoodMatter);
 			}
 		}
+		level -= matterToReturn.mass;
 		return matterToReturn;
 	}
 
