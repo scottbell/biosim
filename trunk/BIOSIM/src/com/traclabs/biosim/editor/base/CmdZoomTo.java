@@ -28,7 +28,7 @@ import com.traclabs.biosim.editor.ui.ZoomDialog;
  */
 public class CmdZoomTo extends Cmd {
     public CmdZoomTo() {
-        super("VesprBase", "ZoomTo");
+        super("EditorBase", "ZoomTo");
     }
 
     public void doIt() {

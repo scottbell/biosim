@@ -18,11 +18,11 @@ import org.tigris.gef.base.Globals;
  */
 public class CmdShowParent extends Cmd {
     public CmdShowParent() {
-        super("VesprBase", "ShowParent");
+        super("EditorBase", "ShowParent");
     }
 
     public CmdShowParent(ImageIcon icon) {
-        super(null, "VesprBase", "ShowParent", icon);
+        super(null, "EditorBase", "ShowParent", icon);
     }
 
     public void doIt() {

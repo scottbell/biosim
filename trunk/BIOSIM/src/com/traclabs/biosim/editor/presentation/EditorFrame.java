@@ -44,10 +44,10 @@ import org.tigris.gef.base.Globals;
 import org.tigris.gef.base.Layer;
 import org.tigris.gef.graph.presentation.JGraphFrame;
 
-import com.traclabs.biosim.editor.base.CmdNewVespr;
-import com.traclabs.biosim.editor.base.CmdOpenVespr;
-import com.traclabs.biosim.editor.base.CmdSaveAsVespr;
-import com.traclabs.biosim.editor.base.CmdSaveVespr;
+import com.traclabs.biosim.editor.base.CmdNewEditor;
+import com.traclabs.biosim.editor.base.CmdOpenEditor;
+import com.traclabs.biosim.editor.base.CmdSaveAsEditor;
+import com.traclabs.biosim.editor.base.CmdSaveEditor;
 import com.traclabs.biosim.editor.base.CmdTreeLayout;
 import com.traclabs.biosim.editor.base.CmdZoomTo;
 import com.traclabs.biosim.editor.base.EditorCmdCopy;
@@ -143,7 +143,7 @@ public class EditorFrame extends JGraphFrame {
         _menubar.add(file);
 
         // Create the New menu item.
-        JMenuItem newItem = file.add(new CmdNewVespr());
+        JMenuItem newItem = file.add(new CmdNewEditor());
         newItem.setMnemonic('N');
         KeyStroke ctrlN = KeyStroke.getKeyStroke(KeyEvent.VK_N,
                 KeyEvent.CTRL_MASK);
@@ -151,21 +151,21 @@ public class EditorFrame extends JGraphFrame {
         file.add(newItem); //added for VESPR
 
         // Create the Open menu item.
-        JMenuItem openItem = file.add(new CmdOpenVespr());
+        JMenuItem openItem = file.add(new CmdOpenEditor());
         openItem.setMnemonic('O');
         KeyStroke ctrlO = KeyStroke.getKeyStroke(KeyEvent.VK_O,
                 KeyEvent.CTRL_MASK);
         openItem.setAccelerator(ctrlO);
 
         // Create the Save menu item.
-        JMenuItem saveItem = file.add(new CmdSaveVespr());
+        JMenuItem saveItem = file.add(new CmdSaveEditor());
         saveItem.setMnemonic('S');
         KeyStroke ctrlS = KeyStroke.getKeyStroke(KeyEvent.VK_S,
                 KeyEvent.CTRL_MASK);
         saveItem.setAccelerator(ctrlS);
 
         // Create the Save As menu item.
-        JMenuItem saveAsItem = file.add(new CmdSaveAsVespr());
+        JMenuItem saveAsItem = file.add(new CmdSaveAsEditor());
         saveAsItem.setMnemonic('A');
 
         file.addSeparator();

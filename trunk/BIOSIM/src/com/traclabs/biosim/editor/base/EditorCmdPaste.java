@@ -86,6 +86,5 @@ public class EditorCmdPaste extends Cmd {
     }
 
     public void undoIt() {
-        System.out.println("VesprCmdPaste.undoIt");
     }
 }

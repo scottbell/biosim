@@ -12,11 +12,11 @@ import javax.swing.Action;
 import org.tigris.gef.base.Cmd;
 import org.tigris.gef.base.Globals;
 
-public class CmdSaveAsVespr extends Cmd {
-    protected CmdSaveVespr _cmd = new CmdSaveVespr();
+public class CmdSaveAsEditor extends Cmd {
+    protected CmdSaveEditor _cmd = new CmdSaveEditor();
 
-    public CmdSaveAsVespr() {
-        super("VesprBase", "SaveAs");
+    public CmdSaveAsEditor() {
+        super("EditorBase", "SaveAs");
         putValue(Action.SHORT_DESCRIPTION,
                 "Saves the active document with a new name");
     }

@@ -43,11 +43,11 @@ public class CmdTreeLayout extends Cmd {
     private static final int VerticalSep = 30;
 
     public CmdTreeLayout() {
-        super("VesprBase", "TreeLayout");
+        super("EditorBase", "TreeLayout");
     }
 
     public CmdTreeLayout(ImageIcon icon) {
-        super(null, "VesprBase", "TreeLayout", icon);
+        super(null, "EditorBase", "TreeLayout", icon);
     }
 
     public void doIt() {

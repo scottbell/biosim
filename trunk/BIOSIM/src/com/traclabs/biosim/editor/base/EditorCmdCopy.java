@@ -33,11 +33,11 @@ public class EditorCmdCopy extends Cmd implements ClipboardOwner {
 
     private File _tempFile;
 
-    private CmdSaveVespr _cmd;
+    private CmdSaveEditor _cmd;
 
     public EditorCmdCopy() {
         super("Copy");
-        _cmd = new CmdSaveVespr();
+        _cmd = new CmdSaveEditor();
         putValue(Action.SHORT_DESCRIPTION,
                 "Copies the selection and puts it on the clipboard");
     }

@@ -26,11 +26,11 @@ import com.traclabs.biosim.editor.graph.EditorFigNode;
  */
 public class CmdExpandNode extends Cmd {
     public CmdExpandNode() {
-        super("VesprBase", "ExpandNode");
+        super("EditorBase", "ExpandNode");
     }
 
     public CmdExpandNode(ImageIcon icon) {
-        super(null, "VesprBase", "ExpandNode", icon);
+        super(null, "EditorBase", "ExpandNode", icon);
     }
 
     public void doIt() {

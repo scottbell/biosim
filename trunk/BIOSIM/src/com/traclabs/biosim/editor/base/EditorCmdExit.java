@@ -15,10 +15,10 @@ public class EditorCmdExit extends Cmd {
 
     EditorFrame _frame;
 
-    private CmdSaveVespr _cmd = new CmdSaveVespr();
+    private CmdSaveEditor _cmd = new CmdSaveEditor();
 
     public EditorCmdExit(EditorFrame frame) {
-        super("VesprBase", "Exit");
+        super("EditorBase", "Exit");
         _frame = frame;
     }
 
