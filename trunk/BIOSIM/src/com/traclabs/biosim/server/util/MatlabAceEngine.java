@@ -41,7 +41,7 @@ public class MatlabAceEngine extends Engine {
         	myLogger.debug("Checking to see if server said hello");
     		if (mySocketTextReader.readLine().equals(SERVER_HELLO)){
     			//say hello
-            	myLogger.debug("It did say hello.  Saying hello back");
+            	myLogger.debug("It did say hello. Saying hello back");
     			mySocketTextWriter.write(CLIENT_HELLO + "\n");
     			mySocketTextWriter.flush();
     			isInitialized = true;
@@ -66,9 +66,11 @@ public class MatlabAceEngine extends Engine {
 			mySocketTextWriter.flush();
     		myLogger.debug("sending double length: "+inputVector.length);
     		mySocketDataOutputStream.writeInt(inputVector.length);
-        	for (int i = 0; i < inputVector.length; i++){
+    		mySocketDataOutputStream.flush();
+    		for (int i = 0; i < inputVector.length; i++){
         		myLogger.debug("sending double: "+inputVector[i]);
         		mySocketDataOutputStream.writeDouble(inputVector[i]);
+        		mySocketDataOutputStream.flush();
         	}
         }
         catch (IOException e){

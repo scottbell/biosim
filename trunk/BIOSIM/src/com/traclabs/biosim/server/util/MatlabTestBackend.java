@@ -107,9 +107,9 @@ public class MatlabTestBackend {
 		try {
 			initializeStreams(clientSocket);
 			if (isBiosimClient()) {
+				myLogger.debug("Client connected!");
 				boolean clientWantsToLeave = false;
 				while (!clientWantsToLeave) {
-					myLogger.debug("Client connected!");
 					String operationRequested = determineOperationRequested();
 					if (operationRequested.equals(MatlabAceEngine.PUT_REQUEST))
 						handlePutRequest();
@@ -125,9 +125,10 @@ public class MatlabTestBackend {
 				}
 			} else {
 				myLogger
-						.debug("Non-biosim client attempted to connect, closing socket");
-				clientSocket.close();
+						.debug("Non-biosim client attempted to connect");
 			}
+			myLogger.debug("closing socket");
+			clientSocket.close();
 
 		} catch (IOException e) {
 			myLogger.error(e);
@@ -139,6 +140,7 @@ public class MatlabTestBackend {
 	 *  
 	 */
 	private void handlePutRequest() throws IOException {
+		myLogger.debug("handling put request");
 		int doubleVectorLength = mySocketDataInputStream.readInt();
 		myLogger.debug("received doubleVectorLength " + doubleVectorLength);
 		myCurrentInputData = new double[doubleVectorLength];
@@ -160,14 +162,16 @@ public class MatlabTestBackend {
 	 *  
 	 */
 	private void handleGetRequest() throws IOException {
-		int doubleVectorLength = mySocketDataInputStream.readInt();
-		myLogger.debug("received doubleVectorLength " + doubleVectorLength);
-		myCurrentInputData = new double[doubleVectorLength];
-		for (int i = 0; i < myCurrentInputData.length; i++) {
-			double readDouble = mySocketDataInputStream.readDouble();
-			myLogger.debug("received double " + readDouble);
-			myCurrentInputData[i] = readDouble;
-		}
+		double[] outputVector = {6d, 7.54d, Math.PI * 2d, 5.9d, 8d, 9.23322d};
+		myLogger.debug("handling get request");
+		myLogger.debug("sending double length: "+outputVector.length);
+		mySocketDataOutputStream.writeInt(outputVector.length);
+		mySocketDataOutputStream.flush();
+    	for (int i = 0; i < outputVector.length; i++){
+    		myLogger.debug("sending double: "+outputVector[i]);
+    		mySocketDataOutputStream.writeDouble(outputVector[i]);
+    		mySocketDataOutputStream.flush();
+    	}
 	}
 
 	/**
