@@ -1,8 +1,8 @@
-package biosim.client.power.gui;
+package biosim.client.simulation.power.gui;
 
 import javax.swing.*;
 import java.awt.*;
-import biosim.client.framework.gui.*;
+import biosim.client.simulation.framework.gui.*;
 
 /**
  * This is the JPanel that displays a chart about the Power

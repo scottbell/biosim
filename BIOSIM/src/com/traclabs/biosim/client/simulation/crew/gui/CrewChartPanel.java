@@ -1,8 +1,8 @@
-package biosim.client.crew.gui;
+package biosim.client.simulation.crew.gui;
 
 import javax.swing.*;
 import java.awt.*;
-import biosim.client.framework.gui.*;
+import biosim.client.simulation.framework.gui.*;
 
 /**
  * This is the JPanel that displays a chart about the Air

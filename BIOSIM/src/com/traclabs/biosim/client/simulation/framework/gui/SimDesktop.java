@@ -1,20 +1,21 @@
+package biosim.client.simulation.framework.gui;
+
 /**
  * SimDesktop is the main client GUI.  It holds references to all the rest of the various modules' GUIs.
  *
  * @author    Scott Bell
  */
 
-package biosim.client.framework.gui;
 
-import biosim.client.framework.*;
-import biosim.client.framework.gui.*;
-import biosim.client.util.*;
-import biosim.client.environment.gui.*;
-import biosim.client.air.gui.*;
-import biosim.client.crew.gui.*;
-import biosim.client.food.gui.*;
-import biosim.client.power.gui.*;
-import biosim.client.water.gui.*;
+import biosim.client.simulation.framework.*;
+import biosim.client.simulation.framework.gui.*;
+import biosim.client.simulation.util.*;
+import biosim.client.simulation.environment.gui.*;
+import biosim.client.simulation.air.gui.*;
+import biosim.client.simulation.crew.gui.*;
+import biosim.client.simulation.food.gui.*;
+import biosim.client.simulation.power.gui.*;
+import biosim.client.simulation.water.gui.*;
 import biosim.idl.framework.*;
 import javax.swing.*;
 import java.awt.event.*;
@@ -582,7 +583,7 @@ public class SimDesktop extends BioFrame
 			displayMalfunction();
 			displayStochastic();
 			if (ae.getModifiers() == (ActionEvent.CTRL_MASK + 16)){
-				biosim.client.util.Fnorder myFnord = new Fnorder();
+				biosim.client.simulation.util.Fnorder myFnord = new Fnorder();
 				String message = myFnord.getFnord();
 				ImageIcon fnordIcon = new ImageIcon(ClassLoader.getSystemResource("biosim/client/framework/gui/pyramid.gif"));
 				JOptionPane fnordPane = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, fnordIcon);

@@ -1,4 +1,4 @@
-package biosim.client.framework;
+package biosim.client.simulation.framework;
 
 import biosim.idl.framework.*;
 import java.io.*;

@@ -1,4 +1,4 @@
-package biosim.client.util;
+package biosim.client.simulation.util;
 
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
