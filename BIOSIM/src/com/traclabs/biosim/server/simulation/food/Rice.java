@@ -9,12 +9,14 @@ import biosim.idl.simulation.food.*;
 public class Rice extends Erectophile{
 	public Rice(ShelfImpl pShelfImpl){
 		super(pShelfImpl);
-		canopyClosureConstants[0] = 95488f;
-		canopyClosureConstants[1] = 1068.6f;
-		canopyClosureConstants[6] = 15.977f;
-		canopyClosureConstants[10] = 0.3419f;
-		canopyClosureConstants[11] = 0.00019733f;
-		canopyClosureConstants[15] = -0.00019076f;
+		canopyClosureConstants[0] = 6591400f;
+		canopyClosureConstants[1] = 25776f;
+		canopyClosureConstants[3] = .0064532f;
+		canopyClosureConstants[5] = -3748f;
+		canopyClosureConstants[7] = -0.043378f;
+		canopyClosureConstants[12] = .00004562f;
+		canopyClosureConstants[16] = .0000045207f;
+		canopyClosureConstants[17] = -.000000014936f;
 
 		canopyQYConstants[6] = 0.044793f;
 		canopyQYConstants[7] = 0.000051583f;

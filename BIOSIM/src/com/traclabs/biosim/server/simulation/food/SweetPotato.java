@@ -9,12 +9,11 @@ import biosim.idl.simulation.food.*;
 public class SweetPotato extends Planophile{
 	public SweetPotato(ShelfImpl pShelfImpl){
 		super(pShelfImpl);
-		canopyClosureConstants[0] = 290410f;
-		canopyClosureConstants[1] = 1559.4f;
-		canopyClosureConstants[6] = 15.840f;
-		canopyClosureConstants[10] = .0061120f;
-		canopyClosureConstants[17] = -0.0000000037409f;
-		canopyClosureConstants[24] = .00000000000000000096484f;
+		canopyClosureConstants[0] = 1207000f;
+		canopyClosureConstants[1] = 4948.4f;
+		canopyClosureConstants[6] = 4.2978f;
+		canopyClosureConstants[20] = .00000040109f;
+		canopyClosureConstants[22] = .0000000000020193f;
 
 		canopyQYConstants[6] = .04191f;
 		canopyQYConstants[7] = .000053852f;
