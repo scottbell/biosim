@@ -1,2 +1,2 @@
 @echo off
-bash %BIOSIM_HOME%/bin/run-client.sh %1
+bash %BIOSIM_HOME%/bin/run-client.sh %1 %2
