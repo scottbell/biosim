@@ -171,9 +171,9 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		float kelvinTemperature = getTemperature() + 239f;
 		if (kelvinTemperature <= 0)
 			return 0f;
-		float exponent = (14.4f * getTemperature()) / kelvinTemperature;
-		float saturatedVaporPressure = 6.11f * exp(exponent);
-		return getTotalPressure() / saturatedVaporPressure;
+		float exponent = (17.4f * getTemperature()) / kelvinTemperature;
+		float saturatedVaporPressure = .611f * exp(exponent);
+		return getWaterPressure() / saturatedVaporPressure;
 	}
 
 	//returns temperature in celsius
