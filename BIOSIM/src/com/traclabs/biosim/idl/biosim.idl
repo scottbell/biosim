@@ -3,6 +3,7 @@ module biosim{
                 typedef sequence <string> StringList;
 
                 module framework{
+			enum BioDriverInit {DEFAULT_INIT, OPTIMAL_INIT, NO_INIT};
                         interface BioModule{
                                 void tick();
                                 string getModuleName();
@@ -39,7 +40,7 @@ module biosim{
 				boolean isDone();
 				long getTicks();
 				void reset();
-				void setDefaultInitialization(in boolean value);
+				void setInitialization(in BioDriverInit myInit);
                         };
                 };
 
