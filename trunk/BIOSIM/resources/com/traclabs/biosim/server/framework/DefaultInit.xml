@@ -18,4 +18,14 @@
 		<level>100</level>
 		<PotableWaterStoreName>PotableWaterStore0</PotableWaterStoreName>
 	</PotableWaterStore>
+	<AirRS>
+		<isLoggingEnabled>false</isLoggingEnabled>
+		<isBreakdownEnabled>false</isBreakdownEnabled>
+		<AirRSName>AirRS0</AirRSName>
+		<powerConsumer>
+			<maxFlowrates>100</maxFlowrates>
+			<desiredFlowrates>100</desiredFlowrates>
+			<powerStoreInput>PowerStore</powerStoreInput>
+		</powerConsumer>
+	</AirRS>
 </biosim>
