@@ -2,7 +2,10 @@
 
 echo "*running client"
 echo "	-initializing"
-userSelect="$@"
+case $1 in
+	"-ga") userSelect=$2;iorHome=$GA_HOME;;
+	*) userSelect=$1;iorHome=$BIOSIM_HOME;;
+esac
 devRootDir=$BIOSIM_HOME
 JRE_HOME="$JAVA_HOME/jre"
 jacoOrbClass="-Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB"
@@ -24,7 +27,7 @@ then
 fi
 JACORB_HOME="$devRootDir/lib/jacorb"
 #jacoNameIOR="-DORBInitRef.NameService=file:$devRootDir/generated/ns/ior.txt"
-jacoNameIOR="-DORBInitRef.NameService=file:$BIOSIM_HOME/generated/ns/ior.txt"
+jacoNameIOR="-DORBInitRef.NameService=file:$iorHome/generated/ns/ior.txt"
 separator=":"
 machineType=`uname`
 winName="CYGWIN"
@@ -54,12 +57,14 @@ jacoInvocation="$java_command -client -classpath $plotClasspath$separator$client
 echo "	-starting client"
 console="console"
 gui="gui"
+help="-?"
 logviewer="logviewer"
 case $userSelect in
 	$console) echo "			 -starting $userSelect";$jacoInvocation $driverName $console;;
 	$gui) echo "			 -starting $userSelect";$jacoInvocation $driverName $gui;;
 	$logviewer) echo "			 -starting $userSelect";$jacoInvocation $logviewerName;;
-	*) echo "			 -starting default (available options are: console, gui, logviewer)";$jacoInvocation $driverName;;
+	$help) echo "Usage: make-client.sh (-ga) [console, gui, logviewer]";;
+	*) echo "			 -starting default";$jacoInvocation $driverName;;
 esac
 echo "*done invoking clients"
 
