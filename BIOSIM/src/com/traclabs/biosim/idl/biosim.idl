@@ -22,6 +22,7 @@ module com{
                                                 interface Activity;
                                                 interface RepairActivity;
                                                 interface MaitenanceActivity;
+                                                interface EVAActivity;
                                                 interface CrewPerson;
                                                 interface CrewGroup;
                                         };
@@ -645,6 +646,10 @@ module com{
                                                 };
                                                 interface MaitenanceActivity : Activity{
                                                         string getModuleToMaitenance();
+                                                };
+                                                interface EVAActivity : Activity{
+                                                        environment::SimEnvironment getBaseEnvironment();
+                                                        environment::SimEnvironment getOutsideEnvironment();
                                                 };
                                                 interface CrewPerson{
                                                         Activity getCurrentActivity();
