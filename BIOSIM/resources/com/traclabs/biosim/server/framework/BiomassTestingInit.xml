@@ -10,7 +10,7 @@
 		</environment>                    
 		<food>
 			<BiomassRS name="BiomassRS" autoHarvestAndReplant="false">
-				<shelf cropArea="1" cropType="DRY_BEAN"/>
+				<shelf cropArea="100" cropType="DRY_BEAN"/>
 				<powerConsumer maxFlowRates="400" desiredFlowRates="400" inputs="PowerStore"/>
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="GreyWaterStore"/>
@@ -26,7 +26,7 @@
 		</power>
 		<water>
 			<PotableWaterStore name="PotableWaterStore" capacity="0" level="0"/>
-			<GreyWaterStore name="GreyWaterStore" capacity="500000000000" level="500000000000"/>
+			<GreyWaterStore name="GreyWaterStore" capacity="0" level="0"/>
 			<DirtyWaterStore name="DirtyWaterStore" capacity="500000000000" level="0"/>
 		</water>
 	</SimBioModules>
