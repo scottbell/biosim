@@ -21,7 +21,9 @@ public class OrbUtils{
 	//The naming context reference
 	private static NamingContextExt ncRef = null;
 	
-	//should never be called
+	/**
+	* Shouldn't be called (everything static!)
+	*/
 	private OrbUtils(){
 	}
 	
@@ -52,6 +54,9 @@ public class OrbUtils{
 		return ncRef;
 	}
 	
+	/**
+	* Forces OrbUtils to retrieve the RootPoa and Naming Service again on next request.
+	*/
 	public static void resetInit(){
 		runOnce = false;
 	}

@@ -16,13 +16,22 @@ import javax.xml.transform.sax.*;
  */
 
 public class XMLLogHandler implements LogHandler{
+	//The File handle of where we're going to put the XML output
 	private File myOutputFile;
+	//The default name of the XML file to output
 	private static String DEFAULT_FILENAME = "biosim-log.xml";
+	//Used to transform SAX into a file output stream
 	private TransformerHandler myHandler;
+	//Empty attributes used to tack onto LogNodes (none of them have attributes)
 	private AttributesImpl emptyAtts;
+	//Whether XML file has been created, tags initialized, etc
 	private boolean initialized = false;
+	//The writer that takes the XML stream and outputs it to a file
 	private FileWriter myFileWriter;
 
+	/**
+	* The default constructor creates a file in $BIOSIM_HOME/generated/biosim-log.xml
+	*/
 	public XMLLogHandler(){
 		String biosimPath = new String();biosimPath = System.getProperty("BIOSIM_HOME");
 		if (biosimPath != null)
@@ -32,11 +41,19 @@ public class XMLLogHandler implements LogHandler{
 		else
 			myOutputFile = new File(DEFAULT_FILENAME);
 	}
-
+	
+	/**
+	* This constructor creates the xml log file in the file specified
+	* @param pOutputFile where the xml will outputted to
+	*/
 	public XMLLogHandler(File pOutputFile){
 		myOutputFile = pOutputFile;
 	}
-
+	
+	/**
+	* Initializes the XML writing process (if not done already) and prints the LogNode to XML
+	* @param logToWrite the LogNode to write
+	*/
 	public void writeLog(LogNode logToWrite){
 		try{
 			if (!initialized)
@@ -48,7 +65,10 @@ public class XMLLogHandler implements LogHandler{
 			e.printStackTrace();
 		}
 	}
-
+	
+	/**
+	* Ends the root tags of the XML file and flushes the output
+	*/
 	public void endLog(){
 		if (!initialized)
 			return;
@@ -63,7 +83,10 @@ public class XMLLogHandler implements LogHandler{
 			e.printStackTrace();
 		}
 	}
-
+	
+	/**
+	* Initializes the XML output process.  Sets the encoding methods, begins root tags, opens file, etc.
+	*/
 	private void initializeXML() throws IOException, TransformerConfigurationException, SAXException{
 		// PrintWriter from a Servlet
 		emptyAtts = new AttributesImpl();
@@ -80,13 +103,20 @@ public class XMLLogHandler implements LogHandler{
 		myHandler.startElement("","","biosim",emptyAtts);
 		initialized = true;
 	}
-
+	
+	/**
+	* Ends root tag and flushs output
+	*/
 	private void endXML() throws SAXException, IOException{
 		myHandler.endElement("","","biosim");
 		myHandler.endDocument();
 		myFileWriter.flush();
 	}
-
+	
+	/**
+	* Recursively prints out the LogNode.
+	* @param currentNode The current LogNode being printed
+	*/
 	private void printXMLTree(LogNode currentNode) throws SAXException{
 		if (currentNode == null){
 			return;  // There is nothing to print in an empty tree.

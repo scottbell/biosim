@@ -8,8 +8,9 @@ import biosim.server.util.*;
 import biosim.idl.util.log.*;
 import biosim.server.framework.*;
 /**
- * The basic Store Implementation.  Allows for basic store functionality (like adding, removing).
- *
+ * The basic Store Implementation.  Allows for basic store functionality (like adding, removing).<br>
+ * Stores report information about their levels, etc. from currentTick-1 until ALL modules have advanced to currentTick.<br>
+ * This allows for simulated parralelism.
  * @author    Scott Bell
  */
 
@@ -22,10 +23,15 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 	protected float capacity = 0.0f;
 	//The capacity of what this store can hold (at t-1)
 	protected float oldCapacity = 0.0f;
+	//What the capacity was before the permanent malfunction
 	private float preMalfunctionCapacity = 0.0f;
-	private SimEnvironment myCurrentEnvironment;
+	//Used for finding what the current tick is (to see if we're behind or ahead)
+	private BioDriver myDriver;
+	//An index into the LogNode (speeds up performance)
 	private LogIndex myLogIndex;
+	//What I think the current tick is.
 	private int myTicks = 0;
+	//Whether this Store has collected a reference to the BioDriver or not.
 	private boolean hasCollectedReferences = false;
 
 	/**
@@ -75,22 +81,28 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 	}
 
 	/**
-	* Collects references to servers needed for putting/getting resources.
+	* Collects references to BioDriver for getting current tick
 	*/
 	private void collectReferences(){
 		if (!hasCollectedReferences){
 			try{
-				myCurrentEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str("CrewEnvironment"+getID()));
+				myDriver = BioDriverHelper.narrow(OrbUtils.getNCRef().resolve_str("BioDriver"+getID()));
 				hasCollectedReferences = true;
 
 			}
 			catch (org.omg.CORBA.UserException e){
-				System.err.println("StoreImpl: Couldn't find SimEnvironment!!");
+				System.err.println("StoreImpl: Couldn't find BioDriver!!");
 				e.printStackTrace(System.out);
 			}
 		}
 	}
-
+	
+	/**
+	* Gives a decent name/description of the malfunction as it relates to this module.
+	* @param pIntensity The intensity of the malfunction (severe, medium, low)
+	* @param pIntensity The temporal length of the malfunction (temporary, permanent)
+	* @return the description/name of the malfunction
+	*/
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
 		StringBuffer returnBuffer = new StringBuffer();
 		if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
@@ -105,7 +117,10 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 			returnBuffer.append("Capacity Reduction");
 		return returnBuffer.toString();
 	}
-
+	
+	/**
+	* Actually performs the malfunctions.  Reduces levels/capacity
+	*/
 	private void performMalfunctions(){
 		for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); ){
 			Malfunction currentMalfunction = (Malfunction)(iter.next());
@@ -191,7 +206,7 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 	*/
 	public float getLevel(){
 		collectReferences();
-		if (myTicks == myCurrentEnvironment.getTicks())
+		if (myTicks == myDriver.getTicks())
 			return oldLevel;
 		else
 			return level;
@@ -203,7 +218,7 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 	*/
 	public float getCapacity(){
 		collectReferences();
-		if (myTicks == myCurrentEnvironment.getTicks())
+		if (myTicks == myDriver.getTicks())
 			return oldCapacity;
 		else
 			return capacity;
@@ -217,7 +232,10 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 		capacity = preMalfunctionCapacity;
 		level = 0.0f;
 	}
-
+	
+	/**
+	* Logs this store and sends it to the Logger to be processed
+	*/
 	private void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){

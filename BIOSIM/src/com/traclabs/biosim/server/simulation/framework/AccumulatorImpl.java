@@ -12,7 +12,9 @@ import biosim.server.util.*;
 import biosim.idl.util.log.*;
 import biosim.server.framework.*;
 /**
- * The basic Accumulator Implementation.
+ * The basic Accumulator Implementation.  Can be configured to take any modules as input, and any modules as output.
+ * It takes as much as it can (max taken set by flowrates) from one module and pushes it into another module.
+ * Functionally equivalent to an Injector at this point. 
  * @author    Scott Bell
  */
 

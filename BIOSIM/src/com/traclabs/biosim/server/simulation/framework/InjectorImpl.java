@@ -12,7 +12,9 @@ import biosim.server.util.*;
 import biosim.idl.util.log.*;
 import biosim.server.framework.*;
 /**
- * The basic Injector Implementation.
+ * The basic Injector Implementation.  Can be configured to take any modules as input, and any modules as output.
+ * It takes as much as it can (max taken set by flowrates) from one module and injects it into another module.
+ * Functionally equivalent to an Accumulator at this point. 
  * @author    Scott Bell
  */
 

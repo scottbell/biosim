@@ -10,7 +10,7 @@ import biosim.server.framework.*;
 public class LoggerServer extends GenericServer{
 	/**
 	* Instantiates the server and binds it to the name server.
-	* @param args aren't used for anything
+	* @param args grabs ID from first element
 	*/
 	public static void main(String args[]) {
 		LoggerServer myServer = new LoggerServer();

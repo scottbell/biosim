@@ -7,6 +7,13 @@ import biosim.idl.util.log.*;
  */
 
 public interface LogHandler {
+	/**
+	* Outputs a LogNode
+	* @param logToWrite takes a LogNode and outputs it
+	*/
 	public void writeLog(LogNode logToWrite);
+	/**
+	* Called when log has ended.  Time to flush, close files, etc.
+	*/
 	public void endLog();
 }
