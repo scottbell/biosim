@@ -12,6 +12,7 @@ import javax.swing.table.*;
 public class MalfunctionPanel extends TimedPanel
 {
 	JTable myTable;
+	JScrollPane myScrollpane;
 	/**
 	 * Default constructor.
 	 */
@@ -30,13 +31,14 @@ public class MalfunctionPanel extends TimedPanel
 		myTableModel.addColumn("Status");
 		myTableModel.addColumn("Malfunction");
 		myTable = new JTable(myTableModel);
-		add(myTable, BorderLayout.CENTER);
 		String[] rowValues = {"one", "two", "three"};
 		myTableModel.addRow(rowValues);
+		myScrollpane = new JScrollPane(myTable);
+		add(myScrollpane, BorderLayout.CENTER);
 	}
 	
 	public static void main(String[] args){
-		BioFrame myFrame = new BioFrame("Malfunctions", false);
+		BioFrame myFrame = new BioFrame("BioSIM Malfunctions Controller", false);
 		MalfunctionPanel myMalfPanel = new MalfunctionPanel();
 		myFrame.getContentPane().add(myMalfPanel);
 		myFrame.pack();
