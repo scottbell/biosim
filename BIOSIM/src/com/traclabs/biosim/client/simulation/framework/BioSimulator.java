@@ -57,6 +57,7 @@ public class BioSimulator implements Runnable
 	//A vector containing the listeners registered with BioSimulator.  Right now this is exclusively GUI's
 	private Vector listeners;
 	private boolean logging = false;
+	private SimEnvironment mySimEnvironment;
 	
 	/**
 	* Creates the BioSimulator and collects references to the servers.
@@ -308,7 +309,7 @@ public class BioSimulator implements Runnable
 			System.out.println("BioSimulator: Couldn't locate AirRS, skipping...");
 		}
 		try{
-			SimEnvironment mySimEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str(simEnvironmentName));
+			mySimEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str(simEnvironmentName));
 			modules.put(simEnvironmentName , mySimEnvironment);
 		}
 		catch (org.omg.CORBA.UserException e){
@@ -416,7 +417,6 @@ public class BioSimulator implements Runnable
 	*/
 	private void tick(){
 		//first tick SimEnvironment
-		SimEnvironment mySimEnvironment =(SimEnvironment)(getBioModule(simEnvironmentName));
 		mySimEnvironment.tick();
 		//Iterate through the rest of the modules and tick them
 		for (Enumeration e = modules.elements(); e.hasMoreElements();){
