@@ -462,6 +462,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		runTillN = false;
 		pauseSimulation();
 		collectReferences();
+		configureSimulation();
 		myTickThread = new Thread(this);
 		myTickThread.start();
 	}
@@ -473,6 +474,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		runTillDead = false;
 		runTillN = false;
 		collectReferences();
+		configureSimulation();
 		myTickThread = new Thread(this);
 		myTickThread.start();
 	}
@@ -483,6 +485,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	public void spawnSimulationAndRunTillDead(){
 		runTillDead = true;
 		collectReferences();
+		configureSimulation();
 		myTickThread = new Thread(this);
 		myTickThread.start();
 	}
@@ -496,6 +499,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		runTillN = true;
 		runTillDead = false;
 		collectReferences();
+		configureSimulation();
 		myTickThread = new Thread(this);
 		myTickThread.start();
 	}
@@ -505,6 +509,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	*/
 	private void loopSimulation(){
 		collectReferences();
+		configureSimulation();
 		myTickThread = new Thread(this);
 		myTickThread.start();
 	}
@@ -523,12 +528,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		}
 		initializationToUse = pInitializationToUse;
 	}
-
-	/**
-	* Invoked by the myTickThread.start() method call and necessary to implement Runnable.
-	* Sets flag that simulation is running, intializes servers (if applicable), then begins ticking them.
-	*/
-	public void run(){
+	
+	private void configureSimulation(){
 		ticksGoneBy = 0;
 		if (initializationToUse == BioDriverInit.DEFAULT_INIT){
 			System.out.println("BioDriverImpl:"+myID+" Initializing default simulation...");
@@ -547,6 +548,13 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		configureSensorsInputs();
 		System.out.println("BioDriverImpl:"+myID+" configuring actuator outputs");
 		configureActuatorsOutputs();
+	}
+
+	/**
+	* Invoked by the myTickThread.start() method call and necessary to implement Runnable.
+	* Sets flag that simulation is running, intializes servers (if applicable), then begins ticking them.
+	*/
+	public void run(){
 		System.out.println("BioDriverImpl:"+myID+" Running simulation...");
 		simulationStarted = true;
 		runSimulation();
