@@ -30,51 +30,51 @@
 				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="DirtyWaterStore"/>
 				<greyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="GreyWaterStore"/>
 				<airProducer maxFlowRates="0" desiredFlowRates="0" outputs="CrewEnvironment"/>
-				<crewPerson name="Bob Roberts" age="43" weight="170" sex="MALE">
+				<crewPerson name="Bob Roberts" age="43" weight="77" sex="MALE">
 					<schedule>
 						<activity name="sleeping" length="8" intensity="1"/>
 						<activity name="hygiene" length="1" intensity="2"/>
 						<activity name="exercise" length="1" intensity="5"/>
 						<activity name="eating" length="1" intensity="2"/>
 						<activity name="mission" length="9" intensity="3"/>
-						<activity name="health" length="1" intensity="4"/>
-						<activity name="maintenance" length="1" intensity="3"/>
+						<activity name="health" length="1" intensity="2"/>
+						<activity name="maintenance" length="1" intensity="2"/>
 						<activity name="recreation" length="2" intensity="2"/>
 					</schedule>
 				</crewPerson>
-				<crewPerson name="Stephanie Stevens" age="25" weight="125" sex="FEMALE">
+				<crewPerson name="Stephanie Stevens" age="25" weight="56" sex="FEMALE">
 					<schedule>
 						<activity name="sleeping" length="8" intensity="1"/>
 						<activity name="hygiene" length="1" intensity="2"/>
 						<activity name="exercise" length="1" intensity="5"/>
 						<activity name="eating" length="1" intensity="2"/>
 						<activity name="mission" length="9" intensity="3"/>
-						<activity name="health" length="1" intensity="4"/>
-						<activity name="maintenance" length="1" intensity="3"/>
+						<activity name="health" length="1" intensity="2"/>
+						<activity name="maintenance" length="1" intensity="2"/>
 						<activity name="recreation" length="2" intensity="2"/>
 					</schedule>
 				</crewPerson>
-				<crewPerson name="Bill Williams" age="30" weight="165" sex="MALE">
+				<crewPerson name="Bill Williams" age="30" weight="75" sex="MALE">
 					<schedule>
 						<activity name="sleeping" length="8" intensity="1"/>
 						<activity name="hygiene" length="1" intensity="2"/>
 						<activity name="exercise" length="1" intensity="5"/>
 						<activity name="eating" length="1" intensity="2"/>
 						<activity name="mission" length="9" intensity="3"/>
-						<activity name="health" length="1" intensity="4"/>
-						<activity name="maintenance" length="1" intensity="3"/>
+						<activity name="health" length="1" intensity="2"/>
+						<activity name="maintenance" length="1" intensity="2"/>
 						<activity name="recreation" length="2" intensity="2"/>
 					</schedule>
 				</crewPerson>
-				<crewPerson name="Janet Janey" age="22" weight="130" sex="FEMALE">
+				<crewPerson name="Janet Janey" age="22" weight="58" sex="FEMALE">
 					<schedule>
 						<activity name="sleeping" length="8" intensity="1"/>
 						<activity name="hygiene" length="1" intensity="2"/>
 						<activity name="exercise" length="1" intensity="5"/>
 						<activity name="eating" length="1" intensity="2"/>
 						<activity name="mission" length="9" intensity="3"/>
-						<activity name="health" length="1" intensity="4"/>
-						<activity name="maintenance" length="1" intensity="3"/>
+						<activity name="health" length="1" intensity="2"/>
+						<activity name="maintenance" length="1" intensity="2"/>
 						<activity name="recreation" length="2" intensity="2"/>
 					</schedule>
 				</crewPerson>
