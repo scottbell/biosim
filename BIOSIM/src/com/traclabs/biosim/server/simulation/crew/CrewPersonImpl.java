@@ -40,19 +40,19 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	public String getName(){
 		return myName;
 	}
-	
+
 	public float getAge(){
 		return age;
 	}
-	
+
 	public float getWeight(){
 		return weight;
 	}
-	
+
 	public Sex getSex(){
 		return sex;
 	}
-	
+
 	public org.omg.CORBA.Object getCurrentActivity(){
 		return (OrbUtils.poaToCorbaObj(myCurrentActivity));
 	}
@@ -81,7 +81,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			e.printStackTrace(System.out);
 		}
 	}
-	
+
 	private void advanceCurrentOrder(){
 		currentOrder++;
 		if (currentOrder >= (myCrewGroup.getNumberOfActivities()))
@@ -103,7 +103,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		}
 		System.out.println("CrewPerson: "+toString());
 	}
-	
+
 	private void deathCheck(){
 		if (starvingTime > 504){
 			myCurrentActivity = myCrewGroup.getRawActivityByName("dead");
@@ -126,7 +126,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			System.out.println("CrewPerson: "+myName+" has died of CO2 poisioning!!");
 		}
 	}
-	
+
 	private float calculateO2Needed(int currentActivityIntensity){
 		if (currentActivityIntensity < 0)
 			return 0f;
@@ -136,17 +136,17 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		Double result = new Double((a+b * Math.pow(heartRate, 3f)) * 60f);
 		return result.floatValue(); //Liters/hour
 	}
-	
+
 	private float calculateCO2Produced(float O2Consumed){
 		Double result = new Double(O2Consumed * 0.86);
 		return result.floatValue();
 	}
-	
+
 	private float calculateO2Produced(float O2Consumed){
 		Double result = new Double(O2Consumed * 0.14);
 		return result.floatValue();
 	}
-	
+
 	private float calculateFoodNeeded(int currentActivityIntensity){
 		if (currentActivityIntensity < 0)
 			return 0f;
@@ -169,29 +169,29 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		Double kgFoodNeeded = new Double(caloriesNeeded / energyFromFood);
 		return kgFoodNeeded.floatValue();
 	}
-	
+
 	private float calculateDirtyWaterProduced(float cleanWaterConsumed){
 		Double result = new Double(cleanWaterConsumed * 0.3625);
 		return result.floatValue();
 	}
-	
+
 	private float calculateGreyWaterProduced(float cleanWaterConsumed){
 		Double result = new Double(cleanWaterConsumed * 0.6375);
 		return result.floatValue();
 	}
-	
+
 	private float calculateCleanWaterNeeded(int currentActivityIntensity){
 		if (currentActivityIntensity > 0)
 			return 30f;
 		else
 			return 0f;
 	}
-	
+
 	private float getCO2Ratio(Breath aBreath){
 		Double ratio = new Double(aBreath.CO2 / (aBreath.O2 + aBreath.CO2 + aBreath.other));
 		return ratio.floatValue();
 	}
-	
+
 	private void consumeResources(){
 		int currentActivityIntensity = myCurrentActivity.getActivityIntensity();
 		float O2Needed = calculateO2Needed(currentActivityIntensity);
@@ -200,18 +200,19 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		float dirtyWaterOut = calculateDirtyWaterProduced(cleanWaterNeeded);
 		float greyWaterOut = calculateGreyWaterProduced(dirtyWaterOut);
 		float foodNeeded = calculateFoodNeeded(currentActivityIntensity);
-		
+
 		//adjust tanks
 		float foodRetrieved = myFoodStore.takeFood(foodNeeded);
 		float waterRetrieved = myPotableWaterStore.takeWater(cleanWaterNeeded);
-		Breath airRetrieved = myCurrentEnvironment.takeBreath(O2Needed);
+		Breath airRetrieved = myCurrentEnvironment.takeO2Breath(O2Needed);
 		float O2Retrieved = airRetrieved.O2;
 		myDirtyWaterStore.addWater(dirtyWaterOut);
 		myGreyWaterStore.addWater(greyWaterOut);
 		myCurrentEnvironment.addCO2(CO2Out);
+		myCurrentEnvironment.addOther(airRetrieved.other);
 		float theCO2Ratio = getCO2Ratio(airRetrieved);
 		//afflict crew
-		
+
 		if (foodRetrieved < foodNeeded){
 			System.out.println("CrewPerson: "+myName +" needed "+foodNeeded+" kgs of food, got only "+foodRetrieved +" kgs");
 			starvingTime++;
@@ -221,7 +222,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			thirstTime++;
 		}
 		if (O2Retrieved < O2Needed){System.out.println(
-			"CrewPerson: "+myName +" needed "+O2Needed+" liters of O2, got only "+O2Retrieved +" liters");
+			        "CrewPerson: "+myName +" needed "+O2Needed+" liters of O2, got only "+O2Retrieved +" liters");
 			suffocateTime++;
 		}
 		if (theCO2Ratio > 0.06){

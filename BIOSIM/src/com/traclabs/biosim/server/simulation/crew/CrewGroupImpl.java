@@ -50,7 +50,7 @@ public class CrewGroupImpl extends CrewGroupPOA {
 			return null;
 		}
 	}
-	
+
 	protected ActivityImpl getRawActivityByName(String name){
 		ActivityImpl foundActivity = mySchedule.getActivityByName(name);
 		if (foundActivity != null)
@@ -75,7 +75,7 @@ public class CrewGroupImpl extends CrewGroupPOA {
 		CrewPersonImpl foundPerson = (CrewPersonImpl)(crewPeople.get(crewPersonName));
 		return (OrbUtils.poaToCorbaObj(foundPerson));
 	}
-	
+
 	protected int getNumberOfActivities(){
 		return mySchedule.getNumberOfActivities();
 	}

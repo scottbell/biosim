@@ -113,7 +113,8 @@ module biosim{
                                 float addCO2(in float liters);
                                 float addO2(in float liters);
 				float addOther(in float liters);
-                                air::Breath takeBreath(in float liters);
+                                air::Breath takeO2Breath(in float liters);
+				air::Breath takeCO2Breath(in float liters);
 				long getTicks();
 				void resetLevels();
                         };
