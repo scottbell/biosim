@@ -70,6 +70,11 @@ public class SimDesktop extends BaseJFrame
 	private ImageIcon environmentIcon;
 	private ImageIcon airIcon;
 	private ImageIcon allIcon;
+	private ImageIcon startIcon;
+	private ImageIcon playIcon;
+	private ImageIcon stopIcon;
+	private ImageIcon pauseIcon;
+	private ImageIcon forwardIcon;
 
 	private Hashtable myPanels;
 
@@ -143,13 +148,18 @@ public class SimDesktop extends BaseJFrame
 		myToolBar.setFloatable(false);
 		myStartSimButton = myToolBar.add(myStartAction);
 		myStartSimButton.setToolTipText("Starts the simulation");
+		myStartSimButton.setText("");
+		myStartSimButton.setIcon(startIcon);
 		myAdvanceSimButton = myToolBar.add(myAdvanceAction);
 		myAdvanceSimButton.setToolTipText("Advances the simulation one timestep");
 		myAdvanceSimButton.setEnabled(false);
+		myAdvanceSimButton.setText("");
+		myAdvanceSimButton.setIcon(forwardIcon);
 		myPauseSimButton = myToolBar.add(myPauseAction);
 		myPauseSimButton.setToolTipText("Pauses the simulation");
 		myPauseSimButton.setEnabled(false);
-		myPauseSimButton.setText("  Pause  ");
+		myPauseSimButton.setText("");
+		myPauseSimButton.setIcon(pauseIcon);
 		myToolbarSeparator = new JToolBar.Separator();
 		myToolBar.add(myToolbarSeparator);
 		myDisplayAllButton = myToolBar.add(myShowAllDisplayAction);
@@ -195,6 +205,11 @@ public class SimDesktop extends BaseJFrame
 			environmentIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/environment/gui/environment.jpg"));
 			airIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/air/gui/air.jpg"));
 			allIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/all.jpg"));
+			startIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/power.gif"));
+			playIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/play.gif"));
+			stopIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/stop.gif"));
+			pauseIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/pause.gif"));
+			forwardIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/forward.gif"));
 		}
 		catch (Exception e){
 			System.out.println("Couldn't find icons ("+e+"), skipping");
@@ -272,7 +287,7 @@ public class SimDesktop extends BaseJFrame
 			if (isStarted){
 				myDesktop.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				myStartSimButton.setToolTipText("Starts the simulation");
-				myStartSimButton.setText("Start");
+				myStartSimButton.setIcon(startIcon);
 				myStartSimItem.setText("Start");
 				myPauseSimButton.setEnabled(false);
 				myPauseSimItem.setEnabled(false);
@@ -284,7 +299,7 @@ public class SimDesktop extends BaseJFrame
 			else{
 				myDesktop.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				myStartSimButton.setToolTipText("Ends the simulation");
-				myStartSimButton.setText("End");
+				myStartSimButton.setIcon(stopIcon);
 				myStartSimItem.setText("End");
 				myPauseSimButton.setEnabled(true);
 				myPauseSimItem.setEnabled(true);
@@ -305,7 +320,7 @@ public class SimDesktop extends BaseJFrame
 			isPaused = !isPaused;
 			if (isPaused){
 				myPauseSimButton.setToolTipText("Resume the simulation");
-				myPauseSimButton.setText("Resume");
+				myPauseSimButton.setIcon(playIcon);
 				myPauseSimItem.setText("Resume");
 				myAdvanceSimButton.setEnabled(true);
 				myAdvanceSimItem.setEnabled(true);
@@ -313,7 +328,7 @@ public class SimDesktop extends BaseJFrame
 			}
 			else{
 				myPauseSimButton.setToolTipText("Pause the simulation");
-				myPauseSimButton.setText("  Pause  ");
+				myPauseSimButton.setIcon(pauseIcon);
 				myPauseSimItem.setText("Pause");
 				myAdvanceSimButton.setEnabled(false);
 				myAdvanceSimItem.setEnabled(false);
