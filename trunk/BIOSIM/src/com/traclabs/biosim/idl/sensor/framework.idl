@@ -1,0 +1,4 @@
+module framework{
+        interface GenericSensor : framework::BioModule{
+	};
+};
