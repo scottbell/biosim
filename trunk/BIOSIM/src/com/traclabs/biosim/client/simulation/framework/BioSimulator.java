@@ -6,7 +6,7 @@ import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
 import java.util.*;
 
-public class BioSimulator
+public class BioSimulator implements Runnable
 {
  //Module Names
 	private final static String crewName = "Crew";
@@ -21,29 +21,29 @@ public class BioSimulator
 
 	private Hashtable modules;
 	private NamingContextExt ncRef;
+	private Thread myThread;
 
 	public BioSimulator(){
 		initializeORB();
 		collectReferences();
 	}
-
-	public static void main(String args[])
-	{
-		BioSimulator biosim = new BioSimulator();
-		biosim.runSimulation();
-	}
 	
-	public void runSimulation(){
+	public void spawnSimulation(){
+		myThread = new Thread(this);
+		myThread.start();
+	}
+
+	public void run(){
 		tick();
 		//Play with crew object
-		Crew myCrew = (Crew)(biosim.getBioModule("Crew"));
+		Crew myCrew = (Crew)(getBioModule("Crew"));
 		if (myCrew == null){
 			System.out.println("Couldn't find crew to test....");
 		}
 		else{
 			myCrew.createCrewPerson("Bob Roberts");
 			Activity newActivity = myCrew.getScheduledActivityByName("sleeping");
-			org.omg.CORBA.Object myCrewPerson = myCrew.getCrewPerson("Bob Roberts");
+			//org.omg.CORBA.Object myCrewPerson = myCrew.getCrewPerson("Bob Roberts");
 			/*myCrewPerson.setCurrentActivity(newActivity);
 			Activity currentActivity = myCrewPerson.getCurrentActivity();
 			System.out.println("Current state for  "+myCrewPerson.getName()+"  is " +currentActivity.name+ " for "+currentActivity.timeLength+" hours");
