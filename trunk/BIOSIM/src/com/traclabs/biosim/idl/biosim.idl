@@ -139,8 +139,6 @@ module biosim{
 		
                 module food{
                         interface BiomassRS : framework::BioModule{
-                                float getPowerConsumed();
-				boolean hasPower();
                         };
                         interface BiomassStore : framework::Store{
                         };

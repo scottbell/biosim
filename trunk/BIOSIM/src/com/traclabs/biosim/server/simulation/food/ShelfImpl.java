@@ -18,7 +18,7 @@ public class ShelfImpl extends ShelfPOA {
 	private float totalArea = 8.24f;
 	private float areaPerCrop = totalArea / cropCapacity;
 	private float currentGreyWaterConsumed = 0f;
-	private float currentDirtyWaterConsumed = 0f;
+	private float currentPotableWaterConsumed = 0f;
 	private boolean hasCollectedReferences = false;
 	private boolean hasEnoughWater = false;
 	private boolean hasEnoughPower = false;
@@ -27,14 +27,14 @@ public class ShelfImpl extends ShelfPOA {
 	private PowerStore myPowerStore;
 	
 	public ShelfImpl(){
-		Plant myCrop = new Wheat(areaPerCrop, cropCapacity);
+		myCrop = new Wheat(areaPerCrop, cropCapacity);
 	}
 	
 	public ShelfImpl(float pTotalArea, int pCropCapacity){
 		cropCapacity = pCropCapacity;
 		totalArea = pCropCapacity;
 		areaPerCrop = totalArea / cropCapacity;
-		Plant myCrop = new Wheat(areaPerCrop, cropCapacity);
+		myCrop = new Wheat(areaPerCrop, cropCapacity);
 	}
 	
 	/**
@@ -55,7 +55,7 @@ public class ShelfImpl extends ShelfPOA {
 	}
 	
 	private void waterPlants(){
-		myCrop.addWater(currentGreyWaterConsumed + currentDirtyWaterConsumed);
+		myCrop.addWater(currentGreyWaterConsumed + currentPotableWaterConsumed);
 	}
 	
 	/**
@@ -89,7 +89,7 @@ public class ShelfImpl extends ShelfPOA {
 		 currentPowerConsumed = 0f;
 		 currentPowerNeeded = 10f;
 		 currentGreyWaterConsumed = 0f;
-		 currentDirtyWaterConsumed = 0f;
+		 currentPotableWaterConsumed = 0f;
 		 hasCollectedReferences = false;
 		 hasEnoughWater = false;
 		 hasEnoughPower = false;
