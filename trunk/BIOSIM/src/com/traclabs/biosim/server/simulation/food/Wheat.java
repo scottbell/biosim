@@ -16,6 +16,12 @@ public class Wheat extends PlantImpl{
 		canopyClosureConstants[11] = .00019733f;
 		canopyClosureConstants[15] = -.00019076f;
 		
+		canopyQYConstants[6] = .044793f;
+		canopyQYConstants[7] = .000051583f;
+		canopyQYConstants[8] = -.000000020724f;
+		canopyQYConstants[11] = -.0000051946f;
+		canopyQYConstants[17] = -.0000000000049303f;
+		canopyQYConstants[18] = .0000000000000022255f;
 	}
 
 	public PlantType getPlantType(){
