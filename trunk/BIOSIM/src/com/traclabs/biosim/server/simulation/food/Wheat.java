@@ -6,7 +6,7 @@ import biosim.idl.simulation.food.*;
  * @author    Scott Bell
  */
 
-public class Wheat extends PlantImpl{
+public class Wheat extends Erectophile{
 	public Wheat(ShelfImpl pShelfImpl){
 		super(pShelfImpl);
 		canopyClosureConstants[0] = 95488f;;
@@ -83,19 +83,5 @@ public class Wheat extends PlantImpl{
 
 	protected float getInedibleFreshBasisWaterContent(){
 		return 90f;
-	}
-
-	protected float calculateCanopyStomatalConductance(){
-		float relativeHumdity = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0].getRelativeHumidity();
-		float netCanopyPhotosynthesis = calculateNetCanopyPhotosynthesis();
-		float CO2Concentration = getAverageCO2Concentration();
-		System.out.println("Wheat: relativeHumdity: "+relativeHumdity);
-		System.out.println("Wheat: netCanopyPhotosynthesis: "+netCanopyPhotosynthesis);
-		System.out.println("Wheat: CO2Concentration: "+CO2Concentration);;
-		return 0.1389f + 15.32f * relativeHumdity * (netCanopyPhotosynthesis / CO2Concentration);
-	}
-
-	protected float calculateAtmosphericAeroDynamicConductance(){
-		return 5.5f;
 	}
 }
