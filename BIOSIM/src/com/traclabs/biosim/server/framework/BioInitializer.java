@@ -133,6 +133,7 @@ public class BioInitializer{
 			}
 		}
 		else{
+			//Give BioDriver crew to watch for (if we're doing run till dead)
 			Node crewsToWatchNode = node.getAttributes().getNamedItem("crewsToWatch");
 			if (crewsToWatchNode != null){
 				String crewsToWatchString = crewsToWatchNode.getNodeValue();
@@ -148,7 +149,20 @@ public class BioInitializer{
 					}
 				}
 			}
+			//Give Modules, Sensors, Actuatos to BioDriver to tick
+			BioModule[] moduleArray = convertList(myModules);
+			BioModule[] sensorArray = convertList(mySensors);
+			BioModule[] actuatorArray = convertList(myActuators);
 		}
+	}
+	
+	private static BioModule[] convertList(List pBioModules){
+		BioModule[] newArray = new BioModule[pBioModules.size()];
+		int i = 0;
+		for (Iterator iter = pBioModules.iterator(); iter.hasNext(); i++){
+			newArray[i] = BioModuleHelper.narrow((org.omg.CORBA.Object)(iter.next()));
+		}
+		return newArray;
 	}
 
 	private static boolean isCreatedLocally(Node node){
@@ -658,7 +672,7 @@ public class BioInitializer{
 			}
 			myModules.add(OrbUtils.poaToCorbaObj(myCrewGroupImpl));
 			BiosimServer.registerServer(new CrewGroupPOATie(myCrewGroupImpl), myCrewGroupImpl.getModuleName(), myCrewGroupImpl.getID());
-			
+
 		}
 		else
 			printRemoteWarningMessage(moduleName);
