@@ -800,8 +800,6 @@ public class SimulationInitializer {
         String moduleName = BioInitializer.getModuleName(node);
         if (BioInitializer.isCreatedLocally(node)) {
             myLogger.debug("Creating VCCR with moduleName: " + moduleName);
-            String implementationString = node.getAttributes().getNamedItem(
-                    "implementation").getNodeValue();
             VCCRImpl myVCCRImpl = new VCCRImpl(myID, moduleName);
             BioInitializer.setupBioModule(myVCCRImpl, node);
             BiosimServer.registerServer(new VCCRPOATie(myVCCRImpl), myVCCRImpl
@@ -829,8 +827,6 @@ public class SimulationInitializer {
         String moduleName = BioInitializer.getModuleName(node);
         if (BioInitializer.isCreatedLocally(node)) {
             myLogger.debug("Creating CRS with moduleName: " + moduleName);
-            String implementationString = node.getAttributes().getNamedItem(
-                    "implementation").getNodeValue();
             CRSImpl myCRSImpl = new CRSImpl(myID, moduleName);
             BioInitializer.setupBioModule(myCRSImpl, node);
             BiosimServer.registerServer(new CRSPOATie(myCRSImpl), myCRSImpl
@@ -858,8 +854,6 @@ public class SimulationInitializer {
         String moduleName = BioInitializer.getModuleName(node);
         if (BioInitializer.isCreatedLocally(node)) {
             myLogger.debug("Creating OGS with moduleName: " + moduleName);
-            String implementationString = node.getAttributes().getNamedItem(
-                    "implementation").getNodeValue();
             OGSImpl myOGSImpl = new OGSImpl(myID, moduleName);
             BioInitializer.setupBioModule(myOGSImpl, node);
             BiosimServer.registerServer(new OGSPOATie(myOGSImpl), myOGSImpl
