@@ -161,7 +161,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 
 	public void processTick(){
 		collectReferences();
-		//done with this timestep, advance 1 timestep
 		timeActivityPerformed++;
 		if (!hasDied){
 			continueActivity();

@@ -11,9 +11,11 @@ import java.text.*;
 public class AirPanel extends JPanel implements BioSimulatorListener
 {
 	private JPanel airRSPanel;
+	private JLabel airRSStatusLabel;
 	private JLabel airRSPowerLabel;
 	private JLabel airRSCO2ConsumedLabel;
 	private JLabel airRSO2ProducedLabel;
+	private JLabel airRSCO2ProducedLabel;
 	private JPanel O2StorePanel;
 	private JLabel O2StoreLevelLabel;
 	private JPanel CO2StorePanel;
@@ -41,13 +43,17 @@ public class AirPanel extends JPanel implements BioSimulatorListener
 		setLayout(gridbag);
 
 		airRSPanel = new JPanel();
-		airRSPanel.setLayout(new GridLayout(3,1));
+		airRSPanel.setLayout(new GridLayout(5,1));
 		airRSPanel.setBorder(BorderFactory.createTitledBorder("Air Recovery System"));
+		airRSStatusLabel =              new JLabel("status:                   "+coallateAirRSStatus());
 		airRSO2ProducedLabel =    new JLabel("O2 produced:         "+numFormat.format(myAirRS.getO2Produced())+" L");
 		airRSCO2ConsumedLabel = new JLabel("CO2 consumed:     "+numFormat.format(myAirRS.getCO2Consumed())+" L");
+		airRSCO2ProducedLabel =  new JLabel("CO2 produced:      "+numFormat.format(myAirRS.getCO2Produced())+" L");
 		airRSPowerLabel =              new JLabel("power consumed:  "+numFormat.format(myAirRS.getPowerConsumed())+" W");
+		airRSPanel.add(airRSStatusLabel);
 		airRSPanel.add(airRSO2ProducedLabel);
 		airRSPanel.add(airRSCO2ConsumedLabel);
+		airRSPanel.add(airRSCO2ProducedLabel);
 		airRSPanel.add(airRSPowerLabel);
 
 		O2StorePanel = new JPanel();
@@ -83,11 +89,27 @@ public class AirPanel extends JPanel implements BioSimulatorListener
 		gridbag.setConstraints(CO2StorePanel, c);
 		add(CO2StorePanel);
 	}
+	
+	private String coallateAirRSStatus(){
+		StringBuffer statusBuffer = new StringBuffer();
+		if (!myAirRS.hasPower())
+			statusBuffer.append("needs power, ");
+		if (!myAirRS.hasCO2())
+			statusBuffer.append("needs CO2, ");
+		if (statusBuffer.length() < 1)
+			return "nominal";
+		else{
+			statusBuffer.delete(statusBuffer.length() -2, statusBuffer.length());
+			return statusBuffer.toString();
+		}
+	}
 
 	public void processTick(){
+		airRSStatusLabel.setText("status:                   "+coallateAirRSStatus());
 		airRSO2ProducedLabel.setText("O2 produced:         "+numFormat.format(myAirRS.getO2Produced())+" L");
 		airRSCO2ConsumedLabel.setText("CO2 consumed:     "+numFormat.format(myAirRS.getCO2Consumed())+" L");
 		airRSPowerLabel.setText("power consumed:  "+numFormat.format(myAirRS.getPowerConsumed())+" W");
+		airRSCO2ProducedLabel.setText("CO2 produced:      "+numFormat.format(myAirRS.getCO2Produced())+" L");
 		CO2StoreLevelLabel.setText("CO2 level:  "+numFormat.format(myCO2Store.getLevel())+" L");
 		O2StoreLevelLabel.setText("O2 level:    "+numFormat.format(myO2Store.getLevel())+" L");
 	}
