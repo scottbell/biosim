@@ -3,7 +3,7 @@
         	Build file for BioSim
 	</description>
 	<!-- set global properties for this build --> 
-	<property name="build.compiler"  value="jikes"/>
+	<!-- <property name="build.compiler"  value="jikes"/> -->
   	<property name="src" location="src"/>
   	<property name="doc" location="doc"/>
 	<property name="buildDir" location="build"/>
@@ -67,7 +67,7 @@
 			</classpath>
 		</java>
 		<echo message="Compiling stubs"/>
-		<javac srcdir="${stubsDir}" destdir="${buildDir}">
+		<javac srcdir="${stubsDir}" destdir="${buildDir}" fork="yes" memoryMaximumSize="128m" nowarn="yes">
 			<classpath>
 				<pathelement location="${jacorbDir}/jacorb.jar"/>
 			</classpath>
@@ -76,7 +76,7 @@
 
 	<target name="build-server" depends="stub-idl" description="compile the server">
 		<echo message="Compling the server"/>
-		<javac srcdir="${src}/com/traclabs/biosim/server" destdir="${buildDir}">
+		<javac srcdir="${src}/com/traclabs/biosim/server" destdir="${buildDir}" nowarn="yes">
 			<classpath>
 				<pathelement location="${src}"/>
 				<pathelement location="${buildDir}"/>
@@ -91,7 +91,7 @@
   
    	<target name="build-client" depends="stub-idl" description="compile the client">
 		<echo message="Compling the client"/>
-		<javac srcdir="${src}/com/traclabs/biosim/client" destdir="${buildDir}">
+		<javac srcdir="${src}/com/traclabs/biosim/client" destdir="${buildDir}" nowarn="yes">
 			<classpath>
 				<pathelement location="${src}"/>
 				<pathelement location="${buildDir}"/>
