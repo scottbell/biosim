@@ -129,65 +129,39 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		if (pValue == StochasticIntensity.NONE_STOCH)
 			randomCoefficient = 0f;
 		else if (pValue == StochasticIntensity.LOW_STOCH)
-			randomCoefficient = .03f;
+			randomCoefficient = .02f;
 		else if (pValue == StochasticIntensity.MEDIUM_STOCH)
-			randomCoefficient = .06f;
+			randomCoefficient = .04f;
 		else if (pValue == StochasticIntensity.HIGH_STOCH)
-			randomCoefficient = .09f;
+			randomCoefficient = .08f;
 	}
-
+	
 	public float randomFilter(float pValue){
 		if (randomCoefficient <= 0)
 			return pValue;
-		int biggerCoef = (new Float(randomCoefficient * RANDOM_PRECISION)).intValue();
-		float randomBiggerCoef = (new Integer(myRandomGen.nextInt(biggerCoef))).floatValue();
-		float coefficient = randomBiggerCoef / RANDOM_PRECISION;
-		float addSubtractValue = coefficient * pValue;
-		int addSubtractDecider = myRandomGen.nextInt(2);
-		if (addSubtractDecider == 0 || (pValue < addSubtractValue))
-			return (pValue += addSubtractValue);
-		else
-			return (pValue -= addSubtractValue);
+		double deviation = randomCoefficient * pValue;
+		return (new Double(gaussian(pValue, deviation))).floatValue();
 	}
 
 	public double randomFilter(double pValue){
 		if (randomCoefficient <= 0)
 			return pValue;
-		int biggerCoef = (new Float(randomCoefficient * RANDOM_PRECISION)).intValue();
-		float randomBiggerCoef = (new Integer(myRandomGen.nextInt(biggerCoef))).floatValue();
-		float coefficient = randomBiggerCoef / RANDOM_PRECISION;
-		double addSubtractValue = coefficient * pValue;
-		int addSubtractDecider = myRandomGen.nextInt(2);
-		if (addSubtractDecider == 0 || (pValue < addSubtractValue))
-			return (pValue += addSubtractValue);
-		else
-			return (pValue -= addSubtractValue);
+		double deviation = randomCoefficient * pValue;
+		return gaussian(pValue, deviation);
 	}
 
 	public boolean randomFilter(boolean pValue){
 		if (randomCoefficient <= 0)
 			return pValue;
-		int biggerCoef = (new Float(randomCoefficient * RANDOM_PRECISION)).intValue();
-		int decider = myRandomGen.nextInt(100);
-		if (decider < biggerCoef)
-			return !pValue;
-		else
-			return pValue;
+		double deviation = randomCoefficient * 1;
+		return (gaussian(1, deviation) > 1);
 	}
 
 	public int randomFilter(int pValue){
 		if (randomCoefficient <= 0)
 			return pValue;
-		int biggerCoef = (new Float(randomCoefficient * RANDOM_PRECISION)).intValue();
-		float randomBiggerCoef = (new Integer(myRandomGen.nextInt(biggerCoef))).floatValue();
-		float coefficient = randomBiggerCoef / RANDOM_PRECISION;
-		float addSubtractValue = coefficient * pValue;
-		int addSubtractDecider = myRandomGen.nextInt(2);
-		int newValue;
-		if (addSubtractDecider == 0 || (pValue < addSubtractValue))
-			return (pValue += addSubtractValue);
-		else
-			return (pValue -= addSubtractValue);
+		double deviation = randomCoefficient * pValue;
+		return (new Double(gaussian(pValue, deviation))).intValue();
 	}
 
 	protected void sendLog(LogNodeImpl logToProcess){
@@ -201,6 +175,30 @@ public abstract class BioModuleImpl extends BioModulePOA{
 			}
 		}
 		myLogger.processLog(LogNodeHelper.narrow(OrbUtils.poaToCorbaObj(logToProcess)));
+	}
+	
+	/* ------------------------------------------------ *
+	* gaussian -- generates a gaussian random variable *
+	*             with mean a and standard deviation d *
+	* ------------------------------------------------ */
+	private double gaussian(double mean,double deviation){
+		double t = 0.0;
+		double x,v1,v2,r;
+		if (t == 0) {
+			do {
+				v1 = 2.0 * Math.random() - 1.0;
+				v2 = 2.0 * Math.random() - 1.0;
+				r = v1 * v1 + v2 * v2;
+			} while (r>=1.0);
+			r = Math.sqrt((-2.0*Math.log(r))/r);
+			t = v2*r;
+			return(mean+v1*r*deviation);
+		}
+		else {
+			x = t;
+			t = 0.0;
+			return(mean+x*deviation);
+		}
 	}
 
 	/**
