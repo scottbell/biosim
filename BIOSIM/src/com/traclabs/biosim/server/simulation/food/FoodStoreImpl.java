@@ -113,6 +113,11 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 		level -= matterToReturn.mass;
 		return matterToReturn;
 	}
+	
+	public void reset(){
+		super.reset();
+		currentFoodItems.clear();
+	}
 
 	/**
 	* Returns the name of this module (FoodStore)
