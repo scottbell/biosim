@@ -215,37 +215,86 @@ public class BioHolder
 					CO2OutFlowRateSensor myAirRSCO2OutFlowRateSensor = CO2OutFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAirRSCO2OutFlowRateSensorName+myID));
 					modules.put(myAirRSCO2OutFlowRateSensorName , myAirRSCO2OutFlowRateSensor);
 				}
+				//Stores
+				{
+					O2StoreLevelSensor myO2StoreLevelSensor = O2StoreLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myO2StoreLevelSensorName+myID));
+					modules.put(myO2StoreLevelSensorName , myO2StoreLevelSensor);
+					CO2StoreLevelSensor myCO2StoreLevelSensor = CO2StoreLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCO2StoreLevelSensorName+myID));
+					modules.put(myCO2StoreLevelSensorName , myCO2StoreLevelSensor);
+				}
+			}
+			//Power
+			{
+				//PowerPS
+				{
+					PowerOutFlowRateSensor myPowerPSPowerOutFlowRateSensor = PowerOutFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPowerPSPowerOutFlowRateSensorName+myID));
+					modules.put(myPowerPSPowerOutFlowRateSensorName , myPowerPSPowerOutFlowRateSensor);
+				}
+				//Stores
+				{
+					PowerStoreLevelSensor myPowerStoreLevelSensor = PowerStoreLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPowerStoreLevelSensorName+myID));
+					modules.put(myPowerStoreLevelSensorName , myPowerStoreLevelSensor);
+				}
+			}
+			//Environment
+			{
+				//Crew
+				{
+					OtherAirLevelSensor myCrewEnvironmentOtherAirLevelSensor = OtherAirLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentOtherAirLevelSensorName+myID));
+					modules.put(myCrewEnvironmentOtherAirLevelSensorName , myCrewEnvironmentOtherAirLevelSensor);
+					O2AirLevelSensor myCrewEnvironmentO2AirLevelSensor = O2AirLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentO2AirLevelSensorName+myID));
+					modules.put(myCrewEnvironmentO2AirLevelSensorName , myCrewEnvironmentO2AirLevelSensor);
+					CO2AirLevelSensor myCrewEnvironmentCO2AirLevelSensor = CO2AirLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentCO2AirLevelSensorName+myID));
+					modules.put(myCrewEnvironmentCO2AirLevelSensorName , myCrewEnvironmentCO2AirLevelSensor);
+				}
+				//Plant
+				{
+					OtherAirLevelSensor myPlantEnvironmentOtherAirLevelSensor = OtherAirLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentOtherAirLevelSensorName+myID));
+					modules.put(myPlantEnvironmentOtherAirLevelSensorName , myPlantEnvironmentOtherAirLevelSensor);
+					O2AirLevelSensor myPlantEnvironmentO2AirLevelSensor = O2AirLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentO2AirLevelSensorName+myID));
+					modules.put(myPlantEnvironmentO2AirLevelSensorName , myPlantEnvironmentO2AirLevelSensor);
+					CO2AirLevelSensor myPlantEnvironmentCO2AirLevelSensor = CO2AirLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentCO2AirLevelSensorName+myID));
+					modules.put(myPlantEnvironmentCO2AirLevelSensorName , myPlantEnvironmentCO2AirLevelSensor);
+				}
+			}
+			//Water
+			{
+				//WaterRS
+				{
+					DirtyWaterInFlowRateSensor myWaterRSDirtyWaterInFlowRateSensor = DirtyWaterInFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myWaterRSDirtyWaterInFlowRateSensorName+myID));
+					modules.put(myWaterRSDirtyWaterInFlowRateSensorName , myWaterRSDirtyWaterInFlowRateSensor);
+					GreyWaterInFlowRateSensor myWaterRSGreyWaterInFlowRateSensor = GreyWaterInFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myWaterRSGreyWaterInFlowRateSensorName+myID));
+					modules.put(myWaterRSGreyWaterInFlowRateSensorName , myWaterRSGreyWaterInFlowRateSensor);
+					PowerInFlowRateSensor myWaterRSPowerInFlowRateSensor = PowerInFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myWaterRSPowerInFlowRateSensorName+myID));
+					modules.put(myWaterRSPowerInFlowRateSensorName , myWaterRSPowerInFlowRateSensor);
+					PotableWaterOutFlowRateSensor myWaterRSPotableWaterOutFlowRateSensor = PotableWaterOutFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myWaterRSPotableWaterOutFlowRateSensorName+myID));
+					modules.put(myWaterRSPotableWaterOutFlowRateSensorName , myWaterRSPotableWaterOutFlowRateSensor);
+				}
+				//Stores
+				{
+					PotableWaterStoreLevelSensor myPotableWaterStoreLevelSensor = PotableWaterStoreLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPotableWaterStoreLevelSensorName+myID));
+					modules.put(myPotableWaterStoreLevelSensorName , myPotableWaterStoreLevelSensor);
+					GreyWaterStoreLevelSensor myGreyWaterStoreLevelSensor = GreyWaterStoreLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myGreyWaterStoreLevelSensorName+myID));
+					modules.put(myGreyWaterStoreLevelSensorName , myGreyWaterStoreLevelSensor);
+					DirtyWaterStoreLevelSensor myDirtyWaterStoreLevelSensor = DirtyWaterStoreLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myDirtyWaterStoreLevelSensorName+myID));
+					modules.put(myDirtyWaterStoreLevelSensorName , myDirtyWaterStoreLevelSensor);
+				}
+			}
+			//Food
+			{
+				//BiomassRS
+				{
+				}
+				//Food Processor
+				{
+				}
+				//Stores
+				{
+				}
 			}
 
 
 			/*
-			//Stores
-			myO2StoreLevelSensorName = "O2StoreLevelSensor";
-			myCO2StoreLevelSensorName = "CO2StoreLevel";
-			//Power
-			//PowerPS
-			myPowerPSPowerOutFlowRateSensorName = "PowerPSPowerOutFlowRateSensor";
-			//Stores
-			myPowerStoreLevelSensorName = "PowerStoreLevelSensor";
-			//Environment
-			//Crew
-			myCrewEnvironmentOtherAirLevelSensorName = "CrewEnvironmentOtherAirLevelSensor";
-			myCrewEnvironmentCO2AirLevelSensorName = "CrewEnvironmentCO2AirLevelSensor";
-			myCrewEnvironmentO2AirLevelSensorName = "CrewEnvironmentO2AirLevelSensor";
-			//Plant
-			myPlantEnvironmentOtherAirLevelSensorName = "PlantEnvironmentOtherAirLevelSensor";
-			myPlantEnvironmentCO2AirLevelSensorName = "PlantEnvironmentCO2AirLevelSensor";
-			myPlantEnvironmentO2AirLevelSensorName = "PlantEnvironmentO2AirLevelSensor";
-			//Water
-			//WaterRS
-			myWaterRSDirtyWaterInFlowRateSensorName = "WaterRSDirtyWaterInFlowRateSensor";
-			myWaterRSGreyWaterInFlowRateSensorName = "WaterRSGreyWaterInFlowRateSensor";
-			myWaterRSPowerInFlowRateSensorName = "WaterRSPowerInFlowRateSensor";
-			myWaterRSPotableWaterOutFlowRateSensorName = "WaterRSPotableWaterOutFlowRateSensor";
-			//Stores
-			myPotableWaterStoreLevelSensorName = "PotableWaterStoreLevelSensor";
-			myGreyWaterStoreLevelSensorName = "GreyWaterStoreLevelSensor";
-			myDirtyWaterStoreLevelSensorName = "DirtyWaterStoreLevelSensor";
 			//Food
 			//BiomassRS
 			myBiomassRSAirInFlowRateSensorName = "BiomassRSAirInFlowRateSensor";
