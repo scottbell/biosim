@@ -78,6 +78,10 @@ public class BioHolderInitializer{
 		parseFile();
 		initialized = true;
 	}
+	
+	public static void reset(){
+		initialized = false;
+	}
 
 	public static BioHolder getBioHolder(){
 		initialize();
