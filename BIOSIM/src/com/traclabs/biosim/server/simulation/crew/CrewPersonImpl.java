@@ -67,6 +67,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	//Whether this crew member is sick or not.  If the crew member is sick, puts them into sleep like state.
 	private boolean sick = false;
 	private boolean onBoard = true;
+	private boolean thirsty  = false;
+	private boolean starving = false;
+	private boolean suffocating = false;
+	private boolean poisoned = false;
 	//A mission productivity measure, used when "mission" is specified in the schedule.  Not implemented correctly yet.
 	private float myMissionProductivity = 0;
 	//The schedule used for this crew memeber
@@ -149,6 +153,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		sick = false;
 		onBoard = true;
 		hasDied = false;
+		thirsty  = false;
+		starving = false;
+		suffocating = false;
+		poisoned = false;
 		O2Consumed= 0f;
 		CO2Produced = 0f;
 		caloriesConsumed = 0f;
@@ -257,7 +265,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* @return <code>true</code> if the crew memeber is starving, <code>false</code> if not.
 	*/
 	public boolean isStarving(){
-		return false;
+		return starving;
 	}
 
 	/**
@@ -265,7 +273,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* @return <code>true</code> if the crew memeber is CO2 poisoned, <code>false</code> if not.
 	*/
 	public boolean isPoisoned(){
-		return false;
+		return poisoned;
 	}
 
 	/**
@@ -273,7 +281,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* @return <code>true</code> if the crew memeber is thirsty, <code>false</code> if not.
 	*/
 	public boolean isThirsty(){
-		return false;
+		return thirsty;
 	}
 
 	/**
@@ -281,7 +289,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* @return <code>true</code> if the crew memeber is suffocating from lack of O2, <code>false</code> if not.
 	*/
 	public boolean isSuffocating(){
-		return false;
+		return suffocating;
 	}
 
 	/**
@@ -692,11 +700,27 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		sleepBuffer.take(1);
 		leisureBuffer.take(1);
 		consumedCaloriesBuffer.take(caloriesNeeded - caloriesConsumed);
+		if (caloriesNeeded - caloriesConsumed > 0)
+			starving = true;
+		else
+			starving = false;
 		consumedWaterBuffer.take(potableWaterNeeded - cleanWaterConsumed);
-		if (getO2Ratio() < O2_RATIO_LOW)
+		if (potableWaterNeeded - cleanWaterConsumed > 0)
+			thirsty = true;
+		else
+			thirsty = false;
+		if (getO2Ratio() < O2_RATIO_LOW){
 			consumedOxygenBuffer.take(O2_RATIO_LOW - getO2Ratio());
-		if (getCO2Ratio() > CO2_RATIO_HIGH)
+			suffocating = true;
+		}
+		else
+			suffocating = false;
+		if (getCO2Ratio() > CO2_RATIO_HIGH){
 			consumedCO2Buffer.take(getCO2Ratio() - CO2_RATIO_HIGH);
+			poisoned = true;
+		}
+		else
+			poisoned = false;
 	}
 
 	private float abs(float a){
