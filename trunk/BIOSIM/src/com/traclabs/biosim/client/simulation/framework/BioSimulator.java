@@ -52,6 +52,8 @@ public class BioSimulator implements Runnable
 	private boolean simulationIsPaused = false;
 	//Flag to see whether the BioSimulator is started at all
 	private boolean simulationStarted = false;
+	//Flag to see if user wants to use default intialization (i.e., fill tanks with x amount gas, generate crew memebers, etc)
+	private boolean useDefaultInitialization = false;
 	//A vector containing the listeners registered with BioSimulator.  Right now this is exclusively GUI's
 	private Vector listeners;
 	
@@ -64,10 +66,21 @@ public class BioSimulator implements Runnable
 		collectReferences();
 	}
 	
+	public boolean isPaused(){
+		return simulationIsPaused;
+	}
+	
+	public boolean isStarted(){
+		return simulationStarted;
+	}
+	
 	/**
 	* Spawns a simulation on a different thread and runs continously (ticks till signalled to end)
+	* param pUseDefaultInitialization set to <code>true</code> if user wants to use default intialization 
+	* (i.e., fill tanks with x amount gas, generate crew memebers, etc)
 	*/
-	public void spawnSimulation(){
+	public void spawnSimulation(boolean pUseDefaultInitialization){
+		useDefaultInitialization = pUseDefaultInitialization;
 		myThread = new Thread(this);
 		myThread.start();
 	}
@@ -78,8 +91,10 @@ public class BioSimulator implements Runnable
 	*/
 	public void run(){
 		simulationStarted = true;
-		System.out.println("BioSimulator: Initializing simulation...");
-		initializeSimulation();
+		if (useDefaultInitialization){
+			System.out.println("BioSimulator: Initializing simulation...");
+			initializeSimulation();
+		}
 		System.out.println("BioSimulator: Running simulation...");
 		runSimulation();
 	}
