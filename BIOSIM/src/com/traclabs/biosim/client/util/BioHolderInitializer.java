@@ -230,8 +230,8 @@ public class BioHolderInitializer {
     public static int getID() {
         return myID;
     }
-
-    public static void setFileAndID(int pID, String pFilename) {
+    
+    public static void setFileAndID(int pID, String pFilename){
         if ((myID == pID) && (xmlLocation.equals(pFilename)))
             return;
         myID = pID;
@@ -319,7 +319,27 @@ public class BioHolderInitializer {
     }
 
     public static org.omg.CORBA.Object grabModule(String moduleName) {
-        return OrbUtils.getBioModule(myID, moduleName);
+        org.omg.CORBA.Object moduleToReturn = null;
+        while (moduleToReturn == null) {
+            try {
+                moduleToReturn = OrbUtils.getNamingContext(myID).resolve_str(
+                        moduleName);
+            } catch (org.omg.CORBA.UserException e) {
+                Logger.getLogger(BioHolderInitializer.class).error(
+                        "BioHolder: Couldn't find module " + moduleName
+                                + ", polling again...");
+                e.printStackTrace();
+                OrbUtils.sleepAwhile();
+            } catch (Exception e) {
+                Logger.getLogger(BioHolderInitializer.class).error(
+                        "BioHolder: Had problems contacting nameserver with module "
+                                + moduleName + ", polling again...");
+                e.printStackTrace();
+                OrbUtils.resetInit();
+                OrbUtils.sleepAwhile();
+            }
+        }
+        return moduleToReturn;
     }
 
     private static String getModuleName(Node node) {
@@ -355,12 +375,12 @@ public class BioHolderInitializer {
         myBioHolder.theAirRSModules.add(AirRSHelper
                 .narrow(grabModule(getModuleName(node))));
     }
-
+    
     private static void fetchOGS(Node node) {
         myBioHolder.theOGSModules.add(OGSHelper
                 .narrow(grabModule(getModuleName(node))));
     }
-
+    
     private static void fetchVCCR(Node node) {
         myBioHolder.theVCCRModules.add(VCCRHelper
                 .narrow(grabModule(getModuleName(node))));
