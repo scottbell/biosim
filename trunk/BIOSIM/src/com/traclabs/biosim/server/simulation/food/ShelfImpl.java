@@ -30,8 +30,22 @@ public class ShelfImpl extends ShelfPOA {
 		cropArea = pCropArea;
 		myBiomassRSImpl = pBiomassImpl;
 		waterNeeded = cropArea * waterNeededPerMeterSquared;
-		if (pType == PlantType.WHEAT)
+		if (pType == PlantType.DRY_BEAN)
+			myCrop = new DryBean(this);
+		else if (pType == PlantType.LETTUCE)
+			myCrop = new Lettuce(this);
+		else if (pType == PlantType.PEANUT)
+			myCrop = new Peanut(this);
+		else if (pType == PlantType.SOYBEAN)
+			myCrop = new Soybean(this);
+		else if (pType == PlantType.SWEET_POTATO)
+			myCrop = new SweetPotato(this);
+		else if (pType == PlantType.TOMATO)
+			myCrop = new Tomato(this);
+		else if (pType == PlantType.WHEAT)
 			myCrop = new Wheat(this);
+		else if (pType == PlantType.WHITE_POTATO)
+			myCrop = new WhitePotato(this);
 	}
 
 	public Plant getPlant(){
