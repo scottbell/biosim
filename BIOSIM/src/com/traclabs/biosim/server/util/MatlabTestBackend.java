@@ -260,7 +260,11 @@ public class MatlabTestBackend {
 		//Say Hello
 		myPutSocketTextWriter.write(MatlabAceEngine.SERVER_HELLO + "\n");
 		myPutSocketTextWriter.flush();
-		return myPutSocketTextReader.readLine().equals(MatlabAceEngine.CLIENT_HELLO);
+		String response = myPutSocketTextReader.readLine();
+		if (response == null)
+			return false;
+		else
+			return response.equals(MatlabAceEngine.CLIENT_HELLO);
 	}
 	
 	/**
@@ -270,7 +274,11 @@ public class MatlabTestBackend {
 		//Say Hello
 		myGetSocketTextWriter.write(MatlabAceEngine.SERVER_HELLO + "\n");
 		myGetSocketTextWriter.flush();
-		return myGetSocketTextReader.readLine().equals(MatlabAceEngine.CLIENT_HELLO);
+		String response = myGetSocketTextReader.readLine();
+		if (response == null)
+			return false;
+		else
+			return response.equals(MatlabAceEngine.CLIENT_HELLO);
 	}
 
 
