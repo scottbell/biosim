@@ -72,6 +72,7 @@ public class WaterRSMatlabImpl extends SimBioModuleImpl implements WaterRSOperat
 	*/
 	public void tick(){
 		super.tick();
+		System.out.println("WaterRSMatlabImpl: I am the new one!");
 	}
 	
 	protected void performMalfunctions(){
