@@ -14,7 +14,7 @@ then
 fi
 JACORB_HOME="$devRootDir/lib/jacorb"
 java_command=$JAVA_HOME/bin/java
-jikesCommand="jikes"
+jikesCommand="jikes -nowarn"
 type $jikesCommand 2> /dev/null >/dev/null
 if [ $? != 0 ]; then
 	javac_command=javac
