@@ -22,6 +22,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private boolean personThirsty = false;
 	private boolean personSuffocating = false;
 	private boolean personPoisoned = false;
+	private boolean hasDied = false;
 	private SimEnvironment myCurrentEnvironment;
 	private FoodStore myFoodStore;
 	private PotableWaterStore myPotableWaterStore;
@@ -66,6 +67,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
 
 	public float getWeight(){
 		return weight;
+	}
+	
+	public boolean isDead(){
+		return hasDied;
 	}
 
 	public Sex getSex(){
@@ -247,18 +252,22 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		//check for death
 		if (starvingTime > 504){
 			myCurrentActivity = myCrewGroup.getScheduledActivityByName("dead");
+			hasDied = true;
 			timeActivityPerformed = 0;
 		}
 		else if (thirstTime > 72){
 			myCurrentActivity = myCrewGroup.getScheduledActivityByName("dead");
+			hasDied = true;
 			timeActivityPerformed = 0;
 		}
 		else if (suffocateTime > 1){
 			myCurrentActivity = myCrewGroup.getScheduledActivityByName("dead");
+			hasDied = true;
 			timeActivityPerformed = 0;
 		}
 		else if (poisonTime > 5){
 			myCurrentActivity = myCrewGroup.getScheduledActivityByName("dead");
+			hasDied = true;
 			timeActivityPerformed = 0;
 		}
 	}

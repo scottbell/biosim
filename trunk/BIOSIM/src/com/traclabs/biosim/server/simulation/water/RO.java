@@ -1,45 +1,14 @@
 package biosim.server.water;
 
-public class RO{
-	private float currentPower = 0f;
+public class RO extends WaterRSSubSystem{
 	private static final float powerNeeded =100; 
 	private BWP myBWP;
 	private AES myAES;
 	private PPS myPPS;
-	private WaterRSImpl myWaterRS;
 	private boolean hasCollectedReferences = false;
-	private String status = "off";
-	private boolean hasEnoughPower = false;
-	private float waterLevel = 0;
 	
 	public RO(WaterRSImpl pWaterRSImpl){
-		myWaterRS = pWaterRSImpl;
-	}
-	
-	public boolean hasPower(){
-		return hasEnoughPower;
-	}
-	
-	public void addPower(float pPower){
-		currentPower = pPower;
-		if (currentPower < powerNeeded){
-			hasEnoughPower = false;
-		}
-		else{
-			hasEnoughPower = true;
-		}
-	}
-	
-	private void checkStatus(){
-		status = ("nominal");
-		if (!hasEnoughPower)
-			status = ("needs power");
-		else if (waterLevel == 0)
-			status = ("needs water");
-	}
-	
-	public void addWater(float pWater){
-		waterLevel = pWater;
+		super(pWaterRSImpl);
 	}
 	
 	private void pushWater(){
@@ -49,7 +18,6 @@ public class RO{
 	
 	public void tick(){
 		collectReferences();
-		checkStatus();
 		pushWater();
 	}
 	

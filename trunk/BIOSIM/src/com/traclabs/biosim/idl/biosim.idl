@@ -39,6 +39,7 @@ module biosim{
 				boolean isPoisoned();
 				boolean isThirsty();
 				boolean isSuffocating();
+				boolean isDead();
                         };
                         interface CrewGroup : framework::BioModule{
                                 Activity getScheduledActivityByName(in string name);
