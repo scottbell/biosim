@@ -12,7 +12,12 @@ import biosim.idl.framework.*;
  */
 public class MalfunctionPanel extends TimedPanel
 {
-	private Hashtable myMalfunctionVariables; 
+	private Hashtable myMalfunctionVariables;
+	private JList moduleList;
+	private JComboBox lengthComboBox;
+	private JComboBox severityComboBox;
+	private JPanel myModulePanel;
+	private JPanel myOperatorPanel;
 	/**
 	 * Default constructor.
 	 */
@@ -26,24 +31,81 @@ public class MalfunctionPanel extends TimedPanel
 	}
 
 	protected void buildGui(){
-		BioModule[] myModules = BioHolder.getBioModules();
-		if (myModules.length == 0){
-			setLayout(new GridLayout(1,1));
-			JLabel noModulesLabel = new JLabel("No modules to display");
-			add(noModulesLabel);
-			return;
-		}
-		else{
-			if (myModules.length == 1)
-				setLayout(new GridLayout(1, 1));
-			if ((myModules.length % 2) != 0)
-				setLayout(new GridLayout(myModules.length / 2 + 1, myModules.length / 2));
-			else
-				setLayout(new GridLayout(myModules.length / 2, myModules.length / 2));
-		}
-		for (int i = 0; i < myModules.length; i++){
-			add(createMalfunctionRow(myModules[i]));
-		}
+		GridBagLayout gridbag = new GridBagLayout();
+		GridBagConstraints c = new GridBagConstraints();
+		setLayout(gridbag);
+		
+		createModuleSelectPanel();
+		createOperatorPanel();
+		createCurrentMalfunctionsPanel();
+		
+		c.fill = GridBagConstraints.NONE;
+		c.gridheight = 1;
+		c.weightx = 1.0;
+		c.weighty = 1.0;
+		c.gridx = 1;
+		c.gridy = 1;
+		c.gridwidth = 1;
+		gridbag.setConstraints(myModulePanel, c);
+		add(myModulePanel);
+		c.gridx = 2;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		c.weightx = 0.1;
+		c.weighty = 0.1;
+		gridbag.setConstraints(myOperatorPanel, c);
+		add(myOperatorPanel);
+	}
+	
+	private void createModuleSelectPanel(){
+		myModulePanel = new JPanel();
+		myModulePanel.setBorder(BorderFactory.createTitledBorder("Module Select"));
+		String[] myModuleNames = BioHolder.getBioModuleNames();
+		moduleList = new JList(myModuleNames);
+		moduleList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		myModulePanel.add(moduleList);
+	}
+	
+	private void createOperatorPanel(){
+		myOperatorPanel = new JPanel();
+		GridBagLayout gridbag = new GridBagLayout();
+		GridBagConstraints c = new GridBagConstraints();
+		myOperatorPanel.setLayout(gridbag);
+		myOperatorPanel.setBorder(BorderFactory.createTitledBorder("Operators"));
+		JButton addMalfunctionButton = new JButton(new AddMalfunctionAction());
+		addMalfunctionButton.setText("Add Malfunction");
+		JLabel lengthLabel = new JLabel("Length");
+		String[] lengthStrings = {"Permanent", "Temporary"};
+		lengthComboBox = new JComboBox(lengthStrings);
+		JLabel severityLabel = new JLabel("Severity");
+		String[] severityStrings = {"Severe", "Medium", "Low"};
+		severityComboBox = new JComboBox(severityStrings);
+		JButton clearMalfunctionButton = new JButton(new ClearMalfunctionAction());
+		clearMalfunctionButton.setText("Clear All Malfunctions");
+		c.fill = GridBagConstraints.BOTH;
+		c.gridheight = 1;
+		c.weightx = 1.0;
+		c.gridwidth = GridBagConstraints.RELATIVE;
+		c.weighty = 1.0;
+		gridbag.setConstraints(lengthLabel, c);
+		myOperatorPanel.add(lengthLabel);
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		gridbag.setConstraints(lengthComboBox, c);
+		myOperatorPanel.add(lengthComboBox);
+		c.gridwidth = GridBagConstraints.RELATIVE;
+		gridbag.setConstraints(severityLabel, c);
+		myOperatorPanel.add(severityLabel);
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		gridbag.setConstraints(severityComboBox, c);
+		myOperatorPanel.add(severityComboBox);
+		c.gridwidth = GridBagConstraints.RELATIVE;
+		gridbag.setConstraints(addMalfunctionButton, c);
+		myOperatorPanel.add(addMalfunctionButton);
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		gridbag.setConstraints(clearMalfunctionButton, c);
+		myOperatorPanel.add(clearMalfunctionButton);
+	}
+	
+	private void createCurrentMalfunctionsPanel(){
 	}
 	
 	public static void main(String[] args){
@@ -54,57 +116,15 @@ public class MalfunctionPanel extends TimedPanel
 		myFrame.setVisible(true);
 	}
 	
-	private JPanel createMalfunctionRow(BioModule myModule){
-		JPanel newPanel = new JPanel();
-		newPanel.setLayout(new BorderLayout());
-		JPanel addMalfunctionPanel = new JPanel();
-		JButton addMalfunctionButton = new JButton(new AddMalfunctionAction(myModule));
-		addMalfunctionButton.setText("Add Malfunction");
-		String[] lengthStrings = {"Permanent", "Temporary"};
-		JComboBox lengthComboBox = new JComboBox(lengthStrings);
-		String[] severityStrings = {"Severe", "Medium", "Low"};
-		JComboBox severityComboBox = new JComboBox(severityStrings);
-		addMalfunctionPanel.add(addMalfunctionButton);
-		addMalfunctionPanel.add(lengthComboBox);
-		addMalfunctionPanel.add(severityComboBox);
-		MalfunctionVariableIndex newVariableIndex = new MalfunctionVariableIndex(lengthComboBox, severityComboBox);
-		myMalfunctionVariables.put(myModule.getModuleName(), newVariableIndex);
-		JPanel clearMalfunctionPanel = new JPanel();
-		JButton clearMalfunctionButton = new JButton(new ClearMalfunctionAction(myModule));
-		clearMalfunctionButton.setText("Clear Malfunctions");
-		clearMalfunctionPanel.add(clearMalfunctionButton);
-		newPanel.add(addMalfunctionPanel, BorderLayout.CENTER);
-		newPanel.add(clearMalfunctionPanel, BorderLayout.SOUTH);
-		newPanel.setBorder(BorderFactory.createTitledBorder(myModule.getModuleName()));
-		return newPanel;
-	}
-	
 	private class ClearMalfunctionAction extends AbstractAction{
-		BioModule myModule;
-		ClearMalfunctionAction(BioModule pModule){
-			myModule = pModule;
-		}
 		public void actionPerformed(ActionEvent ae){
-			System.out.println(myModule.getModuleName() + " ClearMalfunctionAction button was pressed");
+			System.out.println("ClearMalfunctionAction button was pressed");
 		}
 	}
 	
 	private class AddMalfunctionAction extends AbstractAction{
-		BioModule myModule;
-		AddMalfunctionAction(BioModule pModule){
-			myModule = pModule;
-		}
 		public void actionPerformed(ActionEvent ae){
-			System.out.println(myModule.getModuleName() + " AddMalfunctionAction button was pressed");
+			System.out.println("AddMalfunctionAction button was pressed");
 		}
-	}
-	
-	private class MalfunctionVariableIndex{
-		public MalfunctionVariableIndex(JComboBox pLengthComboBox, JComboBox pSeverityComboBox){
-			myLengthComboBox = pLengthComboBox;
-			mySeverityComboBox = pSeverityComboBox;
-		}
-		public JComboBox myLengthComboBox;
-		public JComboBox mySeverityComboBox;
 	}
 }
