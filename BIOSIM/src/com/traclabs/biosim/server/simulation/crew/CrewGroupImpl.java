@@ -749,4 +749,20 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     public FoodStore[] getFoodInputs() {
         return myFoodStores;
     }
+
+    /* (non-Javadoc)
+     * @see com.traclabs.biosim.idl.simulation.crew.CrewGroupOperations#detachCrewPerson(java.lang.String)
+     */
+    public void detachCrewPerson(String name) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see com.traclabs.biosim.idl.simulation.crew.CrewGroupOperations#attachCrewPerson(com.traclabs.biosim.idl.simulation.crew.CrewPerson)
+     */
+    public void attachCrewPerson(CrewPerson pCrewPerson) {
+        // TODO Auto-generated method stub
+        
+    }
 }
