@@ -142,9 +142,8 @@ public class SimCommandLine
 
 	private void runTest(){
 		BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
-		WaterRS myWaterRS = (WaterRS)myBioHolder.theWaterRSModules.get(0);
-		TechSpecificInfo someInfo = myWaterRS.getTechSpecificInfo();
-		System.out.println("WaterRS tech specific info:"+someInfo.print());
+		DirtyWaterStore myDirtyWaterStore = (DirtyWaterStore)myBioHolder.theDirtyWaterStores.get(0);
+		System.out.println("DirtyWaterStore level: "+myDirtyWaterStore.getLevel());
 	}
 }
 
