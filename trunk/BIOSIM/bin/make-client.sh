@@ -2,6 +2,7 @@
 
 echo "*building biosim"
 echo "	-initializing biosim build...";
+userSelect="$@"
 # see if the biosim directory exists, if it doesn't, assume it's one directory back (i.e., user is in bin directory)
 devRootDir=$BIOSIM_HOME
 if [ -z "$devRootDir" ]
@@ -51,6 +52,8 @@ if [ ! -e  "$stubDir" ]
 then
 	mkdir $stubDir
 	echo "			-creating stubs directory"
+	echo "				-no stubs (switching to make all)"
+	userSelect="all"
 fi
 clientClassesString="/classes"
 clientClassesDir=$clientGenDir$clientClassesString
@@ -62,7 +65,7 @@ fi
 relativeIDLDir="/src/biosim/idl/biosim.idl"
 fullIDLDir=$devRootDir$relativeIDLDir
 idlInvocation="$java_command -classpath $JACORB_HOME/lib/idl.jar org.jacorb.idl.parser"
-if [ "$userSelect" = "all" ]
+if [ "$userSelect" == "all" ]
 then
 	echo "			-generating stubs"
 	$idlInvocation  -noskel -d $stubDir $fullIDLDir
@@ -77,7 +80,7 @@ clientDir="$devRootDir/src/biosim/client"
 sourceDir="$devRootDir/src"
 jacoClasspath="$JACORB_HOME/lib/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME/lib"
 compilationInvocation="$javac_command -d $clientClassesDir -classpath $stubDir$separator$clientClassesDir$separator$sourceDir$separator$jacoClasspath"
-if [ "$userSelect" = "all" ]
+if [ "$userSelect" == "all" ]
 then
 	echo "			-compiling stubs"
 	echo "				-compiling air stubs"
@@ -94,13 +97,13 @@ then
 	$compilationInvocation $simStubDir/idl/environment/*.java
 	echo "				-compiling framework stubs"
 	$compilationInvocation $simStubDir/idl/framework/*.java
-	echo "				-compiling util stubs"
-	$compilationInvocation $simStubDir/idl/util/*.java
 fi
 echo "			-compiling control"
 $compilationInvocation $clientDir/control/*.java
 echo "				-compiling gui"
 $compilationInvocation $clientDir/control/gui/*.java
+echo "			-compiling util"
+$compilationInvocation $clientDir/util/*.java
 echo "*done building biosim"
 
 

@@ -5,10 +5,10 @@ import biosim.idl.crew.*;
 import biosim.idl.environment.*;
 import biosim.idl.food.*;
 import biosim.idl.power.*;
-import biosim.idl.util.*;
 import biosim.idl.water.*;
 import biosim.idl.framework.*;
 import biosim.client.control.gui.*;
+import biosim.client.util.*;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
@@ -44,9 +44,11 @@ public class BioSimulator implements Runnable
 	}
 
 	public void run(){
-		initializeORB();
+		System.out.println("Getting server references...");
 		collectReferences();
+		System.out.println("Initializing simulation...");
 		initializeSimulation();
+		System.out.println("Starting simulation...");
 		runSimulation(100);
 	}
 	
@@ -79,9 +81,9 @@ public class BioSimulator implements Runnable
 		//Put some air in the cabin
 		SimEnvironment mySimEnvironment = (SimEnvironment)(getBioModule(simEnvironmentName));
 		mySimEnvironment.setCO2Capacity(500f);
-		mySimEnvironment.setO2Capacity(500f);
+		mySimEnvironment.setO2Capacity(10000f);
 		mySimEnvironment.setCO2Level(500f);
-		mySimEnvironment.setO2Level(500f);
+		mySimEnvironment.setO2Level(5000f);
 		
 		//Add some crops and food
 		BiomassStore myBiomassStore = (BiomassStore)(getBioModule(biomassStoreName));
@@ -107,128 +109,111 @@ public class BioSimulator implements Runnable
 		return (BioModule)(modules.get(type));
 	}
 
-	private void initializeORB(){
-		//create null array
-		String nullArgs[] = null;
-		// create and initialize the ORB
-		ORB orb = ORB.init(nullArgs, null);
-		// get the root naming context
-		org.omg.CORBA.Object objRef = null;
-		try{
-			objRef = orb.resolve_initial_references("NameService");
-		}
-		catch (org.omg.CORBA.ORBPackage.InvalidName e){
-			System.out.println("Couldn't find nameserver! "+e);
-		}
-		// Use NamingContextExt instead of NamingContext. This is part of the Interoperable naming Service.
-		ncRef = NamingContextExtHelper.narrow(objRef);
-	}
-
 	private void collectReferences(){
 
 		// resolve the Objects Reference in Naming
 		modules = new Hashtable();
 		System.out.println("Collecting references to modules...");
 		try{
-			CrewGroup myCrew = CrewGroupHelper.narrow(ncRef.resolve_str(crewName));
+			CrewGroup myCrew = CrewGroupHelper.narrow(OrbUtils.getNCRef().resolve_str(crewName));
 			modules.put(crewName , myCrew);
 		}
 		catch (org.omg.CORBA.UserException e){
 			System.out.println("Couldn't locate CrewGroup, skipping...");
 		}
 		try{
-			PowerPS myPowerPS = PowerPSHelper.narrow(ncRef.resolve_str(powerPSName));
+			PowerPS myPowerPS = PowerPSHelper.narrow(OrbUtils.getNCRef().resolve_str(powerPSName));
 			modules.put(powerPSName , myPowerPS);
 		}
 		catch (org.omg.CORBA.UserException e){
 			System.out.println("Couldn't locate PowerPS, skipping...");
 		}
 		try{
-			PowerStore myPowerStore = PowerStoreHelper.narrow(ncRef.resolve_str(powerStoreName));
+			PowerStore myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(powerStoreName));
 			modules.put(powerStoreName , myPowerStore);
 		}
 		catch (org.omg.CORBA.UserException e){
 			System.out.println("Couldn't locate EnergyStore, skipping...");
 		}
 		try{
-			AirRS myAirRS = AirRSHelper.narrow(ncRef.resolve_str(airRSName));
+			AirRS myAirRS = AirRSHelper.narrow(OrbUtils.getNCRef().resolve_str(airRSName));
 			modules.put(airRSName , myAirRS);
 		}
 		catch (org.omg.CORBA.UserException e){
 			System.out.println("Couldn't locate AirRS, skipping...");
 		}
 		try{
-			SimEnvironment mySimEnvironment = SimEnvironmentHelper.narrow(ncRef.resolve_str(simEnvironmentName));
+			SimEnvironment mySimEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str(simEnvironmentName));
 			modules.put(simEnvironmentName , mySimEnvironment);
 		}
 		catch (org.omg.CORBA.UserException e){
 			System.out.println("Couldn't locate SimEnvironment, skipping...");
 		}
 		try{
-			GreyWaterStore myGreyWaterStore = GreyWaterStoreHelper.narrow(ncRef.resolve_str(greyWaterStoreName));
+			GreyWaterStore myGreyWaterStore = GreyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(greyWaterStoreName));
 			modules.put(greyWaterStoreName , myGreyWaterStore);
 		}
 		catch (org.omg.CORBA.UserException e){
 			System.out.println("Couldn't locate GreyWaterStore, skipping...");
 		}
 		try{
-			PotableWaterStore myPotableWaterStore = PotableWaterStoreHelper.narrow(ncRef.resolve_str(potableWaterStoreName));
+			PotableWaterStore myPotableWaterStore = PotableWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(potableWaterStoreName));
 			modules.put(potableWaterStoreName , myPotableWaterStore);
 		}
 		catch (org.omg.CORBA.UserException e){
 			System.out.println("Couldn't locate PotableWaterStore, skipping...");
 		}
 		try{
-			DirtyWaterStore myDirtyWaterStore = DirtyWaterStoreHelper.narrow(ncRef.resolve_str(dirtyWaterStoreName));
+			DirtyWaterStore myDirtyWaterStore = DirtyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(dirtyWaterStoreName));
 			modules.put(dirtyWaterStoreName , myDirtyWaterStore);
 		}
 		catch (org.omg.CORBA.UserException e){
 			System.out.println("Couldn't locate DirtyWaterStore, skipping...");
 		}
 		try{
-			FoodProcessor myFoodProcessor = FoodProcessorHelper.narrow(ncRef.resolve_str(foodProcessorName));
+			FoodProcessor myFoodProcessor = FoodProcessorHelper.narrow(OrbUtils.getNCRef().resolve_str(foodProcessorName));
 			modules.put(foodProcessorName , myFoodProcessor);
 		}
 		catch (org.omg.CORBA.UserException e){
 			System.out.println("Couldn't locate FoodProcessor, skipping...");
 		}
 		try{
-			FoodStore myFoodStore= FoodStoreHelper.narrow(ncRef.resolve_str(foodStoreName));
+			FoodStore myFoodStore= FoodStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(foodStoreName));
 			modules.put(foodStoreName , myFoodStore);
 		}
 		catch (org.omg.CORBA.UserException e){
 			System.out.println("Couldn't locate FoodStore, skipping...");
 		}
 		try{
-			CO2Store myCO2Store = CO2StoreHelper.narrow(ncRef.resolve_str(co2StoreName));
+			CO2Store myCO2Store = CO2StoreHelper.narrow(OrbUtils.getNCRef().resolve_str(co2StoreName));
 			modules.put(co2StoreName , myCO2Store);
 		}
 		catch (org.omg.CORBA.UserException e){
 			System.out.println("Couldn't locate CO2Store, skipping...");
 		}
 		try{
-			O2Store myO2Store = O2StoreHelper.narrow(ncRef.resolve_str(o2StoreName));
+			O2Store myO2Store = O2StoreHelper.narrow(OrbUtils.getNCRef().resolve_str(o2StoreName));
 			modules.put(o2StoreName , myO2Store);
 		}
 		catch (org.omg.CORBA.UserException e){
 			System.out.println("Couldn't locate CO2Store, skipping...");
 		}
 		try{
-			BiomassRS myBiomassRS = BiomassRSHelper.narrow(ncRef.resolve_str(biomassRSName));
+			BiomassRS myBiomassRS = BiomassRSHelper.narrow(OrbUtils.getNCRef().resolve_str(biomassRSName));
 			modules.put(biomassRSName , myBiomassRS);
 		}
 		catch (org.omg.CORBA.UserException e){
 			System.out.println("Couldn't locate BiomassRS, skipping...");
 		}
 		try{
-			BiomassStore myBiomassStore = BiomassStoreHelper.narrow(ncRef.resolve_str(biomassStoreName));
+			BiomassStore myBiomassStore = BiomassStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(biomassStoreName));
 			modules.put(biomassStoreName, myBiomassStore);
 		}
 		catch (org.omg.CORBA.UserException e){
 			System.out.println("Couldn't locate BiomassStore, skipping...");
 		}
 		try{
-			WaterRS myWaterRS = WaterRSHelper.narrow(ncRef.resolve_str(waterRSName));
+			WaterRS myWaterRS = WaterRSHelper.narrow(OrbUtils.getNCRef().resolve_str(waterRSName));
 			modules.put(waterRSName , myWaterRS);
 		}
 		catch (org.omg.CORBA.UserException e){
