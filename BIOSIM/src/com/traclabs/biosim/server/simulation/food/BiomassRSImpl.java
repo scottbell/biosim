@@ -34,6 +34,14 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations,
 
 	public BiomassRSImpl(int pID){
 		super(pID);
+		myGreyWaterStores = new GreyWaterStore[0];
+		myPotableWaterStores = new PotableWaterStore[0];
+		myPowerStores = new PowerStore[0];
+		myBiomassStores = new BiomassStore[0];
+		powerFlowRates = new float[0];
+		biomassFlowRates = new float[0];
+		potableWaterFlowRates = new float[0];
+		greyWaterFlowRates = new float[0];
 		myShelves = new Vector(shelfCapacity);
 		for (int i = 0; i < shelfCapacity; i++){
 			myShelves.add(new ShelfImpl(pID, this));

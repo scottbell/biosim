@@ -22,6 +22,7 @@ public class VCCR extends AirRSSubSystem{
 
 	public VCCR(AirRSImpl pAirRSImpl){
 		super(pAirRSImpl);
+		myBreath = new Breath(0,0,0);
 	}
 
 	public boolean hasEnoughAir(){
@@ -87,7 +88,7 @@ public class VCCR extends AirRSSubSystem{
 			distributedO2Left -= myAirOutputs[i].addO2(distributedO2Left);
 			distributedOtherLeft -= myAirOutputs[i].addOther(distributedOtherLeft);
 		}
-		myCO2Tank.addCO2(myBreath.CO2);
+		myCO2Tank.addCO2(myBreath.CO2 * myProductionRate);
 	}
 
 	public void reset(){

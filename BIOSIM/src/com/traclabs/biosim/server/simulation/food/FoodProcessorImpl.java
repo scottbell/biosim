@@ -31,17 +31,23 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	//The food produced (in kilograms) by the Food Processor at the current tick
 	private float currentFoodProduced = 0f;
 	//References to the servers the Food Processor takes/puts resources (like power, biomass, etc)
+	private LogIndex myLogIndex;
+	private float myProductionRate;
 	private FoodStore[] myFoodStores;
 	private PowerStore[] myPowerStores;
 	private BiomassStore[] myBiomassStores;
-	private LogIndex myLogIndex;
-	private float myProductionRate;
 	private float[] powerFlowRates;
 	private float[] biomassFlowRates;
 	private float[] foodFlowRates;
 	
 	public FoodProcessorImpl(int pID){
 		super(pID);
+		myFoodStores = new FoodStore[0];
+		myPowerStores = new PowerStore[0];
+		myBiomassStores = new BiomassStore[0];
+		powerFlowRates = new float[0];
+		biomassFlowRates = new float[0];
+		foodFlowRates = new float[0];
 	}
 	
 	/**
