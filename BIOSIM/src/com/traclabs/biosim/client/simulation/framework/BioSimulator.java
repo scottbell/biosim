@@ -21,8 +21,8 @@ public class BioSimulator implements Runnable
 	public final static  String powerPSName = "PowerPS";
 	public final static  String powerStoreName = "PowerStore";
 	public final static  String airRSName = "AirRS";
-	public final static  String co2StoreName = "CO2Store";
-	public final static  String o2StoreName = "O2Store";
+	public final static  String CO2StoreName = "CO2Store";
+	public final static  String O2StoreName = "O2Store";
 	public final static  String biomassRSName = "BiomassRS";
 	public final static  String biomassStoreName = "BiomassStore";
 	public final static  String foodProcessorName = "FoodProcessor";
@@ -80,8 +80,8 @@ public class BioSimulator implements Runnable
 		myDirtyWaterStore.setWaterLevel(0f);
 
 		//Fill the air tanks
-		CO2Store myCO2Store = (CO2Store)(getBioModule(co2StoreName));
-		O2Store myO2Store = (O2Store)(getBioModule(o2StoreName));
+		CO2Store myCO2Store = (CO2Store)(getBioModule(CO2StoreName));
+		O2Store myO2Store = (O2Store)(getBioModule(O2StoreName));
 		myCO2Store.setCO2Capacity(1000f);
 		myO2Store.setO2Capacity(1000f);
 		myCO2Store.setCO2Level(0f);
@@ -238,15 +238,15 @@ public class BioSimulator implements Runnable
 			System.out.println("BioSimulator: Couldn't locate FoodStore, skipping...");
 		}
 		try{
-			CO2Store myCO2Store = CO2StoreHelper.narrow(OrbUtils.getNCRef().resolve_str(co2StoreName));
-			modules.put(co2StoreName , myCO2Store);
+			CO2Store myCO2Store = CO2StoreHelper.narrow(OrbUtils.getNCRef().resolve_str(CO2StoreName));
+			modules.put(CO2StoreName , myCO2Store);
 		}
 		catch (org.omg.CORBA.UserException e){
 			System.out.println("BioSimulator: Couldn't locate CO2Store, skipping...");
 		}
 		try{
-			O2Store myO2Store = O2StoreHelper.narrow(OrbUtils.getNCRef().resolve_str(o2StoreName));
-			modules.put(o2StoreName , myO2Store);
+			O2Store myO2Store = O2StoreHelper.narrow(OrbUtils.getNCRef().resolve_str(O2StoreName));
+			modules.put(O2StoreName , myO2Store);
 		}
 		catch (org.omg.CORBA.UserException e){
 			System.out.println("BioSimulator: Couldn't locate CO2Store, skipping...");

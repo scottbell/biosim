@@ -6,48 +6,72 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.text.*;
 
 public class EnvironmentPanel extends JPanel implements BioSimulatorListener
 {
-	private JPanel tickPanel;
 	private JLabel tickLabel;
+	private JPanel tickPanel;
 	private JLabel O2Label;
 	private JLabel CO2Label;
 	private JLabel otherLabel;
 	private JPanel airPanel;
 	private SimEnvironment mySimEnvironment;
 	private BioSimulator myBioSimulator;
-	
+	private DecimalFormat numFormat;
+
 	public EnvironmentPanel(BioSimulator pBioSimulator){
 		myBioSimulator = pBioSimulator;
-		myBioSimulator.registerListener(this);
 		mySimEnvironment = (SimEnvironment)(myBioSimulator.getBioModule(BioSimulator.simEnvironmentName));
 		buildGui();
+		myBioSimulator.registerListener(this);
 	}
-	
+
 	private void buildGui(){
-		setLayout(new BorderLayout());
+		numFormat = new DecimalFormat("#,###.00;(#)");
+		GridBagLayout gridbag = new GridBagLayout();
+		GridBagConstraints c = new GridBagConstraints();
+		setLayout(gridbag);
+		
+		long ticksExpired = mySimEnvironment.getTicks();
+		tickLabel = new JLabel(ticksExpired + " hours ("+(ticksExpired/24)+" days)");
 		tickPanel = new JPanel();
-		tickLabel = new JLabel(""+mySimEnvironment.getTicks());
-		tickPanel.add(tickLabel);
-		tickPanel.setBorder(BorderFactory.createTitledBorder("Ticks"));
+		tickPanel.setBorder(BorderFactory.createTitledBorder("Time"));
+		tickPanel.add(tickLabel, BorderLayout.CENTER);
+
 		airPanel = new JPanel();
-		airPanel.setLayout(new BorderLayout());
+		airPanel.setLayout(new GridLayout(3,1));
 		airPanel.setBorder(BorderFactory.createTitledBorder("Air"));
-		O2Label = new JLabel("O2: "+mySimEnvironment.getO2Level() +" L");
-		CO2Label = new JLabel("CO2: "+mySimEnvironment.getCO2Level() + " L");
-		otherLabel = new JLabel("other: "+mySimEnvironment.getOtherLevel() + " L");
-		airPanel.add(O2Label, BorderLayout.WEST);
-		airPanel.add(otherLabel, BorderLayout.NORTH);
-		airPanel.add(CO2Label, BorderLayout.EAST);
-		add(airPanel, BorderLayout.SOUTH);
-		add(tickPanel, BorderLayout.NORTH);
+		O2Label =    new JLabel("O2:     "+numFormat.format(mySimEnvironment.getO2Level()) +" L");
+		CO2Label =  new JLabel("CO2:   "+numFormat.format(mySimEnvironment.getCO2Level()) + " L");
+		otherLabel = new JLabel("other:  "+numFormat.format(mySimEnvironment.getOtherLevel()) + " L");
+		airPanel.add(O2Label);
+		airPanel.add(CO2Label);
+		airPanel.add(otherLabel);
+
+		c.fill = GridBagConstraints.BOTH;
+		c.gridheight = 1;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		c.weightx = 1.0;
+		c.gridwidth = 1;
+		c.weighty = 1.0;
+		gridbag.setConstraints(tickPanel, c);
+		add(tickPanel);
+
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 2.0;
+		c.weighty = 1.0;
+		c.gridheight = 1;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		gridbag.setConstraints(airPanel, c);
+		add(airPanel);
 	}
-	
+
 	public void processTick(){
-		tickLabel.setText(""+mySimEnvironment.getTicks());
-		O2Label.setText("O2: "+mySimEnvironment.getO2Level() +" L");
-		CO2Label.setText("CO2: "+mySimEnvironment.getCO2Level() + " L");
-		otherLabel.setText("other: "+mySimEnvironment.getOtherLevel() + " L");
+		long ticksExpired = mySimEnvironment.getTicks();
+		tickLabel.setText(ticksExpired + " hours ("+(ticksExpired/24)+" days)");
+		O2Label.setText("O2:     "+numFormat.format(mySimEnvironment.getO2Level()) +" L");
+		CO2Label.setText("CO2:   "+numFormat.format(mySimEnvironment.getCO2Level()) + " L");
+		otherLabel.setText("other:  "+numFormat.format(mySimEnvironment.getOtherLevel()) + " L");
 	}
 }

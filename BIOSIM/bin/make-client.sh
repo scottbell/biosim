@@ -102,6 +102,9 @@ echo "			-compiling util"
 $compilationInvocation $clientDir/util/*.java
 echo "			-compiling gui"
 $compilationInvocation $clientDir/gui/*.java
+echo "			-compiling air"
+echo "				-compiling air.gui"
+$compilationInvocation $clientDir/air/gui/*.java
 echo "			-compiling environment"
 echo "				-compiling environment.gui"
 $compilationInvocation $clientDir/environment/gui/*.java
