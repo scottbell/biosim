@@ -223,11 +223,11 @@
 					<xsd:sequence>
 						<xsd:element name="CO2InFlowRateActuator" type="CO2InFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
 						<xsd:element name="CO2OutFlowRateActuator" type="CO2OutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="H2InFlowRateActuator" type="H2InFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="H2OutFlowRateActuator" type="H2OutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
 						<xsd:element name="O2InFlowRateActuator" type="O2InFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
 						<xsd:element name="O2OutFlowRateActuator" type="O2OutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
-					</xsd:sequence>
+						<xsd:element name="H2InFlowRateActuator" type="H2InFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="H2OutFlowRateActuator" type="H2OutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
+						</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="crew" minOccurs="0" maxOccurs="1">

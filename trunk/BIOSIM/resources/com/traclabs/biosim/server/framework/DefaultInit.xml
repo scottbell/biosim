@@ -480,5 +480,85 @@
 		</water>
 	</Sensors>
 	<Actuators>
+		<air>
+			<CO2InFlowRateActuator name="AirRSCO2InFlowRateActuator">
+				<output>AirRS</output>
+			</CO2InFlowRateActuator>
+			<CO2OutFlowRateActuator name="AirRSCO2OutFlowRateActuator">
+				<output>AirRS</output>
+			</CO2OutFlowRateActuator>
+			<O2OutFlowRateActuator name="AirRSO2OutFlowRateActuator">
+				<output>AirRS</output>
+			</O2OutFlowRateActuator>
+			<H2InFlowRateActuator name="AirRSH2InFlowRateActuator">
+				<output>AirRS</output>
+			</H2InFlowRateActuator>
+			<H2OutFlowRateActuator name="AirRSH2OutFlowRateActuator">
+				<output>AirRS</output>
+			</H2OutFlowRateActuator>
+		</air>
+		<food>
+			<BiomassInFlowRateActuator name="FoodProcessorBiomassInFlowRateActuator">
+				<output>FoodProcessor</output>
+			</BiomassInFlowRateActuator>
+			<BiomassOutFlowRateActuator name="BiomassRSBiomassOutFlowRateActuator">
+				<output>BiomassRS</output>
+			</BiomassOutFlowRateActuator>
+			<FoodInFlowRateActuator name="CrewGroupFoodInFlowRateActuator">
+				<output>CrewGroup</output>
+			</FoodInFlowRateActuator>
+			<FoodOutFlowRateActuator name="BiomassRSFoodOutFlowRateActuator">
+				<output>BiomassRS</output>
+			</FoodOutFlowRateActuator>
+		</food>
+		<power>
+			<PowerInFlowRateActuator name="AirRSPowerInFlowRateActuator">
+				<output>AirRS</output>
+			</PowerInFlowRateActuator>
+			<PowerInFlowRateActuator name="FoodProcessorPowerInFlowRateActuator">
+				<output>FoodProcessor</output>
+			</PowerInFlowRateActuator>
+			<PowerInFlowRateActuator name="BiomassRSPowerInFlowRateActuator">
+				<output>BiomassRS</output>
+			</PowerInFlowRateActuator>
+			<PowerInFlowRateActuator name="WaterRSPowerInFlowRateActuator">
+				<output>BiomassRS</output>
+			</PowerInFlowRateActuator>
+			<PowerOutFlowRateActuator name="PowerPSPowerOutFlowRateActuator">
+				<output>PowerPS</output>
+			</PowerOutFlowRateActuator>
+		</power>
+		<water>
+			<DirtyWaterInFlowRateActuator name="WaterRSDirtyWaterInFlowRateActuator">
+				<output>WaterRS</output>
+			</DirtyWaterInFlowRateActuator>
+			<DirtyWaterOutFlowRateActuator name="CrewGroupDirtyWaterOutFlowRateActuator">
+				<output>CrewGroup</output>
+			</DirtyWaterOutFlowRateActuator>
+			<DirtyWaterOutFlowRateActuator name="BiomassRSDirtyWaterOutFlowRateActuator">
+				<output>BiomassRS</output> 
+			</DirtyWaterOutFlowRateActuator>
+			<GreyWaterInFlowRateActuator name="WaterRSGreyWaterInFlowRateActuator">
+				<output>WaterRS</output>
+			</GreyWaterInFlowRateActuator>
+			<GreyWaterInFlowRateActuator name="BiomassRSGreyWaterInFlowRateActuator">
+				<output>BiomassRS</output>
+			</GreyWaterInFlowRateActuator>
+			<GreyWaterOutFlowRateActuator name="CrewGroupGreyWaterOutFlowRateActuator">
+				<output>CrewGroup</output>
+			</GreyWaterOutFlowRateActuator>
+			<GreyWaterOutFlowRateActuator name="BiomassRSGreyWaterOutFlowRateActuator">
+				<output>BiomassRS</output>
+			</GreyWaterOutFlowRateActuator>
+			<PotableWaterInFlowRateActuator name="AirRSPotableWaterInFlowRateActuator">
+				<output>AirRS</output>
+			</PotableWaterInFlowRateActuator>
+			<PotableWaterInFlowRateActuator name="CrewGroupPotableWaterInFlowRateActuator">
+				<output>CrewGroup</output>
+			</PotableWaterInFlowRateActuator>
+			<PotableWaterInFlowRateActuator name="BiomassRSPotableWaterInFlowRateActuator">
+				<output>BiomassRS</output>
+			</PotableWaterInFlowRateActuator>
+		</water>
 	</Actuators>
 </biosim>
