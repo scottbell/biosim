@@ -91,7 +91,7 @@ sourceDir="$devRootDir/src"
 plotClasspath="$devRootDir/lib/jfreechart/jcommon.jar$separator$devRootDir/lib/jfreechart/jfreechart.jar"
 xmlClasspath="$devRootDir/lib/xerces/xercesImpl.jar$separator$devRootDir/lib/xerces/xml-apis.jar$separator$devRootDir/lib/xerces/xmlParserAPIs.jar"
 sim3DLibDir="$devRootDir/lib/sim3D"
-sim3DClasspath="$sim3DLibDir/joal.jar$separator$sim3DLibDir/jogl.jar$separator$sim3DLibDir/junit.jar$separator$sim3DLibDir/log4j.jar$separator$sim3DLibDir/vecmath.jar$separator$sim3DLibDir/vorbis.jar$separator$sim3DLibDir/xith3d.jar"
+sim3DClasspath="$sim3DLibDir/joal.jar$separator$sim3DLibDir/linux/jogl.jar$separator$sim3DLibDir/junit.jar$separator$sim3DLibDir/log4j.jar$separator$sim3DLibDir/vecmath.jar$separator$sim3DLibDir/vorbis.jar$separator$sim3DLibDir/xith3d.jar"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JRE_libs$separator$JACORB_HOME"
 compilationInvocation="$javac_command -d $clientClassesDir -classpath $plotClasspath$separator$stubDir$separator$clientClassesDir$separator$sourceDir$separator$jacoClasspath$separator$xmlClasspath$separator$sim3DClasspath"
 if [ "$userSelect" == "all" ]; then
