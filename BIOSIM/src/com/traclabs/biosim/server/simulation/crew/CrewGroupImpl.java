@@ -24,7 +24,8 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 	/**
 	* Default constructor.  Uses a default schedule.
 	*/
-	public CrewGroupImpl(){
+	public CrewGroupImpl(int pID){
+		super(pID);
 		//use default schedule
 		mySchedule = new Schedule();
 		crewPeople = new Hashtable();
@@ -34,7 +35,8 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 	* Constructor that takes a schedule file and uses it.
 	* @param pScheduleFile the schedule file for the crew persons to use.
 	*/
-	public CrewGroupImpl(URL pScheduleURL){
+	public CrewGroupImpl(int pID, URL pScheduleURL){
+		super(pID);
 		mySchedule = new Schedule(pScheduleURL);
 		crewPeople = new Hashtable();
 	}

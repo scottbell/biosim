@@ -46,23 +46,23 @@ public class BiosimServer {
 			rootpoa.the_POAManager().activate();
 
 			// create servants and register them with ORB
-			SimEnvironmentImpl mySimEnvironmentImpl = new SimEnvironmentImpl();
-			AirRSImpl myAirRSImpl = new AirRSImpl();
-			CO2StoreImpl myCO2StoreImpl = new CO2StoreImpl();
-			O2StoreImpl myO2StoreImpl = new O2StoreImpl();
-			CrewGroupImpl myCrewImpl = new CrewGroupImpl();
-			BiomassRSImpl myBiomassRSImpl = new BiomassRSImpl();
-			BiomassStoreImpl myBiomassStoreImpl = new BiomassStoreImpl();
-			FoodProcessorImpl myFoodProcessorImpl = new FoodProcessorImpl();
-			FoodStoreImpl myFoodStoreImpl = new FoodStoreImpl();
-			PowerPSImpl myPowerPSImpl = new SolarPowerPS();
-			PowerStoreImpl myPowerStoreImpl = new PowerStoreImpl();
-			WaterRSImpl myWaterRSImpl = new WaterRSImpl();
-			GreyWaterStoreImpl myGreyWaterStoreImpl = new GreyWaterStoreImpl();
-			PotableWaterStoreImpl myPotableWaterStoreImpl = new PotableWaterStoreImpl();
-			DirtyWaterStoreImpl myDirtyWaterStoreImpl = new DirtyWaterStoreImpl();
-			LoggerImpl myLoggerImpl = new LoggerImpl();
-			BioDriverImpl myBioDriverImpl = new BioDriverImpl();
+			SimEnvironmentImpl mySimEnvironmentImpl = new SimEnvironmentImpl(id);
+			AirRSImpl myAirRSImpl = new AirRSImpl(id);
+			CO2StoreImpl myCO2StoreImpl = new CO2StoreImpl(id);
+			O2StoreImpl myO2StoreImpl = new O2StoreImpl(id);
+			CrewGroupImpl myCrewImpl = new CrewGroupImpl(id);
+			BiomassRSImpl myBiomassRSImpl = new BiomassRSImpl(id);
+			BiomassStoreImpl myBiomassStoreImpl = new BiomassStoreImpl(id);
+			FoodProcessorImpl myFoodProcessorImpl = new FoodProcessorImpl(id);
+			FoodStoreImpl myFoodStoreImpl = new FoodStoreImpl(id);
+			PowerPSImpl myPowerPSImpl = new SolarPowerPS(id);
+			PowerStoreImpl myPowerStoreImpl = new PowerStoreImpl(id);
+			WaterRSImpl myWaterRSImpl = new WaterRSImpl(id);
+			GreyWaterStoreImpl myGreyWaterStoreImpl = new GreyWaterStoreImpl(id);
+			PotableWaterStoreImpl myPotableWaterStoreImpl = new PotableWaterStoreImpl(id);
+			DirtyWaterStoreImpl myDirtyWaterStoreImpl = new DirtyWaterStoreImpl(id);
+			LoggerImpl myLoggerImpl = new LoggerImpl(id);
+			BioDriverImpl myBioDriverImpl = new BioDriverImpl(id);
 
 			// bind the Object References in Naming
 			org.omg.CORBA.Object ref = rootpoa.servant_to_reference(new SimEnvironmentPOATie(mySimEnvironmentImpl));
@@ -111,10 +111,10 @@ public class BiosimServer {
 			path = ncRef.to_name(myDirtyWaterStoreImpl.getModuleName());
 			ncRef.rebind(path, ref);
 			ref = rootpoa.servant_to_reference(myLoggerImpl);
-			path = ncRef.to_name("Logger");
+			path = ncRef.to_name(myLoggerImpl.getName());
 			ncRef.rebind(path, ref);
 			ref = rootpoa.servant_to_reference(myBioDriverImpl);
-			path = ncRef.to_name("BioDriver");
+			path = ncRef.to_name(myBioDriverImpl.getName());
 			ncRef.rebind(path, ref);
 			System.out.println("Biosim Server ready and waiting ...");
 			// wait for invocations from clients

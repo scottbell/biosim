@@ -9,6 +9,9 @@ import biosim.server.framework.*;
  */
 
 public class PowerStoreImpl extends StoreImpl implements PowerStoreOperations {
+	public PowerStoreImpl(int pID){
+		super(pID);
+	}
 	/**
 	* Returns the name of this module (PowerStore)
 	* @return the name of this module

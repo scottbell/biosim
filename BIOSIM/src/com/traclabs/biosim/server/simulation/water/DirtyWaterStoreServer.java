@@ -26,7 +26,7 @@ public class DirtyWaterStoreServer {
 			POA rootpoa = OrbUtils.getRootPOA();
 			rootpoa.the_POAManager().activate();
 			// create servant and register it with  ORB
-			DirtyWaterStoreImpl myDirtyWaterStoreImpl = new DirtyWaterStoreImpl();
+			DirtyWaterStoreImpl myDirtyWaterStoreImpl = new DirtyWaterStoreImpl(0);
 			// get object reference from the servant
 			org.omg.CORBA.Object ref =rootpoa.servant_to_reference(new DirtyWaterStorePOATie(myDirtyWaterStoreImpl));
 			// bind the Object Reference in Naming

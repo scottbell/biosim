@@ -27,7 +27,7 @@ public class SimEnvironmentServer {
 			POA rootpoa = OrbUtils.getRootPOA();
 			rootpoa.the_POAManager().activate();
 			// create servant and register it with  ORB
-			SimEnvironmentImpl myEnvironmentImpl = new SimEnvironmentImpl();
+			SimEnvironmentImpl myEnvironmentImpl = new SimEnvironmentImpl(0);
 			// get object reference from the servant
 			org.omg.CORBA.Object ref =rootpoa.servant_to_reference(new SimEnvironmentPOATie(myEnvironmentImpl));
 			// bind the Object Reference in Naming

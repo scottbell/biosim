@@ -25,7 +25,7 @@ public class O2StoreServer {
 			POA rootpoa = OrbUtils.getRootPOA();
 			rootpoa.the_POAManager().activate();
 			// create servant and register it with  ORB
-			O2StoreImpl myO2Impl = new O2StoreImpl();
+			O2StoreImpl myO2Impl = new O2StoreImpl(0);
 			// get object reference from the servant
 			org.omg.CORBA.Object ref =rootpoa.servant_to_reference(new O2StorePOATie(myO2Impl));
 			// bind the Object Reference in Naming

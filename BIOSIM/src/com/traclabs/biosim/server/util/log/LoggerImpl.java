@@ -18,8 +18,10 @@ public class LoggerImpl extends LoggerPOA  {
 	private LogNodeImpl currentTickLogNode;
 	private LogNodeImpl rootLogNode;
 	private int currentTick = -1;
+	private int myID = 0;
 	
-	public LoggerImpl(){
+	public LoggerImpl(int pID){
+		myID = pID;
 		rootLogNode = new LogNodeImpl("");
 		myLogHandlers = new Vector();
 		logTypes = new Vector();
@@ -37,13 +39,17 @@ public class LoggerImpl extends LoggerPOA  {
 	private void collectReferences(){
 		try{
 			if (!hasCollectedReferences){
-				myEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str("SimEnvironment"));
+				myEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str("SimEnvironment"+myID));
 				hasCollectedReferences = true;
 			}
 		}
 		catch (org.omg.CORBA.UserException e){
 			e.printStackTrace(System.out);
 		}
+	}
+	
+	public String getName(){
+		return "Logger"+myID;
 	}
 	
 	/**

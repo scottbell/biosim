@@ -33,7 +33,11 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	private PowerStore myPowerStore;
 	private BiomassStore myBiomassStore;
 	private LogIndex myLogIndex;
-
+	
+	public FoodProcessorImpl(int pID){
+		super(pID);
+	}
+	
 	/**
 	* Resets production/consumption levels
 	*/

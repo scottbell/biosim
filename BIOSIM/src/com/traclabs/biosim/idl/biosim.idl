@@ -35,6 +35,7 @@ module biosim{
                                 boolean isLogging();
 				void setDriverPauseLength(in long pDriverPauseLength);
 				long getDriverPauseLength();
+				string getName();
                         };
                 };
 
@@ -50,6 +51,7 @@ module biosim{
                                         void addLogHandlerType(in LogHandlerType pLogType);
                                         void setProcessingLogs(in boolean pAllowLogging);
                                         boolean isProcessingLogs();
+					string getName();
                                 };
                                 typedef sequence <LogNode> LogNodeList;
                                 interface LogNode{

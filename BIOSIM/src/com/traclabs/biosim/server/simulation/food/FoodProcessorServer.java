@@ -27,7 +27,7 @@ public class FoodProcessorServer {
 			POA rootpoa = OrbUtils.getRootPOA();
 			rootpoa.the_POAManager().activate();
 			// create servant and register it with  ORB
-			FoodProcessorImpl myFoodProcessorImpl = new FoodProcessorImpl();
+			FoodProcessorImpl myFoodProcessorImpl = new FoodProcessorImpl(0);
 			// get object reference from the servant
 			org.omg.CORBA.Object ref =rootpoa.servant_to_reference(new FoodProcessorPOATie(myFoodProcessorImpl));
 			// bind the Object Reference in Naming

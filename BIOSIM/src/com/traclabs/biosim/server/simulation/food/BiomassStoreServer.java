@@ -27,7 +27,7 @@ public class BiomassStoreServer {
 			POA rootpoa = OrbUtils.getRootPOA();
 			rootpoa.the_POAManager().activate();
 			// create servant and register it with  ORB
-			BiomassStoreImpl myBiomassStoreImpl = new BiomassStoreImpl();
+			BiomassStoreImpl myBiomassStoreImpl = new BiomassStoreImpl(0);
 			// get object reference from the servant
 			org.omg.CORBA.Object ref =rootpoa.servant_to_reference(new BiomassStorePOATie(myBiomassStoreImpl));
 			// bind the Object Reference in Naming

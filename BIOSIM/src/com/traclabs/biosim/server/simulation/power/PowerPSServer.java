@@ -26,7 +26,7 @@ public class PowerPSServer {
 			POA rootpoa = OrbUtils.getRootPOA();
 			rootpoa.the_POAManager().activate();
 			// create servant and register it with  ORB
-			PowerPSImpl myPowerPSImpl = new SolarPowerPS();
+			PowerPSImpl myPowerPSImpl = new SolarPowerPS(0);
 			// get object reference from the servant
 			org.omg.CORBA.Object ref =rootpoa.servant_to_reference(new PowerPSPOATie(myPowerPSImpl));
 			// bind the Object Reference in Naming

@@ -26,7 +26,7 @@ public class WaterRSServer {
 			POA rootpoa = OrbUtils.getRootPOA();
 			rootpoa.the_POAManager().activate();
 			// create servant and register it with  ORB
-			WaterRSImpl myWaterRSImpl = new WaterRSImpl();
+			WaterRSImpl myWaterRSImpl = new WaterRSImpl(0);
 			// get object reference from the servant
 			org.omg.CORBA.Object ref =rootpoa.servant_to_reference(new WaterRSPOATie(myWaterRSImpl));
 			// bind the Object Reference in Naming

@@ -7,7 +7,9 @@ import biosim.idl.power.*;
  */
 
 public class NuclearPowerPS extends PowerPSImpl {
-	
+	public NuclearPowerPS(int pID){
+		super(pID);
+	}
 	protected void calculatePowerProduced(){
 		//Constant steady stream of power
 		currentPowerProduced = 500f;

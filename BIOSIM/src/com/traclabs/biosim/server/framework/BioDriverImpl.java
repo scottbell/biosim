@@ -66,9 +66,15 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	private Logger myLogger;
 	private boolean hasCollectedReferences = false;
 	private int driverPauseLength = 0;
+	private int myID = 0;
 	
-	public BioDriverImpl(){
+	public BioDriverImpl(int pID){
+		myID = pID;
 		checkMachineType();
+	}
+	
+	public String getName(){
+		return "BioDriver"+myID;
 	}
 	
 	private void checkMachineType(){

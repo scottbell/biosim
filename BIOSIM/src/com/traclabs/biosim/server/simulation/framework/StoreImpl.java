@@ -18,7 +18,8 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 	/**
 	* Creates a Store with an initial level and capacity of 0
 	*/
-	public StoreImpl(){
+	public StoreImpl(int pID){
+		super(pID);
 		level = 0.0f;
 		capacity = 10.0f;
 	}
@@ -28,7 +29,8 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 	* @param initialLevel the initial level of the store
 	* @param initialCapacity the initial capacity of the store
 	*/
-	public StoreImpl (float initialLevel, float  initialCapacity){
+	public StoreImpl (int pID, float initialLevel, float  initialCapacity){
+		super(pID);
 		level = initialLevel;
 		capacity = initialCapacity;
 	}
