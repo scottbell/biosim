@@ -49,26 +49,46 @@ http://www.traclabs.com/biosim}
 \newpage
 
 \chapter{Introduction}
+Advanced life support systems have multiple interacting subsystems,
+which makes control a particularly challenging task.  The simulation
+described in this document provides a testbed for integrated control
+research.  There have been other integrated life support simulations
+(e.g., \cite{finn99}) and we have learned from those efforts.  This
+simulation is designed exclusively for integrated controls research,
+which imposes different requirements.  For example, the simulation is
+accessed through sensors and actuators, just as a real system would
+be.  Noise and uncertainty are built in and controllable.
+Malfunctions and failures of subsystems are modeled and manifest
+themselves through anomalous readings in the sensors.  Crew members
+are taskable and their tasks have purpose and meaning in the
+simulation.  In essence, the simulation is a replacement for the
+Advanced Life Support (ALS) hardware and crew, allowing for testing of
+control approaches in advance of any integrated test.  We want the
+simulation to be used to develop and evaluate integrated control
+techniques.  There are still many open research questions with respect
+to controlling advanced life support systems.  For example is a
+distributed or hierarchical approach better?  What role does machine
+learning play in control?  How can symbolic, qualitative control
+approaches be integrated with continuous, quantitative approaches?
+How can we evaluate different control philosophies?  We hope that the
+controls community can use this simulation to begin to build systems
+which will provide us with answers to these kinds of questions. 
 
-This document describes a simulation of an advanced life support
-system as envisioned for future human missions to Mars.  The purpose
-of this simulation is to provide a testbed for researchers studying
-advanced control of life support systems.  The simulation allows
-access to various control parameters of the system.  The simulation
-also allows for insertion of malfunctions and stochastic processes.  A
-logging facility and a graphical user interface are provided as
-services.  The simulation is written in Java and is distributed using
-the Common Object Request Broker Architecture (CORBA)\index{CORBA}.
-CORBA is also used to interface to the simulation.  The distributed
-nature of the simulation allows for multiple instances to be run in
-parallel, making it ideal for testing advanced control concepts such
-as genetic algorithms or reinforcement learning, which require
-multiple trials.  See \cite{kortenkamp_etal01} or
-\cite{schreckenghost_etal02} for a background on advanced life support
-control issues.  This document begins with a brief introduction to
-advanced life support systems.  Then it provides details on
-installing, running and interacting with the simulation.  The
-simulation is available from http://www.traclabs.com/biosim.
+The simulation is written in Java and is distributed using the Common
+Object Request Broker Architecture (CORBA)\index{CORBA}.  CORBA is
+also used to interface to the simulation.  The distributed nature of
+the simulation allows for multiple instances to be run in parallel,
+making it ideal for testing advanced control concepts such as genetic
+algorithms or reinforcement learning, which require multiple trials.
+See \cite{kortenkamp_etal01} or \cite{schreckenghost_etal02} for a
+background on advanced life support control issues and previous work.
+This document begins with a brief introduction to advanced life
+support systems.  Then it provides details on installing, running and
+interacting with the simulation.  The simulation is available from:
+
+\begin{verbatim}
+     http://www.traclabs.com/biosim
+\end{verbatim}
 
 \chapter{Background on advanced life support}
 
@@ -78,12 +98,16 @@ duration human missions, such as those to Mars, where resupply
 opportunities are limited.  Typically they have thin margins for mass,
 energy and buffers, which requires optimization and tight control.
 Also, advanced life support systems consist of many interconnected
-subsystems all of whom interact in both predictable and unpredictable
+subsystems all of which interact in both predictable and unpredictable
 ways (see Figure~\ref{fig:biosim}).  Autonomous control\index{control}
 of these systems is desirable. This section gives enough background so
-that users of the simulation can understand the control issues.  For
-detailed documentation on advanced life support systems see
-\cite{tri99} or go to: http://advlifesupport.jsc.nasa.gov
+that users of the simulation can understand the major components of an
+advanced life support system.  For detailed documentation on advanced
+life support systems see \cite{tri99} or go to:
+
+\begin{verbatim}
+    http://advlifesupport.jsc.nasa.gov
+\end{verbatim}
 
 \begin{figure}
 \insertfigure{figure}{5.5in}
@@ -152,7 +176,6 @@ various subsystems.  For example, all water can pass through the AES
 at a higher energy cost.  We based our water recovery module on a
 recently completed test at NASA Johnson Space Center
 \cite{bonasso_etal03}.
-
 
 \subsection{Air}
 \label{sec:air}
@@ -226,10 +249,11 @@ Scott -- not sure if we need this section.
 \chapter{Simulation properties}
 
 The simulation implements the modules outlined in the previous
-section.  These are implemented in a producer/consumer relationship,
-which is described in the next subsection.  The simulation also
-provides additional functionality to help test and debug control
-programs.  
+section.  BioSim does {\em not} simulate at the level of valves,
+pumps, switches, etc.  Instead, modules are implemented in a
+producer/consumer relationship, which is described in the next
+subsection.  The simulation also provides additional functionality to
+help test and debug control programs.
 
 \section{Producer/consumer model}
 
@@ -345,11 +369,16 @@ simulation.
 
 \section{Installing source code}
 
-Scott -- I'll need your help here.
+Scott -- I'll need your help here. I think it's just a matter of
+runnnig make-server.sh.
 
 \chapter{Running the simulation}
+\label{sec:running}
 
-When BIOSim starts you’ll see a blank interface\index{interface} as shown in
+Doubleclicking on the ``BioSim'' icon in Windows will start the
+simulation.  In Linux, run the {\tt run-biosim.sh} shell script in the
+{\tt /bin} directory.  When BIOSim starts you’ll see a blank
+interface\index{interface} as shown in
 Figure~\ref{fig:empty_interface}.  Holding your mouse over the buttons
 on the top reveals what they do.  As noted in the figure, the first
 three buttons control the simulation.  The next series of buttons will
@@ -371,32 +400,28 @@ beginning.  If you want to examine the interfaces closely press the
 \label{fig:full_interface}
 \end{figure}
 
-\chapter{Controlling the simulation}
-
-The previous chapter showed you how to run BioSim and monitor its
-internal state via a graphical user interface.  While interesting,
-this is not useful for control system research.  This chapter will
-show you how to connect an external control program to BioSim and
-change its underlying operation.  Note that this will not be an
-exhaustive list of all of the objects and methods in BioSim, but only
-the most important for new users.  Complete documentation of all
-objects and method calls is available at:
-http://www.traclabs.com/biosim/doc/api/index.html
+\chapter{Configuring the simulation}
+The previous chapter discussed installing and running the default
+BioSim.  This section will discuss configuring BioSim to address
+specific user interests.  This includes changing the underlying
+producer/consumer relationship, changing the stochastic nature of
+BioSim and changing the logging of data.  We start with some basic
+CORBA infrastructure requirements.     
 
 \section{CORBA, Orbs and namesevers}
 
-External control programs connect to BioSim via CORBA\index{CORBA} --
-the Common Object Request Broker Architecture.  In order to connect to
-BioSim will you will need to install an Object Request Broker
-(ORB)\index{ORB} on your machine.  If you are using Java an Orb is
-built in.  When the BioSim server is started it registers with a
-nameserver\index{nameserver}, which tells client programs where to
-find it.  You will need to initialize the Orb and connect to the
-nameserver in your external control program before calling BioSim
-methods.  This users manual will not cover these details.  We refer
-you to any book on CORBA for your language or look at the sample
-programs in Appendix A and B.  The rest of this manual assumes that
-you are already connected to the Orb and to the nameserver.    
+BioSim is a server.  Client programs connect to BioSim via
+CORBA\index{CORBA} -- the Common Object Request Broker Architecture.
+In order to connect to the BioSim server will you will need to install
+an Object Request Broker (ORB)\index{ORB} on your machine.  We
+recommend the JacORB for Java (link here) and the ACEOrb for C++ (link
+here), although any CORBA-compliant ORB will work.  When the BioSim
+server is started it registers with a nameserver\index{nameserver},
+which tells client programs where to find it.  The Orbs we recommend
+include a name server.  This manual will not cover the details of
+CORBA, we refer you to any book on CORBA for your language or look at
+the sample programs in Appendix A and B.  We also assume that you have
+already installed one of the ORBs.
    
 \section{Initial conditions}
 \label{sec:init}
@@ -416,21 +441,137 @@ is located in:
 BioSim.
 
 You can copy this file, change it's name, modify it and then give its
-full path name as a parameter to BioSim on startup to use a different
-configuration.  The flag when you start BioSim is {\tt -xml} followed
-by the full path name of the XML file.  
+full path name as a parameter to BioSim on startup.  The flag when you
+start BioSim is {\tt -xml} followed by the full path name of the XML
+file.  If you do not wish to change the initial configuration of
+BioSim you can skip the rest of this section. 
 
 \subsection{XML file format}
+A snippet from the default initialization XML file is shown below:
 
-Explain XML\index{XML} file, how it’s used, how it’s read in. Capacities, levels,
-logging, etc.  Malfunctions, crew schedule, resupply, etc.  Attach an
-example XML file as an appendix.  Also talk about producer/consumer
-relationship again. 
+\begin{verbatim}
+  <SimBioModules>
+    <crew>
+      <CrewGroup name="CrewGroup">
+        <potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
+        <airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="CrewEnvironment"/>
+        <foodConsumer maxFlowRates="100'' desiredFlowRates="100" inputs="FoodStore"/>
+        <dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="DirtyWaterStore"/>
+        <greyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="GreyWaterStore"/>
+        <airProducer maxFlowRates="0" desiredFlowRates="0" outputs="CrewEnvironment"/>
+         .
+         .
+         .
+        <crewPerson name="Bob Roberts" age="43" weight="77" sex="MALE">
+          <schedule>
+            <activity name="sleep" length="8" intensity="1"/>
+            <activity name="hygiene" length="1" intensity="2"/>
+            <activity name="exercise" length="1" intensity="5"/>
+            <activity name="eating" length="1" intensity="2"/>
+            <activity name="mission" length="9" intensity="3"/>
+            <activity name="health" length="1" intensity="2"/>
+            <activity name="maintenance" length="1" intensity="2"/>
+            <activity name="leisure" length="2" intensity="2"/>
+          </schedule>
+        </crewPerson>                               
+         .
+         .
+         .
+      </crew>
+\end{verbatim}
+
+This file implements the producer/consumer relationship at the heart
+of the simulation.  Each module (only the crew module is shown above)
+has a name (there can be none, one or more than one of each module)
+and a list of resources that it consumes and produces along with max
+and desired flow rates and what source(s) produce(s) that resource
+(the {\tt inputs}) or from where the resource is drawn ({\tt outputs})
+More than one source or sink is allowed and the amount is drawn or
+deposited equally from all listed sources/sinks.  [[wow that's an
+awkward sentence or two, I'll try to clean it up]].   In the above
+snippet some flow rates are 0 because the user has no control over
+them (e.g., crew air consumption is based on crew physiology and can't
+be directly controlled).  As shown above, you can have as many (or as
+few) crew members as you want of various ages, weights and sexes.  You
+can give a default schedule for their day (which can be changed via a
+CORBA API call during simulation runs). 
+
+The rest of the XML file specification proceeds in a similar way.  The
+best way to change the configuration is to start with the default file
+and edit it to reflect your requirements.  The default configuration
+is based on BIO-Plex\index{BIO-Plex} \cite{tri99}, a NASA JSC ground
+testbed for advanced life support.  As such, if all you want is a
+``typical'' advanced life support configuration, then just use the
+default XML file.  
+
+NOTE: The graphical user interface described in
+Section~\ref{sec:running} only works with the default configuration.
+It does not read the XML file. 
 
 \subsection{Initializing BioSim}
 
 Talk about alternative initialization\index{initialization} via an
 API.  Again, capacities, levels, logging, etc. can be set from here.
+
+\section{Enabling stochastic processes}
+\index{stochastic}
+BioSim provides the ability to change the stochastic nature of the
+underlying modules via API calls.  If you want a purely deterministic
+simulation you can do that.  If you want a very unpredictable
+simulation you can do that as well.  This section provides an overview
+of the stochastic controls available in BioSim.
+
+Each module of BioSim (i.e., the {\tt SimBioModule} class) has the
+following methods:
+
+\begin{itemize}
+\item {\tt getStochasticIntensity()}: returns type {\tt
+    StochasticIntensity}, which is the current stochastic level of the module.
+\item {\tt setStochasticIntensity(StochasticIntensity pIntensity)}:
+  Sets the current stochastic intensity of the module to {\tt
+  pIntensity}.
+\end{itemize}
+
+The type {\tt StochasticIntensity} includes the following values:
+
+\begin{itemize}
+\item {\tt HIGH\_STOCH}:  Scott -- what do these mean number wise?
+\item {\tt LOW\_STOCH}
+\item {\tt MEDIUM\_STOCH}
+\item {\tt NONE\_STOCH}
+\end{itemize}
+
+Each of these controls the width of the Gaussian\index{Gaussian}
+function that provides the variations in output.  Setting the
+stochastic intensity to NONE means that the simulation is
+deterministic.  All noise is Gaussian.  The outputs of a module as
+determined by the module's underlying equations are run through a
+Gaussian filter before being output by the simulation.  The Gaussian
+filter's parameters are controlled by the stochastic intensity.
+
+The stochastic level for the entire simulation (which is equivalent to
+setting each module's stochastic intensity) can be set via the {\tt
+  BioDriver} class using the {\tt setStochasticIntensity} method with
+the same parameter ({\tt (StochasticIntensity}) as the method
+described above.
+
+\section{Logging}
+\index{logging}
+
+\subsection{Setting logging via the XML configuration file}
+
+Scott, I'll need your help here
+
+\subsection{Setting logging via the API}
+
+
+
+For whole simulation
+
+For each module
+
+
+
 
 \begin{figure}
 \insertfigure{controller}{4.0in}
@@ -438,7 +579,18 @@ API.  Again, capacities, levels, logging, etc. can be set from here.
 \label{fig:controller}
 \end{figure}
 
-\section{Running the simulation}
+\chapter{Controlling the simulation}
+The previous two chapters showed you how to run BioSim, monitor its
+internal state via a graphical user interface and configure it to your
+specifications.  While interesting, this is not useful for control
+system research.  This chapter will show you how to connect an
+external control program to BioSim and change its underlying
+operation.  Note that this chapter will not present an exhaustive list
+of all of the objects and methods in BioSim, but only the most
+important for new users.  Complete documentation of all objects and
+method calls is available at:
+http://www.traclabs.com/biosim/doc/api/index.html
+
 Figure~\ref{fig:controller} shows the basic control strategy for the
 simulation.  The simulation models represent the underlying equations
 that govern the producer/consumer relationships (see
@@ -448,7 +600,7 @@ controller, which uses the sensors and actuators to control the
 simulation.  The user can also inject malfunctions into the underlying
 simulation models and resupply consumables.   
 
-\section{Controlling the simulation}
+\section{Controlling simulation runs}
 The root class of the simulation is the {\tt BioDriver} class, which
 contains the methods used to control the simulation.  The basic
 control unit is a {\bf tick}\index{tick}, which advances the
@@ -466,7 +618,7 @@ following methods are available:
 \end{enumerate}
 
 Here's an example of using one of these methods after a BioDriver
-class has been created in a Java program:
+class has been created (called {\tt myBioDriver}) in a Java program:
 
 \begin{verbatim}
 
@@ -482,9 +634,9 @@ installed your source code you can make documentation via the {\tt
 executables in the {\tt bin} directory.  The BioDriverImpl class is
 under the biosim.server.framework package.
 
-\section{Controlling the modules via sensors and actuators}
+\section{Accessing sensors and actuators}
 
-\subsection{Generic Sensors}
+\subsection{Generic sensors}
 
 Sensors\index{sensors} are objects that connect to the underlying
 simulation.  Each module has its own set of sensor objects, but they
@@ -498,14 +650,14 @@ all inherit the same method calls.  These method calls are:
 \end{itemize}
 
 
-\subsection{Additional sensor methods}
+\subsubsection{Additional sensor methods}
 
 Several other generic methods related to sensor noise, malfunctions
 and logging are available:
 
 In addition, there will be some sensor-specific methods, which we will discuss with the appropriate sensor.
 
-\section{Generic Actuators}
+\subsection{Generic actuators}
 
 Actuators\index{actuators} are objects that connect to the underlying simulation.  Each
 module has its own set of actuator objects, but they all inherit the
@@ -520,7 +672,7 @@ same method calls.  These method calls are:
 
 \end{itemize}
 
-\subsection{Additional actuator methods}
+\subsubsection{Additional actuator methods}
 
 Several other generic methods related to actuator noise, malfunctions
 and logging are available:
@@ -637,7 +789,7 @@ only for module-specific malfunction information.
 
 \subsubsection{Malfunctions}
 
-See environment above and supply malfunctions here.
+
 
 
 \subsection{Air}
@@ -750,7 +902,7 @@ Same as others
 
 \subsubsection{Malfunctions}
 
-\section{Enabling stochastic processes}
+
 
 \chapter{Writing a simple Java controller}
 
@@ -758,6 +910,8 @@ A short tutorial on creating a BioSim, initializing it and then
 calling some sensors, actuators and ticks.  Assume JacOrb. 
 
 \chapter{Writing a simple C++ controller}
+
+
 
 Same as above in C++.  Assume ACEOrb.  Assume Linux (?).
 
