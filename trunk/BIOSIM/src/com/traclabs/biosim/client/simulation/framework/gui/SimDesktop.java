@@ -3,6 +3,7 @@ package biosim.client.framework.gui;
 import biosim.client.framework.*;
 import biosim.client.gui.*;
 import biosim.client.environment.gui.*;
+import biosim.client.air.gui.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
@@ -52,7 +53,6 @@ public class SimDesktop extends BaseJFrame
 
 	private void buildGUI(){
 		myDesktop = new JDesktopPane();
-		myDesktop.setLayout(new BorderLayout());
 
 		myEndAction = new EndSimulationAction("End");
 		myStartAction = new StartSimulationAction("Start");
@@ -105,10 +105,10 @@ public class SimDesktop extends BaseJFrame
 		myEndSimButton = myToolBar.add(myEndAction);
 		myEndSimButton.setToolTipText("Ends the simulation");
 		myEndSimButton.setEnabled(false);
-		myDesktop.add(myToolBar, BorderLayout.NORTH);
-
-		setTitle("Advanced Life Support Simulation");
-		getContentPane().add(myDesktop);
+		getContentPane().add(myToolBar, BorderLayout.NORTH);
+		
+		setTitle("Advanced Life Support Simulation  Copyright "+ new Character( '\u00A9' ) + " 2002, TRACLabs");
+		getContentPane().add(myDesktop, BorderLayout.CENTER);
 	}
 
 	private void addInternalFrame(JInternalFrame newFrame){
@@ -211,9 +211,16 @@ public class SimDesktop extends BaseJFrame
 	
 	private void displayEnvironment(){
 		JInternalFrame environmentFrame = new JInternalFrame("Environment", true, true, true, true);
-		environmentFrame.setSize(100,100);
-		environmentFrame.getContentPane().add(new EnvironmentPanel(myBiosim));
+		environmentFrame.getContentPane().add(new EnvironmentPanel(myBiosim), BorderLayout.CENTER);
+		environmentFrame.pack();
 		addInternalFrame(environmentFrame);
+	}
+	
+	private void displayAir(){
+		JInternalFrame airFrame = new JInternalFrame("Air", true, true, true, true);
+		airFrame.getContentPane().add(new AirPanel(myBiosim), BorderLayout.CENTER);
+		airFrame.pack();
+		addInternalFrame(airFrame);
 	}
 	
 	private class ShowAllDisplaysAction extends AbstractAction{
@@ -223,6 +230,7 @@ public class SimDesktop extends BaseJFrame
 		public void actionPerformed(ActionEvent ae){
 			myDesktop.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			displayEnvironment();
+			displayAir();
 			myDesktop.setCursor(Cursor.getDefaultCursor());
 		}
 	}
