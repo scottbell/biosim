@@ -314,15 +314,15 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();
-			LogNode O2LevelHead = myLog.addChild("O2 Level");
+			LogNode O2LevelHead = myLog.addChild("O2_level");
 			myLogIndex.O2LevelIndex = O2LevelHead.addChild(""+O2Level);
-			LogNode CO2LevelHead = myLog.addChild("CO2 Level");
+			LogNode CO2LevelHead = myLog.addChild("CO2_level");
 			myLogIndex.CO2LevelIndex = CO2LevelHead.addChild(""+CO2Level);
-			LogNode otherLevelHead = myLog.addChild("other Level");
+			LogNode otherLevelHead = myLog.addChild("other_level");
 			myLogIndex.otherLevelIndex = otherLevelHead.addChild(""+otherLevel);
-			LogNode capacityHead = myLog.addChild("other Level");
+			LogNode capacityHead = myLog.addChild("other_level");
 			myLogIndex.capacityIndex = capacityHead.addChild(""+capacity);
-			LogNode lightIntensityHead = myLog.addChild("light intensity");
+			LogNode lightIntensityHead = myLog.addChild("light_intensity");
 			myLogIndex.lightIntensityIndex = lightIntensityHead.addChild(""+lightIntensity);
 			logInitialized = true;
 		}

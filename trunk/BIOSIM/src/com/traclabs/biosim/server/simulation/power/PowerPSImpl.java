@@ -80,7 +80,7 @@ public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperat
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();
-			LogNode powerProducedHead = myLog.addChild("Power Produced");
+			LogNode powerProducedHead = myLog.addChild("power_produced");
 			myLogIndex.powerProducedIndex = powerProducedHead.addChild(""+currentPowerProduced);
 			logInitialized = true;
 		}

@@ -170,17 +170,17 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();
-			LogNode powerNeededHead = myLog.addChild("Power Needed");
+			LogNode powerNeededHead = myLog.addChild("power_needed");
 			myLogIndex.powerNeededIndex = powerNeededHead.addChild(""+powerNeeded);
-			LogNode hasEnoughPowerHead = myLog.addChild("Has enough power");
+			LogNode hasEnoughPowerHead = myLog.addChild("has_enough_power");
 			myLogIndex.hasEnoughPowerIndex = hasEnoughPowerHead.addChild(""+hasEnoughPower);
-			LogNode biomassNeededHead = myLog.addChild("Biomass Needed");
+			LogNode biomassNeededHead = myLog.addChild("biomass_needed");
 			myLogIndex.biomassNeededIndex = biomassNeededHead.addChild(""+biomassNeeded);
-			LogNode currentBiomassConsumedHead = myLog.addChild("Current Biomass Consumed");
+			LogNode currentBiomassConsumedHead = myLog.addChild("current_biomass_consumed");
 			myLogIndex.currentBiomassConsumedIndex = currentBiomassConsumedHead.addChild(""+currentBiomassConsumed);
-			LogNode currentPowerConsumedHead = myLog.addChild("Current Power Consumed");
+			LogNode currentPowerConsumedHead = myLog.addChild("current_power_consumed");
 			myLogIndex.currentPowerConsumedIndex = currentPowerConsumedHead.addChild(""+currentPowerConsumed);
-			LogNode currentFoodProducedHead = myLog.addChild("Current Food Produced");
+			LogNode currentFoodProducedHead = myLog.addChild("current_food_produced");
 			myLogIndex.currentFoodProducedIndex = currentFoodProducedHead.addChild(""+currentFoodProduced);
 			logInitialized = true;
 		}

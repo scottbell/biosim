@@ -159,19 +159,19 @@ public class ShelfImpl extends ShelfPOA {
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();
-			myLogIndex.plantHead = myLogHead.addChild("Plant");
+			myLogIndex.plantHead = myLogHead.addChild("plant");
 			myCrop.log(myLogIndex.plantHead);
-			LogNode currentPowerConsumedHead = myLogHead.addChild("Power Consumed");
+			LogNode currentPowerConsumedHead = myLogHead.addChild("power_consumed");
 			myLogIndex.currentPowerConsumedIndex = currentPowerConsumedHead.addChild(""+currentPowerConsumed);
-			LogNode totalAreaHead = myLogHead.addChild("Total Area");
+			LogNode totalAreaHead = myLogHead.addChild("total_area");
 			myLogIndex.totalAreaIndex = totalAreaHead.addChild(""+totalArea);
-			LogNode currentGreyWaterConsumedHead = myLogHead.addChild("Grey Water Consumed");
+			LogNode currentGreyWaterConsumedHead = myLogHead.addChild("grey_water_consumed");
 			myLogIndex.currentGreyWaterConsumedIndex = currentGreyWaterConsumedHead.addChild(""+currentGreyWaterConsumed);
-			LogNode PotableWaterConsumedHead = myLogHead.addChild("Potable Water Consumed");
+			LogNode PotableWaterConsumedHead = myLogHead.addChild("potable_water_consumed");
 			myLogIndex.currentPotableWaterConsumedIndex = PotableWaterConsumedHead.addChild(""+currentPotableWaterConsumed);
-			LogNode hasEnoughWaterHead = myLogHead.addChild("Has Enough Water");
+			LogNode hasEnoughWaterHead = myLogHead.addChild("has_enough_water");
 			myLogIndex.hasEnoughWaterIndex = hasEnoughWaterHead.addChild(""+hasEnoughWater);
-			LogNode hasEnoughPowerHead = myLogHead.addChild("Has Enough Power");
+			LogNode hasEnoughPowerHead = myLogHead.addChild("has_enough_power");
 			myLogIndex.hasEnoughPowerIndex = hasEnoughPowerHead.addChild(""+hasEnoughPower);
 			logInitialized = true; 
 		}

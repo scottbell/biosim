@@ -245,15 +245,15 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();
-			LogNode currentPotableWaterProducedHead = myLog.addChild("Potable Water Produced");
+			LogNode currentPotableWaterProducedHead = myLog.addChild("potable_water_produced");
 			myLogIndex.currentPotableWaterProducedIndex = currentPotableWaterProducedHead.addChild(""+getPotableWaterProduced());
-			LogNode currentGreyWaterProducedHead = myLog.addChild("Grey Water Produced");
+			LogNode currentGreyWaterProducedHead = myLog.addChild("grey_water_produced");
 			myLogIndex.currentGreyWaterProducedIndex = currentGreyWaterProducedHead.addChild(""+getGreyWaterProduced());
-			LogNode currentPowerConsumedHead = myLog.addChild("Power Consumed");
+			LogNode currentPowerConsumedHead = myLog.addChild("power_consumed");
 			myLogIndex.currentPowerConsumedIndex = currentPowerConsumedHead.addChild(""+getPowerConsumed());
-			LogNode currentDirtyWaterConsumedHead = myLog.addChild("Dirty Water Consumed");
+			LogNode currentDirtyWaterConsumedHead = myLog.addChild("dirty_water_consumed");
 			myLogIndex.currentDirtyWaterConsumedIndex = currentDirtyWaterConsumedHead.addChild(""+getDirtyWaterConsumed());
-			LogNode currentGreyWaterConsumedHead = myLog.addChild("Grey Water Consumed");
+			LogNode currentGreyWaterConsumedHead = myLog.addChild("grey_water_consumed");
 			myLogIndex.currentGreyWaterConsumedIndex = currentGreyWaterConsumedHead.addChild(""+getGreyWaterConsumed());
 			myLogIndex.AESIndex = myLog.addChild("AES");
 			myAES.log(myLogIndex.AESIndex);
