@@ -16,7 +16,7 @@ import com.jrefinery.ui.*;
 public class EnvironmentPieChartPanel extends GraphPanel
 {
 	private SimEnvironment mySimEnvironment;
-	private PiePlot myPlot;
+	private Pie3DPlot myPlot;
 	private JFreeChart myChart;
 	private DefaultPieDataset myDataset;
 	private String O2Category = "O2";
@@ -24,6 +24,7 @@ public class EnvironmentPieChartPanel extends GraphPanel
 	private String otherCategory = "Other";
 
 	protected void createGraph(){
+		setDelay(10000);
 		// create the chart...
 		mySimEnvironment = (SimEnvironment)(BioHolder.getBioModule(BioHolder.simEnvironmentName));
 		refresh();
@@ -33,7 +34,8 @@ public class EnvironmentPieChartPanel extends GraphPanel
 		                  true                     // include legend
 		          );
 		// add the chart to a panel...
-		myPlot = (PiePlot)(myChart.getPlot());
+		myPlot = (Pie3DPlot)(myChart.getPlot());
+		myPlot.setDepthFactor(2.0d);
 		myPlot.setSeriesPaint(new Paint[] { Color.BLUE, Color.GREEN, Color.RED});
 		TextTitle myTextTitle = (TextTitle)(myChart.getTitle(0));
 		myTextTitle.setFont(myTextTitle.getFont().deriveFont(12.0f));
