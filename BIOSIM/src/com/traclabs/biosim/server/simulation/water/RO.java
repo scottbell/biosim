@@ -23,6 +23,12 @@ public class RO extends WaterRSSubSystem {
     public RO(WaterRSImpl pWaterRSImpl) {
         super(pWaterRSImpl);
     }
+    
+    public void log(){
+        super.log();
+        myLogger.debug("currentAESWaterProduced="+currentAESWaterProduced);
+        myLogger.debug("currentPPSWaterProduced="+currentPPSWaterProduced);
+    }
 
     public float getAESWaterProduced() {
         return currentAESWaterProduced;

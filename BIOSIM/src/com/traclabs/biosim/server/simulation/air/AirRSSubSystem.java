@@ -1,5 +1,7 @@
 package com.traclabs.biosim.server.simulation.air;
 
+import org.apache.log4j.Logger;
+
 /**
  * The abstract class all the air subsystems derive from (the VCCR, CRS, OGS,
  * ...)
@@ -23,9 +25,12 @@ public abstract class AirRSSubSystem {
     protected boolean hasEnoughPower = false;
 
     private boolean logInitialized = false;
+    
+    protected Logger myLogger;
 
     public AirRSSubSystem(AirRSImpl pAirRSImpl) {
         myAirRS = pAirRSImpl;
+        myLogger = Logger.getLogger(this.getClass());
     }
 
     public abstract void reset();
@@ -61,14 +66,12 @@ public abstract class AirRSSubSystem {
 
     public void tick() {
         gatherPower();
+        if (myLogger.isDebugEnabled())
+            log();
     }
 
     public void log() {
-        /*
-         * LogNode powerNeededHead = myHead.addChild("Power Needed");
-         * myLogIndex.powerNeededIndex =
-         * powerNeededHead.addChild(""+powerNeeded);
-         */
+        myLogger.debug("power_needed="+powerNeeded);
     }
 
 }
