@@ -1,5 +1,6 @@
 
 package biosim.client.framework;
+
 import java.util.*;
 import java.io.*;
 import org.omg.CosNaming.*;
@@ -35,84 +36,109 @@ import biosim.idl.simulation.framework.*;
  * @author    Theresa Klein
  To compile:
  1) run make-client.sh
- 2) javac -classpath .:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/generated/client/classes HandController.java
- 
+ 2) javac -classpath .:/home/tjk2/JNL/Classes:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/generated/client/classes HandController.java
+
  javac - the compiler
  jacorb.jar - the library that has the ORB and various CORBA utilities
  generated/client/classes - the generated client stubs
- HandController - this file
+ TestBiosim - this file
 
  
  To run:
  1)run run-nameserver.sh
  2)run run-server.sh
- 3)java -classpath .:$BIOSIM_HOME/resources:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/lib/jacorb:$BIOSIM_HOME/generated/client/classes:$BIOSIM_HOME/lib/xerces/xmlParserAPIs.jar:$BIOSIM_HOME/lib/xerces/xml-apis.jar:$BIOSIM_HOME/lib/xerces/xercesImpl.jar -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton -DORBInitRef.NameService=file:$BIOSIM_HOME/generated/ns/ior.txt HandController
+ 3)
+ java -classpath .:/home/tjk2/JNL/Classes:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/lib/jacorb:$BIOSIM_HOME/generated/client/classes -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton -DORBInitRef.NameService=file:$BIOSIM_HOME/generated/ns/ior.txt HandController
  (all the above on one line)
  
  -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB - overriding Sun's default ORB (using Jacorb instead)
  -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton - overriding Sun's default ORB (using Jacorb instead)
  -DORBInitRef.NameService=file:$BIOSIM_HOME/generated/ns/ior.txt - telling the client where to look for the ior (serialized nameservice object, produced by run-nameserver.sh)
+ 
+ Good Luck!  If you have any questions, email me at:
+ scott@traclabs.com
+
  */
 
 public class HandController{
-	double DirtyWaterLowLevel = 100f;
-	double DirtyWaterHighLevel = 400f;
-	double GreyWaterLowLevel = 100f;
-	double GreyWaterHighLevel = 400f;
-	double PotableWaterLowLevel = 100f;
-	double PotableWaterHighLevel = 400f;
-	double BiomassLowLevel = 100f;
-	double BiomassHighLevel = 400f;
-	double FoodLowLevel = 200f;
-	double FoodHighLevel = 1800f;
-	double PowerLowLevel = 2000f;
-	double PowerHighLevel = 4500f;
-	double O2StoreLowLevel = 300f;
-	double O2StoreHighLevel = 800f;
-	double CO2StoreLowLevel = 200f;
-	double CO2StoreHighLevel = 900f;
-	double H2StoreLowLevel = 1000f;
-	double H2StoreHighLevel = 8000f;
 
-	double CrewO2Level = .20;
-	double CrewCO2Level = 0.02;
-	double PlantO2Level =  .2;
-	double PlantCO2Level = .02;
-	double crewO2integral, crewCO2integral, plantO2integral, plantCO2integral;
+	//feedback loop stuff.
+	float CrewO2Level = .20f; 
+	float CrewCO2Level = 0.01f; 
+	float PlantO2Level =  .2f; 
+	float PlantCO2Level = .001f;
+	float crewO2integral, crewCO2integral, plantO2integral, plantCO2integral;
+ 
+ 	float co2overflow = 0f; 
+	float dwoverflow = 0f; 
+	float pwoverflow = 0f; 
+	float o2overflow = 0f; 
+	float h2overflow = 0f; 
 
-	float co2_overflow; 
+	// hand controller stuff;
+	int water = 1;
+	int gwater =1; 
+	int CO2 = 1;
+	int potable = 1;
+
+
+	StateMap ContinuousState; 
+	ActionMap currentAction;
+	Map ClassifiedState;
+
+	boolean endSim  = false;
+	static int Runs = 0;
+
+	static Map ThresholdMap = new TreeMap();
+
+	static BioDriver myBioDriver;
+	static BioHolder myBioHolder;
+	
+	static int ATMOSPHERIC_PERIOD =1; 
+	static int SYSTEM_PERIOD_MULT = 10; 
+	static int PLANT_PERIOD_MULT = 10; 
+	
+	public static String[] stateNames = {"carbondioxide", "dirtywater", "greywater", "hydrogen", "oxygen", "potablewater"}; 
+	
+	public static String[] actuatorNames = {"airRSCO2", "airRSpotable", "waterRSdirty", "waterRSgrey"};
+	
 
 	File OutFile = new File("output.txt");
 	FileWriter fw;
 	PrintWriter pw;
+	
 
-
-	TreeMap SimState = new TreeMap();
-
-	BioDriver myBioDriver;
-	BioHolder myBioHolder;
 
 	public static void main(String[] args){
 
 		HandController myController = new HandController();
-	
-		myController.runSim();
+		while (Runs<1) {
+			myController.runSim();
+		}
+
 	}
 
-	public void runSim(){
-		GenericActuator currentActuator;
-		int i;
+	
 
-		try { 	fw = new FileWriter(OutFile) ; }
-		catch (IOException e) {}
-		pw = new PrintWriter(fw, true);
+	public void runSim(){
+		// ticks the sim one step at a time, observes the state, updates policy and predictive model in
+		// response to the current state and modifies actuators in response
+		int i;
+		float tmp2, oldvalue, newvalue;
+		GenericActuator currentActuator; 	
+		
+		setThresholds();
 		myBioHolder = BioHolderInitializer.getBioHolder();
 		myBioDriver = myBioHolder.theBioDriver;
 		
-		//myBioDriver.setFullLogging(true);
+		try { 	fw = new FileWriter(OutFile) ; }
+		catch (IOException e) {}
+		pw = new PrintWriter(fw, true) ;
+		
 		myBioDriver.startSimulation();
 		BiomassRS myBiomassRS = (BiomassRS)(myBioHolder.theBiomassRSModules.get(0));  
 		myBiomassRS.setAutoHarvestAndReplantEnabled(false); 
+		
 		CrewGroup myCrew = (CrewGroup)myBioHolder.theCrewGroups.get(0);
 		WaterRS myWaterRS = (WaterRS)myBioHolder.theWaterRSModules.get(0);
 		AirRS myAirRS = (AirRS)myBioHolder.theAirRSModules.get(0);
@@ -148,148 +174,171 @@ public class HandController{
 		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theGreyWaterInFlowRateActuators, myWaterRS));
 		currentActuator.setValue(0);
 
+		
+		
+
 		System.out.println("starting run...");
-		crewO2integral = 0;
-		crewCO2integral = 0;
-		plantO2integral = 0;
-		plantCO2integral = 0;
-		//		CrewO2Level = ((GenericSensor)(BioHolder.getBioModule(BioHolder.myCrewEnvironmentO2AirConcentrationSensorName))).getValue();
-		//		CrewCO2Level = ((GenericSensor)(BioHolder.getBioModule(BioHolder.myCrewEnvironmentCO2AirConcentrationSensorName))).getValue();
-		//		PlantO2Level = ((GenericSensor)(BioHolder.getBioModule(BioHolder.myPlantEnvironmentO2AirConcentrationSensorName))).getValue();
-		//		PlantCO2Level = ((GenericSensor)(BioHolder.getBioModule(BioHolder.myPlantEnvironmentCO2AirConcentrationSensorName))).getValue(); ;
-		while (!myCrew.isDead()) {
-			// advance 10 ticks
+		crewO2integral = 7f;
+		crewCO2integral = 1f;
+		plantO2integral = -1f;
+		plantCO2integral = 0.5f;
+		Runs ++;
 
-			for (i=0;i<10; i++) 
-				myBioDriver.advanceOneTick();
+		
+		while (!myBioDriver.simulationHasStarted()) { 
+			try {Thread.sleep(10000);}
+			catch (InterruptedException e) { 
+			}
+		}
+	//	for (i=0;i<20;i++) myBioDriver.advanceOneTick();
 
+		ContinuousState = new StateMap();
+		ContinuousState.updateState();
+		ClassifiedState = classifyState(ContinuousState); 
+		currentAction = handController(ClassifiedState); 
+		setActuators(currentAction);
+		//int max_ticks = (int)Math.pow(Runs, 2); 		
+		while ((!myCrew.anyDead() ) /*&& myBioDriver.getTicks() < max_ticks*/) {			
+			if (((myBioDriver.getTicks())%(SYSTEM_PERIOD_MULT*ATMOSPHERIC_PERIOD)) == 0) {
+				System.out.println(myBioDriver.getTicks());
+				ContinuousState.printMe();
+				currentAction.printMe();
+				ContinuousState.updateState();
+				ClassifiedState = classifyState(ContinuousState); 
+				currentAction = handController(ClassifiedState);
+				setActuators(currentAction);
+				doFoodProcessor();
+				if (((myBioDriver.getTicks())%(PLANT_PERIOD_MULT*SYSTEM_PERIOD_MULT*ATMOSPHERIC_PERIOD)) == 0) {
+					doPlants();
+				}
+			}
 			
-			// collect data on the states, using the sensors
-			System.out.println("Checking Sensors...");
-			setSimState();
-			// change actuator settings in reponse
-			setActuators();
+			//advancing the sim n ticks 
+			for (i=0;i<ATMOSPHERIC_PERIOD;i++) myBioDriver.advanceOneTick();
+			doAccumulatorsInjectors();
 
 		}
 		System.out.println("crew dead at "+myBioDriver.getTicks()+" ticks");
-		try {fw.close();} catch (IOException e) {}
+		myBioDriver.endSimulation();
+
+
 	}
 
+	public static void setThresholds() {
 
-	public void setSimState() {
+		// sets up the threshold map variable
+		int i;
+		Map subMap;
+		int DirtyWaterLowLevel = 100;
+		int DirtyWaterHighLevel = 400;
+		int GreyWaterLowLevel = 100;
+		int GreyWaterHighLevel = 400;
+		int PotableWaterLowLevel = 100;
+		int PotableWaterHighLevel = 400;
+		int O2StoreLowLevel = 200;
+		int O2StoreHighLevel = 800;
+		int CO2StoreLowLevel = 200;
+		int CO2StoreHighLevel = 800;
+		int H2StoreLowLevel = 1000;
+		int H2StoreHighLevel = 8000;
+
+
+		subMap = new TreeMap();
+		subMap.put("low", new Integer(DirtyWaterLowLevel));
+		subMap.put("high", new Integer(DirtyWaterHighLevel));
+		ThresholdMap.put("dirtywater", subMap);
+		
+		subMap = new TreeMap();
+		subMap.put("low", new Integer(GreyWaterLowLevel));
+		subMap.put("high", new Integer(GreyWaterHighLevel));
+		ThresholdMap.put("greywater", subMap);
+
+		subMap = new TreeMap();
+		subMap.put("low", new Integer(PotableWaterLowLevel));
+		subMap.put("high", new Integer(PotableWaterHighLevel));
+		ThresholdMap.put("potablewater", subMap);
+		
+		subMap = new TreeMap();
+		subMap.put("low", new Integer(O2StoreLowLevel));
+		subMap.put("high", new Integer(O2StoreHighLevel));
+		ThresholdMap.put("oxygen", subMap);
+
+		subMap = new TreeMap();
+		subMap.put("low", new Integer(CO2StoreLowLevel));
+		subMap.put("high", new Integer(CO2StoreHighLevel));
+		ThresholdMap.put("carbondioxide", subMap);
+		
+		subMap = new TreeMap();
+		subMap.put("low", new Integer(H2StoreLowLevel));
+		subMap.put("high", new Integer(H2StoreHighLevel));
+		ThresholdMap.put("hydrogen", subMap);
+
+
+	}
+
+	public Map classifyState(StateMap instate) {
+
+		int i;
+
+		Map state = new TreeMap();
+
+		Map thisSet;
+		GenericSensor currentSensor;
 		String fileoutput;
-		fileoutput = myBioDriver.getTicks()+"   ";
 		DirtyWaterStore myDirtyWaterStore = (DirtyWaterStore)myBioHolder.theDirtyWaterStores.get(0);
-		GenericSensor currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theDirtyWaterStoreLevelSensors, myDirtyWaterStore));
-		if (currentSensor.getValue() < DirtyWaterLowLevel)
-			SimState.put("dirtywater", "low");
-		else if (currentSensor.getValue() > DirtyWaterHighLevel)
-			SimState.put("dirtywater", "high");
-		else SimState.put("dirtywater", "normal");
-		System.out.println("Dirty water..."+currentSensor.getValue()+"..."+SimState.get("dirtywater"));
-		fileoutput += currentSensor.getValue()+"   ";
-
-		GreyWaterStore myGreyWaterStore = (GreyWaterStore)myBioHolder.theGreyWaterStores.get(0);
-		currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theGreyWaterStoreLevelSensors, myGreyWaterStore));
-		if (currentSensor.getValue() < GreyWaterLowLevel)
-			SimState.put("greywater", "low");
-		else if (currentSensor.getValue() > GreyWaterHighLevel)
-			SimState.put("greywater", "high");
-		else SimState.put("greywater", "normal");
-		System.out.println("Grey water..."+currentSensor.getValue()+"..."+SimState.get("greywater"));
-		fileoutput += currentSensor.getValue()+"   ";
-		
 		PotableWaterStore myPotableWaterStore = (PotableWaterStore)myBioHolder.thePotableWaterStores.get(0);
-		currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.thePotableWaterStoreLevelSensors, myPotableWaterStore));
-		if (currentSensor.getValue() < PotableWaterLowLevel)
-			SimState.put("potablewater", "low");
-		else if (currentSensor.getValue() > PotableWaterHighLevel)
-			SimState.put("potablewater", "high");
-		else SimState.put("potablewater", "normal");
-
-		System.out.println("Potable water..."+currentSensor.getValue()+"..."+SimState.get("potablewater"));
-		fileoutput += currentSensor.getValue()+"   ";
-		
-		BiomassStore myBiomassStore = (BiomassStore)myBioHolder.theBiomassStores.get(0);
-		currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theBiomassStoreLevelSensors, myBiomassStore));
-		if (currentSensor.getValue() < BiomassLowLevel)
-			SimState.put("biomass", "low");
-		else if (currentSensor.getValue() > BiomassHighLevel)
-			SimState.put("biomass", "high");
-		else SimState.put("biomass", "normal");
-		System.out.println("Biomass..."+currentSensor.getValue()+"..."+SimState.get("biomass"));
-		fileoutput += currentSensor.getValue()+"   ";
-
-		FoodStore myFoodStore = (FoodStore)myBioHolder.theFoodStores.get(0);
-		currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theFoodStoreLevelSensors, myFoodStore));
-		if (currentSensor.getValue() < FoodLowLevel)
-			SimState.put("food", "low");
-		else if (currentSensor.getValue() > FoodHighLevel)
-			SimState.put("food", "high");
-		else SimState.put("food", "normal");
-		System.out.println("Food ..."+currentSensor.getValue()+"..."+SimState.get("food"));
-		fileoutput += currentSensor.getValue()+"   ";
-
-		PowerStore myPowerStore = (PowerStore)myBioHolder.thePowerStores.get(0);
-		currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.thePowerStoreLevelSensors, myPowerStore));
-		if (currentSensor.getValue() < PowerLowLevel)
-			SimState.put("power", "low");
-		else if (currentSensor.getValue() > PowerHighLevel)
-			SimState.put("power", "high");
-		else SimState.put("power", "normal");
-		System.out.println("Power..."+currentSensor.getValue()+"..."+SimState.get("power"));
-		fileoutput += currentSensor.getValue()+"   ";
+		GreyWaterStore myGreyWaterStore = (GreyWaterStore)myBioHolder.theGreyWaterStores.get(0);
 
 		O2Store myO2Store = (O2Store)myBioHolder.theO2Stores.get(0);
-		currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theO2StoreLevelSensors, myO2Store));
-		if (currentSensor.getValue() < O2StoreLowLevel)
-			SimState.put("oxygen", "low");
-		else if (currentSensor.getValue() > O2StoreHighLevel)
-			SimState.put("oxygen", "high");
-		else SimState.put("oxygen", "normal");
-		System.out.println("Oxygen..."+currentSensor.getValue()+"..."+SimState.get("oxygen"));
-
-		fileoutput += currentSensor.getValue()+"   ";
-
-		
 		CO2Store myCO2Store = (CO2Store)myBioHolder.theCO2Stores.get(0);
-		currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theCO2StoreLevelSensors, myCO2Store));
-		System.out.println("CO2 Store Limits: "+CO2StoreLowLevel+" "+CO2StoreHighLevel);
-		System.out.println(currentSensor.getValue());
-		if (currentSensor.getValue() <= CO2StoreLowLevel) 		
-			SimState.put("carbondioxyide", "low");
-		else if (currentSensor.getValue() > CO2StoreHighLevel)
-			SimState.put("carbondioxide", "high");
-		else SimState.put("carbondioxide", "normal");
-		System.out.println("Carbon Dioxide..."+currentSensor.getValue()+"..."+SimState.get("carbondioxide"));
-		fileoutput += currentSensor.getValue()+"   ";
-
-		
 		H2Store myH2Store = (H2Store)myBioHolder.theH2Stores.get(0);
-		currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theH2StoreLevelSensors, myH2Store));
-		if (currentSensor.getValue() < H2StoreLowLevel)
-			SimState.put("hydrogen", "low");
-		else if (currentSensor.getValue() > H2StoreHighLevel)
-			SimState.put("hydrogen", "high");
-		else SimState.put("hydrogen", "normal");
-		System.out.println("Hydrogen..."+currentSensor.getValue()+"..."+SimState.get("hydrogen"));
-
-		fileoutput += currentSensor.getValue()+"   ";
 
 
+		fileoutput = myBioDriver.getTicks()+"   ";
+
+
+		for (i =0;i<stateNames.length;i++) {
+
+			thisSet = (Map)ThresholdMap.get(stateNames[i]);
+			fileoutput += instate.getStateValue(stateNames[i]) + "   ";
+			if (instate.getStateValue(stateNames[i])< ((Integer)thisSet.get("low")).intValue())
+				state.put(stateNames[i], "low");
+			else if (instate.getStateValue(stateNames[i]) > ((Integer)thisSet.get("high")).intValue())
+				state.put(stateNames[i], "high");
+			else state.put(stateNames[i], "normal");
+		}
+		
 		SimEnvironment myCrewEnvironment = (SimEnvironment)myBioHolder.theSimEnvironments.get(0);
 		SimEnvironment myPlantEnvironment = (SimEnvironment)myBioHolder.theSimEnvironments.get(1);
+		BiomassStore myBiomassStore = (BiomassStore)myBioHolder.theBiomassStores.get(0);
+		FoodStore myFoodStore = (FoodStore)myBioHolder.theFoodStores.get(0);
+
+		currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theBiomassStoreLevelSensors, myBiomassStore));
+		fileoutput += currentSensor.getValue()+"   ";
+
+		currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theFoodStoreLevelSensors, myFoodStore));
+		fileoutput += currentSensor.getValue()+"   ";
+
 		
 		currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theO2AirConcentrationSensors, myCrewEnvironment));
-		System.out.println("Crew O2..."+currentSensor.getValue());
+//		System.out.println("Crew O2..."+currentSensor.getValue());
 		fileoutput += currentSensor.getValue()+"   ";
 
 		currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theCO2AirConcentrationSensors, myCrewEnvironment));
-		System.out.println("Crew CO2..."+currentSensor.getValue());
+//		System.out.println("Crew CO2..."+currentSensor.getValue());
 		fileoutput += currentSensor.getValue()+"   ";
+
 		
+		currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theO2AirConcentrationSensors, myCrewEnvironment));
+//		System.out.println("Crew O2..."+currentSensor.getValue());
+		fileoutput += currentSensor.getValue()+"   ";
+
+		currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theCO2AirConcentrationSensors, myCrewEnvironment));
+//		System.out.println("Crew CO2..."+currentSensor.getValue());
+		fileoutput += currentSensor.getValue()+"   ";
+
 		currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theWaterAirConcentrationSensors, myCrewEnvironment));
-		System.out.println("Crew Water Vapor..."+currentSensor.getValue());
+//		System.out.println("Crew Water Vapor..."+currentSensor.getValue());
 		fileoutput += currentSensor.getValue()+"   ";
 
 
@@ -303,222 +352,183 @@ public class HandController{
 		fileoutput += currentSensor.getValue()+"   ";
 		
 		currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theWaterAirConcentrationSensors, myPlantEnvironment));
-		System.out.println("Plant Water Vapor..."+currentSensor.getValue());
+//		System.out.println("Plant Water Vapor..."+currentSensor.getValue());
 		fileoutput += currentSensor.getValue()+"   ";
-
-
-		/*		currentSensor = (GenericSensor)(BioHolder.getBioModule(BioHolder.myCrewGroupPotableWaterInFlowRateSensorName));
-				System.out.println("Crew Water In FlowRate..."+currentSensor.getValue());
-				fileoutput += currentSensor.getValue()+"   ";
-
-				currentSensor = (GenericSensor)(BioHolder.getBioModule(BioHolder.myWaterRSDirtyWaterInFlowRateSensorName));
-				System.out.println("Dirty WaterRS In FlowRate..."+currentSensor.getValue());
-				fileoutput += currentSensor.getValue()+"   ";
-
-				currentSensor = (GenericSensor)(BioHolder.getBioModule(BioHolder.myWaterRSPotableWaterOutFlowRateSensorName));
-				System.out.println("Potable WaterRS Out FlowRate..."+currentSensor.getValue());
-				fileoutput += currentSensor.getValue()+"   ";
-
-				currentSensor = (GenericSensor)(BioHolder.getBioModule(BioHolder.myAccumulatorO2AirStoreOutFlowRateSensorName));
-				System.out.println("Oxygen Accumulator Out FlowRate..."+currentSensor.getValue());
-				fileoutput += currentSensor.getValue()+"   ";
-
-				currentSensor = (GenericSensor)(BioHolder.getBioModule(BioHolder.myInjectorO2AirEnvironmentOutFlowRateSensorName));
-				System.out.println("Crew Oxygen In FlowRate..."+currentSensor.getValue());
-				fileoutput += currentSensor.getValue()+"   ";
-
-				currentSensor = (GenericSensor)(BioHolder.getBioModule(BioHolder.myAirRSPotableWaterInFlowRateSensorName));
-				System.out.println("Air RS Water In FlowRate..."+currentSensor.getValue());
-				fileoutput += currentSensor.getValue()+"   ";
-
-				currentSensor = (GenericSensor)(BioHolder.getBioModule(BioHolder.myBiomassRSPotableWaterInFlowRateSensorName));
-				System.out.println("Plants Potable Water In FlowRate..."+currentSensor.getValue());
-				fileoutput += currentSensor.getValue()+"   ";*/
-
-		System.out.println(fileoutput);
-		pw.println(fileoutput);
-	}
-
-	public void setActuators() {
-
-		GenericActuator currentActuator;
-
-		BioModule myModule;
-
-		WaterRS myWaterRS = (WaterRS)myBioHolder.theWaterRSModules.get(0);
-		AirRS myAirRS = (AirRS)myBioHolder.theAirRSModules.get(0);
-		BiomassRS myBiomassRS = (BiomassRS)myBioHolder.theBiomassRSModules.get(0);
-		FoodProcessor myFoodProcessor = (FoodProcessor)myBioHolder.theFoodProcessors.get(0);
-		if (SimState.get("dirtywater") == "low" || SimState.get("potablewater") == "high" ) {
-			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theDirtyWaterInFlowRateActuators, myWaterRS));
-			currentActuator.setValue(0);
-		}
-		if (SimState.get("greywater") == "low" || SimState.get("potablewater") == "high" ) {
-			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theGreyWaterInFlowRateActuators, myWaterRS));
-			currentActuator.setValue(0);
-		}
-		if (SimState.get("potablewater") != "high" && SimState.get("dirtywater") == "high") {
-			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theDirtyWaterInFlowRateActuators, myWaterRS));
-			currentActuator.setValue(10);
-		}
-		if (SimState.get("potablewater") != "high" && SimState.get("greywater") == "high") {
-			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theGreyWaterInFlowRateActuators, myWaterRS));
-			currentActuator.setValue(10);
-		}
-		if (SimState.get("potablewater") == "low") {
-			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theDirtyWaterInFlowRateActuators, myWaterRS));
-			currentActuator.setValue(10);
-			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theGreyWaterInFlowRateActuators, myWaterRS));
-			currentActuator.setValue(10);
-		}
-
-		if (SimState.get("biomass") != "high") {
-			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.thePowerInFlowRateActuators, myBiomassRS));
-			currentActuator.setValue(400);
-			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theGreyWaterInFlowRateActuators, myBiomassRS));
-			currentActuator.setValue(5);
-			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.thePotableWaterInFlowRateActuators, myBiomassRS));
-			currentActuator.setValue(10);
-
-			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.thePowerInFlowRateActuators, myFoodProcessor));
-			currentActuator.setValue(100);
-
-		}
-		if (SimState.get("food") != "low" ) {
-			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.thePowerInFlowRateActuators, myFoodProcessor));
-			currentActuator.setValue(100);
-			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theBiomassInFlowRateActuators, myFoodProcessor));
-			currentActuator.setValue(10);
-		}
-		if (SimState.get("food") == "high") {
-			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.thePowerInFlowRateActuators, myFoodProcessor));
-			currentActuator.setValue(0);
-			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theBiomassInFlowRateActuators, myFoodProcessor));
-			currentActuator.setValue(0);
-		}
-
-		if (SimState.get("oxygen") == "low") {
-			// OGS on
-			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.thePotableWaterInFlowRateActuators, myAirRS));
-			currentActuator.setValue(15f);
-			System.out.println("Turning OGS On.");
-		}
-		if (SimState.get("oxygen") == "high" ) {
-			// OGS off
-			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.thePotableWaterInFlowRateActuators, myAirRS));
-			currentActuator.setValue(0f);
-			System.out.println("Turning OGS Off.");
-
-		}
-
-		if (SimState.get("carbondioxide") == "high") {
-			//turn on CRS
-			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theCO2InFlowRateActuators, myAirRS));
-			currentActuator.setValue(10f);
-			System.out.println("Turning CRS On.");
-		}
-		if (SimState.get("carbondioxide") == "low") {
-			//turn off CRS
-			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theCO2InFlowRateActuators, myAirRS));
-			currentActuator.setValue(0f);
-
-		}
-		if (SimState.get("hydrogen") == "low" & SimState.get("carbondioxide") != "high") {
-			//turn off CRS
-			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theCO2InFlowRateActuators, myAirRS));
-			currentActuator.setValue(0f);
-
-		}
-	
-		if (SimState.get("hydrogen") == "high" & SimState.get("oxygen") != "low") {
-			// OGS off
-			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.thePotableWaterInFlowRateActuators, myAirRS));
-			currentActuator.setValue(0f);
-
-		}
-
-		doAccumulatorsInjectors();
-		doPlants(); 
-	}
-
-	private void doAccumulatorsInjectors() {
-		// a crude feedback controller for the accumulators and injectors
-		GenericSensor levelSensor, rateSensor;
-		GenericActuator currentActuator;
-
-		double delta, signal;
-		double crewO2p, crewCO2p, plantO2p, plantCO2p;
-		double crewO2i, crewCO2i, plantO2i, plantCO2i;
-		double crewO2, crewCO2, plantO2, plantCO2;
 		
+		pw.println(fileoutput);
+
+		return state;
+	}
+
+
+	
+	public void setActuators(ActionMap currentAction) {
+
+		// sets actuator values according to the current policy
+
+		GenericActuator currentActuator;
+		int i;
+
+		String[] names = ActionMap.actuatorNames;
+		
+		for (i = 0;i<names.length;i++) {
+			currentActuator = (GenericActuator)(ActionMap.actuators[i]);
+			currentActuator.setValue((float)currentAction.getActuatorValue(names[i]));
+//			System.out.println("Setting "+names[i]+" to "+currentAction.getActuatorValue(names[i]));
+		}
+
+
+
+	}
+
+	private void doAccumulatorsInjectors() { 
+	
+	// a crude feedback controller for the accumulators and injectors 
+		GenericSensor levelSensor, rateSensor;  
+		GenericActuator currentActuator; 
+		
+		float delta, signal; 
+		float crewO2p, crewCO2p, plantO2p, plantCO2p; 
+		float crewO2i, crewCO2i, plantO2i, plantCO2i; 
+		float crewO2, crewCO2, plantO2, plantCO2; 
 		SimEnvironment myCrewEnvironment = (SimEnvironment)myBioHolder.theSimEnvironments.get(0);
 		SimEnvironment myPlantEnvironment = (SimEnvironment)myBioHolder.theSimEnvironments.get(1);
 		Injector myInjector = (Injector)myBioHolder.theInjectors.get(0);
 		Accumulator myAccumulator = (Accumulator)myBioHolder.theAccumulators.get(0);
 		
 		//crew O2 feedback control
-		crewO2p = 200;
+		crewO2p = 200f;
 		crewO2i = 0.5f;
 		levelSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theO2AirConcentrationSensors, myCrewEnvironment));
 		crewO2 = levelSensor.getValue();
-		delta = (double)(CrewO2Level - crewO2);
+		delta = (float)(CrewO2Level - crewO2);
 		crewO2integral += delta;
 		signal = delta*crewO2p + crewO2i*crewO2integral;
-		System.out.println("O2 flow from tank to Crew environment: "+signal);
+//		System.out.println("O2 flow from tank to Crew environment: "+signal);
 		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theO2AirEnvironmentOutFlowRateActuators, myInjector));
 		currentActuator.setValue((float)(signal));
 		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theO2AirStoreInFlowRateActuators, myInjector));
 		currentActuator.setValue((float)(signal));
 
 		//crew CO2 feedback control
-		crewCO2p = -200;
+		crewCO2p = -200f;
 		crewCO2i = -0.5f;
 		levelSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theCO2AirConcentrationSensors, myCrewEnvironment));
 		crewCO2 = levelSensor.getValue();
-		delta = (double)(CrewCO2Level - crewCO2);
+		delta = (float)(CrewCO2Level - crewCO2);
 		crewCO2integral += delta;
 		signal = delta*crewCO2p + crewCO2i*crewCO2integral;
-		System.out.println("CO2 flow from Crew environment to tank: "+signal);
+//		System.out.println("CO2 flow from Crew environment to tank: "+signal);
 		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theCO2AirEnvironmentInFlowRateActuators, myAccumulator));
 		currentActuator.setValue((float)(signal));
 		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theCO2AirStoreOutFlowRateActuators, myAccumulator));
 		currentActuator.setValue((float)(signal));
 
 		//plant O2 feedback control
-		plantO2p = -100;
-		plantO2i = -0.1;
+		plantO2p = -200f;
+		plantO2i = -1f;
 		levelSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theO2AirConcentrationSensors, myPlantEnvironment));
 		plantO2 = levelSensor.getValue();
-		delta = (double)(PlantO2Level - plantO2);
+		delta = (float)(PlantO2Level - plantO2);
 		plantO2integral += delta;
 		signal = delta*plantO2p + plantO2i*plantO2integral;
-		System.out.println("O2 flow from Plant environment to tank: "+signal);
+//		System.out.println("O2 flow from Plant environment to tank: "+signal);
 		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theO2AirEnvironmentInFlowRateActuators, myAccumulator));
 		currentActuator.setValue((float)(signal));
 		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theO2AirStoreOutFlowRateActuators, myAccumulator));
 		currentActuator.setValue((float)(signal));
 
 		//plant CO2 feedback control
-		plantCO2p = 50;
-		plantCO2i = 0.01;
+		plantCO2p = 200f;
+		plantCO2i = 1f;
 		levelSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theCO2AirConcentrationSensors, myPlantEnvironment));
 		plantCO2 = levelSensor.getValue();
-		delta = (double)(PlantCO2Level - plantCO2);
+		delta = (float)(PlantCO2Level - plantCO2);
 		plantCO2integral += delta;
 		signal = delta*plantCO2p + plantCO2i*plantCO2integral;
-		System.out.println("CO2 flow from tank to Plant environment: "+signal);
+//		System.out.println("CO2 flow from tank to Plant environment: "+signal);
 		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theCO2AirEnvironmentOutFlowRateActuators, myInjector));
 		currentActuator.setValue((float)(signal));
 		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theCO2AirStoreInFlowRateActuators, myInjector));
 		currentActuator.setValue((float)(signal));
 		
-		
+				
 		currentActuator = (GenericActuator)myBioHolder.theWaterAirEnvironmentInFlowRateActuators.get(0); 
-		currentActuator.setValue(10f);
+		currentActuator.setValue(2f);
 		currentActuator = (GenericActuator)myBioHolder.theWaterAirEnvironmentInFlowRateActuators.get(1); 
 		currentActuator.setValue(3.7f);
 		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theWaterAirStoreOutFlowRateActuators, myAccumulator));
-		currentActuator.setValue(15f);
+		currentActuator.setValue(6f);
+	
+	} 
+
+	private void doFoodProcessor() {
+		GenericActuator FoodProcessorPower;
+		GenericSensor BiomassStore, FoodStore;
+		float food, biomass;
+		boolean turnon = true;
+		
+		FoodProcessor myFoodProcessor = (FoodProcessor)myBioHolder.theFoodProcessors.get(0);
+		BiomassStore myBiomassStore = (BiomassStore)myBioHolder.theBiomassStores.get(0);
+		FoodStore myFoodStore = (FoodStore)myBioHolder.theFoodStores.get(0);
+		GenericSensor myFoodStoreLevelSensor= (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theFoodStoreLevelSensors, myFoodStore));
+		GenericSensor myBiomassStoreLevelSensor= (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theBiomassStoreLevelSensors, myBiomassStore));
+		FoodProcessorPower = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.thePowerInFlowRateActuators, myFoodProcessor));
+		
+		biomass = (float)myBiomassStoreLevelSensor.getValue();
+		food = (float)myFoodStoreLevelSensor.getValue();
+
+		if (food == 0) endSim = true;
+		if (biomass == 0) turnon = false;
+		else if (food >= 2000) turnon = false;
+		else turnon = true;
+
+		System.out.println("Food: "+food+" Biomass "+biomass+ "     Food Processor Power: "+turnon);
+
+		if (turnon)
+			FoodProcessorPower.setValue(100);
+		else FoodProcessorPower.setValue(0);
+
+	}
+
+	private ActionMap handController(Map SimState) {
+		ActionMap myAction;
+		if (SimState.get("dirtywater") == "low" || SimState.get("potablewater") == "high") {
+			water = 0;
+		}
+		if (SimState.get("potablewater") == "low" || SimState.get("dirtywater") == "high") {
+			water = 1;
+		}
+		if (SimState.get("greywater") == "low" || SimState.get("potablewater") == "high") {
+			gwater = 0;
+		}
+		if (SimState.get("potablewater") == "low" || SimState.get("greywater") == "high") {
+			gwater = 1;
+		}
+		if (SimState.get("carbondioxide") == "low") {
+			CO2 = 0;
+		}
+		if (SimState.get("hydrogen") == "low") { 
+			CO2 = 0; 
+		}
+		if (SimState.get("hydrogen") == "high") { 
+			CO2 = 1 ; 
+			potable = 0; 
+		}
+		if (SimState.get("oxygen") == "low") {
+			potable = 1;
+		}
+		if (SimState.get("oxygen") == "high" ) {
+			potable = 0;
+		}
+		if (SimState.get("carbondioxide") == "high") {
+			CO2 = 1;
+		}
+		
+//		System.out.println("CRS: "+CO2+" OGS: "+potable+" Dirty Water: "+water+" Grey Water: "+gwater);
+		myAction = new ActionMap(new int[] {CO2, potable, water, gwater});
+		return myAction;
+
 	}
 	
 	private void doPlants() { 
@@ -526,7 +536,7 @@ public class HandController{
 		float cropacres; 
 		GenericSensor harvestSensor; 
 		GenericSensor currentSensor; 
-		GenericActuator currentActuator;
+		PlantingActuator currentActuator;
 		
 		CO2Store myCO2Store = (CO2Store)myBioHolder.theCO2Stores.get(0);
 		BiomassRS myBiomassRS = (BiomassRS)(myBioHolder.theBiomassRSModules.get(0));  
@@ -536,26 +546,23 @@ public class HandController{
 		int i; 
 		int num = myBioHolder.theHarvestSensors.size(); 
 		
+		
+		
 		for (i=0;i<num;i++) { 
 			currentSensor = (GenericSensor)myBioHolder.theHarvestSensors.get(i); 
-			System.out.println(" Harvest Sensor "+currentSensor.getValue());
+			currentActuator = (PlantingActuator)myBioHolder.thePlantingActuators.get(i); 
 
-			currentActuator = (GenericActuator)myBioHolder.thePlantingActuators.get(i); 
 			if (currentSensor.getValue() == 1f) { 
+				System.out.println(" Harvest Sensor "+currentSensor.getValue());
 				myBiomassRS.getShelf(i).harvest(); 
 				cropacres = myBiomassRS.getShelf(i).getCropAreaTotal();
-				currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theStoreOverflowSensors, myCO2Store));
-//				overflow = currentSensor.getValue();
-//				new_overflow = overflow - co2_overflow; 
-//				if (new_overflow > 0) cropacres += 20; 
-//				else cropacres -= 20; 
-//				co2_overflow= overflow;
-				System.out.println("Planting "+cropacres+" m^2 of wheat."); 
-				currentActuator.setValue(cropacres);
-				myBiomassRS.getShelf(i).replant(myBiomassRS.getShelf(i).getCropType(), cropacres);  
-	
+				System.out.println("Planting "+cropacres+" m^2."+((Shelf)myBiomassRS.getShelf(i)).getTypeString()); 
+				currentActuator.setPlantType(myBiomassRS.getShelf(i).getCropType());
+				currentActuator.setValue(cropacres);	
 			}
 		}
 	}
+		
+
 }
 
