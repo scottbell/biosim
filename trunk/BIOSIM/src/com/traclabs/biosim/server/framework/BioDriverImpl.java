@@ -56,6 +56,7 @@ public class BioDriverImpl extends BioDriverPOA{
 	* Starts the simulation
 	*/
 	public void startSimulation(){
+		reset();
 		myTickThread = new Thread(new Ticker());
 		myTickThread.start();
 	}
