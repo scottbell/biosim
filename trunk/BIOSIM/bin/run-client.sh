@@ -7,9 +7,12 @@ devRootDir=$BIOSIM_HOME
 JRE_HOME="$JAVA_HOME/jre"
 jacoOrbClass="-Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB"
 jacoSingletonOrbClass="-Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton"
+currentDir=`pwd`
 if [ -z "$devRootDir" ]
 then
-	devRootDir=".."
+	cd ..
+	devRootDir=`pwd`
+	cd $currentDir
 	echo "		-assuming BIOSIM_HOME is $devRootDir"
 fi
 java_command=$JAVA_HOME/bin/java

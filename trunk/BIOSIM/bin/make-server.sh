@@ -4,9 +4,12 @@ echo "*building biosim"
 echo "	-initializing biosim build...";
 userSelect="$@"
 devRootDir=$BIOSIM_HOME
+currentDir=`pwd`
 if [ -z "$devRootDir" ]
 then
-	devRootDir=".."
+	cd ..
+	devRootDir=`pwd`
+	cd $currentDir
 	echo "		-assuming BIOSIM_HOME is $devRootDir"
 fi
 JACORB_HOME="$devRootDir/lib/jacorb"
