@@ -9,7 +9,7 @@ public class O2StoreImpl extends O2StorePOA {
 
 	float addO2(float liters){
 		if ((liters + O2level) > O2capacity){
-			O2Level = O2capacity;
+			O2level = O2capacity;
 			if (liters >=  O2capacity)
 				return 0;
 			else
@@ -23,7 +23,7 @@ public class O2StoreImpl extends O2StorePOA {
 
 	float takeO2(float liters){
 		if ((O2level - liters) < 0){
-			O2Level = 0;
+			O2level = 0;
 			if (liters < 0)
 				return 0;
 			else
@@ -31,9 +31,10 @@ public class O2StoreImpl extends O2StorePOA {
 		}
 		else{
 			O2level = O2level - liters;
+			return liters;
 		}
 	}
-	float getO2StoreLevels(){
+	float getO2Level(){
 		return O2level;
 	}
 

@@ -78,12 +78,14 @@ echo "			-compiling air"
 $compilationInvocation $serverDir/air/*.java
 echo "			-compiling water"
 $compilationInvocation $serverDir/water/*.java
-echo "			-compiling energy"
-$compilationInvocation $serverDir/energy/*.java
+echo "			-compiling power"
+$compilationInvocation $serverDir/power/*.java
 echo "			-compiling crew"
 $compilationInvocation $serverDir/crew/*.java
-echo "			-compiling biomass"
-$compilationInvocation $serverDir/biomass/*.java
+echo "			-compiling food"
+$compilationInvocation $serverDir/food/*.java
+echo "			-compiling environment"
+$compilationInvocation $serverDir/environment/*.java
 echo "*done building biosim"
 
 
