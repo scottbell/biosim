@@ -18,13 +18,12 @@ import com.traclabs.biosim.server.util.Engine;
 import com.traclabs.biosim.server.util.MatlabAceEngine;
 import com.traclabs.biosim.server.util.OrbUtils;
 
-//import java.lang.*;
-
 /**
- * The Water Recovery System takes grey/dirty water and refines it to potable
- * water for the crew members and grey water for the crops.. Class modeled after
- * the paper:. "Intelligent Control of a Water Recovery System: Three Years in
- * the Trenches" by Bonasso, Kortenkamp, and Thronesbery
+ * This class acts as a surrogate for the underlying Matlab WaterRS model and the rest of
+ * BioSim.  It communicates with BioSim as the rest of the modules do (flowrates, malfunctions, etc.).
+ * The Matlab communication is handled by a MatlabAceEngine.  This engine takes doubles (the parameters
+ * needed for one timestep) and sends doubles back (the results of the timestep).  The results are interpreted
+ * by this class and the simulation is modified (by changing tank levels for example).
  * 
  * @author Scott Bell
  */

@@ -9,6 +9,19 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
+/**
+*
+* This class handles data communication for Biosim modules that have Matlab implementations.
+* It connects to a Matlab server (by default running on localhost).  The Matlab server is
+* expected to have two sockets, one for PUT requests (defaults to port 12759), one for GET requests
+* (defaults to port 12758).  The Engine connects to both ports in the same manner, by:
+* 1) Wait for server to say hello
+* 2) Say hello back
+* 3) send a command
+* 
+* @author Scott Bell
+*/
+
 public class MatlabAceEngine extends Engine {
 
 	private static final String DEFAULT_HOSTNAME = "localhost";
