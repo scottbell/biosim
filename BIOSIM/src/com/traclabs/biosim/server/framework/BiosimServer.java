@@ -253,21 +253,21 @@ public class BiosimServer extends GenericServer{
 		{
 			//CrewEnvironment
 			{
-				O2AirMolesSensorImpl myO2AirMolesSensorImpl = new O2AirMolesSensorImpl(id);
-				CO2AirMolesSensorImpl myCO2AirMolesSensorImpl = new CO2AirMolesSensorImpl(id);
-				OtherAirMolesSensorImpl myOtherAirMolesSensorImpl = new OtherAirMolesSensorImpl(id);
-				registerServer(new O2AirMolesSensorPOATie(myO2AirMolesSensorImpl), "CrewEnvironment" + myO2AirMolesSensorImpl.getModuleName());
-				registerServer(new CO2AirMolesSensorPOATie(myCO2AirMolesSensorImpl), "CrewEnvironment" + myCO2AirMolesSensorImpl.getModuleName());
-				registerServer(new OtherAirMolesSensorPOATie(myOtherAirMolesSensorImpl), "CrewEnvironment" + myOtherAirMolesSensorImpl.getModuleName());
+				O2AirConcentrationSensorImpl myO2AirConcentrationSensorImpl = new O2AirConcentrationSensorImpl(id);
+				CO2AirConcentrationSensorImpl myCO2AirConcentrationSensorImpl = new CO2AirConcentrationSensorImpl(id);
+				OtherAirConcentrationSensorImpl myOtherAirConcentrationSensorImpl = new OtherAirConcentrationSensorImpl(id);
+				registerServer(new O2AirConcentrationSensorPOATie(myO2AirConcentrationSensorImpl), "CrewEnvironment" + myO2AirConcentrationSensorImpl.getModuleName());
+				registerServer(new CO2AirConcentrationSensorPOATie(myCO2AirConcentrationSensorImpl), "CrewEnvironment" + myCO2AirConcentrationSensorImpl.getModuleName());
+				registerServer(new OtherAirConcentrationSensorPOATie(myOtherAirConcentrationSensorImpl), "CrewEnvironment" + myOtherAirConcentrationSensorImpl.getModuleName());
 			}
 			//Plant Evnironment
 			{
-				O2AirMolesSensorImpl myO2AirMolesSensorImpl = new O2AirMolesSensorImpl(id);
-				CO2AirMolesSensorImpl myCO2AirMolesSensorImpl = new CO2AirMolesSensorImpl(id);
-				OtherAirMolesSensorImpl myOtherAirMolesSensorImpl = new OtherAirMolesSensorImpl(id);
-				registerServer(new O2AirMolesSensorPOATie(myO2AirMolesSensorImpl), "PlantEnvironment" + myO2AirMolesSensorImpl.getModuleName());
-				registerServer(new CO2AirMolesSensorPOATie(myCO2AirMolesSensorImpl), "PlantEnvironment" + myCO2AirMolesSensorImpl.getModuleName());
-				registerServer(new OtherAirMolesSensorPOATie(myOtherAirMolesSensorImpl), "PlantEnvironment" + myOtherAirMolesSensorImpl.getModuleName());
+				O2AirConcentrationSensorImpl myO2AirConcentrationSensorImpl = new O2AirConcentrationSensorImpl(id);
+				CO2AirConcentrationSensorImpl myCO2AirConcentrationSensorImpl = new CO2AirConcentrationSensorImpl(id);
+				OtherAirConcentrationSensorImpl myOtherAirConcentrationSensorImpl = new OtherAirConcentrationSensorImpl(id);
+				registerServer(new O2AirConcentrationSensorPOATie(myO2AirConcentrationSensorImpl), "PlantEnvironment" + myO2AirConcentrationSensorImpl.getModuleName());
+				registerServer(new CO2AirConcentrationSensorPOATie(myCO2AirConcentrationSensorImpl), "PlantEnvironment" + myCO2AirConcentrationSensorImpl.getModuleName());
+				registerServer(new OtherAirConcentrationSensorPOATie(myOtherAirConcentrationSensorImpl), "PlantEnvironment" + myOtherAirConcentrationSensorImpl.getModuleName());
 			}
 
 		}

@@ -13,7 +13,7 @@ public class DirtyWaterOutFlowRateSensorImpl extends GenericSensorImpl implement
 	}
 
 	protected void gatherData(){
-		double preFilteredValue = getInput().getDirtyWaterOutputActualFlowRate(myIndex);
+		float preFilteredValue = getInput().getDirtyWaterOutputActualFlowRate(myIndex);
 		myValue = randomFilter(preFilteredValue);
 	}
 	

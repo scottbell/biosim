@@ -13,7 +13,7 @@ public class PotableWaterInFlowRateSensorImpl extends GenericSensorImpl implemen
 	}
 
 	protected void gatherData(){
-		double preFilteredValue = getInput().getPotableWaterInputActualFlowRate(myIndex);
+		float preFilteredValue = getInput().getPotableWaterInputActualFlowRate(myIndex);
 		myValue = randomFilter(preFilteredValue);
 	}
 	

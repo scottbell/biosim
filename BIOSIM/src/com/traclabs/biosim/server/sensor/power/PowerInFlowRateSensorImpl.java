@@ -13,7 +13,7 @@ public class PowerInFlowRateSensorImpl extends GenericSensorImpl implements Powe
 	}
 
 	protected void gatherData(){
-		double preFilteredValue = getInput().getPowerInputActualFlowRate(myIndex);
+		float preFilteredValue = getInput().getPowerInputActualFlowRate(myIndex);
 		myValue = randomFilter(preFilteredValue);
 	}
 	

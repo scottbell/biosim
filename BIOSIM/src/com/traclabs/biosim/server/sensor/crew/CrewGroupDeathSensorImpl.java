@@ -17,6 +17,10 @@ public class CrewGroupDeathSensorImpl extends CrewGroupSensorImpl implements Cre
 			myValue = randomFilter(0);
 	}
 	
+	public float getMax(){
+		return 1f;
+	}
+	
 	protected void notifyListeners(){
 	}
 	

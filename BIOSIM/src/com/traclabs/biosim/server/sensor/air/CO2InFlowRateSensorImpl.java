@@ -13,7 +13,7 @@ public class CO2InFlowRateSensorImpl extends GenericSensorImpl implements CO2InF
 	}
 
 	protected void gatherData(){
-		double preFilteredValue = getInput().getCO2InputActualFlowRate(myIndex);
+		float preFilteredValue = getInput().getCO2InputActualFlowRate(myIndex);
 		myValue = randomFilter(preFilteredValue);
 	}
 	
@@ -24,6 +24,10 @@ public class CO2InFlowRateSensorImpl extends GenericSensorImpl implements CO2InF
 	public void setInput(CO2Consumer pConsumer, int pIndex){
 		myConsumer = pConsumer;
 		myIndex = pIndex;
+	}
+	
+	public float getMax(){
+		return myConsumer.getCO2InputMaxFlowRate(myIndex);
 	}
 	
 	public CO2Consumer getInput(){

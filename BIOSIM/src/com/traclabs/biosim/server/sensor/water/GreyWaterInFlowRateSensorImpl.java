@@ -13,7 +13,7 @@ public class GreyWaterInFlowRateSensorImpl extends GenericSensorImpl implements 
 	}
 
 	protected void gatherData(){
-		double preFilteredValue = getInput().getGreyWaterInputActualFlowRate(myIndex);
+		float preFilteredValue = getInput().getGreyWaterInputActualFlowRate(myIndex);
 		myValue = randomFilter(preFilteredValue);
 	}
 	

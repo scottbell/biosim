@@ -4,8 +4,8 @@ import biosim.server.sensor.framework.*;
 import biosim.idl.sensor.environment.*;
 import biosim.idl.simulation.environment.*;
 
-public class O2AirMolesSensorImpl extends EnvironmentSensorImpl implements O2AirMolesSensorOperations{
-	public O2AirMolesSensorImpl(int pID){
+public class O2AirConcentrationSensorImpl extends EnvironmentSensorImpl implements O2AirConcentrationSensorOperations{
+	public O2AirConcentrationSensorImpl(int pID){
 		super(pID);
 	}
 
@@ -18,10 +18,10 @@ public class O2AirMolesSensorImpl extends EnvironmentSensorImpl implements O2Air
 	}
 	
 	/**
-	* Returns the name of this module (O2AirMolesSensor)
+	* Returns the name of this module (O2AirConcentrationSensor)
 	* @return the name of the module
 	*/
 	public String getModuleName(){
-		return "O2AirMolesSensor"+getID();
+		return "O2AirConcentrationSensor"+getID();
 	}
 }

@@ -5,7 +5,7 @@ import biosim.idl.util.log.*;
 import biosim.idl.sensor.framework.*;
 
 public abstract class GenericSensorImpl extends BioModuleImpl implements GenericSensorOperations{
-	protected double myValue;
+	protected float myValue;
 	private LogNode valueNode;
 	
 	public GenericSensorImpl(int pID){
@@ -15,8 +15,16 @@ public abstract class GenericSensorImpl extends BioModuleImpl implements Generic
 	protected abstract void gatherData();
 	protected abstract void notifyListeners();
 	
-	public double getValue(){
+	public float getValue(){
 		return myValue;
+	}
+	
+	public float getMax(){
+		return 0f;
+	}
+	
+	public float getMin(){
+		return 0f;
 	}
 	
 	public void tick(){

@@ -23,6 +23,10 @@ public abstract class O2StoreSensorImpl extends GenericSensorImpl implements O2S
 		return myO2Store;
 	}
 	
+	public float getMax(){
+		return myO2Store.getCapacity();
+	}
+	
 	/**
 	* Returns the name of this module (O2StoreSensor)
 	* @return the name of the module
