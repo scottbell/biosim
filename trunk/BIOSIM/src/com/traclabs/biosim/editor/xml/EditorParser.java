@@ -36,11 +36,11 @@ import com.traclabs.biosim.editor.graph.EditorFigNode;
 import com.traclabs.biosim.editor.graph.EditorNode;
 import com.traclabs.biosim.editor.graph.EditorPort;
 
-public class VesprParser extends DefaultHandler implements DocumentReader {
+public class EditorParser extends DefaultHandler implements DocumentReader {
 
     ////////////////////////////////////////////////////////////////
     // static variables
-    public static VesprParser SINGLETON = new VesprParser();
+    public static EditorParser SINGLETON = new EditorParser();
 
     // The Layer contains the Figs, while the Graph Model contains the Nodes.
     // We will reuse the Layer of the existing Editor, and attach a new Graph
@@ -64,7 +64,7 @@ public class VesprParser extends DefaultHandler implements DocumentReader {
     ////////////////////////////////////////////////////////////////
     // constructors
 
-    protected VesprParser() {
+    protected EditorParser() {
         // Note: we currently use a single instance to parse many files.
         // _netNodeList = new Hashtable();
     }

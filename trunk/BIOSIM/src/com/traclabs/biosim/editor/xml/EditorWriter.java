@@ -35,10 +35,10 @@ import com.traclabs.biosim.editor.graph.EditorFigNode;
  * 
  * @author kkusy
  */
-public class VesprWriter implements DocumentWriter {
-    public static final VesprWriter SINGLETON = new VesprWriter();
+public class EditorWriter implements DocumentWriter {
+    public static final EditorWriter SINGLETON = new EditorWriter();
 
-    protected VesprWriter() {
+    protected EditorWriter() {
     }
 
     synchronized public void saveDocument(Writer out, EditorDocument doc)
