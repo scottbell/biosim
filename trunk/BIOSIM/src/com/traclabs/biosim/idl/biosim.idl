@@ -24,6 +24,7 @@ module biosim{
 				void setStochasticIntensity(in StochasticIntensity pIntensity);
 				Malfunction startMalfunction(in MalfunctionIntensity pIntensity, in MalfunctionLength pLength);
 				void fixMalfunction(in long id);
+				void fixAllMalfunctions();
 				boolean isMalfunctioning();
                         };
 			
