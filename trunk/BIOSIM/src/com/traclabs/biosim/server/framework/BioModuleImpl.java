@@ -11,7 +11,7 @@ import biosim.idl.util.*;
 
 public abstract class BioModuleImpl extends BioModulePOA{
 	protected boolean logInitialized = false;
-	protected boolean moduleLogging = false;
+	protected boolean moduleLogging = true;
 	protected LogImpl myLog;
 	private Logger myLogger;
 	private boolean collectedLogger = false;

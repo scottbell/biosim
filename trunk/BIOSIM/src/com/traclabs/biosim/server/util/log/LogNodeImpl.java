@@ -29,6 +29,10 @@ public class LogNodeImpl extends LogNodePOA{
 	}
 	
 	public LogNode[] getChildren(){
+		if (childrenList == null){
+			LogNode[] zeroChildrenArray = new LogNode[0];
+			return zeroChildrenArray;
+		}
 		LogNode[] theChildrenArray = new LogNode[childrenList.size()];
 		int i = 0;
 		for (Iterator myIterator = childrenList.iterator(); myIterator.hasNext(); ){
@@ -37,6 +41,10 @@ public class LogNodeImpl extends LogNodePOA{
 			i++;
 		}
 		return theChildrenArray;
+	}
+	
+	public boolean hasChildren(){
+		return (childrenList == null);
 	}
 
 	public LogNode addChild (String pChildValue){
