@@ -78,7 +78,10 @@ public class BWP extends WaterRSSubSystem{
 			myWaterRS.getAES().addWater(currentAESWaterProduced);
 		}
 		else{
-			//dump water! no subsystem enabled to send water to
+			//dump water back to dirty water store
+			waterLevel = myWaterRS.pushResourceToStore(myWaterRS.getDirtyWaterInputs(), myWaterRS.getDirtyWaterInputMaxFlowRates(), myWaterRS.getDirtyWaterInputDesiredFlowRates(), myWaterRS.getDirtyWaterInputActualFlowRates(), waterLevel);
+			//dump rest
+			waterLevel = 0f;
 			currentAESWaterProduced = 0f;
 			currentROWaterProduced = 0f;
 		}
