@@ -134,47 +134,47 @@ public class BiosimEditor {
     private void createTabbedPane() {
         myTabbedPane = new JTabbedPane();
 
-        myAirToolBar = new AirToolBar();
+        myAirToolBar = new AirToolBar(this);
         myTabbedPane.addTab("Air",
                 createImageIcon("com/traclabs/biosim/client/air/gui/air.jpg"),
                 myAirToolBar);
 
-        myCrewToolBar = new CrewToolBar();
+        myCrewToolBar = new CrewToolBar(this);
         myTabbedPane
                 .addTab(
                         "Crew",
                         createImageIcon("com/traclabs/biosim/client/crew/gui/crew.jpg"),
                         myCrewToolBar);
 
-        myEnvironmentToolBar = new EnvironmentToolBar();
+        myEnvironmentToolBar = new EnvironmentToolBar(this);
         myTabbedPane
                 .addTab(
                         "Environment",
                         createImageIcon("com/traclabs/biosim/client/environment/gui/environment.jpg"),
                         myEnvironmentToolBar);
 
-        myFrameworkToolBar = new FrameworkToolBar();
+        myFrameworkToolBar = new FrameworkToolBar(this);
         myTabbedPane
                 .addTab(
                         "Framework",
                         createImageIcon("com/traclabs/biosim/client/framework/gui/all.jpg"),
                         myFrameworkToolBar);
 
-        myPowerToolBar = new PowerToolBar();
+        myPowerToolBar = new PowerToolBar(this);
         myTabbedPane
                 .addTab(
                         "Power",
                         createImageIcon("com/traclabs/biosim/client/power/gui/power.jpg"),
                         myPowerToolBar);
 
-        myWasteToolBar = new WasteToolBar();
+        myWasteToolBar = new WasteToolBar(this);
         myTabbedPane
                 .addTab(
                         "Waste",
                         createImageIcon("com/traclabs/biosim/client/framework/gui/gear.gif"),
                         myWasteToolBar);
 
-        myWaterToolBar = new WaterToolBar();
+        myWaterToolBar = new WaterToolBar(this);
         myTabbedPane
                 .addTab(
                         "Water",

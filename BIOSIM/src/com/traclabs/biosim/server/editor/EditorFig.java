@@ -11,10 +11,14 @@ import org.tigris.gef.presentation.Fig;
 public abstract class EditorFig {
     private static EditorFig myFactoryInstance;
     
-    private EditorFig(){
+    protected EditorFig(){
         super();
         myFactoryInstance = this;
     }
     
     public abstract Fig createFig();
+    
+    public static EditorFig getFactoryInstance(){
+        return myFactoryInstance;
+    }
 }

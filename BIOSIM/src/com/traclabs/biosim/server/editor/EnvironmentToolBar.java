@@ -1,7 +1,6 @@
 /*
  * Created on Jan 26, 2005
  *
- * TODO
  */
 package com.traclabs.biosim.server.editor;
 
@@ -10,7 +9,6 @@ import javax.swing.JButton;
 /**
  * @author scott
  * 
- * TODO
  */
 public class EnvironmentToolBar extends EditorToolBar {
     private JButton myEnvironmentButton;
@@ -19,8 +17,8 @@ public class EnvironmentToolBar extends EditorToolBar {
 
     private JButton myConduitButton;
 
-    public EnvironmentToolBar() {
-        super("Environment");
+    public EnvironmentToolBar(BiosimEditor pEditor) {
+        super("Environment", pEditor);
         myEnvironmentButton = new JButton("Environment");
         myDehumidifierButton = new JButton("Dehumidifier");
         myConduitButton = new JButton("Conduit");

@@ -1,7 +1,6 @@
 /*
  * Created on Jan 26, 2005
  *
- * TODO
  */
 package com.traclabs.biosim.server.editor;
 
@@ -10,15 +9,14 @@ import javax.swing.JButton;
 /**
  * @author scott
  * 
- * TODO
  */
 public class CrewToolBar extends EditorToolBar {
     private JButton myCrewButton;
 
     private JButton myConduitButton;
 
-    public CrewToolBar() {
-        super("Crew");
+    public CrewToolBar(BiosimEditor pEditor) {
+        super("Crew", pEditor);
         myCrewButton = new JButton("Crew");
         myConduitButton = new JButton("Conduit");
 

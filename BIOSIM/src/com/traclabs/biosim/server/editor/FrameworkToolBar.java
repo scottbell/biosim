@@ -19,8 +19,8 @@ public class FrameworkToolBar extends EditorToolBar {
 
     private JButton myConduitButton;
 
-    public FrameworkToolBar() {
-        super("Framework");
+    public FrameworkToolBar(BiosimEditor editor) {
+        super("Framework", editor);
         myAccumulatorButton = new JButton("Accumulator");
         myInjectorButton = new JButton("Injector");
 
