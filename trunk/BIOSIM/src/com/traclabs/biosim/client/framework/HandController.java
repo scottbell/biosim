@@ -67,8 +67,8 @@ public class HandController{
 	double O2StoreHighLevel = 800f;
 	double CO2StoreLowLevel = 300f;
 	double CO2StoreHighLevel = 800f;
-	double H2StoreLowLevel = 0f;
-	double H2StoreHighLevel = 800f;
+	double H2StoreLowLevel = 1000f;
+	double H2StoreHighLevel = 4000f;
 
 	double CrewO2Level = .20;
 	double CrewCO2Level = 0.005;
