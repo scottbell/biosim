@@ -31,6 +31,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
+import org.apache.log4j.Logger;
+
 /*******************************************************************************
  * 
  * This class implements a basic spreadsheet using a JTable. It also provides a
@@ -41,11 +43,6 @@ import javax.swing.table.TableColumn;
  *  
  ******************************************************************************/
 public class SpreadSheet extends JTable {
-
-    /**
-     * Set this field to true and recompile to get debug traces
-     */
-    public static final boolean DEBUG = true;
 
     private JScrollPane _scp;
 
@@ -72,6 +69,8 @@ public class SpreadSheet extends JTable {
 
     // Cells selected.
     private Object[] _selection;
+    
+    private Logger myLogger;
 
     /**
      * Start the spreadsheet into a JFrame.
@@ -83,14 +82,14 @@ public class SpreadSheet extends JTable {
 
         String vers = System.getProperty("java.version");
         if (vers.compareTo("1.3") < 0) {
-            System.out.println("Please use Java 1.3 or above.");
+            Logger.getLogger(SpreadSheet.class).warn("Please use Java 1.3 or above.");
             //System.exit(1);
         }
 
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
         } catch (Exception ex) {
-            System.out.println("Can't set look and feel MetalLookAndFeel");
+            Logger.getLogger(SpreadSheet.class).error("Can't set look and feel MetalLookAndFeel");
             System.exit(2);
         }
 
@@ -172,8 +171,7 @@ public class SpreadSheet extends JTable {
         try {
             setDefaultRenderer(Class.forName("java.lang.Object"), _renderer);
         } catch (ClassNotFoundException ex) {
-            if (DEBUG)
-                System.out.println("SpreadSheet() Can't modify renderer");
+            Logger.getLogger(SpreadSheet.class).debug("SpreadSheet() Can't modify renderer");
         }
 
         _model = new SpreadSheetModel(foo, this, colNames);
@@ -217,11 +215,11 @@ public class SpreadSheet extends JTable {
         TableColumn aColumn = getColumnModel().getColumn(0);
         TableCellRenderer aRenderer = getTableHeader().getDefaultRenderer();
         if (aRenderer == null) {
-            System.out.println(" Aouch !");
+            Logger.getLogger(SpreadSheet.class).warn(" Aouch !");
             aColumn = getColumnModel().getColumn(0);
             aRenderer = aColumn.getHeaderRenderer();
             if (aRenderer == null) {
-                System.out.println(" Aouch Aouch !");
+                Logger.getLogger(SpreadSheet.class).error(" Aouch Aouch !");
                 System.exit(3);
             }
         }
