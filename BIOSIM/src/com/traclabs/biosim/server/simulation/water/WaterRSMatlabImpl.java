@@ -120,6 +120,9 @@ public class WaterRSMatlabImpl extends SimBioModuleImpl implements
 	public void tick() {
 		super.tick();
 		myLogger.debug("start tick");
+		myLogger.debug("attempting to send some doubles");
+		double[] testPutDoubleArray = { 7.5d, 3.4d, Math.PI };
+		myEngine.put(testPutDoubleArray);
 		myLogger.debug("attempting to receive some doubles");
 		double[] testGetDoubleArray = myEngine.get();
 		if (testGetDoubleArray == null) {
@@ -128,9 +131,6 @@ public class WaterRSMatlabImpl extends SimBioModuleImpl implements
 			for (int i = 0; i < testGetDoubleArray.length; i++)
 				myLogger.debug("got back [" + i + "]=" + testGetDoubleArray[i]);
 		}
-		double[] testPutDoubleArray = { 7.5d, 3.4d, Math.PI };
-		myLogger.debug("attempting to send some doubles");
-		myEngine.put(testPutDoubleArray);
 		myLogger.debug("end tick");
 	}
 
