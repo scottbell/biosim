@@ -3,6 +3,7 @@ package biosim.server.sensor.environment;
 import biosim.server.sensor.framework.*;
 import biosim.idl.sensor.environment.*;
 import biosim.idl.simulation.environment.*;
+import biosim.idl.framework.*;
 
 public class O2AirStoreInFlowRateSensorImpl extends GenericSensorImpl implements O2AirStoreInFlowRateSensorOperations{
 	private O2AirConsumer myConsumer;

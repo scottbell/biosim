@@ -2,7 +2,7 @@ package biosim.server.sensor.power;
 
 import biosim.server.sensor.framework.*;
 import biosim.idl.sensor.power.*;
-import biosim.idl.simulation.power.*;
+import biosim.idl.framework.*;
 
 public class PowerStoreLevelSensorImpl extends PowerStoreSensorImpl implements PowerStoreLevelSensorOperations{
 	public PowerStoreLevelSensorImpl(int pID){

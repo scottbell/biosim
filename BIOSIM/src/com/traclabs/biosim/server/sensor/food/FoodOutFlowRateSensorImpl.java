@@ -2,7 +2,7 @@ package biosim.server.sensor.food;
 
 import biosim.server.sensor.framework.*;
 import biosim.idl.sensor.food.*;
-import biosim.idl.simulation.food.*;
+import biosim.idl.framework.*;
 
 public class FoodOutFlowRateSensorImpl extends GenericSensorImpl implements FoodOutFlowRateSensorOperations{
 	private FoodProducer myProducer;

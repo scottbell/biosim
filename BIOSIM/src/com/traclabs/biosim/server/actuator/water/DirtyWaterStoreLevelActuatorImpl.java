@@ -2,7 +2,7 @@ package biosim.server.actuator.water;
 
 import biosim.server.actuator.framework.*;
 import biosim.idl.actuator.water.*;
-import biosim.idl.simulation.water.*;
+import biosim.idl.framework.*;
 
 public class DirtyWaterStoreLevelActuatorImpl extends DirtyWaterStoreActuatorImpl implements DirtyWaterStoreLevelActuatorOperations{
 	public DirtyWaterStoreLevelActuatorImpl(int pID){

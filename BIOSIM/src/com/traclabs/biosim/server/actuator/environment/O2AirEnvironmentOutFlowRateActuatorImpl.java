@@ -3,6 +3,7 @@ package biosim.server.actuator.environment;
 import biosim.server.actuator.framework.*;
 import biosim.idl.actuator.environment.*;
 import biosim.idl.simulation.environment.*;
+import biosim.idl.framework.*;
 
 public class O2AirEnvironmentOutFlowRateActuatorImpl extends GenericActuatorImpl implements O2AirEnvironmentOutFlowRateActuatorOperations{
 	private O2AirProducer myProducer;

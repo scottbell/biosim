@@ -2,6 +2,7 @@ package biosim.server.sensor.water;
 
 import biosim.server.sensor.framework.*;
 import biosim.idl.sensor.water.*;
+import biosim.idl.framework.*;
 import biosim.idl.simulation.water.*;
 
 public abstract class GreyWaterStoreSensorImpl extends GenericSensorImpl implements GreyWaterStoreSensorOperations{

@@ -2,7 +2,7 @@ package biosim.server.sensor.air;
 
 import biosim.server.sensor.framework.*;
 import biosim.idl.sensor.air.*;
-import biosim.idl.simulation.air.*;
+import biosim.idl.framework.*;
 
 public class CO2InFlowRateSensorImpl extends GenericSensorImpl implements CO2InFlowRateSensorOperations{
 	private CO2Consumer myConsumer;

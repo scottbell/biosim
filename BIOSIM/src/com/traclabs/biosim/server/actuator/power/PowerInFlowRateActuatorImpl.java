@@ -2,7 +2,7 @@ package biosim.server.actuator.power;
 
 import biosim.server.actuator.framework.*;
 import biosim.idl.actuator.power.*;
-import biosim.idl.simulation.power.*;
+import biosim.idl.framework.*;
 
 public class PowerInFlowRateActuatorImpl extends GenericActuatorImpl implements PowerInFlowRateActuatorOperations{
 	private PowerConsumer myConsumer;
