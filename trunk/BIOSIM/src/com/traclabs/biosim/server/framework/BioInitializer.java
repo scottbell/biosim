@@ -1234,7 +1234,7 @@ public class BioInitializer{
 			//System.out.println("Creating BiomassRS with moduleName: "+moduleName);
 			BiomassRSImpl myBiomassRSImpl = new BiomassRSImpl(myID, moduleName);
 			boolean autoHarvestAndReplant = node.getAttributes().getNamedItem("autoHarvestAndReplant").getNodeValue().equals("true");
-			myBiomassRSImpl.setAutoHarvestAndReplantEnabled(true);
+			myBiomassRSImpl.setAutoHarvestAndReplantEnabled(autoHarvestAndReplant);
 			setupBioModule(myBiomassRSImpl, node);
 			Node child = node.getFirstChild();
 			while (child != null) {
