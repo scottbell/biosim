@@ -111,37 +111,29 @@
 			<Accumulator name="Accumulator">
 				<O2AirConsumer>
 					<environmentInputs maxFlowRates="14063" desiredFlowRates="10" inputs="PlantEnvironment"/>
-					<storeInputs maxFlowRates="0" desiredFlowRates="0" inputs=""/>
 				</O2AirConsumer>
 				<O2AirProducer>
-					<environmentOutputs maxFlowRates="0" desiredFlowRates="0" outputs=""/>
 					<storeOutputs  maxFlowRates="14063" desiredFlowRates="10" outputs="O2Store"/>
 				</O2AirProducer>
 				<CO2AirConsumer>
 					<environmentInputs maxFlowRates="14063" desiredFlowRates="10" inputs="CrewEnvironment"/>
-					<storeInputs maxFlowRates="0" desiredFlowRates="0" inputs=""/>
 				</CO2AirConsumer>
 				<CO2AirProducer>
-					<environmentOutputs maxFlowRates="0" desiredFlowRates="0" outputs=""/>
 					<storeOutputs maxFlowRates="14063" desiredFlowRates="10" outputs="CO2Store"/>
 				</CO2AirProducer>
 			</Accumulator>
 			<Injector name="Injector">
 				<O2AirConsumer>
-					<environmentInputs maxFlowRates="0" desiredFlowRates="0" inputs=""/>
 					<storeInputs maxFlowRates="14063" desiredFlowRates="10" inputs="O2Store"/>
 				</O2AirConsumer>
 				<O2AirProducer>
 					<environmentOutputs maxFlowRates="14063" desiredFlowRates="10" outputs="CrewEnvironment"/>
-					<storeOutputs  maxFlowRates="0" desiredFlowRates="0" outputs="s"/>
 				</O2AirProducer>
 				<CO2AirConsumer>
-					<environmentInputs maxFlowRates="0" desiredFlowRates="0" inputs=""/>
 					<storeInputs maxFlowRates="14063" desiredFlowRates="10" inputs="CO2Store"/>
 				</CO2AirConsumer>
 				<CO2AirProducer>
 					<environmentOutputs maxFlowRates="14063" desiredFlowRates="10" outputs="PlantEnvironment"/>
-					<storeOutputs  maxFlowRates="0" desiredFlowRates="0" outputs="s"/>
 				</CO2AirProducer>
 			</Injector>
 		</framework>

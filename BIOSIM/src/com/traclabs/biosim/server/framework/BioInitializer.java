@@ -262,6 +262,8 @@ public class BioInitializer{
 	}
 
 	private static float[] getMaxFlowRates(Node node){
+		if (node == null)
+			return new float[0];
 		String arrayString = node.getAttributes().getNamedItem("maxFlowRates").getNodeValue();
 		StringTokenizer tokenizer = new StringTokenizer(arrayString);
 		float[] maxFlowRates = new float[tokenizer.countTokens()];
@@ -279,6 +281,8 @@ public class BioInitializer{
 	}
 
 	private static float[] getDesiredFlowRates(Node node){
+		if (node == null)
+			return new float[0];
 		String arrayString = node.getAttributes().getNamedItem("desiredFlowRates").getNodeValue();
 		StringTokenizer tokenizer = new StringTokenizer(arrayString);
 		float[] desiredFlowRates = new float[tokenizer.countTokens()];
@@ -390,8 +394,8 @@ public class BioInitializer{
 			}
 			else if (childName.equals("O2AirConsumer")){
 				O2AirConsumer myO2AirConsumer = (O2AirConsumer)(pModule);
-				Node environmentNode = child.getFirstChild();
-				Node storeNode = environmentNode.getNextSibling();
+				Node environmentNode = getEnvironmentNode(child);
+				Node storeNode = getStoreNode(child);
 				BioModule[] environmentModules = getInputs(environmentNode);
 				BioModule[] storeModules = getInputs(storeNode);
 				SimEnvironment[] environmentInputs = new SimEnvironment[environmentModules.length];
@@ -405,8 +409,8 @@ public class BioInitializer{
 			}
 			else if (childName.equals("CO2AirConsumer")){
 				CO2AirConsumer myCO2AirConsumer = (CO2AirConsumer)(pModule);
-				Node environmentNode = child.getFirstChild();
-				Node storeNode = environmentNode.getNextSibling();
+				Node environmentNode = getEnvironmentNode(child);
+				Node storeNode = getStoreNode(child);
 				BioModule[] environmentModules = getInputs(environmentNode);
 				BioModule[] storeModules = getInputs(storeNode);
 				SimEnvironment[] environmentInputs = new SimEnvironment[environmentModules.length];
@@ -500,8 +504,8 @@ public class BioInitializer{
 			}
 			else if (childName.equals("O2AirProducer")){
 				O2AirProducer myO2AirProducer = (O2AirProducer)(pModule);
-				Node environmentNode = child.getFirstChild();
-				Node storeNode = environmentNode.getNextSibling();
+				Node environmentNode = getEnvironmentNode(child);
+				Node storeNode = getStoreNode(child);
 				BioModule[] environmentModules = getOutputs(environmentNode);
 				BioModule[] storeModules = getOutputs(storeNode);
 				SimEnvironment[] environmentOutputs = new SimEnvironment[environmentModules.length];
@@ -515,8 +519,8 @@ public class BioInitializer{
 			}
 			else if (childName.equals("CO2AirProducer")){
 				CO2AirProducer myCO2AirProducer = (CO2AirProducer)(pModule);
-				Node environmentNode = child.getFirstChild();
-				Node storeNode = environmentNode.getNextSibling();
+				Node environmentNode = getEnvironmentNode(child);
+				Node storeNode = getStoreNode(child);
 				BioModule[] environmentModules = getOutputs(environmentNode);
 				BioModule[] storeModules = getOutputs(storeNode);
 				SimEnvironment[] environmentOutputs = new SimEnvironment[environmentModules.length];
@@ -531,8 +535,30 @@ public class BioInitializer{
 			child = child.getNextSibling();
 		}
 	}
+	
+	private static Node getEnvironmentNode(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			if (child.getNodeName().startsWith("environment"))
+				return child;
+			child = child.getNextSibling();
+		}
+		return null;
+	}
+	
+	private static Node getStoreNode(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			if (child.getNodeName().startsWith("store"))
+				return child;
+			child = child.getNextSibling();
+		}
+		return null;
+	}
 
 	private BioModule[] getInputs(Node node){
+		if (node == null)
+			return new BioModule[0];
 		String arrayString = node.getAttributes().getNamedItem("inputs").getNodeValue();
 		StringTokenizer tokenizer = new StringTokenizer(arrayString);
 		BioModule[] inputs = new BioModule[tokenizer.countTokens()];
@@ -549,6 +575,8 @@ public class BioInitializer{
 	}
 
 	private BioModule[] getOutputs(Node node){
+		if (node == null)
+			return new BioModule[0];
 		String arrayString = node.getAttributes().getNamedItem("outputs").getNodeValue();
 		StringTokenizer tokenizer = new StringTokenizer(arrayString);
 		BioModule[] outputs = new BioModule[tokenizer.countTokens()];
@@ -909,7 +937,7 @@ public class BioInitializer{
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getNodeName();
-			if (childName.equals("Actuator")){
+			if (childName.equals("Accumulator")){
 				if (firstPass)
 					createAccumulator(child);
 				else
