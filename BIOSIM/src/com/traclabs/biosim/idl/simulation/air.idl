@@ -1,5 +1,5 @@
 module air{
-        interface AirRS : framework::BioModule, biosim::idl::framework::PowerConsumer, biosim::idl::framework::AirConsumer, biosim::idl::framework::AirProducer, biosim::idl::framework::CO2Producer, biosim::idl::framework::O2Producer, biosim::idl::framework::CO2Consumer{
+        interface AirRS : framework::SimBioModule, biosim::idl::framework::PowerConsumer, biosim::idl::framework::AirConsumer, biosim::idl::framework::AirProducer, biosim::idl::framework::CO2Producer, biosim::idl::framework::O2Producer, biosim::idl::framework::CO2Consumer{
                 float getPowerConsumed();
                 float getCO2Consumed();
                 float getO2Produced();

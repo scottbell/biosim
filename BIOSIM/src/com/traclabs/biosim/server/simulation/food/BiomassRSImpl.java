@@ -6,7 +6,7 @@ import biosim.idl.simulation.water.*;
 import biosim.idl.simulation.environment.*;
 import biosim.idl.util.log.*;
 import biosim.server.util.*;
-import biosim.server.framework.*;
+import biosim.server.simulation.framework.*;
 import biosim.idl.simulation.framework.*;
 import biosim.idl.framework.*;
 import java.util.*;
@@ -20,7 +20,7 @@ import java.util.*;
  * @author    Scott Bell
  */
 
-public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations, PotableWaterConsumerOperations, AirConsumerOperations, AirProducerOperations, GreyWaterConsumerOperations, BiomassProducerOperations{
+public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperations, PotableWaterConsumerOperations, AirConsumerOperations, AirProducerOperations, GreyWaterConsumerOperations, BiomassProducerOperations{
 	private List myShelves;
 	private int shelfCapacity = 100;
 	private List shelfLogs;

@@ -1,5 +1,5 @@
 module environment{
-        interface SimEnvironment : framework::BioModule{
+        interface SimEnvironment : framework::SimBioModule{
                 void setCO2Level(in float liters);
                 void setO2Level(in float liters);
                 void setOtherLevel(in float liters);

@@ -6,7 +6,7 @@ import biosim.idl.simulation.framework.*;
 import biosim.idl.framework.*;
 import biosim.idl.util.log.*;
 import biosim.server.util.*;
-import biosim.server.framework.*;
+import biosim.server.simulation.framework.*;
 import java.util.*;
 /**
  * The Food Processor takes biomass (plants matter) and refines it to food for the crew members.
@@ -14,7 +14,7 @@ import java.util.*;
  * @author    Scott Bell
  */
 
-public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOperations, PowerConsumerOperations, BiomassConsumerOperations, FoodProducerOperations{
+public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessorOperations, PowerConsumerOperations, BiomassConsumerOperations, FoodProducerOperations{
 	//During any given tick, this much power is needed for the food processor to run at all
 	private float powerNeeded = 100;
 	//During any given tick, this much biomass is needed for the food processor to run optimally

@@ -6,7 +6,7 @@ import biosim.idl.simulation.environment.*;
 import java.util.*;
 import biosim.server.util.*;
 import biosim.idl.util.log.*;
-import biosim.server.framework.*;
+import biosim.server.simulation.framework.*;
 /**
  * The basic Store Implementation.  Allows for basic store functionality (like adding, removing).<br>
  * Stores report information about their levels, etc. from currentTick-1 until ALL modules have advanced to currentTick.<br>
@@ -14,7 +14,7 @@ import biosim.server.framework.*;
  * @author    Scott Bell
  */
 
-public abstract class StoreImpl extends BioModuleImpl implements StoreOperations{
+public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperations{
 	//The level of whatever this store is holding (at t)
 	protected float level = 0f;
 	//The level of whatever this store is holding (at t-1)

@@ -6,7 +6,7 @@ import biosim.idl.simulation.framework.*;
 import biosim.idl.framework.*;
 import biosim.idl.util.log.*;
 import biosim.server.util.*;
-import biosim.server.framework.*;
+import biosim.server.simulation.framework.*;
 import java.util.*;
 /**
  * The Water Recovery System takes grey/dirty water and refines it to potable water for the crew members and grey water for the crops..
@@ -15,7 +15,7 @@ import java.util.*;
  * @author    Scott Bell
  */
 
-public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations, PowerConsumerOperations, DirtyWaterConsumerOperations, GreyWaterConsumerOperations, PotableWaterProducerOperations {
+public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, PowerConsumerOperations, DirtyWaterConsumerOperations, GreyWaterConsumerOperations, PotableWaterProducerOperations {
 	//The various subsystems of Water RS that clean the water
 	private BWP myBWP;
 	private RO myRO;

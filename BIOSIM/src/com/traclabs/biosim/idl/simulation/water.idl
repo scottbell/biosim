@@ -1,5 +1,5 @@
 module water{
-        interface WaterRS : framework::BioModule, framework::PowerConsumer, framework::GreyWaterConsumer, framework::DirtyWaterConsumer, framework::PotableWaterProducer{
+        interface WaterRS : framework::SimBioModule, framework::PowerConsumer, framework::GreyWaterConsumer, framework::DirtyWaterConsumer, framework::PotableWaterProducer{
                 float getPotableWaterProduced();
                 float getGreyWaterProduced();
                 float getPowerConsumed();
