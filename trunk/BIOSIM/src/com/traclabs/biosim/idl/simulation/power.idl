@@ -1,7 +1,0 @@
-module power{
-        interface PowerPS : simulation::framework::SimBioModule, framework::PowerProducer, framework::LightConsumer{
-                float getPowerProduced();
-        };
-        interface PowerStore : framework::Store{
-        };
-};
