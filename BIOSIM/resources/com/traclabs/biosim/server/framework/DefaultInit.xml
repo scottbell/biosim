@@ -91,8 +91,8 @@
 			</CrewGroup>
 		</crew>
 		<environment>
-			<SimEnvironment name="CrewEnvironment" initialVolume="1548930"/>
-			<SimEnvironment name="PlantEnvironment" initialVolume="1548930"/>
+			<SimEnvironment name="CrewEnvironment" initialVolume="15489300"/>
+			<SimEnvironment name="PlantEnvironment" initialVolume="15489300"/>
 		</environment>                    
 		<food>
 			<FoodProcessor name="FoodProcessor">
@@ -112,7 +112,7 @@
 				<shelf cropArea="5" cropType="LETTUCE"/>
 				<shelf cropArea="5" cropType="SWEET_POTATO"/>
 				<shelf cropArea="5" cropType="PEANUT"/>
-				<powerConsumer maxFlowRates="400" desiredFlowRates="400" inputs="PowerStore"/>
+				<powerConsumer maxFlowRates="40000" desiredFlowRates="40000" inputs="PowerStore"/>
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="GreyWaterStore"/>
 				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="PlantEnvironment"/>
@@ -166,11 +166,11 @@
 			</Injector>
 		</framework>
 		<power>
-			<PowerPS name="PowerPS" generationType="SOLAR">
+			<PowerPS name="PowerPS" generationType="SOLAR" upperPowerGeneration="10000000">
 				<lightConsumer maxFlowRates="0" desiredFlowRates="0" inputs="CrewEnvironment"/>
-				<powerProducer maxFlowRates="10000" desiredFlowRates="10000" outputs="PowerStore"/>
+				<powerProducer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="PowerStore"/>
 			</PowerPS>
-			<PowerStore name="PowerStore" capacity="30000" level="10000"/>
+			<PowerStore name="PowerStore" capacity="50000000" level="50000000"/>
 		</power>
 		<water>
 			<WaterRS name="WaterRS" implementation="LINEAR">
