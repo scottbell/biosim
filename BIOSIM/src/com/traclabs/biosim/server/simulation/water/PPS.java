@@ -70,10 +70,8 @@ public class PPS extends WaterRSSubSystem{
 	}
 	
 	public void reset(){
+		super.reset();
 		potableWaterProduced = 0f;
 		currentPowerConsumed = 0;
-		hasEnoughPower = false;
-		hasEnoughWater = false;
-		waterLevel = 0;
 	}
 }

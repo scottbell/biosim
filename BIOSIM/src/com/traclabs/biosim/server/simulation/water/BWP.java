@@ -139,13 +139,11 @@ public class BWP extends WaterRSSubSystem{
 	}
 	
 	public void reset(){
+		super.reset();
 		currentDirtyWaterConsumed = 0f;
 		currentGreyWaterConsumed = 0f;
 		currentPowerConsumed = 0;
 		currentROWaterProduced = 0f;
 		currentAESWaterProduced = 0f;
-		hasEnoughPower = false;
-		hasEnoughWater = false;
-		waterLevel = 0;
 	}
 }

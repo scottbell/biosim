@@ -318,8 +318,8 @@ public class SimDesktop extends BioFrame
 	*/
 	private SimDesktopFrame addInternalFrame(String title, JPanel newPanel){
 		SimDesktopFrame newFrame = new SimDesktopFrame(title, this);
-		if (newPanel instanceof BioTabbedPanel)
-			newFrame.addBioTabbedPanel((BioTabbedPanel)(newPanel));
+		if (newPanel instanceof UpdatablePanel)
+			newFrame.add((UpdatablePanel)(newPanel));
 		else
 			newFrame.getContentPane().add(newPanel, BorderLayout.CENTER);
 		newFrame.pack();

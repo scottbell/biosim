@@ -15,7 +15,7 @@ public class SimDesktopFrame extends javax.swing.JInternalFrame
 {
 	//A reference to the desktop this frame is added to.
 	SimDesktop myDesktop;
-	Vector bioTabPanels;
+	Vector bioPanels;
 	
 	/**
 	* Creates frame's GUI with minimizable, resizable, maxizable, and closeable properties.
@@ -23,7 +23,7 @@ public class SimDesktopFrame extends javax.swing.JInternalFrame
 	public SimDesktopFrame(String pTitle, SimDesktop pDesktop){
 		super(pTitle, true, true, true, true);
 		myDesktop = pDesktop;
-		bioTabPanels = new Vector();
+		bioPanels = new Vector();
 		buildGui();
 	}
 	
@@ -37,9 +37,9 @@ public class SimDesktopFrame extends javax.swing.JInternalFrame
 		this.addInternalFrameListener(myFCL);
 	}
 	
-	public void addBioTabbedPanel(BioTabbedPanel newPanel){
-		getContentPane().add(newPanel, BorderLayout.CENTER);
-		bioTabPanels.add(newPanel);
+	public void add(UpdatablePanel pPanel){
+		bioPanels.add(pPanel);
+		getContentPane().add(pPanel, BorderLayout.CENTER);
 	}
 	
 	/**
@@ -54,10 +54,10 @@ public class SimDesktopFrame extends javax.swing.JInternalFrame
 		if (b == isVisible())
 			return;
 		super.setVisible(b);
-		if (bioTabPanels == null)
+		if (bioPanels == null)
 			return;
-		for (Enumeration e = bioTabPanels.elements(); e.hasMoreElements();){
-			BioTabbedPanel currentPanel = (BioTabbedPanel)(e.nextElement());
+		for (Enumeration e = bioPanels.elements(); e.hasMoreElements();){
+			UpdatablePanel currentPanel = (UpdatablePanel)(e.nextElement());
 			currentPanel.visibilityChange(b);
 		}
 	}
