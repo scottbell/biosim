@@ -622,6 +622,7 @@ module biosim{
                                         boolean isSick();
                                         boolean isSuffocating();
                                         boolean isDead();
+					float getProductivity();
                                         float getGreyWaterProduced();
                                         float getDirtyWaterProduced();
                                         float getPotableWaterConsumed();
@@ -643,6 +644,7 @@ module biosim{
                                         float getFoodConsumed();
                                         float getCO2Produced();
                                         float getO2Consumed();
+					float getProductivity();
                                         boolean isDead();
                                 };
                         };
@@ -879,6 +881,7 @@ module biosim{
                                         void setInput(in simulation::crew::CrewGroup source);
                                         simulation::crew::CrewGroup getInput();
                                 };
+                                interface CrewGroupProductivitySensor : CrewGroupSensor{};
                                 interface CrewGroupActivitySensor : CrewGroupSensor{};
                                 interface CrewGroupDeathSensor : CrewGroupSensor{};
                         };
