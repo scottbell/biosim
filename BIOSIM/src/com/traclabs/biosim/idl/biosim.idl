@@ -58,6 +58,7 @@ module biosim{
                                 };
                                 struct FoodMatter{
                                         float mass;
+					float waterContent;
                                         PlantType type;
                                 };
                                 typedef sequence <Shelf> ShelfList;
@@ -799,12 +800,12 @@ module biosim{
                                 };
 
                                 interface FoodStore : framework::Store{
-                                        float addFoodMatterMass(in float mass, in PlantType type);
+                                        float addFoodMatterMass(in FoodMatter pMatter);
                                         float addFoodMatterArray(in FoodMatterList pList);
-                                        FoodMatterList takeFoodMatterMass(in float mass);
+                                        //FoodMatterList takeFoodMatterMass(in float mass);
                                         FoodMatterList takeFoodMatterCalories(in float calories, in float limitingMass);
-                                        FoodMatter takeFoodMatterMassAndType(in float mass, in PlantType pType);
-                                        FoodMatter takeFoodMatterType(in PlantType pType);
+                                        //FoodMatter takeFoodMatterMassAndType(in float mass, in PlantType pType);
+                                        //FoodMatter takeFoodMatterType(in PlantType pType);
                                         float calculateCalories(in FoodMatterList pList);
                                         float calculateWaterContent(in FoodMatterList pList);
                                 };
