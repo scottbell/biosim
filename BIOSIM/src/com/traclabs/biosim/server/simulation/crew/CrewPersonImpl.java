@@ -711,8 +711,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		foodMassConsumed = calculateFoodMass(foodConsumed);
 		if ((foodConsumed.length == 0) || (myCrewGroup.getFoodInputs().length == 0))
 			caloriesConsumed = 0f;
-		else
+		else{
 			caloriesConsumed = myCrewGroup.getFoodInputs()[0].calculateCalories(foodConsumed);
+			potableWaterNeeded -= myCrewGroup.getFoodInputs()[0].calculateWaterContent(foodConsumed);
+		}
 	}
 	
 	private static float calculateFoodMass(FoodMatter[] pMatter){

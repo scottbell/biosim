@@ -877,6 +877,7 @@
 					<xsd:element name="biomassConsumer" type="BiomassConsumerType"/>
 					<xsd:element name="foodProducer" type="FoodProducerType"/>
 					<xsd:element name="dryWasteProducer" type="DryWasteProducerType"/>
+					<xsd:element name="dirtyWaterProducer" type="DirtyWaterProducerType"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>

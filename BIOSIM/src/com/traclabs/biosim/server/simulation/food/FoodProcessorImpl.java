@@ -4,6 +4,7 @@ import biosim.idl.simulation.food.*;
 import biosim.idl.simulation.power.*;
 import biosim.idl.simulation.framework.*;
 import biosim.idl.simulation.waste.*;
+import biosim.idl.simulation.water.*;
 import biosim.idl.framework.*;
 import biosim.idl.util.log.*;
 import biosim.server.util.*;
@@ -15,7 +16,7 @@ import java.util.*;
  * @author    Scott Bell
  */
 
-public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessorOperations, PowerConsumerOperations, BiomassConsumerOperations, FoodProducerOperations{
+public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessorOperations, PowerConsumerOperations, BiomassConsumerOperations, FoodProducerOperations, DryWasteProducerOperations, DirtyWaterProducerOperations{
 	//During any given tick, this much power is needed for the food processor to run at all
 	private float powerNeeded = 100;
 	//During any given tick, this much biomass is needed for the food processor to run optimally
@@ -39,6 +40,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	private DryWasteStore[] myDryWasteStores;
 	private PowerStore[] myPowerStores;
 	private BiomassStore[] myBiomassStores;
+	private DirtyWaterStore[] myDirtyWaterStores;
 	BioMatter[]  biomatterConsumed;
 	private float[] powerMaxFlowRates;
 	private float[] powerActualFlowRates;
@@ -52,6 +54,9 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	private float[] dryWasteMaxFlowRates;
 	private float[] dryWasteActualFlowRates;
 	private float[] dryWasteDesiredFlowRates;
+	private float[] dirtyWaterMaxFlowRates;
+	private float[] dirtyWaterActualFlowRates;
+	private float[] dirtyWaterDesiredFlowRates;
 	
 	public FoodProcessorImpl(int pID, String pName){
 		super(pID, pName);
@@ -72,6 +77,10 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 		dryWasteMaxFlowRates = new float[0];
 		dryWasteActualFlowRates = new float[0];
 		dryWasteDesiredFlowRates = new float[0];
+		myDirtyWaterStores = new DirtyWaterStore[0];
+		dirtyWaterMaxFlowRates = new float[0];
+		dirtyWaterActualFlowRates = new float[0];
+		dirtyWaterDesiredFlowRates = new float[0];
 	}
 	
 	/**
@@ -204,6 +213,29 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 		return amountPushed;
 	}
 	
+	private float calculateInedibleWaterContent(BioMatter inMatter){
+		float totalWaterWithinInedibleBioMatter = 0f;
+		if (inMatter.type == PlantType.DRY_BEAN)
+			totalWaterWithinInedibleBioMatter = (inMatter.mass * DryBean.getFractionOfEdibleBiomass() * DryBean.getInedibleFreshBasisWaterContent()) ;
+		else if (inMatter.type == PlantType.LETTUCE)
+			totalWaterWithinInedibleBioMatter = (inMatter.mass * Lettuce.getFractionOfEdibleBiomass() * Lettuce.getInedibleFreshBasisWaterContent()) ;
+		else if (inMatter.type == PlantType.PEANUT)
+			totalWaterWithinInedibleBioMatter = (inMatter.mass * Peanut.getFractionOfEdibleBiomass() * Peanut.getInedibleFreshBasisWaterContent()) ;
+		else if (inMatter.type == PlantType.RICE)
+			totalWaterWithinInedibleBioMatter = (inMatter.mass * Rice.getFractionOfEdibleBiomass() * Rice.getInedibleFreshBasisWaterContent()) ;
+		else if (inMatter.type == PlantType.SOYBEAN)
+			totalWaterWithinInedibleBioMatter = (inMatter.mass * Soybean.getFractionOfEdibleBiomass() * Soybean.getInedibleFreshBasisWaterContent()) ;
+		else if (inMatter.type == PlantType.SWEET_POTATO)
+			totalWaterWithinInedibleBioMatter = (inMatter.mass * SweetPotato.getFractionOfEdibleBiomass() * SweetPotato.getInedibleFreshBasisWaterContent()) ;
+		else if (inMatter.type == PlantType.TOMATO)
+			totalWaterWithinInedibleBioMatter = (inMatter.mass * Tomato.getFractionOfEdibleBiomass() * Tomato.getInedibleFreshBasisWaterContent()) ;
+		else if (inMatter.type == PlantType.WHEAT)
+			totalWaterWithinInedibleBioMatter = (inMatter.mass * Wheat.getFractionOfEdibleBiomass() * Wheat.getInedibleFreshBasisWaterContent()) ;
+		else if (inMatter.type == PlantType.WHITE_POTATO)
+			totalWaterWithinInedibleBioMatter = (inMatter.mass * WhitePotato.getFractionOfEdibleBiomass() * WhitePotato.getInedibleFreshBasisWaterContent()) ;
+		return randomFilter(totalWaterWithinInedibleBioMatter);
+	}
+	
 	private FoodMatter transformBioMatter(BioMatter inMatter){
 		FoodMatter newFoodMatter = new FoodMatter(0f, inMatter.type);
 		if (newFoodMatter.type == PlantType.DRY_BEAN)
@@ -238,14 +270,16 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 				return;
 			}
 			FoodMatter[] foodMatterArray = new FoodMatter[biomatterConsumed.length];
+			float currentDirtyWaterProduced = 0f;
 			for (int i = 0; i < foodMatterArray.length; i++){
 				foodMatterArray[i] = transformBioMatter(biomatterConsumed[i]);
+				currentDirtyWaterProduced += calculateInedibleWaterContent(biomatterConsumed[i]);
 			}
 			currentFoodProduced = calculateSizeOfFoodMatter(foodMatterArray);
 			float distributedFoodLeft = pushFoodToStore(myFoodStores, foodMaxFlowRates, foodDesiredFlowRates, foodActualFlowRates, foodMatterArray);
 			float currentDryWasteProduced = currentFoodProduced - calculateSizeOfBioMatter(biomatterConsumed);
 			float distributedDryWasteLeft = pushResourceToStore(myDryWasteStores, dryWasteMaxFlowRates, dryWasteDesiredFlowRates, dryWasteActualFlowRates, currentDryWasteProduced);
-		
+			float distributedDirtyWaterLeft = pushResourceToStore(myDirtyWaterStores, dirtyWaterMaxFlowRates, dirtyWaterDesiredFlowRates, dirtyWaterActualFlowRates, currentDirtyWaterProduced);
 		}
 	}
 
@@ -449,37 +483,72 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	
 	//DryWaste Output
 	public void setDryWasteOutputMaxFlowRate(float kilograms, int index){
-		foodMaxFlowRates[index] = kilograms;
+		dryWasteMaxFlowRates[index] = kilograms;
 	}
 	public float getDryWasteOutputMaxFlowRate(int index){
-		return foodMaxFlowRates[index];
+		return dryWasteMaxFlowRates[index];
 	}
 	public float[] getDryWasteOutputMaxFlowRates(){
-		return foodMaxFlowRates;
+		return dryWasteMaxFlowRates;
 	}
 	public void setDryWasteOutputDesiredFlowRate(float kilograms, int index){
-		foodDesiredFlowRates[index] = kilograms;
+		dryWasteDesiredFlowRates[index] = kilograms;
 	}
 	public float getDryWasteOutputDesiredFlowRate(int index){
-		return foodDesiredFlowRates[index];
+		return dryWasteDesiredFlowRates[index];
 	}
 	public float[] getDryWasteOutputDesiredFlowRates(){
-		return foodDesiredFlowRates;
+		return dryWasteDesiredFlowRates;
 	}
 	public float getDryWasteOutputActualFlowRate(int index){
-		return foodActualFlowRates[index];
+		return dryWasteActualFlowRates[index];
 	}
 	public float[] getDryWasteOutputActualFlowRates(){
-		return foodActualFlowRates;
+		return dryWasteActualFlowRates;
 	}
 	public void setDryWasteOutputs(DryWasteStore[] destinations, float[] maxFlowRates, float[] desiredFlowRates){
 		myDryWasteStores = destinations;
-		foodMaxFlowRates = maxFlowRates;
-		foodDesiredFlowRates = desiredFlowRates;
-		foodActualFlowRates = new float[foodDesiredFlowRates.length]; 
+		dryWasteMaxFlowRates = maxFlowRates;
+		dryWasteDesiredFlowRates = desiredFlowRates;
+		dryWasteActualFlowRates = new float[dryWasteDesiredFlowRates.length]; 
 	}
 	public DryWasteStore[] getDryWasteOutputs(){
 		return myDryWasteStores;
+	}
+	
+	//DirtyWater Output
+	public void setDirtyWaterOutputMaxFlowRate(float kilograms, int index){
+		dirtyWaterMaxFlowRates[index] = kilograms;
+	}
+	public float getDirtyWaterOutputMaxFlowRate(int index){
+		return dirtyWaterMaxFlowRates[index];
+	}
+	public float[] getDirtyWaterOutputMaxFlowRates(){
+		return dirtyWaterMaxFlowRates;
+	}
+	public void setDirtyWaterOutputDesiredFlowRate(float kilograms, int index){
+		dirtyWaterDesiredFlowRates[index] = kilograms;
+	}
+	public float getDirtyWaterOutputDesiredFlowRate(int index){
+		return dirtyWaterDesiredFlowRates[index];
+	}
+	public float[] getDirtyWaterOutputDesiredFlowRates(){
+		return dirtyWaterDesiredFlowRates;
+	}
+	public float getDirtyWaterOutputActualFlowRate(int index){
+		return dirtyWaterActualFlowRates[index];
+	}
+	public float[] getDirtyWaterOutputActualFlowRates(){
+		return dirtyWaterActualFlowRates;
+	}
+	public void setDirtyWaterOutputs(DirtyWaterStore[] destinations, float[] maxFlowRates, float[] desiredFlowRates){
+		myDirtyWaterStores = destinations;
+		dirtyWaterMaxFlowRates = maxFlowRates;
+		dirtyWaterDesiredFlowRates = desiredFlowRates;
+		dirtyWaterActualFlowRates = new float[dirtyWaterDesiredFlowRates.length]; 
+	}
+	public DirtyWaterStore[] getDirtyWaterOutputs(){
+		return myDirtyWaterStores;
 	}
 
 	/**

@@ -92,6 +92,7 @@
 				<biomassConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BiomassStore"/>
 				<foodProducer maxFlowRates="100" desiredFlowRates="100" outputs="FoodStore"/>
 				<dryWasteProducer maxFlowRates="100" desiredFlowRates="100" outputs="DryWasteStore"/>
+				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="DirtyWaterStore"/>
 			</FoodProcessor>
 			<BiomassRS name="BiomassRS">
 				<shelf  cropArea="10" cropType="WHEAT"/>
@@ -276,6 +277,7 @@
 			<DirtyWaterInFlowRateSensor name="WaterRSDirtyWaterInFlowRateSensor" index="0" input="WaterRS"/>
 			<DirtyWaterOutFlowRateSensor name="CrewGroupDirtyWaterOutFlowRateSensor" index="0" input="CrewGroup"/>
 			<DirtyWaterOutFlowRateSensor name="BiomassRSDirtyWaterOutFlowRateSensor" index="0" input="BiomassRS"/>
+			<DirtyWaterOutFlowRateSensor name="FoodProcessorDirtyWaterOutFlowRateSensor" index="0" input="FoodProcessor"/>
 			<DirtyWaterStoreLevelSensor name="DirtyWaterStoreLevelSensor" input="DirtyWaterStore"/>
 			<GreyWaterInFlowRateSensor name="WaterRSGreyWaterInFlowRateSensor" index="0" input="WaterRS"/>
 			<GreyWaterInFlowRateSensor name="BiomassRSGreyWaterInFlowRateSensor" index="0" input="BiomassRS"/>
@@ -345,6 +347,7 @@
 			<DirtyWaterInFlowRateActuator name="WaterRSDirtyWaterInFlowRateActuator" index="0" output="WaterRS"/>
 			<DirtyWaterOutFlowRateActuator name="CrewGroupDirtyWaterOutFlowRateActuator" index="0" output="CrewGroup"/>
 			<DirtyWaterOutFlowRateActuator name="BiomassRSDirtyWaterOutFlowRateActuator" index="0" output="BiomassRS"/>
+			<DirtyWaterOutFlowRateActuator name="FoodProcessorDirtyWaterOutFlowRateActuator" index="0" output="FoodProcessor"/>
 			<GreyWaterInFlowRateActuator name="WaterRSGreyWaterInFlowRateActuator" index="0" output="WaterRS"/>
 			<GreyWaterInFlowRateActuator name="BiomassRSGreyWaterInFlowRateActuator" index="0" output="BiomassRS"/>
 			<GreyWaterOutFlowRateActuator name="CrewGroupGreyWaterOutFlowRateActuator" index="0" output="CrewGroup"/>

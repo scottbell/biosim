@@ -278,8 +278,8 @@ public abstract class PlantImpl extends PlantPOA{
 		CQY = calculateCQY();
 		carbonUseEfficiency24 = getCarbonUseEfficiency24();
 		float dailyCarbonGain = calculateDailyCarbonGain();
-		if (myAge % 24 == 0)
-			System.out.println(getDaysOfGrowth()+"\t"+dailyCarbonGain);
+		//if (myAge % 24 == 0)
+		//	System.out.println(getDaysOfGrowth()+"\t"+dailyCarbonGain);
 		float cropGrowthRate = molecularWeightOfCarbon * (dailyCarbonGain / getBCF());
 		//System.out.println("PlantImpl: cropGrowthRate: "+cropGrowthRate);
 		myCurrentDryBiomass += (cropGrowthRate / 1000 / 24f * myShelfImpl.getCropAreaUsed()); //in kilograms per hour
@@ -465,7 +465,7 @@ public abstract class PlantImpl extends PlantPOA{
 		           canopyClosureConstants[24] * thePPFcubed  * theCO2cubed;
 		if ((tA < 0) || (Float.isNaN(tA))){
 			tA = 0;
-			System.out.println("PlantImpl: Time till canopy closure is negative or NAN!");
+			//System.out.println("PlantImpl: Time till canopy closure is negative or NAN!");
 		}
 		//System.out.println("PlantImpl: tA: "+tA);
 		return tA;
@@ -530,7 +530,7 @@ public abstract class PlantImpl extends PlantPOA{
 		                  canopyQYConstants[24] * thePPFcubed  * theCO2cubed;
 		if ((theCQYMax < 0) || (Float.isNaN(theCQYMax))){
 			theCQYMax = 0;
-			System.out.println("PlantImpl: CQYMax is negative or NaN!");
+			//System.out.println("PlantImpl: CQYMax is negative or NaN!");
 		}
 		//System.out.println("PlantImpl: theCQYMax: "+theCQYMax);
 		return theCQYMax;

@@ -130,27 +130,35 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 			return theMass * 1000f;
 	}
 	
-	private static float calculateWaterSingular(FoodMatter pFood){
+	private static float calculateWaterContentSingular(FoodMatter pFood){
 		PlantType theType = pFood.type;
 		float theMass = pFood.mass;
 		if (theType == PlantType.DRY_BEAN)
-			return theMass * DryBean.getCaloriesPerKilogram();
+			return theMass * DryBean.getEdibleFreshBasisWaterContent();
 		else if (theType == PlantType.LETTUCE)
-			return theMass * Lettuce.getCaloriesPerKilogram();
+			return theMass * Lettuce.getEdibleFreshBasisWaterContent();
 		else if (theType == PlantType.PEANUT)
-			return theMass * Peanut.getCaloriesPerKilogram();
+			return theMass * Peanut.getEdibleFreshBasisWaterContent();
 		else if (theType == PlantType.SOYBEAN)
-			return theMass * Soybean.getCaloriesPerKilogram();
+			return theMass * Soybean.getEdibleFreshBasisWaterContent();
 		else if (theType == PlantType.SWEET_POTATO)
-			return theMass * SweetPotato.getCaloriesPerKilogram();
+			return theMass * SweetPotato.getEdibleFreshBasisWaterContent();
 		else if (theType == PlantType.TOMATO)
-			return theMass * Tomato.getCaloriesPerKilogram();
+			return theMass * Tomato.getEdibleFreshBasisWaterContent();
 		else if (theType == PlantType.WHEAT)
-			return theMass * Wheat.getCaloriesPerKilogram();
+			return theMass * Wheat.getEdibleFreshBasisWaterContent();
 		else if (theType == PlantType.WHITE_POTATO)
-			return theMass * WhitePotato.getCaloriesPerKilogram();
+			return theMass * WhitePotato.getEdibleFreshBasisWaterContent();
 		else
-			return theMass * 1000f;
+			return theMass * 0.5f;
+	}
+	
+	public float calculateWaterContent(FoodMatter[] foodArray){
+		float totalWater = 0f;
+		for (int i = 0; i < foodArray.length; i++){
+			totalWater += calculateWaterContentSingular(foodArray[i]);
+		}
+		return totalWater;
 	}
 	
 	public float calculateCalories(FoodMatter[] foodArray){
