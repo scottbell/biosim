@@ -98,35 +98,51 @@ public class BioInitializer{
 
 	//Globals
 	private void crawlGlobals(Node node, boolean firstPass){
-		try{
-			BioDriver myDriver = BioDriverHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str("BioDriver"));
-			Logger myLogger = LoggerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str("Logger"));
-			myDriver.setLogger(myLogger);
-			myDriver.setRunTillN(Integer.parseInt(node.getAttributes().getNamedItem("runTillN").getNodeValue()));
-			myDriver.setPauseSimulation(node.getAttributes().getNamedItem("startPaused").getNodeValue().equals("true"));
-			myDriver.setRunTillDead(node.getAttributes().getNamedItem("runTillDead").getNodeValue().equals("true"));
-			myDriver.setFullLogging(node.getAttributes().getNamedItem("isFullLoggingEnabled").getNodeValue().equals("true"));
-			myDriver.setSensorLogging(node.getAttributes().getNamedItem("isSensorLoggingEnabled").getNodeValue().equals("true"));
-			myDriver.setActuatorLogging(node.getAttributes().getNamedItem("isActuatorLoggingEnabled").getNodeValue().equals("true"));
-			myDriver.setDriverStutterLength(Integer.parseInt(node.getAttributes().getNamedItem("driverStutterLength").getNodeValue()));
-			myDriver.setLooping(node.getAttributes().getNamedItem("isLooping").getNodeValue().equals("true"));
-	
-			String stochasticString = node.getAttributes().getNamedItem("stochasticIntensity").getNodeValue();
-			if (stochasticString.equals("HIGH_STOCH"))
-				myDriver.setStochasticIntensity(StochasticIntensity.HIGH_STOCH);
-			else if (stochasticString.equals("MEDIUM_STOCH"))
-				myDriver.setStochasticIntensity(StochasticIntensity.MEDIUM_STOCH);
-			else if (stochasticString.equals("LOW_STOCH"))
-				myDriver.setStochasticIntensity(StochasticIntensity.LOW_STOCH);
-			else
-				myDriver.setStochasticIntensity(StochasticIntensity.NONE_STOCH);
-			
+		if (firstPass){
+			try{
+				BioDriver myDriver = BioDriverHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str("BioDriver"));
+				Logger myLogger = LoggerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str("Logger"));
+				myDriver.setLogger(myLogger);
+				myDriver.setRunTillN(Integer.parseInt(node.getAttributes().getNamedItem("runTillN").getNodeValue()));
+				myDriver.setPauseSimulation(node.getAttributes().getNamedItem("startPaused").getNodeValue().equals("true"));
+				myDriver.setRunTillDead(node.getAttributes().getNamedItem("runTillDead").getNodeValue().equals("true"));
+				myDriver.setFullLogging(node.getAttributes().getNamedItem("isFullLoggingEnabled").getNodeValue().equals("true"));
+				myDriver.setSensorLogging(node.getAttributes().getNamedItem("isSensorLoggingEnabled").getNodeValue().equals("true"));
+				myDriver.setActuatorLogging(node.getAttributes().getNamedItem("isActuatorLoggingEnabled").getNodeValue().equals("true"));
+				myDriver.setDriverStutterLength(Integer.parseInt(node.getAttributes().getNamedItem("driverStutterLength").getNodeValue()));
+				myDriver.setLooping(node.getAttributes().getNamedItem("isLooping").getNodeValue().equals("true"));
+
+				String stochasticString = node.getAttributes().getNamedItem("stochasticIntensity").getNodeValue();
+				if (stochasticString.equals("HIGH_STOCH"))
+					myDriver.setStochasticIntensity(StochasticIntensity.HIGH_STOCH);
+				else if (stochasticString.equals("MEDIUM_STOCH"))
+					myDriver.setStochasticIntensity(StochasticIntensity.MEDIUM_STOCH);
+				else if (stochasticString.equals("LOW_STOCH"))
+					myDriver.setStochasticIntensity(StochasticIntensity.LOW_STOCH);
+				else
+					myDriver.setStochasticIntensity(StochasticIntensity.NONE_STOCH);
+			}
+			catch (Exception e){
+				e.printStackTrace();
+			}
+		}
+		else{
 			Node crewsToWatchNode = node.getAttributes().getNamedItem("crewsToWatch");
 			if (crewsToWatchNode != null){
 				String crewsToWatchString = crewsToWatchNode.getNodeValue();
+				StringTokenizer tokenizer = new StringTokenizer(crewsToWatchString);
+				CrewGroup[] crewGroups = new CrewGroup[tokenizer.countTokens()];
+				for (int i = 0; tokenizer.hasMoreTokens(); i++){
+					try{
+						crewGroups[i] = CrewGroupHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(tokenizer.nextToken()));
+						System.out.println("Fetched "+crewGroups[i].getModuleName());
+					}
+					catch(org.omg.CORBA.UserException e){
+						e.printStackTrace();
+					}
+				}
 			}
 		}
-		catch (Exception e){e.printStackTrace();}
 	}
 
 	private static boolean isCreatedLocally(Node node){
