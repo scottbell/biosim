@@ -289,7 +289,7 @@ public abstract class PlantImpl extends PlantPOA{
 	}
 	
 	//returns the age in days
-	private float getDaysOfGrowth(){
+	protected float getDaysOfGrowth(){
 		Float myAgeInFloat = new Float(myAge);
 		float daysOfGrowth = myAgeInFloat.floatValue() / 24f;
 		System.out.println("PlantImpl: myAgeInFloat: "+myAgeInFloat.floatValue());
