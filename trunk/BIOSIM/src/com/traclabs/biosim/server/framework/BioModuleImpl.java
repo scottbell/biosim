@@ -361,7 +361,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		if (result < 0)
 			return 0;
 		else
-			return (new Double(result)).floatValue();
+			return (float)result;
 	}
 	
 	/**
@@ -405,7 +405,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		if (result < 0)
 			return 0;
 		else
-			return (new Double(result)).intValue();
+			return (int)result;
 	}
 	
 	/**
@@ -431,7 +431,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	* @param deviation how far the gaussian deviates from the mean
 	* @return the randomized value
 	*/
-	private double gaussian(double mean,double deviation){
+	private static double gaussian(double mean,double deviation){
 		double t = 0.0;
 		double x,v1,v2,r;
 		if (t == 0) {
