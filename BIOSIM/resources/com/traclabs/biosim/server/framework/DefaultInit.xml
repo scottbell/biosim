@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
 <biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='BiosimInitialization.xsd'>
-	<firstname>John</firstname>
-	<firstname>Bob</firstname>
+	
 </biosim>
