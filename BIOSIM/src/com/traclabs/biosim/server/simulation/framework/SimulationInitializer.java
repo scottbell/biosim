@@ -1387,11 +1387,14 @@ public class SimulationInitializer {
         if (BioInitializer.isCreatedLocally(node)) {
             myLogger.debug("Creating PowerPS with moduleName: " + moduleName);
             PowerPSImpl myPowerPSImpl = null;
-            if (node.getAttributes().getNamedItem("generation").getNodeValue()
+            if (node.getAttributes().getNamedItem("generationType").getNodeValue()
                     .equals("SOLAR"))
                 myPowerPSImpl = new SolarPowerPS(myID, moduleName);
             else
                 myPowerPSImpl = new NuclearPowerPS(myID, moduleName);
+            float upperPowerGeneration = Float.parseFloat(node.getAttributes().getNamedItem(
+            "upperPowerGeneration").getNodeValue());
+            myPowerPSImpl.setUpperPowerGeneration(upperPowerGeneration);
             BioInitializer.setupBioModule(myPowerPSImpl, node);
             BiosimServer.registerServer(new PowerPSPOATie(myPowerPSImpl),
                     myPowerPSImpl.getModuleName(), myPowerPSImpl.getID());

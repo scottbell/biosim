@@ -982,7 +982,8 @@
 					<xsd:element name="lightConsumer" type="LightConsumerType"/>
 					<xsd:element name="powerProducer" type="PowerProducerType"/>
 				</xsd:sequence>
-				<xsd:attribute name="generation" type="GenerationType" use="required"/>
+				<xsd:attribute name="generationType" type="GenerationType" use="required"/>
+				<xsd:attribute name="upperPowerGeneration" type="nonNegativeFloat" default="500"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>

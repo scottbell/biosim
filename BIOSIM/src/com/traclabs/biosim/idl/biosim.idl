@@ -960,6 +960,8 @@ module com{
                                         module power{
                                                 interface PowerPS : framework::SimBioModule, framework::PowerProducer, framework::LightConsumer{
                                                         float getPowerProduced();
+                                                        float getUpperPowerGeneration();
+                                                        void setUpperPowerGeneration(in float pUpperPowerGenerationInWatts);
                                                 };
                                                 interface PowerStore : framework::Store{
                                                 };
