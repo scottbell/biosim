@@ -100,7 +100,7 @@ public class OrbUtils{
 			myRootPOA = POAHelper.narrow(myOrb.resolve_initial_references("RootPOA"));
 			myRootPOA.the_POAManager().activate();
 			myRootContext = NamingContextExtHelper.narrow(myOrb.resolve_initial_references("NameService"));
-			//Attempt to create com.traclabs.biosim context, if already there, don't bother
+			//Attempt to create com.traclabs context, if already there, don't bother
 			NameComponent comComponent = new NameComponent("com", "");
 			NameComponent[] comComponentArray = {comComponent};
 			myRootContext.bind_new_context(comComponentArray);
@@ -108,11 +108,6 @@ public class OrbUtils{
 			NameComponent traclabsComponent = new NameComponent("traclabs", "");
 			NameComponent[] traclabsComponentArray = {traclabsComponent};
 			comContext.bind_new_context(traclabsComponentArray);
-			
-			NamingContextExt traclabsContext = NamingContextExtHelper.narrow(comContext.resolve_str("traclabs"));
-			NameComponent biosimComponent = new NameComponent("biosim", "");
-			NameComponent[] biosimComponentArray = {biosimComponent};
-			traclabsContext.bind_new_context(biosimComponentArray);
 		}
 		catch (org.omg.CosNaming.NamingContextPackage.AlreadyBound e){
 		}
@@ -122,6 +117,21 @@ public class OrbUtils{
 			initialize();
 			return;
 		}
+		
+		//Attempt to create biosim context, if already there, don't bother
+		try{	
+			NamingContextExt comContext = NamingContextExtHelper.narrow(myRootContext.resolve_str("com"));
+			NamingContextExt traclabsContext = NamingContextExtHelper.narrow(comContext.resolve_str("traclabs"));
+			NameComponent biosimComponent = new NameComponent("biosim", "");
+			NameComponent[] biosimComponentArray = {biosimComponent};
+			traclabsContext.bind_new_context(biosimComponentArray);
+		}
+		catch (org.omg.CosNaming.NamingContextPackage.AlreadyBound e){
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+		
 		try{
 			NamingContextExt comContext = NamingContextExtHelper.narrow(myRootContext.resolve_str("com"));
 			NamingContextExt traclabsContext = NamingContextExtHelper.narrow(comContext.resolve_str("traclabs"));
