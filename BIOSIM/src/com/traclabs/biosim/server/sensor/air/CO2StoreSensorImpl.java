@@ -27,6 +27,6 @@ public abstract class CO2StoreSensorImpl extends GenericSensorImpl implements CO
 	* @return the name of the module
 	*/
 	public String getModuleName(){
-		return "CO2StoreSensorImpl"+getID();
+		return "CO2StoreSensor"+getID();
 	}
 }
