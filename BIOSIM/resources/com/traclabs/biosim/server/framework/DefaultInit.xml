@@ -33,7 +33,7 @@
 				<airProducer maxFlowRates="0" desiredFlowRates="0" outputs="CrewEnvironment"/>
 				<crewPerson name="Bob Roberts" age="43" weight="77" sex="MALE">
 					<schedule>
-						<activity name="sleeping" length="8" intensity="1"/>
+						<activity name="sleep" length="8" intensity="1"/>
 						<activity name="hygiene" length="1" intensity="2"/>
 						<activity name="exercise" length="1" intensity="5"/>
 						<activity name="eating" length="1" intensity="2"/>
@@ -45,7 +45,7 @@
 				</crewPerson>
 				<crewPerson name="Stephanie Stevens" age="25" weight="56" sex="FEMALE">
 					<schedule>
-						<activity name="sleeping" length="8" intensity="1"/>
+						<activity name="sleep" length="8" intensity="1"/>
 						<activity name="hygiene" length="1" intensity="2"/>
 						<activity name="exercise" length="1" intensity="5"/>
 						<activity name="eating" length="1" intensity="2"/>
@@ -57,7 +57,7 @@
 				</crewPerson>
 				<crewPerson name="Bill Williams" age="30" weight="75" sex="MALE">
 					<schedule>
-						<activity name="sleeping" length="8" intensity="1"/>
+						<activity name="sleep" length="8" intensity="1"/>
 						<activity name="hygiene" length="1" intensity="2"/>
 						<activity name="exercise" length="1" intensity="5"/>
 						<activity name="eating" length="1" intensity="2"/>
@@ -69,7 +69,7 @@
 				</crewPerson>
 				<crewPerson name="Janet Janey" age="22" weight="58" sex="FEMALE">
 					<schedule>
-						<activity name="sleeping" length="8" intensity="1"/>
+						<activity name="sleep" length="8" intensity="1"/>
 						<activity name="hygiene" length="1" intensity="2"/>
 						<activity name="exercise" length="1" intensity="5"/>
 						<activity name="eating" length="1" intensity="2"/>

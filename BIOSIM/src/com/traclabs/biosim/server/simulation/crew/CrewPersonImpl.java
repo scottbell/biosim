@@ -89,9 +89,9 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private static final float CO2_TILL_DEAD = 10f;
 	private static final float CO2_RECOVERY_RATE=0.001f;
 	private static final float LEISURE_TILL_BURNOUT = 168f;
-	private static final float LEISURE_RECOVERY_RATE=24f;
-	private static final float SLEEP_TILL_EXHAUSTION = 72f;
-	private static final float SLEEP_RECOVERY_RATE=2f;
+	private static final float LEISURE_RECOVERY_RATE=84f;
+	private static final float AWAKE_TILL_EXHAUSTION = 128f;
+	private static final float SLEEP_RECOVERY_RATE=9f;
 
 	/**
 	* Constructor that creates a new crew person
@@ -115,7 +115,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		consumedOxygenBuffer = new SimpleBuffer(OXYGEN_TILL_DEAD, OXYGEN_TILL_DEAD);
 		consumedCaloriesBuffer = new SimpleBuffer(CALORIE_TILL_DEAD, CALORIE_TILL_DEAD);
 		consumedCO2Buffer = new SimpleBuffer(CO2_TILL_DEAD, CO2_TILL_DEAD);
-		sleepBuffer = new SimpleBuffer(SLEEP_TILL_EXHAUSTION, SLEEP_TILL_EXHAUSTION);
+		sleepBuffer = new SimpleBuffer(AWAKE_TILL_EXHAUSTION, AWAKE_TILL_EXHAUSTION);
 		leisureBuffer = new SimpleBuffer(LEISURE_TILL_BURNOUT, LEISURE_TILL_BURNOUT);
 		myRandomGen = new Random();
 		numFormat = new DecimalFormat("#,##0.0;(#)");
