@@ -73,7 +73,7 @@ public class ARSMonitor extends Thread {
 	 * @param unrealSocket - open socket to the BioSim3D server JavaGateway
 	 * @param bioHolder - BioHolder used to get the simulation's water information.
 	 */
-	WaterMonitor(Socket unrealSocket, BioHolder bioHolder) {
+	ARSMonitor(Socket unrealSocket, BioHolder bioHolder) {
 		
 		mySocket = unrealSocket;
 		myBioHolder = bioHolder;
