@@ -12,6 +12,12 @@ then
 	devRootDir=".."
 	echo "		-assuming BIOSIM_HOME is $devRootDir"
 fi
+java_command=$JAVA_HOME/bin/java
+if [ -z "$JAVA_HOME" ]
+then
+	echo "		-JAVA_HOME not set, assuming java and javac are in path..."
+	java_command="java"
+fi
 JACORB_HOME="$devRootDir/lib/jacorb"
 jacoNameIOR="-DORBInitRef.NameService=file:$devRootDir/generated/ns/ior.txt"
 separator=":"
@@ -42,7 +48,7 @@ crewName="biosim.server.crew.CrewServer"
 waterRSName="biosim.server.water.WaterRSServer"
 waterStoreName="biosim.server.water.WaterStoreServer"
 jacoClasspath="$JACORB_HOME/lib/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME/lib"
-jacoInvocation="$JAVA_HOME/bin/java -classpath $serverClassesDir$separator$jacoClasspath$separator$CLASSPATH $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
+jacoInvocation="$java_command -classpath $serverClassesDir$separator$jacoClasspath$separator$CLASSPATH $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
 echo "	-starting servers"
 case $userSelect in
 	AirRS) echo "			 -starting $userSelect";$jacoInvocation $airRSName;;

@@ -2,6 +2,7 @@
 
 echo "*building biosim"
 echo "	-initializing biosim build...";
+# see if the biosim directory exists, if it doesn't, assume it's one directory back (i.e., user is in bin directory)
 devRootDir=$BIOSIM_HOME
 if [ -z "$devRootDir" ]
 then
@@ -9,6 +10,14 @@ then
 	echo "		-assuming BIOSIM_HOME is $devRootDir"
 fi
 JACORB_HOME="$devRootDir/lib/jacorb"
+java_command=$JAVA_HOME/bin/java
+javac_command=$JAVA_HOME/bin/javac
+if [ -z "$JAVA_HOME" ]
+then
+	echo "		-JAVA_HOME not set, assuming java and javac are in path..."
+	java_command="java"
+	javac_command="javac"
+fi
 genString="/generated"
 genDir=$devRootDir$genString
 if [ ! -e "$genDir" ]
@@ -52,7 +61,7 @@ fi
 relativeIDLDir="/src/biosim/idl/SIMULATION.idl"
 fullIDLDir=$devRootDir$relativeIDLDir
 echo "			-generating stubs"
-idlInvocation="$JAVA_HOME/bin/java -classpath $JACORB_HOME/lib/idl.jar org.jacorb.idl.parser"
+idlInvocation="$java_command -classpath $JACORB_HOME/lib/idl.jar org.jacorb.idl.parser"
 $idlInvocation  -noskel -d $stubDir $fullIDLDir
 #######################
 #		Client COMPILATION	#
@@ -61,7 +70,7 @@ echo "		-compiling client";
 simString="SIMULATION"
 simStubDir="$stubDir/$simString"
 clientDir="$devRootDir/src/biosim/client"
-compilationInvocation="$JAVA_HOME/bin/javac -d $clientClassesDir -classpath $stubDir$separator$clientClassesDir$separator$CLASSPATH"
+compilationInvocation="$javac_command -d $clientClassesDir -classpath $stubDir$separator$clientClassesDir$separator$CLASSPATH"
 echo "			-compiling stubs"
 $compilationInvocation $simStubDir/*.java
 echo "			-compiling control"

@@ -9,6 +9,14 @@ then
 	echo "		-assuming BIOSIM_HOME is $devRootDir"
 fi
 JACORB_HOME="$devRootDir/lib/jacorb"
+java_command=$JAVA_HOME/bin/java
+javac_command=$JAVA_HOME/bin/javac
+if [ -z "$JAVA_HOME" ]
+then
+	echo "		-JAVA_HOME not set, assuming java and javac are in path..."
+	java_command="java"
+	javac_command="javac"
+fi
 genString="/generated"
 genDir=$devRootDir$genString
 if [ ! -e "$genDir" ]
@@ -52,7 +60,7 @@ fi
 relativeIDLDir="/src/biosim/idl/SIMULATION.idl"
 fullIDLDir=$devRootDir$relativeIDLDir
 echo "			-generating skeletons"
-idlInvocation="$JAVA_HOME/bin/java -classpath $JACORB_HOME/lib/idl.jar org.jacorb.idl.parser"
+idlInvocation="$java_command -classpath $JACORB_HOME/lib/idl.jar org.jacorb.idl.parser"
 $idlInvocation  -nostub -d $skeletonDir $fullIDLDir
 #######################
 #		SERVER COMPILATION	#
@@ -61,7 +69,7 @@ echo "		-compiling server";
 simString="SIMULATION"
 simSkeletonDir="$skeletonDir/$simString"
 serverDir="$devRootDir/src/biosim/server"
-compilationInvocation="$JAVA_HOME/bin/javac -d $serverClassesDir -classpath $skeletonDir$separator$serverClassesDir$separator$CLASSPATH"
+compilationInvocation="$javac_command -d $serverClassesDir -classpath $skeletonDir$separator$serverClassesDir$separator$CLASSPATH"
 echo "			-compiling skeletons"
 $compilationInvocation $simSkeletonDir/*.java
 echo "			-compiling air"
