@@ -45,19 +45,19 @@ public abstract class PlantImpl extends PlantPOA{
 	private SimpleBuffer consumedCO2HighBuffer;
 	private SimpleBuffer consumedHeatBuffer;
 	private SimpleBuffer consumedLightBuffer;
-	private static final float WATER_TILL_DEAD = 150f;
-	private static final float WATER_RECOVERY_RATE = 2f;
+	private static final float WATER_TILL_DEAD = 1f;
+	private static final float WATER_RECOVERY_RATE = 0.002f;
 	private static final float CO2_LOW_TILL_DEAD = 24f;
-	private static final float CO2_LOW_RECOVERY_RATE = 25f;
+	private static final float CO2_LOW_RECOVERY_RATE = 0.2f;
 	private static final float CO2_RATIO_LOW = 500f;
 	private static final float CO2_HIGH_TILL_DEAD = 24f;
-	private static final float CO2_HIGH_RECOVERY_RATE=25f;
+	private static final float CO2_HIGH_RECOVERY_RATE=0.2f;
 	private static final float CO2_RATIO_HIGH = 20000f;
 	private static final float HEAT_TILL_DEAD = 48f;
-	private static final float HEAT_RECOVERY_RATE=0.1f;
-	private static final float DANGEROUS_HEAT_LEVEL = 3000000f;
+	private static final float HEAT_RECOVERY_RATE=0.2f;
+	private static final float DANGEROUS_HEAT_LEVEL = 300000f;
 	private static final float LIGHT_TILL_DEAD = 48f;
-	private static final float LIGHT_RECOVERY_RATE = 0.1f;
+	private static final float LIGHT_RECOVERY_RATE = 0.2f;
 	private float totalO2GramsProduced = 0f;
 	private float totalCO2GramsConsumed = 0f;
 	private float totalCO2MolesConsumed = 0f;
@@ -165,8 +165,8 @@ public abstract class PlantImpl extends PlantPOA{
 	}
 
 	private void recoverPlants(){
-		consumedWaterBuffer.add(WATER_RECOVERY_RATE * consumedWaterBuffer.getCapacity());
-		consumedCO2LowBuffer.add(CO2_LOW_RECOVERY_RATE * consumedCO2LowBuffer.getCapacity());
+		consumedWaterBuffer.add((WATER_RECOVERY_RATE * consumedWaterBuffer.getCapacity()) / myShelfImpl.getCropAreaUsed());
+		consumedCO2LowBuffer.add(CO2_LOW_RECOVERY_RATE * consumedCO2LowBuffer.getCapacity() / myShelfImpl.getCropAreaUsed());
 		consumedCO2HighBuffer.add(CO2_HIGH_RECOVERY_RATE * consumedCO2HighBuffer.getCapacity());
 		consumedHeatBuffer.add(HEAT_RECOVERY_RATE * consumedHeatBuffer.getCapacity());
 		consumedLightBuffer.add(LIGHT_RECOVERY_RATE * consumedLightBuffer.getCapacity());
@@ -176,8 +176,12 @@ public abstract class PlantImpl extends PlantPOA{
 	* If not all the resources required were consumed, we damage the crew member.
 	*/
 	private void afflictPlants(){
+		if (myAveragePPF - getPPFNeeded() != 0){
+			System.out.println("Asked for "+getPPFNeeded()+" and got "+myAveragePPF);
+			System.out.println("Not enough light, consumed light buffer is at: " + consumedLightBuffer.getLevel());
+		}
 		consumedWaterBuffer.take((myWaterNeeded - myWaterLevel) / myShelfImpl.getCropAreaUsed());
-		consumedLightBuffer.take(myAveragePPF - getPPFNeeded() / myShelfImpl.getCropAreaUsed());
+		consumedLightBuffer.take((getPPFNeeded() - myAveragePPF) / myShelfImpl.getCropAreaUsed());
 		if (myAveragePPF > DANGEROUS_HEAT_LEVEL)
 			consumedHeatBuffer.take(myAveragePPF - DANGEROUS_HEAT_LEVEL);
 		if (myAverageCO2Concentration < CO2_RATIO_LOW)
@@ -200,23 +204,23 @@ public abstract class PlantImpl extends PlantPOA{
 
 		if (CO2RiskLowReturn > randomNumber){
 			hasDied = true;
-			System.out.println("Plants have died from low CO2 (risk was "+(CO2RiskLowReturn * 100)+"%)");
+			System.out.println("Plants have died from low CO2 at "+getDaysOfGrowth()+" days (risk was "+(CO2RiskLowReturn * 100)+"%)");
 		}
 		else if (CO2RiskHighReturn > randomNumber){
 			hasDied = true;
-			System.out.println("Plants have died from high CO2 (risk was "+(CO2RiskHighReturn * 100)+"%)");
+			System.out.println("Plants have died from high CO2 at "+getDaysOfGrowth()+" days (risk was "+(CO2RiskHighReturn * 100)+"%)");
 		}
 		else if (waterRiskReturn > randomNumber){
 			hasDied = true;
-			System.out.println("Plants have died from lack of water (risk was "+(waterRiskReturn * 100)+"%)");
+			System.out.println("Plants have died from lack of water at "+getDaysOfGrowth()+" days (risk was "+(waterRiskReturn * 100)+"%)");
 		}
 		else if (heatRiskReturn > randomNumber){
 			hasDied = true;
-			System.out.println("Plants have died from lack of heat (risk was "+(heatRiskReturn * 100)+"%)");
+			System.out.println("Plants have died from lack of heat at "+getDaysOfGrowth()+" days (risk was "+(heatRiskReturn * 100)+"%)");
 		}
 		else if (lightRiskReturn > randomNumber){
 			hasDied = true;
-			System.out.println("Plants have died from lack of light (risk was "+(lightRiskReturn * 100)+"%)");
+			System.out.println("Plants have died from lack of light at "+getDaysOfGrowth()+" days (risk was "+(lightRiskReturn * 100)+"%)");
 		}
 		//if died, kill
 		if (hasDied){
