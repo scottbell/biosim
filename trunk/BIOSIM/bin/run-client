@@ -61,7 +61,6 @@ logCLasspath="$devRootDir/lib/log4j/log4j.jar"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME$separator$JACORB_HOME/avalon-framework.jar$separator$JACORB_HOME/logkit.jar"
 jacoInvocation="$java_command -classpath $buildDir$separator$plotClasspath$separator$logCLasspath$separator$jacoClasspath$separator$resourceDir$separator$xmlClasspath $openGLEnabled $biosimHome $jacoSingletonOrbClass $jacoOrbClass $jacoNameIOR"
 echo "	-starting client"
-echo "$jacoInvocation" > invocation.txt
 console="console"
 gui="gui"
 help="-?"
