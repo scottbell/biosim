@@ -722,6 +722,7 @@ module biosim{
                                         air::Breath takeAirMoles(in float moles);
                                         void setTotalMoles(in float moles);
                                         void setTotalPressure(in float moles);
+                                        float getVolume();
                                 };
                         };
                         module food{
