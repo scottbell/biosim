@@ -47,6 +47,10 @@ public class Rice extends Erectophile{
 	protected float getPhotoperiod(){
 		return 12f;
 	}
+	
+	protected float getTimeAtOrganFormation(){
+		return 57f;
+	}
 
 	protected float getN(){
 		return 1.0f;
@@ -74,7 +78,7 @@ public class Rice extends Erectophile{
 
 	public float getFractionOfEdibleBiomass(){
 		if (myAge > getTimeAtCanopySenescence())
-			return 1f;
+			return 0.98f;
 		else
 			return 0f;
 	}

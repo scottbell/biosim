@@ -56,6 +56,10 @@ public class Soybean extends Legume{
 	protected float getPhotoperiod(){
 		return 12f;
 	}
+	
+	protected float getTimeAtOrganFormation(){
+		return 46f;
+	}
 
 	protected float getN(){
 		return 1.0f;
@@ -83,7 +87,7 @@ public class Soybean extends Legume{
 
 	public float getFractionOfEdibleBiomass(){
 		if (myAge > getTimeAtCanopySenescence())
-			return 1f;
+			return 0.95f;
 		else
 			return 0f;
 	}

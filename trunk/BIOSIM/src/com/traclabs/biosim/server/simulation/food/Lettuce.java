@@ -42,6 +42,10 @@ public class Lettuce extends Planophile{
 		return 0.40f;
 	}
 	
+	protected float getTimeAtOrganFormation(){
+		return 1f;
+	}
+	
 	protected float getCUEMax(){
 		return 0.625f;
 	}
@@ -76,7 +80,7 @@ public class Lettuce extends Planophile{
 
 	public float getFractionOfEdibleBiomass(){
 		if (myAge > getTimeAtCanopySenescence())
-			return 1f;
+			return 0.95f;
 		else
 			return 0f;
 	}

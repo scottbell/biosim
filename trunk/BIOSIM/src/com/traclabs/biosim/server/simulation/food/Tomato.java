@@ -46,6 +46,10 @@ public class Tomato extends Planophile{
 		return 0.65f;
 	}
 	
+	protected float getTimeAtOrganFormation(){
+		return 41f;
+	}
+	
 	protected float getCUEMin(){
 		return 0f;
 	}
@@ -80,7 +84,7 @@ public class Tomato extends Planophile{
 
 	public float getFractionOfEdibleBiomass(){
 		if (myAge > getTimeAtCanopySenescence())
-			return 1f;
+			return 0.70f;
 		else
 			return 0f;
 	}
