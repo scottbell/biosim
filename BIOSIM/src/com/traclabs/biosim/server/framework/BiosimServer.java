@@ -15,7 +15,6 @@ import biosim.server.simulation.power.*;
 import biosim.server.simulation.environment.*;
 import biosim.server.simulation.framework.*;
 import biosim.idl.sensor.air.*;
-import biosim.idl.sensor.crew.*;
 import biosim.idl.sensor.food.*;
 import biosim.idl.sensor.water.*;
 import biosim.idl.sensor.power.*;
