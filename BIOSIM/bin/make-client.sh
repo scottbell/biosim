@@ -73,7 +73,7 @@ simStubDir="$stubDir/$simString"
 clientDir="$devRootDir/src/biosim/client"
 sourceDir="$devRootDir/src"
 jacoClasspath="$JACORB_HOME/lib/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME/lib"
-compilationInvocation="$javac_command -d $clientClassesDir -classpath $stubDir$separator$clientClassesDir$separator$sourceDir$separator$jacoClasspath"
+compilationInvocation="$javac_command -d $clientClassesDir -classpath $stubDir$separator$clientClassesDir$separator$sourceDir"
 echo "			-compiling stubs"
 $compilationInvocation $simStubDir/*.java
 echo "			-compiling gui"
