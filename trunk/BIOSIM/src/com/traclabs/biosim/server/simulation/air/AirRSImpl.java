@@ -14,9 +14,9 @@ import biosim.server.framework.*;
 import biosim.server.util.*;
 
 public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
-	//During any given tick, this much power is needed for the AirRS to run at all.
+	//During any given tick, this much power (in watts) is needed for the AirRS to run at all.
 	private float powerNeeded = 130;
-	//During any given tick, this much CO2 is needed for the AirRS to run optimally.
+	//During any given tick, this much CO2 (in liters) is needed for the AirRS to run optimally.
 	private float CO2Needed = 0.2f;
 	//Flag switched when the AirRS has collected references to other servers it need
 	private boolean hasCollectedReferences = false;
