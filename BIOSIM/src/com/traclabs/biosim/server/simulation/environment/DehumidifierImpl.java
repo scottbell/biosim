@@ -48,6 +48,10 @@ public class DehumidifierImpl extends SimBioModuleImpl implements DehumidifierOp
 	}
 
 	private void dehumidifyEnvironments(){
+		/*float currentWaterMolesInEnvironment = myAirInputs[0].getWaterMoles();
+		float totalMolesInEnvironment = myAirInputs[0].getTotalMoles();
+		System.out.println("Before: Water concentration now "+currentWaterMolesInEnvironment / totalMolesInEnvironment);
+		*/
 		float molesOfWaterGathered = 0f;
 		for (int i = 0; i < myAirInputs.length; i++){
 			float molesNeededToRemove = calculateMolesNeededToRemove(myAirInputs[i]);
@@ -60,6 +64,11 @@ public class DehumidifierImpl extends SimBioModuleImpl implements DehumidifierOp
 			}
 		}
 		float waterPushedToStore = pushResourceToStore(myPotableWaterOutputs, potableWaterOutMaxFlowRates, potableWaterOutDesiredFlowRates, potableWaterOutActualFlowRates, waterMolesToLiters(molesOfWaterGathered));
+		
+		/*currentWaterMolesInEnvironment = myAirInputs[0].getWaterMoles();
+		totalMolesInEnvironment = myAirInputs[0].getTotalMoles();
+		System.out.println("After: Pushed "+waterPushedToStore+" liters of water to the store, water concentration now "+currentWaterMolesInEnvironment / totalMolesInEnvironment);
+		*/
 	}
 	
 	private static float calculateMolesNeededToRemove(SimEnvironment pEnvironment){
