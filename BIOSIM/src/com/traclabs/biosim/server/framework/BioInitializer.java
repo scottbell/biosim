@@ -68,7 +68,8 @@ public class BioInitializer{
 	private static void crawlBiosim(Node node) {
 		// is there anything to do?
 		if (node == null)
-			return;String nodeName = node.getNodeName();
+			return;
+		String nodeName = node.getNodeName();
 		if (nodeName.equals("Globals")){
 			crawlGlobals(node);
 			return;
