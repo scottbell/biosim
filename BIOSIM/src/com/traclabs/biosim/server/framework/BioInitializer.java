@@ -134,7 +134,7 @@ public class BioInitializer{
 
 	public void parseFile(String fileToParse){
 		try{
-			System.out.println("Starting to parse file: "+fileToParse);
+			//System.out.println("Starting to parse file: "+fileToParse);
 			myParser.parse(fileToParse);
 			Document document = myParser.getDocument();
 			crawlBiosim(document, true);
@@ -198,7 +198,7 @@ public class BioInitializer{
 				for (int i = 0; tokenizer.hasMoreTokens(); i++){
 					try{
 						crewGroups[i] = CrewGroupHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(tokenizer.nextToken()));
-						System.out.println("Fetched "+crewGroups[i].getModuleName());
+						//System.out.println("Fetched "+crewGroups[i].getModuleName());
 					}
 					catch(org.omg.CORBA.UserException e){
 						e.printStackTrace();
@@ -234,7 +234,7 @@ public class BioInitializer{
 	}
 
 	private static void printRemoteWarningMessage(String pName){
-		System.out.println("Instance of the module moduleNamed "+pName+" should be created remotely (if not already done)");
+		//System.out.println("Instance of the module moduleNamed "+pName+" should be created remotely (if not already done)");
 	}
 
 	private static float getStoreLevel(Node node){
@@ -565,7 +565,7 @@ public class BioInitializer{
 		for (int i = 0; tokenizer.hasMoreTokens(); i++){
 			try{
 				inputs[i] = BioModuleHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(tokenizer.nextToken()));
-				System.out.println("Fetched "+inputs[i].getModuleName());
+				//System.out.println("Fetched "+inputs[i].getModuleName());
 			}
 			catch(org.omg.CORBA.UserException e){
 				e.printStackTrace();
@@ -583,7 +583,7 @@ public class BioInitializer{
 		for (int i = 0; tokenizer.hasMoreTokens(); i++){
 			try{
 				outputs[i] = BioModuleHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(tokenizer.nextToken()));
-				System.out.println("Fetched "+outputs[i].getModuleName());
+				//System.out.println("Fetched "+outputs[i].getModuleName());
 			}
 			catch(org.omg.CORBA.UserException e){
 				e.printStackTrace();
@@ -632,7 +632,7 @@ public class BioInitializer{
 	private void createAirRS(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating AirRS with moduleName: "+moduleName);
+			//System.out.println("Creating AirRS with moduleName: "+moduleName);
 			AirRSImpl myAirRSImpl = new AirRSImpl(myID, moduleName);
 			BiosimServer.registerServer(new AirRSPOATie(myAirRSImpl), myAirRSImpl.getModuleName(), myAirRSImpl.getID());
 			myModules.add(OrbUtils.poaToCorbaObj(myAirRSImpl));
@@ -642,7 +642,7 @@ public class BioInitializer{
 	}
 
 	private void configureAirRS(Node node){
-		System.out.println("Configuring AirRS");
+		//System.out.println("Configuring AirRS");
 		String moduleName = getModuleName(node);
 		try{
 			AirRS myAirRS = AirRSHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -656,7 +656,7 @@ public class BioInitializer{
 	private void createO2Store(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating O2Store with moduleName: "+moduleName);
+			//System.out.println("Creating O2Store with moduleName: "+moduleName);
 			O2StoreImpl myO2StoreImpl = new O2StoreImpl(myID, moduleName);
 			myO2StoreImpl.setLevel(getStoreLevel(node));
 			myO2StoreImpl.setCapacity(getStoreCapacity(node));
@@ -670,7 +670,7 @@ public class BioInitializer{
 	private void createCO2Store(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating CO2Store with moduleName: "+moduleName);
+			//System.out.println("Creating CO2Store with moduleName: "+moduleName);
 			CO2StoreImpl myCO2StoreImpl = new CO2StoreImpl(myID, moduleName);
 			myCO2StoreImpl.setLevel(getStoreLevel(node));
 			myCO2StoreImpl.setCapacity(getStoreCapacity(node));
@@ -684,7 +684,7 @@ public class BioInitializer{
 	private void createH2Store(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating H2Store with moduleName: "+moduleName);
+			//System.out.println("Creating H2Store with moduleName: "+moduleName);
 			H2StoreImpl myH2StoreImpl = new H2StoreImpl(myID, moduleName);
 			myH2StoreImpl.setLevel(getStoreLevel(node));
 			myH2StoreImpl.setCapacity(getStoreCapacity(node));
@@ -786,7 +786,7 @@ public class BioInitializer{
 	private void createCrewGroup(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating CrewGroup with moduleName: "+moduleName);
+			//System.out.println("Creating CrewGroup with moduleName: "+moduleName);
 			CrewGroupImpl myCrewGroupImpl = new CrewGroupImpl(myID, moduleName);
 			Node child = node.getFirstChild();
 			while (child != null) {
@@ -803,7 +803,7 @@ public class BioInitializer{
 	}
 
 	private void configureCrewGroup(Node node){
-		System.out.println("Configuring CrewGroup");
+		//System.out.println("Configuring CrewGroup");
 		String moduleName = getModuleName(node);
 		try{
 			CrewGroup myCrewGroup = CrewGroupHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -832,7 +832,7 @@ public class BioInitializer{
 	private void createSimEnvironment(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating SimEnvironment with moduleName: "+moduleName);
+			//System.out.println("Creating SimEnvironment with moduleName: "+moduleName);
 			SimEnvironmentImpl mySimEnvironmentImpl = null;
 			float CO2Moles = 0f;
 			float O2Moles = 0f;
@@ -888,7 +888,7 @@ public class BioInitializer{
 	private void createAccumulator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating Accumulator with moduleName: "+moduleName);
+			//System.out.println("Creating Accumulator with moduleName: "+moduleName);
 			AccumulatorImpl myAccumulatorImpl = new AccumulatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myAccumulatorImpl));
 			BiosimServer.registerServer(new AccumulatorPOATie(myAccumulatorImpl), myAccumulatorImpl.getModuleName(), myAccumulatorImpl.getID());
@@ -898,7 +898,7 @@ public class BioInitializer{
 	}
 
 	private void configureAccumulator(Node node){
-		System.out.println("Configuring Accumulator");
+		//System.out.println("Configuring Accumulator");
 		String moduleName = getModuleName(node);
 		try{
 			Accumulator myAccumulator = AccumulatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -912,7 +912,7 @@ public class BioInitializer{
 	private void createInjector(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating Injector with moduleName: "+moduleName);
+			//System.out.println("Creating Injector with moduleName: "+moduleName);
 			InjectorImpl myInjectorImpl = new InjectorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myInjectorImpl));
 			BiosimServer.registerServer(new InjectorPOATie(myInjectorImpl), myInjectorImpl.getModuleName(), myInjectorImpl.getID());
@@ -922,7 +922,7 @@ public class BioInitializer{
 	}
 
 	private void configureInjector(Node node){
-		System.out.println("Configuring Injector");
+		//System.out.println("Configuring Injector");
 		String moduleName = getModuleName(node);
 		try{
 			Injector myInjector = InjectorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -991,7 +991,7 @@ public class BioInitializer{
 	private void createBiomassRS(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating BiomassRS with moduleName: "+moduleName);
+			//System.out.println("Creating BiomassRS with moduleName: "+moduleName);
 			BiomassRSImpl myBiomassRSImpl = new BiomassRSImpl(myID, moduleName);
 			Node child = node.getFirstChild();
 			while (child != null) {
@@ -1007,7 +1007,7 @@ public class BioInitializer{
 	}
 
 	private void configureBiomassRS(Node node){
-		System.out.println("Configuring BiomassRS");
+		//System.out.println("Configuring BiomassRS");
 		String moduleName = getModuleName(node);
 		try{
 			BiomassRS myBiomassRS = BiomassRSHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -1021,7 +1021,7 @@ public class BioInitializer{
 	private void createFoodProcessor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating FoodProcessor with moduleName: "+moduleName);
+			//System.out.println("Creating FoodProcessor with moduleName: "+moduleName);
 			FoodProcessorImpl myFoodProcessorImpl = new FoodProcessorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myFoodProcessorImpl));
 			BiosimServer.registerServer(new FoodProcessorPOATie(myFoodProcessorImpl), myFoodProcessorImpl.getModuleName(), myFoodProcessorImpl.getID());
@@ -1031,7 +1031,7 @@ public class BioInitializer{
 	}
 
 	private void configureFoodProcessor(Node node){
-		System.out.println("Configuring FoodProcessor");
+		//System.out.println("Configuring FoodProcessor");
 		String moduleName = getModuleName(node);
 		try{
 			FoodProcessor myFoodProcessor = FoodProcessorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -1045,7 +1045,7 @@ public class BioInitializer{
 	private void createBiomassStore(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating BiomassStore with moduleName: "+moduleName);
+			//System.out.println("Creating BiomassStore with moduleName: "+moduleName);
 			BiomassStoreImpl myBiomassStoreImpl = new BiomassStoreImpl(myID, moduleName);
 			myBiomassStoreImpl.setLevel(getStoreLevel(node));
 			myBiomassStoreImpl.setCapacity(getStoreCapacity(node));
@@ -1059,7 +1059,7 @@ public class BioInitializer{
 	private void createFoodStore(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating FoodStore with moduleName: "+moduleName);
+			//System.out.println("Creating FoodStore with moduleName: "+moduleName);
 			FoodStoreImpl myFoodStoreImpl = new FoodStoreImpl(myID, moduleName);
 			myFoodStoreImpl.setLevel(getStoreLevel(node));
 			myFoodStoreImpl.setCapacity(getStoreCapacity(node));
@@ -1101,7 +1101,7 @@ public class BioInitializer{
 	private void createPowerPS(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating PowerPS with moduleName: "+moduleName);
+			//System.out.println("Creating PowerPS with moduleName: "+moduleName);
 			PowerPSImpl myPowerPSImpl = null;
 			if (node.getAttributes().getNamedItem("generation").getNodeValue().equals("SOLAR"))
 				myPowerPSImpl = new SolarPowerPS(myID, moduleName);
@@ -1115,7 +1115,7 @@ public class BioInitializer{
 	}
 
 	private void configurePowerPS(Node node){
-		System.out.println("Configuring PowerPS");
+		//System.out.println("Configuring PowerPS");
 		String moduleName = getModuleName(node);
 		try{
 			PowerPS myPowerPS = PowerPSHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -1129,7 +1129,7 @@ public class BioInitializer{
 	private void createPowerStore(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating PowerStore with moduleName: "+moduleName);
+			//System.out.println("Creating PowerStore with moduleName: "+moduleName);
 			PowerStoreImpl myPowerStoreImpl = new PowerStoreImpl(myID, moduleName);
 			myPowerStoreImpl.setLevel(getStoreLevel(node));
 			myPowerStoreImpl.setCapacity(getStoreCapacity(node));
@@ -1161,7 +1161,7 @@ public class BioInitializer{
 	private void createWaterRS(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating WaterRS with moduleName: "+moduleName);
+			//System.out.println("Creating WaterRS with moduleName: "+moduleName);
 			WaterRSImpl myWaterRSImpl = new WaterRSImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myWaterRSImpl));
 			BiosimServer.registerServer(new WaterRSPOATie(myWaterRSImpl), myWaterRSImpl.getModuleName(), myWaterRSImpl.getID());
@@ -1171,7 +1171,7 @@ public class BioInitializer{
 	}
 
 	private void configureWaterRS(Node node){
-		System.out.println("Configuring WaterRS");
+		//System.out.println("Configuring WaterRS");
 		String moduleName = getModuleName(node);
 		try{
 			WaterRS myWaterRS = WaterRSHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -1185,7 +1185,7 @@ public class BioInitializer{
 	private void createPotableWaterStore(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating PotableWaterStore with moduleName: "+moduleName);
+			//System.out.println("Creating PotableWaterStore with moduleName: "+moduleName);
 			PotableWaterStoreImpl myPotableWaterStoreImpl = new PotableWaterStoreImpl(myID, moduleName);
 			myPotableWaterStoreImpl.setLevel(getStoreLevel(node));
 			myPotableWaterStoreImpl.setCapacity(getStoreCapacity(node));
@@ -1199,7 +1199,7 @@ public class BioInitializer{
 	private void createDirtyWaterStore(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating DirtyWaterStore with moduleName: "+moduleName);
+			//System.out.println("Creating DirtyWaterStore with moduleName: "+moduleName);
 			DirtyWaterStoreImpl myDirtyWaterStoreImpl = new DirtyWaterStoreImpl(myID, moduleName);
 			myDirtyWaterStoreImpl.setLevel(getStoreLevel(node));
 			myDirtyWaterStoreImpl.setCapacity(getStoreCapacity(node));
@@ -1213,7 +1213,7 @@ public class BioInitializer{
 	private void createGreyWaterStore(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating GreyWaterStore with moduleName: "+moduleName);
+			//System.out.println("Creating GreyWaterStore with moduleName: "+moduleName);
 			GreyWaterStoreImpl myGreyWaterStoreImpl = new GreyWaterStoreImpl(myID, moduleName);
 			myGreyWaterStoreImpl.setLevel(getStoreLevel(node));
 			myGreyWaterStoreImpl.setCapacity(getStoreCapacity(node));
@@ -1291,7 +1291,7 @@ public class BioInitializer{
 	private void createCO2InFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating CO2InFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating CO2InFlowRateSensor with moduleName: "+moduleName);
 			CO2InFlowRateSensorImpl myCO2InFlowRateSensorImpl = new CO2InFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myCO2InFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myCO2InFlowRateSensorImpl));
@@ -1302,7 +1302,7 @@ public class BioInitializer{
 	}
 
 	private void configureCO2InFlowRateSensor(Node node){
-		System.out.println("Configuring CO2InFlowRateSensor");
+		//System.out.println("Configuring CO2InFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			CO2InFlowRateSensor myCO2InFlowRateSensor = CO2InFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -1321,7 +1321,7 @@ public class BioInitializer{
 	private void createCO2OutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating CO2OutFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating CO2OutFlowRateSensor with moduleName: "+moduleName);
 			CO2OutFlowRateSensorImpl myCO2OutFlowRateSensorImpl = new CO2OutFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myCO2OutFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myCO2OutFlowRateSensorImpl));
@@ -1332,7 +1332,7 @@ public class BioInitializer{
 	}
 
 	private void configureCO2OutFlowRateSensor(Node node){
-		System.out.println("Configuring CO2OutFlowRateSensor");
+		//System.out.println("Configuring CO2OutFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			CO2OutFlowRateSensor myCO2OutFlowRateSensor = CO2OutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -1351,7 +1351,7 @@ public class BioInitializer{
 	private void createCO2StoreLevelSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating CO2StoreLevelSensor with moduleName: "+moduleName);
+			//System.out.println("Creating CO2StoreLevelSensor with moduleName: "+moduleName);
 			CO2StoreLevelSensorImpl myCO2StoreLevelSensorImpl = new CO2StoreLevelSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myCO2StoreLevelSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myCO2StoreLevelSensorImpl));
@@ -1362,7 +1362,7 @@ public class BioInitializer{
 	}
 
 	private void configureCO2StoreLevelSensor(Node node){
-		System.out.println("Configuring CO2StoreLevelSensor");
+		//System.out.println("Configuring CO2StoreLevelSensor");
 		String moduleName = getModuleName(node);
 		try{
 			CO2StoreLevelSensor myCO2StoreLevelSensor = CO2StoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -1380,7 +1380,7 @@ public class BioInitializer{
 	private void createO2InFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating O2InFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating O2InFlowRateSensor with moduleName: "+moduleName);
 			O2InFlowRateSensorImpl myO2InFlowRateSensorImpl = new O2InFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myO2InFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myO2InFlowRateSensorImpl));
@@ -1391,7 +1391,7 @@ public class BioInitializer{
 	}
 
 	private void configureO2InFlowRateSensor(Node node){
-		System.out.println("Configuring O2InFlowRateSensor");
+		//System.out.println("Configuring O2InFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			O2InFlowRateSensor myO2InFlowRateSensor = O2InFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -1410,7 +1410,7 @@ public class BioInitializer{
 	private void createO2OutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating O2OutFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating O2OutFlowRateSensor with moduleName: "+moduleName);
 			O2OutFlowRateSensorImpl myO2OutFlowRateSensorImpl = new O2OutFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myO2OutFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myO2OutFlowRateSensorImpl));
@@ -1421,7 +1421,7 @@ public class BioInitializer{
 	}
 
 	private void configureO2OutFlowRateSensor(Node node){
-		System.out.println("Configuring O2OutFlowRateSensor");
+		//System.out.println("Configuring O2OutFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			O2OutFlowRateSensor myO2OutFlowRateSensor = O2OutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -1440,7 +1440,7 @@ public class BioInitializer{
 	private void createO2StoreLevelSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating O2StoreLevelSensor with moduleName: "+moduleName);
+			//System.out.println("Creating O2StoreLevelSensor with moduleName: "+moduleName);
 			O2StoreLevelSensorImpl myO2StoreLevelSensorImpl = new O2StoreLevelSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myO2StoreLevelSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myO2StoreLevelSensorImpl));
@@ -1451,7 +1451,7 @@ public class BioInitializer{
 	}
 
 	private void configureO2StoreLevelSensor(Node node){
-		System.out.println("Configuring O2StoreLevelSensor");
+		//System.out.println("Configuring O2StoreLevelSensor");
 		String moduleName = getModuleName(node);
 		try{
 			O2StoreLevelSensor myO2StoreLevelSensor = O2StoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -1469,7 +1469,7 @@ public class BioInitializer{
 	private void createH2InFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating H2InFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating H2InFlowRateSensor with moduleName: "+moduleName);
 			H2InFlowRateSensorImpl myH2InFlowRateSensorImpl = new H2InFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myH2InFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myH2InFlowRateSensorImpl));
@@ -1480,7 +1480,7 @@ public class BioInitializer{
 	}
 
 	private void configureH2InFlowRateSensor(Node node){
-		System.out.println("Configuring H2InFlowRateSensor");
+		//System.out.println("Configuring H2InFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			H2InFlowRateSensor myH2InFlowRateSensor = H2InFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -1499,7 +1499,7 @@ public class BioInitializer{
 	private void createH2OutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating H2OutFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating H2OutFlowRateSensor with moduleName: "+moduleName);
 			H2OutFlowRateSensorImpl myH2OutFlowRateSensorImpl = new H2OutFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myH2OutFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myH2OutFlowRateSensorImpl));
@@ -1510,7 +1510,7 @@ public class BioInitializer{
 	}
 
 	private void configureH2OutFlowRateSensor(Node node){
-		System.out.println("Configuring H2OutFlowRateSensor");
+		//System.out.println("Configuring H2OutFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			H2OutFlowRateSensor myH2OutFlowRateSensor = H2OutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -1529,7 +1529,7 @@ public class BioInitializer{
 	private void createH2StoreLevelSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating H2StoreLevelSensor with moduleName: "+moduleName);
+			//System.out.println("Creating H2StoreLevelSensor with moduleName: "+moduleName);
 			H2StoreLevelSensorImpl myH2StoreLevelSensorImpl = new H2StoreLevelSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myH2StoreLevelSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myH2StoreLevelSensorImpl));
@@ -1540,7 +1540,7 @@ public class BioInitializer{
 	}
 
 	private void configureH2StoreLevelSensor(Node node){
-		System.out.println("Configuring H2StoreLevelSensor");
+		//System.out.println("Configuring H2StoreLevelSensor");
 		String moduleName = getModuleName(node);
 		try{
 			H2StoreLevelSensor myH2StoreLevelSensor = H2StoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -1621,7 +1621,7 @@ public class BioInitializer{
 	private void createCrewGroupDeathSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating CrewGroupDeathSensor with moduleName: "+moduleName);
+			//System.out.println("Creating CrewGroupDeathSensor with moduleName: "+moduleName);
 			CrewGroupDeathSensorImpl myCrewGroupDeathSensorImpl = new CrewGroupDeathSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myCrewGroupDeathSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myCrewGroupDeathSensorImpl));
@@ -1632,7 +1632,7 @@ public class BioInitializer{
 	}
 
 	private void configureCrewGroupDeathSensor(Node node){
-		System.out.println("Configuring CrewGroupDeathSensor");
+		//System.out.println("Configuring CrewGroupDeathSensor");
 		String moduleName = getModuleName(node);
 		try{
 			CrewGroupDeathSensor myCrewGroupDeathSensor = CrewGroupDeathSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -1665,7 +1665,7 @@ public class BioInitializer{
 	private void createAirInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating AirInFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating AirInFlowRateSensor with moduleName: "+moduleName);
 			AirInFlowRateSensorImpl myAirInFlowRateSensorImpl = new AirInFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myAirInFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myAirInFlowRateSensorImpl));
@@ -1676,7 +1676,7 @@ public class BioInitializer{
 	}
 
 	private void configureAirInFlowRateSensor(Node node){
-		System.out.println("Configuring AirInFlowRateSensor");
+		//System.out.println("Configuring AirInFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			AirInFlowRateSensor myAirInFlowRateSensor = AirInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -1695,7 +1695,7 @@ public class BioInitializer{
 	private void createAirOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating AirOutFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating AirOutFlowRateSensor with moduleName: "+moduleName);
 			AirOutFlowRateSensorImpl myAirOutFlowRateSensorImpl = new AirOutFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myAirOutFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myAirOutFlowRateSensorImpl));
@@ -1706,7 +1706,7 @@ public class BioInitializer{
 	}
 
 	private void configureAirOutFlowRateSensor(Node node){
-		System.out.println("Configuring AirOutFlowRateSensor");
+		//System.out.println("Configuring AirOutFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			AirOutFlowRateSensor myAirOutFlowRateSensor = AirOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -1725,7 +1725,7 @@ public class BioInitializer{
 	private void createCO2AirConcentrationSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating CO2AirConcentrationSensor with moduleName: "+moduleName);
+			//System.out.println("Creating CO2AirConcentrationSensor with moduleName: "+moduleName);
 			CO2AirConcentrationSensorImpl myCO2AirConcentrationSensorImpl = new CO2AirConcentrationSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myCO2AirConcentrationSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myCO2AirConcentrationSensorImpl));
@@ -1736,7 +1736,7 @@ public class BioInitializer{
 	}
 
 	private void configureCO2AirConcentrationSensor(Node node){
-		System.out.println("Configuring CO2AirConcentrationSensor");
+		//System.out.println("Configuring CO2AirConcentrationSensor");
 		String moduleName = getModuleName(node);
 		try{
 			CO2AirConcentrationSensor myCO2AirConcentrationSensor = CO2AirConcentrationSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -1754,7 +1754,7 @@ public class BioInitializer{
 	private void createCO2AirPressureSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating CO2AirPressureSensor with moduleName: "+moduleName);
+			//System.out.println("Creating CO2AirPressureSensor with moduleName: "+moduleName);
 			CO2AirPressureSensorImpl myCO2AirPressureSensorImpl = new CO2AirPressureSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myCO2AirPressureSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myCO2AirPressureSensorImpl));
@@ -1765,7 +1765,7 @@ public class BioInitializer{
 	}
 
 	private void configureCO2AirPressureSensor(Node node){
-		System.out.println("Configuring CO2AirPressureSensor");
+		//System.out.println("Configuring CO2AirPressureSensor");
 		String moduleName = getModuleName(node);
 		try{
 			CO2AirPressureSensor myCO2AirPressureSensor = CO2AirPressureSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -1783,7 +1783,7 @@ public class BioInitializer{
 	private void createCO2AirEnvironmentInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating CO2AirEnvironmentInFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating CO2AirEnvironmentInFlowRateSensor with moduleName: "+moduleName);
 			CO2AirEnvironmentInFlowRateSensorImpl myCO2AirEnvironmentInFlowRateSensorImpl = new CO2AirEnvironmentInFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myCO2AirEnvironmentInFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myCO2AirEnvironmentInFlowRateSensorImpl));
@@ -1794,7 +1794,7 @@ public class BioInitializer{
 	}
 
 	private void configureCO2AirEnvironmentInFlowRateSensor(Node node){
-		System.out.println("Configuring CO2AirEnvironmentInFlowRateSensor");
+		//System.out.println("Configuring CO2AirEnvironmentInFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			CO2AirEnvironmentInFlowRateSensor myCO2AirEnvironmentInFlowRateSensor = CO2AirEnvironmentInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -1813,7 +1813,7 @@ public class BioInitializer{
 	private void createCO2AirEnvironmentOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating CO2AirEnvironmentOutFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating CO2AirEnvironmentOutFlowRateSensor with moduleName: "+moduleName);
 			CO2AirEnvironmentOutFlowRateSensorImpl myCO2AirEnvironmentOutFlowRateSensorImpl = new CO2AirEnvironmentOutFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myCO2AirEnvironmentOutFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myCO2AirEnvironmentOutFlowRateSensorImpl));
@@ -1824,7 +1824,7 @@ public class BioInitializer{
 	}
 
 	private void configureCO2AirEnvironmentOutFlowRateSensor(Node node){
-		System.out.println("Configuring CO2AirEnvironmentOutFlowRateSensor");
+		//System.out.println("Configuring CO2AirEnvironmentOutFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			CO2AirEnvironmentOutFlowRateSensor myCO2AirEnvironmentOutFlowRateSensor = CO2AirEnvironmentOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -1843,7 +1843,7 @@ public class BioInitializer{
 	private void createCO2AirStoreInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating CO2AirStoreInFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating CO2AirStoreInFlowRateSensor with moduleName: "+moduleName);
 			CO2AirStoreInFlowRateSensorImpl myCO2AirStoreInFlowRateSensorImpl = new CO2AirStoreInFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myCO2AirStoreInFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myCO2AirStoreInFlowRateSensorImpl));
@@ -1854,7 +1854,7 @@ public class BioInitializer{
 	}
 
 	private void configureCO2AirStoreInFlowRateSensor(Node node){
-		System.out.println("Configuring CO2AirStoreInFlowRateSensor");
+		//System.out.println("Configuring CO2AirStoreInFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			CO2AirStoreInFlowRateSensor myCO2AirStoreInFlowRateSensor = CO2AirStoreInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -1873,7 +1873,7 @@ public class BioInitializer{
 	private void createCO2AirStoreOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating CO2AirStoreOutFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating CO2AirStoreOutFlowRateSensor with moduleName: "+moduleName);
 			CO2AirStoreOutFlowRateSensorImpl myCO2AirStoreOutFlowRateSensorImpl = new CO2AirStoreOutFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myCO2AirStoreOutFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myCO2AirStoreOutFlowRateSensorImpl));
@@ -1884,7 +1884,7 @@ public class BioInitializer{
 	}
 
 	private void configureCO2AirStoreOutFlowRateSensor(Node node){
-		System.out.println("Configuring CO2AirStoreOutFlowRateSensor");
+		//System.out.println("Configuring CO2AirStoreOutFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			CO2AirStoreOutFlowRateSensor myCO2AirStoreOutFlowRateSensor = CO2AirStoreOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -1903,7 +1903,7 @@ public class BioInitializer{
 	private void createO2AirConcentrationSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating O2AirConcentrationSensor with moduleName: "+moduleName);
+			//System.out.println("Creating O2AirConcentrationSensor with moduleName: "+moduleName);
 			O2AirConcentrationSensorImpl myO2AirConcentrationSensorImpl = new O2AirConcentrationSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myO2AirConcentrationSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myO2AirConcentrationSensorImpl));
@@ -1914,7 +1914,7 @@ public class BioInitializer{
 	}
 
 	private void configureO2AirConcentrationSensor(Node node){
-		System.out.println("Configuring O2AirConcentrationSensor");
+		//System.out.println("Configuring O2AirConcentrationSensor");
 		String moduleName = getModuleName(node);
 		try{
 			O2AirConcentrationSensor myO2AirConcentrationSensor = O2AirConcentrationSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -1932,7 +1932,7 @@ public class BioInitializer{
 	private void createO2AirPressureSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating O2AirPressureSensor with moduleName: "+moduleName);
+			//System.out.println("Creating O2AirPressureSensor with moduleName: "+moduleName);
 			O2AirPressureSensorImpl myO2AirPressureSensorImpl = new O2AirPressureSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myO2AirPressureSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myO2AirPressureSensorImpl));
@@ -1943,7 +1943,7 @@ public class BioInitializer{
 	}
 
 	private void configureO2AirPressureSensor(Node node){
-		System.out.println("Configuring O2AirPressureSensor");
+		//System.out.println("Configuring O2AirPressureSensor");
 		String moduleName = getModuleName(node);
 		try{
 			O2AirPressureSensor myO2AirPressureSensor = O2AirPressureSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -1961,7 +1961,7 @@ public class BioInitializer{
 	private void createO2AirEnvironmentInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating O2AirEnvironmentInFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating O2AirEnvironmentInFlowRateSensor with moduleName: "+moduleName);
 			O2AirEnvironmentInFlowRateSensorImpl myO2AirEnvironmentInFlowRateSensorImpl = new O2AirEnvironmentInFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myO2AirEnvironmentInFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myO2AirEnvironmentInFlowRateSensorImpl));
@@ -1972,7 +1972,7 @@ public class BioInitializer{
 	}
 
 	private void configureO2AirEnvironmentInFlowRateSensor(Node node){
-		System.out.println("Configuring O2AirEnvironmentInFlowRateSensor");
+		//System.out.println("Configuring O2AirEnvironmentInFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			O2AirEnvironmentInFlowRateSensor myO2AirEnvironmentInFlowRateSensor = O2AirEnvironmentInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -1991,7 +1991,7 @@ public class BioInitializer{
 	private void createO2AirEnvironmentOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating O2AirEnvironmentOutFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating O2AirEnvironmentOutFlowRateSensor with moduleName: "+moduleName);
 			O2AirEnvironmentOutFlowRateSensorImpl myO2AirEnvironmentOutFlowRateSensorImpl = new O2AirEnvironmentOutFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myO2AirEnvironmentOutFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myO2AirEnvironmentOutFlowRateSensorImpl));
@@ -2002,7 +2002,7 @@ public class BioInitializer{
 	}
 
 	private void configureO2AirEnvironmentOutFlowRateSensor(Node node){
-		System.out.println("Configuring O2AirEnvironmentOutFlowRateSensor");
+		//System.out.println("Configuring O2AirEnvironmentOutFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			O2AirEnvironmentOutFlowRateSensor myO2AirEnvironmentOutFlowRateSensor = O2AirEnvironmentOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -2021,7 +2021,7 @@ public class BioInitializer{
 	private void createO2AirStoreInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating O2AirStoreInFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating O2AirStoreInFlowRateSensor with moduleName: "+moduleName);
 			O2AirStoreInFlowRateSensorImpl myO2AirStoreInFlowRateSensorImpl = new O2AirStoreInFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myO2AirStoreInFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myO2AirStoreInFlowRateSensorImpl));
@@ -2032,7 +2032,7 @@ public class BioInitializer{
 	}
 
 	private void configureO2AirStoreInFlowRateSensor(Node node){
-		System.out.println("Configuring O2AirStoreInFlowRateSensor");
+		//System.out.println("Configuring O2AirStoreInFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			O2AirStoreInFlowRateSensor myO2AirStoreInFlowRateSensor = O2AirStoreInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -2051,7 +2051,7 @@ public class BioInitializer{
 	private void createO2AirStoreOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating O2AirStoreOutFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating O2AirStoreOutFlowRateSensor with moduleName: "+moduleName);
 			O2AirStoreOutFlowRateSensorImpl myO2AirStoreOutFlowRateSensorImpl = new O2AirStoreOutFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myO2AirStoreOutFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myO2AirStoreOutFlowRateSensorImpl));
@@ -2062,7 +2062,7 @@ public class BioInitializer{
 	}
 
 	private void configureO2AirStoreOutFlowRateSensor(Node node){
-		System.out.println("Configuring O2AirStoreOutFlowRateSensor");
+		//System.out.println("Configuring O2AirStoreOutFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			O2AirStoreOutFlowRateSensor myO2AirStoreOutFlowRateSensor = O2AirStoreOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -2081,7 +2081,7 @@ public class BioInitializer{
 	private void createOtherAirConcentrationSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating OtherAirConcentrationSensor with moduleName: "+moduleName);
+			//System.out.println("Creating OtherAirConcentrationSensor with moduleName: "+moduleName);
 			OtherAirConcentrationSensorImpl myOtherAirConcentrationSensorImpl = new OtherAirConcentrationSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myOtherAirConcentrationSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myOtherAirConcentrationSensorImpl));
@@ -2092,7 +2092,7 @@ public class BioInitializer{
 	}
 
 	private void configureOtherAirConcentrationSensor(Node node){
-		System.out.println("Configuring OtherAirConcentrationSensor");
+		//System.out.println("Configuring OtherAirConcentrationSensor");
 		String moduleName = getModuleName(node);
 		try{
 			OtherAirConcentrationSensor myOtherAirConcentrationSensor = OtherAirConcentrationSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -2110,7 +2110,7 @@ public class BioInitializer{
 	private void createOtherAirPressureSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating OtherAirPressureSensor with moduleName: "+moduleName);
+			//System.out.println("Creating OtherAirPressureSensor with moduleName: "+moduleName);
 			OtherAirPressureSensorImpl myOtherAirPressureSensorImpl = new OtherAirPressureSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myOtherAirPressureSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myOtherAirPressureSensorImpl));
@@ -2121,7 +2121,7 @@ public class BioInitializer{
 	}
 
 	private void configureOtherAirPressureSensor(Node node){
-		System.out.println("Configuring OtherAirPressureSensor");
+		//System.out.println("Configuring OtherAirPressureSensor");
 		String moduleName = getModuleName(node);
 		try{
 			OtherAirPressureSensor myOtherAirPressureSensor = OtherAirPressureSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -2139,7 +2139,7 @@ public class BioInitializer{
 	private void createWaterAirConcentrationSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating WaterAirConcentrationSensor with moduleName: "+moduleName);
+			//System.out.println("Creating WaterAirConcentrationSensor with moduleName: "+moduleName);
 			WaterAirConcentrationSensorImpl myWaterAirConcentrationSensorImpl = new WaterAirConcentrationSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myWaterAirConcentrationSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myWaterAirConcentrationSensorImpl));
@@ -2150,7 +2150,7 @@ public class BioInitializer{
 	}
 
 	private void configureWaterAirConcentrationSensor(Node node){
-		System.out.println("Configuring WaterAirConcentrationSensor");
+		//System.out.println("Configuring WaterAirConcentrationSensor");
 		String moduleName = getModuleName(node);
 		try{
 			WaterAirConcentrationSensor myWaterAirConcentrationSensor = WaterAirConcentrationSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -2168,7 +2168,7 @@ public class BioInitializer{
 	private void createWaterAirPressureSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating WaterAirPressureSensor with moduleName: "+moduleName);
+			//System.out.println("Creating WaterAirPressureSensor with moduleName: "+moduleName);
 			WaterAirPressureSensorImpl myWaterAirPressureSensorImpl = new WaterAirPressureSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myWaterAirPressureSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myWaterAirPressureSensorImpl));
@@ -2179,7 +2179,7 @@ public class BioInitializer{
 	}
 
 	private void configureWaterAirPressureSensor(Node node){
-		System.out.println("Configuring WaterAirPressureSensor");
+		//System.out.println("Configuring WaterAirPressureSensor");
 		String moduleName = getModuleName(node);
 		try{
 			WaterAirPressureSensor myWaterAirPressureSensor = WaterAirPressureSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -2314,7 +2314,7 @@ public class BioInitializer{
 	private void createBiomassInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating BiomassInFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating BiomassInFlowRateSensor with moduleName: "+moduleName);
 			BiomassInFlowRateSensorImpl myBiomassInFlowRateSensorImpl = new BiomassInFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myBiomassInFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myBiomassInFlowRateSensorImpl));
@@ -2325,7 +2325,7 @@ public class BioInitializer{
 	}
 
 	private void configureBiomassInFlowRateSensor(Node node){
-		System.out.println("Configuring BiomassInFlowRateSensor");
+		//System.out.println("Configuring BiomassInFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			BiomassInFlowRateSensor myBiomassInFlowRateSensor = BiomassInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -2344,7 +2344,7 @@ public class BioInitializer{
 	private void createBiomassOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating BiomassOutFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating BiomassOutFlowRateSensor with moduleName: "+moduleName);
 			BiomassOutFlowRateSensorImpl myBiomassOutFlowRateSensorImpl = new BiomassOutFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myBiomassOutFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myBiomassOutFlowRateSensorImpl));
@@ -2355,7 +2355,7 @@ public class BioInitializer{
 	}
 
 	private void configureBiomassOutFlowRateSensor(Node node){
-		System.out.println("Configuring BiomassOutFlowRateSensor");
+		//System.out.println("Configuring BiomassOutFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			BiomassOutFlowRateSensor myBiomassOutFlowRateSensor = BiomassOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -2374,7 +2374,7 @@ public class BioInitializer{
 	private void createBiomassStoreLevelSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating BiomassStoreLevelSensor with moduleName: "+moduleName);
+			//System.out.println("Creating BiomassStoreLevelSensor with moduleName: "+moduleName);
 			BiomassStoreLevelSensorImpl myBiomassStoreLevelSensorImpl = new BiomassStoreLevelSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myBiomassStoreLevelSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myBiomassStoreLevelSensorImpl));
@@ -2385,7 +2385,7 @@ public class BioInitializer{
 	}
 
 	private void configureBiomassStoreLevelSensor(Node node){
-		System.out.println("Configuring BiomassStoreLevelSensor");
+		//System.out.println("Configuring BiomassStoreLevelSensor");
 		String moduleName = getModuleName(node);
 		try{
 			BiomassStoreLevelSensor myBiomassStoreLevelSensor = BiomassStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -2403,7 +2403,7 @@ public class BioInitializer{
 	private void createFoodInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating FoodInFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating FoodInFlowRateSensor with moduleName: "+moduleName);
 			FoodInFlowRateSensorImpl myFoodInFlowRateSensorImpl = new FoodInFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myFoodInFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myFoodInFlowRateSensorImpl));
@@ -2414,7 +2414,7 @@ public class BioInitializer{
 	}
 
 	private void configureFoodInFlowRateSensor(Node node){
-		System.out.println("Configuring FoodInFlowRateSensor");
+		//System.out.println("Configuring FoodInFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			FoodInFlowRateSensor myFoodInFlowRateSensor = FoodInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -2433,7 +2433,7 @@ public class BioInitializer{
 	private void createFoodOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating FoodOutFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating FoodOutFlowRateSensor with moduleName: "+moduleName);
 			FoodOutFlowRateSensorImpl myFoodOutFlowRateSensorImpl = new FoodOutFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myFoodOutFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myFoodOutFlowRateSensorImpl));
@@ -2444,7 +2444,7 @@ public class BioInitializer{
 	}
 
 	private void configureFoodOutFlowRateSensor(Node node){
-		System.out.println("Configuring FoodOutFlowRateSensor");
+		//System.out.println("Configuring FoodOutFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			FoodOutFlowRateSensor myFoodOutFlowRateSensor = FoodOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -2463,7 +2463,7 @@ public class BioInitializer{
 	private void createFoodStoreLevelSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating FoodStoreLevelSensor with moduleName: "+moduleName);
+			//System.out.println("Creating FoodStoreLevelSensor with moduleName: "+moduleName);
 			FoodStoreLevelSensorImpl myFoodStoreLevelSensorImpl = new FoodStoreLevelSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myFoodStoreLevelSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myFoodStoreLevelSensorImpl));
@@ -2474,7 +2474,7 @@ public class BioInitializer{
 	}
 
 	private void configureFoodStoreLevelSensor(Node node){
-		System.out.println("Configuring FoodStoreLevelSensor");
+		//System.out.println("Configuring FoodStoreLevelSensor");
 		String moduleName = getModuleName(node);
 		try{
 			FoodStoreLevelSensor myFoodStoreLevelSensor = FoodStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -2537,7 +2537,7 @@ public class BioInitializer{
 	private void createStoreLevelSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating StoreLevelSensor with moduleName: "+moduleName);
+			//System.out.println("Creating StoreLevelSensor with moduleName: "+moduleName);
 			StoreLevelSensorImpl myStoreLevelSensorImpl = new StoreLevelSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myStoreLevelSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myStoreLevelSensorImpl));
@@ -2548,7 +2548,7 @@ public class BioInitializer{
 	}
 
 	private void configureStoreLevelSensor(Node node){
-		System.out.println("Configuring StoreLevelSensor");
+		//System.out.println("Configuring StoreLevelSensor");
 		String moduleName = getModuleName(node);
 		try{
 			StoreLevelSensor myStoreLevelSensor = StoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -2566,7 +2566,7 @@ public class BioInitializer{
 	private void createStoreOverflowSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating StoreOverflowSensor with moduleName: "+moduleName);
+			//System.out.println("Creating StoreOverflowSensor with moduleName: "+moduleName);
 			StoreOverflowSensorImpl myStoreOverflowSensorImpl = new StoreOverflowSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myStoreOverflowSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myStoreOverflowSensorImpl));
@@ -2577,7 +2577,7 @@ public class BioInitializer{
 	}
 
 	private void configureStoreOverflowSensor(Node node){
-		System.out.println("Configuring StoreOverflowSensor");
+		//System.out.println("Configuring StoreOverflowSensor");
 		String moduleName = getModuleName(node);
 		try{
 			StoreOverflowSensor myStoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -2616,7 +2616,7 @@ public class BioInitializer{
 	private void createPowerInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating PowerInFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating PowerInFlowRateSensor with moduleName: "+moduleName);
 			PowerInFlowRateSensorImpl myPowerInFlowRateSensorImpl = new PowerInFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myPowerInFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myPowerInFlowRateSensorImpl));
@@ -2627,7 +2627,7 @@ public class BioInitializer{
 	}
 
 	private void configurePowerInFlowRateSensor(Node node){
-		System.out.println("Configuring PowerInFlowRateSensor");
+		//System.out.println("Configuring PowerInFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			PowerInFlowRateSensor myPowerInFlowRateSensor = PowerInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -2646,7 +2646,7 @@ public class BioInitializer{
 	private void createPowerOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating PowerOutFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating PowerOutFlowRateSensor with moduleName: "+moduleName);
 			PowerOutFlowRateSensorImpl myPowerOutFlowRateSensorImpl = new PowerOutFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myPowerOutFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myPowerOutFlowRateSensorImpl));
@@ -2657,7 +2657,7 @@ public class BioInitializer{
 	}
 
 	private void configurePowerOutFlowRateSensor(Node node){
-		System.out.println("Configuring PowerOutFlowRateSensor");
+		//System.out.println("Configuring PowerOutFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			PowerOutFlowRateSensor myPowerOutFlowRateSensor = PowerOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -2676,7 +2676,7 @@ public class BioInitializer{
 	private void createPowerStoreLevelSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating PowerStoreLevelSensor with moduleName: "+moduleName);
+			//System.out.println("Creating PowerStoreLevelSensor with moduleName: "+moduleName);
 			PowerStoreLevelSensorImpl myPowerStoreLevelSensorImpl = new PowerStoreLevelSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myPowerStoreLevelSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myPowerStoreLevelSensorImpl));
@@ -2687,7 +2687,7 @@ public class BioInitializer{
 	}
 
 	private void configurePowerStoreLevelSensor(Node node){
-		System.out.println("Configuring PowerStoreLevelSensor");
+		//System.out.println("Configuring PowerStoreLevelSensor");
 		String moduleName = getModuleName(node);
 		try{
 			PowerStoreLevelSensor myPowerStoreLevelSensor = PowerStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -2732,7 +2732,7 @@ public class BioInitializer{
 	private void createPotableWaterInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating PotableWaterInFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating PotableWaterInFlowRateSensor with moduleName: "+moduleName);
 			PotableWaterInFlowRateSensorImpl myPotableWaterInFlowRateSensorImpl = new PotableWaterInFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myPotableWaterInFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myPotableWaterInFlowRateSensorImpl));
@@ -2743,7 +2743,7 @@ public class BioInitializer{
 	}
 
 	private void configurePotableWaterInFlowRateSensor(Node node){
-		System.out.println("Configuring PotableWaterInFlowRateSensor");
+		//System.out.println("Configuring PotableWaterInFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			PotableWaterInFlowRateSensor myPotableWaterInFlowRateSensor = PotableWaterInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -2762,7 +2762,7 @@ public class BioInitializer{
 	private void createPotableWaterOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating PotableWaterOutFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating PotableWaterOutFlowRateSensor with moduleName: "+moduleName);
 			PotableWaterOutFlowRateSensorImpl myPotableWaterOutFlowRateSensorImpl = new PotableWaterOutFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myPotableWaterOutFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myPotableWaterOutFlowRateSensorImpl));
@@ -2773,7 +2773,7 @@ public class BioInitializer{
 	}
 
 	private void configurePotableWaterOutFlowRateSensor(Node node){
-		System.out.println("Configuring PotableWaterOutFlowRateSensor");
+		//System.out.println("Configuring PotableWaterOutFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			PotableWaterOutFlowRateSensor myPotableWaterOutFlowRateSensor = PotableWaterOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -2792,7 +2792,7 @@ public class BioInitializer{
 	private void createPotableWaterStoreLevelSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating PotableWaterStoreLevelSensor with moduleName: "+moduleName);
+			//System.out.println("Creating PotableWaterStoreLevelSensor with moduleName: "+moduleName);
 			PotableWaterStoreLevelSensorImpl myPotableWaterStoreLevelSensorImpl = new PotableWaterStoreLevelSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myPotableWaterStoreLevelSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myPotableWaterStoreLevelSensorImpl));
@@ -2803,7 +2803,7 @@ public class BioInitializer{
 	}
 
 	private void configurePotableWaterStoreLevelSensor(Node node){
-		System.out.println("Configuring PotableWaterStoreLevelSensor");
+		//System.out.println("Configuring PotableWaterStoreLevelSensor");
 		String moduleName = getModuleName(node);
 		try{
 			PotableWaterStoreLevelSensor myPotableWaterStoreLevelSensor = PotableWaterStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -2821,7 +2821,7 @@ public class BioInitializer{
 	private void createGreyWaterInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating GreyWaterInFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating GreyWaterInFlowRateSensor with moduleName: "+moduleName);
 			GreyWaterInFlowRateSensorImpl myGreyWaterInFlowRateSensorImpl = new GreyWaterInFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myGreyWaterInFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myGreyWaterInFlowRateSensorImpl));
@@ -2832,7 +2832,7 @@ public class BioInitializer{
 	}
 
 	private void configureGreyWaterInFlowRateSensor(Node node){
-		System.out.println("Configuring GreyWaterInFlowRateSensor");
+		//System.out.println("Configuring GreyWaterInFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			GreyWaterInFlowRateSensor myGreyWaterInFlowRateSensor = GreyWaterInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -2851,7 +2851,7 @@ public class BioInitializer{
 	private void createGreyWaterOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating GreyWaterOutFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating GreyWaterOutFlowRateSensor with moduleName: "+moduleName);
 			GreyWaterOutFlowRateSensorImpl myGreyWaterOutFlowRateSensorImpl = new GreyWaterOutFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myGreyWaterOutFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myGreyWaterOutFlowRateSensorImpl));
@@ -2862,7 +2862,7 @@ public class BioInitializer{
 	}
 
 	private void configureGreyWaterOutFlowRateSensor(Node node){
-		System.out.println("Configuring GreyWaterOutFlowRateSensor");
+		//System.out.println("Configuring GreyWaterOutFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			GreyWaterOutFlowRateSensor myGreyWaterOutFlowRateSensor = GreyWaterOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -2881,7 +2881,7 @@ public class BioInitializer{
 	private void createGreyWaterStoreLevelSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating GreyWaterStoreLevelSensor with moduleName: "+moduleName);
+			//System.out.println("Creating GreyWaterStoreLevelSensor with moduleName: "+moduleName);
 			GreyWaterStoreLevelSensorImpl myGreyWaterStoreLevelSensorImpl = new GreyWaterStoreLevelSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myGreyWaterStoreLevelSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myGreyWaterStoreLevelSensorImpl));
@@ -2892,7 +2892,7 @@ public class BioInitializer{
 	}
 
 	private void configureGreyWaterStoreLevelSensor(Node node){
-		System.out.println("Configuring GreyWaterStoreLevelSensor");
+		//System.out.println("Configuring GreyWaterStoreLevelSensor");
 		String moduleName = getModuleName(node);
 		try{
 			GreyWaterStoreLevelSensor myGreyWaterStoreLevelSensor = GreyWaterStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -2910,7 +2910,7 @@ public class BioInitializer{
 	private void createDirtyWaterInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating DirtyWaterInFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating DirtyWaterInFlowRateSensor with moduleName: "+moduleName);
 			DirtyWaterInFlowRateSensorImpl myDirtyWaterInFlowRateSensorImpl = new DirtyWaterInFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myDirtyWaterInFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myDirtyWaterInFlowRateSensorImpl));
@@ -2921,7 +2921,7 @@ public class BioInitializer{
 	}
 
 	private void configureDirtyWaterInFlowRateSensor(Node node){
-		System.out.println("Configuring DirtyWaterInFlowRateSensor");
+		//System.out.println("Configuring DirtyWaterInFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			DirtyWaterInFlowRateSensor myDirtyWaterInFlowRateSensor = DirtyWaterInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -2940,7 +2940,7 @@ public class BioInitializer{
 	private void createDirtyWaterOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating DirtyWaterOutFlowRateSensor with moduleName: "+moduleName);
+			//System.out.println("Creating DirtyWaterOutFlowRateSensor with moduleName: "+moduleName);
 			DirtyWaterOutFlowRateSensorImpl myDirtyWaterOutFlowRateSensorImpl = new DirtyWaterOutFlowRateSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myDirtyWaterOutFlowRateSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myDirtyWaterOutFlowRateSensorImpl));
@@ -2951,7 +2951,7 @@ public class BioInitializer{
 	}
 
 	private void configureDirtyWaterOutFlowRateSensor(Node node){
-		System.out.println("Configuring DirtyWaterOutFlowRateSensor");
+		//System.out.println("Configuring DirtyWaterOutFlowRateSensor");
 		String moduleName = getModuleName(node);
 		try{
 			DirtyWaterOutFlowRateSensor myDirtyWaterOutFlowRateSensor = DirtyWaterOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -2970,7 +2970,7 @@ public class BioInitializer{
 	private void createDirtyWaterStoreLevelSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating DirtyWaterStoreLevelSensor with moduleName: "+moduleName);
+			//System.out.println("Creating DirtyWaterStoreLevelSensor with moduleName: "+moduleName);
 			DirtyWaterStoreLevelSensorImpl myDirtyWaterStoreLevelSensorImpl = new DirtyWaterStoreLevelSensorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myDirtyWaterStoreLevelSensorImpl));
 			mySensors.add(OrbUtils.poaToCorbaObj(myDirtyWaterStoreLevelSensorImpl));
@@ -2981,7 +2981,7 @@ public class BioInitializer{
 	}
 
 	private void configureDirtyWaterStoreLevelSensor(Node node){
-		System.out.println("Configuring DirtyWaterStoreLevelSensor");
+		//System.out.println("Configuring DirtyWaterStoreLevelSensor");
 		String moduleName = getModuleName(node);
 		try{
 			DirtyWaterStoreLevelSensor myDirtyWaterStoreLevelSensor = DirtyWaterStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -3063,7 +3063,7 @@ public class BioInitializer{
 	private void createCO2InFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating CO2InFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating CO2InFlowRateActuator with moduleName: "+moduleName);
 			CO2InFlowRateActuatorImpl myCO2InFlowRateActuatorImpl = new CO2InFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myCO2InFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myCO2InFlowRateActuatorImpl));
@@ -3074,7 +3074,7 @@ public class BioInitializer{
 	}
 
 	private void configureCO2InFlowRateActuator(Node node){
-		System.out.println("Configuring CO2InFlowRateActuator");
+		//System.out.println("Configuring CO2InFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			CO2InFlowRateActuator myCO2InFlowRateActuator = CO2InFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -3093,7 +3093,7 @@ public class BioInitializer{
 	private void createCO2OutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating CO2OutFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating CO2OutFlowRateActuator with moduleName: "+moduleName);
 			CO2OutFlowRateActuatorImpl myCO2OutFlowRateActuatorImpl = new CO2OutFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myCO2OutFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myCO2OutFlowRateActuatorImpl));
@@ -3104,7 +3104,7 @@ public class BioInitializer{
 	}
 
 	private void configureCO2OutFlowRateActuator(Node node){
-		System.out.println("Configuring CO2OutFlowRateActuator");
+		//System.out.println("Configuring CO2OutFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			CO2OutFlowRateActuator myCO2OutFlowRateActuator = CO2OutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -3123,7 +3123,7 @@ public class BioInitializer{
 	private void createO2InFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating O2InFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating O2InFlowRateActuator with moduleName: "+moduleName);
 			O2InFlowRateActuatorImpl myO2InFlowRateActuatorImpl = new O2InFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myO2InFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myO2InFlowRateActuatorImpl));
@@ -3134,7 +3134,7 @@ public class BioInitializer{
 	}
 
 	private void configureO2InFlowRateActuator(Node node){
-		System.out.println("Configuring O2InFlowRateActuator");
+		//System.out.println("Configuring O2InFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			O2InFlowRateActuator myO2InFlowRateActuator = O2InFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -3153,7 +3153,7 @@ public class BioInitializer{
 	private void createO2OutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating O2OutFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating O2OutFlowRateActuator with moduleName: "+moduleName);
 			O2OutFlowRateActuatorImpl myO2OutFlowRateActuatorImpl = new O2OutFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myO2OutFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myO2OutFlowRateActuatorImpl));
@@ -3164,7 +3164,7 @@ public class BioInitializer{
 	}
 
 	private void configureO2OutFlowRateActuator(Node node){
-		System.out.println("Configuring O2OutFlowRateActuator");
+		//System.out.println("Configuring O2OutFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			O2OutFlowRateActuator myO2OutFlowRateActuator = O2OutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -3183,7 +3183,7 @@ public class BioInitializer{
 	private void createH2InFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating H2InFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating H2InFlowRateActuator with moduleName: "+moduleName);
 			H2InFlowRateActuatorImpl myH2InFlowRateActuatorImpl = new H2InFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myH2InFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myH2InFlowRateActuatorImpl));
@@ -3194,7 +3194,7 @@ public class BioInitializer{
 	}
 
 	private void configureH2InFlowRateActuator(Node node){
-		System.out.println("Configuring H2InFlowRateActuator");
+		//System.out.println("Configuring H2InFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			H2InFlowRateActuator myH2InFlowRateActuator = H2InFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -3213,7 +3213,7 @@ public class BioInitializer{
 	private void createH2OutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating H2OutFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating H2OutFlowRateActuator with moduleName: "+moduleName);
 			H2OutFlowRateActuatorImpl myH2OutFlowRateActuatorImpl = new H2OutFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myH2OutFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myH2OutFlowRateActuatorImpl));
@@ -3224,7 +3224,7 @@ public class BioInitializer{
 	}
 
 	private void configureH2OutFlowRateActuator(Node node){
-		System.out.println("Configuring H2OutFlowRateActuator");
+		//System.out.println("Configuring H2OutFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			H2OutFlowRateActuator myH2OutFlowRateActuator = H2OutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -3292,7 +3292,7 @@ public class BioInitializer{
 	private void createAirInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating AirInFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating AirInFlowRateActuator with moduleName: "+moduleName);
 			AirInFlowRateActuatorImpl myAirInFlowRateActuatorImpl = new AirInFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myAirInFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myAirInFlowRateActuatorImpl));
@@ -3303,7 +3303,7 @@ public class BioInitializer{
 	}
 
 	private void configureAirInFlowRateActuator(Node node){
-		System.out.println("Configuring AirInFlowRateActuator");
+		//System.out.println("Configuring AirInFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			AirInFlowRateActuator myAirInFlowRateActuator = AirInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -3322,7 +3322,7 @@ public class BioInitializer{
 	private void createAirOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating AirOutFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating AirOutFlowRateActuator with moduleName: "+moduleName);
 			AirOutFlowRateActuatorImpl myAirOutFlowRateActuatorImpl = new AirOutFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myAirOutFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myAirOutFlowRateActuatorImpl));
@@ -3333,7 +3333,7 @@ public class BioInitializer{
 	}
 
 	private void configureAirOutFlowRateActuator(Node node){
-		System.out.println("Configuring AirOutFlowRateActuator");
+		//System.out.println("Configuring AirOutFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			AirOutFlowRateActuator myAirOutFlowRateActuator = AirOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -3352,7 +3352,7 @@ public class BioInitializer{
 	private void createCO2AirEnvironmentInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating CO2AirEnvironmentInFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating CO2AirEnvironmentInFlowRateActuator with moduleName: "+moduleName);
 			CO2AirEnvironmentInFlowRateActuatorImpl myCO2AirEnvironmentInFlowRateActuatorImpl = new CO2AirEnvironmentInFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myCO2AirEnvironmentInFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myCO2AirEnvironmentInFlowRateActuatorImpl));
@@ -3363,7 +3363,7 @@ public class BioInitializer{
 	}
 
 	private void configureCO2AirEnvironmentInFlowRateActuator(Node node){
-		System.out.println("Configuring CO2AirEnvironmentInFlowRateActuator");
+		//System.out.println("Configuring CO2AirEnvironmentInFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			CO2AirEnvironmentInFlowRateActuator myCO2AirEnvironmentInFlowRateActuator = CO2AirEnvironmentInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -3382,7 +3382,7 @@ public class BioInitializer{
 	private void createCO2AirEnvironmentOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating CO2AirEnvironmentOutFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating CO2AirEnvironmentOutFlowRateActuator with moduleName: "+moduleName);
 			CO2AirEnvironmentOutFlowRateActuatorImpl myCO2AirEnvironmentOutFlowRateActuatorImpl = new CO2AirEnvironmentOutFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myCO2AirEnvironmentOutFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myCO2AirEnvironmentOutFlowRateActuatorImpl));
@@ -3393,7 +3393,7 @@ public class BioInitializer{
 	}
 
 	private void configureCO2AirEnvironmentOutFlowRateActuator(Node node){
-		System.out.println("Configuring CO2AirEnvironmentOutFlowRateActuator");
+		//System.out.println("Configuring CO2AirEnvironmentOutFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			CO2AirEnvironmentOutFlowRateActuator myCO2AirEnvironmentOutFlowRateActuator = CO2AirEnvironmentOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -3412,7 +3412,7 @@ public class BioInitializer{
 	private void createCO2AirStoreInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating CO2AirStoreInFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating CO2AirStoreInFlowRateActuator with moduleName: "+moduleName);
 			CO2AirStoreInFlowRateActuatorImpl myCO2AirStoreInFlowRateActuatorImpl = new CO2AirStoreInFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myCO2AirStoreInFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myCO2AirStoreInFlowRateActuatorImpl));
@@ -3423,7 +3423,7 @@ public class BioInitializer{
 	}
 
 	private void configureCO2AirStoreInFlowRateActuator(Node node){
-		System.out.println("Configuring CO2AirStoreInFlowRateActuator");
+		//System.out.println("Configuring CO2AirStoreInFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			CO2AirStoreInFlowRateActuator myCO2AirStoreInFlowRateActuator = CO2AirStoreInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -3442,7 +3442,7 @@ public class BioInitializer{
 	private void createCO2AirStoreOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating CO2AirStoreOutFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating CO2AirStoreOutFlowRateActuator with moduleName: "+moduleName);
 			CO2AirStoreOutFlowRateActuatorImpl myCO2AirStoreOutFlowRateActuatorImpl = new CO2AirStoreOutFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myCO2AirStoreOutFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myCO2AirStoreOutFlowRateActuatorImpl));
@@ -3453,7 +3453,7 @@ public class BioInitializer{
 	}
 
 	private void configureCO2AirStoreOutFlowRateActuator(Node node){
-		System.out.println("Configuring CO2AirStoreOutFlowRateActuator");
+		//System.out.println("Configuring CO2AirStoreOutFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			CO2AirStoreOutFlowRateActuator myCO2AirStoreOutFlowRateActuator = CO2AirStoreOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -3472,7 +3472,7 @@ public class BioInitializer{
 	private void createO2AirEnvironmentInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating O2AirEnvironmentInFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating O2AirEnvironmentInFlowRateActuator with moduleName: "+moduleName);
 			O2AirEnvironmentInFlowRateActuatorImpl myO2AirEnvironmentInFlowRateActuatorImpl = new O2AirEnvironmentInFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myO2AirEnvironmentInFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myO2AirEnvironmentInFlowRateActuatorImpl));
@@ -3483,7 +3483,7 @@ public class BioInitializer{
 	}
 
 	private void configureO2AirEnvironmentInFlowRateActuator(Node node){
-		System.out.println("Configuring O2AirEnvironmentInFlowRateActuator");
+		//System.out.println("Configuring O2AirEnvironmentInFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			O2AirEnvironmentInFlowRateActuator myO2AirEnvironmentInFlowRateActuator = O2AirEnvironmentInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -3502,7 +3502,7 @@ public class BioInitializer{
 	private void createO2AirEnvironmentOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating O2AirEnvironmentOutFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating O2AirEnvironmentOutFlowRateActuator with moduleName: "+moduleName);
 			O2AirEnvironmentOutFlowRateActuatorImpl myO2AirEnvironmentOutFlowRateActuatorImpl = new O2AirEnvironmentOutFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myO2AirEnvironmentOutFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myO2AirEnvironmentOutFlowRateActuatorImpl));
@@ -3513,7 +3513,7 @@ public class BioInitializer{
 	}
 
 	private void configureO2AirEnvironmentOutFlowRateActuator(Node node){
-		System.out.println("Configuring O2AirEnvironmentOutFlowRateActuator");
+		//System.out.println("Configuring O2AirEnvironmentOutFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			O2AirEnvironmentOutFlowRateActuator myO2AirEnvironmentOutFlowRateActuator = O2AirEnvironmentOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -3532,7 +3532,7 @@ public class BioInitializer{
 	private void createO2AirStoreInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating O2AirStoreInFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating O2AirStoreInFlowRateActuator with moduleName: "+moduleName);
 			O2AirStoreInFlowRateActuatorImpl myO2AirStoreInFlowRateActuatorImpl = new O2AirStoreInFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myO2AirStoreInFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myO2AirStoreInFlowRateActuatorImpl));
@@ -3543,7 +3543,7 @@ public class BioInitializer{
 	}
 
 	private void configureO2AirStoreInFlowRateActuator(Node node){
-		System.out.println("Configuring O2AirStoreInFlowRateActuator");
+		//System.out.println("Configuring O2AirStoreInFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			O2AirStoreInFlowRateActuator myO2AirStoreInFlowRateActuator = O2AirStoreInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -3562,7 +3562,7 @@ public class BioInitializer{
 	private void createO2AirStoreOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating O2AirStoreOutFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating O2AirStoreOutFlowRateActuator with moduleName: "+moduleName);
 			O2AirStoreOutFlowRateActuatorImpl myO2AirStoreOutFlowRateActuatorImpl = new O2AirStoreOutFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myO2AirStoreOutFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myO2AirStoreOutFlowRateActuatorImpl));
@@ -3573,7 +3573,7 @@ public class BioInitializer{
 	}
 
 	private void configureO2AirStoreOutFlowRateActuator(Node node){
-		System.out.println("Configuring O2AirStoreOutFlowRateActuator");
+		//System.out.println("Configuring O2AirStoreOutFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			O2AirStoreOutFlowRateActuator myO2AirStoreOutFlowRateActuator = O2AirStoreOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -3661,7 +3661,7 @@ public class BioInitializer{
 	private void createBiomassInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating BiomassInFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating BiomassInFlowRateActuator with moduleName: "+moduleName);
 			BiomassInFlowRateActuatorImpl myBiomassInFlowRateActuatorImpl = new BiomassInFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myBiomassInFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myBiomassInFlowRateActuatorImpl));
@@ -3672,7 +3672,7 @@ public class BioInitializer{
 	}
 
 	private void configureBiomassInFlowRateActuator(Node node){
-		System.out.println("Configuring BiomassInFlowRateActuator");
+		//System.out.println("Configuring BiomassInFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			BiomassInFlowRateActuator myBiomassInFlowRateActuator = BiomassInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -3691,7 +3691,7 @@ public class BioInitializer{
 	private void createBiomassOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating BiomassOutFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating BiomassOutFlowRateActuator with moduleName: "+moduleName);
 			BiomassOutFlowRateActuatorImpl myBiomassOutFlowRateActuatorImpl = new BiomassOutFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myBiomassOutFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myBiomassOutFlowRateActuatorImpl));
@@ -3702,7 +3702,7 @@ public class BioInitializer{
 	}
 
 	private void configureBiomassOutFlowRateActuator(Node node){
-		System.out.println("Configuring BiomassOutFlowRateActuator");
+		//System.out.println("Configuring BiomassOutFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			BiomassOutFlowRateActuator myBiomassOutFlowRateActuator = BiomassOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -3721,7 +3721,7 @@ public class BioInitializer{
 	private void createFoodInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating FoodInFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating FoodInFlowRateActuator with moduleName: "+moduleName);
 			FoodInFlowRateActuatorImpl myFoodInFlowRateActuatorImpl = new FoodInFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myFoodInFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myFoodInFlowRateActuatorImpl));
@@ -3732,7 +3732,7 @@ public class BioInitializer{
 	}
 
 	private void configureFoodInFlowRateActuator(Node node){
-		System.out.println("Configuring FoodInFlowRateActuator");
+		//System.out.println("Configuring FoodInFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			FoodInFlowRateActuator myFoodInFlowRateActuator = FoodInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -3751,7 +3751,7 @@ public class BioInitializer{
 	private void createFoodOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating FoodOutFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating FoodOutFlowRateActuator with moduleName: "+moduleName);
 			FoodOutFlowRateActuatorImpl myFoodOutFlowRateActuatorImpl = new FoodOutFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myFoodOutFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myFoodOutFlowRateActuatorImpl));
@@ -3762,7 +3762,7 @@ public class BioInitializer{
 	}
 
 	private void configureFoodOutFlowRateActuator(Node node){
-		System.out.println("Configuring FoodOutFlowRateActuator");
+		//System.out.println("Configuring FoodOutFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			FoodOutFlowRateActuator myFoodOutFlowRateActuator = FoodOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -3814,7 +3814,7 @@ public class BioInitializer{
 	private void createPowerInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating PowerInFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating PowerInFlowRateActuator with moduleName: "+moduleName);
 			PowerInFlowRateActuatorImpl myPowerInFlowRateActuatorImpl = new PowerInFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myPowerInFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myPowerInFlowRateActuatorImpl));
@@ -3825,7 +3825,7 @@ public class BioInitializer{
 	}
 
 	private void configurePowerInFlowRateActuator(Node node){
-		System.out.println("Configuring PowerInFlowRateActuator");
+		//System.out.println("Configuring PowerInFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			PowerInFlowRateActuator myPowerInFlowRateActuator = PowerInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -3844,7 +3844,7 @@ public class BioInitializer{
 	private void createPowerOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating PowerOutFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating PowerOutFlowRateActuator with moduleName: "+moduleName);
 			PowerOutFlowRateActuatorImpl myPowerOutFlowRateActuatorImpl = new PowerOutFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myPowerOutFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myPowerOutFlowRateActuatorImpl));
@@ -3855,7 +3855,7 @@ public class BioInitializer{
 	}
 
 	private void configurePowerOutFlowRateActuator(Node node){
-		System.out.println("Configuring PowerOutFlowRateActuator");
+		//System.out.println("Configuring PowerOutFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			PowerOutFlowRateActuator myPowerOutFlowRateActuator = PowerOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -3895,7 +3895,7 @@ public class BioInitializer{
 	private void createPotableWaterInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating PotableWaterInFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating PotableWaterInFlowRateActuator with moduleName: "+moduleName);
 			PotableWaterInFlowRateActuatorImpl myPotableWaterInFlowRateActuatorImpl = new PotableWaterInFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myPotableWaterInFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myPotableWaterInFlowRateActuatorImpl));
@@ -3906,7 +3906,7 @@ public class BioInitializer{
 	}
 
 	private void configurePotableWaterInFlowRateActuator(Node node){
-		System.out.println("Configuring PotableWaterInFlowRateActuator");
+		//System.out.println("Configuring PotableWaterInFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			PotableWaterInFlowRateActuator myPotableWaterInFlowRateActuator = PotableWaterInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -3925,7 +3925,7 @@ public class BioInitializer{
 	private void createPotableWaterOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating PotableWaterOutFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating PotableWaterOutFlowRateActuator with moduleName: "+moduleName);
 			PotableWaterOutFlowRateActuatorImpl myPotableWaterOutFlowRateActuatorImpl = new PotableWaterOutFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myPotableWaterOutFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myPotableWaterOutFlowRateActuatorImpl));
@@ -3936,7 +3936,7 @@ public class BioInitializer{
 	}
 
 	private void configurePotableWaterOutFlowRateActuator(Node node){
-		System.out.println("Configuring PotableWaterOutFlowRateActuator");
+		//System.out.println("Configuring PotableWaterOutFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			PotableWaterOutFlowRateActuator myPotableWaterOutFlowRateActuator = PotableWaterOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -3955,7 +3955,7 @@ public class BioInitializer{
 	private void createGreyWaterInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating GreyWaterInFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating GreyWaterInFlowRateActuator with moduleName: "+moduleName);
 			GreyWaterInFlowRateActuatorImpl myGreyWaterInFlowRateActuatorImpl = new GreyWaterInFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myGreyWaterInFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myGreyWaterInFlowRateActuatorImpl));
@@ -3966,7 +3966,7 @@ public class BioInitializer{
 	}
 
 	private void configureGreyWaterInFlowRateActuator(Node node){
-		System.out.println("Configuring GreyWaterInFlowRateActuator");
+		//System.out.println("Configuring GreyWaterInFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			GreyWaterInFlowRateActuator myGreyWaterInFlowRateActuator = GreyWaterInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -3985,7 +3985,7 @@ public class BioInitializer{
 	private void createGreyWaterOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating GreyWaterOutFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating GreyWaterOutFlowRateActuator with moduleName: "+moduleName);
 			GreyWaterOutFlowRateActuatorImpl myGreyWaterOutFlowRateActuatorImpl = new GreyWaterOutFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myGreyWaterOutFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myGreyWaterOutFlowRateActuatorImpl));
@@ -3996,7 +3996,7 @@ public class BioInitializer{
 	}
 
 	private void configureGreyWaterOutFlowRateActuator(Node node){
-		System.out.println("Configuring GreyWaterOutFlowRateActuator");
+		//System.out.println("Configuring GreyWaterOutFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			GreyWaterOutFlowRateActuator myGreyWaterOutFlowRateActuator = GreyWaterOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -4015,7 +4015,7 @@ public class BioInitializer{
 	private void createDirtyWaterInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating DirtyWaterInFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating DirtyWaterInFlowRateActuator with moduleName: "+moduleName);
 			DirtyWaterInFlowRateActuatorImpl myDirtyWaterInFlowRateActuatorImpl = new DirtyWaterInFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myDirtyWaterInFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myDirtyWaterInFlowRateActuatorImpl));
@@ -4026,7 +4026,7 @@ public class BioInitializer{
 	}
 
 	private void configureDirtyWaterInFlowRateActuator(Node node){
-		System.out.println("Configuring DirtyWaterInFlowRateActuator");
+		//System.out.println("Configuring DirtyWaterInFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			DirtyWaterInFlowRateActuator myDirtyWaterInFlowRateActuator = DirtyWaterInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
@@ -4045,7 +4045,7 @@ public class BioInitializer{
 	private void createDirtyWaterOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating DirtyWaterOutFlowRateActuator with moduleName: "+moduleName);
+			//System.out.println("Creating DirtyWaterOutFlowRateActuator with moduleName: "+moduleName);
 			DirtyWaterOutFlowRateActuatorImpl myDirtyWaterOutFlowRateActuatorImpl = new DirtyWaterOutFlowRateActuatorImpl(myID, moduleName);
 			myModules.add(OrbUtils.poaToCorbaObj(myDirtyWaterOutFlowRateActuatorImpl));
 			myActuators.add(OrbUtils.poaToCorbaObj(myDirtyWaterOutFlowRateActuatorImpl));
@@ -4056,7 +4056,7 @@ public class BioInitializer{
 	}
 
 	private void configureDirtyWaterOutFlowRateActuator(Node node){
-		System.out.println("Configuring DirtyWaterOutFlowRateActuator");
+		//System.out.println("Configuring DirtyWaterOutFlowRateActuator");
 		String moduleName = getModuleName(node);
 		try{
 			DirtyWaterOutFlowRateActuator myDirtyWaterOutFlowRateActuator = DirtyWaterOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
