@@ -5,8 +5,6 @@ import java.awt.Cursor;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.util.Locale;
 
@@ -132,8 +130,9 @@ public class EditorFrame extends BioFrame {
     }
 
     public EditorFrame(String title, BiosimEditor pEditor) {
-        super(title, false);
-        myEditor = pEditor;        
+        super(title);
+        myEditor = pEditor; 
+        Globals.curEditor(myEditor);       
         loadResources();
         buildGui();
 
@@ -168,22 +167,15 @@ public class EditorFrame extends BioFrame {
 
         //init tabbed pane tool bar
         createTabbedPane();
-
+        
         //do splitpane
-        mySplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, myTabbedPane,
-                myGraphPanel);
+        mySplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, myTabbedPane, myGraphPanel);
         getContentPane().add(mySplitPane, BorderLayout.CENTER);
         getContentPane().add(myStatusbar, BorderLayout.SOUTH);
 
         //do menu bar
-        setUpMenus();
+        createMenuBar();
         
-        addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent e) {
-                Globals.curEditor(myEditor);
-                }
-        });
-
         pack();
         setSize(700, 600);
         setVisible(true);
@@ -268,7 +260,7 @@ public class EditorFrame extends BioFrame {
     }
 
     //override the setUpMenus() in superclass
-    private void setUpMenus() {
+    private void createMenuBar() {
         createFileMenu();
         createEditMenu();
         createViewMenu();
