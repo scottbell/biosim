@@ -3,7 +3,7 @@ package biosim.client.simulation.crew.gui;
 import java.awt.*;
 import javax.swing.*;
 import biosim.idl.simulation.crew.*;
-import biosim.client.simulation.framework.gui.*;
+import biosim.client.framework.gui.*;
 import biosim.client.simulation.framework.*;
 import com.jrefinery.chart.*;
 import com.jrefinery.data.*;

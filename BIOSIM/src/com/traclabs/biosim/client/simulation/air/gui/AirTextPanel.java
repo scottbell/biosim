@@ -1,6 +1,7 @@
 package biosim.client.simulation.air.gui;
 
-import biosim.client.simulation.framework.gui.*;
+import biosim.client.framework.gui.*;
+import biosim.client.framework.gui.*;
 import biosim.client.simulation.framework.*;
 import biosim.idl.simulation.air.*;
 import javax.swing.*;

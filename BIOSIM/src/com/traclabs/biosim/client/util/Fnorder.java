@@ -1,4 +1,4 @@
-package biosim.client.simulation.util;
+package biosim.client.util;
 
 import java.util.*;
 import java.lang.Math.*;

@@ -7,6 +7,7 @@
 package biosim.client.simulation.framework.gui;
 
 import java.awt.*;
+import biosim.client.framework.gui.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.util.*;
