@@ -8,8 +8,8 @@ module environment{
                 void setO2Pressure(in float kPA);
                 void setOtherPressure(in float kPA);
                 void setWaterPressure(in float kPA);
-                void setVolume(in float liters);
-                void setVolumeAtSeaLevel(in float liters);
+                void setInitialVolume(in float pInitialCO2Moles, in float pInitialO2Moles, in float pInitialOtherMoles, in float pInitialWaterMoles, in float pInitialVolume);
+                void setInitialVolumeAtSeaLevel(in float pInitialVolume);
                 float getO2Moles();
                 float getCO2Moles();
                 float getOtherMoles();

@@ -83,14 +83,6 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		otherMoles = cachedOtherMoles = initialOtherMoles = calculateMoles(otherPressure);
 		waterMoles = cachedWaterMoles = initialWaterMoles = calculateMoles(waterPressure);
 		CO2Moles = cachedCO2Moles = initialCO2Moles = calculateMoles(CO2Pressure);
-		System.out.println(getModuleName()+": O2Moles: "+O2Moles);
-		System.out.println(getModuleName()+": CO2Moles: "+CO2Moles);
-		System.out.println(getModuleName()+": otherMoles: "+otherMoles);
-		System.out.println(getModuleName()+": waterMoles: "+waterMoles);
-		System.out.println(getModuleName()+": O2Pressure: "+O2Pressure);
-		System.out.println(getModuleName()+": CO2Pressure: "+CO2Pressure);
-		System.out.println(getModuleName()+": otherPressure: "+otherPressure);
-		System.out.println(getModuleName()+": waterPressure: "+waterPressure);
 	}
 
 	/**
@@ -285,29 +277,38 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 
 	/**
 	* Sets the volume of the environment (how much gas it can hold)
-	* @param litersRequested the new volume of the environment (in liters)
+	* @param initialCO2Moles the initial volume of the CO2 (in moles) in the environment
+	* @param initialO2Moles the initial volume of the O2 (in moles) in the environment
+	* @param initialOtherMoles the initial volume of the other gasses (in moles) in the environment
+	* @param initialVolume the initial volume of the environment in liters
 	*/
-	public void setVolume(float litersRequested){
-		super.reset();
-		volume = litersRequested;
-		resetGasses();
+	public void setInitialVolume(float pInitialCO2Moles, float pInitialO2Moles, float pInitialOtherMoles, float pInitialWaterMoles, float pInitialVolume)
+	{
+		CO2Moles = cachedCO2Moles = initialCO2Moles = pInitialCO2Moles;
+		O2Moles = cachedO2Moles = initialO2Moles = pInitialO2Moles;
+		otherMoles = cachedOtherMoles = initialOtherMoles = pInitialOtherMoles;
+		waterMoles = cachedWaterMoles = initialWaterMoles = pInitialWaterMoles;
+		volume = initialVolume = pInitialVolume;
+		O2Pressure = cachedO2Pressure = initialO2Pressure = calculatePressure(O2Moles);
+		CO2Pressure = cachedCO2Pressure = initialCO2Pressure = calculatePressure(CO2Moles);
+		otherPressure = cachedOtherPressure = initialOtherPressure = calculatePressure(otherMoles);
+		waterPressure = cachedWaterPressure = initialWaterPressure = calculatePressure(waterMoles);
 	}
 	
 	/**
 	* Sets the volume of the environment (how much gas it can hold) w/ gas mixture at earth sea level
 	* @param litersRequested the new volume of the environment (in liters)
 	*/
-	public void setVolumeAtSeaLevel(float litersRequested){
-		super.reset();
-		volume = litersRequested;
-		O2Pressure = cachedO2Pressure = 2.0f;
-		CO2Pressure = cachedCO2Pressure = 7.7f;
-		otherPressure = cachedOtherPressure = 0.2f;
-		waterPressure = cachedWaterPressure = 0.1f;
-		O2Moles = cachedO2Moles = calculateMoles(O2Pressure); 
-		otherMoles = cachedOtherMoles = calculateMoles(otherPressure);
-		waterMoles = cachedWaterMoles = calculateMoles(waterPressure);
-		CO2Moles = cachedCO2Moles = calculateMoles(CO2Pressure);
+	public void setInitialVolumeAtSeaLevel(float pInitialVolume){
+		volume = initialVolume = pInitialVolume;
+		O2Pressure = cachedO2Pressure = initialO2Pressure = 2.0f;
+		CO2Pressure = cachedCO2Pressure = initialCO2Pressure = 7.7f;
+		otherPressure = cachedOtherPressure = initialOtherPressure = 0.2f;
+		waterPressure = cachedWaterPressure = initialWaterPressure = 0.1f;
+		O2Moles = cachedO2Moles = initialO2Moles = calculateMoles(O2Pressure); 
+		otherMoles = cachedOtherMoles = initialOtherMoles = calculateMoles(otherPressure);
+		waterMoles = cachedWaterMoles = initialWaterMoles = calculateMoles(waterPressure);
+		CO2Moles = cachedCO2Moles = initialCO2Moles = calculateMoles(CO2Pressure);
 	}
 
 	/**
@@ -362,15 +363,6 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		O2Pressure = calculatePressure(O2Moles);
 		otherPressure = calculatePressure(otherMoles);
 		waterPressure = calculatePressure(waterMoles);
-		System.out.println(getModuleName()+": adjusting pressure");
-		System.out.println(getModuleName()+": O2Moles: "+O2Moles);
-		System.out.println(getModuleName()+": CO2Moles: "+CO2Moles);
-		System.out.println(getModuleName()+": otherMoles: "+otherMoles);
-		System.out.println(getModuleName()+": waterMoles: "+waterMoles);
-		System.out.println(getModuleName()+": O2Pressure: "+O2Pressure);
-		System.out.println(getModuleName()+": CO2Pressure: "+CO2Pressure);
-		System.out.println(getModuleName()+": otherPressure: "+otherPressure);
-		System.out.println(getModuleName()+": waterPressure: "+waterPressure);
 	}
 
 	/**
