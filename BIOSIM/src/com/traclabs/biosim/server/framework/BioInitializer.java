@@ -80,7 +80,7 @@ public class BioInitializer{
 	private int myID = 0;
 
 	/** Default constructor. */
-	private BioInitializer(){
+	public BioInitializer(){
 		try {
 			myParser = new DOMParser();
 			myParser.setFeature(SCHEMA_VALIDATION_FEATURE_ID, DEFAULT_SCHEMA_VALIDATION);
@@ -546,7 +546,7 @@ public class BioInitializer{
 
 	}
 
-	private void parseFile(String fileToParse){
+	public void parseFile(String fileToParse){
 		try{
 			System.out.println("Starting to parse file: "+fileToParse);
 			myParser.parse(fileToParse);
@@ -564,14 +564,5 @@ public class BioInitializer{
 			else
 				e.printStackTrace(System.err);
 		}
-	}
-
-	/** Main program entry point. */
-	public static void main(String argv[]) {
-		URL documentUrl = ClassLoader.getSystemClassLoader().getResource("biosim/server/framework/DefaultInitialization.xml");
-		BioInitializer myInitializer = new BioInitializer();
-		String documentString = documentUrl.toString();
-		if (documentString.length() > 0)
-			myInitializer.parseFile(documentString);
 	}
 }
