@@ -88,6 +88,10 @@ public class SimCommandLine
 				System.out.println("simulation isn't running");
 		}
 		else if (userCommand.equals("tick")){
+			if (!myDriver.isStarted()){
+				System.out.println("simulation needs to be started first");
+				return;
+			}
 			if (myDriver.isPaused())
 				myDriver.advanceOneTick();
 			else

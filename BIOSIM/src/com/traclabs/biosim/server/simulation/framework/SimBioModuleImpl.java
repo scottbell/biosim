@@ -87,14 +87,14 @@ public abstract class SimBioModuleImpl extends BioModuleImpl implements SimBioMo
 	* @return The total amount of resource pushed to the stores (equal to the amount to push if sucessful)
 	*/
 	public static float pushResourceToStore(Store[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates, float[] pActualFlowRates, float amountToPush){
-		float resourceDistributed = amountToPush;
-		for (int i = 0; (i < pStores.length) && (resourceDistributed > 0); i++){
-			float resourceToDistributeFirst = Math.min(resourceDistributed, pMaxFlowRates[i]);
+		float resourceRemaining = amountToPush;
+		for (int i = 0; (i < pStores.length) && (resourceRemaining > 0); i++){
+			float resourceToDistributeFirst = Math.min(resourceRemaining, pMaxFlowRates[i]);
 			float resourceToDistributeFinal = Math.min(resourceToDistributeFirst, pDesiredFlowRates[i]);
 			pActualFlowRates[i] = pStores[i].add(resourceToDistributeFinal);
-			resourceDistributed -= pActualFlowRates[i];
+			resourceRemaining -= pActualFlowRates[i];
 		}
-		return (amountToPush - resourceDistributed);
+		return (amountToPush - resourceRemaining);
 	}
 	
 	/**
@@ -108,15 +108,15 @@ public abstract class SimBioModuleImpl extends BioModuleImpl implements SimBioMo
 	* @return The total amount of resource pushed to the stores (equal to the amount to push if sucessful)
 	*/
 	public static float pushFractionalResourceToStore(Store[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates, float[] pActualFlowRates, float amountToPush, float fraction){
-		float resourceDistributed = amountToPush;
-		for (int i = 0; (i < pStores.length) && (resourceDistributed > 0); i++){
-			float resourceToDistributeFirst = Math.min(resourceDistributed, pMaxFlowRates[i] * fraction);
+		float resourceRemaining = amountToPush;
+		for (int i = 0; (i < pStores.length) && (resourceRemaining > 0); i++){
+			float resourceToDistributeFirst = Math.min(resourceRemaining, pMaxFlowRates[i] * fraction);
 			float resourceToDistributeFinal = Math.min(resourceToDistributeFirst, pDesiredFlowRates[i] * fraction);
 			float given = pStores[i].add(resourceToDistributeFinal);
 			pActualFlowRates[i] += given;
-			resourceDistributed -= given;
+			resourceRemaining -= given;
 		}
-		return (amountToPush - resourceDistributed);
+		return (amountToPush - resourceRemaining);
 	}
 }
 
