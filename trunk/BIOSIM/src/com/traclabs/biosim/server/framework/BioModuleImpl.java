@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Vector;
 
+import org.apache.log4j.Logger;
+
 import com.traclabs.biosim.idl.framework.BioModulePOA;
 import com.traclabs.biosim.idl.framework.Malfunction;
 import com.traclabs.biosim.idl.framework.MalfunctionHelper;
@@ -30,9 +32,6 @@ public abstract class BioModuleImpl extends BioModulePOA {
 
     //Whether the log for this module is initialized or not
     protected boolean logInitialized = false;
-
-    //Whether this module is logging or not
-    protected boolean moduleLogging = false;
 
     //Whether this module has collected a reference to logger server
     private boolean collectedLogger = false;
@@ -66,6 +65,8 @@ public abstract class BioModuleImpl extends BioModulePOA {
     private int myTicks = 0;
 
     protected TechSpecificInfo myTechSpecificInfo;
+    
+    protected Logger myLogger;
 
     /**
      * Constructor to create a BioModule, should only be called by those
@@ -78,6 +79,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
      *            The name of the module
      */
     protected BioModuleImpl(int pID, String pName) {
+        myLogger = Logger.getLogger(this.getClass());
         myRandomGen = new Random();
         myMalfunctions = new Hashtable();
         myScheduledMalfunctions = new Vector();
@@ -96,7 +98,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
             checkBreakdownRisk();
         if (isMalfunctioning())
             performMalfunctions();
-        if (moduleLogging)
+        if (myLogger.isDebugEnabled())
             log();
         myTicks++;
     }
@@ -343,27 +345,6 @@ public abstract class BioModuleImpl extends BioModulePOA {
         breakdownFactor = 0f;
         myTicks = 0;
         myMalfunctions.clear();
-    }
-
-    /**
-     * Sets the logging for this module.
-     * 
-     * @param pLogging
-     *            <code>true</code> if this module should log,
-     *            <code>false</code> if not
-     */
-    public void setLogging(boolean pLogging) {
-        moduleLogging = pLogging;
-    }
-
-    /**
-     * Tells if this module is logging
-     * 
-     * @return <code>true</code> if this module is logging, <code>false</code>
-     *         if not
-     */
-    public boolean isLogging() {
-        return moduleLogging;
     }
 
     /**

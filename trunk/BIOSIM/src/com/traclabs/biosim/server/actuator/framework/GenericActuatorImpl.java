@@ -42,10 +42,6 @@ public abstract class GenericActuatorImpl extends BioModuleImpl implements
     public abstract BioModule getOutputModule();
 
     public void log() {
-        /*
-         * LogNode outputNodeHead = myLog.addChild("output"); outputNode =
-         * outputNodeHead.addChild(""+getOutputModule().getModuleName());
-         * LogNode valueNodeHead = myLog.addChild("value");
-         */
+        myLogger.debug("output="+getValue());
     }
 }

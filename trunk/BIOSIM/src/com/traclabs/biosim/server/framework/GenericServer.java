@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import org.apache.log4j.Logger;
 import org.omg.PortableServer.Servant;
 
 import com.traclabs.biosim.server.util.OrbUtils;
@@ -19,6 +20,12 @@ import com.traclabs.biosim.server.util.OrbUtils;
 
 public class GenericServer {
     private List readyListeners;
+    protected Logger myLogger;
+    
+    public GenericServer(){
+        myLogger = Logger.getLogger(this.getClass());
+    }
+    
 
     /**
      * Grabs ID parameter from an array of string
@@ -105,8 +112,7 @@ public class GenericServer {
                     OrbUtils.getNamingContext(pID).to_name(pServerName),
                     OrbUtils.poaToCorbaObj(pPOA));
         } catch (org.omg.CORBA.UserException e) {
-            System.err
-                    .println(pServerName
+            Logger.getLogger(GenericServer.class).error(pServerName
                             + " had problems registering with nameservice, trying again..");
             e.printStackTrace();
             OrbUtils.sleepAwhile();
@@ -155,14 +161,14 @@ public class GenericServer {
     public void runServer(String serverName) {
         try {
             notfiyListeners();
-            System.out.println(serverName + " ready and waiting");
+            myLogger.info(serverName + " ready and waiting");
             // wait for invocations from clients
             OrbUtils.getORB().run();
         } catch (Exception e) {
-            System.err.println(serverName + " ERROR: " + e);
+            myLogger.error(serverName + " ERROR: " + e);
             e.printStackTrace(System.out);
         }
-        System.out.println(serverName + " exiting");
+        myLogger.error(serverName + " exiting");
     }
 }
 

@@ -1,5 +1,6 @@
 package com.traclabs.biosim.server.util;
 
+import org.apache.log4j.Logger;
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContext;
@@ -123,8 +124,7 @@ public class OrbUtils {
             comContext.bind_new_context(traclabsComponentArray);
         } catch (org.omg.CosNaming.NamingContextPackage.AlreadyBound e) {
         } catch (Exception e) {
-            System.out
-                    .println("OrbUtils: nameserver not found, polling again: "
+            Logger.getLogger(OrbUtils.class).info("OrbUtils: nameserver not found, polling again: "
                             + e);
             sleepAwhile();
             initialize();

@@ -28,12 +28,11 @@ public abstract class GenericSensorImpl extends BioModuleImpl implements
 
     public void tick() {
         super.tick();
-        //System.out.println(getModuleName()+": moduleLogging="+moduleLogging);
         try {
             gatherData();
             notifyListeners();
         } catch (Exception e) {
-            System.out.println(getModuleName() + " had an exception: " + e);
+            myLogger.error(getModuleName() + " had an exception: " + e);
             e.printStackTrace();
         }
     }
@@ -41,10 +40,6 @@ public abstract class GenericSensorImpl extends BioModuleImpl implements
     public abstract BioModule getInputModule();
 
     public void log() {
-        /*
-         * //If not initialized, fill in the log LogNode inputNodeHead =
-         * myLog.addChild("input"); valueNode =
-         * valueNodeHead.addChild(""+getValue());
-         */
+        myLogger.debug("input="+getValue());
     }
 }
