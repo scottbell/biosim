@@ -902,16 +902,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		cachedWaterPressure = waterPressure;
 		cachedNitrogenPressure = nitrogenPressure;
 		calculateLightIntensity();
-		//System.out.print("SimEnvironmentImpl: O2Moles\t"+O2Moles+"\t");
-		//System.out.print("CO2Moles\t"+CO2Moles+"\t");
-		//System.out.print("otherMoles\t"+otherMoles+"\t");
-		//System.out.println("waterMoles\t"+waterMoles);
-		//System.out.println(getModuleName()+": O2Pressure: "+O2Pressure);
-		//System.out.println(getModuleName()+": CO2Pressure: "+CO2Pressure);
-		//System.out.println(getModuleName()+": otherPressure: "+otherPressure);
-		//System.out.println(getModuleName()+": waterPressure: "+waterPressure);
-		//System.out.println(getModuleName()+": nitrogenPressure: "+nitrogenPressure);
-		//System.out.println(getModuleName()+": airPressure: "+getAirPressure());
+		//System.out.println(getModuleName() + " ticked");
+		//printCachedEnvironment();
 	}
 	
 	public void printCachedEnvironment(){
@@ -979,8 +971,9 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	}
 	
 	private boolean cachedValueNeeded(){
-		collectReferences();
-		return (getMyTicks() == myDriver.getTicks());
+		//collectReferences();
+		//return (getMyTicks() < myDriver.getTicks());
+		return true;
 	}
 	
 	/**
