@@ -157,7 +157,7 @@
 			<FoodStore name="EVAFoodStore" capacity="0" level="0"/>
 		</food>
 		<framework>
-			<Accumulator name="BaseAccumulator">
+			<Accumulator name="BaseO2Accumulator">
 				<O2AirConsumer>
 					<environmentInputs desiredFlowRates="100000000" maxFlowRates="100000000" inputs="BasePlantEnvironment"/>
 				</O2AirConsumer>
@@ -173,13 +173,21 @@
 					<environmentOutputs desiredFlowRates="30" maxFlowRates="30" outputs="EVACrewEnvironment"/>
 				</O2AirProducer>
 			</Injector>
-			<Injector name="BaseInjector">
+			<Injector name="BaseO2Injector">
 				<O2AirConsumer>
 					<storeInputs desiredFlowRates="30" maxFlowRates="30" inputs="BaseO2Store"/>
 				</O2AirConsumer>
 				<O2AirProducer>
 					<environmentOutputs desiredFlowRates="30" maxFlowRates="30" outputs="BaseCrewEnvironment"/>
 				</O2AirProducer>
+			</Injector>
+			<Injector name="BaseCO2Injector">
+				<CO2AirConsumer>
+					<storeInputs desiredFlowRates="30" maxFlowRates="30" inputs="BaseCO2Store"/>
+				</CO2AirConsumer>
+				<CO2AirProducer>
+					<environmentOutputs desiredFlowRates="30" maxFlowRates="30" outputs="BasePlantEnvironment"/>
+				</CO2AirProducer>
 			</Injector>
 		</framework>
 		<power>
@@ -230,12 +238,14 @@
 			<AirOutFlowRateSensor name="BaseVCCRAirOutFlowRateSensor" index="0" input="BaseVCCR"/>
 			<CO2AirConcentrationSensor name="BaseCrewEnvironmentCO2AirConcentrationSensor" input="BaseCrewEnvironment"/>
 			<CO2AirConcentrationSensor name="BasePlantEnvironmentCO2AirConcentrationSensor" input="BasePlantEnvironment"/>
+			<CO2AirEnvironmentOutFlowRateSensor index="0" name="BaseCO2InjectorAccumulatorCO2AirEnvironmentInFlowRateSensor" input="BaseCO2Injector" />
+			<CO2AirStoreInFlowRateSensor index="0" name="BaseCO2InjectorCO2AirEnvironmentInFlowRateSensor" input="BaseCO2Injector" />
 			<O2AirConcentrationSensor name="BaseCrewEnvironmentO2AirConcentrationSensor" input="BaseCrewEnvironment"/>
 			<O2AirConcentrationSensor name="BasePlantEnvironmentO2AirConcentrationSensor" input="BasePlantEnvironment"/>
-			<O2AirEnvironmentInFlowRateSensor index="0" name="BaseAccumulatorO2AirEnvironmentInFlowRateSensor" input="BaseAccumulator" />
-			<O2AirEnvironmentOutFlowRateSensor index="0" name="BaseInjectorAccumulatorO2AirEnvironmentInFlowRateSensor" input="BaseInjector" />
-			<O2AirStoreInFlowRateSensor index="0" name="BaseInjectorO2AirEnvironmentInFlowRateSensor" input="BaseInjector" />
-			<O2AirStoreOutFlowRateSensor index="0" name="BaseAccumulatorO2AirStoreOutFlowRateSensor" input="BaseAccumulator" />
+			<O2AirEnvironmentInFlowRateSensor index="0" name="BaseO2AccumulatorO2AirEnvironmentInFlowRateSensor" input="BaseO2Accumulator" />
+			<O2AirEnvironmentOutFlowRateSensor index="0" name="BaseO2InjectorAccumulatorO2AirEnvironmentInFlowRateSensor" input="BaseO2Injector" />
+			<O2AirStoreInFlowRateSensor index="0" name="BaseO2InjectorO2AirEnvironmentInFlowRateSensor" input="BaseO2Injector" />
+			<O2AirStoreOutFlowRateSensor index="0" name="BaseO2AccumulatorO2AirStoreOutFlowRateSensor" input="BaseO2Accumulator" />
 			<NitrogenAirConcentrationSensor name="BaseCrewEnvironmentNitrogenAirConcentrationSensor" input="BaseCrewEnvironment"/>
 			<NitrogenAirConcentrationSensor name="BasePlantEnvironmentNitrogenAirConcentrationSensor" input="BasePlantEnvironment"/>
 			<WaterAirConcentrationSensor name="BaseCrewEnvironmentWaterAirConcentrationSensor" input="BaseCrewEnvironment"/>
@@ -307,12 +317,19 @@
 			<CO2OutFlowRateActuator name="BaseVCCRO2OutFlowRateActuator" index="0" output="BaseVCCR"/>
 			<O2OutFlowRateActuator name="BaseOGSO2OutFlowRateActuator" index="0" output="BaseOGS"/>
 			<H2OutFlowRateActuator name="BaseOGSH2OutFlowRateActuator" index="0" output="BaseOGS"/>
+			
 		</air>
 		<environment>
 			<AirInFlowRateActuator name="PlantDehumidifierAirInFlowRateActuator" index="0" output="PlantDehumidifier"/>
 			<AirInFlowRateActuator name="CrewDehumidifierAirInFlowRateActuator" index="0" output="CrewDehumidifier"/>
 			<AirInFlowRateActuator name="BaseVCCRAirInFlowRateActuator" index="0" output="BaseVCCR"/>
 			<AirOutFlowRateActuator name="BaseVCCRAirOutFlowRateActuator" index="0" output="BaseVCCR"/>
+			<CO2AirEnvironmentOutFlowRateActuator name="BaseCO2InjectorCO2AirEnvironmentOutFlowRateActuator" index="0" output="BaseCO2Injector"/>
+			<CO2AirStoreInFlowRateActuator name="BaseCO2InjectorCO2AirStoreInFlowRateActuator" index="0" output="BaseCO2Injector"/>
+			<O2AirEnvironmentInFlowRateActuator name="BaseO2AccumulatorO2AirEnvironmentInFlowRateActuator" index="0" output="BaseO2Accumulator"/>
+			<O2AirEnvironmentOutFlowRateActuator name="BaseO2InjectorO2AirEnvironmentOutFlowRateActuator" index="0" output="BaseO2Injector"/>
+			<O2AirStoreInFlowRateActuator name="BaseO2InjectorO2AirStoreInFlowRateActuator" index="0" output="BaseO2Injector"/>
+			<O2AirStoreOutFlowRateActuator name="BaseO2AccumulatorO2AirStoreOutFlowRateActuator" index="0" output="BaseO2Accumulator"/>
 		</environment>
 		<food>
 			<BiomassInFlowRateActuator name="BaseFoodProcessorBiomassInFlowRateActuator" index="0" output="BaseFoodProcessor"/>
