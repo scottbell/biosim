@@ -26,7 +26,7 @@ public abstract class BiomassStoreSensorImpl extends GenericSensorImpl
     }
 
     public float getMax() {
-        return myBiomassStore.getCapacity();
+        return myBiomassStore.getCurrentCapacity();
     }
 
     public BioModule getInputModule() {

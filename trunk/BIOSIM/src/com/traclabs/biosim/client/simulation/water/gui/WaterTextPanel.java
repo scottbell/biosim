@@ -194,7 +194,7 @@ public class WaterTextPanel extends TimedPanel {
         dirtyWaterStorePanel.setBorder(BorderFactory
                 .createTitledBorder("Dirty Water Store"));
         dirtyWaterStoreLevelLabel = new JLabel("water level:    "
-                + numFormat.format(myDirtyWaterStore.getLevel()) + " L");
+                + numFormat.format(myDirtyWaterStore.getCurrentLevel()) + " L");
         dirtyWaterStorePanel.add(dirtyWaterStoreLevelLabel);
     }
 
@@ -208,7 +208,7 @@ public class WaterTextPanel extends TimedPanel {
         greyWaterStorePanel.setBorder(BorderFactory
                 .createTitledBorder("Grey Water Store"));
         greyWaterStoreLevelLabel = new JLabel("water level:    "
-                + numFormat.format(myGreyWaterStore.getLevel()) + " L");
+                + numFormat.format(myGreyWaterStore.getCurrentLevel()) + " L");
         greyWaterStorePanel.add(greyWaterStoreLevelLabel);
     }
 
@@ -222,7 +222,7 @@ public class WaterTextPanel extends TimedPanel {
         potableWaterStorePanel.setBorder(BorderFactory
                 .createTitledBorder("Potable Water Store"));
         potableWaterStoreLevelLabel = new JLabel("water level:    "
-                + numFormat.format(myPotableWaterStore.getLevel()) + " L");
+                + numFormat.format(myPotableWaterStore.getCurrentLevel()) + " L");
         potableWaterStorePanel.add(potableWaterStoreLevelLabel);
     }
 
@@ -231,10 +231,10 @@ public class WaterTextPanel extends TimedPanel {
      */
     public void refresh() {
         potableWaterStoreLevelLabel.setText("water level:    "
-                + numFormat.format(myPotableWaterStore.getLevel()) + " L");
+                + numFormat.format(myPotableWaterStore.getCurrentLevel()) + " L");
         greyWaterStoreLevelLabel.setText("water level:    "
-                + numFormat.format(myGreyWaterStore.getLevel()) + " L");
+                + numFormat.format(myGreyWaterStore.getCurrentLevel()) + " L");
         dirtyWaterStoreLevelLabel.setText("water level:    "
-                + numFormat.format(myDirtyWaterStore.getLevel()) + " L");
+                + numFormat.format(myDirtyWaterStore.getCurrentLevel()) + " L");
     }
 }

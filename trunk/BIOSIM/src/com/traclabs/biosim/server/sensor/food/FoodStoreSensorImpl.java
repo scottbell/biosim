@@ -26,7 +26,7 @@ public abstract class FoodStoreSensorImpl extends GenericSensorImpl implements
     }
 
     public float getMax() {
-        return myFoodStore.getLevel();
+        return myFoodStore.getCurrentLevel();
     }
 
     public BioModule getInputModule() {

@@ -57,7 +57,7 @@ public class WaterStorePanel extends GraphPanel {
         CategoryPlot myPlot = myChart.getCategoryPlot();
         rangeAxis = myPlot.getRangeAxis();
         rangeAxis.setAutoRange(false);
-        rangeAxis.setRange(0.0, myPotableWaterStore.getCapacity());
+        rangeAxis.setRange(0.0, myPotableWaterStore.getCurrentCapacity());
         CategoryItemRenderer renderer = myPlot.getRenderer();
         renderer.setSeriesPaint(0, Color.BLUE);
         renderer.setSeriesPaint(1, Color.GRAY);
@@ -73,9 +73,9 @@ public class WaterStorePanel extends GraphPanel {
     public void refresh() {
         if (myDataset == null) {
             myDataset = new DefaultCategoryDataset();
-            float myPotableWaterStoreLevel = myPotableWaterStore.getLevel();
-            float myGreyWaterStoreLevel = myGreyWaterStore.getLevel();
-            float myDirtyWaterStoreLevel = myDirtyWaterStore.getLevel();
+            float myPotableWaterStoreLevel = myPotableWaterStore.getCurrentLevel();
+            float myGreyWaterStoreLevel = myGreyWaterStore.getCurrentLevel();
+            float myDirtyWaterStoreLevel = myDirtyWaterStore.getCurrentLevel();
             String series1 = "Potable Water";
             String series2 = "Grey Water";
             String series3 = "Dirty Water";
@@ -84,20 +84,20 @@ public class WaterStorePanel extends GraphPanel {
             myDataset.addValue(myGreyWaterStoreLevel, series2, category);
             myDataset.addValue(myDirtyWaterStoreLevel, series3, category);
         } else {
-            float greyDirtyMax = Math.max(myGreyWaterStore.getCapacity(),
-                    myDirtyWaterStore.getCapacity());
+            float greyDirtyMax = Math.max(myGreyWaterStore.getCurrentCapacity(),
+                    myDirtyWaterStore.getCurrentCapacity());
             float capacity = Math.max(greyDirtyMax, myPotableWaterStore
-                    .getCapacity());
+                    .getCurrentCapacity());
             if ((rangeAxis.getRange().getUpperBound() != capacity)
                     && (capacity > 0)) {
                 rangeAxis.setRange(0.0, capacity);
                 myChartPanel.repaint();
             }
-            myDataset.setValue(new Float(myPotableWaterStore.getLevel()),
+            myDataset.setValue(new Float(myPotableWaterStore.getCurrentLevel()),
                     "Potable Water", "");
-            myDataset.setValue(new Float(myGreyWaterStore.getLevel()),
+            myDataset.setValue(new Float(myGreyWaterStore.getCurrentLevel()),
                     "Grey Water", "");
-            myDataset.setValue(new Float(myDirtyWaterStore.getLevel()),
+            myDataset.setValue(new Float(myDirtyWaterStore.getCurrentLevel()),
                     "Dirty Water", "");
         }
     }

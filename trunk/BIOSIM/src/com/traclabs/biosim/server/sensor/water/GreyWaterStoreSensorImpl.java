@@ -26,7 +26,7 @@ public abstract class GreyWaterStoreSensorImpl extends GenericSensorImpl
     }
 
     public float getMax() {
-        return myGreyWaterStore.getCapacity();
+        return myGreyWaterStore.getCurrentCapacity();
     }
 
     public BioModule getInputModule() {

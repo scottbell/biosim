@@ -748,12 +748,16 @@ module com{
                                                         FloatList getDryWasteOutputActualFlowRates();
                                                 };
                                                 interface Store : framework::BioModule{
-                                                        void setCapacity(in float metricAmount);
-                                                        void setLevel(in float metricAmount);
+                                                        void setInitialCapacity(in float metricAmount);
+                                                        void setCurrentCapacity(in float metricAmount);
+                                                        void setInitialLevel(in float metricAmount);
+                                                        void setCurrentLevel(in float metricAmount);
                                                         float add(in float metricAmount);
                                                         float take(in float metricAmount);
-                                                        float getLevel();
-                                                        float getCapacity();
+                                                        float getInitialLevel();
+                                                        float getInitialCapacity();
+                                                        float getCurrentLevel();
+                                                        float getCurrentCapacity();
                                                         float getOverflow();
                                                         boolean isPipe();
                                                         void setPipe(in boolean pPipe);
@@ -850,7 +854,11 @@ module com{
                                                         void setWaterPressure(in float kPA);
                                                         void setNitrogenPressure(in float kPA);
                                                         void setInitialVolume(in float pInitialCO2Moles, in float pInitialO2Moles, in float pInitialOtherMoles, in float pInitialWaterMoles, in float pInitialNitrogenMoles, in float pInitialVolume);
+                                                        void setCurrentVolume(in float pCO2Moles, in float pO2Moles, in float pOtherMoles, in float pWaterMoles, in float pNitrogenMoles, in float pVolume);
                                                         void setInitialVolumeAtSeaLevel(in float pInitialVolume);
+                                                        void setCurrentVolumeAtSeaLevel(in float pInitialVolume);
+                                                        float getInitialVolume();
+                                                        float getCurrentVolume();
                                                         float getO2Moles();
                                                         float getCO2Moles();
                                                         float getOtherMoles();
@@ -881,7 +889,6 @@ module com{
                                                         air::Breath takeAirMoles(in float moles);
                                                         void setTotalMoles(in float moles);
                                                         void setTotalPressure(in float moles);
-                                                        float getVolume();
                                                         float getLeakRate();
                                                         float getDayLength();
                                                         void setDayLength(in float dayLength);
@@ -913,7 +920,7 @@ module com{
                                                 };
 
                                                 interface FoodStore : framework::Store{
-                                                        void setFoodMatterLevel(in FoodMatter pFoodMatter);
+                                                        void setInitialFoodMatterLevel(in FoodMatter pFoodMatter);
                                                         float addFoodMatterMass(in FoodMatter pMatter);
                                                         float addFoodMatterArray(in FoodMatterList pList);
                                                         FoodMatterList takeFoodMatterCalories(in float calories, in float limitingMass);
@@ -922,7 +929,7 @@ module com{
                                                 };
 
                                                 interface BiomassStore : framework::Store{
-                                                        void setBioMatterLevel(in BioMatter pBioMatter);
+                                                        void setInitialBioMatterLevel(in BioMatter pBioMatter);
                                                         float addBioMatter(in BioMatter pBioMatter);
                                                         BioMatterList takeBioMatterMass(in float mass);
                                                         float calculateWaterContentInStore();
@@ -960,8 +967,10 @@ module com{
                                         module power{
                                                 interface PowerPS : framework::SimBioModule, framework::PowerProducer, framework::LightConsumer{
                                                         float getPowerProduced();
-                                                        float getUpperPowerGeneration();
-                                                        void setUpperPowerGeneration(in float pUpperPowerGenerationInWatts);
+                                                        float getCurrentUpperPowerGeneration();
+                                                        void setCurrentUpperPowerGeneration(in float pUpperPowerGenerationInWatts);
+                                                        float getInitialUpperPowerGeneration();
+                                                        void setInitialUpperPowerGeneration(in float pUpperPowerGenerationInWatts);
                                                 };
                                                 interface PowerStore : framework::Store{
                                                 };

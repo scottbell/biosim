@@ -59,7 +59,7 @@ public class AirStorePanel extends GraphPanel {
         CategoryPlot myPlot = myChart.getCategoryPlot();
         rangeAxis = myPlot.getRangeAxis();
         rangeAxis.setAutoRange(false);
-        rangeAxis.setRange(0.0, myO2Store.getCapacity());
+        rangeAxis.setRange(0.0, myO2Store.getCurrentCapacity());
         CategoryItemRenderer renderer = myPlot.getRenderer();
         renderer.setSeriesPaint(0, Color.BLUE);
         renderer.setSeriesPaint(1, Color.GREEN);
@@ -81,25 +81,25 @@ public class AirStorePanel extends GraphPanel {
             String series3 = "H2";
             String series4 = "N";
             String category = "";
-            myDataset.addValue(myO2Store.getLevel(), series1, category);
-            myDataset.addValue(myCO2Store.getLevel(), series2, category);
-            myDataset.addValue(myH2Store.getLevel(), series3, category);
-            myDataset.addValue(myNitrogenStore.getLevel(), series4, category);
+            myDataset.addValue(myO2Store.getCurrentLevel(), series1, category);
+            myDataset.addValue(myCO2Store.getCurrentLevel(), series2, category);
+            myDataset.addValue(myH2Store.getCurrentLevel(), series3, category);
+            myDataset.addValue(myNitrogenStore.getCurrentLevel(), series4, category);
         } else {
-            float capacity1 = Math.max(myO2Store.getCapacity(), myCO2Store
-                    .getCapacity());
-            float capacity2 = Math.max(capacity1, myH2Store.getCapacity());
+            float capacity1 = Math.max(myO2Store.getCurrentCapacity(), myCO2Store
+                    .getCurrentCapacity());
+            float capacity2 = Math.max(capacity1, myH2Store.getCurrentCapacity());
             float capacity3 = Math
-                    .max(capacity2, myNitrogenStore.getCapacity());
+                    .max(capacity2, myNitrogenStore.getCurrentCapacity());
             if ((rangeAxis.getRange().getUpperBound() != capacity3)
                     && (capacity3 > 0)) {
                 rangeAxis.setRange(0.0, capacity3);
                 myChartPanel.repaint();
             }
-            myDataset.setValue(new Float(myO2Store.getLevel()), "O2", "");
-            myDataset.setValue(new Float(myCO2Store.getLevel()), "CO2", "");
-            myDataset.setValue(new Float(myH2Store.getLevel()), "H2", "");
-            myDataset.setValue(new Float(myNitrogenStore.getLevel()), "N", "");
+            myDataset.setValue(new Float(myO2Store.getCurrentLevel()), "O2", "");
+            myDataset.setValue(new Float(myCO2Store.getCurrentLevel()), "CO2", "");
+            myDataset.setValue(new Float(myH2Store.getCurrentLevel()), "H2", "");
+            myDataset.setValue(new Float(myNitrogenStore.getCurrentLevel()), "N", "");
         }
     }
 

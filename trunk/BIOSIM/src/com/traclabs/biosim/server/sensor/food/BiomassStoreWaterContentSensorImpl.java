@@ -14,7 +14,7 @@ public class BiomassStoreWaterContentSensorImpl extends BiomassStoreSensorImpl
     }
 
     public float getMax() {
-        return getInput().getCapacity();
+        return getInput().getCurrentCapacity();
     }
 
     protected void notifyListeners() {

@@ -26,7 +26,7 @@ public abstract class WaterStoreSensorImpl extends GenericSensorImpl implements
     }
 
     public float getMax() {
-        return myWaterStore.getCapacity();
+        return myWaterStore.getCurrentCapacity();
     }
 
     public BioModule getInputModule() {

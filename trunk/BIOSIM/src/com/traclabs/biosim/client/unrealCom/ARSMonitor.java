@@ -173,14 +173,14 @@ public class ARSMonitor extends Thread {
 
         while (true) {
 
-            h2Level = myH2Store.getLevel();
-            o2Level = myO2Store.getLevel();
-            co2Level = myCO2Store.getLevel();
-            nLevel = myNitrogenStore.getLevel();
-            h2Cap = myH2Store.getCapacity();
-            o2Cap = myO2Store.getCapacity();
-            co2Cap = myCO2Store.getCapacity();
-            nCap = myNitrogenStore.getCapacity();
+            h2Level = myH2Store.getCurrentLevel();
+            o2Level = myO2Store.getCurrentLevel();
+            co2Level = myCO2Store.getCurrentLevel();
+            nLevel = myNitrogenStore.getCurrentLevel();
+            h2Cap = myH2Store.getCurrentCapacity();
+            o2Cap = myO2Store.getCurrentCapacity();
+            co2Cap = myCO2Store.getCurrentCapacity();
+            nCap = myNitrogenStore.getCurrentCapacity();
             netRequest = cmdPrefix + o2Level + " " + co2Level + " " + h2Level
                     + " " + nLevel + " " + o2Cap + " " + co2Cap + " " + h2Cap
                     + " " + nCap;

@@ -15,7 +15,7 @@ public class SolarPowerPS extends PowerPSImpl {
     float calculatePowerProduced() {
         //Varying stream of power
         if (getLightInput() != null) {
-            float powerGenerated = getUpperPowerGeneration()
+            float powerGenerated = getCurrentUpperPowerGeneration()
                     * (getLightInput().getLightIntensity() / getLightInput()
                             .getMaxLumens());
             return randomFilter(powerGenerated);

@@ -73,7 +73,7 @@ public class PowerTextPanel extends TimedPanel {
         powerStorePanel.setBorder(BorderFactory
                 .createTitledBorder("Power Store"));
         powerStoreLevelLabel = new JLabel("power level:    "
-                + numFormat.format(myPowerStore.getLevel()) + " W");
+                + numFormat.format(myPowerStore.getCurrentLevel()) + " W");
         powerStorePanel.add(powerStoreLevelLabel);
 
         c.fill = GridBagConstraints.BOTH;
@@ -100,6 +100,6 @@ public class PowerTextPanel extends TimedPanel {
         powerPSPowerProducedLabel.setText("power produced:         "
                 + numFormat.format(myPowerPS.getPowerProduced()) + " W");
         powerStoreLevelLabel.setText("power level:    "
-                + numFormat.format(myPowerStore.getLevel()) + " W");
+                + numFormat.format(myPowerStore.getCurrentLevel()) + " W");
     }
 }

@@ -32,8 +32,13 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
         return addFoodMatterMass(newFoodMatter);
     }
 
-    public void setLevel(float metricAmount) {
-        super.setLevel(metricAmount);
+    public void setInitialLevel(float metricAmount) {
+        super.setInitialLevel(metricAmount);
+        setCurrentLevel(metricAmount);
+    }
+    
+    public void setCurrentLevel(float metricAmount) {
+        super.setCurrentLevel(metricAmount);
         currentFoodItems.clear();
         if (metricAmount > 0) {
             FoodMatter newFoodMatter = new FoodMatter(metricAmount, 0,
@@ -43,8 +48,8 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
         }
     }
     
-    public void setFoodMatterLevel(FoodMatter pMatter) {
-        super.setLevel(pMatter.mass);
+    public void setInitialFoodMatterLevel(FoodMatter pMatter) {
+        super.setInitialLevel(pMatter.mass);
         currentFoodItems.clear();
         if (pMatter.mass > 0) {
             currentFoodItems.add(pMatter);
@@ -75,10 +80,10 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
 
     public float addFoodMatterMass(FoodMatter pMatter) {
         float acutallyAdded = 0f;
-        if ((pMatter.mass + level) > capacity) {
-            //adding more than capacity
-            acutallyAdded = capacity - level;
-            level += acutallyAdded;
+        if ((pMatter.mass + currentLevel) > currentCapacity) {
+            //adding more than currentCapacity
+            acutallyAdded = currentCapacity - currentLevel;
+            currentLevel += acutallyAdded;
             overflow += (pMatter.mass - acutallyAdded);
             float fractionOfOriginal = acutallyAdded / pMatter.mass;
 
@@ -88,7 +93,7 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
             return acutallyAdded;
         } else {
             acutallyAdded = randomFilter(pMatter.mass);
-            level += acutallyAdded;
+            currentLevel += acutallyAdded;
             currentFoodItems.add(pMatter);
             return acutallyAdded;
         }
@@ -126,7 +131,7 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
         for (Iterator iter = itemsToRemove.iterator(); iter.hasNext();) {
             currentFoodItems.remove(iter.next());
         }
-        level -= collectedMass;
+        currentLevel -= collectedMass;
         //return the array
         FoodMatter[] returnArrayType = new FoodMatter[0];
         return (FoodMatter[]) (itemsToReturn.toArray(returnArrayType));
@@ -271,7 +276,7 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
         for (Iterator iter = itemsToRemove.iterator(); iter.hasNext();) {
             currentFoodItems.remove(iter.next());
         }
-        level -= collectedMass;
+        currentLevel -= collectedMass;
         //return the array
         FoodMatter[] returnArray = new FoodMatter[0];
         returnArray = (FoodMatter[]) (itemsToReturn.toArray(returnArray));
@@ -281,7 +286,7 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
     public void reset() {
         super.reset();
         currentFoodItems.clear();
-        if (level > 0)
+        if (currentLevel > 0)
             currentFoodItems.add(myOriginalMatter);
     }
 }

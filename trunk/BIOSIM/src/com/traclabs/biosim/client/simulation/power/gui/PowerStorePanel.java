@@ -47,7 +47,7 @@ public class PowerStorePanel extends GraphPanel {
         CategoryPlot myPlot = myChart.getCategoryPlot();
         rangeAxis = myPlot.getRangeAxis();
         rangeAxis.setAutoRange(false);
-        rangeAxis.setRange(0.0, myPowerStore.getCapacity());
+        rangeAxis.setRange(0.0, myPowerStore.getCurrentCapacity());
         CategoryItemRenderer renderer = myPlot.getRenderer();
         renderer.setSeriesPaint(0, Color.ORANGE);
         TextTitle myTextTitle = (TextTitle) (myChart.getTitle());
@@ -62,15 +62,15 @@ public class PowerStorePanel extends GraphPanel {
         if (myDataset == null) {
             double[][] data = { {} };
             myDataset = new DefaultCategoryDataset();
-            myDataset.addValue(myPowerStore.getLevel(), "Power Store", "");
+            myDataset.addValue(myPowerStore.getCurrentLevel(), "Power Store", "");
         } else {
-            float capacity = myPowerStore.getCapacity();
+            float capacity = myPowerStore.getCurrentCapacity();
             if ((rangeAxis.getRange().getUpperBound() != capacity)
                     && (capacity > 0)) {
                 rangeAxis.setRange(0.0, capacity);
                 myChartPanel.repaint();
             }
-            myDataset.setValue(new Float(myPowerStore.getLevel()),
+            myDataset.setValue(new Float(myPowerStore.getCurrentLevel()),
                     "Power Store", "");
         }
     }

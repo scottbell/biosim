@@ -89,7 +89,7 @@ public class FoodTextPanel extends TimedPanel {
         biomassStorePanel.setBorder(BorderFactory
                 .createTitledBorder("Biomass Store"));
         biomassStoreLevelLabel = new JLabel("biomass level:    "
-                + numFormat.format(myBiomassStore.getLevel()) + " kg");
+                + numFormat.format(myBiomassStore.getCurrentLevel()) + " kg");
         biomassStorePanel.add(biomassStoreLevelLabel);
 
         foodProcessorPanel = new JPanel();
@@ -115,7 +115,7 @@ public class FoodTextPanel extends TimedPanel {
         foodStorePanel
                 .setBorder(BorderFactory.createTitledBorder("Food Store"));
         foodStoreLevelLabel = new JLabel("food level:    "
-                + numFormat.format(myFoodStore.getLevel()) + " kg");
+                + numFormat.format(myFoodStore.getCurrentLevel()) + " kg");
         foodStorePanel.add(foodStoreLevelLabel);
 
         c.fill = GridBagConstraints.BOTH;
@@ -185,9 +185,9 @@ public class FoodTextPanel extends TimedPanel {
         foodProcessorPowerLabel.setText("power consumed:      "
                 + numFormat.format(myFoodProcessor.getPowerConsumed()) + " W");
         foodStoreLevelLabel.setText("food level:    "
-                + numFormat.format(myFoodStore.getLevel()) + " kg");
+                + numFormat.format(myFoodStore.getCurrentLevel()) + " kg");
         biomassStoreLevelLabel.setText("biomass level:    "
-                + numFormat.format(myBiomassStore.getLevel()) + " kg");
+                + numFormat.format(myBiomassStore.getCurrentLevel()) + " kg");
         foodProcessorStatusLabel.setText("status:                       "
                 + coallateFoodProcessorStatus());
     }

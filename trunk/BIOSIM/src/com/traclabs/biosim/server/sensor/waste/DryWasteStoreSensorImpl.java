@@ -26,7 +26,7 @@ public abstract class DryWasteStoreSensorImpl extends GenericSensorImpl
     }
 
     public float getMax() {
-        return myDryWasteStore.getCapacity();
+        return myDryWasteStore.getCurrentCapacity();
     }
 
     public BioModule getInputModule() {
