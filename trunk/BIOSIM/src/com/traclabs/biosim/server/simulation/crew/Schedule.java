@@ -56,7 +56,7 @@ public class Schedule{
 		reset();
 	}
 	
-	private void createDefaultActivites(){		
+	private void createDefaultActivites(){
 		allActivities = new Hashtable();
 		orderedSchedule = new Vector();
 		if ((myBornActivity == null) || (myDeadActivity == null) || (mySickActivity == null)){
