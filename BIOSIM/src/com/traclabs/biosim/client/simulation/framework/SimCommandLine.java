@@ -147,12 +147,9 @@ public class SimCommandLine
 		BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
 		BiomassRS myBiomassRS = (BiomassRS)myBioHolder.theBiomassRSModules.get(0);
 		PlantingActuator currentActuator = PlantingActuatorHelper.narrow((myBioHolder.getActuatorAttachedTo(myBioHolder.thePlantingActuators, myBiomassRS)));
-		Shelf currentShelf = currentActuator.getOutput();
-		System.out.println("Shelf was type: "+currentShelf.getCropType());
+		//replant 100 meters squared of rice
 		currentActuator.setPlantType(PlantType.RICE);
 		currentActuator.setValue(100);
-		currentActuator.tick();
-		System.out.println("Shelf now: "+currentActuator.getOutput().getCropType());
 	}
 }
 
