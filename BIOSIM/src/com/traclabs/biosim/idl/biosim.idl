@@ -15,6 +15,7 @@ module biosim{
                                 interface CrewGroup;
                                 typedef sequence <CrewPerson> CrewPersonList;
                                 enum Sex {male, female};
+				enum ScheduleType{ACTIVE_SCHED, PASSIVE_SCHED, VACATION_SCHED};
                                 interface Activity;
                                 interface RepairActivity;
                                 interface MaitenanceActivity;
@@ -505,7 +506,8 @@ module biosim{
                                         CrewPerson createCrewPerson(in string name, in float age, in float weight, in Sex pSex);
                                         CrewPersonList getCrewPeople();
                                         void scheduleRepair(in string moduleName, in long long malfunctionID, in long timeLength);
-                                        long getCrewSize();
+                                        void setSchedule(in ScheduleType pType);
+					long getCrewSize();
                                         float getGreyWaterProduced();
                                         float getDirtyWaterProduced();
                                         float getPotableWaterConsumed();

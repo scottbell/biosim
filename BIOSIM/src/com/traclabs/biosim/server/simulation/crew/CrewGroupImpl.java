@@ -162,6 +162,9 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 		RepairActivity newRepairActivity = RepairActivityHelper.narrow(OrbUtils.poaToCorbaObj(new RepairActivityPOATie(newRepairActivityImpl)));
 		randomCrewPerson.insertActivityInScheduleNow(newRepairActivity);
 	}
+	
+	public void setSchedule(ScheduleType pType){
+	}
 
 	/**
 	* Returns a crew person given their name
