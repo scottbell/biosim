@@ -319,27 +319,7 @@ public class BioHolderInitializer {
     }
 
     public static org.omg.CORBA.Object grabModule(String moduleName) {
-        org.omg.CORBA.Object moduleToReturn = null;
-        while (moduleToReturn == null) {
-            try {
-                moduleToReturn = OrbUtils.getNamingContext(myID).resolve_str(
-                        moduleName);
-            } catch (org.omg.CORBA.UserException e) {
-                Logger.getLogger(BioHolderInitializer.class).error(
-                        "BioHolder: Couldn't find module " + moduleName
-                                + ", polling again...");
-                e.printStackTrace();
-                OrbUtils.sleepAwhile();
-            } catch (Exception e) {
-                Logger.getLogger(BioHolderInitializer.class).error(
-                        "BioHolder: Had problems contacting nameserver with module "
-                                + moduleName + ", polling again...");
-                e.printStackTrace();
-                OrbUtils.resetInit();
-                OrbUtils.sleepAwhile();
-            }
-        }
-        return moduleToReturn;
+        return OrbUtils.getBioModule(myID, moduleName);
     }
 
     private static String getModuleName(Node node) {

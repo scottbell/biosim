@@ -25,7 +25,7 @@ import com.traclabs.biosim.client.framework.*;
  
  -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB - overriding Sun's default ORB (using Jacorb instead)
  -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton - overriding Sun's default ORB (using Jacorb instead)
- -DORBInitRef.NameService=file:$BIOSIM_HOME/generated/ns/ior.txt - telling the client where to look for the ior (serialized nameservice object, produced by run-nameserver.sh)
+ -DORBInitRef.NameService=file:$BIOSIM_HOME/tmp/ns/ior.txt - telling the client where to look for the ior (serialized nameservice object, produced by run-nameserver)
  
  Good Luck!  If you have any questions, email me at:
  scott@traclabs.com
