@@ -102,7 +102,7 @@ public class CrewTextPanel extends TimedPanel
 				newPersonPanel.add(newPersonGUI.greyWaterProducedLabel);
 				newPersonGUI.potableWaterConsumedLabel = new JLabel("potable water consumed: "+numFormat.format(myCrewPeople[i].getPotableWaterConsumed())+" L");
 				newPersonPanel.add(newPersonGUI.potableWaterConsumedLabel);
-				newPersonGUI.foodConsumedLabel = new JLabel("food consumed: "+numFormat.format(myCrewPeople[i].getFoodConsumed())+" kg");
+				newPersonGUI.foodConsumedLabel = new JLabel("food consumed: "+numFormat.format(myCrewPeople[i].getFoodConsumed())+" kCal");
 				newPersonPanel.add(newPersonGUI.foodConsumedLabel);
 				newPersonGUI.CO2ProducedLabel = new JLabel("CO2 produced: "+numFormat.format(myCrewPeople[i].getCO2Produced())+" moles");
 				newPersonPanel.add(newPersonGUI.CO2ProducedLabel);
