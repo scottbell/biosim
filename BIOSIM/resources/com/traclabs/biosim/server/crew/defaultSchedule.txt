@@ -1,4 +1,4 @@
-sleep		8
+sleeping		8
 hygiene		1
 exercise		1
 eating		1

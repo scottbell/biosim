@@ -3,13 +3,16 @@ package biosim.server.crew;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import SIMULATION.*;
 
 public class Schedule{
 	
-	private Hashtable scheduleHash;
-	
+	private Hashtable scheduleNameHash;
+	private Hashtable scheduleOrderHash;
+
 	public Schedule(){
-		scheduleHash = new Hashtable();
+		scheduleNameHash = new Hashtable();
+		scheduleOrderHash = new Hashtable();
 		//use default schedule
 		System.out.println("Using default schedule...");
 		URL defaultURL = ClassLoader.getSystemClassLoader().getResource("biosim/server/crew/defaultSchedule.txt");
@@ -27,9 +30,26 @@ public class Schedule{
 	}
 	
 	public Schedule(File pScheduleFile){
-		scheduleHash = new Hashtable();
+		scheduleNameHash = new Hashtable();
+		scheduleOrderHash = new Hashtable();
 		File myScheduleFile = pScheduleFile;
 		parseSchedule(myScheduleFile);
+	}
+	
+	public Activity getActivityByName(String activityName){
+		Object foundActivity = scheduleNameHash.get(activityName);
+		if (foundActivity != null)
+			return (Activity)(foundActivity);
+		else
+			return null;
+	}
+	
+	public Activity getActivityByOrder(int order){
+		Object foundActivity = scheduleOrderHash.get(new Integer(order));
+		if (foundActivity != null)
+			return (Activity)(foundActivity);
+		else
+			return null;
 	}
 	
 	private void parseSchedule(File scheduleFile){
@@ -40,11 +60,12 @@ public class Schedule{
 			 while ((currentLine != null) && (!currentLine.equals("#DayEnd"))){
 			 	try{
 					StringTokenizer tokenizer = new StringTokenizer(currentLine);
-					String activity = tokenizer.nextToken();
+					String activityName = tokenizer.nextToken();
 					int lengthOfActivity = Integer.parseInt(tokenizer.nextToken());
 					Integer orderOfActivity = new Integer(itemsRead);
 					itemsRead++;
-					scheduleHash.put(orderOfActivity, new Activity(activity, lengthOfActivity));
+					scheduleNameHash.put(activityName, new Activity(activityName, lengthOfActivity));
+					scheduleOrderHash.put(orderOfActivity, new Activity(activityName, lengthOfActivity));
 					currentLine = inputReader.readLine().trim();
 				}
 				catch(java.util.NoSuchElementException e){
