@@ -62,13 +62,18 @@ import biosim.idl.simulation.framework.*;
 
 public class HandController{
 
-	//feedback loop stuff.
-	float CrewO2Level = .20f; 
-	float CrewCO2Level = 0.01f; 
-	float PlantO2Level =  .2f; 
-	float PlantCO2Level = .001f;
-	float crewO2integral, crewCO2integral, plantO2integral, plantCO2integral;
+	//feedback loop sttuff
+	double CrewO2Level = 0.20f; 
+	double CrewCO2Level = 0.0012f; 
+	double CrewH2OLevel = 0.01f; 
+	double PlantO2Level =  0.20f; 
+	double PlantCO2Level = 0.0012f;
+	double PlantH2OLevel =  0.01f; 
+	double desiredAirPressure = 101f; 
+
+	double crewO2integral, crewCO2integral, plantO2integral, plantCO2integral, plantH2Ointegral, crewH2Ointegral;
  
+ 	double plantH2O = PlantH2OLevel; 
 
 	// hand controller stuff;
 	int water = 0;
@@ -88,8 +93,8 @@ public class HandController{
 	static BioDriver myBioDriver;
 	static BioHolder myBioHolder;
 	
-	static int ATMOSPHERIC_PERIOD =1; 
-	static int CORE_PERIOD_MULT = 10; 
+	static int ATMOSPHERIC_PERIOD =2; 
+	static int CORE_PERIOD_MULT = 5; 
 	static int PLANT_PERIOD_MULT = 10; 
 	
 	public static String[] stateNames = {"carbondioxide", "dirtywater", "greywater", "hydrogen", "oxygen", "potablewater"}; 
@@ -182,13 +187,10 @@ public class HandController{
 		plantCO2integral = 0f;
 		Runs ++;
 
+
 		
-		while (!myBioDriver.simulationHasStarted()) { 
-			try {Thread.sleep(10000);}
-			catch (InterruptedException e) { 
-			}
-		}
-	//	for (i=0;i<20;i++) myBioDriver.advanceOneTick();
+		for (i=0;i<ATMOSPHERIC_PERIOD;i++) myBioDriver.advanceOneTick();
+
 
 		ContinuousState = new StateMap();
 		ContinuousState.updateState();
@@ -310,6 +312,8 @@ public class HandController{
 		SimEnvironment myPlantEnvironment = (SimEnvironment)myBioHolder.theSimEnvironments.get(1);
 		BiomassStore myBiomassStore = (BiomassStore)myBioHolder.theBiomassStores.get(0);
 		FoodStore myFoodStore = (FoodStore)myBioHolder.theFoodStores.get(0);
+		PowerStore myPowerStore = (PowerStore)myBioHolder.thePowerStores.get(0);
+
 
 		currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theBiomassStoreLevelSensors, myBiomassStore));
 		fileoutput += currentSensor.getValue()+"   ";
@@ -333,17 +337,20 @@ public class HandController{
 
 
 		currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theO2AirConcentrationSensors, myPlantEnvironment));
-		System.out.println("Plant O2..."+currentSensor.getValue());
+//		System.out.println("Plant O2..."+currentSensor.getValue());
 		fileoutput += currentSensor.getValue()+"   ";
 
 
 		currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theCO2AirConcentrationSensors, myPlantEnvironment));
-		System.out.println("Plant CO2..."+currentSensor.getValue());
+//		System.out.println("Plant CO2..."+currentSensor.getValue());
 		fileoutput += currentSensor.getValue()+"   ";
 		
 		currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theWaterAirConcentrationSensors, myPlantEnvironment));
 //		System.out.println("Plant Water Vapor..."+currentSensor.getValue());
 		fileoutput += currentSensor.getValue()+"   ";
+		
+		currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.thePowerStoreLevelSensors, myPowerStore));
+		System.out.println("Power..."+currentSensor.getValue());
 		
 		pw.println(fileoutput);
 
@@ -377,10 +384,11 @@ public class HandController{
 		GenericSensor levelSensor, rateSensor;  
 		GenericActuator currentActuator; 
 		
-		float delta, signal; 
-		float crewO2p, crewCO2p, plantO2p, plantCO2p; 
-		float crewO2i, crewCO2i, plantO2i, plantCO2i; 
-		float crewO2, crewCO2, plantO2, plantCO2; 
+		
+		double delta, signal; 
+		double crewO2p, crewCO2p, plantO2p, plantCO2p, plantH2Op, crewH2Op; 
+		double crewO2i, crewCO2i, plantO2i, plantCO2i, plantH2Oi, crewH2Oi; 
+		double crewO2, crewCO2, plantO2, plantCO2, crewH2O; 
 		SimEnvironment myCrewEnvironment = (SimEnvironment)myBioHolder.theSimEnvironments.get(0);
 		SimEnvironment myPlantEnvironment = (SimEnvironment)myBioHolder.theSimEnvironments.get(1);
 		Injector myInjector = (Injector)myBioHolder.theInjectors.get(0);
@@ -442,13 +450,39 @@ public class HandController{
 		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theCO2AirStoreInFlowRateActuators, myInjector));
 		currentActuator.setValue((float)(signal));
 		
-				
-		currentActuator = (GenericActuator)myBioHolder.theWaterAirEnvironmentInFlowRateActuators.get(0); 
-		currentActuator.setValue(2f);
+		//crew H2O  feedback control
+		crewH2Op = -10000f;
+		crewH2Oi = -10f;
+		levelSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theWaterAirConcentrationSensors, myCrewEnvironment));
+		crewH2O = levelSensor.getValue();
+		delta = (double)(CrewH2OLevel - crewH2O);
+		crewH2Ointegral += delta;
+		signal = delta*crewH2Op + crewH2Oi*crewH2Ointegral;
+		//System.out.println("crew H2O delta: "+delta+" crew H2O integral: "+crewH2Ointegral);
+//		System.out.println("H2O flow from Crew environment to accumulator: "+signal);
 		currentActuator = (GenericActuator)myBioHolder.theWaterAirEnvironmentInFlowRateActuators.get(1); 
-		currentActuator.setValue(3.7f);
+		currentActuator.setValue((float)(signal));
+		double signal2 = signal; 
+		
+		//plant H2O  feedback control
+		plantH2Op = -50000f;
+		plantH2Oi = -1f;
+		float plantH2Od = 300f; 
+		levelSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theWaterAirConcentrationSensors, myPlantEnvironment));
+		double plantH2Odelta = levelSensor.getValue() - plantH2O;
+		plantH2O = levelSensor.getValue();
+		delta = (double)(PlantH2OLevel - plantH2O);
+		plantH2Ointegral += delta;
+		signal = delta*plantH2Op + plantH2Oi*plantH2Ointegral + plantH2Od*plantH2Odelta;
+//		System.out.println("plant H2O delta: "+delta+" Plant Integral: "+plantH2Ointegral+" Plant Delta: "+plantH2Odelta);
+//		System.out.println("H2O flow from Plant environment to accumulator: "+signal);
+		currentActuator = (GenericActuator)myBioHolder.theWaterAirEnvironmentInFlowRateActuators.get(0); 
+		currentActuator.setValue((float)(signal));
+		signal2 += signal;
+				
+		
 		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theWaterAirStoreOutFlowRateActuators, myAccumulator));
-		currentActuator.setValue(6f);
+		currentActuator.setValue((float)signal2);
 	
 	} 
 
