@@ -778,6 +778,15 @@ public class BioHolderInitializer{
 	private static void fetchDirtyWaterStoreLevelSensor(Node node){
 		myBioHolder.theDirtyWaterStoreLevelSensors.add(DirtyWaterStoreLevelSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
+	private static void fetchWaterInFlowRateSensor(Node node){
+		myBioHolder.theWaterInFlowRateSensors.add(WaterInFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
+	}
+	private static void fetchWaterOutFlowRateSensor(Node node){
+		myBioHolder.theWaterOutFlowRateSensors.add(WaterOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
+	}
+	private static void fetchWaterStoreLevelSensor(Node node){
+		myBioHolder.theWaterStoreLevelSensors.add(WaterStoreLevelSensorHelper.narrow(grabModule(getModuleName(node))));
+	}
 	private static void crawlWaterSensors(Node node){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -800,6 +809,12 @@ public class BioHolderInitializer{
 				fetchDirtyWaterOutFlowRateSensor(child);
 			else if (childName.equals("DirtyWaterStoreLevelSensor"))
 				fetchDirtyWaterStoreLevelSensor(child);
+			else if (childName.equals("WaterInFlowRateSensor"))
+				fetchWaterInFlowRateSensor(child);
+			else if (childName.equals("WaterOutFlowRateSensor"))
+				fetchWaterOutFlowRateSensor(child);
+			else if (childName.equals("WaterStoreLevelSensor"))
+				fetchWaterStoreLevelSensor(child);
 			child = child.getNextSibling();
 		}
 	}
@@ -1083,6 +1098,12 @@ public class BioHolderInitializer{
 	private static void fetchDirtyWaterOutFlowRateActuator(Node node){
 		myBioHolder.theDirtyWaterOutFlowRateActuators.add(DirtyWaterOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
+	private static void fetchWaterInFlowRateActuator(Node node){
+		myBioHolder.theWaterInFlowRateActuators.add(WaterInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
+	}
+	private static void fetchWaterOutFlowRateActuator(Node node){
+		myBioHolder.theWaterOutFlowRateActuators.add(WaterOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
+	}
 	private static void crawlWaterActuators(Node node){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -1099,6 +1120,10 @@ public class BioHolderInitializer{
 				fetchDirtyWaterInFlowRateActuator(child);
 			else if (childName.equals("DirtyWaterOutFlowRateActuator"))
 				fetchDirtyWaterOutFlowRateActuator(child);
+			else if (childName.equals("WaterInFlowRateActuator"))
+				fetchWaterInFlowRateActuator(child);
+			else if (childName.equals("WaterOutFlowRateActuator"))
+				fetchWaterOutFlowRateActuator(child);
 			child = child.getNextSibling();
 		}
 	}
