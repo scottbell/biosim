@@ -320,14 +320,14 @@ public abstract class PlantImpl extends PlantPOA{
 		//System.out.println("PlantImpl: dailyO2GramsProduced: "+dailyO2GramsProduced);
 		totalO2GramsProduced += (dailyO2GramsProduced / 24f);
 		//System.out.println("PlantImpl: totalO2GramsProduced: "+totalO2GramsProduced);
-		float O2Produced = getOPF() * dailyCarbonGain * myShelfImpl.getCropAreaUsed(); //in mol of oxygen per hour
+		float O2Produced = getOPF() * dailyCarbonGain * myShelfImpl.getCropAreaUsed() / 24f; //in mol of oxygen per hour
 		float O2Exhaled = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0].addO2Moles(O2Produced);
 		myShelfImpl.getBiomassRSImpl().addAirOutputActualFlowRates(0,O2Exhaled);
 		//System.out.println("PlantImpl: O2Produced: "+O2Produced);
 		//System.out.println("PlantImpl: O2Exhaled: "+O2Exhaled);
 
 		//Water Vapor Produced
-		float litersOfWaterProduced = calculateDailyCanopyTranspirationRate() / 24f;
+		float litersOfWaterProduced = calculateDailyCanopyTranspirationRate() / 24f * myShelfImpl.getCropAreaUsed();
 		consumedWaterBuffer.take(litersOfWaterProduced);
 		//1/1000 liters per milliter, 1 gram per millilters, 8.016 grams per mole
 		float molesOfWaterProduced = waterLitersToMoles(litersOfWaterProduced);
