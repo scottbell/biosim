@@ -1,15 +1,9 @@
 package biosim.server.framework;
 
-import java.io.PrintWriter;
-import java.net.URL;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.Text;
-import org.apache.xerces.parsers.DOMParser;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
+import java.net.*;
+import org.w3c.dom.*;
+import org.apache.xerces.parsers.*;
+import org.xml.sax.*;
 
 /**
  * Reads BioSim configuration from XML file.
@@ -54,39 +48,51 @@ public class BioInitializer{
 		}
 	}
 
-	/** Traverses the specified node, recursively. */
-	public static void crawl(Node node) {
+	private static void crawlGlobals(Node node){
+		System.out.println(node.getNodeName());
+	}
 
+	private static void crawlSimModules(Node node){
+		System.out.println(node.getNodeName());
+	}
+
+	private static void crawlSensors(Node node){
+		System.out.println(node.getNodeName());
+	}
+
+	private static void crawlActuators(Node node){
+		System.out.println(node.getNodeName());
+	}
+
+	/** Traverses the specified node, recursively. */
+	private static void crawlBiosim(Node node) {
 		// is there anything to do?
-		if (node == null) {
+		if (node == null)
+			return;String nodeName = node.getNodeName();
+		if (nodeName.equals("Globals")){
+			crawlGlobals(node);
 			return;
 		}
-		short type = node.getNodeType();
-		if (type == Node.DOCUMENT_NODE) {
-			Document document = (Document)node;
-			crawl(document.getDocumentElement());
+		else if (nodeName.equals("SimModules")){
+			crawlSimModules(node);
+			return;
 		}
-		else if (type == Node.ELEMENT_NODE){
-			System.out.println("Nodename: "+node.getNodeName());
-			NamedNodeMap attrs = node.getAttributes();
+		else if (nodeName.equals("Sensors")){
+			crawlSensors(node);
+			return;
+		}
+		else if (nodeName.equals("Actuators")){
+			crawlActuators(node);
+			return;
+		}
+		else{
 			Node child = node.getFirstChild();
 			while (child != null) {
-				crawl(child);
-				child = child.getNextSibling();
-			}
-			// drop through to entity reference
-		}
-		else if (type == Node.ENTITY_REFERENCE_NODE){
-			Node child = node.getFirstChild();
-			while (child != null) {
-				crawl(child);
+				crawlBiosim(child);
 				child = child.getNextSibling();
 			}
 		}
-		else if (type == Node.CDATA_SECTION_NODE){
-		}
-		else if (type == Node.TEXT_NODE){
-		}
+
 	}
 
 	private static void parseFile(String fileToParse){
@@ -96,7 +102,7 @@ public class BioInitializer{
 			System.out.println("Starting to parse file: "+fileToParse);
 			myParser.parse(fileToParse);
 			Document document = myParser.getDocument();
-			crawl(document);
+			crawlBiosim(document);
 		}
 		catch (Exception e){
 			System.err.println("error: Parse error occurred - "+e.getMessage());

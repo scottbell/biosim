@@ -481,6 +481,7 @@
 		<xsd:attribute name="name" type="xsd:string" use="required"/>
 		<xsd:attribute name="isLoggingEnabled" type="xsd:boolean" default="false"/>
 		<xsd:attribute name="isBreakdownEnabled" type="xsd:boolean" default="false"/>
+		<xsd:attribute name="setStochasticIntensity" type="StochasticIntensityType" default="NONE_STOCH"/>
 	</xsd:complexType>
 	
 	<!-- Store declarations -->
