@@ -45,6 +45,7 @@ public abstract class PlantImpl extends PlantPOA{
 	private float totalCO2GramsConsumed = 0f;
 	private float totalCO2MolesConsumed = 0f;
 	private float totalWaterLitersTranspired = 0f;
+	private float myTimeTillCanopyClosure = 0f;
 	private SimpleBuffer consumedWaterBuffer;
 	private SimpleBuffer consumedCO2LowBuffer;
 	private SimpleBuffer consumedCO2HighBuffer;
@@ -53,7 +54,6 @@ public abstract class PlantImpl extends PlantPOA{
 	protected float[] canopyClosureConstants;
 	protected float[] canopyQYConstants;
 	private float myPPFFractionAbsorbed = 0f;
-	private boolean canopyClosed = false;
 	protected List myCanopyClosurePPFValues;
 	protected List myCanopyClosureCO2Values;
 	private static final float WATER_TILL_DEAD = 200f;
@@ -145,8 +145,8 @@ public abstract class PlantImpl extends PlantPOA{
 		totalCO2MolesConsumed = 0f;
 		totalWaterLitersTranspired = 0f;
 		myPPFFractionAbsorbed = 0f;
+		myTimeTillCanopyClosure = 0f;
 		hasDied = false;
-		canopyClosed = false;
 		myCanopyClosurePPFValues.clear();
 		myCanopyClosureCO2Values.clear();
 		for (int i = 0; i < getTAInitialValue(); i++){
@@ -163,7 +163,6 @@ public abstract class PlantImpl extends PlantPOA{
 	public void tick(){
 		myAge++;
 		if (!hasDied){
-			calculateAverageCO2Concentration();
 			growBiomass();
 			if (myAge > 1){
 				afflictPlants();
@@ -194,6 +193,21 @@ public abstract class PlantImpl extends PlantPOA{
 		myTotalPPF += pPPF;
 		myNumberOfPPFReadings++;
 		myAveragePPF = myTotalPPF / myNumberOfPPFReadings;
+		
+		addAndTrimCanopyClosureList(pPPF, myAge, myCanopyClosurePPFValues);
+	}
+	
+	/**
+	* Trims the list to the size == tA, then adds a float to the list at 
+	* pAge(for PPF and CO2 values used in the tA calculation),
+	*/
+	private static void addAndTrimCanopyClosureList(float pValue, float pAge, List pList){
+		//are we bigger than tA?
+		if (pList.size() > myAveragePPF){
+			return;
+		}
+			
+		
 	}
 
 	private void recoverPlants(){
@@ -335,10 +349,9 @@ public abstract class PlantImpl extends PlantPOA{
 		float litersOfWaterProduced = 0f;
 		myLastTotalWetBiomass = myCurrentTotalWetBiomass;
 		myLastEdibleWetBiomass = myCurrentEdibleWetBiomass;
+		calculateAverageCO2Concentration();
+		myTimeTillCanopyClosure = calculateTimeTillCanopyClosure();
 		calculatePPFFractionAbsorbed();
-		
-		if (getDaysOfGrowth() >= calculateTimeTillCanopyClosure())
-			canopyClosed = true;
 		
 		//Biomass Grown this tick
 		float molecularWeightOfCarbon = 12.011f;  //g/mol
@@ -589,7 +602,7 @@ public abstract class PlantImpl extends PlantPOA{
 		//System.out.println("PlantImpl: timeTillCanopyClosure: "+timeTillCanopyClosure);
 		//System.out.println("PlantImpl: getDaysOfGrowth(): "+getDaysOfGrowth());
 		//System.out.println("PlantImpl: getN(): "+getN());
-		if (canopyClosed)
+		if (getDaysOfGrowth() >= myTimeTillCanopyClosure)
 			myPPFFractionAbsorbed = PPFFractionAbsorbedMax;
 		else
 			myPPFFractionAbsorbed += (calculateDaDt() / 24f);
@@ -597,8 +610,7 @@ public abstract class PlantImpl extends PlantPOA{
 	
 	private float calculateDaDt(){
 		float PPFFractionAbsorbedMax = 0.93f;
-		float timeTillCanopyClosure = calculateTimeTillCanopyClosure();
-		return PPFFractionAbsorbedMax * getN() * pow((getDaysOfGrowth() / timeTillCanopyClosure), getN() - 1f) * (1f / timeTillCanopyClosure);
+		return PPFFractionAbsorbedMax * getN() * pow((getDaysOfGrowth() / myTimeTillCanopyClosure), getN() - 1f) * (1f / timeTillCanopyClosure);
 	}
 
 	private float calculateCQYMax(){
