@@ -243,16 +243,27 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		PowerStore myPowerStore = (PowerStore)(getBioModule(powerStoreName));
 		myPowerStore.setCapacity(10000f);
 		myPowerStore.setLevel(10000f);
-
+	}
+	
+	private void configureFlows(){
+		BiomassStore myBiomassStore = (BiomassStore)(getBioModule(biomassStoreName));
+		PowerStore myPowerStore = (PowerStore)(getBioModule(powerStoreName));
+		FoodStore myFoodStore = (FoodStore)(getBioModule(foodStoreName));
+		PotableWaterStore myPotableWaterStore = (PotableWaterStore)(getBioModule(potableWaterStoreName));
+		DirtyWaterStore myDirtyWaterStore = (DirtyWaterStore)(getBioModule(dirtyWaterStoreName));
+		GreyWaterStore myGreyWaterStore = (GreyWaterStore)(getBioModule(greyWaterStoreName));
+		SimEnvironment mySimEnvironment = (SimEnvironment)(getBioModule(simEnvironmentName));
+		O2Store myO2Store = (O2Store)(getBioModule(O2StoreName));
+		CO2Store myCO2Store = (CO2Store)(getBioModule(CO2StoreName));
 		//Hook up Food Processor to other modules
 		{
-			FoodProcessor myFoodProcessor = (FoodProcessor)(getBioModule(foodProcessorName));
 			BiomassStore[] biomassStoreInput = {myBiomassStore};
 			PowerStore[] powerStoreInput = {myPowerStore};
 			FoodStore[] foodStoreOutput = {myFoodStore};
 			float[] biomassFlowRates = {10000f};
 			float[] powerFlowRates = {10000f};
 			float[] foodFlowRates = {10000f};
+			FoodProcessor myFoodProcessor = (FoodProcessor)(getBioModule(foodProcessorName));
 			myFoodProcessor.setBiomassInputs(biomassStoreInput, biomassFlowRates);
 			myFoodProcessor.setPowerInputs(powerStoreInput, powerFlowRates);
 			myFoodProcessor.setFoodOutputs(foodStoreOutput, foodFlowRates);
@@ -272,6 +283,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			float[] biomassFlowRates = {10000f};
 			float[] simEnvironmentInputFlowRates = {10000f};
 			float[] simEnvironmentOutputFlowRates = {10000f};
+			BiomassRS myBiomassRS = (BiomassRS)(getBioModule(biomassRSName));
 			myBiomassRS.setPowerInputs(powerStoreInput, powerFlowRates);
 			myBiomassRS.setPotableWaterInputs(potableWaterStoreInput, potableWaterFlowRates);
 			myBiomassRS.setGreyWaterInputs(greyWaterStoreInput, greyWaterFlowRates);
@@ -317,6 +329,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			float[] potableWaterInputFlowRates = {10000f};
 			float[] dirtyWaterOutputFlowRates = {10000f};
 			float[] greyWaterOutputFlowRates = {10000f};
+			CrewGroup myCrew = (CrewGroup)(getBioModule(crewName));
 			myCrew.setAirInputs(airInputs, airInputFlowRates);
 			myCrew.setAirOutputs(airOutputs, airOutputFlowRates);
 			myCrew.setFoodInputs(foodInputs, foodInputFlowRates);
@@ -392,6 +405,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		PowerStore myPowerStore = (PowerStore)(getBioModule(powerStoreName));
 		myPowerStore.setCapacity(100f);
 		myPowerStore.setLevel(100f);
+		configureFlows();
 	}
 
 	/**
