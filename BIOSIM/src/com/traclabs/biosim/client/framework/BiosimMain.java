@@ -68,6 +68,5 @@ public class BiosimMain
 		SimCommandLine newCommandLine = new SimCommandLine(myID);
 		newCommandLine.runCommandLine();
 	}
-
 }
 

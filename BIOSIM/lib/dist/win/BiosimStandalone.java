@@ -1,3 +1,10 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import org.jacorb.naming.NameServer;
+import biosim.server.framework.BiosimServer;
+import biosim.client.framework.BiosimMain;
+
 /**
  * A standalone BioSim instance (server, nameserver, client in one)
  *
@@ -9,6 +16,11 @@ public class BiosimStandalone
 	private Thread myNamingServiceThread;
 	private Thread myServerThread;
 	private Thread myClientThread;
+	private Thread waitThread;
+	private ReadyListener myReadyListener;
+	
+	private JFrame myFrame;
+	private JProgressBar myProgressBar;
 
 	public static void main(String args[]){
 		if (args.length < 1){
@@ -19,58 +31,69 @@ public class BiosimStandalone
 		myBiosimStandalone.beginSimulation();
 	}
 	
-	public BiosimStandalone(String pIOR){
-		myNamingServiceThread = new Thread(new NamingServiceThread(pIOR));
-		myServerThread = new Thread(new ServerThread(pIOR));
-		myClientThread = new Thread(new ClientThread(pIOR));
+	public BiosimStandalone(String pIORLocation){
+		myNamingServiceThread = new Thread(new NamingServiceThread(pIORLocation));
+		myServerThread = new Thread(new ServerThread());
+		myClientThread = new Thread(new ClientThread());
+		myProgressBar = new JProgressBar();
+		myProgressBar.setIndeterminate(true);
+		myFrame = new JFrame("BioSim Loader");
+		myFrame.getContentPane().setLayout(new BorderLayout());
+		ImageIcon marsIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("mars.gif"));
+		JLabel waitLabel = new JLabel("BioSim: Advanced Life Support Simulation", marsIcon, SwingConstants.CENTER);
+		myFrame.setUndecorated(true);
+		myFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		myFrame.getContentPane().add(waitLabel, BorderLayout.CENTER);
+		myFrame.getContentPane().add(myProgressBar, BorderLayout.SOUTH);
+		Dimension winsize = myFrame.getSize(), screensize = Toolkit.getDefaultToolkit().getScreenSize();
+		myFrame.pack();
+		myFrame.setLocation((screensize.width - winsize.width - 320) / 2,(screensize.height - winsize.height - 200) / 2);
+		myReadyListener = new ReadyListener();
 	}
 	
 	public void beginSimulation(){
+		myFrame.setCursor(Cursor.WAIT_CURSOR);
+		myFrame.setVisible(true);
 		myNamingServiceThread.start();
 		myServerThread.start();
 		myClientThread.start();
 	}
 
 	private class NamingServiceThread implements Runnable{
-		private String myIOR;
+		private String myIORLocation;
 		
-		public NamingServiceThread(String pIOR){
-			myIOR = pIOR;
+		public NamingServiceThread(String pIORLocation){
+			myIORLocation = pIORLocation;
 		}
 		
 	        public void run(){
-			org.jacorb.naming.NameServer myNameserver = new org.jacorb.naming.NameServer();
-			String[] iorArgs = {myIOR};
+			NameServer myNameserver = new NameServer();
+			String[] iorArgs = {myIORLocation};
 			myNameserver.main(iorArgs);
 	        }
 	}
 	
 	private class ServerThread implements Runnable{
-		private String myIOR;
-		
-		public ServerThread(String pIOR){
-			myIOR = pIOR;
-		}
-		
 	        public void run(){
-			biosim.server.framework.BiosimServer myBiosimServer = new biosim.server.framework.BiosimServer();
-			String[] iorArgs = {myIOR};
-			myBiosimServer.main(iorArgs);
+			BiosimServer myBiosimServer = new BiosimServer();
+			myBiosimServer.addReadyListener(myReadyListener);
+			myBiosimServer.startBiosimServer(0);
 	        }
 	}
 	
 	private class ClientThread implements Runnable{
-		private String myIOR;
-		
-		public ClientThread(String pIOR){
-			myIOR = pIOR;
-		}
-		
 	        public void run(){
-			biosim.client.framework.BiosimMain myBiosimClient = new biosim.client.framework.BiosimMain();
-			String[] iorArgs = {myIOR};
-			myBiosimClient.main(iorArgs);
+			BiosimMain myBiosimClient = new BiosimMain();
+			String[] emptyArgs = new String[0];
+			myBiosimClient.main(emptyArgs);
 	        }
+	}
+	
+	public class ReadyListener implements ActionListener{
+		public void actionPerformed(ActionEvent ae){
+			myFrame.setCursor(Cursor.DEFAULT_CURSOR);
+			myFrame.dispose();
+		}
 	}
 }
 

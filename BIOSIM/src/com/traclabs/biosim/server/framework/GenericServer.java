@@ -3,6 +3,7 @@ package biosim.server.framework;
 import biosim.server.framework.*;
 import biosim.server.util.*;
 import java.util.*;
+import java.awt.event.*;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
@@ -15,6 +16,7 @@ import org.omg.PortableServer.POA;
  */
 
 public class GenericServer{
+	private List readyListeners;
 	
 	/**
 	* Grabs ID parameter from an array of string
@@ -74,12 +76,28 @@ public class GenericServer{
 		runServer(serverName);
 	}
 	
+	public void addReadyListener(ActionListener newListener){
+		if (readyListeners == null)
+			readyListeners = new Vector();
+		readyListeners.add(newListener);
+	}
+	
+	private void notfiyListeners(){
+		if (readyListeners == null)
+			return;
+		for (Iterator iter = readyListeners.iterator(); iter.hasNext();){
+			ActionListener currentListener = (ActionListener)(iter.next());
+			currentListener.actionPerformed(new ActionEvent(this, 0, "server ready"));
+		}
+	}
+	
 	/**
 	* Starts the server by calling ORB.run()
 	* @param servername the name associated with this server (for debug purposes only)
 	*/
 	protected void runServer(String serverName){
 		try{
+			notfiyListeners();
 			System.out.println(serverName+ "Server ready and waiting ...");
 			// wait for invocations from clients
 			OrbUtils.getORB().run();
