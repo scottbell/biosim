@@ -21,7 +21,7 @@ public class SimCommandLine
 	}
 
 	public void runCommandLine(){
-		myDriver = BioHolderInitializer.getBioHolder().theBioDriver;
+		myDriver = grabDriver();
 		myDriver.setPauseSimulation(false);
 		BufferedReader userInputReader = new BufferedReader(new InputStreamReader(System.in));
 		while (true){
@@ -34,6 +34,25 @@ public class SimCommandLine
 				System.out.println("Had problem reading your command, try again...");
 			}
 		}
+	}
+	
+	private BioDriver grabDriver(){
+		BioDriver driverToReturn = null;
+		while (driverToReturn == null){
+			try{
+				driverToReturn = BioDriverHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str("BioDriver"));
+			}
+			catch (org.omg.CORBA.UserException e){
+				System.err.println("SimCommandLine: Couldn't find BioDriver, polling again...");
+				OrbUtils.sleepAwhile();
+			}
+			catch (Exception e){
+				System.err.println("SimCommandLine: Had problems contacting nameserver for BioDriver polling again...");
+				OrbUtils.resetInit();
+				OrbUtils.sleepAwhile();
+			}
+		}
+		return driverToReturn;
 	}
 
 	/**

@@ -25,6 +25,7 @@ public class BiosimMain
 
 	private void checkArgs(String[] myArgs){
 		int myID = 0;
+		String xmlLocation = ;
 		boolean wantsToRunCommandLine = false;
 		boolean wantsToRunGUI = false;
 		boolean wantsToRunController = false;
@@ -42,6 +43,17 @@ public class BiosimMain
 			else if (myArgs[i].equals("3D")){
 				wantsToRun3D = true;
 			}
+			else if (myArgs[i].equals("-xml=")){
+				try{
+					StringTokenizer st = new StringTokenizer(myArgs[i],"=");
+					st.nextToken();
+					BioHolderInitializer.setFile(st.nextToken());
+				}
+				catch (Exception e){
+					System.err.println("Problem parsing arguments on arg "+myArgs[i]);
+					e.printStackTrace();
+				}
+			}
 			else if (myArgs[i].startsWith("-id=")){
 				try{
 					StringTokenizer st = new StringTokenizer(myArgs[i],"=");
@@ -54,7 +66,6 @@ public class BiosimMain
 				}
 			}
 		}
-		BioHolderInitializer.setID(myID);
 		if (wantsToRunCommandLine)
 			runCommandLine(myID);
 		else if (wantsToRunGUI)
@@ -73,6 +84,7 @@ public class BiosimMain
 	* Runs the SimDesktop front end for the simulation.
 	*/
 	private void runGUI(int myID){
+		BioHolderInitializer.setID(myID);
 		SimDesktop newDesktop = new SimDesktop(myID);
 		newDesktop.setSize(1024, 768);
 		newDesktop.setVisible(true);
@@ -87,11 +99,13 @@ public class BiosimMain
 	}
 	
 	public void runHandController(int myID){
+		BioHolderInitializer.setID(myID);
 		HandController myController = new HandController();
 		myController.runSim();
 	}
 	
 	public void run3D(int myID){
+		BioHolderInitializer.setID(myID);
 		SimulationEngine myEngine = new SimulationEngine(myID);
 		myEngine.runEngine();
 	}
