@@ -200,7 +200,7 @@ public class BioDriverImpl extends BioDriverPOA{
 	*/
 	public synchronized void setDriverStutterLength(int pDriverStutterLength){
 		if (pDriverStutterLength > 0)
-			System.out.println("BioDriverImpl:"+myID+" driver pause of "+pDriverStutterLength+" milliseconds");
+			System.out.println("BioDriverImpl"+myID+": driver pause of "+pDriverStutterLength+" milliseconds");
 		driverStutterLength = pDriverStutterLength;
 	}
 
@@ -386,7 +386,7 @@ public class BioDriverImpl extends BioDriverPOA{
 	* Typically this means resetting the various gas levels, crew people, water levels, etc.
 	*/
 	public void reset(){
-		System.out.println("BioDriverImpl:"+myID+" Resetting simulation");
+		System.out.println("BioDriverImpl"+myID+": Resetting simulation");
 		ticksGoneBy = 0;
 		for (int i = 0; i < modules.length; i++){
 			BioModule currentBioModule = (BioModule)(modules[i]);
@@ -433,7 +433,7 @@ public class BioDriverImpl extends BioDriverPOA{
 	*/
 	private void tick(){
 		if (!isStarted()){
-			System.err.println("Tick called when simulation wasn't started!");
+			System.err.println("BioDriverImpl"+myID+": Tick called when simulation wasn't started!");
 			return;
 		}
 		//Iterate through the actuators and tick them
@@ -460,7 +460,7 @@ public class BioDriverImpl extends BioDriverPOA{
 		* Sets flag that simulation is running, intializes servers (if applicable), then begins ticking them.
 		*/
 		public void run(){
-			System.out.println("BioDriverImpl:"+myID+" Running simulation...");
+			System.out.println("BioDriverImpl"+myID+": Running simulation...");
 			simulationStarted = true;
 			runSimulation();
 		}

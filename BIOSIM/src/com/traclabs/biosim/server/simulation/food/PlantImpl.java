@@ -338,7 +338,7 @@ public abstract class PlantImpl extends PlantPOA{
 		//System.out.println("PlantImpl: dailyO2MolesProduced: "+dailyO2MolesProduced);
 		//System.out.println("PlantImpl: dailyO2GramsProduced: "+dailyO2GramsProduced);
 		totalO2GramsProduced += (dailyO2GramsProduced / 24f);
-		System.out.println("PlantImpl: totalO2GramsProduced: "+totalO2GramsProduced);
+		//System.out.println("PlantImpl: totalO2GramsProduced: "+totalO2GramsProduced);
 		float O2Produced = dailyO2MolesProduced / 24f; //in mol of oxygen per hour
 		float O2Exhaled = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0].addO2Moles(O2Produced);
 		myShelfImpl.getBiomassRSImpl().addAirOutputActualFlowRates(0,O2Exhaled);
