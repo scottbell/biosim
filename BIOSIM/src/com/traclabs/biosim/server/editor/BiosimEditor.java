@@ -22,7 +22,6 @@ import javax.swing.JTabbedPane;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.tigris.gef.graph.presentation.JGraph;
-import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigCircle;
 
 import com.traclabs.biosim.client.framework.gui.BioFrame;
@@ -34,7 +33,7 @@ public class BiosimEditor {
     BioFrame myMainFrame;
 
     JGraph myGraph;
-    
+
     JPanel myGraphPanel;
 
     JTabbedPane myTabbedPane;
@@ -72,8 +71,8 @@ public class BiosimEditor {
     private JComponent myWasteToolBar;
 
     private JComponent myWaterToolBar;
-    
-    private Fig myCurrentFigure;
+
+    private EditorFig myCurrentFig;
 
     private JSplitPane mySplitPane;
 
@@ -92,26 +91,27 @@ public class BiosimEditor {
 
         //init tabbed pane tool bar
         createTabbedPane();
-        
+
         //create main frame
         myMainFrame = new BioFrame("BioSim Editor", false);
-        
+
         //do splitpane
-        mySplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,myTabbedPane, myGraphPanel);
+        mySplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, myTabbedPane,
+                myGraphPanel);
         //mySplitPane.setResizeWeight(0.5);
         myMainFrame.getContentPane().setLayout(new GridLayout(1, 1));
         myMainFrame.getContentPane().add(mySplitPane);
-        
+
         //do menu bar
         createMenuBar();
-        
+
         myMainFrame.pack();
-        myMainFrame.setSize(650, 600);
+        myMainFrame.setSize(680, 600);
         myMainFrame.setVisible(true);
     }
 
     /**
-     * 
+     *  
      */
     private void createMenuBar() {
         myMenuBar = new JMenuBar();
@@ -129,53 +129,51 @@ public class BiosimEditor {
     }
 
     /**
-     * 
+     *  
      */
     private void createTabbedPane() {
         myTabbedPane = new JTabbedPane();
-        
+
         myAirToolBar = new AirToolBar();
-        myTabbedPane
-                .addTab(
-                        "Air",
-                        createImageIcon("com/traclabs/biosim/client/air/gui/air.jpg"),
-                        myAirToolBar);
-        
+        myTabbedPane.addTab("Air",
+                createImageIcon("com/traclabs/biosim/client/air/gui/air.jpg"),
+                myAirToolBar);
+
         myCrewToolBar = new CrewToolBar();
         myTabbedPane
                 .addTab(
                         "Crew",
                         createImageIcon("com/traclabs/biosim/client/crew/gui/crew.jpg"),
                         myCrewToolBar);
-        
+
         myEnvironmentToolBar = new EnvironmentToolBar();
         myTabbedPane
                 .addTab(
                         "Environment",
                         createImageIcon("com/traclabs/biosim/client/environment/gui/environment.jpg"),
                         myEnvironmentToolBar);
-        
+
         myFrameworkToolBar = new FrameworkToolBar();
         myTabbedPane
                 .addTab(
                         "Framework",
                         createImageIcon("com/traclabs/biosim/client/framework/gui/all.jpg"),
                         myFrameworkToolBar);
-        
+
         myPowerToolBar = new PowerToolBar();
         myTabbedPane
                 .addTab(
                         "Power",
                         createImageIcon("com/traclabs/biosim/client/power/gui/power.jpg"),
                         myPowerToolBar);
-        
+
         myWasteToolBar = new WasteToolBar();
         myTabbedPane
                 .addTab(
                         "Waste",
                         createImageIcon("com/traclabs/biosim/client/framework/gui/gear.gif"),
                         myWasteToolBar);
-        
+
         myWaterToolBar = new WaterToolBar();
         myTabbedPane
                 .addTab(
@@ -185,7 +183,7 @@ public class BiosimEditor {
     }
 
     /**
-     * 
+     *  
      */
     private void createGraphPanel() {
         myGraph = new JGraph();
@@ -193,7 +191,7 @@ public class BiosimEditor {
         myGraphPanel = new JPanel();
         myGraphPanel.setLayout(new GridLayout(1, 1));
         myGraphPanel.add(myGraph);
-        myGraph.getEditor().add(new FigCircle(0,0,50,50));
+        myGraph.getEditor().add(new FigCircle(0, 0, 50, 50));
     }
 
     private JComponent createModulePanel(String text) {
@@ -221,7 +219,7 @@ public class BiosimEditor {
      *  
      */
     private void initLogger() {
-        myLogger = Logger.getLogger( BiosimEditor.class.toString());
+        myLogger = Logger.getLogger(BiosimEditor.class.toString());
         Properties logProps = new Properties();
         logProps.setProperty("log4j.rootLogger", "INFO, rootAppender");
         logProps.setProperty("log4j.appender.rootAppender",
@@ -237,7 +235,7 @@ public class BiosimEditor {
     public static void main(String args[]) {
         BiosimEditor editor = new BiosimEditor(true);
     }
-    
+
     /**
      * Action that stops the simulation and exits (by way of the frameClosing
      * method)
@@ -248,12 +246,13 @@ public class BiosimEditor {
         }
 
         public void actionPerformed(ActionEvent ae) {
-            myMainFrame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            myMainFrame.setCursor(Cursor
+                    .getPredefinedCursor(Cursor.WAIT_CURSOR));
             myMainFrame.frameClosing();
             myMainFrame.setCursor(Cursor.getDefaultCursor());
         }
     }
-    
+
     /**
      * Action that brings up a dialog box about authors, company, etc.
      */
@@ -263,21 +262,17 @@ public class BiosimEditor {
         }
 
         public void actionPerformed(ActionEvent ae) {
-            JOptionPane
-                    .showMessageDialog(
-                            null,
-                            "BioSim Editor\nCopyright "
-                                    + new Character('\u00A9')
-                                    + " 2005, TRACLabs\nby Scott Bell and David Kortenkamp");
+            JOptionPane.showMessageDialog(null, "BioSim Editor\nCopyright "
+                    + new Character('\u00A9')
+                    + " 2005, TRACLabs\nby Scott Bell and David Kortenkamp");
         }
     }
 
     /**
      * @param figure
      */
-    public void setCurrentFigure(Fig pFigure) {
-        myCurrentFigure = pFigure;
-        
+    public void setCurrentFig(EditorFig pFig) {
+        myCurrentFig = pFig;
     }
-    
+
 }
