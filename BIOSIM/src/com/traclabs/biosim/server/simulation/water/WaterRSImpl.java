@@ -36,6 +36,14 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations, Pow
 	*/
 	public WaterRSImpl(int pID){
 		super(pID);
+		myPowerInputs = new PowerStore[0];
+		myDirtyWaterInputs = new DirtyWaterStore[0];
+		myGreyWaterInputs = new GreyWaterStore[0];
+		myPotableWaterOutputs = new PotableWaterStore[0];
+		powerFlowRates = new float[0];
+		dirtyWaterFlowRates = new float[0];
+		greyWaterFlowRates = new float[0];
+		potableWaterFlowRates = new float[0];
 		myBWP = new BWP(this);
 		myRO = new RO(this);
 		myAES = new AES(this);
