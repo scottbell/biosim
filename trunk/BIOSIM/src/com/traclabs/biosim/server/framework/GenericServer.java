@@ -83,7 +83,7 @@ public class GenericServer{
 	* @param pPOA the object to register
 	* @param servername the name that will be associated with this server in the naming service
 	*/
-	protected void registerServerAndRun(Servant pPOA, String pServerName, int pID){
+	public void registerServerAndRun(Servant pPOA, String pServerName, int pID){
 		registerServer(pPOA,pServerName, pID);
 		runServer(pServerName);
 	}
@@ -107,7 +107,7 @@ public class GenericServer{
 	* Starts the server by calling ORB.run()
 	* @param servername the name associated with this server (for debug purposes only)
 	*/
-	protected void runServer(String serverName){
+	public void runServer(String serverName){
 		try{
 			notfiyListeners();
 			System.out.println(serverName+" ready and waiting");

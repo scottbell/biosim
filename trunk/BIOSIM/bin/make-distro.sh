@@ -59,6 +59,13 @@ $jarExpand $jfreechartPath
 echo "			-expanding jacorb"
 jacorbPath="$devRootDir/lib/jacorb/jacorb.jar"
 $jarExpand $jacorbPath
+echo "			-expanding xerces"
+xercesImplPath="$devRootDir/lib/xerces/xercesImpl.jar"
+xercesApisPath="$devRootDir/lib/xerces/xml-apis.jar"
+xercesParserPath="$devRootDir/lib/xerces/xmlParserAPIs.jar"
+$jarExpand $xercesImplPath
+$jarExpand $xercesApisPath
+$jarExpand $xercesParserPath
 echo "			-removing manifest"
 rm -Rf $distroTmp/META-INF
 echo "			-copying jacorb.properties"
