@@ -4,7 +4,7 @@ import biosim.idl.framework.*;
 import biosim.client.util.*;
 import java.io.*;
 
-import biosim.idl.simulation.water.*;
+import biosim.idl.sensor.food.*;
 
 /**
  * Runs a CLI interface to the simulation.
@@ -142,8 +142,8 @@ public class SimCommandLine
 
 	private void runTest(){
 		BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
-		DirtyWaterStore myDirtyWaterStore = (DirtyWaterStore)myBioHolder.theDirtyWaterStores.get(0);
-		System.out.println("DirtyWaterStore level: "+myDirtyWaterStore.getLevel());
+		PlantDeathSensor myPlantDeathSensor = (PlantDeathSensor)myBioHolder.getShelfSensorAttachedTo(myBioHolder.thePlantDeathSensors, (BioModule)(myBioHolder.theBiomassRSModules.get(0)), 2);
+		System.out.println("myPlantDeathSensor value: "+myPlantDeathSensor.getValue());
 	}
 }
 
