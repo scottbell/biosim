@@ -17,7 +17,7 @@ import javax.xml.transform.sax.*;
 
 public class XMLLogHandler implements LogHandler{
 	private File myOutputFile;
-	private static String DEFAULT_FILENAME = "biosim-output.xml";
+	private static String DEFAULT_FILENAME = "biosim-log.xml";
 	private TransformerHandler myHandler;
 	private AttributesImpl emptyAtts;
 	private boolean initialized = false;
@@ -28,7 +28,7 @@ public class XMLLogHandler implements LogHandler{
 		try{
 			biosimPath = System.getProperty("BIOSIM_HOME");
 			if (biosimPath != null)
-				biosimPath = biosimPath + "/";
+				biosimPath = biosimPath + "/generated/";
 		}
 		catch (Exception e){
 			e.printStackTrace();
