@@ -112,7 +112,6 @@ public abstract class Plant {
 		if (biomassProduced > 0){
 			myBiomassStore.add(biomassProduced);
 			myAge = 0;
-			System.out.println("Harvested!");
 		}
 	}
 
