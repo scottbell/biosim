@@ -55,7 +55,7 @@ public class VCCR extends AirRSSubSystem{
 	}
 	
 	private void gatherAir(){
-		myBreath = mySimEnvironment.takeCO2Breath(CO2Needed);
+		myBreath = mySimEnvironment.takeCO2Breath(myAirRS.randomFilter(CO2Needed));
 		currentCO2Consumed = myBreath.CO2;
 		currentO2Consumed = myBreath.O2;
 		if (CO2Needed < currentCO2Consumed)

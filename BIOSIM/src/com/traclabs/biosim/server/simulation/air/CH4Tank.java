@@ -18,6 +18,7 @@ public class CH4Tank extends AirRSSubSystem{
 	}
 	
 	public void addCH4(float litersToAdd){
+		litersToAdd = myAirRS.randomFilter(litersToAdd);
 		CH4Level += litersToAdd;
 	}
 	

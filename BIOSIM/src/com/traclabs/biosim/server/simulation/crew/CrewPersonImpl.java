@@ -317,7 +317,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		double a = 0.223804f;
 		double b = 5.64f * (Math.pow(10f, -7f));
 		Double result = new Double((a+b * Math.pow(heartRate, 3f)) * 60f);
-		return result.floatValue(); //Liters/hour
+		return myCrewGroup.randomFilter(result.floatValue()); //Liters/hour
 	}
 
 	/**
@@ -328,7 +328,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	*/
 	private float calculateCO2Produced(float O2Consumed){
 		Double result = new Double(O2Consumed * 0.86);
-		return result.floatValue();
+		return myCrewGroup.randomFilter(result.floatValue());
 	}
 
 	/**
@@ -339,7 +339,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	*/
 	private float calculateO2Produced(float O2Consumed){
 		Double result = new Double(O2Consumed * 0.14);
-		return result.floatValue();
+		return myCrewGroup.randomFilter(result.floatValue());
 	}
 
 	public int hashCode(){
@@ -372,7 +372,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		//assume they're eating only carbs
 		double energyFromFood = 17.22 * 1000;
 		Double kgFoodNeeded = new Double(caloriesNeeded / energyFromFood);
-		return kgFoodNeeded.floatValue();
+		return myCrewGroup.randomFilter(kgFoodNeeded.floatValue());
 	}
 
 	/**
@@ -382,7 +382,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	*/
 	private float calculateDirtyWaterProduced(float cleanWaterConsumed){
 		Double result = new Double(cleanWaterConsumed * 0.3625);
-		return result.floatValue();
+		return myCrewGroup.randomFilter(result.floatValue());
 	}
 
 	/**
@@ -392,7 +392,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	*/
 	private float calculateGreyWaterProduced(float cleanWaterConsumed){
 		Double result = new Double(cleanWaterConsumed * 0.6375);
-		return result.floatValue();
+		return myCrewGroup.randomFilter(result.floatValue());
 	}
 
 	/**
@@ -402,9 +402,9 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	*/
 	private float calculateCleanWaterNeeded(int currentActivityIntensity){
 		if (currentActivityIntensity > 0)
-			return 0.1667f;
+			return myCrewGroup.randomFilter(0.1667f);
 		else
-			return 0f;
+			return myCrewGroup.randomFilter(0f);
 	}
 
 	/**
@@ -415,7 +415,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	*/
 	private float getCO2Ratio(Breath aBreath){
 		Double ratio = new Double(aBreath.CO2 / (aBreath.O2 + aBreath.CO2 + aBreath.other));
-		return ratio.floatValue();
+		return myCrewGroup.randomFilter(ratio.floatValue());
 	}
 
 	/**

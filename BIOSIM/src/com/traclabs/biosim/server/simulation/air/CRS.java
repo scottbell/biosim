@@ -56,8 +56,8 @@ public class CRS extends AirRSSubSystem{
 	}
 	
 	private void gatherGasses(){
-		currentCO2Consumed = myCO2Tank.takeCO2(CO2Needed);
-		currentH2Consumed = myOGS.takeH2(H2Needed);
+		currentCO2Consumed = myCO2Tank.takeCO2(myAirRS.randomFilter(CO2Needed));
+		currentH2Consumed = myOGS.takeH2(myAirRS.randomFilter(H2Needed));
 		if (CO2Needed < currentCO2Consumed)
 			enoughCO2 = false;
 		else
@@ -76,9 +76,9 @@ public class CRS extends AirRSSubSystem{
 	}
 	
 	private void pushGasses(){
-		currentH2OProduced = new Double((currentH2Consumed + currentCO2Consumed) * .80).floatValue();
+		currentH2OProduced = myAirRS.randomFilter(new Double((currentH2Consumed + currentCO2Consumed) * .80).floatValue());
 		myOGS.addH2O(currentH2OProduced);
-		currentCH4Produced = new Double((currentH2Consumed + currentCO2Consumed) * .20).floatValue();
+		currentCH4Produced = myAirRS.randomFilter(new Double((currentH2Consumed + currentCO2Consumed) * .20).floatValue());
 		myCH4Tank.addCH4(currentCH4Produced);
 	}
 	

@@ -178,12 +178,12 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 		float acutallyAdded = 0f;
 		if ((litersRequested + getTotalLevel()) > capacity){
 			//adding more CO2 than capacity
-			acutallyAdded = (capacity - getTotalLevel());
+			acutallyAdded = randomFilter(capacity - getTotalLevel());
 			CO2Level += acutallyAdded;
-			return  acutallyAdded;
+			return acutallyAdded;
 		}
 		else{
-			acutallyAdded = litersRequested;
+			acutallyAdded = randomFilter(litersRequested);
 			CO2Level = CO2Level + litersRequested;
 			return acutallyAdded;
 		}
@@ -198,12 +198,12 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 		float acutallyAdded = 0f;
 		if ((litersRequested + getTotalLevel()) > capacity){
 			//adding more O2 than capacity
-			acutallyAdded = (capacity - getTotalLevel());
+			acutallyAdded = randomFilter(capacity - getTotalLevel());
 			O2Level += acutallyAdded;
 			return  acutallyAdded;
 		}
 		else{
-			acutallyAdded = litersRequested;
+			acutallyAdded = randomFilter(litersRequested);
 			O2Level = O2Level + litersRequested;
 			return acutallyAdded;
 		}
@@ -218,12 +218,12 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 		float acutallyAdded = 0f;
 		if ((litersRequested + getTotalLevel()) > capacity){
 			//adding more Other than capacity
-			acutallyAdded = (capacity - getTotalLevel());
+			acutallyAdded = randomFilter(capacity - getTotalLevel());
 			otherLevel += acutallyAdded;
 			return  acutallyAdded;
 		}
 		else{
-			acutallyAdded = litersRequested;
+			acutallyAdded = randomFilter(litersRequested);
 			otherLevel = otherLevel + litersRequested;
 			return acutallyAdded;
 		}
@@ -241,18 +241,18 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 		}
 		//asking for more gas than exists
 		if (litersO2Requested > O2Level){
-			float takenCO2 = CO2Level;
-			float takenO2 = O2Level;
-			float takenOther = otherLevel;
+			float takenCO2 = randomFilter(CO2Level);
+			float takenO2 = randomFilter(O2Level);
+			float takenOther = randomFilter(otherLevel);
 			setTotalLevel(0);
 			return new Breath(takenO2, takenCO2, takenOther);
 		}
 		//gas exists for request
 		else{
 			float percentageOfTotalGas = litersO2Requested / O2Level;
-			float takenCO2 = (CO2Level * percentageOfTotalGas);
-			float takenO2 = litersO2Requested;
-			float takenOther = (otherLevel * percentageOfTotalGas);
+			float takenCO2 = randomFilter((CO2Level * percentageOfTotalGas));
+			float takenO2 = randomFilter(litersO2Requested);
+			float takenOther = randomFilter((otherLevel * percentageOfTotalGas));
 			O2Level -= takenO2;
 			CO2Level -= takenCO2;
 			otherLevel -= takenOther;
@@ -272,18 +272,18 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 		}
 		//asking for more gas than exists
 		if (litersCO2Requested > CO2Level){
-			float takenCO2 = CO2Level;
-			float takenO2 = O2Level;
-			float takenOther = otherLevel;
+			float takenCO2 = randomFilter(CO2Level);
+			float takenO2 = randomFilter(O2Level);
+			float takenOther = randomFilter(otherLevel);
 			setTotalLevel(0);
 			return new Breath(takenO2, takenCO2, takenOther);
 		}
 		//gas exists for request
 		else{
 			float percentageOfTotalGas = litersCO2Requested / CO2Level;
-			float takenO2 = (O2Level * percentageOfTotalGas);
-			float takenCO2 = litersCO2Requested;
-			float takenOther = (otherLevel * percentageOfTotalGas);
+			float takenO2 = randomFilter(O2Level * percentageOfTotalGas);
+			float takenCO2 = randomFilter(litersCO2Requested);
+			float takenOther = randomFilter(otherLevel * percentageOfTotalGas);
 			O2Level -= takenO2;
 			CO2Level -= takenCO2;
 			otherLevel -= takenOther;

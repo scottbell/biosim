@@ -34,24 +34,27 @@ public abstract class Plant {
 	private int noLightTime = 0;
 	private boolean plantsDead = true;
 	private SimEnvironment mySimEnvironment;
-	private BiomassStore myBiomassStore;
+	protected BiomassStore myBiomassStore;
 	private LogIndex myLogIndex;
 	private boolean logInitialized = false;
 	private int myID = 0;
+	protected BiomassRSImpl myBiomassImpl;
 
-	public Plant(int pID){
+	public Plant(int pID, BiomassRSImpl pBiomassImpl){
+		myBiomassImpl = pBiomassImpl;
 		myID = pID;
 	}
 
-	public Plant(int pID, float pTotalArea){
+	public Plant(int pID, float pTotalArea, BiomassRSImpl pBiomassImpl){
+		myBiomassImpl = pBiomassImpl;
 		myID = pID;
 		totalArea = pTotalArea;
 	}
 
-	protected abstract void calculateCO2Needed();
-	protected abstract void calculatePowerNeeded();
-	protected abstract void calculateWaterNeeded();
-	protected abstract void calculateProducedBiomass();
+	protected abstract float calculateCO2Needed();
+	protected abstract float calculatePowerNeeded();
+	protected abstract float calculateWaterNeeded();
+	protected abstract float calculateProducedBiomass();
 	public abstract String getPlantType();
 	
 	public boolean hasWater(){
@@ -88,13 +91,13 @@ public abstract class Plant {
 	* and exhale fraction of the CO2 inhaled, a multiple of the O2 inhaled, and the same amount of other gasses inhaled.
 	*/
 	private void consumeAir(){
-		calculateCO2Needed();
+		CO2Needed = calculateCO2Needed();
 		airRetrieved = mySimEnvironment.takeCO2Breath(CO2Needed);
 		if (airRetrieved.CO2 < (.10 * CO2Needed))
 			hasEnoughCO2 = false;
 		else
 			hasEnoughCO2 = true;
-		CO2Consumed = airRetrieved.CO2;
+		CO2Consumed =airRetrieved.CO2;
 		O2Produced = new Double(airRetrieved.O2 + airRetrieved.CO2 * .90).floatValue();
 		mySimEnvironment.addO2(new Double(airRetrieved.O2 + airRetrieved.CO2 * .90).floatValue());
 		mySimEnvironment.addOther(airRetrieved.other);
@@ -102,7 +105,7 @@ public abstract class Plant {
 	}
 
 	public void addWater(float pWaterToAdd){
-		calculateWaterNeeded();
+		waterNeeded = calculateWaterNeeded();
 		currentWaterLevel = pWaterToAdd;
 		if (currentWaterLevel < waterNeeded)
 			hasEnoughWater = false;
@@ -111,7 +114,7 @@ public abstract class Plant {
 	}
 
 	public void lightPlants(float pWatts){
-		calculatePowerNeeded();
+		powerNeeded = calculatePowerNeeded();
 		currentPowerLevel = pWatts;
 		if (currentPowerLevel < powerNeeded)
 			hasEnoughLight = false;
@@ -136,7 +139,7 @@ public abstract class Plant {
 	}
 	
 	private void produceBiomass(){
-		calculateProducedBiomass();
+		biomassProduced = calculateProducedBiomass();
 		if (biomassProduced > 0){
 			myBiomassStore.add(biomassProduced);
 			myAge = 0;

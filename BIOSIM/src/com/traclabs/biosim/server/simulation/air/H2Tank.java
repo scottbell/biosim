@@ -18,6 +18,7 @@ public class H2Tank extends AirRSSubSystem{
 	}
 	
 	public float takeH2(float litersToDraw){
+		litersToDraw = myAirRS.randomFilter(litersToDraw);
 		H2Drawn += litersToDraw;
 		return litersToDraw;
 	}
