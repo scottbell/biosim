@@ -20,6 +20,7 @@ public abstract class PlantImpl extends PlantPOA{
 	private LogIndex myLogIndex;
 	private boolean logInitialized = false;
 	private boolean hasDied = false;
+	private boolean canopyClosed = false;
 	protected ShelfImpl myShelfImpl;
 	private float myAveragePPF = 0f;
 	private float myTotalPPF = 0f;
@@ -147,6 +148,7 @@ public abstract class PlantImpl extends PlantPOA{
 		myPPFFractionAbsorbed = 0f;
 		myTimeTillCanopyClosure = 0f;
 		hasDied = false;
+		canopyClosed = false;
 		myCanopyClosurePPFValues.clear();
 		myCanopyClosureCO2Values.clear();
 		for (int i = 0; i < getTAInitialValue(); i++){
@@ -201,7 +203,7 @@ public abstract class PlantImpl extends PlantPOA{
 	* Trims the list to the size == tA, then adds a float to the list at 
 	* pAge(for PPF and CO2 values used in the tA calculation),
 	*/
-	private static void addAndTrimCanopyClosureList(float pValue, float pAge, List pList){
+	private void addAndTrimCanopyClosureList(float pValue, float pAge, List pList){
 		//are we bigger than tA?
 		if (pList.size() > myAveragePPF){
 			return;
@@ -350,7 +352,11 @@ public abstract class PlantImpl extends PlantPOA{
 		myLastTotalWetBiomass = myCurrentTotalWetBiomass;
 		myLastEdibleWetBiomass = myCurrentEdibleWetBiomass;
 		calculateAverageCO2Concentration();
-		myTimeTillCanopyClosure = calculateTimeTillCanopyClosure();
+		if (!canopyClosed){
+			myTimeTillCanopyClosure = calculateTimeTillCanopyClosure();
+			if (getDaysOfGrowth() >= myTimeTillCanopyClosure)
+				canopyClosed = true;
+		}
 		calculatePPFFractionAbsorbed();
 		
 		//Biomass Grown this tick
@@ -602,7 +608,7 @@ public abstract class PlantImpl extends PlantPOA{
 		//System.out.println("PlantImpl: timeTillCanopyClosure: "+timeTillCanopyClosure);
 		//System.out.println("PlantImpl: getDaysOfGrowth(): "+getDaysOfGrowth());
 		//System.out.println("PlantImpl: getN(): "+getN());
-		if (getDaysOfGrowth() >= myTimeTillCanopyClosure)
+		if (canopyClosed)
 			myPPFFractionAbsorbed = PPFFractionAbsorbedMax;
 		else
 			myPPFFractionAbsorbed += (calculateDaDt() / 24f);
@@ -610,7 +616,7 @@ public abstract class PlantImpl extends PlantPOA{
 	
 	private float calculateDaDt(){
 		float PPFFractionAbsorbedMax = 0.93f;
-		return PPFFractionAbsorbedMax * getN() * pow((getDaysOfGrowth() / myTimeTillCanopyClosure), getN() - 1f) * (1f / timeTillCanopyClosure);
+		return PPFFractionAbsorbedMax * getN() * pow((getDaysOfGrowth() / myTimeTillCanopyClosure), getN() - 1f) * (1f / myTimeTillCanopyClosure);
 	}
 
 	private float calculateCQYMax(){
