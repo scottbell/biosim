@@ -18,15 +18,16 @@ public class BiosimServer extends GenericServer {
             myLogger.error("Couldn't find init xml file: " + xmlLocation);
             return;
         }
+        BioDriverImpl newBioDriverImpl = new BioDriverImpl(id);
+        newBioDriverImpl.setDriverStutterLength(stutterLength);
+        registerServer(newBioDriverImpl, newBioDriverImpl.getName(),
+        		newBioDriverImpl.getID());
         myLogger.info("Loading init file: " + documentUrl);
-        BioDriverImpl myBioDriverImpl = new BioDriverImpl(id);
-        myBioDriverImpl.setDriverStutterLength(stutterLength);
-        registerServer(myBioDriverImpl, myBioDriverImpl.getName(),
-                myBioDriverImpl.getID());
         BioInitializer myInitializer = new BioInitializer(id);
         String documentString = documentUrl.toString();
         if (documentString.length() > 0)
             myInitializer.parseFile(documentString);
+            
     }
 
     /**
