@@ -841,7 +841,8 @@
 	<xsd:simpleType name="WaterRSImplementationType">
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="MATLAB"/>
-			<xsd:enumeration value="BIOSIM"/>
+			<xsd:enumeration value="NORMAL"/>
+			<xsd:enumeration value="LINEAR"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 	
@@ -871,7 +872,7 @@
 					<xsd:element name="CO2Producer" type="CO2ProducerType"/>
 					<xsd:element name="H2Producer" type="H2ProducerType"/>
 				</xsd:sequence>
-			<xsd:attribute name="operationMode" type="AirRSOperationMode" default="FULL"/>
+			<!--<xsd:attribute name="operationMode" type="AirRSOperationMode" default="FULL"/> -->
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -975,8 +976,8 @@
 					<xsd:element name="greyWaterConsumer" type="GreyWaterConsumerType"/>
 					<xsd:element name="potableWaterProducer" type="PotableWaterProducerType"/>
 				</xsd:sequence>
-				<xsd:attribute name="operationMode" type="WaterRSOperationMode" default="FULL"/>
-				<xsd:attribute name="implementation" type="WaterRSImplementationType" default="BIOSIM"/>
+				<!--<xsd:attribute name="operationMode" type="WaterRSOperationMode" default="FULL"/> !-->
+				<xsd:attribute name="implementation" type="WaterRSImplementationType" default="NORMAL"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
