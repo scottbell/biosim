@@ -471,5 +471,21 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	
+	<xsd:complexType name="CrewGroupType">  
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:sequence>
+					<xsd:element name="crewGroupName" type="xsd:string"/>
+					<xsd:element name="potableWaterConsumer" type="PotableWaterConsumerType"/>
+					<xsd:element name="airConsumer" type="AirConsumerType"/>
+					<xsd:element name="foodConsumer" type="FoodConsumerType"/>
+					<xsd:element name="dirtyWaterProducer" type="DirtyWaterProducerType"/>
+					<xsd:element name="greyWaterProducer" type="GreyWaterProducerType"/>
+					<xsd:element name="airProducer" type="AirProducerType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
 </xsd:schema>
 
