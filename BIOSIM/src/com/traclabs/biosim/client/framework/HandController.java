@@ -102,8 +102,7 @@ public class HandController{
 		myBioDriver = BioHolder.getBioDriver();
 		//myBioDriver.setFullLogging(true);
 		myBioDriver.startSimulation();
-
-		CrewGroup myCrew = (CrewGroup)BioHolder.getBioModule(BioHolder.crewName);
+		CrewGroup myCrew = (CrewGroup)BioHolder.getHolder().myCrewGroups.get(0);
 		//supply power
 		currentActuator = (GenericActuator)(BioHolder.getBioModule(BioHolder.myWaterRSPowerInFlowRateActuatorName));
 		currentActuator.setValue(500);
