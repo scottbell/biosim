@@ -9,6 +9,7 @@ import com.traclabs.biosim.idl.simulation.air.O2Store;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.idl.simulation.food.BiomassStore;
 import com.traclabs.biosim.idl.simulation.food.FoodStore;
+import com.traclabs.biosim.idl.simulation.framework.InjectorOperations;
 import com.traclabs.biosim.idl.simulation.framework.AirConsumerOperations;
 import com.traclabs.biosim.idl.simulation.framework.AirProducerOperations;
 import com.traclabs.biosim.idl.simulation.framework.BiomassConsumerOperations;
@@ -25,7 +26,6 @@ import com.traclabs.biosim.idl.simulation.framework.FoodConsumerOperations;
 import com.traclabs.biosim.idl.simulation.framework.FoodProducerOperations;
 import com.traclabs.biosim.idl.simulation.framework.GreyWaterConsumerOperations;
 import com.traclabs.biosim.idl.simulation.framework.GreyWaterProducerOperations;
-import com.traclabs.biosim.idl.simulation.framework.InjectorOperations;
 import com.traclabs.biosim.idl.simulation.framework.O2AirConsumerOperations;
 import com.traclabs.biosim.idl.simulation.framework.O2AirProducerOperations;
 import com.traclabs.biosim.idl.simulation.framework.O2ConsumerOperations;
@@ -42,9 +42,9 @@ import com.traclabs.biosim.idl.simulation.water.PotableWaterStore;
 import com.traclabs.biosim.idl.simulation.water.WaterStore;
 
 /**
- * The basic Injector Implementation. Can be configured to take any modules as
- * input, and any modules as output. It takes as much as it can (max taken set
- * by maxFlowRates) from one module and pushes it into another module.
+ * The basic Injector Implementation. Can be configured to take any modules
+ * as input, and any modules as output. It takes as much as it can (max taken
+ * set by maxFlowRates) from one module and pushes it into another module.
  * Functionally equivalent to an Injector at this point.
  * 
  * @author Scott Bell
@@ -1164,7 +1164,7 @@ public class InjectorImpl extends SimBioModuleImpl implements
         return foodInMaxFlowRates[index];
     }
 
-    public float[] getFoodInMaxFlowRates() {
+    public float[] getFoodInputMaxFlowRates() {
         return foodInMaxFlowRates;
     }
 
@@ -1176,7 +1176,7 @@ public class InjectorImpl extends SimBioModuleImpl implements
         return foodInDesiredFlowRates[index];
     }
 
-    public float[] getFoodInDesiredFlowRates() {
+    public float[] getFoodInputDesiredFlowRates() {
         return foodInDesiredFlowRates;
     }
 
@@ -1184,7 +1184,7 @@ public class InjectorImpl extends SimBioModuleImpl implements
         return foodInActualFlowRates[index];
     }
 
-    public float[] getFoodInActualFlowRates() {
+    public float[] getFoodInputActualFlowRates() {
         return foodInActualFlowRates;
     }
 

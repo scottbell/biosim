@@ -1164,7 +1164,7 @@ public class AccumulatorImpl extends SimBioModuleImpl implements
         return foodInMaxFlowRates[index];
     }
 
-    public float[] getFoodInMaxFlowRates() {
+    public float[] getFoodInputMaxFlowRates() {
         return foodInMaxFlowRates;
     }
 
@@ -1176,7 +1176,7 @@ public class AccumulatorImpl extends SimBioModuleImpl implements
         return foodInDesiredFlowRates[index];
     }
 
-    public float[] getFoodInDesiredFlowRates() {
+    public float[] getFoodInputDesiredFlowRates() {
         return foodInDesiredFlowRates;
     }
 
@@ -1184,7 +1184,7 @@ public class AccumulatorImpl extends SimBioModuleImpl implements
         return foodInActualFlowRates[index];
     }
 
-    public float[] getFoodInActualFlowRates() {
+    public float[] getFoodInputActualFlowRates() {
         return foodInActualFlowRates;
     }
 
