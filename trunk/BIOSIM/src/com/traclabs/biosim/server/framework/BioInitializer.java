@@ -200,7 +200,8 @@ public class BioInitializer{
 				myDriver.setLogger(myLogger);
 				myDriver.setRunTillN(Integer.parseInt(node.getAttributes().getNamedItem("runTillN").getNodeValue()));
 				myDriver.setPauseSimulation(node.getAttributes().getNamedItem("startPaused").getNodeValue().equals("true"));
-				myDriver.setRunTillDead(node.getAttributes().getNamedItem("runTillDead").getNodeValue().equals("true"));
+				myDriver.setRunTillCrewDeath(node.getAttributes().getNamedItem("runTillCrewDeath").getNodeValue().equals("true"));
+				myDriver.setRunTillPlantDeath(node.getAttributes().getNamedItem("runTillPlantDeath").getNodeValue().equals("true"));
 				myDriver.setFullLogging(node.getAttributes().getNamedItem("isFullLoggingEnabled").getNodeValue().equals("true"));
 				myDriver.setLogLastTick(node.getAttributes().getNamedItem("logLastTick").getNodeValue().equals("true"));
 				myDriver.setSensorLogging(node.getAttributes().getNamedItem("isSensorLoggingEnabled").getNodeValue().equals("true"));
@@ -248,6 +249,24 @@ public class BioInitializer{
 					}
 				}
 				myDriver.setCrewsToWatch(crewGroups);
+			}
+			
+			//Give BioDriver plant to watch for (if we're doing run till dead)
+			Node plantsToWatchNode = node.getAttributes().getNamedItem("plantsToWatch");
+			if (plantsToWatchNode != null){
+				String plantsToWatchString = plantsToWatchNode.getNodeValue();
+				StringTokenizer tokenizer = new StringTokenizer(plantsToWatchString);
+				BiomassRS[] biomassRSs = new BiomassRS[tokenizer.countTokens()];
+				for (int i = 0; tokenizer.hasMoreTokens(); i++){
+					try{
+						biomassRSs[i] = BiomassRSHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(tokenizer.nextToken()));
+						//System.out.println("Fetched "+plantGroups[i].getModuleName());
+					}
+					catch(org.omg.CORBA.UserException e){
+						e.printStackTrace();
+					}
+				}
+				myDriver.setPlantsToWatch(biomassRSs);
 			}
 		}
 	}

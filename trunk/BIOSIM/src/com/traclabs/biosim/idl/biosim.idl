@@ -62,6 +62,7 @@ module biosim{
                                 typedef sequence <FoodStore> FoodStoreList;
                                 typedef sequence <BioMatter> BioMatterList;
                                 typedef sequence <FoodMatter> FoodMatterList;
+                                typedef sequence <BiomassRS> BiomassRSList;
                         };
                         module environment{
                                 interface SimEnvironment;
@@ -201,7 +202,10 @@ module biosim{
                                 boolean isStarted();
                                 void startSimulation();
                                 void endSimulation();
-                                void setRunTillDead(in boolean pRunTillDead);
+                                void setRunTillCrewDeath(in boolean pRunTillDead);
+                                void setRunTillPlantDeath(in boolean pRunTillDead);
+                                void setCrewsToWatch(in simulation::crew::CrewGroupList pCrews);
+                                void setPlantsToWatch(in simulation::food::BiomassRSList pBiomass);
                                 void setRunTillN(in long pTicks);
                                 void setLoopSimulation(in boolean pLoop);
                                 void setPauseSimulation(in boolean pPause);
@@ -224,7 +228,6 @@ module biosim{
                                 StringList getSensorNames();
                                 StringList getActuatorNames();
                                 StringList getSimModuleNames();
-                                void setCrewsToWatch(in simulation::crew::CrewGroupList pCrews);
                                 string getName();
                                 boolean isDone();
                                 long getTicks();
