@@ -629,15 +629,14 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		}
 		//gas exists for request
 		else{
-			System.out.println(getModuleName()+": gas exists for request");
-			float afterRemovalCO2 = randomFilter(CO2Moles - (CO2Moles / getTotalMoles()) * molesRequested);
-			float afterRemovalO2 = randomFilter(O2Moles - (O2Moles / getTotalMoles()) * molesRequested);
-			float afterRemovalOther = randomFilter(otherMoles - (otherMoles / getTotalMoles()) * molesRequested);
-			float afterRemovalWater = randomFilter(waterMoles - (waterMoles / getTotalMoles()) * molesRequested);
-			O2MolesTaken = afterRemovalO2 - O2Moles ;
-			CO2MolesTaken = afterRemovalCO2 - CO2Moles;
-			otherMolesTaken = afterRemovalOther - otherMoles;
-			waterMolesTaken = afterRemovalWater - waterMoles;
+			float afterRemovalCO2 = randomFilter(CO2Moles - ((CO2Moles / getTotalMoles()) * molesRequested));
+			float afterRemovalO2 = randomFilter(O2Moles - ((O2Moles / getTotalMoles()) * molesRequested));
+			float afterRemovalOther = randomFilter(otherMoles - ((otherMoles / getTotalMoles()) * molesRequested));
+			float afterRemovalWater = randomFilter(waterMoles - ((waterMoles / getTotalMoles()) * molesRequested));
+			float O2MolesTaken = O2Moles - afterRemovalO2;
+			float CO2MolesTaken = CO2Moles - afterRemovalCO2;
+			float otherMolesTaken = otherMoles - afterRemovalOther;
+			float waterMolesTaken = waterMoles - afterRemovalWater;
 			O2Moles = afterRemovalO2;
 			CO2Moles = afterRemovalCO2;
 			otherMoles = afterRemovalOther;
