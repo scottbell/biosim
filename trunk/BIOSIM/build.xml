@@ -282,7 +282,7 @@
 	<target name="build" depends="build-server,build-client" description="builds biosim">
 	</target>
 	
-	<target name="main" depends="build" description="builds biosim">
+	<target name="main" depends="build" description="builds biosim (alias to build)">
 	</target>
 	
 	<target name="docs" depends="javadocs, build-manual" description="creates documentation">
@@ -297,7 +297,10 @@
 		<cvs command="update -d"/>
 	</target>
 	
+	<target name="update" description="gets the latest version from CVS (alias to fetch)" depends="fetch">
+	</target>
+	
 	<target name="commit" description="gets the latest version from CVS">
-		<cvs command="commit -m '' "/>
+		<cvs command="commit -m ''"/>
 	</target>
 </project>
