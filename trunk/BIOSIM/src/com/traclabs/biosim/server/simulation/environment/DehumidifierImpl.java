@@ -72,8 +72,6 @@ public class DehumidifierImpl extends SimBioModuleImpl implements DehumidifierOp
 		totalMolesInEnvironment = myAirInputs[0].getTotalMoles();
 		//System.out.println("After: Pushed "+waterPushedToStore+" liters of water to the store (gathered "+molesOfWaterGathered+" moles), water concentration now "+currentWaterMolesInEnvironment / totalMolesInEnvironment);
 		//myAirInputs[0].printEnvironment();
-		if (Float.isNaN(currentWaterMolesInEnvironment))
-			System.exit(0);
 	}
 	
 	private static float calculateMolesNeededToRemove(SimEnvironment pEnvironment){

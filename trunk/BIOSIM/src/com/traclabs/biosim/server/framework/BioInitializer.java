@@ -88,6 +88,7 @@ public class BioInitializer{
 	private List myModules;
 	private List myActiveSimModules;
 	private List myPassiveSimModules;
+	private List myPrioritySimModules;
 	private List mySensors;
 	private List myActuators;
 
@@ -99,6 +100,7 @@ public class BioInitializer{
 		myActuators = new Vector();
 		myPassiveSimModules = new Vector();
 		myActiveSimModules = new Vector();
+		myPrioritySimModules = new Vector();
 		try {
 			myParser = new DOMParser();
 			myParser.setFeature(SCHEMA_VALIDATION_FEATURE_ID, DEFAULT_SCHEMA_VALIDATION);
@@ -162,6 +164,7 @@ public class BioInitializer{
 			myModules.addAll(mySensors);
 			myModules.addAll(myPassiveSimModules);
 			myModules.addAll(myActiveSimModules);
+			myModules.addAll(myPrioritySimModules);
 			myModules.addAll(myActuators);
 
 			//Give Modules, Sensors, Actuatos to BioDriver to tick
@@ -170,11 +173,13 @@ public class BioInitializer{
 			BioModule[] actuatorArray = convertList(myActuators);
 			BioModule[] passiveSimModulesArray = convertList(myPassiveSimModules);
 			BioModule[] activeSimModulesArray = convertList(myActiveSimModules);
+			BioModule[] prioritySimModulesArray = convertList(myPrioritySimModules);
 			myDriver.setModules(moduleArray);
 			myDriver.setSensors(sensorArray);
 			myDriver.setActuators(actuatorArray);
 			myDriver.setActiveSimModules(activeSimModulesArray);
 			myDriver.setPassiveSimModules(passiveSimModulesArray);
+			myDriver.setPrioritySimModules(prioritySimModulesArray);
 			System.out.println("done");
 			System.out.flush();
 		}
@@ -1165,7 +1170,7 @@ public class BioInitializer{
 	private void configureDehumidifier(Node node){
 		Dehumidifier myDehumidifier = DehumidifierHelper.narrow(grabModule(getModuleName(node)));
 		configureSimBioModule(myDehumidifier, node);
-		myActiveSimModules.add(myDehumidifier);
+		myPrioritySimModules.add(myDehumidifier);
 	}
 
 	private void crawlEnvironmentModules(Node node, boolean firstPass){

@@ -44,6 +44,7 @@ public class BioDriverImpl extends BioDriverPOA{
 	private BioModule[] modules;
 	private BioModule[] activeSimModules;
 	private BioModule[] passiveSimModules;
+	private BioModule[] prioritySimModules;
 	private BioModule[] sensors;
 	private BioModule[] actuators;
 
@@ -56,6 +57,7 @@ public class BioDriverImpl extends BioDriverPOA{
 		modules = new BioModule[0];
 		activeSimModules = new BioModule[0];
 		passiveSimModules = new BioModule[0];
+		prioritySimModules = new BioModule[0];
 		sensors = new BioModule[0];
 		actuators = new BioModule[0];
 		crewsToWatch = new CrewGroup[0];
@@ -136,7 +138,11 @@ public class BioDriverImpl extends BioDriverPOA{
 	public void setPassiveSimModules(BioModule[] pSimModules){
 		passiveSimModules = pSimModules;
 	}
-
+	
+	public void setPrioritySimModules(BioModule[] pSimModules){
+		prioritySimModules = pSimModules;
+	}
+	
 	public BioModule[] getModules(){
 		return modules;
 	}
@@ -151,6 +157,10 @@ public class BioDriverImpl extends BioDriverPOA{
 	
 	public BioModule[] getPassiveSimModules(){
 		return passiveSimModules;
+	}
+	
+	public BioModule[] getPrioritySimModules(){
+		return prioritySimModules;
 	}
 
 	public BioModule[] getActuators(){
@@ -189,6 +199,13 @@ public class BioDriverImpl extends BioDriverPOA{
 		String[] simModuleNameArray = new String[passiveSimModules.length];
 		for (int i = 0; i < simModuleNameArray.length; i++)
 			simModuleNameArray[i] = passiveSimModules[i].getModuleName();
+		return simModuleNameArray;
+	}
+	
+	public String[] getPrioritySimModuleNames(){
+		String[] simModuleNameArray = new String[prioritySimModules.length];
+		for (int i = 0; i < simModuleNameArray.length; i++)
+			simModuleNameArray[i] = prioritySimModules[i].getModuleName();
 		return simModuleNameArray;
 	}
 
@@ -477,7 +494,7 @@ public class BioDriverImpl extends BioDriverPOA{
 			System.err.println("BioDriverImpl"+myID+": Tick called when simulation wasn't started!");
 			return;
 		}
-		//System.out.println("BioDriveImpl: begin Tick");
+		System.out.println("BioDriveImpl: begin Tick");
 		//Iterate through the actuators and tick them
 		for (int i = 0; i < actuators.length; i++){
 			BioModule currentBioModule = (BioModule)(actuators[i]);
@@ -486,6 +503,16 @@ public class BioDriverImpl extends BioDriverPOA{
 		//Iterate through the active sim modules and tick them
 		for (int i = 0; i < activeSimModules.length; i++){
 			BioModule currentBioModule = (BioModule)(activeSimModules[i]);
+			currentBioModule.tick();
+		}
+		//Iterate through the passive sim modules and tick them
+		for (int i = 0; i < passiveSimModules.length; i++){
+			BioModule currentBioModule = (BioModule)(passiveSimModules[i]);
+			currentBioModule.tick();
+		}
+		//Iterate through the priority sim modules and tick them
+		for (int i = 0; i < prioritySimModules.length; i++){
+			BioModule currentBioModule = (BioModule)(prioritySimModules[i]);
 			currentBioModule.tick();
 		}
 		//Iterate through the passive sim modules and tick them
