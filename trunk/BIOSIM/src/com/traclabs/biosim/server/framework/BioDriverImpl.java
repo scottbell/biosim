@@ -911,8 +911,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			myAirRS.setO2Outputs(O2StoreOutput, O2StoreMaxFlowRates, O2StoreDesiredFlowRates);
 			myAirRS.setCO2Outputs(CO2StoreOutput, CO2StoreOutputMaxFlowRates, CO2StoreInputDesiredFlowRates);
 			myAirRS.setCO2Inputs(CO2StoreInput, CO2StoreInputMaxFlowRates, CO2StoreOutputDesiredFlowRates);
-			myAirRS.setPotableWaterOutputs(potableWaterStoreOutput, potableWaterStoreOutputMaxFlowRates, potableWaterStoreInputDesiredFlowRates);
-			myAirRS.setPotableWaterInputs(potableWaterStoreInput, potableWaterStoreInputMaxFlowRates, potableWaterStoreOutputDesiredFlowRates);
+			myAirRS.setPotableWaterOutputs(potableWaterStoreOutput, potableWaterStoreOutputMaxFlowRates, potableWaterStoreOutputDesiredFlowRates);
+			myAirRS.setPotableWaterInputs(potableWaterStoreInput, potableWaterStoreInputMaxFlowRates, potableWaterStoreInputDesiredFlowRates);
 		
 		}
 

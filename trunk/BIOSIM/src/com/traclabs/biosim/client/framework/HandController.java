@@ -111,7 +111,6 @@ public class HandController{
 		catch (IOException e) {}
 		pw = new PrintWriter(fw, true) ;
 		myBioDriver = BioHolder.getBioDriver();
-		myBioDriver.setFullLogging(true);
 		myBioDriver.spawnSimulation();
 
 
@@ -374,8 +373,8 @@ public class HandController{
 			System.out.println("Turning off Food Processor");
 		}
 
-		if (SimState.get("oxygen") == "low" && SimState.get("potablewater") != "low") {
-
+		if (SimState.get("oxygen") == "low") {
+			
 			currentActuator = (GenericActuator)(BioHolder.getBioModule(BioHolder.myAirRSPowerInFlowRateActuatorName));
 
 

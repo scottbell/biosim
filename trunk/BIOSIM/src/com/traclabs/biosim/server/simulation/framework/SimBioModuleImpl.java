@@ -65,7 +65,7 @@ public abstract class SimBioModuleImpl extends BioModuleImpl implements SimBioMo
 	* @param fraction what to multiply each flow rate by
 	* @return The total amount of resource grabbed from the stores (equal to the amount needed if sucessful)
 	*/
-	public static float getFractionalResourceFromStore(Store[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates, float[] pActualFlowRates, float amountNeeded, float fraction){
+	public float getFractionalResourceFromStore(Store[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates, float[] pActualFlowRates, float amountNeeded, float fraction){
 		float gatheredResource = 0f;
 		for (int i = 0; (i < pStores.length) && (gatheredResource < amountNeeded); i++){
 			float resourceToGatherFirst = Math.min(amountNeeded, pMaxFlowRates[i] * fraction);
