@@ -7,7 +7,7 @@ import biosim.client.simulation.framework.gui.*;
  * @author    Scott Bell
  */
 
-public class WaterPanel extends BioTabbedPanel
+public class WaterPanel extends SimTabbedPanel
 {
 	protected void createPanels(){
 		myTextPanel = new WaterTextPanel();

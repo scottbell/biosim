@@ -3,7 +3,7 @@ package biosim.client.simulation.environment.gui;
 import javax.swing.*;
 import java.awt.*;
 import biosim.client.framework.gui.*;
-import biosim.client.simulation.framework.*;
+import biosim.client.util.*;
 
 /**
  * This is the JPanel that displays a chart about the Water

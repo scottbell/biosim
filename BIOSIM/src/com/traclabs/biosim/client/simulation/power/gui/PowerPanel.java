@@ -7,7 +7,7 @@ import biosim.client.simulation.framework.gui.*;
  * @author    Scott Bell
  */
 
-public class PowerPanel extends BioTabbedPanel
+public class PowerPanel extends SimTabbedPanel
 {
 	protected void createPanels(){
 		myTextPanel = new PowerTextPanel();

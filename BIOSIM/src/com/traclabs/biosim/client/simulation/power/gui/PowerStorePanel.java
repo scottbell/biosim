@@ -3,7 +3,7 @@ package biosim.client.simulation.power.gui;
 import java.awt.*;
 import biosim.idl.simulation.power.*;
 import biosim.client.framework.gui.*;
-import biosim.client.simulation.framework.*;
+import biosim.client.util.*;
 import com.jrefinery.chart.*;
 import com.jrefinery.data.*;
 import com.jrefinery.chart.axis.*;

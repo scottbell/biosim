@@ -1,4 +1,4 @@
-package biosim.client.simulation.framework;
+package biosim.client.util;
 
 import biosim.idl.simulation.air.*;
 import biosim.idl.simulation.crew.*;

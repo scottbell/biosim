@@ -1,7 +1,7 @@
  package biosim.client.simulation.power.gui;
 
 import biosim.client.framework.gui.*;
-import biosim.client.simulation.framework.*;
+import biosim.client.util.*;
 import biosim.idl.simulation.power.*;
 import javax.swing.*;
 import javax.swing.border.*;

@@ -7,7 +7,7 @@ import biosim.client.simulation.framework.gui.*;
  * @author    Scott Bell
  */
 
-public class FoodPanel extends BioTabbedPanel
+public class FoodPanel extends SimTabbedPanel
 {
 	protected void createPanels(){
 		myTextPanel = new FoodTextPanel();

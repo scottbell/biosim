@@ -7,7 +7,7 @@ import biosim.client.simulation.framework.gui.*;
  * @author    Scott Bell
  */
 
-public class AirPanel extends BioTabbedPanel
+public class AirPanel extends SimTabbedPanel
 {
 	protected void createPanels(){
 		myTextPanel = new AirTextPanel();

@@ -6,7 +6,7 @@ import java.text.*;
 import javax.swing.*;
 import biosim.idl.simulation.water.*;
 import biosim.client.framework.gui.*;
-import biosim.client.simulation.framework.*;
+import biosim.client.util.*;
 
 /**
  * This is the JPanel that displays a schematic
