@@ -102,7 +102,7 @@
 		<xsd:complexContent>
 			<xsd:extension base="FlowRateTypes">
 				<xsd:sequence>
-					<xsd:element name="input" type="PowerStoreNameType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="input" type="PowerStoreNameType"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
