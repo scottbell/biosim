@@ -593,6 +593,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		BiomassStore myBiomassStore = BiomassStoreHelper.narrow(getBioModule(myBiomassStoreName));
 		FoodStore myFoodStore = FoodStoreHelper.narrow(getBioModule(myFoodStoreName));
 		BiomassRS myBiomassRS = BiomassRSHelper.narrow(getBioModule(myBiomassRSName));
+		myBiomassRS.createNewShelf(PlantType.WHEAT, 10);
 		myBiomassStore.setCapacity(500f);
 		myFoodStore.setCapacity(2000f);
 		myBiomassStore.setLevel(300f);

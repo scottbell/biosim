@@ -97,8 +97,8 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 	}
 	
 	
-	public Shelf createNewShelf(PlantType pType){
-		ShelfImpl newShelfImpl = new ShelfImpl(this, pType);
+	public Shelf createNewShelf(PlantType pType, float pCropArea){
+		ShelfImpl newShelfImpl = new ShelfImpl(pType, pCropArea, this);
 		myShelves.add(newShelfImpl);
 		return ShelfHelper.narrow(OrbUtils.poaToCorbaObj(newShelfImpl));
 	}

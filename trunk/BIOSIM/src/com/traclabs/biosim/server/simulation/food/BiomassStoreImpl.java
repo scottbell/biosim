@@ -32,7 +32,20 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 	}
 	
 	public float addBiomatter(float pMass, PlantType pType){
-		return 0f;
+		float acutallyAdded = 0f;
+		if ((pMass + currentLevel) > capacity){
+			//adding more than capacity
+			acutallyAdded = capacity - currentLevel;
+			currentLevel += acutallyAdded;
+			BioMatter newBiomatter = new BioMatter(acutallyAdded, pType);
+			currentBiomassItems.add(newBiomatter);
+			return acutallyAdded;
+		}
+		else{
+			acutallyAdded = randomFilter(pMass);
+			level += acutallyAdded;
+			return acutallyAdded;
+		}
 	}
 	
 	/**
