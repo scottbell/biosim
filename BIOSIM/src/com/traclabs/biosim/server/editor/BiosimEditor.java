@@ -13,7 +13,9 @@
 package com.traclabs.biosim.server.editor;
 
 import java.util.Locale;
+import java.util.Properties;
 
+import org.apache.log4j.PropertyConfigurator;
 import org.tigris.gef.util.Localizer;
 import org.tigris.gef.util.ResourceLoader;
 
@@ -35,9 +37,10 @@ public class BiosimEditor {
         Localizer.addLocale(Locale.getDefault());
         Localizer.switchCurrentLocale(Locale.getDefault());
         ResourceLoader.addResourceExtension("gif");
+        ResourceLoader.addResourceExtension("png");
         ResourceLoader.addResourceLocation("/org/tigris/gef/Images");
         ResourceLoader
-                .addResourceLocation("/com/traclabs/biosim/server/editor/images");
+                .addResourceLocation("/com/traclabs/biosim/server/editor");
 
         // Create and display the main window.
         VesprFrame frame = new VesprFrame("Biosim Editor");
@@ -48,6 +51,16 @@ public class BiosimEditor {
     ////////////////////////////////////////////////////////////////
     // main
     public static void main(String args[]) {
+        Properties logProps = new Properties();
+        logProps.setProperty("log4j.rootLogger", "INFO, rootAppender");
+        logProps.setProperty("log4j.appender.rootAppender",
+                "org.apache.log4j.ConsoleAppender");
+        logProps.setProperty("log4j.appender.rootAppender.layout",
+                "org.apache.log4j.PatternLayout");
+        logProps.setProperty(
+                "log4j.appender.rootAppender.layout.ConversionPattern",
+                "%5p [%c] - %m%n");
+        PropertyConfigurator.configure(logProps);
         BiosimEditor app = new BiosimEditor();
     }
 } /* end class VESPR */
