@@ -153,7 +153,7 @@
 		<echo message="Creating biosim jar for genetic algorithm engine"/>
 		<jar destfile="${gaDistDir}/biosim.jar">
 			<fileset dir="${buildDir}" includes="com/traclabs/biosim/server/**, com/traclabs/biosim/idl/**"/>
-			<fileset dir="${resourceDir}" includes="com/traclabs/biosim/server/**, com/traclabs/biosim/idl/**"/>
+			<fileset dir="${resourceDir}" includes="com/traclabs/biosim/server/**, com/traclabs/biosim/idl/**" excludes="com/traclabs/biosim/server/framework/**.xml, com/traclabs/biosim/server/framework/lunar/*.xml, com/traclabs/biosim/server/framework/*.xsd"/>
 			<fileset dir="${gaDistTmpDir}">
 				<exclude name="META-INF"/>
 				<exclude name="license-INF"/>

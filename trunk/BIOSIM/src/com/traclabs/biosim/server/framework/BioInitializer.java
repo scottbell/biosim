@@ -3,7 +3,6 @@ package com.traclabs.biosim.server.framework;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
-import java.util.StringTokenizer;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
@@ -250,14 +249,12 @@ public class BioInitializer {
                     "crewsToWatch");
             if (crewsToWatchNode != null) {
                 String crewsToWatchString = crewsToWatchNode.getNodeValue();
-                StringTokenizer tokenizer = new StringTokenizer(
-                        crewsToWatchString);
-                CrewGroup[] crewGroups = new CrewGroup[tokenizer.countTokens()];
-                for (int i = 0; tokenizer.hasMoreTokens(); i++) {
+                String[] crewsToWatchArray = crewsToWatchString.split("\\s");
+                CrewGroup[] crewGroups = new CrewGroup[crewsToWatchArray.length];
+                for (int i = 0; i < crewGroups.length; i++) {
                     try {
                         crewGroups[i] = CrewGroupHelper.narrow(OrbUtils
-                                .getNamingContext(myID).resolve_str(
-                                        tokenizer.nextToken()));
+                                .getNamingContext(myID).resolve_str(crewsToWatchArray[i]));
                         myLogger.debug("Fetched "
                                 + crewGroups[i].getModuleName());
                     } catch (org.omg.CORBA.UserException e) {
@@ -272,14 +269,12 @@ public class BioInitializer {
                     "plantsToWatch");
             if (plantsToWatchNode != null) {
                 String plantsToWatchString = plantsToWatchNode.getNodeValue();
-                StringTokenizer tokenizer = new StringTokenizer(
-                        plantsToWatchString);
-                BiomassRS[] biomassRSs = new BiomassRS[tokenizer.countTokens()];
-                for (int i = 0; tokenizer.hasMoreTokens(); i++) {
+                String[] plantsToWatchArray = plantsToWatchString.split("\\s");
+                BiomassRS[] biomassRSs = new BiomassRS[plantsToWatchArray.length];
+                for (int i = 0; i < biomassRSs.length; i++) {
                     try {
                         biomassRSs[i] = BiomassRSHelper.narrow(OrbUtils
-                                .getNamingContext(myID).resolve_str(
-                                        tokenizer.nextToken()));
+                                .getNamingContext(myID).resolve_str(plantsToWatchArray[i]));
                         myLogger.debug("Fetched "
                                 + biomassRSs[i].getModuleName());
                     } catch (org.omg.CORBA.UserException e) {
