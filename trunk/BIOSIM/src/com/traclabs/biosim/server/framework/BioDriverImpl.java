@@ -97,11 +97,12 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		String machineType = null;
 		machineType = System.getProperty("MACHINE_TYPE");
 		if (machineType != null){
-			if (machineType.equals("CYGWIN")){
+			if (machineType.indexOf("CYGWIN") != -1){
 				setDriverPauseLength(5);
 			}
-			else
+			else{
 				setDriverPauseLength(0);
+			}
 		}
 		else
 			setDriverPauseLength(5);

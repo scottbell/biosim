@@ -52,9 +52,6 @@ jarExpand="$jarCommand -xf"
 echo "			-expanding jcommon"
 jcommonPath="$devRootDir/lib/jfreechart/jcommon.jar"
 $jarExpand $jcommonPath
-echo "			-expanding junit"
-junitPath="$devRootDir/lib/jfreechart/junit.jar"
-$jarExpand $junitPath
 echo "			-expanding jfreechart"
 jfreechartPath="$devRootDir/lib/jfreechart/jfreechart.jar"
 $jarExpand $jfreechartPath

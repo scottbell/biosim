@@ -1,2 +1,4 @@
 @echo off
-bash %BIOSIM_HOME%/bin/run-biosim.sh %1 %2
+start /B run-nameserver
+start /B run-server
+start /B run-client
