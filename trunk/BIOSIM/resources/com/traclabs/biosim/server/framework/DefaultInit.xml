@@ -253,6 +253,14 @@
 		<environment>
 			<AirInFlowRateActuator name="AirRSAirInFlowRateActuator" index="0" output="AirRS"/>
 			<AirOutFlowRateActuator name="AirRSAirOutFlowRateActuator" index="0" output="AirRS"/>
+			<CO2AirEnvironmentInFlowRateActuator name="AccumulatorCO2AirEnvironmentInFlowRateActuator" index="0" output="Accumulator"/>
+			<CO2AirEnvironmentOutFlowRateActuator name="InjectorCO2AirEnvironmentOutFlowRateActuator" index="0" output="Injector"/>
+			<CO2AirStoreInFlowRateActuator name="InjectorCO2AirStoreInFlowRateActuator" index="0" output="Injector"/>
+			<CO2AirStoreOutFlowRateActuator name="AccumulatorCO2AirStoreOutFlowRateActuator" index="0" output="Accumulator"/>
+			<O2AirEnvironmentInFlowRateActuator name="AccumulatorO2AirEnvironmentInFlowRateActuator" index="0" output="Accumulator"/>
+			<O2AirEnvironmentOutFlowRateActuator name="InjectorO2AirEnvironmentOutFlowRateActuator" index="0" output="Injector"/>
+			<O2AirStoreInFlowRateActuator name="InjectorO2AirStoreInFlowRateActuator" index="0" output="Injector"/>
+			<O2AirStoreOutFlowRateActuator name="AccumulatorO2AirStoreOutFlowRateActuator" index="0" output="Accumulator"/>
 		</environment>
 		<food>
 			<BiomassInFlowRateActuator name="FoodProcessorBiomassInFlowRateActuator" index="0" output="FoodProcessor"/>
@@ -277,6 +285,8 @@
 			<PotableWaterInFlowRateActuator name="AirRSPotableWaterInFlowRateActuator" index="0" output="AirRS"/>
 			<PotableWaterInFlowRateActuator name="CrewGroupPotableWaterInFlowRateActuator" index="0" output="CrewGroup"/>
 			<PotableWaterInFlowRateActuator name="BiomassRSPotableWaterInFlowRateActuator" index="0" output="BiomassRS"/>
+			<PotableWaterOutFlowRateActuator name="AirRSPotableWaterOutFlowRateActuator" index="0" output="AirRS"/>
+			<PotableWaterOutFlowRateActuator name="WaterRSPotableWaterOutFlowRateActuator" index="0" output="WaterRS"/>
 		</water>
 	</Actuators>
 </biosim>
