@@ -25,20 +25,22 @@ public class O2AirProducerDefinitionImpl extends StoreEnvironmentFlowRateControl
     
     public void setO2AirEnvironmentOutputs(SimEnvironment[] pEnvironments, float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setEnvironments(pEnvironments);
-        setMaxFlowRates(pMaxFlowRates);
-        setDesiredFlowRates(pDesiredFlowRates);
+        setEnvironmentMaxFlowRates(pMaxFlowRates);
+        setEnvironmentDesiredFlowRates(pDesiredFlowRates);
     }
 
     public void setO2AirStoreOutputs(O2Store[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setStores(pStores);
-        setMaxFlowRates(pMaxFlowRates);
-        setDesiredFlowRates(pDesiredFlowRates);
+        setStoreMaxFlowRates(pMaxFlowRates);
+        setStoreDesiredFlowRates(pDesiredFlowRates);
     }
     
     /**
      * @return The total amount of O2 pushed to the environments
      */
     public float pushO2ToEnvironment(float pMolesToPush) {
+        if (getEnvironments() == null)
+            return 0f;
         float O2AirLeft = pMolesToPush;
         for (int i = 0; (i < getEnvironments().length)
                 && (O2AirLeft > 0); i++) {

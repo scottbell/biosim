@@ -25,20 +25,22 @@ public class NitrogenAirProducerDefinitionImpl extends StoreEnvironmentFlowRateC
     
     public void setNitrogenAirEnvironmentOutputs(SimEnvironment[] pEnvironments, float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setEnvironments(pEnvironments);
-        setMaxFlowRates(pMaxFlowRates);
-        setDesiredFlowRates(pDesiredFlowRates);
+        setEnvironmentMaxFlowRates(pMaxFlowRates);
+        setEnvironmentDesiredFlowRates(pDesiredFlowRates);
     }
 
     public void setNitrogenAirStoreOutputs(NitrogenStore[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setStores(pStores);
-        setMaxFlowRates(pMaxFlowRates);
-        setDesiredFlowRates(pDesiredFlowRates);
+        setStoreMaxFlowRates(pMaxFlowRates);
+        setStoreDesiredFlowRates(pDesiredFlowRates);
     }
     
     /**
      * @return The total amount of Nitrogen pushed to the environments
      */
     public float pushNitrogenToEnvironment(float pMolesToPush) {
+        if (getEnvironments() == null)
+            return 0f;
         float NitrogenAirLeft = pMolesToPush;
         for (int i = 0; (i < getEnvironments().length)
                 && (NitrogenAirLeft > 0); i++) {

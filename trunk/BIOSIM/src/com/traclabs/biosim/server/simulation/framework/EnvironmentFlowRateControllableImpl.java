@@ -17,6 +17,8 @@ public abstract class EnvironmentFlowRateControllableImpl extends SingleFlowRate
     
     protected void setEnvironments(SimEnvironment[] pSimEnvironments){
         mySimEnvironments = pSimEnvironments;
+        float[] emptyActualFlowRates = new float[pSimEnvironments.length];
+        setActualFlowRates(emptyActualFlowRates);
     }
     
     /**
@@ -26,6 +28,8 @@ public abstract class EnvironmentFlowRateControllableImpl extends SingleFlowRate
      * @return Breath of air consumed
      */
     public Breath getAirFromEnvironment(float molesNeeded) {
+        if (getEnvironments() == null)
+            return new Breath(0f, 0f, 0f, 0f, 0f);
         float gatheredAir = 0f;
         float gatheredO2 = 0f;
         float gatheredCO2 = 0f;
@@ -63,6 +67,8 @@ public abstract class EnvironmentFlowRateControllableImpl extends SingleFlowRate
      * @return Breath of air consumed
      */
     public Breath getMostAirFromEnvironment() {
+        if (getEnvironments() == null)
+            return new Breath(0f, 0f, 0f, 0f, 0f);
         float gatheredAir = 0f;
         float gatheredO2 = 0f;
         float gatheredCO2 = 0f;
@@ -101,6 +107,8 @@ public abstract class EnvironmentFlowRateControllableImpl extends SingleFlowRate
      *         amount to push if sucessful)
      */
     public Breath pushAirToEnvironments(Breath breathToPush) {
+        if (getEnvironments() == null)
+            return new Breath(0f, 0f, 0f, 0f, 0f);
         float distributedO2Left = breathToPush.O2;
         float distributedCO2Left = breathToPush.CO2;
         float distributedOtherLeft = breathToPush.other;
