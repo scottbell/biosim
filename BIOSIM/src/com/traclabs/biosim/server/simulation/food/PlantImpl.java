@@ -52,6 +52,8 @@ public abstract class PlantImpl extends PlantPOA{
 	private SimpleBuffer consumedLightBuffer;
 	protected float[] canopyClosureConstants;
 	protected float[] canopyQYConstants;
+	protected List myPPFValues;
+	protected List myCO2Values;
 	private static final float WATER_TILL_DEAD = 200f;
 	private static final float WATER_RECOVERY_RATE = 0.005f;
 	private static final float CO2_LOW_TILL_DEAD = 24f;
@@ -485,7 +487,8 @@ public abstract class PlantImpl extends PlantPOA{
 			airMoles = pow(1f, -30f);
 		//System.out.println("PlantImpl: CO2Moles: "+CO2Moles);
 		//System.out.println("PlantImpl: airMoles: "+airMoles);
-		myTotalCO2Concentration += (CO2Moles / airMoles);
+		float CO2_Concentration = (CO2Moles / airMoles);
+		myTotalCO2Concentration += CO2_Concentration;
 		myNumberOfCO2ConcentrationReadings ++;
 		myAverageCO2Concentration = myTotalCO2Concentration / myNumberOfCO2ConcentrationReadings;
 		//System.out.println("PlantImpl: myAverageCO2Concentration: "+myAverageCO2Concentration);
