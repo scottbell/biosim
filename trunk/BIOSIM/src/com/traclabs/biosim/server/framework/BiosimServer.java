@@ -140,12 +140,16 @@ public class BiosimServer extends GenericServer{
 				O2OutFlowRateSensorImpl myO2OutFlowRateSensorImpl = new O2OutFlowRateSensorImpl(id);
 				CO2OutFlowRateSensorImpl myCO2OutFlowRateSensorImpl = new CO2OutFlowRateSensorImpl(id);
 				CO2InFlowRateSensorImpl myCO2InFlowRateSensorImpl = new CO2InFlowRateSensorImpl(id);
+				PotableWaterInFlowRateSensorImpl myPotableWaterInFlowRateSensorImpl = new PotableWaterInFlowRateSensorImpl(id);
+				PotableWaterOutFlowRateSensorImpl myPotableWaterOutFlowRateSensorImpl = new PotableWaterOutFlowRateSensorImpl(id);
 				registerServer(new PowerInFlowRateSensorPOATie(myPowerInFlowRateSensorImpl), "AirRS" + myPowerInFlowRateSensorImpl.getModuleName());
 				registerServer(new AirInFlowRateSensorPOATie(myAirInFlowRateSensorImpl), "AirRS" + myAirInFlowRateSensorImpl.getModuleName());
 				registerServer(new AirOutFlowRateSensorPOATie(myAirOutFlowRateSensorImpl), "AirRS" + myAirOutFlowRateSensorImpl.getModuleName());
 				registerServer(new O2OutFlowRateSensorPOATie(myO2OutFlowRateSensorImpl), "AirRS" + myO2OutFlowRateSensorImpl.getModuleName());
 				registerServer(new CO2InFlowRateSensorPOATie(myCO2InFlowRateSensorImpl), "AirRS" + myCO2InFlowRateSensorImpl.getModuleName());
 				registerServer(new CO2OutFlowRateSensorPOATie(myCO2OutFlowRateSensorImpl), "AirRS" + myCO2OutFlowRateSensorImpl.getModuleName());
+				registerServer(new PotableWaterOutFlowRateSensorPOATie(myPotableWaterOutFlowRateSensorImpl), "AirRS" + myPotableWaterOutFlowRateSensorImpl.getModuleName());
+				registerServer(new PotableWaterInFlowRateSensorPOATie(myPotableWaterInFlowRateSensorImpl), "AirRS" + myPotableWaterInFlowRateSensorImpl.getModuleName());	
 			}
 			//Stores
 			{
@@ -304,7 +308,7 @@ public class BiosimServer extends GenericServer{
 		//Actuator
 		//
 
-		//Air Sesnors
+		//Air Actuator
 		{
 			//AirRS
 			{
@@ -314,12 +318,16 @@ public class BiosimServer extends GenericServer{
 				O2OutFlowRateActuatorImpl myO2OutFlowRateActuatorImpl = new O2OutFlowRateActuatorImpl(id);
 				CO2OutFlowRateActuatorImpl myCO2OutFlowRateActuatorImpl = new CO2OutFlowRateActuatorImpl(id);
 				CO2InFlowRateActuatorImpl myCO2InFlowRateActuatorImpl = new CO2InFlowRateActuatorImpl(id);
+				PotableWaterInFlowRateActuatorImpl myPotableWaterInFlowRateActuatorImpl = new PotableWaterInFlowRateActuatorImpl(id);
+				PotableWaterOutFlowRateActuatorImpl myPotableWaterOutFlowRateActuatorImpl = new PotableWaterOutFlowRateActuatorImpl(id);
 				registerServer(new PowerInFlowRateActuatorPOATie(myPowerInFlowRateActuatorImpl), "AirRS" + myPowerInFlowRateActuatorImpl.getModuleName());
 				registerServer(new AirInFlowRateActuatorPOATie(myAirInFlowRateActuatorImpl), "AirRS" + myAirInFlowRateActuatorImpl.getModuleName());
 				registerServer(new AirOutFlowRateActuatorPOATie(myAirOutFlowRateActuatorImpl), "AirRS" + myAirOutFlowRateActuatorImpl.getModuleName());
 				registerServer(new O2OutFlowRateActuatorPOATie(myO2OutFlowRateActuatorImpl), "AirRS" + myO2OutFlowRateActuatorImpl.getModuleName());
 				registerServer(new CO2InFlowRateActuatorPOATie(myCO2InFlowRateActuatorImpl), "AirRS" + myCO2InFlowRateActuatorImpl.getModuleName());
 				registerServer(new CO2OutFlowRateActuatorPOATie(myCO2OutFlowRateActuatorImpl), "AirRS" + myCO2OutFlowRateActuatorImpl.getModuleName());
+				registerServer(new PotableWaterInFlowRateActuatorPOATie(myPotableWaterInFlowRateActuatorImpl), "AirRS" + myPotableWaterInFlowRateActuatorImpl.getModuleName());
+				registerServer(new PotableWaterOutFlowRateActuatorPOATie(myPotableWaterOutFlowRateActuatorImpl), "AirRS" + myPotableWaterOutFlowRateActuatorImpl.getModuleName());	
 			}
 		}
 
