@@ -10,7 +10,7 @@ public class Schedule{
 	public Schedule(){
 		//use default schedule
 		System.out.println("Using default schedule...");
-		URL defaultURL = ClassLoader.getSystemClassLoader().getResource("biosim/server/crew/resources/defaultSchedule.txt");
+		URL defaultURL = ClassLoader.getSystemClassLoader().getResource("biosim/server/crew/defaultSchedule.txt");
 		if (defaultURL == null){
 			System.out.println("Had problems finding default Schedule!");
 			return;
