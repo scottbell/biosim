@@ -45,6 +45,7 @@
 			<xsd:element name="isLooping" type="xsd:boolean"/>
 			<xsd:element name="initialTicks" type="xsd:nonNegativeInteger"/>
 			<xsd:element name="setStochasticIntensity" type="StochasticIntensityType"/>
+			<xsd:element name="id" type="xsd:nonNegativeInteger"/>
 		</xsd:all>
 	</xsd:complexType>
 	
@@ -63,9 +64,9 @@
 				<xsd:complexType>
 					<xsd:all>
 						<xsd:element name="AirRS" type="AirRSType" minOccurs="0"/>
-						<xsd:element name="O2Store" type="Store" minOccurs="0"/>
-						<xsd:element name="CO2Store" type="Store" minOccurs="0"/>
-						<xsd:element name="H2Store" type="Store" minOccurs="0"/>
+						<xsd:element name="O2Store" type="O2StoreType" minOccurs="0"/>
+						<xsd:element name="CO2Store" type="CO2StoreType" minOccurs="0"/>
+						<xsd:element name="H2Store" type="H2StoreType" minOccurs="0"/>
 					</xsd:all>
 				</xsd:complexType>
 			</xsd:element>
@@ -88,15 +89,15 @@
 					<xsd:all>
 						<xsd:element name="FoodProcessor" type="FoodProcessorType" minOccurs="0"/>
 						<xsd:element name="BiomassRS" type="BiomassRSType" minOccurs="0"/>
-						<xsd:element name="BiomassStore" type="Store" minOccurs="0"/>
-						<xsd:element name="FoodStore" type="Store" minOccurs="0"/>
+						<xsd:element name="BiomassStore" type="BiomassStoreType" minOccurs="0"/>
+						<xsd:element name="FoodStore" type="FoodStoreType" minOccurs="0"/>
 					</xsd:all>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="power" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:all>
-						<xsd:element name="PowerStore" type="Store" minOccurs="0"/>
+						<xsd:element name="PowerStore" type="PowerStoreType" minOccurs="0"/>
 						<xsd:element name="PowerPS" type="PowerPSType" minOccurs="0"/>
 					</xsd:all>
 				</xsd:complexType>
@@ -106,9 +107,8 @@
 					<xsd:all>
 						<xsd:element name="WaterRS" type="WaterRSType" minOccurs="0"/>
 						<xsd:element name="PotableWaterStore" type="PotableWaterStoreType" minOccurs="0"/>
-						<xsd:element name="DirtyWaterStore" type="Store" minOccurs="0"/>
-						<xsd:element name="GreyWaterStore" type="Store" minOccurs="0"/>
-						<xsd:element name="H2Store" type="Store" minOccurs="0"/>
+						<xsd:element name="DirtyWaterStore" type="DirtyWaterStoreType" minOccurs="0"/>
+						<xsd:element name="GreyWaterStore" type="GreyWaterStoreType" minOccurs="0"/>
 					</xsd:all>
 				</xsd:complexType>
 			</xsd:element>
@@ -710,11 +710,20 @@
 	</xsd:simpleType>
 	
 	<!-- SimModule declarations -->
-	<xsd:complexType name="AirRSType">  
+	<xsd:complexType name="NonStoreBioModuleType">  
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
 				<xsd:sequence>
 					<xsd:element name="name" type="xsd:string"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="AirRSType">  
+		<xsd:complexContent>
+			<xsd:extension base="NonStoreBioModuleType">
+				<xsd:sequence>
 					<xsd:element name="powerConsumer" type="PowerConsumerType"/>
 					<xsd:element name="potableWaterConsumer" type="PotableWaterConsumerType"/>
 					<xsd:element name="airConsumer" type="AirConsumerType"/>
@@ -732,9 +741,8 @@
 	
 	<xsd:complexType name="CrewGroupType">  
 		<xsd:complexContent>
-			<xsd:extension base="BioModuleType">
+			<xsd:extension base="NonStoreBioModuleType">
 				<xsd:sequence>
-					<xsd:element name="name" type="xsd:string"/>
 					<xsd:element name="potableWaterConsumer" type="PotableWaterConsumerType"/>
 					<xsd:element name="airConsumer" type="AirConsumerType"/>
 					<xsd:element name="foodConsumer" type="FoodConsumerType"/>
@@ -750,9 +758,8 @@
 	
 	<xsd:complexType name="SimEnvironmentType">  
 		<xsd:complexContent>
-			<xsd:extension base="BioModuleType">
+			<xsd:extension base="NonStoreBioModuleType">
 				<xsd:sequence>
-					<xsd:element name="name" type="SimEnvironmentNameType"/>
 					<xsd:element name="initialCO2Moles" type="nonNegativeFloat"/>
 					<xsd:element name="initialO2Moles" type="nonNegativeFloat"/>
 					<xsd:element name="initialOtherMoles" type="nonNegativeFloat"/>
@@ -765,9 +772,8 @@
 	
 	<xsd:complexType name="BiomassRSType">  
 		<xsd:complexContent>
-			<xsd:extension base="BioModuleType">
+			<xsd:extension base="NonStoreBioModuleType">
 				<xsd:sequence>
-					<xsd:element name="name" type="xsd:string"/>
 					<xsd:element name="powerConsumer" type="PowerConsumerType"/>
 					<xsd:element name="potableWaterConsumer" type="PotableWaterConsumerType"/>
 					<xsd:element name="greyWaterConsumer" type="GreyWaterConsumerType"/>
@@ -784,9 +790,8 @@
 	
 	<xsd:complexType name="FoodProcessorType">  
 		<xsd:complexContent>
-			<xsd:extension base="BioModuleType">
+			<xsd:extension base="NonStoreBioModuleType">
 				<xsd:sequence>
-					<xsd:element name="name" type="xsd:string"/>
 					<xsd:element name="powerConsumer" type="PowerConsumerType"/>
 					<xsd:element name="biomassConsumer" type="BiomassConsumerType"/>
 					<xsd:element name="foodProducer" type="FoodProducerType"/>
@@ -797,9 +802,8 @@
 	
 	<xsd:complexType name="PowerPSType">  
 		<xsd:complexContent>
-			<xsd:extension base="BioModuleType">
+			<xsd:extension base="NonStoreBioModuleType">
 				<xsd:sequence>
-					<xsd:element name="name" type="xsd:string"/>
 					<xsd:element name="powerProducer" type="PowerProducerType"/>
 					<xsd:element name="generation" type="GenerationType"/>
 				</xsd:sequence>
@@ -809,9 +813,8 @@
 	
 	<xsd:complexType name="WaterRSType">  
 		<xsd:complexContent>
-			<xsd:extension base="BioModuleType">
+			<xsd:extension base="NonStoreBioModuleType">
 				<xsd:sequence>
-					<xsd:element name="name" type="xsd:string"/>
 					<xsd:element name="powerConsumer" type="PowerConsumerType"/>
 					<xsd:element name="dirtyWaterConsumer" type="DirtyWaterConsumerType"/>
 					<xsd:element name="greyWaterConsumer" type="GreyWaterConsumerType"/>
@@ -826,9 +829,8 @@
 	
 	<xsd:complexType name="SensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="BioModuleType">
+			<xsd:extension base="NonStoreBioModuleType">
 				<xsd:sequence>
-					<xsd:element name="name" type="xsd:string"/>
 					<xsd:element name="input" type="xsd:string"/>
 				</xsd:sequence>
 			</xsd:extension>
@@ -1166,9 +1168,8 @@
 	<!-- Actuator declarations -->
 	<xsd:complexType name="ActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="BioModuleType">
+			<xsd:extension base="NonStoreBioModuleType">
 				<xsd:sequence>
-					<xsd:element name="name" type="xsd:string"/>
 					<xsd:element name="output" type="xsd:string"/>
 				</xsd:sequence>
 			</xsd:extension>

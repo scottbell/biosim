@@ -10,74 +10,89 @@
 		<initialTicks>0</initialTicks>
 		<isLooping>false</isLooping>
 		<setStochasticIntensity>NONE_STOCH</setStochasticIntensity>
+		<id>0</id>
 	</Globals>
 	<SimModules>
+		<air>
+			<AirRS>
+				<isLoggingEnabled>false</isLoggingEnabled>
+				<isBreakdownEnabled>false</isBreakdownEnabled>
+				<name>AirRS</name>
+				<powerConsumer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<input>PowerStore</input>
+				</powerConsumer>
+				<potableWaterConsumer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<input>PotableWaterStore</input>
+				</potableWaterConsumer>
+				<airConsumer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<input>SimEnvironment</input>
+				</airConsumer>
+				<CO2Consumer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<input>CO2Store</input>
+				</CO2Consumer>
+				<H2Consumer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<input>H2Store</input>
+				</H2Consumer>
+				<potableWaterProducer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<output>PotableWaterStore</output>
+				</potableWaterProducer>
+				<O2Producer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<output>O2Store</output>
+				</O2Producer>
+				<airProducer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<output>SimEnvironment</output>
+				</airProducer>
+				<CO2Producer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<output>CO2Store</output>
+				</CO2Producer>
+				<H2Producer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<output>H2Store</output>
+				</H2Producer>
+			</AirRS>
+			<O2Store>
+				<isLoggingEnabled>false</isLoggingEnabled>
+				<isBreakdownEnabled>false</isBreakdownEnabled>
+				<capacity>500</capacity>
+				<level>100</level>
+				<name>O2Store</name>
+			</O2Store>
+			<CO2Store>
+				<isLoggingEnabled>false</isLoggingEnabled>
+				<isBreakdownEnabled>false</isBreakdownEnabled>
+				<capacity>500</capacity>
+				<level>100</level>
+				<name>CO2Store</name>
+			</CO2Store>
+		</air>
 		<water>
 			<PotableWaterStore>
 				<isLoggingEnabled>false</isLoggingEnabled>
 				<isBreakdownEnabled>false</isBreakdownEnabled>
 				<capacity>500</capacity>
 				<level>100</level>
-				<name>PotableWaterStore0</name>
+				<name>PotableWaterStore</name>
 			</PotableWaterStore>
 		</water>
-		<air>
-			<AirRS>
-				<isLoggingEnabled>false</isLoggingEnabled>
-				<isBreakdownEnabled>false</isBreakdownEnabled>
-				<name>AirRS0</name>
-				<powerConsumer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<input>PowerStore0</input>
-				</powerConsumer>
-				<potableWaterConsumer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<input>PotableWaterStore0</input>
-				</potableWaterConsumer>
-				<airConsumer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<input>SimEnvironment0</input>
-				</airConsumer>
-				<CO2Consumer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<input>CO2Store0</input>
-				</CO2Consumer>
-				<H2Consumer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<input>H2Store0</input>
-				</H2Consumer>
-				<potableWaterProducer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<output>PotableWaterStore0</output>
-				</potableWaterProducer>
-				<O2Producer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<output>O2Store0</output>
-				</O2Producer>
-				<airProducer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<output>SimEnvironment0</output>
-				</airProducer>
-				<CO2Producer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<output>CO2Store0</output>
-				</CO2Producer>
-				<H2Producer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<output>H2Store0</output>
-				</H2Producer>
-			</AirRS>
-		</air>
 	</SimModules>
 	<Sensors>
 	</Sensors>
