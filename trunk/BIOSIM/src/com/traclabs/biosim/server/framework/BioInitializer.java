@@ -1039,15 +1039,21 @@ public class BioInitializer{
 			sex = Sex.male;
 		float age = 0f;
 		float weight = 0f;
+		int arrivalDate = 0;
+		int departureDate = 0;
 		try{
 			age = Float.parseFloat(node.getAttributes().getNamedItem("age").getNodeValue());
 			weight = Float.parseFloat(node.getAttributes().getNamedItem("weight").getNodeValue());
+			arrivalDate = Integer.parseInt(node.getAttributes().getNamedItem("arrivalDate").getNodeValue());
+			departureDate = Integer.parseInt(node.getAttributes().getNamedItem("departureDate").getNodeValue());
+			if (departureDate < 0)
+				departureDate = Integer.MAX_VALUE;
 		}
 		catch (NumberFormatException e){
 
 			e.printStackTrace();
 		}
-		crew.createCrewPerson(name, age, weight, sex, schedule);
+		crew.createCrewPerson(name, age, weight, sex, arrivalDate, departureDate, schedule);
 	}
 
 	private void createCrewGroup(Node node){

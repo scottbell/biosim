@@ -758,8 +758,9 @@
 		<xsd:attribute name="name" type="xsd:string" use="required"/>
 		<xsd:attribute name="age" type="nonNegativeFloat" use="required"/>
 		<xsd:attribute name="weight" type="nonNegativeFloat" use="required"/>
+		<xsd:attribute name="sex" type="SexType" use="required"/>
 		<xsd:attribute name="arrivalDate" type="xsd:nonNegativeInteger" default="0"/>
-		<xsd:attribute name="departureDate" type="xsd:nonNegativeInteger" default="0"/>
+		<xsd:attribute name="departureDate" type="xsd:integer" default="-1"/>
 	</xsd:complexType>
 	
 	<xsd:simpleType name="SexType">

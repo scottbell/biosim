@@ -681,7 +681,7 @@ module biosim{
                                 };
                                 interface CrewGroup : framework::SimBioModule, framework::AirConsumer, framework::PotableWaterConsumer, framework::FoodConsumer, framework::AirProducer, framework::GreyWaterProducer, framework::DirtyWaterProducer, framework::DryWasteProducer{
                                         CrewPerson getCrewPerson(in string name);
-                                        CrewPerson createCrewPerson(in string name, in float age, in float weight, in Sex pSex);
+                                        CrewPerson createCrewPerson(in string name, in float age, in float weight, in Sex pSex, in long arrivalTick, in long departureTick);
                                         CrewPersonList getCrewPeople();
                                         void scheduleRepair(in string moduleName, in long long malfunctionID, in long timeLength);
                                         long getCrewSize();

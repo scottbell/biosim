@@ -16,6 +16,7 @@ public class Schedule{
 	private Activity myBornActivity;
 	private Activity myDeadActivity;
 	private Activity mySickActivity;
+	private Activity myAbsentActivity;
 
 	/**
 	* Constructor that creates a new default schedule.
@@ -29,14 +30,17 @@ public class Schedule{
 		orderedSchedule = new Vector();
 		ActivityImpl bornActivityImpl = new ActivityImpl("born", 0, 0);
 		ActivityImpl deadActivityImpl = new ActivityImpl("dead", 0, 0);
+		ActivityImpl absentActivityImpl = new ActivityImpl("absent", 0, 0);
 		ActivityImpl sickActivityImpl = new ActivityImpl("sick", 12, 1);
 		myBornActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(bornActivityImpl));
 		myDeadActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(deadActivityImpl));
 		mySickActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(sickActivityImpl));
+		myAbsentActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(absentActivityImpl));
 		allActivities.put("born", myBornActivity);
 		orderedSchedule.add(0, myBornActivity);
 		allActivities.put("dead", myDeadActivity);
 		allActivities.put("sick", mySickActivity);
+		allActivities.put("absent", myAbsentActivity);
 	}
 
 	/**
