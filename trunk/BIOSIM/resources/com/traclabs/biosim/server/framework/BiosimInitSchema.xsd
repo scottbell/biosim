@@ -482,6 +482,7 @@
 		<xsd:attribute name="isLoggingEnabled" type="xsd:boolean" default="false"/>
 		<xsd:attribute name="isBreakdownEnabled" type="xsd:boolean" default="false"/>
 		<xsd:attribute name="setStochasticIntensity" type="StochasticIntensityType" default="NONE_STOCH"/>
+		<xsd:attribute name="createLocally" type="xsd:boolean" default="true"/>
 	</xsd:complexType>
 	
 	<!-- Store declarations -->
