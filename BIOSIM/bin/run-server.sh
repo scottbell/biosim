@@ -61,6 +61,7 @@ dirtyWaterStoreName="biosim.server.simulation.water.DirtyWaterStoreServer"
 potableWaterStoreName="biosim.server.simulation.water.PotableWaterStoreServer"
 greyWaterStoreName="biosim.server.simulation.water.GreyWaterStoreServer"
 frameworkName="biosim.server.framework.BiosimServer"
+initializerName="biosim.server.framework.BioInitializer"
 loggerName="biosim.server.util.LoggerServer"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME"
 xmlClasspath="$devRootDir/lib/xerces/xercesImpl.jar$separator$devRootDir/lib/xerces/xml-apis.jar$separator$devRootDir/lib/xerces/xmlParserAPIs.jar"
@@ -71,6 +72,7 @@ case $userSelect in
 esac
 echo "	-starting servers"
 case $userSelect in
+	initializer) echo "			 -starting $userSelect";$jacoInvocation $initializerName;;
 	airRS) echo "			 -starting $userSelect";$jacoInvocation $airRSName;;
 	co2Store) echo "			 -starting $userSelect";$jacoInvocation $co2StoreName;;
 	o2Store) echo "			 -starting $userSelect";$jacoInvocation $o2StoreName;;
