@@ -244,6 +244,18 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		PowerStore myPowerStore = (PowerStore)(getBioModule(powerStoreName));
 		myPowerStore.setCapacity(10000f);
 		myPowerStore.setLevel(10000f);
+		
+		//Hook up FoodProcessor to other modules (experimental)
+		FoodProcessor myFoodProcessor = (FoodProcessor)(getBioModule(foodProcessorName));
+		BiomassStore[] biomassStoreInput = {myBiomassStore};
+		float[] biomassFlowRates = {10000f};
+		PowerStore[] powerStoreInput = {myPowerStore};
+		float[] powerFlowRates = {10000f};
+		FoodStore[] foodStoreOutput = {myFoodStore};
+		float[] foodFlowRates = {10000f};
+		myFoodProcessor.setBiomassInputs(biomassStoreInput, biomassFlowRates);
+		myFoodProcessor.setPowerInputs(powerStoreInput, powerFlowRates);
+		myFoodProcessor.setFoodOutputs(foodStoreOutput, foodFlowRates);
 	}
 
 	/**
