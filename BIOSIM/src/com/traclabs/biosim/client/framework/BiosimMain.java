@@ -5,6 +5,7 @@ import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+import org.jacorb.util.Environment;
 
 import com.traclabs.biosim.client.simulation.framework.SimCommandLine;
 import com.traclabs.biosim.client.simulation.framework.gui.SimDesktop;
@@ -67,8 +68,8 @@ public class BiosimMain {
             } else if (myArgs[i].equals("unreal")) {
                 wantsToRunUnreal = true;
             } else if (myArgs[i].equals("-debug")) {
-                //Environment.setProperty("ORBInitRef.NameService","corbaloc::localhost:" + NAMESERVER_PORT + "/NameService");
-                //Environment.setProperty("OAPort", Integer.toString(CLIENT_OA_PORT));
+                Environment.setProperty("ORBInitRef.NameService","corbaloc::localhost:" + NAMESERVER_PORT + "/NameService");
+                Environment.setProperty("OAPort", Integer.toString(CLIENT_OA_PORT));
             } else if (myArgs[i].equals("-xml=")) {
                 try {
                     StringTokenizer st = new StringTokenizer(myArgs[i], "=");

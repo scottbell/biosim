@@ -4,7 +4,7 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-import org.omg.CORBA.Environment;
+import org.jacorb.util.Environment;
 
 import com.sun.corba.se.internal.PCosNaming.NameServer;
 
@@ -55,9 +55,8 @@ public class BiosimDebug {
             Thread.sleep(5000);
         } catch (Exception e) {
         }
-        
-        //Environment.setProperty("OAPort", Integer.toString(SERVER_OA_PORT));
-        //Environment.setProperty("ORBInitRef.NameService","corbaloc::localhost:" + NAMESERVER_PORT + "/NameService");
+        Environment.setProperty("OAPort", Integer.toString(SERVER_OA_PORT));
+        Environment.setProperty("ORBInitRef.NameService","corbaloc::localhost:" + NAMESERVER_PORT + "/NameService");
         myLogger.info("Server awake...");
         BiosimServer myBiosimServer = new BiosimServer(0, 0, XML_INIT_FILENAME);
         myBiosimServer.runServer("BiosimServer (id=0)");

@@ -1,5 +1,7 @@
 package com.traclabs.biosim.server.util;
 
+import java.util.Properties;
+
 import org.apache.log4j.Logger;
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NameComponent;
@@ -29,6 +31,8 @@ public class OrbUtils {
     private static NamingContextExt myBiosimNamingContext = null;
 
     private static NamingContextExt myRootContext = null;
+    
+    private static Properties myORBProperties;
 
     /**
      * Shouldn't be called (everything static!)
@@ -94,6 +98,7 @@ public class OrbUtils {
             e.printStackTrace();
         }
     }
+    
 
     /**
      * Done only once, this method initializes the ORB, resolves the root POA,
@@ -103,9 +108,10 @@ public class OrbUtils {
         if (initializeOrbRunOnce)
             return;
         try {
+            
             String[] nullArgs = null;
             // create and initialize the ORB
-            myOrb = ORB.init(nullArgs, null);
+            myOrb = ORB.init(nullArgs, myORBProperties);
             // get reference to rootpoa & activate the POAManager
             myRootPOA = POAHelper.narrow(myOrb
                     .resolve_initial_references("RootPOA"));
@@ -213,5 +219,11 @@ public class OrbUtils {
             e.printStackTrace();
         }
         return newPoa;
+    }
+    /**
+     * @param myORBProperties The myORBProperties to set.
+     */
+    public static void setMyORBProperties(Properties pORBProperties) {
+        myORBProperties = pORBProperties;
     }
 }
