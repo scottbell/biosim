@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='BiosimInitSchema.xsd'>
+<biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='../BiosimInitSchema.xsd'>
 	<Globals crewsToWatch="BaseCrewGroup EVACrewGroup" runTillN="2160" runTillCrewDeath="true">
 		<comment>
 			The lunar mission initialization for BioSim (scenario 1)
@@ -45,7 +45,7 @@
 			<O2Store name="BaseO2Store" capacity="2000" level="502">
 				<malfunction occursAtTick="200" length="PERMANENT_MALF" intensity="MEDIUM_MALF"/>
 			</O2Store>
-			<O2Store name="EVAO2Store" capacity="40" level="40"/>
+			<O2Store name="EVAO2Store" capacity="800" level="800"/>
 			<CO2Store name="BaseCO2Store" capacity="0" level="0"/>
 			<CO2Store name="EVACO2Store" capacity="10" level="10"/>
 			<H2Store name="BaseH2Store" capacity="10000000" level="10000000"/>
@@ -131,6 +131,14 @@
 			<FoodStore name="EVAFoodStore" capacity="0" level="0"/>
 		</food>
 		<framework>
+			<Injector name="EVAInjector">
+				<O2AirConsumer>
+					<storeInputs desiredFlowRates="100" maxFlowRates="100" inputs="EVAO2Store"/>
+				</O2AirConsumer>
+				<O2AirProducer>
+					<environmentOutputs desiredFlowRates="100" maxFlowRates="100" outputs="EVACrewEnvironment"/>
+				</O2AirProducer>
+			</Injector>
 		</framework>
 		<power>
 			<PowerPS name="PowerPS" generation="SOLAR">

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='BiosimInitSchema.xsd'>
+<biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='../BiosimInitSchema.xsd'>
 	<Globals crewsToWatch="BaseCrewGroup EVACrewGroup" runTillN="2160" runTillCrewDeath="true">
 		<comment>
 			The lunar mission initialization for BioSim (scenario 5)
@@ -20,7 +20,7 @@
 	</Globals>
 	<SimBioModules>
 		<air>
-			<AirRS name="BaseAirRS">
+			<AirRS name="BaseAirRS" implementation="LINEAR">
 				<powerConsumer maxFlowRates="300" desiredFlowRates="300" inputs="BasePowerStore"/>
 				<potableWaterConsumer maxFlowRates="10" desiredFlowRates="10" inputs="CrewBasePotableWaterStore"/>
 				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="BaseCrewEnvironment"/>
@@ -32,8 +32,8 @@
 				<CO2Producer maxFlowRates="100" desiredFlowRates="100" outputs="BaseCO2Store"/>
 				<H2Producer maxFlowRates="100" desiredFlowRates="100" outputs="BaseH2Store"/>
 			</AirRS>
-			<AirRS name="EVAAirRS">
-				<powerConsumer maxFlowRates="300" desiredFlowRates="300" inputs="EVAPowerStore"/>
+			<AirRS name="EVAAirRS" implementation="LINEAR">
+				<powerConsumer maxFlowRates="30" desiredFlowRates="30" inputs="EVAPowerStore"/>
 				<potableWaterConsumer maxFlowRates="10" desiredFlowRates="10" inputs="EVAPotableWaterStore"/>
 				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="EVACrewEnvironment"/>
 				<CO2Consumer maxFlowRates="10" desiredFlowRates="10" inputs="EVACO2Store"/>
@@ -163,14 +163,14 @@
 			<PowerStore name="EVAPowerStore" capacity="1000" level="1000"/>
 		</power>
 		<water>
-			<WaterRS name="CrewWaterRS">
+			<WaterRS name="CrewWaterRS" implementation="LINEAR">
 				<malfunction occursAtTick="502" length="TEMPORARY_MALF" intensity="SEVERE_MALF"/>
 				<powerConsumer maxFlowRates="500" desiredFlowRates="500" inputs="BasePowerStore"/>
 				<dirtyWaterConsumer maxFlowRates="100" desiredFlowRates="10" inputs="CrewBaseDirtyWaterStore"/>
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="10" inputs="CrewBaseGreyWaterStore"/>
 				<potableWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="CrewBasePotableWaterStore"/>
 			</WaterRS>
-				<WaterRS name="PlantWaterRS">
+				<WaterRS name="PlantWaterRS" implementation="LINEAR">
 				<powerConsumer maxFlowRates="500" desiredFlowRates="500" inputs="BasePowerStore"/>
 				<dirtyWaterConsumer maxFlowRates="100" desiredFlowRates="10" inputs="PlantBaseDirtyWaterStore"/>
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="10" inputs="PlantBaseGreyWaterStore"/>
