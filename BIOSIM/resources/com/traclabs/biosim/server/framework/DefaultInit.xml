@@ -1,4 +1,9 @@
 <?xml version="1.0"?>
 <biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='BiosimInitialization.xsd'>
-	
+	<PotableWaterStore xsi:type="Store">
+		<isLoggingEnabled>false</isLoggingEnabled>
+		<isBreakdownEnabled>false</isBreakdownEnabled>
+		<capacity>500</capacity>
+		<level>100</level>
+	</PotableWaterStore>
 </biosim>
