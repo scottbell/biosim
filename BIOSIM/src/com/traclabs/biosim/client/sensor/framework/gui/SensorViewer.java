@@ -8,6 +8,8 @@ import biosim.client.framework.gui.*;
  
 public class SensorViewer extends BioFrame
 {
+	private JTable myTable;
+	
 	public SensorViewer(){
 		super("Sensor Viewer", false);
 	}
