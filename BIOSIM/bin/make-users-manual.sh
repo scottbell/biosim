@@ -11,18 +11,20 @@ then
 	cd $currentDir
 	echo "		-assuming BIOSIM_HOME is $devRootDir"
 fi
-userManDir="$devRootDir/docs/users_manual_files"
-latex $userManDir/users_manual.tex
-makeindex $userManDir/users_manual.idx
-bibtex $userManDir/users_manual.tex
-latex $userManDir/users_manual.tex
-latex $userManDir/users_manual.tex
-dvips -o $userManDir/users_manual.ps $userManDir/users_manual.dvi
-ps2pdf $userManDir/users_manual.ps
+userManDir="$devRootDir/doc/users_manual_files"
+cd $userManDir
+latex users_manual.tex
+#makeindex users_manual.idx
+#bibtex users_manual.tex
+#latex users_manual.tex
+#latex users_manual.tex
+#dvips -o users_manual.ps users_manual.dvi
+#ps2pdf users_manual.ps
 if [ "$1" == "show" ]; then
 	echo "		-launching kghostview"
-	kghostview $userManDir/users_manual.pdf &
+	#kghostview users_manual.pdf &
 fi
+cd $currentDir
 echo "*done users manual"
 
 
