@@ -183,8 +183,26 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	}
 	
 	private FoodMatter transformBioMatter(BioMatter inMatter){
-		
-		return new FoodMatter(inMatter.mass, inMatter.type);
+		FoodMatter newFoodMatter = new FoodMatter(0f, inMatter.type);
+		if (newFoodMatter.type == PlantType.DRY_BEAN)
+			newFoodMatter.mass = inMatter.mass * DryBean.getFractionOfEdibleBiomass();
+		else if (newFoodMatter.type == PlantType.LETTUCE)
+			newFoodMatter.mass = inMatter.mass * Lettuce.getFractionOfEdibleBiomass();
+		else if (newFoodMatter.type == PlantType.PEANUT)
+			newFoodMatter.mass = inMatter.mass * Peanut.getFractionOfEdibleBiomass();
+		else if (newFoodMatter.type == PlantType.RICE)
+			newFoodMatter.mass = inMatter.mass * Rice.getFractionOfEdibleBiomass();
+		else if (newFoodMatter.type == PlantType.SOYBEAN)
+			newFoodMatter.mass = inMatter.mass * Soybean.getFractionOfEdibleBiomass();
+		else if (newFoodMatter.type == PlantType.SWEET_POTATO)
+			newFoodMatter.mass = inMatter.mass * SweetPotato.getFractionOfEdibleBiomass();
+		else if (newFoodMatter.type == PlantType.TOMATO)
+			newFoodMatter.mass = inMatter.mass * Tomato.getFractionOfEdibleBiomass();
+		else if (newFoodMatter.type == PlantType.WHEAT)
+			newFoodMatter.mass = inMatter.mass * Wheat.getFractionOfEdibleBiomass();
+		else if (newFoodMatter.type == PlantType.WHITE_POTATO)
+			newFoodMatter.mass = inMatter.mass * WhitePotato.getFractionOfEdibleBiomass();
+		return newFoodMatter;
 	}
 	
 	/**
