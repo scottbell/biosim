@@ -196,7 +196,6 @@ public class BioHolder
 			WaterRS myWaterRS = WaterRSHelper.narrow(OrbUtils.getNCRef().resolve_str(waterRSName+myID));
 			modules.put(waterRSName , myWaterRS);
 
-
 			System.out.println("BioHolder: Collecting sensor references to modules...");
 			//Air
 			{
