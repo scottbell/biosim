@@ -82,6 +82,13 @@ public abstract class PlantImpl extends PlantPOA{
 		consumedHeatBuffer = new SimpleBuffer(HEAT_TILL_DEAD * DANGEROUS_HEAT_LEVEL, HEAT_TILL_DEAD * DANGEROUS_HEAT_LEVEL);
 		myRandomGen = new Random();
 		numFormat = new DecimalFormat("#,##0.0;(#)");
+		
+		myCanopyClosurePPFValues = new Vector(getTAInitialValue());
+		myCanopyClosureCO2Values = new Vector(getTAInitialValue());
+		for (int i = 0; i < getTAInitialValue(); i++){
+			myCanopyClosurePPFValues.add(new Float(getInitialPPFValue()));
+			myCanopyClosureCO2Values.add(new Float(getInitialCO2Value()));
+		}
 	}
 
 	protected abstract float getBCF();
@@ -102,6 +109,9 @@ public abstract class PlantImpl extends PlantPOA{
 	protected abstract float getConstantPPF();
 	public abstract PlantType getPlantType();
 	public abstract String getPlantTypeString();
+	protected abstract float getInitialPPFValue();
+	protected abstract float getInitialCO2Value();
+	protected abstract int getTAInitialValue();
 
 	public float getPPFNeeded(){
 		return getConstantPPF();

@@ -7,6 +7,10 @@ import biosim.idl.simulation.food.*;
  */
 
 public class Peanut extends Legume{
+	private static final int taInitialValue = 1200;
+	private static final float initialPPFValue = 200f;
+	private static final float initialCO2Value = 100f;
+	
 	public Peanut(ShelfImpl pShelfImpl){
 		super(pShelfImpl);
 		canopyClosureConstants[0] = 3748700f;
@@ -27,6 +31,18 @@ public class Peanut extends Legume{
 		canopyQYConstants[17] = -0.00000000010468f;
 		canopyQYConstants[22] = 0.000000000000048541f;
 		canopyQYConstants[24] = 0.0000000000000000000039259f;
+	}
+	
+	protected float getInitialPPFValue(){
+		return initialPPFValue;
+	}
+	
+	protected float getInitialCO2Value(){
+		return initialCO2Value;
+	}
+	
+	protected int getTAInitialValue(){
+		return taInitialValue;
 	}
 
 	public PlantType getPlantType(){

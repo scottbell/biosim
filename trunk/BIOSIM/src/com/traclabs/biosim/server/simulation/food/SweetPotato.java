@@ -7,6 +7,10 @@ import biosim.idl.simulation.food.*;
  */
 
 public class SweetPotato extends Planophile{
+	private static final int taInitialValue = 1200;
+	private static final float initialPPFValue = 200f;
+	private static final float initialCO2Value = 100f;
+	
 	public SweetPotato(ShelfImpl pShelfImpl){
 		super(pShelfImpl);
 		canopyClosureConstants[0] = 1207000f;
@@ -22,6 +26,18 @@ public class SweetPotato extends Planophile{
 		canopyQYConstants[12] = -0.0000000063397f;
 		canopyQYConstants[17] = -0.000000000013464f;
 		canopyQYConstants[18] =  0.0000000000000077362f;
+	}
+	
+	protected float getInitialPPFValue(){
+		return initialPPFValue;
+	}
+	
+	protected float getInitialCO2Value(){
+		return initialCO2Value;
+	}
+	
+	protected int getTAInitialValue(){
+		return taInitialValue;
 	}
 
 	public PlantType getPlantType(){

@@ -8,6 +8,10 @@ import java.util.*;
  */
 
 public class DryBean extends Legume{
+	private static final int taInitialValue = 1200;
+	private static final float initialPPFValue = 200f;
+	private static final float initialCO2Value = 100f;
+	
 	public DryBean(ShelfImpl pShelfImpl){
 		super(pShelfImpl);
 		canopyClosureConstants[0] = 290410f;
@@ -23,11 +27,20 @@ public class DryBean extends Legume{
 		canopyQYConstants[11] = -0.00001238f;
 		canopyQYConstants[17] = -0.00000000001544f;
 		canopyQYConstants[18] = 0.000000000000006469f;
-		
-		
-		myCanopyClosurePPFValues = new Vector(1200);
 	}
-
+	
+	protected float getInitialPPFValue(){
+		return initialPPFValue;
+	}
+	
+	protected float getInitialCO2Value(){
+		return initialCO2Value;
+	}
+	
+	protected int getTAInitialValue(){
+		return taInitialValue;
+	}
+	
 	public PlantType getPlantType(){
 		return PlantType.DRY_BEAN;
 	}
