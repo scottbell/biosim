@@ -574,11 +574,12 @@ public class CrewPersonImpl extends CrewPersonPOA {
     private void performEVA(String baseCrewGroup, String evaCrewGroup) {
         // TODO Auto-generated method stub
         // remove 5% from base environment
-        myCrewGroup.getAirInputs()[0].removePercentage(0.15f);
+        myCrewGroup.getAirInputs()[0].removePercentage(0.05f);
         // detach from current crew group and attach to eva crew group
         // perform activity for X ticks
         // reattach to base crew group
         // remove 5% from base environment
+        myCrewGroup.getAirInputs()[0].removePercentage(0.05f);
     }
 
     /**

@@ -699,6 +699,8 @@ module com{
                                                         float getProductivity();
                                                         boolean isDead();
                                                         boolean anyDead();
+                                                        void detachCrewPerson(in string name);
+                                                        void attachCrewPerson(in CrewPerson pCrewPerson);
                                                 };
                                         };
 

@@ -1172,7 +1172,10 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
      * @see com.traclabs.biosim.idl.simulation.environment.SimEnvironmentOperations#removePercentage(float)
      */
     public void removePercentage(float percentage) {
-        // TODO Auto-generated method stub
-        
+        O2Moles -= (O2Moles * percentage);
+        CO2Moles -= (CO2Moles * percentage);
+        otherMoles -= (otherMoles * percentage);
+        waterMoles -= (waterMoles * percentage);
+        nitrogenMoles -= (nitrogenMoles * percentage);
     }
 }
