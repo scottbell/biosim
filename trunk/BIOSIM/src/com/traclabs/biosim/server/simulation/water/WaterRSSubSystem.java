@@ -93,7 +93,8 @@ public abstract class WaterRSSubSystem{
 	}
 	
 	/**
-	* Tick needs to be implemented by the subsystem
+	* Tick does nothing by default
 	*/
-	public abstract void tick();
+	public void tick(){
+	}
 }
