@@ -334,11 +334,11 @@ public abstract class PlantImpl extends PlantPOA{
 		float photoperiod = getPhotoperiod();
 		float PPFFractionAbsorbed = calculatePPFFractionAbsorbed();
 		float PPF = getAveragePPF();
-		//System.out.println("PlantImpl: photoperiod: "+photoperiod);
-		//System.out.println("PlantImpl: carbonUseEfficiency24: "+carbonUseEfficiency24);
-		//System.out.println("PlantImpl: PPFFractionAbsorbed: "+PPFFractionAbsorbed);
-		//System.out.println("PlantImpl: CQY: "+CQY);
-		//System.out.println("PlantImpl: PPF: "+PPF);
+		System.out.println("PlantImpl: photoperiod: "+photoperiod);
+		System.out.println("PlantImpl: carbonUseEfficiency24: "+carbonUseEfficiency24);
+		System.out.println("PlantImpl: PPFFractionAbsorbed: "+PPFFractionAbsorbed);
+		System.out.println("PlantImpl: CQY: "+CQY);
+		System.out.println("PlantImpl: PPF: "+PPF);
 		return (0.0036f * photoperiod * carbonUseEfficiency24 * myShelfImpl.getCropAreaUsed() * PPFFractionAbsorbed * CQY * PPF);
 	}
 
