@@ -31,7 +31,8 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	/**
 	* Creates a SimEnvironment (with a capacity of 100 liters) and resets the gas levels to correct percantages of sea level air
 	*/
-	public SimEnvironmentImpl(){
+	public SimEnvironmentImpl(int pID){
+		super(pID);
 		reset();
 	}
 	
@@ -39,7 +40,8 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	* Creates a SimEnvironment with a set initial capacity and resets the gas levels to correct percantages of sea level air
 	* @param initialCapacity the initial capacity of the environment in liters
 	*/
-	public SimEnvironmentImpl(float initialCapacity){
+	public SimEnvironmentImpl(int pID, float initialCapacity){
+		super(pID);
 		capacity = initialCapacity;
 		reset();
 	}
@@ -51,7 +53,8 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	* @param initialOtherLevel the initial capacity of the other gasses (in liters) in the environment
 	* @param initialCapacity the initial capacity of the environment in liters
 	*/
-	public SimEnvironmentImpl (float initialCO2Level, float initialO2Level, float initialOtherLevel, float initialCapacity){
+	public SimEnvironmentImpl (int pID, float initialCO2Level, float initialO2Level, float initialOtherLevel, float initialCapacity){
+		super(pID);
 		CO2Level = initialCO2Level;
 		O2Level = initialO2Level;
 		otherLevel = initialOtherLevel;

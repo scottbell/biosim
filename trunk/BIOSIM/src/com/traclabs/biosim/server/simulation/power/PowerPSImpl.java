@@ -22,6 +22,10 @@ public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperat
 	protected SimEnvironment mySimEnvironment;
 	private LogIndex myLogIndex;
 	
+	public PowerPSImpl(int pID){
+		super(pID);
+	}
+	
 	/**
 	* When ticked, the PowerPS does the following:
 	* 1) attempts to collect references to various server (if not already done).

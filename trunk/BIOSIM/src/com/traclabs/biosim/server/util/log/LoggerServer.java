@@ -27,7 +27,7 @@ public class LoggerServer {
 			POA rootpoa = OrbUtils.getRootPOA();
 			rootpoa.the_POAManager().activate();
 			// create servant and register it with  ORB
-			LoggerImpl myLoggerImpl = new LoggerImpl();
+			LoggerImpl myLoggerImpl = new LoggerImpl(0);
 			// get object reference from the servant
 			org.omg.CORBA.Object ref =rootpoa.servant_to_reference(myLoggerImpl);
 			// bind the Object Reference in Naming

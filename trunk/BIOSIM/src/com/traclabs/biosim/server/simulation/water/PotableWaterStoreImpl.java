@@ -9,6 +9,9 @@ import biosim.server.framework.*;
  */
 
 public class PotableWaterStoreImpl extends StoreImpl implements PotableWaterStoreOperations {
+	public PotableWaterStoreImpl(int pID){
+		super(pID);
+	}
 	/**
 	* Returns the name of this module (PotableWaterStore)
 	* @return the name of this module

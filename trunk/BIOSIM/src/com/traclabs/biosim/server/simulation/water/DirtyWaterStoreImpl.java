@@ -8,6 +8,9 @@ import biosim.server.framework.*;
  */
 
 public class DirtyWaterStoreImpl extends StoreImpl implements DirtyWaterStoreOperations {
+	public DirtyWaterStoreImpl(int pID){
+		super(pID);
+	}
 	/**
 	* Returns the name of this module (DirtyWaterStore)
 	* @return the name of this module

@@ -9,6 +9,9 @@ import biosim.server.framework.*;
  */
 
 public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
+	public FoodStoreImpl(int pID){
+		super(pID);
+	}
 	/**
 	* Returns the name of this module (FoodStore)
 	* @return the name of this module

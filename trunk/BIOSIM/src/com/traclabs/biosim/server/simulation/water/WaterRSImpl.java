@@ -27,7 +27,8 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	/**
 	* Creates the Water RS and it's subsystems
 	*/
-	public WaterRSImpl(){
+	public WaterRSImpl(int pID){
+		super(pID);
 		myBWP = new BWP(this);
 		myRO = new RO(this);
 		myAES = new AES(this);

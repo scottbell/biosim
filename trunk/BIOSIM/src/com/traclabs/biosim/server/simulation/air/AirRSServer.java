@@ -27,7 +27,7 @@ public class AirRSServer {
 			POA rootpoa = OrbUtils.getRootPOA();
 			rootpoa.the_POAManager().activate();
 			// create servant and register it with  ORB
-			AirRSImpl myAirRSImpl = new AirRSImpl();
+			AirRSImpl myAirRSImpl = new AirRSImpl(0);
 			// get object reference from the servant
 			org.omg.CORBA.Object ref =rootpoa.servant_to_reference(new AirRSPOATie(myAirRSImpl));
 			// bind the Object Reference in Naming

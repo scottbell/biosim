@@ -17,14 +17,16 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	private int shelfCapacity = 10;
 	private Vector shelfLogs;
 	
-	public BiomassRSImpl(){
+	public BiomassRSImpl(int pID){
+		super(pID);
 		myShelves = new Vector(shelfCapacity);
 		for (int i = 0; i < shelfCapacity; i++){
 			myShelves.add(new ShelfImpl());
 		}
 	}
 	
-	public BiomassRSImpl(int pShelfCapacity){
+	public BiomassRSImpl(int pID, int pShelfCapacity){
+		super(pID);
 		shelfCapacity = pShelfCapacity;
 		myShelves = new Vector(shelfCapacity);
 		for (int i = 0; i < shelfCapacity; i++){

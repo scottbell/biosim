@@ -21,7 +21,8 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 	private CH4Tank myCH4Tank;
 	private OGS myOGS;
 	
-	public AirRSImpl(){
+	public AirRSImpl(int pID){
+		super(pID);
 		myVCCR = new VCCR(this);
 		myCO2Tank = new CO2Tank(this);
 		myCRS = new CRS(this);

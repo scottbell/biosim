@@ -10,6 +10,9 @@ import biosim.server.framework.*;
  */
 
 public class GreyWaterStoreImpl extends StoreImpl implements GreyWaterStoreOperations {
+	public GreyWaterStoreImpl(int pID){
+		super(pID);
+	}
 	/**
 	* Returns the name of this module (GreyWaterStore)
 	* @return the name of this module

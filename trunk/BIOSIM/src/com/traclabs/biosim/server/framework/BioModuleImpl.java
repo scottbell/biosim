@@ -16,9 +16,11 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	protected LogNodeImpl myLog;
 	private Logger myLogger;
 	private boolean collectedLogger = false;
+	private int myID = 0;
 
-	public BioModuleImpl(){
+	public BioModuleImpl(int pID){
 		myLog = new LogNodeImpl(getModuleName());
+		myID = pID;
 	}
 	/**
 	* Called at every tick of the simulation.  Does nothing if not overriden.
@@ -60,7 +62,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	* @return the name of this module
 	*/
 	public String getModuleName(){
-		return "Unamed";
+		return "Unamed"+myID;
 	}
 }
 
