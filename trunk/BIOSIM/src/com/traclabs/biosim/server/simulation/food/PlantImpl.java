@@ -144,7 +144,7 @@ public abstract class Plant {
 		if (biomassProduced > 0){
 			float distributedBiomassLeft = biomassProduced;
 			BiomassStore[] myBiomassStores = myBiomassImpl.getBiomassOutputs();
-			for (int i = 0; (i < myBiomassStores.length) || (distributedBiomassLeft <= 0); i++){
+			for (int i = 0; (i < myBiomassStores.length) && (distributedBiomassLeft <= 0); i++){
 				distributedBiomassLeft -= myBiomassStores[i].add(distributedBiomassLeft);
 			}
 			myAge = 0;
