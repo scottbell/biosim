@@ -444,7 +444,6 @@ public class BioDriverImpl extends BioDriverPOA{
 		//Iterate through the sim modules and tick them
 		for (int i = 0; i < simModules.length; i++){
 			BioModule currentBioModule = (BioModule)(simModules[i]);
-			System.out.println("Ticking "+currentBioModule.getModuleName());
 			currentBioModule.tick();
 		}
 		//Iterate through the sensors and tick them
