@@ -13,6 +13,7 @@ import biosim.client.crew.gui.*;
 import biosim.client.food.gui.*;
 import biosim.client.power.gui.*;
 import biosim.client.water.gui.*;
+import biosim.idl.framework.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
@@ -20,8 +21,9 @@ import java.util.*;
 
 public class SimDesktop extends BioFrame
 {
-	//The simulator
-	private BioSimulator myBiosim;
+	//The holder
+	private BioHolder myBioHolder;
+	private BioDriver myBioDriver;
 
 	//GUI Componenets
 	private JDesktopPane myDesktop;
@@ -96,7 +98,8 @@ public class SimDesktop extends BioFrame
 	* Creates a BioSimulator, a panel hashtable, and creates the GUI
 	*/
 	public SimDesktop(){
-		myBiosim = new BioSimulator();
+		myHolder = new BioHolder();
+		myBioDriver = myHolder.getBioDriver();
 		myPanels = new Hashtable();
 		buildGUI();
 	}
@@ -322,8 +325,8 @@ public class SimDesktop extends BioFrame
 	* Stops the simulation if necessary.
 	*/
 	protected void frameExiting(){
-		if (myBiosim.simulationHasStarted())
-			myBiosim.endSimulation();
+		if (myDriver.simulationHasStarted())
+			myDriver.endSimulation();
 	}
 
 	/**
@@ -336,7 +339,7 @@ public class SimDesktop extends BioFrame
 		}
 		public void actionPerformed(ActionEvent ae){
 			//We want to stop the simulation
-			if (myBiosim.isStarted()){
+			if (myDriver.isStarted()){
 				setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				myStartSimButton.setToolTipText("Starts the simulation");
 				myStartSimButton.setIcon(startIcon);
@@ -345,7 +348,7 @@ public class SimDesktop extends BioFrame
 				myPauseSimItem.setEnabled(false);
 				myAdvanceSimButton.setEnabled(false);
 				myAdvanceSimItem.setEnabled(false);
-				myBiosim.endSimulation();
+				myDriver.endSimulation();
 				setCursor(Cursor.getDefaultCursor());
 			}
 			//We want to start the simulation
@@ -359,7 +362,7 @@ public class SimDesktop extends BioFrame
 				myAdvanceSimButton.setEnabled(true);
 				myAdvanceSimItem.setEnabled(true);
 				//If we're paused, stay paused.
-				if (myBiosim.isPaused()){
+				if (myDriver.isPaused()){
 					myPauseSimButton.setToolTipText("Resume the simulation");
 					myPauseSimButton.setIcon(playIcon);
 					myPauseSimItem.setText("Resume");
@@ -375,7 +378,7 @@ public class SimDesktop extends BioFrame
 					myAdvanceSimItem.setEnabled(false);
 				}
 				//Tell the biosimulator to enter loop
-				myBiosim.spawnSimulation(true);
+				myDriver.spawnSimulation(true);
 				setCursor(Cursor.getDefaultCursor());
 			}
 		}
@@ -392,13 +395,13 @@ public class SimDesktop extends BioFrame
 		public void actionPerformed(ActionEvent ae){
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			//We want to resume the simulation
-			if (myBiosim.isPaused()){
+			if (myDriver.isPaused()){
 				myPauseSimButton.setToolTipText("Pause the simulation");
 				myPauseSimButton.setIcon(pauseIcon);
 				myPauseSimItem.setText("Pause");
 				myAdvanceSimButton.setEnabled(false);
 				myAdvanceSimItem.setEnabled(false);
-				myBiosim.resumeSimulation();
+				myDriver.resumeSimulation();
 			}
 			//We want to pause the simulation
 			else{myPauseSimButton.setToolTipText("Resume the simulation");
@@ -406,7 +409,7 @@ public class SimDesktop extends BioFrame
 				myPauseSimItem.setText("Resume");
 				myAdvanceSimButton.setEnabled(true);
 				myAdvanceSimItem.setEnabled(true);
-				myBiosim.pauseSimulation();
+				myDriver.pauseSimulation();
 			}
 			setCursor(Cursor.getDefaultCursor());
 		}
@@ -422,7 +425,7 @@ public class SimDesktop extends BioFrame
 		}
 		public void actionPerformed(ActionEvent ae){
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			myBiosim.advanceOneTick();
+			myDriver.advanceOneTick();
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}
@@ -444,7 +447,7 @@ public class SimDesktop extends BioFrame
 	*/
 	private void displayAir(){
 		if (!tryExisitingInternalFrame("Air"))
-			addInternalFrame("Air",new AirPanel(myBiosim));
+			addInternalFrame("Air",new AirPanel(myDriver));
 	}
 
 	/**
@@ -452,7 +455,7 @@ public class SimDesktop extends BioFrame
 	*/
 	private void displayEnvironment(){
 		if (!tryExisitingInternalFrame("Environment"))
-			addInternalFrame("Environment",new EnvironmentPanel(myBiosim));
+			addInternalFrame("Environment",new EnvironmentPanel(myDriver));
 	}
 
 	/**
@@ -460,7 +463,7 @@ public class SimDesktop extends BioFrame
 	*/
 	private void displayCrew(){
 		if (!tryExisitingInternalFrame("Crew"))
-			addInternalFrame("Crew",new CrewPanel(myBiosim));
+			addInternalFrame("Crew",new CrewPanel(myDriver));
 	}
 
 	/**
@@ -468,7 +471,7 @@ public class SimDesktop extends BioFrame
 	*/
 	private void displayFood(){
 		if (!tryExisitingInternalFrame("Food"))
-			addInternalFrame("Food",new FoodPanel(myBiosim));
+			addInternalFrame("Food",new FoodPanel(myDriver));
 	}
 
 	/**
@@ -476,7 +479,7 @@ public class SimDesktop extends BioFrame
 	*/
 	private void displayPower(){
 		if (!tryExisitingInternalFrame("Power"))
-			addInternalFrame("Power",new PowerPanel(myBiosim));
+			addInternalFrame("Power",new PowerPanel(myDriver));
 	}
 
 	/**
@@ -484,7 +487,7 @@ public class SimDesktop extends BioFrame
 	*/
 	private void displayWater(){
 		if (!tryExisitingInternalFrame("Water"))
-			addInternalFrame("Water",new WaterPanel(myBiosim));
+			addInternalFrame("Water",new WaterPanel(myDriver));
 	}
 
 	/**
@@ -613,8 +616,8 @@ public class SimDesktop extends BioFrame
 		}
 		public void actionPerformed(ActionEvent ae){
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			myBiosim.setLogging(!myBiosim.isLogging());
-			if (myBiosim.isLogging()){
+			myDriver.setLogging(!myDriver.isLogging());
+			if (myDriver.isLogging()){
 				myLoggingItem.setText("Disable Logging");
 			}
 			else{
