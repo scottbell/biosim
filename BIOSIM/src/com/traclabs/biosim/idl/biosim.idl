@@ -660,7 +660,7 @@ module biosim{
                                         Activity getActivityByName(in string name);
                                         Activity getScheduledActivityByOrder(in long order);
                                 };
-                                interface CrewGroup : framework::SimBioModule, framework::AirConsumer, framework::PotableWaterConsumer, framework::FoodConsumer, framework::AirProducer, framework::GreyWaterProducer, framework::DirtyWaterProducer{
+                                interface CrewGroup : framework::SimBioModule, framework::AirConsumer, framework::PotableWaterConsumer, framework::FoodConsumer, framework::AirProducer, framework::GreyWaterProducer, framework::DirtyWaterProducer, framework::DryWasteProducer{
                                         CrewPerson getCrewPerson(in string name);
                                         CrewPerson createCrewPerson(in string name, in float age, in float weight, in Sex pSex);
                                         CrewPersonList getCrewPeople();

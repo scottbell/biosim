@@ -31,6 +31,7 @@
 				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="DirtyWaterStore"/>
 				<greyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="GreyWaterStore"/>
 				<airProducer maxFlowRates="0" desiredFlowRates="0" outputs="CrewEnvironment"/>
+				<dryWasteProducer maxFlowRates="100" desiredFlowRates="100" outputs="DryWasteStore"/>
 				<crewPerson name="Bob Roberts" age="43" weight="77" sex="MALE">
 					<schedule>
 						<activity name="sleep" length="8" intensity="1"/>
