@@ -73,7 +73,7 @@ public class CrewTextPanel extends BioTabPanel
 			setLayout(new GridLayout(myCrewPeople.length / 2, myCrewPeople.length / 2));
 			for (int i = 0; i < myCrewPeople.length; i++){
 				JPanel newPersonPanel = new JPanel();
-				newPersonPanel.setLayout(new GridLayout(13,1));
+				newPersonPanel.setLayout(new GridLayout(14,1));
 				newPersonPanel.setBorder(BorderFactory.createTitledBorder(myCrewPeople[i].getName()));
 				CrewPersonGUI newPersonGUI = new CrewPersonGUI();
 				newPersonGUI.name = myCrewPeople[i].getName();
@@ -90,6 +90,8 @@ public class CrewTextPanel extends BioTabPanel
 				newPersonPanel.add(newPersonGUI.sexLabel);
 				newPersonGUI.statusLabel = new JLabel("status: "+coallateStatus(myCrewPeople[i]));
 				newPersonPanel.add(newPersonGUI.statusLabel);
+				newPersonGUI.dirtyWaterProducedLabel = new JLabel("dirty water produced: "+numFormat.format(myCrewPeople[i].getDirtyWaterProduced())+" L");
+				newPersonPanel.add(newPersonGUI.dirtyWaterProducedLabel);
 				newPersonGUI.greyWaterProducedLabel = new JLabel("grey water produced: "+numFormat.format(myCrewPeople[i].getGreyWaterProduced())+" L");
 				newPersonPanel.add(newPersonGUI.greyWaterProducedLabel);
 				newPersonGUI.potableWaterConsumedLabel = new JLabel("potable water consumed: "+numFormat.format(myCrewPeople[i].getPotableWaterConsumed())+" L");
@@ -159,6 +161,7 @@ public class CrewTextPanel extends BioTabPanel
 			newPersonGUI.activityTotalDurationLabel.setText("	total duration: "+crewPerson.getCurrentActivity().getTimeLength()+" h");
 			newPersonGUI.activityIntensityLabel.setText("	intensity: "+crewPerson.getCurrentActivity().getActivityIntensity());
 			newPersonGUI.statusLabel.setText("status: "+coallateStatus(crewPerson));
+			newPersonGUI.dirtyWaterProducedLabel.setText("dirty water produced: "+numFormat.format(crewPerson.getDirtyWaterProduced())+" L");
 			newPersonGUI.greyWaterProducedLabel.setText("grey water produced: "+numFormat.format(crewPerson.getGreyWaterProduced())+" L");
 			newPersonGUI.potableWaterConsumedLabel.setText("potable water consumed: "+numFormat.format(crewPerson.getPotableWaterConsumed())+" L");
 			newPersonGUI.foodConsumedLabel.setText("food consumed: "+numFormat.format(crewPerson.getFoodConsumed())+" kg");
