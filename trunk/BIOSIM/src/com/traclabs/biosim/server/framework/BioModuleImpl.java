@@ -65,19 +65,19 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	 * Override this to get custom malfunction names.
 	 */
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
-		String returnName = new String();
+		StringBuffer returnBuffer = new StringBuffer();
 		if (pLength == MalfunctionLength.TEMPORARY_MALF)
-			returnName += "Temporary ";
+			returnBuffer.append("Temporary ");
 		else if (pLength == MalfunctionLength.PERMANENT_MALF)
-			returnName += "Permanent ";
+			returnBuffer.append("Permanent ");
 		if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
-			returnName += "Severe ";
+			returnBuffer.append("Severe ");
 		else if (pIntensity == MalfunctionIntensity.MEDIUM_MALF)
-			returnName += "Medium ";
+			returnBuffer.append("Medium ");
 		else if (pIntensity == MalfunctionIntensity.LOW_MALF)
-			returnName += "Low ";
-		returnName += "Malfunction";
-		return returnName;
+			returnBuffer.append("Low ");
+		returnBuffer.append("Malfunction");
+		return returnBuffer.toString();
 	}
 
 	public Malfunction startMalfunction(MalfunctionIntensity pIntensity, MalfunctionLength pLength){

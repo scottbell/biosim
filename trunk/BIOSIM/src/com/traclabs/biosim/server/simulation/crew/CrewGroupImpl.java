@@ -131,18 +131,18 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 	}
 	
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
-		String returnName = new String();
+		StringBuffer returnBuffer = new StringBuffer();
 		if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
-			returnName += "Severe ";
+			returnBuffer.append("Severe ");
 		else if (pIntensity == MalfunctionIntensity.MEDIUM_MALF)
-			returnName += "Medium ";
+			returnBuffer.append("Medium ");
 		else if (pIntensity == MalfunctionIntensity.LOW_MALF)
-			returnName += "Low ";
+			returnBuffer.append("Low ");
 		if (pLength == MalfunctionLength.TEMPORARY_MALF)
-			returnName += "Sickness (Temporary)";
+			returnBuffer.append("Sickness (Temporary)");
 		else if (pLength == MalfunctionLength.PERMANENT_MALF)
-			returnName += "Sickness (Permanent)";
-		return returnName;
+			returnBuffer.append("Sickness (Permanent)");
+		return returnBuffer.toString();
 	}
 
 	/**

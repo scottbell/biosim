@@ -267,18 +267,18 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	}
 	
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
-		String returnName = new String();
+		StringBuffer returnBuffer = new StringBuffer();
 		if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
-			returnName += "AES and RO ";
+			returnBuffer.append("AES and RO ");
 		else if (pIntensity == MalfunctionIntensity.MEDIUM_MALF)
-			returnName += "RO ";
+			returnBuffer.append("RO ");
 		else if (pIntensity == MalfunctionIntensity.LOW_MALF)
-			returnName += "AES ";
+			returnBuffer.append("AES ");
 		if (pLength == MalfunctionLength.TEMPORARY_MALF)
-			returnName += "malfunctioning (repairable)";
+			returnBuffer.append("malfunctioning (repairable)");
 		else if (pLength == MalfunctionLength.PERMANENT_MALF)
-			returnName += "destroyed";
-		return returnName;
+			returnBuffer.append("destroyed");
+		return returnBuffer.toString();
 	}
 
 	/**
