@@ -125,7 +125,7 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
 					capacity *= 0.5;
 				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
-					capacity *= .2f;
+					capacity *= .25f;
 				level = percentage * capacity;
 			}
 		}
