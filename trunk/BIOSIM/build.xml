@@ -14,16 +14,19 @@
 	<property name="nsDir" location="${tmpDir}/ns"/>
 	<property name="resourceDir" location="resources"/>
 	<property name="stubsDir" location="stubs"/>
+	<!-- set server properties for this build -->
+	<property name="log4jDir" location="${lib}/log4j"/>
 	<!-- set client properties for this build -->
 	<property name="plotDir" location="${lib}/jfreechart"/>
-	<!-- set distro properties for this build -->
-	<property name="distroDir" location="distro"/>
-	<!-- set ga distro properties for this build --> 
-	<property name="gaDistroDir" location="${distroDir}/ga"/>
-	<!-- set win distro properties for this build --> 
-	<property name="winDistroDir" location="${distroDir}/win"/>
-	<property name="winDistroLibDir" location="${lib}/distro/win"/>
-	<property name="winDistroTmpDir" location="${tmpDir}/win"/>
+	<!-- set dist properties for this build -->
+	<property name="distDir" location="dist"/>
+	<!-- set ga dist properties for this build --> 
+	<property name="gaDistDir" location="${distDir}/ga"/>
+	<property name="gaDistTmpDir" location="${tmpDir}/ga"/>
+	<!-- set win dist properties for this build --> 
+	<property name="winDistDir" location="${distDir}/win"/>
+	<property name="winDistLibDir" location="${lib}/dist/win"/>
+	<property name="winDistTmpDir" location="${tmpDir}/win"/>
 	<!-- set javadoc properties for this build --> 
 	<property name="javadocDir" location="${doc}/javadoc"/>
 	<!-- set users manual properties for this build --> 
@@ -35,8 +38,8 @@
 		<mkdir dir="${buildDir}"/>
 	</target>
 	
-	<target name="init-distro">
-		<mkdir dir="${distroDir}"/>
+	<target name="init-dist">
+		<mkdir dir="${distDir}"/>
 	</target>
 	
 	<target name="init-tmp">
@@ -76,6 +79,7 @@
 			<classpath>
 				<pathelement location="${src}"/>
 				<pathelement location="${buildDir}"/>
+				<pathelement location="${log4jDir}/log4j.jar"/>
 				<pathelement location="${jacorbDir}/jacorb.jar"/>
 				<pathelement location="${xercesDir}/xercesImpl.jar"/>
 				<pathelement location="${xercesDir}/xml-apis.jar"/>
@@ -100,11 +104,12 @@
 		</javac>
 	</target>
 	
-	<target name="build-win-distro" depends="build-server,build-client, init-distro, init-tmp" description="creates windows distro">
-		<mkdir dir="${winDistroDir}"/>
-		<mkdir dir="${winDistroTmpDir}"/>
+	<target name="build-win-dist" depends="build-server,build-client, init-dist, init-tmp" description="creates windows dist">
+		<mkdir dir="${winDistDir}"/>
+		<mkdir dir="${winDistTmpDir}"/>
 		<echo message="Unpacking libraries"/>
-		<unzip dest="${winDistroTmpDir}">
+		<unzip dest="${winDistTmpDir}">
+			<fileset file="${jacorbDir}/log4j.jar"/>
 			<fileset file="${jacorbDir}/jacorb.jar"/>
 			<fileset file="${jacorbDir}/logkit.jar"/>
 			<fileset file="${jacorbDir}/avalon-framework.jar"/>
@@ -114,25 +119,25 @@
 			<fileset file="${plotDir}/jcommon.jar"/>
 			<fileset file="${plotDir}/jfreechart.jar"/>
 		</unzip>
-		<echo message="Copying necessary windows distro utilities"/>
-		<copy todir="${winDistroDir}">
-			<fileset dir="${winDistroLibDir}">
+		<echo message="Copying necessary windows dist utilities"/>
+		<copy todir="${winDistDir}">
+			<fileset dir="${winDistLibDir}">
 				<exclude name="CVS"/>
 				<exclude name="BiosimStandalone.java"/>
 			</fileset>
 		</copy>
-		<copy file="${winDistroLibDir}/BiosimStandalone.java" todir="${winDistroTmpDir}"/>
-		<javac srcdir="${winDistroTmpDir}">
+		<copy file="${winDistLibDir}/BiosimStandalone.java" todir="${winDistTmpDir}"/>
+		<javac srcdir="${winDistTmpDir}">
 			<classpath>
 				<pathelement location="${buildDir}"/>
 				<pathelement location="${jacorbDir}/jacorb.jar"/>
 			</classpath>
 		</javac>
 		<echo message="Create biosim jar"/>
-		<jar destfile="${winDistroDir}/biosim.jar">
+		<jar destfile="${winDistDir}/biosim.jar">
 			<fileset dir="${buildDir}"/>
 			<fileset dir="${resourceDir}"/>
-			<fileset dir="${winDistroTmpDir}" excludesFile="${winDistroTmpDir}/BiosimStandalone.java">
+			<fileset dir="${winDistTmpDir}" excludesFile="${winDistTmpDir}/BiosimStandalone.java">
 				<exclude name="META-INF"/>
 				<exclude name="license-INF"/>
 			</fileset>
@@ -140,12 +145,21 @@
 		</jar>
 	</target>
 	
-	<target name="build-ga-distro" depends="build-server,init-distro" description="creates ga distro">
-		<mkdir dir="${gaDistroDir}"/>
+	<target name="build-ga-dist" depends="build-server,init-dist" description="creates ga dist">
+		<mkdir dir="${gaDistDir}"/>
+		<mkdir dir="${gaDistTmpDir}"/>
+		<echo message="Unpacking libraries"/>
+		<unzip dest="${gaDistTmpDir}">
+			<fileset file="${log4jDir}/log4j.jar"/>
+		</unzip>
 		<echo message="Creating biosim jar for genetic algorithm engine"/>
-		<jar destfile="${gaDistroDir}/biosim.jar">
+		<jar destfile="${gaDistDir}/biosim.jar">
 			<fileset dir="${buildDir}" includes="biosim/server/**, biosim/idl/**"/>
 			<fileset dir="${resourceDir}" includes="biosim/server/**, biosim/idl/**"/>
+			<fileset dir="${gaDistTmpDir}">
+				<exclude name="META-INF"/>
+				<exclude name="license-INF"/>
+			</fileset>
 		</jar>
 	</target>
 	
@@ -168,6 +182,7 @@
 			<classpath>
 				<pathelement location="${buildDir}"/>
 				<pathelement location="${resourceDir}"/>
+				<pathelement location="${jacorbDir}/log4j.jar"/>
 				<pathelement location="${jacorbDir}/jacorb.jar"/>
 				<pathelement location="${jacorbDir}/logkit.jar"/>
 				<pathelement location="${jacorbDir}/avalon-framework.jar"/>
@@ -258,6 +273,7 @@
 			<classpath>
 				<pathelement location="${buildDir}"/>
 				<pathelement location="${resourceDir}"/>
+				<pathelement location="${jacorbDir}/log4j.jar"/>
 				<pathelement location="${jacorbDir}/jacorb.jar"/>
 				<pathelement location="${jacorbDir}/logkit.jar"/>
 				<pathelement location="${jacorbDir}/avalon-framework.jar"/>
@@ -290,7 +306,7 @@
 		</java>
 	</target>
   
-  	<target name="all" depends="docs, build-manual, build-ga-distro, build-win-distro" description="compile biosim, create docs">
+  	<target name="all" depends="docs, build-manual, build-ga-dist, build-win-dist" description="compile biosim, create docs">
 	</target>
 	
 	<target name="build" depends="build-server,build-client" description="builds biosim">
@@ -307,7 +323,7 @@
 			<fileset dir="${jacorbDir}" includes="*.class"/>
 		</delete>
 		<delete dir="${buildDir}"/>
-		<delete dir="${distroDir}"/>
+		<delete dir="${distDir}"/>
 		<delete dir="${tmpDir}"/>
 		<delete dir="${stubsDir}"/>
 	</target>
