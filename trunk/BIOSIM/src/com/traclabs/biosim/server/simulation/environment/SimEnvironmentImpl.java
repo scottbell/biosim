@@ -315,6 +315,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 				O2percentage = O2Level / capacity;
 				CO2percentage = CO2Level / capacity;
 				otherPercentage = otherLevel / capacity;
+				System.out.println("O2percentage: "+O2percentage);
 				if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
 					capacity = 0f;
 				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)

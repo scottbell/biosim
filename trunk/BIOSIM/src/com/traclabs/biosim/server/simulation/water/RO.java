@@ -91,11 +91,9 @@ public class RO extends WaterRSSubSystem{
 	}
 
 	public void reset(){
+		super.reset();
 		currentPowerConsumed = 0;
 		currentAESWaterProduced = 0f;
 		currentPPSWaterProduced = 0f;
-		hasEnoughPower = false;
-		hasEnoughWater = false;
-		waterLevel = 0;
 	}
 }

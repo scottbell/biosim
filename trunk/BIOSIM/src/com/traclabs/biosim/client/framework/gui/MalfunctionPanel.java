@@ -42,7 +42,7 @@ public class MalfunctionPanel extends TimedPanel
 			if ((lastMalfunctionIndex != -1) && (lastMalfunctionIndex < currentMalfunctionList.getModel().getSize()))
 				currentMalfunctionList.setSelectedIndex(lastMalfunctionIndex);
 		}
-		repaint();
+		currentMalfunctionList.updateUI();
 	}
 
 	protected void buildGui(){

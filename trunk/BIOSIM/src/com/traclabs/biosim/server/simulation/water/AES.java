@@ -74,10 +74,8 @@ public class AES extends WaterRSSubSystem{
 	}
 
 	public void reset(){
+		super.reset();
 		currentPowerConsumed = 0f;
 		currentPPSWaterProduced = 0f;
-		hasEnoughPower = false;
-		hasEnoughWater = false;
-		waterLevel = 0;
 	}
 }

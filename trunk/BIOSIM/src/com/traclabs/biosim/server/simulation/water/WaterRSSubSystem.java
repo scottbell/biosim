@@ -43,7 +43,13 @@ public abstract class WaterRSSubSystem{
 	/**
 	* Resets power consumption and water levels.
 	*/
-	public abstract void reset();
+	public void reset(){
+		hasEnoughPower = false;
+		hasEnoughWater = false;
+		waterLevel = 0;
+		malfunctioning = false;
+		enabled = true;
+	}
 	
 	public float getPowerConsumed(){
 		return currentPowerConsumed;

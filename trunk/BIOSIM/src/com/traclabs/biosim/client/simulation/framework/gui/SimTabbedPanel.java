@@ -11,7 +11,7 @@ import java.awt.event.*;
  * @author    Scott Bell
  */
 
-public abstract class BioTabbedPanel extends JPanel
+public abstract class BioTabbedPanel extends UpdatablePanel
 {
 	private JTabbedPane myTabbedPane;
 	protected UpdatablePanel myTextPanel;
@@ -65,6 +65,9 @@ public abstract class BioTabbedPanel extends JPanel
 			myTextPanel.visibilityChange(false);
 		myChartPanel.visibilityChange(false);
 		mySchematicPanel.visibilityChange(false);
+	}
+	
+	public void refresh(){
 	}
 
 	public Dimension getPreferredSize(){
