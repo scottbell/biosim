@@ -25,6 +25,9 @@ public class SimulationEngine
 	private TransformGroup objRotate;
 	private Transform3D rotate;
 	private View view;
+	private Transform3D mTransform = new Transform3D();
+	private Transform3D mRotation  = new Transform3D();
+
 
 	public SimulationEngine(int pID){
 		myID = pID;
@@ -67,9 +70,20 @@ public class SimulationEngine
 
 		// create a framerate counter
 		TickCounter counter = new TickCounter(canvas);
-
+		//initialize cube rotation
 		rotY = 0.0f;
+	}
 
+	private void moveCamera(Point3f position, Tuple3f angle){
+		//mTransform.set(position);
+		mRotation.rotY((float) Math.toRadians(angle.y));
+		mTransform.mul(mRotation);
+		mRotation.rotX((float) Math.toRadians(angle.x));
+		mTransform.mul(mRotation);
+		mRotation.rotZ((float) Math.toRadians(angle.z));
+		mTransform.mul(mRotation);
+
+		view.setTransform(mTransform);
 	}
 
 	public void runEngine(){
@@ -85,8 +99,7 @@ public class SimulationEngine
 		}
 	}
 
-	private class TickCounter
-	{
+	private class TickCounter{
 		// Swing components
 		private JTextField textField;
 		private JPanel panel;
@@ -120,11 +133,11 @@ public class SimulationEngine
 				JButton exitButton = new JButton();
 				exitButton.setText("Exit");
 				exitButton.addActionListener(
-					new ActionListener(){
-						public void actionPerformed(ActionEvent e){
-							System.exit(0);
-						}
-					}
+				        new ActionListener(){
+					        public void actionPerformed(ActionEvent e){
+						        System.exit(0);
+					        }
+				        }
 				);
 				panel.add(exitButton);
 				// specify the root component of the UI window
