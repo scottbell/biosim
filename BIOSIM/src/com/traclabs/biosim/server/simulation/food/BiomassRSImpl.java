@@ -5,6 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import com.traclabs.biosim.idl.framework.Malfunction;
+import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
+import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.simulation.food.BiomassRSOperations;
 import com.traclabs.biosim.idl.simulation.food.PlantType;
 import com.traclabs.biosim.idl.simulation.food.Shelf;
@@ -49,10 +52,6 @@ public class BiomassRSImpl extends SimBioModuleImpl implements
         GreyWaterConsumerOperations, BiomassProducerOperations,
         DirtyWaterProducerOperations {
     private List myShelves;
-
-    private int shelfCapacity = 100;
-
-    private List shelfLogs;
 
     private boolean autoHarvestAndReplant = true;
     
@@ -117,6 +116,32 @@ public class BiomassRSImpl extends SimBioModuleImpl implements
                     .poaToCorbaObj(currentShelf));
         }
         return theShelfArray;
+    }
+    
+    protected void performMalfunctions() {
+        float productionRate = 1f;
+        for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext();) {
+            Malfunction currentMalfunction = (Malfunction) (iter.next());
+            if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF) {
+                if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
+                    productionRate *= 0.50;
+                else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
+                    productionRate *= 0.25;
+                else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
+                    productionRate *= 0.10;
+            } else if (currentMalfunction.getLength() == MalfunctionLength.PERMANENT_MALF) {
+                if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
+                    productionRate *= 0.50;
+                else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
+                    productionRate *= 0.25;
+                else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
+                    productionRate *= 0.10;
+            }
+        }
+        for (Iterator iter = myShelves.iterator(); iter.hasNext();) {
+            ShelfImpl currentShelf = (ShelfImpl) (iter.next());
+            currentShelf.getPlantImpl().setProductionRate(productionRate);
+        }
     }
 
     public void clearShelves() {
