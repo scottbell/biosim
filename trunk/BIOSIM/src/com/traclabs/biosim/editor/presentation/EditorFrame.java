@@ -131,10 +131,10 @@ public class EditorFrame extends BioFrame {
 
     public EditorFrame(String title, BiosimEditor pEditor) {
         super(title);
-        myEditor = pEditor; 
-        Globals.curEditor(myEditor);       
+        myEditor = pEditor;  
         loadResources();
         buildGui();
+        Globals.curEditor(myEditor);      
 
         // make the delete key remove elements from the underlying GraphModel
         //_graph.bindKey(new CmdDeleteFromModel(), KeyEvent.VK_DELETE, 0);
