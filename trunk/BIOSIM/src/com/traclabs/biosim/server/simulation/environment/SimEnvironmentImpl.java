@@ -355,6 +355,10 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	public float getTotalPressure(){
 		return CO2Pressure + O2Pressure + waterPressure + otherPressure + nitrogenPressure;
 	}
+	
+	public float getVolume(){
+		return volume;
+	}
 
 	/**
 	* Sets every gas level (O2, CO2, other) to one value
