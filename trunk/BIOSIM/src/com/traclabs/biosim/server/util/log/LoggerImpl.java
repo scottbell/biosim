@@ -153,6 +153,7 @@ public class LoggerImpl extends LoggerPOA  {
 		//One Tick has passed
 		if ((currentTick != myDriver.getTicks()) && (currentTickLogNode != null)){
 			for (Iterator iter = myLogHandlers.iterator(); iter.hasNext();){
+				System.out.println("Processing Log");
 				LogHandler currentLogHandler = (LogHandler)(iter.next());
 				currentLogHandler.writeLog(LogNodeHelper.narrow(OrbUtils.poaToCorbaObj(currentTickLogNode)));
 			}
