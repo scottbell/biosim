@@ -527,7 +527,7 @@ public abstract class PlantImpl extends PlantPOA{
 		                  canopyQYConstants[22] * thePPFcubed  * theCO2 +
 		                  canopyQYConstants[23] * thePPFcubed  * theCO2squared +
 		                  canopyQYConstants[24] * thePPFcubed  * theCO2cubed;
-		if ((theCQYMax < 0) || (Float.isNaN(theCQYMax)){
+		if ((theCQYMax < 0) || (Float.isNaN(theCQYMax))){
 			theCQYMax = 0;
 			//System.out.println("PlantImpl: CQYMax is negative or NaN!");
 		}
