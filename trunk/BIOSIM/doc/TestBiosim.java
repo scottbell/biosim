@@ -1,9 +1,8 @@
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
-import com.traclabs.biosim.client.util.OrbUtils;
-import com.traclabs.biosim.idl.framework.BioDriver;
-import com.traclabs.biosim.idl.framework.BioDriverHelper;
+import com.traclabs.biosim.client.util.*;
+import com.traclabs.biosim.idl.framework.*;
 import com.traclabs.biosim.client.framework.*;
 
 /*
@@ -39,6 +38,8 @@ public class TestBiosim{
 			System.out.println("TestBiosim begin");
 			//Let's get the BioDriver
 			System.out.println("Getting BioDriver");
+			//BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
+			//BioDriver myBioDriver = myBioHolder.theBioDriver;
 			BioDriver myBioDriver = BioDriverHelper.narrow(OrbUtils.getNamingContext(0).resolve_str("BioDriver"));
 			//Now let's call a method on BioDriver
 			System.out.println("Invoking method on BioDriver");
