@@ -45,7 +45,6 @@ module biosim{
                                 void addLogHandlerType(in LogHandlerType pLogType);
                                 void setProcessingLogs(in boolean pAllowLogging);
                                 boolean isProcessingLogs();
-				void endLog();
                         };
                         typedef sequence <LogNode> LogNodeList;
                         interface LogNode{

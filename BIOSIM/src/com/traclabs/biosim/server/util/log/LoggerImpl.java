@@ -22,9 +22,8 @@ public class LoggerImpl extends LoggerPOA  {
 		rootLogNode = new LogNodeImpl("");
 		myLogHandlers = new Vector();
 		logTypes = new Vector();
-		addLogHandlerType(LogHandlerType.SCREEN);
+		//addLogHandlerType(LogHandlerType.SCREEN);
 		addLogHandlerType(LogHandlerType.XML);
-		addLogHandlerType(LogHandlerType.SCREEN);
 	}
 	
 	public LogHandlerType[] getLogHandlerTypes(){
@@ -53,9 +52,11 @@ public class LoggerImpl extends LoggerPOA  {
 	*/
 	public void setProcessingLogs(boolean pAllowLogging){
 		processingLogs = pAllowLogging;
+		if (!processingLogs)
+			endLog();
 	}
 	
-	public void endLog(){
+	private void endLog(){
 		for (Enumeration e = myLogHandlers.elements(); e.hasMoreElements();){
 				LogHandler currentLogHandler = (LogHandler)(e.nextElement());
 				currentLogHandler.endLog();

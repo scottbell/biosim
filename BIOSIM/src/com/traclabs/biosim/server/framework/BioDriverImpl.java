@@ -214,7 +214,6 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		notify();
 		simulationStarted = false;
 		System.out.println("BioDriverImpl: simulation ended");
-		myLogger.endLog();
 	}
 
 	/**
