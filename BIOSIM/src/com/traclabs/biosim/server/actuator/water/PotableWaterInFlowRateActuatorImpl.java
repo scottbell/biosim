@@ -1,9 +1,9 @@
-package biosim.server.actuator.water;
+package com.traclabs.biosim.server.actuator.water;
 
-import biosim.idl.actuator.water.PotableWaterInFlowRateActuatorOperations;
-import biosim.idl.framework.BioModule;
-import biosim.idl.framework.PotableWaterConsumer;
-import biosim.server.actuator.framework.GenericActuatorImpl;
+import com.traclabs.biosim.idl.actuator.water.PotableWaterInFlowRateActuatorOperations;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.framework.PotableWaterConsumer;
+import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
 
 public class PotableWaterInFlowRateActuatorImpl extends GenericActuatorImpl implements PotableWaterInFlowRateActuatorOperations{
 	private PotableWaterConsumer myConsumer;

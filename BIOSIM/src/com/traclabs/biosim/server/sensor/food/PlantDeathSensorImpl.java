@@ -1,6 +1,6 @@
-package biosim.server.sensor.food;
+package com.traclabs.biosim.server.sensor.food;
 
-import biosim.idl.sensor.food.PlantDeathSensorOperations;
+import com.traclabs.biosim.idl.sensor.food.PlantDeathSensorOperations;
 
 public class PlantDeathSensorImpl extends ShelfSensorImpl implements PlantDeathSensorOperations{
 	public PlantDeathSensorImpl(int pID, String pName){

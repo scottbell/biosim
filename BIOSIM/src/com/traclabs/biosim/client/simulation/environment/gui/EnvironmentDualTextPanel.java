@@ -1,11 +1,11 @@
-package biosim.client.simulation.environment.gui;
+package com.traclabs.biosim.client.simulation.environment.gui;
 
 import java.awt.GridLayout;
 
-import biosim.client.framework.gui.UpdatablePanel;
-import biosim.client.util.BioHolder;
-import biosim.client.util.BioHolderInitializer;
-import biosim.idl.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.client.framework.gui.UpdatablePanel;
+import com.traclabs.biosim.client.util.BioHolder;
+import com.traclabs.biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 /** 
  * 
  * @author    Scott Bell

@@ -1,4 +1,4 @@
-package biosim.client.framework.gui.spreadsheet;
+package com.traclabs.biosim.client.framework.gui.spreadsheet;
 
 import java.awt.Color;
 import java.util.Vector;

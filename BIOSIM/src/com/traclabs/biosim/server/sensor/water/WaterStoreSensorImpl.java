@@ -1,9 +1,9 @@
-package biosim.server.sensor.water;
+package com.traclabs.biosim.server.sensor.water;
 
-import biosim.idl.framework.BioModule;
-import biosim.idl.sensor.water.WaterStoreSensorOperations;
-import biosim.idl.simulation.water.WaterStore;
-import biosim.server.sensor.framework.GenericSensorImpl;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.sensor.water.WaterStoreSensorOperations;
+import com.traclabs.biosim.idl.simulation.water.WaterStore;
+import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
 public abstract class WaterStoreSensorImpl extends GenericSensorImpl implements WaterStoreSensorOperations{
 	protected WaterStore myWaterStore;

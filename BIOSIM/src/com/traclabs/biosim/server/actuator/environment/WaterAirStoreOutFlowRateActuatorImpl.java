@@ -1,9 +1,9 @@
-package biosim.server.actuator.environment;
+package com.traclabs.biosim.server.actuator.environment;
 
-import biosim.idl.actuator.environment.WaterAirStoreOutFlowRateActuatorOperations;
-import biosim.idl.framework.BioModule;
-import biosim.idl.framework.WaterAirProducer;
-import biosim.server.actuator.framework.GenericActuatorImpl;
+import com.traclabs.biosim.idl.actuator.environment.WaterAirStoreOutFlowRateActuatorOperations;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.framework.WaterAirProducer;
+import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
 
 public class WaterAirStoreOutFlowRateActuatorImpl extends GenericActuatorImpl implements WaterAirStoreOutFlowRateActuatorOperations{
 	private WaterAirProducer myProducer;

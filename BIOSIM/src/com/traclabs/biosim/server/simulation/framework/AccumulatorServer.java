@@ -1,7 +1,7 @@
-package biosim.server.simulation.framework;
+package com.traclabs.biosim.server.simulation.framework;
 
-import biosim.idl.simulation.framework.AccumulatorPOATie;
-import biosim.server.framework.GenericServer;
+import com.traclabs.biosim.idl.simulation.framework.AccumulatorPOATie;
+import com.traclabs.biosim.server.framework.GenericServer;
 /**
  * The Accumulator Server.  Creates an instance of the Sim Environment and registers it with the nameserver.
  *

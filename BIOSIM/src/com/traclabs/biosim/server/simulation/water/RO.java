@@ -1,6 +1,6 @@
-package biosim.server.simulation.water;
+package com.traclabs.biosim.server.simulation.water;
 
-import biosim.server.simulation.framework.SimBioModuleImpl;
+import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 
 /**
  * The RO is the second stage of water purification.  It takes water from the BWP, filters it some, and

@@ -1,6 +1,6 @@
-package biosim.client.simulation.environment.gui;
+package com.traclabs.biosim.client.simulation.environment.gui;
 
-import biosim.client.framework.gui.TimedPanel;
+import com.traclabs.biosim.client.framework.gui.TimedPanel;
 
 /**
  * This is the JPanel that displays a schematic

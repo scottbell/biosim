@@ -4,7 +4,7 @@
  *
  * @author    Scott Bell
  */
-package biosim.client.simulation.framework.gui;
+package com.traclabs.biosim.client.simulation.framework.gui;
 
 import java.awt.BorderLayout;
 import java.util.Iterator;
@@ -14,7 +14,7 @@ import javax.swing.WindowConstants;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 
-import biosim.client.framework.gui.UpdatablePanel;
+import com.traclabs.biosim.client.framework.gui.UpdatablePanel;
 
 public class SimDesktopFrame extends javax.swing.JInternalFrame
 {

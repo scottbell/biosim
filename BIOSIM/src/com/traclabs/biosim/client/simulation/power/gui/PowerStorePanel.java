@@ -1,4 +1,4 @@
-package biosim.client.simulation.power.gui;
+package com.traclabs.biosim.client.simulation.power.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,9 +13,9 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.CategoryItemRenderer;
 import org.jfree.data.DefaultCategoryDataset;
 
-import biosim.client.framework.gui.GraphPanel;
-import biosim.client.util.BioHolderInitializer;
-import biosim.idl.simulation.power.PowerStore;
+import com.traclabs.biosim.client.framework.gui.GraphPanel;
+import com.traclabs.biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.idl.simulation.power.PowerStore;
 
 /**
  * This is the JPanel that displays a chart about the Power Store

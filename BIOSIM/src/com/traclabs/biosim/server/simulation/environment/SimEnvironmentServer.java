@@ -1,7 +1,7 @@
-package biosim.server.simulation.environment;
+package com.traclabs.biosim.server.simulation.environment;
 
-import biosim.idl.simulation.environment.SimEnvironmentPOATie;
-import biosim.server.framework.GenericServer;
+import com.traclabs.biosim.idl.simulation.environment.SimEnvironmentPOATie;
+import com.traclabs.biosim.server.framework.GenericServer;
 /**
  * The Sim Environment Server.  Creates an instance of the Sim Environment and registers it with the nameserver.
  *

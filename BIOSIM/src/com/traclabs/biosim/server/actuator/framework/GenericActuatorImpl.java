@@ -1,8 +1,8 @@
-package biosim.server.actuator.framework;
+package com.traclabs.biosim.server.actuator.framework;
 
-import biosim.idl.actuator.framework.GenericActuatorOperations;
-import biosim.idl.framework.BioModule;
-import biosim.server.framework.BioModuleImpl;
+import com.traclabs.biosim.idl.actuator.framework.GenericActuatorOperations;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.server.framework.BioModuleImpl;
 
 public abstract class GenericActuatorImpl extends BioModuleImpl implements GenericActuatorOperations{
 	protected float myValue;

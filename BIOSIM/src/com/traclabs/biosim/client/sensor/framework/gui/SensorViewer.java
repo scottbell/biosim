@@ -1,4 +1,4 @@
-package biosim.client.sensor.framework.gui;
+package com.traclabs.biosim.client.sensor.framework.gui;
 
 /**
  * @author    Scott Bell
@@ -7,14 +7,14 @@ package biosim.client.sensor.framework.gui;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.*;
-import biosim.client.framework.gui.*;
-import biosim.client.framework.gui.spreadsheet.*;
-import biosim.client.util.*;
-import biosim.idl.sensor.air.*;
-import biosim.idl.sensor.environment.*;
-import biosim.idl.sensor.food.*;
-import biosim.idl.sensor.power.*;
-import biosim.idl.sensor.water.*;
+import com.traclabs.biosim.client.framework.gui.*;
+import com.traclabs.biosim.client.framework.gui.spreadsheet.*;
+import com.traclabs.biosim.client.util.*;
+import com.traclabs.biosim.idl.sensor.air.*;
+import com.traclabs.biosim.idl.sensor.environment.*;
+import com.traclabs.biosim.idl.sensor.food.*;
+import com.traclabs.biosim.idl.sensor.power.*;
+import com.traclabs.biosim.idl.sensor.water.*;
 import java.text.*;
 */
 

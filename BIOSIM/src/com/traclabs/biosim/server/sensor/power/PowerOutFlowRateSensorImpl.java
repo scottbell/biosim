@@ -1,9 +1,9 @@
-package biosim.server.sensor.power;
+package com.traclabs.biosim.server.sensor.power;
 
-import biosim.idl.framework.BioModule;
-import biosim.idl.framework.PowerProducer;
-import biosim.idl.sensor.power.PowerOutFlowRateSensorOperations;
-import biosim.server.sensor.framework.GenericSensorImpl;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.framework.PowerProducer;
+import com.traclabs.biosim.idl.sensor.power.PowerOutFlowRateSensorOperations;
+import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
 public class PowerOutFlowRateSensorImpl extends GenericSensorImpl implements PowerOutFlowRateSensorOperations{
 	private PowerProducer myProducer;

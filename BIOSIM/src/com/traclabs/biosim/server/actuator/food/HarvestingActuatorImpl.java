@@ -1,6 +1,6 @@
-package biosim.server.actuator.food;
+package com.traclabs.biosim.server.actuator.food;
 
-import biosim.idl.actuator.food.HarvestingActuatorOperations;
+import com.traclabs.biosim.idl.actuator.food.HarvestingActuatorOperations;
 
 public class HarvestingActuatorImpl extends ShelfActuatorImpl implements HarvestingActuatorOperations{
 	public HarvestingActuatorImpl(int pID, String pName){

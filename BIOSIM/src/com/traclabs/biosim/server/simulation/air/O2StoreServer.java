@@ -1,7 +1,7 @@
-package biosim.server.simulation.air;
+package com.traclabs.biosim.server.simulation.air;
 
-import biosim.idl.simulation.air.O2StorePOATie;
-import biosim.server.framework.GenericServer;
+import com.traclabs.biosim.idl.simulation.air.O2StorePOATie;
+import com.traclabs.biosim.server.framework.GenericServer;
 /**
  * The O2 Store Server.  Creates an instance of the O2Store and registers it with the nameserver.
  *

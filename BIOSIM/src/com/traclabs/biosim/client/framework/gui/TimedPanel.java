@@ -1,4 +1,4 @@
-package biosim.client.framework.gui;
+package com.traclabs.biosim.client.framework.gui;
 
 import java.awt.event.ActionEvent;
 

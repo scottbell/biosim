@@ -1,13 +1,13 @@
-package biosim.server.simulation.food;
+package com.traclabs.biosim.server.simulation.food;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import biosim.idl.simulation.food.BioMatter;
-import biosim.idl.simulation.food.BiomassStoreOperations;
-import biosim.idl.simulation.food.PlantType;
-import biosim.server.simulation.framework.StoreImpl;
+import com.traclabs.biosim.idl.simulation.food.BioMatter;
+import com.traclabs.biosim.idl.simulation.food.BiomassStoreOperations;
+import com.traclabs.biosim.idl.simulation.food.PlantType;
+import com.traclabs.biosim.server.simulation.framework.StoreImpl;
 /**
  * The Biomass Store Implementation.  Takes raw plant matter from the Biomass RS to be used by the Food Processor.
  *

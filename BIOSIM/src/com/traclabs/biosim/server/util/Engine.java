@@ -1,4 +1,4 @@
-package biosim.server.util;
+package com.traclabs.biosim.server.util;
 
 public interface Engine{
     public void open();

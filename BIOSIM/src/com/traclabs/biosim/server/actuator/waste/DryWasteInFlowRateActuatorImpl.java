@@ -1,9 +1,9 @@
-package biosim.server.actuator.waste;
+package com.traclabs.biosim.server.actuator.waste;
 
-import biosim.idl.actuator.waste.DryWasteInFlowRateActuatorOperations;
-import biosim.idl.framework.BioModule;
-import biosim.idl.framework.DryWasteConsumer;
-import biosim.server.actuator.framework.GenericActuatorImpl;
+import com.traclabs.biosim.idl.actuator.waste.DryWasteInFlowRateActuatorOperations;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.framework.DryWasteConsumer;
+import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
 
 public class DryWasteInFlowRateActuatorImpl extends GenericActuatorImpl implements DryWasteInFlowRateActuatorOperations{
 	private DryWasteConsumer myConsumer;

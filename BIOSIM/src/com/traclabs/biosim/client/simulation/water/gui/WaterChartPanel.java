@@ -1,8 +1,8 @@
-package biosim.client.simulation.water.gui;
+package com.traclabs.biosim.client.simulation.water.gui;
 
 import java.awt.BorderLayout;
 
-import biosim.client.framework.gui.UpdatablePanel;
+import com.traclabs.biosim.client.framework.gui.UpdatablePanel;
 
 /**
  * This is the JPanel that displays a chart about the Water

@@ -1,8 +1,8 @@
-package biosim.server.actuator.power;
+package com.traclabs.biosim.server.actuator.power;
 
-import biosim.idl.actuator.power.PowerPSActuatorOperations;
-import biosim.idl.simulation.power.PowerPS;
-import biosim.server.actuator.framework.GenericActuatorImpl;
+import com.traclabs.biosim.idl.actuator.power.PowerPSActuatorOperations;
+import com.traclabs.biosim.idl.simulation.power.PowerPS;
+import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
 
 public abstract class PowerPSActuatorImpl extends GenericActuatorImpl implements PowerPSActuatorOperations{
 	protected PowerPS myPowerPS;

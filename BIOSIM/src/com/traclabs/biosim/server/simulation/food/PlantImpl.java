@@ -1,4 +1,4 @@
-package biosim.server.simulation.food;
+package com.traclabs.biosim.server.simulation.food;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
-import biosim.idl.simulation.environment.SimEnvironment;
-import biosim.idl.simulation.food.BioMatter;
-import biosim.idl.simulation.food.PlantPOA;
-import biosim.idl.simulation.food.PlantType;
-import biosim.server.simulation.framework.SimpleBuffer;
+import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.idl.simulation.food.BioMatter;
+import com.traclabs.biosim.idl.simulation.food.PlantPOA;
+import com.traclabs.biosim.idl.simulation.food.PlantType;
+import com.traclabs.biosim.server.simulation.framework.SimpleBuffer;
 /**
  * Plant
  * @author    Scott Bell

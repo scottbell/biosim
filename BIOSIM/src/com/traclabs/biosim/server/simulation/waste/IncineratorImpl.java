@@ -1,21 +1,21 @@
-package biosim.server.simulation.waste;
+package com.traclabs.biosim.server.simulation.waste;
 
 import java.util.Arrays;
 import java.util.Iterator;
 
-import biosim.idl.framework.CO2ProducerOperations;
-import biosim.idl.framework.DryWasteConsumerOperations;
-import biosim.idl.framework.Malfunction;
-import biosim.idl.framework.MalfunctionIntensity;
-import biosim.idl.framework.MalfunctionLength;
-import biosim.idl.framework.O2ConsumerOperations;
-import biosim.idl.framework.PowerConsumerOperations;
-import biosim.idl.simulation.air.CO2Store;
-import biosim.idl.simulation.air.O2Store;
-import biosim.idl.simulation.power.PowerStore;
-import biosim.idl.simulation.waste.DryWasteStore;
-import biosim.idl.simulation.waste.IncineratorOperations;
-import biosim.server.simulation.framework.SimBioModuleImpl;
+import com.traclabs.biosim.idl.framework.CO2ProducerOperations;
+import com.traclabs.biosim.idl.framework.DryWasteConsumerOperations;
+import com.traclabs.biosim.idl.framework.Malfunction;
+import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
+import com.traclabs.biosim.idl.framework.MalfunctionLength;
+import com.traclabs.biosim.idl.framework.O2ConsumerOperations;
+import com.traclabs.biosim.idl.framework.PowerConsumerOperations;
+import com.traclabs.biosim.idl.simulation.air.CO2Store;
+import com.traclabs.biosim.idl.simulation.air.O2Store;
+import com.traclabs.biosim.idl.simulation.power.PowerStore;
+import com.traclabs.biosim.idl.simulation.waste.DryWasteStore;
+import com.traclabs.biosim.idl.simulation.waste.IncineratorOperations;
+import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 /**
  * The Incinerator takes dryWaste (plants matter) and refines it to food for the crew members.
  *

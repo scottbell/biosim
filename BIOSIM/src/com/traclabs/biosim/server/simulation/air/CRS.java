@@ -1,6 +1,6 @@
-package biosim.server.simulation.air;
+package com.traclabs.biosim.server.simulation.air;
 
-import biosim.server.simulation.framework.SimBioModuleImpl;
+import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 /**
  * CRS Subsystem
  *

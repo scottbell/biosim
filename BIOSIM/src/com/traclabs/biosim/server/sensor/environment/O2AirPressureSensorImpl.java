@@ -1,6 +1,6 @@
-package biosim.server.sensor.environment;
+package com.traclabs.biosim.server.sensor.environment;
 
-import biosim.idl.sensor.environment.O2AirPressureSensorOperations;
+import com.traclabs.biosim.idl.sensor.environment.O2AirPressureSensorOperations;
 
 public class O2AirPressureSensorImpl extends EnvironmentSensorImpl implements O2AirPressureSensorOperations{
 	public O2AirPressureSensorImpl(int pID, String pName){

@@ -1,4 +1,4 @@
-package biosim.server.util;
+package com.traclabs.biosim.server.util;
 
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NameComponent;

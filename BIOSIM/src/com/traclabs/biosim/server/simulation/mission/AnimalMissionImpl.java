@@ -1,15 +1,15 @@
-package biosim.server.simulation.mission;
+package com.traclabs.biosim.server.simulation.mission;
 
-import biosim.idl.framework.AirConsumerOperations;
-import biosim.idl.framework.MalfunctionIntensity;
-import biosim.idl.framework.MalfunctionLength;
-import biosim.idl.framework.PotableWaterConsumerOperations;
-import biosim.idl.framework.PowerConsumerOperations;
-import biosim.idl.simulation.air.Breath;
-import biosim.idl.simulation.environment.SimEnvironment;
-import biosim.idl.simulation.mission.AnimalMissionOperations;
-import biosim.idl.simulation.power.PowerStore;
-import biosim.idl.simulation.water.PotableWaterStore;
+import com.traclabs.biosim.idl.framework.AirConsumerOperations;
+import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
+import com.traclabs.biosim.idl.framework.MalfunctionLength;
+import com.traclabs.biosim.idl.framework.PotableWaterConsumerOperations;
+import com.traclabs.biosim.idl.framework.PowerConsumerOperations;
+import com.traclabs.biosim.idl.simulation.air.Breath;
+import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.idl.simulation.mission.AnimalMissionOperations;
+import com.traclabs.biosim.idl.simulation.power.PowerStore;
+import com.traclabs.biosim.idl.simulation.water.PotableWaterStore;
 /**
  * The basic AnimalMission Implementation.
  * @author    Scott Bell

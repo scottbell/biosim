@@ -1,19 +1,19 @@
-package biosim.server.simulation.crew;
+package com.traclabs.biosim.server.simulation.crew;
 
 import java.text.DecimalFormat;
 import java.util.Random;
 
-import biosim.idl.framework.BioModule;
-import biosim.idl.framework.BioModuleHelper;
-import biosim.idl.simulation.crew.Activity;
-import biosim.idl.simulation.crew.CrewPersonPOA;
-import biosim.idl.simulation.crew.RepairActivity;
-import biosim.idl.simulation.crew.Sex;
-import biosim.idl.simulation.environment.SimEnvironment;
-import biosim.idl.simulation.food.FoodMatter;
-import biosim.server.simulation.framework.SimBioModuleImpl;
-import biosim.server.simulation.framework.SimpleBuffer;
-import biosim.server.util.OrbUtils;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.framework.BioModuleHelper;
+import com.traclabs.biosim.idl.simulation.crew.Activity;
+import com.traclabs.biosim.idl.simulation.crew.CrewPersonPOA;
+import com.traclabs.biosim.idl.simulation.crew.RepairActivity;
+import com.traclabs.biosim.idl.simulation.crew.Sex;
+import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.idl.simulation.food.FoodMatter;
+import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
+import com.traclabs.biosim.server.simulation.framework.SimpleBuffer;
+import com.traclabs.biosim.server.util.OrbUtils;
 /**
  * The Crew Person Implementation.  Eats/drinks/excercises away resources according to a set schedule.
  * 

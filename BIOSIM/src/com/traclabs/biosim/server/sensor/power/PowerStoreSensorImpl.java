@@ -1,9 +1,9 @@
-package biosim.server.sensor.power;
+package com.traclabs.biosim.server.sensor.power;
 
-import biosim.idl.framework.BioModule;
-import biosim.idl.sensor.power.PowerStoreSensorOperations;
-import biosim.idl.simulation.power.PowerStore;
-import biosim.server.sensor.framework.GenericSensorImpl;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.sensor.power.PowerStoreSensorOperations;
+import com.traclabs.biosim.idl.simulation.power.PowerStore;
+import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
 public abstract class PowerStoreSensorImpl extends GenericSensorImpl implements PowerStoreSensorOperations{
 	protected PowerStore myPowerStore;

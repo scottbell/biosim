@@ -1,8 +1,8 @@
-package biosim.server.sensor.framework;
+package com.traclabs.biosim.server.sensor.framework;
 
-import biosim.idl.framework.BioModule;
-import biosim.idl.sensor.framework.GenericSensorOperations;
-import biosim.server.framework.BioModuleImpl;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.sensor.framework.GenericSensorOperations;
+import com.traclabs.biosim.server.framework.BioModuleImpl;
 
 public abstract class GenericSensorImpl extends BioModuleImpl implements GenericSensorOperations{
 	protected float myValue;

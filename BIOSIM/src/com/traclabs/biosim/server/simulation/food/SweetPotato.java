@@ -1,6 +1,6 @@
-package biosim.server.simulation.food;
+package com.traclabs.biosim.server.simulation.food;
 
-import biosim.idl.simulation.food.PlantType;
+import com.traclabs.biosim.idl.simulation.food.PlantType;
 /**
  * SweetPotato
  * @author    Scott Bell

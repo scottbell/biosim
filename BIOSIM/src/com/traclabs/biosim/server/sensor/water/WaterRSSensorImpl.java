@@ -1,9 +1,9 @@
-package biosim.server.sensor.water;
+package com.traclabs.biosim.server.sensor.water;
 
-import biosim.idl.framework.BioModule;
-import biosim.idl.sensor.water.WaterRSSensorOperations;
-import biosim.idl.simulation.water.WaterRS;
-import biosim.server.sensor.framework.GenericSensorImpl;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.sensor.water.WaterRSSensorOperations;
+import com.traclabs.biosim.idl.simulation.water.WaterRS;
+import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
 public abstract class WaterRSSensorImpl extends GenericSensorImpl implements WaterRSSensorOperations{
 	protected WaterRS myWaterRS;

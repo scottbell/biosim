@@ -1,4 +1,4 @@
-package biosim.server.framework;
+package com.traclabs.biosim.server.framework;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +9,7 @@ import java.util.Vector;
 
 import org.omg.PortableServer.Servant;
 
-import biosim.server.util.OrbUtils;
+import com.traclabs.biosim.server.util.OrbUtils;
 /**
  * The Generic Server.  Provides basic functionality for BioSim servers
  *

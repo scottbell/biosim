@@ -1,6 +1,6 @@
-package biosim.server.sensor.waste;
+package com.traclabs.biosim.server.sensor.waste;
 
-import biosim.idl.sensor.waste.DryWasteStoreLevelSensorOperations;
+import com.traclabs.biosim.idl.sensor.waste.DryWasteStoreLevelSensorOperations;
 
 public class DryWasteStoreLevelSensorImpl extends DryWasteStoreSensorImpl implements DryWasteStoreLevelSensorOperations{
 	public DryWasteStoreLevelSensorImpl(int pID, String pName){

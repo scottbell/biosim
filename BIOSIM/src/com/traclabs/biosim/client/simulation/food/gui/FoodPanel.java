@@ -1,6 +1,6 @@
-package biosim.client.simulation.food.gui;
+package com.traclabs.biosim.client.simulation.food.gui;
 
-import biosim.client.simulation.framework.gui.SimTabbedPanel;
+import com.traclabs.biosim.client.simulation.framework.gui.SimTabbedPanel;
 /** 
  * This is the JPanel that displays information about the Food
  *

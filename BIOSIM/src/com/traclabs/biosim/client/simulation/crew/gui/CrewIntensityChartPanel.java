@@ -1,4 +1,4 @@
-package biosim.client.simulation.crew.gui;
+package com.traclabs.biosim.client.simulation.crew.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -15,10 +15,10 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.DefaultCategoryDataset;
 
-import biosim.client.framework.gui.GraphPanel;
-import biosim.client.util.BioHolderInitializer;
-import biosim.idl.simulation.crew.CrewGroup;
-import biosim.idl.simulation.crew.CrewPerson;
+import com.traclabs.biosim.client.framework.gui.GraphPanel;
+import com.traclabs.biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
+import com.traclabs.biosim.idl.simulation.crew.CrewPerson;
 
 /**
  * This is the JPanel that displays a chart about the crew and intensity levels

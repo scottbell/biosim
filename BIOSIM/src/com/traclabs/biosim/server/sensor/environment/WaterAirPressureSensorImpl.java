@@ -1,6 +1,6 @@
-package biosim.server.sensor.environment;
+package com.traclabs.biosim.server.sensor.environment;
 
-import biosim.idl.sensor.environment.WaterAirPressureSensorOperations;
+import com.traclabs.biosim.idl.sensor.environment.WaterAirPressureSensorOperations;
 
 public class WaterAirPressureSensorImpl extends EnvironmentSensorImpl implements WaterAirPressureSensorOperations{
 	public WaterAirPressureSensorImpl(int pID, String pName){

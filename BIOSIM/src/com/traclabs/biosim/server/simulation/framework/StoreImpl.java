@@ -1,14 +1,14 @@
-package biosim.server.simulation.framework;
+package com.traclabs.biosim.server.simulation.framework;
 
 import java.util.Iterator;
 
-import biosim.idl.framework.BioDriver;
-import biosim.idl.framework.BioDriverHelper;
-import biosim.idl.framework.Malfunction;
-import biosim.idl.framework.MalfunctionIntensity;
-import biosim.idl.framework.MalfunctionLength;
-import biosim.idl.simulation.framework.StoreOperations;
-import biosim.server.util.OrbUtils;
+import com.traclabs.biosim.idl.framework.BioDriver;
+import com.traclabs.biosim.idl.framework.BioDriverHelper;
+import com.traclabs.biosim.idl.framework.Malfunction;
+import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
+import com.traclabs.biosim.idl.framework.MalfunctionLength;
+import com.traclabs.biosim.idl.simulation.framework.StoreOperations;
+import com.traclabs.biosim.server.util.OrbUtils;
 /**
  * The basic Store Implementation.  Allows for basic store functionality (like adding, removing).<br>
  * Stores report information about their levels, etc. from currentTick-1 until ALL modules have advanced to currentTick.<br>

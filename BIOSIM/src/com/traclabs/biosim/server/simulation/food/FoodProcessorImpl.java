@@ -1,26 +1,26 @@
-package biosim.server.simulation.food;
+package com.traclabs.biosim.server.simulation.food;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import biosim.idl.framework.BiomassConsumerOperations;
-import biosim.idl.framework.DryWasteProducerOperations;
-import biosim.idl.framework.FoodProducerOperations;
-import biosim.idl.framework.Malfunction;
-import biosim.idl.framework.MalfunctionIntensity;
-import biosim.idl.framework.MalfunctionLength;
-import biosim.idl.framework.PowerConsumerOperations;
-import biosim.idl.framework.WaterProducerOperations;
-import biosim.idl.simulation.food.BioMatter;
-import biosim.idl.simulation.food.BiomassStore;
-import biosim.idl.simulation.food.FoodMatter;
-import biosim.idl.simulation.food.FoodProcessorOperations;
-import biosim.idl.simulation.food.FoodStore;
-import biosim.idl.simulation.power.PowerStore;
-import biosim.idl.simulation.waste.DryWasteStore;
-import biosim.idl.simulation.water.WaterStore;
-import biosim.server.simulation.framework.SimBioModuleImpl;
+import com.traclabs.biosim.idl.framework.BiomassConsumerOperations;
+import com.traclabs.biosim.idl.framework.DryWasteProducerOperations;
+import com.traclabs.biosim.idl.framework.FoodProducerOperations;
+import com.traclabs.biosim.idl.framework.Malfunction;
+import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
+import com.traclabs.biosim.idl.framework.MalfunctionLength;
+import com.traclabs.biosim.idl.framework.PowerConsumerOperations;
+import com.traclabs.biosim.idl.framework.WaterProducerOperations;
+import com.traclabs.biosim.idl.simulation.food.BioMatter;
+import com.traclabs.biosim.idl.simulation.food.BiomassStore;
+import com.traclabs.biosim.idl.simulation.food.FoodMatter;
+import com.traclabs.biosim.idl.simulation.food.FoodProcessorOperations;
+import com.traclabs.biosim.idl.simulation.food.FoodStore;
+import com.traclabs.biosim.idl.simulation.power.PowerStore;
+import com.traclabs.biosim.idl.simulation.waste.DryWasteStore;
+import com.traclabs.biosim.idl.simulation.water.WaterStore;
+import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 /**
  * The Food Processor takes biomass (plants matter) and refines it to food for the crew members.
  *

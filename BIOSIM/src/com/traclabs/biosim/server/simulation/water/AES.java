@@ -1,6 +1,6 @@
-package biosim.server.simulation.water;
+package com.traclabs.biosim.server.simulation.water;
 
-import biosim.server.simulation.framework.SimBioModuleImpl;
+import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 
 /**
  * The AES is the third stage of water purification.  It takes water from the RO, filters it some, and

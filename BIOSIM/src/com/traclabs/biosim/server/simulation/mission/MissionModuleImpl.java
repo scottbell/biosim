@@ -1,7 +1,7 @@
-package biosim.server.simulation.mission;
+package com.traclabs.biosim.server.simulation.mission;
 
-import biosim.idl.simulation.mission.MissionModuleOperations;
-import biosim.server.simulation.framework.SimBioModuleImpl;
+import com.traclabs.biosim.idl.simulation.mission.MissionModuleOperations;
+import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 /**
  * The MissionModule Implementation.
  *

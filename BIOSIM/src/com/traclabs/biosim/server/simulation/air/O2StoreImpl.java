@@ -1,7 +1,7 @@
-package biosim.server.simulation.air;
+package com.traclabs.biosim.server.simulation.air;
 
-import biosim.idl.simulation.air.O2StoreOperations;
-import biosim.server.simulation.framework.StoreImpl;
+import com.traclabs.biosim.idl.simulation.air.O2StoreOperations;
+import com.traclabs.biosim.server.simulation.framework.StoreImpl;
 /**
  * The O2 Store Implementation.  Used by the AirRS to store excess O2 for the crew.
  * Not really used right now.

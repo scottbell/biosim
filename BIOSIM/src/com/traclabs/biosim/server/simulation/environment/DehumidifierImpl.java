@@ -1,13 +1,13 @@
-package biosim.server.simulation.environment;
+package com.traclabs.biosim.server.simulation.environment;
 
-import biosim.idl.framework.AirConsumerOperations;
-import biosim.idl.framework.DirtyWaterProducerOperations;
-import biosim.idl.framework.MalfunctionIntensity;
-import biosim.idl.framework.MalfunctionLength;
-import biosim.idl.simulation.environment.DehumidifierOperations;
-import biosim.idl.simulation.environment.SimEnvironment;
-import biosim.idl.simulation.water.DirtyWaterStore;
-import biosim.server.simulation.framework.SimBioModuleImpl;
+import com.traclabs.biosim.idl.framework.AirConsumerOperations;
+import com.traclabs.biosim.idl.framework.DirtyWaterProducerOperations;
+import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
+import com.traclabs.biosim.idl.framework.MalfunctionLength;
+import com.traclabs.biosim.idl.simulation.environment.DehumidifierOperations;
+import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.idl.simulation.water.DirtyWaterStore;
+import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 /**
  * The basic Dehimidifier Implementation.
  * @author    Scott Bell

@@ -1,7 +1,7 @@
-package biosim.server.simulation.food;
+package com.traclabs.biosim.server.simulation.food;
 
-import biosim.idl.simulation.food.FoodProcessorPOATie;
-import biosim.server.framework.GenericServer;
+import com.traclabs.biosim.idl.simulation.food.FoodProcessorPOATie;
+import com.traclabs.biosim.server.framework.GenericServer;
 /**
  * The Food Processor Server.  Creates an instance of the Food Processor and registers it with the nameserver.
  *

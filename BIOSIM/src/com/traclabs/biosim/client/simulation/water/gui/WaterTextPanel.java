@@ -1,4 +1,4 @@
-package biosim.client.simulation.water.gui;
+package com.traclabs.biosim.client.simulation.water.gui;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -9,13 +9,13 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import biosim.client.framework.gui.TimedPanel;
-import biosim.client.util.BioHolder;
-import biosim.client.util.BioHolderInitializer;
-import biosim.idl.simulation.water.DirtyWaterStore;
-import biosim.idl.simulation.water.GreyWaterStore;
-import biosim.idl.simulation.water.PotableWaterStore;
-import biosim.idl.simulation.water.WaterRS;
+import com.traclabs.biosim.client.framework.gui.TimedPanel;
+import com.traclabs.biosim.client.util.BioHolder;
+import com.traclabs.biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.idl.simulation.water.DirtyWaterStore;
+import com.traclabs.biosim.idl.simulation.water.GreyWaterStore;
+import com.traclabs.biosim.idl.simulation.water.PotableWaterStore;
+import com.traclabs.biosim.idl.simulation.water.WaterRS;
 /**
  * This is the JPanel that displays information about the Water RS and the water stores.
  * Each tick it polls each water related server for new information regarding these systems.

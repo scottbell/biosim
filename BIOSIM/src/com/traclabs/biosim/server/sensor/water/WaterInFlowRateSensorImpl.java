@@ -1,9 +1,9 @@
-package biosim.server.sensor.water;
+package com.traclabs.biosim.server.sensor.water;
 
-import biosim.idl.framework.BioModule;
-import biosim.idl.framework.WaterConsumer;
-import biosim.idl.sensor.water.WaterInFlowRateSensorOperations;
-import biosim.server.sensor.framework.GenericSensorImpl;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.framework.WaterConsumer;
+import com.traclabs.biosim.idl.sensor.water.WaterInFlowRateSensorOperations;
+import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
 public class WaterInFlowRateSensorImpl extends GenericSensorImpl implements WaterInFlowRateSensorOperations{
 	private WaterConsumer myConsumer;

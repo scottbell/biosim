@@ -1,4 +1,4 @@
-package biosim.client.framework.gui.spreadsheet;
+package com.traclabs.biosim.client.framework.gui.spreadsheet;
 
 /******************************************************************************************
  * This class implements an interpreter

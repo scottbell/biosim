@@ -1,9 +1,9 @@
-package biosim.server.sensor.food;
+package com.traclabs.biosim.server.sensor.food;
 
-import biosim.idl.framework.BioModule;
-import biosim.idl.sensor.food.BiomassRSSensorOperations;
-import biosim.idl.simulation.food.BiomassRS;
-import biosim.server.sensor.framework.GenericSensorImpl;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.sensor.food.BiomassRSSensorOperations;
+import com.traclabs.biosim.idl.simulation.food.BiomassRS;
+import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
 public abstract class BiomassRSSensorImpl extends GenericSensorImpl implements BiomassRSSensorOperations{
 	protected BiomassRS myBiomassRS;

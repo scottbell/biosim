@@ -1,4 +1,4 @@
-package biosim.client.simulation.framework.gui;
+package com.traclabs.biosim.client.simulation.framework.gui;
 
 /**
  * SimDesktop is the main client GUI.  It holds references to all the rest of the various modules' GUIs.
@@ -27,19 +27,19 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
-import biosim.client.framework.gui.BioFrame;
-import biosim.client.framework.gui.MalfunctionPanel;
-import biosim.client.framework.gui.StochasticPanel;
-import biosim.client.framework.gui.UpdatablePanel;
-import biosim.client.simulation.air.gui.AirPanel;
-import biosim.client.simulation.crew.gui.CrewPanel;
-import biosim.client.simulation.environment.gui.EnvironmentPanel;
-import biosim.client.simulation.food.gui.FoodPanel;
-import biosim.client.simulation.power.gui.PowerPanel;
-import biosim.client.simulation.water.gui.WaterPanel;
-import biosim.client.util.BioHolderInitializer;
-import biosim.client.util.Fnorder;
-import biosim.idl.framework.BioDriver;
+import com.traclabs.biosim.client.framework.gui.BioFrame;
+import com.traclabs.biosim.client.framework.gui.MalfunctionPanel;
+import com.traclabs.biosim.client.framework.gui.StochasticPanel;
+import com.traclabs.biosim.client.framework.gui.UpdatablePanel;
+import com.traclabs.biosim.client.simulation.air.gui.AirPanel;
+import com.traclabs.biosim.client.simulation.crew.gui.CrewPanel;
+import com.traclabs.biosim.client.simulation.environment.gui.EnvironmentPanel;
+import com.traclabs.biosim.client.simulation.food.gui.FoodPanel;
+import com.traclabs.biosim.client.simulation.power.gui.PowerPanel;
+import com.traclabs.biosim.client.simulation.water.gui.WaterPanel;
+import com.traclabs.biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.client.util.Fnorder;
+import com.traclabs.biosim.idl.framework.BioDriver;
 
 public class SimDesktop extends BioFrame
 {
@@ -616,7 +616,7 @@ public class SimDesktop extends BioFrame
 			displayMalfunction();
 			displayStochastic();
 			if (ae.getModifiers() == (ActionEvent.CTRL_MASK + 16)){
-				biosim.client.util.Fnorder myFnord = new Fnorder();
+				com.traclabs.biosim.client.util.Fnorder myFnord = new Fnorder();
 				String message = myFnord.getFnord();
 				ImageIcon fnordIcon = new ImageIcon(ClassLoader.getSystemResource("biosim/client/framework/gui/pyramid.gif"));
 				JOptionPane fnordPane = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, fnordIcon);

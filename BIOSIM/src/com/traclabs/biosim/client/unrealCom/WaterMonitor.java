@@ -18,16 +18,16 @@
  * @author: Travis R. Fischer
  */
  
-package biosim.client.unrealCom;
+package com.traclabs.biosim.client.unrealCom;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import biosim.client.util.BioHolder;
-import biosim.idl.simulation.water.DirtyWaterStore;
-import biosim.idl.simulation.water.GreyWaterStore;
-import biosim.idl.simulation.water.PotableWaterStore;
+import com.traclabs.biosim.client.util.BioHolder;
+import com.traclabs.biosim.idl.simulation.water.DirtyWaterStore;
+import com.traclabs.biosim.idl.simulation.water.GreyWaterStore;
+import com.traclabs.biosim.idl.simulation.water.PotableWaterStore;
 
 public class WaterMonitor extends Thread {
 	

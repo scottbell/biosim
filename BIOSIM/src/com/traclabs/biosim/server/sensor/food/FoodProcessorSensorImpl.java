@@ -1,9 +1,9 @@
-package biosim.server.sensor.food;
+package com.traclabs.biosim.server.sensor.food;
 
-import biosim.idl.framework.BioModule;
-import biosim.idl.sensor.food.FoodProcessorSensorOperations;
-import biosim.idl.simulation.food.FoodProcessor;
-import biosim.server.sensor.framework.GenericSensorImpl;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.sensor.food.FoodProcessorSensorOperations;
+import com.traclabs.biosim.idl.simulation.food.FoodProcessor;
+import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
 public abstract class FoodProcessorSensorImpl extends GenericSensorImpl implements FoodProcessorSensorOperations{
 	protected FoodProcessor myFoodProcessor;

@@ -1,5 +1,5 @@
 
-package biosim.client.framework;
+package com.traclabs.biosim.client.framework;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -8,34 +8,34 @@ import java.io.PrintWriter;
 import java.util.Map;
 import java.util.TreeMap;
 
-import biosim.client.util.BioHolder;
-import biosim.client.util.BioHolderInitializer;
-import biosim.idl.actuator.food.HarvestingActuator;
-import biosim.idl.actuator.food.HarvestingActuatorHelper;
-import biosim.idl.actuator.food.PlantingActuator;
-import biosim.idl.actuator.food.PlantingActuatorHelper;
-import biosim.idl.actuator.framework.GenericActuator;
-import biosim.idl.framework.BioDriver;
-import biosim.idl.sensor.food.HarvestSensor;
-import biosim.idl.sensor.framework.GenericSensor;
-import biosim.idl.sensor.framework.StoreOverflowSensor;
-import biosim.idl.simulation.air.AirRS;
-import biosim.idl.simulation.air.CO2Store;
-import biosim.idl.simulation.air.H2Store;
-import biosim.idl.simulation.air.O2Store;
-import biosim.idl.simulation.crew.CrewGroup;
-import biosim.idl.simulation.environment.SimEnvironment;
-import biosim.idl.simulation.food.BiomassRS;
-import biosim.idl.simulation.food.BiomassStore;
-import biosim.idl.simulation.food.FoodProcessor;
-import biosim.idl.simulation.food.FoodStore;
-import biosim.idl.simulation.framework.Accumulator;
-import biosim.idl.simulation.framework.Injector;
-import biosim.idl.simulation.power.PowerStore;
-import biosim.idl.simulation.water.DirtyWaterStore;
-import biosim.idl.simulation.water.GreyWaterStore;
-import biosim.idl.simulation.water.PotableWaterStore;
-import biosim.idl.simulation.water.WaterRS;
+import com.traclabs.biosim.client.util.BioHolder;
+import com.traclabs.biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.idl.actuator.food.HarvestingActuator;
+import com.traclabs.biosim.idl.actuator.food.HarvestingActuatorHelper;
+import com.traclabs.biosim.idl.actuator.food.PlantingActuator;
+import com.traclabs.biosim.idl.actuator.food.PlantingActuatorHelper;
+import com.traclabs.biosim.idl.actuator.framework.GenericActuator;
+import com.traclabs.biosim.idl.framework.BioDriver;
+import com.traclabs.biosim.idl.sensor.food.HarvestSensor;
+import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
+import com.traclabs.biosim.idl.sensor.framework.StoreOverflowSensor;
+import com.traclabs.biosim.idl.simulation.air.AirRS;
+import com.traclabs.biosim.idl.simulation.air.CO2Store;
+import com.traclabs.biosim.idl.simulation.air.H2Store;
+import com.traclabs.biosim.idl.simulation.air.O2Store;
+import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
+import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.idl.simulation.food.BiomassRS;
+import com.traclabs.biosim.idl.simulation.food.BiomassStore;
+import com.traclabs.biosim.idl.simulation.food.FoodProcessor;
+import com.traclabs.biosim.idl.simulation.food.FoodStore;
+import com.traclabs.biosim.idl.simulation.framework.Accumulator;
+import com.traclabs.biosim.idl.simulation.framework.Injector;
+import com.traclabs.biosim.idl.simulation.power.PowerStore;
+import com.traclabs.biosim.idl.simulation.water.DirtyWaterStore;
+import com.traclabs.biosim.idl.simulation.water.GreyWaterStore;
+import com.traclabs.biosim.idl.simulation.water.PotableWaterStore;
+import com.traclabs.biosim.idl.simulation.water.WaterRS;
 
 /**
  * @author    Theresa Klein

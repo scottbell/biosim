@@ -1,4 +1,4 @@
-package biosim.server.framework;
+package com.traclabs.biosim.server.framework;
 
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -7,15 +7,15 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Vector;
 
-import biosim.idl.framework.BioModulePOA;
-import biosim.idl.framework.Malfunction;
-import biosim.idl.framework.MalfunctionHelper;
-import biosim.idl.framework.MalfunctionIntensity;
-import biosim.idl.framework.MalfunctionLength;
-import biosim.idl.framework.StochasticIntensity;
-import biosim.idl.framework.TechSpecificInfo;
-import biosim.idl.framework.TechSpecificInfoHelper;
-import biosim.server.util.OrbUtils;
+import com.traclabs.biosim.idl.framework.BioModulePOA;
+import com.traclabs.biosim.idl.framework.Malfunction;
+import com.traclabs.biosim.idl.framework.MalfunctionHelper;
+import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
+import com.traclabs.biosim.idl.framework.MalfunctionLength;
+import com.traclabs.biosim.idl.framework.StochasticIntensity;
+import com.traclabs.biosim.idl.framework.TechSpecificInfo;
+import com.traclabs.biosim.idl.framework.TechSpecificInfoHelper;
+import com.traclabs.biosim.server.util.OrbUtils;
 /**
  * The BioModule Implementation.  Every Module should derive from this as to allow ticking and logging.
  *

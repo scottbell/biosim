@@ -1,4 +1,4 @@
-package biosim.server.simulation.power;
+package com.traclabs.biosim.server.simulation.power;
 
 /**
  * Nuclear Power Production System

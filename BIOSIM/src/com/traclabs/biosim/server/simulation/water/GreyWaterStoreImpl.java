@@ -1,7 +1,7 @@
-package biosim.server.simulation.water;
+package com.traclabs.biosim.server.simulation.water;
 
-import biosim.idl.simulation.water.GreyWaterStoreOperations;
-import biosim.server.simulation.framework.StoreImpl;
+import com.traclabs.biosim.idl.simulation.water.GreyWaterStoreOperations;
+import com.traclabs.biosim.server.simulation.framework.StoreImpl;
 /**
  * The Grey Water Store Implementation.  Takes dirty water from the crew members and stores it for either purification by the WaterRS
  * or use for the crops (in the Biomass RS).

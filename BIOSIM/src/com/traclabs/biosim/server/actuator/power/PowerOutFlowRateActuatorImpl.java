@@ -1,9 +1,9 @@
-package biosim.server.actuator.power;
+package com.traclabs.biosim.server.actuator.power;
 
-import biosim.idl.actuator.power.PowerOutFlowRateActuatorOperations;
-import biosim.idl.framework.BioModule;
-import biosim.idl.framework.PowerProducer;
-import biosim.server.actuator.framework.GenericActuatorImpl;
+import com.traclabs.biosim.idl.actuator.power.PowerOutFlowRateActuatorOperations;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.framework.PowerProducer;
+import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
 
 public class PowerOutFlowRateActuatorImpl extends GenericActuatorImpl implements PowerOutFlowRateActuatorOperations{
 	private PowerProducer myProducer;

@@ -1,7 +1,7 @@
-package biosim.server.simulation.food;
+package com.traclabs.biosim.server.simulation.food;
 
-import biosim.idl.simulation.food.BiomassStorePOATie;
-import biosim.server.framework.GenericServer;
+import com.traclabs.biosim.idl.simulation.food.BiomassStorePOATie;
+import com.traclabs.biosim.server.framework.GenericServer;
 /**
  * The Biomass Store Server.  Creates an instance of the BiomassStore and registers it with the nameserver.
  *

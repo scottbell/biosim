@@ -1,8 +1,8 @@
-package biosim.server.actuator.food;
+package com.traclabs.biosim.server.actuator.food;
 
-import biosim.idl.actuator.food.FoodProcessorActuatorOperations;
-import biosim.idl.simulation.food.FoodProcessor;
-import biosim.server.actuator.framework.GenericActuatorImpl;
+import com.traclabs.biosim.idl.actuator.food.FoodProcessorActuatorOperations;
+import com.traclabs.biosim.idl.simulation.food.FoodProcessor;
+import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
 
 public abstract class FoodProcessorActuatorImpl extends GenericActuatorImpl implements FoodProcessorActuatorOperations{
 	protected FoodProcessor myFoodProcessor;

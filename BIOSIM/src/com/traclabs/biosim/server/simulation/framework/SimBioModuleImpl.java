@@ -1,8 +1,8 @@
-package biosim.server.simulation.framework;
+package com.traclabs.biosim.server.simulation.framework;
 
-import biosim.idl.simulation.framework.SimBioModuleOperations;
-import biosim.idl.simulation.framework.Store;
-import biosim.server.framework.BioModuleImpl;
+import com.traclabs.biosim.idl.simulation.framework.SimBioModuleOperations;
+import com.traclabs.biosim.idl.simulation.framework.Store;
+import com.traclabs.biosim.server.framework.BioModuleImpl;
 /**
  * The SimBioModule Implementation.  Modules specific to the simulation.
  *
