@@ -270,7 +270,7 @@ public abstract class PlantImpl extends PlantPOA{
 		CQY = calculateCQY();
 		carbonUseEfficiency24 = getCarbonUseEfficiency24();
 		float dailyCarbonGain = calculateDailyCarbonGain();
-		//System.out.println("PlantImpl: dailyCarbonGain: "+dailyCarbonGain);
+		System.out.println("PlantImpl: dailyCarbonGain: "+dailyCarbonGain);
 		float cropGrowthRate = molecularWeightOfCarbon * (dailyCarbonGain / getBCF());
 		//System.out.println("PlantImpl: cropGrowthRate: "+cropGrowthRate);
 		myCurrentDryBiomass += (cropGrowthRate / 1000 / 24f); //in kilograms
