@@ -71,6 +71,10 @@ public class ShelfImpl extends ShelfPOA {
     public Plant getPlant() {
         return PlantHelper.narrow(OrbUtils.poaToCorbaObj(myCrop));
     }
+    
+    public PlantImpl getPlantImpl() {
+        return myCrop;
+    }
 
     public void reset() {
         waterLevel = 0f;

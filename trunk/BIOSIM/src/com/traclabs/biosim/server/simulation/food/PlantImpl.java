@@ -136,6 +136,8 @@ public abstract class PlantImpl extends PlantPOA {
     private static final float LIGHT_TILL_DEAD = 150f;
 
     private static final float LIGHT_RECOVERY_RATE = 0.005f;
+    
+    private float myProductionRate = 1f;
 
     public PlantImpl(ShelfImpl pShelfImpl) {
         myLogger = Logger.getLogger(this.getClass());
@@ -241,6 +243,7 @@ public abstract class PlantImpl extends PlantPOA {
         totalWaterLitersTranspired = 0f;
         myPPFFractionAbsorbed = 0f;
         myTimeTillCanopyClosure = 0f;
+        myProductionRate = 1f;
         hasDied = false;
         canopyClosed = false;
         myCanopyClosurePPFValues.clear();
@@ -519,7 +522,7 @@ public abstract class PlantImpl extends PlantPOA {
                 * (dailyCarbonGain / getBCF());
         myLogger.debug("cropGrowthRate: " + cropGrowthRate);
         myCurrentDryBiomass += (cropGrowthRate / 1000 / 24f * myShelfImpl
-                .getCropAreaUsed()); //in kilograms per hour
+                .getCropAreaUsed() * myProductionRate); //in kilograms per hour
         myLogger.debug("myCurrentDryBiomass:" + myCurrentDryBiomass);
 
         if (getDaysOfGrowth() > getTimeAtOrganFormation())
@@ -946,5 +949,17 @@ public abstract class PlantImpl extends PlantPOA {
             return 0f;
     }
 
+    /**
+     * @return Returns the myProductionRate.
+     */
+    protected float getProductionRate() {
+        return myProductionRate;
+    }
+    /**
+     * @param myProductionRate The myProductionRate to set.
+     */
+    protected void setProductionRate(float myProductionRate) {
+        this.myProductionRate = myProductionRate;
+    }
 }
 
