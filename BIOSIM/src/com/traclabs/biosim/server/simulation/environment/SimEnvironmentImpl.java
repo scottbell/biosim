@@ -7,6 +7,8 @@ public class SimEnvironmentImpl extends SimEnvironmentPOA {
 	private float O2capacity;
 	private float CO2level;
 	private float CO2capacity;
+	
+	private int ticks	= 0;
 
 	public SimEnvironmentImpl(){
 		CO2level = 0.0f;
@@ -21,24 +23,28 @@ public class SimEnvironmentImpl extends SimEnvironmentPOA {
 		CO2capacity = initialCO2capacity;
 		O2capacity = initialO2capacity;
 	}
+	
+	public int getTicks(){
+		return ticks;
+	}
 
-	void setO2Capacity(float liters){
+	public void setO2Capacity(float liters){
 		O2capacity = liters;
 	}
 	
-	void setCO2Capacity(float liters){
+	public void setCO2Capacity(float liters){
 		CO2capacity = liters;
 	}
 	
-	void setCO2Level(float liters){
+	public void setCO2Level(float liters){
 		CO2level = liters;
 	}
 	
-	void setO2Level(float liters){
+	public void setO2Level(float liters){
 		O2level = liters;
 	}
 
-	float addO2(float liters){
+	public float addO2(float liters){
 		if ((liters + O2level) > O2capacity){
 			O2level = O2capacity;
 			if (liters >=  O2capacity)
@@ -52,7 +58,7 @@ public class SimEnvironmentImpl extends SimEnvironmentPOA {
 		}
 	}
 
-	float takeO2(float liters){
+	public float takeO2(float liters){
 		if ((O2level - liters) < 0){
 			O2level = 0;
 			if (liters < 0)
@@ -66,11 +72,11 @@ public class SimEnvironmentImpl extends SimEnvironmentPOA {
 		}
 	}
 
-	float getO2Level(){
+	public float getO2Level(){
 		return O2level;
 	}
 
-	float addCO2(float liters){
+	public float addCO2(float liters){
 		if ((liters + CO2level) > CO2capacity){
 			CO2level = CO2capacity;
 			if (liters >=  CO2capacity)
@@ -84,7 +90,7 @@ public class SimEnvironmentImpl extends SimEnvironmentPOA {
 		}
 	}
 
-	float takeCO2(float liters){
+	public float takeCO2(float liters){
 		if ((CO2level - liters) < 0){
 			CO2level = 0;
 			if (liters < 0)
@@ -98,12 +104,12 @@ public class SimEnvironmentImpl extends SimEnvironmentPOA {
 		}
 	}
 
-	float getCO2Level(){
+	public float getCO2Level(){
 		return CO2level;
 	}
 
 	public void tick(){
-		System.out.println("SimEnvironment has been ticked!");
+		ticks++;
 	}
 
 	public String getModuleName(){

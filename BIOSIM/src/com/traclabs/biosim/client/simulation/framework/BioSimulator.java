@@ -16,7 +16,7 @@ import java.util.*;
 
 public class BioSimulator implements Runnable
 {
- //Module Names
+	//Module Names
 	private final static  String crewName = "CrewGroup";
 	private final static  String powerPSName = "PowerPS";
 	private final static  String powerStoreName = "PowerStore";
@@ -32,22 +32,21 @@ public class BioSimulator implements Runnable
 	private final static  String potableWaterStoreName = "PotableWaterStore";
 	private final static  String greyWaterStoreName = "GreyWaterStore";
 	private final static  String simEnvironmentName = "SimEnvironment";
+	private final static  String bioModuleHarnessName = "BioModuleHarness";
 
 	private Hashtable modules;
 	private NamingContextExt ncRef;
 	private Thread myThread;
 
-	public BioSimulator(){
-		initializeORB();
-		collectReferences();
-	}
-	
 	public void spawnSimulation(){
 		myThread = new Thread(this);
 		myThread.start();
 	}
 
 	public void run(){
+		initializeORB();
+		collectReferences();
+		
 		DirtyWaterStore myDirtyWater = (DirtyWaterStore)(getBioModule("DirtyWaterStore"));
 		System.out.println("Trying to add "+2f+" liters of dirty water");
 		float actuallyAdded = myDirtyWater.addWater(2f);
@@ -67,11 +66,11 @@ public class BioSimulator implements Runnable
 			tick();
 		}
 	}
-	
+
 	public BioModule getBioModule(String type){
 		return (BioModule)(modules.get(type));
 	}
-	
+
 	private void initializeORB(){
 		//create null array
 		String nullArgs[] = null;
@@ -89,7 +88,7 @@ public class BioSimulator implements Runnable
 		ncRef = NamingContextExtHelper.narrow(objRef);
 	}
 
- private void collectReferences(){
+	private void collectReferences(){
 
 		// resolve the Objects Reference in Naming
 		modules = new Hashtable();

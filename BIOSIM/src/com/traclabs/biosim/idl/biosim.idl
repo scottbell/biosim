@@ -10,9 +10,7 @@ module biosim{
 		};
 		
 		module util{
-			interface BioUtils{
-				void addTick();
-				long getTicks();
+			interface BioSimUtils{
 			};
 		};
 
@@ -108,6 +106,7 @@ module biosim{
                                 float addO2(in float liters);
                                 float takeO2(in float liters);
                                 float takeCO2(in float liters);
+				long getTicks();
                         };
                 };
 

@@ -5,22 +5,13 @@ import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
+import biosim.idl.util.*;
 
-public class BioSimUtils{
-	private static int ticks = 0;
-
+public class BioSimUtilsImpl extends BioSimUtilsPOA{
 	private static boolean runOnce = false;
 	private static POA rootPOA = null;
 	private static ORB myOrb = null;
 	private static NamingContextExt ncRef = null;
-
-	public static void addTick(){
-		ticks++;
-	}
-
-	public static int getTicks(){
-		return ticks;
-	}
 
 	public static ORB getORB(){
 		if (!runOnce)
