@@ -12,6 +12,10 @@ import biosim.client.util.BioHolderInitializer;
 
 public class BiosimMain
 {
+
+	private static final int NAMESERVER_PORT = 16309;
+	private static final int CLIENT_OA_PORT = 16311;
+	
 	/**
 	* The method to start the BIOSIM client.
 	* @param args can start TestDriver with -gui or -nogui (optional id=X where X is an integer)
@@ -28,7 +32,8 @@ public class BiosimMain
 		boolean wantsToRunGUI = false;
 		boolean wantsToRunController = false;
 		boolean wantsToRunUnreal = false;
-		boolean bServerGiven = false;
+		boolean unrealServerGiven = false;
+		boolean wantsToRunDebug = false;
 		String unrealServer = "";
 		for (int i = 0; i < myArgs.length; i++){
 			if (myArgs[i].equals("gui")){
@@ -42,6 +47,9 @@ public class BiosimMain
 			}
 			else if (myArgs[i].equals("unreal")){
 				wantsToRunUnreal = true;
+			}
+			else if (myArgs[i].equals("debug")){
+				wantsToRunDebug = true;
 			}
 			else if (myArgs[i].equals("-xml=")){
 				try{
@@ -69,7 +77,7 @@ public class BiosimMain
 				try{
 					StringTokenizer st = new StringTokenizer(myArgs[i],"=");
 					st.nextToken();
-					bServerGiven = true;
+					unrealServerGiven = true;
 					unrealServer = st.nextToken();
 				}
 				catch (Exception e){
@@ -85,12 +93,14 @@ public class BiosimMain
 		else if (wantsToRunController)
 			runHandController(myID);
 		else if (wantsToRunUnreal) {
-			if(bServerGiven) {
+			if(unrealServerGiven) {
 				runUnreal2(myID,unrealServer);
 			} else {
 				runUnreal(myID);
 			}
 		}
+		else if (wantsToRunDebug)
+			runDebug(myID);
 		else{
 			System.out.println("Using default, starting GUI with server ID="+myID);
 			runGUI(myID);
@@ -111,6 +121,16 @@ public class BiosimMain
 	* Runs the commandline front end for the simulation.
 	*/
 	private void runCommandLine(int myID){
+		SimCommandLine newCommandLine = new SimCommandLine(myID);
+		newCommandLine.runCommandLine();
+	}
+	
+	/**
+	* Runs the debug commandLine front end for the simulation.
+	*/
+	private void runDebug(int myID){
+		org.jacorb.util.Environment.setProperty("ORBInitRef.NameService", "corbaloc::localhost:"+NAMESERVER_PORT+"/NameService");
+		org.jacorb.util.Environment.setProperty("OAPort", Integer.toString(CLIENT_OA_PORT));
 		SimCommandLine newCommandLine = new SimCommandLine(myID);
 		newCommandLine.runCommandLine();
 	}
