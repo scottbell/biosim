@@ -348,7 +348,7 @@ public class BioHolderInitializer{
 		myBioHolder.theDirtyWaterStores.add(DirtyWaterStoreHelper.narrow(grabModule(getModuleName(node))));
 	}
 	private static void fetchGreyWaterStore(Node node){
-		myBioHolder.theGreyWaterStores.add(DirtyWaterStoreHelper.narrow(grabModule(getModuleName(node))));
+		myBioHolder.theGreyWaterStores.add(GreyWaterStoreHelper.narrow(grabModule(getModuleName(node))));
 	}
 	private static void crawlWaterModules(Node node){
 		Node child = node.getFirstChild();
