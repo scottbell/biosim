@@ -38,7 +38,15 @@ public abstract class PlantImpl extends PlantPOA{
 	private float carbonUseEfficiency24 = 0f;
 	protected float[] canopyClosureConstants;
 	protected float[] canopyQYConstants;
-	private SimpleBuffer waterBuffer;
+	private SimpleBuffer consumedWaterBuffer;
+	private SimpleBuffer consumedCO2Buffer;
+	private SimpleBuffer consumedHeatBuffer;
+	private static final float WATER_TILL_DEAD = 8.1f;
+	private static final float WATER_RECOVERY_RATE=0.01f;
+	private static final float CO2_TILL_DEAD = 10f;
+	private static final float CO2_RECOVERY_RATE=0.001f;
+	private static final float HEAT_TILL_DEAD = 168f;
+	private static final float HEAT_RECOVERY_RATE=0.1f;
 
 	public PlantImpl(ShelfImpl pShelfImpl){
 		myShelfImpl = pShelfImpl;
@@ -46,7 +54,9 @@ public abstract class PlantImpl extends PlantPOA{
 		canopyQYConstants = new float[25];
 		Arrays.fill(canopyClosureConstants, 0f);
 		Arrays.fill(canopyQYConstants, 0f);
-		waterBuffer = new SimpleBuffer(300, 1000);
+		consumedWaterBuffer = new SimpleBuffer(WATER_TILL_DEAD, WATER_TILL_DEAD);
+		consumedCO2Buffer = new SimpleBuffer(CO2_TILL_DEAD, CO2_TILL_DEAD);
+		consumedHeatBuffer = new SimpleBuffer(HEAT_TILL_DEAD, HEAT_TILL_DEAD);
 	}
 
 	protected abstract float getBCF();
@@ -85,6 +95,9 @@ public abstract class PlantImpl extends PlantPOA{
 		myTotalCO2Concentration = 0f;
 		myNumberOfCO2ConcentrationReadings = 0;
 		myAge = 0;
+		consumedWaterBuffer.reset();
+		consumedCO2Buffer.reset();
+		consumedHeatBuffer.reset();
 	}
 
 	public void tick(){
@@ -93,6 +106,7 @@ public abstract class PlantImpl extends PlantPOA{
 		calculateAverageCO2Concentration();
 		calculateAverageCO2MicroConcentration();
 		growBiomass();
+		recoverPlants();
 		//System.out.println("PlantImpl: **************End plant tick***********");
 		
 	}
@@ -104,22 +118,7 @@ public abstract class PlantImpl extends PlantPOA{
 
 	public float harvest(){
 		float biomassToReturn = myCurrentTotalWetBiomass;
-		myCurrentTotalWetBiomass = 0f;
-		myCurrentEdibleWetBiomass = 0f;
-		myCurrentDryBiomass = 0f;
-		myLastTotalWetBiomass = 0f;
-		myLastEdibleWetBiomass = 0f;
-		myWaterNeeded = 0f;
-		myWaterLevel = 0f;
-		CQY = 0f;
-		carbonUseEfficiency24 = 0f;
-		myAveragePPF = 0f;
-		myTotalPPF = 0f;
-		myNumberOfPPFReadings = 0;
-		myAverageCO2Concentration = 0f;
-		myTotalCO2Concentration = 0f;
-		myNumberOfCO2ConcentrationReadings = 0;
-		myAge = 0;
+		reset();
 		return biomassToReturn;
 	}
 
@@ -127,6 +126,12 @@ public abstract class PlantImpl extends PlantPOA{
 		myTotalPPF += pPPF;
 		myNumberOfPPFReadings++;
 		myAveragePPF = myTotalPPF / myNumberOfPPFReadings;
+	}
+	
+	private void recoverPlants(){
+		consumedWaterBuffer.add(WATER_RECOVERY_RATE * consumedWaterBuffer.getCapacity());
+		consumedCO2Buffer.add(CO2_RECOVERY_RATE * consumedCO2Buffer.getCapacity());
+		consumedHeatBuffer.add(HEAT_RECOVERY_RATE * consumedHeatBuffer.getCapacity());
 	}
 
 	private float calculateDailyCanopyTranspirationRate(){
@@ -219,7 +224,7 @@ public abstract class PlantImpl extends PlantPOA{
 		//Water In
 		myWaterNeeded = calculateWaterUptake();
 		myWaterLevel = myShelfImpl.takeWater(myWaterNeeded);
-		waterBuffer.add(myWaterLevel);
+		consumedWaterBuffer.add(myWaterLevel);
 		//System.out.println("PlantImpl: myWaterNeeded: "+myWaterNeeded);
 		//System.out.println("PlantImpl: myWaterLevel: "+myWaterLevel);
 		
@@ -239,7 +244,7 @@ public abstract class PlantImpl extends PlantPOA{
 
 		//Water Vapor Produced
 		float litersOfWaterProduced = calculateDailyCanopyTranspirationRate() / 24f;
-		waterBuffer.take(litersOfWaterProduced);
+		consumedWaterBuffer.take(litersOfWaterProduced);
 		//1/1000 liters per milliter, 1 gram per millilters, 8.016 grams per mole
 		float molesOfWaterProduced = waterLitersToMoles(litersOfWaterProduced);
 		float molesOfWaterAdded = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0].addWaterMoles(molesOfWaterProduced);
@@ -247,7 +252,7 @@ public abstract class PlantImpl extends PlantPOA{
 		//System.out.println("PlantImpl: litersOfWaterProduced: "+litersOfWaterProduced);
 		//System.out.println("PlantImpl: molesOfWaterProduced: "+molesOfWaterProduced);
 		//System.out.println("PlantImpl: molesOfWaterAdded: "+molesOfWaterAdded);
-		//System.out.println("PlantImpl: waterBuffer level: "+waterBuffer.getLevel());
+		//System.out.println("PlantImpl: consumedWaterBuffer level: "+consumedWaterBuffer.getLevel());
 		
 	}
 	
