@@ -1,17 +1,17 @@
-package biosim.client.simulation.framework;
+package com.traclabs.biosim.client.simulation.framework;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import biosim.client.util.BioHolder;
-import biosim.client.util.BioHolderInitializer;
-import biosim.client.util.OrbUtils;
-import biosim.idl.framework.BioDriver;
-import biosim.idl.framework.BioDriverHelper;
-import biosim.idl.sensor.food.BiomassStoreLevelSensor;
-import biosim.idl.sensor.food.BiomassStoreLevelSensorHelper;
-import biosim.idl.simulation.food.BiomassStore;
+import com.traclabs.biosim.client.util.BioHolder;
+import com.traclabs.biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.client.util.OrbUtils;
+import com.traclabs.biosim.idl.framework.BioDriver;
+import com.traclabs.biosim.idl.framework.BioDriverHelper;
+import com.traclabs.biosim.idl.sensor.food.BiomassStoreLevelSensor;
+import com.traclabs.biosim.idl.sensor.food.BiomassStoreLevelSensorHelper;
+import com.traclabs.biosim.idl.simulation.food.BiomassStore;
 
 /**
  * Runs a CLI interface to the simulation.

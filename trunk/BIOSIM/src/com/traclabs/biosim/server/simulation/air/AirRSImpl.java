@@ -1,29 +1,29 @@
-package biosim.server.simulation.air;
+package com.traclabs.biosim.server.simulation.air;
 
 import java.util.Arrays;
 import java.util.Iterator;
 
-import biosim.idl.framework.AirConsumerOperations;
-import biosim.idl.framework.AirProducerOperations;
-import biosim.idl.framework.CO2ConsumerOperations;
-import biosim.idl.framework.CO2ProducerOperations;
-import biosim.idl.framework.H2ConsumerOperations;
-import biosim.idl.framework.H2ProducerOperations;
-import biosim.idl.framework.Malfunction;
-import biosim.idl.framework.MalfunctionIntensity;
-import biosim.idl.framework.MalfunctionLength;
-import biosim.idl.framework.O2ProducerOperations;
-import biosim.idl.framework.PotableWaterConsumerOperations;
-import biosim.idl.framework.PotableWaterProducerOperations;
-import biosim.idl.framework.PowerConsumerOperations;
-import biosim.idl.simulation.air.AirRSOperations;
-import biosim.idl.simulation.air.CO2Store;
-import biosim.idl.simulation.air.H2Store;
-import biosim.idl.simulation.air.O2Store;
-import biosim.idl.simulation.environment.SimEnvironment;
-import biosim.idl.simulation.power.PowerStore;
-import biosim.idl.simulation.water.PotableWaterStore;
-import biosim.server.simulation.framework.SimBioModuleImpl;
+import com.traclabs.biosim.idl.framework.AirConsumerOperations;
+import com.traclabs.biosim.idl.framework.AirProducerOperations;
+import com.traclabs.biosim.idl.framework.CO2ConsumerOperations;
+import com.traclabs.biosim.idl.framework.CO2ProducerOperations;
+import com.traclabs.biosim.idl.framework.H2ConsumerOperations;
+import com.traclabs.biosim.idl.framework.H2ProducerOperations;
+import com.traclabs.biosim.idl.framework.Malfunction;
+import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
+import com.traclabs.biosim.idl.framework.MalfunctionLength;
+import com.traclabs.biosim.idl.framework.O2ProducerOperations;
+import com.traclabs.biosim.idl.framework.PotableWaterConsumerOperations;
+import com.traclabs.biosim.idl.framework.PotableWaterProducerOperations;
+import com.traclabs.biosim.idl.framework.PowerConsumerOperations;
+import com.traclabs.biosim.idl.simulation.air.AirRSOperations;
+import com.traclabs.biosim.idl.simulation.air.CO2Store;
+import com.traclabs.biosim.idl.simulation.air.H2Store;
+import com.traclabs.biosim.idl.simulation.air.O2Store;
+import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.idl.simulation.power.PowerStore;
+import com.traclabs.biosim.idl.simulation.water.PotableWaterStore;
+import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 
 /**
  * The Air Revitalization System Implementation.  Takes in Air (O2, CO2, other) from the environment and

@@ -1,9 +1,9 @@
-package biosim.server.sensor.air;
+package com.traclabs.biosim.server.sensor.air;
 
-import biosim.idl.framework.BioModule;
-import biosim.idl.framework.CO2Consumer;
-import biosim.idl.sensor.air.CO2InFlowRateSensorOperations;
-import biosim.server.sensor.framework.GenericSensorImpl;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.framework.CO2Consumer;
+import com.traclabs.biosim.idl.sensor.air.CO2InFlowRateSensorOperations;
+import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
 public class CO2InFlowRateSensorImpl extends GenericSensorImpl implements CO2InFlowRateSensorOperations{
 	private CO2Consumer myConsumer;

@@ -1,7 +1,7 @@
-package biosim.server.simulation.power;
+package com.traclabs.biosim.server.simulation.power;
 
-import biosim.idl.simulation.power.PowerStoreOperations;
-import biosim.server.simulation.framework.StoreImpl;
+import com.traclabs.biosim.idl.simulation.power.PowerStoreOperations;
+import com.traclabs.biosim.server.simulation.framework.StoreImpl;
 /**
  * The Power Store Implementation.  Takes power from the Power Production System and stores it here for other modules to use.
  *

@@ -1,6 +1,6 @@
-package biosim.server.simulation.crew;
+package com.traclabs.biosim.server.simulation.crew;
 
-import biosim.idl.simulation.crew.ActivityPOA;
+import com.traclabs.biosim.idl.simulation.crew.ActivityPOA;
 /**
  * Activities are performed by crew members (CrewPerson) for a certain amount of time with a certain intensity in a certain order.
  *

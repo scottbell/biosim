@@ -1,6 +1,6 @@
-package biosim.client.simulation.environment.gui;
+package com.traclabs.biosim.client.simulation.environment.gui;
 
-import biosim.client.simulation.framework.gui.SimTabbedPanel;
+import com.traclabs.biosim.client.simulation.framework.gui.SimTabbedPanel;
 /** 
  * This is the JPanel that displays information about the Environment
  *

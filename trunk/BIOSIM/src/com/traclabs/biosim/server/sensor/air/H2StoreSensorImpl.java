@@ -1,9 +1,9 @@
-package biosim.server.sensor.air;
+package com.traclabs.biosim.server.sensor.air;
 
-import biosim.idl.framework.BioModule;
-import biosim.idl.sensor.air.H2StoreSensorOperations;
-import biosim.idl.simulation.air.H2Store;
-import biosim.server.sensor.framework.GenericSensorImpl;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.sensor.air.H2StoreSensorOperations;
+import com.traclabs.biosim.idl.simulation.air.H2Store;
+import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
 public abstract class H2StoreSensorImpl extends GenericSensorImpl implements H2StoreSensorOperations{
 	private H2Store myH2Store;

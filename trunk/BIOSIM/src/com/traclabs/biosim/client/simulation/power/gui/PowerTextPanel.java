@@ -1,4 +1,4 @@
- package biosim.client.simulation.power.gui;
+ package com.traclabs.biosim.client.simulation.power.gui;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -9,11 +9,11 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import biosim.client.framework.gui.TimedPanel;
-import biosim.client.util.BioHolder;
-import biosim.client.util.BioHolderInitializer;
-import biosim.idl.simulation.power.PowerPS;
-import biosim.idl.simulation.power.PowerStore;
+import com.traclabs.biosim.client.framework.gui.TimedPanel;
+import com.traclabs.biosim.client.util.BioHolder;
+import com.traclabs.biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.idl.simulation.power.PowerPS;
+import com.traclabs.biosim.idl.simulation.power.PowerStore;
 /**
  * This is the JPanel that displays information about the Power Production System and it's store.
  * Each tick it polls each power related server for new information regarding these systems.

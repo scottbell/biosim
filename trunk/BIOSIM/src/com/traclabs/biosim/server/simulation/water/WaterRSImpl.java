@@ -1,21 +1,21 @@
-package biosim.server.simulation.water;
+package com.traclabs.biosim.server.simulation.water;
 
 import java.util.Arrays;
 import java.util.Iterator;
 
-import biosim.idl.framework.DirtyWaterConsumerOperations;
-import biosim.idl.framework.GreyWaterConsumerOperations;
-import biosim.idl.framework.Malfunction;
-import biosim.idl.framework.MalfunctionIntensity;
-import biosim.idl.framework.MalfunctionLength;
-import biosim.idl.framework.PotableWaterProducerOperations;
-import biosim.idl.framework.PowerConsumerOperations;
-import biosim.idl.simulation.power.PowerStore;
-import biosim.idl.simulation.water.DirtyWaterStore;
-import biosim.idl.simulation.water.GreyWaterStore;
-import biosim.idl.simulation.water.PotableWaterStore;
-import biosim.idl.simulation.water.WaterRSOperations;
-import biosim.server.simulation.framework.SimBioModuleImpl;
+import com.traclabs.biosim.idl.framework.DirtyWaterConsumerOperations;
+import com.traclabs.biosim.idl.framework.GreyWaterConsumerOperations;
+import com.traclabs.biosim.idl.framework.Malfunction;
+import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
+import com.traclabs.biosim.idl.framework.MalfunctionLength;
+import com.traclabs.biosim.idl.framework.PotableWaterProducerOperations;
+import com.traclabs.biosim.idl.framework.PowerConsumerOperations;
+import com.traclabs.biosim.idl.simulation.power.PowerStore;
+import com.traclabs.biosim.idl.simulation.water.DirtyWaterStore;
+import com.traclabs.biosim.idl.simulation.water.GreyWaterStore;
+import com.traclabs.biosim.idl.simulation.water.PotableWaterStore;
+import com.traclabs.biosim.idl.simulation.water.WaterRSOperations;
+import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 /**
  * The Water Recovery System takes grey/dirty water and refines it to potable water for the crew members and grey water for the crops..
  * Class modeled after the paper:.

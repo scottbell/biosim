@@ -1,4 +1,4 @@
-package biosim.client.simulation.food.gui;
+package com.traclabs.biosim.client.simulation.food.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,11 +13,11 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.CategoryItemRenderer;
 import org.jfree.data.DefaultCategoryDataset;
 
-import biosim.client.framework.gui.GraphPanel;
-import biosim.client.util.BioHolder;
-import biosim.client.util.BioHolderInitializer;
-import biosim.idl.simulation.food.BiomassStore;
-import biosim.idl.simulation.food.FoodStore;
+import com.traclabs.biosim.client.framework.gui.GraphPanel;
+import com.traclabs.biosim.client.util.BioHolder;
+import com.traclabs.biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.idl.simulation.food.BiomassStore;
+import com.traclabs.biosim.idl.simulation.food.FoodStore;
 
 /**
  * This is the JPanel that displays a chart about the Food/Biomass Stores

@@ -1,4 +1,4 @@
-package biosim.client.framework.gui;
+package com.traclabs.biosim.client.framework.gui;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -22,12 +22,12 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import biosim.client.util.BioHolderInitializer;
-import biosim.idl.framework.BioModule;
-import biosim.idl.framework.Malfunction;
-import biosim.idl.framework.MalfunctionIntensity;
-import biosim.idl.framework.MalfunctionLength;
-import biosim.idl.simulation.crew.CrewGroup;
+import com.traclabs.biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.framework.Malfunction;
+import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
+import com.traclabs.biosim.idl.framework.MalfunctionLength;
+import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
 /**
  * @author    Scott Bell
  */

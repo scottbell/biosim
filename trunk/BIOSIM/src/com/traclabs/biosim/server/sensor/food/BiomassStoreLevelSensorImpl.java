@@ -1,6 +1,6 @@
-package biosim.server.sensor.food;
+package com.traclabs.biosim.server.sensor.food;
 
-import biosim.idl.sensor.food.BiomassStoreLevelSensorOperations;
+import com.traclabs.biosim.idl.sensor.food.BiomassStoreLevelSensorOperations;
 
 public class BiomassStoreLevelSensorImpl extends BiomassStoreSensorImpl implements BiomassStoreLevelSensorOperations{
 	public BiomassStoreLevelSensorImpl(int pID, String pName){

@@ -1,9 +1,9 @@
-package biosim.server.actuator.environment;
+package com.traclabs.biosim.server.actuator.environment;
 
-import biosim.idl.actuator.environment.NitrogenAirEnvironmentOutFlowRateActuatorOperations;
-import biosim.idl.framework.BioModule;
-import biosim.idl.framework.NitrogenAirProducer;
-import biosim.server.actuator.framework.GenericActuatorImpl;
+import com.traclabs.biosim.idl.actuator.environment.NitrogenAirEnvironmentOutFlowRateActuatorOperations;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.framework.NitrogenAirProducer;
+import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
 
 public class NitrogenAirEnvironmentOutFlowRateActuatorImpl extends GenericActuatorImpl implements NitrogenAirEnvironmentOutFlowRateActuatorOperations{
 	private NitrogenAirProducer myProducer;

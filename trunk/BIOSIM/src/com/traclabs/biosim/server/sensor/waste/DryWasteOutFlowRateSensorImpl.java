@@ -1,9 +1,9 @@
-package biosim.server.sensor.waste;
+package com.traclabs.biosim.server.sensor.waste;
 
-import biosim.idl.framework.BioModule;
-import biosim.idl.framework.DryWasteProducer;
-import biosim.idl.sensor.waste.DryWasteOutFlowRateSensorOperations;
-import biosim.server.sensor.framework.GenericSensorImpl;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.framework.DryWasteProducer;
+import com.traclabs.biosim.idl.sensor.waste.DryWasteOutFlowRateSensorOperations;
+import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
 public class DryWasteOutFlowRateSensorImpl extends GenericSensorImpl implements DryWasteOutFlowRateSensorOperations{
 	private DryWasteProducer myProducer;

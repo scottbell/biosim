@@ -1,4 +1,4 @@
-package biosim.client.simulation.air.gui;
+package com.traclabs.biosim.client.simulation.air.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,13 +13,13 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.CategoryItemRenderer;
 import org.jfree.data.DefaultCategoryDataset;
 
-import biosim.client.framework.gui.GraphPanel;
-import biosim.client.util.BioHolder;
-import biosim.client.util.BioHolderInitializer;
-import biosim.idl.simulation.air.CO2Store;
-import biosim.idl.simulation.air.H2Store;
-import biosim.idl.simulation.air.NitrogenStore;
-import biosim.idl.simulation.air.O2Store;
+import com.traclabs.biosim.client.framework.gui.GraphPanel;
+import com.traclabs.biosim.client.util.BioHolder;
+import com.traclabs.biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.idl.simulation.air.CO2Store;
+import com.traclabs.biosim.idl.simulation.air.H2Store;
+import com.traclabs.biosim.idl.simulation.air.NitrogenStore;
+import com.traclabs.biosim.idl.simulation.air.O2Store;
 
 /**
  * This is the JPanel that displays a chart about the Air Stores

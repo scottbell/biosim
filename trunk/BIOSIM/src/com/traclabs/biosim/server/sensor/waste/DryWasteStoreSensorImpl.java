@@ -1,9 +1,9 @@
-package biosim.server.sensor.waste;
+package com.traclabs.biosim.server.sensor.waste;
 
-import biosim.idl.framework.BioModule;
-import biosim.idl.sensor.waste.DryWasteStoreSensorOperations;
-import biosim.idl.simulation.waste.DryWasteStore;
-import biosim.server.sensor.framework.GenericSensorImpl;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.sensor.waste.DryWasteStoreSensorOperations;
+import com.traclabs.biosim.idl.simulation.waste.DryWasteStore;
+import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
 public abstract class DryWasteStoreSensorImpl extends GenericSensorImpl implements DryWasteStoreSensorOperations{
 	protected DryWasteStore myDryWasteStore;

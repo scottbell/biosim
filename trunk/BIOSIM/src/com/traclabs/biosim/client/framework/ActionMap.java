@@ -1,15 +1,15 @@
-package biosim.client.framework;
+package com.traclabs.biosim.client.framework;
 
 
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
 
-import biosim.client.util.BioHolder;
-import biosim.client.util.BioHolderInitializer;
-import biosim.idl.actuator.framework.GenericActuator;
-import biosim.idl.simulation.air.AirRS;
-import biosim.idl.simulation.water.WaterRS;
+import com.traclabs.biosim.client.util.BioHolder;
+import com.traclabs.biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.idl.actuator.framework.GenericActuator;
+import com.traclabs.biosim.idl.simulation.air.AirRS;
+import com.traclabs.biosim.idl.simulation.water.WaterRS;
 
 
 

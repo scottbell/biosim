@@ -1,6 +1,6 @@
-package biosim.server.sensor.environment;
+package com.traclabs.biosim.server.sensor.environment;
 
-import biosim.idl.sensor.environment.CO2AirConcentrationSensorOperations;
+import com.traclabs.biosim.idl.sensor.environment.CO2AirConcentrationSensorOperations;
 
 public class CO2AirConcentrationSensorImpl extends EnvironmentSensorImpl implements CO2AirConcentrationSensorOperations{
 	public CO2AirConcentrationSensorImpl(int pID, String pName){

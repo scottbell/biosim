@@ -1,10 +1,10 @@
-package biosim.server.actuator.food;
+package com.traclabs.biosim.server.actuator.food;
 
-import biosim.idl.actuator.food.ShelfActuatorOperations;
-import biosim.idl.framework.BioModule;
-import biosim.idl.simulation.food.BiomassRS;
-import biosim.idl.simulation.food.Shelf;
-import biosim.server.actuator.framework.GenericActuatorImpl;
+import com.traclabs.biosim.idl.actuator.food.ShelfActuatorOperations;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.simulation.food.BiomassRS;
+import com.traclabs.biosim.idl.simulation.food.Shelf;
+import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
 
 public abstract class ShelfActuatorImpl extends GenericActuatorImpl implements ShelfActuatorOperations{
 	protected Shelf myShelf;

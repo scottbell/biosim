@@ -1,7 +1,7 @@
-package biosim.server.simulation.air;
+package com.traclabs.biosim.server.simulation.air;
 
-import biosim.idl.simulation.air.AirRSPOATie;
-import biosim.server.framework.GenericServer;
+import com.traclabs.biosim.idl.simulation.air.AirRSPOATie;
+import com.traclabs.biosim.server.framework.GenericServer;
 /**
  * The Air Revitalization System Server.  Creates an instance of the AirRS and registers it with the nameserver.
  *

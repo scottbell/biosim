@@ -1,9 +1,9 @@
-package biosim.server.actuator.environment;
+package com.traclabs.biosim.server.actuator.environment;
 
-import biosim.idl.actuator.environment.CO2AirStoreInFlowRateActuatorOperations;
-import biosim.idl.framework.BioModule;
-import biosim.idl.framework.CO2AirConsumer;
-import biosim.server.actuator.framework.GenericActuatorImpl;
+import com.traclabs.biosim.idl.actuator.environment.CO2AirStoreInFlowRateActuatorOperations;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.framework.CO2AirConsumer;
+import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
 
 public class CO2AirStoreInFlowRateActuatorImpl extends GenericActuatorImpl implements CO2AirStoreInFlowRateActuatorOperations{
 	private CO2AirConsumer myConsumer;

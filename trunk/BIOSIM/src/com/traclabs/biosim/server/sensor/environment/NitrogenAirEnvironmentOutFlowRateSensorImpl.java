@@ -1,9 +1,9 @@
-package biosim.server.sensor.environment;
+package com.traclabs.biosim.server.sensor.environment;
 
-import biosim.idl.framework.BioModule;
-import biosim.idl.framework.NitrogenAirProducer;
-import biosim.idl.sensor.environment.NitrogenAirEnvironmentOutFlowRateSensorOperations;
-import biosim.server.sensor.framework.GenericSensorImpl;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.framework.NitrogenAirProducer;
+import com.traclabs.biosim.idl.sensor.environment.NitrogenAirEnvironmentOutFlowRateSensorOperations;
+import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
 public class NitrogenAirEnvironmentOutFlowRateSensorImpl extends GenericSensorImpl implements NitrogenAirEnvironmentOutFlowRateSensorOperations{
 	private NitrogenAirProducer myProducer;

@@ -1,4 +1,4 @@
-package biosim.client.util;
+package com.traclabs.biosim.client.util;
 
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NamingContextExt;

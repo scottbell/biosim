@@ -1,10 +1,10 @@
-package biosim.server.sensor.food;
+package com.traclabs.biosim.server.sensor.food;
 
-import biosim.idl.framework.BioModule;
-import biosim.idl.sensor.food.ShelfSensorOperations;
-import biosim.idl.simulation.food.BiomassRS;
-import biosim.idl.simulation.food.Shelf;
-import biosim.server.sensor.framework.GenericSensorImpl;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.sensor.food.ShelfSensorOperations;
+import com.traclabs.biosim.idl.simulation.food.BiomassRS;
+import com.traclabs.biosim.idl.simulation.food.Shelf;
+import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
 public abstract class ShelfSensorImpl extends GenericSensorImpl implements ShelfSensorOperations{
 	protected Shelf myShelf;

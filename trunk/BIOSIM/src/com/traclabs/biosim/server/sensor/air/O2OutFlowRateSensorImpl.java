@@ -1,9 +1,9 @@
-package biosim.server.sensor.air;
+package com.traclabs.biosim.server.sensor.air;
 
-import biosim.idl.framework.BioModule;
-import biosim.idl.framework.O2Producer;
-import biosim.idl.sensor.air.O2OutFlowRateSensorOperations;
-import biosim.server.sensor.framework.GenericSensorImpl;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.framework.O2Producer;
+import com.traclabs.biosim.idl.sensor.air.O2OutFlowRateSensorOperations;
+import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
 public class O2OutFlowRateSensorImpl extends GenericSensorImpl implements O2OutFlowRateSensorOperations{
 	private O2Producer myProducer;

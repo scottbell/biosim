@@ -1,9 +1,9 @@
-package biosim.server.actuator.environment;
+package com.traclabs.biosim.server.actuator.environment;
 
-import biosim.idl.actuator.environment.AirOutFlowRateActuatorOperations;
-import biosim.idl.framework.AirProducer;
-import biosim.idl.framework.BioModule;
-import biosim.server.actuator.framework.GenericActuatorImpl;
+import com.traclabs.biosim.idl.actuator.environment.AirOutFlowRateActuatorOperations;
+import com.traclabs.biosim.idl.framework.AirProducer;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
 
 public class AirOutFlowRateActuatorImpl extends GenericActuatorImpl implements AirOutFlowRateActuatorOperations{
 	private AirProducer myProducer;

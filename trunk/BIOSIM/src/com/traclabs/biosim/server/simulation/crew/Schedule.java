@@ -1,13 +1,13 @@
-package biosim.server.simulation.crew;
+package com.traclabs.biosim.server.simulation.crew;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import biosim.idl.simulation.crew.Activity;
-import biosim.idl.simulation.crew.ActivityHelper;
-import biosim.server.util.OrbUtils;
+import com.traclabs.biosim.idl.simulation.crew.Activity;
+import com.traclabs.biosim.idl.simulation.crew.ActivityHelper;
+import com.traclabs.biosim.server.util.OrbUtils;
 /**
  * The Schedule dictates what each crew member shall do at what time, for how long, and at what intensity.
  * You cannot have two activities at the same time and each name must be unique.

@@ -1,6 +1,6 @@
-package biosim.client.simulation.air.gui;
+package com.traclabs.biosim.client.simulation.air.gui;
 
-import biosim.client.simulation.framework.gui.SimTabbedPanel;
+import com.traclabs.biosim.client.simulation.framework.gui.SimTabbedPanel;
 /** 
  * This is the JPanel that displays information about the Air
  *

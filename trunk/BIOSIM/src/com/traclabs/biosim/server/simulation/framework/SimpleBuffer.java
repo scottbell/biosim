@@ -1,4 +1,4 @@
-package biosim.server.simulation.framework;
+package com.traclabs.biosim.server.simulation.framework;
 
 /**
  * @author    Scott Bell

@@ -48,7 +48,6 @@
 	
   	<target name="stub-idl" depends="init-build" description="stub the IDL file">
 		<mkdir dir="${stubsDir}"/>
-		<mkdir dir="${tmpDir}"/>
 		<javac srcdir="${jacorbDir}">
 			<classpath>
 				<pathelement location="${jacorbDir}/idl.jar"/>
@@ -58,7 +57,7 @@
 		<java classname="ParserHack" failonerror="yes">
 			<arg value="-d"/> 
 			<arg file="${stubsDir}"/>
-			<arg file="${src}/biosim/idl/biosim.idl"/>
+			<arg file="${src}/com/traclabs/biosim/idl/biosim.idl"/>
 			<classpath>
 				<pathelement location="${jacorbDir}"/>
 				<pathelement location="${jacorbDir}/idl.jar"/>
@@ -75,7 +74,7 @@
 
 	<target name="build-server" depends="stub-idl" description="compile the server">
 		<echo message="Compling the server"/>
-		<javac srcdir="${src}/biosim/server" destdir="${buildDir}">
+		<javac srcdir="${src}/com/traclabs/biosim/server" destdir="${buildDir}">
 			<classpath>
 				<pathelement location="${src}"/>
 				<pathelement location="${buildDir}"/>
@@ -90,7 +89,7 @@
   
    	<target name="build-client" depends="stub-idl" description="compile the client">
 		<echo message="Compling the client"/>
-		<javac srcdir="${src}/biosim/client" destdir="${buildDir}">
+		<javac srcdir="${src}/com/traclabs/biosim/client" destdir="${buildDir}">
 			<classpath>
 				<pathelement location="${src}"/>
 				<pathelement location="${buildDir}"/>
@@ -154,8 +153,8 @@
 		</unzip>
 		<echo message="Creating biosim jar for genetic algorithm engine"/>
 		<jar destfile="${gaDistDir}/biosim.jar">
-			<fileset dir="${buildDir}" includes="biosim/server/**, biosim/idl/**"/>
-			<fileset dir="${resourceDir}" includes="biosim/server/**, biosim/idl/**"/>
+			<fileset dir="${buildDir}" includes="com/traclabs/biosim/server/**, com/traclabs/biosim/idl/**"/>
+			<fileset dir="${resourceDir}" includes="com/traclabs/biosim/server/**, com/traclabs/biosim/idl/**"/>
 			<fileset dir="${gaDistTmpDir}">
 				<exclude name="META-INF"/>
 				<exclude name="license-INF"/>
@@ -169,7 +168,7 @@
 		<javadoc 
 			destdir="${javadocDir}" 
 			breakiterator="true" 
-			packagenames="biosim.*" 
+			packagenames="com.traclabs.biosim.*" 
 			author="true"
 			version="true"
 			use="true"
@@ -266,7 +265,7 @@
 	
 	<target name="run-server" description="runs the server">
 		<echo message="Starting biosim server"/>
-		<java classname="biosim.server.framework.BiosimServer" failonerror="yes">
+		<java classname="com.traclabs.biosim.server.framework.BiosimServer" failonerror="yes">
 			<sysproperty key="org.omg.CORBA.ORBClass" value="org.jacorb.orb.ORB"/>
 			<sysproperty key="org.omg.CORBA.ORBSingletonClass" value="org.jacorb.orb.ORBSingleton"/>
 			<sysproperty key="ORBInitRef.NameService" value="file:${nsDir}/ior.txt"/>
@@ -286,7 +285,7 @@
 	
 	<target name="run-client" description="runs the client">
 		<echo message="Starting biosim client"/>
-		<java classname="biosim.client.framework.BiosimMain" failonerror="yes">
+		<java classname="com.traclabs.biosim.client.framework.BiosimMain" failonerror="yes">
 			<arg value="debug"/> 
 			<sysproperty key="org.omg.CORBA.ORBClass" value="org.jacorb.orb.ORB"/>
 			<sysproperty key="org.omg.CORBA.ORBSingletonClass" value="org.jacorb.orb.ORBSingleton"/>

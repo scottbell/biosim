@@ -1,11 +1,11 @@
-package biosim.client.framework;
+package com.traclabs.biosim.client.framework;
 
 import java.util.StringTokenizer;
 
-import biosim.client.simulation.framework.SimCommandLine;
-import biosim.client.simulation.framework.gui.SimDesktop;
-import biosim.client.unrealCom.UnrealCom;
-import biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.client.simulation.framework.SimCommandLine;
+import com.traclabs.biosim.client.simulation.framework.gui.SimDesktop;
+import com.traclabs.biosim.client.unrealCom.UnrealCom;
+import com.traclabs.biosim.client.util.BioHolderInitializer;
 /**
  * @author    Scott Bell
  */	

@@ -1,6 +1,6 @@
-package biosim.server.simulation.water;
+package com.traclabs.biosim.server.simulation.water;
 
-import biosim.server.simulation.framework.SimBioModuleImpl;
+import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 
 /**
  * The Biological Waste Processor is the first stage of water purification.  It takes dirty/grey water, filters it some, and

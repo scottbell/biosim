@@ -1,8 +1,8 @@
-package biosim.server.sensor.framework;
+package com.traclabs.biosim.server.sensor.framework;
 
-import biosim.idl.framework.BioModule;
-import biosim.idl.sensor.framework.StoreSensorOperations;
-import biosim.idl.simulation.framework.Store;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.sensor.framework.StoreSensorOperations;
+import com.traclabs.biosim.idl.simulation.framework.Store;
 
 public abstract class StoreSensorImpl extends GenericSensorImpl implements StoreSensorOperations{
 	protected Store myStore;

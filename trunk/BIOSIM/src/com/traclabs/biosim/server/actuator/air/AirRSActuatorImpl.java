@@ -1,8 +1,8 @@
-package biosim.server.actuator.air;
+package com.traclabs.biosim.server.actuator.air;
 
-import biosim.idl.actuator.air.AirRSActuatorOperations;
-import biosim.idl.simulation.air.AirRS;
-import biosim.server.actuator.framework.GenericActuatorImpl;
+import com.traclabs.biosim.idl.actuator.air.AirRSActuatorOperations;
+import com.traclabs.biosim.idl.simulation.air.AirRS;
+import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
 
 public abstract class AirRSActuatorImpl extends GenericActuatorImpl implements AirRSActuatorOperations{
 	protected AirRS myAirRS;

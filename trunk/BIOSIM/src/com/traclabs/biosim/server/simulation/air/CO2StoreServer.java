@@ -1,7 +1,7 @@
-package biosim.server.simulation.air;
+package com.traclabs.biosim.server.simulation.air;
 
-import biosim.idl.simulation.air.CO2StorePOATie;
-import biosim.server.framework.GenericServer;
+import com.traclabs.biosim.idl.simulation.air.CO2StorePOATie;
+import com.traclabs.biosim.server.framework.GenericServer;
 /**
  * The CO2 Store Server.  Creates an instance of the CO2Store and registers it with the nameserver.
  *

@@ -1,4 +1,4 @@
-package biosim.client.util;
+package com.traclabs.biosim.client.util;
 
 import java.util.Date;
 import java.util.Random;

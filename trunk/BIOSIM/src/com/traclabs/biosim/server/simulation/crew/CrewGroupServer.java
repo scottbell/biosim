@@ -1,7 +1,7 @@
-package biosim.server.simulation.crew;
+package com.traclabs.biosim.server.simulation.crew;
 
-import biosim.idl.simulation.crew.CrewGroupPOATie;
-import biosim.server.framework.GenericServer;
+import com.traclabs.biosim.idl.simulation.crew.CrewGroupPOATie;
+import com.traclabs.biosim.server.framework.GenericServer;
 /**
  * The Crew Server.  Creates an instance of the Crew and registers it with the nameserver.
  *

@@ -1,4 +1,4 @@
-package biosim.client.simulation.framework.gui;
+package com.traclabs.biosim.client.simulation.framework.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -8,7 +8,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import biosim.client.framework.gui.UpdatablePanel;
+import com.traclabs.biosim.client.framework.gui.UpdatablePanel;
 /**
  * This is the JPanel that displays information about the a bio module
  *

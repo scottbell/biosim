@@ -1,4 +1,4 @@
-package biosim.client.simulation.environment.gui;
+package com.traclabs.biosim.client.simulation.environment.gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
@@ -10,9 +10,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import biosim.client.framework.gui.TimedPanel;
-import biosim.client.util.BioHolderInitializer;
-import biosim.idl.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.client.framework.gui.TimedPanel;
+import com.traclabs.biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 /** 
  * This is the JPanel that displays information about the environment (gas levels, current time, etc.)
  *

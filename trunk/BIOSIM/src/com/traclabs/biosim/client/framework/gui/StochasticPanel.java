@@ -1,4 +1,4 @@
-package biosim.client.framework.gui;
+package com.traclabs.biosim.client.framework.gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
@@ -20,9 +20,9 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import biosim.client.util.BioHolderInitializer;
-import biosim.idl.framework.BioModule;
-import biosim.idl.framework.StochasticIntensity;
+import com.traclabs.biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.framework.StochasticIntensity;
 /**
  * @author    Scott Bell
  */

@@ -1,4 +1,4 @@
-package biosim.client.simulation.environment.gui;
+package com.traclabs.biosim.client.simulation.environment.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,10 +10,10 @@ import org.jfree.chart.TextTitle;
 import org.jfree.chart.plot.Pie3DPlot;
 import org.jfree.data.DefaultPieDataset;
 
-import biosim.client.framework.gui.GraphPanel;
-import biosim.client.util.BioHolder;
-import biosim.client.util.BioHolderInitializer;
-import biosim.idl.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.client.framework.gui.GraphPanel;
+import com.traclabs.biosim.client.util.BioHolder;
+import com.traclabs.biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 
 /**
  * This is the JPanel that displays a chart about the Environment

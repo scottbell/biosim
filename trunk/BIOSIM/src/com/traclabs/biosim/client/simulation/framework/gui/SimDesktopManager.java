@@ -1,4 +1,4 @@
-package biosim.client.simulation.framework.gui;
+package com.traclabs.biosim.client.simulation.framework.gui;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;

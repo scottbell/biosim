@@ -1,6 +1,6 @@
-package biosim.server.simulation.water;
+package com.traclabs.biosim.server.simulation.water;
 
-import biosim.idl.framework.TechSpecificInfoPOA;
+import com.traclabs.biosim.idl.framework.TechSpecificInfoPOA;
 
 public class WaterRSMatlabTechInfoImpl extends TechSpecificInfoPOA {
 	String dummyString;

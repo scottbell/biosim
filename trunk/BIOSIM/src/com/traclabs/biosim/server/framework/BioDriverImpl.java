@@ -1,14 +1,14 @@
-package biosim.server.framework;
+package com.traclabs.biosim.server.framework;
 
 import org.apache.log4j.Logger;
-import biosim.idl.framework.BioDriverPOA;
-import biosim.idl.framework.BioModule;
-import biosim.idl.framework.MalfunctionIntensity;
-import biosim.idl.framework.MalfunctionLength;
-import biosim.idl.framework.StochasticIntensity;
-import biosim.idl.simulation.crew.CrewGroup;
-import biosim.idl.simulation.food.BiomassRS;
-import biosim.idl.simulation.food.Shelf;
+import com.traclabs.biosim.idl.framework.BioDriverPOA;
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
+import com.traclabs.biosim.idl.framework.MalfunctionLength;
+import com.traclabs.biosim.idl.framework.StochasticIntensity;
+import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
+import com.traclabs.biosim.idl.simulation.food.BiomassRS;
+import com.traclabs.biosim.idl.simulation.food.Shelf;
 
 /*
  *

@@ -1,8 +1,8 @@
-package biosim.server.actuator.environment;
+package com.traclabs.biosim.server.actuator.environment;
 
-import biosim.idl.actuator.environment.EnvironmentActuatorOperations;
-import biosim.idl.simulation.environment.SimEnvironment;
-import biosim.server.actuator.framework.GenericActuatorImpl;
+import com.traclabs.biosim.idl.actuator.environment.EnvironmentActuatorOperations;
+import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
 
 public abstract class EnvironmentActuatorImpl extends GenericActuatorImpl implements EnvironmentActuatorOperations{
 	protected SimEnvironment myEnvironment;

@@ -1,7 +1,7 @@
-package biosim.server.simulation.water;
+package com.traclabs.biosim.server.simulation.water;
 
-import biosim.idl.simulation.water.PotableWaterStoreOperations;
-import biosim.server.simulation.framework.StoreImpl;
+import com.traclabs.biosim.idl.simulation.water.PotableWaterStoreOperations;
+import com.traclabs.biosim.server.simulation.framework.StoreImpl;
 /**
  * The Potable Water Store Implementation.  Filled with clean potable water from the WaterRS and used by the crew memebers to drink.
  *

@@ -1,4 +1,4 @@
-package biosim.client.simulation.water.gui;
+package com.traclabs.biosim.client.simulation.water.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,12 +13,12 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.CategoryItemRenderer;
 import org.jfree.data.DefaultCategoryDataset;
 
-import biosim.client.framework.gui.GraphPanel;
-import biosim.client.util.BioHolder;
-import biosim.client.util.BioHolderInitializer;
-import biosim.idl.simulation.water.DirtyWaterStore;
-import biosim.idl.simulation.water.GreyWaterStore;
-import biosim.idl.simulation.water.PotableWaterStore;
+import com.traclabs.biosim.client.framework.gui.GraphPanel;
+import com.traclabs.biosim.client.util.BioHolder;
+import com.traclabs.biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.idl.simulation.water.DirtyWaterStore;
+import com.traclabs.biosim.idl.simulation.water.GreyWaterStore;
+import com.traclabs.biosim.idl.simulation.water.PotableWaterStore;
 
 /**
  * This is the JPanel that displays a chart about the WaterStores

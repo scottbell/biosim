@@ -1,7 +1,7 @@
-package biosim.server.simulation.waste;
+package com.traclabs.biosim.server.simulation.waste;
 
-import biosim.idl.simulation.waste.IncineratorPOATie;
-import biosim.server.framework.GenericServer;
+import com.traclabs.biosim.idl.simulation.waste.IncineratorPOATie;
+import com.traclabs.biosim.server.framework.GenericServer;
 /**
  * The Incinerator Server.  Creates an instance of the Incinerator  and registers it with the nameserver.
  *

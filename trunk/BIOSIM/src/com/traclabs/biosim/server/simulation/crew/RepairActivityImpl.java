@@ -1,6 +1,6 @@
-package biosim.server.simulation.crew;
+package com.traclabs.biosim.server.simulation.crew;
 
-import biosim.idl.simulation.crew.RepairActivityOperations;
+import com.traclabs.biosim.idl.simulation.crew.RepairActivityOperations;
 /**
  * Repair Activities.
  *

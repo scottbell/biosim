@@ -1,4 +1,4 @@
-package biosim.client.simulation.crew.gui;
+package com.traclabs.biosim.client.simulation.crew.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -11,12 +11,12 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import biosim.client.framework.gui.TimedPanel;
-import biosim.client.simulation.framework.gui.SimDesktopFrame;
-import biosim.client.util.BioHolderInitializer;
-import biosim.idl.simulation.crew.CrewGroup;
-import biosim.idl.simulation.crew.CrewPerson;
-import biosim.idl.simulation.crew.Sex;
+import com.traclabs.biosim.client.framework.gui.TimedPanel;
+import com.traclabs.biosim.client.simulation.framework.gui.SimDesktopFrame;
+import com.traclabs.biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
+import com.traclabs.biosim.idl.simulation.crew.CrewPerson;
+import com.traclabs.biosim.idl.simulation.crew.Sex;
 /**
  * This is the JPanel that displays information about the crew and the resources they consume.
  * Each tick it polls the crew server for new information.

@@ -1,6 +1,6 @@
-package biosim.server.sensor.air;
+package com.traclabs.biosim.server.sensor.air;
 
-import biosim.idl.sensor.air.NitrogenStoreLevelSensorOperations;
+import com.traclabs.biosim.idl.sensor.air.NitrogenStoreLevelSensorOperations;
 
 public class NitrogenStoreLevelSensorImpl extends NitrogenStoreSensorImpl implements NitrogenStoreLevelSensorOperations{
 	public NitrogenStoreLevelSensorImpl(int pID, String pName){

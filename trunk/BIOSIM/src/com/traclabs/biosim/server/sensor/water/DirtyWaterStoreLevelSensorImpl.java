@@ -1,6 +1,6 @@
-package biosim.server.sensor.water;
+package com.traclabs.biosim.server.sensor.water;
 
-import biosim.idl.sensor.water.DirtyWaterStoreLevelSensorOperations;
+import com.traclabs.biosim.idl.sensor.water.DirtyWaterStoreLevelSensorOperations;
 
 public class DirtyWaterStoreLevelSensorImpl extends DirtyWaterStoreSensorImpl implements DirtyWaterStoreLevelSensorOperations{
 	public DirtyWaterStoreLevelSensorImpl(int pID, String pName){
