@@ -68,7 +68,7 @@ public class PPS extends WaterRSSubSystem{
 	
 	public void reset(){
 		potableWaterProduced = 0f;
-		currentPower = 0;
+		currentPowerConsumed = 0;
 		hasEnoughPower = false;
 		hasEnoughWater = false;
 		waterLevel = 0;

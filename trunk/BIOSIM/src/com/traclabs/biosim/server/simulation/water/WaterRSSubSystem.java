@@ -10,7 +10,7 @@ import biosim.idl.power.*;
 
 public abstract class WaterRSSubSystem{
 	//The power consumed (in watts) by this water subsystem at this tick (default)
-	protected float currentPower = 0;
+	protected float currentPowerConsumed = 0;
 	//During any given tick, this much power (in watts) is needed for a water subsystem (default)
 	protected float powerNeeded =100;
 	//During any given tick, this much water (in liters) is needed for a water subsystem (default)
@@ -44,7 +44,7 @@ public abstract class WaterRSSubSystem{
 	public abstract void reset();
 	
 	public float getPowerConsumed(){
-		return currentPower;
+		return currentPowerConsumed;
 	}
 
 	/**
@@ -67,8 +67,8 @@ public abstract class WaterRSSubSystem{
 	* Adds power to the subsystem for this tick
 	*/
 	protected void gatherPower(){
-		currentPower = myPowerStore.take(powerNeeded);
-		if (currentPower < powerNeeded){
+		currentPowerConsumed = myPowerStore.take(powerNeeded);
+		if (currentPowerConsumed < powerNeeded){
 			hasEnoughPower = false;
 		}
 		else{
@@ -103,7 +103,7 @@ public abstract class WaterRSSubSystem{
 			LogNode powerNeededHead = myHead.addChild("Power Needed");
 			myLogIndex.powerNeededIndex = powerNeededHead.addChild(""+powerNeeded);
 			LogNode currentPowerConsumedHead = myHead.addChild("Power Consumed");
-			myLogIndex.currentPowerConsumedIndex = currentPowerConsumedHead.addChild(""+currentPower);
+			myLogIndex.currentPowerConsumedIndex = currentPowerConsumedHead.addChild(""+currentPowerConsumed);
 			LogNode waterNeededHead = myHead.addChild("Water Needed");
 			myLogIndex.waterNeededIndex = waterNeededHead.addChild(""+waterNeeded);
 			LogNode hasEnoughPowerHead = myHead.addChild("Has Enough Power");
@@ -116,7 +116,7 @@ public abstract class WaterRSSubSystem{
 		}
 		else{
 			myLogIndex.powerNeededIndex.setValue(""+powerNeeded);
-			myLogIndex.currentPowerConsumedIndex.setValue(""+currentPower);
+			myLogIndex.currentPowerConsumedIndex.setValue(""+currentPowerConsumed);
 			myLogIndex.waterNeededIndex.setValue(""+waterNeeded);
 			myLogIndex.hasEnoughPowerIndex.setValue(""+hasEnoughPower);
 			myLogIndex.hasEnoughWaterIndex.setValue(""+hasEnoughWater);
