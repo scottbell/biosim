@@ -15,7 +15,6 @@ import biosim.idl.simulation.water.DirtyWaterStore;
 import biosim.idl.simulation.water.GreyWaterStore;
 import biosim.idl.simulation.water.PotableWaterStore;
 import biosim.idl.simulation.water.WaterRSOperations;
-import biosim.idl.util.log.LogNode;
 import biosim.server.simulation.framework.SimBioModuleImpl;
 /**
  * The Water Recovery System takes grey/dirty water and refines it to potable water for the crew members and grey water for the crops..
@@ -30,7 +29,6 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 	private RO myRO;
 	private AES myAES;
 	private PPS myPPS;
-	private LogIndex myLogIndex;
 	private PowerStore[] myPowerInputs;
 	private DirtyWaterStore[] myDirtyWaterInputs;
 	private GreyWaterStore[] myGreyWaterInputs;
@@ -341,21 +339,6 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 			*/
 	}
 
-	/**
-	* For fast reference to the log tree
-	*/
-	private class LogIndex{
-		public LogNode powerNeededIndex;
-		public LogNode currentPotableWaterProducedIndex;
-		public LogNode currentGreyWaterProducedIndex;
-		public LogNode currentPowerConsumedIndex;
-		public LogNode currentDirtyWaterConsumedIndex;
-		public LogNode currentGreyWaterConsumedIndex;
-		public LogNode AESIndex;
-		public LogNode PPSIndex;
-		public LogNode BWPIndex;
-		public LogNode ROIndex;
-	}
 	
 	int getSubsystemsConsumingPower(){
 		return NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER;

@@ -7,7 +7,6 @@ import biosim.idl.framework.MalfunctionLength;
 import biosim.idl.simulation.environment.DehumidifierOperations;
 import biosim.idl.simulation.environment.SimEnvironment;
 import biosim.idl.simulation.water.DirtyWaterStore;
-import biosim.idl.util.log.LogNode;
 import biosim.server.simulation.framework.SimBioModuleImpl;
 /**
  * The basic Dehimidifier Implementation.
@@ -15,8 +14,6 @@ import biosim.server.simulation.framework.SimBioModuleImpl;
  */
 
 public class DehumidifierImpl extends SimBioModuleImpl implements DehumidifierOperations, AirConsumerOperations, DirtyWaterProducerOperations{
-	private LogIndex myLogIndex;
-	
 	private DirtyWaterStore[] myDirtyWaterOutputs;
 	private float[] dirtyWaterOutMaxFlowRates;
 	private float[] dirtyWaterOutActualFlowRates;
@@ -118,14 +115,6 @@ public class DehumidifierImpl extends SimBioModuleImpl implements DehumidifierOp
 	}
 
 	public void log(){
-	}
-
-	/**
-	* For fast reference to the log tree
-	*/
-	private class LogIndex{
-		public LogNode inIndex;
-		public LogNode outIndex;
 	}
 
 	//Dirty Water Outputs

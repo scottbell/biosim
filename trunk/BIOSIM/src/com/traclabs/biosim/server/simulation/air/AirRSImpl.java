@@ -23,7 +23,6 @@ import biosim.idl.simulation.air.O2Store;
 import biosim.idl.simulation.environment.SimEnvironment;
 import biosim.idl.simulation.power.PowerStore;
 import biosim.idl.simulation.water.PotableWaterStore;
-import biosim.idl.util.log.LogNode;
 import biosim.server.simulation.framework.SimBioModuleImpl;
 
 /**
@@ -34,7 +33,6 @@ import biosim.server.simulation.framework.SimBioModuleImpl;
  */
 
 public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, PowerConsumerOperations, PotableWaterConsumerOperations, PotableWaterProducerOperations, AirConsumerOperations, O2ProducerOperations, AirProducerOperations, CO2ProducerOperations, CO2ConsumerOperations, H2ProducerOperations, H2ConsumerOperations{
-	private LogIndex myLogIndex;
 	private VCCR myVCCR;
 	private CRS myCRS;
 	private CH4Tank myCH4Tank;
@@ -264,16 +262,6 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 			*/
 	}
 
-	/**
-	* For fast reference to the log tree
-	*/
-	private class LogIndex{
-		public LogNode CO2NeededIndex;
-		public LogNode currentO2ProducedIndex;
-		public LogNode currentCO2ConsumedIndex;
-		public LogNode currentCO2ProducedIndex;
-		public LogNode currentPowerConsumedIndex;
-	}
 	
 	
 	int getSubsystemsConsumingPower(){

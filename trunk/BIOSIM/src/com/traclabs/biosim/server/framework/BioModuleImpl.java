@@ -15,7 +15,6 @@ import biosim.idl.framework.MalfunctionLength;
 import biosim.idl.framework.StochasticIntensity;
 import biosim.idl.framework.TechSpecificInfo;
 import biosim.idl.framework.TechSpecificInfoHelper;
-import biosim.idl.util.log.Logger;
 import biosim.server.util.OrbUtils;
 /**
  * The BioModule Implementation.  Every Module should derive from this as to allow ticking and logging.
@@ -30,8 +29,6 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	protected boolean logInitialized = false;
 	//Whether this module is logging or not
 	protected boolean moduleLogging = false;
-	//The logger that this module sends it's log node to
-	private Logger myLogger;
 	//Whether this module has collected a reference to logger server
 	private boolean collectedLogger = false;
 	//The numerical value for the stochastic intensity

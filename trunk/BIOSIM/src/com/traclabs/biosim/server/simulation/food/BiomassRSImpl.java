@@ -21,7 +21,6 @@ import biosim.idl.simulation.power.PowerStore;
 import biosim.idl.simulation.water.DirtyWaterStore;
 import biosim.idl.simulation.water.GreyWaterStore;
 import biosim.idl.simulation.water.PotableWaterStore;
-import biosim.idl.util.log.LogNode;
 import biosim.server.simulation.framework.SimBioModuleImpl;
 import biosim.server.util.OrbUtils;
 /**
@@ -183,13 +182,6 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 				LogNode newShelfHead= myLog.addChild("shelf");
 				currentShelf.log(newShelfHead);
 			*/
-	}
-
-	/**
-	* For fast reference to the log tree
-	*/
-	private class LogIndex{
-		public LogNode nothingIndex;
 	}
 	
 	//Power Inputs

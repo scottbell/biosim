@@ -10,7 +10,6 @@ import biosim.idl.framework.PowerProducerOperations;
 import biosim.idl.simulation.environment.SimEnvironment;
 import biosim.idl.simulation.power.PowerPSOperations;
 import biosim.idl.simulation.power.PowerStore;
-import biosim.idl.util.log.LogNode;
 import biosim.server.simulation.framework.SimBioModuleImpl;
 /**
  * The Power Production System creates power from a generator (say a solar panel) and stores it in the power store.
@@ -24,8 +23,6 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements PowerPSOpe
 	float currentPowerProduced = 0f;
 	//Flag switched when the Power PS has collected references to other servers it need
 	private boolean hasCollectedReferences = false;
-	//Used for speedy access to the LogNode
-	private LogIndex myLogIndex;
 	private PowerStore[] myPowerStores;
 	private float[] powerMaxFlowRates;
 	private float[] powerActualFlowRates;
@@ -113,13 +110,6 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements PowerPSOpe
 			LogNode powerProducedHead = myLog.addChild("power_produced");
 			myLogIndex.powerProducedIndex = powerProducedHead.addChild(""+currentPowerProduced);
 			*/
-	}
-
-	/**
-	* For fast reference to the log tree
-	*/
-	private class LogIndex{
-		public LogNode powerProducedIndex;
 	}
 	
 	//Power Outputs

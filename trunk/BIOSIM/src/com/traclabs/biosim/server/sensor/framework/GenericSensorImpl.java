@@ -2,13 +2,10 @@ package biosim.server.sensor.framework;
 
 import biosim.idl.framework.BioModule;
 import biosim.idl.sensor.framework.GenericSensorOperations;
-import biosim.idl.util.log.LogNode;
 import biosim.server.framework.BioModuleImpl;
 
 public abstract class GenericSensorImpl extends BioModuleImpl implements GenericSensorOperations{
 	protected float myValue;
-	private LogNode valueNode;
-	private LogNode inputNode;
 	
 	public GenericSensorImpl(int pID, String pName){
 		super(pID, pName);

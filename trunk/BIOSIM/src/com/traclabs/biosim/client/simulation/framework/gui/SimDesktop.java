@@ -851,7 +851,6 @@ public class SimDesktop extends BioFrame
 		}
 		public void actionPerformed(ActionEvent ae){
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			myDriver.setFullLogging(true);
 			myLoggingItem.setText("Enable Logging");
 			setCursor(Cursor.getDefaultCursor());
 		}

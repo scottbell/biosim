@@ -40,7 +40,6 @@ import biosim.idl.simulation.water.DirtyWaterStore;
 import biosim.idl.simulation.water.GreyWaterStore;
 import biosim.idl.simulation.water.PotableWaterStore;
 import biosim.idl.simulation.water.WaterStore;
-import biosim.idl.util.log.LogNode;
 /**
  * The basic Injector Implementation.  Can be configured to take any modules as input, and any modules as output.
  * It takes as much as it can (max taken set by maxFlowRates) from one module and pushes it into another module.
@@ -49,8 +48,6 @@ import biosim.idl.util.log.LogNode;
  */
 
 public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations, PowerConsumerOperations, PotableWaterConsumerOperations, GreyWaterConsumerOperations, DirtyWaterConsumerOperations, O2ConsumerOperations, CO2ConsumerOperations, AirConsumerOperations, BiomassConsumerOperations, FoodConsumerOperations, PowerProducerOperations, PotableWaterProducerOperations, GreyWaterProducerOperations, DirtyWaterProducerOperations, O2ProducerOperations, CO2ProducerOperations, AirProducerOperations, BiomassProducerOperations, FoodProducerOperations, O2AirConsumerOperations, CO2AirConsumerOperations, O2AirProducerOperations, CO2AirProducerOperations, DryWasteProducerOperations, DryWasteConsumerOperations{
-	private LogIndex myLogIndex;
-
 	private PowerStore[] myPowerInputs;
 	private PowerStore[] myPowerOutputs;
 	private float[] powerOutMaxFlowRates;
@@ -561,14 +558,6 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 	}
 
 	public void log(){
-	}
-
-	/**
-	* For fast reference to the log tree
-	*/
-	private class LogIndex{
-		public LogNode inIndex;
-		public LogNode outIndex;
 	}
 
 	//Power Inputs

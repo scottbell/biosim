@@ -8,15 +8,12 @@ import biosim.idl.simulation.air.Breath;
 import biosim.idl.simulation.environment.SimEnvironment;
 import biosim.idl.simulation.mission.EVAMissionOperations;
 import biosim.idl.simulation.power.PowerStore;
-import biosim.idl.util.log.LogNode;
 /**
  * The basic EVAMission Implementation.
  * @author    Scott Bell
  */
 
 public class EVAMissionImpl extends MissionModuleImpl implements EVAMissionOperations, PowerConsumerOperations, AirConsumerOperations{
-	private LogIndex myLogIndex;
-
 	private PowerStore[] myPowerInputs;
 	private float[] powerInMaxFlowRates;
 	private float[] powerInActualFlowRates;
@@ -82,14 +79,6 @@ public class EVAMissionImpl extends MissionModuleImpl implements EVAMissionOpera
 	}
 
 	public void log(){
-	}
-
-	/**
-	* For fast reference to the log tree
-	*/
-	private class LogIndex{
-		public LogNode inIndex;
-		public LogNode outIndex;
 	}
 
 	//Power Inputs

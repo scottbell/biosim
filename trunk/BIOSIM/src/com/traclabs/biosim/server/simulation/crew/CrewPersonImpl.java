@@ -11,7 +11,6 @@ import biosim.idl.simulation.crew.RepairActivity;
 import biosim.idl.simulation.crew.Sex;
 import biosim.idl.simulation.environment.SimEnvironment;
 import biosim.idl.simulation.food.FoodMatter;
-import biosim.idl.util.log.LogNode;
 import biosim.server.simulation.framework.SimBioModuleImpl;
 import biosim.server.simulation.framework.SimpleBuffer;
 import biosim.server.util.OrbUtils;
@@ -83,7 +82,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	//Used to format floats
 	private DecimalFormat numFormat;
 	private boolean logInitialized = false;
-	private LogIndex myLogIndex;
 	private Random myRandomGen;
 	private SimpleBuffer consumedWaterBuffer;
 	private SimpleBuffer consumedOxygenBuffer;
@@ -855,11 +853,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			myAirOutputs[0].addWaterMoles(vaporProduced);
 		}
 	}
-
-	public void log(LogNode myLogHead){
-		//If not initialized, fill in the log
-		if (!logInitialized){
-			myLogIndex = new LogIndex();
+	/*
 			LogNode nameHead = myLogHead.addChild("name");
 			myLogIndex.nameIndex = nameHead.addChild(""+myName);
 			LogNode currentActivityHead = myLogHead.addChild("current_activity");
@@ -897,56 +891,5 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			myLogIndex.potableWaterNeededIndex = potableWaterNeededHead.addChild(""+potableWaterNeeded);
 			LogNode caloriesNeededHead = myLogHead.addChild("food_needed");
 			myLogIndex.caloriesNeededIndex = caloriesNeededHead.addChild(""+caloriesNeeded);
-			logInitialized = true;
-		}
-		else{
-			myLogIndex.nameIndex.setValue(""+myName);
-			myLogIndex.currentActivityIndex.setValue(""+myCurrentActivity.getName());
-			myLogIndex.currentActivityOrderIndex.setValue(""+currentOrder);
-			myLogIndex.timeActivityPerformedIndex.setValue(""+timeActivityPerformed);
-			myLogIndex.hasDiedIndex.setValue(""+hasDied);
-			myLogIndex.ageIndex.setValue(""+age);
-			myLogIndex.weightIndex.setValue(""+weight);
-			if (sex == Sex.male)
-				myLogIndex.sexIndex.setValue("male");
-			else if (sex == Sex.female)
-				myLogIndex.sexIndex.setValue("female");
-			myLogIndex.O2ConsumedIndex.setValue(""+O2Consumed);
-			myLogIndex.CO2ProducedIndex.setValue(""+CO2Produced);
-			myLogIndex.caloriesConsumedIndex.setValue(""+caloriesConsumed);
-			myLogIndex.cleanWaterConsumedIndex.setValue(""+cleanWaterConsumed);
-			myLogIndex.dirtyWaterProducedIndex.setValue(""+dirtyWaterProduced);
-			myLogIndex.greyWaterProducedIndex.setValue(""+greyWaterProduced);
-			myLogIndex.O2NeededIndex.setValue(""+O2Needed);
-			myLogIndex.potableWaterNeededIndex.setValue(""+potableWaterNeeded);
-			myLogIndex.caloriesNeededIndex.setValue(""+caloriesNeeded);
-		}
-	}
-
-	/**
-	* For fast reference to the log tree
-	*/
-	private class LogIndex{
-		public LogNode nameIndex;
-		public LogNode currentActivityIndex;
-		public LogNode currentActivityOrderIndex;
-		public LogNode timeActivityPerformedIndex;
-		public LogNode personStarvingIndex;
-		public LogNode personThirstyIndex;
-		public LogNode personSuffocatingIndex;
-		public LogNode personPoisonedIndex;
-		public LogNode hasDiedIndex;
-		public LogNode ageIndex;
-		public LogNode weightIndex;
-		public LogNode sexIndex;
-		public LogNode O2ConsumedIndex;
-		public LogNode CO2ProducedIndex;
-		public LogNode caloriesConsumedIndex;
-		public LogNode cleanWaterConsumedIndex;
-		public LogNode dirtyWaterProducedIndex;
-		public LogNode greyWaterProducedIndex;
-		public LogNode O2NeededIndex;
-		public LogNode potableWaterNeededIndex;
-		public LogNode caloriesNeededIndex;
-	}
+			*/
 }

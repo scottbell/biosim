@@ -10,15 +10,12 @@ import biosim.idl.simulation.environment.SimEnvironment;
 import biosim.idl.simulation.mission.AnimalMissionOperations;
 import biosim.idl.simulation.power.PowerStore;
 import biosim.idl.simulation.water.PotableWaterStore;
-import biosim.idl.util.log.LogNode;
 /**
  * The basic AnimalMission Implementation.
  * @author    Scott Bell
  */
 
 public class AnimalMissionImpl extends MissionModuleImpl implements AnimalMissionOperations, PowerConsumerOperations, AirConsumerOperations, PotableWaterConsumerOperations{
-	private LogIndex myLogIndex;
-
 	private PowerStore[] myPowerInputs;
 	private float[] powerInMaxFlowRates;
 	private float[] powerInActualFlowRates;
@@ -95,14 +92,6 @@ public class AnimalMissionImpl extends MissionModuleImpl implements AnimalMissio
 	}
 
 	public void log(){
-	}
-
-	/**
-	* For fast reference to the log tree
-	*/
-	private class LogIndex{
-		public LogNode inIndex;
-		public LogNode outIndex;
 	}
 
 	//Power Inputs

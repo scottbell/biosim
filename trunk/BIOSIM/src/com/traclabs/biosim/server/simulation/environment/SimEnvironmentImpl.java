@@ -9,7 +9,6 @@ import biosim.idl.framework.MalfunctionIntensity;
 import biosim.idl.framework.MalfunctionLength;
 import biosim.idl.simulation.air.Breath;
 import biosim.idl.simulation.environment.SimEnvironmentOperations;
-import biosim.idl.util.log.LogNode;
 import biosim.server.simulation.framework.SimBioModuleImpl;
 import biosim.server.util.OrbUtils;
 /**
@@ -67,7 +66,6 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	private static final float STARTING_HOUR = 0f;
 	private static final float DAY_LENGTH = 24f;
 	private String myName;
-	private LogIndex myLogIndex;
 	//Used for finding what the current tick is (to see if we're behind or ahead)
 	private BioDriver myDriver;
 	//Whether this Store has collected a reference to the BioDriver or not.
@@ -1013,23 +1011,5 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 				e.printStackTrace(System.out);
 			}
 		}
-	}
-
-	/**
-	* For fast reference to the log tree
-	*/
-	private class LogIndex{
-		public LogNode O2MolesIndex;
-		public LogNode CO2MolesIndex;
-		public LogNode otherMolesIndex;
-		public LogNode waterMolesIndex;
-		public LogNode nitrogenMolesIndex;
-		public LogNode O2PressureIndex;
-		public LogNode CO2PressureIndex;
-		public LogNode otherPressureIndex;
-		public LogNode waterPressureIndex;
-		public LogNode nitrogenPressureIndex;
-		public LogNode volumeIndex;
-		public LogNode lightIntensityIndex;
 	}
 }

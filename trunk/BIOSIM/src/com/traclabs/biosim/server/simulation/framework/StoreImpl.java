@@ -8,7 +8,6 @@ import biosim.idl.framework.Malfunction;
 import biosim.idl.framework.MalfunctionIntensity;
 import biosim.idl.framework.MalfunctionLength;
 import biosim.idl.simulation.framework.StoreOperations;
-import biosim.idl.util.log.LogNode;
 import biosim.server.util.OrbUtils;
 /**
  * The basic Store Implementation.  Allows for basic store functionality (like adding, removing).<br>
@@ -34,8 +33,6 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	private float preMalfunctionCapacity = 0.0f;
 	//Used for finding what the current tick is (to see if we're behind or ahead)
 	private BioDriver myDriver;
-	//An index into the LogNode (speeds up performance)
-	private LogIndex myLogIndex;
 	//Whether this Store has collected a reference to the BioDriver or not.
 	private boolean hasCollectedReferences = false;
 	private boolean pipe = false;
@@ -320,15 +317,6 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 			LogNode overflowHead = myLog.addChild("overflow");
 			myLogIndex.overflowIndex = overflowHead.addChild((""+overflow));
 			*/
-	}
-
-	/**
-	* For fast reference to the log tree
-	*/
-	private class LogIndex{
-		public LogNode levelIndex;
-		public LogNode capacityIndex;
-		public LogNode overflowIndex;
 	}
 
 }

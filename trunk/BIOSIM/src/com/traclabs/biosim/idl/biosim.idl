@@ -58,7 +58,7 @@ module biosim{
                                 };
                                 struct FoodMatter{
                                         float mass;
-					float waterContent;
+                                        float waterContent;
                                         PlantType type;
                                 };
                                 typedef sequence <Shelf> ShelfList;
@@ -100,15 +100,6 @@ module biosim{
                                 interface Injector;
                                 interface Accumulator;
                                 interface Store;
-                        };
-                };
-                module util{
-                        module log{
-                                interface LogNode;
-                                enum LogHandlerType{SCREEN, XML, FLAT, DB};
-                                typedef sequence <LogHandlerType> LogHandlerTypeList;
-                                interface Logger;
-                                typedef sequence <LogNode> LogNodeList;
                         };
                 };
                 module framework{
@@ -168,10 +159,11 @@ module biosim{
 module biosim{
         module idl{
                 module framework{
-			interface TechSpecificInfo{
-				string print();
-			};
-                        interface Malfunction{
+                	interface TechSpecificInfo{
+                		string print();
+                	};
+                	
+                	interface Malfunction{
                                 MalfunctionIntensity getIntensity();
                                 long long getID();
                                 string getName();
@@ -180,7 +172,7 @@ module biosim{
                                 MalfunctionLength getLength();
                                 void repair();
                                 boolean isRepaired();
-                        };
+                    };
                         interface BioModule{
                                 void tick();
                                 string getModuleName();
@@ -197,7 +189,7 @@ module biosim{
                                 boolean isMalfunctioning();
                                 StringList getMalfunctionNames();
                                 MalfunctionList getMalfunctions();
-				TechSpecificInfo getTechSpecificInfo();
+								TechSpecificInfo getTechSpecificInfo();
                                 void maitenance();
                                 void log();
                                 void repair(in long long id);
@@ -218,9 +210,6 @@ module biosim{
                                 void setLoopSimulation(in boolean pLoop);
                                 void setPauseSimulation(in boolean pPause);
                                 void advanceOneTick();
-                                void setFullLogging(in boolean pLogSim);
-                                void setSensorLogging(in boolean pLogSim);
-                                void setActuatorLogging(in boolean pLogSim);
                                 void setDriverStutterLength(in long pDriverPauseLength);
                                 long getDriverStutterLength();
                                 void setModules(in BioModuleList pModules);
@@ -245,11 +234,8 @@ module biosim{
                                 boolean isDone();
                                 long getTicks();
                                 void reset();
-                                void forceLog();
-                                void setLogger(in util::log::Logger pLogger);
                                 boolean isLooping();
                                 void setLooping(in boolean pLoop);
-                                void setLogLastTick(in boolean pLogLastTick);
                                 void setStochasticIntensity(in StochasticIntensity pIntensity);
                                 void startMalfunction(in MalfunctionIntensity pIntensity, in MalfunctionLength pLength);
                         };
@@ -622,30 +608,6 @@ module biosim{
                                 float getDryWasteOutputActualFlowRate(in long index);
                                 void setDryWasteOutputs(in simulation::waste::DryWasteStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                 simulation::waste::DryWasteStoreList getDryWasteOutputs();
-                        };
-                };
-                module util{
-                        module log{
-                                interface Logger{
-                                        void processLog(in LogNode thingToLog);
-                                        LogHandlerTypeList getLogHandlerTypes();
-                                        void addLogHandlerType(in LogHandlerType pLogType);
-                                        void setProcessingLogs(in boolean pAllowLogging);
-                                        void endLog();
-                                        void forceWriteLog();
-                                        boolean isProcessingLogs();
-                                        string getName();
-                                };
-                                interface LogNode{
-                                        LogNode getHead();
-                                        string getValue();
-                                        void setValue(in string newValue);
-                                        LogNode addChild (in string pChildName);
-                                        LogNodeList getChildren();
-                                        boolean hasChildren();
-                                        LogNode getChildDeep(in string pName);
-                                        LogNode getChildShallow(in string pName);
-                                };
                         };
                 };
                 module simulation{
