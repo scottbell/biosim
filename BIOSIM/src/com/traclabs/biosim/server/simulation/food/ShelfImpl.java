@@ -103,5 +103,6 @@ public class ShelfImpl extends ShelfPOA {
 			gatherWater();
 			waterPlants();
 		}
+		myCrop.tick();
 	}
 }
