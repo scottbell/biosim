@@ -1,5 +1,6 @@
 package biosim.client.water.gui;
 
+import javax.swing.*;
 import java.awt.*;
 import biosim.client.framework.gui.*;
 
@@ -8,7 +9,7 @@ import biosim.client.framework.gui.*;
  *
  * @author    Scott Bell
  */
-public class WaterChartPanel extends BioTabPanel
+public class WaterChartPanel extends UpdatablePanel
 {
 	private WaterStorePanel myWaterStorePanel;
 
@@ -20,5 +21,9 @@ public class WaterChartPanel extends BioTabPanel
 	
 	public void visibilityChange(boolean nowVisible){
 		myWaterStorePanel.visibilityChange(nowVisible);
+	}
+	
+	public void refresh(){
+		myWaterStorePanel.refresh();
 	}
 }

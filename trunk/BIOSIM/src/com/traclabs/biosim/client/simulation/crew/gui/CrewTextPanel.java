@@ -1,7 +1,7 @@
 package biosim.client.crew.gui;
 
-import biosim.client.framework.*;
 import biosim.client.framework.gui.*;
+import biosim.client.framework.*;
 import biosim.idl.crew.*;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -16,7 +16,7 @@ import java.text.*;
  * @author    Scott Bell
  */
 
-public class CrewTextPanel extends BioTabPanel
+public class CrewTextPanel extends TimedPanel
 {
 	//Panel containing each crew member
 	private JPanel crewPanel;
@@ -144,7 +144,7 @@ public class CrewTextPanel extends BioTabPanel
 	/**
 	 * Enumerates through all the crew memebers this panel knows about and updates their labels by pulling from the crew server.
 	 */
-	public void processUpdate(){
+	public void refresh(){
 		if (crewPersonGUIVector.size() == 0){
 			myCrewPeople = myCrew.getCrewPeople();
 			if (myCrewPeople.length > 0){

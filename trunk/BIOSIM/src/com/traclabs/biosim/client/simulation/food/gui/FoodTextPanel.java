@@ -1,7 +1,7 @@
 package biosim.client.food.gui;
 
-import biosim.client.framework.*;
 import biosim.client.framework.gui.*;
+import biosim.client.framework.*;
 import biosim.idl.food.*;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -15,7 +15,7 @@ import java.text.*;
  * @author    Scott Bell
  */
 
-public class FoodTextPanel extends BioTabPanel
+public class FoodTextPanel extends TimedPanel
 {
 	//Various GUI componenets
 	private JPanel biomassRSPanel;
@@ -211,7 +211,7 @@ public class FoodTextPanel extends BioTabPanel
 	/**
 	 * Updates every label on the panel with new data pulled from the servers.
 	 */
-	public void processUpdate(){
+	public void refresh(){
 		biomassRSStatusLabel.setText("status:                              "+coallateBiomassRSStatus());
 		foodProcessorFoodProducedLabel.setText("food produced:          "+numFormat.format(myFoodProcessor.getFoodProduced())+" kg");
 		foodProcessorBiomassConsumedLabel.setText("biomass consumed:   "+numFormat.format(myFoodProcessor.getBiomassConsumed())+" kg");

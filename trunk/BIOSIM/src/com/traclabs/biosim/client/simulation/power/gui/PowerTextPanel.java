@@ -1,7 +1,7 @@
  package biosim.client.power.gui;
 
-import biosim.client.framework.*;
 import biosim.client.framework.gui.*;
+import biosim.client.framework.*;
 import biosim.idl.power.*;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -15,7 +15,7 @@ import java.text.*;
  * @author    Scott Bell
  */
 
-public class PowerTextPanel extends BioTabPanel
+public class PowerTextPanel extends TimedPanel
 {
 	//Various GUI componenets
 	private JPanel powerPSPanel;
@@ -78,7 +78,7 @@ public class PowerTextPanel extends BioTabPanel
 	/**
 	 * Updates every label on the panel with new data pulled from the servers.
 	 */
-	public void processUpdate(){
+	public void refresh(){
 		powerPSPowerProducedLabel.setText("power produced:         "+numFormat.format(myPowerPS.getPowerProduced())+" W");
 		powerStoreLevelLabel.setText("power level:    "+numFormat.format(myPowerStore.getLevel())+" W");
 	}

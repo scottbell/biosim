@@ -1,5 +1,6 @@
 package biosim.client.air.gui;
 
+import javax.swing.*;
 import java.awt.*;
 import biosim.client.framework.gui.*;
 
@@ -8,7 +9,7 @@ import biosim.client.framework.gui.*;
  *
  * @author    Scott Bell
  */
-public class AirChartPanel extends BioTabPanel
+public class AirChartPanel extends UpdatablePanel 
 {
 	private AirStorePanel myAirStorePanel;
 
@@ -20,5 +21,9 @@ public class AirChartPanel extends BioTabPanel
 	
 	public void visibilityChange(boolean nowVisible){
 		myAirStorePanel.visibilityChange(nowVisible);
+	}
+	
+	public void refresh(){
+		myAirStorePanel.refresh();
 	}
 }

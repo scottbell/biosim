@@ -1,7 +1,7 @@
 package biosim.client.water.gui;
 
-import biosim.client.framework.*;
 import biosim.client.framework.gui.*;
+import biosim.client.framework.*;
 import biosim.idl.water.*;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -16,7 +16,7 @@ import java.text.*;
  */
 
 
-public class WaterTextPanel extends BioTabPanel
+public class WaterTextPanel extends TimedPanel
 {
 	//Various GUI componenets
 	private JPanel waterRSPanel;
@@ -280,7 +280,7 @@ public class WaterTextPanel extends BioTabPanel
 	/**
 	 * Updates every label on the panel with new data pulled from the servers.
 	 */
-	public void processUpdate(){
+	public void refresh(){
 		waterRSPotableWaterProducedLabel.setText("potable water produced:   "+numFormat.format(myWaterRS.getPotableWaterProduced())+" L");
 		waterRSGreyWaterProducedLabel.setText("grey water produced:        "+numFormat.format(myWaterRS.getGreyWaterProduced())+" L");
 		waterRSDirtyWaterConsumedLabel.setText("dirty water consumed:      "+numFormat.format(myWaterRS.getDirtyWaterConsumed())+" L");

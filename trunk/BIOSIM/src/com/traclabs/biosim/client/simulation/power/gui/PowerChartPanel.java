@@ -1,5 +1,6 @@
 package biosim.client.power.gui;
 
+import javax.swing.*;
 import java.awt.*;
 import biosim.client.framework.gui.*;
 
@@ -8,7 +9,7 @@ import biosim.client.framework.gui.*;
  *
  * @author    Scott Bell
  */
-public class PowerChartPanel extends BioTabPanel
+public class PowerChartPanel extends UpdatablePanel
 {
 	private PowerStorePanel myPowerStorePanel;
 
@@ -20,5 +21,9 @@ public class PowerChartPanel extends BioTabPanel
 	
 	public void visibilityChange(boolean nowVisible){
 		myPowerStorePanel.visibilityChange(nowVisible);
+	}
+	
+	public void refresh(){
+		myPowerStorePanel.refresh();
 	}
 }
