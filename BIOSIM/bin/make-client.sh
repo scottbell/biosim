@@ -11,7 +11,8 @@ then
 fi
 JACORB_HOME="$devRootDir/lib/jacorb"
 java_command=$JAVA_HOME/bin/java
-javac_command=$JAVA_HOME/bin/javac
+#assume javac is in the path
+javac_command=javac
 if [ -z "$JAVA_HOME" ]
 then
 	echo "		-JAVA_HOME not set, assuming java and javac are in path..."
