@@ -161,6 +161,7 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 			ShelfImpl currentShelf = (ShelfImpl)(iter.next());
 			currentShelf.tick();
 		}
+		//System.out.println(getModuleName()+" ticked");
 	}
 
 	public void log(){
