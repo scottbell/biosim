@@ -76,8 +76,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		myName = pName;
 		volume = initialVolume = pInitialVolume;
 		O2Pressure = cachedO2Pressure = initialO2Pressure = 2.0f;
-		CO2Pressure = cachedCO2Pressure = initialCO2Pressure = 7.7f;
-		otherPressure = cachedOtherPressure = initialOtherPressure = 0.2f;
+		CO2Pressure = cachedCO2Pressure = initialCO2Pressure = 0.2f;
+		otherPressure = cachedOtherPressure = initialOtherPressure = 7.7f;
 		waterPressure = cachedWaterPressure = initialWaterPressure = 0.1f;
 		O2Moles = cachedO2Moles = initialO2Moles = calculateMoles(O2Pressure); 
 		otherMoles = cachedOtherMoles = initialOtherMoles = calculateMoles(otherPressure);
@@ -298,8 +298,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	public void setInitialVolumeAtSeaLevel(float pInitialVolume){
 		volume = initialVolume = pInitialVolume;
 		O2Pressure = cachedO2Pressure = initialO2Pressure = 2.0f;
-		CO2Pressure = cachedCO2Pressure = initialCO2Pressure = 7.7f;
-		otherPressure = cachedOtherPressure = initialOtherPressure = 0.2f;
+		otherPressure = cachedOtherPressure = initialOtherPressure = 7.7f;
+		CO2Pressure = cachedCO2Pressure = initialCO2Pressure = 0.2f;
 		waterPressure = cachedWaterPressure = initialWaterPressure = 0.1f;
 		O2Moles = cachedO2Moles = initialO2Moles = calculateMoles(O2Pressure); 
 		otherMoles = cachedOtherMoles = initialOtherMoles = calculateMoles(otherPressure);
@@ -464,8 +464,11 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 			O2Moles = afterAddition;
 		}
 		else{
+			System.out.println(getModuleName()+": O2Moles: "+O2Moles);
+			System.out.println(getModuleName()+": molesRequested: "+molesRequested);
 			afterAddition = randomFilter(O2Moles + molesRequested);
 			actuallyAdded = afterAddition - O2Moles;
+			System.out.println(getModuleName()+": actuallyAdded: "+actuallyAdded);
 			O2Moles = afterAddition;
 		}
 		return  actuallyAdded;
