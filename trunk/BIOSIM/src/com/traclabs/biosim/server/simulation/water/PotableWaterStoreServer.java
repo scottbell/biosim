@@ -1,9 +1,3 @@
-/**
- * The Potable Water Store Server.  Creates an instance of the PotableWaterStore and registers it with the nameserver.
- *
- * @author    Scott Bell
- */
-
 package biosim.server.water;
 
 import biosim.idl.water.*;
@@ -13,6 +7,11 @@ import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
+/**
+ * The Potable Water Store Server.  Creates an instance of the PotableWaterStore and registers it with the nameserver.
+ *
+ * @author    Scott Bell
+ */
 
 public class PotableWaterStoreServer {
 	/**

@@ -1,10 +1,9 @@
+ package biosim.server.water;
 /**
  * The abstract class all the water subsystems derive from (the AES, BWP, PPS, and RO).
  *
  * @author    Scott Bell
  */
- 
-package biosim.server.water;
 
 public abstract class WaterRSSubSystem{
 	//The power consumed (in watts) by this water subsystem at this tick (default)

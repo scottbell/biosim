@@ -1,16 +1,15 @@
-/**
- * The Water Recovery System takes grey/dirty water and refines it to potable water for the crew members and grey water for the crops.
- * Class modeled after the paper:
- * "Intelligent Control of a Water Recovery System: Three Years in the Trenches" by Bonasso, Kortenkamp, and Thronesbery
- * @author    Scott Bell
- */
-
 package biosim.server.water;
 
 import biosim.idl.water.*;
 import biosim.idl.power.*;
 import biosim.server.util.*;
 import biosim.server.framework.*;
+/**
+ * The Water Recovery System takes grey/dirty water and refines it to potable water for the crew members and grey water for the crops..
+ * Class modeled after the paper:.
+ * "Intelligent Control of a Water Recovery System: Three Years in the Trenches" by Bonasso, Kortenkamp, and Thronesbery
+ * @author    Scott Bell
+ */
 
 public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	//The potable water produced (in liters) by the Water RS at the current tick
@@ -216,11 +215,11 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	}
 
 	/**
-	* When ticked, the Water RS
-	* 1) attempts to collect references to various server (if not already done)
-	* 2) consumes power
-	* 3) consumes unpotable water
-	* 4) ticks each subsystem
+	* When ticked, the Water RS:
+	* 1) attempts to collect references to various server (if not already done).
+	* 2) consumes power.
+	* 3) consumes unpotable water.
+	* 4) ticks each subsystem.
 	* 5) distributes the now potable water
 	*/
 	public void tick(){

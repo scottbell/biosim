@@ -1,9 +1,3 @@
-/**
- * The OrbUtils class provides basic CORBA utilities to server components
- *
- * @author    Scott Bell
- */
-
 package biosim.server.util;
 
 import org.omg.CosNaming.*;
@@ -11,6 +5,11 @@ import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
+/**
+ * The OrbUtils class provides basic CORBA utilities to server components
+ *
+ * @author    Scott Bell
+ */
 
 public class OrbUtils{
 	//Flag to make sure OrbUtils only runs initialize once  

@@ -1,12 +1,3 @@
-/**
- * BioSimulator exists as the driver for the simulation.  It gathers references to all the various servers, initializes them, then ticks them.
- * This is all done multithreaded through the use of the spawnSimulation method.
- * BioSimulator also can notify listeners when it has sucessfully ticked all the servers.  The listener needs only to implement BioSimulatorListener and
- * register with BioSimulator.
- *
- * @author    Scott Bell
- */
-
 package biosim.client.framework;
 
 import biosim.idl.air.*;
@@ -22,6 +13,15 @@ import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
 import java.util.*;
+
+/**
+ * BioSimulator exists as the driver for the simulation.  It gathers references to all the various servers, initializes them, then ticks them.
+ * This is all done multithreaded through the use of the spawnSimulation method.
+ * BioSimulator also can notify listeners when it has sucessfully ticked all the servers.  The listener needs only to implement BioSimulatorListener and
+ * register with BioSimulator.
+ *
+ * @author    Scott Bell
+ */
 
 public class BioSimulator implements Runnable
 {
@@ -73,7 +73,7 @@ public class BioSimulator implements Runnable
 	}
 	
 	/**
-	* Invoked by the myThread.start() method call and necessary to implement Runnable
+	* Invoked by the myThread.start() method call and necessary to implement Runnable.
 	* Sets flag that simulation is running, intializes servers, then begins ticking them.
 	*/
 	public void run(){

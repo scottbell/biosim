@@ -7,9 +7,16 @@ import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
-
+/**
+ * The O2 Store Server.  Creates an instance of the O2Store and registers it with the nameserver.
+ *
+ * @author    Scott Bell
+ */
 public class O2StoreServer {
-
+	/**
+	* Instantiates the server and binds it to the name server.
+	* @param args aren't used for anything
+	*/
 	public static void main(String args[]) {
 		try{
 			// create and initialize the ORB

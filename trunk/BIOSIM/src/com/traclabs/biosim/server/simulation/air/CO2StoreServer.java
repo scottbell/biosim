@@ -1,9 +1,4 @@
-/**
- * The CO2 Store Server.  Creates an instance of the CO2Store and registers it with the nameserver.
- *
- * @author    Scott Bell
- */
- package biosim.server.air;
+package biosim.server.air;
 
 import biosim.idl.air.*;
 import biosim.server.util.*;
@@ -12,6 +7,11 @@ import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
+/**
+ * The CO2 Store Server.  Creates an instance of the CO2Store and registers it with the nameserver.
+ *
+ * @author    Scott Bell
+ */
 
 public class CO2StoreServer {
 

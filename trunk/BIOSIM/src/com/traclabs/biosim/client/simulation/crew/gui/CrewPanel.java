@@ -1,10 +1,3 @@
-/** 
- * This is the JPanel that displays information about the crew and the resources they consume.
- * Each tick it polls the crew server for new information.
- *
- * @author    Scott Bell
- */
- 
 package biosim.client.crew.gui;
 
 import biosim.client.framework.*;
@@ -16,6 +9,12 @@ import java.awt.event.*;
 import java.awt.*;
 import java.util.*;
 import java.text.*;
+/** 
+ * This is the JPanel that displays information about the crew and the resources they consume.
+ * Each tick it polls the crew server for new information.
+ *
+ * @author    Scott Bell
+ */
 
 public class CrewPanel extends JPanel implements BioSimulatorListener
 {

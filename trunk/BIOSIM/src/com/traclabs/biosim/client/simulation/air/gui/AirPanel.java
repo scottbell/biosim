@@ -1,10 +1,3 @@
-/**
- * This is the JPanel that displays information about the AirRS, the O2 store, and the CO2 Store.
- * Each tick it polls each air related server for new information regarding these systems.
- *
- * @author    Scott Bell
- */
-
 package biosim.client.air.gui;
 
 import biosim.client.framework.*;
@@ -14,7 +7,13 @@ import javax.swing.border.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.text.*;
-
+/**
+ * This is the JPanel that displays information about the AirRS, the O2 store, and the CO2 Store.
+ * Each tick it polls each air related server for new information regarding these systems.
+ *
+ * @author    Scott Bell
+ */
+ 
 public class AirPanel extends JPanel implements BioSimulatorListener
 {
 	//Various GUI componenets

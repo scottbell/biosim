@@ -1,10 +1,3 @@
-/**
- * This is the JPanel that displays information about the Food Processor, the Biomass RS, and their respective stores.
- * Each tick it polls each related server for new information regarding these systems.
- *
- * @author    Scott Bell
- */
-
 package biosim.client.food.gui;
 
 import biosim.client.framework.*;
@@ -14,6 +7,12 @@ import javax.swing.border.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.text.*;
+/**
+ * This is the JPanel that displays information about the Food Processor, the Biomass RS, and their respective stores.
+ * Each tick it polls each related server for new information regarding these systems.
+ *
+ * @author    Scott Bell
+ */
 
 public class FoodPanel extends JPanel implements BioSimulatorListener
 {

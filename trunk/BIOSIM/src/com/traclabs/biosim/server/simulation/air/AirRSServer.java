@@ -1,9 +1,3 @@
-/**
- * The Air Revitalization System Server.  Creates an instance of the AirRS and registers it with the nameserver.
- *
- * @author    Scott Bell
- */
-
 package biosim.server.air;
 
 import biosim.idl.air.*;
@@ -13,6 +7,11 @@ import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
 import biosim.server.util.*;
+/**
+ * The Air Revitalization System Server.  Creates an instance of the AirRS and registers it with the nameserver.
+ *
+ * @author    Scott Bell
+ */
 
 public class AirRSServer {
 	

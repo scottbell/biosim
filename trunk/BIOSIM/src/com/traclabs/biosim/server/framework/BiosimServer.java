@@ -1,9 +1,3 @@
-/**
- * The BioModule Server.  Creates an instance of each module (AirRS, FoodProcessor, WaterRS, etc..) and binds them to the nameserver.
- *
- * @author    Scott Bell
- */
-
 package biosim.server.framework;
 
 import biosim.idl.air.*;
@@ -24,6 +18,11 @@ import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
+/**
+ * The BioModule Server.  Creates an instance of each module (AirRS, FoodProcessor, WaterRS, etc..) and binds them to the nameserver.
+ *
+ * @author    Scott Bell
+ */
 
 public class BioModuleServer {
 	/**

@@ -1,11 +1,10 @@
+package biosim.server.water;
 /**
  * The PPS is the last stage of water purification.  It takes water from the AES, filters it, and
  * waits for the WaterRS to send the now clean water to the potable water store
  *
  * @author    Scott Bell
  */
-
-package biosim.server.water;
 
 public class PPS extends WaterRSSubSystem{
 	/**

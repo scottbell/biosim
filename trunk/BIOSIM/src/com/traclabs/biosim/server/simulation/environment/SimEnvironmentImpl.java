@@ -1,14 +1,13 @@
-/**
- * The SimEnvironment acts as the environment in which the crew breathes from and as the keeper of time.
- *
- * @author    Scott Bell
- */
-
 package biosim.server.environment;
 
 import biosim.idl.environment.*;
 import biosim.idl.air.*;
 import biosim.server.framework.*;
+/**
+ * The SimEnvironment acts as the environment in which the crew breathes from and as the keeper of time.
+ *
+ * @author    Scott Bell
+ */
 
 public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentOperations {
 	//The current amount of O2 in the environment (in liters)

@@ -1,12 +1,11 @@
+package biosim.server.framework;
+
+import biosim.idl.framework.*;
 /**
  * The BioModule Implementation.  Every Module should derive from this as to allow ticking.
  *
  * @author    Scott Bell
  */
- 
-package biosim.server.framework;
-
-import biosim.idl.framework.*;
 
 public abstract class BioModuleImpl extends BioModulePOA{
 	/**

@@ -1,11 +1,10 @@
+package biosim.server.water;
 /**
  * The AES is the third stage of water purification.  It takes water from the RO, filters it some, and
  * sends the water to the PPS
  *
  * @author    Scott Bell
  */
-
-package biosim.server.water;
 
 public class AES extends WaterRSSubSystem{
 	//The subsystem to send the water to next
@@ -41,8 +40,8 @@ public class AES extends WaterRSSubSystem{
 	
 	/**
 	* In one tick, this subsystem:
-	* 1) Collects references (if needed)
-	* 2) Flushes the water from this subsystem to the PPS
+	* 1) Collects references (if needed).
+	* 2) Flushes the water from this subsystem to the PPS.
 	*/
 	public void tick(){
 		collectReferences();

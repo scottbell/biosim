@@ -1,11 +1,4 @@
-/**
- * This is the JPanel that displays information about the Power Production System and it's store.
- * Each tick it polls each power related server for new information regarding these systems.
- *
- * @author    Scott Bell
- */
- 
-package biosim.client.power.gui;
+ package biosim.client.power.gui;
 
 import biosim.client.framework.*;
 import biosim.idl.power.*;
@@ -14,6 +7,12 @@ import javax.swing.border.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.text.*;
+/**
+ * This is the JPanel that displays information about the Power Production System and it's store.
+ * Each tick it polls each power related server for new information regarding these systems.
+ *
+ * @author    Scott Bell
+ */
 
 public class PowerPanel extends JPanel implements BioSimulatorListener
 {
