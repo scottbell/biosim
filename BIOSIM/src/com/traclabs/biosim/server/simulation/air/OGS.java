@@ -56,7 +56,7 @@ public class OGS extends AirRSSubSystem{
 	}
 
 	public float takeH2(float H2toTake){
-		if (H2toTake >= currentH2Produced)
+		if (H2toTake <= currentH2Produced)
 			return H2toTake;
 		else
 			return currentH2Produced;
