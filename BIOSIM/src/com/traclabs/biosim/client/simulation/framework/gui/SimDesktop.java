@@ -7,6 +7,7 @@
 package biosim.client.framework.gui;
 
 import biosim.client.framework.*;
+import biosim.client.framework.gui.*;
 import biosim.client.environment.gui.*;
 import biosim.client.air.gui.*;
 import biosim.client.crew.gui.*;
@@ -151,10 +152,8 @@ public class SimDesktop extends BioFrame
 		myStartSimItem.setMnemonic(KeyEvent.VK_S);
 		myAdvanceSimItem = myControlMenu.add(myAdvanceAction);
 		myAdvanceSimItem.setMnemonic(KeyEvent.VK_O);
-		myAdvanceSimItem.setEnabled(false);
 		myPauseSimItem = myControlMenu.add(myPauseAction);
 		myPauseSimItem.setMnemonic(KeyEvent.VK_U);
-		myPauseSimItem.setEnabled(false);
 		myHelpMenu = new JMenu("Help");
 		myAboutItem = myHelpMenu.add(myAboutAction);
 		myMenuBar.add(myFileMenu);
@@ -167,15 +166,11 @@ public class SimDesktop extends BioFrame
 		myStartSimButton = myToolBar.add(myStartAction);
 		myStartSimButton.setToolTipText("Starts the simulation");
 		myStartSimButton.setText("");
-		myStartSimButton.setIcon(startIcon);
 		myPauseSimButton = myToolBar.add(myPauseAction);
 		myPauseSimButton.setToolTipText("Pauses the simulation");
-		myPauseSimButton.setEnabled(false);
 		myPauseSimButton.setText("");
-		myPauseSimButton.setIcon(pauseIcon);
 		myAdvanceSimButton = myToolBar.add(myAdvanceAction);
 		myAdvanceSimButton.setToolTipText("Advances the simulation one timestep");
-		myAdvanceSimButton.setEnabled(false);
 		myAdvanceSimButton.setText("");
 		myAdvanceSimButton.setIcon(forwardIcon);
 		myToolbarSeparator = new JToolBar.Separator();
@@ -209,9 +204,9 @@ public class SimDesktop extends BioFrame
 		myDisplayFoodButton.setIcon(foodIcon);
 		myDisplayFoodButton.setText("");
 		getContentPane().add(myToolBar, BorderLayout.NORTH);
-
 		setTitle("BIOSIM Advanced Life Support Simulation  Copyright "+ new Character( '\u00A9' ) + " 2002, TRACLabs");
 		myDesktop.setDragMode(JDesktopPane.LIVE_DRAG_MODE);
+		SimTimer.addListener(new MonitorGUI());
 		getContentPane().add(myDesktop, BorderLayout.CENTER);
 	}
 
@@ -320,11 +315,11 @@ public class SimDesktop extends BioFrame
 
 	/**
 	* Implemented to satisfy BaseJFrame's interface.  Called when SimDesktop is exiting.
-	* Stops the simulation if necessary.
 	*/
 	protected void frameExiting(){
-		if (myDriver.simulationHasStarted())
+		/*if (myDriver.simulationHasStarted())
 			myDriver.endSimulation();
+			*/
 	}
 
 	/**
@@ -602,6 +597,50 @@ public class SimDesktop extends BioFrame
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			frameClosing();
 			setCursor(Cursor.getDefaultCursor());
+		}
+	}
+
+	private class MonitorGUI implements ActionListener{
+		public void actionPerformed(ActionEvent ae){
+			//Initialize buttons by looking at server
+			if (myDriver.isLogging()){
+				myLoggingItem.setText("Disable Logging");
+			}
+			else{
+				myLoggingItem.setText("Enable Logging");
+			}
+			if (!myDriver.isStarted()){
+				myStartSimButton.setToolTipText("Starts the simulation");
+				myStartSimButton.setIcon(startIcon);
+				myStartSimItem.setText("Start");
+				myPauseSimButton.setEnabled(false);
+				myPauseSimItem.setEnabled(false);
+				myAdvanceSimButton.setEnabled(false);
+				myAdvanceSimItem.setEnabled(false);
+			}
+			else{
+				myStartSimButton.setToolTipText("Ends the simulation");
+				myStartSimButton.setIcon(stopIcon);
+				myStartSimItem.setText("End");
+				myPauseSimButton.setEnabled(true);
+				myPauseSimItem.setEnabled(true);
+				myAdvanceSimButton.setEnabled(true);
+				myAdvanceSimItem.setEnabled(true);
+			}
+			if (myDriver.isPaused()){
+				myPauseSimButton.setToolTipText("Resume the simulation");
+				myPauseSimButton.setIcon(playIcon);
+				myPauseSimItem.setText("Resume");
+				myAdvanceSimButton.setEnabled(true);
+				myAdvanceSimItem.setEnabled(true);
+			}
+			else{
+				myPauseSimButton.setToolTipText("Pause the simulation");
+				myPauseSimButton.setIcon(pauseIcon);
+				myPauseSimItem.setText("Pause");
+				myAdvanceSimButton.setEnabled(false);
+				myAdvanceSimItem.setEnabled(false);
+			}
 		}
 	}
 
