@@ -1,6 +1,5 @@
 package com.traclabs.biosim.server.simulation.water;
 
-import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 
 /**
  * The RO is the second stage of water purification. It takes water from the
@@ -61,11 +60,7 @@ public class RO extends WaterRSSubSystem {
         }
         //if not, send it to grey water tank
         else {
-            waterLevel = SimBioModuleImpl.pushResourceToStore(myWaterRS
-                    .getGreyWaterInputs(), myWaterRS
-                    .getGreyWaterInputMaxFlowRates(), myWaterRS
-                    .getGreyWaterInputDesiredFlowRates(), myWaterRS
-                    .getGreyWaterInputActualFlowRates(), waterLevel);
+            waterLevel = myWaterRS.getGreyWaterConsumerDefinitionImpl().pushResourceToStore(waterLevel);
         }
     }
 
@@ -80,11 +75,7 @@ public class RO extends WaterRSSubSystem {
                 pushWater();
             } else {
                 //try to put back into dirtyWater Store.
-                waterLevel = SimBioModuleImpl.pushResourceToStore(myWaterRS
-                        .getDirtyWaterInputs(), myWaterRS
-                        .getDirtyWaterInputMaxFlowRates(), myWaterRS
-                        .getDirtyWaterInputDesiredFlowRates(), myWaterRS
-                        .getDirtyWaterInputActualFlowRates(), waterLevel);
+                waterLevel = myWaterRS.getDirtyWaterConsumerDefinitionImpl().pushResourceToStore(waterLevel);
                 //dump extra water
                 waterLevel = 0f;
                 currentAESWaterProduced = 0f;
@@ -92,11 +83,7 @@ public class RO extends WaterRSSubSystem {
             }
         } else {
             //try to put back into dirtyWater Store.
-            waterLevel = SimBioModuleImpl.pushResourceToStore(myWaterRS
-                    .getDirtyWaterInputs(), myWaterRS
-                    .getDirtyWaterInputMaxFlowRates(), myWaterRS
-                    .getDirtyWaterInputDesiredFlowRates(), myWaterRS
-                    .getDirtyWaterInputActualFlowRates(), waterLevel);
+            waterLevel = myWaterRS.getDirtyWaterConsumerDefinitionImpl().pushResourceToStore(waterLevel);
             //dump extra water
             waterLevel = 0f;
             currentAESWaterProduced = 0f;

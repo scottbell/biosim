@@ -6,16 +6,21 @@ import java.util.Iterator;
 import com.traclabs.biosim.idl.framework.Malfunction;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
-import com.traclabs.biosim.idl.simulation.air.CO2Store;
-import com.traclabs.biosim.idl.simulation.air.O2Store;
+import com.traclabs.biosim.idl.simulation.framework.CO2ProducerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.CO2ProducerOperations;
+import com.traclabs.biosim.idl.simulation.framework.DryWasteConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.DryWasteConsumerOperations;
+import com.traclabs.biosim.idl.simulation.framework.O2ConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.O2ConsumerOperations;
+import com.traclabs.biosim.idl.simulation.framework.PowerConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.PowerConsumerOperations;
-import com.traclabs.biosim.idl.simulation.power.PowerStore;
-import com.traclabs.biosim.idl.simulation.waste.DryWasteStore;
 import com.traclabs.biosim.idl.simulation.waste.IncineratorOperations;
+import com.traclabs.biosim.server.simulation.framework.CO2ProducerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.framework.DryWasteConsumerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.framework.O2ConsumerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.framework.PowerConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
+import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
  * The Incinerator takes dryWaste (plants matter) and refines it to food for the
@@ -27,6 +32,15 @@ import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 public class IncineratorImpl extends SimBioModuleImpl implements
         IncineratorOperations, PowerConsumerOperations,
         DryWasteConsumerOperations, O2ConsumerOperations, CO2ProducerOperations {
+    //Consumers, Producers
+    private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
+
+    private DryWasteConsumerDefinitionImpl myDryWasteConsumerDefinitionImpl;
+    
+    private O2ConsumerDefinitionImpl myO2ConsumerDefinitionImpl;
+
+    private CO2ProducerDefinitionImpl myCO2ProducerDefinitionImpl;
+    
     //During any given tick, this much power is needed for the food processor
     // to run at all
     private float powerNeeded = 100;
@@ -70,56 +84,32 @@ public class IncineratorImpl extends SimBioModuleImpl implements
     // power, dryWaste, etc)
     private float myProductionRate = 1f;
 
-    private PowerStore[] myPowerStores;
-
-    private DryWasteStore[] myDryWasteStores;
-
-    private O2Store[] myO2Stores;
-
-    private CO2Store[] myCO2Stores;
-
-    private float[] powerMaxFlowRates;
-
-    private float[] powerActualFlowRates;
-
-    private float[] powerDesiredFlowRates;
-
-    private float[] dryWasteActualFlowRates;
-
-    private float[] dryWasteMaxFlowRates;
-
-    private float[] dryWasteDesiredFlowRates;
-
-    private float[] O2ActualFlowRates;
-
-    private float[] O2MaxFlowRates;
-
-    private float[] O2DesiredFlowRates;
-
-    private float[] CO2ActualFlowRates;
-
-    private float[] CO2MaxFlowRates;
-
-    private float[] CO2DesiredFlowRates;
-
     public IncineratorImpl(int pID, String pName) {
         super(pID, pName);
-        myO2Stores = new O2Store[0];
-        myCO2Stores = new CO2Store[0];
-        myPowerStores = new PowerStore[0];
-        myDryWasteStores = new DryWasteStore[0];
-        powerMaxFlowRates = new float[0];
-        powerDesiredFlowRates = new float[0];
-        powerActualFlowRates = new float[0];
-        dryWasteMaxFlowRates = new float[0];
-        dryWasteActualFlowRates = new float[0];
-        dryWasteDesiredFlowRates = new float[0];
-        O2MaxFlowRates = new float[0];
-        O2ActualFlowRates = new float[0];
-        O2DesiredFlowRates = new float[0];
-        CO2MaxFlowRates = new float[0];
-        CO2ActualFlowRates = new float[0];
-        CO2DesiredFlowRates = new float[0];
+        myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl();
+        myO2ConsumerDefinitionImpl = new O2ConsumerDefinitionImpl();
+        myDryWasteConsumerDefinitionImpl = new DryWasteConsumerDefinitionImpl();
+        myCO2ProducerDefinitionImpl = new CO2ProducerDefinitionImpl();
+    }
+    
+    public PowerConsumerDefinition getPowerConsumerDefinition() {
+        return (PowerConsumerDefinition) (OrbUtils
+                .poaToCorbaObj(myPowerConsumerDefinitionImpl));
+    }
+
+    public O2ConsumerDefinition getO2ConsumerDefinition() {
+        return (O2ConsumerDefinition) (OrbUtils
+                .poaToCorbaObj(myO2ConsumerDefinitionImpl));
+    }
+    
+    public DryWasteConsumerDefinition getDryWasteConsumerDefinition() {
+        return (DryWasteConsumerDefinition) (OrbUtils
+                .poaToCorbaObj(myDryWasteConsumerDefinitionImpl));
+    }
+
+    public CO2ProducerDefinition getCO2ProducerDefinition() {
+        return (CO2ProducerDefinition) (OrbUtils
+                .poaToCorbaObj(myCO2ProducerDefinitionImpl));
     }
 
     /**
@@ -212,9 +202,7 @@ public class IncineratorImpl extends SimBioModuleImpl implements
      * for one tick.
      */
     private void gatherPower() {
-        currentPowerConsumed = getResourceFromStore(myPowerStores,
-                powerMaxFlowRates, powerDesiredFlowRates, powerActualFlowRates,
-                powerNeeded);
+        currentPowerConsumed = myPowerConsumerDefinitionImpl.getResourceFromStore(powerNeeded);
         if (currentPowerConsumed < powerNeeded)
             hasEnoughPower = false;
         else
@@ -226,9 +214,7 @@ public class IncineratorImpl extends SimBioModuleImpl implements
      * Incinerator optimally for one tick.
      */
     private void gatherDryWaste() {
-        currentDryWasteConsumed = getResourceFromStore(myDryWasteStores,
-                dryWasteMaxFlowRates, dryWasteDesiredFlowRates,
-                dryWasteActualFlowRates, dryWasteNeeded);
+        currentDryWasteConsumed = myDryWasteConsumerDefinitionImpl.getResourceFromStore(dryWasteNeeded);
         if (currentDryWasteConsumed < dryWasteNeeded)
             hasEnoughDryWaste = false;
         else
@@ -240,8 +226,7 @@ public class IncineratorImpl extends SimBioModuleImpl implements
      * optimally for one tick.
      */
     private void gatherO2() {
-        currentO2Consumed = getResourceFromStore(myO2Stores, O2MaxFlowRates,
-                O2DesiredFlowRates, O2ActualFlowRates, O2Needed);
+        currentO2Consumed = myO2ConsumerDefinitionImpl.getResourceFromStore(O2Needed);
         if (currentO2Consumed < O2Needed)
             hasEnoughO2 = false;
         else
@@ -258,17 +243,15 @@ public class IncineratorImpl extends SimBioModuleImpl implements
             gatherO2();
         } else {
             currentO2Consumed = 0f;
-            Arrays.fill(O2ActualFlowRates, 0f);
+            Arrays.fill(myO2ConsumerDefinitionImpl.getActualFlowRates(), 0f);
             currentDryWasteConsumed = 0f;
-            Arrays.fill(dryWasteActualFlowRates, 0f);
+            Arrays.fill(myDryWasteConsumerDefinitionImpl.getActualFlowRates(), 0f);
         }
     }
 
     private void createCO2() {
         currentCO2Produced = currentO2Consumed * myProductionRate;
-        float distributedCO2Left = pushResourceToStore(myCO2Stores,
-                CO2MaxFlowRates, CO2DesiredFlowRates, CO2ActualFlowRates,
-                currentCO2Produced);
+        float distributedCO2Left = myCO2ProducerDefinitionImpl.pushResourceToStore(currentCO2Produced);
     }
 
     private void setProductionRate(float pProductionRate) {
@@ -331,186 +314,5 @@ public class IncineratorImpl extends SimBioModuleImpl implements
         myLogger.debug("dryWaste_needed=" + dryWasteNeeded);
         myLogger.debug("current_dryWaste_consumed=" + currentDryWasteConsumed);
         myLogger.debug("current_power_consumed=" + currentPowerConsumed);
-    }
-
-    //Power Input
-    public void setPowerInputMaxFlowRate(float watts, int index) {
-        powerMaxFlowRates[index] = watts;
-    }
-
-    public float getPowerInputMaxFlowRate(int index) {
-        return powerMaxFlowRates[index];
-    }
-
-    public float[] getPowerInputMaxFlowRates() {
-        return powerMaxFlowRates;
-    }
-
-    public void setPowerInputDesiredFlowRate(float watts, int index) {
-        powerDesiredFlowRates[index] = watts;
-    }
-
-    public float getPowerInputDesiredFlowRate(int index) {
-        return powerDesiredFlowRates[index];
-    }
-
-    public float[] getPowerInputDesiredFlowRates() {
-        return powerDesiredFlowRates;
-    }
-
-    public float getPowerInputActualFlowRate(int index) {
-        return powerActualFlowRates[index];
-    }
-
-    public float[] getPowerInputActualFlowRates() {
-        return powerActualFlowRates;
-    }
-
-    public void setPowerInputs(PowerStore[] sources, float[] maxFlowRates,
-            float[] desiredFlowRates) {
-        myPowerStores = sources;
-        powerMaxFlowRates = maxFlowRates;
-        powerDesiredFlowRates = desiredFlowRates;
-        powerActualFlowRates = new float[powerDesiredFlowRates.length];
-
-    }
-
-    public PowerStore[] getPowerInputs() {
-        return myPowerStores;
-    }
-
-    //DryWaste Input
-    public void setDryWasteInputMaxFlowRate(float kilograms, int index) {
-        dryWasteMaxFlowRates[index] = kilograms;
-    }
-
-    public float getDryWasteInputMaxFlowRate(int index) {
-        return dryWasteMaxFlowRates[index];
-    }
-
-    public float[] getDryWasteInputMaxFlowRates() {
-        return dryWasteMaxFlowRates;
-    }
-
-    public void setDryWasteInputDesiredFlowRate(float kilograms, int index) {
-        dryWasteDesiredFlowRates[index] = kilograms;
-    }
-
-    public float getDryWasteInputDesiredFlowRate(int index) {
-        return dryWasteDesiredFlowRates[index];
-    }
-
-    public float[] getDryWasteInputDesiredFlowRates() {
-        return dryWasteDesiredFlowRates;
-    }
-
-    public float getDryWasteInputActualFlowRate(int index) {
-        return dryWasteActualFlowRates[index];
-    }
-
-    public float[] getDryWasteInputActualFlowRates() {
-        return dryWasteActualFlowRates;
-    }
-
-    public void setDryWasteInputs(DryWasteStore[] sources,
-            float[] maxFlowRates, float[] desiredFlowRates) {
-        myDryWasteStores = sources;
-        dryWasteMaxFlowRates = maxFlowRates;
-        dryWasteDesiredFlowRates = desiredFlowRates;
-        dryWasteActualFlowRates = new float[dryWasteDesiredFlowRates.length];
-    }
-
-    public DryWasteStore[] getDryWasteInputs() {
-        return myDryWasteStores;
-    }
-
-    //O2 Input
-    public void setO2InputMaxFlowRate(float kilograms, int index) {
-        O2MaxFlowRates[index] = kilograms;
-    }
-
-    public float getO2InputMaxFlowRate(int index) {
-        return O2MaxFlowRates[index];
-    }
-
-    public float[] getO2InputMaxFlowRates() {
-        return O2MaxFlowRates;
-    }
-
-    public void setO2InputDesiredFlowRate(float kilograms, int index) {
-        O2DesiredFlowRates[index] = kilograms;
-    }
-
-    public float getO2InputDesiredFlowRate(int index) {
-        return O2DesiredFlowRates[index];
-    }
-
-    public float[] getO2InputDesiredFlowRates() {
-        return O2DesiredFlowRates;
-    }
-
-    public float getO2InputActualFlowRate(int index) {
-        return O2ActualFlowRates[index];
-    }
-
-    public float[] getO2InputActualFlowRates() {
-        return O2ActualFlowRates;
-    }
-
-    public void setO2Inputs(O2Store[] sources, float[] maxFlowRates,
-            float[] desiredFlowRates) {
-        myO2Stores = sources;
-        O2MaxFlowRates = maxFlowRates;
-        O2DesiredFlowRates = desiredFlowRates;
-        O2ActualFlowRates = new float[O2DesiredFlowRates.length];
-    }
-
-    public O2Store[] getO2Inputs() {
-        return myO2Stores;
-    }
-
-    //CO2 Output
-    public void setCO2OutputMaxFlowRate(float kilograms, int index) {
-        CO2MaxFlowRates[index] = kilograms;
-    }
-
-    public float getCO2OutputMaxFlowRate(int index) {
-        return CO2MaxFlowRates[index];
-    }
-
-    public float[] getCO2OutputMaxFlowRates() {
-        return CO2MaxFlowRates;
-    }
-
-    public void setCO2OutputDesiredFlowRate(float kilograms, int index) {
-        CO2DesiredFlowRates[index] = kilograms;
-    }
-
-    public float getCO2OutputDesiredFlowRate(int index) {
-        return CO2DesiredFlowRates[index];
-    }
-
-    public float[] getCO2OutputDesiredFlowRates() {
-        return CO2DesiredFlowRates;
-    }
-
-    public float getCO2OutputActualFlowRate(int index) {
-        return CO2ActualFlowRates[index];
-    }
-
-    public float[] getCO2OutputActualFlowRates() {
-        return CO2ActualFlowRates;
-    }
-
-    public void setCO2Outputs(CO2Store[] destinations, float[] maxFlowRates,
-            float[] desiredFlowRates) {
-        myCO2Stores = destinations;
-        CO2MaxFlowRates = maxFlowRates;
-        CO2DesiredFlowRates = desiredFlowRates;
-        CO2ActualFlowRates = new float[CO2DesiredFlowRates.length];
-    }
-
-    public CO2Store[] getCO2Outputs() {
-        return myCO2Stores;
     }
 }

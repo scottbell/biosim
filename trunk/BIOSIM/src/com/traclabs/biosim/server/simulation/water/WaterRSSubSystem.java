@@ -123,20 +123,7 @@ public abstract class WaterRSSubSystem {
      */
     protected void gatherPower() {
         float gatheredPower = 0f;
-        for (int i = 0; (i < myWaterRS.getPowerInputs().length)
-                && (gatheredPower < currentPowerNeeded); i++) {
-            float powerToGatherFirst = Math.min(currentPowerNeeded, (myWaterRS
-                    .getPowerInputMaxFlowRate(i) / myWaterRS
-                    .getSubsystemsConsumingPower()));
-            float powerToGatherFinal = Math.min(powerToGatherFirst, (myWaterRS
-                    .getPowerInputDesiredFlowRate(i) / myWaterRS
-                    .getSubsystemsConsumingPower()));
-            myWaterRS
-                    .addPowerInputActualFlowRate(
-                            (myWaterRS.getPowerInputs())[i]
-                                    .take(powerToGatherFinal), i);
-            gatheredPower += myWaterRS.getPowerInputActualFlowRate(i);
-        }
+        gatheredPower = myWaterRS.getPowerConsumerDefinitionImpl().getFractionalResourceFromStore(currentPowerNeeded, 1f / myWaterRS.getSubsystemsConsumingPower());
         currentPowerConsumed = gatheredPower;
         if (currentPowerConsumed < currentPowerNeeded) {
             hasEnoughPower = false;

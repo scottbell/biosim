@@ -21,5 +21,23 @@ public class WaterAirProducerDefinitionImpl extends StoreEnvironmentFlowRateCont
         setMaxFlowRates(pMaxFlowRates);
         setDesiredFlowRates(pDesiredFlowRates);
     }
+    
+    /**
+     * @return The total amount of Water pushed to the environments
+     */
+    public float pushWaterToEnvironment(float pMolesToPush) {
+        float WaterAirLeft = pMolesToPush;
+        for (int i = 0; (i < getEnvironments().length)
+                && (WaterAirLeft > 0); i++) {
+            float amountToPushFirst = Math.min(
+                    getEnvironmentMaxFlowRate(i),
+                    getEnvironmentDesiredFlowRate(i));
+            float amountToPushFinal = Math.min(amountToPushFirst, WaterAirLeft);
+            getEnvironmentActualFlowRates()[i] = getEnvironments()[i]
+                    .addWaterMoles(amountToPushFinal);
+            WaterAirLeft -= getEnvironmentActualFlowRate(i);
+        }
+        return pMolesToPush - WaterAirLeft;
+    }
 
 }

@@ -160,7 +160,7 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
             return theMass * 1000f;
     }
 
-    public float calculateWaterContent(FoodMatter[] foodArray) {
+    public static float calculateWaterContent(FoodMatter[] foodArray) {
         float totalWater = 0f;
         for (int i = 0; i < foodArray.length; i++) {
             totalWater += foodArray[i].waterContent;
@@ -168,7 +168,7 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
         return totalWater;
     }
 
-    public float calculateCalories(FoodMatter[] foodArray) {
+    public static float calculateCalories(FoodMatter[] foodArray) {
         float totalCalories = 0f;
         for (int i = 0; i < foodArray.length; i++) {
             totalCalories += calculateCaloriesSingular(foodArray[i]);

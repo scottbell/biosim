@@ -20,20 +20,27 @@ import com.traclabs.biosim.idl.simulation.crew.RepairActivityHelper;
 import com.traclabs.biosim.idl.simulation.crew.RepairActivityPOATie;
 import com.traclabs.biosim.idl.simulation.crew.ScheduleType;
 import com.traclabs.biosim.idl.simulation.crew.Sex;
-import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
-import com.traclabs.biosim.idl.simulation.food.FoodMatter;
-import com.traclabs.biosim.idl.simulation.food.FoodStore;
+import com.traclabs.biosim.idl.simulation.framework.AirConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.AirConsumerOperations;
+import com.traclabs.biosim.idl.simulation.framework.AirProducerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.AirProducerOperations;
+import com.traclabs.biosim.idl.simulation.framework.DirtyWaterProducerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.DirtyWaterProducerOperations;
+import com.traclabs.biosim.idl.simulation.framework.DryWasteProducerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.DryWasteProducerOperations;
+import com.traclabs.biosim.idl.simulation.framework.FoodConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.FoodConsumerOperations;
+import com.traclabs.biosim.idl.simulation.framework.GreyWaterProducerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.GreyWaterProducerOperations;
+import com.traclabs.biosim.idl.simulation.framework.PotableWaterConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.PotableWaterConsumerOperations;
-import com.traclabs.biosim.idl.simulation.waste.DryWasteStore;
-import com.traclabs.biosim.idl.simulation.water.DirtyWaterStore;
-import com.traclabs.biosim.idl.simulation.water.GreyWaterStore;
-import com.traclabs.biosim.idl.simulation.water.PotableWaterStore;
+import com.traclabs.biosim.server.simulation.framework.AirConsumerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.framework.AirProducerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.framework.DirtyWaterProducerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.framework.DryWasteProducerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.framework.FoodConsumerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.framework.GreyWaterProducerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.framework.PotableWaterConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 import com.traclabs.biosim.server.util.OrbUtils;
 
@@ -48,6 +55,16 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
         PotableWaterConsumerOperations, FoodConsumerOperations,
         AirProducerOperations, GreyWaterProducerOperations,
         DirtyWaterProducerOperations, DryWasteProducerOperations {
+
+    //Consumers, Producers
+    private FoodConsumerDefinitionImpl myFoodConsumerDefinitionImpl;
+    private AirConsumerDefinitionImpl myAirConsumerDefinitionImpl;
+    private PotableWaterConsumerDefinitionImpl myPotableWaterConsumerDefinitionImpl;
+    private GreyWaterProducerDefinitionImpl myGreyWaterProducerDefinitionImpl;
+    private DirtyWaterProducerDefinitionImpl myDirtyWaterProducerDefinitionImpl;
+    private AirProducerDefinitionImpl myAirProducerDefinitionImpl;
+    private DryWasteProducerDefinitionImpl myDryWasteProducerDefinitionImpl;
+    
     //The crew persons that make up the crew.
     //They are the ones consuming air/food/water and producing air/water/waste
     // as they perform activities
@@ -56,62 +73,6 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     private float healthyPercentage = 1f;
 
     private Random myRandom;
-
-    private DryWasteStore[] myDryWasteStores;
-
-    private FoodStore[] myFoodStores;
-
-    private PotableWaterStore[] myPotableWaterStores;
-
-    private GreyWaterStore[] myGreyWaterStores;
-
-    private DirtyWaterStore[] myDirtyWaterStores;
-
-    private SimEnvironment[] myAirInputs;
-
-    private SimEnvironment[] myAirOutputs;
-
-    private float[] foodMaxFlowRates;
-
-    private float[] foodActualFlowRates;
-
-    private float[] foodDesiredFlowRates;
-
-    private float[] dryWasteMaxFlowRates;
-
-    private float[] dryWasteActualFlowRates;
-
-    private float[] dryWasteDesiredFlowRates;
-
-    private float[] potableWaterMaxFlowRates;
-
-    private float[] potableWaterActualFlowRates;
-
-    private float[] potableWaterDesiredFlowRates;
-
-    private float[] greyWaterMaxFlowRates;
-
-    private float[] greyWaterActualFlowRates;
-
-    private float[] greyWaterDesiredFlowRates;
-
-    private float[] dirtyWaterMaxFlowRates;
-
-    private float[] dirtyWaterActualFlowRates;
-
-    private float[] dirtyWaterDesiredFlowRates;
-
-    private float[] airInMaxFlowRates;
-
-    private float[] airInDesiredFlowRates;
-
-    private float[] airInActualFlowRates;
-
-    private float[] airOutMaxFlowRates;
-
-    private float[] airOutActualFlowRates;
-
-    private float[] airOutDesiredFlowRates;
     
     private List crewScheduledForRemoval;
     private List crewScheduledForAddition;
@@ -125,34 +86,42 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
         crewScheduledForAddition = new Vector();
         crewPeople = new Hashtable();
         myRandom = new Random();
-        myFoodStores = new FoodStore[0];
-        myDryWasteStores = new DryWasteStore[0];
-        myPotableWaterStores = new PotableWaterStore[0];
-        myGreyWaterStores = new GreyWaterStore[0];
-        myDirtyWaterStores = new DirtyWaterStore[0];
-        myAirInputs = new SimEnvironment[0];
-        myAirOutputs = new SimEnvironment[0];
-        foodMaxFlowRates = new float[0];
-        foodActualFlowRates = new float[0];
-        foodDesiredFlowRates = new float[0];
-        dryWasteMaxFlowRates = new float[0];
-        dryWasteActualFlowRates = new float[0];
-        dryWasteDesiredFlowRates = new float[0];
-        potableWaterMaxFlowRates = new float[0];
-        potableWaterActualFlowRates = new float[0];
-        potableWaterDesiredFlowRates = new float[0];
-        greyWaterMaxFlowRates = new float[0];
-        greyWaterActualFlowRates = new float[0];
-        greyWaterDesiredFlowRates = new float[0];
-        dirtyWaterMaxFlowRates = new float[0];
-        dirtyWaterActualFlowRates = new float[0];
-        dirtyWaterDesiredFlowRates = new float[0];
-        airInMaxFlowRates = new float[0];
-        airInActualFlowRates = new float[0];
-        airInDesiredFlowRates = new float[0];
-        airOutMaxFlowRates = new float[0];
-        airOutActualFlowRates = new float[0];
-        airOutDesiredFlowRates = new float[0];
+        
+        myFoodConsumerDefinitionImpl = new FoodConsumerDefinitionImpl();
+        myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl();
+        myPotableWaterConsumerDefinitionImpl = new PotableWaterConsumerDefinitionImpl();
+        myGreyWaterProducerDefinitionImpl = new GreyWaterProducerDefinitionImpl();
+        myDirtyWaterProducerDefinitionImpl = new DirtyWaterProducerDefinitionImpl();
+        myAirProducerDefinitionImpl = new AirProducerDefinitionImpl();
+        myDryWasteProducerDefinitionImpl = new DryWasteProducerDefinitionImpl();
+    }
+    
+    public FoodConsumerDefinition getFoodConsumerDefinition(){
+        return (FoodConsumerDefinition)(OrbUtils.poaToCorbaObj(myFoodConsumerDefinitionImpl));
+    }
+    
+    public AirConsumerDefinition getAirConsumerDefinition(){
+        return (AirConsumerDefinition)(OrbUtils.poaToCorbaObj(myAirConsumerDefinitionImpl));
+    }
+    
+    public PotableWaterConsumerDefinition getPotableWaterConsumerDefinition(){
+        return (PotableWaterConsumerDefinition)(OrbUtils.poaToCorbaObj(myPotableWaterConsumerDefinitionImpl));
+    }
+    
+    public GreyWaterProducerDefinition getGreyWaterProducerDefinition(){
+        return (GreyWaterProducerDefinition)(OrbUtils.poaToCorbaObj(myGreyWaterProducerDefinitionImpl));
+    }
+    
+    public DirtyWaterProducerDefinition getDirtyWaterProducerDefinition(){
+        return (DirtyWaterProducerDefinition)(OrbUtils.poaToCorbaObj(myDirtyWaterProducerDefinitionImpl));
+    }
+    
+    public AirProducerDefinition getAirProducerDefinition(){
+        return (AirProducerDefinition)(OrbUtils.poaToCorbaObj(myAirProducerDefinitionImpl));
+    }
+    
+    public DryWasteProducerDefinition getDryWasteProducerDefinition(){
+        return (DryWasteProducerDefinition)(OrbUtils.poaToCorbaObj(myDryWasteProducerDefinitionImpl));
     }
 
     /**
@@ -185,42 +154,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
         crewPeople.put(pName, newCrewPerson);
         return newCrewPerson;
     }
-
-    protected static FoodMatter[] getCaloriesFromStore(FoodStore[] pStores,
-            float[] pMaxFlowRates, float[] pDesiredFlowRates,
-            float[] pActualFlowRates, float amountNeeded) {
-        float gatheredResource = 0f;
-        List gatheredBioMatterArrays = new Vector();
-        int sizeOfMatter = 0;
-        for (int i = 0; (i < pStores.length)
-                && (gatheredResource < amountNeeded); i++) {
-            float limitingMassFactor = Math.min(pDesiredFlowRates[i],
-                    pMaxFlowRates[i]);
-            FoodMatter[] takenMatter = pStores[i].takeFoodMatterCalories(
-                    amountNeeded, limitingMassFactor);
-            sizeOfMatter += takenMatter.length;
-            gatheredBioMatterArrays.add(takenMatter);
-            pActualFlowRates[i] += calculateSizeOfFoodMatter(takenMatter);
-            gatheredResource += pStores[i].calculateCalories(takenMatter);
-        }
-        FoodMatter[] fullMatterTaken = new FoodMatter[sizeOfMatter];
-        int lastPosition = 0;
-        for (Iterator iter = gatheredBioMatterArrays.iterator(); iter.hasNext();) {
-            FoodMatter[] matterArray = (FoodMatter[]) (iter.next());
-            System.arraycopy(matterArray, 0, fullMatterTaken, lastPosition,
-                    matterArray.length);
-            lastPosition = matterArray.length;
-        }
-        return fullMatterTaken;
-    }
-
-    private static float calculateSizeOfFoodMatter(FoodMatter[] arrayOfMatter) {
-        float totalSize = 0f;
-        for (int i = 0; i < arrayOfMatter.length; i++)
-            totalSize += arrayOfMatter[i].mass;
-        return totalSize;
-    }
-
+    
     /**
      * Returns all the current crew persons who are in the crew
      * 
@@ -285,10 +219,10 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     }
 
     private void clearActualFlowRates() {
-        Arrays.fill(potableWaterActualFlowRates, 0f);
-        Arrays.fill(greyWaterActualFlowRates, 0f);
-        Arrays.fill(dirtyWaterActualFlowRates, 0f);
-        Arrays.fill(dryWasteActualFlowRates, 0f);
+        Arrays.fill(getPotableWaterConsumerDefinition().getActualFlowRates(), 0f);
+        Arrays.fill(getGreyWaterProducerDefinition().getActualFlowRates(), 0f);
+        Arrays.fill(getDirtyWaterProducerDefinition().getActualFlowRates(), 0f);
+        Arrays.fill(getDryWasteProducerDefinition().getActualFlowRates(), 0f);
     }
 
     /**
@@ -450,326 +384,54 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
         return totalO2Consumed;
     }
 
-    //Air Input
-    public void setAirInputMaxFlowRate(float moles, int index) {
-        airInMaxFlowRates[index] = moles;
-    }
-
-    public float getAirInputMaxFlowRate(int index) {
-        return airInMaxFlowRates[index];
-    }
-
-    public float[] getAirInputMaxFlowRates() {
-        return airInMaxFlowRates;
-    }
-
-    public void setAirInputDesiredFlowRate(float moles, int index) {
-        airInDesiredFlowRates[index] = moles;
-    }
-
-    public float getAirInputDesiredFlowRate(int index) {
-        return airInDesiredFlowRates[index];
-    }
-
-    public float[] getAirInputDesiredFlowRates() {
-        return airInDesiredFlowRates;
-    }
-
-    public float getAirInputActualFlowRate(int index) {
-        return airInActualFlowRates[index];
-    }
-
-    public float[] getAirInputActualFlowRates() {
-        return airInActualFlowRates;
-    }
-
-    public void setAirInputs(SimEnvironment[] sources, float[] maxFlowRates,
-            float[] desiredFlowRates) {
-        myAirInputs = sources;
-        airInMaxFlowRates = maxFlowRates;
-        airInDesiredFlowRates = desiredFlowRates;
-        airInActualFlowRates = new float[airInDesiredFlowRates.length];
-    }
-
-    public SimEnvironment[] getAirInputs() {
-        return myAirInputs;
-    }
-
-    //Air Output
-    public void setAirOutputMaxFlowRate(float moles, int index) {
-        airOutMaxFlowRates[index] = moles;
-    }
-
-    public float getAirOutputMaxFlowRate(int index) {
-        return airOutMaxFlowRates[index];
-    }
-
-    public float[] getAirOutputMaxFlowRates() {
-        return airOutMaxFlowRates;
-    }
-
-    public void setAirOutputDesiredFlowRate(float moles, int index) {
-        airOutDesiredFlowRates[index] = moles;
-    }
-
-    public float getAirOutputDesiredFlowRate(int index) {
-        return airOutDesiredFlowRates[index];
-    }
-
-    public float[] getAirOutputDesiredFlowRates() {
-        return airOutDesiredFlowRates;
-    }
-
-    public float getAirOutputActualFlowRate(int index) {
-        return airOutActualFlowRates[index];
-    }
-
-    public float[] getAirOutputActualFlowRates() {
-        return airOutActualFlowRates;
-    }
-
-    public void setAirOutputs(SimEnvironment[] sources, float[] maxFlowRates,
-            float[] desiredFlowRates) {
-        myAirOutputs = sources;
-        airOutMaxFlowRates = maxFlowRates;
-        airOutDesiredFlowRates = desiredFlowRates;
-        airOutActualFlowRates = new float[airOutDesiredFlowRates.length];
-    }
-
-    public SimEnvironment[] getAirOutputs() {
-        return myAirOutputs;
-    }
-
-    //Potable Water Input
-    public void setPotableWaterInputMaxFlowRate(float liters, int index) {
-        potableWaterMaxFlowRates[index] = liters;
-    }
-
-    public float getPotableWaterInputMaxFlowRate(int index) {
-        return potableWaterMaxFlowRates[index];
-    }
-
-    public float[] getPotableWaterInputMaxFlowRates() {
-        return potableWaterMaxFlowRates;
-    }
-
-    public void setPotableWaterInputDesiredFlowRate(float liters, int index) {
-        potableWaterDesiredFlowRates[index] = liters;
-    }
-
-    public float getPotableWaterInputDesiredFlowRate(int index) {
-        return potableWaterDesiredFlowRates[index];
-    }
-
-    public float[] getPotableWaterInputDesiredFlowRates() {
-        return potableWaterDesiredFlowRates;
-    }
-
-    public float getPotableWaterInputActualFlowRate(int index) {
-        return potableWaterActualFlowRates[index];
-    }
-
-    public float[] getPotableWaterInputActualFlowRates() {
-        return potableWaterActualFlowRates;
-    }
-
-    public void setPotableWaterInputs(PotableWaterStore[] sources,
-            float[] maxFlowRates, float[] desiredFlowRates) {
-        myPotableWaterStores = sources;
-        potableWaterMaxFlowRates = maxFlowRates;
-        potableWaterDesiredFlowRates = desiredFlowRates;
-        potableWaterActualFlowRates = new float[potableWaterDesiredFlowRates.length];
-    }
-
-    public PotableWaterStore[] getPotableWaterInputs() {
-        return myPotableWaterStores;
-    }
-
-    //Grey Water Output
-    public void setGreyWaterOutputMaxFlowRate(float liters, int index) {
-        greyWaterMaxFlowRates[index] = liters;
-    }
-
-    public float getGreyWaterOutputMaxFlowRate(int index) {
-        return greyWaterMaxFlowRates[index];
-    }
-
-    public float[] getGreyWaterOutputMaxFlowRates() {
-        return greyWaterMaxFlowRates;
-    }
-
-    public void setGreyWaterOutputDesiredFlowRate(float liters, int index) {
-        greyWaterDesiredFlowRates[index] = liters;
-    }
-
-    public float getGreyWaterOutputDesiredFlowRate(int index) {
-        return greyWaterDesiredFlowRates[index];
-    }
-
-    public float[] getGreyWaterOutputDesiredFlowRates() {
-        return greyWaterDesiredFlowRates;
-    }
-
-    public float getGreyWaterOutputActualFlowRate(int index) {
-        return greyWaterActualFlowRates[index];
-    }
-
-    public float[] getGreyWaterOutputActualFlowRates() {
-        return greyWaterActualFlowRates;
-    }
-
-    public void setGreyWaterOutputs(GreyWaterStore[] destinations,
-            float[] maxFlowRates, float[] desiredFlowRates) {
-        myGreyWaterStores = destinations;
-        greyWaterMaxFlowRates = maxFlowRates;
-        greyWaterDesiredFlowRates = desiredFlowRates;
-        greyWaterActualFlowRates = new float[greyWaterDesiredFlowRates.length];
-    }
-
-    public GreyWaterStore[] getGreyWaterOutputs() {
-        return myGreyWaterStores;
-    }
-
-    //Dirty Water Output
-    public void setDirtyWaterOutputMaxFlowRate(float liters, int index) {
-        dirtyWaterMaxFlowRates[index] = liters;
-    }
-
-    public float getDirtyWaterOutputMaxFlowRate(int index) {
-        return dirtyWaterMaxFlowRates[index];
-    }
-
-    public float[] getDirtyWaterOutputMaxFlowRates() {
-        return dirtyWaterMaxFlowRates;
-    }
-
-    public void setDirtyWaterOutputDesiredFlowRate(float liters, int index) {
-        dirtyWaterDesiredFlowRates[index] = liters;
-    }
-
-    public float getDirtyWaterOutputDesiredFlowRate(int index) {
-        return dirtyWaterDesiredFlowRates[index];
-    }
-
-    public float[] getDirtyWaterOutputDesiredFlowRates() {
-        return dirtyWaterDesiredFlowRates;
-    }
-
-    public float getDirtyWaterOutputActualFlowRate(int index) {
-        return dirtyWaterActualFlowRates[index];
-    }
-
-    public float[] getDirtyWaterOutputActualFlowRates() {
-        return dirtyWaterActualFlowRates;
-    }
-
-    public void setDirtyWaterOutputs(DirtyWaterStore[] destinations,
-            float[] maxFlowRates, float[] desiredFlowRates) {
-        myDirtyWaterStores = destinations;
-        dirtyWaterMaxFlowRates = maxFlowRates;
-        dirtyWaterDesiredFlowRates = desiredFlowRates;
-        dirtyWaterActualFlowRates = new float[dirtyWaterDesiredFlowRates.length];
-    }
-
-    public DirtyWaterStore[] getDirtyWaterOutputs() {
-        return myDirtyWaterStores;
-    }
-
-    //Dirty Water Output
-    public void setDryWasteOutputMaxFlowRate(float liters, int index) {
-        dryWasteMaxFlowRates[index] = liters;
-    }
-
-    public float getDryWasteOutputMaxFlowRate(int index) {
-        return dryWasteMaxFlowRates[index];
-    }
-
-    public float[] getDryWasteOutputMaxFlowRates() {
-        return dryWasteMaxFlowRates;
-    }
-
-    public void setDryWasteOutputDesiredFlowRate(float liters, int index) {
-        dryWasteDesiredFlowRates[index] = liters;
-    }
-
-    public float getDryWasteOutputDesiredFlowRate(int index) {
-        return dryWasteDesiredFlowRates[index];
-    }
-
-    public float[] getDryWasteOutputDesiredFlowRates() {
-        return dryWasteDesiredFlowRates;
-    }
-
-    public float getDryWasteOutputActualFlowRate(int index) {
-        return dryWasteActualFlowRates[index];
-    }
-
-    public float[] getDryWasteOutputActualFlowRates() {
-        return dryWasteActualFlowRates;
-    }
-
-    public void setDryWasteOutputs(DryWasteStore[] destinations,
-            float[] maxFlowRates, float[] desiredFlowRates) {
-        myDryWasteStores = destinations;
-        dryWasteMaxFlowRates = maxFlowRates;
-        dryWasteDesiredFlowRates = desiredFlowRates;
-        dryWasteActualFlowRates = new float[dryWasteDesiredFlowRates.length];
-    }
-
-    public DryWasteStore[] getDryWasteOutputs() {
-        return myDryWasteStores;
-    }
-
-    //Food Water Input
-    public void setFoodInputMaxFlowRate(float kilograms, int index) {
-        foodMaxFlowRates[index] = kilograms;
-    }
-
-    public float getFoodInputMaxFlowRate(int index) {
-        return foodMaxFlowRates[index];
-    }
-
-    public float[] getFoodInputMaxFlowRates() {
-        return foodMaxFlowRates;
-    }
-
-    public void setFoodInputDesiredFlowRate(float kilograms, int index) {
-        foodDesiredFlowRates[index] = kilograms;
-    }
-
-    public float getFoodInputDesiredFlowRate(int index) {
-        return foodDesiredFlowRates[index];
-    }
-
-    public float[] getFoodInputDesiredFlowRates() {
-        return foodDesiredFlowRates;
-    }
-
-    public float getFoodInputActualFlowRate(int index) {
-        return foodActualFlowRates[index];
-    }
-
-    public float[] getFoodInputActualFlowRates() {
-        return foodActualFlowRates;
-    }
-
-    public void setFoodInputs(FoodStore[] sources, float[] maxFlowRates,
-            float[] desiredFlowRates) {
-        myFoodStores = sources;
-        foodMaxFlowRates = maxFlowRates;
-        foodDesiredFlowRates = desiredFlowRates;
-        foodActualFlowRates = new float[foodDesiredFlowRates.length];
-    }
-
-    public FoodStore[] getFoodInputs() {
-        return myFoodStores;
-    }
-
     public void detachCrewPerson(String name) {
         crewScheduledForRemoval.add(name);
     }
     
     public void attachCrewPerson(CrewPerson pCrewPerson) {
         crewScheduledForAddition.add(pCrewPerson);
+    }
+    
+    /**
+     * @return Returns the myAirConsumerDefinitionImpl.
+     */
+    protected AirConsumerDefinitionImpl getAirConsumerDefinitionImpl() {
+        return myAirConsumerDefinitionImpl;
+    }
+    /**
+     * @return Returns the myAirProducerDefinitionImpl.
+     */
+    protected AirProducerDefinitionImpl getAirProducerDefinitionImpl() {
+        return myAirProducerDefinitionImpl;
+    }
+    /**
+     * @return Returns the myDirtyWaterProducerDefinitionImpl.
+     */
+    protected DirtyWaterProducerDefinitionImpl getDirtyWaterProducerDefinitionImpl() {
+        return myDirtyWaterProducerDefinitionImpl;
+    }
+    /**
+     * @return Returns the myDryWasteProducerDefinitionImpl.
+     */
+    protected DryWasteProducerDefinitionImpl getDryWasteProducerDefinitionImpl() {
+        return myDryWasteProducerDefinitionImpl;
+    }
+    /**
+     * @return Returns the myFoodConsumerDefinitionImpl.
+     */
+    protected FoodConsumerDefinitionImpl getFoodConsumerDefinitionImpl() {
+        return myFoodConsumerDefinitionImpl;
+    }
+    /**
+     * @return Returns the myGreyWaterProducerDefinitionImpl.
+     */
+    protected GreyWaterProducerDefinitionImpl getGreyWaterProducerDefinitionImpl() {
+        return myGreyWaterProducerDefinitionImpl;
+    }
+    /**
+     * @return Returns the myPotableWaterConsumerDefinitionImpl.
+     */
+    protected PotableWaterConsumerDefinitionImpl getPotableWaterConsumerDefinitionImpl() {
+        return myPotableWaterConsumerDefinitionImpl;
     }
 }

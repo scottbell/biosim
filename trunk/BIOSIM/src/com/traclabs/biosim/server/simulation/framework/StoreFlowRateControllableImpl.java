@@ -1,6 +1,7 @@
 package com.traclabs.biosim.server.simulation.framework;
 
 import com.traclabs.biosim.idl.simulation.framework.Store;
+import com.traclabs.biosim.idl.simulation.framework.StoreFlowRateControllable;
 import com.traclabs.biosim.idl.simulation.framework.StoreFlowRateControllableOperations;
 
 /**
@@ -77,7 +78,61 @@ public abstract class StoreFlowRateControllableImpl extends SingleFlowRateContro
         }
         return gatheredResource;
     }
-
+    
+    /**
+     * Attempts to grab a specified amount from a collection of stores
+     * 
+     * @param pDefinition
+     *            The defintion to grab the resources from
+     * @param amountNeeded
+     *            The amount to gather from the stores
+     * @param fraction
+     *            what to multiply each flow rate by
+     * @return The total amount of resource grabbed from the stores (equal to
+     *         the amount needed if sucessful)
+     */
+    public static float getFractionalResourceFromStore(StoreFlowRateControllable pDefinition, float amountNeeded, float fraction) {
+        float gatheredResource = 0f;
+        for (int i = 0; (i < pDefinition.getStores().length)
+                && (gatheredResource < amountNeeded); i++) {
+            float resourceToGatherFirst = Math.min(amountNeeded,
+                    pDefinition.getMaxFlowRate(i) * fraction);
+            float resourceToGatherFinal = Math.min(resourceToGatherFirst,
+                    pDefinition.getDesiredFlowRate(i) * fraction);
+            float grabbed = pDefinition.getStores()[i].take(resourceToGatherFinal);
+            pDefinition.getActualFlowRates()[i] += grabbed;
+            gatheredResource += grabbed;
+        }
+        return gatheredResource;
+    }
+    
+    /**
+     * Attempts to push a specified amount to a collection of stores
+     * 
+     * @param pDefinition
+     *            The definition to push the resources to
+     * @param amountToPush
+     *            The amount to push to the stores
+     * @param fraction
+     *            what to multiply each flow rate by
+     * @return The total amount of resource pushed to the stores (equal to the
+     *         amount to push if sucessful)
+     */
+    public static float pushFractionalResourceToStore(StoreFlowRateControllable pDefinition, float amountToPush, float fraction) {
+        float resourceRemaining = amountToPush;
+        for (int i = 0; (i < pDefinition.getStores().length) && (resourceRemaining > 0); i++) {
+            float resourceToDistributeFirst = Math.min(resourceRemaining,
+                    pDefinition.getMaxFlowRate(i) * fraction);
+            float resourceToDistributeFinal = Math.min(
+                    resourceToDistributeFirst, pDefinition.getDesiredFlowRate(i) * fraction);
+            float given = pDefinition.getStores()[i].add(resourceToDistributeFinal);
+            pDefinition.getActualFlowRates()[i] += given;
+            resourceRemaining -= given;
+        }
+        return (amountToPush - resourceRemaining);
+    }
+    
+    
     /**
      * Attempts to push a specified amount to a collection of stores
      * @param amountToPush

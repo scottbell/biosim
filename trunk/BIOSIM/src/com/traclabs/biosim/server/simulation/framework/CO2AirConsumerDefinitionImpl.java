@@ -21,5 +21,23 @@ public class CO2AirConsumerDefinitionImpl extends StoreEnvironmentFlowRateContro
         setMaxFlowRates(pMaxFlowRates);
         setDesiredFlowRates(pDesiredFlowRates);
     }
+    
+    /**
+     * Grabs as much CO2 as it can (i.e., the maxFlowRate) from environments.
+     * @return The total amount of CO2 grabbed from the environments
+     */
+    public float getMostCO2FromEnvironment() {
+        float gatheredCO2Air = 0f;
+        for (int i = 0; i < getEnvironments().length; i++) {
+            float amountToTake = Math.min(getEnvironmentMaxFlowRate(i),
+                    getEnvironmentDesiredFlowRate(i));
+            getEnvironmentActualFlowRates()[i] = getEnvironments()[i]
+                    .takeCO2Moles(amountToTake);
+            gatheredCO2Air += getEnvironmentActualFlowRate(i);
+        }
+        return gatheredCO2Air;
+    }
+    
+    
 
 }

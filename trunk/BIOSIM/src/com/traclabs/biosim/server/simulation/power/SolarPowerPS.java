@@ -1,5 +1,7 @@
 package com.traclabs.biosim.server.simulation.power;
 
+import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
+
 /**
  * Solar Power Production System
  * 
@@ -13,11 +15,11 @@ public class SolarPowerPS extends PowerPSImpl {
     }
 
     float calculatePowerProduced() {
+        SimEnvironment lightInput = getLightConsumerDefinition().getEnvironments()[0];
         //Varying stream of power
-        if (getLightInput() != null) {
+        if (lightInput != null) {
             float powerGenerated = getCurrentUpperPowerGeneration()
-                    * (getLightInput().getLightIntensity() / getLightInput()
-                            .getMaxLumens());
+                    * (lightInput.getLightIntensity() / lightInput.getMaxLumens());
             return randomFilter(powerGenerated);
         } else {
             myLogger.error("SolarPowerPS: no light input!");

@@ -18,8 +18,10 @@ import com.traclabs.biosim.idl.simulation.crew.RepairActivity;
 import com.traclabs.biosim.idl.simulation.crew.Sex;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.idl.simulation.food.FoodMatter;
-import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
+import com.traclabs.biosim.server.simulation.food.FoodStoreImpl;
+import com.traclabs.biosim.server.simulation.framework.FoodConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.SimpleBuffer;
+import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllableImpl;
 import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
@@ -591,7 +593,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
     private void startEVA(String evaCrewGroupName) {
         myLogger.debug("Starting EVA");
         // remove 5% from base environment (assume 3.7 m3 airlock)
-        myCurrentCrewGroup.getAirInputs()[0].removeAirlockPercentage(0.05f);
+        myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments()[0].removeAirlockPercentage(0.05f);
         // detach from current crew group
         myCurrentCrewGroup.detachCrewPerson(getName());
         //attach to eva crew group
@@ -617,7 +619,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
                 .poaToCorbaObj(this))));
         myCurrentCrewGroup = baseCrewGroup;
         // remove 5% from base environment (assume 3.7 m3 airlock)
-        myCurrentCrewGroup.getAirInputs()[0].removeAirlockPercentage(0.05f);
+        myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments()[0].removeAirlockPercentage(0.05f);
     }
 
     /**
@@ -901,7 +903,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
      * @return percentage of CO2 in air
      */
     private float getCO2Ratio() {
-        SimEnvironment[] myAirInputs = myCurrentCrewGroup.getAirInputs();
+        SimEnvironment[] myAirInputs = myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments();
         if (myAirInputs.length < 1) {
             return 0f;
         } else {
@@ -922,7 +924,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
      * @return percentage of O2 in air
      */
     private float getO2Ratio() {
-        SimEnvironment[] myAirInputs = myCurrentCrewGroup.getAirInputs();
+        SimEnvironment[] myAirInputs = myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments();
         if (myAirInputs.length < 1) {
             return 0f;
         } else {
@@ -1078,7 +1080,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
                     + numFormat.format(waterRiskReturn * 100) + "%)");
         } else if (oxygenRiskReturn > randomNumber) {
             hasDied = true;
-            SimEnvironment[] myAirInputs = myCurrentCrewGroup.getAirInputs();
+            SimEnvironment[] myAirInputs = myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments();
             myLogger.info(getName() + " has died from lack of oxygen on tick "
                     + myCurrentCrewGroup.getMyTicks() + " (risk was "
                     + numFormat.format(oxygenRiskReturn * 100) + "%)");
@@ -1090,7 +1092,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
                     + myAirInputs[0].getOtherMoles());
         } else if (CO2RiskReturn > randomNumber) {
             hasDied = true;
-            SimEnvironment[] myAirInputs = myCurrentCrewGroup.getAirInputs();
+            SimEnvironment[] myAirInputs = myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments();
             myLogger.info(getName() + " has died from CO2 poisoning on tick "
                     + myCurrentCrewGroup.getMyTicks() + " (risk was "
                     + numFormat.format(CO2RiskReturn * 100) + "%)");
@@ -1120,20 +1122,14 @@ public class CrewPersonImpl extends CrewPersonPOA {
     }
 
     private void eatFood(float pFoodNeeded) {
-        FoodMatter[] foodConsumed = CrewGroupImpl.getCaloriesFromStore(
-                myCurrentCrewGroup.getFoodInputs(), myCurrentCrewGroup
-                        .getFoodInputMaxFlowRates(), myCurrentCrewGroup
-                        .getFoodInputDesiredFlowRates(), myCurrentCrewGroup
-                        .getFoodInputActualFlowRates(), caloriesNeeded);
+        FoodMatter[] foodConsumed = FoodConsumerDefinitionImpl.getCaloriesFromStore(myCurrentCrewGroup.getFoodConsumerDefinition(), caloriesNeeded);
         foodMassConsumed = calculateFoodMass(foodConsumed);
         if ((foodConsumed.length == 0)
-                || (myCurrentCrewGroup.getFoodInputs().length == 0))
+                || (myCurrentCrewGroup.getFoodConsumerDefinition().getStores().length == 0))
             caloriesConsumed = 0f;
         else {
-            caloriesConsumed = myCurrentCrewGroup.getFoodInputs()[0]
-                    .calculateCalories(foodConsumed);
-            potableWaterNeeded -= myCurrentCrewGroup.getFoodInputs()[0]
-                    .calculateWaterContent(foodConsumed);
+            caloriesConsumed = FoodStoreImpl.calculateCalories(foodConsumed);
+            potableWaterNeeded -= FoodStoreImpl.calculateWaterContent(foodConsumed);
         }
     }
 
@@ -1163,39 +1159,13 @@ public class CrewPersonImpl extends CrewPersonPOA {
         vaporProduced = calculateVaporProduced(potableWaterNeeded);
         //adjust tanks
         eatFood(caloriesNeeded);
-        potableWaterConsumed = CrewGroupImpl.getFractionalResourceFromStore(
-                myCurrentCrewGroup.getPotableWaterInputs(), myCurrentCrewGroup
-                        .getPotableWaterInputMaxFlowRates(), myCurrentCrewGroup
-                        .getPotableWaterInputDesiredFlowRates(),
-                myCurrentCrewGroup.getPotableWaterInputActualFlowRates(),
-                potableWaterNeeded, 1f / myCurrentCrewGroup.getCrewSize());
-        float distributedDirtyWater = SimBioModuleImpl
-                .pushFractionalResourceToStore(
-                        myCurrentCrewGroup.getDirtyWaterOutputs(),
-                        myCurrentCrewGroup.getDirtyWaterOutputMaxFlowRates(),
-                        myCurrentCrewGroup
-                                .getDirtyWaterOutputDesiredFlowRates(),
-                        myCurrentCrewGroup.getDirtyWaterOutputActualFlowRates(),
-                        dirtyWaterProduced, 1f / myCurrentCrewGroup
-                                .getCrewSize());
-        float distributedGreyWater = SimBioModuleImpl
-                .pushFractionalResourceToStore(myCurrentCrewGroup
-                        .getGreyWaterOutputs(), myCurrentCrewGroup
-                        .getGreyWaterOutputMaxFlowRates(), myCurrentCrewGroup
-                        .getGreyWaterOutputDesiredFlowRates(),
-                        myCurrentCrewGroup.getGreyWaterOutputActualFlowRates(),
-                        greyWaterProduced, 1f / myCurrentCrewGroup
-                                .getCrewSize());
-        float distributedDryWaste = SimBioModuleImpl
-                .pushFractionalResourceToStore(myCurrentCrewGroup
-                        .getDryWasteOutputs(), myCurrentCrewGroup
-                        .getDryWasteOutputMaxFlowRates(), myCurrentCrewGroup
-                        .getDryWasteOutputDesiredFlowRates(),
-                        myCurrentCrewGroup.getDryWasteOutputActualFlowRates(),
-                        dryWasteProduced, 1f / myCurrentCrewGroup.getCrewSize());
-
-        SimEnvironment[] myAirInputs = myCurrentCrewGroup.getAirInputs();
-        SimEnvironment[] myAirOutputs = myCurrentCrewGroup.getAirOutputs();
+        potableWaterConsumed = StoreFlowRateControllableImpl.getFractionalResourceFromStore(myCurrentCrewGroup.getPotableWaterConsumerDefinition(), potableWaterNeeded, 1f / myCurrentCrewGroup.getCrewSize());
+        float distributedDirtyWater = StoreFlowRateControllableImpl.getFractionalResourceFromStore(myCurrentCrewGroup.getDirtyWaterProducerDefinition(), dirtyWaterProduced, 1f / myCurrentCrewGroup.getCrewSize());
+        float distributedGreyWater = StoreFlowRateControllableImpl.getFractionalResourceFromStore(myCurrentCrewGroup.getGreyWaterProducerDefinition(), greyWaterProduced, 1f / myCurrentCrewGroup.getCrewSize());
+        float distributedDryWaste = StoreFlowRateControllableImpl.getFractionalResourceFromStore(myCurrentCrewGroup.getDryWasteProducerDefinition(), dryWasteProduced, 1f / myCurrentCrewGroup.getCrewSize());
+        
+        SimEnvironment[] myAirInputs = myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments();
+        SimEnvironment[] myAirOutputs = myCurrentCrewGroup.getAirProducerDefinition().getEnvironments();
         if (myAirInputs.length < 1) {
             O2Consumed = 0f;
         } else {

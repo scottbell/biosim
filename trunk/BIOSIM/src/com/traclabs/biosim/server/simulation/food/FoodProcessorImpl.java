@@ -1,26 +1,30 @@
 package com.traclabs.biosim.server.simulation.food;
 
 import java.util.Iterator;
-import java.util.List;
-import java.util.Vector;
 
 import com.traclabs.biosim.idl.framework.Malfunction;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.simulation.food.BioMatter;
-import com.traclabs.biosim.idl.simulation.food.BiomassStore;
 import com.traclabs.biosim.idl.simulation.food.FoodMatter;
 import com.traclabs.biosim.idl.simulation.food.FoodProcessorOperations;
-import com.traclabs.biosim.idl.simulation.food.FoodStore;
+import com.traclabs.biosim.idl.simulation.framework.BiomassConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.BiomassConsumerOperations;
+import com.traclabs.biosim.idl.simulation.framework.DryWasteProducerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.DryWasteProducerOperations;
+import com.traclabs.biosim.idl.simulation.framework.FoodProducerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.FoodProducerOperations;
+import com.traclabs.biosim.idl.simulation.framework.PowerConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.PowerConsumerOperations;
+import com.traclabs.biosim.idl.simulation.framework.WaterProducerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.WaterProducerOperations;
-import com.traclabs.biosim.idl.simulation.power.PowerStore;
-import com.traclabs.biosim.idl.simulation.waste.DryWasteStore;
-import com.traclabs.biosim.idl.simulation.water.WaterStore;
+import com.traclabs.biosim.server.simulation.framework.BiomassConsumerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.framework.DryWasteProducerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.framework.FoodProducerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.framework.PowerConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
+import com.traclabs.biosim.server.simulation.framework.WaterProducerDefinitionImpl;
+import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
  * The Food Processor takes biomass (plants matter) and refines it to food for
@@ -33,6 +37,14 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements
         FoodProcessorOperations, PowerConsumerOperations,
         BiomassConsumerOperations, FoodProducerOperations,
         DryWasteProducerOperations, WaterProducerOperations {
+    //Consumers, Producers
+    private BiomassConsumerDefinitionImpl myBiomassConsumerDefinitionImpl;
+    private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
+    private FoodProducerDefinitionImpl myFoodProducerDefinitionImpl;
+    private WaterProducerDefinitionImpl myWaterProducerDefinitionImpl;
+    private DryWasteProducerDefinitionImpl myDryWasteProducerDefinitionImpl;
+    
+    
     //During any given tick, this much power is needed for the food processor
     // to run at all
     private float powerNeeded = 100;
@@ -66,72 +78,37 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements
     //References to the servers the Food Processor takes/puts resources (like
     // power, biomass, etc)
     private float myProductionRate = 1f;
-
-    private FoodStore[] myFoodStores;
-
-    private DryWasteStore[] myDryWasteStores;
-
-    private PowerStore[] myPowerStores;
-
-    private BiomassStore[] myBiomassStores;
-
-    private WaterStore[] myWaterStores;
-
-    BioMatter[] biomatterConsumed;
-
-    private float[] powerMaxFlowRates;
-
-    private float[] powerActualFlowRates;
-
-    private float[] powerDesiredFlowRates;
-
-    private float[] biomassMaxFlowRates;
-
-    private float[] biomassActualFlowRates;
-
-    private float[] biomassDesiredFlowRates;
-
-    private float[] foodMaxFlowRates;
-
-    private float[] foodActualFlowRates;
-
-    private float[] foodDesiredFlowRates;
-
-    private float[] dryWasteMaxFlowRates;
-
-    private float[] dryWasteActualFlowRates;
-
-    private float[] dryWasteDesiredFlowRates;
-
-    private float[] waterMaxFlowRates;
-
-    private float[] waterActualFlowRates;
-
-    private float[] waterDesiredFlowRates;
+    
+    private BioMatter[] biomatterConsumed;
 
     public FoodProcessorImpl(int pID, String pName) {
-        super(pID, pName);
-        myFoodStores = new FoodStore[0];
-        foodMaxFlowRates = new float[0];
-        foodActualFlowRates = new float[0];
-        foodDesiredFlowRates = new float[0];
-        myPowerStores = new PowerStore[0];
-        powerMaxFlowRates = new float[0];
-        powerActualFlowRates = new float[0];
-        powerDesiredFlowRates = new float[0];
-        myBiomassStores = new BiomassStore[0];
+        super(pID, pName);        
         biomatterConsumed = new BioMatter[0];
-        biomassMaxFlowRates = new float[0];
-        biomassActualFlowRates = new float[0];
-        biomassDesiredFlowRates = new float[0];
-        myDryWasteStores = new DryWasteStore[0];
-        dryWasteMaxFlowRates = new float[0];
-        dryWasteActualFlowRates = new float[0];
-        dryWasteDesiredFlowRates = new float[0];
-        myWaterStores = new WaterStore[0];
-        waterMaxFlowRates = new float[0];
-        waterActualFlowRates = new float[0];
-        waterDesiredFlowRates = new float[0];
+        myBiomassConsumerDefinitionImpl = new BiomassConsumerDefinitionImpl();
+        myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl();
+        myWaterProducerDefinitionImpl = new WaterProducerDefinitionImpl();
+        myFoodProducerDefinitionImpl = new FoodProducerDefinitionImpl();
+        myDryWasteProducerDefinitionImpl = new DryWasteProducerDefinitionImpl();
+    }
+    
+    public BiomassConsumerDefinition getBiomassConsumerDefinition(){
+        return (BiomassConsumerDefinition)(OrbUtils.poaToCorbaObj(myBiomassConsumerDefinitionImpl));
+    }
+    
+    public PowerConsumerDefinition getPowerConsumerDefinition(){
+        return (PowerConsumerDefinition)(OrbUtils.poaToCorbaObj(myPowerConsumerDefinitionImpl));
+    }
+    
+    public WaterProducerDefinition getWaterProducerDefinition(){
+        return (WaterProducerDefinition)(OrbUtils.poaToCorbaObj(myWaterProducerDefinitionImpl));
+    }
+    
+    public FoodProducerDefinition getFoodProducerDefinition(){
+        return (FoodProducerDefinition)(OrbUtils.poaToCorbaObj(myFoodProducerDefinitionImpl));
+    }
+    
+    public DryWasteProducerDefinition getDryWasteProducerDefinition(){
+        return (DryWasteProducerDefinition)(OrbUtils.poaToCorbaObj(myDryWasteProducerDefinitionImpl));
     }
 
     /**
@@ -203,9 +180,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements
      * Processor for one tick.
      */
     private void gatherPower() {
-        currentPowerConsumed = getResourceFromStore(myPowerStores,
-                powerMaxFlowRates, powerDesiredFlowRates, powerActualFlowRates,
-                powerNeeded);
+        currentPowerConsumed = myPowerConsumerDefinitionImpl.getResourceFromStore(powerNeeded);
         if (currentPowerConsumed < powerNeeded) {
             hasEnoughPower = false;
         } else {
@@ -218,9 +193,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements
      * Processor optimally for one tick.
      */
     private void gatherBiomass() {
-        biomatterConsumed = getBioMassFromStore(myBiomassStores,
-                biomassMaxFlowRates, biomassDesiredFlowRates,
-                biomassActualFlowRates, biomassNeeded);
+        biomatterConsumed = myBiomassConsumerDefinitionImpl.getBioMassFromStore(biomassNeeded);
         massConsumed = calculateSizeOfBioMatter(biomatterConsumed);
         if (massConsumed > 0)
             myLogger
@@ -244,56 +217,6 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements
         for (int i = 0; i < arrayOfMatter.length; i++)
             totalSize += arrayOfMatter[i].mass;
         return totalSize;
-    }
-
-    private BioMatter[] getBioMassFromStore(BiomassStore[] pStores,
-            float[] pMaxFlowRates, float[] pDesiredFlowRates,
-            float[] pActualFlowRates, float amountNeeded) {
-        float gatheredResource = 0f;
-        List gatheredBioMatterArrays = new Vector();
-        int sizeOfMatterArray = 0;
-        for (int i = 0; (i < pStores.length)
-                && (gatheredResource < amountNeeded); i++) {
-            float resourceToGatherFirst = Math.min(amountNeeded,
-                    pMaxFlowRates[i]);
-            float resourceToGatherFinal = Math.min(resourceToGatherFirst,
-                    pDesiredFlowRates[i]);
-            BioMatter[] takenMatter = pStores[i]
-                    .takeBioMatterMass(resourceToGatherFinal);
-            sizeOfMatterArray += takenMatter.length;
-            gatheredBioMatterArrays.add(takenMatter);
-            pActualFlowRates[i] = calculateSizeOfBioMatter(takenMatter);
-            gatheredResource += pActualFlowRates[i];
-        }
-        BioMatter[] fullMatterTaken = new BioMatter[sizeOfMatterArray];
-        int lastPosition = 0;
-        for (Iterator iter = gatheredBioMatterArrays.iterator(); iter.hasNext();) {
-            BioMatter[] matterArray = (BioMatter[]) (iter.next());
-            System.arraycopy(matterArray, 0, fullMatterTaken, lastPosition,
-                    matterArray.length);
-            lastPosition = matterArray.length;
-        }
-
-        return fullMatterTaken;
-    }
-
-    public float pushFoodToStore(FoodStore[] pStores, float[] pMaxFlowRates,
-            float[] pDesiredFlowRates, float[] pActualFlowRates,
-            FoodMatter[] foodToPush) {
-        float fullMassToDistribute = calculateSizeOfFoodMatter(foodToPush);
-        float resourceDistributed = fullMassToDistribute;
-        FoodMatter[] copyOfMatter = new FoodMatter[foodToPush.length];
-        System.arraycopy(foodToPush, 0, copyOfMatter, 0, foodToPush.length);
-        for (int i = 0; (i < pStores.length) && (resourceDistributed > 0); i++) {
-            float resourceToDistributeFirst = Math.min(resourceDistributed,
-                    pMaxFlowRates[i]);
-            float resourceToDistributeFinal = Math.min(
-                    resourceToDistributeFirst, pDesiredFlowRates[i]);
-            pActualFlowRates[i] = pStores[i].addFoodMatterArray(copyOfMatter);
-            resourceDistributed -= pActualFlowRates[i];
-        }
-        float amountPushed = (fullMassToDistribute - resourceDistributed);
-        return amountPushed;
     }
 
     private float calculateInedibleWaterContent(BioMatter inMatter) {
@@ -334,18 +257,11 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements
                 currentWaterProduced += calculateInedibleWaterContent(biomatterConsumed[i]);
             }
             currentFoodProduced = calculateSizeOfFoodMatter(foodMatterArray);
-            float distributedFoodLeft = pushFoodToStore(myFoodStores,
-                    foodMaxFlowRates, foodDesiredFlowRates,
-                    foodActualFlowRates, foodMatterArray);
+            float distributedFoodLeft = myFoodProducerDefinitionImpl.pushFoodToStore(foodMatterArray);
             float currentDryWasteProduced = currentFoodProduced
                     - calculateSizeOfBioMatter(biomatterConsumed);
-            float distributedDryWasteLeft = pushResourceToStore(
-                    myDryWasteStores, dryWasteMaxFlowRates,
-                    dryWasteDesiredFlowRates, dryWasteActualFlowRates,
-                    currentDryWasteProduced);
-            float distributedWaterLeft = pushResourceToStore(myWaterStores,
-                    waterMaxFlowRates, waterDesiredFlowRates,
-                    waterActualFlowRates, currentWaterProduced);
+            float distributedDryWasteLeft = myDryWasteProducerDefinitionImpl.pushResourceToStore(currentDryWasteProduced);
+            float distributedWaterLeft = myWaterProducerDefinitionImpl.pushResourceToStore(currentWaterProduced);
         }
     }
 
@@ -436,231 +352,4 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements
          * currentFoodProducedHead.addChild(""+currentFoodProduced);
          */
     }
-
-    //Power Input
-    public void setPowerInputMaxFlowRate(float watts, int index) {
-        powerMaxFlowRates[index] = watts;
-    }
-
-    public float getPowerInputMaxFlowRate(int index) {
-        return powerMaxFlowRates[index];
-    }
-
-    public float[] getPowerInputMaxFlowRates() {
-        return powerMaxFlowRates;
-    }
-
-    public void setPowerInputDesiredFlowRate(float watts, int index) {
-        powerDesiredFlowRates[index] = watts;
-    }
-
-    public float getPowerInputDesiredFlowRate(int index) {
-        return powerDesiredFlowRates[index];
-    }
-
-    public float[] getPowerInputDesiredFlowRates() {
-        return powerDesiredFlowRates;
-    }
-
-    public float getPowerInputActualFlowRate(int index) {
-        return powerActualFlowRates[index];
-    }
-
-    public float[] getPowerInputActualFlowRates() {
-        return powerActualFlowRates;
-    }
-
-    public void setPowerInputs(PowerStore[] sources, float[] maxFlowRates,
-            float[] desiredFlowRates) {
-        myPowerStores = sources;
-        powerMaxFlowRates = maxFlowRates;
-        powerDesiredFlowRates = desiredFlowRates;
-        powerActualFlowRates = new float[powerDesiredFlowRates.length];
-
-    }
-
-    public PowerStore[] getPowerInputs() {
-        return myPowerStores;
-    }
-
-    //Biomass Input
-    public void setBiomassInputMaxFlowRate(float kilograms, int index) {
-        biomassMaxFlowRates[index] = kilograms;
-    }
-
-    public float getBiomassInputMaxFlowRate(int index) {
-        return biomassMaxFlowRates[index];
-    }
-
-    public float[] getBiomassInputMaxFlowRates() {
-        return biomassMaxFlowRates;
-    }
-
-    public void setBiomassInputDesiredFlowRate(float kilograms, int index) {
-        biomassDesiredFlowRates[index] = kilograms;
-    }
-
-    public float getBiomassInputDesiredFlowRate(int index) {
-        return biomassDesiredFlowRates[index];
-    }
-
-    public float[] getBiomassInputDesiredFlowRates() {
-        return biomassDesiredFlowRates;
-    }
-
-    public float getBiomassInputActualFlowRate(int index) {
-        return biomassActualFlowRates[index];
-    }
-
-    public float[] getBiomassInputActualFlowRates() {
-        return biomassActualFlowRates;
-    }
-
-    public void setBiomassInputs(BiomassStore[] sources, float[] maxFlowRates,
-            float[] desiredFlowRates) {
-        myBiomassStores = sources;
-        biomassMaxFlowRates = maxFlowRates;
-        biomassDesiredFlowRates = desiredFlowRates;
-        biomassActualFlowRates = new float[biomassDesiredFlowRates.length];
-    }
-
-    public BiomassStore[] getBiomassInputs() {
-        return myBiomassStores;
-    }
-
-    //Food Output
-    public void setFoodOutputMaxFlowRate(float kilograms, int index) {
-        foodMaxFlowRates[index] = kilograms;
-    }
-
-    public float getFoodOutputMaxFlowRate(int index) {
-        return foodMaxFlowRates[index];
-    }
-
-    public float[] getFoodOutputMaxFlowRates() {
-        return foodMaxFlowRates;
-    }
-
-    public void setFoodOutputDesiredFlowRate(float kilograms, int index) {
-        foodDesiredFlowRates[index] = kilograms;
-    }
-
-    public float getFoodOutputDesiredFlowRate(int index) {
-        return foodDesiredFlowRates[index];
-    }
-
-    public float[] getFoodOutputDesiredFlowRates() {
-        return foodDesiredFlowRates;
-    }
-
-    public float getFoodOutputActualFlowRate(int index) {
-        return foodActualFlowRates[index];
-    }
-
-    public float[] getFoodOutputActualFlowRates() {
-        return foodActualFlowRates;
-    }
-
-    public void setFoodOutputs(FoodStore[] destinations, float[] maxFlowRates,
-            float[] desiredFlowRates) {
-        myFoodStores = destinations;
-        foodMaxFlowRates = maxFlowRates;
-        foodDesiredFlowRates = desiredFlowRates;
-        foodActualFlowRates = new float[foodDesiredFlowRates.length];
-    }
-
-    public FoodStore[] getFoodOutputs() {
-        return myFoodStores;
-    }
-
-    //DryWaste Output
-    public void setDryWasteOutputMaxFlowRate(float kilograms, int index) {
-        dryWasteMaxFlowRates[index] = kilograms;
-    }
-
-    public float getDryWasteOutputMaxFlowRate(int index) {
-        return dryWasteMaxFlowRates[index];
-    }
-
-    public float[] getDryWasteOutputMaxFlowRates() {
-        return dryWasteMaxFlowRates;
-    }
-
-    public void setDryWasteOutputDesiredFlowRate(float kilograms, int index) {
-        dryWasteDesiredFlowRates[index] = kilograms;
-    }
-
-    public float getDryWasteOutputDesiredFlowRate(int index) {
-        return dryWasteDesiredFlowRates[index];
-    }
-
-    public float[] getDryWasteOutputDesiredFlowRates() {
-        return dryWasteDesiredFlowRates;
-    }
-
-    public float getDryWasteOutputActualFlowRate(int index) {
-        return dryWasteActualFlowRates[index];
-    }
-
-    public float[] getDryWasteOutputActualFlowRates() {
-        return dryWasteActualFlowRates;
-    }
-
-    public void setDryWasteOutputs(DryWasteStore[] destinations,
-            float[] maxFlowRates, float[] desiredFlowRates) {
-        myDryWasteStores = destinations;
-        dryWasteMaxFlowRates = maxFlowRates;
-        dryWasteDesiredFlowRates = desiredFlowRates;
-        dryWasteActualFlowRates = new float[dryWasteDesiredFlowRates.length];
-    }
-
-    public DryWasteStore[] getDryWasteOutputs() {
-        return myDryWasteStores;
-    }
-
-    //Water Output
-    public void setWaterOutputMaxFlowRate(float kilograms, int index) {
-        waterMaxFlowRates[index] = kilograms;
-    }
-
-    public float getWaterOutputMaxFlowRate(int index) {
-        return waterMaxFlowRates[index];
-    }
-
-    public float[] getWaterOutputMaxFlowRates() {
-        return waterMaxFlowRates;
-    }
-
-    public void setWaterOutputDesiredFlowRate(float kilograms, int index) {
-        waterDesiredFlowRates[index] = kilograms;
-    }
-
-    public float getWaterOutputDesiredFlowRate(int index) {
-        return waterDesiredFlowRates[index];
-    }
-
-    public float[] getWaterOutputDesiredFlowRates() {
-        return waterDesiredFlowRates;
-    }
-
-    public float getWaterOutputActualFlowRate(int index) {
-        return waterActualFlowRates[index];
-    }
-
-    public float[] getWaterOutputActualFlowRates() {
-        return waterActualFlowRates;
-    }
-
-    public void setWaterOutputs(WaterStore[] destinations,
-            float[] maxFlowRates, float[] desiredFlowRates) {
-        myWaterStores = destinations;
-        waterMaxFlowRates = maxFlowRates;
-        waterDesiredFlowRates = desiredFlowRates;
-        waterActualFlowRates = new float[waterDesiredFlowRates.length];
-    }
-
-    public WaterStore[] getWaterOutputs() {
-        return myWaterStores;
-    }
-
 }

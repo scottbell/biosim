@@ -59,6 +59,41 @@ public abstract class EnvironmentFlowRateControllableImpl extends SingleFlowRate
     }
     
     /**
+     * Attempts to grab a most number of air moles from a collection of environments
+     * @return Breath of air consumed
+     */
+    public Breath getMostAirFromEnvironment() {
+        float gatheredAir = 0f;
+        float gatheredO2 = 0f;
+        float gatheredCO2 = 0f;
+        float gatheredOther = 0f;
+        float gatheredWater = 0f;
+        float gatheredNitrogen = 0f;
+        for (int i = 0; (i < getEnvironments().length); i++) {
+            float resourceToGatherFinal = Math.min(getMaxFlowRate(i),
+                    getDesiredFlowRate(i));
+            Breath currentBreath = getEnvironments()[i]
+                    .takeAirMoles(resourceToGatherFinal);
+            gatheredAir += currentBreath.O2 + currentBreath.CO2
+                    + currentBreath.other + currentBreath.water
+                    + currentBreath.nitrogen;
+            getActualFlowRates()[i] = gatheredAir;
+            gatheredO2 += currentBreath.O2;
+            gatheredCO2 += currentBreath.CO2;
+            gatheredOther += currentBreath.other;
+            gatheredWater += currentBreath.water;
+            gatheredNitrogen += currentBreath.nitrogen;
+        }
+        Breath returnBreath = new Breath();
+        returnBreath.O2 = gatheredO2;
+        returnBreath.CO2 = gatheredCO2;
+        returnBreath.other = gatheredOther;
+        returnBreath.water = gatheredWater;
+        returnBreath.nitrogen = gatheredNitrogen;
+        return returnBreath;
+    }
+    
+    /**
      * Attempts to push specified air moles to a collection of environments
      * @param amountToPush
      *            The amount of moles to push to the environments

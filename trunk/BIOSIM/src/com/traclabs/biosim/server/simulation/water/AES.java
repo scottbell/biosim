@@ -1,6 +1,5 @@
 package com.traclabs.biosim.server.simulation.water;
 
-import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 
 /**
  * The AES is the third stage of water purification. It takes water from the RO,
@@ -44,11 +43,7 @@ public class AES extends WaterRSSubSystem {
         }
         //otherwise, push it to the grey water tank
         else {
-            waterLevel = SimBioModuleImpl.pushResourceToStore(myWaterRS
-                    .getGreyWaterInputs(), myWaterRS
-                    .getGreyWaterInputMaxFlowRates(), myWaterRS
-                    .getGreyWaterInputDesiredFlowRates(), myWaterRS
-                    .getGreyWaterInputActualFlowRates(), waterLevel);
+            waterLevel = myWaterRS.getGreyWaterConsumerDefinitionImpl().pushResourceToStore(waterLevel);
         }
     }
 
@@ -70,11 +65,7 @@ public class AES extends WaterRSSubSystem {
         else {
             currentPPSWaterProduced = 0f;
             //try to put back into dirtyWater Store.
-            waterLevel = SimBioModuleImpl.pushResourceToStore(myWaterRS
-                    .getDirtyWaterInputs(), myWaterRS
-                    .getDirtyWaterInputMaxFlowRates(), myWaterRS
-                    .getDirtyWaterInputDesiredFlowRates(), myWaterRS
-                    .getDirtyWaterInputActualFlowRates(), waterLevel);
+            waterLevel = myWaterRS.getDirtyWaterConsumerDefinitionImpl().pushResourceToStore(waterLevel);
         }
     }
 

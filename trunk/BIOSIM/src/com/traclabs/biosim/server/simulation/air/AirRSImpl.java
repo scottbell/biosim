@@ -8,17 +8,35 @@ import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.simulation.air.AirRSOperationMode;
 import com.traclabs.biosim.idl.simulation.air.AirRSOperations;
+import com.traclabs.biosim.idl.simulation.framework.AirConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.AirConsumerOperations;
+import com.traclabs.biosim.idl.simulation.framework.AirProducerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.AirProducerOperations;
+import com.traclabs.biosim.idl.simulation.framework.CO2ConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.CO2ConsumerOperations;
+import com.traclabs.biosim.idl.simulation.framework.CO2ProducerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.CO2ProducerOperations;
+import com.traclabs.biosim.idl.simulation.framework.H2ConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.H2ConsumerOperations;
+import com.traclabs.biosim.idl.simulation.framework.H2ProducerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.H2ProducerOperations;
+import com.traclabs.biosim.idl.simulation.framework.O2ProducerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.O2ProducerOperations;
+import com.traclabs.biosim.idl.simulation.framework.PotableWaterConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.PotableWaterConsumerOperations;
+import com.traclabs.biosim.idl.simulation.framework.PotableWaterProducerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.PotableWaterProducerOperations;
 import com.traclabs.biosim.idl.simulation.framework.PowerConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.PowerConsumerOperations;
+import com.traclabs.biosim.server.simulation.framework.AirConsumerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.framework.AirProducerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.framework.CO2ConsumerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.framework.CO2ProducerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.framework.H2ConsumerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.framework.H2ProducerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.framework.O2ProducerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.framework.PotableWaterConsumerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.framework.PotableWaterProducerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.PowerConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 import com.traclabs.biosim.server.util.OrbUtils;
@@ -36,9 +54,6 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations,
         PotableWaterProducerOperations, AirConsumerOperations,
         O2ProducerOperations, AirProducerOperations, CO2ProducerOperations,
         CO2ConsumerOperations, H2ProducerOperations, H2ConsumerOperations {
-    //Consumers
-    private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
-    
     private VCCR myVCCR;
 
     private CRS myCRS;
@@ -52,12 +67,24 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations,
     private float myProductionRate = 1f;
     
     private AirRSSubSystem[] mySubsystems;
+    
+
+    //Consumers, Producers
+    private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
+    private PotableWaterConsumerDefinitionImpl myPotableWaterConsumerDefinitionImpl;
+    private PotableWaterProducerDefinitionImpl myPotableWaterProducerDefinitionImpl;
+    private AirConsumerDefinitionImpl myAirConsumerDefinitionImpl;
+    private AirProducerDefinitionImpl myAirProducerDefinitionImpl;
+    private O2ProducerDefinitionImpl myO2ProducerDefinitionImpl;
+    private CO2ConsumerDefinitionImpl myCO2ConsumerDefinitionImpl;
+    private CO2ProducerDefinitionImpl myCO2ProducerDefinitionImpl;
+    private H2ProducerDefinitionImpl myH2ProducerDefinitionImpl;
+    private H2ConsumerDefinitionImpl myH2ConsumerDefinitionImpl;
 
     private AirRSOperationMode myMode;
 
     public AirRSImpl(int pID, String pName) {
         super(pID, pName);
-        myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl();
         myVCCR = new VCCR(this);
         myCRS = new CRS(this);
         myCH4Tank = new CH4Tank(this);
@@ -68,10 +95,57 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations,
         mySubsystems[1] = myCRS;
         mySubsystems[2] = myOGS;
         mySubsystems[3] = myCH4Tank;
+        
+        myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl();
+        myPotableWaterConsumerDefinitionImpl = new PotableWaterConsumerDefinitionImpl();
+        myPotableWaterProducerDefinitionImpl = new PotableWaterProducerDefinitionImpl();
+        myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl();
+        myAirProducerDefinitionImpl = new AirProducerDefinitionImpl();
+        myO2ProducerDefinitionImpl = new O2ProducerDefinitionImpl();
+        myCO2ConsumerDefinitionImpl = new CO2ConsumerDefinitionImpl();
+        myCO2ProducerDefinitionImpl = new CO2ProducerDefinitionImpl();
+        myH2ProducerDefinitionImpl = new H2ProducerDefinitionImpl();
+        myH2ConsumerDefinitionImpl = new H2ConsumerDefinitionImpl();
     }
     
     public PowerConsumerDefinition getPowerConsumerDefinition(){
         return (PowerConsumerDefinition)(OrbUtils.poaToCorbaObj(myPowerConsumerDefinitionImpl));
+    }
+    
+    public PotableWaterConsumerDefinition getPotableWaterConsumerDefinition(){
+        return (PotableWaterConsumerDefinition)(OrbUtils.poaToCorbaObj(myPotableWaterConsumerDefinitionImpl));
+    }
+    
+    public PotableWaterProducerDefinition getPotableWaterProducerDefinition(){
+        return (PotableWaterProducerDefinition)(OrbUtils.poaToCorbaObj(myPotableWaterProducerDefinitionImpl));
+    }
+    
+    public AirConsumerDefinition getAirConsumerDefinition(){
+        return (AirConsumerDefinition)(OrbUtils.poaToCorbaObj(myAirConsumerDefinitionImpl));
+    }
+    
+    public AirProducerDefinition getAirProducerDefinition(){
+        return (AirProducerDefinition)(OrbUtils.poaToCorbaObj(myAirProducerDefinitionImpl));
+    }
+    
+    public CO2ProducerDefinition getCO2ProducerDefinition(){
+        return (CO2ProducerDefinition)(OrbUtils.poaToCorbaObj(myCO2ProducerDefinitionImpl));
+    }
+    
+    public CO2ConsumerDefinition getCO2ConsumerDefinition(){
+        return (CO2ConsumerDefinition)(OrbUtils.poaToCorbaObj(myCO2ConsumerDefinitionImpl));
+    }
+    
+    public O2ProducerDefinition getO2ProducerDefinition(){
+        return (O2ProducerDefinition)(OrbUtils.poaToCorbaObj(myO2ProducerDefinitionImpl));
+    }
+    
+    public H2ProducerDefinition getH2ProducerDefinition(){
+        return (H2ProducerDefinition)(OrbUtils.poaToCorbaObj(myH2ProducerDefinitionImpl));
+    }
+    
+    public H2ConsumerDefinition getH2ConsumerDefinition(){
+        return (H2ConsumerDefinition)(OrbUtils.poaToCorbaObj(myH2ConsumerDefinitionImpl));
     }
 
     public boolean VCCRHasPower() {
@@ -146,7 +220,7 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations,
      */
     public void tick() {
         super.tick();
-        Arrays.fill(powerActualFlowRates, 0f);
+        Arrays.fill(getPowerConsumerDefinition().getActualFlowRates(), 0f);
         enableSubsystemsBasedOnPower();
         for (int i = 0; i < mySubsystems.length; i++)
             mySubsystems[i].tick();
@@ -158,8 +232,8 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations,
      */
     private void enableSubsystemsBasedOnPower() {
         float sumOfDesiredFlowRates = 0f;
-        for (int i = 0; i < powerDesiredFlowRates.length; i++)
-            sumOfDesiredFlowRates += powerDesiredFlowRates[i];
+        for (int i = 0; i < getPowerConsumerDefinition().getDesiredFlowRates().length; i++)
+            sumOfDesiredFlowRates += getPowerConsumerDefinition().getDesiredFlowRate(i);
         
         float totalPowerNeeded = 0;
         for (int i = 0; i < mySubsystems.length; i++)
@@ -269,5 +343,78 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations,
      */
     public AirRSOperationMode getOpertationMode() {
         return myMode;
+    }
+    /**
+     * @return Returns the myAirConsumerDefinitionImpl.
+     */
+    protected AirConsumerDefinitionImpl getAirConsumerDefinitionImpl() {
+        return myAirConsumerDefinitionImpl;
+    }
+    /**
+     * @return Returns the myCO2ConsumerDefinitionImpl.
+     */
+    protected CO2ConsumerDefinitionImpl getCO2ConsumerDefinitionImpl() {
+        return myCO2ConsumerDefinitionImpl;
+    }
+    /**
+     * @return Returns the myCO2ProducerDefinitionImpl.
+     */
+    protected CO2ProducerDefinitionImpl getCO2ProducerDefinitionImpl() {
+        return myCO2ProducerDefinitionImpl;
+    }
+    /**
+     * @return Returns the myH2ConsumerDefinitionImpl.
+     */
+    protected H2ConsumerDefinitionImpl getH2ConsumerDefinitionImpl() {
+        return myH2ConsumerDefinitionImpl;
+    }
+    /**
+     * @return Returns the myH2ProducerDefinitionImpl.
+     */
+    protected H2ProducerDefinitionImpl getH2ProducerDefinitionImpl() {
+        return myH2ProducerDefinitionImpl;
+    }
+    /**
+     * @return Returns the myO2ProducerDefinitionImpl.
+     */
+    protected O2ProducerDefinitionImpl getO2ProducerDefinitionImpl() {
+        return myO2ProducerDefinitionImpl;
+    }
+    /**
+     * @return Returns the myPotableWaterConsumerDefinitionImpl.
+     */
+    protected PotableWaterConsumerDefinitionImpl getPotableWaterConsumerDefinitionImpl() {
+        return myPotableWaterConsumerDefinitionImpl;
+    }
+    /**
+     * @return Returns the myPotableWaterProducerDefinitionImpl.
+     */
+    protected PotableWaterProducerDefinitionImpl getPotableWaterProducerDefinitionImpl() {
+        return myPotableWaterProducerDefinitionImpl;
+    }
+    /**
+     * @return Returns the myPowerConsumerDefinitionImpl.
+     */
+    protected PowerConsumerDefinitionImpl getPowerConsumerDefinitionImpl() {
+        return myPowerConsumerDefinitionImpl;
+    }
+    /**
+     * @return Returns the myAirProducerDefinitionImpl.
+     */
+    protected AirProducerDefinitionImpl getAirProducerDefinitionImpl() {
+        return myAirProducerDefinitionImpl;
+    }
+    /**
+     * @param myAirProducerDefinitionImpl The myAirProducerDefinitionImpl to set.
+     */
+    protected void setMyAirProducerDefinitionImpl(
+            AirProducerDefinitionImpl myAirProducerDefinitionImpl) {
+        this.myAirProducerDefinitionImpl = myAirProducerDefinitionImpl;
+    }
+    /**
+     * @return Returns the myAirConsumerDefinitionImpl.
+     */
+    protected AirConsumerDefinitionImpl getMyAirConsumerDefinitionImpl() {
+        return myAirConsumerDefinitionImpl;
     }
 }
