@@ -119,7 +119,7 @@ public class BioInitializer{
 			level = Float.parseFloat(node.getAttributes().getNamedItem("level").getNodeValue());
 		}
 		catch (NumberFormatException e){
-			System.out.println("Had problems parsing a float...");
+			
 			e.printStackTrace();
 		}
 		return level;
@@ -131,7 +131,7 @@ public class BioInitializer{
 			capacity = Float.parseFloat(node.getAttributes().getNamedItem("capacity").getNodeValue());
 		}
 		catch (NumberFormatException e){
-			System.out.println("Had problems parsing a float...");
+			
 			e.printStackTrace();
 		}
 		return capacity;
@@ -147,7 +147,7 @@ public class BioInitializer{
 				maxFlowRates[i] = Float.parseFloat(tokenizer.nextToken());
 			}
 			catch (NumberFormatException e){
-				System.out.println("Had problems parsing a float...");
+				
 				e.printStackTrace();
 			}
 		}
@@ -164,7 +164,7 @@ public class BioInitializer{
 				desiredFlowRates[i] = Float.parseFloat(tokenizer.nextToken());
 			}
 			catch (NumberFormatException e){
-				System.out.println("Had problems parsing a float...");
+				
 				e.printStackTrace();
 			}
 		}
@@ -179,16 +179,235 @@ public class BioInitializer{
 			if (childName.equals("powerConsumer")){
 				PowerConsumer myPowerConsumer = (PowerConsumer)(pModule);
 				BioModule[] modules = getInputs(child);
-				PowerStore blob = PowerStoreHelper.narrow(modules[0]);
-				PowerStore[] inputs = (PowerStore[])(modules);
+				PowerStore[] inputs = new PowerStore[modules.length];
+				for (int i = 0; i < modules.length; i++)
+					inputs[i] = PowerStoreHelper.narrow(modules[0]);
 				myPowerConsumer.setPowerInputs(inputs, getMaxFlowRates(child), getDesiredFlowRates(child));
 			}
 			else if (childName.equals("potableWaterConsumer")){
+				PotableWaterConsumer myPotableWaterConsumer = (PotableWaterConsumer)(pModule);
+				BioModule[] modules = getInputs(child);
+				PotableWaterStore[] inputs = new PotableWaterStore[modules.length];
+				for (int i = 0; i < modules.length; i++)
+					inputs[i] = PotableWaterStoreHelper.narrow(modules[0]);
+				myPotableWaterConsumer.setPotableWaterInputs(inputs, getMaxFlowRates(child), getDesiredFlowRates(child));
+			}
+			else if (childName.equals("greyWaterConsumer")){
+				GreyWaterConsumer myGreyWaterConsumer = (GreyWaterConsumer)(pModule);
+				BioModule[] modules = getInputs(child);
+				GreyWaterStore[] inputs = new GreyWaterStore[modules.length];
+				for (int i = 0; i < modules.length; i++)
+					inputs[i] = GreyWaterStoreHelper.narrow(modules[0]);
+				myGreyWaterConsumer.setGreyWaterInputs(inputs, getMaxFlowRates(child), getDesiredFlowRates(child));
+			}
+			else if (childName.equals("dirtyWaterConsumer")){
+				DirtyWaterConsumer myDirtyWaterConsumer = (DirtyWaterConsumer)(pModule);
+				BioModule[] modules = getInputs(child);
+				DirtyWaterStore[] inputs = new DirtyWaterStore[modules.length];
+				for (int i = 0; i < modules.length; i++)
+					inputs[i] = DirtyWaterStoreHelper.narrow(modules[0]);
+				myDirtyWaterConsumer.setDirtyWaterInputs(inputs, getMaxFlowRates(child), getDesiredFlowRates(child));
+			}
+			else if (childName.equals("airConsumer")){
+				AirConsumer myAirConsumer = (AirConsumer)(pModule);
+				BioModule[] modules = getInputs(child);
+				SimEnvironment[] inputs = new SimEnvironment[modules.length];
+				for (int i = 0; i < modules.length; i++)
+					inputs[i] = SimEnvironmentHelper.narrow(modules[0]);
+				myAirConsumer.setAirInputs(inputs, getMaxFlowRates(child), getDesiredFlowRates(child));
+			}
+			else if (childName.equals("H2Consumer")){
+				H2Consumer myH2Consumer = (H2Consumer)(pModule);
+				BioModule[] modules = getInputs(child);
+				H2Store[] inputs = new H2Store[modules.length];
+				for (int i = 0; i < modules.length; i++)
+					inputs[i] = H2StoreHelper.narrow(modules[0]);
+				myH2Consumer.setH2Inputs(inputs, getMaxFlowRates(child), getDesiredFlowRates(child));
+			}
+			else if (childName.equals("O2Consumer")){
+				O2Consumer myO2Consumer = (O2Consumer)(pModule);
+				BioModule[] modules = getInputs(child);
+				O2Store[] inputs = new O2Store[modules.length];
+				for (int i = 0; i < modules.length; i++)
+					inputs[i] = O2StoreHelper.narrow(modules[0]);
+				myO2Consumer.setO2Inputs(inputs, getMaxFlowRates(child), getDesiredFlowRates(child));
+			}
+			else if (childName.equals("CO2Consumer")){
+				CO2Consumer myCO2Consumer = (CO2Consumer)(pModule);
+				BioModule[] modules = getInputs(child);
+				CO2Store[] inputs = new CO2Store[modules.length];
+				for (int i = 0; i < modules.length; i++)
+					inputs[i] = CO2StoreHelper.narrow(modules[0]);
+				myCO2Consumer.setCO2Inputs(inputs, getMaxFlowRates(child), getDesiredFlowRates(child));
+			}
+			else if (childName.equals("lightConsumer")){
+				LightConsumer myLightConsumer = (LightConsumer)(pModule);
+				BioModule[] modules = getInputs(child);
+				SimEnvironment[] inputs = new SimEnvironment[modules.length];
+				for (int i = 0; i < modules.length; i++)
+					inputs[i] = SimEnvironmentHelper.narrow(modules[0]);
+				myLightConsumer.setLightInput(inputs[0]);
+			}
+			else if (childName.equals("biomassConsumer")){
+				BiomassConsumer myBiomassConsumer = (BiomassConsumer)(pModule);
+				BioModule[] modules = getInputs(child);
+				BiomassStore[] inputs = new BiomassStore[modules.length];
+				for (int i = 0; i < modules.length; i++)
+					inputs[i] = BiomassStoreHelper.narrow(modules[0]);
+				myBiomassConsumer.setBiomassInputs(inputs, getMaxFlowRates(child), getDesiredFlowRates(child));
+			}
+			else if (childName.equals("foodConsumer")){
+				FoodConsumer myFoodConsumer = (FoodConsumer)(pModule);
+				BioModule[] modules = getInputs(child);
+				FoodStore[] inputs = new FoodStore[modules.length];
+				for (int i = 0; i < modules.length; i++)
+					inputs[i] = FoodStoreHelper.narrow(modules[0]);
+				myFoodConsumer.setFoodInputs(inputs, getMaxFlowRates(child), getDesiredFlowRates(child));
+			}
+			else if (childName.equals("O2AirConsumer")){
+				O2AirConsumer myO2AirConsumer = (O2AirConsumer)(pModule);
+				Node environmentNode = child.getFirstChild();
+				Node storeNode = environmentNode.getNextSibling();
+				BioModule[] environmentModules = getInputs(environmentNode);
+				BioModule[] storeModules = getInputs(storeNode);
+				SimEnvironment[] environmentInputs = new SimEnvironment[environmentModules.length];
+				O2Store[] storeInputs = new O2Store[storeModules.length];
+				for (int i = 0; i < environmentModules.length; i++)
+					environmentInputs[i] = SimEnvironmentHelper.narrow(environmentModules[0]);
+				for (int i = 0; i < storeModules.length; i++)
+					storeInputs[i] = O2StoreHelper.narrow(storeModules[0]);
+				myO2AirConsumer.setO2AirEnvironmentInputs(environmentInputs, getMaxFlowRates(environmentNode), getDesiredFlowRates(environmentNode));
+				myO2AirConsumer.setO2AirStoreInputs(storeInputs, getMaxFlowRates(storeNode), getDesiredFlowRates(storeNode));
+			}
+			else if (childName.equals("CO2AirConsumer")){
+				CO2AirConsumer myCO2AirConsumer = (CO2AirConsumer)(pModule);
+				Node environmentNode = child.getFirstChild();
+				Node storeNode = environmentNode.getNextSibling();
+				BioModule[] environmentModules = getInputs(environmentNode);
+				BioModule[] storeModules = getInputs(storeNode);
+				SimEnvironment[] environmentInputs = new SimEnvironment[environmentModules.length];
+				CO2Store[] storeInputs = new CO2Store[storeModules.length];
+				for (int i = 0; i < environmentModules.length; i++)
+					environmentInputs[i] = SimEnvironmentHelper.narrow(environmentModules[0]);
+				for (int i = 0; i < storeModules.length; i++)
+					storeInputs[i] = CO2StoreHelper.narrow(storeModules[0]);
+				myCO2AirConsumer.setCO2AirEnvironmentInputs(environmentInputs, getMaxFlowRates(environmentNode), getDesiredFlowRates(environmentNode));
+				myCO2AirConsumer.setCO2AirStoreInputs(storeInputs, getMaxFlowRates(storeNode), getDesiredFlowRates(storeNode));
+			}
+			else if (childName.equals("powerProducer")){
+				PowerProducer myPowerProducer = (PowerProducer)(pModule);
+				BioModule[] modules = getOutputs(child);
+				PowerStore[] outputs = new PowerStore[modules.length];
+				for (int i = 0; i < modules.length; i++)
+					outputs[i] = PowerStoreHelper.narrow(modules[0]);
+				myPowerProducer.setPowerOutputs(outputs, getMaxFlowRates(child), getDesiredFlowRates(child));
+			}
+			else if (childName.equals("potableWaterProducer")){
+				PotableWaterProducer myPotableWaterProducer = (PotableWaterProducer)(pModule);
+				BioModule[] modules = getOutputs(child);
+				PotableWaterStore[] outputs = new PotableWaterStore[modules.length];
+				for (int i = 0; i < modules.length; i++)
+					outputs[i] = PotableWaterStoreHelper.narrow(modules[0]);
+				myPotableWaterProducer.setPotableWaterOutputs(outputs, getMaxFlowRates(child), getDesiredFlowRates(child));
+			}
+			else if (childName.equals("greyWaterProducer")){
+				GreyWaterProducer myGreyWaterProducer = (GreyWaterProducer)(pModule);
+				BioModule[] modules = getOutputs(child);
+				GreyWaterStore[] outputs = new GreyWaterStore[modules.length];
+				for (int i = 0; i < modules.length; i++)
+					outputs[i] = GreyWaterStoreHelper.narrow(modules[0]);
+				myGreyWaterProducer.setGreyWaterOutputs(outputs, getMaxFlowRates(child), getDesiredFlowRates(child));
+			}
+			else if (childName.equals("dirtyWaterProducer")){
+				DirtyWaterProducer myDirtyWaterProducer = (DirtyWaterProducer)(pModule);
+				BioModule[] modules = getOutputs(child);
+				DirtyWaterStore[] outputs = new DirtyWaterStore[modules.length];
+				for (int i = 0; i < modules.length; i++)
+					outputs[i] = DirtyWaterStoreHelper.narrow(modules[0]);
+				myDirtyWaterProducer.setDirtyWaterOutputs(outputs, getMaxFlowRates(child), getDesiredFlowRates(child));
+			}
+			else if (childName.equals("airProducer")){
+				AirProducer myAirProducer = (AirProducer)(pModule);
+				BioModule[] modules = getOutputs(child);
+				SimEnvironment[] outputs = new SimEnvironment[modules.length];
+				for (int i = 0; i < modules.length; i++)
+					outputs[i] = SimEnvironmentHelper.narrow(modules[0]);
+				myAirProducer.setAirOutputs(outputs, getMaxFlowRates(child), getDesiredFlowRates(child));
+			}
+			else if (childName.equals("H2Producer")){
+				H2Producer myH2Producer = (H2Producer)(pModule);
+				BioModule[] modules = getOutputs(child);
+				H2Store[] outputs = new H2Store[modules.length];
+				for (int i = 0; i < modules.length; i++)
+					outputs[i] = H2StoreHelper.narrow(modules[0]);
+				myH2Producer.setH2Outputs(outputs, getMaxFlowRates(child), getDesiredFlowRates(child));
+			}
+			else if (childName.equals("O2Producer")){
+				O2Producer myO2Producer = (O2Producer)(pModule);
+				BioModule[] modules = getOutputs(child);
+				O2Store[] outputs = new O2Store[modules.length];
+				for (int i = 0; i < modules.length; i++)
+					outputs[i] = O2StoreHelper.narrow(modules[0]);
+				myO2Producer.setO2Outputs(outputs, getMaxFlowRates(child), getDesiredFlowRates(child));
+			}
+			else if (childName.equals("CO2Producer")){
+				CO2Producer myCO2Producer = (CO2Producer)(pModule);
+				BioModule[] modules = getOutputs(child);
+				CO2Store[] outputs = new CO2Store[modules.length];
+				for (int i = 0; i < modules.length; i++)
+					outputs[i] = CO2StoreHelper.narrow(modules[0]);
+				myCO2Producer.setCO2Outputs(outputs, getMaxFlowRates(child), getDesiredFlowRates(child));
+			}
+			else if (childName.equals("biomassProducer")){
+				BiomassProducer myBiomassProducer = (BiomassProducer)(pModule);
+				BioModule[] modules = getOutputs(child);
+				BiomassStore[] outputs = new BiomassStore[modules.length];
+				for (int i = 0; i < modules.length; i++)
+					outputs[i] = BiomassStoreHelper.narrow(modules[0]);
+				myBiomassProducer.setBiomassOutputs(outputs, getMaxFlowRates(child), getDesiredFlowRates(child));
+			}
+			else if (childName.equals("foodProducer")){
+				FoodProducer myFoodProducer = (FoodProducer)(pModule);
+				BioModule[] modules = getOutputs(child);
+				FoodStore[] outputs = new FoodStore[modules.length];
+				for (int i = 0; i < modules.length; i++)
+					outputs[i] = FoodStoreHelper.narrow(modules[0]);
+				myFoodProducer.setFoodOutputs(outputs, getMaxFlowRates(child), getDesiredFlowRates(child));
+			}
+			else if (childName.equals("O2AirProducer")){
+				O2AirProducer myO2AirProducer = (O2AirProducer)(pModule);
+				Node environmentNode = child.getFirstChild();
+				Node storeNode = environmentNode.getNextSibling();
+				BioModule[] environmentModules = getOutputs(environmentNode);
+				BioModule[] storeModules = getOutputs(storeNode);
+				SimEnvironment[] environmentOutputs = new SimEnvironment[environmentModules.length];
+				O2Store[] storeOutputs = new O2Store[storeModules.length];
+				for (int i = 0; i < environmentModules.length; i++)
+					environmentOutputs[i] = SimEnvironmentHelper.narrow(environmentModules[0]);
+				for (int i = 0; i < storeModules.length; i++)
+					storeOutputs[i] = O2StoreHelper.narrow(storeModules[0]);
+				myO2AirProducer.setO2AirEnvironmentOutputs(environmentOutputs, getMaxFlowRates(environmentNode), getDesiredFlowRates(environmentNode));
+				myO2AirProducer.setO2AirStoreOutputs(storeOutputs, getMaxFlowRates(storeNode), getDesiredFlowRates(storeNode));
+			}
+			else if (childName.equals("CO2AirProducer")){
+				CO2AirProducer myCO2AirProducer = (CO2AirProducer)(pModule);
+				Node environmentNode = child.getFirstChild();
+				Node storeNode = environmentNode.getNextSibling();
+				BioModule[] environmentModules = getOutputs(environmentNode);
+				BioModule[] storeModules = getOutputs(storeNode);
+				SimEnvironment[] environmentOutputs = new SimEnvironment[environmentModules.length];
+				CO2Store[] storeOutputs = new CO2Store[storeModules.length];
+				for (int i = 0; i < environmentModules.length; i++)
+					environmentOutputs[i] = SimEnvironmentHelper.narrow(environmentModules[0]);
+				for (int i = 0; i < storeModules.length; i++)
+					storeOutputs[i] = CO2StoreHelper.narrow(storeModules[0]);
+				myCO2AirProducer.setCO2AirEnvironmentOutputs(environmentOutputs, getMaxFlowRates(environmentNode), getDesiredFlowRates(environmentNode));
+				myCO2AirProducer.setCO2AirStoreOutputs(storeOutputs, getMaxFlowRates(storeNode), getDesiredFlowRates(storeNode));
 			}
 			child = child.getNextSibling();
 		}
 	}
-
+	
 	private BioModule[] getInputs(Node node){
 		String arrayString = node.getAttributes().getNamedItem("inputs").getNodeValue();
 		StringTokenizer tokenizer = new StringTokenizer(arrayString);
@@ -322,7 +541,7 @@ public class BioInitializer{
 			intensity = Integer.parseInt(node.getAttributes().getNamedItem("intensity").getNodeValue());
 		}
 		catch (NumberFormatException e){
-			System.out.println("Had problems parsing a float...");
+			
 			e.printStackTrace();
 		}
 		ActivityImpl newActivityImpl = new ActivityImpl(moduleName, length, intensity);
@@ -354,7 +573,7 @@ public class BioInitializer{
 			weight = Float.parseFloat(node.getAttributes().getNamedItem("weight").getNodeValue());
 		}
 		catch (NumberFormatException e){
-			System.out.println("Had problems parsing a float...");
+			
 			e.printStackTrace();
 		}
 		crew.createCrewPerson(moduleName, age, weight, sex, schedule);
@@ -379,6 +598,14 @@ public class BioInitializer{
 
 	private void configureCrewGroup(Node node){
 		System.out.println("Configuring CrewGroup");
+		String moduleName = getModuleName(node);
+		try{
+			CrewGroup myCrewGroup = CrewGroupHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			configureSimBioModule(myCrewGroup, node);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
 	}
 
 	private void crawlCrewModules(Node node, boolean firstPass){
@@ -426,7 +653,7 @@ public class BioInitializer{
 					otherMoles = Float.parseFloat(otherMolesNode.getNodeValue());
 			}
 			catch (NumberFormatException e){
-				System.out.println("Had problems parsing a float...");
+				
 				e.printStackTrace();
 			}
 			if ((CO2MolesNode != null) || (O2MolesNode != null) || (waterMolesNode != null) || (otherMolesNode != null))
@@ -464,6 +691,14 @@ public class BioInitializer{
 
 	private void configureAccumulator(Node node){
 		System.out.println("Configuring Accumulator");
+		String moduleName = getModuleName(node);
+		try{
+			Accumulator myAccumulator = AccumulatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			configureSimBioModule(myAccumulator, node);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
 	}
 
 	private void createInjector(Node node){
@@ -479,6 +714,14 @@ public class BioInitializer{
 
 	private void configureInjector(Node node){
 		System.out.println("Configuring Injector");
+		String moduleName = getModuleName(node);
+		try{
+			Injector myInjector = InjectorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			configureSimBioModule(myInjector, node);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
 	}
 
 	private void crawlFrameworkModules(Node node, boolean firstPass){
@@ -500,12 +743,29 @@ public class BioInitializer{
 			child = child.getNextSibling();
 		}
 	}
-
+	
+	private static PlantType getCropType(Node node){
+		String cropString = node.getAttributes().getNamedItem("cropType").getNodeValue();
+		return PlantType.WHEAT;
+	}
+	
+	private static float getCropArea(Node node){
+		float area = 0f;
+		try{
+			area = Float.parseFloat(node.getAttributes().getNamedItem("cropArea").getNodeValue());
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+		return area;
+	}
+	
 	private void createBiomassRS(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
 			System.out.println("Creating BiomassRS with moduleName: "+moduleName);
 			BiomassRSImpl myBiomassRSImpl = new BiomassRSImpl(myID, moduleName);
+			myBiomassRSImpl.createNewShelf(getCropType(node), getCropArea(node));
 			BiosimServer.registerServer(new BiomassRSPOATie(myBiomassRSImpl), myBiomassRSImpl.getModuleName(), myBiomassRSImpl.getID());
 		}
 		else
@@ -514,6 +774,14 @@ public class BioInitializer{
 
 	private void configureBiomassRS(Node node){
 		System.out.println("Configuring BiomassRS");
+		String moduleName = getModuleName(node);
+		try{
+			BiomassRS myBiomassRS = BiomassRSHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			configureSimBioModule(myBiomassRS, node);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
 	}
 
 	private void createFoodProcessor(Node node){
@@ -529,6 +797,14 @@ public class BioInitializer{
 
 	private void configureFoodProcessor(Node node){
 		System.out.println("Configuring FoodProcessor");
+		String moduleName = getModuleName(node);
+		try{
+			FoodProcessor myFoodProcessor = FoodProcessorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			configureSimBioModule(myFoodProcessor, node);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
 	}
 
 	private void createBiomassStore(Node node){
@@ -602,6 +878,14 @@ public class BioInitializer{
 
 	private void configurePowerPS(Node node){
 		System.out.println("Configuring PowerPS");
+		String moduleName = getModuleName(node);
+		try{
+			PowerPS myPowerPS = PowerPSHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			configureSimBioModule(myPowerPS, node);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
 	}
 
 	private void createPowerStore(Node node){
@@ -648,6 +932,14 @@ public class BioInitializer{
 
 	private void configureWaterRS(Node node){
 		System.out.println("Configuring WaterRS");
+		String moduleName = getModuleName(node);
+		try{
+			WaterRS myWaterRS = WaterRSHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			configureSimBioModule(myWaterRS, node);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
 	}
 
 	private void createPotableWaterStore(Node node){
