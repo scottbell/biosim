@@ -15,9 +15,9 @@
 	<SimModules>
 		<air>
 			<AirRS>
+				<name>AirRS</name>
 				<isLoggingEnabled>false</isLoggingEnabled>
 				<isBreakdownEnabled>false</isBreakdownEnabled>
-				<name>AirRS</name>
 				<powerConsumer>
 					<maxFlowRates>100</maxFlowRates>
 					<desiredFlowRates>100</desiredFlowRates>
@@ -31,7 +31,7 @@
 				<airConsumer>
 					<maxFlowRates>100</maxFlowRates>
 					<desiredFlowRates>100</desiredFlowRates>
-					<input>SimEnvironment</input>
+					<input>CrewEnvironment</input>
 				</airConsumer>
 				<CO2Consumer>
 					<maxFlowRates>100</maxFlowRates>
@@ -56,7 +56,7 @@
 				<airProducer>
 					<maxFlowRates>100</maxFlowRates>
 					<desiredFlowRates>100</desiredFlowRates>
-					<output>SimEnvironment</output>
+					<output>CrewEnvironment</output>
 				</airProducer>
 				<CO2Producer>
 					<maxFlowRates>100</maxFlowRates>
@@ -70,32 +70,32 @@
 				</H2Producer>
 			</AirRS>
 			<O2Store>
+				<name>O2Store</name>
 				<isLoggingEnabled>false</isLoggingEnabled>
 				<isBreakdownEnabled>false</isBreakdownEnabled>
 				<capacity>500</capacity>
 				<level>100</level>
-				<name>O2Store</name>
 			</O2Store>
 			<CO2Store>
+				<name>CO2Store</name>
 				<isLoggingEnabled>false</isLoggingEnabled>
 				<isBreakdownEnabled>false</isBreakdownEnabled>
 				<capacity>500</capacity>
 				<level>100</level>
-				<name>CO2Store</name>
 			</CO2Store>
 			<H2Store>
+				<name>H2Store</name>
 				<isLoggingEnabled>false</isLoggingEnabled>
 				<isBreakdownEnabled>false</isBreakdownEnabled>
 				<capacity>500</capacity>
 				<level>100</level>
-				<name>H2Store</name>
 			</H2Store>
 		</air>
 		<crew>
 			<CrewGroup>
+				<name>CrewGroup</name>
 				<isLoggingEnabled>false</isLoggingEnabled>
 				<isBreakdownEnabled>false</isBreakdownEnabled>
-				<name>CrewGroup</name>
 				<potableWaterConsumer>
 					<maxFlowRates>100</maxFlowRates>
 					<desiredFlowRates>100</desiredFlowRates>
@@ -104,7 +104,7 @@
 				<airConsumer>
 					<maxFlowRates>100</maxFlowRates>
 					<desiredFlowRates>100</desiredFlowRates>
-					<input>SimEnvironment</input>
+					<input>CrewEnvironment</input>
 				</airConsumer>
 				<foodConsumer>
 					<maxFlowRates>100</maxFlowRates>
@@ -124,7 +124,7 @@
 				<airProducer>
 					<maxFlowRates>100</maxFlowRates>
 					<desiredFlowRates>100</desiredFlowRates>
-					<output>SimEnvironment</output>
+					<output>CrewEnvironment</output>
 				</airProducer>
 				<schedule>
 					<activity>
@@ -199,13 +199,27 @@
 				</crewPerson>
 			</CrewGroup>
 		</crew>
+		<environment>
+			<SimEnvironment>
+				<name>CrewEnvironment</name>
+				<isLoggingEnabled>false</isLoggingEnabled>
+				<isBreakdownEnabled>false</isBreakdownEnabled>
+				<initialVolume>1548930</initialVolume>
+			</SimEnvironment>
+			<SimEnvironment>
+				<name>PlantEnvironment</name>
+				<isLoggingEnabled>false</isLoggingEnabled>
+				<isBreakdownEnabled>false</isBreakdownEnabled>
+				<initialVolume>1548930</initialVolume>
+			</SimEnvironment>
+		</environment>	
 		<water>
 			<PotableWaterStore>
+				<name>PotableWaterStore</name>
 				<isLoggingEnabled>false</isLoggingEnabled>
 				<isBreakdownEnabled>false</isBreakdownEnabled>
 				<capacity>500</capacity>
 				<level>100</level>
-				<name>PotableWaterStore</name>
 			</PotableWaterStore>
 		</water>
 	</SimModules>
