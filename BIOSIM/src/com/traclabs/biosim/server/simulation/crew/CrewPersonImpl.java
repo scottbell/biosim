@@ -237,7 +237,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	*/
 	public void setCurrentActivity(Activity pActivity){
 		myCurrentActivity = pActivity;
-		currentOrder = myCurrentActivity.getOrder();
+		currentOrder = myCrewGroup.getOrderOfActivity(myCurrentActivity.getName());
 	}
 
 	/**

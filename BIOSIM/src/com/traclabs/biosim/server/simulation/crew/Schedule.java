@@ -24,15 +24,13 @@ import java.util.*;
 
 public class Schedule{
 	//Each activity hashed by their names
-	private Hashtable scheduleNameHash;
-	//Each activity hashed by their order
-	private Hashtable scheduleOrderHash;
+	private Map allActivities;
+	//Each activity ordered (scheduled if you will)
+	private List orderedSchedule;
 	//The file where the schedule resides (known if using default)
 	URL myScheduleURL;
 	//Whether the schedule is using the default schedule (no schedule was specified by user)
 	private boolean defaultSchedule = false;
-	//The number of activities in the Schedule
-	int numberOfActivities = 0;
 	
 	/**
 	* Constructor that creates a new default schedule.
@@ -57,11 +55,19 @@ public class Schedule{
 	* @return the activity sought
 	*/
 	public ActivityImpl getActivityByName(String activityName){
-		Object foundActivity = scheduleNameHash.get(activityName);
+		Object foundActivity = allActivities.get(activityName);
 		if (foundActivity != null)
 			return (ActivityImpl)(foundActivity);
 		else
 			return null;
+	}
+	
+	public int getOrderOfActivity(String activityName){
+		Object foundActivity = allActivities.get(activityName);
+		if (foundActivity != null)
+			return orderedSchedule.indexOf(foundActivity);
+		else
+			return -1;
 	}
 
 	/**
@@ -70,7 +76,7 @@ public class Schedule{
 	* @return the activity sought
 	*/
 	public ActivityImpl getActivityByOrder(int order){
-		Object foundActivity = scheduleOrderHash.get(new Integer(order));
+		Object foundActivity = orderedSchedule.get(order);
 		if (foundActivity != null)
 			return (ActivityImpl)(foundActivity);
 		else
@@ -82,15 +88,15 @@ public class Schedule{
 	* @return the number of activities in the schedule
 	*/
 	public int getNumberOfActivities(){
-		return numberOfActivities;
+		return allActivities.size();
 	}
 	
 	/**
 	* Reloads the schedule from the file and parses it again.
 	*/
 	public void reset(){
-		scheduleNameHash = new Hashtable();
-		scheduleOrderHash = new Hashtable();
+		allActivities = new Hashtable();
+		orderedSchedule = new Vector();
 		if (defaultSchedule){
 			//use default schedule
 			defaultSchedule = true;
@@ -111,16 +117,14 @@ public class Schedule{
 	* Parses the schedule file (user specified or default) and places the activities in the hashtables
 	*/
 	private void parseSchedule(URL scheduleURL){
-		//Add 2 defaults..
-		ActivityImpl bornActivity = new ActivityImpl("born", 0, 0, 0);
-		ActivityImpl deadActivity = new ActivityImpl("dead", 0, 0, -1);
-		ActivityImpl sickActivity = new ActivityImpl("sick", 1, 1, -2);
-		scheduleNameHash.put("born", bornActivity);
-		scheduleOrderHash.put(new Integer(0), bornActivity);
-		scheduleNameHash.put("dead", deadActivity);
-		scheduleOrderHash.put(new Integer(-1), deadActivity);
-		scheduleNameHash.put("sick", sickActivity);
-		scheduleOrderHash.put(new Integer(-2), sickActivity);
+		//Add 3 defaults..
+		ActivityImpl bornActivity = new ActivityImpl("born", 0, 0);
+		ActivityImpl deadActivity = new ActivityImpl("dead", 0, 0, true);
+		ActivityImpl sickActivity = new ActivityImpl("sick", 1, 1, true);
+		allActivities.put("born", bornActivity);
+		orderedSchedule.add(0,bornActivity);
+		allActivities.put("dead", deadActivity);
+		allActivities.put("sick", sickActivity);
 		try{
 			BufferedReader inputReader = new BufferedReader(new InputStreamReader(scheduleURL.openStream()));
 			String currentLine = inputReader.readLine().trim();
@@ -133,11 +137,11 @@ public class Schedule{
 							String activityName = tokenizer.nextToken();
 							int lengthOfActivity = Integer.parseInt(tokenizer.nextToken());
 							int intensityOfActivity = Integer.parseInt(tokenizer.nextToken());
-							Integer orderOfActivity = new Integer(itemsRead);
+							int orderOfActivity = itemsRead;
 							itemsRead++;
-							ActivityImpl newActivity = new ActivityImpl(activityName, lengthOfActivity, intensityOfActivity, orderOfActivity.intValue());
-							scheduleNameHash.put(activityName, newActivity);
-							scheduleOrderHash.put(orderOfActivity, newActivity);
+							ActivityImpl newActivity = new ActivityImpl(activityName, lengthOfActivity, intensityOfActivity);
+							allActivities.put(activityName, newActivity);
+							orderedSchedule.add(orderOfActivity, newActivity);
 						}
 					}
 					currentLine = inputReader.readLine().trim();
@@ -146,7 +150,6 @@ public class Schedule{
 					System.out.println("Problem parsing line "+itemsRead+" in "+scheduleURL+": "+currentLine);
 				}
 			}
-			numberOfActivities = itemsRead;
 		}
 		catch (IOException e){
 			System.out.println("Had problems parsing schedule file "+scheduleURL+" with exception: "+e);
