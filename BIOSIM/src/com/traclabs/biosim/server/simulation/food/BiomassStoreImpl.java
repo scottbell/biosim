@@ -73,6 +73,7 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 	}
 
 	public float addBioMatter(BioMatter pMatter){
+		//System.out.println(getModuleName()+": pMatter.mass trying to be added = "+pMatter.mass);
 		float acutallyAdded = 0f;
 		if ((pMatter.mass + level) > capacity){
 			//adding more than capacity
@@ -83,12 +84,14 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 			float fractionOfOriginal = acutallyAdded / pMatter.mass;
 			BioMatter newBioMatter = new BioMatter(acutallyAdded, pMatter.inedibleFraction, pMatter.edibleWaterContent * fractionOfOriginal, pMatter.inedibleWaterContent * fractionOfOriginal, pMatter.type);
 			currentBiomassItems.add(newBioMatter);
+			//System.out.println(getModuleName()+": added = "+newBioMatter.mass);
 			return acutallyAdded;
 		}
 		else{
 			acutallyAdded = randomFilter(pMatter.mass);
 			level += acutallyAdded;
 			currentBiomassItems.add(pMatter);
+			//System.out.println(getModuleName()+": added = "+pMatter.mass);
 			return acutallyAdded;
 		}
 	}
