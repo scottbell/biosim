@@ -86,7 +86,7 @@ public class MatlabTestBackend {
 	 *  
 	 */
 	private void run() {
-		myLogger.debug("Starting server");
+		myLogger.debug("Starting server on port "+myIncomingSocket.getLocalPort());
 		while (true) {
 			try {
 				Socket clientSocket = myIncomingSocket.accept();
@@ -141,14 +141,13 @@ public class MatlabTestBackend {
 	 */
 	private void handlePutRequest() throws IOException {
 		myLogger.debug("handling put request");
-		int doubleVectorLength = mySocketDataInputStream.readInt();
-		myLogger.debug("received doubleVectorLength " + doubleVectorLength);
-		myCurrentInputData = new double[doubleVectorLength];
-		for (int i = 0; i < myCurrentInputData.length; i++) {
-			double readDouble = mySocketDataInputStream.readDouble();
-			myLogger.debug("received double " + readDouble);
-			myCurrentInputData[i] = readDouble;
-		}
+		int vectorLength = mySocketDataInputStream.readInt();
+    	myLogger.debug("vector length was: "+vectorLength);
+    	myCurrentInputData = new double[vectorLength];
+        for (int i = 0; i < myCurrentInputData.length; i++){
+        	myCurrentInputData[i] = mySocketDataInputStream.readDouble();
+        	myLogger.debug("getting double: "+myCurrentInputData[i]);
+        }
 	}
 
 	/**
@@ -164,7 +163,7 @@ public class MatlabTestBackend {
 	private void handleGetRequest() throws IOException {
 		double[] outputVector = {6d, 7.54d, Math.PI * 2d, 5.9d, 8d, 9.23322d};
 		myLogger.debug("handling get request");
-		myLogger.debug("sending double length: "+outputVector.length);
+		myLogger.debug("sending vector length: "+outputVector.length);
 		mySocketDataOutputStream.writeInt(outputVector.length);
 		mySocketDataOutputStream.flush();
     	for (int i = 0; i < outputVector.length; i++){
