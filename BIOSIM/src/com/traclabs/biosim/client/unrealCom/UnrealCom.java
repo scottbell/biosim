@@ -14,17 +14,65 @@ import biosim.idl.framework.*;
  */
 public class UnrealCom {
 	
+	/**
+	 * @param myH2Owatch WaterMonitor to communicate water stores to UnrealTournament
+	 */ 
 	private WaterMonitor myH2Owatch;
 	
+	/**
+	 * @param myCrewEnvWatch EnvironAirMonitor to send crew zone environment info to UnrealTournamet
+	 */
 	private EnvironAirMonitor myCrewEnvWatch;
 	
+	/**
+	 * @param myPlantEnvWatch EnvironAirMonitor to send BioMass zone environment info to UnrealTournamet
+	 */
 	private EnvironAirMonitor myPlantEnvWatch;
 	
+	/**
+	 * @param myARSwatch ARSMonitor that sends air stores info to UnrealTournament
+	 */
 	private ARSMonitor myARSwatch;
 	
+	/**
+	 * @param myServer String name of computer running UnrealTournament server.
+	 */
+	private String myServer;
+	
+	/**
+	 * @param bGivenServer Boolean true if a server name was given.
+	 */
+	 private boolean bGivenServer;
+	
+	/**
+	 * Default UnrealCom constructor. Creates connection with UnrealTournament server running on same computer.
+	 */
+	public UnrealCom() {
+		
+		bGivenServer = false;
+			 
+		 
+	}
+	 
+	 /**
+	  * Overloaded UnrealCom constructor that provides a UnrealTournament server name.
+	  * @param name Name of BioSim3D server to connect to.
+	  */
+	 public UnrealCom(String name) {
+		 
+		myServer = name;	 
+		bGivenServer=true;
+	 }
+	 
+	/**
+	 * Creates a socket connected to myServer on port 7775. Then creates Monitor objects
+	 * to relay BioSim information to UnrealTournament over given socket.
+	 * Only does 1-way comunication.  Has no idea whether anything's listening on the other side.
+	 */
 	public void initUnrealComm() {
 		
 		Socket unrealSocket = null;
+		InetAddress mySelf;
 		
 		BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
 		BioDriver myBioDriver = myBioHolder.theBioDriver;
@@ -33,8 +81,14 @@ public class UnrealCom {
 		myBioDriver.setPauseSimulation(false);
 		
 		try {
+			if(!bGivenServer) {
+				
+				mySelf = InetAddress.getLocalHost();
+				myServer = mySelf.getHostName();	
+				
+			}
 			
-			unrealSocket = new Socket("acuratl",7775);
+			unrealSocket = new Socket(myServer,7775);
 		} catch(UnknownHostException e) {
 		
 			System.err.println("Error: Could not contact host");
