@@ -84,6 +84,7 @@ case $userSelect in
 	$sim3D) echo "			 -starting $userSelect";$jacoInvocation $driverName $sim3D;;
 	$help) echo "Usage: run-client.sh (-ga) [console, gui, logviewer, malfunction, stochastic, controller, 3D]";;
 	"-id"*) echo "			-assuming all (id user specified)";$jacoInvocation $driverName $1;;
+	"-xml"*) echo "			-assuming all (xml init user specified)";$jacoInvocation $driverName $1 $2;;
 	*) echo "			 -starting default";$jacoInvocation $driverName;;
 esac
 echo "*done invoking clients"
