@@ -18,7 +18,6 @@ case $1 in
 		echo $usage
 		exit
 	fi
-	echo "	-debug mode on"
 	;;
 -show)
 	show="true"
@@ -35,7 +34,6 @@ case $1 in
 		echo $usage
 		exit
 	fi
-	show="	-displaying pdf"
 	;;
 -?)
 	echo $usage
