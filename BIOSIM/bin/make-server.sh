@@ -163,6 +163,8 @@ $compilationInvocation $serverDir/actuator/framework/*.java
 echo "			-compiling sensor implementation"
 echo "				-compiling framework implementation"
 $compilationInvocation $serverDir/sensor/framework/*.java
+echo "				-compiling air implementation"
+$compilationInvocation $serverDir/sensor/air/*.java
 echo "*done building biosim"
 
 
