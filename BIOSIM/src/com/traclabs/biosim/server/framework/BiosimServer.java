@@ -37,8 +37,8 @@ public class BiosimServer extends GenericServer {
      *            first element can be an ID to assign to this instance
      */
     public static void main(String args[]) {
-        int id = BiosimServer.getIDfromArgs(args);
-        String xmlLocation = BiosimServer.getXMLfromArgs(args);
+        int id = GenericServer.getIDfromArgs(args);
+        String xmlLocation = GenericServer.getXMLfromArgs(args);
         BiosimServer server = new BiosimServer(id, 0, xmlLocation);
         server.runServer("BiosimServer (id=" + id + ")");
     }

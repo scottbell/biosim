@@ -23,8 +23,6 @@ public class BiosimDebug {
 
     private Thread waitThread;
 
-    private static final String XML_INIT_FILENAME = "com/traclabs/biosim/server/framework/LunarInit.xml";
-
     private static final int NAMESERVER_PORT = 16309;
 
     private static final int SERVER_OA_PORT = 16310;
@@ -49,21 +47,22 @@ public class BiosimDebug {
                 "DEBUG, biosimDebugAppender");
         PropertyConfigurator.configure(logProps);
         BiosimDebug myBiosimStandalone = new BiosimDebug();
-        myBiosimStandalone.beginSimulation();
+        int id = GenericServer.getIDfromArgs(args);
+        String xmlLocation = GenericServer.getXMLfromArgs(args);
+        myBiosimStandalone.beginSimulation(id, xmlLocation);
     }
 
-    public void beginSimulation() {
+    public void beginSimulation(int id, String xmlLocation) {
         myNamingServiceThread.start();
         try {
             myLogger.info("Sleeping until nameserver comes online...");
             Thread.sleep(5000);
-        } catch (Exception e) {
-        }
+        } catch (Exception e) {}
         Environment.setProperty("OAPort", Integer.toString(SERVER_OA_PORT));
         Environment.setProperty("ORBInitRef.NameService",
                 "corbaloc::localhost:" + NAMESERVER_PORT + "/NameService");
         myLogger.info("Server awake...");
-        BiosimServer myBiosimServer = new BiosimServer(0, 0, XML_INIT_FILENAME);
+        BiosimServer myBiosimServer = new BiosimServer(id, 0, xmlLocation);
         myBiosimServer.runServer("BiosimServer (id=0)");
     }
 

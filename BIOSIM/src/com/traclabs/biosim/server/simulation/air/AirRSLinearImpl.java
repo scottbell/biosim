@@ -177,6 +177,10 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations
         airOutActualFlowRates = new float[0];
         airOutDesiredFlowRates = new float[0];
     }
+    
+    private void gatherPower() {
+        currentPowerConsumed = getMostResourceFromStore(myPowerStores, powerMaxFlowRates, powerDesiredFlowRates, powerActualFlowRates);
+    }
 
 
     /**
@@ -195,6 +199,7 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations
     }
     
     private void gatherAir() {
+        
         float gatheredAir = 0f;
         float gatheredO2 = 0f;
         float gatheredCO2 = 0f;
