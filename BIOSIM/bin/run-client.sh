@@ -80,14 +80,14 @@ unreal="unreal"
 sensor="sensor"
 test="test"
 case $userSelect in
-	$console) echo "			 -starting $userSelect";$jacoInvocation $mainName $console;;
-	$controller) echo "			 -starting $userSelect";$jacoInvocation $mainName $controller;;
-	$gui) echo "			 -starting $userSelect";$jacoInvocation $mainName $gui;;
+	$console) echo "			 -starting $userSelect";$jacoInvocation $mainName $console $2;;
+	$controller) echo "			 -starting $userSelect";$jacoInvocation $mainName $controller $2;;
+	$gui) echo "			 -starting $userSelect";$jacoInvocation $mainName $gui $2;;
 	$logviewer) echo "			 -starting $userSelect";$jacoInvocation $logviewerName;;
 	$malfunction) echo "			 -starting $userSelect";$jacoInvocation $malfunctionName;;
 	$stochastic) echo "			 -starting $userSelect";$jacoInvocation $stochasticName;;
 	$sensor) echo "			 -starting $userSelect";$jacoInvocation $sensorName;;
-	$unreal) echo "			 -starting $userSelect";$jacoInvocation $mainName $unreal;;
+	$unreal) echo "			 -starting $userSelect";$jacoInvocation $mainName $unreal $2;;
 	$test) echo "			 -starting $userSelect";$jacoInvocation $testName $console;;
 	$help) echo "Usage: run-client.sh (-ga) [console, gui, logviewer, malfunction, stochastic, controller, 3D]";;
 	"-id"*) echo "			-assuming all (id user specified)";$jacoInvocation $mainName $1;;
