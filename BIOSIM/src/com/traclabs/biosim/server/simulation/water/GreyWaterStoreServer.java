@@ -1,6 +1,7 @@
 package biosim.server.water;
 
 import biosim.idl.water.*;
+import biosim.server.util.*;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
@@ -12,21 +13,15 @@ public class GreyWaterStoreServer {
 public static void main(String args[]) {
 	try{
 		// create and initialize the ORB
-		ORB orb = ORB.init(args, null);
-
-		 // get reference to rootpoa & activate the POAManager
-		 POA rootpoa = POAHelper.narrow(orb.resolve_initial_references("RootPOA"));
-		 rootpoa.the_POAManager().activate();
+		ORB orb = BioSimUtilsImpl.getORB();
+		NamingContextExt ncRef = BioSimUtilsImpl.getNCRef();
+		POA rootpoa = BioSimUtilsImpl.getRootPOA();
 
 		 // create servant and register it with  ORB
 		 GreyWaterStoreImpl myGreyWaterStoreImpl = new GreyWaterStoreImpl();
 
 		 // get object reference from the servant
 		 org.omg.CORBA.Object ref = rootpoa.servant_to_reference(myGreyWaterStoreImpl);
-		 // get the root naming context
-		 org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
-		 // Use NamingContextExt which is part of the Interoperable Naming Service (INS) specification.
-		 NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
 		 // bind the Object Reference in Naming
 		 NameComponent path[] = ncRef.to_name("GreyWaterStore");
 		 ncRef.rebind(path, ref);
