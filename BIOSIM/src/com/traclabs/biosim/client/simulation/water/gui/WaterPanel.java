@@ -13,6 +13,7 @@ public class WaterPanel extends JPanel
 {
 	private JTabbedPane myTabbedPane;
 	private JPanel myWaterTextPanel;
+	private JPanel myWaterChartPanel;
 	private BioSimulator myBioSimulator;
 	
 	/**
@@ -31,6 +32,7 @@ public class WaterPanel extends JPanel
 		setLayout(new BorderLayout());
 		myTabbedPane = new JTabbedPane();
 		myWaterTextPanel = new WaterTextPanel(myBioSimulator);
+		myWaterChartPanel = new WaterChartPanel(myBioSimulator);
 		myTabbedPane.addTab("Text", myWaterTextPanel);
 		add(myTabbedPane, BorderLayout.CENTER);
 	}
