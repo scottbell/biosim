@@ -416,7 +416,13 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			BioModule currentBioModule = (BioModule)(e.nextElement());
 			currentBioModule.setStochasticIntensity(pValue);
 		}
-		
+	}
+	
+	public  void startMalfunction(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
+		for (Enumeration e = modules.elements(); e.hasMoreElements();){
+			BioModule currentBioModule = (BioModule)(e.nextElement());
+			currentBioModule.startMalfunction(pIntensity, pLength);
+		}
 	}
 
 	public boolean isLogging(){
