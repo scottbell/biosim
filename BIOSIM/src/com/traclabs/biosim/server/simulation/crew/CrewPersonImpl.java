@@ -293,7 +293,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* 5) takes afflictions from lack of any resources.
 	* 6) checks whether afflictions (if any) are fatal.
 	*/
-	public void processTick(){
+	public void tick(){
 		timeActivityPerformed++;
 		if (!hasDied){
 			collectReferences();
@@ -517,7 +517,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		myCurrentEnvironment.addOther(airRetrieved.other);
 	}
 
-	public void processLog(LogNode myLogHead){
+	public void log(LogNode myLogHead){
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();

@@ -292,7 +292,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 		return "SimEnvironment";
 	}
 	
-	public void log(){
+	private void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();

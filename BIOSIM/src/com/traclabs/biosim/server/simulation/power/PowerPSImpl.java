@@ -1,6 +1,7 @@
 package biosim.server.power;
 
 import biosim.idl.power.*;
+import biosim.idl.util.*;
 import biosim.server.util.*;
 import biosim.server.framework.*;
 /**
@@ -17,6 +18,7 @@ public class PowerPSImpl extends BioModuleImpl implements PowerPSOperations {
 	private boolean hasCollectedReferences = false;
 	//References to the PowerStore the Power PS takes/puts power into
 	private PowerStore myPowerStore;
+	private LogIndex myLogIndex;
 	
 	/**
 	* When ticked, the Food Processor does the following:
@@ -26,6 +28,8 @@ public class PowerPSImpl extends BioModuleImpl implements PowerPSOperations {
 	public void tick(){
 		collectReferences();
 		myPowerStore.add(currentPowerProduced);
+		if (moduleLogging)
+			log();
 	}
 	
 	/**
@@ -63,5 +67,26 @@ public class PowerPSImpl extends BioModuleImpl implements PowerPSOperations {
 	*/
 	public String getModuleName(){
 		return "PowerPS";
+	}
+	
+	private void log(){
+		//If not initialized, fill in the log
+		if (!logInitialized){
+			myLogIndex = new LogIndex();
+			LogNode powerProducedHead = myLog.getHead().addChild("Power Produced");
+			myLogIndex.powerProducedIndex = powerProducedHead.addChild(""+currentPowerProduced);
+			logInitialized = true;
+		}
+		else{
+			myLogIndex.powerProducedIndex.setValue(""+currentPowerProduced);
+		}
+		sendLog(myLog);
+	}
+
+	/**
+	* For fast reference to the log tree
+	*/
+	private class LogIndex{
+		public LogNode powerProducedIndex;
 	}
 }

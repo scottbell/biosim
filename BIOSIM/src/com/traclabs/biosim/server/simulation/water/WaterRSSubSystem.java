@@ -1,4 +1,6 @@
- package biosim.server.water;
+package biosim.server.water;
+
+import biosim.idl.util.*;
 /**
  * The abstract class all the water subsystems derive from (the AES, BWP, PPS, and RO).
  *
@@ -20,7 +22,9 @@ public abstract class WaterRSSubSystem{
 	protected boolean hasEnoughWater = false;
 	//Amount of water in this subsystem at the current tick
 	protected float waterLevel = 0;
-	
+	private boolean logInitialized = false;
+	private LogIndex myLogIndex;
+
 	/**
 	* Constructor that creates the subsystem
 	* @param pWaterRSImpl The Water RS system this subsystem is contained in
@@ -28,7 +32,7 @@ public abstract class WaterRSSubSystem{
 	public WaterRSSubSystem(WaterRSImpl pWaterRSImpl){
 		myWaterRS = pWaterRSImpl;
 	}
-	
+
 	/**
 	* Resets power consumption and water levels.
 	*/
@@ -38,7 +42,7 @@ public abstract class WaterRSSubSystem{
 		hasEnoughWater = false;
 		waterLevel = 0;
 	}
-	
+
 	/**
 	* Returns whether the water subsytem has enough power at the current tick.
 	* @return <code>true</code> if the water subsytem has enough power to function, <code>false</code> if not
@@ -46,7 +50,7 @@ public abstract class WaterRSSubSystem{
 	public boolean hasPower(){
 		return hasEnoughPower;
 	}
-	
+
 	/**
 	* Returns whether the water subsytem has enough water at the current tick.
 	* @return <code>true</code> if the water subsytem has enough water to function, <code>false</code> if not
@@ -54,7 +58,7 @@ public abstract class WaterRSSubSystem{
 	public boolean hasWater(){
 		return hasEnoughWater;
 	}
-	
+
 	/**
 	* Returns the power needed (in watts) for this susbsytem
 	* @return the power needed (in watts) for this subsystem
@@ -62,7 +66,7 @@ public abstract class WaterRSSubSystem{
 	public float getPowerNeeded(){
 		return powerNeeded;
 	}
-	
+
 	/**
 	* Adds power to the subsystem for this tick
 	* @param pPower the amount of power to add (in watts)
@@ -76,7 +80,7 @@ public abstract class WaterRSSubSystem{
 			hasEnoughPower = true;
 		}
 	}
-	
+
 	/**
 	* Adds water to the subsystem for this tick
 	* @param pWater the amount of water to add (in liters)
@@ -90,10 +94,50 @@ public abstract class WaterRSSubSystem{
 			hasEnoughWater = true;
 		}
 	}
-	
+
 	/**
 	* Tick does nothing by default
 	*/
 	public void tick(){
+	}
+
+	public void log(LogNode myHead){
+		//If not initialized, fill in the log
+		if (!logInitialized){
+			myLogIndex = new LogIndex();
+			LogNode powerNeededHead = myHead.addChild("Power Needed");
+			myLogIndex.powerNeededIndex = powerNeededHead.addChild(""+powerNeeded);
+			LogNode currentPowerConsumedHead = myHead.addChild("Power Consumed");
+			myLogIndex.currentPowerConsumedIndex = currentPowerConsumedHead.addChild(""+currentPower);
+			LogNode waterNeededHead = myHead.addChild("Water Needed");
+			myLogIndex.waterNeededIndex = waterNeededHead.addChild(""+waterNeeded);
+			LogNode hasEnoughPowerHead = myHead.addChild("Has Enough Power");
+			myLogIndex.hasEnoughPowerIndex = hasEnoughPowerHead.addChild(""+hasEnoughPower);
+			LogNode hasEnoughWaterHead = myHead.addChild("Has Enough Water");
+			myLogIndex.hasEnoughWaterIndex = hasEnoughWaterHead.addChild(""+hasEnoughWater);
+			LogNode waterLevelHead = myHead.addChild("Water Level");
+			myLogIndex.waterLevelIndex = waterLevelHead.addChild(""+waterLevel);
+			logInitialized = true;
+		}
+		else{
+			myLogIndex.powerNeededIndex.setValue(""+powerNeeded);
+			myLogIndex.currentPowerConsumedIndex.setValue(""+currentPower);
+			myLogIndex.waterNeededIndex.setValue(""+waterNeeded);
+			myLogIndex.hasEnoughPowerIndex.setValue(""+hasEnoughPower);
+			myLogIndex.hasEnoughWaterIndex.setValue(""+hasEnoughWater);
+			myLogIndex.waterLevelIndex.setValue(""+waterLevel);
+		}
+	}
+
+	/**
+	* For fast reference to the log tree
+	*/
+	private class LogIndex{
+		public LogNode powerNeededIndex;
+		public LogNode currentPowerConsumedIndex;
+		public LogNode waterNeededIndex;
+		public LogNode hasEnoughPowerIndex;
+		public LogNode hasEnoughWaterIndex;
+		public LogNode waterLevelIndex;
 	}
 }

@@ -6,7 +6,6 @@ module biosim{
                                 void tick();
                                 string getModuleName();
 				void reset();
-				void log();
 				void setLogging(in boolean pLogging);
 				boolean isLogging();
                         };

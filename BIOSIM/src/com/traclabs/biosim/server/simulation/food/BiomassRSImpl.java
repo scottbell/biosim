@@ -72,6 +72,8 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 		noWaterTime = 0;
 		noCO2Time = 0;
 		tooMuchO2Time = 0;
+		airRetrieved = new Breath(0,0,0);
+		CO2Needed = 0f;
 		systemHasEnoughPower = false;
 		plantsHaveEnoughWater = false;
 		plantsHaveEnoughCO2 = false;
@@ -213,7 +215,8 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 			plantsHaveEnoughCO2 = true;
 			noCO2Time = 0;
 		}
-		if (getO2Ratio(airRetrieved) < .80){
+		//Will never reach this ratio...
+		if (getO2Ratio(airRetrieved) < 1.0){
 			O2Poisoned = false;
 			tooMuchO2Time++;
 		}
@@ -340,7 +343,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 		return "BiomassRS";
 	}
 
-	public void log(){
+	private void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();

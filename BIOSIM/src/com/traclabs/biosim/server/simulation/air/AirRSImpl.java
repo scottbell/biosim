@@ -210,7 +210,7 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 		return "AirRS";
 	}
 	
-	public void log(){
+	private void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();
