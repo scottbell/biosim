@@ -106,8 +106,9 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 		oldLevel = level;
 		oldCapacity = capacity;
 		oldOverflow = overflow;
-		if ((resupplyFrequency % myTicks) == 0)
-			add(resupplyAmount);
+		if (myTicks > 0)
+			if ((resupplyFrequency % myTicks) == 0)
+				add(resupplyAmount);
 		if (pipe){
 			level = 0f;
 			capacity = 0f;

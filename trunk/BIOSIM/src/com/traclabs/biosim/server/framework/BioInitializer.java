@@ -654,12 +654,50 @@ public class BioInitializer{
 			child = child.getNextSibling();
 		}
 	}
+	
+	private boolean getEnableBreakDown(Node pNode){
+		return false;
+	}
+	
+	private boolean getLogging(Node pNode){
+		return false;
+	}
+	
+	private StochasticIntensity getStochasticIntensity(Node pNode){
+		return StochasticIntensity.NONE_STOCH;
+	}
+	
+	private MalfunctionIntensity getMalfunctionIntensity(Node pNode){
+		return MalfunctionIntensity.LOW_MALF;
+	}
+	
+	private MalfunctionLength getMalfunctionLength(Node pNode){
+		return MalfunctionLength.TEMPORARY_MALF;
+	}
+	
+	private int getMalfunctionTick(Node pNode){
+		return -1;
+	}
+	
+	private void setupBioModule(BioModuleImpl pModule, Node node){
+		pModule.setEnableBreakdown(getEnableBreakDown(node));
+		pModule.setLogging(getLogging(node));
+		pModule.setStochasticIntensity(getStochasticIntensity(node));
+		Node child = node.getFirstChild();
+		while (child != null) {
+			if (child.getNodeName().equals("malfunction")){
+				pModule.scheduleMalfunction(getMalfunctionIntensity(child), getMalfunctionLength(child), getMalfunctionTick(child));
+			}
+			child = child.getNextSibling();
+		}
+	}
 
 	private void createAirRS(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
 			//System.out.println("Creating AirRS with moduleName: "+moduleName);
 			AirRSImpl myAirRSImpl = new AirRSImpl(myID, moduleName);
+			setupBioModule(myAirRSImpl, node);
 			BiosimServer.registerServer(new AirRSPOATie(myAirRSImpl), myAirRSImpl.getModuleName(), myAirRSImpl.getID());
 			myModules.add(OrbUtils.poaToCorbaObj(myAirRSImpl));
 		}

@@ -19,7 +19,6 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 	}
 	
 	public float add(float pMass){
-		System.out.println("FoodStore add called!");
 		return addFoodMatterMass(pMass, PlantType.UNKNOWN_PLANT);
 	}
 	

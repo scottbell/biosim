@@ -502,7 +502,7 @@
 	<xsd:complexType name="MalfunctionType">
 		<xsd:attribute name="intensity" type="MalfunctionIntensityType" use="required"/>
 		<xsd:attribute name="length" type="MalfunctionIntensityLength" use="required"/>
-		<xsd:attribute name="tickOccurs" type="xsd:nonNegativeInteger" use="required"/>
+		<xsd:attribute name="occursAtTick" type="xsd:nonNegativeInteger" use="required"/>
 	</xsd:complexType>
 	
 	<!-- Module declarations -->
