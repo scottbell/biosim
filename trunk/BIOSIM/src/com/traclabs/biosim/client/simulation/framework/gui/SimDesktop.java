@@ -406,6 +406,7 @@ public class SimDesktop extends BioFrame
 				}
 				//Tell the biosimulator to enter loop
 				myDriver.spawnSimulationTillDead();
+				//myDriver.spawnSimulation();
 				setCursor(Cursor.getDefaultCursor());
 			}
 		}
