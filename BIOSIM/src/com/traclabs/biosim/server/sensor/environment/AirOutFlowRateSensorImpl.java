@@ -33,4 +33,12 @@ public class AirOutFlowRateSensorImpl extends GenericSensorImpl implements AirOu
 	public int getIndex(){
 		return myIndex;
 	}
+	
+	/**
+	* Returns the name of this module (AirOutFlowRateSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "AirOutFlowRateSensor"+getID();
+	}
 }

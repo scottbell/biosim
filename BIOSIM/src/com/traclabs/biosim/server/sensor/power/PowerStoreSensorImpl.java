@@ -21,4 +21,12 @@ public abstract class PowerStoreSensorImpl extends GenericSensorImpl implements 
 	public PowerStore getInput(){
 		return myPowerStore;
 	}
+	
+	/**
+	* Returns the name of this module (PowerStoreSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "PowerStoreSensor"+getID();
+	}
 }

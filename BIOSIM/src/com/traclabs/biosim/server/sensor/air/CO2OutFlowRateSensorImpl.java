@@ -33,4 +33,12 @@ public class CO2OutFlowRateSensorImpl extends GenericSensorImpl implements CO2Ou
 	public int getIndex(){
 		return myIndex;
 	}
+	
+	/**
+	* Returns the name of this module (CO2OutFlowRateSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "CO2OutFlowRateSensor"+getID();
+	}
 }

@@ -16,4 +16,12 @@ public class BiomassStoreLevelSensorImpl extends BiomassStoreSensorImpl implemen
 	
 	protected void notifyListeners(){
 	}
+	
+	/**
+	* Returns the name of this module (BiomassStoreLevelSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "BiomassStoreLevelSensor"+getID();
+	}
 }

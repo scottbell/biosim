@@ -33,4 +33,12 @@ public class CO2AirStoreInFlowRateSensorImpl extends GenericSensorImpl implement
 	public int getIndex(){
 		return myIndex;
 	}
+	
+	/**
+	* Returns the name of this module (CO2AirStoreInFlowRateSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "CO2AirStoreInFlowRateSensor"+getID();
+	}
 }

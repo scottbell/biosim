@@ -21,4 +21,12 @@ public abstract class BiomassRSSensorImpl extends GenericSensorImpl implements B
 	public BiomassRS getInput(){
 		return myBiomassRS;
 	}
+	
+	/**
+	* Returns the name of this module (BiomassRSSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "BiomassRSSensor"+getID();
+	}
 }

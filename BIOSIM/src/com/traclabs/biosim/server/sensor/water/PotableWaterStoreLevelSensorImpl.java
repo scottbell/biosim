@@ -16,4 +16,12 @@ public class PotableWaterStoreLevelSensorImpl extends PotableWaterStoreSensorImp
 	
 	protected void notifyListeners(){
 	}
+	
+	/**
+	* Returns the name of this module (PotableWaterStoreLevelSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "PotableWaterStoreLevelSensor"+getID();
+	}
 }

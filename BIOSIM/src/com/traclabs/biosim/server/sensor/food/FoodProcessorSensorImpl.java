@@ -21,4 +21,12 @@ public abstract class FoodProcessorSensorImpl extends GenericSensorImpl implemen
 	public FoodProcessor getInput(){
 		return myFoodProcessor;
 	}
+	
+	/**
+	* Returns the name of this module (FoodProcessorSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "FoodProcessorSensor"+getID();
+	}
 }

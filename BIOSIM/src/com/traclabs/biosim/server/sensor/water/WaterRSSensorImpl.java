@@ -21,4 +21,12 @@ public abstract class WaterRSSensorImpl extends GenericSensorImpl implements Wat
 	public WaterRS getInput(){
 		return myWaterRS;
 	}
+	
+	/**
+	* Returns the name of this module (WaterRSSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "WaterRSSensor"+getID();
+	}
 }

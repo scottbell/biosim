@@ -33,4 +33,12 @@ public class FoodOutFlowRateSensorImpl extends GenericSensorImpl implements Food
 	public int getIndex(){
 		return myIndex;
 	}
+	
+	/**
+	* Returns the name of this module (FoodOutFlowRateSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "FoodOutFlowRateSensor"+getID();
+	}
 }

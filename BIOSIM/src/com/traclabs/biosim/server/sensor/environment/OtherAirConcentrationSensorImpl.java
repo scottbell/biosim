@@ -16,4 +16,12 @@ public class OtherAirLevelSensorImpl extends EnvironmentSensorImpl implements Ot
 	
 	protected void notifyListeners(){
 	}
+	
+	/**
+	* Returns the name of this module (OtherAirLevelSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "OtherAirLevelSensor"+getID();
+	}
 }

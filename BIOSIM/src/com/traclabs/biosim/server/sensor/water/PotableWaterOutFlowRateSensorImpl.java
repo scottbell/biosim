@@ -33,4 +33,12 @@ public class PotableWaterOutFlowRateSensorImpl extends GenericSensorImpl impleme
 	public int getIndex(){
 		return myIndex;
 	}
+	
+	/**
+	* Returns the name of this module (PotableWaterOutFlowRateSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "PotableWaterOutFlowRateSensor"+getID();
+	}
 }

@@ -16,4 +16,12 @@ public class PowerStoreLevelSensorImpl extends PowerStoreSensorImpl implements P
 	
 	protected void notifyListeners(){
 	}
+	
+	/**
+	* Returns the name of this module (PowerStoreLevelSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "PowerStoreLevelSensor"+getID();
+	}
 }

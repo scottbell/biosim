@@ -33,4 +33,12 @@ public class BiomassOutFlowRateSensorImpl extends GenericSensorImpl implements B
 	public int getIndex(){
 		return myIndex;
 	}
+	
+	/**
+	* Returns the name of this module (BiomassOutFlowRateSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "BiomassOutFlowRateSensor"+getID();
+	}
 }

@@ -33,4 +33,12 @@ public class O2InFlowRateSensorImpl extends GenericSensorImpl implements O2InFlo
 	public int getIndex(){
 		return myIndex;
 	}
+	
+	/**
+	* Returns the name of this module (O2InFlowRateSensorImpl)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "O2InFlowRateSensorImpl"+getID();
+	}
 }

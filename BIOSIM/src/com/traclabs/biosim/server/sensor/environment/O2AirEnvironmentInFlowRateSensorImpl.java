@@ -33,4 +33,12 @@ public class O2AirEnvironmentInFlowRateSensorImpl extends GenericSensorImpl impl
 	public int getIndex(){
 		return myIndex;
 	}
+	
+	/**
+	* Returns the name of this module (O2AirEnvironmentInFlowRateSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "O2AirEnvironmentInFlowRateSensor"+getID();
+	}
 }

@@ -21,4 +21,12 @@ public abstract class PotableWaterStoreSensorImpl extends GenericSensorImpl impl
 	public PotableWaterStore getInput(){
 		return myPotableWaterStore;
 	}
+	
+	/**
+	* Returns the name of this module (PotableWaterStoreSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "PotableWaterStoreSensor"+getID();
+	}
 }

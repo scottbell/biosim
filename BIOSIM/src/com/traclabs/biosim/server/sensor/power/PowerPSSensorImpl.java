@@ -21,4 +21,12 @@ public abstract class PowerPSSensorImpl extends GenericSensorImpl implements Pow
 	public PowerPS getInput(){
 		return myPowerPS;
 	}
+	
+	/**
+	* Returns the name of this module (PowerPSSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "PowerPSSensor"+getID();
+	}
 }

@@ -16,4 +16,12 @@ public class O2AirLevelSensorImpl extends EnvironmentSensorImpl implements O2Air
 
 	protected void notifyListeners(){
 	}
+	
+	/**
+	* Returns the name of this module (O2AirLevelSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "O2AirLevelSensor"+getID();
+	}
 }

@@ -21,4 +21,12 @@ public abstract class BiomassStoreSensorImpl extends GenericSensorImpl implement
 	public BiomassStore getInput(){
 		return myBiomassStore;
 	}
+	
+	/**
+	* Returns the name of this module (BiomassStoreSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "BiomassStoreSensor"+getID();
+	}
 }

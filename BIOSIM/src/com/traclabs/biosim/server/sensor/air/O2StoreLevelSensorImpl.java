@@ -16,4 +16,12 @@ public abstract class O2StoreLevelSensorImpl extends O2StoreSensorImpl implement
 	protected void notifyListeners(){
 		//Does nothing right now..
 	}
+	
+	/**
+	* Returns the name of this module (O2StoreLevelSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "O2StoreLevelSensor"+getID();
+	}
 }

@@ -16,4 +16,12 @@ public class FoodStoreLevelSensorImpl extends FoodStoreSensorImpl implements Foo
 	
 	protected void notifyListeners(){
 	}
+	
+	/**
+	* Returns the name of this module (FoodStoreLevelSensor)
+	* @return the name of the module
+	*/
+	public String getModuleName(){
+		return "FoodStoreLevelSensor"+getID();
+	}
 }
