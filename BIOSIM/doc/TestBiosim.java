@@ -8,7 +8,7 @@ import biosim.client.framework.*;
 
 /*
  To compile:
- 1) run make-client.sh
+ 1) build biosim (type ant in BIOSIM_HOME)
  2) javac -classpath .:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/generated/client/classes TestBiosim.java
  
  javac - the compiler
