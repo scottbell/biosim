@@ -34,6 +34,10 @@ public class CO2InFlowRateActuatorImpl extends GenericActuatorImpl implements CO
 		return myIndex;
 	}
 	
+	public float getMax(){
+		return myConsumer.getCO2InputMaxFlowRate(myIndex);
+	}
+	
 	/**
 	* Returns the name of this module (CO2InFlowRateActuator)
 	* @return the name of the module

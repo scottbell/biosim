@@ -27,6 +27,10 @@ public class AirOutFlowRateActuatorImpl extends GenericActuatorImpl implements A
 		myIndex = pIndex;
 	}
 	
+	public float getMax(){
+		return myProducer.getAirOutputMaxFlowRate(myIndex);
+	}
+	
 	public AirProducer getOutput(){
 		return myProducer;
 	}

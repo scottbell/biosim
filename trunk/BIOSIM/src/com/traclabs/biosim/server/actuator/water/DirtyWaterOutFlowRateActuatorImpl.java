@@ -34,6 +34,10 @@ public class DirtyWaterOutFlowRateActuatorImpl extends GenericActuatorImpl imple
 		return myIndex;
 	}
 	
+	public float getMax(){
+		return myProducer.getDirtyWaterOutputMaxFlowRate(myIndex);
+	}
+	
 	/**
 	* Returns the name of this module (DirtyWaterOutFlowRateActuator)
 	* @return the name of the module

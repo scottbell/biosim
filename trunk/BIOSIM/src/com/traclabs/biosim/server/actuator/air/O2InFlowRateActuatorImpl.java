@@ -34,6 +34,10 @@ public class O2InFlowRateActuatorImpl extends GenericActuatorImpl implements O2I
 		return myIndex;
 	}
 	
+	public float getMax(){
+		return myConsumer.getO2InputMaxFlowRate(myIndex);
+	}
+	
 	/**
 	* Returns the name of this module (O2InFlowRateActuatorImpl)
 	* @return the name of the module
