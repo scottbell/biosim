@@ -80,6 +80,8 @@ module biosim{
                                 interface PotableWaterStore;
                                 interface GreyWaterStore;
                                 interface DirtyWaterStore;
+                                interface WaterStore;
+                                typedef sequence <WaterStore> WaterStoreList;
                                 typedef sequence <PotableWaterStore> PotableWaterStoreList;
                                 typedef sequence <GreyWaterStore> GreyWaterStoreList;
                                 typedef sequence <DirtyWaterStore> DirtyWaterStoreList;
@@ -393,8 +395,8 @@ module biosim{
                                 float getWaterAirStoreInputActualFlowRate(in long index);
                                 float getWaterAirEnvironmentInputActualFlowRate(in long index);
                                 void setWaterAirEnvironmentInputs(in simulation::environment::SimEnvironmentList source, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                void setWaterAirStoreInputs(in simulation::water::PotableWaterStoreList source, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                simulation::water::PotableWaterStoreList getWaterAirStoreInputs();
+                                void setWaterAirStoreInputs(in simulation::water::WaterStoreList source, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                simulation::water::WaterStoreList getWaterAirStoreInputs();
                                 simulation::environment::SimEnvironmentList getWaterAirEnvironmentInputs();
                         };
                         interface AirProducer : Producer{
@@ -450,8 +452,8 @@ module biosim{
                                 float getWaterAirStoreOutputActualFlowRate(in long index);
                                 float getWaterAirEnvironmentOutputActualFlowRate(in long index);
                                 void setWaterAirEnvironmentOutputs(in simulation::environment::SimEnvironmentList destination, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                void setWaterAirStoreOutputs(in simulation::water::PotableWaterStoreList destination, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                simulation::water::PotableWaterStoreList getWaterAirStoreOutputs();
+                                void setWaterAirStoreOutputs(in simulation::water::WaterStoreList destination, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                simulation::water::WaterStoreList getWaterAirStoreOutputs();
                                 simulation::environment::SimEnvironmentList getWaterAirEnvironmentOutputs();
                         };
                         interface NitrogenAirProducer : Producer{
@@ -842,11 +844,13 @@ module biosim{
                         module water{
                                 interface WaterRS : framework::SimBioModule, framework::PowerConsumer, framework::GreyWaterConsumer, framework::DirtyWaterConsumer, framework::PotableWaterProducer{
                                 };
-                                interface PotableWaterStore : framework::Store{
+                                interface WaterStore : framework::Store{
                                 };
-                                interface GreyWaterStore : framework::Store{
+                                interface PotableWaterStore : WaterStore{
                                 };
-                                interface DirtyWaterStore : framework::Store{
+                                interface GreyWaterStore : WaterStore{
+                                };
+                                interface DirtyWaterStore : WaterStore{
                                 };
                         };
 			module waste{

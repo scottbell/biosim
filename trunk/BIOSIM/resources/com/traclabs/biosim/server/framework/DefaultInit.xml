@@ -121,7 +121,7 @@
 					<environmentInputs maxFlowRates="14063 14063" desiredFlowRates="10 10" inputs="PlantEnvironment CrewEnvironment"/>
 				</waterAirConsumer>
 				<waterAirProducer>
-					<storeOutputs  maxFlowRates="1000" desiredFlowRates="10" outputs="PotableWaterStore"/>
+					<storeOutputs  maxFlowRates="1000" desiredFlowRates="10" outputs="DirtyWaterStore"/>
 				</waterAirProducer>
 				<O2AirConsumer>
 					<environmentInputs maxFlowRates="14063" desiredFlowRates="10" inputs="PlantEnvironment"/>
