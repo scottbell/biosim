@@ -106,9 +106,11 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	private void gatherPower(){
 		float gatheredPower = 0f;
 		for (int i = 0; (i < myPowerStores.length) && (gatheredPower < powerNeeded); i++){
-			gatheredPower += myPowerStores[i].take(powerNeeded);
+			gatheredPower += java.lang.Math.min(myPowerStores[i].take(powerNeeded), powerFlowRates[i]);
+			System.out.println("Got "+gatheredPower+" and need "+powerNeeded);
 		}
 		currentPowerConsumed = gatheredPower;
+		System.out.println("Done!");
 		if (currentPowerConsumed < powerNeeded){
 			hasEnoughPower = false;
 		}
@@ -123,7 +125,7 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	private void gatherBiomass(){
 		float gatheredBiomass = 0f;
 		for (int i = 0; (i < myBiomassStores.length) && (gatheredBiomass < biomassNeeded); i++){
-			gatheredBiomass += myBiomassStores[i].take(biomassNeeded);
+			gatheredBiomass += java.lang.Math.min(myBiomassStores[i].take(biomassNeeded) , biomassFlowRates[i]);
 		}
 		currentBiomassConsumed = gatheredBiomass;
 		if (currentBiomassConsumed < biomassNeeded){
@@ -142,7 +144,7 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 			currentFoodProduced = randomFilter(currentBiomassConsumed * 0.8f) * myProductionRate;
 			float distributedFoodLeft = currentFoodProduced;
 			for (int i = 0; (i < myFoodStores.length) && (distributedFoodLeft > 0); i++){
-				distributedFoodLeft -= myFoodStores[i].add(distributedFoodLeft);
+				distributedFoodLeft -= java.lang.Math.min(myFoodStores[i].add(distributedFoodLeft), foodFlowRates[i]);
 			}
 		}
 	}

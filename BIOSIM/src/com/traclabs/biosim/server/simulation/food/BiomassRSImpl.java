@@ -3,6 +3,7 @@ package biosim.server.food;
 import biosim.idl.food.*;
 import biosim.idl.power.*;
 import biosim.idl.water.*;
+import biosim.idl.environment.*;
 import biosim.idl.util.log.*;
 import biosim.server.util.*;
 import biosim.server.framework.*;
@@ -15,7 +16,7 @@ import java.util.*;
  * @author    Scott Bell
  */
 
-public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations, PotableWaterConsumerOperations, GreyWaterConsumerOperations, BiomassProducerOperations{
+public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations, PotableWaterConsumerOperations, AirConsumerOperations, AirProducerOperations, GreyWaterConsumerOperations, BiomassProducerOperations{
 	private List myShelves;
 	private int shelfCapacity = 100;
 	private List shelfLogs;
@@ -27,10 +28,14 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations,
 	private float[] biomassFlowRates;
 	private float[] potableWaterFlowRates;
 	private float[] greyWaterFlowRates;
+	private float[] airInFlowRates;
+	private float[] airOutFlowRates;
 	private GreyWaterStore[] myGreyWaterStores;
 	private PotableWaterStore[] myPotableWaterStores;
 	private PowerStore[] myPowerStores;
 	private BiomassStore[] myBiomassStores;
+	private SimEnvironment[] myAirInputs;
+	private SimEnvironment[] myAirOutputs;
 
 	public BiomassRSImpl(int pID){
 		super(pID);
@@ -38,10 +43,14 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations,
 		myPotableWaterStores = new PotableWaterStore[0];
 		myPowerStores = new PowerStore[0];
 		myBiomassStores = new BiomassStore[0];
+		myAirInputs = new SimEnvironment[0];
+		myAirOutputs = new SimEnvironment[0];
 		powerFlowRates = new float[0];
 		biomassFlowRates = new float[0];
 		potableWaterFlowRates = new float[0];
 		greyWaterFlowRates = new float[0];
+		airInFlowRates = new float[0];
+		airOutFlowRates = new float[0];
 		myShelves = new Vector(shelfCapacity);
 		for (int i = 0; i < shelfCapacity; i++){
 			myShelves.add(new ShelfImpl(pID, this));
@@ -320,5 +329,37 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations,
 	
 	public BiomassStore[] getBiomassOutputs(){
 		return myBiomassStores;
+	}
+	
+	public void setAirInputFlowrate(float liters, int index){
+		airInFlowRates[index] = liters;
+	}
+
+	public float getAirInputFlowrate(int index){
+		return airInFlowRates[index];
+	}
+
+	public void setAirInputs(SimEnvironment[] sources, float[] flowRates){
+		myAirInputs = sources;
+	}
+
+	public SimEnvironment[] getAirInputs(){
+		return myAirInputs;
+	}
+
+	public void setAirOutputFlowrate(float liters, int index){
+		airOutFlowRates[index] = liters;
+	}
+
+	public float getAirOutputFlowrate(int index){
+		return airOutFlowRates[index];
+	}
+
+	public void setAirOutputs(SimEnvironment[] sources, float[] flowRates){
+		myAirOutputs = sources;
+	}
+
+	public SimEnvironment[] getAirOutputs(){
+		return myAirOutputs;
 	}
 }
