@@ -32,6 +32,8 @@ module biosim{
 				void processLog(in Log thingToLog);
 				LogHandlerType getLogHandlerType();
 				void setLogHandlerType(in LogHandlerType pLogType);
+				void setProcessingLogs(in boolean pAllowLogging);
+				boolean isProcessingLogs();
 			};
 			typedef sequence <LogNode> LogNodeList;
 			interface LogNode{
