@@ -7,6 +7,7 @@ import biosim.idl.water.*;
 import biosim.idl.power.*;
 import biosim.idl.util.log.*;
 import biosim.idl.environment.*;
+import biosim.idl.framework.*;
 import biosim.server.air.*;
 import biosim.server.crew.*;
 import biosim.server.food.*;
@@ -39,6 +40,8 @@ public class BiosimServer extends GenericServer{
 		SimEnvironmentImpl myCrewEnvironmentImpl = new SimEnvironmentImpl(id, "CrewEnvironment");
 		SimEnvironmentImpl myPlantEnvironmentImpl = new SimEnvironmentImpl(id, "PlantEnvironment");
 		AirRSImpl myAirRSImpl = new AirRSImpl(id);
+		AccumulatorImpl myAccumulatorImpl = new AccumulatorImpl(id);
+		InjectorImpl myInjectorImpl = new InjectorImpl(id);
 		CO2StoreImpl myCO2StoreImpl = new CO2StoreImpl(id);
 		O2StoreImpl myO2StoreImpl = new O2StoreImpl(id);
 		CrewGroupImpl myCrewImpl = new CrewGroupImpl(id);
@@ -57,7 +60,9 @@ public class BiosimServer extends GenericServer{
 		
 		registerServer(new SimEnvironmentPOATie(myCrewEnvironmentImpl), myCrewEnvironmentImpl.getModuleName());
 		registerServer(new SimEnvironmentPOATie(myPlantEnvironmentImpl), myPlantEnvironmentImpl.getModuleName());
-		registerServer(new AirRSPOATie(myAirRSImpl), myAirRSImpl.getModuleName());
+		registerServer(new AirRSPOATie(myAirRSImpl), myAirRSImpl.getModuleName());;
+		registerServer(new InjectorPOATie(myInjectorImpl), myInjectorImpl.getModuleName());
+		registerServer(new AccumulatorPOATie(myAccumulatorImpl), myAccumulatorImpl.getModuleName());
 		registerServer(new CO2StorePOATie(myCO2StoreImpl), myCO2StoreImpl.getModuleName());
 		registerServer(new O2StorePOATie(myO2StoreImpl), myO2StoreImpl.getModuleName());
 		registerServer(new CrewGroupPOATie(myCrewImpl), myCrewImpl.getModuleName());
