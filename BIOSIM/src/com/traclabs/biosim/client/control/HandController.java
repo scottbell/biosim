@@ -169,8 +169,8 @@ public class HandController {
         myOGS = (OGS) myBioHolder.theOGSModules.get(0);
 
         myO2Injector = (Injector) myBioHolder.theInjectors.get(1);
-
-        if (myBioHolder.theInjectors.size() > 3) {
+        
+        if (myBioHolder.theInjectors.size() >= 3) {
             myCO2Injector = (Injector) myBioHolder.theInjectors.get(2);
         }
 
@@ -310,6 +310,7 @@ public class HandController {
         crewO2integral += delta;
         float signal = (delta * crewO2p + crewO2i * crewO2integral) + 2;
         float valueToSet = Math.min(myO2AirStoreInInjectorMax, signal);
+        myLogger.debug("setting O2 injector to " + valueToSet);
         myO2AirStoreInInjectorAcutator.setValue(valueToSet);
         valueToSet = Math.min(myO2AirStoreInInjectorMax, signal);
         myO2AirEnvironmentOutInjectorAcutator.setValue(valueToSet);
@@ -325,7 +326,7 @@ public class HandController {
         crewCO2integral += delta;
         float signal = (delta * crewCO2p + crewCO2i * crewCO2integral) + 2;
         float valueToSet = Math.min(myCO2AirStoreInInjectorMax, signal);
-        myLogger.info("setting CO2 injector to " + valueToSet);
+        myLogger.debug("setting CO2 injector to " + valueToSet);
         myCO2AirStoreInInjectorAcutator.setValue(valueToSet);
         valueToSet = Math.min(myCO2AirStoreInInjectorMax, signal);
         myCO2AirEnvironmentOutInjectorAcutator.setValue(valueToSet);
