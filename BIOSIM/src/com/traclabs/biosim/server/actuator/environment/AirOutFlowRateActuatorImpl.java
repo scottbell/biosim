@@ -27,7 +27,7 @@ public class AirOutFlowRateActuatorImpl extends GenericActuatorImpl implements A
 		myIndex = pIndex;
 	}
 	
-	protected BioModule getModuleOuput(){
+	protected BioModule getModuleOutput(){
 		return (BioModule)(myProducer);
 	}
 	

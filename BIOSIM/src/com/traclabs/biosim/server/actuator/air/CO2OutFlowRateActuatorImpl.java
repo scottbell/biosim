@@ -26,7 +26,7 @@ public class CO2OutFlowRateActuatorImpl extends GenericActuatorImpl implements C
 		myIndex = pIndex;
 	}
 	
-	protected BioModule getModuleOuput(){
+	protected BioModule getModuleOutput(){
 		return (BioModule)(myProducer);
 	}
 	
