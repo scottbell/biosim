@@ -52,6 +52,18 @@ public class OrbUtils {
         initialize();
         return myOrb;
     }
+    
+    public static void setORB(ORB pORB) {
+        myOrb = pORB;
+    }
+    
+    public static void setRootContext(NamingContextExt pRootContext) {
+        myRootContext = pRootContext;
+    }
+    
+    public static void setRootPOA(POA pRootPOA) {
+        myRootPOA = pRootPOA;
+    }
 
     /**
      * Returns the root POA
@@ -82,7 +94,7 @@ public class OrbUtils {
      * @return the naming context
      */
     public static NamingContextExt getNamingContext(int pID) {
-        initializeNamingContexts(pID);
+        initializeIDNamingContexts(pID);
         NamingContextExt idContext = null;
         try {
             idContext = NamingContextExtHelper.narrow(myBiosimNamingContext
@@ -101,7 +113,7 @@ public class OrbUtils {
         initializeOrbRunOnce = false;
     }
 
-    private static void initializeNamingContexts(int pID) {
+    private static void initializeIDNamingContexts(int pID) {
         initialize();
         try {
             //Attempt to create id context, if already there, don't bother
@@ -125,16 +137,23 @@ public class OrbUtils {
         if (initializeOrbRunOnce)
             return;
         try {
-
+            //Done
+            
             String[] nullArgs = null;
             // create and initialize the ORB
-            myOrb = ORB.init(nullArgs, myORBProperties);
+            if (myOrb == null)
+                myOrb = ORB.init(nullArgs, myORBProperties);
+            
             // get reference to rootpoa & activate the POAManager
-            myRootPOA = POAHelper.narrow(myOrb
-                    .resolve_initial_references("RootPOA"));
-            myRootPOA.the_POAManager().activate();
-            myRootContext = NamingContextExtHelper.narrow(myOrb
-                    .resolve_initial_references("NameService"));
+
+            if (myRootPOA == null){
+                myRootPOA = POAHelper.narrow(myOrb.resolve_initial_references("RootPOA"));
+                myRootPOA.the_POAManager().activate();
+            }
+            
+            if (myRootContext == null)
+                myRootContext = NamingContextExtHelper.narrow(myOrb.resolve_initial_references("NameService"));
+            
             //Attempt to create com.traclabs context, if already there, don't
             // bother
             NameComponent comComponent = new NameComponent("com", "");
