@@ -17,7 +17,6 @@ public abstract class BioTabbedPanel extends JPanel
 	protected BioTabPanel myTextPanel;
 	protected BioTabPanel myChartPanel;
 	protected BioTabPanel mySchematicPanel;
-	protected BioSimulator myBioSimulator;
 	private int oldSelectedIndex;
 	private UpdateActionListener myUpdateActionListener;
 
@@ -25,8 +24,7 @@ public abstract class BioTabbedPanel extends JPanel
 	* Creates and registers this panel.
 	* @param pBioSimulator	The Biosimulator this Panel will register itself with.
 	*/
-	public BioTabbedPanel(BioSimulator pBioSimulator){
-		myBioSimulator = pBioSimulator;
+	public BioTabbedPanel(){
 		myUpdateActionListener = new UpdateActionListener();
 		createPanels();
 		buildGui();
@@ -65,9 +63,9 @@ public abstract class BioTabbedPanel extends JPanel
 	
 	public void visibilityChange(boolean nowVisible){
 		if (nowVisible)
-			myBioSimulator.addDisplayListener(myUpdateActionListener);
+			SimTimer.addListener(myUpdateActionListener);
 		else
-			myBioSimulator.removeDisplayListener(myUpdateActionListener);
+			SimTimer.removeListener(myUpdateActionListener);
 		myTextPanel.visibilityChange(nowVisible);
 		myChartPanel.visibilityChange(nowVisible);
 		mySchematicPanel.visibilityChange(nowVisible);

@@ -12,12 +12,8 @@ import java.awt.*;
 
 public class FoodPanel extends BioTabbedPanel
 {
-	public FoodPanel(BioSimulator pBioSimulator){
-		super(pBioSimulator);
-	}
-	
 	protected void createPanels(){
-		myTextPanel = new FoodTextPanel(myBioSimulator);
+		myTextPanel = new FoodTextPanel();
 		myChartPanel = new BioTabPanel();
 		mySchematicPanel = new BioTabPanel();
 	}

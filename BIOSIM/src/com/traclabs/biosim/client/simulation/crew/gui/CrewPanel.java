@@ -11,13 +11,9 @@ import java.awt.*;
  */
 
 public class CrewPanel extends BioTabbedPanel
-{
-	public CrewPanel(BioSimulator pBioSimulator){
-		super(pBioSimulator);
-	}
-	
+{	
 	protected void createPanels(){
-		myTextPanel = new CrewTextPanel(myBioSimulator);
+		myTextPanel = new CrewTextPanel();
 		myChartPanel = new BioTabPanel();
 		mySchematicPanel = new BioTabPanel();
 	}

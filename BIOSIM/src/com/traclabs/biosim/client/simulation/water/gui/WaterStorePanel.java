@@ -19,8 +19,6 @@ import com.jrefinery.ui.*;
  */
 public class WaterStorePanel extends JPanel
 {
-	//Used for registereing this panel (for knowing when a tick occurs)
-	private BioSimulator myBioSimulator;
 	private WaterRS myWaterRS;
 	private PotableWaterStore myPotableWaterStore;
 	private GreyWaterStore myGreyWaterStore;
@@ -33,13 +31,12 @@ public class WaterStorePanel extends JPanel
 	/**
 	 * Default constructor.
 	 */
-	public WaterStorePanel(BioSimulator pBioSimulator) {
-		myBioSimulator = pBioSimulator;
-		myWaterRS = (WaterRS)(myBioSimulator.getBioModule(BioSimulator.waterRSName));
-		myPotableWaterStore = (PotableWaterStore)(myBioSimulator.getBioModule(BioSimulator.potableWaterStoreName));
-		myDirtyWaterStore = (DirtyWaterStore)(myBioSimulator.getBioModule(BioSimulator.dirtyWaterStoreName));
-		myGreyWaterStore = (GreyWaterStore)(myBioSimulator.getBioModule(BioSimulator.greyWaterStoreName));
-		mySimEnvironment = (SimEnvironment)(myBioSimulator.getBioModule(BioSimulator.simEnvironmentName));
+	public WaterStorePanel() {
+		myWaterRS = (WaterRS)(BioHolder.getBioModule(BioHolder.waterRSName));
+		myPotableWaterStore = (PotableWaterStore)(BioHolder.getBioModule(BioHolder.potableWaterStoreName));
+		myDirtyWaterStore = (DirtyWaterStore)(BioHolder.getBioModule(BioHolder.dirtyWaterStoreName));
+		myGreyWaterStore = (GreyWaterStore)(BioHolder.getBioModule(BioHolder.greyWaterStoreName));
+		mySimEnvironment = (SimEnvironment)(BioHolder.getBioModule(BioHolder.simEnvironmentName));
 		createGraph();
 		refreshButton = new JButton(new RefreshAction("Refresh"));
 		add(myChartPanel, BorderLayout.CENTER);

@@ -27,7 +27,7 @@ public class BiosimMain
 			}
 		}
 		else{
-			mySimulator.runGUI();
+			myMain.runGUI();
 		}
 		
 	}

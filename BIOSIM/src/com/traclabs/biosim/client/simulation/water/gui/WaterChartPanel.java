@@ -17,9 +17,9 @@ public class WaterChartPanel extends BioTabPanel
 {
 	private WaterStorePanel myWaterStorePanel;
 
-	public WaterChartPanel(BioSimulator pBioSimulator) {
+	public WaterChartPanel() {
 		setLayout(new BorderLayout());
-		myWaterStorePanel = new WaterStorePanel(pBioSimulator);
+		myWaterStorePanel = new WaterStorePanel();
 		add(myWaterStorePanel, BorderLayout.CENTER);
 	}
 	

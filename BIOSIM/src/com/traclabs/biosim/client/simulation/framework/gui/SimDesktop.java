@@ -21,9 +21,8 @@ import java.util.*;
 
 public class SimDesktop extends BioFrame
 {
-	//The holder
-	private BioHolder myBioHolder;
-	private BioDriver myBioDriver;
+	//The driver
+	private BioDriver myDriver;
 
 	//GUI Componenets
 	private JDesktopPane myDesktop;
@@ -98,8 +97,7 @@ public class SimDesktop extends BioFrame
 	* Creates a BioSimulator, a panel hashtable, and creates the GUI
 	*/
 	public SimDesktop(){
-		myHolder = new BioHolder();
-		myBioDriver = myHolder.getBioDriver();
+		myDriver = BioHolder.getBioDriver();
 		myPanels = new Hashtable();
 		buildGUI();
 	}
@@ -447,7 +445,7 @@ public class SimDesktop extends BioFrame
 	*/
 	private void displayAir(){
 		if (!tryExisitingInternalFrame("Air"))
-			addInternalFrame("Air",new AirPanel(myDriver));
+			addInternalFrame("Air",new AirPanel());
 	}
 
 	/**
@@ -455,7 +453,7 @@ public class SimDesktop extends BioFrame
 	*/
 	private void displayEnvironment(){
 		if (!tryExisitingInternalFrame("Environment"))
-			addInternalFrame("Environment",new EnvironmentPanel(myDriver));
+			addInternalFrame("Environment",new EnvironmentPanel());
 	}
 
 	/**
@@ -463,7 +461,7 @@ public class SimDesktop extends BioFrame
 	*/
 	private void displayCrew(){
 		if (!tryExisitingInternalFrame("Crew"))
-			addInternalFrame("Crew",new CrewPanel(myDriver));
+			addInternalFrame("Crew",new CrewPanel());
 	}
 
 	/**
@@ -471,7 +469,7 @@ public class SimDesktop extends BioFrame
 	*/
 	private void displayFood(){
 		if (!tryExisitingInternalFrame("Food"))
-			addInternalFrame("Food",new FoodPanel(myDriver));
+			addInternalFrame("Food",new FoodPanel());
 	}
 
 	/**
@@ -479,7 +477,7 @@ public class SimDesktop extends BioFrame
 	*/
 	private void displayPower(){
 		if (!tryExisitingInternalFrame("Power"))
-			addInternalFrame("Power",new PowerPanel(myDriver));
+			addInternalFrame("Power",new PowerPanel());
 	}
 
 	/**
@@ -487,7 +485,7 @@ public class SimDesktop extends BioFrame
 	*/
 	private void displayWater(){
 		if (!tryExisitingInternalFrame("Water"))
-			addInternalFrame("Water",new WaterPanel(myDriver));
+			addInternalFrame("Water",new WaterPanel());
 	}
 
 	/**

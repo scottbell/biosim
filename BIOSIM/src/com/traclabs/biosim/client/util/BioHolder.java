@@ -7,6 +7,8 @@ import biosim.idl.food.*;
 import biosim.idl.power.*;
 import biosim.idl.water.*;
 import biosim.idl.framework.*;
+import java.util.*;
+import biosim.client.util.*;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
@@ -34,29 +36,30 @@ public class BioHolder
 	public final static  String simEnvironmentName = "SimEnvironment";
 	
 	//A hastable containing the server references
-	private Hashtable modules;
-	BioDriver myBioDriver;
-	
-	public BioHolder(){
-		collectReferences();
-	}
+	private static Hashtable modules;
+	private static BioDriver myBioDriver;
+	private static boolean hasCollectedReferences = false;
 	
 	/**
 	* Fetches a BioModule (e.g. AirRS, FoodProcessor, PotableWaterStore) that has been collected by the BioSimulator
 	* @return the BioModule requested, null if not found
 	*/
-	public BioModule getBioModule(String type){
+	public static BioModule getBioModule(String type){
+		collectReferences();
 		return (BioModule)(modules.get(type));
 	}
 	
-	public BioDriver getBioDriver(){
-		return myBioDriver();
+	public static BioDriver getBioDriver(){
+		collectReferences();
+		return myBioDriver;
 	}
 	
 	/**
 	* Tries to collect references to all the servers and adds them to a hashtable than can be accessed by outside classes.
 	*/
-	private void collectReferences(){
+	private static void collectReferences(){
+		if (hasCollectedReferences)
+			return;
 		// resolve the Objects Reference in Naming
 		modules = new Hashtable();
 		System.out.println("BioSimulator: Collecting references to modules...");
@@ -89,7 +92,7 @@ public class BioHolder
 			System.out.println("BioSimulator: Couldn't locate AirRS, skipping...");
 		}
 		try{
-			mySimEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str(simEnvironmentName));
+			SimEnvironment mySimEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str(simEnvironmentName));
 			modules.put(simEnvironmentName , mySimEnvironment);
 		}
 		catch (org.omg.CORBA.UserException e){
@@ -172,6 +175,7 @@ public class BioHolder
 		catch (org.omg.CORBA.UserException e){
 			System.out.println("BioSimulator: Couldn't locate BioDriver, skipping...");
 		}
+		hasCollectedReferences = true;
 	}
 }
 

@@ -42,8 +42,6 @@ public class WaterTextPanel extends BioTabPanel
 	private PotableWaterStore myPotableWaterStore;
 	private GreyWaterStore myGreyWaterStore;
 	private DirtyWaterStore myDirtyWaterStore;
-	//Used for registereing this panel (for knowing when a tick occurs)
-	private BioSimulator myBioSimulator;
 	//For formatting floats
 	private DecimalFormat numFormat;
 
@@ -51,12 +49,11 @@ public class WaterTextPanel extends BioTabPanel
 	* Creates and registers this panel.
 	* @param pBioSimulator	The Biosimulator this Panel will register itself with.
 	*/
-	public WaterTextPanel(BioSimulator pBioSimulator){
-		myBioSimulator = pBioSimulator;
-		myWaterRS = (WaterRS)(myBioSimulator.getBioModule(BioSimulator.waterRSName));
-		myPotableWaterStore = (PotableWaterStore)(myBioSimulator.getBioModule(BioSimulator.potableWaterStoreName));
-		myDirtyWaterStore = (DirtyWaterStore)(myBioSimulator.getBioModule(BioSimulator.dirtyWaterStoreName));
-		myGreyWaterStore = (GreyWaterStore)(myBioSimulator.getBioModule(BioSimulator.greyWaterStoreName));
+	public WaterTextPanel(){
+		myWaterRS = (WaterRS)(BioHolder.getBioModule(BioHolder.waterRSName));
+		myPotableWaterStore = (PotableWaterStore)(BioHolder.getBioModule(BioHolder.potableWaterStoreName));
+		myDirtyWaterStore = (DirtyWaterStore)(BioHolder.getBioModule(BioHolder.dirtyWaterStoreName));
+		myGreyWaterStore = (GreyWaterStore)(BioHolder.getBioModule(BioHolder.greyWaterStoreName));
 		buildGui();
 	}
 	
