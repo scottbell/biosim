@@ -55,9 +55,7 @@ public class SensorViewer extends SpreadSheet
 	private DirtyWaterStoreLevelSensor myDirtyWaterStoreLevelSensor;
 	//Food
 	//BiomassRS
-	private AirInFlowRateSensor myBiomassRSAirInFlowRateSensor;
 	private PowerInFlowRateSensor myBiomassRSPowerInFlowRateSensor;
-	private AirOutFlowRateSensor myBiomassRSAirOutFlowRateSensor;
 	private PotableWaterInFlowRateSensor myBiomassRSPotableWaterInFlowRateSensor;
 	private GreyWaterInFlowRateSensor myBiomassRSGreyWaterInFlowRateSensor;
 	private DirtyWaterOutFlowRateSensor myBiomassRSDirtyWaterOutFlowRateSensor;
@@ -139,8 +137,6 @@ public class SensorViewer extends SpreadSheet
 		myDirtyWaterStoreLevelSensor = (DirtyWaterStoreLevelSensor)BioHolder.getBioModule(BioHolder.myDirtyWaterStoreLevelSensorName);
 		//Food
 		//BiomassRS
-		myBiomassRSAirInFlowRateSensor = (AirInFlowRateSensor)BioHolder.getBioModule(BioHolder.myBiomassRSAirInFlowRateSensorName);
-		myBiomassRSAirOutFlowRateSensor = (AirOutFlowRateSensor)BioHolder.getBioModule(BioHolder.myBiomassRSAirOutFlowRateSensorName);
 		myBiomassRSPotableWaterInFlowRateSensor = (PotableWaterInFlowRateSensor)BioHolder.getBioModule(BioHolder.myBiomassRSPotableWaterInFlowRateSensorName);
 		myBiomassRSGreyWaterInFlowRateSensor = (GreyWaterInFlowRateSensor)BioHolder.getBioModule(BioHolder.myBiomassRSGreyWaterInFlowRateSensorName);
 		myBiomassRSDirtyWaterOutFlowRateSensor = (DirtyWaterOutFlowRateSensor)BioHolder.getBioModule(BioHolder.myBiomassRSDirtyWaterOutFlowRateSensorName);
@@ -200,7 +196,6 @@ public class SensorViewer extends SpreadSheet
 		//Biomass RS
 		myTableModel.setValueAt("* / "+numFormat.format(myBiomassRSBiomassOutFlowRateSensor.getValue()), 1, 3);
 		myTableModel.setValueAt(numFormat.format(myBiomassRSPowerInFlowRateSensor.getValue())+" / *", 1, 4);
-		myTableModel.setValueAt(numFormat.format(myBiomassRSAirInFlowRateSensor.getValue())+" / "+numFormat.format(myBiomassRSAirOutFlowRateSensor.getValue()), 1, 5);
 		myTableModel.setValueAt(numFormat.format(myBiomassRSGreyWaterInFlowRateSensor.getValue())+" / *", 1, 6);
 		myTableModel.setValueAt(numFormat.format(myBiomassRSPotableWaterInFlowRateSensor.getValue())+" / *", 1, 8);
 		myTableModel.setValueAt("* / "+numFormat.format(myBiomassRSDirtyWaterOutFlowRateSensor.getValue()), 1, 7);
