@@ -15,7 +15,7 @@ import java.util.*;
 
 public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations {
 	private Vector myShelves;
-	private int shelfCapacity = 1000;
+	private int shelfCapacity = 100;
 	private Vector shelfLogs;
 	
 	public BiomassRSImpl(int pID){
