@@ -125,6 +125,7 @@ module biosim{
                                 air::Breath takeO2Breath(in float liters);
 				air::Breath takeCO2Breath(in float liters);
 				long getTicks();
+				void resetTicks();
 				void resetLevels();
                         };
                 };
