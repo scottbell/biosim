@@ -203,6 +203,8 @@ module com{
                                                 void clearMalfunction(in long long id);
                                                 void setEnableBreakdown(in boolean pValue);
                                                 boolean breakdownIsEnabled();
+                                                long getMyTicks();
+                                                long getID();
                                         };
                                         interface BioDriver{
                                                 boolean isPaused();
@@ -683,10 +685,12 @@ module com{
                                                         long getArrivalTick();
                                                         void setDepartureTick(in long departureTick);
                                                         long getDepartureTick();
+                                                        void tick();
+                                                        void reset();
                                                 };
                                                 interface CrewGroup : framework::SimBioModule, framework::AirConsumer, framework::PotableWaterConsumer, framework::FoodConsumer, framework::AirProducer, framework::GreyWaterProducer, framework::DirtyWaterProducer, framework::DryWasteProducer{
                                                         CrewPerson getCrewPerson(in string name);
-                                                        CrewPerson createCrewPerson(in string name, in float age, in float weight, in Sex pSex, in long arrivalTick, in long departureTick);
+                                                        CrewPerson createCrewPerson(in string name, in float age, in float weight, in Sex pSex, in long arrivalTick, in long departureTick, in CrewGroup pCrewGroup);
                                                         CrewPersonList getCrewPeople();
                                                         void scheduleRepair(in string moduleName, in long long malfunctionID, in long timeLength);
                                                         long getCrewSize();
@@ -701,6 +705,29 @@ module com{
                                                         boolean anyDead();
                                                         void detachCrewPerson(in string name);
                                                         void attachCrewPerson(in CrewPerson pCrewPerson);
+                                                        
+                                                        //for roaming crew members
+                                                        //should implement this for all modules ideally
+                                                        
+                                                        FloatList getFoodInputDesiredFlowRates();
+                                                        FloatList getFoodInputMaxFlowRates();
+                                                        FloatList getFoodInputActualFlowRates();
+                                                        
+                                                        FloatList getPotableWaterInputDesiredFlowRates();
+                                                        FloatList getPotableWaterInputMaxFlowRates();
+                                                        FloatList getPotableWaterInputActualFlowRates();
+                                                        
+                                                        FloatList getDirtyWaterOutputDesiredFlowRates();
+                                                        FloatList getDirtyWaterOutputMaxFlowRates();
+                                                        FloatList getDirtyWaterOutputActualFlowRates();
+                                                        
+                                                        FloatList getGreyWaterOutputDesiredFlowRates();
+                                                        FloatList getGreyWaterOutputMaxFlowRates();
+                                                        FloatList getGreyWaterOutputActualFlowRates();
+                                                        
+                                                        FloatList getDryWasteOutputDesiredFlowRates();
+                                                        FloatList getDryWasteOutputMaxFlowRates();
+                                                        FloatList getDryWasteOutputActualFlowRates();
                                                 };
                                         };
 
@@ -759,7 +786,9 @@ module com{
                                                         void setHourOfDayStart(in float hourOfDayStart);
                                                         float getMaxLumens();
                                                         void setMaxLumens(in float maxLumens);
-                                                        void removePercentage(in float percentage);
+                                                        void setAirlockVolume(in float pAirLockVolume);
+                                                        float getAirlockVolume();
+                                                        void removeAirlockPercentage(in float percentage);
                                                 };
                                         };
                                         module food{

@@ -120,6 +120,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
     //Whether this Store has collected a reference to the BioDriver or not.
     private boolean hasCollectedReferences = false;
 
+	private float myAirLockVolume = 3.7f;
+
     /**
      * Creates a SimEnvironment (with a volume of 100000 liters) and resets the
      * gas levels to correct percantages of sea level air
@@ -1171,11 +1173,29 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
     /* (non-Javadoc)
      * @see com.traclabs.biosim.idl.simulation.environment.SimEnvironmentOperations#removePercentage(float)
      */
-    public void removePercentage(float percentage) {
-        O2Moles -= (O2Moles * percentage);
-        CO2Moles -= (CO2Moles * percentage);
-        otherMoles -= (otherMoles * percentage);
-        waterMoles -= (waterMoles * percentage);
-        nitrogenMoles -= (nitrogenMoles * percentage);
+    public void removeAirlockPercentage(float airlockPercentageToRemove){
+    	if (volume <= 0f)
+    		return;
+    	float airlockPercentageAdjusted = airlockPercentageToRemove * (myAirLockVolume / volume);
+        O2Moles -= (O2Moles * airlockPercentageAdjusted);
+        CO2Moles -= (CO2Moles * airlockPercentageAdjusted);
+        otherMoles -= (otherMoles * airlockPercentageAdjusted);
+        waterMoles -= (waterMoles * airlockPercentageAdjusted);
+        nitrogenMoles -= (nitrogenMoles * airlockPercentageAdjusted);
     }
+
+	/* (non-Javadoc)
+	 * @see com.traclabs.biosim.idl.simulation.environment.SimEnvironmentOperations#setAirlockSize(float)
+	 */
+	public void setAirlockVolume(float pAirLockVolume) {
+		myAirLockVolume = pAirLockVolume;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.traclabs.biosim.idl.simulation.environment.SimEnvironmentOperations#getAirlockSize()
+	 */
+	public float getAirlockVolume() {
+		return myAirLockVolume;
+	}
+
 }

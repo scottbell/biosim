@@ -906,6 +906,7 @@
 				<xsd:attribute name="dayLength" type="nonNegativeFloat" default="24"/>
 				<xsd:attribute name="hourOfDayStart" type="nonNegativeFloat" default="0"/>
 				<xsd:attribute name="maxLumens" type="nonNegativeFloat" default="50000"/>
+				<xsd:attribute name="airlockVolume" type="nonNegativeFloat" default="3.7"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>

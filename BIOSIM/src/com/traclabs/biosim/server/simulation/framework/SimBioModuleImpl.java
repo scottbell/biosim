@@ -100,7 +100,7 @@ public abstract class SimBioModuleImpl extends BioModuleImpl implements
      * @return The total amount of resource grabbed from the stores (equal to
      *         the amount needed if sucessful)
      */
-    public float getFractionalResourceFromStore(Store[] pStores,
+    public static float getFractionalResourceFromStore(Store[] pStores,
             float[] pMaxFlowRates, float[] pDesiredFlowRates,
             float[] pActualFlowRates, float amountNeeded, float fraction) {
         float gatheredResource = 0f;

@@ -11,6 +11,7 @@ import java.util.Vector;
 import com.traclabs.biosim.idl.framework.Malfunction;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
+import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroupOperations;
 import com.traclabs.biosim.idl.simulation.crew.CrewPerson;
 import com.traclabs.biosim.idl.simulation.crew.CrewPersonHelper;
@@ -163,19 +164,21 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
      * @return the crew person just created
      */
     public CrewPerson createCrewPerson(String pName, float pAge, float pWeight,
-            Sex pSex, int pArrivalTick, int pDepartureTick) {
-        CrewPersonImpl newCrewPerson = new CrewPersonImpl(pName, pAge, pWeight,
-                pSex, pArrivalTick, pDepartureTick, this);
+            Sex pSex, int pArrivalTick, int pDepartureTick, CrewGroup crewGroup) {
+        CrewPersonImpl newCrewPersonImpl = new CrewPersonImpl(pName, pAge, pWeight,
+                pSex, pArrivalTick, pDepartureTick, this, crewGroup);
+        CrewPerson newCrewPerson = CrewPersonHelper.narrow((OrbUtils.poaToCorbaObj(newCrewPersonImpl)));
         crewPeople.put(pName, newCrewPerson);
-        return CrewPersonHelper.narrow((OrbUtils.poaToCorbaObj(newCrewPerson)));
+        return newCrewPerson;
     }
 
     public CrewPerson createCrewPerson(String pName, float pAge, float pWeight,
-            Sex pSex, int pArrivalTick, int pDepartureTick, Schedule pSchedule) {
-        CrewPersonImpl newCrewPerson = new CrewPersonImpl(pName, pAge, pWeight,
-                pSex, pArrivalTick, pDepartureTick, this, pSchedule);
+            Sex pSex, int pArrivalTick, int pDepartureTick, Schedule pSchedule, CrewGroup crewGroup) {
+        CrewPersonImpl newCrewPersonImpl = new CrewPersonImpl(pName, pAge, pWeight,
+                pSex, pArrivalTick, pDepartureTick, this, crewGroup, pSchedule);
+        CrewPerson newCrewPerson = CrewPersonHelper.narrow((OrbUtils.poaToCorbaObj(newCrewPersonImpl)));
         crewPeople.put(pName, newCrewPerson);
-        return CrewPersonHelper.narrow((OrbUtils.poaToCorbaObj(newCrewPerson)));
+        return newCrewPerson;
     }
 
     protected static FoodMatter[] getCaloriesFromStore(FoodStore[] pStores,
@@ -292,7 +295,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
         super.tick();
         clearActualFlowRates();
         for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();) {
-            CrewPersonImpl tempPerson = (CrewPersonImpl) (iter.next());
+            CrewPerson tempPerson = (CrewPerson) (iter.next());
             tempPerson.tick();
         }
 
@@ -335,7 +338,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     public void reset() {
         super.reset();
         for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();) {
-            CrewPersonImpl currentPerson = (CrewPersonImpl) (iter.next());
+            CrewPerson currentPerson = (CrewPerson) (iter.next());
             currentPerson.reset();
         }
     }
@@ -346,7 +349,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     public float getProductivity() {
         float productivity = 0f;
         for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();) {
-            CrewPersonImpl currentPerson = (CrewPersonImpl) (iter.next());
+            CrewPerson currentPerson = (CrewPerson) (iter.next());
             productivity += currentPerson.getProductivity();
         }
         return productivity;
@@ -356,7 +359,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
         if (crewPeople.size() < 1)
             return false;
         for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();) {
-            CrewPersonImpl currentPerson = (CrewPersonImpl) (iter.next());
+            CrewPerson currentPerson = (CrewPerson) (iter.next());
             if (currentPerson.isDead())
                 return true;
         }
@@ -368,7 +371,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
             return false;
         boolean areTheyDead = true;
         for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();) {
-            CrewPersonImpl currentPerson = (CrewPersonImpl) (iter.next());
+            CrewPerson currentPerson = (CrewPerson) (iter.next());
             areTheyDead = areTheyDead && currentPerson.isDead();
         }
         return areTheyDead;
@@ -381,7 +384,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     public float getGreyWaterProduced() {
         float totalGreyWaterProduced = 0f;
         for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();) {
-            CrewPersonImpl currentPerson = (CrewPersonImpl) (iter.next());
+            CrewPerson currentPerson = (CrewPerson) (iter.next());
             totalGreyWaterProduced += currentPerson.getGreyWaterProduced();
         }
         return totalGreyWaterProduced;
@@ -390,7 +393,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     public float getDirtyWaterProduced() {
         float totalDirtyWaterProduced = 0f;
         for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();) {
-            CrewPersonImpl currentPerson = (CrewPersonImpl) (iter.next());
+            CrewPerson currentPerson = (CrewPerson) (iter.next());
             totalDirtyWaterProduced += currentPerson.getDirtyWaterProduced();
         }
         return totalDirtyWaterProduced;
@@ -399,7 +402,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     public float getPotableWaterConsumed() {
         float totalPotableWaterConsumed = 0f;
         for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();) {
-            CrewPersonImpl currentPerson = (CrewPersonImpl) (iter.next());
+            CrewPerson currentPerson = (CrewPerson) (iter.next());
             totalPotableWaterConsumed += currentPerson
                     .getPotableWaterConsumed();
         }
@@ -409,7 +412,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     public float getFoodConsumed() {
         float totalFoodConsumed = 0f;
         for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();) {
-            CrewPersonImpl currentPerson = (CrewPersonImpl) (iter.next());
+            CrewPerson currentPerson = (CrewPerson) (iter.next());
             totalFoodConsumed += currentPerson.getFoodConsumed();
         }
         return totalFoodConsumed;
@@ -418,7 +421,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     public float getCO2Produced() {
         float totalCO2Produced = 0f;
         for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();) {
-            CrewPersonImpl currentPerson = (CrewPersonImpl) (iter.next());
+            CrewPerson currentPerson = (CrewPerson) (iter.next());
             totalCO2Produced += currentPerson.getCO2Produced();
         }
         return totalCO2Produced;
@@ -427,7 +430,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     public float getO2Consumed() {
         float totalO2Consumed = 0f;
         for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();) {
-            CrewPersonImpl currentPerson = (CrewPersonImpl) (iter.next());
+            CrewPerson currentPerson = (CrewPerson) (iter.next());
             totalO2Consumed += currentPerson.getO2Consumed();
         }
         return totalO2Consumed;

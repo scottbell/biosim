@@ -30,12 +30,6 @@ public abstract class BioModuleImpl extends BioModulePOA {
     //The random number generator used for gaussian function (stochastic stuff)
     private Random myRandomGen;
 
-    //Whether the log for this module is initialized or not
-    protected boolean logInitialized = false;
-
-    //Whether this module has collected a reference to logger server
-    private boolean collectedLogger = false;
-
     //The numerical value for the stochastic intensity
     private float randomCoefficient = 0f;
 

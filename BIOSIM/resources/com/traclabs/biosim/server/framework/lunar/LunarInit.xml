@@ -21,7 +21,9 @@
 				<CO2Producer maxFlowRates="100" desiredFlowRates="100" outputs="CO2Store"/>
 				<H2Producer maxFlowRates="100" desiredFlowRates="100" outputs="H2Store"/>
 			</AirRS>
-			<O2Store name="O2Store" capacity="2000" level="500"/>
+			<O2Store name="O2Store" capacity="2000" level="502">
+				<malfunction occursAtTick="200" length="PERMANENT_MALF" intensity="MEDIUM_MALF"/>
+			</O2Store>
 			<CO2Store name="CO2Store" capacity="0" level="0"/>
 			<H2Store name="H2Store" capacity="10000000" level="10000000"/>
 			<NitrogenStore name="NitrogenStore" capacity="5000" level="4000"/>
@@ -49,9 +51,18 @@
 					</schedule>
 				</crewPerson>
 			</CrewGroup>
+			<CrewGroup name="EVACrewGroup">
+				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
+				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="CrewEnvironment"/>
+				<foodConsumer maxFlowRates="100" desiredFlowRates="100" inputs="FoodStore"/>
+				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="DirtyWaterStore"/>
+				<greyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="GreyWaterStore"/>
+				<airProducer maxFlowRates="0" desiredFlowRates="0" outputs="CrewEnvironment"/>
+				<dryWasteProducer maxFlowRates="100" desiredFlowRates="100" outputs="DryWasteStore"/>
+			</CrewGroup>
 		</crew>
 		<environment>
-			<SimEnvironment name="CrewEnvironment" initialVolume="1548930" leakRate="0.00224"/>
+			<SimEnvironment name="CrewEnvironment" initialVolume="1548930" leakRate="0.00224" airlockVolume="3.7"/>
 		</environment>                    
 		<food>
 			<FoodStore name="FoodStore" capacity="2000" level="2000"/>
@@ -67,6 +78,7 @@
 		</power>
 		<water>
 			<WaterRS name="WaterRS" operationMode="PARTIAL">
+				<malfunction occursAtTick="502" length="TEMPORARY_MALF" intensity="SEVERE_MALF"/>
 				<powerConsumer maxFlowRates="500" desiredFlowRates="500" inputs="PowerStore"/>
 				<dirtyWaterConsumer maxFlowRates="100" desiredFlowRates="10" inputs="DirtyWaterStore"/>
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="10" inputs="GreyWaterStore"/>
@@ -79,117 +91,12 @@
 		<waste>
 			<DryWasteStore name="DryWasteStore" capacity="500" level="0"/>
 		</waste>
-		<mission>
-			<EVAMission name="EVAMission">
-				<powerConsumer maxFlowRates="10" desiredFlowRates="0" inputs="PowerStore"/>
-				<airConsumer maxFlowRates="10" desiredFlowRates="1" inputs="CrewEnvironment"/>
-			</EVAMission>
-		</mission>
 	</SimBioModules>
 	
 	<Sensors>
-		<air>
-			<CO2InFlowRateSensor name="AirRSCO2InFlowRateSensor" index="0" input="AirRS"/>
-			<CO2OutFlowRateSensor name="AirRSCO2OutFlowRateSensor" index="0" input="AirRS"/>
-			<CO2StoreLevelSensor name="CO2StoreLevelSensor" input="CO2Store"/>
-			<O2OutFlowRateSensor name="AirRSO2OutFlowRateSensor" index="0" input="AirRS"/>
-			<O2StoreLevelSensor name="O2StoreLevelSensor" input="O2Store"/>
-			<H2InFlowRateSensor name="AirRSH2InFlowRateSensor" index="0" input="AirRS"/>
-			<H2OutFlowRateSensor name="AirRSH2OutFlowRateSensor" index="0" input="AirRS"/>
-			<H2StoreLevelSensor name="H2StoreLevelSensor" input="H2Store"/>
-			<NitrogenStoreLevelSensor name="NitrogenStoreLevelSensor" input="NitrogenStore"/>
-		</air>
-		<crew>
-			<CrewGroupDeathSensor name="CrewGroupDeathSensor" input="CrewGroup"/>
-			<CrewGroupProductivitySensor name="CrewGroupProductivitySensor" input="CrewGroup"/>
-			<CrewGroupAnyDeadSensor name="CrewGroupAnyDeadSensor" input="CrewGroup"/>
-		</crew>
-		<environment>
-			<AirInFlowRateSensor name="AirRSAirInFlowRateSensor" index="0" input="AirRS"/>
-			<AirOutFlowRateSensor name="AirRSAirOutFlowRateSensor" index="0" input="AirRS"/>
-			<CO2AirConcentrationSensor name="CrewEnvironmentCO2AirConcentrationSensor" input="CrewEnvironment"/>
-			<CO2AirPressureSensor name="CrewEnvironmentCO2AirPressureSensor" input="CrewEnvironment"/>
-			<O2AirConcentrationSensor name="CrewEnvironmentO2AirConcentrationSensor" input="CrewEnvironment"/>
-			<O2AirPressureSensor name="CrewEnvironmentO2AirPressureSensor" input="CrewEnvironment"/>
-			<NitrogenAirConcentrationSensor name="CrewEnvironmentNitrogenAirConcentrationSensor" input="CrewEnvironment"/>
-			<NitrogenAirPressureSensor name="CrewEnvironmentNitrogenAirPressureSensor" input="CrewEnvironment"/>
-			<WaterAirConcentrationSensor name="CrewEnvironmentWaterAirConcentrationSensor" input="CrewEnvironment"/>
-			<WaterAirPressureSensor name="CrewEnvironmentWaterAirPressureSensor" input="CrewEnvironment"/>
-			<OtherAirConcentrationSensor name="CrewEnvironmentOtherAirConcentrationSensor" input="CrewEnvironment"/>
-			<OtherAirPressureSensor name="CrewEnvironmentOtherAirPressureSensor" input="CrewEnvironment"/>
-		</environment>
-		<food>
-			<FoodInFlowRateSensor name="CrewGroupFoodInFlowRateSensor" index="0" input="CrewGroup"/>
-			<FoodStoreLevelSensor name="FoodStoreLevelSensor" input="FoodStore"/>
-		</food>
-		<framework>
-			<StoreOverflowSensor name="PowerStoreOverflowSensor" input="PowerStore"/>
-			<StoreOverflowSensor name="FoodStoreOverflowSensor" input="FoodStore"/>
-			<StoreOverflowSensor name="H2StoreOverflowSensor" input="H2Store"/>
-			<StoreOverflowSensor name="CO2StoreOverflowSensor" input="CO2Store"/>
-			<StoreOverflowSensor name="O2StoreOverflowSensor" input="O2Store"/>
-			<StoreOverflowSensor name="NitrogenStoreOverflowSensor" input="NitrogenStore"/>
-			<StoreOverflowSensor name="PotableWaterStoreOverflowSensor" input="PotableWaterStore"/>
-			<StoreOverflowSensor name="GreyWaterStoreOverflowSensor" input="GreyWaterStore"/>
-			<StoreOverflowSensor name="DirtyWaterStoreOverflowSensor" input="DirtyWaterStore"/>
-			<StoreOverflowSensor name="DryWasteStoreOverflowSensor" input="DryWasteStore"/>
-		</framework>
-		<power>
-			<PowerInFlowRateSensor name="AirRSPowerInFlowRateSensor" index="0" input="AirRS"/>
-			<PowerOutFlowRateSensor name="PowerPSPowerOutFlowRateSensor" index="0" input="PowerPS"/>
-			<PowerStoreLevelSensor name="PowerStoreLevelSensor" input="PowerStore"/>
-		</power>
-		<water>
-			<DirtyWaterInFlowRateSensor name="WaterRSDirtyWaterInFlowRateSensor" index="0" input="WaterRS"/>
-			<DirtyWaterOutFlowRateSensor name="CrewGroupDirtyWaterOutFlowRateSensor" index="0" input="CrewGroup"/>
-			<DirtyWaterStoreLevelSensor name="DirtyWaterStoreLevelSensor" input="DirtyWaterStore"/>
-			<GreyWaterInFlowRateSensor name="WaterRSGreyWaterInFlowRateSensor" index="0" input="WaterRS"/>
-			<GreyWaterOutFlowRateSensor name="CrewGroupGreyWaterOutFlowRateSensor" index="0" input="CrewGroup"/>
-			<GreyWaterStoreLevelSensor name="GreyWaterStoreLevelSensor" input="GreyWaterStore"/>
-			<PotableWaterInFlowRateSensor name="CrewGroupPotableWaterInFlowRateSensor" index="0" input="CrewGroup"/>
-			<PotableWaterInFlowRateSensor name="AirRSPotableWaterInFlowRateSensor" index="0" input="AirRS"/>
-			<PotableWaterOutFlowRateSensor name="AirRSPotableWaterOutFlowRateSensor" index="0" input="AirRS"/>
-			<PotableWaterOutFlowRateSensor name="WaterRSPotableWaterOutFlowRateSensor" index="0" input="WaterRS"/>
-			<PotableWaterStoreLevelSensor name="PotableWaterStoreLevelSensor" input="PotableWaterStore"/>
-		</water>
-		<waste>
-			<DryWasteOutFlowRateSensor name="CrewGroupDryWasteOutFlowRateSensor" index="0" input="CrewGroup"/>
-			<DryWasteStoreLevelSensor name="DryWasteStoreLevelSensor" input="DryWasteStore"/>
-		</waste>
 	</Sensors>
 	
 	<Actuators>
-		<air>
-			<CO2InFlowRateActuator name="AirRSCO2InFlowRateActuator" index="0" output="AirRS"/>
-			<CO2OutFlowRateActuator name="AirRSCO2OutFlowRateActuator" index="0" output="AirRS"/>
-			<O2OutFlowRateActuator name="AirRSO2OutFlowRateActuator" index="0" output="AirRS"/>
-			<H2InFlowRateActuator name="AirRSH2InFlowRateActuator" index="0" output="AirRS"/>
-			<H2OutFlowRateActuator name="AirRSH2OutFlowRateActuator" index="0" output="AirRS"/>
-		</air>
-		<environment>
-			<AirInFlowRateActuator name="AirRSAirInFlowRateActuator" index="0" output="AirRS"/>
-			<AirOutFlowRateActuator name="AirRSAirOutFlowRateActuator" index="0" output="AirRS"/>
-		</environment>
-		<food>
-			<FoodInFlowRateActuator name="CrewGroupFoodInFlowRateActuator" index="0" output="CrewGroup"/>
-		</food>
-		<power>
-			<PowerInFlowRateActuator name="AirRSPowerInFlowRateActuator" index="0" output="AirRS"/>
-			<PowerInFlowRateActuator name="WaterRSPowerInFlowRateActuator" index="0" output="WaterRS"/>
-			<PowerOutFlowRateActuator name="PowerPSPowerOutFlowRateActuator" index="0" output="PowerPS"/>
-		</power>
-		<water>
-			<DirtyWaterInFlowRateActuator name="WaterRSDirtyWaterInFlowRateActuator" index="0" output="WaterRS"/>
-			<DirtyWaterOutFlowRateActuator name="CrewGroupDirtyWaterOutFlowRateActuator" index="0" output="CrewGroup"/>
-			<GreyWaterInFlowRateActuator name="WaterRSGreyWaterInFlowRateActuator" index="0" output="WaterRS"/>
-			<GreyWaterOutFlowRateActuator name="CrewGroupGreyWaterOutFlowRateActuator" index="0" output="CrewGroup"/>
-			<PotableWaterInFlowRateActuator name="AirRSPotableWaterInFlowRateActuator" index="0" output="AirRS"/>
-			<PotableWaterInFlowRateActuator name="CrewGroupPotableWaterInFlowRateActuator" index="0" output="CrewGroup"/>
-			<PotableWaterOutFlowRateActuator name="AirRSPotableWaterOutFlowRateActuator" index="0" output="AirRS"/>
-			<PotableWaterOutFlowRateActuator name="WaterRSPotableWaterOutFlowRateActuator" index="0" output="WaterRS"/>
-		</water>
-		<waste>
-		</waste>
 	</Actuators>
 </biosim>
 

@@ -2,6 +2,8 @@ package com.traclabs.biosim.server.simulation.air;
 
 import org.apache.log4j.Logger;
 
+import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
+
 /**
  * The abstract class all the air subsystems derive from (the VCCR, CRS, OGS,
  * ...)
@@ -69,7 +71,7 @@ public abstract class AirRSSubSystem {
      * Adds power to the subsystem for this tick
      */
     protected void gatherPower() {
-        float gatheredPower = myAirRS.getFractionalResourceFromStore(myAirRS
+        float gatheredPower = SimBioModuleImpl.getFractionalResourceFromStore(myAirRS
                 .getPowerInputs(), myAirRS.getPowerInputMaxFlowRates(), myAirRS
                 .getPowerInputDesiredFlowRates(), myAirRS
                 .getPowerInputActualFlowRates(), currentPowerNeeded,

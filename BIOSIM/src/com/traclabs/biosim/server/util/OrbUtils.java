@@ -71,7 +71,7 @@ public class OrbUtils {
         }
         catch (Exception e){
             Logger.getLogger(OrbUtils.class).info(
-                    "Had problems getting naming context " + e);
+                    "(id="+pID+") Had problems getting module:"+pModuleName+" "+ e);
         }
         return module;
     }
