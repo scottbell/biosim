@@ -77,10 +77,9 @@ public class SimulationEngine
 		while(true)
 		{
 			// rotate around a bit
-			rotY += 0.003;
+			rotY += (0.003 * BioHolderInitializer.getBioHolder().theBioDriver.getTicks());
 			rotate.rotXYZ((float)Math.PI/4, rotY, (float)Math.PI/4);
 			objRotate.setTransform(rotate);
-
 			// render the whole scene
 			view.renderOnce();
 		}
@@ -88,9 +87,6 @@ public class SimulationEngine
 
 	private class TickCounter
 	{
-		// specifies if the counter should update automatically or not
-		private boolean autoUpdate = true;
-
 		// Swing components
 		private JTextField textField;
 		private JPanel panel;
@@ -101,19 +97,13 @@ public class SimulationEngine
 		 */
 		class TickWindow extends UIWindow
 		{
-
 			/**
 			 * Creates the window.
-			 *
 			 * @param width              The width of the window.
 			 * @param height             The height of the window.
-			 * @param includeExitButton  Specifies if an exit button
-			 *                           should be displayed.
 			 */
-			public TickWindow(int width, int height, boolean includeExitButton)
-			{
+			public TickWindow(int width, int height){
 				super(width, height, false, false);
-
 				// create a double buffered JPanel
 				panel = new JPanel(true);
 				panel.setSize(new Dimension(width,height));
@@ -127,20 +117,16 @@ public class SimulationEngine
 				panel.add(textField);
 
 				// include the exit button if it's wanted
-				if(includeExitButton)
-				{
-					JButton exitButton = new JButton();
-					exitButton.setText("Exit");
-					exitButton.addActionListener(new ActionListener()
-					                             {
-						                             public void actionPerformed(ActionEvent e)
-						                             {
-							                             System.exit(0);
-						                             }
-					                             });
-					panel.add(exitButton);
-				}
-
+				JButton exitButton = new JButton();
+				exitButton.setText("Exit");
+				exitButton.addActionListener(
+					new ActionListener(){
+						public void actionPerformed(ActionEvent e){
+							System.exit(0);
+						}
+					}
+				);
+				panel.add(exitButton);
 				// specify the root component of the UI window
 				setRoot(panel);
 			}
@@ -149,11 +135,9 @@ public class SimulationEngine
 			 * This method is called once a frame. We use it to update the frame
 			 * counter. This can be disabled by calling setAutoUpdate(false).
 			 */
-			public void update()
-			{
+			public void update(){
 				super.update();
-				if(autoUpdate)
-					nextFrame();
+				nextFrame();
 			}
 
 		}
@@ -164,9 +148,8 @@ public class SimulationEngine
 		 *
 		 * @param canvas The Canvas3D the userinterface is responsible for.
 		 */
-		public TickCounter(Canvas3D canvas)
-		{
-			this(canvas, 10, 10, true);
+		public TickCounter(Canvas3D canvas){
+			this(canvas, 10, 10);
 		}
 
 		/**
@@ -176,75 +159,27 @@ public class SimulationEngine
 		 * @param canvas  The Canvas3D the userinterface is responsible for.
 		 * @param xPos    The x-position of the framerate counter.
 		 * @param yPos    The y-position of the framerate counter.
-		 * @param includeExitButton  Specifies wether to display
-		 *                           an exit button or not.
 		 */
-		public TickCounter(Canvas3D canvas,
-		                       int xPos,
-		                       int yPos,
-		                       boolean includeExitButton)
-		{
+		public TickCounter(Canvas3D canvas, int xPos, int yPos){
 			// configure window manager
 			UIWindowManager windowMgr = new UIWindowManager(canvas);
 			// make the panel a bit smaller, if there's no exit button
-			if(includeExitButton)
-				window = new TickWindow(80, 60, true);
-			else
-				window = new TickWindow(80, 30, false);
+			window = new TickWindow(80, 60);
 			windowMgr.addOverlay(window);
 			windowMgr.setPosition(window, xPos, yPos);
 			windowMgr.setVisible(window, true);
-
-			if(includeExitButton)
-			{
-				// add a mouse listener for the exit button
-				UIEventAdapter eventAdapter = new UIEventAdapter(windowMgr);
-				canvas.get3DPeer().getComponent().addMouseListener(eventAdapter);
-			}
+			// add a mouse listener for the exit button
+			UIEventAdapter eventAdapter = new UIEventAdapter(windowMgr);
+			canvas.get3DPeer().getComponent().addMouseListener(eventAdapter);
 		}
 
 		/**
 		 * Method must be called by everytime a frame was rendered.
 		 */
-		public void nextFrame()
-		{
+		public void nextFrame(){
 			textField.setText(BioHolderInitializer.getBioHolder().theBioDriver.getTicks() + "");
+			panel.revalidate();
 		}
-
-		/**
-		 * Tells the framerate counter wether it should update automatically or not.
-		 * Default is to it automatically.
-		 * If you don't want to update the counter to be updated automatically you
-		 * have to call nextFrame() after each rendered frame.
-		 *
-		 * @param autoUpdate  Specifies wether the counter is updated automatically
-		 *                    or not.
-		 */
-		public void setAutoUpdate(boolean autoUpdate)
-		{
-			this.autoUpdate = autoUpdate;
-		}
-
-		/**
-		 * Returns the framerate text field.
-		 *
-		 * @return  The text field which displays the framerate.
-		 */
-		public JTextField getTextField()
-		{
-			return textField;
-		}
-
-		/**
-		 * Returns the main panel.
-		 *
-		 * @return  The panel which holds the text field and the exit button.
-		 */
-		public JPanel getPanel()
-		{
-			return panel;
-		}
-
 	}
 
 }
