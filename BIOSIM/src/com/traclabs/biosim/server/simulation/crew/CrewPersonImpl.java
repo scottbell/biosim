@@ -5,6 +5,7 @@ import biosim.idl.environment.*;
 import biosim.idl.water.*;
 import biosim.idl.food.*;
 import biosim.idl.air.*;
+import biosim.idl.util.*;
 import biosim.server.util.*;
 /**
  * The Crew Person Implementation.  Eats/drinks/excercises away resources according to a set schedule.
@@ -76,6 +77,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private float foodNeeded = 0f;
 	//The breath inhaled by this crew member in the current tick
 	private Breath airRetrieved;
+	private boolean logInitialized = false;
+	private LogIndex myLogIndex;
 
 	/**
 	* Constructor that creates a new crew person
@@ -279,7 +282,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			timeActivityPerformed = 0;
 		}
 	}
-	
+
 	/**
 	* When the CrewGroup ticks the crew member, the member:
 	* 1) increases the time the activity has been performed by 1.
@@ -300,7 +303,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			deathCheck();
 		}
 	}
-	
+
 	/**
 	* Calculate the current O2 needed by the crew memeber given the intensity of the activity for the current tick.
 	* Algorithm derived from "Top Level Modeling of Crew Component of ALSS" by Goudrazi and Ting
@@ -316,7 +319,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		Double result = new Double((a+b * Math.pow(heartRate, 3f)) * 60f);
 		return result.floatValue(); //Liters/hour
 	}
-	
+
 	/**
 	* Calculate the current CO2 produced by the crew memeber given the O2 consumed for the current tick.
 	* Algorithm derived from "Top Level Modeling of Crew Component of ALSS" by Goudrazi and Ting
@@ -327,7 +330,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		Double result = new Double(O2Consumed * 0.86);
 		return result.floatValue();
 	}
-	
+
 	/**
 	* Calculate the current O2 produced by the crew memeber given the O2 consumed for the current tick.
 	* Algorithm derived from "Top Level Modeling of Crew Component of ALSS" by Goudrazi and Ting
@@ -338,7 +341,11 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		Double result = new Double(O2Consumed * 0.14);
 		return result.floatValue();
 	}
-	
+
+	public int hashCode(){
+		return myName.hashCode();
+	}
+
 	/**
 	* Calculate the current food needed (in kilograms) by the crew memeber given the intensity of the activity for the current tick.
 	* Algorithm derived from "Top Level Modeling of Crew Component of ALSS" by Goudrazi and Ting
@@ -367,7 +374,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		Double kgFoodNeeded = new Double(caloriesNeeded / energyFromFood);
 		return kgFoodNeeded.floatValue();
 	}
-	
+
 	/**
 	* Calculate the dirty water produced given the potable water consumed for the current tick.
 	* @param cleanWaterConsumed the potable water consumed (in liters) during this tick
@@ -377,7 +384,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		Double result = new Double(cleanWaterConsumed * 0.3625);
 		return result.floatValue();
 	}
-	
+
 	/**
 	* Calculate the grey water produced given the potable water consumed for the current tick.
 	* @param cleanWaterConsumed the potable water consumed (in liters) during this tick
@@ -387,7 +394,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		Double result = new Double(cleanWaterConsumed * 0.6375);
 		return result.floatValue();
 	}
-	
+
 	/**
 	* Calculate the clean water needed given the activity intensity for the current tick.
 	* @param currentActivityIntensity the activity intensity for the current tick
@@ -399,7 +406,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		else
 			return 0f;
 	}
-	
+
 	/**
 	* Calculate the CO2 ratio in the breath of air inhaled by the crew member.
 	* Used to see if crew member has inhaled lethal amount of CO2
@@ -410,7 +417,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		Double ratio = new Double(aBreath.CO2 / (aBreath.O2 + aBreath.CO2 + aBreath.other));
 		return ratio.floatValue();
 	}
-	
+
 	/**
 	* If not all the resources required were consumed, we damage the crew member.
 	*/
@@ -449,7 +456,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			suffocateTime = 0;
 		}
 	}
-	
+
 	/**
 	* Checks to see if crew memeber has been lethally damaged (i.e., hasn't received a resource for too many ticks)
 	*/
@@ -486,7 +493,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			timeActivityPerformed = 0;
 		}
 	}
-	
+
 	/**
 	* Attempts to consume resource for this crew memeber.
 	* inhales/drinks/eats, then exhales/excretes
@@ -508,5 +515,131 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		myGreyWaterStore.add(greyWaterProduced);
 		myCurrentEnvironment.addCO2(CO2Produced);
 		myCurrentEnvironment.addOther(airRetrieved.other);
+	}
+
+	public void processLog(LogNode myLogHead){
+		//If not initialized, fill in the log
+		if (!logInitialized){
+			myLogIndex = new LogIndex();
+			LogNode nameHead = myLogHead.addChild("Name");
+			myLogIndex.nameIndex = nameHead.addChild(""+myName);
+			LogNode currentActivityHead = myLogHead.addChild("Current Activity");
+			myLogIndex.currentActivityIndex = currentActivityHead.addChild(""+myCurrentActivity.getName());
+			LogNode currentActivityOrderHead = myLogHead.addChild("Current Activity Order");
+			myLogIndex.currentActivityOrderIndex = currentActivityOrderHead.addChild(""+currentOrder);
+			LogNode timeActivityPerformedHead = myLogHead.addChild("Duration of Activity");
+			myLogIndex.timeActivityPerformedIndex = timeActivityPerformedHead.addChild(""+timeActivityPerformed);
+			LogNode starvingTimeHead = myLogHead.addChild("Starving Time");
+			myLogIndex.starvingTimeIndex = starvingTimeHead.addChild(""+starvingTime);
+			LogNode thirstTimeHead = myLogHead.addChild("Thirst Time");
+			myLogIndex.thirstTimeIndex = thirstTimeHead.addChild(""+thirstTime);
+			LogNode suffocateTimeHead = myLogHead.addChild("Suffocate Time");
+			myLogIndex.suffocateTimeIndex = suffocateTimeHead.addChild(""+suffocateTime);
+			LogNode poisonTimeHead = myLogHead.addChild("Poison Time");
+			myLogIndex.poisonTimeIndex = poisonTimeHead.addChild(""+poisonTime);
+			LogNode personStarvingHead = myLogHead.addChild("Person Starving");
+			myLogIndex.personStarvingIndex = personStarvingHead.addChild(""+personStarving);
+			LogNode personThirstyHead = myLogHead.addChild("Person Thirsty");
+			myLogIndex.personThirstyIndex = personThirstyHead.addChild(""+personThirsty);
+			LogNode personSuffocatingHead = myLogHead.addChild("Person Suffocating");
+			myLogIndex.personSuffocatingIndex = personSuffocatingHead.addChild(""+personSuffocating);
+			LogNode personPoisonedHead = myLogHead.addChild("Person Poisoned");
+			myLogIndex.personPoisonedIndex = personPoisonedHead.addChild(""+personPoisoned);
+			LogNode hasDiedHead = myLogHead.addChild("Has Died");
+			myLogIndex.hasDiedIndex = hasDiedHead.addChild(""+hasDied);
+			LogNode ageHead = myLogHead.addChild("Age");
+			myLogIndex.ageIndex = ageHead.addChild(""+age);
+			LogNode weightHead = myLogHead.addChild("Weight");
+			myLogIndex.weightIndex = weightHead.addChild(""+weight);
+			LogNode sexHead = myLogHead.addChild("Sex");
+			if (sex == Sex.male)
+				myLogIndex.sexIndex = sexHead.addChild("male");
+			else if (sex == Sex.female)
+				myLogIndex.sexIndex = sexHead.addChild("female");
+			LogNode O2ConsumedHead = myLogHead.addChild("O2 Consumed");
+			myLogIndex.O2ConsumedIndex = O2ConsumedHead.addChild(""+O2Consumed);
+			LogNode CO2ProducedHead = myLogHead.addChild("CO2 Produced");
+			myLogIndex.CO2ProducedIndex = CO2ProducedHead.addChild(""+CO2Produced);
+			LogNode foodConsumedHead = myLogHead.addChild("Food Consumed");
+			myLogIndex.foodConsumedIndex = foodConsumedHead.addChild(""+foodConsumed);
+			LogNode cleanWaterConsumedHead = myLogHead.addChild("Potable Water Consumed");
+			myLogIndex.cleanWaterConsumedIndex = cleanWaterConsumedHead.addChild(""+cleanWaterConsumed);
+			LogNode dirtyWaterProducedHead = myLogHead.addChild("Dirty Water Produced");
+			myLogIndex.dirtyWaterProducedIndex = dirtyWaterProducedHead.addChild(""+dirtyWaterProduced);
+			LogNode greyWaterProducedHead = myLogHead.addChild("Grey Water Produced");
+			myLogIndex.greyWaterProducedIndex = greyWaterProducedHead.addChild(""+greyWaterProduced);
+			LogNode O2NeededHead = myLogHead.addChild("O2 Needed");
+			myLogIndex.O2NeededIndex = O2NeededHead.addChild(""+O2Needed);
+			LogNode cleanWaterNeededHead = myLogHead.addChild("Potable Water Needed");
+			myLogIndex.cleanWaterNeededIndex = cleanWaterNeededHead.addChild(""+cleanWaterNeeded);
+			LogNode foodNeededHead = myLogHead.addChild("Food Needed");
+			myLogIndex.foodNeededIndex = foodNeededHead.addChild(""+foodNeeded);
+			LogNode airRetrievedHead = myLogHead.addChild("Air Retrieved");
+			myLogIndex.airRetrievedIndex = airRetrievedHead.addChild(airRetrieved.O2 + " # " +airRetrieved.CO2 +" # " +airRetrieved.other);
+			logInitialized = true; 
+		}
+		else{
+			myLogIndex.nameIndex.setValue(""+myName);
+			myLogIndex.currentActivityIndex.setValue(""+myCurrentActivity.getName());
+			myLogIndex.currentActivityOrderIndex.setValue(""+currentOrder);
+			myLogIndex.timeActivityPerformedIndex.setValue(""+timeActivityPerformed);
+			myLogIndex.starvingTimeIndex.setValue(""+starvingTime);
+			myLogIndex.thirstTimeIndex.setValue(""+thirstTime);
+			myLogIndex.suffocateTimeIndex.setValue(""+suffocateTime);
+			myLogIndex.poisonTimeIndex.setValue(""+poisonTime);
+			myLogIndex.personStarvingIndex.setValue(""+personStarving);
+			myLogIndex.personThirstyIndex.setValue(""+personThirsty);
+			myLogIndex.personSuffocatingIndex.setValue(""+personSuffocating);
+			myLogIndex.personPoisonedIndex.setValue(""+personPoisoned);
+			myLogIndex.hasDiedIndex.setValue(""+hasDied);
+			myLogIndex.ageIndex.setValue(""+age);
+			myLogIndex.weightIndex.setValue(""+weight);
+			if (sex == Sex.male)
+				myLogIndex.sexIndex.setValue("male");
+			else if (sex == Sex.female)
+				myLogIndex.sexIndex.setValue("female");
+			myLogIndex.O2ConsumedIndex.setValue(""+O2Consumed);
+			myLogIndex.CO2ProducedIndex.setValue(""+CO2Produced);
+			myLogIndex.foodConsumedIndex.setValue(""+foodConsumed);
+			myLogIndex.cleanWaterConsumedIndex.setValue(""+cleanWaterConsumed);
+			myLogIndex.dirtyWaterProducedIndex.setValue(""+dirtyWaterProduced);
+			myLogIndex.greyWaterProducedIndex.setValue(""+greyWaterProduced);
+			myLogIndex.O2NeededIndex.setValue(""+O2Needed);
+			myLogIndex.cleanWaterNeededIndex.setValue(""+cleanWaterNeeded);
+			myLogIndex.foodNeededIndex.setValue(""+foodNeeded);
+			myLogIndex.airRetrievedIndex.setValue(airRetrieved.O2 + " # " +airRetrieved.CO2 +" # " +airRetrieved.other);
+		}
+	}
+
+	/**
+	* For fast reference to the log tree
+	*/
+	private class LogIndex{
+		public LogNode nameIndex;
+		public LogNode currentActivityIndex;
+		public LogNode currentActivityOrderIndex;
+		public LogNode timeActivityPerformedIndex;
+		public LogNode starvingTimeIndex;
+		public LogNode thirstTimeIndex;
+		public LogNode suffocateTimeIndex;
+		public LogNode poisonTimeIndex;
+		public LogNode personStarvingIndex;
+		public LogNode personThirstyIndex;
+		public LogNode personSuffocatingIndex;
+		public LogNode personPoisonedIndex;
+		public LogNode hasDiedIndex;
+		public LogNode ageIndex;
+		public LogNode weightIndex;
+		public LogNode sexIndex;
+		public LogNode O2ConsumedIndex;
+		public LogNode CO2ProducedIndex;
+		public LogNode foodConsumedIndex;
+		public LogNode cleanWaterConsumedIndex;
+		public LogNode dirtyWaterProducedIndex;
+		public LogNode greyWaterProducedIndex;
+		public LogNode O2NeededIndex;
+		public LogNode cleanWaterNeededIndex;
+		public LogNode foodNeededIndex;
+		public LogNode airRetrievedIndex;
 	}
 }

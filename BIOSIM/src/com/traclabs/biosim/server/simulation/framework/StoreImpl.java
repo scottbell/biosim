@@ -1,6 +1,7 @@
 package biosim.server.framework;
 
 import biosim.idl.framework.*;
+import biosim.idl.util.*;
 /**
  * The basic Store Implementation.  Allows for basic store functionality (like adding, removing).
  *
@@ -12,6 +13,7 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 	protected float level = 0.0f;
 	//The capacity of what this store can hold
 	protected float capacity = 0.0f;
+	private LogIndex myLogIndex;
 	
 	/**
 	* Creates a Store with an initial level and capacity of 0
@@ -104,6 +106,31 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 	*/
 	public void reset(){
 		level = 0.0f;
+	}
+	
+	public void log(){
+		//If not initialized, fill in the log
+		if (!logInitialized){
+			myLogIndex = new LogIndex();
+			LogNode levelHead = myLog.getHead().addChild("level");
+			myLogIndex.levelIndex = levelHead.addChild((""+level));
+			LogNode capacityHead = myLog.getHead().addChild("capacity");
+			myLogIndex.capacityIndex = capacityHead.addChild((""+capacity));
+			logInitialized = true;
+		}
+		else{
+			myLogIndex.capacityIndex.setValue(""+capacity);
+			myLogIndex.levelIndex.setValue(""+level);
+		}
+		sendLog(myLog);
+	}
+	
+	/**
+	* For fast reference to the log tree
+	*/
+	private class LogIndex{
+		public LogNode levelIndex;
+		public LogNode capacityIndex;
 	}
 
 }

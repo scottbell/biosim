@@ -24,6 +24,8 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	* Called at every tick of the simulation.  Does nothing if not overriden.
 	*/
 	public void tick(){
+		if (moduleLogging)
+			log();
 	}
 
 	/**

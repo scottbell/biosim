@@ -13,6 +13,7 @@ public class LoggerImpl extends LoggerPOA  {
 	private LogHandlerType logType;
 	private boolean hasCollectedReferences = false;
 	private SimEnvironment myEnvironment;
+	private boolean processingLogs = true;
 	
 	public LoggerImpl(){
 		//use default handler (System.out)
@@ -42,6 +43,19 @@ public class LoggerImpl extends LoggerPOA  {
 		}
 	}
 	
+	/**
+	* Switch to turn off the Logger's processing of logs (useful to stop logging globally)
+	* @param pAllowLogging set <code>true</code> to have Logger process incoming logs (default) or
+	* <code>false</code> to disable log processing.
+	*/
+	public void setProcessingLogs(boolean pAllowLogging){
+		processingLogs = pAllowLogging;
+	}
+	
+	public boolean isProcessingLogs(){
+		return processingLogs;
+	}
+	
 	public void setLogHandlerType(LogHandlerType pLogType){
 		logType = pLogType;
 		if (logType == LogHandlerType.screen)
@@ -55,6 +69,8 @@ public class LoggerImpl extends LoggerPOA  {
 	}
 	
 	public void processLog(Log logToProcess){
+		if (!processingLogs)
+			return;
 		collectReferences();
 		LogNode headNode = logToProcess.getHead();
 		LogNode tickLabel = headNode.getChildShallow("tick");

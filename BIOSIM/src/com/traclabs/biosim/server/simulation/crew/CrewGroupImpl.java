@@ -5,6 +5,7 @@ import java.net.*;
 import java.util.*;
 import biosim.server.util.*;
 import biosim.idl.crew.*;
+import biosim.idl.util.*;
 import biosim.server.framework.*;
 /**
  * The Crew Implementation.  Holds multiple crew persons and their schedule.
@@ -18,6 +19,8 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 	//The crew persons that make up the crew.  
 	//They are the ones consuming air/food/water and producing air/water/waste as they perform activities
 	private Hashtable crewPeople;
+	private Hashtable crewPeopleLogs;
+	private boolean logInitialized = false;
 	
 	/**
 	* Default constructor.  Uses a default schedule.
@@ -130,6 +133,8 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 			CrewPersonImpl tempPerson = (CrewPersonImpl)(e.nextElement());
 			tempPerson.processTick();
 		}
+		if (moduleLogging)
+			log();
 	}
 	
 	/**
@@ -139,4 +144,30 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 		mySchedule.reset();
 		crewPeople = new Hashtable();
 	}
+	
+	public void log(){
+		//If not initialized, fill in the log
+		if (!logInitialized){
+			crewPeopleLogs = new Hashtable();
+			int i = 0;
+			for (Enumeration e = crewPeople.elements(); e.hasMoreElements(); ){
+				CrewPersonImpl currentPerson = (CrewPersonImpl)(e.nextElement());
+				LogNode newPersonLabel = myLog.getHead().addChild(currentPerson.getName());
+				crewPeopleLogs.put(currentPerson, newPersonLabel);
+				currentPerson.processLog(newPersonLabel);
+				i++;
+			}
+			logInitialized = true;
+		}
+		else{
+			for (Enumeration e = crewPeopleLogs.keys(); e.hasMoreElements();){
+				CrewPersonImpl currentPerson = (CrewPersonImpl)(e.nextElement());
+				LogNode crewPersonLabel = (LogNode)(crewPeopleLogs.get(currentPerson));
+				currentPerson.processLog(crewPersonLabel);
+			}
+		}
+		sendLog(myLog);
+	}
+
+	
 }
