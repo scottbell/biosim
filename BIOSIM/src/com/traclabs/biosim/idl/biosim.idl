@@ -664,7 +664,6 @@ module biosim{
 					float getMax();
 					float getMin();
                                 };
-				interface FlowRateSensor : GenericSensor{};
                         };
                         module air{
                                 interface O2StoreSensor : framework::GenericSensor{
@@ -904,7 +903,6 @@ module biosim{
 					float getMax();
 					float getMin();
                                 };
-				interface FlowRateActuator : GenericActuator{};
                         };
                         module air{
                                 interface O2InFlowRateActuator : framework::GenericActuator{

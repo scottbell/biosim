@@ -4,7 +4,7 @@ import biosim.server.actuator.framework.*;
 import biosim.idl.actuator.power.*;
 import biosim.idl.framework.*;
 
-public class PowerInFlowRateActuatorImpl extends FlowRateActuatorImpl implements PowerInFlowRateActuatorOperations{
+public class PowerInFlowRateActuatorImpl extends GenericActuatorImpl implements PowerInFlowRateActuatorOperations{
 	private PowerConsumer myConsumer;
 	private int myIndex;
 	
@@ -26,8 +26,8 @@ public class PowerInFlowRateActuatorImpl extends FlowRateActuatorImpl implements
 		myIndex = pIndex;
 	}
 	
-	protected FlowRateControllable getFlowOuput(){
-		return (FlowRateControllable)(myConsumer);
+	protected BioModule getModuleOuput(){
+		return (BioModule)(myConsumer);
 	}
 	
 	public PowerConsumer getOutput(){

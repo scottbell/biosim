@@ -26,6 +26,10 @@ public class FoodInFlowRateActuatorImpl extends GenericActuatorImpl implements F
 		myIndex = pIndex;
 	}
 	
+	protected BioModule getModuleOuput(){
+		return (BioModule)(myConsumer);
+	}
+	
 	public FoodConsumer getOutput(){
 		return myConsumer;
 	}

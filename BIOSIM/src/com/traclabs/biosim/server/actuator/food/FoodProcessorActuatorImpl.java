@@ -11,10 +11,7 @@ public abstract class FoodProcessorActuatorImpl extends GenericActuatorImpl impl
 	public FoodProcessorActuatorImpl(int pID){
 		super(pID);
 	}
-
-	protected abstract void processData();
-	protected abstract void notifyListeners();
-
+	
 	public void setOutput(FoodProcessor source){
 		myFoodProcessor = source;
 	}

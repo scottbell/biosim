@@ -31,6 +31,10 @@ public class CO2AirEnvironmentInFlowRateActuatorImpl extends GenericActuatorImpl
 		return myConsumer;
 	}
 	
+	protected BioModule getModuleOuput(){
+		return (BioModule)(myConsumer);
+	}
+	
 	public int getIndex(){
 		return myIndex;
 	}

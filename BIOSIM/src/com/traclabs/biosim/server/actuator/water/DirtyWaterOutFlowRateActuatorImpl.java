@@ -26,6 +26,10 @@ public class DirtyWaterOutFlowRateActuatorImpl extends GenericActuatorImpl imple
 		myIndex = pIndex;
 	}
 	
+	protected BioModule getModuleOuput(){
+		return (BioModule)(myProducer);
+	}
+	
 	public DirtyWaterProducer getOutput(){
 		return myProducer;
 	}

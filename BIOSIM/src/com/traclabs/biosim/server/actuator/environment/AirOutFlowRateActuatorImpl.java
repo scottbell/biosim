@@ -27,6 +27,10 @@ public class AirOutFlowRateActuatorImpl extends GenericActuatorImpl implements A
 		myIndex = pIndex;
 	}
 	
+	protected BioModule getModuleOuput(){
+		return (BioModule)(myProducer);
+	}
+	
 	public float getMax(){
 		return myProducer.getAirOutputMaxFlowRate(myIndex);
 	}

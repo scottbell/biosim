@@ -27,6 +27,10 @@ public class CO2AirEnvironmentOutFlowRateActuatorImpl extends GenericActuatorImp
 		myIndex = pIndex;
 	}
 	
+	protected BioModule getModuleOuput(){
+		return (BioModule)(myProducer);
+	}
+	
 	public float getMax(){
 		return myProducer.getCO2AirEnvironmentOutputMaxFlowRate(myIndex);
 	}
