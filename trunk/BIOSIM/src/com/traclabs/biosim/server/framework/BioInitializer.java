@@ -562,7 +562,6 @@ public class BioInitializer{
 	}
 
 	private Activity createActivity(Node node){
-		System.out.println("activity node name "+node.getNodeName());
 		String name = node.getAttributes().getNamedItem("name").getNodeValue();
 		int length = 0;
 		int intensity = 0;
