@@ -23,6 +23,7 @@ public class ShelfImpl extends ShelfPOA {
 	private float powerLevel = 0f;
 	private float powerPerLamp = 400f;
 	private float numberOfLamps = 1f;
+	private boolean autoHarvest = true;
 	
 
 	public ShelfImpl(PlantType pType, float pCropArea, BiomassRSImpl pBiomassImpl){
@@ -49,6 +50,14 @@ public class ShelfImpl extends ShelfPOA {
 
 	public float getCropArea(){
 		return cropArea;
+	}
+	
+	public boolean isAutoHarvestEnabled(){
+		return autoHarvest;
+	}
+	
+	public void setAutoHarvestEnabled(boolean pAutoHarvest){
+		autoHarvest = pAutoHarvest;
 	}
 
 	private float calculatePowerNeeded(){
@@ -113,6 +122,15 @@ public class ShelfImpl extends ShelfPOA {
 	public void harvest(){
 		myCrop.harvest();
 	}
+	
+	private void tryHarvesting(){
+		if (autoHarvest){
+			if (myCrop.readyForHarvest()){
+				float biomassProduced = myCrop.harvest();
+				float biomassLeft = myBiomassRSImpl.pushFractionalResourceToStore(myBiomassRSImpl.getBiomassOutputs(), myBiomassRSImpl.getBiomassOutputMaxFlowRates(), myBiomassRSImpl.getBiomassOutputDesiredFlowRates(), myBiomassRSImpl.getBiomassOutputActualFlowRates(), biomassProduced, myBiomassRSImpl.getNumberOfShelves());		
+			}
+		}
+	}
 
 	public void tick(){
 		gatherPower();
@@ -121,11 +139,10 @@ public class ShelfImpl extends ShelfPOA {
 		myCrop.tick();
 		flushWater();
 		flushPower();
+		tryHarvesting();
 	}
 
 	public void replant(PlantType pType){
-		if (pType == PlantType.WHEAT)
-			myCrop = new Wheat(this);
 	}
 
 	public void log(LogNode myLogHead){

@@ -588,6 +588,8 @@ module biosim{
                                 interface Shelf{
                                         void harvest();
                                         void replant(in PlantType pType);
+					void setAutoHarvestEnabled(in boolean pHarvestEnabled);
+					boolean isAutoHarvestEnabled();
                                 };
 
                                 interface Plant{
