@@ -96,7 +96,6 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 		crewPeople.put(pName, newCrewPerson);
 		return CrewPersonHelper.narrow((OrbUtils.poaToCorbaObj(newCrewPerson)));
 	}
-	
 	public CrewPerson createCrewPerson(String pName, float pAge, float pWeight, Sex pSex, Schedule pSchedule){
 		CrewPersonImpl newCrewPerson = new CrewPersonImpl(pName, pAge, pWeight, pSex, this, pSchedule);
 		crewPeople.put(pName, newCrewPerson);

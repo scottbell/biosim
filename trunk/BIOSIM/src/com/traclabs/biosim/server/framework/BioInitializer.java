@@ -134,11 +134,12 @@ public class BioInitializer{
 
 	public void parseFile(String fileToParse){
 		try{
-			//System.out.println("Starting to parse file: "+fileToParse);
+			System.out.print("Initializing...");
 			myParser.parse(fileToParse);
 			Document document = myParser.getDocument();
 			crawlBiosim(document, true);
 			crawlBiosim(document, false);
+			System.out.println("done");
 		}
 		catch (Exception e){
 			System.err.println("error: Parse error occurred - "+e.getMessage());
@@ -744,12 +745,10 @@ public class BioInitializer{
 	private Schedule createSchedule(Node node){
 		Schedule newSchedule = new Schedule();
 		Node child = node.getFirstChild();
-		int i = 0;
 		while(child != null){
 			if (child.getNodeName().equals("activity")){
 				Activity newActivity = createActivity(child);
-				newSchedule.insertActivityInSchedule(newActivity, i);
-				i++;
+				newSchedule.insertActivityInSchedule(newActivity);
 			}
 			child = child.getNextSibling();
 		}
