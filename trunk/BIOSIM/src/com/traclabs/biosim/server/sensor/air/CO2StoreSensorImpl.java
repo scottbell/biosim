@@ -5,7 +5,7 @@ import biosim.idl.sensor.air.*;
 import biosim.idl.simulation.air.*;
 
 public abstract class CO2StoreSensorImpl extends GenericSensorImpl implements CO2StoreSensorOperations{
-	protected CO2Store myCO2Store;
+	private CO2Store myCO2Store;
 	
 	public CO2StoreSensorImpl(int pID){
 		super(pID);

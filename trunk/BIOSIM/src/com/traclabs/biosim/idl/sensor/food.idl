@@ -10,13 +10,13 @@ module food{
 	};
         interface FoodStoreLevelSensor : FoodStoreSensor{};
 	interface BiomassFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::food::BiomassProducer source, in simulation::food::BiomassConsumer destination);
-		simulation::food::BiomassProducer getSource();
-		simulation::food::BiomassConsumer getDestination();
+		void setInput(in simulation::food::BiomassProducer source, in long indexSource, in simulation::food::BiomassConsumer destination, in long indexDestination);
+		simulation::food::BiomassProducer getProducer();
+		simulation::food::BiomassConsumer getConsumer();
 	};
 	interface FoodFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::food::FoodProducer source, in simulation::food::FoodConsumer destination);
-		simulation::food::FoodProducer getSource();
-		simulation::food::FoodConsumer getDestination();
+		void setInput(in simulation::food::FoodProducer source, in long indexSource, in simulation::food::FoodConsumer destination, in long indexDestination);
+		simulation::food::FoodProducer getProducer();
+		simulation::food::FoodConsumer getConsumer();
 	};
 };

@@ -10,7 +10,7 @@ public abstract class O2StoreLevelSensorImpl extends O2StoreSensorImpl implement
 	}
 
 	protected void gatherData(){
-		float preFilteredValue = myO2Store.getLevel();
+		float preFilteredValue = getInput().getLevel();
 		myValue = randomFilter(preFilteredValue);
 	}
 	protected void notifyListeners(){

@@ -10,7 +10,7 @@ public abstract class CO2StoreLevelSensorImpl extends CO2StoreSensorImpl impleme
 	}
 
 	protected void gatherData(){
-		float preFilteredValue = myCO2Store.getLevel();
+		float preFilteredValue = getInput().getLevel();
 		myValue = randomFilter(preFilteredValue);
 	}
 	protected void notifyListeners(){

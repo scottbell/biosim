@@ -5,7 +5,7 @@ import biosim.idl.sensor.air.*;
 import biosim.idl.simulation.air.*;
 
 public abstract class O2StoreSensorImpl extends GenericSensorImpl implements O2StoreSensorOperations{
-	protected O2Store myO2Store;
+	private O2Store myO2Store;
 	
 	public O2StoreSensorImpl(int pID){
 		super(pID);
