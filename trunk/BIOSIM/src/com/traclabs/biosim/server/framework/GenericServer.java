@@ -48,10 +48,8 @@ public class GenericServer{
 	*/
 	protected void registerServer(Servant pPOA, String serverName){
 		try{
-			NamingContextExt ncRef = OrbUtils.getNCRef();
 			// bind the Object Reference in Naming
-			NameComponent path[] = ncRef.to_name(serverName);
-			ncRef.rebind(path, OrbUtils.poaToCorbaObj(pPOA));
+			OrbUtils.getNCRef().rebind(OrbUtils.getNCRef().to_name(serverName), OrbUtils.poaToCorbaObj(pPOA));
 		}
 		catch (org.omg.CORBA.UserException e){
 			System.err.println(serverName+" had problems registering with nameservice, trying again..");
