@@ -1,65 +1,65 @@
 module biosim{
         module idl{
-		typedef sequence <string> StringList;
-		
+                typedef sequence <string> StringList;
+
                 module framework{
                         interface BioModule{
                                 void tick();
                                 string getModuleName();
-				void reset();
-				void setLogging(in boolean pLogging);
-				boolean isLogging();
+                                void reset();
+                                void setLogging(in boolean pLogging);
+                                boolean isLogging();
                         };
-			
-			interface Store : BioModule{
-				void setCapacity(in float metricAmount);
-				void setLevel(in float metricAmount);
-				float add(in float metricAmount);
+
+                        interface Store : BioModule{
+                                void setCapacity(in float metricAmount);
+                                void setLevel(in float metricAmount);
+                                float add(in float metricAmount);
                                 float take(in float metricAmount);
                                 float getLevel();
-				float getCapacity();
-			};
-			
-			interface BioDriver{
-				boolean isPaused();
-				boolean isStarted();
-				void spawnSimulation(in boolean pUseDefaultInitialization);
-				void pauseSimulation();
-				void endSimulation();
-				boolean simulationHasStarted();
-				void advanceOneTick();
-				void resumeSimulation();
-				void setLogging(in boolean pLogSim);
-				boolean isLogging();
-			};
+                                float getCapacity();
+                        };
+
+                        interface BioDriver{
+                                boolean isPaused();
+                                boolean isStarted();
+                                void spawnSimulation(in boolean pUseDefaultInitialization);
+                                void pauseSimulation();
+                                void endSimulation();
+                                boolean simulationHasStarted();
+                                void advanceOneTick();
+                                void resumeSimulation();
+                                void setLogging(in boolean pLogSim);
+                                boolean isLogging();
+                        };
                 };
-		
-		module util{
-			interface Log;
-			interface Logger;
-			interface LogNode;
-			enum LogHandlerType {screen,xml,flat,db};
-			interface Log{
-				LogNode getHead();
-			};
-			interface Logger{
-				void processLog(in Log thingToLog);
-				LogHandlerType getLogHandlerType();
-				void setLogHandlerType(in LogHandlerType pLogType);
-				void setProcessingLogs(in boolean pAllowLogging);
-				boolean isProcessingLogs();
-			};
-			typedef sequence <LogNode> LogNodeList;
-			interface LogNode{
-				string getValue();
-				void setValue(in string newValue);
-				LogNode addChild (in string pChildName);
-				LogNodeList getChildren();
-				boolean hasChildren();
-				LogNode getChildDeep(in string pName);
-				LogNode getChildShallow(in string pName);
-			};
-		};
+
+                module util{
+                        interface Log;
+                        interface Logger;
+                        interface LogNode;
+                        enum LogHandlerType {screen,xml,flat,db};
+                        interface Log{
+                                LogNode getHead();
+                        };
+                        interface Logger{
+                                void processLog(in Log thingToLog);
+                                LogHandlerType getLogHandlerType();
+                                void setLogHandlerType(in LogHandlerType pLogType);
+                                void setProcessingLogs(in boolean pAllowLogging);
+                                boolean isProcessingLogs();
+                        };
+                        typedef sequence <LogNode> LogNodeList;
+                        interface LogNode{
+                                string getValue();
+                                void setValue(in string newValue);
+                                LogNode addChild (in string pChildName);
+                                LogNodeList getChildren();
+                                boolean hasChildren();
+                                LogNode getChildDeep(in string pName);
+                                LogNode getChildShallow(in string pName);
+                        };
+                };
 
                 module crew{
                         interface Activity;
@@ -71,7 +71,7 @@ module biosim{
                                 string getName();
                                 long getTimeLength();
                                 long getActivityIntensity();
-				long getOrder();
+                                long getOrder();
                         };
                         interface CrewPerson{
                                 Activity getCurrentActivity();
@@ -81,17 +81,17 @@ module biosim{
                                 float getWeight();
                                 long getTimeActivityPerformed();
                                 Sex getSex();
-				boolean isStarving();
-				boolean isPoisoned();
-				boolean isThirsty();
-				boolean isSuffocating();
-				boolean isDead();
-				float getGreyWaterProduced();
-				float getDirtyWaterProduced();
-				float getPotableWaterConsumed();
-				float getFoodConsumed();
-				float getCO2Produced();
-				float getO2Consumed();
+                                boolean isStarving();
+                                boolean isPoisoned();
+                                boolean isThirsty();
+                                boolean isSuffocating();
+                                boolean isDead();
+                                float getGreyWaterProduced();
+                                float getDirtyWaterProduced();
+                                float getPotableWaterConsumed();
+                                float getFoodConsumed();
+                                float getCO2Produced();
+                                float getO2Consumed();
                         };
                         interface CrewGroup : framework::BioModule{
                                 Activity getScheduledActivityByName(in string name);
@@ -99,13 +99,13 @@ module biosim{
                                 CrewPerson getCrewPerson(in string name);
                                 CrewPerson createCrewPerson(in string name, in float age, in float weight, in Sex pSex);
                                 CrewPersonList getCrewPeople();
-				long getCrewSize();
-				float getGreyWaterProduced();
-				float getDirtyWaterProduced();
-				float getPotableWaterConsumed();
-				float getFoodConsumed();
-				float getCO2Produced();
-				float getO2Consumed();
+                                long getCrewSize();
+                                float getGreyWaterProduced();
+                                float getDirtyWaterProduced();
+                                float getPotableWaterConsumed();
+                                float getFoodConsumed();
+                                float getCO2Produced();
+                                float getO2Consumed();
                         };
                 };
 
@@ -122,7 +122,14 @@ module biosim{
                                 float getPowerConsumed();
                                 float getCO2Consumed();
                                 float getO2Produced();
-				float getCO2Produced();
+                                float getCO2Produced();
+                                boolean VCCRHasPower();
+                                boolean VCCRHasEnoughCO2();
+                                boolean CRSHasPower();
+                                boolean CRSHasEnoughCO2();
+                                boolean CRSHasEnoughH2();
+                                boolean OGSHasPower();
+                                boolean OGSHasEnoughH2O();
                         };
                         interface O2Store : framework::Store{
                         };
@@ -135,20 +142,20 @@ module biosim{
                                 float other;
                         };
                 };
-		
+
                 module food{
-			interface Shelf;
-			typedef sequence <Shelf> ShelfList;
+                        interface Shelf;
+                        typedef sequence <Shelf> ShelfList;
                         interface BiomassRS : framework::BioModule{
-				ShelfList getShelves();
-				float getTotalPotableWaterConsumed();
-				float getTotalGreyWaterConsumed();
-				float getTotalPowerConsumed();
-				float getTotalPlantArea();
-				float getTotalBiomassProduced();
-				StringList getPlantTypes();
-				float getTotalO2Produced();
-				float getTotalCO2Consumed();
+                                ShelfList getShelves();
+                                float getTotalPotableWaterConsumed();
+                                float getTotalGreyWaterConsumed();
+                                float getTotalPowerConsumed();
+                                float getTotalPlantArea();
+                                float getTotalBiomassProduced();
+                                StringList getPlantTypes();
+                                float getTotalO2Produced();
+                                float getTotalCO2Consumed();
                         };
                         interface BiomassStore : framework::Store{
                         };
@@ -156,24 +163,24 @@ module biosim{
                                 float getBiomassConsumed();
                                 float getPowerConsumed();
                                 float getFoodProduced();
-				boolean hasPower();
-				boolean hasBiomass();
-			};
+                                boolean hasPower();
+                                boolean hasBiomass();
+                        };
                         interface FoodStore : framework::Store{
                         };
-			interface Shelf{
-				float getArea();
-				float getPowerConsumed();
-				float getGreyWaterConsumed();
-				float getPotableWaterConsumed();
-				float getO2Produced();
-				float getCO2Consumed();
-				float getBiomassProduced();
-				boolean hasWater();
-				boolean hasLight();
-				boolean isDead();
-				boolean hasCO2();
-			};
+                        interface Shelf{
+                                float getArea();
+                                float getPowerConsumed();
+                                float getGreyWaterConsumed();
+                                float getPotableWaterConsumed();
+                                float getO2Produced();
+                                float getCO2Consumed();
+                                float getBiomassProduced();
+                                boolean hasWater();
+                                boolean hasLight();
+                                boolean isDead();
+                                boolean hasCO2();
+                        };
                 };
 
                 module environment{
@@ -203,14 +210,14 @@ module biosim{
                                 float getPowerConsumed();
                                 float getDirtyWaterConsumed();
                                 float getGreyWaterConsumed();
-				boolean ROHasPower();
-				boolean AESHasPower();
-				boolean PPSHasPower();
-				boolean BWPHasPower();
-				boolean ROHasWater();
-				boolean AESHasWater();
-				boolean PPSHasWater();
-				boolean BWPHasWater();
+                                boolean ROHasPower();
+                                boolean AESHasPower();
+                                boolean PPSHasPower();
+                                boolean BWPHasPower();
+                                boolean ROHasWater();
+                                boolean AESHasWater();
+                                boolean PPSHasWater();
+                                boolean BWPHasWater();
                         };
                         interface PotableWaterStore : framework::Store{
                         };

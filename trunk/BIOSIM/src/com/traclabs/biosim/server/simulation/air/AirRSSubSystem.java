@@ -52,11 +52,7 @@ public abstract class AirRSSubSystem{
 		}
 	}
 
-	/**
-	* Tick does nothing by default
-	*/
-	public void tick(){
-	}
+	public abstract void tick();
 
 	public void log(LogNode myHead){
 		//If not initialized, fill in the log
