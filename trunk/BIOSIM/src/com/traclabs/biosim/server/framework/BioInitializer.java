@@ -60,7 +60,7 @@ public class BioInitializer extends DefaultHandler {
 	protected static final boolean DEFAULT_NAMESPACE_PREFIXES = false;
 
 	/** Default validation support (false). */
-	protected static final boolean DEFAULT_VALIDATION = false;
+	protected static final boolean DEFAULT_VALIDATION = true;
 
 	/** Default Schema validation support (false). */
 	protected static final boolean DEFAULT_SCHEMA_VALIDATION = true;
