@@ -17,6 +17,6 @@ public class O2StoreImpl extends StoreImpl implements O2StoreOperations {
 	* @return the name of this module
 	*/
 	public String getModuleName(){
-		return "O2Store";
+		return "O2Store"+getID();
 	}
 }

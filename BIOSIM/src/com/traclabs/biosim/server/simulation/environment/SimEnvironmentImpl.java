@@ -310,7 +310,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	* @return the name of this module
 	*/
 	public String getModuleName(){
-		return "SimEnvironment";
+		return "SimEnvironment"+getID();
 	}
 	
 	private void log(){

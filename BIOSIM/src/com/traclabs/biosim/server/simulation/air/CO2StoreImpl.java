@@ -20,6 +20,6 @@ public class CO2StoreImpl extends StoreImpl implements CO2StoreOperations {
 	* @return the name of this module
 	*/
 	public String getModuleName(){
-		return "CO2Store";
+		return "CO2Store"+getID();
 	}
 }

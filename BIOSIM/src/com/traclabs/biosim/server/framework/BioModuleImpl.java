@@ -43,6 +43,10 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	public boolean isLogging(){
 		return moduleLogging;
 	}
+	
+	public int getID(){
+		return myID;
+	}
 
 	protected void sendLog(LogNodeImpl logToProcess){
 		if (!collectedLogger){

@@ -18,6 +18,6 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 	* @return the name of this module
 	*/
 	public String getModuleName(){
-		return "BiomassStore";
+		return "BiomassStore"+getID();
 	}
 }

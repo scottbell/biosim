@@ -18,6 +18,6 @@ public class GreyWaterStoreImpl extends StoreImpl implements GreyWaterStoreOpera
 	* @return the name of this module
 	*/
 	public String getModuleName(){
-		return "GreyWaterStore";
+		return "GreyWaterStore"+getID();
 	}
 }
