@@ -22,7 +22,6 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	private LogIndex myLogIndex;
 	private VCCR myVCCR;
 	private CRS myCRS;
-	private H2Tank myH2Tank;
 	private CH4Tank myCH4Tank;
 	private OGS myOGS;
 	private O2Store[] myO2Stores;
@@ -64,7 +63,6 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 		super(pID);
 		myVCCR = new VCCR(this);
 		myCRS = new CRS(this);
-		myH2Tank = new H2Tank(this);
 		myCH4Tank = new CH4Tank(this);
 		myOGS = new OGS(this);
 
@@ -120,10 +118,6 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 		return myCRS;
 	}
 
-	H2Tank getH2Tank(){
-		return myH2Tank;
-	}
-
 	CH4Tank getCH4Tank(){
 		return myCH4Tank;
 	}
@@ -172,7 +166,6 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 		Arrays.fill(powerActualFlowRates, 0f);
 		myVCCR.tick();
 		myCRS.tick();
-		myH2Tank.tick();
 		myCH4Tank.tick();
 		myOGS.tick();
 	}
@@ -228,7 +221,6 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 		super.reset();
 		myVCCR.reset();
 		myCRS.reset();
-		myH2Tank.reset();
 		myCH4Tank.reset();
 		myOGS.reset();
 	}
