@@ -1,4 +1,4 @@
-package biosim.client.framework.gui;
+package biosim.client.framework;
 
 import javax.swing.Timer;
 import java.awt.event.*;
