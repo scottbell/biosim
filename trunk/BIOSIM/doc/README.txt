@@ -35,7 +35,10 @@ III. RUNNING BIOSIM
 			2) Type "run-server" (or "./run-server" if . is not in your path) without the quotes.
 			3) Type "run-client" (or "./run-client" if . is not in your path) without the quotes.
 
-IV. PROBLEMS?
+IV. MAKING YOUR OWN CLIENT
+	TestBiosim.java should of been included in this distribution (in the directory called docs).
+	It is a nice example of how to create a client for BioSim (controller, viewer, etc).
+V. PROBLEMS?
 	If you have any problems, please contact me at scott@traclabs.com and I'll try to help.
 		
 	

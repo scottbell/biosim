@@ -20,8 +20,15 @@ if [ $? != 0 ]; then
 	echo "		-couldn't find javadoc command!"
 	#should quit here
 fi
+
 docString="/doc"
 docDir=$devRootDir$docString
+apiString="/api"
+apiDir=$docDir$apiString
+if [ ! -e "$apiDir" ]; then
+	mkdir $apiDir
+	echo "		-creating api documents directory"
+fi
 separator=":"
 machineType=`uname`
 winName="CYGWIN"
@@ -58,12 +65,12 @@ docClasspath="$clientClassesDir$separator$serverClassesDir$separator$jacoClasspa
 ####################
 echo "	-creating docs"
 echo "		-creating package list"
-java -classpath $devRootDir/lib/docutil/doccheck.jar com.sun.tools.doclets.util.PackageList -skipAll CVS $sourceDir $serverGenDir$skeletonString > $docDir/package-list
+java -classpath $devRootDir/lib/docutil/doccheck.jar com.sun.tools.doclets.util.PackageList -skipAll CVS $sourceDir $serverGenDir$skeletonString > $apiDir/package-list
 echo "		-creating html documentation"
-javadocInvocation="$javadocCommand -breakiterator -d $docDir -classpath $docClasspath -sourcepath $docSourcepath"
-$javadocInvocation @$docDir/package-list > /dev/null
+javadocInvocation="$javadocCommand -breakiterator -d $apiDir -classpath $docClasspath -sourcepath $docSourcepath"
+$javadocInvocation @$apiDir/package-list > /dev/null
 echo "		-removing package list"
-rm -f $docDir/package-list
+rm -f $apiDir/package-list
 echo "*done creating biosim docs"
 
 
