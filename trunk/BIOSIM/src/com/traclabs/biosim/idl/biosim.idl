@@ -91,7 +91,6 @@ module biosim{
                         };
                 };
                 module framework{
-                        enum BioDriverInit {DEFAULT_INIT, OPTIMAL_INIT, FLOWS_ONLY_INIT, NO_INIT};
                         enum StochasticIntensity {HIGH_STOCH, MEDIUM_STOCH, LOW_STOCH, NONE_STOCH};
                         enum MalfunctionIntensity {SEVERE_MALF, MEDIUM_MALF, LOW_MALF};
                         enum MalfunctionLength {TEMPORARY_MALF, PERMANENT_MALF};
@@ -187,6 +186,9 @@ module biosim{
 				void setModules(in BioModuleList pModules);
 				void setSensors(in BioModuleList pSensors);
 				void setActuators(in BioModuleList pActuators);
+				BioModuleList getModules();
+				BioModuleList getSensors();
+				BioModuleList getActuators();
 				void setCrewsToWatch(in simulation::crew::CrewGroupList pCrews);
                                 string getName();
                                 boolean isDone();
