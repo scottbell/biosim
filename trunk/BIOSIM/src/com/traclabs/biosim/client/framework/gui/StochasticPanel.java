@@ -13,7 +13,7 @@ import biosim.idl.framework.*;
  */
 public class StochasticPanel extends TimedPanel
 {
-	private Hashtable myMalfunctionVariables;
+	private JSlider mySlider;
 	private JList moduleList;
 	private JPanel myModulePanel;
 	private JPanel myOperatorPanel;
@@ -29,11 +29,18 @@ public class StochasticPanel extends TimedPanel
 
 	public void refresh(){
 		BioModule myModule = getSelectedModule();
-		if (myModule == null)
+		if ((myModule == null) || (mySlider == null))
 			return;
 		else{
-			//find where slider used to be
-		}
+			if (myModule.getStochasticIntensity() == StochasticIntensity.NONE_STOCH)
+				mySlider.setValue(0);
+			else if (myModule.getStochasticIntensity() == StochasticIntensity.LOW_STOCH)
+				mySlider.setValue(1);
+			else if (myModule.getStochasticIntensity() == StochasticIntensity.MEDIUM_STOCH)
+				mySlider.setValue(2);
+			else if (myModule.getStochasticIntensity() == StochasticIntensity.HIGH_STOCH)
+				mySlider.setValue(3);
+		}               
 	}
 
 	protected void buildGui(){
@@ -72,6 +79,7 @@ public class StochasticPanel extends TimedPanel
 		moduleList = new JList(myModuleNames);
 		moduleList.addListSelectionListener(new ModuleListener());
 		moduleList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		moduleList.setSelectedIndex(0);
 		c.fill = GridBagConstraints.BOTH;
 		c.gridheight = 1;
 		c.weightx = 1.0;
@@ -86,6 +94,24 @@ public class StochasticPanel extends TimedPanel
 
 	private void createOperatorPanel(){
 		myOperatorPanel = new JPanel();
+		myOperatorPanel.setLayout(new BorderLayout());
+		//Create the slider
+		mySlider = new JSlider(JSlider.HORIZONTAL,0, 3, 0);
+		mySlider.setSnapToTicks(true);
+		mySlider.addChangeListener(new SliderListener());
+		mySlider.setMajorTickSpacing(1);
+		mySlider.setPaintTicks(true);
+
+		//Create the label table
+		Hashtable labelTable = new Hashtable();
+		labelTable.put( new Integer( 0 ), new JLabel("None") );
+		labelTable.put( new Integer( 1 ), new JLabel("Low") );
+		labelTable.put( new Integer( 2 ), new JLabel("Medium") );
+		labelTable.put( new Integer( 3 ), new JLabel("High") );
+		mySlider.setLabelTable( labelTable );
+		mySlider.setPaintLabels(true);
+		mySlider.setBorder(BorderFactory.createEmptyBorder(0,0,0,10));
+		myOperatorPanel.add(mySlider, BorderLayout.CENTER);
 	}
 
 	/**
@@ -116,6 +142,20 @@ public class StochasticPanel extends TimedPanel
 		myFrame.setVisible(true);
 		myFrame.setIconImage(myStochasticPanel.getIcon().getImage());
 		myStochasticPanel.visibilityChange(true);
+	}
+
+	private class SliderListener implements ChangeListener {
+		public void stateChanged(ChangeEvent e) {
+			int stochasticChoice = (int)mySlider.getValue();
+			if (stochasticChoice == 0)
+				getSelectedModule().setStochasticIntensity(StochasticIntensity.NONE_STOCH);
+			else if (stochasticChoice == 1)
+				getSelectedModule().setStochasticIntensity(StochasticIntensity.LOW_STOCH);
+			else if (stochasticChoice == 2)
+				getSelectedModule().setStochasticIntensity(StochasticIntensity.MEDIUM_STOCH);
+			else if (stochasticChoice == 3)
+				getSelectedModule().setStochasticIntensity(StochasticIntensity.HIGH_STOCH);
+		}
 	}
 
 	private BioModule getSelectedModule(){

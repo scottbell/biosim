@@ -85,6 +85,7 @@ public class MalfunctionPanel extends TimedPanel
 		moduleList = new JList(myModuleNames);
 		moduleList.addListSelectionListener(new ModuleListener());
 		moduleList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		moduleList.setSelectedIndex(0);
 		c.fill = GridBagConstraints.BOTH;
 		c.gridheight = 1;
 		c.weightx = 1.0;
