@@ -77,6 +77,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private SimpleBuffer consumedOxygenBuffer;
 	private SimpleBuffer consumedCaloriesBuffer;
 	private SimpleBuffer consumedCO2Buffer;
+	private SimpleBuffer sleepBuffer;
+	private SimpleBuffer leisureBuffer;
 	private static final float WATER_TILL_DEAD = 8.1f;
 	private static final float WATER_RECOVERY_RATE=0.01f;
 	private static final float OXYGEN_TILL_DEAD = 3f;
@@ -86,6 +88,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private static final float DANGEROUS_CO2_RATION = 0.06f;
 	private static final float CO2_TILL_DEAD = 10f;
 	private static final float CO2_RECOVERY_RATE=0.001f;
+	private static final float LEISURE_TILL_BURNOUT = 168f;
+	private static final float LEISURE_RECOVERY_RATE=24f;
+	private static final float SLEEP_TILL_EXHAUSTION = 48f;
+	private static final float SLEEP_RECOVERY_RATE=2f;
 
 	/**
 	* Constructor that creates a new crew person

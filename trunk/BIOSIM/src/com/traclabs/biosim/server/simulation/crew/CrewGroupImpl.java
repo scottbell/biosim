@@ -256,6 +256,17 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 		}
 		return productivity;
 	}
+	
+	public boolean anyDead(){
+		if (crewPeople.size() < 1)
+			return false;
+		for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();){
+			CrewPersonImpl currentPerson = (CrewPersonImpl)(iter.next());
+			if (currentPerson.isDead())
+				return true;
+		}
+		return false;
+	}
 
 	public boolean isDead(){
 		if (crewPeople.size() < 1)
