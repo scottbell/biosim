@@ -767,6 +767,13 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 	
+	<xsd:simpleType name="AirRSImplementationType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="NORMAL"/>
+			<xsd:enumeration value="LINEAR"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
 	
 	<!-- Special CrewGroup specific declarations -->
 	<xsd:complexType name="ScheduleType">
@@ -856,7 +863,6 @@
 	</xsd:simpleType>
 	
 	<!-- SimModule declarations -->
-	
 	<xsd:complexType name="AirRSType">  
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
@@ -872,7 +878,8 @@
 					<xsd:element name="CO2Producer" type="CO2ProducerType"/>
 					<xsd:element name="H2Producer" type="H2ProducerType"/>
 				</xsd:sequence>
-			<!--<xsd:attribute name="operationMode" type="AirRSOperationMode" default="FULL"/> -->
+				<!--<xsd:attribute name="operationMode" type="AirRSOperationMode" default="FULL"/> -->
+				<xsd:attribute name="implementation" type="AirRSImplementationType" default="NORMAL"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>

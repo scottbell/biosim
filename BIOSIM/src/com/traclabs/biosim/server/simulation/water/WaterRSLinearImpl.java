@@ -2,7 +2,6 @@ package com.traclabs.biosim.server.simulation.water;
 
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
-import com.traclabs.biosim.idl.framework.TechSpecificInfoHelper;
 import com.traclabs.biosim.idl.simulation.framework.DirtyWaterConsumerOperations;
 import com.traclabs.biosim.idl.simulation.framework.GreyWaterConsumerOperations;
 import com.traclabs.biosim.idl.simulation.framework.PotableWaterProducerOperations;
@@ -15,8 +14,6 @@ import com.traclabs.biosim.idl.simulation.water.WaterRSOperationMode;
 import com.traclabs.biosim.idl.simulation.water.WaterRSOperations;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 import com.traclabs.biosim.server.util.Engine;
-import com.traclabs.biosim.server.util.MatlabAceEngine;
-import com.traclabs.biosim.server.util.OrbUtils;
 
 //import java.lang.*;
 
@@ -35,6 +32,10 @@ public class WaterRSLinearImpl extends SimBioModuleImpl implements
         PotableWaterProducerOperations {
     //The various subsystems of Water RS that clean the water
     private LogIndex myLogIndex;
+    
+    private float currentPowerConsumed = 0f;
+    
+    private float currentWaterConsumed = 0f;
 
     private PowerStore[] myPowerInputs;
 
@@ -96,14 +97,6 @@ public class WaterRSLinearImpl extends SimBioModuleImpl implements
         dirtyWaterDesiredFlowRates = new float[0];
         greyWaterDesiredFlowRates = new float[0];
         potableWaterDesiredFlowRates = new float[0];
-        //use this object to play with
-        myTechSpecificInfoImpl = new WaterRSMatlabTechInfoImpl();
-        //don't touch this one.
-        myTechSpecificInfo = TechSpecificInfoHelper.narrow(OrbUtils
-                .poaToCorbaObj(myTechSpecificInfoImpl));
-
-        myTechSpecificInfoImpl.changeString("matlab changed string");
-        myEngine = new MatlabAceEngine();
     }
 
     /**
@@ -112,14 +105,35 @@ public class WaterRSLinearImpl extends SimBioModuleImpl implements
     public void reset() {
         super.reset();
     }
+    
+    private void gatherPower() {
+        currentPowerConsumed = getMostResourceFromStore(myPowerInputs, powerMaxFlowRates, powerDesiredFlowRates, powerActualFlowRates);
+    }
+    
+    private void gatherWater() {
+        float waterNeeded = currentPowerConsumed;
+        float currentDirtyWaterConsumed = SimBioModuleImpl.getResourceFromStore(getDirtyWaterInputs(), getDirtyWaterInputMaxFlowRates(), getDirtyWaterInputDesiredFlowRates(), getDirtyWaterInputActualFlowRates(), waterNeeded);
+        float currentGreyWaterConsumed = SimBioModuleImpl.getResourceFromStore(getGreyWaterInputs(), getGreyWaterInputMaxFlowRates(), getGreyWaterInputDesiredFlowRates(), getGreyWaterInputActualFlowRates(), waterNeeded - currentDirtyWaterConsumed);
+        currentWaterConsumed = currentDirtyWaterConsumed
+                + currentGreyWaterConsumed;
+    }
+    
+    /**
+     * Flushes the water from this subsystem (via the WaterRS) to the Potable
+     * Water Store
+     */
+    private void pushWater() {
+        float distributedWaterLeft = pushResourceToStore(getPotableWaterOutputs(), getPotableWaterOutputMaxFlowRates(), getPotableWaterOutputDesiredFlowRates(), getPotableWaterOutputActualFlowRates(), currentWaterConsumed);
+    }
 
     /**
-     * When ticked, the Water RS: 1) ticks each subsystem.
+     * When ticked, the Water RS: 1) gets as much water as it can in relation to power
      */
     public void tick() {
-        myLogger.debug("tick");
         super.tick();
-
+        gatherPower();
+        gatherWater();
+        pushWater();
     }
 
     protected void performMalfunctions() {

@@ -124,6 +124,7 @@ import com.traclabs.biosim.idl.simulation.water.WaterStoreHelper;
 import com.traclabs.biosim.server.framework.BioInitializer;
 import com.traclabs.biosim.server.framework.BiosimServer;
 import com.traclabs.biosim.server.simulation.air.AirRSImpl;
+import com.traclabs.biosim.server.simulation.air.AirRSLinearImpl;
 import com.traclabs.biosim.server.simulation.air.CO2StoreImpl;
 import com.traclabs.biosim.server.simulation.air.H2StoreImpl;
 import com.traclabs.biosim.server.simulation.air.NitrogenStoreImpl;
@@ -149,6 +150,7 @@ import com.traclabs.biosim.server.simulation.water.DirtyWaterStoreImpl;
 import com.traclabs.biosim.server.simulation.water.GreyWaterStoreImpl;
 import com.traclabs.biosim.server.simulation.water.PotableWaterStoreImpl;
 import com.traclabs.biosim.server.simulation.water.WaterRSImpl;
+import com.traclabs.biosim.server.simulation.water.WaterRSLinearImpl;
 import com.traclabs.biosim.server.simulation.water.WaterRSMatlabImpl;
 import com.traclabs.biosim.server.util.OrbUtils;
 
@@ -737,10 +739,22 @@ public class SimulationInitializer {
     private void createAirRS(Node node) {
         String moduleName = BioInitializer.getModuleName(node);
         if (BioInitializer.isCreatedLocally(node)) {
-            AirRSImpl myAirRSImpl = new AirRSImpl(myID, moduleName);
-            BioInitializer.setupBioModule(myAirRSImpl, node);
-            BiosimServer.registerServer(new AirRSPOATie(myAirRSImpl),
-                    myAirRSImpl.getModuleName(), myAirRSImpl.getID());
+            myLogger.debug("Creating AirRS with moduleName: " + moduleName);
+            String implementationString = node.getAttributes().getNamedItem(
+                    "implementation").getNodeValue();
+            if (implementationString.equals("LINEAR")) {
+                myLogger.debug("created linear WaterRS...");
+                AirRSLinearImpl myAirRSImpl = new AirRSLinearImpl(myID,
+                        moduleName);
+                BioInitializer.setupBioModule(myAirRSImpl, node);
+                BiosimServer.registerServer(new AirRSPOATie(myAirRSImpl),
+                        myAirRSImpl.getModuleName(), myAirRSImpl.getID());
+            } else {
+                AirRSImpl myAirRSImpl = new AirRSImpl(myID, moduleName);
+                BioInitializer.setupBioModule(myAirRSImpl, node);
+                BiosimServer.registerServer(new AirRSPOATie(myAirRSImpl),
+                        myAirRSImpl.getModuleName(), myAirRSImpl.getID());
+            }
         } else
             BioInitializer.printRemoteWarningMessage(moduleName);
     }
@@ -1431,8 +1445,8 @@ public class SimulationInitializer {
                 BiosimServer.registerServer(new WaterRSPOATie(myWaterRSImpl),
                         myWaterRSImpl.getModuleName(), myWaterRSImpl.getID());
             } else if (implementationString.equals("LINEAR")) {
-                myLogger.debug("created Matlab WaterRS...");
-                WaterRSMatlabImpl myWaterRSImpl = new WaterRSMatlabImpl(myID,
+                myLogger.debug("created linear WaterRS...");
+                WaterRSLinearImpl myWaterRSImpl = new WaterRSLinearImpl(myID,
                         moduleName);
                 BioInitializer.setupBioModule(myWaterRSImpl, node);
                 BiosimServer.registerServer(new WaterRSPOATie(myWaterRSImpl),
