@@ -732,6 +732,7 @@
 	<xsd:complexType name="FoodStoreType">  
 		<xsd:complexContent>
 			<xsd:extension base="Store">
+					<xsd:attribute name="resupplyAmount" type="xsd:nonNegativeInteger" default="0"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
