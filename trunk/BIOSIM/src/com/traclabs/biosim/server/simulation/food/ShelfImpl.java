@@ -52,8 +52,36 @@ public class ShelfImpl extends ShelfPOA {
 		}
 	}
 	
+	public boolean hasWater(){
+		return myCrop.hasWater();
+	}
+	
+	public boolean hasLight(){
+		return myCrop.hasLight();
+	}
+	
+	public boolean isDead(){
+		return myCrop.isDead();
+	}
+	
+	public boolean hasCO2(){
+		return myCrop.hasCO2();
+	}
+	
 	public float getArea(){
 		return totalArea;
+	}
+	
+	public float getCO2Consumed(){
+		return myCrop.getCO2Consumed();
+	}
+	
+	public float getBiomassProduced(){
+		return myCrop.getBiomassProduced();
+	}
+	
+	public float getO2Produced(){
+		return myCrop.getO2Produced();
 	}
 	
 	public float getPowerConsumed(){

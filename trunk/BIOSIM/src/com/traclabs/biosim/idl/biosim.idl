@@ -147,7 +147,10 @@ module biosim{
 				float getTotalGreyWaterConsumed();
 				float getTotalPowerConsumed();
 				float getTotalPlantArea();
+				float getTotalBiomassProduced();
 				StringList getPlantTypes();
+				float getTotalO2Produced();
+				float getTotalCO2Consumed();
                         };
                         interface BiomassStore : framework::Store{
                         };
@@ -165,6 +168,13 @@ module biosim{
 				float getPowerConsumed();
 				float getGreyWaterConsumed();
 				float getPotableWaterConsumed();
+				float getO2Produced();
+				float getCO2Consumed();
+				float getBiomassProduced();
+				boolean hasWater();
+				boolean hasLight();
+				boolean isDead();
+				boolean hasCO2();
 			};
                 };
 
