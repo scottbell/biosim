@@ -13,16 +13,17 @@ then
 fi
 userManDir="$devRootDir/doc/users_manual_files"
 cd $userManDir
+echo `pwd`
+touch users_manual.ind
 latex users_manual.tex
-#makeindex users_manual.idx
-#bibtex users_manual.tex
-#latex users_manual.tex
-#latex users_manual.tex
-#dvips -o users_manual.ps users_manual.dvi
-#ps2pdf users_manual.ps
+makeindex users_manual.idx
+bibtex users_manual.tex
+latex users_manual.tex
+dvips -o users_manual.ps users_manual.dvi
+ps2pdf users_manual.ps
 if [ "$1" == "show" ]; then
 	echo "		-launching kghostview"
-	#kghostview users_manual.pdf &
+	kghostview users_manual.pdf &
 fi
 cd $currentDir
 echo "*done users manual"
