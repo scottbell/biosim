@@ -529,7 +529,6 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	* Sets flag that simulation is running, intializes servers (if applicable), then begins ticking them.
 	*/
 	public void run(){
-		simulationStarted = true;
 		ticksGoneBy = 0;
 		if (initializationToUse == BioDriverInit.DEFAULT_INIT){
 			System.out.println("BioDriverImpl:"+myID+" Initializing default simulation...");
@@ -549,6 +548,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		System.out.println("BioDriverImpl:"+myID+" configuring actuator outputs");
 		configureActuatorsOutputs();
 		System.out.println("BioDriverImpl:"+myID+" Running simulation...");
+		simulationStarted = true;
 		runSimulation();
 	}
 
