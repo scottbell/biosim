@@ -115,12 +115,16 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		CrewPerson myCrewPerson2 = myCrew.createCrewPerson("Stephanie Stevens", 25, 125, Sex.female);
 		CrewPerson myCrewPerson3 = myCrew.createCrewPerson("Bill Williams", 30, 165, Sex.male);
 		CrewPerson myCrewPerson4 = myCrew.createCrewPerson("Janet Janey", 22, 130, Sex.female);
+		//CrewPerson myCrewPerson5 = myCrew.createCrewPerson("Sarah Sanchez", 44, 135, Sex.female);
+		//CrewPerson myCrewPerson6 = myCrew.createCrewPerson("Marvin Metsky", 33, 145, Sex.male);
 
 		//stagger actvities
 		myCrewPerson1.setCurrentActivity(myCrew.getScheduledActivityByOrder(0));
 		myCrewPerson2.setCurrentActivity(myCrew.getScheduledActivityByOrder(1));
 		myCrewPerson3.setCurrentActivity(myCrew.getScheduledActivityByOrder(2));
 		myCrewPerson4.setCurrentActivity(myCrew.getScheduledActivityByOrder(3));
+		//myCrewPerson5.setCurrentActivity(myCrew.getScheduledActivityByOrder(4));
+		//myCrewPerson6.setCurrentActivity(myCrew.getScheduledActivityByOrder(5));
 
 		//Fill the clean water stores to the brim (20 liters), and all stores' capacities
 		DirtyWaterStore myDirtyWaterStore = (DirtyWaterStore)(getBioModule(dirtyWaterStoreName));
@@ -138,8 +142,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		O2Store myO2Store = (O2Store)(getBioModule(O2StoreName));
 		myCO2Store.setCapacity(1000f);
 		myO2Store.setCapacity(1000f);
-		myCO2Store.setLevel(0f);
-		myO2Store.setLevel(0f);
+		myCO2Store.setLevel(500f);
+		myO2Store.setLevel(250f);
 
 		//Put some air in the cabin
 		SimEnvironment mySimEnvironment = (SimEnvironment)(getBioModule(simEnvironmentName));

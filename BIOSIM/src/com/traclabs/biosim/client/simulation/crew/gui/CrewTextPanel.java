@@ -9,7 +9,7 @@ import java.awt.event.*;
 import java.awt.*;
 import java.util.*;
 import java.text.*;
-/** 
+/**
  * This is the JPanel that displays information about the crew and the resources they consume.
  * Each tick it polls the crew server for new information.
  *
@@ -31,7 +31,7 @@ public class CrewTextPanel extends BioTabPanel
 	private Vector crewPersonGUIVector;
 	//Used to format floats
 	private DecimalFormat numFormat;
-	
+
 	/**
 	* Creates and registers this panel.
 	* @param pBioSimulator	The Biosimulator this Panel will register itself with.
@@ -42,7 +42,7 @@ public class CrewTextPanel extends BioTabPanel
 		crewPersonGUIVector = new Vector();
 		buildGui();
 	}
-	
+
 	/**
 	* Refreshes GUI when simulation has been restarted and repacks panel
 	*/
@@ -54,7 +54,7 @@ public class CrewTextPanel extends BioTabPanel
 		if (mySimFrame != null)
 			mySimFrame.pack();
 	}
-	
+
 	/**
 	* Contructs GUI components, adds them to the panel.
 	*/
@@ -69,49 +69,51 @@ public class CrewTextPanel extends BioTabPanel
 			noCrewPanel.add(noCrewLabel);
 			add(noCrewPanel, BorderLayout.CENTER);
 		}
-		setLayout(new GridLayout(myCrewPeople.length / 2, 2));
-		for (int i = 0; i < myCrewPeople.length; i++){
-			JPanel newPersonPanel = new JPanel();
-			newPersonPanel.setLayout(new GridLayout(13,1));
-			newPersonPanel.setBorder(BorderFactory.createTitledBorder(myCrewPeople[i].getName()));
-			CrewPersonGUI newPersonGUI = new CrewPersonGUI();
-			newPersonGUI.name = myCrewPeople[i].getName();
-			newPersonGUI.ageLabel = new JLabel("age: "+myCrewPeople[i].getAge());
-			newPersonPanel.add(newPersonGUI.ageLabel);
-			newPersonGUI.weightLabel = new JLabel("weight: "+myCrewPeople[i].getWeight());
-			newPersonPanel.add(newPersonGUI.weightLabel);
-			String sexString;
-			if (myCrewPeople[i].getSex() == Sex.male)
-				sexString = "male";
-			else
-				sexString = "female";
-			newPersonGUI.sexLabel = new JLabel("sex: "+sexString);
-			newPersonPanel.add(newPersonGUI.sexLabel);
-			newPersonGUI.statusLabel = new JLabel("status: "+coallateStatus(myCrewPeople[i]));
-			newPersonPanel.add(newPersonGUI.statusLabel);
-			newPersonGUI.greyWaterProducedLabel = new JLabel("grey water produced: "+numFormat.format(myCrewPeople[i].getGreyWaterProduced())+" L");
-			newPersonPanel.add(newPersonGUI.greyWaterProducedLabel);
-			newPersonGUI.potableWaterConsumedLabel = new JLabel("potable water consumed: "+numFormat.format(myCrewPeople[i].getPotableWaterConsumed())+" L");
-			newPersonPanel.add(newPersonGUI.potableWaterConsumedLabel);
-			newPersonGUI.foodConsumedLabel = new JLabel("food consumed: "+numFormat.format(myCrewPeople[i].getFoodConsumed())+" kg");
-			newPersonPanel.add(newPersonGUI.foodConsumedLabel);
-			newPersonGUI.CO2ProducedLabel = new JLabel("CO2 produced: "+numFormat.format(myCrewPeople[i].getCO2Produced())+" L");
-			newPersonPanel.add(newPersonGUI.CO2ProducedLabel);
-			newPersonGUI.O2ConsumedLabel = new JLabel("O2 consumed: "+numFormat.format(myCrewPeople[i].getO2Consumed())+" L");
-			newPersonPanel.add(newPersonGUI.O2ConsumedLabel);
-			newPersonGUI.activityNameLabel = new JLabel("current activity: "+myCrewPeople[i].getCurrentActivity().getName());
-			newPersonPanel.add(newPersonGUI.activityNameLabel);
-			newPersonGUI.activityCurrentDurationLabel = new JLabel("	performed for: "+myCrewPeople[i].getTimeActivityPerformed()+" h");
-			newPersonPanel.add(newPersonGUI.activityCurrentDurationLabel);
-			newPersonGUI.activityTotalDurationLabel = new JLabel("	total duration: "+myCrewPeople[i].getCurrentActivity().getTimeLength()+" h");
-			newPersonPanel.add(newPersonGUI.activityTotalDurationLabel);
-			newPersonGUI.activityIntensityLabel = new JLabel("	intensity: "+myCrewPeople[i].getCurrentActivity().getActivityIntensity());
-			newPersonPanel.add(newPersonGUI.activityIntensityLabel); 
-			crewPersonGUIVector.add(newPersonGUI);
-			add(newPersonPanel);
+		else{
+			setLayout(new GridLayout(myCrewPeople.length / 2, myCrewPeople.length / 2));
+			for (int i = 0; i < myCrewPeople.length; i++){
+				JPanel newPersonPanel = new JPanel();
+				newPersonPanel.setLayout(new GridLayout(13,1));
+				newPersonPanel.setBorder(BorderFactory.createTitledBorder(myCrewPeople[i].getName()));
+				CrewPersonGUI newPersonGUI = new CrewPersonGUI();
+				newPersonGUI.name = myCrewPeople[i].getName();
+				newPersonGUI.ageLabel = new JLabel("age: "+myCrewPeople[i].getAge());
+				newPersonPanel.add(newPersonGUI.ageLabel);
+				newPersonGUI.weightLabel = new JLabel("weight: "+myCrewPeople[i].getWeight());
+				newPersonPanel.add(newPersonGUI.weightLabel);
+				String sexString;
+				if (myCrewPeople[i].getSex() == Sex.male)
+					sexString = "male";
+				else
+					sexString = "female";
+				newPersonGUI.sexLabel = new JLabel("sex: "+sexString);
+				newPersonPanel.add(newPersonGUI.sexLabel);
+				newPersonGUI.statusLabel = new JLabel("status: "+coallateStatus(myCrewPeople[i]));
+				newPersonPanel.add(newPersonGUI.statusLabel);
+				newPersonGUI.greyWaterProducedLabel = new JLabel("grey water produced: "+numFormat.format(myCrewPeople[i].getGreyWaterProduced())+" L");
+				newPersonPanel.add(newPersonGUI.greyWaterProducedLabel);
+				newPersonGUI.potableWaterConsumedLabel = new JLabel("potable water consumed: "+numFormat.format(myCrewPeople[i].getPotableWaterConsumed())+" L");
+				newPersonPanel.add(newPersonGUI.potableWaterConsumedLabel);
+				newPersonGUI.foodConsumedLabel = new JLabel("food consumed: "+numFormat.format(myCrewPeople[i].getFoodConsumed())+" kg");
+				newPersonPanel.add(newPersonGUI.foodConsumedLabel);
+				newPersonGUI.CO2ProducedLabel = new JLabel("CO2 produced: "+numFormat.format(myCrewPeople[i].getCO2Produced())+" L");
+				newPersonPanel.add(newPersonGUI.CO2ProducedLabel);
+				newPersonGUI.O2ConsumedLabel = new JLabel("O2 consumed: "+numFormat.format(myCrewPeople[i].getO2Consumed())+" L");
+				newPersonPanel.add(newPersonGUI.O2ConsumedLabel);
+				newPersonGUI.activityNameLabel = new JLabel("current activity: "+myCrewPeople[i].getCurrentActivity().getName());
+				newPersonPanel.add(newPersonGUI.activityNameLabel);
+				newPersonGUI.activityCurrentDurationLabel = new JLabel("	performed for: "+myCrewPeople[i].getTimeActivityPerformed()+" h");
+				newPersonPanel.add(newPersonGUI.activityCurrentDurationLabel);
+				newPersonGUI.activityTotalDurationLabel = new JLabel("	total duration: "+myCrewPeople[i].getCurrentActivity().getTimeLength()+" h");
+				newPersonPanel.add(newPersonGUI.activityTotalDurationLabel);
+				newPersonGUI.activityIntensityLabel = new JLabel("	intensity: "+myCrewPeople[i].getCurrentActivity().getActivityIntensity());
+				newPersonPanel.add(newPersonGUI.activityIntensityLabel);
+				crewPersonGUIVector.add(newPersonGUI);
+				add(newPersonPanel);
+			}
 		}
 	}
-	
+
 	/**
 	 * Checks the status of a CrewPerson and constructs a string describing them.
 	 * @return	A String representing the status of the crew person
@@ -136,7 +138,7 @@ public class CrewTextPanel extends BioTabPanel
 			return statusBuffer.toString();
 		}
 	}
-	
+
 	/**
 	 * Enumerates through all the crew memebers this panel knows about and updates their labels by pulling from the crew server.
 	 */
@@ -171,7 +173,7 @@ public class CrewTextPanel extends BioTabPanel
 			newPersonGUI.sexLabel.setText("sex: "+sexString);
 		}
 	}
-	
+
 	/**
 	 * Recursively seeks the SimDesktopFrame that contains this panel.
 	 * @return The SimDesktopFrame parent this panel is in.
@@ -186,7 +188,7 @@ public class CrewTextPanel extends BioTabPanel
 		}
 		return null;
 	}
-	
+
 	/**
 	 * A small internal class containing lables for one crew person.
 	 */
