@@ -70,6 +70,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private float myMissionProductivity = 0;
 	//The schedule used for this crew memeber
 	private Schedule mySchedule;
+	private int myArrivalTick = 0;
+	private int myDepartureTick = Integer.MAX_VALUE;
 	//The crew group associated with this crew member
 	private CrewGroupImpl myCrewGroup;
 	//Used to format floats
@@ -155,6 +157,23 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		potableWaterNeeded = 0f;
 		caloriesNeeded = 0f;
 		vaporProduced = 0f;
+	}
+	
+	
+	public void setArrivalTick(int pArrivalTick){
+		myArrivalTick = pArrivalTick;
+	}
+	
+	public int getArrivalTick(){
+		return myArrivalTick;
+	}
+	
+	public void setDepartureTick(int pDepartureTick){
+		myDepartureTick = pDepartureTick;
+	}
+	
+	public int getDepartureTick(){
+		return myDepartureTick;
 	}
 
 	/**

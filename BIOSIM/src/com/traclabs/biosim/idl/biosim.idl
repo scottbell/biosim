@@ -674,6 +674,10 @@ module biosim{
                                         float getO2Consumed();
                                         Activity getActivityByName(in string name);
                                         Activity getScheduledActivityByOrder(in long order);
+					void setArrivalTick(in long arrivalTick);
+					long getArrivalTick();
+					void setDepartureTick(in long departureTick);
+					long getDepartureTick();
                                 };
                                 interface CrewGroup : framework::SimBioModule, framework::AirConsumer, framework::PotableWaterConsumer, framework::FoodConsumer, framework::AirProducer, framework::GreyWaterProducer, framework::DirtyWaterProducer, framework::DryWasteProducer{
                                         CrewPerson getCrewPerson(in string name);
