@@ -76,6 +76,11 @@ module biosim{
                                 typedef sequence <GreyWaterStore> GreyWaterStoreList;
                                 typedef sequence <DirtyWaterStore> DirtyWaterStoreList;
                         };
+                        module waste{
+                                interface Incinerator;
+                                interface DryWasteStore;
+                                typedef sequence <DryWasteStore> DryWasteStoreList;
+                        };
                         module framework{
                                 interface SimBioModule;
                                 interface Injector;
@@ -136,6 +141,8 @@ module biosim{
                         interface FoodConsumer;
                         interface BiomassProducer;
                         interface FoodProducer;
+			interface DryWasteConsumer;
+			interface DryWasteProducer;
                 };
         };
 };
@@ -552,6 +559,24 @@ module biosim{
                                 void setNitrogenOutputs(in simulation::air::NitrogenStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                 simulation::air::NitrogenStoreList getNitrogenOutputs();
                         };
+                        interface DryWasteConsumer : Consumer{
+                                void setDryWasteInputMaxFlowRate(in float liters, in long index);
+                                float getDryWasteInputMaxFlowRate(in long index);
+                                void setDryWasteInputDesiredFlowRate(in float liters, in long index);
+                                float getDryWasteInputDesiredFlowRate(in long index);
+                                float getDryWasteInputActualFlowRate(in long index);
+                                void setDryWasteInputs(in simulation::waste::DryWasteStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                simulation::waste::DryWasteStoreList getDryWasteInputs();
+                        };
+                        interface DryWasteProducer : Producer{
+                                void setDryWasteOutputMaxFlowRate(in float liters, in long index);
+                                float getDryWasteOutputMaxFlowRate(in long index);
+                                void setDryWasteOutputDesiredFlowRate(in float liters, in long index);
+                                float getDryWasteOutputDesiredFlowRate(in long index);
+                                float getDryWasteOutputActualFlowRate(in long index);
+                                void setDryWasteOutputs(in simulation::waste::DryWasteStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                simulation::waste::DryWasteStoreList getDryWasteOutputs();
+                        };
                 };
                 module util{
                         module log{
@@ -804,6 +829,12 @@ module biosim{
                                 interface DirtyWaterStore : framework::Store{
                                 };
                         };
+			module waste{
+				interface Incinerator : framework::SimBioModule, framework::PowerConsumer, framework::DryWasteConsumer, framework::O2Consumer, framework::CO2Producer{
+                                };
+                                interface DryWasteStore : framework::Store{
+                                };
+			};
                 };
                 module sensor{
                         module framework{
