@@ -222,7 +222,8 @@ public class WaterTextPanel extends TimedPanel {
         potableWaterStorePanel.setBorder(BorderFactory
                 .createTitledBorder("Potable Water Store"));
         potableWaterStoreLevelLabel = new JLabel("water level:    "
-                + numFormat.format(myPotableWaterStore.getCurrentLevel()) + " L");
+                + numFormat.format(myPotableWaterStore.getCurrentLevel())
+                + " L");
         potableWaterStorePanel.add(potableWaterStoreLevelLabel);
     }
 
@@ -231,7 +232,8 @@ public class WaterTextPanel extends TimedPanel {
      */
     public void refresh() {
         potableWaterStoreLevelLabel.setText("water level:    "
-                + numFormat.format(myPotableWaterStore.getCurrentLevel()) + " L");
+                + numFormat.format(myPotableWaterStore.getCurrentLevel())
+                + " L");
         greyWaterStoreLevelLabel.setText("water level:    "
                 + numFormat.format(myGreyWaterStore.getCurrentLevel()) + " L");
         dirtyWaterStoreLevelLabel.setText("water level:    "

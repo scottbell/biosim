@@ -17,7 +17,8 @@ public class O2OutFlowRateActuatorImpl extends GenericActuatorImpl implements
 
     protected void processData() {
         float myFilteredValue = randomFilter(myValue);
-        getOutput().getO2ProducerDefinition().setDesiredFlowRate(myFilteredValue, myIndex);
+        getOutput().getO2ProducerDefinition().setDesiredFlowRate(
+                myFilteredValue, myIndex);
     }
 
     protected void notifyListeners() {

@@ -31,7 +31,8 @@ public class O2AirEnvironmentOutFlowRateSensorImpl extends GenericSensorImpl
     }
 
     public float getMax() {
-        return myProducer.getO2AirProducerDefinition().getEnvironmentMaxFlowRate(myIndex);
+        return myProducer.getO2AirProducerDefinition()
+                .getEnvironmentMaxFlowRate(myIndex);
     }
 
     public O2AirProducer getInput() {

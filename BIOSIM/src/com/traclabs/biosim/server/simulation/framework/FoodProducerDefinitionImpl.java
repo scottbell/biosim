@@ -3,9 +3,9 @@ package com.traclabs.biosim.server.simulation.framework;
 import com.traclabs.biosim.idl.simulation.food.FoodMatter;
 import com.traclabs.biosim.idl.simulation.food.FoodStore;
 import com.traclabs.biosim.idl.simulation.food.FoodStoreHelper;
-import com.traclabs.biosim.idl.simulation.framework.FoodProducerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.framework.FoodProducerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.FoodProducerDefinitionHelper;
+import com.traclabs.biosim.idl.simulation.framework.FoodProducerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.framework.FoodProducerDefinitionPOATie;
 import com.traclabs.biosim.server.util.OrbUtils;
 
@@ -13,17 +13,21 @@ import com.traclabs.biosim.server.util.OrbUtils;
  * @author Scott Bell
  */
 
-public class FoodProducerDefinitionImpl extends StoreFlowRateControllableImpl implements FoodProducerDefinitionOperations {
+public class FoodProducerDefinitionImpl extends StoreFlowRateControllableImpl
+        implements FoodProducerDefinitionOperations {
     private FoodProducerDefinition myFoodProducerDefinition;
-    
-    public FoodProducerDefinitionImpl(){
-        myFoodProducerDefinition = FoodProducerDefinitionHelper.narrow(OrbUtils.poaToCorbaObj(new FoodProducerDefinitionPOATie(this)));
+
+    public FoodProducerDefinitionImpl() {
+        myFoodProducerDefinition = FoodProducerDefinitionHelper.narrow(OrbUtils
+                .poaToCorbaObj(new FoodProducerDefinitionPOATie(this)));
     }
-    
-    public FoodProducerDefinition getCorbaObject(){
+
+    public FoodProducerDefinition getCorbaObject() {
         return myFoodProducerDefinition;
     }
-    public void setFoodOutputs(FoodStore[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates) {
+
+    public void setFoodOutputs(FoodStore[] pStores, float[] pMaxFlowRates,
+            float[] pDesiredFlowRates) {
         setStores(pStores);
         setMaxFlowRates(pMaxFlowRates);
         setDesiredFlowRates(pDesiredFlowRates);
@@ -40,13 +44,14 @@ public class FoodProducerDefinitionImpl extends StoreFlowRateControllableImpl im
             float resourceToDistributeFinal = Math.min(
                     resourceToDistributeFirst, getDesiredFlowRate(i));
             FoodStore currentFoodStore = FoodStoreHelper.narrow(getStores()[i]);
-            getActualFlowRates()[i] = currentFoodStore.addFoodMatterArray(copyOfMatter);
+            getActualFlowRates()[i] = currentFoodStore
+                    .addFoodMatterArray(copyOfMatter);
             resourceDistributed -= getActualFlowRate(i);
         }
         float amountPushed = (fullMassToDistribute - resourceDistributed);
         return amountPushed;
     }
-    
+
     private static float calculateSizeOfFoodMatter(FoodMatter[] arrayOfMatter) {
         float totalSize = 0f;
         for (int i = 0; i < arrayOfMatter.length; i++)

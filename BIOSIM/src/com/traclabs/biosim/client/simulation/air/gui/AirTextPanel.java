@@ -113,7 +113,8 @@ public class AirTextPanel extends TimedPanel {
         nitrogenStorePanel.setBorder(BorderFactory
                 .createTitledBorder("Nitrogen Store"));
         nitrogenStoreLevelLabel = new JLabel("Nitrogen level:  "
-                + numFormat.format(myNitrogenStore.getCurrentLevel()) + " moles");
+                + numFormat.format(myNitrogenStore.getCurrentLevel())
+                + " moles");
         nitrogenStorePanel.add(nitrogenStoreLevelLabel);
 
         c.fill = GridBagConstraints.BOTH;
@@ -162,7 +163,8 @@ public class AirTextPanel extends TimedPanel {
         H2StoreLevelLabel.setText("H2 level:      "
                 + numFormat.format(myH2Store.getCurrentLevel()) + " moles");
         nitrogenStoreLevelLabel.setText("Nitrogen level:      "
-                + numFormat.format(myNitrogenStore.getCurrentLevel()) + " moles");
+                + numFormat.format(myNitrogenStore.getCurrentLevel())
+                + " moles");
         O2StoreLevelLabel.setText("O2 level:       "
                 + numFormat.format(myO2Store.getCurrentLevel()) + " moles");
     }

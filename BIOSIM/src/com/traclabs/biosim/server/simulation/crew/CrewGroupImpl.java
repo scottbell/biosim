@@ -58,13 +58,19 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
 
     //Consumers, Producers
     private FoodConsumerDefinitionImpl myFoodConsumerDefinitionImpl;
+
     private AirConsumerDefinitionImpl myAirConsumerDefinitionImpl;
+
     private PotableWaterConsumerDefinitionImpl myPotableWaterConsumerDefinitionImpl;
+
     private GreyWaterProducerDefinitionImpl myGreyWaterProducerDefinitionImpl;
+
     private DirtyWaterProducerDefinitionImpl myDirtyWaterProducerDefinitionImpl;
+
     private AirProducerDefinitionImpl myAirProducerDefinitionImpl;
+
     private DryWasteProducerDefinitionImpl myDryWasteProducerDefinitionImpl;
-    
+
     //The crew persons that make up the crew.
     //They are the ones consuming air/food/water and producing air/water/waste
     // as they perform activities
@@ -73,8 +79,9 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     private float healthyPercentage = 1f;
 
     private Random myRandom;
-    
+
     private List crewScheduledForRemoval;
+
     private List crewScheduledForAddition;
 
     /**
@@ -86,7 +93,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
         crewScheduledForAddition = new Vector();
         crewPeople = new Hashtable();
         myRandom = new Random();
-        
+
         myFoodConsumerDefinitionImpl = new FoodConsumerDefinitionImpl();
         myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl();
         myPotableWaterConsumerDefinitionImpl = new PotableWaterConsumerDefinitionImpl();
@@ -95,32 +102,32 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
         myAirProducerDefinitionImpl = new AirProducerDefinitionImpl();
         myDryWasteProducerDefinitionImpl = new DryWasteProducerDefinitionImpl();
     }
-    
-    public FoodConsumerDefinition getFoodConsumerDefinition(){
+
+    public FoodConsumerDefinition getFoodConsumerDefinition() {
         return myFoodConsumerDefinitionImpl.getCorbaObject();
     }
-    
-    public AirConsumerDefinition getAirConsumerDefinition(){
+
+    public AirConsumerDefinition getAirConsumerDefinition() {
         return myAirConsumerDefinitionImpl.getCorbaObject();
     }
-    
-    public PotableWaterConsumerDefinition getPotableWaterConsumerDefinition(){
+
+    public PotableWaterConsumerDefinition getPotableWaterConsumerDefinition() {
         return myPotableWaterConsumerDefinitionImpl.getCorbaObject();
     }
-    
-    public GreyWaterProducerDefinition getGreyWaterProducerDefinition(){
+
+    public GreyWaterProducerDefinition getGreyWaterProducerDefinition() {
         return myGreyWaterProducerDefinitionImpl.getCorbaObject();
     }
-    
-    public DirtyWaterProducerDefinition getDirtyWaterProducerDefinition(){
+
+    public DirtyWaterProducerDefinition getDirtyWaterProducerDefinition() {
         return myDirtyWaterProducerDefinitionImpl.getCorbaObject();
     }
-    
-    public AirProducerDefinition getAirProducerDefinition(){
+
+    public AirProducerDefinition getAirProducerDefinition() {
         return myAirProducerDefinitionImpl.getCorbaObject();
     }
-    
-    public DryWasteProducerDefinition getDryWasteProducerDefinition(){
+
+    public DryWasteProducerDefinition getDryWasteProducerDefinition() {
         return myDryWasteProducerDefinitionImpl.getCorbaObject();
     }
 
@@ -139,22 +146,26 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
      */
     public CrewPerson createCrewPerson(String pName, float pAge, float pWeight,
             Sex pSex, int pArrivalTick, int pDepartureTick, CrewGroup crewGroup) {
-        CrewPersonImpl newCrewPersonImpl = new CrewPersonImpl(pName, pAge, pWeight,
-                pSex, pArrivalTick, pDepartureTick, this, crewGroup);
-        CrewPerson newCrewPerson = CrewPersonHelper.narrow((OrbUtils.poaToCorbaObj(newCrewPersonImpl)));
+        CrewPersonImpl newCrewPersonImpl = new CrewPersonImpl(pName, pAge,
+                pWeight, pSex, pArrivalTick, pDepartureTick, this, crewGroup);
+        CrewPerson newCrewPerson = CrewPersonHelper.narrow((OrbUtils
+                .poaToCorbaObj(newCrewPersonImpl)));
         crewPeople.put(pName, newCrewPerson);
         return newCrewPerson;
     }
 
     public CrewPerson createCrewPerson(String pName, float pAge, float pWeight,
-            Sex pSex, int pArrivalTick, int pDepartureTick, Schedule pSchedule, CrewGroup crewGroup) {
-        CrewPersonImpl newCrewPersonImpl = new CrewPersonImpl(pName, pAge, pWeight,
-                pSex, pArrivalTick, pDepartureTick, this, crewGroup, pSchedule);
-        CrewPerson newCrewPerson = CrewPersonHelper.narrow((OrbUtils.poaToCorbaObj(newCrewPersonImpl)));
+            Sex pSex, int pArrivalTick, int pDepartureTick, Schedule pSchedule,
+            CrewGroup crewGroup) {
+        CrewPersonImpl newCrewPersonImpl = new CrewPersonImpl(pName, pAge,
+                pWeight, pSex, pArrivalTick, pDepartureTick, this, crewGroup,
+                pSchedule);
+        CrewPerson newCrewPerson = CrewPersonHelper.narrow((OrbUtils
+                .poaToCorbaObj(newCrewPersonImpl)));
         crewPeople.put(pName, newCrewPerson);
         return newCrewPerson;
     }
-    
+
     /**
      * Returns all the current crew persons who are in the crew
      * 
@@ -172,8 +183,8 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     public void scheduleRepair(String moduleName, long malfunctionID,
             int timeLength) {
         int randomCrewIndex = myRandom.nextInt(crewPeople.size());
-        CrewPerson randomCrewPerson = (CrewPerson) ((crewPeople
-                .values().toArray())[randomCrewIndex]);
+        CrewPerson randomCrewPerson = (CrewPerson) ((crewPeople.values()
+                .toArray())[randomCrewIndex]);
         RepairActivityImpl newRepairActivityImpl = new RepairActivityImpl(
                 moduleName, malfunctionID, timeLength);
         RepairActivity newRepairActivity = RepairActivityHelper
@@ -197,8 +208,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
      * @return the crew person asked for
      */
     public CrewPerson getCrewPerson(String crewPersonName) {
-        CrewPerson foundPerson = (CrewPerson) (crewPeople
-                .get(crewPersonName));
+        CrewPerson foundPerson = (CrewPerson) (crewPeople.get(crewPersonName));
         return foundPerson;
     }
 
@@ -219,7 +229,8 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     }
 
     private void clearActualFlowRates() {
-        Arrays.fill(getPotableWaterConsumerDefinition().getActualFlowRates(), 0f);
+        Arrays.fill(getPotableWaterConsumerDefinition().getActualFlowRates(),
+                0f);
         Arrays.fill(getGreyWaterProducerDefinition().getActualFlowRates(), 0f);
         Arrays.fill(getDirtyWaterProducerDefinition().getActualFlowRates(), 0f);
         Arrays.fill(getDryWasteProducerDefinition().getActualFlowRates(), 0f);
@@ -236,14 +247,15 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
             tempPerson.tick();
         }
         //Add those scheduled
-        for (Iterator iter = crewScheduledForAddition.iterator(); iter.hasNext();){
-            CrewPerson crewPersonToAdd = (CrewPerson)(iter.next());
+        for (Iterator iter = crewScheduledForAddition.iterator(); iter
+                .hasNext();) {
+            CrewPerson crewPersonToAdd = (CrewPerson) (iter.next());
             crewPeople.put(crewPersonToAdd.getName(), crewPersonToAdd);
         }
         crewScheduledForAddition.clear();
         //Remove those scheduled
-        for (Iterator iter = crewScheduledForRemoval.iterator(); iter.hasNext();){
-            String crewPersonNameToRemove = (String)(iter.next());
+        for (Iterator iter = crewScheduledForRemoval.iterator(); iter.hasNext();) {
+            String crewPersonNameToRemove = (String) (iter.next());
             crewPeople.remove(crewPersonNameToRemove);
         }
         crewScheduledForRemoval.clear();
@@ -387,47 +399,53 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     public void detachCrewPerson(String name) {
         crewScheduledForRemoval.add(name);
     }
-    
+
     public void attachCrewPerson(CrewPerson pCrewPerson) {
         crewScheduledForAddition.add(pCrewPerson);
     }
-    
+
     /**
      * @return Returns the myAirConsumerDefinitionImpl.
      */
     protected AirConsumerDefinitionImpl getAirConsumerDefinitionImpl() {
         return myAirConsumerDefinitionImpl;
     }
+
     /**
      * @return Returns the myAirProducerDefinitionImpl.
      */
     protected AirProducerDefinitionImpl getAirProducerDefinitionImpl() {
         return myAirProducerDefinitionImpl;
     }
+
     /**
      * @return Returns the myDirtyWaterProducerDefinitionImpl.
      */
     protected DirtyWaterProducerDefinitionImpl getDirtyWaterProducerDefinitionImpl() {
         return myDirtyWaterProducerDefinitionImpl;
     }
+
     /**
      * @return Returns the myDryWasteProducerDefinitionImpl.
      */
     protected DryWasteProducerDefinitionImpl getDryWasteProducerDefinitionImpl() {
         return myDryWasteProducerDefinitionImpl;
     }
+
     /**
      * @return Returns the myFoodConsumerDefinitionImpl.
      */
     protected FoodConsumerDefinitionImpl getFoodConsumerDefinitionImpl() {
         return myFoodConsumerDefinitionImpl;
     }
+
     /**
      * @return Returns the myGreyWaterProducerDefinitionImpl.
      */
     protected GreyWaterProducerDefinitionImpl getGreyWaterProducerDefinitionImpl() {
         return myGreyWaterProducerDefinitionImpl;
     }
+
     /**
      * @return Returns the myPotableWaterConsumerDefinitionImpl.
      */

@@ -18,8 +18,8 @@ public class NitrogenAirEnvironmentInFlowRateActuatorImpl extends
 
     protected void processData() {
         float myFilteredValue = randomFilter(myValue);
-        getOutput().getNitrogenAirConsumerDefinition().setEnvironmentDesiredFlowRate(
-                myFilteredValue, myIndex);
+        getOutput().getNitrogenAirConsumerDefinition()
+                .setEnvironmentDesiredFlowRate(myFilteredValue, myIndex);
     }
 
     protected void notifyListeners() {
@@ -44,6 +44,7 @@ public class NitrogenAirEnvironmentInFlowRateActuatorImpl extends
     }
 
     public float getMax() {
-        return myConsumer.getNitrogenAirConsumerDefinition().getEnvironmentMaxFlowRate(myIndex);
+        return myConsumer.getNitrogenAirConsumerDefinition()
+                .getEnvironmentMaxFlowRate(myIndex);
     }
 }

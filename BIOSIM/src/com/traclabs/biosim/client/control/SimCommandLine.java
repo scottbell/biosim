@@ -126,18 +126,26 @@ public class SimCommandLine {
     }
 
     private void runTest() {
-    	GenericSensor sensor1 = GenericSensorHelper.narrow(BioHolderInitializer.grabModule("BaseOGSO2OutFlowRateSensor"));
-    	GenericSensor sensor2 = GenericSensorHelper.narrow(BioHolderInitializer.grabModule("BaseO2AccumulatorO2AirStoreOutFlowRateSensor"));
-    	GenericSensor sensor3 = GenericSensorHelper.narrow(BioHolderInitializer.grabModule("BaseO2StoreLevelSensor"));
-    	GenericSensor sensor4 = GenericSensorHelper.narrow(BioHolderInitializer.grabModule("BaseO2InjectorO2AirStoreInFlowRateSensor"));
-    	float reading1 = sensor1.getValue();
-    	float reading2 = sensor2.getValue();
-    	float reading3 = sensor3.getValue();
-    	float reading4 = sensor4.getValue();
-    	System.out.println("BaseOGSO2OutFlowRateSensor reading is "+reading1);
-    	System.out.println("BaseO2AccumulatorO2AirStoreOutFlowRateSensor reading is "+reading2);
-    	System.out.println("BaseO2StoreLevelSensor reading is "+reading3);
-    	System.out.println("BaseO2InjectorO2AirStoreInFlowRateSensor reading is "+reading4);
+        GenericSensor sensor1 = GenericSensorHelper.narrow(BioHolderInitializer
+                .grabModule("BaseOGSO2OutFlowRateSensor"));
+        GenericSensor sensor2 = GenericSensorHelper.narrow(BioHolderInitializer
+                .grabModule("BaseO2AccumulatorO2AirStoreOutFlowRateSensor"));
+        GenericSensor sensor3 = GenericSensorHelper.narrow(BioHolderInitializer
+                .grabModule("BaseO2StoreLevelSensor"));
+        GenericSensor sensor4 = GenericSensorHelper.narrow(BioHolderInitializer
+                .grabModule("BaseO2InjectorO2AirStoreInFlowRateSensor"));
+        float reading1 = sensor1.getValue();
+        float reading2 = sensor2.getValue();
+        float reading3 = sensor3.getValue();
+        float reading4 = sensor4.getValue();
+        System.out.println("BaseOGSO2OutFlowRateSensor reading is " + reading1);
+        System.out
+                .println("BaseO2AccumulatorO2AirStoreOutFlowRateSensor reading is "
+                        + reading2);
+        System.out.println("BaseO2StoreLevelSensor reading is " + reading3);
+        System.out
+                .println("BaseO2InjectorO2AirStoreInFlowRateSensor reading is "
+                        + reading4);
     }
 
 }

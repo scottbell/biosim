@@ -4,9 +4,9 @@ import org.apache.log4j.Logger;
 
 public abstract class Engine {
     protected Logger myLogger;
-    
+
     public Engine() {
-    	myLogger = Logger.getLogger(this.getClass());
+        myLogger = Logger.getLogger(this.getClass());
     }
 
     public abstract void reset();

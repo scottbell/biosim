@@ -19,6 +19,7 @@ import com.traclabs.biosim.server.simulation.framework.StoreImpl;
 public class BiomassStoreImpl extends StoreImpl implements
         BiomassStoreOperations {
     List currentBiomassItems;
+
     BioMatter myOriginalMatter;
 
     public BiomassStoreImpl(int pID, String pName) {
@@ -32,7 +33,7 @@ public class BiomassStoreImpl extends StoreImpl implements
                 PlantType.UNKNOWN_PLANT);
         return addBioMatter(newBioMatter);
     }
-    
+
     public void setInitialLevel(float metricAmount) {
         super.setInitialLevel(metricAmount);
         setCurrentLevel(metricAmount);
@@ -48,7 +49,7 @@ public class BiomassStoreImpl extends StoreImpl implements
             myOriginalMatter = newBioMatter;
         }
     }
-    
+
     public void setInitialBioMatterLevel(BioMatter pMatter) {
         super.setInitialLevel(pMatter.mass);
         currentBiomassItems.clear();
@@ -151,14 +152,15 @@ public class BiomassStoreImpl extends StoreImpl implements
                             * fractionOfOriginal, pMatter.inedibleWaterContent
                             * fractionOfOriginal, pMatter.type);
             currentBiomassItems.add(newBioMatter);
-            myLogger.debug("added = " + newBioMatter.mass + " with currentLevel @ "
-                    + currentLevel);
+            myLogger.debug("added = " + newBioMatter.mass
+                    + " with currentLevel @ " + currentLevel);
             return acutallyAdded;
         } else {
             acutallyAdded = randomFilter(pMatter.mass);
             currentLevel += acutallyAdded;
             currentBiomassItems.add(pMatter);
-            myLogger.debug("added = " + pMatter.mass + "with currentLevel @ " + currentLevel);
+            myLogger.debug("added = " + pMatter.mass + "with currentLevel @ "
+                    + currentLevel);
             return acutallyAdded;
         }
     }

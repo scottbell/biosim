@@ -13,23 +13,28 @@ import com.traclabs.biosim.server.util.OrbUtils;
  * @author Scott Bell
  */
 
-public class BiomassProducerDefinitionImpl extends StoreFlowRateControllableImpl implements BiomassProducerDefinitionOperations {
+public class BiomassProducerDefinitionImpl extends
+        StoreFlowRateControllableImpl implements
+        BiomassProducerDefinitionOperations {
     private BiomassProducerDefinition myBiomassProducerDefinition;
-    
-    public BiomassProducerDefinitionImpl(){
-        myBiomassProducerDefinition = BiomassProducerDefinitionHelper.narrow(OrbUtils.poaToCorbaObj(new BiomassProducerDefinitionPOATie(this)));
+
+    public BiomassProducerDefinitionImpl() {
+        myBiomassProducerDefinition = BiomassProducerDefinitionHelper
+                .narrow(OrbUtils
+                        .poaToCorbaObj(new BiomassProducerDefinitionPOATie(this)));
     }
-    
-    public BiomassProducerDefinition getCorbaObject(){
+
+    public BiomassProducerDefinition getCorbaObject() {
         return myBiomassProducerDefinition;
     }
-    
-    public void setBiomassOutputs(BiomassStore[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates) {
+
+    public void setBiomassOutputs(BiomassStore[] pStores,
+            float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setStores(pStores);
         setMaxFlowRates(pMaxFlowRates);
         setDesiredFlowRates(pDesiredFlowRates);
     }
-    
+
     public float pushFractionalResourceToBiomassStore(BioMatter matterToPush,
             float shelfFraction) {
         float resourceDistributed = matterToPush.mass;
@@ -47,8 +52,10 @@ public class BiomassProducerDefinitionImpl extends StoreFlowRateControllableImpl
                     matterToPush.edibleWaterContent * fractionOfOriginal,
                     matterToPush.inedibleWaterContent * fractionOfOriginal,
                     matterToPush.type);
-            BiomassStore currentBiomassStore = BiomassStoreHelper.narrow(getStores()[i]);
-            getActualFlowRates()[i] += currentBiomassStore.addBioMatter(newBioMatter);
+            BiomassStore currentBiomassStore = BiomassStoreHelper
+                    .narrow(getStores()[i]);
+            getActualFlowRates()[i] += currentBiomassStore
+                    .addBioMatter(newBioMatter);
             resourceDistributed -= getActualFlowRate(i);
         }
         return (matterToPush.mass - resourceDistributed);

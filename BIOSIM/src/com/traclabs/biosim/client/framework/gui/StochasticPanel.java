@@ -87,7 +87,8 @@ public class StochasticPanel extends TimedPanel {
         myModulePanel = new ModulePanel();
         myModulePanel.setBorder(BorderFactory
                 .createTitledBorder("Module Select"));
-        myModulePanel.addModuleSelectionListener(new MalfunctionModuleListener());
+        myModulePanel
+                .addModuleSelectionListener(new MalfunctionModuleListener());
     }
 
     private void createOperatorPanel() {
@@ -161,8 +162,6 @@ public class StochasticPanel extends TimedPanel {
                         StochasticIntensity.HIGH_STOCH);
         }
     }
-
-    
 
     private class MalfunctionModuleListener implements ModuleSelectionListener {
         public void stateChanged(ChangeEvent e) {

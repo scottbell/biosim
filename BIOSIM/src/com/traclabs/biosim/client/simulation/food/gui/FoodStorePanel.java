@@ -68,19 +68,22 @@ public class FoodStorePanel extends GraphPanel {
             String series1 = "Biomass";
             String series2 = "Food";
             String category = "";
-            myDataset.addValue(myBiomassStore.getCurrentLevel(), series1, category);
-            myDataset.addValue(myFoodStore.getCurrentLevel(), series2, category);
+            myDataset.addValue(myBiomassStore.getCurrentLevel(), series1,
+                    category);
+            myDataset
+                    .addValue(myFoodStore.getCurrentLevel(), series2, category);
         } else {
-            float capacity = Math.max(myBiomassStore.getCurrentCapacity(), myFoodStore
-                    .getCurrentCapacity());
+            float capacity = Math.max(myBiomassStore.getCurrentCapacity(),
+                    myFoodStore.getCurrentCapacity());
             if ((rangeAxis.getRange().getUpperBound() != capacity)
                     && (capacity > 0)) {
                 rangeAxis.setRange(0.0, capacity);
                 myChartPanel.repaint();
             }
-            myDataset.setValue(new Float(myBiomassStore.getCurrentLevel()), "Biomass",
-                    "");
-            myDataset.setValue(new Float(myFoodStore.getCurrentLevel()), "Food", "");
+            myDataset.setValue(new Float(myBiomassStore.getCurrentLevel()),
+                    "Biomass", "");
+            myDataset.setValue(new Float(myFoodStore.getCurrentLevel()),
+                    "Food", "");
         }
     }
 }

@@ -41,9 +41,9 @@ public class BioHolder {
     //Simulation
     //Air
     public List theAirRSModules = new Vector();
-    
+
     public List theOGSModules = new Vector();
-    
+
     public List theVCCRModules = new Vector();
 
     public List theO2Stores = new Vector();
@@ -361,7 +361,10 @@ public class BioHolder {
                     return currentSensor;
             }
         }
-        Logger.getLogger(BioHolder.class).error("Couldn't find any sensor attached to "+moduleWatched.getModuleName()+" with shelf index "+shelfIndex);
+        Logger.getLogger(BioHolder.class).error(
+                "Couldn't find any sensor attached to "
+                        + moduleWatched.getModuleName() + " with shelf index "
+                        + shelfIndex);
         return null;
     }
 
@@ -380,7 +383,10 @@ public class BioHolder {
                     return currentActuator;
             }
         }
-        Logger.getLogger(BioHolder.class).error("Couldn't find any acutator attached to "+moduleWatched.getModuleName()+" with shelf index "+shelfIndex);
+        Logger.getLogger(BioHolder.class).error(
+                "Couldn't find any acutator attached to "
+                        + moduleWatched.getModuleName() + " with shelf index "
+                        + shelfIndex);
         return null;
     }
 
@@ -393,7 +399,9 @@ public class BioHolder {
             if (currentSensor.getInputModule()._is_equivalent(moduleWatched))
                 return currentSensor;
         }
-        Logger.getLogger(BioHolder.class).error("Couldn't find any sensor attached to "+moduleWatched.getModuleName());
+        Logger.getLogger(BioHolder.class).error(
+                "Couldn't find any sensor attached to "
+                        + moduleWatched.getModuleName());
         return null;
     }
 
@@ -403,12 +411,16 @@ public class BioHolder {
             Logger.getLogger(BioHolder.class).error("Your module is null!");
         for (Iterator iter = actuatorList.iterator(); iter.hasNext();) {
             GenericActuator currentActuator = (GenericActuator) (iter.next());
-            String debugString = currentActuator.getModuleName() + " is attached to "+currentActuator.getOutputModule().getModuleName();
+            String debugString = currentActuator.getModuleName()
+                    + " is attached to "
+                    + currentActuator.getOutputModule().getModuleName();
             Logger.getLogger(BioHolder.class).debug(debugString);
             if (currentActuator.getOutputModule()._is_equivalent(moduleWatched))
                 return currentActuator;
         }
-        Logger.getLogger(BioHolder.class).error("Couldn't find any acutator attached to "+moduleWatched.getModuleName());
+        Logger.getLogger(BioHolder.class).error(
+                "Couldn't find any acutator attached to "
+                        + moduleWatched.getModuleName());
         return null;
     }
 
@@ -584,13 +596,15 @@ public class BioHolder {
         theModules.addAll(theSimModules);
         theModules.addAll(theSensors);
         theModules.addAll(theActuators);
-        
-        Logger.getLogger(BioHolder.class).debug("theModules.size() = "+theModules.size());
+
+        Logger.getLogger(BioHolder.class).debug(
+                "theModules.size() = " + theModules.size());
         //Make named list;
         for (Iterator iter = theModules.iterator(); iter.hasNext();) {
             BioModule currentModule = (BioModule) (iter.next());
             theModulesMapped.put(currentModule.getModuleName(), currentModule);
-            Logger.getLogger(BioHolder.class).debug("mapped "+currentModule.getModuleName());
+            Logger.getLogger(BioHolder.class).debug(
+                    "mapped " + currentModule.getModuleName());
         }
     }
 

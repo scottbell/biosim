@@ -17,23 +17,28 @@ import com.traclabs.biosim.server.util.OrbUtils;
  * @author Scott Bell
  */
 
-public class BiomassConsumerDefinitionImpl extends StoreFlowRateControllableImpl implements BiomassConsumerDefinitionOperations {
+public class BiomassConsumerDefinitionImpl extends
+        StoreFlowRateControllableImpl implements
+        BiomassConsumerDefinitionOperations {
     private BiomassConsumerDefinition myBiomassConsumerDefinition;
-    
-    public BiomassConsumerDefinitionImpl(){
-        myBiomassConsumerDefinition = BiomassConsumerDefinitionHelper.narrow(OrbUtils.poaToCorbaObj(new BiomassConsumerDefinitionPOATie(this)));
+
+    public BiomassConsumerDefinitionImpl() {
+        myBiomassConsumerDefinition = BiomassConsumerDefinitionHelper
+                .narrow(OrbUtils
+                        .poaToCorbaObj(new BiomassConsumerDefinitionPOATie(this)));
     }
-    
-    public BiomassConsumerDefinition getCorbaObject(){
+
+    public BiomassConsumerDefinition getCorbaObject() {
         return myBiomassConsumerDefinition;
     }
-    
-    public void setBiomassInputs(BiomassStore[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates) {
+
+    public void setBiomassInputs(BiomassStore[] pStores, float[] pMaxFlowRates,
+            float[] pDesiredFlowRates) {
         setStores(pStores);
         setMaxFlowRates(pMaxFlowRates);
         setDesiredFlowRates(pDesiredFlowRates);
     }
-    
+
     public BioMatter[] getBioMassFromStore(float amountNeeded) {
         float gatheredResource = 0f;
         List gatheredBioMatterArrays = new Vector();
@@ -44,8 +49,10 @@ public class BiomassConsumerDefinitionImpl extends StoreFlowRateControllableImpl
                     getMaxFlowRate(i));
             float resourceToGatherFinal = Math.min(resourceToGatherFirst,
                     getDesiredFlowRate(i));
-            BiomassStore currentBiomassStore = BiomassStoreHelper.narrow(getStores()[i]);
-            BioMatter[] takenMatter = currentBiomassStore.takeBioMatterMass(resourceToGatherFinal);
+            BiomassStore currentBiomassStore = BiomassStoreHelper
+                    .narrow(getStores()[i]);
+            BioMatter[] takenMatter = currentBiomassStore
+                    .takeBioMatterMass(resourceToGatherFinal);
             sizeOfMatterArray += takenMatter.length;
             gatheredBioMatterArrays.add(takenMatter);
             getActualFlowRates()[i] = calculateSizeOfBioMatter(takenMatter);
@@ -61,7 +68,7 @@ public class BiomassConsumerDefinitionImpl extends StoreFlowRateControllableImpl
         }
         return fullMatterTaken;
     }
-    
+
     private static float calculateSizeOfBioMatter(BioMatter[] arrayOfMatter) {
         float totalSize = 0f;
         for (int i = 0; i < arrayOfMatter.length; i++)

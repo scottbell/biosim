@@ -1,6 +1,5 @@
 package com.traclabs.biosim.server.simulation.air;
 
-
 /**
  * OGS Subsystem
  * 
@@ -35,7 +34,8 @@ public class OGSSubsystem extends AirRSSubSystem {
     }
 
     private void gatherWater() {
-        currentH2OConsumed = myAirRS.getPotableWaterProducerDefinitionImpl().getResourceFromStore(waterNeeded);
+        currentH2OConsumed = myAirRS.getPotableWaterProducerDefinitionImpl()
+                .getResourceFromStore(waterNeeded);
     }
 
     private void pushGasses() {
@@ -49,8 +49,10 @@ public class OGSSubsystem extends AirRSSubSystem {
                 * myProductionRate;
         float O2ToDistrubute = myAirRS.randomFilter(currentO2Produced);
         float H2ToDistrubute = myAirRS.randomFilter(currentH2Produced);
-        float distributedO2 = myAirRS.getO2ProducerDefinitionImpl().pushResourceToStore(O2ToDistrubute);
-        float distributedH2 = myAirRS.getH2ProducerDefinitionImpl().pushResourceToStore(H2ToDistrubute);
+        float distributedO2 = myAirRS.getO2ProducerDefinitionImpl()
+                .pushResourceToStore(O2ToDistrubute);
+        float distributedH2 = myAirRS.getH2ProducerDefinitionImpl()
+                .pushResourceToStore(H2ToDistrubute);
     }
 
     public void setProductionRate(float percentage) {

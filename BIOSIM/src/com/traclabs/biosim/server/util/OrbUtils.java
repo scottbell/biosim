@@ -52,15 +52,15 @@ public class OrbUtils {
         initialize();
         return myOrb;
     }
-    
+
     public static void setORB(ORB pORB) {
         myOrb = pORB;
     }
-    
+
     public static void setRootContext(NamingContextExt pRootContext) {
         myRootContext = pRootContext;
     }
-    
+
     public static void setRootPOA(POA pRootPOA) {
         myRootPOA = pRootPOA;
     }
@@ -77,13 +77,13 @@ public class OrbUtils {
 
     public static BioModule getBioModule(int pID, String pModuleName) {
         BioModule module = null;
-        try{
+        try {
             module = BioModuleHelper.narrow(getNamingContext(pID).resolve_str(
-                pModuleName));
-        }
-        catch (Exception e){
+                    pModuleName));
+        } catch (Exception e) {
             Logger.getLogger(OrbUtils.class).info(
-                    "(id="+pID+") Had problems getting module:"+pModuleName+" "+ e);
+                    "(id=" + pID + ") Had problems getting module:"
+                            + pModuleName + " " + e);
         }
         return module;
     }
@@ -128,9 +128,9 @@ public class OrbUtils {
             e.printStackTrace();
         }
     }
-    
-    private static void initialize(){
-        while (!initializeLoop()){
+
+    private static void initialize() {
+        while (!initializeLoop()) {
             sleepAwhile();
         }
     }
@@ -144,22 +144,24 @@ public class OrbUtils {
             return true;
         try {
             //Done
-            
+
             String[] nullArgs = null;
             // create and initialize the ORB
             if (myOrb == null)
                 myOrb = ORB.init(nullArgs, myORBProperties);
-            
+
             // get reference to rootpoa & activate the POAManager
 
-            if (myRootPOA == null){
-                myRootPOA = POAHelper.narrow(myOrb.resolve_initial_references("RootPOA"));
+            if (myRootPOA == null) {
+                myRootPOA = POAHelper.narrow(myOrb
+                        .resolve_initial_references("RootPOA"));
                 myRootPOA.the_POAManager().activate();
             }
-            
+
             if (myRootContext == null)
-                myRootContext = NamingContextExtHelper.narrow(myOrb.resolve_initial_references("NameService"));
-            
+                myRootContext = NamingContextExtHelper.narrow(myOrb
+                        .resolve_initial_references("NameService"));
+
             //Attempt to create com.traclabs context, if already there, don't
             // bother
             NameComponent comComponent = new NameComponent("com", "");

@@ -31,7 +31,8 @@ public class CO2AirEnvironmentInFlowRateSensorImpl extends GenericSensorImpl
     }
 
     public float getMax() {
-        return myConsumer.getCO2AirConsumerDefinition().getEnvironmentMaxFlowRate(myIndex);
+        return myConsumer.getCO2AirConsumerDefinition()
+                .getEnvironmentMaxFlowRate(myIndex);
     }
 
     public CO2AirConsumer getInput() {

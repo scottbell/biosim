@@ -15,11 +15,13 @@ public class SolarPowerPS extends PowerPSImpl {
     }
 
     float calculatePowerProduced() {
-        SimEnvironment lightInput = getLightConsumerDefinition().getEnvironments()[0];
+        SimEnvironment lightInput = getLightConsumerDefinition()
+                .getEnvironments()[0];
         //Varying stream of power
         if (lightInput != null) {
             float powerGenerated = getCurrentUpperPowerGeneration()
-                    * (lightInput.getLightIntensity() / lightInput.getMaxLumens());
+                    * (lightInput.getLightIntensity() / lightInput
+                            .getMaxLumens());
             return randomFilter(powerGenerated);
         } else {
             myLogger.error("SolarPowerPS: no light input!");

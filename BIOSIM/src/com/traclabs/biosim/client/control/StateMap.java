@@ -32,8 +32,8 @@ public class StateMap {
 
     private Logger myLogger;
 
-    public static String[] stateNames = { "dirtywater",
-            "greywater", "potablewater", "oxygen"};
+    public static String[] stateNames = { "dirtywater", "greywater",
+            "potablewater", "oxygen" };
 
     public StateMap() {
         myLogger = Logger.getLogger(this.getClass());

@@ -16,7 +16,8 @@ public class AirOutFlowRateSensorImpl extends GenericSensorImpl implements
     }
 
     protected void gatherData() {
-        float preFilteredValue = getInput().getAirProducerDefinition().getActualFlowRate(myIndex);
+        float preFilteredValue = getInput().getAirProducerDefinition()
+                .getActualFlowRate(myIndex);
         myValue = randomFilter(preFilteredValue);
     }
 

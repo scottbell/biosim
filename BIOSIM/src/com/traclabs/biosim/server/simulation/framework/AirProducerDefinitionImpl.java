@@ -11,18 +11,22 @@ import com.traclabs.biosim.server.util.OrbUtils;
  * @author Scott Bell
  */
 
-public class AirProducerDefinitionImpl extends EnvironmentFlowRateControllableImpl implements AirProducerDefinitionOperations {
+public class AirProducerDefinitionImpl extends
+        EnvironmentFlowRateControllableImpl implements
+        AirProducerDefinitionOperations {
     private AirProducerDefinition myAirProducerDefinition;
-    
-    public AirProducerDefinitionImpl(){
-        myAirProducerDefinition = AirProducerDefinitionHelper.narrow(OrbUtils.poaToCorbaObj(new AirProducerDefinitionPOATie(this)));
+
+    public AirProducerDefinitionImpl() {
+        myAirProducerDefinition = AirProducerDefinitionHelper.narrow(OrbUtils
+                .poaToCorbaObj(new AirProducerDefinitionPOATie(this)));
     }
-    
-    public AirProducerDefinition getCorbaObject(){
+
+    public AirProducerDefinition getCorbaObject() {
         return myAirProducerDefinition;
     }
-    
-    public void setAirOutputs(SimEnvironment[] pSimEnvironments, float[] pMaxFlowRates, float[] pDesiredFlowRates) {
+
+    public void setAirOutputs(SimEnvironment[] pSimEnvironments,
+            float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setEnvironments(pSimEnvironments);
         setMaxFlowRates(pMaxFlowRates);
         setDesiredFlowRates(pDesiredFlowRates);

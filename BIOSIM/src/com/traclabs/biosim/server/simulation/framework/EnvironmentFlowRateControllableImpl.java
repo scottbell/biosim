@@ -8,21 +8,25 @@ import com.traclabs.biosim.idl.simulation.framework.EnvironmentFlowRateControlla
  * @author Scott Bell
  */
 
-public abstract class EnvironmentFlowRateControllableImpl extends SingleFlowRateControllableImpl implements EnvironmentFlowRateControllableOperations {
+public abstract class EnvironmentFlowRateControllableImpl extends
+        SingleFlowRateControllableImpl implements
+        EnvironmentFlowRateControllableOperations {
     private SimEnvironment[] mySimEnvironments;
-    
+
     public SimEnvironment[] getEnvironments() {
-       return mySimEnvironments;
+        return mySimEnvironments;
     }
-    
-    protected void setEnvironments(SimEnvironment[] pSimEnvironments){
+
+    protected void setEnvironments(SimEnvironment[] pSimEnvironments) {
         mySimEnvironments = pSimEnvironments;
         float[] emptyActualFlowRates = new float[pSimEnvironments.length];
         setActualFlowRates(emptyActualFlowRates);
     }
-    
+
     /**
-     * Attempts to grab a specified number of air moles from a collection of environments
+     * Attempts to grab a specified number of air moles from a collection of
+     * environments
+     * 
      * @param molesNeeded
      *            The amount to gather from the stores
      * @return Breath of air consumed
@@ -38,7 +42,8 @@ public abstract class EnvironmentFlowRateControllableImpl extends SingleFlowRate
         float gatheredNitrogen = 0f;
         for (int i = 0; (i < getEnvironments().length)
                 && (gatheredAir < molesNeeded); i++) {
-            float resourceToGatherFirst = Math.min(molesNeeded, getMaxFlowRate(i));
+            float resourceToGatherFirst = Math.min(molesNeeded,
+                    getMaxFlowRate(i));
             float resourceToGatherFinal = Math.min(resourceToGatherFirst,
                     getDesiredFlowRate(i));
             Breath currentBreath = getEnvironments()[i]
@@ -61,9 +66,11 @@ public abstract class EnvironmentFlowRateControllableImpl extends SingleFlowRate
         returnBreath.nitrogen = gatheredNitrogen;
         return returnBreath;
     }
-    
+
     /**
-     * Attempts to grab a most number of air moles from a collection of environments
+     * Attempts to grab a most number of air moles from a collection of
+     * environments
+     * 
      * @return Breath of air consumed
      */
     public Breath getMostAirFromEnvironment() {
@@ -98,9 +105,10 @@ public abstract class EnvironmentFlowRateControllableImpl extends SingleFlowRate
         returnBreath.nitrogen = gatheredNitrogen;
         return returnBreath;
     }
-    
+
     /**
      * Attempts to push specified air moles to a collection of environments
+     * 
      * @param amountToPush
      *            The amount of moles to push to the environments
      * @return The total amount of air pushed to the environments (equal to the
@@ -115,10 +123,12 @@ public abstract class EnvironmentFlowRateControllableImpl extends SingleFlowRate
         float distributedWaterLeft = breathToPush.water;
         float distributedNitrogenLeft = breathToPush.nitrogen;
         for (int i = 0; (i < getEnvironments().length)
-                && ((distributedO2Left > 0) || (distributedCO2Left > 0) || (distributedOtherLeft > 0)
+                && ((distributedO2Left > 0) || (distributedCO2Left > 0)
+                        || (distributedOtherLeft > 0)
                         || (distributedWaterLeft > 0) || (distributedNitrogenLeft > 0)); i++) {
-            float totalToDistribute = distributedO2Left + distributedCO2Left + distributedOtherLeft
-                    + distributedWaterLeft + distributedNitrogenLeft;
+            float totalToDistribute = distributedO2Left + distributedCO2Left
+                    + distributedOtherLeft + distributedWaterLeft
+                    + distributedNitrogenLeft;
             float resourceToDistributeFirst = Math.min(totalToDistribute,
                     getMaxFlowRate(i));
             float resourceToDistributeFinal = Math.min(
@@ -127,15 +137,14 @@ public abstract class EnvironmentFlowRateControllableImpl extends SingleFlowRate
             float reducedO2ToPass = resourceToDistributeFinal
                     * (distributedO2Left / totalToDistribute);
             float reducedCO2ToPass = resourceToDistributeFinal
-            * (distributedCO2Left / totalToDistribute);
+                    * (distributedCO2Left / totalToDistribute);
             float reducedOtherToPass = resourceToDistributeFinal
                     * (distributedOtherLeft / totalToDistribute);
             float reducedWaterToPass = resourceToDistributeFinal
                     * (distributedWaterLeft / totalToDistribute);
             float reducedNitrogenToPass = resourceToDistributeFinal
                     * (distributedNitrogenLeft / totalToDistribute);
-            float O2Added = getEnvironments()[i]
-                    .addO2Moles(reducedO2ToPass);
+            float O2Added = getEnvironments()[i].addO2Moles(reducedO2ToPass);
             float CO2Added = getEnvironments()[i].addCO2Moles(reducedCO2ToPass);
             float otherAdded = getEnvironments()[i]
                     .addOtherMoles(reducedOtherToPass);
@@ -160,5 +169,5 @@ public abstract class EnvironmentFlowRateControllableImpl extends SingleFlowRate
         airRemaining.nitrogen = breathToPush.nitrogen - distributedNitrogenLeft;
         return airRemaining;
     }
-    
+
 }

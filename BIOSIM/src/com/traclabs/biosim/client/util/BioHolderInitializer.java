@@ -230,8 +230,8 @@ public class BioHolderInitializer {
     public static int getID() {
         return myID;
     }
-    
-    public static void setFileAndID(int pID, String pFilename){
+
+    public static void setFileAndID(int pID, String pFilename) {
         if ((myID == pID) && (xmlLocation.equals(pFilename)))
             return;
         myID = pID;
@@ -355,12 +355,12 @@ public class BioHolderInitializer {
         myBioHolder.theAirRSModules.add(AirRSHelper
                 .narrow(grabModule(getModuleName(node))));
     }
-    
+
     private static void fetchOGS(Node node) {
         myBioHolder.theOGSModules.add(OGSHelper
                 .narrow(grabModule(getModuleName(node))));
     }
-    
+
     private static void fetchVCCR(Node node) {
         myBioHolder.theVCCRModules.add(VCCRHelper
                 .narrow(grabModule(getModuleName(node))));

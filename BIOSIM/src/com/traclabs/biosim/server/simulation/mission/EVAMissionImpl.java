@@ -29,11 +29,11 @@ public class EVAMissionImpl extends MissionModuleImpl implements
         myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl();
         myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl();
     }
-    
+
     public PowerConsumerDefinition getPowerConsumerDefinition() {
         return myPowerConsumerDefinitionImpl.getCorbaObject();
     }
-    
+
     public AirConsumerDefinition getAirConsumerDefinition() {
         return myAirConsumerDefinitionImpl.getCorbaObject();
     }

@@ -51,15 +51,20 @@ public class VCCRSubsystem extends AirRSSubSystem {
     }
 
     private void gatherAir() {
-        float airNeededFiltered = myAirRS.randomFilter(molesAirNeeded * myProductionRate);
-        myBreath = myAirRS.getAirConsumerDefinitionImpl().getAirFromEnvironment(airNeededFiltered);
+        float airNeededFiltered = myAirRS.randomFilter(molesAirNeeded
+                * myProductionRate);
+        myBreath = myAirRS.getAirConsumerDefinitionImpl()
+                .getAirFromEnvironment(airNeededFiltered);
     }
 
     private void pushAir() {
-        Breath breathToDistribute = new Breath(myBreath.O2, 0f, myBreath.water, myBreath.other, myBreath.nitrogen);
-        Breath breathDistributed = myAirRS.getAirProducerDefinitionImpl().pushAirToEnvironments(breathToDistribute);
+        Breath breathToDistribute = new Breath(myBreath.O2, 0f, myBreath.water,
+                myBreath.other, myBreath.nitrogen);
+        Breath breathDistributed = myAirRS.getAirProducerDefinitionImpl()
+                .pushAirToEnvironments(breathToDistribute);
         currentCO2Produced = myBreath.CO2;
-        float distributedCO2Left = myAirRS.getCO2ProducerDefinitionImpl().pushResourceToStore(currentCO2Produced);
+        float distributedCO2Left = myAirRS.getCO2ProducerDefinitionImpl()
+                .pushResourceToStore(currentCO2Produced);
     }
 
     public void reset() {

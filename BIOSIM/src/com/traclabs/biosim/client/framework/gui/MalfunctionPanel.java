@@ -63,7 +63,7 @@ public class MalfunctionPanel extends TimedPanel {
         buildGui();
         refresh();
     }
-    
+
     public void refresh() {
         BioModule selectedModule = myModulePanel.getSelectedModule();
         if ((selectedModule == null) || (currentMalfunctionList == null))
@@ -71,7 +71,8 @@ public class MalfunctionPanel extends TimedPanel {
         else {
             int lastMalfunctionIndex = currentMalfunctionList
                     .getSelectedIndex();
-            currentMalfunctionList.setListData(selectedModule.getMalfunctions());
+            currentMalfunctionList
+                    .setListData(selectedModule.getMalfunctions());
             if ((lastMalfunctionIndex != -1)
                     && (lastMalfunctionIndex < currentMalfunctionList
                             .getModel().getSize()))
@@ -112,7 +113,8 @@ public class MalfunctionPanel extends TimedPanel {
         myModulePanel = new ModulePanel();
         myModulePanel.setBorder(BorderFactory
                 .createTitledBorder("Module Select"));
-        myModulePanel.addModuleSelectionListener(new MalfunctionModuleListener());
+        myModulePanel
+                .addModuleSelectionListener(new MalfunctionModuleListener());
     }
 
     private void createOperatorPanel() {
@@ -233,8 +235,6 @@ public class MalfunctionPanel extends TimedPanel {
         myMalfPanel.visibilityChange(true);
     }
 
-    
-
     private MalfunctionIntensity getSelectedIntensity() {
         String intensityString = (String) (intensityComboBox.getSelectedItem());
         if (intensityString.equals("Severe"))
@@ -305,7 +305,7 @@ public class MalfunctionPanel extends TimedPanel {
             BioModule myModule = myModulePanel.getSelectedModule();
             MalfunctionIntensity myIntensity = getSelectedIntensity();
             MalfunctionLength myLength = getSelectedLength();
-            myLogger.debug("myModule = "+myModule);
+            myLogger.debug("myModule = " + myModule);
             if (myModule == null || myIntensity == null || myLength == null)
                 return;
             else {

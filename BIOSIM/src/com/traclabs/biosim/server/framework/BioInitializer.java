@@ -255,7 +255,8 @@ public class BioInitializer {
                 for (int i = 0; i < crewGroups.length; i++) {
                     try {
                         crewGroups[i] = CrewGroupHelper.narrow(OrbUtils
-                                .getNamingContext(myID).resolve_str(crewsToWatchArray[i]));
+                                .getNamingContext(myID).resolve_str(
+                                        crewsToWatchArray[i]));
                         myLogger.debug("Fetched "
                                 + crewGroups[i].getModuleName());
                     } catch (org.omg.CORBA.UserException e) {
@@ -275,7 +276,8 @@ public class BioInitializer {
                 for (int i = 0; i < biomassRSs.length; i++) {
                     try {
                         biomassRSs[i] = BiomassRSHelper.narrow(OrbUtils
-                                .getNamingContext(myID).resolve_str(plantsToWatchArray[i]));
+                                .getNamingContext(myID).resolve_str(
+                                        plantsToWatchArray[i]));
                         myLogger.debug("Fetched "
                                 + biomassRSs[i].getModuleName());
                     } catch (org.omg.CORBA.UserException e) {

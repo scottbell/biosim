@@ -18,8 +18,8 @@ public class WaterAirEnvironmentOutFlowRateActuatorImpl extends
 
     protected void processData() {
         float myFilteredValue = randomFilter(myValue);
-        getOutput().getWaterAirProducerDefinition().setEnvironmentDesiredFlowRate(
-                myFilteredValue, myIndex);
+        getOutput().getWaterAirProducerDefinition()
+                .setEnvironmentDesiredFlowRate(myFilteredValue, myIndex);
     }
 
     protected void notifyListeners() {
@@ -36,7 +36,8 @@ public class WaterAirEnvironmentOutFlowRateActuatorImpl extends
     }
 
     public float getMax() {
-        return myProducer.getWaterAirProducerDefinition().getEnvironmentMaxFlowRate(myIndex);
+        return myProducer.getWaterAirProducerDefinition()
+                .getEnvironmentMaxFlowRate(myIndex);
     }
 
     public WaterAirProducer getOutput() {

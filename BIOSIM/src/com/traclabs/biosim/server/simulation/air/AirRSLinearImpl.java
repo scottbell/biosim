@@ -44,26 +44,36 @@ import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
  * @author Scott Bell
  */
 
-public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations,
-        PowerConsumerOperations, PotableWaterConsumerOperations,
-        PotableWaterProducerOperations, AirConsumerOperations,
-        O2ProducerOperations, AirProducerOperations, CO2ProducerOperations,
-        CO2ConsumerOperations, H2ProducerOperations, H2ConsumerOperations {
+public class AirRSLinearImpl extends SimBioModuleImpl implements
+        AirRSOperations, PowerConsumerOperations,
+        PotableWaterConsumerOperations, PotableWaterProducerOperations,
+        AirConsumerOperations, O2ProducerOperations, AirProducerOperations,
+        CO2ProducerOperations, CO2ConsumerOperations, H2ProducerOperations,
+        H2ConsumerOperations {
 
     //Consumers, Producers
     private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
+
     private PotableWaterConsumerDefinitionImpl myPotableWaterConsumerDefinitionImpl;
+
     private PotableWaterProducerDefinitionImpl myPotableWaterProducerDefinitionImpl;
+
     private AirConsumerDefinitionImpl myAirConsumerDefinitionImpl;
+
     private AirProducerDefinitionImpl myAirProducerDefinitionImpl;
+
     private O2ProducerDefinitionImpl myO2ProducerDefinitionImpl;
+
     private CO2ConsumerDefinitionImpl myCO2ConsumerDefinitionImpl;
+
     private CO2ProducerDefinitionImpl myCO2ProducerDefinitionImpl;
+
     private H2ProducerDefinitionImpl myH2ProducerDefinitionImpl;
+
     private H2ConsumerDefinitionImpl myH2ConsumerDefinitionImpl;
-    
+
     private Breath myCurrentBreath = new Breath(0f, 0f, 0f, 0f, 0f);
-    
+
     private float currentPowerConsumed = 0f;
 
     private float currentCO2Produced = 0f;
@@ -75,7 +85,7 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations
     private float currentH2OProduced;
 
     private float currentCH4Produced;
-    
+
     private float CH4Produced = 0f;
 
     private float currentH2OConsumed;
@@ -83,7 +93,7 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations
     private float currentO2Produced;
 
     private float currentH2Produced;
-    
+
     //multiply times power to determine how much air/H2/water we're consuming
     private static final float LINEAR_MULTIPLICATIVE_FACTOR = 100;
 
@@ -100,51 +110,52 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations
         myH2ProducerDefinitionImpl = new H2ProducerDefinitionImpl();
         myH2ConsumerDefinitionImpl = new H2ConsumerDefinitionImpl();
     }
-    
-    public PowerConsumerDefinition getPowerConsumerDefinition(){
+
+    public PowerConsumerDefinition getPowerConsumerDefinition() {
         return myPowerConsumerDefinitionImpl.getCorbaObject();
     }
-    
-    public PotableWaterConsumerDefinition getPotableWaterConsumerDefinition(){
+
+    public PotableWaterConsumerDefinition getPotableWaterConsumerDefinition() {
         return myPotableWaterConsumerDefinitionImpl.getCorbaObject();
     }
-    
-    public PotableWaterProducerDefinition getPotableWaterProducerDefinition(){
+
+    public PotableWaterProducerDefinition getPotableWaterProducerDefinition() {
         return myPotableWaterProducerDefinitionImpl.getCorbaObject();
     }
-    
-    public AirConsumerDefinition getAirConsumerDefinition(){
+
+    public AirConsumerDefinition getAirConsumerDefinition() {
         return myAirConsumerDefinitionImpl.getCorbaObject();
     }
-    
-    public AirProducerDefinition getAirProducerDefinition(){
+
+    public AirProducerDefinition getAirProducerDefinition() {
         return myAirProducerDefinitionImpl.getCorbaObject();
     }
-    
-    public CO2ProducerDefinition getCO2ProducerDefinition(){
+
+    public CO2ProducerDefinition getCO2ProducerDefinition() {
         return myCO2ProducerDefinitionImpl.getCorbaObject();
     }
-    
-    public CO2ConsumerDefinition getCO2ConsumerDefinition(){
+
+    public CO2ConsumerDefinition getCO2ConsumerDefinition() {
         return myCO2ConsumerDefinitionImpl.getCorbaObject();
     }
-    
-    public O2ProducerDefinition getO2ProducerDefinition(){
+
+    public O2ProducerDefinition getO2ProducerDefinition() {
         return myO2ProducerDefinitionImpl.getCorbaObject();
     }
-    
-    public H2ProducerDefinition getH2ProducerDefinition(){
+
+    public H2ProducerDefinition getH2ProducerDefinition() {
         return myH2ProducerDefinitionImpl.getCorbaObject();
     }
-    
-    public H2ConsumerDefinition getH2ConsumerDefinition(){
+
+    public H2ConsumerDefinition getH2ConsumerDefinition() {
         return myH2ConsumerDefinitionImpl.getCorbaObject();
     }
-    
-    
+
     private void gatherPower() {
-        currentPowerConsumed = myPowerConsumerDefinitionImpl.getMostResourceFromStore();
+        currentPowerConsumed = myPowerConsumerDefinitionImpl
+                .getMostResourceFromStore();
     }
+
     /**
      * Processes a tick by collecting referernces (if needed), resources, and
      * pushing the new air out.
@@ -160,7 +171,7 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations
         gatherWater();
         pushOxygen();
     }
-    
+
     private void gatherAir() {
         float gatheredAir = 0f;
         float gatheredO2 = 0f;
@@ -169,23 +180,30 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations
         float gatheredWater = 0f;
         float gatheredNitrogen = 0f;
         float airNeeded = currentPowerConsumed * LINEAR_MULTIPLICATIVE_FACTOR;
-        myCurrentBreath = myAirConsumerDefinitionImpl.getAirFromEnvironment(airNeeded);
+        myCurrentBreath = myAirConsumerDefinitionImpl
+                .getAirFromEnvironment(airNeeded);
     }
 
     private void pushAir() {
-        Breath breathToDistribute = new Breath(myCurrentBreath.O2, 0f, myCurrentBreath.water, myCurrentBreath.other, myCurrentBreath.nitrogen);
-        Breath breathDistributed = myAirProducerDefinitionImpl.pushAirToEnvironments(breathToDistribute);
+        Breath breathToDistribute = new Breath(myCurrentBreath.O2, 0f,
+                myCurrentBreath.water, myCurrentBreath.other,
+                myCurrentBreath.nitrogen);
+        Breath breathDistributed = myAirProducerDefinitionImpl
+                .pushAirToEnvironments(breathToDistribute);
         currentCO2Produced = myCurrentBreath.CO2;
-        float distributedCO2Left = myCO2ProducerDefinitionImpl.pushResourceToStore(currentCO2Produced);
+        float distributedCO2Left = myCO2ProducerDefinitionImpl
+                .pushResourceToStore(currentCO2Produced);
     }
-    
+
     private void gatherH2andCO2() {
         float CO2Needed = currentPowerConsumed * LINEAR_MULTIPLICATIVE_FACTOR;
         float H2Needed = CO2Needed * 4f;
         float filteredCO2Needed = randomFilter(CO2Needed);
         float filteredH2Needed = randomFilter(H2Needed);
-        currentCO2Consumed = myCO2ConsumerDefinitionImpl.getResourceFromStore(filteredCO2Needed);
-        currentH2Consumed = myH2ConsumerDefinitionImpl.getResourceFromStore(filteredH2Needed);
+        currentCO2Consumed = myCO2ConsumerDefinitionImpl
+                .getResourceFromStore(filteredCO2Needed);
+        currentH2Consumed = myH2ConsumerDefinitionImpl
+                .getResourceFromStore(filteredH2Needed);
     }
 
     private void pushWaterAndMethane() {
@@ -199,9 +217,13 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations
             float limitingReactant = Math.min(currentH2Consumed / 4f,
                     currentCO2Consumed);
             if (limitingReactant == currentH2Consumed)
-                myCO2ConsumerDefinitionImpl.pushResourceToStore(currentCO2Consumed - limitingReactant); 
+                myCO2ConsumerDefinitionImpl
+                        .pushResourceToStore(currentCO2Consumed
+                                - limitingReactant);
             else
-                myH2ConsumerDefinitionImpl.pushResourceToStore(currentH2Consumed - 4f * limitingReactant);
+                myH2ConsumerDefinitionImpl
+                        .pushResourceToStore(currentH2Consumed - 4f
+                                * limitingReactant);
             float waterMolesProduced = 2f * limitingReactant;
             float waterLitersProduced = (waterMolesProduced * 18.01524f) / 1000f; //1000g/liter,
             // 18.01524g/mole
@@ -209,13 +231,15 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations
             currentH2OProduced = randomFilter(waterLitersProduced);
             currentCH4Produced = randomFilter(methaneMolesProduced);
         }
-        float distributedWaterLeft = myPotableWaterProducerDefinitionImpl.pushResourceToStore(currentH2OProduced);
+        float distributedWaterLeft = myPotableWaterProducerDefinitionImpl
+                .pushResourceToStore(currentH2OProduced);
         CH4Produced += currentCH4Produced;
     }
-    
+
     private void gatherWater() {
         float waterNeeded = currentPowerConsumed * LINEAR_MULTIPLICATIVE_FACTOR;
-        currentH2OConsumed = myPotableWaterConsumerDefinitionImpl.getResourceFromStore(waterNeeded);
+        currentH2OConsumed = myPotableWaterConsumerDefinitionImpl
+                .getResourceFromStore(waterNeeded);
     }
 
     private void pushOxygen() {
@@ -227,10 +251,12 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations
         currentH2Produced = randomFilter(molesOfReactant * 2f);
         float O2ToDistrubute = randomFilter(currentO2Produced);
         float H2ToDistrubute = randomFilter(currentH2Produced);
-        float distributedO2 = myO2ProducerDefinitionImpl.pushResourceToStore(O2ToDistrubute);
-        float distributedH2 = myH2ProducerDefinitionImpl.pushResourceToStore(H2ToDistrubute);
+        float distributedO2 = myO2ProducerDefinitionImpl
+                .pushResourceToStore(O2ToDistrubute);
+        float distributedH2 = myH2ProducerDefinitionImpl
+                .pushResourceToStore(H2ToDistrubute);
     }
-    
+
     protected String getMalfunctionName(MalfunctionIntensity pIntensity,
             MalfunctionLength pLength) {
         return "None";

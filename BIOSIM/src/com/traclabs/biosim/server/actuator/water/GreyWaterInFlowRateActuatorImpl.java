@@ -17,7 +17,8 @@ public class GreyWaterInFlowRateActuatorImpl extends GenericActuatorImpl
 
     protected void processData() {
         float myFilteredValue = randomFilter(myValue);
-        getOutput().getGreyWaterConsumerDefinition().setDesiredFlowRate(myFilteredValue, myIndex);
+        getOutput().getGreyWaterConsumerDefinition().setDesiredFlowRate(
+                myFilteredValue, myIndex);
     }
 
     protected void notifyListeners() {
@@ -42,6 +43,7 @@ public class GreyWaterInFlowRateActuatorImpl extends GenericActuatorImpl
     }
 
     public float getMax() {
-        return myConsumer.getGreyWaterConsumerDefinition().getMaxFlowRate(myIndex);
+        return myConsumer.getGreyWaterConsumerDefinition().getMaxFlowRate(
+                myIndex);
     }
 }

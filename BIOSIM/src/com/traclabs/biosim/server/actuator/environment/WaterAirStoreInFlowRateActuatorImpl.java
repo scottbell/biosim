@@ -17,8 +17,8 @@ public class WaterAirStoreInFlowRateActuatorImpl extends GenericActuatorImpl
 
     protected void processData() {
         float myFilteredValue = randomFilter(myValue);
-        getOutput().getWaterAirConsumerDefinition().setStoreDesiredFlowRate(myFilteredValue,
-                myIndex);
+        getOutput().getWaterAirConsumerDefinition().setStoreDesiredFlowRate(
+                myFilteredValue, myIndex);
     }
 
     protected void notifyListeners() {
@@ -31,7 +31,8 @@ public class WaterAirStoreInFlowRateActuatorImpl extends GenericActuatorImpl
     }
 
     public float getMax() {
-        return myConsumer.getWaterAirConsumerDefinition().getStoreMaxFlowRate(myIndex);
+        return myConsumer.getWaterAirConsumerDefinition().getStoreMaxFlowRate(
+                myIndex);
     }
 
     public BioModule getOutputModule() {

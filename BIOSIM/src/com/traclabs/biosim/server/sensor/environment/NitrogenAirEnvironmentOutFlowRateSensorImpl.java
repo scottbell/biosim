@@ -32,7 +32,8 @@ public class NitrogenAirEnvironmentOutFlowRateSensorImpl extends
     }
 
     public float getMax() {
-        return myProducer.getNitrogenAirProducerDefinition().getEnvironmentMaxFlowRate(myIndex);
+        return myProducer.getNitrogenAirProducerDefinition()
+                .getEnvironmentMaxFlowRate(myIndex);
     }
 
     public NitrogenAirProducer getInput() {

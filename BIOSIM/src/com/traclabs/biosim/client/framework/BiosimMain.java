@@ -34,9 +34,11 @@ public class BiosimMain {
         logProps.setProperty(
                 "log4j.appender.rootAppender.layout.ConversionPattern",
                 "%5p [%c] - %m%n");
-        /*logProps.setProperty(
-                "log4j.logger.com.traclabs.biosim.client.control.HandController",
-                "DEBUG");*/
+        /*
+         * logProps.setProperty(
+         * "log4j.logger.com.traclabs.biosim.client.control.HandController",
+         * "DEBUG");
+         */
         PropertyConfigurator.configure(logProps);
         myLogger = Logger.getLogger(this.getClass());
     }
@@ -54,7 +56,7 @@ public class BiosimMain {
     }
 
     private void checkArgs(String[] myArgs) {
-        myLogger.debug("arg length = "+myArgs.length);
+        myLogger.debug("arg length = " + myArgs.length);
         int myID = 0;
         String xmlFile = null;
         boolean wantsToRunCommandLine = false;
@@ -111,7 +113,7 @@ public class BiosimMain {
             BioHolderInitializer.setFileAndID(myID, xmlFile);
         else
             BioHolderInitializer.setID(myID);
-        
+
         if (wantsToRunCommandLine)
             runCommandLine(myID);
         else if (wantsToRunGUI)

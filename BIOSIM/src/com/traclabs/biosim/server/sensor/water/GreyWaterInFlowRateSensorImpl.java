@@ -16,8 +16,8 @@ public class GreyWaterInFlowRateSensorImpl extends GenericSensorImpl implements
     }
 
     protected void gatherData() {
-        float preFilteredValue = getInput().getGreyWaterConsumerDefinition().getActualFlowRate(
-                myIndex);
+        float preFilteredValue = getInput().getGreyWaterConsumerDefinition()
+                .getActualFlowRate(myIndex);
         myValue = randomFilter(preFilteredValue);
     }
 
@@ -43,6 +43,7 @@ public class GreyWaterInFlowRateSensorImpl extends GenericSensorImpl implements
     }
 
     public float getMax() {
-        return myConsumer.getGreyWaterConsumerDefinition().getMaxFlowRate(myIndex);
+        return myConsumer.getGreyWaterConsumerDefinition().getMaxFlowRate(
+                myIndex);
     }
 }

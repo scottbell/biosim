@@ -84,22 +84,28 @@ public class AirStorePanel extends GraphPanel {
             myDataset.addValue(myO2Store.getCurrentLevel(), series1, category);
             myDataset.addValue(myCO2Store.getCurrentLevel(), series2, category);
             myDataset.addValue(myH2Store.getCurrentLevel(), series3, category);
-            myDataset.addValue(myNitrogenStore.getCurrentLevel(), series4, category);
+            myDataset.addValue(myNitrogenStore.getCurrentLevel(), series4,
+                    category);
         } else {
-            float capacity1 = Math.max(myO2Store.getCurrentCapacity(), myCO2Store
+            float capacity1 = Math.max(myO2Store.getCurrentCapacity(),
+                    myCO2Store.getCurrentCapacity());
+            float capacity2 = Math.max(capacity1, myH2Store
                     .getCurrentCapacity());
-            float capacity2 = Math.max(capacity1, myH2Store.getCurrentCapacity());
-            float capacity3 = Math
-                    .max(capacity2, myNitrogenStore.getCurrentCapacity());
+            float capacity3 = Math.max(capacity2, myNitrogenStore
+                    .getCurrentCapacity());
             if ((rangeAxis.getRange().getUpperBound() != capacity3)
                     && (capacity3 > 0)) {
                 rangeAxis.setRange(0.0, capacity3);
                 myChartPanel.repaint();
             }
-            myDataset.setValue(new Float(myO2Store.getCurrentLevel()), "O2", "");
-            myDataset.setValue(new Float(myCO2Store.getCurrentLevel()), "CO2", "");
-            myDataset.setValue(new Float(myH2Store.getCurrentLevel()), "H2", "");
-            myDataset.setValue(new Float(myNitrogenStore.getCurrentLevel()), "N", "");
+            myDataset
+                    .setValue(new Float(myO2Store.getCurrentLevel()), "O2", "");
+            myDataset.setValue(new Float(myCO2Store.getCurrentLevel()), "CO2",
+                    "");
+            myDataset
+                    .setValue(new Float(myH2Store.getCurrentLevel()), "H2", "");
+            myDataset.setValue(new Float(myNitrogenStore.getCurrentLevel()),
+                    "N", "");
         }
     }
 

@@ -2,7 +2,6 @@ package com.traclabs.biosim.server.simulation.crew;
 
 import com.traclabs.biosim.idl.simulation.crew.EVAActivityPOA;
 
-
 /**
  * An EVA Activity for a crew member. During this activity, the crew member
  * detaches herself from the current environment and attachs to another (for the
@@ -12,12 +11,12 @@ import com.traclabs.biosim.idl.simulation.crew.EVAActivityPOA;
  * @author Scott Bell
  */
 
-public class EVAActivityImpl extends EVAActivityPOA{
+public class EVAActivityImpl extends EVAActivityPOA {
     private String myBaseCrewGroupName;
 
     private String myEVACrewGroupName;
-    
-//  The name of this activity
+
+    //  The name of this activity
     private String myName = "unknown";
 
     //How long this activity will be performed
@@ -26,7 +25,8 @@ public class EVAActivityImpl extends EVAActivityPOA{
     //The intensity of this activity (how much exertion it takes to perform it)
     private int myActivityIntensity = 0;
 
-    public EVAActivityImpl(String pName, int pTimeLength, int pIntensity,String pBaseCrewGroupName, String pEVACrewGroupName) {
+    public EVAActivityImpl(String pName, int pTimeLength, int pIntensity,
+            String pBaseCrewGroupName, String pEVACrewGroupName) {
 
         myName = pName;
         myTimeLength = pTimeLength;

@@ -40,9 +40,9 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
     private GreyWaterConsumerDefinitionImpl myGreyWaterConsumerDefinitionImpl;
 
     private DirtyWaterConsumerDefinitionImpl myDirtyWaterConsumerDefinitionImpl;
-    
+
     private PotableWaterProducerDefinitionImpl myPotableWaterProducerDefinitionImpl;
-    
+
     //The various subsystems of Water RS that clean the water
     private BWP myBWP;
 
@@ -51,7 +51,7 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
     private AES myAES;
 
     private PPS myPPS;
-    
+
     private WaterRSSubSystem[] mySubsystems;
 
     private WaterRSOperationMode myMode;
@@ -67,7 +67,7 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
         myGreyWaterConsumerDefinitionImpl = new GreyWaterConsumerDefinitionImpl();
         myDirtyWaterConsumerDefinitionImpl = new DirtyWaterConsumerDefinitionImpl();
         myPotableWaterProducerDefinitionImpl = new PotableWaterProducerDefinitionImpl();
-        
+
         myBWP = new BWP(this);
         myRO = new RO(this);
         myAES = new AES(this);
@@ -78,7 +78,7 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
         mySubsystems[2] = myAES;
         mySubsystems[3] = myPPS;
     }
-    
+
     public PowerConsumerDefinition getPowerConsumerDefinition() {
         return myPowerConsumerDefinitionImpl.getCorbaObject();
     }
@@ -86,7 +86,7 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
     public GreyWaterConsumerDefinition getGreyWaterConsumerDefinition() {
         return myGreyWaterConsumerDefinitionImpl.getCorbaObject();
     }
-    
+
     public DirtyWaterConsumerDefinition getDirtyWaterConsumerDefinition() {
         return myDirtyWaterConsumerDefinitionImpl.getCorbaObject();
     }
@@ -181,7 +181,7 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
      *         tick
      */
     public float getPowerConsumed() {
-        float powerConsumed = 0f; 
+        float powerConsumed = 0f;
         for (int i = 0; i < mySubsystems.length; i++)
             powerConsumed += mySubsystems[i].getPowerConsumed();
         return powerConsumed;
@@ -219,17 +219,20 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
     private void enableSubsystemsBasedOnPower() {
         float sumOfDesiredFlowRates = 0f;
         for (int i = 0; i < getPowerConsumerDefinition().getDesiredFlowRates().length; i++)
-            sumOfDesiredFlowRates += getPowerConsumerDefinition().getDesiredFlowRate(i);
-        
+            sumOfDesiredFlowRates += getPowerConsumerDefinition()
+                    .getDesiredFlowRate(i);
+
         float totalPowerNeeded = 0;
         for (int i = 0; i < mySubsystems.length; i++)
             totalPowerNeeded += mySubsystems[i].getBasePowerNeeded();
-        
+
         if (sumOfDesiredFlowRates >= totalPowerNeeded)
             setOperationMode(WaterRSOperationMode.FULL);
-        else if (sumOfDesiredFlowRates >= (totalPowerNeeded - myAES.getBasePowerNeeded()))
-                setOperationMode(WaterRSOperationMode.PARTIAL);
-        else if (sumOfDesiredFlowRates >= (totalPowerNeeded - myAES.getBasePowerNeeded() - myPPS.getBasePowerNeeded()))
+        else if (sumOfDesiredFlowRates >= (totalPowerNeeded - myAES
+                .getBasePowerNeeded()))
+            setOperationMode(WaterRSOperationMode.PARTIAL);
+        else if (sumOfDesiredFlowRates >= (totalPowerNeeded
+                - myAES.getBasePowerNeeded() - myPPS.getBasePowerNeeded()))
             setOperationMode(WaterRSOperationMode.GREY_WATER_ONLY);
         else
             setOperationMode(WaterRSOperationMode.OFF);
@@ -324,25 +327,28 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
     public WaterRSOperationMode getOpertationMode() {
         return myMode;
     }
-    
+
     /**
      * @return Returns the myDirtyWaterConsumerDefinitionImpl.
      */
     protected DirtyWaterConsumerDefinitionImpl getDirtyWaterConsumerDefinitionImpl() {
         return myDirtyWaterConsumerDefinitionImpl;
     }
+
     /**
      * @return Returns the myGreyWaterConsumerDefinitionImpl.
      */
     protected GreyWaterConsumerDefinitionImpl getGreyWaterConsumerDefinitionImpl() {
         return myGreyWaterConsumerDefinitionImpl;
     }
+
     /**
      * @return Returns the myPotableWaterProducerDefinitionImpl.
      */
     protected PotableWaterProducerDefinitionImpl getPotableWaterProducerDefinitionImpl() {
         return myPotableWaterProducerDefinitionImpl;
     }
+
     /**
      * @return Returns the myPowerConsumerDefinitionImpl.
      */

@@ -1,6 +1,5 @@
 package com.traclabs.biosim.server.simulation.water;
 
-
 /**
  * The PPS is the last stage of water purification. It takes water from the AES,
  * filters it, and waits for the WaterRS to send the now clean water to the
@@ -29,7 +28,9 @@ public class PPS extends WaterRSSubSystem {
     private void pushWater() {
         potableWaterProduced = waterLevel;
         waterLevel = 0;
-        float distributedWaterLeft = myWaterRS.getPotableWaterProducerDefinitionImpl().pushResourceToStore(potableWaterProduced);
+        float distributedWaterLeft = myWaterRS
+                .getPotableWaterProducerDefinitionImpl().pushResourceToStore(
+                        potableWaterProduced);
     }
 
     public float getPotableWaterProduced() {
