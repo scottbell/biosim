@@ -1,15 +1,17 @@
 /*
- * Created on Jan 26, 2005
+ * Created on Jan 31, 2005
  *
  * TODO
  */
 package com.traclabs.biosim.server.editor;
+
+import javax.swing.JPanel;
 
 /**
  * @author scott
  *
  * TODO
  */
-public class CrewPanel extends ModulePanel {
+public class ButtonPanel extends JPanel {
 
 }

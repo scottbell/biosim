@@ -10,6 +10,6 @@ package com.traclabs.biosim.server.editor;
  *
  * TODO
  */
-public class WastePanel extends ModulePanel {
+public class PowerToolBar extends EditorToolBar {
 
 }
