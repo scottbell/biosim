@@ -95,12 +95,10 @@ public class BioSimulator implements Runnable
 
 	public void addDisplayListener(ActionListener listener){
 		myTimer.addActionListener(listener);
-		System.out.println("Added");
 	}
 	
 	public void removeDisplayListener(ActionListener listener){
 		myTimer.removeActionListener(listener);
-		System.out.println("Removed");
 	}
 
 	/**
