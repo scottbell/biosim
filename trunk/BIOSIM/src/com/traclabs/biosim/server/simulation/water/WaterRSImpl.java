@@ -76,7 +76,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	* Returns the RO subsystem
 	* @return the RO subsystem
 	*/
-	protected RO getRO(){
+	RO getRO(){
 		return myRO;
 	}
 	
@@ -92,7 +92,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	* Returns the AES subsystem
 	* @return the AES subsystem
 	*/
-	protected AES getAES(){
+	AES getAES(){
 		return myAES;
 	}
 	
@@ -144,7 +144,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	* Returns the PPS subsystem
 	* @return the PPS subsystem
 	*/
-	protected PPS getPPS(){
+	PPS getPPS(){
 		return myPPS;
 	}
 
@@ -176,7 +176,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	* Returns the BWP subsystem
 	* @return the BWP subsystem
 	*/
-	protected BWP getBWP(){
+	BWP getBWP(){
 		return myBWP;
 	}
 
