@@ -125,6 +125,8 @@ then
 	$compilationInvocation $simSkeletonDir/idl/sensor/air/*.java
 	echo "				-compiling environment skeletons/stubs"
 	$compilationInvocation $simSkeletonDir/idl/sensor/environment/*.java
+	echo "				-compiling crew skeletons/stubs"
+	$compilationInvocation $simSkeletonDir/idl/sensor/crew/*.java
 	echo "				-compiling food skeletons/stubs"
 	$compilationInvocation $simSkeletonDir/idl/sensor/food/*.java
 	echo "				-compiling power skeletons/stubs"
@@ -165,6 +167,14 @@ echo "				-compiling framework implementation"
 $compilationInvocation $serverDir/sensor/framework/*.java
 echo "				-compiling air implementation"
 $compilationInvocation $serverDir/sensor/air/*.java
+echo "				-compiling environment implementation"
+$compilationInvocation $serverDir/sensor/environment/*.java
+echo "				-compiling food implementation"
+$compilationInvocation $serverDir/sensor/food/*.java
+echo "				-compiling power implementation"
+$compilationInvocation $serverDir/sensor/power/*.java
+echo "				-compiling water implementation"
+$compilationInvocation $serverDir/sensor/water/*.java
 echo "*done building biosim"
 
 
