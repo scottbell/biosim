@@ -54,6 +54,7 @@ module biosim{
                                 typedef sequence <Shelf> ShelfList;
                                 typedef sequence <BiomassStore> BiomassStoreList;
                                 typedef sequence <FoodStore> FoodStoreList;
+                                enum PlantType {WHEAT};
                         };
                         module environment{
                                 interface SimEnvironment;

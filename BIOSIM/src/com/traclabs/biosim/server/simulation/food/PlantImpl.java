@@ -14,10 +14,10 @@ public abstract class PlantImpl extends PlantPOA{
 	int myAge = 0;
 	private LogIndex myLogIndex;
 	private boolean logInitialized = false;
-	BiomassRSImpl myBiomassImpl;
+	ShelfImpl myShelfImpl;
 
-	public PlantImpl(BiomassRSImpl pBiomassImpl){
-		myBiomassImpl = pBiomassImpl;
+	public PlantImpl(ShelfImpl pShelfImpl){
+		myShelfImpl = pShelfImpl;
 	}
 
 	public void reset(){

@@ -6,8 +6,8 @@ package biosim.server.simulation.food;
  */
 
 public class Wheat extends PlantImpl{
-	public Wheat(BiomassRSImpl pBiomassImpl){
-		super(pBiomassImpl);
+	public Wheat(ShelfImpl pShelfImpl){
+		super(pShelfImpl);
 	}
 
 	public String getPlantType(){

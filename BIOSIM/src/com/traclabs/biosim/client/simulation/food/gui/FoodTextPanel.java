@@ -45,7 +45,7 @@ public class FoodTextPanel extends TimedPanel
 		myBiomassStore = (BiomassStore)(BioHolder.getBioModule(BioHolder.biomassStoreName));
 		myFoodProcessor = (FoodProcessor)(BioHolder.getBioModule(BioHolder.foodProcessorName));
 		myFoodStore = (FoodStore)(BioHolder.getBioModule(BioHolder.foodStoreName));
-		//buildGui();
+		buildGui();
 	}
 	/**
 	* Contructs GUI components, adds them to the panel.
