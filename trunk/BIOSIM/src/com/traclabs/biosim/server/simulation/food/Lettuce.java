@@ -30,24 +30,20 @@ public class Lettuce extends Planophile{
 
 	public float getPPFNeeded(){
 		float cropArea = myShelfImpl.getCropArea();
-		float constantPPF = 115f; //in moles per meters squared days
+		float constantPPF = 17f; //in moles per meters squared days
 		return (constantPPF * cropArea) / 24;
 	}
 	
 	protected float getCarbonUseEfficiency24(){
-		return 0.0f;
+		return 0.625f;
 	}
 
 	protected float getBCF(){
-		return 0.44f;
+		return 0.40f;
 	}
 	
 	protected float getCUEMax(){
 		return 0.65f;
-	}
-	
-	protected float getCUEMin(){
-		return 0.50f;
 	}
 
 	protected float getPhotoperiod(){

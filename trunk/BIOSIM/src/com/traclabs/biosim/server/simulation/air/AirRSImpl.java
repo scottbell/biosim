@@ -2,6 +2,7 @@ package biosim.server.simulation.air;
 
 import biosim.idl.simulation.air.*;
 import biosim.idl.simulation.power.*;
+import biosim.idl.simulation.water.*;
 import biosim.idl.simulation.framework.*;
 import biosim.idl.simulation.environment.*;
 import biosim.idl.framework.*;
@@ -17,7 +18,7 @@ import biosim.server.simulation.framework.*;
  * @author    Scott Bell
  */
 
-public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, PowerConsumerOperations, AirConsumerOperations, O2ProducerOperations, CO2ProducerOperations, AirProducerOperations, CO2ConsumerOperations{
+public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, PowerConsumerOperations, PotableWaterConsumerOperations, PotableWaterProducerOperations, AirConsumerOperations, O2ProducerOperations, CO2ProducerOperations, AirProducerOperations, CO2ConsumerOperations{
 	private LogIndex myLogIndex;
 	private VCCR myVCCR;
 	private CRS myCRS;
@@ -26,27 +27,35 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	private OGS myOGS;
 	private O2Store[] myO2Stores;
 	private PowerStore[] myPowerStores;
+	private PotableWaterStore[] myPotableWaterStoreInputs;
+	private PotableWaterStore[] myPotableWaterStoreOutputs;
 	private CO2Store[] myCO2InputStores;
 	private CO2Store[] myCO2OutputStores;
 	private SimEnvironment[] mySimEnvironmentInputs;
 	private SimEnvironment[] mySimEnvironmentOutputs;
 	private float[] powerMaxFlowRates;
-	private float[] O2MaxFlowRates;
-	private float[] CO2InputMaxFlowRates;
-	private float[] CO2OutputMaxFlowRates;
-	private float[] airInMaxFlowRates;
-	private float[] airOutMaxFlowRates;
 	private float[] powerActualFlowRates;
-	private float[] O2ActualFlowRates;
-	private float[] CO2InputActualFlowRates;
-	private float[] CO2OutputActualFlowRates;
-	private float[] airInActualFlowRates;
-	private float[] airOutActualFlowRates;
 	private float[] powerDesiredFlowRates;
+	private float[] potableWaterOutMaxFlowRates;
+	private float[] potableWaterOutActualFlowRates;
+	private float[] potableWaterOutDesiredFlowRates;
+	private float[] potableWaterInMaxFlowRates;
+	private float[] potableWaterInActualFlowRates;
+	private float[] potableWaterInDesiredFlowRates;
+	private float[] O2MaxFlowRates;
+	private float[] O2ActualFlowRates;
 	private float[] O2DesiredFlowRates;
+	private float[] CO2InputMaxFlowRates;
+	private float[] CO2InputActualFlowRates;
 	private float[] CO2InputDesiredFlowRates;
+	private float[] CO2OutputMaxFlowRates;
+	private float[] CO2OutputActualFlowRates;
 	private float[] CO2OutputDesiredFlowRates;
+	private float[] airInMaxFlowRates;
+	private float[] airInActualFlowRates;
 	private float[] airInDesiredFlowRates;
+	private float[] airOutMaxFlowRates;
+	private float[] airOutActualFlowRates;
 	private float[] airOutDesiredFlowRates;
 	private static final int NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER = 3;
 	private float myProductionRate = 1f;
@@ -66,22 +75,28 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 		mySimEnvironmentInputs = new SimEnvironment[0];
 		mySimEnvironmentOutputs = new SimEnvironment[0];
 		powerMaxFlowRates = new float[0];
-		O2MaxFlowRates = new float[0];
-		CO2InputMaxFlowRates = new float[0];
-		CO2OutputMaxFlowRates = new float[0];
-		airInMaxFlowRates = new float[0];
-		airOutMaxFlowRates = new float[0];
 		powerActualFlowRates = new float[0];
-		O2ActualFlowRates = new float[0];
-		CO2InputActualFlowRates = new float[0];
-		CO2OutputActualFlowRates = new float[0];
-		airInActualFlowRates = new float[0];
-		airOutActualFlowRates = new float[0];
 		powerDesiredFlowRates = new float[0];
+		potableWaterInMaxFlowRates = new float[0];
+		potableWaterInActualFlowRates = new float[0];
+		potableWaterInDesiredFlowRates = new float[0];
+		potableWaterOutMaxFlowRates = new float[0];
+		potableWaterOutActualFlowRates = new float[0];
+		potableWaterOutDesiredFlowRates = new float[0];
+		O2MaxFlowRates = new float[0];
+		O2ActualFlowRates = new float[0];
 		O2DesiredFlowRates = new float[0];
+		CO2InputMaxFlowRates = new float[0];
+		CO2InputActualFlowRates = new float[0];
 		CO2InputDesiredFlowRates = new float[0];
+		CO2OutputMaxFlowRates = new float[0];
+		CO2OutputActualFlowRates = new float[0];
 		CO2OutputDesiredFlowRates = new float[0];
+		airInMaxFlowRates = new float[0];
+		airInActualFlowRates = new float[0];
 		airInDesiredFlowRates = new float[0];
+		airOutMaxFlowRates = new float[0];
+		airOutActualFlowRates = new float[0];
 		airOutDesiredFlowRates = new float[0];
 	}
 
@@ -89,28 +104,12 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 		return myVCCR.hasPower();
 	}
 
-	public boolean VCCRHasEnoughAir(){
-		return myVCCR.hasEnoughAir();
-	}
-
 	public boolean CRSHasPower(){
 		return myCRS.hasPower();
 	}
 
-	public boolean CRSHasEnoughCO2(){
-		return myCRS.hasEnoughCO2();
-	}
-
-	public boolean CRSHasEnoughH2(){
-		return myCRS.hasEnoughH2();
-	}
-
 	public boolean OGSHasPower(){
 		return myOGS.hasPower();
-	}
-
-	public boolean OGSHasEnoughH2O(){
-		return myOGS.hasEnoughH2O();
 	}
 
 	VCCR getVCCR(){
@@ -310,6 +309,82 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	}
 	void addPowerInputActualFlowRate(float watts, int index){
 		powerActualFlowRates[index] += watts;
+	}
+	
+	//Potable Water Outputs
+	public void setPotableWaterOutputMaxFlowRate(float watts, int index){
+		potableWaterOutMaxFlowRates[index] = watts;
+	}
+	public float getPotableWaterOutputMaxFlowRate(int index){
+		return potableWaterOutMaxFlowRates[index];
+	}
+	public float[] getPotableWaterOutputMaxFlowRates(){
+		return potableWaterOutMaxFlowRates;
+	}
+	public void setPotableWaterOutputDesiredFlowRate(float watts, int index){
+		potableWaterOutDesiredFlowRates[index] = watts;
+	}
+	public float getPotableWaterOutputDesiredFlowRate(int index){
+		return potableWaterOutDesiredFlowRates[index];
+	}
+	public float[] getPotableWaterOutputDesiredFlowRates(){
+		return potableWaterOutDesiredFlowRates;
+	}
+	public float getPotableWaterOutputActualFlowRate(int index){
+		return potableWaterOutActualFlowRates[index];
+	}
+	public float[] getPotableWaterOutputActualFlowRates(){
+		return potableWaterOutActualFlowRates;
+	}
+	public void setPotableWaterOutputs(PotableWaterStore[] sources, float[] maxFlowRates, float[] desiredFlowRates){
+		myPotableWaterStoreOutputs = sources;
+		potableWaterOutMaxFlowRates = maxFlowRates;
+		potableWaterOutDesiredFlowRates = desiredFlowRates;
+		potableWaterOutActualFlowRates = new float[potableWaterOutDesiredFlowRates.length];
+	}
+	public PotableWaterStore[] getPotableWaterOutputs(){
+		return myPotableWaterStoreOutputs;
+	}
+	void addPotableWaterOutputActualFlowRate(float watts, int index){
+		potableWaterOutActualFlowRates[index] += watts;
+	}
+	
+	//Potable Water Inputs
+	public void setPotableWaterInputMaxFlowRate(float watts, int index){
+		potableWaterInMaxFlowRates[index] = watts;
+	}
+	public float getPotableWaterInputMaxFlowRate(int index){
+		return potableWaterInMaxFlowRates[index];
+	}
+	public float[] getPotableWaterInputMaxFlowRates(){
+		return potableWaterInMaxFlowRates;
+	}
+	public void setPotableWaterInputDesiredFlowRate(float watts, int index){
+		potableWaterInDesiredFlowRates[index] = watts;
+	}
+	public float getPotableWaterInputDesiredFlowRate(int index){
+		return potableWaterInDesiredFlowRates[index];
+	}
+	public float[] getPotableWaterInputDesiredFlowRates(){
+		return potableWaterInDesiredFlowRates;
+	}
+	public float getPotableWaterInputActualFlowRate(int index){
+		return potableWaterInActualFlowRates[index];
+	}
+	public float[] getPotableWaterInputActualFlowRates(){
+		return potableWaterInActualFlowRates;
+	}
+	public void setPotableWaterInputs(PotableWaterStore[] sources, float[] maxFlowRates, float[] desiredFlowRates){
+		myPotableWaterStoreInputs = sources;
+		potableWaterInMaxFlowRates = maxFlowRates;
+		potableWaterInDesiredFlowRates = desiredFlowRates;
+		potableWaterInActualFlowRates = new float[potableWaterInDesiredFlowRates.length];
+	}
+	public PotableWaterStore[] getPotableWaterInputs(){
+		return myPotableWaterStoreInputs;
+	}
+	void addPotableWaterInputActualFlowRate(float watts, int index){
+		potableWaterInActualFlowRates[index] += watts;
 	}
 	
 	//Air Inputs

@@ -29,7 +29,7 @@ public class WhitePotato extends Planophile{
 
 	public float getPPFNeeded(){
 		float cropArea = myShelfImpl.getCropArea();
-		float constantPPF = 115f; //in moles per meters squared days
+		float constantPPF = 28f; //in moles per meters squared days
 		return (constantPPF * cropArea) / 24;
 	}
 	
@@ -38,7 +38,7 @@ public class WhitePotato extends Planophile{
 	}
 
 	protected float getBCF(){
-		return 0.44f;
+		return 0.41f;
 	}
 	
 	protected float getCUEMax(){

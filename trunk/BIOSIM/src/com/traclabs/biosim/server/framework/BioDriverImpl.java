@@ -769,6 +769,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			O2Store[] O2StoreOutput = {myO2Store};
 			CO2Store[] CO2StoreOutput = {myCO2Store};
 			CO2Store[] CO2StoreInput = {myCO2Store};
+			PotableWaterStore[] potableWaterStoreOutput = {myPotableWaterStore};
+			PotableWaterStore[] potableWaterStoreInput = {myPotableWaterStore};
 			float[] powerMaxFlowRates = {0f};
 			float[] simEnvironmentInputMaxFlowRates = {0f};
 			float[] simEnvironmentOutputMaxFlowRates = {0f};
@@ -781,6 +783,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			float[] O2StoreActualFlowRates = {0f};
 			float[] CO2StoreInputActualFlowRates = {0f};
 			float[] CO2StoreOutputActualFlowRates = {0f};
+			float[] potableWaterStoreInputActualFlowRates = {0f};
+			float[] potableWaterStoreOutputActualFlowRates = {0f};
+			float[] potableWaterStoreInputMaxFlowRates = {0f};
+			float[] potableWaterStoreOutputMaxFlowRates = {0f};
 			AirRS myAirRS = AirRSHelper.narrow(getBioModule(myAirRSName));
 			myAirRS.setPowerInputs(powerStoreInput, powerMaxFlowRates, powerActualFlowRates);
 			myAirRS.setAirInputs(simEnvironmentInput, simEnvironmentInputMaxFlowRates, simEnvironmentInputActualFlowRates);
@@ -788,6 +794,9 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			myAirRS.setO2Outputs(O2StoreOutput, O2StoreMaxFlowRates, O2StoreActualFlowRates);
 			myAirRS.setCO2Outputs(CO2StoreOutput, CO2StoreOutputMaxFlowRates, CO2StoreInputActualFlowRates);
 			myAirRS.setCO2Inputs(CO2StoreInput, CO2StoreInputMaxFlowRates, CO2StoreOutputActualFlowRates);
+			myAirRS.setPotableWaterOutputs(potableWaterStoreOutput, potableWaterStoreOutputMaxFlowRates, potableWaterStoreInputActualFlowRates);
+			myAirRS.setPotableWaterInputs(potableWaterStoreInput, potableWaterStoreInputMaxFlowRates, potableWaterStoreOutputActualFlowRates);
+		
 		}
 
 		//Hook up Crew to other modules
@@ -856,6 +865,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			//Accumulate O2 from plant environment, put it in O2 store
 			SimEnvironment[] O2AirInput = {myPlantEnvironment};
 			O2Store[] O2AirOutput = {myO2Store};
+			//2.5 slpm (standard liters per minute) used for optimum in phase 3, fan spin capable of 3x this speed (WAG)
+			//so 7.5 slpm for all flow rates
+			// (7.5 liters O2 / min)(1000 grams/liters)(1 mole O2/ 31.9988 grams O2)(60 min/ hour)
+			// 7.5 O2 slpm == 14063.0 moles per hour
 			float[] O2AirInputMaxFlowRates = {0f};
 			float[] O2AirOutputMaxFlowRates = {0f};
 			float[] O2AirInputActualFlowRates = {0f};
@@ -865,6 +878,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			myAccumulator.setO2AirStoreOutputs(O2AirOutput, O2AirOutputMaxFlowRates, O2AirOutputActualFlowRates);
 
 			//Accumulate CO2 from crew environment, put it in CO2 store
+			// (7.5 liters CO2 / min)(1000 grams/liters)(1 mole CO2/ 40.0098 grams CO2)(60 min/ hour)
+			// 7.5 CO2 slpm == 11247.2 moles per hour
 			SimEnvironment[] CO2AirInput = {myCrewEnvironment};
 			CO2Store[] CO2AirOutput = {myCO2Store};
 			float[] CO2AirInputMaxFlowRates = {0f};
@@ -880,6 +895,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			//Take O2 from store, inject it into crew environment
 			O2Store[] O2AirInput = {myO2Store};
 			SimEnvironment[] O2AirOutput = {myCrewEnvironment};
+			//2.5 slpm (standard liters per minute) used for optimum in phase 3, fan spin capable of 3x this speed (WAG)
+			//so 7.5 slpm for all flow rates
+			// (7.5 liters O2 / min)(1000 grams/liters)(1 mole O2/ 31.9988 grams O2)(60 min/ hour)
+			// 7.5 O2 slpm == 14063.0 moles per hour
 			float[] O2AirInputMaxFlowRates = {0f};
 			float[] O2AirOutputMaxFlowRates = {0f};
 			float[] O2AirInputActualFlowRates = {0f};
@@ -889,6 +908,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			myInjector.setO2AirEnvironmentOutputs(O2AirOutput, O2AirOutputMaxFlowRates, O2AirOutputActualFlowRates);
 
 			//Take CO2 from store, inject it into plant environment
+			// (7.5 liters CO2 / min)(1000 grams/liters)(1 mole CO2/ 40.0098 grams CO2)(60 min/ hour)
+			// 7.5 CO2 slpm == 11247.2 moles per hour
 			CO2Store[] CO2AirInput = {myCO2Store};
 			SimEnvironment[] CO2AirOutput = {myPlantEnvironment};
 			float[] CO2AirInputMaxFlowRates = {0f};
@@ -1412,8 +1433,6 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	public synchronized void advanceOneTick(){
 		if (!simulationIsPaused)
 			pauseSimulation();
-		while (!simulationStarted)
-			OrbUtils.sleepAwhile();
 		collectReferences();
 		System.out.println("BioDriverImpl:"+myID+" ticking simulation once");
 		tick();

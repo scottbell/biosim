@@ -72,8 +72,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private float potableWaterNeeded = 0f;
 	//How much food this crew member needs to consume in one tick
 	private float foodNeeded = 0f;
-	//The breath inhaled by this crew member in the current tick
-	private Breath airRetrieved;
 	//Whether this crew member is sick or not.  If the crew member is sick, puts them into sleep like state.
 	private boolean sick = false;
 	//A mission productivity measure, used when "mission" is specified in the schedule.  Not implemented correctly yet.
@@ -100,7 +98,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		myCrewGroup = pCrewGroup;
 		mySchedule = new Schedule();
 		myCurrentActivity = mySchedule.getScheduledActivityByOrder(currentOrder);
-		airRetrieved = new Breath(0f, 0f, 0f, 0f);
 	}
 	
 	/**
@@ -119,17 +116,12 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		myCrewGroup = pCrewGroup;
 		mySchedule = new Schedule(pScheduleURL);
 		myCurrentActivity = mySchedule.getScheduledActivityByOrder(currentOrder);
-		airRetrieved = new Breath(0f, 0f, 0f, 0f);
 	}
 	
 	/**
 	* Resets the state of this crew member
 	*/
 	void reset(){
-		airRetrieved.O2 = 0f;
-		airRetrieved.CO2 = 0f;
-		airRetrieved.other = 0f;
-		airRetrieved.water = 0f;
 		mySchedule.reset();
 		myMissionProductivity = 0;
 		currentOrder = 0;
@@ -548,9 +540,17 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* @param aBreath the breath inhaled by the crew memeber this tick
 	* @return percentage of CO2 in air
 	*/
-	private float getCO2Ratio(Breath aBreath){
-		Double ratio = new Double(aBreath.CO2 / (aBreath.O2 + aBreath.CO2 + aBreath.other));
-		return ratio.floatValue();
+	private float getCO2Ratio(){
+		SimEnvironment[] myAirInputs = myCrewGroup.getAirInputs();
+		if (myAirInputs.length < 1){
+			return 0f;
+		}
+		else{
+			if (myAirInputs[0].getTotalMoles() <= 0)
+				return 0f;
+			else
+				return (myAirInputs[0].getCO2Moles() / myAirInputs[0].getTotalMoles());
+		}
 	}
 
 	/**
@@ -574,7 +574,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			personThirsty = false;
 			thirstTime = 0;
 		}
-		if (getCO2Ratio(airRetrieved) > 0.06){
+		if (getCO2Ratio() > 0.06){
 			personPoisoned = true;
 			poisonTime++;
 		}
@@ -653,19 +653,13 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		SimEnvironment[] myAirInputs = myCrewGroup.getAirInputs();
 		SimEnvironment[] myAirOutputs = myCrewGroup.getAirOutputs();
 		if (myAirInputs.length < 1){
-			airRetrieved.O2 = 0;
-			airRetrieved.CO2 = 0;
-			airRetrieved.other = 0;
-			airRetrieved.water = 0;
+			O2Consumed = 0f;
 		}
 		else{
-			airRetrieved = myAirInputs[0].takeO2Breath(O2Needed);
+			O2Consumed = myAirInputs[0].takeO2Moles(O2Needed);
 		}
-		O2Consumed = airRetrieved.O2;
 		if (myAirOutputs.length > 0){
 			myAirOutputs[0].addCO2Moles(CO2Produced);
-			myAirOutputs[0].addOtherMoles(airRetrieved.other);
-			myAirOutputs[0].addWaterMoles(airRetrieved.water);
 		}
 	}
 
@@ -726,13 +720,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			myLogIndex.potableWaterNeededIndex = potableWaterNeededHead.addChild(""+potableWaterNeeded);
 			LogNode foodNeededHead = myLogHead.addChild("food_needed");
 			myLogIndex.foodNeededIndex = foodNeededHead.addChild(""+foodNeeded);
-			LogNode airRetrievedHead = myLogHead.addChild("air_retrieved");
-			LogNode O2RetrievedHead = airRetrievedHead.addChild("O2_retrieved");
-			myLogIndex.O2RetrievedIndex = O2RetrievedHead.addChild(""+airRetrieved.O2);
-			LogNode CO2RetrievedHead = airRetrievedHead.addChild("CO2_retrieved");
-			myLogIndex.CO2RetrievedIndex = CO2RetrievedHead.addChild(""+airRetrieved.CO2);
-			LogNode otherRetrievedHead = airRetrievedHead.addChild("other_retrieved");
-			myLogIndex.otherRetrievedIndex = otherRetrievedHead.addChild(""+airRetrieved.other);
 			logInitialized = true;
 		}
 		else{
@@ -764,9 +751,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			myLogIndex.O2NeededIndex.setValue(""+O2Needed);
 			myLogIndex.potableWaterNeededIndex.setValue(""+potableWaterNeeded);
 			myLogIndex.foodNeededIndex.setValue(""+foodNeeded);
-			myLogIndex.O2RetrievedIndex.setValue(""+airRetrieved.O2);
-			myLogIndex.CO2RetrievedIndex.setValue(""+airRetrieved.CO2);
-			myLogIndex.otherRetrievedIndex.setValue(""+airRetrieved.other);
 		}
 	}
 
@@ -799,8 +783,5 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		public LogNode O2NeededIndex;
 		public LogNode potableWaterNeededIndex;
 		public LogNode foodNeededIndex;
-		public LogNode O2RetrievedIndex;
-		public LogNode CO2RetrievedIndex;
-		public LogNode otherRetrievedIndex;
 	}
 }

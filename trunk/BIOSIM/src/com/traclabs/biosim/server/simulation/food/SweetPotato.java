@@ -30,7 +30,7 @@ public class SweetPotato extends Planophile{
 
 	public float getPPFNeeded(){
 		float cropArea = myShelfImpl.getCropArea();
-		float constantPPF = 115f; //in moles per meters squared days
+		float constantPPF = 28f; //in moles per meters squared days
 		return (constantPPF * cropArea) / 24;
 	}
 	

@@ -32,7 +32,7 @@ public class Rice extends Erectophile{
 
 	public float getPPFNeeded(){
 		float cropArea = myShelfImpl.getCropArea();
-		float constantPPF = 115f; //in moles per meters squared days
+		float constantPPF = 33f; //in moles per meters squared days
 		return (constantPPF * cropArea) / 24;
 	}
 	

@@ -309,14 +309,14 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 			airOutActualFlowRates[i] = breathAdded.O2 + breathAdded.CO2 + breathAdded.other;
 		}
 
-		//Get CO2
+		//Get CO2 from stores/environment
 		float gatheredCO2Air = getMostResourceFromStore(myCO2AirStoreInputs, CO2AirStoreInMaxFlowRates, CO2AirStoreInDesiredFlowRates, CO2AirStoreInActualFlowRates);
 		for (int i = 0; i < myCO2AirEnvironmentInputs.length; i++){
 			float amountToTake = Math.min(CO2AirEnvironmentInMaxFlowRates[i], CO2AirEnvironmentInDesiredFlowRates[i]);
 			CO2AirEnvironmentInActualFlowRates[i] = myCO2AirEnvironmentInputs[i].takeCO2Moles(amountToTake);
 			gatheredCO2Air += CO2AirEnvironmentInActualFlowRates[i];
 		}
-		//Push CO2
+		//Push CO2 to stores/environment
 		float CO2AirPushed = pushResourceToStore(myCO2AirStoreOutputs, CO2AirStoreOutMaxFlowRates, CO2AirStoreOutDesiredFlowRates, CO2AirStoreOutActualFlowRates, gatheredCO2Air);
 		float CO2AirLeft = gatheredCO2Air - CO2AirPushed;
 		for (int i = 0; (i < myCO2AirEnvironmentOutputs.length) && (CO2AirLeft > 0); i++){
@@ -326,14 +326,14 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		}
 		CO2AirPushed = gatheredCO2Air - CO2AirLeft;
 
-		//Get O2
+		//Get O2 from stores/environment
 		float gatheredO2Air = getMostResourceFromStore(myO2AirStoreInputs, O2AirStoreInMaxFlowRates, O2AirStoreInDesiredFlowRates, O2AirStoreInActualFlowRates);
 		for (int i = 0; i < myO2AirEnvironmentInputs.length; i++){
 			float amountToTake = Math.min(O2AirEnvironmentInMaxFlowRates[i], O2AirEnvironmentInDesiredFlowRates[i]);
 			O2AirEnvironmentInActualFlowRates[i] = myO2AirEnvironmentInputs[i].takeO2Moles(amountToTake);
 			gatheredO2Air += O2AirEnvironmentInActualFlowRates[i];
 		}
-		//Push O2
+		//Push O2 to stores/environment
 		float O2AirPushed = pushResourceToStore(myO2AirStoreOutputs, O2AirStoreOutMaxFlowRates, O2AirStoreOutDesiredFlowRates, O2AirStoreOutActualFlowRates, gatheredO2Air);
 		float O2AirLeft = gatheredO2Air - O2AirPushed;
 		for (int i = 0; (i < myO2AirEnvironmentOutputs.length) && (O2AirLeft > 0); i++){
