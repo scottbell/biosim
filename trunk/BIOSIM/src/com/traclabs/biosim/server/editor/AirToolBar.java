@@ -8,15 +8,16 @@ import java.awt.GridBagLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 
 
 /**
  * @author scott
  */
 public class AirToolBar extends EditorToolBar {
-    private ButtonPanel myStorePanel;
-    private ButtonPanel myModulesPanel;
-    private ButtonPanel myConduitsPanel;
+    private JPanel myStorePanel;
+    private JPanel myModulesPanel;
+    private JPanel myConduitsPanel;
     
     private JButton myH2StoreButton;
     private JButton myNitrogenStoreButton;
@@ -31,9 +32,9 @@ public class AirToolBar extends EditorToolBar {
     private JButton myO2ConduitButton;
     
     public AirToolBar() {
-        myStorePanel = new ButtonPanel();
-        myModulesPanel = new ButtonPanel();
-        myConduitsPanel = new ButtonPanel();
+        myStorePanel = new JPanel();
+        myModulesPanel = new JPanel();
+        myConduitsPanel = new JPanel();
         myStorePanel.setBorder(BorderFactory.createTitledBorder("Stores"));
         myModulesPanel.setBorder(BorderFactory.createTitledBorder("Modules"));
         myConduitsPanel.setBorder(BorderFactory.createTitledBorder("Conduits"));
