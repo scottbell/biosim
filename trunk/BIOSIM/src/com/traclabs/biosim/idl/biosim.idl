@@ -38,7 +38,7 @@ module biosim{
                         interface Log;
                         interface Logger;
                         interface LogNode;
-                        enum LogHandlerType {screen,xml,flat,db};
+                        enum LogHandlerType {SCREEN,XML,FLAT,DB};
                         interface Log{
                                 LogNode getHead();
                         };

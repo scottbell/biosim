@@ -14,12 +14,15 @@ public class BiosimMain
 	*/
 	public static void main(String args[]) throws java.lang.InterruptedException
 	{
+		
 		BiosimMain myMain = new BiosimMain();
 		if (args.length > 0){
-			if (args[0].equals("-gui")){
+			if (args[0].equals("gui")){
+				myMain.runGUI();
 			}
-			else if (args[0].equals("-nogui")){
+			else if (args[0].equals("console")){
 				myMain.runCommandLine();
+				
 			}
 			else{
 				System.out.println("Unknown option!  Starting with GUI...");
@@ -27,6 +30,7 @@ public class BiosimMain
 			}
 		}
 		else{
+			System.out.println("No args.  Starting with GUI.");
 			myMain.runGUI();
 		}
 		

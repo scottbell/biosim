@@ -17,7 +17,7 @@ public class LoggerImpl extends LoggerPOA  {
 	
 	public LoggerImpl(){
 		//use default handler (System.out)
-		setLogHandlerType(LogHandlerType.screen);
+		setLogHandlerType(LogHandlerType.XML);
 	}
 	
 	public LoggerImpl(LogHandlerType pLogType){
@@ -58,14 +58,14 @@ public class LoggerImpl extends LoggerPOA  {
 	
 	public void setLogHandlerType(LogHandlerType pLogType){
 		logType = pLogType;
-		if (logType == LogHandlerType.screen)
+		if (logType == LogHandlerType.SCREEN)
 			myLogHandler = new ScreenLogHandler();
-		if (logType == LogHandlerType.db)
+		if (logType == LogHandlerType.DB)
 			myLogHandler = new ScreenLogHandler();
-		if (logType == LogHandlerType.flat)
+		if (logType == LogHandlerType.FLAT)
 			myLogHandler = new ScreenLogHandler();
-		if (logType == LogHandlerType.xml)
-			myLogHandler = new ScreenLogHandler();
+		if (logType == LogHandlerType.XML)
+			myLogHandler = new XMLLogHandler();
 	}
 	
 	public void processLog(Log logToProcess){
