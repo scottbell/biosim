@@ -5,7 +5,7 @@ module air{
                 float getO2Produced();
                 float getCO2Produced();
                 boolean VCCRHasPower();
-                boolean VCCRHasEnoughCO2();
+                boolean VCCRHasEnoughAir();
                 boolean CRSHasPower();
                 boolean CRSHasEnoughCO2();
                 boolean CRSHasEnoughH2();

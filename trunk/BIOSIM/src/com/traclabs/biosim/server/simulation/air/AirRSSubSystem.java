@@ -14,7 +14,7 @@ public abstract class AirRSSubSystem{
 	//During any given tick, this much power (in watts) is needed for a air subsystem (default)
 	float powerNeeded =100;
 	AirRSImpl myAirRS;
-	PowerStore myPowerStore;
+	PowerStore[] myPowerStores;
 	//Flag to determine whether the air subsystem has received enough power for this tick
 	boolean hasEnoughPower = false;
 	private boolean logInitialized = false;
@@ -43,7 +43,11 @@ public abstract class AirRSSubSystem{
 	* Adds power to the subsystem for this tick
 	*/
 	protected void gatherPower(){
-		currentPowerConsumed = myPowerStore.take(powerNeeded);
+		float gatheredPower = 0f;
+		for (int i = 0; (i < myPowerStores.length) && (gatheredPower >= powerNeeded); i++){
+			gatheredPower += myPowerStores[i].take(powerNeeded);
+		}
+		currentPowerConsumed = gatheredPower;
 		if (currentPowerConsumed < powerNeeded){
 			hasEnoughPower = false;
 		}
