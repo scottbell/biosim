@@ -9,11 +9,12 @@ public class Wheat extends Plant{
 	private static final int HARVEST_TIME=1992;  //hours to harvest
 	private static final float EDIBLE_KILOGRAMS = .0025f;  //edible kilograms per meter squared per hour
 
-	public Wheat(){
+	public Wheat(int pID){
+		super(pID);
 	}
 
-	public Wheat(float pTotalArea){
-		super(pTotalArea);
+	public Wheat(int pID, float pTotalArea){
+		super(pID, pTotalArea);
 	}
 
 	protected void calculateCO2Needed(){

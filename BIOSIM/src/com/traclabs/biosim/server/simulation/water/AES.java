@@ -43,7 +43,7 @@ public class AES extends WaterRSSubSystem{
 			try{
 				myPPS = myWaterRS.getPPS();
 				hasCollectedReferences = true;
-				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"));
+				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"+myWaterRS.getID()));
 			}
 			catch (org.omg.CORBA.UserException e){
 				e.printStackTrace();

@@ -37,11 +37,14 @@ public abstract class Plant {
 	private BiomassStore myBiomassStore;
 	private LogIndex myLogIndex;
 	private boolean logInitialized = false;
+	private int myID = 0;
 
-	public Plant(){
+	public Plant(int pID){
+		myID = pID;
 	}
 
-	public Plant(float pTotalArea){
+	public Plant(int pID, float pTotalArea){
+		myID = pID;
 		totalArea = pTotalArea;
 	}
 
@@ -206,8 +209,8 @@ public abstract class Plant {
 	private void collectReferences(){
 		if (!hasCollectedReferences){
 			try{
-				mySimEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str("SimEnvironment"));
-				myBiomassStore = BiomassStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("BiomassStore"));
+				mySimEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str("SimEnvironment"+myID));
+				myBiomassStore = BiomassStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("BiomassStore"+myID));
 				hasCollectedReferences = true;
 			}
 			catch (org.omg.CORBA.UserException e){

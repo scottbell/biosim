@@ -41,9 +41,9 @@ public class BWP extends WaterRSSubSystem{
 			try{
 				myRO = myWaterRS.getRO();
 				myAES = myWaterRS.getAES();
-				myDirtyWaterStore = DirtyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("DirtyWaterStore"));
-				myGreyWaterStore = GreyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("GreyWaterStore"));
-				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"));
+				myDirtyWaterStore = DirtyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("DirtyWaterStore"+myWaterRS.getID()));
+				myGreyWaterStore = GreyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("GreyWaterStore"+myWaterRS.getID()));
+				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"+myWaterRS.getID()));
 				hasCollectedReferences = true;
 			}
 			catch (org.omg.CORBA.UserException e){

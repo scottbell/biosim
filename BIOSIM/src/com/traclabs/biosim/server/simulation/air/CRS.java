@@ -46,7 +46,7 @@ public class CRS extends AirRSSubSystem{
 				myH2Tank = myAirRS.getH2Tank();
 				myCH4Tank = myAirRS.getCH4Tank();
 				myOGS = myAirRS.getOGS();
-				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"));
+				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"+myAirRS.getID()));
 				hasCollectedReferences = true;
 			}
 			catch (org.omg.CORBA.UserException e){

@@ -25,14 +25,17 @@ public class ShelfImpl extends ShelfPOA {
 	private PowerStore myPowerStore;
 	private LogIndex myLogIndex;
 	private boolean logInitialized = false;
+	private int myID = 0;
 	
-	public ShelfImpl(){
-		myCrop = new Wheat(totalArea);
+	public ShelfImpl(int pID){
+		myCrop = new Wheat(myID, totalArea);
+		myID = pID;
 	}
 	
-	public ShelfImpl(float pTotalArea){
+	public ShelfImpl(int pID, float pTotalArea){
 		totalArea = pTotalArea;
-		myCrop = new Wheat(totalArea);
+		myCrop = new Wheat(myID, totalArea);
+		myID = pID;
 	}
 	
 	/**
@@ -41,9 +44,9 @@ public class ShelfImpl extends ShelfPOA {
 	private void collectReferences(){
 		if (!hasCollectedReferences){
 			try{
-				myPotableWaterStore = PotableWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PotableWaterStore"));
-				myGreyWaterStore = GreyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("GreyWaterStore"));
-				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"));
+				myPotableWaterStore = PotableWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PotableWaterStore"+myID));
+				myGreyWaterStore = GreyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("GreyWaterStore"+myID));
+				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"+myID));
 				hasCollectedReferences = true;
 			}
 			catch (org.omg.CORBA.UserException e){

@@ -21,7 +21,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 		super(pID);
 		myShelves = new Vector(shelfCapacity);
 		for (int i = 0; i < shelfCapacity; i++){
-			myShelves.add(new ShelfImpl());
+			myShelves.add(new ShelfImpl(pID));
 		}
 	}
 	
@@ -30,7 +30,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 		shelfCapacity = pShelfCapacity;
 		myShelves = new Vector(shelfCapacity);
 		for (int i = 0; i < shelfCapacity; i++){
-			myShelves.add(new ShelfImpl());
+			myShelves.add(new ShelfImpl(pID));
 		}
 	}
 	

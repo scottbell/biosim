@@ -81,7 +81,7 @@ public class RO extends WaterRSSubSystem{
 			try{
 				myAES = myWaterRS.getAES();
 				myPPS = myWaterRS.getPPS();
-				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"));
+				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"+myWaterRS.getID()));
 				hasCollectedReferences = true;
 			}
 			catch (org.omg.CORBA.UserException e){
