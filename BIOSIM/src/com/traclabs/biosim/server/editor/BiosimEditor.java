@@ -1,6 +1,5 @@
 package com.traclabs.biosim.server.editor;
 
-import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -56,9 +55,9 @@ public class BiosimEditor {
 
     private JMenuItem myAboutItem;
 
-    private com.traclabs.biosim.server.editor.BiosimEditor.AboutAction myAboutAction;
+    private AboutAction myAboutAction;
 
-    private com.traclabs.biosim.server.editor.BiosimEditor.QuitAction myQuitAction;
+    private QuitAction myQuitAction;
 
     public BiosimEditor() {
         initLogger();
@@ -71,14 +70,27 @@ public class BiosimEditor {
     private void buildGui() {
         //init graph
         myGraph = new JGraph();
-        myGraph.setDefaultSize(640, 480);
+        myGraph.setDrawingSize(0, 0);
         myGraphPanel = new JPanel();
-        myGraphPanel.add(myGraph, BorderLayout.CENTER);
+        
+        //do Gridbag
+        GridBagLayout gridbag = new GridBagLayout();
+        GridBagConstraints constraints = new GridBagConstraints();
+        myGraphPanel.setLayout(gridbag);
+        constraints.gridwidth = GridBagConstraints.REMAINDER;
+        constraints.weightx = 1.0;
+        constraints.weighty = 1.0;
+        constraints.fill = GridBagConstraints.BOTH;
+        gridbag.setConstraints(myGraph, constraints);
+        myGraphPanel.add(myGraph);
+        
+        
         myGraphPanel.setBorder(BorderFactory
                 .createTitledBorder("Editing Pane"));
 
         //init tabbed pane tool bar
         myTabbedPane = new JTabbedPane();
+        myTabbedPane.setTabPlacement(JTabbedPane.TOP);
         JComponent airPanel = makeTextPanel("Air Panel");
         myTabbedPane
                 .addTab(
@@ -123,19 +135,19 @@ public class BiosimEditor {
                         waterPanel);
         //myTabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 
-        myMainFrame = new BioFrame("BioSim Editor");
+        myMainFrame = new BioFrame("BioSim Editor", false);
         
         //do Gridbag
-        GridBagLayout gridbag = new GridBagLayout();
-        GridBagConstraints constraints = new GridBagConstraints();
+        gridbag = new GridBagLayout();
+        constraints = new GridBagConstraints();
         myMainFrame.getContentPane().setLayout(gridbag);
 
         constraints.gridwidth = GridBagConstraints.RELATIVE;
         constraints.fill = GridBagConstraints.BOTH;
-        constraints.ipadx = 90;
+        constraints.ipadx = 0;
         gridbag.setConstraints(myTabbedPane, constraints);
         myMainFrame.getContentPane().add(myTabbedPane);
-
+        
         constraints.gridwidth = GridBagConstraints.REMAINDER;
         constraints.weightx = 1.0;
         constraints.weighty = 1.0;
@@ -158,8 +170,8 @@ public class BiosimEditor {
         myMainFrame.setJMenuBar(myMenuBar);
 
         //set size, pack, show
-        myMainFrame.setSize(640, 480);
         myMainFrame.pack();
+        myMainFrame.setSize(640, 480);
         myMainFrame.setVisible(true);
     }
 
