@@ -83,7 +83,6 @@ public class OrbUtils{
 			initializeNamingRunOnce = true;
 		}
 		catch (org.omg.CosNaming.NamingContextPackage.AlreadyBound e){
-			System.out.println("Found id:"+pID+" context, proceeding...");
 			initializeNamingRunOnce = true;
 		}
 		catch (Exception e){
@@ -111,7 +110,6 @@ public class OrbUtils{
 			myRootContext.bind_new_context(biosimComponentArray);
 		}
 		catch (org.omg.CosNaming.NamingContextPackage.AlreadyBound e){
-			System.out.println("Found biosim context, proceeding...");
 		}
 		catch (Exception e){
 			System.out.println("OrbUtils: nameserver not found, polling again");
