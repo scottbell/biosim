@@ -29,10 +29,12 @@ if [ -z "$JAVA_HOME" ]; then
 	java_command="java"
 fi
 JRE_HOME="$JAVA_HOME/jre"
+IBM_libs="$JRE_HOME/lib/core.jar$separator$JRE_HOME/lib/charsets.jar$separator$JRE_HOME/lib/graphics.jar$separator$JRE_HOME/lib/security.jar$separator$JRE_HOME/lib/server.jar$separator$JRE_HOME/lib/xml.jar"
+Sun_libs="$JRE_HOME/lib/rt.jar"
 javaVersionString=`$java_command -version 2>&1 | grep IBM`
 case $javaVersionString in
-	*"IBM"*) JRE_lib="core.jar";echo "		-VM is IBM";;
-	*)JRE_lib="rt.jar";echo "		-assuming Sun VM";;
+	*"IBM"*) JRE_libs=$IBM_libs;echo "		-VM is IBM";;
+	*)JRE_lib=$Sun_libs;echo "		-assuming Sun VM";;
 esac
 genString="/generated"
 genDir=$devRootDir$genString
@@ -88,7 +90,7 @@ simStubDir="$stubDir/$simString"
 clientDir="$devRootDir/src/biosim/client"
 sourceDir="$devRootDir/src"
 plotClasspath="$devRootDir/lib/jfreechart/jcommon.jar$separator$devRootDir/lib/jfreechart/jfreechart.jar"
-jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JRE_HOME/lib/$JRE_lib$separator$JACORB_HOME"
+jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JRE_libs$separator$JACORB_HOME"
 compilationInvocation="$javac_command -d $clientClassesDir -classpath $plotClasspath$separator$stubDir$separator$clientClassesDir$separator$sourceDir$separator$jacoClasspath"
 if [ "$userSelect" == "all" ]; then
 	echo "			-compiling stubs"
