@@ -34,9 +34,14 @@ public class BioSimulator
 		
 		//Play with crew object
 		Crew myCrew = (Crew)(biosim.getBioModule("Crew"));
-		System.out.println("Current crew state is: "+myCrew.getStateName());
-		myCrew.setState(CrewState.EATING);
-		System.out.println("Current crew state is: "+myCrew.getStateName());
+		if (myCrew == null){
+			System.out.println("Couldn't find crew to test....");
+		}
+		else{
+			System.out.println("Current crew state is: "+myCrew.getStateName());
+			myCrew.setState(CrewState.EATING);
+			System.out.println("Current crew state is: "+myCrew.getStateName());
+		}
 	}
 	
 	public BioModule getBioModule(String type){
