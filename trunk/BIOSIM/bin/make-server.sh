@@ -70,7 +70,8 @@ echo "		-compiling server";
 simString="SIMULATION"
 simSkeletonDir="$skeletonDir/$simString"
 serverDir="$devRootDir/src/biosim/server"
-compilationInvocation="$javac_command -d $serverClassesDir -classpath $skeletonDir$separator$serverClassesDir"
+sourceDir="$devRootDir/src"
+compilationInvocation="$javac_command -d $serverClassesDir -classpath $skeletonDir$separator$serverClassesDir$separator$sourceDir"
 echo "			-compiling skeletons"
 $compilationInvocation $simSkeletonDir/*.java
 echo "			-compiling air"
