@@ -16,6 +16,7 @@ import com.traclabs.biosim.idl.framework.O2ProducerOperations;
 import com.traclabs.biosim.idl.framework.PotableWaterConsumerOperations;
 import com.traclabs.biosim.idl.framework.PotableWaterProducerOperations;
 import com.traclabs.biosim.idl.framework.PowerConsumerOperations;
+import com.traclabs.biosim.idl.simulation.air.AirRSOperationMode;
 import com.traclabs.biosim.idl.simulation.air.AirRSOperations;
 import com.traclabs.biosim.idl.simulation.air.CO2Store;
 import com.traclabs.biosim.idl.simulation.air.H2Store;
@@ -129,6 +130,8 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations,
     private static final int NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER = 3;
 
     private float myProductionRate = 1f;
+    
+    private AirRSOperationMode myMode;
 
     public AirRSImpl(int pID, String pName) {
         super(pID, pName);
@@ -801,5 +804,45 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations,
 
     void setH2InputActualFlowRate(float moles, int index) {
         H2InputActualFlowRates[index] = moles;
+    }
+    
+    /**
+     * Sets the current AirRS operation mode
+     * FULL - AirRS operates at full capacity (and power)
+     * PARTIAL - produces 85% potable
+     * OFF - turns off AirRS
+     */
+    public void setOperationMode(AirRSOperationMode pMode) {
+        myMode = pMode;
+        if (myMode == AirRSOperationMode.FULL){
+            myVCCR.setEnabled(true);
+            myCRS.setEnabled(true);
+            myOGS.setEnabled(true);
+        }
+        else if (myMode == AirRSOperationMode.MOST){
+            myVCCR.setEnabled(true);
+            myCRS.setEnabled(true);
+            myOGS.setEnabled(false);
+        }
+        else if (myMode == AirRSOperationMode.LESS){
+            myVCCR.setEnabled(true);
+            myCRS.setEnabled(false);
+            myOGS.setEnabled(false);
+        }
+        else if (myMode == AirRSOperationMode.OFF){
+            myVCCR.setEnabled(false);
+            myCRS.setEnabled(false);
+            myOGS.setEnabled(false);
+        }
+        else{
+            myLogger.warn("unknown state for AirRS: "+myMode);
+        }
+    }
+
+    /**
+     * gets the current AirRS Operation mode
+     */
+    public AirRSOperationMode getOpertationMode() {
+        return myMode;
     }
 }
