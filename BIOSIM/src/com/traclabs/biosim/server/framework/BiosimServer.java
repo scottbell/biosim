@@ -12,6 +12,7 @@ import biosim.server.food.*;
 import biosim.server.water.*;
 import biosim.server.power.*;
 import biosim.server.environment.*;
+import biosim.server.util.*;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
@@ -23,14 +24,10 @@ public class BioModuleServer {
 public static void main(String args[]) {
 	try{
 		// create and initialize the ORB
-		ORB orb = ORB.init(args, null);
-
-		 // get reference to rootpoa & activate the POAManager
-		 POA rootpoa = POAHelper.narrow(orb.resolve_initial_references("RootPOA"));
-		 rootpoa.the_POAManager().activate();		 
-		 org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
-		 NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
-
+		ORB orb = BioSimUtilsImpl.getORB();
+		NamingContextExt ncRef = BioSimUtilsImpl.getNCRef();
+		POA rootpoa = BioSimUtilsImpl.getRootPOA();
+		 
 		 // create servants and register them with ORB
 		 SimEnvironmentImpl mySimEnvironmentImpl = new SimEnvironmentImpl();
 		 AirRSImpl myAirRSImpl = new AirRSImpl();
