@@ -22,8 +22,7 @@ public class ActionMap {
 
     public static GenericActuator[] actuators;
 
-    public static String[] actuatorNames = { "OGSPotableWater",
-            "waterRSdirty", "waterRSgrey" };
+    public static String[] actuatorNames = {"waterRSDirtyConsumption", "waterRSGreyConsumption", "OGSPotableWaterConsumption"};
 
     private BioHolder myBioHolder;
 
@@ -46,13 +45,13 @@ public class ActionMap {
 
         WaterRS myWaterRS = (WaterRS) myBioHolder.theWaterRSModules.get(0);
         OGS myOGS = (OGS) myBioHolder.theOGSModules.get(0);
-        actuators = new GenericActuator[3];
+        actuators = new GenericActuator[4];
         actuators[0] = myBioHolder.getActuatorAttachedTo(
-                myBioHolder.thePotableWaterInFlowRateActuators, myOGS);
-        actuators[1] = myBioHolder.getActuatorAttachedTo(
                 myBioHolder.theDirtyWaterInFlowRateActuators, myWaterRS);
-        actuators[2] = myBioHolder.getActuatorAttachedTo(
+        actuators[1] = myBioHolder.getActuatorAttachedTo(
                 myBioHolder.theGreyWaterInFlowRateActuators, myWaterRS);
+        actuators[2] = myBioHolder.getActuatorAttachedTo(
+                myBioHolder.thePotableWaterInFlowRateActuators, myOGS);
 
         for (i = 0; i < actuatorNames.length; i++) {
             maxrate = ((GenericActuator) actuators[i]).getMax();
@@ -80,7 +79,7 @@ public class ActionMap {
 
         WaterRS myWaterRS = (WaterRS) myBioHolder.theWaterRSModules.get(0);
         OGS myOGS = (OGS) myBioHolder.theOGSModules.get(0);
-        actuators = new GenericActuator[4];
+        actuators = new GenericActuator[3];
         actuators[0] = myBioHolder.getActuatorAttachedTo(
                 myBioHolder.thePotableWaterInFlowRateActuators, myOGS);
         actuators[1] = myBioHolder.getActuatorAttachedTo(
@@ -92,7 +91,7 @@ public class ActionMap {
         for (i = 0; i < actuatorNames.length; i++) {
             maxrate = ((GenericActuator) actuators[i]).getMax();
             if (onoffs[i] > 0.5)
-                myMap.put(actuatorNames[i], new Float(maxrate));
+                myMap.put(actuatorNames[i], new Float(maxrate / 2f));
             else
                 myMap.put(actuatorNames[i], new Float(LOW_VALUE_TO_SET));
         }
