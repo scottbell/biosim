@@ -47,8 +47,8 @@ public abstract class PlantImpl extends PlantPOA{
 	private SimpleBuffer consumedCO2HighBuffer;
 	private SimpleBuffer consumedHeatBuffer;
 	private SimpleBuffer consumedLightBuffer;
-	private static final float WATER_TILL_DEAD = 80f;
-	private static final float WATER_RECOVERY_RATE = 0.05f;
+	private static final float WATER_TILL_DEAD = 700f;
+	private static final float WATER_RECOVERY_RATE = 0.005f;
 	private static final float CO2_LOW_TILL_DEAD = 24f;
 	private static final float CO2_LOW_RECOVERY_RATE = 0.05f;
 	private static final float CO2_RATIO_LOW = 500f;
