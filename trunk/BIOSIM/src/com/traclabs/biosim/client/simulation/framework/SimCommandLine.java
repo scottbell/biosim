@@ -23,6 +23,7 @@ public class SimCommandLine
 	public void runCommandLine(){
 		BioHolder.setID(myID);
 		myDriver = BioHolder.getBioDriver();
+		myDriver.setPauseSimulation(false);
 		BufferedReader userInputReader = new BufferedReader(new InputStreamReader(System.in));
 		while (true){
 			try{
@@ -86,7 +87,7 @@ public class SimCommandLine
 			else
 				System.out.println("simulation isn't running");
 		}
-		else if (userCommand.equals("advance")){
+		else if (userCommand.equals("tick")){
 			if (myDriver.isPaused())
 				myDriver.advanceOneTick();
 			else
@@ -106,10 +107,11 @@ public class SimCommandLine
 			else
 				statusBuffer.append("not paused, ");
 			statusBuffer.delete(statusBuffer.length() -2, statusBuffer.length());
+			statusBuffer.append(" with "+myDriver.getTicks()+" ticks");
 			System.out.println(statusBuffer.toString());
 		}
 		else if (userCommand.equals("?") || userCommand.equals("help")){
-			System.out.println("commands: start, stop, pause, resume, status, quit, startFullLog, stopFullLog, startSensorLog, stopSensorLog, startActuatorLog, stopActuatorLog, help");
+			System.out.println("commands: start, stop, pause, resume, status, quit, tick, startFullLog, stopFullLog, startSensorLog, stopSensorLog, startActuatorLog, stopActuatorLog, help");
 		}
 		else{
 			System.out.println("unrecognized command: "+userCommand);

@@ -19,7 +19,15 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 	}
 	
 	public float add(float pMass){
+		System.out.println("FoodStore add called!");
 		return addFoodMatterMass(pMass, PlantType.UNKNOWN_PLANT);
+	}
+	
+	public void setLevel(float metricAmount){
+		super.setLevel(metricAmount);
+		currentFoodItems.clear();
+		if (metricAmount > 0)
+			addFoodMatterMass(metricAmount, PlantType.UNKNOWN_PLANT);
 	}
 	
 	public float take(float pMass){
@@ -176,8 +184,9 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 		}
 		level -= collectedMass;
 		//return the array
-		FoodMatter[] returnArrayType = new FoodMatter[0];
-		return (FoodMatter[])(itemsToReturn.toArray(returnArrayType));
+		FoodMatter[] returnArray = new FoodMatter[0];
+		returnArray = (FoodMatter[])(itemsToReturn.toArray(returnArray));
+		return returnArray;
 	}
 
 	public FoodMatter takeFoodMatterMassAndType(float pMass, PlantType pType){
@@ -231,5 +240,7 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 	public void reset(){
 		super.reset();
 		currentFoodItems.clear();
+		if (level > 0)
+			currentFoodItems.add(new FoodMatter(level, PlantType.UNKNOWN_PLANT));
 	}
 }

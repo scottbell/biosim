@@ -38,14 +38,16 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	//Whether this Store has collected a reference to the BioDriver or not.
 	private boolean hasCollectedReferences = false;
 	private boolean pipe = false;
+	protected float initialLevel = 0f;
+	protected float initialCapacity = 0f;
 
 	/**
 	* Creates a Store with an initial level and capacity of 0
 	*/
 	public StoreImpl(int pID, String pName){
 		super(pID, pName);
-		level = oldLevel = 0.0f;
-		capacity = preMalfunctionCapacity = oldCapacity = 10.0f;
+		level = oldLevel = initialLevel = 0f;
+		capacity = preMalfunctionCapacity = oldCapacity = initialCapacity = 10f;
 	}
 
 	/**
@@ -54,11 +56,11 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	* @param initialCapacity the initial capacity of the store
 	* @param pPipe whether this store should act like a pipe.  dynamic capcity == level == whatever is added THIS tick (0 if nothing added, maxFlowRate should dictate pipe size, infinite otherwise)
 	*/
-	public StoreImpl (int pID, String pName, float initialLevel, float initialCapacity, boolean pPipe){
+	public StoreImpl (int pID, String pName, float pInitialLevel, float pInitialCapacity, boolean pPipe){
 		super(pID, pName);
 		pipe = pPipe;
-		level = oldLevel = initialLevel;
-		capacity = preMalfunctionCapacity = oldCapacity = initialCapacity;
+		level = oldLevel = initialLevel = pInitialLevel;
+		capacity = preMalfunctionCapacity = oldCapacity = initialCapacity = pInitialCapacity;
 	}
 	
 	/**
@@ -82,7 +84,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	* @param metricAmount the new volume of the store
 	*/
 	public void setCapacity(float metricAmount){
-		capacity = oldCapacity = preMalfunctionCapacity = metricAmount;
+		capacity = preMalfunctionCapacity = oldCapacity = initialCapacity = metricAmount;
 	}
 
 	/**
@@ -90,7 +92,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	* @param the level to set the store to
 	*/
 	public void setLevel(float metricAmount){
-		level = oldLevel = metricAmount;
+		level = oldLevel = initialLevel = metricAmount;
 	}
 
 	public void tick(){
@@ -274,8 +276,8 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	*/
 	public void reset(){
 		super.reset();
-		capacity = preMalfunctionCapacity;
-		level = oldLevel = 0f;
+		level = oldLevel = initialLevel;
+		capacity = preMalfunctionCapacity = oldCapacity = initialCapacity;
 		overflow = oldOverflow = 0f;
 	}
 	
