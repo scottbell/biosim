@@ -313,6 +313,9 @@
 		</power>
 		<water>
 			<WaterRS>
+				<name>WaterRS</name>
+				<isLoggingEnabled>false</isLoggingEnabled>
+				<isBreakdownEnabled>false</isBreakdownEnabled>
 				<powerConsumer>
 					<maxFlowRates>100</maxFlowRates>
 					<desiredFlowRates>100</desiredFlowRates>
