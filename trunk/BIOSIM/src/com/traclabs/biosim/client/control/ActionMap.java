@@ -116,7 +116,7 @@ public class ActionMap {
     }
 
     public void printMe() {
-        myLogger.info(myMap);
+        myLogger.debug(myMap);
     }
 
     public boolean isBest() {

@@ -230,6 +230,15 @@ public class BioHolderInitializer {
     public static int getID() {
         return myID;
     }
+    
+    public static void setFileAndID(int pID, String pFilename){
+        if ((myID == pID) && (xmlLocation.equals(pFilename)))
+            return;
+        myID = pID;
+        xmlLocation = pFilename;
+        initialized = false;
+        initialize();
+    }
 
     public static void setID(int pID) {
         if (myID == pID)
@@ -242,7 +251,6 @@ public class BioHolderInitializer {
     public static void setFile(String pFilename) {
         if (xmlLocation.equals(pFilename))
             return;
-        xmlLocation = pFilename;
         initialized = false;
         initialize();
     }

@@ -138,11 +138,10 @@ public class HandController {
 
     public static void main(String[] args) {
         HandController myController = new HandController();
-        myController.initializeSim();
-        myController.runTillCrewDeath();
+        myController.runSim();
     }
 
-    public void initializeSim() {
+    private void initializeSim() {
         // ticks the sim one step at a time, observes the state, updates policy
         // and predictive model in
         // response to the current state and modifies actuators in response
@@ -230,7 +229,6 @@ public class HandController {
 
         myBioDriver.startSimulation();
 
-        myLogger.info("starting run...");
         crewO2integral = 0f;
         crewCO2integral = 0f;
         crewH2Ointegral = 0f;
@@ -247,12 +245,11 @@ public class HandController {
 
     }
 
-    public void runTillCrewDeath() {
-        while (!myCrew.anyDead()) {
+    public void runSim() {
+        initializeSim();
+        while (!myBioDriver.isDone()) {
             stepSim();
         }
-        myLogger.debug("crew dead at " + myBioDriver.getTicks() + " ticks");
-        myBioDriver.endSimulation();
     }
 
     public void stepSim() {
@@ -389,9 +386,10 @@ public class HandController {
 
         currentSensor = (GenericSensor) (myBioHolder.getSensorAttachedTo(
                 myBioHolder.thePowerStoreLevelSensors, myPowerStore));
-        myLogger.info("Power..." + currentSensor.getValue());
+        myLogger.debug("Power..." + currentSensor.getValue());
 
-        pw.println(fileoutput);
+        if (myLogger.isDebugEnabled())
+            pw.println(fileoutput);
 
         return state;
     }
@@ -478,7 +476,7 @@ public class HandController {
         else
             turnon = 1;
 
-        myLogger.info("Food: " + food + " Biomass " + biomass
+        myLogger.debug("Food: " + food + " Biomass " + biomass
                 + "     Food Processor Power: " + turnon);
 
         if (turnon > 0) {
@@ -534,7 +532,7 @@ public class HandController {
             CO2 = 1;
         }
 
-        myLogger.info("CRS: " + CO2 + " OGS: " + potable + " Dirty Water: "
+        myLogger.debug("CRS: " + CO2 + " OGS: " + potable + " Dirty Water: "
                 + water + " Grey Water: " + gwater);
         myAction = new ActionMap(new int[] { CO2, potable, water, gwater });
         return myAction;
@@ -574,8 +572,8 @@ public class HandController {
                     .get(i);
 
             if (currentSensor.getValue() == 1f) {
-                myLogger.info(" Harvest Sensor " + currentSensor.getValue());
-                myLogger.info(" CO2 Tank Overflow: "
+                myLogger.debug(" Harvest Sensor " + currentSensor.getValue());
+                myLogger.debug(" CO2 Tank Overflow: "
                         + co2OverflowSensor.getValue() + " O2 Tank Overflow: "
                         + o2OverflowSensor.getValue());
                 myBiomassRS.getShelf(i).harvest();

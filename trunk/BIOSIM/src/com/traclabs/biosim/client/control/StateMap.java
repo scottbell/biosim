@@ -49,7 +49,7 @@ public class StateMap {
         myLogger = Logger.getLogger(this.getClass());
         myMap = new TreeMap();
         myBioHolder = BioHolderInitializer.getBioHolder();
-        myLogger.info(BioHolderInitializer.getID() + "");
+        myLogger.debug(BioHolderInitializer.getID() + "");
 
         myDirtyWaterStore = (DirtyWaterStore) myBioHolder.theDirtyWaterStores
                 .get(0);
@@ -123,7 +123,7 @@ public class StateMap {
     }
 
     public void printMe() {
-        myLogger.info(myMap);
+        myLogger.debug(myMap);
     }
 
     public Map getMap() {

@@ -142,7 +142,7 @@ public class BiosimMain {
     public void runHandController(int myID) {
         BioHolderInitializer.setID(myID);
         HandController myController = new HandController();
-        myController.runTillCrewDeath();
+        myController.runSim();
     }
 
     /**
