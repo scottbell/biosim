@@ -12,18 +12,24 @@ then
 fi
 JACORB_HOME="$devRootDir/lib/jacorb"
 java_command=$JAVA_HOME/bin/java
-#assume javac is in the path
-javac_command=javac
-if [ -z "$JAVA_HOME" ]
-then
+jikesCommand="jikes"
+type $jikesCommand 2> /dev/null >/dev/null
+if [ $? != 0 ]; then
+	javac_command=javac
+	echo "		-using javac compiler (assuming it's in the parth)"
+else
+	javac_command=jikes
+	echo "		-using jikes compiler"
+fi
+if [ -z "$JAVA_HOME" ]; then
 	echo "		-JAVA_HOME not set, assuming java and javac are in path..."
 	java_command="java"
 	javac_command="javac"
 fi
+JRE_HOME="$JAVA_HOME/jre"
 genString="/generated"
 genDir=$devRootDir$genString
-if [ ! -e "$genDir" ]
-then
+if [ ! -e "$genDir" ]; then
 	mkdir $genDir
 	echo "		-creating generated directory"
 fi
@@ -41,15 +47,13 @@ echo "	-building client"
 echo "		-initializing client build"
 clientString="/client"
 clientGenDir=$genDir$clientString
-if [ ! -e  "$clientGenDir" ]
-then
+if [ ! -e  "$clientGenDir" ]; then
 	mkdir $clientGenDir
 	echo "			-creating client directory"
 fi
 stubString="/stubs"
 stubDir=$clientGenDir$stubString
-if [ ! -e  "$stubDir" ]
-then
+if [ ! -e  "$stubDir" ]; then
 	mkdir $stubDir
 	echo "			-creating stubs directory"
 	echo "				-no stubs (switching to make all)"
@@ -57,16 +61,14 @@ then
 fi
 clientClassesString="/classes"
 clientClassesDir=$clientGenDir$clientClassesString
-if [ ! -e  "$clientClassesDir" ]
-then
+if [ ! -e  "$clientClassesDir" ]; then
 	mkdir $clientClassesDir
 	echo "			-creating classes directory"
 fi
 relativeIDLDir="/src/biosim/idl/biosim.idl"
 fullIDLDir=$devRootDir$relativeIDLDir
 idlInvocation="$java_command -classpath $JACORB_HOME/lib/idl.jar org.jacorb.idl.parser"
-if [ "$userSelect" == "all" ]
-then
+if [ "$userSelect" == "all" ]; then
 	echo "			-generating stubs"
 	$idlInvocation  -noskel -d $stubDir $fullIDLDir
 fi
@@ -80,8 +82,7 @@ clientDir="$devRootDir/src/biosim/client"
 sourceDir="$devRootDir/src"
 jacoClasspath="$JACORB_HOME/lib/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME/lib"
 compilationInvocation="$javac_command -d $clientClassesDir -classpath $stubDir$separator$clientClassesDir$separator$sourceDir$separator$jacoClasspath"
-if [ "$userSelect" == "all" ]
-then
+if [ "$userSelect" == "all" ]; then
 	echo "			-compiling stubs"
 	echo "				-compiling air stubs"
 	$compilationInvocation $simStubDir/idl/air/*.java
