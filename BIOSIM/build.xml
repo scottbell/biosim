@@ -133,7 +133,7 @@
 			<fileset dir="${serverClasses}"/>
 			<fileset dir="${clientClasses}"/>
 			<fileset dir="${resourceDir}"/>
-			<fileset dir="${distroDir}/tmp">
+			<fileset dir="${winDistroDir}/tmp">
 				<exclude name="META-INF"/>
 				<exclude name="license-INF"/>
 			</fileset>
