@@ -19,7 +19,7 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 	}
 	
 	public float add(float pMass){
-		return addFoodMatter(pMass, PlantType.UNKNOWN_PLANT);
+		return addFoodMatterMass(pMass, PlantType.UNKNOWN_PLANT);
 	}
 	
 	public float take(float pMass){
@@ -29,9 +29,24 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 			matterToReturn += massArray[i].mass;
 		return matterToReturn;
 	}
+	
+	public float addFoodMatterArray(FoodMatter[] pFood){
+		float totalAdded = 0f;
+		for (int i = 0; i < pFood.length; i++){
+			FoodMatter currentFood = pFood[i];
+			if (currentFood != null){
+				float currentAdded = addFoodMatterMass(currentFood.mass, currentFood.type);
+				totalAdded += currentAdded;
+				currentFood.mass -= currentAdded;
+			}
+		}
+		return totalAdded;
+	}
 
-	public float addFoodMatter(float pMass, PlantType pType){
+	public float addFoodMatterMass(float pMass, PlantType pType){
 		float acutallyAdded = 0f;
+		if (pMass == 0)
+			return 0f;
 		if ((pMass + level) > capacity){
 			//adding more than capacity
 			acutallyAdded = capacity - level;

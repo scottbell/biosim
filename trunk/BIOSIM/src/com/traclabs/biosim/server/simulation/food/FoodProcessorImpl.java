@@ -183,10 +183,12 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	public static float pushFoodToStore(FoodStore[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates, float[] pActualFlowRates, FoodMatter[] foodToPush){
 		float fullMassToDistribute = calculateSizeOfFoodMatter(foodToPush);
 		float resourceDistributed = fullMassToDistribute;
+		FoodMatter[] copyOfMatter = new FoodMatter[foodToPush.length];
+		System.arraycopy(foodToPush, 0, copyOfMatter, 0, foodToPush.length);
 		for (int i = 0; (i < pStores.length) && (resourceDistributed > 0); i++){
 			float resourceToDistributeFirst = Math.min(resourceDistributed, pMaxFlowRates[i]);
 			float resourceToDistributeFinal = Math.min(resourceToDistributeFirst, pDesiredFlowRates[i]);
-			pActualFlowRates[i] = pStores[i].add(resourceToDistributeFinal);
+			pActualFlowRates[i] = pStores[i].addFoodMatterArray(copyOfMatter);
 			resourceDistributed -= pActualFlowRates[i];
 		}
 		float amountPushed = (fullMassToDistribute - resourceDistributed);

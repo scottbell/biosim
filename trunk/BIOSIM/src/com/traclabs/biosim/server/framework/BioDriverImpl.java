@@ -870,10 +870,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myBiomassStore.addBioMatter(1.5f, PlantType.WHEAT);
 		myBiomassStore.addBioMatter(2.0f, PlantType.SOYBEAN);
 		myBiomassStore.addBioMatter(200f, PlantType.RICE);
-		myFoodStore.addFoodMatter(0.5f, PlantType.DRY_BEAN);
-		myFoodStore.addFoodMatter(5.0f, PlantType.SWEET_POTATO);
-		myFoodStore.addFoodMatter(3.8f, PlantType.LETTUCE);
-		myFoodStore.addFoodMatter(300f, PlantType.PEANUT);
+		myFoodStore.addFoodMatterMass(0.5f, PlantType.DRY_BEAN);
+		myFoodStore.addFoodMatterMass(5.0f, PlantType.SWEET_POTATO);
+		myFoodStore.addFoodMatterMass(3.8f, PlantType.LETTUCE);
+		myFoodStore.addFoodMatterMass(300f, PlantType.PEANUT);
 
 		//Add some power
 		PowerStore myPowerStore = PowerStoreHelper.narrow(getBioModule(myPowerStoreName));
