@@ -71,18 +71,18 @@ public class Lettuce extends Planophile{
 	}
 
 	protected float getFreshFactor(){
-		return 6.4546f;
+		return 18.993f;
 	}
 
 	public float getFractionOfEdibleBiomass(){
-		if (myAge > 34)
+		if (myAge > getTimeAtCanopySenescence())
 			return 1f;
 		else
 			return 0f;
 	}
 
 	protected float getEdibleFreshBasisWaterContent(){
-		return 12f;
+		return 95f;
 	}
 
 	protected float getInedibleFreshBasisWaterContent(){
