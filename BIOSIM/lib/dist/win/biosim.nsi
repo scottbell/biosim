@@ -1,14 +1,45 @@
-Name "BioSim"
-OutFile "Setup.exe"
-LicenseData LICENSE.txt
-LicenseText "BioSim is free software released under the terms of the GNU General Public License."
-ComponentText "BioSim Program"
-InstallDir "$PROGRAMFILES\BioSim"
-InstallDirRegKey HKEY_LOCAL_MACHINE "SOFTWARE\TRACLabs\BioSim" ""
-DirShow show ; (make this hide to not let the user change it)
-DirText "Select the directory to install BioSim in:"
-UninstallText "This will uninstall BioSim from your system"
+; BIOSIM Installer Script using NSIS (SuperPimp)
 
+!define MUI_PRODUCT "BioSim" 
+!define MUI_VERSION "1.0"
+
+!include "MUI.nsh"
+
+;--------------------------------
+;Configuration
+	OutFile "Setup.exe"
+	InstallDir "$PROGRAMFILES\BioSim"
+	InstallDirRegKey HKEY_LOCAL_MACHINE "SOFTWARE\TRACLabs\BioSim" ""
+	DirShow show ; (make this hide to not let the user change it)
+;--------------------------------
+;Modern UI Configuration
+	!define MUI_LICENSEPAGE
+	!define MUI_COMPONENTSPAGE
+	!define MUI_DIRECTORYPAGE
+	!define MUI_ABORTWARNING
+	!define MUI_FINISHPAGE
+		!define MUI_FINISHPAGE_RUN "$INSTDIR\run-biosim.bat"
+	!define MUI_UNINSTALLER
+	!define MUI_UNCONFIRMPAGE
+	
+	;Modern UI System
+	!insertmacro MUI_SYSTEM
+;--------------------------------
+;Languages
+	!insertmacro MUI_LANGUAGE "English"
+;--------------------------------
+;Data
+	LicenseData LICENSE.txt
+	
+;--------------------------------
+;Reserve Files
+
+  ;Things that need to be extracted on first (keep these lines before any File command!)
+  ;Only useful for BZIP2 compression
+  !insertmacro MUI_RESERVEFILE_WELCOMEFINISHPAGE
+
+;--------------------------------
+;Install
 Section "BioSim Program (must be installed)" ; (default section)
 	SetOutPath "$INSTDIR"
 
@@ -48,7 +79,7 @@ Section "BioSim Program (must be installed)" ; (default section)
 		WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\BioSim" "UninstallString" '"$INSTDIR\uninst.exe"'
 		; write out uninstaller
 		WriteUninstaller "$INSTDIR\uninst.exe"
-SectionEnd ; end of BioSim
+SectionEnd ; end of BioSim Install
 
 ; optional section
 Section "Start Menu Shortcuts"
@@ -57,7 +88,8 @@ Section "Start Menu Shortcuts"
   CreateShortCut "$SMPROGRAMS\BioSim\BioSim.lnk" "$INSTDIR\run-biosim.bat" "" "$INSTDIR\biosim.ico" 0
 SectionEnd
 
-
+;--------------------------------
+;Uinstall
 Section Uninstall
 	; add delete commands to delete whatever files/registry keys/etc you installed here.
 	Delete "$INSTDIR\uninst.exe"
@@ -76,5 +108,6 @@ Section Uninstall
 	DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\TRACLabs\BioSim"
 	DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\BioSim"
 	RMDir "$INSTDIR"
+	!insertmacro MUI_UNFINISHHEADER
 SectionEnd ; end of uninstall section
 
