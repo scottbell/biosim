@@ -46,10 +46,6 @@ public class BioDriverImpl extends BioDriverPOA
 	private int nTicks = 0;
 	//The number of ticks gone by
 	private int ticksGoneBy = 0;
-	//Tells whether all the modules known are logging or not (only checked when logging turned on/off)
-	private boolean fullLogging = false;
-	private boolean actuatorsLogging = false;
-	private boolean sensorsLogging = false;
 	//Tells whether simulation runs until crew death
 	private boolean runTillDead = false;
 	//Tells whether simulation runs till a fixed number of ticks
@@ -312,14 +308,6 @@ public class BioDriverImpl extends BioDriverPOA
 	* @param pLogSim Whether or not modules should log.
 	*/
 	public synchronized void setFullLogging(boolean pLogSim){
-
-		fullLogging = pLogSim;
-		if (fullLogging){
-			System.out.println("BioDriverImpl:"+myID+" Enabling fullLogging");
-		}
-		else{
-			System.out.println("BioDriverImpl:"+myID+" Disabling fullLogging");
-		}
 		for (Iterator iter = modules.values().iterator(); iter.hasNext();){
 			BioModule currentBioModule = (BioModule)(iter.next());
 			currentBioModule.setLogging(pLogSim);
@@ -332,14 +320,6 @@ public class BioDriverImpl extends BioDriverPOA
 	* @param pLogSim Whether or not sensors should log.
 	*/
 	public synchronized void setSensorLogging(boolean pLogSim){
-
-		sensorsLogging = pLogSim;
-		if (sensorsLogging){
-			System.out.println("BioDriverImpl:"+myID+" Enabling sensor logging");
-		}
-		else{
-			System.out.println("BioDriverImpl:"+myID+" Disabling sensor logging");
-		}
 		for (Iterator iter = sensors.values().iterator(); iter.hasNext();){
 			BioModule currentBioModule = (BioModule)(iter.next());
 			currentBioModule.setLogging(pLogSim);
@@ -352,14 +332,6 @@ public class BioDriverImpl extends BioDriverPOA
 	* @param pLogSim Whether or not actuators should log.
 	*/
 	public synchronized void setActuatorLogging(boolean pLogSim){
-
-		actuatorsLogging = pLogSim;
-		if (actuatorsLogging){
-			System.out.println("BioDriverImpl:"+myID+" Enabling actuator logging");
-		}
-		else{
-			System.out.println("BioDriverImpl:"+myID+" Disabling actuator logging");
-		}
 		for (Iterator iter = actuators.values().iterator(); iter.hasNext();){
 			BioModule currentBioModule = (BioModule)(iter.next());
 			currentBioModule.setLogging(pLogSim);
@@ -400,30 +372,6 @@ public class BioDriverImpl extends BioDriverPOA
 			BioModule currentBioModule = (BioModule)(iter.next());
 			currentBioModule.startMalfunction(pIntensity, pLength);
 		}
-	}
-
-	/**
-	* Tells whether the modules are full Logging or not
-	* @return Whether the modules are full Logging or not
-	*/
-	public boolean isFullLogging(){
-		return fullLogging;
-	}
-
-	/**
-	* Tells whether the sensors are logging or not
-	* @return Whether the sensors are logging or not
-	*/
-	public boolean isSensorLogging(){
-		return sensorsLogging;
-	}
-
-	/**
-	* Tells whether the actuators are logging or not
-	* @return Whether the actuators are logging or not
-	*/
-	public boolean isActuatorLogging(){
-		return actuatorsLogging;
 	}
 
 	/**
