@@ -2,15 +2,11 @@ package com.traclabs.biosim.client.util;
 
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.POAHelper;
-
-import com.traclabs.biosim.idl.framework.BioModule;
-import com.traclabs.biosim.idl.framework.BioModuleHelper;
 
 /**
  * The OrbUtils class provides basic CORBA utilities to server components
@@ -115,17 +111,21 @@ public class OrbUtils {
         if (initializeOrbRunOnce)
             return true;
         try {
+            //Done
+
             String[] nullArgs = null;
             // create and initialize the ORB
             if (myOrb == null)
                 myOrb = ORB.init(nullArgs, myORBProperties);
 
             // get reference to rootpoa & activate the POAManager
+
             if (myRootPOA == null) {
                 myRootPOA = POAHelper.narrow(myOrb
                         .resolve_initial_references("RootPOA"));
                 myRootPOA.the_POAManager().activate();
             }
+
             if (myRootContext == null)
                 myRootContext = NamingContextExtHelper.narrow(myOrb
                         .resolve_initial_references("NameService"));
@@ -140,19 +140,6 @@ public class OrbUtils {
             e.printStackTrace();
         }
         return true;
-    }
-
-    public static BioModule getBioModule(int pID, String pModuleName) {
-        BioModule module = null;
-        try {
-            module = BioModuleHelper.narrow(getNamingContext(pID).resolve_str(
-                    pModuleName));
-        } catch (Exception e) {
-            Logger.getLogger(OrbUtils.class).info(
-                    "(id=" + pID + ") Had problems getting module:"
-                            + pModuleName + " " + e);
-        }
-        return module;
     }
 
     /**
