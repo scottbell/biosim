@@ -6,7 +6,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.util.*;
 import javax.swing.border.*;
-import biosim.client.framework.*;
+import biosim.client.simulation.framework.*;
 import biosim.idl.framework.*;
 import biosim.idl.simulation.crew.*;
 /**

@@ -1,4 +1,4 @@
-package biosim.client.framework;
+package biosim.client.simulation.framework;
 
 import biosim.idl.simulation.air.*;
 import biosim.idl.simulation.crew.*;
@@ -9,7 +9,7 @@ import biosim.idl.simulation.water.*;
 import biosim.idl.simulation.framework.*;
 import biosim.idl.framework.*;
 import java.util.*;
-import biosim.client.util.*;
+import biosim.client.simulation.util.*;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;

@@ -1,12 +1,12 @@
-package biosim.client.water.gui;
+package biosim.client.simulation.water.gui;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.text.*;
 import javax.swing.*;
 import biosim.idl.simulation.water.*;
-import biosim.client.framework.gui.*;
-import biosim.client.framework.*;
+import biosim.client.simulation.framework.gui.*;
+import biosim.client.simulation.framework.*;
 
 /**
  * This is the JPanel that displays a schematic

@@ -4,7 +4,7 @@
  *
  * @author    Scott Bell
  */
-package biosim.client.framework.gui;
+package biosim.client.simulation.framework.gui;
 
 import java.awt.*;
 import javax.swing.*;

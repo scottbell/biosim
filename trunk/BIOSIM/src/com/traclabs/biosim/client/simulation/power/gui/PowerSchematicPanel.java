@@ -1,9 +1,9 @@
-package biosim.client.power.gui;
+package biosim.client.simulation.power.gui;
 
 import java.awt.*;
 import javax.swing.*;
 import biosim.idl.simulation.power.*;
-import biosim.client.framework.gui.*;
+import biosim.client.simulation.framework.gui.*;
 
 /**
  * This is the JPanel that displays a schematic

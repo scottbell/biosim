@@ -1,6 +1,6 @@
-package biosim.client.air.gui;
+package biosim.client.simulation.air.gui;
 
-import biosim.client.framework.gui.*;
+import biosim.client.simulation.framework.gui.*;
 /** 
  * This is the JPanel that displays information about the Air
  *
