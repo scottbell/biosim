@@ -10,6 +10,7 @@ import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.idl.actuator.framework.GenericActuator;
 import com.traclabs.biosim.idl.simulation.air.AirRS;
+import com.traclabs.biosim.idl.simulation.air.OGS;
 import com.traclabs.biosim.idl.simulation.water.WaterRS;
 
 //javac -classpath
@@ -22,7 +23,7 @@ public class ActionMap {
 
     public static GenericActuator[] actuators;
 
-    public static String[] actuatorNames = { "airRSCO2", "airRSpotable",
+    public static String[] actuatorNames = { "airRSCO2", "OGSPotableWater",
             "waterRSdirty", "waterRSgrey" };
 
     private BioHolder myBioHolder;
@@ -42,6 +43,7 @@ public class ActionMap {
 
         WaterRS myWaterRS = (WaterRS) myBioHolder.theWaterRSModules.get(0);
         AirRS myAirRS = (AirRS) myBioHolder.theAirRSModules.get(0);
+        OGS myOGS = (OGS) myBioHolder.theOGSModules.get(0);
         actuators = new GenericActuator[4];
         actuators[0] = myBioHolder.getActuatorAttachedTo(
                 myBioHolder.theCO2InFlowRateActuators, myAirRS);

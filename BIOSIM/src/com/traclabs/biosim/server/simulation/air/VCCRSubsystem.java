@@ -8,7 +8,7 @@ import com.traclabs.biosim.idl.simulation.air.Breath;
  * @author Scott Bell
  */
 
-public class VCCR extends AirRSSubSystem {
+public class VCCRSubsystem extends AirRSSubSystem {
     private Breath myBreath;
 
     private final static float molesAirNeeded = 50.0f;
@@ -17,7 +17,7 @@ public class VCCR extends AirRSSubSystem {
 
     private float myProductionRate = 1f;
 
-    public VCCR(AirRSImpl pAirRSImpl) {
+    public VCCRSubsystem(AirRSImpl pAirRSImpl) {
         super(pAirRSImpl);
         myBreath = new Breath(0f, 0f, 0f, 0f, 0f);
     }

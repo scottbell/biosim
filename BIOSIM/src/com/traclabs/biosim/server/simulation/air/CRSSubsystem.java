@@ -7,7 +7,7 @@ package com.traclabs.biosim.server.simulation.air;
  * @author Scott Bell
  */
 
-public class CRS extends AirRSSubSystem {
+public class CRSSubsystem extends AirRSSubSystem {
     private final static float CO2Needed = 10f;
 
     private final static float H2Needed = CO2Needed * 4f;
@@ -20,7 +20,7 @@ public class CRS extends AirRSSubSystem {
 
     private float currentCH4Produced = 0;
 
-    public CRS(AirRSImpl pAirRSImpl) {
+    public CRSSubsystem(AirRSImpl pAirRSImpl) {
         super(pAirRSImpl);
     }
 

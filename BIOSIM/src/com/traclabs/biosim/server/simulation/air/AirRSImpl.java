@@ -53,13 +53,13 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations,
         PotableWaterProducerOperations, AirConsumerOperations,
         O2ProducerOperations, AirProducerOperations, CO2ProducerOperations,
         CO2ConsumerOperations, H2ProducerOperations, H2ConsumerOperations {
-    private VCCR myVCCR;
+    private VCCRSubsystem myVCCR;
 
-    private CRS myCRS;
+    private CRSSubsystem myCRS;
 
     private CH4Tank myCH4Tank;
 
-    private OGS myOGS;
+    private OGSSubsystem myOGS;
 
     private static final int NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER = 3;
 
@@ -84,10 +84,10 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations,
 
     public AirRSImpl(int pID, String pName) {
         super(pID, pName);
-        myVCCR = new VCCR(this);
-        myCRS = new CRS(this);
+        myVCCR = new VCCRSubsystem(this);
+        myCRS = new CRSSubsystem(this);
         myCH4Tank = new CH4Tank(this);
-        myOGS = new OGS(this);
+        myOGS = new OGSSubsystem(this);
 
         mySubsystems = new AirRSSubSystem[4];
         mySubsystems[0] = myVCCR;
@@ -159,11 +159,11 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations,
         return myOGS.hasPower();
     }
 
-    VCCR getVCCR() {
+    VCCRSubsystem getVCCR() {
         return myVCCR;
     }
 
-    CRS getCRS() {
+    CRSSubsystem getCRS() {
         return myCRS;
     }
 
@@ -171,7 +171,7 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations,
         return myCH4Tank;
     }
 
-    OGS getOGS() {
+    OGSSubsystem getOGS() {
         return myOGS;
     }
 
