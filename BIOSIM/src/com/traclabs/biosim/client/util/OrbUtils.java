@@ -3,8 +3,6 @@ package biosim.client.util;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
-import org.omg.PortableServer.*;
-import org.omg.PortableServer.POA;
 /**
  * The OrbUtils class provides basic CORBA utilities to client components
  *
@@ -14,8 +12,6 @@ import org.omg.PortableServer.POA;
 public class OrbUtils{
 	//Flag to make sure OrbUtils only runs initialize once  
 	private static boolean runOnce = false;
-	//The root POA
-	private static POA rootPOA = null;
 	//The server ORB used resolving references
 	private static ORB myOrb = null;
 	//The naming context reference
@@ -28,15 +24,6 @@ public class OrbUtils{
 	public static ORB getORB(){
 		initialize();
 		return myOrb;
-	}
-	
-	/**
-	* Returns the root POA
-	* @return the root POA
-	*/
-	public static POA getRootPOA(){
-		initialize();
-		return rootPOA;
 	}
 	
 	/**
@@ -58,17 +45,11 @@ public class OrbUtils{
 			String[] nullArgs = null;
 			// create and initialize the ORB
 			myOrb = ORB.init(nullArgs, null);
-			// get reference to rootpoa & activate the POAManager
-			rootPOA = POAHelper.narrow(myOrb.resolve_initial_references("RootPOA"));
-			rootPOA.the_POAManager().activate();
 			org.omg.CORBA.Object objRef = myOrb.resolve_initial_references("NameService");
 			ncRef = NamingContextExtHelper.narrow(objRef);
 			runOnce = true;
 		}
 		catch (org.omg.CORBA.ORBPackage.InvalidName e){
-			e.printStackTrace();
-		}
-		catch(org.omg.PortableServer.POAManagerPackage.AdapterInactive e){
 			e.printStackTrace();
 		}
 	}
