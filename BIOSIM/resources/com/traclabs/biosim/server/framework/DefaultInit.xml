@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='BiosimInitialization.xsd'>
-	<Globals crewsToWatch="CrewGroup">
+	<Globals crewsToWatch="CrewGroup" logLastTick="true">
 		<comment>The default initialization for BioSim</comment>
 		<author>Scott Bell</author>
 	</Globals>
