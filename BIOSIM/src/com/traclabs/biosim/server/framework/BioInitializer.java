@@ -3247,8 +3247,6 @@ public class BioInitializer{
 		}
 	}
 
-	//Actuators
-
 	//Air
 	private void createCO2InFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
@@ -3300,20 +3298,8 @@ public class BioInitializer{
 	}
 
 	private void configureO2InFlowRateActuator(Node node){
-		//System.out.println("Configuring O2InFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			O2InFlowRateActuator myO2InFlowRateActuator = O2InFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myO2InFlowRateActuator.setOutput(O2ConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		O2InFlowRateActuator myO2InFlowRateActuator = O2InFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myO2InFlowRateActuator.setOutput(O2ConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createO2OutFlowRateActuator(Node node){
@@ -3330,20 +3316,8 @@ public class BioInitializer{
 	}
 
 	private void configureO2OutFlowRateActuator(Node node){
-		//System.out.println("Configuring O2OutFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			O2OutFlowRateActuator myO2OutFlowRateActuator = O2OutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myO2OutFlowRateActuator.setOutput(O2ProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		O2OutFlowRateActuator myO2OutFlowRateActuator = O2OutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myO2OutFlowRateActuator.setOutput(O2ProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createH2InFlowRateActuator(Node node){
@@ -3360,20 +3334,8 @@ public class BioInitializer{
 	}
 
 	private void configureH2InFlowRateActuator(Node node){
-		//System.out.println("Configuring H2InFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			H2InFlowRateActuator myH2InFlowRateActuator = H2InFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myH2InFlowRateActuator.setOutput(H2ConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		H2InFlowRateActuator myH2InFlowRateActuator = H2InFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myH2InFlowRateActuator.setOutput(H2ConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createH2OutFlowRateActuator(Node node){
@@ -3390,22 +3352,46 @@ public class BioInitializer{
 	}
 
 	private void configureH2OutFlowRateActuator(Node node){
-		//System.out.println("Configuring H2OutFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			H2OutFlowRateActuator myH2OutFlowRateActuator = H2OutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myH2OutFlowRateActuator.setOutput(H2ProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		H2OutFlowRateActuator myH2OutFlowRateActuator = H2OutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myH2OutFlowRateActuator.setOutput(H2ProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
+	private void createNitrogenInFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating NitrogenInFlowRateActuator with moduleName: "+moduleName);
+			NitrogenInFlowRateActuatorImpl myNitrogenInFlowRateActuatorImpl = new NitrogenInFlowRateActuatorImpl(myID, moduleName);
+			setupBioModule(myNitrogenInFlowRateActuatorImpl, node);
+			myActuators.add(OrbUtils.poaToCorbaObj(myNitrogenInFlowRateActuatorImpl));
+			BiosimServer.registerServer(new NitrogenInFlowRateActuatorPOATie(myNitrogenInFlowRateActuatorImpl), myNitrogenInFlowRateActuatorImpl.getModuleName(), myNitrogenInFlowRateActuatorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureNitrogenInFlowRateActuator(Node node){
+		NitrogenInFlowRateActuator myNitrogenInFlowRateActuator = NitrogenInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myNitrogenInFlowRateActuator.setOutput(NitrogenConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+	}
+
+	private void createNitrogenOutFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating NitrogenOutFlowRateActuator with moduleName: "+moduleName);
+			NitrogenOutFlowRateActuatorImpl myNitrogenOutFlowRateActuatorImpl = new NitrogenOutFlowRateActuatorImpl(myID, moduleName);
+			setupBioModule(myNitrogenOutFlowRateActuatorImpl, node);
+			myActuators.add(OrbUtils.poaToCorbaObj(myNitrogenOutFlowRateActuatorImpl));
+			BiosimServer.registerServer(new NitrogenOutFlowRateActuatorPOATie(myNitrogenOutFlowRateActuatorImpl), myNitrogenOutFlowRateActuatorImpl.getModuleName(), myNitrogenOutFlowRateActuatorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureNitrogenOutFlowRateActuator(Node node){
+		NitrogenOutFlowRateActuator myNitrogenOutFlowRateActuator = NitrogenOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myNitrogenOutFlowRateActuator.setOutput(NitrogenProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+	}
+	
 	private void crawlAirActuators(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -3446,14 +3432,22 @@ public class BioInitializer{
 				else
 					configureH2OutFlowRateActuator(child);
 			}
+			else if (childName.equals("NitrogenInFlowRateActuator")){
+				if (firstPass)
+					createNitrogenInFlowRateActuator(child);
+				else
+					configureNitrogenInFlowRateActuator(child);
+			}
+			else if (childName.equals("NitrogenOutFlowRateActuator")){
+				if (firstPass)
+					createNitrogenOutFlowRateActuator(child);
+				else
+					configureNitrogenOutFlowRateActuator(child);
+			}
 			child = child.getNextSibling();
 		}
 	}
-
-	private void crawlCrewActuators(Node node, boolean firstPass){
-		//None implemented Yet
-	}
-
+	
 	//Environment
 	private void createAirInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
@@ -3469,20 +3463,8 @@ public class BioInitializer{
 	}
 
 	private void configureAirInFlowRateActuator(Node node){
-		//System.out.println("Configuring AirInFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			AirInFlowRateActuator myAirInFlowRateActuator = AirInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myAirInFlowRateActuator.setOutput(AirConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		AirInFlowRateActuator myAirInFlowRateActuator = AirInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myAirInFlowRateActuator.setOutput(AirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createAirOutFlowRateActuator(Node node){
@@ -3499,20 +3481,8 @@ public class BioInitializer{
 	}
 
 	private void configureAirOutFlowRateActuator(Node node){
-		//System.out.println("Configuring AirOutFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			AirOutFlowRateActuator myAirOutFlowRateActuator = AirOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myAirOutFlowRateActuator.setOutput(AirProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		AirOutFlowRateActuator myAirOutFlowRateActuator = AirOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myAirOutFlowRateActuator.setOutput(AirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createCO2AirEnvironmentInFlowRateActuator(Node node){
@@ -3529,20 +3499,8 @@ public class BioInitializer{
 	}
 
 	private void configureCO2AirEnvironmentInFlowRateActuator(Node node){
-		//System.out.println("Configuring CO2AirEnvironmentInFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			CO2AirEnvironmentInFlowRateActuator myCO2AirEnvironmentInFlowRateActuator = CO2AirEnvironmentInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myCO2AirEnvironmentInFlowRateActuator.setOutput(CO2AirConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		CO2AirEnvironmentInFlowRateActuator myCO2AirEnvironmentInFlowRateActuator = CO2AirEnvironmentInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myCO2AirEnvironmentInFlowRateActuator.setOutput(CO2AirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createCO2AirEnvironmentOutFlowRateActuator(Node node){
@@ -3559,20 +3517,8 @@ public class BioInitializer{
 	}
 
 	private void configureCO2AirEnvironmentOutFlowRateActuator(Node node){
-		//System.out.println("Configuring CO2AirEnvironmentOutFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			CO2AirEnvironmentOutFlowRateActuator myCO2AirEnvironmentOutFlowRateActuator = CO2AirEnvironmentOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myCO2AirEnvironmentOutFlowRateActuator.setOutput(CO2AirProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		CO2AirEnvironmentOutFlowRateActuator myCO2AirEnvironmentOutFlowRateActuator = CO2AirEnvironmentOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myCO2AirEnvironmentOutFlowRateActuator.setOutput(CO2AirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createCO2AirStoreInFlowRateActuator(Node node){
@@ -3589,20 +3535,8 @@ public class BioInitializer{
 	}
 
 	private void configureCO2AirStoreInFlowRateActuator(Node node){
-		//System.out.println("Configuring CO2AirStoreInFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			CO2AirStoreInFlowRateActuator myCO2AirStoreInFlowRateActuator = CO2AirStoreInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myCO2AirStoreInFlowRateActuator.setOutput(CO2AirConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		CO2AirStoreInFlowRateActuator myCO2AirStoreInFlowRateActuator = CO2AirStoreInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myCO2AirStoreInFlowRateActuator.setOutput(CO2AirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createCO2AirStoreOutFlowRateActuator(Node node){
@@ -3619,20 +3553,8 @@ public class BioInitializer{
 	}
 
 	private void configureCO2AirStoreOutFlowRateActuator(Node node){
-		//System.out.println("Configuring CO2AirStoreOutFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			CO2AirStoreOutFlowRateActuator myCO2AirStoreOutFlowRateActuator = CO2AirStoreOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myCO2AirStoreOutFlowRateActuator.setOutput(CO2AirProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		CO2AirStoreOutFlowRateActuator myCO2AirStoreOutFlowRateActuator = CO2AirStoreOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myCO2AirStoreOutFlowRateActuator.setOutput(CO2AirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createO2AirEnvironmentInFlowRateActuator(Node node){
@@ -3649,20 +3571,8 @@ public class BioInitializer{
 	}
 
 	private void configureO2AirEnvironmentInFlowRateActuator(Node node){
-		//System.out.println("Configuring O2AirEnvironmentInFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			O2AirEnvironmentInFlowRateActuator myO2AirEnvironmentInFlowRateActuator = O2AirEnvironmentInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myO2AirEnvironmentInFlowRateActuator.setOutput(O2AirConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		O2AirEnvironmentInFlowRateActuator myO2AirEnvironmentInFlowRateActuator = O2AirEnvironmentInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myO2AirEnvironmentInFlowRateActuator.setOutput(O2AirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createO2AirEnvironmentOutFlowRateActuator(Node node){
@@ -3679,20 +3589,8 @@ public class BioInitializer{
 	}
 
 	private void configureO2AirEnvironmentOutFlowRateActuator(Node node){
-		//System.out.println("Configuring O2AirEnvironmentOutFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			O2AirEnvironmentOutFlowRateActuator myO2AirEnvironmentOutFlowRateActuator = O2AirEnvironmentOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myO2AirEnvironmentOutFlowRateActuator.setOutput(O2AirProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		O2AirEnvironmentOutFlowRateActuator myO2AirEnvironmentOutFlowRateActuator = O2AirEnvironmentOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myO2AirEnvironmentOutFlowRateActuator.setOutput(O2AirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createO2AirStoreInFlowRateActuator(Node node){
@@ -3709,20 +3607,8 @@ public class BioInitializer{
 	}
 
 	private void configureO2AirStoreInFlowRateActuator(Node node){
-		//System.out.println("Configuring O2AirStoreInFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			O2AirStoreInFlowRateActuator myO2AirStoreInFlowRateActuator = O2AirStoreInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myO2AirStoreInFlowRateActuator.setOutput(O2AirConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		O2AirStoreInFlowRateActuator myO2AirStoreInFlowRateActuator = O2AirStoreInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myO2AirStoreInFlowRateActuator.setOutput(O2AirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createO2AirStoreOutFlowRateActuator(Node node){
@@ -3739,22 +3625,10 @@ public class BioInitializer{
 	}
 
 	private void configureO2AirStoreOutFlowRateActuator(Node node){
-		//System.out.println("Configuring O2AirStoreOutFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			O2AirStoreOutFlowRateActuator myO2AirStoreOutFlowRateActuator = O2AirStoreOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myO2AirStoreOutFlowRateActuator.setOutput(O2AirProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		O2AirStoreOutFlowRateActuator myO2AirStoreOutFlowRateActuator = O2AirStoreOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myO2AirStoreOutFlowRateActuator.setOutput(O2AirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
-
+	
 	private void createWaterAirEnvironmentInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
@@ -3769,20 +3643,8 @@ public class BioInitializer{
 	}
 
 	private void configureWaterAirEnvironmentInFlowRateActuator(Node node){
-		//System.out.println("Configuring WaterAirEnvironmentInFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			WaterAirEnvironmentInFlowRateActuator myWaterAirEnvironmentInFlowRateActuator = WaterAirEnvironmentInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myWaterAirEnvironmentInFlowRateActuator.setOutput(WaterAirConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		WaterAirEnvironmentInFlowRateActuator myWaterAirEnvironmentInFlowRateActuator = WaterAirEnvironmentInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myWaterAirEnvironmentInFlowRateActuator.setOutput(WaterAirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createWaterAirEnvironmentOutFlowRateActuator(Node node){
@@ -3799,20 +3661,8 @@ public class BioInitializer{
 	}
 
 	private void configureWaterAirEnvironmentOutFlowRateActuator(Node node){
-		//System.out.println("Configuring WaterAirEnvironmentOutFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			WaterAirEnvironmentOutFlowRateActuator myWaterAirEnvironmentOutFlowRateActuator = WaterAirEnvironmentOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myWaterAirEnvironmentOutFlowRateActuator.setOutput(WaterAirProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		WaterAirEnvironmentOutFlowRateActuator myWaterAirEnvironmentOutFlowRateActuator = WaterAirEnvironmentOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myWaterAirEnvironmentOutFlowRateActuator.setOutput(WaterAirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createWaterAirStoreInFlowRateActuator(Node node){
@@ -3829,20 +3679,8 @@ public class BioInitializer{
 	}
 
 	private void configureWaterAirStoreInFlowRateActuator(Node node){
-		//System.out.println("Configuring WaterAirStoreInFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			WaterAirStoreInFlowRateActuator myWaterAirStoreInFlowRateActuator = WaterAirStoreInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myWaterAirStoreInFlowRateActuator.setOutput(WaterAirConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		WaterAirStoreInFlowRateActuator myWaterAirStoreInFlowRateActuator = WaterAirStoreInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myWaterAirStoreInFlowRateActuator.setOutput(WaterAirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createWaterAirStoreOutFlowRateActuator(Node node){
@@ -3859,20 +3697,8 @@ public class BioInitializer{
 	}
 
 	private void configureWaterAirStoreOutFlowRateActuator(Node node){
-		//System.out.println("Configuring WaterAirStoreOutFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			WaterAirStoreOutFlowRateActuator myWaterAirStoreOutFlowRateActuator = WaterAirStoreOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myWaterAirStoreOutFlowRateActuator.setOutput(WaterAirProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		WaterAirStoreOutFlowRateActuator myWaterAirStoreOutFlowRateActuator = WaterAirStoreOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myWaterAirStoreOutFlowRateActuator.setOutput(WaterAirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createNitrogenAirEnvironmentInFlowRateActuator(Node node){
@@ -3889,20 +3715,8 @@ public class BioInitializer{
 	}
 
 	private void configureNitrogenAirEnvironmentInFlowRateActuator(Node node){
-		//System.out.println("Configuring NitrogenAirEnvironmentInFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			NitrogenAirEnvironmentInFlowRateActuator myNitrogenAirEnvironmentInFlowRateActuator = NitrogenAirEnvironmentInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myNitrogenAirEnvironmentInFlowRateActuator.setOutput(NitrogenAirConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		NitrogenAirEnvironmentInFlowRateActuator myNitrogenAirEnvironmentInFlowRateActuator = NitrogenAirEnvironmentInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myNitrogenAirEnvironmentInFlowRateActuator.setOutput(NitrogenAirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createNitrogenAirEnvironmentOutFlowRateActuator(Node node){
@@ -3919,20 +3733,8 @@ public class BioInitializer{
 	}
 
 	private void configureNitrogenAirEnvironmentOutFlowRateActuator(Node node){
-		//System.out.println("Configuring NitrogenAirEnvironmentOutFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			NitrogenAirEnvironmentOutFlowRateActuator myNitrogenAirEnvironmentOutFlowRateActuator = NitrogenAirEnvironmentOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myNitrogenAirEnvironmentOutFlowRateActuator.setOutput(NitrogenAirProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		NitrogenAirEnvironmentOutFlowRateActuator myNitrogenAirEnvironmentOutFlowRateActuator = NitrogenAirEnvironmentOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myNitrogenAirEnvironmentOutFlowRateActuator.setOutput(NitrogenAirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createNitrogenAirStoreInFlowRateActuator(Node node){
@@ -3949,20 +3751,8 @@ public class BioInitializer{
 	}
 
 	private void configureNitrogenAirStoreInFlowRateActuator(Node node){
-		//System.out.println("Configuring NitrogenAirStoreInFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			NitrogenAirStoreInFlowRateActuator myNitrogenAirStoreInFlowRateActuator = NitrogenAirStoreInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myNitrogenAirStoreInFlowRateActuator.setOutput(NitrogenAirConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		NitrogenAirStoreInFlowRateActuator myNitrogenAirStoreInFlowRateActuator = NitrogenAirStoreInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myNitrogenAirStoreInFlowRateActuator.setOutput(NitrogenAirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createNitrogenAirStoreOutFlowRateActuator(Node node){
@@ -3979,20 +3769,8 @@ public class BioInitializer{
 	}
 
 	private void configureNitrogenAirStoreOutFlowRateActuator(Node node){
-		//System.out.println("Configuring NitrogenAirStoreOutFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			NitrogenAirStoreOutFlowRateActuator myNitrogenAirStoreOutFlowRateActuator = NitrogenAirStoreOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myNitrogenAirStoreOutFlowRateActuator.setOutput(NitrogenAirProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		NitrogenAirStoreOutFlowRateActuator myNitrogenAirStoreOutFlowRateActuator = NitrogenAirStoreOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myNitrogenAirStoreOutFlowRateActuator.setOutput(NitrogenAirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void crawlEnvironmentActuators(Node node, boolean firstPass){
@@ -4059,18 +3837,6 @@ public class BioInitializer{
 				else
 					configureO2AirStoreOutFlowRateActuator(child);
 			}
-			else if (childName.equals("WaterAirEnvironmentInFlowRateActuator")){
-				if (firstPass)
-					createWaterAirEnvironmentInFlowRateActuator(child);
-				else
-					configureWaterAirEnvironmentInFlowRateActuator(child);
-			}
-			else if (childName.equals("WaterAirEnvironmentOutFlowRateActuator")){
-				if (firstPass)
-					createWaterAirEnvironmentOutFlowRateActuator(child);
-				else
-					configureWaterAirEnvironmentOutFlowRateActuator(child);
-			}
 			else if (childName.equals("WaterAirStoreInFlowRateActuator")){
 				if (firstPass)
 					createWaterAirStoreInFlowRateActuator(child);
@@ -4082,6 +3848,18 @@ public class BioInitializer{
 					createWaterAirStoreOutFlowRateActuator(child);
 				else
 					configureWaterAirStoreOutFlowRateActuator(child);
+			}
+			else if (childName.equals("WaterAirEnvironmentInFlowRateActuator")){
+				if (firstPass)
+					createWaterAirEnvironmentInFlowRateActuator(child);
+				else
+					configureWaterAirEnvironmentInFlowRateActuator(child);
+			}
+			else if (childName.equals("WaterAirEnvironmentOutFlowRateActuator")){
+				if (firstPass)
+					createWaterAirEnvironmentOutFlowRateActuator(child);
+				else
+					configureWaterAirEnvironmentOutFlowRateActuator(child);
 			}
 			else if (childName.equals("NitrogenAirEnvironmentInFlowRateActuator")){
 				if (firstPass)
@@ -4126,20 +3904,8 @@ public class BioInitializer{
 	}
 
 	private void configureBiomassInFlowRateActuator(Node node){
-		//System.out.println("Configuring BiomassInFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			BiomassInFlowRateActuator myBiomassInFlowRateActuator = BiomassInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myBiomassInFlowRateActuator.setOutput(BiomassConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		BiomassInFlowRateActuator myBiomassInFlowRateActuator = BiomassInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myBiomassInFlowRateActuator.setOutput(BiomassConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createBiomassOutFlowRateActuator(Node node){
@@ -4156,20 +3922,8 @@ public class BioInitializer{
 	}
 
 	private void configureBiomassOutFlowRateActuator(Node node){
-		//System.out.println("Configuring BiomassOutFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			BiomassOutFlowRateActuator myBiomassOutFlowRateActuator = BiomassOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myBiomassOutFlowRateActuator.setOutput(BiomassProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		BiomassOutFlowRateActuator myBiomassOutFlowRateActuator = BiomassOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myBiomassOutFlowRateActuator.setOutput(BiomassProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createFoodInFlowRateActuator(Node node){
@@ -4186,20 +3940,8 @@ public class BioInitializer{
 	}
 
 	private void configureFoodInFlowRateActuator(Node node){
-		//System.out.println("Configuring FoodInFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			FoodInFlowRateActuator myFoodInFlowRateActuator = FoodInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myFoodInFlowRateActuator.setOutput(FoodConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		FoodInFlowRateActuator myFoodInFlowRateActuator = FoodInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myFoodInFlowRateActuator.setOutput(FoodConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createFoodOutFlowRateActuator(Node node){
@@ -4216,80 +3958,8 @@ public class BioInitializer{
 	}
 
 	private void configureFoodOutFlowRateActuator(Node node){
-		//System.out.println("Configuring FoodOutFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			FoodOutFlowRateActuator myFoodOutFlowRateActuator = FoodOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myFoodOutFlowRateActuator.setOutput(FoodProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
-	}
-
-	private void createHarvestingActuator(Node node){
-		String moduleName = getModuleName(node);
-		if (isCreatedLocally(node)){
-			//System.out.println("Creating HarvestingActuator with moduleName: "+moduleName);
-			HarvestingActuatorImpl myHarvestingActuatorImpl = new HarvestingActuatorImpl(myID, moduleName);
-			setupBioModule(myHarvestingActuatorImpl, node);
-			myActuators.add(OrbUtils.poaToCorbaObj(myHarvestingActuatorImpl));
-			BiosimServer.registerServer(new HarvestingActuatorPOATie(myHarvestingActuatorImpl), myHarvestingActuatorImpl.getModuleName(), myHarvestingActuatorImpl.getID());
-		}
-		else
-			printRemoteWarningMessage(moduleName);
-	}
-
-	private void configureHarvestingActuator(Node node){
-		//System.out.println("Configuring HarvestingActuator");
-		String moduleName = getModuleName(node);
-		try{
-			HarvestingActuator myHarvestingActuator = HarvestingActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("shelfIndex").getNodeValue());
-			myHarvestingActuator.setOutput(BiomassRSHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
-	}
-
-	private void createPlantingActuator(Node node){
-		String moduleName = getModuleName(node);
-		if (isCreatedLocally(node)){
-			//System.out.println("Creating PlantingActuator with moduleName: "+moduleName);
-			PlantingActuatorImpl myPlantingActuatorImpl = new PlantingActuatorImpl(myID, moduleName);
-			setupBioModule(myPlantingActuatorImpl, node);
-			myActuators.add(OrbUtils.poaToCorbaObj(myPlantingActuatorImpl));
-			BiosimServer.registerServer(new PlantingActuatorPOATie(myPlantingActuatorImpl), myPlantingActuatorImpl.getModuleName(), myPlantingActuatorImpl.getID());
-		}
-		else
-			printRemoteWarningMessage(moduleName);
-	}
-
-	private void configurePlantingActuator(Node node){
-		//System.out.println("Configuring PlantingActuator");
-		String moduleName = getModuleName(node);
-		try{
-			PlantingActuator myPlantingActuator = PlantingActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("shelfIndex").getNodeValue());
-			myPlantingActuator.setOutput(BiomassRSHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		FoodOutFlowRateActuator myFoodOutFlowRateActuator = FoodOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myFoodOutFlowRateActuator.setOutput(FoodProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void crawlFoodActuators(Node node, boolean firstPass){
@@ -4320,18 +3990,6 @@ public class BioInitializer{
 				else
 					configureFoodOutFlowRateActuator(child);
 			}
-			else if (childName.equals("HarvestingActuator")){
-				if (firstPass)
-					createHarvestingActuator(child);
-				else
-					configureHarvestingActuator(child);
-			}
-			else if (childName.equals("PlantingActuator")){
-				if (firstPass)
-					createPlantingActuator(child);
-				else
-					configurePlantingActuator(child);
-			}
 			child = child.getNextSibling();
 		}
 	}
@@ -4351,20 +4009,8 @@ public class BioInitializer{
 	}
 
 	private void configurePowerInFlowRateActuator(Node node){
-		//System.out.println("Configuring PowerInFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			PowerInFlowRateActuator myPowerInFlowRateActuator = PowerInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myPowerInFlowRateActuator.setOutput(PowerConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		PowerInFlowRateActuator myPowerInFlowRateActuator = PowerInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myPowerInFlowRateActuator.setOutput(PowerConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createPowerOutFlowRateActuator(Node node){
@@ -4381,22 +4027,10 @@ public class BioInitializer{
 	}
 
 	private void configurePowerOutFlowRateActuator(Node node){
-		//System.out.println("Configuring PowerOutFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			PowerOutFlowRateActuator myPowerOutFlowRateActuator = PowerOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myPowerOutFlowRateActuator.setOutput(PowerProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		PowerOutFlowRateActuator myPowerOutFlowRateActuator = PowerOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myPowerOutFlowRateActuator.setOutput(PowerProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
-
+	
 	private void crawlPowerActuators(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -4432,20 +4066,8 @@ public class BioInitializer{
 	}
 
 	private void configurePotableWaterInFlowRateActuator(Node node){
-		//System.out.println("Configuring PotableWaterInFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			PotableWaterInFlowRateActuator myPotableWaterInFlowRateActuator = PotableWaterInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myPotableWaterInFlowRateActuator.setOutput(PotableWaterConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		PotableWaterInFlowRateActuator myPotableWaterInFlowRateActuator = PotableWaterInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myPotableWaterInFlowRateActuator.setOutput(PotableWaterConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createPotableWaterOutFlowRateActuator(Node node){
@@ -4462,20 +4084,8 @@ public class BioInitializer{
 	}
 
 	private void configurePotableWaterOutFlowRateActuator(Node node){
-		//System.out.println("Configuring PotableWaterOutFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			PotableWaterOutFlowRateActuator myPotableWaterOutFlowRateActuator = PotableWaterOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myPotableWaterOutFlowRateActuator.setOutput(PotableWaterProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		PotableWaterOutFlowRateActuator myPotableWaterOutFlowRateActuator = PotableWaterOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myPotableWaterOutFlowRateActuator.setOutput(PotableWaterProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createGreyWaterInFlowRateActuator(Node node){
@@ -4492,20 +4102,8 @@ public class BioInitializer{
 	}
 
 	private void configureGreyWaterInFlowRateActuator(Node node){
-		//System.out.println("Configuring GreyWaterInFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			GreyWaterInFlowRateActuator myGreyWaterInFlowRateActuator = GreyWaterInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myGreyWaterInFlowRateActuator.setOutput(GreyWaterConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		GreyWaterInFlowRateActuator myGreyWaterInFlowRateActuator = GreyWaterInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myGreyWaterInFlowRateActuator.setOutput(GreyWaterConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createGreyWaterOutFlowRateActuator(Node node){
@@ -4522,20 +4120,8 @@ public class BioInitializer{
 	}
 
 	private void configureGreyWaterOutFlowRateActuator(Node node){
-		//System.out.println("Configuring GreyWaterOutFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			GreyWaterOutFlowRateActuator myGreyWaterOutFlowRateActuator = GreyWaterOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myGreyWaterOutFlowRateActuator.setOutput(GreyWaterProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		GreyWaterOutFlowRateActuator myGreyWaterOutFlowRateActuator = GreyWaterOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myGreyWaterOutFlowRateActuator.setOutput(GreyWaterProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createDirtyWaterInFlowRateActuator(Node node){
@@ -4552,20 +4138,8 @@ public class BioInitializer{
 	}
 
 	private void configureDirtyWaterInFlowRateActuator(Node node){
-		//System.out.println("Configuring DirtyWaterInFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			DirtyWaterInFlowRateActuator myDirtyWaterInFlowRateActuator = DirtyWaterInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myDirtyWaterInFlowRateActuator.setOutput(DirtyWaterConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		DirtyWaterInFlowRateActuator myDirtyWaterInFlowRateActuator = DirtyWaterInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myDirtyWaterInFlowRateActuator.setOutput(DirtyWaterConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createDirtyWaterOutFlowRateActuator(Node node){
@@ -4582,22 +4156,10 @@ public class BioInitializer{
 	}
 
 	private void configureDirtyWaterOutFlowRateActuator(Node node){
-		//System.out.println("Configuring DirtyWaterOutFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			DirtyWaterOutFlowRateActuator myDirtyWaterOutFlowRateActuator = DirtyWaterOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myDirtyWaterOutFlowRateActuator.setOutput(DirtyWaterProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		DirtyWaterOutFlowRateActuator myDirtyWaterOutFlowRateActuator = DirtyWaterOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myDirtyWaterOutFlowRateActuator.setOutput(DirtyWaterProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
-
+	
 	private void crawlWaterActuators(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -4657,20 +4219,8 @@ public class BioInitializer{
 	}
 
 	private void configureDryWasteInFlowRateActuator(Node node){
-		//System.out.println("Configuring DryWasteInFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			DryWasteInFlowRateActuator myDryWasteInFlowRateActuator = DryWasteInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myDryWasteInFlowRateActuator.setOutput(DryWasteConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		DryWasteInFlowRateActuator myDryWasteInFlowRateActuator = DryWasteInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myDryWasteInFlowRateActuator.setOutput(DryWasteConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createDryWasteOutFlowRateActuator(Node node){
@@ -4687,22 +4237,10 @@ public class BioInitializer{
 	}
 
 	private void configureDryWasteOutFlowRateActuator(Node node){
-		//System.out.println("Configuring DryWasteOutFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			DryWasteOutFlowRateActuator myDryWasteOutFlowRateActuator = DryWasteOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myDryWasteOutFlowRateActuator.setOutput(DryWasteProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		DryWasteOutFlowRateActuator myDryWasteOutFlowRateActuator = DryWasteOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myDryWasteOutFlowRateActuator.setOutput(DryWasteProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
-
+	
 	private void crawlWasteActuators(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -4729,10 +4267,6 @@ public class BioInitializer{
 			String childName = child.getNodeName();
 			if (childName.equals("air")){
 				crawlAirActuators(child, firstPass);
-			}
-			else if (childName.equals("crew")){
-				crawlCrewActuators(child, firstPass);
-
 			}
 			else if (childName.equals("environment")){
 				crawlEnvironmentActuators(child, firstPass);
