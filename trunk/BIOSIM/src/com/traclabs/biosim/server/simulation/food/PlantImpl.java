@@ -12,12 +12,14 @@ import biosim.server.util.*;
  */
 
 public abstract class PlantImpl extends PlantPOA{
-	int myAge = 0;
+	private int myAge = 0;
 	private LogIndex myLogIndex;
 	private boolean logInitialized = false;
 	private ShelfImpl myShelfImpl;
-	private float waterNeeded = .01f;
 	private float myPPF = 0f;
+	private float myCurrentBiomass = 0f;
+	private Breath myCurrentBreath;
+	private float myWaterLevel;
 	protected float[] canopyClosureConstants;
 	protected float[] canopyQYConstants;
 
@@ -27,30 +29,47 @@ public abstract class PlantImpl extends PlantPOA{
 		canopyQYConstants = new float[25];
 		Arrays.fill(canopyClosureConstants, 0f);
 		Arrays.fill(canopyQYConstants, 0f);
+		myCurrentBreath = new Breath(0f,0f,0f);
 	}
 
 	public void reset(){
 		myPPF = 0f;
+		myCurrentBiomass = 0f;
+		myAge = 0;
+		myCurrentBreath = new Breath(0f,0f,0f);
+	}
+	
+	private void collectWater(){
+		myWaterLevel = myShelfImpl.takeWater(getWaterNeeded());
+	}
+	
+	private void collectAir(){
 	}
 
 	public void tick(){
+		collectWater();
+		collectAir();
+		growBiomass();
 	}
 
-	public void harvest(){
+	public float harvest(){
+		float biomassToReturn = myCurrentBiomass;
+		myCurrentBiomass = 0f;
+		myAge = 0;
+		return biomassToReturn;
 	}
 
 	public void shine(float pPPF){
 		myPPF = pPPF;
 	}
 
-	public float getWaterNeeded(){
-		return waterNeeded;
-	}
-	
-
-	private void calculateBiomass(){
+	private void growBiomass(){
 		float molecularWeightOfCarbon = 12.011f; // g/mol
-		float cropGrowthRate = molecularWeightOfCarbon * calculateDailyCarbonGain() / getBCF();
+		float dailyCarbonGain = calculateDailyCarbonGain();
+		float cropGrowthRate = molecularWeightOfCarbon * dailyCarbonGain / getBCF();
+		myCurrentBiomass = cropGrowthRate * 1000 * myShelfImpl.getCropArea(); //in kilograms
+		float O2Produced = getOPF() * dailyCarbonGain * myShelfImpl.getCropArea() / 24; //in mol of oxygen per hour
+		
 	}
 
 	private float calculateDailyCarbonGain(){
@@ -64,12 +83,14 @@ public abstract class PlantImpl extends PlantPOA{
 	protected abstract float getTimeTillCanopySenescence();
 	protected abstract float getCQYMin();
 	protected abstract float getTimeTillCropMaturity();
+	protected abstract float getWaterNeeded();
+	protected abstract float getOPF();
 	public abstract float getPPFNeeded();
 	public abstract PlantType getPlantType();
 
 	//Need to convert current CO2 levels to micromoles of CO2 / molecules of air
 	private float calculateCO2(){
-		return 0.1f;
+		return (myCurrentBreath.CO2 * pow (10,-6)) / (myCurrentBreath.O2 + myCurrentBreath.CO2 + myCurrentBreath.other);
 	}
 	
 	//returns the age in days

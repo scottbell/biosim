@@ -13,7 +13,7 @@ import java.util.*;
 
 public class ShelfImpl extends ShelfPOA {
 	private PlantImpl myCrop;
-	private float totalArea = 8.24f;
+	private float cropArea = 8.24f;
 	private LogIndex myLogIndex;
 	private boolean logInitialized = false;
 	private BiomassRSImpl myBiomassImpl;
@@ -37,9 +37,17 @@ public class ShelfImpl extends ShelfPOA {
 		powerLevel = 0f;
 		myCrop.reset();
 	}
-	
+
+	public BiomassRSImpl getBiomassRSImpl(){
+		return myBiomassImpl;
+	}
+
+	public float getCropArea(){
+		return cropArea;
+	}
+
 	private float calculatePowerNeeded(){
-		return myCrop.getPPFNeeded() / (getLampEfficiency() * getPSEfficiency()); 
+		return myCrop.getPPFNeeded() / (getLampEfficiency() * getPSEfficiency());
 	}
 
 	private void gatherWater(){
@@ -62,7 +70,7 @@ public class ShelfImpl extends ShelfPOA {
 		}
 		waterLevel = gatheredGreyWater + gatheredPotableWater;
 	}
-	
+
 	private void gatherPower(){
 		float gatheredPower = 0f;
 		for (int i = 0; (i < myBiomassImpl.getPowerInputs().length) && (gatheredPower < myCrop.getPPFNeeded()); i++){
@@ -74,15 +82,15 @@ public class ShelfImpl extends ShelfPOA {
 		}
 		powerLevel = gatheredPower;
 	}
-	
+
 	private void flushWater(){
 		waterLevel = 0f;
 	}
-	
+
 	private void flushPower(){
 		powerLevel = 0f;
 	}
-	
+
 	public float takeWater(float pLiters){
 		if (waterLevel < pLiters){
 			float waterLeft = waterLevel;
@@ -92,22 +100,22 @@ public class ShelfImpl extends ShelfPOA {
 		else{
 			waterLevel -= pLiters;
 			return pLiters;
-		}		
+		}
 	}
-	
+
 	private void lightPlants(){
 		float thePPF = powerLevel * getLampEfficiency() * getPSEfficiency();
 		myCrop.shine(thePPF);
 	}
-	
+
 	private float getLampEfficiency(){
 		return 261f; //for high pressure sodium bulbs
 	}
-	
+
 	private float getPSEfficiency(){
 		return 4.68f; //for high pressure sodium bulbs
 	}
-	
+
 	public void harvest(){
 		myCrop.harvest();
 	}

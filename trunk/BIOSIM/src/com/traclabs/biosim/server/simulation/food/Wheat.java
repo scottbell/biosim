@@ -59,4 +59,12 @@ public class Wheat extends PlantImpl{
 	protected float getTimeTillCropMaturity(){
 		return 62f;
 	}
+	
+	protected float getWaterNeeded(){
+		return 0.1f;
+	}
+	
+	protected float getOPF(){
+		return 1.07f;
+	}
 }
