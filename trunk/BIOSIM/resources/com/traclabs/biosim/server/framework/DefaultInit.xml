@@ -11,10 +11,11 @@
 		<initialTicks>0</initialTicks>
 		<setStochasticIntensity>NONE_STOCH</setStochasticIntensity>
 	</Globals>
-	<PotableWaterStore xsi:type="Store">
+	<PotableWaterStore>
 		<isLoggingEnabled>false</isLoggingEnabled>
 		<isBreakdownEnabled>false</isBreakdownEnabled>
 		<capacity>500</capacity>
 		<level>100</level>
+		<PotableWaterStoreName>PotableWaterStore0</PotableWaterStoreName>
 	</PotableWaterStore>
 </biosim>
