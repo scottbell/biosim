@@ -20,7 +20,7 @@ public class AirToolBar extends EditorToolBar {
     private JButton myVCCRButton;
     private JButton myAirRSButton;
     
-    private JButton myO2ConduitButton;
+    private JButton myConduitButton;
     
     public AirToolBar() {
         super("Air");
@@ -32,8 +32,8 @@ public class AirToolBar extends EditorToolBar {
         myCRSButton = new JButton("CRS");
         myOGSButton = new JButton("OGS");
         myVCCRButton = new JButton("VCCR");
-        myAirRSButton = new JButton("AirRS");
-        myO2ConduitButton = new JButton("O2 Conduit");
+        myAirRSButton = new JButton("Air RS");
+        myConduitButton = new JButton("Conduit");
         
         add(myH2StoreButton);
         add(myNitrogenStoreButton);
@@ -46,6 +46,6 @@ public class AirToolBar extends EditorToolBar {
         add(myVCCRButton);
         add(myAirRSButton);
         addSeparator();
-        add(myO2ConduitButton);
+        add(myConduitButton);
     }
 }
