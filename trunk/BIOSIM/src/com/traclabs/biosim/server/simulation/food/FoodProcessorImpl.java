@@ -245,11 +245,11 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 		sendLog(myLog);
 	}
 	
-	public void setPowerInputFlowrate(float watts, int index){
+	public void setPowerInputFlowRate(float watts, int index){
 		powerFlowRates[index] = watts;
 	}
 	
-	public float getPowerInputFlowrate(int index){
+	public float getPowerInputFlowRate(int index){
 		return powerFlowRates[index];
 	}
 	
@@ -262,15 +262,15 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 		return myPowerStores;
 	}
 	
-	public float[] getPowerInputFlowrates(){
+	public float[] getPowerInputFlowRates(){
 		return powerFlowRates;
 	}
 	
-	public void setBiomassInputFlowrate(float kilograms, int index){
+	public void setBiomassInputFlowRate(float kilograms, int index){
 		biomassFlowRates[index] = kilograms;
 	}
 	
-	public float getBiomassInputFlowrate(int index){
+	public float getBiomassInputFlowRate(int index){
 		return biomassFlowRates[index];
 	}
 	
@@ -283,15 +283,15 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 		return myBiomassStores;
 	}
 	
-	public float[] getBiomassInputFlowrates(){
+	public float[] getBiomassInputFlowRates(){
 		return biomassFlowRates;
 	}
 	
-	public void setFoodOutputFlowrate(float kilograms, int index){
+	public void setFoodOutputFlowRate(float kilograms, int index){
 		foodFlowRates[index] = kilograms;
 	}
 	
-	public float getFoodOutputFlowrate(int index){
+	public float getFoodOutputFlowRate(int index){
 		return foodFlowRates[index];
 	}
 	
@@ -304,7 +304,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 		return myFoodStores;
 	}
 	
-	public float[] getFoodOutputFlowrates(){
+	public float[] getFoodOutputFlowRates(){
 		return foodFlowRates;
 	}
 

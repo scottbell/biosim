@@ -48,7 +48,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	* Creates a Store with an initial level and capacity user specified
 	* @param initialLevel the initial level of the store
 	* @param initialCapacity the initial capacity of the store
-	* @param pPipe whether this store should act like a pipe.  dynamic capcity == level == whatever is added THIS tick (0 if nothing added, flowrate should dictate pipe size, infinite otherwise)
+	* @param pPipe whether this store should act like a pipe.  dynamic capcity == level == whatever is added THIS tick (0 if nothing added, flowRate should dictate pipe size, infinite otherwise)
 	*/
 	public StoreImpl (int pID, float initialLevel, float initialCapacity, boolean pPipe){
 		super(pID);
@@ -58,7 +58,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	}
 	
 	/**
-	* If this store acts like a pipe.  dynamic capcity == level == whatever is added THIS tick (0 if nothing added, flowrate should dictate pipe size, infinite otherwise)
+	* If this store acts like a pipe.  dynamic capcity == level == whatever is added THIS tick (0 if nothing added, flowRate should dictate pipe size, infinite otherwise)
 	* @return pPipe whether this store acts like a pipe.
 	*/
 	public boolean isPipe(){
@@ -66,7 +66,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	}
 	
 	/**
-	* Sets this store to act like a pipe.  dynamic capcity == level == whatever is added THIS tick (0 if nothing added, flowrate should dictate pipe size, infinite otherwise)
+	* Sets this store to act like a pipe.  dynamic capcity == level == whatever is added THIS tick (0 if nothing added, flowRate should dictate pipe size, infinite otherwise)
 	* @param pPipe whether this store should act like a pipe.
 	*/
 	public void setPipe(boolean pPipe){

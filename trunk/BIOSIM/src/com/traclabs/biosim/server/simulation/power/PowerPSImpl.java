@@ -132,11 +132,11 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements PowerPSOpe
 		public LogNode powerProducedIndex;
 	}
 
-	public void setPowerOutputFlowrate(float watts, int index){
+	public void setPowerOutputFlowRate(float watts, int index){
 		powerFlowRates[index] = watts;
 	}
 
-	public float getPowerOutputFlowrate(int index){
+	public float getPowerOutputFlowRate(int index){
 		return powerFlowRates[index];
 	}
 
@@ -149,7 +149,7 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements PowerPSOpe
 		return myPowerStores;
 	}
 	
-	public float[] getPowerOutputFlowrates(){
+	public float[] getPowerOutputFlowRates(){
 		return powerFlowRates;
 	}
 

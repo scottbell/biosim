@@ -13,7 +13,7 @@ import biosim.idl.util.log.*;
 import biosim.server.simulation.framework.*;
 /**
  * The basic Accumulator Implementation.  Can be configured to take any modules as input, and any modules as output.
- * It takes as much as it can (max taken set by flowrates) from one module and pushes it into another module.
+ * It takes as much as it can (max taken set by flowRates) from one module and pushes it into another module.
  * Functionally equivalent to an Injector at this point. 
  * @author    Scott Bell
  */
@@ -275,11 +275,11 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		public LogNode outIndex;
 	}
 
-	public void setPowerInputFlowrate(float amount, int index){
+	public void setPowerInputFlowRate(float amount, int index){
 		powerInFlowRates[index] = amount;
 	}
 
-	public float getPowerInputFlowrate(int index){
+	public float getPowerInputFlowRate(int index){
 		return powerInFlowRates[index];
 	}
 
@@ -292,15 +292,15 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		return myPowerInputs;
 	}
 	
-	public float[] getPowerInputFlowrates(){
+	public float[] getPowerInputFlowRates(){
 		return powerInFlowRates;
 	}
 
-	public void setPowerOutputFlowrate(float amount, int index){
+	public void setPowerOutputFlowRate(float amount, int index){
 		powerOutFlowRates[index] = amount;
 	}
 
-	public float getPowerOutputFlowrate(int index){
+	public float getPowerOutputFlowRate(int index){
 		return powerOutFlowRates[index];
 	}
 
@@ -313,15 +313,15 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		return myPowerOutputs;
 	}
 	
-	public float[] getPowerOutputFlowrates(){
+	public float[] getPowerOutputFlowRates(){
 		return powerOutFlowRates;
 	}
 
-	public void setGreyWaterInputFlowrate(float amount, int index){
+	public void setGreyWaterInputFlowRate(float amount, int index){
 		greyWaterInFlowRates[index] = amount;
 	}
 
-	public float getGreyWaterInputFlowrate(int index){
+	public float getGreyWaterInputFlowRate(int index){
 		return greyWaterInFlowRates[index];
 	}
 
@@ -334,15 +334,15 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		return myGreyWaterInputs;
 	}
 	
-	public float[] getGreyWaterInputFlowrates(){
+	public float[] getGreyWaterInputFlowRates(){
 		return greyWaterInFlowRates;
 	}
 
-	public void setGreyWaterOutputFlowrate(float amount, int index){
+	public void setGreyWaterOutputFlowRate(float amount, int index){
 		greyWaterOutFlowRates[index] = amount;
 	}
 
-	public float getGreyWaterOutputFlowrate(int index){
+	public float getGreyWaterOutputFlowRate(int index){
 		return greyWaterOutFlowRates[index];
 	}
 
@@ -355,15 +355,15 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		return myGreyWaterOutputs;
 	}
 	
-	public float[] getGreyWaterOutputFlowrates(){
+	public float[] getGreyWaterOutputFlowRates(){
 		return greyWaterOutFlowRates;
 	}
 
-	public void setDirtyWaterInputFlowrate(float amount, int index){
+	public void setDirtyWaterInputFlowRate(float amount, int index){
 		dirtyWaterInFlowRates[index] = amount;
 	}
 
-	public float getDirtyWaterInputFlowrate(int index){
+	public float getDirtyWaterInputFlowRate(int index){
 		return dirtyWaterInFlowRates[index];
 	}
 
@@ -376,15 +376,15 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		return myDirtyWaterInputs;
 	}
 	
-	public float[] getDirtyWaterInputFlowrates(){
+	public float[] getDirtyWaterInputFlowRates(){
 		return dirtyWaterInFlowRates;
 	}
 
-	public void setDirtyWaterOutputFlowrate(float amount, int index){
+	public void setDirtyWaterOutputFlowRate(float amount, int index){
 		dirtyWaterOutFlowRates[index] = amount;
 	}
 
-	public float getDirtyWaterOutputFlowrate(int index){
+	public float getDirtyWaterOutputFlowRate(int index){
 		return dirtyWaterOutFlowRates[index];
 	}
 
@@ -397,15 +397,15 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		return myDirtyWaterOutputs;
 	}
 	
-	public float[] getDirtyWaterOutputFlowrates(){
+	public float[] getDirtyWaterOutputFlowRates(){
 		return dirtyWaterOutFlowRates;
 	}
 
-	public void setPotableWaterInputFlowrate(float amount, int index){
+	public void setPotableWaterInputFlowRate(float amount, int index){
 		potableWaterInFlowRates[index] = amount;
 	}
 
-	public float getPotableWaterInputFlowrate(int index){
+	public float getPotableWaterInputFlowRate(int index){
 		return potableWaterInFlowRates[index];
 	}
 
@@ -418,15 +418,15 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		return myPotableWaterInputs;
 	}
 	
-	public float[] getPotableWaterInputFlowrates(){
+	public float[] getPotableWaterInputFlowRates(){
 		return potableWaterInFlowRates;
 	}
 
-	public void setPotableWaterOutputFlowrate(float amount, int index){
+	public void setPotableWaterOutputFlowRate(float amount, int index){
 		potableWaterOutFlowRates[index] = amount;
 	}
 
-	public float getPotableWaterOutputFlowrate(int index){
+	public float getPotableWaterOutputFlowRate(int index){
 		return potableWaterOutFlowRates[index];
 	}
 
@@ -439,15 +439,15 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		return myPotableWaterOutputs;
 	}
 	
-	public float[] getPotableWaterOutputFlowrates(){
+	public float[] getPotableWaterOutputFlowRates(){
 		return potableWaterOutFlowRates;
 	}
 
-	public void setFoodInputFlowrate(float amount, int index){
+	public void setFoodInputFlowRate(float amount, int index){
 		foodInFlowRates[index] = amount;
 	}
 
-	public float getFoodInputFlowrate(int index){
+	public float getFoodInputFlowRate(int index){
 		return foodInFlowRates[index];
 	}
 
@@ -460,15 +460,15 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		return myFoodInputs;
 	}
 	
-	public float[] getFoodInFlowrates(){
+	public float[] getFoodInFlowRates(){
 		return foodInFlowRates;
 	}
 
-	public void setFoodOutputFlowrate(float amount, int index){
+	public void setFoodOutputFlowRate(float amount, int index){
 		foodOutFlowRates[index] = amount;
 	}
 
-	public float getFoodOutputFlowrate(int index){
+	public float getFoodOutputFlowRate(int index){
 		return foodOutFlowRates[index];
 	}
 
@@ -481,15 +481,15 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		return myFoodOutputs;
 	}
 	
-	public float[] getFoodOutputFlowrates(){
+	public float[] getFoodOutputFlowRates(){
 		return foodOutFlowRates;
 	}
 	
-	public void setBiomassInputFlowrate(float amount, int index){
+	public void setBiomassInputFlowRate(float amount, int index){
 		biomassInFlowRates[index] = amount;
 	}
 
-	public float getBiomassInputFlowrate(int index){
+	public float getBiomassInputFlowRate(int index){
 		return biomassInFlowRates[index];
 	}
 
@@ -502,15 +502,15 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		return myBiomassInputs;
 	}
 	
-	public float[] getBiomassInputFlowrates(){
+	public float[] getBiomassInputFlowRates(){
 		return biomassInFlowRates;
 	}
 
-	public void setBiomassOutputFlowrate(float amount, int index){
+	public void setBiomassOutputFlowRate(float amount, int index){
 		biomassOutFlowRates[index] = amount;
 	}
 
-	public float getBiomassOutputFlowrate(int index){
+	public float getBiomassOutputFlowRate(int index){
 		return biomassOutFlowRates[index];
 	}
 
@@ -523,15 +523,15 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		return myBiomassOutputs;
 	}
 	
-	public float[] getBiomassOutputFlowrates(){
+	public float[] getBiomassOutputFlowRates(){
 		return biomassOutFlowRates;
 	}
 
-	public void setAirInputFlowrate(float amount, int index){
+	public void setAirInputFlowRate(float amount, int index){
 		airInFlowRates[index] = amount;
 	}
 
-	public float getAirInputFlowrate(int index){
+	public float getAirInputFlowRate(int index){
 		return airInFlowRates[index];
 	}
 
@@ -544,15 +544,15 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		return myAirInputs;
 	}
 	
-	public float[] getAirInputFlowrates(){
+	public float[] getAirInputFlowRates(){
 		return airInFlowRates;
 	}
 
-	public void setAirOutputFlowrate(float amount, int index){
+	public void setAirOutputFlowRate(float amount, int index){
 		airOutFlowRates[index] = amount;
 	}
 
-	public float getAirOutputFlowrate(int index){
+	public float getAirOutputFlowRate(int index){
 		return airOutFlowRates[index];
 	}
 
@@ -565,15 +565,15 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		return myAirOutputs;
 	}
 	
-	public float[] getAirOutputFlowrates(){
+	public float[] getAirOutputFlowRates(){
 		return airOutFlowRates;
 	}
 
-	public void setO2InputFlowrate(float amount, int index){
+	public void setO2InputFlowRate(float amount, int index){
 		O2InFlowRates[index] = amount;
 	}
 
-	public float getO2InputFlowrate(int index){
+	public float getO2InputFlowRate(int index){
 		return O2InFlowRates[index];
 	}
 
@@ -586,15 +586,15 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		return myO2Inputs;
 	}
 	
-	public float[] getO2InputFlowrates(){
+	public float[] getO2InputFlowRates(){
 		return O2InFlowRates;
 	}
 
-	public void setO2OutputFlowrate(float amount, int index){
+	public void setO2OutputFlowRate(float amount, int index){
 		O2OutFlowRates[index] = amount;
 	}
 
-	public float getO2OutputFlowrate(int index){
+	public float getO2OutputFlowRate(int index){
 		return O2OutFlowRates[index];
 	}
 
@@ -607,15 +607,15 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		return myO2Outputs;
 	}
 	
-	public float[] getO2OutputFlowrates(){
+	public float[] getO2OutputFlowRates(){
 		return O2OutFlowRates;
 	}
 
-	public void setCO2InputFlowrate(float amount, int index){
+	public void setCO2InputFlowRate(float amount, int index){
 		CO2InFlowRates[index] = amount;
 	}
 
-	public float getCO2InputFlowrate(int index){
+	public float getCO2InputFlowRate(int index){
 		return CO2InFlowRates[index];
 	}
 
@@ -624,7 +624,7 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		CO2InFlowRates = flowRates;
 	}
 	
-	public float[] getCO2InputFlowrates(){
+	public float[] getCO2InputFlowRates(){
 		return CO2InFlowRates;
 	}
 
@@ -632,11 +632,11 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		return myCO2Inputs;
 	}
 
-	public void setCO2OutputFlowrate(float amount, int index){
+	public void setCO2OutputFlowRate(float amount, int index){
 		CO2OutFlowRates[index] = amount;
 	}
 
-	public float getCO2OutputFlowrate(int index){
+	public float getCO2OutputFlowRate(int index){
 		return CO2OutFlowRates[index];
 	}
 
@@ -649,23 +649,23 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		return myCO2Outputs;
 	}
 	
-	public float[] getCO2OutputFlowrates(){
+	public float[] getCO2OutputFlowRates(){
 		return CO2OutFlowRates;
 	}
 	
-	public void setCO2AirStoreInputFlowrate(float amount, int index){
+	public void setCO2AirStoreInputFlowRate(float amount, int index){
 		CO2AirStoreInFlowRates[index] = amount;
 	}
 	
-	public void setCO2AirEnvironmentInputFlowrate(float amount, int index){
+	public void setCO2AirEnvironmentInputFlowRate(float amount, int index){
 		CO2AirEnvironmentInFlowRates[index] = amount;
 	}
 
-	public float getCO2AirStoreInputFlowrate(int index){
+	public float getCO2AirStoreInputFlowRate(int index){
 		return CO2AirStoreInFlowRates[index];
 	}
 	
-	public float getCO2AirEnvironmentInputFlowrate(int index){
+	public float getCO2AirEnvironmentInputFlowRate(int index){
 		return CO2AirEnvironmentInFlowRates[index];
 	}
 
@@ -679,11 +679,11 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		CO2AirEnvironmentInFlowRates = flowRates;
 	}
 	
-	public float[] getCO2AirStoreInputFlowrates(){
+	public float[] getCO2AirStoreInputFlowRates(){
 		return CO2AirStoreInFlowRates;
 	}
 	
-	public float[] getCO2AirEnvironmentInputFlowrates(){
+	public float[] getCO2AirEnvironmentInputFlowRates(){
 		return CO2AirEnvironmentInFlowRates;
 	}
 	
@@ -695,19 +695,19 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		return myCO2AirEnvironmentInputs;
 	}
 	
-	public void setCO2AirStoreOutputFlowrate(float amount, int index){
+	public void setCO2AirStoreOutputFlowRate(float amount, int index){
 		CO2AirStoreOutFlowRates[index] = amount;
 	}
 	
-	public void setCO2AirEnvironmentOutputFlowrate(float amount, int index){
+	public void setCO2AirEnvironmentOutputFlowRate(float amount, int index){
 		CO2AirEnvironmentOutFlowRates[index] = amount;
 	}
 
-	public float getCO2AirStoreOutputFlowrate(int index){
+	public float getCO2AirStoreOutputFlowRate(int index){
 		return CO2AirStoreOutFlowRates[index];
 	}
 	
-	public float getCO2AirEnvironmentOutputFlowrate(int index){
+	public float getCO2AirEnvironmentOutputFlowRate(int index){
 		return CO2AirEnvironmentOutFlowRates[index];
 	}
 
@@ -721,11 +721,11 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		CO2AirEnvironmentOutFlowRates = flowRates;
 	}
 	
-	public float[] getCO2AirStoreOutputFlowrates(){
+	public float[] getCO2AirStoreOutputFlowRates(){
 		return CO2AirStoreOutFlowRates;
 	}
 	
-	public float[] getCO2AirEnvironmentOutputFlowrates(){
+	public float[] getCO2AirEnvironmentOutputFlowRates(){
 		return CO2AirEnvironmentOutFlowRates;
 	}
 	
@@ -737,19 +737,19 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		return myCO2AirEnvironmentOutputs;
 	}
 	
-	public void setO2AirStoreInputFlowrate(float amount, int index){
+	public void setO2AirStoreInputFlowRate(float amount, int index){
 		O2AirStoreInFlowRates[index] = amount;
 	}
 	
-	public void setO2AirEnvironmentInputFlowrate(float amount, int index){
+	public void setO2AirEnvironmentInputFlowRate(float amount, int index){
 		O2AirEnvironmentInFlowRates[index] = amount;
 	}
 
-	public float getO2AirStoreInputFlowrate(int index){
+	public float getO2AirStoreInputFlowRate(int index){
 		return O2AirStoreInFlowRates[index];
 	}
 	
-	public float getO2AirEnvironmentInputFlowrate(int index){
+	public float getO2AirEnvironmentInputFlowRate(int index){
 		return O2AirEnvironmentInFlowRates[index];
 	}
 
@@ -763,11 +763,11 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		O2AirEnvironmentInFlowRates = flowRates;
 	}
 	
-	public float[] getO2AirStoreInputFlowrates(){
+	public float[] getO2AirStoreInputFlowRates(){
 		return O2AirStoreInFlowRates;
 	}
 	
-	public float[] getO2AirEnvironmentInputFlowrates(){
+	public float[] getO2AirEnvironmentInputFlowRates(){
 		return O2AirEnvironmentInFlowRates;
 	}
 	
@@ -779,19 +779,19 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		return myO2AirEnvironmentInputs;
 	}
 	
-	public void setO2AirStoreOutputFlowrate(float amount, int index){
+	public void setO2AirStoreOutputFlowRate(float amount, int index){
 		O2AirStoreOutFlowRates[index] = amount;
 	}
 	
-	public void setO2AirEnvironmentOutputFlowrate(float amount, int index){
+	public void setO2AirEnvironmentOutputFlowRate(float amount, int index){
 		O2AirEnvironmentOutFlowRates[index] = amount;
 	}
 
-	public float getO2AirStoreOutputFlowrate(int index){
+	public float getO2AirStoreOutputFlowRate(int index){
 		return O2AirStoreOutFlowRates[index];
 	}
 	
-	public float getO2AirEnvironmentOutputFlowrate(int index){
+	public float getO2AirEnvironmentOutputFlowRate(int index){
 		return O2AirEnvironmentOutFlowRates[index];
 	}
 
@@ -805,11 +805,11 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		O2AirEnvironmentOutFlowRates = flowRates;
 	}
 	
-	public float[] getO2AirStoreOutputFlowrates(){
+	public float[] getO2AirStoreOutputFlowRates(){
 		return O2AirStoreOutFlowRates;
 	}
 	
-	public float[] getO2AirEnvironmentOutputFlowrates(){
+	public float[] getO2AirEnvironmentOutputFlowRates(){
 		return O2AirEnvironmentOutFlowRates;
 	}
 	

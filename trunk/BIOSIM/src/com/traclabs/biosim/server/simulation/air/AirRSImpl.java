@@ -247,11 +247,11 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 		public LogNode currentPowerConsumedIndex;
 	}
 
-	public void setPowerInputFlowrate(float watts, int index){
+	public void setPowerInputFlowRate(float watts, int index){
 		powerFlowRates[index] = watts;
 	}
 
-	public float getPowerInputFlowrate(int index){
+	public float getPowerInputFlowRate(int index){
 		return powerFlowRates[index];
 	}
 
@@ -264,15 +264,15 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 		return myPowerStores;
 	}
 	
-	public float[] getPowerInputFlowrates(){
+	public float[] getPowerInputFlowRates(){
 		return powerFlowRates;
 	}
 
-	public void setAirInputFlowrate(float liters, int index){
+	public void setAirInputFlowRate(float liters, int index){
 		airInFlowRates[index] = liters;
 	}
 
-	public float getAirInputFlowrate(int index){
+	public float getAirInputFlowRate(int index){
 		return airInFlowRates[index];
 	}
 
@@ -285,15 +285,15 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 		return mySimEnvironmentInputs;
 	}
 	
-	public float[] getAirInputFlowrates(){
+	public float[] getAirInputFlowRates(){
 		return airInFlowRates;
 	}
 
-	public void setAirOutputFlowrate(float liters, int index){
+	public void setAirOutputFlowRate(float liters, int index){
 		airOutFlowRates[index] = liters;
 	}
 
-	public float getAirOutputFlowrate(int index){
+	public float getAirOutputFlowRate(int index){
 		return airOutFlowRates[index];
 	}
 
@@ -306,15 +306,15 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 		return mySimEnvironmentOutputs;
 	}
 	
-	public float[] getAirOutputFlowrates(){
+	public float[] getAirOutputFlowRates(){
 		return airOutFlowRates;
 	}
 
-	public void setO2OutputFlowrate(float liters, int index){
+	public void setO2OutputFlowRate(float liters, int index){
 		O2FlowRates[index] = liters;
 	}
 
-	public float getO2OutputFlowrate(int index){
+	public float getO2OutputFlowRate(int index){
 		return O2FlowRates[index];
 	}
 
@@ -327,15 +327,15 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 		return myO2Stores;
 	}
 	
-	public float[] getO2OutputFlowrates(){
+	public float[] getO2OutputFlowRates(){
 		return O2FlowRates;
 	}
 
-	public void setCO2OutputFlowrate(float liters, int index){
+	public void setCO2OutputFlowRate(float liters, int index){
 		CO2OutputFlowRates[index] = liters;
 	}
 
-	public float getCO2OutputFlowrate(int index){
+	public float getCO2OutputFlowRate(int index){
 		return CO2OutputFlowRates[index];
 	}
 
@@ -348,15 +348,15 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 		return myCO2OutputStores;
 	}
 	
-	public float[] getCO2OutputFlowrates(){
+	public float[] getCO2OutputFlowRates(){
 		return CO2OutputFlowRates;
 	}
 	
-	public void setCO2InputFlowrate(float liters, int index){
+	public void setCO2InputFlowRate(float liters, int index){
 		CO2InputFlowRates[index] = liters;
 	}
 
-	public float getCO2InputFlowrate(int index){
+	public float getCO2InputFlowRate(int index){
 		return CO2InputFlowRates[index];
 	}
 
@@ -369,7 +369,7 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 		return myCO2InputStores;
 	}
 	
-	public float[] getCO2InputFlowrates(){
+	public float[] getCO2InputFlowRates(){
 		return CO2InputFlowRates;
 	}
 	

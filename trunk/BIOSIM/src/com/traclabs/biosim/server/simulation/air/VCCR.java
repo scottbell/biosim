@@ -49,7 +49,7 @@ public class VCCR extends AirRSSubSystem{
 		float gatheredCO2 = 0f;
 		float gatheredOther = 0f;
 		for (int i = 0; (i < myAirRS.getAirInputs().length) && (gatheredAir < airNeededFiltered); i++){
-			airNeededFiltered = Math.min(airNeededFiltered, myAirRS.getAirInputFlowrate(i));
+			airNeededFiltered = Math.min(airNeededFiltered, myAirRS.getAirInputFlowRate(i));
 			Breath currentBreath = myAirRS.getAirInputs()[i].takeVolume(airNeededFiltered);
 			gatheredAir += currentBreath.O2 + currentBreath.CO2 + currentBreath.other;
 			gatheredO2 += currentBreath.CO2;
@@ -70,21 +70,21 @@ public class VCCR extends AirRSSubSystem{
 		float distributedOtherLeft = myBreath.other * myProductionRate;
 		for (int i = 0; (i < myAirRS.getAirOutputs().length) && ((distributedO2Left > 0) || (distributedOtherLeft > 0)); i++){
 			float litersToAdd = distributedO2Left + distributedOtherLeft;
-			if (litersToAdd <= myAirRS.getAirOutputFlowrate(i)){
+			if (litersToAdd <= myAirRS.getAirOutputFlowRate(i)){
 				distributedO2Left -= myAirRS.getAirOutputs()[i].addO2(distributedO2Left);
 				distributedOtherLeft -= myAirRS.getAirOutputs()[i].addOther(distributedOtherLeft);
 			}
 			else{
 				//Recalculate percentages based on smaller volume
-				float reducedO2ToPass = myAirRS.getAirOutputFlowrate(i) * (distributedO2Left / (distributedO2Left + distributedOtherLeft));
-				float reducedOtherToPass = myAirRS.getAirOutputFlowrate(i) * (distributedOtherLeft / (distributedO2Left + distributedOtherLeft));
+				float reducedO2ToPass = myAirRS.getAirOutputFlowRate(i) * (distributedO2Left / (distributedO2Left + distributedOtherLeft));
+				float reducedOtherToPass = myAirRS.getAirOutputFlowRate(i) * (distributedOtherLeft / (distributedO2Left + distributedOtherLeft));
 				distributedO2Left -= myAirRS.getAirOutputs()[i].addO2(reducedO2ToPass);
 				distributedOtherLeft -= myAirRS.getAirOutputs()[i].addOther(reducedOtherToPass);
 			}
 
 		}
 		float CO2ToDistribute = myBreath.CO2 * myProductionRate;
-		float distributedCO2Left = myAirRS.pushResourceToStore(myAirRS.getCO2Outputs(), myAirRS.getCO2OutputFlowrates(), CO2ToDistribute);
+		float distributedCO2Left = myAirRS.pushResourceToStore(myAirRS.getCO2Outputs(), myAirRS.getCO2OutputFlowRates(), CO2ToDistribute);
 	}
 
 	public void reset(){
