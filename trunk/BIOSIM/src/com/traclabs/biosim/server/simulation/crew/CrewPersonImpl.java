@@ -482,22 +482,20 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		if (currentActivityIntensity < 0f)
 			return 0f;
 		float activityCoefficient = (0.7f * (currentActivityIntensity - 1f)) + 1f;
-		float caloriesNeeded  = 0f;
+		float joulesNeeded  = 0f;
 		if (sex == Sex.male)
 			if (age < 30f)
-				caloriesNeeded = (106f * weight) + (5040f * activityCoefficient);
+				joulesNeeded = (106f * weight) + (5040f * activityCoefficient);
 			else
-				caloriesNeeded = (86f * weight) + (5990f * activityCoefficient);
+				joulesNeeded = (86f * weight) + (5990f * activityCoefficient);
 		else
 			if (age < 30f)
-				caloriesNeeded = (106f * weight) + (3200f * activityCoefficient);
+				joulesNeeded = (106f * weight) + (3200f * activityCoefficient);
 			else
-				caloriesNeeded = (106f * weight) + (6067f * activityCoefficient);
+				joulesNeeded = (106f * weight) + (6067f * activityCoefficient);
 		//make it for one hour
-		caloriesNeeded = caloriesNeeded / 24f;
-		//assume they're eating only carbs
-		//float energyFromFood = 17.22f * 1000f;
-		//float kgFoodNeeded = caloriesNeeded / energyFromFood;
+		joulesNeeded /= 24f;
+		caloriesNeeded = joulesNeeded / 4.2f;
 		return myCrewGroup.randomFilter(caloriesNeeded);
 	}
 
@@ -558,6 +556,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private void afflictCrew(){
 		//afflict crew
 		if (caloriesConsumed < (caloriesNeeded * .9f)){
+			System.out.println("CrewPersonImpl: needs "+caloriesNeeded+" calories");
+			System.out.println("CrewPersonImpl: got "+caloriesConsumed+" calories");
 			personStarving = true;
 			starvingTime++;
 		}
