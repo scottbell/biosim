@@ -278,14 +278,14 @@
 	
 	<!-- Producer/Consumer types -->
 	<xsd:complexType name="FlowRateType">  
-		<xsd:attribute name="maxFlowRates" type="floatList"/>
-		<xsd:attribute name="desiredFlowRates" type="floatList"/>
+		<xsd:attribute name="maxFlowRates" type="floatList" use="required"/>
+		<xsd:attribute name="desiredFlowRates" type="floatList" use="required"/>
 	</xsd:complexType>
 	
 	<xsd:complexType name="ConsumerType">  
 		<xsd:complexContent>
 			<xsd:extension base="FlowRateType">
-					<xsd:attribute name="input" type="stringList"/>
+					<xsd:attribute name="input" type="stringList" use="required"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -293,7 +293,7 @@
 	<xsd:complexType name="ProducerType">  
 		<xsd:complexContent>
 			<xsd:extension base="FlowRateType">
-					<xsd:attribute name="output" type="stringList"/>
+					<xsd:attribute name="output" type="stringList" use="required"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -484,10 +484,8 @@
 	<xsd:complexType name="Store">  
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
-				<xsd:sequence>
-					<xsd:element name="capacity" type="xsd:nonNegativeInteger"/>
-					<xsd:element name="level" type="xsd:nonNegativeInteger"/>
-				</xsd:sequence>
+					<xsd:attribute name="capacity" type="xsd:nonNegativeInteger" use="required"/>
+					<xsd:attribute name="level" type="xsd:nonNegativeInteger" use="required"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -564,20 +562,16 @@
 	</xsd:complexType>
 	
 	<xsd:complexType name="ActivityType">
-		<xsd:sequence>
-			<xsd:element name="name" type="xsd:string"/>
-			<xsd:element name="length" type="xsd:nonNegativeInteger"/>
-			<xsd:element name="intensity" type="xsd:nonNegativeInteger"/>
-		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="required"/>
+		<xsd:attribute name="length" type="xsd:nonNegativeInteger" use="required"/>
+		<xsd:attribute name="intensity" type="xsd:nonNegativeInteger" use="required"/>
 	</xsd:complexType>
 	
 	<xsd:complexType name="CrewPersonType">
-		<xsd:sequence>
-			<xsd:element name="name" type="xsd:string"/>
-			<xsd:element name="age" type="nonNegativeFloat"/>
-			<xsd:element name="weight" type="nonNegativeFloat"/>
-			<xsd:element name="sex" type="SexType"/>
-		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="required"/>
+		<xsd:attribute name="age" type="nonNegativeFloat" use="required"/>
+		<xsd:attribute name="weight" type="nonNegativeFloat" use="required"/>
+		<xsd:attribute name="sex" type="SexType" use="required"/>
 	</xsd:complexType>
 	
 	<xsd:simpleType name="SexType">
@@ -651,32 +645,19 @@
 	<xsd:complexType name="SimEnvironmentType">  
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
-				<xsd:sequence>
-					<xsd:choice>
-						<xsd:group ref="molesGroup"/>
-						<xsd:element name="initialVolume" type="nonNegativeFloat"/>
-					</xsd:choice>
-				</xsd:sequence>
+				<xsd:attribute name="initialVolume" type="nonNegativeFloat" use="required"/>
+				<xsd:attribute name="initialCO2Moles" type="nonNegativeFloat" use="optional"/>
+				<xsd:attribute name="initialO2Moles" type="nonNegativeFloat" use="optional"/>
+				<xsd:attribute name="initialOtherMoles" type="nonNegativeFloat" use="optional"/>
+				<xsd:attribute name="initialWaterMoles" type="nonNegativeFloat" use="optional"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	
-	<xsd:group name="molesGroup">
-		<xsd:sequence>
-			<xsd:element name="initialCO2Moles" type="nonNegativeFloat"/>
-			<xsd:element name="initialO2Moles" type="nonNegativeFloat"/>
-			<xsd:element name="initialOtherMoles" type="nonNegativeFloat"/>
-			<xsd:element name="initialWaterMoles" type="nonNegativeFloat"/>
-			<xsd:element name="initialVolume" type="nonNegativeFloat"/>
-		</xsd:sequence>
-	</xsd:group>
 	
 	<xsd:complexType name="BiomassRSType">  
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
 				<xsd:sequence>
-					<xsd:element name="cropArea" type="nonNegativeFloat"/>
-					<xsd:element name="cropType" type="CropType"/>
 					<xsd:element name="powerConsumer" type="PowerConsumerType"/>
 					<xsd:element name="potableWaterConsumer" type="PotableWaterConsumerType"/>
 					<xsd:element name="greyWaterConsumer" type="GreyWaterConsumerType"/>
@@ -685,6 +666,8 @@
 					<xsd:element name="biomassProducer" type="BiomassProducerType"/>
 					<xsd:element name="airProducer" type="AirProducerType"/>
 				</xsd:sequence>
+				<xsd:attribute name="cropArea" type="nonNegativeFloat" use="required"/>
+				<xsd:attribute name="cropType" type="CropType" use="required"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -707,7 +690,7 @@
 				<xsd:sequence>
 					<xsd:element name="powerProducer" type="PowerProducerType"/>
 				</xsd:sequence>
-				<xsd:attribute name="generation" type="GenerationType" default="NUCLEAR"/>
+				<xsd:attribute name="generation" type="GenerationType" use="required"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
