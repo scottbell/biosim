@@ -170,7 +170,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 		return takenMatter;
 	}
 	
-	public static void pushFoodToStore(FoodStore[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates, float[] pActualFlowRates, FoodMatter[] foodToPush){
+	public static float pushFoodToStore(FoodStore[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates, float[] pActualFlowRates, FoodMatter[] foodToPush){
 		float fullMassToDistribute = calculateSizeOfFoodMatter(foodToPush);
 		float resourceDistributed = fullMassToDistribute;
 		for (int i = 0; (i < pStores.length) && (resourceDistributed > 0); i++){
@@ -179,7 +179,8 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 			pActualFlowRates[i] = pStores[i].add(resourceToDistributeFinal);
 			resourceDistributed -= pActualFlowRates[i];
 		}
-		float amountPushed= (fullMassToDistribute - resourceDistributed);
+		float amountPushed = (fullMassToDistribute - resourceDistributed);
+		return amountPushed;
 	}
 	
 	private FoodMatter transformBioMatter(BioMatter inMatter){
@@ -202,6 +203,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 			newFoodMatter.mass = inMatter.mass * Wheat.getFractionOfEdibleBiomass();
 		else if (newFoodMatter.type == PlantType.WHITE_POTATO)
 			newFoodMatter.mass = inMatter.mass * WhitePotato.getFractionOfEdibleBiomass();
+		newFoodMatter.mass = randomFilter(newFoodMatter.mass) * myProductionRate;
 		return newFoodMatter;
 	}
 	
@@ -210,11 +212,12 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	*/
 	private void createFood(){
 		if (hasEnoughPower){
-			for (int i = 0; i < biomatterConsumed.length; i++){
-				
+			FoodMatter[] foodMatterArray = new FoodMatter[biomatterConsumed.length];
+			for (int i = 0; i < foodMatterArray.length; i++){
+				foodMatterArray[i] = transformBioMatter(biomatterConsumed[i]);
 			}
-			currentFoodProduced = randomFilter(massConsumed * 0.8f) * myProductionRate;
-			float distributedFoodLeft = pushResourceToStore(myFoodStores, foodMaxFlowRates, foodDesiredFlowRates, foodActualFlowRates, currentFoodProduced);
+			currentFoodProduced = calculateSizeOfFoodMatter(foodMatterArray);
+			float distributedFoodLeft = pushFoodToStore(myFoodStores, foodMaxFlowRates, foodDesiredFlowRates, foodActualFlowRates, foodMatterArray);
 		}
 	}
 
