@@ -27,11 +27,9 @@ public class BiomassStoreImpl extends BiomassStorePOA {
 
 	float addBiomass(float kilograms){
 		if ((kilograms +biomassLevel) > biomassCapacity){
+			float returnValue = (biomassCapacity - biomassLevel);
 			biomassLevel = biomassCapacity;
-			if (kilograms >=  biomassCapacity)
-				return 0;
-			else
-				return (biomassCapacity - biomassLevel);
+			return returnValue;
 		}
 		else{
 			biomassLevel = biomassLevel + kilograms;

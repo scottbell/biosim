@@ -1,12 +1,12 @@
 package biosim.server.crew;
 
 // The package containing our stubs.
-import ALSS.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import biosim.server.util.*;
 
-public class CrewImpl extends CrewPOA {
+public class CrewImpl extends ALSS.CrewPOA {
 	private Schedule mySchedule;
 	private Hashtable crewPeople;
 
@@ -31,10 +31,10 @@ public class CrewImpl extends CrewPOA {
 		return newCrewPerson;
 	}
 
-	public ActivityImpl getScheduledActivityByName(String name){
+	public org.omg.CORBA.Object getScheduledActivityByName(String name){
 		ActivityImpl foundActivity = mySchedule.getActivityByName(name);
 		if (foundActivity != null)
-			return foundActivity;
+			return (ALSSUtils.poaToCorbaObj(foundActivity));
 		else{
 			System.out.println("Couldn't find Activity by that name!");
 			return null;
@@ -42,13 +42,16 @@ public class CrewImpl extends CrewPOA {
 	}
 
 	public ActivityImpl getScheduledActivityByOrder(int order){
-		ActivityImpl foundActivity = mySchedule.getActivityByOrder(order);
+		return null;
+		/*
+		ALSS.Activity foundActivity = mySchedule.getActivityByOrder(order);
 		if (foundActivity != null)
 			return foundActivity;
 		else{
 			System.out.println("Couldn't find Activity by that order!");
 			return null;
 		}
+		*/
 	}
 	
 	public CrewPersonImpl getCrewPerson(String crewPersonName){

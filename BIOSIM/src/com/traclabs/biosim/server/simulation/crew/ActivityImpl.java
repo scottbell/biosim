@@ -1,12 +1,10 @@
 package biosim.server.crew;
 
-// The package containing our stubs.
-import ALSS.*;
-
-public class ActivityImpl extends ActivityPOA {
-	private String myName;
-	private int myTimeLength;
-
+public class ActivityImpl extends ALSS.ActivityPOA {
+	private String myName = "";
+	private int myTimeLength = 0;
+	
+	//Shouldn't be called.  Use Schedule's createActivity
 	public ActivityImpl(String pName, int pTimeLength){
 		myName = pName;
 		myTimeLength = pTimeLength;

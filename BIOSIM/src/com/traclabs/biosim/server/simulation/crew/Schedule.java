@@ -3,7 +3,6 @@ package biosim.server.crew;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import ALSS.*;
 
 public class Schedule{
 	
@@ -35,7 +34,7 @@ public class Schedule{
 		File myScheduleFile = pScheduleFile;
 		parseSchedule(myScheduleFile);
 	}
-	
+
 	public ActivityImpl getActivityByName(String activityName){
 		Object foundActivity = scheduleNameHash.get(activityName);
 		if (foundActivity != null)
@@ -43,7 +42,8 @@ public class Schedule{
 		else
 			return null;
 	}
-	
+
+
 	public ActivityImpl getActivityByOrder(int order){
 		Object foundActivity = scheduleOrderHash.get(new Integer(order));
 		if (foundActivity != null)
@@ -51,7 +51,8 @@ public class Schedule{
 		else
 			return null;
 	}
-	
+
+
 	private void parseSchedule(File scheduleFile){
 		try{
 			 BufferedReader inputReader = new BufferedReader(new FileReader(scheduleFile));

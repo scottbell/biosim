@@ -27,11 +27,9 @@ public class CO2StoreImpl extends CO2StorePOA {
 
 	float addCO2(float liters){
 		if ((liters + CO2level) > CO2capacity){
+			float returnValue = (CO2capacity - CO2level);
 			CO2level = CO2capacity;
-			if (liters >=  CO2capacity)
-				return 0;
-			else
-				return (CO2capacity - CO2level);
+			return returnValue;
 		}
 		else{
 			CO2level = CO2level + liters;

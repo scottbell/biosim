@@ -4,56 +4,54 @@ package biosim.server.air;
 import ALSS.*;
 
 public class O2StoreImpl extends O2StorePOA {
-	private float O2level;
-	private float O2capacity;
+	private float O2Level;
+	private float O2Capacity;
  
 	public O2StoreImpl(){
-		O2level = 0.0f;
-		O2capacity = 10.0f;
+		O2Level = 0.0f;
+		O2Capacity = 10.0f;
 	}
 
-	public O2StoreImpl (float initialO2level, float  initialO2capacity){
-		O2level = initialO2level;
-		O2capacity = initialO2capacity;
+	public O2StoreImpl (float initialO2Level, float  initialO2Capacity){
+		O2Level = initialO2Level;
+		O2Capacity = initialO2Capacity;
 	}
 
 	void setO2Capacity(float liters){
-		O2capacity = liters;
+		O2Capacity = liters;
 	}
 	
 	void setO2Level(float liters){
-		O2level = liters;
+		O2Level = liters;
 	}
 
 	float addO2(float liters){
-		if ((liters + O2level) > O2capacity){
-			O2level = O2capacity;
-			if (liters >=  O2capacity)
-				return 0;
-			else
-				return (O2capacity - O2level);
+		if ((liters + O2Level) > O2Capacity){
+			float returnValue = (O2Capacity - O2Level);
+			O2Level = O2Capacity;
+			return returnValue;
 		}
 		else{
-			O2level = O2level + liters;
+			O2Level = O2Level + liters;
 			return liters;
 		}
 	}
 
 	float takeO2(float liters){
-		if ((O2level - liters) < 0){
-			O2level = 0;
+		if ((O2Level - liters) < 0){
+			O2Level = 0;
 			if (liters < 0)
 				return 0;
 			else
-				return O2level;
+				return O2Level;
 		}
 		else{
-			O2level = O2level - liters;
+			O2Level = O2Level - liters;
 			return liters;
 		}
 	}
 	float getO2Level(){
-		return O2level;
+		return O2Level;
 	}
 
 	public void tick(){
