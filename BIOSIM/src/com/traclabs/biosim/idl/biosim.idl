@@ -153,6 +153,8 @@ module biosim{
 			};
                         interface FoodStore : framework::Store{
                         };
+			interface Shelf{
+			};
                 };
 
                 module environment{
