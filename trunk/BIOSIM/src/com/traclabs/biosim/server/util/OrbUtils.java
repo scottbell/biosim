@@ -82,7 +82,13 @@ public class OrbUtils{
 			NamingContext IDContext = myBiosimNamingContext.bind_new_context(idComponents);
 			initializeNamingRunOnce = true;
 		}
-		catch (Exception e){}
+		catch (org.omg.CosNaming.NamingContextPackage.AlreadyBound e){
+			System.out.println("Found id:"+pID+" context, proceeding...");
+			initializeNamingRunOnce = true;
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -99,20 +105,24 @@ public class OrbUtils{
 			myRootPOA = POAHelper.narrow(myOrb.resolve_initial_references("RootPOA"));
 			myRootPOA.the_POAManager().activate();
 			myRootContext = NamingContextExtHelper.narrow(myOrb.resolve_initial_references("NameService"));
-			initializeOrbRunOnce = true;
+			//Attempt to create biosim context, if already there, don't bother
+			NameComponent biosimComponent = new NameComponent("biosim", "");
+			NameComponent[] biosimComponentArray = {biosimComponent};
+			myRootContext.bind_new_context(biosimComponentArray);
+		}
+		catch (org.omg.CosNaming.NamingContextPackage.AlreadyBound e){
+			System.out.println("Found biosim context, proceeding...");
 		}
 		catch (Exception e){
 			System.out.println("OrbUtils: nameserver not found, polling again");
+			e.printStackTrace();
 			sleepAwhile();
 			initialize();
 			return;
 		}
 		try{
-			//Attempt to create biosim context, if already there, don't bother
-			NameComponent biosimComponent = new NameComponent("biosim", "");
-			NameComponent[] biosimComponentArray = {biosimComponent};
-			myRootContext.bind_new_context(biosimComponentArray);
 			myBiosimNamingContext = NamingContextExtHelper.narrow(myRootContext.resolve_str("biosim"));
+			initializeOrbRunOnce = true;
 		}
 		catch (Exception e){
 			e.printStackTrace();
