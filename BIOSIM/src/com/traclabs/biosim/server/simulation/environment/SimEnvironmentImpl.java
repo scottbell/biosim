@@ -706,7 +706,6 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	}
 
 	public Breath takeAirMoles(float molesRequested){
-		System.out.println("Someone asking for: "+molesRequested+" moles of air, level="+O2Moles);
 		//idiot check
 		if (molesRequested <= 0){
 			return new Breath(0f, 0f, 0f, 0f, 0f);
@@ -739,7 +738,6 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 			otherMoles = afterRemovalOther;
 			waterMoles = afterRemovalWater;
 			nitrogenMoles = afterRemovalNitrogen;
-			System.out.println("after level="+O2Moles);
 			return new Breath(O2MolesTaken, CO2MolesTaken, waterMolesTaken, otherMolesTaken, nitrogenMolesTaken);
 		}
 	}
