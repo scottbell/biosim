@@ -389,6 +389,10 @@ public class BioDriverImpl extends BioDriverPOA{
 	* When every server has been ticked, BioDriverImpl notifies all it's listeners that this has happened.
 	*/
 	private void tick(){
+		if (!isStarted()){
+			System.out.println("Tick called when simulation wasn't started!");
+			return;
+		}
 		//Iterate through the rest of the modules and tick them
 		for (int i = 0; i < modules.length; i++){
 			BioModule currentBioModule = (BioModule)(modules[i]);

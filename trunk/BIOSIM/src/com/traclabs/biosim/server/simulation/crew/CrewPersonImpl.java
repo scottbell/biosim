@@ -13,6 +13,7 @@ import biosim.idl.util.log.*;
 import biosim.server.util.*;
 import java.util.*;
 import java.net.*;
+import java.text.*;
 /**
  * The Crew Person Implementation.  Eats/drinks/excercises away resources according to a set schedule.
  * 
@@ -65,6 +66,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private Schedule mySchedule;
 	//The crew group associated with this crew member
 	private CrewGroupImpl myCrewGroup;
+	//Used to format floats
+	private DecimalFormat numFormat;
 	private boolean logInitialized = false;
 	private LogIndex myLogIndex;
 	private Random myRandomGen;
@@ -105,6 +108,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		consumedCaloriesBuffer = new SimpleBuffer(CALORIE_TILL_DEAD, CALORIE_TILL_DEAD);
 		consumedCO2Buffer = new SimpleBuffer(CO2_TILL_DEAD, CO2_TILL_DEAD);
 		myRandomGen = new Random();
+		numFormat = new DecimalFormat("#,##0.0;(#)");
 		myCurrentActivity = mySchedule.getScheduledActivityByOrder(currentOrder);
 	}
 	
@@ -592,19 +596,19 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		
 		if (calorieRiskReturn > randomNumber){
 			hasDied = true;
-			System.out.println(getName()+" has died from starvation (risk was "+calorieRiskReturn+")");
+			System.out.println(getName()+" has died from starvation (risk was "+numFormat.format(calorieRiskReturn * 100)+"%)");
 		}
 		else if (waterRiskReturn > randomNumber){
 			hasDied = true;
-			System.out.println(getName()+" has died from thirst (risk was "+waterRiskReturn+")");
+			System.out.println(getName()+" has died from thirst (risk was "+numFormat.format(waterRiskReturn * 100)+"%)");
 		}
 		else if (oxygenRiskReturn > randomNumber){
 			hasDied = true;
-			System.out.println(getName()+" has died from lack of oxygen (risk was "+oxygenRiskReturn+")");
+			System.out.println(getName()+" has died from lack of oxygen (risk was "+numFormat.format(oxygenRiskReturn * 100)+"%)");
 		}
 		else if (CO2RiskReturn > randomNumber){
 			hasDied = true;
-			System.out.println(getName()+" has died from CO2 poisoning (risk was "+CO2RiskReturn+")");
+			System.out.println(getName()+" has died from CO2 poisoning (risk was "+numFormat.format(CO2RiskReturn * 100)+"%)");
 		}
 		//if died, kill
 		if (hasDied){
