@@ -52,15 +52,15 @@ public abstract class GenericSensorImpl extends BioModuleImpl implements Generic
 	protected void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
-			LogNode valueNodeHead = myLog.addChild("value");
-			valueNode = valueNodeHead.addChild(""+getValue());
 			LogNode inputNodeHead = myLog.addChild("input");
 			inputNode = inputNodeHead.addChild(""+getInputModule().getModuleName());
+			LogNode valueNodeHead = myLog.addChild("value");
+			valueNode = valueNodeHead.addChild(""+getValue());
 			logInitialized = true;
 		}
 		else{
-			valueNode.setValue(""+getValue());
 			inputNode.setValue(""+getInputModule().getModuleName());
+			valueNode.setValue(""+getValue());
 		}
 		sendLog(myLog);
 	}
