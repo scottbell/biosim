@@ -31,19 +31,19 @@ public class BiosimDebug {
     private Logger myLogger;
 
     public BiosimDebug() {
-        myLogger = Logger.getLogger(this.getClass());
+        myLogger = Logger.getLogger(BiosimDebug.class);
         myNamingServiceThread = new Thread(new NamingServiceThread());
     }
 
     public static void main(String args[]) {
-        
+        BiosimDebug myBiosimStandalone = new BiosimDebug();
         Properties logProps = new Properties();
+        logProps.setProperty("log4j.debug", "true");
         logProps.setProperty("log4j.logger."+BiosimDebug.class, "DEBUG, stdout");
         logProps.setProperty("log4j.appender.stdout", "org.apache.log4j.ConsoleAppender");
         logProps.setProperty("log4j.appender.stdout.layout", "org.apache.log4j.PatternLayout");
         logProps.setProperty("log4j.appender.stdout.layout.ConversionPattern", "%5p [%c] - %m%n");
         PropertyConfigurator.configure(logProps);
-        BiosimDebug myBiosimStandalone = new BiosimDebug();
         myBiosimStandalone.beginSimulation();
     }
 

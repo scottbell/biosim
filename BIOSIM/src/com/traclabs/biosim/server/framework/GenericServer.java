@@ -27,7 +27,8 @@ public class GenericServer {
     public GenericServer(){
         myLogger = Logger.getLogger(this.getClass());
         Properties logProps = new Properties();
-        logProps.setProperty("log4j.rootLogger", "OFF, stdout");
+        logProps.setProperty("log4j.rootLogger", "INFO, stdout");
+        logProps.setProperty("log4j.logger.com.traclabs.biosim.server.simulation.water", "DEBUG, stdout");
         logProps.setProperty("log4j.logger"+this.getClass(), "INFO, stdout");
         logProps.setProperty("log4j.appender.stdout", "org.apache.log4j.ConsoleAppender");
         logProps.setProperty("log4j.appender.stdout.layout", "org.apache.log4j.PatternLayout");
