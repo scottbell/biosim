@@ -675,6 +675,9 @@ public class BioHolderInitializer{
 	private static void fetchHarvestSensor(Node node){
 		myBioHolder.theHarvestSensors.add(HarvestSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
+	private static void fetchPlantDeathSensor(Node node){
+		myBioHolder.thePlantDeathSensors.add(PlantDeathSensorHelper.narrow(grabModule(getModuleName(node))));
+	}
 	private static void crawlFoodSensors(Node node){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -693,6 +696,8 @@ public class BioHolderInitializer{
 				fetchFoodStoreLevelSensor(child);
 			else if (childName.equals("HarvestSensor"))
 				fetchHarvestSensor(child);
+			else if (childName.equals("PlantDeathSensor"))
+				fetchPlantDeathSensor(child);
 			child = child.getNextSibling();
 		}
 	}

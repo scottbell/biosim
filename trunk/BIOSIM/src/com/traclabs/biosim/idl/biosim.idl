@@ -774,6 +774,7 @@ module biosim{
                                 interface Shelf{
                                         void harvest();
                                         boolean isReadyForHavest();
+                                        boolean isDead();
 					PlantType getCropType();
                                         void replant(in PlantType pType, in float area);
 					float getCropAreaTotal();
@@ -1087,6 +1088,9 @@ module biosim{
 				};
 				
 				interface HarvestSensor : ShelfSensor{
+				};
+				
+				interface PlantDeathSensor : ShelfSensor{
 				};
                         };
                         module power{
