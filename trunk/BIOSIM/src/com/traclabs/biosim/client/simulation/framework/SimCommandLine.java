@@ -141,28 +141,7 @@ public class SimCommandLine
 	}
 
 	private void runTest(){
-		for (float i = 0; i < 40; i+=1){
-				System.out.println("computeUtility("+i+")="+(computeUtility(i)));
-		}
 	}
 	
-	
-	private static float getUpperLimitToBuy(){
-		return 10f;
-	}
-	
-	public float computeUtility(float pNumber){
-		if (pNumber > (getUpperLimitToBuy() * 2))
-			return 0f;
-		else if (pNumber <= getUpperLimitToBuy())
-			return (2f / getUpperLimitToBuy()) * pNumber;
-		else
-			return sinusoid(pNumber, getUpperLimitToBuy() * 2);
-	}
-	
-	
-	private static float sinusoid(float time, float period){
-		return (float)(1 - Math.cos(2 * Math.PI * time / period));
-	}
 }
 
