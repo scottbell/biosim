@@ -320,7 +320,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 			myLogIndex.CO2LevelIndex = CO2LevelHead.addChild(""+CO2Level);
 			LogNode otherLevelHead = myLog.addChild("other_level");
 			myLogIndex.otherLevelIndex = otherLevelHead.addChild(""+otherLevel);
-			LogNode capacityHead = myLog.addChild("other_level");
+			LogNode capacityHead = myLog.addChild("capacity");
 			myLogIndex.capacityIndex = capacityHead.addChild(""+capacity);
 			LogNode lightIntensityHead = myLog.addChild("light_intensity");
 			myLogIndex.lightIntensityIndex = lightIntensityHead.addChild(""+lightIntensity);

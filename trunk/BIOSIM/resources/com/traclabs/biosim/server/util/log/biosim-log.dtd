@@ -3,12 +3,99 @@
 <!ELEMENT biosim (tick*)>
     <!ELEMENT tick (SimEnvironment | PowerPS | WaterRS | CrewGroup | AirRS | FoodProcessor | BiomassRS | SimEnvironment)>
     <!ATTLIST tick number (CDATA) #REQUIRED>
-    <!ELEMENT SimEnvironment (O2 Level, CO2 Level, other Level, light intensity)>
-    <!ELEMENT PowerPS (#PCDATA)>
-    <!ELEMENT WaterRS (#PCDATA)>
-    <!ELEMENT CrewGroup (#PCDATA)>
+    <!ELEMENT SimEnvironment (O2_level, CO2_level, other_level, capacity, light_intensity)>
+    	<!ELEMENT O2_level (CDATA) #REQUIRED>
+	<!ELEMENT CO2_level (CDATA) #REQUIRED>
+	<!ELEMENT other_level (CDATA) #REQUIRED>
+	<!ELEMENT capacity (CDATA) #REQUIRED>
+	<!ELEMENT light_intensity (CDATA) #REQUIRED>
+    <!ELEMENT PowerPS (power_produced)>
+    	<!ELEMENT power_produced (CDATA) #REQUIRED>
+    <!ELEMENT WaterRS (potable_water_produced, grey_water_produced, power_consumed, dirty_water_consumed, grey_water_consumed, AES, BWP, RO, PPS)>
+    	<!ELEMENT potable_water_produced (CDATA) #REQUIRED>
+	<!ELEMENT grey_water_produced (CDATA) #REQUIRED>
+	<!ELEMENT power_consumed (CDATA) #REQUIRED>
+	<!ELEMENT dirty_water_consumed (CDATA) #REQUIRED>
+	<!ELEMENT grey_water_consumed (CDATA) #REQUIRED>
+	<!ELEMENT AES (enabled, power_needed, power_consumed, water_needed, has_enough_power, has_enough_water, water_level)>
+	<!ELEMENT BWP (enabled, power_needed, power_consumed, water_needed, has_enough_power, has_enough_water, water_level)>
+	<!ELEMENT RO (enabled, power_needed, power_consumed, water_needed, has_enough_power, has_enough_water, water_level)>
+	<!ELEMENT PPS (enabled, power_needed, power_consumed, water_needed, has_enough_power, has_enough_water, water_level)>	
+		<!ELEMENT enabled (CDATA) #REQUIRED>
+		<!ELEMENT power_needed (CDATA) #REQUIRED>
+		<!ELEMENT power_consumed (CDATA) #REQUIRED>
+		<!ELEMENT water_needed (CDATA) #REQUIRED>
+		<!ELEMENT has_enough_power (CDATA) #REQUIRED>
+		<!ELEMENT has_enough_water (CDATA) #REQUIRED>
+		<!ELEMENT water_level (CDATA) #REQUIRED>
+    <!ELEMENT CrewGroup (crew_person*)>
+    	<!ELEMENT crew_person (name, current_activity, current_activity_order, duration_of_activity, starving_time, thirst_time, suffocate_time, poison_time, person_starving, person_thirsty, person_suffocating, person_poisoned, has_died, age, weight, sex, O2_consumed, CO2_produced, food_consumed, potable_water_consumed, dirty_water_produced, grey_water_produced, O2_needed, potable_water_needed, food_needed, air_retrieved)>
+		<!ELEMENT name (CDATA) #REQUIRED>
+		<!ELEMENT current_activity (CDATA) #REQUIRED>
+		<!ELEMENT current_activity_order (CDATA) #REQUIRED>
+		<!ELEMENT duration_of_activity (CDATA) #REQUIRED>
+		<!ELEMENT starving_time (CDATA) #REQUIRED>
+		<!ELEMENT thirst_time (CDATA) #REQUIRED>
+		<!ELEMENT suffocate_time (CDATA) #REQUIRED><!ELEMENT name (CDATA) #REQUIRED>
+		<!ELEMENT poison_time (CDATA) #REQUIRED>
+		<!ELEMENT person_starving (CDATA) #REQUIRED>
+		<!ELEMENT person_thirsty (CDATA) #REQUIRED>
+		<!ELEMENT person_suffocating (CDATA) #REQUIRED>
+		<!ELEMENT person_poisoned (CDATA) #REQUIRED>
+		<!ELEMENT has_died (CDATA) #REQUIRED>
+		<!ELEMENT age (CDATA) #REQUIRED>
+		<!ELEMENT weight (CDATA) #REQUIRED>
+		<!ELEMENT sex (CDATA) #REQUIRED>
+		<!ELEMENT O2_consumed (CDATA) #REQUIRED>
+		<!ELEMENT CO2_produced (CDATA) #REQUIRED>
+		<!ELEMENT food_consumed (CDATA) #REQUIRED>
+		<!ELEMENT potable_water_consumed (CDATA) #REQUIRED>
+		<!ELEMENT dirty_water_produced (CDATA) #REQUIRED>
+		<!ELEMENT grey_water_produced (CDATA) #REQUIRED>
+		<!ELEMENT O2_needed (CDATA) #REQUIRED>
+		<!ELEMENT potable_water_needed (CDATA) #REQUIRED>
+		<!ELEMENT food_needed (CDATA) #REQUIRED>
+		<!ELEMENT air_retrieved (O2_retrieved, CO2_retrieved, other_retrieved)>
+			<!ELEMENT O2_retrieved (CDATA) #REQUIRED>
+			<!ELEMENT CO2_retrieved (CDATA) #REQUIRED>
+			<!ELEMENT other_retrieved (CDATA) #REQUIRED>
     <!ELEMENT AirRS (#PCDATA)>
-    <!ELEMENT FoodProcessor (#PCDATA)>
-    <!ELEMENT BiomassRS (#PCDATA)>
-    <!ELEMENT SimEnvironment (#PCDATA)>
+    <!ELEMENT FoodProcessor (power_needed, has_enough_power, biomass_needed, current_biomass_consumed, current_power_consumed, current_food_produced)>
+    		<!ELEMENT power_needed (CDATA) #REQUIRED>
+		<!ELEMENT has_enough_power (CDATA) #REQUIRED>
+		<!ELEMENT biomass_needed (CDATA) #REQUIRED>
+		<!ELEMENT current_biomass_consumed (CDATA) #REQUIRED>
+		<!ELEMENT current_power_consumed (CDATA) #REQUIRED>
+		<!ELEMENT current_food_produced (CDATA) #REQUIRED>
+    <!ELEMENT BiomassRS (shelf*)>
+    	 <!ELEMENT shelf (plant, power_consumed, total_area, grey_water_consumed, potable_water_consumed, has_enough_water, has_enough_power)>
+	 	<!ELEMENT power_consumed (CDATA) #REQUIRED>
+		<!ELEMENT total_area (CDATA) #REQUIRED>
+		<!ELEMENT grey_water_consumed (CDATA) #REQUIRED>
+		<!ELEMENT potable_water_consumed (CDATA) #REQUIRED>
+		<!ELEMENT has_enough_water (CDATA) #REQUIRED>
+		<!ELEMENT has_enough_power (CDATA) #REQUIRED>
+		<!ELEMENT plant (plant_type, has_enough_CO2, has_enough_water, has_enough_light, age, O2_retrieved, CO2_retrieved, other_retrieved, total_area, water_needed, power_needed, CO2_needed, water_level, power_level, biomass_produced, duration_can_survive_without_water, duration_can_survive_without_CO2, duration_can_survive_without_light, duration_without_water, duration_without_CO2, duration_without_light, plants_dead)>
+			<!ELEMENT plant_type (CDATA) #REQUIRED>
+			<!ELEMENT has_enough_CO2 (CDATA) #REQUIRED>
+			<!ELEMENT has_enough_water (CDATA) #REQUIRED>
+			<!ELEMENT has_enough_light (CDATA) #REQUIRED>
+			<!ELEMENT age (CDATA) #REQUIRED>
+			<!ELEMENT O2_retrieved (CDATA) #REQUIRED>
+			<!ELEMENT CO2_retrieved (CDATA) #REQUIRED><!ELEMENT name (CDATA) #REQUIRED>
+			<!ELEMENT other_retrieved (CDATA) #REQUIRED>
+			<!ELEMENT total_area (CDATA) #REQUIRED>
+			<!ELEMENT water_needed (CDATA) #REQUIRED>
+			<!ELEMENT power_needed (CDATA) #REQUIRED>
+			<!ELEMENT CO2_needed (CDATA) #REQUIRED>
+			<!ELEMENT water_level (CDATA) #REQUIRED>
+			<!ELEMENT power_level (CDATA) #REQUIRED>
+			<!ELEMENT biomass_produced (CDATA) #REQUIRED>
+			<!ELEMENT duration_can_survive_without_water (CDATA) #REQUIRED>
+			<!ELEMENT duration_can_survive_without_CO2 (CDATA) #REQUIRED>
+			<!ELEMENT duration_can_survive_without_light (CDATA) #REQUIRED>
+			<!ELEMENT duration_without_water (CDATA) #REQUIRED>
+			<!ELEMENT duration_without_CO2 (CDATA) #REQUIRED>
+			<!ELEMENT duration_without_light (CDATA) #REQUIRED>
+			<!ELEMENT plants_dead (CDATA) #REQUIRED>
 ]>
