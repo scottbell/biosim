@@ -1,47 +1,24 @@
 package biosim.server.food;
 
+import biosim.server.framework.*;
 import biosim.idl.food.*;
-import biosim.server.util.*;
-import org.omg.CosNaming.*;
-import org.omg.CosNaming.NamingContextPackage.*;
-import org.omg.CORBA.*;
-import org.omg.PortableServer.*;
-import org.omg.PortableServer.POA;
 /**
- * The Food Processor Server.  Creates an instance of the FoodProcessor and registers it with the nameserver.
+ * The Food Processor Server.  Creates an instance of the Food Processor and registers it with the nameserver.
  *
  * @author    Scott Bell
  */
 
-public class FoodProcessorServer {
+public class FoodProcessorServer extends GenericServer{
 	
 	/**
 	* Instantiates the server and binds it to the name server.
 	* @param args aren't used for anything
 	*/
 	public static void main(String args[]) {
-		try{
-			// create and initialize the ORB
-			ORB orb = OrbUtils.getORB();
-			NamingContextExt ncRef = OrbUtils.getNCRef();
-			POA rootpoa = OrbUtils.getRootPOA();
-			rootpoa.the_POAManager().activate();
-			// create servant and register it with  ORB
-			FoodProcessorImpl myFoodProcessorImpl = new FoodProcessorImpl(0);
-			// get object reference from the servant
-			org.omg.CORBA.Object ref =rootpoa.servant_to_reference(new FoodProcessorPOATie(myFoodProcessorImpl));
-			// bind the Object Reference in Naming
-			NameComponent path[] = ncRef.to_name("FoodProcessor");
-			ncRef.rebind(path, ref);
-			System.out.println("FoodProcessor Server ready and waiting ...");
-			// wait for invocations from clients
-			orb.run();
-		}
-		catch (Exception e) {
-			System.err.println("ERROR: " + e);
-			e.printStackTrace(System.out);
-		}
-		System.out.println("FoodProcessor Server Exiting ...");
+		FoodProcessorServer myServer = new FoodProcessorServer();
+		FoodProcessorImpl myFoodProcessor = new FoodProcessorImpl(0);
+		myServer.registerServerAndRun(new FoodProcessorPOATie(myFoodProcessor), myFoodProcessor.getModuleName());
 	}
 }
+
 
