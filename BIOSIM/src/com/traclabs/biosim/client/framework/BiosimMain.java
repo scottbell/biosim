@@ -13,12 +13,12 @@ public class BiosimMain
 	* The method to start the BIOSIM client.
 	* @param args can start TestDriver with -gui or -nogui (optional id=X where X is an integer)
 	*/
-	public static void main(String args[]) throws java.lang.InterruptedException
+	public static void main(String args[])
 	{
 		BiosimMain myMain = new BiosimMain();
 		myMain.checkArgs(args);
 	}
-	
+
 	private void checkArgs(String[] myArgs){
 		int myID = 0;
 		boolean wantsToRunCommandLine = false;
@@ -51,7 +51,7 @@ public class BiosimMain
 			runGUI(myID);
 		}
 	}
-	
+
 	/**
 	* Runs the SimDesktop front end for the simulation.
 	*/
@@ -60,7 +60,7 @@ public class BiosimMain
 		newDesktop.setSize(1024, 768);
 		newDesktop.setVisible(true);
 	}
-	
+
 	/**
 	* Runs the commandline front end for the simulation.
 	*/
@@ -68,6 +68,6 @@ public class BiosimMain
 		SimCommandLine newCommandLine = new SimCommandLine(myID);
 		newCommandLine.runCommandLine();
 	}
-	
+
 }
 

@@ -23,8 +23,9 @@ fi
 genString="/generated"
 genDir=$devRootDir$genString
 if [ ! -e "$genDir" ]; then
-	mkdir $genDir
-	echo "		-creating generated directory"
+	echo "		-building biosim"
+	$devRootDir/bin/make-server.sh
+	$devRootDir/bin/make-client.sh
 fi
 genString="/distro"
 distroDir=$genDir$genString
@@ -85,12 +86,49 @@ echo "		-copying invocation files over"
 cp -f ../../lib/distro/win/biosim.nsi . 2> /dev/null
 cp -f ../../lib/distro/win/setENV.bat . 2> /dev/null
 cp -f ../../lib/distro/win/run-biosim.bat . 2> /dev/null
-cp -f ../../lib/distro/win/run-distro-nameserver.bat . 2> /dev/null
-cp -f ../../lib/distro/win/run-distro-server.bat . 2> /dev/null
-cp -f ../../lib/distro/win/run-distro-client.bat . 2> /dev/null
 cp -f ../../lib/distro/win/biosim.ico . 2> /dev/null
 cp -f ../../lib/distro/win/LICENSE.txt . 2> /dev/null
-echo "		-changing to back to invocation dir"
+cp -f ../../lib/distro/win/BiosimStandalone.java . 2> /dev/null
+######################
+# BUILD STANDALONE   #
+######################
+echo "	-building standalone"
+jikesCommand="jikes"
+type $jikesCommand 2> /dev/null >/dev/null
+if [ $? != 0 ]; then
+	javac_command=javac
+	echo "		-using javac compiler (assuming it's in the path)"
+else
+	javac_command=jikes
+	echo "		-using jikes compiler"
+fi
+if [ -z "$JAVA_HOME" ]; then
+	echo "		-JAVA_HOME not set! assuming java is in path..."
+fi
+JRE_HOME="$JAVA_HOME/jre"
+biosimJar="$distroDir/biosim.jar"
+separator=":"
+machineType=`uname`
+winName="CYGWIN"
+case $machineType in
+	*$winName*) separator=";";echo "	-machine type is $winName";;
+	*)separator=":";echo "		-assuming Unix machine type";;
+esac
+IBM_libs="$JRE_HOME/lib/core.jar$separator$JRE_HOME/lib/charsets.jar$separator$JRE_HOME/lib/graphics.jar$separator$JRE_HOME/lib/security.jar$separator$JRE_HOME/lib/server.jar$separator$JRE_HOME/lib/xml.jar"
+Sun_libs="$JRE_HOME/lib/rt.jar"
+javaVersionString=`$java_command -version 2>&1 | grep IBM`
+case $javaVersionString in
+	*"IBM"*) JRE_libs=$IBM_libs;echo "		-VM is IBM";;
+	*)JRE_libs=$Sun_libs;echo "		-assuming Sun VM";;
+esac
+echo "		-compiling standalone";
+$javac_command -classpath $distroDir$separator$biosimJar$separator$JRE_libs $distroDir/BiosimStandalone.java
+echo "	-done building standalone"
+echo "	-adding to existing jar"
+$jarCommand -uf biosim.jar BiosimStandalone*.class
+echo "	-removing standalone file"
+rm -f BiosimStandalone*
+echo "	-changing to back to invocation dir"
 cd $currentDir
 echo "*done creating biosim distro"
 
