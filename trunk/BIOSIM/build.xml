@@ -296,6 +296,7 @@
 	<target name="run-client" description="runs the client">
 		<echo message="Starting biosim client"/>
 		<java classname="biosim.client.framework.BiosimMain">
+			<arg value="-console"/> 
 			<sysproperty key="org.omg.CORBA.ORBClass" value="org.jacorb.orb.ORB"/>
 			<sysproperty key="org.omg.CORBA.ORBSingletonClass" value="org.jacorb.orb.ORBSingleton"/>
 			<sysproperty key="ORBInitRef.NameService" value="file:${nsDir}/ior.txt"/>
