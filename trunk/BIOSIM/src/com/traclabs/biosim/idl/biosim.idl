@@ -8,6 +8,12 @@ module biosim{
 			enum MalfunctionIntensity {SEVERE_MALF, MEDIUM_MALF, LOW_MALF};
 			enum MalfunctionLength {TEMPORARY_MALF, PERMANENT_MALF};
 			
+			interface Malfunction{
+				MalfunctionIntensity getIntensity();
+				long getID();
+				MalfunctionLength getLength();
+			};
+			
                         interface BioModule{
                                 void tick();
                                 string getModuleName();
@@ -15,11 +21,11 @@ module biosim{
                                 void setLogging(in boolean pLogging);
                                 boolean isLogging();
 				void setStochasticIntensity(in StochasticIntensity pIntensity);
-				void startMalfunction(in MalfunctionIntensity pIntensity, in MalfunctionLength pLength);
-				void endMalfunction();
+				Malfunction startMalfunction(in MalfunctionIntensity pIntensity, in MalfunctionLength pLength);
+				void fixMalfunction(in long id);
 				boolean isMalfunctioning();
                         };
-
+			
                         interface Store : BioModule{
                                 void setCapacity(in float metricAmount);
                                 void setLevel(in float metricAmount);

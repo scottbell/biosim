@@ -22,9 +22,11 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	protected StochasticIntensity myStochasticIntensity = StochasticIntensity.NONE_STOCH;
 	private int myID = 0;
 	private static final int RANDOM_PRECISION = 1000;
+	protected Hashtable myMalfunctions;
 
 	public BioModuleImpl(int pID){
 		myRandomGen = new Random();
+		myMalfunctions = new Hashtable();
 		myLog = new LogNodeImpl(getModuleName());
 		myID = pID;
 	}
@@ -36,14 +38,19 @@ public abstract class BioModuleImpl extends BioModulePOA{
 			log();
 	}
 	
-	public void startMalfunction(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
+	public Malfunction startMalfunction(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
+		MalfunctionImpl newMalfunctionImpl = new MalfunctionImpl(pIntensity,pLength);
+		Malfunction newMalfunction = MalfunctionHelper.narrow(OrbUtils.poaToCorbaObj(newMalfunctionImpl));
+		myMalfunctions.put((new Integer(newMalfunction.getID())), newMalfunction);
+		return newMalfunction;
 	}
 	
-	public void endMalfunction(){
+	public void fixMalfunction(int pID){
+		myMalfunctions.remove(new Integer(pID));
 	}
 	
 	public boolean isMalfunctioning(){
-		return false;
+		return (myMalfunctions.size() > 0);
 	}
 
 	/**

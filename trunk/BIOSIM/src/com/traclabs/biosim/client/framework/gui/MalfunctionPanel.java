@@ -115,7 +115,7 @@ public class MalfunctionPanel extends TimedPanel
 		myCurrentMalfunctionsPanel = new JPanel();
 		myCurrentMalfunctionsPanel.setBorder(BorderFactory.createTitledBorder("Current Malfunctions"));
 		myCurrentMalfunctionsPanel.setLayout(new BorderLayout());
-		String[] dummyList = {"None1", "None2", "None3"};
+		String[] dummyList = {"Air Leak", "Solar Panel Damaged", "Crop Disease"};
 		currentMalfunctionList = new JList(dummyList);
 		myCurrentMalfunctionsPanel.add(currentMalfunctionList, BorderLayout.CENTER);
 		JButton deleteButton = new JButton(new DeleteMalfunctionAction());
