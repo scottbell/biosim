@@ -14,12 +14,16 @@ public class AirInFlowRateSensorImpl extends GenericSensorImpl implements AirInF
 	}
 
 	protected void gatherData(){
-		double preFilteredValue = getInput().getAirInputActualFlowRate(myIndex);
+		float preFilteredValue = getInput().getAirInputActualFlowRate(myIndex);
 		myValue = randomFilter(preFilteredValue);
 	}
 	
 	protected void notifyListeners(){
 		//does nothing right now
+	}
+	
+	public float getMax(){
+		return myConsumer.getAirInputMaxFlowRate(myIndex);
 	}
 
 	public void setInput(AirConsumer pConsumer, int pIndex){

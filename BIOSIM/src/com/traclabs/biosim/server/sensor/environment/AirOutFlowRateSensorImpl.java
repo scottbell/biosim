@@ -14,7 +14,7 @@ public class AirOutFlowRateSensorImpl extends GenericSensorImpl implements AirOu
 	}
 
 	protected void gatherData(){
-		double preFilteredValue = getInput().getAirOutputActualFlowRate(myIndex);
+		float preFilteredValue = getInput().getAirOutputActualFlowRate(myIndex);
 		myValue = randomFilter(preFilteredValue);
 	}
 	
@@ -25,6 +25,10 @@ public class AirOutFlowRateSensorImpl extends GenericSensorImpl implements AirOu
 	public void setInput(AirProducer pProducer, int pIndex){
 		myProducer = pProducer;
 		myIndex = pIndex;
+	}
+	
+	public float getMax(){
+		return myProducer.getAirOutputMaxFlowRate(myIndex);
 	}
 	
 	public AirProducer getInput(){

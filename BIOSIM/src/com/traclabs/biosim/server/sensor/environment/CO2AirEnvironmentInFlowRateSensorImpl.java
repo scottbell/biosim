@@ -14,7 +14,7 @@ public class CO2AirEnvironmentInFlowRateSensorImpl extends GenericSensorImpl imp
 	}
 
 	protected void gatherData(){
-		double preFilteredValue = getInput().getCO2AirEnvironmentInputActualFlowRate(myIndex);
+		float preFilteredValue = getInput().getCO2AirEnvironmentInputActualFlowRate(myIndex);
 		myValue = randomFilter(preFilteredValue);
 	}
 	
@@ -25,6 +25,10 @@ public class CO2AirEnvironmentInFlowRateSensorImpl extends GenericSensorImpl imp
 	public void setInput(CO2AirConsumer pConsumer, int pIndex){
 		myConsumer = pConsumer;
 		myIndex = pIndex;
+	}
+	
+	public float getMax(){
+		return myConsumer.getCO2AirEnvironmentInputMaxFlowRate(myIndex);
 	}
 	
 	public CO2AirConsumer getInput(){
