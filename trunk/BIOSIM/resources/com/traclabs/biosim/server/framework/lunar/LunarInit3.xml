@@ -194,14 +194,14 @@
 				<greyWaterConsumer maxFlowRates="10000000" desiredFlowRates="10000000" inputs="PlantBaseGreyWaterStore"/>
 				<potableWaterProducer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="PlantBasePotableWaterStore"/>
 			</WaterRS>
-			<PotableWaterStore name="PlantBasePotableWaterStore" capacity="8000" level="5000"/>
 			<PotableWaterStore name="CrewBasePotableWaterStore" capacity="8000" level="5000"/>
+			<PotableWaterStore name="PlantBasePotableWaterStore" capacity="8000" level="5000"/>
 			<PotableWaterStore name="EVAPotableWaterStore" capacity="2" level="2"/>
-			<GreyWaterStore name="PlantBaseGreyWaterStore" capacity="4000" level="0"/>
 			<GreyWaterStore name="CrewBaseGreyWaterStore" capacity="4000" level="0"/>
+			<GreyWaterStore name="PlantBaseGreyWaterStore" capacity="4000" level="0"/>
 			<GreyWaterStore name="EVAGreyWaterStore" capacity="1" level="0"/>
-			<DirtyWaterStore name="PlantBaseDirtyWaterStore" capacity="5000" level="0"/>
 			<DirtyWaterStore name="CrewBaseDirtyWaterStore" capacity="5000" level="0"/>
+			<DirtyWaterStore name="PlantBaseDirtyWaterStore" capacity="5000" level="0"/>
 			<DirtyWaterStore name="EVADirtyWaterStore" capacity="1" level="0"/>
 		</water>
 		<waste>
