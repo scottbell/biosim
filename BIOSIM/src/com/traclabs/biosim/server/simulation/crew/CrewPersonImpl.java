@@ -476,7 +476,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private float calculateFoodNeeded(int currentActivityIntensity){
 		if (currentActivityIntensity < 0f)
 			return 0f;
-		float activityCoefficient = (0.7f * (currentActivityIntensity - 1f)) + 1f;
+		float activityCoefficient = (0.5f * (currentActivityIntensity - 1f)) + 1f;
 		float joulesNeeded  = 0f;
 		if (sex == Sex.male)
 			if (age < 30f)
