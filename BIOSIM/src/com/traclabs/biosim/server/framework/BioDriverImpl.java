@@ -34,7 +34,7 @@ import java.util.*;
  * @author    Scott Bell
  */
 
-public class BioDriverImpl extends BioDriverPOA implements Runnable
+public class BioDriverImpl extends BioDriverPOA
 {
 	//The thread to run the simulation
 	private Thread myTickThread;
@@ -49,7 +49,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	//Tells whether all the modules known are logging or not (only checked when logging turned on/off)
 	private boolean fullLogging = false;
 	private boolean actuatorsLogging = false;
-	private boolean sensorsLogging = false;	
+	private boolean sensorsLogging = false;
 	//Tells whether simulation runs until crew death
 	private boolean runTillDead = false;
 	//Tells whether simulation runs till a fixed number of ticks
@@ -67,14 +67,14 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	private Map modules;
 	private Map sensors;
 	private Map actuators;
-	
+
 	/**
 	* Constructs the BioDriver
 	* @param pID The ID of this instance of the BioSim (must be the same for all modules in the instance)
 	*/
 	public BioDriverImpl(int pID){
 		myID = pID;
-		checkMachineType();
+		
 	}
 
 	/**
@@ -83,26 +83,6 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	*/
 	public String getName(){
 		return "BioDriver"+myID;
-	}
-
-	/**
-	* Attempts to discover the machine type we're running on.  If it's windows, set a driver pause between ticks
-	* to keep from starving windows GUI.  Checked by looking at the Java System Property "MACHINE_TYPE"
-	*/
-	private void checkMachineType(){
-		String machineType = null;
-		machineType = System.getProperty("MACHINE_TYPE");
-		if (machineType != null){
-			if (machineType.indexOf("CYGWIN") != -1){
-				setDriverPauseLength(5);
-			}
-			else{
-				setDriverPauseLength(0);
-			}
-		}
-		else{
-			setDriverPauseLength(0);
-		}
 	}
 
 	/**
@@ -128,9 +108,9 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		runTillDead = false;
 		runTillN = false;
 		pauseSimulation();
+
 		
-		configureSimulation();
-		myTickThread = new Thread(this);
+		myTickThread = new Thread(new Ticker());
 		myTickThread.start();
 	}
 
@@ -140,9 +120,9 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	public void spawnSimulationAndRun(){
 		runTillDead = false;
 		runTillN = false;
+
 		
-		configureSimulation();
-		myTickThread = new Thread(this);
+		myTickThread = new Thread(new Ticker());
 		myTickThread.start();
 	}
 
@@ -151,9 +131,9 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	*/
 	public void spawnSimulationAndRunTillDead(){
 		runTillDead = true;
+
 		
-		configureSimulation();
-		myTickThread = new Thread(this);
+		myTickThread = new Thread(new Ticker());
 		myTickThread.start();
 	}
 
@@ -165,9 +145,9 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		nTicks = pTicks;
 		runTillN = true;
 		runTillDead = false;
+
 		
-		configureSimulation();
-		myTickThread = new Thread(this);
+		myTickThread = new Thread(new Ticker());
 		myTickThread.start();
 	}
 
@@ -175,25 +155,13 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	* If n-ticks have been reached or the crew is dead, this method restarts the simulation
 	*/
 	private void loopSimulation(){
+
 		
-		configureSimulation();
-		myTickThread = new Thread(this);
+		myTickThread = new Thread(new Ticker());
 		myTickThread.start();
 	}
 
-	public void configureSimulation(){
-		ticksGoneBy = 0;
-	}
 
-	/**
-	* Invoked by the myTickThread.start() method call and necessary to implement Runnable.
-	* Sets flag that simulation is running, intializes servers (if applicable), then begins ticking them.
-	*/
-	public void run(){
-		System.out.println("BioDriverImpl:"+myID+" Running simulation...");
-		simulationStarted = true;
-		runSimulation();
-	}
 
 	/**
 	* The ticking simulation loop.  Uses a variety of semaphores to pause/resume/end without causing deadlock.
@@ -327,7 +295,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	public synchronized void advanceOneTick(){
 		if (!simulationIsPaused)
 			pauseSimulation();
-		
+
 		tick();
 	}
 
@@ -344,7 +312,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	* @param pLogSim Whether or not modules should log.
 	*/
 	public synchronized void setFullLogging(boolean pLogSim){
-		
+
 		fullLogging = pLogSim;
 		if (fullLogging){
 			System.out.println("BioDriverImpl:"+myID+" Enabling fullLogging");
@@ -358,13 +326,13 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		}
 		myLogger.setProcessingLogs(pLogSim);
 	}
-	
+
 	/**
 	* Iterates through the sensors setting their logs
 	* @param pLogSim Whether or not sensors should log.
 	*/
 	public synchronized void setSensorLogging(boolean pLogSim){
-		
+
 		sensorsLogging = pLogSim;
 		if (sensorsLogging){
 			System.out.println("BioDriverImpl:"+myID+" Enabling sensor logging");
@@ -378,13 +346,13 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		}
 		myLogger.setProcessingLogs(pLogSim);
 	}
-	
+
 	/**
 	* Iterates through the actuators setting their logs
 	* @param pLogSim Whether or not actuators should log.
 	*/
 	public synchronized void setActuatorLogging(boolean pLogSim){
-		
+
 		actuatorsLogging = pLogSim;
 		if (actuatorsLogging){
 			System.out.println("BioDriverImpl:"+myID+" Enabling actuator logging");
@@ -441,7 +409,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	public boolean isFullLogging(){
 		return fullLogging;
 	}
-	
+
 	/**
 	* Tells whether the sensors are logging or not
 	* @return Whether the sensors are logging or not
@@ -449,7 +417,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	public boolean isSensorLogging(){
 		return sensorsLogging;
 	}
-	
+
 	/**
 	* Tells whether the actuators are logging or not
 	* @return Whether the actuators are logging or not
@@ -463,7 +431,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	* Typically this means resetting the various gas levels, crew people, water levels, etc.
 	*/
 	public void reset(){
-		
+
 		System.out.println("BioDriverImpl:"+myID+" Resetting simulation");
 		for (Iterator iter = modules.values().iterator(); iter.hasNext();){
 			BioModule currentBioModule = (BioModule)(iter.next());
@@ -483,6 +451,18 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			currentBioModule.tick();
 		}
 		ticksGoneBy++;
+	}
+
+	private class Ticker implements Runnable{
+		/**
+		* Invoked by the myTickThread.start() method call and necessary to implement Runnable.
+		* Sets flag that simulation is running, intializes servers (if applicable), then begins ticking them.
+		*/
+		public void run(){
+			System.out.println("BioDriverImpl:"+myID+" Running simulation...");
+			simulationStarted = true;
+			runSimulation();
+		}
 	}
 
 }
