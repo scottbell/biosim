@@ -13,6 +13,7 @@ module biosim{
                                 interface Activity;
                                 interface CrewPerson;
                                 interface CrewGroup;
+                                typedef sequence <CrewGroup> CrewGroupList;
                                 typedef sequence <CrewPerson> CrewPersonList;
                                 enum Sex {male, female};
 				enum ScheduleType{ACTIVE_SCHED, PASSIVE_SCHED, VACATION_SCHED};
@@ -97,6 +98,7 @@ module biosim{
                         interface Malfunction;
                         typedef sequence <Malfunction> MalfunctionList;
                         interface BioModule;
+                        typedef sequence <BioModule> BioModuleList;
                         interface BioDriver;
                         //Producers & Consumers
 			interface FlowRateControllable;
@@ -181,6 +183,10 @@ module biosim{
                                 void setActuatorLogging(in boolean pLogSim);
                                 void setDriverStutterLength(in long pDriverPauseLength);
                                 long getDriverStutterLength();
+				void setModules(in BioModuleList pModules);
+				void setSensors(in BioModuleList pSensors);
+				void setActuators(in BioModuleList pActuators);
+				void setCrewsToWatch(in simulation::crew::CrewGroupList pCrews);
                                 string getName();
                                 boolean isDone();
                                 long getTicks();
