@@ -144,7 +144,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		float coefficient = randomBiggerCoef / RANDOM_PRECISION;
 		float addSubtractValue = coefficient * pValue;
 		int addSubtractDecider = myRandomGen.nextInt(2);
-		if (addSubtractDecider == 0)
+		if (addSubtractDecider == 0 || (pValue < addSubtractValue))
 			return (pValue += addSubtractValue);
 		else
 			return (pValue -= addSubtractValue);
@@ -158,7 +158,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		float coefficient = randomBiggerCoef / RANDOM_PRECISION;
 		double addSubtractValue = coefficient * pValue;
 		int addSubtractDecider = myRandomGen.nextInt(2);
-		if (addSubtractDecider == 0)
+		if (addSubtractDecider == 0 || (pValue < addSubtractValue))
 			return (pValue += addSubtractValue);
 		else
 			return (pValue -= addSubtractValue);
@@ -184,7 +184,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		float addSubtractValue = coefficient * pValue;
 		int addSubtractDecider = myRandomGen.nextInt(2);
 		int newValue;
-		if (addSubtractDecider == 0)
+		if (addSubtractDecider == 0 || (pValue < addSubtractValue))
 			return (pValue += addSubtractValue);
 		else
 			return (pValue -= addSubtractValue);

@@ -23,20 +23,16 @@ public class EnvironmentPieChartPanel extends GraphPanel
 	private String CO2Category = "CO2";
 	private String otherCategory = "Other";
 	private String vacuumCategory = "Vacuum";
+	private boolean isVacuum = false;
                        
 	protected void createGraph(){
 		// create the chart...
 		mySimEnvironment = (SimEnvironment)(BioHolder.getBioModule(BioHolder.simEnvironmentName));
 		refresh();
-		myChart = ChartFactory.createPie3DChart(
-		                  "Environment Gas Composition",  // chart title
-		                  myDataset,                 // data
-		                  true                     // include legend
-		          );
-		// add the chart to a panel...
+		myChart = ChartFactory.createPie3DChart("Environment Gas Composition", myDataset, true);
 		myPlot = (Pie3DPlot)(myChart.getPlot());
-		myPlot.setSeriesPaint(new Paint[] { Color.BLUE, Color.GREEN, Color.RED});
 		myPlot.setDepthFactor(0.1d);
+		initDataset();
 		TextTitle myTextTitle = (TextTitle)(myChart.getTitle(0));
 		myTextTitle.setFont(myTextTitle.getFont().deriveFont(12.0f));
 		myChartPanel = new ChartPanel(myChart);
@@ -46,25 +42,42 @@ public class EnvironmentPieChartPanel extends GraphPanel
 	}
 
 	public void refresh() {
-		System.out.println("starting refresh");
 		if (myDataset == null){
 			myDataset = new DefaultPieDataset();
-			return;
 		}
-		System.out.println("refresh2");
-		if ((mySimEnvironment.getO2Level() <= 0) && (mySimEnvironment.getCO2Level() <= 0) && (mySimEnvironment.getOtherLevel() <= 0)){
-			System.out.println("refresh3");
-			myDataset.setValue(vacuumCategory, new Float(1f));
-			myPlot.setSeriesPaint(new Paint[] { Color.DARK_GRAY});
+		else if ((mySimEnvironment.getO2Level() <= 0) && (mySimEnvironment.getCO2Level() <= 0) && (mySimEnvironment.getOtherLevel() <= 0)){
+			//It isn't in a vacuum, set it up
+			if (!isVacuum){
+				myDataset = new DefaultPieDataset();
+				myPlot.setDataset(myDataset);
+				myDataset.setValue(vacuumCategory, new Float(1f));
+				myPlot.setSeriesPaint(new Paint[] { Color.DARK_GRAY});
+				isVacuum = true;
+			}
 		}
 		else{
-			System.out.println("refresh4");
-			//myPlot.setSeriesPaint(new Paint[] { Color.BLUE, Color.GREEN, Color.RED});
-			//myDataset.setValue(vacuumCategory, new Float(0f));
+			//It in a vacuum, set it up for normal use
+			if (isVacuum){
+				myDataset = new DefaultPieDataset();
+				myPlot.setDataset(myDataset);
+				myPlot.setSeriesPaint(new Paint[] { Color.BLUE, Color.GREEN, Color.RED});
+				isVacuum = false;
+			}
 			myDataset.setValue(O2Category, new Float(mySimEnvironment.getO2Level()));
 			myDataset.setValue(CO2Category, new Float(mySimEnvironment.getCO2Level()));
 			myDataset.setValue(otherCategory, new Float(mySimEnvironment.getOtherLevel()));
 		}
-		System.out.println("refresh5");
+	}
+	
+	private void initDataset(){
+		if ((mySimEnvironment.getO2Level() <= 0) && (mySimEnvironment.getCO2Level() <= 0) && (mySimEnvironment.getOtherLevel() <= 0)){
+			myDataset.setValue(vacuumCategory, new Float(1f));
+			myPlot.setSeriesPaint(new Paint[] { Color.DARK_GRAY});
+			isVacuum = true;
+		}
+		else{
+			myPlot.setSeriesPaint(new Paint[] { Color.BLUE, Color.GREEN, Color.RED});
+			isVacuum = false;
+		}
 	}
 }
