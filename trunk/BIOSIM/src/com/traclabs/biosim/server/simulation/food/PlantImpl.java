@@ -19,7 +19,9 @@ public abstract class Plant {
 	protected float waterNeeded = 2.0f;
 	protected int numberOfCrops = 1;
 	protected float currentWaterLevel = 0f;
+	protected float biomassProduced = 0f;
 	private SimEnvironment mySimEnvironment;
+	private BiomassStore myBiomassStore;
 	
 	public Plant(){
 	}
@@ -44,13 +46,16 @@ public abstract class Plant {
 	* The plants inhale a needed amount of CO2 (along with O2 and other gasses).
 	* and exhale fraction of the CO2 inhaled, a multiple of the O2 inhaled, and the same amount of other gasses inhaled.
 	*/
-	private void gatherAir(){
+	private void consumeAir(){
 		float CO2Needed = calculateCO2Needed();
 		airRetrieved = mySimEnvironment.takeCO2Breath(CO2Needed);
 		if (airRetrieved.CO2 < CO2Needed)
 			hasEnoughCO2 = false;
 		else
 			hasEnoughCO2 = true;
+		mySimEnvironment.addO2(new Double(airRetrieved.O2 + airRetrieved.CO2 * .90).floatValue());
+		mySimEnvironment.addOther(airRetrieved.other);
+		mySimEnvironment.addCO2(new Double(airRetrieved.CO2 * .10).floatValue());
 	}
 	
 	public void addWater(float pWaterToAdd){
@@ -66,8 +71,27 @@ public abstract class Plant {
 		myAge = 0;
 	}
 	
+	protected abstract void calculateProducedBiomass();
+	
+	private void produceBiomass(){
+		calculateProducedBiomass();
+		if (biomassProduced > 0)
+			myBiomassStore.add(biomassProduced);
+	}
+	
 	public void tick(){
+		collectReferences();
 		myAge++;
+		consumeAir();
+		produceBiomass();
+		afflict();
+		deathCheck();
+	}
+	
+	protected void afflict(){
+	}
+	
+	protected void deathCheck(){
 	}
 	
 	public float getWaterNeeded(){
@@ -81,6 +105,7 @@ public abstract class Plant {
 		if (!hasCollectedReferences){
 			try{
 				mySimEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str("SimEnvironment"));
+				myBiomassStore = BiomassStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("BiomassStore"));
 				hasCollectedReferences = true;
 			}
 			catch (org.omg.CORBA.UserException e){

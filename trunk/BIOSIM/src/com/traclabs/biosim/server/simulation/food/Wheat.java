@@ -6,6 +6,8 @@ package biosim.server.food;
  */
 
 public class Wheat extends Plant{
+	private static final int HARVEST_TIME=83;
+	private static final float EDIBLE_GRAMS = .0025f;  //edible kilograms per meter squared per hour
 	
 	public Wheat(){
 	}
@@ -20,4 +22,15 @@ public class Wheat extends Plant{
 		 5.0269 * Math.exp(-7) * (time * time * time* time)) / areaPerCrop);
 		 return CO2FlowRate.floatValue();
 	}
+	
+	protected void calculateProducedBiomass(){
+		if (((myAge / 24)) >= HARVEST_TIME){
+			//Harvest time
+			biomassProduced = EDIBLE_GRAMS * myAge;
+			myAge =0;
+		}
+		else
+			biomassProduced =  0f;
+	}
+	
 }
