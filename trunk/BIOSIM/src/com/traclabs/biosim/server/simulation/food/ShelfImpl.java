@@ -25,7 +25,6 @@ public class ShelfImpl extends ShelfPOA {
 	private float powerLevel = 0f;
 	private float powerPerLamp = 400f;
 	private float numberOfLamps = 1f;
-	private boolean autoHarvest = true;
 	
 
 	public ShelfImpl(PlantType pType, float pCropAreaTotal, BiomassRSImpl pBiomassImpl){
@@ -60,14 +59,6 @@ public class ShelfImpl extends ShelfPOA {
 	
 	public float getCropAreaUsed(){
 		return cropAreaUsed;
-	}
-	
-	public boolean isAutoHarvestEnabled(){
-		return autoHarvest;
-	}
-	
-	public void setAutoHarvestEnabled(boolean pAutoHarvest){
-		autoHarvest = pAutoHarvest;
 	}
 
 	private float calculatePowerNeeded(){
@@ -134,7 +125,7 @@ public class ShelfImpl extends ShelfPOA {
 	}
 	
 	private void tryHarvesting(){
-		if (autoHarvest){
+		if (myBiomassRSImpl.autoHarvestAndReplantEnabled()){
 			if (myCrop.readyForHarvest()){
 				float biomassProduced = myCrop.harvest();
 				float biomassAdded = pushFractionalResourceToBiomassStore(myBiomassRSImpl.getBiomassOutputs(), myBiomassRSImpl.getBiomassOutputMaxFlowRates(), myBiomassRSImpl.getBiomassOutputDesiredFlowRates(), myBiomassRSImpl.getBiomassOutputActualFlowRates(), biomassProduced, myBiomassRSImpl.getNumberOfShelves(), myCrop.getPlantType());		

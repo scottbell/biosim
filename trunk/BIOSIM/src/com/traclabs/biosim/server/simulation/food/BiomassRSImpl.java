@@ -24,6 +24,7 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 	private List myShelves;
 	private int shelfCapacity = 100;
 	private List shelfLogs;
+	private boolean autoHarvestAndReplant = true;
 	private float[] powerMaxFlowRates;
 	private float[] biomassMaxFlowRates;
 	private float[] potableWaterMaxFlowRates;
@@ -99,6 +100,13 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 		return myShelves.size();
 	}
 	
+	public boolean autoHarvestAndReplantEnabled(){
+		return autoHarvestAndReplant;
+	}
+	
+	public void setAutoHarvestAndReplantEnabled(boolean pAutoHarvestAndReplant){
+		autoHarvestAndReplant = pAutoHarvestAndReplant;
+	}
 	
 	public Shelf createNewShelf(PlantType pType, float pCropArea){
 		ShelfImpl newShelfImpl = new ShelfImpl(pType, pCropArea, this);
