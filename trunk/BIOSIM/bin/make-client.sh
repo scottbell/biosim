@@ -17,8 +17,8 @@ then
 	echo "		-creating generated directory"
 fi
 separator=":"
-machineType=`echo %OS%`
-winName="Windows"
+machineType=`uname`
+winName="CYGWIN"
 case $machineType in
 	*$winName*) separator=";";echo "		-machine type is $winName";;
 	*)separator=":";echo "		-assuming Unix machine type";;
