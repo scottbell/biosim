@@ -761,10 +761,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			//Accumulate O2 from plant environment, put it in O2 store
 			SimEnvironment[] O2AirInput = {myPlantEnvironment};
 			O2Store[] O2AirOutput = {myO2Store};
-			float[] O2AirInputMaxFlowRates = {500f};
-			float[] O2AirOutputMaxFlowRates = {500f};
-			float[] O2AirInputActualFlowRates = {500f};
-			float[] O2AirOutputActualFlowRates = {500f};
+			float[] O2AirInputMaxFlowRates = {0f};
+			float[] O2AirOutputMaxFlowRates = {0f};
+			float[] O2AirInputActualFlowRates = {0f};
+			float[] O2AirOutputActualFlowRates = {0f};
 			Accumulator myAccumulator = AccumulatorHelper.narrow(getBioModule(myAccumulatorName));
 			myAccumulator.setO2AirEnvironmentInputs(O2AirInput, O2AirInputMaxFlowRates, O2AirInputActualFlowRates);
 			myAccumulator.setO2AirStoreOutputs(O2AirOutput, O2AirOutputMaxFlowRates, O2AirOutputActualFlowRates);
@@ -772,10 +772,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			//Accumulate CO2 from crew environment, put it in CO2 store
 			SimEnvironment[] CO2AirInput = {myCrewEnvironment};
 			CO2Store[] CO2AirOutput = {myCO2Store};
-			float[] CO2AirInputMaxFlowRates = {500f};
-			float[] CO2AirOutputMaxFlowRates = {500f};
-			float[] CO2AirInputActualFlowRates = {500f};
-			float[] CO2AirOutputActualFlowRates = {500f};
+			float[] CO2AirInputMaxFlowRates = {0f};
+			float[] CO2AirOutputMaxFlowRates = {0f};
+			float[] CO2AirInputActualFlowRates = {0f};
+			float[] CO2AirOutputActualFlowRates = {0f};
 			myAccumulator.setCO2AirEnvironmentInputs(CO2AirInput, CO2AirInputMaxFlowRates, CO2AirInputActualFlowRates);
 			myAccumulator.setCO2AirStoreOutputs(CO2AirOutput, CO2AirOutputMaxFlowRates, CO2AirOutputActualFlowRates);
 		}
@@ -785,10 +785,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			//Take O2 from store, inject it into crew environment
 			O2Store[] O2AirInput = {myO2Store};
 			SimEnvironment[] O2AirOutput = {myCrewEnvironment};
-			float[] O2AirInputMaxFlowRates = {500f};
-			float[] O2AirOutputMaxFlowRates = {500f};
-			float[] O2AirInputActualFlowRates = {500f};
-			float[] O2AirOutputActualFlowRates = {500f};
+			float[] O2AirInputMaxFlowRates = {0f};
+			float[] O2AirOutputMaxFlowRates = {0f};
+			float[] O2AirInputActualFlowRates = {0f};
+			float[] O2AirOutputActualFlowRates = {0f};
 			Injector myInjector = InjectorHelper.narrow(getBioModule(myInjectorName));
 			myInjector.setO2AirStoreInputs(O2AirInput, O2AirInputMaxFlowRates, O2AirInputActualFlowRates);
 			myInjector.setO2AirEnvironmentOutputs(O2AirOutput, O2AirOutputMaxFlowRates, O2AirOutputActualFlowRates);
@@ -796,10 +796,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			//Take CO2 from store, inject it into plant environment
 			CO2Store[] CO2AirInput = {myCO2Store};
 			SimEnvironment[] CO2AirOutput = {myPlantEnvironment};
-			float[] CO2AirInputMaxFlowRates = {500f};
-			float[] CO2AirOutputMaxFlowRates = {500f};
-			float[] CO2AirInputActualFlowRates = {500f};
-			float[] CO2AirOutputActualFlowRates = {500f};
+			float[] CO2AirInputMaxFlowRates = {0f};
+			float[] CO2AirOutputMaxFlowRates = {0f};
+			float[] CO2AirInputActualFlowRates = {0f};
+			float[] CO2AirOutputActualFlowRates = {0f};
 			myInjector.setCO2AirStoreInputs(CO2AirInput, CO2AirInputMaxFlowRates, CO2AirInputActualFlowRates);
 			myInjector.setCO2AirEnvironmentOutputs(CO2AirOutput, CO2AirOutputMaxFlowRates, CO2AirOutputActualFlowRates);
 		}
