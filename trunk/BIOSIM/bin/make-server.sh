@@ -28,6 +28,11 @@ if [ -z "$JAVA_HOME" ]; then
 	java_command="java"
 fi
 JRE_HOME="$JAVA_HOME/jre"
+javaVersionString=`$java_command -version 2>&1 | grep IBM`
+case $javaVersionString in
+	*"IBM"*) JRE_lib="core.jar";echo "		-VM is IBM";;
+	*)JRE_lib="rt.jar";echo "		-assuming Sun VM";;
+esac
 genString="/generated"
 genDir=$devRootDir$genString
 if [ ! -e "$genDir" ]
@@ -86,7 +91,7 @@ simString="biosim"
 simSkeletonDir="$skeletonDir/$simString"
 serverDir="$devRootDir/src/biosim/server"
 sourceDir="$devRootDir/src"
-jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME"
+jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JRE_HOME/lib/$JRE_lib$separator$JACORB_HOME"
 compilationInvocation="$javac_command -d $serverClassesDir -classpath $skeletonDir$separator$serverClassesDir$separator$sourceDir$separator$jacoClasspath"
 if [ "$userSelect" == "all" ]
 then

@@ -7,7 +7,6 @@ case $1 in
 	*) userSelect=$1;iorHome=$BIOSIM_HOME;;
 esac
 devRootDir=$BIOSIM_HOME
-JRE_HOME="$JAVA_HOME/jre"
 jacoOrbClass="-Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB"
 jacoSingletonOrbClass="-Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton"
 biosimHome="-DBIOSIM_HOME=$BIOSIM_HOME"
@@ -25,8 +24,9 @@ then
 	echo "		-JAVA_HOME not set, assuming java and javac are in path..."
 	java_command="java"
 fi
+echo "verison from $java_command is:"
+$java_command -version
 JACORB_HOME="$devRootDir/lib/jacorb"
-#jacoNameIOR="-DORBInitRef.NameService=file:$devRootDir/generated/ns/ior.txt"
 jacoNameIOR="-DORBInitRef.NameService=file:$iorHome/generated/ns/ior.txt"
 separator=":"
 machineType=`uname`
@@ -53,8 +53,8 @@ malfunctionName="biosim.client.framework.gui.MalfunctionPanel"
 resourceString="/resources"
 resourceDir=$devRootDir$resourceString
 plotClasspath="$devRootDir/lib/jfreechart/jcommon.jar$separator$devRootDir/lib/jfreechart/jfreechart.jar"
-jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME"
-jacoInvocation="$java_command -client -classpath $plotClasspath$separator$clientClassesDir$separator$jacoClasspath$separator$resourceDir $biosimHome $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
+jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME"
+jacoInvocation="$java_command -classpath $plotClasspath$separator$clientClassesDir$separator$jacoClasspath$separator$resourceDir $biosimHome $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
 echo "	-starting client"
 console="console"
 gui="gui"
