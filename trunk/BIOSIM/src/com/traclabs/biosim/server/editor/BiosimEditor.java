@@ -1,8 +1,6 @@
 package com.traclabs.biosim.server.editor;
 
 import java.awt.Cursor;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -10,7 +8,6 @@ import java.net.URL;
 import java.util.Properties;
 
 import javax.swing.AbstractAction;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -19,11 +16,13 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.tigris.gef.graph.presentation.JGraph;
+import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigCircle;
 
 import com.traclabs.biosim.client.framework.gui.BioFrame;
@@ -73,9 +72,14 @@ public class BiosimEditor {
     private JComponent myWastePanel;
 
     private JComponent myWaterPanel;
+    
+    private Fig myCurrentFigure;
 
-    public BiosimEditor() {
-        initLogger();
+    private JSplitPane mySplitPane;
+
+    public BiosimEditor(boolean fromMainMethod) {
+        if (fromMainMethod)
+            initLogger();
         buildGui();
     }
 
@@ -92,28 +96,14 @@ public class BiosimEditor {
         //create main frame
         myMainFrame = new BioFrame("BioSim Editor", false);
         
-        //do gridbag
-        GridBagLayout gridbag = new GridBagLayout();
-        GridBagConstraints constraints = new GridBagConstraints();
-        myMainFrame.getContentPane().setLayout(gridbag);
-
-        constraints.gridwidth = GridBagConstraints.REMAINDER;
-        constraints.fill = GridBagConstraints.BOTH;
-        constraints.ipadx = 0;
-        gridbag.setConstraints(myTabbedPane, constraints);
-        myMainFrame.getContentPane().add(myTabbedPane);
-        
-        constraints.gridwidth = GridBagConstraints.REMAINDER;
-        constraints.weightx = 1.0;
-        constraints.weighty = 1.0;
-        constraints.fill = GridBagConstraints.BOTH;
-        gridbag.setConstraints(myGraphPanel, constraints);
-        myMainFrame.getContentPane().add(myGraphPanel);
+        //do splitpane
+        mySplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,myTabbedPane, myGraphPanel);
+        myMainFrame.getContentPane().setLayout(new GridLayout(1, 1));
+        myMainFrame.getContentPane().add(mySplitPane);
         
         //do menu bar
         createMenuBar();
-
-        //set size, pack, show
+        
         myMainFrame.pack();
         myMainFrame.setSize(650, 600);
         myMainFrame.setVisible(true);
@@ -143,43 +133,49 @@ public class BiosimEditor {
     private void createTabbedPane() {
         myTabbedPane = new JTabbedPane();
         
-        myAirPanel = createModulePanel("Air Panel");
+        myAirPanel = new AirPanel();
         myTabbedPane
                 .addTab(
                         "Air",
                         createImageIcon("com/traclabs/biosim/client/air/gui/air.jpg"),
                         myAirPanel);
-        myCrewPanel = createModulePanel("Crew Panel");
+        
+        myCrewPanel = new CrewPanel();
         myTabbedPane
                 .addTab(
                         "Crew",
                         createImageIcon("com/traclabs/biosim/client/crew/gui/crew.jpg"),
                         myCrewPanel);
-        myEnvironmentPanel = createModulePanel("Environment Panel");
+        
+        myEnvironmentPanel = new EnvironmentPanel();
         myTabbedPane
                 .addTab(
                         "Environment",
                         createImageIcon("com/traclabs/biosim/client/environment/gui/environment.jpg"),
                         myEnvironmentPanel);
-        myFrameworkPanel = createModulePanel("Framework Panel");
+        
+        myFrameworkPanel = new FrameworkPanel();
         myTabbedPane
                 .addTab(
                         "Framework",
                         createImageIcon("com/traclabs/biosim/client/framework/gui/all.jpg"),
                         myFrameworkPanel);
-        myPowerPanel = createModulePanel("Power Panel");
+        
+        myPowerPanel = new PowerPanel();
         myTabbedPane
                 .addTab(
                         "Power",
                         createImageIcon("com/traclabs/biosim/client/power/gui/power.jpg"),
                         myPowerPanel);
-        myWastePanel = createModulePanel("Waste Panel");
+        
+        myWastePanel = new WastePanel();
         myTabbedPane
                 .addTab(
                         "Waste",
                         createImageIcon("com/traclabs/biosim/client/framework/gui/gear.gif"),
                         myWastePanel);
-        myWaterPanel = createModulePanel("Water Panel");
+        
+        myWaterPanel = new WaterPanel();
         myTabbedPane
                 .addTab(
                         "Water",
@@ -197,10 +193,6 @@ public class BiosimEditor {
         myGraphPanel.setLayout(new GridLayout(1, 1));
         myGraphPanel.add(myGraph);
         myGraph.getEditor().add(new FigCircle(0,0,50,50));
-        
-        myGraphPanel.setBorder(BorderFactory
-                .createTitledBorder("Editing Pane"));
-        
     }
 
     private JComponent createModulePanel(String text) {
@@ -228,24 +220,21 @@ public class BiosimEditor {
      *  
      */
     private void initLogger() {
+        myLogger = Logger.getLogger( BiosimEditor.class.toString());
         Properties logProps = new Properties();
-        logProps.setProperty("log4j.appender.editorAppender",
+        logProps.setProperty("log4j.rootLogger", "INFO, rootAppender");
+        logProps.setProperty("log4j.appender.rootAppender",
                 "org.apache.log4j.ConsoleAppender");
-        logProps.setProperty("log4j.appender.editorAppender.layout",
+        logProps.setProperty("log4j.appender.rootAppender.layout",
                 "org.apache.log4j.PatternLayout");
         logProps.setProperty(
-                "log4j.appender.editorAppender.layout.ConversionPattern",
+                "log4j.appender.rootAppender.layout.ConversionPattern",
                 "%5p [%c] - %m%n");
-        logProps.setProperty("log4j.logger.org.tigris.gef",
-                "INFO, editorAppender");
-        logProps.setProperty("log4j.logger.com.traclabs.biosim",
-                "INFO, editorAppender");
         PropertyConfigurator.configure(logProps);
-        myLogger = Logger.getLogger(BiosimEditor.class.toString());
     }
 
     public static void main(String args[]) {
-        BiosimEditor editor = new BiosimEditor();
+        BiosimEditor editor = new BiosimEditor(true);
     }
     
     /**
@@ -280,6 +269,14 @@ public class BiosimEditor {
                                     + new Character('\u00A9')
                                     + " 2005, TRACLabs\nby Scott Bell and David Kortenkamp");
         }
+    }
+
+    /**
+     * @param figure
+     */
+    public void setCurrentFigure(Fig pFigure) {
+        myCurrentFigure = pFigure;
+        
     }
     
 }
