@@ -102,11 +102,12 @@ public class LogNodeImpl extends LogNodePOA{
 		return  LogNodeHelper.narrow(OrbUtils.poaToCorbaObj(newLogNodeImpl));
 	}
 	
-	protected LogNode addChild(LogNodeImpl pChildNode){
+	protected LogNode addChild(LogNode pChildNode){
 		if (childrenList == null)
 			childrenList = new LinkedList();
-		pChildNode.setParent(this);
-		childrenList.add(pChildNode);
-		return LogNodeHelper.narrow(OrbUtils.poaToCorbaObj(pChildNode));
+		LogNodeImpl childNodeImpl = (LogNodeImpl)(OrbUtils.corbaObjToPoa(pChildNode));
+		childNodeImpl.setParent(this);
+		childrenList.add(childNodeImpl);
+		return pChildNode;
 	}
 }

@@ -14,10 +14,12 @@ public class LoggerImpl extends LoggerPOA  {
 	private boolean hasCollectedReferences = false;
 	private SimEnvironment myEnvironment;
 	private boolean processingLogs = true;
+	private LogNodeImpl currentTickLogNode;
+	private int currentTick = -1;
 	
 	public LoggerImpl(){
 		//use default handler (System.out)
-		setLogHandlerType(LogHandlerType.XML);
+		setLogHandlerType(LogHandlerType.SCREEN);
 	}
 	
 	public LoggerImpl(LogHandlerType pLogType){
@@ -68,12 +70,20 @@ public class LoggerImpl extends LoggerPOA  {
 			myLogHandler = new XMLLogHandler();
 	}
 	
-	public void processLog(LogNode logToProcess){
+	public void processLog(LogNode logToAdd){
 		if (!processingLogs)
 			return;
 		collectReferences();
-		LogNode tickLabel = logToProcess.getChildShallow("tick");
-		(tickLabel.getChildren())[0].setValue(""+myEnvironment.getTicks());
-		myLogHandler.writeLog(logToProcess);
+		//One Tick has passed
+		if ((currentTick != myEnvironment.getTicks()) && (currentTickLogNode != null)){
+			myLogHandler.writeLog(LogNodeHelper.narrow(OrbUtils.poaToCorbaObj(currentTickLogNode)));
+		}
+		if (currentTick != myEnvironment.getTicks()){
+			currentTickLogNode = new LogNodeImpl("biosim");
+			LogNode tickLabel = currentTickLogNode.addChild("tick");
+			tickLabel.addChild(""+myEnvironment.getTicks() - 1);
+			currentTick = myEnvironment.getTicks();
+		}
+		currentTickLogNode.addChild(logToAdd);
 	}
 }

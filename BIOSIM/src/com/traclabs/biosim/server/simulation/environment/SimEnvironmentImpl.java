@@ -314,6 +314,8 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();
+			LogNode tickHead = myLog.addChild("ticks");
+			myLogIndex.tickIndex = tickHead.addChild(""+ticks);
 			LogNode O2LevelHead = myLog.addChild("O2 Level");
 			myLogIndex.O2LevelIndex = O2LevelHead.addChild(""+O2Level);
 			LogNode CO2LevelHead = myLog.addChild("CO2 Level");
@@ -327,6 +329,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 			logInitialized = true;
 		}
 		else{
+			myLogIndex.tickIndex.setValue(""+ticks);
 			myLogIndex.O2LevelIndex.setValue(""+O2Level);
 			myLogIndex.CO2LevelIndex.setValue(""+CO2Level);
 			myLogIndex.otherLevelIndex.setValue(""+otherLevel);
@@ -340,6 +343,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	* For fast reference to the log tree
 	*/
 	private class LogIndex{
+		public LogNode tickIndex;
 		public LogNode O2LevelIndex;
 		public LogNode CO2LevelIndex;
 		public LogNode otherLevelIndex;
