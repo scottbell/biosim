@@ -35,7 +35,7 @@ import com.traclabs.biosim.client.framework.gui.BioFrame;
 
 /**
  * A window that displays a toolbar, a connected graph editing pane, and a
- * status bar.
+ * status bar.  Creates an xml file to initialize BioSim.
  */
 
 public class BiosimEditor extends BioFrame implements IStatusBar {
