@@ -39,8 +39,16 @@ public class SimpleBuffer {
 	* Sets the capacity of the store (how much it can hold)
 	* @param metricAmount the new volume of the store
 	*/
-	public void setCapacity(float metricAmount){
-		capacity = initialCapacity = metricAmount;
+	public void setCapacity(float newCapacity){
+		if (newCapacity <= 0){
+			System.out.println("SimpleBuffer: told to change capacity to 0");
+			newCapacity = Float.MIN_VALUE;
+		}
+		float percentage = level / capacity;
+		System.out.print("SimpleBuffer: level = "+level+", capacity = "+capacity+" percentage = "+percentage);
+		capacity = newCapacity;
+		level = percentage * newCapacity;
+		System.out.println(", newCapacity = "+newCapacity+", newLevel = "+level);
 	}
 
 	/**
@@ -48,7 +56,7 @@ public class SimpleBuffer {
 	* @param metricAmount the level to set the store to
 	*/
 	public void setLevel(float metricAmount){
-		level = initialLevel = metricAmount;
+		level = Math.min(metricAmount, capacity);
 	}
 
 	/**
