@@ -4,11 +4,11 @@ import java.awt.*;
 import biosim.idl.simulation.crew.*;
 import biosim.client.framework.gui.*;
 import biosim.client.util.*;
-import com.jrefinery.chart.*;
-import com.jrefinery.data.*;
-import com.jrefinery.chart.axis.*;
-import com.jrefinery.chart.plot.*;
-import com.jrefinery.chart.renderer.*;
+import org.jfree.chart.*;
+import org.jfree.data.*;
+import org.jfree.chart.axis.*;
+import org.jfree.chart.plot.*;
+import org.jfree.chart.renderer.*;
 
 /**
  * This is the JPanel that displays a chart about the Crew and food
@@ -24,11 +24,11 @@ public class CrewFoodChartPanel extends GraphPanel
 		// create the chart...
 		myCrewGroup = (CrewGroup)(BioHolder.getBioModule(BioHolder.crewName));
 		refresh();
-		JFreeChart myChart = ChartFactory.createVerticalBarChart3D(
+		JFreeChart myChart = ChartFactory.createBarChart3D(
 		                  "Food Consumption",  // chart title
 		                  "",              // domain axis label
 		                  "Kilograms",                 // range axis label
-		                  myDataset,                 // data
+		                  myDataset, PlotOrientation.VERTICAL,                // data
 		                  true,                     // include legend
 				  true,
 				  false
@@ -38,7 +38,7 @@ public class CrewFoodChartPanel extends GraphPanel
 		ValueAxis rangeAxis = myPlot.getRangeAxis();
 		rangeAxis.setAutoRange(false);
 		rangeAxis.setRange(0.0, .5);
-		Renderer renderer = myPlot.getRenderer();
+		CategoryItemRenderer renderer = myPlot.getRenderer();
 		renderer.setSeriesPaint(0, new Color(10,204,102));
 		TextTitle myTextTitle = (TextTitle)(myChart.getTitle());
 		myTextTitle.setFont(myTextTitle.getFont().deriveFont(13.0f));

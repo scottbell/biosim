@@ -78,5 +78,3 @@ class SpreadSheetModel extends AbstractTableModel {
 	}
 
 }
-
-

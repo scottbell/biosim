@@ -5,10 +5,10 @@ import javax.swing.*;
 import biosim.idl.simulation.crew.*;
 import biosim.client.framework.gui.*;
 import biosim.client.util.*;
-import com.jrefinery.chart.*;
-import com.jrefinery.data.*;
-import com.jrefinery.chart.axis.*;
-import com.jrefinery.chart.plot.*;
+import org.jfree.chart.*;
+import org.jfree.data.*;
+import org.jfree.chart.axis.*;
+import org.jfree.chart.plot.*;
 
 /**
  * This is the JPanel that displays a chart about the crew and intensity levels
@@ -51,11 +51,11 @@ public class CrewIntensityChartPanel extends GraphPanel
 		for (int i = 0; i < myCrewPeople.length; i ++){
 			myDataset.addValue(myCrewPeople[i].getCurrentActivity().getActivityIntensity(),myCrewPeople[i].getName(), "");
 		}
-		JFreeChart myChart = ChartFactory.createVerticalBarChart3D(
+		JFreeChart myChart = ChartFactory.createBarChart3D(
 		                  "Crew Activity Intensities",  // chart title
 		                  "",              // domain axis label
 		                  "Intensity",                 // range axis label
-		                  myDataset,                 // data
+		                  myDataset, PlotOrientation.VERTICAL,                // data
 		                  true,                     // include legend
 				  true,
 				  false

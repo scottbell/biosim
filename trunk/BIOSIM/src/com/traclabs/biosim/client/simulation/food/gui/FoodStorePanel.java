@@ -4,11 +4,11 @@ import java.awt.*;
 import biosim.idl.simulation.food.*;
 import biosim.client.framework.gui.*;
 import biosim.client.util.*;
-import com.jrefinery.chart.*;
-import com.jrefinery.data.*;
-import com.jrefinery.chart.axis.*;
-import com.jrefinery.chart.plot.*;
-import com.jrefinery.chart.renderer.*;
+import org.jfree.chart.*;
+import org.jfree.data.*;
+import org.jfree.chart.axis.*;
+import org.jfree.chart.plot.*;
+import org.jfree.chart.renderer.*;
 
 /**
  * This is the JPanel that displays a chart about the Food/Biomass Stores
@@ -27,11 +27,11 @@ public class FoodStorePanel extends GraphPanel
 		myFoodStore = (FoodStore)(BioHolder.getBioModule(BioHolder.foodStoreName));
 		myBiomassStore = (BiomassStore)(BioHolder.getBioModule(BioHolder.biomassStoreName));
 		refresh();
-		JFreeChart myChart = ChartFactory.createVerticalBarChart3D(
+		JFreeChart myChart = ChartFactory.createBarChart3D(
 		                  "Food Store Levels",  // chart title
 		                  "Stores",              // domain axis label
 		                  "Level (kg)",                 // range axis label
-		                  myDataset,                 // data
+		                  myDataset, PlotOrientation.VERTICAL,                // data
 		                  true,                     // include legend
 				  true,
 				  false
@@ -41,7 +41,7 @@ public class FoodStorePanel extends GraphPanel
 		rangeAxis = myPlot.getRangeAxis();
 		rangeAxis.setAutoRange(false);
 		rangeAxis.setRange(0.0, myFoodStore.getCapacity());
-		Renderer renderer = myPlot.getRenderer();
+		CategoryItemRenderer renderer = myPlot.getRenderer();
 		renderer.setSeriesPaint(0, new Color(51,153,51));
 		renderer.setSeriesPaint(1, new Color(204,204,0));
 		TextTitle myTextTitle = (TextTitle)(myChart.getTitle());

@@ -4,11 +4,11 @@ import biosim.idl.simulation.air.*;
 import biosim.client.framework.gui.*;
 import biosim.client.util.*;
 import java.awt.*;
-import com.jrefinery.chart.*;
-import com.jrefinery.data.*;
-import com.jrefinery.chart.axis.*;
-import com.jrefinery.chart.plot.*;
-import com.jrefinery.chart.renderer.*;
+import org.jfree.chart.*;
+import org.jfree.data.*;
+import org.jfree.chart.axis.*;
+import org.jfree.chart.plot.*;
+import org.jfree.chart.renderer.*;
 
 /**
  * This is the JPanel that displays a chart about the Air Stores
@@ -29,11 +29,11 @@ public class AirStorePanel extends GraphPanel
 		myCO2Store = (CO2Store)(BioHolder.getBioModule(BioHolder.CO2StoreName));
 		myH2Store = (H2Store)(BioHolder.getBioModule(BioHolder.H2StoreName));
 		refresh();
-		JFreeChart myChart = ChartFactory.createVerticalBarChart3D(
+		JFreeChart myChart = ChartFactory.createBarChart3D(
 		                  "Gas Store Levels",  // chart title
 		                  "Stores",              // domain axis label
 		                  "Gas Level (L)",                 // range axis label
-		                  myDataset,                 // data
+		                  myDataset, PlotOrientation.VERTICAL,                 // data
 		                  true,                     // include legend
 				  true, //tooltips cool
 				  false
@@ -43,7 +43,7 @@ public class AirStorePanel extends GraphPanel
 		rangeAxis = myPlot.getRangeAxis();
 		rangeAxis.setAutoRange(false);
 		rangeAxis.setRange(0.0, myO2Store.getCapacity());
-		Renderer renderer = myPlot.getRenderer();
+		CategoryItemRenderer renderer = myPlot.getRenderer();
 		renderer.setSeriesPaint(0, Color.BLUE);
 		renderer.setSeriesPaint(1, Color.GREEN);
 		renderer.setSeriesPaint(2, Color.ORANGE);

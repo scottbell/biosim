@@ -304,3 +304,5 @@ public class MalfunctionPanel extends TimedPanel
 		}
 	}
 }
+
+

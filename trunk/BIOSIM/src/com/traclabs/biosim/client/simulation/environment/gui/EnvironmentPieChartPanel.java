@@ -4,11 +4,11 @@ import java.awt.*;
 import biosim.idl.simulation.environment.*;
 import biosim.client.framework.gui.*;
 import biosim.client.util.*;
-import com.jrefinery.chart.*;
-import com.jrefinery.data.*;
-import com.jrefinery.chart.axis.*;
-import com.jrefinery.chart.plot.*;
-import com.jrefinery.chart.renderer.*;
+import org.jfree.chart.*;
+import org.jfree.data.*;
+import org.jfree.chart.axis.*;
+import org.jfree.chart.plot.*;
+import org.jfree.chart.renderer.*;
 
 /**
  * This is the JPanel that displays a chart about the Environment
