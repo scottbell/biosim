@@ -5,6 +5,7 @@ import biosim.idl.actuator.framework.*;
 
 public abstract class GenericActuatorImpl extends BioModuleImpl implements GenericActuatorOperations{
 	protected float myValue;
+	protected boolean newValue = false;
 	
 	public GenericActuatorImpl(int pID){
 		super(pID);
@@ -12,10 +13,18 @@ public abstract class GenericActuatorImpl extends BioModuleImpl implements Gener
 	
 	public void setValue(float pValue){
 		myValue = pValue;
+		newValue = true;
+	}
+	
+	public float getValue(){
+		return myValue;
 	}
 	
 	public void tick(){
-		processData();
+		if (newValue){
+			processData();
+			newValue = false;
+		}
 	}
 	
 	protected abstract void processData();
