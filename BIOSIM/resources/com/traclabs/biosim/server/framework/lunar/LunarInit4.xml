@@ -213,6 +213,7 @@
 			<DryWasteStore name="EVADryWasteStore" capacity="2" level="0"/>
 		</waste>
 	</SimBioModules>
+	
 	<Sensors>
 		<air>
 			<CO2StoreLevelSensor input="BaseCO2Store" name="BaseCO2StoreLevelSensor"/>
@@ -225,9 +226,16 @@
 			<WaterAirConcentrationSensor input="BaseCrewEnvironment" name="BaseCrewEnvironmentWaterAirConcentrationSensor"/>
 		</environment>
 		<food>
+			<BiomassInFlowRateSensor index="0" input="FoodProcessor" name="FoodProcessorBiomassInFlowRateSensor"/>
+			<BiomassStoreLevelSensor input="BaseBiomassStore" name="BaseBiomassStoreLevelSensor"/>
 			<FoodStoreLevelSensor input="BaseFoodStore" name="BaseFoodStoreLevelSensor"/>
 		</food>
+		<framework>
+			<StoreOverflowSensor input="BaseO2Store" name="BaseO2StoreOverflowSensor"/>
+			<StoreOverflowSensor input="BaseCO2Store" name="BaseCO2StoreOverflowSensor"/>
+		</framework>
 		<power>
+			<PowerInFlowRateSensor index="0" input="FoodProcessor" name="FoodProcessorPowerInFlowRateSensor"/>
 			<PowerStoreLevelSensor input="BasePowerStore" name="BasePowerStoreLevelSensor"/>
 		</power>
 		<water>
@@ -245,12 +253,19 @@
 			<O2AirEnvironmentOutFlowRateActuator index="0" output="BaseInjector" name="BaseInjectorO2AirEnvironmentOutFlowRateActuator"/>
 			<O2AirStoreInFlowRateActuator index="0" output="BaseInjector" name="BaseInjectorO2AirStoreInFlowRateActuator"/>
 		</environment>
+		<food>
+			<BiomassInFlowRateActuator index="0" output="FoodProcessor" name="FoodProcessorBiomassInFlowRateActuator"/>
+			<HarvestingActuator output="BaseBiomassRS" name="BaseBiomassRSHarvestingActuator" shelfIndex="0"/>
+			<PlantingActuator output="BaseBiomassRS" name="BaseBiomassRSPlantingActuator" shelfIndex="0"/>
+		</food>
 		<power>
+			<PowerInFlowRateActuator index="0" output="FoodProcessor" name="FoodProcessorPowerInFlowRateActuator"/>
 			<PowerInFlowRateActuator index="0" output="BaseOGS" name="BaseOGSPowerInFlowRateActuator"/>
 			<PowerInFlowRateActuator index="0" output="CrewWaterRS" name="CrewWaterRSPowerInFlowRateActuator"/>
 		</power>
 		<water>
 			<DirtyWaterInFlowRateActuator index="0" output="CrewWaterRS" name="CrewWaterRSDirtyWaterInFlowRateActuator"/>
+			<GreyWaterInFlowRateActuator index="0" output="BaseBiomassRS" name="BaseBiomassRSGreyWaterInFlowRateActuator"/>
 			<GreyWaterInFlowRateActuator index="0" output="CrewWaterRS" name="CrewWaterRSGreyWaterInFlowRateActuator"/>
 			<PotableWaterInFlowRateActuator index="0" output="BaseOGS" name="BaseOGSPotableWaterInFlowRateActuator"/>
 			<PotableWaterOutFlowRateActuator index="0" output="CrewWaterRS" name="BaseOGSPotableWaterOutFlowRateActuator"/>
