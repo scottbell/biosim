@@ -232,21 +232,19 @@ public class BioHolderInitializer {
     }
 
     public static void setID(int pID) {
+        if (myID == pID)
+            return;
         myID = pID;
-        if (initialized) {
-            myBioHolder.reset();
-            parseFile();
-        } else
-            initialize();
+        initialized = false;
+        initialize();
     }
 
     public static void setFile(String pFilename) {
+        if (xmlLocation.equals(pFilename))
+            return;
         xmlLocation = pFilename;
-        if (initialized) {
-            myBioHolder.reset();
-            parseFile();
-        } else
-            initialize();
+        initialized = false;
+        initialize();
     }
 
     /** Traverses the specified node, recursively. */
