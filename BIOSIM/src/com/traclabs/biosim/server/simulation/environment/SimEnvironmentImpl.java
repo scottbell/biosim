@@ -17,7 +17,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	private float O2Level = 0f;
 	//The current amount of CO2 in the environment (in liters)
 	private float CO2Level = 0f;
-	//The current amount of other gasses in the environment (in liters) 
+	//The current amount of other gasses in the environment (in liters)
 	private float otherLevel = 0f;
 	private float oldO2Level = 0f;
 	private float oldCO2Level = 0f;
@@ -35,7 +35,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	private float leakRate = 0.0f;
 	private String myName;
 	private LogIndex myLogIndex;
-	
+
 	/**
 	* Creates a SimEnvironment (with a capacity of 100 liters) and resets the gas levels to correct percantages of sea level air
 	*/
@@ -44,7 +44,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 		myName = pName;
 		reset();
 	}
-	
+
 	/**
 	* Creates a SimEnvironment with a set initial capacity and resets the gas levels to correct percantages of sea level air
 	* @param initialCapacity the initial capacity of the environment in liters
@@ -55,7 +55,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 		myName = pName;
 		reset();
 	}
-	
+
 	/**
 	* Creates a SimEnvironment with a set initial capacity and gas levels to correct percantages of sea level air
 	* @param initialCO2Level the initial capacity of the CO2 (in liters) in the environment
@@ -71,7 +71,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 		otherLevel = oldOtherLevel = initialOtherLevel;
 		capacity = oldCapacity = initialCapacity;
 	}
-	
+
 	/**
 	* Resets the ticks to 0 and the gas levels to correct percantages of sea level air
 	*/
@@ -79,7 +79,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 		ticks = 0;
 		resetLevels();
 	}
-	
+
 	/**
 	* Gives the light intensity outside
 	* @return the light intensity in lumens
@@ -87,7 +87,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	public float getLightIntensity(){
 		return lightIntensity;
 	}
-	
+
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
 		StringBuffer returnBuffer = new StringBuffer();
 		if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
@@ -102,7 +102,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 			returnBuffer.append("Capacity Reduction");
 		return returnBuffer.toString();
 	}
-	
+
 	/**
 	* Resets the gas levels to correct percantages of sea level air
 	*/
@@ -111,7 +111,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 		otherLevel = oldOtherLevel = (new Double(capacity * 0.786)).floatValue();
 		CO2Level = oldCO2Level = (new Double(capacity * 0.004)).floatValue();
 	}
-	
+
 	/**
 	* Gets the number of ticks that have occured during this simulation run
 	* @return the number of ticks that have occured during this simulation run 
@@ -119,7 +119,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	public int getTicks(){
 		return ticks;
 	}
-	
+
 	/**
 	* Sets the CO2 level in the air to a set amount
 	* @param litersRequested the amount of CO2 (in liters) to be in the air
@@ -127,7 +127,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	public void setCO2Level(float litersRequested){
 		CO2Level = litersRequested;
 	}
-	
+
 	/**
 	* Sets the O2 level in the air to a set amount
 	* @param litersRequested the amount of O2 (in liters) to be in the air
@@ -135,7 +135,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	public void setO2Level(float litersRequested){
 		O2Level = litersRequested;
 	}
-	
+
 	/**
 	* Sets the other gasses level in the air to a set amount
 	* @param litersRequested the amount of other gasses (in liters) to be in the air
@@ -143,7 +143,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	public void setOtherLevel(float litersRequested){
 		otherLevel = litersRequested;
 	}
-	
+
 	/**
 	* Sets the capacity of the environment (how much gas it can hold)
 	* @param litersRequested the new volume of the environment (in liters)
@@ -153,7 +153,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 		capacity = litersRequested;
 		resetLevels();
 	}
-	
+
 	/**
 	* Retrieves the the total level of gas in the environment (in liters)
 	* @return retrieves the the total level of gas in the environment (in liters)
@@ -161,7 +161,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	public float getTotalLevel(){
 		return CO2Level + O2Level + otherLevel;
 	}
-	
+
 	/**
 	* Sets every gas level (O2, CO2, other) to one value
 	* @param litersRequested the amount (in liters) to set all the gas levels to
@@ -171,7 +171,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 		O2Level = litersRequested;
 		otherLevel = litersRequested;
 	}
-	
+
 	/**
 	* Retrieves the other gasses level (in liters)
 	* @return the other gasses level (in liters)
@@ -179,7 +179,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	public float getOtherLevel(){
 		return oldOtherLevel;
 	}
-	
+
 	/**
 	* Retrieves the O2 level (in liters)
 	* @return the O2 level (in liters)
@@ -187,7 +187,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	public float getO2Level(){
 		return oldO2Level;
 	}
-	
+
 	/**
 	* Retrieves the CO2 level (in liters)
 	* @return the CO2 level (in liters)
@@ -195,7 +195,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	public float getCO2Level(){
 		return oldCO2Level;
 	}
-	
+
 	/**
 	* Attempts to add CO2 to the environment.  If the total gas level is near capacity, it will only up to capacity
 	* @param litersRequested the amount of CO2 (in liters) wanted to add to the environment
@@ -215,7 +215,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 			return acutallyAdded;
 		}
 	}
-	
+
 	/**
 	* Attempts to add O2 to the environment.  If the total gas level is near capacity, it will only up to capacity
 	* @param litersRequested the amount of O2 (in liters) wanted to add to the environment
@@ -235,7 +235,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 			return acutallyAdded;
 		}
 	}
-	
+
 	/**
 	* Attempts to add other gasses to the environment.  If the total gas level is near capacity, it will only up to capacity
 	* @param litersRequested the amount of other gasses (in liters) wanted to add to the environment
@@ -255,11 +255,68 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 			return acutallyAdded;
 		}
 	}
-	
+
+	public float takeO2(float amountRequested){
+		//idiot check
+		if (amountRequested < 0){
+			return 0f;
+		}
+		float takenAmount;
+		//asking for more stuff than exists
+		if (amountRequested > O2Level){
+			takenAmount = randomFilter(O2Level);
+			O2Level = 0;
+		}
+		//stuff exists for request
+		else{
+			takenAmount = randomFilter(amountRequested);
+			O2Level -= takenAmount;
+		}
+		return takenAmount;
+	}
+
+	public float takeCO2(float amountRequested){
+		//idiot check
+		if (amountRequested < 0){
+			return 0f;
+		}
+		float takenAmount;
+		//asking for more stuff than exists
+		if (amountRequested > CO2Level){
+			takenAmount = randomFilter(CO2Level);
+			CO2Level = 0;
+		}
+		//stuff exists for request
+		else{
+			takenAmount = randomFilter(amountRequested);
+			CO2Level -= takenAmount;
+		}
+		return takenAmount;
+	}
+
+	public float takeOther(float amountRequested){
+		//idiot check
+		if (amountRequested < 0){
+			return 0f;
+		}
+		float takenAmount;
+		//asking for more stuff than exists
+		if (amountRequested > otherLevel){
+			takenAmount = randomFilter(otherLevel);
+			otherLevel = 0;
+		}
+		//stuff exists for request
+		else{
+			takenAmount = randomFilter(amountRequested);
+			otherLevel -= takenAmount;
+		}
+		return takenAmount;
+	}
+
 	public Breath addBreath(Breath pBreath){
 		return new Breath( addO2(pBreath.O2), addCO2(pBreath.CO2), addOther(pBreath.other));
 	}
-	
+
 	/**
 	* Attemps to return a breath of air given a needed amount of O2 (in liters)
 	* @param litersO2Requested the amount of O2 (in liters) wanted in this breath
@@ -290,7 +347,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 			return new Breath(takenO2, takenCO2, takenOther);
 		}
 	}
-	
+
 	public Breath takeVolume(float litersRequested){
 		//idiot check
 		if (litersRequested <= 0){
@@ -314,9 +371,9 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 			otherLevel -= takenOther;
 			return new Breath(takenO2, takenCO2, takenOther);
 		}
-		
+
 	}
-	
+
 	private void performMalfunctions(){
 		for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); ){
 			Malfunction currentMalfunction = (Malfunction)(iter.next());
@@ -362,7 +419,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 			}
 		}
 	}
-	
+
 	/**
 	* Attemps to return a breath of air given a needed amount of CO2 (in liters)
 	* @param litersCO2Requested the amount of CO2 (in liters) wanted in this breath
@@ -393,11 +450,11 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 			return new Breath(takenO2, takenCO2, takenOther);
 		}
 	}
-	
+
 	private void calculateLightIntensity(){
 		lightIntensity = new Double(MAXIMUM_LUMENS*(Math.sin(2*Math.PI*(ticks-STARTING_HOUR)/DAY_LENGTH) + 1)).floatValue();
 	}
-	
+
 	/**
 	* Processes a tick by adding to the tick counter
 	*/
@@ -413,7 +470,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 		if (isMalfunctioning())
 			performMalfunctions();
 	}
-	
+
 	/**
 	* Returns the name of this module (SimEnvironment)
 	* @return the name of this module
@@ -421,7 +478,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	public String getModuleName(){
 		return myName+getID();
 	}
-	
+
 	private void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
@@ -447,7 +504,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 		}
 		sendLog(myLog);
 	}
-	
+
 	/**
 	* For fast reference to the log tree
 	*/

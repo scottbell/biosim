@@ -227,7 +227,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	
 	public static float getMaxResourceFromStore(Store[] pStores, float[] pFlowRates){
 		float gatheredResource = 0f;
-		for (int i = 0; (i < pStores.length); i++){
+		for (int i = 0; i < pStores.length; i++){
 			gatheredResource += pStores[i].take(pFlowRates[i]);
 		}
 		return gatheredResource;
