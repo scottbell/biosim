@@ -27,6 +27,7 @@ public class SimDesktop extends BioFrame
 
 	//GUI Componenets
 	private JDesktopPane myDesktop;
+	private SimDesktopManager mySimDesktopManager;
 	private JToolBar myToolBar;
 	private JButton myStartSimButton;
 	private JButton myPauseSimButton;
@@ -47,6 +48,7 @@ public class SimDesktop extends BioFrame
 	private JMenu myHelpMenu;
 	private JMenuItem myAboutItem;
 	private JMenu myControlMenu;
+	private JMenu myWindowMenu;
 	private JMenuItem myStartSimItem;
 	private JMenuItem myPauseSimItem;
 	private JMenuItem myAdvanceSimItem;
@@ -57,7 +59,9 @@ public class SimDesktop extends BioFrame
 	private JMenuItem myShowWaterDisplayItem;
 	private JMenuItem myShowPowerDisplayItem;
 	private JMenuItem myShowCrewDisplayItem;
-
+	private JMenuItem myTileItem;
+	private JMenuItem myStackItem;
+	
 	//Various actions attributed to Buttons/MenuItems
 	private Action myStartAction;
 	private Action myPauseAction;
@@ -73,6 +77,8 @@ public class SimDesktop extends BioFrame
 	private Action myLoggingAction;
 	private Action myQuitAction;
 	private Action myRefreshGuiAction;
+	private Action myTileAction;
+	private Action myStackAction;
 
 	//Various icons used to display buttons
 	private ImageIcon waterIcon;
@@ -88,12 +94,11 @@ public class SimDesktop extends BioFrame
 	private ImageIcon pauseIcon;
 	private ImageIcon forwardIcon;
 	private ImageIcon biosimIcon;
-	
+
 	private javax.swing.Timer myRefreshGuiTimer;
 	private final static int TIMER_DELAY=500;
 
-	//A hashtable containing each client panel (water, food, air, etc)
-	private Hashtable myPanels;
+	private Hashtable myFrames;
 	//Count of how many frames are opened.  Used to stagger windows
 	private int openFrameCount = 0;
 	//Integers dictating how much the windows should be staggered.
@@ -104,7 +109,7 @@ public class SimDesktop extends BioFrame
 	*/
 	public SimDesktop(){
 		myDriver = BioHolder.getBioDriver();
-		myPanels = new Hashtable();
+		myFrames = new Hashtable();
 		buildGUI();
 	}
 
@@ -113,6 +118,8 @@ public class SimDesktop extends BioFrame
 	*/
 	private void buildGUI(){
 		myDesktop = new JDesktopPane();
+		mySimDesktopManager = new SimDesktopManager(this);
+		myDesktop.setDesktopManager(mySimDesktopManager);
 		loadIcons();
 		myStartAction = new StartSimulationAction("Start");
 		myPauseAction = new PauseSimulationAction("Pause");
@@ -127,6 +134,8 @@ public class SimDesktop extends BioFrame
 		myShowFoodDisplayAction = new ShowFoodDisplayAction("Show Food");
 		myShowPowerDisplayAction = new ShowPowerDisplayAction("Show Power");
 		myLoggingAction = new LoggingAction("Enable Logging");
+		myTileAction = new TileAction("Tile");
+		myStackAction = new StackAction("Stack");
 
 		myMenuBar = new JMenuBar();
 		myFileMenu = new JMenu("File");
@@ -159,10 +168,14 @@ public class SimDesktop extends BioFrame
 		myAdvanceSimItem.setMnemonic(KeyEvent.VK_O);
 		myPauseSimItem = myControlMenu.add(myPauseAction);
 		myPauseSimItem.setMnemonic(KeyEvent.VK_U);
+		myWindowMenu = new JMenu("Window");
+		myStackItem = myWindowMenu.add(myStackAction);
+		myTileItem = myWindowMenu.add(myTileAction);
 		myHelpMenu = new JMenu("Help");
 		myAboutItem = myHelpMenu.add(myAboutAction);
 		myMenuBar.add(myFileMenu);
 		myMenuBar.add(myControlMenu);
+		myMenuBar.add(myWindowMenu);
 		myMenuBar.add(myHelpMenu);
 		setJMenuBar(myMenuBar);
 
@@ -241,28 +254,12 @@ public class SimDesktop extends BioFrame
 			pauseIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/pause.gif"));
 			forwardIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/forward.gif"));
 			biosimIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/biosim.gif"));
-		
+
 		}
 		catch (Exception e){
 			System.out.println("Couldn't find icon ("+e+"), skipping");
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	* Returns a selected SimFrame (an internal frame) that contains the panel passed into it
-	* @return the parent frame requested, null if not found
-	* @param thePanel the panel who's parent frame is needed
-	*/
-	private SimDesktopFrame getSimFrame(JPanel thePanel){
-		Container theContainer = thePanel.getParent();
-		while (theContainer != null){
-			if (theContainer instanceof SimDesktopFrame)
-				return ((SimDesktopFrame)(theContainer));
-			else
-				theContainer = theContainer.getParent();
-		}
-		return null;
 	}
 
 	/**
@@ -288,15 +285,12 @@ public class SimDesktop extends BioFrame
 	}
 
 	private boolean tryExisitingInternalFrame(String title){
-		JPanel existingPanel = (JPanel)(myPanels.get(title));
-		if (existingPanel != null){
-			SimDesktopFrame existingFrame = getSimFrame(existingPanel);
-			if (existingFrame != null){
-				existingFrame.pack();
-				existingFrame.moveToFront();
-				existingFrame.setVisible(true);
-				return true;
-			}
+		SimDesktopFrame existingFrame = (SimDesktopFrame)(myFrames.get(title));
+		if (existingFrame != null){
+			existingFrame.pack();
+			existingFrame.moveToFront();
+			existingFrame.setVisible(true);
+			return true;
 		}
 		return false;
 	}
@@ -319,7 +313,7 @@ public class SimDesktop extends BioFrame
 		newFrame.setLocation(xOffset * openFrameCount, yOffset * openFrameCount);
 		newFrame.moveToFront();
 		newFrame.setVisible(true);
-		myPanels.put(title, newPanel);
+		myFrames.put(title, newFrame);
 	}
 
 	/**
@@ -492,6 +486,14 @@ public class SimDesktop extends BioFrame
 			addInternalFrame("Water",new WaterPanel());
 	}
 
+	protected Hashtable getInternalFrames(){
+		return myFrames;
+	}
+
+	protected JDesktopPane getDesktopPane(){
+		return myDesktop;
+	}
+
 	/**
 	*  Action that displays all the panels with internal frames inside this desktop.
 	*/
@@ -605,6 +607,34 @@ public class SimDesktop extends BioFrame
 		public void actionPerformed(ActionEvent ae){
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			frameClosing();
+			setCursor(Cursor.getDefaultCursor());
+		}
+	}
+
+	/**
+	* Action that auto-arranges internal menus
+	*/
+	private class TileAction extends AbstractAction{
+		public TileAction(String name){
+			super(name);
+		}
+		public void actionPerformed(ActionEvent ae){
+			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			mySimDesktopManager.tileWindows();
+			setCursor(Cursor.getDefaultCursor());
+		}
+	}
+	
+	/**
+	* Action that auto-arranges internal menus
+	*/
+	private class StackAction extends AbstractAction{
+		public StackAction(String name){
+			super(name);
+		}
+		public void actionPerformed(ActionEvent ae){
+			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			mySimDesktopManager.stackWindows();
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}
