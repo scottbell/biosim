@@ -152,6 +152,10 @@ public class ShelfImpl extends ShelfPOA {
 	public boolean isDead(){
 		return myCrop.isDead();
 	}
+	
+	public float getHarvestInterval(){
+		return myCrop.getTimeAtCropMaturity();
+	}
 
 	private void tryHarvesting(){
 		if (myBiomassRSImpl.autoHarvestAndReplantEnabled()){

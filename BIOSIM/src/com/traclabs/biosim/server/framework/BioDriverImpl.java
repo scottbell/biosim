@@ -292,6 +292,7 @@ public class BioDriverImpl extends BioDriverPOA{
 		if (runTillCrewDeath){
 			for (int i = 0; i < crewsToWatch.length; i++){
 				if (crewsToWatch[i].isDead()){
+					//System.out.println("BioDriverImpl"+myID+": simulation ended due to crew death at "+nTicks);
 					return true;
 				}
 			}
@@ -300,8 +301,10 @@ public class BioDriverImpl extends BioDriverPOA{
 			for (int i = 0; i < plantsToWatch.length; i++){
 				Shelf[] shelves = plantsToWatch[i].getShelves();
 				for (int j = 0; j < shelves.length; j++){
-					if (shelves[j].isDead())
+					if (shelves[j].isDead()){
+						//System.out.println("BioDriverImpl"+myID+": simulation ended due to plant death at "+nTicks);
 						return true;
+					}
 				}
 			}
 		}
@@ -494,7 +497,7 @@ public class BioDriverImpl extends BioDriverPOA{
 			System.err.println("BioDriverImpl"+myID+": Tick called when simulation wasn't started!");
 			return;
 		}
-		System.out.println("BioDriveImpl: begin Tick");
+		//System.out.println("BioDriveImpl: begin Tick");
 		//Iterate through the actuators and tick them
 		for (int i = 0; i < actuators.length; i++){
 			BioModule currentBioModule = (BioModule)(actuators[i]);
