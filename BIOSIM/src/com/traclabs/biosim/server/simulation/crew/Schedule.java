@@ -28,7 +28,7 @@ public class Schedule{
 	//Each activity hashed by their order
 	private Hashtable scheduleOrderHash;
 	//The file where the schedule resides (known if using default)
-	File myScheduleFile;
+	URL myScheduleURL;
 	//Whether the schedule is using the default schedule (no schedule was specified by user)
 	private boolean defaultSchedule = false;
 	//The number of activities in the Schedule
@@ -46,8 +46,8 @@ public class Schedule{
 	* Constructor that creates a new schedule with a specified file.
 	* @param pScheduleFile the file that contains the schedule
 	*/
-	public Schedule(File pScheduleFile){
-		myScheduleFile = pScheduleFile;
+	public Schedule(URL pScheduleURL){
+		myScheduleURL = pScheduleURL;
 		reset();
 	}
 	
@@ -99,23 +99,18 @@ public class Schedule{
 				System.out.println("Had problems finding default Schedule!");
 				return;
 			}
-			try{
-				myScheduleFile = new File(new URI(defaultURL.toString()));
-				parseSchedule(myScheduleFile);
-			}
-			catch(java.net.URISyntaxException e){
-				System.out.println("Problem finding default Schedule: "+e);
-			}
+			myScheduleURL = defaultURL;
+			parseSchedule(myScheduleURL);
 		}
 		else{
-			parseSchedule(myScheduleFile);
+			parseSchedule(myScheduleURL);
 		}
 	}
 
 	/**
 	* Parses the schedule file (user specified or default) and places the activities in the hashtables
 	*/
-	private void parseSchedule(File scheduleFile){
+	private void parseSchedule(URL scheduleURL){
 		//Add 2 defaults..
 		ActivityImpl bornActivity = new ActivityImpl("born", 0, 0, 0);
 		ActivityImpl deadActivity = new ActivityImpl("dead", 0, 0, -1);
@@ -124,7 +119,7 @@ public class Schedule{
 		scheduleNameHash.put("dead", deadActivity);
 		scheduleOrderHash.put(new Integer(-1), deadActivity);
 		try{
-			BufferedReader inputReader = new BufferedReader(new FileReader(scheduleFile));
+			BufferedReader inputReader = new BufferedReader(new InputStreamReader(scheduleURL.openStream()));
 			String currentLine = inputReader.readLine().trim();
 			int itemsRead = 1;
 			while ((currentLine != null) && (!(currentLine.equals("#DayEnd")))){
@@ -145,13 +140,13 @@ public class Schedule{
 					currentLine = inputReader.readLine().trim();
 				}
 				catch(java.util.NoSuchElementException e){
-					System.out.println("Problem parsing line "+itemsRead+" in "+scheduleFile+": "+currentLine);
+					System.out.println("Problem parsing line "+itemsRead+" in "+scheduleURL+": "+currentLine);
 				}
 			}
 			numberOfActivities = itemsRead;
 		}
 		catch (IOException e){
-			System.out.println("Had problems parsing schedule file "+scheduleFile+" with exception: "+e);
+			System.out.println("Had problems parsing schedule file "+scheduleURL+" with exception: "+e);
 		}
 	}
 }
