@@ -875,8 +875,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			//so 7.5 slpm for all flow rates
 			// (7.5 liters O2 / min)(1000 grams/liters)(1 mole O2/ 31.9988 grams O2)(60 min/ hour)
 			// 7.5 O2 slpm == 14063.0 moles per hour
-			float[] O2AirInputMaxFlowRates = {.01f};
-			float[] O2AirOutputMaxFlowRates = {.01f};
+			float[] O2AirInputMaxFlowRates = {50f};
+			float[] O2AirOutputMaxFlowRates = {50f};
 			float[] O2AirInputDesiredFlowRates = {.01f};
 			float[] O2AirOutputDesiredFlowRates = {.01f};
 			Accumulator myAccumulator = AccumulatorHelper.narrow(getBioModule(myAccumulatorName));
@@ -888,8 +888,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			// 7.5 CO2 slpm == 11247.2 moles per hour
 			SimEnvironment[] CO2AirInput = {myCrewEnvironment};
 			CO2Store[] CO2AirOutput = {myCO2Store};
-			float[] CO2AirInputMaxFlowRates = {.01f};
-			float[] CO2AirOutputMaxFlowRates = {.01f};
+			float[] CO2AirInputMaxFlowRates = {50f};
+			float[] CO2AirOutputMaxFlowRates = {50f};
 			float[] CO2AirInputDesiredFlowRates = {.01f};
 			float[] CO2AirOutputDesiredFlowRates = {.01f};
 			myAccumulator.setCO2AirEnvironmentInputs(CO2AirInput, CO2AirInputMaxFlowRates, CO2AirInputDesiredFlowRates);
@@ -905,8 +905,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			//so 7.5 slpm for all flow rates
 			// (7.5 liters O2 / min)(1000 grams/liters)(1 mole O2/ 31.9988 grams O2)(60 min/ hour)
 			// 7.5 O2 slpm == 14063.0 moles per hour
-			float[] O2AirInputMaxFlowRates = {.01f};
-			float[] O2AirOutputMaxFlowRates = {.01f};
+			float[] O2AirInputMaxFlowRates = {50f};
+			float[] O2AirOutputMaxFlowRates = {50f};
 			float[] O2AirInputDesiredFlowRates = {.01f};
 			float[] O2AirOutputDesiredFlowRates = {.01f};
 			Injector myInjector = InjectorHelper.narrow(getBioModule(myInjectorName));
@@ -918,8 +918,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			// 7.5 CO2 slpm == 11247.2 moles per hour
 			CO2Store[] CO2AirInput = {myCO2Store};
 			SimEnvironment[] CO2AirOutput = {myPlantEnvironment};
-			float[] CO2AirInputMaxFlowRates = {.01f};
-			float[] CO2AirOutputMaxFlowRates = {.01f};
+			float[] CO2AirInputMaxFlowRates = {50f};
+			float[] CO2AirOutputMaxFlowRates = {50f};
 			float[] CO2AirInputDesiredFlowRates = {.01f};
 			float[] CO2AirOutputDesiredFlowRates = {.01f};
 			myInjector.setCO2AirStoreInputs(CO2AirInput, CO2AirInputMaxFlowRates, CO2AirInputDesiredFlowRates);
