@@ -9,15 +9,15 @@ package com.traclabs.biosim.editor.base;
 
 import org.tigris.gef.base.Cmd;
 
-import com.traclabs.biosim.editor.presentation.VesprFrame;
+import com.traclabs.biosim.editor.presentation.EditorFrame;
 
 public class VesprCmdExit extends Cmd {
 
-    VesprFrame _frame;
+    EditorFrame _frame;
 
     private CmdSaveVespr _cmd = new CmdSaveVespr();
 
-    public VesprCmdExit(VesprFrame frame) {
+    public VesprCmdExit(EditorFrame frame) {
         super("VesprBase", "Exit");
         _frame = frame;
     }

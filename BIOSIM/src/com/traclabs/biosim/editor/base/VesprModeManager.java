@@ -15,7 +15,7 @@ import org.tigris.gef.base.ModeCreateEdge;
 import org.tigris.gef.base.ModeManager;
 import org.tigris.gef.presentation.Fig;
 
-import com.traclabs.biosim.editor.graph.VesprFigNode;
+import com.traclabs.biosim.editor.graph.EditorFigNode;
 
 public class VesprModeManager extends ModeManager {
 
@@ -30,8 +30,8 @@ public class VesprModeManager extends ModeManager {
             if ((me.getModifiers() & InputEvent.BUTTON3_MASK) == InputEvent.BUTTON3_MASK) {
                 int x = me.getX(), y = me.getY();
                 Fig underMouse = editor.hit(x, y);
-                if (underMouse instanceof VesprFigNode) {
-                    Object startPort = ((VesprFigNode) underMouse).getPort();
+                if (underMouse instanceof EditorFigNode) {
+                    Object startPort = ((EditorFigNode) underMouse).getPort();
 
                     if (startPort != null) {
                         ModeCreateEdge createArc = new ModeCreateEdge(editor);

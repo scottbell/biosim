@@ -60,26 +60,26 @@ import com.traclabs.biosim.editor.base.VesprDocument;
 import com.traclabs.biosim.editor.base.VesprEditor;
 import com.traclabs.biosim.editor.ui.EditorPalette;
 
-public class VesprFrame extends JGraphFrame {
+public class EditorFrame extends JGraphFrame {
     protected Cmd _exitCmd;
 
     private static int _refCount = 0;
 
-    private static VesprFrame _active;
+    private static EditorFrame _active;
 
-    public VesprFrame() {
+    public EditorFrame() {
         this("VESPR - ", new VesprEditor());
     }
 
-    public VesprFrame(String title) {
+    public EditorFrame(String title) {
         this(title, new VesprEditor());
     }
 
-    public VesprFrame(VesprDocument doc) {
+    public EditorFrame(VesprDocument doc) {
         this(doc.getAppName(), new VesprEditor(doc));
     }
 
-    public VesprFrame(String title, VesprEditor ed) {
+    public EditorFrame(String title, VesprEditor ed) {
         super(title, ed);
 
         _refCount++;
@@ -99,7 +99,7 @@ public class VesprFrame extends JGraphFrame {
                 // Switch the current editor to the active frame editor.
                 // This is required so that menu commands will be executed
                 // in the active frame window.
-                _active = VesprFrame.this;
+                _active = EditorFrame.this;
                 Globals.curEditor(_graph.getEditor());
             }
 
@@ -110,7 +110,7 @@ public class VesprFrame extends JGraphFrame {
 
         addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
-                if (_active == VesprFrame.this) {
+                if (_active == EditorFrame.this) {
                     Globals.curEditor(_graph.getEditor());
                 }
             }
@@ -122,7 +122,7 @@ public class VesprFrame extends JGraphFrame {
         getGraph().bindKey(new CmdDeleteFromModel(), KeyEvent.VK_DELETE, 0);
     }
 
-    public static VesprFrame curFrame() {
+    public static EditorFrame curFrame() {
         return _active;
     }
 
@@ -481,7 +481,7 @@ public class VesprFrame extends JGraphFrame {
     ////////////////////////////////////////////////////////////////
     // Cloneable implementation
     public Object clone() {
-        return new VesprFrame(getTitle(), (VesprEditor) getGraph().getEditor()
+        return new EditorFrame(getTitle(), (VesprEditor) getGraph().getEditor()
                 .clone());
     }
 

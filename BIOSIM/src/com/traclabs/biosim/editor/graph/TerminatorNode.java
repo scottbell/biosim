@@ -16,7 +16,7 @@ import org.tigris.gef.presentation.FigNode;
  * A Terminator Node represents the end of a chain of nodes.
  */
 
-public class TerminatorNode extends VesprNode implements Serializable {
+public class TerminatorNode extends EditorNode implements Serializable {
     public TerminatorNode() {
         setText("Terminator");
     }

@@ -12,7 +12,7 @@ import java.io.Serializable;
 import org.tigris.gef.base.Layer;
 import org.tigris.gef.presentation.FigNode;
 
-public class DecisionNode extends VesprNode implements Serializable {
+public class DecisionNode extends EditorNode implements Serializable {
 
     public DecisionNode() {
         setText("Decision");

@@ -18,11 +18,11 @@ import org.tigris.gef.presentation.FigEdgeLine;
 import org.tigris.gef.presentation.FigLine;
 import org.tigris.gef.presentation.FigText;
 
-public class VesprFigEdge extends FigEdgeLine implements MouseListener {
+public class EditorFigEdge extends FigEdgeLine implements MouseListener {
 
     FigText mid;
 
-    public VesprFigEdge() {
+    public EditorFigEdge() {
         super();
 
         setDestArrowHead(new ArrowHeadTriangle());

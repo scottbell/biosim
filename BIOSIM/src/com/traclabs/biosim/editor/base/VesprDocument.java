@@ -22,8 +22,8 @@ import java.util.Vector;
 import org.tigris.gef.base.Layer;
 import org.tigris.gef.presentation.Fig;
 
-import com.traclabs.biosim.editor.graph.VesprFigNode;
-import com.traclabs.biosim.editor.graph.VesprGraphModel;
+import com.traclabs.biosim.editor.graph.EditorFigNode;
+import com.traclabs.biosim.editor.graph.EditorGraphModel;
 import com.traclabs.biosim.editor.xml.DocumentReader;
 import com.traclabs.biosim.editor.xml.DocumentWriter;
 import com.traclabs.biosim.editor.xml.VesprParser;
@@ -74,11 +74,11 @@ public class VesprDocument {
         _writer = createWriter();
     }
 
-    public VesprDocument(VesprGraphModel model) {
+    public VesprDocument(EditorGraphModel model) {
         this(new VesprLayer(model));
     }
 
-    public VesprDocument(VesprGraphModel model, File file) {
+    public VesprDocument(EditorGraphModel model, File file) {
         this(new VesprLayer(model), file);
     }
 
@@ -139,8 +139,8 @@ public class VesprDocument {
      * root layer which cannot be deleted.
      */
     void deleted(Fig f) {
-        if (f instanceof VesprFigNode) {
-            VesprFigNode node = (VesprFigNode) f;
+        if (f instanceof EditorFigNode) {
+            EditorFigNode node = (EditorFigNode) f;
             Enumeration eds = _editors.elements();
             while (eds.hasMoreElements()) {
                 VesprEditor ed = (VesprEditor) eds.nextElement();

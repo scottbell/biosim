@@ -17,7 +17,7 @@ import org.tigris.gef.presentation.FigNode;
 /**
  * An example subclass of NetNode for use in the BasicApplication application.
  */
-public class OptionalNode extends VesprNode implements Serializable {
+public class OptionalNode extends EditorNode implements Serializable {
     public OptionalNode() {
         setText("Optional");
     }
@@ -29,6 +29,6 @@ public class OptionalNode extends VesprNode implements Serializable {
     }
 
     protected MutableGraphModel createNestedGraphModel() {
-        return new VesprGraphModel();
+        return new EditorGraphModel();
     }
 } /* end class OptionalNode */

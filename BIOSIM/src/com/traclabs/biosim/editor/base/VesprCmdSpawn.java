@@ -13,7 +13,7 @@ import java.awt.Dimension;
 import org.tigris.gef.base.Cmd;
 import org.tigris.gef.base.Globals;
 
-import com.traclabs.biosim.editor.presentation.VesprFrame;
+import com.traclabs.biosim.editor.presentation.EditorFrame;
 
 /**
  * Cmd to open a new editor on the same document as in the current editor. Works
@@ -32,10 +32,10 @@ public class VesprCmdSpawn extends Cmd {
     // doIt must create a VesprFrame instead of a JGraphFrame.
     public void doIt() {
         VesprEditor ce = (VesprEditor) Globals.curEditor();
-        VesprFrame frame = (VesprFrame) ce.findFrame();
+        EditorFrame frame = (EditorFrame) ce.findFrame();
 
         if (frame != null) {
-            VesprFrame copy = (VesprFrame) frame.clone();
+            EditorFrame copy = (EditorFrame) frame.clone();
 
             Object d = getArg("dimension", new Dimension(640, 480));
             if (d instanceof Dimension)

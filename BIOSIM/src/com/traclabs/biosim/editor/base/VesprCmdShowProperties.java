@@ -18,7 +18,7 @@ import org.tigris.gef.base.Editor;
 import org.tigris.gef.base.Globals;
 import org.tigris.gef.presentation.Fig;
 
-import com.traclabs.biosim.editor.graph.VesprFigNode;
+import com.traclabs.biosim.editor.graph.EditorFigNode;
 
 /**
  * Show the properties for the selected fig.
@@ -42,8 +42,8 @@ public class VesprCmdShowProperties extends Cmd {
         Vector figs = editor.getSelectionManager().getFigs();
         if (figs.size() == 1) {
             Fig fig = (Fig) figs.firstElement();
-            if (fig instanceof VesprFigNode) {
-                ((VesprFigNode) fig).showProperties(editor.findFrame());
+            if (fig instanceof EditorFigNode) {
+                ((EditorFigNode) fig).showProperties(editor.findFrame());
             }
         }
     }

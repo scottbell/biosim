@@ -12,7 +12,7 @@ import com.traclabs.biosim.editor.presentation.FigPanel;
  * 
  * @author kkusy
  */
-public abstract class FigPanelNode extends VesprFigNode {
+public abstract class FigPanelNode extends EditorFigNode {
     protected Fig createBgFig() {
         return new FigPanel();
     }

@@ -27,8 +27,8 @@ import org.tigris.gef.presentation.FigEdge;
 import com.traclabs.biosim.editor.base.VesprDocument;
 import com.traclabs.biosim.editor.base.VesprEditor;
 import com.traclabs.biosim.editor.base.VesprLayer;
-import com.traclabs.biosim.editor.graph.VesprFigEdge;
-import com.traclabs.biosim.editor.graph.VesprFigNode;
+import com.traclabs.biosim.editor.graph.EditorFigEdge;
+import com.traclabs.biosim.editor.graph.EditorFigNode;
 
 /**
  * Writes a VesprDocument to a file.
@@ -74,16 +74,16 @@ public class VesprWriter implements DocumentWriter {
 
     /* Save a list of figs. */
     protected void saveFigs(java.util.List figs, Writer out, int indent) {
-        VesprFigNode vf;
+        EditorFigNode vf;
         try {
             // For each VESPR Fig, write the information
             Iterator i = figs.iterator();
             /* In the first loop, print out all the VesprFigNodes */
             while (i.hasNext()) {
                 Fig f = (Fig) i.next();
-                if (f instanceof VesprFigNode) {
+                if (f instanceof EditorFigNode) {
                     //System.out.println("VESPR Fig found");
-                    vf = (VesprFigNode) f;
+                    vf = (EditorFigNode) f;
                     saveFigNode(vf, out, indent);
                 } else {
                     //System.out.println("Non-VESPR Fig found");
@@ -98,9 +98,9 @@ public class VesprWriter implements DocumentWriter {
             i = figs.iterator();
             while (i.hasNext()) {
                 Fig f = (Fig) i.next();
-                if (f instanceof VesprFigEdge) {
+                if (f instanceof EditorFigEdge) {
                     //System.out.println("Edge Fig found");
-                    VesprFigEdge fe = (VesprFigEdge) f;
+                    EditorFigEdge fe = (EditorFigEdge) f;
                     saveFigEdge(fe, out, indent);
                 }
             }
@@ -110,7 +110,7 @@ public class VesprWriter implements DocumentWriter {
     }
 
     /** Saves a fig node. */
-    protected void saveFigNode(VesprFigNode vf, Writer out, int indent)
+    protected void saveFigNode(EditorFigNode vf, Writer out, int indent)
             throws IOException {
         out.write(tab(indent) + "<" + vf.getTag() + "\n");
         out.write(tab(indent + 1) + "Id=\""
@@ -131,7 +131,7 @@ public class VesprWriter implements DocumentWriter {
     }
 
     /* Saves a fig edge. */
-    protected void saveFigEdge(VesprFigEdge fe, Writer out, int indent)
+    protected void saveFigEdge(EditorFigEdge fe, Writer out, int indent)
             throws IOException {
         out.write(tab(indent) + "<Edge\n");
         if (fe.getText().length() != 0) {
@@ -208,7 +208,7 @@ public class VesprWriter implements DocumentWriter {
             Selection sel = (Selection) theElements.nextElement();
             Fig fig = sel.getContent();
 
-            if (fig instanceof VesprFigEdge) {
+            if (fig instanceof EditorFigEdge) {
                 // Only include edges where both source and destination
                 // nodes are selected.
                 FigEdge edge = (FigEdge) fig;

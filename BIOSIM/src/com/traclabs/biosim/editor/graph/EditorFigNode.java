@@ -39,7 +39,7 @@ import com.traclabs.biosim.editor.base.VesprLayer;
  * 
  * @author kkusy
  */
-public abstract class VesprFigNode extends FigNode {
+public abstract class EditorFigNode extends FigNode {
     protected Fig _port;
 
     protected Fig _bgFig;
@@ -54,7 +54,7 @@ public abstract class VesprFigNode extends FigNode {
 
     protected VesprLayer _nestedLayer;
 
-    public VesprFigNode() {
+    public EditorFigNode() {
         super();
         // Add the port on bottom.
         _port = new FigCircle(37, 25, 0, 0, Color.cyan, Color.cyan);
@@ -153,7 +153,7 @@ public abstract class VesprFigNode extends FigNode {
     }
 
     public Object getPort() {
-        VesprNode node = (VesprNode) getOwner();
+        EditorNode node = (EditorNode) getOwner();
         return node.getPort();
     }
 
@@ -170,18 +170,18 @@ public abstract class VesprFigNode extends FigNode {
     }
 
     public void setOwner(Object own) {
-        if (!(own instanceof VesprNode))
+        if (!(own instanceof EditorNode))
             return;
 
         super.setOwner(own);
 
-        VesprNode node = (VesprNode) own;
+        EditorNode node = (EditorNode) own;
         bindPort(node.getPort(), _port);
 
         // Tie the nested layer to its GraphModel.
         GraphModel gm = node.getNestedModel();
         if (gm != null) {
-            _nestedLayer = new VesprLayer(getText(), (VesprGraphModel) gm, this);
+            _nestedLayer = new VesprLayer(getText(), (EditorGraphModel) gm, this);
         }
 
         // Update the fig using net node properties.
@@ -316,7 +316,7 @@ public abstract class VesprFigNode extends FigNode {
      * Return the text string displayed for this node
      */
     public String getText() {
-        VesprNode own = (VesprNode) getOwner();
+        EditorNode own = (EditorNode) getOwner();
         if (own != null) {
             return own.getText();
         }
@@ -324,7 +324,7 @@ public abstract class VesprFigNode extends FigNode {
     }
 
     public void setText(String text) {
-        VesprNode own = (VesprNode) getOwner();
+        EditorNode own = (EditorNode) getOwner();
         if (own != null) {
             own.setText(text);
         }
