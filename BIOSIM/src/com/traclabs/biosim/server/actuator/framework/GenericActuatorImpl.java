@@ -8,15 +8,19 @@ public abstract class GenericActuatorImpl extends BioModuleImpl implements
         GenericActuatorOperations {
     protected float myValue;
 
-    protected boolean newValue = false;
+    protected boolean newValueSet = false;
 
     public GenericActuatorImpl(int pID, String pName) {
         super(pID, pName);
     }
 
     public void setValue(float pValue) {
+        if (myValue > getMin())
+            myValue = Math.min(pValue, getMax());
+        else
+            myValue = getMin();
         myValue = pValue;
-        newValue = true;
+        newValueSet = true;
     }
 
     public abstract float getMax();
@@ -31,9 +35,9 @@ public abstract class GenericActuatorImpl extends BioModuleImpl implements
 
     public void tick() {
         super.tick();
-        if (newValue) {
+        if (newValueSet) {
             processData();
-            newValue = false;
+            newValueSet = false;
         }
     }
 

@@ -27,6 +27,6 @@ public class PlantingActuatorImpl extends ShelfActuatorImpl implements
 
     public void setPlantType(PlantType pType) {
         myType = pType;
-        newValue = true;
+        newValueSet = true;
     }
 }
