@@ -44,18 +44,18 @@ public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperat
 	}
 	
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
-		String returnName = new String();
+		StringBuffer returnBuffer = new StringBuffer();
 		if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
-			returnName += "Severe ";
+			returnBuffer.append("Severe ");
 		else if (pIntensity == MalfunctionIntensity.MEDIUM_MALF)
-			returnName += "Medium ";
+			returnBuffer.append("Medium ");
 		else if (pIntensity == MalfunctionIntensity.LOW_MALF)
-			returnName += "Low ";
+			returnBuffer.append("Low ");
 		if (pLength == MalfunctionLength.TEMPORARY_MALF)
-			returnName += "Production Rate Decrease (Temporary)";
+			returnBuffer.append("Production Rate Decrease (Temporary)");
 		else if (pLength == MalfunctionLength.PERMANENT_MALF)
-			returnName += "Production Rate Decrease (Permanent)";
-		return returnName;
+			returnBuffer.append("Production Rate Decrease (Permanent)");
+		return returnBuffer.toString();
 	}
 	
 	private void performMalfunctions(){
