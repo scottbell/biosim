@@ -145,9 +145,8 @@ public class SimCommandLine
 		BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
 		
 		BiomassStore myBiomassStore = (BiomassStore)myBioHolder.theBiomassStores.get(0);
-		BiomassStoreWaterContentSensor currentSensor = BiomassStoreWaterContentSensorHelper.narrow((myBioHolder.getSensorAttachedTo(myBioHolder.theBiomassStoreWaterContentSensors, myBiomassStore)));
 		//replant 100 meters squared of rice
-		System.out.println("Value of sensor is: "+currentSensor.getValue());
+		System.out.println("Value of store is: "+myBiomassStore.getLevel());
 	}
 	
 }
