@@ -858,7 +858,7 @@
 			<xsd:extension base="BioModuleType">
 				<xsd:sequence>
 					<xsd:element name="airConsumer" type="AirConsumerType"/>
-					<xsd:element name="potableWaterProducer" type="PotableWaterProducerType"/>
+					<xsd:element name="dirtyWaterProducer" type="DirtyWaterProducerType"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>

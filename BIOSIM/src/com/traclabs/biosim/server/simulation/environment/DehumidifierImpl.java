@@ -12,13 +12,13 @@ import biosim.server.simulation.framework.*;
  * @author    Scott Bell
  */
 
-public class DehumidifierImpl extends SimBioModuleImpl implements DehumidifierOperations, AirConsumerOperations, PotableWaterProducerOperations{
+public class DehumidifierImpl extends SimBioModuleImpl implements DehumidifierOperations, AirConsumerOperations, DirtyWaterProducerOperations{
 	private LogIndex myLogIndex;
 	
-	private PotableWaterStore[] myPotableWaterOutputs;
-	private float[] potableWaterOutMaxFlowRates;
-	private float[] potableWaterOutActualFlowRates;
-	private float[] potableWaterOutDesiredFlowRates;
+	private DirtyWaterStore[] myDirtyWaterOutputs;
+	private float[] dirtyWaterOutMaxFlowRates;
+	private float[] dirtyWaterOutActualFlowRates;
+	private float[] dirtyWaterOutDesiredFlowRates;
 	
 	private SimEnvironment[] myAirInputs;
 	private float[] airInMaxFlowRates;
@@ -30,10 +30,10 @@ public class DehumidifierImpl extends SimBioModuleImpl implements DehumidifierOp
 	public DehumidifierImpl(int pID, String pName){
 		super(pID, pName);
 
-		myPotableWaterOutputs = new PotableWaterStore[0];
-		potableWaterOutMaxFlowRates = new float[0];
-		potableWaterOutActualFlowRates = new float[0];
-		potableWaterOutDesiredFlowRates = new float[0];
+		myDirtyWaterOutputs = new DirtyWaterStore[0];
+		dirtyWaterOutMaxFlowRates = new float[0];
+		dirtyWaterOutActualFlowRates = new float[0];
+		dirtyWaterOutDesiredFlowRates = new float[0];
 		
 		myAirInputs = new SimEnvironment[0];
 		airInMaxFlowRates = new float[0];
@@ -63,7 +63,7 @@ public class DehumidifierImpl extends SimBioModuleImpl implements DehumidifierOp
 				molesOfWaterGathered += airInActualFlowRates[i];
 			}
 		}
-		float waterPushedToStore = pushResourceToStore(myPotableWaterOutputs, potableWaterOutMaxFlowRates, potableWaterOutDesiredFlowRates, potableWaterOutActualFlowRates, waterMolesToLiters(molesOfWaterGathered));
+		float waterPushedToStore = pushResourceToStore(myDirtyWaterOutputs, dirtyWaterOutMaxFlowRates, dirtyWaterOutDesiredFlowRates, dirtyWaterOutActualFlowRates, waterMolesToLiters(molesOfWaterGathered));
 		
 		/*currentWaterMolesInEnvironment = myAirInputs[0].getWaterMoles();
 		totalMolesInEnvironment = myAirInputs[0].getTotalMoles();
@@ -137,39 +137,39 @@ public class DehumidifierImpl extends SimBioModuleImpl implements DehumidifierOp
 		public LogNode outIndex;
 	}
 
-	//Potable Water Outputs
-	public void setPotableWaterOutputMaxFlowRate(float amount, int index){
-		potableWaterOutMaxFlowRates[index] = amount;
+	//Dirty Water Outputs
+	public void setDirtyWaterOutputMaxFlowRate(float amount, int index){
+		dirtyWaterOutMaxFlowRates[index] = amount;
 	}
-	public float getPotableWaterOutputMaxFlowRate(int index){
-		return potableWaterOutMaxFlowRates[index];
+	public float getDirtyWaterOutputMaxFlowRate(int index){
+		return dirtyWaterOutMaxFlowRates[index];
 	}
-	public float[] getPotableWaterOutputMaxFlowRates(){
-		return potableWaterOutMaxFlowRates;
+	public float[] getDirtyWaterOutputMaxFlowRates(){
+		return dirtyWaterOutMaxFlowRates;
 	}
-	public void setPotableWaterOutputDesiredFlowRate(float amount, int index){
-		potableWaterOutDesiredFlowRates[index] = amount;
+	public void setDirtyWaterOutputDesiredFlowRate(float amount, int index){
+		dirtyWaterOutDesiredFlowRates[index] = amount;
 	}
-	public float getPotableWaterOutputDesiredFlowRate(int index){
-		return potableWaterOutDesiredFlowRates[index];
+	public float getDirtyWaterOutputDesiredFlowRate(int index){
+		return dirtyWaterOutDesiredFlowRates[index];
 	}
-	public float[] getPotableWaterOutputDesiredFlowRates(){
-		return potableWaterOutDesiredFlowRates;
+	public float[] getDirtyWaterOutputDesiredFlowRates(){
+		return dirtyWaterOutDesiredFlowRates;
 	}
-	public float getPotableWaterOutputActualFlowRate(int index){
-		return potableWaterOutActualFlowRates[index];
+	public float getDirtyWaterOutputActualFlowRate(int index){
+		return dirtyWaterOutActualFlowRates[index];
 	}
-	public float[] getPotableWaterOutputActualFlowRates(){
-		return potableWaterOutActualFlowRates;
+	public float[] getDirtyWaterOutputActualFlowRates(){
+		return dirtyWaterOutActualFlowRates;
 	}
-	public void setPotableWaterOutputs(PotableWaterStore[] destinations, float[] maxFlowRates, float[] desiredFlowRates){
-		myPotableWaterOutputs = destinations;
-		potableWaterOutMaxFlowRates = maxFlowRates;
-		potableWaterOutDesiredFlowRates = desiredFlowRates;
-		potableWaterOutActualFlowRates = new float[potableWaterOutDesiredFlowRates.length];
+	public void setDirtyWaterOutputs(DirtyWaterStore[] destinations, float[] maxFlowRates, float[] desiredFlowRates){
+		myDirtyWaterOutputs = destinations;
+		dirtyWaterOutMaxFlowRates = maxFlowRates;
+		dirtyWaterOutDesiredFlowRates = desiredFlowRates;
+		dirtyWaterOutActualFlowRates = new float[dirtyWaterOutDesiredFlowRates.length];
 	}
-	public PotableWaterStore[] getPotableWaterOutputs(){
-		return myPotableWaterOutputs;
+	public DirtyWaterStore[] getDirtyWaterOutputs(){
+		return myDirtyWaterOutputs;
 	}
 
 	//Air Inputs
