@@ -18,7 +18,7 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 	private float powerNeeded = 130;
 	//During any given tick, this much CO2 (in liters) is needed for the AirRS to run optimally.
 	private float CO2Needed = 0.2f;
-	//Flag switched when the AirRS has collected references to other servers it need
+	//Flag switched when the AirRS has collected references to other servers it needs
 	private boolean hasCollectedReferences = false;
 	//Flag to determine whether the AirRS has received enough power for this tick
 	private boolean hasEnoughPower = false;
