@@ -4,38 +4,56 @@ package biosim.server.water;
 import ALSS.*;
 
 public class PotableWaterStoreImpl extends PotableWaterStorePOA {
-	private float potableWaterlevel;
-	private float potableWatercapacity;
+	private float potableWaterLevel;
+	private float potableWaterCapacity;
+	
+	public PotableWaterStoreImpl(){
+		potableWaterLevel = 0.0f;
+		potableWaterCapacity = 10.0f;
+	}
+
+	public PotableWaterStoreImpl (float initialPotableWaterLevel, float  initialPotableWaterCapacity){
+		potableWaterLevel = initialPotableWaterLevel;
+		potableWaterCapacity = initialPotableWaterCapacity;
+	}
+	
+	void setWaterCapacity(float liters){
+		potableWaterCapacity = liters;
+	}
+
+	void setWaterLevel(float liters){
+		potableWaterLevel = liters;
+	}
 
 	float addWater(float liters){
-		if ((liters +potableWaterlevel) > potableWatercapacity){
-			potableWaterlevel = potableWatercapacity;
-			if (liters >=  potableWatercapacity)
+		if ((liters +potableWaterLevel) > potableWaterCapacity){
+			potableWaterLevel = potableWaterCapacity;
+			if (liters >=  potableWaterCapacity)
 				return 0;
 			else
-				return (potableWatercapacity - potableWaterlevel);
+				return (potableWaterCapacity - potableWaterLevel);
 		}
 		else{
-			potableWaterlevel = potableWaterlevel + liters;
+			potableWaterLevel = potableWaterLevel + liters;
 			return liters;
 		}
 	}
 
 	float takeWater(float liters){
-		if ((potableWaterlevel - liters) < 0){
-			potableWaterlevel = 0;
+		if ((potableWaterLevel - liters) < 0){
+			potableWaterLevel = 0;
 			if (liters < 0)
 				return 0;
 			else
-				return potableWaterlevel;
+				return potableWaterLevel;
 		}
 		else{
-			potableWaterlevel = potableWaterlevel - liters;
+			potableWaterLevel = potableWaterLevel - liters;
 			return liters;
 		}
 	}
 	float getWaterLevel(){
-		return potableWaterlevel;
+		return potableWaterLevel;
 	}
 
 	public void tick(){

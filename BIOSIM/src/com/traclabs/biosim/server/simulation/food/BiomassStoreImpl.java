@@ -7,6 +7,24 @@ public class BiomassStoreImpl extends BiomassStorePOA {
 	private float biomassLevel;
 	private float biomassCapacity;
 
+	public BiomassStoreImpl(){
+		biomassLevel = 0.0f;
+		biomassCapacity = 10.0f;
+	}
+
+	public BiomassStoreImpl (float initialBiomassLevel, float  initialBiomassCapacity){
+		biomassLevel = initialBiomassLevel;
+		biomassCapacity = initialBiomassCapacity;
+	}
+	
+	void setBiomassCapacity(float kilograms){
+		biomassCapacity = kilograms;
+	}
+
+	void setBiomassLevel(float kilograms){
+		biomassLevel = kilograms;
+	}
+
 	float addBiomass(float kilograms){
 		if ((kilograms +biomassLevel) > biomassCapacity){
 			biomassLevel = biomassCapacity;

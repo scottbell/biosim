@@ -41,10 +41,13 @@ public class BioSimulator implements Runnable
 
 	public void run(){
 		DirtyWaterStore myDirtyWater = (DirtyWaterStore)(getBioModule("DirtyWaterStore"));
-		myDirtyWater.addWater(1f);
+		System.out.println("Trying to add "+2f+" liters of dirty water");
+		float actuallyAdded = myDirtyWater.addWater(2f);
+		System.out.println("Actually added "+actuallyAdded+" liters of dirty water");
 		System.out.println("Dirty water levels at: "+myDirtyWater.getWaterLevel());
 		Crew myCrew = (Crew)(getBioModule("Crew"));
-		myCrew.createCrewPerson("Bob Roberts");
+		Activity sleeping = myCrew.getScheduledActivityByName("sleeping");
+
 		
 		for (int i = 0; i < 10; i ++){
 			tick();

@@ -25,9 +25,10 @@ public class CrewImpl extends CrewPOA {
 		return "Crew";
 	}
 
-	public void createCrewPerson(String name){
+	public CrewPersonImpl createCrewPerson(String name){
 		CrewPersonImpl newCrewPerson = new CrewPersonImpl(name);
 		crewPeople.put(name, newCrewPerson);
+		return newCrewPerson;
 	}
 
 	public ActivityImpl getScheduledActivityByName(String name){

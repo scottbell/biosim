@@ -6,12 +6,12 @@ import ALSS.*;
 public class CO2StoreImpl extends CO2StorePOA {
 	private float CO2level;
 	private float CO2capacity;
-	
+ 
 	public CO2StoreImpl(){
 		CO2level = 0.0f;
 		CO2capacity = 10.0f;
 	}
-	
+
 	public CO2StoreImpl (float initialCO2level, float  initialCO2capacity){
 		CO2level = initialCO2level;
 		CO2capacity = initialCO2capacity;
