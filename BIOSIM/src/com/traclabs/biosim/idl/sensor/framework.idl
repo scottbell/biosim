@@ -2,51 +2,99 @@ module framework{
         interface GenericSensor : framework::BioModule{
 		double getValue();
 	};
-	interface PowerSensor{
+	interface PowerLevelSensor{
                 void setPowerSensorInput(in simulation::power::PowerStore source);
 		simulation::power::PowerStore getPowerSensorInput();
         };
-        interface PotableWaterSensor{
+        interface PotableWaterLevelSensor{
                 void setPotableWaterSensorInput(in simulation::water::PotableWaterStore source);
 		simulation::water::PotableWaterStore getPotableWaterSensorInput();
         };
-        interface GreyWaterSensor{
+        interface GreyWaterLevelSensor{
                 void setGreyWaterSensorInput(in simulation::water::GreyWaterStore source);
 		simulation::water::GreyWaterStore getGreyWaterSensorInput();
         };
-        interface DirtyWaterSensor{
+        interface DirtyWaterLevelSensor{
                 void setDirtyWaterSensorInput(in simulation::water::DirtyWaterStore source);
 		simulation::water::DirtyWaterStore getDirtyWaterSensorInput();
         };
-        interface O2StoreSensor{
+        interface O2StoreLevelSensor{
                 void setO2SensorInput(in simulation::air::O2Store source);
 		simulation::air::O2Store getO2SensorInput();
         };
-        interface CO2StoreSensor{
+        interface CO2StoreLevelSensor{
                 void setCO2SensorInput(in simulation::air::CO2Store source);
 		simulation::air::CO2Store getCO2SensorInput();
         };
-        interface AirSensor{
+        interface AirLevelSensor{
                 void setAirSensorInput(in simulation::environment::SimEnvironment source);
 		simulation::environment::SimEnvironment getAirSensorInput();
         };
-        interface BiomassSensor{
+        interface BiomassLevelSensor{
                 void setBiomassSensorInput(in simulation::food::BiomassStore source);
 		simulation::food::BiomassStore getBiomassSensorInput();
         };
-        interface FoodSensor{
+        interface FoodLevelSensor{
                 void setFoodSensorInput(in simulation::food::FoodStore source);
 		simulation::food::FoodStore getFoodSensorInput();
         };
-	interface LightSensor{
+	interface LightLevelSensor{
                 void setLightSensorInput(in simulation::environment::SimEnvironment source);
 		simulation::environment::SimEnvironment getLightSensorInput();
         };
-	interface O2AirSensor{
+	interface O2AirLevelSensor{
                 void setO2AirSensorInput(in simulation::environment::SimEnvironment source);
 		simulation::environment::SimEnvironment getO2AirSensorInput();
         };
-	interface CO2AirSensor{
+	interface CO2AirLevelSensor{
+                void setCO2AirSensorInput(in simulation::environment::SimEnvironment source);
+		simulation::environment::SimEnvironment getCO2AirSensorInput();
+        };
+	interface PowerFlowRateSensor{
+                void setPowerSensorInput(in simulation::power::PowerStore source);
+		simulation::power::PowerStore getPowerSensorInput();
+        };
+        interface PotableWaterFlowRateSensor{
+                void setPotableWaterSensorInput(in simulation::water::PotableWaterStore source);
+		simulation::water::PotableWaterStore getPotableWaterSensorInput();
+        };
+        interface GreyWaterFlowRateSensor{
+                void setGreyWaterSensorInput(in simulation::water::GreyWaterStore source);
+		simulation::water::GreyWaterStore getGreyWaterSensorInput();
+        };
+        interface DirtyWaterFlowRateSensor{
+                void setDirtyWaterSensorInput(in simulation::water::DirtyWaterStore source);
+		simulation::water::DirtyWaterStore getDirtyWaterSensorInput();
+        };
+        interface O2StoreFlowRateSensor{
+                void setO2SensorInput(in simulation::air::O2Store source);
+		simulation::air::O2Store getO2SensorInput();
+        };
+        interface CO2StoreFlowRateSensor{
+                void setCO2SensorInput(in simulation::air::CO2Store source);
+		simulation::air::CO2Store getCO2SensorInput();
+        };
+        interface AirFlowRateSensor{
+                void setAirSensorInput(in simulation::environment::SimEnvironment source);
+		simulation::environment::SimEnvironment getAirSensorInput();
+        };
+        interface BiomassFlowRateSensor{
+                void setBiomassSensorInput(in simulation::food::BiomassStore source);
+		simulation::food::BiomassStore getBiomassSensorInput();
+        };
+        interface FoodFlowRateSensor{
+                void setFoodSensorInput(in simulation::food::FoodStore source);
+		simulation::food::FoodStore getFoodSensorInput();
+        };
+	interface LightFlowRateSensor{
+                void setLightSensorInput(in simulation::environment::SimEnvironment source);
+		simulation::environment::SimEnvironment getLightSensorInput();
+        };
+	interface O2AirFlowRateSensor{
+                void setO2AirSensorInput(in simulation::environment::SimEnvironment source);
+		simulation::environment::SimEnvironment getO2AirSensorInput();
+        };
+	interface CO2AirFlowRateSensor{
                 void setCO2AirSensorInput(in simulation::environment::SimEnvironment source);
 		simulation::environment::SimEnvironment getCO2AirSensorInput();
         };
