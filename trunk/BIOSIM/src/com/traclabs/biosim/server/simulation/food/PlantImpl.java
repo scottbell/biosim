@@ -52,6 +52,8 @@ public abstract class PlantImpl extends PlantPOA{
 	private SimpleBuffer consumedLightBuffer;
 	protected float[] canopyClosureConstants;
 	protected float[] canopyQYConstants;
+	private float myPPFFractionAbsorbed = 0f;
+	private boolean canopyClosed = false;
 	protected List myCanopyClosurePPFValues;
 	protected List myCanopyClosureCO2Values;
 	private static final float WATER_TILL_DEAD = 200f;
@@ -142,7 +144,15 @@ public abstract class PlantImpl extends PlantPOA{
 		totalCO2GramsConsumed = 0f;
 		totalCO2MolesConsumed = 0f;
 		totalWaterLitersTranspired = 0f;
+		myPPFFractionAbsorbed = 0f;
 		hasDied = false;
+		canopyClosed = false;
+		myCanopyClosurePPFValues.clear();
+		myCanopyClosureCO2Values.clear();
+		for (int i = 0; i < getTAInitialValue(); i++){
+			myCanopyClosurePPFValues.add(new Float(getInitialPPFValue()));
+			myCanopyClosureCO2Values.add(new Float(getInitialCO2Value()));
+		}
 		consumedWaterBuffer.reset();
 		consumedCO2LowBuffer.reset();
 		consumedCO2HighBuffer.reset();
@@ -306,11 +316,10 @@ public abstract class PlantImpl extends PlantPOA{
 
 	private float calculateGrossCanopyPhotosynthesis(){
 		float PPF = getAveragePPF();
-		float PPFFractionAbsorbed = calculatePPFFractionAbsorbed();
 		//System.out.println("PlantImpl: CQY: "+CQY);
 		//System.out.println("PlantImpl: PPF: "+PPF);
-		//System.out.println("PlantImpl: PPFFractionAbsorbed: "+PPFFractionAbsorbed);
-		return PPFFractionAbsorbed * CQY * PPF;
+		//System.out.println("PlantImpl: myPPFFractionAbsorbed: "+myPPFFractionAbsorbed);
+		return myPPFFractionAbsorbed * CQY * PPF;
 	}
 
 	private float calculateCanopySurfaceConductance(){
@@ -326,7 +335,11 @@ public abstract class PlantImpl extends PlantPOA{
 		float litersOfWaterProduced = 0f;
 		myLastTotalWetBiomass = myCurrentTotalWetBiomass;
 		myLastEdibleWetBiomass = myCurrentEdibleWetBiomass;
-
+		myPPFFractionAbsorbed = calculatePPFFractionAbsorbed();
+		
+		if (getDaysOfGrowth() >= calculateTimeTillCanopyClosure())
+			canopyClosed = true;
+		
 		//Biomass Grown this tick
 		float molecularWeightOfCarbon = 12.011f;  //g/mol
 		CQY = calculateCQY();
@@ -438,14 +451,13 @@ public abstract class PlantImpl extends PlantPOA{
 	//in g/meters^2*day
 	private float calculateDailyCarbonGain(){
 		float photoperiod = getPhotoperiod();
-		float PPFFractionAbsorbed = calculatePPFFractionAbsorbed();
 		float PPF = getAveragePPF();
 		//System.out.println("PlantImpl: photoperiod: "+photoperiod);
 		//System.out.println("PlantImpl: carbonUseEfficiency24: "+carbonUseEfficiency24);
-		//System.out.println("PlantImpl: PPFFractionAbsorbed: "+PPFFractionAbsorbed);
+		//System.out.println("PlantImpl: myPPFFractionAbsorbed: "+myPPFFractionAbsorbed);
 		//System.out.println("PlantImpl: CQY: "+CQY);
 		//System.out.println("PlantImpl: PPF: "+PPF);
-		return (0.0036f * photoperiod * carbonUseEfficiency24 * PPFFractionAbsorbed * CQY * PPF);
+		return (0.0036f * photoperiod * carbonUseEfficiency24 * myPPFFractionAbsorbed * CQY * PPF);
 	}
 	
 	//in liters/day
@@ -562,15 +574,16 @@ public abstract class PlantImpl extends PlantPOA{
 
 	private float calculatePPFFractionAbsorbed(){
 		float PPFFractionAbsorbedMax = 0.93f;
-		float timeTillCanopyClosure = calculateTimeTillCanopyClosure();
 		//System.out.println("PlantImpl: PPFFractionAbsorbedMax: "+PPFFractionAbsorbedMax);
 		//System.out.println("PlantImpl: timeTillCanopyClosure: "+timeTillCanopyClosure);
 		//System.out.println("PlantImpl: getDaysOfGrowth(): "+getDaysOfGrowth());
 		//System.out.println("PlantImpl: getN(): "+getN());
-		if (getDaysOfGrowth() < timeTillCanopyClosure)
-			return PPFFractionAbsorbedMax * pow((getDaysOfGrowth() / timeTillCanopyClosure), getN());
-		else
+		if (canopyClosed)
 			return PPFFractionAbsorbedMax;
+		else{
+			return PPFFractionAbsorbedMax * pow((getDaysOfGrowth() / calculateTimeTillCanopyClosure()), getN());
+		}
+		
 	}
 
 	private float calculateCQYMax(){
