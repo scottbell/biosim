@@ -68,108 +68,126 @@ module framework{
                 float getPowerInputFlowrate(in long index);
                 void setPowerInputs(in ::power::PowerStoreList sources, in FloatList flowRates);
 		power::PowerStoreList getPowerInputs();
+		FloatList getPowerInputFlowrates();
         };
         interface PotableWaterConsumer{
                 void setPotableWaterInputFlowrate(in float liters, in long index);
                 float getPotableWaterInputFlowrate(in long index);
                 void setPotableWaterInputs(in water::PotableWaterStoreList sources, in FloatList flowRates);
 		water::PotableWaterStoreList getPotableWaterInputs();
+		FloatList getPotableWaterInputFlowrates();
         };
         interface GreyWaterConsumer{
                 void setGreyWaterInputFlowrate(in float liters, in long index);
                 float getGreyWaterInputFlowrate(in long index);
                 void setGreyWaterInputs(in water::GreyWaterStoreList sources, in FloatList flowRates);
 		water::GreyWaterStoreList getGreyWaterInputs();
+		FloatList getGreyWaterInputFlowrates();
         };
         interface DirtyWaterConsumer{
                 void setDirtyWaterInputFlowrate(in float liters, in long index);
                 float getDirtyWaterInputFlowrate(in long index);
                 void setDirtyWaterInputs(in water::DirtyWaterStoreList sources, in FloatList flowRates);
 		water::DirtyWaterStoreList getDirtyWaterInputs();
+		FloatList getDirtyWaterInputFlowrates();
         };
         interface O2Consumer{
                 void setO2InputFlowrate(in float liters, in long index);
                 float getO2InputFlowrate(in long index);
                 void setO2Inputs(in air::O2StoreList sources, in FloatList flowRates);
 		air::O2StoreList getO2Inputs();
+		FloatList getO2InputFlowrates();
         };
         interface CO2Consumer{
                 void setCO2InputFlowrate(in float liters, in long index);
                 float getCO2InputFlowrate(in long index);
                 void setCO2Inputs(in air::CO2StoreList sources, in FloatList flowRates);
 		air::CO2StoreList getCO2Inputs();
+		FloatList getCO2InputFlowrates();
         };
         interface AirConsumer{
                 void setAirInputFlowrate(in float liters, in long index);
                 float getAirInputFlowrate(in long index);
                 void setAirInputs(in environment::SimEnvironmentList sources, in FloatList flowRates);
 		environment::SimEnvironmentList getAirInputs();
+		FloatList getAirInputFlowrates();
         };
         interface BiomassConsumer{
                 void setBiomassInputFlowrate(in float kilograms, in long index);
                 float getBiomassInputFlowrate(in long index);
                 void setBiomassInputs(in food::BiomassStoreList sources, in FloatList flowRates);
 		food::BiomassStoreList getBiomassInputs();
+		FloatList getBiomassInputFlowrates();
         };
         interface FoodConsumer{
                 void setFoodInputFlowrate(in float kilograms, in long index);
                 float getFoodInputFlowrate(in long index);
                 void setFoodInputs(in food::FoodStoreList sources, in FloatList flowRates);
 		food::FoodStoreList getFoodInputs();
+		FloatList getFoodInputFlowrates();
         };
 	interface PowerProducer{
                 void setPowerOutputFlowrate(in float watts, in long index);
                 float getPowerOutputFlowrate(in long index);
                 void setPowerOutputs(in ::power::PowerStoreList destinations, in FloatList flowRates);
 		power::PowerStoreList getPowerOutputs();
+		FloatList getPowerOutputFlowrates();
         };
         interface PotableWaterProducer{
                 void setPotableWaterOutputFlowrate(in float liters, in long index);
                 float getPotableWaterOutputFlowrate(in long index);
                 void setPotableWaterOutputs(in water::PotableWaterStoreList destinations, in FloatList flowRates);
 		water::PotableWaterStoreList getPotableWaterOutputs();
+		FloatList getPotableWaterOutputFlowrates();
         };
         interface GreyWaterProducer{
                 void setGreyWaterOutputFlowrate(in float liters, in long index);
                 float getGreyWaterOutputFlowrate(in long index);
                 void setGreyWaterOutputs(in water::GreyWaterStoreList destinations, in FloatList flowRates);
 		water::GreyWaterStoreList getGreyWaterOutputs();
+		FloatList getGreyWaterOutputFlowrates();
         };
         interface DirtyWaterProducer{
                 void setDirtyWaterOutputFlowrate(in float liters, in long index);
                 float getDirtyWaterOutputFlowrate(in long index);
                 void setDirtyWaterOutputs(in water::DirtyWaterStoreList destinations, in FloatList flowRates);
 		water::DirtyWaterStoreList getDirtyWaterOutputs();
+		FloatList getDirtyWaterOutputFlowrates();
         };
         interface O2Producer{
                 void setO2OutputFlowrate(in float liters, in long index);
                 float getO2OutputFlowrate(in long index);
                 void setO2Outputs(in air::O2StoreList destinations, in FloatList flowRates);
 		air::O2StoreList getO2Outputs();
+		FloatList getO2OutputFlowrates();
         };
         interface CO2Producer{
                 void setCO2OutputFlowrate(in float liters, in long index);
                 float getCO2OutputFlowrate(in long index);
                 void setCO2Outputs(in air::CO2StoreList destinations, in FloatList flowRates);
 		air::CO2StoreList getCO2Outputs();
+		FloatList getCO2OutputFlowrates();
         };
         interface AirProducer{
                 void setAirOutputFlowrate(in float liters, in long index);
                 float getAirOutputFlowrate(in long index);
                 void setAirOutputs(in environment::SimEnvironmentList destinations, in FloatList flowRates);
 		environment::SimEnvironmentList getAirOutputs();
+		FloatList getAirOutputFlowrates();
         };
         interface BiomassProducer{
                 void setBiomassOutputFlowrate(in float kilograms, in long index);
                 float getBiomassOutputFlowrate(in long index);
                 void setBiomassOutputs(in food::BiomassStoreList destinations, in FloatList flowRates);
 		food::BiomassStoreList getBiomassOutputs();
+		FloatList getBiomassOutputFlowrates();
         };
         interface FoodProducer{
                 void setFoodOutputFlowrate(in float kilograms, in long index);
                 float getFoodOutputFlowrate(in long index);
                 void setFoodOutputs(in food::FoodStoreList destinations, in FloatList flowRates);
 		food::FoodStoreList getFoodOutputs();
+		FloatList getFoodOutputFlowrates();
         };
 	interface LightConsumer{
                 void setLightInput(in environment::SimEnvironment source);

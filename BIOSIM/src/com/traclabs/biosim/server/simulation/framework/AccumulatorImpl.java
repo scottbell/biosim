@@ -119,14 +119,29 @@ public abstract class AccumulatorImpl extends BioModuleImpl implements Accumulat
 	}
 	
 	private void getAndPushResources(){
-		float gatheredPower = 0f;
-		for (int i = 0; (i < myPowerInputs.length) && (gatheredPower < powerInFlowRates[i]); i++){
-			gatheredPower += myPowerInputs[i].take(powerInFlowRates[i]);
-		}
-		for (int i = 0; (i < myPowerOutputs.length) && (gatheredPower > 0); i++){
-			float powerToDistribute = Math.min(gatheredPower, powerOutFlowRates[i]);
-			gatheredPower -= myPowerOutputs[i].add(powerToDistribute);
-		}
+		float powerGathered = getMaxResourceFromStore(myPowerInputs, powerInFlowRates);
+		float powerPushed = pushResourceToStore(myPowerOutputs, powerOutFlowRates, powerGathered);
+		
+		float greyWaterGathered = getMaxResourceFromStore(myGreyWaterInputs, greyWaterInFlowRates);
+		float greyWaterPushed = pushResourceToStore(myGreyWaterOutputs, greyWaterOutFlowRates, greyWaterGathered);
+		
+		float potableWaterGathered = getMaxResourceFromStore(myPotableWaterInputs, potableWaterInFlowRates);
+		float potableWaterPushed = pushResourceToStore(myPotableWaterOutputs, potableWaterOutFlowRates, potableWaterGathered);
+		
+		float dirtyWaterGathered = getMaxResourceFromStore(myDirtyWaterInputs, dirtyWaterInFlowRates);
+		float dirtyWaterPushed = pushResourceToStore(myDirtyWaterOutputs, dirtyWaterOutFlowRates, dirtyWaterGathered);
+		
+		float biomassGathered = getMaxResourceFromStore(myBiomassInputs, biomassInFlowRates);
+		float biomassPushed = pushResourceToStore(myBiomassOutputs, biomassOutFlowRates, biomassGathered);
+		
+		float foodGathered = getMaxResourceFromStore(myFoodInputs, foodInFlowRates);
+		float foodPushed = pushResourceToStore(myFoodOutputs, foodOutFlowRates, foodGathered);
+		
+		float O2Gathered = getMaxResourceFromStore(myO2Inputs, O2InFlowRates);
+		float O2Pushed = pushResourceToStore(myO2Outputs, O2OutFlowRates, O2Gathered);
+		
+		float CO2Gathered = getMaxResourceFromStore(myCO2Inputs, CO2InFlowRates);
+		float CO2Pushed = pushResourceToStore(myCO2Outputs, CO2OutFlowRates, CO2Gathered);
 	}
 
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
@@ -484,5 +499,13 @@ public abstract class AccumulatorImpl extends BioModuleImpl implements Accumulat
 
 	public CO2Store[] getCO2Outputs(){
 		return myCO2Outputs;
+	}
+	
+	/**
+	* Returns the name of the module, "Unamed" if not overriden
+	* @return the name of this module
+	*/
+	public String getModuleName(){
+		return "Accumulator"+getID();
 	}
 }

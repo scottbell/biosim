@@ -291,6 +291,10 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations,
 	public SimEnvironment[] getAirInputs(){
 		return myAirInputs;
 	}
+	
+	public float[] getAirInputFlowrates(){
+		return airInFlowRates;
+	}
 
 	public void setAirOutputFlowrate(float liters, int index){
 		airOutFlowRates[index] = liters;
@@ -307,6 +311,10 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations,
 
 	public SimEnvironment[] getAirOutputs(){
 		return myAirOutputs;
+	}
+	
+	public float[] getAirOutputFlowrates(){
+		return airOutFlowRates;
 	}
 	
 	public void setPotableWaterInputFlowrate(float liters, int index){
@@ -326,6 +334,10 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations,
 		return myPotableWaterStores;
 	}
 	
+	public float[] getPotableWaterInputFlowrates(){
+		return potableWaterFlowRates;
+	}
+	
 	public void setGreyWaterOutputFlowrate(float liters, int index){
 		greyWaterFlowRates[index] = liters;
 	}
@@ -341,6 +353,10 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations,
 	
 	public GreyWaterStore[] getGreyWaterOutputs(){
 		return myGreyWaterStores;
+	}
+	
+	public float[] getGreyWaterOutputFlowrates(){
+		return greyWaterFlowRates;
 	}
 	
 	public void setDirtyWaterOutputFlowrate(float liters, int index){
@@ -360,6 +376,10 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations,
 		return myDirtyWaterStores;
 	}
 	
+	public float[] getDirtyWaterOutputFlowrates(){
+		return dirtyWaterFlowRates;
+	}
+	
 	public void setFoodInputFlowrate(float kilograms, int index){
 		foodFlowRates[index] = kilograms;
 	}
@@ -375,5 +395,9 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations,
 	
 	public FoodStore[] getFoodInputs(){
 		return myFoodStores;
+	}
+	
+	public float[] getFoodInputFlowrates(){
+		return foodFlowRates;
 	}
 }
