@@ -14,6 +14,7 @@
 	<property name="nsDir" location="${tmpDir}/ns"/>
 	<property name="resourceDir" location="resources"/>
 	<property name="stubsDir" location="stubs"/>
+	<property name="parserHackTmpDir" location="${tmpDir}/jacorb"/>
 	<!-- set server properties for this build -->
 	<property name="log4jDir" location="${lib}/log4j"/>
 	<!-- set client properties for this build -->
@@ -46,9 +47,10 @@
 		<mkdir dir="${tmpDir}"/>
 	</target>
 	
-  	<target name="stub-idl" depends="init-build" description="stub the IDL file">
+  	<target name="stub-idl" depends="init-build,init-tmp" description="stub the IDL file">
 		<mkdir dir="${stubsDir}"/>
-		<javac srcdir="${jacorbDir}">
+		<mkdir dir="${parserHackTmpDir}"/>
+		<javac srcdir="${jacorbDir}" destdir="${parserHackTmpDir}">
 			<classpath>
 				<pathelement location="${jacorbDir}/idl.jar"/>
 			</classpath>
@@ -59,7 +61,7 @@
 			<arg file="${stubsDir}"/>
 			<arg file="${src}/com/traclabs/biosim/idl/biosim.idl"/>
 			<classpath>
-				<pathelement location="${jacorbDir}"/>
+				<pathelement location="${parserHackTmpDir}"/>
 				<pathelement location="${jacorbDir}/idl.jar"/>
 				<pathelement location="${jacorbDir}/logkit.jar"/>
 			</classpath>
@@ -328,9 +330,6 @@
 	</target>
 
 	<target name="clean-all" depends="clean" description="clean up everything (docs, tmp, dists)">
-		<delete>
-			<fileset dir="${jacorbDir}" includes="*.class"/>
-		</delete>
 		<delete dir="${distDir}"/>
 		<delete dir="${tmpDir}"/>
 		<delete dir="${javadocDir}"/>
