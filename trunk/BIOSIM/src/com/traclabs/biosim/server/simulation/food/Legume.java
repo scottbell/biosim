@@ -30,8 +30,8 @@ public abstract class Legume extends Planophile{
 	protected float getCarbonUseEfficiency24(){
 		float CUEMax = getCUEMax();
 		float timeTillCanopySenescence = getTimeAtCanopySenescence();
-		System.out.println("Legume: CUEMax: "+CUEMax);
-		System.out.println("Legume: timeTillCanopySenescence: "+timeTillCanopySenescence);
+		//System.out.println("Legume: CUEMax: "+CUEMax);
+		//System.out.println("Legume: timeTillCanopySenescence: "+timeTillCanopySenescence);
 		if (getDaysOfGrowth() < getTimeAtCanopySenescence()){
 			return CUEMax; 
 		}
@@ -40,9 +40,9 @@ public abstract class Legume extends Planophile{
 			float daysOfGrowth = getDaysOfGrowth();
 			float timeTillCropMaturity = getTimeAtCropMaturity();
 			float calculatedCUE24 = CUEMax - ((CUEMax - CUEMin) * ((daysOfGrowth - timeTillCanopySenescence)) / (timeTillCropMaturity - timeTillCanopySenescence));
-			System.out.println("Legume: CUEMin: "+CUEMin);
-			System.out.println("Legume: daysOfGrowth: "+daysOfGrowth);
-			System.out.println("Legume: timeTillCropMaturity: "+timeTillCropMaturity);
+			//System.out.println("Legume: CUEMin: "+CUEMin);
+			//System.out.println("Legume: daysOfGrowth: "+daysOfGrowth);
+			//System.out.println("Legume: timeTillCropMaturity: "+timeTillCropMaturity);
 			if (calculatedCUE24 < 0f)
 				return 0f;
 			else

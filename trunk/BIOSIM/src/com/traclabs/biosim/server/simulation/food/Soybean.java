@@ -36,7 +36,7 @@ public class Soybean extends Legume{
 	}
 
 	protected float getConstantPPF(){
-		return 28000000f;
+		return 324.07f;
 	}
 
 	protected float getBCF(){

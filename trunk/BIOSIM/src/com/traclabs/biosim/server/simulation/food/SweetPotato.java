@@ -29,11 +29,11 @@ public class SweetPotato extends Planophile{
 	}
 
 	protected float getConstantPPF(){
-		return 28000000f;
+		return 324.07f;
 	}
 	
 	protected float getCarbonUseEfficiency24(){
-		return 0.0f;
+		return 0.625f;
 	}
 
 	protected float getBCF(){
