@@ -2,9 +2,6 @@ module framework{
         interface GenericActuator : framework::BioModule{
 		double getValue();
 	};
-	interface GenericActuator : framework::BioModule{
-		double getValue();
-	};
 	interface PowerActuator{
                 void setPowerActuatorOutput(in simulation::power::PowerStore destination);
 		simulation::power::PowerStore getPowerActuatorOutput();
