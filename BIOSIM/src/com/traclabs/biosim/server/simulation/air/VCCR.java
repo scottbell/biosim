@@ -13,8 +13,6 @@ import biosim.server.util.*;
 
 public class VCCR extends AirRSSubSystem{
 	private Breath myBreath;
-	private SimEnvironment[] myAirInputs;
-	private SimEnvironment[] myAirOutputs;
 	private float litersAirNeeded = 4.0f;
 	private boolean enoughAir = false;
 	private float myProductionRate = 1f;
@@ -44,27 +42,15 @@ public class VCCR extends AirRSSubSystem{
 		return myProductionRate;
 	}
 
-	/**
-	* Collects references to subsystems needed for putting/getting resources
-	*/
-	private void collectReferences(){
-		if (!hasCollectedReferences){
-			myAirInputs = myAirRS.getAirInputs();
-			myAirOutputs = myAirRS.getAirOutputs();
-			myPowerStores = myAirRS.getPowerInputs();
-			hasCollectedReferences = true;
-		}
-	}
-
 	private void gatherAir(){
 		float airNeededFiltered = myAirRS.randomFilter(litersAirNeeded);
 		float gatheredAir = 0f;
 		float gatheredO2 = 0f;
 		float gatheredCO2 = 0f;
 		float gatheredOther = 0f;
-		for (int i = 0; (i < myAirInputs.length) && (gatheredAir < airNeededFiltered); i++){
+		for (int i = 0; (i < myAirRS.getAirInputs().length) && (gatheredAir < airNeededFiltered); i++){
 			airNeededFiltered = Math.min(airNeededFiltered, myAirRS.getAirInputFlowrate(i));
-			Breath currentBreath = myAirInputs[i].takeVolume(airNeededFiltered);
+			Breath currentBreath = myAirRS.getAirInputs()[i].takeVolume(airNeededFiltered);
 			gatheredAir += currentBreath.O2 + currentBreath.CO2 + currentBreath.other;
 			gatheredO2 += currentBreath.CO2;
 			gatheredCO2 += currentBreath.O2;
@@ -82,18 +68,18 @@ public class VCCR extends AirRSSubSystem{
 	private void pushAir(){
 		float distributedO2Left = myBreath.O2 * myProductionRate;
 		float distributedOtherLeft = myBreath.other * myProductionRate;
-		for (int i = 0; (i < myAirOutputs.length) && ((distributedO2Left > 0) || (distributedOtherLeft > 0)); i++){
+		for (int i = 0; (i < myAirRS.getAirOutputs().length) && ((distributedO2Left > 0) || (distributedOtherLeft > 0)); i++){
 			float litersToAdd = distributedO2Left + distributedOtherLeft;
 			if (litersToAdd <= myAirRS.getAirOutputFlowrate(i)){
-				distributedO2Left -= myAirOutputs[i].addO2(distributedO2Left);
-				distributedOtherLeft -= myAirOutputs[i].addOther(distributedOtherLeft);
+				distributedO2Left -= myAirRS.getAirOutputs()[i].addO2(distributedO2Left);
+				distributedOtherLeft -= myAirRS.getAirOutputs()[i].addOther(distributedOtherLeft);
 			}
 			else{
 				//Recalculate percentages based on smaller volume
 				float reducedO2ToPass = myAirRS.getAirOutputFlowrate(i) * (distributedO2Left / (distributedO2Left + distributedOtherLeft));
 				float reducedOtherToPass = myAirRS.getAirOutputFlowrate(i) * (distributedOtherLeft / (distributedO2Left + distributedOtherLeft));
-				distributedO2Left -= myAirOutputs[i].addO2(reducedO2ToPass);
-				distributedOtherLeft -= myAirOutputs[i].addOther(reducedOtherToPass);
+				distributedO2Left -= myAirRS.getAirOutputs()[i].addO2(reducedO2ToPass);
+				distributedOtherLeft -= myAirRS.getAirOutputs()[i].addOther(reducedOtherToPass);
 			}
 
 		}
@@ -113,7 +99,6 @@ public class VCCR extends AirRSSubSystem{
 	}
 
 	public void tick(){
-		collectReferences();
 		gatherPower();
 		if (hasEnoughPower){
 			gatherAir();

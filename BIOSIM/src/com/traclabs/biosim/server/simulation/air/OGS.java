@@ -12,8 +12,6 @@ import biosim.server.util.*;
  */
 
 public class OGS extends AirRSSubSystem{
-	private O2Store[] myO2Stores;
-	private CRS myCRS;
 	private float H2ONeeded = 1.0f;
 	private boolean enoughH2O = false;
 	private float currentH2OConsumed = 0;
@@ -33,18 +31,6 @@ public class OGS extends AirRSSubSystem{
 		return currentO2Produced;
 	}
 
-	/**
-	* Collects references to subsystems needed for putting/getting resources
-	*/
-	private void collectReferences(){
-		if (!hasCollectedReferences){
-			myCRS = myAirRS.getCRS();
-			myO2Stores = myAirRS.getO2Outputs();
-			myPowerStores = myAirRS.getPowerInputs();
-			hasCollectedReferences = true;
-		}
-	}
-
 	public float addH2O(float H2OtoAdd){
 		currentH2OConsumed = myAirRS.randomFilter(H2OtoAdd);
 		if (currentH2OConsumed < H2ONeeded)
@@ -58,9 +44,9 @@ public class OGS extends AirRSSubSystem{
 		currentO2Produced = myAirRS.randomFilter(currentH2OConsumed * 0.70f) * myProductionRate;
 		currentH2Produced = myAirRS.randomFilter(currentH2OConsumed * 0.30f) * myProductionRate;
 		float distributedO2 = myAirRS.randomFilter(currentO2Produced);
-		for (int i = 0; (i < myO2Stores.length) && (distributedO2 > 0); i++){
+		for (int i = 0; (i < myAirRS.getO2Outputs().length) && (distributedO2 > 0); i++){
 			float O2ToDistribute = Math.min(distributedO2, myAirRS.getO2OutputFlowrate(i));
-			distributedO2 -= myO2Stores[i].add(O2ToDistribute);
+			distributedO2 -= myAirRS.getO2Outputs()[i].add(O2ToDistribute);
 		}
 	}
 
@@ -88,7 +74,6 @@ public class OGS extends AirRSSubSystem{
 	}
 
 	public void tick(){
-		collectReferences();
 		gatherPower();
 		if (hasEnoughPower){
 			pushGasses();
