@@ -93,7 +93,7 @@ public class SimDesktop extends BaseJFrame
 	//Local flags set when simulation is paused/started
 	//Probably unecessary as this information can be accessed from the BioSimulator itself, not sure if that'll work though.
 	private boolean isPaused = false;
-	private boolean isStarted = true;
+	private boolean isStarted = false;
 	
 	/**
 	* Creates a BioSimulator, a panel hashtable, and creates the GUI
@@ -330,8 +330,8 @@ public class SimDesktop extends BaseJFrame
 		public void actionPerformed(ActionEvent ae){
 			//Flip whatever state we were in.
 			isStarted = !isStarted;
-			//If we're already started, end the simulation
-			if (isStarted){
+			//We want to stop the simulation
+			if (!isStarted){
 				setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				myStartSimButton.setToolTipText("Starts the simulation");
 				myStartSimButton.setIcon(startIcon);
@@ -343,7 +343,7 @@ public class SimDesktop extends BaseJFrame
 				myBiosim.endSimulation();
 				setCursor(Cursor.getDefaultCursor());
 			}
-			//We haven't started the simulation, start one up.
+			//We want to start the simulation
 			else{
 				setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				myStartSimButton.setToolTipText("Ends the simulation");
@@ -388,8 +388,8 @@ public class SimDesktop extends BaseJFrame
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			//Flip whatever state we were in.
 			isPaused = !isPaused;
-			//If we're already paused, resume the simulation
-			if (isPaused){
+			//We want to resume the simulation
+			if (!isPaused){
 				myPauseSimButton.setToolTipText("Pause the simulation");
 				myPauseSimButton.setIcon(pauseIcon);
 				myPauseSimItem.setText("Pause");
@@ -397,7 +397,7 @@ public class SimDesktop extends BaseJFrame
 				myAdvanceSimItem.setEnabled(false);
 				myBiosim.resumeSimulation();
 			}
-			//If we're running, pause the simulation
+			//We want to pause the simulation
 			else{myPauseSimButton.setToolTipText("Resume the simulation");
 				myPauseSimButton.setIcon(playIcon);
 				myPauseSimItem.setText("Resume");
