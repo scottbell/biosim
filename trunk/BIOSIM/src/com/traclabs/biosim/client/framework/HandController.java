@@ -69,11 +69,6 @@ public class HandController{
 	float PlantCO2Level = .001f;
 	float crewO2integral, crewCO2integral, plantO2integral, plantCO2integral;
  
- 	float co2overflow = 0f; 
-	float dwoverflow = 0f; 
-	float pwoverflow = 0f; 
-	float o2overflow = 0f; 
-	float h2overflow = 0f; 
 
 	// hand controller stuff;
 	int water = 1;
@@ -86,7 +81,6 @@ public class HandController{
 	ActionMap currentAction;
 	Map ClassifiedState;
 
-	boolean endSim  = false;
 	static int Runs = 0;
 
 	static Map ThresholdMap = new TreeMap();
@@ -95,7 +89,7 @@ public class HandController{
 	static BioHolder myBioHolder;
 	
 	static int ATMOSPHERIC_PERIOD =1; 
-	static int SYSTEM_PERIOD_MULT = 10; 
+	static int CORE_PERIOD_MULT = 10; 
 	static int PLANT_PERIOD_MULT = 10; 
 	
 	public static String[] stateNames = {"carbondioxide", "dirtywater", "greywater", "hydrogen", "oxygen", "potablewater"}; 
@@ -138,6 +132,8 @@ public class HandController{
 		myBioDriver.startSimulation();
 		BiomassRS myBiomassRS = (BiomassRS)(myBioHolder.theBiomassRSModules.get(0));  
 		myBiomassRS.setAutoHarvestAndReplantEnabled(false); 
+		FoodProcessor myFoodProcessor = (FoodProcessor)myBioHolder.theFoodProcessors.get(0);
+
 		
 		CrewGroup myCrew = (CrewGroup)myBioHolder.theCrewGroups.get(0);
 		WaterRS myWaterRS = (WaterRS)myBioHolder.theWaterRSModules.get(0);
@@ -163,6 +159,8 @@ public class HandController{
 		currentActuator.setValue(10);
 		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theO2OutFlowRateActuators, myAirRS));
 		currentActuator.setValue(10);
+		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theBiomassInFlowRateActuators, myFoodProcessor));
+		currentActuator.setValue(20);
 		
 		// initialize everything to off
 		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theCO2InFlowRateActuators, myAirRS));
@@ -199,7 +197,7 @@ public class HandController{
 		setActuators(currentAction);
 		//int max_ticks = (int)Math.pow(Runs, 2); 		
 		while ((!myCrew.anyDead() ) /*&& myBioDriver.getTicks() < max_ticks*/) {			
-			if (((myBioDriver.getTicks())%(SYSTEM_PERIOD_MULT*ATMOSPHERIC_PERIOD)) == 0) {
+			if (((myBioDriver.getTicks())%(CORE_PERIOD_MULT*ATMOSPHERIC_PERIOD)) == 0) {
 				System.out.println(myBioDriver.getTicks());
 				ContinuousState.printMe();
 				currentAction.printMe();
@@ -208,7 +206,7 @@ public class HandController{
 				currentAction = handController(ClassifiedState);
 				setActuators(currentAction);
 				doFoodProcessor();
-				if (((myBioDriver.getTicks())%(PLANT_PERIOD_MULT*SYSTEM_PERIOD_MULT*ATMOSPHERIC_PERIOD)) == 0) {
+				if (((myBioDriver.getTicks())%(PLANT_PERIOD_MULT*CORE_PERIOD_MULT*ATMOSPHERIC_PERIOD)) == 0) {
 					doPlants();
 				}
 			}
@@ -320,14 +318,6 @@ public class HandController{
 		fileoutput += currentSensor.getValue()+"   ";
 
 		
-		currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theO2AirConcentrationSensors, myCrewEnvironment));
-//		System.out.println("Crew O2..."+currentSensor.getValue());
-		fileoutput += currentSensor.getValue()+"   ";
-
-		currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theCO2AirConcentrationSensors, myCrewEnvironment));
-//		System.out.println("Crew CO2..."+currentSensor.getValue());
-		fileoutput += currentSensor.getValue()+"   ";
-
 		
 		currentSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theO2AirConcentrationSensors, myCrewEnvironment));
 //		System.out.println("Crew O2..."+currentSensor.getValue());
@@ -398,7 +388,7 @@ public class HandController{
 		
 		//crew O2 feedback control
 		crewO2p = 200f;
-		crewO2i = 0.5f;
+		crewO2i = 0.2f;
 		levelSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theO2AirConcentrationSensors, myCrewEnvironment));
 		crewO2 = levelSensor.getValue();
 		delta = (float)(CrewO2Level - crewO2);
@@ -412,7 +402,7 @@ public class HandController{
 
 		//crew CO2 feedback control
 		crewCO2p = -200f;
-		crewCO2i = -0.5f;
+		crewCO2i = -0.2f;
 		levelSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theCO2AirConcentrationSensors, myCrewEnvironment));
 		crewCO2 = levelSensor.getValue();
 		delta = (float)(CrewCO2Level - crewCO2);
@@ -426,7 +416,7 @@ public class HandController{
 
 		//plant O2 feedback control
 		plantO2p = -200f;
-		plantO2i = -1f;
+		plantO2i = -0.2f;
 		levelSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theO2AirConcentrationSensors, myPlantEnvironment));
 		plantO2 = levelSensor.getValue();
 		delta = (float)(PlantO2Level - plantO2);
@@ -440,7 +430,7 @@ public class HandController{
 
 		//plant CO2 feedback control
 		plantCO2p = 200f;
-		plantCO2i = 1f;
+		plantCO2i = 0.2f;
 		levelSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theCO2AirConcentrationSensors, myPlantEnvironment));
 		plantCO2 = levelSensor.getValue();
 		delta = (float)(PlantCO2Level - plantCO2);
@@ -478,7 +468,7 @@ public class HandController{
 		biomass = (float)myBiomassStoreLevelSensor.getValue();
 		food = (float)myFoodStoreLevelSensor.getValue();
 
-		if (food == 0) endSim = true;
+		
 		if (biomass == 0) turnon = false;
 		else if (food >= 2000) turnon = false;
 		else turnon = true;
@@ -547,16 +537,15 @@ public class HandController{
 		int num = myBioHolder.theHarvestSensors.size(); 
 		
 		
-		
 		for (i=0;i<num;i++) { 
-			currentSensor = (GenericSensor)myBioHolder.theHarvestSensors.get(i); 
-			currentActuator = (PlantingActuator)myBioHolder.thePlantingActuators.get(i); 
+			currentSensor = (GenericSensor)myBioHolder.getShelfSensorAttachedTo(myBioHolder.theHarvestSensors, myBiomassRS, i); 
+			currentActuator = (PlantingActuator)myBioHolder.getShelfActuatorAttachedTo(myBioHolder.thePlantingActuators, myBiomassRS, i); 
 
 			if (currentSensor.getValue() == 1f) { 
 				System.out.println(" Harvest Sensor "+currentSensor.getValue());
 				myBiomassRS.getShelf(i).harvest(); 
 				cropacres = myBiomassRS.getShelf(i).getCropAreaTotal();
-				System.out.println("Planting "+cropacres+" m^2."+((Shelf)myBiomassRS.getShelf(i)).getTypeString()); 
+	//			System.out.println("Planting "+cropacres+" m^2."+((Shelf)myBiomassRS.getShelf(i)).getTypeString()); 
 				currentActuator.setPlantType(myBiomassRS.getShelf(i).getCropType());
 				currentActuator.setValue(cropacres);	
 			}
