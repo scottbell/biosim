@@ -67,7 +67,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	//How much O2 this crew member needs to consume in one tick
 	private float O2Needed = 0f;
 	//How much potable water this crew member needs to consume in one tick
-	private float cleanWaterNeeded = 0f;
+	private float potableWaterNeeded = 0f;
 	//How much food this crew member needs to consume in one tick
 	private float foodNeeded = 0f;
 	//The breath inhaled by this crew member in the current tick
@@ -78,23 +78,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private int myMissionProductivity = 0;
 	private Schedule mySchedule;
 	private CrewGroupImpl myCrewGroup;
-
-	public static String powerPSName = "PowerPS";
-	public static String powerStoreName = "PowerStore";
-	public static String airRSName = "AirRS";
-	public static String CO2StoreName = "CO2Store";
-	public static String O2StoreName = "O2Store";
-	public static String biomassRSName = "BiomassRS";
-	public static String biomassStoreName = "BiomassStore";
-	public static String foodProcessorName = "FoodProcessor";
-	public static String foodStoreName = "FoodStore";
-	public static String waterRSName = "WaterRS";
-	public static String dirtyWaterStoreName = "DirtyWaterStore";
-	public static String potableWaterStoreName = "PotableWaterStore";
-	public static String greyWaterStoreName = "GreyWaterStore";
-	public static String simEnvironmentName = "SimEnvironment";
-	//A hastable containing the server references
-	private static Map myModules;
 
 	/**
 	* Constructor that creates a new crew person
@@ -111,11 +94,14 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		myCrewGroup = pCrewGroup;
 		mySchedule = new Schedule();
 		myCurrentActivity = mySchedule.getScheduledActivityByOrder(currentOrder);
+		airRetrieved = new Breath(0f, 0f, 0f);
 	}
 
 	void reset(){
-		airRetrieved = new Breath(0f, 0f, 0f);
-		mySchedule = new Schedule();
+		airRetrieved.O2 = 0f;
+		airRetrieved.CO2 = 0f;
+		airRetrieved.other = 0f;
+		mySchedule.reset();
 		myMissionProductivity = 0;
 		currentOrder = 0;
 		myCurrentActivity = mySchedule.getScheduledActivityByOrder(currentOrder);
@@ -137,7 +123,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		dirtyWaterProduced = 0f;
 		greyWaterProduced = 0f;
 		O2Needed = 0f;
-		cleanWaterNeeded = 0f;
+		potableWaterNeeded = 0f;
 		foodNeeded = 0f;
 	}
 
@@ -320,75 +306,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	}
 
 	/**
-	* Tries to collect references to all the servers and adds them to a hashtable than can be accessed by outside classes.
-	*/
-	private void collectReferences(){
-		if (hasCollectedReferences)
-			return;
-		// resolve the Objects Reference in Naming
-		try{
-			if (myModules == null)
-				myModules = new Hashtable();
-			int myID = myCrewGroup.getID();
-			//add ID to names...
-			powerPSName = "PowerPS" + myID;
-			powerStoreName = "PowerStore" + myID;
-			airRSName = "AirRS" + myID;
-			CO2StoreName = "CO2Store" + myID;
-			O2StoreName = "O2Store" + myID;
-			biomassRSName = "BiomassRS" + myID;
-			biomassStoreName = "BiomassStore" + myID;
-			foodProcessorName = "FoodProcessor" + myID;
-			foodStoreName = "FoodStore" + myID;
-			waterRSName = "WaterRS" + myID;
-			dirtyWaterStoreName = "DirtyWaterStore" + myID;
-			potableWaterStoreName = "PotableWaterStore" + myID;
-			greyWaterStoreName = "GreyWaterStore" + myID;
-			simEnvironmentName = "SimEnvironment" + myID;
-			PowerPS myPowerPS = PowerPSHelper.narrow(OrbUtils.getNCRef().resolve_str(powerPSName));
-			myModules.put(powerPSName, myPowerPS);
-			PowerStore myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(powerStoreName));
-			myModules.put(powerStoreName, myPowerStore);
-			AirRS myAirRS = AirRSHelper.narrow(OrbUtils.getNCRef().resolve_str(airRSName));
-			myModules.put(airRSName, myAirRS);
-			SimEnvironment mySimEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str(simEnvironmentName));
-			myModules.put(simEnvironmentName, mySimEnvironment);
-			GreyWaterStore myGreyWaterStore = GreyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(greyWaterStoreName));
-			myModules.put(greyWaterStoreName, myGreyWaterStore);
-			PotableWaterStore myPotableWaterStore = PotableWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(potableWaterStoreName));
-			myModules.put(potableWaterStoreName, myPotableWaterStore);
-			DirtyWaterStore myDirtyWaterStore = DirtyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(dirtyWaterStoreName));
-			myModules.put(dirtyWaterStoreName, myDirtyWaterStore);
-			FoodProcessor myFoodProcessor = FoodProcessorHelper.narrow(OrbUtils.getNCRef().resolve_str(foodProcessorName));
-			myModules.put(foodProcessorName, myFoodProcessor);
-			FoodStore myFoodStore= FoodStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(foodStoreName));
-			myModules.put(foodStoreName, myFoodStore);
-			CO2Store myCO2Store = CO2StoreHelper.narrow(OrbUtils.getNCRef().resolve_str(CO2StoreName));
-			myModules.put(CO2StoreName, myCO2Store);
-			O2Store myO2Store = O2StoreHelper.narrow(OrbUtils.getNCRef().resolve_str(O2StoreName));
-			myModules.put(O2StoreName, myO2Store);
-			BiomassRS myBiomassRS = BiomassRSHelper.narrow(OrbUtils.getNCRef().resolve_str(biomassRSName));
-			myModules.put(biomassRSName, myBiomassRS);
-			BiomassStore myBiomassStore = BiomassStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(biomassStoreName));
-			myModules.put(biomassStoreName, myBiomassStore);
-			WaterRS myWaterRS = WaterRSHelper.narrow(OrbUtils.getNCRef().resolve_str(waterRSName));
-			myModules.put(waterRSName, myWaterRS);
-			hasCollectedReferences = true;
-		}
-		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioHolder: Had problems collecting server references, polling again...");
-			OrbUtils.sleepAwhile();
-			collectReferences();
-		}
-		catch (Exception e){
-			System.err.println("BioHolder: Had problems collecting server references, polling again...");
-			OrbUtils.resetInit();
-			OrbUtils.sleepAwhile();
-			collectReferences();
-		}
-	}
-
-	/**
 	* If the crew memeber has been performing the current activity long enough, the new scheduled activity is assigned.
 	*/
 	private void advanceActivity(){
@@ -419,16 +336,16 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	}
 
 	private void repairModule(String moduleName, long id){
-		BioModule moduleToRepair = (BioModule)(myModules.get(moduleName));
-		if (moduleToRepair != null)
+		try{
+			BioModule moduleToRepair = BioModuleHelper.narrow(OrbUtils.getNCRef().resolve_str(moduleName));
 			moduleToRepair.repair(id);
+		}
+		catch (org.omg.CORBA.UserException e){
+			System.err.println("CrewPersonImp:"+myCrewGroup.getID()+": Couldn't locate "+moduleName+" to repair, skipping...");
+		}
 	}
 
 	private void maitenanceModule(String moduleName){
-	}
-
-	private BioModule getBioModule(String moduleName){
-		return (BioModule)(myModules.get(moduleName));
 	}
 
 	/**
@@ -444,14 +361,12 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	public void tick(){
 		timeActivityPerformed++;
 		if (!hasDied){
-			collectReferences();
 			advanceActivity();
 			consumeResources();
 			afflictCrew();
 			deathCheck();
 		}
 		else if (isSick){
-			collectReferences();
 			consumeResources();
 			afflictCrew();
 			deathCheck();
@@ -595,7 +510,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			personStarving = false;
 			starvingTime = 0;
 		}
-		if (cleanWaterConsumed < cleanWaterNeeded){
+		if (cleanWaterConsumed < potableWaterNeeded){
 			personThirsty = true;
 			thirstTime++;
 		}
@@ -613,7 +528,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		}
 		if (O2Consumed < O2Needed){
 			personSuffocating = true;
-			System.out.println("CrewPersonImpl"+myCrewGroup.getID()+": "+myName + " needed "+O2Needed+" of 02, got "+O2Consumed);
 			suffocateTime++;
 		}
 		else{
@@ -628,6 +542,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private void deathCheck(){
 		//check for death
 		if (starvingTime > 504){
+			System.out.println("CrewPersonImpl"+myCrewGroup.getID()+": "+myName + " dead from starvation");
 			hasDied = true;
 		}
 		else if (thirstTime > 72){
@@ -664,28 +579,56 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	*/
 	private void consumeResources(){
 		//get server references from List
-		FoodStore myFoodStore = (FoodStore)(myModules.get(foodStoreName));
-		PotableWaterStore myPotableWaterStore = (PotableWaterStore)(myModules.get(potableWaterStoreName));
-		SimEnvironment myCurrentEnvironment = (SimEnvironment)(myModules.get(simEnvironmentName));
-		DirtyWaterStore myDirtyWaterStore = (DirtyWaterStore)(myModules.get(dirtyWaterStoreName));
-		GreyWaterStore myGreyWaterStore = (GreyWaterStore)(myModules.get(greyWaterStoreName));
-		//consume
+		FoodStore[] myFoodInputs = myCrewGroup.getFoodInputs();
+		PotableWaterStore[] myPotableWaterInputs = myCrewGroup.getPotableWaterInputs();
+		SimEnvironment[] myAirInputs = myCrewGroup.getAirInputs();
+		SimEnvironment[] myAirOutputs = myCrewGroup.getAirOutputs();
+		DirtyWaterStore[] myDirtyWaterOutputs = myCrewGroup.getDirtyWaterOutputs();
+		GreyWaterStore[] myGreyWaterOutputs = myCrewGroup.getGreyWaterOutputs();
+		//calculate consumption
 		int currentActivityIntensity = myCurrentActivity.getActivityIntensity();
 		O2Needed = calculateO2Needed(currentActivityIntensity);
-		cleanWaterNeeded = calculateCleanWaterNeeded(currentActivityIntensity);
+		potableWaterNeeded = calculateCleanWaterNeeded(currentActivityIntensity);
 		foodNeeded = calculateFoodNeeded(currentActivityIntensity);
-		dirtyWaterProduced = calculateDirtyWaterProduced(cleanWaterNeeded);
+		dirtyWaterProduced = calculateDirtyWaterProduced(potableWaterNeeded);
 		greyWaterProduced = calculateGreyWaterProduced(dirtyWaterProduced);
 		CO2Produced = calculateCO2Produced(O2Needed);
 		//adjust tanks
-		foodConsumed = myFoodStore.take(foodNeeded);
-		cleanWaterConsumed = myPotableWaterStore.take(cleanWaterNeeded);
-		airRetrieved = myCurrentEnvironment.takeO2Breath(O2Needed);
+		float gatheredFood = 0f;
+		for (int i = 0; (i < myFoodInputs.length) && (gatheredFood < foodNeeded); i++){
+			float foodToGather = Math.min(foodNeeded, myCrewGroup.getFoodInputFlowrate(i)); 
+			gatheredFood += myFoodInputs[i].take(foodToGather);
+		}
+		foodConsumed = gatheredFood;
+		float gatheredPotableWater = 0f;
+		for (int i = 0; (i < myPotableWaterInputs.length) && (gatheredPotableWater < potableWaterNeeded); i++){
+			float potableWaterToGather = Math.min(potableWaterNeeded, myCrewGroup.getPotableWaterInputFlowrate(i)); 
+			gatheredPotableWater += myPotableWaterInputs[i].take(potableWaterToGather);
+		}
+		cleanWaterConsumed = gatheredPotableWater;
+		float distributedDirtyWaterLeft = dirtyWaterProduced;
+		for (int i = 0; (i < myDirtyWaterOutputs.length) && (distributedDirtyWaterLeft > 0); i++){
+			float dirtyWaterToDistribute = Math.min(distributedDirtyWaterLeft, myCrewGroup.getDirtyWaterOutputFlowrate(i));
+			distributedDirtyWaterLeft -= myDirtyWaterOutputs[i].add(dirtyWaterToDistribute);
+		}
+		float distributedGreyWaterLeft = greyWaterProduced;
+		for (int i = 0; (i < myGreyWaterOutputs.length) && (distributedGreyWaterLeft > 0); i++){
+			float greyWaterToDistribute = Math.min(distributedGreyWaterLeft, myCrewGroup.getGreyWaterOutputFlowrate(i));
+			distributedGreyWaterLeft -= myGreyWaterOutputs[i].add(greyWaterToDistribute);
+		}
+		if (myAirInputs.length < 1){
+			airRetrieved.O2 = 0;
+			airRetrieved.CO2 = 0;
+			airRetrieved.other = 0;
+		}
+		else{
+			airRetrieved = myAirInputs[0].takeO2Breath(O2Needed);
+		}
 		O2Consumed = airRetrieved.O2;
-		myDirtyWaterStore.add(dirtyWaterProduced);
-		myGreyWaterStore.add(greyWaterProduced);
-		myCurrentEnvironment.addCO2(CO2Produced);
-		myCurrentEnvironment.addOther(airRetrieved.other);
+		if (myAirOutputs.length > 0){
+			myAirOutputs[0].addCO2(CO2Produced);
+			myAirOutputs[0].addOther(airRetrieved.other);
+		}
 	}
 
 	public void log(LogNode myLogHead){
@@ -741,8 +684,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			myLogIndex.greyWaterProducedIndex = greyWaterProducedHead.addChild(""+greyWaterProduced);
 			LogNode O2NeededHead = myLogHead.addChild("O2_needed");
 			myLogIndex.O2NeededIndex = O2NeededHead.addChild(""+O2Needed);
-			LogNode cleanWaterNeededHead = myLogHead.addChild("potable_water_needed");
-			myLogIndex.cleanWaterNeededIndex = cleanWaterNeededHead.addChild(""+cleanWaterNeeded);
+			LogNode potableWaterNeededHead = myLogHead.addChild("potable_water_needed");
+			myLogIndex.potableWaterNeededIndex = potableWaterNeededHead.addChild(""+potableWaterNeeded);
 			LogNode foodNeededHead = myLogHead.addChild("food_needed");
 			myLogIndex.foodNeededIndex = foodNeededHead.addChild(""+foodNeeded);
 			LogNode airRetrievedHead = myLogHead.addChild("air_retrieved");
@@ -781,7 +724,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			myLogIndex.dirtyWaterProducedIndex.setValue(""+dirtyWaterProduced);
 			myLogIndex.greyWaterProducedIndex.setValue(""+greyWaterProduced);
 			myLogIndex.O2NeededIndex.setValue(""+O2Needed);
-			myLogIndex.cleanWaterNeededIndex.setValue(""+cleanWaterNeeded);
+			myLogIndex.potableWaterNeededIndex.setValue(""+potableWaterNeeded);
 			myLogIndex.foodNeededIndex.setValue(""+foodNeeded);
 			myLogIndex.O2RetrievedIndex.setValue(""+airRetrieved.O2);
 			myLogIndex.CO2RetrievedIndex.setValue(""+airRetrieved.CO2);
@@ -816,7 +759,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		public LogNode dirtyWaterProducedIndex;
 		public LogNode greyWaterProducedIndex;
 		public LogNode O2NeededIndex;
-		public LogNode cleanWaterNeededIndex;
+		public LogNode potableWaterNeededIndex;
 		public LogNode foodNeededIndex;
 		public LogNode O2RetrievedIndex;
 		public LogNode CO2RetrievedIndex;

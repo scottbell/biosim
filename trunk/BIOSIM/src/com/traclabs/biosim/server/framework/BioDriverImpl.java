@@ -302,6 +302,28 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			myAirRS.setCO2Outputs(CO2StoreOutput, CO2StoreOutputFlowRates);
 			myAirRS.setCO2Inputs(CO2StoreInput, CO2StoreInputFlowRates);
 		}
+		
+		//Hook up Crew to other modules
+		{
+			SimEnvironment[] airInputs = {mySimEnvironment};
+			SimEnvironment[] airOutputs = {mySimEnvironment};
+			PotableWaterStore[] potableWaterInput = {myPotableWaterStore};
+			FoodStore[] foodInputs = {myFoodStore};
+			GreyWaterStore[] greyWaterOutputs = {myGreyWaterStore};
+			DirtyWaterStore[] dirtyWaterOutputs = {myDirtyWaterStore};
+			float[] airInputFlowRates = {10000f};
+			float[] airOutputFlowRates = {10000f};
+			float[] foodInputFlowRates = {10000f};
+			float[] potableWaterInputFlowRates = {10000f};
+			float[] dirtyWaterOutputFlowRates = {10000f};
+			float[] greyWaterOutputFlowRates = {10000f};
+			myCrew.setAirInputs(airInputs, airInputFlowRates);
+			myCrew.setAirInputs(airOutputs, airOutputFlowRates);
+			myCrew.setFoodInputs(foodInputs, foodInputFlowRates);
+			myCrew.setPotableWaterInputs(potableWaterInput, potableWaterInputFlowRates);
+			myCrew.setDirtyWaterOutputs(dirtyWaterOutputs, dirtyWaterOutputFlowRates);
+			myCrew.setGreyWaterOutputs(greyWaterOutputs, greyWaterOutputFlowRates);
+		}
 	}
 
 	/**

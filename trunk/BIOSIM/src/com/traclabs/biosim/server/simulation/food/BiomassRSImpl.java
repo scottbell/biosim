@@ -273,7 +273,6 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations,
 	public void setPowerInputs(PowerStore[] sources, float[] flowRates){
 		myPowerStores = sources;
 		powerFlowRates = flowRates;
-		System.out.println("Set power input of length: "+sources.length);
 	}
 	
 	public PowerStore[] getPowerInputs(){

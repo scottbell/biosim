@@ -112,7 +112,7 @@ public abstract class Plant {
 		CO2Consumed =airRetrieved.CO2;
 		//exhale air
 		O2Produced = new Double(airRetrieved.O2 + airRetrieved.CO2 * .90).floatValue();
-		if (myAirInputs.length > 0){
+		if (myAirOutputs.length > 0){
 			myAirOutputs[0].addO2(new Double(airRetrieved.O2 + airRetrieved.CO2 * .90).floatValue());
 			myAirOutputs[0].addOther(airRetrieved.other);
 			myAirOutputs[0].addCO2(new Double(airRetrieved.CO2 * .10).floatValue());
