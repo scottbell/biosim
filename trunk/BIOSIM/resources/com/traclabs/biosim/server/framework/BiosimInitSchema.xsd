@@ -3,43 +3,69 @@
 		<xsd:documentation xml:lang="en">BioSim Initialization Schema</xsd:documentation>
 	</xsd:annotation>
 	
-	<xsd:element name="biosim">
-		<xsd:complexType>     
-			<xsd:sequence>
-				<xsd:element name="Globals" type="GlobalsType" minOccurs="1" maxOccurs="1"/>
-				<xsd:element name="PotableWaterStore" type="PotableWaterStoreType" minOccurs="0" maxOccurs="unbounded"/>
-				<xsd:element name="DirtyWaterStore" type="Store" minOccurs="0" maxOccurs="unbounded"/>
-				<xsd:element name="GreyWaterStore" type="Store" minOccurs="0" maxOccurs="unbounded"/>
-				<xsd:element name="O2Store" type="Store" minOccurs="0" maxOccurs="unbounded"/>
-				<xsd:element name="CO2Store" type="Store" minOccurs="0" maxOccurs="unbounded"/>
-				<xsd:element name="H2Store" type="Store" minOccurs="0" maxOccurs="unbounded"/>
-				<xsd:element name="FoodStore" type="Store" minOccurs="0" maxOccurs="unbounded"/>
-				<xsd:element name="BiomassStore" type="Store" minOccurs="0" maxOccurs="unbounded"/>
-				<xsd:element name="PowerStore" type="Store" minOccurs="0" maxOccurs="unbounded"/>
-				<xsd:element name="AirRS" type="AirRSType" minOccurs="0" maxOccurs="unbounded"/>
-			</xsd:sequence>
-		</xsd:complexType>
-	</xsd:element>
-
+	<!-- Top level element declaration -->
+	<xsd:element name="biosim" type="BioSimType"/>
+	
+	<!-- Simple types -->
 	<xsd:simpleType name="floatList">
 		<xsd:list itemType="xsd:float"/>
 	</xsd:simpleType>
 	
+	<xsd:complexType name="BioSimType">
+		<xsd:all>
+			<xsd:element name="Globals" type="GlobalsType" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="PotableWaterStore" type="PotableWaterStoreType" minOccurs="0"/>
+			<xsd:element name="DirtyWaterStore" type="Store" minOccurs="0"/>
+			<xsd:element name="GreyWaterStore" type="Store" minOccurs="0"/>
+			<xsd:element name="O2Store" type="Store" minOccurs="0"/>
+			<xsd:element name="CO2Store" type="Store" minOccurs="0"/>
+			<xsd:element name="H2Store" type="Store" minOccurs="0"/>
+			<xsd:element name="FoodStore" type="Store" minOccurs="0"/>
+			<xsd:element name="BiomassStore" type="Store" minOccurs="0"/>
+			<xsd:element name="PowerStore" type="Store" minOccurs="0"/>
+			<xsd:element name="AirRS" type="AirRSType" minOccurs="0"/>
+		</xsd:all>     
+	</xsd:complexType>
+	
+	<!-- Global types -->
+	<xsd:complexType name="GlobalsType">
+		<xsd:sequence>
+			<xsd:element name="runTillDead" type="xsd:boolean"/>
+			<xsd:element name="runTillN">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="ticks" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
+					</xsd:sequence>
+					<xsd:attribute name="isEnabled" type="xsd:boolean" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="isFullLoggingEnabled" type="xsd:boolean"/>
+			<xsd:element name="isSensorLoggingEnabled" type="xsd:boolean"/>
+			<xsd:element name="isActuatorLoggingEnabled" type="xsd:boolean"/>
+			<xsd:element name="driverPauseLength" type="xsd:integer"/>
+			<xsd:element name="isLooping" type="xsd:boolean"/>
+			<xsd:element name="initialTicks" type="xsd:integer"/>
+			<xsd:element name="setStochasticIntensity" type="StochasticIntensityType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:simpleType name="StochasticIntensityType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="HIGH_STOCH"/>
+			<xsd:enumeration value="MEDIUM_STOCH"/>
+			<xsd:enumeration value="LOW_STOCH"/>
+			<xsd:enumeration value="NONE_STOCH"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	
+	
+	<!-- Producer/Consumer types -->
 	<xsd:complexType name="FlowrateTypes">  
 		<xsd:sequence>
 			<xsd:element name="maxFlowrates" type="floatList" minOccurs="1" maxOccurs="1"/>
 			<xsd:element name="desiredFlowrates" type="floatList" minOccurs="1" maxOccurs="1"/>
 		</xsd:sequence>
-	</xsd:complexType>
-	
-	<xsd:complexType name="PotableWaterConsumerType">  
-		<xsd:complexContent>
-			<xsd:extension base="FlowrateTypes">
-				<xsd:sequence>
-					<xsd:element name="potableWaterStoreInput" type="PotableWaterStoreNameType" minOccurs="1" maxOccurs="1"/>
-				</xsd:sequence>
-			</xsd:extension>
-		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="PowerConsumerType">  
@@ -52,6 +78,77 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	
+	<xsd:complexType name="PotableWaterConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowrateTypes">
+				<xsd:sequence>
+					<xsd:element name="potableWaterStoreInput" type="PotableWaterStoreNameType" minOccurs="1" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="GreyWaterConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowrateTypes">
+				<xsd:sequence>
+					<xsd:element name="greyWaterStoreInput" type="GreyWaterStoreNameType" minOccurs="1" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="DirtyWaterConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowrateTypes">
+				<xsd:sequence>
+					<xsd:element name="dirtyWaterStoreInput" type="DirtyWaterStoreNameType" minOccurs="1" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="AirConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowrateTypes">
+				<xsd:sequence>
+					<xsd:element name="airStoreInput" type="SimEnvironmentNameType" minOccurs="1" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="H2ConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowrateTypes">
+				<xsd:sequence>
+					<xsd:element name="H2StoreInput" type="H2StoreNameType" minOccurs="1" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	
+	<!-- Module declarations -->
+	<xsd:complexType name="BioModuleType">
+		<xsd:sequence>
+			<xsd:element name="isLoggingEnabled" type="xsd:boolean"/>
+			<xsd:element name="isBreakdownEnabled" type="xsd:boolean"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="Store">  
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:sequence>
+					<xsd:element name="capacity" type="xsd:integer"/>
+					<xsd:element name="level" type="xsd:integer"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<!-- Store declarations -->
 	<xsd:complexType name="PotableWaterStoreType">  
 		<xsd:complexContent>
 			<xsd:extension base="Store">
@@ -142,6 +239,8 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	
+	
+	<!-- Store name declarations -->
 	<xsd:simpleType name="PotableWaterStoreNameType">
 		<xsd:restriction base="xsd:string">
 			<xsd:pattern value="PotableWaterStore+.*"/>
@@ -196,54 +295,13 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 	
-	<xsd:complexType name="GlobalsType">
-		<xsd:sequence>
-			<xsd:element name="runTillDead" type="xsd:boolean"/>
-			<xsd:element name="runTillN">
-				<xsd:complexType>
-					<xsd:sequence>
-						<xsd:element name="ticks" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
-					</xsd:sequence>
-					<xsd:attribute name="isEnabled" type="xsd:boolean" use="required"/>
-				</xsd:complexType>
-			</xsd:element>
-			<xsd:element name="isFullLoggingEnabled" type="xsd:boolean"/>
-			<xsd:element name="isSensorLoggingEnabled" type="xsd:boolean"/>
-			<xsd:element name="isActuatorLoggingEnabled" type="xsd:boolean"/>
-			<xsd:element name="driverPauseLength" type="xsd:integer"/>
-			<xsd:element name="isLooping" type="xsd:boolean"/>
-			<xsd:element name="initialTicks" type="xsd:integer"/>
-			<xsd:element name="setStochasticIntensity" type="StochasticIntensityType"/>
-		</xsd:sequence>
-	</xsd:complexType>
-	
-	<xsd:simpleType name="StochasticIntensityType">
+	<xsd:simpleType name="SimEnvironmentNameType">
 		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="HIGH_STOCH"/>
-			<xsd:enumeration value="MEDIUM_STOCH"/>
-			<xsd:enumeration value="LOW_STOCH"/>
-			<xsd:enumeration value="NONE_STOCH"/>
+			<xsd:pattern value="SimEnvironment+.*"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 	
-	<xsd:complexType name="BioModuleType">
-		<xsd:sequence>
-			<xsd:element name="isLoggingEnabled" type="xsd:boolean"/>
-			<xsd:element name="isBreakdownEnabled" type="xsd:boolean"/>
-		</xsd:sequence>
-	</xsd:complexType>
-	
-	<xsd:complexType name="Store">  
-		<xsd:complexContent>
-			<xsd:extension base="BioModuleType">
-				<xsd:sequence>
-					<xsd:element name="capacity" type="xsd:integer"/>
-					<xsd:element name="level" type="xsd:integer"/>
-				</xsd:sequence>
-			</xsd:extension>
-		</xsd:complexContent>
-	</xsd:complexType>
-	
+	<!-- SimModule declarations -->
 	<xsd:complexType name="AirRSType">  
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
