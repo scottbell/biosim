@@ -66,6 +66,13 @@ public class SimDesktop extends BaseJFrame
 	private Action myShowPowerDisplayAction;
 	private Action myQuitAction;
 
+	private ImageIcon waterIcon;
+	private ImageIcon foodIcon;
+	private ImageIcon powerIcon;
+	private ImageIcon crewIcon;
+	private ImageIcon environmentIcon;
+	private ImageIcon airIcon;
+
 	private Hashtable myPanels;
 
 	//GUI properties
@@ -81,6 +88,8 @@ public class SimDesktop extends BaseJFrame
 
 	private void buildGUI(){
 		myDesktop = new JDesktopPane();
+
+		loadIcons();
 
 		myEndAction = new EndSimulationAction("End");
 		myStartAction = new StartSimulationAction("Start");
@@ -170,6 +179,26 @@ public class SimDesktop extends BaseJFrame
 
 		setTitle("Advanced Life Support Simulation  Copyright "+ new Character( '\u00A9' ) + " 2002, TRACLabs");
 		getContentPane().add(myDesktop, BorderLayout.CENTER);
+	}
+
+	private void loadIcons(){
+		try{
+			waterIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/waterIcon.jpg"));
+			foodIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/food/gui/foodIcon.jpg"));
+			powerIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/power/gui/powerIcon.jpg"));
+			crewIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/crew/gui/crewIcon.jpg"));
+			environmentIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/environment/gui/environmentIcon.jpg"));
+			airIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/air/gui/airIcon.jpg"));
+		}
+		catch (Exception e){
+			System.out.println("Couldn't find icons, skipping");
+			waterIcon = new ImageIcon();
+			foodIcon = new ImageIcon();
+			powerIcon = new ImageIcon();
+			crewIcon = new ImageIcon();
+			environmentIcon = new ImageIcon();
+			airIcon = new ImageIcon();
+		}
 	}
 
 	private SimDesktopFrame getSimFrame(JPanel thePanel){
