@@ -1,70 +1,19 @@
 <?xml version="1.0"?>
 <biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='BiosimInitialization.xsd'>
-	<Globals>
-		<runTillDead>true</runTillDead>
-		<runTillN isEnabled="false"/>
-		<isFullLoggingEnabled>false</isFullLoggingEnabled>
-		<isSensorLoggingEnabled>false</isSensorLoggingEnabled>
-		<isActuatorLoggingEnabled>false</isActuatorLoggingEnabled>
-		<driverPauseLength>0</driverPauseLength>
-		<initialTicks>0</initialTicks>
-		<isLooping>false</isLooping>
-		<setStochasticIntensity>NONE_STOCH</setStochasticIntensity>
-		<id>0</id>
-	</Globals>
+	<Globals/>
 	<SimModules>
 		<air>
 			<AirRS name="AirRS">
-				<powerConsumer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<input>PowerStore</input>
-				</powerConsumer>
-				<potableWaterConsumer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<input>PotableWaterStore</input>
-				</potableWaterConsumer>
-				<airConsumer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<input>CrewEnvironment</input>
-				</airConsumer>
-				<CO2Consumer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<input>CO2Store</input>
-				</CO2Consumer>
-				<H2Consumer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<input>H2Store</input>
-				</H2Consumer>
-				<potableWaterProducer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<output>PotableWaterStore</output>
-				</potableWaterProducer>
-				<O2Producer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<output>O2Store</output>
-				</O2Producer>
-				<airProducer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<output>CrewEnvironment</output>
-				</airProducer>
-				<CO2Producer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<output>CO2Store</output>
-				</CO2Producer>
-				<H2Producer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<output>H2Store</output>
-				</H2Producer>
+				<powerConsumer maxFlowRates="100" desiredFlowRates="100" input="PowerStore"/>
+				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" input="PotableWaterStore"/>
+				<airConsumer maxFlowRates="100" desiredFlowRates="100" input="CrewEnvironment"/>
+				<CO2Consumer maxFlowRates="100" desiredFlowRates="100" input="CO2Store"/>
+				<H2Consumer maxFlowRates="100" desiredFlowRates="100" input="H2Store"/>
+				<potableWaterProducer maxFlowRates="100" desiredFlowRates="100" output="PotableWaterStore"/>
+				<O2Producer maxFlowRates="100" desiredFlowRates="100" output="O2Store"/>
+				<airProducer maxFlowRates="100" desiredFlowRates="100" output="CrewEnvironment"/>
+				<CO2Producer maxFlowRates="100" desiredFlowRates="100" output="CO2Store"/>
+				<H2Producer maxFlowRates="100" desiredFlowRates="100" output="H2Store"/>
 			</AirRS>
 			<O2Store name="O2Store">
 				<capacity>500</capacity>
@@ -81,36 +30,12 @@
 		</air>
 		<crew>
 			<CrewGroup name="CrewGroup">
-				<potableWaterConsumer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<input>PotableWaterStore</input>
-				</potableWaterConsumer>
-				<airConsumer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<input>CrewEnvironment</input>
-				</airConsumer>
-				<foodConsumer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<input>FoodStore</input>
-				</foodConsumer>
-				<dirtyWaterProducer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<output>DirtyWaterStore</output>
-				</dirtyWaterProducer>
-				<greyWaterProducer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<output>GreyWaterStore</output>
-				</greyWaterProducer>
-				<airProducer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<output>CrewEnvironment</output>
-				</airProducer>
+				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" input="PotableWaterStore"/>
+				<airConsumer maxFlowRates="100" desiredFlowRates="100" input="CrewEnvironment"/>
+				<foodConsumer maxFlowRates="100" desiredFlowRates="100" input="FoodStore"/>
+				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" output="DirtyWaterStore"/>
+				<greyWaterProducer maxFlowRates="100" desiredFlowRates="100" output="GreyWaterStore"/>
+				<airProducer maxFlowRates="100" desiredFlowRates="100" output="CrewEnvironment"/>
 				<schedule>
 					<activity>
 						<name>sleeping</name>
@@ -194,60 +119,20 @@
 		</environment>                    
 		<food>
 			<FoodProcessor name="FoodProcessor">
-				<powerConsumer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<input>PowerStore</input>
-				</powerConsumer>
-				<biomassConsumer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<input>BiomassStore</input>
-				</biomassConsumer>
-				<foodProducer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<output>FoodStore</output>
-				</foodProducer>
+				<powerConsumer maxFlowRates="100" desiredFlowRates="100" input="PowerStore"/>
+				<biomassConsumer maxFlowRates="100" desiredFlowRates="100" input="BiomassStore"/>
+				<foodProducer maxFlowRates="100" desiredFlowRates="100" output="FoodStore"/>
 			</FoodProcessor>
 			<BiomassRS name="BiomassRS">
 				<cropArea>100</cropArea>
 				<cropType>WHEAT</cropType>
-				<powerConsumer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<input>PowerStore</input>
-				</powerConsumer>
-				<potableWaterConsumer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<input>PotableWaterStore</input>
-				</potableWaterConsumer>
-				<greyWaterConsumer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<input>GreyWaterStore</input>
-				</greyWaterConsumer>
-				<airConsumer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<input>CrewEnvironment</input>
-				</airConsumer>
-				<dirtyWaterProducer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<output>DirtyWaterStore</output>
-				</dirtyWaterProducer>
-				<biomassProducer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<output>BiomassStore</output>
-				</biomassProducer>
-				<airProducer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<output>PlantEnvironment</output>
-				</airProducer>
+				<powerConsumer maxFlowRates="100" desiredFlowRates="100" input="PowerStore"/>
+				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" input="PotableWaterStore"/>
+				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="100" input="GreyWaterStore"/>
+				<airConsumer maxFlowRates="100" desiredFlowRates="100" input="CrewEnvironment"/>
+				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" output="DirtyWaterStore"/>
+				<biomassProducer maxFlowRates="100" desiredFlowRates="100" output="BiomassStore"/>
+				<airProducer maxFlowRates="100" desiredFlowRates="100" output="PlantEnvironment"/>
 			</BiomassRS>
 			<BiomassStore name="BiomassStore">
 				<capacity>500</capacity>
@@ -260,11 +145,7 @@
 		</food>
 		<power>
 			<PowerPS name="PowerPS" generation="SOLAR">
-				<powerProducer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<output>PowerStore</output>
-				</powerProducer>
+				<powerProducer maxFlowRates="100" desiredFlowRates="100" output="PowerStore"/>
 			</PowerPS>
 			<PowerStore name="PowerStore">
 				<capacity>500</capacity>
@@ -273,26 +154,10 @@
 		</power>
 		<water>
 			<WaterRS name="WaterRS">
-				<powerConsumer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<input>PowerStore</input>
-				</powerConsumer>
-				<dirtyWaterConsumer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<input>DirtyWaterStore</input>
-				</dirtyWaterConsumer>
-				<greyWaterConsumer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<input>GreyWaterStore</input>
-				</greyWaterConsumer>
-				<potableWaterProducer>
-					<maxFlowRates>100</maxFlowRates>
-					<desiredFlowRates>100</desiredFlowRates>
-					<output>PotableWaterStore</output>
-				</potableWaterProducer>
+				<powerConsumer maxFlowRates="100" desiredFlowRates="100" input="PowerStore"/>
+				<dirtyWaterConsumer maxFlowRates="100" desiredFlowRates="100" input="DirtyWaterStore"/>
+				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="100" input="GreyWaterStore"/>
+				<potableWaterProducer maxFlowRates="100" desiredFlowRates="100" output="PotableWaterStore"/>
 			</WaterRS>
 			<PotableWaterStore name="PotableWaterStore">
 				<capacity>500</capacity>

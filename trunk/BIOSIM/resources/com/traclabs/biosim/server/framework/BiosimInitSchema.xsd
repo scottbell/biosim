@@ -32,25 +32,16 @@
 	</xsd:complexType>
 	
 	<xsd:complexType name="GlobalsType">
-		<xsd:all>
-			<xsd:element name="runTillDead" type="xsd:boolean"/>
-			<xsd:element name="runTillN">
-				<xsd:complexType>
-					<xsd:sequence>
-						<xsd:element name="ticks" type="xsd:nonNegativeInteger" minOccurs="0" maxOccurs="1"/>
-					</xsd:sequence>
-					<xsd:attribute name="isEnabled" type="xsd:boolean" use="required"/>
-				</xsd:complexType>
-			</xsd:element>
-			<xsd:element name="isFullLoggingEnabled" type="xsd:boolean"/>
-			<xsd:element name="isSensorLoggingEnabled" type="xsd:boolean"/>
-			<xsd:element name="isActuatorLoggingEnabled" type="xsd:boolean"/>
-			<xsd:element name="driverPauseLength" type="xsd:nonNegativeInteger"/>
-			<xsd:element name="isLooping" type="xsd:boolean"/>
-			<xsd:element name="initialTicks" type="xsd:nonNegativeInteger"/>
-			<xsd:element name="setStochasticIntensity" type="StochasticIntensityType"/>
-			<xsd:element name="id" type="xsd:nonNegativeInteger"/>
-		</xsd:all>
+		<xsd:attribute name="runTillN" type="xsd:nonNegativeInteger"/>
+		<xsd:attribute name="runTillDead" type="xsd:boolean" default="true"/>
+		<xsd:attribute name="isFullLoggingEnabled" type="xsd:boolean" default="false"/>
+		<xsd:attribute name="isSensorLoggingEnabled" type="xsd:boolean" default="false"/>    
+		<xsd:attribute name="isActuatorLoggingEnabled" type="xsd:boolean" default="false"/>
+		<xsd:attribute name="driverPauseLength" type="xsd:nonNegativeInteger" default="0"/>     
+		<xsd:attribute name="isLooping" type="xsd:boolean" default="false"/>
+		<xsd:attribute name="initialTicks" type="xsd:nonNegativeInteger" default="0"/>
+		<xsd:attribute name="setStochasticIntensity" type="StochasticIntensityType" default="NONE_STOCH"/>
+		<xsd:attribute name="id" type="xsd:nonNegativeInteger" default="0"/>
 	</xsd:complexType>
 	
 	<xsd:simpleType name="StochasticIntensityType">
@@ -287,18 +278,14 @@
 	
 	<!-- Producer/Consumer types -->
 	<xsd:complexType name="FlowRateType">  
-		<xsd:sequence>
-			<xsd:element name="maxFlowRates" type="floatList"/>
-			<xsd:element name="desiredFlowRates" type="floatList"/>
-		</xsd:sequence>
+		<xsd:attribute name="maxFlowRates" type="floatList"/>
+		<xsd:attribute name="desiredFlowRates" type="floatList"/>
 	</xsd:complexType>
 	
 	<xsd:complexType name="ConsumerType">  
 		<xsd:complexContent>
 			<xsd:extension base="FlowRateType">
-				<xsd:sequence>
-					<xsd:element name="input" type="stringList"/>
-				</xsd:sequence>
+					<xsd:attribute name="input" type="stringList"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -306,9 +293,7 @@
 	<xsd:complexType name="ProducerType">  
 		<xsd:complexContent>
 			<xsd:extension base="FlowRateType">
-				<xsd:sequence>
-					<xsd:element name="output" type="stringList"/>
-				</xsd:sequence>
+					<xsd:attribute name="output" type="stringList"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
