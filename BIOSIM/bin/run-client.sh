@@ -26,7 +26,8 @@ stubsClassesDir="$clientGenDir/stubs"
 clientDir="$devRootDir/src/biosim/client"
 controlName="biosim.client.control.BioSimulator"
 separator=":"
-if [ uname == "CYGWIN_NT-5.1" ]
+serverType=`uname`
+if [ "$serverType" == "CYGWIN_NT-5.1" ]
 then
 	separator=";"
 fi
