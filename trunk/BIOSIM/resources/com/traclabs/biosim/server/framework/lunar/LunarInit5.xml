@@ -222,5 +222,48 @@
 			<DryWasteStore name="EVADryWasteStore" capacity="2" level="0"/>
 		</waste>
 	</SimBioModules>
+	<Sensors>
+		<air>
+			<CO2StoreLevelSensor input="BaseCO2Store" name="BaseCO2StoreLevelSensor"/>
+			<O2StoreLevelSensor input="BaseO2Store" name="BaseO2StoreLevelSensor"/>
+			<H2StoreLevelSensor input="BaseH2Store" name="BaseH2StoreLevelSensor"/>
+		</air>
+		<environment>
+			<CO2AirConcentrationSensor input="BaseCrewEnvironment" name="BaseCrewEnvironmentCO2AirConcentrationSensor"/>
+			<O2AirConcentrationSensor input="BaseCrewEnvironment" name="BaseCrewEnvironmentO2AirConcentrationSensor"/>
+			<WaterAirConcentrationSensor input="BaseCrewEnvironment" name="BaseCrewEnvironmentWaterAirConcentrationSensor"/>
+		</environment>
+		<food>
+			<FoodStoreLevelSensor input="BaseFoodStore" name="BaseFoodStoreLevelSensor"/>
+		</food>
+		<power>
+			<PowerStoreLevelSensor input="BasePowerStore" name="BasePowerStoreLevelSensor"/>
+		</power>
+		<water>
+			<DirtyWaterStoreLevelSensor input="BaseDirtyWaterStore" name="BaseDirtyWaterStoreLevelSensor"/>
+			<GreyWaterStoreLevelSensor input="BaseGreyWaterStore" name="BaseGreyWaterStoreLevelSensor"/>
+			<PotableWaterStoreLevelSensor input="BasePotableWaterStore" name="BasePotableWaterStoreLevelSensor"/>
+		</water>
+	</Sensors>
+	<Actuators>
+		<air>
+			<O2OutFlowRateActuator index="0" output="BaseOGS" name="BaseOGSO2OutFlowRateActuator"/>
+			<H2OutFlowRateActuator index="0" output="BaseOGS" name="BaseOGSH2OutFlowRateActuator"/>
+		</air>
+		<environment>
+			<O2AirEnvironmentOutFlowRateActuator index="0" output="BaseInjector" name="BaseInjectorO2AirEnvironmentOutFlowRateActuator"/>
+			<O2AirStoreInFlowRateActuator index="0" output="BaseInjector" name="BaseInjectorO2AirStoreInFlowRateActuator"/>
+		</environment>
+		<power>
+			<PowerInFlowRateActuator index="0" output="BaseOGS" name="BaseOGSPowerInFlowRateActuator"/>
+			<PowerInFlowRateActuator index="0" output="WaterRS" name="WaterRSPowerInFlowRateActuator"/>
+		</power>
+		<water>
+			<DirtyWaterInFlowRateActuator index="0" output="WaterRS" name="WaterRSDirtyWaterInFlowRateActuator"/>
+			<GreyWaterInFlowRateActuator index="0" output="WaterRS" name="WaterRSGreyWaterInFlowRateActuator"/>
+			<PotableWaterInFlowRateActuator index="0" output="BaseOGS" name="BaseOGSPotableWaterInFlowRateActuator"/>
+			<PotableWaterOutFlowRateActuator index="0" output="WaterRS" name="BaseOGSPotableWaterOutFlowRateActuator"/>
+		</water>
+	</Actuators>
 </biosim>
 
