@@ -224,6 +224,7 @@
 						<xsd:element name="FoodStoreLevelSensor" type="FoodStoreLevelSensorType" minOccurs="0" maxOccurs="unbounded"/>
 						<xsd:element name="HarvestSensor" type="HarvestSensorType" minOccurs="0" maxOccurs="unbounded"/>
 						<xsd:element name="PlantDeathSensor" type="PlantDeathSensorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="BiomassStoreWaterContentSensor" type="BiomassStoreWaterContentSensorType" minOccurs="0" maxOccurs="unbounded"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -1448,7 +1449,7 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	
-	<xsd:complexType name="BiomassStoreWaterContentSensor">  
+	<xsd:complexType name="BiomassStoreWaterContentSensorType">  
 		<xsd:complexContent>
 			<xsd:extension base="SensorType">
 			</xsd:extension>
