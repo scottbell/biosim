@@ -130,6 +130,29 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 			return theMass * 1000f;
 	}
 	
+	private static float calculateWaterSingular(FoodMatter pFood){
+		PlantType theType = pFood.type;
+		float theMass = pFood.mass;
+		if (theType == PlantType.DRY_BEAN)
+			return theMass * DryBean.getCaloriesPerKilogram();
+		else if (theType == PlantType.LETTUCE)
+			return theMass * Lettuce.getCaloriesPerKilogram();
+		else if (theType == PlantType.PEANUT)
+			return theMass * Peanut.getCaloriesPerKilogram();
+		else if (theType == PlantType.SOYBEAN)
+			return theMass * Soybean.getCaloriesPerKilogram();
+		else if (theType == PlantType.SWEET_POTATO)
+			return theMass * SweetPotato.getCaloriesPerKilogram();
+		else if (theType == PlantType.TOMATO)
+			return theMass * Tomato.getCaloriesPerKilogram();
+		else if (theType == PlantType.WHEAT)
+			return theMass * Wheat.getCaloriesPerKilogram();
+		else if (theType == PlantType.WHITE_POTATO)
+			return theMass * WhitePotato.getCaloriesPerKilogram();
+		else
+			return theMass * 1000f;
+	}
+	
 	public float calculateCalories(FoodMatter[] foodArray){
 		float totalCalories = 0f;
 		for (int i = 0; i < foodArray.length; i++){

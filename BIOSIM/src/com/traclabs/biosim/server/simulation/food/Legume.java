@@ -15,8 +15,8 @@ public abstract class Legume extends Planophile{
 	protected abstract float getTimeAtCropMaturity();
 	protected abstract float getOPF();
 	protected abstract float getProtectedFractionOfEdibleBiomass();
-	protected abstract float getEdibleFreshBasisWaterContent();
-	protected abstract float getInedibleFreshBasisWaterContent();
+	protected abstract float getProtectedEdibleFreshBasisWaterContent();
+	protected abstract float getProtectedInedibleFreshBasisWaterContent();
 	protected abstract float getCUEMax();
 	protected abstract float getCUEMin();
 	protected abstract float getConstantPPF();

@@ -16,8 +16,8 @@ public abstract class Erectophile extends PlantImpl{
 	protected abstract float getTimeAtCropMaturity();
 	protected abstract float getOPF();
 	protected abstract float getProtectedFractionOfEdibleBiomass();
-	protected abstract float getEdibleFreshBasisWaterContent();
-	protected abstract float getInedibleFreshBasisWaterContent();
+	protected abstract float getProtectedEdibleFreshBasisWaterContent();
+	protected abstract float getProtectedInedibleFreshBasisWaterContent();
 	protected abstract float getConstantPPF();
 	public abstract PlantType getPlantType();
 	public Erectophile(ShelfImpl pShelfImpl){

@@ -87,11 +87,19 @@ public class Lettuce extends Planophile{
 		return 180f;
 	}
 
-	protected float getEdibleFreshBasisWaterContent(){
+	public static float getEdibleFreshBasisWaterContent(){
 		return 0.95f;
 	}
 
-	protected float getInedibleFreshBasisWaterContent(){
+	public static float getInedibleFreshBasisWaterContent(){
 		return 0.90f;
+	}
+	
+	protected float getProtectedEdibleFreshBasisWaterContent(){
+		return getEdibleFreshBasisWaterContent();
+	}
+
+	protected float getProtectedInedibleFreshBasisWaterContent(){
+		return getInedibleFreshBasisWaterContent();
 	}
 }

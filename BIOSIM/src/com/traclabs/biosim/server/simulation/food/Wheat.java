@@ -83,11 +83,19 @@ public class Wheat extends Erectophile{
 		return 3300f;
 	}
 
-	protected float getEdibleFreshBasisWaterContent(){
+	public static float getEdibleFreshBasisWaterContent(){
 		return 0.12f;
 	}
 
-	protected float getInedibleFreshBasisWaterContent(){
+	public static float getInedibleFreshBasisWaterContent(){
 		return 0.9f;
+	}
+	
+	protected float getProtectedEdibleFreshBasisWaterContent(){
+		return getEdibleFreshBasisWaterContent();
+	}
+
+	protected float getProtectedInedibleFreshBasisWaterContent(){
+		return getInedibleFreshBasisWaterContent();
 	}
 }

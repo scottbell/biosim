@@ -82,8 +82,8 @@ public abstract class PlantImpl extends PlantPOA{
 	protected abstract float calculateCanopyStomatalConductance();
 	protected abstract float calculateAtmosphericAeroDynamicConductance();
 	protected abstract float getProtectedFractionOfEdibleBiomass();
-	protected abstract float getEdibleFreshBasisWaterContent();
-	protected abstract float getInedibleFreshBasisWaterContent();
+	protected abstract float getProtectedEdibleFreshBasisWaterContent();
+	protected abstract float getProtectedInedibleFreshBasisWaterContent();
 	protected abstract float getTimeAtOrganFormation();
 	protected abstract float getConstantPPF();
 	public abstract PlantType getPlantType();
@@ -287,11 +287,11 @@ public abstract class PlantImpl extends PlantPOA{
 		
 		if (getDaysOfGrowth() > getTimeAtOrganFormation())
 			myCurrentEdibleDryBiomass += (cropGrowthRate / 1000 / 24f * myShelfImpl.getCropAreaUsed() * getProtectedFractionOfEdibleBiomass());
-		float waterInsideEdibleBiomass = myCurrentEdibleDryBiomass * getEdibleFreshBasisWaterContent() / (1f - getEdibleFreshBasisWaterContent());
+		float waterInsideEdibleBiomass = myCurrentEdibleDryBiomass * getProtectedEdibleFreshBasisWaterContent() / (1f - getProtectedEdibleFreshBasisWaterContent());
 
 		myCurrentEdibleWetBiomass = waterInsideEdibleBiomass + myCurrentEdibleDryBiomass;
 		float myCurrentInedbileDryBiomass = myCurrentDryBiomass - myCurrentEdibleDryBiomass;
-		float waterInsideInEdibleBiomass = myCurrentInedbileDryBiomass * getInedibleFreshBasisWaterContent() / (1f - getInedibleFreshBasisWaterContent());
+		float waterInsideInEdibleBiomass = myCurrentInedbileDryBiomass * getProtectedInedibleFreshBasisWaterContent() / (1f - getProtectedInedibleFreshBasisWaterContent());
 		float myCurrentInedibleWetBiomass = waterInsideInEdibleBiomass + myCurrentInedbileDryBiomass;
 		myCurrentTotalWetBiomass = myCurrentInedibleWetBiomass + myCurrentEdibleWetBiomass;
 
@@ -390,7 +390,7 @@ public abstract class PlantImpl extends PlantPOA{
 		//System.out.println("PlantImpl: myCurrentInedibleWetBiomass: "+myCurrentInedibleWetBiomass);
 		//System.out.println("PlantImpl: myLastInedibleWetBiomass: "+myLastInedibleWetBiomass);
 		//System.out.println("PlantImpl: densityOfWater: "+densityOfWater);
-		return (((myCurrentEdibleWetBiomass - myLastEdibleWetBiomass) * getEdibleFreshBasisWaterContent()) + ((myCurrentInedibleWetBiomass + myLastInedibleWetBiomass) * getInedibleFreshBasisWaterContent())) / densityOfWater;
+		return (((myCurrentEdibleWetBiomass - myLastEdibleWetBiomass) * getProtectedEdibleFreshBasisWaterContent()) + ((myCurrentInedibleWetBiomass + myLastInedibleWetBiomass) * getProtectedInedibleFreshBasisWaterContent())) / densityOfWater;
 	}
 
 	private float calculateDryIncoporatedWaterUptake(float pDailyCanopyTranspirationRate, float pWetIncoporatedWaterUptake){
