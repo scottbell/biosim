@@ -54,15 +54,15 @@ public abstract class GenericActuatorImpl extends BioModuleImpl implements Gener
 	protected void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
-			LogNode valueNodeHead = myLog.addChild("value");
-			valueNode = valueNodeHead.addChild(""+getValue());
 			LogNode outputNodeHead = myLog.addChild("output");
 			outputNode = outputNodeHead.addChild(""+getOutputModule().getModuleName());
+			LogNode valueNodeHead = myLog.addChild("value");
+			valueNode = valueNodeHead.addChild(""+getValue());
 			logInitialized = true;
 		}
 		else{
-			valueNode.setValue(""+getValue());
 			outputNode.setValue(""+getOutputModule().getModuleName());
+			valueNode.setValue(""+getValue());
 		}
 		sendLog(myLog);
 	}
