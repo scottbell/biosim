@@ -59,6 +59,20 @@ public class BiosimEditor {
 
     private QuitAction myQuitAction;
 
+    private JComponent myAirPanel;
+
+    private JComponent myCrewPanel;
+
+    private JComponent myEnvironmentPanel;
+
+    private JComponent myFrameworkPanel;
+
+    private JComponent myPowerPanel;
+
+    private JComponent myWastePanel;
+
+    private JComponent myWaterPanel;
+
     public BiosimEditor() {
         initLogger();
         buildGui();
@@ -69,66 +83,15 @@ public class BiosimEditor {
      */
     private void buildGui() {
         //init graph
-        myGraph = new JGraph();
-        myGraph.setDrawingSize(0, 0);
-        myGraphPanel = new JPanel();
-        myGraphPanel.setLayout(new GridLayout(1, 1));
-        myGraphPanel.add(myGraph);
-        
-        myGraphPanel.setBorder(BorderFactory
-                .createTitledBorder("Editing Pane"));
+        createGraphPanel();
 
         //init tabbed pane tool bar
-        myTabbedPane = new JTabbedPane();
+        createTabbedPane();
         
-        JComponent airPanel = createModulePanel("Air Panel");
-        myTabbedPane
-                .addTab(
-                        "Air",
-                        createImageIcon("com/traclabs/biosim/client/air/gui/air.jpg"),
-                        airPanel);
-        JComponent crewPanel = createModulePanel("Crew Panel");
-        myTabbedPane
-                .addTab(
-                        "Crew",
-                        createImageIcon("com/traclabs/biosim/client/crew/gui/crew.jpg"),
-                        crewPanel);
-        JComponent environmentPanel = createModulePanel("Environment Panel");
-        myTabbedPane
-                .addTab(
-                        "Environment",
-                        createImageIcon("com/traclabs/biosim/client/environment/gui/environment.jpg"),
-                        environmentPanel);
-        JComponent frameworkPanel = createModulePanel("Framework Panel");
-        myTabbedPane
-                .addTab(
-                        "Framework",
-                        createImageIcon("com/traclabs/biosim/client/framework/gui/all.jpg"),
-                        frameworkPanel);
-        JComponent powerPanel = createModulePanel("Power Panel");
-        myTabbedPane
-                .addTab(
-                        "Power",
-                        createImageIcon("com/traclabs/biosim/client/power/gui/power.jpg"),
-                        powerPanel);
-        JComponent wastePanel = createModulePanel("Waste Panel");
-        myTabbedPane
-                .addTab(
-                        "Waste",
-                        createImageIcon("com/traclabs/biosim/client/framework/gui/gear.gif"),
-                        wastePanel);
-        JComponent waterPanel = createModulePanel("Water Panel");
-        myTabbedPane
-                .addTab(
-                        "Water",
-                        createImageIcon("com/traclabs/biosim/client/water/gui/water.jpg"),
-                        waterPanel);
-        //myTabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-        
-
+        //create main frame
         myMainFrame = new BioFrame("BioSim Editor", false);
         
-        //do Gridbag
+        //do gridbag
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
         myMainFrame.getContentPane().setLayout(gridbag);
@@ -147,6 +110,18 @@ public class BiosimEditor {
         myMainFrame.getContentPane().add(myGraphPanel);
         
         //do menu bar
+        createMenuBar();
+
+        //set size, pack, show
+        myMainFrame.pack();
+        myMainFrame.setSize(650, 600);
+        myMainFrame.setVisible(true);
+    }
+
+    /**
+     * 
+     */
+    private void createMenuBar() {
         myMenuBar = new JMenuBar();
         myFileMenu = new JMenu("File");
         myFileMenu.setMnemonic(KeyEvent.VK_F);
@@ -159,11 +134,73 @@ public class BiosimEditor {
         myMenuBar.add(myFileMenu);
         myMenuBar.add(myHelpMenu);
         myMainFrame.setJMenuBar(myMenuBar);
+    }
 
-        //set size, pack, show
-        myMainFrame.pack();
-        myMainFrame.setSize(650, 600);
-        myMainFrame.setVisible(true);
+    /**
+     * 
+     */
+    private void createTabbedPane() {
+        myTabbedPane = new JTabbedPane();
+        
+        myAirPanel = createModulePanel("Air Panel");
+        myTabbedPane
+                .addTab(
+                        "Air",
+                        createImageIcon("com/traclabs/biosim/client/air/gui/air.jpg"),
+                        myAirPanel);
+        myCrewPanel = createModulePanel("Crew Panel");
+        myTabbedPane
+                .addTab(
+                        "Crew",
+                        createImageIcon("com/traclabs/biosim/client/crew/gui/crew.jpg"),
+                        myCrewPanel);
+        myEnvironmentPanel = createModulePanel("Environment Panel");
+        myTabbedPane
+                .addTab(
+                        "Environment",
+                        createImageIcon("com/traclabs/biosim/client/environment/gui/environment.jpg"),
+                        myEnvironmentPanel);
+        myFrameworkPanel = createModulePanel("Framework Panel");
+        myTabbedPane
+                .addTab(
+                        "Framework",
+                        createImageIcon("com/traclabs/biosim/client/framework/gui/all.jpg"),
+                        myFrameworkPanel);
+        myPowerPanel = createModulePanel("Power Panel");
+        myTabbedPane
+                .addTab(
+                        "Power",
+                        createImageIcon("com/traclabs/biosim/client/power/gui/power.jpg"),
+                        myPowerPanel);
+        myWastePanel = createModulePanel("Waste Panel");
+        myTabbedPane
+                .addTab(
+                        "Waste",
+                        createImageIcon("com/traclabs/biosim/client/framework/gui/gear.gif"),
+                        myWastePanel);
+        myWaterPanel = createModulePanel("Water Panel");
+        myTabbedPane
+                .addTab(
+                        "Water",
+                        createImageIcon("com/traclabs/biosim/client/water/gui/water.jpg"),
+                        myWaterPanel);
+        //myTabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+        
+    }
+
+    /**
+     * 
+     */
+    private void createGraphPanel() {
+        myGraph = new JGraph();
+        myGraph.setDrawingSize(0, 0);
+        myGraphPanel = new JPanel();
+        myGraphPanel.setLayout(new GridLayout(1, 1));
+        myGraphPanel.add(myGraph);
+        
+        myGraphPanel.setBorder(BorderFactory
+                .createTitledBorder("Editing Pane"));
+        
     }
 
     private JComponent createModulePanel(String text) {
