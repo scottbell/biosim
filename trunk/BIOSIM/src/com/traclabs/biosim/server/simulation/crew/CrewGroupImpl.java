@@ -143,6 +143,15 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 		mySchedule.reset();
 		crewPeople = new Hashtable();
 	}
+	
+	public boolean isDead(){
+		boolean areTheyDead = true;
+		for (Enumeration e = crewPeople.elements(); e.hasMoreElements(); ){
+				CrewPersonImpl currentPerson = (CrewPersonImpl)(e.nextElement());
+				areTheyDead = areTheyDead && currentPerson.isDead();
+		}
+		return areTheyDead;
+	}
 
 	private void log(){
 		//If not initialized, fill in the log

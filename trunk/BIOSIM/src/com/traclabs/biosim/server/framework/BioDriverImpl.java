@@ -28,8 +28,6 @@ import java.util.Enumeration;
 
 public class BioDriverImpl extends BioDriverPOA implements Runnable 
 {
-	private final static int DRIVER_PAUSED = 5;
-	
 	//Module Names
 	private final static String crewName = "CrewGroup";
 	private final static String powerPSName = "PowerPS";
@@ -58,12 +56,40 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	//Flag to see whether the BioDriverImpl is started at all
 	private boolean simulationStarted = false;
 	//Flag to see if user wants to use default intialization (i.e., fill tanks with x amount gas, generate crew memebers, etc)
-	private boolean useDefaultInitialization = false;
+	private boolean useDefaultInitialization = true;
+	private boolean runTillDead = false;
+	private boolean runTillN = false;
+	private int nTicks = 0;
+	private int ticksGoneBy = 0;
 	private boolean logging = false;
 	private SimEnvironment mySimEnvironment;
 	private Logger myLogger;
 	private boolean hasCollectedReferences = false;
-
+	private int driverPauseLength = 0;
+	
+	public BioDriverImpl(){
+		checkMachineType();
+	}
+	
+	private void checkMachineType(){
+		String machineType = null;
+		try{
+			machineType = System.getProperty("MACHINE_TYPE");
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+		if (machineType != null){
+			if (machineType.equals("CYGWIN")){
+				setDriverPauseLength(5);
+			}
+			else
+				setDriverPauseLength(0);
+		}
+		else
+			setDriverPauseLength(5);
+	}
+	
 	/**
 	* Checks to see if the simulation is paused.
 	* @return <code>true</code> if paused, <code>false</code> if not
@@ -81,12 +107,29 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	}
 
 	/**
-	* Spawns a simulation on a different thread and runs continously (ticks till signalled to end)
+	* Run a simulation on a different thread and runs continously (ticks till signalled to end)
 	* param pUseDefaultInitialization set to <code>true</code> if user wants to use default intialization 
 	* (i.e., fill tanks with x amount gas, generate crew memebers, etc)
 	*/
-	public void spawnSimulation(boolean pUseDefaultInitialization){
-		useDefaultInitialization = pUseDefaultInitialization;
+	public void spawnSimulation(){
+		collectReferences();
+		runTillDead = false;
+		runTillN = false;
+		myTickThread = new Thread(this);
+		myTickThread.start();
+	}
+	
+	public void spawnSimulationTillDead(){
+		runTillDead = true;
+		collectReferences();
+		myTickThread = new Thread(this);
+		myTickThread.start();
+	}
+	
+	public void spawnSimulationTillN(int pTicks){
+		nTicks = pTicks;
+		runTillN = true;
+		runTillDead = false;
 		collectReferences();
 		myTickThread = new Thread(this);
 		myTickThread.start();
@@ -98,6 +141,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	*/
 	public void run(){
 		simulationStarted = true;
+		ticksGoneBy = 0;
 		if (useDefaultInitialization){
 			System.out.println("BioDriverImpl: Initializing simulation...");
 			initializeSimulation();
@@ -178,7 +222,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			reset();
 		while (myTickThread == theCurrentThread) {
 			try {
-				myTickThread.sleep(DRIVER_PAUSED);
+				myTickThread.sleep(driverPauseLength);
 				synchronized(this) {
 					while (simulationIsPaused && (myTickThread==theCurrentThread)){
 						wait();
@@ -187,6 +231,29 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			}
 			catch (InterruptedException e){}
 			tick();
+			checkIfDone();
+		}
+	}
+	
+	public void setDriverPauseLength(int pDriverPauseLength){
+		if (pDriverPauseLength > 0)
+			System.out.println("BioDriverImpl: driver pause of "+pDriverPauseLength+" milliseconds");
+		driverPauseLength = pDriverPauseLength;
+	}
+	
+	public int getDriverPauseLength(){
+		return driverPauseLength;
+	}
+	
+	private void checkIfDone(){
+		if (runTillN){
+			if (ticksGoneBy >= nTicks)
+				endSimulation();
+		}
+		else if (runTillDead){
+			CrewGroup myCrew = (CrewGroup)(getBioModule(crewName));
+			if (myCrew.isDead())
+				endSimulation();
 		}
 	}
 
@@ -415,6 +482,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 				currentBioModule.tick();
 			}
 		}
+		ticksGoneBy++;
 	}
 
 }
