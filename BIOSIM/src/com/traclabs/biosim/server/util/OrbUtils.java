@@ -48,6 +48,10 @@ public class OrbUtils{
 		return ncRef;
 	}
 	
+	public static void resetInit(){
+		runOnce = false;
+	}
+	
 	/**
 	* Done only once, this method initializes the ORB, resolves the root POA, and grabs the naming context.
 	*/
@@ -66,11 +70,27 @@ public class OrbUtils{
 			runOnce = true;
 		}
 		catch (org.omg.CORBA.ORBPackage.InvalidName e){
-			e.printStackTrace();
+			System.out.println("OrbUtils: nameserver not found, polling again");
+			sleepAwhile();
+			initialize();
 		}
 		catch(org.omg.PortableServer.POAManagerPackage.AdapterInactive e){
-			e.printStackTrace();
+			System.out.println("OrbUtils: nameserver not found, polling again");
+			sleepAwhile();
+			initialize();
 		}
+		catch (org.omg.CORBA.UserException e){
+			System.out.println("OrbUtils: nameserver not found, polling again");
+			sleepAwhile();
+			initialize();
+		}
+	}
+	
+	public static void sleepAwhile(){
+		try{
+			Thread.currentThread().sleep(2000);
+		}
+		catch (InterruptedException e){}
 	}
 	
 	/**

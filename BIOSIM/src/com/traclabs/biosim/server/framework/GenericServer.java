@@ -41,10 +41,24 @@ public class GenericServer{
 			NameComponent path[] = ncRef.to_name(serverName);
 			ncRef.rebind(path, OrbUtils.poaToCorbaObj(pPOA));
 		}
-		catch (Exception e) {
-			System.err.println(serverName+" ERROR: " + e);
-			e.printStackTrace(System.out);
+		catch (org.omg.CORBA.UserException e){
+			System.err.println(serverName+" had problems registering with nameservice, trying again..");
+			OrbUtils.sleepAwhile();
+			registerServer(pPOA, serverName);
 		}
+		catch (Exception e) {
+			System.err.println(serverName+" had problems registering with nameservice, trying again..");
+			OrbUtils.sleepAwhile();
+			OrbUtils.resetInit();
+			registerServer(pPOA, serverName);
+		}
+	}
+	
+	private void sleepAwhile(){
+		try{
+			Thread.currentThread().sleep(2000);
+		}
+		catch(InterruptedException e){}
 	}
 
 	protected void registerServerAndRun(Servant pPOA, String serverName){
