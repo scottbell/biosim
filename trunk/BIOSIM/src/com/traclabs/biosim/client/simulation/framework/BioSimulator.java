@@ -10,14 +10,20 @@ public class BioSimulator implements Runnable
 {
  //Module Names
 	private final static String crewName = "Crew";
-	private final static  String energyPSName = "EnergyPS";
-	private final static  String energyStoreName = "EnergyStore";
+	private final static  String powerPSName = "PowerPS";
+	private final static  String powerStoreName = "PowerStore";
 	private final static  String airRSName = "AirRS";
-	private final static  String airStoreName = "AirStore";
+	private final static  String co2StoreName = "CO2Store";
+	private final static  String o2StoreName = "O2Store";
 	private final static  String biomassRSName = "BiomassRS";
 	private final static  String biomassStoreName = "BiomassStore";
+	private final static  String foodProcessorName = "FoodProcessor";
+	private final static  String foodStoreName = "FoodStore";
 	private final static  String waterRSName = "WaterRS";
-	private final static  String waterStoreName = "WaterStore";
+	private final static  String dirtyWaterStoreName = "DirtyWaterStore";
+	private final static  String potableWaterStoreName = "PotableWaterStore";
+	private final static  String greyWaterStoreName = "GreyWaterStore";
+	private final static  String simEnvironmentName = "SimEnvironment";
 
 	private Hashtable modules;
 	private NamingContextExt ncRef;
@@ -42,16 +48,6 @@ public class BioSimulator implements Runnable
 		}
 		else{
 			myCrew.createCrewPerson("Bob Roberts");
-			Activity newActivity = myCrew.getScheduledActivityByName("sleeping");
-			//org.omg.CORBA.Object myCrewPerson = myCrew.getCrewPerson("Bob Roberts");
-			/*myCrewPerson.setCurrentActivity(newActivity);
-			Activity currentActivity = myCrewPerson.getCurrentActivity();
-			System.out.println("Current state for  "+myCrewPerson.getName()+"  is " +currentActivity.name+ " for "+currentActivity.timeLength+" hours");
-			newActivity = myCrew.getScheduledActivityByName("eating");
-			myCrewPerson.setCurrentActivity(newActivity);
-			currentActivity = myCrewPerson.getCurrentActivity();
-			System.out.println("Current state for "+myCrewPerson.getName()+" is "+currentActivity.name+ " for "+currentActivity.timeLength+" hours");
-			*/
 		}
 		for (int i = 0; i < 10; i ++){
 			tick();
@@ -79,8 +75,9 @@ public class BioSimulator implements Runnable
 		ncRef = NamingContextExtHelper.narrow(objRef);
 	}
 
-	private void collectReferences(){
-		// resolve the Objects Reference in Naming		
+ private void collectReferences(){
+
+		// resolve the Objects Reference in Naming
 		modules = new Hashtable();
 		System.out.println("Collecting references to modules...");
 		try{
@@ -91,15 +88,15 @@ public class BioSimulator implements Runnable
 			System.out.println("Couldn't locate Crew, skipping...");
 		}
 		try{
-			EnergyPS myEnergyPS = EnergyPSHelper.narrow(ncRef.resolve_str(energyPSName));
-			modules.put(energyPSName , myEnergyPS);
+			PowerPS myPowerPS = PowerPSHelper.narrow(ncRef.resolve_str(powerPSName));
+			modules.put(powerPSName , myPowerPS);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("Couldn't locate EnergyPS, skipping...");
+			System.out.println("Couldn't locate PowerPS, skipping...");
 		}
 		try{
-			EnergyStore myEnergyStore = EnergyStoreHelper.narrow(ncRef.resolve_str(energyStoreName));
-			modules.put(energyStoreName , myEnergyStore);
+			PowerStore myPowerStore = PowerStoreHelper.narrow(ncRef.resolve_str(powerStoreName));
+			modules.put(powerStoreName , myPowerStore);
 		}
 		catch (org.omg.CORBA.UserException e){
 			System.out.println("Couldn't locate EnergyStore, skipping...");
@@ -112,11 +109,60 @@ public class BioSimulator implements Runnable
 			System.out.println("Couldn't locate AirRS, skipping...");
 		}
 		try{
-			AirStore myAirStore = AirStoreHelper.narrow(ncRef.resolve_str(airStoreName));
-			modules.put(airStoreName , myAirStore);
+			SimEnvironment mySimEnvironment = SimEnvironmentHelper.narrow(ncRef.resolve_str(simEnvironmentName));
+			modules.put(simEnvironmentName , mySimEnvironment);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("Couldn't locate AirStore, skipping...");
+			System.out.println("Couldn't locate SimEnvironment, skipping...");
+		}
+		try{
+			GreyWaterStore myGreyWaterStore = GreyWaterStoreHelper.narrow(ncRef.resolve_str(greyWaterStoreName));
+			modules.put(greyWaterStoreName , myGreyWaterStore);
+		}
+		catch (org.omg.CORBA.UserException e){
+			System.out.println("Couldn't locate GreyWaterStore, skipping...");
+		}
+		try{
+			PotableWaterStore myPotableWaterStore = PotableWaterStoreHelper.narrow(ncRef.resolve_str(potableWaterStoreName));
+			modules.put(potableWaterStoreName , myPotableWaterStore);
+		}
+		catch (org.omg.CORBA.UserException e){
+			System.out.println("Couldn't locate PotableWaterStore, skipping...");
+		}
+		try{
+			DirtyWaterStore myDirtyWaterStore = DirtyWaterStoreHelper.narrow(ncRef.resolve_str(dirtyWaterStoreName));
+			modules.put(dirtyWaterStoreName , myDirtyWaterStore);
+		}
+		catch (org.omg.CORBA.UserException e){
+			System.out.println("Couldn't locate DirtyWaterStore, skipping...");
+		}
+		try{
+			FoodProcessor myFoodProcessor = FoodProcessorHelper.narrow(ncRef.resolve_str(foodProcessorName));
+			modules.put(foodProcessorName , myFoodProcessor);
+		}
+		catch (org.omg.CORBA.UserException e){
+			System.out.println("Couldn't locate FoodProcessor, skipping...");
+		}
+		try{
+			FoodStore myFoodStore= FoodStoreHelper.narrow(ncRef.resolve_str(foodStoreName));
+			modules.put(foodStoreName , myFoodStore);
+		}
+		catch (org.omg.CORBA.UserException e){
+			System.out.println("Couldn't locate FoodStore, skipping...");
+		}
+		try{
+			CO2Store myCO2Store = CO2StoreHelper.narrow(ncRef.resolve_str(co2StoreName));
+			modules.put(co2StoreName , myCO2Store);
+		}
+		catch (org.omg.CORBA.UserException e){
+			System.out.println("Couldn't locate CO2Store, skipping...");
+		}
+		try{
+			O2Store myO2Store = O2StoreHelper.narrow(ncRef.resolve_str(o2StoreName));
+			modules.put(o2StoreName , myO2Store);
+		}
+		catch (org.omg.CORBA.UserException e){
+			System.out.println("Couldn't locate CO2Store, skipping...");
 		}
 		try{
 			BiomassRS myBiomassRS = BiomassRSHelper.narrow(ncRef.resolve_str(biomassRSName));
@@ -138,13 +184,6 @@ public class BioSimulator implements Runnable
 		}
 		catch (org.omg.CORBA.UserException e){
 			System.out.println("Couldn't locate WaterRS, skipping...");
-		}
-		try{
-			WaterStore myWaterStore = WaterStoreHelper.narrow(ncRef.resolve_str(waterStoreName));
-			modules.put(waterStoreName , myWaterStore);
-		}
-		catch (org.omg.CORBA.UserException e){
-			System.out.println("Couldn't locate WaterStore, skipping...");
 		}
 	}
 

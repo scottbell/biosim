@@ -42,6 +42,6 @@ public class PotableWaterStoreImpl extends PotableWaterStorePOA {
 		System.out.println("PotableWater has been ticked!");
 	}
 	public String getModuleName(){
-		return "PotableWater";
+		return "PotableWaterStore";
 	}
 }
