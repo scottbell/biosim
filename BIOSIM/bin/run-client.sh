@@ -48,26 +48,18 @@ native3DDir="-Djava.library.path=$joglDir"
 ####################
 # CLIENTS START	   #
 ####################
-genString="/build"
-genDir=$devRootDir$genString
-clientGenString="/client"
-clientGenDir=$genDir$clientGenString
-clientClassesString="/classes"
-clientClassesDir=$clientGenDir$clientClassesString
-stubsClassesDir="$clientGenDir/stubs"
-clientDir="$devRootDir/src/biosim/client"
+buildDir="$devRootDir/build"
 mainName="biosim.client.framework.BiosimMain"
 logviewerName="biosim.client.util.log.LogViewer"
 malfunctionName="biosim.client.framework.gui.MalfunctionPanel"
 stochasticName="biosim.client.framework.gui.StochasticPanel"
 sensorName="biosim.client.sensor.framework.gui.SensorViewer"
 testName="TestBiosim"
-resourceString="/resources"
-resourceDir=$devRootDir$resourceString
+resourceDir="$devRootDir/resources"
 plotClasspath="$devRootDir/lib/jfreechart/jcommon.jar$separator$devRootDir/lib/jfreechart/jfreechart.jar"
 xmlClasspath="$devRootDir/lib/xerces/xercesImpl.jar$separator$devRootDir/lib/xerces/xml-apis.jar$separator$devRootDir/lib/xerces/xmlParserAPIs.jar"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME$separator$JACORB_HOME/avalon-framework.jar$separator$JACORB_HOME/logkit.jar"
-jacoInvocation="$java_command -classpath $plotClasspath$separator$clientClassesDir$separator$jacoClasspath$separator$resourceDir$separator$xmlClasspath $biosimHome $jacoSingletonOrbClass $native3DDir $jacoOrbClass $jacoNameIOR"
+jacoInvocation="$java_command -classpath $buildDir$separator$plotClasspath$separator$jacoClasspath$separator$resourceDir$separator$xmlClasspath $biosimHome $jacoSingletonOrbClass $native3DDir $jacoOrbClass $jacoNameIOR"
 echo "	-starting client"
 console="console"
 gui="gui"
