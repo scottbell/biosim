@@ -415,8 +415,11 @@ public class BioDriverImpl extends BioDriverPOA{
 			tick();
 			if (isDone()){
 				endSimulation();
-				if (logLastTick)
+				if (logLastTick){
 					forceLog();
+					myLogger.forceWriteLog();
+					myLogger.endLog();
+				}
 				if (looping)
 					startSimulation();
 			}

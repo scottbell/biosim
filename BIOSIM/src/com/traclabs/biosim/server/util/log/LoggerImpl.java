@@ -14,7 +14,7 @@ public class LoggerImpl extends LoggerPOA  {
 	private List myLogHandlers;
 	//List of the types supported by this Logger (i.e. handler types_
 	private List logTypes;
-	//Whether the Logger has collected a reference 
+	//Whether the Logger has collected a reference
 	private boolean hasCollectedReferences = false;
 	//Used to collect current "tick"
 	private BioDriver myDriver;
@@ -28,7 +28,7 @@ public class LoggerImpl extends LoggerPOA  {
 	private int currentTick = -1;
 	//The ID of this Logger (should be the same as all the rest of the modules sending logs and the BioDriver)
 	private int myID = 0;
-	
+
 	/**
 	* Creates a Logger Server with an ID (should be the same as all the rest of the modules sending logs and the BioDriver)<br>
 	* Also initializes logtypes and adds and XML handler.
@@ -42,7 +42,7 @@ public class LoggerImpl extends LoggerPOA  {
 		//addLogHandlerType(LogHandlerType.SCREEN);
 		addLogHandlerType(LogHandlerType.XML);
 	}
-	
+
 	/**
 	* Tells the logger handler types (i.e., what the logger is outputting to, XML, Screen, text file, etc)
 	* @return pID an array of the logger handler types (outputs)
@@ -65,7 +65,7 @@ public class LoggerImpl extends LoggerPOA  {
 			e.printStackTrace(System.out);
 		}
 	}
-	
+
 	/**
 	* Tells the name of the module
 	* @return the name of the module
@@ -73,7 +73,7 @@ public class LoggerImpl extends LoggerPOA  {
 	public String getName(){
 		return "Logger";
 	}
-	
+
 	/**
 	* Tells The ID of this module.  Should be the same as every other module in this BioSim instance
 	* @return The ID of this module.  Should be the same as every other module in this BioSim instance
@@ -81,7 +81,7 @@ public class LoggerImpl extends LoggerPOA  {
 	public int getID(){
 		return myID;
 	}
-	
+
 	/**
 	* Switch to turn off the Logger's processing of logs (useful to stop logging globally)
 	* @param pAllowLogging set <code>true</code> to have Logger process incoming logs (default) or
@@ -92,7 +92,7 @@ public class LoggerImpl extends LoggerPOA  {
 		if (!processingLogs)
 			endLog();
 	}
-	
+
 	/**
 	* Tells the handler to flush its output
 	*/
@@ -102,7 +102,17 @@ public class LoggerImpl extends LoggerPOA  {
 			currentLogHandler.endLog();
 		}
 	}
-	
+
+	/**
+	* Tells the handler to flush its output
+	*/
+	public void forceWriteLog(){
+		for (Iterator iter = myLogHandlers.iterator(); iter.hasNext();){
+			LogHandler currentLogHandler = (LogHandler)(iter.next());
+			currentLogHandler.writeLog(LogNodeHelper.narrow(OrbUtils.poaToCorbaObj(currentTickLogNode)));
+		}
+	}
+
 	/**
 	* Tells if the Logger is processing logs received.  If it isn't, Logger does nothing with LogNodes received
 	* @return if the Logger is processing logs received
@@ -110,7 +120,7 @@ public class LoggerImpl extends LoggerPOA  {
 	public boolean isProcessingLogs(){
 		return processingLogs;
 	}
-	
+
 	/**
 	* Adds another output for the Logger to write to.
 	* @param pLogType the log type to add.  Options are:<br>
@@ -132,7 +142,7 @@ public class LoggerImpl extends LoggerPOA  {
 		if (pLogType == LogHandlerType.XML)
 			myLogHandlers.add(new XMLLogHandler());
 	}
-	
+
 	/**
 	* Other modules use this method to log their data.
 	* @param logToAdd the LogNode to add to the log and (possibly) outuput
@@ -146,7 +156,6 @@ public class LoggerImpl extends LoggerPOA  {
 			for (Iterator iter = myLogHandlers.iterator(); iter.hasNext();){
 				LogHandler currentLogHandler = (LogHandler)(iter.next());
 				currentLogHandler.writeLog(LogNodeHelper.narrow(OrbUtils.poaToCorbaObj(currentTickLogNode)));
-				//System.out.println("wrote log!");
 			}
 		}
 		if (currentTick != myDriver.getTicks()){
