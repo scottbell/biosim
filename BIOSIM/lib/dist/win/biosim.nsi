@@ -1,47 +1,33 @@
 ;--------------------------------
 ;BIOSIM Installer Script using NSIS (SuperPimp)
-
-!define MUI_PRODUCT "BioSim" 
-!define MUI_VERSION "1.0"
-
 !include "MUI.nsh"
-
 ;--------------------------------
 ;Configuration
+	Name "BioSim Setup"
 	OutFile "Setup.exe"
 	InstallDir "$PROGRAMFILES\BioSim"
 	InstallDirRegKey HKEY_LOCAL_MACHINE "SOFTWARE\TRACLabs\BioSim" ""
-	DirShow show ; (make this hide to not let the user change it)
 ;--------------------------------
 ;Modern UI Configuration
-	!define MUI_LICENSEPAGE
-	!define MUI_COMPONENTSPAGE
-	!define MUI_DIRECTORYPAGE
-	!define MUI_ABORTWARNING
-	!define MUI_FINISHPAGE
-		!define MUI_FINISHPAGE_RUN "$INSTDIR\run-biosim.bat"
-	!define MUI_UNINSTALLER
-	!define MUI_UNCONFIRMPAGE
+	!define MUI_LICENSEPAGE_BUTTON
+	!insertmacro MUI_PAGE_LICENSE "LICENSE.txt"
+	!insertmacro MUI_PAGE_COMPONENTS
+	!define MUI_DIRECTORYPAGE_VERIFYONLEAVE
+	!insertmacro MUI_PAGE_DIRECTORY
+	!insertmacro MUI_PAGE_INSTFILES
+	!define MUI_FINISHPAGE_RUN "$INSTDIR\run-biosim.bat"
+	!insertmacro MUI_PAGE_FINISH
 	
 	;Modern UI System
-	!insertmacro MUI_SYSTEM
 ;--------------------------------
 ;Languages
 	!insertmacro MUI_LANGUAGE "English"
 ;--------------------------------
 ;Data
 	LicenseData LICENSE.txt
-	
-;--------------------------------
-;Reserve Files
-
-  ;Things that need to be extracted on first (keep these lines before any File command!)
-  ;Only useful for BZIP2 compression
-  !insertmacro MUI_RESERVEFILE_WELCOMEFINISHPAGE
-
 ;--------------------------------
 ;Install
-Section "BioSim Program (must be installed)" ; (default section)
+Section "BioSim Program" ; (default section)
 	SetOutPath "$INSTDIR"
 
 	; Try finding Java Runtime
@@ -66,8 +52,6 @@ Section "BioSim Program (must be installed)" ; (default section)
 			IntCmp $4 $6 lbl_foundJava lbl_foundJava lbl_noJava
 	lbl_noJava:
 		MessageBox MB_YESNO|MB_ICONQUESTION "Couldn't find Java Runtime Environment > 1.3 installed.$\nThis is required for BioSim to run.$\nIf you chose to continue installation anyway, make sure your JAVA_HOME environment variable is set.$\nDo you want to quit the installation and go to Sun's website to download it?" IDNO lbl_useJavaHome 
-	
-	lbl_useWebsite:
 		ExecShell open "http://java.sun.com/getjava/"
 		Sleep 600
 		; BringToFront will bring the installer window back to the front
@@ -82,9 +66,7 @@ Section "BioSim Program (must be installed)" ; (default section)
 	lbl_foundJava:
 		File setENV.bat
 		FileOpen $2 "$INSTDIR\setENV.bat" "w"
-		FileWrite $2 `set JAVA_HOME="$1"`
-
-	lbl_noWebsite:
+		FileWrite $2 `set BIOSIM_JAVA_HOME="$1"`
 		File biosim.jar
 		File run-biosim.bat
 		File run-biosim-debug.bat
@@ -123,6 +105,5 @@ Section Uninstall
 	DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\TRACLabs\BioSim"
 	DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\BioSim"
 	RMDir "$INSTDIR"
-	!insertmacro MUI_UNFINISHHEADER
 SectionEnd ; end of uninstall section
 
