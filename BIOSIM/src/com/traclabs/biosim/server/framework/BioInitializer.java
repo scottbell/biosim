@@ -2027,8 +2027,8 @@ public class BioInitializer{
 	}
 
 	private void configureCO2AirEnvironmentInFlowRateSensor(Node node){
-		CO2AirPressureSensor myCO2AirPressureSensor = CO2AirPressureSensorHelper.narrow(grabModule(getModuleName(node)));
-		myCO2AirPressureSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
+		CO2AirEnvironmentInFlowRateSensor myCO2AirEnvironmentInFlowRateSensor = CO2AirEnvironmentInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myCO2AirEnvironmentInFlowRateSensor.setInput(CO2AirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createCO2AirEnvironmentOutFlowRateSensor(Node node){
@@ -2135,8 +2135,8 @@ public class BioInitializer{
 	}
 
 	private void configureO2AirEnvironmentInFlowRateSensor(Node node){
-		O2AirPressureSensor myO2AirPressureSensor = O2AirPressureSensorHelper.narrow(grabModule(getModuleName(node)));
-		myO2AirPressureSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
+		O2AirEnvironmentInFlowRateSensor myO2AirEnvironmentInFlowRateSensor = O2AirEnvironmentInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myO2AirEnvironmentInFlowRateSensor.setInput(O2AirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createO2AirEnvironmentOutFlowRateSensor(Node node){
@@ -2279,8 +2279,8 @@ public class BioInitializer{
 	}
 
 	private void configureWaterAirEnvironmentInFlowRateSensor(Node node){
-		WaterAirPressureSensor myWaterAirPressureSensor = WaterAirPressureSensorHelper.narrow(grabModule(getModuleName(node)));
-		myWaterAirPressureSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
+		WaterAirEnvironmentInFlowRateSensor myWaterAirEnvironmentInFlowRateSensor = WaterAirEnvironmentInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myWaterAirEnvironmentInFlowRateSensor.setInput(WaterAirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createWaterAirEnvironmentOutFlowRateSensor(Node node){
@@ -2387,8 +2387,8 @@ public class BioInitializer{
 	}
 
 	private void configureNitrogenAirEnvironmentInFlowRateSensor(Node node){
-		NitrogenAirPressureSensor myNitrogenAirPressureSensor = NitrogenAirPressureSensorHelper.narrow(grabModule(getModuleName(node)));
-		myNitrogenAirPressureSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
+		NitrogenAirEnvironmentInFlowRateSensor myNitrogenAirEnvironmentInFlowRateSensor = NitrogenAirEnvironmentInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myNitrogenAirEnvironmentInFlowRateSensor.setInput(NitrogenAirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createNitrogenAirEnvironmentOutFlowRateSensor(Node node){
@@ -3245,7 +3245,13 @@ public class BioInitializer{
 			child = child.getNextSibling();
 		}
 	}
-
+	
+	//Actuators
+	
+	private static String getOutputName(Node pNode){
+		return pNode.getAttributes().getNamedItem("output").getNodeValue();
+	}
+	
 	//Air
 	private void createCO2InFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
@@ -3262,7 +3268,7 @@ public class BioInitializer{
 
 	private void configureCO2InFlowRateActuator(Node node){
 		CO2InFlowRateActuator myCO2InFlowRateActuator = CO2InFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myCO2InFlowRateActuator.setOutput(CO2ConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myCO2InFlowRateActuator.setOutput(CO2ConsumerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createCO2OutFlowRateActuator(Node node){
@@ -3280,7 +3286,7 @@ public class BioInitializer{
 
 	private void configureCO2OutFlowRateActuator(Node node){
 		CO2OutFlowRateActuator myCO2OutFlowRateActuator = CO2OutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myCO2OutFlowRateActuator.setOutput(CO2ProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myCO2OutFlowRateActuator.setOutput(CO2ProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createO2InFlowRateActuator(Node node){
@@ -3298,7 +3304,7 @@ public class BioInitializer{
 
 	private void configureO2InFlowRateActuator(Node node){
 		O2InFlowRateActuator myO2InFlowRateActuator = O2InFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myO2InFlowRateActuator.setOutput(O2ConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myO2InFlowRateActuator.setOutput(O2ConsumerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createO2OutFlowRateActuator(Node node){
@@ -3316,7 +3322,7 @@ public class BioInitializer{
 
 	private void configureO2OutFlowRateActuator(Node node){
 		O2OutFlowRateActuator myO2OutFlowRateActuator = O2OutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myO2OutFlowRateActuator.setOutput(O2ProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myO2OutFlowRateActuator.setOutput(O2ProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createH2InFlowRateActuator(Node node){
@@ -3334,7 +3340,7 @@ public class BioInitializer{
 
 	private void configureH2InFlowRateActuator(Node node){
 		H2InFlowRateActuator myH2InFlowRateActuator = H2InFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myH2InFlowRateActuator.setOutput(H2ConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myH2InFlowRateActuator.setOutput(H2ConsumerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createH2OutFlowRateActuator(Node node){
@@ -3352,7 +3358,7 @@ public class BioInitializer{
 
 	private void configureH2OutFlowRateActuator(Node node){
 		H2OutFlowRateActuator myH2OutFlowRateActuator = H2OutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myH2OutFlowRateActuator.setOutput(H2ProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myH2OutFlowRateActuator.setOutput(H2ProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createNitrogenInFlowRateActuator(Node node){
@@ -3370,7 +3376,7 @@ public class BioInitializer{
 
 	private void configureNitrogenInFlowRateActuator(Node node){
 		NitrogenInFlowRateActuator myNitrogenInFlowRateActuator = NitrogenInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myNitrogenInFlowRateActuator.setOutput(NitrogenConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myNitrogenInFlowRateActuator.setOutput(NitrogenConsumerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createNitrogenOutFlowRateActuator(Node node){
@@ -3388,7 +3394,7 @@ public class BioInitializer{
 
 	private void configureNitrogenOutFlowRateActuator(Node node){
 		NitrogenOutFlowRateActuator myNitrogenOutFlowRateActuator = NitrogenOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myNitrogenOutFlowRateActuator.setOutput(NitrogenProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myNitrogenOutFlowRateActuator.setOutput(NitrogenProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 	
 	private void crawlAirActuators(Node node, boolean firstPass){
@@ -3463,7 +3469,7 @@ public class BioInitializer{
 
 	private void configureAirInFlowRateActuator(Node node){
 		AirInFlowRateActuator myAirInFlowRateActuator = AirInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myAirInFlowRateActuator.setOutput(AirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myAirInFlowRateActuator.setOutput(AirConsumerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createAirOutFlowRateActuator(Node node){
@@ -3481,7 +3487,7 @@ public class BioInitializer{
 
 	private void configureAirOutFlowRateActuator(Node node){
 		AirOutFlowRateActuator myAirOutFlowRateActuator = AirOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myAirOutFlowRateActuator.setOutput(AirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myAirOutFlowRateActuator.setOutput(AirProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createCO2AirEnvironmentInFlowRateActuator(Node node){
@@ -3499,7 +3505,7 @@ public class BioInitializer{
 
 	private void configureCO2AirEnvironmentInFlowRateActuator(Node node){
 		CO2AirEnvironmentInFlowRateActuator myCO2AirEnvironmentInFlowRateActuator = CO2AirEnvironmentInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myCO2AirEnvironmentInFlowRateActuator.setOutput(CO2AirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myCO2AirEnvironmentInFlowRateActuator.setOutput(CO2AirConsumerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createCO2AirEnvironmentOutFlowRateActuator(Node node){
@@ -3517,7 +3523,7 @@ public class BioInitializer{
 
 	private void configureCO2AirEnvironmentOutFlowRateActuator(Node node){
 		CO2AirEnvironmentOutFlowRateActuator myCO2AirEnvironmentOutFlowRateActuator = CO2AirEnvironmentOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myCO2AirEnvironmentOutFlowRateActuator.setOutput(CO2AirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myCO2AirEnvironmentOutFlowRateActuator.setOutput(CO2AirProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createCO2AirStoreInFlowRateActuator(Node node){
@@ -3535,7 +3541,7 @@ public class BioInitializer{
 
 	private void configureCO2AirStoreInFlowRateActuator(Node node){
 		CO2AirStoreInFlowRateActuator myCO2AirStoreInFlowRateActuator = CO2AirStoreInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myCO2AirStoreInFlowRateActuator.setOutput(CO2AirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myCO2AirStoreInFlowRateActuator.setOutput(CO2AirConsumerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createCO2AirStoreOutFlowRateActuator(Node node){
@@ -3553,7 +3559,7 @@ public class BioInitializer{
 
 	private void configureCO2AirStoreOutFlowRateActuator(Node node){
 		CO2AirStoreOutFlowRateActuator myCO2AirStoreOutFlowRateActuator = CO2AirStoreOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myCO2AirStoreOutFlowRateActuator.setOutput(CO2AirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myCO2AirStoreOutFlowRateActuator.setOutput(CO2AirProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createO2AirEnvironmentInFlowRateActuator(Node node){
@@ -3571,7 +3577,7 @@ public class BioInitializer{
 
 	private void configureO2AirEnvironmentInFlowRateActuator(Node node){
 		O2AirEnvironmentInFlowRateActuator myO2AirEnvironmentInFlowRateActuator = O2AirEnvironmentInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myO2AirEnvironmentInFlowRateActuator.setOutput(O2AirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myO2AirEnvironmentInFlowRateActuator.setOutput(O2AirConsumerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createO2AirEnvironmentOutFlowRateActuator(Node node){
@@ -3589,7 +3595,7 @@ public class BioInitializer{
 
 	private void configureO2AirEnvironmentOutFlowRateActuator(Node node){
 		O2AirEnvironmentOutFlowRateActuator myO2AirEnvironmentOutFlowRateActuator = O2AirEnvironmentOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myO2AirEnvironmentOutFlowRateActuator.setOutput(O2AirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myO2AirEnvironmentOutFlowRateActuator.setOutput(O2AirProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createO2AirStoreInFlowRateActuator(Node node){
@@ -3607,7 +3613,7 @@ public class BioInitializer{
 
 	private void configureO2AirStoreInFlowRateActuator(Node node){
 		O2AirStoreInFlowRateActuator myO2AirStoreInFlowRateActuator = O2AirStoreInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myO2AirStoreInFlowRateActuator.setOutput(O2AirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myO2AirStoreInFlowRateActuator.setOutput(O2AirConsumerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createO2AirStoreOutFlowRateActuator(Node node){
@@ -3625,7 +3631,7 @@ public class BioInitializer{
 
 	private void configureO2AirStoreOutFlowRateActuator(Node node){
 		O2AirStoreOutFlowRateActuator myO2AirStoreOutFlowRateActuator = O2AirStoreOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myO2AirStoreOutFlowRateActuator.setOutput(O2AirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myO2AirStoreOutFlowRateActuator.setOutput(O2AirProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 	
 	private void createWaterAirEnvironmentInFlowRateActuator(Node node){
@@ -3643,7 +3649,7 @@ public class BioInitializer{
 
 	private void configureWaterAirEnvironmentInFlowRateActuator(Node node){
 		WaterAirEnvironmentInFlowRateActuator myWaterAirEnvironmentInFlowRateActuator = WaterAirEnvironmentInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myWaterAirEnvironmentInFlowRateActuator.setOutput(WaterAirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myWaterAirEnvironmentInFlowRateActuator.setOutput(WaterAirConsumerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createWaterAirEnvironmentOutFlowRateActuator(Node node){
@@ -3661,7 +3667,7 @@ public class BioInitializer{
 
 	private void configureWaterAirEnvironmentOutFlowRateActuator(Node node){
 		WaterAirEnvironmentOutFlowRateActuator myWaterAirEnvironmentOutFlowRateActuator = WaterAirEnvironmentOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myWaterAirEnvironmentOutFlowRateActuator.setOutput(WaterAirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myWaterAirEnvironmentOutFlowRateActuator.setOutput(WaterAirProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createWaterAirStoreInFlowRateActuator(Node node){
@@ -3679,7 +3685,7 @@ public class BioInitializer{
 
 	private void configureWaterAirStoreInFlowRateActuator(Node node){
 		WaterAirStoreInFlowRateActuator myWaterAirStoreInFlowRateActuator = WaterAirStoreInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myWaterAirStoreInFlowRateActuator.setOutput(WaterAirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myWaterAirStoreInFlowRateActuator.setOutput(WaterAirConsumerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createWaterAirStoreOutFlowRateActuator(Node node){
@@ -3697,7 +3703,7 @@ public class BioInitializer{
 
 	private void configureWaterAirStoreOutFlowRateActuator(Node node){
 		WaterAirStoreOutFlowRateActuator myWaterAirStoreOutFlowRateActuator = WaterAirStoreOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myWaterAirStoreOutFlowRateActuator.setOutput(WaterAirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myWaterAirStoreOutFlowRateActuator.setOutput(WaterAirProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createNitrogenAirEnvironmentInFlowRateActuator(Node node){
@@ -3715,7 +3721,7 @@ public class BioInitializer{
 
 	private void configureNitrogenAirEnvironmentInFlowRateActuator(Node node){
 		NitrogenAirEnvironmentInFlowRateActuator myNitrogenAirEnvironmentInFlowRateActuator = NitrogenAirEnvironmentInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myNitrogenAirEnvironmentInFlowRateActuator.setOutput(NitrogenAirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myNitrogenAirEnvironmentInFlowRateActuator.setOutput(NitrogenAirConsumerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createNitrogenAirEnvironmentOutFlowRateActuator(Node node){
@@ -3733,7 +3739,7 @@ public class BioInitializer{
 
 	private void configureNitrogenAirEnvironmentOutFlowRateActuator(Node node){
 		NitrogenAirEnvironmentOutFlowRateActuator myNitrogenAirEnvironmentOutFlowRateActuator = NitrogenAirEnvironmentOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myNitrogenAirEnvironmentOutFlowRateActuator.setOutput(NitrogenAirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myNitrogenAirEnvironmentOutFlowRateActuator.setOutput(NitrogenAirProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createNitrogenAirStoreInFlowRateActuator(Node node){
@@ -3751,7 +3757,7 @@ public class BioInitializer{
 
 	private void configureNitrogenAirStoreInFlowRateActuator(Node node){
 		NitrogenAirStoreInFlowRateActuator myNitrogenAirStoreInFlowRateActuator = NitrogenAirStoreInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myNitrogenAirStoreInFlowRateActuator.setOutput(NitrogenAirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myNitrogenAirStoreInFlowRateActuator.setOutput(NitrogenAirConsumerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createNitrogenAirStoreOutFlowRateActuator(Node node){
@@ -3769,7 +3775,7 @@ public class BioInitializer{
 
 	private void configureNitrogenAirStoreOutFlowRateActuator(Node node){
 		NitrogenAirStoreOutFlowRateActuator myNitrogenAirStoreOutFlowRateActuator = NitrogenAirStoreOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myNitrogenAirStoreOutFlowRateActuator.setOutput(NitrogenAirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myNitrogenAirStoreOutFlowRateActuator.setOutput(NitrogenAirProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void crawlEnvironmentActuators(Node node, boolean firstPass){
@@ -3904,7 +3910,7 @@ public class BioInitializer{
 
 	private void configureBiomassInFlowRateActuator(Node node){
 		BiomassInFlowRateActuator myBiomassInFlowRateActuator = BiomassInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myBiomassInFlowRateActuator.setOutput(BiomassConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myBiomassInFlowRateActuator.setOutput(BiomassConsumerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createBiomassOutFlowRateActuator(Node node){
@@ -3922,7 +3928,7 @@ public class BioInitializer{
 
 	private void configureBiomassOutFlowRateActuator(Node node){
 		BiomassOutFlowRateActuator myBiomassOutFlowRateActuator = BiomassOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myBiomassOutFlowRateActuator.setOutput(BiomassProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myBiomassOutFlowRateActuator.setOutput(BiomassProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createFoodInFlowRateActuator(Node node){
@@ -3940,7 +3946,7 @@ public class BioInitializer{
 
 	private void configureFoodInFlowRateActuator(Node node){
 		FoodInFlowRateActuator myFoodInFlowRateActuator = FoodInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myFoodInFlowRateActuator.setOutput(FoodConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myFoodInFlowRateActuator.setOutput(FoodConsumerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createFoodOutFlowRateActuator(Node node){
@@ -3958,7 +3964,7 @@ public class BioInitializer{
 
 	private void configureFoodOutFlowRateActuator(Node node){
 		FoodOutFlowRateActuator myFoodOutFlowRateActuator = FoodOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myFoodOutFlowRateActuator.setOutput(FoodProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myFoodOutFlowRateActuator.setOutput(FoodProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void crawlFoodActuators(Node node, boolean firstPass){
@@ -4009,7 +4015,7 @@ public class BioInitializer{
 
 	private void configurePowerInFlowRateActuator(Node node){
 		PowerInFlowRateActuator myPowerInFlowRateActuator = PowerInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myPowerInFlowRateActuator.setOutput(PowerConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myPowerInFlowRateActuator.setOutput(PowerConsumerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createPowerOutFlowRateActuator(Node node){
@@ -4027,7 +4033,7 @@ public class BioInitializer{
 
 	private void configurePowerOutFlowRateActuator(Node node){
 		PowerOutFlowRateActuator myPowerOutFlowRateActuator = PowerOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myPowerOutFlowRateActuator.setOutput(PowerProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myPowerOutFlowRateActuator.setOutput(PowerProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 	
 	private void crawlPowerActuators(Node node, boolean firstPass){
@@ -4066,7 +4072,7 @@ public class BioInitializer{
 
 	private void configurePotableWaterInFlowRateActuator(Node node){
 		PotableWaterInFlowRateActuator myPotableWaterInFlowRateActuator = PotableWaterInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myPotableWaterInFlowRateActuator.setOutput(PotableWaterConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myPotableWaterInFlowRateActuator.setOutput(PotableWaterConsumerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createPotableWaterOutFlowRateActuator(Node node){
@@ -4084,7 +4090,7 @@ public class BioInitializer{
 
 	private void configurePotableWaterOutFlowRateActuator(Node node){
 		PotableWaterOutFlowRateActuator myPotableWaterOutFlowRateActuator = PotableWaterOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myPotableWaterOutFlowRateActuator.setOutput(PotableWaterProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myPotableWaterOutFlowRateActuator.setOutput(PotableWaterProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createGreyWaterInFlowRateActuator(Node node){
@@ -4102,7 +4108,7 @@ public class BioInitializer{
 
 	private void configureGreyWaterInFlowRateActuator(Node node){
 		GreyWaterInFlowRateActuator myGreyWaterInFlowRateActuator = GreyWaterInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myGreyWaterInFlowRateActuator.setOutput(GreyWaterConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myGreyWaterInFlowRateActuator.setOutput(GreyWaterConsumerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createGreyWaterOutFlowRateActuator(Node node){
@@ -4120,7 +4126,7 @@ public class BioInitializer{
 
 	private void configureGreyWaterOutFlowRateActuator(Node node){
 		GreyWaterOutFlowRateActuator myGreyWaterOutFlowRateActuator = GreyWaterOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myGreyWaterOutFlowRateActuator.setOutput(GreyWaterProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myGreyWaterOutFlowRateActuator.setOutput(GreyWaterProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createDirtyWaterInFlowRateActuator(Node node){
@@ -4138,7 +4144,7 @@ public class BioInitializer{
 
 	private void configureDirtyWaterInFlowRateActuator(Node node){
 		DirtyWaterInFlowRateActuator myDirtyWaterInFlowRateActuator = DirtyWaterInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myDirtyWaterInFlowRateActuator.setOutput(DirtyWaterConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myDirtyWaterInFlowRateActuator.setOutput(DirtyWaterConsumerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createDirtyWaterOutFlowRateActuator(Node node){
@@ -4156,7 +4162,7 @@ public class BioInitializer{
 
 	private void configureDirtyWaterOutFlowRateActuator(Node node){
 		DirtyWaterOutFlowRateActuator myDirtyWaterOutFlowRateActuator = DirtyWaterOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myDirtyWaterOutFlowRateActuator.setOutput(DirtyWaterProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myDirtyWaterOutFlowRateActuator.setOutput(DirtyWaterProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 	
 	private void crawlWaterActuators(Node node, boolean firstPass){
@@ -4219,7 +4225,7 @@ public class BioInitializer{
 
 	private void configureDryWasteInFlowRateActuator(Node node){
 		DryWasteInFlowRateActuator myDryWasteInFlowRateActuator = DryWasteInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myDryWasteInFlowRateActuator.setOutput(DryWasteConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myDryWasteInFlowRateActuator.setOutput(DryWasteConsumerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createDryWasteOutFlowRateActuator(Node node){
@@ -4237,7 +4243,7 @@ public class BioInitializer{
 
 	private void configureDryWasteOutFlowRateActuator(Node node){
 		DryWasteOutFlowRateActuator myDryWasteOutFlowRateActuator = DryWasteOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
-		myDryWasteOutFlowRateActuator.setOutput(DryWasteProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		myDryWasteOutFlowRateActuator.setOutput(DryWasteProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 	}
 	
 	private void crawlWasteActuators(Node node, boolean firstPass){
