@@ -811,28 +811,6 @@ module biosim{
                         };
                         module water{
                                 interface WaterRS : framework::SimBioModule, framework::PowerConsumer, framework::GreyWaterConsumer, framework::DirtyWaterConsumer, framework::PotableWaterProducer{
-                                        float getPotableWaterProduced();
-                                        float getGreyWaterProduced();
-                                        float getPowerConsumed();
-                                        float getDirtyWaterConsumed();
-                                        float getGreyWaterConsumed();
-                                        void setROEnabled(in boolean pEnabled);
-                                        void setAESEnabled(in boolean pEnabled);
-                                        boolean ROIsEnabled();
-                                        boolean AESIsEnabled();
-                                        boolean ROHasPower();
-                                        boolean AESHasPower();
-                                        boolean PPSHasPower();
-                                        boolean BWPHasPower();
-                                        boolean ROHasWater();
-                                        boolean AESHasWater();
-                                        boolean PPSHasWater();
-                                        boolean BWPHasWater();
-                                        float getAEStoPPSWater();
-                                        float getROtoPPSWater();
-                                        float getROtoAESWater();
-                                        float getBWPtoROWater();
-                                        float getBWPtoAESWater();
                                 };
                                 interface PotableWaterStore : framework::Store{
                                 };
