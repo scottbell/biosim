@@ -73,35 +73,35 @@ public class BioHolder
 			modules.put(crewName , myCrew);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioSimulator: Couldn't locate CrewGroup, skipping...");
+			System.err.println("BioSimulator: Couldn't locate "+crewName+myID+", skipping...");
 		}
 		try{
 			PowerPS myPowerPS = PowerPSHelper.narrow(OrbUtils.getNCRef().resolve_str(powerPSName+myID));
 			modules.put(powerPSName , myPowerPS);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioSimulator: Couldn't locate PowerPS, skipping...");
+			System.err.println("BioSimulator: Couldn't locate "+powerPSName+myID+", skipping...");
 		}
 		try{
 			PowerStore myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(powerStoreName+myID));
 			modules.put(powerStoreName , myPowerStore);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioSimulator: Couldn't locate EnergyStore, skipping...");
+			System.err.println("BioSimulator: Couldn't locate "+powerStoreName+myID+", skipping...");
 		}
 		try{
 			AirRS myAirRS = AirRSHelper.narrow(OrbUtils.getNCRef().resolve_str(airRSName+myID));
 			modules.put(airRSName , myAirRS);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioSimulator: Couldn't locate AirRS, skipping...");
+			System.err.println("BioSimulator: Couldn't locate "+airRSName+myID+", skipping...");
 		}
 		try{
 			SimEnvironment mySimEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str(simEnvironmentName+myID));
 			modules.put(simEnvironmentName , mySimEnvironment);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioSimulator: Couldn't locate SimEnvironment, ending!");
+			System.err.println("BioSimulator: Couldn't locate "+simEnvironmentName+myID+", ending!");
 			System.exit(0);
 		}
 		try{
@@ -109,76 +109,76 @@ public class BioHolder
 			modules.put(greyWaterStoreName , myGreyWaterStore);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioSimulator: Couldn't locate GreyWaterStore, skipping...");
+			System.err.println("BioSimulator: Couldn't locate "+greyWaterStoreName+myID+", skipping...");
 		}
 		try{
 			PotableWaterStore myPotableWaterStore = PotableWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(potableWaterStoreName+myID));
 			modules.put(potableWaterStoreName , myPotableWaterStore);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioSimulator: Couldn't locate PotableWaterStore, skipping...");
+			System.err.println("BioSimulator: Couldn't locate "+potableWaterStoreName+myID+", skipping...");
 		}
 		try{
 			DirtyWaterStore myDirtyWaterStore = DirtyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(dirtyWaterStoreName+myID));
 			modules.put(dirtyWaterStoreName , myDirtyWaterStore);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioSimulator: Couldn't locate DirtyWaterStore, skipping...");
+			System.err.println("BioSimulator: Couldn't locate "+dirtyWaterStoreName+myID+", skipping...");
 		}
 		try{
 			FoodProcessor myFoodProcessor = FoodProcessorHelper.narrow(OrbUtils.getNCRef().resolve_str(foodProcessorName+myID));
 			modules.put(foodProcessorName , myFoodProcessor);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioSimulator: Couldn't locate FoodProcessor, skipping...");
+			System.err.println("BioSimulator: Couldn't locate "+foodProcessorName+myID+", skipping...");
 		}
 		try{
 			FoodStore myFoodStore= FoodStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(foodStoreName+myID));
 			modules.put(foodStoreName , myFoodStore);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioSimulator: Couldn't locate FoodStore, skipping...");
+			System.err.println("BioSimulator: Couldn't locate "+foodStoreName+myID+", skipping...");
 		}
 		try{
 			CO2Store myCO2Store = CO2StoreHelper.narrow(OrbUtils.getNCRef().resolve_str(CO2StoreName+myID));
 			modules.put(CO2StoreName , myCO2Store);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioSimulator: Couldn't locate CO2Store, skipping...");
+			System.err.println("BioSimulator: Couldn't locate "+CO2StoreName+myID+", skipping...");
 		}
 		try{
 			O2Store myO2Store = O2StoreHelper.narrow(OrbUtils.getNCRef().resolve_str(O2StoreName+myID));
 			modules.put(O2StoreName , myO2Store);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioSimulator: Couldn't locate CO2Store, skipping...");
+			System.err.println("BioSimulator: Couldn't locate "+O2StoreName+myID+", skipping...");
 		}
 		try{
 			BiomassRS myBiomassRS = BiomassRSHelper.narrow(OrbUtils.getNCRef().resolve_str(biomassRSName+myID));
 			modules.put(biomassRSName , myBiomassRS);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioSimulator: Couldn't locate BiomassRS, skipping...");
+			System.err.println("BioSimulator: Couldn't locate "+biomassRSName+myID+", skipping...");
 		}
 		try{
 			BiomassStore myBiomassStore = BiomassStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(biomassStoreName+myID));
 			modules.put(biomassStoreName, myBiomassStore);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioSimulator: Couldn't locate BiomassStore, skipping...");
+			System.err.println("BioSimulator: Couldn't locate "+biomassStoreName+myID+", skipping...");
 		}
 		try{
 			WaterRS myWaterRS = WaterRSHelper.narrow(OrbUtils.getNCRef().resolve_str(waterRSName+myID));
 			modules.put(waterRSName , myWaterRS);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioSimulator: Couldn't locate WaterRS, skipping...");
+			System.err.println("BioSimulator: Couldn't locate "+waterRSName+myID+", skipping...");
 		}
 		try{
 			myBioDriver = BioDriverHelper.narrow(OrbUtils.getNCRef().resolve_str("BioDriver"+myID));
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioSimulator: Couldn't locate BioDriver, skipping...");
+			System.err.println("BioSimulator: Couldn't locate BioDriver"+myID+", skipping...");
 		}
 		hasCollectedReferences = true;
 	}
