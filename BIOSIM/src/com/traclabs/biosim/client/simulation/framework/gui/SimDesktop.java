@@ -55,6 +55,7 @@ public class SimDesktop extends BioFrame
 	private JMenuItem myStartSimItem;
 	private JMenuItem myPauseSimItem;
 	private JMenuItem myAdvanceSimItem;
+	private JMenuItem myLoopSimItem;
 	private JMenuItem myShowAllDisplayItem;
 	private JMenuItem myShowAirDisplayItem;
 	private JMenuItem myShowFoodDisplayItem;
@@ -86,6 +87,7 @@ public class SimDesktop extends BioFrame
 	private Action myRefreshGuiAction;
 	private Action myTileAction;
 	private Action myStackAction;
+	private Action myLoopAction;
 
 	//Various icons used to display buttons
 	private ImageIcon waterIcon;
@@ -135,6 +137,7 @@ public class SimDesktop extends BioFrame
 		myStartAction = new StartSimulationAction("Start");
 		myPauseAction = new PauseSimulationAction("Pause");
 		myAdvanceAction = new AdvanceTickSimulationAction("Advance");
+		myLoopAction = new LoopSimulationAction("Loop");
 		myAboutAction = new AboutAction("About");
 		myQuitAction = new QuitAction("Quit");
 		myShowAllDisplayAction = new ShowAllDisplaysAction("Show All Displays");
@@ -185,6 +188,7 @@ public class SimDesktop extends BioFrame
 		myAdvanceSimItem.setMnemonic(KeyEvent.VK_O);
 		myPauseSimItem = myControlMenu.add(myPauseAction);
 		myPauseSimItem.setMnemonic(KeyEvent.VK_U);
+		myLoopSimItem = myControlMenu.add(myLoopAction);
 		myWindowMenu = new JMenu("Window");
 		myStackItem = myWindowMenu.add(myStackAction);
 		myTileItem = myWindowMenu.add(myTileAction);
@@ -454,6 +458,20 @@ public class SimDesktop extends BioFrame
 		public void actionPerformed(ActionEvent ae){
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			myDriver.advanceOneTick();
+			setCursor(Cursor.getDefaultCursor());
+		}
+	}
+	
+	/**
+	* Enables looping of simulation
+	*/
+	private class LoopSimulationAction extends AbstractAction{
+		public LoopSimulationAction(String name){
+			super(name);
+		}
+		public void actionPerformed(ActionEvent ae){
+			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			myDriver.setLooping(!myDriver.isLooping());
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}
@@ -738,6 +756,7 @@ public class SimDesktop extends BioFrame
 			else{
 				myLoggingItem.setText("Enable Logging");
 			}
+			//Simulation has stopped
 			if (!myDriver.isStarted()){
 				myStartSimButton.setToolTipText("Starts the simulation");
 				myStartSimButton.setIcon(startIcon);
@@ -748,6 +767,7 @@ public class SimDesktop extends BioFrame
 				myAdvanceSimButton.setEnabled(false);
 				myAdvanceSimItem.setEnabled(false);
 			}
+			//Simulation has started
 			else{
 				myStartSimButton.setToolTipText("Ends the simulation");
 				myStartSimButton.setIcon(stopIcon);
@@ -758,6 +778,7 @@ public class SimDesktop extends BioFrame
 				myAdvanceSimButton.setEnabled(true);
 				myAdvanceSimItem.setEnabled(true);
 			}
+			//Simulation has paused
 			if (myDriver.isPaused()){
 				myPauseSimButton.setToolTipText("Resume the simulation");
 				myPauseSimButton.setIcon(playIcon);
@@ -765,6 +786,7 @@ public class SimDesktop extends BioFrame
 				myAdvanceSimButton.setEnabled(true);
 				myAdvanceSimItem.setEnabled(true);
 			}
+			//Simulation has resumed
 			else{
 				myPauseSimButton.setToolTipText("Pause the simulation");
 				myPauseSimButton.setIcon(pauseIcon);
@@ -772,6 +794,10 @@ public class SimDesktop extends BioFrame
 				myAdvanceSimButton.setEnabled(false);
 				myAdvanceSimItem.setEnabled(false);
 			}
+			if (myDriver.isLooping())
+				myLoopSimItem.setText("Stop Looping");
+			else
+				myLoopSimItem.setText("Start Looping");
 		}
 	}
 

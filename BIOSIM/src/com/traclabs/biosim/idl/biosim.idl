@@ -67,6 +67,8 @@ module biosim{
 				boolean isDone();
 				long getTicks();
 				void reset();
+				boolean isLooping();
+				void setLooping(in boolean pLoop);
 				void setInitialization(in BioDriverInit myInit);
 				void setStochasticIntensity(in StochasticIntensity pIntensity);
 				void startMalfunction(in MalfunctionIntensity pIntensity, in MalfunctionLength pLength);
