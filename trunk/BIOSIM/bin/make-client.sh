@@ -104,6 +104,8 @@ if [ "$userSelect" == "all" ]; then
 fi
 echo "			-compiling util"
 $compilationInvocation $clientDir/util/*.java
+echo "				-compiling log"
+$compilationInvocation $clientDir/util//log/*.java
 echo "			-compiling air"
 echo "				-compiling air.gui"
 $compilationInvocation $clientDir/air/gui/*.java

@@ -62,10 +62,6 @@ public abstract class WaterRSSubSystem{
 
 	public void setEnabled(boolean pEnabled){
 		enabled = pEnabled;
-		if (!enabled){
-			hasEnoughWater = true;
-			hasEnoughPower = true;
-		}
 	}
 
 	/**
