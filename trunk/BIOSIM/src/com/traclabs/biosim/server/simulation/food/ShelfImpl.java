@@ -70,8 +70,10 @@ public class ShelfImpl extends ShelfPOA {
 	}
 
 	private void gatherWater(){
-		float gatheredGreyWater = myBiomassRSImpl.getFractionalResourceFromStore(myBiomassRSImpl.getGreyWaterInputs(), myBiomassRSImpl.getGreyWaterInputMaxFlowRates(), myBiomassRSImpl.getGreyWaterInputDesiredFlowRates(), myBiomassRSImpl.getGreyWaterInputActualFlowRates(), waterNeeded, 1f / myBiomassRSImpl.getNumberOfShelves());
-		float gatheredPotableWater = myBiomassRSImpl.getFractionalResourceFromStore(myBiomassRSImpl.getPotableWaterInputs(), myBiomassRSImpl.getPotableWaterInputMaxFlowRates(), myBiomassRSImpl.getPotableWaterInputDesiredFlowRates(), myBiomassRSImpl.getPotableWaterInputActualFlowRates(), waterNeeded - gatheredGreyWater, 1f / myBiomassRSImpl.getNumberOfShelves());
+		float extraWaterNeeded = waterNeeded-waterLevel; 
+		if (extraWaterNeeded < 0) {extraWaterNeeded=0;}
+		float gatheredGreyWater = myBiomassRSImpl.getFractionalResourceFromStore(myBiomassRSImpl.getGreyWaterInputs(), myBiomassRSImpl.getGreyWaterInputMaxFlowRates(), myBiomassRSImpl.getGreyWaterInputDesiredFlowRates(), myBiomassRSImpl.getGreyWaterInputActualFlowRates(), extraWaterNeeded, 1f / myBiomassRSImpl.getNumberOfShelves());
+		float gatheredPotableWater = myBiomassRSImpl.getFractionalResourceFromStore(myBiomassRSImpl.getPotableWaterInputs(), myBiomassRSImpl.getPotableWaterInputMaxFlowRates(), myBiomassRSImpl.getPotableWaterInputDesiredFlowRates(), myBiomassRSImpl.getPotableWaterInputActualFlowRates(), extraWaterNeeded - gatheredGreyWater, 1f / myBiomassRSImpl.getNumberOfShelves());
 		waterLevel += gatheredGreyWater + gatheredPotableWater;
 	}
 
@@ -81,6 +83,7 @@ public class ShelfImpl extends ShelfPOA {
 	}
 
 	private void flushWater(){
+		System.out.println(waterLevel+" liters remaining in shelf."); 
 		waterLevel -= myBiomassRSImpl.pushFractionalResourceToStore(myBiomassRSImpl.getDirtyWaterOutputs(), myBiomassRSImpl.getDirtyWaterOutputMaxFlowRates(), myBiomassRSImpl.getDirtyWaterOutputDesiredFlowRates(), myBiomassRSImpl.getDirtyWaterOutputActualFlowRates(), waterLevel, myBiomassRSImpl.getNumberOfShelves());
 	}
 
@@ -127,6 +130,7 @@ public class ShelfImpl extends ShelfPOA {
 	public void harvest(){
 		float biomassProduced = myCrop.harvest();
 		float biomassAdded = pushFractionalResourceToBiomassStore(myBiomassRSImpl.getBiomassOutputs(), myBiomassRSImpl.getBiomassOutputMaxFlowRates(), myBiomassRSImpl.getBiomassOutputDesiredFlowRates(), myBiomassRSImpl.getBiomassOutputActualFlowRates(), biomassProduced, myBiomassRSImpl.getNumberOfShelves(), myCrop.getPlantType());
+		System.out.println("biomassProduced: "+biomassProduced); 
 	}
 
 	public boolean isReadyForHavest(){
