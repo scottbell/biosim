@@ -2,16 +2,23 @@ package biosim.server.crew;
 
 // The package containing our stubs.
 import SIMULATION.*;
+import java.io.*;
+import java.net.*;
 
 public class CrewImpl extends CrewPOA {
 	
 	private CrewState currentState;
+	private Schedule mySchedule;
 
 	public CrewImpl(){
-		//Crew is initially asleep
-		currentState = CrewState.ASLEEP;
+		//use default schedule
+		mySchedule = new Schedule();
 	}
-	
+
+	public CrewImpl(File pScheduleFile){
+		mySchedule = new Schedule(pScheduleFile);
+	}
+
 	public void setState(CrewState newState){
 		if (currentState != newState){
 			currentState = newState;
@@ -44,11 +51,16 @@ public class CrewImpl extends CrewPOA {
 			return "health";
 		else if (currentState == CrewState.MAINTENANCE)
 			return "maintenance";
+		else if (currentState == CrewState.SCIENCE)
+			return "science";
 		else
 			return "unknown";
 	}
 
 	public void tick(){
-		System.out.println("Crew has been ticked!");
+		processState();
+	}
+	
+	private void processState(){
 	}
 }
