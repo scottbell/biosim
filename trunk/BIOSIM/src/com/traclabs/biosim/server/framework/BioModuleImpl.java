@@ -37,18 +37,38 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		if (moduleLogging)
 			log();
 	}
-	
+
+	/**
+	 * Override this to get custom malfunction names.
+	 */
+	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
+		String returnName = new String();
+		if (pLength == MalfunctionLength.TEMPORARY_MALF)
+			returnName += "Temporary ";
+		else if (pLength == MalfunctionLength.PERMANENT_MALF)
+			returnName += "Permanent ";
+		if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
+			returnName += "Severe ";
+		else if (pIntensity == MalfunctionIntensity.MEDIUM_MALF)
+			returnName += "Medium ";
+		else if (pIntensity == MalfunctionIntensity.LOW_MALF)
+			returnName += "Low ";
+		returnName += "Malfunction";
+		return returnName;
+	}
+
 	public Malfunction startMalfunction(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
-		MalfunctionImpl newMalfunctionImpl = new MalfunctionImpl(pIntensity,pLength);
+		String malfunctionName = getMalfunctionName(pIntensity, pLength);
+		MalfunctionImpl newMalfunctionImpl = new MalfunctionImpl(malfunctionName,pIntensity,pLength);
 		Malfunction newMalfunction = MalfunctionHelper.narrow(OrbUtils.poaToCorbaObj(newMalfunctionImpl));
 		myMalfunctions.put((new Integer(newMalfunction.getID())), newMalfunction);
 		return newMalfunction;
 	}
-	
+
 	public void fixMalfunction(int pID){
 		myMalfunctions.remove(new Integer(pID));
 	}
-	
+
 	public boolean isMalfunctioning(){
 		return (myMalfunctions.size() > 0);
 	}
@@ -66,15 +86,15 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	public boolean isLogging(){
 		return moduleLogging;
 	}
-	
+
 	public int getID(){
 		return myID;
 	}
-	
+
 	public StochasticIntensity getStochasticIntensity(){
 		return myStochasticIntensity;
 	}
-	
+
 	public void setStochasticIntensity(StochasticIntensity pValue){
 		myStochasticIntensity = pValue;
 		if (pValue == StochasticIntensity.NONE_STOCH)
@@ -86,7 +106,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		else if (pValue == StochasticIntensity.HIGH_STOCH)
 			randomCoefficient = .09f;
 	}
-	
+
 	public float randomFilter(float pValue){
 		if (randomCoefficient <= 0)
 			return pValue;
@@ -100,7 +120,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		else
 			return (pValue -= addSubtractValue);
 	}
-	
+
 	public double randomFilter(double pValue){
 		if (randomCoefficient <= 0)
 			return pValue;
@@ -114,7 +134,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		else
 			return (pValue -= addSubtractValue);
 	}
-	
+
 	public boolean randomFilter(boolean pValue){
 		if (randomCoefficient <= 0)
 			return pValue;
@@ -125,7 +145,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		else
 			return pValue;
 	}
-	
+
 	public int randomFilter(int pValue){
 		if (randomCoefficient <= 0)
 			return pValue;

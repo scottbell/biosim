@@ -11,18 +11,24 @@ public class MalfunctionImpl extends MalfunctionPOA  {
 	private int myID;
 	private MalfunctionIntensity myIntensity;
 	private MalfunctionLength myLength;
+	private String myName;
 	
-	public MalfunctionImpl(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
+	public MalfunctionImpl(String pName, MalfunctionIntensity pIntensity, MalfunctionLength pLength){
 		if (lastID > java.lang.Integer.MAX_VALUE)
 			lastID = 0;
 		lastID++;
 		myID = lastID;
+		myName = pName;
 		myIntensity = pIntensity;
 		myLength = pLength;
 	}
 	
 	public int getID(){
 		return myID;
+	}
+	
+	public String getName(){
+		return myName;
 	}
 	
 	public MalfunctionIntensity getIntensity(){
