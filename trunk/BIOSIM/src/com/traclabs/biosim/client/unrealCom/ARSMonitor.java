@@ -138,6 +138,7 @@ public class ARSMonitor extends Thread {
 		float o2Cap;
 		float co2Cap;
 		float nCap;
+		String netRequest;
 		
 		System.out.println("Starting ARSMonitor thread");
 		
@@ -151,8 +152,9 @@ public class ARSMonitor extends Thread {
 			o2Cap = myO2Store.getCapacity();
 			co2Cap = myCO2Store.getCapacity();
 			nCap = myNitrogenStore.getCapacity();
-			
-			unrealStream.println(cmdPrefix+o2Level+" "+co2Level+" "+h2Level+" "+nLevel+" "+o2Cap+" "+co2Cap+" "+h2Cap+" "+nCap);
+			netRequest = cmdPrefix+o2Level+" "+co2Level+" "+h2Level+" "+nLevel+" "+o2Cap+" "+co2Cap+" "+h2Cap+" "+nCap;
+			System.out.println("Sent netRequest:"+netRequest);
+			unrealStream.println(netRequest);
 			try {
 				sleep(2000);
 			} catch(InterruptedException e) { }
