@@ -10,25 +10,32 @@ module biosim{
 		};
 		
                 module crew{
+			interface Activity;
+			interface CrewPerson;
+			interface CrewGroup;
+			typedef sequence <CrewPerson> CrewPersonList;
+			enum Sex {male, female};
                         interface Activity{
                                 string getName();
                                 long getTimeLength();
 				long getActivityIntensity();
                         };
-			enum Sex {male, female};
                         interface CrewPerson{
-                                Object getCurrentActivity();
-                                void setCurrentActivity(in Object newActivity);
+                                Activity getCurrentActivity();
+                                void setCurrentActivity(in Activity newActivity);
                                 string getName();
 				float getAge();
 				float getWeight();
+				long getTimeActivityPerformed();
 				Sex getSex();
+				string getStatus();
                         };
                         interface CrewGroup : framework::BioModule{
-                                Object getScheduledActivityByName(in string name);
-                                Object getScheduledActivityByOrder(in long order);
-                                Object getCrewPerson(in string name);
-                                Object createCrewPerson(in string name, in float age, in float weight, in Sex pSex);
+                                Activity getScheduledActivityByName(in string name);
+                                Activity getScheduledActivityByOrder(in long order);
+                                CrewPerson getCrewPerson(in string name);
+                                CrewPerson createCrewPerson(in string name, in float age, in float weight, in Sex pSex);
+				CrewPersonList getCrewPeople();
                         };
                 };
 

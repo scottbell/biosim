@@ -25,55 +25,46 @@ public class CrewGroupImpl extends CrewGroupPOA {
 		return "CrewGroup";
 	}
 
-	public org.omg.CORBA.Object createCrewPerson(String pName, float pAge, float pWeight, Sex pSex){
+	public CrewPerson createCrewPerson(String pName, float pAge, float pWeight, Sex pSex){
 		CrewPersonImpl newCrewPerson = new CrewPersonImpl(pName, pAge, pWeight, pSex, this);
 		crewPeople.put(pName, newCrewPerson);
-		return (OrbUtils.poaToCorbaObj(newCrewPerson));
+		return CrewPersonHelper.narrow((OrbUtils.poaToCorbaObj(newCrewPerson)));
+	}
+	
+	public CrewPerson[] getCrewPeople(){
+		CrewPerson[] theCrew = new CrewPerson[crewPeople.size()];
+		int i = 0;
+		for (Enumeration e = crewPeople.elements(); e.hasMoreElements(); ){
+			CrewPersonImpl tempPerson = (CrewPersonImpl)(e.nextElement());
+			theCrew[i] = CrewPersonHelper.narrow(OrbUtils.poaToCorbaObj(tempPerson));
+			i++;
+		}
+		return theCrew;
 	}
 
-	public org.omg.CORBA.Object getScheduledActivityByName(String name){
+	public Activity getScheduledActivityByName(String name){
 		ActivityImpl foundActivity = mySchedule.getActivityByName(name);
 		if (foundActivity != null)
-			return (OrbUtils.poaToCorbaObj(foundActivity));
+			return ActivityHelper.narrow((OrbUtils.poaToCorbaObj(foundActivity)));
 		else{
 			System.out.println("Couldn't find Activity by that name!");
 			return null;
 		}
 	}
-
-	public org.omg.CORBA.Object getScheduledActivityByOrder(int order){
+	
+	public Activity getScheduledActivityByOrder(int order){
 		ActivityImpl foundActivity = mySchedule.getActivityByOrder(order);
 		if (foundActivity != null)
-			return (OrbUtils.poaToCorbaObj(foundActivity));
+			return ActivityHelper.narrow((OrbUtils.poaToCorbaObj(foundActivity)));
 		else{
 			System.out.println("Couldn't find Activity by that order!");
 			return null;
 		}
 	}
 
-	protected ActivityImpl getRawActivityByName(String name){
-		ActivityImpl foundActivity = mySchedule.getActivityByName(name);
-		if (foundActivity != null)
-			return foundActivity;
-		else{
-			System.out.println("Couldn't find Activity by that name!");
-			return null;
-		}
-	}
-
-	protected ActivityImpl getRawActivityByOrder(int order){
-		ActivityImpl foundActivity = mySchedule.getActivityByOrder(order);
-		if (foundActivity != null)
-			return foundActivity;
-		else{
-			System.out.println("Couldn't find Activity by that order!");
-			return null;
-		}
-	}
-
-	public org.omg.CORBA.Object getCrewPerson(String crewPersonName){
+	public CrewPerson getCrewPerson(String crewPersonName){
 		CrewPersonImpl foundPerson = (CrewPersonImpl)(crewPeople.get(crewPersonName));
-		return (OrbUtils.poaToCorbaObj(foundPerson));
+		return CrewPersonHelper.narrow((OrbUtils.poaToCorbaObj(foundPerson)));
 	}
 
 	protected int getNumberOfActivities(){

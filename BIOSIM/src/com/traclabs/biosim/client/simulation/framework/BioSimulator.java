@@ -63,10 +63,10 @@ public class BioSimulator implements Runnable
 	private void initializeSimulation(){
 		//Make some crew members
 		CrewGroup myCrew = (CrewGroup)(getBioModule(crewName));
-		CrewPerson myCrewPerson1 = CrewPersonHelper.narrow(myCrew.createCrewPerson("Bob Roberts", 43, 170, Sex.male));
-		CrewPerson myCrewPerson2 = CrewPersonHelper.narrow(myCrew.createCrewPerson("Stephanie Stevens", 25, 125, Sex.female));
-		CrewPerson myCrewPerson3 = CrewPersonHelper.narrow(myCrew.createCrewPerson("Bill Williams", 30, 165, Sex.male));
-		CrewPerson myCrewPerson4 = CrewPersonHelper.narrow(myCrew.createCrewPerson("Janet Janey", 22, 130, Sex.female));
+		CrewPerson myCrewPerson1 = myCrew.createCrewPerson("Bob Roberts", 43, 170, Sex.male);
+		CrewPerson myCrewPerson2 = myCrew.createCrewPerson("Stephanie Stevens", 25, 125, Sex.female);
+		CrewPerson myCrewPerson3 = myCrew.createCrewPerson("Bill Williams", 30, 165, Sex.male);
+		CrewPerson myCrewPerson4 = myCrew.createCrewPerson("Janet Janey", 22, 130, Sex.female);
 
 		//Fill the clean water stores to the brim (20 liters), and all stores' capacities
 		DirtyWaterStore myDirtyWaterStore = (DirtyWaterStore)(getBioModule(dirtyWaterStoreName));

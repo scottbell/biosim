@@ -108,6 +108,9 @@ $compilationInvocation $clientDir/air/gui/*.java
 echo "			-compiling environment"
 echo "				-compiling environment.gui"
 $compilationInvocation $clientDir/environment/gui/*.java
+echo "			-compiling crew"
+echo "				-compiling crew.gui"
+$compilationInvocation $clientDir/crew/gui/*.java
 echo "			-compiling framework"
 $compilationInvocation $clientDir/framework/*.java
 echo "				-compiling framework.gui"
