@@ -131,12 +131,11 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 
 
 	public void tick(){
-		/*getAndPushResources();
+		getAndPushResources();
 		if (isMalfunctioning())
 			performMalfunctions();
 		if (moduleLogging)
 			log();
-		*/
 	}
 	
 	private void getAndPushResources(){

@@ -377,7 +377,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			myPowerPS.setLightInput(lightInput);
 		}
 
-		/*Hook up Accumulator to other modules
+		//Hook up Accumulator to other modules
 		{
 			SimEnvironment[] CO2AirInput = {myPlantEnvironment};
 			CO2Store[] CO2Output = {myCO2Store};
@@ -387,7 +387,6 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			myAccumulator.setCO2AirInputs(CO2AirInput, CO2AirInputFlowRates);
 			myAccumulator.setCO2AirOutputs(CO2Output, CO2OutputFlowRates);
 		}
-		*/
 
 		//Hook up Injector to other modules
 		{
