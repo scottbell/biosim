@@ -1,35 +1,62 @@
 #!/bin/bash
 
-if [ "$1" == "-?" ]; then
-	echo -e "usage: make-users-manual.sh [-debug] [-show] [-?]"
+show="false"
+textOutput=/dev/null
+usage="usage: make-users-manual.sh [-debug] [-show] [-?]"
+case $1 in
+-debug)
+	textOutput=/dev/tty
+	if [ "$2" == "-show" ]; then
+		show="true"
+	elif [ "$2" == "-?" ]; then
+		echo $usage
+		exit
+	elif [ "$2" == "" ]; then
+		echo -n " "
+	else
+		echo "$2: unknown option"
+		echo $usage
+		exit
+	fi
+	echo "	-debug mode on"
+	;;
+-show)
+	show="true"
+	if [ "$2" == "-debug" ]; then
+		echo "	-debug mode on"
+		textOutput=/dev/tty
+	elif [ "$2" == "-?" ]; then
+		echo $usage
+		exit
+	elif [ "$2" == "" ]; then
+		echo -n ""
+	else
+		echo "$2: unknown option"
+		echo $usage
+		exit
+	fi
+	show="	-displaying pdf"
+	;;
+-?)
+	echo $usage
 	exit
-fi
+	;;
+*)
+	echo "$1: unknown option"
+	echo $usage
+	exit
+	;;
+esac
 echo "*building users manual"
 # see if the biosim directory exists, if it doesn't, assume it's one directory back (i.e. user is in bin directory)
 devRootDir=$BIOSIM_HOME
 currentDir=`pwd`
-show="false"
-textOutput=/dev/null
 if [ -z "$devRootDir" ]
 then
 	cd ..
 	devRootDir=`pwd`
 	cd $currentDir
 	echo "	-assuming BIOSIM_HOME is $devRootDir"
-fi
-if [ "$1" == "-debug" ]; then
-	echo "	-debug mode on"
-	textOutput=/dev/tty
-	if [ "$2" == "-show" ]; then
-		show="true"
-	fi
-fi
-if [ "$1" == "-show" ]; then
-	show="true"
-	if [ "$2" == "-debug" ]; then
-		echo "	-debug mode on"
-		textOutput=/dev/tty
-	fi
 fi
 userManDir="$devRootDir/doc/users_manual_files"
 cd $userManDir
