@@ -1,4 +1,8 @@
 package biosim.server.water;
+
+import biosim.idl.util.*;
+import biosim.server.util.*;
+import biosim.idl.power.*;
 /**
  * The RO is the second stage of water purification.  It takes water from the BWP, filters it some, and
  * sends the water to the AES
@@ -9,8 +13,6 @@ package biosim.server.water;
 public class RO extends WaterRSSubSystem{
 	//The subsystem to send the water to next
 	private AES myAES;
-	//Flag switched when the RO has collected references to other subsystems it needs
-	private boolean hasCollectedReferences = false;
 	
 	/**
 	* Constructor that creates the RO
@@ -24,7 +26,7 @@ public class RO extends WaterRSSubSystem{
 	* Flushes the water from this subsystem to the AES
 	*/
 	private void pushWater(){
-		myWaterRS.getAES().addWater(waterLevel);
+		myAES.addWater(waterLevel);
 		waterLevel = 0;
 	}
 	
@@ -35,7 +37,10 @@ public class RO extends WaterRSSubSystem{
 	*/
 	public void tick(){
 		collectReferences();
-		pushWater();
+		gatherPower();
+		if (hasEnoughPower){
+			pushWater();
+		}
 	}
 	
 	/**
@@ -43,8 +48,21 @@ public class RO extends WaterRSSubSystem{
 	*/
 	private void collectReferences(){
 		if (!hasCollectedReferences){
-			myAES = myWaterRS.getAES();
-			hasCollectedReferences = true;
+			try{
+				myAES = myWaterRS.getAES();
+				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"));
+				hasCollectedReferences = true;
+			}
+			catch (org.omg.CORBA.UserException e){
+				e.printStackTrace(System.out);
+			}
 		}
+	}
+	
+	public void reset(){
+		currentPower = 0;
+		hasEnoughPower = false;
+		hasEnoughWater = false;
+		waterLevel = 0;
 	}
 }

@@ -1,4 +1,7 @@
 package biosim.server.water;
+
+import biosim.server.util.*;
+import biosim.idl.power.*;
 /**
  * The AES is the third stage of water purification.  It takes water from the RO, filters it some, and
  * sends the water to the PPS
@@ -9,8 +12,6 @@ package biosim.server.water;
 public class AES extends WaterRSSubSystem{
 	//The subsystem to send the water to next
 	private PPS myPPS;
-	//Flag switched when the RO has collected references to other subsystems it needs
-	private boolean hasCollectedReferences = false;
 	
 	/**
 	* Constructor that creates the AES
@@ -24,7 +25,7 @@ public class AES extends WaterRSSubSystem{
 	* Flushes the water from this subsystem to the PPS
 	*/
 	private void pushWater(){
-		myWaterRS.getPPS().addWater(waterLevel);
+		myPPS.addWater(waterLevel);
 		waterLevel = 0;
 	}
 	
@@ -33,8 +34,14 @@ public class AES extends WaterRSSubSystem{
 	*/
 	private void collectReferences(){
 		if (!hasCollectedReferences){
-			myPPS = myWaterRS.getPPS();
-			hasCollectedReferences = true;
+			try{
+				myPPS = myWaterRS.getPPS();
+				hasCollectedReferences = true;
+				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"));
+			}
+			catch (org.omg.CORBA.UserException e){
+				e.printStackTrace(System.out);
+			}
 		}
 	}
 	
@@ -45,6 +52,16 @@ public class AES extends WaterRSSubSystem{
 	*/
 	public void tick(){
 		collectReferences();
-		pushWater();
+		gatherPower();
+		if (hasEnoughPower){
+			pushWater();
+		}
+	}
+	
+	public void reset(){
+		currentPower = 0;
+		hasEnoughPower = false;
+		hasEnoughWater = false;
+		waterLevel = 0;
 	}
 }

@@ -1,6 +1,7 @@
 package biosim.server.water;
 
 import biosim.idl.util.*;
+import biosim.idl.power.*;
 /**
  * The abstract class all the water subsystems derive from (the AES, BWP, PPS, and RO).
  *
@@ -17,6 +18,7 @@ public abstract class WaterRSSubSystem{
 	protected float waterNeeded = 576.0f;
 	//Reference to the WaterRS to get other watersubsystems
 	protected WaterRSImpl myWaterRS;
+	protected PowerStore myPowerStore;
 	//Flag to determine whether the water subsystem has received enough power for this tick
 	protected boolean hasEnoughPower = false;
 	//Flag to determine whether the water subsystem has received enough water for this tick
@@ -25,6 +27,8 @@ public abstract class WaterRSSubSystem{
 	protected float waterLevel = 0;
 	private boolean logInitialized = false;
 	private LogIndex myLogIndex;
+	//Flag switched when the BWP has collected references to other subsystems it needs
+	protected boolean hasCollectedReferences = false;
 
 	/**
 	* Constructor that creates the subsystem
@@ -33,15 +37,14 @@ public abstract class WaterRSSubSystem{
 	public WaterRSSubSystem(WaterRSImpl pWaterRSImpl){
 		myWaterRS = pWaterRSImpl;
 	}
-
+	
 	/**
 	* Resets power consumption and water levels.
 	*/
-	public void reset(){
-		currentPower = 0;
-		hasEnoughPower = false;
-		hasEnoughWater = false;
-		waterLevel = 0;
+	public abstract void reset();
+	
+	public float getPowerConsumed(){
+		return currentPower;
 	}
 
 	/**
@@ -61,19 +64,10 @@ public abstract class WaterRSSubSystem{
 	}
 
 	/**
-	* Returns the power needed (in watts) for this susbsytem
-	* @return the power needed (in watts) for this subsystem
-	*/
-	public float getPowerNeeded(){
-		return powerNeeded;
-	}
-
-	/**
 	* Adds power to the subsystem for this tick
-	* @param pPower the amount of power to add (in watts)
 	*/
-	public void addPower(float pPower){
-		currentPower = pPower;
+	protected void gatherPower(){
+		currentPower = myPowerStore.take(powerNeeded);
 		if (currentPower < powerNeeded){
 			hasEnoughPower = false;
 		}
