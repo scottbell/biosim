@@ -251,6 +251,7 @@ public class BioHolderInitializer {
     public static void setFile(String pFilename) {
         if (xmlLocation.equals(pFilename))
             return;
+        xmlLocation = pFilename;
         initialized = false;
         initialize();
     }
@@ -285,6 +286,8 @@ public class BioHolderInitializer {
                 .narrow(grabModule("BioDriver"));
         URL documentUrl = ClassLoader.getSystemClassLoader().getResource(
                 xmlLocation);
+        Logger.getLogger(BioHolderInitializer.class).debug(
+                "parsing xml file: " + xmlLocation);
         if (documentUrl == null) {
             Logger.getLogger(BioHolderInitializer.class).error(
                     "Couldn't find init xml file: " + xmlLocation);
