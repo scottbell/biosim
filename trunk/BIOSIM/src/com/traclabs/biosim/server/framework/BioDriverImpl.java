@@ -63,7 +63,7 @@ public class BioDriverImpl extends BioDriverPOA{
 		actuators = new BioModule[0];
 		crewsToWatch = new CrewGroup[0];
 		plantsToWatch = new BiomassRS[0];
-		myLogger = Logger.getLogger(BioDriverImpl.class);
+		myLogger = Logger.getLogger(this.getClass());
 	}
 
 	/**

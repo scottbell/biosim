@@ -2,6 +2,8 @@ package biosim.server.framework;
 
 import java.net.URL;
 
+import org.apache.log4j.Logger;
+
 
 /**
  * The Biosim Server.  Creates an instance of each module (AirRS, FoodProcessor, WaterRS, etc..) and binds them to the nameserver.
@@ -10,15 +12,17 @@ import java.net.URL;
  */
 
 public class BiosimServer extends GenericServer{
+	private Logger myLogger;
 	
 	public BiosimServer(int id, int stutterLength, String xmlLocation){
+		myLogger = Logger.getLogger(this.getClass());
 		URL documentUrl = ClassLoader.getSystemClassLoader().getResource(xmlLocation);
 		if (documentUrl == null){
-			System.err.println("Couldn't find init xml file: "+xmlLocation);
-			System.err.println("Exiting...");
-			System.exit(1);
+			myLogger.error("Couldn't find init xml file: "+xmlLocation);
+			myLogger.error("Exiting...");
+			return;
 		}
-		System.out.println("Loading init file: "+documentUrl);
+		myLogger.info("Loading init file: "+documentUrl);
 		BioDriverImpl myBioDriverImpl = new BioDriverImpl(id);
 		myBioDriverImpl.setDriverStutterLength(stutterLength);
 		registerServer(myBioDriverImpl, myBioDriverImpl.getName(), myBioDriverImpl.getID());
