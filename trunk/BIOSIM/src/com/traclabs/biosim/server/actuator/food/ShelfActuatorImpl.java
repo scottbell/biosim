@@ -7,6 +7,7 @@ import biosim.idl.simulation.food.*;
 
 public abstract class ShelfActuatorImpl extends GenericActuatorImpl implements ShelfActuatorOperations{
 	protected Shelf myShelf;
+	private BiomassRS myModule;
 	
 	public ShelfActuatorImpl(int pID, String pName){
 		super(pID, pName);
@@ -14,6 +15,7 @@ public abstract class ShelfActuatorImpl extends GenericActuatorImpl implements S
 
 	public void setOutput(BiomassRS pBiomassRS, int shelfIndex){
 		myShelf = pBiomassRS.getShelf(shelfIndex);
+		myModule = pBiomassRS;
 	}
 	
 	public Shelf getOutput(){
@@ -21,6 +23,6 @@ public abstract class ShelfActuatorImpl extends GenericActuatorImpl implements S
 	}
 	
 	public BioModule getOutputModule(){
-		return BioModuleHelper.narrow(myShelf.getBiomassRS());
+		return (BioModule)(myModule);
 	}
 }

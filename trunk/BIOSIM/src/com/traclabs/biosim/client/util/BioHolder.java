@@ -356,11 +356,9 @@ public class BioHolder{
 	public GenericActuator getActuatorAttachedTo(List actuatorList, BioModule moduleWatched){
 		for (Iterator iter = actuatorList.iterator(); iter.hasNext();){
 			Object obj = iter.next();
-			System.out.println("BioHolder: here1");
 			GenericActuator currentActuator = (GenericActuator)(obj);
-			System.out.println("BioHolder: obj: "+obj);
-			System.out.println("BioHolder: currentActuator.getOutputModule()"+currentActuator.getOutputModule());
-			if (currentActuator.getOutputModule()._is_equivalent(moduleWatched))
+			BioModule myModule = currentActuator.getOutputModule();
+			if (myModule._is_equivalent(moduleWatched))
 				return currentActuator;
 		}
 		return null;
