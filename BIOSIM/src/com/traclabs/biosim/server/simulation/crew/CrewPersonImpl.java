@@ -265,7 +265,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			}
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("Couldn't find SimEnvironment!!");
+			System.err.println("Couldn't find SimEnvironment!!");
 			e.printStackTrace(System.out);
 		}
 	}

@@ -257,7 +257,7 @@ public class SimDesktop extends BioFrame
 
 		}
 		catch (Exception e){
-			System.out.println("Couldn't find icon ("+e+"), skipping");
+			System.err.println("Couldn't find icon ("+e+"), skipping");
 			e.printStackTrace();
 		}
 	}

@@ -66,10 +66,10 @@ public class OrbUtils{
 			runOnce = true;
 		}
 		catch (org.omg.CORBA.ORBPackage.InvalidName e){
-			e.printStackTrace(System.out);
+			e.printStackTrace();
 		}
 		catch(org.omg.PortableServer.POAManagerPackage.AdapterInactive e){
-			e.printStackTrace(System.out);
+			e.printStackTrace();
 		}
 	}
 }

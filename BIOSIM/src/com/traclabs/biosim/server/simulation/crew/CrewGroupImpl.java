@@ -86,7 +86,7 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 		if (foundActivity != null)
 			return ActivityHelper.narrow((OrbUtils.poaToCorbaObj(foundActivity)));
 		else{
-			System.out.println("Couldn't find Activity by that name!");
+			System.err.println("Couldn't find Activity by that name!");
 			return null;
 		}
 	}
@@ -101,7 +101,7 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 		if (foundActivity != null)
 			return ActivityHelper.narrow((OrbUtils.poaToCorbaObj(foundActivity)));
 		else{
-			System.out.println("Couldn't find Activity by that order!");
+			System.err.println("Couldn't find Activity by that order!");
 			return null;
 		}
 	}
