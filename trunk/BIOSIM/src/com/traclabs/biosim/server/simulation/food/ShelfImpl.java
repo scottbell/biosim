@@ -13,7 +13,7 @@ import java.util.*;
 
 public class ShelfImpl extends ShelfPOA {
 	private Plant myCrop;
-	private int cropCapacity = 10;
+	private int cropCapacity = 3;
 	private float currentPowerConsumed = 0f;
 	private float totalArea = 8.24f;
 	private float areaPerCrop = totalArea / cropCapacity;
