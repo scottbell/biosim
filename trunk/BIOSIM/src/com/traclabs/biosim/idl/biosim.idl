@@ -51,7 +51,6 @@ module biosim{
                                         float mass;
                                         PlantType type;
                                 };
-				interface BiomassConsumer;
                                 typedef sequence <Shelf> ShelfList;
                                 typedef sequence <BiomassStore> BiomassStoreList;
                                 typedef sequence <FoodStore> FoodStoreList;
@@ -121,6 +120,7 @@ module biosim{
                         interface CO2Producer;
                         interface CO2Consumer;
                         interface LightConsumer;
+                        interface BiomassConsumer;
                         interface FoodConsumer;
                         interface BiomassProducer;
                         interface FoodProducer;
@@ -347,6 +347,15 @@ module biosim{
                                 simulation::air::CO2StoreList getCO2AirStoreOutputs();
                                 simulation::environment::SimEnvironmentList getCO2AirEnvironmentOutputs();
                         };
+                        interface BiomassConsumer{
+                                void setBiomassInputMaxFlowRate(in float kilograms, in long index);
+                                float getBiomassInputMaxFlowRate(in long index);
+                                void setBiomassInputDesiredFlowRate(in float kilograms, in long index);
+                                float getBiomassInputDesiredFlowRate(in long index);
+                                float getBiomassInputActualFlowRate(in long index);
+                                void setBiomassInputs(in simulation::food::BiomassStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                simulation::food::BiomassStoreList getBiomassInputs();
+                        };
 
                         interface FoodConsumer{
                                 void setFoodInputMaxFlowRate(in float kilograms, in long index);
@@ -448,8 +457,8 @@ module biosim{
                                         void setPipe(in boolean pPipe);
                                 };
                                 interface SimBioModule : framework::BioModule{};
-                                interface Injector : framework::SimBioModule, framework::PowerConsumer, framework::PotableWaterConsumer, framework::GreyWaterConsumer, framework::DirtyWaterConsumer, framework::O2Consumer, framework::CO2Consumer, framework::AirConsumer, food::BiomassConsumer, framework::FoodConsumer, framework::O2AirConsumer, framework::CO2AirConsumer, framework::PowerProducer, framework::PotableWaterProducer, framework::GreyWaterProducer, framework::DirtyWaterProducer, framework::O2Producer, framework::CO2Producer, framework::AirProducer, framework::BiomassProducer, framework::FoodProducer, framework::O2AirProducer, framework::CO2AirProducer{};
-                                interface Accumulator : framework::SimBioModule, framework::PowerConsumer, framework::PotableWaterConsumer, framework::GreyWaterConsumer, framework::DirtyWaterConsumer, framework::O2Consumer, framework::CO2Consumer, framework::AirConsumer, food::BiomassConsumer, framework::FoodConsumer, framework::O2AirConsumer, framework::CO2AirConsumer, framework::PowerProducer, framework::PotableWaterProducer, framework::GreyWaterProducer, framework::DirtyWaterProducer, framework::O2Producer, framework::CO2Producer, framework::AirProducer, framework::BiomassProducer, framework::FoodProducer, framework::O2AirProducer, framework::CO2AirProducer{};
+                                interface Injector : framework::SimBioModule, framework::PowerConsumer, framework::PotableWaterConsumer, framework::GreyWaterConsumer, framework::DirtyWaterConsumer, framework::O2Consumer, framework::CO2Consumer, framework::AirConsumer, framework::BiomassConsumer, framework::FoodConsumer, framework::O2AirConsumer, framework::CO2AirConsumer, framework::PowerProducer, framework::PotableWaterProducer, framework::GreyWaterProducer, framework::DirtyWaterProducer, framework::O2Producer, framework::CO2Producer, framework::AirProducer, framework::BiomassProducer, framework::FoodProducer, framework::O2AirProducer, framework::CO2AirProducer{};
+                                interface Accumulator : framework::SimBioModule, framework::PowerConsumer, framework::PotableWaterConsumer, framework::GreyWaterConsumer, framework::DirtyWaterConsumer, framework::O2Consumer, framework::CO2Consumer, framework::AirConsumer, framework::BiomassConsumer, framework::FoodConsumer, framework::O2AirConsumer, framework::CO2AirConsumer, framework::PowerProducer, framework::PotableWaterProducer, framework::GreyWaterProducer, framework::DirtyWaterProducer, framework::O2Producer, framework::CO2Producer, framework::AirProducer, framework::BiomassProducer, framework::FoodProducer, framework::O2AirProducer, framework::CO2AirProducer{};
                         };
                         module crew{
                                 interface Activity{
@@ -556,7 +565,7 @@ module biosim{
                                         Shelf createNewShelf(in PlantType pType, in float pCropArea);
                                 };
 
-                                interface FoodProcessor : framework::SimBioModule, framework::PowerConsumer, food::BiomassConsumer, framework::FoodProducer{
+                                interface FoodProcessor : framework::SimBioModule, framework::PowerConsumer, framework::BiomassConsumer, framework::FoodProducer{
                                         float getBiomassConsumed();
                                         float getPowerConsumed();
                                         float getFoodProduced();
@@ -582,16 +591,6 @@ module biosim{
                                 };
 
                                 interface Plant{
-                                };
-				
-                                interface BiomassConsumer{
-                                        void setBiomassInputMaxFlowRate(in float kilograms, in long index);
-                                        float getBiomassInputMaxFlowRate(in long index);
-                                        void setBiomassInputDesiredFlowRate(in float kilograms, in long index);
-                                        float getBiomassInputDesiredFlowRate(in long index);
-                                        float getBiomassInputActualFlowRate(in long index);
-                                        void setBiomassInputs(in simulation::food::BiomassStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                        simulation::food::BiomassStoreList getBiomassInputs();
                                 };
 
                         };
@@ -702,7 +701,7 @@ module biosim{
                                         simulation::crew::CrewGroup getInput();
                                 };
                                 interface CrewGroupActivitySensor : CrewGroupSensor{};
-                                interface CrewGroupDeathSensor : CrewGroupSensor{};
+				interface CrewGroupDeathSensor : CrewGroupSensor{};
                         };
                         module environment{
                                 interface EnvironmentSensor : framework::GenericSensor{
@@ -792,8 +791,8 @@ module biosim{
                                 };
 
                                 interface BiomassInFlowRateSensor : framework::GenericSensor{
-                                        void setInput(in biosim::idl::simulation::food::BiomassConsumer pConsumer, in long pIndex);
-                                        biosim::idl::simulation::food::BiomassConsumer getInput();
+                                        void setInput(in framework::BiomassConsumer pConsumer, in long pIndex);
+                                        framework::BiomassConsumer getInput();
                                         long getIndex();
                                 };
                                 interface BiomassOutFlowRateSensor : framework::GenericSensor{
@@ -822,7 +821,7 @@ module biosim{
                                         void setInput(in simulation::power::PowerStore source);
                                         simulation::power::PowerStore getInput();
                                 };
-
+				
                                 interface PowerStoreLevelSensor : PowerStoreSensor{};
 
                                 interface PowerInFlowRateSensor : framework::GenericSensor{
@@ -918,8 +917,8 @@ module biosim{
                                         void setOutput(in framework::CO2Producer pProducer, in long pIndex);
                                         framework::CO2Producer getOutput();
                                         long getIndex();
-                                };
-                                interface AirRSActuator : framework::GenericActuator{
+                                };                                
+				interface AirRSActuator : framework::GenericActuator{
                                         void setOutput(in simulation::air::AirRS source);
                                         simulation::air::AirRS getOutput();
                                 };
@@ -931,7 +930,7 @@ module biosim{
                                 };
                                 interface CrewGroupActivityActuator : CrewGroupActuator{};
                         };
-
+			
                         module environment{
                                 interface EnvironmentActuator : framework::GenericActuator{
                                         void setOutput(in simulation::environment::SimEnvironment source);
@@ -1003,8 +1002,8 @@ module biosim{
                                 };
 
                                 interface BiomassInFlowRateActuator : framework::GenericActuator{
-                                        void setOutput(in biosim::idl::simulation::food::BiomassConsumer pConsumer, in long pIndex);
-                                        biosim::idl::simulation::food::BiomassConsumer getOutput();
+                                        void setOutput(in framework::BiomassConsumer pConsumer, in long pIndex);
+                                        framework::BiomassConsumer getOutput();
                                         long getIndex();
                                 };
                                 interface BiomassOutFlowRateActuator : framework::GenericActuator{
