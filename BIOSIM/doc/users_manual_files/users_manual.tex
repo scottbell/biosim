@@ -80,18 +80,17 @@ opportunities are limited.  Typically they have thin margins for mass,
 energy and buffers, which requires optimization and tight control.
 Also, advanced life support systems consist of many interconnected
 subsystems all of whom interact in both predictable and unpredictable
-ways (see Figure~\ref{fig:biosim}).  Autonomous control of these systems is
-desirable. This section gives enough background so that users of the
-simulation can understand the control issues.  For detailed
-documentation on advanced life support systems see \cite{tri99} or go
-to: http://advlifesupport.jsc.nasa.gov
+ways (see Figure~\ref{fig:biosim}).  Autonomous control\index{control}
+of these systems is desirable. This section gives enough background so
+that users of the simulation can understand the control issues.  For
+detailed documentation on advanced life support systems see
+\cite{tri99} or go to: http://advlifesupport.jsc.nasa.gov
 
 \begin{figure}
 \insertfigure{figure}{5.5in}
 \caption{The various modules that comprise the BIOSim integrated simulation.}
 \label{fig:biosim}
 \end{figure}
-
 
 \section{Modules}
 
@@ -103,7 +102,7 @@ each produce and consume different resources.
 \subsection{Crew}
 \label{sec:crew}
 
-The crew module is implemented using models described in
+The crew\index{crew} module is implemented using models described in
 \cite{goudarzi_ting99}.  The number, gender, age and weight of the
 crew are settable as input parameters -- in the default configuration
 there are four crew members, two male and two female.  The crew cycles
@@ -123,26 +122,27 @@ of gases in the atmosphere changes.
 \subsection{Water}
 \label{sec:water}
 
-The water recovery module consumes dirty water and produces potable
-and grey water (i.e., water that can be used for washing but not
-drinking).  The water recovery module consists of four subsystems that
-process the water.  The biological water processing (BWP) subsystem
-removes organic compounds.  Then the water passes to a reverse osmosis
-(RO) subsystem, which makes 85\% of the water passing through it grey.
-The 15\% of water remaining from the RO (called brine) is passed to the
-air evaporation subsystem (AES), which recovers the rest.  These two
-streams of grey water (from the RO and the AES) are passed through a
-post-processing subsystem (PPS) to create potable water.  An external
-controller can turn on or off various subsystems.  For example, all
-water can pass through the AES at a higher energy cost.  We based our
-water recovery module on a recently completed test at NASA Johnson
-Space Center \cite{bonasso_etal03}.
+The water\index{water} recovery module consumes dirty water and
+produces potable and grey water (i.e., water that can be used for
+washing but not drinking).  The water recovery module consists of four
+subsystems that process the water.  The biological water processing
+(BWP) subsystem removes organic compounds.  Then the water passes to a
+reverse osmosis (RO) subsystem, which makes 85\% of the water passing
+through it grey.  The 15\% of water remaining from the RO (called
+brine) is passed to the air evaporation subsystem (AES), which
+recovers the rest.  These two streams of grey water (from the RO and
+the AES) are passed through a post-processing subsystem (PPS) to
+create potable water.  An external controller can turn on or off
+various subsystems.  For example, all water can pass through the AES
+at a higher energy cost.  We based our water recovery module on a
+recently completed test at NASA Johnson Space Center
+\cite{bonasso_etal03}.
 
 
 \subsection{Air}
 \label{sec:air}
 
-The air component takes in exhalant CO2 and produces O2 as long as
+The air\index{air} component takes in exhalant CO2 and produces O2 as long as
 there is sufficient energy being provided to the system.  This
 component is modeled on various Air Revitalization System (ARS) work
 at NASA JSC \cite{malin_etal00}.  There are three interacting air
@@ -159,19 +159,20 @@ the biomass component (next subsection) also removes CO2 and adds O2.
 \subsection{Biomass}
 \label{sec:biomass}
 
-The biomass component is where crops are grown.  It produces both
-biomass, which can be turned into food, and O2 and consumes water,
-energy (light) and CO2.  This component is based on models given in
-\cite{jones_cavazzoni00}.  The system is modeled as shelves that contain
-plants, lights and water.  Shelves are planted and harvested and there
-is growth cycle for each shelf.  Currently, ten crops are modeled and
-can be planted in any ratio.
+The biomass\index{biomass} component is where crops\index{crops} are
+grown.  It produces both biomass, which can be turned into
+food\index{food}, and O2 and consumes water, energy (light) and CO2.
+This component is based on models given in \cite{jones_cavazzoni00}.
+The system is modeled as shelves\index{shelves} that contain plants,
+lights and water.  Shelves are planted and harvested and there is
+growth cycle for each shelf.  Currently, ten crops are modeled and can
+be planted in any ratio.
 
 \subsection{Food processing}
 \label{sec:food}
 
 Before biomass can be consumed by the crew it must be converted to
-food.  The food processing component takes biomass, energy and crew
+food\index{food}.  The food processing component takes biomass, energy and crew
 time and produces food and solid waste.  The crew needs to be involved
 in this process as it is labor intensive.  See Section~\ref{sec:crew}
 for more information on scheduling crew activities.
@@ -179,14 +180,15 @@ for more information on scheduling crew activities.
 \subsection{Waste}
 \label{sec:waste}
 
-The waste component consumes energy, O2 and solid waste and produces
-CO2.  It is modeled on an incinerator used in the Phase III test in
-1997 \cite{schreckenghost_etal02}.  Incineration can be scheduled.
+The waste\index{waste} component consumes energy, O2 and solid waste
+and produces CO2.  It is modeled on an incinerator used in the Phase
+III test in 1997 \cite{schreckenghost_etal02}.  Incineration can be
+scheduled.
 
 \subsection{Thermal control}
 \label{sec:thermal}
 
-The thermal control component regulates the air temperature in the
+The thermal control\index{thermal} component regulates the air temperature in the
 habitat.  This component is not implemented for this simulation and it
 is assumed that external controllers are maintaining chamber
 temperature.
@@ -194,11 +196,12 @@ temperature.
 \subsection{Energy}
 \label{sec:energy}
 
-The energy component supplies power to all of the other components
-that need it.  There are two choices for power in the simulation.  The
-first is nuclear power, which supplies a fixed amount throughout the
-lifetime of the simulation.  The second is solar power, which supplies
-a varying amount (day/night cycle) of power to each component.
+The energy\index{energy} component supplies power to all of the other
+components that need it.  There are two choices for power in the
+simulation.  The first is nuclear\index{nuclear} power, which supplies
+a fixed amount throughout the lifetime of the simulation.  The second
+is solar\index{solar} power, which supplies a varying amount
+(day/night cycle) of power to each component.
 
 \chapter{Simulation properties}
 
@@ -206,6 +209,11 @@ In addition to implementing the basic ALS components described above,
 the simulation has several other important properties.  This chapter
 looks at these properties and describes their impact on the
 simulation.
+
+\section{Producer/consumer model}
+
+Talk about what this is.  How the simulation works in generic sense
+(ticks, transfer of resources, etc.).
 
 \section{Success criteria}
 
@@ -217,46 +225,48 @@ success criterion.  As is minimizing the starting levels of stores or
 minimizing the sizes of intermediary buffers.  However, many of these
 fail to get at the true success of a mission, the productivity of the
 crew in performing their science objectives.  Thus, the simulation
-includes an artificial productivity measure.  As the crew cycles
-through their activities (see Section~\ref{sec:crew}) the amount of
-time they spend doing science tasks is accumulated. This number is
-also multiplied by a factor that takes into account the amount of
-sleep, exercise, water, food and oxygen they are getting.  So each
-tick, for each crew member the productivity is given by the following
-equation:
+includes an artificial productivity\index{productivity} measure.  As
+the crew cycles through their activities (see Section~\ref{sec:activities})
+the amount of time they spend doing science tasks is accumulated. This
+number is also multiplied by a factor that takes into account the
+amount of sleep, exercise, water, food and oxygen they are getting.
+So each tick, for each crew member the productivity is given by the
+following equation:
 
         [need to put the equation here]
 
 \section{Stochastic processes}
 
 Any sufficiently complex process, especially one with biological
-components, will not be deterministic.  That is, given the same
-starting conditions and inputs it will not produce the exact same
-outputs each time it is run.  A stochastic process is one in which
-chance or probability affect the outcome.  This simulation offers both
+components, will not be deterministic\index{deterministic}.  That is,
+given the same starting conditions and inputs it will not produce the
+exact same outputs each time it is run.  A
+stochastic\index{stochastic} process is one in which chance or
+probability affect the outcome.  This simulation offers both
 deterministic and stochastic operations.  In the former case, running
 the simulation twice with the same inputs and initial conditions will
 produce the same results.  This may be useful for quantitatively
 comparing different control approaches against each other.  In the
 latter case, the user can control the amount of variability in the
-simulation (see Section 7.4).  This is modeled using a Gaussian
-distribution [[Scott fill this in more]].  This can be used to
-test a control system’s ability to deal with stochastic processes.
+simulation (see Section 7.4).  This is modeled using a Gaussian\index{Gaussian}
+distribution [[Scott fill this in more]].  This can be used to test a
+control system’s ability to deal with stochastic processes.
 
 \section{Malfunctions}
 
-The simulation also has the ability to accept malfunction requests
-(see Section 7.5).  These requests will change the operating regime of
-the simulation.  For example, by causing a crew member to be sick,
-energy supplies to drop, water to leak, plants to die, etc.  Different
-modules will have different sensitivities, for example once plants die
-they cannot recover, but if the water module is damaged and then
-repaired it will operate normally.  Of course, if levels of CO2, water
-or food reach preset critical levels the crew will abandon the mission
-and return home.
+The simulation also has the ability to accept
+malfunction\index{malfunctions} requests (see Section 7.5).  These
+requests will change the operating regime of the simulation.  For
+example, by causing a crew member to be sick, energy supplies to drop,
+water to leak, plants to die, etc.  Different modules will have
+different sensitivities, for example once plants die they cannot
+recover, but if the water module is damaged and then repaired it will
+operate normally.  Of course, if levels of CO2, water or food reach
+preset critical levels the crew will abandon the mission and return
+home.
 
 \section{Crew activity scheduling}
-
+\label{sec:activities}
 Crew members in an advanced life support system do not just consume
 and produce -- they do activities.  These may be science, maintenance,
 exercise, sleep, etc.  The following diagram shows the nominal daily
@@ -267,29 +277,34 @@ routine for a crew member:
 
 \chapter{Simulation implementation}
 
-All of the simulation components are written in Java to make the
-simulation portable.  Each component is its own CORBA server so that
-they can be distributed across computers for increased performance.
-We have tested the simulation on Windows, Unix and Macintosh
-computers.  A user interface allows for insight into the simulation.
-There is also a logging facility that will automatically save all
-simulation values to a file or a database.  We have Java and C++
-interfaces to the simulation.  
+All of the simulation components are written in Java\index{Java} to
+make the simulation portable.  Each component is its own
+CORBA\index{CORBA} server so that they can be distributed across
+computers for increased performance.  We have tested the simulation on
+Windows\index{Windows}, Unix\index{Unix} and
+Macintosh\index{Macintosh} computers.  A user interface allows for
+insight into the simulation.  There is also a logging\index{logging}
+facility that will automatically save all simulation values to a file
+or a database.  We have Java and C++\index{C++} interfaces to the simulation.
+
+Explain object oriented methodology and how that relates to BioSim.
 
 \chapter{Installing the simulation}
 
-Download the Windows executable from: www.traclabs.com/biosim
+\section{Installing an executable}
 
-Go to Download and then download the Windows installer.  Remember
-where you put it.  Double-click on the Setup.exe icon, accept the
-agreement, choose the default installation, install it where you
-desire and then click ``Finish''.  BIOSim will start automatically.
-NOTE: If you do not have Java installed on your PC then the installer
-will direct you to the WWW page to download it (free).  Please e-mail
-Scott Bell (scott@traclabs.com) if you have trouble with Java.
+An executable that will run under most Windows operating systems.  You
+can ownload the Windows executable from: {\tt www.traclabs.com/biosim}. 
 
-Source code is also available by request.  Source code can be
-installed on Linux, Windows or Macintosh computers.
+At that site, go to Download and then download the Windows
+installer\index{installation}.  Remember where you put it.
+Double-click on the Setup.exe icon, accept the agreement, choose the
+default installation, install it where you desire and then click
+``Finish''.  BIOSim will start automatically.  NOTE: If you do not
+have Java\index{Java} installed on your PC then the installer will
+direct you to the WWW page to download it (free).  Please e-mail Scott
+Bell (scott@traclabs.com) if you have trouble with installing the
+simulation.
 
 \begin{figure}
 \insertfigure{labelled_interface}{5.5in}
@@ -297,9 +312,11 @@ installed on Linux, Windows or Macintosh computers.
 \label{fig:empty_interface}
 \end{figure}
 
+\section{Installing source code}
+
 \chapter{Running the simulation}
 
-When BIOSim starts you’ll see a blank interface as shown in
+When BIOSim starts you’ll see a blank interface\index{interface} as shown in
 Figure~\ref{fig:empty_interface}.  Holding your mouse over the buttons
 on the top reveals what they do.  As noted in the figure, the first
 three buttons control the simulation.  The next series of buttons will
@@ -335,34 +352,80 @@ http://www.traclabs.com/biosim/doc/api/index.html
    
 \section{Initial conditions}
 
-BioSim is almost infinitely reconfigurable -- from the number of
-crew members to the size of the biomass production module.  The
-configuration of BioSim is controlled by an eXtensible Markup Language
-(XML) file that is read in during BioSim initialization.
+BioSim is almost infinitely reconfigurable\index{recongifuration} --
+from the number of crew members to the size of the biomass production
+module.  The configuration of BioSim is controlled by an eXtensible
+Markup Language (XML) file that is read in during BioSim
+initialization.
 
 \subsection{XML file format}
 
-Explain XML file, how it’s used, how it’s read in. Capacities, levels,
+Explain XML\index{XML} file, how it’s used, how it’s read in. Capacities, levels,
 logging, etc.  Malfunctions, crew schedule, resupply, etc.  Attach an
 example XML file as an appendix.
 
 \subsection{Initializing BioSim}
 
-Talk about alternative initialization via an API.  Again, capacities, levels, logging, etc. can be set from here.
+Talk about alternative initialization\index{initialization} via an
+API.  Again, capacities, levels, logging, etc. can be set from here.
+
+\begin{figure}
+\insertfigure{controller}{4.0in}
+\caption{Interaction with the simulation.}
+\label{fig:controller}
+\end{figure}
 
 \section{Running the simulation}
+Figure~\ref{fig:controller} shows the basic control strategy for the
+simulation.  The simulation models represent the underlying equations
+that govern the producer/consumer relationships (see
+Section~\ref{sec:pc}).  Sensors and actuators are provided to access
+the underlying simulations.  The user is responsible for writing the
+controller, which uses the sensors and actuators to control the
+simulation.  The user can also inject malfunctions into the underlying
+simulation models and resupply consumables.   
 
-A Java class called BioDriver contains the methods used to control the simulation.  
+\section{Controlling the simulation}
+The root class of the simulation is the {\tt BioDriver} class, which
+contains the methods used to control the simulation.  The basic
+control unit is a {\bf tick}\index{tick}, which advances the
+simulation exactly one hour.  After creating your own BioDriver the
+following methods are available:
 
-Tick, reset, pausing, starting.  Put actual Java method calls here. 
+\begin{enumerate}
+\item  {\tt void advanceOneTick()}: Moves all modules of the
+  simulation ahead exactly one hour.
+\item {\tt void endSimulation()}: Ends\index{end} the simulation entirely.
+\item {\tt boolean isDone()}: \index{isDone} Returns true if the simulation has met
+  an end condition and has stopped.
+\item {\tt void reset() }:\index{reset} Returns the simulation to its initial
+  state.
+\end{enumerate}
 
-\section{Controlling the components via sensors and actuators}
+Here's an example of using one of these methods after a BioDriver
+class has been created in a Java program:
+
+\begin{verbatim}
+
+    myBioDriver.advanceOneTick();
+
+\end{verbatim}
+
+There are a number of other methods available in the BioDriver class
+that are less commonly used than those listed above.  These are
+available via the JavaDoc\index{JavaDoc} facility.  After you have
+installed your source code you can make documentation via the {\tt
+  make-docs.sh} (for Linux) or {\tt make-docs} (for Windows)
+executables in the {\tt bin} directory.  The BioDriverImpl class is
+under the biosim.server.framework package.
+
+\section{Controlling the modules via sensors and actuators}
 
 \subsection{Generic Sensors}
 
-Sensors are objects that connect to the underlying simulation.  Each
-module has its own set of sensor objects, but they all inherit the
-same method calls.  These method calls are:
+Sensors\index{sensors} are objects that connect to the underlying
+simulation.  Each module has its own set of sensor objects, but they
+all inherit the same method calls.  These method calls are:
 
 \begin{itemize}
 
@@ -371,6 +434,9 @@ same method calls.  These method calls are:
         \item getValue: Returns the current setting of the sensor
 \end{itemize}
 
+
+\subsection{Additional sensor methods}
+
 Several other generic methods related to sensor noise, malfunctions
 and logging are available:
 
@@ -378,7 +444,7 @@ In addition, there will be some sensor-specific methods, which we will discuss w
 
 \section{Generic Actuators}
 
-Actuators are objects that connect to the underlying simulation.  Each
+Actuators\index{actuators} are objects that connect to the underlying simulation.  Each
 module has its own set of actuator objects, but they all inherit the
 same method calls.  These method calls are:
 
@@ -391,6 +457,7 @@ same method calls.  These method calls are:
 
 \end{itemize}
 
+\subsection{Additional actuator methods}
 
 Several other generic methods related to actuator noise, malfunctions
 and logging are available:
@@ -401,9 +468,9 @@ will discuss with the appropriate actuator.
 
 \subsection{Environments}
 
-Environments contain the air that crew and plants use.  There can be
-multiple environments in the simulation, but they are all controlled
-by the same sensors and actuators.
+Environments\index{environment} contain the air\index{air} that crew
+and crops use.  There can be multiple environments in the simulation,
+but they are all controlled by the same sensors and actuators.
 
 \subsubsection{Sensors}
 
@@ -485,7 +552,7 @@ identical may want to move this up to top and then use this section
 only for module-specific malfunction information.
 
 \subsection{Crew}
-
+\index{crew}
 \subsubsection{Sensors}
 
 \begin{enumerate}
@@ -511,7 +578,7 @@ See environment above and supply malfunctions here.
 
 
 \subsection{Air}
-
+\index{air}
 \subsubsection{Sensors}
 
 \begin{enumerate}
@@ -552,6 +619,7 @@ Same as others
 
 
 \subsection{Water}
+\index{water}
 
 \subsubsection{Sensors}
 \begin{enumerate}
@@ -569,16 +637,59 @@ Same as others
 
 \subsubsection{Actuators}
 
+\begin{enumerate}
+
+\item DirtyWaterInFlowRateActuator:
+\item DirtyWaterOutFlowRateActuator:
+\item GreyWaterInFlowRateActuator:
+\item GreyWaterOutFlowRateActuator:
+\item PotableWaterInFlowRateActuator:
+\item PotableWaterOutFlowRateActuator:
+\end{enumerate}
+
 \subsubsection{Malfunctions}
 
-
 \subsection{Biomass}
+\index{biomass}
+
+\subsubsection{Sensors}
+
+\subsubsection{Actuators}
+
+\subsubsection{Malfunctions}
 
 \subsection{Solid Waste}
+\index{waste}
+
+\subsubsection{Sensors}
+
+\subsubsection{Actuators}
+
+\subsubsection{Malfunctions}
 
 \subsection{Energy}
+\index{energy}
+
+\subsubsection{Sensors}
+
+\begin{enumerate}
+\item PowerInFlowRateSensor:
+\item PowerOutFlowRateSensor:
+\item PowerStoreLevelSensor:
+\end{enumerate}
+
+\subsubsection{Actuators}
+
+\begin{enumerate}
+\item PowerInFlowRateActuator:
+\item PowerOutFlowRateActuator:
+\end{enumerate}
+
+\subsubsection{Malfunctions}
 
 \section{Enabling stochastic processes}
+
+
 
 \section{Java controllers}
 
