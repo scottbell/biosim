@@ -78,11 +78,6 @@ module biosim{
                                 interface Store;
                         };
                 };
-                module sensor{
-                        module framework{
-                                interface GenericSensor;
-                        };
-                };
                 module util{
                         module log{
                                 interface LogNode;
@@ -102,6 +97,9 @@ module biosim{
                         interface BioModule;
                         interface BioDriver;
                         //Producers & Consumers
+			interface FlowRateControllable;
+			interface Consumer;
+			interface Producer;
                         interface PowerConsumer;
                         interface PowerProducer;
                         interface PotableWaterConsumer;
@@ -194,7 +192,10 @@ module biosim{
                                 void setStochasticIntensity(in StochasticIntensity pIntensity);
                                 void startMalfunction(in MalfunctionIntensity pIntensity, in MalfunctionLength pLength);
                         };
-                        interface PowerConsumer{
+			interface FlowRateControllable : BioModule{};
+			interface Consumer : FlowRateControllable{};
+			interface Producer : FlowRateControllable{};
+                        interface PowerConsumer : Consumer{
                                 void setPowerInputMaxFlowRate(in float watts, in long index);
                                 float getPowerInputMaxFlowRate(in long index);
                                 void setPowerInputDesiredFlowRate(in float watts, in long index);
@@ -203,7 +204,7 @@ module biosim{
                                 void setPowerInputs(in simulation::power::PowerStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                 simulation::power::PowerStoreList getPowerInputs();
                         };
-                        interface PowerProducer{
+                        interface PowerProducer : Producer{
                                 void setPowerOutputMaxFlowRate(in float watts, in long index);
                                 float getPowerOutputMaxFlowRate(in long index);
                                 void setPowerOutputDesiredFlowRate(in float watts, in long index);
@@ -212,7 +213,7 @@ module biosim{
                                 void setPowerOutputs(in simulation::power::PowerStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                 simulation::power::PowerStoreList getPowerOutputs();
                         };
-                        interface PotableWaterConsumer{
+                        interface PotableWaterConsumer : Consumer{
                                 void setPotableWaterInputMaxFlowRate(in float liters, in long index);
                                 float getPotableWaterInputMaxFlowRate(in long index);
                                 void setPotableWaterInputDesiredFlowRate(in float liters, in long index);
@@ -221,7 +222,7 @@ module biosim{
                                 void setPotableWaterInputs(in simulation::water::PotableWaterStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                 simulation::water::PotableWaterStoreList getPotableWaterInputs();
                         };
-                        interface GreyWaterConsumer{
+                        interface GreyWaterConsumer : Consumer{
                                 void setGreyWaterInputMaxFlowRate(in float liters, in long index);
                                 float getGreyWaterInputMaxFlowRate(in long index);
                                 void setGreyWaterInputDesiredFlowRate(in float liters, in long index);
@@ -230,7 +231,7 @@ module biosim{
                                 void setGreyWaterInputs(in simulation::water::GreyWaterStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                 simulation::water::GreyWaterStoreList getGreyWaterInputs();
                         };
-                        interface DirtyWaterConsumer{
+                        interface DirtyWaterConsumer : Consumer{
                                 void setDirtyWaterInputMaxFlowRate(in float liters, in long index);
                                 float getDirtyWaterInputMaxFlowRate(in long index);
                                 void setDirtyWaterInputDesiredFlowRate(in float liters, in long index);
@@ -239,7 +240,7 @@ module biosim{
                                 void setDirtyWaterInputs(in simulation::water::DirtyWaterStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                 simulation::water::DirtyWaterStoreList getDirtyWaterInputs();
                         };
-                        interface PotableWaterProducer{
+                        interface PotableWaterProducer : Producer{
                                 void setPotableWaterOutputMaxFlowRate(in float liters, in long index);
                                 float getPotableWaterOutputMaxFlowRate(in long index);
                                 void setPotableWaterOutputDesiredFlowRate(in float liters, in long index);
@@ -248,7 +249,7 @@ module biosim{
                                 void setPotableWaterOutputs(in simulation::water::PotableWaterStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                 simulation::water::PotableWaterStoreList getPotableWaterOutputs();
                         };
-                        interface GreyWaterProducer{
+                        interface GreyWaterProducer : Producer{
                                 void setGreyWaterOutputMaxFlowRate(in float liters, in long index);
                                 float getGreyWaterOutputMaxFlowRate(in long index);
                                 void setGreyWaterOutputDesiredFlowRate(in float liters, in long index);
@@ -257,7 +258,7 @@ module biosim{
                                 void setGreyWaterOutputs(in simulation::water::GreyWaterStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                 simulation::water::GreyWaterStoreList getGreyWaterOutputs();
                         };
-                        interface DirtyWaterProducer{
+                        interface DirtyWaterProducer : Producer{
                                 void setDirtyWaterOutputMaxFlowRate(in float liters, in long index);
                                 float getDirtyWaterOutputMaxFlowRate(in long index);
                                 void setDirtyWaterOutputDesiredFlowRate(in float liters, in long index);
@@ -266,7 +267,7 @@ module biosim{
                                 void setDirtyWaterOutputs(in simulation::water::DirtyWaterStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                 simulation::water::DirtyWaterStoreList getDirtyWaterOutputs();
                         };
-                        interface AirConsumer{
+                        interface AirConsumer : Consumer{
                                 void setAirInputMaxFlowRate(in float liters, in long index);
                                 float getAirInputMaxFlowRate(in long index);
                                 void setAirInputDesiredFlowRate(in float liters, in long index);
@@ -275,11 +276,11 @@ module biosim{
                                 void setAirInputs(in simulation::environment::SimEnvironmentList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                 simulation::environment::SimEnvironmentList getAirInputs();
                         };
-                        interface LightConsumer{
+                        interface LightConsumer : Consumer{
                                 void setLightInput(in simulation::environment::SimEnvironment source);
                                 simulation::environment::SimEnvironment getLightInput();
                         };
-                        interface O2AirConsumer{
+                        interface O2AirConsumer : Consumer{
                                 void setO2AirStoreInputMaxFlowRate(in float liters, in long index);
                                 void setO2AirEnvironmentInputMaxFlowRate(in float liters, in long index);
                                 float getO2AirStoreInputMaxFlowRate(in long index);
@@ -295,7 +296,7 @@ module biosim{
                                 simulation::air::O2StoreList getO2AirStoreInputs();
                                 simulation::environment::SimEnvironmentList getO2AirEnvironmentInputs();
                         };
-                        interface CO2AirConsumer{
+                        interface CO2AirConsumer : Consumer{
                                 void setCO2AirStoreInputMaxFlowRate(in float liters, in long index);
                                 void setCO2AirEnvironmentInputMaxFlowRate(in float liters, in long index);
                                 float getCO2AirStoreInputMaxFlowRate(in long index);
@@ -311,7 +312,7 @@ module biosim{
                                 simulation::air::CO2StoreList getCO2AirStoreInputs();
                                 simulation::environment::SimEnvironmentList getCO2AirEnvironmentInputs();
                         };
-                        interface AirProducer{
+                        interface AirProducer : Producer{
                                 void setAirOutputMaxFlowRate(in float liters, in long index);
                                 float getAirOutputMaxFlowRate(in long index);
                                 void setAirOutputDesiredFlowRate(in float liters, in long index);
@@ -320,7 +321,7 @@ module biosim{
                                 void setAirOutputs(in simulation::environment::SimEnvironmentList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                 simulation::environment::SimEnvironmentList getAirOutputs();
                         };
-                        interface O2AirProducer{
+                        interface O2AirProducer : Producer{
                                 void setO2AirStoreOutputMaxFlowRate(in float liters, in long index);
                                 void setO2AirEnvironmentOutputMaxFlowRate(in float liters, in long index);
                                 float getO2AirStoreOutputMaxFlowRate(in long index);
@@ -336,7 +337,7 @@ module biosim{
                                 simulation::air::O2StoreList getO2AirStoreOutputs();
                                 simulation::environment::SimEnvironmentList getO2AirEnvironmentOutputs();
                         };
-                        interface CO2AirProducer{
+                        interface CO2AirProducer : Producer{
                                 void setCO2AirStoreOutputMaxFlowRate(in float liters, in long index);
                                 void setCO2AirEnvironmentOutputMaxFlowRate(in float liters, in long index);
                                 float getCO2AirStoreOutputMaxFlowRate(in long index);
@@ -352,7 +353,7 @@ module biosim{
                                 simulation::air::CO2StoreList getCO2AirStoreOutputs();
                                 simulation::environment::SimEnvironmentList getCO2AirEnvironmentOutputs();
                         };
-                        interface BiomassConsumer{
+                        interface BiomassConsumer : Consumer{
                                 void setBiomassInputMaxFlowRate(in float kilograms, in long index);
                                 float getBiomassInputMaxFlowRate(in long index);
                                 void setBiomassInputDesiredFlowRate(in float kilograms, in long index);
@@ -362,7 +363,7 @@ module biosim{
                                 simulation::food::BiomassStoreList getBiomassInputs();
                         };
 
-                        interface FoodConsumer{
+                        interface FoodConsumer : Consumer{
                                 void setFoodInputMaxFlowRate(in float kilograms, in long index);
                                 float getFoodInputMaxFlowRate(in long index);
                                 void setFoodInputDesiredFlowRate(in float kilograms, in long index);
@@ -371,7 +372,7 @@ module biosim{
                                 void setFoodInputs(in simulation::food::FoodStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                 simulation::food::FoodStoreList getFoodInputs();
                         };
-                        interface BiomassProducer{
+                        interface BiomassProducer : Producer{
                                 void setBiomassOutputMaxFlowRate(in float kilograms, in long index);
                                 float getBiomassOutputMaxFlowRate(in long index);
                                 void setBiomassOutputDesiredFlowRate(in float kilograms, in long index);
@@ -380,7 +381,7 @@ module biosim{
                                 void setBiomassOutputs(in simulation::food::BiomassStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                 simulation::food::BiomassStoreList getBiomassOutputs();
                         };
-                        interface FoodProducer{
+                        interface FoodProducer : Producer{
                                 void setFoodOutputMaxFlowRate(in float kilograms, in long index);
                                 float getFoodOutputMaxFlowRate(in long index);
                                 void setFoodOutputDesiredFlowRate(in float kilograms, in long index);
@@ -389,7 +390,7 @@ module biosim{
                                 void setFoodOutputs(in simulation::food::FoodStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                 simulation::food::FoodStoreList getFoodOutputs();
                         };
-                        interface O2Consumer{
+                        interface O2Consumer : Consumer{
                                 void setO2InputMaxFlowRate(in float liters, in long index);
                                 float getO2InputMaxFlowRate(in long index);
                                 void setO2InputDesiredFlowRate(in float liters, in long index);
@@ -398,7 +399,7 @@ module biosim{
                                 void setO2Inputs(in simulation::air::O2StoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                 simulation::air::O2StoreList getO2Inputs();
                         };
-                        interface CO2Consumer{
+                        interface CO2Consumer : Consumer{
                                 void setCO2InputMaxFlowRate(in float liters, in long index);
                                 float getCO2InputMaxFlowRate(in long index);
                                 void setCO2InputDesiredFlowRate(in float liters, in long index);
@@ -407,7 +408,7 @@ module biosim{
                                 void setCO2Inputs(in simulation::air::CO2StoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                 simulation::air::CO2StoreList getCO2Inputs();
                         };
-                        interface O2Producer{
+                        interface O2Producer : Producer{
                                 void setO2OutputMaxFlowRate(in float liters, in long index);
                                 float getO2OutputMaxFlowRate(in long index);
                                 void setO2OutputDesiredFlowRate(in float liters, in long index);
@@ -416,7 +417,7 @@ module biosim{
                                 void setO2Outputs(in simulation::air::O2StoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                 simulation::air::O2StoreList getO2Outputs();
                         };
-                        interface CO2Producer{
+                        interface CO2Producer : Producer{
                                 void setCO2OutputMaxFlowRate(in float liters, in long index);
                                 float getCO2OutputMaxFlowRate(in long index);
                                 void setCO2OutputDesiredFlowRate(in float liters, in long index);
@@ -663,6 +664,7 @@ module biosim{
 					float getMax();
 					float getMin();
                                 };
+				interface FlowRateSensor : GenericSensor{};
                         };
                         module air{
                                 interface O2StoreSensor : framework::GenericSensor{
@@ -902,6 +904,7 @@ module biosim{
 					float getMax();
 					float getMin();
                                 };
+				interface FlowRateActuator : GenericActuator{};
                         };
                         module air{
                                 interface O2InFlowRateActuator : framework::GenericActuator{
