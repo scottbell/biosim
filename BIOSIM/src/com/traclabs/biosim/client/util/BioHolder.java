@@ -1,929 +1,1559 @@
 package biosim.client.util;
 
+import java.net.*;
+import java.util.*;
+import org.w3c.dom.*;
+import org.apache.xerces.parsers.*;
+import org.xml.sax.*;
+
 import biosim.idl.simulation.air.*;
 import biosim.idl.simulation.crew.*;
-import biosim.idl.simulation.environment.*;
 import biosim.idl.simulation.food.*;
-import biosim.idl.simulation.power.*;
 import biosim.idl.simulation.water.*;
-import biosim.idl.simulation.framework.*;
 import biosim.idl.simulation.waste.*;
+import biosim.idl.simulation.power.*;
+import biosim.idl.simulation.environment.*;
+import biosim.idl.simulation.framework.*;
+import biosim.idl.framework.*;
 import biosim.idl.sensor.air.*;
-import biosim.idl.sensor.environment.*;
 import biosim.idl.sensor.food.*;
+import biosim.idl.sensor.water.*;
 import biosim.idl.sensor.power.*;
 import biosim.idl.sensor.crew.*;
-import biosim.idl.sensor.water.*;
+import biosim.idl.sensor.environment.*;
 import biosim.idl.sensor.framework.*;
 import biosim.idl.sensor.waste.*;
 import biosim.idl.actuator.air.*;
-import biosim.idl.actuator.environment.*;
 import biosim.idl.actuator.food.*;
-import biosim.idl.actuator.power.*;
 import biosim.idl.actuator.water.*;
+import biosim.idl.actuator.power.*;
+import biosim.idl.actuator.crew.*;
+import biosim.idl.actuator.environment.*;
 import biosim.idl.actuator.framework.*;
 import biosim.idl.actuator.waste.*;
-import biosim.idl.framework.*;
-import java.util.*;
-import biosim.client.util.*;
-import org.omg.CosNaming.*;
-import org.omg.CosNaming.NamingContextPackage.*;
-import org.omg.CORBA.*;
+
 /**
- * @author    Scott Bell
- */	
+ * Reads BioSim configuration from XML file.
+ *
+ * @author Scott Bell
+ */
+public class BioHolder{
+	/** Namespaces feature id (http://xml.org/sax/features/moduleNamespaces). */
+	private static final String NAMESPACES_FEATURE_ID = "http://xml.org/sax/features/namespaces";
+	/** Validation feature id (http://xml.org/sax/features/validation). */
+	private static final String VALIDATION_FEATURE_ID = "http://xml.org/sax/features/validation";
+	/** Schema validation feature id (http://apache.org/xml/features/validation/schema). */
+	private static final String SCHEMA_VALIDATION_FEATURE_ID = "http://apache.org/xml/features/validation/schema";
+	/** Schema full checking feature id (http://apache.org/xml/features/validation/schema-full-checking). */
+	private static final String SCHEMA_FULL_CHECKING_FEATURE_ID = "http://apache.org/xml/features/validation/schema-full-checking";
+	// default settings
+	/** Default moduleNamespaces support (true). */
+	private static final boolean DEFAULT_NAMESPACES = true;
+	/** Default validation support (false). */
+	private static final boolean DEFAULT_VALIDATION = true;
+	/** Default Schema validation support (false). */
+	private static final boolean DEFAULT_SCHEMA_VALIDATION = true;
+	/** Default Schema full checking support (false). */
+	private static final boolean DEFAULT_SCHEMA_FULL_CHECKING = true;
 
-public class BioHolder
-{
-	//Module Names
+	private DOMParser myParser = null;
+	private int myID = 0;
+
+	//Upper Categories
+	public List myModules;
+	public List mySimModules;
+	public List mySensors;
+	public List myActuators;
+
+	//Specific Modules
 	//Simulation
-	public final static String crewName = "CrewGroup";
-	public final static String powerPSName = "PowerPS";
-	public final static String powerStoreName = "PowerStore";
-	public final static String airRSName = "AirRS";
-	public final static String CO2StoreName = "CO2Store";
-	public final static String H2StoreName = "H2Store";
-	public final static String O2StoreName = "O2Store";
-	public final static String nitrogenStoreName = "NitrogenStore";
-	public final static String biomassRSName = "BiomassRS";
-	public final static String biomassStoreName = "BiomassStore";
-	public final static String foodProcessorName = "FoodProcessor";
-	public final static String foodStoreName = "FoodStore";
-	public final static String waterRSName = "WaterRS";
-	public final static String dirtyWaterStoreName = "DirtyWaterStore";
-	public final static String potableWaterStoreName = "PotableWaterStore";
-	public final static String greyWaterStoreName = "GreyWaterStore";
-	public final static String simEnvironmentName = "CrewEnvironment";
-	public final static String crewEnvironmentName = "CrewEnvironment";
-	public final static String plantEnvironmentName = "PlantEnvironment";
-	public final static String incineratorName = "Incinerator";
-	public final static String dryWasteStoreName = "DryWasteStore";
-	//Sensor
 	//Air
-	//AirRs
-	public final static String myAirRSPowerInFlowRateSensorName = "AirRSPowerInFlowRateSensor";
-	public final static String myAirRSAirInFlowRateSensorName = "AirRSAirInFlowRateSensor";
-	public final static String myAirRSAirOutFlowRateSensorName = "AirRSAirOutFlowRateSensor";
-	public final static String myAirRSO2OutFlowRateSensorName = "AirRSO2OutFlowRateSensor";
-	public final static String myAirRSCO2InFlowRateSensorName = "AirRSCO2InFlowRateSensor";
-	public final static String myAirRSCO2OutFlowRateSensorName = "AirRSCO2OutFlowRateSensor";
-	public final static String myAirRSH2InFlowRateSensorName = "AirRSH2InFlowRateSensor";
-	public final static String myAirRSH2OutFlowRateSensorName = "AirRSH2OutFlowRateSensor";
-	public final static String myAirRSPotableWaterInFlowRateSensorName = "AirRSPotableWaterInFlowRateSensor";
-	public final static String myAirRSPotableWaterOutFlowRateSensorName = "AirRSPotableWaterOutFlowRateSensor";
-	//Stores
-	public final static String myO2StoreLevelSensorName = "O2StoreLevelSensor";
-	public final static String myCO2StoreLevelSensorName = "CO2StoreLevelSensor";
-	public final static String myH2StoreLevelSensorName = "H2StoreLevelSensor";
-	public final static String myNitrogenStoreLevelSensorName = "NitrogenStoreLevelSensor";
-	public final static String myO2StoreOverflowSensorName = "O2StoreOverflowSensor";
-	public final static String myCO2StoreOverflowSensorName = "CO2StoreOverflowSensor";
-	public final static String myH2StoreOverflowSensorName = "H2StoreOverflowSensor";
-	public final static String myNitrogenStoreOverflowSensorName = "NitrogenStoreOverflowSensor";
+	public List myAirRSModules;
+	public List myO2Stores;
+	public List myCO2Stores;
+	public List myH2Stores;
+	public List myNitrogenStores;
 	//Crew
-	public final static String myCrewGroupDeathSensorName = "CrewGroupDeathSensor";
-	public final static String myCrewGroupAnyDeadSensorName = "CrewGroupAnyDeadSensor";
-	public final static String myCrewGroupProductivitySensorName = "CrewGroupProductivitySensor";
-	public final static String myCrewGroupPotableWaterInFlowRateSensorName = "CrewGroupPotableWaterInFlowRateSensor";
-	public final static String myCrewGroupGreyWaterOutFlowRateSensorName = "CrewGroupGreyWaterOutFlowRateSensor";
-	public final static String myCrewGroupDirtyWaterOutFlowRateSensorName = "CrewGroupDirtyWaterOutFlowRateSensor";
-	public final static String myCrewGroupDryWasteOutFlowRateSensorName = "CrewGroupDryWasteOutFlowRateSensor";
-	//Power
-	//PowerPS
-	public final static String myPowerPSPowerOutFlowRateSensorName = "PowerPSPowerOutFlowRateSensor";
-	//Stores
-	public final static String myPowerStoreLevelSensorName = "PowerStoreLevelSensor";
-	public final static String myPowerStoreOverflowSensorName = "PowerStoreOverflowSensor";
+	public List myCrewGroups;
 	//Environment
-	//Crew
-	public final static String myCrewEnvironmentOtherAirConcentrationSensorName = "CrewEnvironmentOtherAirConcentrationSensor";
-	public final static String myCrewEnvironmentCO2AirConcentrationSensorName = "CrewEnvironmentCO2AirConcentrationSensor";
-	public final static String myCrewEnvironmentO2AirConcentrationSensorName = "CrewEnvironmentO2AirConcentrationSensor";
-	public final static String myCrewEnvironmentWaterAirConcentrationSensorName = "CrewEnvironmentWaterAirConcentrationSensor";
-	public final static String myCrewEnvironmentNitrogenAirConcentrationSensorName = "CrewEnvironmentNitrogenAirConcentrationSensor";
-	public final static String myCrewEnvironmentOtherAirPressureSensorName = "CrewEnvironmentOtherAirPressureSensor";
-	public final static String myCrewEnvironmentCO2AirPressureSensorName = "CrewEnvironmentCO2AirPressureSensor";
-	public final static String myCrewEnvironmentO2AirPressureSensorName = "CrewEnvironmentO2AirPressureSensor";
-	public final static String myCrewEnvironmentWaterAirPressureSensorName = "CrewEnvironmentWaterAirPressureSensor";
-	public final static String myCrewEnvironmentNitrogenAirPressureSensorName = "CrewEnvironmentNitrogenAirPressureSensor";
-	//Plant
-	public final static String myPlantEnvironmentOtherAirConcentrationSensorName = "PlantEnvironmentOtherAirConcentrationSensor";
-	public final static String myPlantEnvironmentCO2AirConcentrationSensorName = "PlantEnvironmentCO2AirConcentrationSensor";
-	public final static String myPlantEnvironmentO2AirConcentrationSensorName = "PlantEnvironmentO2AirConcentrationSensor";
-	public final static String myPlantEnvironmentWaterAirConcentrationSensorName = "PlantEnvironmentWaterAirConcentrationSensor";
-	public final static String myPlantEnvironmentNitrogenAirConcentrationSensorName = "PlantEnvironmentNitrogenAirConcentrationSensor";
-	public final static String myPlantEnvironmentOtherAirPressureSensorName = "PlantEnvironmentOtherAirPressureSensor";
-	public final static String myPlantEnvironmentCO2AirPressureSensorName = "PlantEnvironmentCO2AirPressureSensor";
-	public final static String myPlantEnvironmentO2AirPressureSensorName = "PlantEnvironmentO2AirPressureSensor";
-	public final static String myPlantEnvironmentWaterAirPressureSensorName = "PlantEnvironmentWaterAirPressureSensor";
-	public final static String myPlantEnvironmentNitrogenAirPressureSensorName = "PlantEnvironmentNitrogenAirPressureSensor";
-	//Water
-	//WaterRS
-	public final static String myWaterRSDirtyWaterInFlowRateSensorName = "WaterRSDirtyWaterInFlowRateSensor";
-	public final static String myWaterRSGreyWaterInFlowRateSensorName = "WaterRSGreyWaterInFlowRateSensor";
-	public final static String myWaterRSPowerInFlowRateSensorName = "WaterRSPowerInFlowRateSensor";
-	public final static String myWaterRSPotableWaterOutFlowRateSensorName = "WaterRSPotableWaterOutFlowRateSensor";
-	//Stores
-	public final static String myPotableWaterStoreLevelSensorName = "PotableWaterStoreLevelSensor";
-	public final static String myGreyWaterStoreLevelSensorName = "GreyWaterStoreLevelSensor";
-	public final static String myDirtyWaterStoreLevelSensorName = "DirtyWaterStoreLevelSensor";
-	public final static String myPotableWaterStoreOverflowSensorName = "PotableWaterStoreOverflowSensor";
-	public final static String myGreyWaterStoreOverflowSensorName = "GreyWaterStoreOverflowSensor";
-	public final static String myDirtyWaterStoreOverflowSensorName = "DirtyWaterStoreOverflowSensor";
+	public List mySimEnvironments;
 	//Food
-	//BiomassRS
-	public final static String myBiomassRSPotableWaterInFlowRateSensorName = "BiomassRSPotableWaterInFlowRateSensor";
-	public final static String myBiomassRSGreyWaterInFlowRateSensorName = "BiomassRSGreyWaterInFlowRateSensor";
-	public final static String myBiomassRSBiomassOutFlowRateSensorName = "BiomassRSBiomassOutFlowRateSensor";
-	public final static String myBiomassRSPowerInFlowRateSensorName = "BiomassRSPowerInFlowRateSensor";
-	public final static String myBiomassRSDirtyWaterOutFlowRateSensorName = "BiomassRSDirtyWaterOutFlowRateSensor";
-	public final static String myShelf0HarvestSensorName = "Shelf0HarvestSensor";
-	//Food Processor
-	public final static String myFoodProcessorPowerInFlowRateSensorName = "FoodProcessorPowerInFlowRateSensor";
-	public final static String myFoodProcessorBiomassInFlowRateSensorName = "FoodProcessorBiomassInFlowRateSensor";
-	public final static String myFoodProcessorFoodOutFlowRateSensorName = "FoodProcessorFoodOutFlowRateSensor";
-	public final static String myFoodProcessorDryWasteOutFlowRateSensorName = "FoodProcessorDryWasteOutFlowRateSensor";
-	//Stores
-	public final static String myBiomassStoreLevelSensorName = "BiomassStoreLevelSensor";
-	public final static String myFoodStoreLevelSensorName = "FoodStoreLevelSensor";
-	public final static String myBiomassStoreOverflowSensorName = "BiomassStoreOverflowSensor";
-	public final static String myFoodStoreOverflowSensorName = "FoodStoreOverflowSensor";
-	//Waste
-	//Incinerator
-	public final static String myIncineratorPowerInFlowRateSensorName = "IncineratorPowerInFlowRateSensor";
-	public final static String myIncineratorO2InFlowRateSensorName = "IncineratorO2InFlowRateSensor";
-	public final static String myIncineratorDryWasteInFlowRateSensorName = "IncineratorDryWasteInFlowRateSensor";
-	public final static String myIncineratorCO2OutFlowRateSensorName = "IncineratorCO2OutFlowRateSensor";
-	//Stores
-	public final static String myDryWasteStoreLevelSensorName = "DryWasteStoreLevelSensor";
-	public final static String myDryWasteStoreOverflowSensorName = "DryWasteStoreOverflowSensor";
+	public List myFoodProcessors;
+	public List myBiomassRSModules;
+	public List myBiomassStores;
+	public List myFoodStores;
 	//Framework
-	//Accumulator
-	public final static String myAccumulatorCO2AirEnvironmentInFlowRateSensorName = "AccumulatorCO2AirEnvironmentInFlowRateSensor";
-	public final static String myAccumulatorCO2AirStoreOutFlowRateSensorName = "AccumulatorCO2AirStoreOutFlowRateSensor";
-	public final static String myAccumulatorO2AirEnvironmentInFlowRateSensorName = "AccumulatorO2AirEnvironmentInFlowRateSensor";
-	public final static String myAccumulatorO2AirStoreOutFlowRateSensorName = "AccumulatorO2AirStoreOutFlowRateSensor";
-	public final static String myAccumulatorCrewWaterAirEnvironmentInFlowRateSensorName = "AccumulatorCrewWaterAirEnvironmentInFlowRateSensor";
-	public final static String myAccumulatorPlantWaterAirEnvironmentInFlowRateSensorName = "AccumulatorPlantWaterAirEnvironmentInFlowRateSensor";
-	public final static String myAccumulatorCrewWaterAirStoreOutFlowRateSensorName = "AccumulatorCrewWaterAirStoreOutFlowRateSensor";
-	public final static String myAccumulatorPlantWaterAirStoreOutFlowRateSensorName = "AccumulatorPlantWaterAirStoreOutFlowRateSensor";
-	//Injector
-	public final static String myInjectorCO2AirStoreInFlowRateSensorName = "InjectorCO2AirStoreInFlowRateSensor";
-	public final static String myInjectorO2AirStoreInFlowRateSensorName = "InjectorO2AirStoreInFlowRateSensor";
-	public final static String myInjectorCO2AirEnvironmentOutFlowRateSensorName = "InjectorCO2AirEnvironmentOutFlowRateSensor";
-	public final static String myInjectorO2AirEnvironmentOutFlowRateSensorName = "InjectorO2AirEnvironmentOutFlowRateSensor";
-	public final static String myInjectorCrewNitrogenAirEnvironmentOutFlowRateSensorName = "InjectorCrewNitrogenAirEnvironmentOutFlowRateSensor";
-	public final static String myInjectorPlantNitrogenAirEnvironmentOutFlowRateSensorName = "InjectorPlantNitrogenAirEnvironmentOutFlowRateSensor";
-	public final static String myInjectorCrewNitrogenAirStoreInFlowRateSensorName = "InjectorCrewNitrogenAirStoreInFlowRateSensor";
-	public final static String myInjectorPlantNitrogenAirStoreInFlowRateSensorName = "InjectorPlantNitrogenAirStoreInFlowRateSensor";
-	//Actuator
-	//Air
-	//AirRs
-	public final static String myAirRSPowerInFlowRateActuatorName = "AirRSPowerInFlowRateActuator";
-	public final static String myAirRSAirInFlowRateActuatorName = "AirRSAirInFlowRateActuator";
-	public final static String myAirRSAirOutFlowRateActuatorName = "AirRSAirOutFlowRateActuator";
-	public final static String myAirRSO2OutFlowRateActuatorName = "AirRSO2OutFlowRateActuator";
-	public final static String myAirRSCO2InFlowRateActuatorName = "AirRSCO2InFlowRateActuator";
-	public final static String myAirRSCO2OutFlowRateActuatorName = "AirRSCO2OutFlowRateActuator";
-	public final static String myAirRSH2InFlowRateActuatorName = "AirRSH2InFlowRateActuator";
-	public final static String myAirRSH2OutFlowRateActuatorName = "AirRSH2OutFlowRateActuator";
-	public final static String myAirRSPotableWaterInFlowRateActuatorName = "AirRSPotableWaterInFlowRateActuator";
-	public final static String myAirRSPotableWaterOutFlowRateActuatorName = "AirRSPotableWaterOutFlowRateActuator";
+	public List myAccumulators;
+	public List myInjectors;
 	//Power
-	//PowerPS
-	public final static String myPowerPSPowerOutFlowRateActuatorName = "PowerPSPowerOutFlowRateActuator";
-	//Water
-	//WaterRS
-	public final static String myWaterRSDirtyWaterInFlowRateActuatorName = "WaterRSDirtyWaterInFlowRateActuator";
-	public final static String myWaterRSGreyWaterInFlowRateActuatorName = "WaterRSGreyWaterInFlowRateActuator";
-	public final static String myWaterRSPowerInFlowRateActuatorName = "WaterRSPowerInFlowRateActuator";
-	public final static String myWaterRSPotableWaterOutFlowRateActuatorName = "WaterRSPotableWaterOutFlowRateActuator";
-	//Crew
-	public final static String myCrewGroupPotableWaterInFlowRateActuatorName = "CrewGroupPotableWaterInFlowRateActuator";
-	public final static String myCrewGroupGreyWaterOutFlowRateActuatorName = "CrewGroupGreyWaterOutFlowRateActuator";
-	public final static String myCrewGroupDirtyWaterOutFlowRateActuatorName = "CrewGroupDirtyWaterOutFlowRateActuator";
-	//Food
-	//BiomassRS
-	public final static String myBiomassRSPotableWaterInFlowRateActuatorName = "BiomassRSPotableWaterInFlowRateActuator";
-	public final static String myBiomassRSGreyWaterInFlowRateActuatorName = "BiomassRSGreyWaterInFlowRateActuator";
-	public final static String myBiomassRSBiomassOutFlowRateActuatorName = "BiomassRSBiomassOutFlowRateActuator";
-	public final static String myBiomassRSPowerInFlowRateActuatorName = "BiomassRSPowerInFlowRateActuator";
-	public final static String myShelf0PlantingActuatorName = "Shelf0PlantingActuator";
-	public final static String myShelf0HarvestingActuatorName = "Shelf0HarvestingActuator";
-	//Food Processor
-	public final static String myFoodProcessorPowerInFlowRateActuatorName = "FoodProcessorPowerInFlowRateActuator";
-	public final static String myFoodProcessorBiomassInFlowRateActuatorName = "FoodProcessorBiomassInFlowRateActuator";
-	public final static String myFoodProcessorFoodOutFlowRateActuatorName = "FoodProcessorFoodOutFlowRateActuator";
-	public final static String myFoodProcessorDryWasteOutFlowRateActuatorName = "FoodProcessorDryWasteOutFlowRateActuator";
+	public List myPowerPSModules;
+	public List myPowerStores;
 	//Waste
-	//Incinerator
-	public final static String myIncineratorPowerInFlowRateActuatorName = "IncineratorPowerInFlowRateActuator";
-	public final static String myIncineratorO2InFlowRateActuatorName = "IncineratorO2InFlowRateActuator";
-	public final static String myIncineratorDryWasteInFlowRateActuatorName = "IncineratorDryWasteInFlowRateActuator";
-	public final static String myIncineratorCO2OutFlowRateActuatorName = "IncineratorCO2OutFlowRateActuator";
-	//Framework
-	//Accumulator
-	public final static String myAccumulatorCO2AirEnvironmentInFlowRateActuatorName = "AccumulatorCO2AirEnvironmentInFlowRateActuator";
-	public final static String myAccumulatorO2AirEnvironmentInFlowRateActuatorName = "AccumulatorO2AirEnvironmentInFlowRateActuator";
-	public final static String myAccumulatorCO2AirStoreOutFlowRateActuatorName = "AccumulatorCO2AirStoreOutFlowRateActuator";
-	public final static String myAccumulatorO2AirStoreOutFlowRateActuatorName = "AccumulatorO2AirStoreOutFlowRateActuator";
-	public final static String myAccumulatorCrewWaterAirEnvironmentInFlowRateActuatorName = "AccumulatorCrewWaterAirEnvironmentInFlowRateActuator";
-	public final static String myAccumulatorPlantWaterAirEnvironmentInFlowRateActuatorName = "AccumulatorPlantWaterAirEnvironmentInFlowRateActuator";
-	public final static String myAccumulatorCrewWaterAirStoreOutFlowRateActuatorName = "AccumulatorCrewWaterAirStoreOutFlowRateActuator";
-	public final static String myAccumulatorPlantWaterAirStoreOutFlowRateActuatorName = "AccumulatorPlantWaterAirStoreOutFlowRateActuator";
-	//Injector
-	public final static String myInjectorCO2AirStoreInFlowRateActuatorName = "InjectorCO2AirStoreInFlowRateActuator";
-	public final static String myInjectorO2AirStoreInFlowRateActuatorName = "InjectorO2AirStoreInFlowRateActuator";
-	public final static String myInjectorCO2AirEnvironmentOutFlowRateActuatorName = "InjectorCO2AirEnvironmentOutFlowRateActuator";
-	public final static String myInjectorO2AirEnvironmentOutFlowRateActuatorName = "InjectorO2AirEnvironmentOutFlowRateActuator";
-	public final static String myInjectorCrewNitrogenAirEnvironmentOutFlowRateActuatorName = "InjectorCrewNitrogenAirEnvironmentOutFlowRateActuator";
-	public final static String myInjectorPlantNitrogenAirEnvironmentOutFlowRateActuatorName = "InjectorPlantNitrogenAirEnvironmentOutFlowRateActuator";
-	public final static String myInjectorCrewNitrogenAirStoreInFlowRateActuatorName = "InjectorCrewNitrogenAirStoreInFlowRateActuator";
-	public final static String myInjectorPlantNitrogenAirStoreInFlowRateActuatorName = "InjectorPlantNitrogenAirStoreInFlowRateActuator";
+	public List myIncinerators;
+	public List myDryWasteStores;
+	//Water
+	public List myWaterRSModules;
+	public List myPotableWaterStores;
+	public List myGreyWaterStores;
+	public List myDirtyWaterStores;
+	//Sensors
+	//Air
+	public List myCO2InFlowRateSensors;
+	public List myCO2OutFlowRateSensors;
+	public List myCO2StoreLevelSensors;
+	public List myO2InFlowRateSensors;
+	public List myO2OutFlowRateSensors;
+	public List myO2StoreLevelSensors;
+	public List myH2InFlowRateSensors;
+	public List myH2OutFlowRateSensors;
+	public List myH2StoreLevelSensors;
+	public List myNitrogenInFlowRateSensors;
+	public List myNitrogenOutFlowRateSensors;
+	public List myNitrogenStoreLevelSensors;
+	//Crew
+	public List myCrewDeathSensors;
+	public List myCrewProductivitySensors;
+	public List myCrewAnyDeadSensors;
+	//Environment
+	public List myAirInFlowRateSensors;
+	public List myAirOutFlowRateSensors;
+	public List myCO2AirConcentrationSensors;
+	public List myCO2AirPressureSensors;
+	public List myCO2AirEnvironmentInFlowRateSensors;
+	public List myCO2AirEnvironmentOutFlowRateSensors;
+	public List myCO2AirStoreInFlowRateSensors;
+	public List myCO2AirStoreOutFlowRateSensors;
+	public List myO2AirConcentrationSensors;
+	public List myO2AirPressureSensors;
+	public List myO2AirEnvironmentInFlowRateSensors;
+	public List myO2AirEnvironmentOutFlowRateSensors;
+	public List myO2AirStoreInFlowRateSensors;
+	public List myO2AirStoreOutFlowRateSensors;
+	public List myNitrogenAirConcentrationSensors;
+	public List myNitrogenAirPressureSensors;
+	public List myNitrogenAirEnvironmentInFlowRateSensors;
+	public List myNitrogenAirEnvironmentOutFlowRateSensors;
+	public List myNitrogenAirStoreInFlowRateSensors;
+	public List myNitrogenAirStoreOutFlowRateSensors;
+	public List myWaterAirConcentrationSensors;
+	public List myWaterAirPressureSensors;
+	public List myWaterAirEnvironmentInFlowRateSensors;
+	public List myWaterAirEnvironmentOutFlowRateSensors;
+	public List myWaterAirStoreInFlowRateSensors;
+	public List myWaterAirStoreOutFlowRateSensors;
+	public List myOtherAirConcentrationSensors;
+	public List myOtherAirPressureSensors;
+	//Food
+	public List myBiomassInFlowRateSensors;
+	public List myBiomassOutFlowRateSensors;
+	public List myBiomassStoreLevelSensors;
+	public List myFoodInFlowRateSensors;
+	public List myFoodOutFlowRateSensors;
+	public List myFoodStoreLevelSensors;
+	public List myHarvestSensors;
+	//Power
+	public List myPowerInFlowRateSensors;
+	public List myPowerOutFlowRateSensors;
+	public List myPowerStoreLevelSensors;
+	//Waste
+	public List myDryWasteInFlowRateSensors;
+	public List myDryWasteOutFlowRateSensors;
+	public List myDryWasteStoreLevelSensors;
+	//Water
+	public List myPotableWaterInFlowRateSensors;
+	public List myPotableWaterOutFlowRateSensors;
+	public List myPotableWaterStoreLevelSensors;
+	public List myGreyWaterInFlowRateSensors;
+	public List myGreyWaterOutFlowRateSensors;
+	public List myGreyWaterStoreLevelSensors;
+	public List myDirtyWaterInFlowRateSensors;
+	public List myDirtyWaterOutFlowRateSensors;
+	public List myDirtyWaterStoreLevelSensors;
+	//Actuators
+	//Air
+	public List myCO2InFlowRateAcutators;
+	public List myCO2OutFlowRateAcutators;
+	public List myO2InFlowRateAcutators;
+	public List myO2OutFlowRateAcutators;
+	public List myH2InFlowRateAcutators;
+	public List myH2OutFlowRateAcutators;
+	public List myNitrogenInFlowRateAcutators;
+	public List myNitrogenOutFlowRateAcutators;
+	//Environment
+	public List myAirInFlowRateAcutators;
+	public List myAirOutFlowRateAcutators;
+	public List myCO2AirEnvironmentInFlowRateAcutators;
+	public List myCO2AirEnvironmentOutFlowRateAcutators;
+	public List myCO2AirStoreInFlowRateAcutators;
+	public List myCO2AirStoreOutFlowRateAcutators;
+	public List myO2AirEnvironmentInFlowRateAcutators;
+	public List myO2AirEnvironmentOutFlowRateAcutators;
+	public List myO2AirStoreInFlowRateAcutators;
+	public List myO2AirStoreOutFlowRateAcutators;
+	public List myNitrogenAirEnvironmentInFlowRateAcutators;
+	public List myNitrogenAirEnvironmentOutFlowRateAcutators;
+	public List myNitrogenAirStoreInFlowRateAcutators;
+	public List myNitrogenAirStoreOutFlowRateAcutators;
+	public List myWaterAirEnvironmentInFlowRateAcutators;
+	public List myWaterAirEnvironmentOutFlowRateAcutators;
+	public List myWaterAirStoreInFlowRateAcutators;
+	public List myWaterAirStoreOutFlowRateAcutators;
+	//Food
+	public List myBiomassInFlowRateAcutators;
+	public List myBiomassOutFlowRateAcutators;
+	public List myFoodInFlowRateAcutators;
+	public List myFoodOutFlowRateAcutators;
+	//Power
+	public List myPowerInFlowRateAcutators;
+	public List myPowerOutFlowRateAcutators;
+	//Waste
+	public List myDryWasteInFlowRateAcutators;
+	public List myDryWasteOutFlowRateAcutators;
+	//Water
+	public List myPotableWaterInFlowRateAcutators;
+	public List myPotableWaterOutFlowRateAcutators;
+	public List myGreyWaterInFlowRateAcutators;
+	public List myGreyWaterOutFlowRateAcutators;
+	public List myDirtyWaterInFlowRateAcutators;
+	public List myDirtyWaterOutFlowRateAcutators;
 
-	//A hastable containing the server references
-	private static Map modules;
-	private static Map sensors;
-	private static Map actuators;
-	private static BioDriver myBioDriver;
-	private static boolean hasCollectedReferences = false;
-	private static int myID = 0;
-
-	/**
-	* Fetches a BioModule (e.g. AirRS, FoodProcessor, PotableWaterStore) that has been collected by the BioSimulator
-	* @return the BioModule requested, null if not found
-	*/
-	public static BioModule getBioModule(String type){
-		collectReferences();
-		if (type == null){
-			System.err.println("BioHolder: Passed null string....");
-			return null;
-		}
-		BioModule returnModule = (BioModule)(modules.get(type));
-		if (returnModule == null){
-			System.err.println("BioHolder: Couldn't find module: "+type);
-			return null;
-		}
-		return returnModule;
-	}
-
-	public static BioModule[] getBioModules(){
-		collectReferences();
-		BioModule[] arrayModules = new BioModule[modules.size()];
-		return (BioModule[])(modules.values().toArray(arrayModules));
-	}
-
-	public static GenericSensor[] getSensors(){
-		collectReferences();
-		GenericSensor[] arraySensors = new GenericSensor[sensors.size()];
-		return (GenericSensor[])(sensors.values().toArray(arraySensors));
-	}
-
-	public static GenericActuator[] getActuators(){
-		collectReferences();
-		GenericActuator[] arrayActuators = new GenericActuator[actuators.size()];
-		return (GenericActuator[])(actuators.values().toArray(arrayActuators));
-	}
-
-	public static BioDriver getBioDriver(){
-		collectReferences();
-		return myBioDriver;
-	}
-
-	public static void setID(int pID){
+	/** Default constructor. */
+	public BioHolder(int pID){
 		myID = pID;
+
+		//Upper Categories
+		myModules = new Vector();
+		mySimModules = new Vector();
+		mySensors = new Vector();
+		myActuators = new Vector();
+
+		//Specific Modules
+		//Simulation
+		//Air
+		myAirRSModules = new Vector();
+		myO2Stores = new Vector();
+		myCO2Stores = new Vector();
+		myNitrogenStores = new Vector();
+		myH2Stores = new Vector();
+		//Crew
+		myCrewGroups = new Vector();
+		//Environment
+		mySimEnvironments = new Vector();
+		//Food
+		myFoodProcessors = new Vector();
+		myBiomassRSModules = new Vector();
+		myBiomassStores = new Vector();
+		myFoodStores = new Vector();
+		//Framework
+		myAccumulators = new Vector();
+		myInjectors = new Vector();
+		//Power
+		myPowerPSModules = new Vector();
+		myPowerStores = new Vector();
+		//Waste
+		myIncinerators = new Vector();
+		myDryWasteStores = new Vector();
+		//Water
+		myWaterRSModules = new Vector();
+		myPotableWaterStores = new Vector();
+		myGreyWaterStores = new Vector();
+		myDirtyWaterStores = new Vector();
+		//Sensors
+		//Air
+		myCO2InFlowRateSensors = new Vector();
+		myCO2OutFlowRateSensors = new Vector();
+		myCO2StoreLevelSensors = new Vector();
+		myO2InFlowRateSensors = new Vector();
+		myO2OutFlowRateSensors = new Vector();
+		myO2StoreLevelSensors = new Vector();
+		myH2InFlowRateSensors = new Vector();
+		myH2OutFlowRateSensors = new Vector();
+		myH2StoreLevelSensors = new Vector();
+		myNitrogenInFlowRateSensors = new Vector();
+		myNitrogenOutFlowRateSensors = new Vector();
+		myNitrogenStoreLevelSensors = new Vector();
+		//Crew
+		myCrewDeathSensors = new Vector();
+		myCrewProductivitySensors = new Vector();
+		myCrewAnyDeadSensors = new Vector();
+		//Environment
+		myAirInFlowRateSensors = new Vector();
+		myAirOutFlowRateSensors = new Vector();
+		myCO2AirConcentrationSensors = new Vector();
+		myCO2AirPressureSensors = new Vector();
+		myCO2AirEnvironmentInFlowRateSensors = new Vector();
+		myCO2AirEnvironmentOutFlowRateSensors = new Vector();
+		myCO2AirStoreInFlowRateSensors = new Vector();
+		myCO2AirStoreOutFlowRateSensors = new Vector();
+		myO2AirConcentrationSensors = new Vector();
+		myO2AirPressureSensors = new Vector();
+		myO2AirEnvironmentInFlowRateSensors = new Vector();
+		myO2AirEnvironmentOutFlowRateSensors = new Vector();
+		myO2AirStoreInFlowRateSensors = new Vector();
+		myO2AirStoreOutFlowRateSensors = new Vector();
+		myNitrogenAirConcentrationSensors = new Vector();
+		myNitrogenAirPressureSensors = new Vector();
+		myNitrogenAirEnvironmentInFlowRateSensors = new Vector();
+		myNitrogenAirEnvironmentOutFlowRateSensors = new Vector();
+		myNitrogenAirStoreInFlowRateSensors = new Vector();
+		myNitrogenAirStoreOutFlowRateSensors = new Vector();
+		myWaterAirConcentrationSensors = new Vector();
+		myWaterAirPressureSensors = new Vector();
+		myWaterAirEnvironmentInFlowRateSensors = new Vector();
+		myWaterAirEnvironmentOutFlowRateSensors = new Vector();
+		myWaterAirStoreInFlowRateSensors = new Vector();
+		myWaterAirStoreOutFlowRateSensors = new Vector();
+		myOtherAirConcentrationSensors = new Vector();
+		myOtherAirPressureSensors = new Vector();
+		//Food
+		myBiomassInFlowRateSensors = new Vector();
+		myBiomassOutFlowRateSensors = new Vector();
+		myBiomassStoreLevelSensors = new Vector();
+		myFoodInFlowRateSensors = new Vector();
+		myFoodOutFlowRateSensors = new Vector();
+		myFoodStoreLevelSensors = new Vector();
+		myHarvestSensors = new Vector();
+		//Power
+		myPowerInFlowRateSensors = new Vector();
+		myPowerOutFlowRateSensors = new Vector();
+		myPowerStoreLevelSensors = new Vector();
+		//Waste
+		myDryWasteInFlowRateSensors = new Vector();
+		myDryWasteOutFlowRateSensors = new Vector();
+		myDryWasteStoreLevelSensors = new Vector();
+		//Water
+		myPotableWaterInFlowRateSensors = new Vector();
+		myPotableWaterOutFlowRateSensors = new Vector();
+		myPotableWaterStoreLevelSensors = new Vector();
+		myGreyWaterInFlowRateSensors = new Vector();
+		myGreyWaterOutFlowRateSensors = new Vector();
+		myGreyWaterStoreLevelSensors = new Vector();
+		myDirtyWaterInFlowRateSensors = new Vector();
+		myDirtyWaterOutFlowRateSensors = new Vector();
+		myDirtyWaterStoreLevelSensors = new Vector();
+		//Actuators
+		//Air
+		myCO2InFlowRateAcutators = new Vector();
+		myCO2OutFlowRateAcutators = new Vector();
+		myO2InFlowRateAcutators = new Vector();
+		myO2OutFlowRateAcutators = new Vector();
+		myH2InFlowRateAcutators = new Vector();
+		myH2OutFlowRateAcutators = new Vector();
+		myNitrogenInFlowRateAcutators = new Vector();
+		myNitrogenOutFlowRateAcutators = new Vector();
+		//Environment
+		myAirInFlowRateAcutators = new Vector();
+		myAirOutFlowRateAcutators = new Vector();
+		myCO2AirEnvironmentInFlowRateAcutators = new Vector();
+		myCO2AirEnvironmentOutFlowRateAcutators = new Vector();
+		myCO2AirStoreInFlowRateAcutators = new Vector();
+		myCO2AirStoreOutFlowRateAcutators = new Vector();
+		myO2AirEnvironmentInFlowRateAcutators = new Vector();
+		myO2AirEnvironmentOutFlowRateAcutators = new Vector();
+		myO2AirStoreInFlowRateAcutators = new Vector();
+		myO2AirStoreOutFlowRateAcutators = new Vector();
+		myNitrogenAirEnvironmentInFlowRateAcutators = new Vector();
+		myNitrogenAirEnvironmentOutFlowRateAcutators = new Vector();
+		myNitrogenAirStoreInFlowRateAcutators = new Vector();
+		myNitrogenAirStoreOutFlowRateAcutators = new Vector();
+		myWaterAirEnvironmentInFlowRateAcutators = new Vector();
+		myWaterAirEnvironmentOutFlowRateAcutators = new Vector();
+		myWaterAirStoreInFlowRateAcutators = new Vector();
+		myWaterAirStoreOutFlowRateAcutators = new Vector();
+		//Food
+		myBiomassInFlowRateAcutators = new Vector();
+		myBiomassOutFlowRateAcutators = new Vector();
+		myFoodInFlowRateAcutators = new Vector();
+		myFoodOutFlowRateAcutators = new Vector();
+		//Power
+		myPowerInFlowRateAcutators = new Vector();
+		myPowerOutFlowRateAcutators = new Vector();
+		//Waste
+		myDryWasteInFlowRateAcutators = new Vector();
+		myDryWasteOutFlowRateAcutators = new Vector();
+		//Water
+		myPotableWaterInFlowRateAcutators = new Vector();
+		myPotableWaterOutFlowRateAcutators = new Vector();
+		myGreyWaterInFlowRateAcutators = new Vector();
+		myGreyWaterOutFlowRateAcutators = new Vector();
+		myDirtyWaterInFlowRateAcutators = new Vector();
+		myDirtyWaterOutFlowRateAcutators = new Vector();
+
+		try {
+			myParser = new DOMParser();
+			myParser.setFeature(SCHEMA_VALIDATION_FEATURE_ID, DEFAULT_SCHEMA_VALIDATION);
+			myParser.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, DEFAULT_SCHEMA_FULL_CHECKING);
+			myParser.setFeature(VALIDATION_FEATURE_ID, DEFAULT_VALIDATION);
+			myParser.setFeature(NAMESPACES_FEATURE_ID, DEFAULT_NAMESPACES);
+		}
+		catch (SAXException e) {
+			System.err.println("warning: Parser does not support feature ("+NAMESPACES_FEATURE_ID+")");
+		}
 	}
 
-	/**
-	* Tries to collect references to all the servers and adds them to a hashtable than can be accessed by outside classes.
-	*/
-	private static void collectReferences(){
-		if (hasCollectedReferences)
+	/** Traverses the specified node, recursively. */
+	private void crawlBiosim(Node node) {
+		// is there anything to do?
+		if (node == null)
 			return;
-		// resolve the Objects Reference in Naming
-		try{
-			if (modules == null)
-				modules = new Hashtable();
-			if (sensors == null)
-				sensors = new Hashtable();
-			if (actuators == null)
-				actuators = new Hashtable();
-			System.out.println("BioHolder: Collecting simulation references to modules...");
-			CrewGroup myCrew = CrewGroupHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(crewName));
-			modules.put(crewName , myCrew);
-			PowerPS myPowerPS = PowerPSHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(powerPSName));
-			modules.put(powerPSName , myPowerPS);
-			PowerStore myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(powerStoreName));
-			modules.put(powerStoreName , myPowerStore);
-			AirRS myAirRS = AirRSHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(airRSName));
-			modules.put(airRSName , myAirRS);
-			SimEnvironment myCrewEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(crewEnvironmentName));
-			modules.put(crewEnvironmentName , myCrewEnvironment);
-			SimEnvironment myPlantEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(plantEnvironmentName));
-			modules.put(plantEnvironmentName , myPlantEnvironment);
-			GreyWaterStore myGreyWaterStore = GreyWaterStoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(greyWaterStoreName));
-			modules.put(greyWaterStoreName , myGreyWaterStore);
-			PotableWaterStore myPotableWaterStore = PotableWaterStoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(potableWaterStoreName));
-			modules.put(potableWaterStoreName , myPotableWaterStore);
-			DirtyWaterStore myDirtyWaterStore = DirtyWaterStoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(dirtyWaterStoreName));
-			modules.put(dirtyWaterStoreName , myDirtyWaterStore);
-			FoodProcessor myFoodProcessor = FoodProcessorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(foodProcessorName));
-			modules.put(foodProcessorName , myFoodProcessor);
-			FoodStore myFoodStore= FoodStoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(foodStoreName));
-			modules.put(foodStoreName , myFoodStore);
-			CO2Store myCO2Store = CO2StoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(CO2StoreName));
-			modules.put(CO2StoreName , myCO2Store);
-			H2Store myH2Store = H2StoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(H2StoreName));
-			modules.put(H2StoreName , myH2Store);
-			O2Store myO2Store = O2StoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(O2StoreName));
-			modules.put(O2StoreName , myO2Store);
-			NitrogenStore myNitrogenStore = NitrogenStoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(nitrogenStoreName));
-			modules.put(nitrogenStoreName , myNitrogenStore);
-			BiomassRS myBiomassRS = BiomassRSHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(biomassRSName));
-			modules.put(biomassRSName , myBiomassRS);
-			BiomassStore myBiomassStore = BiomassStoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(biomassStoreName));
-			modules.put(biomassStoreName, myBiomassStore);
-			WaterRS myWaterRS = WaterRSHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(waterRSName));
-			modules.put(waterRSName , myWaterRS);
-			Incinerator myIncinerator = IncineratorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(incineratorName));
-			modules.put(incineratorName , myIncinerator);
-			DryWasteStore myDryWasteStore = DryWasteStoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(dryWasteStoreName));
-			modules.put(dryWasteStoreName, myDryWasteStore);
-
-			System.out.println("BioHolder: Collecting sensor references to modules...");
-			//Air
-			{
-				//AirRS
-				{
-					PowerInFlowRateSensor myAirRSPowerInFlowRateSensor = PowerInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAirRSPowerInFlowRateSensorName));
-					modules.put(myAirRSPowerInFlowRateSensorName , myAirRSPowerInFlowRateSensor);
-					sensors.put(myAirRSPowerInFlowRateSensorName , myAirRSPowerInFlowRateSensor);
-					AirInFlowRateSensor myAirRSAirInFlowRateSensor = AirInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAirRSAirInFlowRateSensorName));
-					modules.put(myAirRSAirInFlowRateSensorName , myAirRSAirInFlowRateSensor);
-					sensors.put(myAirRSAirInFlowRateSensorName , myAirRSAirInFlowRateSensor);
-					AirOutFlowRateSensor myAirRSAirOutFlowRateSensor = AirOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAirRSAirOutFlowRateSensorName));
-					modules.put(myAirRSAirOutFlowRateSensorName , myAirRSAirOutFlowRateSensor);
-					sensors.put(myAirRSAirOutFlowRateSensorName , myAirRSAirOutFlowRateSensor);
-					O2OutFlowRateSensor myAirRSO2OutFlowRateSensor = O2OutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAirRSO2OutFlowRateSensorName));
-					modules.put(myAirRSO2OutFlowRateSensorName , myAirRSO2OutFlowRateSensor);
-					sensors.put(myAirRSO2OutFlowRateSensorName , myAirRSO2OutFlowRateSensor);
-					CO2InFlowRateSensor myAirRSCO2InFlowRateSensor = CO2InFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAirRSCO2InFlowRateSensorName));
-					modules.put(myAirRSCO2InFlowRateSensorName , myAirRSCO2InFlowRateSensor);
-					sensors.put(myAirRSCO2InFlowRateSensorName , myAirRSCO2InFlowRateSensor);
-					CO2OutFlowRateSensor myAirRSCO2OutFlowRateSensor = CO2OutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAirRSCO2OutFlowRateSensorName));
-					modules.put(myAirRSCO2OutFlowRateSensorName , myAirRSCO2OutFlowRateSensor);
-					sensors.put(myAirRSCO2OutFlowRateSensorName , myAirRSCO2OutFlowRateSensor);
-					H2InFlowRateSensor myAirRSH2InFlowRateSensor = H2InFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAirRSH2InFlowRateSensorName));
-					modules.put(myAirRSH2InFlowRateSensorName , myAirRSH2InFlowRateSensor);
-					sensors.put(myAirRSH2InFlowRateSensorName , myAirRSH2InFlowRateSensor);
-					H2OutFlowRateSensor myAirRSH2OutFlowRateSensor = H2OutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAirRSH2OutFlowRateSensorName));
-					modules.put(myAirRSH2OutFlowRateSensorName , myAirRSH2OutFlowRateSensor);
-					sensors.put(myAirRSH2OutFlowRateSensorName , myAirRSH2OutFlowRateSensor);
-					PotableWaterInFlowRateSensor myAirRSPotableWaterInFlowRateSensor = PotableWaterInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAirRSPotableWaterInFlowRateSensorName));
-					modules.put(myAirRSPotableWaterInFlowRateSensorName , myAirRSPotableWaterInFlowRateSensor);
-					sensors.put(myAirRSPotableWaterInFlowRateSensorName , myAirRSPotableWaterInFlowRateSensor);
-					PotableWaterOutFlowRateSensor myAirRSPotableWaterOutFlowRateSensor = PotableWaterOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAirRSPotableWaterOutFlowRateSensorName));
-					modules.put(myAirRSPotableWaterOutFlowRateSensorName , myAirRSPotableWaterOutFlowRateSensor);
-					sensors.put(myAirRSPotableWaterOutFlowRateSensorName , myAirRSPotableWaterOutFlowRateSensor);
-				}
-				//Stores
-				{
-					O2StoreLevelSensor myO2StoreLevelSensor = O2StoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myO2StoreLevelSensorName));
-					modules.put(myO2StoreLevelSensorName , myO2StoreLevelSensor);
-					sensors.put(myO2StoreLevelSensorName , myO2StoreLevelSensor);
-					CO2StoreLevelSensor myCO2StoreLevelSensor = CO2StoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCO2StoreLevelSensorName));
-					modules.put(myCO2StoreLevelSensorName , myCO2StoreLevelSensor);
-					sensors.put(myCO2StoreLevelSensorName , myCO2StoreLevelSensor);
-					H2StoreLevelSensor myH2StoreLevelSensor = H2StoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myH2StoreLevelSensorName));
-					modules.put(myH2StoreLevelSensorName , myH2StoreLevelSensor);
-					sensors.put(myH2StoreLevelSensorName , myH2StoreLevelSensor);
-					NitrogenStoreLevelSensor myNitrogenStoreLevelSensor = NitrogenStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myNitrogenStoreLevelSensorName));
-					modules.put(myNitrogenStoreLevelSensorName , myNitrogenStoreLevelSensor);
-					sensors.put(myNitrogenStoreLevelSensorName , myNitrogenStoreLevelSensor);
-					
-					StoreOverflowSensor myO2StoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myO2StoreOverflowSensorName));
-					modules.put(myO2StoreOverflowSensorName , myO2StoreOverflowSensor);
-					sensors.put(myO2StoreOverflowSensorName , myO2StoreOverflowSensor);
-					StoreOverflowSensor myCO2StoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCO2StoreOverflowSensorName));
-					modules.put(myCO2StoreOverflowSensorName , myCO2StoreOverflowSensor);
-					sensors.put(myCO2StoreOverflowSensorName , myCO2StoreOverflowSensor);
-					StoreOverflowSensor myH2StoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myH2StoreOverflowSensorName));
-					modules.put(myH2StoreOverflowSensorName , myH2StoreOverflowSensor);
-					sensors.put(myH2StoreOverflowSensorName , myH2StoreOverflowSensor);
-					StoreOverflowSensor myNitrogenStoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myNitrogenStoreOverflowSensorName));
-					modules.put(myNitrogenStoreOverflowSensorName , myNitrogenStoreOverflowSensor);
-					sensors.put(myNitrogenStoreOverflowSensorName , myNitrogenStoreOverflowSensor);
-				}
-			}
-			//Power
-			{
-				//PowerPS
-				{
-					PowerOutFlowRateSensor myPowerPSPowerOutFlowRateSensor = PowerOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myPowerPSPowerOutFlowRateSensorName));
-					modules.put(myPowerPSPowerOutFlowRateSensorName , myPowerPSPowerOutFlowRateSensor);
-					sensors.put(myPowerPSPowerOutFlowRateSensorName , myPowerPSPowerOutFlowRateSensor);
-				}
-				//Stores
-				{
-					PowerStoreLevelSensor myPowerStoreLevelSensor = PowerStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myPowerStoreLevelSensorName));
-					modules.put(myPowerStoreLevelSensorName , myPowerStoreLevelSensor);
-					sensors.put(myPowerStoreLevelSensorName , myPowerStoreLevelSensor);
-					
-					StoreOverflowSensor myPowerStoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myPowerStoreOverflowSensorName));
-					modules.put(myPowerStoreOverflowSensorName , myPowerStoreOverflowSensor);
-					sensors.put(myPowerStoreOverflowSensorName , myPowerStoreOverflowSensor);
-				}
-			}
-			//Crew
-			{
-				CrewGroupDeathSensor myCrewGroupDeathSensor = CrewGroupDeathSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewGroupDeathSensorName));
-				CrewGroupAnyDeadSensor myCrewGroupAnyDeadSensor = CrewGroupAnyDeadSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewGroupAnyDeadSensorName));
-				CrewGroupProductivitySensor myCrewGroupProductivitySensor = CrewGroupProductivitySensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewGroupProductivitySensorName));
-				PotableWaterInFlowRateSensor myCrewGroupPotableWaterInFlowRateSensor = PotableWaterInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewGroupPotableWaterInFlowRateSensorName));
-				GreyWaterOutFlowRateSensor myCrewGroupGreyWaterOutFlowRateSensor = GreyWaterOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewGroupGreyWaterOutFlowRateSensorName));
-				DirtyWaterOutFlowRateSensor myCrewGroupDirtyWaterOutFlowRateSensor = DirtyWaterOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewGroupDirtyWaterOutFlowRateSensorName));
-				DryWasteOutFlowRateSensor myCrewGroupDryWasteOutFlowRateSensor = DryWasteOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewGroupDryWasteOutFlowRateSensorName));
-				
-				modules.put(myCrewGroupDeathSensorName , myCrewGroupDeathSensor);
-				modules.put(myCrewGroupAnyDeadSensorName , myCrewGroupAnyDeadSensor);
-				modules.put(myCrewGroupProductivitySensorName , myCrewGroupProductivitySensor);
-				modules.put(myCrewGroupPotableWaterInFlowRateSensorName , myCrewGroupPotableWaterInFlowRateSensor);
-				modules.put(myCrewGroupGreyWaterOutFlowRateSensorName , myCrewGroupGreyWaterOutFlowRateSensor);
-				modules.put(myCrewGroupDirtyWaterOutFlowRateSensorName , myCrewGroupDirtyWaterOutFlowRateSensor);
-				modules.put(myCrewGroupDryWasteOutFlowRateSensorName , myCrewGroupDryWasteOutFlowRateSensor);
-				
-				sensors.put(myCrewGroupDeathSensorName , myCrewGroupDeathSensor);
-				sensors.put(myCrewGroupAnyDeadSensorName , myCrewGroupAnyDeadSensor);
-				sensors.put(myCrewGroupProductivitySensorName , myCrewGroupProductivitySensor);
-				sensors.put(myCrewGroupPotableWaterInFlowRateSensorName , myCrewGroupPotableWaterInFlowRateSensor);
-				sensors.put(myCrewGroupGreyWaterOutFlowRateSensorName , myCrewGroupGreyWaterOutFlowRateSensor);
-				sensors.put(myCrewGroupDirtyWaterOutFlowRateSensorName , myCrewGroupDirtyWaterOutFlowRateSensor);
-				sensors.put(myCrewGroupDryWasteOutFlowRateSensorName , myCrewGroupDryWasteOutFlowRateSensor);
-				
-			}
-			//Environment
-			{
-				//Crew
-				{
-					OtherAirConcentrationSensor myCrewEnvironmentOtherAirConcentrationSensor = OtherAirConcentrationSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewEnvironmentOtherAirConcentrationSensorName));
-					modules.put(myCrewEnvironmentOtherAirConcentrationSensorName , myCrewEnvironmentOtherAirConcentrationSensor);
-					sensors.put(myCrewEnvironmentOtherAirConcentrationSensorName , myCrewEnvironmentOtherAirConcentrationSensor);
-					O2AirConcentrationSensor myCrewEnvironmentO2AirConcentrationSensor = O2AirConcentrationSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewEnvironmentO2AirConcentrationSensorName));
-					modules.put(myCrewEnvironmentO2AirConcentrationSensorName , myCrewEnvironmentO2AirConcentrationSensor);
-					sensors.put(myCrewEnvironmentO2AirConcentrationSensorName , myCrewEnvironmentO2AirConcentrationSensor);
-					CO2AirConcentrationSensor myCrewEnvironmentCO2AirConcentrationSensor = CO2AirConcentrationSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewEnvironmentCO2AirConcentrationSensorName));
-					modules.put(myCrewEnvironmentCO2AirConcentrationSensorName , myCrewEnvironmentCO2AirConcentrationSensor);
-					sensors.put(myCrewEnvironmentCO2AirConcentrationSensorName , myCrewEnvironmentCO2AirConcentrationSensor);
-					WaterAirConcentrationSensor myCrewEnvironmentWaterAirConcentrationSensor = WaterAirConcentrationSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewEnvironmentWaterAirConcentrationSensorName));
-					modules.put(myCrewEnvironmentWaterAirConcentrationSensorName , myCrewEnvironmentWaterAirConcentrationSensor);
-					sensors.put(myCrewEnvironmentWaterAirConcentrationSensorName , myCrewEnvironmentWaterAirConcentrationSensor);
-					NitrogenAirConcentrationSensor myCrewEnvironmentNitrogenAirConcentrationSensor = NitrogenAirConcentrationSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewEnvironmentNitrogenAirConcentrationSensorName));
-					modules.put(myCrewEnvironmentNitrogenAirConcentrationSensorName , myCrewEnvironmentNitrogenAirConcentrationSensor);
-					sensors.put(myCrewEnvironmentNitrogenAirConcentrationSensorName , myCrewEnvironmentNitrogenAirConcentrationSensor);
-					OtherAirPressureSensor myCrewEnvironmentOtherAirPressureSensor = OtherAirPressureSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewEnvironmentOtherAirPressureSensorName));
-					modules.put(myCrewEnvironmentOtherAirPressureSensorName , myCrewEnvironmentOtherAirPressureSensor);
-					sensors.put(myCrewEnvironmentOtherAirPressureSensorName , myCrewEnvironmentOtherAirPressureSensor);
-					O2AirPressureSensor myCrewEnvironmentO2AirPressureSensor = O2AirPressureSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewEnvironmentO2AirPressureSensorName));
-					modules.put(myCrewEnvironmentO2AirPressureSensorName , myCrewEnvironmentO2AirPressureSensor);
-					sensors.put(myCrewEnvironmentO2AirPressureSensorName , myCrewEnvironmentO2AirPressureSensor);
-					CO2AirPressureSensor myCrewEnvironmentCO2AirPressureSensor = CO2AirPressureSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewEnvironmentCO2AirPressureSensorName));
-					modules.put(myCrewEnvironmentCO2AirPressureSensorName , myCrewEnvironmentCO2AirPressureSensor);
-					sensors.put(myCrewEnvironmentCO2AirPressureSensorName , myCrewEnvironmentCO2AirPressureSensor);
-					WaterAirPressureSensor myCrewEnvironmentWaterAirPressureSensor = WaterAirPressureSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewEnvironmentWaterAirPressureSensorName));
-					modules.put(myCrewEnvironmentWaterAirPressureSensorName , myCrewEnvironmentWaterAirPressureSensor);
-					sensors.put(myCrewEnvironmentWaterAirPressureSensorName , myCrewEnvironmentWaterAirPressureSensor);
-					NitrogenAirPressureSensor myCrewEnvironmentNitrogenAirPressureSensor = NitrogenAirPressureSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewEnvironmentNitrogenAirPressureSensorName));
-					modules.put(myCrewEnvironmentNitrogenAirPressureSensorName , myCrewEnvironmentNitrogenAirPressureSensor);
-					sensors.put(myCrewEnvironmentNitrogenAirPressureSensorName , myCrewEnvironmentNitrogenAirPressureSensor);
-				}
-				//Plant
-				{
-					OtherAirConcentrationSensor myPlantEnvironmentOtherAirConcentrationSensor = OtherAirConcentrationSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myPlantEnvironmentOtherAirConcentrationSensorName));
-					modules.put(myPlantEnvironmentOtherAirConcentrationSensorName , myPlantEnvironmentOtherAirConcentrationSensor);
-					sensors.put(myPlantEnvironmentOtherAirConcentrationSensorName , myPlantEnvironmentOtherAirConcentrationSensor);
-					O2AirConcentrationSensor myPlantEnvironmentO2AirConcentrationSensor = O2AirConcentrationSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myPlantEnvironmentO2AirConcentrationSensorName));
-					modules.put(myPlantEnvironmentO2AirConcentrationSensorName , myPlantEnvironmentO2AirConcentrationSensor);
-					sensors.put(myPlantEnvironmentO2AirConcentrationSensorName , myPlantEnvironmentO2AirConcentrationSensor);
-					CO2AirConcentrationSensor myPlantEnvironmentCO2AirConcentrationSensor = CO2AirConcentrationSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myPlantEnvironmentCO2AirConcentrationSensorName));
-					modules.put(myPlantEnvironmentCO2AirConcentrationSensorName , myPlantEnvironmentCO2AirConcentrationSensor);
-					sensors.put(myPlantEnvironmentCO2AirConcentrationSensorName , myPlantEnvironmentCO2AirConcentrationSensor);
-					WaterAirConcentrationSensor myPlantEnvironmentWaterAirConcentrationSensor = WaterAirConcentrationSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myPlantEnvironmentWaterAirConcentrationSensorName));
-					modules.put(myPlantEnvironmentWaterAirConcentrationSensorName , myPlantEnvironmentWaterAirConcentrationSensor);
-					sensors.put(myPlantEnvironmentWaterAirConcentrationSensorName , myPlantEnvironmentWaterAirConcentrationSensor);
-					NitrogenAirConcentrationSensor myPlantEnvironmentNitrogenAirConcentrationSensor = NitrogenAirConcentrationSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myPlantEnvironmentNitrogenAirConcentrationSensorName));
-					modules.put(myPlantEnvironmentNitrogenAirConcentrationSensorName , myPlantEnvironmentNitrogenAirConcentrationSensor);
-					sensors.put(myPlantEnvironmentNitrogenAirConcentrationSensorName , myPlantEnvironmentNitrogenAirConcentrationSensor);
-					OtherAirPressureSensor myPlantEnvironmentOtherAirPressureSensor = OtherAirPressureSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myPlantEnvironmentOtherAirPressureSensorName));
-					modules.put(myPlantEnvironmentOtherAirPressureSensorName , myPlantEnvironmentOtherAirPressureSensor);
-					sensors.put(myPlantEnvironmentOtherAirPressureSensorName , myPlantEnvironmentOtherAirPressureSensor);
-					O2AirPressureSensor myPlantEnvironmentO2AirPressureSensor = O2AirPressureSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myPlantEnvironmentO2AirPressureSensorName));
-					modules.put(myPlantEnvironmentO2AirPressureSensorName , myPlantEnvironmentO2AirPressureSensor);
-					sensors.put(myPlantEnvironmentO2AirPressureSensorName , myPlantEnvironmentO2AirPressureSensor);
-					CO2AirPressureSensor myPlantEnvironmentCO2AirPressureSensor = CO2AirPressureSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myPlantEnvironmentCO2AirPressureSensorName));
-					modules.put(myPlantEnvironmentCO2AirPressureSensorName , myPlantEnvironmentCO2AirPressureSensor);
-					sensors.put(myPlantEnvironmentCO2AirPressureSensorName , myPlantEnvironmentCO2AirPressureSensor);
-					WaterAirPressureSensor myPlantEnvironmentWaterAirPressureSensor = WaterAirPressureSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myPlantEnvironmentWaterAirPressureSensorName));
-					modules.put(myPlantEnvironmentWaterAirPressureSensorName , myPlantEnvironmentWaterAirPressureSensor);
-					sensors.put(myPlantEnvironmentWaterAirPressureSensorName , myPlantEnvironmentWaterAirPressureSensor);
-					NitrogenAirPressureSensor myPlantEnvironmentNitrogenAirPressureSensor = NitrogenAirPressureSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myPlantEnvironmentNitrogenAirPressureSensorName));
-					modules.put(myPlantEnvironmentNitrogenAirPressureSensorName , myPlantEnvironmentNitrogenAirPressureSensor);
-					sensors.put(myPlantEnvironmentNitrogenAirPressureSensorName , myPlantEnvironmentNitrogenAirPressureSensor);
-				}
-			}
-			//Water
-			{
-				//WaterRS
-				{
-					DirtyWaterInFlowRateSensor myWaterRSDirtyWaterInFlowRateSensor = DirtyWaterInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myWaterRSDirtyWaterInFlowRateSensorName));
-					modules.put(myWaterRSDirtyWaterInFlowRateSensorName , myWaterRSDirtyWaterInFlowRateSensor);
-					sensors.put(myWaterRSDirtyWaterInFlowRateSensorName , myWaterRSDirtyWaterInFlowRateSensor);
-					GreyWaterInFlowRateSensor myWaterRSGreyWaterInFlowRateSensor = GreyWaterInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myWaterRSGreyWaterInFlowRateSensorName));
-					modules.put(myWaterRSGreyWaterInFlowRateSensorName , myWaterRSGreyWaterInFlowRateSensor);
-					sensors.put(myWaterRSGreyWaterInFlowRateSensorName , myWaterRSGreyWaterInFlowRateSensor);
-					PowerInFlowRateSensor myWaterRSPowerInFlowRateSensor = PowerInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myWaterRSPowerInFlowRateSensorName));
-					modules.put(myWaterRSPowerInFlowRateSensorName , myWaterRSPowerInFlowRateSensor);
-					sensors.put(myWaterRSPowerInFlowRateSensorName , myWaterRSPowerInFlowRateSensor);
-					PotableWaterOutFlowRateSensor myWaterRSPotableWaterOutFlowRateSensor = PotableWaterOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myWaterRSPotableWaterOutFlowRateSensorName));
-					modules.put(myWaterRSPotableWaterOutFlowRateSensorName , myWaterRSPotableWaterOutFlowRateSensor);
-					sensors.put(myWaterRSPotableWaterOutFlowRateSensorName , myWaterRSPotableWaterOutFlowRateSensor);
-				}
-				//Stores
-				{
-					PotableWaterStoreLevelSensor myPotableWaterStoreLevelSensor = PotableWaterStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myPotableWaterStoreLevelSensorName));
-					modules.put(myPotableWaterStoreLevelSensorName , myPotableWaterStoreLevelSensor);
-					sensors.put(myPotableWaterStoreLevelSensorName , myPotableWaterStoreLevelSensor);
-					GreyWaterStoreLevelSensor myGreyWaterStoreLevelSensor = GreyWaterStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myGreyWaterStoreLevelSensorName));
-					modules.put(myGreyWaterStoreLevelSensorName , myGreyWaterStoreLevelSensor);
-					sensors.put(myGreyWaterStoreLevelSensorName , myGreyWaterStoreLevelSensor);
-					DirtyWaterStoreLevelSensor myDirtyWaterStoreLevelSensor = DirtyWaterStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myDirtyWaterStoreLevelSensorName));
-					modules.put(myDirtyWaterStoreLevelSensorName , myDirtyWaterStoreLevelSensor);
-					sensors.put(myDirtyWaterStoreLevelSensorName , myDirtyWaterStoreLevelSensor);
-					
-					StoreOverflowSensor myPotableWaterStoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myPotableWaterStoreOverflowSensorName));
-					modules.put(myPotableWaterStoreOverflowSensorName , myPotableWaterStoreOverflowSensor);
-					sensors.put(myPotableWaterStoreOverflowSensorName , myPotableWaterStoreOverflowSensor);
-					StoreOverflowSensor myGreyWaterStoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myGreyWaterStoreOverflowSensorName));
-					modules.put(myGreyWaterStoreOverflowSensorName , myGreyWaterStoreOverflowSensor);
-					sensors.put(myGreyWaterStoreOverflowSensorName , myGreyWaterStoreOverflowSensor);
-					StoreOverflowSensor myDirtyWaterStoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myDirtyWaterStoreOverflowSensorName));
-					modules.put(myDirtyWaterStoreOverflowSensorName , myDirtyWaterStoreOverflowSensor);
-					sensors.put(myDirtyWaterStoreOverflowSensorName , myDirtyWaterStoreOverflowSensor);
-				}
-			}
-			//Food
-			{
-				//BiomassRS
-				{
-					PotableWaterInFlowRateSensor myBiomassRSPotableWaterInFlowRateSensor = PotableWaterInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myBiomassRSPotableWaterInFlowRateSensorName));
-					modules.put(myBiomassRSPotableWaterInFlowRateSensorName , myBiomassRSPotableWaterInFlowRateSensor);
-					sensors.put(myBiomassRSPotableWaterInFlowRateSensorName , myBiomassRSPotableWaterInFlowRateSensor);
-					GreyWaterInFlowRateSensor myBiomassRSGreyWaterInFlowRateSensor = GreyWaterInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myBiomassRSGreyWaterInFlowRateSensorName));
-					modules.put(myBiomassRSGreyWaterInFlowRateSensorName , myBiomassRSGreyWaterInFlowRateSensor);
-					sensors.put(myBiomassRSGreyWaterInFlowRateSensorName , myBiomassRSGreyWaterInFlowRateSensor);
-					DirtyWaterOutFlowRateSensor myBiomassRSDirtyWaterOutFlowRateSensor = DirtyWaterOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myBiomassRSDirtyWaterOutFlowRateSensorName));
-					modules.put(myBiomassRSDirtyWaterOutFlowRateSensorName , myBiomassRSDirtyWaterOutFlowRateSensor);
-					sensors.put(myBiomassRSDirtyWaterOutFlowRateSensorName , myBiomassRSDirtyWaterOutFlowRateSensor);
-					BiomassOutFlowRateSensor myBiomassRSBiomassOutFlowRateSensor = BiomassOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myBiomassRSBiomassOutFlowRateSensorName));
-					modules.put(myBiomassRSBiomassOutFlowRateSensorName , myBiomassRSBiomassOutFlowRateSensor);
-					sensors.put(myBiomassRSBiomassOutFlowRateSensorName , myBiomassRSBiomassOutFlowRateSensor);
-					PowerInFlowRateSensor myBiomassRSPowerInFlowRateSensor = PowerInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myBiomassRSPowerInFlowRateSensorName));
-					modules.put(myBiomassRSPowerInFlowRateSensorName , myBiomassRSPowerInFlowRateSensor);
-					sensors.put(myBiomassRSPowerInFlowRateSensorName , myBiomassRSPowerInFlowRateSensor);
-					HarvestSensor myShelf0HarvestSensor = HarvestSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myShelf0HarvestSensorName));
-					modules.put(myShelf0HarvestSensorName , myShelf0HarvestSensor);
-					sensors.put(myShelf0HarvestSensorName , myShelf0HarvestSensor);
-				}
-				//Food Processor
-				{
-					PowerInFlowRateSensor myFoodProcessorPowerInFlowRateSensor = PowerInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myFoodProcessorPowerInFlowRateSensorName));
-					modules.put(myFoodProcessorPowerInFlowRateSensorName , myFoodProcessorPowerInFlowRateSensor);
-					sensors.put(myFoodProcessorPowerInFlowRateSensorName , myFoodProcessorPowerInFlowRateSensor);
-					BiomassInFlowRateSensor myFoodProcessorBiomassInFlowRateSensor = BiomassInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myFoodProcessorBiomassInFlowRateSensorName));
-					modules.put(myFoodProcessorBiomassInFlowRateSensorName , myFoodProcessorBiomassInFlowRateSensor);
-					sensors.put(myFoodProcessorBiomassInFlowRateSensorName , myFoodProcessorBiomassInFlowRateSensor);
-					FoodOutFlowRateSensor myFoodProcessorFoodOutFlowRateSensor = FoodOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myFoodProcessorFoodOutFlowRateSensorName));
-					modules.put(myFoodProcessorFoodOutFlowRateSensorName , myFoodProcessorFoodOutFlowRateSensor);
-					sensors.put(myFoodProcessorFoodOutFlowRateSensorName , myFoodProcessorFoodOutFlowRateSensor);
-					DryWasteOutFlowRateSensor myFoodProcessorDryWasteOutFlowRateSensor = DryWasteOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myFoodProcessorDryWasteOutFlowRateSensorName));
-					modules.put(myFoodProcessorDryWasteOutFlowRateSensorName , myFoodProcessorDryWasteOutFlowRateSensor);
-					sensors.put(myFoodProcessorDryWasteOutFlowRateSensorName , myFoodProcessorDryWasteOutFlowRateSensor);
-				}
-				//Stores
-				{
-					BiomassStoreLevelSensor myBiomassStoreLevelSensor = BiomassStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myBiomassStoreLevelSensorName));
-					modules.put(myBiomassStoreLevelSensorName , myBiomassStoreLevelSensor);
-					sensors.put(myBiomassStoreLevelSensorName , myBiomassStoreLevelSensor);
-					FoodStoreLevelSensor myFoodStoreLevelSensor = FoodStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myFoodStoreLevelSensorName));
-					modules.put(myFoodStoreLevelSensorName , myFoodStoreLevelSensor);
-					sensors.put(myFoodStoreLevelSensorName , myFoodStoreLevelSensor);
-					
-					StoreOverflowSensor myBiomassStoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myBiomassStoreOverflowSensorName));
-					modules.put(myBiomassStoreOverflowSensorName , myBiomassStoreOverflowSensor);
-					sensors.put(myBiomassStoreOverflowSensorName , myBiomassStoreOverflowSensor);
-					StoreOverflowSensor myFoodStoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myFoodStoreOverflowSensorName));
-					modules.put(myFoodStoreOverflowSensorName , myFoodStoreOverflowSensor);
-					sensors.put(myFoodStoreOverflowSensorName , myFoodStoreOverflowSensor);
-				}
-			}
-			//Waste
-			{
-				//Incinerator
-				{
-					DryWasteInFlowRateSensor myIncineratorDryWasteInFlowRateSensor = DryWasteInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myIncineratorDryWasteInFlowRateSensorName));
-					modules.put(myIncineratorDryWasteInFlowRateSensorName , myIncineratorDryWasteInFlowRateSensor);
-					sensors.put(myIncineratorDryWasteInFlowRateSensorName , myIncineratorDryWasteInFlowRateSensor);
-					O2InFlowRateSensor myIncineratorO2InFlowRateSensor = O2InFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myIncineratorO2InFlowRateSensorName));
-					modules.put(myIncineratorO2InFlowRateSensorName , myIncineratorO2InFlowRateSensor);
-					sensors.put(myIncineratorO2InFlowRateSensorName , myIncineratorO2InFlowRateSensor);
-					CO2OutFlowRateSensor myIncineratorCO2OutFlowRateSensor = CO2OutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myIncineratorCO2OutFlowRateSensorName));
-					modules.put(myIncineratorCO2OutFlowRateSensorName , myIncineratorCO2OutFlowRateSensor);
-					sensors.put(myIncineratorCO2OutFlowRateSensorName , myIncineratorCO2OutFlowRateSensor);
-					PowerInFlowRateSensor myIncineratorPowerInFlowRateSensor = PowerInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myIncineratorPowerInFlowRateSensorName));
-					modules.put(myIncineratorPowerInFlowRateSensorName , myIncineratorPowerInFlowRateSensor);
-					sensors.put(myIncineratorPowerInFlowRateSensorName , myIncineratorPowerInFlowRateSensor);
-				}
-				//Stores
-				{
-					DryWasteStoreLevelSensor myDryWasteStoreLevelSensor = DryWasteStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myDryWasteStoreLevelSensorName));
-					modules.put(myDryWasteStoreLevelSensorName , myDryWasteStoreLevelSensor);
-					sensors.put(myDryWasteStoreLevelSensorName , myDryWasteStoreLevelSensor);
-					StoreOverflowSensor myDryWasteStoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myDryWasteStoreOverflowSensorName));
-					modules.put(myDryWasteStoreOverflowSensorName , myDryWasteStoreOverflowSensor);
-					sensors.put(myDryWasteStoreOverflowSensorName , myDryWasteStoreOverflowSensor);
-				}
-			}
-			//Framework
-			{
-				//Accumulator
-				{
-					CO2AirEnvironmentInFlowRateSensor myAccumulatorCO2AirEnvironmentInFlowRateSensor = CO2AirEnvironmentInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAccumulatorCO2AirEnvironmentInFlowRateSensorName));
-					modules.put(myAccumulatorCO2AirEnvironmentInFlowRateSensorName , myAccumulatorCO2AirEnvironmentInFlowRateSensor);
-					sensors.put(myAccumulatorCO2AirEnvironmentInFlowRateSensorName , myAccumulatorCO2AirEnvironmentInFlowRateSensor);
-					O2AirEnvironmentInFlowRateSensor myAccumulatorO2AirEnvironmentInFlowRateSensor = O2AirEnvironmentInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAccumulatorO2AirEnvironmentInFlowRateSensorName));
-					modules.put(myAccumulatorO2AirEnvironmentInFlowRateSensorName , myAccumulatorO2AirEnvironmentInFlowRateSensor);
-					sensors.put(myAccumulatorO2AirEnvironmentInFlowRateSensorName , myAccumulatorO2AirEnvironmentInFlowRateSensor);
-					CO2AirStoreOutFlowRateSensor myAccumulatorCO2AirStoreOutFlowRateSensor = CO2AirStoreOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAccumulatorCO2AirStoreOutFlowRateSensorName));
-					modules.put(myAccumulatorCO2AirStoreOutFlowRateSensorName , myAccumulatorCO2AirStoreOutFlowRateSensor);
-					sensors.put(myAccumulatorCO2AirStoreOutFlowRateSensorName , myAccumulatorCO2AirStoreOutFlowRateSensor);
-					O2AirStoreOutFlowRateSensor myAccumulatorO2AirStoreOutFlowRateSensor = O2AirStoreOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAccumulatorO2AirStoreOutFlowRateSensorName));
-					modules.put(myAccumulatorO2AirStoreOutFlowRateSensorName , myAccumulatorO2AirStoreOutFlowRateSensor);
-					sensors.put(myAccumulatorO2AirStoreOutFlowRateSensorName , myAccumulatorO2AirStoreOutFlowRateSensor);
-					
-					WaterAirEnvironmentInFlowRateSensor myAccumulatorCrewWaterAirEnvironmentInFlowRateSensor = WaterAirEnvironmentInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAccumulatorCrewWaterAirEnvironmentInFlowRateSensorName));
-					modules.put(myAccumulatorCrewWaterAirEnvironmentInFlowRateSensorName , myAccumulatorCrewWaterAirEnvironmentInFlowRateSensor);
-					sensors.put(myAccumulatorCrewWaterAirEnvironmentInFlowRateSensorName , myAccumulatorCrewWaterAirEnvironmentInFlowRateSensor);
-					WaterAirEnvironmentInFlowRateSensor myAccumulatorPlantWaterAirEnvironmentInFlowRateSensor = WaterAirEnvironmentInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAccumulatorPlantWaterAirEnvironmentInFlowRateSensorName));
-					modules.put(myAccumulatorPlantWaterAirEnvironmentInFlowRateSensorName , myAccumulatorPlantWaterAirEnvironmentInFlowRateSensor);
-					sensors.put(myAccumulatorPlantWaterAirEnvironmentInFlowRateSensorName , myAccumulatorPlantWaterAirEnvironmentInFlowRateSensor);
-					WaterAirStoreOutFlowRateSensor myAccumulatorCrewWaterAirStoreOutFlowRateSensor = WaterAirStoreOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAccumulatorCrewWaterAirStoreOutFlowRateSensorName));
-					modules.put(myAccumulatorCrewWaterAirStoreOutFlowRateSensorName , myAccumulatorCrewWaterAirStoreOutFlowRateSensor);
-					sensors.put(myAccumulatorCrewWaterAirStoreOutFlowRateSensorName , myAccumulatorCrewWaterAirStoreOutFlowRateSensor);
-					WaterAirStoreOutFlowRateSensor myAccumulatorPlantWaterAirStoreOutFlowRateSensor = WaterAirStoreOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAccumulatorPlantWaterAirStoreOutFlowRateSensorName));
-					modules.put(myAccumulatorPlantWaterAirStoreOutFlowRateSensorName , myAccumulatorPlantWaterAirStoreOutFlowRateSensor);
-					sensors.put(myAccumulatorPlantWaterAirStoreOutFlowRateSensorName , myAccumulatorPlantWaterAirStoreOutFlowRateSensor);
-				}
-				//Injector
-				{
-					CO2AirStoreInFlowRateSensor myInjectorCO2AirStoreInFlowRateSensor = CO2AirStoreInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myInjectorCO2AirStoreInFlowRateSensorName));
-					modules.put(myInjectorCO2AirStoreInFlowRateSensorName , myInjectorCO2AirStoreInFlowRateSensor);
-					sensors.put(myInjectorCO2AirStoreInFlowRateSensorName , myInjectorCO2AirStoreInFlowRateSensor);
-					O2AirStoreInFlowRateSensor myInjectorO2AirStoreInFlowRateSensor = O2AirStoreInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myInjectorO2AirStoreInFlowRateSensorName));
-					modules.put(myInjectorO2AirStoreInFlowRateSensorName , myInjectorO2AirStoreInFlowRateSensor);
-					sensors.put(myInjectorO2AirStoreInFlowRateSensorName , myInjectorO2AirStoreInFlowRateSensor);
-					CO2AirEnvironmentOutFlowRateSensor myInjectorCO2AirEnvironmentOutFlowRateSensor = CO2AirEnvironmentOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myInjectorCO2AirEnvironmentOutFlowRateSensorName));
-					modules.put(myInjectorCO2AirEnvironmentOutFlowRateSensorName , myInjectorCO2AirEnvironmentOutFlowRateSensor);
-					sensors.put(myInjectorCO2AirEnvironmentOutFlowRateSensorName , myInjectorCO2AirEnvironmentOutFlowRateSensor);
-					O2AirEnvironmentOutFlowRateSensor myInjectorO2AirEnvironmentOutFlowRateSensor = O2AirEnvironmentOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myInjectorO2AirEnvironmentOutFlowRateSensorName));
-					modules.put(myInjectorO2AirEnvironmentOutFlowRateSensorName , myInjectorO2AirEnvironmentOutFlowRateSensor);
-					sensors.put(myInjectorO2AirEnvironmentOutFlowRateSensorName , myInjectorO2AirEnvironmentOutFlowRateSensor);
-					
-					NitrogenAirEnvironmentOutFlowRateSensor myInjectorCrewNitrogenAirEnvironmentOutFlowRateSensor = NitrogenAirEnvironmentOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myInjectorCrewNitrogenAirEnvironmentOutFlowRateSensorName));
-					modules.put(myInjectorCrewNitrogenAirEnvironmentOutFlowRateSensorName , myInjectorCrewNitrogenAirEnvironmentOutFlowRateSensor);
-					sensors.put(myInjectorCrewNitrogenAirEnvironmentOutFlowRateSensorName , myInjectorCrewNitrogenAirEnvironmentOutFlowRateSensor);
-					NitrogenAirEnvironmentOutFlowRateSensor myInjectorPlantNitrogenAirEnvironmentOutFlowRateSensor = NitrogenAirEnvironmentOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myInjectorPlantNitrogenAirEnvironmentOutFlowRateSensorName));
-					modules.put(myInjectorPlantNitrogenAirEnvironmentOutFlowRateSensorName , myInjectorPlantNitrogenAirEnvironmentOutFlowRateSensor);
-					sensors.put(myInjectorPlantNitrogenAirEnvironmentOutFlowRateSensorName , myInjectorPlantNitrogenAirEnvironmentOutFlowRateSensor);
-					NitrogenAirStoreInFlowRateSensor myInjectorCrewNitrogenAirStoreInFlowRateSensor = NitrogenAirStoreInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myInjectorCrewNitrogenAirStoreInFlowRateSensorName));
-					modules.put(myInjectorCrewNitrogenAirStoreInFlowRateSensorName , myInjectorCrewNitrogenAirStoreInFlowRateSensor);
-					sensors.put(myInjectorCrewNitrogenAirStoreInFlowRateSensorName , myInjectorCrewNitrogenAirStoreInFlowRateSensor);
-					NitrogenAirStoreInFlowRateSensor myInjectorPlantNitrogenAirStoreInFlowRateSensor = NitrogenAirStoreInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myInjectorPlantNitrogenAirStoreInFlowRateSensorName));
-					modules.put(myInjectorPlantNitrogenAirStoreInFlowRateSensorName , myInjectorPlantNitrogenAirStoreInFlowRateSensor);
-					sensors.put(myInjectorPlantNitrogenAirStoreInFlowRateSensorName , myInjectorPlantNitrogenAirStoreInFlowRateSensor);
-				}
-			}
-			System.out.println("BioHolder: Collecting actuator references to modules...");
-			//Air
-			{
-				//AirRS
-				{
-					PowerInFlowRateActuator myAirRSPowerInFlowRateActuator = PowerInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAirRSPowerInFlowRateActuatorName));
-					modules.put(myAirRSPowerInFlowRateActuatorName , myAirRSPowerInFlowRateActuator);
-					actuators.put(myAirRSPowerInFlowRateActuatorName , myAirRSPowerInFlowRateActuator);
-					AirInFlowRateActuator myAirRSAirInFlowRateActuator = AirInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAirRSAirInFlowRateActuatorName));
-					modules.put(myAirRSAirInFlowRateActuatorName , myAirRSAirInFlowRateActuator);
-					actuators.put(myAirRSAirInFlowRateActuatorName , myAirRSAirInFlowRateActuator);
-					AirOutFlowRateActuator myAirRSAirOutFlowRateActuator = AirOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAirRSAirOutFlowRateActuatorName));
-					modules.put(myAirRSAirOutFlowRateActuatorName , myAirRSAirOutFlowRateActuator);
-					actuators.put(myAirRSAirOutFlowRateActuatorName , myAirRSAirOutFlowRateActuator);
-					O2OutFlowRateActuator myAirRSO2OutFlowRateActuator = O2OutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAirRSO2OutFlowRateActuatorName));
-					modules.put(myAirRSO2OutFlowRateActuatorName , myAirRSO2OutFlowRateActuator);
-					actuators.put(myAirRSO2OutFlowRateActuatorName , myAirRSO2OutFlowRateActuator);
-					CO2InFlowRateActuator myAirRSCO2InFlowRateActuator = CO2InFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAirRSCO2InFlowRateActuatorName));
-					modules.put(myAirRSCO2InFlowRateActuatorName , myAirRSCO2InFlowRateActuator);
-					actuators.put(myAirRSCO2InFlowRateActuatorName , myAirRSCO2InFlowRateActuator);
-					CO2OutFlowRateActuator myAirRSCO2OutFlowRateActuator = CO2OutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAirRSCO2OutFlowRateActuatorName));
-					modules.put(myAirRSCO2OutFlowRateActuatorName , myAirRSCO2OutFlowRateActuator);
-					actuators.put(myAirRSCO2OutFlowRateActuatorName , myAirRSCO2OutFlowRateActuator);
-					H2InFlowRateActuator myAirRSH2InFlowRateActuator = H2InFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAirRSH2InFlowRateActuatorName));
-					modules.put(myAirRSH2InFlowRateActuatorName , myAirRSH2InFlowRateActuator);
-					actuators.put(myAirRSH2InFlowRateActuatorName , myAirRSH2InFlowRateActuator);
-					H2OutFlowRateActuator myAirRSH2OutFlowRateActuator = H2OutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAirRSH2OutFlowRateActuatorName));
-					modules.put(myAirRSH2OutFlowRateActuatorName , myAirRSH2OutFlowRateActuator);
-					actuators.put(myAirRSH2OutFlowRateActuatorName , myAirRSH2OutFlowRateActuator);
-					PotableWaterInFlowRateActuator myAirRSPotableWaterInFlowRateActuator = PotableWaterInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAirRSPotableWaterInFlowRateActuatorName));
-					modules.put(myAirRSPotableWaterInFlowRateActuatorName , myAirRSPotableWaterInFlowRateActuator);
-					actuators.put(myAirRSPotableWaterInFlowRateActuatorName , myAirRSPotableWaterInFlowRateActuator);
-					PotableWaterOutFlowRateActuator myAirRSPotableWaterOutFlowRateActuator = PotableWaterOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAirRSPotableWaterOutFlowRateActuatorName));
-					modules.put(myAirRSPotableWaterOutFlowRateActuatorName , myAirRSPotableWaterOutFlowRateActuator);
-					actuators.put(myAirRSPotableWaterOutFlowRateActuatorName , myAirRSPotableWaterOutFlowRateActuator);
-				}
-			}
-			//Power
-			{
-				//PowerPS
-				{
-					PowerOutFlowRateActuator myPowerPSPowerOutFlowRateActuator = PowerOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myPowerPSPowerOutFlowRateActuatorName));
-					modules.put(myPowerPSPowerOutFlowRateActuatorName , myPowerPSPowerOutFlowRateActuator);
-					actuators.put(myPowerPSPowerOutFlowRateActuatorName , myPowerPSPowerOutFlowRateActuator);
-				}
-			}
-			//Water
-			{
-				//WaterRS
-				{
-					DirtyWaterInFlowRateActuator myWaterRSDirtyWaterInFlowRateActuator = DirtyWaterInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myWaterRSDirtyWaterInFlowRateActuatorName));
-					modules.put(myWaterRSDirtyWaterInFlowRateActuatorName , myWaterRSDirtyWaterInFlowRateActuator);
-					actuators.put(myWaterRSDirtyWaterInFlowRateActuatorName , myWaterRSDirtyWaterInFlowRateActuator);
-					GreyWaterInFlowRateActuator myWaterRSGreyWaterInFlowRateActuator = GreyWaterInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myWaterRSGreyWaterInFlowRateActuatorName));
-					modules.put(myWaterRSGreyWaterInFlowRateActuatorName , myWaterRSGreyWaterInFlowRateActuator);
-					actuators.put(myWaterRSGreyWaterInFlowRateActuatorName , myWaterRSGreyWaterInFlowRateActuator);
-					PowerInFlowRateActuator myWaterRSPowerInFlowRateActuator = PowerInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myWaterRSPowerInFlowRateActuatorName));
-					modules.put(myWaterRSPowerInFlowRateActuatorName , myWaterRSPowerInFlowRateActuator);
-					actuators.put(myWaterRSPowerInFlowRateActuatorName , myWaterRSPowerInFlowRateActuator);
-					PotableWaterOutFlowRateActuator myWaterRSPotableWaterOutFlowRateActuator = PotableWaterOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myWaterRSPotableWaterOutFlowRateActuatorName));
-					modules.put(myWaterRSPotableWaterOutFlowRateActuatorName , myWaterRSPotableWaterOutFlowRateActuator);
-					actuators.put(myWaterRSPotableWaterOutFlowRateActuatorName , myWaterRSPotableWaterOutFlowRateActuator);
-				}
-			}
-			//Crew
-			{
-				PotableWaterInFlowRateActuator myCrewGroupPotableWaterInFlowRateActuator = PotableWaterInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewGroupPotableWaterInFlowRateActuatorName));
-				GreyWaterOutFlowRateActuator myCrewGroupGreyWaterOutFlowRateActuator = GreyWaterOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewGroupGreyWaterOutFlowRateActuatorName));
-				DirtyWaterOutFlowRateActuator myCrewGroupDirtyWaterOutFlowRateActuator = DirtyWaterOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewGroupDirtyWaterOutFlowRateActuatorName));
-				
-				modules.put(myCrewGroupPotableWaterInFlowRateActuatorName , myCrewGroupPotableWaterInFlowRateActuator);
-				modules.put(myCrewGroupGreyWaterOutFlowRateActuatorName , myCrewGroupGreyWaterOutFlowRateActuator);
-				modules.put(myCrewGroupDirtyWaterOutFlowRateActuatorName , myCrewGroupDirtyWaterOutFlowRateActuator);
-				
-				actuators.put(myCrewGroupPotableWaterInFlowRateActuatorName , myCrewGroupPotableWaterInFlowRateActuator);
-				actuators.put(myCrewGroupGreyWaterOutFlowRateActuatorName , myCrewGroupGreyWaterOutFlowRateActuator);
-				actuators.put(myCrewGroupDirtyWaterOutFlowRateActuatorName , myCrewGroupDirtyWaterOutFlowRateActuator);
-				
-			}
-			//Food
-			{
-				//BiomassRS
-				{
-					PotableWaterInFlowRateActuator myBiomassRSPotableWaterInFlowRateActuator = PotableWaterInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myBiomassRSPotableWaterInFlowRateActuatorName));
-					modules.put(myBiomassRSPotableWaterInFlowRateActuatorName , myBiomassRSPotableWaterInFlowRateActuator);
-					actuators.put(myBiomassRSPotableWaterInFlowRateActuatorName , myBiomassRSPotableWaterInFlowRateActuator);
-					GreyWaterInFlowRateActuator myBiomassRSGreyWaterInFlowRateActuator = GreyWaterInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myBiomassRSGreyWaterInFlowRateActuatorName));
-					modules.put(myBiomassRSGreyWaterInFlowRateActuatorName , myBiomassRSGreyWaterInFlowRateActuator);
-					actuators.put(myBiomassRSGreyWaterInFlowRateActuatorName , myBiomassRSGreyWaterInFlowRateActuator);
-					BiomassOutFlowRateActuator myBiomassRSBiomassOutFlowRateActuator = BiomassOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myBiomassRSBiomassOutFlowRateActuatorName));
-					modules.put(myBiomassRSBiomassOutFlowRateActuatorName , myBiomassRSBiomassOutFlowRateActuator);
-					actuators.put(myBiomassRSBiomassOutFlowRateActuatorName , myBiomassRSBiomassOutFlowRateActuator);
-					PowerInFlowRateActuator myBiomassRSPowerInFlowRateActuator = PowerInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myBiomassRSPowerInFlowRateActuatorName));
-					modules.put(myBiomassRSPowerInFlowRateActuatorName , myBiomassRSPowerInFlowRateActuator);
-					actuators.put(myBiomassRSPowerInFlowRateActuatorName , myBiomassRSPowerInFlowRateActuator);
-					HarvestingActuator myShelf0HarvestingActuator = HarvestingActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myShelf0HarvestingActuatorName));
-					modules.put(myShelf0HarvestingActuator , myShelf0HarvestingActuatorName);
-					actuators.put(myShelf0HarvestingActuator , myShelf0HarvestingActuatorName);
-					PlantingActuator myShelf0PlantingActuator = PlantingActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myShelf0PlantingActuatorName));
-					modules.put(myShelf0PlantingActuator , myShelf0PlantingActuatorName);
-					actuators.put(myShelf0PlantingActuator , myShelf0PlantingActuatorName);
-				}
-				//Food Processor
-				{
-					PowerInFlowRateActuator myFoodProcessorPowerInFlowRateActuator = PowerInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myFoodProcessorPowerInFlowRateActuatorName));
-					modules.put(myFoodProcessorPowerInFlowRateActuatorName , myFoodProcessorPowerInFlowRateActuator);
-					actuators.put(myFoodProcessorPowerInFlowRateActuatorName , myFoodProcessorPowerInFlowRateActuator);
-					BiomassInFlowRateActuator myFoodProcessorBiomassInFlowRateActuator = BiomassInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myFoodProcessorBiomassInFlowRateActuatorName));
-					modules.put(myFoodProcessorBiomassInFlowRateActuatorName , myFoodProcessorBiomassInFlowRateActuator);
-					actuators.put(myFoodProcessorBiomassInFlowRateActuatorName , myFoodProcessorBiomassInFlowRateActuator);
-					FoodOutFlowRateActuator myFoodProcessorFoodOutFlowRateActuator = FoodOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myFoodProcessorFoodOutFlowRateActuatorName));
-					modules.put(myFoodProcessorFoodOutFlowRateActuatorName , myFoodProcessorFoodOutFlowRateActuator);
-					actuators.put(myFoodProcessorFoodOutFlowRateActuatorName , myFoodProcessorFoodOutFlowRateActuator);
-					DryWasteOutFlowRateActuator myFoodProcessorDryWasteOutFlowRateActuator = DryWasteOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myFoodProcessorDryWasteOutFlowRateActuatorName));
-					modules.put(myFoodProcessorDryWasteOutFlowRateActuatorName , myFoodProcessorDryWasteOutFlowRateActuator);
-					actuators.put(myFoodProcessorDryWasteOutFlowRateActuatorName , myFoodProcessorDryWasteOutFlowRateActuator);
-				}
-			}
-			//Waste
-				//Incinerator
-				{
-					DryWasteInFlowRateActuator myIncineratorDryWasteInFlowRateActuator = DryWasteInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myIncineratorDryWasteInFlowRateActuatorName));
-					modules.put(myIncineratorDryWasteInFlowRateActuatorName , myIncineratorDryWasteInFlowRateActuator);
-					actuators.put(myIncineratorDryWasteInFlowRateActuatorName , myIncineratorDryWasteInFlowRateActuator);
-					O2InFlowRateActuator myIncineratorO2InFlowRateActuator = O2InFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myIncineratorO2InFlowRateActuatorName));
-					modules.put(myIncineratorO2InFlowRateActuatorName , myIncineratorO2InFlowRateActuator);
-					actuators.put(myIncineratorO2InFlowRateActuatorName , myIncineratorO2InFlowRateActuator);
-					CO2OutFlowRateActuator myIncineratorCO2OutFlowRateActuator = CO2OutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myIncineratorCO2OutFlowRateActuatorName));
-					modules.put(myIncineratorCO2OutFlowRateActuatorName , myIncineratorCO2OutFlowRateActuator);
-					actuators.put(myIncineratorCO2OutFlowRateActuatorName , myIncineratorCO2OutFlowRateActuator);
-					PowerInFlowRateActuator myIncineratorPowerInFlowRateActuator = PowerInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myIncineratorPowerInFlowRateActuatorName));
-					modules.put(myIncineratorPowerInFlowRateActuatorName , myIncineratorPowerInFlowRateActuator);
-					actuators.put(myIncineratorPowerInFlowRateActuatorName , myIncineratorPowerInFlowRateActuator);
-				}
-			//Framework
-			{
-				//Accumulator
-				{
-					CO2AirEnvironmentInFlowRateActuator myAccumulatorCO2AirEnvironmentInFlowRateActuator = CO2AirEnvironmentInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAccumulatorCO2AirEnvironmentInFlowRateActuatorName));
-					modules.put(myAccumulatorCO2AirEnvironmentInFlowRateActuatorName , myAccumulatorCO2AirEnvironmentInFlowRateActuator);
-					actuators.put(myAccumulatorCO2AirEnvironmentInFlowRateActuatorName , myAccumulatorCO2AirEnvironmentInFlowRateActuator);
-					O2AirEnvironmentInFlowRateActuator myAccumulatorO2AirEnvironmentInFlowRateActuator = O2AirEnvironmentInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAccumulatorO2AirEnvironmentInFlowRateActuatorName));
-					modules.put(myAccumulatorO2AirEnvironmentInFlowRateActuatorName , myAccumulatorO2AirEnvironmentInFlowRateActuator);
-					actuators.put(myAccumulatorO2AirEnvironmentInFlowRateActuatorName , myAccumulatorO2AirEnvironmentInFlowRateActuator);
-					CO2AirStoreOutFlowRateActuator myAccumulatorCO2AirStoreOutFlowRateActuator = CO2AirStoreOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAccumulatorCO2AirStoreOutFlowRateActuatorName));
-					modules.put(myAccumulatorCO2AirStoreOutFlowRateActuatorName , myAccumulatorCO2AirStoreOutFlowRateActuator);
-					actuators.put(myAccumulatorCO2AirStoreOutFlowRateActuatorName , myAccumulatorCO2AirStoreOutFlowRateActuator);
-					O2AirStoreOutFlowRateActuator myAccumulatorO2AirStoreOutFlowRateActuator = O2AirStoreOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAccumulatorO2AirStoreOutFlowRateActuatorName));
-					modules.put(myAccumulatorO2AirStoreOutFlowRateActuatorName , myAccumulatorO2AirStoreOutFlowRateActuator);
-					actuators.put(myAccumulatorO2AirStoreOutFlowRateActuatorName , myAccumulatorO2AirStoreOutFlowRateActuator);
-					
-					WaterAirEnvironmentInFlowRateActuator myAccumulatorCrewWaterAirEnvironmentInFlowRateActuator = WaterAirEnvironmentInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAccumulatorCrewWaterAirEnvironmentInFlowRateActuatorName));
-					modules.put(myAccumulatorCrewWaterAirEnvironmentInFlowRateActuatorName , myAccumulatorCrewWaterAirEnvironmentInFlowRateActuator);
-					actuators.put(myAccumulatorCrewWaterAirEnvironmentInFlowRateActuatorName , myAccumulatorCrewWaterAirEnvironmentInFlowRateActuator);
-					WaterAirEnvironmentInFlowRateActuator myAccumulatorPlantWaterAirEnvironmentInFlowRateActuator = WaterAirEnvironmentInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAccumulatorPlantWaterAirEnvironmentInFlowRateActuatorName));
-					modules.put(myAccumulatorPlantWaterAirEnvironmentInFlowRateActuatorName , myAccumulatorPlantWaterAirEnvironmentInFlowRateActuator);
-					actuators.put(myAccumulatorPlantWaterAirEnvironmentInFlowRateActuatorName , myAccumulatorPlantWaterAirEnvironmentInFlowRateActuator);
-					WaterAirStoreOutFlowRateActuator myAccumulatorCrewWaterAirStoreOutFlowRateActuator = WaterAirStoreOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAccumulatorCrewWaterAirStoreOutFlowRateActuatorName));
-					modules.put(myAccumulatorCrewWaterAirStoreOutFlowRateActuatorName , myAccumulatorCrewWaterAirStoreOutFlowRateActuator);
-					actuators.put(myAccumulatorCrewWaterAirStoreOutFlowRateActuatorName , myAccumulatorCrewWaterAirStoreOutFlowRateActuator);
-					WaterAirStoreOutFlowRateActuator myAccumulatorPlantWaterAirStoreOutFlowRateActuator = WaterAirStoreOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAccumulatorPlantWaterAirStoreOutFlowRateActuatorName));
-					modules.put(myAccumulatorPlantWaterAirStoreOutFlowRateActuatorName , myAccumulatorPlantWaterAirStoreOutFlowRateActuator);
-					actuators.put(myAccumulatorPlantWaterAirStoreOutFlowRateActuatorName , myAccumulatorPlantWaterAirStoreOutFlowRateActuator);
-				
-				}
-				//Injector
-				{
-					CO2AirStoreInFlowRateActuator myInjectorCO2AirStoreInFlowRateActuator = CO2AirStoreInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myInjectorCO2AirStoreInFlowRateActuatorName));
-					modules.put(myInjectorCO2AirStoreInFlowRateActuatorName , myInjectorCO2AirStoreInFlowRateActuator);
-					actuators.put(myInjectorCO2AirStoreInFlowRateActuatorName , myInjectorCO2AirStoreInFlowRateActuator);
-					O2AirStoreInFlowRateActuator myInjectorO2AirStoreInFlowRateActuator = O2AirStoreInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myInjectorO2AirStoreInFlowRateActuatorName));
-					modules.put(myInjectorO2AirStoreInFlowRateActuatorName , myInjectorO2AirStoreInFlowRateActuator);
-					actuators.put(myInjectorO2AirStoreInFlowRateActuatorName , myInjectorO2AirStoreInFlowRateActuator);
-					CO2AirEnvironmentOutFlowRateActuator myInjectorCO2AirEnvironmentOutFlowRateActuator = CO2AirEnvironmentOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myInjectorCO2AirEnvironmentOutFlowRateActuatorName));
-					modules.put(myInjectorCO2AirEnvironmentOutFlowRateActuatorName , myInjectorCO2AirEnvironmentOutFlowRateActuator);
-					actuators.put(myInjectorCO2AirEnvironmentOutFlowRateActuatorName , myInjectorCO2AirEnvironmentOutFlowRateActuator);
-					O2AirEnvironmentOutFlowRateActuator myInjectorO2AirEnvironmentOutFlowRateActuator = O2AirEnvironmentOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myInjectorO2AirEnvironmentOutFlowRateActuatorName));
-					modules.put(myInjectorO2AirEnvironmentOutFlowRateActuatorName , myInjectorO2AirEnvironmentOutFlowRateActuator);
-					actuators.put(myInjectorO2AirEnvironmentOutFlowRateActuatorName , myInjectorO2AirEnvironmentOutFlowRateActuator);
-				
-					NitrogenAirEnvironmentOutFlowRateActuator myInjectorCrewNitrogenAirEnvironmentOutFlowRateActuator = NitrogenAirEnvironmentOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myInjectorCrewNitrogenAirEnvironmentOutFlowRateActuatorName));
-					modules.put(myInjectorCrewNitrogenAirEnvironmentOutFlowRateActuatorName , myInjectorCrewNitrogenAirEnvironmentOutFlowRateActuator);
-					actuators.put(myInjectorCrewNitrogenAirEnvironmentOutFlowRateActuatorName , myInjectorCrewNitrogenAirEnvironmentOutFlowRateActuator);
-					NitrogenAirEnvironmentOutFlowRateActuator myInjectorPlantNitrogenAirEnvironmentOutFlowRateActuator = NitrogenAirEnvironmentOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myInjectorPlantNitrogenAirEnvironmentOutFlowRateActuatorName));
-					modules.put(myInjectorPlantNitrogenAirEnvironmentOutFlowRateActuatorName , myInjectorPlantNitrogenAirEnvironmentOutFlowRateActuator);
-					actuators.put(myInjectorPlantNitrogenAirEnvironmentOutFlowRateActuatorName , myInjectorPlantNitrogenAirEnvironmentOutFlowRateActuator);
-					NitrogenAirStoreInFlowRateActuator myInjectorCrewNitrogenAirStoreInFlowRateActuator = NitrogenAirStoreInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myInjectorCrewNitrogenAirStoreInFlowRateActuatorName));
-					modules.put(myInjectorCrewNitrogenAirStoreInFlowRateActuatorName , myInjectorCrewNitrogenAirStoreInFlowRateActuator);
-					actuators.put(myInjectorCrewNitrogenAirStoreInFlowRateActuatorName , myInjectorCrewNitrogenAirStoreInFlowRateActuator);
-					NitrogenAirStoreInFlowRateActuator myInjectorPlantNitrogenAirStoreInFlowRateActuator = NitrogenAirStoreInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myInjectorPlantNitrogenAirStoreInFlowRateActuatorName));
-					modules.put(myInjectorPlantNitrogenAirStoreInFlowRateActuatorName , myInjectorPlantNitrogenAirStoreInFlowRateActuator);
-					actuators.put(myInjectorPlantNitrogenAirStoreInFlowRateActuatorName , myInjectorPlantNitrogenAirStoreInFlowRateActuator);
-				}
-			}
-			System.out.println("BioHolder: Collecting framework references to modules...");
-			myBioDriver = BioDriverHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str("BioDriver"));
-			hasCollectedReferences = true;
+		String nodeName = node.getNodeName();
+		if (nodeName.equals("SimBioModules")){
+			crawlModules(node);
+			return;
 		}
-		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioHolder: Had problems collecting server references, polling again...");
-			//e.printStackTrace();
-			OrbUtils.sleepAwhile();
-			collectReferences();
+		else if (nodeName.equals("Sensors")){
+			crawlSensors(node);
+			return;
+		}
+		else if (nodeName.equals("Actuators")){
+			crawlActuators(node);
+			return;
+		}
+		else{
+			Node child = node.getFirstChild();
+			while (child != null) {
+				crawlBiosim(child);
+				child = child.getNextSibling();
+			}
+		}
+
+	}
+
+	public void parseFile(String fileToParse){
+		try{
+			System.out.print("Initializing...");
+			myParser.parse(fileToParse);
+			Document document = myParser.getDocument();
+			crawlBiosim(document);
+			System.out.println("done");
+			System.out.flush();
 		}
 		catch (Exception e){
-			System.err.println("BioHolder: Had problems collecting server references, polling again...");
-			//e.printStackTrace();
-			OrbUtils.resetInit();
-			OrbUtils.sleepAwhile();
-			collectReferences();
+			System.err.println("error: Parse error occurred - "+e.getMessage());
+			Exception se = e;
+			if (e instanceof SAXException)
+				se = ((SAXException)e).getException();
+			if (se != null)
+				se.printStackTrace(System.err);
+			else
+				e.printStackTrace(System.err);
+		}
+	}
+
+	private org.omg.CORBA.Object grabModule(String moduleName){
+		org.omg.CORBA.Object moduleToReturn = null;
+		while (moduleToReturn == null){
+			try{
+				moduleToReturn = OrbUtils.getNamingContext(myID).resolve_str(moduleName);
+			}
+			catch (org.omg.CORBA.UserException e){
+				System.err.println("BioHolder: Couldn't find module "+moduleName+", polling again...");
+				OrbUtils.sleepAwhile();
+			}
+			catch (Exception e){
+				System.err.println("BioHolder: Had problems contacting nameserver with module "+moduleName+", polling again...");
+				OrbUtils.resetInit();
+				OrbUtils.sleepAwhile();
+			}
+		}
+		return moduleToReturn;
+	}
+
+	private static String getModuleName(Node node){
+		return node.getAttributes().getNamedItem("name").getNodeValue();
+	}
+
+	//Modules
+	private void crawlModules(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("air")){
+				crawlAirModules(child);
+			}
+			else if (childName.equals("crew")){
+				crawlCrewModules(child);
+			}
+			else if (childName.equals("environment")){
+				crawlEnvironmentModules(child);
+			}
+			else if (childName.equals("food")){
+				crawlFoodModules(child);
+			}
+			else if (childName.equals("framework")){
+				crawlFrameworkModules(child);
+			}
+			else if (childName.equals("power")){
+				crawlPowerModules(child);
+			}
+			else if (childName.equals("water")){
+				crawlWaterModules(child);
+			}
+			else if (childName.equals("waste")){
+				crawlWasteModules(child);
+			}
+			child = child.getNextSibling();
+		}
+	}
+
+	private void fetchAirRS(Node node){
+		myAirRSModules.add(AirRSHelper.narrow(grabModule(getModuleName(node))));
+	}
+
+	private void fetchO2Store(Node node){
+		myO2Stores.add(O2StoreHelper.narrow(grabModule(getModuleName(node))));
+	}
+
+	private void fetchCO2Store(Node node){
+		myCO2Stores.add(CO2StoreHelper.narrow(grabModule(getModuleName(node))));
+	}
+
+	private void fetchH2Store(Node node){
+		myH2Stores.add(H2StoreHelper.narrow(grabModule(getModuleName(node))));
+	}
+
+	private void fetchNitrogenStore(Node node){
+		myNitrogenStores.add(NitrogenStoreHelper.narrow(grabModule(getModuleName(node))));
+	}
+
+	private void crawlAirModules(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("AirRS")){
+				fetchAirRS(child);
+
+			}
+			else if (childName.equals("O2Store")){
+				fetchO2Store(child);
+
+			}
+			else if (childName.equals("CO2Store")){
+				fetchCO2Store(child);
+
+			}
+			else if (childName.equals("H2Store")){
+				fetchH2Store(child);
+
+			}
+			else if (childName.equals("NitrogenStore")){
+				fetchNitrogenStore(child);
+
+			}
+			child = child.getNextSibling();
+		}
+	}
+
+	private void fetchCrewGroup(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void crawlCrewModules(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("CrewGroup")){
+				fetchCrewGroup(child);
+			}
+			child = child.getNextSibling();
+		}
+	}
+
+	private void fetchSimEnvironment(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void crawlEnvironmentModules(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("SimEnvironment")){
+				fetchSimEnvironment(child);
+			}
+			child = child.getNextSibling();
+		}
+	}
+
+	private void fetchAccumulator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchInjector(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+
+	private void crawlFrameworkModules(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("Accumulator")){
+				fetchAccumulator(child);
+			}
+			else if (childName.equals("Injector")){
+				fetchInjector(child);
+			}
+			child = child.getNextSibling();
+		}
+	}
+
+	private void fetchBiomassRS(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchFoodProcessor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchBiomassStore(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchFoodStore(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void crawlFoodModules(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("BiomassRS")){
+				fetchBiomassRS(child);
+			}
+			else if (childName.equals("FoodProcessor")){
+				fetchFoodProcessor(child);
+			}
+			else if (childName.equals("BiomassStore")){
+				fetchBiomassStore(child);
+			}
+			else if (childName.equals("FoodStore")){
+				fetchFoodStore(child);
+			}
+			child = child.getNextSibling();
+		}
+	}
+
+	private void fetchPowerPS(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchPowerStore(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void crawlPowerModules(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("PowerPS"))
+				fetchPowerPS(child);
+			else if (childName.equals("PowerStore"))
+				fetchPowerStore(child);
+			child = child.getNextSibling();
+		}
+	}
+
+	private void fetchWaterRS(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchPotableWaterStore(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchDirtyWaterStore(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchGreyWaterStore(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void crawlWaterModules(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("WaterRS"))
+				fetchWaterRS(child);
+			else if (childName.equals("PotableWaterStore"))
+				fetchPotableWaterStore(child);
+			else if (childName.equals("GreyWaterStore"))
+				fetchGreyWaterStore(child);
+			else if (childName.equals("DirtyWaterStore"))
+				fetchDirtyWaterStore(child);
+			child = child.getNextSibling();
+		}
+	}
+
+	private void fetchIncinerator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchDryWasteStore(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void crawlWasteModules(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("Incinerator"))
+				fetchIncinerator(child);
+			else if (childName.equals("DryWasteStore"))
+				fetchDryWasteStore(child);
+			child = child.getNextSibling();
+		}
+	}
+
+	//Sensors
+	private void crawlSensors(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("air")){
+				crawlAirSensors(child);
+			}
+			else if (childName.equals("crew")){
+				crawlCrewSensors(child);
+
+			}
+			else if (childName.equals("environment")){
+				crawlEnvironmentSensors(child);
+
+			}
+			else if (childName.equals("food")){
+				crawlFoodSensors(child);
+
+			}
+			else if (childName.equals("framework")){
+				crawlFrameworkSensors(child);
+
+			}
+			else if (childName.equals("power")){
+				crawlPowerSensors(child);
+
+			}
+			else if (childName.equals("water")){
+				crawlWaterSensors(child);
+
+			}
+			else if (childName.equals("waste")){
+				crawlWasteSensors(child);
+
+			}
+			child = child.getNextSibling();
+		}
+	}
+
+	//Air
+	private void fetchCO2InFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+
+	}
+
+	private void fetchCO2OutFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchCO2StoreLevelSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchO2InFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchO2OutFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchO2StoreLevelSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchH2InFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchH2OutFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchH2StoreLevelSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchNitrogenInFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchNitrogenOutFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchNitrogenStoreLevelSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void crawlAirSensors(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("CO2InFlowRateSensor"))
+				fetchCO2InFlowRateSensor(child);
+			else if (childName.equals("CO2OutFlowRateSensor"))
+				fetchCO2OutFlowRateSensor(child);
+			else if (childName.equals("CO2StoreLevelSensor"))
+				fetchCO2StoreLevelSensor(child);
+			else if (childName.equals("O2InFlowRateSensor"))
+				fetchO2InFlowRateSensor(child);
+			else if (childName.equals("O2OutFlowRateSensor"))
+				fetchO2OutFlowRateSensor(child);
+			else if (childName.equals("O2StoreLevelSensor"))
+				fetchO2StoreLevelSensor(child);
+			else if (childName.equals("H2InFlowRateSensor"))
+				fetchH2InFlowRateSensor(child);
+			else if (childName.equals("H2OutFlowRateSensor"))
+				fetchH2OutFlowRateSensor(child);
+			else if (childName.equals("H2StoreLevelSensor"))
+				fetchH2StoreLevelSensor(child);
+			else if (childName.equals("NitrogenInFlowRateSensor"))
+				fetchNitrogenInFlowRateSensor(child);
+			else if (childName.equals("NitrogenOutFlowRateSensor"))
+				fetchNitrogenOutFlowRateSensor(child);
+			else if (childName.equals("NitrogenStoreLevelSensor"))
+				fetchNitrogenStoreLevelSensor(child);
+			child = child.getNextSibling();
+		}
+	}
+
+	//Crew
+	private void fetchCrewGroupDeathSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchCrewGroupAnyDeadSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchCrewGroupProductivitySensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void crawlCrewSensors(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("CrewGroupDeathSensor"))
+				fetchCrewGroupDeathSensor(child);
+			else if (childName.equals("CrewGroupAnyDeadSensor"))
+				fetchCrewGroupAnyDeadSensor(child);
+			else if (childName.equals("CrewGroupProductivitySensor"))
+				fetchCrewGroupProductivitySensor(child);
+			child = child.getNextSibling();
+		}
+	}
+
+	//Environment
+	private void fetchAirInFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchAirOutFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchCO2AirConcentrationSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchCO2AirPressureSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchCO2AirEnvironmentInFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchCO2AirEnvironmentOutFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchCO2AirStoreInFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchCO2AirStoreOutFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchO2AirConcentrationSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchO2AirPressureSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchO2AirEnvironmentInFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchO2AirEnvironmentOutFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchO2AirStoreInFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchO2AirStoreOutFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchOtherAirConcentrationSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchOtherAirPressureSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchWaterAirConcentrationSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchWaterAirPressureSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchWaterAirEnvironmentInFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchWaterAirEnvironmentOutFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchWaterAirStoreInFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchWaterAirStoreOutFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchNitrogenAirConcentrationSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchNitrogenAirPressureSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchNitrogenAirEnvironmentInFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchNitrogenAirEnvironmentOutFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchNitrogenAirStoreInFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchNitrogenAirStoreOutFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void crawlEnvironmentSensors(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("AirInFlowRateSensor"))
+				fetchAirInFlowRateSensor(child);
+			else if (childName.equals("AirOutFlowRateSensor"))
+				fetchAirOutFlowRateSensor(child);
+			else if (childName.equals("CO2AirConcentrationSensor"))
+				fetchCO2AirConcentrationSensor(child);
+			else if (childName.equals("CO2AirEnvironmentInFlowRateSensor"))
+				fetchCO2AirEnvironmentInFlowRateSensor(child);
+			else if (childName.equals("CO2AirEnvironmentOutFlowRateSensor"))
+				fetchCO2AirEnvironmentOutFlowRateSensor(child);
+			else if (childName.equals("CO2AirPressureSensor"))
+				fetchCO2AirPressureSensor(child);
+			else if (childName.equals("CO2AirStoreInFlowRateSensor"))
+				fetchCO2AirStoreInFlowRateSensor(child);
+			else if (childName.equals("CO2AirStoreOutFlowRateSensor"))
+				fetchCO2AirStoreOutFlowRateSensor(child);
+			else if (childName.equals("O2AirConcentrationSensor"))
+				fetchO2AirConcentrationSensor(child);
+			else if (childName.equals("O2AirEnvironmentInFlowRateSensor"))
+				fetchO2AirEnvironmentInFlowRateSensor(child);
+			else if (childName.equals("O2AirEnvironmentOutFlowRateSensor"))
+				fetchO2AirEnvironmentOutFlowRateSensor(child);
+			else if (childName.equals("O2AirPressureSensor"))
+				fetchO2AirPressureSensor(child);
+			else if (childName.equals("O2AirStoreInFlowRateSensor"))
+				fetchO2AirStoreInFlowRateSensor(child);
+			else if (childName.equals("O2AirStoreOutFlowRateSensor"))
+				fetchO2AirStoreOutFlowRateSensor(child);
+			else if (childName.equals("OtherAirConcentrationSensor"))
+				fetchOtherAirConcentrationSensor(child);
+			else if (childName.equals("OtherAirPressureSensor"))
+				fetchOtherAirPressureSensor(child);
+			else if (childName.equals("WaterAirConcentrationSensor"))
+				fetchWaterAirConcentrationSensor(child);
+			else if (childName.equals("WaterAirPressureSensor"))
+				fetchWaterAirPressureSensor(child);
+			else if (childName.equals("WaterAirStoreInFlowRateSensor"))
+				fetchWaterAirStoreInFlowRateSensor(child);
+			else if (childName.equals("WaterAirStoreOutFlowRateSensor"))
+				fetchWaterAirStoreOutFlowRateSensor(child);
+			else if (childName.equals("WaterAirEnvironmentInFlowRateSensor"))
+				fetchWaterAirEnvironmentInFlowRateSensor(child);
+			else if (childName.equals("WaterAirEnvironmentOutFlowRateSensor"))
+				fetchWaterAirEnvironmentOutFlowRateSensor(child);
+			else if (childName.equals("NitrogenAirConcentrationSensor"))
+				fetchNitrogenAirConcentrationSensor(child);
+			else if (childName.equals("NitrogenAirEnvironmentInFlowRateSensor"))
+				fetchNitrogenAirEnvironmentInFlowRateSensor(child);
+			else if (childName.equals("NitrogenAirEnvironmentOutFlowRateSensor"))
+				fetchNitrogenAirEnvironmentOutFlowRateSensor(child);
+			else if (childName.equals("NitrogenAirPressureSensor"))
+				fetchNitrogenAirPressureSensor(child);
+			else if (childName.equals("NitrogenAirStoreInFlowRateSensor"))
+				fetchNitrogenAirStoreInFlowRateSensor(child);
+			else if (childName.equals("NitrogenAirStoreOutFlowRateSensor"))
+				fetchNitrogenAirStoreOutFlowRateSensor(child);
+			child = child.getNextSibling();
+		}
+	}
+
+	//Food
+	private void fetchBiomassInFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchBiomassOutFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchBiomassStoreLevelSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchFoodInFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchFoodOutFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchFoodStoreLevelSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchHarvestSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void crawlFoodSensors(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("BiomassInFlowRateSensor"))
+				fetchBiomassInFlowRateSensor(child);
+			if (childName.equals("BiomassOutFlowRateSensor"))
+				fetchBiomassOutFlowRateSensor(child);
+			else if (childName.equals("BiomassStoreLevelSensor"))
+				fetchBiomassStoreLevelSensor(child);
+			else if (childName.equals("FoodInFlowRateSensor"))
+				fetchFoodInFlowRateSensor(child);
+			else if (childName.equals("FoodOutFlowRateSensor"))
+				fetchFoodOutFlowRateSensor(child);
+			else if (childName.equals("FoodStoreLevelSensor"))
+				fetchFoodStoreLevelSensor(child);
+			else if (childName.equals("HarvestSensor"))
+				fetchHarvestSensor(child);
+			child = child.getNextSibling();
+		}
+	}
+
+	//Framework
+	private void fetchStoreLevelSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchStoreOverflowSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void crawlFrameworkSensors(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("StoreLevelSensor"))
+				fetchStoreLevelSensor(child);
+			else if (childName.equals("StoreOverflowSensor"))
+				fetchStoreOverflowSensor(child);
+			child = child.getNextSibling();
+		}
+	}
+
+	//Power
+	private void fetchPowerInFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchPowerOutFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchPowerStoreLevelSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void crawlPowerSensors(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("PowerInFlowRateSensor"))
+				fetchPowerInFlowRateSensor(child);
+			else if (childName.equals("PowerOutFlowRateSensor"))
+				fetchPowerOutFlowRateSensor(child);
+			else if (childName.equals("PowerStoreLevelSensor"))
+				fetchPowerStoreLevelSensor(child);
+			child = child.getNextSibling();
+		}
+	}
+
+	//Water
+	private void fetchPotableWaterInFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchPotableWaterOutFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchPotableWaterStoreLevelSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchGreyWaterInFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchGreyWaterOutFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchGreyWaterStoreLevelSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchDirtyWaterInFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchDirtyWaterOutFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchDirtyWaterStoreLevelSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void crawlWaterSensors(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("PotableWaterInFlowRateSensor"))
+				fetchPotableWaterInFlowRateSensor(child);
+			else if (childName.equals("PotableWaterOutFlowRateSensor"))
+				fetchPotableWaterOutFlowRateSensor(child);
+			else if (childName.equals("PotableWaterStoreLevelSensor"))
+				fetchPotableWaterStoreLevelSensor(child);
+			else if (childName.equals("GreyWaterInFlowRateSensor"))
+				fetchGreyWaterInFlowRateSensor(child);
+			else if (childName.equals("GreyWaterOutFlowRateSensor"))
+				fetchGreyWaterOutFlowRateSensor(child);
+			else if (childName.equals("GreyWaterStoreLevelSensor"))
+				fetchGreyWaterStoreLevelSensor(child);
+			else if (childName.equals("DirtyWaterInFlowRateSensor"))
+				fetchDirtyWaterInFlowRateSensor(child);
+			else if (childName.equals("DirtyWaterOutFlowRateSensor"))
+				fetchDirtyWaterOutFlowRateSensor(child);
+			else if (childName.equals("DirtyWaterStoreLevelSensor"))
+				fetchDirtyWaterStoreLevelSensor(child);
+			child = child.getNextSibling();
+		}
+	}
+
+	//Waste
+	private void fetchDryWasteInFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchDryWasteOutFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchDryWasteStoreLevelSensor(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void crawlWasteSensors(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("DryWasteInFlowRateSensor"))
+				fetchDryWasteInFlowRateSensor(child);
+			else if (childName.equals("DryWasteOutFlowRateSensor"))
+				fetchDryWasteOutFlowRateSensor(child);
+			else if (childName.equals("DryWasteStoreLevelSensor"))
+				fetchDryWasteStoreLevelSensor(child);
+			child = child.getNextSibling();
+		}
+	}
+
+	//Actuators
+
+	//Air
+	private void fetchCO2InFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchCO2OutFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchO2InFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchO2OutFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchH2InFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchH2OutFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void crawlAirActuators(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("CO2InFlowRateActuator"))
+				fetchCO2InFlowRateActuator(child);
+			else if (childName.equals("CO2OutFlowRateActuator"))
+				fetchCO2OutFlowRateActuator(child);
+			else if (childName.equals("O2InFlowRateActuator"))
+				fetchO2InFlowRateActuator(child);
+			else if (childName.equals("O2OutFlowRateActuator"))
+				fetchO2OutFlowRateActuator(child);
+			else if (childName.equals("H2InFlowRateActuator"))
+				fetchH2InFlowRateActuator(child);
+			else if (childName.equals("H2OutFlowRateActuator"))
+				fetchH2OutFlowRateActuator(child);
+			child = child.getNextSibling();
+		}
+	}
+
+	private void crawlCrewActuators(Node node){
+		//None implemented Yet
+	}
+
+	//Environment
+	private void fetchAirInFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchAirOutFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchCO2AirEnvironmentInFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchCO2AirEnvironmentOutFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchCO2AirStoreInFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchCO2AirStoreOutFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchO2AirEnvironmentInFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchO2AirEnvironmentOutFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchO2AirStoreInFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchO2AirStoreOutFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchWaterAirEnvironmentInFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchWaterAirEnvironmentOutFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchWaterAirStoreInFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchWaterAirStoreOutFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchNitrogenAirEnvironmentInFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchNitrogenAirEnvironmentOutFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchNitrogenAirStoreInFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchNitrogenAirStoreOutFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void crawlEnvironmentActuators(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("AirInFlowRateActuator"))
+				fetchAirInFlowRateActuator(child);
+			else if (childName.equals("AirOutFlowRateActuator"))
+				fetchAirOutFlowRateActuator(child);
+			else if (childName.equals("CO2AirEnvironmentInFlowRateActuator"))
+				fetchCO2AirEnvironmentInFlowRateActuator(child);
+			else if (childName.equals("CO2AirEnvironmentOutFlowRateActuator"))
+				fetchCO2AirEnvironmentOutFlowRateActuator(child);
+			else if (childName.equals("CO2AirStoreInFlowRateActuator"))
+				fetchCO2AirStoreInFlowRateActuator(child);
+			else if (childName.equals("CO2AirStoreOutFlowRateActuator"))
+				fetchCO2AirStoreOutFlowRateActuator(child);
+			else if (childName.equals("O2AirEnvironmentInFlowRateActuator"))
+				fetchO2AirEnvironmentInFlowRateActuator(child);
+			else if (childName.equals("O2AirEnvironmentOutFlowRateActuator"))
+				fetchO2AirEnvironmentOutFlowRateActuator(child);
+			else if (childName.equals("O2AirStoreInFlowRateActuator"))
+				fetchO2AirStoreInFlowRateActuator(child);
+			else if (childName.equals("O2AirStoreOutFlowRateActuator"))
+				fetchO2AirStoreOutFlowRateActuator(child);
+			else if (childName.equals("WaterAirEnvironmentInFlowRateActuator"))
+				fetchWaterAirEnvironmentInFlowRateActuator(child);
+			else if (childName.equals("WaterAirEnvironmentOutFlowRateActuator"))
+				fetchWaterAirEnvironmentOutFlowRateActuator(child);
+			else if (childName.equals("WaterAirStoreInFlowRateActuator"))
+				fetchWaterAirStoreInFlowRateActuator(child);
+			else if (childName.equals("WaterAirStoreOutFlowRateActuator"))
+				fetchWaterAirStoreOutFlowRateActuator(child);
+			else if (childName.equals("NitrogenAirEnvironmentInFlowRateActuator"))
+				fetchNitrogenAirEnvironmentInFlowRateActuator(child);
+			else if (childName.equals("NitrogenAirEnvironmentOutFlowRateActuator"))
+				fetchNitrogenAirEnvironmentOutFlowRateActuator(child);
+			else if (childName.equals("NitrogenAirStoreInFlowRateActuator"))
+				fetchNitrogenAirStoreInFlowRateActuator(child);
+			else if (childName.equals("NitrogenAirStoreOutFlowRateActuator"))
+				fetchNitrogenAirStoreOutFlowRateActuator(child);
+			child = child.getNextSibling();
+		}
+	}
+
+	//Food
+	private void fetchBiomassInFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchBiomassOutFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchFoodInFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchFoodOutFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchHarvestingActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchPlantingActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void crawlFoodActuators(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("BiomassInFlowRateActuator"))
+				fetchBiomassInFlowRateActuator(child);
+			else if (childName.equals("BiomassOutFlowRateActuator"))
+				fetchBiomassOutFlowRateActuator(child);
+			else if (childName.equals("FoodInFlowRateActuator"))
+				fetchFoodInFlowRateActuator(child);
+			else if (childName.equals("FoodOutFlowRateActuator"))
+				fetchFoodOutFlowRateActuator(child);
+			else if (childName.equals("HarvestingActuator"))
+				fetchHarvestingActuator(child);
+			else if (childName.equals("PlantingActuator"))
+				fetchPlantingActuator(child);
+			child = child.getNextSibling();
+		}
+	}
+
+	//Power
+	private void fetchPowerInFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchPowerOutFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void crawlPowerActuators(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("PowerInFlowRateActuator"))
+				fetchPowerInFlowRateActuator(child);
+			else if (childName.equals("PowerOutFlowRateActuator"))
+				fetchPowerOutFlowRateActuator(child);
+			child = child.getNextSibling();
+		}
+	}
+
+	//Water
+	private void fetchPotableWaterInFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchPotableWaterOutFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+
+	private void fetchGreyWaterInFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+
+	private void fetchGreyWaterOutFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchDirtyWaterInFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchDirtyWaterOutFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void crawlWaterActuators(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("PotableWaterInFlowRateActuator"))
+				fetchPotableWaterInFlowRateActuator(child);
+			else if (childName.equals("PotableWaterOutFlowRateActuator"))
+				fetchPotableWaterOutFlowRateActuator(child);
+			else if (childName.equals("GreyWaterInFlowRateActuator"))
+				fetchGreyWaterInFlowRateActuator(child);
+			else if (childName.equals("GreyWaterOutFlowRateActuator"))
+				fetchGreyWaterOutFlowRateActuator(child);
+			else if (childName.equals("DirtyWaterInFlowRateActuator"))
+				fetchDirtyWaterInFlowRateActuator(child);
+			else if (childName.equals("DirtyWaterOutFlowRateActuator"))
+				fetchDirtyWaterOutFlowRateActuator(child);
+			child = child.getNextSibling();
+		}
+	}
+
+	//Waste
+	private void fetchDryWasteInFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void fetchDryWasteOutFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+	}
+
+	private void crawlWasteActuators(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("DryWasteInFlowRateActuator"))
+				fetchDryWasteInFlowRateActuator(child);
+			else if (childName.equals("DryWasteOutFlowRateActuator"))
+				fetchDryWasteOutFlowRateActuator(child);
+			child = child.getNextSibling();
+		}
+	}
+
+	private void crawlActuators(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("air")){
+				crawlAirActuators(child);
+			}
+			else if (childName.equals("crew")){
+				crawlCrewActuators(child);
+
+			}
+			else if (childName.equals("environment")){
+				crawlEnvironmentActuators(child);
+
+			}
+			else if (childName.equals("food")){
+				crawlFoodActuators(child);
+
+			}
+			else if (childName.equals("power")){
+				crawlPowerActuators(child);
+
+			}
+			else if (childName.equals("water")){
+				crawlWaterActuators(child);
+
+			}
+			else if (childName.equals("waste")){
+				crawlWasteActuators(child);
+
+			}
+			child = child.getNextSibling();
 		}
 	}
 }
-
-
-

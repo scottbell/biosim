@@ -89,8 +89,9 @@ simStubDir="$stubDir/$simString"
 clientDir="$devRootDir/src/biosim/client"
 sourceDir="$devRootDir/src"
 plotClasspath="$devRootDir/lib/jfreechart/jcommon.jar$separator$devRootDir/lib/jfreechart/jfreechart.jar"
+xmlClasspath="$devRootDir/lib/xerces/xercesImpl.jar$separator$devRootDir/lib/xerces/xml-apis.jar$separator$devRootDir/lib/xerces/xmlParserAPIs.jar"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JRE_libs$separator$JACORB_HOME"
-compilationInvocation="$javac_command -d $clientClassesDir -classpath $plotClasspath$separator$stubDir$separator$clientClassesDir$separator$sourceDir$separator$jacoClasspath"
+compilationInvocation="$javac_command -d $clientClassesDir -classpath $plotClasspath$separator$stubDir$separator$clientClassesDir$separator$sourceDir$separator$jacoClasspath$separator$xmlClasspath"
 if [ "$userSelect" == "all" ]; then
 	echo "		-compiling stubs"
 	$compilationInvocation $simStubDir/idl/*.java
