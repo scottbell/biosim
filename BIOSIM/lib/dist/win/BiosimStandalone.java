@@ -18,7 +18,7 @@ public class BiosimStandalone
 	private Thread myClientThread;
 	private Thread waitThread;
 	private ReadyListener myReadyListener;
-	private static final String XML_INIT_FILENAME="biosim/server/framework/DefaultInitialization.xml";
+	private static final String XML_INIT_FILENAME="biosim/server/framework/DefaultInit.xml";
 	private static final int NAMESERVER_PORT = 16309;
 	private static final int SERVER_OA_PORT = 16310;
 	private static final int CLIENT_OA_PORT = 16311;
