@@ -29,6 +29,18 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 		myAES = new AES(this);
 		myPPS = new PPS(this);
 	}
+	
+	public void reset(){
+		currentPotableWaterProduced = 0f;
+		currentGreyWaterProduced = 0f;
+		currentPowerConsumed = 0f;
+		currentDirtyWaterConsumed = 0f;
+		currentGreyWaterConsumed = 0f;
+		myBWP.reset();
+		myRO.reset();
+		myAES.reset();
+		myPPS.reset();
+	}
 
 	public float getPotableWaterProduced(){
 		return currentPotableWaterProduced;

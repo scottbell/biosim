@@ -14,17 +14,39 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	private float currentBiomassProduced = 0f;
 	private float currentCO2Consumed= 0f;
 	private float currentO2Produced = 0f;
+	private float waterNeeded = 0.10f;
+	private float powerNeeded = 100;
+	private int noPowerTime = 0;
+	private int noWaterTime = 0;
+	private int noCO2Time = 0;
+	private int tooMuchO2Time = 0;
 	private boolean hasCollectedReferences = false;
 	private boolean systemHasEnoughPower = false;
 	private boolean plantsHaveEnoughWater = false;
 	private boolean plantsHaveEnoughCO2 = false;
+	private boolean O2Poisoned = false;
+	private boolean plantsDead = false;
 	private SimEnvironment myEnvironment;
 	private GreyWaterStore myGreyWaterStore;
 	private PowerStore myPowerStore;
 	private BiomassStore myBiomassStore;
-	private String status = "off";
-	private boolean plantsDead = false;
-	private boolean O2Poisoned = false;
+
+	public void reset(){
+		currentPowerConsumed = 0f;
+		currentGreyWaterConsumed = 0f;
+		currentBiomassProduced = 0f;
+		currentCO2Consumed= 0f;
+		currentO2Produced = 0f;
+		noPowerTime = 0;
+		noWaterTime = 0;
+		noCO2Time = 0;
+		tooMuchO2Time = 0;
+		systemHasEnoughPower = false;
+		plantsHaveEnoughWater = false;
+		plantsHaveEnoughCO2 = false;
+		O2Poisoned = false;
+		plantsDead = false;
+	}
 
 	public float getPowerConsumed(){
 		return currentPowerConsumed;
@@ -33,7 +55,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	public float getCO2Consumed(){
 		return currentCO2Consumed;
 	}
-	
+
 	public float getO2Produced(){
 		return currentO2Produced;
 	}
@@ -44,10 +66,6 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 
 	public float getBiomassProduced(){
 		return currentBiomassProduced;
-	}
-
-	public String getStatus(){
-		return status;
 	}
 
 	private void collectReferences(){
@@ -66,36 +84,38 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	}
 
 	private void gatherPower(){
-		float powerNeeded = 100;
 		currentPowerConsumed = myPowerStore.take(powerNeeded);
 		if (currentPowerConsumed < powerNeeded){
 			systemHasEnoughPower = false;
+			noPowerTime++;
 		}
-		else
+		else{
 			systemHasEnoughPower = true;
-
+			noPowerTime = 0;
+		}
 	}
 
 	private void gatherWater(){
-		float waterNeeded = 2;
 		currentGreyWaterConsumed = myGreyWaterStore.take(waterNeeded);
 		if (currentGreyWaterConsumed < waterNeeded){
 			plantsHaveEnoughWater = false;
+			noWaterTime++;
 		}
 		else
 			plantsHaveEnoughWater = true;
+		noWaterTime = 0;
 	}
 
 	private float getO2Ratio(Breath aBreath){
 		Double ratio = new Double(aBreath.O2 / (aBreath.O2 + aBreath.CO2 + aBreath.other));
 		return ratio.floatValue();
 	}
-	
+
 	private float calculateCO2Needed(){
-		Double result = new Double(.02);
+		Double result = new Double(40.5);
 		return result.floatValue();
 	}
-	
+
 	private float calculateO2Produced(float CO2Consumed){
 		Double result = new Double(CO2Consumed * 0.86);
 		return result.floatValue();
@@ -105,15 +125,21 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 		float CO2Needed = calculateCO2Needed();
 		Breath airRetrieved = myEnvironment.takeCO2Breath(CO2Needed);
 		currentCO2Consumed = airRetrieved.CO2;
-		if (currentCO2Consumed < CO2Needed)
+		if (currentCO2Consumed < CO2Needed){
 			plantsHaveEnoughCO2 = false;
-		else
+			noCO2Time++;
+		}
+		else{
 			plantsHaveEnoughCO2 = true;
+			noCO2Time = 0;
+		}
 		if (getO2Ratio(airRetrieved) < .10){
 			O2Poisoned = false;
+			tooMuchO2Time++;
 		}
 		else{
 			O2Poisoned = true;
+			tooMuchO2Time = 0;
 		}
 		currentO2Produced = calculateO2Produced(currentCO2Consumed);
 		myEnvironment.addO2(currentO2Produced);
@@ -135,7 +161,11 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	public boolean hasPower(){
 		return systemHasEnoughPower;
 	}
-	
+
+	public boolean isO2Poisoned(){
+		return O2Poisoned;
+	}
+
 	private void createBiomass(){
 		if (plantsHaveEnoughCO2 && plantsHaveEnoughWater && systemHasEnoughPower){
 			currentBiomassProduced = 0.2f;
@@ -152,14 +182,32 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 		gatherAir();
 	}
 
+	private void deathCheck(){
+		if (noPowerTime > 220)
+			plantsDead = true;
+		if (noWaterTime > 180)
+			plantsDead = true;
+		if (noCO2Time > 4)
+			plantsDead = true;
+		if (tooMuchO2Time > 8)
+			plantsDead = true;
+		if (plantsDead){
+			currentPowerConsumed = 0f;
+			currentGreyWaterConsumed = 0f;
+			currentBiomassProduced = 0f;
+			currentCO2Consumed= 0f;
+			currentO2Produced = 0f;
+		}
+	}
+
 	public void tick(){
 		if (plantsDead)
 			return;
 		else{
-			//collect references
 			collectReferences();
 			consumeResources();
 			createBiomass();
+			deathCheck();
 		}
 	}
 

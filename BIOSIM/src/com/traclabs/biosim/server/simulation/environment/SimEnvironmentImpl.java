@@ -9,17 +9,15 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	private float CO2Level;
 	private float otherLevel;
 	private float capacity;
-
-	private int ticks	= 0;
+	private int ticks;
 
 	public SimEnvironmentImpl(){
-		capacity = 1000f;
-		resetLevels();
+		reset();
 	}
 
 	public SimEnvironmentImpl(float initialCapacity){
 		capacity = initialCapacity;
-		resetLevels();
+		reset();
 	}
 
 	public SimEnvironmentImpl (float initialCO2Level, float initialO2Level, float initialOtherLevel, float initialCapacity){
@@ -29,14 +27,19 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 		capacity = initialCapacity;
 	}
 
-	public void resetLevels(){
-		O2Level = (new Double(capacity * 0.21)).floatValue();
-		otherLevel = (new Double(capacity * 0.786)).floatValue();
-		CO2Level = (new Double(capacity * 0.004)).floatValue();
+	public void reset(){
+		ticks = 0;
+		resetLevels();
 	}
 
 	public int getTicks(){
 		return ticks;
+	}
+
+	private void resetLevels(){
+		O2Level = (new Double(capacity * 0.21)).floatValue();
+		otherLevel = (new Double(capacity * 0.786)).floatValue();
+		CO2Level = (new Double(capacity * 0.004)).floatValue();
 	}
 
 	public void setCO2Level(float litersRequested){
@@ -53,6 +56,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 
 	public void setCapacity(float litersRequested){
 		capacity = litersRequested;
+		resetLevels();
 	}
 
 	public float getTotalLevel(){
@@ -174,7 +178,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 			return new Breath(takenO2, takenCO2, takenOther);
 		}
 	}
-	
+
 	public void resetTicks(){
 		ticks = 0;
 	}

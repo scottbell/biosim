@@ -61,6 +61,9 @@ public class BioSimulator implements Runnable
 	}
 
 	private void initializeSimulation(){
+		//reset servers
+		reset();
+		
 		//Make some crew members
 		CrewGroup myCrew = (CrewGroup)(getBioModule(crewName));
 		CrewPerson myCrewPerson1 = myCrew.createCrewPerson("Bob Roberts", 43, 170, Sex.male);
@@ -69,14 +72,10 @@ public class BioSimulator implements Runnable
 		CrewPerson myCrewPerson4 = myCrew.createCrewPerson("Janet Janey", 22, 130, Sex.female);
 		
 		//stagger actvities
-		System.out.println(myCrew.getScheduledActivityByOrder(0).getName());
-		System.out.println(myCrew.getScheduledActivityByOrder(2).getName());
-		System.out.println(myCrew.getScheduledActivityByOrder(4).getName());
-		System.out.println(myCrew.getScheduledActivityByOrder(6).getName());
 		myCrewPerson1.setCurrentActivity(myCrew.getScheduledActivityByOrder(0));
-		myCrewPerson2.setCurrentActivity(myCrew.getScheduledActivityByOrder(2));
-		myCrewPerson3.setCurrentActivity(myCrew.getScheduledActivityByOrder(4));
-		myCrewPerson4.setCurrentActivity(myCrew.getScheduledActivityByOrder(6));
+		myCrewPerson2.setCurrentActivity(myCrew.getScheduledActivityByOrder(1));
+		myCrewPerson3.setCurrentActivity(myCrew.getScheduledActivityByOrder(2));
+		myCrewPerson4.setCurrentActivity(myCrew.getScheduledActivityByOrder(3));
 
 		//Fill the clean water stores to the brim (20 liters), and all stores' capacities
 		DirtyWaterStore myDirtyWaterStore = (DirtyWaterStore)(getBioModule(dirtyWaterStoreName));
@@ -101,7 +100,6 @@ public class BioSimulator implements Runnable
 		SimEnvironment mySimEnvironment = (SimEnvironment)(getBioModule(simEnvironmentName));
 		Double environmentCapacity = new Double(1.54893 * Math.pow(10, 6));
 		mySimEnvironment.setCapacity(environmentCapacity.floatValue());
-		mySimEnvironment.resetLevels();
 
 		//Add some crops and food
 		BiomassStore myBiomassStore = (BiomassStore)(getBioModule(biomassStoreName));
@@ -118,8 +116,8 @@ public class BioSimulator implements Runnable
 	}
 
 	private void runSimulation(){
-		SimEnvironment mySimEnvironment =(SimEnvironment)(getBioModule(simEnvironmentName));
-		mySimEnvironment.resetTicks();
+		if (!simulationStarted)
+			reset();
 		for (int i = 0; true; i ++){
 			Thread theCurrentThread = Thread.currentThread();
 			while (myThread == theCurrentThread) {
@@ -290,6 +288,14 @@ public class BioSimulator implements Runnable
 		for (Enumeration e = listeners.elements(); e.hasMoreElements();){
 			BioSimulatorListener currentListener = (BioSimulatorListener)(e.nextElement());
 			currentListener.processTick();
+		}
+	}
+	
+	private void reset(){
+		System.out.println("Resetting simulation");
+		for (Enumeration e = modules.elements(); e.hasMoreElements();){
+			BioModule currentBioModule = (BioModule)(e.nextElement());
+			currentBioModule.reset();
 		}
 	}
 

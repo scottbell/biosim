@@ -5,6 +5,7 @@ module biosim{
                         interface BioModule{
                                 void tick();
                                 string getModuleName();
+				void reset();
                         };
 			
 			interface Store : BioModule{
@@ -94,6 +95,7 @@ module biosim{
 				boolean hasCO2();
 				boolean hasWater();
 				boolean hasPower();
+				boolean isO2Poisoned();
                         };
                         interface BiomassStore : framework::Store{
                         };
@@ -122,8 +124,6 @@ module biosim{
                                 air::Breath takeO2Breath(in float liters);
                                 air::Breath takeCO2Breath(in float liters);
                                 long getTicks();
-                                void resetTicks();
-                                void resetLevels();
                                 void setTotalLevel(in float liters);
                         };
                 };

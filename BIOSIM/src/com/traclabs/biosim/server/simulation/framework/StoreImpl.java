@@ -61,5 +61,9 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 	public float getLevel(){
 		return level;
 	}
+	
+	public void reset(){
+		level = 0.0f;
+	}
 
 }

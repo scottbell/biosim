@@ -23,6 +23,12 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 	public void tick(){
 	}
 	
+	public void reset(){
+		currentO2Produced = 0.0f;
+		currentCO2Consumed = 0.0f;
+		currentPowerConsumed = 0.0f;
+	}
+	
 	public String getModuleName(){
 		return "AirRS";
 	}

@@ -8,33 +8,18 @@ public class Schedule{
 
 	private Hashtable scheduleNameHash;
 	private Hashtable scheduleOrderHash;
-
+	File myScheduleFile;
+	private boolean defaultSchedule = false;
 	int numberOfActivities = 0;
 
 	public Schedule(){
-		scheduleNameHash = new Hashtable();
-		scheduleOrderHash = new Hashtable();
-		//use default schedule
-		System.out.println("Using default schedule...");
-		URL defaultURL = ClassLoader.getSystemClassLoader().getResource("biosim/server/crew/defaultSchedule.txt");
-		if (defaultURL == null){
-			System.out.println("Had problems finding default Schedule!");
-			return;
-		}
-		try{
-			File myScheduleFile = new File(new URI(defaultURL.toString()));
-			parseSchedule(myScheduleFile);
-		}
-		catch(java.net.URISyntaxException e){
-			System.out.println("Problem finding default Schedule: "+e);
-		}
+		defaultSchedule = true;
+		reset();
 	}
 
 	public Schedule(File pScheduleFile){
-		scheduleNameHash = new Hashtable();
-		scheduleOrderHash = new Hashtable();
-		File myScheduleFile = pScheduleFile;
-		parseSchedule(myScheduleFile);
+		myScheduleFile = pScheduleFile;
+		reset();
 	}
 
 	public ActivityImpl getActivityByName(String activityName){
@@ -56,6 +41,30 @@ public class Schedule{
 
 	public int getNumberOfActivities(){
 		return numberOfActivities;
+	}
+
+	public void reset(){
+		scheduleNameHash = new Hashtable();
+		scheduleOrderHash = new Hashtable();
+		if (defaultSchedule){
+			//use default schedule
+			defaultSchedule = true;
+			URL defaultURL = ClassLoader.getSystemClassLoader().getResource("biosim/server/crew/defaultSchedule.txt");
+			if (defaultURL == null){
+				System.out.println("Had problems finding default Schedule!");
+				return;
+			}
+			try{
+				myScheduleFile = new File(new URI(defaultURL.toString()));
+				parseSchedule(myScheduleFile);
+			}
+			catch(java.net.URISyntaxException e){
+				System.out.println("Problem finding default Schedule: "+e);
+			}
+		}
+		else{
+			parseSchedule(myScheduleFile);
+		}
 	}
 
 
