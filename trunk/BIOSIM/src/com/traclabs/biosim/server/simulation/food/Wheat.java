@@ -57,14 +57,14 @@ public class Wheat extends Plant{
 	}
 
 	protected float calculateProducedBiomass(){
-		float theBiomassProduced = 0f;;
+		float theBiomassProduced = 0f;
 		if (myAge >= HARVEST_TIME){
 			//Harvest time
-			biomassProduced = myBiomassImpl.randomFilter(EDIBLE_KILOGRAMS * myAge * totalArea);
+			theBiomassProduced = myBiomassImpl.randomFilter(EDIBLE_KILOGRAMS * myAge * totalArea);
 			myAge =0;
 		}
 		else
-			biomassProduced =  myBiomassImpl.randomFilter(0f);
+			theBiomassProduced =  myBiomassImpl.randomFilter(0f);
 		return theBiomassProduced;
 	}
 
