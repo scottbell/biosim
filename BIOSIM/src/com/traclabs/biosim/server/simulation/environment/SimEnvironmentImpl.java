@@ -617,6 +617,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	}
 
 	public float takeO2Moles(float amountRequested){
+		System.out.println("Someone asking for: "+amountRequested+" moles of O2");
 		//idiot check
 		if (amountRequested < 0){
 			return 0f;
@@ -705,6 +706,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	}
 
 	public Breath takeAirMoles(float molesRequested){
+		System.out.println("Someone asking for: "+molesRequested+" moles of air, level="+O2Moles);
 		//idiot check
 		if (molesRequested <= 0){
 			return new Breath(0f, 0f, 0f, 0f, 0f);
@@ -720,6 +722,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 			return new Breath(afterRemovalO2, afterRemovalCO2, afterRemovalWater, afterRemovalOther, afterRemovalNitrogen);
 		}
 		//gas exists for request
+		//MESSED UP!
 		else{
 			float afterRemovalCO2 = randomFilter(CO2Moles - ((CO2Moles / getTotalMoles()) * molesRequested));
 			float afterRemovalO2 = randomFilter(O2Moles - ((O2Moles / getTotalMoles()) * molesRequested));
@@ -736,6 +739,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 			otherMoles = afterRemovalOther;
 			waterMoles = afterRemovalWater;
 			nitrogenMoles = afterRemovalNitrogen;
+			System.out.println("after level="+O2Moles);
 			return new Breath(O2MolesTaken, CO2MolesTaken, waterMolesTaken, otherMolesTaken, nitrogenMolesTaken);
 		}
 	}
