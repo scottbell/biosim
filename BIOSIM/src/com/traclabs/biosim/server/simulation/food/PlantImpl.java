@@ -60,6 +60,7 @@ public abstract class PlantImpl extends PlantPOA{
 	protected abstract float getFractionOfEdibleBiomass();
 	protected abstract float getEdibleFreshBasisWaterContent();
 	protected abstract float getInedibleFreshBasisWaterContent();
+	protected abstract float getTimeAtOrganFormation();
 	public abstract float getPPFNeeded();
 	public abstract PlantType getPlantType();
 

@@ -43,6 +43,10 @@ public class Peanut extends Legume{
 		return 0.50f;
 	}
 	
+	protected float getTimeAtOrganFormation(){
+		return 49f;
+	}
+	
 	protected float getCUEMax(){
 		return 0.65f;
 	}
@@ -81,7 +85,7 @@ public class Peanut extends Legume{
 
 	public float getFractionOfEdibleBiomass(){
 		if (myAge > getTimeAtCanopySenescence())
-			return 1f;
+			return 0.49f;
 		else
 			return 0f;
 	}

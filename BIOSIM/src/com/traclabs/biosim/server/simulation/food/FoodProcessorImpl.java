@@ -183,6 +183,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	}
 	
 	private FoodMatter transformBioMatter(BioMatter inMatter){
+		
 		return new FoodMatter(inMatter.mass, inMatter.type);
 	}
 	

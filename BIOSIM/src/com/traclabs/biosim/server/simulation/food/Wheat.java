@@ -45,6 +45,10 @@ public class Wheat extends Erectophile{
 	protected float getPhotoperiod(){
 		return 20f;
 	}
+	
+	protected float getTimeAtOrganFormation(){
+		return 34f;
+	}
 
 	protected float getN(){
 		return 1.0f;
@@ -72,7 +76,7 @@ public class Wheat extends Erectophile{
 
 	public float getFractionOfEdibleBiomass(){
 		if (myAge > getTimeAtCanopySenescence())
-			return 1f;
+			return 1.00f;
 		else
 			return 0f;
 	}

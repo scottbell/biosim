@@ -61,7 +61,11 @@ public class DryBean extends Legume{
 	protected float getTimeAtCanopySenescence(){
 		return 42f;
 	}
-
+	
+	protected float getTimeAtOrganFormation(){
+		return 40f;
+	}
+	
 	protected float getTimeAtCropMaturity(){
 		return 63f;
 	}
@@ -75,8 +79,8 @@ public class DryBean extends Legume{
 	}
 
 	public float getFractionOfEdibleBiomass(){
-		if (myAge > getTimeAtCanopySenescence())
-			return 1f;
+		if (myAge > getTimeAtOrganFormation())
+			return 0.97f;
 		else
 			return 0f;
 	}

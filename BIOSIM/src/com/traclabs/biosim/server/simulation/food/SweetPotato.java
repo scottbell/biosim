@@ -42,6 +42,10 @@ public class SweetPotato extends Planophile{
 		return 0.44f;
 	}
 	
+	protected float getTimeAtOrganFormation(){
+		return 33f;
+	}
+	
 	protected float getCUEMax(){
 		return 0.625f;
 	}
@@ -80,7 +84,7 @@ public class SweetPotato extends Planophile{
 
 	public float getFractionOfEdibleBiomass(){
 		if (myAge > getTimeAtCanopySenescence())
-			return 1f;
+			return 1.00f;
 		else
 			return 0f;
 	}
