@@ -147,6 +147,8 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 	}
 	
 	public boolean isDead(){
+		if (crewPeople.size() < 1)
+			return false;
 		boolean areTheyDead = true;
 		for (Enumeration e = crewPeople.elements(); e.hasMoreElements(); ){
 				CrewPersonImpl currentPerson = (CrewPersonImpl)(e.nextElement());
