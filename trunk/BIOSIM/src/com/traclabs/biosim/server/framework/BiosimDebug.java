@@ -57,7 +57,8 @@ public class BiosimDebug {
         try {
             myLogger.info("Sleeping until nameserver comes online...");
             Thread.sleep(5000);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         Environment.setProperty("OAPort", Integer.toString(SERVER_OA_PORT));
         Environment.setProperty("ORBInitRef.NameService",
                 "corbaloc::localhost:" + NAMESERVER_PORT + "/NameService");

@@ -16,8 +16,8 @@ public class CO2AirStoreInFlowRateSensorImpl extends GenericSensorImpl
     }
 
     protected void gatherData() {
-        float preFilteredValue = getInput().getCO2AirConsumerDefinition().getStoreActualFlowRate(
-                myIndex);
+        float preFilteredValue = getInput().getCO2AirConsumerDefinition()
+                .getStoreActualFlowRate(myIndex);
         myValue = randomFilter(preFilteredValue);
     }
 
@@ -31,7 +31,8 @@ public class CO2AirStoreInFlowRateSensorImpl extends GenericSensorImpl
     }
 
     public float getMax() {
-        return myConsumer.getCO2AirConsumerDefinition().getStoreMaxFlowRate(myIndex);
+        return myConsumer.getCO2AirConsumerDefinition().getStoreMaxFlowRate(
+                myIndex);
     }
 
     public CO2AirConsumer getInput() {

@@ -30,13 +30,14 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements
     //Flag switched when the Power PS has collected references to other servers
     // it need
     private boolean hasCollectedReferences = false;
-    
+
     private float currentUpperPowerGeneration = 500f;
-    
+
     private float initialUpperPowerGeneration = 500f;
 
     //Consumers, Producers
     private PowerProducerDefinitionImpl myPowerProducerDefinitionImpl;
+
     private LightConsumerDefinitionImpl myLightConsumerDefinitionImpl;
 
     public PowerPSImpl(int pID, String pName) {
@@ -44,11 +45,11 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements
         myPowerProducerDefinitionImpl = new PowerProducerDefinitionImpl();
         myLightConsumerDefinitionImpl = new LightConsumerDefinitionImpl();
     }
-    
+
     public PowerProducerDefinition getPowerProducerDefinition() {
         return myPowerProducerDefinitionImpl.getCorbaObject();
     }
-    
+
     public LightConsumerDefinition getLightConsumerDefinition() {
         return myLightConsumerDefinitionImpl.getCorbaObject();
     }
@@ -61,7 +62,8 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements
     public void tick() {
         currentPowerProduced = calculatePowerProduced();
         super.tick();
-        float distributedPowerLeft = myPowerProducerDefinitionImpl.pushResourceToStore(currentPowerProduced);
+        float distributedPowerLeft = myPowerProducerDefinitionImpl
+                .pushResourceToStore(currentPowerProduced);
     }
 
     protected String getMalfunctionName(MalfunctionIntensity pIntensity,
@@ -127,7 +129,7 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements
     public void log() {
         myLogger.debug("power_produced=" + currentPowerProduced);
     }
-    
+
     /**
      * @return Returns the currentUpperPowerGeneration.
      */
@@ -139,19 +141,24 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements
      * @param currentUpperPowerGeneration
      *            The currentUpperPowerGeneration to set.
      */
-    public void setCurrentUpperPowerGeneration(float pCurrentUpperPowerGeneration) {
+    public void setCurrentUpperPowerGeneration(
+            float pCurrentUpperPowerGeneration) {
         currentUpperPowerGeneration = pCurrentUpperPowerGeneration;
     }
+
     /**
      * @return Returns the initialUpperPowerGeneration.
      */
     public float getInitialUpperPowerGeneration() {
         return initialUpperPowerGeneration;
     }
+
     /**
-     * @param initialUpperPowerGeneration The initialUpperPowerGeneration to set.
+     * @param initialUpperPowerGeneration
+     *            The initialUpperPowerGeneration to set.
      */
-    public void setInitialUpperPowerGeneration(float pInitialUpperPowerGeneration) {
+    public void setInitialUpperPowerGeneration(
+            float pInitialUpperPowerGeneration) {
         setCurrentUpperPowerGeneration(pInitialUpperPowerGeneration);
         initialUpperPowerGeneration = pInitialUpperPowerGeneration;
     }

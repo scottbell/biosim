@@ -136,7 +136,7 @@ public abstract class PlantImpl extends PlantPOA {
     private static final float LIGHT_TILL_DEAD = 150f;
 
     private static final float LIGHT_RECOVERY_RATE = 0.005f;
-    
+
     private float myProductionRate = 1f;
 
     public PlantImpl(ShelfImpl pShelfImpl) {
@@ -415,7 +415,8 @@ public abstract class PlantImpl extends PlantPOA {
     }
 
     private float calculateDailyCanopyTranspirationRate() {
-        float airPressure = myShelfImpl.getBiomassRSImpl().getAirProducerDefinition().getEnvironments()[0]
+        float airPressure = myShelfImpl.getBiomassRSImpl()
+                .getAirProducerDefinition().getEnvironments()[0]
                 .getTotalPressure();
         float canopySurfaceConductance = calculateCanopySurfaceConductance();
         float vaporPressureDeficit = calculateVaporPressureDeficit();
@@ -446,7 +447,8 @@ public abstract class PlantImpl extends PlantPOA {
     }
 
     private float calculateSaturatedMoistureVaporPressure() {
-        float temperatureLight = myShelfImpl.getBiomassRSImpl().getAirProducerDefinition().getEnvironments()[0]
+        float temperatureLight = myShelfImpl.getBiomassRSImpl()
+                .getAirProducerDefinition().getEnvironments()[0]
                 .getTemperature();
         float exponent = (17.4f * temperatureLight) / (temperatureLight + 239f);
         myLogger.debug("temperatureLight: " + temperatureLight);
@@ -455,8 +457,8 @@ public abstract class PlantImpl extends PlantPOA {
     }
 
     private float calculateActualMoistureVaporPressure() {
-        return myShelfImpl.getBiomassRSImpl().getAirProducerDefinition().getEnvironments()[0]
-                .getWaterPressure();
+        return myShelfImpl.getBiomassRSImpl().getAirProducerDefinition()
+                .getEnvironments()[0].getWaterPressure();
     }
 
     protected float calculateNetCanopyPhotosynthesis() {
@@ -521,8 +523,10 @@ public abstract class PlantImpl extends PlantPOA {
         float cropGrowthRate = molecularWeightOfCarbon
                 * (dailyCarbonGain / getBCF());
         myLogger.debug("cropGrowthRate: " + cropGrowthRate);
-        myCurrentDryBiomass += (cropGrowthRate / 1000 / 24f * myShelfImpl
-                .getCropAreaUsed() * myProductionRate); //in kilograms per hour
+        myCurrentDryBiomass += (cropGrowthRate / 1000 / 24f
+                * myShelfImpl.getCropAreaUsed() * myProductionRate); //in
+                                                                     // kilograms
+                                                                     // per hour
         myLogger.debug("myCurrentDryBiomass:" + myCurrentDryBiomass);
 
         if (getDaysOfGrowth() > getTimeAtOrganFormation())
@@ -594,7 +598,8 @@ public abstract class PlantImpl extends PlantPOA {
         else
             molesOfCO2ToInhale = dailyCarbonGain
                     * myShelfImpl.getCropAreaUsed() / 24f;
-        float molesOfCO2Inhaled = myShelfImpl.getBiomassRSImpl().getAirProducerDefinition().getEnvironments()[0]
+        float molesOfCO2Inhaled = myShelfImpl.getBiomassRSImpl()
+                .getAirProducerDefinition().getEnvironments()[0]
                 .takeCO2Moles(molesOfCO2ToInhale);
         totalCO2GramsConsumed += molesOfCO2Inhaled * 44f;
         myLogger.debug("totalCO2GramsConsumed:" + totalCO2GramsConsumed);
@@ -617,7 +622,8 @@ public abstract class PlantImpl extends PlantPOA {
         myLogger.debug("totalO2GramsProduced:" + totalO2GramsProduced);
         float O2Produced = dailyO2MolesProduced / 24f; //in mol of oxygen per
         // hour
-        float O2Exhaled = myShelfImpl.getBiomassRSImpl().getAirProducerDefinition().getEnvironments()[0]
+        float O2Exhaled = myShelfImpl.getBiomassRSImpl()
+                .getAirProducerDefinition().getEnvironments()[0]
                 .addO2Moles(O2Produced);
         myShelfImpl.getBiomassRSImpl()
                 .addAirOutputActualFlowRates(0, O2Exhaled);
@@ -639,7 +645,8 @@ public abstract class PlantImpl extends PlantPOA {
         // mole
         float molesOfWaterProduced = waterLitersToMoles(litersOfWaterProduced);
         float molesOfWaterAdded = myShelfImpl.getBiomassRSImpl()
-                .getAirProducerDefinition().getEnvironments()[0].addWaterMoles(molesOfWaterProduced);
+                .getAirProducerDefinition().getEnvironments()[0]
+                .addWaterMoles(molesOfWaterProduced);
         myShelfImpl.getBiomassRSImpl().addAirOutputActualFlowRates(0,
                 molesOfWaterAdded);
         myLogger.debug("litersOfWaterProduced:" + litersOfWaterProduced);
@@ -955,8 +962,10 @@ public abstract class PlantImpl extends PlantPOA {
     protected float getProductionRate() {
         return myProductionRate;
     }
+
     /**
-     * @param myProductionRate The myProductionRate to set.
+     * @param myProductionRate
+     *            The myProductionRate to set.
      */
     protected void setProductionRate(float myProductionRate) {
         this.myProductionRate = myProductionRate;

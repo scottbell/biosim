@@ -17,8 +17,8 @@ public class NitrogenAirStoreInFlowRateActuatorImpl extends GenericActuatorImpl
 
     protected void processData() {
         float myFilteredValue = randomFilter(myValue);
-        getOutput().getNitrogenAirConsumerDefinition().setStoreDesiredFlowRate(myFilteredValue,
-                myIndex);
+        getOutput().getNitrogenAirConsumerDefinition().setStoreDesiredFlowRate(
+                myFilteredValue, myIndex);
     }
 
     protected void notifyListeners() {
@@ -31,7 +31,8 @@ public class NitrogenAirStoreInFlowRateActuatorImpl extends GenericActuatorImpl
     }
 
     public float getMax() {
-        return myConsumer.getNitrogenAirConsumerDefinition().getStoreMaxFlowRate(myIndex);
+        return myConsumer.getNitrogenAirConsumerDefinition()
+                .getStoreMaxFlowRate(myIndex);
     }
 
     public BioModule getOutputModule() {

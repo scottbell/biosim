@@ -141,16 +141,16 @@ public class OrbUtils {
         }
         return true;
     }
-    
+
     public static BioModule getBioModule(int pID, String pModuleName) {
         BioModule module = null;
-        try{
+        try {
             module = BioModuleHelper.narrow(getNamingContext(pID).resolve_str(
-                pModuleName));
-        }
-        catch (Exception e){
+                    pModuleName));
+        } catch (Exception e) {
             Logger.getLogger(OrbUtils.class).info(
-                    "(id="+pID+") Had problems getting module:"+pModuleName+" "+ e);
+                    "(id=" + pID + ") Had problems getting module:"
+                            + pModuleName + " " + e);
         }
         return module;
     }

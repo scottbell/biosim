@@ -29,17 +29,21 @@ import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
  */
 
 public class CRSImpl extends SimBioModuleImpl implements CRSOperations,
-        PowerConsumerOperations, PotableWaterProducerOperations, O2ProducerOperations,
-        CO2ConsumerOperations, H2ConsumerOperations {
+        PowerConsumerOperations, PotableWaterProducerOperations,
+        O2ProducerOperations, CO2ConsumerOperations, H2ConsumerOperations {
     //Consumers, Producers
     private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
+
     private PotableWaterProducerDefinitionImpl myPotableWaterProducerDefinitionImpl;
+
     private O2ProducerDefinitionImpl myO2ProducerDefinitionImpl;
+
     private CO2ConsumerDefinitionImpl myCO2ConsumerDefinitionImpl;
+
     private H2ConsumerDefinitionImpl myH2ConsumerDefinitionImpl;
-    
+
     private float currentPowerConsumed = 0f;
-    
+
     private float currentCO2Consumed;
 
     private float currentH2Consumed;
@@ -47,11 +51,11 @@ public class CRSImpl extends SimBioModuleImpl implements CRSOperations,
     private float currentH2OProduced;
 
     private float currentCH4Produced;
-    
+
     private float CH4Produced = 0f;
 
     private float currentO2Produced;
-    
+
     //multiply times power to determine how much air/H2/water we're consuming
     private static final float LINEAR_MULTIPLICATIVE_FACTOR = 100;
 
@@ -63,30 +67,32 @@ public class CRSImpl extends SimBioModuleImpl implements CRSOperations,
         myCO2ConsumerDefinitionImpl = new CO2ConsumerDefinitionImpl();
         myH2ConsumerDefinitionImpl = new H2ConsumerDefinitionImpl();
     }
-    
-    public PowerConsumerDefinition getPowerConsumerDefinition(){
+
+    public PowerConsumerDefinition getPowerConsumerDefinition() {
         return myPowerConsumerDefinitionImpl.getCorbaObject();
     }
-    
-    public PotableWaterProducerDefinition getPotableWaterProducerDefinition(){
+
+    public PotableWaterProducerDefinition getPotableWaterProducerDefinition() {
         return myPotableWaterProducerDefinitionImpl.getCorbaObject();
     }
-    
-    public CO2ConsumerDefinition getCO2ConsumerDefinition(){
+
+    public CO2ConsumerDefinition getCO2ConsumerDefinition() {
         return myCO2ConsumerDefinitionImpl.getCorbaObject();
     }
-    
-    public O2ProducerDefinition getO2ProducerDefinition(){
+
+    public O2ProducerDefinition getO2ProducerDefinition() {
         return myO2ProducerDefinitionImpl.getCorbaObject();
     }
-    
-    public H2ConsumerDefinition getH2ConsumerDefinition(){
+
+    public H2ConsumerDefinition getH2ConsumerDefinition() {
         return myH2ConsumerDefinitionImpl.getCorbaObject();
     }
-    
+
     private void gatherPower() {
-        currentPowerConsumed = myPowerConsumerDefinitionImpl.getMostResourceFromStore();
+        currentPowerConsumed = myPowerConsumerDefinitionImpl
+                .getMostResourceFromStore();
     }
+
     /**
      * Processes a tick by collecting referernces (if needed), resources, and
      * pushing the new air out.
@@ -97,14 +103,16 @@ public class CRSImpl extends SimBioModuleImpl implements CRSOperations,
         gatherH2andCO2();
         pushWaterAndMethane();
     }
-    
+
     private void gatherH2andCO2() {
         float CO2Needed = currentPowerConsumed * LINEAR_MULTIPLICATIVE_FACTOR;
         float H2Needed = CO2Needed * 4f;
         float filteredCO2Needed = randomFilter(CO2Needed);
         float filteredH2Needed = randomFilter(H2Needed);
-        currentCO2Consumed = myCO2ConsumerDefinitionImpl.getResourceFromStore(filteredCO2Needed);
-        currentH2Consumed = myH2ConsumerDefinitionImpl.getResourceFromStore(filteredH2Needed);
+        currentCO2Consumed = myCO2ConsumerDefinitionImpl
+                .getResourceFromStore(filteredCO2Needed);
+        currentH2Consumed = myH2ConsumerDefinitionImpl
+                .getResourceFromStore(filteredH2Needed);
     }
 
     private void pushWaterAndMethane() {
@@ -118,9 +126,13 @@ public class CRSImpl extends SimBioModuleImpl implements CRSOperations,
             float limitingReactant = Math.min(currentH2Consumed / 4f,
                     currentCO2Consumed);
             if (limitingReactant == currentH2Consumed)
-                myCO2ConsumerDefinitionImpl.pushResourceToStore(currentCO2Consumed - limitingReactant); 
+                myCO2ConsumerDefinitionImpl
+                        .pushResourceToStore(currentCO2Consumed
+                                - limitingReactant);
             else
-                myH2ConsumerDefinitionImpl.pushResourceToStore(currentH2Consumed - 4f * limitingReactant);
+                myH2ConsumerDefinitionImpl
+                        .pushResourceToStore(currentH2Consumed - 4f
+                                * limitingReactant);
             float waterMolesProduced = 2f * limitingReactant;
             float waterLitersProduced = (waterMolesProduced * 18.01524f) / 1000f; //1000g/liter,
             // 18.01524g/mole
@@ -128,10 +140,11 @@ public class CRSImpl extends SimBioModuleImpl implements CRSOperations,
             currentH2OProduced = randomFilter(waterLitersProduced);
             currentCH4Produced = randomFilter(methaneMolesProduced);
         }
-        float distributedWaterLeft = myPotableWaterProducerDefinitionImpl.pushResourceToStore(currentH2OProduced);
+        float distributedWaterLeft = myPotableWaterProducerDefinitionImpl
+                .pushResourceToStore(currentH2OProduced);
         CH4Produced += currentCH4Produced;
     }
-    
+
     protected String getMalfunctionName(MalfunctionIntensity pIntensity,
             MalfunctionLength pLength) {
         return "None";

@@ -169,7 +169,7 @@ public class HandController {
         myOGS = (OGS) myBioHolder.theOGSModules.get(0);
 
         myO2Injector = (Injector) myBioHolder.theInjectors.get(1);
-        
+
         if (myBioHolder.theInjectors.size() >= 3) {
             myCO2Injector = (Injector) myBioHolder.theInjectors.get(2);
         }

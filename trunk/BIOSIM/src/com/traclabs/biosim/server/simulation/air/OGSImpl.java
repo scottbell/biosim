@@ -25,14 +25,17 @@ import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 
 public class OGSImpl extends SimBioModuleImpl implements OGSOperations,
         PowerConsumerOperations, PotableWaterConsumerOperations,
-        O2ProducerOperations, H2ProducerOperations{
-    
+        O2ProducerOperations, H2ProducerOperations {
+
     //Consumers, Producers
     private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
+
     private PotableWaterConsumerDefinitionImpl myPotableWaterConsumerDefinitionImpl;
+
     private O2ProducerDefinitionImpl myO2ProducerDefinitionImpl;
+
     private H2ProducerDefinitionImpl myH2ProducerDefinitionImpl;
-    
+
     private float currentH2OConsumed = 0;
 
     private float currentO2Produced = 0;
@@ -50,20 +53,20 @@ public class OGSImpl extends SimBioModuleImpl implements OGSOperations,
         myO2ProducerDefinitionImpl = new O2ProducerDefinitionImpl();
         myH2ProducerDefinitionImpl = new H2ProducerDefinitionImpl();
     }
-    
-    public PowerConsumerDefinition getPowerConsumerDefinition(){
+
+    public PowerConsumerDefinition getPowerConsumerDefinition() {
         return myPowerConsumerDefinitionImpl.getCorbaObject();
     }
-    
-    public PotableWaterConsumerDefinition getPotableWaterConsumerDefinition(){
+
+    public PotableWaterConsumerDefinition getPotableWaterConsumerDefinition() {
         return myPotableWaterConsumerDefinitionImpl.getCorbaObject();
     }
-    
-    public O2ProducerDefinition getO2ProducerDefinition(){
+
+    public O2ProducerDefinition getO2ProducerDefinition() {
         return myO2ProducerDefinitionImpl.getCorbaObject();
     }
-    
-    public H2ProducerDefinition getH2ProducerDefinition(){
+
+    public H2ProducerDefinition getH2ProducerDefinition() {
         return myH2ProducerDefinitionImpl.getCorbaObject();
     }
 
@@ -77,23 +80,25 @@ public class OGSImpl extends SimBioModuleImpl implements OGSOperations,
         currentH2Produced = 0;
         currentPowerConsumed = 0;
     }
-    
+
     private void gatherPower() {
-        currentPowerConsumed = myPowerConsumerDefinitionImpl.getMostResourceFromStore();
-        myLogger.debug("currentPowerConsumed = "+currentPowerConsumed);
+        currentPowerConsumed = myPowerConsumerDefinitionImpl
+                .getMostResourceFromStore();
+        myLogger.debug("currentPowerConsumed = " + currentPowerConsumed);
     }
-    
-    public void tick(){
+
+    public void tick() {
         super.tick();
         gatherPower();
         gatherWater();
         pushGasses();
     }
-    
+
     private void gatherWater() {
         float waterToConsume = (currentPowerConsumed / 75f) * 0.04167f;
-        currentH2OConsumed = myPotableWaterConsumerDefinitionImpl.getResourceFromStore(waterToConsume);
-        myLogger.debug("currentH2OConsumed = "+currentH2OConsumed);
+        currentH2OConsumed = myPotableWaterConsumerDefinitionImpl
+                .getResourceFromStore(waterToConsume);
+        myLogger.debug("currentH2OConsumed = " + currentH2OConsumed);
     }
 
     private void pushGasses() {
@@ -101,14 +106,15 @@ public class OGSImpl extends SimBioModuleImpl implements OGSOperations,
         float molesOfWater = (currentH2OConsumed * 1000f) / 18.01524f; //1000g/liter,
         // 18.01524g/mole
         float molesOfReactant = molesOfWater / 2f;
-        currentO2Produced = randomFilter(molesOfReactant)
-                * myProductionRate;
+        currentO2Produced = randomFilter(molesOfReactant) * myProductionRate;
         currentH2Produced = randomFilter(molesOfReactant * 2f)
                 * myProductionRate;
         float O2ToDistrubute = randomFilter(currentO2Produced);
         float H2ToDistrubute = randomFilter(currentH2Produced);
-        float distributedO2 = myO2ProducerDefinitionImpl.pushResourceToStore(O2ToDistrubute);
-        myLogger.debug("O2ToDistrubute = "+O2ToDistrubute);
-        float distributedH2 = myH2ProducerDefinitionImpl.pushResourceToStore(H2ToDistrubute);
+        float distributedO2 = myO2ProducerDefinitionImpl
+                .pushResourceToStore(O2ToDistrubute);
+        myLogger.debug("O2ToDistrubute = " + O2ToDistrubute);
+        float distributedH2 = myH2ProducerDefinitionImpl
+                .pushResourceToStore(H2ToDistrubute);
     }
 }

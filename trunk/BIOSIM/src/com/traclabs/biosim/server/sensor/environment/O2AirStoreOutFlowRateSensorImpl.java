@@ -16,8 +16,8 @@ public class O2AirStoreOutFlowRateSensorImpl extends GenericSensorImpl
     }
 
     protected void gatherData() {
-        float preFilteredValue = getInput().getO2AirProducerDefinition().getStoreActualFlowRate(
-                myIndex);
+        float preFilteredValue = getInput().getO2AirProducerDefinition()
+                .getStoreActualFlowRate(myIndex);
         myValue = randomFilter(preFilteredValue);
     }
 
@@ -31,7 +31,8 @@ public class O2AirStoreOutFlowRateSensorImpl extends GenericSensorImpl
     }
 
     public float getMax() {
-        return myProducer.getO2AirProducerDefinition().getStoreMaxFlowRate(myIndex);
+        return myProducer.getO2AirProducerDefinition().getStoreMaxFlowRate(
+                myIndex);
     }
 
     public O2AirProducer getInput() {

@@ -3,7 +3,6 @@ package com.traclabs.biosim.server.simulation.framework;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.simulation.air.Breath;
-import com.traclabs.biosim.idl.simulation.framework.InjectorOperations;
 import com.traclabs.biosim.idl.simulation.framework.AirConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.AirConsumerOperations;
 import com.traclabs.biosim.idl.simulation.framework.AirProducerDefinition;
@@ -40,6 +39,7 @@ import com.traclabs.biosim.idl.simulation.framework.H2ConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.H2ConsumerOperations;
 import com.traclabs.biosim.idl.simulation.framework.H2ProducerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.H2ProducerOperations;
+import com.traclabs.biosim.idl.simulation.framework.InjectorOperations;
 import com.traclabs.biosim.idl.simulation.framework.NitrogenAirConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.NitrogenAirConsumerOperations;
 import com.traclabs.biosim.idl.simulation.framework.NitrogenAirProducerDefinition;
@@ -74,9 +74,9 @@ import com.traclabs.biosim.idl.simulation.framework.WaterProducerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.WaterProducerOperations;
 
 /**
- * The basic Injector Implementation. Can be configured to take any modules
- * as input, and any modules as output. It takes as much as it can (max taken
- * set by maxFlowRates) from one module and pushes it into another module.
+ * The basic Injector Implementation. Can be configured to take any modules as
+ * input, and any modules as output. It takes as much as it can (max taken set
+ * by maxFlowRates) from one module and pushes it into another module.
  * Functionally equivalent to an Injector at this point.
  * 
  * @author Scott Bell
@@ -84,60 +84,90 @@ import com.traclabs.biosim.idl.simulation.framework.WaterProducerOperations;
 
 public class InjectorImpl extends SimBioModuleImpl implements
         InjectorOperations, PowerConsumerOperations,
-        PotableWaterConsumerOperations, GreyWaterConsumerOperations, WaterConsumerOperations,
-        DirtyWaterConsumerOperations, O2ConsumerOperations,
-        CO2ConsumerOperations, AirConsumerOperations,
-        BiomassConsumerOperations, FoodConsumerOperations, 
+        PotableWaterConsumerOperations, GreyWaterConsumerOperations,
+        WaterConsumerOperations, DirtyWaterConsumerOperations,
+        O2ConsumerOperations, CO2ConsumerOperations, AirConsumerOperations,
+        BiomassConsumerOperations, FoodConsumerOperations,
         CO2AirConsumerOperations, O2AirConsumerOperations,
         WaterAirConsumerOperations, NitrogenAirConsumerOperations,
-        DryWasteConsumerOperations, H2ConsumerOperations, 
-        NitrogenConsumerOperations,
-        PowerProducerOperations,
-        PotableWaterProducerOperations, GreyWaterProducerOperations, WaterProducerOperations,
-        DirtyWaterProducerOperations, O2ProducerOperations,
-        CO2ProducerOperations, AirProducerOperations,
-        BiomassProducerOperations, FoodProducerOperations, 
+        DryWasteConsumerOperations, H2ConsumerOperations,
+        NitrogenConsumerOperations, PowerProducerOperations,
+        PotableWaterProducerOperations, GreyWaterProducerOperations,
+        WaterProducerOperations, DirtyWaterProducerOperations,
+        O2ProducerOperations, CO2ProducerOperations, AirProducerOperations,
+        BiomassProducerOperations, FoodProducerOperations,
         CO2AirProducerOperations, O2AirProducerOperations,
         WaterAirProducerOperations, NitrogenAirProducerOperations,
-        DryWasteProducerOperations, H2ProducerOperations, 
-        NitrogenProducerOperations
-        {
-    
+        DryWasteProducerOperations, H2ProducerOperations,
+        NitrogenProducerOperations {
+
     //Consumers, Producers
     private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
+
     private PotableWaterConsumerDefinitionImpl myPotableWaterConsumerDefinitionImpl;
+
     private GreyWaterConsumerDefinitionImpl myGreyWaterConsumerDefinitionImpl;
+
     private DirtyWaterConsumerDefinitionImpl myDirtyWaterConsumerDefinitionImpl;
+
     private O2ConsumerDefinitionImpl myO2ConsumerDefinitionImpl;
+
     private CO2ConsumerDefinitionImpl myCO2ConsumerDefinitionImpl;
+
     private H2ConsumerDefinitionImpl myH2ConsumerDefinitionImpl;
+
     private NitrogenConsumerDefinitionImpl myNitrogenConsumerDefinitionImpl;
+
     private AirConsumerDefinitionImpl myAirConsumerDefinitionImpl;
+
     private BiomassConsumerDefinitionImpl myBiomassConsumerDefinitionImpl;
+
     private FoodConsumerDefinitionImpl myFoodConsumerDefinitionImpl;
+
     private O2AirConsumerDefinitionImpl myO2AirConsumerDefinitionImpl;
+
     private CO2AirConsumerDefinitionImpl myCO2AirConsumerDefinitionImpl;
+
     private NitrogenAirConsumerDefinitionImpl myNitrogenAirConsumerDefinitionImpl;
+
     private WaterAirConsumerDefinitionImpl myWaterAirConsumerDefinitionImpl;
+
     private DryWasteConsumerDefinitionImpl myDryWasteConsumerDefinitionImpl;
+
     private WaterConsumerDefinitionImpl myWaterConsumerDefinitionImpl;
-    
+
     private PowerProducerDefinitionImpl myPowerProducerDefinitionImpl;
+
     private PotableWaterProducerDefinitionImpl myPotableWaterProducerDefinitionImpl;
+
     private GreyWaterProducerDefinitionImpl myGreyWaterProducerDefinitionImpl;
+
     private DirtyWaterProducerDefinitionImpl myDirtyWaterProducerDefinitionImpl;
+
     private O2ProducerDefinitionImpl myO2ProducerDefinitionImpl;
+
     private CO2ProducerDefinitionImpl myCO2ProducerDefinitionImpl;
+
     private H2ProducerDefinitionImpl myH2ProducerDefinitionImpl;
+
     private NitrogenProducerDefinitionImpl myNitrogenProducerDefinitionImpl;
+
     private AirProducerDefinitionImpl myAirProducerDefinitionImpl;
+
     private BiomassProducerDefinitionImpl myBiomassProducerDefinitionImpl;
+
     private FoodProducerDefinitionImpl myFoodProducerDefinitionImpl;
+
     private O2AirProducerDefinitionImpl myO2AirProducerDefinitionImpl;
+
     private CO2AirProducerDefinitionImpl myCO2AirProducerDefinitionImpl;
+
     private NitrogenAirProducerDefinitionImpl myNitrogenAirProducerDefinitionImpl;
+
     private WaterAirProducerDefinitionImpl myWaterAirProducerDefinitionImpl;
+
     private DryWasteProducerDefinitionImpl myDryWasteProducerDefinitionImpl;
+
     private WaterProducerDefinitionImpl myWaterProducerDefinitionImpl;
 
     public InjectorImpl(int pID, String pName) {
@@ -159,7 +189,7 @@ public class InjectorImpl extends SimBioModuleImpl implements
         myWaterAirConsumerDefinitionImpl = new WaterAirConsumerDefinitionImpl();
         myDryWasteConsumerDefinitionImpl = new DryWasteConsumerDefinitionImpl();
         myWaterConsumerDefinitionImpl = new WaterConsumerDefinitionImpl();
-        
+
         myPowerProducerDefinitionImpl = new PowerProducerDefinitionImpl();
         myPotableWaterProducerDefinitionImpl = new PotableWaterProducerDefinitionImpl();
         myGreyWaterProducerDefinitionImpl = new GreyWaterProducerDefinitionImpl();
@@ -185,81 +215,122 @@ public class InjectorImpl extends SimBioModuleImpl implements
     }
 
     private void getAndPushResources() {
-        float powerGathered = myPowerConsumerDefinitionImpl.getMostResourceFromStore();
-        float powerPushed = myPowerProducerDefinitionImpl.pushResourceToStore(powerGathered);
-        
-        float potableWaterGathered = myPotableWaterConsumerDefinitionImpl.getMostResourceFromStore();
-        float potableWaterPushed = myPotableWaterProducerDefinitionImpl.pushResourceToStore(potableWaterGathered);
+        float powerGathered = myPowerConsumerDefinitionImpl
+                .getMostResourceFromStore();
+        float powerPushed = myPowerProducerDefinitionImpl
+                .pushResourceToStore(powerGathered);
 
-        float greyWaterGathered = myGreyWaterConsumerDefinitionImpl.getMostResourceFromStore();
-        float greyWaterPushed = myGreyWaterProducerDefinitionImpl.pushResourceToStore(greyWaterGathered);
+        float potableWaterGathered = myPotableWaterConsumerDefinitionImpl
+                .getMostResourceFromStore();
+        float potableWaterPushed = myPotableWaterProducerDefinitionImpl
+                .pushResourceToStore(potableWaterGathered);
 
-        float dirtyWaterGathered = myDirtyWaterConsumerDefinitionImpl.getMostResourceFromStore();
-        float dirtyWaterPushed = myDirtyWaterProducerDefinitionImpl.pushResourceToStore(dirtyWaterGathered);
+        float greyWaterGathered = myGreyWaterConsumerDefinitionImpl
+                .getMostResourceFromStore();
+        float greyWaterPushed = myGreyWaterProducerDefinitionImpl
+                .pushResourceToStore(greyWaterGathered);
 
-        float biomassGathered = myBiomassConsumerDefinitionImpl.getMostResourceFromStore();
-        float biomassPushed = myBiomassProducerDefinitionImpl.pushResourceToStore(biomassGathered);
+        float dirtyWaterGathered = myDirtyWaterConsumerDefinitionImpl
+                .getMostResourceFromStore();
+        float dirtyWaterPushed = myDirtyWaterProducerDefinitionImpl
+                .pushResourceToStore(dirtyWaterGathered);
 
-        float foodGathered = myFoodConsumerDefinitionImpl.getMostResourceFromStore();
-        float foodPushed = myFoodProducerDefinitionImpl.pushResourceToStore(foodGathered);
+        float biomassGathered = myBiomassConsumerDefinitionImpl
+                .getMostResourceFromStore();
+        float biomassPushed = myBiomassProducerDefinitionImpl
+                .pushResourceToStore(biomassGathered);
 
-        float dryWasteGathered = myDryWasteConsumerDefinitionImpl.getMostResourceFromStore();
-        float dryWastePushed = myDryWasteProducerDefinitionImpl.pushResourceToStore(dryWasteGathered);
+        float foodGathered = myFoodConsumerDefinitionImpl
+                .getMostResourceFromStore();
+        float foodPushed = myFoodProducerDefinitionImpl
+                .pushResourceToStore(foodGathered);
 
-        float O2Gathered = myO2ConsumerDefinitionImpl.getMostResourceFromStore();
-        float O2Pushed = myO2ProducerDefinitionImpl.pushResourceToStore(O2Gathered);
+        float dryWasteGathered = myDryWasteConsumerDefinitionImpl
+                .getMostResourceFromStore();
+        float dryWastePushed = myDryWasteProducerDefinitionImpl
+                .pushResourceToStore(dryWasteGathered);
 
-        float CO2Gathered = myCO2ConsumerDefinitionImpl.getMostResourceFromStore();
-        float CO2Pushed = myCO2ProducerDefinitionImpl.pushResourceToStore(CO2Gathered);
+        float O2Gathered = myO2ConsumerDefinitionImpl
+                .getMostResourceFromStore();
+        float O2Pushed = myO2ProducerDefinitionImpl
+                .pushResourceToStore(O2Gathered);
 
-        float nitrogenGathered = myNitrogenConsumerDefinitionImpl.getMostResourceFromStore();
-        float nitrogenPushed = myNitrogenProducerDefinitionImpl.pushResourceToStore(nitrogenGathered);
+        float CO2Gathered = myCO2ConsumerDefinitionImpl
+                .getMostResourceFromStore();
+        float CO2Pushed = myCO2ProducerDefinitionImpl
+                .pushResourceToStore(CO2Gathered);
 
-        float H2Gathered = myH2ConsumerDefinitionImpl.getMostResourceFromStore();
-        float H2Pushed = myH2ProducerDefinitionImpl.pushResourceToStore(nitrogenGathered);
-        
-        Breath gatheredAir = myAirConsumerDefinitionImpl.getMostAirFromEnvironment();
-       
+        float nitrogenGathered = myNitrogenConsumerDefinitionImpl
+                .getMostResourceFromStore();
+        float nitrogenPushed = myNitrogenProducerDefinitionImpl
+                .pushResourceToStore(nitrogenGathered);
 
-        Breath distributedAir = myAirProducerDefinitionImpl.pushAirToEnvironments(gatheredAir);
+        float H2Gathered = myH2ConsumerDefinitionImpl
+                .getMostResourceFromStore();
+        float H2Pushed = myH2ProducerDefinitionImpl
+                .pushResourceToStore(nitrogenGathered);
+
+        Breath gatheredAir = myAirConsumerDefinitionImpl
+                .getMostAirFromEnvironment();
+
+        Breath distributedAir = myAirProducerDefinitionImpl
+                .pushAirToEnvironments(gatheredAir);
 
         //Get CO2 from stores/environment
-        float gatheredCO2Air = myCO2AirConsumerDefinitionImpl.getMostResourceFromStore();
-        gatheredCO2Air += myCO2AirConsumerDefinitionImpl.getMostCO2FromEnvironment();
+        float gatheredCO2Air = myCO2AirConsumerDefinitionImpl
+                .getMostResourceFromStore();
+        gatheredCO2Air += myCO2AirConsumerDefinitionImpl
+                .getMostCO2FromEnvironment();
         //Push CO2 to stores/environment
-        float CO2AirPushed = myCO2AirProducerDefinitionImpl.pushResourceToStore(gatheredCO2Air);
+        float CO2AirPushed = myCO2AirProducerDefinitionImpl
+                .pushResourceToStore(gatheredCO2Air);
         float CO2AirLeft = gatheredCO2Air - CO2AirPushed;
-        CO2AirLeft -= myCO2AirProducerDefinitionImpl.pushCO2ToEnvironment(CO2AirLeft);
+        CO2AirLeft -= myCO2AirProducerDefinitionImpl
+                .pushCO2ToEnvironment(CO2AirLeft);
         CO2AirPushed = gatheredCO2Air - CO2AirLeft;
 
         //Get O2 from stores/environment
-        float gatheredO2Air = myO2AirConsumerDefinitionImpl.getMostResourceFromStore();
-        gatheredO2Air += myO2AirConsumerDefinitionImpl.getMostO2FromEnvironment();
+        float gatheredO2Air = myO2AirConsumerDefinitionImpl
+                .getMostResourceFromStore();
+        gatheredO2Air += myO2AirConsumerDefinitionImpl
+                .getMostO2FromEnvironment();
         //Push O2 to stores/environment
-        float O2AirPushed = myO2AirProducerDefinitionImpl.pushResourceToStore(gatheredO2Air);
+        float O2AirPushed = myO2AirProducerDefinitionImpl
+                .pushResourceToStore(gatheredO2Air);
         float O2AirLeft = gatheredO2Air - O2AirPushed;
-        O2AirLeft -= myO2AirProducerDefinitionImpl.pushO2ToEnvironment(O2AirLeft);
+        O2AirLeft -= myO2AirProducerDefinitionImpl
+                .pushO2ToEnvironment(O2AirLeft);
         O2AirPushed = gatheredO2Air - O2AirLeft;
 
         //Get Nitrogen from stores/environment
-        float gatheredNitrogenAir = myNitrogenAirConsumerDefinitionImpl.getMostResourceFromStore();
-        gatheredNitrogenAir += myNitrogenAirConsumerDefinitionImpl.getMostNitrogenFromEnvironment();
+        float gatheredNitrogenAir = myNitrogenAirConsumerDefinitionImpl
+                .getMostResourceFromStore();
+        gatheredNitrogenAir += myNitrogenAirConsumerDefinitionImpl
+                .getMostNitrogenFromEnvironment();
         //Push Nitrogen to stores/environment
-        float nitrogenAirPushed = myNitrogenAirProducerDefinitionImpl.pushResourceToStore(gatheredNitrogenAir);
+        float nitrogenAirPushed = myNitrogenAirProducerDefinitionImpl
+                .pushResourceToStore(gatheredNitrogenAir);
         float nitrogenAirLeft = gatheredNitrogenAir - nitrogenAirPushed;
-        nitrogenAirLeft -= myNitrogenAirProducerDefinitionImpl.pushNitrogenToEnvironment(nitrogenAirLeft);
+        nitrogenAirLeft -= myNitrogenAirProducerDefinitionImpl
+                .pushNitrogenToEnvironment(nitrogenAirLeft);
         nitrogenAirPushed = gatheredNitrogenAir - nitrogenAirLeft;
-        
-        //Get Water from stores/environment
-        float gatheredWaterAirLiters = myWaterAirConsumerDefinitionImpl.getMostResourceFromStore();
-        gatheredWaterAirLiters += waterMolesToLiters(myWaterAirConsumerDefinitionImpl.getMostWaterFromEnvironment());
-        
-        //Push water to stores/environment
-        float waterAirPushedLiters = myWaterAirProducerDefinitionImpl.pushResourceToStore(gatheredWaterAirLiters);
 
-        float waterAirMolesLeft = waterLitersToMoles(gatheredWaterAirLiters - waterAirPushedLiters);
-        waterAirMolesLeft -= myWaterAirProducerDefinitionImpl.pushWaterToEnvironment(waterAirMolesLeft);
-        float waterAirPushedMoles = waterLitersToMoles(gatheredWaterAirLiters) - waterAirMolesLeft;
+        //Get Water from stores/environment
+        float gatheredWaterAirLiters = myWaterAirConsumerDefinitionImpl
+                .getMostResourceFromStore();
+        gatheredWaterAirLiters += waterMolesToLiters(myWaterAirConsumerDefinitionImpl
+                .getMostWaterFromEnvironment());
+
+        //Push water to stores/environment
+        float waterAirPushedLiters = myWaterAirProducerDefinitionImpl
+                .pushResourceToStore(gatheredWaterAirLiters);
+
+        float waterAirMolesLeft = waterLitersToMoles(gatheredWaterAirLiters
+                - waterAirPushedLiters);
+        waterAirMolesLeft -= myWaterAirProducerDefinitionImpl
+                .pushWaterToEnvironment(waterAirMolesLeft);
+        float waterAirPushedMoles = waterLitersToMoles(gatheredWaterAirLiters)
+                - waterAirMolesLeft;
     }
 
     private static float waterLitersToMoles(float pLiters) {
@@ -295,7 +366,7 @@ public class InjectorImpl extends SimBioModuleImpl implements
 
     public void log() {
     }
-    
+
     //Consumers
     public PowerConsumerDefinition getPowerConsumerDefinition() {
         return myPowerConsumerDefinitionImpl.getCorbaObject();
@@ -352,19 +423,19 @@ public class InjectorImpl extends SimBioModuleImpl implements
     public DryWasteConsumerDefinition getDryWasteConsumerDefinition() {
         return myDryWasteConsumerDefinitionImpl.getCorbaObject();
     }
-    
+
     public WaterAirConsumerDefinition getWaterAirConsumerDefinition() {
         return myWaterAirConsumerDefinitionImpl.getCorbaObject();
     }
-    
+
     public H2ConsumerDefinition getH2ConsumerDefinition() {
         return myH2ConsumerDefinitionImpl.getCorbaObject();
     }
-    
+
     public WaterConsumerDefinition getWaterConsumerDefinition() {
         return myWaterConsumerDefinitionImpl.getCorbaObject();
     }
-    
+
     //Producers
     public PowerProducerDefinition getPowerProducerDefinition() {
         return myPowerProducerDefinitionImpl.getCorbaObject();
@@ -421,15 +492,15 @@ public class InjectorImpl extends SimBioModuleImpl implements
     public DryWasteProducerDefinition getDryWasteProducerDefinition() {
         return myDryWasteProducerDefinitionImpl.getCorbaObject();
     }
-    
+
     public WaterAirProducerDefinition getWaterAirProducerDefinition() {
         return myWaterAirProducerDefinitionImpl.getCorbaObject();
     }
-    
+
     public H2ProducerDefinition getH2ProducerDefinition() {
         return myH2ProducerDefinitionImpl.getCorbaObject();
     }
-    
+
     public WaterProducerDefinition getWaterProducerDefinition() {
         return myWaterProducerDefinitionImpl.getCorbaObject();
     }

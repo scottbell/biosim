@@ -31,7 +31,8 @@ public class WaterAirEnvironmentInFlowRateSensorImpl extends GenericSensorImpl
     }
 
     public float getMax() {
-        return myConsumer.getWaterAirConsumerDefinition().getEnvironmentMaxFlowRate(myIndex);
+        return myConsumer.getWaterAirConsumerDefinition()
+                .getEnvironmentMaxFlowRate(myIndex);
     }
 
     public WaterAirConsumer getInput() {

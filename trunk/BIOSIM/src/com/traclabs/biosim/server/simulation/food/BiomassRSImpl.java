@@ -54,16 +54,21 @@ public class BiomassRSImpl extends SimBioModuleImpl implements
     private List myShelves;
 
     private boolean autoHarvestAndReplant = true;
-    
+
     //Consumers, Producers
     private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
+
     private AirConsumerDefinitionImpl myAirConsumerDefinitionImpl;
+
     private PotableWaterConsumerDefinitionImpl myPotableWaterConsumerDefinitionImpl;
+
     private GreyWaterConsumerDefinitionImpl myGreyWaterConsumerDefinitionImpl;
+
     private DirtyWaterProducerDefinitionImpl myDirtyWaterProducerDefinitionImpl;
+
     private AirProducerDefinitionImpl myAirProducerDefinitionImpl;
+
     private BiomassProducerDefinitionImpl myBiomassProducerDefinitionImpl;
-    
 
     public BiomassRSImpl(int pID, String pName) {
         super(pID, pName);
@@ -77,33 +82,32 @@ public class BiomassRSImpl extends SimBioModuleImpl implements
         myAirProducerDefinitionImpl = new AirProducerDefinitionImpl();
         myBiomassProducerDefinitionImpl = new BiomassProducerDefinitionImpl();
     }
-    
 
-    public PowerConsumerDefinition getPowerConsumerDefinition(){
+    public PowerConsumerDefinition getPowerConsumerDefinition() {
         return myPowerConsumerDefinitionImpl.getCorbaObject();
     }
-    
-    public AirConsumerDefinition getAirConsumerDefinition(){
+
+    public AirConsumerDefinition getAirConsumerDefinition() {
         return myAirConsumerDefinitionImpl.getCorbaObject();
     }
-    
-    public PotableWaterConsumerDefinition getPotableWaterConsumerDefinition(){
+
+    public PotableWaterConsumerDefinition getPotableWaterConsumerDefinition() {
         return myPotableWaterConsumerDefinitionImpl.getCorbaObject();
     }
-    
-    public GreyWaterConsumerDefinition getGreyWaterConsumerDefinition(){
+
+    public GreyWaterConsumerDefinition getGreyWaterConsumerDefinition() {
         return myGreyWaterConsumerDefinitionImpl.getCorbaObject();
     }
-    
-    public DirtyWaterProducerDefinition getDirtyWaterProducerDefinition(){
+
+    public DirtyWaterProducerDefinition getDirtyWaterProducerDefinition() {
         return myDirtyWaterProducerDefinitionImpl.getCorbaObject();
     }
-    
-    public AirProducerDefinition getAirProducerDefinition(){
+
+    public AirProducerDefinition getAirProducerDefinition() {
         return myAirProducerDefinitionImpl.getCorbaObject();
     }
-    
-    public BiomassProducerDefinition getBiomassProducerDefinition(){
+
+    public BiomassProducerDefinition getBiomassProducerDefinition() {
         return myBiomassProducerDefinitionImpl.getCorbaObject();
     }
 
@@ -117,7 +121,7 @@ public class BiomassRSImpl extends SimBioModuleImpl implements
         }
         return theShelfArray;
     }
-    
+
     protected void performMalfunctions() {
         float productionRate = 1f;
         for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext();) {
@@ -186,7 +190,8 @@ public class BiomassRSImpl extends SimBioModuleImpl implements
     private void clearActualFlowRates() {
         Arrays.fill(getPowerConsumerDefinition().getActualFlowRates(), 0f);
         Arrays.fill(getBiomassProducerDefinition().getActualFlowRates(), 0f);
-        Arrays.fill(getPotableWaterConsumerDefinition().getActualFlowRates(), 0f);
+        Arrays.fill(getPotableWaterConsumerDefinition().getActualFlowRates(),
+                0f);
         Arrays.fill(getGreyWaterConsumerDefinition().getActualFlowRates(), 0f);
         Arrays.fill(getDirtyWaterProducerDefinition().getActualFlowRates(), 0f);
         Arrays.fill(getAirConsumerDefinition().getActualFlowRates(), 0f);
@@ -201,11 +206,11 @@ public class BiomassRSImpl extends SimBioModuleImpl implements
         buffer.append("]");
         return buffer.toString();
     }
-    
+
     public void addAirInputActualFlowRates(int index, float value) {
         getAirConsumerDefinition().getActualFlowRates()[index] += value;
     }
-    
+
     public void addAirOutputActualFlowRates(int index, float value) {
         getAirProducerDefinition().getActualFlowRates()[index] += value;
     }
@@ -229,36 +234,42 @@ public class BiomassRSImpl extends SimBioModuleImpl implements
     protected AirConsumerDefinitionImpl getAirConsumerDefinitionImpl() {
         return myAirConsumerDefinitionImpl;
     }
+
     /**
      * @return Returns the myAirProducerDefinitionImpl.
      */
     protected AirProducerDefinitionImpl getAirProducerDefinitionImpl() {
         return myAirProducerDefinitionImpl;
     }
+
     /**
      * @return Returns the myBiomassProducerDefinitionImpl.
      */
     protected BiomassProducerDefinitionImpl getBiomassProducerDefinitionImpl() {
         return myBiomassProducerDefinitionImpl;
     }
+
     /**
      * @return Returns the myDirtyWaterProducerDefinitionImpl.
      */
     protected DirtyWaterProducerDefinitionImpl getDirtyWaterProducerDefinitionImpl() {
         return myDirtyWaterProducerDefinitionImpl;
     }
+
     /**
      * @return Returns the myGreyWaterConsumerDefinitionImpl.
      */
     protected GreyWaterConsumerDefinitionImpl getGreyWaterConsumerDefinitionImpl() {
         return myGreyWaterConsumerDefinitionImpl;
     }
+
     /**
      * @return Returns the myPotableWaterConsumerDefinitionImpl.
      */
     protected PotableWaterConsumerDefinitionImpl getPotableWaterConsumerDefinitionImpl() {
         return myPotableWaterConsumerDefinitionImpl;
     }
+
     /**
      * @return Returns the myPowerConsumerDefinitionImpl.
      */

@@ -50,7 +50,8 @@ public abstract class Erectophile extends PlantImpl {
     }
 
     protected float calculateCanopyStomatalConductance() {
-        float relativeHumdity = myShelfImpl.getBiomassRSImpl().getAirProducerDefinition().getEnvironments()[0]
+        float relativeHumdity = myShelfImpl.getBiomassRSImpl()
+                .getAirProducerDefinition().getEnvironments()[0]
                 .getRelativeHumidity();
         float netCanopyPhotosynthesis = calculateNetCanopyPhotosynthesis();
         float CO2Concentration = getAverageCO2Concentration();

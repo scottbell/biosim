@@ -17,7 +17,8 @@ public class AirOutFlowRateActuatorImpl extends GenericActuatorImpl implements
 
     protected void processData() {
         float myFilteredValue = randomFilter(myValue);
-        getOutput().getAirProducerDefinition().setDesiredFlowRate(myFilteredValue, myIndex);
+        getOutput().getAirProducerDefinition().setDesiredFlowRate(
+                myFilteredValue, myIndex);
     }
 
     protected void notifyListeners() {

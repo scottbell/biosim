@@ -35,11 +35,11 @@ public class IncineratorImpl extends SimBioModuleImpl implements
     private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
 
     private DryWasteConsumerDefinitionImpl myDryWasteConsumerDefinitionImpl;
-    
+
     private O2ConsumerDefinitionImpl myO2ConsumerDefinitionImpl;
 
     private CO2ProducerDefinitionImpl myCO2ProducerDefinitionImpl;
-    
+
     //During any given tick, this much power is needed for the food processor
     // to run at all
     private float powerNeeded = 100;
@@ -90,7 +90,7 @@ public class IncineratorImpl extends SimBioModuleImpl implements
         myDryWasteConsumerDefinitionImpl = new DryWasteConsumerDefinitionImpl();
         myCO2ProducerDefinitionImpl = new CO2ProducerDefinitionImpl();
     }
-    
+
     public PowerConsumerDefinition getPowerConsumerDefinition() {
         return myPowerConsumerDefinitionImpl.getCorbaObject();
     }
@@ -98,7 +98,7 @@ public class IncineratorImpl extends SimBioModuleImpl implements
     public O2ConsumerDefinition getO2ConsumerDefinition() {
         return myO2ConsumerDefinitionImpl.getCorbaObject();
     }
-    
+
     public DryWasteConsumerDefinition getDryWasteConsumerDefinition() {
         return myDryWasteConsumerDefinitionImpl.getCorbaObject();
     }
@@ -197,7 +197,8 @@ public class IncineratorImpl extends SimBioModuleImpl implements
      * for one tick.
      */
     private void gatherPower() {
-        currentPowerConsumed = myPowerConsumerDefinitionImpl.getResourceFromStore(powerNeeded);
+        currentPowerConsumed = myPowerConsumerDefinitionImpl
+                .getResourceFromStore(powerNeeded);
         if (currentPowerConsumed < powerNeeded)
             hasEnoughPower = false;
         else
@@ -209,7 +210,8 @@ public class IncineratorImpl extends SimBioModuleImpl implements
      * Incinerator optimally for one tick.
      */
     private void gatherDryWaste() {
-        currentDryWasteConsumed = myDryWasteConsumerDefinitionImpl.getResourceFromStore(dryWasteNeeded);
+        currentDryWasteConsumed = myDryWasteConsumerDefinitionImpl
+                .getResourceFromStore(dryWasteNeeded);
         if (currentDryWasteConsumed < dryWasteNeeded)
             hasEnoughDryWaste = false;
         else
@@ -221,7 +223,8 @@ public class IncineratorImpl extends SimBioModuleImpl implements
      * optimally for one tick.
      */
     private void gatherO2() {
-        currentO2Consumed = myO2ConsumerDefinitionImpl.getResourceFromStore(O2Needed);
+        currentO2Consumed = myO2ConsumerDefinitionImpl
+                .getResourceFromStore(O2Needed);
         if (currentO2Consumed < O2Needed)
             hasEnoughO2 = false;
         else
@@ -240,13 +243,15 @@ public class IncineratorImpl extends SimBioModuleImpl implements
             currentO2Consumed = 0f;
             Arrays.fill(myO2ConsumerDefinitionImpl.getActualFlowRates(), 0f);
             currentDryWasteConsumed = 0f;
-            Arrays.fill(myDryWasteConsumerDefinitionImpl.getActualFlowRates(), 0f);
+            Arrays.fill(myDryWasteConsumerDefinitionImpl.getActualFlowRates(),
+                    0f);
         }
     }
 
     private void createCO2() {
         currentCO2Produced = currentO2Consumed * myProductionRate;
-        float distributedCO2Left = myCO2ProducerDefinitionImpl.pushResourceToStore(currentCO2Produced);
+        float distributedCO2Left = myCO2ProducerDefinitionImpl
+                .pushResourceToStore(currentCO2Produced);
     }
 
     private void setProductionRate(float pProductionRate) {

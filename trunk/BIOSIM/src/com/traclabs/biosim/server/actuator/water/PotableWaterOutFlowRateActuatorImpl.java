@@ -17,8 +17,8 @@ public class PotableWaterOutFlowRateActuatorImpl extends GenericActuatorImpl
 
     protected void processData() {
         float myFilteredValue = randomFilter(myValue);
-        getOutput().getPotableWaterProducerDefinition().setDesiredFlowRate(myFilteredValue,
-                myIndex);
+        getOutput().getPotableWaterProducerDefinition().setDesiredFlowRate(
+                myFilteredValue, myIndex);
     }
 
     protected void notifyListeners() {
@@ -43,6 +43,7 @@ public class PotableWaterOutFlowRateActuatorImpl extends GenericActuatorImpl
     }
 
     public float getMax() {
-        return myProducer.getPotableWaterProducerDefinition().getMaxFlowRate(myIndex);
+        return myProducer.getPotableWaterProducerDefinition().getMaxFlowRate(
+                myIndex);
     }
 }

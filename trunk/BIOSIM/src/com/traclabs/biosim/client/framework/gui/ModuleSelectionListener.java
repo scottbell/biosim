@@ -6,10 +6,9 @@ package com.traclabs.biosim.client.framework.gui;
 
 import javax.swing.event.ChangeEvent;
 
-
 /**
  * @author scott
- *
+ *  
  */
 public interface ModuleSelectionListener {
     public void stateChanged(ChangeEvent e);

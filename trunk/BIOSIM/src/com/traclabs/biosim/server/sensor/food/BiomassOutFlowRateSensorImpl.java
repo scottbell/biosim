@@ -16,8 +16,8 @@ public class BiomassOutFlowRateSensorImpl extends GenericSensorImpl implements
     }
 
     protected void gatherData() {
-        float preFilteredValue = getInput().getBiomassProducerDefinition().getActualFlowRate(
-                myIndex);
+        float preFilteredValue = getInput().getBiomassProducerDefinition()
+                .getActualFlowRate(myIndex);
         myValue = randomFilter(preFilteredValue);
     }
 
@@ -31,7 +31,8 @@ public class BiomassOutFlowRateSensorImpl extends GenericSensorImpl implements
     }
 
     public float getMax() {
-        return myProducer.getBiomassProducerDefinition().getMaxFlowRate(myIndex);
+        return myProducer.getBiomassProducerDefinition()
+                .getMaxFlowRate(myIndex);
     }
 
     public BiomassProducer getInput() {

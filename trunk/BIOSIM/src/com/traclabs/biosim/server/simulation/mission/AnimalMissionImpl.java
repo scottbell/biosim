@@ -37,16 +37,16 @@ public class AnimalMissionImpl extends MissionModuleImpl implements
         myPotableWaterConsumerDefinitionImpl = new PotableWaterConsumerDefinitionImpl();
         myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl();
     }
-    
-    public PowerConsumerDefinition getPowerConsumerDefinition(){
+
+    public PowerConsumerDefinition getPowerConsumerDefinition() {
         return myPowerConsumerDefinitionImpl.getCorbaObject();
     }
-    
-    public PotableWaterConsumerDefinition getPotableWaterConsumerDefinition(){
+
+    public PotableWaterConsumerDefinition getPotableWaterConsumerDefinition() {
         return myPotableWaterConsumerDefinitionImpl.getCorbaObject();
     }
-    
-    public AirConsumerDefinition getAirConsumerDefinition(){
+
+    public AirConsumerDefinition getAirConsumerDefinition() {
         return myAirConsumerDefinitionImpl.getCorbaObject();
     }
 

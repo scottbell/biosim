@@ -18,6 +18,7 @@ import com.traclabs.biosim.server.simulation.framework.StoreImpl;
 
 public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
     List currentFoodItems;
+
     FoodMatter myOriginalMatter;
 
     public FoodStoreImpl(int pID, String pName) {
@@ -36,7 +37,7 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
         super.setInitialLevel(metricAmount);
         setCurrentLevel(metricAmount);
     }
-    
+
     public void setCurrentLevel(float metricAmount) {
         super.setCurrentLevel(metricAmount);
         currentFoodItems.clear();
@@ -47,7 +48,7 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
             myOriginalMatter = newFoodMatter;
         }
     }
-    
+
     public void setInitialFoodMatterLevel(FoodMatter pMatter) {
         super.setInitialLevel(pMatter.mass);
         currentFoodItems.clear();

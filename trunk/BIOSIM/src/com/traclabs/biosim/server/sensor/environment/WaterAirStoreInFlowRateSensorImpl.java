@@ -31,7 +31,8 @@ public class WaterAirStoreInFlowRateSensorImpl extends GenericSensorImpl
     }
 
     public float getMax() {
-        return myConsumer.getWaterAirConsumerDefinition().getStoreMaxFlowRate(myIndex);
+        return myConsumer.getWaterAirConsumerDefinition().getStoreMaxFlowRate(
+                myIndex);
     }
 
     public WaterAirConsumer getInput() {

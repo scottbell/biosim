@@ -59,7 +59,7 @@ public class BioDriverImpl extends BioDriverPOA {
     private BiomassRS[] plantsToWatch;
 
     private BioModule[] modules;
-    
+
     private BioModule[] activeSimModules;
 
     private BioModule[] passiveSimModules;
@@ -200,7 +200,8 @@ public class BioDriverImpl extends BioDriverPOA {
     }
 
     public BioModule[] getSimModules() {
-        BioModule[] simModules = new BioModule[activeSimModules.length + passiveSimModules.length + prioritySimModules.length];
+        BioModule[] simModules = new BioModule[activeSimModules.length
+                + passiveSimModules.length + prioritySimModules.length];
         for (int i = 0; i < activeSimModules.length; i++)
             simModules[i] = activeSimModules[i];
         for (int i = 0; i < passiveSimModules.length; i++)
@@ -251,7 +252,7 @@ public class BioDriverImpl extends BioDriverPOA {
             simModuleNameArray[i] = prioritySimModules[i].getModuleName();
         return simModuleNameArray;
     }
-    
+
     public String[] getSimModuleNames() {
         BioModule[] simModules = getSimModules();
         String[] simModuleNameArray = new String[simModules.length];

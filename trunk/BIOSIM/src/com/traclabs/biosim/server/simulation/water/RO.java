@@ -1,6 +1,5 @@
 package com.traclabs.biosim.server.simulation.water;
 
-
 /**
  * The RO is the second stage of water purification. It takes water from the
  * BWP, filters it some, and sends the water to the AES
@@ -60,7 +59,8 @@ public class RO extends WaterRSSubSystem {
         }
         //if not, send it to grey water tank
         else {
-            waterLevel = myWaterRS.getGreyWaterConsumerDefinitionImpl().pushResourceToStore(waterLevel);
+            waterLevel = myWaterRS.getGreyWaterConsumerDefinitionImpl()
+                    .pushResourceToStore(waterLevel);
         }
     }
 
@@ -75,7 +75,8 @@ public class RO extends WaterRSSubSystem {
                 pushWater();
             } else {
                 //try to put back into dirtyWater Store.
-                waterLevel = myWaterRS.getDirtyWaterConsumerDefinitionImpl().pushResourceToStore(waterLevel);
+                waterLevel = myWaterRS.getDirtyWaterConsumerDefinitionImpl()
+                        .pushResourceToStore(waterLevel);
                 //dump extra water
                 waterLevel = 0f;
                 currentAESWaterProduced = 0f;
@@ -83,7 +84,8 @@ public class RO extends WaterRSSubSystem {
             }
         } else {
             //try to put back into dirtyWater Store.
-            waterLevel = myWaterRS.getDirtyWaterConsumerDefinitionImpl().pushResourceToStore(waterLevel);
+            waterLevel = myWaterRS.getDirtyWaterConsumerDefinitionImpl()
+                    .pushResourceToStore(waterLevel);
             //dump extra water
             waterLevel = 0f;
             currentAESWaterProduced = 0f;

@@ -120,21 +120,21 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
     //Whether this Store has collected a reference to the BioDriver or not.
     private boolean hasCollectedReferences = false;
 
-	private float myAirLockVolume = 3.7f;
-	
-	private float myDangerousOxygenThreshold = 1f;
+    private float myAirLockVolume = 3.7f;
+
+    private float myDangerousOxygenThreshold = 1f;
 
     /**
-     * Creates a SimEnvironment (with a currentVolume of 100000 liters) and resets the
-     * gas levels to correct percantages of sea level air
+     * Creates a SimEnvironment (with a currentVolume of 100000 liters) and
+     * resets the gas levels to correct percantages of sea level air
      */
     public SimEnvironmentImpl(int pID, String pName) {
         this(pID, 100000, pName);
     }
 
     /**
-     * Creates a SimEnvironment with a set initial currentVolume and resets the gas
-     * levels to correct percantages of sea level air.
+     * Creates a SimEnvironment with a set initial currentVolume and resets the
+     * gas levels to correct percantages of sea level air.
      * 
      * @param pInitialVolume
      *            the initial currentVolume of the environment in liters
@@ -160,20 +160,24 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
     }
 
     /**
-     * Creates a SimEnvironment with a set initial currentVolume and gas levels to
-     * correct percantages of sea level air
+     * Creates a SimEnvironment with a set initial currentVolume and gas levels
+     * to correct percantages of sea level air
      * 
      * @param pInitialCO2Moles
-     *            the initial currentVolume of the CO2 (in moles) in the environment
-     * @param pInitialO2Moles
-     *            the initial currentVolume of the O2 (in moles) in the environment
-     * @param pInitialOtherMoles
-     *            the initial currentVolume of the other gasses (in moles) in the
+     *            the initial currentVolume of the CO2 (in moles) in the
      *            environment
+     * @param pInitialO2Moles
+     *            the initial currentVolume of the O2 (in moles) in the
+     *            environment
+     * @param pInitialOtherMoles
+     *            the initial currentVolume of the other gasses (in moles) in
+     *            the environment
      * @param pInitialWaterMoles
-     *            the initial currentVolume of water (in moles) in the environment
+     *            the initial currentVolume of water (in moles) in the
+     *            environment
      * @param pInitialNitrogenMoles
-     *            the initial currentVolume of nitrogen (in moles) in the environment
+     *            the initial currentVolume of nitrogen (in moles) in the
+     *            environment
      * @param pInitialVolume
      *            the initial currentVolume of the environment in liters
      * @param pName
@@ -403,14 +407,14 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
         nitrogenPressure = pressureRequested;
         adjustMoles();
     }
-    
+
     /**
      * Sets the current volume of the environment (how much gas it can hold)
      */
     public void setCurrentVolume(float pCO2Moles, float pO2Moles,
-            float pOtherMoles, float pWaterMoles,
-            float pNitrogenMoles, float pVolume) {
-        CO2Moles = cachedCO2Moles  = pCO2Moles;
+            float pOtherMoles, float pWaterMoles, float pNitrogenMoles,
+            float pVolume) {
+        CO2Moles = cachedCO2Moles = pCO2Moles;
         O2Moles = cachedO2Moles = pO2Moles;
         otherMoles = cachedOtherMoles = pOtherMoles;
         waterMoles = cachedWaterMoles = pWaterMoles;
@@ -427,16 +431,20 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
      * Sets the volume of the environment (how much gas it can hold)
      * 
      * @param pInitialCO2Moles
-     *            the initial currentVolume of the CO2 (in moles) in the environment
-     * @param pInitialO2Moles
-     *            the initial currentVolume of the O2 (in moles) in the environment
-     * @param pInitialOtherMoles
-     *            the initial currentVolume of the other gasses (in moles) in the
+     *            the initial currentVolume of the CO2 (in moles) in the
      *            environment
+     * @param pInitialO2Moles
+     *            the initial currentVolume of the O2 (in moles) in the
+     *            environment
+     * @param pInitialOtherMoles
+     *            the initial currentVolume of the other gasses (in moles) in
+     *            the environment
      * @param pInitialNitrogenMoles
-     *            the initial currentVolume of nitrogen (in moles) in the environment
+     *            the initial currentVolume of nitrogen (in moles) in the
+     *            environment
      * @param pInitialWaterMoles
-     *            the initial currentVolume of nitrogen (in moles) in the environment
+     *            the initial currentVolume of nitrogen (in moles) in the
+     *            environment
      * @param pInitialVolume
      *            the initial currentVolume of the environment in liters
      */
@@ -476,7 +484,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
         nitrogenMoles = cachedNitrogenMoles = initialNitrogenMoles = calculateMoles(nitrogenPressure);
         CO2Moles = cachedCO2Moles = initialCO2Moles = calculateMoles(CO2Pressure);
     }
-    
+
     /**
      * Sets the volume of the environment (how much gas it can hold) w/ gas
      * mixture at earth sea level
@@ -526,7 +534,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
                     + nitrogenPressure;
 
     }
-    
+
     public float getInitialVolume() {
         return initialVolume;
     }
@@ -817,7 +825,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
         }
         if (molesRequested <= 0)
             return 0f;
-        float afterAdditionNitrogen = randomFilter(nitrogenMoles + molesRequested);
+        float afterAdditionNitrogen = randomFilter(nitrogenMoles
+                + molesRequested);
         float actuallyAddedNitrogen = afterAdditionNitrogen - nitrogenMoles;
         nitrogenMoles = afterAdditionNitrogen;
 
@@ -1206,13 +1215,16 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
         this.maxLumens = maxLumens;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.traclabs.biosim.idl.simulation.environment.SimEnvironmentOperations#removePercentage(float)
      */
-    public void removeAirlockPercentage(float airlockPercentageToRemove){
-    	if (currentVolume <= 0f)
-    		return;
-    	float airlockPercentageAdjusted = airlockPercentageToRemove * (myAirLockVolume / currentVolume);
+    public void removeAirlockPercentage(float airlockPercentageToRemove) {
+        if (currentVolume <= 0f)
+            return;
+        float airlockPercentageAdjusted = airlockPercentageToRemove
+                * (myAirLockVolume / currentVolume);
         O2Moles -= (O2Moles * airlockPercentageAdjusted);
         CO2Moles -= (CO2Moles * airlockPercentageAdjusted);
         otherMoles -= (otherMoles * airlockPercentageAdjusted);
@@ -1220,19 +1232,23 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
         nitrogenMoles -= (nitrogenMoles * airlockPercentageAdjusted);
     }
 
-	/* (non-Javadoc)
-	 * @see com.traclabs.biosim.idl.simulation.environment.SimEnvironmentOperations#setAirlockSize(float)
-	 */
-	public void setAirlockVolume(float pAirLockVolume) {
-		myAirLockVolume = pAirLockVolume;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.traclabs.biosim.idl.simulation.environment.SimEnvironmentOperations#setAirlockSize(float)
+     */
+    public void setAirlockVolume(float pAirLockVolume) {
+        myAirLockVolume = pAirLockVolume;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.traclabs.biosim.idl.simulation.environment.SimEnvironmentOperations#getAirlockSize()
-	 */
-	public float getAirlockVolume() {
-		return myAirLockVolume;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.traclabs.biosim.idl.simulation.environment.SimEnvironmentOperations#getAirlockSize()
+     */
+    public float getAirlockVolume() {
+        return myAirLockVolume;
+    }
 
     /**
      * @return Returns the myDangerousOxygenThreshold.
@@ -1240,8 +1256,10 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
     public float getDangerousOxygenThreshold() {
         return myDangerousOxygenThreshold;
     }
+
     /**
-     * @param myDangerousOxygenThreshold The myDangerousOxygenThreshold to set.
+     * @param myDangerousOxygenThreshold
+     *            The myDangerousOxygenThreshold to set.
      */
     public void setDangerousOxygenThreshold(float pDangerousOxygenThreshold) {
         myDangerousOxygenThreshold = pDangerousOxygenThreshold;

@@ -11,17 +11,24 @@ import com.traclabs.biosim.server.util.OrbUtils;
  * @author Scott Bell
  */
 
-public class DirtyWaterConsumerDefinitionImpl extends StoreFlowRateControllableImpl implements DirtyWaterConsumerDefinitionOperations {
+public class DirtyWaterConsumerDefinitionImpl extends
+        StoreFlowRateControllableImpl implements
+        DirtyWaterConsumerDefinitionOperations {
     private DirtyWaterConsumerDefinition myDirtyWaterConsumerDefinition;
-    
-    public DirtyWaterConsumerDefinitionImpl(){
-        myDirtyWaterConsumerDefinition = DirtyWaterConsumerDefinitionHelper.narrow(OrbUtils.poaToCorbaObj(new DirtyWaterConsumerDefinitionPOATie(this)));
+
+    public DirtyWaterConsumerDefinitionImpl() {
+        myDirtyWaterConsumerDefinition = DirtyWaterConsumerDefinitionHelper
+                .narrow(OrbUtils
+                        .poaToCorbaObj(new DirtyWaterConsumerDefinitionPOATie(
+                                this)));
     }
-    
-    public DirtyWaterConsumerDefinition getCorbaObject(){
+
+    public DirtyWaterConsumerDefinition getCorbaObject() {
         return myDirtyWaterConsumerDefinition;
     }
-    public void setDirtyWaterInputs(DirtyWaterStore[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates) {
+
+    public void setDirtyWaterInputs(DirtyWaterStore[] pStores,
+            float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setStores(pStores);
         setMaxFlowRates(pMaxFlowRates);
         setDesiredFlowRates(pDesiredFlowRates);

@@ -69,7 +69,9 @@ public abstract class AirRSSubSystem {
      * Adds power to the subsystem for this tick
      */
     protected void gatherPower() {
-        float gatheredPower = myAirRS.getPowerConsumerDefinitionImpl().getFractionalResourceFromStore(currentPowerNeeded, 1f / myAirRS.getSubsystemsConsumingPower());
+        float gatheredPower = myAirRS.getPowerConsumerDefinitionImpl()
+                .getFractionalResourceFromStore(currentPowerNeeded,
+                        1f / myAirRS.getSubsystemsConsumingPower());
         if (gatheredPower < currentPowerNeeded)
             hasEnoughPower = false;
         else

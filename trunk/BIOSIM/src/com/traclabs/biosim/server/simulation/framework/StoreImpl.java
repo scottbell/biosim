@@ -75,7 +75,8 @@ public abstract class StoreImpl extends SimBioModuleImpl implements
     }
 
     /**
-     * Creates a Store with an initial currentLevel and currentCapacity user specified
+     * Creates a Store with an initial currentLevel and currentCapacity user
+     * specified
      * 
      * @param pID
      *            the initial currentLevel of the store
@@ -87,8 +88,9 @@ public abstract class StoreImpl extends SimBioModuleImpl implements
      *            the initial currentLevel of the store
      * @param pPipe
      *            whether this store should act like a pipe. dynamic capcity ==
-     *            currentLevel == whatever is added THIS tick (0 if nothing added,
-     *            maxFlowRate should dictate pipe size, infinite otherwise)
+     *            currentLevel == whatever is added THIS tick (0 if nothing
+     *            added, maxFlowRate should dictate pipe size, infinite
+     *            otherwise)
      */
     public StoreImpl(int pID, String pName, float pInitialLevel,
             float pInitialCapacity, boolean pPipe) {
@@ -99,9 +101,9 @@ public abstract class StoreImpl extends SimBioModuleImpl implements
     }
 
     /**
-     * If this store acts like a pipe. dynamic capcity == currentLevel == whatever is
-     * added THIS tick (0 if nothing added, maxFlowRate should dictate pipe
-     * size, infinite otherwise)
+     * If this store acts like a pipe. dynamic capcity == currentLevel ==
+     * whatever is added THIS tick (0 if nothing added, maxFlowRate should
+     * dictate pipe size, infinite otherwise)
      * 
      * @return pPipe whether this store acts like a pipe.
      */
@@ -110,9 +112,9 @@ public abstract class StoreImpl extends SimBioModuleImpl implements
     }
 
     /**
-     * Sets this store to act like a pipe. dynamic capcity == currentLevel == whatever
-     * is added THIS tick (0 if nothing added, maxFlowRate should dictate pipe
-     * size, infinite otherwise)
+     * Sets this store to act like a pipe. dynamic capcity == currentLevel ==
+     * whatever is added THIS tick (0 if nothing added, maxFlowRate should
+     * dictate pipe size, infinite otherwise)
      * 
      * @param pPipe
      *            whether this store should act like a pipe.
@@ -125,8 +127,8 @@ public abstract class StoreImpl extends SimBioModuleImpl implements
         resupplyFrequency = pResupplyFrequency;
         resupplyAmount = pResupplyAmount;
     }
-    
-    public void setInitialCapacity(float metricAmount){
+
+    public void setInitialCapacity(float metricAmount) {
         initialCapacity = metricAmount;
         setCurrentLevel(metricAmount);
     }
@@ -150,8 +152,8 @@ public abstract class StoreImpl extends SimBioModuleImpl implements
     public void setCurrentLevel(float metricAmount) {
         currentLevel = cachedLevel = metricAmount;
     }
-    
-    public void setInitialLevel(float metricAmount){
+
+    public void setInitialLevel(float metricAmount) {
         initialLevel = metricAmount;
         setCurrentLevel(metricAmount);
     }
@@ -255,8 +257,8 @@ public abstract class StoreImpl extends SimBioModuleImpl implements
     }
 
     /**
-     * Attempts to add to the store. If the currentLevel is near currentCapacity, it will only
-     * up to currentCapacity
+     * Attempts to add to the store. If the currentLevel is near
+     * currentCapacity, it will only up to currentCapacity
      * 
      * @param amountRequested
      *            the amount wanted to add to the store
@@ -379,9 +381,10 @@ public abstract class StoreImpl extends SimBioModuleImpl implements
      * Logs this store and sends it to the Logger to be processed
      */
     public void log() {
-        myLogger.debug(getModuleName()+":\tcurrentLevel="+currentLevel);
-        myLogger.debug(getModuleName()+":\tcurrentCapacity="+currentCapacity);
-        myLogger.debug(getModuleName()+":\toverflow="+overflow);
+        myLogger.debug(getModuleName() + ":\tcurrentLevel=" + currentLevel);
+        myLogger.debug(getModuleName() + ":\tcurrentCapacity="
+                + currentCapacity);
+        myLogger.debug(getModuleName() + ":\toverflow=" + overflow);
     }
 
     /**
@@ -390,6 +393,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements
     public float getInitialCapacity() {
         return initialCapacity;
     }
+
     /**
      * @return Returns the initialLevel.
      */

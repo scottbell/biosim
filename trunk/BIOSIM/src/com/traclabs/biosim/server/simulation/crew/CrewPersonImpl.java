@@ -110,7 +110,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
     private boolean suffocating = false;
 
     private boolean poisoned = false;
-    
+
     private boolean fireRisked = false;
 
     //A mission productivity measure, used when "mission" is specified in the
@@ -139,7 +139,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
     private SimpleBuffer consumedWaterBuffer;
 
     private SimpleBuffer consumedLowOxygenBuffer;
-    
+
     private SimpleBuffer highOxygenBuffer;
 
     private SimpleBuffer consumedCaloriesBuffer;
@@ -220,10 +220,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
         consumedWaterBuffer = new SimpleBuffer(WATER_TILL_DEAD, WATER_TILL_DEAD);
         consumedCaloriesBuffer = new SimpleBuffer(CALORIE_TILL_DEAD,
                 CALORIE_TILL_DEAD);
-        consumedCO2Buffer = new SimpleBuffer(CO2_HIGH_TILL_DEAD * CO2_HIGH_RATIO,
-                CO2_HIGH_TILL_DEAD * CO2_HIGH_RATIO);
-        consumedLowOxygenBuffer = new SimpleBuffer(O2_LOW_TILL_DEAD * O2_LOW_RATIO,
-                O2_LOW_TILL_DEAD * O2_LOW_RATIO);
+        consumedCO2Buffer = new SimpleBuffer(CO2_HIGH_TILL_DEAD
+                * CO2_HIGH_RATIO, CO2_HIGH_TILL_DEAD * CO2_HIGH_RATIO);
+        consumedLowOxygenBuffer = new SimpleBuffer(O2_LOW_TILL_DEAD
+                * O2_LOW_RATIO, O2_LOW_TILL_DEAD * O2_LOW_RATIO);
         highOxygenBuffer = new SimpleBuffer(O2_HIGH_TILL_DEAD * 1,
                 O2_HIGH_TILL_DEAD * 1);
         sleepBuffer = new SimpleBuffer(AWAKE_TILL_EXHAUSTION,
@@ -424,7 +424,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
     public boolean isSuffocating() {
         return suffocating;
     }
-    
+
     public boolean hasFireRisk() {
         return fireRisked;
     }
@@ -609,7 +609,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
     private void startEVA(String evaCrewGroupName) {
         myLogger.debug("Starting EVA");
         // remove 5% from base environment (assume 3.7 m3 airlock)
-        myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments()[0].removeAirlockPercentage(0.05f);
+        myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments()[0]
+                .removeAirlockPercentage(0.05f);
         // detach from current crew group
         myCurrentCrewGroup.detachCrewPerson(getName());
         //attach to eva crew group
@@ -635,7 +636,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
                 .poaToCorbaObj(this))));
         myCurrentCrewGroup = baseCrewGroup;
         // remove 5% from base environment (assume 3.7 m3 airlock)
-        myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments()[0].removeAirlockPercentage(0.05f);
+        myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments()[0]
+                .removeAirlockPercentage(0.05f);
     }
 
     /**
@@ -919,7 +921,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
      * @return percentage of CO2 in air
      */
     private float getCO2Ratio() {
-        SimEnvironment[] myAirInputs = myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments();
+        SimEnvironment[] myAirInputs = myCurrentCrewGroup
+                .getAirConsumerDefinition().getEnvironments();
         if (myAirInputs.length < 1) {
             return 0f;
         } else {
@@ -940,7 +943,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
      * @return percentage of O2 in air
      */
     private float getO2Ratio() {
-        SimEnvironment[] myAirInputs = myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments();
+        SimEnvironment[] myAirInputs = myCurrentCrewGroup
+                .getAirConsumerDefinition().getEnvironments();
         if (myAirInputs.length < 1) {
             return 0f;
         } else {
@@ -985,13 +989,14 @@ public class CrewPersonImpl extends CrewPersonPOA {
             suffocating = true;
         } else
             suffocating = false;
-        
-        float dangerousOxygenThreshold = myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments()[0].getDangerousOxygenThreshold();
-        if (getO2Ratio() >  dangerousOxygenThreshold){
+
+        float dangerousOxygenThreshold = myCurrentCrewGroup
+                .getAirConsumerDefinition().getEnvironments()[0]
+                .getDangerousOxygenThreshold();
+        if (getO2Ratio() > dangerousOxygenThreshold) {
             highOxygenBuffer.take(getO2Ratio() - dangerousOxygenThreshold);
             fireRisked = true;
-        } else
-        if (getCO2Ratio() > CO2_HIGH_RATIO) {
+        } else if (getCO2Ratio() > CO2_HIGH_RATIO) {
             consumedCO2Buffer.take(getCO2Ratio() - CO2_HIGH_RATIO);
             poisoned = true;
         } else
@@ -1059,26 +1064,30 @@ public class CrewPersonImpl extends CrewPersonPOA {
                         .getLevel()) / consumedWaterBuffer.getCapacity()
                 + " (level=" + consumedWaterBuffer.getLevel() + ", capacity="
                 + consumedWaterBuffer.getCapacity() + ")");
-        myLogger.debug("\tlow oxygen taken="
-                + (O2Needed - O2Consumed)
-                + ", low recovered "
-                + O2_LOW_RECOVERY_RATE
-                * consumedLowOxygenBuffer.getCapacity()
-                + " low O2 risk level="
-                + (consumedLowOxygenBuffer.getCapacity() - consumedLowOxygenBuffer
-                        .getLevel()) / consumedLowOxygenBuffer.getCapacity()
-                + " (level=" + consumedLowOxygenBuffer.getLevel() + ", capacity="
-                + consumedLowOxygenBuffer.getCapacity() + ")");
-        myLogger.debug("\thigh oxygen taken="
-                + (O2Needed - O2Consumed)
-                + ", high recovered "
-                + O2_HIGH_RECOVERY_RATE
-                * highOxygenBuffer.getCapacity()
-                + " high O2 risk level="
-                + (consumedLowOxygenBuffer.getCapacity() - consumedLowOxygenBuffer
-                        .getLevel()) / consumedLowOxygenBuffer.getCapacity()
-                + " (level=" + consumedLowOxygenBuffer.getLevel() + ", capacity="
-                + consumedLowOxygenBuffer.getCapacity() + ")");
+        myLogger
+                .debug("\tlow oxygen taken="
+                        + (O2Needed - O2Consumed)
+                        + ", low recovered "
+                        + O2_LOW_RECOVERY_RATE
+                        * consumedLowOxygenBuffer.getCapacity()
+                        + " low O2 risk level="
+                        + (consumedLowOxygenBuffer.getCapacity() - consumedLowOxygenBuffer
+                                .getLevel())
+                        / consumedLowOxygenBuffer.getCapacity() + " (level="
+                        + consumedLowOxygenBuffer.getLevel() + ", capacity="
+                        + consumedLowOxygenBuffer.getCapacity() + ")");
+        myLogger
+                .debug("\thigh oxygen taken="
+                        + (O2Needed - O2Consumed)
+                        + ", high recovered "
+                        + O2_HIGH_RECOVERY_RATE
+                        * highOxygenBuffer.getCapacity()
+                        + " high O2 risk level="
+                        + (consumedLowOxygenBuffer.getCapacity() - consumedLowOxygenBuffer
+                                .getLevel())
+                        / consumedLowOxygenBuffer.getCapacity() + " (level="
+                        + consumedLowOxygenBuffer.getLevel() + ", capacity="
+                        + consumedLowOxygenBuffer.getCapacity() + ")");
         myLogger.debug("\tCO2 taken="
                 + (getCO2Ratio() - CO2_HIGH_RATIO)
                 + ", recovered "
@@ -1114,7 +1123,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
                     + numFormat.format(waterRiskReturn * 100) + "%)");
         } else if (oxygenLowRiskReturn > randomNumber) {
             hasDied = true;
-            SimEnvironment[] myAirInputs = myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments();
+            SimEnvironment[] myAirInputs = myCurrentCrewGroup
+                    .getAirConsumerDefinition().getEnvironments();
             myLogger.info(getName() + " has died from lack of oxygen on tick "
                     + myCurrentCrewGroup.getMyTicks() + " (risk was "
                     + numFormat.format(oxygenLowRiskReturn * 100) + "%)");
@@ -1126,8 +1136,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
                     + myAirInputs[0].getOtherMoles());
         } else if (oxygenHighRiskReturn > randomNumber) {
             hasDied = true;
-            SimEnvironment[] myAirInputs = myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments();
-            myLogger.info(getName() + " has died from oxygen flammability on tick "
+            SimEnvironment[] myAirInputs = myCurrentCrewGroup
+                    .getAirConsumerDefinition().getEnvironments();
+            myLogger.info(getName()
+                    + " has died from oxygen flammability on tick "
                     + myCurrentCrewGroup.getMyTicks() + " (risk was "
                     + numFormat.format(oxygenHighRiskReturn * 100) + "%)");
             myLogger.info(getName() + " Environmental conditions were: 02="
@@ -1136,10 +1148,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
                     + myAirInputs[0].getNitrogenMoles() + ", water="
                     + myAirInputs[0].getWaterMoles() + ", other="
                     + myAirInputs[0].getOtherMoles());
-        }
-        else if (CO2RiskReturn > randomNumber) {
+        } else if (CO2RiskReturn > randomNumber) {
             hasDied = true;
-            SimEnvironment[] myAirInputs = myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments();
+            SimEnvironment[] myAirInputs = myCurrentCrewGroup
+                    .getAirConsumerDefinition().getEnvironments();
             myLogger.info(getName() + " has died from CO2 poisoning on tick "
                     + myCurrentCrewGroup.getMyTicks() + " (risk was "
                     + numFormat.format(CO2RiskReturn * 100) + "%)");
@@ -1169,14 +1181,17 @@ public class CrewPersonImpl extends CrewPersonPOA {
     }
 
     private void eatFood(float pFoodNeeded) {
-        FoodMatter[] foodConsumed = FoodConsumerDefinitionImpl.getCaloriesFromStore(myCurrentCrewGroup.getFoodConsumerDefinition(), caloriesNeeded);
+        FoodMatter[] foodConsumed = FoodConsumerDefinitionImpl
+                .getCaloriesFromStore(myCurrentCrewGroup
+                        .getFoodConsumerDefinition(), caloriesNeeded);
         foodMassConsumed = calculateFoodMass(foodConsumed);
         if ((foodConsumed.length == 0)
                 || (myCurrentCrewGroup.getFoodConsumerDefinition().getStores().length == 0))
             caloriesConsumed = 0f;
         else {
             caloriesConsumed = FoodStoreImpl.calculateCalories(foodConsumed);
-            potableWaterNeeded -= FoodStoreImpl.calculateWaterContent(foodConsumed);
+            potableWaterNeeded -= FoodStoreImpl
+                    .calculateWaterContent(foodConsumed);
         }
     }
 
@@ -1206,13 +1221,28 @@ public class CrewPersonImpl extends CrewPersonPOA {
         vaporProduced = calculateVaporProduced(potableWaterNeeded);
         //adjust tanks
         eatFood(caloriesNeeded);
-        potableWaterConsumed = StoreFlowRateControllableImpl.getFractionalResourceFromStore(myCurrentCrewGroup.getPotableWaterConsumerDefinition(), potableWaterNeeded, 1f / myCurrentCrewGroup.getCrewSize());
-        float distributedDirtyWater = StoreFlowRateControllableImpl.getFractionalResourceFromStore(myCurrentCrewGroup.getDirtyWaterProducerDefinition(), dirtyWaterProduced, 1f / myCurrentCrewGroup.getCrewSize());
-        float distributedGreyWater = StoreFlowRateControllableImpl.getFractionalResourceFromStore(myCurrentCrewGroup.getGreyWaterProducerDefinition(), greyWaterProduced, 1f / myCurrentCrewGroup.getCrewSize());
-        float distributedDryWaste = StoreFlowRateControllableImpl.getFractionalResourceFromStore(myCurrentCrewGroup.getDryWasteProducerDefinition(), dryWasteProduced, 1f / myCurrentCrewGroup.getCrewSize());
-        
-        SimEnvironment[] myAirInputs = myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments();
-        SimEnvironment[] myAirOutputs = myCurrentCrewGroup.getAirProducerDefinition().getEnvironments();
+        potableWaterConsumed = StoreFlowRateControllableImpl
+                .getFractionalResourceFromStore(myCurrentCrewGroup
+                        .getPotableWaterConsumerDefinition(),
+                        potableWaterNeeded, 1f / myCurrentCrewGroup
+                                .getCrewSize());
+        float distributedDirtyWater = StoreFlowRateControllableImpl
+                .getFractionalResourceFromStore(myCurrentCrewGroup
+                        .getDirtyWaterProducerDefinition(), dirtyWaterProduced,
+                        1f / myCurrentCrewGroup.getCrewSize());
+        float distributedGreyWater = StoreFlowRateControllableImpl
+                .getFractionalResourceFromStore(myCurrentCrewGroup
+                        .getGreyWaterProducerDefinition(), greyWaterProduced,
+                        1f / myCurrentCrewGroup.getCrewSize());
+        float distributedDryWaste = StoreFlowRateControllableImpl
+                .getFractionalResourceFromStore(myCurrentCrewGroup
+                        .getDryWasteProducerDefinition(), dryWasteProduced,
+                        1f / myCurrentCrewGroup.getCrewSize());
+
+        SimEnvironment[] myAirInputs = myCurrentCrewGroup
+                .getAirConsumerDefinition().getEnvironments();
+        SimEnvironment[] myAirOutputs = myCurrentCrewGroup
+                .getAirProducerDefinition().getEnvironments();
         if (myAirInputs.length < 1) {
             O2Consumed = 0f;
         } else {

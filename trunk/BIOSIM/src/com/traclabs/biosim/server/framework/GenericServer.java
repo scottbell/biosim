@@ -74,7 +74,7 @@ public class GenericServer {
     protected static String getNamefromArgs(String[] myArgs) {
         String myName = "NoName";
         for (int i = 0; i < myArgs.length; i++) {
-            if (myArgs[i].startsWith("-name=")) 
+            if (myArgs[i].startsWith("-name="))
                 myName = myArgs[i].split("=")[1];
         }
         return myName;
@@ -91,7 +91,7 @@ public class GenericServer {
     protected static String getXMLfromArgs(String[] myArgs) {
         String xmlLocation = "com/traclabs/biosim/server/framework/DefaultInit.xml";
         for (int i = 0; i < myArgs.length; i++) {
-            if (myArgs[i].startsWith("-xml=")) 
+            if (myArgs[i].startsWith("-xml="))
                 xmlLocation = myArgs[i].split("=")[1];
         }
         return xmlLocation;

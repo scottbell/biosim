@@ -12,31 +12,38 @@ import com.traclabs.biosim.server.util.OrbUtils;
  * @author Scott Bell
  */
 
-public class CO2AirConsumerDefinitionImpl extends StoreEnvironmentFlowRateControllableImpl implements CO2AirConsumerDefinitionOperations {
+public class CO2AirConsumerDefinitionImpl extends
+        StoreEnvironmentFlowRateControllableImpl implements
+        CO2AirConsumerDefinitionOperations {
     private CO2AirConsumerDefinition myCO2AirConsumerDefinition;
-    
-    public CO2AirConsumerDefinitionImpl(){
-        myCO2AirConsumerDefinition = CO2AirConsumerDefinitionHelper.narrow(OrbUtils.poaToCorbaObj(new CO2AirConsumerDefinitionPOATie(this)));
+
+    public CO2AirConsumerDefinitionImpl() {
+        myCO2AirConsumerDefinition = CO2AirConsumerDefinitionHelper
+                .narrow(OrbUtils
+                        .poaToCorbaObj(new CO2AirConsumerDefinitionPOATie(this)));
     }
-    
-    public CO2AirConsumerDefinition getCorbaObject(){
+
+    public CO2AirConsumerDefinition getCorbaObject() {
         return myCO2AirConsumerDefinition;
     }
-    
-    public void setCO2AirEnvironmentInputs(SimEnvironment[] pEnvironments, float[] pMaxFlowRates, float[] pDesiredFlowRates) {
+
+    public void setCO2AirEnvironmentInputs(SimEnvironment[] pEnvironments,
+            float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setEnvironments(pEnvironments);
         setEnvironmentMaxFlowRates(pMaxFlowRates);
         setEnvironmentDesiredFlowRates(pDesiredFlowRates);
     }
 
-    public void setCO2AirStoreInputs(CO2Store[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates) {
+    public void setCO2AirStoreInputs(CO2Store[] pStores, float[] pMaxFlowRates,
+            float[] pDesiredFlowRates) {
         setStores(pStores);
         setStoreMaxFlowRates(pMaxFlowRates);
         setStoreDesiredFlowRates(pDesiredFlowRates);
     }
-    
+
     /**
      * Grabs as much CO2 as it can (i.e., the maxFlowRate) from environments.
+     * 
      * @return The total amount of CO2 grabbed from the environments
      */
     public float getMostCO2FromEnvironment() {
@@ -52,7 +59,5 @@ public class CO2AirConsumerDefinitionImpl extends StoreEnvironmentFlowRateContro
         }
         return gatheredCO2Air;
     }
-    
-    
 
 }

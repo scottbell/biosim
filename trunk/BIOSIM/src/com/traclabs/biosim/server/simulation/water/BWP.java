@@ -1,6 +1,5 @@
 package com.traclabs.biosim.server.simulation.water;
 
-
 /**
  * The Biological Waste Processor is the first stage of water purification. It
  * takes dirty/grey water, filters it some, and sends the water to the RO
@@ -67,8 +66,12 @@ public class BWP extends WaterRSSubSystem {
         } else {
             waterNeeded = NORMAL_WATER_NEEDED;
         }
-        currentDirtyWaterConsumed = myWaterRS.getDirtyWaterConsumerDefinitionImpl().getResourceFromStore(waterNeeded);
-        currentGreyWaterConsumed = myWaterRS.getGreyWaterConsumerDefinitionImpl().getResourceFromStore(waterNeeded - currentDirtyWaterConsumed);
+        currentDirtyWaterConsumed = myWaterRS
+                .getDirtyWaterConsumerDefinitionImpl().getResourceFromStore(
+                        waterNeeded);
+        currentGreyWaterConsumed = myWaterRS
+                .getGreyWaterConsumerDefinitionImpl().getResourceFromStore(
+                        waterNeeded - currentDirtyWaterConsumed);
         float gatheredWater = currentDirtyWaterConsumed
                 + currentGreyWaterConsumed;
         if (gatheredWater < waterNeeded) {
@@ -93,7 +96,8 @@ public class BWP extends WaterRSSubSystem {
             myWaterRS.getAES().addWater(currentAESWaterProduced);
         } else {
             //dump water back to dirty water store
-            waterLevel = myWaterRS.getDirtyWaterConsumerDefinitionImpl().pushResourceToStore(waterLevel);
+            waterLevel = myWaterRS.getDirtyWaterConsumerDefinitionImpl()
+                    .pushResourceToStore(waterLevel);
             //dump rest
             waterLevel = 0f;
             currentAESWaterProduced = 0f;

@@ -18,31 +18,38 @@ import com.traclabs.biosim.server.util.OrbUtils;
  * @author Scott Bell
  */
 
-public class FoodConsumerDefinitionImpl extends StoreFlowRateControllableImpl implements FoodConsumerDefinitionOperations {
+public class FoodConsumerDefinitionImpl extends StoreFlowRateControllableImpl
+        implements FoodConsumerDefinitionOperations {
     private FoodConsumerDefinition myFoodConsumerDefinition;
-    
-    public FoodConsumerDefinitionImpl(){
-        myFoodConsumerDefinition = FoodConsumerDefinitionHelper.narrow(OrbUtils.poaToCorbaObj(new FoodConsumerDefinitionPOATie(this)));
+
+    public FoodConsumerDefinitionImpl() {
+        myFoodConsumerDefinition = FoodConsumerDefinitionHelper.narrow(OrbUtils
+                .poaToCorbaObj(new FoodConsumerDefinitionPOATie(this)));
     }
-    
-    public FoodConsumerDefinition getCorbaObject(){
+
+    public FoodConsumerDefinition getCorbaObject() {
         return myFoodConsumerDefinition;
     }
-    public void setFoodInputs(FoodStore[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates) {
+
+    public void setFoodInputs(FoodStore[] pStores, float[] pMaxFlowRates,
+            float[] pDesiredFlowRates) {
         setStores(pStores);
         setMaxFlowRates(pMaxFlowRates);
         setDesiredFlowRates(pDesiredFlowRates);
     }
-    
-    public static FoodMatter[] getCaloriesFromStore(FoodConsumerDefinition pConsumer, float amountNeeded) {
+
+    public static FoodMatter[] getCaloriesFromStore(
+            FoodConsumerDefinition pConsumer, float amountNeeded) {
         float gatheredResource = 0f;
         List gatheredBioMatterArrays = new Vector();
         int sizeOfMatter = 0;
         for (int i = 0; (i < pConsumer.getStores().length)
                 && (gatheredResource < amountNeeded); i++) {
-            float limitingMassFactor = Math.min(pConsumer.getDesiredFlowRate(i),
-                    pConsumer.getMaxFlowRate(i));
-            FoodStore currentFoodStore = FoodStoreHelper.narrow(pConsumer.getStores()[i]);
+            float limitingMassFactor = Math.min(
+                    pConsumer.getDesiredFlowRate(i), pConsumer
+                            .getMaxFlowRate(i));
+            FoodStore currentFoodStore = FoodStoreHelper.narrow(pConsumer
+                    .getStores()[i]);
             FoodMatter[] takenMatter = currentFoodStore.takeFoodMatterCalories(
                     amountNeeded, limitingMassFactor);
             sizeOfMatter += takenMatter.length;

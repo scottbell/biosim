@@ -30,8 +30,11 @@ public class VCCRImpl extends SimBioModuleImpl implements VCCROperations,
 
     //Consumers, Producers
     private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
+
     private AirConsumerDefinitionImpl myAirConsumerDefinitionImpl;
+
     private AirProducerDefinitionImpl myAirProducerDefinitionImpl;
+
     private CO2ProducerDefinitionImpl myCO2ProducerDefinitionImpl;
 
     private Breath myBreath;
@@ -48,20 +51,20 @@ public class VCCRImpl extends SimBioModuleImpl implements VCCROperations,
         myAirProducerDefinitionImpl = new AirProducerDefinitionImpl();
         myCO2ProducerDefinitionImpl = new CO2ProducerDefinitionImpl();
     }
-    
-    public PowerConsumerDefinition getPowerConsumerDefinition(){
+
+    public PowerConsumerDefinition getPowerConsumerDefinition() {
         return myPowerConsumerDefinitionImpl.getCorbaObject();
     }
-    
-    public AirConsumerDefinition getAirConsumerDefinition(){
+
+    public AirConsumerDefinition getAirConsumerDefinition() {
         return myAirConsumerDefinitionImpl.getCorbaObject();
     }
-    
-    public AirProducerDefinition getAirProducerDefinition(){
+
+    public AirProducerDefinition getAirProducerDefinition() {
         return myAirProducerDefinitionImpl.getCorbaObject();
     }
-    
-    public CO2ProducerDefinition getCO2ProducerDefinition(){
+
+    public CO2ProducerDefinition getCO2ProducerDefinition() {
         return myCO2ProducerDefinitionImpl.getCorbaObject();
     }
 
@@ -80,7 +83,8 @@ public class VCCRImpl extends SimBioModuleImpl implements VCCROperations,
      * Adds power for this tick
      */
     private void gatherPower() {
-        currentPowerConsumed = myPowerConsumerDefinitionImpl.getMostResourceFromStore();
+        currentPowerConsumed = myPowerConsumerDefinitionImpl
+                .getMostResourceFromStore();
     }
 
     /**
@@ -92,7 +96,7 @@ public class VCCRImpl extends SimBioModuleImpl implements VCCROperations,
         currentPowerConsumed = 0;
         currentCO2Produced = 0f;
     }
-    
+
     private void gatherAir() {
         float gatheredAir = 0f;
         float gatheredO2 = 0f;
@@ -102,14 +106,18 @@ public class VCCRImpl extends SimBioModuleImpl implements VCCROperations,
         float gatheredNitrogen = 0f;
         //25.625 watts -> 1.2125 moles of Air
         float molesAirNeeded = (currentPowerConsumed / 25.625f) * 1.2125f;
-        myBreath = myAirConsumerDefinitionImpl.getAirFromEnvironment(molesAirNeeded);
+        myBreath = myAirConsumerDefinitionImpl
+                .getAirFromEnvironment(molesAirNeeded);
     }
 
     private void pushAir() {
-        Breath breathToDistribute = new Breath(myBreath.O2, 0f, myBreath.water, myBreath.other, myBreath.nitrogen);
-        Breath breathDistributed = myAirProducerDefinitionImpl.pushAirToEnvironments(breathToDistribute);
+        Breath breathToDistribute = new Breath(myBreath.O2, 0f, myBreath.water,
+                myBreath.other, myBreath.nitrogen);
+        Breath breathDistributed = myAirProducerDefinitionImpl
+                .pushAirToEnvironments(breathToDistribute);
         currentCO2Produced = myBreath.CO2;
-        float distributedCO2Left = myCO2ProducerDefinitionImpl.pushResourceToStore(currentCO2Produced);
-        myLogger.debug("currentCO2Produced = "+currentCO2Produced);
+        float distributedCO2Left = myCO2ProducerDefinitionImpl
+                .pushResourceToStore(currentCO2Produced);
+        myLogger.debug("currentCO2Produced = " + currentCO2Produced);
     }
 }

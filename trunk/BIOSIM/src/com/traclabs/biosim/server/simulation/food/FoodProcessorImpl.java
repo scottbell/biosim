@@ -38,12 +38,15 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements
         DryWasteProducerOperations, WaterProducerOperations {
     //Consumers, Producers
     private BiomassConsumerDefinitionImpl myBiomassConsumerDefinitionImpl;
+
     private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
+
     private FoodProducerDefinitionImpl myFoodProducerDefinitionImpl;
+
     private WaterProducerDefinitionImpl myWaterProducerDefinitionImpl;
+
     private DryWasteProducerDefinitionImpl myDryWasteProducerDefinitionImpl;
-    
-    
+
     //During any given tick, this much power is needed for the food processor
     // to run at all
     private float powerNeeded = 100;
@@ -77,11 +80,11 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements
     //References to the servers the Food Processor takes/puts resources (like
     // power, biomass, etc)
     private float myProductionRate = 1f;
-    
+
     private BioMatter[] biomatterConsumed;
 
     public FoodProcessorImpl(int pID, String pName) {
-        super(pID, pName);        
+        super(pID, pName);
         biomatterConsumed = new BioMatter[0];
         myBiomassConsumerDefinitionImpl = new BiomassConsumerDefinitionImpl();
         myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl();
@@ -89,24 +92,24 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements
         myFoodProducerDefinitionImpl = new FoodProducerDefinitionImpl();
         myDryWasteProducerDefinitionImpl = new DryWasteProducerDefinitionImpl();
     }
-    
-    public BiomassConsumerDefinition getBiomassConsumerDefinition(){
+
+    public BiomassConsumerDefinition getBiomassConsumerDefinition() {
         return myBiomassConsumerDefinitionImpl.getCorbaObject();
     }
-    
-    public PowerConsumerDefinition getPowerConsumerDefinition(){
+
+    public PowerConsumerDefinition getPowerConsumerDefinition() {
         return myPowerConsumerDefinitionImpl.getCorbaObject();
     }
-    
-    public WaterProducerDefinition getWaterProducerDefinition(){
+
+    public WaterProducerDefinition getWaterProducerDefinition() {
         return myWaterProducerDefinitionImpl.getCorbaObject();
     }
-    
-    public FoodProducerDefinition getFoodProducerDefinition(){
+
+    public FoodProducerDefinition getFoodProducerDefinition() {
         return myFoodProducerDefinitionImpl.getCorbaObject();
     }
-    
-    public DryWasteProducerDefinition getDryWasteProducerDefinition(){
+
+    public DryWasteProducerDefinition getDryWasteProducerDefinition() {
         return myDryWasteProducerDefinitionImpl.getCorbaObject();
     }
 
@@ -179,7 +182,8 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements
      * Processor for one tick.
      */
     private void gatherPower() {
-        currentPowerConsumed = myPowerConsumerDefinitionImpl.getResourceFromStore(powerNeeded);
+        currentPowerConsumed = myPowerConsumerDefinitionImpl
+                .getResourceFromStore(powerNeeded);
         if (currentPowerConsumed < powerNeeded) {
             hasEnoughPower = false;
         } else {
@@ -192,7 +196,8 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements
      * Processor optimally for one tick.
      */
     private void gatherBiomass() {
-        biomatterConsumed = myBiomassConsumerDefinitionImpl.getBioMassFromStore(biomassNeeded);
+        biomatterConsumed = myBiomassConsumerDefinitionImpl
+                .getBioMassFromStore(biomassNeeded);
         massConsumed = calculateSizeOfBioMatter(biomatterConsumed);
         if (massConsumed > 0)
             myLogger
@@ -256,11 +261,14 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements
                 currentWaterProduced += calculateInedibleWaterContent(biomatterConsumed[i]);
             }
             currentFoodProduced = calculateSizeOfFoodMatter(foodMatterArray);
-            float distributedFoodLeft = myFoodProducerDefinitionImpl.pushFoodToStore(foodMatterArray);
+            float distributedFoodLeft = myFoodProducerDefinitionImpl
+                    .pushFoodToStore(foodMatterArray);
             float currentDryWasteProduced = currentFoodProduced
                     - calculateSizeOfBioMatter(biomatterConsumed);
-            float distributedDryWasteLeft = myDryWasteProducerDefinitionImpl.pushResourceToStore(currentDryWasteProduced);
-            float distributedWaterLeft = myWaterProducerDefinitionImpl.pushResourceToStore(currentWaterProduced);
+            float distributedDryWasteLeft = myDryWasteProducerDefinitionImpl
+                    .pushResourceToStore(currentDryWasteProduced);
+            float distributedWaterLeft = myWaterProducerDefinitionImpl
+                    .pushResourceToStore(currentWaterProduced);
         }
     }
 

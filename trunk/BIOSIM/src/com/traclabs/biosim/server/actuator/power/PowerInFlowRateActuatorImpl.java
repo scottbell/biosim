@@ -17,7 +17,8 @@ public class PowerInFlowRateActuatorImpl extends GenericActuatorImpl implements
 
     protected void processData() {
         float myFilteredValue = randomFilter(myValue);
-        getOutput().getPowerConsumerDefinition().setDesiredFlowRate(myFilteredValue, myIndex);
+        getOutput().getPowerConsumerDefinition().setDesiredFlowRate(
+                myFilteredValue, myIndex);
     }
 
     protected void notifyListeners() {

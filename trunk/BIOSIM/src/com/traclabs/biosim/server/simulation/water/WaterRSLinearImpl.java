@@ -38,11 +38,11 @@ public class WaterRSLinearImpl extends SimBioModuleImpl implements
     private GreyWaterConsumerDefinitionImpl myGreyWaterConsumerDefinitionImpl;
 
     private DirtyWaterConsumerDefinitionImpl myDirtyWaterConsumerDefinitionImpl;
-    
+
     private PotableWaterProducerDefinitionImpl myPotableWaterProducerDefinitionImpl;
-    
+
     private float currentPowerConsumed = 0f;
-    
+
     private float currentWaterConsumed = 0f;
 
     /**
@@ -55,7 +55,7 @@ public class WaterRSLinearImpl extends SimBioModuleImpl implements
         myDirtyWaterConsumerDefinitionImpl = new DirtyWaterConsumerDefinitionImpl();
         myPotableWaterProducerDefinitionImpl = new PotableWaterProducerDefinitionImpl();
     }
-    
+
     public PowerConsumerDefinition getPowerConsumerDefinition() {
         return myPowerConsumerDefinitionImpl.getCorbaObject();
     }
@@ -63,7 +63,7 @@ public class WaterRSLinearImpl extends SimBioModuleImpl implements
     public GreyWaterConsumerDefinition getGreyWaterConsumerDefinition() {
         return myGreyWaterConsumerDefinitionImpl.getCorbaObject();
     }
-    
+
     public DirtyWaterConsumerDefinition getDirtyWaterConsumerDefinition() {
         return myDirtyWaterConsumerDefinitionImpl.getCorbaObject();
     }
@@ -78,30 +78,35 @@ public class WaterRSLinearImpl extends SimBioModuleImpl implements
     public void reset() {
         super.reset();
     }
-    
+
     private void gatherPower() {
-        currentPowerConsumed = myPowerConsumerDefinitionImpl.getMostResourceFromStore();
+        currentPowerConsumed = myPowerConsumerDefinitionImpl
+                .getMostResourceFromStore();
     }
-    
+
     private void gatherWater() {
         //1540 Watts -> 4.26 liters of water
         float waterNeeded = (currentPowerConsumed / 1540f) * 4.26f;
-        float currentDirtyWaterConsumed = myDirtyWaterConsumerDefinitionImpl.getResourceFromStore(waterNeeded);
-        float currentGreyWaterConsumed = myGreyWaterConsumerDefinitionImpl.getResourceFromStore(waterNeeded - currentDirtyWaterConsumed);
+        float currentDirtyWaterConsumed = myDirtyWaterConsumerDefinitionImpl
+                .getResourceFromStore(waterNeeded);
+        float currentGreyWaterConsumed = myGreyWaterConsumerDefinitionImpl
+                .getResourceFromStore(waterNeeded - currentDirtyWaterConsumed);
         currentWaterConsumed = currentDirtyWaterConsumed
                 + currentGreyWaterConsumed;
     }
-    
+
     /**
      * Flushes the water from this subsystem (via the WaterRS) to the Potable
      * Water Store
      */
     private void pushWater() {
-        float distributedWaterLeft = myPotableWaterProducerDefinitionImpl.pushResourceToStore(currentWaterConsumed);
+        float distributedWaterLeft = myPotableWaterProducerDefinitionImpl
+                .pushResourceToStore(currentWaterConsumed);
     }
 
     /**
-     * When ticked, the Water RS: 1) gets as much water as it can in relation to power
+     * When ticked, the Water RS: 1) gets as much water as it can in relation to
+     * power
      */
     public void tick() {
         super.tick();

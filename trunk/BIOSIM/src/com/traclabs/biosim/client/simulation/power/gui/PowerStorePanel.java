@@ -62,7 +62,8 @@ public class PowerStorePanel extends GraphPanel {
         if (myDataset == null) {
             double[][] data = { {} };
             myDataset = new DefaultCategoryDataset();
-            myDataset.addValue(myPowerStore.getCurrentLevel(), "Power Store", "");
+            myDataset.addValue(myPowerStore.getCurrentLevel(), "Power Store",
+                    "");
         } else {
             float capacity = myPowerStore.getCurrentCapacity();
             if ((rangeAxis.getRange().getUpperBound() != capacity)
