@@ -99,16 +99,16 @@ public class BioDriverImpl extends BioDriverPOA{
 		runTillDead = pRunTillDead;
 	}
 
-	public void setModules(String[] pModules){
-		for (int i = 0; i < pModules.length; i++){
-
-		}
+	public void setModules(BioModule[] pModules){
+		modules = pModules;
 	}
 
-	public void setSensors(String[] pSensors){
+	public void setSensors(BioModule[] pSensors){
+		sensors = pSensors;
 	}
 
-	public void setActuators(String[] pActuators){
+	public void setActuators(BioModule[] pActuators){
+		actuators = pActuators;
 	}
 
 	public void setCrewsToWatch(CrewGroup[] pCrewGroups){

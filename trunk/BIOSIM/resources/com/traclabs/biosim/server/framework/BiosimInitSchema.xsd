@@ -38,7 +38,7 @@
 		<xsd:attribute name="startPaused" type="xsd:boolean" default="true"/>
 		<xsd:attribute name="runTillN" type="xsd:nonNegativeInteger" default="0"/>
 		<xsd:attribute name="runTillDead" type="xsd:boolean" default="true"/>
-		<xsd:attribute name="crewsToWatch" type="xsd:stringList" use="optional"/>
+		<xsd:attribute name="crewsToWatch" type="stringList" use="optional"/>
 		<xsd:attribute name="isFullLoggingEnabled" type="xsd:boolean" default="false"/>
 		<xsd:attribute name="isSensorLoggingEnabled" type="xsd:boolean" default="false"/>    
 		<xsd:attribute name="isActuatorLoggingEnabled" type="xsd:boolean" default="false"/>

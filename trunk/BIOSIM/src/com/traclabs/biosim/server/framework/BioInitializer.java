@@ -121,8 +121,9 @@ public class BioInitializer{
 			else
 				myDriver.setStochasticIntensity(StochasticIntensity.NONE_STOCH);
 			
-			String crewsToWatchString = node.getAttributes().getNamedItem("crewsToWatch").getNodeValue();
-			if (crewsToWatchString != null){
+			Node crewsToWatchNode = node.getAttributes().getNamedItem("crewsToWatch");
+			if (crewsToWatchNode != null){
+				String crewsToWatchString = crewsToWatchNode.getNodeValue();
 			}
 		}
 		catch (Exception e){e.printStackTrace();}
@@ -584,7 +585,6 @@ public class BioInitializer{
 		while(child != null){
 			if (child.getNodeName().equals("activity")){
 				Activity newActivity = createActivity(child);
-				System.out.println("creating activity "+newActivity.getName());
 				newSchedule.insertActivityInSchedule(newActivity, i);
 				i++;
 			}
