@@ -65,9 +65,10 @@ public class GenericServer{
 	* @param pID the subcontext which to bind the name
 	*/
 	public static void registerServer(Servant pPOA, String pServerName, int pID){
+		//Try to register the ID name context
 		try{
 			// bind the Object Reference in Naming
-			OrbUtils.getNCRef().rebind(OrbUtils.getNCRef().to_name(pServerName), OrbUtils.poaToCorbaObj(pPOA));
+			OrbUtils.getNamingContext(pID).rebind(OrbUtils.getNamingContext(pID).to_name(pServerName), OrbUtils.poaToCorbaObj(pPOA));
 		}
 		catch (org.omg.CORBA.UserException e){
 			System.err.println(pServerName+" had problems registering with nameservice, trying again..");

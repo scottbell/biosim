@@ -381,7 +381,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	*/
 	private void repairModule(String moduleName, long id){
 		try{
-			BioModule moduleToRepair = BioModuleHelper.narrow(OrbUtils.getNCRef().resolve_str(moduleName));
+			BioModule moduleToRepair = BioModuleHelper.narrow(OrbUtils.getNamingContext(myCrewGroup.getID()).resolve_str(moduleName));
 			moduleToRepair.repair(id);
 		}
 		catch (org.omg.CORBA.UserException e){
