@@ -16,7 +16,6 @@ public class BiosimServer extends GenericServer {
                 xmlLocation);
         if (documentUrl == null) {
             myLogger.error("Couldn't find init xml file: " + xmlLocation);
-            myLogger.error("Exiting...");
             return;
         }
         myLogger.info("Loading init file: " + documentUrl);

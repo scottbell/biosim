@@ -30,6 +30,10 @@ public class ActionMap {
     private boolean isbest;
 
     private Logger myLogger;
+    
+    private static final float HIGH_VALUE_TO_SET = 10f;
+    
+    private static final float LOW_VALUE_TO_SET = 0f;
 
     public ActionMap() {
         myLogger = Logger.getLogger(this.getClass());
@@ -88,9 +92,9 @@ public class ActionMap {
         for (i = 0; i < actuatorNames.length; i++) {
             maxrate = ((GenericActuator) actuators[i]).getMax();
             if (onoffs[i] > 0.5)
-                myMap.put(actuatorNames[i], new Float(10));
+                myMap.put(actuatorNames[i], new Float(maxrate));
             else
-                myMap.put(actuatorNames[i], new Float(0));
+                myMap.put(actuatorNames[i], new Float(LOW_VALUE_TO_SET));
         }
 
     }

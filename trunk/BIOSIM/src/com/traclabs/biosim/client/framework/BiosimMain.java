@@ -34,6 +34,9 @@ public class BiosimMain {
         logProps.setProperty(
                 "log4j.appender.rootAppender.layout.ConversionPattern",
                 "%5p [%c] - %m%n");
+        /*logProps.setProperty(
+                "log4j.logger.com.traclabs.biosim.client.control.HandController",
+                "DEBUG");*/
         PropertyConfigurator.configure(logProps);
         myLogger = Logger.getLogger(this.getClass());
     }

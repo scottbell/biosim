@@ -447,7 +447,7 @@ public class HandController {
         delta = (double) (levelToKeepO2At - crewO2);
         crewO2integral += delta;
         signal = (delta * crewO2p + crewO2i * crewO2integral) + 2;
-        
+        /*
         myLogger.info("levelToKeepO2At = "+levelToKeepO2At);
         myLogger.info("crewO2 = "+crewO2);
         myLogger.info("crewO2integral = "+crewO2integral);
@@ -455,7 +455,7 @@ public class HandController {
         myLogger.info("O2 tank ("
                 + numFormat.format(myO2Store.getCurrentLevel())
                 + ") flow to Crew environment: " + numFormat.format(signal));
-        
+        */
         currentActuator = (GenericActuator) (myBioHolder
                 .getActuatorAttachedTo(
                         myBioHolder.theO2AirEnvironmentOutFlowRateActuators,
@@ -540,6 +540,7 @@ public class HandController {
             potableWater = 0;
         }
         if (SimState.get("oxygen") == LOW) {
+        	myLogger.info("OXYGEN IS LOW");
             potableWater = 1;
         }
         if (SimState.get("oxygen") == HIGH) {
@@ -551,7 +552,7 @@ public class HandController {
 
         myLogger.debug("CRS: " + CO2 + " OGS: " + potableWater + " Dirty Water: "
                 + dirtyWater + " Grey Water: " + greyWater);
-        myAction = new ActionMap(new int[] { CO2, potableWater, dirtyWater, greyWater });
+        myAction = new ActionMap(new int[] { potableWater, dirtyWater, greyWater });
         return myAction;
 
     }
