@@ -17,11 +17,10 @@ public abstract class Plant {
 	protected boolean hasEnoughLight = false;
 	protected int myAge = 0;
 	protected Breath airRetrieved;
-	protected float areaPerCrop = 11.2f;
-	protected float waterNeeded = .01f; //for one crop
-	protected float powerNeeded = 2.0f; //for one crop
+	protected float totalArea = 11.2f;
+	protected float waterNeeded = .01f;
+	protected float powerNeeded = 2.0f; 
 	protected float CO2Needed = 1.0f;
-	protected int numberOfCrops = 1;
 	protected float currentWaterLevel = 0f;
 	protected float currentPowerLevel = 0f;
 	protected float biomassProduced = 0f;
@@ -40,9 +39,8 @@ public abstract class Plant {
 	public Plant(){
 	}
 
-	public Plant(float pAreaPerCrop, int pNumberOfCrops){
-		areaPerCrop = pAreaPerCrop;
-		numberOfCrops = pNumberOfCrops;
+	public Plant(float pTotalArea){
+		totalArea = pTotalArea;
 	}
 
 	protected abstract void calculateCO2Needed();
@@ -213,16 +211,14 @@ public abstract class Plant {
 			myLogIndex.CO2RetrievedIndex = CO2RetrievedHead.addChild(""+airRetrieved.CO2);
 			LogNode otherRetrievedHead = myLogHead.addChild("Other Retrieved");
 			myLogIndex.otherRetrievedIndex = otherRetrievedHead.addChild(""+airRetrieved.other);
-			LogNode areaPerCropHead = myLogHead.addChild("Area Per Crop");
-			myLogIndex.areaPerCropIndex = areaPerCropHead.addChild(""+areaPerCrop);
+			LogNode totalAreaHead = myLogHead.addChild("Total Area");
+			myLogIndex.totalAreaIndex = totalAreaHead.addChild(""+totalArea);
 			LogNode waterNeededHead = myLogHead.addChild("Water Needed");
 			myLogIndex.waterNeededIndex = waterNeededHead.addChild(""+waterNeeded);
 			LogNode powerNeededHead = myLogHead.addChild("Power Needed");
 			myLogIndex.powerNeededIndex = powerNeededHead.addChild(""+powerNeeded);
 			LogNode CO2NeededHead = myLogHead.addChild("CO2 Needed");
 			myLogIndex.CO2NeededIndex = CO2NeededHead.addChild(""+CO2Needed);
-			LogNode numberOfCropsHead = myLogHead.addChild("Number of Crops");
-			myLogIndex.numberOfCropsIndex = numberOfCropsHead.addChild(""+numberOfCrops);
 			LogNode currentWaterLevelHead = myLogHead.addChild("Water Level");
 			myLogIndex.currentWaterLevelIndex = currentWaterLevelHead.addChild(""+currentWaterLevel);
 			LogNode currentPowerLevelHead = myLogHead.addChild("Power Level");
@@ -254,11 +250,10 @@ public abstract class Plant {
 			myLogIndex.O2RetrievedIndex.setValue(""+airRetrieved.O2);
 			myLogIndex.CO2RetrievedIndex.setValue(""+airRetrieved.CO2);
 			myLogIndex.otherRetrievedIndex.setValue(""+airRetrieved.other);
-			myLogIndex.areaPerCropIndex.setValue(""+areaPerCrop);
+			myLogIndex.totalAreaIndex.setValue(""+totalArea);
 			myLogIndex.waterNeededIndex.setValue(""+waterNeeded);
 			myLogIndex.powerNeededIndex.setValue(""+powerNeeded);
 			myLogIndex.CO2NeededIndex.setValue(""+CO2Needed);
-			myLogIndex.numberOfCropsIndex.setValue(""+numberOfCrops);
 			myLogIndex.currentWaterLevelIndex.setValue(""+currentWaterLevel);
 			myLogIndex.currentPowerLevelIndex.setValue(""+currentPowerLevel);
 			myLogIndex.biomassProducedIndex.setValue(""+biomassProduced);
@@ -284,11 +279,10 @@ public abstract class Plant {
 		public LogNode O2RetrievedIndex;
 		public LogNode CO2RetrievedIndex;
 		public LogNode otherRetrievedIndex;
-		public LogNode areaPerCropIndex;
+		public LogNode totalAreaIndex;
 		public LogNode waterNeededIndex;
 		public LogNode powerNeededIndex;
 		public LogNode CO2NeededIndex;
-		public LogNode numberOfCropsIndex;
 		public LogNode currentWaterLevelIndex;
 		public LogNode currentPowerLevelIndex;
 		public LogNode biomassProducedIndex;

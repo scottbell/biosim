@@ -13,10 +13,8 @@ import java.util.*;
 
 public class ShelfImpl extends ShelfPOA {
 	private Plant myCrop;
-	private int cropCapacity = 3;
 	private float currentPowerConsumed = 0f;
 	private float totalArea = 8.24f;
-	private float areaPerCrop = totalArea / cropCapacity;
 	private float currentGreyWaterConsumed = 0f;
 	private float currentPotableWaterConsumed = 0f;
 	private boolean hasCollectedReferences = false;
@@ -29,14 +27,12 @@ public class ShelfImpl extends ShelfPOA {
 	private boolean logInitialized = false;
 	
 	public ShelfImpl(){
-		myCrop = new Wheat(areaPerCrop, cropCapacity);
+		myCrop = new Wheat(totalArea);
 	}
 	
-	public ShelfImpl(float pTotalArea, int pCropCapacity){
-		cropCapacity = pCropCapacity;
-		totalArea = pCropCapacity;
-		areaPerCrop = totalArea / cropCapacity;
-		myCrop = new Wheat(areaPerCrop, cropCapacity);
+	public ShelfImpl(float pTotalArea){
+		totalArea = pTotalArea;
+		myCrop = new Wheat(totalArea);
 	}
 	
 	/**
@@ -91,7 +87,6 @@ public class ShelfImpl extends ShelfPOA {
 	}
 	
 	public void reset(){
-		 cropCapacity = 10;
 		 currentPowerConsumed = 0f;
 		 currentGreyWaterConsumed = 0f;
 		 currentPotableWaterConsumed = 0f;
@@ -118,14 +113,10 @@ public class ShelfImpl extends ShelfPOA {
 			myLogIndex = new LogIndex();
 			myLogIndex.plantHead = myLogHead.addChild("Plant");
 			myCrop.log(myLogIndex.plantHead);
-			LogNode cropCapacityHead = myLogHead.addChild("Crop Capacity");
-			myLogIndex.cropCapacityIndex = cropCapacityHead.addChild(""+cropCapacity);
 			LogNode currentPowerConsumedHead = myLogHead.addChild("Power Consumed");
 			myLogIndex.currentPowerConsumedIndex = currentPowerConsumedHead.addChild(""+currentPowerConsumed);
 			LogNode totalAreaHead = myLogHead.addChild("Total Area");
 			myLogIndex.totalAreaIndex = totalAreaHead.addChild(""+totalArea);
-			LogNode areaPerCropHead = myLogHead.addChild("Area Per Crop");
-			myLogIndex.areaPerCropIndex = areaPerCropHead.addChild(""+areaPerCrop);
 			LogNode currentGreyWaterConsumedHead = myLogHead.addChild("Grey Water Consumed");
 			myLogIndex.currentGreyWaterConsumedIndex = currentGreyWaterConsumedHead.addChild(""+currentGreyWaterConsumed);
 			LogNode PotableWaterConsumedHead = myLogHead.addChild("Potable Water Consumed");
@@ -138,10 +129,8 @@ public class ShelfImpl extends ShelfPOA {
 		}
 		else{
 			myCrop.log(myLogIndex.plantHead);
-			myLogIndex.cropCapacityIndex.setValue(""+cropCapacity);
 			myLogIndex.currentPowerConsumedIndex.setValue(""+currentPowerConsumed);
 			myLogIndex.totalAreaIndex.setValue(""+totalArea);
-			myLogIndex.areaPerCropIndex.setValue(""+areaPerCrop);
 			myLogIndex.currentGreyWaterConsumedIndex.setValue(""+currentGreyWaterConsumed);
 			myLogIndex.currentPotableWaterConsumedIndex.setValue(""+currentPotableWaterConsumed);
 			myLogIndex.hasEnoughWaterIndex.setValue(""+hasEnoughWater);
@@ -154,10 +143,8 @@ public class ShelfImpl extends ShelfPOA {
 	*/
 	private class LogIndex{
 		public LogNode plantHead;
-		public LogNode cropCapacityIndex;
 		public LogNode currentPowerConsumedIndex;
 		public LogNode totalAreaIndex;
-		public LogNode areaPerCropIndex;
 		public LogNode currentGreyWaterConsumedIndex;
 		public LogNode currentPotableWaterConsumedIndex;
 		public LogNode hasEnoughWaterIndex;
