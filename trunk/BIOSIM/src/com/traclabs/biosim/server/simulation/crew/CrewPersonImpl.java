@@ -558,7 +558,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	*/
 	private void afflictCrew(){
 		//afflict crew
-		if (foodConsumed < foodNeeded){
+		if (foodConsumed < (foodNeeded * .9f)){
 			personStarving = true;
 			starvingTime++;
 		}
@@ -566,7 +566,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			personStarving = false;
 			starvingTime = 0;
 		}
-		if (cleanWaterConsumed < potableWaterNeeded){
+		if (cleanWaterConsumed < (potableWaterNeeded * .9f)){
 			personThirsty = true;
 			thirstTime++;
 		}
@@ -582,7 +582,9 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			personPoisoned = false;
 			poisonTime = 0;
 		}
-		if (O2Consumed < O2Needed){
+		if (O2Consumed < (O2Needed * .9f)){
+			System.out.println("CrewPersonImpl: needs "+O2Needed+" moles of O2");
+			System.out.println("CrewPersonImpl: got "+O2Consumed+" moles of O2");
 			personSuffocating = true;
 			suffocateTime++;
 		}
