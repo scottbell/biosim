@@ -21,11 +21,56 @@
 	<AirRS>
 		<isLoggingEnabled>false</isLoggingEnabled>
 		<isBreakdownEnabled>false</isBreakdownEnabled>
-		<AirRSName>AirRS0</AirRSName>
+		<airRSName>AirRS0</airRSName>
 		<powerConsumer>
 			<maxFlowrates>100</maxFlowrates>
 			<desiredFlowrates>100</desiredFlowrates>
-			<powerStoreInput>PowerStore</powerStoreInput>
+			<powerStoreInput>PowerStore0</powerStoreInput>
 		</powerConsumer>
+		<potableWaterConsumer>
+			<maxFlowrates>100</maxFlowrates>
+			<desiredFlowrates>100</desiredFlowrates>
+			<potableWaterStoreInput>PotableWaterStore0</potableWaterStoreInput>
+		</potableWaterConsumer>
+		<airConsumer>
+			<maxFlowrates>100</maxFlowrates>
+			<desiredFlowrates>100</desiredFlowrates>
+			<simEnvironmentInput>SimEnvironment0</simEnvironmentInput>
+		</airConsumer>
+		<CO2Consumer>
+			<maxFlowrates>100</maxFlowrates>
+			<desiredFlowrates>100</desiredFlowrates>
+			<CO2StoreInput>CO2Store0</CO2StoreInput>
+		</CO2Consumer>
+		<H2Consumer>
+			<maxFlowrates>100</maxFlowrates>
+			<desiredFlowrates>100</desiredFlowrates>
+			<H2StoreInput>H2Store0</H2StoreInput>
+		</H2Consumer>
+		<potableWaterProducer>
+			<maxFlowrates>100</maxFlowrates>
+			<desiredFlowrates>100</desiredFlowrates>
+			<potableWaterStoreOutput>PotableWaterStore0</potableWaterStoreOutput>
+		</potableWaterProducer>
+		<O2Producer>
+			<maxFlowrates>100</maxFlowrates>
+			<desiredFlowrates>100</desiredFlowrates>
+			<O2StoreOutput>O2Store0</O2StoreOutput>
+		</O2Producer>
+		<airProducer>
+			<maxFlowrates>100</maxFlowrates>
+			<desiredFlowrates>100</desiredFlowrates>
+			<simEnvironmentOutput>SimEnvironment0</simEnvironmentOutput>
+		</airProducer>
+		<CO2Producer>
+			<maxFlowrates>100</maxFlowrates>
+			<desiredFlowrates>100</desiredFlowrates>
+			<CO2StoreOutput>CO2Store0</CO2StoreOutput>
+		</CO2Producer>
+		<H2Producer>
+			<maxFlowrates>100</maxFlowrates>
+			<desiredFlowrates>100</desiredFlowrates>
+			<H2StoreOutput>H2Store0</H2StoreOutput>
+		</H2Producer>
 	</AirRS>
 </biosim>
