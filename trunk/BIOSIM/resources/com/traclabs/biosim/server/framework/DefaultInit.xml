@@ -3,7 +3,7 @@
 	<Globals crewsToWatch="CrewGroup" isLooping="true">
 		<comment>The default initialization for BioSim</comment>
 		<author>Scott Bell</author>
-		<!-- <log4jProperty name="log4j.logger.com.traclabs.biosim.server.sensor.air" value="DEBUG"/> !-->
+		<!-- <log4jProperty name="log4j.logger.com.traclabs.biosim.server.sensor" value="DEBUG"/> !-->
 	</Globals>
 	
 	<SimBioModules>

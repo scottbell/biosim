@@ -694,21 +694,24 @@ data logging in BioSim.
 
 \subsection{Setting logging via the XML configuration file}
 
-To change the logging of a module in XML, add isLoggingEnabled as an
-attribute to the module (if one isn't listed, it defaults to false).
-For example: 
+Logging in BioSim is done through log4j, a popular logging utility for
+Java.  By default, BioSim logs to the console at the "INFO" level.  With log4j,
+output can be outputted to files, consoles, databases, sockets, etc.  Individual
+components of the simulation can have their logging turned on.  For example, to turn
+on debugging of air sensors, the following change must be added to the Globals section of
+the BioSim XML configuration file: 
 \begin{verbatim}
-   <AirRS name="AirRS" isLoggingEnabled="true">
+<log4jProperty name="log4j.logger.com.traclabs.biosim.server.sensor.air" value="DEBUG"/>
 \end{verbatim}
 
-You can also globally enable logging for the senors, actuators, or
-everything by adding {\tt isFullLoggingEnabled}, {\tt
-isSensorLoggingEnabled} or {\tt isActuatorLoggingEnabled} to the
-Globals section at the head of the XML document.  For example: 
+You can also globally enable logging for the senors by adding:
 \begin{verbatim}
-<Globals crewsToWatch="CrewGroup" isFullLoggingEnabled="true">
+<log4jProperty name="log4j.logger.com.traclabs.biosim.server.sensor" value="DEBUG"/>
 \end{verbatim}
-
+See log4j's documentation for more sophisticated logging options here:
+\begin{verbatim}
+http://logging.apache.org/log4j
+\end{verbatim}
 \subsection{Setting logging via the API}
 
 Each module of BioSim (i.e., the {\tt SimBioModule} class) has the
