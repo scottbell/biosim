@@ -82,7 +82,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	* @param metricAmount the new volume of the store
 	*/
 	public void setCapacity(float metricAmount){
-		capacity = preMalfunctionCapacity = metricAmount;
+		capacity = oldCapacity = preMalfunctionCapacity = metricAmount;
 	}
 
 	/**
@@ -90,7 +90,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	* @param the level to set the store to
 	*/
 	public void setLevel(float metricAmount){
-		level = metricAmount;
+		level = oldLevel = metricAmount;
 	}
 
 	public void tick(){
