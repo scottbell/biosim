@@ -70,7 +70,12 @@ public class CrewTextPanel extends TimedPanel
 			add(noCrewPanel, BorderLayout.CENTER);
 		}
 		else{
-			setLayout(new GridLayout(myCrewPeople.length / 2, myCrewPeople.length / 2));
+			if (myCrewPeople.length == 1)
+				setLayout(new GridLayout(1, 1));
+			if ((myCrewPeople.length % 2) != 0)
+				setLayout(new GridLayout(myCrewPeople.length / 2 + 1, myCrewPeople.length / 2));
+			else
+				setLayout(new GridLayout(myCrewPeople.length / 2, myCrewPeople.length / 2));
 			for (int i = 0; i < myCrewPeople.length; i++){
 				JPanel newPersonPanel = new JPanel();
 				newPersonPanel.setLayout(new GridLayout(14,1));
