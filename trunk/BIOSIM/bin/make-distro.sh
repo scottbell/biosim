@@ -77,7 +77,7 @@ cp -f -R $clientClassesDir .
 jarCompress="$jarCommand -cvf"
 echo "	-creating jars"
 echo "		-creating biosim jar"
-$jarCompress biosim.jar * > distroOutput.txt
+$jarCompress biosim.jar * > /dev/null
 echo "		-copying biosim jar to distro directory"
 cp -f biosim.jar ..
 echo "		-changing to distro dir"
@@ -85,7 +85,7 @@ cd ..
 echo "		-removing distro tmp"
 rm -Rf $distroTmp
 echo "		-copying invocation files over"
-cp -f $devRootDir/lib/distro/win/* .
+cp -f ../../lib/distro/win/* . 2> /dev/null
 echo "		-changing to back to invocation dir"
 cd $currentDir
 echo "*done creating biosim distro"
