@@ -85,6 +85,12 @@ public class Schedule{
 		return orderedSchedule.size();
 	}
 	
+	public void insertActivityInSchedule(Activity pActivity, int pOrder){
+		if (!allActivities.containsKey(pActivity.getName()))
+			allActivities.put(pActivity.getName(), pActivity);
+		orderedSchedule.add(pOrder, pActivity)
+	}
+	
 	/**
 	* Reloads the schedule from the file and parses it again.
 	*/

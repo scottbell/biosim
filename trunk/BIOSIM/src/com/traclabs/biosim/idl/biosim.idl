@@ -15,6 +15,8 @@ module biosim{
 				boolean hasPerformed();
 				void setPerformed(in boolean pPerformed);
 				MalfunctionLength getLength();
+				void repair();
+				boolean isRepaired();
 			};
 			
 			typedef sequence <Malfunction> MalfunctionList;
@@ -119,6 +121,8 @@ module biosim{
                         interface CrewPerson{
                                 Activity getCurrentActivity();
                                 void setCurrentActivity(in Activity newActivity);
+				long getOrderOfScheduledActivity(in string name);
+				void insertActivityInSchedule(in Activity newActivity, in long order);
                                 void sicken();
 				string getName();
                                 float getAge();

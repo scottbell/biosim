@@ -486,6 +486,14 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		Double result = new Double(O2Consumed * 0.14);
 		return myCrewGroup.randomFilter(result.floatValue());
 	}
+	
+	public void insertActivityInSchedule(Activity pActivity, int pOrder){
+		mySchedule.insertActivityInSchedule(pActivity, pOrder);	
+	}
+	
+	public int getOrderOfScheduledActivity(String activityName){
+		mySchedule.getOrderOfScheduledActivity(activityName);
+	}
 
 	/**
 	* Calculate the current food needed (in kilograms) by the crew memeber given the intensity of the activity for the current tick.
