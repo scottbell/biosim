@@ -2,10 +2,9 @@ package biosim.server.util;
 
 import biosim.idl.util.*;
 import java.io.*;
-// SAX classes.
+import java.util.*;
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
-//JAXP 1.1
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.stream.*;
@@ -80,6 +79,7 @@ public class XMLLogHandler implements LogHandler{
 		myHandler = tf.newTransformerHandler();
 		Transformer serializer = myHandler.getTransformer();
 		serializer.setOutputProperty(OutputKeys.ENCODING,"ISO-8859-1");
+		serializer.setOutputProperty(OutputKeys.METHOD,"xml");
 		serializer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM,"biosim.dtd");
 		serializer.setOutputProperty(OutputKeys.INDENT,"yes");
 		myHandler.setResult(streamResult);
@@ -92,7 +92,6 @@ public class XMLLogHandler implements LogHandler{
 		myHandler.endElement("","","biosim");
 		myHandler.endDocument();
 		myFileWriter.flush();
-		System.out.println("XML doc written");
 	}
 
 	private void printXMLTree(LogNode currentNode) throws SAXException{
@@ -104,14 +103,25 @@ public class XMLLogHandler implements LogHandler{
 			myHandler.characters(tagName.toCharArray(),0,tagName.length());
 		}
 		else{
-			System.out.println("Starting "+tagName);
-			myHandler.startElement("","",tagName,emptyAtts);
-			LogNode[] childrenNodes = currentNode.getChildren();
-			for (int i = 0; i < childrenNodes.length; i++){
-				printXMLTree(childrenNodes[i]);
+			if (tagName.startsWith("tick")){
+				StringTokenizer st = new StringTokenizer(tagName);
+				String tickTagName = st.nextToken();
+				System.out.println("First token: "+tickTagName);
+				AttributesImpl tickAtts = new AttributesImpl();
+				tickAtts.addAttribute("","","number","CDATA", st.nextToken());
+				myHandler.startElement("","",tickTagName,tickAtts);
+				LogNode[] childrenNodes = currentNode.getChildren();
+				for (int i = 0; i < childrenNodes.length; i++)
+					printXMLTree(childrenNodes[i]);
+				myHandler.endElement("","",tickTagName);
 			}
-			myHandler.endElement("","",tagName);
-			System.out.println("Ending "+tagName);
+			else{
+				myHandler.startElement("","",tagName,emptyAtts);
+				LogNode[] childrenNodes = currentNode.getChildren();
+				for (int i = 0; i < childrenNodes.length; i++)
+					printXMLTree(childrenNodes[i]);
+				myHandler.endElement("","",tagName);
+			}
 		}
 	}
 }
