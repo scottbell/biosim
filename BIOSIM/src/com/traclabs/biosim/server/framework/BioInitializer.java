@@ -707,7 +707,7 @@ public class BioInitializer{
 		myPassiveSimModules = new Vector();
 		myActiveSimModules = new Vector();
 		myPrioritySimModules = new Vector();
-		myLogger = Logger.getLogger(BioDriverImpl.class); 
+		myLogger = Logger.getLogger(this.getClass()); 
 		try {
 			myParser = new DOMParser();
 			myParser.setFeature(SCHEMA_VALIDATION_FEATURE_ID, DEFAULT_SCHEMA_VALIDATION);

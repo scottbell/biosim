@@ -1,5 +1,6 @@
 package biosim.server.framework;
 
+import org.apache.log4j.Logger;
 import org.jacorb.naming.NameServer;
 
 /**
@@ -17,26 +18,28 @@ public class BiosimDebug
 	private static final String XML_INIT_FILENAME="biosim/server/framework/DefaultInitialization.xml";
 	private static final int NAMESERVER_PORT = 16309;
 	private static final int SERVER_OA_PORT = 16310;
+	private Logger myLogger;	
+	
+	public BiosimDebug(){
+		myLogger = Logger.getLogger(this.getClass());
+		myNamingServiceThread = new Thread(new NamingServiceThread());
+	}
 
 	public static void main(String args[]){
 		BiosimDebug myBiosimStandalone = new BiosimDebug();
 		myBiosimStandalone.beginSimulation();
 	}
 	
-	public BiosimDebug(){
-		myNamingServiceThread = new Thread(new NamingServiceThread());
-	}
-	
 	public void beginSimulation(){
 		myNamingServiceThread.start();
 		try {
-			System.out.println("Sleeping until nameserver comes online...");
+			myLogger.info("Sleeping until nameserver comes online...");
 			Thread.sleep(5000);
         }
 		catch (Exception e){}
 		org.jacorb.util.Environment.setProperty("OAPort", Integer.toString(SERVER_OA_PORT));
 		org.jacorb.util.Environment.setProperty("ORBInitRef.NameService", "corbaloc::localhost:"+NAMESERVER_PORT+"/NameService");
-		System.out.println("Server awake...");
+		myLogger.info("Server awake...");
         BiosimServer myBiosimServer = new BiosimServer(0, 0, XML_INIT_FILENAME);
         myBiosimServer.runServer("BiosimServer (id=0)");
 	}
