@@ -1,13 +1,15 @@
 package biosim.server.crew;
 
-// The package containing our stubs.
-import SIMULATION.*;
 import java.io.*;
 import java.net.*;
+import java.util.*;
 
 public class Schedule{
 	
+	private Hashtable scheduleHash;
+	
 	public Schedule(){
+		scheduleHash = new Hashtable();
 		//use default schedule
 		System.out.println("Using default schedule...");
 		URL defaultURL = ClassLoader.getSystemClassLoader().getResource("biosim/server/crew/defaultSchedule.txt");
@@ -25,6 +27,7 @@ public class Schedule{
 	}
 	
 	public Schedule(File pScheduleFile){
+		scheduleHash = new Hashtable();
 		File myScheduleFile = pScheduleFile;
 		parseSchedule(myScheduleFile);
 	}
@@ -32,10 +35,21 @@ public class Schedule{
 	private void parseSchedule(File scheduleFile){
 		try{
 			 BufferedReader inputReader = new BufferedReader(new FileReader(scheduleFile));
-			 String currentLine = inputReader.readLine();
+			 String currentLine = inputReader.readLine().trim();
+			 int itemsRead = 0;
 			 while ((currentLine != null) && (!currentLine.equals("#DayEnd"))){
-				System.out.println("Read: "+inputReader.readLine());
-				currentLine = inputReader.readLine();
+			 	try{
+					StringTokenizer tokenizer = new StringTokenizer(currentLine);
+					String activity = tokenizer.nextToken();
+					int lengthOfActivity = Integer.parseInt(tokenizer.nextToken());
+					Integer orderOfActivity = new Integer(itemsRead);
+					itemsRead++;
+					scheduleHash.put(orderOfActivity, new Activity(activity, lengthOfActivity));
+					currentLine = inputReader.readLine().trim();
+				}
+				catch(java.util.NoSuchElementException e){
+					System.out.println("Problem parsing line "+itemsRead+" in "+scheduleFile+": "+currentLine);
+				}
 			 }
 		}
 		catch (IOException e){
