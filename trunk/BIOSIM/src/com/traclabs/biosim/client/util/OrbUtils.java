@@ -1,4 +1,9 @@
-package biosim.client.util;
+/**
+ * The OrbUtils class provides basic CORBA utilities to client components
+ *
+ * @author    Scott Bell
+ */
+ package biosim.client.util;
 
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
@@ -7,30 +12,46 @@ import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
 
 public class OrbUtils{
+	//Flag to make sure OrbUtils only runs initialize once  
 	private static boolean runOnce = false;
+	//The root POA
 	private static POA rootPOA = null;
+	//The server ORB used resolving references
 	private static ORB myOrb = null;
+	//The naming context reference
 	private static NamingContextExt ncRef = null;
-
+	
+	/**
+	* Returns the ORB
+	* @return the ORB
+	*/
 	public static ORB getORB(){
-		if (!runOnce)
-			initializeORB();
+		initialize();
 		return myOrb;
 	}
-
+	
+	/**
+	* Returns the root POA
+	* @return the root POA
+	*/
 	public static POA getRootPOA(){
-		if (!runOnce)
-			initializeORB();
+		initialize();
 		return rootPOA;
 	}
-
+	
+	/**
+	* Returns the naming context
+	* @return the naming context
+	*/
 	public static NamingContextExt getNCRef(){
-		if (!runOnce)
-			initializeORB();
+		initialize();
 		return ncRef;
 	}
-
-	private static void initializeORB(){
+	
+	/**
+	* Done only once, this method initializes the ORB, resolves the root POA, and grabs the naming context.
+	*/
+	private static void initialize(){
 		if (runOnce)
 			return;
 		try{
