@@ -60,7 +60,7 @@ public class OrbUtils{
 			ncRef = NamingContextExtHelper.narrow(objRef);
 			runOnce = true;
 		}
-		catch (org.omg.CORBA.UserException e){
+		catch (Exception e){
 			System.out.println("OrbUtils: nameserver not found, polling again");
 			sleepAwhile();
 			initialize();

@@ -69,7 +69,7 @@ public class BioHolder
 		try{
 			if (modules == null)
 				modules = new Hashtable();
-			System.err.println("BioSimulator: Collecting references to modules...");
+			System.err.println("BioHolder: Collecting references to modules...");
 			CrewGroup myCrew = CrewGroupHelper.narrow(OrbUtils.getNCRef().resolve_str(crewName+myID));
 			modules.put(crewName , myCrew);
 			PowerPS myPowerPS = PowerPSHelper.narrow(OrbUtils.getNCRef().resolve_str(powerPSName+myID));
@@ -104,12 +104,12 @@ public class BioHolder
 			hasCollectedReferences = true;
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioSimulator: Had problems collecting server references, polling again...");
+			System.err.println("BioHolder: Had problems collecting server references, polling again...");
 			OrbUtils.sleepAwhile();
 			collectReferences();
 		}
 		catch (Exception e){
-			System.err.println("BioSimulator: Had problems collecting server references, polling again...");
+			System.err.println("BioHolder: Had problems collecting server references, polling again...");
 			OrbUtils.resetInit();
 			OrbUtils.sleepAwhile();
 			collectReferences();

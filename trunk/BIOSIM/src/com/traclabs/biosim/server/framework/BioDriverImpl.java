@@ -130,7 +130,6 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	* (i.e., fill tanks with x amount gas, generate crew memebers, etc)
 	*/
 	public void spawnSimulation(){
-		collectReferences();
 		runTillDead = false;
 		runTillN = false;
 		myTickThread = new Thread(this);
