@@ -100,9 +100,9 @@
 			</xsd:element>
 			<xsd:element name="power" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
-					<xsd:sequence>
-						<xsd:element name="PowerStore" type="PowerStoreType" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:sequence>	
 						<xsd:element name="PowerPS" type="PowerPSType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="PowerStore" type="PowerStoreType" minOccurs="0" maxOccurs="unbounded"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -111,9 +111,9 @@
 					<xsd:sequence>
 						<xsd:element name="WaterRS" type="WaterRSType" minOccurs="0" maxOccurs="unbounded"/>
 						<xsd:element name="PotableWaterStore" type="PotableWaterStoreType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="DirtyWaterStore" type="DirtyWaterStoreType" minOccurs="0" maxOccurs="unbounded"/>
 						<xsd:element name="GreyWaterStore" type="GreyWaterStoreType" minOccurs="0" maxOccurs="unbounded"/>
-					</xsd:sequence>
+						<xsd:element name="DirtyWaterStore" type="DirtyWaterStoreType" minOccurs="0" maxOccurs="unbounded"/>
+						</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="framework" minOccurs="0" maxOccurs="1">
@@ -722,8 +722,8 @@
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
 				<xsd:sequence>
-					<xsd:element name="powerProducer" type="PowerProducerType"/>
 					<xsd:element name="generation" type="GenerationType"/>
+					<xsd:element name="powerProducer" type="PowerProducerType"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -746,33 +746,31 @@
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
 				<xsd:sequence>
-					<xsd:element name="powerConsumer" type="PowerConsumerType"/>
-					<xsd:element name="powerProducer" type="PowerProducerType"/>
-					<xsd:element name="potableWaterConsumer" type="PotableWaterConsumerType"/>
-					<xsd:element name="potableWaterProducer" type="PotableWaterProducerType"/>
-					<xsd:element name="greyWaterConsumer" type="GreyWaterConsumerType"/>
-					<xsd:element name="greyWaterProducer" type="GreyWaterProducerType"/>
-					<xsd:element name="dirtyWaterConsumer" type="DirtyWaterConsumerType"/>
-					<xsd:element name="dirtyWaterProducer" type="DirtyWaterProducerType"/>
-					<xsd:element name="airConsumer" type="AirConsumerType"/>
-					<xsd:element name="airProducer" type="AirProducerType"/>
-					<xsd:element name="H2Consumer" type="H2ConsumerType"/>
-					<xsd:element name="H2Producer" type="H2ProducerType"/>
-					<xsd:element name="O2AirConsumer" type="O2AirConsumerType"/>
-					<xsd:element name="O2AirProducer" type="O2AirProducerType"/>
-					<xsd:element name="CO2AirConsumer" type="CO2AirConsumerType"/>
-					<xsd:element name="CO2AirProducer" type="CO2AirProducerType"/>
-					<xsd:element name="O2AirConsumer" type="O2AirConsumerType"/>
-					<xsd:element name="O2AirProducer" type="O2AirProducerType"/>
-					<xsd:element name="O2Consumer" type="O2ConsumerType"/>
-					<xsd:element name="O2Producer" type="O2ProducerType"/>
-					<xsd:element name="CO2Consumer" type="CO2ConsumerType"/>
-					<xsd:element name="CO2Producer" type="CO2ProducerType"/>
-					<xsd:element name="LightConsumer" type="LightConsumerType"/>
-					<xsd:element name="biomassConsumer" type="BiomassConsumerType"/>
-					<xsd:element name="biomassProducer" type="BiomassProducerType"/>
-					<xsd:element name="foodConsumer" type="FoodConsumerType"/>
-					<xsd:element name="foodProducer" type="FoodProducerType"/>
+					<xsd:element name="powerConsumer" type="PowerConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="powerProducer" type="PowerProducerType" minOccurs="0" maxOccurs="1"/>  
+					<xsd:element name="potableWaterConsumer" type="PotableWaterConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="potableWaterProducer" type="PotableWaterProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="greyWaterConsumer" type="GreyWaterConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="greyWaterProducer" type="GreyWaterProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="dirtyWaterConsumer" type="DirtyWaterConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="dirtyWaterProducer" type="DirtyWaterProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="airConsumer" type="AirConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="airProducer" type="AirProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="H2Consumer" type="H2ConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="H2Producer" type="H2ProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="O2AirConsumer" type="O2AirConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="O2AirProducer" type="O2AirProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="CO2AirConsumer" type="CO2AirConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="CO2AirProducer" type="CO2AirProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="O2Consumer" type="O2ConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="O2Producer" type="O2ProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="CO2Consumer" type="CO2ConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="CO2Producer" type="CO2ProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="LightConsumer" type="LightConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="biomassConsumer" type="BiomassConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="biomassProducer" type="BiomassProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="foodConsumer" type="FoodConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="foodProducer" type="FoodProducerType" minOccurs="0" maxOccurs="1"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -782,38 +780,35 @@
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
 				<xsd:sequence>
-					<xsd:element name="powerConsumer" type="PowerConsumerType"/>
-					<xsd:element name="powerProducer" type="PowerProducerType"/>
-					<xsd:element name="potableWaterConsumer" type="PotableWaterConsumerType"/>
-					<xsd:element name="potableWaterProducer" type="PotableWaterProducerType"/>
-					<xsd:element name="greyWaterConsumer" type="GreyWaterConsumerType"/>
-					<xsd:element name="greyWaterProducer" type="GreyWaterProducerType"/>
-					<xsd:element name="dirtyWaterConsumer" type="DirtyWaterConsumerType"/>
-					<xsd:element name="dirtyWaterProducer" type="DirtyWaterProducerType"/>
-					<xsd:element name="airConsumer" type="AirConsumerType"/>
-					<xsd:element name="airProducer" type="AirProducerType"/>
-					<xsd:element name="H2Consumer" type="H2ConsumerType"/>
-					<xsd:element name="H2Producer" type="H2ProducerType"/>
-					<xsd:element name="O2AirConsumer" type="O2AirConsumerType"/>
-					<xsd:element name="O2AirProducer" type="O2AirProducerType"/>
-					<xsd:element name="CO2AirConsumer" type="CO2AirConsumerType"/>
-					<xsd:element name="CO2AirProducer" type="CO2AirProducerType"/>
-					<xsd:element name="O2AirConsumer" type="O2AirConsumerType"/>
-					<xsd:element name="O2AirProducer" type="O2AirProducerType"/>
-					<xsd:element name="O2Consumer" type="O2ConsumerType"/>
-					<xsd:element name="O2Producer" type="O2ProducerType"/>
-					<xsd:element name="CO2Consumer" type="CO2ConsumerType"/>
-					<xsd:element name="CO2Producer" type="CO2ProducerType"/>
-					<xsd:element name="LightConsumer" type="LightConsumerType"/>
-					<xsd:element name="biomassConsumer" type="BiomassConsumerType"/>
-					<xsd:element name="biomassProducer" type="BiomassProducerType"/>
-					<xsd:element name="foodConsumer" type="FoodConsumerType"/>
-					<xsd:element name="foodProducer" type="FoodProducerType"/>
+					<xsd:element name="powerConsumer" type="PowerConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="powerProducer" type="PowerProducerType" minOccurs="0" maxOccurs="1"/>  
+					<xsd:element name="potableWaterConsumer" type="PotableWaterConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="potableWaterProducer" type="PotableWaterProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="greyWaterConsumer" type="GreyWaterConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="greyWaterProducer" type="GreyWaterProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="dirtyWaterConsumer" type="DirtyWaterConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="dirtyWaterProducer" type="DirtyWaterProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="airConsumer" type="AirConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="airProducer" type="AirProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="H2Consumer" type="H2ConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="H2Producer" type="H2ProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="O2AirConsumer" type="O2AirConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="O2AirProducer" type="O2AirProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="CO2AirConsumer" type="CO2AirConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="CO2AirProducer" type="CO2AirProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="O2Consumer" type="O2ConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="O2Producer" type="O2ProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="CO2Consumer" type="CO2ConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="CO2Producer" type="CO2ProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="LightConsumer" type="LightConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="biomassConsumer" type="BiomassConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="biomassProducer" type="BiomassProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="foodConsumer" type="FoodConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="foodProducer" type="FoodProducerType" minOccurs="0" maxOccurs="1"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	
 	
 	<!-- Sensor declarations -->
 	
