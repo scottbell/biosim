@@ -75,10 +75,10 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		super(pID);
 		myName = pName;
 		volume = initialVolume;
-		O2Moles = cachedO2Moles = initialO2Moles = volume * 0.20f;
-		otherMoles = cachedOtherMoles = initialOtherMoles = volume * 0.77f;
-		waterMoles = cachedWaterMoles = initialWaterMoles = volume * 0.02f;
-		CO2Moles = cachedCO2Moles = initialCO2Moles = volume * 0.01f;
+		O2Moles = cachedO2Moles = initialO2Moles = calculateMoles(0.20f); 
+		otherMoles = cachedOtherMoles = initialOtherMoles = calculateMoles(0.77f);
+		waterMoles = cachedWaterMoles = initialWaterMoles = calculateMoles(0.02f);
+		CO2Moles = cachedCO2Moles = initialCO2Moles = calculateMoles(0.01f);
 		O2Pressure = cachedO2Pressure = initialO2Pressure = calculatePressure(O2Moles);
 		CO2Pressure = cachedCO2Pressure = initialCO2Pressure = calculatePressure(CO2Moles);
 		otherPressure = cachedOtherPressure = initialOtherPressure = calculatePressure(otherMoles);
@@ -614,18 +614,26 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 			float afterRemovalO2 = 0f;
 			float afterRemovalOther = 0f;
 			float afterRemovalWater = 0f;
+			float takenCO2 = 0f;
+			float takenO2 = 0f;
+			float takenOther = 0f;
+			float takenWater = 0f;
 			if (O2Moles > 0){
 				percentageOfTotalGas = molesO2Requested / O2Moles;
 				afterRemovalCO2 = randomFilter(CO2Moles - (CO2Moles * percentageOfTotalGas));
 				afterRemovalO2 = randomFilter(O2Moles - molesO2Requested);
 				afterRemovalOther = randomFilter(otherMoles - (otherMoles * percentageOfTotalGas));
 				afterRemovalWater = randomFilter(waterMoles - (waterMoles * percentageOfTotalGas));
+				takenCO2 = CO2Moles - afterRemovalCO2;
+				takenO2 = O2Moles - afterRemovalO2;
+				takenWater = waterMoles - afterRemovalWater;
+				takenOther = otherMoles - afterRemovalOther;
 			}
 			O2Moles = afterRemovalO2;
 			CO2Moles = afterRemovalCO2;
 			otherMoles = afterRemovalOther;
 			waterMoles = afterRemovalWater;
-			return new Breath(afterRemovalO2, afterRemovalCO2, afterRemovalWater, afterRemovalOther);
+			return new Breath(takenO2, takenCO2, takenWater, takenOther);
 		}
 	}
 
@@ -655,18 +663,26 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 			float afterRemovalCO2 = 0f;
 			float afterRemovalOther = 0f;
 			float afterRemovalWater = 0f;
+			float takenCO2 = 0f;
+			float takenO2 = 0f;
+			float takenOther = 0f;
+			float takenWater = 0f;
 			if (CO2Moles > 0){
 				percentageOfTotalGas = molesCO2Requested / CO2Moles;
 				afterRemovalO2 = randomFilter(O2Moles - (O2Moles * percentageOfTotalGas));
 				afterRemovalCO2 = randomFilter(CO2Moles - molesCO2Requested);
 				afterRemovalOther = randomFilter(otherMoles - (otherMoles * percentageOfTotalGas));
 				afterRemovalWater = randomFilter(waterMoles - (waterMoles * percentageOfTotalGas));
+				takenCO2 = CO2Moles - afterRemovalCO2;
+				takenO2 = O2Moles - afterRemovalO2;
+				takenWater = waterMoles - afterRemovalWater;
+				takenOther = otherMoles - afterRemovalOther;
 			}
 			O2Moles = afterRemovalO2;
 			CO2Moles = afterRemovalCO2;
 			otherMoles = afterRemovalOther;
 			waterMoles = afterRemovalWater;
-			return new Breath(afterRemovalO2, afterRemovalCO2, waterMoles, afterRemovalOther);
+			return new Breath(takenO2, takenCO2, takenWater, takenOther);
 		}
 	}
 
