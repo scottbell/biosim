@@ -57,11 +57,7 @@ public class VCCRImpl extends SimBioModuleImpl implements VCCROperations,
 
     private Breath myBreath;
 
-    private final static float molesAirNeeded = 50.0f;
-
     private float currentCO2Produced = 0f;
-
-    private float myProductionRate = 1f;
 
     private float currentPowerConsumed = 0;
 
@@ -73,7 +69,7 @@ public class VCCRImpl extends SimBioModuleImpl implements VCCROperations,
         myCO2OutputStores = new CO2Store[0];
         mySimEnvironmentInputs = new SimEnvironment[0];
         mySimEnvironmentOutputs = new SimEnvironment[0];
-        
+
         powerMaxFlowRates = new float[0];
         powerActualFlowRates = new float[0];
         powerDesiredFlowRates = new float[0];
@@ -92,18 +88,19 @@ public class VCCRImpl extends SimBioModuleImpl implements VCCROperations,
      * Processes a tick by collecting referernces (if needed), resources, and
      * pushing the new air out.
      */
-public void tick() {
+    public void tick() {
         super.tick();
+        gatherPower();
         gatherAir();
         pushAir();
     }
+
     /**
      * Adds power to the subsystem for this tick
      */
     protected void gatherPower() {
-        float gatheredPower = getMostResourceFromStore(
-                myPowerStores, powerMaxFlowRates,
-                powerDesiredFlowRates, powerActualFlowRates);
+        currentPowerConsumed = getMostResourceFromStore(myPowerStores,
+                powerMaxFlowRates, powerDesiredFlowRates, powerActualFlowRates);
     }
 
     /**
@@ -115,10 +112,11 @@ public void tick() {
         currentPowerConsumed = 0;
         currentCO2Produced = 0f;
     }
-    
+
     private void gatherAir() {
-        float airNeededFiltered = randomFilter(molesAirNeeded
-                * myProductionRate);
+        //25.625 watts -> 1.2125 moles of Air
+        float molesAirNeeded = (currentPowerConsumed / 25.625f) * 1.2125f;
+        float airNeededFiltered = randomFilter(molesAirNeeded);
         float gatheredAir = 0f;
         float gatheredO2 = 0f;
         float gatheredCO2 = 0f;
@@ -127,7 +125,8 @@ public void tick() {
         float gatheredNitrogen = 0f;
         for (int i = 0; (i < getAirInputs().length)
                 && (gatheredAir < airNeededFiltered); i++) {
-            float resourceToGatherFirst = Math.min(airNeededFiltered, getAirInputMaxFlowRate(i));
+            float resourceToGatherFirst = Math.min(airNeededFiltered,
+                    getAirInputMaxFlowRate(i));
             float resourceToGatherFinal = Math.min(resourceToGatherFirst,
                     getAirInputDesiredFlowRate(i));
             Breath currentBreath = getAirInputs()[i]
@@ -172,8 +171,7 @@ public void tick() {
                     * (distributedWaterLeft / totalToDistribute);
             float reducedNitrogenToPass = resourceToDistributeFinal
                     * (distributedNitrogenLeft / totalToDistribute);
-            float O2Added = getAirOutputs()[i]
-                    .addO2Moles(reducedO2ToPass);
+            float O2Added = getAirOutputs()[i].addO2Moles(reducedO2ToPass);
             float otherAdded = getAirOutputs()[i]
                     .addOtherMoles(reducedOtherToPass);
             float waterAdded = getAirOutputs()[i]
@@ -184,12 +182,13 @@ public void tick() {
             distributedOtherLeft -= otherAdded;
             distributedWaterLeft -= waterAdded;
             distributedNitrogenLeft -= nitrogenAdded;
-            setAirOutputActualFlowRate(reducedO2ToPass
-                    + reducedOtherToPass + reducedWaterToPass
-                    + reducedNitrogenToPass, i);
+            setAirOutputActualFlowRate(reducedO2ToPass + reducedOtherToPass
+                    + reducedWaterToPass + reducedNitrogenToPass, i);
         }
-        currentCO2Produced = myBreath.CO2 * myProductionRate;
-        float distributedCO2Left = pushResourceToStore(getCO2Outputs(), getCO2OutputMaxFlowRates(), getCO2OutputDesiredFlowRates(), getCO2OutputActualFlowRates(), currentCO2Produced);
+        currentCO2Produced = myBreath.CO2;
+        float distributedCO2Left = pushResourceToStore(getCO2Outputs(),
+                getCO2OutputMaxFlowRates(), getCO2OutputDesiredFlowRates(),
+                getCO2OutputActualFlowRates(), currentCO2Produced);
     }
 
     //Power Inputs
