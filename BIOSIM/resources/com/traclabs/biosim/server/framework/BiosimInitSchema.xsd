@@ -16,9 +16,41 @@
 				<xsd:element name="FoodStore" type="Store" minOccurs="0" maxOccurs="unbounded"/>
 				<xsd:element name="BiomassStore" type="Store" minOccurs="0" maxOccurs="unbounded"/>
 				<xsd:element name="PowerStore" type="Store" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element name="AirRS" type="AirRSType" minOccurs="0" maxOccurs="unbounded"/>
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
+
+	<xsd:simpleType name="floatList">
+		<xsd:list itemType="xsd:float"/>
+	</xsd:simpleType>
+	
+	<xsd:complexType name="FlowrateTypes">  
+		<xsd:sequence>
+			<xsd:element name="maxFlowrates" type="floatList" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="desiredFlowrates" type="floatList" minOccurs="1" maxOccurs="1"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="PotableWaterConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowrateTypes">
+				<xsd:sequence>
+					<xsd:element name="potableWaterStoreInput" type="PotableWaterStoreNameType" minOccurs="1" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="PowerConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowrateTypes">
+				<xsd:sequence>
+					<xsd:element name="powerStoreInput" type="PowerStoreNameType" minOccurs="1" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
 	
 	<xsd:complexType name="PotableWaterStoreType">  
 		<xsd:complexContent>
@@ -217,6 +249,7 @@
 			<xsd:extension base="BioModuleType">
 				<xsd:sequence>
 					<xsd:element name="AirRSName" type="xsd:string"/>
+					<xsd:element name="powerConsumer" type="PowerConsumerType"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
