@@ -10,7 +10,7 @@ import biosim.client.framework.gui.*;
 public class EnvironmentPanel extends BioTabbedPanel
 {
 	protected void createPanels(){
-		myTextPanel = new EnvironmentTextPanel();
+		myTextPanel = new EnvironmentDualTextPanel();
 		myChartPanel = new EnvironmentChartPanel();
 		mySchematicPanel = new EnvironmentSchematicPanel();
 	}

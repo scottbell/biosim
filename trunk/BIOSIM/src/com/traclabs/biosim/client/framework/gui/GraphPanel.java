@@ -23,6 +23,7 @@ public abstract class GraphPanel extends TimedPanel
 	 */
 	public GraphPanel() {
 		super();
+		initializeDataSources();
 		buildGui();
 	}
 
@@ -68,6 +69,8 @@ public abstract class GraphPanel extends TimedPanel
 	}
 
 	protected abstract void createGraph();
+	protected void initializeDataSources(){
+	}
 
 	/**
 	* Action that displays the power panel in an internal frame on the desktop.
