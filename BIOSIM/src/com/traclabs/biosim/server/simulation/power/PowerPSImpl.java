@@ -60,8 +60,8 @@ public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperat
 	
 	private void performMalfunctions(){
 		float productionRate = 1f;
-		for (Enumeration e = myMalfunctions.elements(); e.hasMoreElements();){
-			Malfunction currentMalfunction = (Malfunction)(e.nextElement());
+		for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); ){
+			Malfunction currentMalfunction = (Malfunction)(iter.next());
 			if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF){
 				if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
 					productionRate *= 0.50;

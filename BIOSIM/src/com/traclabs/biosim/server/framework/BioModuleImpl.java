@@ -22,7 +22,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	protected StochasticIntensity myStochasticIntensity = StochasticIntensity.NONE_STOCH;
 	private int myID = 0;
 	private static final int RANDOM_PRECISION = 1000;
-	protected Hashtable myMalfunctions;
+	protected Map myMalfunctions;
 
 	public BioModuleImpl(int pID){
 		myRandomGen = new Random();
@@ -39,8 +39,8 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	}
 	
 	public void fixAllMalfunctions(){
-		for (Enumeration e = myMalfunctions.elements(); e.hasMoreElements(); ){
-			Malfunction currentMalfunction = (Malfunction)(e.nextElement());
+		for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); ){
+			Malfunction currentMalfunction = (Malfunction)(iter.next());
 			if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF)	
 				myMalfunctions.remove(new Integer(currentMalfunction.getID()));
 		}
@@ -49,8 +49,8 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	public String[] getMalfunctionNames(){
 		String[] malfunctionNames = new String[myMalfunctions.size()];
 		int i = 0;
-		for (Enumeration e = myMalfunctions.elements(); e.hasMoreElements(); i++){
-			Malfunction currentMalfunction = (Malfunction)(e.nextElement());
+		for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); i++){
+			Malfunction currentMalfunction = (Malfunction)(iter.next());
 			malfunctionNames[i] = currentMalfunction.getName();
 		}
 		return malfunctionNames;
