@@ -69,7 +69,7 @@ public class Wheat extends PlantImpl{
 	}
 	
 	protected float calculateCanopyStomatalConductance(){
-		float relativeHumdity = myShelfImpl.getBiomassRSImpl().getAirInputs()[0].getRelativeHumidity();
+		float relativeHumdity = myShelfImpl.getBiomassRSImpl().getAirInputs()[0].getWaterMoles();
 		return 0.1389f + 15.32f * relativeHumdity * (calculateNetCanopyPhotosynthesis() / calculateCO2());
 	}
 	

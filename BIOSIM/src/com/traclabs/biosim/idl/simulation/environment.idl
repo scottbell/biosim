@@ -8,7 +8,7 @@ module environment{
                 void setO2Pressure(in float kPA);
                 void setOtherPressure(in float kPA);
                 void setWaterPressure(in float kPA);
-                void setCapacity(in float liters);
+                void setVolume(in float liters);
                 float getO2Moles();
                 float getCO2Moles();
                 float getOtherMoles();

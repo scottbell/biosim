@@ -56,7 +56,7 @@ public abstract class PlantImpl extends PlantPOA{
 	
 	private float calculateDailyCanopyTranspirationRate(){
 		//assumes water is at 20 C and 101kPA of total pressure
-		float airPressure = myShelfImpl.getBiomassRSImpl().getAirInputs()[0].getAirPressure();
+		float airPressure = myShelfImpl.getBiomassRSImpl().getAirInputs()[0].getTotalPressure();
 		return 3600f * getPhotoperiod() * (18.015f / 998.23f) * calculateCanopySurfaceConductance() * (calculateVaporPressureDeficit() / airPressure);
 	}
 	
@@ -72,7 +72,7 @@ public abstract class PlantImpl extends PlantPOA{
 	}
 	
 	private float calculateActualMoistureVaporPressure(float pSaturatedMoistureVaporPressure){
-		return pSaturatedMoistureVaporPressure - myShelfImpl.getBiomassRSImpl().getAirInputs()[0].getRelativeHumidity();
+		return pSaturatedMoistureVaporPressure - myShelfImpl.getBiomassRSImpl().getAirInputs()[0].getWaterMoles();
 	}
 	
 	protected float calculateNetCanopyPhotosynthesis(){
