@@ -62,9 +62,7 @@ public abstract class WaterRSSubSystem{
 	}
 
 	public void setEnabled(boolean pEnabled){
-		if (malfunctioning && pEnabled)
-			return;
-		else
+		if (!malfunctioning)
 			enabled = pEnabled;
 	}
 	
