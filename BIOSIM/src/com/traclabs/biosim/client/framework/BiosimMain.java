@@ -50,6 +50,7 @@ public class BiosimMain {
     }
 
     private void checkArgs(String[] myArgs) {
+        myLogger.debug("arg length = "+myArgs.length);
         int myID = 0;
         boolean wantsToRunCommandLine = false;
         boolean wantsToRunGUI = false;
@@ -72,9 +73,11 @@ public class BiosimMain {
                                 + "/NameService");
                 Environment.setProperty("OAPort", Integer
                         .toString(CLIENT_OA_PORT));
-            } else if (myArgs[i].equals("-xml=")) {
+            } else if (myArgs[i].startsWith("-xml=")) {
                 try {
-                    BioHolderInitializer.setFile(myArgs[i].split("=")[1]);
+                    String xmlFile = myArgs[i].split("=")[1];
+                    myLogger.info("Using xml=" + xmlFile);
+                    BioHolderInitializer.setFile(xmlFile);
                 } catch (Exception e) {
                     myLogger.error("Problem parsing arguments on arg "
                             + myArgs[i]);
