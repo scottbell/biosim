@@ -50,10 +50,10 @@
 		<mkdir dir="${tmpDir}"/>
 	</target>
   
-  	<target name="stubServer" depends="init-build" description="stub the IDL file for the server">
+  	<target name="stub-server" depends="init-build" description="stub the IDL file for the server">
 		<echo message="Stubbing the IDL file for the server"/>
 		<mkdir dir="${serverStubs}"/>
-		<java classname="ParserHack">
+		<java classname="ParserHack" failonerror="yes">
 			<arg value="-d"/> 
 			<arg file="${serverStubs}"/>
 			<arg file="${src}/biosim/idl/biosim.idl"/>
@@ -72,7 +72,7 @@
 		</javac>
 	</target>
 
-	<target name="build-server" depends="stubServer" description="compile the server">
+	<target name="build-server" depends="stub-server" description="compile the server">
 		<mkdir dir="${server}"/>
 		<mkdir dir="${serverClasses}"/>
 		<echo message="Compling the server"/>
@@ -88,11 +88,11 @@
 		</javac>
 	</target>
 	
-	<target name="stubClient" depends="init-build" description="stub the IDL file for the client">
+	<target name="stub-client" depends="init-build" description="stub the IDL file for the client">
 		<echo message="Stubbing the IDL file for the client"/>
 		<mkdir dir="${clientStubs}"/>
 		<echo message="Compiling server stubs"/>
-		<java classname="ParserHack">
+		<java classname="ParserHack" failonerror="yes">
 			<arg value="-noskel"/> 
 			<arg value="-d"/>
 			<arg file="${clientStubs}"/>
@@ -112,7 +112,7 @@
 		</javac>
 	</target>
   
-   	<target name="build-client" depends="stubClient" description="compile the client">
+   	<target name="build-client" depends="stub-client" description="compile the client">
 		<mkdir dir="${client}"/>
 		<mkdir dir="${clientClasses}"/>
 		<echo message="Compling the client"/>
@@ -248,7 +248,7 @@
 	<target name="run-nameserver" depends="init-build" description="runs the nameserver">
 		<mkdir dir="${nsDir}"/>
 		<echo message="Starting nameserver"/>
-		<java classname="org.jacorb.naming.NameServer" error="nameserver.txt">
+		<java classname="org.jacorb.naming.NameServer" error="nameserver.txt"  failonerror="yes">
 			<sysproperty key="org.omg.CORBA.ORBClass" value="org.jacorb.orb.ORB"/>
 			<sysproperty key="org.omg.CORBA.ORBSingletonClass" value="org.jacorb.orb.ORBSingleton"/>
 			<arg value="${nsDir}/ior.txt"/>
@@ -262,7 +262,7 @@
 	
 	<target name="run-nameserver-viewer" description="runs the nameserver viewer">
 		<echo message="Starting nameserver viewer"/>
-		<java classname="org.jacorb.naming.namemanager.NameManager">
+		<java classname="org.jacorb.naming.namemanager.NameManager" failonerror="yes">
 			<sysproperty key="org.omg.CORBA.ORBClass" value="org.jacorb.orb.ORB"/>
 			<sysproperty key="org.omg.CORBA.ORBSingletonClass" value="org.jacorb.orb.ORBSingleton"/>
 			<sysproperty key="ORBInitRef.NameService" value="file:${nsDir}/ior.txt"/>
@@ -276,7 +276,7 @@
 	
 	<target name="run-server" description="runs the server">
 		<echo message="Starting biosim server"/>
-		<java classname="biosim.server.framework.BiosimServer">
+		<java classname="biosim.server.framework.BiosimServer" failonerror="yes">
 			<sysproperty key="org.omg.CORBA.ORBClass" value="org.jacorb.orb.ORB"/>
 			<sysproperty key="org.omg.CORBA.ORBSingletonClass" value="org.jacorb.orb.ORBSingleton"/>
 			<sysproperty key="ORBInitRef.NameService" value="file:${nsDir}/ior.txt"/>
@@ -295,7 +295,7 @@
 	
 	<target name="run-client" description="runs the client">
 		<echo message="Starting biosim client"/>
-		<java classname="biosim.client.framework.BiosimMain">
+		<java classname="biosim.client.framework.BiosimMain" failonerror="yes">
 			<arg value="-console"/> 
 			<sysproperty key="org.omg.CORBA.ORBClass" value="org.jacorb.orb.ORB"/>
 			<sysproperty key="org.omg.CORBA.ORBSingletonClass" value="org.jacorb.orb.ORBSingleton"/>
