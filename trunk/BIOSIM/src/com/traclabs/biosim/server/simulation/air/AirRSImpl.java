@@ -35,7 +35,7 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations, PowerCo
 	private float[] CO2FlowRates;
 	private float[] airInFlowRates;
 	private float[] airOutFlowRates;
-	
+
 	public AirRSImpl(int pID){
 		super(pID);
 		myVCCR = new VCCR(this);
@@ -44,60 +44,71 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations, PowerCo
 		myH2Tank = new H2Tank(this);
 		myCH4Tank = new CH4Tank(this);
 		myOGS = new OGS(this);
+
+		myO2Stores = new O2Store[0];
+		myPowerStores = new PowerStore[0];
+		myCO2Stores = new CO2Store[0];
+		mySimEnvironmentInputs = new SimEnvironment[0];
+		mySimEnvironmentOutputs = new SimEnvironment[0];
+		powerFlowRates = new float[0];
+		O2FlowRates = new float[0];
+		CO2FlowRates = new float[0];
+		airInFlowRates = new float[0];
+		airOutFlowRates = new float[0];
 	}
-	
+
 	public boolean VCCRHasPower(){
 		return myVCCR.hasPower();
 	}
-	
+
 	public boolean VCCRHasEnoughAir(){
 		return myVCCR.hasEnoughAir();
 	}
-	
+
 	public boolean CRSHasPower(){
 		return myCRS.hasPower();
 	}
-	
+
 	public boolean CRSHasEnoughCO2(){
 		return myCRS.hasEnoughCO2();
 	}
-	
+
 	public boolean CRSHasEnoughH2(){
 		return myCRS.hasEnoughH2();
 	}
-	
+
 	public boolean OGSHasPower(){
 		return myOGS.hasPower();
 	}
-	
+
 	public boolean OGSHasEnoughH2O(){
 		return myOGS.hasEnoughH2O();
 	}
-	
+
 	VCCR getVCCR(){
 		return myVCCR;
 	}
-	
+
 	CO2Tank getCO2Tank(){
 		return myCO2Tank;
 	}
-	
+
 	CRS getCRS(){
 		return myCRS;
 	}
-	
+
 	H2Tank getH2Tank(){
 		return myH2Tank;
 	}
-	
+
 	CH4Tank getCH4Tank(){
 		return myCH4Tank;
 	}
-	
+
 	OGS getOGS(){
 		return myOGS;
 	}
-	
+
 	/**
 	* Returns the power consumption (in watts) of the AirRS at the current tick.
 	* @return the power consumed (in watts) at the current tick
@@ -105,7 +116,7 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations, PowerCo
 	public float getPowerConsumed(){
 		return myVCCR.getPowerConsumed() + myOGS.getPowerConsumed() + myCRS.getPowerConsumed();
 	}
-	
+
 	/**
 	* Returns the CO2 consumption (in liters) of the AirRS at the current tick.
 	* @return the CO2 consumed at the current tick
@@ -113,7 +124,7 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations, PowerCo
 	public float getCO2Consumed(){
 		return myVCCR.getCO2Consumed();
 	}
-	
+
 	/**
 	* Returns the O2 produced (in liters) of the AirRS at the current tick.
 	* @return the O2 produced (in liters) at the current tick
@@ -121,7 +132,7 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations, PowerCo
 	public float getO2Produced(){
 		return myOGS.getO2Produced();
 	}
-	
+
 	/**
 	* Returns the CO2 produced (in liters) of the AirRS at the current tick.
 	* @return the CO2 produced (in liters) at the current tick
@@ -129,7 +140,7 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations, PowerCo
 	public float getCO2Produced(){
 		return 0;
 	}
-	
+
 	/**
 	* Processes a tick by collecting referernces (if needed), resources, and pushing the new air out.
 	*/
@@ -145,12 +156,12 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations, PowerCo
 		if (moduleLogging)
 			log();
 	}
-	
+
 	public void setProductionRate(float percentage){
 		myVCCR.setProductionRate(percentage);
 		myOGS.setProductionRate(percentage);
 	}
-	
+
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
 		StringBuffer returnBuffer = new StringBuffer();
 		if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
@@ -165,7 +176,7 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations, PowerCo
 			returnBuffer.append("Production Rate Decrease (Permanent)");
 		return returnBuffer.toString();
 	}
-	
+
 	private void performMalfunctions(){
 		float productionRate = 1f;
 		for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); ){
@@ -189,7 +200,7 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations, PowerCo
 		}
 		setProductionRate(productionRate);
 	}
-	
+
 	/**
 	* Resets production/consumption levels.
 	*/
@@ -202,7 +213,7 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations, PowerCo
 		myCH4Tank.reset();
 		myOGS.reset();
 	}
-	
+
 	/**
 	* Returns the name of this module (AirRS)
 	* @return the name of this module
@@ -210,7 +221,7 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations, PowerCo
 	public String getModuleName(){
 		return "AirRS"+getID();
 	}
-	
+
 	private void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
@@ -226,7 +237,7 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations, PowerCo
 		}
 		sendLog(myLog);
 	}
-	
+
 	/**
 	* For fast reference to the log tree
 	*/
@@ -237,88 +248,88 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations, PowerCo
 		public LogNode currentCO2ProducedIndex;
 		public LogNode currentPowerConsumedIndex;
 	}
-	
+
 	public void setPowerInputFlowrate(float watts, int index){
 		powerFlowRates[index] = watts;
 	}
-	
+
 	public float getPowerInputFlowrate(int index){
 		return powerFlowRates[index];
 	}
-	
+
 	public void setPowerInputs(PowerStore[] sources, float[] flowRates){
 		myPowerStores = sources;
 		powerFlowRates = flowRates;
 	}
-	
+
 	public PowerStore[] getPowerInputs(){
 		return myPowerStores;
 	}
-	
+
 	public void setAirInputFlowrate(float liters, int index){
 		airInFlowRates[index] = liters;
 	}
-	
+
 	public float getAirInputFlowrate(int index){
 		return airInFlowRates[index];
 	}
-	
+
 	public void setAirInputs(SimEnvironment[] sources, float[] flowRates){
 		mySimEnvironmentInputs = sources;
 		airInFlowRates = flowRates;
 	}
-	
+
 	public SimEnvironment[] getAirInputs(){
 		return mySimEnvironmentInputs;
 	}
-	
+
 	public void setAirOutputFlowrate(float liters, int index){
 		airOutFlowRates[index] = liters;
 	}
-	
+
 	public float getAirOutputFlowrate(int index){
 		return airOutFlowRates[index];
 	}
-	
+
 	public void setAirOutputs(SimEnvironment[] sources, float[] flowRates){
 		mySimEnvironmentOutputs = sources;
 		airOutFlowRates = flowRates;
 	}
-	
+
 	public SimEnvironment[] getAirOutputs(){
 		return mySimEnvironmentOutputs;
 	}
-	
+
 	public void setO2OutputFlowrate(float liters, int index){
 		O2FlowRates[index] = liters;
 	}
-	
+
 	public float getO2OutputFlowrate(int index){
 		return O2FlowRates[index];
 	}
-	
+
 	public void setO2Outputs(O2Store[] sources, float[] flowRates){
 		myO2Stores = sources;
 		O2FlowRates = flowRates;
 	}
-	
+
 	public O2Store[] getO2Outputs(){
 		return myO2Stores;
 	}
-	
+
 	public void setCO2OutputFlowrate(float liters, int index){
 		CO2FlowRates[index] = liters;
 	}
-	
+
 	public float getCO2OutputFlowrate(int index){
 		return CO2FlowRates[index];
 	}
-	
+
 	public void setCO2Outputs(CO2Store[] sources, float[] flowRates){
 		myCO2Stores = sources;
 		CO2FlowRates = flowRates;
 	}
-	
+
 	public CO2Store[] getCO2Outputs(){
 		return myCO2Stores;
 	}
