@@ -648,6 +648,7 @@ module com{
                                                         string getModuleNameToMaintain();
                                                 };
                                                 interface EVAActivity : Activity{
+                                                        void setBaseEnvironmentName(in string pBaseEnvironmentName);
                                                         string getBaseEnvironmentName();
                                                         string getOutsideEnvironmentName();
                                                 };
