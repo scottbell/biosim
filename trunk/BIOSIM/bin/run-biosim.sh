@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "*running biosim"
-ant run-nameserver &
+run-nameserver.sh &
 run-server.sh &
 run-client.sh
 echo "*done running biosim"
