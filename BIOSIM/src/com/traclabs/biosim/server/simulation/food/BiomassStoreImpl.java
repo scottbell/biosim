@@ -38,7 +38,7 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 		}
 	}
 
-	public BioMatter[] takeBiomatter(float pMass){
+	public BioMatter[] takeBiomatterMass(float pMass){
 		List itemsToReturn = new Vector();
 		float collectedMass = 0f;
 		for (Iterator iter = currentBiomassItems.iterator(); iter.hasNext() &&  (collectedMass <= pMass);){
@@ -64,7 +64,7 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 		return (BioMatter[])(itemsToReturn.toArray(returnArrayType));
 	}
 
-	public BioMatter takeBiomatter(float pMass, PlantType pType){
+	public BioMatter takeBiomatterMassAndType(float pMass, PlantType pType){
 		BioMatter matterToReturn = new BioMatter(0f, pType);
 		for (Iterator iter = currentBiomassItems.iterator(); iter.hasNext() &&  (matterToReturn.mass <= pMass);){
 			BioMatter currentBioMatter = (BioMatter)(iter.next());
@@ -87,7 +87,7 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 		return matterToReturn;
 	}
 
-	public BioMatter takeBiomatter(PlantType pType){
+	public BioMatter takeBiomatterType(PlantType pType){
 		BioMatter matterToReturn = new BioMatter(0f, pType);
 		for (Iterator iter = currentBiomassItems.iterator(); iter.hasNext();){
 			BioMatter currentBioMatter = (BioMatter)(iter.next());
