@@ -88,30 +88,6 @@ public class StochasticPanel extends TimedPanel
 		myOperatorPanel = new JPanel();
 	}
 
-	/* ------------------------------------------------ *
-	* gaussian -- generates a gaussian random variable *
-	*             with mean a and standard deviation d *
-	* ------------------------------------------------ */
-	private double gaussian(float a,float d){
-		double t = 0.0;
-		double x,v1,v2,r;
-		if (t == 0) {
-			do {
-				v1 = 2.0 * Math.random() - 1.0;
-				v2 = 2.0 * Math.random() - 1.0;
-				r = v1 * v1 + v2 * v2;
-			} while (r>=1.0);
-			r = Math.sqrt((-2.0*Math.log(r))/r);
-			t = v2*r;
-			return(a+v1*r*d);
-		}
-		else {
-			x = t;
-			t = 0.0;
-			return(a+x*d);
-		}
-	}
-
 	/**
 	* Attempts to load the icons from the resource directory.
 	*/
@@ -140,11 +116,6 @@ public class StochasticPanel extends TimedPanel
 		myFrame.setVisible(true);
 		myFrame.setIconImage(myStochasticPanel.getIcon().getImage());
 		myStochasticPanel.visibilityChange(true);
-
-		int deviation = 2;
-		int mean = 7;
-		for (int i = 0; i < 20; i++)
-			System.out.println("gaussian w/ dev="+deviation+" and mean="+mean+" is "+myStochasticPanel.gaussian(mean, deviation));
 	}
 
 	private BioModule getSelectedModule(){
