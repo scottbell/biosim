@@ -6,7 +6,9 @@ import biosim.client.framework.*;
 import biosim.idl.water.*;
 import com.jrefinery.chart.*;
 import com.jrefinery.data.*;
-import com.jrefinery.ui.*;
+import com.jrefinery.chart.axis.*;
+import com.jrefinery.chart.plot.*;
+import com.jrefinery.chart.renderer.*;
 
 /**
  * This is the JPanel that displays a chart about the WaterStores
@@ -19,9 +21,6 @@ public class WaterStorePanel extends GraphPanel
 	private GreyWaterStore myGreyWaterStore;
 	private DirtyWaterStore myDirtyWaterStore;
 	private DefaultCategoryDataset myDataset;
-	private ValueAxis rangeAxis;
-	private CategoryPlot myPlot;
-	private JFreeChart myChart;
 
 	protected void createGraph(){
 		// create the chart...
@@ -29,21 +28,26 @@ public class WaterStorePanel extends GraphPanel
 		myDirtyWaterStore = (DirtyWaterStore)(BioHolder.getBioModule(BioHolder.dirtyWaterStoreName));
 		myGreyWaterStore = (GreyWaterStore)(BioHolder.getBioModule(BioHolder.greyWaterStoreName));
 		refresh();
-		myChart = ChartFactory.createVerticalBarChart3D(
+		JFreeChart myChart = ChartFactory.createVerticalBarChart3D(
 		                  "Water Store Levels",  // chart title
 		                  "Stores",              // domain axis label
 		                  "Water Level (L)",                 // range axis label
 		                  myDataset,                 // data
-		                  true                     // include legend
+		                  true,                     // include legend
+				  true,
+				  false
 		          );
 		// add the chart to a panel...
-		myPlot = myChart.getCategoryPlot();
-		rangeAxis = myPlot.getRangeAxis();
+		CategoryPlot myPlot = myChart.getCategoryPlot();
+		ValueAxis rangeAxis = myPlot.getRangeAxis();
 		rangeAxis.setAutoRange(false);
 		rangeAxis.setRange(0.0, myPotableWaterStore.getCapacity());
-		myPlot.setSeriesPaint(new Paint[] { Color.BLUE, Color.GRAY, Color.YELLOW });
-		TextTitle myTextTitle = (TextTitle)(myChart.getTitle(0));
-		myTextTitle.setFont(myTextTitle.getFont().deriveFont(12.0f));
+		Renderer renderer = myPlot.getRenderer();
+		renderer.setSeriesPaint(0, Color.BLUE);
+		renderer.setSeriesPaint(1, Color.GRAY);
+		renderer.setSeriesPaint(2, Color.YELLOW);
+		//TextTitle myTextTitle = (TextTitle)(myChart.getTitle(0));
+		//myTextTitle.setFont(myTextTitle.getFont().deriveFont(12.0f));
 		myChartPanel = new ChartPanel(myChart);
 		myChartPanel.setMinimumDrawHeight(300);
 		myChartPanel.setMinimumDrawWidth(300);
@@ -52,20 +56,22 @@ public class WaterStorePanel extends GraphPanel
 
 	public void refresh() {
 		if (myDataset == null){
+			myDataset = new DefaultCategoryDataset();
 			float myPotableWaterStoreLevel = myPotableWaterStore.getLevel();
 			float myGreyWaterStoreLevel = myGreyWaterStore.getLevel();
 			float myDirtyWaterStoreLevel = myDirtyWaterStore.getLevel();
-			double[][] data = { {myPotableWaterStore.getLevel()}, {myGreyWaterStore.getLevel()}, {myDirtyWaterStore.getLevel()}};
-			myDataset = new DefaultCategoryDataset(data);
-			String[] theSeries = {"Potable Water", "Grey Water", "Dirty Water"};
-			String[] theCategory = {""};
-			myDataset.setSeriesNames(theSeries);
-			myDataset.setCategories(theCategory);
+			String series1 = "Potable Water";
+			String series2 = "Grey Water";
+			String series3 = "Dirty Water";
+			String category = "";
+			myDataset.addValue(myPotableWaterStoreLevel,series1, category);
+			myDataset.addValue(myGreyWaterStoreLevel,series2, category);
+			myDataset.addValue(myDirtyWaterStoreLevel,series3, category);
 		}
 		else{
-			myDataset.setValue(0, "", new Float(myPotableWaterStore.getLevel()));
-			myDataset.setValue(1, "", new Float(myGreyWaterStore.getLevel()));
-			myDataset.setValue(2, "", new Float(myDirtyWaterStore.getLevel()));
+			myDataset.setValue(new Float(myPotableWaterStore.getLevel()), "Potable Water", "");
+			myDataset.setValue(new Float(myGreyWaterStore.getLevel()), "Grey Water", "");
+			myDataset.setValue(new Float(myDirtyWaterStore.getLevel()), "Dirty Water", "");
 		}
 	}
 }

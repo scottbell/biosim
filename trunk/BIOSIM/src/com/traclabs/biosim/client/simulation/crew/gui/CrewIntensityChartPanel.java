@@ -7,7 +7,8 @@ import biosim.client.framework.gui.*;
 import biosim.client.framework.*;
 import com.jrefinery.chart.*;
 import com.jrefinery.data.*;
-import com.jrefinery.ui.*;
+import com.jrefinery.chart.axis.*;
+import com.jrefinery.chart.plot.*;
 
 /**
  * This is the JPanel that displays a chart about the crew and intensity levels
@@ -17,9 +18,6 @@ import com.jrefinery.ui.*;
 public class CrewIntensityChartPanel extends GraphPanel
 {
 	private DefaultCategoryDataset myDataset;
-	private ValueAxis rangeAxis;
-	private CategoryPlot myPlot;
-	private JFreeChart myChart;
 	private CrewPerson[] myCrewPeople;
 	private CrewGroup myCrewGroup;
 
@@ -49,30 +47,26 @@ public class CrewIntensityChartPanel extends GraphPanel
 	protected void createGraph(){
 		// create the chart...
 		myCrewPeople = myCrewGroup.getCrewPeople();
-		double[][] data = new double[myCrewPeople.length][1];
-		String[] theSeries = new String [myCrewPeople.length];
+		myDataset = new DefaultCategoryDataset();
 		for (int i = 0; i < myCrewPeople.length; i ++){
-			data[i][0] = myCrewPeople[i].getCurrentActivity().getActivityIntensity();
-			theSeries[i] = myCrewPeople[i].getName();
+			myDataset.addValue(myCrewPeople[i].getCurrentActivity().getActivityIntensity(),myCrewPeople[i].getName(), "");
 		}
-		myDataset = new DefaultCategoryDataset(data);
-		String[] theCategory = {""};
-		myDataset.setSeriesNames(theSeries);
-		myDataset.setCategories(theCategory);
-		myChart = ChartFactory.createVerticalBarChart3D(
+		JFreeChart myChart = ChartFactory.createVerticalBarChart3D(
 		                  "Crew Activity Intensities",  // chart title
 		                  "",              // domain axis label
 		                  "Intensity",                 // range axis label
 		                  myDataset,                 // data
-		                  true                     // include legend
+		                  true,                     // include legend
+				  true,
+				  false
 		          );
 		// add the chart to a panel...
-		myPlot = myChart.getCategoryPlot();
-		rangeAxis = myPlot.getRangeAxis();
+		CategoryPlot myPlot = myChart.getCategoryPlot();
+		ValueAxis rangeAxis = myPlot.getRangeAxis();
 		rangeAxis.setAutoRange(false);
 		rangeAxis.setRange(0.0, 5.0);
-		TextTitle myTextTitle = (TextTitle)(myChart.getTitle(0));
-		myTextTitle.setFont(myTextTitle.getFont().deriveFont(12.0f));
+		//TextTitle myTextTitle = (TextTitle)(myChart.getTitle(0));
+		//myTextTitle.setFont(myTextTitle.getFont().deriveFont(12.0f));
 		myChartPanel = new ChartPanel(myChart);
 		myChartPanel.setMinimumDrawHeight(250);
 		myChartPanel.setMinimumDrawWidth(250);
@@ -89,7 +83,7 @@ public class CrewIntensityChartPanel extends GraphPanel
 		else{
 			myCrewPeople = myCrewGroup.getCrewPeople();
 			for (int i = 0; i < myCrewPeople.length; i ++){
-				myDataset.setValue(i, "", new Float(myCrewPeople[i].getCurrentActivity().getActivityIntensity()));
+				myDataset.setValue(myCrewPeople[i].getCurrentActivity().getActivityIntensity(),myCrewPeople[i].getName(), "");
 			}
 		}
 	}
