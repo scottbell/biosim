@@ -25,7 +25,7 @@ public class Lettuce extends Planophile{
 	}
 
 	public PlantType getPlantType(){
-		return PlantType.DRY_BEAN;
+		return PlantType.LETTUCE;
 	}
 	
 	protected float getConstantPPF(){
@@ -65,19 +65,19 @@ public class Lettuce extends Planophile{
 	}
 
 	protected float getTimeAtCropMaturity(){
-		return 60f;
+		return 30f;
 	}
 
 	protected float getOPF(){
 		return 1.08f;
 	}
 
-	protected float getFreshFactor(){
-		return 18.993f;
-	}
-
 	public static float getFractionOfEdibleBiomass(){
 		return 0.95f;
+	}
+	
+	protected float getProtectedFractionOfEdibleBiomass(){
+		return getFractionOfEdibleBiomass();
 	}
 	
 	/**
@@ -86,19 +86,12 @@ public class Lettuce extends Planophile{
 	public static float getCaloriesPerKilogram(){
 		return 180f;
 	}
-	
-	protected float getCurrentFractionOfEdibleBiomass(){
-		if (myAge > getTimeAtOrganFormation())
-			return getFractionOfEdibleBiomass();
-		else
-			return 0f;
-	}
 
 	protected float getEdibleFreshBasisWaterContent(){
-		return 95f;
+		return 0.95f;
 	}
 
 	protected float getInedibleFreshBasisWaterContent(){
-		return 90f;
+		return 0.90f;
 	}
 }

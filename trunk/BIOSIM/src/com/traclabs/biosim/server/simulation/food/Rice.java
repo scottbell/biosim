@@ -70,19 +70,12 @@ public class Rice extends Erectophile{
 		return 1.08f;
 	}
 
-	protected float getFreshFactor(){
-		return 17.299f;
-	}
-
 	public static float getFractionOfEdibleBiomass(){
 		return 0.98f;
 	}
 	
-	protected float getCurrentFractionOfEdibleBiomass(){
-		if (myAge > getTimeAtOrganFormation())
-			return getFractionOfEdibleBiomass();
-		else
-			return 0f;
+	protected float getProtectedFractionOfEdibleBiomass(){
+		return getFractionOfEdibleBiomass();
 	}
 	
 	/**
@@ -93,10 +86,10 @@ public class Rice extends Erectophile{
 	}
 
 	protected float getEdibleFreshBasisWaterContent(){
-		return 12f;
+		return 0.12f;
 	}
 
 	protected float getInedibleFreshBasisWaterContent(){
-		return 90f;
+		return 0.90f;
 	}
 }

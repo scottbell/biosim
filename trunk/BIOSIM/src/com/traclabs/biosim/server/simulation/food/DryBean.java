@@ -71,13 +71,13 @@ public class DryBean extends Legume{
 	protected float getOPF(){
 		return 1.1f;
 	}
-
-	protected float getFreshFactor(){
-		return 6.444f;
-	}
 	
 	public static float getFractionOfEdibleBiomass(){
 		return 0.97f;
+	}
+	
+	protected float getProtectedFractionOfEdibleBiomass(){
+		return getFractionOfEdibleBiomass();
 	}
 	
 	/**
@@ -86,19 +86,12 @@ public class DryBean extends Legume{
 	public static float getCaloriesPerKilogram(){
 		return 3490f;
 	}
-	
-	protected float getCurrentFractionOfEdibleBiomass(){
-		if (myAge > getTimeAtOrganFormation())
-			return getFractionOfEdibleBiomass();
-		else
-			return 0f;
-	}
 
 	protected float getEdibleFreshBasisWaterContent(){
-		return 10f;
+		return 0.10f;
 	}
 
 	protected float getInedibleFreshBasisWaterContent(){
-		return 90f;
+		return 0.90f;
 	}
 }

@@ -32,7 +32,7 @@ public class Soybean extends Legume{
 	}
 
 	public PlantType getPlantType(){
-		return PlantType.DRY_BEAN;
+		return PlantType.SOYBEAN;
 	}
 
 	protected float getConstantPPF(){
@@ -79,12 +79,12 @@ public class Soybean extends Legume{
 		return 1.16f;
 	}
 
-	protected float getFreshFactor(){
-		return 11.04f;
-	}
-
 	public static float getFractionOfEdibleBiomass(){
 		return 0.95f;
+	}
+	
+	protected float getProtectedFractionOfEdibleBiomass(){
+		return getFractionOfEdibleBiomass();
 	}
 	
 	/**
@@ -93,19 +93,12 @@ public class Soybean extends Legume{
 	public static float getCaloriesPerKilogram(){
 		return 1340f;
 	}
-	
-	protected float getCurrentFractionOfEdibleBiomass(){
-		if (myAge > getTimeAtOrganFormation())
-			return getFractionOfEdibleBiomass();
-		else
-			return 0f;
-	}
 
 	protected float getEdibleFreshBasisWaterContent(){
-		return 10f;
+		return 0.10f;
 	}
 
 	protected float getInedibleFreshBasisWaterContent(){
-		return 90f;
+		return 0.90f;
 	}
 }

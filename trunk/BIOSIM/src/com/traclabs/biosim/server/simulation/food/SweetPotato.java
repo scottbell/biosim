@@ -25,7 +25,7 @@ public class SweetPotato extends Planophile{
 	}
 
 	public PlantType getPlantType(){
-		return PlantType.DRY_BEAN;
+		return PlantType.SWEET_POTATO;
 	}
 
 	protected float getConstantPPF(){
@@ -76,19 +76,12 @@ public class SweetPotato extends Planophile{
 		return 1.02f;
 	}
 
-	protected float getFreshFactor(){
-		return 7.3792f;
-	}
-
 	public static float getFractionOfEdibleBiomass(){
 		return 1.00f;
 	}
 	
-	protected float getCurrentFractionOfEdibleBiomass(){
-		if (myAge > getTimeAtOrganFormation())
-			return getFractionOfEdibleBiomass();
-		else
-			return 0f;
+	protected float getProtectedFractionOfEdibleBiomass(){
+		return getFractionOfEdibleBiomass();
 	}
 	
 	/**
@@ -99,10 +92,10 @@ public class SweetPotato extends Planophile{
 	}
 
 	protected float getEdibleFreshBasisWaterContent(){
-		return 71f;
+		return 0.71f;
 	}
 
 	protected float getInedibleFreshBasisWaterContent(){
-		return 90f;
+		return 0.90f;
 	}
 }
