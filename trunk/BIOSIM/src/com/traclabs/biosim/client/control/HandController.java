@@ -35,13 +35,13 @@ public class HandController {
     //feedback loop sttuff
     private float levelToKeepO2At = 0.20f;
 
-    private float CrewCO2Level = 0.0012f;
-
-    private float CrewH2OLevel = 0.01f;
+    private float levelToKeepCO2At = 0.00111f;
 
     private float desiredAirPressure = 101f;
 
     private float crewO2integral = 0f;
+
+    private float crewCO2integral = 0f;
 
     private final static String TAB = "\t";
 
@@ -105,15 +105,27 @@ public class HandController {
 
     private GenericSensor myO2AirConcentrationSensor;
 
-    private Injector myInjector;
+    private GenericSensor myCO2AirConcentrationSensor;
+
+    private Injector myO2Injector;
+
+    private Injector myCO2Injector;
 
     private GenericActuator myO2AirStoreInInjectorAcutator;
-    
+
     private GenericActuator myO2AirEnvironmentOutInjectorAcutator;
-    
+
+    private GenericActuator myCO2AirStoreInInjectorAcutator;
+
+    private GenericActuator myCO2AirEnvironmentOutInjectorAcutator;
+
     private float myO2AirStoreInInjectorMax;
 
     private float myO2AirEnvironmentOutInjectorMax;
+
+    private float myCO2AirStoreInInjectorMax;
+
+    private float myCO2AirEnvironmentOutInjectorMax;
 
     public HandController() {
         myLogger = Logger.getLogger(this.getClass());
@@ -130,9 +142,17 @@ public class HandController {
         setThresholds();
         continuousState = new StateMap();
         myActionMap = new ActionMap();
-        
-        myO2AirEnvironmentOutInjectorMax = myO2AirEnvironmentOutInjectorAcutator.getMax();
+
+        myO2AirEnvironmentOutInjectorMax = myO2AirEnvironmentOutInjectorAcutator
+                .getMax();
         myO2AirStoreInInjectorMax = myO2AirStoreInInjectorAcutator.getMax();
+
+        if (myCO2Injector != null) {
+            myCO2AirEnvironmentOutInjectorMax = myCO2AirEnvironmentOutInjectorAcutator
+                    .getMax();
+            myCO2AirStoreInInjectorMax = myCO2AirStoreInInjectorAcutator
+                    .getMax();
+        }
     }
 
     public static void main(String[] args) {
@@ -148,8 +168,12 @@ public class HandController {
         myWaterRS = (WaterRS) myBioHolder.theWaterRSModules.get(0);
         myOGS = (OGS) myBioHolder.theOGSModules.get(0);
 
-        myInjector = (Injector) myBioHolder.theInjectors.get(1);
-        
+        myO2Injector = (Injector) myBioHolder.theInjectors.get(1);
+
+        if (myBioHolder.theInjectors.size() > 3) {
+            myCO2Injector = (Injector) myBioHolder.theInjectors.get(2);
+        }
+
         myDirtyWaterStore = (DirtyWaterStore) myBioHolder.theDirtyWaterStores
                 .get(0);
         myPotableWaterStore = (PotableWaterStore) myBioHolder.thePotableWaterStores
@@ -166,17 +190,33 @@ public class HandController {
         myO2AirStoreInInjectorAcutator = (GenericActuator) (myBioHolder
                 .getActuatorAttachedTo(
                         myBioHolder.theO2AirStoreInFlowRateActuators,
-                        myInjector));
+                        myO2Injector));
 
         myO2AirEnvironmentOutInjectorAcutator = (GenericActuator) (myBioHolder
                 .getActuatorAttachedTo(
                         myBioHolder.theO2AirEnvironmentOutFlowRateActuators,
-                        myInjector));
-        
+                        myO2Injector));
+
         myO2AirConcentrationSensor = (GenericSensor) (myBioHolder
                 .getSensorAttachedTo(myBioHolder.theO2AirConcentrationSensors,
                         myCrewEnvironment));
 
+        if (myCO2Injector != null) {
+            myCO2AirStoreInInjectorAcutator = (GenericActuator) (myBioHolder
+                    .getActuatorAttachedTo(
+                            myBioHolder.theCO2AirStoreInFlowRateActuators,
+                            myCO2Injector));
+
+            myCO2AirEnvironmentOutInjectorAcutator = (GenericActuator) (myBioHolder
+                    .getActuatorAttachedTo(
+                            myBioHolder.theCO2AirEnvironmentOutFlowRateActuators,
+                            myCO2Injector));
+
+            myCO2AirConcentrationSensor = (GenericSensor) (myBioHolder
+                    .getSensorAttachedTo(
+                            myBioHolder.theCO2AirConcentrationSensors,
+                            myCrewEnvironment));
+        }
     }
 
     public void runSim() {
@@ -194,7 +234,9 @@ public class HandController {
             classifiedState = classifyState(continuousState);
             myActionMap.performAction(classifiedState);
         }
-        doInjectors();
+        doO2Injector();
+        if (myCO2Injector != null)
+            doCO2Injector();
         //advancing the sim 1 tick
         myBioDriver.advanceOneTick();
     }
@@ -258,7 +300,7 @@ public class HandController {
         return state;
     }
 
-    private void doInjectors() {
+    private void doO2Injector() {
         float crewAirPressure = myCrewEnvironment.getTotalPressure();
         //crew O2 feedback control
         float crewO2p = 100f;
@@ -272,28 +314,65 @@ public class HandController {
         valueToSet = Math.min(myO2AirStoreInInjectorMax, signal);
         myO2AirEnvironmentOutInjectorAcutator.setValue(valueToSet);
     }
-    
+
+    private void doCO2Injector() {
+        float crewAirPressure = myCrewEnvironment.getTotalPressure();
+        //crew O2 feedback control
+        float crewCO2p = 100f;
+        float crewCO2i = 5f;
+        float crewCO2 = myCO2AirConcentrationSensor.getValue();
+        float delta = levelToKeepCO2At - crewCO2;
+        crewCO2integral += delta;
+        float signal = (delta * crewCO2p + crewCO2i * crewCO2integral) + 2;
+        float valueToSet = Math.min(myCO2AirStoreInInjectorMax, signal);
+        myLogger.info("setting CO2 injector to " + valueToSet);
+        myCO2AirStoreInInjectorAcutator.setValue(valueToSet);
+        valueToSet = Math.min(myCO2AirStoreInInjectorMax, signal);
+        myCO2AirEnvironmentOutInjectorAcutator.setValue(valueToSet);
+    }
+
     /**
-     * @param pO2AirEnvironmentOutInjectorMax The myO2AirEnvironmentOutInjectorMax to set.
+     * @param pO2AirEnvironmentOutInjectorMax
+     *            The myO2AirEnvironmentOutInjectorMax to set.
      */
     public void setO2AirEnvironmentOutInjectorMax(
             float pO2AirEnvironmentOutInjectorMax) {
         myO2AirEnvironmentOutInjectorMax = pO2AirEnvironmentOutInjectorMax;
     }
+
     /**
-     * @param pO2AirStoreInInjectorMax The myO2AirStoreInInjectorMax to set.
+     * @param pO2AirStoreInInjectorMax
+     *            The myO2AirStoreInInjectorMax to set.
      */
     public void setO2AirStoreInInjectorMax(float pO2AirStoreInInjectorMax) {
         myO2AirStoreInInjectorMax = pO2AirStoreInInjectorMax;
     }
-    
+
+    /**
+     * @param pO2AirEnvironmentOutInjectorMax
+     *            The myO2AirEnvironmentOutInjectorMax to set.
+     */
+    public void setCO2AirEnvironmentOutInjectorMax(
+            float pCO2AirEnvironmentOutInjectorMax) {
+        myCO2AirEnvironmentOutInjectorMax = pCO2AirEnvironmentOutInjectorMax;
+    }
+
+    /**
+     * @param pO2AirStoreInInjectorMax
+     *            The myO2AirStoreInInjectorMax to set.
+     */
+    public void setCO2AirStoreInInjectorMax(float pCO2AirStoreInInjectorMax) {
+        myCO2AirStoreInInjectorMax = pCO2AirStoreInInjectorMax;
+    }
+
     /**
      * @param myOGSPotableWaterInFlowRateMax
      *            The myOGSPotableWaterInFlowRateMax to set.
      */
     public void setOGSPotableWaterInFlowRateMax(
             float pOGSPotableWaterInFlowRateMax) {
-        myActionMap.setOGSPotableWaterInFlowRateMax(pOGSPotableWaterInFlowRateMax);
+        myActionMap
+                .setOGSPotableWaterInFlowRateMax(pOGSPotableWaterInFlowRateMax);
     }
 
     /**
@@ -310,7 +389,8 @@ public class HandController {
      */
     public void setWaterRSDirtyWaterInFlowRateMax(
             float pWaterRSDirtyWaterInFlowRateMax) {
-        myActionMap.setWaterRSDirtyWaterInFlowRateMax(pWaterRSDirtyWaterInFlowRateMax);
+        myActionMap
+                .setWaterRSDirtyWaterInFlowRateMax(pWaterRSDirtyWaterInFlowRateMax);
     }
 
     /**
@@ -319,7 +399,8 @@ public class HandController {
      */
     public void setWaterRSGreyWaterInFlowRateMax(
             float pWaterRSGreyWaterInFlowRateMax) {
-        myActionMap.setWaterRSGreyWaterInFlowRateMax(pWaterRSGreyWaterInFlowRateMax);
+        myActionMap
+                .setWaterRSGreyWaterInFlowRateMax(pWaterRSGreyWaterInFlowRateMax);
     }
 
     /**
