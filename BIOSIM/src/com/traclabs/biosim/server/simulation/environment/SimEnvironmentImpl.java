@@ -49,14 +49,14 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	//The total volume of the environment (all the open space)
 	private float volume = 0f;
 	private float initialVolume = 0f;
-	//The number of ticks the simulation has gone through
-	private int ticks;
+	private float leakRate = 0.0f;
 	//The light intensity outside
 	private float lightIntensity = 0f;
+	//The number of ticks the simulation has gone through
+	private int ticks;
 	private static final float MAXIMUM_LUMENS = 50000f;
 	private static final float STARTING_HOUR = 0f;
 	private static final float DAY_LENGTH = 24f;
-	private float leakRate = 0.0f;
 	private String myName;
 	private LogIndex myLogIndex;
 
@@ -127,18 +127,19 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* Resets the ticks to 0 and the gas levels to correct percantages of sea level air
 	*/
 	public void reset(){
+		super.reset();
 		ticks = 0;
+		leakRate = 0.0f;
+		lightIntensity = 0f;
 		volume = initialVolume;
-		resetGasses();
-	}
-
-	private void resetGasses(){
 		O2Moles = cachedO2Moles = initialO2Moles;
 		otherMoles = cachedOtherMoles = initialOtherMoles;
 		CO2Moles = cachedCO2Moles = initialCO2Moles;
+		waterMoles = cachedWaterMoles = initialWaterMoles;
 		O2Pressure = cachedO2Pressure = initialO2Pressure;
 		CO2Pressure = cachedCO2Pressure = initialCO2Pressure;
 		otherPressure = cachedOtherPressure = initialOtherPressure;
+		waterPressure = cachedWaterPressure = initialWaterPressure;
 	}
 
 	/**

@@ -42,7 +42,6 @@ public class Wheat extends Erectophile{
 		return 0.44f;
 	}
 
-
 	protected float getPhotoperiod(){
 		return 20f;
 	}

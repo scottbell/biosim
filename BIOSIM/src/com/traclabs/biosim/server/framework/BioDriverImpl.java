@@ -211,8 +211,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	private int driverPauseLength = 0;
 	//The ID of this instance of BioSim
 	private int myID = 0;
-	//If the initialization has already created the crew or not.
+	//If the initialization has createdCrewalready created the crew or not.
 	private boolean createdCrew = false;
+	//If the initialization has already created the plants or not.
+	private boolean createdPlants = false;
 	//If we loop after end conditions of a simulation run have been met (crew death or n-ticks)
 	private boolean looping = false;
 	private List myModuleNames;
@@ -640,7 +642,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		reset();
 		//Make some crew members
 		CrewGroup myCrew = CrewGroupHelper.narrow(getBioModule(myCrewGroupName));
-		myCrew.setStochasticIntensity(StochasticIntensity.MEDIUM_STOCH);
+		//myCrew.setStochasticIntensity(StochasticIntensity.MEDIUM_STOCH);
 		if (!createdCrew){
 			CrewPerson myCrewPerson1 = myCrew.createCrewPerson("Bob Roberts", 43, 170, Sex.male);
 			CrewPerson myCrewPerson2 = myCrew.createCrewPerson("Stephanie Stevens", 25, 125, Sex.female);
@@ -684,7 +686,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		BiomassStore myBiomassStore = BiomassStoreHelper.narrow(getBioModule(myBiomassStoreName));
 		FoodStore myFoodStore = FoodStoreHelper.narrow(getBioModule(myFoodStoreName));
 		BiomassRS myBiomassRS = BiomassRSHelper.narrow(getBioModule(myBiomassRSName));
-		myBiomassRS.createNewShelf(PlantType.WHEAT, 10);
+		if (!createdPlants){
+			myBiomassRS.createNewShelf(PlantType.WHEAT, 10);
+			createdPlants = true;
+		}
 		myBiomassStore.setCapacity(500f);
 		myFoodStore.setCapacity(2000f);
 		myBiomassStore.setLevel(300f);
@@ -723,13 +728,13 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			float[] biomassMaxFlowRates = {10000f};
 			float[] powerMaxFlowRates = {10000f};
 			float[] foodMaxFlowRates = {10000f};
-			float[] biomassActualFlowRates = {10000f};
-			float[] powerActualFlowRates = {10000f};
-			float[] foodActualFlowRates = {10000f};
+			float[] biomassDesiredFlowRates = {10000f};
+			float[] powerDesiredFlowRates = {10000f};
+			float[] foodDesiredFlowRates = {10000f};
 			FoodProcessor myFoodProcessor = FoodProcessorHelper.narrow(getBioModule(myFoodProcessorName));
-			myFoodProcessor.setBiomassInputs(biomassStoreInput, biomassMaxFlowRates, biomassActualFlowRates);
-			myFoodProcessor.setPowerInputs(powerStoreInput, powerMaxFlowRates, powerActualFlowRates);
-			myFoodProcessor.setFoodOutputs(foodStoreOutput, foodMaxFlowRates, foodActualFlowRates);
+			myFoodProcessor.setBiomassInputs(biomassStoreInput, biomassMaxFlowRates, biomassDesiredFlowRates);
+			myFoodProcessor.setPowerInputs(powerStoreInput, powerMaxFlowRates, powerDesiredFlowRates);
+			myFoodProcessor.setFoodOutputs(foodStoreOutput, foodMaxFlowRates, foodDesiredFlowRates);
 		}
 
 		//Hook up BiomassRS to other modules
@@ -746,19 +751,19 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			float[] biomassMaxFlowRates = {10000f};
 			float[] simEnvironmentInputMaxFlowRates = {10000f};
 			float[] simEnvironmentOutputMaxFlowRates = {10000f};
-			float[] powerActualFlowRates = {10000f};
-			float[] potableWaterActualFlowRates = {10000f};
-			float[] greyWaterActualFlowRates = {10000f};
-			float[] biomassActualFlowRates = {10000f};
-			float[] simEnvironmentInputActualFlowRates = {10000f};
-			float[] simEnvironmentOutputActualFlowRates = {10000f};
+			float[] powerDesiredFlowRates = {10000f};
+			float[] potableWaterDesiredFlowRates = {10000f};
+			float[] greyWaterDesiredFlowRates = {10000f};
+			float[] biomassDesiredFlowRates = {10000f};
+			float[] simEnvironmentInputDesiredFlowRates = {10000f};
+			float[] simEnvironmentOutputDesiredFlowRates = {10000f};
 			BiomassRS myBiomassRS = BiomassRSHelper.narrow(getBioModule(myBiomassRSName));
-			myBiomassRS.setPowerInputs(powerStoreInput, powerMaxFlowRates, powerActualFlowRates);
-			myBiomassRS.setPotableWaterInputs(potableWaterStoreInput, potableWaterMaxFlowRates, potableWaterActualFlowRates);
-			myBiomassRS.setGreyWaterInputs(greyWaterStoreInput, greyWaterMaxFlowRates, greyWaterActualFlowRates);
-			myBiomassRS.setBiomassOutputs(biomassStoreOutput, biomassMaxFlowRates, biomassActualFlowRates);
-			myBiomassRS.setAirInputs(simEnvironmentInput, simEnvironmentInputMaxFlowRates, simEnvironmentInputActualFlowRates);
-			myBiomassRS.setAirOutputs(simEnvironmentOutput, simEnvironmentOutputMaxFlowRates, simEnvironmentOutputActualFlowRates);
+			myBiomassRS.setPowerInputs(powerStoreInput, powerMaxFlowRates, powerDesiredFlowRates);
+			myBiomassRS.setPotableWaterInputs(potableWaterStoreInput, potableWaterMaxFlowRates, potableWaterDesiredFlowRates);
+			myBiomassRS.setGreyWaterInputs(greyWaterStoreInput, greyWaterMaxFlowRates, greyWaterDesiredFlowRates);
+			myBiomassRS.setBiomassOutputs(biomassStoreOutput, biomassMaxFlowRates, biomassDesiredFlowRates);
+			myBiomassRS.setAirInputs(simEnvironmentInput, simEnvironmentInputMaxFlowRates, simEnvironmentInputDesiredFlowRates);
+			myBiomassRS.setAirOutputs(simEnvironmentOutput, simEnvironmentOutputMaxFlowRates, simEnvironmentOutputDesiredFlowRates);
 		}
 
 		//Hook up Air RS to other modules
@@ -771,31 +776,31 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			CO2Store[] CO2StoreInput = {myCO2Store};
 			PotableWaterStore[] potableWaterStoreOutput = {myPotableWaterStore};
 			PotableWaterStore[] potableWaterStoreInput = {myPotableWaterStore};
-			float[] powerMaxFlowRates = {0f};
-			float[] simEnvironmentInputMaxFlowRates = {0f};
-			float[] simEnvironmentOutputMaxFlowRates = {0f};
-			float[] O2StoreMaxFlowRates = {0f};
-			float[] CO2StoreInputMaxFlowRates = {0f};
-			float[] CO2StoreOutputMaxFlowRates = {0f};
-			float[] powerActualFlowRates = {0f};
-			float[] simEnvironmentInputActualFlowRates = {0f};
-			float[] simEnvironmentOutputActualFlowRates = {0f};
-			float[] O2StoreActualFlowRates = {0f};
-			float[] CO2StoreInputActualFlowRates = {0f};
-			float[] CO2StoreOutputActualFlowRates = {0f};
-			float[] potableWaterStoreInputActualFlowRates = {0f};
-			float[] potableWaterStoreOutputActualFlowRates = {0f};
-			float[] potableWaterStoreInputMaxFlowRates = {0f};
-			float[] potableWaterStoreOutputMaxFlowRates = {0f};
+			float[] powerMaxFlowRates = {100f};
+			float[] simEnvironmentInputMaxFlowRates = {100f};
+			float[] simEnvironmentOutputMaxFlowRates = {100f};
+			float[] O2StoreMaxFlowRates = {100f};
+			float[] CO2StoreInputMaxFlowRates = {100f};
+			float[] CO2StoreOutputMaxFlowRates = {100f};
+			float[] powerDesiredFlowRates = {100f};
+			float[] simEnvironmentInputDesiredFlowRates = {100f};
+			float[] simEnvironmentOutputDesiredFlowRates = {100f};
+			float[] O2StoreDesiredFlowRates = {100f};
+			float[] CO2StoreInputDesiredFlowRates = {100f};
+			float[] CO2StoreOutputDesiredFlowRates = {100f};
+			float[] potableWaterStoreInputDesiredFlowRates = {100f};
+			float[] potableWaterStoreOutputDesiredFlowRates = {100f};
+			float[] potableWaterStoreInputMaxFlowRates = {100f};
+			float[] potableWaterStoreOutputMaxFlowRates = {100f};
 			AirRS myAirRS = AirRSHelper.narrow(getBioModule(myAirRSName));
-			myAirRS.setPowerInputs(powerStoreInput, powerMaxFlowRates, powerActualFlowRates);
-			myAirRS.setAirInputs(simEnvironmentInput, simEnvironmentInputMaxFlowRates, simEnvironmentInputActualFlowRates);
-			myAirRS.setAirOutputs(simEnvironmentOutput, simEnvironmentOutputMaxFlowRates, simEnvironmentOutputActualFlowRates);
-			myAirRS.setO2Outputs(O2StoreOutput, O2StoreMaxFlowRates, O2StoreActualFlowRates);
-			myAirRS.setCO2Outputs(CO2StoreOutput, CO2StoreOutputMaxFlowRates, CO2StoreInputActualFlowRates);
-			myAirRS.setCO2Inputs(CO2StoreInput, CO2StoreInputMaxFlowRates, CO2StoreOutputActualFlowRates);
-			myAirRS.setPotableWaterOutputs(potableWaterStoreOutput, potableWaterStoreOutputMaxFlowRates, potableWaterStoreInputActualFlowRates);
-			myAirRS.setPotableWaterInputs(potableWaterStoreInput, potableWaterStoreInputMaxFlowRates, potableWaterStoreOutputActualFlowRates);
+			myAirRS.setPowerInputs(powerStoreInput, powerMaxFlowRates, powerDesiredFlowRates);
+			myAirRS.setAirInputs(simEnvironmentInput, simEnvironmentInputMaxFlowRates, simEnvironmentInputDesiredFlowRates);
+			myAirRS.setAirOutputs(simEnvironmentOutput, simEnvironmentOutputMaxFlowRates, simEnvironmentOutputDesiredFlowRates);
+			myAirRS.setO2Outputs(O2StoreOutput, O2StoreMaxFlowRates, O2StoreDesiredFlowRates);
+			myAirRS.setCO2Outputs(CO2StoreOutput, CO2StoreOutputMaxFlowRates, CO2StoreInputDesiredFlowRates);
+			myAirRS.setCO2Inputs(CO2StoreInput, CO2StoreInputMaxFlowRates, CO2StoreOutputDesiredFlowRates);
+			myAirRS.setPotableWaterOutputs(potableWaterStoreOutput, potableWaterStoreOutputMaxFlowRates, potableWaterStoreInputDesiredFlowRates);
+			myAirRS.setPotableWaterInputs(potableWaterStoreInput, potableWaterStoreInputMaxFlowRates, potableWaterStoreOutputDesiredFlowRates);
 		
 		}
 
@@ -813,24 +818,24 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			float[] potableWaterInputMaxFlowRates = {10000f};
 			float[] dirtyWaterOutputMaxFlowRates = {10000f};
 			float[] greyWaterOutputMaxFlowRates = {10000f};
-			float[] airInputActualFlowRates = {10000f};
-			float[] airOutputActualFlowRates = {10000f};
-			float[] foodInputActualFlowRates = {10000f};
-			float[] potableWaterInputActualFlowRates = {10000f};
-			float[] dirtyWaterOutputActualFlowRates = {10000f};
-			float[] greyWaterOutputActualFlowRates = {10000f};
+			float[] airInputDesiredFlowRates = {10000f};
+			float[] airOutputDesiredFlowRates = {10000f};
+			float[] foodInputDesiredFlowRates = {10000f};
+			float[] potableWaterInputDesiredFlowRates = {10000f};
+			float[] dirtyWaterOutputDesiredFlowRates = {10000f};
+			float[] greyWaterOutputDesiredFlowRates = {10000f};
 			CrewGroup myCrew = CrewGroupHelper.narrow(getBioModule(myCrewGroupName));
-			myCrew.setAirInputs(airInputs, airInputMaxFlowRates, airInputActualFlowRates);
-			myCrew.setAirOutputs(airOutputs, airOutputMaxFlowRates, airOutputActualFlowRates);
-			myCrew.setFoodInputs(foodInputs, foodInputMaxFlowRates, foodInputActualFlowRates);
-			myCrew.setPotableWaterInputs(potableWaterInput, potableWaterInputMaxFlowRates, potableWaterInputActualFlowRates);
-			myCrew.setDirtyWaterOutputs(dirtyWaterOutputs, dirtyWaterOutputMaxFlowRates, dirtyWaterOutputActualFlowRates);
-			myCrew.setGreyWaterOutputs(greyWaterOutputs, greyWaterOutputMaxFlowRates, greyWaterOutputActualFlowRates);
+			myCrew.setAirInputs(airInputs, airInputMaxFlowRates, airInputDesiredFlowRates);
+			myCrew.setAirOutputs(airOutputs, airOutputMaxFlowRates, airOutputDesiredFlowRates);
+			myCrew.setFoodInputs(foodInputs, foodInputMaxFlowRates, foodInputDesiredFlowRates);
+			myCrew.setPotableWaterInputs(potableWaterInput, potableWaterInputMaxFlowRates, potableWaterInputDesiredFlowRates);
+			myCrew.setDirtyWaterOutputs(dirtyWaterOutputs, dirtyWaterOutputMaxFlowRates, dirtyWaterOutputDesiredFlowRates);
+			myCrew.setGreyWaterOutputs(greyWaterOutputs, greyWaterOutputMaxFlowRates, greyWaterOutputDesiredFlowRates);
 		}
 
 		//Hook up Water to other modules
 		{
-			PotableWaterStore[] potableWaterOutput = {myPotableWaterStore};
+			PotableWaterStore[] potableWaterOutputs = {myPotableWaterStore};
 			GreyWaterStore[] greyWaterInputs = {myGreyWaterStore};
 			DirtyWaterStore[] dirtyWaterInputs = {myDirtyWaterStore};
 			PowerStore[] powerInput = {myPowerStore};
@@ -838,15 +843,15 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			float[] greyWaterInputMaxFlowRates = {10000f};
 			float[] dirtyWaterInputMaxFlowRates = {10000f};
 			float[] powerInputMaxFlowRates = {10000f};
-			float[] potableWaterOutputActualFlowRates = {10000f};
-			float[] greyWaterInputActualFlowRates = {10000f};
-			float[] dirtyWaterInputActualFlowRates = {10000f};
-			float[] powerInputActualFlowRates = {10000f};
+			float[] potableWaterOutputDesiredFlowRates = {10000f};
+			float[] greyWaterInputDesiredFlowRates = {10000f};
+			float[] dirtyWaterInputDesiredFlowRates = {10000f};
+			float[] powerInputDesiredFlowRates = {10000f};
 			WaterRS myWaterRS = WaterRSHelper.narrow(getBioModule(myWaterRSName));
-			myWaterRS.setPotableWaterOutputs(potableWaterOutput, potableWaterOutputMaxFlowRates, potableWaterOutputActualFlowRates);
-			myWaterRS.setGreyWaterInputs(greyWaterInputs, greyWaterInputMaxFlowRates, greyWaterInputActualFlowRates);
-			myWaterRS.setDirtyWaterInputs(dirtyWaterInputs, dirtyWaterInputMaxFlowRates, dirtyWaterInputActualFlowRates);
-			myWaterRS.setPowerInputs(powerInput, powerInputMaxFlowRates, powerInputActualFlowRates);
+			myWaterRS.setPotableWaterOutputs(potableWaterOutputs, potableWaterOutputMaxFlowRates, potableWaterOutputDesiredFlowRates);
+			myWaterRS.setGreyWaterInputs(greyWaterInputs, greyWaterInputMaxFlowRates, greyWaterInputDesiredFlowRates);
+			myWaterRS.setDirtyWaterInputs(dirtyWaterInputs, dirtyWaterInputMaxFlowRates, dirtyWaterInputDesiredFlowRates);
+			myWaterRS.setPowerInputs(powerInput, powerInputMaxFlowRates, powerInputDesiredFlowRates);
 		}
 
 		//Hook up Power to other modules
@@ -854,9 +859,9 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			PowerStore[] powerOutput = {myPowerStore};
 			SimEnvironment lightInput = myCrewEnvironment;
 			float[] powerOuputsMaxFlowRates = {10000f};
-			float[] powerOuputsActualFlowRates = {10000f};
+			float[] powerOuputsDesiredFlowRates = {10000f};
 			PowerPS myPowerPS = PowerPSHelper.narrow(getBioModule(myPowerPSName));
-			myPowerPS.setPowerOutputs(powerOutput, powerOuputsMaxFlowRates, powerOuputsActualFlowRates);
+			myPowerPS.setPowerOutputs(powerOutput, powerOuputsMaxFlowRates, powerOuputsDesiredFlowRates);
 			myPowerPS.setLightInput(lightInput);
 		}
 
@@ -869,25 +874,25 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			//so 7.5 slpm for all flow rates
 			// (7.5 liters O2 / min)(1000 grams/liters)(1 mole O2/ 31.9988 grams O2)(60 min/ hour)
 			// 7.5 O2 slpm == 14063.0 moles per hour
-			float[] O2AirInputMaxFlowRates = {0f};
-			float[] O2AirOutputMaxFlowRates = {0f};
-			float[] O2AirInputActualFlowRates = {0f};
-			float[] O2AirOutputActualFlowRates = {0f};
+			float[] O2AirInputMaxFlowRates = {.01f};
+			float[] O2AirOutputMaxFlowRates = {.01f};
+			float[] O2AirInputDesiredFlowRates = {.01f};
+			float[] O2AirOutputDesiredFlowRates = {.01f};
 			Accumulator myAccumulator = AccumulatorHelper.narrow(getBioModule(myAccumulatorName));
-			myAccumulator.setO2AirEnvironmentInputs(O2AirInput, O2AirInputMaxFlowRates, O2AirInputActualFlowRates);
-			myAccumulator.setO2AirStoreOutputs(O2AirOutput, O2AirOutputMaxFlowRates, O2AirOutputActualFlowRates);
+			myAccumulator.setO2AirEnvironmentInputs(O2AirInput, O2AirInputMaxFlowRates, O2AirInputDesiredFlowRates);
+			myAccumulator.setO2AirStoreOutputs(O2AirOutput, O2AirOutputMaxFlowRates, O2AirOutputDesiredFlowRates);
 
 			//Accumulate CO2 from crew environment, put it in CO2 store
 			// (7.5 liters CO2 / min)(1000 grams/liters)(1 mole CO2/ 40.0098 grams CO2)(60 min/ hour)
 			// 7.5 CO2 slpm == 11247.2 moles per hour
 			SimEnvironment[] CO2AirInput = {myCrewEnvironment};
 			CO2Store[] CO2AirOutput = {myCO2Store};
-			float[] CO2AirInputMaxFlowRates = {0f};
-			float[] CO2AirOutputMaxFlowRates = {0f};
-			float[] CO2AirInputActualFlowRates = {0f};
-			float[] CO2AirOutputActualFlowRates = {0f};
-			myAccumulator.setCO2AirEnvironmentInputs(CO2AirInput, CO2AirInputMaxFlowRates, CO2AirInputActualFlowRates);
-			myAccumulator.setCO2AirStoreOutputs(CO2AirOutput, CO2AirOutputMaxFlowRates, CO2AirOutputActualFlowRates);
+			float[] CO2AirInputMaxFlowRates = {.01f};
+			float[] CO2AirOutputMaxFlowRates = {.01f};
+			float[] CO2AirInputDesiredFlowRates = {.01f};
+			float[] CO2AirOutputDesiredFlowRates = {.01f};
+			myAccumulator.setCO2AirEnvironmentInputs(CO2AirInput, CO2AirInputMaxFlowRates, CO2AirInputDesiredFlowRates);
+			myAccumulator.setCO2AirStoreOutputs(CO2AirOutput, CO2AirOutputMaxFlowRates, CO2AirOutputDesiredFlowRates);
 		}
 
 		//Hook up Injector to other modules
@@ -899,25 +904,25 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			//so 7.5 slpm for all flow rates
 			// (7.5 liters O2 / min)(1000 grams/liters)(1 mole O2/ 31.9988 grams O2)(60 min/ hour)
 			// 7.5 O2 slpm == 14063.0 moles per hour
-			float[] O2AirInputMaxFlowRates = {0f};
-			float[] O2AirOutputMaxFlowRates = {0f};
-			float[] O2AirInputActualFlowRates = {0f};
-			float[] O2AirOutputActualFlowRates = {0f};
+			float[] O2AirInputMaxFlowRates = {.01f};
+			float[] O2AirOutputMaxFlowRates = {.01f};
+			float[] O2AirInputDesiredFlowRates = {.01f};
+			float[] O2AirOutputDesiredFlowRates = {.01f};
 			Injector myInjector = InjectorHelper.narrow(getBioModule(myInjectorName));
-			myInjector.setO2AirStoreInputs(O2AirInput, O2AirInputMaxFlowRates, O2AirInputActualFlowRates);
-			myInjector.setO2AirEnvironmentOutputs(O2AirOutput, O2AirOutputMaxFlowRates, O2AirOutputActualFlowRates);
+			myInjector.setO2AirStoreInputs(O2AirInput, O2AirInputMaxFlowRates, O2AirInputDesiredFlowRates);
+			myInjector.setO2AirEnvironmentOutputs(O2AirOutput, O2AirOutputMaxFlowRates, O2AirOutputDesiredFlowRates);
 
 			//Take CO2 from store, inject it into plant environment
 			// (7.5 liters CO2 / min)(1000 grams/liters)(1 mole CO2/ 40.0098 grams CO2)(60 min/ hour)
 			// 7.5 CO2 slpm == 11247.2 moles per hour
 			CO2Store[] CO2AirInput = {myCO2Store};
 			SimEnvironment[] CO2AirOutput = {myPlantEnvironment};
-			float[] CO2AirInputMaxFlowRates = {0f};
-			float[] CO2AirOutputMaxFlowRates = {0f};
-			float[] CO2AirInputActualFlowRates = {0f};
-			float[] CO2AirOutputActualFlowRates = {0f};
-			myInjector.setCO2AirStoreInputs(CO2AirInput, CO2AirInputMaxFlowRates, CO2AirInputActualFlowRates);
-			myInjector.setCO2AirEnvironmentOutputs(CO2AirOutput, CO2AirOutputMaxFlowRates, CO2AirOutputActualFlowRates);
+			float[] CO2AirInputMaxFlowRates = {.01f};
+			float[] CO2AirOutputMaxFlowRates = {.01f};
+			float[] CO2AirInputDesiredFlowRates = {.01f};
+			float[] CO2AirOutputDesiredFlowRates = {.01f};
+			myInjector.setCO2AirStoreInputs(CO2AirInput, CO2AirInputMaxFlowRates, CO2AirInputDesiredFlowRates);
+			myInjector.setCO2AirEnvironmentOutputs(CO2AirOutput, CO2AirOutputMaxFlowRates, CO2AirOutputDesiredFlowRates);
 		}
 	}
 
@@ -1377,7 +1382,6 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		else if (runTillDead){
 			CrewGroup myCrew = CrewGroupHelper.narrow(getBioModule(myCrewGroupName));
 			if (myCrew.isDead()){
-				System.out.println("BioDriverImpl"+myID+": Crew's dead @"+ticksGoneBy+" ticks");
 				return true;
 			}
 		}
@@ -1405,7 +1409,6 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	*/
 	public synchronized void pauseSimulation(){
 		simulationIsPaused = true;
-		System.out.println("BioDriverImpl:"+myID+" simulation paused");
 	}
 
 	/**
@@ -1434,7 +1437,6 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		if (!simulationIsPaused)
 			pauseSimulation();
 		collectReferences();
-		System.out.println("BioDriverImpl:"+myID+" ticking simulation once");
 		tick();
 	}
 
@@ -1444,7 +1446,6 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	public synchronized void resumeSimulation(){
 		simulationIsPaused = false;
 		notify();
-		System.out.println("BioDriverImpl:"+myID+" simulation resumed");
 	}
 
 	/**

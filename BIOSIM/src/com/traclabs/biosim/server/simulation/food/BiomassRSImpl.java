@@ -24,10 +24,6 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 	private List myShelves;
 	private int shelfCapacity = 100;
 	private List shelfLogs;
-	private float powerMaxFlowRate = 0f;
-	private float potableWaterMaxFlowRate = 0f;
-	private float greyWaterMaxFlowRate = 0f;
-	private float biomassMaxFlowRate = 0f;
 	private float[] powerMaxFlowRates;
 	private float[] biomassMaxFlowRates;
 	private float[] potableWaterMaxFlowRates;
@@ -98,6 +94,7 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 	
 	
 	public Shelf createNewShelf(PlantType pType, float pCropArea){
+		System.out.println(getModuleName()+" another shelf added");
 		ShelfImpl newShelfImpl = new ShelfImpl(pType, pCropArea, this);
 		myShelves.add(newShelfImpl);
 		return ShelfHelper.narrow(OrbUtils.poaToCorbaObj(newShelfImpl));
@@ -108,6 +105,7 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 	*/
 	public void reset(){
 		super.reset();
+		clearActualFlowRates();
 		for (Iterator iter = myShelves.iterator(); iter.hasNext();){
 			ShelfImpl currentShelf = (ShelfImpl)(iter.next());
 			currentShelf.reset();
@@ -214,9 +212,6 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 	public PowerStore[] getPowerInputs(){
 		return myPowerStores;
 	}
-	public void addPowerInputActualFlowRates(int index, float value){
-		powerActualFlowRates[index] += value;
-	}
 	
 	//Grey Water Inputs
 	public void setGreyWaterInputMaxFlowRate(float liters, int index){
@@ -253,10 +248,6 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 		return myGreyWaterStores;
 	}
 	
-	public void addGreyWaterInputActualFlowRates(int index, float value){
-		greyWaterActualFlowRates[index] += value;
-	}
-	
 	//Potable Water Inputs
 	public void setPotableWaterInputMaxFlowRate(float liters, int index){
 		potableWaterMaxFlowRates[index] = liters;
@@ -290,10 +281,6 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 	}
 	public PotableWaterStore[] getPotableWaterInputs(){
 		return myPotableWaterStores;
-	}
-	
-	public void addPotableWaterInputActualFlowRates(int index, float value){
-		potableWaterActualFlowRates[index] += value;
 	}
 	
 	//Biomass Outputs
