@@ -136,6 +136,8 @@ then
 	$compilationInvocation $simSkeletonDir/idl/sensor/power/*.java
 	echo "				-compiling water skeletons/stubs"
 	$compilationInvocation $simSkeletonDir/idl/sensor/water/*.java
+	echo "				-compiling waste skeletons/stubs"
+	$compilationInvocation $simSkeletonDir/idl/sensor/waste/*.java
 	echo "			-compiling actuator skeletons/stubs"
 	echo "				-compiling framework skeletons/stubs"
 	$compilationInvocation $simSkeletonDir/idl/actuator/framework/*.java
@@ -151,6 +153,8 @@ then
 	$compilationInvocation $simSkeletonDir/idl/actuator/power/*.java
 	echo "				-compiling water skeletons/stubs"
 	$compilationInvocation $simSkeletonDir/idl/actuator/water/*.java
+	echo "				-compiling waste skeletons/stubs"
+	$compilationInvocation $simSkeletonDir/idl/actuator/waste/*.java
 fi
 echo "		-compiling implementations"
 echo "			-compiling framework implementation"
@@ -189,6 +193,8 @@ echo "				-compiling power implementation"
 $compilationInvocation $serverDir/sensor/power/*.java
 echo "				-compiling water implementation"
 $compilationInvocation $serverDir/sensor/water/*.java
+echo "				-compiling waste implementation"
+$compilationInvocation $serverDir/sensor/waste/*.java
 echo "			-compiling actuator implementation"
 echo "				-compiling framework implementation"
 $compilationInvocation $serverDir/actuator/framework/*.java
@@ -202,6 +208,8 @@ echo "				-compiling power implementation"
 $compilationInvocation $serverDir/actuator/power/*.java
 echo "				-compiling water implementation"
 $compilationInvocation $serverDir/actuator/water/*.java
+echo "				-compiling waste implementation"
+$compilationInvocation $serverDir/actuator/waste/*.java
 echo "*done building biosim"
 
 

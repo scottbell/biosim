@@ -114,6 +114,8 @@ if [ "$userSelect" == "all" ]; then
 	$compilationInvocation $simStubDir/idl/simulation/environment/*.java
 	echo "				-compiling framework stubs"
 	$compilationInvocation $simStubDir/idl/simulation/framework/*.java
+	echo "				-compiling waste stubs"
+	$compilationInvocation $simStubDir/idl/simulation/waste/*.java
 	echo "			-compiling sensor stubs"
 	echo "				-compiling air stubs"
 	$compilationInvocation $simStubDir/idl/sensor/air/*.java
@@ -129,6 +131,8 @@ if [ "$userSelect" == "all" ]; then
 	$compilationInvocation $simStubDir/idl/sensor/environment/*.java
 	echo "				-compiling framework stubs"
 	$compilationInvocation $simStubDir/idl/sensor/framework/*.java
+	echo "				-compiling waste stubs"
+	$compilationInvocation $simStubDir/idl/sensor/waste/*.java
 	echo "			-compiling actuator stubs"
 	echo "				-compiling air stubs"
 	$compilationInvocation $simStubDir/idl/actuator/air/*.java
@@ -144,6 +148,8 @@ if [ "$userSelect" == "all" ]; then
 	$compilationInvocation $simStubDir/idl/actuator/environment/*.java
 	echo "				-compiling framework stubs"
 	$compilationInvocation $simStubDir/idl/actuator/framework/*.java
+	echo "				-compiling waste stubs"
+	$compilationInvocation $simStubDir/idl/actuator/waste/*.java
 fi
 if [ "$userSelect" == "controller" ]; then
 	echo "		-compiling hand controller"

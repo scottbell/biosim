@@ -112,6 +112,14 @@
 						</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
+			<xsd:element name="waste" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="Incinerator" type="IncineratorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="DryWasteStore" type="DryWasteStoreType" minOccurs="0" maxOccurs="unbounded"/>
+						</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
 			<xsd:element name="framework" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:sequence>
@@ -231,6 +239,15 @@
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
+			<xsd:element name="waste" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="DryWasteInFlowRateSensor" type="DryWasteInFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="DryWasteOutFlowRateSensor" type="DryWasteOutFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="DryWasteStoreLevelSensor" type="DryWasteStoreLevelSensorType" minOccurs="0" maxOccurs="unbounded"/>>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
 		</xsd:all>     
 	</xsd:complexType>
 	
@@ -309,6 +326,14 @@
 						<xsd:element name="GreyWaterOutFlowRateActuator" type="GreyWaterOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
 						<xsd:element name="PotableWaterInFlowRateActuator" type="PotableWaterInFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
 						<xsd:element name="PotableWaterOutFlowRateActuator" type="PotableWaterOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="waste" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="DryWasteInFlowRateActuator" type="DryWasteInFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="DryWasteOutFlowRateActuator" type="DryWasteOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -421,6 +446,13 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	
+	<xsd:complexType name="DryWasteConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ConsumerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
 	<xsd:complexType name="O2AirConsumerType">
 		<xsd:sequence>
 			<xsd:element name="environmentInputs" type="ConsumerType" minOccurs="0" maxOccurs="1"/>
@@ -520,6 +552,13 @@
 	</xsd:complexType>
 	
 	<xsd:complexType name="FoodProducerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ProducerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="DryWasteProducerType">  
 		<xsd:complexContent>
 			<xsd:extension base="ProducerType">
 			</xsd:extension>
@@ -665,6 +704,13 @@
 	</xsd:complexType>
 	
 	<xsd:complexType name="PowerStoreType">  
+		<xsd:complexContent>
+			<xsd:extension base="Store">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="DryWasteStoreType">  
 		<xsd:complexContent>
 			<xsd:extension base="Store">
 			</xsd:extension>
@@ -835,6 +881,19 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	
+	<xsd:complexType name="IncineratorType">  
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:sequence>
+					<xsd:element name="powerConsumer" type="PowerConsumerType"/>
+					<xsd:element name="O2Consumer" type="O2ConsumerType"/>
+					<xsd:element name="dryWasteConsumer" type="DryWasteConsumerType"/>
+					<xsd:element name="CO2Producer" type="CO2ProducerType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
 	<xsd:complexType name="AccumulatorType">  
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
@@ -870,6 +929,8 @@
 					<xsd:element name="biomassProducer" type="BiomassProducerType" minOccurs="0" maxOccurs="1"/>
 					<xsd:element name="foodConsumer" type="FoodConsumerType" minOccurs="0" maxOccurs="1"/>
 					<xsd:element name="foodProducer" type="FoodProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="dryWasteConsumer" type="DryWasteConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="dryWasteProducer" type="DryWasteProducerType" minOccurs="0" maxOccurs="1"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -910,6 +971,8 @@
 					<xsd:element name="biomassProducer" type="BiomassProducerType" minOccurs="0" maxOccurs="1"/>
 					<xsd:element name="foodConsumer" type="FoodConsumerType" minOccurs="0" maxOccurs="1"/>
 					<xsd:element name="foodProducer" type="FoodProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="dryWasteConsumer" type="DryWasteConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="dryWasteProducer" type="DryWasteProducerType" minOccurs="0" maxOccurs="1"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -1396,6 +1459,28 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	
+	<!-- Waste sensor declarations -->
+	<xsd:complexType name="DryWasteInFlowRateSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="DryWasteOutFlowRateSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="DryWasteStoreLevelSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="SensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
 	<!-- Actuator declarations -->
 	<xsd:complexType name="ActuatorType">  
 		<xsd:complexContent>
@@ -1700,6 +1785,21 @@
 	</xsd:complexType>
 	
 	<xsd:complexType name="PotableWaterOutFlowRateActuatorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<!-- Waste actuator declarations -->
+	<xsd:complexType name="DryWasteInFlowRateActuatorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="DryWasteOutFlowRateActuatorType">  
 		<xsd:complexContent>
 			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
