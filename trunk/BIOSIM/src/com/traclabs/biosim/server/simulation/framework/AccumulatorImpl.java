@@ -435,8 +435,9 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		float CO2AirPushed = pushResourceToStore(myCO2AirStoreOutputs, CO2AirStoreOutMaxFlowRates, CO2AirStoreOutDesiredFlowRates, CO2AirStoreOutActualFlowRates, gatheredCO2Air);
 		float CO2AirLeft = gatheredCO2Air - CO2AirPushed;
 		for (int i = 0; (i < myCO2AirEnvironmentOutputs.length) && (CO2AirLeft > 0); i++){
-			float amountToPush = Math.min(CO2AirEnvironmentOutMaxFlowRates[i], CO2AirEnvironmentOutDesiredFlowRates[i]);
-			CO2AirEnvironmentOutActualFlowRates[i] = myCO2AirEnvironmentOutputs[i].addCO2Moles(amountToPush);
+			float amountToPushFirst = Math.min(CO2AirEnvironmentOutMaxFlowRates[i], CO2AirEnvironmentOutDesiredFlowRates[i]);
+			float amountToPushFinal = Math.min(amountToPushFirst, CO2AirLeft);
+			CO2AirEnvironmentOutActualFlowRates[i] = myCO2AirEnvironmentOutputs[i].addCO2Moles(amountToPushFinal);
 			CO2AirLeft -= CO2AirEnvironmentOutActualFlowRates[i];
 		}
 		CO2AirPushed = gatheredCO2Air - CO2AirLeft;
@@ -452,8 +453,9 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		float O2AirPushed = pushResourceToStore(myO2AirStoreOutputs, O2AirStoreOutMaxFlowRates, O2AirStoreOutDesiredFlowRates, O2AirStoreOutActualFlowRates, gatheredO2Air);
 		float O2AirLeft = gatheredO2Air - O2AirPushed;
 		for (int i = 0; (i < myO2AirEnvironmentOutputs.length) && (O2AirLeft > 0); i++){
-			float amountToPush = Math.min(O2AirEnvironmentOutMaxFlowRates[i], O2AirEnvironmentOutDesiredFlowRates[i]);
-			O2AirEnvironmentOutActualFlowRates[i] = myO2AirEnvironmentOutputs[i].addO2Moles(amountToPush);
+			float amountToPushFirst = Math.min(O2AirEnvironmentOutMaxFlowRates[i], O2AirEnvironmentOutDesiredFlowRates[i]);
+			float amountToPushFinal = Math.min(amountToPushFirst, O2AirLeft);
+			O2AirEnvironmentOutActualFlowRates[i] = myO2AirEnvironmentOutputs[i].addO2Moles(amountToPushFinal);
 			O2AirLeft -= O2AirEnvironmentOutActualFlowRates[i];
 		}
 		O2AirPushed = gatheredO2Air - O2AirLeft;
@@ -469,8 +471,9 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		float nitrogenAirPushed = pushResourceToStore(myNitrogenAirStoreOutputs, nitrogenAirStoreOutMaxFlowRates, nitrogenAirStoreOutDesiredFlowRates, nitrogenAirStoreOutActualFlowRates, gatheredNitrogenAir);
 		float nitrogenAirLeft = gatheredNitrogenAir - nitrogenAirPushed;
 		for (int i = 0; (i < myNitrogenAirEnvironmentOutputs.length) && (nitrogenAirLeft > 0); i++){
-			float amountToPush = Math.min(nitrogenAirEnvironmentOutMaxFlowRates[i], nitrogenAirEnvironmentOutDesiredFlowRates[i]);
-			nitrogenAirEnvironmentOutActualFlowRates[i] = myNitrogenAirEnvironmentOutputs[i].addNitrogenMoles(amountToPush);
+			float amountToPushFirst = Math.min(nitrogenAirEnvironmentOutMaxFlowRates[i], nitrogenAirEnvironmentOutDesiredFlowRates[i]);
+			float amountToPushFinal = Math.min(amountToPushFirst, nitrogenAirLeft);
+			nitrogenAirEnvironmentOutActualFlowRates[i] = myNitrogenAirEnvironmentOutputs[i].addNitrogenMoles(amountToPushFinal);
 			nitrogenAirLeft -= nitrogenAirEnvironmentOutActualFlowRates[i];
 		}
 		nitrogenAirPushed = gatheredNitrogenAir - nitrogenAirLeft;
@@ -490,8 +493,9 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		
 		float waterAirLeft = gatheredWaterAirMoles - waterLitersToMoles(waterAirPushedLiters);
 		for (int i = 0; (i < myWaterAirEnvironmentOutputs.length) && (waterAirLeft > 0); i++){
-			float amountToPush = Math.min(waterAirEnvironmentOutMaxFlowRates[i], waterAirEnvironmentOutDesiredFlowRates[i]);
-			waterAirEnvironmentOutActualFlowRates[i] = myWaterAirEnvironmentOutputs[i].addWaterMoles(amountToPush);
+			float amountToPushFirst = Math.min(waterAirEnvironmentOutMaxFlowRates[i], waterAirEnvironmentOutDesiredFlowRates[i]);
+			float amountToPushFinal = Math.min(amountToPushFirst, waterAirLeft);
+			waterAirEnvironmentOutActualFlowRates[i] = myWaterAirEnvironmentOutputs[i].addWaterMoles(amountToPushFinal);
 			waterAirLeft -= waterAirEnvironmentOutActualFlowRates[i];
 		}
 		float waterAirPushedMoles = gatheredWaterAirMoles - waterAirLeft;
