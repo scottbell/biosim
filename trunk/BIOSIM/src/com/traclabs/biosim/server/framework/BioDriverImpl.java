@@ -53,7 +53,6 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	private boolean simulationIsPaused = false;
 	//Flag to see whether the BioDriverImpl is started at all
 	private boolean simulationStarted = false;
-	private boolean createdCrew = false;
 	//Flag to see if user wants to use default intialization (i.e., fill tanks with x amount gas, generate crew memebers, etc)
 	private BioDriverInit initializationToUse = BioDriverInit.DEFAULT_INIT;
 	private boolean runTillDead = false;
@@ -66,6 +65,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	private boolean hasCollectedReferences = false;
 	private int driverPauseLength = 0;
 	private int myID = 0;
+	private boolean createdCrew = false;
 
 	public BioDriverImpl(int pID){
 		myID = pID;
@@ -195,7 +195,6 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		CrewPerson[] myCrewPeople = myCrew.getCrewPeople();
 		for (int i = 0; i < myCrewPeople.length; i++)
 			myCrewPeople[i].setCurrentActivity(myCrewPeople[i].getScheduledActivityByOrder(i));
-
 		//Fill the clean water stores to the brim (20 liters), and all stores' capacities
 		DirtyWaterStore myDirtyWaterStore = (DirtyWaterStore)(getBioModule(dirtyWaterStoreName));
 		PotableWaterStore myPotableWaterStore = (PotableWaterStore)(getBioModule(potableWaterStoreName));
