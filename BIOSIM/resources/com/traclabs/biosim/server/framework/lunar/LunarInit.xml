@@ -118,46 +118,6 @@
 			<FoodStore name="FoodStore" capacity="2000" level="2000"/>
 		</food>
 		<framework>
-			<Accumulator name="Accumulator">
-				<waterAirConsumer>
-					<environmentInputs maxFlowRates="14063 14063" desiredFlowRates="10 10" inputs="PlantEnvironment CrewEnvironment"/>
-				</waterAirConsumer>
-				<waterAirProducer>
-					<storeOutputs  maxFlowRates="1000" desiredFlowRates="10" outputs="DirtyWaterStore"/>
-				</waterAirProducer>
-				<O2AirConsumer>
-					<environmentInputs maxFlowRates="14063" desiredFlowRates="10" inputs="PlantEnvironment"/>
-				</O2AirConsumer>
-				<O2AirProducer>
-					<storeOutputs  maxFlowRates="14063" desiredFlowRates="10" outputs="O2Store"/>
-				</O2AirProducer>
-				<CO2AirConsumer>
-					<environmentInputs maxFlowRates="14063" desiredFlowRates="10" inputs="CrewEnvironment"/>
-				</CO2AirConsumer>
-				<CO2AirProducer>
-					<storeOutputs maxFlowRates="14063" desiredFlowRates="10" outputs="CO2Store"/>
-				</CO2AirProducer>
-			</Accumulator>
-			<Injector name="Injector">
-				<nitrogenAirConsumer>
-					<storeInputs maxFlowRates="14063" desiredFlowRates="0" inputs="NitrogenStore"/>
-				</nitrogenAirConsumer>
-				<nitrogenAirProducer>
-					<environmentOutputs  maxFlowRates="14063 14063" desiredFlowRates="0 0" outputs="CrewEnvironment PlantEnvironment"/>
-				</nitrogenAirProducer>
-				<O2AirConsumer>
-					<storeInputs maxFlowRates="14063" desiredFlowRates="10" inputs="O2Store"/>
-				</O2AirConsumer>
-				<O2AirProducer>
-					<environmentOutputs maxFlowRates="14063" desiredFlowRates="10" outputs="CrewEnvironment"/>
-				</O2AirProducer>
-				<CO2AirConsumer>
-					<storeInputs maxFlowRates="14063" desiredFlowRates="10" inputs="CO2Store"/>
-				</CO2AirConsumer>
-				<CO2AirProducer>
-					<environmentOutputs maxFlowRates="14063" desiredFlowRates="10" outputs="PlantEnvironment"/>
-				</CO2AirProducer>
-			</Injector>
 		</framework>
 		<power>
 			<PowerPS name="PowerPS" generation="SOLAR">
@@ -218,36 +178,20 @@
 			<AirOutFlowRateSensor name="AirRSAirOutFlowRateSensor" index="0" input="AirRS"/>
 			<CO2AirConcentrationSensor name="CrewEnvironmentCO2AirConcentrationSensor" input="CrewEnvironment"/>
 			<CO2AirConcentrationSensor name="PlantEnvironmentCO2AirConcentrationSensor" input="PlantEnvironment"/>
-			<CO2AirEnvironmentInFlowRateSensor name="AccumulatorCO2AirEnvironmentInFlowRateSensor" index="0" input="Accumulator"/>
-			<CO2AirEnvironmentOutFlowRateSensor name="InjectorCO2AirEnvironmentOutFlowRateSensor" index="0" input="Injector"/>
 			<CO2AirPressureSensor name="CrewEnvironmentCO2AirPressureSensor" input="CrewEnvironment"/>
 			<CO2AirPressureSensor name="PlantEnvironmentCO2AirPressureSensor" input="PlantEnvironment"/>
-			<CO2AirStoreInFlowRateSensor name="InjectorCO2AirStoreInFlowRateSensor" index="0" input="Injector"/>
-			<CO2AirStoreOutFlowRateSensor name="AccumulatorCO2AirStoreOutFlowRateSensor" index="0" input="Accumulator"/>
 			<O2AirConcentrationSensor name="CrewEnvironmentO2AirConcentrationSensor" input="CrewEnvironment"/>
 			<O2AirConcentrationSensor name="PlantEnvironmentO2AirConcentrationSensor" input="PlantEnvironment"/>
-			<O2AirEnvironmentInFlowRateSensor name="AccumulatorO2AirEnvironmentInFlowRateSensor" index="0" input="Accumulator"/>
-			<O2AirEnvironmentOutFlowRateSensor name="InjectorO2AirEnvironmentOutFlowRateSensor" index="0" input="Injector"/>
 			<O2AirPressureSensor name="CrewEnvironmentO2AirPressureSensor" input="CrewEnvironment"/>
 			<O2AirPressureSensor name="PlantEnvironmentO2AirPressureSensor" input="PlantEnvironment"/>
-			<O2AirStoreInFlowRateSensor name="InjectorO2AirStoreInFlowRateSensor" index="0" input="Injector"/>
-			<O2AirStoreOutFlowRateSensor name="AccumulatorO2AirStoreOutFlowRateSensor" index="0" input="Accumulator"/>
 			<NitrogenAirConcentrationSensor name="CrewEnvironmentNitrogenAirConcentrationSensor" input="CrewEnvironment"/>
 			<NitrogenAirConcentrationSensor name="PlantEnvironmentNitrogenAirConcentrationSensor" input="PlantEnvironment"/>
 			<NitrogenAirPressureSensor name="CrewEnvironmentNitrogenAirPressureSensor" input="CrewEnvironment"/>
 			<NitrogenAirPressureSensor name="PlantEnvironmentNitrogenAirPressureSensor" input="PlantEnvironment"/>
-			<NitrogenAirEnvironmentOutFlowRateSensor name="InjectorCrewNitrogenAirEnvironmentOutFlowRateSensor" index="0" input="Injector"/>
-			<NitrogenAirEnvironmentOutFlowRateSensor name="InjectorPlantNitrogenAirEnvironmentOutFlowRateSensor" index="1" input="Injector"/>
-			<NitrogenAirStoreInFlowRateSensor name="InjectorCrewNitrogenAirStoreInFlowRateSensor" index="0" input="Injector"/>
-			<NitrogenAirStoreInFlowRateSensor name="InjectorPlantNitrogenAirStoreInFlowRateSensor" index="0" input="Injector"/>
 			<WaterAirConcentrationSensor name="CrewEnvironmentWaterAirConcentrationSensor" input="CrewEnvironment"/>
 			<WaterAirConcentrationSensor name="PlantEnvironmentWaterAirConcentrationSensor" input="PlantEnvironment"/>
 			<WaterAirPressureSensor name="CrewEnvironmentWaterAirPressureSensor" input="CrewEnvironment"/>
 			<WaterAirPressureSensor name="PlantEnvironmentWaterAirPressureSensor" input="PlantEnvironment"/>
-			<WaterAirEnvironmentInFlowRateSensor name="AccumulatorCrewWaterAirEnvironmentInFlowRateSensor" index="0" input="Accumulator"/>
-			<WaterAirEnvironmentInFlowRateSensor name="AccumulatorPlantWaterAirEnvironmentInFlowRateSensor" index="1" input="Accumulator"/>
-			<WaterAirStoreOutFlowRateSensor name="AccumulatorCrewWaterAirStoreOutFlowRateSensor" index="0" input="Accumulator"/>
-			<WaterAirStoreOutFlowRateSensor name="AccumulatorPlantWaterAirStoreOutFlowRateSensor" index="0" input="Accumulator"/>
 			<OtherAirConcentrationSensor name="CrewEnvironmentOtherAirConcentrationSensor" input="CrewEnvironment"/>
 			<OtherAirConcentrationSensor name="PlantEnvironmentOtherAirConcentrationSensor" input="PlantEnvironment"/>
 			<OtherAirPressureSensor name="CrewEnvironmentOtherAirPressureSensor" input="CrewEnvironment"/>
@@ -341,22 +285,6 @@
 		<environment>
 			<AirInFlowRateActuator name="AirRSAirInFlowRateActuator" index="0" output="AirRS"/>
 			<AirOutFlowRateActuator name="AirRSAirOutFlowRateActuator" index="0" output="AirRS"/>
-			<CO2AirEnvironmentInFlowRateActuator name="AccumulatorCO2AirEnvironmentInFlowRateActuator" index="0" output="Accumulator"/>
-			<CO2AirEnvironmentOutFlowRateActuator name="InjectorCO2AirEnvironmentOutFlowRateActuator" index="0" output="Injector"/>
-			<CO2AirStoreInFlowRateActuator name="InjectorCO2AirStoreInFlowRateActuator" index="0" output="Injector"/>
-			<CO2AirStoreOutFlowRateActuator name="AccumulatorCO2AirStoreOutFlowRateActuator" index="0" output="Accumulator"/>
-			<O2AirEnvironmentInFlowRateActuator name="AccumulatorO2AirEnvironmentInFlowRateActuator" index="0" output="Accumulator"/>
-			<O2AirEnvironmentOutFlowRateActuator name="InjectorO2AirEnvironmentOutFlowRateActuator" index="0" output="Injector"/>
-			<O2AirStoreInFlowRateActuator name="InjectorO2AirStoreInFlowRateActuator" index="0" output="Injector"/>
-			<O2AirStoreOutFlowRateActuator name="AccumulatorO2AirStoreOutFlowRateActuator" index="0" output="Accumulator"/>
-			<NitrogenAirEnvironmentOutFlowRateActuator name="InjectorPlantNitrogenAirEnvironmentOutFlowRateActuator" index="1" output="Injector"/>
-			<NitrogenAirEnvironmentOutFlowRateActuator name="InjectorCrewNitrogenAirEnvironmentOutFlowRateActuator" index="0" output="Injector"/>
-			<NitrogenAirStoreInFlowRateActuator name="InjectorPlantNitrogenAirStoreInFlowRateActuator" index="0" output="Injector"/>
-			<NitrogenAirStoreInFlowRateActuator name="InjectorCrewNitrogenAirStoreInFlowRateActuator" index="0" output="Injector"/>
-			<WaterAirEnvironmentInFlowRateActuator name="AccumulatorCrewWaterAirEnvironmentInFlowRateActuator" index="0" output="Accumulator"/>
-			<WaterAirEnvironmentInFlowRateActuator name="AccumulatorPlantWaterAirEnvironmentInFlowRateActuator" index="1" output="Accumulator"/>
-			<WaterAirStoreOutFlowRateActuator name="AccumulatorPlantWaterAirStoreOutFlowRateActuator" index="0" output="Accumulator"/>
-			<WaterAirStoreOutFlowRateActuator name="AccumulatorCrewWaterAirStoreOutFlowRateActuator" index="0" output="Accumulator"/>
 		</environment>
 		<food>
 			<BiomassInFlowRateActuator name="FoodProcessorBiomassInFlowRateActuator" index="0" output="FoodProcessor"/>
