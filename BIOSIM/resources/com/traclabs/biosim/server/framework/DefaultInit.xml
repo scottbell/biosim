@@ -9,7 +9,7 @@
 			<AirRS name="AirRS">
 				<powerConsumer maxFlowRates="300" desiredFlowRates="300" inputs="PowerStore"/>
 				<potableWaterConsumer maxFlowRates="10" desiredFlowRates="10" inputs="PotableWaterStore"/>
-				<airConsumer maxFlowRates="10" desiredFlowRates="10" inputs="CrewEnvironment"/>
+				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="CrewEnvironment"/>
 				<CO2Consumer maxFlowRates="10" desiredFlowRates="10" inputs="CO2Store"/>
 				<H2Consumer maxFlowRates="40" desiredFlowRates="40" inputs="H2Store"/>
 				<potableWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="PotableWaterStore"/>
@@ -171,7 +171,7 @@
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="10" inputs="GreyWaterStore"/>
 				<potableWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="PotableWaterStore"/>
 			</WaterRS>
-			<PotableWaterStore name="PotableWaterStore" capacity="1000" level="500"/>
+			<PotableWaterStore name="PotableWaterStore" capacity="700" level="500"/>
 			<GreyWaterStore name="GreyWaterStore" capacity="500" level="500"/>
 			<DirtyWaterStore name="DirtyWaterStore" capacity="500" level="250"/>
 		</water>
@@ -184,6 +184,14 @@
 			</Incinerator>
 			<DryWasteStore name="DryWasteStore" capacity="500" level="0"/>
 		</waste>
+
+		<mission>
+			<EVAMission name="EVAMission">
+				<powerConsumer maxFlowRates="10" desiredFlowRates="0" inputs="PowerStore"/>
+				<airConsumer maxFlowRates="10" desiredFlowRates="1" inputs="CrewEnvironment"/>
+			</EVAMission>
+		</mission>
+
 	</SimBioModules>
 	<Sensors>
 		<air>
@@ -369,7 +377,7 @@
 			<PlantingActuator name="Shelf5PlantingActuator" shelfIndex="5" output="BiomassRS"/>
 			<PlantingActuator name="Shelf6PlantingActuator" shelfIndex="6" output="BiomassRS"/>
 			<PlantingActuator name="Shelf7PlantingActuator" shelfIndex="7" output="BiomassRS"/>
-			<PlantingActuator name="Shelf8PlantingActuator" shelfIndex="7" output="BiomassRS"/>
+			<PlantingActuator name="Shelf8PlantingActuator" shelfIndex="8" output="BiomassRS"/>
 		</food>
 		<power>
 			<PowerInFlowRateActuator name="AirRSPowerInFlowRateActuator" index="0" output="AirRS"/>
