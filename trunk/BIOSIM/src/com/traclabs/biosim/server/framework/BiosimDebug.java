@@ -2,7 +2,6 @@ package com.traclabs.biosim.server.framework;
 
 import java.util.Properties;
 
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.jacorb.naming.NameServer;
