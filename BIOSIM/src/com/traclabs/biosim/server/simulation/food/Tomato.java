@@ -16,12 +16,12 @@ public class Tomato extends Planophile{
 		canopyClosureConstants[11] = .0056276f;
 		canopyClosureConstants[16] = -.0000030690f;
 
-		canopyQYConstants[6] = .04191f;
-		canopyQYConstants[7] = .000053852f;
-		canopyQYConstants[8] = -.000000021275f;
-		canopyQYConstants[11] = -.00001238f;
-		canopyQYConstants[17] = -.00000000001544f;
-		canopyQYConstants[18] = .000000000000006469f;
+		canopyQYConstants[6] = 0.040061f;
+		canopyQYConstants[7] = 0.00005688f;
+		canopyQYConstants[8] = -0.000000022598f;
+		canopyQYConstants[12] = -0.00000001182f;
+		canopyQYConstants[13] = 0.00000000000550264f;
+		canopyQYConstants[16] = -0.0000000071241f;
 	}
 
 	public PlantType getPlantType(){

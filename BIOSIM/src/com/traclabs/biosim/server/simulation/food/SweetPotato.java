@@ -15,12 +15,13 @@ public class SweetPotato extends Planophile{
 		canopyClosureConstants[20] = .00000040109f;
 		canopyClosureConstants[22] = .0000000000020193f;
 
-		canopyQYConstants[6] = .04191f;
-		canopyQYConstants[7] = .000053852f;
-		canopyQYConstants[8] = -.000000021275f;
-		canopyQYConstants[11] = -.00001238f;
-		canopyQYConstants[17] = -.00000000001544f;
-		canopyQYConstants[18] = .000000000000006469f;
+		canopyQYConstants[6] = 0.039317f;
+		canopyQYConstants[7] = 0.000056741f;
+		canopyQYConstants[8] = -0.000000021797f;
+		canopyQYConstants[11] = -0.000013836f;
+		canopyQYConstants[12] = -0.0000000063397f;
+		canopyQYConstants[17] = -0.000000000013464f;
+		canopyQYConstants[18] = 0.0000000000000077362f;
 	}
 
 	public PlantType getPlantType(){
