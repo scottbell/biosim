@@ -20,13 +20,10 @@ public class ShelfImpl extends ShelfPOA {
 	private boolean hasCollectedReferences = false;
 	private boolean hasEnoughWater = false;
 	private boolean hasEnoughPower = false;
-	private BiomassRSImpl myBiomassImpl;
-	private PotableWaterStore myPotableWaterStore;
-	private GreyWaterStore myGreyWaterStore;
-	private PowerStore myPowerStore;
 	private LogIndex myLogIndex;
 	private boolean logInitialized = false;
 	private int myID = 0;
+	private BiomassRSImpl myBiomassImpl;
 	
 	public ShelfImpl(int pID, BiomassRSImpl pBiomassImpl){
 		myBiomassImpl = pBiomassImpl;
@@ -39,23 +36,6 @@ public class ShelfImpl extends ShelfPOA {
 		totalArea = pTotalArea;
 		myCrop = new Wheat(myID, totalArea, pBiomassImpl);
 		myID = pID;
-	}
-	
-	/**
-	* Collects references to subsystems needed for putting/getting resources
-	*/
-	private void collectReferences(){
-		if (!hasCollectedReferences){
-			try{
-				myPotableWaterStore = PotableWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PotableWaterStore"+myID));
-				myGreyWaterStore = GreyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("GreyWaterStore"+myID));
-				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"+myID));
-				hasCollectedReferences = true;
-			}
-			catch (org.omg.CORBA.UserException e){
-				e.printStackTrace(System.out);
-			}
-		}
 	}
 	
 	public boolean hasWater(){
@@ -114,7 +94,12 @@ public class ShelfImpl extends ShelfPOA {
 	* Adds power for this tick
 	*/
 	private void collectPower(){
-		currentPowerConsumed = myPowerStore.take(myCrop.getPowerNeeded());
+		float gatheredPower = 0f;
+		PowerStore[] myPowerStores = myBiomassImpl.getPowerInputs();
+		for (int i = 0; (i < myPowerStores.length) || (gatheredPower >= myCrop.getPowerNeeded()); i++){
+			gatheredPower += myPowerStores[i].take(myCrop.getPowerNeeded());
+		}
+		currentPowerConsumed = gatheredPower;
 		if (currentPowerConsumed < myCrop.getPowerNeeded()){
 			hasEnoughPower = false;
 		}
@@ -131,7 +116,16 @@ public class ShelfImpl extends ShelfPOA {
 	* Adds power for this tick
 	*/
 	private void collectWater(){
-		currentGreyWaterConsumed = myGreyWaterStore.take(myCrop.getWaterNeeded());
+		float gatheredWater = 0f;
+		GreyWaterStore[] myGreyWaterStores = myBiomassImpl.getGreyWaterInputs();
+		PotableWaterStore[] myPotableWaterStores = myBiomassImpl.getPotableWaterInputs();
+		for (int i = 0; (i < myGreyWaterStores.length) || (gatheredWater >= myCrop.getWaterNeeded()); i++){
+			gatheredWater += myGreyWaterStores[i].take(myCrop.getWaterNeeded());
+		}
+		for (int i = 0; (i < myPotableWaterStores.length) || (gatheredWater >= myCrop.getWaterNeeded()); i++){
+			gatheredWater += myPotableWaterStores[i].take(myCrop.getWaterNeeded());
+		}
+		currentGreyWaterConsumed = gatheredWater;
 		if (currentGreyWaterConsumed < myCrop.getWaterNeeded()){
 			hasEnoughWater = false;
 		}
@@ -151,7 +145,6 @@ public class ShelfImpl extends ShelfPOA {
 	}
 	
 	public void tick(){
-		collectReferences();
 		collectPower();
 		if (hasEnoughPower){
 			collectWater();

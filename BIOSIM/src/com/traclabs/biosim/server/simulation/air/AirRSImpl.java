@@ -61,27 +61,27 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 		return myOGS.hasEnoughH2O();
 	}
 	
-	protected VCCR getVCCR(){
+	VCCR getVCCR(){
 		return myVCCR;
 	}
 	
-	protected CO2Tank getCO2Tank(){
+	CO2Tank getCO2Tank(){
 		return myCO2Tank;
 	}
 	
-	protected CRS getCRS(){
+	CRS getCRS(){
 		return myCRS;
 	}
 	
-	protected H2Tank getH2Tank(){
+	H2Tank getH2Tank(){
 		return myH2Tank;
 	}
 	
-	protected CH4Tank getCH4Tank(){
+	CH4Tank getCH4Tank(){
 		return myCH4Tank;
 	}
 	
-	protected OGS getOGS(){
+	OGS getOGS(){
 		return myOGS;
 	}
 	
