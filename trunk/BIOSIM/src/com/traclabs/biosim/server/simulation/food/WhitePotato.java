@@ -85,7 +85,7 @@ public class WhitePotato extends Planophile{
 	}
 
 	public static float getFractionOfEdibleBiomass(){
-		return 1.00f;
+		return 0.3f;
 	}
 	
 	protected float getProtectedFractionOfEdibleBiomass(){

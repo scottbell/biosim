@@ -81,7 +81,7 @@ public class Rice extends Erectophile{
 	}
 
 	public static float getFractionOfEdibleBiomass(){
-		return 0.98f;
+		return 0.3f;
 	}
 	
 	protected float getProtectedFractionOfEdibleBiomass(){
