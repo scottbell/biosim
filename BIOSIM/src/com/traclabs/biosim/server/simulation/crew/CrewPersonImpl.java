@@ -8,7 +8,7 @@ import biosim.idl.air.*;
 import biosim.server.util.*;
 
 public class CrewPersonImpl extends CrewPersonPOA {
-	private String myName;
+	private String myName = "No Name";
 	private ActivityImpl myCurrentActivity;
 	private CrewGroupImpl myCrewGroup;
 	private boolean hasCollectedReferences = false;
@@ -21,10 +21,16 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private FoodStore myFoodStore;
 	private PotableWaterStore myPotableWaterStore;
 	private DirtyWaterStore myDirtyWaterStore;
+	private float age = 30f;
+	private float weight = 170f;
+	private CrewPersonSex sex = CrewPersonSex.male;
 
-	public CrewPersonImpl(String pName, CrewGroupImpl pCrewGroup){
+	public CrewPersonImpl(String pName, float pAge, float pWeight, CrewPersonSex pSex, CrewGroupImpl pCrewGroup){
 		myCrewGroup = pCrewGroup;
 		myName = pName;
+		age = pAge;
+		weight = pWeight;
+		sex = pSex;
 		myCurrentActivity = myCrewGroup.getRawActivityByOrder(currentOrder);
 		System.out.println("CrewPerson: "+myName+" is "+myCurrentActivity.getName());
 	}
@@ -32,7 +38,19 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	public String getName(){
 		return myName;
 	}
-
+	
+	public float getAge(){
+		return age;
+	}
+	
+	public float getWeight(){
+		return weight;
+	}
+	
+	public CrewPersonSex getSex(){
+		return sex;
+	}
+	
 	public org.omg.CORBA.Object getCurrentActivity(){
 		return (OrbUtils.poaToCorbaObj(myCurrentActivity));
 	}
@@ -99,6 +117,18 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			timeActivityPerformed = 0;
 			System.out.println("CrewPerson: "+myName+" has suffocated!!");
 		}
+	}
+	
+	private double calculateO2Needed(int currentActivityIntensity){
+		double heartRate = (currentActivityIntensity * 30f) + 15f;
+		double a = 0.223804f;
+		double b = 5.64f * (Math.pow(10f, -7f));
+		double result = (a+b * Math.pow(heartRate, 3f)) * 60f;
+		return result; //Liters/hour
+	}
+	
+	private float calculateFoodNeeded(int currentActivityIntensity){
+		return 0.0f;
 	}
 	
 	private void consumeResources(){
