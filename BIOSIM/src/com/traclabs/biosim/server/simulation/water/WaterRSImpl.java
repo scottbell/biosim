@@ -87,6 +87,7 @@ public class WaterRSImpl extends WaterRSPOA {
 				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"));
 				myDirtyWaterStore = DirtyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("DirtyWaterStore"));
 				myGreyWaterStore = GreyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("GreyWaterStore"));
+				myPotableWaterStore = PotableWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PotableWaterStore"));
 				hasCollectedReferences = true;
 			}
 		}
@@ -102,8 +103,13 @@ public class WaterRSImpl extends WaterRSPOA {
 		gatherPower();
 		//gather dirty & clean water for BWP
 		gatherUnpotableWater();
+		//tick each system
+		myBWP.tick();
+		myRO.tick();
+		myAES.tick();
+		myPPS.tick();
 		//get clean water from PPS and put in clean water store
-		distributeCleanWater();
+		distributePotableWater();
 	}
 
 	private void gatherPower(){
@@ -124,18 +130,22 @@ public class WaterRSImpl extends WaterRSPOA {
 	}
 
 	private void gatherUnpotableWater(){
-		if (myDirtyWaterStore.getWaterLevel() != 0){
+		//draw as much as we can from dirty water
+		if (myDirtyWaterStore.getWaterLevel() >= myBWP.getWaterWanted()){
 			currentDirtyWaterConsumed = myDirtyWaterStore.takeWater(myBWP.getWaterWanted());
 			currentGreyWaterConsumed = 0;
 		}
+		//draw from both
 		else{
-			currentDirtyWaterConsumed = 0;
-			currentGreyWaterConsumed = myGreyWaterStore.takeWater(myBWP.getWaterWanted());
+			currentDirtyWaterConsumed = myDirtyWaterStore.takeWater(myBWP.getWaterWanted());
+			currentGreyWaterConsumed = myGreyWaterStore.takeWater(myBWP.getWaterWanted() - currentDirtyWaterConsumed);
 		}
 		myBWP.addWater(currentDirtyWaterConsumed + currentGreyWaterConsumed);
 	}
 
-	private void distributeCleanWater(){
+	private void distributePotableWater(){
+		currentPotableWaterProduced = myPPS.takePotableWater();
+		myPotableWaterStore.addWater(currentPotableWaterProduced);
 	}
 
 	public String getModuleName(){

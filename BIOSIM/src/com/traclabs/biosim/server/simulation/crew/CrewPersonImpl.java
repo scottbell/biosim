@@ -194,47 +194,45 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		myCurrentEnvironment.addCO2(CO2Out);
 		myCurrentEnvironment.addOther(airRetrieved.other);
 		float theCO2Ratio = getCO2Ratio(airRetrieved);
-		//afflict crew
 		
-		StringBuffer statusBuffer = new StringBuffer();
+		//afflict crew
 		if (foodRetrieved < foodNeeded){
-			statusBuffer.append("   needed "+foodNeeded+" kgs of food, got only "+foodRetrieved +" kgs");
+			status = "starving";
 			starvingTime++;
 		}
 		if (waterRetrieved < cleanWaterNeeded){
-			statusBuffer.append("   needed "+cleanWaterNeeded+" liters of waters, got only "+waterRetrieved +" liters");
+			status = "thirsty";
 			thirstTime++;
 		}
-		if (O2Retrieved < O2Needed){
-			statusBuffer.append("   needed "+O2Needed+" liters of O2, got only "+O2Retrieved +" liters");
-			suffocateTime++;
-		}
 		if (theCO2Ratio > 0.06){
-			statusBuffer.append("   needed a ratio of "+0.06+" liters of CO2, got "+theCO2Ratio);
+			status = "CO2 poisoned";
 			poisonTime++;
 		}
+		if (O2Retrieved < O2Needed){
+			status = "suffocating";
+			suffocateTime++;
+		}
 		
+		//check for death
 		if (starvingTime > 504){
 			myCurrentActivity = myCrewGroup.getScheduledActivityByName("dead");
 			timeActivityPerformed = 0;
-			statusBuffer = new StringBuffer("   starved to death");
+			status = ("   starved to death");
 		}
-		if (thirstTime > 72){
+		else if (thirstTime > 72){
 			myCurrentActivity = myCrewGroup.getScheduledActivityByName("dead");
 			timeActivityPerformed = 0;
-			statusBuffer = new StringBuffer("   died of thirst");
+			status = ("   died of thirst");
 		}
-		if (suffocateTime > 1){
+		else if (suffocateTime > 1){
 			myCurrentActivity = myCrewGroup.getScheduledActivityByName("dead");
 			timeActivityPerformed = 0;
-			statusBuffer = new StringBuffer("   suffocated");
+			status = ("   suffocated");
 		}
-		if (poisonTime > 5){
+		else if (poisonTime > 5){
 			myCurrentActivity = myCrewGroup.getScheduledActivityByName("dead");
 			timeActivityPerformed = 0;
-			statusBuffer = new StringBuffer("   died of CO2 poisioning");
+			status = ("   died of CO2 poisioning");
 		}
-		if (statusBuffer.length() > 0)
-			status = statusBuffer.toString();
 	}
 }

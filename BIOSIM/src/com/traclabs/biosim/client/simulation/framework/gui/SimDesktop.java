@@ -303,8 +303,22 @@ public class SimDesktop extends BaseJFrame
 				myStartSimItem.setText("End");
 				myPauseSimButton.setEnabled(true);
 				myPauseSimItem.setEnabled(true);
-				myAdvanceSimButton.setEnabled(false);
-				myAdvanceSimItem.setEnabled(false);
+				myAdvanceSimButton.setEnabled(true);
+				myAdvanceSimItem.setEnabled(true);
+				if (isPaused){
+					myPauseSimButton.setToolTipText("Resume the simulation");
+					myPauseSimButton.setIcon(playIcon);
+					myPauseSimItem.setText("Resume");
+					myAdvanceSimButton.setEnabled(true);
+					myAdvanceSimItem.setEnabled(true);
+				}
+				else{
+					myPauseSimButton.setToolTipText("Pause the simulation");
+					myPauseSimButton.setIcon(pauseIcon);
+					myPauseSimItem.setText("Pause");
+					myAdvanceSimButton.setEnabled(false);
+					myAdvanceSimItem.setEnabled(false);
+				}
 				myBiosim.spawnSimulation();
 				setCursor(Cursor.getDefaultCursor());
 			}

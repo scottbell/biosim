@@ -10,6 +10,7 @@ public class AES{
 	private boolean hasCollectedReferences = false;
 	private String status = "off";
 	private boolean hasEnoughPower = false;
+	private float waterLevel = 0f;
 	
 	public AES(WaterRSImpl pWaterRSImpl){
 		myWaterRS = pWaterRSImpl;
@@ -29,6 +30,23 @@ public class AES{
 		}
 	}
 	
+	public void addWater(float pWater){
+		waterLevel = pWater;
+	}
+	
+	private void pushWater(){
+		myWaterRS.getPPS().addWater(waterLevel);
+		waterLevel = 0;
+	}
+	
+	private void checkStatus(){
+		status = ("nominal");
+		if (!hasEnoughPower)
+			status = ("needs power");
+		else if (waterLevel == 0)
+			status = ("needs water");
+	}
+	
 	private void collectReferences(){
 		if (!hasCollectedReferences){
 			myBWP = myWaterRS.getBWP();
@@ -40,5 +58,7 @@ public class AES{
 
 	public void tick(){
 		collectReferences();
+		checkStatus();
+		pushWater();
 	}
 }

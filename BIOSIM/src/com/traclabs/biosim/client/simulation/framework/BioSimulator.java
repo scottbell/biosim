@@ -73,11 +73,11 @@ public class BioSimulator implements Runnable
 		PotableWaterStore myPotableWaterStore = (PotableWaterStore)(getBioModule(potableWaterStoreName));
 		GreyWaterStore myGreyWaterStore = (GreyWaterStore)(getBioModule(greyWaterStoreName));
 		myDirtyWaterStore.setWaterCapacity(2000f);
-		myPotableWaterStore.setWaterCapacity(2000f);
-		myGreyWaterStore.setWaterCapacity(2000f);
-		myPotableWaterStore.setWaterLevel(2000f);
-		myGreyWaterStore.setWaterLevel(0f);
 		myDirtyWaterStore.setWaterLevel(0f);
+		myPotableWaterStore.setWaterCapacity(200f);
+		myPotableWaterStore.setWaterLevel(200f);
+		myGreyWaterStore.setWaterCapacity(2000f);
+		myGreyWaterStore.setWaterLevel(0f);
 
 		//Fill the air tanks
 		CO2Store myCO2Store = (CO2Store)(getBioModule(CO2StoreName));

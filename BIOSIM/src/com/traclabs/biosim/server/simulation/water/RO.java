@@ -10,6 +10,7 @@ public class RO{
 	private boolean hasCollectedReferences = false;
 	private String status = "off";
 	private boolean hasEnoughPower = false;
+	private float waterLevel = 0;
 	
 	public RO(WaterRSImpl pWaterRSImpl){
 		myWaterRS = pWaterRSImpl;
@@ -29,6 +30,29 @@ public class RO{
 		}
 	}
 	
+	private void checkStatus(){
+		status = ("nominal");
+		if (!hasEnoughPower)
+			status = ("needs power");
+		else if (waterLevel == 0)
+			status = ("needs water");
+	}
+	
+	public void addWater(float pWater){
+		waterLevel = pWater;
+	}
+	
+	private void pushWater(){
+		myWaterRS.getAES().addWater(waterLevel);
+		waterLevel = 0;
+	}
+	
+	public void tick(){
+		collectReferences();
+		checkStatus();
+		pushWater();
+	}
+	
 	private void collectReferences(){
 		if (!hasCollectedReferences){
 			myBWP = myWaterRS.getBWP();
@@ -36,9 +60,5 @@ public class RO{
 			myPPS = myWaterRS.getPPS();
 			hasCollectedReferences = true;
 		}
-	}
-
-	public void tick(){
-		collectReferences();
 	}
 }

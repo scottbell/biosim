@@ -10,6 +10,7 @@ public class PPS{
 	private boolean hasCollectedReferences = false;
 	private String status = "off";
 	private boolean hasEnoughPower = false;
+	private float waterLevel = 0;
 	
 	public PPS(WaterRSImpl pWaterRSImpl){
 		myWaterRS = pWaterRSImpl;
@@ -29,6 +30,24 @@ public class PPS{
 		}
 	}
 	
+	public void addWater(float pWater){
+		waterLevel = pWater;
+	}
+	
+	private void checkStatus(){
+		status = ("nominal");
+		if (!hasEnoughPower)
+			status = ("needs power");
+		else if (waterLevel == 0)
+			status = ("needs water");
+	}
+	
+	public float takePotableWater(){
+		float potableWaterProduced = waterLevel;
+		waterLevel = 0;
+		return potableWaterProduced;
+	}
+	
 	private void collectReferences(){
 		if (!hasCollectedReferences){
 			myBWP = myWaterRS.getBWP();
@@ -40,5 +59,6 @@ public class PPS{
 
 	public void tick(){
 		collectReferences();
+		checkStatus();
 	}
 }
