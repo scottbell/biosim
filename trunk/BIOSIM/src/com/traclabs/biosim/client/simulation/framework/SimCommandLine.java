@@ -18,7 +18,7 @@ public class SimCommandLine
 	
 	public void runCommandLine(){
 		BioHolder.setID(myID);
-		myDriver = BioHolder.getBioDriver();;
+		myDriver = BioHolder.getBioDriver();
 		BufferedReader userInputReader = new BufferedReader(new InputStreamReader(System.in));
 		while (true){
 			try{

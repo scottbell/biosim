@@ -38,8 +38,6 @@ serverString="/server"
 serverGenDir=$genDir$serverString
 serverClassesString="/classes/biosim"
 serverClassesDir=$serverGenDir$serverClassesString
-clientClassesString="/classes/biosim"
-clientClassesDir=$clientGenDir$clientClassesString
 echo "		-expanding library jars"
 distroTmp="$distroDir/tmp"
 if [ ! -e "$distroTmp" ]; then
@@ -49,23 +47,12 @@ fi
 echo "			-changing dir to distro tmp"
 cd $distroTmp
 jarExpand="$jarCommand -xf"
-echo "			-expanding jcommon"
-jcommonPath="$devRootDir/lib/jfreechart/jcommon.jar"
-$jarExpand $jcommonPath
-echo "			-expanding junit"
-junitPath="$devRootDir/lib/jfreechart/junit.jar"
-$jarExpand $junitPath
-echo "			-expanding jfreechart"
-jfreechartPath="$devRootDir/lib/jfreechart/jfreechart.jar"
-$jarExpand $jfreechartPath
 echo "			-removing manifest"
 rm -Rf $distroTmp/META-INF
 echo "			-copying resources"
 cp -R $devRootDir/resources/biosim .
 echo "			-copying server classes"
 cp -f -R $serverClassesDir .
-echo "			-copying client classes"
-cp -f -R $clientClassesDir .
 ####################
 # DISTRO BUILD     #
 ####################

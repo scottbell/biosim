@@ -15,7 +15,6 @@ public class BiosimMain
 	*/
 	public static void main(String args[]) throws java.lang.InterruptedException
 	{
-		
 		BiosimMain myMain = new BiosimMain();
 		myMain.checkArgs(args);
 	}
