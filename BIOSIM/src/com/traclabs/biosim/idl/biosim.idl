@@ -81,7 +81,12 @@ module biosim{
                                 float getPowerConsumed();
                                 float getGreyWaterConsumed();
                                 float getCO2Consumed();
+				float getO2Produced();
                                 float getBiomassProduced();
+				boolean isDead();
+				boolean hasCO2();
+				boolean hasWater();
+				boolean hasPower();
                         };
                         interface BiomassStore : framework::Store{
                         };
@@ -89,7 +94,7 @@ module biosim{
                                 float getBiomassConsumed();
                                 float getPowerConsumed();
                                 float getFoodProduced();
-                        };
+			};
                         interface FoodStore : framework::Store{
                         };
                 };
