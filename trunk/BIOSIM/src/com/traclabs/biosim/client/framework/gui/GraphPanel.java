@@ -40,7 +40,8 @@ public abstract class GraphPanel extends TimedPanel
 		GridBagLayout gridbag = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();
 		setLayout(gridbag);
-
+		
+		/*
 		c.fill = GridBagConstraints.BOTH;
 		c.gridheight = 1;
 		c.gridwidth = 1;
@@ -56,7 +57,7 @@ public abstract class GraphPanel extends TimedPanel
 		c.weightx = 0.1;
 		gridbag.setConstraints(trackingButton, c);
 		add(trackingButton);
-
+		*/
 		c.fill = GridBagConstraints.BOTH;
 		c.gridheight = 1;
 		c.gridwidth = GridBagConstraints.REMAINDER;
