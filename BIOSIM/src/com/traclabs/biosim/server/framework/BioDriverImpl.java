@@ -276,7 +276,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		return false;
 	}
 	
-	public int getTicks(){
+	public synchronized int getTicks(){
 		return ticksGoneBy;
 	}
 
