@@ -1,6 +1,7 @@
 package biosim.server.water;
 
 import biosim.idl.water.*;
+import biosim.idl.power.*;
 import biosim.idl.framework.*;
 import biosim.idl.util.log.*;
 import biosim.server.util.*;
@@ -13,18 +14,21 @@ import java.util.*;
  * @author    Scott Bell
  */
 
-public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
+public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations, PowerConsumerOperations, DirtyWaterConsumerOperations, GreyWaterConsumerOperations, PotableWaterProducerOperations {
 	//The various subsystems of Water RS that clean the water
 	private BWP myBWP;
 	private RO myRO;
 	private AES myAES;
 	private PPS myPPS;
 	private LogIndex myLogIndex;
-	//References to the servers the Water RS takes/puts resources (power and water)
-	
-	private PotableWaterStore myPotableWaterStore;
-	private DirtyWaterStore myDirtyWaterStore;
-	private GreyWaterStore myGreyWaterStore;
+	private PowerStore[] myPowerInputs;
+	private DirtyWaterStore[] myDirtyWaterInputs;
+	private GreyWaterStore[] myGreyWaterInputs;
+	private PotableWaterStore[] myPotableWaterOutputs;
+	private float[] powerFlowRates;
+	private float[] dirtyWaterFlowRates;
+	private float[] greyWaterFlowRates;
+	private float[] potableWaterFlowRates;
 
 	/**
 	* Creates the Water RS and it's subsystems
@@ -341,5 +345,73 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 		public LogNode PPSIndex;
 		public LogNode BWPIndex;
 		public LogNode ROIndex;
+	}
+	
+	public void setPowerInputFlowrate(float watts, int index){
+		powerFlowRates[index] = watts;
+	}
+
+	public float getPowerInputFlowrate(int index){
+		return powerFlowRates[index];
+	}
+
+	public void setPowerInputs(PowerStore[] sources, float[] flowRates){
+		myPowerInputs = sources;
+		powerFlowRates = flowRates;
+	}
+
+	public PowerStore[] getPowerInputs(){
+		return myPowerInputs;
+	}
+	
+	public void setDirtyWaterInputFlowrate(float watts, int index){
+		dirtyWaterFlowRates[index] = watts;
+	}
+
+	public float getDirtyWaterInputFlowrate(int index){
+		return dirtyWaterFlowRates[index];
+	}
+
+	public void setDirtyWaterInputs(DirtyWaterStore[] sources, float[] flowRates){
+		myDirtyWaterInputs = sources;
+		dirtyWaterFlowRates = flowRates;
+	}
+
+	public DirtyWaterStore[] getDirtyWaterInputs(){
+		return myDirtyWaterInputs;
+	}
+	
+	public void setGreyWaterInputFlowrate(float watts, int index){
+		greyWaterFlowRates[index] = watts;
+	}
+
+	public float getGreyWaterInputFlowrate(int index){
+		return greyWaterFlowRates[index];
+	}
+
+	public void setGreyWaterInputs(GreyWaterStore[] sources, float[] flowRates){
+		myGreyWaterInputs = sources;
+		greyWaterFlowRates = flowRates;
+	}
+
+	public GreyWaterStore[] getGreyWaterInputs(){
+		return myGreyWaterInputs;
+	}
+	
+	public void setPotableWaterOutputFlowrate(float watts, int index){
+		potableWaterFlowRates[index] = watts;
+	}
+
+	public float getPotableWaterOutputFlowrate(int index){
+		return potableWaterFlowRates[index];
+	}
+
+	public void setPotableWaterOutputs(PotableWaterStore[] sources, float[] flowRates){
+		myPotableWaterOutputs = sources;
+		potableWaterFlowRates = flowRates;
+	}
+
+	public PotableWaterStore[] getPotableWaterOutputs(){
+		return myPotableWaterOutputs;
 	}
 }
