@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='BiosimInitSchema.xsd'>
 	<Globals crewsToWatch="BaseCrewGroup EVACrewGroup" runTillN="2160" runTillCrewDeath="true">
-		<comment>The lunar mission initialization for BioSim (scenario 1)</comment>
+		<comment>The lunar mission initialization for BioSim (scenario 2)</comment>
 		<author>Scott Bell</author>
 		<!-- <log4jProperty name="log4j.logger.com.traclabs.biosim.server.sensor" value="DEBUG"/> !-->
 	</Globals>
@@ -77,10 +77,30 @@
 			</CrewGroup>
 		</crew>
 		<environment>
+			<SimEnvironment name="BasePlantEnvironment" initialVolume="1548930" leakRate="0.00224" airlockVolume="3.7"/>
 			<SimEnvironment name="BaseCrewEnvironment" initialVolume="1548930" leakRate="0.00224" airlockVolume="3.7"/>
 			<SimEnvironment name="EVACrewEnvironment" initialVolume="1000" leakRate="0.00500" airlockVolume="999"/>
 		</environment>                    
 		<food>
+			<BiomassRS name="BaseBiomassRS">
+				<shelf cropArea="5" cropType="WHEAT"/>
+				<shelf cropArea="5" cropType="WHITE_POTATO"/>
+				<shelf cropArea="5" cropType="RICE"/>
+				<shelf cropArea="5" cropType="TOMATO"/>
+				<shelf cropArea="5" cropType="SOYBEAN"/>
+				<shelf cropArea="5" cropType="DRY_BEAN"/>
+				<shelf cropArea="5" cropType="LETTUCE"/>
+				<shelf cropArea="5" cropType="SWEET_POTATO"/>
+				<shelf cropArea="5" cropType="PEANUT"/>
+				<powerConsumer maxFlowRates="400" desiredFlowRates="400" inputs="BasePowerStore"/>
+				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BasePotableWaterStore"/>
+				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BaseGreyWaterStore"/>
+				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="BasePlantEnvironment"/>
+				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="BaseDirtyWaterStore"/>
+				<biomassProducer maxFlowRates="100" desiredFlowRates="100" outputs="BaseBiomassStore"/>
+				<airProducer maxFlowRates="0" desiredFlowRates="0" outputs="BasePlantEnvironment"/>
+			</BiomassRS>
+			<BiomassStore name="BaseBiomassStore" capacity="1000" level="300"/>
 			<FoodStore name="BaseFoodStore" capacity="2000" level="2000"/>
 			<FoodStore name="EVAFoodStore" capacity="0" level="0"/>
 		</food>
