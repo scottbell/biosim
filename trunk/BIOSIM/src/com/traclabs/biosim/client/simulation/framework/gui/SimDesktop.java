@@ -21,7 +21,6 @@ public class SimDesktop extends BaseJFrame
 	//GUI Componenets
 	private JDesktopPane myDesktop;
 	private JToolBar myToolBar;
-	private JButton myEndSimButton;
 	private JButton myStartSimButton;
 	private JButton myPauseSimButton;
 	private JButton myAdvanceSimButton;
@@ -40,7 +39,6 @@ public class SimDesktop extends BaseJFrame
 	private JMenu myHelpMenu;
 	private JMenuItem myAboutItem;
 	private JMenu myControlMenu;
-	private JMenuItem myEndSimItem;
 	private JMenuItem myStartSimItem;
 	private JMenuItem myPauseSimItem;
 	private JMenuItem myAdvanceSimItem;
@@ -52,7 +50,6 @@ public class SimDesktop extends BaseJFrame
 	private JMenuItem myShowPowerDisplayItem;
 	private JMenuItem myShowCrewDisplayItem;
 
-	private Action myEndAction;
 	private Action myStartAction;
 	private Action myPauseAction;
 	private Action myAdvanceAction;
@@ -72,6 +69,7 @@ public class SimDesktop extends BaseJFrame
 	private ImageIcon crewIcon;
 	private ImageIcon environmentIcon;
 	private ImageIcon airIcon;
+	private ImageIcon allIcon;
 
 	private Hashtable myPanels;
 
@@ -79,6 +77,7 @@ public class SimDesktop extends BaseJFrame
 	private int openFrameCount = 0;
 	private int xOffset = 30, yOffset = 30;
 	private boolean isPaused = false;
+	private boolean isStarted = true;
 
 	public SimDesktop(){
 		myBiosim = new BioSimulator();
@@ -88,13 +87,10 @@ public class SimDesktop extends BaseJFrame
 
 	private void buildGUI(){
 		myDesktop = new JDesktopPane();
-
 		loadIcons();
-
-		myEndAction = new EndSimulationAction("End");
 		myStartAction = new StartSimulationAction("Start");
 		myPauseAction = new PauseSimulationAction("Pause");
-		myAdvanceAction = new AdvanceTickSimulationAction("Advance Tick");
+		myAdvanceAction = new AdvanceTickSimulationAction("Advance");
 		myAboutAction = new AboutAction("About");
 		myQuitAction = new QuitAction("Quit");
 		myShowAllDisplayAction = new ShowAllDisplaysAction("Show All Displays");
@@ -104,7 +100,7 @@ public class SimDesktop extends BaseJFrame
 		myShowEnvironmentDisplayAction = new ShowEnvironmentDisplayAction("Show Environment");
 		myShowFoodDisplayAction = new ShowFoodDisplayAction("Show Food");
 		myShowPowerDisplayAction = new ShowPowerDisplayAction("Show Power");
-
+		
 		myMenuBar = new JMenuBar();
 		myFileMenu = new JMenu("File");
 		myFileMenu.setMnemonic(KeyEvent.VK_F);
@@ -136,9 +132,6 @@ public class SimDesktop extends BaseJFrame
 		myPauseSimItem = myControlMenu.add(myPauseAction);
 		myPauseSimItem.setMnemonic(KeyEvent.VK_U);
 		myPauseSimItem.setEnabled(false);
-		myEndSimItem = myControlMenu.add(myEndAction);
-		myEndSimItem.setMnemonic(KeyEvent.VK_T);
-		myEndSimItem.setEnabled(false);
 		myHelpMenu = new JMenu("Help");
 		myAboutItem = myHelpMenu.add(myAboutAction);
 		myMenuBar.add(myFileMenu);
@@ -156,13 +149,13 @@ public class SimDesktop extends BaseJFrame
 		myPauseSimButton = myToolBar.add(myPauseAction);
 		myPauseSimButton.setToolTipText("Pauses the simulation");
 		myPauseSimButton.setEnabled(false);
-		myEndSimButton = myToolBar.add(myEndAction);
-		myEndSimButton.setToolTipText("Ends the simulation");
-		myEndSimButton.setEnabled(false);
+		myPauseSimButton.setText("  Pause  ");
 		myToolbarSeparator = new JToolBar.Separator();
 		myToolBar.add(myToolbarSeparator);
 		myDisplayAllButton = myToolBar.add(myShowAllDisplayAction);
 		myDisplayAllButton.setToolTipText("Displays All the Views");
+		myDisplayAllButton.setIcon(allIcon);
+		myDisplayAllButton.setText("");
 		myDisplayWaterButton = myToolBar.add(myShowWaterDisplayAction);
 		myDisplayWaterButton.setToolTipText("Displays Water View");
 		myDisplayWaterButton.setIcon(waterIcon);
@@ -201,6 +194,7 @@ public class SimDesktop extends BaseJFrame
 			crewIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/crew/gui/crew.jpg"));
 			environmentIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/environment/gui/environment.jpg"));
 			airIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/air/gui/air.jpg"));
+			allIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/all.jpg"));
 		}
 		catch (Exception e){
 			System.out.println("Couldn't find icons ("+e+"), skipping");
@@ -274,36 +268,31 @@ public class SimDesktop extends BaseJFrame
 			super(name);
 		}
 		public void actionPerformed(ActionEvent ae){
-			myDesktop.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			myStartSimButton.setEnabled(false);
-			myStartSimItem.setEnabled(false);
-			myPauseSimButton.setEnabled(true);
-			myPauseSimItem.setEnabled(true);
-			myEndSimButton.setEnabled(true);
-			myEndSimItem.setEnabled(true);
-			myAdvanceSimButton.setEnabled(false);
-			myAdvanceSimItem.setEnabled(false);
-			myBiosim.spawnSimulation();
-			myDesktop.setCursor(Cursor.getDefaultCursor());
-		}
-	}
-
-	private class EndSimulationAction extends AbstractAction{
-		public EndSimulationAction(String name){
-			super(name);
-		}
-		public void actionPerformed(ActionEvent ae){
-			myDesktop.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			myStartSimButton.setEnabled(true);
-			myStartSimItem.setEnabled(true);
-			myPauseSimButton.setEnabled(false);
-			myPauseSimItem.setEnabled(false);
-			myEndSimButton.setEnabled(false);
-			myEndSimItem.setEnabled(false);
-			myAdvanceSimButton.setEnabled(false);
-			myAdvanceSimItem.setEnabled(false);
-			myBiosim.endSimulation();
-			myDesktop.setCursor(Cursor.getDefaultCursor());
+			isStarted = !isStarted;
+			if (isStarted){
+				myDesktop.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+				myStartSimButton.setToolTipText("Starts the simulation");
+				myStartSimButton.setText("Start");
+				myStartSimItem.setText("Start");
+				myPauseSimButton.setEnabled(false);
+				myPauseSimItem.setEnabled(false);
+				myAdvanceSimButton.setEnabled(false);
+				myAdvanceSimItem.setEnabled(false);
+				myBiosim.endSimulation();
+				myDesktop.setCursor(Cursor.getDefaultCursor());
+			}
+			else{
+				myDesktop.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+				myStartSimButton.setToolTipText("Ends the simulation");
+				myStartSimButton.setText("End");
+				myStartSimItem.setText("End");
+				myPauseSimButton.setEnabled(true);
+				myPauseSimItem.setEnabled(true);
+				myAdvanceSimButton.setEnabled(false);
+				myAdvanceSimItem.setEnabled(false);
+				myBiosim.spawnSimulation();
+				myDesktop.setCursor(Cursor.getDefaultCursor());
+			}
 		}
 	}
 
@@ -324,7 +313,7 @@ public class SimDesktop extends BaseJFrame
 			}
 			else{
 				myPauseSimButton.setToolTipText("Pause the simulation");
-				myPauseSimButton.setText("Pause");
+				myPauseSimButton.setText("  Pause  ");
 				myPauseSimItem.setText("Pause");
 				myAdvanceSimButton.setEnabled(false);
 				myAdvanceSimItem.setEnabled(false);
