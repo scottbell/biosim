@@ -66,6 +66,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	private int driverPauseLength = 0;
 	private int myID = 0;
 	private boolean createdCrew = false;
+	private boolean looping = false;
 
 	public BioDriverImpl(int pID){
 		myID = pID;
@@ -132,6 +133,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	public void spawnSimulation(){
 		runTillDead = false;
 		runTillN = false;
+		collectReferences();
 		myTickThread = new Thread(this);
 		myTickThread.start();
 	}
@@ -147,6 +149,12 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		nTicks = pTicks;
 		runTillN = true;
 		runTillDead = false;
+		collectReferences();
+		myTickThread = new Thread(this);
+		myTickThread.start();
+	}
+	
+	private void loopSimulation(){
 		collectReferences();
 		myTickThread = new Thread(this);
 		myTickThread.start();
@@ -308,8 +316,11 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			}
 			catch (InterruptedException e){}
 			tick();
-			if (isDone())
+			if (isDone()){
 				endSimulation();
+				if (looping)
+					loopSimulation();
+			}
 		}
 	}
 
@@ -321,6 +332,14 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 
 	public int getDriverPauseLength(){
 		return driverPauseLength;
+	}
+	
+	public boolean isLooping(){
+		return looping;
+	}
+	
+	public void setLooping(boolean pLoop){
+		looping = pLoop;
 	}
 
 	public boolean isDone(){
