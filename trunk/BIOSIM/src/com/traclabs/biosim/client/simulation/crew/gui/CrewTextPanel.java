@@ -28,7 +28,7 @@ public class CrewTextPanel extends TimedPanel
 	//Array of crew people pulled from server
 	private CrewPerson[] myCrewPeople;
 	//Vector of crew people GUI's and their respective GUI components
-	private Vector crewPersonGUIVector;
+	private java.util.List crewPersonGUIList;
 	//Used to format floats
 	private DecimalFormat numFormat;
 
@@ -39,7 +39,7 @@ public class CrewTextPanel extends TimedPanel
 	public CrewTextPanel(){
 		numFormat = new DecimalFormat("#,##0.00;(#)");
 		myCrew = (CrewGroup)(BioHolder.getBioModule(BioHolder.crewName));
-		crewPersonGUIVector = new Vector();
+		crewPersonGUIList = new Vector();
 		buildGui();
 	}
 
@@ -48,7 +48,7 @@ public class CrewTextPanel extends TimedPanel
 	*/
 	private void rebuildGui(){
 		myCrew = (CrewGroup)(BioHolder.getBioModule(BioHolder.crewName));
-		crewPersonGUIVector = new Vector();
+		crewPersonGUIList = new Vector();
 		buildGui();
 		SimDesktopFrame mySimFrame = getSimFrame();
 		if (mySimFrame != null)
@@ -115,7 +115,7 @@ public class CrewTextPanel extends TimedPanel
 				newPersonPanel.add(newPersonGUI.activityTotalDurationLabel);
 				newPersonGUI.activityIntensityLabel = new JLabel("	intensity: "+myCrewPeople[i].getCurrentActivity().getActivityIntensity());
 				newPersonPanel.add(newPersonGUI.activityIntensityLabel);
-				crewPersonGUIVector.add(newPersonGUI);
+				crewPersonGUIList.add(newPersonGUI);
 				add(newPersonPanel);
 			}
 		}
@@ -150,14 +150,14 @@ public class CrewTextPanel extends TimedPanel
 	 * Enumerates through all the crew memebers this panel knows about and updates their labels by pulling from the crew server.
 	 */
 	public void refresh(){
-		if (crewPersonGUIVector.size() == 0){
+		if (crewPersonGUIList.size() == 0){
 			myCrewPeople = myCrew.getCrewPeople();
 			if (myCrewPeople.length > 0){
 				rebuildGui();
 			}
 		}
-		for (Enumeration e = crewPersonGUIVector.elements(); e.hasMoreElements();){
-			CrewPersonGUI newPersonGUI = (CrewPersonGUI)(e.nextElement());
+		for (Iterator iter = crewPersonGUIList.iterator(); iter.hasNext();){
+			CrewPersonGUI newPersonGUI = (CrewPersonGUI)(iter.next());
 			CrewPerson crewPerson = myCrew.getCrewPerson(newPersonGUI.name);
 			newPersonGUI.ageLabel.setText("age: "+crewPerson.getAge());
 			newPersonGUI.weightLabel.setText("weight: "+crewPerson.getWeight());

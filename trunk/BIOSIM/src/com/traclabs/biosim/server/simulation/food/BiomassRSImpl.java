@@ -14,10 +14,10 @@ import java.util.*;
  */
 
 public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations {
-	private Vector myShelves;
+	private List myShelves;
 	private int shelfCapacity = 100;
-	private Vector shelfLogs;
-	
+	private List shelfLogs;
+
 	public BiomassRSImpl(int pID){
 		super(pID);
 		myShelves = new Vector(shelfCapacity);
@@ -25,7 +25,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 			myShelves.add(new ShelfImpl(pID, this));
 		}
 	}
-	
+
 	public BiomassRSImpl(int pID, int pShelfCapacity){
 		super(pID);
 		shelfCapacity = pShelfCapacity;
@@ -34,99 +34,98 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 			myShelves.add(new ShelfImpl(pID, this));
 		}
 	}
-	
+
 	public float getTotalPotableWaterConsumed(){
 		float theWater = 0.0f;
-		for (Enumeration e = myShelves.elements(); e.hasMoreElements();){
-			ShelfImpl currentShelf = (ShelfImpl)(e.nextElement());
+		for (Iterator iter = myShelves.iterator(); iter.hasNext();){
+			ShelfImpl currentShelf = (ShelfImpl)(iter.next());
 			theWater += currentShelf.getPotableWaterConsumed();
 		}
 		return theWater;
 	}
-	
+
 	public float getTotalBiomassProduced(){
 		float theBiomass = 0.0f;
-		for (Enumeration e = myShelves.elements(); e.hasMoreElements();){
-			ShelfImpl currentShelf = (ShelfImpl)(e.nextElement());
+		for (Iterator iter = myShelves.iterator(); iter.hasNext();){
+			ShelfImpl currentShelf = (ShelfImpl)(iter.next());
 			theBiomass += currentShelf.getBiomassProduced();
 		}
 		return theBiomass;
 	}
-	
+
 	public float getTotalCO2Consumed(){
 		float theCO2Consumed = 0.0f;
-		for (Enumeration e = myShelves.elements(); e.hasMoreElements();){
-			ShelfImpl currentShelf = (ShelfImpl)(e.nextElement());
+		for (Iterator iter = myShelves.iterator(); iter.hasNext();){
+			ShelfImpl currentShelf = (ShelfImpl)(iter.next());
 			theCO2Consumed += currentShelf.getCO2Consumed();
 		}
 		return theCO2Consumed;
 	}
-	
+
 	public float getTotalO2Produced(){
 		float theO2Produced = 0.0f;
-		for (Enumeration e = myShelves.elements(); e.hasMoreElements();){
-			ShelfImpl currentShelf = (ShelfImpl)(e.nextElement());
+		for (Iterator iter = myShelves.iterator(); iter.hasNext();){
+			ShelfImpl currentShelf = (ShelfImpl)(iter.next());
 			theO2Produced += currentShelf.getO2Produced();
 		}
 		return theO2Produced;
 	}
-	
+
 	public float getTotalGreyWaterConsumed(){
 		float theWater = 0.0f;
-		for (Enumeration e = myShelves.elements(); e.hasMoreElements();){
-			ShelfImpl currentShelf = (ShelfImpl)(e.nextElement());
+		for (Iterator iter = myShelves.iterator(); iter.hasNext();){
+			ShelfImpl currentShelf = (ShelfImpl)(iter.next());
 			theWater += currentShelf.getGreyWaterConsumed();
 		}
 		return theWater;
 	}
-	
+
 	public float getTotalPowerConsumed(){
 		float thePower = 0.0f;
-		for (Enumeration e = myShelves.elements(); e.hasMoreElements();){
-			ShelfImpl currentShelf = (ShelfImpl)(e.nextElement());
+		for (Iterator iter = myShelves.iterator(); iter.hasNext();){
+			ShelfImpl currentShelf = (ShelfImpl)(iter.next());
 			thePower += currentShelf.getPowerConsumed();
 		}
 		return thePower;
 	}
-	
+
 	public float getTotalPlantArea(){
 		float thePlantArea = 0.0f;
-		for (Enumeration e = myShelves.elements(); e.hasMoreElements();){
-			ShelfImpl currentShelf = (ShelfImpl)(e.nextElement());
+		for (Iterator iter = myShelves.iterator(); iter.hasNext();){
+			ShelfImpl currentShelf = (ShelfImpl)(iter.next());
 			thePlantArea += currentShelf.getArea();
 		}
 		return thePlantArea;
 	}
-	
+
 	public String[] getPlantTypes(){
-		Vector typeVector = new Vector();
-		for (Enumeration e = myShelves.elements(); e.hasMoreElements();){
-			ShelfImpl currentShelf = (ShelfImpl)(e.nextElement());
-			if (!typeVector.contains(currentShelf.getPlantType()))
-				typeVector.add(currentShelf.getPlantType());
+		List typeList = new Vector();
+		for (Iterator iter = myShelves.iterator(); iter.hasNext();){
+			ShelfImpl currentShelf = (ShelfImpl)(iter.next());
+			if (!typeList.contains(currentShelf.getPlantType()))
+				typeList.add(currentShelf.getPlantType());
 		}
-		String[] plantTypeArray = new String[typeVector.size()];
-		return (String[])(typeVector.toArray(plantTypeArray));
+		String[] plantTypeArray = new String[typeList.size()];
+		return (String[])(typeList.toArray(plantTypeArray));
 	}
-	
+
 	public Shelf[] getShelves(){
 		Shelf[] theShelfArray = new Shelf[myShelves.size()];
 		int i = 0;
-		for (Enumeration e = myShelves.elements(); e.hasMoreElements(); ){
-			ShelfImpl tempShelf = (ShelfImpl)(e.nextElement());
-			theShelfArray[i] = ShelfHelper.narrow(OrbUtils.poaToCorbaObj(tempShelf));
-			i++;
+		for (Iterator iter = myShelves.iterator(); iter.hasNext(); i++){
+			ShelfImpl currentShelf = (ShelfImpl)(iter.next());
+			theShelfArray[i] = ShelfHelper.narrow(OrbUtils.poaToCorbaObj(currentShelf));
 		}
 		return theShelfArray;
 	}
-	
+
 	private void setProductionRate(float pProductionRate){
-		for (Enumeration e = myShelves.elements(); e.hasMoreElements();){
-			ShelfImpl currentShelf = (ShelfImpl)(e.nextElement());
+		for (Iterator iter = myShelves.iterator(); iter.hasNext();){
+			ShelfImpl currentShelf = (ShelfImpl)(iter.next());
 			currentShelf.setProductionRate(pProductionRate);
 		}
 	}
-	
+
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
 		String returnName = new String();
 		if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
@@ -141,7 +140,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 			returnName += "Production Rate Decrease (permanent)";
 		return returnName;
 	}
-	
+
 	private void performMalfunctions(){
 		float productionRate = 1f;
 		for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); ){
@@ -171,8 +170,8 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	*/
 	public void reset(){
 		super.reset();
-		for (Enumeration e = myShelves.elements(); e.hasMoreElements();){
-			ShelfImpl currentShelf = (ShelfImpl)(e.nextElement());
+		for (Iterator iter = myShelves.iterator(); iter.hasNext();){
+			ShelfImpl currentShelf = (ShelfImpl)(iter.next());
 			currentShelf.reset();
 		}
 	}
@@ -186,8 +185,8 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	public void tick(){
 		if (isMalfunctioning())
 			performMalfunctions();
-		for (Enumeration e = myShelves.elements(); e.hasMoreElements();){
-			ShelfImpl currentShelf = (ShelfImpl)(e.nextElement());
+		for (Iterator iter = myShelves.iterator(); iter.hasNext();){
+			ShelfImpl currentShelf = (ShelfImpl)(iter.next());
 			currentShelf.tick();
 		}
 		if (moduleLogging)
@@ -201,13 +200,13 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	public String getModuleName(){
 		return "BiomassRS"+getID();
 	}
-	
+
 	private void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			shelfLogs = new Vector();
-			for (int i = 0; i < myShelves.size(); i++){
-				ShelfImpl currentShelf = (ShelfImpl)(myShelves.get(i));
+			for (Iterator iter = myShelves.iterator(); iter.hasNext();){
+				ShelfImpl currentShelf = (ShelfImpl)(iter.next());
 				LogNode newShelfHead= myLog.addChild("shelf");
 				shelfLogs.add(newShelfHead);
 				currentShelf.log(newShelfHead);
@@ -215,8 +214,9 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 			logInitialized = true;
 		}
 		else{
-			for (int i = 0; i < myShelves.size(); i++){
-				ShelfImpl currentShelf = (ShelfImpl)(myShelves.get(i));
+			int i = 0;
+			for (Iterator iter = myShelves.iterator(); iter.hasNext(); i++){
+				ShelfImpl currentShelf = (ShelfImpl)(iter.next());
 				LogNode shelfHead = (LogNode)(shelfLogs.get(i));
 				currentShelf.log(shelfHead);
 			}

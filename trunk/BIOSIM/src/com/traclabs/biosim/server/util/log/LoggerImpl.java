@@ -10,8 +10,8 @@ import java.util.*;
  */
 
 public class LoggerImpl extends LoggerPOA  {
-	private Vector myLogHandlers;
-	private Vector logTypes;
+	private List myLogHandlers;
+	private List logTypes;
 	private boolean hasCollectedReferences = false;
 	private SimEnvironment myEnvironment;
 	private boolean processingLogs = true;
@@ -19,7 +19,7 @@ public class LoggerImpl extends LoggerPOA  {
 	private LogNodeImpl rootLogNode;
 	private int currentTick = -1;
 	private int myID = 0;
-	
+
 	public LoggerImpl(int pID){
 		myID = pID;
 		rootLogNode = new LogNodeImpl("");
@@ -28,11 +28,11 @@ public class LoggerImpl extends LoggerPOA  {
 		//addLogHandlerType(LogHandlerType.SCREEN);
 		addLogHandlerType(LogHandlerType.XML);
 	}
-	
+
 	public LogHandlerType[] getLogHandlerTypes(){
 		return (LogHandlerType[])(logTypes.toArray());
 	}
-	
+
 	/**
 	* Collects references to servers needed for putting/getting resources.
 	*/
@@ -47,11 +47,11 @@ public class LoggerImpl extends LoggerPOA  {
 			e.printStackTrace(System.out);
 		}
 	}
-	
+
 	public String getName(){
 		return "Logger"+myID;
 	}
-	
+
 	/**
 	* Switch to turn off the Logger's processing of logs (useful to stop logging globally)
 	* @param pAllowLogging set <code>true</code> to have Logger process incoming logs (default) or
@@ -62,18 +62,18 @@ public class LoggerImpl extends LoggerPOA  {
 		if (!processingLogs)
 			endLog();
 	}
-	
+
 	private void endLog(){
-		for (Enumeration e = myLogHandlers.elements(); e.hasMoreElements();){
-				LogHandler currentLogHandler = (LogHandler)(e.nextElement());
-				currentLogHandler.endLog();
+		for (Iterator iter = myLogHandlers.iterator(); iter.hasNext();){
+			LogHandler currentLogHandler = (LogHandler)(iter.next());
+			currentLogHandler.endLog();
 		}
 	}
-	
+
 	public boolean isProcessingLogs(){
 		return processingLogs;
 	}
-	
+
 	public void addLogHandlerType(LogHandlerType pLogType){
 		if (logTypes.contains(pLogType))
 			return;
@@ -87,15 +87,15 @@ public class LoggerImpl extends LoggerPOA  {
 		if (pLogType == LogHandlerType.XML)
 			myLogHandlers.add(new XMLLogHandler());
 	}
-	
+
 	public void processLog(LogNode logToAdd){
 		if (!processingLogs)
 			return;
 		collectReferences();
 		//One Tick has passed
 		if ((currentTick != myEnvironment.getTicks()) && (currentTickLogNode != null)){
-			for (Enumeration e = myLogHandlers.elements(); e.hasMoreElements();){
-				LogHandler currentLogHandler = (LogHandler)(e.nextElement());
+			for (Iterator iter = myLogHandlers.iterator(); iter.hasNext();){
+			LogHandler currentLogHandler = (LogHandler)(iter.next());
 				currentLogHandler.writeLog(LogNodeHelper.narrow(OrbUtils.poaToCorbaObj(currentTickLogNode)));
 			}
 		}

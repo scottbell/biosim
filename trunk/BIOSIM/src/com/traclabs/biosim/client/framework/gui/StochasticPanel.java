@@ -104,12 +104,12 @@ public class StochasticPanel extends TimedPanel
 		mySlider.setPaintTicks(true);
 
 		//Create the label table
-		Hashtable labelTable = new Hashtable();
-		labelTable.put( new Integer( 0 ), new JLabel("None") );
-		labelTable.put( new Integer( 1 ), new JLabel("Low") );
-		labelTable.put( new Integer( 2 ), new JLabel("Medium") );
-		labelTable.put( new Integer( 3 ), new JLabel("High") );
-		mySlider.setLabelTable( labelTable );
+		Dictionary labelDictionary = new Hashtable();
+		labelDictionary.put( new Integer( 0 ), new JLabel("None") );
+		labelDictionary.put( new Integer( 1 ), new JLabel("Low") );
+		labelDictionary.put( new Integer( 2 ), new JLabel("Medium") );
+		labelDictionary.put( new Integer( 3 ), new JLabel("High") );
+		mySlider.setLabelTable(labelDictionary);
 		mySlider.setPaintLabels(true);
 		mySlider.setBorder(BorderFactory.createEmptyBorder(0,0,0,10));
 		myOperatorPanel.add(mySlider, BorderLayout.CENTER);
