@@ -3,14 +3,17 @@ package com.traclabs.biosim.server.editor;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.net.URL;
 import java.util.Properties;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.tigris.gef.graph.presentation.JGraph;
 
@@ -21,6 +24,7 @@ public class BiosimEditor {
     JFrame myMainFrame;
     JGraph myGraph;
     JTabbedPane myTabbedPane;
+    Logger myLogger;
     
     public BiosimEditor(){
         initLogger();
@@ -39,19 +43,19 @@ public class BiosimEditor {
         //init tabbed pane tool bar
         myTabbedPane = new JTabbedPane();
         JComponent airPanel = makeTextPanel("Air Panel");
-        myTabbedPane.addTab("Air", airPanel);
+        myTabbedPane.addTab("Air", createImageIcon("com/traclabs/biosim/client/water/gui/water.jpg"), airPanel);
         JComponent crewPanel = makeTextPanel("Crew Panel");
-        myTabbedPane.addTab("Crew", crewPanel);
+        myTabbedPane.addTab("Crew", createImageIcon("com/traclabs/biosim/client/crew/gui/crew.jpg"), crewPanel);
         JComponent environmentPanel = makeTextPanel("Environment Panel");
-        myTabbedPane.addTab("Environment", environmentPanel);
+        myTabbedPane.addTab("Environment", createImageIcon("com/traclabs/biosim/client/environment/gui/environment.jpg"), environmentPanel);
         JComponent frameworkPanel = makeTextPanel("Framework Panel");
-        myTabbedPane.addTab("Framework", frameworkPanel);
+        myTabbedPane.addTab("Framework", createImageIcon("com/traclabs/biosim/client/framework/gui/all.jpg"), frameworkPanel);
         JComponent powerPanel = makeTextPanel("Power Panel");
-        myTabbedPane.addTab("Power", powerPanel);
+        myTabbedPane.addTab("Power", createImageIcon("com/traclabs/biosim/client/power/gui/power.jpg"), powerPanel);
         JComponent wastePanel = makeTextPanel("Waste Panel");
-        myTabbedPane.addTab("Waste", wastePanel);
+        myTabbedPane.addTab("Waste", createImageIcon("com/traclabs/biosim/client/framework/gui/gear.gif"), wastePanel);
         JComponent waterPanel = makeTextPanel("Water Panel");
-        myTabbedPane.addTab("Water", waterPanel);
+        myTabbedPane.addTab("Water", createImageIcon("com/traclabs/biosim/client/water/gui/water.jpg"), waterPanel);
         //myTabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
         
         myMainFrame = new JFrame();
@@ -62,7 +66,7 @@ public class BiosimEditor {
         
         constraints.gridwidth = GridBagConstraints.RELATIVE;
         constraints.fill = GridBagConstraints.BOTH;
-        constraints.ipadx = 40;
+        constraints.ipadx = 45;
         gridbag.setConstraints(myTabbedPane, constraints);
         myMainFrame.getContentPane().add(myTabbedPane);
         
@@ -87,7 +91,17 @@ public class BiosimEditor {
         panel.add(filler);
         return panel;
     }
-
+    
+    /** Returns an ImageIcon, or null if the path was invalid. */
+    private static ImageIcon createImageIcon(String path) {
+        URL imgURL = ClassLoader.getSystemClassLoader().getResource(path);
+        if (imgURL != null) {
+            return new ImageIcon(imgURL);
+        } else {
+            Logger.getLogger(BiosimEditor.class.toString()).error("Couldn't find file for icon: " + path);
+            return null;
+        }
+    }
 
     /**
      * 
@@ -104,6 +118,7 @@ public class BiosimEditor {
         logProps.setProperty("log4j.logger.org.tigris.gef","INFO, editorAppender");
         logProps.setProperty("log4j.logger.com.traclabs.biosim","INFO, editorAppender");
         PropertyConfigurator.configure(logProps);
+        myLogger = Logger.getLogger(BiosimEditor.class.toString());
     }
 
 
