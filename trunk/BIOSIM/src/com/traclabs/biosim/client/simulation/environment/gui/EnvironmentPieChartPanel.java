@@ -29,9 +29,8 @@ public class EnvironmentPieChartPanel extends GraphPanel
 	private String vacuumCategory = "Vacuum";
 	private boolean isVacuum = false;
 
-	public EnvironmentPieChartPanel(SimEnvironment pSimEnvironment, String pEnvironmentName){
+	public EnvironmentPieChartPanel(String pEnvironmentName){
 		super(pEnvironmentName);
-		mySimEnvironment = pSimEnvironment;
 	}
 
 	protected void createGraph(){
@@ -55,6 +54,11 @@ public class EnvironmentPieChartPanel extends GraphPanel
 	}
 
 	protected void initializeDataSources(String dataSourceName){
+		BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
+		if (dataSourceName.startsWith("Crew"))		
+			mySimEnvironment = (SimEnvironment)(myBioHolder.theSimEnvironments.get(0));
+		else if (dataSourceName.startsWith("Plant"))		
+			mySimEnvironment = (SimEnvironment)(myBioHolder.theSimEnvironments.get(1));
 	}
 
 	public void refresh() {

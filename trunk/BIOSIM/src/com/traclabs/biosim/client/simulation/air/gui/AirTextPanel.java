@@ -49,6 +49,7 @@ public class AirTextPanel extends TimedPanel
 	*/
 	public AirTextPanel(){
 		BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
+		myAirRS = (AirRS)(myBioHolder.theAirRSModules.get(0));
 		myO2Store = (O2Store)(myBioHolder.theO2Stores.get(0));
 		myCO2Store = (CO2Store)(myBioHolder.theCO2Stores.get(0));
 		myH2Store = (H2Store)(myBioHolder.theH2Stores.get(0));

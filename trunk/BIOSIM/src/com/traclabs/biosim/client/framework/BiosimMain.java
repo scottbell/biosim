@@ -49,6 +49,7 @@ public class BiosimMain
 				}
 			}
 		}
+		BioHolderInitializer.setID(myID);
 		if (wantsToRunCommandLine)
 			runCommandLine(myID);
 		else if (wantsToRunGUI)
@@ -56,7 +57,7 @@ public class BiosimMain
 		else if (wantsToRunController)
 			runHandController(myID);
 		else{
-			System.out.println("Unknown option, starting GUI with server ID="+myID);
+			System.out.println("Using default, starting GUI with server ID="+myID);
 			runGUI(myID);
 		}
 	}
