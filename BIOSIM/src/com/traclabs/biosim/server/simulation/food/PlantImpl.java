@@ -142,7 +142,6 @@ public abstract class Plant {
 	private void produceBiomass(){
 		biomassProduced = calculateProducedBiomass() * myProductionRate;
 		if (biomassProduced > 0){
-			System.out.println("Harvested Plants!");
 			myBiomassStore.add(biomassProduced);
 			myAge = 0;
 		}
