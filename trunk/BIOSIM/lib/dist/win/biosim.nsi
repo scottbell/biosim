@@ -15,7 +15,6 @@
 	!define MUI_DIRECTORYPAGE_VERIFYONLEAVE
 	!insertmacro MUI_PAGE_DIRECTORY
 	!insertmacro MUI_PAGE_INSTFILES
-	!define MUI_FINISHPAGE_RUN "$INSTDIR\run-biosim.bat"
 	!insertmacro MUI_PAGE_FINISH
 	
 	;Modern UI System
