@@ -171,6 +171,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			reset();
 		while (myTickThread == theCurrentThread) {
 			try {
+				myTickThread.sleep(5);
 				synchronized(this) {
 					while (simulationIsPaused && (myTickThread==theCurrentThread)){
 						wait();
