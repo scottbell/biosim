@@ -32,13 +32,13 @@ import org.tigris.gef.util.ResourceLoader;
 public class ModeZoom extends FigModifyingModeImpl {
     ////////////////////////////////////////////////////////////////
     // event handlers
-    VesprCmdZoom _zoomInCmd;
+    EditorCmdZoom _zoomInCmd;
 
-    VesprCmdZoom _zoomOutCmd;
+    EditorCmdZoom _zoomOutCmd;
 
     public ModeZoom() {
-        _zoomInCmd = new VesprCmdZoom(VesprCmdZoom.ZOOM_IN);
-        _zoomOutCmd = new VesprCmdZoom(VesprCmdZoom.ZOOM_OUT);
+        _zoomInCmd = new EditorCmdZoom(EditorCmdZoom.ZOOM_IN);
+        _zoomOutCmd = new EditorCmdZoom(EditorCmdZoom.ZOOM_OUT);
     }
 
     public void mouseMoved(MouseEvent me) {

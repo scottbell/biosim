@@ -32,12 +32,12 @@ import org.tigris.gef.base.Editor;
 import org.tigris.gef.base.Globals;
 import org.tigris.gef.base.SelectionManager;
 
-public class VesprCmdPaste extends Cmd {
+public class EditorCmdPaste extends Cmd {
     private CmdSelectAll _selectAllCmd = new CmdSelectAll();
 
     private CmdSelectInvert _selectInvertCmd = new CmdSelectInvert();
 
-    public VesprCmdPaste() {
+    public EditorCmdPaste() {
         super("Paste");
         putValue(Action.SHORT_DESCRIPTION, "Inserts clipboard contents");
     }
@@ -55,7 +55,7 @@ public class VesprCmdPaste extends Cmd {
                     && (clipboardContent.isDataFlavorSupported(flavor))) {
                 _selectAllCmd.doIt();
                 File tempFile = (File) clipboardContent.getTransferData(flavor);
-                VesprDocument doc = (VesprDocument) ed.document();
+                EditorDocument doc = (EditorDocument) ed.document();
                 doc.pasteSelections(tempFile, ed);
                 _selectInvertCmd.doIt();
                 translate();

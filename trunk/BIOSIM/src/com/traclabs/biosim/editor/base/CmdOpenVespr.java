@@ -38,7 +38,7 @@ public class CmdOpenVespr extends Cmd {
         VesprEditor ce = (VesprEditor) Globals.curEditor();
         try {
             Class clazz = ce.document().getClass();
-            VesprDocument doc = (VesprDocument) clazz.newInstance();
+            EditorDocument doc = (EditorDocument) clazz.newInstance();
             File file = openDialog(doc);
 
             if (file != null) {
@@ -60,7 +60,7 @@ public class CmdOpenVespr extends Cmd {
         }
     }
 
-    protected File openDialog(VesprDocument doc) {
+    protected File openDialog(EditorDocument doc) {
         JFileChooser fc = new JFileChooser();
         fc.setFileFilter(doc.getFileFilter());
         fc.setCurrentDirectory(new File(Globals.getLastDirectory()));

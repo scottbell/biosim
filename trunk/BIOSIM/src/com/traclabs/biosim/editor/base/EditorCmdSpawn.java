@@ -23,9 +23,9 @@ import com.traclabs.biosim.editor.presentation.EditorFrame;
  * @author Kevin Kusy
  */
 
-public class VesprCmdSpawn extends Cmd {
+public class EditorCmdSpawn extends Cmd {
 
-    public VesprCmdSpawn() {
+    public EditorCmdSpawn() {
         super("SpawnEditor");
     }
 

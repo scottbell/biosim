@@ -77,8 +77,8 @@ public class VesprSelectionManager extends SelectionManager {
 
     private void modifyDocument() {
         Object doc = _editor.document();
-        if (doc instanceof VesprDocument) {
-            ((VesprDocument) doc).setModified(true);
+        if (doc instanceof EditorDocument) {
+            ((EditorDocument) doc).setModified(true);
         }
     }
 

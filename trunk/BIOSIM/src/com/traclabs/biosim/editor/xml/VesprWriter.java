@@ -24,7 +24,7 @@ import org.tigris.gef.base.Selection;
 import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigEdge;
 
-import com.traclabs.biosim.editor.base.VesprDocument;
+import com.traclabs.biosim.editor.base.EditorDocument;
 import com.traclabs.biosim.editor.base.VesprEditor;
 import com.traclabs.biosim.editor.base.VesprLayer;
 import com.traclabs.biosim.editor.graph.EditorFigEdge;
@@ -41,7 +41,7 @@ public class VesprWriter implements DocumentWriter {
     protected VesprWriter() {
     }
 
-    synchronized public void saveDocument(Writer out, VesprDocument doc)
+    synchronized public void saveDocument(Writer out, EditorDocument doc)
             throws Exception {
         try {
             // Write the beginning tag
@@ -186,7 +186,7 @@ public class VesprWriter implements DocumentWriter {
      */
     public synchronized void copySelections(Writer out, VesprEditor ed)
             throws Exception {
-        VesprDocument doc = (VesprDocument) ed.document();
+        EditorDocument doc = (EditorDocument) ed.document();
         // Write the beginning tag
         out.write("<" + doc.getDocumentTag() + ">\n");
         saveFigs(getSelectedFigs(ed), out, 1);

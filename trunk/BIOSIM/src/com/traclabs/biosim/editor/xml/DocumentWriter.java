@@ -14,7 +14,7 @@ package com.traclabs.biosim.editor.xml;
 
 import java.io.Writer;
 
-import com.traclabs.biosim.editor.base.VesprDocument;
+import com.traclabs.biosim.editor.base.EditorDocument;
 import com.traclabs.biosim.editor.base.VesprEditor;
 
 /**
@@ -22,7 +22,7 @@ import com.traclabs.biosim.editor.base.VesprEditor;
  */
 public interface DocumentWriter {
     /** Writes the specified document to the Writer. */
-    void saveDocument(Writer w, VesprDocument doc) throws Exception;
+    void saveDocument(Writer w, EditorDocument doc) throws Exception;
 
     /**
      * Writes the selected items in the editor to the Writer. Used for paste

@@ -20,7 +20,7 @@ import org.tigris.gef.base.Globals;
  * 
  * @author kkusy
  */
-public class VesprCmdZoom extends Cmd {
+public class EditorCmdZoom extends Cmd {
     public static class ZoomMode {
         private ZoomMode() {
         }
@@ -37,7 +37,7 @@ public class VesprCmdZoom extends Cmd {
     private static final double _scales[] = { 0.12, 0.25, 0.50, 0.75, 1.0,
             1.25, 1.5, 2.0, 4.0, 8.0, 16.0 };
 
-    public VesprCmdZoom(ZoomMode mode) {
+    public EditorCmdZoom(ZoomMode mode) {
         super(wordFor(mode));
         _mode = mode;
     }

@@ -5,7 +5,7 @@ package com.traclabs.biosim.editor.xml;
 
 import java.io.Reader;
 
-import com.traclabs.biosim.editor.base.VesprDocument;
+import com.traclabs.biosim.editor.base.EditorDocument;
 import com.traclabs.biosim.editor.base.VesprEditor;
 
 /**
@@ -13,7 +13,7 @@ import com.traclabs.biosim.editor.base.VesprEditor;
  */
 public interface DocumentReader {
     /** Reads items from the Reader and adds them to the specified document. */
-    void openDocument(Reader in, VesprDocument doc) throws Exception;
+    void openDocument(Reader in, EditorDocument doc) throws Exception;
 
     /**
      * Reads items from the Reader and adds them to the active layer in

@@ -40,7 +40,7 @@ import com.traclabs.biosim.editor.xml.VesprWriter;
  * @author Kevin Kusy
  */
 
-public class VesprDocument {
+public class EditorDocument {
     /** The layer at the root of the hierarchy */
     protected VesprLayer _root = null;
 
@@ -59,26 +59,26 @@ public class VesprDocument {
     /** Writer for this document. */
     DocumentWriter _writer;
 
-    public VesprDocument() {
+    public EditorDocument() {
         this(new VesprLayer("Root"));
     }
 
-    public VesprDocument(VesprLayer root, File file) {
+    public EditorDocument(VesprLayer root, File file) {
         this(root);
         setFile(file);
     }
 
-    public VesprDocument(VesprLayer root) {
+    public EditorDocument(VesprLayer root) {
         setRoot(root);
         _reader = createReader();
         _writer = createWriter();
     }
 
-    public VesprDocument(EditorGraphModel model) {
+    public EditorDocument(EditorGraphModel model) {
         this(new VesprLayer(model));
     }
 
-    public VesprDocument(EditorGraphModel model, File file) {
+    public EditorDocument(EditorGraphModel model, File file) {
         this(new VesprLayer(model), file);
     }
 

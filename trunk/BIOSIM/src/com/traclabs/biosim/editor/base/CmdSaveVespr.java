@@ -27,7 +27,7 @@ public class CmdSaveVespr extends Cmd {
 
     public void doIt() {
         VesprEditor ce = (VesprEditor) Globals.curEditor();
-        if (!save((VesprDocument) ce.document())) {
+        if (!save((EditorDocument) ce.document())) {
             JOptionPane.showMessageDialog(ce.findFrame(),
                     "Failed to save document.");
         }
@@ -39,7 +39,7 @@ public class CmdSaveVespr extends Cmd {
      * 
      * @return Returns false if the save failed.
      */
-    public boolean save(VesprDocument doc) {
+    public boolean save(EditorDocument doc) {
         File file = doc.getFile();
 
         if (file == null) {
@@ -66,7 +66,7 @@ public class CmdSaveVespr extends Cmd {
      * @return Returns false if the save failed or if it was cancelled by the
      *         user.
      */
-    public boolean saveAs(VesprDocument doc) {
+    public boolean saveAs(EditorDocument doc) {
         File file = saveDialog(doc);
 
         if (file != null) {
@@ -86,7 +86,7 @@ public class CmdSaveVespr extends Cmd {
         return false;
     }
 
-    protected File saveDialog(VesprDocument doc) {
+    protected File saveDialog(EditorDocument doc) {
         File result = null;
         JFileChooser fc = new JFileChooser();
 
@@ -116,7 +116,7 @@ public class CmdSaveVespr extends Cmd {
      * @return Returns false if the user cancels or if the save fails.
      */
     boolean promptSave(VesprEditor e) {
-        VesprDocument doc = (VesprDocument) e.document();
+        EditorDocument doc = (EditorDocument) e.document();
         // Prompt to save changes.
         Vector editors = doc.getEditors();
         if (editors.size() == 1 && doc.getModified() == true) {
