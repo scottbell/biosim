@@ -32,8 +32,6 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	private BioDriver myDriver;
 	//An index into the LogNode (speeds up performance)
 	private LogIndex myLogIndex;
-	//What I think the current tick is.
-	private int myTicks = 0;
 	//Whether this Store has collected a reference to the BioDriver or not.
 	private boolean hasCollectedReferences = false;
 	private boolean pipe = false;
@@ -106,14 +104,13 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 		oldLevel = level;
 		oldCapacity = capacity;
 		oldOverflow = overflow;
-		if (myTicks > 0)
-			if ((resupplyFrequency % myTicks) == 0)
+		if (getMyTicks() > 0)
+			if ((resupplyFrequency % getMyTicks()) == 0)
 				add(resupplyAmount);
 		if (pipe){
 			level = 0f;
 			capacity = 0f;
 		}
-		myTicks++;
 	}
 
 	/**
@@ -250,7 +247,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	*/
 	public float getLevel(){
 		collectReferences();
-		if (myTicks == myDriver.getTicks())
+		if (getMyTicks() == myDriver.getTicks())
 			return oldLevel;
 		else
 			return level;
@@ -262,7 +259,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	*/
 	public float getOverflow(){
 		collectReferences();
-		if (myTicks == myDriver.getTicks())
+		if (getMyTicks() == myDriver.getTicks())
 			return oldOverflow;
 		else
 			return overflow;
@@ -274,7 +271,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	*/
 	public float getCapacity(){
 		collectReferences();
-		if (myTicks == myDriver.getTicks())
+		if (getMyTicks() == myDriver.getTicks())
 			return oldCapacity;
 		else
 			return capacity;
