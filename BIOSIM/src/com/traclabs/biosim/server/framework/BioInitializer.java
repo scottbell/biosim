@@ -851,6 +851,12 @@ public class BioInitializer{
 		}
 	}
 
+	private void setupStore(StoreImpl pStore, Node pNode){
+		pStore.setCapacity(getStoreCapacity(pNode));
+		pStore.setLevel(getStoreLevel(pNode));
+		pStore.setResupply(getStoreResupplyFrequency(pNode), getStoreResupplyAmount(pNode));
+	}
+
 	private void createAirRS(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
@@ -860,12 +866,6 @@ public class BioInitializer{
 		}
 		else
 			printRemoteWarningMessage(moduleName);
-	}
-
-	private void setupStore(StoreImpl pStore, Node pNode){
-		pStore.setCapacity(getStoreCapacity(pNode));
-		pStore.setLevel(getStoreLevel(pNode));
-		pStore.setResupply(getStoreResupplyFrequency(pNode), getStoreResupplyAmount(pNode));
 	}
 
 	private void configureAirRS(Node node){
