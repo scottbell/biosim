@@ -91,6 +91,7 @@
 				<powerConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PowerStore"/>
 				<biomassConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BiomassStore"/>
 				<foodProducer maxFlowRates="100" desiredFlowRates="100" outputs="FoodStore"/>
+				<dryWasteProducer maxFlowRates="100" desiredFlowRates="100" outputs="DryWasteStore"/>
 			</FoodProcessor>
 			<BiomassRS name="BiomassRS">
 				<shelf  cropArea="10" cropType="WHEAT"/>
@@ -284,6 +285,7 @@
 		<waste>
 			<DryWasteInFlowRateSensor name="IncineratorDryWasteInFlowRateSensor" index="0" input="Incinerator"/>
 			<DryWasteOutFlowRateSensor name="CrewGroupDryWasteOutFlowRateSensor" index="0" input="CrewGroup"/>
+			<DryWasteOutFlowRateSensor name="FoodProcessorDryWasteOutFlowRateSensor" index="0" input="FoodProcessor"/>
 			<DryWasteStoreLevelSensor name="DryWasteStoreLevelSensor" input="DryWasteStore"/>
 		</waste>
 	</Sensors>
@@ -348,6 +350,7 @@
 		</water>
 		<waste>
 			<DryWasteInFlowRateActuator name="IncineratorDryWasteInFlowRateActuator" index="0" output="Incinerator"/>
+			<DryWasteOutFlowRateActuator name="FoodProcessorDryWasteOutFlowRateActuator" index="0" output="FoodProcessor"/>
 		</waste>
 	</Actuators>
 </biosim>

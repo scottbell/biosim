@@ -142,6 +142,7 @@ public class BioHolder
 	public final static String myFoodProcessorPowerInFlowRateSensorName = "FoodProcessorPowerInFlowRateSensor";
 	public final static String myFoodProcessorBiomassInFlowRateSensorName = "FoodProcessorBiomassInFlowRateSensor";
 	public final static String myFoodProcessorFoodOutFlowRateSensorName = "FoodProcessorFoodOutFlowRateSensor";
+	public final static String myFoodProcessorDryWasteOutFlowRateSensorName = "FoodProcessorDryWasteOutFlowRateSensor";
 	//Stores
 	public final static String myBiomassStoreLevelSensorName = "BiomassStoreLevelSensor";
 	public final static String myFoodStoreLevelSensorName = "FoodStoreLevelSensor";
@@ -213,6 +214,7 @@ public class BioHolder
 	public final static String myFoodProcessorPowerInFlowRateActuatorName = "FoodProcessorPowerInFlowRateActuator";
 	public final static String myFoodProcessorBiomassInFlowRateActuatorName = "FoodProcessorBiomassInFlowRateActuator";
 	public final static String myFoodProcessorFoodOutFlowRateActuatorName = "FoodProcessorFoodOutFlowRateActuator";
+	public final static String myFoodProcessorDryWasteOutFlowRateActuatorName = "FoodProcessorDryWasteOutFlowRateActuator";
 	//Waste
 	//Incinerator
 	public final static String myIncineratorPowerInFlowRateActuatorName = "IncineratorPowerInFlowRateActuator";
@@ -602,6 +604,9 @@ public class BioHolder
 					FoodOutFlowRateSensor myFoodProcessorFoodOutFlowRateSensor = FoodOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myFoodProcessorFoodOutFlowRateSensorName));
 					modules.put(myFoodProcessorFoodOutFlowRateSensorName , myFoodProcessorFoodOutFlowRateSensor);
 					sensors.put(myFoodProcessorFoodOutFlowRateSensorName , myFoodProcessorFoodOutFlowRateSensor);
+					DryWasteOutFlowRateSensor myFoodProcessorDryWasteOutFlowRateSensor = DryWasteOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myFoodProcessorDryWasteOutFlowRateSensorName));
+					modules.put(myFoodProcessorDryWasteOutFlowRateSensorName , myFoodProcessorDryWasteOutFlowRateSensor);
+					sensors.put(myFoodProcessorDryWasteOutFlowRateSensorName , myFoodProcessorDryWasteOutFlowRateSensor);
 				}
 				//Stores
 				{
@@ -819,6 +824,9 @@ public class BioHolder
 					FoodOutFlowRateActuator myFoodProcessorFoodOutFlowRateActuator = FoodOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myFoodProcessorFoodOutFlowRateActuatorName));
 					modules.put(myFoodProcessorFoodOutFlowRateActuatorName , myFoodProcessorFoodOutFlowRateActuator);
 					actuators.put(myFoodProcessorFoodOutFlowRateActuatorName , myFoodProcessorFoodOutFlowRateActuator);
+					DryWasteOutFlowRateActuator myFoodProcessorDryWasteOutFlowRateActuator = DryWasteOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myFoodProcessorDryWasteOutFlowRateActuatorName));
+					modules.put(myFoodProcessorDryWasteOutFlowRateActuatorName , myFoodProcessorDryWasteOutFlowRateActuator);
+					actuators.put(myFoodProcessorDryWasteOutFlowRateActuatorName , myFoodProcessorDryWasteOutFlowRateActuator);
 				}
 			}
 			//Waste
@@ -903,11 +911,13 @@ public class BioHolder
 		}
 		catch (org.omg.CORBA.UserException e){
 			System.err.println("BioHolder: Had problems collecting server references, polling again...");
+			//e.printStackTrace();
 			OrbUtils.sleepAwhile();
 			collectReferences();
 		}
 		catch (Exception e){
 			System.err.println("BioHolder: Had problems collecting server references, polling again...");
+			//e.printStackTrace();
 			OrbUtils.resetInit();
 			OrbUtils.sleepAwhile();
 			collectReferences();

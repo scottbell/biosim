@@ -45,7 +45,6 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements PowerPSOpe
 		super.tick();
 		currentPowerProduced = calculatePowerProduced();
 		float distributedPowerLeft = pushResourceToStore(myPowerStores, powerMaxFlowRates, powerDesiredFlowRates, powerActualFlowRates, currentPowerProduced);
-
 	}
 
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
