@@ -1,0 +1,10 @@
+# activity	timeLength		intensity
+sleeping		9	1
+watching movie	4	2
+reading		4	2
+video games	3	2
+napping		2	1
+eating		2	2
+#DayEnd
+
+
