@@ -85,7 +85,9 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	}
 
 	public void fixMalfunction(int pID){
-		myMalfunctions.remove(new Integer(pID));
+		Malfunction theMalfunction = (Malfunction)(myMalfunctions.get(new Integer(pID)));
+		if (theMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF)	
+			myMalfunctions.remove(new Integer(pID));
 	}
 
 	public boolean isMalfunctioning(){
