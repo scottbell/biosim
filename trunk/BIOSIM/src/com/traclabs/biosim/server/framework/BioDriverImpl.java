@@ -76,7 +76,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	//How long BioDriver should pause between ticks
 	private int driverPauseLength = 0;
 	//The ID of this instance of BioSim
-	private int myID = 0;createdCrew
+	private int myID = 0;
 	//If the initialization has already created the crew or not.
 	private boolean createdCrew = false;
 	//If we loop after end conditions of a simulation run have been met (crew death or n-ticks)
