@@ -109,10 +109,6 @@ public class AirTextPanel extends BioTabPanel
 	 */
 	private String coallateAirRSStatus(){
 		StringBuffer statusBuffer = new StringBuffer();
-		if (!myAirRS.hasPower())
-			statusBuffer.append("needs power, ");
-		if (!myAirRS.hasCO2())
-			statusBuffer.append("needs CO2, ");
 		if (statusBuffer.length() < 1)
 			return "nominal";
 		else{
