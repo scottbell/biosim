@@ -69,6 +69,7 @@ Section "BioSim Program (must be installed)" ; (default section)
 	lbl_noWebsite:
 		File biosim.jar
 		File run-biosim.bat
+		File run-biosim-debug.bat
 		File biosim.ico
 		File LICENSE.txt
 		CreateShortCut "$INSTDIR\BioSim.lnk" "$INSTDIR\run-biosim.bat" "" "$INSTDIR\biosim.ico" 0
@@ -92,10 +93,8 @@ Section Uninstall
 	; add delete commands to delete whatever files/registry keys/etc you installed here.
 	Delete "$INSTDIR\uninst.exe"
 	Delete "$INSTDIR\biosim.jar"
-	Delete "$INSTDIR\run-distro-server.bat"
-	Delete "$INSTDIR\run-distro-client.bat"
-	Delete "$INSTDIR\run-distro-nameserver.bat"
 	Delete "$INSTDIR\run-biosim.bat"
+	Delete "$INSTDIR\run-biosim-debug.bat"
 	Delete "$INSTDIR\setENV.bat"
 	Delete "$INSTDIR\biosim.ico"
 	Delete "$INSTDIR\LICENSE.txt"
