@@ -9,12 +9,15 @@ import biosim.idl.simulation.food.*;
 public class Peanut extends Legume{
 	public Peanut(ShelfImpl pShelfImpl){
 		super(pShelfImpl);
-		canopyClosureConstants[0] = 290410f;
-		canopyClosureConstants[1] = 1559.4f;
-		canopyClosureConstants[6] = 15.840f;
-		canopyClosureConstants[10] = .0061120f;
-		canopyClosureConstants[17] = -0.0000000037409f;
-		canopyClosureConstants[24] = .00000000000000000096484f;
+		canopyClosureConstants[0] = 3748700f;
+		canopyClosureConstants[1] = 2920f;
+		canopyClosureConstants[4] = .000000094008f;
+		canopyClosureConstants[5] = -18840f;
+		canopyClosureConstants[6] = 23.912f;
+		canopyClosureConstants[10] = 51.256f;
+		canopyClosureConstants[15] = -0.05963f;
+		canopyClosureConstants[16] = .0000055180f;
+		canopyClosureConstants[20] = .000025969f;
 
 		canopyQYConstants[6] = .04191f;
 		canopyQYConstants[7] = .000053852f;

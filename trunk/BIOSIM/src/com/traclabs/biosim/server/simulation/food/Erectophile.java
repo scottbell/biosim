@@ -32,7 +32,7 @@ public abstract class Erectophile extends PlantImpl{
 		float CO2Concentration = getAverageCO2Concentration();
 		//System.out.println("Erectophile: relativeHumdity: "+relativeHumdity);
 		//System.out.println("Erectophile: netCanopyPhotosynthesis: "+netCanopyPhotosynthesis);
-		//System.out.println("Erectophile: CO2Concentration: "+CO2Concentration);;
+		//System.out.println("Erectophile: CO2Concentration: "+CO2Concentration);
 		return 0.1389f + 15.32f * relativeHumdity * (netCanopyPhotosynthesis / CO2Concentration);
 	}
 	

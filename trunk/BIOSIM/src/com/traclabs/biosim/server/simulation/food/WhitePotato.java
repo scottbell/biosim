@@ -12,7 +12,7 @@ public class WhitePotato extends Planophile{
 		canopyClosureConstants[0] = 290410f;
 		canopyClosureConstants[1] = 1559.4f;
 		canopyClosureConstants[6] = 15.840f;
-		canopyClosureConstants[10] = .0061120f;;
+		canopyClosureConstants[10] = .0061120f;
 		canopyClosureConstants[17] = -0.0000000037409f;
 		canopyClosureConstants[24] = .00000000000000000096484f;
 
