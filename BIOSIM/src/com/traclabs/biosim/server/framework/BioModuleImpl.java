@@ -229,11 +229,11 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	
 	/**
 	* Sets how stochastically intense this module should be.
-	* @param pValue The intensity for this module.  Options are:
-	* <code>StochasticIntensity.HIGH_STOCH</code> for high intensity
-	* <code>StochasticIntensity.MEDIUM_STOCH</code> for medium intensity
-	* <code>StochasticIntensity.LOW_STOCH</code> for low intensity
-	* <code>StochasticIntensity.NONE_STOCH</code> for no intensity (deterministic, default)
+	* @param pValue The intensity for this module.  Options are:<br>
+	* &nbsp;&nbsp;&nbsp;<code>StochasticIntensity.HIGH_STOCH</code> for high intensity<br>
+	* &nbsp;&nbsp;&nbsp;<code>StochasticIntensity.MEDIUM_STOCH</code> for medium intensity<br>
+	* &nbsp;&nbsp;&nbsp;<code>StochasticIntensity.LOW_STOCH</code> for low intensity<br>
+	* &nbsp;&nbsp;&nbsp;<code>StochasticIntensity.NONE_STOCH</code> for no intensity (deterministic, default)
 	*/
 	public void setStochasticIntensity(StochasticIntensity pValue){
 		myStochasticIntensity = pValue;
