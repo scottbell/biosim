@@ -129,6 +129,21 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 	protected int getNumberOfActivities(){
 		return mySchedule.getNumberOfActivities();
 	}
+	
+	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
+		String returnName = new String();
+		if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
+			returnName += "Severe ";
+		else if (pIntensity == MalfunctionIntensity.MEDIUM_MALF)
+			returnName += "Medium ";
+		else if (pIntensity == MalfunctionIntensity.LOW_MALF)
+			returnName += "Low ";
+		if (pLength == MalfunctionLength.TEMPORARY_MALF)
+			returnName += "Sickness (Temporary)";
+		else if (pLength == MalfunctionLength.PERMANENT_MALF)
+			returnName += "Sickness (Permanent)";
+		return returnName;
+	}
 
 	/**
 	* Processes a tick by ticking each crew person it knows about.

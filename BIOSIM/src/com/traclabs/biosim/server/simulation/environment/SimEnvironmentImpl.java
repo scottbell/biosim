@@ -14,13 +14,17 @@ import java.util.*;
 
 public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentOperations {
 	//The current amount of O2 in the environment (in liters)
-	private float O2Level;
+	private float O2Level = 0f;
 	//The current amount of CO2 in the environment (in liters)
-	private float CO2Level;
+	private float CO2Level = 0f;
 	//The current amount of other gasses in the environment (in liters) 
-	private float otherLevel;
+	private float otherLevel = 0f;
+	private float oldO2Level = 0f;
+	private float oldCO2Level = 0f;
+	private float oldOtherLevel = 0f;
 	//The total capacity of the environment (all the open space)
 	private float capacity = 100f;
+	private float oldCapacity = 100f;
 	//The number of ticks the simulation has gone through
 	private int ticks;
 	//The light intensity outside
@@ -45,7 +49,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	*/
 	public SimEnvironmentImpl(int pID, float initialCapacity){
 		super(pID);
-		capacity = initialCapacity;
+		capacity = oldCapacity = initialCapacity;
 		reset();
 	}
 	
@@ -58,10 +62,10 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	*/
 	public SimEnvironmentImpl (int pID, float initialCO2Level, float initialO2Level, float initialOtherLevel, float initialCapacity){
 		super(pID);
-		CO2Level = initialCO2Level;
-		O2Level = initialO2Level;
-		otherLevel = initialOtherLevel;
-		capacity = initialCapacity;
+		CO2Level = oldCO2Level = initialCO2Level;
+		O2Level = oldO2Level = initialO2Level;
+		otherLevel = oldOtherLevel = initialOtherLevel;
+		capacity = oldCapacity = initialCapacity;
 	}
 	
 	/**
@@ -80,13 +84,28 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 		return lightIntensity;
 	}
 	
+	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
+		String returnName = new String();
+		if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
+			returnName += "Severe ";
+		else if (pIntensity == MalfunctionIntensity.MEDIUM_MALF)
+			returnName += "Medium ";
+		else if (pIntensity == MalfunctionIntensity.LOW_MALF)
+			returnName += "Low ";
+		if (pLength == MalfunctionLength.TEMPORARY_MALF)
+			returnName += "Leak";
+		else if (pLength == MalfunctionLength.PERMANENT_MALF)
+			returnName += "Capacity Reduction";
+		return returnName;
+	}
+	
 	/**
 	* Resets the gas levels to correct percantages of sea level air
 	*/
 	private void resetLevels(){
-		O2Level = (new Double(capacity * 0.21)).floatValue();
-		otherLevel = (new Double(capacity * 0.786)).floatValue();
-		CO2Level = (new Double(capacity * 0.004)).floatValue();
+		O2Level = oldO2Level = (new Double(capacity * 0.21)).floatValue();
+		otherLevel = oldOtherLevel = (new Double(capacity * 0.786)).floatValue();
+		CO2Level = oldCO2Level = (new Double(capacity * 0.004)).floatValue();
 	}
 	
 	/**
@@ -153,7 +172,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	* @return the other gasses level (in liters)
 	*/
 	public float getOtherLevel(){
-		return otherLevel;
+		return oldOtherLevel;
 	}
 	
 	/**
@@ -161,7 +180,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	* @return the O2 level (in liters)
 	*/
 	public float getO2Level(){
-		return O2Level;
+		return oldO2Level;
 	}
 	
 	/**
@@ -169,7 +188,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	* @return the CO2 level (in liters)
 	*/
 	public float getCO2Level(){
-		return CO2Level;
+		return oldCO2Level;
 	}
 	
 	/**
@@ -340,6 +359,10 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	* Processes a tick by adding to the tick counter
 	*/
 	public void tick(){
+		oldO2Level = O2Level;
+		oldCO2Level = CO2Level;
+		oldOtherLevel = otherLevel;
+		oldCapacity = capacity;
 		calculateLightIntensity();
 		if (moduleLogging)
 			log();
