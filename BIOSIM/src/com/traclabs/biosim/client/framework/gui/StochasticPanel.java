@@ -74,6 +74,7 @@ public class StochasticPanel extends TimedPanel
 		myModulePanel.setBorder(BorderFactory.createTitledBorder("Module Select"));
 		myModulePanel.setLayout(gridbag);
 		String[] myModuleNames = BioHolder.getBioModuleNames();
+		Arrays.sort(myModuleNames);
 		moduleList = new JList(myModuleNames);
 		moduleList.addListSelectionListener(new ModuleListener());
 		moduleList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
