@@ -197,7 +197,7 @@ public abstract class PlantImpl extends PlantPOA{
 	}
 
 	private void growBiomass(){
-		//Biomass Grown
+		//Biomass Grown this tick
 		float molecularWeightOfCarbon = 12.011f;  //g/mol
 		CQY = calculateCQY();
 		carbonUseEfficiency24 = getCarbonUseEfficiency24();
