@@ -113,6 +113,11 @@ public class XMLLogHandler implements LogHandler{
 		myFileWriter.flush();
 	}
 	
+	
+	public LogHandlerType getType(){
+		return LogHandlerType.XML;
+	}
+	
 	/**
 	* Recursively prints out the LogNode.
 	* @param currentNode The current LogNode being printed

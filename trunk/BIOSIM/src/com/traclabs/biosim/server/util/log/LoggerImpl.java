@@ -151,7 +151,6 @@ public class LoggerImpl extends LoggerPOA  {
 			return;
 		collectReferences();
 		//One Tick has passed
-		System.out.println("LoggerImpl: Processing log..");
 		if ((currentTick != myDriver.getTicks()) && (currentTickLogNode != null)){
 			for (Iterator iter = myLogHandlers.iterator(); iter.hasNext();){
 				LogHandler currentLogHandler = (LogHandler)(iter.next());

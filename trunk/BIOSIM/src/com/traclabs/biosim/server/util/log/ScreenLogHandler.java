@@ -23,6 +23,10 @@ public class ScreenLogHandler implements LogHandler{
 		printTree(logToWrite, 0);
 	}
 	
+	public LogHandlerType getType(){
+		return LogHandlerType.XML;
+	}
+	
 	/**
 	* Prints the LogNode to the screen nicely using tabs (recursive)
 	* @param currentNode the LogNode to currently being written
