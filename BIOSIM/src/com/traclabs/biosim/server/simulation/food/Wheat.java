@@ -78,6 +78,13 @@ public class Wheat extends Erectophile{
 		return 1.00f;
 	}
 	
+	/**
+	 * Returns calories per kilogram
+	*/
+	public static float getCaloriesPerKilogram(){
+		return 3300f;
+	}
+	
 	protected float getCurrentFractionOfEdibleBiomass(){
 		if (myAge > getTimeAtOrganFormation())
 			return getFractionOfEdibleBiomass();

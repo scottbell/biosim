@@ -473,7 +473,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	}
 
 	/**
-	* Calculate the current food needed (in kilograms) by the crew memeber given the intensity of the activity for the current tick.
+	* Calculate the current food needed (in calories) by the crew memeber given the intensity of the activity for the current tick.
 	* Algorithm derived from "Top Level Modeling of Crew Component of ALSS" by Goudrazi and Ting
 	* @param currentActivityIntensity the activity intensity for the current tick
 	* @return food needed in kilograms
@@ -624,6 +624,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			cleanWaterConsumed = 0f;
 			dirtyWaterProduced = 0f;
 			greyWaterProduced = 0f;
+			caloriesConsumed = 0f;
 			myCurrentActivity = mySchedule.getActivityByName("dead");
 			hasDied = true;
 			timeActivityPerformed = 0;
@@ -631,8 +632,11 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	}
 	
 	private void eatFood(float pFoodNeeded){
-		caloriesConsumed = myCrewGroup.getFractionalResourceFromStore(myCrewGroup.getFoodInputs(), myCrewGroup.getFoodInputMaxFlowRates(), myCrewGroup.getFoodInputDesiredFlowRates(), myCrewGroup.getFoodInputActualFlowRates(), caloriesNeeded, 1f / myCrewGroup.getCrewSize());
-		
+		FoodMatter[] foodConsumed = myCrewGroup.getCaloriesFromStore(myCrewGroup.getFoodInputs(), myCrewGroup.getFoodInputMaxFlowRates(), myCrewGroup.getFoodInputDesiredFlowRates(), myCrewGroup.getFoodInputActualFlowRates(), caloriesNeeded);
+		if ((foodConsumed.length == 0) || (myCrewGroup.getFoodInputs().length == 0))
+			caloriesConsumed = 0f;
+		else
+			caloriesConsumed = myCrewGroup.getFoodInputs()[0].calculateCalories(foodConsumed);
 	}
 
 	/**

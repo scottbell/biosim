@@ -98,8 +98,35 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 		return (FoodMatter[])(itemsToReturn.toArray(returnArrayType));
 	}
 	
-	private float calculateCalories(FoodMatter pFood){
-		return 0f;
+	private float calculateCaloriesSingular(FoodMatter pFood){
+		PlantType theType = pFood.type;
+		float theMass = pFood.mass;
+		if (theType == PlantType.DRY_BEAN)
+			return theMass * DryBean.getCaloriesPerKilogram();
+		else if (theType == PlantType.LETTUCE)
+			return theMass * Lettuce.getCaloriesPerKilogram();
+		else if (theType == PlantType.PEANUT)
+			return theMass * Peanut.getCaloriesPerKilogram();
+		else if (theType == PlantType.SOYBEAN)
+			return theMass * Soybean.getCaloriesPerKilogram();
+		else if (theType == PlantType.SWEET_POTATO)
+			return theMass * SweetPotato.getCaloriesPerKilogram();
+		else if (theType == PlantType.TOMATO)
+			return theMass * Tomato.getCaloriesPerKilogram();
+		else if (theType == PlantType.WHEAT)
+			return theMass * Wheat.getCaloriesPerKilogram();
+		else if (theType == PlantType.WHITE_POTATO)
+			return theMass * WhitePotato.getCaloriesPerKilogram();
+		else
+			return 1000f;
+	}
+	
+	public float calculateCalories(FoodMatter[] foodArray){
+		float totalCalories = 0f;
+		for (int i = 0; i < foodArray.length; i++){
+			totalCalories += calculateCaloriesSingular(foodArray[i]);
+		}
+		return totalCalories;
 	}
 	
 	public FoodMatter[] takeFoodMatterCalories(float pCalories){
@@ -109,7 +136,7 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 		float collectedMass = 0f;
 		for (Iterator iter = currentFoodItems.iterator(); iter.hasNext() &&  (collectedCalories <= pCalories);){
 			FoodMatter currentFoodMatter = (FoodMatter)(iter.next());
-			float currentCalories = calculateCalories(currentFoodMatter);
+			float currentCalories = calculateCaloriesSingular(currentFoodMatter);
 			float caloriesStillNeeded = pCalories - collectedCalories;
 			//we need to get more bio matter
 			if (currentCalories < caloriesStillNeeded){

@@ -606,8 +606,10 @@ module biosim{
                                         float addFoodMatterMass(in float mass, in PlantType type);
                                         float addFoodMatterArray(in FoodMatterList pList);
                                         FoodMatterList takeFoodMatterMass(in float mass);
+                                        FoodMatterList takeFoodMatterCalories(in float calories);
                                         FoodMatter takeFoodMatterMassAndType(in float mass, in PlantType pType);
                                         FoodMatter takeFoodMatterType(in PlantType pType);
+					float calculateCalories(in FoodMatterList pList);
                                 };
 
                                 interface BiomassStore : framework::Store{

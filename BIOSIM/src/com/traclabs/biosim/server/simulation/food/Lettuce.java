@@ -82,6 +82,13 @@ public class Lettuce extends Planophile{
 		return 0.95f;
 	}
 	
+	/**
+	 * Returns calories per kilogram
+	*/
+	public static float getCaloriesPerKilogram(){
+		return 180f;
+	}
+	
 	protected float getCurrentFractionOfEdibleBiomass(){
 		if (myAge > getTimeAtOrganFormation())
 			return getFractionOfEdibleBiomass();

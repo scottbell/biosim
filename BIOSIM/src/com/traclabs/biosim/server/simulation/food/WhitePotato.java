@@ -85,6 +85,13 @@ public class WhitePotato extends Planophile{
 		return 1.00f;
 	}
 	
+	/**
+	 * Returns calories per kilogram
+	*/
+	public static float getCaloriesPerKilogram(){
+		return 760f;
+	}
+	
 	protected float getCurrentFractionOfEdibleBiomass(){
 		if (myAge > getTimeAtOrganFormation())
 			return getFractionOfEdibleBiomass();

@@ -86,6 +86,13 @@ public class Rice extends Erectophile{
 		else
 			return 0f;
 	}
+	
+	/**
+	 * Returns calories per kilogram
+	*/
+	public static float getCaloriesPerKilogram(){
+		return 3630f;
+	}
 
 	protected float getEdibleFreshBasisWaterContent(){
 		return 12f;

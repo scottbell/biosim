@@ -87,6 +87,13 @@ public class Peanut extends Legume{
 		return 0.49f;
 	}
 	
+	/**
+	 * Returns calories per kilogram
+	*/
+	public static float getCaloriesPerKilogram(){
+		return 5680f;
+	}
+	
 	protected float getCurrentFractionOfEdibleBiomass(){
 		if (myAge > getTimeAtOrganFormation())
 			return getFractionOfEdibleBiomass();

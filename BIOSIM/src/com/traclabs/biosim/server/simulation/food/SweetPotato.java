@@ -92,6 +92,13 @@ public class SweetPotato extends Planophile{
 		else
 			return 0f;
 	}
+	
+	/**
+	 * Returns calories per kilogram
+	*/
+	public static float getCaloriesPerKilogram(){
+		return 1140f;
+	}
 
 	protected float getEdibleFreshBasisWaterContent(){
 		return 71f;

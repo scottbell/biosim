@@ -82,6 +82,13 @@ public class DryBean extends Legume{
 		return 0.97f;
 	}
 	
+	/**
+	 * Returns calories per kilogram
+	*/
+	public static float getCaloriesPerKilogram(){
+		return 3490f;
+	}
+	
 	protected float getCurrentFractionOfEdibleBiomass(){
 		if (myAge > getTimeAtOrganFormation())
 			return getFractionOfEdibleBiomass();
