@@ -21,11 +21,11 @@
 	<SimBioModules>
 		<air>
 			<AirRS name="BaseAirRS" implementation="LINEAR">
-				<powerConsumer maxFlowRates="300" desiredFlowRates="300" inputs="BasePowerStore"/>
-				<potableWaterConsumer maxFlowRates="10" desiredFlowRates="10" inputs="BasePotableWaterStore"/>
-				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="BaseCrewEnvironment"/>
-				<CO2Consumer maxFlowRates="10" desiredFlowRates="10" inputs="BaseCO2Store"/>
-				<H2Consumer maxFlowRates="40" desiredFlowRates="40" inputs="BaseH2Store"/>
+				<powerConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BasePowerStore"/>
+				<potableWaterConsumer maxFlowRates="1" desiredFlowRates="1" inputs="BasePotableWaterStore"/>
+				<airConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BaseCrewEnvironment"/>
+				<CO2Consumer maxFlowRates="100" desiredFlowRates="100" inputs="BaseCO2Store"/>
+				<H2Consumer maxFlowRates="400" desiredFlowRates="400" inputs="BaseH2Store"/>
 				<potableWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="BasePotableWaterStore"/>
 				<O2Producer maxFlowRates="100" desiredFlowRates="100" outputs="BaseO2Store"/>
 				<airProducer maxFlowRates="100" desiredFlowRates="100" outputs="BaseCrewEnvironment"/>
@@ -175,7 +175,7 @@
 				<lightConsumer maxFlowRates="0" desiredFlowRates="0" inputs="BaseCrewEnvironment"/>
 				<powerProducer maxFlowRates="10000" desiredFlowRates="10000" outputs="BasePowerStore"/>
 			</PowerPS>
-			<PowerStore name="BasePowerStore" capacity="30000" level="10000"/>
+			<PowerStore name="BasePowerStore" capacity="3000000" level="3000000"/>
 			<PowerStore name="EVAPowerStore" capacity="1000" level="1000"/>
 		</power>
 		<water>
@@ -198,11 +198,5 @@
 			<DryWasteStore name="EVADryWasteStore" capacity="2" level="0"/>
 		</waste>
 	</SimBioModules>
-	
-	<Sensors>
-	</Sensors>
-	
-	<Actuators>
-	</Actuators>
 </biosim>
 
