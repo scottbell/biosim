@@ -96,6 +96,23 @@
 			</classpath>
 		</javac>
 	</target>
+	
+	<target name="run-client" description="runs the client" >
+		<mkdir dir="${client}"/>
+		<mkdir dir="${clientClasses}"/>
+		<javac srcdir="${src}/biosim/client" destdir="${clientClasses}">
+			<classpath>
+				<pathelement location="${src}"/>
+				<pathelement location="${clientClasses}"/>
+				<pathelement location="${jacorbDir}/jacorb.jar"/>
+				<pathelement location="${xercesDir}/xercesImpl.jar"/>
+				<pathelement location="${xercesDir}/xml-apis.jar"/>
+				<pathelement location="${xercesDir}/xmlParserAPIs.jar"/>
+				<pathelement location="${plotDir}/jcommon.jar"/>
+				<pathelement location="${plotDir}/jfreechart.jar"/>
+			</classpath>
+		</javac>
+	</target>
   
   	<target name="all" depends="server,client" description="compile biosim" >
 	</target>
