@@ -4,9 +4,9 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+import org.jacorb.naming.NameServer;
 import org.jacorb.util.Environment;
 
-import com.sun.corba.se.internal.PCosNaming.NameServer;
 
 /**
  * A standalone BioSim instance (server, nameserver, client in one) for
