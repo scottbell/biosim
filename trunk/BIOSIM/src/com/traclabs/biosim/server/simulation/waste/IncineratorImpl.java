@@ -184,9 +184,12 @@ public class IncineratorImpl extends SimBioModuleImpl implements IncineratorOper
 	private void consumeResources(){
 		gatherPower();
 		gatherDryWaste();
+		gatherO2();
 	}
 	
 	private void createCO2(){
+		currentCO2Produced = currentO2Consumed * myProductionRate;
+		float distributedCO2Left = pushResourceToStore(myCO2Stores, CO2MaxFlowRates, CO2DesiredFlowRates, CO2ActualFlowRates, currentCO2Produced);
 	}
 	
 	private void setProductionRate(float pProductionRate){
