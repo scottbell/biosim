@@ -5,6 +5,7 @@
 	<!-- set global properties for this build --> 
 	<property name="build.compiler"  value="jikes"/>
   	<property name="src" location="src"/>
+  	<property name="doc" location="doc"/>
 	<property name="generated" location="generated"/>
 	<property name="classes" location="${generated}/classes"/>
 	<property name="lib" location="lib"/>
@@ -27,7 +28,9 @@
 	<!-- set ga distro properties for this build --> 
 	<property name="gaDistroDir" location="${generated}/ga"/>
 	<!-- set javadoc properties for this build --> 
-	<property name="apiDir" location="doc/api"/>
+	<property name="apiDir" location="${doc}/api"/>
+	<!-- set users manual properties for this build --> 
+	<property name="manualDir" location="${doc}/users_manual_files"/>
 	
 
 	<target name="init">
@@ -178,12 +181,49 @@
 		</javadoc>
 	</target>
 	
+	<target name="make-manual" description="creates the user's manual">
+		<touch file="${manualDir}/users_manual.ind"/>
+		<exec executable="latex" dir="${manualDir}">
+			<arg line="${manualDir}/users_manual.tex"/>
+		</exec>
+		<exec executable="makeindex" dir="${manualDir}">
+			<arg line="${manualDir}/users_manual.idx"/>
+		</exec>
+		<exec executable="bibtex" dir="${manualDir}">
+			<arg line="${manualDir}/users_manual.tex"/>
+		</exec>
+		<exec executable="latex" dir="${manualDir}">
+			<arg line="${manualDir}/users_manual.tex"/>
+		</exec>
+		<exec executable="dvips" dir="${manualDir}">
+			<arg line="-o"/>
+			<arg line="${manualDir}/users_manual.ps"/>
+			<arg line="${manualDir}/users_manual.dvi"/>
+		</exec>
+		<exec executable="ps2pdf" dir="${manualDir}">
+			<arg line="users_manual.ps"/>
+		</exec>
+	</target>
+	
 	<target name="run-nameserver" depends="init" description="runs the nameserver">
 		<mkdir dir="${nsDir}"/>
 		<java classname="org.jacorb.naming.NameServer">
 			<sysproperty key="org.omg.CORBA.ORBClass" value="org.jacorb.orb.ORB"/>
 			<sysproperty key="org.omg.CORBA.ORBSingletonClass" value="org.jacorb.orb.ORBSingleton"/>
 			<arg value="${nsDir}/ior.txt"/>
+			<classpath>
+				<pathelement location="${jacorbDir}/jacorb.jar"/>
+				<pathelement location="${jacorbDir}/logkit.jar"/>
+				<pathelement location="${jacorbDir}/avalon-framework.jar"/>
+			</classpath>
+		</java>
+	</target>
+	
+	<target name="run-nameserver-viewer" description="runs the nameserver viewer">
+		<java classname="org.jacorb.naming.namemanager.NameManager">
+			<sysproperty key="org.omg.CORBA.ORBClass" value="org.jacorb.orb.ORB"/>
+			<sysproperty key="org.omg.CORBA.ORBSingletonClass" value="org.jacorb.orb.ORBSingleton"/>
+			<sysproperty key="ORBInitRef.NameService" value="file:${nsDir}/ior.txt"/>
 			<classpath>
 				<pathelement location="${jacorbDir}/jacorb.jar"/>
 				<pathelement location="${jacorbDir}/logkit.jar"/>
