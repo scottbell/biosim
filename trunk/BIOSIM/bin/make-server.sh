@@ -55,7 +55,8 @@ simString="SIMULATION"
 simSkeletonDir="$skeletonDir/$simString"
 serverDir="$devRootDir/src/biosim/server"
 separator=":"
-serverType=uname
+serverType=`uname`
+echo "		-server type is $serverType"
 if [ "$serverType" == "CYGWIN_NT-5.1" ]
 then
 	separator=";"
