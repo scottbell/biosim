@@ -1,6 +1,7 @@
 package com.traclabs.biosim.client.util;
 
-import org.apache.log4j.Logger;
+import java.util.Properties;
+
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
@@ -26,10 +27,26 @@ public class OrbUtils {
     //The root biosim naming context reference
     private static NamingContextExt myBiosimNamingContext = null;
 
+    private static NamingContextExt myRootContext = null;
+
+    private static Properties myORBProperties;
+
     /**
      * Shouldn't be called (everything static!)
      */
     private OrbUtils() {
+    }
+
+    public static void setORB(ORB pORB) {
+        myOrb = pORB;
+    }
+
+    public static void setRootContext(NamingContextExt pRootContext) {
+        myRootContext = pRootContext;
+    }
+
+    public static void setRootPOA(POA pRootPOA) {
+        myRootPOA = pRootPOA;
     }
 
     /**
@@ -81,32 +98,48 @@ public class OrbUtils {
      * and grabs the naming context.
      */
     private static void initialize() {
+        while (!initializeLoop()) {
+            sleepAwhile();
+        }
+    }
+
+    /**
+     * Done only once, this method initializes the ORB, resolves the root POA,
+     * and grabs the naming context.
+     */
+    private static boolean initializeLoop() {
         if (initializeOrbRunOnce)
-            return;
+            return true;
         try {
+            //Done
+
             String[] nullArgs = null;
             // create and initialize the ORB
-            myOrb = ORB.init(nullArgs, null);
+            if (myOrb == null)
+                myOrb = ORB.init(nullArgs, myORBProperties);
+
             // get reference to rootpoa & activate the POAManager
-            myRootPOA = POAHelper.narrow(myOrb
-                    .resolve_initial_references("RootPOA"));
-            myRootPOA.the_POAManager().activate();
-            NamingContextExt myRootContext = NamingContextExtHelper
-                    .narrow(myOrb.resolve_initial_references("NameService"));
-            NamingContextExt myComContext = NamingContextExtHelper
+
+            if (myRootPOA == null) {
+                myRootPOA = POAHelper.narrow(myOrb
+                        .resolve_initial_references("RootPOA"));
+                myRootPOA.the_POAManager().activate();
+            }
+
+            if (myRootContext == null)
+                myRootContext = NamingContextExtHelper.narrow(myOrb
+                        .resolve_initial_references("NameService"));
+            NamingContextExt comContext = NamingContextExtHelper
                     .narrow(myRootContext.resolve_str("com"));
-            NamingContextExt myTraclabsContext = NamingContextExtHelper
-                    .narrow(myComContext.resolve_str("traclabs"));
+            NamingContextExt traclabsContext = NamingContextExtHelper
+                    .narrow(comContext.resolve_str("traclabs"));
             myBiosimNamingContext = NamingContextExtHelper
-                    .narrow(myTraclabsContext.resolve_str("biosim"));
+                    .narrow(traclabsContext.resolve_str("biosim"));
             initializeOrbRunOnce = true;
         } catch (Exception e) {
-            Logger.getLogger(OrbUtils.class).error(
-                    "OrbUtils: nameserver not found, polling again: " + e);
-            sleepAwhile();
-            initialize();
-            return;
+            e.printStackTrace();
         }
+        return true;
     }
 
     /**
