@@ -3,7 +3,7 @@ package biosim.server.crew;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import SIMULATION.*;
+import ALSS.*;
 
 public class Schedule{
 	

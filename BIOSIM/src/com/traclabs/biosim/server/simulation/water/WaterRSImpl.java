@@ -1,7 +1,7 @@
 package biosim.server.water;
 
 // The package containing our stubs.
-import SIMULATION.*;
+import ALSS.*;
 
 public class WaterRSImpl extends WaterRSPOA {
 	public void tick(){

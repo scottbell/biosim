@@ -1,7 +1,7 @@
 package biosim.server.air;
 
 // The package containing our stubs.
-import SIMULATION.*;
+import ALSS.*;
 
 public class CO2StoreImpl extends CO2StorePOA {
 	private float CO2level;

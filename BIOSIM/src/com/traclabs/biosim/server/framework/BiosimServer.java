@@ -1,6 +1,6 @@
 package biosim.server.framework;
 
-import SIMULATION.*;
+import ALSS.*;
 import biosim.server.air.*;
 import biosim.server.crew.*;
 import biosim.server.food.*;

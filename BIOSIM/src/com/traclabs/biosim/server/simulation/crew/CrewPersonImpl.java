@@ -1,7 +1,7 @@
 package biosim.server.crew;
 
 // The package containing our stubs.
-import SIMULATION.*;
+import ALSS.*;
 
 public class CrewPersonImpl extends CrewPersonPOA {
 	private String myName;
