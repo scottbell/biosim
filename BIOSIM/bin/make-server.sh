@@ -121,6 +121,9 @@ then
 	echo "			-compiling sensor skeletons/stubs"
 	echo "				-compiling framework skeletons/stubs"
 	$compilationInvocation $simSkeletonDir/idl/sensor/framework/*.java
+	echo "			-compiling actuator skeletons/stubs"
+	echo "				-compiling framework skeletons/stubs"
+	$compilationInvocation $simSkeletonDir/idl/actuator/framework/*.java
 fi
 echo "		-compiling implementations"
 echo "			-compiling framework implementation"
@@ -145,6 +148,8 @@ $compilationInvocation $serverDir/simulation/food/*.java
 echo "				-compiling environment implementation"
 $compilationInvocation $serverDir/simulation/environment/*.java
 echo "			-compiling actuator implementation"
+echo "				-compiling framework implementation"
+$compilationInvocation $serverDir/actuator/framework/*.java
 echo "			-compiling sensor implementation"
 echo "				-compiling framework implementation"
 $compilationInvocation $serverDir/sensor/framework/*.java
