@@ -42,7 +42,7 @@ case $machineType in
 	*$winName*) separator=";";echo "		-machine type is $winName";;
 	*)separator=":";echo "		-assuming Unix machine type";;
 esac
-IBM_libs="$JRE_HOME/lib/core.jar$separator$JRE_HOME/lib/charsets.jar$separator$JRE_HOME/lib/graphics.jar$separator$JRE_HOME/lib/security.jar$separator$JRE_HOME/lib/server.jar$separator$JRE_HOME/lib/xml.jar"
+IBM_libs="$JRE_HOME/lib/core.jar$separator$JRE_HOME/lib/charsets.jar$separator$JRE_HOME/lib/graphics.jar$separator$JRE_HOME/lib/security.jar$separator$JRE_HOME/lib/server.jar$separator$JRE_HOME/lib/xml.jar$separator$JRE_HOME/lib/javaplugin.jar"
 Sun_libs="$JRE_HOME/lib/rt.jar"
 javaVersionString=`$java_command -version 2>&1 | grep IBM`
 case $javaVersionString in
@@ -82,6 +82,7 @@ idlInvocation="$java_command -classpath $JACORB_HOME/idl.jar org.jacorb.idl.pars
 if [ "$userSelect" == "all" ]
 then
 	echo "		-generating skeletons/stubs"
+	echo "$idlInvocation -d $skeletonDir $fullIDLDir"
 	$idlInvocation -d $skeletonDir $fullIDLDir
 fi
 #######################
