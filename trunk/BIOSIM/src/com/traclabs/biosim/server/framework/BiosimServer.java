@@ -3,6 +3,7 @@ package biosim.server.framework;
 import java.net.*;
 import biosim.server.framework.*;
 import biosim.server.util.log.*;
+import biosim.idl.util.log.*;
 import biosim.server.util.*;
 
 /**
@@ -16,6 +17,7 @@ public class BiosimServer extends GenericServer{
 	public BiosimServer(int id, int stutterLength){
 		URL documentUrl = ClassLoader.getSystemClassLoader().getResource("biosim/server/framework/DefaultInitialization.xml");
 		LoggerImpl myLoggerImpl = new LoggerImpl(id);
+		myLoggerImpl.addLogHandlerType(LogHandlerType.XML);
 		BioDriverImpl myBioDriverImpl = new BioDriverImpl(id);
 		myBioDriverImpl.setDriverStutterLength(stutterLength);
 		registerServer(myLoggerImpl, myLoggerImpl.getName(), myLoggerImpl.getID());
