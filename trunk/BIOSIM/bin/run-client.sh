@@ -42,17 +42,20 @@ clientClassesDir=$clientGenDir$clientClassesString
 stubsClassesDir="$clientGenDir/stubs"
 clientDir="$devRootDir/src/biosim/client"
 driverName="biosim.client.framework.BiosimMain"
+loggerName="biosim.client.util.log.LogViewer"
 resourceString="/resources"
 resourceDir=$devRootDir$resourceString
 plotClasspath="$devRootDir/lib/jfreechart/jcommon.jar$separator$devRootDir/lib/jfreechart/junit.jar$separator$devRootDir/lib/jfreechart/jfreechart.jar"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME"
 jacoInvocation="$java_command -client -classpath $plotClasspath$separator$clientClassesDir$separator$jacoClasspath$separator$resourceDir $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
 echo "	-starting client"
-noGUI="-nogui"
-withGUI="-gui"
+noGUI="console"
+withGUI="gui"
+logger="logger"
 case $userSelect in
 	$noGUI) echo "			 -starting $userSelect";$jacoInvocation $driverName $noGUI;;
 	$withGUI) echo "			 -starting $userSelect";$jacoInvocation $driverName $withGUI;;
+	$logger) echo "			 -starting $userSelect";$jacoInvocation $loggerName;;
 	*) echo "			 -starting default";$jacoInvocation $driverName;;
 esac
 echo "*done invoking clients"
