@@ -38,7 +38,7 @@
 				<crewPerson name="Bob Roberts" age="35" weight="70" sex="MALE">
 					<schedule>
 						<activity name="sleep" length="8" intensity="1"/>
-						<activity xsi:type="EVAActivityType" name="eva" length="4" intensity="3" outsideEnvironment="OutsideEnvironment"/>
+						<activity xsi:type="EVAActivityType" name="eva" length="4" intensity="3" evaCrewGroup="EVACrewGroup"/>
 						<activity name="hygiene" length="1" intensity="2"/>
 						<activity name="exercise" length="1" intensity="5"/>
 						<activity name="eating" length="1" intensity="2"/>

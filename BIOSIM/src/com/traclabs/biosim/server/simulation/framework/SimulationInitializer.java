@@ -861,7 +861,7 @@ public class SimulationInitializer {
         }
     }
 
-    private Activity createActivity(Node node) {
+    private Activity createActivity(Node node, CrewGroupImpl crew) {
         ActivityImpl newActivityImpl = null;
         int length = 0;
         int intensity = 0;
@@ -878,8 +878,8 @@ public class SimulationInitializer {
         if (activityTypeNode != null){
             if (activityTypeNode.getNodeValue().equals("EVAActivityType")){
                 myLogger.debug("Type is "+activityTypeNode.getNodeValue());
-                String outsideEnvironmentName = node.getAttributes().getNamedItem("outsideEnvironment").getNodeValue();
-                newActivityImpl = new EVAActivityImpl(name, length, intensity, outsideEnvironmentName);
+                String evaCrewGroupName = node.getAttributes().getNamedItem("evaCrewGroup").getNodeValue();
+                newActivityImpl = new EVAActivityImpl(name, length, intensity, crew.getModuleName(), evaCrewGroupName);
             }
         }
         else{
@@ -888,12 +888,12 @@ public class SimulationInitializer {
         return ActivityHelper.narrow(OrbUtils.poaToCorbaObj(newActivityImpl));
     }
 
-    private Schedule createSchedule(Node node) {
+    private Schedule createSchedule(Node node, CrewGroupImpl crew) {
         Schedule newSchedule = new Schedule();
         Node child = node.getFirstChild();
         while (child != null) {
             if (child.getNodeName().equals("activity")) {
-                Activity newActivity = createActivity(child);
+                Activity newActivity = createActivity(child, crew);
                 newSchedule.insertActivityInSchedule(newActivity);
             }
             child = child.getNextSibling();
@@ -906,7 +906,7 @@ public class SimulationInitializer {
         Schedule schedule = null;
         while (child != null) {
             if (child.getNodeName().equals("schedule"))
-                schedule = createSchedule(node.getFirstChild().getNextSibling());
+                schedule = createSchedule(node.getFirstChild().getNextSibling(), crew);
             child = child.getNextSibling();
         }
         String name = node.getAttributes().getNamedItem("name").getNodeValue();
