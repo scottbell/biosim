@@ -86,6 +86,7 @@ public class SimDesktop extends BioFrame
 	private ImageIcon stopIcon;
 	private ImageIcon pauseIcon;
 	private ImageIcon forwardIcon;
+	private ImageIcon biosimIcon;
 
 	//A hashtable containing each client panel (water, food, air, etc)
 	private Hashtable myPanels;
@@ -207,6 +208,7 @@ public class SimDesktop extends BioFrame
 		setTitle("BIOSIM Advanced Life Support Simulation  Copyright "+ new Character( '\u00A9' ) + " 2002, TRACLabs");
 		myDesktop.setDragMode(JDesktopPane.LIVE_DRAG_MODE);
 		SimTimer.addListener(new MonitorGUI());
+		setIconImage(biosimIcon.getImage());
 		getContentPane().add(myDesktop, BorderLayout.CENTER);
 	}
 
@@ -227,6 +229,8 @@ public class SimDesktop extends BioFrame
 			stopIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/power.gif"));
 			pauseIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/pause.gif"));
 			forwardIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/forward.gif"));
+			biosimIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/biosim.gif"));
+		
 		}
 		catch (Exception e){
 			System.out.println("Couldn't find icon ("+e+"), skipping");

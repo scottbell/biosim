@@ -40,7 +40,7 @@ SectionEnd ; end of default section
 Section "Start Menu Shortcuts"
   CreateDirectory "$SMPROGRAMS\BioSim"
   CreateShortCut "$SMPROGRAMS\BioSim\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
-  CreateShortCut "$SMPROGRAMS\BioSim\BioSim.lnk" "$INSTDIR\run-biosim.bat"
+  CreateShortCut "$SMPROGRAMS\BioSim\BioSim.lnk" "$INSTDIR\run-biosim.bat" "" "$INSTDIR\biosim.ico" 0
 SectionEnd
 
 ; begin uninstall settings/section
@@ -55,6 +55,10 @@ Delete "$INSTDIR\run-distro-client.bat"
 Delete "$INSTDIR\run-distro-nameserver.bat"
 Delete "$INSTDIR\run-biosim.bat"
 Delete "$INSTDIR\biosim.ico"
+Delete "$INSTDIR\BioSim.lnk"
+Delete "$SMPROGRAMS\BioSim\Uninstall.lnk"
+Delete "$SMPROGRAMS\BioSim\BioSim.lnk"
+RMDir "$SMPROGRAMS\BioSim"
 DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\TRACLabs\BioSim"
 DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\BioSim"
 RMDir "$INSTDIR"
