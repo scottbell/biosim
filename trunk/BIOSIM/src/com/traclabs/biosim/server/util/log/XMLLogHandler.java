@@ -80,7 +80,6 @@ public class XMLLogHandler implements LogHandler{
 		Transformer serializer = myHandler.getTransformer();
 		serializer.setOutputProperty(OutputKeys.ENCODING,"ISO-8859-1");
 		serializer.setOutputProperty(OutputKeys.METHOD,"xml");
-		serializer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM,"biosim-log.dtd");
 		serializer.setOutputProperty(OutputKeys.INDENT,"yes");
 		myHandler.setResult(streamResult);
 		myHandler.startDocument();
