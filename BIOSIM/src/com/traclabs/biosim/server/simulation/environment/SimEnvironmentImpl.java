@@ -83,7 +83,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		myName = pName;
 		volume = initialVolume = pInitialVolume;
 		O2Pressure = cachedO2Pressure = initialO2Pressure = 2.0f;
-		CO2Pressure = cachedCO2Pressure = initialCO2Pressure = 0.04f;
+		CO2Pressure = cachedCO2Pressure = initialCO2Pressure = 0.004f;
 		otherPressure = cachedOtherPressure = initialOtherPressure = 0.1f;
 		nitrogenPressure = cachedNitrogenPressure = initialNitrogenPressure = 7.6f;
 		waterPressure = cachedWaterPressure = initialWaterPressure = 0.1f;

@@ -5,6 +5,8 @@ import biosim.client.util.*;
 import java.io.*;
 
 import biosim.idl.sensor.framework.*;
+import biosim.idl.actuator.food.*;
+import biosim.idl.actuator.framework.*;
 import biosim.idl.simulation.food.*;
 
 /**
@@ -142,6 +144,10 @@ public class SimCommandLine
 	}
 
 	private void runTest(){
+		BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
+		BiomassRS myBiomassRS = (BiomassRS)myBioHolder.theBiomassRSModules.get(0);
+		GenericActuator currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.thePlantingActuators, myBiomassRS));
+		
 	}
 }
 

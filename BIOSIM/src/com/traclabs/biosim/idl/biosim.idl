@@ -762,6 +762,7 @@ module biosim{
                                 interface Shelf{
                                         void harvest();
                                         boolean isReadyForHavest();
+					PlantType getCropType();
                                         void replant(in PlantType pType, in float area);
 					float getCropAreaTotal();
 					float getCropAreaUsed();
