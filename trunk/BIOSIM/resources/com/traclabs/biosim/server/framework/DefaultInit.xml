@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<purchaseOrder 
+<biosim 
 	orderDate="1999-10-20"
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
 	xsi:noNamespaceSchemaLocation='BiosimInitialization.xsd'>
@@ -32,4 +32,4 @@
             <shipDate>1999-05-21</shipDate>
         </item>
     </items>
-</purchaseOrder>
+</biosim>

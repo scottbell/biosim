@@ -7,11 +7,11 @@
   </xsd:documentation>
  </xsd:annotation>
 
- <xsd:element name="purchaseOrder" type="PurchaseOrderType"/>
+ <xsd:element name="biosim" type="BiosimType"/>
 
  <xsd:element name="comment" type="xsd:string"/>
 
- <xsd:complexType name="PurchaseOrderType">
+ <xsd:complexType name="BiosimType">
   <xsd:sequence>
    <xsd:element name="shipTo" type="USAddress"/>
    <xsd:element name="billTo" type="USAddress"/>
