@@ -13,26 +13,23 @@ import com.traclabs.biosim.idl.simulation.crew.EVAActivityOperations;
 
 public class EVAActivityImpl extends ActivityImpl implements
         EVAActivityOperations {
-    private String myBaseEnvironmentName;
+    private String myBaseCrewGroupName;
 
-    private String myOutsideEnvironmentName;
+    private String myEVACrewGroupName;
 
     private int bob;
 
-    public EVAActivityImpl(String pName, int pTimeLength, int pIntensity, String pOutsideEnvironmentName) {
+    public EVAActivityImpl(String pName, int pTimeLength, int pIntensity,String pBaseCrewGroupName, String pEVACrewGroupName) {
         super(pName, pTimeLength, pIntensity);
-        myOutsideEnvironmentName = pOutsideEnvironmentName;
-    }
-    
-    public void setBaseEnvironmentName(String pBaseEnvironmentName){
-        myBaseEnvironmentName = pBaseEnvironmentName;
+        myBaseCrewGroupName = pBaseCrewGroupName;
+        myEVACrewGroupName = pEVACrewGroupName;
     }
 
-    public String getBaseEnvironmentName() {
-        return myBaseEnvironmentName;
+    public String getBaseCrewGroupName() {
+        return myBaseCrewGroupName;
     }
 
-    public String getOutsideEnvironmentName() {
-        return myOutsideEnvironmentName;
+    public String getEVACrewGroupName() {
+        return myEVACrewGroupName;
     }
 }

@@ -1167,4 +1167,12 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
     public void setMaxLumens(float maxLumens) {
         this.maxLumens = maxLumens;
     }
+
+    /* (non-Javadoc)
+     * @see com.traclabs.biosim.idl.simulation.environment.SimEnvironmentOperations#removePercentage(float)
+     */
+    public void removePercentage(float percentage) {
+        // TODO Auto-generated method stub
+        
+    }
 }

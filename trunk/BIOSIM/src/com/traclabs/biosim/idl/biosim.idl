@@ -648,9 +648,8 @@ module com{
                                                         string getModuleNameToMaintain();
                                                 };
                                                 interface EVAActivity : Activity{
-                                                        void setBaseEnvironmentName(in string pBaseEnvironmentName);
-                                                        string getBaseEnvironmentName();
-                                                        string getOutsideEnvironmentName();
+                                                        string getBaseCrewGroupName();
+                                                        string getEVACrewGroupName();
                                                 };
                                                 interface CrewPerson{
                                                         Activity getCurrentActivity();
@@ -758,6 +757,7 @@ module com{
                                                         void setHourOfDayStart(in float hourOfDayStart);
                                                         float getMaxLumens();
                                                         void setMaxLumens(in float maxLumens);
+                                                        void removePercentage(in float percentage);
                                                 };
                                         };
                                         module food{

@@ -560,7 +560,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
                     .getMalfunctionIDToRepair());
         } else if (myCurrentActivity instanceof EVAActivity) {
             EVAActivity evaActivity = (EVAActivity) (myCurrentActivity);
-            performEVA(evaActivity.getBaseEnvironmentName(), evaActivity.getOutsideEnvironmentName());
+            performEVA(evaActivity.getBaseCrewGroupName(), evaActivity.getEVACrewGroupName());
         } else if (myCurrentActivity instanceof MaitenanceActivity) {
             MaitenanceActivity maitenanceActivity = (MaitenanceActivity) (myCurrentActivity);
             maintainModule(maitenanceActivity.getModuleNameToMaintain());
@@ -568,15 +568,16 @@ public class CrewPersonImpl extends CrewPersonPOA {
     }
 
     /**
-     * @param baseEnvironment
-     * @param outsideEnvironment
+     * @param baseCrewGroup
+     * @param evaCrewGroup
      */
-    private void performEVA(String baseEnvironment, String outsideEnvironment) {
+    private void performEVA(String baseCrewGroup, String evaCrewGroup) {
         // TODO Auto-generated method stub
         // remove 5% from base environment
-        // detach from current environment and attach to outside environment
+        myCrewGroup.getAirInputs()[0].removePercentage(0.15f);
+        // detach from current crew group and attach to eva crew group
         // perform activity for X ticks
-        // reattach to to base environment
+        // reattach to base crew group
         // remove 5% from base environment
     }
 
