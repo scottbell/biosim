@@ -653,8 +653,6 @@ public class AccumulatorImpl extends BioModuleImpl implements AccumulatorOperati
 		return CO2OutFlowRates;
 	}
 	
-	//
-
 	public void setCO2AirStoreInputFlowrate(float amount, int index){
 		CO2AirStoreInFlowRates[index] = amount;
 	}
@@ -738,8 +736,6 @@ public class AccumulatorImpl extends BioModuleImpl implements AccumulatorOperati
 	public SimEnvironment[] getCO2AirEnvironmentOutputs(){
 		return myCO2AirEnvironmentOutputs;
 	}
-	
-	//
 	
 	public void setO2AirStoreInputFlowrate(float amount, int index){
 		O2AirStoreInFlowRates[index] = amount;
@@ -826,7 +822,7 @@ public class AccumulatorImpl extends BioModuleImpl implements AccumulatorOperati
 	}
 	
 	/**
-	* Returns the name of the module, "Unamed" if not overriden
+	* Returns the name of the module
 	* @return the name of this module
 	*/
 	public String getModuleName(){

@@ -11,7 +11,10 @@ import biosim.idl.simulation.framework.*;
 import biosim.idl.framework.*;
 import java.util.*;
 /**
- * The Biomass RS is essentially responsible for growing plants.  The plant matter (biomass) is fed into the food processor to create food
+ * The Biomass RS is essentially responsible for growing plants.
+ * The Biomass RS consists of many ShelfImpls, and inside them, a Plant.
+ * The ShelfImpl gathers water and light for the plant.  The plant itself breathes from the atmosphere and produces biomass.
+ * The plant matter (biomass) is fed into the food processor to create food
  * for the crew.  The plants can also (along with the AirRS) take CO2 out of the air and add O2.
  *
  * @author    Scott Bell
