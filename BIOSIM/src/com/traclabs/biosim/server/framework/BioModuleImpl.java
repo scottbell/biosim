@@ -18,6 +18,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 
 	public BioModuleImpl(){
 		myLog = new LogImpl(getModuleName());
+		myLog.getHead().addChild("tick").addChild("0");
 	}
 	/**
 	* Called at every tick of the simulation.  Does nothing if not overriden.

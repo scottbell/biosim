@@ -229,8 +229,8 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 			myLogIndex.currentCO2ConsumedIndex = currentCO2ConsumedHead.addChild((""+currentCO2Consumed));
 			LogNode currentPowerConsumedHead = myLog.getHead().addChild("Power Consumed");
 			myLogIndex.currentPowerConsumedIndex = currentPowerConsumedHead.addChild((""+currentPowerConsumed));
-			LogNode airRetrievedHead = myLog.getHead().addChild("Air Retrieved (O2-CO2-other)");
-			myLogIndex.airRetrievedIndex = airRetrievedHead.addChild(airRetrieved.O2 + " - " +airRetrieved.CO2 +" - " +airRetrieved.other);
+			LogNode airRetrievedHead = myLog.getHead().addChild("Air Retrieved (O2 # CO2 # other)");
+			myLogIndex.airRetrievedIndex = airRetrievedHead.addChild(airRetrieved.O2 + " # " +airRetrieved.CO2 +" # " +airRetrieved.other);
 			logInitialized = true;
 		}
 		else{

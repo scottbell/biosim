@@ -40,6 +40,8 @@ module biosim{
 				LogNode addChild (in string pChildName);
 				LogNodeList getChildren();
 				boolean hasChildren();
+				LogNode getChildDeep(in string pName);
+				LogNode getChildShallow(in string pName);
 			};
 		};
 

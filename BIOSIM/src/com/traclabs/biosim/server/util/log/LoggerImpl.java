@@ -57,8 +57,8 @@ public class LoggerImpl extends LoggerPOA  {
 	public void processLog(Log logToProcess){
 		collectReferences();
 		LogNode headNode = logToProcess.getHead();
-		LogNode tickLabel = headNode.addChild("tick");
-		tickLabel.addChild(""+myEnvironment.getTicks());
+		LogNode tickLabel = headNode.getChildShallow("tick");
+		(tickLabel.getChildren())[0].setValue(""+myEnvironment.getTicks());
 		myLogHandler.writeLog(logToProcess);
 	}
 }
