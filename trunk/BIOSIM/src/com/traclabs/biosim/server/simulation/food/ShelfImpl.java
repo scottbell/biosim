@@ -10,6 +10,9 @@ import java.util.*;
 public class ShelfImpl extends ShelfPOA {
 	private Vector crops;
 	private int cropCapacity = 10;
+	private float currentPowerConsumed = 0f;
+	private float currentPowerNeeded = 0f;
+	private float totalArea = 8.24f;
 	
 	public ShelfImpl(){
 		crops = new Vector();

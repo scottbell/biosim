@@ -13,7 +13,7 @@ import biosim.server.framework.*;
 
 public class PowerPSImpl extends BioModuleImpl implements PowerPSOperations {
 	//The power produced (in watts) by the Power PS at the current tick
-	private float currentPowerProduced = 350f;
+	private float currentPowerProduced = 6720f;
 	//Flag switched when the Power PS has collected references to other servers it need
 	private boolean hasCollectedReferences = false;
 	//References to the PowerStore the Power PS takes/puts power into

@@ -71,6 +71,9 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 			systemHasEnoughPower = true;
 		}
 	}
+	
+	// 16 mils / min
+	
 
 	/**
 	* Checks whether Biomass RS has enough power or not
