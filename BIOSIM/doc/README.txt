@@ -29,9 +29,9 @@ III. RUNNING BIOSIM
 	Make sure you're in the BIOSIM_HOME/bin directory if it's not in your path
 		a) Type "run-biosim" (or "/run-biosim" if . is not in your path) without the quotes.
 		b) The other method requires you to start 3 different applications (change the .sh extension to .bat on windows)
-			1) Type "run-nameserver.sh" (or "./run-nameserver" if . is not in your path) without the quotes.
-			2) Type "run-server.sh" (or "./run-server" if it is not in your path) without the quotes.
-			3) Type "run-client.sh" (or "./run-client" if it is not in your path) without the quotes.
+			1) Type "run-nameserver.sh" (or "./run-nameserver.sh" if . is not in your path) without the quotes.
+			2) Type "run-server.sh" (or "./run-server.sh" if it is not in your path) without the quotes.
+			3) Type "run-client.sh" (or "./run-client.sh" if it is not in your path) without the quotes.
 
 IV. MAKING YOUR OWN CLIENT
 	TestBiosim.java should of been included in this distribution (in the directory called docs).
