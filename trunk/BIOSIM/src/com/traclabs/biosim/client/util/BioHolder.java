@@ -112,6 +112,7 @@ public class BioHolder{
 	public List theFoodStoreLevelSensors;
 	public List theHarvestSensors;
 	public List thePlantDeathSensors;
+	public List theBiomassStoreWaterContentSensors;
 	//Framework
 	public List theStoreOverflowSensors;
 	public List theStoreLevelSensors;
@@ -172,7 +173,6 @@ public class BioHolder{
 	public List theFoodOutFlowRateActuators;
 	public List thePlantingActuators;
 	public List theHarvestingActuators;
-	public List theBiomassStoreWaterContentSensors;
 	//Power
 	public List thePowerInFlowRateActuators;
 	public List thePowerOutFlowRateActuators;
