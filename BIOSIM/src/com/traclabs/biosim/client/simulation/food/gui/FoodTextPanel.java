@@ -20,7 +20,6 @@ public class FoodTextPanel extends BioTabPanel
 	//Various GUI componenets
 	private JPanel biomassRSPanel;
 	private JLabel biomassRSStatusLabel;
-	private JLabel biomassRSPowerLabel;
 	private JPanel biomassStorePanel;
 	private JLabel biomassStoreLevelLabel;
 	private JPanel foodProcessorPanel;
@@ -63,9 +62,7 @@ public class FoodTextPanel extends BioTabPanel
 		biomassRSPanel.setLayout(new GridLayout(2,1));
 		biomassRSPanel.setBorder(BorderFactory.createTitledBorder("Biomass Recovery System"));
 		biomassRSStatusLabel =                       new JLabel("status:                           "+coallateBiomassRSStatus());
-		biomassRSPowerLabel =                      new JLabel("power consumed:         "+numFormat.format(myBiomassRS.getPowerConsumed())+" W");
 		biomassRSPanel.add(biomassRSStatusLabel);
-		biomassRSPanel.add(biomassRSPowerLabel);
 
 		biomassStorePanel = new JPanel();
 		biomassStorePanel.setLayout(new GridLayout(1,1));
@@ -129,15 +126,7 @@ public class FoodTextPanel extends BioTabPanel
 	 * @return	A String representing the status of the Biomass RS
 	 */
 	private String coallateBiomassRSStatus(){
-		StringBuffer statusBuffer = new StringBuffer();
-		if (!myBiomassRS.hasPower())
-			statusBuffer.append("needs power, ");
-		if (statusBuffer.length() < 1)
-			return "nominal";
-		else{
-			statusBuffer.delete(statusBuffer.length() -2, statusBuffer.length());
-			return statusBuffer.toString();
-		}
+		return "nominal";
 	}
 	
 	/**
@@ -163,7 +152,6 @@ public class FoodTextPanel extends BioTabPanel
 	 */
 	public void processUpdate(){
 		biomassRSStatusLabel.setText("status:                              "+coallateBiomassRSStatus());
-		biomassRSPowerLabel.setText("power consumed:             "+numFormat.format(myBiomassRS.getPowerConsumed())+" W");
 		foodProcessorFoodProducedLabel.setText("food produced:          "+numFormat.format(myFoodProcessor.getFoodProduced())+" kg");
 		foodProcessorBiomassConsumedLabel.setText("biomass consumed:  "+numFormat.format(myFoodProcessor.getBiomassConsumed())+" kg");
 		foodProcessorPowerLabel.setText("power consumed:      "+numFormat.format(myFoodProcessor.getPowerConsumed())+" W");
