@@ -60,9 +60,7 @@ public class BiosimServer extends GenericServer{
 		
 		registerServer(new SimEnvironmentPOATie(myCrewEnvironmentImpl), myCrewEnvironmentImpl.getModuleName());
 		registerServer(new SimEnvironmentPOATie(myPlantEnvironmentImpl), myPlantEnvironmentImpl.getModuleName());
-		registerServer(new AirRSPOATie(myAirRSImpl), myAirRSImpl.getModuleName());;
-		registerServer(new InjectorPOATie(myInjectorImpl), myInjectorImpl.getModuleName());
-		registerServer(new AccumulatorPOATie(myAccumulatorImpl), myAccumulatorImpl.getModuleName());
+		registerServer(new AirRSPOATie(myAirRSImpl), myAirRSImpl.getModuleName());
 		registerServer(new CO2StorePOATie(myCO2StoreImpl), myCO2StoreImpl.getModuleName());
 		registerServer(new O2StorePOATie(myO2StoreImpl), myO2StoreImpl.getModuleName());
 		registerServer(new CrewGroupPOATie(myCrewImpl), myCrewImpl.getModuleName());
@@ -78,6 +76,8 @@ public class BiosimServer extends GenericServer{
 		registerServer(new DirtyWaterStorePOATie(myDirtyWaterStoreImpl), myDirtyWaterStoreImpl.getModuleName());
 		registerServer(myLoggerImpl, myLoggerImpl.getName());
 		registerServer(myBioDriverImpl, myBioDriverImpl.getName());
+		registerServer(new InjectorPOATie(myInjectorImpl), myInjectorImpl.getModuleName());
+		registerServer(new AccumulatorPOATie(myAccumulatorImpl), myAccumulatorImpl.getModuleName());
 	}                          
 }
 

@@ -14,7 +14,7 @@ import biosim.idl.util.log.*;
  * @author    Scott Bell
  */
 
-public class InjectorImpl extends BioModuleImpl implements InjectorOperations, PowerConsumerOperations, PotableWaterConsumerOperations, GreyWaterConsumerOperations, DirtyWaterConsumerOperations, O2ConsumerOperations, CO2ConsumerOperations, AirConsumerOperations, BiomassConsumerOperations, FoodConsumerOperations, PowerProducerOperations, PotableWaterProducerOperations, GreyWaterProducerOperations, DirtyWaterProducerOperations, O2ProducerOperations, CO2ProducerOperations, AirProducerOperations, BiomassProducerOperations, FoodProducerOperations, O2AirConsumerOperations, CO2AirConsumerOperations, OtherAirConsumerOperations, O2AirProducerOperations, CO2AirProducerOperations, OtherAirProducerOperations{
+public class InjectorImpl extends BioModuleImpl implements InjectorOperations, PowerConsumerOperations, PotableWaterConsumerOperations, GreyWaterConsumerOperations, DirtyWaterConsumerOperations, O2ConsumerOperations, CO2ConsumerOperations, AirConsumerOperations, BiomassConsumerOperations, FoodConsumerOperations, PowerProducerOperations, PotableWaterProducerOperations, GreyWaterProducerOperations, DirtyWaterProducerOperations, O2ProducerOperations, CO2ProducerOperations, AirProducerOperations, BiomassProducerOperations, FoodProducerOperations, O2AirConsumerOperations, CO2AirConsumerOperations, O2AirProducerOperations, CO2AirProducerOperations{
 	private LogIndex myLogIndex;
 	private PowerStore[] myPowerInputs;
 	private PowerStore[] myPowerOutputs;
@@ -62,19 +62,14 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 	private float[] CO2InFlowRates;
 	
 	private SimEnvironment[] myCO2AirInputs;
-	private SimEnvironment[] myCO2AirOutputs;
+	private CO2Store[] myCO2AirOutputs;
 	private float[] CO2AirOutFlowRates;
 	private float[] CO2AirInFlowRates;
 	
 	private SimEnvironment[] myO2AirInputs;
-	private SimEnvironment[] myO2AirOutputs;
+	private O2Store[] myO2AirOutputs;
 	private float[] O2AirOutFlowRates;
 	private float[] O2AirInFlowRates;
-	
-	private SimEnvironment[] myOtherAirInputs;
-	private SimEnvironment[] myOtherAirOutputs;
-	private float[] otherAirOutFlowRates;
-	private float[] otherAirInFlowRates;
 
 	public InjectorImpl(int pID){
 		super(pID);
@@ -123,29 +118,25 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 		CO2OutFlowRates = new float[0];
 		CO2InFlowRates = new float[0];
 		
-		myCO2AirOutputs = new SimEnvironment[0];
+		myCO2AirOutputs = new CO2Store[0];
 		myCO2AirInputs = new SimEnvironment[0];
 		CO2AirOutFlowRates = new float[0];
 		CO2AirInFlowRates = new float[0];
 		
-		myO2AirOutputs = new SimEnvironment[0];
+		myO2AirOutputs = new O2Store[0];
 		myO2AirInputs = new SimEnvironment[0];
 		O2AirOutFlowRates = new float[0];
 		O2AirInFlowRates = new float[0];
-		
-		myOtherAirOutputs = new SimEnvironment[0];
-		myOtherAirInputs = new SimEnvironment[0];
-		otherAirOutFlowRates = new float[0];
-		otherAirInFlowRates = new float[0];
 	}
 
 
 	public void tick(){
-		getAndPushResources();
+		/*getAndPushResources();
 		if (isMalfunctioning())
 			performMalfunctions();
 		if (moduleLogging)
 			log();
+		*/
 	}
 	
 	private void getAndPushResources(){
@@ -190,34 +181,14 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 		for (int i = 0; i < myCO2AirInputs.length; i++){
 			gatheredCO2Air += myCO2AirInputs[i].takeCO2(CO2AirInFlowRates[i]);
 		}
-		float totalCO2Distributed = gatheredCO2Air;
-		for (int i = 0; (i < myCO2AirOutputs.length) && (totalCO2Distributed > 0); i++){
-			float CO2ToDistribute = Math.min(totalCO2Distributed, CO2AirOutFlowRates[i]);
-			totalCO2Distributed -= myCO2AirOutputs[i].addCO2(CO2ToDistribute);
-		}
-		float distributedCO2Air =  gatheredCO2Air - totalCO2Distributed;
+		float CO2AirPushed = pushResourceToStore(myCO2AirOutputs, CO2AirOutFlowRates, gatheredCO2Air);
 		
 		float gatheredO2Air = 0f;
 		for (int i = 0; i < myO2AirInputs.length; i++){
 			gatheredO2Air += myO2AirInputs[i].takeO2(O2AirInFlowRates[i]);
 		}
 		float totalO2Distributed = gatheredO2Air;
-		for (int i = 0; (i < myO2AirOutputs.length) && (totalO2Distributed > 0); i++){
-			float O2ToDistribute = Math.min(totalO2Distributed, O2AirOutFlowRates[i]);
-			totalO2Distributed -= myO2AirOutputs[i].addO2(O2ToDistribute);
-		}
-		float distributedO2Air =  gatheredO2Air - totalO2Distributed;
-		
-		float gatheredOtherAir = 0f;
-		for (int i = 0; i < myOtherAirInputs.length; i++){
-			gatheredOtherAir += myOtherAirInputs[i].takeOther(otherAirInFlowRates[i]);
-		}
-		float totalOtherDistributed = gatheredOtherAir;
-		for (int i = 0; (i < myOtherAirOutputs.length) && (totalOtherDistributed > 0); i++){
-			float otherToDistribute = Math.min(totalOtherDistributed, otherAirOutFlowRates[i]);
-			totalOtherDistributed -= myOtherAirOutputs[i].addOther(otherToDistribute);
-		}
-		float distributedOtherAir =  gatheredOtherAir - totalOtherDistributed;
+		float O2AirPushed = pushResourceToStore(myO2AirOutputs, O2AirOutFlowRates, gatheredO2Air);
 	}
 
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
@@ -678,12 +649,12 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 		return CO2AirOutFlowRates[index];
 	}
 
-	public void setCO2AirOutputs(SimEnvironment[] destinations, float[] flowRates){
+	public void setCO2AirOutputs(CO2Store[] destinations, float[] flowRates){
 		myCO2AirOutputs = destinations;
 		CO2AirOutFlowRates = flowRates;
 	}
 
-	public SimEnvironment[] getCO2AirOutputs(){
+	public CO2Store[] getCO2AirOutputs(){
 		return myCO2AirOutputs;
 	}
 	
@@ -720,59 +691,17 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 		return O2AirOutFlowRates[index];
 	}
 
-	public void setO2AirOutputs(SimEnvironment[] destinations, float[] flowRates){
+	public void setO2AirOutputs(O2Store[] destinations, float[] flowRates){
 		myO2AirOutputs = destinations;
 		O2AirOutFlowRates = flowRates;
 	}
 
-	public SimEnvironment[] getO2AirOutputs(){
+	public O2Store[] getO2AirOutputs(){
 		return myO2AirOutputs;
 	}
 	
 	public float[] getO2AirOutputFlowrates(){
 		return O2AirOutFlowRates;
-	}
-	
-	public void setOtherAirInputFlowrate(float amount, int index){
-		otherAirInFlowRates[index] = amount;
-	}
-
-	public float getOtherAirInputFlowrate(int index){
-		return otherAirInFlowRates[index];
-	}
-
-	public void setOtherAirInputs(SimEnvironment[] sources, float[] flowRates){
-		myOtherAirInputs = sources;
-		otherAirInFlowRates = flowRates;
-	}
-	
-	public float[] getOtherAirInputFlowrates(){
-		return otherAirInFlowRates;
-	}
-
-	public SimEnvironment[] getOtherAirInputs(){
-		return myOtherAirInputs;
-	}
-
-	public void setOtherAirOutputFlowrate(float amount, int index){
-		otherAirOutFlowRates[index] = amount;
-	}
-
-	public float getOtherAirOutputFlowrate(int index){
-		return otherAirOutFlowRates[index];
-	}
-
-	public void setOtherAirOutputs(SimEnvironment[] destinations, float[] flowRates){
-		myOtherAirOutputs = destinations;
-		otherAirOutFlowRates = flowRates;
-	}
-
-	public SimEnvironment[] getOtherAirOutputs(){
-		return myOtherAirOutputs;
-	}
-	
-	public float[] getOtherAirOutputFlowrates(){
-		return otherAirOutFlowRates;
 	}
 	
 	/**

@@ -89,6 +89,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		crewEnvironmentName = "CrewEnvironment"+myID;
 		plantEnvironmentName = "PlantEnvironment"+myID;
 		loggerName = "Logger"+myID;
+		accumulatorName = "Accumulator"+myID;
+		injectorName = "Injector"+myID;
 		checkMachineType();
 	}
 
@@ -250,10 +252,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		PowerStore myPowerStore = (PowerStore)(getBioModule(powerStoreName));
 		myPowerStore.setCapacity(10000f);
 		myPowerStore.setLevel(10000f);
-		
+
 		configureFlows();
 	}
-	
+
 	private void configureFlows(){
 		BiomassStore myBiomassStore = (BiomassStore)(getBioModule(biomassStoreName));
 		PowerStore myPowerStore = (PowerStore)(getBioModule(powerStoreName));
@@ -301,7 +303,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			myBiomassRS.setAirInputs(simEnvironmentInput, simEnvironmentInputFlowRates);
 			myBiomassRS.setAirOutputs(simEnvironmentOutput, simEnvironmentOutputFlowRates);
 		}
-		
+
 		//Hook up Air RS to other modules
 		{
 			PowerStore[] powerStoreInput = {myPowerStore};
@@ -324,7 +326,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			myAirRS.setCO2Outputs(CO2StoreOutput, CO2StoreOutputFlowRates);
 			myAirRS.setCO2Inputs(CO2StoreInput, CO2StoreInputFlowRates);
 		}
-		
+
 		//Hook up Crew to other modules
 		{
 			SimEnvironment[] airInputs = {myCrewEnvironment};
@@ -347,7 +349,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			myCrew.setDirtyWaterOutputs(dirtyWaterOutputs, dirtyWaterOutputFlowRates);
 			myCrew.setGreyWaterOutputs(greyWaterOutputs, greyWaterOutputFlowRates);
 		}
-		
+
 		//Hook up Water to other modules
 		{
 			PotableWaterStore[] potableWaterOutput = {myPotableWaterStore};
@@ -364,7 +366,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			myWaterRS.setDirtyWaterInputs(dirtyWaterInputs, dirtyWaterInputFlowRates);
 			myWaterRS.setPowerInputs(powerInput, powerInputFlowRates);
 		}
-		
+
 		//Hook up Power to other modules
 		{
 			PowerStore[] powerOutput = {myPowerStore};
@@ -374,14 +376,26 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			myPowerPS.setPowerOutputs(powerOutput, powerOuputsFlowRates);
 			myPowerPS.setLightInput(lightInput);
 		}
-		
-		//Hook up Accumulator to other modules
+
+		/*Hook up Accumulator to other modules
 		{
-			SimEnvironment[] CO2Input = {myPlantEnvironment};
-			CO2Store CO2Output = myCO2Store;
-			float[] CO2InputFlowRates = {10000f};
+			SimEnvironment[] CO2AirInput = {myPlantEnvironment};
+			CO2Store[] CO2Output = {myCO2Store};
+			float[] CO2AirInputFlowRates = {10000f};
 			float[] CO2OutputFlowRates = {10000f};
 			Accumulator myAccumulator = (Accumulator)(getBioModule(accumulatorName));
+			myAccumulator.setCO2AirInputs(CO2AirInput, CO2AirInputFlowRates);
+			myAccumulator.setCO2AirOutputs(CO2Output, CO2OutputFlowRates);
+		}
+		*/
+
+		//Hook up Injector to other modules
+		{
+			SimEnvironment[] O2AirOutput = {myCrewEnvironment};
+			O2Store O2Input = myO2Store;
+			float[] O2InputFlowRates = {10000f};
+			float[] O2AirOutputFlowRates = {10000f};
+			Injector myInjector = (Injector)(getBioModule(injectorName));
 		}
 	}
 
@@ -598,7 +612,6 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	private void collectReferences(){
 		if (hasCollectedReferences)
 			return;
-		System.out.println("BioDriverImpl:"+myID+" Getting server references...");
 		// resolve the Objects Reference in Naming
 		modules = new Hashtable();
 		System.out.println("BioDriverImpl:"+myID+" Collecting references to modules...");
