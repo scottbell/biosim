@@ -10,7 +10,7 @@ public class OtherAirConcentrationSensorImpl extends EnvironmentSensorImpl imple
 	}
 
 	protected void gatherData(){
-		float preFilteredValue = getInput().getOtherMoles();
+		float preFilteredValue = getInput().getOtherMoles() / getInput().getTotalMoles();
 		myValue = randomFilter(preFilteredValue);
 	}
 	
