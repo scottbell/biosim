@@ -179,6 +179,7 @@
 		</air>
 		<crew>
 			<CrewGroupDeathSensor name="CrewGroupDeathSensor" input="CrewGroup"/>
+			<CrewGroupProductivitySensor name="CrewGroupProductivitySensor" input="CrewGroup"/>
 		</crew>
 		<environment>
 			<AirInFlowRateSensor name="AirRSAirInFlowRateSensor" index="0" input="AirRS"/>

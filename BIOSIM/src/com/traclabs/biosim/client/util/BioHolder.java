@@ -77,6 +77,7 @@ public class BioHolder
 	public final static String myNitrogenStoreOverflowSensorName = "NitrogenStoreOverflowSensor";
 	//Crew
 	public final static String myCrewGroupDeathSensorName = "CrewGroupDeathSensor";
+	public final static String myCrewGroupProductivitySensorName = "CrewGroupProductivitySensor";
 	public final static String myCrewGroupPotableWaterInFlowRateSensorName = "CrewGroupPotableWaterInFlowRateSensor";
 	public final static String myCrewGroupGreyWaterOutFlowRateSensorName = "CrewGroupGreyWaterOutFlowRateSensor";
 	public final static String myCrewGroupDirtyWaterOutFlowRateSensorName = "CrewGroupDirtyWaterOutFlowRateSensor";
@@ -405,16 +406,19 @@ public class BioHolder
 			//Crew
 			{
 				CrewGroupDeathSensor myCrewGroupDeathSensor = CrewGroupDeathSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewGroupDeathSensorName));
+				CrewGroupProductivitySensor myCrewGroupProductivitySensor = CrewGroupProductivitySensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewGroupProductivitySensorName));
 				PotableWaterInFlowRateSensor myCrewGroupPotableWaterInFlowRateSensor = PotableWaterInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewGroupPotableWaterInFlowRateSensorName));
 				GreyWaterOutFlowRateSensor myCrewGroupGreyWaterOutFlowRateSensor = GreyWaterOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewGroupGreyWaterOutFlowRateSensorName));
 				DirtyWaterOutFlowRateSensor myCrewGroupDirtyWaterOutFlowRateSensor = DirtyWaterOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewGroupDirtyWaterOutFlowRateSensorName));
 				
 				modules.put(myCrewGroupDeathSensorName , myCrewGroupDeathSensor);
+				modules.put(myCrewGroupProductivitySensorName , myCrewGroupProductivitySensor);
 				modules.put(myCrewGroupPotableWaterInFlowRateSensorName , myCrewGroupPotableWaterInFlowRateSensor);
 				modules.put(myCrewGroupGreyWaterOutFlowRateSensorName , myCrewGroupGreyWaterOutFlowRateSensor);
 				modules.put(myCrewGroupDirtyWaterOutFlowRateSensorName , myCrewGroupDirtyWaterOutFlowRateSensor);
 				
 				sensors.put(myCrewGroupDeathSensorName , myCrewGroupDeathSensor);
+				sensors.put(myCrewGroupProductivitySensorName , myCrewGroupProductivitySensor);
 				sensors.put(myCrewGroupPotableWaterInFlowRateSensorName , myCrewGroupPotableWaterInFlowRateSensor);
 				sensors.put(myCrewGroupGreyWaterOutFlowRateSensorName , myCrewGroupGreyWaterOutFlowRateSensor);
 				sensors.put(myCrewGroupDirtyWaterOutFlowRateSensorName , myCrewGroupDirtyWaterOutFlowRateSensor);
