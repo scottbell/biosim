@@ -172,6 +172,7 @@ module biosim{
                                 boolean isPaused();
                                 boolean isStarted();
 				void startSimulation();
+				void endSimulation();
                                 void setRunTillDead(in boolean pRunTillDead);
                                 void setRunTillN(in long pTicks);
                                 void setLoopSimulation(in boolean pLoop);
