@@ -4,6 +4,7 @@ import biosim.idl.framework.*;
 import biosim.client.util.*;
 import java.io.*;
 
+import biosim.idl.sensor.food.*;
 import biosim.idl.sensor.framework.*;
 import biosim.idl.actuator.food.*;
 import biosim.idl.actuator.framework.*;
@@ -150,6 +151,10 @@ public class SimCommandLine
 		//replant 100 meters squared of rice
 		currentActuator.setPlantType(PlantType.RICE);
 		currentActuator.setValue(100);
+		
+		HarvestSensor currentSensor = HarvestSensorHelper.narrow((myBioHolder.getSensorAttachedTo(myBioHolder.theHarvestSensors, myBiomassRS)));
+		//replant 100 meters squared of rice
+		System.out.println("Value of sensor is: "+currentSensor.getValue());
 	}
 }
 

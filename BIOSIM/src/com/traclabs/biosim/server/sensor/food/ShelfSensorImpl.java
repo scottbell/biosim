@@ -7,6 +7,7 @@ import biosim.idl.simulation.food.*;
 
 public abstract class ShelfSensorImpl extends GenericSensorImpl implements ShelfSensorOperations{
 	protected Shelf myShelf;
+	private BiomassRS myBiomassRS;
 	
 	public ShelfSensorImpl(int pID, String pName){
 		super(pID, pName);
@@ -17,6 +18,7 @@ public abstract class ShelfSensorImpl extends GenericSensorImpl implements Shelf
 
 	public void setInput(BiomassRS pBiomassRS, int shelfIndex){
 		myShelf = pBiomassRS.getShelf(shelfIndex);
+		myBiomassRS = pBiomassRS;
 	}
 	
 	public Shelf getInput(){
@@ -24,6 +26,6 @@ public abstract class ShelfSensorImpl extends GenericSensorImpl implements Shelf
 	}
 	
 	public BioModule getInputModule(){
-		return myShelf.getBiomassRS();
+		return (BioModule)(myBiomassRS);
 	}
 }
