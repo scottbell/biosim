@@ -66,11 +66,11 @@ public class HandController {
 
     int potable = 0;
 
-    StateMap ContinuousState;
+    StateMap continuousState;
 
     ActionMap currentAction;
 
-    Map ClassifiedState;
+    Map classifiedState;
 
     static int Runs = 0;
 
@@ -122,7 +122,7 @@ public class HandController {
     public static String[] actuatorNames = { "OGSpotable", "waterRSdirty",
             "waterRSgrey" };
 
-    File OutFile = new File("output.txt");
+    File outFile = new File("/dev/null");
 
     FileWriter fw;
 
@@ -137,16 +137,12 @@ public class HandController {
     }
 
     public static void main(String[] args) {
-        boolean done = false;
-
         HandController myController = new HandController();
-        while (!done) {
-            myController.runSim();
-        }
-
+        myController.initializeSim();
+        myController.runTillCrewDeath();
     }
 
-    public void runSim() {
+    public void initializeSim() {
         // ticks the sim one step at a time, observes the state, updates policy
         // and predictive model in
         // response to the current state and modifies actuators in response
@@ -155,7 +151,7 @@ public class HandController {
         GenericActuator currentActuator;
 
         try {
-            fw = new FileWriter(OutFile);
+            fw = new FileWriter(outFile);
         } catch (IOException e) {
         }
         pw = new PrintWriter(fw, true);
@@ -243,38 +239,43 @@ public class HandController {
         for (i = 0; i < ATMOSPHERIC_PERIOD; i++)
             myBioDriver.advanceOneTick();
 
-        ContinuousState = new StateMap();
-        ContinuousState.updateState();
-        ClassifiedState = classifyState(ContinuousState);
-        currentAction = handController(ClassifiedState);
+        continuousState = new StateMap();
+        continuousState.updateState();
+        classifiedState = classifyState(continuousState);
+        currentAction = handController(classifiedState);
         setActuators(currentAction);
-        //int max_ticks = (int)Math.pow(Runs, 2);
-        while ((!myCrew.anyDead()) /* && myBioDriver.getTicks() < max_ticks */) {
-            if (((myBioDriver.getTicks()) % (CORE_PERIOD_MULT * ATMOSPHERIC_PERIOD)) == 0) {
-                myLogger.info(myBioDriver.getTicks() + "");
-                ContinuousState.printMe();
-                currentAction.printMe();
-                ContinuousState.updateState();
-                ClassifiedState = classifyState(ContinuousState);
-                currentAction = handController(ClassifiedState);
-                setActuators(currentAction);
-                if (plantsExist) {
-                    doFoodProcessor();
-                    if (((myBioDriver.getTicks()) % (PLANT_PERIOD_MULT
-                            * CORE_PERIOD_MULT * ATMOSPHERIC_PERIOD)) == 0) {
-                        doPlants();
-                    }
+
+    }
+
+    public void runTillCrewDeath() {
+        while (!myCrew.anyDead()) {
+            stepSim();
+        }
+        myLogger.debug("crew dead at " + myBioDriver.getTicks() + " ticks");
+        myBioDriver.endSimulation();
+    }
+
+    public void stepSim() {
+        if (((myBioDriver.getTicks()) % (CORE_PERIOD_MULT * ATMOSPHERIC_PERIOD)) == 0) {
+            myLogger.debug(myBioDriver.getTicks() + "");
+            continuousState.printMe();
+            currentAction.printMe();
+            continuousState.updateState();
+            classifiedState = classifyState(continuousState);
+            currentAction = handController(classifiedState);
+            setActuators(currentAction);
+            if (plantsExist) {
+                doFoodProcessor();
+                if (((myBioDriver.getTicks()) % (PLANT_PERIOD_MULT
+                        * CORE_PERIOD_MULT * ATMOSPHERIC_PERIOD)) == 0) {
+                    doPlants();
                 }
             }
-
-            //advancing the sim n ticks
-            for (i = 0; i < ATMOSPHERIC_PERIOD; i++)
-                myBioDriver.advanceOneTick();
-            doInjectors();
-
         }
-        myLogger.info("crew dead at " + myBioDriver.getTicks() + " ticks");
-        myBioDriver.endSimulation();
+        //advancing the sim n ticks
+        for (int i = 0; i < ATMOSPHERIC_PERIOD; i++)
+            myBioDriver.advanceOneTick();
+        doInjectors();
 
     }
 
