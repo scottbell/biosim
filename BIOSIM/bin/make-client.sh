@@ -1,7 +1,7 @@
 #!/bin/bash
 
-echo "*building biosim documentation"
-echo "	-initializing biosim documentation build...";
+echo "*building biosim client"
+echo "	-initializing biosim build...";
 userSelect="$@"
 # see if the biosim directory exists, if it doesn't, assume it's one directory back (i.e., user is in bin directory)
 devRootDir=$BIOSIM_HOME

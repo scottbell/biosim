@@ -15,8 +15,8 @@ public class LogImpl extends LogPOA  {
 	* Creates a Log with a head node
 	* @param topNode the name of the top node (like AirRS, Crew, etc)
 	*/
-	public LogImpl(String topNode){
-		headNode = new LogNodeImpl(topNode, null);
+	public LogImpl(org.omg.CORBA.Object topNodeValue){
+		headNode = new LogNodeImpl(topNodeValue, null);
 	}
 	
 	public LogNode getHead(){
