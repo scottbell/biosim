@@ -66,6 +66,14 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 		}
 		return theCrew;
 	}
+	
+	public void scheduleFix(String moduleName, long malfunctionID, int timeLength){
+		int randomCrewIndex = myRandom.nextInt(crewPeople.size());
+		CrewPerson randomCrewPerson = (CrewPerson)((crewPeople.values().toArray())[randomCrewIndex]);
+		ActivityImpl newActivityImpl = new RepairActivityImpl(moduleName, malfunctionID, timeLength);
+		Activity newActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(newActivityImpl));
+		randomCrewPerson.insertActivityInScheduleNow(newActivity);
+	}
 
 	/**
 	* Returns a crew person given their name

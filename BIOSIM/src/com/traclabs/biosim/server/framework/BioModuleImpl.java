@@ -60,6 +60,13 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		Malfunction[] arrayMalfunctions = new Malfunction[myMalfunctions.size()];
 		return (Malfunction[])(myMalfunctions.values().toArray(arrayMalfunctions));
 	}
+	
+	public void repair(long malfunctionID){
+		Malfunction currentMalfunction = (Malfunction)(myMalfunctions.get(new Long(malfunctionID)));
+		currentMalfunction.repair();
+		if (currentMalfunction.isRepaired())
+			fixMalfunction(currentMalfunction.getID());
+	}
 
 	/**
 	 * Override this to get custom malfunction names.
