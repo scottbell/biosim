@@ -1,6 +1,9 @@
 package biosim.client.util;
 
 import java.util.*;
+import biosim.idl.framework.*;
+import biosim.idl.sensor.framework.*;
+import biosim.idl.actuator.framework.*;
 
 /**
  * Holds references to the servers
@@ -8,651 +11,670 @@ import java.util.*;
  * @author Scott Bell
  */
 public class BioHolder{
+	public BioDriver theBioDriver;
 	//Upper Categories
-	public List myModules;
-	public List mySimModules;
-	public List mySensors;
-	public List myActuators;
+	public List theModules;
+	public List theSimModules;
+	public List theSensors;
+	public List theActuators;
 
 	//Specific Modules
 	//Simulation
 	//Air
-	public List myAirRSModules;
-	public List myO2Stores;
-	public List myCO2Stores;
-	public List myH2Stores;
-	public List myNitrogenStores;
+	public List theAirRSModules;
+	public List theO2Stores;
+	public List theCO2Stores;
+	public List theH2Stores;
+	public List theNitrogenStores;
 	//Crew
-	public List myCrewGroups;
+	public List theCrewGroups;
 	//Environment
-	public List mySimEnvironments;
+	public List theSimEnvironments;
 	//Food
-	public List myFoodProcessors;
-	public List myBiomassRSModules;
-	public List myBiomassStores;
-	public List myFoodStores;
+	public List theFoodProcessors;
+	public List theBiomassRSModules;
+	public List theBiomassStores;
+	public List theFoodStores;
 	//Framework
-	public List myAccumulators;
-	public List myInjectors;
+	public List theAccumulators;
+	public List theInjectors;
 	//Power
-	public List myPowerPSModules;
-	public List myPowerStores;
+	public List thePowerPSModules;
+	public List thePowerStores;
 	//Waste
-	public List myIncinerators;
-	public List myDryWasteStores;
+	public List theIncinerators;
+	public List theDryWasteStores;
 	//Water
-	public List myWaterRSModules;
-	public List myPotableWaterStores;
-	public List myGreyWaterStores;
-	public List myDirtyWaterStores;
+	public List theWaterRSModules;
+	public List thePotableWaterStores;
+	public List theGreyWaterStores;
+	public List theDirtyWaterStores;
 	//Sensors
 	//Air
-	public List myCO2InFlowRateSensors;
-	public List myCO2OutFlowRateSensors;
-	public List myCO2StoreLevelSensors;
-	public List myO2InFlowRateSensors;
-	public List myO2OutFlowRateSensors;
-	public List myO2StoreLevelSensors;
-	public List myH2InFlowRateSensors;
-	public List myH2OutFlowRateSensors;
-	public List myH2StoreLevelSensors;
-	public List myNitrogenInFlowRateSensors;
-	public List myNitrogenOutFlowRateSensors;
-	public List myNitrogenStoreLevelSensors;
+	public List theCO2InFlowRateSensors;
+	public List theCO2OutFlowRateSensors;
+	public List theCO2StoreLevelSensors;
+	public List theO2InFlowRateSensors;
+	public List theO2OutFlowRateSensors;
+	public List theO2StoreLevelSensors;
+	public List theH2InFlowRateSensors;
+	public List theH2OutFlowRateSensors;
+	public List theH2StoreLevelSensors;
+	public List theNitrogenInFlowRateSensors;
+	public List theNitrogenOutFlowRateSensors;
+	public List theNitrogenStoreLevelSensors;
 	//Crew
-	public List myCrewGroupDeathSensors;
-	public List myCrewGroupProductivitySensors;
-	public List myCrewGroupAnyDeadSensors;
+	public List theCrewGroupDeathSensors;
+	public List theCrewGroupProductivitySensors;
+	public List theCrewGroupAnyDeadSensors;
 	//Environment
-	public List myAirInFlowRateSensors;
-	public List myAirOutFlowRateSensors;
-	public List myCO2AirConcentrationSensors;
-	public List myCO2AirPressureSensors;
-	public List myCO2AirEnvironmentInFlowRateSensors;
-	public List myCO2AirEnvironmentOutFlowRateSensors;
-	public List myCO2AirStoreInFlowRateSensors;
-	public List myCO2AirStoreOutFlowRateSensors;
-	public List myO2AirConcentrationSensors;
-	public List myO2AirPressureSensors;
-	public List myO2AirEnvironmentInFlowRateSensors;
-	public List myO2AirEnvironmentOutFlowRateSensors;
-	public List myO2AirStoreInFlowRateSensors;
-	public List myO2AirStoreOutFlowRateSensors;
-	public List myNitrogenAirConcentrationSensors;
-	public List myNitrogenAirPressureSensors;
-	public List myNitrogenAirEnvironmentInFlowRateSensors;
-	public List myNitrogenAirEnvironmentOutFlowRateSensors;
-	public List myNitrogenAirStoreInFlowRateSensors;
-	public List myNitrogenAirStoreOutFlowRateSensors;
-	public List myWaterAirConcentrationSensors;
-	public List myWaterAirPressureSensors;
-	public List myWaterAirEnvironmentInFlowRateSensors;
-	public List myWaterAirEnvironmentOutFlowRateSensors;
-	public List myWaterAirStoreInFlowRateSensors;
-	public List myWaterAirStoreOutFlowRateSensors;
-	public List myOtherAirConcentrationSensors;
-	public List myOtherAirPressureSensors;
+	public List theAirInFlowRateSensors;
+	public List theAirOutFlowRateSensors;
+	public List theCO2AirConcentrationSensors;
+	public List theCO2AirPressureSensors;
+	public List theCO2AirEnvironmentInFlowRateSensors;
+	public List theCO2AirEnvironmentOutFlowRateSensors;
+	public List theCO2AirStoreInFlowRateSensors;
+	public List theCO2AirStoreOutFlowRateSensors;
+	public List theO2AirConcentrationSensors;
+	public List theO2AirPressureSensors;
+	public List theO2AirEnvironmentInFlowRateSensors;
+	public List theO2AirEnvironmentOutFlowRateSensors;
+	public List theO2AirStoreInFlowRateSensors;
+	public List theO2AirStoreOutFlowRateSensors;
+	public List theNitrogenAirConcentrationSensors;
+	public List theNitrogenAirPressureSensors;
+	public List theNitrogenAirEnvironmentInFlowRateSensors;
+	public List theNitrogenAirEnvironmentOutFlowRateSensors;
+	public List theNitrogenAirStoreInFlowRateSensors;
+	public List theNitrogenAirStoreOutFlowRateSensors;
+	public List theWaterAirConcentrationSensors;
+	public List theWaterAirPressureSensors;
+	public List theWaterAirEnvironmentInFlowRateSensors;
+	public List theWaterAirEnvironmentOutFlowRateSensors;
+	public List theWaterAirStoreInFlowRateSensors;
+	public List theWaterAirStoreOutFlowRateSensors;
+	public List theOtherAirConcentrationSensors;
+	public List theOtherAirPressureSensors;
 	//Food
-	public List myBiomassInFlowRateSensors;
-	public List myBiomassOutFlowRateSensors;
-	public List myBiomassStoreLevelSensors;
-	public List myFoodInFlowRateSensors;
-	public List myFoodOutFlowRateSensors;
-	public List myFoodStoreLevelSensors;
-	public List myHarvestSensors;
+	public List theBiomassInFlowRateSensors;
+	public List theBiomassOutFlowRateSensors;
+	public List theBiomassStoreLevelSensors;
+	public List theFoodInFlowRateSensors;
+	public List theFoodOutFlowRateSensors;
+	public List theFoodStoreLevelSensors;
+	public List theHarvestSensors;
 	//Framework
-	public List myStoreOverflowSensors;
-	public List myStoreLevelSensors;
+	public List theStoreOverflowSensors;
+	public List theStoreLevelSensors;
 	//Power
-	public List myPowerInFlowRateSensors;
-	public List myPowerOutFlowRateSensors;
-	public List myPowerStoreLevelSensors;
+	public List thePowerInFlowRateSensors;
+	public List thePowerOutFlowRateSensors;
+	public List thePowerStoreLevelSensors;
 	//Waste
-	public List myDryWasteInFlowRateSensors;
-	public List myDryWasteOutFlowRateSensors;
-	public List myDryWasteStoreLevelSensors;
+	public List theDryWasteInFlowRateSensors;
+	public List theDryWasteOutFlowRateSensors;
+	public List theDryWasteStoreLevelSensors;
 	//Water
-	public List myPotableWaterInFlowRateSensors;
-	public List myPotableWaterOutFlowRateSensors;
-	public List myPotableWaterStoreLevelSensors;
-	public List myGreyWaterInFlowRateSensors;
-	public List myGreyWaterOutFlowRateSensors;
-	public List myGreyWaterStoreLevelSensors;
-	public List myDirtyWaterInFlowRateSensors;
-	public List myDirtyWaterOutFlowRateSensors;
-	public List myDirtyWaterStoreLevelSensors;
+	public List thePotableWaterInFlowRateSensors;
+	public List thePotableWaterOutFlowRateSensors;
+	public List thePotableWaterStoreLevelSensors;
+	public List theGreyWaterInFlowRateSensors;
+	public List theGreyWaterOutFlowRateSensors;
+	public List theGreyWaterStoreLevelSensors;
+	public List theDirtyWaterInFlowRateSensors;
+	public List theDirtyWaterOutFlowRateSensors;
+	public List theDirtyWaterStoreLevelSensors;
 	//Actuators
 	//Air
-	public List myCO2InFlowRateActuators;
-	public List myCO2OutFlowRateActuators;
-	public List myO2InFlowRateActuators;
-	public List myO2OutFlowRateActuators;
-	public List myH2InFlowRateActuators;
-	public List myH2OutFlowRateActuators;
-	public List myNitrogenInFlowRateActuators;
-	public List myNitrogenOutFlowRateActuators;
+	public List theCO2InFlowRateActuators;
+	public List theCO2OutFlowRateActuators;
+	public List theO2InFlowRateActuators;
+	public List theO2OutFlowRateActuators;
+	public List theH2InFlowRateActuators;
+	public List theH2OutFlowRateActuators;
+	public List theNitrogenInFlowRateActuators;
+	public List theNitrogenOutFlowRateActuators;
 	//Environment
-	public List myAirInFlowRateActuators;
-	public List myAirOutFlowRateActuators;
-	public List myCO2AirEnvironmentInFlowRateActuators;
-	public List myCO2AirEnvironmentOutFlowRateActuators;
-	public List myCO2AirStoreInFlowRateActuators;
-	public List myCO2AirStoreOutFlowRateActuators;
-	public List myO2AirEnvironmentInFlowRateActuators;
-	public List myO2AirEnvironmentOutFlowRateActuators;
-	public List myO2AirStoreInFlowRateActuators;
-	public List myO2AirStoreOutFlowRateActuators;
-	public List myNitrogenAirEnvironmentInFlowRateActuators;
-	public List myNitrogenAirEnvironmentOutFlowRateActuators;
-	public List myNitrogenAirStoreInFlowRateActuators;
-	public List myNitrogenAirStoreOutFlowRateActuators;
-	public List myWaterAirEnvironmentInFlowRateActuators;
-	public List myWaterAirEnvironmentOutFlowRateActuators;
-	public List myWaterAirStoreInFlowRateActuators;
-	public List myWaterAirStoreOutFlowRateActuators;
+	public List theAirInFlowRateActuators;
+	public List theAirOutFlowRateActuators;
+	public List theCO2AirEnvironmentInFlowRateActuators;
+	public List theCO2AirEnvironmentOutFlowRateActuators;
+	public List theCO2AirStoreInFlowRateActuators;
+	public List theCO2AirStoreOutFlowRateActuators;
+	public List theO2AirEnvironmentInFlowRateActuators;
+	public List theO2AirEnvironmentOutFlowRateActuators;
+	public List theO2AirStoreInFlowRateActuators;
+	public List theO2AirStoreOutFlowRateActuators;
+	public List theNitrogenAirEnvironmentInFlowRateActuators;
+	public List theNitrogenAirEnvironmentOutFlowRateActuators;
+	public List theNitrogenAirStoreInFlowRateActuators;
+	public List theNitrogenAirStoreOutFlowRateActuators;
+	public List theWaterAirEnvironmentInFlowRateActuators;
+	public List theWaterAirEnvironmentOutFlowRateActuators;
+	public List theWaterAirStoreInFlowRateActuators;
+	public List theWaterAirStoreOutFlowRateActuators;
 	//Food
-	public List myBiomassInFlowRateActuators;
-	public List myBiomassOutFlowRateActuators;
-	public List myFoodInFlowRateActuators;
-	public List myFoodOutFlowRateActuators;
+	public List theBiomassInFlowRateActuators;
+	public List theBiomassOutFlowRateActuators;
+	public List theFoodInFlowRateActuators;
+	public List theFoodOutFlowRateActuators;
 	//Power
-	public List myPowerInFlowRateActuators;
-	public List myPowerOutFlowRateActuators;
+	public List thePowerInFlowRateActuators;
+	public List thePowerOutFlowRateActuators;
 	//Waste
-	public List myDryWasteInFlowRateActuators;
-	public List myDryWasteOutFlowRateActuators;
+	public List theDryWasteInFlowRateActuators;
+	public List theDryWasteOutFlowRateActuators;
 	//Water
-	public List myPotableWaterInFlowRateActuators;
-	public List myPotableWaterOutFlowRateActuators;
-	public List myGreyWaterInFlowRateActuators;
-	public List myGreyWaterOutFlowRateActuators;
-	public List myDirtyWaterInFlowRateActuators;
-	public List myDirtyWaterOutFlowRateActuators;
+	public List thePotableWaterInFlowRateActuators;
+	public List thePotableWaterOutFlowRateActuators;
+	public List theGreyWaterInFlowRateActuators;
+	public List theGreyWaterOutFlowRateActuators;
+	public List theDirtyWaterInFlowRateActuators;
+	public List theDirtyWaterOutFlowRateActuators;
 
 	protected BioHolder(){
 		//Upper Categories
-		myModules = new Vector();
-		mySimModules = new Vector();
-		mySensors = new Vector();
-		myActuators = new Vector();
+		theModules = new Vector();
+		theSimModules = new Vector();
+		theSensors = new Vector();
+		theActuators = new Vector();
 
 		//Specific Modules
 		//Simulation
 		//Air
-		myAirRSModules = new Vector();
-		myO2Stores = new Vector();
-		myCO2Stores = new Vector();
-		myNitrogenStores = new Vector();
-		myH2Stores = new Vector();
+		theAirRSModules = new Vector();
+		theO2Stores = new Vector();
+		theCO2Stores = new Vector();
+		theNitrogenStores = new Vector();
+		theH2Stores = new Vector();
 		//Crew
-		myCrewGroups = new Vector();
+		theCrewGroups = new Vector();
 		//Environment
-		mySimEnvironments = new Vector();
+		theSimEnvironments = new Vector();
 		//Food
-		myFoodProcessors = new Vector();
-		myBiomassRSModules = new Vector();
-		myBiomassStores = new Vector();
-		myFoodStores = new Vector();
+		theFoodProcessors = new Vector();
+		theBiomassRSModules = new Vector();
+		theBiomassStores = new Vector();
+		theFoodStores = new Vector();
 		//Framework
-		myAccumulators = new Vector();
-		myInjectors = new Vector();
+		theAccumulators = new Vector();
+		theInjectors = new Vector();
 		//Power
-		myPowerPSModules = new Vector();
-		myPowerStores = new Vector();
+		thePowerPSModules = new Vector();
+		thePowerStores = new Vector();
 		//Waste
-		myIncinerators = new Vector();
-		myDryWasteStores = new Vector();
+		theIncinerators = new Vector();
+		theDryWasteStores = new Vector();
 		//Water
-		myWaterRSModules = new Vector();
-		myPotableWaterStores = new Vector();
-		myGreyWaterStores = new Vector();
-		myDirtyWaterStores = new Vector();
+		theWaterRSModules = new Vector();
+		thePotableWaterStores = new Vector();
+		theGreyWaterStores = new Vector();
+		theDirtyWaterStores = new Vector();
 		//Sensors
 		//Air
-		myCO2InFlowRateSensors = new Vector();
-		myCO2OutFlowRateSensors = new Vector();
-		myCO2StoreLevelSensors = new Vector();
-		myO2InFlowRateSensors = new Vector();
-		myO2OutFlowRateSensors = new Vector();
-		myO2StoreLevelSensors = new Vector();
-		myH2InFlowRateSensors = new Vector();
-		myH2OutFlowRateSensors = new Vector();
-		myH2StoreLevelSensors = new Vector();
-		myNitrogenInFlowRateSensors = new Vector();
-		myNitrogenOutFlowRateSensors = new Vector();
-		myNitrogenStoreLevelSensors = new Vector();
+		theCO2InFlowRateSensors = new Vector();
+		theCO2OutFlowRateSensors = new Vector();
+		theCO2StoreLevelSensors = new Vector();
+		theO2InFlowRateSensors = new Vector();
+		theO2OutFlowRateSensors = new Vector();
+		theO2StoreLevelSensors = new Vector();
+		theH2InFlowRateSensors = new Vector();
+		theH2OutFlowRateSensors = new Vector();
+		theH2StoreLevelSensors = new Vector();
+		theNitrogenInFlowRateSensors = new Vector();
+		theNitrogenOutFlowRateSensors = new Vector();
+		theNitrogenStoreLevelSensors = new Vector();
 		//Crew
-		myCrewGroupDeathSensors = new Vector();
-		myCrewGroupProductivitySensors = new Vector();
-		myCrewGroupAnyDeadSensors = new Vector();
+		theCrewGroupDeathSensors = new Vector();
+		theCrewGroupProductivitySensors = new Vector();
+		theCrewGroupAnyDeadSensors = new Vector();
 		//Environment
-		myAirInFlowRateSensors = new Vector();
-		myAirOutFlowRateSensors = new Vector();
-		myCO2AirConcentrationSensors = new Vector();
-		myCO2AirPressureSensors = new Vector();
-		myCO2AirEnvironmentInFlowRateSensors = new Vector();
-		myCO2AirEnvironmentOutFlowRateSensors = new Vector();
-		myCO2AirStoreInFlowRateSensors = new Vector();
-		myCO2AirStoreOutFlowRateSensors = new Vector();
-		myO2AirConcentrationSensors = new Vector();
-		myO2AirPressureSensors = new Vector();
-		myO2AirEnvironmentInFlowRateSensors = new Vector();
-		myO2AirEnvironmentOutFlowRateSensors = new Vector();
-		myO2AirStoreInFlowRateSensors = new Vector();
-		myO2AirStoreOutFlowRateSensors = new Vector();
-		myNitrogenAirConcentrationSensors = new Vector();
-		myNitrogenAirPressureSensors = new Vector();
-		myNitrogenAirEnvironmentInFlowRateSensors = new Vector();
-		myNitrogenAirEnvironmentOutFlowRateSensors = new Vector();
-		myNitrogenAirStoreInFlowRateSensors = new Vector();
-		myNitrogenAirStoreOutFlowRateSensors = new Vector();
-		myWaterAirConcentrationSensors = new Vector();
-		myWaterAirPressureSensors = new Vector();
-		myWaterAirEnvironmentInFlowRateSensors = new Vector();
-		myWaterAirEnvironmentOutFlowRateSensors = new Vector();
-		myWaterAirStoreInFlowRateSensors = new Vector();
-		myWaterAirStoreOutFlowRateSensors = new Vector();
-		myOtherAirConcentrationSensors = new Vector();
-		myOtherAirPressureSensors = new Vector();
+		theAirInFlowRateSensors = new Vector();
+		theAirOutFlowRateSensors = new Vector();
+		theCO2AirConcentrationSensors = new Vector();
+		theCO2AirPressureSensors = new Vector();
+		theCO2AirEnvironmentInFlowRateSensors = new Vector();
+		theCO2AirEnvironmentOutFlowRateSensors = new Vector();
+		theCO2AirStoreInFlowRateSensors = new Vector();
+		theCO2AirStoreOutFlowRateSensors = new Vector();
+		theO2AirConcentrationSensors = new Vector();
+		theO2AirPressureSensors = new Vector();
+		theO2AirEnvironmentInFlowRateSensors = new Vector();
+		theO2AirEnvironmentOutFlowRateSensors = new Vector();
+		theO2AirStoreInFlowRateSensors = new Vector();
+		theO2AirStoreOutFlowRateSensors = new Vector();
+		theNitrogenAirConcentrationSensors = new Vector();
+		theNitrogenAirPressureSensors = new Vector();
+		theNitrogenAirEnvironmentInFlowRateSensors = new Vector();
+		theNitrogenAirEnvironmentOutFlowRateSensors = new Vector();
+		theNitrogenAirStoreInFlowRateSensors = new Vector();
+		theNitrogenAirStoreOutFlowRateSensors = new Vector();
+		theWaterAirConcentrationSensors = new Vector();
+		theWaterAirPressureSensors = new Vector();
+		theWaterAirEnvironmentInFlowRateSensors = new Vector();
+		theWaterAirEnvironmentOutFlowRateSensors = new Vector();
+		theWaterAirStoreInFlowRateSensors = new Vector();
+		theWaterAirStoreOutFlowRateSensors = new Vector();
+		theOtherAirConcentrationSensors = new Vector();
+		theOtherAirPressureSensors = new Vector();
 		//Food
-		myBiomassInFlowRateSensors = new Vector();
-		myBiomassOutFlowRateSensors = new Vector();
-		myBiomassStoreLevelSensors = new Vector();
-		myFoodInFlowRateSensors = new Vector();
-		myFoodOutFlowRateSensors = new Vector();
-		myFoodStoreLevelSensors = new Vector();
-		myHarvestSensors = new Vector();
+		theBiomassInFlowRateSensors = new Vector();
+		theBiomassOutFlowRateSensors = new Vector();
+		theBiomassStoreLevelSensors = new Vector();
+		theFoodInFlowRateSensors = new Vector();
+		theFoodOutFlowRateSensors = new Vector();
+		theFoodStoreLevelSensors = new Vector();
+		theHarvestSensors = new Vector();
 		//Framework
-		myStoreOverflowSensors = new Vector();
-		myStoreLevelSensors = new Vector();
+		theStoreOverflowSensors = new Vector();
+		theStoreLevelSensors = new Vector();
 		//Power
-		myPowerInFlowRateSensors = new Vector();
-		myPowerOutFlowRateSensors = new Vector();
-		myPowerStoreLevelSensors = new Vector();
+		thePowerInFlowRateSensors = new Vector();
+		thePowerOutFlowRateSensors = new Vector();
+		thePowerStoreLevelSensors = new Vector();
 		//Waste
-		myDryWasteInFlowRateSensors = new Vector();
-		myDryWasteOutFlowRateSensors = new Vector();
-		myDryWasteStoreLevelSensors = new Vector();
+		theDryWasteInFlowRateSensors = new Vector();
+		theDryWasteOutFlowRateSensors = new Vector();
+		theDryWasteStoreLevelSensors = new Vector();
 		//Water
-		myPotableWaterInFlowRateSensors = new Vector();
-		myPotableWaterOutFlowRateSensors = new Vector();
-		myPotableWaterStoreLevelSensors = new Vector();
-		myGreyWaterInFlowRateSensors = new Vector();
-		myGreyWaterOutFlowRateSensors = new Vector();
-		myGreyWaterStoreLevelSensors = new Vector();
-		myDirtyWaterInFlowRateSensors = new Vector();
-		myDirtyWaterOutFlowRateSensors = new Vector();
-		myDirtyWaterStoreLevelSensors = new Vector();
+		thePotableWaterInFlowRateSensors = new Vector();
+		thePotableWaterOutFlowRateSensors = new Vector();
+		thePotableWaterStoreLevelSensors = new Vector();
+		theGreyWaterInFlowRateSensors = new Vector();
+		theGreyWaterOutFlowRateSensors = new Vector();
+		theGreyWaterStoreLevelSensors = new Vector();
+		theDirtyWaterInFlowRateSensors = new Vector();
+		theDirtyWaterOutFlowRateSensors = new Vector();
+		theDirtyWaterStoreLevelSensors = new Vector();
 		//Actuators
 		//Air
-		myCO2InFlowRateActuators = new Vector();
-		myCO2OutFlowRateActuators = new Vector();
-		myO2InFlowRateActuators = new Vector();
-		myO2OutFlowRateActuators = new Vector();
-		myH2InFlowRateActuators = new Vector();
-		myH2OutFlowRateActuators = new Vector();
-		myNitrogenInFlowRateActuators = new Vector();
-		myNitrogenOutFlowRateActuators = new Vector();
+		theCO2InFlowRateActuators = new Vector();
+		theCO2OutFlowRateActuators = new Vector();
+		theO2InFlowRateActuators = new Vector();
+		theO2OutFlowRateActuators = new Vector();
+		theH2InFlowRateActuators = new Vector();
+		theH2OutFlowRateActuators = new Vector();
+		theNitrogenInFlowRateActuators = new Vector();
+		theNitrogenOutFlowRateActuators = new Vector();
 		//Environment
-		myAirInFlowRateActuators = new Vector();
-		myAirOutFlowRateActuators = new Vector();
-		myCO2AirEnvironmentInFlowRateActuators = new Vector();
-		myCO2AirEnvironmentOutFlowRateActuators = new Vector();
-		myCO2AirStoreInFlowRateActuators = new Vector();
-		myCO2AirStoreOutFlowRateActuators = new Vector();
-		myO2AirEnvironmentInFlowRateActuators = new Vector();
-		myO2AirEnvironmentOutFlowRateActuators = new Vector();
-		myO2AirStoreInFlowRateActuators = new Vector();
-		myO2AirStoreOutFlowRateActuators = new Vector();
-		myNitrogenAirEnvironmentInFlowRateActuators = new Vector();
-		myNitrogenAirEnvironmentOutFlowRateActuators = new Vector();
-		myNitrogenAirStoreInFlowRateActuators = new Vector();
-		myNitrogenAirStoreOutFlowRateActuators = new Vector();
-		myWaterAirEnvironmentInFlowRateActuators = new Vector();
-		myWaterAirEnvironmentOutFlowRateActuators = new Vector();
-		myWaterAirStoreInFlowRateActuators = new Vector();
-		myWaterAirStoreOutFlowRateActuators = new Vector();
+		theAirInFlowRateActuators = new Vector();
+		theAirOutFlowRateActuators = new Vector();
+		theCO2AirEnvironmentInFlowRateActuators = new Vector();
+		theCO2AirEnvironmentOutFlowRateActuators = new Vector();
+		theCO2AirStoreInFlowRateActuators = new Vector();
+		theCO2AirStoreOutFlowRateActuators = new Vector();
+		theO2AirEnvironmentInFlowRateActuators = new Vector();
+		theO2AirEnvironmentOutFlowRateActuators = new Vector();
+		theO2AirStoreInFlowRateActuators = new Vector();
+		theO2AirStoreOutFlowRateActuators = new Vector();
+		theNitrogenAirEnvironmentInFlowRateActuators = new Vector();
+		theNitrogenAirEnvironmentOutFlowRateActuators = new Vector();
+		theNitrogenAirStoreInFlowRateActuators = new Vector();
+		theNitrogenAirStoreOutFlowRateActuators = new Vector();
+		theWaterAirEnvironmentInFlowRateActuators = new Vector();
+		theWaterAirEnvironmentOutFlowRateActuators = new Vector();
+		theWaterAirStoreInFlowRateActuators = new Vector();
+		theWaterAirStoreOutFlowRateActuators = new Vector();
 		//Food
-		myBiomassInFlowRateActuators = new Vector();
-		myBiomassOutFlowRateActuators = new Vector();
-		myFoodInFlowRateActuators = new Vector();
-		myFoodOutFlowRateActuators = new Vector();
+		theBiomassInFlowRateActuators = new Vector();
+		theBiomassOutFlowRateActuators = new Vector();
+		theFoodInFlowRateActuators = new Vector();
+		theFoodOutFlowRateActuators = new Vector();
 		//Power
-		myPowerInFlowRateActuators = new Vector();
-		myPowerOutFlowRateActuators = new Vector();
+		thePowerInFlowRateActuators = new Vector();
+		thePowerOutFlowRateActuators = new Vector();
 		//Waste
-		myDryWasteInFlowRateActuators = new Vector();
-		myDryWasteOutFlowRateActuators = new Vector();
+		theDryWasteInFlowRateActuators = new Vector();
+		theDryWasteOutFlowRateActuators = new Vector();
 		//Water
-		myPotableWaterInFlowRateActuators = new Vector();
-		myPotableWaterOutFlowRateActuators = new Vector();
-		myGreyWaterInFlowRateActuators = new Vector();
-		myGreyWaterOutFlowRateActuators = new Vector();
-		myDirtyWaterInFlowRateActuators = new Vector();
-		myDirtyWaterOutFlowRateActuators = new Vector();
+		thePotableWaterInFlowRateActuators = new Vector();
+		thePotableWaterOutFlowRateActuators = new Vector();
+		theGreyWaterInFlowRateActuators = new Vector();
+		theGreyWaterOutFlowRateActuators = new Vector();
+		theDirtyWaterInFlowRateActuators = new Vector();
+		theDirtyWaterOutFlowRateActuators = new Vector();
+	}
+	
+	public GenericSensor getSensorAttachedTo(List sensorList, BioModule moduleWatched){
+		for (Iterator iter = sensorList.iterator(); iter.hasNext();){
+			GenericSensor currentSensor = (GenericSensor)(iter.next());
+			if (currentSensor.getInputModule().getClass() == moduleWatched.getClass())
+				return currentSensor;
+		}
+		return null;
+	}
+	
+	public GenericActuator getActuatorAttachedTo(List sensorList, BioModule moduleWatched){
+		for (Iterator iter = sensorList.iterator(); iter.hasNext();){
+			GenericActuator currentActuator = (GenericActuator)(iter.next());
+			if (currentActuator.getOutputModule().getClass() == moduleWatched.getClass())
+				return currentActuator;
+		}
+		return null;
 	}
 
 	protected void coallateLists(){
 		//Specific Modules
 		//Simulation
 		//Air
-		mySimModules.addAll(myAirRSModules);
-		mySimModules.addAll(myO2Stores);
-		mySimModules.addAll(myCO2Stores);
-		mySimModules.addAll(myNitrogenStores);
-		mySimModules.addAll(myH2Stores);
+		theSimModules.addAll(theAirRSModules);
+		theSimModules.addAll(theO2Stores);
+		theSimModules.addAll(theCO2Stores);
+		theSimModules.addAll(theNitrogenStores);
+		theSimModules.addAll(theH2Stores);
 		//Crew
-		mySimModules.addAll(myCrewGroups);
+		theSimModules.addAll(theCrewGroups);
 		//Environment
-		mySimModules.addAll(mySimEnvironments);
+		theSimModules.addAll(theSimEnvironments);
 		//Food
-		mySimModules.addAll(myFoodProcessors);
-		mySimModules.addAll(myBiomassRSModules);
-		mySimModules.addAll(myBiomassStores);
-		mySimModules.addAll(myFoodStores);
+		theSimModules.addAll(theFoodProcessors);
+		theSimModules.addAll(theBiomassRSModules);
+		theSimModules.addAll(theBiomassStores);
+		theSimModules.addAll(theFoodStores);
 		//Framework
-		mySimModules.addAll(myAccumulators);
-		mySimModules.addAll(myInjectors);
+		theSimModules.addAll(theAccumulators);
+		theSimModules.addAll(theInjectors);
 		//Power
-		mySimModules.addAll(myPowerPSModules);
-		mySimModules.addAll(myPowerStores);
+		theSimModules.addAll(thePowerPSModules);
+		theSimModules.addAll(thePowerStores);
 		//Waste
-		mySimModules.addAll(myIncinerators);
-		mySimModules.addAll(myDryWasteStores);
+		theSimModules.addAll(theIncinerators);
+		theSimModules.addAll(theDryWasteStores);
 		//Water
-		mySimModules.addAll(myWaterRSModules);
-		mySimModules.addAll(myPotableWaterStores);
-		mySimModules.addAll(myGreyWaterStores);
-		mySimModules.addAll(myDirtyWaterStores);
+		theSimModules.addAll(theWaterRSModules);
+		theSimModules.addAll(thePotableWaterStores);
+		theSimModules.addAll(theGreyWaterStores);
+		theSimModules.addAll(theDirtyWaterStores);
 		//Sensors
 		//Air
-		mySensors.addAll(myCO2InFlowRateSensors);
-		mySensors.addAll(myCO2OutFlowRateSensors);
-		mySensors.addAll(myCO2StoreLevelSensors);
-		mySensors.addAll(myO2InFlowRateSensors);
-		mySensors.addAll(myO2OutFlowRateSensors);
-		mySensors.addAll(myO2StoreLevelSensors);
-		mySensors.addAll(myH2InFlowRateSensors);
-		mySensors.addAll(myH2OutFlowRateSensors);
-		mySensors.addAll(myH2StoreLevelSensors);
-		mySensors.addAll(myNitrogenInFlowRateSensors);
-		mySensors.addAll(myNitrogenOutFlowRateSensors);
-		mySensors.addAll(myNitrogenStoreLevelSensors);
+		theSensors.addAll(theCO2InFlowRateSensors);
+		theSensors.addAll(theCO2OutFlowRateSensors);
+		theSensors.addAll(theCO2StoreLevelSensors);
+		theSensors.addAll(theO2InFlowRateSensors);
+		theSensors.addAll(theO2OutFlowRateSensors);
+		theSensors.addAll(theO2StoreLevelSensors);
+		theSensors.addAll(theH2InFlowRateSensors);
+		theSensors.addAll(theH2OutFlowRateSensors);
+		theSensors.addAll(theH2StoreLevelSensors);
+		theSensors.addAll(theNitrogenInFlowRateSensors);
+		theSensors.addAll(theNitrogenOutFlowRateSensors);
+		theSensors.addAll(theNitrogenStoreLevelSensors);
 		//Crew
-		mySensors.addAll(myCrewGroupDeathSensors);
-		mySensors.addAll(myCrewGroupProductivitySensors);
-		mySensors.addAll(myCrewGroupAnyDeadSensors);
+		theSensors.addAll(theCrewGroupDeathSensors);
+		theSensors.addAll(theCrewGroupProductivitySensors);
+		theSensors.addAll(theCrewGroupAnyDeadSensors);
 		//Environment
-		mySensors.addAll(myAirInFlowRateSensors);
-		mySensors.addAll(myAirOutFlowRateSensors);
-		mySensors.addAll(myCO2AirConcentrationSensors);
-		mySensors.addAll(myCO2AirPressureSensors);
-		mySensors.addAll(myCO2AirEnvironmentInFlowRateSensors);
-		mySensors.addAll(myCO2AirEnvironmentOutFlowRateSensors);
-		mySensors.addAll(myCO2AirStoreInFlowRateSensors);
-		mySensors.addAll(myCO2AirStoreOutFlowRateSensors);
-		mySensors.addAll(myO2AirConcentrationSensors);
-		mySensors.addAll(myO2AirPressureSensors);
-		mySensors.addAll(myO2AirEnvironmentInFlowRateSensors);
-		mySensors.addAll(myO2AirEnvironmentOutFlowRateSensors);
-		mySensors.addAll(myO2AirStoreInFlowRateSensors);
-		mySensors.addAll(myO2AirStoreOutFlowRateSensors);
-		mySensors.addAll(myNitrogenAirConcentrationSensors);
-		mySensors.addAll(myNitrogenAirPressureSensors);
-		mySensors.addAll(myNitrogenAirEnvironmentInFlowRateSensors);
-		mySensors.addAll(myNitrogenAirEnvironmentOutFlowRateSensors);
-		mySensors.addAll(myNitrogenAirStoreInFlowRateSensors);
-		mySensors.addAll(myNitrogenAirStoreOutFlowRateSensors);
-		mySensors.addAll(myWaterAirConcentrationSensors);
-		mySensors.addAll(myWaterAirPressureSensors);
-		mySensors.addAll(myWaterAirEnvironmentInFlowRateSensors);
-		mySensors.addAll(myWaterAirEnvironmentOutFlowRateSensors);
-		mySensors.addAll(myWaterAirStoreInFlowRateSensors);
-		mySensors.addAll(myWaterAirStoreOutFlowRateSensors);
-		mySensors.addAll(myOtherAirConcentrationSensors);
-		mySensors.addAll(myOtherAirPressureSensors);
+		theSensors.addAll(theAirInFlowRateSensors);
+		theSensors.addAll(theAirOutFlowRateSensors);
+		theSensors.addAll(theCO2AirConcentrationSensors);
+		theSensors.addAll(theCO2AirPressureSensors);
+		theSensors.addAll(theCO2AirEnvironmentInFlowRateSensors);
+		theSensors.addAll(theCO2AirEnvironmentOutFlowRateSensors);
+		theSensors.addAll(theCO2AirStoreInFlowRateSensors);
+		theSensors.addAll(theCO2AirStoreOutFlowRateSensors);
+		theSensors.addAll(theO2AirConcentrationSensors);
+		theSensors.addAll(theO2AirPressureSensors);
+		theSensors.addAll(theO2AirEnvironmentInFlowRateSensors);
+		theSensors.addAll(theO2AirEnvironmentOutFlowRateSensors);
+		theSensors.addAll(theO2AirStoreInFlowRateSensors);
+		theSensors.addAll(theO2AirStoreOutFlowRateSensors);
+		theSensors.addAll(theNitrogenAirConcentrationSensors);
+		theSensors.addAll(theNitrogenAirPressureSensors);
+		theSensors.addAll(theNitrogenAirEnvironmentInFlowRateSensors);
+		theSensors.addAll(theNitrogenAirEnvironmentOutFlowRateSensors);
+		theSensors.addAll(theNitrogenAirStoreInFlowRateSensors);
+		theSensors.addAll(theNitrogenAirStoreOutFlowRateSensors);
+		theSensors.addAll(theWaterAirConcentrationSensors);
+		theSensors.addAll(theWaterAirPressureSensors);
+		theSensors.addAll(theWaterAirEnvironmentInFlowRateSensors);
+		theSensors.addAll(theWaterAirEnvironmentOutFlowRateSensors);
+		theSensors.addAll(theWaterAirStoreInFlowRateSensors);
+		theSensors.addAll(theWaterAirStoreOutFlowRateSensors);
+		theSensors.addAll(theOtherAirConcentrationSensors);
+		theSensors.addAll(theOtherAirPressureSensors);
 		//Food
-		mySensors.addAll(myBiomassInFlowRateSensors);
-		mySensors.addAll(myBiomassOutFlowRateSensors);
-		mySensors.addAll(myBiomassStoreLevelSensors);
-		mySensors.addAll(myFoodInFlowRateSensors);
-		mySensors.addAll(myFoodOutFlowRateSensors);
-		mySensors.addAll(myFoodStoreLevelSensors);
-		mySensors.addAll(myHarvestSensors);
+		theSensors.addAll(theBiomassInFlowRateSensors);
+		theSensors.addAll(theBiomassOutFlowRateSensors);
+		theSensors.addAll(theBiomassStoreLevelSensors);
+		theSensors.addAll(theFoodInFlowRateSensors);
+		theSensors.addAll(theFoodOutFlowRateSensors);
+		theSensors.addAll(theFoodStoreLevelSensors);
+		theSensors.addAll(theHarvestSensors);
 		//Framework
-		mySensors.addAll(myStoreOverflowSensors);
-		mySensors.addAll(myStoreLevelSensors);
+		theSensors.addAll(theStoreOverflowSensors);
+		theSensors.addAll(theStoreLevelSensors);
 		//Power
-		mySensors.addAll(myPowerInFlowRateSensors);
-		mySensors.addAll(myPowerOutFlowRateSensors);
-		mySensors.addAll(myPowerStoreLevelSensors);
+		theSensors.addAll(thePowerInFlowRateSensors);
+		theSensors.addAll(thePowerOutFlowRateSensors);
+		theSensors.addAll(thePowerStoreLevelSensors);
 		//Waste
-		mySensors.addAll(myDryWasteInFlowRateSensors);
-		mySensors.addAll(myDryWasteOutFlowRateSensors);
-		mySensors.addAll(myDryWasteStoreLevelSensors);
+		theSensors.addAll(theDryWasteInFlowRateSensors);
+		theSensors.addAll(theDryWasteOutFlowRateSensors);
+		theSensors.addAll(theDryWasteStoreLevelSensors);
 		//Water
-		mySensors.addAll(myPotableWaterInFlowRateSensors);
-		mySensors.addAll(myPotableWaterOutFlowRateSensors);
-		mySensors.addAll(myPotableWaterStoreLevelSensors);
-		mySensors.addAll(myGreyWaterInFlowRateSensors);
-		mySensors.addAll(myGreyWaterOutFlowRateSensors);
-		mySensors.addAll(myGreyWaterStoreLevelSensors);
-		mySensors.addAll(myDirtyWaterInFlowRateSensors);
-		mySensors.addAll(myDirtyWaterOutFlowRateSensors);
-		mySensors.addAll(myDirtyWaterStoreLevelSensors);
+		theSensors.addAll(thePotableWaterInFlowRateSensors);
+		theSensors.addAll(thePotableWaterOutFlowRateSensors);
+		theSensors.addAll(thePotableWaterStoreLevelSensors);
+		theSensors.addAll(theGreyWaterInFlowRateSensors);
+		theSensors.addAll(theGreyWaterOutFlowRateSensors);
+		theSensors.addAll(theGreyWaterStoreLevelSensors);
+		theSensors.addAll(theDirtyWaterInFlowRateSensors);
+		theSensors.addAll(theDirtyWaterOutFlowRateSensors);
+		theSensors.addAll(theDirtyWaterStoreLevelSensors);
 		//Actuators
 		//Air
-		myActuators.addAll(myCO2InFlowRateActuators);
-		myActuators.addAll(myCO2OutFlowRateActuators);
-		myActuators.addAll(myO2InFlowRateActuators);
-		myActuators.addAll(myO2OutFlowRateActuators);
-		myActuators.addAll(myH2InFlowRateActuators);
-		myActuators.addAll(myH2OutFlowRateActuators);
-		myActuators.addAll(myNitrogenInFlowRateActuators);
-		myActuators.addAll(myNitrogenOutFlowRateActuators);
+		theActuators.addAll(theCO2InFlowRateActuators);
+		theActuators.addAll(theCO2OutFlowRateActuators);
+		theActuators.addAll(theO2InFlowRateActuators);
+		theActuators.addAll(theO2OutFlowRateActuators);
+		theActuators.addAll(theH2InFlowRateActuators);
+		theActuators.addAll(theH2OutFlowRateActuators);
+		theActuators.addAll(theNitrogenInFlowRateActuators);
+		theActuators.addAll(theNitrogenOutFlowRateActuators);
 		//Environment
-		myActuators.addAll(myAirInFlowRateActuators);
-		myActuators.addAll(myAirOutFlowRateActuators);
-		myActuators.addAll(myCO2AirEnvironmentInFlowRateActuators);
-		myActuators.addAll(myCO2AirEnvironmentOutFlowRateActuators);
-		myActuators.addAll(myCO2AirStoreInFlowRateActuators);
-		myActuators.addAll(myCO2AirStoreOutFlowRateActuators);
-		myActuators.addAll(myO2AirEnvironmentInFlowRateActuators);
-		myActuators.addAll(myO2AirEnvironmentOutFlowRateActuators);
-		myActuators.addAll(myO2AirStoreInFlowRateActuators);
-		myActuators.addAll(myO2AirStoreOutFlowRateActuators);
-		myActuators.addAll(myNitrogenAirEnvironmentInFlowRateActuators);
-		myActuators.addAll(myNitrogenAirEnvironmentOutFlowRateActuators);
-		myActuators.addAll(myNitrogenAirStoreInFlowRateActuators);
-		myActuators.addAll(myNitrogenAirStoreOutFlowRateActuators);
-		myActuators.addAll(myWaterAirEnvironmentInFlowRateActuators);
-		myActuators.addAll(myWaterAirEnvironmentOutFlowRateActuators);
-		myActuators.addAll(myWaterAirStoreInFlowRateActuators);
-		myActuators.addAll(myWaterAirStoreOutFlowRateActuators);
+		theActuators.addAll(theAirInFlowRateActuators);
+		theActuators.addAll(theAirOutFlowRateActuators);
+		theActuators.addAll(theCO2AirEnvironmentInFlowRateActuators);
+		theActuators.addAll(theCO2AirEnvironmentOutFlowRateActuators);
+		theActuators.addAll(theCO2AirStoreInFlowRateActuators);
+		theActuators.addAll(theCO2AirStoreOutFlowRateActuators);
+		theActuators.addAll(theO2AirEnvironmentInFlowRateActuators);
+		theActuators.addAll(theO2AirEnvironmentOutFlowRateActuators);
+		theActuators.addAll(theO2AirStoreInFlowRateActuators);
+		theActuators.addAll(theO2AirStoreOutFlowRateActuators);
+		theActuators.addAll(theNitrogenAirEnvironmentInFlowRateActuators);
+		theActuators.addAll(theNitrogenAirEnvironmentOutFlowRateActuators);
+		theActuators.addAll(theNitrogenAirStoreInFlowRateActuators);
+		theActuators.addAll(theNitrogenAirStoreOutFlowRateActuators);
+		theActuators.addAll(theWaterAirEnvironmentInFlowRateActuators);
+		theActuators.addAll(theWaterAirEnvironmentOutFlowRateActuators);
+		theActuators.addAll(theWaterAirStoreInFlowRateActuators);
+		theActuators.addAll(theWaterAirStoreOutFlowRateActuators);
 		//Food
-		myActuators.addAll(myBiomassInFlowRateActuators);
-		myActuators.addAll(myBiomassOutFlowRateActuators);
-		myActuators.addAll(myFoodInFlowRateActuators);
-		myActuators.addAll(myFoodOutFlowRateActuators);
+		theActuators.addAll(theBiomassInFlowRateActuators);
+		theActuators.addAll(theBiomassOutFlowRateActuators);
+		theActuators.addAll(theFoodInFlowRateActuators);
+		theActuators.addAll(theFoodOutFlowRateActuators);
 		//Power
-		myActuators.addAll(myPowerInFlowRateActuators);
-		myActuators.addAll(myPowerOutFlowRateActuators);
+		theActuators.addAll(thePowerInFlowRateActuators);
+		theActuators.addAll(thePowerOutFlowRateActuators);
 		//Waste
-		myActuators.addAll(myDryWasteInFlowRateActuators);
-		myActuators.addAll(myDryWasteOutFlowRateActuators);
+		theActuators.addAll(theDryWasteInFlowRateActuators);
+		theActuators.addAll(theDryWasteOutFlowRateActuators);
 		//Water
-		myActuators.addAll(myPotableWaterInFlowRateActuators);
-		myActuators.addAll(myPotableWaterOutFlowRateActuators);
-		myActuators.addAll(myGreyWaterInFlowRateActuators);
-		myActuators.addAll(myGreyWaterOutFlowRateActuators);
-		myActuators.addAll(myDirtyWaterInFlowRateActuators);
-		myActuators.addAll(myDirtyWaterOutFlowRateActuators);
+		theActuators.addAll(thePotableWaterInFlowRateActuators);
+		theActuators.addAll(thePotableWaterOutFlowRateActuators);
+		theActuators.addAll(theGreyWaterInFlowRateActuators);
+		theActuators.addAll(theGreyWaterOutFlowRateActuators);
+		theActuators.addAll(theDirtyWaterInFlowRateActuators);
+		theActuators.addAll(theDirtyWaterOutFlowRateActuators);
 
-		myModules.addAll(mySimModules);
-		myModules.addAll(mySensors);
-		myModules.addAll(myActuators);
+		theModules.addAll(theSimModules);
+		theModules.addAll(theSensors);
+		theModules.addAll(theActuators);
 	}
 
 	protected void reset(){
 		//Upper Categories
-		myModules.clear();
-		mySimModules.clear();
-		mySensors.clear();
-		myActuators.clear();
+		theModules.clear();
+		theSimModules.clear();
+		theSensors.clear();
+		theActuators.clear();
 
 		//Specific Modules
 		//Simulation
 		//Air
-		myAirRSModules.clear();
-		myO2Stores.clear();
-		myCO2Stores.clear();
-		myNitrogenStores.clear();
-		myH2Stores.clear();
+		theAirRSModules.clear();
+		theO2Stores.clear();
+		theCO2Stores.clear();
+		theNitrogenStores.clear();
+		theH2Stores.clear();
 		//Crew
-		myCrewGroups.clear();
+		theCrewGroups.clear();
 		//Environment
-		mySimEnvironments.clear();
+		theSimEnvironments.clear();
 		//Food
-		myFoodProcessors.clear();
-		myBiomassRSModules.clear();
-		myBiomassStores.clear();
-		myFoodStores.clear();
+		theFoodProcessors.clear();
+		theBiomassRSModules.clear();
+		theBiomassStores.clear();
+		theFoodStores.clear();
 		//Framework
-		myAccumulators.clear();
-		myInjectors.clear();
+		theAccumulators.clear();
+		theInjectors.clear();
 		//Power
-		myPowerPSModules.clear();
-		myPowerStores.clear();
+		thePowerPSModules.clear();
+		thePowerStores.clear();
 		//Waste
-		myIncinerators.clear();
-		myDryWasteStores.clear();
+		theIncinerators.clear();
+		theDryWasteStores.clear();
 		//Water
-		myWaterRSModules.clear();
-		myPotableWaterStores.clear();
-		myGreyWaterStores.clear();
-		myDirtyWaterStores.clear();
+		theWaterRSModules.clear();
+		thePotableWaterStores.clear();
+		theGreyWaterStores.clear();
+		theDirtyWaterStores.clear();
 		//Sensors
 		//Air
-		myCO2InFlowRateSensors.clear();
-		myCO2OutFlowRateSensors.clear();
-		myCO2StoreLevelSensors.clear();
-		myO2InFlowRateSensors.clear();
-		myO2OutFlowRateSensors.clear();
-		myO2StoreLevelSensors.clear();
-		myH2InFlowRateSensors.clear();
-		myH2OutFlowRateSensors.clear();
-		myH2StoreLevelSensors.clear();
-		myNitrogenInFlowRateSensors.clear();
-		myNitrogenOutFlowRateSensors.clear();
-		myNitrogenStoreLevelSensors.clear();
+		theCO2InFlowRateSensors.clear();
+		theCO2OutFlowRateSensors.clear();
+		theCO2StoreLevelSensors.clear();
+		theO2InFlowRateSensors.clear();
+		theO2OutFlowRateSensors.clear();
+		theO2StoreLevelSensors.clear();
+		theH2InFlowRateSensors.clear();
+		theH2OutFlowRateSensors.clear();
+		theH2StoreLevelSensors.clear();
+		theNitrogenInFlowRateSensors.clear();
+		theNitrogenOutFlowRateSensors.clear();
+		theNitrogenStoreLevelSensors.clear();
 		//Crew
-		myCrewGroupDeathSensors.clear();
-		myCrewGroupProductivitySensors.clear();
-		myCrewGroupAnyDeadSensors.clear();
+		theCrewGroupDeathSensors.clear();
+		theCrewGroupProductivitySensors.clear();
+		theCrewGroupAnyDeadSensors.clear();
 		//Environment
-		myAirInFlowRateSensors.clear();
-		myAirOutFlowRateSensors.clear();
-		myCO2AirConcentrationSensors.clear();
-		myCO2AirPressureSensors.clear();
-		myCO2AirEnvironmentInFlowRateSensors.clear();
-		myCO2AirEnvironmentOutFlowRateSensors.clear();
-		myCO2AirStoreInFlowRateSensors.clear();
-		myCO2AirStoreOutFlowRateSensors.clear();
-		myO2AirConcentrationSensors.clear();
-		myO2AirPressureSensors.clear();
-		myO2AirEnvironmentInFlowRateSensors.clear();
-		myO2AirEnvironmentOutFlowRateSensors.clear();
-		myO2AirStoreInFlowRateSensors.clear();
-		myO2AirStoreOutFlowRateSensors.clear();
-		myNitrogenAirConcentrationSensors.clear();
-		myNitrogenAirPressureSensors.clear();
-		myNitrogenAirEnvironmentInFlowRateSensors.clear();
-		myNitrogenAirEnvironmentOutFlowRateSensors.clear();
-		myNitrogenAirStoreInFlowRateSensors.clear();
-		myNitrogenAirStoreOutFlowRateSensors.clear();
-		myWaterAirConcentrationSensors.clear();
-		myWaterAirPressureSensors.clear();
-		myWaterAirEnvironmentInFlowRateSensors.clear();
-		myWaterAirEnvironmentOutFlowRateSensors.clear();
-		myWaterAirStoreInFlowRateSensors.clear();
-		myWaterAirStoreOutFlowRateSensors.clear();
-		myOtherAirConcentrationSensors.clear();
-		myOtherAirPressureSensors.clear();
+		theAirInFlowRateSensors.clear();
+		theAirOutFlowRateSensors.clear();
+		theCO2AirConcentrationSensors.clear();
+		theCO2AirPressureSensors.clear();
+		theCO2AirEnvironmentInFlowRateSensors.clear();
+		theCO2AirEnvironmentOutFlowRateSensors.clear();
+		theCO2AirStoreInFlowRateSensors.clear();
+		theCO2AirStoreOutFlowRateSensors.clear();
+		theO2AirConcentrationSensors.clear();
+		theO2AirPressureSensors.clear();
+		theO2AirEnvironmentInFlowRateSensors.clear();
+		theO2AirEnvironmentOutFlowRateSensors.clear();
+		theO2AirStoreInFlowRateSensors.clear();
+		theO2AirStoreOutFlowRateSensors.clear();
+		theNitrogenAirConcentrationSensors.clear();
+		theNitrogenAirPressureSensors.clear();
+		theNitrogenAirEnvironmentInFlowRateSensors.clear();
+		theNitrogenAirEnvironmentOutFlowRateSensors.clear();
+		theNitrogenAirStoreInFlowRateSensors.clear();
+		theNitrogenAirStoreOutFlowRateSensors.clear();
+		theWaterAirConcentrationSensors.clear();
+		theWaterAirPressureSensors.clear();
+		theWaterAirEnvironmentInFlowRateSensors.clear();
+		theWaterAirEnvironmentOutFlowRateSensors.clear();
+		theWaterAirStoreInFlowRateSensors.clear();
+		theWaterAirStoreOutFlowRateSensors.clear();
+		theOtherAirConcentrationSensors.clear();
+		theOtherAirPressureSensors.clear();
 		//Food
-		myBiomassInFlowRateSensors.clear();
-		myBiomassOutFlowRateSensors.clear();
-		myBiomassStoreLevelSensors.clear();
-		myFoodInFlowRateSensors.clear();
-		myFoodOutFlowRateSensors.clear();
-		myFoodStoreLevelSensors.clear();
-		myHarvestSensors.clear();
+		theBiomassInFlowRateSensors.clear();
+		theBiomassOutFlowRateSensors.clear();
+		theBiomassStoreLevelSensors.clear();
+		theFoodInFlowRateSensors.clear();
+		theFoodOutFlowRateSensors.clear();
+		theFoodStoreLevelSensors.clear();
+		theHarvestSensors.clear();
 		//Framework
-		myStoreOverflowSensors.clear();
-		myStoreLevelSensors.clear();
+		theStoreOverflowSensors.clear();
+		theStoreLevelSensors.clear();
 		//Power
-		myPowerInFlowRateSensors.clear();
-		myPowerOutFlowRateSensors.clear();
-		myPowerStoreLevelSensors.clear();
+		thePowerInFlowRateSensors.clear();
+		thePowerOutFlowRateSensors.clear();
+		thePowerStoreLevelSensors.clear();
 		//Waste
-		myDryWasteInFlowRateSensors.clear();
-		myDryWasteOutFlowRateSensors.clear();
-		myDryWasteStoreLevelSensors.clear();
+		theDryWasteInFlowRateSensors.clear();
+		theDryWasteOutFlowRateSensors.clear();
+		theDryWasteStoreLevelSensors.clear();
 		//Water
-		myPotableWaterInFlowRateSensors.clear();
-		myPotableWaterOutFlowRateSensors.clear();
-		myPotableWaterStoreLevelSensors.clear();
-		myGreyWaterInFlowRateSensors.clear();
-		myGreyWaterOutFlowRateSensors.clear();
-		myGreyWaterStoreLevelSensors.clear();
-		myDirtyWaterInFlowRateSensors.clear();
-		myDirtyWaterOutFlowRateSensors.clear();
-		myDirtyWaterStoreLevelSensors.clear();
+		thePotableWaterInFlowRateSensors.clear();
+		thePotableWaterOutFlowRateSensors.clear();
+		thePotableWaterStoreLevelSensors.clear();
+		theGreyWaterInFlowRateSensors.clear();
+		theGreyWaterOutFlowRateSensors.clear();
+		theGreyWaterStoreLevelSensors.clear();
+		theDirtyWaterInFlowRateSensors.clear();
+		theDirtyWaterOutFlowRateSensors.clear();
+		theDirtyWaterStoreLevelSensors.clear();
 		//Actuators
 		//Air
-		myCO2InFlowRateActuators.clear();
-		myCO2OutFlowRateActuators.clear();
-		myO2InFlowRateActuators.clear();
-		myO2OutFlowRateActuators.clear();
-		myH2InFlowRateActuators.clear();
-		myH2OutFlowRateActuators.clear();
-		myNitrogenInFlowRateActuators.clear();
-		myNitrogenOutFlowRateActuators.clear();
+		theCO2InFlowRateActuators.clear();
+		theCO2OutFlowRateActuators.clear();
+		theO2InFlowRateActuators.clear();
+		theO2OutFlowRateActuators.clear();
+		theH2InFlowRateActuators.clear();
+		theH2OutFlowRateActuators.clear();
+		theNitrogenInFlowRateActuators.clear();
+		theNitrogenOutFlowRateActuators.clear();
 		//Environment
-		myAirInFlowRateActuators.clear();
-		myAirOutFlowRateActuators.clear();
-		myCO2AirEnvironmentInFlowRateActuators.clear();
-		myCO2AirEnvironmentOutFlowRateActuators.clear();
-		myCO2AirStoreInFlowRateActuators.clear();
-		myCO2AirStoreOutFlowRateActuators.clear();
-		myO2AirEnvironmentInFlowRateActuators.clear();
-		myO2AirEnvironmentOutFlowRateActuators.clear();
-		myO2AirStoreInFlowRateActuators.clear();
-		myO2AirStoreOutFlowRateActuators.clear();
-		myNitrogenAirEnvironmentInFlowRateActuators.clear();
-		myNitrogenAirEnvironmentOutFlowRateActuators.clear();
-		myNitrogenAirStoreInFlowRateActuators.clear();
-		myNitrogenAirStoreOutFlowRateActuators.clear();
-		myWaterAirEnvironmentInFlowRateActuators.clear();
-		myWaterAirEnvironmentOutFlowRateActuators.clear();
-		myWaterAirStoreInFlowRateActuators.clear();
-		myWaterAirStoreOutFlowRateActuators.clear();
+		theAirInFlowRateActuators.clear();
+		theAirOutFlowRateActuators.clear();
+		theCO2AirEnvironmentInFlowRateActuators.clear();
+		theCO2AirEnvironmentOutFlowRateActuators.clear();
+		theCO2AirStoreInFlowRateActuators.clear();
+		theCO2AirStoreOutFlowRateActuators.clear();
+		theO2AirEnvironmentInFlowRateActuators.clear();
+		theO2AirEnvironmentOutFlowRateActuators.clear();
+		theO2AirStoreInFlowRateActuators.clear();
+		theO2AirStoreOutFlowRateActuators.clear();
+		theNitrogenAirEnvironmentInFlowRateActuators.clear();
+		theNitrogenAirEnvironmentOutFlowRateActuators.clear();
+		theNitrogenAirStoreInFlowRateActuators.clear();
+		theNitrogenAirStoreOutFlowRateActuators.clear();
+		theWaterAirEnvironmentInFlowRateActuators.clear();
+		theWaterAirEnvironmentOutFlowRateActuators.clear();
+		theWaterAirStoreInFlowRateActuators.clear();
+		theWaterAirStoreOutFlowRateActuators.clear();
 		//Food
-		myBiomassInFlowRateActuators.clear();
-		myBiomassOutFlowRateActuators.clear();
-		myFoodInFlowRateActuators.clear();
-		myFoodOutFlowRateActuators.clear();
+		theBiomassInFlowRateActuators.clear();
+		theBiomassOutFlowRateActuators.clear();
+		theFoodInFlowRateActuators.clear();
+		theFoodOutFlowRateActuators.clear();
 		//Power
-		myPowerInFlowRateActuators.clear();
-		myPowerOutFlowRateActuators.clear();
+		thePowerInFlowRateActuators.clear();
+		thePowerOutFlowRateActuators.clear();
 		//Waste
-		myDryWasteInFlowRateActuators.clear();
-		myDryWasteOutFlowRateActuators.clear();
+		theDryWasteInFlowRateActuators.clear();
+		theDryWasteOutFlowRateActuators.clear();
 		//Water
-		myPotableWaterInFlowRateActuators.clear();
-		myPotableWaterOutFlowRateActuators.clear();
-		myGreyWaterInFlowRateActuators.clear();
-		myGreyWaterOutFlowRateActuators.clear();
-		myDirtyWaterInFlowRateActuators.clear();
-		myDirtyWaterOutFlowRateActuators.clear();
+		thePotableWaterInFlowRateActuators.clear();
+		thePotableWaterOutFlowRateActuators.clear();
+		theGreyWaterInFlowRateActuators.clear();
+		theGreyWaterOutFlowRateActuators.clear();
+		theDirtyWaterInFlowRateActuators.clear();
+		theDirtyWaterOutFlowRateActuators.clear();
 	}
 }

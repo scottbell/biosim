@@ -60,7 +60,8 @@ plotClasspath="$devRootDir/lib/jfreechart/jcommon.jar$separator$devRootDir/lib/j
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME$separator$JACORB_HOME/idl.jar"
 xmlClasspath="$devRootDir/lib/xerces/xercesImpl.jar$separator$devRootDir/lib/xerces/xml-apis.jar$separator$devRootDir/lib/xerces/xmlParserAPIs.jar"
 docSourcepath="$sourceDir$separator$stubDir$separator$skeletonDir"
-docClasspath="$clientClassesDir$separator$serverClassesDir$separator$jacoClasspath$separator$plotClasspath$separator$xmlClasspath"
+#docClasspath="$clientClassesDir$separator$serverClassesDir$separator$jacoClasspath$separator$plotClasspath$separator$xmlClasspath"
+docClasspath="$serverClassesDir$separator$jacoClasspath$separator$plotClasspath$separator$xmlClasspath"
 ####################
 #DOC BUILD  #
 ####################
