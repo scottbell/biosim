@@ -44,18 +44,13 @@ import org.tigris.gef.base.CmdUngroup;
 import org.tigris.gef.base.CmdUseReshape;
 import org.tigris.gef.base.CmdUseResize;
 import org.tigris.gef.base.CmdUseRotate;
-import org.tigris.gef.base.Editor;
 import org.tigris.gef.base.Globals;
 import org.tigris.gef.base.ModeSelect;
 import org.tigris.gef.demo.SamplePalette;
 import org.tigris.gef.event.ModeChangeEvent;
 import org.tigris.gef.event.ModeChangeListener;
-import org.tigris.gef.graph.GraphEdgeRenderer;
-import org.tigris.gef.graph.GraphModel;
-import org.tigris.gef.graph.GraphNodeRenderer;
 import org.tigris.gef.graph.presentation.JGraph;
 import org.tigris.gef.ui.IStatusBar;
-import org.tigris.gef.ui.PaletteFig;
 import org.tigris.gef.ui.ToolBar;
 import org.tigris.gef.util.Localizer;
 import org.tigris.gef.util.ResourceLoader;
@@ -69,51 +64,26 @@ public class BiosimEditor extends JFrame implements IStatusBar, Cloneable,
         ModeChangeListener {
 
     /** The toolbar (shown at top of window). */
-    protected ToolBar _toolbar = new PaletteFig();
+    protected ToolBar myToolbar;
 
     /** The graph pane (shown in middle of window). */
-    protected JGraph _graph;
+    protected JGraph myGraph;
 
     /** A statusbar (shown at bottom ow window). */
-    protected JLabel _statusbar = new JLabel(" ");
+    protected JLabel myStatusbar = new JLabel(" ");
 
-    protected JPanel _mainPanel = new JPanel(new BorderLayout());
+    protected JPanel myMainPanel = new JPanel(new BorderLayout());
 
-    protected JPanel _graphPanel = new JPanel(new BorderLayout());
+    protected JPanel myGraphPanel = new JPanel(new BorderLayout());
 
-    protected JMenuBar _menubar = new JMenuBar();
+    protected JMenuBar myMenubar = new JMenuBar();
 
     /**
      * Contruct a new JGraphFrame with the given title and a new
      * DefaultGraphModel.
      */
     public BiosimEditor(String title) {
-        this(title, new JGraph());
-    }
-
-    public BiosimEditor(String title, Editor ed) {
-        this(title, new JGraph(ed));
-    }
-
-    /**
-     * Contruct a new JGraphFrame with the given title and given JGraph. All
-     * JGraphFrame contructors call this one.
-     */
-    public BiosimEditor(String title, JGraph jg) {
-        super(title);
-        init(jg);
-    }
-
-    public static void main(String args[]) {
-        BiosimEditor editor = new BiosimEditor("BioSim Editor");
-        editor.setVisible(true);
-    }
-
-    public void init() {
-        init(new JGraph());
-    }
-
-    public void init(JGraph jg) {
+        myGraph = new JGraph();
         Localizer.addResource("GefBase",
                 "org.tigris.gef.base.BaseResourceBundle");
         Localizer.addResource("GefPres",
@@ -131,101 +101,34 @@ public class BiosimEditor extends JFrame implements IStatusBar, Cloneable,
                 System.exit(0);
             }
         });
-        _graph = jg;
+        myToolbar = new SamplePalette();
         Container content = getContentPane();
         setUpMenus();
         content.setLayout(new BorderLayout());
-        content.add(_menubar, BorderLayout.NORTH);
-        _graphPanel.add(_graph, BorderLayout.CENTER);
-        _graphPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+        content.add(myMenubar, BorderLayout.NORTH);
+        myGraphPanel.add(myGraph, BorderLayout.CENTER);
+        myGraphPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
 
-        _mainPanel.add(_toolbar, BorderLayout.NORTH);
-        _mainPanel.add(_graphPanel, BorderLayout.CENTER);
-        content.add(_mainPanel, BorderLayout.CENTER);
-        content.add(_statusbar, BorderLayout.SOUTH);
+        myMainPanel.add(myToolbar, BorderLayout.NORTH);
+        myMainPanel.add(myGraphPanel, BorderLayout.CENTER);
+        content.add(myMainPanel, BorderLayout.CENTER);
+        content.add(myStatusbar, BorderLayout.SOUTH);
         setSize(300, 250);
-        _graph.addModeChangeListener(this);
-        setToolBar(new SamplePalette());
+        myGraph.addModeChangeListener(this);
 
         setBounds(10, 10, 300, 200);
         setVisible(true);
     }
 
-    /**
-     * Contruct a new JGraphFrame with the title "untitled" and the given
-     * GraphModel.
-     */
-    public BiosimEditor(GraphModel gm) {
-        this("untitled");
-        setGraphModel(gm);
+    public static void main(String args[]) {
+        BiosimEditor editor = new BiosimEditor("BioSim Editor");
     }
-
-    ////////////////////////////////////////////////////////////////
-    // Cloneable implementation
-
-    public Object clone() {
-        return null; //needs-more-work
-    }
-
-    ////////////////////////////////////////////////////////////////
-    // accessors
-
-    public JGraph getGraph() {
-        return _graph;
-    }
-
-    public GraphEdgeRenderer getGraphEdgeRenderer() {
-        return _graph.getEditor().getGraphEdgeRenderer();
-    }
-
-    public GraphModel getGraphModel() {
-        return _graph.getGraphModel();
-    }
-
-    public GraphNodeRenderer getGraphNodeRenderer() {
-        return _graph.getEditor().getGraphNodeRenderer();
-    }
-
-    public JMenuBar getJMenuBar() {
-        return _menubar;
-    }
-
-    public ToolBar getToolBar() {
-        return _toolbar;
-    }
-
-    ////////////////////////////////////////////////////////////////
+    
     // ModeChangeListener implementation
     public void modeChange(ModeChangeEvent mce) {
         //System.out.println("TabDiagram got mode change event");
         if (!Globals.getSticky() && Globals.mode() instanceof ModeSelect)
-            _toolbar.unpressAllButtons();
-    }
-
-    public void setGraph(JGraph g) {
-        _graph = g;
-    }
-
-    public void setGraphEdgeRenderer(GraphEdgeRenderer rend) {
-        _graph.getEditor().setGraphEdgeRenderer(rend);
-    }
-
-    public void setGraphModel(GraphModel gm) {
-        _graph.setGraphModel(gm);
-    }
-
-    public void setGraphNodeRenderer(GraphNodeRenderer rend) {
-        _graph.getEditor().setGraphNodeRenderer(rend);
-    }
-
-    public void setJMenuBar(JMenuBar mb) {
-        _menubar = mb;
-        getContentPane().add(_menubar, BorderLayout.NORTH);
-    }
-
-    public void setToolBar(ToolBar tb) {
-        _toolbar = tb;
-        _mainPanel.add(_toolbar, BorderLayout.NORTH);
+            myToolbar.unpressAllButtons();
     }
 
     /**
@@ -243,7 +146,7 @@ public class BiosimEditor extends JFrame implements IStatusBar, Cloneable,
 
         JMenu file = new JMenu(Localizer.localize("GefBase", "File"));
         file.setMnemonic('F');
-        _menubar.add(file);
+        myMenubar.add(file);
         //file.add(new CmdNew());
         openItem = file.add(new CmdOpen());
         saveItem = file.add(new CmdSave());
@@ -259,7 +162,7 @@ public class BiosimEditor extends JFrame implements IStatusBar, Cloneable,
 
         JMenu edit = new JMenu(Localizer.localize("GefBase", "Edit"));
         edit.setMnemonic('E');
-        _menubar.add(edit);
+        myMenubar.add(edit);
 
         JMenu select = new JMenu(Localizer.localize("GefBase", "Select"));
         edit.add(select);
@@ -282,7 +185,7 @@ public class BiosimEditor extends JFrame implements IStatusBar, Cloneable,
         edit.add(new CmdUseRotate());
 
         JMenu view = new JMenu(Localizer.localize("GefBase", "View"));
-        _menubar.add(view);
+        myMenubar.add(view);
         view.setMnemonic('V');
         view.add(new CmdSpawn());
         view.add(new CmdShowProperties());
@@ -296,7 +199,7 @@ public class BiosimEditor extends JFrame implements IStatusBar, Cloneable,
         view.add(new CmdAdjustPageBreaks());
 
         JMenu arrange = new JMenu(Localizer.localize("GefBase", "Arrange"));
-        _menubar.add(arrange);
+        myMenubar.add(arrange);
         arrange.setMnemonic('A');
         groupItem = arrange.add(new CmdGroup());
         groupItem.setMnemonic('G');
@@ -398,21 +301,9 @@ public class BiosimEditor extends JFrame implements IStatusBar, Cloneable,
 
     }
 
-    ////////////////////////////////////////////////////////////////
-    // display related methods
-
-    public void setVisible(boolean b) {
-        super.setVisible(b);
-        if (b)
-            Globals.setStatusBar(this);
-    }
-
-    ////////////////////////////////////////////////////////////////
-    // IStatusListener implementation
-
     /** Show a message in the statusbar. */
     public void showStatus(String msg) {
-        if (_statusbar != null)
-            _statusbar.setText(msg);
+        if (myStatusbar != null)
+            myStatusbar.setText(msg);
     }
-} /* end class JGraphFrame */
+}
