@@ -10,7 +10,6 @@ import com.traclabs.biosim.idl.simulation.framework.PowerConsumerOperations;
 import com.traclabs.biosim.idl.simulation.mission.EVAMissionOperations;
 import com.traclabs.biosim.server.simulation.framework.AirConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.PowerConsumerDefinitionImpl;
-import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
  * The basic EVAMission Implementation.
@@ -32,13 +31,11 @@ public class EVAMissionImpl extends MissionModuleImpl implements
     }
     
     public PowerConsumerDefinition getPowerConsumerDefinition() {
-        return (PowerConsumerDefinition) (OrbUtils
-                .poaToCorbaObj(myPowerConsumerDefinitionImpl));
+        return myPowerConsumerDefinitionImpl.getCorbaObject();
     }
     
     public AirConsumerDefinition getAirConsumerDefinition() {
-        return (AirConsumerDefinition) (OrbUtils
-                .poaToCorbaObj(myAirConsumerDefinitionImpl));
+        return myAirConsumerDefinitionImpl.getCorbaObject();
     }
 
     public void tick() {

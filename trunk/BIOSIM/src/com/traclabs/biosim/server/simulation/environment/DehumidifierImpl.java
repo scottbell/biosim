@@ -11,7 +11,6 @@ import com.traclabs.biosim.idl.simulation.framework.DirtyWaterProducerOperations
 import com.traclabs.biosim.server.simulation.framework.AirConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.DirtyWaterProducerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
-import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
  * The basic Dehimidifier Implementation.
@@ -38,13 +37,11 @@ public class DehumidifierImpl extends SimBioModuleImpl implements
     }
 
     public AirConsumerDefinition getAirConsumerDefinition() {
-        return (AirConsumerDefinition) (OrbUtils
-                .poaToCorbaObj(myAirConsumerDefinitionImpl));
+        return myAirConsumerDefinitionImpl.getCorbaObject();
     }
 
     public DirtyWaterProducerDefinition getDirtyWaterProducerDefinition() {
-        return (DirtyWaterProducerDefinition) (OrbUtils
-                .poaToCorbaObj(myDirtyWaterProducerDefinitionImpl));
+        return myDirtyWaterProducerDefinitionImpl.getCorbaObject();
     }
 
     public void tick() {

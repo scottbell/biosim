@@ -13,7 +13,6 @@ import com.traclabs.biosim.idl.simulation.mission.PlantMissionOperations;
 import com.traclabs.biosim.server.simulation.framework.AirConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.PotableWaterConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.PowerConsumerDefinitionImpl;
-import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
  * The basic PlantMission Implementation.
@@ -39,18 +38,15 @@ public class PlantMissionImpl extends MissionModuleImpl implements
     }
 
     public PowerConsumerDefinition getPowerConsumerDefinition() {
-        return (PowerConsumerDefinition) (OrbUtils
-                .poaToCorbaObj(myPowerConsumerDefinitionImpl));
+        return myPowerConsumerDefinitionImpl.getCorbaObject();
     }
 
     public PotableWaterConsumerDefinition getPotableWaterConsumerDefinition() {
-        return (PotableWaterConsumerDefinition) (OrbUtils
-                .poaToCorbaObj(myPotableWaterConsumerDefinitionImpl));
+        return myPotableWaterConsumerDefinitionImpl.getCorbaObject();
     }
 
     public AirConsumerDefinition getAirConsumerDefinition() {
-        return (AirConsumerDefinition) (OrbUtils
-                .poaToCorbaObj(myAirConsumerDefinitionImpl));
+        return myAirConsumerDefinitionImpl.getCorbaObject();
     }
 
     public void tick() {
