@@ -54,7 +54,7 @@ public class BioHolder
 	public final static String myAirRSCO2OutFlowRateSensorName = "AirRSCO2OutFlowRateSensor";
 	//Stores
 	public final static String myO2StoreLevelSensorName = "O2StoreLevelSensor";
-	public final static String myCO2StoreLevelSensorName = "CO2StoreLevel";
+	public final static String myCO2StoreLevelSensorName = "CO2StoreLevelSensor";
 	//Power
 	//PowerPS
 	public final static String myPowerPSPowerOutFlowRateSensorName = "PowerPSPowerOutFlowRateSensor";
@@ -198,7 +198,6 @@ public class BioHolder
 
 
 			System.out.println("BioHolder: Collecting sensor references to modules...");
-			System.out.println("BioHolder: Collecting Air sensor references to modules...");
 			//Air
 			{
 				//AirRS
@@ -224,7 +223,6 @@ public class BioHolder
 					modules.put(myCO2StoreLevelSensorName , myCO2StoreLevelSensor);
 				}
 			}
-			System.out.println("BioHolder: Collecting Power sensor references to modules...");
 			//Power
 			{
 				//PowerPS
@@ -238,7 +236,6 @@ public class BioHolder
 					modules.put(myPowerStoreLevelSensorName , myPowerStoreLevelSensor);
 				}
 			}
-			System.out.println("BioHolder: Collecting Environment sensor references to modules...");
 			//Environment
 			{
 				//Crew
@@ -260,7 +257,6 @@ public class BioHolder
 					modules.put(myPlantEnvironmentCO2AirLevelSensorName , myPlantEnvironmentCO2AirLevelSensor);
 				}
 			}
-			System.out.println("BioHolder: Collecting Water sensor references to modules...");
 			//Water
 			{
 				//WaterRS
@@ -284,7 +280,6 @@ public class BioHolder
 					modules.put(myDirtyWaterStoreLevelSensorName , myDirtyWaterStoreLevelSensor);
 				}
 			}
-			System.out.println("BioHolder: Collecting Food sensor references to modules...");
 			//Food
 			{
 				//BiomassRS
@@ -317,7 +312,6 @@ public class BioHolder
 					modules.put(myFoodStoreLevelSensorName , myFoodStoreLevelSensor);
 				}
 			}
-			System.out.println("BioHolder: Collecting Framework sensor references to modules...");
 			//Framework
 			{
 				//Accumulator
