@@ -54,7 +54,7 @@ public class Peanut extends Legume{
 	}
 	
 	protected float getConstantPPF(){
-		return 625f;
+		return initialPPFValue;
 	}
 	
 	protected float getBCF(){

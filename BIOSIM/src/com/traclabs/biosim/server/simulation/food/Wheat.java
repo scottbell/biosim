@@ -8,7 +8,8 @@ import biosim.idl.simulation.food.*;
 
 public class Wheat extends Erectophile{
 	private static final int taInitialValue = 1200;
-	private static final float initialPPFValue = 1597.22f;
+	//private static final float initialPPFValue = 1597.22f;
+	private static final float initialPPFValue = 1402.778f;
 	private static final float initialCO2Value = 1200f;
 	
 	public Wheat(ShelfImpl pShelfImpl){
@@ -49,7 +50,7 @@ public class Wheat extends Erectophile{
 	}
 	
 	protected float getConstantPPF(){
-		return 1452f;
+		return initialPPFValue;
 	}
 	
 	protected float getCarbonUseEfficiency24(){
@@ -62,8 +63,8 @@ public class Wheat extends Erectophile{
 	}
 
 	protected float getPhotoperiod(){
-		//return 20f;
-		return 22f;
+		return 20f;
+		//return 22f;
 	}
 	
 	protected float getNominalPhotoperiod(){
@@ -87,8 +88,8 @@ public class Wheat extends Erectophile{
 	}
 
 	protected float getTimeAtCropMaturity(){
-		//return 62f;
-		return 79f;
+		return 62f;
+		//return 79f;
 	}
 
 	protected float getOPF(){

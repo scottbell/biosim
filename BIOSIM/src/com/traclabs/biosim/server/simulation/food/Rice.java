@@ -51,7 +51,7 @@ public class Rice extends Erectophile{
 	}
 	
 	protected float getConstantPPF(){
-		return 764f;
+		return initialPPFValue;
 	}
 	
 	protected float getCarbonUseEfficiency24(){
