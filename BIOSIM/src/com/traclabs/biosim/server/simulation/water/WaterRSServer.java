@@ -16,8 +16,8 @@ public class WaterRSServer extends GenericServer{
 	*/
 	public static void main(String args[]) {
 		WaterRSServer myServer = new WaterRSServer();
-		WaterRSImpl myWaterRSImpl = new WaterRSImpl(myServer.getIDfromArgs(args), myServer.getNamefromArgs(args));
-		myServer.registerServerAndRun(new WaterRSPOATie(myWaterRSImpl), myWaterRSImpl.getModuleName());
+		WaterRSImpl myWaterRS = new WaterRSImpl(myServer.getIDfromArgs(args), myServer.getNamefromArgs(args));
+		myServer.registerServerAndRun(new WaterRSPOATie(myWaterRS), myWaterRS.getModuleName(), myWaterRS.getID());
 	}
 }
 

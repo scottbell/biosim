@@ -18,7 +18,7 @@ public class AccumulatorServer extends GenericServer{
 	public static void main(String args[]) {
 		AccumulatorServer myServer = new AccumulatorServer();
 		AccumulatorImpl myAccumulator = new AccumulatorImpl(myServer.getIDfromArgs(args), myServer.getNamefromArgs(args));
-		myServer.registerServerAndRun(new AccumulatorPOATie(myAccumulator), myAccumulator.getModuleName());
+		myServer.registerServerAndRun(new AccumulatorPOATie(myAccumulator), myAccumulator.getModuleName(), myAccumulator.getID());
 	}
 }
 

@@ -17,7 +17,7 @@ public class GreyWaterStoreServer extends GenericServer{
 	public static void main(String args[]) {
 		GreyWaterStoreServer myServer = new GreyWaterStoreServer();
 		GreyWaterStoreImpl myGreyWaterStore = new GreyWaterStoreImpl(myServer.getIDfromArgs(args), myServer.getNamefromArgs(args));
-		myServer.registerServerAndRun(new GreyWaterStorePOATie(myGreyWaterStore), myGreyWaterStore.getModuleName());
+		myServer.registerServerAndRun(new GreyWaterStorePOATie(myGreyWaterStore), myGreyWaterStore.getModuleName(), myGreyWaterStore.getID());
 	}
 }
 

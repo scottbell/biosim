@@ -97,6 +97,14 @@ public class BioDriverImpl extends BioDriverPOA
 	public boolean isStarted(){
 		return simulationStarted;
 	}
+	
+	/**
+	* Tells The ID of this module.  Should be the same as every other module in this BioSim instance
+	* @return The ID of this module.  Should be the same as every other module in this BioSim instance
+	*/
+	public int getID(){
+		return myID;
+	}
 
 	/**
 	* Run a simulation on a different thread (paused at first);

@@ -17,7 +17,7 @@ public class CO2StoreServer extends GenericServer{
 	public static void main(String args[]) {
 		CO2StoreServer myServer = new CO2StoreServer();
 		CO2StoreImpl myCO2Store = new CO2StoreImpl(myServer.getIDfromArgs(args), myServer.getNamefromArgs(args));
-		myServer.registerServerAndRun(new CO2StorePOATie(myCO2Store), myCO2Store.getModuleName());
+		myServer.registerServerAndRun(new CO2StorePOATie(myCO2Store), myCO2Store.getModuleName(), myCO2Store.getID());
 	}
 }
 
