@@ -36,6 +36,8 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements
     private float[] powerActualFlowRates;
 
     private float[] powerDesiredFlowRates;
+    
+    protected float upperPowerGeneration = 500f;
 
     private SimEnvironment myLightInput;
 
