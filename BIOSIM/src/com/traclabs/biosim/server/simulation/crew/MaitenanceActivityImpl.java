@@ -10,15 +10,15 @@ import com.traclabs.biosim.idl.simulation.crew.MaitenanceActivityOperations;
 
 public class MaitenanceActivityImpl extends ActivityImpl implements
         MaitenanceActivityOperations {
-    private String myModuleToMaitenance = "Unknown";
+    private String myModuleNameToMaintain = "Unknown";
 
     public MaitenanceActivityImpl(String pName, int pTimeLength,
-            int pActivityIntensity, String pModuleToMaitenance) {
+            int pActivityIntensity, String pModuleToMaintain) {
         super(pName, pTimeLength, pActivityIntensity);
-        myModuleToMaitenance = pModuleToMaitenance;
+        myModuleNameToMaintain = pModuleToMaintain;
     }
 
-    public String getModuleToMaitenance() {
-        return myModuleToMaitenance;
+    public String getModuleNameToMaintain() {
+        return myModuleNameToMaintain;
     }
 }

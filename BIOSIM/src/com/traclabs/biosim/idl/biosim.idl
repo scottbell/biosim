@@ -645,11 +645,11 @@ module com{
                                                         long long getMalfunctionIDToRepair();
                                                 };
                                                 interface MaitenanceActivity : Activity{
-                                                        string getModuleToMaitenance();
+                                                        string getModuleNameToMaintain();
                                                 };
                                                 interface EVAActivity : Activity{
-                                                        environment::SimEnvironment getBaseEnvironment();
-                                                        environment::SimEnvironment getOutsideEnvironment();
+                                                        string getBaseEnvironmentName();
+                                                        string getOutsideEnvironmentName();
                                                 };
                                                 interface CrewPerson{
                                                         Activity getCurrentActivity();

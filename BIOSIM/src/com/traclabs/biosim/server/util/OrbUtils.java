@@ -11,6 +11,9 @@ import org.omg.CosNaming.NamingContextExtHelper;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.POAHelper;
 
+import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.framework.BioModuleHelper;
+
 /**
  * The OrbUtils class provides basic CORBA utilities to server components
  * 
@@ -60,6 +63,19 @@ public class OrbUtils {
         return myRootPOA;
     }
 
+    public static BioModule getBioModule(int pID, String pModuleName) {
+        BioModule module = null;
+        try{
+            module = BioModuleHelper.narrow(getNamingContext(pID).resolve_str(
+                pModuleName));
+        }
+        catch (Exception e){
+            Logger.getLogger(OrbUtils.class).info(
+                    "Had problems getting naming context " + e);
+        }
+        return module;
+    }
+
     /**
      * Returns the naming context associated with this ID
      * 
@@ -95,6 +111,8 @@ public class OrbUtils {
                     .bind_new_context(idComponents);
         } catch (org.omg.CosNaming.NamingContextPackage.AlreadyBound e) {
         } catch (Exception e) {
+            Logger.getLogger(OrbUtils.class).info(
+                    "Had problems getting naming context " + e);
             e.printStackTrace();
         }
     }
