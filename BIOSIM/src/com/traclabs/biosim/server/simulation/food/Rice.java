@@ -18,12 +18,12 @@ public class Rice extends Erectophile{
 		canopyClosureConstants[16] = .0000045207f;
 		canopyClosureConstants[17] = -.000000014936f;
 
-		canopyQYConstants[6] = 0.044793f;
-		canopyQYConstants[7] = 0.000051583f;
-		canopyQYConstants[8] = -0.000000020724f;
-		canopyQYConstants[11] = -0.0000051946f;
-		canopyQYConstants[17] = -0.0000000000049303f;
-		canopyQYConstants[18] = 0.0000000000000022255f;
+		canopyQYConstants[6] = 0.036186f;
+		canopyQYConstants[7] = 0.000061457f;
+		canopyQYConstants[8] = -0.000000024322f;
+		canopyQYConstants[11] = -0.0000000091477f;
+		canopyQYConstants[17] = 0.000000000003889f;
+		canopyQYConstants[18] = -0.0000000026712f;
 	}
 
 	public PlantType getPlantType(){

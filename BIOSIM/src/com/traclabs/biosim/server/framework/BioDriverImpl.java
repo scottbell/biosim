@@ -1148,16 +1148,6 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 				myAirRSCO2InFlowRateActuator.setOutput(myAirRS, 0);
 				myAirRSCO2OutFlowRateActuator.setOutput(myAirRS, 0);
 			}
-			//Store
-			{
-
-				O2Store myO2Store = O2StoreHelper.narrow(getBioModule(myO2StoreName));
-				CO2Store myCO2Store = CO2StoreHelper.narrow(getBioModule(myCO2StoreName));
-				O2StoreLevelActuator myO2StoreLevelActuator = O2StoreLevelActuatorHelper.narrow(getBioModule(myO2StoreLevelActuatorName));
-				CO2StoreLevelActuator myCO2StoreLevelActuator = CO2StoreLevelActuatorHelper.narrow(getBioModule(myCO2StoreLevelActuatorName));
-				myO2StoreLevelActuator.setOutput(myO2Store);
-				myCO2StoreLevelActuator.setOutput(myCO2Store);
-			}
 		}
 
 		//
@@ -1170,38 +1160,6 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 				PowerPS myPowerPS = PowerPSHelper.narrow(getBioModule(myPowerPSName));
 				PowerOutFlowRateActuator myPowerPSPowerOutFlowRateActuator = PowerOutFlowRateActuatorHelper.narrow(getBioModule(myPowerPSPowerOutFlowRateActuatorName));
 				myPowerPSPowerOutFlowRateActuator.setOutput(myPowerPS, 0);
-			}
-			//Stores
-			{
-				PowerStore myPowerStore = PowerStoreHelper.narrow(getBioModule(myPowerStoreName));
-				PowerStoreLevelActuator myPowerStoreLevelActuator = PowerStoreLevelActuatorHelper.narrow(getBioModule(myPowerStoreLevelActuatorName));
-				myPowerStoreLevelActuator.setOutput(myPowerStore);
-			}
-		}
-
-		//
-		//Environment
-		//
-		{
-			//Crew
-			{
-				SimEnvironment myCrewEnvironment = SimEnvironmentHelper.narrow(getBioModule(myCrewEnvironmentName));
-				O2AirMolesActuator myCrewEnvironmentO2AirMolesActuator = O2AirMolesActuatorHelper.narrow(getBioModule(myCrewEnvironmentO2AirMolesActuatorName));
-				CO2AirMolesActuator myCrewEnvironmentCO2AirMolesActuator = CO2AirMolesActuatorHelper.narrow(getBioModule(myCrewEnvironmentCO2AirMolesActuatorName));
-				OtherAirMolesActuator myCrewEnvironmentOtherAirMolesActuator = OtherAirMolesActuatorHelper.narrow(getBioModule(myCrewEnvironmentOtherAirMolesActuatorName));
-				myCrewEnvironmentO2AirMolesActuator.setOutput(myCrewEnvironment);
-				myCrewEnvironmentCO2AirMolesActuator.setOutput(myCrewEnvironment);
-				myCrewEnvironmentOtherAirMolesActuator.setOutput(myCrewEnvironment);
-			}
-			//Plant
-			{
-				SimEnvironment myPlantEnvironment = SimEnvironmentHelper.narrow(getBioModule(myPlantEnvironmentName));
-				O2AirMolesActuator myPlantEnvironmentO2AirMolesActuator = O2AirMolesActuatorHelper.narrow(getBioModule(myPlantEnvironmentO2AirMolesActuatorName));
-				CO2AirMolesActuator myPlantEnvironmentCO2AirMolesActuator = CO2AirMolesActuatorHelper.narrow(getBioModule(myPlantEnvironmentCO2AirMolesActuatorName));
-				OtherAirMolesActuator myPlantEnvironmentOtherAirMolesActuator = OtherAirMolesActuatorHelper.narrow(getBioModule(myPlantEnvironmentOtherAirMolesActuatorName));
-				myPlantEnvironmentO2AirMolesActuator.setOutput(myPlantEnvironment);
-				myPlantEnvironmentCO2AirMolesActuator.setOutput(myPlantEnvironment);
-				myPlantEnvironmentOtherAirMolesActuator.setOutput(myPlantEnvironment);
 			}
 		}
 		//
@@ -1234,15 +1192,6 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 				myFoodProcessorFoodOutFlowRateActuator.setOutput(myFoodProcessor, 0);
 				myFoodProcessorBiomassInFlowRateActuator.setOutput(myFoodProcessor, 0);
 			}
-			//Stores
-			{
-				FoodStore myFoodStore = FoodStoreHelper.narrow(getBioModule(myFoodStoreName));
-				BiomassStore myBiomassStore = BiomassStoreHelper.narrow(getBioModule(myBiomassStoreName));
-				BiomassStoreLevelActuator myBiomassStoreLevelActuator = BiomassStoreLevelActuatorHelper.narrow(getBioModule(myBiomassStoreLevelActuatorName));
-				FoodStoreLevelActuator myFoodStoreLevelActuator = FoodStoreLevelActuatorHelper.narrow(getBioModule(myFoodStoreLevelActuatorName));
-				myFoodStoreLevelActuator.setOutput(myFoodStore);
-				myBiomassStoreLevelActuator.setOutput(myBiomassStore);
-			}
 		}
 
 		//
@@ -1260,18 +1209,6 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 				myWaterRSDirtyWaterInFlowRateActuator.setOutput(myWaterRS, 0);
 				myWaterRSGreyWaterInFlowRateActuator.setOutput(myWaterRS, 0);
 				myWaterRSPowerInFlowRateActuator.setOutput(myWaterRS, 0);
-			}
-			//Stores
-			{
-				PotableWaterStore myPotableWaterStore = PotableWaterStoreHelper.narrow(getBioModule(myPotableWaterStoreName));
-				DirtyWaterStore myDirtyWaterStore = DirtyWaterStoreHelper.narrow(getBioModule(myDirtyWaterStoreName));
-				GreyWaterStore myGreyWaterStore = GreyWaterStoreHelper.narrow(getBioModule(myGreyWaterStoreName));
-				PotableWaterStoreLevelActuator myPotableWaterStoreLevelActuator = PotableWaterStoreLevelActuatorHelper.narrow(getBioModule(myPotableWaterStoreLevelActuatorName));
-				GreyWaterStoreLevelActuator myGreyWaterStoreLevelActuator = GreyWaterStoreLevelActuatorHelper.narrow(getBioModule(myGreyWaterStoreLevelActuatorName));
-				DirtyWaterStoreLevelActuator myDirtyWaterStoreLevelActuator = DirtyWaterStoreLevelActuatorHelper.narrow(getBioModule(myDirtyWaterStoreLevelActuatorName));
-				myPotableWaterStoreLevelActuator.setOutput(myPotableWaterStore);
-				myGreyWaterStoreLevelActuator.setOutput(myGreyWaterStore);
-				myDirtyWaterStoreLevelActuator.setOutput(myDirtyWaterStore);
 			}
 		}
 
