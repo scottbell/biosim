@@ -56,13 +56,12 @@ public class VCCR extends AirRSSubSystem{
 			Breath currentBreath = myAirRS.getAirInputs()[i].takeAirMoles(resourceToGatherFinal);
 			gatheredAir += currentBreath.O2 + currentBreath.CO2 + currentBreath.other + currentBreath.water + currentBreath.nitrogen;
 			myAirRS.setAirInputActualFlowRate(gatheredAir, i);
-			gatheredO2 += currentBreath.CO2;
-			gatheredCO2 += currentBreath.O2;
+			gatheredO2 += currentBreath.O2;
+			gatheredCO2 += currentBreath.CO2;
 			gatheredOther += currentBreath.other;
 			gatheredWater += currentBreath.water;
 			gatheredNitrogen += currentBreath.nitrogen;
 		}
-		System.out.println("got "+gatheredAir+" moles of air: ("+gatheredO2+", "+gatheredCO2+", "+gatheredOther+", "+gatheredWater+", "+gatheredNitrogen+")");
 		myBreath.O2 =  gatheredO2;
 		myBreath.CO2 = gatheredCO2;
 		myBreath.other = gatheredOther;
@@ -85,7 +84,6 @@ public class VCCR extends AirRSSubSystem{
 			float reducedWaterToPass = resourceToDistributeFinal * (distributedWaterLeft / totalToDistribute);
 			float reducedNitrogenToPass = resourceToDistributeFinal * (distributedNitrogenLeft / totalToDistribute);
 			float O2Added = myAirRS.getAirOutputs()[i].addO2Moles(reducedO2ToPass);
-			System.out.println("putting back "+reducedO2ToPass+" moles of O2");
 			float otherAdded = myAirRS.getAirOutputs()[i].addOtherMoles(reducedOtherToPass);
 			float waterAdded = myAirRS.getAirOutputs()[i].addWaterMoles(reducedWaterToPass);
 			float nitrogenAdded = myAirRS.getAirOutputs()[i].addNitrogenMoles(reducedNitrogenToPass);
