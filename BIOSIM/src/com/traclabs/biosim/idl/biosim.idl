@@ -86,6 +86,11 @@ module biosim{
 				interface Store;
                         };
                 };
+		module sensor{
+                        module framework{
+                                interface GenericSensor;
+                        };
+                };
                 module util{
                         module log{
                                 interface LogNode;
@@ -121,6 +126,9 @@ module biosim{
                         #include "simulation/air.idl"
                         #include "simulation/water.idl"
                         #include "simulation/framework.idl"
+                };
+		module sensor{
+                        #include "sensor/framework.idl"
                 };
         };
 };

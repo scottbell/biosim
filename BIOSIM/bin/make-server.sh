@@ -118,6 +118,9 @@ then
 	$compilationInvocation $simSkeletonDir/idl/simulation/environment/*.java
 	echo "				-compiling framework skeletons/stubs"
 	$compilationInvocation $simSkeletonDir/idl/simulation/framework/*.java
+	echo "			-compiling sensor skeletons/stubs"
+	echo "				-compiling framework skeletons/stubs"
+	$compilationInvocation $simSkeletonDir/idl/sensor/framework/*.java
 fi
 echo "		-compiling implementations"
 echo "			-compiling framework implementation"
@@ -143,6 +146,8 @@ echo "				-compiling environment implementation"
 $compilationInvocation $serverDir/simulation/environment/*.java
 echo "			-compiling actuator implementation"
 echo "			-compiling sensor implementation"
+echo "				-compiling framework implementation"
+$compilationInvocation $serverDir/sensor/framework/*.java
 echo "*done building biosim"
 
 
