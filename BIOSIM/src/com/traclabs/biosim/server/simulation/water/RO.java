@@ -57,14 +57,17 @@ public class RO extends WaterRSSubSystem{
 			if (hasEnoughPower){
 				pushWater();
 			}
+			//dump water
 			else{
-				currentAESWaterProduced = 0f;
+			        waterLevel = 0f;
+			        currentAESWaterProduced = 0f;
 				currentPPSWaterProduced = 0f;
 			}
 		}
 		else{
-			currentAESWaterProduced = 0f;
-			currentPPSWaterProduced = 0f;
+		    waterLevel = 0f;
+		    currentAESWaterProduced = 0f;
+		    currentPPSWaterProduced = 0f;
 		}
 	}
 

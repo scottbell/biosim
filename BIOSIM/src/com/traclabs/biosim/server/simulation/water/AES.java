@@ -43,10 +43,14 @@ public class AES extends WaterRSSubSystem{
 		if (enabled)
 			if (hasEnoughPower)
 				pushWater();
-			else
+			else{
 				currentPPSWaterProduced = 0f;
-		else
+				waterLevel = 0f;
+			}
+		else{
 				currentPPSWaterProduced = 0f;
+				waterLevel = 0f;
+		}
 	}
 
 	public void reset(){
