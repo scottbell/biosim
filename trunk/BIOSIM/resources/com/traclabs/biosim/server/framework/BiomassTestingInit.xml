@@ -29,8 +29,8 @@
 			<PowerStore name="PowerStore" capacity="100000000000" level="100000000000"/>
 		</power>
 		<water>
-			<PotableWaterStore name="PotableWaterStore" capacity="0" level="0"/>
-			<GreyWaterStore name="GreyWaterStore" capacity="0" level="0"/>
+			<PotableWaterStore name="PotableWaterStore" capacity="500000000000" level="500000000000"/>
+			<GreyWaterStore name="GreyWaterStore" capacity="500000000000" level="500000000000"/>
 			<DirtyWaterStore name="DirtyWaterStore" capacity="500000000000" level="0"/>
 		</water>
 	</SimBioModules>
