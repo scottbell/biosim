@@ -901,6 +901,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 			myLogIndex.volumeIndex.setValue(""+volume);
 			myLogIndex.lightIntensityIndex.setValue(""+lightIntensity);
 		}
+		System.out.println("Sending log()..");
 		sendLog(myLog);
 	}
 
