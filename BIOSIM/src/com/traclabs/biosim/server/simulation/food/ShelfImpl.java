@@ -166,13 +166,15 @@ public class ShelfImpl extends ShelfPOA {
 	}
 
 	public void tick(){
-		gatherPower();
-		gatherWater();
-		lightPlants();
-		myCrop.tick();
-		flushWater();
-		flushPower();
-		tryHarvesting();
+		if (cropAreaUsed > 0){
+			gatherPower();
+			gatherWater();
+			lightPlants();
+			myCrop.tick();
+			flushWater();
+			flushPower();
+			tryHarvesting();
+		}
 	}
 
 	public void replant(PlantType pType){
