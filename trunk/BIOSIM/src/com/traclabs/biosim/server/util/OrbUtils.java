@@ -21,6 +21,10 @@ public class OrbUtils{
 	//The naming context reference
 	private static NamingContextExt ncRef = null;
 	
+	//should never be called
+	private OrbUtils(){
+	}
+	
 	/**
 	* Returns the ORB
 	* @return the ORB
