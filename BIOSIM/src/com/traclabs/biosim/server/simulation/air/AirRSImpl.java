@@ -2,6 +2,8 @@ package biosim.server.air;
 
 import biosim.idl.air.*;
 import biosim.idl.framework.*;
+import biosim.idl.environment.*;
+import biosim.idl.power.*;
 import biosim.idl.util.log.*;
 import java.util.*;
 import biosim.server.util.*;
@@ -14,7 +16,7 @@ import biosim.server.framework.*;
  * @author    Scott Bell
  */
 
-public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
+public class AirRSImpl extends BioModuleImpl implements AirRSOperations, PowerConsumerOperations, AirConsumerOperations, O2ProducerOperations, CO2ProducerOperations, AirProducerOperations{
 	private LogIndex myLogIndex;
 	private VCCR myVCCR;
 	private CO2Tank myCO2Tank;
@@ -22,6 +24,17 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 	private H2Tank myH2Tank;
 	private CH4Tank myCH4Tank;
 	private OGS myOGS;
+	private O2Store[] myO2Stores;
+	private PowerStore[] myPowerStores;
+	private CO2Store[] myCO2Stores;
+	private SimEnvironment[] mySimEnvironmentInputs;
+	private SimEnvironment[] mySimEnvironmentOutputs;
+	private float myProductionRate;
+	private float[] powerFlowRates;
+	private float[] O2FlowRates;
+	private float[] CO2FlowRates;
+	private float[] airInFlowRates;
+	private float[] airOutFlowRates;
 	
 	public AirRSImpl(int pID){
 		super(pID);
@@ -223,5 +236,90 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 		public LogNode currentCO2ConsumedIndex;
 		public LogNode currentCO2ProducedIndex;
 		public LogNode currentPowerConsumedIndex;
+	}
+	
+	public void setPowerInputFlowrate(float watts, int index){
+		powerFlowRates[index] = watts;
+	}
+	
+	public float getPowerInputFlowrate(int index){
+		return powerFlowRates[index];
+	}
+	
+	public void setPowerInputs(PowerStore[] sources, float[] flowRates){
+		myPowerStores = sources;
+		powerFlowRates = flowRates;
+	}
+	
+	public PowerStore[] getPowerInputs(){
+		return myPowerStores;
+	}
+	
+	public void setAirInputFlowrate(float liters, int index){
+		airInFlowRates[index] = liters;
+	}
+	
+	public float getAirInputFlowrate(int index){
+		return airInFlowRates[index];
+	}
+	
+	public void setAirInputs(SimEnvironment[] sources, float[] flowRates){
+		mySimEnvironmentInputs = sources;
+		airInFlowRates = flowRates;
+	}
+	
+	public SimEnvironment[] getAirInputs(){
+		return mySimEnvironmentInputs;
+	}
+	
+	public void setAirOutputFlowrate(float liters, int index){
+		airOutFlowRates[index] = liters;
+	}
+	
+	public float getAirOutputFlowrate(int index){
+		return airOutFlowRates[index];
+	}
+	
+	public void setAirOutputs(SimEnvironment[] sources, float[] flowRates){
+		mySimEnvironmentOutputs = sources;
+		airOutFlowRates = flowRates;
+	}
+	
+	public SimEnvironment[] getAirOutputs(){
+		return mySimEnvironmentOutputs;
+	}
+	
+	public void setO2OutputFlowrate(float liters, int index){
+		O2FlowRates[index] = liters;
+	}
+	
+	public float getO2OutputFlowrate(int index){
+		return O2FlowRates[index];
+	}
+	
+	public void setO2Outputs(O2Store[] sources, float[] flowRates){
+		myO2Stores = sources;
+		O2FlowRates = flowRates;
+	}
+	
+	public O2Store[] getO2Outputs(){
+		return myO2Stores;
+	}
+	
+	public void setCO2OutputFlowrate(float liters, int index){
+		CO2FlowRates[index] = liters;
+	}
+	
+	public float getCO2OutputFlowrate(int index){
+		return CO2FlowRates[index];
+	}
+	
+	public void setCO2Outputs(CO2Store[] sources, float[] flowRates){
+		myCO2Stores = sources;
+		CO2FlowRates = flowRates;
+	}
+	
+	public CO2Store[] getCO2Outputs(){
+		return myCO2Stores;
 	}
 }

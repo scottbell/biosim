@@ -1,5 +1,5 @@
 module air{
-        interface AirRS : framework::BioModule{
+        interface AirRS : framework::BioModule, framework::PowerConsumer, framework::AirConsumer, framework::AirProducer, framework::CO2Producer, framework::O2Producer{
                 float getPowerConsumed();
                 float getCO2Consumed();
                 float getO2Produced();
