@@ -79,20 +79,20 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private Schedule mySchedule;
 	private CrewGroupImpl myCrewGroup;
 
-	public final static String powerPSName = "PowerPS";
-	public final static String powerStoreName = "PowerStore";
-	public final static String airRSName = "AirRS";
-	public final static String CO2StoreName = "CO2Store";
-	public final static String O2StoreName = "O2Store";
-	public final static String biomassRSName = "BiomassRS";
-	public final static String biomassStoreName = "BiomassStore";
-	public final static String foodProcessorName = "FoodProcessor";
-	public final static String foodStoreName = "FoodStore";
-	public final static String waterRSName = "WaterRS";
-	public final static String dirtyWaterStoreName = "DirtyWaterStore";
-	public final static String potableWaterStoreName = "PotableWaterStore";
-	public final static String greyWaterStoreName = "GreyWaterStore";
-	public final static String simEnvironmentName = "SimEnvironment";
+	public static String powerPSName = "PowerPS";
+	public static String powerStoreName = "PowerStore";
+	public static String airRSName = "AirRS";
+	public static String CO2StoreName = "CO2Store";
+	public static String O2StoreName = "O2Store";
+	public static String biomassRSName = "BiomassRS";
+	public static String biomassStoreName = "BiomassStore";
+	public static String foodProcessorName = "FoodProcessor";
+	public static String foodStoreName = "FoodStore";
+	public static String waterRSName = "WaterRS";
+	public static String dirtyWaterStoreName = "DirtyWaterStore";
+	public static String potableWaterStoreName = "PotableWaterStore";
+	public static String greyWaterStoreName = "GreyWaterStore";
+	public static String simEnvironmentName = "SimEnvironment";
 	//A hastable containing the server references
 	private static Map myModules;
 
@@ -330,34 +330,49 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			if (myModules == null)
 				myModules = new Hashtable();
 			int myID = myCrewGroup.getID();
-			PowerPS myPowerPS = PowerPSHelper.narrow(OrbUtils.getNCRef().resolve_str(powerPSName+myID));
-			myModules.put(powerPSName , myPowerPS);
-			PowerStore myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(powerStoreName+myID));
-			myModules.put(powerStoreName , myPowerStore);
-			AirRS myAirRS = AirRSHelper.narrow(OrbUtils.getNCRef().resolve_str(airRSName+myID));
-			myModules.put(airRSName , myAirRS);
-			SimEnvironment mySimEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str(simEnvironmentName+myID));
-			myModules.put(simEnvironmentName , mySimEnvironment);
-			GreyWaterStore myGreyWaterStore = GreyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(greyWaterStoreName+myID));
-			myModules.put(greyWaterStoreName , myGreyWaterStore);
-			PotableWaterStore myPotableWaterStore = PotableWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(potableWaterStoreName+myID));
-			myModules.put(potableWaterStoreName , myPotableWaterStore);
-			DirtyWaterStore myDirtyWaterStore = DirtyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(dirtyWaterStoreName+myID));
-			myModules.put(dirtyWaterStoreName , myDirtyWaterStore);
-			FoodProcessor myFoodProcessor = FoodProcessorHelper.narrow(OrbUtils.getNCRef().resolve_str(foodProcessorName+myID));
-			myModules.put(foodProcessorName , myFoodProcessor);
-			FoodStore myFoodStore= FoodStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(foodStoreName+myID));
-			myModules.put(foodStoreName , myFoodStore);
-			CO2Store myCO2Store = CO2StoreHelper.narrow(OrbUtils.getNCRef().resolve_str(CO2StoreName+myID));
-			myModules.put(CO2StoreName , myCO2Store);
-			O2Store myO2Store = O2StoreHelper.narrow(OrbUtils.getNCRef().resolve_str(O2StoreName+myID));
-			myModules.put(O2StoreName , myO2Store);
-			BiomassRS myBiomassRS = BiomassRSHelper.narrow(OrbUtils.getNCRef().resolve_str(biomassRSName+myID));
-			myModules.put(biomassRSName , myBiomassRS);
-			BiomassStore myBiomassStore = BiomassStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(biomassStoreName+myID));
+			//add ID to names...
+			powerPSName = "PowerPS" + myID;
+			powerStoreName = "PowerStore" + myID;
+			airRSName = "AirRS" + myID;
+			CO2StoreName = "CO2Store" + myID;
+			O2StoreName = "O2Store" + myID;
+			biomassRSName = "BiomassRS" + myID;
+			biomassStoreName = "BiomassStore" + myID;
+			foodProcessorName = "FoodProcessor" + myID;
+			foodStoreName = "FoodStore" + myID;
+			waterRSName = "WaterRS" + myID;
+			dirtyWaterStoreName = "DirtyWaterStore" + myID;
+			potableWaterStoreName = "PotableWaterStore" + myID;
+			greyWaterStoreName = "GreyWaterStore" + myID;
+			simEnvironmentName = "SimEnvironment" + myID;
+			PowerPS myPowerPS = PowerPSHelper.narrow(OrbUtils.getNCRef().resolve_str(powerPSName));
+			myModules.put(powerPSName, myPowerPS);
+			PowerStore myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(powerStoreName));
+			myModules.put(powerStoreName, myPowerStore);
+			AirRS myAirRS = AirRSHelper.narrow(OrbUtils.getNCRef().resolve_str(airRSName));
+			myModules.put(airRSName, myAirRS);
+			SimEnvironment mySimEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str(simEnvironmentName));
+			myModules.put(simEnvironmentName, mySimEnvironment);
+			GreyWaterStore myGreyWaterStore = GreyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(greyWaterStoreName));
+			myModules.put(greyWaterStoreName, myGreyWaterStore);
+			PotableWaterStore myPotableWaterStore = PotableWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(potableWaterStoreName));
+			myModules.put(potableWaterStoreName, myPotableWaterStore);
+			DirtyWaterStore myDirtyWaterStore = DirtyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(dirtyWaterStoreName));
+			myModules.put(dirtyWaterStoreName, myDirtyWaterStore);
+			FoodProcessor myFoodProcessor = FoodProcessorHelper.narrow(OrbUtils.getNCRef().resolve_str(foodProcessorName));
+			myModules.put(foodProcessorName, myFoodProcessor);
+			FoodStore myFoodStore= FoodStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(foodStoreName));
+			myModules.put(foodStoreName, myFoodStore);
+			CO2Store myCO2Store = CO2StoreHelper.narrow(OrbUtils.getNCRef().resolve_str(CO2StoreName));
+			myModules.put(CO2StoreName, myCO2Store);
+			O2Store myO2Store = O2StoreHelper.narrow(OrbUtils.getNCRef().resolve_str(O2StoreName));
+			myModules.put(O2StoreName, myO2Store);
+			BiomassRS myBiomassRS = BiomassRSHelper.narrow(OrbUtils.getNCRef().resolve_str(biomassRSName));
+			myModules.put(biomassRSName, myBiomassRS);
+			BiomassStore myBiomassStore = BiomassStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(biomassStoreName));
 			myModules.put(biomassStoreName, myBiomassStore);
-			WaterRS myWaterRS = WaterRSHelper.narrow(OrbUtils.getNCRef().resolve_str(waterRSName+myID));
-			myModules.put(waterRSName , myWaterRS);
+			WaterRS myWaterRS = WaterRSHelper.narrow(OrbUtils.getNCRef().resolve_str(waterRSName));
+			myModules.put(waterRSName, myWaterRS);
 			hasCollectedReferences = true;
 		}
 		catch (org.omg.CORBA.UserException e){
@@ -388,19 +403,14 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	}
 
 	private void checkForMeaningfulActivity(){
-		if (myCurrentActivity.getName().equals("Mission")){
+		if (myCurrentActivity.getName().equals("mission")){
 			addProductivity();
 		}
-		else if (myCurrentActivity.getName().equals("Maitenance")){
+		else if (myCurrentActivity.getName().equals("maitenance")){
 		}
-		else if (myCurrentActivity.getName().equals("Repair")){
-			if (myCurrentActivity instanceof RepairActivity){
-				RepairActivity repairActivity = (RepairActivity)(myCurrentActivity);
-				repairModule(repairActivity.getModuleToRepair(), repairActivity.getMalfunctionIDToRepair());
-			}
-			else{
-				System.err.println("Tried to repair, but activity wasn't of type RepairActivity!");
-			}
+		if (myCurrentActivity instanceof RepairActivity){
+			RepairActivity repairActivity = (RepairActivity)(myCurrentActivity);
+			repairModule(repairActivity.getModuleNameToRepair(), repairActivity.getMalfunctionIDToRepair());
 		}
 	}
 
