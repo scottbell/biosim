@@ -20,23 +20,43 @@ module environment{
 		long getIndex();
 	};
 	
-	interface O2AirInFlowRateSensor : framework::GenericSensor{
+	interface O2AirStoreInFlowRateSensor : framework::GenericSensor{
 		void setInput(in simulation::environment::O2AirConsumer pConsumer, in long pIndex);
 		simulation::environment::O2AirConsumer getInput();
 		long getIndex();
 	};
-	interface O2AirOutFlowRateSensor : framework::GenericSensor{
+	interface O2AirStoreOutFlowRateSensor : framework::GenericSensor{
+		void setInput(in simulation::environment::O2AirProducer pProducer, in long pIndex);
+		simulation::environment::O2AirProducer getInput();
+		long getIndex();
+	};
+	interface O2AirEnvironmentInFlowRateSensor : framework::GenericSensor{
+		void setInput(in simulation::environment::O2AirConsumer pConsumer, in long pIndex);
+		simulation::environment::O2AirConsumer getInput();
+		long getIndex();
+	};
+	interface O2AirEnvironmentOutFlowRateSensor : framework::GenericSensor{
 		void setInput(in simulation::environment::O2AirProducer pProducer, in long pIndex);
 		simulation::environment::O2AirProducer getInput();
 		long getIndex();
 	};
 	
-	interface CO2AirInFlowRateSensor : framework::GenericSensor{
+	interface CO2AirStoreInFlowRateSensor : framework::GenericSensor{
 		void setInput(in simulation::environment::CO2AirConsumer pConsumer, in long pIndex);
 		simulation::environment::CO2AirConsumer getInput();
 		long getIndex();
 	};
-	interface CO2AirOutFlowRateSensor : framework::GenericSensor{
+	interface CO2AirStoreOutFlowRateSensor : framework::GenericSensor{
+		void setInput(in simulation::environment::CO2AirProducer pProducer, in long pIndex);
+		simulation::environment::CO2AirProducer getInput();
+		long getIndex();
+	};
+	interface CO2AirEnvironmentInFlowRateSensor : framework::GenericSensor{
+		void setInput(in simulation::environment::CO2AirConsumer pConsumer, in long pIndex);
+		simulation::environment::CO2AirConsumer getInput();
+		long getIndex();
+	};
+	interface CO2AirEnvironmentOutFlowRateSensor : framework::GenericSensor{
 		void setInput(in simulation::environment::CO2AirProducer pProducer, in long pIndex);
 		simulation::environment::CO2AirProducer getInput();
 		long getIndex();

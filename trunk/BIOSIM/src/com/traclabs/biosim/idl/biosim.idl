@@ -131,6 +131,7 @@ module biosim{
 		module sensor{
                         #include "sensor/framework.idl"
                         #include "sensor/air.idl"
+                        #include "sensor/crew.idl"
                         #include "sensor/environment.idl"
                         #include "sensor/food.idl"
                         #include "sensor/power.idl"
