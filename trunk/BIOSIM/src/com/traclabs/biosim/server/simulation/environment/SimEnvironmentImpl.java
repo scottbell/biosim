@@ -488,6 +488,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @return the amount of CO2 gasses (in moles) actually added to the environment
 	*/
 	public float addCO2Moles(float molesRequested){
+		if (molesRequested <= 0)
+			return 0f;
 		float afterAdditionCO2 = 0f;
 		float actuallyAddedCO2 = 0f;
 		/*
@@ -513,6 +515,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @return the amount of O2 gasses (in moles) actually added to the environment
 	*/
 	public float addO2Moles(float molesRequested){
+		if (molesRequested <= 0)
+			return 0f;
 		float afterAdditionO2 = 0f;
 		float actuallyAddedO2 = 0f;
 		/*if ((molesRequested + getTotalMoles()) > volume){
@@ -537,6 +541,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @return the amount of other gasses (in moles) actually added to the environment
 	*/
 	public float addOtherMoles(float molesRequested){
+		if (molesRequested <= 0)
+			return 0f;
 		float afterAdditionOther = 0f;
 		float actuallyAddedOther = 0f;
 		/*
@@ -562,6 +568,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @return the amount of water gasses (in moles) actually added to the environment
 	*/
 	public float addWaterMoles(float molesRequested){
+		if (molesRequested <= 0)
+			return 0f;
 		float afterAdditionWater = 0f;
 		float actuallyAddedWater = 0f;
 		/*
@@ -587,6 +595,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @return the amount of nitrogen gasses (in moles) actually added to the environment
 	*/
 	public float addNitrogenMoles(float molesRequested){
+		if (molesRequested <= 0)
+			return 0f;
 		float afterAdditionNitrogen = 0f;
 		float actuallyAddedNitrogen = 0f;
 		/*
@@ -608,7 +618,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 
 	public float takeCO2Moles(float amountRequested){
 		//idiot check
-		if (amountRequested < 0){
+		if (amountRequested <= 0){
 			return 0f;
 		}
 		float actuallyTaken;
@@ -629,7 +639,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 
 	public float takeO2Moles(float amountRequested){
 		//idiot check
-		if (amountRequested < 0){
+		if (amountRequested <= 0){
 			return 0f;
 		}
 		float actuallyTaken;
@@ -650,7 +660,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 
 	public float takeOtherMoles(float amountRequested){
 		//idiot check
-		if (amountRequested < 0){
+		if (amountRequested <= 0){
 			return 0f;
 		}
 		float actuallyTaken;
@@ -671,7 +681,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 
 	public float takeWaterMoles(float amountRequested){
 		//idiot check
-		if (amountRequested < 0){
+		if (amountRequested <= 0){
 			return 0f;
 		}
 		float actuallyTaken;
@@ -692,7 +702,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	
 	public float takeNitrogenMoles(float amountRequested){
 		//idiot check
-		if (amountRequested < 0){
+		if (amountRequested <= 0){
 			return 0f;
 		}
 		float actuallyTaken;
