@@ -205,7 +205,7 @@ public class SimDesktop extends BaseJFrame
 		myDisplayFoodButton.setText("");
 		getContentPane().add(myToolBar, BorderLayout.NORTH);
 
-		setTitle("Advanced Life Support Simulation  Copyright "+ new Character( '\u00A9' ) + " 2002, TRACLabs");
+		setTitle("BIOSIM Advanced Life Support Simulation  Copyright "+ new Character( '\u00A9' ) + " 2002, TRACLabs");
 		getContentPane().add(myDesktop, BorderLayout.CENTER);
 	}
 	
