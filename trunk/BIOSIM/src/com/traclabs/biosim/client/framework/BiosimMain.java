@@ -12,10 +12,12 @@ import java.io.*;
 
 public class TestDriver
 {
+	//Used only for the command line interface
 	private BioSimulator myBiosimulator;
 	
 	/**
 	* The method to start the BIOSIM client.
+	* @param args can start TestDriver with -gui or -nogui
 	*/
 	public static void main(String args[]) throws java.lang.InterruptedException
 	{
@@ -25,6 +27,10 @@ public class TestDriver
 				myDriver.runGUI();
 			else if (args[0].equals("-nogui"))
 				myDriver.runCommandLine();
+			else{
+				System.out.println("Unknown option!  Starting with GUI...");
+				myDriver.runGUI();
+			}
 		}
 		else{
 			myDriver.runGUI();
@@ -32,12 +38,18 @@ public class TestDriver
 		
 	}
 	
+	/**
+	* Runs the SimDesktop front end for the simulation
+	*/
 	public void runGUI(){
 		SimDesktop newDesktop = new SimDesktop();
 		newDesktop.setSize(1024, 768);
 		newDesktop.setVisible(true);
 	}
 	
+	/**
+	* Runs the commandline front end for the simulation
+	*/
 	public void runCommandLine(){
 		BufferedReader userInputReader = new BufferedReader(new InputStreamReader(System.in));
 		myBiosimulator = new BioSimulator();

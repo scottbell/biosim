@@ -66,10 +66,18 @@ public class BioSimulator implements Runnable
 		collectReferences();
 	}
 	
+	/**
+	* Checks to see if the simulation is paused.
+	* @return <code>true</code> if paused, <code>false</code> if not
+	*/
 	public boolean isPaused(){
 		return simulationIsPaused;
 	}
 	
+	/**
+	* Checks to see if the simulation has started.
+	* @return <code>true</code> if started, <code>false</code> if not
+	*/
 	public boolean isStarted(){
 		return simulationStarted;
 	}
