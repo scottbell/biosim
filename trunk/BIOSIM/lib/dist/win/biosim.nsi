@@ -31,7 +31,7 @@ Section "BioSim Program" ; (default section)
 
 	; Try finding Java Runtime
 	IntFmt $3 "%u" "1"
-	IntFmt $4 "%u" "3"
+	IntFmt $4 "%u" "5"
 	ReadRegStr $0 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" "CurrentVersion"
 	ReadRegStr $1 HKLM "SOFTWARE\Javasoft\Java Runtime Environment\$0" "JavaHome"
 	StrCmp $1 "" lbl_checkJDK
