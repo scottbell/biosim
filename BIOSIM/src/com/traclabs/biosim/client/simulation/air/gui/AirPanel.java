@@ -1,8 +1,6 @@
 package biosim.client.air.gui;
 
 import biosim.client.framework.gui.*;
-import javax.swing.*;
-import java.awt.*;
 /** 
  * This is the JPanel that displays information about the Air
  *

@@ -1,8 +1,8 @@
-package biosim.client.air.gui;
+package biosim.client.food.gui;
 
 import java.awt.*;
 import javax.swing.*;
-import biosim.idl.air.*;
+import biosim.idl.food.*;
 import biosim.client.framework.gui.*;
 
 /**
@@ -10,7 +10,7 @@ import biosim.client.framework.gui.*;
  *
  * @author    Scott Bell
  */
-public class AirSchematicPanel extends TimedPanel
+public class FoodSchematicPanel extends TimedPanel
 {
 	
 	public void refresh(){

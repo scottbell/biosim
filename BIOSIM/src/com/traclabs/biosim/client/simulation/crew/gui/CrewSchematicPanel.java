@@ -1,8 +1,8 @@
-package biosim.client.air.gui;
+package biosim.client.crew.gui;
 
 import java.awt.*;
 import javax.swing.*;
-import biosim.idl.air.*;
+import biosim.idl.crew.*;
 import biosim.client.framework.gui.*;
 
 /**
@@ -10,7 +10,7 @@ import biosim.client.framework.gui.*;
  *
  * @author    Scott Bell
  */
-public class AirSchematicPanel extends TimedPanel
+public class CrewSchematicPanel extends TimedPanel
 {
 	
 	public void refresh(){

@@ -72,6 +72,7 @@ public class SimDesktop extends BioFrame
 	private Action myShowPowerDisplayAction;
 	private Action myLoggingAction;
 	private Action myQuitAction;
+	private Action myRefreshGuiAction;
 
 	//Various icons used to display buttons
 	private ImageIcon waterIcon;
@@ -87,6 +88,9 @@ public class SimDesktop extends BioFrame
 	private ImageIcon pauseIcon;
 	private ImageIcon forwardIcon;
 	private ImageIcon biosimIcon;
+	
+	private javax.swing.Timer myRefreshGuiTimer;
+	private final static int TIMER_DELAY=500;
 
 	//A hashtable containing each client panel (water, food, air, etc)
 	private Hashtable myPanels;
@@ -212,9 +216,11 @@ public class SimDesktop extends BioFrame
 		getContentPane().add(myToolBar, BorderLayout.NORTH);
 		setTitle("BIOSIM Advanced Life Support Simulation  Copyright "+ new Character( '\u00A9' ) + " 2002, TRACLabs");
 		myDesktop.setDragMode(JDesktopPane.LIVE_DRAG_MODE);
-		SimTimer.addListener(new MonitorGUI());
 		setIconImage(biosimIcon.getImage());
 		getContentPane().add(myDesktop, BorderLayout.CENTER);
+		myRefreshGuiAction = new RefreshGuiAction();
+		myRefreshGuiTimer = new javax.swing.Timer(TIMER_DELAY, myRefreshGuiAction);
+		myRefreshGuiTimer.start();
 	}
 
 	/**
@@ -609,7 +615,7 @@ public class SimDesktop extends BioFrame
 		}
 	}
 
-	private class MonitorGUI implements ActionListener{
+	private class RefreshGuiAction extends AbstractAction{
 		public void actionPerformed(ActionEvent ae){
 			//Initialize buttons by looking at server
 			if (myDriver.isLogging()){

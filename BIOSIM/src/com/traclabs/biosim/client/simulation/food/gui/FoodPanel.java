@@ -1,9 +1,6 @@
 package biosim.client.food.gui;
 
-import biosim.client.framework.*;
 import biosim.client.framework.gui.*;
-import javax.swing.*;
-import java.awt.*;
 /** 
  * This is the JPanel that displays information about the Food
  *
@@ -15,6 +12,6 @@ public class FoodPanel extends BioTabbedPanel
 	protected void createPanels(){
 		myTextPanel = new FoodTextPanel();
 		myChartPanel = new FoodChartPanel();
-		mySchematicPanel = new BioTabPanel();
+		mySchematicPanel = new FoodSchematicPanel();
 	}
 }

@@ -1,9 +1,6 @@
 package biosim.client.crew.gui;
 
-import biosim.client.framework.*;
 import biosim.client.framework.gui.*;
-import javax.swing.*;
-import java.awt.*;
 /** 
  * This is the JPanel that displays information about the Crew
  *
@@ -15,6 +12,6 @@ public class CrewPanel extends BioTabbedPanel
 	protected void createPanels(){
 		myTextPanel = new CrewTextPanel();
 		myChartPanel = new CrewChartPanel();
-		mySchematicPanel = new BioTabPanel();
+		mySchematicPanel = new CrewSchematicPanel();
 	}
 }

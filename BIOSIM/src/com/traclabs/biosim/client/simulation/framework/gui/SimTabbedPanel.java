@@ -14,18 +14,16 @@ import java.awt.event.*;
 public abstract class BioTabbedPanel extends JPanel
 {
 	private JTabbedPane myTabbedPane;
-	protected BioTabPanel myTextPanel;
-	protected BioTabPanel myChartPanel;
-	protected BioTabPanel mySchematicPanel;
-	private int oldSelectedIndex;
-	private UpdateActionListener myUpdateActionListener;
+	protected UpdatablePanel myTextPanel;
+	protected UpdatablePanel myChartPanel;
+	protected UpdatablePanel mySchematicPanel;
+	private int oldSelectedIndex = -1;
 
 	/**
 	* Creates and registers this panel.
 	* @param pBioSimulator	The Biosimulator this Panel will register itself with.
 	*/
 	public BioTabbedPanel(){
-		myUpdateActionListener = new UpdateActionListener();
 		createPanels();
 		buildGui();
 	}
@@ -41,41 +39,19 @@ public abstract class BioTabbedPanel extends JPanel
 		myTabbedPane.addTab("Text", myTextPanel);
 		myTabbedPane.addTab("Chart", myChartPanel);
 		myTabbedPane.addTab("Schematic", mySchematicPanel);
-		oldSelectedIndex = myTabbedPane.getSelectedIndex();
 		add(myTabbedPane, BorderLayout.CENTER);
 		myTabbedPane.addChangeListener(new TabChangeListener());
+		alterVisibility();
 	}
 	
 	public void visibilityChange(boolean nowVisible){
-		if (nowVisible)
-			SimTimer.addListener(myUpdateActionListener);
-		else
-			SimTimer.removeListener(myUpdateActionListener);
 		myTextPanel.visibilityChange(nowVisible);
 		myChartPanel.visibilityChange(nowVisible);
 		mySchematicPanel.visibilityChange(nowVisible);
 	}
 	
-	private class UpdateActionListener implements ActionListener {
-		public void actionPerformed(ActionEvent e){
-			if (myTabbedPane.getSelectedIndex() == 0){
-				myTextPanel.processUpdate();
-			}
-			else if (myTabbedPane.getSelectedIndex() == 1){
-				myChartPanel.processUpdate();
-			}
-			else if (myTabbedPane.getSelectedIndex() == 2){
-				mySchematicPanel.processUpdate();
-			}
-		}
-	}
-	
-	private void updateSelectedTab(){
-	}
-
-	private class TabChangeListener implements ChangeListener {
-		public void stateChanged(ChangeEvent e){
-			//Notify panel that we lost focus
+	private void alterVisibility(){
+		//Notify panel that we lost focus
 			if (oldSelectedIndex == 0){
 				myTextPanel.visibilityChange(false);
 			}
@@ -87,18 +63,20 @@ public abstract class BioTabbedPanel extends JPanel
 			}
 			//Notify panel that we gained focus
 			if (myTabbedPane.getSelectedIndex() == 0){
-				myTextPanel.processUpdate();
 				myTextPanel.visibilityChange(true);
 			}
 			else if (myTabbedPane.getSelectedIndex() == 1){
-				myChartPanel.processUpdate();
 				myChartPanel.visibilityChange(true);
 			}
 			else if (myTabbedPane.getSelectedIndex() == 2){
-				mySchematicPanel.processUpdate();
 				mySchematicPanel.visibilityChange(true);
 			}
 			oldSelectedIndex = myTabbedPane.getSelectedIndex();
+	}
+
+	private class TabChangeListener implements ChangeListener {
+		public void stateChanged(ChangeEvent e){
+			alterVisibility();
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package biosim.client.food.gui;
 
+import javax.swing.*;
 import java.awt.*;
 import biosim.client.framework.gui.*;
 
@@ -8,14 +9,18 @@ import biosim.client.framework.gui.*;
  *
  * @author    Scott Bell
  */
-public class FoodChartPanel extends BioTabPanel
+public class FoodChartPanel extends UpdatablePanel
 {
-	private FoodStorePanel myFoodStorePanel;
+	private UpdatablePanel myFoodStorePanel;
 
 	public FoodChartPanel() {
 		setLayout(new BorderLayout());
 		myFoodStorePanel = new FoodStorePanel();
 		add(myFoodStorePanel, BorderLayout.CENTER);
+	}
+	
+	public void refresh(){
+		myFoodStorePanel.refresh();
 	}
 	
 	public void visibilityChange(boolean nowVisible){

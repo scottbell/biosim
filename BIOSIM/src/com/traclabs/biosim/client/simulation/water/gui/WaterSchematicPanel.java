@@ -12,7 +12,7 @@ import biosim.client.framework.*;
  *
  * @author    Scott Bell
  */
-public class WaterSchematicPanel extends BioTabPanel
+public class WaterSchematicPanel extends TimedPanel
 {
 	private ImageIcon problemIcon;
 	private ImageIcon offIcon;
@@ -58,6 +58,9 @@ public class WaterSchematicPanel extends BioTabPanel
 		add(BWPButton);
 		add(PPSButton);
 		add(ROButton);
+	}
+	
+	public void refresh(){
 	}
 	
 	/**

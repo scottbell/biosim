@@ -1,9 +1,9 @@
 package biosim.client.crew.gui;
 
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 import biosim.idl.crew.*;
+import biosim.client.framework.gui.*;
 import biosim.client.framework.*;
 import com.jrefinery.chart.*;
 import com.jrefinery.data.*;
@@ -14,82 +14,43 @@ import com.jrefinery.ui.*;
  *
  * @author    Scott Bell
  */
-public class CrewIntensityChartPanel extends JPanel
+public class CrewIntensityChartPanel extends GraphPanel
 {
 	private DefaultCategoryDataset myDataset;
-	private JButton refreshButton;
-	private JButton trackingButton;
-	private ChartPanel myChartPanel;
-	private RefreshAction myRefreshAction;
-	private TrackingAction myTrackingAction;
-	private Timer refreshTimer;
-	private final static int TIMER_DELAY=500;
-	private boolean trackingWanted = false;
 	private ValueAxis rangeAxis;
 	private CategoryPlot myPlot;
 	private JFreeChart myChart;
 	private CrewPerson[] myCrewPeople;
 	private CrewGroup myCrewGroup;
 
-	/**
-	 * Default constructor.
-	 */
-	public CrewIntensityChartPanel() {
+	protected void buildGui(){
+		System.out.println("Invoking CrewIntensityChartPanel buildGui");
 		myCrewGroup = (CrewGroup)(BioHolder.getBioModule(BioHolder.crewName));
 		myCrewPeople = myCrewGroup.getCrewPeople();
-		myRefreshAction = new RefreshAction("Refresh");
-		refreshTimer = new Timer (TIMER_DELAY, myRefreshAction);
-		if (myCrewPeople.length == 0){
+		if (myCrewGroup.getCrewPeople().length == 0){
 			setLayout(new BorderLayout());
 			JPanel noCrewPanel = new JPanel();
 			noCrewPanel.setLayout(new BorderLayout());
 			JLabel noCrewLabel = new JLabel("No crew to display");
 			noCrewPanel.add(noCrewLabel, BorderLayout.CENTER);
 			add(noCrewPanel, BorderLayout.CENTER);
-			refreshTimer.start();
+			System.out.println("CrewIntensityChartPanel: no crew found, done with buildGui");
 		}
-		else
-			buildGUI();
+		else{
+			buildRealGui();
+		}
+		
 	}
-
-	private void buildGUI(){
+	
+	private void buildRealGui(){
 		removeAll();
 		createGraph();
-		refreshButton = new JButton(myRefreshAction);
-		myTrackingAction = new TrackingAction("Start Tracking");
-		trackingButton = new JButton(myTrackingAction);
-		GridBagLayout gridbag = new GridBagLayout();
-		GridBagConstraints c = new GridBagConstraints();
-		setLayout(gridbag);
-
-		c.fill = GridBagConstraints.BOTH;
-		c.gridheight = 1;
-		c.gridwidth = 1;
-		c.weighty = 0.1;
-		c.weightx = 0.1;
-		gridbag.setConstraints(refreshButton, c);
-		add(refreshButton);
-
-		c.fill = GridBagConstraints.BOTH;
-		c.gridheight = 1;
-		c.gridwidth = GridBagConstraints.REMAINDER;
-		c.weighty = 0.1;
-		c.weightx = 0.1;
-		gridbag.setConstraints(trackingButton, c);
-		add(trackingButton);
-
-		c.fill = GridBagConstraints.BOTH;
-		c.gridheight = 1;
-		c.gridwidth = GridBagConstraints.REMAINDER;
-		c.weighty = 1.0;
-		c.weightx = 1.0;
-		gridbag.setConstraints(myChartPanel, c);
-		add(myChartPanel);
+		super.buildGui();
 		repaint();
 		revalidate();
 	}
 
-	private void createGraph(){
+	protected void createGraph(){
 		// create the chart...
 		double[][] data = new double[myCrewPeople.length][1];
 		String[] theSeries = new String [myCrewPeople.length];
@@ -122,59 +83,19 @@ public class CrewIntensityChartPanel extends JPanel
 	}
 
 	public void refresh() {
+		System.out.println("CrewIntensityChartPanel: refreshing");
 		if (myChartPanel == null){
+			System.out.println("CrewIntensityChartPanel: myChartPanel is null");
 			myCrewPeople = myCrewGroup.getCrewPeople();
 			if (myCrewPeople.length > 0){
-				refreshTimer.stop();
-				buildGUI();
+				System.out.println("Found crew!");
+				buildRealGui();
 			}
 		}
 		else{
 			myCrewPeople = myCrewGroup.getCrewPeople();
 			for (int i = 0; i < myCrewPeople.length; i ++){
 				myDataset.setValue(i, "", new Float(myCrewPeople[i].getCurrentActivity().getActivityIntensity()));
-			}
-		}
-	}
-
-	public void visibilityChange(boolean nowVisible){
-		if (nowVisible && trackingWanted){
-			refreshTimer.start();
-		}
-		else{
-			refreshTimer.stop();
-		}
-	}
-
-	/**
-	* Action that displays the power panel in an internal frame on the desktop.
-	*/
-	private class RefreshAction extends AbstractAction{
-		public RefreshAction(String name){
-			super(name);
-		}
-		public void actionPerformed(ActionEvent ae){
-			refresh();
-		}
-	}
-
-	/**
-	* Action that displays the power panel in an internal frame on the desktop.
-	*/
-	private class TrackingAction extends AbstractAction{
-		public TrackingAction(String name){
-			super(name);
-		}
-		public void actionPerformed(ActionEvent ae){
-			if (refreshTimer.isRunning()){
-				refreshTimer.stop();
-				trackingButton.setText("Start Tracking");
-				trackingWanted = false;
-			}
-			else{
-				refreshTimer.start();
-				trackingButton.setText("Stop Tracking");
-				trackingWanted = true;
 			}
 		}
 	}

@@ -1,7 +1,7 @@
 package biosim.client.air.gui;
 
-import biosim.client.framework.*;
 import biosim.client.framework.gui.*;
+import biosim.client.framework.*;
 import biosim.idl.air.*;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -15,7 +15,7 @@ import java.text.*;
  * @author    Scott Bell
  */
  
-public class AirTextPanel extends BioTabPanel
+public class AirTextPanel extends TimedPanel
 {
 	//Various GUI componenets
 	private JPanel airRSPanel;
@@ -168,7 +168,7 @@ public class AirTextPanel extends BioTabPanel
 	/**
 	 * Updates every label on the panel with new data pulled from the servers.
 	 */
-	public void processUpdate(){
+	public void refresh(){
 		airRSVCCRStatusLabel.setText( "VCCR status:    "+coallateVCCRStatus());
 		airRSCRSStatusLabel.setText(  "CRS status:     "+coallateCRSStatus());
 		airRSOGSStatusLabel.setText(  "OGS status:     "+coallateOGSStatus());

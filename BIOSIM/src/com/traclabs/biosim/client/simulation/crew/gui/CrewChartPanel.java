@@ -1,5 +1,6 @@
 package biosim.client.crew.gui;
 
+import javax.swing.*;
 import java.awt.*;
 import biosim.client.framework.gui.*;
 
@@ -8,12 +9,12 @@ import biosim.client.framework.gui.*;
  *
  * @author    Scott Bell
  */
-public class CrewChartPanel extends BioTabPanel
+public class CrewChartPanel extends UpdatablePanel
 {
-	private CrewAirChartPanel myCrewAirChartPanel;
-	private CrewFoodChartPanel myCrewFoodChartPanel;
-	private CrewWaterChartPanel myCrewWaterChartPanel;
-	private CrewIntensityChartPanel myCrewIntensityChartPanel;
+	private UpdatablePanel myCrewAirChartPanel;
+	private UpdatablePanel myCrewFoodChartPanel;
+	private UpdatablePanel myCrewWaterChartPanel;
+	private UpdatablePanel myCrewIntensityChartPanel;
 
 	public CrewChartPanel() {
 		setLayout(new GridLayout(2,2));
@@ -25,6 +26,12 @@ public class CrewChartPanel extends BioTabPanel
 		add(myCrewFoodChartPanel);
 		add(myCrewWaterChartPanel);
 		add(myCrewIntensityChartPanel);
+	}
+	
+	public void refresh(){
+		myCrewAirChartPanel.refresh();
+		myCrewFoodChartPanel.refresh();
+		myCrewWaterChartPanel.refresh();
 	}
 	
 	public void visibilityChange(boolean nowVisible){

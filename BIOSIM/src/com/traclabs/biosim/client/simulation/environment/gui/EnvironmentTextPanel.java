@@ -1,7 +1,7 @@
 package biosim.client.environment.gui;
 
-import biosim.client.framework.*;
 import biosim.client.framework.gui.*;
+import biosim.client.framework.*;
 import biosim.idl.environment.*;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -14,7 +14,7 @@ import java.text.*;
  * @author    Scott Bell
  */
 
-public class EnvironmentTextPanel extends BioTabPanel
+public class EnvironmentTextPanel extends TimedPanel
 {
 	//Various GUI componenets
 	private JLabel tickLabel;
@@ -83,7 +83,7 @@ public class EnvironmentTextPanel extends BioTabPanel
 	/**
 	 * Updates every label on the panel with new data pulled from the servers.
 	 */
-	public void processUpdate(){
+	public void refresh(){
 		long ticksExpired = mySimEnvironment.getTicks();
 		tickLabel.setText(ticksExpired + " hours ("+(ticksExpired/24)+" days)");
 		O2Label.setText("O2:     "+numFormat.format(mySimEnvironment.getO2Level()) +" L");

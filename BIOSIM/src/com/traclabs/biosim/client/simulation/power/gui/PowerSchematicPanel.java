@@ -1,8 +1,8 @@
-package biosim.client.air.gui;
+package biosim.client.power.gui;
 
 import java.awt.*;
 import javax.swing.*;
-import biosim.idl.air.*;
+import biosim.idl.power.*;
 import biosim.client.framework.gui.*;
 
 /**
@@ -10,7 +10,7 @@ import biosim.client.framework.gui.*;
  *
  * @author    Scott Bell
  */
-public class AirSchematicPanel extends TimedPanel
+public class PowerSchematicPanel extends TimedPanel
 {
 	
 	public void refresh(){
