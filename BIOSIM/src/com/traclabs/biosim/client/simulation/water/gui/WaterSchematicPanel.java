@@ -68,9 +68,9 @@ public class WaterSchematicPanel extends TimedPanel
 	*/
 	private void loadIcons(){
 		try{
-			problemIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/problemIcon.GIF"));
-			offIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/offIcon.GIF"));
-			okIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/okIcon.GIF"));
+			problemIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/problemIcon.gif"));
+			offIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/offIcon.gif"));
+			okIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/okIcon.gif"));
 		}
 		catch (Exception e){
 			System.out.println("Couldn't find icon ("+e+"), skipping");
