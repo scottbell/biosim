@@ -77,8 +77,10 @@ public class SpreadSheet extends JTable {
 		frame.addWindowListener(new WindowAdapter() {
 			                        public void windowClosing(WindowEvent e) { System.exit(0); }
 		                        });
-
-		SpreadSheet sp = new SpreadSheet(40, 40);
+		
+		String[] colNames1 = {"bob", "steve", "toby"};
+		String[] rowNames2 = {"red", "green"};
+		SpreadSheet sp = new SpreadSheet(colNames1, rowNames2);
 
 		/**
 		SheetCell[][] cells = new SheetCell[3][2];
@@ -97,6 +99,10 @@ public class SpreadSheet extends JTable {
 		frame.setVisible(true);
 
 	}
+	
+	public SpreadSheet(String[] colNames, String[] rowNames) {
+		this(null, colNames, rowNames);
+	}
 
 	/**
 	 * Build SpreadSheet of numCol columns and numRow rows.
@@ -108,7 +114,7 @@ public class SpreadSheet extends JTable {
 	 * @param numCol The number of columns
 	 *              
 	 */
-	private SpreadSheet(SheetCell[][] cells, int numRow, int numCol) {
+	private SpreadSheet(SheetCell[][] cells, String[] colNames, String[] rowNames) {
 
 		super();
 
@@ -117,15 +123,15 @@ public class SpreadSheet extends JTable {
 		if (cells!=null)
 			foo = cells;
 		else {
-			foo = new SheetCell[numRow][numCol];
-			for (int ii=0; ii<numRow; ii++) {
-				for (int jj=0; jj<numCol; jj++)
+			foo = new SheetCell[rowNames.length][colNames.length];
+			for (int ii=0; ii<rowNames.length; ii++) {
+				for (int jj=0; jj<colNames.length; jj++)
 					foo[ii][jj] = new SheetCell(ii, jj);
 			}
 		}
 
-		_numRow = numRow;
-		_numCol = numCol;
+		_numRow = rowNames.length;
+		_numCol = colNames.length;
 
 		_cellFont = new Font("Times", Font.PLAIN, 20);
 
@@ -140,7 +146,7 @@ public class SpreadSheet extends JTable {
 			if (DEBUG) System.out.println("SpreadSheet() Can't modify renderer");
 		}
 
-		_model = new SpreadSheetModel(foo, this);
+		_model = new SpreadSheetModel(foo, this, colNames);
 		setModel(_model);
 
 		/*
@@ -213,8 +219,8 @@ public class SpreadSheet extends JTable {
 
 		// Adding the row header labels
 		dim.height = rowHeight;
-		for (int ii=0; ii<_numRow; ii++) {
-			JLabel lbl = new JLabel(Integer.toString(ii+1), SwingConstants.CENTER);
+		for (int ii=0; ii<rowNames.length; ii++) {
+			JLabel lbl = new JLabel(rowNames[ii], SwingConstants.CENTER);
 			lbl.setFont(aFont);
 			lbl.setBackground(aBackground);
 			lbl.setForeground(aForeground);
@@ -242,32 +248,6 @@ public class SpreadSheet extends JTable {
 			dimScpViewport.width = getColumnModel().getTotalColumnWidth();
 		setPreferredScrollableViewportSize(dimScpViewport);
 		resizeAndRepaint();
-	}
-
-
-	/**
-	 * Build a numRow by numColumn SpreadSheet included
-	 * in a JScrollPane. The associated model and the cells
-	 * are automatically created.
-	 *
-	 * @param numRow The number of row in the spreadsheet
-	 * @param numColumn The number of column in the spreadsheet
-	 */
-	public SpreadSheet(int numRow, int numColumn) {
-		this(null, numRow, numColumn);
-	}
-
-
-	/**
-	 * Build a SpreadSheet included in a JScrollPane
-	 * from the cells given as argument.
-	 *
-	 * @param cells[numRow][numColumn] A two dimensional rectangular
-	 *                                 array of cells to be used when
-	 *                                 creating the spreadsheet.
-	 */
-	public SpreadSheet(SheetCell cells[][]) {
-		this(cells, cells.length, cells[0].length);
 	}
 
 	/**
@@ -314,7 +294,7 @@ public class SpreadSheet extends JTable {
 		super.editingCanceled(ev);
 	}
 
-	protected JScrollPane getScrollPane() { return _scp; }
+	public JScrollPane getScrollPane() { return _scp; }
 
 	public void processMouseEvent(MouseEvent ev) {
 
@@ -322,7 +302,7 @@ public class SpreadSheet extends JTable {
 		int modifiers = ev.getModifiers();
 
 		if ( (type==MouseEvent.MOUSE_RELEASED) && (modifiers==InputEvent.BUTTON3_MASK) ) {
-
+			/*
 			if (_selection!=null) {
 				if (_popupMenu==null) _popupMenu = new CellMenu(this);
 
@@ -335,7 +315,7 @@ public class SpreadSheet extends JTable {
 					_popupMenu.setVisible(true);
 				}
 			}
-
+			*/
 		}
 		super.processMouseEvent(ev);
 	}
@@ -343,6 +323,10 @@ public class SpreadSheet extends JTable {
 	protected void release() { _model = null; }
 
 	public void setVisible(boolean flag) { _scp.setVisible(flag); }
+
+	public boolean isCellEditable(int row, int col) {
+		return false;
+	}
 
 
 	/*
@@ -383,7 +367,7 @@ public class SpreadSheet extends JTable {
 			this.setText(sc.toString());
 			this.setForeground(sc.foreground);
 			this.setBackground(sc.background);
-
+			/*
 			if (isSelected) {
 				this.setBorder(_selectBorder);
 				this.setToolTipText("Right-click to change the cell's colors.");
@@ -393,7 +377,7 @@ public class SpreadSheet extends JTable {
 				this.setToolTipText("Single-Click to select a cell, " +
 				                    "double-click to edit.");
 			}
-
+			*/
 			return this;
 
 		}
