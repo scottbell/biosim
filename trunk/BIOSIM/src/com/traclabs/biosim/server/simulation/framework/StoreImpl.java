@@ -203,7 +203,11 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	*/
 	public float add(float amountRequested){
 		//idiot check
-		if (amountRequested < 0)
+		if (Float.isNaN(amountRequested)){
+			System.out.println(getModuleName()+": warning, in add(), attemped to add "+amountRequested);
+			return 0f;
+		}
+		if (amountRequested <= 0)
 			return 0f;
 		if (pipe)
 			capacity += amountRequested;
@@ -231,9 +235,12 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 		if (pipe)
 			capacity -= amountRequested;
 		//idiot check
-		if (amountRequested <= 0f){
+		if (Float.isNaN(amountRequested)){
+			System.out.println(getModuleName()+": warning, in add(), attemped to add "+amountRequested);
 			return 0f;
 		}
+		if (amountRequested <= 0)
+			return 0f;
 		float takenAmount;
 		//asking for more stuff than exists
 		if (amountRequested > level){
