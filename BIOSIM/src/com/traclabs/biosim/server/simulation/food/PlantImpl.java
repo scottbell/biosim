@@ -77,7 +77,7 @@ public abstract class PlantImpl extends PlantPOA{
 	
 	protected float calculateNetCanopyPhotosynthesis(){
 		float plantGrowthDiurnalCycle = 24f;
-		return (((plantGrowthDiurnalCycle - getPhotoperiod()) / plantGrowthDiurnalCycle) + ((getPhotoperiod * getCarbonUseEfficiency24()) / plantGrowthDiurnalCycle)) * calculateGrossCanopyPhotosynthesis();
+		return (((plantGrowthDiurnalCycle - getPhotoperiod()) / plantGrowthDiurnalCycle) + ((getPhotoperiod() * getCarbonUseEfficiency24()) / plantGrowthDiurnalCycle)) * calculateGrossCanopyPhotosynthesis();
 	}
 	
 	private float calculateGrossCanopyPhotosynthesis(){
