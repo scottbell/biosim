@@ -164,7 +164,6 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		PowerStore myPowerStore = (PowerStore)(getBioModule(powerStoreName));
 		myPowerStore.setCapacity(7500f);
 		myPowerStore.setLevel(0f);
-		setLogging(false);
 	}
 	
 	/**
