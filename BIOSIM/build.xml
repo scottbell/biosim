@@ -1,4 +1,4 @@
-<project name="BioSim" default="compile" basedir=".">
+<project name="BioSim" default="build" basedir=".">
 	<description>
         	Build file for BioSim
 	</description>
@@ -155,7 +155,7 @@
 		</jar>
 	</target>
 	
-	<target name="build-api-docs" depends="build-server,build-client" description="creates BioSim API documentation">
+	<target name="javadocs" depends="build-server,build-client" description="creates BioSim API documentation">
 		<mkdir dir="${apiDir}"/>
 		<javadoc 
 			destdir="${apiDir}" 
@@ -192,7 +192,7 @@
 		<exec executable="latex" dir="${manualDir}">
 			<arg line="${manualDir}/users_manual.tex"/>
 		</exec>
-		<exec executable="buildindex" dir="${manualDir}">
+		<exec executable="makeindex" dir="${manualDir}">
 			<arg line="${manualDir}/users_manual.idx"/>
 		</exec>
 		<exec executable="bibtex" dir="${manualDir}">
@@ -276,13 +276,20 @@
 		</java>
 	</target>
   
-  	<target name="all" depends="build-docs, build-manual, build-ga-distro, build-distro" description="compile biosim, create docs">
+  	<target name="all" depends="docs, build-manual, build-ga-distro, build-win-distro" description="compile biosim, create docs">
 	</target>
 	
-	<target name="build" depends="build-server,build-client" description="compile biosim">
+	<target name="build" depends="build-server,build-client" description="builds biosim">
+	</target>
+	
+	<target name="main" depends="build" description="builds biosim">
+	</target>
+	
+	<target name="docs" depends="javadocs, build-manual" description="creates documentation">
 	</target>
 
 	<target name="clean" description="clean up">
 		<delete dir="${buildDir}"/>
+		<delete dir="${distDir}"/>
 	</target>
 </project>
