@@ -22,7 +22,6 @@ public class SimCommandLine
 
 	public void runCommandLine(){
 		myDriver = grabDriver();
-		myDriver.setPauseSimulation(false);
 		BufferedReader userInputReader = new BufferedReader(new InputStreamReader(System.in));
 		while (true){
 			try{
