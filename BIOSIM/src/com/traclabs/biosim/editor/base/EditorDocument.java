@@ -26,8 +26,8 @@ import com.traclabs.biosim.editor.graph.EditorFigNode;
 import com.traclabs.biosim.editor.graph.EditorGraphModel;
 import com.traclabs.biosim.editor.xml.DocumentReader;
 import com.traclabs.biosim.editor.xml.DocumentWriter;
-import com.traclabs.biosim.editor.xml.VesprParser;
-import com.traclabs.biosim.editor.xml.VesprWriter;
+import com.traclabs.biosim.editor.xml.EditorParser;
+import com.traclabs.biosim.editor.xml.EditorWriter;
 
 /**
  * VesprDocument represents a document which contains a hierachy of nested vespr
@@ -164,11 +164,11 @@ public class EditorDocument {
     }
 
     public DocumentReader createReader() {
-        return VesprParser.SINGLETON;
+        return EditorParser.SINGLETON;
     }
 
     public DocumentWriter createWriter() {
-        return VesprWriter.SINGLETON;
+        return EditorWriter.SINGLETON;
     }
 
     /**
