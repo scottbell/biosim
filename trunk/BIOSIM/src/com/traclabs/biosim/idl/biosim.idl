@@ -33,6 +33,7 @@ module biosim{
 				boolean isMalfunctioning();
 				StringList getMalfunctionNames();
 				MalfunctionList getMalfunctions();
+				void maitenance();
                         };
 			
                         interface Store : BioModule{
