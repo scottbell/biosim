@@ -185,6 +185,7 @@ public abstract class PlantImpl extends PlantPOA{
 		myLastEdibleWetBiomass = myCurrentEdibleWetBiomass;
 		myCurrentTotalWetBiomass = (myCurrentDryBiomass * getFreshFactor());
 		myCurrentEdibleWetBiomass = getFractionOfEdibleBiomass() * myCurrentTotalWetBiomass;
+		System.out.println("PlantImpl: getFreshFactor(): "+getFreshFactor());
 		System.out.println("PlantImpl: myCurrentTotalWetBiomass: "+myCurrentTotalWetBiomass);
 		System.out.println("PlantImpl: myCurrentEdibleWetBiomass: "+myCurrentEdibleWetBiomass);
 		
@@ -244,6 +245,10 @@ public abstract class PlantImpl extends PlantPOA{
 	private float calculateWetIncoporatedWaterUptake(){
 		float myCurrentInedibleWetBiomass = myCurrentTotalWetBiomass - myCurrentEdibleWetBiomass;
 		float myLastInedibleWetBiomass = myLastTotalWetBiomass - myLastEdibleWetBiomass;
+		if (myCurrentInedibleWetBiomass < 0)
+			myCurrentInedibleWetBiomass = 0f;
+		if (myLastInedibleWetBiomass < 0)
+			myLastInedibleWetBiomass = 0f;
 		float densityOfWater = myShelfImpl.getBiomassRSImpl().getAirInputs()[0].getWaterDensity();
 		System.out.println("PlantImpl: myCurrentTotalWetBiomass: "+myCurrentTotalWetBiomass);
 		System.out.println("PlantImpl: myCurrentEdibleWetBiomass: "+myCurrentEdibleWetBiomass);
