@@ -250,7 +250,7 @@
 			<FoodOutFlowRateSensor name="FoodProcessorFoodOutFlowRateSensor" index="0" input="FoodProcessor"/>
 			<FoodStoreLevelSensor name="FoodStoreLevelSensor" input="FoodStore"/>
 			<HarvestSensor name="Shelf0HarvestSensor" shelfIndex="0" input="BiomassRS"/>
-			<HarvestSensor name="Shelf0PlantDeathSensor" shelfIndex="0" input="BiomassRS"/>
+			<PlantDeathSensor name="Shelf0PlantDeathSensor" shelfIndex="0" input="BiomassRS"/>
 		</food>
 		<framework>
 			<StoreOverflowSensor name="PowerStoreOverflowSensor" input="PowerStore"/>
