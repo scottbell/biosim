@@ -28,6 +28,6 @@ public abstract class EditorToolBar extends JToolBar {
     }
 
     protected void notfifyEditor(EditorFig pFig) {
-        myEditor.setCurrentFig(pFig);
+        //myEditor.setCurrentFig(pFig);
     }
 }

@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import org.tigris.gef.base.CmdCreateNode;
+
 /**
  * @author scott
  */
@@ -15,7 +17,7 @@ public class AirToolBar extends EditorToolBar {
     public AirToolBar(BiosimEditor pEditor) {
         super("Air", pEditor);
 
-        add(new H2StoreAction());
+        add(new CmdCreateNode(H2StoreFig.class, true, null, "H2Store"));
         add(new NitrogenStoreAction());
         add(new CH4StoreAction());
         add(new O2StoreAction());
