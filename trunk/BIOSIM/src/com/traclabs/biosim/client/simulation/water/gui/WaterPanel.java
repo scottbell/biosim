@@ -138,10 +138,10 @@ public class WaterPanel extends JPanel implements BioSimulatorListener
 	private void createWaterRSStatusPanel(){
 		waterRSStatusPanel = new JPanel();
 		waterRSStatusPanel.setLayout(new GridLayout(4,1));
-	        waterRSBWPStatusLabel =new JLabel("BWP status: "+"empty");
-	        waterRSROStatusLabel =  new JLabel("RO status:  "+"empty");
-	        waterRSAESStatusLabel = new JLabel("AES status: "+"empty");
-	        waterRSPPSStatusLabel = new JLabel("PPS status: "+"empty");;
+	        waterRSBWPStatusLabel =new JLabel("BWP status: "+coallateBWPStatus());
+	        waterRSROStatusLabel =  new JLabel("RO status:  "+coallateROStatus());
+	        waterRSAESStatusLabel = new JLabel("AES status: "+coallateAESStatus());
+	        waterRSPPSStatusLabel = new JLabel("PPS status: "+coallatePPSStatus());
 		waterRSStatusPanel.add(waterRSBWPStatusLabel);
 		waterRSStatusPanel.add(waterRSROStatusLabel);
 		waterRSStatusPanel.add(waterRSAESStatusLabel);
@@ -173,19 +173,59 @@ public class WaterPanel extends JPanel implements BioSimulatorListener
 	}
 	
 	private String coallateAESStatus(){
-		return null;
+		StringBuffer statusBuffer = new StringBuffer();
+		if (!myWaterRS.AESHasPower())
+			statusBuffer.append("needs power, ");
+		if (!myWaterRS.AESHasWater())
+			statusBuffer.append("needs water, ");
+		if (statusBuffer.length() < 1)
+			return "nominal";
+		else{
+			statusBuffer.delete(statusBuffer.length() -2, statusBuffer.length());
+			return statusBuffer.toString();
+		}
 	}
 	
 	private String coallateBWPStatus(){
-		return null;
+		StringBuffer statusBuffer = new StringBuffer();
+		if (!myWaterRS.BWPHasPower())
+			statusBuffer.append("needs power, ");
+		if (!myWaterRS.BWPHasWater())
+			statusBuffer.append("needs water, ");
+		if (statusBuffer.length() < 1)
+			return "nominal";
+		else{
+			statusBuffer.delete(statusBuffer.length() -2, statusBuffer.length());
+			return statusBuffer.toString();
+		}
 	}
 	
 	private String coallateROStatus(){
-		return null;
+		StringBuffer statusBuffer = new StringBuffer();
+		if (!myWaterRS.ROHasPower())
+			statusBuffer.append("needs power, ");
+		if (!myWaterRS.ROHasWater())
+			statusBuffer.append("needs water, ");
+		if (statusBuffer.length() < 1)
+			return "nominal";
+		else{
+			statusBuffer.delete(statusBuffer.length() -2, statusBuffer.length());
+			return statusBuffer.toString();
+		}
 	}
 	
 	private String coallatePPSStatus(){
-		return null;
+		StringBuffer statusBuffer = new StringBuffer();
+		if (!myWaterRS.PPSHasPower())
+			statusBuffer.append("needs power, ");
+		if (!myWaterRS.PPSHasWater())
+			statusBuffer.append("needs water, ");
+		if (statusBuffer.length() < 1)
+			return "nominal";
+		else{
+			statusBuffer.delete(statusBuffer.length() -2, statusBuffer.length());
+			return statusBuffer.toString();
+		}
 	}
 
 	public void processTick(){
@@ -194,10 +234,10 @@ public class WaterPanel extends JPanel implements BioSimulatorListener
 		waterRSDirtyWaterConsumedLabel.setText("dirty water consumed:      "+numFormat.format(myWaterRS.getDirtyWaterConsumed())+" L");
 		waterRSPowerConsumedLabel.setText("power consumed:             "+numFormat.format(myWaterRS.getPowerConsumed())+" W");
 		waterRSGreyWaterConsumedLabel.setText("grey water consumed:      "+numFormat.format(myWaterRS.getGreyWaterConsumed())+" L");
-		waterRSAESStatusLabel.setText("AES status: "+"empty");
-		waterRSBWPStatusLabel.setText("BWP status: "+"empty");
-		waterRSROStatusLabel.setText("RO status:  "+"empty");
-		waterRSPPSStatusLabel.setText("PPS status: "+"empty");
+		waterRSAESStatusLabel.setText("AES status: "+coallateAESStatus());
+		waterRSBWPStatusLabel.setText("BWP status: "+coallateBWPStatus());
+		waterRSROStatusLabel.setText("RO status:  "+coallateROStatus());
+		waterRSPPSStatusLabel.setText("PPS status: "+coallatePPSStatus());
 		potableWaterStoreLevelLabel.setText("water level:    "+numFormat.format(myPotableWaterStore.getLevel())+" L");
 		greyWaterStoreLevelLabel.setText("water level:    "+numFormat.format(myGreyWaterStore.getLevel())+" L");
 		dirtyWaterStoreLevelLabel.setText("water level:    "+numFormat.format(myDirtyWaterStore.getLevel())+" L");
