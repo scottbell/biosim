@@ -82,7 +82,7 @@ idlInvocation="$java_command -classpath $JACORB_HOME/idl.jar org.jacorb.idl.pars
 if [ "$userSelect" == "all" ]
 then
 	echo "		-generating skeletons/stubs"
-	echo "$idlInvocation -d $skeletonDir $fullIDLDir"
+	#echo "$idlInvocation -d $skeletonDir $fullIDLDir"
 	$idlInvocation -d $skeletonDir $fullIDLDir
 fi
 #######################
