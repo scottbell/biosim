@@ -14,6 +14,9 @@ import com.traclabs.biosim.idl.simulation.air.AirRSPOATie;
 import com.traclabs.biosim.idl.simulation.air.CO2Store;
 import com.traclabs.biosim.idl.simulation.air.CO2StoreHelper;
 import com.traclabs.biosim.idl.simulation.air.CO2StorePOATie;
+import com.traclabs.biosim.idl.simulation.air.CRS;
+import com.traclabs.biosim.idl.simulation.air.CRSHelper;
+import com.traclabs.biosim.idl.simulation.air.CRSPOATie;
 import com.traclabs.biosim.idl.simulation.air.H2Store;
 import com.traclabs.biosim.idl.simulation.air.H2StoreHelper;
 import com.traclabs.biosim.idl.simulation.air.H2StorePOATie;
@@ -23,6 +26,12 @@ import com.traclabs.biosim.idl.simulation.air.NitrogenStorePOATie;
 import com.traclabs.biosim.idl.simulation.air.O2Store;
 import com.traclabs.biosim.idl.simulation.air.O2StoreHelper;
 import com.traclabs.biosim.idl.simulation.air.O2StorePOATie;
+import com.traclabs.biosim.idl.simulation.air.OGS;
+import com.traclabs.biosim.idl.simulation.air.OGSHelper;
+import com.traclabs.biosim.idl.simulation.air.OGSPOATie;
+import com.traclabs.biosim.idl.simulation.air.VCCR;
+import com.traclabs.biosim.idl.simulation.air.VCCRHelper;
+import com.traclabs.biosim.idl.simulation.air.VCCRPOATie;
 import com.traclabs.biosim.idl.simulation.crew.Activity;
 import com.traclabs.biosim.idl.simulation.crew.ActivityHelper;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
@@ -127,9 +136,12 @@ import com.traclabs.biosim.server.framework.BiosimServer;
 import com.traclabs.biosim.server.simulation.air.AirRSImpl;
 import com.traclabs.biosim.server.simulation.air.AirRSLinearImpl;
 import com.traclabs.biosim.server.simulation.air.CO2StoreImpl;
+import com.traclabs.biosim.server.simulation.air.CRSImpl;
 import com.traclabs.biosim.server.simulation.air.H2StoreImpl;
 import com.traclabs.biosim.server.simulation.air.NitrogenStoreImpl;
 import com.traclabs.biosim.server.simulation.air.O2StoreImpl;
+import com.traclabs.biosim.server.simulation.air.OGSImpl;
+import com.traclabs.biosim.server.simulation.air.VCCRImpl;
 import com.traclabs.biosim.server.simulation.crew.ActivityImpl;
 import com.traclabs.biosim.server.simulation.crew.CrewGroupImpl;
 import com.traclabs.biosim.server.simulation.crew.EVAActivityImpl;
@@ -781,6 +793,93 @@ public class SimulationInitializer {
         myActiveSimModules.add(myAirRS);
     }
 
+    /**
+     * @param child
+     */
+    private void createVCCR(Node node) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
+            myLogger.debug("Creating VCCR with moduleName: " + moduleName);
+            String implementationString = node.getAttributes().getNamedItem(
+                    "implementation").getNodeValue();
+            VCCRImpl myVCCRImpl = new VCCRImpl(myID, moduleName);
+            BioInitializer.setupBioModule(myVCCRImpl, node);
+            BiosimServer.registerServer(new VCCRPOATie(myVCCRImpl), myVCCRImpl
+                    .getModuleName(), myVCCRImpl.getID());
+        } else
+            BioInitializer.printRemoteWarningMessage(moduleName);
+
+    }
+
+    /**
+     * @param child
+     */
+    private void configureVCCR(Node node) {
+        VCCR myVCCR = VCCRHelper.narrow(BioInitializer.grabModule(myID,
+                BioInitializer.getModuleName(node)));
+        configureSimBioModule(myVCCR, node);
+        myActiveSimModules.add(myVCCR);
+
+    }
+
+    /**
+     * @param child
+     */
+    private void createCRS(Node node) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
+            myLogger.debug("Creating CRS with moduleName: " + moduleName);
+            String implementationString = node.getAttributes().getNamedItem(
+                    "implementation").getNodeValue();
+            CRSImpl myCRSImpl = new CRSImpl(myID, moduleName);
+            BioInitializer.setupBioModule(myCRSImpl, node);
+            BiosimServer.registerServer(new CRSPOATie(myCRSImpl), myCRSImpl
+                    .getModuleName(), myCRSImpl.getID());
+        } else
+            BioInitializer.printRemoteWarningMessage(moduleName);
+
+    }
+
+    /**
+     * @param child
+     */
+    private void configureCRS(Node node) {
+        CRS myCRS = CRSHelper.narrow(BioInitializer.grabModule(myID,
+                BioInitializer.getModuleName(node)));
+        configureSimBioModule(myCRS, node);
+        myActiveSimModules.add(myCRS);
+
+    }
+
+    /**
+     * @param child
+     */
+    private void createOGS(Node node) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
+            myLogger.debug("Creating OGS with moduleName: " + moduleName);
+            String implementationString = node.getAttributes().getNamedItem(
+                    "implementation").getNodeValue();
+            OGSImpl myOGSImpl = new OGSImpl(myID, moduleName);
+            BioInitializer.setupBioModule(myOGSImpl, node);
+            BiosimServer.registerServer(new OGSPOATie(myOGSImpl), myOGSImpl
+                    .getModuleName(), myOGSImpl.getID());
+        } else
+            BioInitializer.printRemoteWarningMessage(moduleName);
+
+    }
+
+    /**
+     * @param child
+     */
+    private void configureOGS(Node node) {
+        OGS myOGS = OGSHelper.narrow(BioInitializer.grabModule(myID,
+                BioInitializer.getModuleName(node)));
+        configureSimBioModule(myOGS, node);
+        myActiveSimModules.add(myOGS);
+
+    }
+
     private void createO2Store(Node node) {
         String moduleName = BioInitializer.getModuleName(node);
         if (BioInitializer.isCreatedLocally(node)) {
@@ -837,6 +936,21 @@ public class SimulationInitializer {
                 else
                     configureAirRS(child);
 
+            } else if (childName.equals("OGS")) {
+                if (firstPass)
+                    createOGS(child);
+                else
+                    configureOGS(child);
+            } else if (childName.equals("CRS")) {
+                if (firstPass)
+                    createCRS(child);
+                else
+                    configureCRS(child);
+            } else if (childName.equals("VCCR")) {
+                if (firstPass)
+                    createVCCR(child);
+                else
+                    configureVCCR(child);
             } else if (childName.equals("O2Store")) {
                 if (firstPass)
                     createO2Store(child);
@@ -1306,14 +1420,16 @@ public class SimulationInitializer {
             BiomassStoreImpl myBiomassStoreImpl = new BiomassStoreImpl(myID,
                     moduleName);
             BioInitializer.setupBioModule(myBiomassStoreImpl, node);
-            float inedibleFraction = Float.parseFloat(node.getAttributes().getNamedItem(
-            "inedibleFraction").getNodeValue());
-            float edibleWaterContent = Float.parseFloat(node.getAttributes().getNamedItem(
-            "edibleWaterContent").getNodeValue());
-            float inedibleWaterContent = Float.parseFloat(node.getAttributes().getNamedItem(
-            "inedibleWaterContent").getNodeValue());
+            float inedibleFraction = Float.parseFloat(node.getAttributes()
+                    .getNamedItem("inedibleFraction").getNodeValue());
+            float edibleWaterContent = Float.parseFloat(node.getAttributes()
+                    .getNamedItem("edibleWaterContent").getNodeValue());
+            float inedibleWaterContent = Float.parseFloat(node.getAttributes()
+                    .getNamedItem("inedibleWaterContent").getNodeValue());
             PlantType theCropType = getCropType(node);
-            BioMatter newBioMatter = new BioMatter(getStoreLevel(node), inedibleFraction, edibleWaterContent, inedibleWaterContent, theCropType);
+            BioMatter newBioMatter = new BioMatter(getStoreLevel(node),
+                    inedibleFraction, edibleWaterContent, inedibleWaterContent,
+                    theCropType);
             myBiomassStoreImpl.setInitialCapacity(getStoreCapacity(node));
             myBiomassStoreImpl.setInitialBioMatterLevel(newBioMatter);
             myBiomassStoreImpl.setResupply(getStoreResupplyFrequency(node),
@@ -1331,10 +1447,11 @@ public class SimulationInitializer {
             myLogger.debug("Creating FoodStore with moduleName: " + moduleName);
             FoodStoreImpl myFoodStoreImpl = new FoodStoreImpl(myID, moduleName);
             BioInitializer.setupBioModule(myFoodStoreImpl, node);
-            float waterContent = Float.parseFloat(node.getAttributes().getNamedItem(
-            "waterContent").getNodeValue());
+            float waterContent = Float.parseFloat(node.getAttributes()
+                    .getNamedItem("waterContent").getNodeValue());
             PlantType theCropType = getCropType(node);
-            FoodMatter newFoodMatter = new FoodMatter(getStoreLevel(node), waterContent, theCropType);
+            FoodMatter newFoodMatter = new FoodMatter(getStoreLevel(node),
+                    waterContent, theCropType);
             myFoodStoreImpl.setInitialCapacity(getStoreCapacity(node));
             myFoodStoreImpl.setInitialFoodMatterLevel(newFoodMatter);
             myFoodStoreImpl.setResupply(getStoreResupplyFrequency(node),
@@ -1383,13 +1500,13 @@ public class SimulationInitializer {
         if (BioInitializer.isCreatedLocally(node)) {
             myLogger.debug("Creating PowerPS with moduleName: " + moduleName);
             PowerPSImpl myPowerPSImpl = null;
-            if (node.getAttributes().getNamedItem("generationType").getNodeValue()
-                    .equals("SOLAR"))
+            if (node.getAttributes().getNamedItem("generationType")
+                    .getNodeValue().equals("SOLAR"))
                 myPowerPSImpl = new SolarPowerPS(myID, moduleName);
             else
                 myPowerPSImpl = new NuclearPowerPS(myID, moduleName);
-            float upperPowerGeneration = Float.parseFloat(node.getAttributes().getNamedItem(
-            "upperPowerGeneration").getNodeValue());
+            float upperPowerGeneration = Float.parseFloat(node.getAttributes()
+                    .getNamedItem("upperPowerGeneration").getNodeValue());
             myPowerPSImpl.setInitialUpperPowerGeneration(upperPowerGeneration);
             BioInitializer.setupBioModule(myPowerPSImpl, node);
             BiosimServer.registerServer(new PowerPSPOATie(myPowerPSImpl),

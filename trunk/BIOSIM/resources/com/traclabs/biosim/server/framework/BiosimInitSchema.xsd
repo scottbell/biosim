@@ -74,6 +74,9 @@
 				<xsd:complexType>
 					<xsd:sequence>
 						<xsd:element name="AirRS" type="AirRSType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="OGS" type="OGSType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="CRS" type="CRSType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="VCCR" type="VCCRType" minOccurs="0" maxOccurs="unbounded"/>
 						<xsd:element name="O2Store" type="O2StoreType" minOccurs="0" maxOccurs="unbounded"/>
 						<xsd:element name="CO2Store" type="CO2StoreType" minOccurs="0" maxOccurs="unbounded"/>
 						<xsd:element name="H2Store" type="H2StoreType" minOccurs="0" maxOccurs="unbounded"/>
@@ -893,6 +896,46 @@
 				</xsd:sequence>
 				<!--<xsd:attribute name="operationMode" type="AirRSOperationMode" default="FULL"/> -->
 				<xsd:attribute name="implementation" type="AirRSImplementationType" default="NORMAL"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="OGSType">  
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:sequence>
+					<xsd:element name="powerConsumer" type="PowerConsumerType"/>
+					<xsd:element name="potableWaterConsumer" type="PotableWaterConsumerType"/>
+					<xsd:element name="O2Producer" type="O2ProducerType"/>
+					<xsd:element name="H2Producer" type="H2ProducerType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="CRSType">  
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:sequence>
+					<xsd:element name="powerConsumer" type="PowerConsumerType"/>
+					<xsd:element name="airConsumer" type="AirConsumerType"/>
+					<xsd:element name="CO2Consumer" type="CO2ConsumerType"/>
+					<xsd:element name="H2Consumer" type="H2ConsumerType"/>
+					<xsd:element name="potableWaterProducer" type="PotableWaterProducerType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="VCCRType">  
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:sequence>
+					<xsd:element name="powerConsumer" type="PowerConsumerType"/>
+					<xsd:element name="airConsumer" type="AirConsumerType"/>
+					<xsd:element name="airProducer" type="AirProducerType"/>
+					<xsd:element name="CO2Producer" type="CO2ProducerType"/>
+				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
