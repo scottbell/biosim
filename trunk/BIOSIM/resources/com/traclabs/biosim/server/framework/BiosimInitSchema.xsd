@@ -456,7 +456,7 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 	
-	<!-- Special crew specific declarations -->
+	<!-- Special CrewGroup specific declarations -->
 	<xsd:complexType name="ScheduleType">
 		<xsd:sequence>
 			<xsd:element name="activity" type="ActivityType" minOccurs="1" maxOccurs="unbounded"/>
@@ -494,6 +494,7 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 	
+	<!-- Special PowerPS specific declarations -->
 	<xsd:simpleType name="GenerationType">
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="SOLAR"/>
@@ -598,6 +599,25 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
+	
+	<xsd:complexType name="WaterRSType">  
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:sequence>
+					<xsd:element name="name" type="xsd:string"/>
+					<xsd:element name="powerConsumer" type="PowerConsumerType"/>
+					<xsd:element name="dirtyWaterConsumer" type="DirtyWaterConsumerType"/>
+					<xsd:element name="greyWaterConsumer" type="GreyWaterConsumerType"/>
+					<xsd:element name="potableWaterProducer" type="PotableWaterProducerType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	
+	<!-- Sensor declarations -->
+	
+	<!-- Actuator declarations -->
 	
 </xsd:schema>
 
