@@ -30,7 +30,7 @@ public class BioDriverImpl extends BioDriverPOA{
 	//The logger module
 	private Logger myLogger;
 	//How long BioDriver should pause between ticks
-	private int driverPauseLength = 0;
+	private int driverStutterLength = 0;
 	//The ID of this instance of BioSim
 	private int myID = 0;
 	//If we loop after end conditions of a simulation run have been met (crew death or n-ticks)
@@ -195,12 +195,12 @@ public class BioDriverImpl extends BioDriverPOA{
 
 	/**
 	* Sets how long BioDriver should pause between full simulation ticks (e.g., tick all modules, wait, tick all modules, wait, etc.)
-	* @param pDriverPauseLength the length (in milliseconds) for the driver to pause between ticks
+	* @param pDriverStutterLength the length (in milliseconds) for the driver to pause between ticks
 	*/
-	public synchronized void setDriverStutterLength(int pDriverPauseLength){
-		if (pDriverPauseLength > 0)
-			System.out.println("BioDriverImpl:"+myID+" driver pause of "+pDriverPauseLength+" milliseconds");
-		driverPauseLength = pDriverPauseLength;
+	public synchronized void setDriverStutterLength(int pDriverStutterLength){
+		if (pDriverStutterLength > 0)
+			System.out.println("BioDriverImpl:"+myID+" driver pause of "+pDriverStutterLength+" milliseconds");
+		driverStutterLength = pDriverStutterLength;
 	}
 
 	/**
@@ -208,7 +208,7 @@ public class BioDriverImpl extends BioDriverPOA{
 	* @return How long the simulation pauses between full simulation ticks.
 	*/
 	public int getDriverStutterLength(){
-		return driverPauseLength;
+		return driverStutterLength;
 	}
 
 	/**
@@ -383,7 +383,7 @@ public class BioDriverImpl extends BioDriverPOA{
 			reset();
 		while (myTickThread == theCurrentThread) {
 			try {
-				myTickThread.sleep(driverPauseLength);
+				myTickThread.sleep(driverStutterLength);
 				synchronized(this) {
 					while (simulationIsPaused && (myTickThread==theCurrentThread)){
 						wait();

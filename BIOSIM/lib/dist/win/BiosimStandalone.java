@@ -75,9 +75,9 @@ public class BiosimStandalone
 	
 	private class ServerThread implements Runnable{
 	        public void run(){
-			BiosimServer myBiosimServer = new BiosimServer();
+			BiosimServer myBiosimServer = new BiosimServer(0, 500);
 			myBiosimServer.addReadyListener(myReadyListener);
-			myBiosimServer.startBiosimServer(0);
+			myBiosimServer.runServer("BiosimServer (id="+0+")");
 	        }
 	}
 	

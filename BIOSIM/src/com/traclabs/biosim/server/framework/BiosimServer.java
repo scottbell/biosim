@@ -13,10 +13,11 @@ import biosim.server.util.*;
 
 public class BiosimServer extends GenericServer{
 	
-	public BiosimServer(int id){
+	public BiosimServer(int id, int stutterLength){
 		URL documentUrl = ClassLoader.getSystemClassLoader().getResource("biosim/server/framework/DefaultInitialization.xml");
 		LoggerImpl myLoggerImpl = new LoggerImpl(id);
 		BioDriverImpl myBioDriverImpl = new BioDriverImpl(id);
+		myBioDriverImpl.setDriverStutterLength(stutterLength);
 		registerServer(myLoggerImpl, myLoggerImpl.getName(), myLoggerImpl.getID());
 		registerServer(myBioDriverImpl, myBioDriverImpl.getName(), myBioDriverImpl.getID());
 		BioInitializer myInitializer = new BioInitializer(id);
@@ -31,7 +32,7 @@ public class BiosimServer extends GenericServer{
 	*/
 	public static void main(String args[]) {
 		int id = BiosimServer.getIDfromArgs(args);
-		BiosimServer server = new BiosimServer(id);
+		BiosimServer server = new BiosimServer(id, 0);
 		server.runServer("BiosimServer (id="+id+")");
 	}
 }

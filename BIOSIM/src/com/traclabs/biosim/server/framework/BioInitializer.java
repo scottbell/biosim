@@ -175,7 +175,9 @@ public class BioInitializer{
 				myDriver.setFullLogging(node.getAttributes().getNamedItem("isFullLoggingEnabled").getNodeValue().equals("true"));
 				myDriver.setSensorLogging(node.getAttributes().getNamedItem("isSensorLoggingEnabled").getNodeValue().equals("true"));
 				myDriver.setActuatorLogging(node.getAttributes().getNamedItem("isActuatorLoggingEnabled").getNodeValue().equals("true"));
-				myDriver.setDriverStutterLength(Integer.parseInt(node.getAttributes().getNamedItem("driverStutterLength").getNodeValue()));
+				int stutterLength = Integer.parseInt(node.getAttributes().getNamedItem("driverStutterLength").getNodeValue());
+				if (stutterLength >= 0)
+					myDriver.setDriverStutterLength(stutterLength);
 				myDriver.setLooping(node.getAttributes().getNamedItem("isLooping").getNodeValue().equals("true"));
 
 				String stochasticString = node.getAttributes().getNamedItem("stochasticIntensity").getNodeValue();
