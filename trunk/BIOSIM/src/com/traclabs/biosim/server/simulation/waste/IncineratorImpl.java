@@ -183,8 +183,16 @@ public class IncineratorImpl extends SimBioModuleImpl implements IncineratorOper
 	*/
 	private void consumeResources(){
 		gatherPower();
-		gatherDryWaste();
-		gatherO2();
+		if (hasEnoughPower){
+			gatherDryWaste();
+			gatherO2();
+		}
+		else{
+			currentO2Consumed = 0f;
+			Arrays.currentDryWasteConsumed(O2ActualFlowRates, 0f);
+			currentO2Consumed = 0f;
+			Arrays.fill(dryWasteActualFlowRates, 0f);
+		}
 	}
 	
 	private void createCO2(){
