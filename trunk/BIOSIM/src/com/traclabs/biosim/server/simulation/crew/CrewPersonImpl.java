@@ -429,8 +429,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		float a = 0.223804f;
 		float b = 5.64f * pow(10f, -7f);
 		float resultInLiters = a + (b * pow(heartRate, 3f) * 60f); //liters per hour
-		float idealGasConstant = 8.314f;
-		float resultInMoles = (resultInLiters * 10) / (idealGasConstant * 871.608f); //moles per hour
+		float idealGasConstant = 0.08206f;
+		float resultInMoles = (resultInLiters) / (idealGasConstant * 298); //moles per hour
 		return myCrewGroup.randomFilter(resultInMoles); //Liters/hour
 	}
 	
