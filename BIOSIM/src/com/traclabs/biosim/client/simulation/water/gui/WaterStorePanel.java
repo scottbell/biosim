@@ -47,7 +47,7 @@ public class WaterStorePanel extends GraphPanel
 		myChartPanel = new ChartPanel(myChart);
 		myChartPanel.setMinimumDrawHeight(300);
 		myChartPanel.setMinimumDrawWidth(300);
-		myChartPanel.setPreferredSize(new Dimension(200, 200));
+		myChartPanel.setPreferredSize(new Dimension(200, 300));
 	}
 
 	public void refresh() {

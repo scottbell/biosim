@@ -18,6 +18,10 @@ public abstract class BioTabbedPanel extends JPanel
 	protected UpdatablePanel myChartPanel;
 	protected UpdatablePanel mySchematicPanel;
 	private int oldSelectedIndex = -1;
+	private final static int ADDED_TAB_HEIGHT = 20;
+	private final static int ADDED_TAB_WIDTH = 10;
+	private final static int MIN_TAB_HEIGHT = 40;
+	private final static int MIN_TAB_WIDTH = 200;
 
 	/**
 	* Creates and registers this panel.
@@ -26,6 +30,17 @@ public abstract class BioTabbedPanel extends JPanel
 	public BioTabbedPanel(){
 		createPanels();
 		buildGui();
+	}
+
+	private SimDesktopFrame getSimFrame(){
+		Container theContainer = this.getParent();
+		while (theContainer != null){
+			if (theContainer instanceof SimDesktopFrame)
+				return ((SimDesktopFrame)(theContainer));
+			else
+				theContainer = theContainer.getParent();
+		}
+		return null;
 	}
 
 	protected abstract void createPanels();
@@ -42,38 +57,58 @@ public abstract class BioTabbedPanel extends JPanel
 		add(myTabbedPane, BorderLayout.CENTER);
 		myTabbedPane.addChangeListener(new TabChangeListener());
 	}
-	
+
 	public void visibilityChange(boolean nowVisible){
 		if (nowVisible)
 			alterVisibility();
 		else
 			myTextPanel.visibilityChange(false);
-			myChartPanel.visibilityChange(false);
-			mySchematicPanel.visibilityChange(false);
+		myChartPanel.visibilityChange(false);
+		mySchematicPanel.visibilityChange(false);
 	}
-	
+
+	public Dimension getPreferredSize(){
+		Dimension theDimension = myTabbedPane.getSelectedComponent().getPreferredSize();
+		System.out.println("BioTabbedFrame: original size: "+theDimension);
+		double width = theDimension.getWidth();
+		double height = theDimension.getHeight();
+		if (width < MIN_TAB_WIDTH)
+			width = MIN_TAB_WIDTH;
+		else
+			width += ADDED_TAB_WIDTH;
+		if (height < MIN_TAB_HEIGHT)
+			height = MIN_TAB_HEIGHT;
+		else
+			height += ADDED_TAB_HEIGHT;
+		theDimension.setSize(width, height);
+		System.out.println("BioTabbedFrame: changed size to: "+theDimension);
+		return theDimension;
+	}
+
 	private void alterVisibility(){
 		//Notify panel that we lost focus
-			if (oldSelectedIndex == 0){
-				myTextPanel.visibilityChange(false);
-			}
-			else if (oldSelectedIndex == 1){
-				myChartPanel.visibilityChange(false);
-			}
-			else if (oldSelectedIndex== 2){
-				mySchematicPanel.visibilityChange(false);
-			}
-			//Notify panel that we gained focus
-			if (myTabbedPane.getSelectedIndex() == 0){
-				myTextPanel.visibilityChange(true);
-			}
-			else if (myTabbedPane.getSelectedIndex() == 1){
-				myChartPanel.visibilityChange(true);
-			}
-			else if (myTabbedPane.getSelectedIndex() == 2){
-				mySchematicPanel.visibilityChange(true);
-			}
-			oldSelectedIndex = myTabbedPane.getSelectedIndex();
+		if (oldSelectedIndex == 0){
+			myTextPanel.visibilityChange(false);
+		}
+		else if (oldSelectedIndex == 1){
+			myChartPanel.visibilityChange(false);
+		}
+		else if (oldSelectedIndex== 2){
+			mySchematicPanel.visibilityChange(false);
+		}
+		//Notify panel that we gained focus
+		if (myTabbedPane.getSelectedIndex() == 0){
+			myTextPanel.visibilityChange(true);
+		}
+		else if (myTabbedPane.getSelectedIndex() == 1){
+			myChartPanel.visibilityChange(true);
+		}
+		else if (myTabbedPane.getSelectedIndex() == 2){
+			mySchematicPanel.visibilityChange(true);
+		}
+		oldSelectedIndex = myTabbedPane.getSelectedIndex();
+		setSize(getPreferredSize());
+		getSimFrame().pack();
 	}
 
 	private class TabChangeListener implements ChangeListener {
