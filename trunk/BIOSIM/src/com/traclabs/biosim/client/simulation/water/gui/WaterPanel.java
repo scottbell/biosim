@@ -1,6 +1,5 @@
 package biosim.client.water.gui;
 
-import biosim.client.framework.*;
 import biosim.client.framework.gui.*;
 import javax.swing.*;
 import java.awt.*;
