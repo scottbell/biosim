@@ -109,10 +109,6 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	}
 
 	private float calculatePressure(float pNumberOfMoles){
-		System.out.println(getModuleName()+": pNumberOfMoles:"+pNumberOfMoles);
-		System.out.println(getModuleName()+": idealGasConstant:"+idealGasConstant);
-		System.out.println(getModuleName()+": temperature:"+temperature);
-		System.out.println(getModuleName()+": volume:"+volume);
 		if (volume > 0)
 			return (pNumberOfMoles * idealGasConstant * (temperature + 273f)) / volume;
 		else
