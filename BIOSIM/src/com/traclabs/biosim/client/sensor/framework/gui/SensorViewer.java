@@ -166,10 +166,10 @@ public class SensorViewer extends SpreadSheet
 	
 	public static void main(String args[])
 	{
-		BioFrame myFrame = new BioFrame("Sensor Viewer", false);
+		JFrame myFrame = new JFrame("Sensor Viewer");
 		SensorViewer myViewer = new SensorViewer();
 		myFrame.getContentPane().add(myViewer.getScrollPane());
-		myFrame.setSize(640,480);
+		myFrame.pack();
 		myFrame.setVisible(true);
 	}
 	

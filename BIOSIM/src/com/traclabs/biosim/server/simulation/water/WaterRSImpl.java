@@ -257,6 +257,8 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 	* 1) ticks each subsystem.
 	*/
 	public void tick(){
+		for (int i =0; i < powerActualFlowRates.length; i++)
+			powerActualFlowRates[i] = 0;
 		//tick each system
 		myBWP.tick();
 		myRO.tick();
@@ -410,6 +412,9 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 	}
 	public PowerStore[] getPowerInputs(){
 		return myPowerInputs;
+	}
+	void addPowerInputActualFlowRate(float watts, int index){
+		powerActualFlowRates[index] += watts;
 	}
 	
 	//Dirty Water Input

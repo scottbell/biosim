@@ -94,7 +94,7 @@ public class ShelfImpl extends ShelfPOA {
 	* Adds power for this tick
 	*/
 	private void collectPower(){
-		currentPowerConsumed = currentGreyWaterConsumed = myBiomassImpl.getResourceFromStore(myBiomassImpl.getPowerInputs(), myBiomassImpl.getPowerInputMaxFlowRates(), myBiomassImpl.getPowerInputDesiredFlowRates(), myBiomassImpl.getPowerInputActualFlowRates(), myCrop.getPowerNeeded());
+		currentPowerConsumed = myBiomassImpl.getResourceFromStore(myBiomassImpl.getPowerInputs(), myBiomassImpl.getPowerInputMaxFlowRates(), myBiomassImpl.getPowerInputDesiredFlowRates(), myBiomassImpl.getPowerInputActualFlowRates(), myCrop.getPowerNeeded());
 		if (currentPowerConsumed < myCrop.getPowerNeeded()){
 			hasEnoughPower = false;
 		}

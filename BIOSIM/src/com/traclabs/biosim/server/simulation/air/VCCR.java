@@ -49,9 +49,11 @@ public class VCCR extends AirRSSubSystem{
 		float gatheredCO2 = 0f;
 		float gatheredOther = 0f;
 		for (int i = 0; (i < myAirRS.getAirInputs().length) && (gatheredAir < airNeededFiltered); i++){
-			airNeededFiltered = Math.min(airNeededFiltered, myAirRS.getAirInputMaxFlowRate(i));
-			Breath currentBreath = myAirRS.getAirInputs()[i].takeVolume(airNeededFiltered);
+			float resourceToGatherFirst = Math.min(airNeededFiltered, myAirRS.getAirInputMaxFlowRate(i));
+			float resourceToGatherFinal = Math.min(resourceToGatherFirst, myAirRS.getAirInputDesiredFlowRate(i));
+			Breath currentBreath = myAirRS.getAirInputs()[i].takeVolume(resourceToGatherFinal);
 			gatheredAir += currentBreath.O2 + currentBreath.CO2 + currentBreath.other;
+			myAirRS.setAirInputActualFlowRate(gatheredAir, i);
 			gatheredO2 += currentBreath.CO2;
 			gatheredCO2 += currentBreath.O2;
 			gatheredOther += currentBreath.other;
@@ -70,18 +72,14 @@ public class VCCR extends AirRSSubSystem{
 		float distributedOtherLeft = myBreath.other * myProductionRate;
 		for (int i = 0; (i < myAirRS.getAirOutputs().length) && ((distributedO2Left > 0) || (distributedOtherLeft > 0)); i++){
 			float litersToAdd = distributedO2Left + distributedOtherLeft;
-			if (litersToAdd <= myAirRS.getAirOutputMaxFlowRate(i)){
-				distributedO2Left -= myAirRS.getAirOutputs()[i].addO2(distributedO2Left);
-				distributedOtherLeft -= myAirRS.getAirOutputs()[i].addOther(distributedOtherLeft);
-			}
-			else{
-				//Recalculate percentages based on smaller volume
-				float reducedO2ToPass = myAirRS.getAirOutputMaxFlowRate(i) * (distributedO2Left / (distributedO2Left + distributedOtherLeft));
-				float reducedOtherToPass = myAirRS.getAirOutputMaxFlowRate(i) * (distributedOtherLeft / (distributedO2Left + distributedOtherLeft));
-				distributedO2Left -= myAirRS.getAirOutputs()[i].addO2(reducedO2ToPass);
-				distributedOtherLeft -= myAirRS.getAirOutputs()[i].addOther(reducedOtherToPass);
-			}
-
+			float resourceToDistributeFirst = Math.min(litersToAdd, myAirRS.getAirOutputMaxFlowRate(i));
+			float resourceToDistributeFinal = Math.min(resourceToDistributeFirst, myAirRS.getAirOutputDesiredFlowRate(i));
+			//Recalculate percentages based on smaller volume
+			float reducedO2ToPass = resourceToDistributeFinal * (distributedO2Left / (distributedO2Left + distributedOtherLeft));
+			float reducedOtherToPass = resourceToDistributeFinal * (distributedOtherLeft / (distributedO2Left + distributedOtherLeft));
+			distributedO2Left -= myAirRS.getAirOutputs()[i].addO2(reducedO2ToPass);
+			distributedOtherLeft -= myAirRS.getAirOutputs()[i].addOther(reducedOtherToPass);
+			myAirRS.setAirOutputActualFlowRate(reducedO2ToPass + reducedOtherToPass, i);
 		}
 		float CO2ToDistribute = myBreath.CO2 * myProductionRate;
 		float distributedCO2Left = myAirRS.pushResourceToStore(myAirRS.getCO2Outputs(), myAirRS.getCO2OutputMaxFlowRates(), myAirRS.getCO2OutputDesiredFlowRates(), myAirRS.getCO2OutputActualFlowRates(), CO2ToDistribute);
