@@ -74,14 +74,25 @@ public class MalfunctionPanel extends TimedPanel
 	}
 
 	private void createModuleSelectPanel(){
+		GridBagLayout gridbag = new GridBagLayout();
+		GridBagConstraints c = new GridBagConstraints();
 		myModulePanel = new JPanel();
 		myModulePanel.setBorder(BorderFactory.createTitledBorder("Module Select"));
-		myModulePanel.setLayout(new BorderLayout());
+		myModulePanel.setLayout(gridbag);
 		String[] myModuleNames = BioHolder.getBioModuleNames();
 		moduleList = new JList(myModuleNames);
 		moduleList.addListSelectionListener(new ModuleListener());
 		moduleList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		myModulePanel.add(moduleList, BorderLayout.CENTER);
+		c.fill = GridBagConstraints.BOTH;
+		c.gridheight = 1;
+		c.weightx = 1.0;
+		c.weighty = 1.0;
+		c.gridx = 1;
+		c.gridy = 1;
+		c.gridwidth = 1;
+		JScrollPane scrollPane = new JScrollPane(moduleList);
+		gridbag.setConstraints(scrollPane, c);
+		myModulePanel.add(scrollPane);
 	}
 
 	private void createOperatorPanel(){
@@ -133,8 +144,9 @@ public class MalfunctionPanel extends TimedPanel
 		c.weightx = 1.0;
 		c.weighty = 1.0;
 		c.gridwidth = 1;
-		gridbag.setConstraints(currentMalfunctionList, c);
-		myCurrentMalfunctionsPanel.add(currentMalfunctionList);
+		JScrollPane scrollPane = new JScrollPane(currentMalfunctionList);
+		gridbag.setConstraints(scrollPane, c);
+		myCurrentMalfunctionsPanel.add(scrollPane);
 		JButton fixButton = new JButton(new FixMalfunctionAction());
 		fixButton.setText("Fix");
 		c.weightx = 0.1;
@@ -154,7 +166,7 @@ public class MalfunctionPanel extends TimedPanel
 		BioFrame myFrame = new BioFrame("BioSIM Malfunctions Controller", false);
 		MalfunctionPanel myMalfPanel = new MalfunctionPanel();
 		myFrame.getContentPane().add(myMalfPanel);
-		myFrame.pack();
+		myFrame.setSize(550,350);
 		myFrame.setVisible(true);
 		myMalfPanel.setDelay(500);
 		myMalfPanel.visibilityChange(true);
