@@ -1134,6 +1134,7 @@ public class SimulationInitializer {
             float hourOfDayStart = 0f;
             float maxLumens = 0f;
             float airlockVolume = 0f;
+            float dangerousOxygenThreshold = 0f;
             Node CO2MolesNode = null;
             Node O2MolesNode = null;
             Node waterMolesNode = null;
@@ -1175,6 +1176,8 @@ public class SimulationInitializer {
                         "maxLumens").getNodeValue());
                 airlockVolume = Float.parseFloat(node.getAttributes()
                         .getNamedItem("airlockVolume").getNodeValue());
+                dangerousOxygenThreshold = Float.parseFloat(node.getAttributes()
+                        .getNamedItem("dangerousOxygenThreshold").getNodeValue());
             } catch (NumberFormatException e) {
 
                 e.printStackTrace();
@@ -1193,6 +1196,7 @@ public class SimulationInitializer {
             mySimEnvironmentImpl.setHourOfDayStart(hourOfDayStart);
             mySimEnvironmentImpl.setMaxLumens(maxLumens);
             mySimEnvironmentImpl.setAirlockVolume(airlockVolume);
+            mySimEnvironmentImpl.setDangerousOxygenThreshold(dangerousOxygenThreshold);
             BioInitializer.setupBioModule(mySimEnvironmentImpl, node);
             BiosimServer.registerServer(new SimEnvironmentPOATie(
                     mySimEnvironmentImpl),

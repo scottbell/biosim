@@ -971,6 +971,7 @@
 				<xsd:attribute name="hourOfDayStart" type="nonNegativeFloat" default="0"/>
 				<xsd:attribute name="maxLumens" type="nonNegativeFloat" default="50000"/>
 				<xsd:attribute name="airlockVolume" type="nonNegativeFloat" default="3.7"/>
+				<xsd:attribute name="dangerousOxygenThreshold" type="percentageFloat" default="1.0"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>

@@ -121,6 +121,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
     private boolean hasCollectedReferences = false;
 
 	private float myAirLockVolume = 3.7f;
+	
+	private float myDangerousOxygenThreshold = 1f;
 
     /**
      * Creates a SimEnvironment (with a currentVolume of 100000 liters) and resets the
@@ -1232,4 +1234,16 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
 		return myAirLockVolume;
 	}
 
+    /**
+     * @return Returns the myDangerousOxygenThreshold.
+     */
+    public float getDangerousOxygenThreshold() {
+        return myDangerousOxygenThreshold;
+    }
+    /**
+     * @param myDangerousOxygenThreshold The myDangerousOxygenThreshold to set.
+     */
+    public void setDangerousOxygenThreshold(float pDangerousOxygenThreshold) {
+        myDangerousOxygenThreshold = pDangerousOxygenThreshold;
+    }
 }

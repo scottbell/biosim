@@ -703,6 +703,8 @@ module com{
                                                         void setAirlockVolume(in float pAirLockVolume);
                                                         float getAirlockVolume();
                                                         void removeAirlockPercentage(in float percentage);
+                                                        float getDangerousOxygenThreshold();
+                                                        void setDangerousOxygenThreshold(in float pDangerousOxygenThreshold);
                                                 };
                                         };
                                         module food{
