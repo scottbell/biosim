@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='BiosimInitialization.xsd'>
-	<Globals crewsToWatch="CrewGroup" isLooping="true">
+<biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='BiosimInitSchema.xsd'>
+	<Globals runTillN="2160">
 		<comment>The lunar mission initialization for BioSim</comment>
 		<author>Scott Bell</author>
 		<!-- <log4jProperty name="log4j.logger.com.traclabs.biosim.server.sensor" value="DEBUG"/> !-->
@@ -34,7 +34,7 @@
 				<greyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="GreyWaterStore"/>
 				<airProducer maxFlowRates="0" desiredFlowRates="0" outputs="CrewEnvironment"/>
 				<dryWasteProducer maxFlowRates="100" desiredFlowRates="100" outputs="DryWasteStore"/>
-				<crewPerson name="Bob Roberts" age="43" weight="77" sex="MALE">
+				<crewPerson name="Bob Roberts" age="35" weight="70" sex="MALE">
 					<schedule>
 						<activity name="sleep" length="8" intensity="1"/>
 						<activity name="hygiene" length="1" intensity="2"/>
@@ -46,7 +46,7 @@
 						<activity name="leisure" length="2" intensity="2"/>
 					</schedule>
 				</crewPerson>
-				<crewPerson name="Stephanie Stevens" age="25" weight="56" sex="FEMALE">
+				<crewPerson name="Stephanie Stevens" age="32" weight="70" sex="FEMALE">
 					<schedule>
 						<activity name="sleep" length="8" intensity="1"/>
 						<activity name="hygiene" length="1" intensity="2"/>
@@ -58,7 +58,7 @@
 						<activity name="leisure" length="2" intensity="2"/>
 					</schedule>
 				</crewPerson>
-				<crewPerson name="Bill Williams" age="30" weight="75" sex="MALE">
+				<crewPerson name="Bill Williams" age="36" weight="70" sex="MALE">
 					<schedule>
 						<activity name="sleep" length="8" intensity="1"/>
 						<activity name="hygiene" length="1" intensity="2"/>
@@ -70,7 +70,7 @@
 						<activity name="leisure" length="2" intensity="2"/>
 					</schedule>
 				</crewPerson>
-				<crewPerson name="Janet Janey" age="22" weight="58" sex="FEMALE">
+				<crewPerson name="Janet Janey" age="38" weight="70" sex="FEMALE">
 					<schedule>
 						<activity name="sleep" length="8" intensity="1"/>
 						<activity name="hygiene" length="1" intensity="2"/>
@@ -85,8 +85,8 @@
 			</CrewGroup>
 		</crew>
 		<environment>
-			<SimEnvironment name="CrewEnvironment" initialVolume="1548930"/>
-			<SimEnvironment name="PlantEnvironment" initialVolume="1548930"/>
+			<SimEnvironment name="CrewEnvironment" initialVolume="1548930" leakRate="0.00224"/>
+			<SimEnvironment name="PlantEnvironment" initialVolume="1548930" leakRate="0.00224"/>
 		</environment>                    
 		<food>
 			<FoodProcessor name="FoodProcessor">
