@@ -19,11 +19,11 @@
 	<SimBioModules>
 		<air>
 			<AirRS name="BaseAirRS" implementation="NORMAL">
-				<powerConsumer maxFlowRates="300" desiredFlowRates="300" inputs="BasePowerStore"/>
+				<powerConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BasePowerStore"/>
 				<potableWaterConsumer maxFlowRates="10" desiredFlowRates="10" inputs="BasePotableWaterStore"/>
-				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="BaseCrewEnvironment"/>
-				<CO2Consumer maxFlowRates="10" desiredFlowRates="10" inputs="BaseCO2Store"/>
-				<H2Consumer maxFlowRates="40" desiredFlowRates="40" inputs="BaseH2Store"/>
+				<airConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BaseCrewEnvironment"/>
+				<CO2Consumer maxFlowRates="100" desiredFlowRates="100" inputs="BaseCO2Store"/>
+				<H2Consumer maxFlowRates="400" desiredFlowRates="400" inputs="BaseH2Store"/>
 				<potableWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="BasePotableWaterStore"/>
 				<O2Producer maxFlowRates="100" desiredFlowRates="100" outputs="BaseO2Store"/>
 				<airProducer maxFlowRates="100" desiredFlowRates="100" outputs="BaseCrewEnvironment"/>
@@ -31,11 +31,11 @@
 				<H2Producer maxFlowRates="100" desiredFlowRates="100" outputs="BaseH2Store"/>
 			</AirRS>
 			<AirRS name="EVAAirRS" implementation="NORMAL">
-				<powerConsumer maxFlowRates="300" desiredFlowRates="300" inputs="EVAPowerStore"/>
-				<potableWaterConsumer maxFlowRates="10" desiredFlowRates="10" inputs="EVAPotableWaterStore"/>
-				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="EVACrewEnvironment"/>
-				<CO2Consumer maxFlowRates="10" desiredFlowRates="10" inputs="EVACO2Store"/>
-				<H2Consumer maxFlowRates="40" desiredFlowRates="40" inputs="EVAH2Store"/>
+				<powerConsumer maxFlowRates="100" desiredFlowRates="100" inputs="EVAPowerStore"/>
+				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="EVAPotableWaterStore"/>
+				<airConsumer maxFlowRates="100" desiredFlowRates="100" inputs="EVACrewEnvironment"/>
+				<CO2Consumer maxFlowRates="100" desiredFlowRates="100" inputs="EVACO2Store"/>
+				<H2Consumer maxFlowRates="400" desiredFlowRates="400" inputs="EVAH2Store"/>
 				<potableWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="EVAPotableWaterStore"/>
 				<O2Producer maxFlowRates="100" desiredFlowRates="100" outputs="EVAO2Store"/>
 				<airProducer maxFlowRates="100" desiredFlowRates="100" outputs="EVACrewEnvironment"/>
