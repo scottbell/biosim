@@ -223,9 +223,9 @@ public class WaterSchematicPanel extends TimedPanel
 		c.ipady = 0;
 		gridbag.setConstraints(potableWaterButton, c);
 		mainPanel.add(potableWaterButton);
-		//mainScrollPane = new JScrollPane(mainPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		mainScrollPane = new JScrollPane(mainPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		refresh();
-		add(mainPanel);
+		add(mainScrollPane);
 	}
 
 	public void refresh(){
@@ -293,7 +293,7 @@ public class WaterSchematicPanel extends TimedPanel
 			AESButton.setIcon(susbsytemProblemIcon);
 			AESButton.setToolTipText("Needs Water");
 		}
-		else if (myWaterRS.AESIsEnabled()){
+		else{
 			AESButton.setText("AES");
 			AESButton.setIcon(susbsytemOkIcon);
 			AESButton.setToolTipText("Nominal");
@@ -314,7 +314,7 @@ public class WaterSchematicPanel extends TimedPanel
 			ROButton.setIcon(susbsytemProblemIcon);
 			ROButton.setToolTipText("Needs Water");
 		}
-		else if (myWaterRS.ROIsEnabled()){
+		else{
 			ROButton.setText("RO");
 			ROButton.setIcon(susbsytemOkIcon);
 			ROButton.setToolTipText("Nominal");
