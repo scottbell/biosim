@@ -17,9 +17,9 @@ import java.util.*;
 
 
 /**
- * BioDriverImpl exists as the driver for the simulation.  It gathers references to all the various servers, initializes them, then ticks them.
- * This is all done multithreaded through the use of the spawnSimulation methods.
- * BioDriverImpl also can notify listeners when it has sucessfully ticked all the servers.  The listener needs only to implement BioDriverImplListener and
+ * BioDriverImpl exists as the driver for the simulation.  It gathers references to all the various servers, initializes them, then ticks them.<br>
+ * This is all done multithreaded through the use of the spawnSimulation methods.<br>
+ * BioDriverImpl also can notify listeners when it has sucessfully ticked all the servers.  The listener needs only to implement BioDriverImplListener and<br>
  * register with BioDriverImpl.  Note that any configuration of the simulation other than the one supplied will need to use <code>BioDriverInit.NONE_INIT</code>
  *
  * @author    Scott Bell
@@ -199,10 +199,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	
 	/**
 	* Tells BioDriver which initialization to use
-	* @param pInitializationToUse the initialization to use:
-	* <code>BioDriverInit.DEFAULT_INIT</code> - default initialization (sets resource flows, initializes buffers, adds crew, etc)
-	* <code>BioDriverInit.OPTIMAL_INIT</code> - optimal initialization, same as default, but with bigger buffers, smaller crew, etc
-	* <code>BioDriverInit.NONE_INIT</code> - no initialization.  everything must be set up manually. use this if you've reconfigured the simulation
+	* @param pInitializationToUse the initialization to use:<br>
+	* &nbsp;&nbsp;&nbsp;<code>BioDriverInit.DEFAULT_INIT</code> - default initialization (sets resource flows, initializes buffers, adds crew, etc)<br>
+	* &nbsp;&nbsp;&nbsp;<code>BioDriverInit.OPTIMAL_INIT</code> - optimal initialization, same as default, but with bigger buffers, smaller crew, etc<br>
+	* &nbsp;&nbsp;&nbsp;<code>BioDriverInit.NONE_INIT</code> - no initialization.  everything must be set up manually. use this if you've reconfigured the simulation
 	*/
 	public void setInitialization(BioDriverInit pInitializationToUse){
 		initializationToUse = pInitializationToUse;
@@ -680,15 +680,15 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	
 	/**
 	* Starts a malfunction on every module
-	* @param pIntensity The intensity of the malfunction
-	* Options are:
-	* <code>MalfunctionIntensity.SEVERE_MALF</code>
-	* <code>MalfunctionIntensity.MEDIUM_MALF</code>
-	* <code>MalfunctionIntensity.LOW_MALF</code>
-	* @param pLength The length (time-wise) of the malfunction
-	* Options are:
-	* <code>MalfunctionLength.TEMPORARY_MALF</code>
-	* <code>MalfunctionLength.PERMANENT_MALF</code>
+	* @param pIntensity The intensity of the malfunction<br>
+	* Options are:<br>
+	* &nbsp;&nbsp;&nbsp;<code>MalfunctionIntensity.SEVERE_MALF</code><br>
+	* &nbsp;&nbsp;&nbsp;<code>MalfunctionIntensity.MEDIUM_MALF</code><br>
+	* &nbsp;&nbsp;&nbsp;<code>MalfunctionIntensity.LOW_MALF</code><br>
+	* @param pLength The length (time-wise) of the malfunction<br>
+	* Options are:<br>
+	* &nbsp;&nbsp;&nbsp;<code>MalfunctionLength.TEMPORARY_MALF</code><br>
+	* &nbsp;&nbsp;&nbsp;<code>MalfunctionLength.PERMANENT_MALF</code><br>
 	*/
 	public void startMalfunction(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
 		for (Iterator iter = modules.values().iterator(); iter.hasNext();){

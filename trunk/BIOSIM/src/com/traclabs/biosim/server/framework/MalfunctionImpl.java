@@ -2,19 +2,19 @@ package biosim.server.framework;
 
 import biosim.idl.framework.*;
 /**
- * Malfunctions occur to BioModules and introduce interesting faults for a controller to deal with.
- * Once they're started, crew members can be assigned to fix them using the repair() method.  After
- * repair is called a sufficient number of times (varying with the severity of the malfunction), the malfunction
- * is "fixed" and the BioModule resumes to normal behavior.
- *
- * Malfunctions are broken down into in accordance to temporal length (permanent or temporary) and intensity (low, medium, severe).
- *
- * Each BioModule responds to malfunctions in different ways.  For example, the PotableWaterStore could have a temporary severe
- * malfunction which means a "severe leak."  The WaterRS could also have a temporary severe malfunction which means the 
- * RO and the AES are temporarily offline.
- *
- * Modules may have multiple malfunctions at the same time.  Each malfunction has a unique ID associated with it.  This ID
- * is used to fix the module.
+ * Malfunctions occur to BioModules and introduce interesting faults for a controller to deal with.<br>
+ * Once they're started, crew members can be assigned to fix them using the repair() method.  After<br>
+ * repair is called a sufficient number of times (varying with the severity of the malfunction), the malfunction<br>
+ * is "fixed" and the BioModule resumes to normal behavior.<br>
+ * <br>
+ * Malfunctions are broken down into in accordance to temporal length (permanent or temporary) and intensity (low, medium, severe).<br>
+ * <br>
+ * Each BioModule responds to malfunctions in different ways.  For example, the PotableWaterStore could have a temporary severe<br>
+ * malfunction which means a "severe leak."  The WaterRS could also have a temporary severe malfunction which means the<br>
+ * RO and the AES are temporarily offline.<br>
+ * <br>
+ * Modules may have multiple malfunctions at the same time.  Each malfunction has a unique ID associated with it.  This ID<br>
+ * is used to fix the module.<br>
  * @author    Scott Bell
  */
 
@@ -39,13 +39,13 @@ public class MalfunctionImpl extends MalfunctionPOA  {
 	/**
 	* Creates a malfunction with a unique ID, sets up repair time, etc.
 	* @param pName The name of the malfunction
-	* @param pIntensity The intensity of the malfunction:
-	* <code>MalfunctionIntensity.SEVERE_MALF</code> for severe intensity
-	* <code>MalfunctionIntensity.MEDIUM_MALF</code> for medium intensity
-	* <code>MalfunctionIntensity.LOW_MALF</code> for low intensity
-	* @param pLength The temporal length of the malfunction:
-	* <code>MalfunctionLength.TEMPORARY_MALF</code> for temporaray malfunctions
-	* <code>MalfunctionIntensity.PERMANENT_MALF</code> for permanent malfunctions
+	* @param pIntensity The intensity of the malfunction:<br>
+	* &nbsp;&nbsp;&nbsp;<code>MalfunctionIntensity.SEVERE_MALF</code> for severe intensity<br>
+	* &nbsp;&nbsp;&nbsp;<code>MalfunctionIntensity.MEDIUM_MALF</code> for medium intensity<br>
+	* &nbsp;&nbsp;&nbsp;<code>MalfunctionIntensity.LOW_MALF</code> for low intensity
+	* @param pLength The temporal length of the malfunction:<br>
+	* &nbsp;&nbsp;&nbsp;<code>MalfunctionLength.TEMPORARY_MALF</code> for temporaray malfunctions<br>
+	* &nbsp;&nbsp;&nbsp;<code>MalfunctionIntensity.PERMANENT_MALF</code> for permanent malfunctions
 	*/
 	public MalfunctionImpl(String pName, MalfunctionIntensity pIntensity, MalfunctionLength pLength){
 		if (lastID > java.lang.Long.MAX_VALUE)
@@ -115,10 +115,10 @@ public class MalfunctionImpl extends MalfunctionPOA  {
 	
 	/**
 	* Tells the intensity of the malfunction
-	* @return The intensity of the malfunction:
-	* <code>MalfunctionIntensity.SEVERE_MALF</code> for severe intensity
-	* <code>MalfunctionIntensity.MEDIUM_MALF</code> for medium intensity
-	* <code>MalfunctionIntensity.LOW_MALF</code> for low intensity
+	* @return The intensity of the malfunction:<br>
+	* &nbsp;&nbsp;&nbsp;<code>MalfunctionIntensity.SEVERE_MALF</code> for severe intensity<br>
+	* &nbsp;&nbsp;&nbsp;<code>MalfunctionIntensity.MEDIUM_MALF</code> for medium intensity<br>
+	* &nbsp;&nbsp;&nbsp;<code>MalfunctionIntensity.LOW_MALF</code> for low intensity<br>
 	*/
 	public MalfunctionIntensity getIntensity(){
 		return myIntensity;
@@ -126,9 +126,9 @@ public class MalfunctionImpl extends MalfunctionPOA  {
 	
 	/**
 	* Tells the temporal length of the malfunction
-	* @return pLength The temporal length of the malfunction:
-	* <code>MalfunctionLength.TEMPORARY_MALF</code> for temporaray malfunctions
-	* <code>MalfunctionIntensity.PERMANENT_MALF</code> for permanent malfunctions
+	* @return pLength The temporal length of the malfunction:<br>
+	* &nbsp;&nbsp;&nbsp;<code>MalfunctionLength.TEMPORARY_MALF</code> for temporaray malfunctions<br>
+	* &nbsp;&nbsp;&nbsp;<code>MalfunctionIntensity.PERMANENT_MALF</code> for permanent malfunctions<br>
 	*/
 	public MalfunctionLength getLength(){
 		return myLength;

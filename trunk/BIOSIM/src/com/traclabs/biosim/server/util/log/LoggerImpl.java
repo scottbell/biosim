@@ -2,7 +2,7 @@ package biosim.server.util.log;
 
 import biosim.server.util.*;
 import biosim.idl.util.log.*;
-import biosim.idl.simulation.environment.*;
+import biosim.idl.framework.*;
 import java.util.*;
 /**
  * The Logger takes Logs and outputs them using the choosen handler
@@ -10,10 +10,13 @@ import java.util.*;
  */
 
 public class LoggerImpl extends LoggerPOA  {
+	//The handlers associated with this Logger (i.e., the outputs)
 	private List myLogHandlers;
+	//List of the types supported by this Logger (i.e. handler types_
 	private List logTypes;
+	//Whether the Logger has collected a reference 
 	private boolean hasCollectedReferences = false;
-	private SimEnvironment myEnvironment;
+	private BioDriver myDriver;
 	private boolean processingLogs = true;
 	private LogNodeImpl currentTickLogNode;
 	private LogNodeImpl rootLogNode;
@@ -39,7 +42,7 @@ public class LoggerImpl extends LoggerPOA  {
 	private void collectReferences(){
 		try{
 			if (!hasCollectedReferences){
-				myEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str("SimEnvironment"+myID));
+				myDriver = BioDriverHelper.narrow(OrbUtils.getNCRef().resolve_str("BioDriver"+myID));
 				hasCollectedReferences = true;
 			}
 		}
@@ -93,14 +96,14 @@ public class LoggerImpl extends LoggerPOA  {
 			return;
 		collectReferences();
 		//One Tick has passed
-		if ((currentTick != myEnvironment.getTicks()) && (currentTickLogNode != null)){
+		if ((currentTick != myDriver.getTicks()) && (currentTickLogNode != null)){
 			for (Iterator iter = myLogHandlers.iterator(); iter.hasNext();){
 			LogHandler currentLogHandler = (LogHandler)(iter.next());
 				currentLogHandler.writeLog(LogNodeHelper.narrow(OrbUtils.poaToCorbaObj(currentTickLogNode)));
 			}
 		}
-		if (currentTick != myEnvironment.getTicks()){
-			currentTick = myEnvironment.getTicks();
+		if (currentTick != myDriver.getTicks()){
+			currentTick = myDriver.getTicks();
 			currentTickLogNode = rootLogNode.addChildImpl("tick "+currentTick);
 		}
 		currentTickLogNode.addChild(logToAdd);

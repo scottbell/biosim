@@ -65,16 +65,6 @@ public class GenericServer{
 	}
 	
 	/**
-	* Sleeps for a few seconds.  Used when we can't find the naming service and need to poll again after a few seconds.
-	*/
-	private void sleepAwhile(){
-		try{
-			Thread.currentThread().sleep(2000);
-		}
-		catch(InterruptedException e){}
-	}
-	
-	/**
 	* Registers this server with the CORBA naming service and starts the server
 	* @param pPOA the object to register
 	* @param servername the name that will be associated with this server in the naming service
