@@ -1781,7 +1781,6 @@ public class BioInitializer{
 			//System.out.println("Creating NitrogenStoreLevelSensor with moduleName: "+moduleName);
 			NitrogenStoreLevelSensorImpl myNitrogenStoreLevelSensorImpl = new NitrogenStoreLevelSensorImpl(myID, moduleName);
 			setupBioModule(myNitrogenStoreLevelSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myNitrogenStoreLevelSensorImpl));
 			BiosimServer.registerServer(new NitrogenStoreLevelSensorPOATie(myNitrogenStoreLevelSensorImpl), myNitrogenStoreLevelSensorImpl.getModuleName(), myNitrogenStoreLevelSensorImpl.getID());
 		}
 		else
@@ -1791,6 +1790,7 @@ public class BioInitializer{
 	private void configureNitrogenStoreLevelSensor(Node node){
 		NitrogenStoreLevelSensor myNitrogenStoreLevelSensor = NitrogenStoreLevelSensorHelper.narrow(grabModule(getModuleName(node)));
 		myNitrogenStoreLevelSensor.setInput(NitrogenStoreHelper.narrow(grabModule(getInputName(node))));
+		mySensors.add(myNitrogenStoreLevelSensor);
 	}
 
 	private void crawlAirSensors(Node node, boolean firstPass){
@@ -1880,7 +1880,6 @@ public class BioInitializer{
 			//System.out.println("Creating CrewGroupDeathSensor with moduleName: "+moduleName);
 			CrewGroupDeathSensorImpl myCrewGroupDeathSensorImpl = new CrewGroupDeathSensorImpl(myID, moduleName);
 			setupBioModule(myCrewGroupDeathSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myCrewGroupDeathSensorImpl));
 			BiosimServer.registerServer(new CrewGroupDeathSensorPOATie(myCrewGroupDeathSensorImpl), myCrewGroupDeathSensorImpl.getModuleName(), myCrewGroupDeathSensorImpl.getID());
 		}
 		else
@@ -1890,6 +1889,7 @@ public class BioInitializer{
 	private void configureCrewGroupDeathSensor(Node node){
 		CrewGroupDeathSensor myCrewGroupDeathSensor = CrewGroupDeathSensorHelper.narrow(grabModule(getModuleName(node)));
 		myCrewGroupDeathSensor.setInput(CrewGroupHelper.narrow(grabModule(getInputName(node))));
+		mySensors.add(myCrewGroupDeathSensor);
 	}
 
 	private void createCrewGroupAnyDeadSensor(Node node){
@@ -1898,7 +1898,6 @@ public class BioInitializer{
 			//System.out.println("Creating CrewGroupAnyDeadSensor with moduleName: "+moduleName);
 			CrewGroupAnyDeadSensorImpl myCrewGroupAnyDeadSensorImpl = new CrewGroupAnyDeadSensorImpl(myID, moduleName);
 			setupBioModule(myCrewGroupAnyDeadSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myCrewGroupAnyDeadSensorImpl));
 			BiosimServer.registerServer(new CrewGroupAnyDeadSensorPOATie(myCrewGroupAnyDeadSensorImpl), myCrewGroupAnyDeadSensorImpl.getModuleName(), myCrewGroupAnyDeadSensorImpl.getID());
 		}
 		else
@@ -1908,6 +1907,7 @@ public class BioInitializer{
 	private void configureCrewGroupAnyDeadSensor(Node node){
 		CrewGroupAnyDeadSensor myCrewGroupAnyDeadSensor = CrewGroupAnyDeadSensorHelper.narrow(grabModule(getModuleName(node)));
 		myCrewGroupAnyDeadSensor.setInput(CrewGroupHelper.narrow(grabModule(getInputName(node))));
+		mySensors.add(myCrewGroupAnyDeadSensor);
 	}
 
 	private void createCrewGroupProductivitySensor(Node node){
@@ -1916,7 +1916,6 @@ public class BioInitializer{
 			//System.out.println("Creating CrewGroupProductivitySensor with moduleName: "+moduleName);
 			CrewGroupProductivitySensorImpl myCrewGroupProductivitySensorImpl = new CrewGroupProductivitySensorImpl(myID, moduleName);
 			setupBioModule(myCrewGroupProductivitySensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myCrewGroupProductivitySensorImpl));
 			BiosimServer.registerServer(new CrewGroupProductivitySensorPOATie(myCrewGroupProductivitySensorImpl), myCrewGroupProductivitySensorImpl.getModuleName(), myCrewGroupProductivitySensorImpl.getID());
 		}
 		else
@@ -1925,6 +1924,7 @@ public class BioInitializer{
 	private void configureCrewGroupProductivitySensor(Node node){
 		CrewGroupProductivitySensor myCrewGroupProductivitySensor = CrewGroupProductivitySensorHelper.narrow(grabModule(getModuleName(node)));
 		myCrewGroupProductivitySensor.setInput(CrewGroupHelper.narrow(grabModule(getInputName(node))));
+		mySensors.add(myCrewGroupProductivitySensor);
 	}
 
 	private void crawlCrewSensors(Node node, boolean firstPass){
@@ -1960,7 +1960,6 @@ public class BioInitializer{
 			//System.out.println("Creating AirInFlowRateSensor with moduleName: "+moduleName);
 			AirInFlowRateSensorImpl myAirInFlowRateSensorImpl = new AirInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myAirInFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myAirInFlowRateSensorImpl));
 			BiosimServer.registerServer(new AirInFlowRateSensorPOATie(myAirInFlowRateSensorImpl), myAirInFlowRateSensorImpl.getModuleName(), myAirInFlowRateSensorImpl.getID());
 		}
 		else
@@ -1970,6 +1969,7 @@ public class BioInitializer{
 	private void configureAirInFlowRateSensor(Node node){
 		AirInFlowRateSensor myAirInFlowRateSensor = AirInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myAirInFlowRateSensor.setInput(AirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myAirInFlowRateSensor);
 	}
 
 	private void createAirOutFlowRateSensor(Node node){
@@ -1978,7 +1978,6 @@ public class BioInitializer{
 			//System.out.println("Creating AirOutFlowRateSensor with moduleName: "+moduleName);
 			AirOutFlowRateSensorImpl myAirOutFlowRateSensorImpl = new AirOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myAirOutFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myAirOutFlowRateSensorImpl));
 			BiosimServer.registerServer(new AirOutFlowRateSensorPOATie(myAirOutFlowRateSensorImpl), myAirOutFlowRateSensorImpl.getModuleName(), myAirOutFlowRateSensorImpl.getID());
 		}
 		else
@@ -1988,6 +1987,7 @@ public class BioInitializer{
 	private void configureAirOutFlowRateSensor(Node node){
 		AirOutFlowRateSensor myAirOutFlowRateSensor = AirOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myAirOutFlowRateSensor.setInput(AirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myAirOutFlowRateSensor);
 	}
 
 	private void createCO2AirConcentrationSensor(Node node){
@@ -1996,7 +1996,6 @@ public class BioInitializer{
 			//System.out.println("Creating CO2AirConcentrationSensor with moduleName: "+moduleName);
 			CO2AirConcentrationSensorImpl myCO2AirConcentrationSensorImpl = new CO2AirConcentrationSensorImpl(myID, moduleName);
 			setupBioModule(myCO2AirConcentrationSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myCO2AirConcentrationSensorImpl));
 			BiosimServer.registerServer(new CO2AirConcentrationSensorPOATie(myCO2AirConcentrationSensorImpl), myCO2AirConcentrationSensorImpl.getModuleName(), myCO2AirConcentrationSensorImpl.getID());
 		}
 		else
@@ -2006,6 +2005,7 @@ public class BioInitializer{
 	private void configureCO2AirConcentrationSensor(Node node){
 		CO2AirConcentrationSensor myCO2AirConcentrationSensor = CO2AirConcentrationSensorHelper.narrow(grabModule(getModuleName(node)));
 		myCO2AirConcentrationSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
+		mySensors.add(myCO2AirConcentrationSensor);
 	}
 
 	private void createCO2AirPressureSensor(Node node){
@@ -2014,7 +2014,6 @@ public class BioInitializer{
 			//System.out.println("Creating CO2AirPressureSensor with moduleName: "+moduleName);
 			CO2AirPressureSensorImpl myCO2AirPressureSensorImpl = new CO2AirPressureSensorImpl(myID, moduleName);
 			setupBioModule(myCO2AirPressureSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myCO2AirPressureSensorImpl));
 			BiosimServer.registerServer(new CO2AirPressureSensorPOATie(myCO2AirPressureSensorImpl), myCO2AirPressureSensorImpl.getModuleName(), myCO2AirPressureSensorImpl.getID());
 		}
 		else
@@ -2024,6 +2023,7 @@ public class BioInitializer{
 	private void configureCO2AirPressureSensor(Node node){
 		CO2AirPressureSensor myCO2AirPressureSensor = CO2AirPressureSensorHelper.narrow(grabModule(getModuleName(node)));
 		myCO2AirPressureSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
+		mySensors.add(myCO2AirPressureSensor);
 	}
 
 	private void createCO2AirEnvironmentInFlowRateSensor(Node node){
@@ -2032,7 +2032,6 @@ public class BioInitializer{
 			//System.out.println("Creating CO2AirEnvironmentInFlowRateSensor with moduleName: "+moduleName);
 			CO2AirEnvironmentInFlowRateSensorImpl myCO2AirEnvironmentInFlowRateSensorImpl = new CO2AirEnvironmentInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myCO2AirEnvironmentInFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myCO2AirEnvironmentInFlowRateSensorImpl));
 			BiosimServer.registerServer(new CO2AirEnvironmentInFlowRateSensorPOATie(myCO2AirEnvironmentInFlowRateSensorImpl), myCO2AirEnvironmentInFlowRateSensorImpl.getModuleName(), myCO2AirEnvironmentInFlowRateSensorImpl.getID());
 		}
 		else
@@ -2042,6 +2041,7 @@ public class BioInitializer{
 	private void configureCO2AirEnvironmentInFlowRateSensor(Node node){
 		CO2AirEnvironmentInFlowRateSensor myCO2AirEnvironmentInFlowRateSensor = CO2AirEnvironmentInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myCO2AirEnvironmentInFlowRateSensor.setInput(CO2AirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myCO2AirEnvironmentInFlowRateSensor);
 	}
 
 	private void createCO2AirEnvironmentOutFlowRateSensor(Node node){
@@ -2050,7 +2050,6 @@ public class BioInitializer{
 			//System.out.println("Creating CO2AirEnvironmentOutFlowRateSensor with moduleName: "+moduleName);
 			CO2AirEnvironmentOutFlowRateSensorImpl myCO2AirEnvironmentOutFlowRateSensorImpl = new CO2AirEnvironmentOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myCO2AirEnvironmentOutFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myCO2AirEnvironmentOutFlowRateSensorImpl));
 			BiosimServer.registerServer(new CO2AirEnvironmentOutFlowRateSensorPOATie(myCO2AirEnvironmentOutFlowRateSensorImpl), myCO2AirEnvironmentOutFlowRateSensorImpl.getModuleName(), myCO2AirEnvironmentOutFlowRateSensorImpl.getID());
 		}
 		else
@@ -2060,6 +2059,7 @@ public class BioInitializer{
 	private void configureCO2AirEnvironmentOutFlowRateSensor(Node node){
 		CO2AirEnvironmentOutFlowRateSensor myCO2AirEnvironmentOutFlowRateSensor = CO2AirEnvironmentOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myCO2AirEnvironmentOutFlowRateSensor.setInput(CO2AirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myCO2AirEnvironmentOutFlowRateSensor);
 	}
 
 	private void createCO2AirStoreInFlowRateSensor(Node node){
@@ -2068,7 +2068,6 @@ public class BioInitializer{
 			//System.out.println("Creating CO2AirStoreInFlowRateSensor with moduleName: "+moduleName);
 			CO2AirStoreInFlowRateSensorImpl myCO2AirStoreInFlowRateSensorImpl = new CO2AirStoreInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myCO2AirStoreInFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myCO2AirStoreInFlowRateSensorImpl));
 			BiosimServer.registerServer(new CO2AirStoreInFlowRateSensorPOATie(myCO2AirStoreInFlowRateSensorImpl), myCO2AirStoreInFlowRateSensorImpl.getModuleName(), myCO2AirStoreInFlowRateSensorImpl.getID());
 		}
 		else
@@ -2078,6 +2077,7 @@ public class BioInitializer{
 	private void configureCO2AirStoreInFlowRateSensor(Node node){
 		CO2AirStoreInFlowRateSensor myCO2AirStoreInFlowRateSensor = CO2AirStoreInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myCO2AirStoreInFlowRateSensor.setInput(CO2AirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myCO2AirStoreInFlowRateSensor);
 	}
 
 	private void createCO2AirStoreOutFlowRateSensor(Node node){
@@ -2086,7 +2086,6 @@ public class BioInitializer{
 			//System.out.println("Creating CO2AirStoreOutFlowRateSensor with moduleName: "+moduleName);
 			CO2AirStoreOutFlowRateSensorImpl myCO2AirStoreOutFlowRateSensorImpl = new CO2AirStoreOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myCO2AirStoreOutFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myCO2AirStoreOutFlowRateSensorImpl));
 			BiosimServer.registerServer(new CO2AirStoreOutFlowRateSensorPOATie(myCO2AirStoreOutFlowRateSensorImpl), myCO2AirStoreOutFlowRateSensorImpl.getModuleName(), myCO2AirStoreOutFlowRateSensorImpl.getID());
 		}
 		else
@@ -2096,6 +2095,7 @@ public class BioInitializer{
 	private void configureCO2AirStoreOutFlowRateSensor(Node node){
 		CO2AirStoreOutFlowRateSensor myCO2AirStoreOutFlowRateSensor = CO2AirStoreOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myCO2AirStoreOutFlowRateSensor.setInput(CO2AirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myCO2AirStoreOutFlowRateSensor);
 	}
 	
 	private void createO2AirConcentrationSensor(Node node){
@@ -2104,7 +2104,6 @@ public class BioInitializer{
 			//System.out.println("Creating O2AirConcentrationSensor with moduleName: "+moduleName);
 			O2AirConcentrationSensorImpl myO2AirConcentrationSensorImpl = new O2AirConcentrationSensorImpl(myID, moduleName);
 			setupBioModule(myO2AirConcentrationSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myO2AirConcentrationSensorImpl));
 			BiosimServer.registerServer(new O2AirConcentrationSensorPOATie(myO2AirConcentrationSensorImpl), myO2AirConcentrationSensorImpl.getModuleName(), myO2AirConcentrationSensorImpl.getID());
 		}
 		else
@@ -2114,6 +2113,7 @@ public class BioInitializer{
 	private void configureO2AirConcentrationSensor(Node node){
 		O2AirConcentrationSensor myO2AirConcentrationSensor = O2AirConcentrationSensorHelper.narrow(grabModule(getModuleName(node)));
 		myO2AirConcentrationSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
+		mySensors.add(myO2AirConcentrationSensor);
 	}
 
 	private void createO2AirPressureSensor(Node node){
@@ -2122,7 +2122,6 @@ public class BioInitializer{
 			//System.out.println("Creating O2AirPressureSensor with moduleName: "+moduleName);
 			O2AirPressureSensorImpl myO2AirPressureSensorImpl = new O2AirPressureSensorImpl(myID, moduleName);
 			setupBioModule(myO2AirPressureSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myO2AirPressureSensorImpl));
 			BiosimServer.registerServer(new O2AirPressureSensorPOATie(myO2AirPressureSensorImpl), myO2AirPressureSensorImpl.getModuleName(), myO2AirPressureSensorImpl.getID());
 		}
 		else
@@ -2132,6 +2131,7 @@ public class BioInitializer{
 	private void configureO2AirPressureSensor(Node node){
 		O2AirPressureSensor myO2AirPressureSensor = O2AirPressureSensorHelper.narrow(grabModule(getModuleName(node)));
 		myO2AirPressureSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
+		mySensors.add(myO2AirPressureSensor);
 	}
 
 	private void createO2AirEnvironmentInFlowRateSensor(Node node){
@@ -2140,7 +2140,6 @@ public class BioInitializer{
 			//System.out.println("Creating O2AirEnvironmentInFlowRateSensor with moduleName: "+moduleName);
 			O2AirEnvironmentInFlowRateSensorImpl myO2AirEnvironmentInFlowRateSensorImpl = new O2AirEnvironmentInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myO2AirEnvironmentInFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myO2AirEnvironmentInFlowRateSensorImpl));
 			BiosimServer.registerServer(new O2AirEnvironmentInFlowRateSensorPOATie(myO2AirEnvironmentInFlowRateSensorImpl), myO2AirEnvironmentInFlowRateSensorImpl.getModuleName(), myO2AirEnvironmentInFlowRateSensorImpl.getID());
 		}
 		else
@@ -2150,6 +2149,7 @@ public class BioInitializer{
 	private void configureO2AirEnvironmentInFlowRateSensor(Node node){
 		O2AirEnvironmentInFlowRateSensor myO2AirEnvironmentInFlowRateSensor = O2AirEnvironmentInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myO2AirEnvironmentInFlowRateSensor.setInput(O2AirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myO2AirEnvironmentInFlowRateSensor);
 	}
 
 	private void createO2AirEnvironmentOutFlowRateSensor(Node node){
@@ -2158,7 +2158,6 @@ public class BioInitializer{
 			//System.out.println("Creating O2AirEnvironmentOutFlowRateSensor with moduleName: "+moduleName);
 			O2AirEnvironmentOutFlowRateSensorImpl myO2AirEnvironmentOutFlowRateSensorImpl = new O2AirEnvironmentOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myO2AirEnvironmentOutFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myO2AirEnvironmentOutFlowRateSensorImpl));
 			BiosimServer.registerServer(new O2AirEnvironmentOutFlowRateSensorPOATie(myO2AirEnvironmentOutFlowRateSensorImpl), myO2AirEnvironmentOutFlowRateSensorImpl.getModuleName(), myO2AirEnvironmentOutFlowRateSensorImpl.getID());
 		}
 		else
@@ -2168,6 +2167,7 @@ public class BioInitializer{
 	private void configureO2AirEnvironmentOutFlowRateSensor(Node node){
 		O2AirEnvironmentOutFlowRateSensor myO2AirEnvironmentOutFlowRateSensor = O2AirEnvironmentOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myO2AirEnvironmentOutFlowRateSensor.setInput(O2AirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myO2AirEnvironmentOutFlowRateSensor);
 	}
 
 	private void createO2AirStoreInFlowRateSensor(Node node){
@@ -2176,7 +2176,6 @@ public class BioInitializer{
 			//System.out.println("Creating O2AirStoreInFlowRateSensor with moduleName: "+moduleName);
 			O2AirStoreInFlowRateSensorImpl myO2AirStoreInFlowRateSensorImpl = new O2AirStoreInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myO2AirStoreInFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myO2AirStoreInFlowRateSensorImpl));
 			BiosimServer.registerServer(new O2AirStoreInFlowRateSensorPOATie(myO2AirStoreInFlowRateSensorImpl), myO2AirStoreInFlowRateSensorImpl.getModuleName(), myO2AirStoreInFlowRateSensorImpl.getID());
 		}
 		else
@@ -2186,6 +2185,7 @@ public class BioInitializer{
 	private void configureO2AirStoreInFlowRateSensor(Node node){
 		O2AirStoreInFlowRateSensor myO2AirStoreInFlowRateSensor = O2AirStoreInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myO2AirStoreInFlowRateSensor.setInput(O2AirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myO2AirStoreInFlowRateSensor);
 	}
 
 	private void createO2AirStoreOutFlowRateSensor(Node node){
@@ -2194,7 +2194,6 @@ public class BioInitializer{
 			//System.out.println("Creating O2AirStoreOutFlowRateSensor with moduleName: "+moduleName);
 			O2AirStoreOutFlowRateSensorImpl myO2AirStoreOutFlowRateSensorImpl = new O2AirStoreOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myO2AirStoreOutFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myO2AirStoreOutFlowRateSensorImpl));
 			BiosimServer.registerServer(new O2AirStoreOutFlowRateSensorPOATie(myO2AirStoreOutFlowRateSensorImpl), myO2AirStoreOutFlowRateSensorImpl.getModuleName(), myO2AirStoreOutFlowRateSensorImpl.getID());
 		}
 		else
@@ -2204,6 +2203,7 @@ public class BioInitializer{
 	private void configureO2AirStoreOutFlowRateSensor(Node node){
 		O2AirStoreOutFlowRateSensor myO2AirStoreOutFlowRateSensor = O2AirStoreOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myO2AirStoreOutFlowRateSensor.setInput(O2AirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myO2AirStoreOutFlowRateSensor);
 	}
 
 	private void createOtherAirConcentrationSensor(Node node){
@@ -2212,7 +2212,6 @@ public class BioInitializer{
 			//System.out.println("Creating OtherAirConcentrationSensor with moduleName: "+moduleName);
 			OtherAirConcentrationSensorImpl myOtherAirConcentrationSensorImpl = new OtherAirConcentrationSensorImpl(myID, moduleName);
 			setupBioModule(myOtherAirConcentrationSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myOtherAirConcentrationSensorImpl));
 			BiosimServer.registerServer(new OtherAirConcentrationSensorPOATie(myOtherAirConcentrationSensorImpl), myOtherAirConcentrationSensorImpl.getModuleName(), myOtherAirConcentrationSensorImpl.getID());
 		}
 		else
@@ -2222,6 +2221,7 @@ public class BioInitializer{
 	private void configureOtherAirConcentrationSensor(Node node){
 		OtherAirConcentrationSensor myOtherAirConcentrationSensor = OtherAirConcentrationSensorHelper.narrow(grabModule(getModuleName(node)));
 		myOtherAirConcentrationSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
+		mySensors.add(myOtherAirConcentrationSensor);
 	}
 
 	private void createOtherAirPressureSensor(Node node){
@@ -2230,7 +2230,6 @@ public class BioInitializer{
 			//System.out.println("Creating OtherAirPressureSensor with moduleName: "+moduleName);
 			OtherAirPressureSensorImpl myOtherAirPressureSensorImpl = new OtherAirPressureSensorImpl(myID, moduleName);
 			setupBioModule(myOtherAirPressureSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myOtherAirPressureSensorImpl));
 			BiosimServer.registerServer(new OtherAirPressureSensorPOATie(myOtherAirPressureSensorImpl), myOtherAirPressureSensorImpl.getModuleName(), myOtherAirPressureSensorImpl.getID());
 		}
 		else
@@ -2240,6 +2239,7 @@ public class BioInitializer{
 	private void configureOtherAirPressureSensor(Node node){
 		OtherAirPressureSensor myOtherAirPressureSensor = OtherAirPressureSensorHelper.narrow(grabModule(getModuleName(node)));
 		myOtherAirPressureSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
+		mySensors.add(myOtherAirPressureSensor);
 	}
 
 	private void createWaterAirConcentrationSensor(Node node){
@@ -2248,7 +2248,6 @@ public class BioInitializer{
 			//System.out.println("Creating WaterAirConcentrationSensor with moduleName: "+moduleName);
 			WaterAirConcentrationSensorImpl myWaterAirConcentrationSensorImpl = new WaterAirConcentrationSensorImpl(myID, moduleName);
 			setupBioModule(myWaterAirConcentrationSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myWaterAirConcentrationSensorImpl));
 			BiosimServer.registerServer(new WaterAirConcentrationSensorPOATie(myWaterAirConcentrationSensorImpl), myWaterAirConcentrationSensorImpl.getModuleName(), myWaterAirConcentrationSensorImpl.getID());
 		}
 		else
@@ -2258,6 +2257,7 @@ public class BioInitializer{
 	private void configureWaterAirConcentrationSensor(Node node){
 		WaterAirConcentrationSensor myWaterAirConcentrationSensor = WaterAirConcentrationSensorHelper.narrow(grabModule(getModuleName(node)));
 		myWaterAirConcentrationSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
+		mySensors.add(myWaterAirConcentrationSensor);
 	}
 
 	private void createWaterAirPressureSensor(Node node){
@@ -2266,7 +2266,6 @@ public class BioInitializer{
 			//System.out.println("Creating WaterAirPressureSensor with moduleName: "+moduleName);
 			WaterAirPressureSensorImpl myWaterAirPressureSensorImpl = new WaterAirPressureSensorImpl(myID, moduleName);
 			setupBioModule(myWaterAirPressureSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myWaterAirPressureSensorImpl));
 			BiosimServer.registerServer(new WaterAirPressureSensorPOATie(myWaterAirPressureSensorImpl), myWaterAirPressureSensorImpl.getModuleName(), myWaterAirPressureSensorImpl.getID());
 		}
 		else
@@ -2276,6 +2275,7 @@ public class BioInitializer{
 	private void configureWaterAirPressureSensor(Node node){
 		WaterAirPressureSensor myWaterAirPressureSensor = WaterAirPressureSensorHelper.narrow(grabModule(getModuleName(node)));
 		myWaterAirPressureSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
+		mySensors.add(myWaterAirPressureSensor);
 	}
 
 	private void createWaterAirEnvironmentInFlowRateSensor(Node node){
@@ -2284,7 +2284,6 @@ public class BioInitializer{
 			//System.out.println("Creating WaterAirEnvironmentInFlowRateSensor with moduleName: "+moduleName);
 			WaterAirEnvironmentInFlowRateSensorImpl myWaterAirEnvironmentInFlowRateSensorImpl = new WaterAirEnvironmentInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myWaterAirEnvironmentInFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myWaterAirEnvironmentInFlowRateSensorImpl));
 			BiosimServer.registerServer(new WaterAirEnvironmentInFlowRateSensorPOATie(myWaterAirEnvironmentInFlowRateSensorImpl), myWaterAirEnvironmentInFlowRateSensorImpl.getModuleName(), myWaterAirEnvironmentInFlowRateSensorImpl.getID());
 		}
 		else
@@ -2294,6 +2293,7 @@ public class BioInitializer{
 	private void configureWaterAirEnvironmentInFlowRateSensor(Node node){
 		WaterAirEnvironmentInFlowRateSensor myWaterAirEnvironmentInFlowRateSensor = WaterAirEnvironmentInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myWaterAirEnvironmentInFlowRateSensor.setInput(WaterAirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myWaterAirEnvironmentInFlowRateSensor);
 	}
 
 	private void createWaterAirEnvironmentOutFlowRateSensor(Node node){
@@ -2302,7 +2302,6 @@ public class BioInitializer{
 			//System.out.println("Creating WaterAirEnvironmentOutFlowRateSensor with moduleName: "+moduleName);
 			WaterAirEnvironmentOutFlowRateSensorImpl myWaterAirEnvironmentOutFlowRateSensorImpl = new WaterAirEnvironmentOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myWaterAirEnvironmentOutFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myWaterAirEnvironmentOutFlowRateSensorImpl));
 			BiosimServer.registerServer(new WaterAirEnvironmentOutFlowRateSensorPOATie(myWaterAirEnvironmentOutFlowRateSensorImpl), myWaterAirEnvironmentOutFlowRateSensorImpl.getModuleName(), myWaterAirEnvironmentOutFlowRateSensorImpl.getID());
 		}
 		else
@@ -2312,6 +2311,7 @@ public class BioInitializer{
 	private void configureWaterAirEnvironmentOutFlowRateSensor(Node node){
 		WaterAirEnvironmentOutFlowRateSensor myWaterAirEnvironmentOutFlowRateSensor = WaterAirEnvironmentOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myWaterAirEnvironmentOutFlowRateSensor.setInput(WaterAirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myWaterAirEnvironmentOutFlowRateSensor);
 	}
 
 	private void createWaterAirStoreInFlowRateSensor(Node node){
@@ -2320,7 +2320,6 @@ public class BioInitializer{
 			//System.out.println("Creating WaterAirStoreInFlowRateSensor with moduleName: "+moduleName);
 			WaterAirStoreInFlowRateSensorImpl myWaterAirStoreInFlowRateSensorImpl = new WaterAirStoreInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myWaterAirStoreInFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myWaterAirStoreInFlowRateSensorImpl));
 			BiosimServer.registerServer(new WaterAirStoreInFlowRateSensorPOATie(myWaterAirStoreInFlowRateSensorImpl), myWaterAirStoreInFlowRateSensorImpl.getModuleName(), myWaterAirStoreInFlowRateSensorImpl.getID());
 		}
 		else
@@ -2330,6 +2329,7 @@ public class BioInitializer{
 	private void configureWaterAirStoreInFlowRateSensor(Node node){
 		WaterAirStoreInFlowRateSensor myWaterAirStoreInFlowRateSensor = WaterAirStoreInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myWaterAirStoreInFlowRateSensor.setInput(WaterAirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myWaterAirStoreInFlowRateSensor);
 	}
 
 	private void createWaterAirStoreOutFlowRateSensor(Node node){
@@ -2338,7 +2338,6 @@ public class BioInitializer{
 			//System.out.println("Creating WaterAirStoreOutFlowRateSensor with moduleName: "+moduleName);
 			WaterAirStoreOutFlowRateSensorImpl myWaterAirStoreOutFlowRateSensorImpl = new WaterAirStoreOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myWaterAirStoreOutFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myWaterAirStoreOutFlowRateSensorImpl));
 			BiosimServer.registerServer(new WaterAirStoreOutFlowRateSensorPOATie(myWaterAirStoreOutFlowRateSensorImpl), myWaterAirStoreOutFlowRateSensorImpl.getModuleName(), myWaterAirStoreOutFlowRateSensorImpl.getID());
 		}
 		else
@@ -2348,6 +2347,7 @@ public class BioInitializer{
 	private void configureWaterAirStoreOutFlowRateSensor(Node node){
 		WaterAirStoreOutFlowRateSensor myWaterAirStoreOutFlowRateSensor = WaterAirStoreOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myWaterAirStoreOutFlowRateSensor.setInput(WaterAirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myWaterAirStoreOutFlowRateSensor);
 	}
 	
 	private void createNitrogenAirConcentrationSensor(Node node){
@@ -2356,7 +2356,6 @@ public class BioInitializer{
 			//System.out.println("Creating NitrogenAirConcentrationSensor with moduleName: "+moduleName);
 			NitrogenAirConcentrationSensorImpl myNitrogenAirConcentrationSensorImpl = new NitrogenAirConcentrationSensorImpl(myID, moduleName);
 			setupBioModule(myNitrogenAirConcentrationSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myNitrogenAirConcentrationSensorImpl));
 			BiosimServer.registerServer(new NitrogenAirConcentrationSensorPOATie(myNitrogenAirConcentrationSensorImpl), myNitrogenAirConcentrationSensorImpl.getModuleName(), myNitrogenAirConcentrationSensorImpl.getID());
 		}
 		else
@@ -2366,6 +2365,7 @@ public class BioInitializer{
 	private void configureNitrogenAirConcentrationSensor(Node node){
 		NitrogenAirConcentrationSensor myNitrogenAirConcentrationSensor = NitrogenAirConcentrationSensorHelper.narrow(grabModule(getModuleName(node)));
 		myNitrogenAirConcentrationSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
+		mySensors.add(myNitrogenAirConcentrationSensor);
 	}
 
 	private void createNitrogenAirPressureSensor(Node node){
@@ -2374,7 +2374,6 @@ public class BioInitializer{
 			//System.out.println("Creating NitrogenAirPressureSensor with moduleName: "+moduleName);
 			NitrogenAirPressureSensorImpl myNitrogenAirPressureSensorImpl = new NitrogenAirPressureSensorImpl(myID, moduleName);
 			setupBioModule(myNitrogenAirPressureSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myNitrogenAirPressureSensorImpl));
 			BiosimServer.registerServer(new NitrogenAirPressureSensorPOATie(myNitrogenAirPressureSensorImpl), myNitrogenAirPressureSensorImpl.getModuleName(), myNitrogenAirPressureSensorImpl.getID());
 		}
 		else
@@ -2384,6 +2383,7 @@ public class BioInitializer{
 	private void configureNitrogenAirPressureSensor(Node node){
 		NitrogenAirPressureSensor myNitrogenAirPressureSensor = NitrogenAirPressureSensorHelper.narrow(grabModule(getModuleName(node)));
 		myNitrogenAirPressureSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
+		mySensors.add(myNitrogenAirPressureSensor);
 	}
 
 	private void createNitrogenAirEnvironmentInFlowRateSensor(Node node){
@@ -2392,7 +2392,6 @@ public class BioInitializer{
 			//System.out.println("Creating NitrogenAirEnvironmentInFlowRateSensor with moduleName: "+moduleName);
 			NitrogenAirEnvironmentInFlowRateSensorImpl myNitrogenAirEnvironmentInFlowRateSensorImpl = new NitrogenAirEnvironmentInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myNitrogenAirEnvironmentInFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myNitrogenAirEnvironmentInFlowRateSensorImpl));
 			BiosimServer.registerServer(new NitrogenAirEnvironmentInFlowRateSensorPOATie(myNitrogenAirEnvironmentInFlowRateSensorImpl), myNitrogenAirEnvironmentInFlowRateSensorImpl.getModuleName(), myNitrogenAirEnvironmentInFlowRateSensorImpl.getID());
 		}
 		else
@@ -2402,6 +2401,7 @@ public class BioInitializer{
 	private void configureNitrogenAirEnvironmentInFlowRateSensor(Node node){
 		NitrogenAirEnvironmentInFlowRateSensor myNitrogenAirEnvironmentInFlowRateSensor = NitrogenAirEnvironmentInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myNitrogenAirEnvironmentInFlowRateSensor.setInput(NitrogenAirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myNitrogenAirEnvironmentInFlowRateSensor);
 	}
 
 	private void createNitrogenAirEnvironmentOutFlowRateSensor(Node node){
@@ -2410,7 +2410,6 @@ public class BioInitializer{
 			//System.out.println("Creating NitrogenAirEnvironmentOutFlowRateSensor with moduleName: "+moduleName);
 			NitrogenAirEnvironmentOutFlowRateSensorImpl myNitrogenAirEnvironmentOutFlowRateSensorImpl = new NitrogenAirEnvironmentOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myNitrogenAirEnvironmentOutFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myNitrogenAirEnvironmentOutFlowRateSensorImpl));
 			BiosimServer.registerServer(new NitrogenAirEnvironmentOutFlowRateSensorPOATie(myNitrogenAirEnvironmentOutFlowRateSensorImpl), myNitrogenAirEnvironmentOutFlowRateSensorImpl.getModuleName(), myNitrogenAirEnvironmentOutFlowRateSensorImpl.getID());
 		}
 		else
@@ -2420,6 +2419,7 @@ public class BioInitializer{
 	private void configureNitrogenAirEnvironmentOutFlowRateSensor(Node node){
 		NitrogenAirEnvironmentOutFlowRateSensor myNitrogenAirEnvironmentOutFlowRateSensor = NitrogenAirEnvironmentOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myNitrogenAirEnvironmentOutFlowRateSensor.setInput(NitrogenAirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myNitrogenAirEnvironmentOutFlowRateSensor);
 	}
 
 	private void createNitrogenAirStoreInFlowRateSensor(Node node){
@@ -2428,7 +2428,6 @@ public class BioInitializer{
 			//System.out.println("Creating NitrogenAirStoreInFlowRateSensor with moduleName: "+moduleName);
 			NitrogenAirStoreInFlowRateSensorImpl myNitrogenAirStoreInFlowRateSensorImpl = new NitrogenAirStoreInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myNitrogenAirStoreInFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myNitrogenAirStoreInFlowRateSensorImpl));
 			BiosimServer.registerServer(new NitrogenAirStoreInFlowRateSensorPOATie(myNitrogenAirStoreInFlowRateSensorImpl), myNitrogenAirStoreInFlowRateSensorImpl.getModuleName(), myNitrogenAirStoreInFlowRateSensorImpl.getID());
 		}
 		else
@@ -2438,6 +2437,7 @@ public class BioInitializer{
 	private void configureNitrogenAirStoreInFlowRateSensor(Node node){
 		NitrogenAirStoreInFlowRateSensor myNitrogenAirStoreInFlowRateSensor = NitrogenAirStoreInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myNitrogenAirStoreInFlowRateSensor.setInput(NitrogenAirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myNitrogenAirStoreInFlowRateSensor);
 	}
 
 	private void createNitrogenAirStoreOutFlowRateSensor(Node node){
@@ -2446,7 +2446,6 @@ public class BioInitializer{
 			//System.out.println("Creating NitrogenAirStoreOutFlowRateSensor with moduleName: "+moduleName);
 			NitrogenAirStoreOutFlowRateSensorImpl myNitrogenAirStoreOutFlowRateSensorImpl = new NitrogenAirStoreOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myNitrogenAirStoreOutFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myNitrogenAirStoreOutFlowRateSensorImpl));
 			BiosimServer.registerServer(new NitrogenAirStoreOutFlowRateSensorPOATie(myNitrogenAirStoreOutFlowRateSensorImpl), myNitrogenAirStoreOutFlowRateSensorImpl.getModuleName(), myNitrogenAirStoreOutFlowRateSensorImpl.getID());
 		}
 		else
@@ -2456,6 +2455,7 @@ public class BioInitializer{
 	private void configureNitrogenAirStoreOutFlowRateSensor(Node node){
 		NitrogenAirStoreOutFlowRateSensor myNitrogenAirStoreOutFlowRateSensor = NitrogenAirStoreOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myNitrogenAirStoreOutFlowRateSensor.setInput(NitrogenAirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myNitrogenAirStoreOutFlowRateSensor);
 	}
 
 	private void crawlEnvironmentSensors(Node node, boolean firstPass){
@@ -2641,7 +2641,6 @@ public class BioInitializer{
 			//System.out.println("Creating BiomassInFlowRateSensor with moduleName: "+moduleName);
 			BiomassInFlowRateSensorImpl myBiomassInFlowRateSensorImpl = new BiomassInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myBiomassInFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myBiomassInFlowRateSensorImpl));
 			BiosimServer.registerServer(new BiomassInFlowRateSensorPOATie(myBiomassInFlowRateSensorImpl), myBiomassInFlowRateSensorImpl.getModuleName(), myBiomassInFlowRateSensorImpl.getID());
 		}
 		else
@@ -2651,6 +2650,7 @@ public class BioInitializer{
 	private void configureBiomassInFlowRateSensor(Node node){
 		BiomassInFlowRateSensor myBiomassInFlowRateSensor = BiomassInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myBiomassInFlowRateSensor.setInput(BiomassConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myBiomassInFlowRateSensor);
 	}
 
 	private void createBiomassOutFlowRateSensor(Node node){
@@ -2659,7 +2659,6 @@ public class BioInitializer{
 			//System.out.println("Creating BiomassOutFlowRateSensor with moduleName: "+moduleName);
 			BiomassOutFlowRateSensorImpl myBiomassOutFlowRateSensorImpl = new BiomassOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myBiomassOutFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myBiomassOutFlowRateSensorImpl));
 			BiosimServer.registerServer(new BiomassOutFlowRateSensorPOATie(myBiomassOutFlowRateSensorImpl), myBiomassOutFlowRateSensorImpl.getModuleName(), myBiomassOutFlowRateSensorImpl.getID());
 		}
 		else
@@ -2669,6 +2668,7 @@ public class BioInitializer{
 	private void configureBiomassOutFlowRateSensor(Node node){
 		BiomassOutFlowRateSensor myBiomassOutFlowRateSensor = BiomassOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myBiomassOutFlowRateSensor.setInput(BiomassProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myBiomassOutFlowRateSensor);
 	}
 
 	private void createBiomassStoreLevelSensor(Node node){
@@ -2677,7 +2677,6 @@ public class BioInitializer{
 			//System.out.println("Creating BiomassStoreLevelSensor with moduleName: "+moduleName);
 			BiomassStoreLevelSensorImpl myBiomassStoreLevelSensorImpl = new BiomassStoreLevelSensorImpl(myID, moduleName);
 			setupBioModule(myBiomassStoreLevelSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myBiomassStoreLevelSensorImpl));
 			BiosimServer.registerServer(new BiomassStoreLevelSensorPOATie(myBiomassStoreLevelSensorImpl), myBiomassStoreLevelSensorImpl.getModuleName(), myBiomassStoreLevelSensorImpl.getID());
 		}
 		else
@@ -2687,6 +2686,7 @@ public class BioInitializer{
 	private void configureBiomassStoreLevelSensor(Node node){
 		BiomassStoreLevelSensor myBiomassStoreLevelSensor = BiomassStoreLevelSensorHelper.narrow(grabModule(getModuleName(node)));
 		myBiomassStoreLevelSensor.setInput(BiomassStoreHelper.narrow(grabModule(getInputName(node))));
+		mySensors.add(myBiomassStoreLevelSensor);
 	}
 
 	private void createFoodInFlowRateSensor(Node node){
@@ -2695,7 +2695,6 @@ public class BioInitializer{
 			//System.out.println("Creating FoodInFlowRateSensor with moduleName: "+moduleName);
 			FoodInFlowRateSensorImpl myFoodInFlowRateSensorImpl = new FoodInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myFoodInFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myFoodInFlowRateSensorImpl));
 			BiosimServer.registerServer(new FoodInFlowRateSensorPOATie(myFoodInFlowRateSensorImpl), myFoodInFlowRateSensorImpl.getModuleName(), myFoodInFlowRateSensorImpl.getID());
 		}
 		else
@@ -2705,6 +2704,7 @@ public class BioInitializer{
 	private void configureFoodInFlowRateSensor(Node node){
 		FoodInFlowRateSensor myFoodInFlowRateSensor = FoodInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myFoodInFlowRateSensor.setInput(FoodConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myFoodInFlowRateSensor);
 	}
 
 	private void createFoodOutFlowRateSensor(Node node){
@@ -2713,7 +2713,6 @@ public class BioInitializer{
 			//System.out.println("Creating FoodOutFlowRateSensor with moduleName: "+moduleName);
 			FoodOutFlowRateSensorImpl myFoodOutFlowRateSensorImpl = new FoodOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myFoodOutFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myFoodOutFlowRateSensorImpl));
 			BiosimServer.registerServer(new FoodOutFlowRateSensorPOATie(myFoodOutFlowRateSensorImpl), myFoodOutFlowRateSensorImpl.getModuleName(), myFoodOutFlowRateSensorImpl.getID());
 		}
 		else
@@ -2723,6 +2722,7 @@ public class BioInitializer{
 	private void configureFoodOutFlowRateSensor(Node node){
 		FoodOutFlowRateSensor myFoodOutFlowRateSensor = FoodOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myFoodOutFlowRateSensor.setInput(FoodProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myFoodOutFlowRateSensor);
 	}
 
 	private void createFoodStoreLevelSensor(Node node){
@@ -2731,7 +2731,6 @@ public class BioInitializer{
 			//System.out.println("Creating FoodStoreLevelSensor with moduleName: "+moduleName);
 			FoodStoreLevelSensorImpl myFoodStoreLevelSensorImpl = new FoodStoreLevelSensorImpl(myID, moduleName);
 			setupBioModule(myFoodStoreLevelSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myFoodStoreLevelSensorImpl));
 			BiosimServer.registerServer(new FoodStoreLevelSensorPOATie(myFoodStoreLevelSensorImpl), myFoodStoreLevelSensorImpl.getModuleName(), myFoodStoreLevelSensorImpl.getID());
 		}
 		else
@@ -2741,6 +2740,7 @@ public class BioInitializer{
 	private void configureFoodStoreLevelSensor(Node node){
 		FoodStoreLevelSensor myFoodStoreLevelSensor = FoodStoreLevelSensorHelper.narrow(grabModule(getModuleName(node)));
 		myFoodStoreLevelSensor.setInput(FoodStoreHelper.narrow(grabModule(getInputName(node))));
+		mySensors.add(myFoodStoreLevelSensor);
 	}
 
 	private void createHarvestSensor(Node node){
@@ -2749,7 +2749,6 @@ public class BioInitializer{
 			//System.out.println("Creating HarvestSensor with moduleName: "+moduleName);
 			HarvestSensorImpl myHarvestSensorImpl = new HarvestSensorImpl(myID, moduleName);
 			setupBioModule(myHarvestSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myHarvestSensorImpl));
 			BiosimServer.registerServer(new HarvestSensorPOATie(myHarvestSensorImpl), myHarvestSensorImpl.getModuleName(), myHarvestSensorImpl.getID());
 		}
 		else
@@ -2760,7 +2759,8 @@ public class BioInitializer{
 		try{
 			int index = Integer.parseInt(node.getAttributes().getNamedItem("shelfIndex").getNodeValue());
 			HarvestSensor myHarvestSensor = HarvestSensorHelper.narrow(grabModule(getModuleName(node)));
-			myHarvestSensor.setInput(BiomassRSHelper.narrow(grabModule(getInputName(node))), index);
+			myHarvestSensor.setInput(BiomassRSHelper.narrow(grabModule(getInputName(node))), index);	
+			mySensors.add(myHarvestSensor);
 		}
 		catch (NumberFormatException e){e.printStackTrace();}
 	}
@@ -2822,7 +2822,6 @@ public class BioInitializer{
 			//System.out.println("Creating StoreLevelSensor with moduleName: "+moduleName);
 			StoreLevelSensorImpl myStoreLevelSensorImpl = new StoreLevelSensorImpl(myID, moduleName);
 			setupBioModule(myStoreLevelSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myStoreLevelSensorImpl));
 			BiosimServer.registerServer(new StoreLevelSensorPOATie(myStoreLevelSensorImpl), myStoreLevelSensorImpl.getModuleName(), myStoreLevelSensorImpl.getID());
 		}
 		else
@@ -2832,6 +2831,7 @@ public class BioInitializer{
 	private void configureStoreLevelSensor(Node node){
 		StoreLevelSensor myStoreLevelSensor = StoreLevelSensorHelper.narrow(grabModule(getModuleName(node)));
 		myStoreLevelSensor.setInput(StoreHelper.narrow(grabModule(getInputName(node))));
+		mySensors.add(myStoreLevelSensor);
 	}
 
 	private void createStoreOverflowSensor(Node node){
@@ -2840,7 +2840,6 @@ public class BioInitializer{
 			//System.out.println("Creating StoreOverflowSensor with moduleName: "+moduleName);
 			StoreOverflowSensorImpl myStoreOverflowSensorImpl = new StoreOverflowSensorImpl(myID, moduleName);
 			setupBioModule(myStoreOverflowSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myStoreOverflowSensorImpl));
 			BiosimServer.registerServer(new StoreOverflowSensorPOATie(myStoreOverflowSensorImpl), myStoreOverflowSensorImpl.getModuleName(), myStoreOverflowSensorImpl.getID());
 		}
 		else
@@ -2850,6 +2849,7 @@ public class BioInitializer{
 	private void configureStoreOverflowSensor(Node node){
 		StoreOverflowSensor myStoreOverflowSensor = StoreOverflowSensorHelper.narrow(grabModule(getModuleName(node)));
 		myStoreOverflowSensor.setInput(StoreHelper.narrow(grabModule(getInputName(node))));
+		mySensors.add(myStoreOverflowSensor);
 	}
 
 	private void crawlFrameworkSensors(Node node, boolean firstPass){
@@ -2879,7 +2879,6 @@ public class BioInitializer{
 			//System.out.println("Creating PowerInFlowRateSensor with moduleName: "+moduleName);
 			PowerInFlowRateSensorImpl myPowerInFlowRateSensorImpl = new PowerInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myPowerInFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myPowerInFlowRateSensorImpl));
 			BiosimServer.registerServer(new PowerInFlowRateSensorPOATie(myPowerInFlowRateSensorImpl), myPowerInFlowRateSensorImpl.getModuleName(), myPowerInFlowRateSensorImpl.getID());
 		}
 		else
@@ -2889,6 +2888,7 @@ public class BioInitializer{
 	private void configurePowerInFlowRateSensor(Node node){
 		PowerInFlowRateSensor myPowerInFlowRateSensor = PowerInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myPowerInFlowRateSensor.setInput(PowerConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myPowerInFlowRateSensor);
 	}
 
 	private void createPowerOutFlowRateSensor(Node node){
@@ -2897,7 +2897,6 @@ public class BioInitializer{
 			//System.out.println("Creating PowerOutFlowRateSensor with moduleName: "+moduleName);
 			PowerOutFlowRateSensorImpl myPowerOutFlowRateSensorImpl = new PowerOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myPowerOutFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myPowerOutFlowRateSensorImpl));
 			BiosimServer.registerServer(new PowerOutFlowRateSensorPOATie(myPowerOutFlowRateSensorImpl), myPowerOutFlowRateSensorImpl.getModuleName(), myPowerOutFlowRateSensorImpl.getID());
 		}
 		else
@@ -2907,6 +2906,7 @@ public class BioInitializer{
 	private void configurePowerOutFlowRateSensor(Node node){
 		PowerOutFlowRateSensor myPowerOutFlowRateSensor = PowerOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myPowerOutFlowRateSensor.setInput(PowerProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myPowerOutFlowRateSensor);
 	}
 
 	private void createPowerStoreLevelSensor(Node node){
@@ -2915,7 +2915,6 @@ public class BioInitializer{
 			//System.out.println("Creating PowerStoreLevelSensor with moduleName: "+moduleName);
 			PowerStoreLevelSensorImpl myPowerStoreLevelSensorImpl = new PowerStoreLevelSensorImpl(myID, moduleName);
 			setupBioModule(myPowerStoreLevelSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myPowerStoreLevelSensorImpl));
 			BiosimServer.registerServer(new PowerStoreLevelSensorPOATie(myPowerStoreLevelSensorImpl), myPowerStoreLevelSensorImpl.getModuleName(), myPowerStoreLevelSensorImpl.getID());
 		}
 		else
@@ -2925,6 +2924,7 @@ public class BioInitializer{
 	private void configurePowerStoreLevelSensor(Node node){
 		PowerStoreLevelSensor myPowerStoreLevelSensor = PowerStoreLevelSensorHelper.narrow(grabModule(getModuleName(node)));
 		myPowerStoreLevelSensor.setInput(PowerStoreHelper.narrow(grabModule(getInputName(node))));
+		mySensors.add(myPowerStoreLevelSensor);
 	}
 
 	private void crawlPowerSensors(Node node, boolean firstPass){
@@ -2960,7 +2960,6 @@ public class BioInitializer{
 			//System.out.println("Creating PotableWaterInFlowRateSensor with moduleName: "+moduleName);
 			PotableWaterInFlowRateSensorImpl myPotableWaterInFlowRateSensorImpl = new PotableWaterInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myPotableWaterInFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myPotableWaterInFlowRateSensorImpl));
 			BiosimServer.registerServer(new PotableWaterInFlowRateSensorPOATie(myPotableWaterInFlowRateSensorImpl), myPotableWaterInFlowRateSensorImpl.getModuleName(), myPotableWaterInFlowRateSensorImpl.getID());
 		}
 		else
@@ -2970,6 +2969,7 @@ public class BioInitializer{
 	private void configurePotableWaterInFlowRateSensor(Node node){
 		PotableWaterInFlowRateSensor myPotableWaterInFlowRateSensor = PotableWaterInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myPotableWaterInFlowRateSensor.setInput(PotableWaterConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myPotableWaterInFlowRateSensor);
 	}
 
 	private void createPotableWaterOutFlowRateSensor(Node node){
@@ -2978,7 +2978,6 @@ public class BioInitializer{
 			//System.out.println("Creating PotableWaterOutFlowRateSensor with moduleName: "+moduleName);
 			PotableWaterOutFlowRateSensorImpl myPotableWaterOutFlowRateSensorImpl = new PotableWaterOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myPotableWaterOutFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myPotableWaterOutFlowRateSensorImpl));
 			BiosimServer.registerServer(new PotableWaterOutFlowRateSensorPOATie(myPotableWaterOutFlowRateSensorImpl), myPotableWaterOutFlowRateSensorImpl.getModuleName(), myPotableWaterOutFlowRateSensorImpl.getID());
 		}
 		else
@@ -2988,6 +2987,7 @@ public class BioInitializer{
 	private void configurePotableWaterOutFlowRateSensor(Node node){
 		PotableWaterOutFlowRateSensor myPotableWaterOutFlowRateSensor = PotableWaterOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myPotableWaterOutFlowRateSensor.setInput(PotableWaterProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myPotableWaterOutFlowRateSensor);
 	}
 
 	private void createPotableWaterStoreLevelSensor(Node node){
@@ -2996,7 +2996,6 @@ public class BioInitializer{
 			//System.out.println("Creating PotableWaterStoreLevelSensor with moduleName: "+moduleName);
 			PotableWaterStoreLevelSensorImpl myPotableWaterStoreLevelSensorImpl = new PotableWaterStoreLevelSensorImpl(myID, moduleName);
 			setupBioModule(myPotableWaterStoreLevelSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myPotableWaterStoreLevelSensorImpl));
 			BiosimServer.registerServer(new PotableWaterStoreLevelSensorPOATie(myPotableWaterStoreLevelSensorImpl), myPotableWaterStoreLevelSensorImpl.getModuleName(), myPotableWaterStoreLevelSensorImpl.getID());
 		}
 		else
@@ -3006,6 +3005,7 @@ public class BioInitializer{
 	private void configurePotableWaterStoreLevelSensor(Node node){
 		PotableWaterStoreLevelSensor myPotableWaterStoreLevelSensor = PotableWaterStoreLevelSensorHelper.narrow(grabModule(getModuleName(node)));
 		myPotableWaterStoreLevelSensor.setInput(PotableWaterStoreHelper.narrow(grabModule(getInputName(node))));
+		mySensors.add(myPotableWaterStoreLevelSensor);
 	}
 
 	private void createGreyWaterInFlowRateSensor(Node node){
@@ -3014,7 +3014,6 @@ public class BioInitializer{
 			//System.out.println("Creating GreyWaterInFlowRateSensor with moduleName: "+moduleName);
 			GreyWaterInFlowRateSensorImpl myGreyWaterInFlowRateSensorImpl = new GreyWaterInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myGreyWaterInFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myGreyWaterInFlowRateSensorImpl));
 			BiosimServer.registerServer(new GreyWaterInFlowRateSensorPOATie(myGreyWaterInFlowRateSensorImpl), myGreyWaterInFlowRateSensorImpl.getModuleName(), myGreyWaterInFlowRateSensorImpl.getID());
 		}
 		else
@@ -3024,6 +3023,7 @@ public class BioInitializer{
 	private void configureGreyWaterInFlowRateSensor(Node node){
 		GreyWaterInFlowRateSensor myGreyWaterInFlowRateSensor = GreyWaterInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myGreyWaterInFlowRateSensor.setInput(GreyWaterConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myGreyWaterInFlowRateSensor);
 	}
 
 	private void createGreyWaterOutFlowRateSensor(Node node){
@@ -3032,7 +3032,6 @@ public class BioInitializer{
 			//System.out.println("Creating GreyWaterOutFlowRateSensor with moduleName: "+moduleName);
 			GreyWaterOutFlowRateSensorImpl myGreyWaterOutFlowRateSensorImpl = new GreyWaterOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myGreyWaterOutFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myGreyWaterOutFlowRateSensorImpl));
 			BiosimServer.registerServer(new GreyWaterOutFlowRateSensorPOATie(myGreyWaterOutFlowRateSensorImpl), myGreyWaterOutFlowRateSensorImpl.getModuleName(), myGreyWaterOutFlowRateSensorImpl.getID());
 		}
 		else
@@ -3042,6 +3041,7 @@ public class BioInitializer{
 	private void configureGreyWaterOutFlowRateSensor(Node node){
 		GreyWaterOutFlowRateSensor myGreyWaterOutFlowRateSensor = GreyWaterOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myGreyWaterOutFlowRateSensor.setInput(GreyWaterProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myGreyWaterOutFlowRateSensor);
 	}
 
 	private void createGreyWaterStoreLevelSensor(Node node){
@@ -3050,7 +3050,6 @@ public class BioInitializer{
 			//System.out.println("Creating GreyWaterStoreLevelSensor with moduleName: "+moduleName);
 			GreyWaterStoreLevelSensorImpl myGreyWaterStoreLevelSensorImpl = new GreyWaterStoreLevelSensorImpl(myID, moduleName);
 			setupBioModule(myGreyWaterStoreLevelSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myGreyWaterStoreLevelSensorImpl));
 			BiosimServer.registerServer(new GreyWaterStoreLevelSensorPOATie(myGreyWaterStoreLevelSensorImpl), myGreyWaterStoreLevelSensorImpl.getModuleName(), myGreyWaterStoreLevelSensorImpl.getID());
 		}
 		else
@@ -3060,6 +3059,7 @@ public class BioInitializer{
 	private void configureGreyWaterStoreLevelSensor(Node node){
 		GreyWaterStoreLevelSensor myGreyWaterStoreLevelSensor = GreyWaterStoreLevelSensorHelper.narrow(grabModule(getModuleName(node)));
 		myGreyWaterStoreLevelSensor.setInput(GreyWaterStoreHelper.narrow(grabModule(getInputName(node))));
+		mySensors.add(myGreyWaterStoreLevelSensor);
 	}
 
 	private void createDirtyWaterInFlowRateSensor(Node node){
@@ -3068,7 +3068,6 @@ public class BioInitializer{
 			//System.out.println("Creating DirtyWaterInFlowRateSensor with moduleName: "+moduleName);
 			DirtyWaterInFlowRateSensorImpl myDirtyWaterInFlowRateSensorImpl = new DirtyWaterInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myDirtyWaterInFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myDirtyWaterInFlowRateSensorImpl));
 			BiosimServer.registerServer(new DirtyWaterInFlowRateSensorPOATie(myDirtyWaterInFlowRateSensorImpl), myDirtyWaterInFlowRateSensorImpl.getModuleName(), myDirtyWaterInFlowRateSensorImpl.getID());
 		}
 		else
@@ -3078,6 +3077,7 @@ public class BioInitializer{
 	private void configureDirtyWaterInFlowRateSensor(Node node){
 		DirtyWaterInFlowRateSensor myDirtyWaterInFlowRateSensor = DirtyWaterInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myDirtyWaterInFlowRateSensor.setInput(DirtyWaterConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myDirtyWaterInFlowRateSensor);
 	}
 
 	private void createDirtyWaterOutFlowRateSensor(Node node){
@@ -3086,7 +3086,6 @@ public class BioInitializer{
 			//System.out.println("Creating DirtyWaterOutFlowRateSensor with moduleName: "+moduleName);
 			DirtyWaterOutFlowRateSensorImpl myDirtyWaterOutFlowRateSensorImpl = new DirtyWaterOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myDirtyWaterOutFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myDirtyWaterOutFlowRateSensorImpl));
 			BiosimServer.registerServer(new DirtyWaterOutFlowRateSensorPOATie(myDirtyWaterOutFlowRateSensorImpl), myDirtyWaterOutFlowRateSensorImpl.getModuleName(), myDirtyWaterOutFlowRateSensorImpl.getID());
 		}
 		else
@@ -3096,6 +3095,7 @@ public class BioInitializer{
 	private void configureDirtyWaterOutFlowRateSensor(Node node){
 		DirtyWaterOutFlowRateSensor myDirtyWaterOutFlowRateSensor = DirtyWaterOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myDirtyWaterOutFlowRateSensor.setInput(DirtyWaterProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myDirtyWaterOutFlowRateSensor);
 	}
 
 	private void createDirtyWaterStoreLevelSensor(Node node){
@@ -3104,7 +3104,6 @@ public class BioInitializer{
 			//System.out.println("Creating DirtyWaterStoreLevelSensor with moduleName: "+moduleName);
 			DirtyWaterStoreLevelSensorImpl myDirtyWaterStoreLevelSensorImpl = new DirtyWaterStoreLevelSensorImpl(myID, moduleName);
 			setupBioModule(myDirtyWaterStoreLevelSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myDirtyWaterStoreLevelSensorImpl));
 			BiosimServer.registerServer(new DirtyWaterStoreLevelSensorPOATie(myDirtyWaterStoreLevelSensorImpl), myDirtyWaterStoreLevelSensorImpl.getModuleName(), myDirtyWaterStoreLevelSensorImpl.getID());
 		}
 		else
@@ -3114,6 +3113,7 @@ public class BioInitializer{
 	private void configureDirtyWaterStoreLevelSensor(Node node){
 		DirtyWaterStoreLevelSensor myDirtyWaterStoreLevelSensor = DirtyWaterStoreLevelSensorHelper.narrow(grabModule(getModuleName(node)));
 		myDirtyWaterStoreLevelSensor.setInput(DirtyWaterStoreHelper.narrow(grabModule(getInputName(node))));
+		mySensors.add(myDirtyWaterStoreLevelSensor);
 	}
 	
 	private void crawlWaterSensors(Node node, boolean firstPass){
@@ -3185,7 +3185,6 @@ public class BioInitializer{
 			//System.out.println("Creating DryWasteInFlowRateSensor with moduleName: "+moduleName);
 			DryWasteInFlowRateSensorImpl myDryWasteInFlowRateSensorImpl = new DryWasteInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myDryWasteInFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myDryWasteInFlowRateSensorImpl));
 			BiosimServer.registerServer(new DryWasteInFlowRateSensorPOATie(myDryWasteInFlowRateSensorImpl), myDryWasteInFlowRateSensorImpl.getModuleName(), myDryWasteInFlowRateSensorImpl.getID());
 		}
 		else
@@ -3195,6 +3194,7 @@ public class BioInitializer{
 	private void configureDryWasteInFlowRateSensor(Node node){
 		DryWasteInFlowRateSensor myDryWasteInFlowRateSensor = DryWasteInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myDryWasteInFlowRateSensor.setInput(DryWasteConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myDryWasteInFlowRateSensor);
 	}
 
 	private void createDryWasteOutFlowRateSensor(Node node){
@@ -3203,7 +3203,6 @@ public class BioInitializer{
 			//System.out.println("Creating DryWasteOutFlowRateSensor with moduleName: "+moduleName);
 			DryWasteOutFlowRateSensorImpl myDryWasteOutFlowRateSensorImpl = new DryWasteOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myDryWasteOutFlowRateSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myDryWasteOutFlowRateSensorImpl));
 			BiosimServer.registerServer(new DryWasteOutFlowRateSensorPOATie(myDryWasteOutFlowRateSensorImpl), myDryWasteOutFlowRateSensorImpl.getModuleName(), myDryWasteOutFlowRateSensorImpl.getID());
 		}
 		else
@@ -3213,6 +3212,7 @@ public class BioInitializer{
 	private void configureDryWasteOutFlowRateSensor(Node node){
 		DryWasteOutFlowRateSensor myDryWasteOutFlowRateSensor = DryWasteOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
 		myDryWasteOutFlowRateSensor.setInput(DryWasteProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
+		mySensors.add(myDryWasteOutFlowRateSensor);
 	}
 
 	private void createDryWasteStoreLevelSensor(Node node){
@@ -3221,7 +3221,6 @@ public class BioInitializer{
 			//System.out.println("Creating DryWasteStoreLevelSensor with moduleName: "+moduleName);
 			DryWasteStoreLevelSensorImpl myDryWasteStoreLevelSensorImpl = new DryWasteStoreLevelSensorImpl(myID, moduleName);
 			setupBioModule(myDryWasteStoreLevelSensorImpl, node);
-			mySensors.add(OrbUtils.poaToCorbaObj(myDryWasteStoreLevelSensorImpl));
 			BiosimServer.registerServer(new DryWasteStoreLevelSensorPOATie(myDryWasteStoreLevelSensorImpl), myDryWasteStoreLevelSensorImpl.getModuleName(), myDryWasteStoreLevelSensorImpl.getID());
 		}
 		else
@@ -3231,6 +3230,7 @@ public class BioInitializer{
 	private void configureDryWasteStoreLevelSensor(Node node){
 		DryWasteStoreLevelSensor myDryWasteStoreLevelSensor = DryWasteStoreLevelSensorHelper.narrow(grabModule(getModuleName(node)));
 		myDryWasteStoreLevelSensor.setInput(DryWasteStoreHelper.narrow(grabModule(getInputName(node))));
+		mySensors.add(myDryWasteStoreLevelSensor);
 	}
 	
 	private void crawlWasteSensors(Node node, boolean firstPass){
