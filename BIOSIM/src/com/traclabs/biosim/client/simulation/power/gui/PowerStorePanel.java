@@ -4,11 +4,11 @@ import java.awt.*;
 import biosim.idl.simulation.power.*;
 import biosim.client.framework.gui.*;
 import biosim.client.util.*;
-import com.jrefinery.chart.*;
-import com.jrefinery.data.*;
-import com.jrefinery.chart.axis.*;
-import com.jrefinery.chart.plot.*;
-import com.jrefinery.chart.renderer.*;
+import org.jfree.chart.*;
+import org.jfree.data.*;
+import org.jfree.chart.axis.*;
+import org.jfree.chart.plot.*;
+import org.jfree.chart.renderer.*;
 
 /**
  * This is the JPanel that displays a chart about the Power Store
@@ -26,11 +26,11 @@ public class PowerStorePanel extends GraphPanel
 		// create the chart...
 		myPowerStore = (PowerStore)(BioHolder.getBioModule(BioHolder.powerStoreName));
 		refresh();
-		myChart = ChartFactory.createVerticalBarChart3D(
+		myChart = ChartFactory.createBarChart3D(
 		                  "Power Store Level",  // chart title
 		                  "",              // domain axis label
 		                  "Power Level (W)",                 // range axis label
-		                  myDataset,                 // data
+		                  myDataset, PlotOrientation.VERTICAL,                // data
 		                  true,                     // include legend
 				  true,
 				  false
@@ -40,7 +40,7 @@ public class PowerStorePanel extends GraphPanel
 		rangeAxis = myPlot.getRangeAxis();
 		rangeAxis.setAutoRange(false);
 		rangeAxis.setRange(0.0, myPowerStore.getCapacity());
-		Renderer renderer = myPlot.getRenderer();
+		CategoryItemRenderer renderer = myPlot.getRenderer();
 		renderer.setSeriesPaint(0, Color.ORANGE);
 		TextTitle myTextTitle = (TextTitle)(myChart.getTitle());
 		myTextTitle.setFont(myTextTitle.getFont().deriveFont(13.0f));

@@ -3,9 +3,9 @@ package biosim.client.framework.gui;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import com.jrefinery.chart.*;
-import com.jrefinery.data.*;
-import com.jrefinery.ui.*;
+import org.jfree.chart.*;
+import org.jfree.data.*;
+import org.jfree.ui.*;
 
 /**
  * 

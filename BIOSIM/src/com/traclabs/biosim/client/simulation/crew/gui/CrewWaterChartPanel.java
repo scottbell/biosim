@@ -4,11 +4,11 @@ import java.awt.*;
 import biosim.idl.simulation.crew.*;
 import biosim.client.framework.gui.*;
 import biosim.client.util.*;
-import com.jrefinery.chart.*;
-import com.jrefinery.data.*;
-import com.jrefinery.chart.axis.*;
-import com.jrefinery.chart.plot.*;
-import com.jrefinery.chart.renderer.*;
+import org.jfree.chart.*;
+import org.jfree.data.*;
+import org.jfree.chart.axis.*;
+import org.jfree.chart.plot.*;
+import org.jfree.chart.renderer.*;
 
 /**
  * This is the JPanel that displays a chart about the crew and water
@@ -24,11 +24,11 @@ public class CrewWaterChartPanel extends GraphPanel
 		// create the chart...
 		myCrewGroup = (CrewGroup)(BioHolder.getBioModule(BioHolder.crewName));
 		refresh();
-		JFreeChart myChart = ChartFactory.createVerticalBarChart3D(
+		JFreeChart myChart = ChartFactory.createBarChart3D(
 		                  "Water Consumed/Produced",  // chart title
 		                  "",              // domain axis label
 		                  "Liters",                 // range axis label
-		                  myDataset,                 // data
+		                  myDataset, PlotOrientation.VERTICAL,                // data
 		                  true,                     // include legend
 				  true,
 				  false
@@ -38,7 +38,7 @@ public class CrewWaterChartPanel extends GraphPanel
 		ValueAxis rangeAxis = myPlot.getRangeAxis();
 		rangeAxis.setAutoRange(false);
 		rangeAxis.setRange(0.0, 2.0);
-		Renderer renderer = myPlot.getRenderer();
+		CategoryItemRenderer renderer = myPlot.getRenderer();
 		renderer.setSeriesPaint(0, Color.BLUE);
 		renderer.setSeriesPaint(1, Color.GRAY);
 		renderer.setSeriesPaint(2, Color.YELLOW);
