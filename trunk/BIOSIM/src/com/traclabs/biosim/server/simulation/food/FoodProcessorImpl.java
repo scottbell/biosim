@@ -2,9 +2,11 @@ package biosim.server.food;
 
 import biosim.idl.food.*;
 import biosim.idl.power.*;
+import biosim.idl.framework.*;
 import biosim.idl.util.log.*;
 import biosim.server.util.*;
 import biosim.server.framework.*;
+import java.util.*;
 /**
  * The Food Processor takes biomass (plants matter) and refines it to food for the crew members.
  *
@@ -33,6 +35,7 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	private PowerStore myPowerStore;
 	private BiomassStore myBiomassStore;
 	private LogIndex myLogIndex;
+	private float myProductionRate = 1f;
 	
 	public FoodProcessorImpl(int pID){
 		super(pID);
@@ -135,7 +138,7 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	*/
 	private void createFood(){
 		if (hasEnoughPower){
-			currentFoodProduced = randomFilter(currentBiomassConsumed * 0.8f);
+			currentFoodProduced = randomFilter(currentBiomassConsumed * 0.8f) * myProductionRate;
 			myFoodStore.add(currentFoodProduced);
 		}
 	}
@@ -147,6 +150,34 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 		gatherPower();
 		gatherBiomass();
 	}
+	
+	private void setProductionRate(float pProductionRate){
+		myProductionRate = pProductionRate;
+	}
+	
+	private void performMalfunctions(){
+		float productionRate = 1f;
+		for (Enumeration e = myMalfunctions.elements(); e.hasMoreElements();){
+			Malfunction currentMalfunction = (Malfunction)(e.nextElement());
+			if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF){
+				if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
+					productionRate *= 0.50;
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
+					productionRate *= 0.25;
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
+					productionRate *= 0.10;
+			}
+			else if (currentMalfunction.getLength() == MalfunctionLength.PERMANENT_MALF){
+				if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
+					productionRate *= 0.50;
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
+					productionRate *= 0.25;
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
+					productionRate *= 0.10;
+			}
+		}
+		setProductionRate(productionRate);
+	}
 
 	/**
 	* When ticked, the Food Processor does the following: 
@@ -157,6 +188,8 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	public void tick(){
 		collectReferences();
 		consumeResources();
+		if (isMalfunctioning())
+			performMalfunctions();
 		createFood();
 		if (moduleLogging)
 			log();

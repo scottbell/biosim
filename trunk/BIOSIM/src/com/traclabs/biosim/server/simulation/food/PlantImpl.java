@@ -39,6 +39,7 @@ public abstract class Plant {
 	private boolean logInitialized = false;
 	private int myID = 0;
 	protected BiomassRSImpl myBiomassImpl;
+	private float myProductionRate = 1f;
 
 	public Plant(int pID, BiomassRSImpl pBiomassImpl){
 		myBiomassImpl = pBiomassImpl;
@@ -139,7 +140,7 @@ public abstract class Plant {
 	}
 	
 	private void produceBiomass(){
-		biomassProduced = calculateProducedBiomass();
+		biomassProduced = calculateProducedBiomass() * myProductionRate;
 		if (biomassProduced > 0){
 			myBiomassStore.add(biomassProduced);
 			myAge = 0;
@@ -148,6 +149,10 @@ public abstract class Plant {
 	
 	public float getBiomassProduced(){
 		return biomassProduced;
+	}
+	
+	public void setProductionRate(float pProductionRate){
+		myProductionRate = pProductionRate;
 	}
 
 	public void tick(){
