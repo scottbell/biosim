@@ -32,11 +32,13 @@ public class CrewChartPanel extends UpdatablePanel
 		myCrewAirChartPanel.refresh();
 		myCrewFoodChartPanel.refresh();
 		myCrewWaterChartPanel.refresh();
+		myCrewIntensityChartPanel.refresh();
 	}
 	
 	public void visibilityChange(boolean nowVisible){
 		myCrewAirChartPanel.visibilityChange(nowVisible);
 		myCrewFoodChartPanel.visibilityChange(nowVisible);
 		myCrewWaterChartPanel.visibilityChange(nowVisible);
+		myCrewIntensityChartPanel.visibilityChange(nowVisible);
 	}
 }

@@ -40,6 +40,7 @@ public abstract class BioTabbedPanel extends JPanel
 		myTabbedPane.addTab("Chart", myChartPanel);
 		myTabbedPane.addTab("Schematic", mySchematicPanel);
 		add(myTabbedPane, BorderLayout.CENTER);
+		myTabbedPane.setSelectedIndex(0);
 		myTabbedPane.addChangeListener(new TabChangeListener());
 		alterVisibility();
 	}

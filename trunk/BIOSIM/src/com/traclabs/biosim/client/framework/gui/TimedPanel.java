@@ -13,7 +13,7 @@ public abstract class TimedPanel extends UpdatablePanel
 	protected RefreshAction myRefreshAction;
 	private Timer refreshTimer;
 	private final static int TIMER_DELAY=500;
-	protected boolean tracking = true; 
+	protected boolean tracking = false; 
 
 	/**
 	 * Default constructor.
@@ -42,11 +42,9 @@ public abstract class TimedPanel extends UpdatablePanel
 	public void visibilityChange(boolean nowVisible){
 		if (nowVisible && tracking){
 			refreshTimer.start();
-			System.out.println("Started timer");
 		}
 		else{
 			refreshTimer.stop();
-			System.out.println("Stopped timer");
 		}
 	}
 
