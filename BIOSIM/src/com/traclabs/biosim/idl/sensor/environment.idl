@@ -9,18 +9,18 @@ module environment{
 	interface CO2AirLevelSensor : EnvironmentSensor{};
 	interface otherAirLevelSensor : EnvironmentSensor{};
 	interface AirFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::environment::AirProducer source, in simulation::environment::AirConsumer destination);
-		simulation::environment::AirProducer getSource();
-		simulation::environment::AirConsumer getDestination();
+		void setInput(in simulation::environment::AirProducer source, in long indexSource, in simulation::environment::AirConsumer destination, in long indexDestination);
+		simulation::environment::AirProducer getProducer();
+		simulation::environment::AirConsumer getConsumer();
 	};
 	interface O2AirFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::environment::O2AirProducer source, in simulation::environment::O2AirConsumer destination);
-		simulation::environment::O2AirProducer getSource();
-		simulation::environment::O2AirConsumer getDestination();
+		void setInput(in simulation::environment::O2AirProducer source, in long indexSource, in simulation::environment::O2AirConsumer destination, in long indexDestination);
+		simulation::environment::O2AirProducer getProducer();
+		simulation::environment::O2AirConsumer getConsumer();
 	};
 	interface CO2AirFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::environment::CO2AirProducer source, in simulation::environment::CO2AirConsumer destination);
-		simulation::environment::CO2AirProducer getSource();
-		simulation::environment::CO2AirConsumer getDestination();
+		void setInput(in simulation::environment::CO2AirProducer source, in long indexSource, in simulation::environment::CO2AirConsumer destination, in long indexDestination);
+		simulation::environment::CO2AirProducer getProducer();
+		simulation::environment::CO2AirConsumer getConsumer();
 	};
 };

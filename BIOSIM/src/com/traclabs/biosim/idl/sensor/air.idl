@@ -14,13 +14,15 @@ module air{
 	interface O2StoreLevelSensor : O2StoreSensor{};
         interface CO2StoreLevelSensor : CO2StoreSensor{};
 	interface O2FlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::air::O2Producer source, in simulation::air::O2Consumer destination);
-		simulation::air::O2Producer getSource();
-		simulation::air::O2Consumer getDestination();
+		void setInput(in simulation::air::O2Producer source, in long indexSource, in simulation::air::O2Consumer destination, in long indexDestination);
+		simulation::air::O2Producer getProducer();
+		simulation::air::O2Consumer getConsumer();
+		long getIndexProducer();
+		long getIndexConsumer();
 	};
 	interface CO2FlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::air::CO2Producer source, in simulation::air::CO2Consumer destination);
-		simulation::air::CO2Producer getSource();
-		simulation::air::CO2Consumer getDestination();
+		void setInput(in simulation::air::CO2Producer source, in long indexSource, in simulation::air::CO2Consumer destination, in long indexDestination);
+		simulation::air::CO2Producer getProducer();
+		simulation::air::CO2Consumer getConsumer();
 	};
 };
