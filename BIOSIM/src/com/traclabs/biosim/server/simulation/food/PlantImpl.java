@@ -131,7 +131,7 @@ public abstract class PlantImpl extends PlantPOA{
 	}
 	
 	private float calculateSaturatedMoistureVaporPressure(){
-		float temperatureLight = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0].getTemperature() + 239f;
+		float temperatureLight = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0].getTemperature();
 		float exponent = (17.4f * temperatureLight) / (temperatureLight + 239f);
 		System.out.println("PlantImpl: temperatureLight: "+temperatureLight);
 		System.out.println("PlantImpl: exponent: "+exponent);
