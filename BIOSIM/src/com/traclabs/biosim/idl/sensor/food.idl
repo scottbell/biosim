@@ -9,14 +9,26 @@ module food{
 		simulation::food::FoodStore getInput();
 	};
         interface FoodStoreLevelSensor : FoodStoreSensor{};
-	interface BiomassFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::food::BiomassProducer source, in long indexSource, in simulation::food::BiomassConsumer destination, in long indexDestination);
-		simulation::food::BiomassProducer getProducer();
-		simulation::food::BiomassConsumer getConsumer();
+	
+	interface BiomassInFlowRateSensor : framework::GenericSensor{
+		void setInput(in simulation::food::BiomassConsumer pConsumer, in long pIndex);
+		simulation::food::BiomassConsumer getInput();
+		long getIndex();
 	};
-	interface FoodFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::food::FoodProducer source, in long indexSource, in simulation::food::FoodConsumer destination, in long indexDestination);
-		simulation::food::FoodProducer getProducer();
-		simulation::food::FoodConsumer getConsumer();
+	interface BiomassOutFlowRateSensor : framework::GenericSensor{
+		void setInput(in simulation::food::BiomassProducer pProducer, in long pIndex);
+		simulation::food::BiomassProducer getInput();
+		long getIndex();
+	};
+	
+	interface FoodInFlowRateSensor : framework::GenericSensor{
+		void setInput(in simulation::food::FoodConsumer pConsumer, in long pIndex);
+		simulation::food::FoodConsumer getInput();
+		long getIndex();
+	};
+	interface FoodOutFlowRateSensor : framework::GenericSensor{
+		void setInput(in simulation::food::FoodProducer pProducer, in long pIndex);
+		simulation::food::FoodProducer getInput();
+		long getIndex();
 	};
 };

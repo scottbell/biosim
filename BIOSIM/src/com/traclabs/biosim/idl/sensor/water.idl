@@ -14,19 +14,37 @@ module water{
         interface PotableWaterLevelSensor : PotableWaterStoreSensor{};
         interface GreyWaterLevelSensor : GreyWaterStoreSensor{};
         interface DirtyWaterLevelSensor : DirtyWaterStoreSensor{};
-	interface PotableWaterFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::water::PotableWaterProducer source, in long indexSource, in simulation::water::PotableWaterConsumer destination, in long indexDestination);
-		simulation::water::PotableWaterProducer getProducer();
-		simulation::water::PotableWaterConsumer getConsumer();
+	
+	interface PotableWaterInFlowRateSensor : framework::GenericSensor{
+		void setInput(in simulation::water::PotableWaterConsumer pConsumer, in long pIndex);
+		simulation::water::PotableWaterConsumer getInput();
+		long getIndex();
 	};
-	interface GreyWaterFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::water::GreyWaterProducer source, in long indexSource, in simulation::water::GreyWaterConsumer destination, in long indexDestination);
-		simulation::water::GreyWaterProducer getProducer();
-		simulation::water::GreyWaterConsumer getConsumer();
+	interface PotableWaterOutFlowRateSensor : framework::GenericSensor{
+		void setInput(in simulation::water::PotableWaterProducer pProducer, in long pIndex);
+		simulation::water::PotableWaterProducer getInput();
+		long getIndex();
 	};
-	interface DirtyWaterFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::water::DirtyWaterProducer source, in long indexSource, in simulation::water::DirtyWaterConsumer destination, in long indexDestination);
-		simulation::water::DirtyWaterProducer getProducer();
-		simulation::water::DirtyWaterConsumer getConsumer();
+	
+	interface GreyWaterInFlowRateSensor : framework::GenericSensor{
+		void setInput(in simulation::water::GreyWaterConsumer pConsumer, in long pIndex);
+		simulation::water::GreyWaterConsumer getInput();
+		long getIndex();
+	};
+	interface GreyWaterOutFlowRateSensor : framework::GenericSensor{
+		void setInput(in simulation::water::GreyWaterProducer pProducer, in long pIndex);
+		simulation::water::GreyWaterProducer getInput();
+		long getIndex();
+	};
+	
+	interface DirtyWaterInFlowRateSensor : framework::GenericSensor{
+		void setInput(in simulation::water::DirtyWaterConsumer pConsumer, in long pIndex);
+		simulation::water::DirtyWaterConsumer getInput();
+		long getIndex();
+	};
+	interface DirtyWaterOutFlowRateSensor : framework::GenericSensor{
+		void setInput(in simulation::water::DirtyWaterProducer pProducer, in long pIndex);
+		simulation::water::DirtyWaterProducer getInput();
+		long getIndex();
 	};
 };
