@@ -780,7 +780,6 @@ public class BioInitializer{
 
 			e.printStackTrace();
 		}
-		System.out.println("Schedule for "+name+"\n"+schedule);
 		crew.createCrewPerson(name, age, weight, sex, schedule);
 	}
 
