@@ -7,6 +7,7 @@ import biosim.idl.simulation.food.*;
 import biosim.idl.simulation.power.*;
 import biosim.idl.simulation.water.*;
 import biosim.idl.simulation.framework.*;
+import biosim.server.simulation.framework.*;
 import biosim.idl.framework.*;
 import biosim.idl.util.log.*;
 import biosim.server.util.*;
@@ -20,6 +21,8 @@ import java.net.*;
 
 
 public class CrewPersonImpl extends CrewPersonPOA {
+	//The random number generator used for gaussian function (stochastic stuff)
+	private Random myRandomGen;
 	//The name of this crew memeber
 	private String myName = "No Name";
 	//The current activity this crew member is performing
@@ -82,6 +85,14 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private CrewGroupImpl myCrewGroup;
 	private boolean logInitialized = false;
 	private LogIndex myLogIndex;
+	private SimpleBuffer consumedWater;
+	private SimpleBuffer consumedOxygen;
+	private SimpleBuffer consumedFood;
+	private SimpleBuffer consumedCO2;
+	private static final float WATER_SLOPE = 10f;
+	private static final float OXYGEN_SLOPE = 10f;
+	private static final float FOOD_SLOPE = 10f;
+	private static final float CO2_SLOPE = 10f;
 
 	/**
 	* Constructor that creates a new crew person
@@ -91,13 +102,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* @param pCrewGroup the crew that the new crew person belongs in
 	*/
 	CrewPersonImpl(String pName, float pAge, float pWeight, Sex pSex, CrewGroupImpl pCrewGroup){
-		myName = pName;
-		age = pAge;
-		weight = pWeight;
-		sex = pSex;
-		myCrewGroup = pCrewGroup;
-		mySchedule = new Schedule();
-		myCurrentActivity = mySchedule.getScheduledActivityByOrder(currentOrder);
+		this(pName, pAge, pWeight, pSex, pCrewGroup, new Schedule());
 	}
 	
 	CrewPersonImpl(String pName, float pAge, float pWeight, Sex pSex, CrewGroupImpl pCrewGroup, Schedule pSchedule){
@@ -107,6 +112,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		sex = pSex;
 		myCrewGroup = pCrewGroup;
 		mySchedule = pSchedule;
+		consumedWater = new SimpleBuffer();
+		consumedWater = new SimpleBuffer();
+		consumedFood = new SimpleBuffer();
+		myRandomGen = new Random();
 		myCurrentActivity = mySchedule.getScheduledActivityByOrder(currentOrder);
 	}
 	
@@ -118,16 +127,12 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		currentOrder = 0;
 		myCurrentActivity = mySchedule.getScheduledActivityByOrder(currentOrder);
 		timeActivityPerformed = 0;
-		starvingTime = 0;
-		thirstTime = 0;
-		suffocateTime = 0;
-		poisonTime = 0;
 		sick = false;
 		personStarving = false;
 		personThirsty = false;
 		personSuffocating = false;
 		personPoisoned = false;
-		hasDied = false;
+		hasDied 7= false;
 		O2Consumed= 0f;
 		CO2Produced = 0f;
 		caloriesConsumed = 0f;
@@ -552,40 +557,28 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private void afflictCrew(){
 		//afflict crew
 		if (caloriesConsumed < (caloriesNeeded * .9f)){
-			//System.out.println("CrewPersonImpl: needs "+caloriesNeeded+" calories");
-			//System.out.println("CrewPersonImpl: got "+caloriesConsumed+" calories");
 			personStarving = true;
-			starvingTime++;
 		}
 		else{
 			personStarving = false;
-			starvingTime = 0;
 		}
 		if (cleanWaterConsumed < (potableWaterNeeded * .9f)){
 			personThirsty = true;
-			thirstTime++;
 		}
 		else{
 			personThirsty = false;
-			thirstTime = 0;
 		}
 		if (getCO2Ratio() > 0.06){
 			personPoisoned = true;
-			poisonTime++;
 		}
 		else{
 			personPoisoned = false;
-			poisonTime = 0;
 		}
 		if (O2Consumed < (O2Needed * .9f)){
-			//System.out.println("CrewPersonImpl: needs "+O2Needed+" moles of O2");
-			//System.out.println("CrewPersonImpl: got "+O2Consumed+" moles of O2");
 			personSuffocating = true;
-			suffocateTime++;
 		}
 		else{
 			personSuffocating = false;
-			suffocateTime = 0;
 		}
 	}
 
@@ -594,6 +587,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	*/
 	private void deathCheck(){
 		//check for death
+		/*
 		if (starvingTime > 504){
 			System.out.println("CrewPersonImpl"+myCrewGroup.getID()+": "+myName + " dead from starvation");
 			hasDied = true;
@@ -613,6 +607,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		else{
 			hasDied = false;
 		}
+		*/
 		if (hasDied){
 			O2Consumed= 0f;
 			CO2Produced = 0f;
@@ -757,6 +752,22 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			myLogIndex.caloriesNeededIndex.setValue(""+caloriesNeeded);
 		}
 	}
+	
+	private boolean checkDeath(){
+		float sigmoidReturn = 0f;
+		float randomNumber = myRandomGen.nextFloat();
+		if (sigmoidReturn <= randomNumber)
+			return true;
+		else
+			return false;
+	}
+	
+	protected void performMalfunctions(){
+	}
+	
+	protected void log(){
+	}
+	
 
 	/**
 	* For fast reference to the log tree
