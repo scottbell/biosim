@@ -56,7 +56,7 @@ public class GenericServer{
 
 	protected void runServer(String serverName){
 		try{
-			System.out.println("Server ready and waiting ...");
+			System.out.println(serverName+ "Server ready and waiting ...");
 			// wait for invocations from clients
 			OrbUtils.getORB().run();
 		}
@@ -64,7 +64,7 @@ public class GenericServer{
 			System.err.println(serverName+" ERROR: " + e);
 			e.printStackTrace(System.out);
 		}
-		System.out.println("Server Exiting ...");
+		System.out.println(serverName+" Server Exiting ...");
 	}
 }
 

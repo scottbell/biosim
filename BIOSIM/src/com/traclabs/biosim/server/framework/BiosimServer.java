@@ -29,10 +29,12 @@ public class BiosimServer extends GenericServer{
 
 	public static void main(String args[]) {
 		BiosimServer myServer = new BiosimServer();
-		myServer.createServers(myServer.getIDfromArgs(args));
+		int id = myServer.getIDfromArgs(args);
+		myServer.createServers(id);
+		myServer.runServer("BiosimServer"+id);
 	}
 
-	private void createServers(int id){
+	public void createServers(int id){
 		// create servants and register them with ORB
 		SimEnvironmentImpl mySimEnvironmentImpl = new SimEnvironmentImpl(id);
 		AirRSImpl myAirRSImpl = new AirRSImpl(id);
@@ -68,7 +70,7 @@ public class BiosimServer extends GenericServer{
 		registerServer(new PotableWaterStorePOATie(myPotableWaterStoreImpl), myPotableWaterStoreImpl.getModuleName());
 		registerServer(new DirtyWaterStorePOATie(myDirtyWaterStoreImpl), myDirtyWaterStoreImpl.getModuleName());
 		registerServer(myLoggerImpl, myLoggerImpl.getName());
-		registerServerAndRun(myBioDriverImpl, myBioDriverImpl.getName());
+		registerServer(myBioDriverImpl, myBioDriverImpl.getName());
 	}                          
 }
 
