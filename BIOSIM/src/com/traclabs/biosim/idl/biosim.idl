@@ -103,6 +103,8 @@ module biosim{
                                 float getBiomassConsumed();
                                 float getPowerConsumed();
                                 float getFoodProduced();
+				boolean hasPower();
+				boolean hasBiomass();
 			};
                         interface FoodStore : framework::Store{
                         };

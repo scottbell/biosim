@@ -20,6 +20,7 @@ public class FoodPanel extends JPanel implements BioSimulatorListener
 	private JPanel biomassStorePanel;
 	private JLabel biomassStoreLevelLabel;
 	private JPanel foodProcessorPanel;
+	private JLabel foodProcessorStatusLabel;
 	private JLabel foodProcessorPowerLabel;
 	private JLabel foodProcessorBiomassConsumedLabel;
 	private JLabel foodProcessorFoodProducedLabel;
@@ -52,7 +53,7 @@ public class FoodPanel extends JPanel implements BioSimulatorListener
 		biomassRSPanel = new JPanel();
 		biomassRSPanel.setLayout(new GridLayout(6,1));
 		biomassRSPanel.setBorder(BorderFactory.createTitledBorder("Biomass Recovery System"));
-		biomassRSStatusLabel =                       new JLabel("status:                           "+coallateStatus());
+		biomassRSStatusLabel =                       new JLabel("status:                           "+coallateBiomassStatus());
 		biomassRSBiomassProducedLabel =      new JLabel("biomass produced:       "+numFormat.format(myBiomassRS.getBiomassProduced())+" kg");
 		biomassRSCO2ConsumedLabel =          new JLabel("CO2 consumed:            "+numFormat.format(myBiomassRS.getCO2Consumed())+" L");
 		biomassRSO2ProducedLabel =             new JLabel("O2 produced:               "+numFormat.format(myBiomassRS.getO2Produced())+" L");
@@ -72,11 +73,13 @@ public class FoodPanel extends JPanel implements BioSimulatorListener
 		biomassStorePanel.add(biomassStoreLevelLabel);
 
 		foodProcessorPanel = new JPanel();
-		foodProcessorPanel.setLayout(new GridLayout(3,1));
+		foodProcessorPanel.setLayout(new GridLayout(4,1));
 		foodProcessorPanel.setBorder(BorderFactory.createTitledBorder("Food Processor"));
+		foodProcessorStatusLabel =                      new JLabel("status:                       "+coallateFoodProcessorStatus());
 		foodProcessorFoodProducedLabel =          new JLabel("food produced:          "+numFormat.format(myFoodProcessor.getFoodProduced())+" kg");
 		foodProcessorBiomassConsumedLabel =    new JLabel("biomass consumed:   "+numFormat.format(myFoodProcessor.getBiomassConsumed())+" kg");
 		foodProcessorPowerLabel =                      new JLabel("power consumed:      "+numFormat.format(myFoodProcessor.getPowerConsumed())+" W");
+		foodProcessorPanel.add(foodProcessorStatusLabel);
 		foodProcessorPanel.add(foodProcessorFoodProducedLabel);
 		foodProcessorPanel.add(foodProcessorBiomassConsumedLabel);
 		foodProcessorPanel.add(foodProcessorPowerLabel);
@@ -119,8 +122,8 @@ public class FoodPanel extends JPanel implements BioSimulatorListener
 		gridbag.setConstraints(foodStorePanel, c);
 		add(foodStorePanel);
 	}
-	
-	private String coallateStatus(){
+
+	private String coallateBiomassStatus(){
 		StringBuffer statusBuffer = new StringBuffer();
 		if (myBiomassRS.isDead()){
 			return "plants dead";
@@ -141,9 +144,23 @@ public class FoodPanel extends JPanel implements BioSimulatorListener
 		}
 	}
 
+	private String coallateFoodProcessorStatus(){
+		StringBuffer statusBuffer = new StringBuffer();
+		if (!myFoodProcessor.hasPower())
+			statusBuffer.append("needs power, ");
+		if (!myFoodProcessor.hasBiomass())
+			statusBuffer.append("needs biomass, ");
+		if (statusBuffer.length() < 1)
+			return "nominal";
+		else{
+			statusBuffer.delete(statusBuffer.length() -2, statusBuffer.length());
+			return statusBuffer.toString();
+		}
+	}
+
 	public void processTick(){
 		biomassRSBiomassProducedLabel.setText("biomass produced:           "+numFormat.format(myBiomassRS.getBiomassProduced())+" kg");
-		biomassRSStatusLabel.setText("status:                              "+coallateStatus());
+		biomassRSStatusLabel.setText("status:                              "+coallateBiomassStatus());
 		biomassRSCO2ConsumedLabel.setText("CO2 consumed:                "+numFormat.format(myBiomassRS.getCO2Consumed())+" L");
 		biomassRSO2ProducedLabel.setText("O2 produced:                    "+numFormat.format(myBiomassRS.getO2Produced())+" L");
 		biomassRSGreyWaterConsumedLabel.setText("grey water consumed:      "+numFormat.format(myBiomassRS.getGreyWaterConsumed())+" L");
@@ -153,5 +170,6 @@ public class FoodPanel extends JPanel implements BioSimulatorListener
 		foodProcessorBiomassConsumedLabel.setText("biomass consumed:  "+numFormat.format(myFoodProcessor.getBiomassConsumed())+" kg");
 		foodProcessorPowerLabel.setText("power consumed:      "+numFormat.format(myFoodProcessor.getPowerConsumed())+" W");
 		foodStoreLevelLabel.setText("food level:    "+numFormat.format(myFoodStore.getLevel())+" kg");
+		foodProcessorStatusLabel.setText("status:                       "+coallateFoodProcessorStatus());
 	}
 }

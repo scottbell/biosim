@@ -255,6 +255,7 @@ public class SimDesktop extends BaseJFrame
 		if (existingPanel != null){
 			SimDesktopFrame existingFrame = getSimFrame(existingPanel);
 			if (existingFrame != null){
+				existingFrame.pack();
 				existingFrame.moveToFront();
 				existingFrame.setVisible(true);
 			}
