@@ -1,13 +1,13 @@
 package biosim.server.crew;
 
-import ALSS.*;
+import biosim.idl.crew.*;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
 
-public class CrewServer {
+public class CrewGroupServer {
 
 public static void main(String args[]) {
 	try{

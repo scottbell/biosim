@@ -1,28 +1,27 @@
 package biosim.server.crew;
 
-// The package containing our stubs.
 import java.io.*;
 import java.net.*;
 import java.util.*;
 import biosim.server.util.*;
 
-public class CrewImpl extends ALSS.CrewPOA {
+public class CrewGroupImpl extends ALSS.CrewPOA {
 	private Schedule mySchedule;
 	private Hashtable crewPeople;
 
-	public CrewImpl(){
+	public CrewGroupImpl(){
 		//use default schedule
 		mySchedule = new Schedule();
 		crewPeople = new Hashtable();
 	}
 
-	public CrewImpl(File pScheduleFile){
+	public CrewGroupImpl(File pScheduleFile){
 		mySchedule = new Schedule(pScheduleFile);
 		crewPeople = new Hashtable();
 	}
 	
 	public String getModuleName(){
-		return "Crew";
+		return "CrewGroup";
 	}
 
 	public CrewPersonImpl createCrewPerson(String name){
@@ -60,7 +59,7 @@ public class CrewImpl extends ALSS.CrewPOA {
 
 	public void tick(){
 		processState();
-		System.out.println("Crew has been ticked!");
+		System.out.println("CrewGroup has been ticked!");
 	}
 	
 	private void processState(){
