@@ -12,6 +12,7 @@ import biosim.idl.power.*;
 public class AES extends WaterRSSubSystem{
 	//The subsystem to send the water to next
 	private PPS myPPS;
+	private float currentPPSWaterProduced = 0f;
 
 	/**
 	* Constructor that creates the AES
@@ -20,12 +21,17 @@ public class AES extends WaterRSSubSystem{
 	public AES(WaterRSImpl pWaterRSImpl){
 		super(pWaterRSImpl);
 	}
+	
+	public float getPPSWaterProduced(){
+		return currentPPSWaterProduced;
+	}
 
 	/**
 	* Flushes the water from this subsystem to the PPS
 	*/
 	private void pushWater(){
-		myPPS.addWater(waterLevel);
+		currentPPSWaterProduced = waterLevel;
+		myPPS.addWater(currentPPSWaterProduced);
 		waterLevel = 0;
 	}
 
@@ -57,11 +63,19 @@ public class AES extends WaterRSSubSystem{
 			if (hasEnoughPower){
 				pushWater();
 			}
+			else{
+				currentPPSWaterProduced = 0f;
+			}
+		}
+		else{
+				currentPowerConsumed = 0f;
+				currentPPSWaterProduced = 0f;
 		}
 	}
 
 	public void reset(){
-		currentPowerConsumed = 0;
+		currentPowerConsumed = 0f;
+		currentPPSWaterProduced = 0f;
 		hasEnoughPower = false;
 		hasEnoughWater = false;
 		waterLevel = 0;

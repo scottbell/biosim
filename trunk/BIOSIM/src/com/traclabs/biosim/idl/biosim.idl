@@ -223,6 +223,11 @@ module biosim{
                                 boolean AESHasWater();
                                 boolean PPSHasWater();
                                 boolean BWPHasWater();
+				float getAEStoPPSWater();
+				float getROtoPPSWater();
+				float getROtoAESWater();
+				float getBWPtoROWater();
+				float getBWPtoAESWater();
                         };
                         interface PotableWaterStore : framework::Store{
                         };

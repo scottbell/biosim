@@ -64,6 +64,9 @@ public class PPS extends WaterRSSubSystem{
 		if (hasEnoughPower){
 			pushWater();
 		}
+		else{
+			potableWaterProduced = 0f;
+		}
 	}
 	
 	public void reset(){

@@ -60,13 +60,52 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 		myRO.setEnabled(pEnabled);
 	}
 	
-
+	public float getROtoAESWater(){
+		return myRO.getAESWaterProduced();
+	}
+	
+	public float getROtoPPSWater(){
+		return myRO.getPPSWaterProduced();
+	}
+	
+	/**
+	* Returns the RO subsystem
+	* @return the RO subsystem
+	*/
+	protected RO getRO(){
+		return myRO;
+	}
+	
+	/**
+	* Checks whether RO subsystem has enough water or not
+	* @return <code>true</code> if the RO subsystem has enough water, <code>false</code> if not.
+	*/
+	public boolean ROHasWater(){
+		return myRO.hasWater();
+	}
+	
+	/**
+	* Returns the AES subsystem
+	* @return the AES subsystem
+	*/
+	protected AES getAES(){
+		return myAES;
+	}
+	
 	/**
 	* Checks whether AES subsystem has enough power or not
 	* @return <code>true</code> if the AES subsystem has enough power, <code>false</code> if not.
 	*/
 	public boolean AESHasPower(){
 		return myAES.hasPower();
+	}
+	
+	/**
+	* Checks whether AES subsystem has enough water or not
+	* @return <code>true</code> if the AES subsystem has enough water, <code>false</code> if not.
+	*/
+	public boolean AESHasWater(){
+		return myAES.hasWater();
 	}
 	
 	public boolean AESIsEnabled(){
@@ -76,6 +115,10 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	public void setAESEnabled(boolean pEnabled){
 		myAES.setEnabled(pEnabled);
 	}
+	
+	public float getAEStoPPSWater(){
+		return myAES.getPPSWaterProduced();
+	}
 
 	/**
 	* Checks whether PPS subsystem has enough power or not
@@ -83,6 +126,22 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	*/
 	public boolean PPSHasPower(){
 		return myPPS.hasPower();
+	}
+	
+	/**
+	* Checks whether PPS subsystem has enough water or not
+	* @return <code>true</code> if the PPS subsystem has enough water, <code>false</code> if not.
+	*/
+	public boolean PPSHasWater(){
+		return myPPS.hasWater();
+	}
+	
+	/**
+	* Returns the PPS subsystem
+	* @return the PPS subsystem
+	*/
+	protected PPS getPPS(){
+		return myPPS;
 	}
 
 	/**
@@ -92,31 +151,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	public boolean BWPHasPower(){
 		return myBWP.hasPower();
 	}
-
-	/**
-	* Checks whether RO subsystem has enough water or not
-	* @return <code>true</code> if the RO subsystem has enough water, <code>false</code> if not.
-	*/
-	public boolean ROHasWater(){
-		return myRO.hasWater();
-	}
-
-	/**
-	* Checks whether AES subsystem has enough water or not
-	* @return <code>true</code> if the AES subsystem has enough water, <code>false</code> if not.
-	*/
-	public boolean AESHasWater(){
-		return myAES.hasWater();
-	}
-
-	/**
-	* Checks whether PPS subsystem has enough water or not
-	* @return <code>true</code> if the PPS subsystem has enough water, <code>false</code> if not.
-	*/
-	public boolean PPSHasWater(){
-		return myPPS.hasWater();
-	}
-
+	
 	/**
 	* Checks whether BWP subsystem has enough water or not
 	* @return <code>true</code> if the BWP subsystem has enough water, <code>false</code> if not.
@@ -124,31 +159,15 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	public boolean BWPHasWater(){
 		return myBWP.hasWater();
 	}
-
-	/**
-	* Returns the RO subsystem
-	* @return the RO subsystem
-	*/
-	protected RO getRO(){
-		return myRO;
+	
+	public float getBWPtoROWater(){
+		return myBWP.getROWaterProduced();
 	}
-
-	/**
-	* Returns the AES subsystem
-	* @return the AES subsystem
-	*/
-	protected AES getAES(){
-		return myAES;
-	}
-
-	/**
-	* Returns the PPS subsystem
-	* @return the PPS subsystem
-	*/
-	protected PPS getPPS(){
-		return myPPS;
-	}
-
+	
+	public float getBWPtoAESWater(){
+		return myBWP.getAESWaterProduced();
+	}	
+	
 	/**
 	* Returns the BWP subsystem
 	* @return the BWP subsystem
