@@ -16,7 +16,6 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 	private BioSimulator myBioSimulator;
 	private CrewPerson[] myCrewPeople;
 	private Vector crewPersonGUIVector;
-	int i = 0;
 
 	public CrewPanel(BioSimulator pBioSimulator){
 		myBioSimulator = pBioSimulator;
@@ -35,7 +34,7 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 			newPersonPanel.setLayout(new GridLayout(8,1));
 			newPersonPanel.setBorder(BorderFactory.createTitledBorder(myCrewPeople[i].getName()));
 			CrewPersonGUI newPersonGUI = new CrewPersonGUI();
-			newPersonGUI.crewPerson = myCrewPeople[i];
+			newPersonGUI.name = myCrewPeople[i].getName();
 			newPersonGUI.ageLabel = new JLabel("age: "+myCrewPeople[i].getAge());
 			newPersonPanel.add(newPersonGUI.ageLabel);
 			newPersonGUI.weightLabel = new JLabel("weight: "+myCrewPeople[i].getWeight());
@@ -63,19 +62,18 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 	}
 
 	public void processTick(){
-		i++;
-		System.out.println("ticking "+i);
 		for (Enumeration e = crewPersonGUIVector.elements(); e.hasMoreElements();){
 			CrewPersonGUI newPersonGUI = (CrewPersonGUI)(e.nextElement());
-			newPersonGUI.ageLabel.setText("age: "+newPersonGUI.crewPerson.getAge());
-			newPersonGUI.weightLabel.setText("weight: "+newPersonGUI.crewPerson.getWeight());
-			newPersonGUI.activityNameLabel.setText("current activity: "+newPersonGUI.crewPerson.getCurrentActivity().getName());
-			newPersonGUI.activityCurrentDurationLabel.setText("	performed for: "+newPersonGUI.crewPerson.getTimeActivityPerformed());
-			newPersonGUI.activityTotalDurationLabel.setText("	total duration: "+newPersonGUI.crewPerson.getCurrentActivity().getTimeLength());
-			newPersonGUI.activityIntensityLabel.setText("	intensity: "+newPersonGUI.crewPerson.getCurrentActivity().getActivityIntensity());
-			newPersonGUI.statusLabel.setText("status: "+newPersonGUI.crewPerson.getStatus());
+			CrewPerson crewPerson = myCrew.getCrewPerson(newPersonGUI.name);
+			newPersonGUI.ageLabel.setText("age: "+crewPerson.getAge());
+			newPersonGUI.weightLabel.setText("weight: "+crewPerson.getWeight());
+			newPersonGUI.activityNameLabel.setText("current activity: "+crewPerson.getCurrentActivity().getName());
+			newPersonGUI.activityCurrentDurationLabel.setText("	performed for: "+crewPerson.getTimeActivityPerformed());
+			newPersonGUI.activityTotalDurationLabel.setText("	total duration: "+crewPerson.getCurrentActivity().getTimeLength());
+			newPersonGUI.activityIntensityLabel.setText("	intensity: "+crewPerson.getCurrentActivity().getActivityIntensity());
+			newPersonGUI.statusLabel.setText("status: "+crewPerson.getStatus());
 			String sexString;
-			if (newPersonGUI.crewPerson.getSex() == Sex.male)
+			if (crewPerson.getSex() == Sex.male)
 				sexString = "male";
 			else
 				sexString = "female";
@@ -84,6 +82,7 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 	}
 
 	private class CrewPersonGUI{
+		String name;
 		JLabel ageLabel;
 		JLabel weightLabel;
 		JLabel sexLabel;
@@ -92,6 +91,5 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 		JLabel activityTotalDurationLabel;
 		JLabel activityIntensityLabel;
 		JLabel statusLabel;
-		CrewPerson crewPerson;
 	}
 }
