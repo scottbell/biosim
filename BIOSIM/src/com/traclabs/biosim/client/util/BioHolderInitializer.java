@@ -265,12 +265,17 @@ public class BioHolderInitializer{
 	private static void fetchSimEnvironment(Node node){
 		myBioHolder.theSimEnvironments.add(SimEnvironmentHelper.narrow(grabModule(getModuleName(node))));
 	}
+	private static void fetchDehumidifier(Node node){
+		myBioHolder.theDehumidifiers.add(DehumidifierHelper.narrow(grabModule(getModuleName(node))));
+	}
 	private static void crawlEnvironmentModules(Node node){
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getNodeName();
 			if (childName.equals("SimEnvironment"))
 				fetchSimEnvironment(child);
+			else if (childName.equals("Dehumidifier"))
+				fetchDehumidifier(child);
 			child = child.getNextSibling();
 		}
 	}

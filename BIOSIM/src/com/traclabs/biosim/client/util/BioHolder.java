@@ -36,6 +36,7 @@ public class BioHolder{
 	public List theCrewGroups;
 	//Environment
 	public List theSimEnvironments;
+	public List theDehumidifiers;
 	//Food
 	public List theFoodProcessors;
 	public List theBiomassRSModules;
@@ -202,6 +203,7 @@ public class BioHolder{
 		theCrewGroups = new Vector();
 		//Environment
 		theSimEnvironments = new Vector();
+		theDehumidifiers = new Vector();
 		//Food
 		theFoodProcessors = new Vector();
 		theBiomassRSModules = new Vector();
@@ -411,6 +413,7 @@ public class BioHolder{
 		theSimModules.addAll(theCrewGroups);
 		//Environment
 		theSimModules.addAll(theSimEnvironments);
+		theSimModules.addAll(theDehumidifiers);
 		//Food
 		theSimModules.addAll(theFoodProcessors);
 		theSimModules.addAll(theBiomassRSModules);
@@ -582,6 +585,7 @@ public class BioHolder{
 		theCrewGroups.clear();
 		//Environment
 		theSimEnvironments.clear();
+		theDehumidifiers.clear();
 		//Food
 		theFoodProcessors.clear();
 		theBiomassRSModules.clear();
