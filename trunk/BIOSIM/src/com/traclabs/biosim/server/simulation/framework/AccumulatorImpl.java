@@ -14,7 +14,7 @@ import biosim.idl.util.log.*;
  * @author    Scott Bell
  */
 
-public class AccumulatorImpl extends BioModuleImpl implements AccumulatorOperations, PowerConsumerOperations, PotableWaterConsumerOperations, GreyWaterConsumerOperations, DirtyWaterConsumerOperations, O2ConsumerOperations, CO2ConsumerOperations, AirConsumerOperations, BiomassConsumerOperations, FoodConsumerOperations, PowerProducerOperations, PotableWaterProducerOperations, GreyWaterProducerOperations, DirtyWaterProducerOperations, O2ProducerOperations, CO2ProducerOperations, AirProducerOperations, BiomassProducerOperations, FoodProducerOperations, O2AirConsumer, CO2AirConsumer, OtherAirConsumer, O2AirProducer, CO2AirProducer, OtherAirProducer{
+public class AccumulatorImpl extends BioModuleImpl implements AccumulatorOperations, PowerConsumerOperations, PotableWaterConsumerOperations, GreyWaterConsumerOperations, DirtyWaterConsumerOperations, O2ConsumerOperations, CO2ConsumerOperations, AirConsumerOperations, BiomassConsumerOperations, FoodConsumerOperations, PowerProducerOperations, PotableWaterProducerOperations, GreyWaterProducerOperations, DirtyWaterProducerOperations, O2ProducerOperations, CO2ProducerOperations, AirProducerOperations, BiomassProducerOperations, FoodProducerOperations, O2AirConsumerOperations, CO2AirConsumerOperations, OtherAirConsumerOperations, O2AirProducerOperations, CO2AirProducerOperations, OtherAirProducerOperations{
 	private LogIndex myLogIndex;
 	private PowerStore[] myPowerInputs;
 	private PowerStore[] myPowerOutputs;
@@ -705,7 +705,7 @@ public class AccumulatorImpl extends BioModuleImpl implements AccumulatorOperati
 	}
 
 	public float getOtherAirInputFlowrate(int index){
-		return OtherAirInFlowRates[index];
+		return otherAirInFlowRates[index];
 	}
 
 	public void setOtherAirInputs(SimEnvironment[] sources, float[] flowRates){
@@ -714,7 +714,7 @@ public class AccumulatorImpl extends BioModuleImpl implements AccumulatorOperati
 	}
 	
 	public float[] getOtherAirInputFlowrates(){
-		return OtherAirInFlowRates;
+		return otherAirInFlowRates;
 	}
 
 	public SimEnvironment[] getOtherAirInputs(){
@@ -726,7 +726,7 @@ public class AccumulatorImpl extends BioModuleImpl implements AccumulatorOperati
 	}
 
 	public float getOtherAirOutputFlowrate(int index){
-		return OtherAirOutFlowRates[index];
+		return otherAirOutFlowRates[index];
 	}
 
 	public void setOtherAirOutputs(SimEnvironment[] destinations, float[] flowRates){

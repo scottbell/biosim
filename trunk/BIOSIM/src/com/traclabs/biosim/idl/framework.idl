@@ -178,37 +178,37 @@ module framework{
 	interface O2AirConsumer{
                 void setO2AirInputFlowrate(in float liters, in long index);
                 float getO2AirInputFlowrate(in long index);
-                void setO2AirInput(in environment::SimEnvironmentList source, in FloatList flowRates);
+                void setO2AirInputs(in environment::SimEnvironmentList source, in FloatList flowRates);
 		environment::SimEnvironmentList getO2AirInputs();
         };
 	interface CO2AirConsumer{
                 void setCO2AirInputFlowrate(in float liters, in long index);
                 float getCO2AirInputFlowrate(in long index);
-                void setCO2AirInput(in environment::SimEnvironmentList source, in FloatList flowRates);
+                void setCO2AirInputs(in environment::SimEnvironmentList source, in FloatList flowRates);
 		environment::SimEnvironmentList getCO2AirInputs();
         };
 	interface OtherAirConsumer{
                 void setOtherAirInputFlowrate(in float liters, in long index);
                 float getOtherAirInputFlowrate(in long index);
-                void setOtherAirInput(in environment::SimEnvironmentList source, in FloatList flowRates);
+                void setOtherAirInputs(in environment::SimEnvironmentList source, in FloatList flowRates);
 		environment::SimEnvironmentList getOtherAirInputs();
         };
 	interface O2AirProducer{
                 void setO2AirOutputFlowrate(in float liters, in long index);
                 float getO2AirOutputFlowrate(in long index);
-                void setO2AirOutput(in environment::SimEnvironmentList destination, in FloatList flowRates);
+                void setO2AirOutputs(in environment::SimEnvironmentList destination, in FloatList flowRates);
 		environment::SimEnvironmentList getO2AirOutputs();
         };
 	interface CO2AirProducer{
                 void setCO2AirOutputFlowrate(in float liters, in long index);
                 float getCO2AirOutputFlowrate(in long index);
-                void setCO2AirOutput(in environment::SimEnvironmentList destination, in FloatList flowRates);
+                void setCO2AirOutputs(in environment::SimEnvironmentList destination, in FloatList flowRates);
 		environment::SimEnvironmentList getCO2AirOutputs();
         };
 	interface OtherAirProducer{
                 void setOtherAirOutputFlowrate(in float liters, in long index);
                 float getOtherAirOutputFlowrate(in long index);
-                void setOtherAirOutput(in environment::SimEnvironmentList destination, in FloatList flowRates);
+                void setOtherAirOutputs(in environment::SimEnvironmentList destination, in FloatList flowRates);
 		environment::SimEnvironmentList getOtherAirOutputs();
         };
 };
