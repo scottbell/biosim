@@ -2,16 +2,17 @@ package com.traclabs.biosim.server.sensor.framework;
 
 import com.traclabs.biosim.idl.sensor.framework.StoreOverflowSensorOperations;
 
-public class StoreOverflowSensorImpl extends StoreSensorImpl implements StoreOverflowSensorOperations{
-	public StoreOverflowSensorImpl(int pID, String pName){
-		super(pID, pName);
-	}
+public class StoreOverflowSensorImpl extends StoreSensorImpl implements
+        StoreOverflowSensorOperations {
+    public StoreOverflowSensorImpl(int pID, String pName) {
+        super(pID, pName);
+    }
 
-	protected void gatherData(){
-		float preFilteredValue = getInput().getOverflow();
-		myValue = randomFilter(preFilteredValue);
-	}
-	
-	protected void notifyListeners(){
-	}
+    protected void gatherData() {
+        float preFilteredValue = getInput().getOverflow();
+        myValue = randomFilter(preFilteredValue);
+    }
+
+    protected void notifyListeners() {
+    }
 }

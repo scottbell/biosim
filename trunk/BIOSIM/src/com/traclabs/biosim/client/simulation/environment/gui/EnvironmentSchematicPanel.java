@@ -4,13 +4,12 @@ import com.traclabs.biosim.client.framework.gui.TimedPanel;
 
 /**
  * This is the JPanel that displays a schematic
- *
- * @author    Scott Bell
+ * 
+ * @author Scott Bell
  */
-public class EnvironmentSchematicPanel extends TimedPanel
-{
-	
-	public void refresh(){
-	}
-	
+public class EnvironmentSchematicPanel extends TimedPanel {
+
+    public void refresh() {
+    }
+
 }

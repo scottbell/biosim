@@ -2,8 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import org.jacorb.naming.NameServer;
-import biosim.server.framework.BiosimServer;
-import biosim.client.framework.BiosimMain;
+import com.traclabs.biosim.server.framework.BiosimServer;
+import com.traclabs.biosim.client.framework.BiosimMain;
 
 /**
  * A standalone BioSim instance (server, nameserver, client in one)

@@ -5,41 +5,43 @@ import com.traclabs.biosim.idl.framework.AirConsumer;
 import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
 
-public class AirInFlowRateActuatorImpl extends GenericActuatorImpl implements AirInFlowRateActuatorOperations{
-	private AirConsumer myConsumer;
-	private int myIndex;
-	
-	public AirInFlowRateActuatorImpl(int pID, String pName){
-		super(pID, pName);
-	}
+public class AirInFlowRateActuatorImpl extends GenericActuatorImpl implements
+        AirInFlowRateActuatorOperations {
+    private AirConsumer myConsumer;
 
-	protected void processData(){
-		float myFilteredValue = randomFilter(myValue);
-		getOutput().setAirInputDesiredFlowRate(myFilteredValue, myIndex);
-	}
-	
-	protected void notifyListeners(){
-		//does nothing right now
-	}
+    private int myIndex;
 
-	public void setOutput(AirConsumer pConsumer, int pIndex){
-		myConsumer = pConsumer;
-		myIndex = pIndex;
-	}
-	
-	public AirConsumer getOutput(){
-		return myConsumer;
-	}
-	
-	public BioModule getOutputModule(){
-		return (BioModule)(myConsumer);
-	}
-	
-	public int getIndex(){
-		return myIndex;
-	}
-	
-	public float getMax(){
-		return myConsumer.getAirInputMaxFlowRate(myIndex);
-	}
+    public AirInFlowRateActuatorImpl(int pID, String pName) {
+        super(pID, pName);
+    }
+
+    protected void processData() {
+        float myFilteredValue = randomFilter(myValue);
+        getOutput().setAirInputDesiredFlowRate(myFilteredValue, myIndex);
+    }
+
+    protected void notifyListeners() {
+        //does nothing right now
+    }
+
+    public void setOutput(AirConsumer pConsumer, int pIndex) {
+        myConsumer = pConsumer;
+        myIndex = pIndex;
+    }
+
+    public AirConsumer getOutput() {
+        return myConsumer;
+    }
+
+    public BioModule getOutputModule() {
+        return (BioModule) (myConsumer);
+    }
+
+    public int getIndex() {
+        return myIndex;
+    }
+
+    public float getMax() {
+        return myConsumer.getAirInputMaxFlowRate(myIndex);
+    }
 }

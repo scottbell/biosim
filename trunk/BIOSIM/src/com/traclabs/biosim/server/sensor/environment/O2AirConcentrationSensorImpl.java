@@ -2,20 +2,22 @@ package com.traclabs.biosim.server.sensor.environment;
 
 import com.traclabs.biosim.idl.sensor.environment.O2AirConcentrationSensorOperations;
 
-public class O2AirConcentrationSensorImpl extends EnvironmentSensorImpl implements O2AirConcentrationSensorOperations{
-	public O2AirConcentrationSensorImpl(int pID, String pName){
-		super(pID, pName);
-	}
+public class O2AirConcentrationSensorImpl extends EnvironmentSensorImpl
+        implements O2AirConcentrationSensorOperations {
+    public O2AirConcentrationSensorImpl(int pID, String pName) {
+        super(pID, pName);
+    }
 
-	protected void gatherData(){
-		float preFilteredValue = getInput().getO2Moles() / getInput().getTotalMoles();
-		myValue = randomFilter(preFilteredValue);
-	}
+    protected void gatherData() {
+        float preFilteredValue = getInput().getO2Moles()
+                / getInput().getTotalMoles();
+        myValue = randomFilter(preFilteredValue);
+    }
 
-	protected void notifyListeners(){
-	}
-	
-	public float getMax(){
-		return 1f;
-	}
+    protected void notifyListeners() {
+    }
+
+    public float getMax() {
+        return 1f;
+    }
 }

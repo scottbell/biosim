@@ -5,42 +5,45 @@ import com.traclabs.biosim.idl.framework.NitrogenProducer;
 import com.traclabs.biosim.idl.sensor.air.NitrogenOutFlowRateSensorOperations;
 import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
-public class NitrogenOutFlowRateSensorImpl extends GenericSensorImpl implements NitrogenOutFlowRateSensorOperations{
-	private NitrogenProducer myProducer;
-	private int myIndex;
-	
-	public NitrogenOutFlowRateSensorImpl(int pID, String pName){
-		super(pID, pName);
-	}
+public class NitrogenOutFlowRateSensorImpl extends GenericSensorImpl implements
+        NitrogenOutFlowRateSensorOperations {
+    private NitrogenProducer myProducer;
 
-	protected void gatherData(){
-		float preFilteredValue = getInput().getNitrogenOutputActualFlowRate(myIndex);
-		myValue = randomFilter(preFilteredValue);
-	}
-	
-	protected void notifyListeners(){
-		//does nothing right now
-	}
+    private int myIndex;
 
-	public void setInput(NitrogenProducer pProducer, int pIndex){
-		myProducer = pProducer;
-		myIndex = pIndex;
-	}
-	
-	public float getMax(){
-		return myProducer.getNitrogenOutputMaxFlowRate(myIndex);
-	}
-	
-	public NitrogenProducer getInput(){
-		return myProducer;
-	}
-	
-	public BioModule getInputModule(){
-		return (BioModule)(myProducer);
-	}
-	
-	public int getIndex(){
-		return myIndex;
-	}
-	
+    public NitrogenOutFlowRateSensorImpl(int pID, String pName) {
+        super(pID, pName);
+    }
+
+    protected void gatherData() {
+        float preFilteredValue = getInput().getNitrogenOutputActualFlowRate(
+                myIndex);
+        myValue = randomFilter(preFilteredValue);
+    }
+
+    protected void notifyListeners() {
+        //does nothing right now
+    }
+
+    public void setInput(NitrogenProducer pProducer, int pIndex) {
+        myProducer = pProducer;
+        myIndex = pIndex;
+    }
+
+    public float getMax() {
+        return myProducer.getNitrogenOutputMaxFlowRate(myIndex);
+    }
+
+    public NitrogenProducer getInput() {
+        return myProducer;
+    }
+
+    public BioModule getInputModule() {
+        return (BioModule) (myProducer);
+    }
+
+    public int getIndex() {
+        return myIndex;
+    }
+
 }

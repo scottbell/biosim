@@ -5,29 +5,31 @@ import com.traclabs.biosim.idl.sensor.water.GreyWaterStoreSensorOperations;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterStore;
 import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
-public abstract class GreyWaterStoreSensorImpl extends GenericSensorImpl implements GreyWaterStoreSensorOperations{
-	protected GreyWaterStore myGreyWaterStore;
-	
-	public GreyWaterStoreSensorImpl(int pID, String pName){
-		super(pID, pName);
-	}
+public abstract class GreyWaterStoreSensorImpl extends GenericSensorImpl
+        implements GreyWaterStoreSensorOperations {
+    protected GreyWaterStore myGreyWaterStore;
 
-	protected abstract void gatherData();
-	protected abstract void notifyListeners();
+    public GreyWaterStoreSensorImpl(int pID, String pName) {
+        super(pID, pName);
+    }
 
-	public void setInput(GreyWaterStore source){
-		myGreyWaterStore = source;
-	}
-	
-	public GreyWaterStore getInput(){
-		return myGreyWaterStore;
-	}
-	
-	public float getMax(){
-		return myGreyWaterStore.getCapacity();
-	}
-	
-	public BioModule getInputModule(){
-		return (BioModule)(getInput());
-	}
+    protected abstract void gatherData();
+
+    protected abstract void notifyListeners();
+
+    public void setInput(GreyWaterStore source) {
+        myGreyWaterStore = source;
+    }
+
+    public GreyWaterStore getInput() {
+        return myGreyWaterStore;
+    }
+
+    public float getMax() {
+        return myGreyWaterStore.getCapacity();
+    }
+
+    public BioModule getInputModule() {
+        return (BioModule) (getInput());
+    }
 }

@@ -5,41 +5,44 @@ import com.traclabs.biosim.idl.framework.NitrogenAirProducer;
 import com.traclabs.biosim.idl.sensor.environment.NitrogenAirStoreOutFlowRateSensorOperations;
 import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
-public class NitrogenAirStoreOutFlowRateSensorImpl extends GenericSensorImpl implements NitrogenAirStoreOutFlowRateSensorOperations{
-	private NitrogenAirProducer myProducer;
-	private int myIndex;
-	
-	public NitrogenAirStoreOutFlowRateSensorImpl(int pID, String pName){
-		super(pID, pName);
-	}
+public class NitrogenAirStoreOutFlowRateSensorImpl extends GenericSensorImpl
+        implements NitrogenAirStoreOutFlowRateSensorOperations {
+    private NitrogenAirProducer myProducer;
 
-	protected void gatherData(){
-		float preFilteredValue = getInput().getNitrogenAirStoreOutputActualFlowRate(myIndex);
-		myValue = randomFilter(preFilteredValue);
-	}
-	
-	protected void notifyListeners(){
-		//does nothing right now
-	}
+    private int myIndex;
 
-	public void setInput(NitrogenAirProducer pProducer, int pIndex){
-		myProducer = pProducer;
-		myIndex = pIndex;
-	}
-	
-	public float getMax(){
-		return myProducer.getNitrogenAirStoreOutputMaxFlowRate(myIndex);
-	}
-	
-	public NitrogenAirProducer getInput(){
-		return myProducer;
-	}
-	
-	public BioModule getInputModule(){
-		return (BioModule)(myProducer);
-	}
-	
-	public int getIndex(){
-		return myIndex;
-	}
+    public NitrogenAirStoreOutFlowRateSensorImpl(int pID, String pName) {
+        super(pID, pName);
+    }
+
+    protected void gatherData() {
+        float preFilteredValue = getInput()
+                .getNitrogenAirStoreOutputActualFlowRate(myIndex);
+        myValue = randomFilter(preFilteredValue);
+    }
+
+    protected void notifyListeners() {
+        //does nothing right now
+    }
+
+    public void setInput(NitrogenAirProducer pProducer, int pIndex) {
+        myProducer = pProducer;
+        myIndex = pIndex;
+    }
+
+    public float getMax() {
+        return myProducer.getNitrogenAirStoreOutputMaxFlowRate(myIndex);
+    }
+
+    public NitrogenAirProducer getInput() {
+        return myProducer;
+    }
+
+    public BioModule getInputModule() {
+        return (BioModule) (myProducer);
+    }
+
+    public int getIndex() {
+        return myIndex;
+    }
 }

@@ -5,29 +5,31 @@ import com.traclabs.biosim.idl.sensor.food.BiomassStoreSensorOperations;
 import com.traclabs.biosim.idl.simulation.food.BiomassStore;
 import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
-public abstract class BiomassStoreSensorImpl extends GenericSensorImpl implements BiomassStoreSensorOperations{
-	protected BiomassStore myBiomassStore;
-	
-	public BiomassStoreSensorImpl(int pID, String pName){
-		super(pID, pName);
-	}
+public abstract class BiomassStoreSensorImpl extends GenericSensorImpl
+        implements BiomassStoreSensorOperations {
+    protected BiomassStore myBiomassStore;
 
-	protected abstract void gatherData();
-	protected abstract void notifyListeners();
+    public BiomassStoreSensorImpl(int pID, String pName) {
+        super(pID, pName);
+    }
 
-	public void setInput(BiomassStore source){
-		myBiomassStore = source;
-	}
-	
-	public BiomassStore getInput(){
-		return myBiomassStore;
-	}
-	
-	public float getMax(){
-		return myBiomassStore.getCapacity();
-	}
-	
-	public BioModule getInputModule(){
-		return (BioModule)(getInput());
-	}
+    protected abstract void gatherData();
+
+    protected abstract void notifyListeners();
+
+    public void setInput(BiomassStore source) {
+        myBiomassStore = source;
+    }
+
+    public BiomassStore getInput() {
+        return myBiomassStore;
+    }
+
+    public float getMax() {
+        return myBiomassStore.getCapacity();
+    }
+
+    public BioModule getInputModule() {
+        return (BioModule) (getInput());
+    }
 }

@@ -5,41 +5,43 @@ import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.framework.FoodConsumer;
 import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
 
-public class FoodInFlowRateActuatorImpl extends GenericActuatorImpl implements FoodInFlowRateActuatorOperations{
-	private FoodConsumer myConsumer;
-	private int myIndex;
-	
-	public FoodInFlowRateActuatorImpl(int pID, String pName){
-		super(pID, pName);
-	}
+public class FoodInFlowRateActuatorImpl extends GenericActuatorImpl implements
+        FoodInFlowRateActuatorOperations {
+    private FoodConsumer myConsumer;
 
-	protected void processData(){
-		float myFilteredValue = randomFilter(myValue);
-		getOutput().setFoodInputDesiredFlowRate(myFilteredValue, myIndex);
-	}
-	
-	protected void notifyListeners(){
-		//does nothing right now
-	}
+    private int myIndex;
 
-	public void setOutput(FoodConsumer pConsumer, int pIndex){
-		myConsumer = pConsumer;
-		myIndex = pIndex;
-	}
-	
-	public BioModule getOutputModule(){
-		return (BioModule)(myConsumer);
-	}
-	
-	public FoodConsumer getOutput(){
-		return myConsumer;
-	}
-	
-	public int getIndex(){
-		return myIndex;
-	}
-	
-	public float getMax(){
-		return myConsumer.getFoodInputMaxFlowRate(myIndex);
-	}
+    public FoodInFlowRateActuatorImpl(int pID, String pName) {
+        super(pID, pName);
+    }
+
+    protected void processData() {
+        float myFilteredValue = randomFilter(myValue);
+        getOutput().setFoodInputDesiredFlowRate(myFilteredValue, myIndex);
+    }
+
+    protected void notifyListeners() {
+        //does nothing right now
+    }
+
+    public void setOutput(FoodConsumer pConsumer, int pIndex) {
+        myConsumer = pConsumer;
+        myIndex = pIndex;
+    }
+
+    public BioModule getOutputModule() {
+        return (BioModule) (myConsumer);
+    }
+
+    public FoodConsumer getOutput() {
+        return myConsumer;
+    }
+
+    public int getIndex() {
+        return myIndex;
+    }
+
+    public float getMax() {
+        return myConsumer.getFoodInputMaxFlowRate(myIndex);
+    }
 }

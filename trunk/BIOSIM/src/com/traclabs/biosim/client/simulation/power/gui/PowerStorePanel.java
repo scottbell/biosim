@@ -19,57 +19,59 @@ import com.traclabs.biosim.idl.simulation.power.PowerStore;
 
 /**
  * This is the JPanel that displays a chart about the Power Store
- *
- * @author    Scott Bell
+ * 
+ * @author Scott Bell
  */
-public class PowerStorePanel extends GraphPanel
-{
-	private PowerStore myPowerStore;
-	private DefaultCategoryDataset myDataset;
-	private ValueAxis rangeAxis;
-	private JFreeChart myChart;
+public class PowerStorePanel extends GraphPanel {
+    private PowerStore myPowerStore;
 
-	protected void createGraph(){
-		// create the chart...
-		myPowerStore = (PowerStore)(BioHolderInitializer.getBioHolder().thePowerStores.get(0));
-		refresh();
-		myChart = ChartFactory.createBarChart3D(
-		                  "Power Store Level",  // chart title
-		                  "",              // domain axis label
-		                  "Power Level (W)",                 // range axis label
-		                  myDataset, PlotOrientation.VERTICAL,                // data
-		                  true,                     // include legend
-				  true,
-				  false
-		          );
-		// add the chart to a panel...
-		CategoryPlot myPlot = myChart.getCategoryPlot();
-		rangeAxis = myPlot.getRangeAxis();
-		rangeAxis.setAutoRange(false);
-		rangeAxis.setRange(0.0, myPowerStore.getCapacity());
-		CategoryItemRenderer renderer = myPlot.getRenderer();
-		renderer.setSeriesPaint(0, Color.ORANGE);
-		TextTitle myTextTitle = (TextTitle)(myChart.getTitle());
-		myTextTitle.setFont(myTextTitle.getFont().deriveFont(13.0f));
-		myChartPanel = new ChartPanel(myChart);
-		myChartPanel.setMinimumDrawHeight(200);
-		myChartPanel.setMinimumDrawWidth(230);
-		myChartPanel.setPreferredSize(new Dimension(200, 200));
-	}
+    private DefaultCategoryDataset myDataset;
 
-	public void refresh() {
-		if (myDataset == null){
-			double[][] data = { {} };
-			myDataset = new DefaultCategoryDataset();
-			myDataset.addValue(myPowerStore.getLevel(),"Power Store", "");
-		}
-		else{
-			float capacity = myPowerStore.getCapacity();
-			if ((rangeAxis.getRange().getUpperBound() != capacity) && (capacity > 0)){
-				rangeAxis.setRange(0.0, capacity);
-				myChartPanel.repaint();
-			}
-			myDataset.setValue(new Float(myPowerStore.getLevel()), "Power Store", "");
-		}
-	}
+    private ValueAxis rangeAxis;
+
+    private JFreeChart myChart;
+
+    protected void createGraph() {
+        // create the chart...
+        myPowerStore = (PowerStore) (BioHolderInitializer.getBioHolder().thePowerStores
+                .get(0));
+        refresh();
+        myChart = ChartFactory.createBarChart3D("Power Store Level", // chart
+                                                                     // title
+                "", // domain axis label
+                "Power Level (W)", // range axis label
+                myDataset, PlotOrientation.VERTICAL, // data
+                true, // include legend
+                true, false);
+        // add the chart to a panel...
+        CategoryPlot myPlot = myChart.getCategoryPlot();
+        rangeAxis = myPlot.getRangeAxis();
+        rangeAxis.setAutoRange(false);
+        rangeAxis.setRange(0.0, myPowerStore.getCapacity());
+        CategoryItemRenderer renderer = myPlot.getRenderer();
+        renderer.setSeriesPaint(0, Color.ORANGE);
+        TextTitle myTextTitle = (TextTitle) (myChart.getTitle());
+        myTextTitle.setFont(myTextTitle.getFont().deriveFont(13.0f));
+        myChartPanel = new ChartPanel(myChart);
+        myChartPanel.setMinimumDrawHeight(200);
+        myChartPanel.setMinimumDrawWidth(230);
+        myChartPanel.setPreferredSize(new Dimension(200, 200));
+    }
+
+    public void refresh() {
+        if (myDataset == null) {
+            double[][] data = { {} };
+            myDataset = new DefaultCategoryDataset();
+            myDataset.addValue(myPowerStore.getLevel(), "Power Store", "");
+        } else {
+            float capacity = myPowerStore.getCapacity();
+            if ((rangeAxis.getRange().getUpperBound() != capacity)
+                    && (capacity > 0)) {
+                rangeAxis.setRange(0.0, capacity);
+                myChartPanel.repaint();
+            }
+            myDataset.setValue(new Float(myPowerStore.getLevel()),
+                    "Power Store", "");
+        }
+    }
 }
