@@ -477,6 +477,7 @@ public class BioDriverImpl extends BioDriverPOA{
 			System.err.println("BioDriverImpl"+myID+": Tick called when simulation wasn't started!");
 			return;
 		}
+		//System.out.println("BioDriveImpl: begin Tick");
 		//Iterate through the actuators and tick them
 		for (int i = 0; i < actuators.length; i++){
 			BioModule currentBioModule = (BioModule)(actuators[i]);

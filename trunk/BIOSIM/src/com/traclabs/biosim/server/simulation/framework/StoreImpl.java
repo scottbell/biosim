@@ -292,8 +292,9 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	}
 	
 	private boolean cachedValueNeeded(){
-		collectReferences();
-		return (getMyTicks() == myDriver.getTicks());
+		//collectReferences();
+		//return (getMyTicks() == myDriver.getTicks());
+		return true;
 	}
 	
 	/**

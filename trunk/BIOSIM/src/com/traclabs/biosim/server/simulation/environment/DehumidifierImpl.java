@@ -45,13 +45,14 @@ public class DehumidifierImpl extends SimBioModuleImpl implements DehumidifierOp
 	public void tick(){
 		super.tick();
 		dehumidifyEnvironments();
+		//System.out.println(getModuleName() + " ticked");
 	}
 
 	private void dehumidifyEnvironments(){
 		float currentWaterMolesInEnvironment = myAirInputs[0].getWaterMoles();
 		float totalMolesInEnvironment = myAirInputs[0].getTotalMoles();
-		myAirInputs[0].printCachedEnvironment();
-		System.out.println("Before: Water concentration "+currentWaterMolesInEnvironment / totalMolesInEnvironment);
+		//myAirInputs[0].printCachedEnvironment();
+		//System.out.println("Before: Water concentration "+currentWaterMolesInEnvironment / totalMolesInEnvironment);
 		
 		float molesOfWaterGathered = 0f;
 		for (int i = 0; i < myAirInputs.length; i++){
@@ -61,17 +62,18 @@ public class DehumidifierImpl extends SimBioModuleImpl implements DehumidifierOp
 				float resourceToGatherFirst = Math.min(molesNeededToRemove, airInMaxFlowRates[i]);
 				float resourceToGatherFinal = Math.min(resourceToGatherFirst, airInDesiredFlowRates[i]);
 				airInActualFlowRates[i] = myAirInputs[i].takeWaterMoles(resourceToGatherFinal);
-				System.out.println("Going to remove "+resourceToGatherFinal+" moles of water");
+				//System.out.println("Going to remove "+resourceToGatherFinal+" moles of water");
 				molesOfWaterGathered += airInActualFlowRates[i];
 			}
 		}
 		float waterPushedToStore = pushResourceToStore(myDirtyWaterOutputs, dirtyWaterOutMaxFlowRates, dirtyWaterOutDesiredFlowRates, dirtyWaterOutActualFlowRates, waterMolesToLiters(molesOfWaterGathered));
 		
-		
 		currentWaterMolesInEnvironment = myAirInputs[0].getWaterMoles();
 		totalMolesInEnvironment = myAirInputs[0].getTotalMoles();
-		System.out.println("After: Pushed "+waterPushedToStore+" liters of water to the store (gathered "+molesOfWaterGathered+" moles), water concentration now "+currentWaterMolesInEnvironment / totalMolesInEnvironment);
-		myAirInputs[0].printEnvironment();
+		//System.out.println("After: Pushed "+waterPushedToStore+" liters of water to the store (gathered "+molesOfWaterGathered+" moles), water concentration now "+currentWaterMolesInEnvironment / totalMolesInEnvironment);
+		//myAirInputs[0].printEnvironment();
+		if (Float.isNaN(currentWaterMolesInEnvironment))
+			System.exit(0);
 	}
 	
 	private static float calculateMolesNeededToRemove(SimEnvironment pEnvironment){

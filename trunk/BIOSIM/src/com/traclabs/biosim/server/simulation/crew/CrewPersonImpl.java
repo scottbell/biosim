@@ -496,6 +496,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* 6) checks whether afflictions (if any) are fatal.
 	*/
 	public void tick(){
+		//System.out.println(getName()+" ticked");
 		timeActivityPerformed++;
 		//System.out.println(getName()+" performed activity "+myCurrentActivity.getName()+" for "+timeActivityPerformed+" of "+myCurrentActivity.getTimeLength()+" ticks");
 		if (!hasDied){
@@ -749,6 +750,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			SimEnvironment[] myAirInputs = myCrewGroup.getAirInputs();
 			System.out.println(getName()+" has died from lack of oxygen (risk was "+numFormat.format(oxygenRiskReturn * 100)+"%)");
 			System.out.println(getName()+" Environmental conditions were: 02="+myAirInputs[0].getO2Moles()+", CO2="+myAirInputs[0].getCO2Moles()+", N="+myAirInputs[0].getNitrogenMoles()+", water="+myAirInputs[0].getWaterMoles()+", other="+myAirInputs[0].getOtherMoles());
+			myAirInputs[0].printCachedEnvironment();
+			myAirInputs[0].printEnvironment();
 		}
 		else if (CO2RiskReturn > randomNumber){
 			hasDied = true;
