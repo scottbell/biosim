@@ -17,48 +17,27 @@ public abstract class GraphPanel extends TimedPanel
 	private JButton trackingButton;
 	protected ChartPanel myChartPanel;
 	private TrackingAction myTrackingAction;
-
+	
 	/**
 	 * Default constructor.
 	 */
 	public GraphPanel() {
 		super();
-		initializeDataSources();
+		buildGui();
+	}
+	
+	public GraphPanel(String dataSourceName) {
+		super();
+		initializeDataSources(dataSourceName);
 		buildGui();
 	}
 
 	protected void buildGui(){
 		createGraph();
 		myTrackingAction = new TrackingAction();
-		refreshButton = new JButton(myRefreshAction);
-		trackingButton = new JButton(myTrackingAction);
-		if (isTracking()){
-			trackingButton.setText("Stop Tracking");
-		}
-		else{
-			trackingButton.setText("Start Tracking");
-		}
 		GridBagLayout gridbag = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();
 		setLayout(gridbag);
-		
-		/*
-		c.fill = GridBagConstraints.BOTH;
-		c.gridheight = 1;
-		c.gridwidth = 1;
-		c.weighty = 0.1;
-		c.weightx = 0.1;
-		gridbag.setConstraints(refreshButton, c);
-		add(refreshButton);
-
-		c.fill = GridBagConstraints.BOTH;
-		c.gridheight = 1;
-		c.gridwidth = GridBagConstraints.REMAINDER;
-		c.weighty = 0.1;
-		c.weightx = 0.1;
-		gridbag.setConstraints(trackingButton, c);
-		add(trackingButton);
-		*/
 		c.fill = GridBagConstraints.BOTH;
 		c.gridheight = 1;
 		c.gridwidth = GridBagConstraints.REMAINDER;
@@ -69,7 +48,7 @@ public abstract class GraphPanel extends TimedPanel
 	}
 
 	protected abstract void createGraph();
-	protected void initializeDataSources(){
+	protected void initializeDataSources(String dataSourceName){
 	}
 
 	/**
