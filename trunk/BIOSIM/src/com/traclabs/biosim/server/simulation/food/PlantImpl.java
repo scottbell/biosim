@@ -22,10 +22,10 @@ public abstract class PlantImpl extends PlantPOA{
 	private boolean hasDied = false;
 	protected ShelfImpl myShelfImpl;
 	private float myAveragePPF = 0f;
-	private float myLastAveragePPF = 0f;
-	private float myLastWaterNeeded = 0f;
 	private float myTotalPPF = 0f;
 	private int myNumberOfPPFReadings = 0;
+	private float myAverageWaterNeeded = 0f;
+	private float myTotalWaterNeeded = 0f;
 	private float myAverageCO2Concentration = 0f;
 	private float myTotalCO2Concentration = 0f;
 	private int myNumberOfCO2ConcentrationReadings = 0;
@@ -47,7 +47,7 @@ public abstract class PlantImpl extends PlantPOA{
 	private SimpleBuffer consumedCO2HighBuffer;
 	private SimpleBuffer consumedHeatBuffer;
 	private SimpleBuffer consumedLightBuffer;
-	private static final float WATER_TILL_DEAD = 30f;
+	private static final float WATER_TILL_DEAD = 85f;
 	private static final float WATER_RECOVERY_RATE = 0.05f;
 	private static final float CO2_LOW_TILL_DEAD = 24f;
 	private static final float CO2_LOW_RECOVERY_RATE = 0.05f;
@@ -110,8 +110,8 @@ public abstract class PlantImpl extends PlantPOA{
 		myLastTotalWetBiomass = 0f;
 		myLastEdibleWetBiomass = 0f;
 		myCurrentEdibleDryBiomass = 0f;
-		myLastAveragePPF = 0f;
-		myLastWaterNeeded = 0f;
+		myAverageWaterNeeded = 0f;
+		myTotalWaterNeeded = 0f;
 		myWaterNeeded = 0f;
 		myWaterLevel = 0f;
 		CQY = 0f;
@@ -145,8 +145,8 @@ public abstract class PlantImpl extends PlantPOA{
 				healthCheck();
 				recoverPlants();
 			}
-			myLastWaterNeeded = myWaterNeeded;
-			myLastAveragePPF = myAveragePPF;
+			myTotalWaterNeeded += myWaterNeeded;
+			myAverageWaterNeeded = myTotalWaterNeeded / myAge;
 		}
 	}
 	
@@ -185,8 +185,8 @@ public abstract class PlantImpl extends PlantPOA{
 	private void afflictPlants(){
 		//System.out.println("PlantImpl: before: water buffer at "+consumedWaterBuffer.getLevel()+" of "+consumedWaterBuffer.getCapacity());
 		//System.out.println("PlantImpl: before: light buffer at "+consumedLightBuffer.getLevel()+" of "+consumedLightBuffer.getCapacity());
-		consumedWaterBuffer.setCapacity(myLastWaterNeeded * WATER_TILL_DEAD);
-		consumedLightBuffer.setCapacity(myLastAveragePPF * LIGHT_TILL_DEAD);
+		consumedWaterBuffer.setCapacity(myAverageWaterNeeded * WATER_TILL_DEAD);
+		consumedLightBuffer.setCapacity(myAveragePPF * LIGHT_TILL_DEAD);
 		
 		//System.out.println("PlantImpl: after asked for "+myWaterNeeded+" and got "+myWaterLevel+", water buffer at "+consumedWaterBuffer.getLevel()+" of "+consumedWaterBuffer.getCapacity()+" and going to take "+(myWaterNeeded - myWaterLevel));
 		//System.out.println("PlantImpl: after asked for "+getPPFNeeded()+" and got "+myAveragePPF+", light buffer at "+consumedLightBuffer.getLevel()+" of "+consumedLightBuffer.getCapacity()+" and going to take "+(getPPFNeeded() - myAveragePPF));
