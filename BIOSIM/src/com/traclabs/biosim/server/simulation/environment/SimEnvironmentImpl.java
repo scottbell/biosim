@@ -93,8 +93,10 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	/*
 	pv = nrg
 	pressure * volume = numberOfMoles * idealGasConstant * temperature
+	since temperature (initially) is going to remain constant:
+	(p1 * v1) / n1 = p2 * v2 / n2
 
-	8.314 J K-1 mol-1 
+	8.314 J K-1 mol-1 = ideal gas constant
 	100.3 kPa per atmosphere
 
 	volume in liters, temp in kelvin, pressure in kPA

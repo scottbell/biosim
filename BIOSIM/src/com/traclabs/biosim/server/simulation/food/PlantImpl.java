@@ -61,11 +61,27 @@ public abstract class PlantImpl extends PlantPOA{
 	}
 	
 	private float calculateVaporPressureDeficit(){
-		return 0.1f;
+		float saturatedMoistureVaporPressure = calculateSaturatedMoistureVaporPressure();
+		return saturatedMoistureVaporPressure - calculateActualMoistureVaporPressure(saturatedMoistureVaporPressure);
 	}
 	
-	protected float calculateCanopyPhotosynthesis(){
-		return 0.1f;
+	private float calculateSaturatedMoistureVaporPressure(){
+		float temperatureLight = myShelfImpl.getBiomassRSImpl().getAirInputs()[0].getTemperature();
+		float exponent = (17.4f * temperatureLight) / (temperatureLight + 239f);
+		return 0.611f * exp(exponent);
+	}
+	
+	private float calculateActualMoistureVaporPressure(float pSaturatedMoistureVaporPressure){
+		return pSaturatedMoistureVaporPressure - myShelfImpl.getBiomassRSImpl().getAirInputs()[0].getRelativeHumidity();
+	}
+	
+	protected float calculateNetCanopyPhotosynthesis(){
+		float plantGrowthDiurnalCycle = 24f;
+		return (((plantGrowthDiurnalCycle - getPhotoperiod()) / plantGrowthDiurnalCycle) + ((getPhotoperiod * getCarbonUseEfficiency24()) / plantGrowthDiurnalCycle)) * calculateGrossCanopyPhotosynthesis();
+	}
+	
+	private float calculateGrossCanopyPhotosynthesis(){
+		return calculateCQY() * calculateCQY() * getPPF();
 	}
 	
 	private float calculateCanopySurfaceConductance(){
@@ -221,6 +237,10 @@ public abstract class PlantImpl extends PlantPOA{
 
 	protected float pow(float a, float b){
 		return (new Double(Math.pow(a,b))).floatValue();
+	}
+	
+	protected float exp(float a){
+		return (new Double(Math.exp(a))).floatValue();
 	}
 
 	public void log(LogNode myLogHead){
