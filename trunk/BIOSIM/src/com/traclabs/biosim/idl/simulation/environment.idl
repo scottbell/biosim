@@ -19,12 +19,12 @@ module environment{
                 float getOtherPressure();
                 float getWaterPressure();
                 float getTotalPressure();
-                float addCO2(in float moles);
-                float addO2(in float moles);
-                float addOther(in float moles);
-                float takeCO2(in float moles);
-                float takeO2(in float moles);
-                float takeOther(in float moles);
+                float addCO2Moles(in float moles);
+                float addO2Moles(in float moles);
+                float addOtherMoles(in float moles);
+                float takeCO2Moles(in float moles);
+                float takeO2Moles(in float moles);
+                float takeOtherMoles(in float moles);
 		float getTemperature();
                 air::Breath addBreath(in air::Breath pBreath);
                 float getLightIntensity();

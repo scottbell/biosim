@@ -370,11 +370,14 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @param molesRequested the amount of CO2 (in moles) wanted to add to the environment
 	* @return the amount of CO2 (in moles) actually added to the environment
 	*/
-	public float addCO2(float molesRequested){
+	public float addCO2Moles(float molesRequested){
 		float acutallyAdded = 0f;
 		if ((molesRequested + getTotalMoles()) > volume){
 			//adding more CO2 than volume
 			acutallyAdded = randomFilter(volume - getTotalMoles());
+			//adjust pressure
+			CO2Pressure = CO2Pressure * acutallyAdded / CO2Moles;
+			//add moles
 			CO2Moles += acutallyAdded;
 			return acutallyAdded;
 		}
@@ -390,11 +393,14 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @param molesRequested the amount of O2 (in moles) wanted to add to the environment
 	* @return the amount of O2 (in moles) actually added to the environment
 	*/
-	public float addO2(float molesRequested){
+	public float addO2Moles(float molesRequested){
 		float acutallyAdded = 0f;
 		if ((molesRequested + getTotalMoles()) > volume){
 			//adding more O2 than volume
 			acutallyAdded = randomFilter(volume - getTotalMoles());
+			//adjust pressure
+			O2Pressure = O2Pressure * acutallyAdded / O2Moles;
+			//add moles
 			O2Moles += acutallyAdded;
 			return  acutallyAdded;
 		}
@@ -410,11 +416,14 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @param molesRequested the amount of other gasses (in moles) wanted to add to the environment
 	* @return the amount of other gasses (in moles) actually added to the environment
 	*/
-	public float addOther(float molesRequested){
+	public float addOtherMoles(float molesRequested){
 		float acutallyAdded = 0f;
 		if ((molesRequested + getTotalMoles()) > volume){
 			//adding more Other than volume
 			acutallyAdded = randomFilter(volume - getTotalMoles());
+			//adjust pressure
+			otherPressure = otherPressure * acutallyAdded / otherMoles;
+			//add moles
 			otherMoles += acutallyAdded;
 			return  acutallyAdded;
 		}
@@ -424,8 +433,31 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 			return acutallyAdded;
 		}
 	}
+	
+	/**
+	* Attempts to add water gasses to the environment.  If the total gas level is near volume, it will only up to volume
+	* @param molesRequested the amount of water gasses (in moles) wanted to add to the environment
+	* @return the amount of water gasses (in moles) actually added to the environment
+	*/
+	public float addWaterMoles(float molesRequested){
+		float acutallyAdded = 0f;
+		if ((molesRequested + getTotalMoles()) > volume){
+			//adding more Water than volume
+			acutallyAdded = randomFilter(volume - getTotalMoles());
+			//adjust pressure
+			waterPressure = waterPressure * acutallyAdded / waterMoles;
+			//add moles
+			waterMoles += acutallyAdded;
+			return  acutallyAdded;
+		}
+		else{
+			acutallyAdded = randomFilter(molesRequested);
+			waterMoles = waterMoles + molesRequested;
+			return acutallyAdded;
+		}
+	}
 
-	public float takeO2(float amountRequested){
+	public float takeO2Moles(float amountRequested){
 		//idiot check
 		if (amountRequested < 0){
 			return 0f;
@@ -435,16 +467,20 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		if (amountRequested > O2Moles){
 			takenAmount = randomFilter(O2Moles);
 			O2Moles = 0;
+			O2Pressure = 0;
 		}
 		//stuff exists for request
 		else{
 			takenAmount = randomFilter(amountRequested);
+			//adjust pressure
+			O2Pressure = O2Pressure * takenAmount / O2Moles;
+			//take moles
 			O2Moles -= takenAmount;
 		}
 		return takenAmount;
 	}
 
-	public float takeCO2(float amountRequested){
+	public float takeCO2Moles(float amountRequested){
 		//idiot check
 		if (amountRequested < 0){
 			return 0f;
@@ -454,16 +490,20 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		if (amountRequested > CO2Moles){
 			takenAmount = randomFilter(CO2Moles);
 			CO2Moles = 0;
+			CO2Pressure = 0;
 		}
 		//stuff exists for request
 		else{
 			takenAmount = randomFilter(amountRequested);
+			//adjust pressure
+			CO2Pressure = CO2Pressure * takenAmount / CO2Moles;
+			//take moles
 			CO2Moles -= takenAmount;
 		}
 		return takenAmount;
 	}
 
-	public float takeOther(float amountRequested){
+	public float takeOtherMoles(float amountRequested){
 		//idiot check
 		if (amountRequested < 0){
 			return 0f;
@@ -477,7 +517,32 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		//stuff exists for request
 		else{
 			takenAmount = randomFilter(amountRequested);
+			//adjust pressure
+			otherPressure = otherPressure * takenAmount / otherMoles;
+			//take moles
 			otherMoles -= takenAmount;
+		}
+		return takenAmount;
+	}
+	
+	public float takeWaterMoles(float amountRequested){
+		//idiot check
+		if (amountRequested < 0){
+			return 0f;
+		}
+		float takenAmount;
+		//asking for more stuff than exists
+		if (amountRequested > waterMoles){
+			takenAmount = randomFilter(waterMoles);
+			waterMoles = 0;
+		}
+		//stuff exists for request
+		else{
+			takenAmount = randomFilter(amountRequested);
+			//adjust pressure
+			waterPressure = waterPressure * takenAmount / waterMoles;
+			//take moles
+			waterMoles -= takenAmount;
 		}
 		return takenAmount;
 	}
@@ -516,8 +581,39 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 			return new Breath(takenO2, takenCO2, takenOther);
 		}
 	}
+	
+	/**
+	* Attemps to return a breath of air given a needed amount of CO2 (in moles)
+	* @param molesCO2Requested the amount of CO2 (in moles) wanted in this breath
+	* @return the breath actually retrieved
+	*/
+	public Breath takeCO2Breath(float molesCO2Requested){
+		//idiot check
+		if (molesCO2Requested <= 0){
+			return new Breath(0,0,0);
+		}
+		//asking for more gas than exists
+		if (molesCO2Requested >= CO2Moles){
+			float takenCO2 = randomFilter(CO2Moles);
+			float takenO2 = randomFilter(O2Moles);
+			float takenOther = randomFilter(otherMoles);
+			setTotalMoles(0);
+			return new Breath(takenO2, takenCO2, takenOther);
+		}
+		//gas exists for request
+		else{
+			float percentageOfTotalGas = molesCO2Requested / CO2Moles;
+			float takenO2 = randomFilter(O2Moles * percentageOfTotalGas);
+			float takenCO2 = randomFilter(molesCO2Requested);
+			float takenOther = randomFilter(otherMoles * percentageOfTotalGas);
+			O2Moles -= takenO2;
+			CO2Moles -= takenCO2;
+			otherMoles -= takenOther;
+			return new Breath(takenO2, takenCO2, takenOther);
+		}
+	}
 
-	public Breath takeVolume(float molesRequested){
+	public Breath takeMoles(float molesRequested){
 		//idiot check
 		if (molesRequested <= 0){
 			return new Breath(0,0,0);
@@ -586,37 +682,6 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 				otherMoles = otherPercentage * volume;
 				currentMalfunction.setPerformed(true);
 			}
-		}
-	}
-
-	/**
-	* Attemps to return a breath of air given a needed amount of CO2 (in moles)
-	* @param molesCO2Requested the amount of CO2 (in moles) wanted in this breath
-	* @return the breath actually retrieved
-	*/
-	public Breath takeCO2Breath(float molesCO2Requested){
-		//idiot check
-		if (molesCO2Requested <= 0){
-			return new Breath(0,0,0);
-		}
-		//asking for more gas than exists
-		if (molesCO2Requested >= CO2Moles){
-			float takenCO2 = randomFilter(CO2Moles);
-			float takenO2 = randomFilter(O2Moles);
-			float takenOther = randomFilter(otherMoles);
-			setTotalMoles(0);
-			return new Breath(takenO2, takenCO2, takenOther);
-		}
-		//gas exists for request
-		else{
-			float percentageOfTotalGas = molesCO2Requested / CO2Moles;
-			float takenO2 = randomFilter(O2Moles * percentageOfTotalGas);
-			float takenCO2 = randomFilter(molesCO2Requested);
-			float takenOther = randomFilter(otherMoles * percentageOfTotalGas);
-			O2Moles -= takenO2;
-			CO2Moles -= takenCO2;
-			otherMoles -= takenOther;
-			return new Breath(takenO2, takenCO2, takenOther);
 		}
 	}
 
