@@ -54,7 +54,6 @@ public class BiomassStoreImpl extends BiomassStorePOA {
 	}
 
 	public void tick(){
-		System.out.println("Biomass Store has been ticked!");
 	}
 	public String getModuleName(){
 		return "BiomassStore";

@@ -110,6 +110,7 @@ public class SimEnvironmentImpl extends SimEnvironmentPOA {
 
 	public void tick(){
 		ticks++;
+		System.out.println(getModuleName() + ": advanced to timestep @ "+ticks);
 	}
 
 	public String getModuleName(){

@@ -54,7 +54,6 @@ public class PowerStoreImpl extends PowerStorePOA {
 	}
 
 	public void tick(){
-		System.out.println("Power Store has been ticked!");
 	}
 	public String getModuleName(){
 		return "PowerStore";

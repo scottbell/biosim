@@ -54,7 +54,6 @@ public class FoodStoreImpl extends FoodStorePOA {
 	}
 
 	public void tick(){
-		System.out.println("Food Store has been ticked!");
 	}
 	public String getModuleName(){
 		return "FoodStore";

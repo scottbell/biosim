@@ -54,7 +54,6 @@ public class GreyWaterStoreImpl extends GreyWaterStorePOA {
 	}
 
 	public void tick(){
-		System.out.println("GreyWater has been ticked!");
 	}
 	public String getModuleName(){
 		return "GreyWaterStore";

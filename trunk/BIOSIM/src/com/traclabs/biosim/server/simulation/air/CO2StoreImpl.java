@@ -54,7 +54,6 @@ public class CO2StoreImpl extends CO2StorePOA {
 	}
 
 	public void tick(){
-		System.out.println("CO2Store has been ticked!");
 	}
 	public String getModuleName(){
 		return "CO2Store";
