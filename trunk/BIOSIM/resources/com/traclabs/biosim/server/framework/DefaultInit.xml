@@ -167,6 +167,8 @@
 			<FoodOutFlowRateSensor name="FoodProcessorFoodOutFlowRateSensor" index="0" input="FoodProcessor"/>
 			<FoodStoreLevelSensor name="FoodStoreLevelSensor" input="FoodStore"/>
 		</food>
+		<framework>
+		</framework>
 		<power>
 			<PowerInFlowRateSensor name="AirRSPowerInFlowRateSensor" index="0" input="AirRS"/>
 			<PowerInFlowRateSensor name="FoodProcessorPowerInFlowRateSensor" index="0" input="FoodProcessor"/>

@@ -1243,6 +1243,10 @@ public class BioInitializer{
 				crawlFoodSensors(child, firstPass);
 
 			}
+			else if (childName.equals("framework")){
+				crawlFrameworkSensors(child, firstPass);
+
+			}
 			else if (childName.equals("power")){
 				crawlPowerSensors(child, firstPass);
 
@@ -2462,6 +2466,83 @@ public class BioInitializer{
 					createFoodStoreLevelSensor(child);
 				else
 					configureFoodStoreLevelSensor(child);
+			}
+			child = child.getNextSibling();
+		}
+	}
+	
+	//Framework
+	private void createStoreLevelSensor(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			System.out.println("Creating StoreLevelSensor with moduleName: "+moduleName);
+			StoreLevelSensorImpl myStoreLevelSensorImpl = new StoreLevelSensorImpl(myID, moduleName);
+			myModules.add(OrbUtils.poaToCorbaObj(myStoreLevelSensorImpl));
+			BiosimServer.registerServer(new StoreLevelSensorPOATie(myStoreLevelSensorImpl), myStoreLevelSensorImpl.getModuleName(), myStoreLevelSensorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureStoreLevelSensor(Node node){
+		System.out.println("Configuring StoreLevelSensor");
+		String moduleName = getModuleName(node);
+		try{
+			StoreLevelSensor myStoreLevelSensor = StoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
+			myStoreLevelSensor.setInput(StoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
+	
+	private void createStoreOverflowSensor(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			System.out.println("Creating StoreOverflowSensor with moduleName: "+moduleName);
+			StoreOverflowSensorImpl myStoreOverflowSensorImpl = new StoreOverflowSensorImpl(myID, moduleName);
+			myModules.add(OrbUtils.poaToCorbaObj(myStoreOverflowSensorImpl));
+			BiosimServer.registerServer(new StoreOverflowSensorPOATie(myStoreOverflowSensorImpl), myStoreOverflowSensorImpl.getModuleName(), myStoreOverflowSensorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureStoreOverflowSensor(Node node){
+		System.out.println("Configuring StoreOverflowSensor");
+		String moduleName = getModuleName(node);
+		try{
+			StoreOverflowSensor myStoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
+			myStoreOverflowSensor.setInput(StoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
+
+	private void crawlFrameworkSensors(Node node, boolean firstPass){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("StoreLevelSensor")){
+				if (firstPass)
+					createStoreLevelSensor(child);
+				else
+					configureStoreLevelSensor(child);
+			}
+			else if (childName.equals("StoreOverflowSensor")){
+				if (firstPass)
+					createStoreOverflowSensor(child);
+				else
+					configureStoreOverflowSensor(child);
 			}
 			child = child.getNextSibling();
 		}

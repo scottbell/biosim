@@ -181,6 +181,14 @@
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
+			<xsd:element name="framework" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="StoreLevelSensor" type="StoreLevelSensorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="StoreOverflowSensor" type="StoreLevelSensorType" minOccurs="0" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
 			<xsd:element name="power" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:sequence>
@@ -1039,6 +1047,21 @@
 	</xsd:complexType>
 	
 	<xsd:complexType name="FoodStoreLevelSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="SensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<!-- Framework sensor declarations -->
+	<xsd:complexType name="StoreLevelSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="SensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="StoreOverflowSensorType">  
 		<xsd:complexContent>
 			<xsd:extension base="SensorType">
 			</xsd:extension>
