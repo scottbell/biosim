@@ -170,6 +170,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	* Resets production/consumption levels and death/affliction flags
 	*/
 	public void reset(){
+		super.reset();
 		for (Enumeration e = myShelves.elements(); e.hasMoreElements();){
 			ShelfImpl currentShelf = (ShelfImpl)(e.nextElement());
 			currentShelf.reset();

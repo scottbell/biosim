@@ -181,6 +181,7 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 	* Resets production/consumption levels.
 	*/
 	public void reset(){
+		super.reset();
 		myVCCR.reset();
 		myCO2Tank.reset();
 		myCRS.reset();

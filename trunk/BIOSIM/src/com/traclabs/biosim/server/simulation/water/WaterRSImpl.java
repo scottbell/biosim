@@ -41,6 +41,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	* Resets production/consumption levels and resets all the subsystems
 	*/
 	public void reset(){
+		super.reset();
 		myBWP.reset();
 		myRO.reset();
 		myAES.reset();
@@ -262,7 +263,21 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 			}
 		}
 	}
-
+	
+	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
+		String returnName = new String();
+		if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
+			returnName += "AES and RO ";
+		else if (pIntensity == MalfunctionIntensity.MEDIUM_MALF)
+			returnName += "RO ";
+		else if (pIntensity == MalfunctionIntensity.LOW_MALF)
+			returnName += "AES ";
+		if (pLength == MalfunctionLength.TEMPORARY_MALF)
+			returnName += "malfunctioning (repairable)";
+		else if (pLength == MalfunctionLength.PERMANENT_MALF)
+			returnName += "destroyed";
+		return returnName;
+	}
 
 	/**
 	* Returns the name of this module (WaterRS)

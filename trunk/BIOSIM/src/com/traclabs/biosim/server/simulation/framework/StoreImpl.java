@@ -20,6 +20,7 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 	protected float capacity = 0.0f;
 	//The capacity of what this store can hold (at t-1)
 	protected float oldCapacity = 0.0f;
+	private float preMalfunctionCapacity = 0.0f;
 	private SimEnvironment myCurrentEnvironment;
 	private LogIndex myLogIndex;
 	private int myTicks = 0;
@@ -31,7 +32,7 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 	public StoreImpl(int pID){
 		super(pID);
 		level = oldLevel = 0.0f;
-		capacity = oldCapacity = 10.0f;
+		capacity = preMalfunctionCapacity = oldCapacity = 10.0f;
 	}
 
 	/**
@@ -42,7 +43,7 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 	public StoreImpl (int pID, float initialLevel, float  initialCapacity){
 		super(pID);
 		level = oldLevel = initialLevel;
-		capacity = oldCapacity = initialCapacity;
+		capacity = preMalfunctionCapacity = oldCapacity = initialCapacity;
 	}
 
 	/**
@@ -50,7 +51,7 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 	* @param metricAmount the new volume of the store
 	*/
 	public void setCapacity(float metricAmount){
-		capacity = metricAmount;
+		capacity = preMalfunctionCapacity = metricAmount;
 	}
 
 	/**
@@ -203,6 +204,8 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 	* Resets the level to 0
 	*/
 	public void reset(){
+		super.reset();
+		capacity = preMalfunctionCapacity;
 		level = 0.0f;
 	}
 
