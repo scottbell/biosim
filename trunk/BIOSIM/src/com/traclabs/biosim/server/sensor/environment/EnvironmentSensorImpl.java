@@ -30,4 +30,8 @@ public abstract class EnvironmentSensorImpl extends GenericSensorImpl implements
 	public String getModuleName(){
 		return "EnvironmentSensor"+getID();
 	}
+	
+	protected BioModule getInputModule(){
+		return (BioModule)(getInput());
+	}
 }

@@ -30,4 +30,8 @@ public abstract class FoodProcessorSensorImpl extends GenericSensorImpl implemen
 	public String getModuleName(){
 		return "FoodProcessorSensor"+getID();
 	}
+	
+	protected BioModule getInputModule(){
+		return (BioModule)(getInput());
+	}
 }

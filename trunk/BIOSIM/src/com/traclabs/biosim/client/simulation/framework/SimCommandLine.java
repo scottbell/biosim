@@ -131,7 +131,7 @@ public class SimCommandLine
 			if (myDriver.isActuatorLogging())
 				statusBuffer.append("actuator logging, ");
 			else
-				statusBuffer.append("not-actuator logging, ");
+				statusBuffer.append("not actuator logging, ");
 			statusBuffer.delete(statusBuffer.length() -2, statusBuffer.length());
 			System.out.println(statusBuffer.toString());
 		}

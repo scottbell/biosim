@@ -38,6 +38,10 @@ public class GreyWaterOutFlowRateSensorImpl extends GenericSensorImpl implements
 		return myIndex;
 	}
 	
+	protected BioModule getInputModule(){
+		return (BioModule)(myProducer);
+	}
+	
 	/**
 	* Returns the name of this module (GreyWaterOutFlowRateSensor)
 	* @return the name of the module

@@ -31,7 +31,7 @@ public class CO2AirStoreInFlowRateActuatorImpl extends GenericActuatorImpl imple
 		return myConsumer.getCO2AirStoreInputMaxFlowRate(myIndex);
 	}
 	
-	protected BioModule getModuleOutput(){
+	protected BioModule getOutputModule(){
 		return (BioModule)(myConsumer);
 	}
 	

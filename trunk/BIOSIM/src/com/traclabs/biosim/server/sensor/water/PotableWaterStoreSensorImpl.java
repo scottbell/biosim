@@ -34,4 +34,8 @@ public abstract class PotableWaterStoreSensorImpl extends GenericSensorImpl impl
 	public String getModuleName(){
 		return "PotableWaterStoreSensor"+getID();
 	}
+	
+	protected BioModule getInputModule(){
+		return (BioModule)(getInput());
+	}
 }

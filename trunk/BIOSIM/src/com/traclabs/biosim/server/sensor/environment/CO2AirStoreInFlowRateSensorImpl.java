@@ -35,6 +35,10 @@ public class CO2AirStoreInFlowRateSensorImpl extends GenericSensorImpl implement
 		return myConsumer;
 	}
 	
+	protected BioModule getInputModule(){
+		return (BioModule)(myConsumer);
+	}
+	
 	public int getIndex(){
 		return myIndex;
 	}

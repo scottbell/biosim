@@ -34,6 +34,10 @@ public class O2InFlowRateSensorImpl extends GenericSensorImpl implements O2InFlo
 		return myIndex;
 	}
 	
+	protected BioModule getInputModule(){
+		return (BioModule)(myConsumer);
+	}
+	
 	public float getMax(){
 		return myConsumer.getO2InputMaxFlowRate(myIndex);
 	}

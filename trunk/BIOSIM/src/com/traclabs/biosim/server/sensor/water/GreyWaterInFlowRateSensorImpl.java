@@ -34,6 +34,10 @@ public class GreyWaterInFlowRateSensorImpl extends GenericSensorImpl implements 
 		return myIndex;
 	}
 	
+	protected BioModule getInputModule(){
+		return (BioModule)(myConsumer);
+	}
+	
 	public float getMax(){
 		return myConsumer.getGreyWaterInputMaxFlowRate(myIndex);
 	}

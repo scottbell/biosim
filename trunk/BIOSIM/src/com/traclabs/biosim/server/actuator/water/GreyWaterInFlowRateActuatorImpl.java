@@ -26,7 +26,7 @@ public class GreyWaterInFlowRateActuatorImpl extends GenericActuatorImpl impleme
 		myIndex = pIndex;
 	}
 	
-	protected BioModule getModuleOutput(){
+	protected BioModule getOutputModule(){
 		return (BioModule)(myConsumer);
 	}
 	

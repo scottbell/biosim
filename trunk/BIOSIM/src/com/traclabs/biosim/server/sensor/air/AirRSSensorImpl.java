@@ -12,9 +12,6 @@ public abstract class AirRSSensorImpl extends GenericSensorImpl implements AirRS
 		super(pID);
 	}
 
-	protected abstract void gatherData();
-	protected abstract void notifyListeners();
-
 	public void setInput(AirRS source){
 		myAirRS = source;
 	}
@@ -29,5 +26,9 @@ public abstract class AirRSSensorImpl extends GenericSensorImpl implements AirRS
 	*/
 	public String getModuleName(){
 		return "AirRSSensor"+getID();
+	}
+	
+	protected BioModule getInputModule(){
+		return (BioModule)(getInput());
 	}
 }

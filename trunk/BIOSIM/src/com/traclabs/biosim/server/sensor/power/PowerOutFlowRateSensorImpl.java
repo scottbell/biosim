@@ -38,6 +38,10 @@ public class PowerOutFlowRateSensorImpl extends GenericSensorImpl implements Pow
 		return myIndex;
 	}
 	
+	protected BioModule getInputModule(){
+		return (BioModule)(myProducer);
+	}
+	
 	/**
 	* Returns the name of this module (PowerOutFlowRateSensor)
 	* @return the name of the module

@@ -34,6 +34,10 @@ public class DirtyWaterInFlowRateSensorImpl extends GenericSensorImpl implements
 		return myConsumer.getDirtyWaterInputMaxFlowRate(myIndex);
 	}
 	
+	protected BioModule getInputModule(){
+		return (BioModule)(myConsumer);
+	}
+	
 	public int getIndex(){
 		return myIndex;
 	}

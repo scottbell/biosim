@@ -38,6 +38,10 @@ public class DirtyWaterOutFlowRateSensorImpl extends GenericSensorImpl implement
 		return myIndex;
 	}
 	
+	protected BioModule getInputModule(){
+		return (BioModule)(myProducer);
+	}
+	
 	/**
 	* Returns the name of this module (DirtyWaterOutFlowRateSensor)
 	* @return the name of the module

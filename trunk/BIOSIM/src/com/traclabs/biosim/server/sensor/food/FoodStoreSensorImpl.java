@@ -34,4 +34,8 @@ public abstract class FoodStoreSensorImpl extends GenericSensorImpl implements F
 	public String getModuleName(){
 		return "FoodStoreSensor"+getID();
 	}
+	
+	protected BioModule getInputModule(){
+		return (BioModule)(getInput());
+	}
 }

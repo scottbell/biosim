@@ -27,6 +27,10 @@ public abstract class CO2StoreSensorImpl extends GenericSensorImpl implements CO
 		return myCO2Store.getCapacity();
 	}
 	
+	protected BioModule getInputModule(){
+		return (BioModule)(getInput());
+	}
+	
 	/**
 	* Returns the name of this module (CO2StoreSensorImpl)
 	* @return the name of the module

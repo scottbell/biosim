@@ -31,4 +31,8 @@ public class CrewGroupDeathSensorImpl extends CrewGroupSensorImpl implements Cre
 	public String getModuleName(){
 		return "CrewGroupDeathSensor"+getID();
 	}
+	
+	protected BioModule getInputModule(){
+		return (BioModule)(getInput());
+	}
 }

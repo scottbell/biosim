@@ -40,7 +40,6 @@ public abstract class GenericActuatorImpl extends BioModuleImpl implements Gener
 	
 	protected abstract void processData();
 	
-	protected abstract BioModule getModuleOutput();
 	
 	/**
 	* Returns the name of this module (GenericActuator)
@@ -50,18 +49,20 @@ public abstract class GenericActuatorImpl extends BioModuleImpl implements Gener
 		return "GenericActuator"+getID();
 	}
 	
+	protected abstract BioModule getOutputModule();
+	
 	protected void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			LogNode valueNodeHead = myLog.addChild("value");
 			valueNode = valueNodeHead.addChild(""+getValue());
 			LogNode outputNodeHead = myLog.addChild("output");
-			//outputNode = outputNodeHead.addChild(""+getModuleOutput().getModuleName());
+			outputNode = outputNodeHead.addChild(""+getOutputModule().getModuleName());
 			logInitialized = true;
 		}
 		else{
 			valueNode.setValue(""+getValue());
-			//outputNode.setValue(""+getModuleOutput().getModuleName());
+			outputNode.setValue(""+getOutputModule().getModuleName());
 		}
 		sendLog(myLog);
 	}

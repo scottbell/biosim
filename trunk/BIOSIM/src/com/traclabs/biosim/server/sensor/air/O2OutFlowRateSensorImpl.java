@@ -34,6 +34,10 @@ public class O2OutFlowRateSensorImpl extends GenericSensorImpl implements O2OutF
 		return myProducer;
 	}
 	
+	protected BioModule getInputModule(){
+		return (BioModule)(myProducer);
+	}
+	
 	public int getIndex(){
 		return myIndex;
 	}

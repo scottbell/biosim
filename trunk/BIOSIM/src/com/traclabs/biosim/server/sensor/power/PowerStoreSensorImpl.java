@@ -34,4 +34,8 @@ public abstract class PowerStoreSensorImpl extends GenericSensorImpl implements 
 	public String getModuleName(){
 		return "PowerStoreSensor"+getID();
 	}
+	
+	protected BioModule getInputModule(){
+		return (BioModule)(getInput());
+	}
 }
