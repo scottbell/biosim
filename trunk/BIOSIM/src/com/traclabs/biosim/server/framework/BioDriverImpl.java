@@ -433,7 +433,7 @@ public class BioDriverImpl extends BioDriverPOA{
 	*/
 	private void tick(){
 		if (!isStarted()){
-			System.out.println("Tick called when simulation wasn't started!");
+			System.err.println("Tick called when simulation wasn't started!");
 			return;
 		}
 		//Iterate through the actuators and tick them
@@ -444,6 +444,7 @@ public class BioDriverImpl extends BioDriverPOA{
 		//Iterate through the sim modules and tick them
 		for (int i = 0; i < simModules.length; i++){
 			BioModule currentBioModule = (BioModule)(simModules[i]);
+			System.out.println("Ticking "+currentBioModule.getModuleName());
 			currentBioModule.tick();
 		}
 		//Iterate through the sensors and tick them
