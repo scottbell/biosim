@@ -343,16 +343,17 @@ public class BioHolder{
 	public GenericSensor getSensorAttachedTo(List sensorList, BioModule moduleWatched){
 		for (Iterator iter = sensorList.iterator(); iter.hasNext();){
 			GenericSensor currentSensor = (GenericSensor)(iter.next());
-			if (currentSensor.getInputModule().getClass() == moduleWatched.getClass())
+			if (currentSensor.getInputModule()._is_equivalent(moduleWatched))
 				return currentSensor;
 		}
 		return null;
 	}
 	
-	public GenericActuator getActuatorAttachedTo(List sensorList, BioModule moduleWatched){
-		for (Iterator iter = sensorList.iterator(); iter.hasNext();){
-			GenericActuator currentActuator = (GenericActuator)(iter.next());
-			if (currentActuator.getOutputModule().getClass() == moduleWatched.getClass())
+	public GenericActuator getActuatorAttachedTo(List actuatorList, BioModule moduleWatched){
+		for (Iterator iter = actuatorList.iterator(); iter.hasNext();){
+			Object obj = iter.next();
+			GenericActuator currentActuator = (GenericActuator)(obj);
+			if (currentActuator.getOutputModule()._is_equivalent(moduleWatched))
 				return currentActuator;
 		}
 		return null;
