@@ -90,7 +90,6 @@ cp -f ../../lib/distro/win/run-distro-server.bat . 2> /dev/null
 cp -f ../../lib/distro/win/run-distro-client.bat . 2> /dev/null
 cp -f ../../lib/distro/win/biosim.ico . 2> /dev/null
 cp -f ../../lib/distro/win/LICENSE.txt . 2> /dev/null
-cp -f ../../lib/distro/win/sleep.exe . 2> /dev/null
 echo "		-changing to back to invocation dir"
 cd $currentDir
 echo "*done creating biosim distro"
