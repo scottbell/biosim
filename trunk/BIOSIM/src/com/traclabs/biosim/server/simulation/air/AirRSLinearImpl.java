@@ -190,6 +190,7 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations
     public void tick() {
         super.tick();
         myLogger.debug("tick");
+        gatherPower();
         gatherAir();
         pushAir();
         gatherH2andCO2();
