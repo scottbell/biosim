@@ -7,12 +7,14 @@ import biosim.idl.simulation.food.*;
 import biosim.idl.simulation.power.*;
 import biosim.idl.simulation.water.*;
 import biosim.idl.simulation.framework.*;
+import biosim.idl.sensor.framework.*;
 import biosim.idl.sensor.air.*;
 import biosim.idl.sensor.crew.*;
 import biosim.idl.sensor.environment.*;
 import biosim.idl.sensor.food.*;
 import biosim.idl.sensor.power.*;
 import biosim.idl.sensor.water.*;
+import biosim.idl.actuator.framework.*;
 import biosim.idl.actuator.air.*;
 import biosim.idl.actuator.crew.*;
 import biosim.idl.actuator.environment.*;
@@ -183,6 +185,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 
 	//A hastable containing the server references
 	private Map modules;
+	private Map sensors;
+	private Map actuators;
 	//A reference to the naming service
 	private NamingContextExt ncRef;
 	//The thread to run the simulation
@@ -204,6 +208,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	private int ticksGoneBy = 0;
 	//Tells whether all the modules known are logging or not (only checked when logging turned on/off)
 	private boolean logging = false;
+	private boolean actuatorsLogging = false;
+	private boolean sensorsLogging = false;
 	//The logger module
 	private Logger myLogger;
 	//Tells whether BioDriver has collected references to modules it needs from the nameserver (used for initializations)
@@ -1477,6 +1483,46 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		}
 		myLogger.setProcessingLogs(pLogSim);
 	}
+	
+	/**
+	* Iterates through the sensors setting their logs
+	* @param pLogSim Whether or not sensors should log.
+	*/
+	public synchronized void setSensorLogging(boolean pLogSim){
+		collectReferences();
+		sensorsLogging = pLogSim;
+		if (sensorsLogging){
+			System.out.println("BioDriverImpl:"+myID+" Enabling sensor logging");
+		}
+		else{
+			System.out.println("BioDriverImpl:"+myID+" Disabling sensor logging");
+		}
+		for (Iterator iter = sensors.values().iterator(); iter.hasNext();){
+			BioModule currentBioModule = (BioModule)(iter.next());
+			currentBioModule.setLogging(pLogSim);
+		}
+		myLogger.setProcessingLogs(pLogSim);
+	}
+	
+	/**
+	* Iterates through the actuators setting their logs
+	* @param pLogSim Whether or not actuators should log.
+	*/
+	public synchronized void setActuatorLogging(boolean pLogSim){
+		collectReferences();
+		actuatorsLogging = pLogSim;
+		if (actuatorsLogging){
+			System.out.println("BioDriverImpl:"+myID+" Enabling actuator logging");
+		}
+		else{
+			System.out.println("BioDriverImpl:"+myID+" Disabling actuator logging");
+		}
+		for (Iterator iter = actuators.values().iterator(); iter.hasNext();){
+			BioModule currentBioModule = (BioModule)(iter.next());
+			currentBioModule.setLogging(pLogSim);
+		}
+		myLogger.setProcessingLogs(pLogSim);
+	}
 
 	/**
 	* Tells the amount of stochastic intensity the modules will undergo.
@@ -1520,6 +1566,22 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	public boolean isLogging(){
 		return logging;
 	}
+	
+	/**
+	* Tells whether the sensors are logging or not
+	* @return Whether the sensors are logging or not
+	*/
+	public boolean isSensorLogging(){
+		return sensorsLogging;
+	}
+	
+	/**
+	* Tells whether the actuators are logging or not
+	* @return Whether the actuators are logging or not
+	*/
+	public boolean isActuatorLogging(){
+		return actuatorsLogging;
+	}
 
 	/**
 	* Tries to collect references to all the servers and adds them to a hashtable than can be accessed by outside classes.
@@ -1529,12 +1591,20 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			return;
 		// resolve the Objects Reference in Naming
 		modules = new Hashtable();
+		sensors = new Hashtable();
+		actuators = new Hashtable();
 		System.out.println("BioDriverImpl:"+myID+" Collecting references to modules...");
 		for (Iterator iter = myModuleNames.iterator(); iter.hasNext();){
 			String currentModuleName = (String)(iter.next());
 			try{
 				BioModule currentModule = BioModuleHelper.narrow(OrbUtils.getNCRef().resolve_str(currentModuleName));
 				modules.put(currentModuleName, currentModule);
+				if (currentModule instanceof GenericSensor){
+					sensors.put(currentModuleName, currentModule);
+					System.out.println("Found sensor!");
+				}
+				else if (currentModule instanceof GenericActuator)
+					actuators.put(currentModuleName, currentModule);
 			}
 			catch (Exception e){
 				System.err.println("BioDriverImpl:"+myID+" Couldn't locate element called "+currentModuleName+", skipping...");
