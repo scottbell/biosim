@@ -703,11 +703,15 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		}
 		else if (oxygenRiskReturn > randomNumber){
 			hasDied = true;
+			SimEnvironment[] myAirInputs = myCrewGroup.getAirInputs();
 			System.out.println(getName()+" has died from lack of oxygen (risk was "+numFormat.format(oxygenRiskReturn * 100)+"%)");
+			System.out.println(getName()+" Environmental conditions were: 02="+myAirInputs[0].getO2Moles()+", CO2="+myAirInputs[0].getCO2Moles()+", N="+myAirInputs[0].getNitrogenMoles()+", water="+myAirInputs[0].getWaterMoles()+", other="+myAirInputs[0].getOtherMoles());
 		}
 		else if (CO2RiskReturn > randomNumber){
 			hasDied = true;
+			SimEnvironment[] myAirInputs = myCrewGroup.getAirInputs();
 			System.out.println(getName()+" has died from CO2 poisoning (risk was "+numFormat.format(CO2RiskReturn * 100)+"%)");
+			System.out.println(getName()+" Environmental conditions were: 02="+myAirInputs[0].getO2Moles()+", CO2="+myAirInputs[0].getCO2Moles()+", N="+myAirInputs[0].getNitrogenMoles()+", water="+myAirInputs[0].getWaterMoles()+", other="+myAirInputs[0].getOtherMoles());
 		}
 		//if died, kill
 		if (hasDied){
