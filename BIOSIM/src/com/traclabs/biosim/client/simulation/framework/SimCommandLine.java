@@ -10,9 +10,14 @@ import java.io.*;
 
 public class SimCommandLine
 {
-	BioDriver myDriver;
+	private BioDriver myDriver;
+	private int myID = 0;
+	public SimCommandLine(int pID){
+		myID = pID;
+	}
 	
 	public void runCommandLine(){
+		BioHolder.setID(myID);
 		myDriver = BioHolder.getBioDriver();;
 		BufferedReader userInputReader = new BufferedReader(new InputStreamReader(System.in));
 		while (true){
