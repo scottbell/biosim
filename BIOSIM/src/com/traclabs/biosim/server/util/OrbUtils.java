@@ -1,3 +1,9 @@
+/**
+ * The OrbUtils class provides basic CORBA utilities to server components
+ *
+ * @author    Scott Bell
+ */
+
 package biosim.server.util;
 
 import org.omg.CosNaming.*;
@@ -7,30 +13,46 @@ import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
 
 public class OrbUtils{
+	//Flag to make sure OrbUtils only runs initialize once  
 	private static boolean runOnce = false;
+	//The root POA for transformation methods and other things
 	private static POA rootPOA = null;
+	//The server ORB used resolving references
 	private static ORB myOrb = null;
+	//The naming context reference
 	private static NamingContextExt ncRef = null;
-
+	
+	/**
+	* Returns the ORB
+	* @return the ORB
+	*/
 	public static ORB getORB(){
-		if (!runOnce)
-			initializeORB();
+		initialize();
 		return myOrb;
 	}
-
+	
+	/**
+	* Returns the root POA
+	* @return the root POA
+	*/
 	public static POA getRootPOA(){
-		if (!runOnce)
-			initializeORB();
+		initialize();
 		return rootPOA;
 	}
-
+	
+	/**
+	* Returns the naming context
+	* @return the naming context
+	*/
 	public static NamingContextExt getNCRef(){
-		if (!runOnce)
-			initializeORB();
+		initialize();
 		return ncRef;
 	}
-
-	private static void initializeORB(){
+	
+	/**
+	* Done only once, this method initializes the ORB, resolves the root POA, and grabs the naming context.
+	*/
+	private static void initialize(){
 		if (runOnce)
 			return;
 		try{
@@ -51,12 +73,16 @@ public class OrbUtils{
 			e.printStackTrace(System.out);
 		}
 	}
-
+	
+	/**
+	* This method take a POA servant object and transforms it into a CORBA object
+	* @param poa the POA object to transform
+	* @return the transformed CORBA object
+	*/
 	public static org.omg.CORBA.Object poaToCorbaObj(org.omg.PortableServer.Servant poa){
 		org.omg.CORBA.Object newObject = null;
 		try{
-			if (!runOnce)
-				initializeORB();
+			initialize();
 			newObject = rootPOA.servant_to_reference( poa );
 		}
 		catch(org.omg.PortableServer.POAPackage.ServantNotActive e){
@@ -67,12 +93,16 @@ public class OrbUtils{
 		}
 		return newObject;
 	}
-
+	
+	/**
+	* This method take a CORBA object and transforms it into a POA servant object
+	* @param pObject the CORBA object to transform
+	* @return the transformed POA servant object
+	*/
 	public static org.omg.PortableServer.Servant corbaObjToPoa(org.omg.CORBA.Object pObject){
 		org.omg.PortableServer.Servant newPoa = null;
 		try{
-			if (!runOnce)
-				initializeORB();
+			initialize();
 			newPoa = rootPOA.reference_to_servant( pObject );
 		}
 		catch (org.omg.PortableServer.POAPackage.ObjectNotActive e){
