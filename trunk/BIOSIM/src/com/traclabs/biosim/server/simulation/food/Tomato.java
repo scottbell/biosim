@@ -91,11 +91,19 @@ public class Tomato extends Planophile{
 		return 220f;
 	}
 
-	protected float getEdibleFreshBasisWaterContent(){
+	public static float getEdibleFreshBasisWaterContent(){
 		return 0.94f;
 	}
 
-	protected float getInedibleFreshBasisWaterContent(){
+	public static float getInedibleFreshBasisWaterContent(){
 		return 0.90f;
+	}
+	
+	protected float getProtectedEdibleFreshBasisWaterContent(){
+		return getEdibleFreshBasisWaterContent();
+	}
+
+	protected float getProtectedInedibleFreshBasisWaterContent(){
+		return getInedibleFreshBasisWaterContent();
 	}
 }

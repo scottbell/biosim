@@ -89,12 +89,20 @@ public class WhitePotato extends Planophile{
 	public static float getCaloriesPerKilogram(){
 		return 760f;
 	}
-
-	protected float getEdibleFreshBasisWaterContent(){
+	
+	public static float getEdibleFreshBasisWaterContent(){
 		return 0.80f;
 	}
-
-	protected float getInedibleFreshBasisWaterContent(){
+	
+	public static float getInedibleFreshBasisWaterContent(){
 		return 0.90f;
+	}
+
+	protected float getProtectedEdibleFreshBasisWaterContent(){
+		return getEdibleFreshBasisWaterContent();
+	}
+
+	protected float getProtectedInedibleFreshBasisWaterContent(){
+		return getInedibleFreshBasisWaterContent();
 	}
 }

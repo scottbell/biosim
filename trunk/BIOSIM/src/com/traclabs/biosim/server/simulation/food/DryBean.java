@@ -87,11 +87,19 @@ public class DryBean extends Legume{
 		return 3490f;
 	}
 
-	protected float getEdibleFreshBasisWaterContent(){
+	public static float getEdibleFreshBasisWaterContent(){
 		return 0.10f;
 	}
 
-	protected float getInedibleFreshBasisWaterContent(){
+	public static float getInedibleFreshBasisWaterContent(){
 		return 0.90f;
+	}
+	
+	protected float getProtectedEdibleFreshBasisWaterContent(){
+		return getEdibleFreshBasisWaterContent();
+	}
+
+	protected float getProtectedInedibleFreshBasisWaterContent(){
+		return getInedibleFreshBasisWaterContent();
 	}
 }

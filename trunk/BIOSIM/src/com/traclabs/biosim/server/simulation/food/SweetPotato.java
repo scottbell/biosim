@@ -91,11 +91,19 @@ public class SweetPotato extends Planophile{
 		return 1140f;
 	}
 
-	protected float getEdibleFreshBasisWaterContent(){
+	public static float getEdibleFreshBasisWaterContent(){
 		return 0.71f;
 	}
 
-	protected float getInedibleFreshBasisWaterContent(){
+	public static float getInedibleFreshBasisWaterContent(){
 		return 0.90f;
+	}
+	
+	protected float getProtectedEdibleFreshBasisWaterContent(){
+		return getEdibleFreshBasisWaterContent();
+	}
+
+	protected float getProtectedInedibleFreshBasisWaterContent(){
+		return getInedibleFreshBasisWaterContent();
 	}
 }
