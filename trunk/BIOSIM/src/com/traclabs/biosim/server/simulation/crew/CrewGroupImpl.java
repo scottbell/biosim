@@ -4,30 +4,30 @@ package biosim.server.crew;
 import SIMULATION.*;
 import java.io.*;
 import java.net.*;
+import java.util.*;
 
 public class CrewImpl extends CrewPOA {
-	
-	private Activity currentActivity;
 	private Schedule mySchedule;
+	private Hashtable crewPeople;
 
 	public CrewImpl(){
 		//use default schedule
 		mySchedule = new Schedule();
+		crewPeople = new Hashtable();
 	}
 
 	public CrewImpl(File pScheduleFile){
 		mySchedule = new Schedule(pScheduleFile);
-	}
-
-	public void setCurrentActivity(Activity newActivity){
-		if (currentActivity != newActivity){
-			currentActivity = newActivity;
-			System.out.println("Changed activity to "+currentActivity.name);
-		}
+		crewPeople = new Hashtable();
 	}
 	
 	public String getModuleName(){
 		return "Crew";
+	}
+
+	public void createCrewPerson(String name){
+		CrewPersonImpl newCrewPerson = new CrewPersonImpl(name);
+		crewPeople.put(name, newCrewPerson);
 	}
 
 	public Activity getScheduledActivityByName(String name){
@@ -49,9 +49,9 @@ public class CrewImpl extends CrewPOA {
 			return null;
 		}
 	}
-
-	public Activity getCurrentActivity(){
-		return currentActivity;
+	
+	public CrewPersonImpl getCrewPerson(String crewPersonName){
+		return (CrewPersonImpl)(crewPeople.get(crewPersonName));
 	}
 
 	public void tick(){

@@ -38,14 +38,17 @@ public class BioSimulator
 			System.out.println("Couldn't find crew to test....");
 		}
 		else{
+			myCrew.createCrewPerson("Bob Roberts");
 			Activity newActivity = myCrew.getScheduledActivityByName("sleeping");
-			myCrew.setCurrentActivity(newActivity);
-			Activity currentActivity = myCrew.getCurrentActivity();
-			System.out.println("Current crew state is "+currentActivity.name+ " for "+currentActivity.timeLength+" hours");
+			org.omg.CORBA.Object myCrewPerson = myCrew.getCrewPerson("Bob Roberts");
+			/*myCrewPerson.setCurrentActivity(newActivity);
+			Activity currentActivity = myCrewPerson.getCurrentActivity();
+			System.out.println("Current state for  "+myCrewPerson.getName()+"  is " +currentActivity.name+ " for "+currentActivity.timeLength+" hours");
 			newActivity = myCrew.getScheduledActivityByName("eating");
-			myCrew.setCurrentActivity(newActivity);
-			currentActivity = myCrew.getCurrentActivity();
-			System.out.println("Current crew state is "+currentActivity.name+ " for "+currentActivity.timeLength+" hours");
+			myCrewPerson.setCurrentActivity(newActivity);
+			currentActivity = myCrewPerson.getCurrentActivity();
+			System.out.println("Current state for "+myCrewPerson.getName()+" is "+currentActivity.name+ " for "+currentActivity.timeLength+" hours");
+			*/
 		}
 	}
 	
