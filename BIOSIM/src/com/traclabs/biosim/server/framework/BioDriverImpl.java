@@ -111,6 +111,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	}
 	
 	/**
+	* Returns the name of this instance of BioDriver
 	* @return The name of this instance (BioDriver + ID)
 	*/
 	public String getName(){
@@ -536,13 +537,15 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	}
 	
 	/**
-	* @return How long the simulation paused between full simulation ticks.
+	* Tells how long the simulation pauses between full simulation ticks.
+	* @return How long the simulation pauses between full simulation ticks.
 	*/
 	public int getDriverPauseLength(){
 		return driverPauseLength;
 	}
 	
 	/**
+	* Tells whether BioDriver is looping the simulation after end conditions have been met.
 	* @return Whether BioDriver is looping the simulation after end conditions have been met.
 	*/
 	public boolean isLooping(){
@@ -550,13 +553,15 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	}
 	
 	/**
-	* @param pLoop Wheter BioDriver should loop the simulation after end conditions have been met.
+	* Tells whether BioDriver should loop the simulation after end conditions have been met.
+	* @param pLoop Whether BioDriver should loop the simulation after end conditions have been met.
 	*/
 	public void setLooping(boolean pLoop){
 		looping = pLoop;
 	}
 	
 	/**
+	* Tells whether the simulation has met an end condition and has stopped.
 	* @return Whether the simulation has met an end condition and has stopped. 
 	*/
 	public boolean isDone(){
@@ -577,6 +582,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	}
 	
 	/**
+	* Tells the number of times BioDriver has ticked the simulation
 	* @return The number of times BioDriver has ticked the simulation
 	*/
 	public int getTicks(){
@@ -657,6 +663,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	}
 	
 	/**
+	* Tells the amount of stochastic intensity the modules will undergo.
 	* @param pValue The amount of stochastic intensity the modules will undergo.
 	* Options are:
 	* <code>StochasticIntensity.HIGH_STOCH</code>
@@ -691,6 +698,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	}
 	
 	/**
+	* Tells whether the modules are logging or not
 	* @return Whether the modules are logging or not
 	*/
 	public boolean isLogging(){
