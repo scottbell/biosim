@@ -18,6 +18,13 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 	
+	<xsd:simpleType name="percentageFloat">
+		<xsd:restriction base="xsd:float">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
 	<!-- Top level element declaration -->	
 	<xsd:element name="biosim" type="BioSimType"/>
 	
@@ -732,6 +739,8 @@
 	<xsd:complexType name="FoodStoreType">  
 		<xsd:complexContent>
 			<xsd:extension base="Store">
+				<xsd:attribute name="waterContent" type="nonNegativeFloat" default="5"/>
+				<xsd:attribute name="cropType" type="CropType" default="WHEAT"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -739,6 +748,10 @@
 	<xsd:complexType name="BiomassStoreType">  
 		<xsd:complexContent>
 			<xsd:extension base="Store">
+				<xsd:attribute name="inedibleFraction" type="percentageFloat" default="0.25"/>
+				<xsd:attribute name="edibleWaterContent" type="nonNegativeFloat" default="5"/>
+				<xsd:attribute name="inedibleWaterContent" type="nonNegativeFloat" default="5"/>
+				<xsd:attribute name="cropType" type="CropType" default="WHEAT"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>

@@ -39,6 +39,14 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
             currentFoodItems.add(newFoodMatter);
         }
     }
+    
+    public void setFoodMatterLevel(FoodMatter pMatter) {
+        super.setLevel(pMatter.mass);
+        currentFoodItems.clear();
+        if (pMatter.mass > 0) {
+            currentFoodItems.add(pMatter);
+        }
+    }
 
     public float take(float pMass) {
         FoodMatter[] massArray = takeFoodMatterMass(pMass);
