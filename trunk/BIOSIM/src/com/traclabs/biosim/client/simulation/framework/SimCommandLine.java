@@ -119,19 +119,19 @@ public class SimCommandLine
 			if (myDriver.isPaused())
 				statusBuffer.append("paused, ");
 			else
-				statusBuffer.append("not-paused, ");
+				statusBuffer.append("not paused, ");
 			if (myDriver.isFullLogging())
 				statusBuffer.append("full logging, ");
 			else
-				statusBuffer.append("not-full logging, ");
+				statusBuffer.append("not full logging, ");
 			if (myDriver.isSensorLogging())
 				statusBuffer.append("sensor logging, ");
 			else
-				statusBuffer.append("not-sensor logging, ");
+				statusBuffer.append("not sensor logging, ");
 			if (myDriver.isActuatorLogging())
-				statusBuffer.append("sensor logging, ");
+				statusBuffer.append("actuator logging, ");
 			else
-				statusBuffer.append("not-sensor logging, ");
+				statusBuffer.append("not-actuator logging, ");
 			statusBuffer.delete(statusBuffer.length() -2, statusBuffer.length());
 			System.out.println(statusBuffer.toString());
 		}
