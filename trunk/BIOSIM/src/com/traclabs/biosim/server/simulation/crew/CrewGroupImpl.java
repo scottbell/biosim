@@ -15,12 +15,10 @@ import biosim.idl.framework.*;
  */
 
 public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations {
-	//The schedule using by the crew.  Contains the activities (and order) which the crew persons perform.
-	private Schedule mySchedule;
 	//The crew persons that make up the crew.
 	//They are the ones consuming air/food/water and producing air/water/waste as they perform activities
-	private Hashtable crewPeople;
-	private Hashtable crewPeopleLogs;
+	private Map crewPeople;
+	private Map crewPeopleLogs;
 	private float healthyPercentage = 1f;
 	private Random myRandom;
 
@@ -29,20 +27,8 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 	*/
 	public CrewGroupImpl(int pID){
 		super(pID);
-		//use default schedule
-		mySchedule = new Schedule();
 		crewPeople = new Hashtable();
 		myRandom = new Random();
-	}
-
-	/**
-	* Constructor that takes a schedule file and uses it.
-	* @param pScheduleFile the schedule file for the crew persons to use.
-	*/
-	public CrewGroupImpl(int pID, URL pScheduleURL){
-		super(pID);
-		mySchedule = new Schedule(pScheduleURL);
-		crewPeople = new Hashtable();
 	}
 
 	/**
@@ -74,42 +60,12 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 	public CrewPerson[] getCrewPeople(){
 		CrewPerson[] theCrew = new CrewPerson[crewPeople.size()];
 		int i = 0;
-		for (Enumeration e = crewPeople.elements(); e.hasMoreElements(); ){
-			CrewPersonImpl tempPerson = (CrewPersonImpl)(e.nextElement());
+		for (Iterator iter = crewPeople.values().iterator(); iter.hasNext(); ){
+			CrewPersonImpl tempPerson = (CrewPersonImpl)(iter.next());
 			theCrew[i] = CrewPersonHelper.narrow(OrbUtils.poaToCorbaObj(tempPerson));
 			i++;
 		}
 		return theCrew;
-	}
-
-	/**
-	* Returns a scheduled activity by name (like "sleeping")
-	* @param name the name of the activity to fetch
-	* @return the activity in the schedule asked for by name
-	*/
-	public Activity getScheduledActivityByName(String name){
-		ActivityImpl foundActivity = mySchedule.getActivityByName(name);
-		if (foundActivity != null)
-			return ActivityHelper.narrow((OrbUtils.poaToCorbaObj(foundActivity)));
-		else{
-			System.err.println("Couldn't find Activity by that name!");
-			return null;
-		}
-	}
-
-	/**
-	* Returns a scheduled activity by order
-	* @param order the order of the activity to fetch
-	* @return the activity in the schedule asked for by order
-	*/
-	public Activity getScheduledActivityByOrder(int order){
-		ActivityImpl foundActivity = mySchedule.getActivityByOrder(order);
-		if (foundActivity != null)
-			return ActivityHelper.narrow((OrbUtils.poaToCorbaObj(foundActivity)));
-		else{
-			System.err.println("Couldn't find Activity by that order!");
-			return null;
-		}
 	}
 
 	/**
@@ -122,18 +78,6 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 		return CrewPersonHelper.narrow((OrbUtils.poaToCorbaObj(foundPerson)));
 	}
 
-	/**
-	* Returns the number of activities in the schedule
-	* @return the number of activities in the schedule
-	*/
-	protected int getNumberOfScheduledActivities(){
-		return mySchedule.getNumberOfScheduledActivities();
-	}
-	
-	protected int getOrderOfActivity(String activityName){
-		return mySchedule.getOrderOfActivity(activityName);
-	}
-	
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
 		StringBuffer returnBuffer = new StringBuffer();
 		if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
@@ -161,14 +105,14 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 			CrewPersonImpl tempPerson = (CrewPersonImpl)((crewPeople.values().toArray())[randomIndex]);
 			tempPerson.sicken();
 		}
-		for (Enumeration e = crewPeople.elements(); e.hasMoreElements();){
-			CrewPersonImpl tempPerson = (CrewPersonImpl)(e.nextElement());
+		for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();){
+			CrewPersonImpl tempPerson = (CrewPersonImpl)(iter.next());
 			tempPerson.tick();
 		}
 		if (moduleLogging)
 			log();
 	}
-	
+
 	private void performMalfunctions(){
 		healthyPercentage = 1f;
 		for (Enumeration e = myMalfunctions.elements(); e.hasMoreElements();){
@@ -197,17 +141,16 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 	*/
 	public void reset(){
 		super.reset();
-		mySchedule.reset();
 		crewPeople = new Hashtable();
 	}
-	
+
 	public boolean isDead(){
 		if (crewPeople.size() < 1)
 			return false;
 		boolean areTheyDead = true;
-		for (Enumeration e = crewPeople.elements(); e.hasMoreElements(); ){
-				CrewPersonImpl currentPerson = (CrewPersonImpl)(e.nextElement());
-				areTheyDead = areTheyDead && currentPerson.isDead();
+		for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();){
+			CrewPersonImpl currentPerson = (CrewPersonImpl)(iter.next());
+			areTheyDead = areTheyDead && currentPerson.isDead();
 		}
 		return areTheyDead;
 	}
@@ -217,8 +160,8 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 		if (!logInitialized){
 			crewPeopleLogs = new Hashtable();
 			int i = 0;
-			for (Enumeration e = crewPeople.elements(); e.hasMoreElements(); ){
-				CrewPersonImpl currentPerson = (CrewPersonImpl)(e.nextElement());
+			for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();){
+				CrewPersonImpl currentPerson = (CrewPersonImpl)(iter.next());
 				LogNode newPersonLabel = myLog.addChild("crew_person");
 				crewPeopleLogs.put(currentPerson, newPersonLabel);
 				currentPerson.log(newPersonLabel);
@@ -227,69 +170,69 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 			logInitialized = true;
 		}
 		else{
-			for (Enumeration e = crewPeopleLogs.keys(); e.hasMoreElements();){
-				CrewPersonImpl currentPerson = (CrewPersonImpl)(e.nextElement());
+			for (Iterator iter = crewPeopleLogs.keySet().iterator(); iter.hasNext();){
+				CrewPersonImpl currentPerson = (CrewPersonImpl)(iter.next());
 				LogNode crewPersonLabel = (LogNode)(crewPeopleLogs.get(currentPerson));
 				currentPerson.log(crewPersonLabel);
 			}
 		}
 		sendLog(myLog);
 	}
-	
+
 	public int getCrewSize(){
 		return crewPeople.size();
 	}
 
 	public float getGreyWaterProduced(){
 		float totalGreyWaterProduced = 0f;
-		for (Enumeration e = crewPeople.elements(); e.hasMoreElements(); ){
-				CrewPersonImpl currentPerson = (CrewPersonImpl)(e.nextElement());
-				totalGreyWaterProduced += currentPerson.getGreyWaterProduced();
+		for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();){
+			CrewPersonImpl currentPerson = (CrewPersonImpl)(iter.next());
+			totalGreyWaterProduced += currentPerson.getGreyWaterProduced();
 		}
 		return totalGreyWaterProduced;
 	}
-	
+
 	public float getDirtyWaterProduced(){
 		float totalDirtyWaterProduced = 0f;
-		for (Enumeration e = crewPeople.elements(); e.hasMoreElements(); ){
-				CrewPersonImpl currentPerson = (CrewPersonImpl)(e.nextElement());
-				totalDirtyWaterProduced += currentPerson.getDirtyWaterProduced();
+		for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();){
+			CrewPersonImpl currentPerson = (CrewPersonImpl)(iter.next());
+			totalDirtyWaterProduced += currentPerson.getDirtyWaterProduced();
 		}
 		return totalDirtyWaterProduced;
 	}
-	
+
 	public float getPotableWaterConsumed(){
 		float totalPotableWaterConsumed = 0f;
-		for (Enumeration e = crewPeople.elements(); e.hasMoreElements(); ){
-				CrewPersonImpl currentPerson = (CrewPersonImpl)(e.nextElement());
-				totalPotableWaterConsumed += currentPerson.getPotableWaterConsumed();
+		for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();){
+			CrewPersonImpl currentPerson = (CrewPersonImpl)(iter.next());
+			totalPotableWaterConsumed += currentPerson.getPotableWaterConsumed();
 		}
 		return totalPotableWaterConsumed;
 	}
-	
+
 	public float getFoodConsumed(){
 		float totalFoodConsumed = 0f;
-		for (Enumeration e = crewPeople.elements(); e.hasMoreElements(); ){
-				CrewPersonImpl currentPerson = (CrewPersonImpl)(e.nextElement());
-				totalFoodConsumed += currentPerson.getFoodConsumed();
+		for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();){
+			CrewPersonImpl currentPerson = (CrewPersonImpl)(iter.next());
+			totalFoodConsumed += currentPerson.getFoodConsumed();
 		}
 		return totalFoodConsumed;
 	}
-	
+
 	public float getCO2Produced(){
 		float totalCO2Produced = 0f;
-		for (Enumeration e = crewPeople.elements(); e.hasMoreElements(); ){
-				CrewPersonImpl currentPerson = (CrewPersonImpl)(e.nextElement());
-				totalCO2Produced += currentPerson.getCO2Produced();
+		for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();){
+			CrewPersonImpl currentPerson = (CrewPersonImpl)(iter.next());
+			totalCO2Produced += currentPerson.getCO2Produced();
 		}
 		return totalCO2Produced;
 	}
-	
+
 	public float getO2Consumed(){
 		float totalO2Consumed = 0f;
-		for (Enumeration e = crewPeople.elements(); e.hasMoreElements(); ){
-				CrewPersonImpl currentPerson = (CrewPersonImpl)(e.nextElement());
-				totalO2Consumed += currentPerson.getO2Consumed();
+		for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();){
+			CrewPersonImpl currentPerson = (CrewPersonImpl)(iter.next());
+			totalO2Consumed += currentPerson.getO2Consumed();
 		}
 		return totalO2Consumed;
 	}

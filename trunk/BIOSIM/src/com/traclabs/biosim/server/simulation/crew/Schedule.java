@@ -2,6 +2,8 @@ package biosim.server.crew;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import biosim.idl.crew.*;
+import biosim.server.util.*;
 /**
  * The Schedule dictates what each crew member shall do at what time, for how long, and at what intensity.
  * You cannot have two activities at the same time and each name must be unique.
@@ -54,15 +56,15 @@ public class Schedule{
 	* @param activityName the name of the activity wanted
 	* @return the activity sought
 	*/
-	public ActivityImpl getActivityByName(String activityName){
+	public Activity getActivityByName(String activityName){
 		Object foundActivity = allActivities.get(activityName);
 		if (foundActivity != null)
-			return (ActivityImpl)(foundActivity);
+			return (Activity)(foundActivity);
 		else
 			return null;
 	}
 	
-	public int getOrderOfActivity(String activityName){
+	public int getOrderOfScheduledActivity(String activityName){
 		Object foundActivity = allActivities.get(activityName);
 		if (foundActivity != null)
 			return orderedSchedule.indexOf(foundActivity);
@@ -75,10 +77,10 @@ public class Schedule{
 	* @param order the order of the activity wanted
 	* @return the activity sought
 	*/
-	public ActivityImpl getActivityByOrder(int order){
+	public Activity getScheduledActivityByOrder(int order){
 		Object foundActivity = orderedSchedule.get(order);
 		if (foundActivity != null)
-			return (ActivityImpl)(foundActivity);
+			return (Activity)(foundActivity);
 		else
 			return null;
 	}
@@ -95,7 +97,9 @@ public class Schedule{
 	* Reloads the schedule from the file and parses it again.
 	*/
 	public void reset(){
+		allActivities = null;
 		allActivities = new Hashtable();
+		orderedSchedule = null;
 		orderedSchedule = new Vector();
 		if (defaultSchedule){
 			//use default schedule
@@ -121,10 +125,10 @@ public class Schedule{
 		ActivityImpl bornActivity = new ActivityImpl("born", 0, 0);
 		ActivityImpl deadActivity = new ActivityImpl("dead", 0, 0, true);
 		ActivityImpl sickActivity = new ActivityImpl("sick", 1, 1, true);
-		allActivities.put("born", bornActivity);
-		orderedSchedule.add(0,bornActivity);
-		allActivities.put("dead", deadActivity);
-		allActivities.put("sick", sickActivity);
+		allActivities.put("born", OrbUtils.poaToCorbaObj(bornActivity));
+		orderedSchedule.add(0,OrbUtils.poaToCorbaObj(bornActivity));
+		allActivities.put("dead", OrbUtils.poaToCorbaObj(deadActivity));
+		allActivities.put("sick", OrbUtils.poaToCorbaObj(sickActivity));
 		try{
 			BufferedReader inputReader = new BufferedReader(new InputStreamReader(scheduleURL.openStream()));
 			String currentLine = inputReader.readLine().trim();
@@ -140,8 +144,8 @@ public class Schedule{
 							int orderOfActivity = itemsRead;
 							itemsRead++;
 							ActivityImpl newActivity = new ActivityImpl(activityName, lengthOfActivity, intensityOfActivity);
-							allActivities.put(activityName, newActivity);
-							orderedSchedule.add(orderOfActivity, newActivity);
+							allActivities.put(activityName, OrbUtils.poaToCorbaObj(newActivity));
+							orderedSchedule.add(orderOfActivity, OrbUtils.poaToCorbaObj(newActivity));
 						}
 					}
 					currentLine = inputReader.readLine().trim();
