@@ -470,6 +470,12 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		*/
 		afterAdditionO2 = randomFilter(O2Moles + molesRequested);
 		actuallyAddedO2 = afterAdditionO2 - O2Moles;
+		/*
+		System.out.println(getModuleName()+": O2Moles: "+O2Moles);
+		System.out.println(getModuleName()+": molesRequested: "+molesRequested);
+		System.out.println(getModuleName()+": afterAdditionO2: "+afterAdditionO2);
+		System.out.println(getModuleName()+": actuallyAddedO2: "+actuallyAddedO2);
+		*/
 		O2Moles = afterAdditionO2;
 
 		return  actuallyAddedO2;

@@ -507,7 +507,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			}
 		}
 		else{
-			setDriverPauseLength(5);
+			setDriverPauseLength(0);
 		}
 	}
 

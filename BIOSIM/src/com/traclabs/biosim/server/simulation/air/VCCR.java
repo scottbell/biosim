@@ -71,16 +71,21 @@ public class VCCR extends AirRSSubSystem{
 		float distributedOtherLeft = myBreath.other;
 		float distributedWaterLeft = myBreath.water;
 		for (int i = 0; (i < myAirRS.getAirOutputs().length) && ((distributedO2Left > 0) || (distributedOtherLeft > 0) || (distributedWaterLeft > 0)); i++){
-			float molesToAdd = distributedO2Left + distributedOtherLeft + distributedWaterLeft;
-			float resourceToDistributeFirst = Math.min(molesToAdd, myAirRS.getAirOutputMaxFlowRate(i));
+			float totalToDistribute = distributedO2Left + distributedOtherLeft + distributedWaterLeft;
+			float resourceToDistributeFirst = Math.min(totalToDistribute, myAirRS.getAirOutputMaxFlowRate(i));
 			float resourceToDistributeFinal = Math.min(resourceToDistributeFirst, myAirRS.getAirOutputDesiredFlowRate(i));
 			//Recalculate percentages based on smaller volume
-			float reducedO2ToPass = resourceToDistributeFinal * (distributedO2Left / (distributedO2Left + distributedOtherLeft + distributedWaterLeft));
-			float reducedOtherToPass = resourceToDistributeFinal * (distributedOtherLeft / (distributedO2Left + distributedOtherLeft + distributedWaterLeft));
-			float reducedWaterToPass = resourceToDistributeFinal * (distributedWaterLeft / (distributedO2Left + distributedOtherLeft + distributedWaterLeft));
-			distributedO2Left -= myAirRS.getAirOutputs()[i].addO2Moles(reducedO2ToPass);
-			distributedOtherLeft -= myAirRS.getAirOutputs()[i].addOtherMoles(reducedOtherToPass);
-			distributedWaterLeft -= myAirRS.getAirOutputs()[i].addWaterMoles(reducedWaterToPass);
+			float reducedO2ToPass = resourceToDistributeFinal * (distributedO2Left / totalToDistribute);
+			float reducedOtherToPass = resourceToDistributeFinal * (distributedOtherLeft / totalToDistribute);
+			float reducedWaterToPass = resourceToDistributeFinal * (distributedWaterLeft / totalToDistribute);
+			//System.out.println("VCCR: passing reducedO2ToPass:"+reducedO2ToPass);
+			float O2Added = myAirRS.getAirOutputs()[i].addO2Moles(reducedO2ToPass);
+			float otherAdded = myAirRS.getAirOutputs()[i].addOtherMoles(reducedOtherToPass);
+			float waterAdded = myAirRS.getAirOutputs()[i].addWaterMoles(reducedWaterToPass);
+			distributedO2Left -= O2Added;
+			distributedOtherLeft -= otherAdded;
+			distributedWaterLeft -= waterAdded;
+			//System.out.println("VCCR: distributedO2Left:"+distributedO2Left);
 			myAirRS.setAirOutputActualFlowRate(reducedO2ToPass + reducedOtherToPass + reducedWaterToPass, i);
 		}
 		currentCO2Produced = myBreath.CO2 * myProductionRate;
