@@ -71,18 +71,18 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* Creates a SimEnvironment with a set initial volume and resets the gas levels to correct percantages of sea level air.
 	* @param initialVolume the initial volume of the environment in liters
 	*/
-	public SimEnvironmentImpl(int pID, float initialVolume, String pName){
+	public SimEnvironmentImpl(int pID, float pInitialVolume, String pName){
 		super(pID);
 		myName = pName;
-		volume = initialVolume;
-		O2Moles = cachedO2Moles = initialO2Moles = calculateMoles(2.0f); 
-		otherMoles = cachedOtherMoles = initialOtherMoles = calculateMoles(7.7f);
-		waterMoles = cachedWaterMoles = initialWaterMoles = calculateMoles(0.2f);
-		CO2Moles = cachedCO2Moles = initialCO2Moles = calculateMoles(0.1f);
-		O2Pressure = cachedO2Pressure = initialO2Pressure = calculatePressure(O2Moles);
-		CO2Pressure = cachedCO2Pressure = initialCO2Pressure = calculatePressure(CO2Moles);
-		otherPressure = cachedOtherPressure = initialOtherPressure = calculatePressure(otherMoles);
-		waterPressure = cachedWaterPressure = initialWaterPressure = calculatePressure(waterMoles);
+		volume = initialVolume = pInitialVolume;
+		O2Pressure = cachedO2Pressure = initialO2Pressure = 2.0f;
+		CO2Pressure = cachedCO2Pressure = initialCO2Pressure = 7.7f;
+		otherPressure = cachedOtherPressure = initialOtherPressure = 0.2f;
+		waterPressure = cachedWaterPressure = initialWaterPressure = 0.1f;
+		O2Moles = cachedO2Moles = initialO2Moles = calculateMoles(O2Pressure); 
+		otherMoles = cachedOtherMoles = initialOtherMoles = calculateMoles(otherPressure);
+		waterMoles = cachedWaterMoles = initialWaterMoles = calculateMoles(waterPressure);
+		CO2Moles = cachedCO2Moles = initialCO2Moles = calculateMoles(CO2Pressure);
 		System.out.println(getModuleName()+": O2Moles: "+O2Moles);
 		System.out.println(getModuleName()+": CO2Moles: "+CO2Moles);
 		System.out.println(getModuleName()+": otherMoles: "+otherMoles);
@@ -101,7 +101,6 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @param initialVolume the initial volume of the environment in liters
 	*/
 	public SimEnvironmentImpl (float pInitialCO2Moles, float pInitialO2Moles, float pInitialOtherMoles, float pInitialWaterMoles,
-	                           float pInitialCO2Pressure, float pInitialO2Pressure, float pInitialOtherPressure, float pInitialWaterPressure,
 	                           float pInitialVolume, String pName, int pID)
 	{
 		super(pID);
@@ -111,13 +110,17 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		otherMoles = cachedOtherMoles = initialOtherMoles = pInitialOtherMoles;
 		waterMoles = cachedWaterMoles = initialWaterMoles = pInitialWaterMoles;
 		volume = initialVolume = pInitialVolume;
-		O2Pressure = cachedO2Pressure = initialO2Pressure = calculatePressure(pInitialO2Pressure);
-		CO2Pressure = cachedCO2Pressure = initialCO2Pressure = calculatePressure(pInitialCO2Pressure);
-		otherPressure = cachedOtherPressure = initialOtherPressure = calculatePressure(pInitialOtherPressure);
-		waterPressure = cachedWaterPressure = initialWaterPressure = calculatePressure(pInitialWaterPressure);
+		O2Pressure = cachedO2Pressure = initialO2Pressure = calculatePressure(O2Moles);
+		CO2Pressure = cachedCO2Pressure = initialCO2Pressure = calculatePressure(CO2Moles);
+		otherPressure = cachedOtherPressure = initialOtherPressure = calculatePressure(otherMoles);
+		waterPressure = cachedWaterPressure = initialWaterPressure = calculatePressure(waterMoles);
 	}
 
 	private float calculatePressure(float pNumberOfMoles){
+		System.out.println(getModuleName()+": pNumberOfMoles:"+pNumberOfMoles);
+		System.out.println(getModuleName()+": idealGasConstant:"+idealGasConstant);
+		System.out.println(getModuleName()+": temperature:"+temperature);
+		System.out.println(getModuleName()+": volume:"+volume);
 		if (volume > 0)
 			return (pNumberOfMoles * idealGasConstant * (temperature + 273f)) / volume;
 		else
@@ -289,6 +292,23 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		volume = litersRequested;
 		resetGasses();
 	}
+	
+	/**
+	* Sets the volume of the environment (how much gas it can hold) w/ gas mixture at earth sea level
+	* @param litersRequested the new volume of the environment (in liters)
+	*/
+	public void setVolumeAtSeaLevel(float litersRequested){
+		super.reset();
+		volume = litersRequested;
+		O2Pressure = cachedO2Pressure = 2.0f;
+		CO2Pressure = cachedCO2Pressure = 7.7f;
+		otherPressure = cachedOtherPressure = 0.2f;
+		waterPressure = cachedWaterPressure = 0.1f;
+		O2Moles = cachedO2Moles = calculateMoles(O2Pressure); 
+		otherMoles = cachedOtherMoles = calculateMoles(otherPressure);
+		waterMoles = cachedWaterMoles = calculateMoles(waterPressure);
+		CO2Moles = cachedCO2Moles = calculateMoles(CO2Pressure);
+	}
 
 	/**
 	* Retrieves the the total level of gas in the environment (in moles)
@@ -342,6 +362,15 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		O2Pressure = calculatePressure(O2Moles);
 		otherPressure = calculatePressure(otherMoles);
 		waterPressure = calculatePressure(waterMoles);
+		System.out.println(getModuleName()+": adjusting pressure");
+		System.out.println(getModuleName()+": O2Moles: "+O2Moles);
+		System.out.println(getModuleName()+": CO2Moles: "+CO2Moles);
+		System.out.println(getModuleName()+": otherMoles: "+otherMoles);
+		System.out.println(getModuleName()+": waterMoles: "+waterMoles);
+		System.out.println(getModuleName()+": O2Pressure: "+O2Pressure);
+		System.out.println(getModuleName()+": CO2Pressure: "+CO2Pressure);
+		System.out.println(getModuleName()+": otherPressure: "+otherPressure);
+		System.out.println(getModuleName()+": waterPressure: "+waterPressure);
 	}
 
 	/**
