@@ -34,6 +34,12 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 	private float[] greyWaterMaxFlowRates;
 	private float[] airInMaxFlowRates;
 	private float[] airOutMaxFlowRates;
+	private float[] powerActualFlowRates;
+	private float[] biomassActualFlowRates;
+	private float[] potableWaterActualFlowRates;
+	private float[] greyWaterActualFlowRates;
+	private float[] airInActualFlowRates;
+	private float[] airOutActualFlowRates;
 	private GreyWaterStore[] myGreyWaterStores;
 	private PotableWaterStore[] myPotableWaterStores;
 	private PowerStore[] myPowerStores;
@@ -55,6 +61,12 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 		greyWaterMaxFlowRates = new float[0];
 		airInMaxFlowRates = new float[0];
 		airOutMaxFlowRates = new float[0];
+		powerActualFlowRates = new float[0];
+		biomassActualFlowRates = new float[0];
+		potableWaterActualFlowRates = new float[0];
+		greyWaterActualFlowRates = new float[0];
+		airInActualFlowRates = new float[0];
+		airOutActualFlowRates = new float[0];
 		myShelves = new Vector(shelfCapacity);
 		for (int i = 0; i < shelfCapacity; i++){
 			myShelves.add(new ShelfImpl(pID, this));
@@ -266,128 +278,171 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 		public LogNode nothingIndex;
 	}
 	
+	//Power Inputs
 	public void setPowerInputMaxFlowRate(float watts, int index){
 		powerMaxFlowRates[index] = watts;
 	}
-	
 	public float getPowerInputMaxFlowRate(int index){
 		return powerMaxFlowRates[index];
 	}
-	
-	public void setPowerInputs(PowerStore[] sources, float[] maxFlowRates){
+	public float[] getPowerInputMaxFlowRates(){
+		return powerMaxFlowRates;
+	}
+	public void setPowerInputActualFlowRate(float watts, int index){
+		powerActualFlowRates[index] = watts;
+	}
+	public float getPowerInputActualFlowRate(int index){
+		return powerActualFlowRates[index];
+	}
+	public void setPowerInputs(PowerStore[] sources, float[] maxFlowRates, float[] actualFlowRates){
 		myPowerStores = sources;
 		powerMaxFlowRates = maxFlowRates;
+		powerActualFlowRates = actualFlowRates;
 	}
-	
+	public float[] getPowerInputActualFlowRates(){
+		return powerActualFlowRates;
+	}
 	public PowerStore[] getPowerInputs(){
 		return myPowerStores;
 	}
 	
-	public float[] getPowerInputMaxFlowRates(){
-		return powerMaxFlowRates;
-	}
-	
+	//Grey Water Inputs
 	public void setGreyWaterInputMaxFlowRate(float liters, int index){
 		greyWaterMaxFlowRates[index] = liters;
 	}
-	
 	public float getGreyWaterInputMaxFlowRate(int index){
 		return greyWaterMaxFlowRates[index];
 	}
-	
-	public void setGreyWaterInputs(GreyWaterStore[] sources, float[] maxFlowRates){
+	public float[] getGreyWaterInputMaxFlowRates(){
+		return greyWaterMaxFlowRates;
+	}
+	public void setGreyWaterInputActualFlowRate(float liters, int index){
+		greyWaterActualFlowRates[index] = liters;
+	}
+	public float getGreyWaterInputActualFlowRate(int index){
+		return greyWaterActualFlowRates[index];
+	}
+	public float[] getGreyWaterInputActualFlowRates(){
+		return greyWaterActualFlowRates;
+	}
+	public void setGreyWaterInputs(GreyWaterStore[] sources, float[] maxFlowRates, float[] actualFlowRates){
 		myGreyWaterStores = sources;
 		greyWaterMaxFlowRates = maxFlowRates;
+		greyWaterActualFlowRates = actualFlowRates;
 	}
-	
 	public GreyWaterStore[] getGreyWaterInputs(){
 		return myGreyWaterStores;
 	}
 	
-	public float[] getGreyWaterInputMaxFlowRates(){
-		return greyWaterMaxFlowRates;
-	}
-	
+	//Potable Water Inputs
 	public void setPotableWaterInputMaxFlowRate(float liters, int index){
 		potableWaterMaxFlowRates[index] = liters;
 	}
-	
 	public float getPotableWaterInputMaxFlowRate(int index){
 		return potableWaterMaxFlowRates[index];
 	}
-	
-	public void setPotableWaterInputs(PotableWaterStore[] sources, float[] maxFlowRates){
+	public float[] getPotableWaterInputMaxFlowRates(){
+		return potableWaterMaxFlowRates;
+	}
+	public void setPotableWaterInputActualFlowRate(float liters, int index){
+		potableWaterActualFlowRates[index] = liters;
+	}
+	public float getPotableWaterInputActualFlowRate(int index){
+		return potableWaterActualFlowRates[index];
+	}
+	public float[] getPotableWaterInputActualFlowRates(){
+		return potableWaterActualFlowRates;
+	}
+	public void setPotableWaterInputs(PotableWaterStore[] sources, float[] maxFlowRates, float[] actualFlowRates){
 		myPotableWaterStores = sources;
 		potableWaterMaxFlowRates = maxFlowRates;
+		potableWaterActualFlowRates = actualFlowRates;
 	}
-	
 	public PotableWaterStore[] getPotableWaterInputs(){
 		return myPotableWaterStores;
 	}
 	
-	public float[] getPotableWaterInputMaxFlowRates(){
-		return potableWaterMaxFlowRates;
-	}
-	
+	//Biomass Outputs
 	public void setBiomassOutputMaxFlowRate(float kilograms, int index){
 		biomassMaxFlowRates[index] = kilograms;
 	}
-	
 	public float getBiomassOutputMaxFlowRate(int index){
 		return biomassMaxFlowRates[index];
 	}
-	
-	public void setBiomassOutputs(BiomassStore[] destinations, float[] maxFlowRates){
+	public float[] getBiomassOutputMaxFlowRates(){
+		return biomassMaxFlowRates;
+	}
+	public void setBiomassOutputActualFlowRate(float kilograms, int index){
+		biomassActualFlowRates[index] = kilograms;
+	}
+	public float getBiomassOutputActualFlowRate(int index){
+		return biomassActualFlowRates[index];
+	}
+	public float[] getBiomassOutputActualFlowRates(){
+		return biomassActualFlowRates;
+	}
+	public void setBiomassOutputs(BiomassStore[] destinations, float[] maxFlowRates, float[] actualFlowRates){
 		myBiomassStores = destinations;
 		biomassMaxFlowRates = maxFlowRates;
+		biomassActualFlowRates = actualFlowRates;
 	}
-	
 	public BiomassStore[] getBiomassOutputs(){
 		return myBiomassStores;
 	}
 	
-	public float[] getBiomassOutputMaxFlowRates(){
-		return biomassMaxFlowRates;
-	}
-	
+	//Air Inputs
 	public void setAirInputMaxFlowRate(float liters, int index){
 		airInMaxFlowRates[index] = liters;
 	}
-
 	public float getAirInputMaxFlowRate(int index){
 		return airInMaxFlowRates[index];
 	}
-
-	public void setAirInputs(SimEnvironment[] sources, float[] maxFlowRates){
+	public float[] getAirInputMaxFlowRates(){
+		return airInMaxFlowRates;
+	}
+	public void setAirInputActualFlowRate(float liters, int index){
+		airInActualFlowRates[index] = liters;
+	}
+	public float getAirInputActualFlowRate(int index){
+		return airInActualFlowRates[index];
+	}
+	public float[] getAirInputActualFlowRates(){
+		return airInActualFlowRates;
+	}
+	public void setAirInputs(SimEnvironment[] sources, float[] maxFlowRates, float[] actualFlowRates){
 		myAirInputs = sources;
 		airInMaxFlowRates = maxFlowRates;
+		airInActualFlowRates = actualFlowRates;
 	}
-
 	public SimEnvironment[] getAirInputs(){
 		return myAirInputs;
 	}
 	
-	public float[] getAirInputMaxFlowRates(){
-		return airInMaxFlowRates;
-	}
-
+	//Air Outputs
 	public void setAirOutputMaxFlowRate(float liters, int index){
 		airOutMaxFlowRates[index] = liters;
 	}
-
 	public float getAirOutputMaxFlowRate(int index){
 		return airOutMaxFlowRates[index];
 	}
-
-	public void setAirOutputs(SimEnvironment[] sources, float[] maxFlowRates){
-		myAirOutputs = sources;
-	}
-
-	public SimEnvironment[] getAirOutputs(){
-		return myAirOutputs;
-	}
-	
 	public float[] getAirOutputMaxFlowRates(){
 		return airOutMaxFlowRates;
+	}
+	public void setAirOutputActualFlowRate(float liters, int index){
+		airOutActualFlowRates[index] = liters;
+	}
+	public float getAirOutputActualFlowRate(int index){
+		return airOutActualFlowRates[index];
+	}
+	public float[] getAirOutputActualFlowRates(){
+		return airOutActualFlowRates;
+	}
+	public void setAirOutputs(SimEnvironment[] sources, float[] maxFlowRates, float[] actualFlowRates){
+		myAirOutputs = sources;
+		airOutMaxFlowRates = maxFlowRates;
+		airOutActualFlowRates = actualFlowRates;
+	}
+	public SimEnvironment[] getAirOutputs(){
+		return myAirOutputs;
 	}
 }

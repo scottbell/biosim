@@ -36,6 +36,12 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	private float[] CO2OutputMaxFlowRates;
 	private float[] airInMaxFlowRates;
 	private float[] airOutMaxFlowRates;
+	private float[] powerActualFlowRates;
+	private float[] O2ActualFlowRates;
+	private float[] CO2InputActualFlowRates;
+	private float[] CO2OutputActualFlowRates;
+	private float[] airInActualFlowRates;
+	private float[] airOutActualFlowRates;
 	private static final int NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER = 3;
 	private float myProductionRate = 1f;
 
@@ -59,6 +65,12 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 		CO2OutputMaxFlowRates = new float[0];
 		airInMaxFlowRates = new float[0];
 		airOutMaxFlowRates = new float[0];
+		powerActualFlowRates = new float[0];
+		O2ActualFlowRates = new float[0];
+		CO2InputActualFlowRates = new float[0];
+		CO2OutputActualFlowRates = new float[0];
+		airInActualFlowRates = new float[0];
+		airOutActualFlowRates = new float[0];
 	}
 
 	public boolean VCCRHasPower(){
@@ -246,134 +258,177 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 		public LogNode currentCO2ProducedIndex;
 		public LogNode currentPowerConsumedIndex;
 	}
-
+	
+	
+	int getSubsystemsConsumingPower(){
+		return NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER;
+	}
+	
+	//Power Inputs
 	public void setPowerInputMaxFlowRate(float watts, int index){
 		powerMaxFlowRates[index] = watts;
 	}
-
 	public float getPowerInputMaxFlowRate(int index){
 		return powerMaxFlowRates[index];
 	}
-
-	public void setPowerInputs(PowerStore[] sources, float[] maxFlowRates){
+	public float[] getPowerInputMaxFlowRates(){
+		return powerMaxFlowRates;
+	}
+	public void setPowerInputActualFlowRate(float watts, int index){
+		powerActualFlowRates[index] = watts;
+	}
+	public float getPowerInputActualFlowRate(int index){
+		return powerActualFlowRates[index];
+	}
+	public float[] getPowerInputActualFlowRates(){
+		return powerActualFlowRates;
+	}
+	public void setPowerInputs(PowerStore[] sources, float[] maxFlowRates, float[] actualFlowRates){
 		myPowerStores = sources;
 		powerMaxFlowRates = maxFlowRates;
+		powerActualFlowRates = actualFlowRates;
 	}
-
 	public PowerStore[] getPowerInputs(){
 		return myPowerStores;
 	}
 	
-	public float[] getPowerInputMaxFlowRates(){
-		return powerMaxFlowRates;
-	}
-
+	//Air Inputs
 	public void setAirInputMaxFlowRate(float liters, int index){
 		airInMaxFlowRates[index] = liters;
 	}
-
 	public float getAirInputMaxFlowRate(int index){
 		return airInMaxFlowRates[index];
 	}
-
-	public void setAirInputs(SimEnvironment[] sources, float[] maxFlowRates){
+	public float[] getAirInputMaxFlowRates(){
+		return airInMaxFlowRates;
+	}
+	public void setAirInputActualFlowRate(float liters, int index){
+		airInActualFlowRates[index] = liters;
+	}
+	public float getAirInputActualFlowRate(int index){
+		return airInActualFlowRates[index];
+	}
+	public float[] getAirInputActualFlowRates(){
+		return airInActualFlowRates;
+	}
+	public void setAirInputs(SimEnvironment[] sources, float[] maxFlowRates, float[] actualFlowRates){
 		mySimEnvironmentInputs = sources;
 		airInMaxFlowRates = maxFlowRates;
+		airInActualFlowRates = actualFlowRates;
 	}
-
 	public SimEnvironment[] getAirInputs(){
 		return mySimEnvironmentInputs;
 	}
 	
-	public float[] getAirInputMaxFlowRates(){
-		return airInMaxFlowRates;
-	}
-
+	//Air Ouputs
 	public void setAirOutputMaxFlowRate(float liters, int index){
 		airOutMaxFlowRates[index] = liters;
 	}
-
 	public float getAirOutputMaxFlowRate(int index){
 		return airOutMaxFlowRates[index];
 	}
-
-	public void setAirOutputs(SimEnvironment[] sources, float[] maxFlowRates){
+	public float[] getAirOutputMaxFlowRates(){
+		return airOutMaxFlowRates;
+	}
+	public void setAirOutputActualFlowRate(float liters, int index){
+		airOutActualFlowRates[index] = liters;
+	}
+	public float getAirOutputActualFlowRate(int index){
+		return airOutActualFlowRates[index];
+	}
+	public float[] getAirOutputActualFlowRates(){
+		return airOutActualFlowRates;
+	}
+	public void setAirOutputs(SimEnvironment[] sources, float[] maxFlowRates, float[] actualFlowRates){
 		mySimEnvironmentOutputs = sources;
 		airOutMaxFlowRates = maxFlowRates;
+		airOutActualFlowRates = actualFlowRates;
 	}
-
 	public SimEnvironment[] getAirOutputs(){
 		return mySimEnvironmentOutputs;
 	}
 	
-	public float[] getAirOutputMaxFlowRates(){
-		return airOutMaxFlowRates;
-	}
-
+	//O2 Ouputs
 	public void setO2OutputMaxFlowRate(float liters, int index){
 		O2MaxFlowRates[index] = liters;
 	}
-
 	public float getO2OutputMaxFlowRate(int index){
 		return O2MaxFlowRates[index];
 	}
-
-	public void setO2Outputs(O2Store[] sources, float[] maxFlowRates){
+	public float[] getO2OutputMaxFlowRates(){
+		return O2MaxFlowRates;
+	}
+	public void setO2OutputActualFlowRate(float liters, int index){
+		O2ActualFlowRates[index] = liters;
+	}
+	public float getO2OutputActualFlowRate(int index){
+		return O2ActualFlowRates[index];
+	}
+	public float[] getO2OutputActualFlowRates(){
+		return O2ActualFlowRates;
+	}
+	public void setO2Outputs(O2Store[] sources, float[] maxFlowRates, float[] actualFlowRates){
 		myO2Stores = sources;
 		O2MaxFlowRates = maxFlowRates;
+		O2ActualFlowRates = actualFlowRates;
 	}
-
 	public O2Store[] getO2Outputs(){
 		return myO2Stores;
 	}
 	
-	public float[] getO2OutputMaxFlowRates(){
-		return O2MaxFlowRates;
-	}
-
+	//CO2 Ouputs
 	public void setCO2OutputMaxFlowRate(float liters, int index){
 		CO2OutputMaxFlowRates[index] = liters;
 	}
-
 	public float getCO2OutputMaxFlowRate(int index){
 		return CO2OutputMaxFlowRates[index];
 	}
-
-	public void setCO2Outputs(CO2Store[] sources, float[] maxFlowRates){
+	public float[] getCO2OutputMaxFlowRates(){
+		return CO2OutputMaxFlowRates;
+	}
+	public void setCO2OutputActualFlowRate(float liters, int index){
+		CO2OutputActualFlowRates[index] = liters;
+	}
+	public float getCO2OutputActualFlowRate(int index){
+		return CO2OutputActualFlowRates[index];
+	}
+	public float[] getCO2OutputActualFlowRates(){
+		return CO2OutputActualFlowRates;
+	}
+	public void setCO2Outputs(CO2Store[] sources, float[] maxFlowRates, float[] actualFlowRates){
 		myCO2OutputStores = sources;
 		CO2OutputMaxFlowRates = maxFlowRates;
+		CO2OutputActualFlowRates = actualFlowRates;
 	}
-
 	public CO2Store[] getCO2Outputs(){
 		return myCO2OutputStores;
 	}
 	
-	public float[] getCO2OutputMaxFlowRates(){
-		return CO2OutputMaxFlowRates;
-	}
-	
+	//CO2 Inputs
 	public void setCO2InputMaxFlowRate(float liters, int index){
 		CO2InputMaxFlowRates[index] = liters;
 	}
-
 	public float getCO2InputMaxFlowRate(int index){
 		return CO2InputMaxFlowRates[index];
 	}
-
-	public void setCO2Inputs(CO2Store[] sources, float[] maxFlowRates){
-		myCO2InputStores = sources;
-		CO2InputMaxFlowRates = maxFlowRates;
-	}
-
-	public CO2Store[] getCO2Inputs(){
-		return myCO2InputStores;
-	}
-	
 	public float[] getCO2InputMaxFlowRates(){
 		return CO2InputMaxFlowRates;
 	}
-	
-	int getSubsystemsConsumingPower(){
-		return NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER;
+	public void setCO2InputActualFlowRate(float liters, int index){
+		CO2InputActualFlowRates[index] = liters;
+	}
+	public float getCO2InputActualFlowRate(int index){
+		return CO2InputActualFlowRates[index];
+	}
+	public float[] getCO2InputActualFlowRates(){
+		return CO2InputActualFlowRates;
+	}
+	public void setCO2Inputs(CO2Store[] sources, float[] maxFlowRates, float[] actualFlowRates){
+		myCO2InputStores = sources;
+		CO2InputMaxFlowRates = maxFlowRates;
+		CO2InputActualFlowRates = actualFlowRates;
+	}
+	public CO2Store[] getCO2Inputs(){
+		return myCO2InputStores;
 	}
 }

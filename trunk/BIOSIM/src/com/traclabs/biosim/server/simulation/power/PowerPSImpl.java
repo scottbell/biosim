@@ -24,12 +24,14 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements PowerPSOpe
 	private LogIndex myLogIndex;
 	private PowerStore[] myPowerStores;
 	private float[] powerMaxFlowRates;
+	private float[] powerActualFlowRates;
 	private SimEnvironment myLightInput;
 
 	public PowerPSImpl(int pID){
 		super(pID);
 		myPowerStores = new PowerStore[0];
 		powerMaxFlowRates = new float[0];
+		powerActualFlowRates = new float[0];
 	}
 
 	/**
@@ -131,32 +133,39 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements PowerPSOpe
 	private class LogIndex{
 		public LogNode powerProducedIndex;
 	}
-
+	
+	//Power Outputs
 	public void setPowerOutputMaxFlowRate(float watts, int index){
 		powerMaxFlowRates[index] = watts;
 	}
-
 	public float getPowerOutputMaxFlowRate(int index){
 		return powerMaxFlowRates[index];
 	}
-
-	public void setPowerOutputs(PowerStore[] destinations, float[] maxFlowRates){
+	public float[] getPowerOutputMaxFlowRates(){
+		return powerMaxFlowRates;
+	}
+	public void setPowerOutputActualFlowRate(float watts, int index){
+		powerActualFlowRates[index] = watts;
+	}
+	public float getPowerOutputActualFlowRate(int index){
+		return powerActualFlowRates[index];
+	}
+	public float[] getPowerOutputActualFlowRates(){
+		return powerActualFlowRates;
+	}
+	public void setPowerOutputs(PowerStore[] destinations, float[] maxFlowRates, float[] actualFlowRates){
 		myPowerStores = destinations;
 		powerMaxFlowRates = maxFlowRates;
+		powerActualFlowRates = actualFlowRates;
 	}
-
 	public PowerStore[] getPowerOutputs(){
 		return myPowerStores;
 	}
 	
-	public float[] getPowerOutputMaxFlowRates(){
-		return powerMaxFlowRates;
-	}
-
+	//Light Inputs
 	public void setLightInput(SimEnvironment source){
 		myLightInput = source;
 	}
-
 	public SimEnvironment getLightInput(){
 		return myLightInput;
 	}

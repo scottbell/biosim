@@ -17,110 +17,74 @@ module framework{
         interface PowerConsumer{
                 void setPowerInputMaxFlowRate(in float watts, in long index);
                 float getPowerInputMaxFlowRate(in long index);
-                void setPowerInputs(in ::power::PowerStoreList sources, in FloatList maxFlowRates);
+                void setPowerInputActualFlowRate(in float watts, in long index);
+                float getPowerInputActualFlowRate(in long index);
+                void setPowerInputs(in ::power::PowerStoreList sources, in FloatList maxFlowRates, in FloatList actualFlowRates);
 		power::PowerStoreList getPowerInputs();
         };
         interface PotableWaterConsumer{
                 void setPotableWaterInputMaxFlowRate(in float liters, in long index);
                 float getPotableWaterInputMaxFlowRate(in long index);
-                void setPotableWaterInputs(in water::PotableWaterStoreList sources, in FloatList maxFlowRates);
+                void setPotableWaterInputActualFlowRate(in float liters, in long index);
+                float getPotableWaterInputActualFlowRate(in long index);
+                void setPotableWaterInputs(in water::PotableWaterStoreList sources, in FloatList maxFlowRates, in FloatList actualFlowRates);
 		water::PotableWaterStoreList getPotableWaterInputs();
         };
         interface GreyWaterConsumer{
                 void setGreyWaterInputMaxFlowRate(in float liters, in long index);
                 float getGreyWaterInputMaxFlowRate(in long index);
-                void setGreyWaterInputs(in water::GreyWaterStoreList sources, in FloatList maxFlowRates);
+                void setGreyWaterInputActualFlowRate(in float liters, in long index);
+                float getGreyWaterInputActualFlowRate(in long index);
+                void setGreyWaterInputs(in water::GreyWaterStoreList sources, in FloatList maxFlowRates, in FloatList actualFlowRates);
 		water::GreyWaterStoreList getGreyWaterInputs();
         };
         interface DirtyWaterConsumer{
                 void setDirtyWaterInputMaxFlowRate(in float liters, in long index);
                 float getDirtyWaterInputMaxFlowRate(in long index);
-                void setDirtyWaterInputs(in water::DirtyWaterStoreList sources, in FloatList maxFlowRates);
+                void setDirtyWaterInputActualFlowRate(in float liters, in long index);
+                float getDirtyWaterInputActualFlowRate(in long index);
+                void setDirtyWaterInputs(in water::DirtyWaterStoreList sources, in FloatList maxFlowRates, in FloatList actualFlowRates);
 		water::DirtyWaterStoreList getDirtyWaterInputs();
         };
         interface O2Consumer{
                 void setO2InputMaxFlowRate(in float liters, in long index);
                 float getO2InputMaxFlowRate(in long index);
-                void setO2Inputs(in air::O2StoreList sources, in FloatList maxFlowRates);
+                void setO2InputActualFlowRate(in float liters, in long index);
+                float getO2InputActualFlowRate(in long index);
+                void setO2Inputs(in air::O2StoreList sources, in FloatList maxFlowRates, in FloatList actualFlowRates);
 		air::O2StoreList getO2Inputs();
         };
         interface CO2Consumer{
                 void setCO2InputMaxFlowRate(in float liters, in long index);
                 float getCO2InputMaxFlowRate(in long index);
-                void setCO2Inputs(in air::CO2StoreList sources, in FloatList maxFlowRates);
+                void setCO2InputActualFlowRate(in float liters, in long index);
+                float getCO2InputActualFlowRate(in long index);
+                void setCO2Inputs(in air::CO2StoreList sources, in FloatList maxFlowRates, in FloatList actualFlowRates);
 		air::CO2StoreList getCO2Inputs();
         };
         interface AirConsumer{
                 void setAirInputMaxFlowRate(in float liters, in long index);
                 float getAirInputMaxFlowRate(in long index);
-                void setAirInputs(in environment::SimEnvironmentList sources, in FloatList maxFlowRates);
+                void setAirInputActualFlowRate(in float liters, in long index);
+                float getAirInputActualFlowRate(in long index);
+                void setAirInputs(in environment::SimEnvironmentList sources, in FloatList maxFlowRates, in FloatList actualFlowRates);
 		environment::SimEnvironmentList getAirInputs();
         };
         interface BiomassConsumer{
                 void setBiomassInputMaxFlowRate(in float kilograms, in long index);
                 float getBiomassInputMaxFlowRate(in long index);
-                void setBiomassInputs(in food::BiomassStoreList sources, in FloatList maxFlowRates);
+                void setBiomassInputActualFlowRate(in float kilograms, in long index);
+                float getBiomassInputActualFlowRate(in long index);
+                void setBiomassInputs(in food::BiomassStoreList sources, in FloatList maxFlowRates, in FloatList actualFlowRates);
 		food::BiomassStoreList getBiomassInputs();
         };
         interface FoodConsumer{
                 void setFoodInputMaxFlowRate(in float kilograms, in long index);
                 float getFoodInputMaxFlowRate(in long index);
-                void setFoodInputs(in food::FoodStoreList sources, in FloatList maxFlowRates);
+                void setFoodInputActualFlowRate(in float kilograms, in long index);
+                float getFoodInputActualFlowRate(in long index);
+                void setFoodInputs(in food::FoodStoreList sources, in FloatList maxFlowRates, in FloatList actualFlowRates);
 		food::FoodStoreList getFoodInputs();
-        };
-	interface PowerProducer{
-                void setPowerOutputMaxFlowRate(in float watts, in long index);
-                float getPowerOutputMaxFlowRate(in long index);
-                void setPowerOutputs(in ::power::PowerStoreList destinations, in FloatList maxFlowRates);
-		power::PowerStoreList getPowerOutputs();
-        };
-        interface PotableWaterProducer{
-                void setPotableWaterOutputMaxFlowRate(in float liters, in long index);
-                float getPotableWaterOutputMaxFlowRate(in long index);
-                void setPotableWaterOutputs(in water::PotableWaterStoreList destinations, in FloatList maxFlowRates);
-		water::PotableWaterStoreList getPotableWaterOutputs();
-        };
-        interface GreyWaterProducer{
-                void setGreyWaterOutputMaxFlowRate(in float liters, in long index);
-                float getGreyWaterOutputMaxFlowRate(in long index);
-                void setGreyWaterOutputs(in water::GreyWaterStoreList destinations, in FloatList maxFlowRates);
-		water::GreyWaterStoreList getGreyWaterOutputs();
-        };
-        interface DirtyWaterProducer{
-                void setDirtyWaterOutputMaxFlowRate(in float liters, in long index);
-                float getDirtyWaterOutputMaxFlowRate(in long index);
-                void setDirtyWaterOutputs(in water::DirtyWaterStoreList destinations, in FloatList maxFlowRates);
-		water::DirtyWaterStoreList getDirtyWaterOutputs();
-        };
-        interface O2Producer{
-                void setO2OutputMaxFlowRate(in float liters, in long index);
-                float getO2OutputMaxFlowRate(in long index);
-                void setO2Outputs(in air::O2StoreList destinations, in FloatList maxFlowRates);
-		air::O2StoreList getO2Outputs();
-        };
-        interface CO2Producer{
-                void setCO2OutputMaxFlowRate(in float liters, in long index);
-                float getCO2OutputMaxFlowRate(in long index);
-                void setCO2Outputs(in air::CO2StoreList destinations, in FloatList maxFlowRates);
-		air::CO2StoreList getCO2Outputs();
-        };
-        interface AirProducer{
-                void setAirOutputMaxFlowRate(in float liters, in long index);
-                float getAirOutputMaxFlowRate(in long index);
-                void setAirOutputs(in environment::SimEnvironmentList destinations, in FloatList maxFlowRates);
-		environment::SimEnvironmentList getAirOutputs();
-        };
-        interface BiomassProducer{
-                void setBiomassOutputMaxFlowRate(in float kilograms, in long index);
-                float getBiomassOutputMaxFlowRate(in long index);
-                void setBiomassOutputs(in food::BiomassStoreList destinations, in FloatList maxFlowRates);
-		food::BiomassStoreList getBiomassOutputs();
-        };
-        interface FoodProducer{
-                void setFoodOutputMaxFlowRate(in float kilograms, in long index);
-                float getFoodOutputMaxFlowRate(in long index);
-                void setFoodOutputs(in food::FoodStoreList destinations, in FloatList maxFlowRates);
-		food::FoodStoreList getFoodOutputs();
         };
 	interface LightConsumer{
                 void setLightInput(in environment::SimEnvironment source);
@@ -131,8 +95,12 @@ module framework{
                 void setO2AirEnvironmentInputMaxFlowRate(in float liters, in long index);
                 float getO2AirStoreInputMaxFlowRate(in long index);
                 float getO2AirEnvironmentInputMaxFlowRate(in long index);
-                void setO2AirEnvironmentInputs(in environment::SimEnvironmentList source, in FloatList maxFlowRates);
-                void setO2AirStoreInputs(in air::O2StoreList source, in FloatList maxFlowRates);
+                void setO2AirStoreInputActualFlowRate(in float liters, in long index);
+                void setO2AirEnvironmentInputActualFlowRate(in float liters, in long index);
+                float getO2AirStoreInputActualFlowRate(in long index);
+                float getO2AirEnvironmentInputActualFlowRate(in long index);
+                void setO2AirEnvironmentInputs(in environment::SimEnvironmentList source, in FloatList maxFlowRates, in FloatList actualFlowRates);
+                void setO2AirStoreInputs(in air::O2StoreList source, in FloatList maxFlowRates, in FloatList actualFlowRates);
 		air::O2StoreList getO2AirStoreInputs();
 		environment::SimEnvironmentList getO2AirEnvironmentInputs();
         };
@@ -141,28 +109,112 @@ module framework{
                 void setCO2AirEnvironmentInputMaxFlowRate(in float liters, in long index);
                 float getCO2AirStoreInputMaxFlowRate(in long index);
                 float getCO2AirEnvironmentInputMaxFlowRate(in long index);
-                void setCO2AirEnvironmentInputs(in environment::SimEnvironmentList source, in FloatList maxFlowRates);
-                void setCO2AirStoreInputs(in air::CO2StoreList source, in FloatList maxFlowRates);
+                void setCO2AirStoreInputActualFlowRate(in float liters, in long index);
+                void setCO2AirEnvironmentInputActualFlowRate(in float liters, in long index);
+                float getCO2AirStoreInputActualFlowRate(in long index);
+                float getCO2AirEnvironmentInputActualFlowRate(in long index);
+                void setCO2AirEnvironmentInputs(in environment::SimEnvironmentList source, in FloatList maxFlowRates, in FloatList actualFlowRates);
+                void setCO2AirStoreInputs(in air::CO2StoreList source, in FloatList maxFlowRates, in FloatList actualFlowRates);
 		air::CO2StoreList getCO2AirStoreInputs();
 		environment::SimEnvironmentList getCO2AirEnvironmentInputs();
+        };
+	interface PowerProducer{
+                void setPowerOutputMaxFlowRate(in float watts, in long index);
+                void setPowerOutputActualFlowRate(in float watts, in long index);
+                float getPowerOutputMaxFlowRate(in long index);
+                float getPowerOutputActualFlowRate(in long index);
+                void setPowerOutputs(in ::power::PowerStoreList destinations, in FloatList maxFlowRates, in FloatList actualFlowRates);
+		power::PowerStoreList getPowerOutputs();
+        };
+        interface PotableWaterProducer{
+                void setPotableWaterOutputMaxFlowRate(in float liters, in long index);
+                void setPotableWaterOutputActualFlowRate(in float liters, in long index);
+                float getPotableWaterOutputMaxFlowRate(in long index);
+                float getPotableWaterOutputActualFlowRate(in long index);
+                void setPotableWaterOutputs(in water::PotableWaterStoreList destinations, in FloatList maxFlowRates, in FloatList actualFlowRates);
+		water::PotableWaterStoreList getPotableWaterOutputs();
+        };
+        interface GreyWaterProducer{
+                void setGreyWaterOutputMaxFlowRate(in float liters, in long index);
+                void setGreyWaterOutputActualFlowRate(in float liters, in long index);
+                float getGreyWaterOutputMaxFlowRate(in long index);
+                float getGreyWaterOutputActualFlowRate(in long index);
+                void setGreyWaterOutputs(in water::GreyWaterStoreList destinations, in FloatList maxFlowRates, in FloatList actualFlowRates);
+		water::GreyWaterStoreList getGreyWaterOutputs();
+        };
+        interface DirtyWaterProducer{
+                void setDirtyWaterOutputMaxFlowRate(in float liters, in long index);
+                void setDirtyWaterOutputActualFlowRate(in float liters, in long index);
+                float getDirtyWaterOutputMaxFlowRate(in long index);
+                float getDirtyWaterOutputActualFlowRate(in long index);
+                void setDirtyWaterOutputs(in water::DirtyWaterStoreList destinations, in FloatList maxFlowRates, in FloatList actualFlowRates);
+		water::DirtyWaterStoreList getDirtyWaterOutputs();
+        };
+        interface O2Producer{
+                void setO2OutputMaxFlowRate(in float liters, in long index);
+                void setO2OutputActualFlowRate(in float liters, in long index);
+                float getO2OutputMaxFlowRate(in long index);
+                float getO2OutputActualFlowRate(in long index);
+                void setO2Outputs(in air::O2StoreList destinations, in FloatList maxFlowRates, in FloatList actualFlowRates);
+		air::O2StoreList getO2Outputs();
+        };
+        interface CO2Producer{
+                void setCO2OutputMaxFlowRate(in float liters, in long index);
+                void setCO2OutputActualFlowRate(in float liters, in long index);
+                float getCO2OutputMaxFlowRate(in long index);
+                float getCO2OutputActualFlowRate(in long index);
+                void setCO2Outputs(in air::CO2StoreList destinations, in FloatList maxFlowRates, in FloatList actualFlowRates);
+		air::CO2StoreList getCO2Outputs();
+        };
+        interface AirProducer{
+                void setAirOutputMaxFlowRate(in float liters, in long index);
+                void setAirOutputActualFlowRate(in float liters, in long index);
+                float getAirOutputMaxFlowRate(in long index);
+                float getAirOutputActualFlowRate(in long index);
+                void setAirOutputs(in environment::SimEnvironmentList destinations, in FloatList maxFlowRates, in FloatList actualFlowRates);
+		environment::SimEnvironmentList getAirOutputs();
+        };
+        interface BiomassProducer{
+                void setBiomassOutputMaxFlowRate(in float kilograms, in long index);
+                void setBiomassOutputActualFlowRate(in float kilograms, in long index);
+                float getBiomassOutputMaxFlowRate(in long index);
+                float getBiomassOutputActualFlowRate(in long index);
+                void setBiomassOutputs(in food::BiomassStoreList destinations, in FloatList maxFlowRates, in FloatList actualFlowRates);
+		food::BiomassStoreList getBiomassOutputs();
+        };
+        interface FoodProducer{
+                void setFoodOutputMaxFlowRate(in float kilograms, in long index);
+                void setFoodOutputActualFlowRate(in float kilograms, in long index);
+                float getFoodOutputMaxFlowRate(in long index);
+                float getFoodOutputActualFlowRate(in long index);
+                void setFoodOutputs(in food::FoodStoreList destinations, in FloatList maxFlowRates, in FloatList actualFlowRates);
+		food::FoodStoreList getFoodOutputs();
         };
 	interface O2AirProducer{
                 void setO2AirStoreOutputMaxFlowRate(in float liters, in long index);
                 void setO2AirEnvironmentOutputMaxFlowRate(in float liters, in long index);
+                void setO2AirStoreOutputActualFlowRate(in float liters, in long index);
+                void setO2AirEnvironmentOutputActualFlowRate(in float liters, in long index);
                 float getO2AirStoreOutputMaxFlowRate(in long index);
                 float getO2AirEnvironmentOutputMaxFlowRate(in long index);
-                void setO2AirEnvironmentOutputs(in environment::SimEnvironmentList destination, in FloatList maxFlowRates);
-                void setO2AirStoreOutputs(in air::O2StoreList destination, in FloatList maxFlowRates);
+                float getO2AirStoreOutputActualFlowRate(in long index);
+                float getO2AirEnvironmentOutputActualFlowRate(in long index);
+                void setO2AirEnvironmentOutputs(in environment::SimEnvironmentList destination, in FloatList maxFlowRates, in FloatList actualFlowRates);
+                void setO2AirStoreOutputs(in air::O2StoreList destination, in FloatList maxFlowRates, in FloatList actualFlowRates);
 		air::O2StoreList getO2AirStoreOutputs();
 		environment::SimEnvironmentList getO2AirEnvironmentOutputs();
         };
 	interface CO2AirProducer{
                 void setCO2AirStoreOutputMaxFlowRate(in float liters, in long index);
                 void setCO2AirEnvironmentOutputMaxFlowRate(in float liters, in long index);
+                void setCO2AirStoreOutputActualFlowRate(in float liters, in long index);
+                void setCO2AirEnvironmentOutputActualFlowRate(in float liters, in long index);
                 float getCO2AirStoreOutputMaxFlowRate(in long index);
                 float getCO2AirEnvironmentOutputMaxFlowRate(in long index);
-                void setCO2AirEnvironmentOutputs(in environment::SimEnvironmentList destination, in FloatList maxFlowRates);
-                void setCO2AirStoreOutputs(in air::CO2StoreList destination, in FloatList maxFlowRates);
+                float getCO2AirStoreOutputActualFlowRate(in long index);
+                float getCO2AirEnvironmentOutputActualFlowRate(in long index);
+                void setCO2AirEnvironmentOutputs(in environment::SimEnvironmentList destination, in FloatList maxFlowRates, in FloatList actualFlowRates);
+                void setCO2AirStoreOutputs(in air::CO2StoreList destination, in FloatList maxFlowRates, in FloatList actualFlowRates);
 		air::CO2StoreList getCO2AirStoreOutputs();
 		environment::SimEnvironmentList getCO2AirEnvironmentOutputs();
         };
