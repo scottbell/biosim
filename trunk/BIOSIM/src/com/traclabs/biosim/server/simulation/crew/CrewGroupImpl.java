@@ -110,23 +110,18 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 		List gatheredBioMatterArrays = new Vector();
 		int sizeOfMatter = 0;
 		for (int i = 0; (i < pStores.length) && (gatheredResource < amountNeeded); i++){
-			float resourceToGatherFirst = Math.min(amountNeeded, pMaxFlowRates[i]);
-			float resourceToGatherFinal = Math.min(resourceToGatherFirst, pDesiredFlowRates[i]);
-			FoodMatter[] takenMatter = pStores[i].takeFoodMatterCalories(resourceToGatherFinal);
-			System.out.println("CrewGroupImpl: length of takenMatter is "+takenMatter.length);
+			float limitingMassFactor = Math.min(pDesiredFlowRates[i], pMaxFlowRates[i]);
+			FoodMatter[] takenMatter = pStores[i].takeFoodMatterCalories(amountNeeded, limitingMassFactor);
 			sizeOfMatter += takenMatter.length;
 			gatheredBioMatterArrays.add(takenMatter);
 			pActualFlowRates[i] = calculateSizeOfFoodMatter(takenMatter);
 			gatheredResource += pStores[i].calculateCalories(takenMatter);
-			System.out.println("CrewGroupImpl: Got "+gatheredResource+" calories from "+pActualFlowRates[i]+" mass");
 		}
 		FoodMatter[] fullMatterTaken = new FoodMatter[sizeOfMatter];
 		int lastPosition = 0;
 		for (Iterator iter = gatheredBioMatterArrays.iterator(); iter.hasNext();){
 			FoodMatter[] matterArray = (FoodMatter[])(iter.next());
 			System.arraycopy(matterArray, 0, fullMatterTaken, lastPosition, matterArray.length);
-			System.out.println("CrewGroupImpl: length of matterArray is "+matterArray.length);
-			System.out.println("CrewGroupImpl: length of fullMatterTaken is "+fullMatterTaken.length);
 			lastPosition = matterArray.length;
 		}
 		return fullMatterTaken;

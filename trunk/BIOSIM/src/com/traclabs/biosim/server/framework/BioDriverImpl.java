@@ -1007,13 +1007,13 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			DirtyWaterStore[] dirtyWaterOutputs = {myDirtyWaterStore};
 			float[] airInputMaxFlowRates = {0f};
 			float[] airOutputMaxFlowRates = {0f};
-			float[] foodInputMaxFlowRates = {100f};
+			float[] foodInputMaxFlowRates = {2000f};
 			float[] potableWaterInputMaxFlowRates = {100f};
 			float[] dirtyWaterOutputMaxFlowRates = {100f};
 			float[] greyWaterOutputMaxFlowRates = {100f};
 			float[] airInputDesiredFlowRates = {0f};
 			float[] airOutputDesiredFlowRates = {0f};
-			float[] foodInputDesiredFlowRates = {100f};
+			float[] foodInputDesiredFlowRates = {1000f};
 			float[] potableWaterInputDesiredFlowRates = {100f};
 			float[] dirtyWaterOutputDesiredFlowRates = {100f};
 			float[] greyWaterOutputDesiredFlowRates = {100f};
