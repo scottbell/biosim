@@ -23,6 +23,8 @@ class SpreadSheetModel extends AbstractTableModel {
 	private int        _nbColumn;
 
 	protected SheetCell[][] cells;
+	
+	private String[] myColumnNames;
 
 	/**
 	 * Create a nbRow by nbColumn SpreadSheetModel.
@@ -30,10 +32,11 @@ class SpreadSheetModel extends AbstractTableModel {
 	 * @param cells[][] The cell array
 	 * @param table     The associated SpreadSheet
 	 */
-	SpreadSheetModel(SheetCell[][] cells, SpreadSheet table) {
+	SpreadSheetModel(SheetCell[][] cells, SpreadSheet table, String[] pColumnNames) {
 		_dpyTable   = table;
 		_nbRow      = cells.length;
 		_nbColumn   = cells[0].length;
+		myColumnNames = pColumnNames;
 		this.cells  = cells;
 		interpreter = new Interpreter(this);
 	}
@@ -47,6 +50,10 @@ class SpreadSheetModel extends AbstractTableModel {
 	public int     getColumnCount() {return _nbColumn;}
 
 	public boolean isCellEditable(int row, int col) { return true; }
+	
+	public String getColumnName(int index) { 
+		return myColumnNames[index]; 
+	}
 
 	public Object  getValueAt(int row, int column) { return cells[row][column]; }
 

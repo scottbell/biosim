@@ -86,6 +86,7 @@ public class BioHolder
 	public final static String myBiomassRSPotableWaterInFlowRateSensorName = "BiomassRSPotableWaterInFlowRateSensor";
 	public final static String myBiomassRSGreyWaterInFlowRateSensorName = "BiomassRSGreyWaterInFlowRateSensor";
 	public final static String myBiomassRSBiomassOutFlowRateSensorName = "BiomassRSBiomassOutFlowRateSensor";
+	public final static String myBiomassRSPowerInFlowRateSensorName = "BiomassRSPowerInFlowRateSensor";
 	//Food Processor
 	public final static String myFoodProcessorPowerInFlowRateSensorName = "FoodProcessorPowerInFlowRateSensor";
 	public final static String myFoodProcessorBiomassInFlowRateSensorName = "FoodProcessorBiomassInFlowRateSensor";
@@ -293,6 +294,8 @@ public class BioHolder
 					modules.put(myBiomassRSGreyWaterInFlowRateSensorName , myBiomassRSGreyWaterInFlowRateSensor);
 					BiomassOutFlowRateSensor myBiomassRSBiomassOutFlowRateSensor = BiomassOutFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myBiomassRSBiomassOutFlowRateSensorName+myID));
 					modules.put(myBiomassRSBiomassOutFlowRateSensorName , myBiomassRSBiomassOutFlowRateSensor);
+					PowerInFlowRateSensor myBiomassRSPowerInFlowRateSensor = PowerInFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myBiomassRSPowerInFlowRateSensorName+myID));
+					modules.put(myBiomassRSPowerInFlowRateSensorName , myBiomassRSPowerInFlowRateSensor);
 				}
 				//Food Processor
 				{
