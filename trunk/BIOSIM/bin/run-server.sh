@@ -57,6 +57,7 @@ powerPSName="biosim.server.simulation.power.PowerPSServer"
 powerStoreName="biosim.server.simulation.power.PowerStoreServer"
 crewName="biosim.server.simulation.crew.CrewGroupServer"
 waterRSName="biosim.server.simulation.water.WaterRSServer"
+waterRSMatlabName="biosim.server.simulation.water.WaterRSMatlabServer"
 dirtyWaterStoreName="biosim.server.simulation.water.DirtyWaterStoreServer"
 potableWaterStoreName="biosim.server.simulation.water.PotableWaterStoreServer"
 greyWaterStoreName="biosim.server.simulation.water.GreyWaterStoreServer"
@@ -84,6 +85,7 @@ case $userSelect in
 	powerStore) echo "			 -starting $userSelect";$jacoInvocation $powerStoreName $1 $2 $3;;
 	crew) echo "			 -starting $userSelect";$jacoInvocation $crewNam $1 $2 $3e;;
 	waterRS) echo "			 -starting $userSelect";$jacoInvocation $waterRSName $1 $2 $3;;
+	waterRSMatlab) echo "			 -starting $userSelect";$jacoInvocation $waterRSMatlabName $1 $2 $3;;
 	dirtyWaterStore) echo "			 -starting $userSelect";$jacoInvocation $dirtyWaterStoreName $1 $2 $3;;
 	potableWaterStore) echo "			 -starting $userSelect";$jacoInvocation $potableWaterStoreName $1 $2 $3;;
 	greyWaterStore) echo "			 -starting $userSelect";$jacoInvocation $greyWaterStoreName $1 $2 $3;;
