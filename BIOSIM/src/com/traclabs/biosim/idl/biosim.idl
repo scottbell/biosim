@@ -83,6 +83,16 @@ module biosim{
                         interface AirConsumer;
                         interface BiomassConsumer;
                         interface FoodConsumer;
+                        interface PowerProducer;
+                        interface PotableWaterProducer;
+                        interface GreyWaterProducer;
+                        interface DirtyWaterProducer;
+                        interface O2Producer;
+                        interface CO2Producer;
+                        interface AirProducer;
+                        interface BiomassProducer;
+                        interface FoodProducer;
+			interface LightConsumer;
                 };
 		#include "framework.idl";
 		#include "util.idl" 
