@@ -10,26 +10,26 @@ import biosim.idl.power.*;
 
 public abstract class WaterRSSubSystem{
 	//The power consumed (in watts) by this water subsystem at this tick (default)
-	protected float currentPowerConsumed = 0;
+	float currentPowerConsumed = 0;
 	//During any given tick, this much power (in watts) is needed for a water subsystem (default)
-	protected float powerNeeded =100;
+	float powerNeeded =100;
 	//During any given tick, this much water (in liters) is needed for a water subsystem (default)
 	//Pete says WRS consumes/produces 16 mL/s -> 576 L/H
-	protected float waterNeeded = 576.0f;
+	float waterNeeded = 576.0f;
 	//Reference to the WaterRS to get other watersubsystems
-	protected WaterRSImpl myWaterRS;
-	protected PowerStore myPowerStore;
+	WaterRSImpl myWaterRS;
+	PowerStore myPowerStore;
 	//Flag to determine whether the water subsystem has received enough power for this tick
-	protected boolean hasEnoughPower = false;
+	boolean hasEnoughPower = false;
 	//Flag to determine whether the water subsystem has received enough water for this tick
-	protected boolean hasEnoughWater = false;
+	boolean hasEnoughWater = false;
 	//Amount of water in this subsystem at the current tick
-	protected float waterLevel = 0;
+	float waterLevel = 0;
 	private boolean logInitialized = false;
 	private LogIndex myLogIndex;
 	//Flag switched when the BWP has collected references to other subsystems it needs
-	protected boolean hasCollectedReferences = false;
-	protected boolean enabled = true;
+	boolean hasCollectedReferences = false;
+	boolean enabled = true;
 	private boolean malfunctioning = false;
 
 	/**

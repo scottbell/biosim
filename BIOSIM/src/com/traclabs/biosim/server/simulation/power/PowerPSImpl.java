@@ -16,12 +16,12 @@ import biosim.server.framework.*;
 
 public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperations {
 	//The power produced (in watts) by the Power PS at the current tick
-	protected float currentPowerProduced = 0f;
+	float currentPowerProduced = 0f;
 	//Flag switched when the Power PS has collected references to other servers it need
 	private boolean hasCollectedReferences = false;
 	//References to the PowerStore the Power PS takes/puts power into
-	protected PowerStore myPowerStore;
-	protected SimEnvironment mySimEnvironment;
+	PowerStore myPowerStore;
+	SimEnvironment mySimEnvironment;
 	private LogIndex myLogIndex;
 	
 	public PowerPSImpl(int pID){
@@ -82,7 +82,7 @@ public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperat
 		currentPowerProduced *= productionRate;
 	}
 	
-	protected abstract float calculatePowerProduced();
+	abstract float calculatePowerProduced();
 	
 	/**
 	* Reset does nothing right now
@@ -95,7 +95,7 @@ public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperat
 	/**
 	* Collects reference to PowerStore needed for putting/getting power.
 	*/
-	protected void collectReferences(){
+	void collectReferences(){
 		try{
 			if (!hasCollectedReferences){
 				mySimEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str("SimEnvironment"+getID()));
@@ -124,7 +124,7 @@ public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperat
 		return "PowerPS"+getID();
 	}
 	
-	protected void log(){
+	void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();

@@ -17,7 +17,7 @@ public class Wheat extends Plant{
 		super(pID, pTotalArea, pBiomassImpl);
 	}
 
-	protected float calculateCO2Needed(){
+	float calculateCO2Needed(){
 		float theCO2Needed = 0f;;
 		double time = (myAge / 24.0);
 		if (time < 1)
@@ -40,7 +40,7 @@ public class Wheat extends Plant{
 		return theCO2Needed;
 	}
 	
-	protected float calculateWaterNeeded(){
+	float calculateWaterNeeded(){
 		float theWaterNeeded = 0f;
 		float biomassProducedForWater = EDIBLE_KILOGRAMS * totalArea;
 		waterNeeded =  myBiomassImpl.randomFilter(new Double(0.10274 * biomassProducedForWater).floatValue());
@@ -51,12 +51,12 @@ public class Wheat extends Plant{
 		return "wheat";
 	}
 	
-	protected float calculatePowerNeeded(){
+	float calculatePowerNeeded(){
 		float thePowerNeeded  = myBiomassImpl.randomFilter(new Double(0.5 * totalArea).floatValue());
 		return thePowerNeeded;
 	}
 
-	protected float calculateProducedBiomass(){
+	float calculateProducedBiomass(){
 		float theBiomassProduced = 0f;
 		if (myAge >= HARVEST_TIME){
 			//Harvest time

@@ -103,7 +103,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* @param pSex the sex of the new crew person
 	* @param pCrewGroup the crew that the new crew person belongs in
 	*/
-	protected CrewPersonImpl(String pName, float pAge, float pWeight, Sex pSex, CrewGroupImpl pCrewGroup){
+	CrewPersonImpl(String pName, float pAge, float pWeight, Sex pSex, CrewGroupImpl pCrewGroup){
 		myName = pName;
 		age = pAge;
 		weight = pWeight;
@@ -113,7 +113,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		myCurrentActivity = mySchedule.getScheduledActivityByOrder(currentOrder);
 	}
 
-	protected void reset(){
+	void reset(){
 		airRetrieved = new Breath(0f, 0f, 0f);
 		mySchedule = new Schedule();
 		myMissionProductivity = 0;
