@@ -133,7 +133,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	* Attempts to collect enough biomass from the Biomass Store to run the Food Processor optimally for one tick.
 	*/
 	private void gatherBiomass(){
-		BioMatter[]  biomatterConsumed = getBioMassFromStore(myBiomassStores, biomassMaxFlowRates, biomassDesiredFlowRates, biomassActualFlowRates, biomassNeeded);
+		biomatterConsumed = getBioMassFromStore(myBiomassStores, biomassMaxFlowRates, biomassDesiredFlowRates, biomassActualFlowRates, biomassNeeded);
 		massConsumed = calculateSizeOfBioMatter(biomatterConsumed);
 		if (massConsumed < biomassNeeded){
 			hasEnoughBiomass = false;
