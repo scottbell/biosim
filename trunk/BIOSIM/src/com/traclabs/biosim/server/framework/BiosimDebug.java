@@ -1,6 +1,10 @@
 package com.traclabs.biosim.server.framework;
 
+import java.util.Properties;
+
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.jacorb.naming.NameServer;
 
 /**
@@ -33,6 +37,16 @@ public class BiosimDebug {
     }
 
     public static void main(String args[]) {
+        
+        Properties logProps = new Properties();
+        logProps.setProperty("log4j.rootLogger", "info, stdout");
+        logProps.setProperty("log4j.appender.stdout", "org.apache.log4j.ConsoleAppender");
+        logProps.setProperty("log4j.appender.stdout.layout", "org.apache.log4j.PatternLayout");
+        logProps.setProperty("log4j.appender.stdout.layout.ConversionPattern", "%5p [%t] (%F:%L) - %m%n");
+        PropertyConfigurator.configure(logProps);
+        
+//        BasicConfigurator.configure();
+        
         BiosimDebug myBiosimStandalone = new BiosimDebug();
         myBiosimStandalone.beginSimulation();
     }
