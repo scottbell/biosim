@@ -1,6 +1,7 @@
 /**
  * The Water Recovery System takes grey/dirty water and refines it to potable water for the crew members and grey water for the crops.
- *
+ * Data modeled after the paper:
+ * "Intelligent Control of a Water Recovery System: Three Years in the Trenches" by Bonasso, Kortenkamp, and Thronesbery
  * @author    Scott Bell
  */
 
@@ -34,7 +35,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	private PotableWaterStore myPotableWaterStore;
 	private DirtyWaterStore myDirtyWaterStore;
 	private GreyWaterStore myGreyWaterStore;
-	
+
 	/**
 	* Creates the Water RS and it's subsystems
 	*/
@@ -44,7 +45,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 		myAES = new AES(this);
 		myPPS = new PPS(this);
 	}
-	
+
 	/**
 	* Resets production/consumption levels and resets all the subsystems
 	*/
@@ -59,7 +60,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 		myAES.reset();
 		myPPS.reset();
 	}
-	
+
 	/**
 	* Checks whether RO subsystem has enough power or not
 	* @return <code>true</code> if the RO subsystem has enough power, <code>false</code> if not.
@@ -67,7 +68,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	public boolean ROHasPower(){
 		return myRO.hasPower();
 	}
-	
+
 	/**
 	* Checks whether AES subsystem has enough power or not
 	* @return <code>true</code> if the AES subsystem has enough power, <code>false</code> if not.
@@ -75,7 +76,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	public boolean AESHasPower(){
 		return myAES.hasPower();
 	}
-	
+
 	/**
 	* Checks whether PPS subsystem has enough power or not
 	* @return <code>true</code> if the PPS subsystem has enough power, <code>false</code> if not.
@@ -83,7 +84,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	public boolean PPSHasPower(){
 		return myPPS.hasPower();
 	}
-	
+
 	/**
 	* Checks whether BWP subsystem has enough power or not
 	* @return <code>true</code> if the BWP subsystem has enough power, <code>false</code> if not.
@@ -91,7 +92,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	public boolean BWPHasPower(){
 		return myBWP.hasPower();
 	}
-	
+
 	/**
 	* Checks whether RO subsystem has enough water or not
 	* @return <code>true</code> if the RO subsystem has enough water, <code>false</code> if not.
@@ -99,7 +100,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	public boolean ROHasWater(){
 		return myRO.hasWater();
 	}
-	
+
 	/**
 	* Checks whether AES subsystem has enough water or not
 	* @return <code>true</code> if the AES subsystem has enough water, <code>false</code> if not.
@@ -107,7 +108,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	public boolean AESHasWater(){
 		return myAES.hasWater();
 	}
-	
+
 	/**
 	* Checks whether PPS subsystem has enough water or not
 	* @return <code>true</code> if the PPS subsystem has enough water, <code>false</code> if not.
@@ -115,7 +116,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	public boolean PPSHasWater(){
 		return myPPS.hasWater();
 	}
-	
+
 	/**
 	* Checks whether BWP subsystem has enough water or not
 	* @return <code>true</code> if the BWP subsystem has enough water, <code>false</code> if not.
@@ -123,7 +124,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	public boolean BWPHasWater(){
 		return myBWP.hasWater();
 	}
-	
+
 	/**
 	* Returns the RO subsystem
 	* @return the RO subsystem
@@ -131,7 +132,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	public RO getRO(){
 		return myRO;
 	}
-	
+
 	/**
 	* Returns the AES subsystem
 	* @return the AES subsystem
@@ -139,7 +140,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	public AES getAES(){
 		return myAES;
 	}
-	
+
 	/**
 	* Returns the PPS subsystem
 	* @return the PPS subsystem
@@ -147,7 +148,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	public PPS getPPS(){
 		return myPPS;
 	}
-	
+
 	/**
 	* Returns the BWP subsystem
 	* @return the BWP subsystem
@@ -155,7 +156,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	public BWP getBWP(){
 		return myBWP;
 	}
-	
+
 	/**
 	* Returns the potable water produced (in liters) by the Water RS during the current tick
 	* @return the potable water produced (in liters) by the Water RS during the current tick
@@ -163,7 +164,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	public float getPotableWaterProduced(){
 		return currentPotableWaterProduced;
 	}
-	
+
 	/**
 	* Returns the grey water produced (in liters) by the Water RS during the current tick
 	* @return the grey water produced (in liters) by the Water RS during the current tick
@@ -171,7 +172,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	public float getGreyWaterProduced(){
 		return currentGreyWaterProduced;
 	}
-	
+
 	/**
 	* Returns the grey water consumed (in liters) by the Water RS during the current tick
 	* @return the grey water consumed (in liters) by the Water RS during the current tick
@@ -179,7 +180,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	public float getGreyWaterConsumed(){
 		return currentGreyWaterConsumed;
 	}
-	
+
 	/**
 	* Returns the power consumed (in watts) by the Water RS during the current tick
 	* @return the power consumed (in watts) by the Water RS during the current tick
@@ -187,7 +188,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	public float getPowerConsumed(){
 		return currentPowerConsumed;
 	}
-	
+
 	/**
 	* Returns the dirty water consumed (in liters) by the Water RS during the current tick
 	* @return the dirty water consumed (in liters) by the Water RS during the current tick
@@ -195,7 +196,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	public float getDirtyWaterConsumed(){
 		return currentDirtyWaterConsumed;
 	}
-	
+
 	/**
 	* Collects references to servers needed for putting/getting resources.
 	*/
@@ -213,7 +214,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 			e.printStackTrace(System.out);
 		}
 	}
-	
+
 	/**
 	* When ticked, the Water RS
 	* 1) attempts to collect references to various server (if not already done)
@@ -237,7 +238,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 		//get clean water from PPS and put in clean water store
 		distributePotableWater();
 	}
-	
+
 	/**
 	* Attempts to collect enough power from the Power PS to run each subsystem.
 	* If any subsystem can't get enough power, the Water RS ceases to function.
@@ -258,7 +259,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 			myAES.addPower(myAES.getPowerNeeded());
 		}
 	}
-	
+
 	/**
 	* Attempts to collect enough water from the Dirty Water Store to put into the BWP.
 	* If the Dirty Water Store can't provide enough, the Water RS supplements from the Grey Water Store.
@@ -276,7 +277,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 		}
 		myBWP.addWater(currentDirtyWaterConsumed + currentGreyWaterConsumed);
 	}
-	
+
 	/**
 	* Takes clean water from the PPS as add it to the Potable Water Store
 	*/
@@ -284,7 +285,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 		currentPotableWaterProduced = myPPS.takeWater();
 		myPotableWaterStore.add(currentPotableWaterProduced);
 	}
-	
+
 	/**
 	* Returns the name of this module (WaterRS)
 	* @return the name of the module
