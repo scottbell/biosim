@@ -294,11 +294,23 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	
 	private void checkForMeaningfulActivity(){
 		if (myCurrentActivity.getName().equals("Mission")){
-			myMissionProductivity++;
+			addProductivity();
 		}
-		else if (myCurrentActivity.getName().equals("Mission")){
-			//upkeep modules
+		else if (myCurrentActivity.getName().equals("Maitenance")){
+			maitenanceModules();
 		}
+		else if (myCurrentActivity.getName().equals("Repair")){
+			repairModule();
+		}
+	}
+	
+	private void addProductivity(){
+	}
+	
+	private void repairModule(){
+	}
+	
+	private void maitenanceModules(){
 	}
 
 	/**

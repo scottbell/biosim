@@ -119,6 +119,9 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	public int getID(){
 		return myID;
 	}
+	
+	public void maitenance(){
+	}
 
 	public StochasticIntensity getStochasticIntensity(){
 		return myStochasticIntensity;
