@@ -5,7 +5,6 @@ echo "	-initializing"
 userSelect="$@"
 devRootDir=$BIOSIM_HOME
 jacoOrbClass="-Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB"
-jacoSingletonOrbClass="-Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton"
 biosimHome="-DBIOSIM_HOME=$BIOSIM_HOME"
 currentDir=`pwd`
 if [ -z "$devRootDir" ]
@@ -63,7 +62,7 @@ greyWaterStoreName="biosim.server.water.GreyWaterStoreServer"
 frameworkName="biosim.server.framework.BiosimServer"
 loggerName="biosim.server.util.LoggerServer"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME"
-jacoInvocation="$java_command -classpath $serverClassesDir$separator$resourceDir$separator$jacoClasspath $machineTypeEnv $biosimHome $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
+jacoInvocation="$java_command -classpath $serverClassesDir$separator$resourceDir$separator$jacoClasspath $machineTypeEnv $biosimHome $jacoOrbClass $jacoNameIOR"
 echo "	-starting servers"
 case $userSelect in
 	airRS) echo "			 -starting $userSelect";$jacoInvocation $airRSName;;

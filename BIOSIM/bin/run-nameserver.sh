@@ -4,7 +4,6 @@ echo "*running nameserver"
 echo "	-initializing"
 devRootDir=$BIOSIM_HOME
 jacoOrbClass="-Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB"
-jacoSingletonOrbClass="-Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton"
 nameServer="org.jacorb.naming.NameServer"
 currentDir=`pwd`
 if [ -z "$devRootDir" ]
@@ -44,5 +43,5 @@ then
 fi
 echo "	-invoking nameserver"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME"
-$java_command -classpath $jacoClasspath $jacoOrbClass $jacoSingletonOrbClass $nameServer $nsDir/ior.txt
+$java_command -classpath $jacoClasspath $jacoOrbClass $nameServer $nsDir/ior.txt
 echo "*done with nameserver"

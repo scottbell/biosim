@@ -8,7 +8,6 @@ case $1 in
 esac
 devRootDir=$BIOSIM_HOME
 jacoOrbClass="-Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB"
-jacoSingletonOrbClass="-Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton"
 biosimHome="-DBIOSIM_HOME=$BIOSIM_HOME"
 currentDir=`pwd`
 if [ -z "$devRootDir" ]
@@ -53,7 +52,7 @@ resourceString="/resources"
 resourceDir=$devRootDir$resourceString
 plotClasspath="$devRootDir/lib/jfreechart/jcommon.jar$separator$devRootDir/lib/jfreechart/jfreechart.jar"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME"
-jacoInvocation="$java_command -classpath $plotClasspath$separator$clientClassesDir$separator$jacoClasspath$separator$resourceDir $biosimHome $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
+jacoInvocation="$java_command -classpath $plotClasspath$separator$clientClassesDir$separator$jacoClasspath$separator$resourceDir $biosimHome $jacoOrbClass $jacoNameIOR"
 echo "	-starting client"
 console="console"
 gui="gui"
