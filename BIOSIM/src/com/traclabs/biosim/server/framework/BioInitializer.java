@@ -1978,6 +1978,36 @@ public class BioInitializer{
 			e.printStackTrace();
 		}
 	}
+	
+	private void createCrewGroupAnyDeadSensor(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating CrewGroupAnyDeadSensor with moduleName: "+moduleName);
+			CrewGroupAnyDeadSensorImpl myCrewGroupAnyDeadSensorImpl = new CrewGroupAnyDeadSensorImpl(myID, moduleName);
+			setupBioModule(myCrewGroupAnyDeadSensorImpl, node);
+			mySensors.add(OrbUtils.poaToCorbaObj(myCrewGroupAnyDeadSensorImpl));
+			BiosimServer.registerServer(new CrewGroupAnyDeadSensorPOATie(myCrewGroupAnyDeadSensorImpl), myCrewGroupAnyDeadSensorImpl.getModuleName(), myCrewGroupAnyDeadSensorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureCrewGroupAnyDeadSensor(Node node){
+		//System.out.println("Configuring CrewGroupAnyDeadSensor");
+		String moduleName = getModuleName(node);
+		try{
+			CrewGroupAnyDeadSensor myCrewGroupAnyDeadSensor = CrewGroupAnyDeadSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
+			myCrewGroupAnyDeadSensor.setInput(CrewGroupHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
+	
 	private void createCrewGroupProductivitySensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
@@ -2015,6 +2045,12 @@ public class BioInitializer{
 					createCrewGroupDeathSensor(child);
 				else
 					configureCrewGroupDeathSensor(child);
+			}
+			else if (childName.equals("CrewGroupAnyDeadSensor")){
+				if (firstPass)
+					createCrewGroupAnyDeadSensor(child);
+				else
+					configureCrewGroupAnyDeadSensor(child);
 			}
 			else if (childName.equals("CrewGroupProductivitySensor")){
 				if (firstPass)

@@ -646,6 +646,7 @@ module biosim{
                                         float getO2Consumed();
 					float getProductivity();
                                         boolean isDead();
+					boolean anyDead();
                                 };
                         };
 
@@ -884,6 +885,7 @@ module biosim{
                                 interface CrewGroupProductivitySensor : CrewGroupSensor{};
                                 interface CrewGroupActivitySensor : CrewGroupSensor{};
                                 interface CrewGroupDeathSensor : CrewGroupSensor{};
+                                interface CrewGroupAnyDeadSensor : CrewGroupSensor{};
                         };
                         module environment{
                                 interface EnvironmentSensor : framework::GenericSensor{
