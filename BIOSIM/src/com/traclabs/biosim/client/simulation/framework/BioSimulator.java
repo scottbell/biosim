@@ -47,7 +47,7 @@ public class BioSimulator implements Runnable
 	public final static  String greyWaterStoreName = "GreyWaterStore";
 	public final static  String simEnvironmentName = "SimEnvironment";
 	public final static  String bioModuleHarnessName = "BioModuleHarness";
-	private final static int UPDATE_INTERVAL=1000;
+	private final static int UPDATE_INTERVAL=500;
 	//A hastable containing the server references
 	private Hashtable modules;
 	//A reference to the naming service
@@ -64,19 +64,19 @@ public class BioSimulator implements Runnable
 	private SimEnvironment mySimEnvironment;
 	private Timer myTimer;
 	private Vector synchedListeners;
-	
+
 	/**
 	* Creates the BioSimulator and collects references to the servers.
 	*/
 	public BioSimulator() {
 		ActionListener nullAction = null;
-	        myTimer = new Timer(UPDATE_INTERVAL, nullAction);
+		myTimer = new Timer(UPDATE_INTERVAL, nullAction);
 		synchedListeners = new Vector();
 		System.out.println("BioSimulator: Getting server references...");
 		collectReferences();
 		setLogging(false);
 	}
-	
+
 	/**
 	* Checks to see if the simulation is paused.
 	* @return <code>true</code> if paused, <code>false</code> if not
@@ -84,7 +84,7 @@ public class BioSimulator implements Runnable
 	public boolean isPaused(){
 		return simulationIsPaused;
 	}
-	
+
 	/**
 	* Checks to see if the simulation has started.
 	* @return <code>true</code> if started, <code>false</code> if not
@@ -92,11 +92,11 @@ public class BioSimulator implements Runnable
 	public boolean isStarted(){
 		return simulationStarted;
 	}
-	
+
 	public void addDisplayListener(ActionListener listener){
 		myTimer.addActionListener(listener);
 	}
-	
+
 	/**
 	* Registers a listener with the BioSimulator.  Synchronized as to avoid adding a listener at the same time it's notifying all of them.
 	* This listener will have it's processTick method invoked each time the BioSimulator ticks all the servers.
@@ -106,7 +106,7 @@ public class BioSimulator implements Runnable
 	public void addSynchedListener(ActionListener newListener){
 		synchedListeners.add(newListener);
 	}
-	
+
 	/**
 	* Spawns a simulation on a different thread and runs continously (ticks till signalled to end)
 	* param pUseDefaultInitialization set to <code>true</code> if user wants to use default intialization 
@@ -117,7 +117,7 @@ public class BioSimulator implements Runnable
 		myTickThread = new Thread(this);
 		myTickThread.start();
 	}
-	
+
 	/**
 	* Invoked by the myTickThread.start() method call and necessary to implement Runnable.
 	* Sets flag that simulation is running, intializes servers, then begins ticking them.
@@ -130,24 +130,24 @@ public class BioSimulator implements Runnable
 		}
 		System.out.println("BioSimulator: Running simulation...");
 		myTimer.restart();
-		System.out.println("Started timer");
+		System.out.println("BioSimulator: Display timer started...");
 		runSimulation();
 	}
-	
+
 	/**
 	* Initializes the various servers with various dummy data
 	*/
 	private void initializeSimulation(){
 		//reset servers
 		reset();
-		
+
 		//Make some crew members
 		CrewGroup myCrew = (CrewGroup)(getBioModule(crewName));
 		CrewPerson myCrewPerson1 = myCrew.createCrewPerson("Bob Roberts", 43, 170, Sex.male);
 		CrewPerson myCrewPerson2 = myCrew.createCrewPerson("Stephanie Stevens", 25, 125, Sex.female);
 		CrewPerson myCrewPerson3 = myCrew.createCrewPerson("Bill Williams", 30, 165, Sex.male);
 		CrewPerson myCrewPerson4 = myCrew.createCrewPerson("Janet Janey", 22, 130, Sex.female);
-		
+
 		//stagger actvities
 		myCrewPerson1.setCurrentActivity(myCrew.getScheduledActivityByOrder(0));
 		myCrewPerson2.setCurrentActivity(myCrew.getScheduledActivityByOrder(1));
@@ -196,27 +196,22 @@ public class BioSimulator implements Runnable
 	* Essentially runs till told to pause or die.
 	*/
 	private void runSimulation(){
+		Thread theCurrentThread = Thread.currentThread();
 		if (!simulationStarted)
 			reset();
-		for (int i = 0; true; i ++){
-			Thread theCurrentThread = Thread.currentThread();
-			while (myTickThread == theCurrentThread) {
-				tick();
-				//Conditional below to speed up things
-				if (simulationIsPaused && (myTickThread==theCurrentThread)){
-					try {
-						synchronized(this) {
-							while (simulationIsPaused && (myTickThread==theCurrentThread)){
-								wait();
-							}
-						}
+		while (myTickThread == theCurrentThread) {
+			try {
+				synchronized(this) {
+					while (simulationIsPaused && (myTickThread==theCurrentThread)){
+						wait();
 					}
-					catch (InterruptedException e){}
 				}
 			}
+			catch (InterruptedException e){}
+			tick();
 		}
 	}
-	
+
 	/**
 	* Fetches a BioModule (e.g. AirRS, FoodProcessor, PotableWaterStore) that has been collected by the BioSimulator
 	* @return the BioModule requested, null if not found
@@ -224,7 +219,7 @@ public class BioSimulator implements Runnable
 	public BioModule getBioModule(String type){
 		return (BioModule)(modules.get(type));
 	}
-	
+
 	/**
 	* Pauses the simulation.  Does nothing if already paused.
 	*/
@@ -244,7 +239,7 @@ public class BioSimulator implements Runnable
 		myTimer.stop();
 		System.out.println("BioSimulator: simulation ended");
 	}
-	
+
 	/**
 	* Check whether simulation has begun.
 	* @return <code>true</code> if simulation has started, <code>false</code> if not
@@ -263,7 +258,7 @@ public class BioSimulator implements Runnable
 		myTimer.restart();
 		myTimer.stop();
 	}
-	
+
 	/**
 	* Resumes the simulation.  Does nothing if already running.
 	*/
@@ -273,7 +268,7 @@ public class BioSimulator implements Runnable
 		myTimer.restart();
 		System.out.println("BioSimulator: simulation resumed");
 	}
-	
+
 	public synchronized void setLogging(boolean pLogSim){
 		logging = pLogSim;
 		if (logging){
@@ -287,11 +282,11 @@ public class BioSimulator implements Runnable
 			currentBioModule.setLogging(pLogSim);
 		}
 	}
-	
+
 	public boolean isLogging(){
 		return logging;
 	}
-	
+
 	/**
 	* Tries to collect references to all the servers and adds them to a hashtable than can be accessed by outside classes.
 	*/
@@ -406,7 +401,7 @@ public class BioSimulator implements Runnable
 			System.out.println("BioSimulator: Couldn't locate WaterRS, skipping...");
 		}
 	}
-	
+
 	/**
 	* Resets the simulation by calling every known server's reset method.
 	* Typically this means resetting the various gas levels, crew people, water levels, etc.
@@ -418,7 +413,7 @@ public class BioSimulator implements Runnable
 			currentBioModule.reset();
 		}
 	}
-	
+
 	/**
 	* Called after every tick, this enumerates through each known listener and calls it's processTick method.
 	*/
@@ -428,7 +423,7 @@ public class BioSimulator implements Runnable
 			currentListener.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Tick"));
 		}
 	}
-	
+
 	/**
 	* Ticks every server.  The SimEnvironment is ticked first as it keeps track of time for the rest of the server.
 	* The other server are ticked in no particular order by enumerating through the module hashtable.
@@ -446,6 +441,6 @@ public class BioSimulator implements Runnable
 		}
 		notifySynchedListeners();
 	}
-	
+
 }
 

@@ -210,6 +210,7 @@ public class SimDesktop extends BioFrame
 		getContentPane().add(myToolBar, BorderLayout.NORTH);
 
 		setTitle("BIOSIM Advanced Life Support Simulation  Copyright "+ new Character( '\u00A9' ) + " 2002, TRACLabs");
+		myDesktop.setDragMode(JDesktopPane.LIVE_DRAG_MODE);
 		getContentPane().add(myDesktop, BorderLayout.CENTER);
 	}
 	
@@ -225,9 +226,9 @@ public class SimDesktop extends BioFrame
 			environmentIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/environment/gui/environment.jpg"));
 			airIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/air/gui/air.jpg"));
 			allIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/all.jpg"));
-			startIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/power.gif"));
+			startIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/stop.gif"));
 			playIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/play.gif"));
-			stopIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/stop.gif"));
+			stopIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/power.gif"));
 			pauseIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/pause.gif"));
 			forwardIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/forward.gif"));
 		}
