@@ -78,6 +78,7 @@ public class BioHolder{
 			System.err.println("warning: Parser does not support feature ("+NAMESPACES_FEATURE_ID+")");
 		}
 		parseFile();
+		myHolder.coallateLists();
 	}
 
 	public static BioDriver getBioDriver(){
