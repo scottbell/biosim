@@ -27,9 +27,8 @@ public class SimpleBuffer {
 
 	/**
 	* Creates a Store with an initial level and capacity user specified
-	* @param initialLevel the initial level of the store
-	* @param initialCapacity the initial capacity of the store
-	* @param pPipe whether this store should act like a pipe.  dynamic capcity == level == whatever is added THIS tick (0 if nothing added, maxFlowRate should dictate pipe size, infinite otherwise)
+	* @param pInitialLevel the initial level of the store
+	* @param pInitialCapacity the initial capacity of the store
 	*/
 	public SimpleBuffer(float pInitialLevel, float pInitialCapacity){
 		level = initialLevel = pInitialLevel;
@@ -46,7 +45,7 @@ public class SimpleBuffer {
 
 	/**
 	* Sets the level to a set amount
-	* @param the level to set the store to
+	* @param metricAmount the level to set the store to
 	*/
 	public void setLevel(float metricAmount){
 		level = initialLevel = metricAmount;

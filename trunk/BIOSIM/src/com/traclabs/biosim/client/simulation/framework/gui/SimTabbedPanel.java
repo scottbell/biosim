@@ -25,7 +25,6 @@ public abstract class SimTabbedPanel extends UpdatablePanel
 
 	/**
 	* Creates and registers this panel.
-	* @param pBioSimulator	The Biosimulator this Panel will register itself with.
 	*/
 	public SimTabbedPanel(){
 		createPanels();

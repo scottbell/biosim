@@ -301,7 +301,7 @@ public class BioDriverImpl extends BioDriverPOA{
 	
 	/**
 	* Whether to log the last tick
-	* @param pLogSim Whether to log the last tick
+	* @param pLogLastTick Whether to log the last tick
 	*/
 	public synchronized void setLogLastTick(boolean pLogLastTick){
 		logLastTick = pLogLastTick;

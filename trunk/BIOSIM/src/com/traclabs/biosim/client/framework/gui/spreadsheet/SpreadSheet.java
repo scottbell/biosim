@@ -49,7 +49,7 @@ public class SpreadSheet extends JTable {
 
 	/**
 	  * Start the spreadsheet into a JFrame.
-	  * @param String[] The options passed on the command
+	  * @param args The options passed on the command
 	  *        line. Not used.
 	  */
 	public static void main(String[] args) {
@@ -107,11 +107,11 @@ public class SpreadSheet extends JTable {
 	/**
 	 * Build SpreadSheet of numCol columns and numRow rows.
 	 *
-	 * @param cells[numRow][numColumn] If not null, the cells to be used in the spreadsheet.
+	 * @param cells [numRow][numColumn] If not null, the cells to be used in the spreadsheet.
 	 *             It must be a two dimensional rectangular array. If null, the cells are
 	 *             automatically created.
-	 * @param numRow The number of rows
-	 * @param numCol The number of columns
+	 * @param colNames The names of columns
+	 * @param rowNames The names of rows
 	 *              
 	 */
 	private SpreadSheet(SheetCell[][] cells, String[] colNames, String[] rowNames) {
@@ -254,9 +254,9 @@ public class SpreadSheet extends JTable {
 	 * Invoked when a cell edition starts.
 	 * This method overrides and calls that of its super class.
 	 *
-	 * @param int The row to be edited
-	 * @param int The column to be edited
-	 * @param EventObject The firing event
+	 * @param row The row to be edited
+	 * @param column The column to be edited
+	 * @param ev The firing event
 	 * @return boolean false if for any reason the cell cannot be edited.
 	 */
 	public boolean editCellAt( int row, int column, EventObject ev) {

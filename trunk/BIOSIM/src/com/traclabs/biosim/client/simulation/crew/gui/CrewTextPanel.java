@@ -35,7 +35,6 @@ public class CrewTextPanel extends TimedPanel
 
 	/**
 	* Creates and registers this panel.
-	* @param pBioSimulator	The Biosimulator this Panel will register itself with.
 	*/
 	public CrewTextPanel(){
 		numFormat = new DecimalFormat("#,##0.00;(#)");
