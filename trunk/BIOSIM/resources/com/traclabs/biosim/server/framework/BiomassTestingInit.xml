@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='BiosimInitialization.xsd'>
-	<Globals runTillDead="false" runTillN="720" isFullLoggingEnabled="false" startPaused="true" logHandler="STANDARD_OUT">
+	<Globals runTillDead="false" runTillN="1488" isFullLoggingEnabled="false" startPaused="true" logHandler="STANDARD_OUT">
 		<comment>The default initialization for BioSim</comment>
 		<author>Scott Bell</author>
 	</Globals>
@@ -10,7 +10,7 @@
 		</environment>                    
 		<food>
 			<BiomassRS name="BiomassRS" autoHarvestAndReplant="false">
-				<shelf cropArea="1" cropType="LETTUCE"/>
+				<shelf cropArea="10" cropType="WHEAT"/>
 				<powerConsumer maxFlowRates="400" desiredFlowRates="400" inputs="PowerStore"/>
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="GreyWaterStore"/>
@@ -25,9 +25,9 @@
 			<PowerStore name="PowerStore" capacity="100000000000" level="100000000000"/>
 		</power>
 		<water>
-			<PotableWaterStore name="PotableWaterStore" capacity="500000000" level="500000000"/>
-			<GreyWaterStore name="GreyWaterStore" capacity="500000000" level="500000000"/>
-			<DirtyWaterStore name="DirtyWaterStore" capacity="500000000" level="0"/>
+			<PotableWaterStore name="PotableWaterStore" capacity="500000000000" level="500000000000"/>
+			<GreyWaterStore name="GreyWaterStore" capacity="500000000000" level="500000000000"/>
+			<DirtyWaterStore name="DirtyWaterStore" capacity="500000000000" level="0"/>
 		</water>
 	</SimBioModules>
 	<Sensors>
