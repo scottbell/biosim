@@ -146,7 +146,7 @@ public class ShelfImpl extends ShelfPOA {
 	private void tryHarvesting(){
 		if (myBiomassRSImpl.autoHarvestAndReplantEnabled()){
 			if (myCrop.readyForHarvest() || myCrop.isDead()){
-				System.out.println("ShelfImpl: Harvested!!");
+				System.out.println("ShelfImpl: Harvested "+myCrop.getPlantTypeString());
 				float biomassProduced = myCrop.harvest();
 				float biomassAdded = pushFractionalResourceToBiomassStore(myBiomassRSImpl.getBiomassOutputs(), myBiomassRSImpl.getBiomassOutputMaxFlowRates(), myBiomassRSImpl.getBiomassOutputDesiredFlowRates(), myBiomassRSImpl.getBiomassOutputActualFlowRates(), biomassProduced, myBiomassRSImpl.getNumberOfShelves(), myCrop.getPlantType());
 				myCrop.reset();
