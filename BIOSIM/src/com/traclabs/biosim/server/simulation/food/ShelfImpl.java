@@ -161,6 +161,10 @@ public class ShelfImpl extends ShelfPOA {
 		myCrop.tick();
 	}
 	
+	public void setProductionRate(float pProductionRate){
+		myCrop.setProductionRate(pProductionRate);
+	}
+	
 	public void log(LogNode myLogHead){
 		//If not initialized, fill in the log
 		if (!logInitialized){

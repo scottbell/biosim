@@ -4,6 +4,7 @@ import biosim.idl.food.*;
 import biosim.idl.util.log.*;
 import biosim.server.util.*;
 import biosim.server.framework.*;
+import biosim.idl.framework.*;
 import java.util.*;
 /**
  * The Biomass RS is essentially responsible for growing plants.  The plant matter (biomass) is fed into the food processor to create food
@@ -118,6 +119,37 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 		}
 		return theShelfArray;
 	}
+	
+	private void setProductionRate(float pProductionRate){
+		for (Enumeration e = myShelves.elements(); e.hasMoreElements();){
+			ShelfImpl currentShelf = (ShelfImpl)(e.nextElement());
+			currentShelf.setProductionRate(pProductionRate);
+		}
+	}
+	
+	private void performMalfunctions(){
+		float productionRate = 1f;
+		for (Enumeration e = myMalfunctions.elements(); e.hasMoreElements();){
+			Malfunction currentMalfunction = (Malfunction)(e.nextElement());
+			if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF){
+				if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
+					productionRate *= 0.50;
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
+					productionRate *= 0.25;
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
+					productionRate *= 0.10;
+			}
+			else if (currentMalfunction.getLength() == MalfunctionLength.PERMANENT_MALF){
+				if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
+					productionRate *= 0.50;
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
+					productionRate *= 0.25;
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
+					productionRate *= 0.10;
+			}
+		}
+		setProductionRate(productionRate);
+	}
 
 	/**
 	* Resets production/consumption levels and death/affliction flags
@@ -136,6 +168,8 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	* 4) consumes
 	*/
 	public void tick(){
+		if (isMalfunctioning())
+			performMalfunctions();
 		for (Enumeration e = myShelves.elements(); e.hasMoreElements();){
 			ShelfImpl currentShelf = (ShelfImpl)(e.nextElement());
 			currentShelf.tick();

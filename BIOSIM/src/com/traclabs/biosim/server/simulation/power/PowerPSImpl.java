@@ -3,6 +3,8 @@ package biosim.server.power;
 import biosim.idl.power.*;
 import biosim.idl.util.log.*;
 import biosim.idl.environment.*;
+import biosim.idl.framework.*;
+import java.util.*;
 import biosim.server.util.*;
 import biosim.server.framework.*;
 /**
@@ -34,9 +36,35 @@ public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperat
 	public void tick(){
 		collectReferences();
 		calculatePowerProduced();
+		if (isMalfunctioning())
+			performMalfunctions();
 		myPowerStore.add(currentPowerProduced);
 		if (moduleLogging)
 			log();
+	}
+	
+	private void performMalfunctions(){
+		float productionRate = 1f;
+		for (Enumeration e = myMalfunctions.elements(); e.hasMoreElements();){
+			Malfunction currentMalfunction = (Malfunction)(e.nextElement());
+			if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF){
+				if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
+					productionRate *= 0.50;
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
+					productionRate *= 0.25;
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
+					productionRate *= 0.10;
+			}
+			else if (currentMalfunction.getLength() == MalfunctionLength.PERMANENT_MALF){
+				if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
+					productionRate *= 0.50;
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
+					productionRate *= 0.25;
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
+					productionRate *= 0.10;
+			}
+		}
+		currentPowerProduced *= productionRate;
 	}
 	
 	protected abstract void calculatePowerProduced();
