@@ -12,11 +12,13 @@ import biosim.idl.sensor.environment.*;
 import biosim.idl.sensor.food.*;
 import biosim.idl.sensor.power.*;
 import biosim.idl.sensor.water.*;
+import biosim.idl.sensor.framework.*;
 import biosim.idl.actuator.air.*;
 import biosim.idl.actuator.environment.*;
 import biosim.idl.actuator.food.*;
 import biosim.idl.actuator.power.*;
 import biosim.idl.actuator.water.*;
+import biosim.idl.actuator.framework.*;
 import biosim.idl.framework.*;
 import java.util.*;
 import biosim.client.util.*;
@@ -175,6 +177,8 @@ public class BioHolder
 
 	//A hastable containing the server references
 	private static Map modules;
+	private static Map sensors;
+	private static Map actuators;
 	private static BioDriver myBioDriver;
 	private static boolean hasCollectedReferences = false;
 	private static int myID = 0;
@@ -201,6 +205,18 @@ public class BioHolder
 		collectReferences();
 		BioModule[] arrayModules = new BioModule[modules.size()];
 		return (BioModule[])(modules.values().toArray(arrayModules));
+	}
+	
+	public static GenericSensor[] getSensors(){
+		collectReferences();
+		GenericSensor[] arraySensors = new GenericSensor[sensors.size()];
+		return (GenericSensor[])(sensors.values().toArray(arraySensors));
+	}
+	
+	public static GenericActuator[] getActuators(){
+		collectReferences();
+		GenericActuator[] arrayActuators = new GenericActuator[actuators.size()];
+		return (GenericActuator[])(actuators.values().toArray(arrayActuators));
 	}
 
 	public static String[] getBioModuleNames(){
@@ -230,6 +246,10 @@ public class BioHolder
 		try{
 			if (modules == null)
 				modules = new Hashtable();
+			if (sensors == null)
+				sensors = new Hashtable();
+			if (actuators == null)
+				actuators = new Hashtable();
 			System.out.println("BioHolder: Collecting simulation references to modules...");
 			CrewGroup myCrew = CrewGroupHelper.narrow(OrbUtils.getNCRef().resolve_str(crewName+myID));
 			modules.put(crewName , myCrew);
@@ -271,23 +291,31 @@ public class BioHolder
 				{
 					PowerInFlowRateSensor myAirRSPowerInFlowRateSensor = PowerInFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAirRSPowerInFlowRateSensorName+myID));
 					modules.put(myAirRSPowerInFlowRateSensorName , myAirRSPowerInFlowRateSensor);
+					sensors.put(myAirRSPowerInFlowRateSensorName , myAirRSPowerInFlowRateSensor);
 					AirInFlowRateSensor myAirRSAirInFlowRateSensor = AirInFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAirRSAirInFlowRateSensorName+myID));
 					modules.put(myAirRSAirInFlowRateSensorName , myAirRSAirInFlowRateSensor);
+					sensors.put(myAirRSAirInFlowRateSensorName , myAirRSAirInFlowRateSensor);
 					AirOutFlowRateSensor myAirRSAirOutFlowRateSensor = AirOutFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAirRSAirOutFlowRateSensorName+myID));
 					modules.put(myAirRSAirOutFlowRateSensorName , myAirRSAirOutFlowRateSensor);
+					sensors.put(myAirRSAirOutFlowRateSensorName , myAirRSAirOutFlowRateSensor);
 					O2OutFlowRateSensor myAirRSO2OutFlowRateSensor = O2OutFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAirRSO2OutFlowRateSensorName+myID));
 					modules.put(myAirRSO2OutFlowRateSensorName , myAirRSO2OutFlowRateSensor);
+					sensors.put(myAirRSO2OutFlowRateSensorName , myAirRSO2OutFlowRateSensor);
 					CO2InFlowRateSensor myAirRSCO2InFlowRateSensor = CO2InFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAirRSCO2InFlowRateSensorName+myID));
 					modules.put(myAirRSCO2InFlowRateSensorName , myAirRSCO2InFlowRateSensor);
+					sensors.put(myAirRSCO2InFlowRateSensorName , myAirRSCO2InFlowRateSensor);
 					CO2OutFlowRateSensor myAirRSCO2OutFlowRateSensor = CO2OutFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAirRSCO2OutFlowRateSensorName+myID));
 					modules.put(myAirRSCO2OutFlowRateSensorName , myAirRSCO2OutFlowRateSensor);
+					sensors.put(myAirRSCO2OutFlowRateSensorName , myAirRSCO2OutFlowRateSensor);
 				}
 				//Stores
 				{
 					O2StoreLevelSensor myO2StoreLevelSensor = O2StoreLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myO2StoreLevelSensorName+myID));
 					modules.put(myO2StoreLevelSensorName , myO2StoreLevelSensor);
+					sensors.put(myO2StoreLevelSensorName , myO2StoreLevelSensor);
 					CO2StoreLevelSensor myCO2StoreLevelSensor = CO2StoreLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCO2StoreLevelSensorName+myID));
 					modules.put(myCO2StoreLevelSensorName , myCO2StoreLevelSensor);
+					sensors.put(myCO2StoreLevelSensorName , myCO2StoreLevelSensor);
 				}
 			}
 			//Power
@@ -296,11 +324,13 @@ public class BioHolder
 				{
 					PowerOutFlowRateSensor myPowerPSPowerOutFlowRateSensor = PowerOutFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPowerPSPowerOutFlowRateSensorName+myID));
 					modules.put(myPowerPSPowerOutFlowRateSensorName , myPowerPSPowerOutFlowRateSensor);
+					sensors.put(myPowerPSPowerOutFlowRateSensorName , myPowerPSPowerOutFlowRateSensor);
 				}
 				//Stores
 				{
 					PowerStoreLevelSensor myPowerStoreLevelSensor = PowerStoreLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPowerStoreLevelSensorName+myID));
 					modules.put(myPowerStoreLevelSensorName , myPowerStoreLevelSensor);
+					sensors.put(myPowerStoreLevelSensorName , myPowerStoreLevelSensor);
 				}
 			}
 			//Environment
@@ -309,19 +339,25 @@ public class BioHolder
 				{
 					OtherAirMolesSensor myCrewEnvironmentOtherAirMolesSensor = OtherAirMolesSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentOtherAirMolesSensorName+myID));
 					modules.put(myCrewEnvironmentOtherAirMolesSensorName , myCrewEnvironmentOtherAirMolesSensor);
+					sensors.put(myCrewEnvironmentOtherAirMolesSensorName , myCrewEnvironmentOtherAirMolesSensor);
 					O2AirMolesSensor myCrewEnvironmentO2AirMolesSensor = O2AirMolesSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentO2AirMolesSensorName+myID));
 					modules.put(myCrewEnvironmentO2AirMolesSensorName , myCrewEnvironmentO2AirMolesSensor);
+					sensors.put(myCrewEnvironmentO2AirMolesSensorName , myCrewEnvironmentO2AirMolesSensor);
 					CO2AirMolesSensor myCrewEnvironmentCO2AirMolesSensor = CO2AirMolesSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentCO2AirMolesSensorName+myID));
 					modules.put(myCrewEnvironmentCO2AirMolesSensorName , myCrewEnvironmentCO2AirMolesSensor);
+					sensors.put(myCrewEnvironmentCO2AirMolesSensorName , myCrewEnvironmentCO2AirMolesSensor);
 				}
 				//Plant
 				{
 					OtherAirMolesSensor myPlantEnvironmentOtherAirMolesSensor = OtherAirMolesSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentOtherAirMolesSensorName+myID));
 					modules.put(myPlantEnvironmentOtherAirMolesSensorName , myPlantEnvironmentOtherAirMolesSensor);
+					sensors.put(myPlantEnvironmentOtherAirMolesSensorName , myPlantEnvironmentOtherAirMolesSensor);
 					O2AirMolesSensor myPlantEnvironmentO2AirMolesSensor = O2AirMolesSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentO2AirMolesSensorName+myID));
 					modules.put(myPlantEnvironmentO2AirMolesSensorName , myPlantEnvironmentO2AirMolesSensor);
+					sensors.put(myPlantEnvironmentO2AirMolesSensorName , myPlantEnvironmentO2AirMolesSensor);
 					CO2AirMolesSensor myPlantEnvironmentCO2AirMolesSensor = CO2AirMolesSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentCO2AirMolesSensorName+myID));
 					modules.put(myPlantEnvironmentCO2AirMolesSensorName , myPlantEnvironmentCO2AirMolesSensor);
+					sensors.put(myPlantEnvironmentCO2AirMolesSensorName , myPlantEnvironmentCO2AirMolesSensor);
 				}
 			}
 			//Water
@@ -330,21 +366,28 @@ public class BioHolder
 				{
 					DirtyWaterInFlowRateSensor myWaterRSDirtyWaterInFlowRateSensor = DirtyWaterInFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myWaterRSDirtyWaterInFlowRateSensorName+myID));
 					modules.put(myWaterRSDirtyWaterInFlowRateSensorName , myWaterRSDirtyWaterInFlowRateSensor);
+					sensors.put(myWaterRSDirtyWaterInFlowRateSensorName , myWaterRSDirtyWaterInFlowRateSensor);
 					GreyWaterInFlowRateSensor myWaterRSGreyWaterInFlowRateSensor = GreyWaterInFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myWaterRSGreyWaterInFlowRateSensorName+myID));
 					modules.put(myWaterRSGreyWaterInFlowRateSensorName , myWaterRSGreyWaterInFlowRateSensor);
+					sensors.put(myWaterRSGreyWaterInFlowRateSensorName , myWaterRSGreyWaterInFlowRateSensor);
 					PowerInFlowRateSensor myWaterRSPowerInFlowRateSensor = PowerInFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myWaterRSPowerInFlowRateSensorName+myID));
 					modules.put(myWaterRSPowerInFlowRateSensorName , myWaterRSPowerInFlowRateSensor);
+					sensors.put(myWaterRSPowerInFlowRateSensorName , myWaterRSPowerInFlowRateSensor);
 					PotableWaterOutFlowRateSensor myWaterRSPotableWaterOutFlowRateSensor = PotableWaterOutFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myWaterRSPotableWaterOutFlowRateSensorName+myID));
 					modules.put(myWaterRSPotableWaterOutFlowRateSensorName , myWaterRSPotableWaterOutFlowRateSensor);
+					sensors.put(myWaterRSPotableWaterOutFlowRateSensorName , myWaterRSPotableWaterOutFlowRateSensor);
 				}
 				//Stores
 				{
 					PotableWaterStoreLevelSensor myPotableWaterStoreLevelSensor = PotableWaterStoreLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPotableWaterStoreLevelSensorName+myID));
 					modules.put(myPotableWaterStoreLevelSensorName , myPotableWaterStoreLevelSensor);
+					sensors.put(myPotableWaterStoreLevelSensorName , myPotableWaterStoreLevelSensor);
 					GreyWaterStoreLevelSensor myGreyWaterStoreLevelSensor = GreyWaterStoreLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myGreyWaterStoreLevelSensorName+myID));
 					modules.put(myGreyWaterStoreLevelSensorName , myGreyWaterStoreLevelSensor);
+					sensors.put(myGreyWaterStoreLevelSensorName , myGreyWaterStoreLevelSensor);
 					DirtyWaterStoreLevelSensor myDirtyWaterStoreLevelSensor = DirtyWaterStoreLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myDirtyWaterStoreLevelSensorName+myID));
 					modules.put(myDirtyWaterStoreLevelSensorName , myDirtyWaterStoreLevelSensor);
+					sensors.put(myDirtyWaterStoreLevelSensorName , myDirtyWaterStoreLevelSensor);
 				}
 			}
 			//Food
@@ -353,32 +396,43 @@ public class BioHolder
 				{
 					AirInFlowRateSensor myBiomassRSAirInFlowRateSensor = AirInFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myBiomassRSAirInFlowRateSensorName+myID));
 					modules.put(myBiomassRSAirInFlowRateSensorName , myBiomassRSAirInFlowRateSensor);
+					sensors.put(myBiomassRSAirInFlowRateSensorName , myBiomassRSAirInFlowRateSensor);
 					AirOutFlowRateSensor myBiomassRSAirOutFlowRateSensor = AirOutFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myBiomassRSAirOutFlowRateSensorName+myID));
 					modules.put(myBiomassRSAirOutFlowRateSensorName , myBiomassRSAirOutFlowRateSensor);
+					sensors.put(myBiomassRSAirOutFlowRateSensorName , myBiomassRSAirOutFlowRateSensor);
 					PotableWaterInFlowRateSensor myBiomassRSPotableWaterInFlowRateSensor = PotableWaterInFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myBiomassRSPotableWaterInFlowRateSensorName+myID));
 					modules.put(myBiomassRSPotableWaterInFlowRateSensorName , myBiomassRSPotableWaterInFlowRateSensor);
+					sensors.put(myBiomassRSPotableWaterInFlowRateSensorName , myBiomassRSPotableWaterInFlowRateSensor);
 					GreyWaterInFlowRateSensor myBiomassRSGreyWaterInFlowRateSensor = GreyWaterInFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myBiomassRSGreyWaterInFlowRateSensorName+myID));
 					modules.put(myBiomassRSGreyWaterInFlowRateSensorName , myBiomassRSGreyWaterInFlowRateSensor);
+					sensors.put(myBiomassRSGreyWaterInFlowRateSensorName , myBiomassRSGreyWaterInFlowRateSensor);
 					BiomassOutFlowRateSensor myBiomassRSBiomassOutFlowRateSensor = BiomassOutFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myBiomassRSBiomassOutFlowRateSensorName+myID));
 					modules.put(myBiomassRSBiomassOutFlowRateSensorName , myBiomassRSBiomassOutFlowRateSensor);
+					sensors.put(myBiomassRSBiomassOutFlowRateSensorName , myBiomassRSBiomassOutFlowRateSensor);
 					PowerInFlowRateSensor myBiomassRSPowerInFlowRateSensor = PowerInFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myBiomassRSPowerInFlowRateSensorName+myID));
 					modules.put(myBiomassRSPowerInFlowRateSensorName , myBiomassRSPowerInFlowRateSensor);
+					sensors.put(myBiomassRSPowerInFlowRateSensorName , myBiomassRSPowerInFlowRateSensor);
 				}
 				//Food Processor
 				{
 					PowerInFlowRateSensor myFoodProcessorPowerInFlowRateSensor = PowerInFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myFoodProcessorPowerInFlowRateSensorName+myID));
 					modules.put(myFoodProcessorPowerInFlowRateSensorName , myFoodProcessorPowerInFlowRateSensor);
+					sensors.put(myFoodProcessorPowerInFlowRateSensorName , myFoodProcessorPowerInFlowRateSensor);
 					BiomassInFlowRateSensor myFoodProcessorBiomassInFlowRateSensor = BiomassInFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myFoodProcessorBiomassInFlowRateSensorName+myID));
 					modules.put(myFoodProcessorBiomassInFlowRateSensorName , myFoodProcessorBiomassInFlowRateSensor);
+					sensors.put(myFoodProcessorBiomassInFlowRateSensorName , myFoodProcessorBiomassInFlowRateSensor);
 					FoodOutFlowRateSensor myFoodProcessorFoodOutFlowRateSensor = FoodOutFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myFoodProcessorFoodOutFlowRateSensorName+myID));
 					modules.put(myFoodProcessorFoodOutFlowRateSensorName , myFoodProcessorFoodOutFlowRateSensor);
+					sensors.put(myFoodProcessorFoodOutFlowRateSensorName , myFoodProcessorFoodOutFlowRateSensor);
 				}
 				//Stores
 				{
 					BiomassStoreLevelSensor myBiomassStoreLevelSensor = BiomassStoreLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myBiomassStoreLevelSensorName+myID));
 					modules.put(myBiomassStoreLevelSensorName , myBiomassStoreLevelSensor);
+					sensors.put(myBiomassStoreLevelSensorName , myBiomassStoreLevelSensor);
 					FoodStoreLevelSensor myFoodStoreLevelSensor = FoodStoreLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myFoodStoreLevelSensorName+myID));
 					modules.put(myFoodStoreLevelSensorName , myFoodStoreLevelSensor);
+					sensors.put(myFoodStoreLevelSensorName , myFoodStoreLevelSensor);
 				}
 			}
 			//Framework
@@ -387,23 +441,31 @@ public class BioHolder
 				{
 					CO2AirEnvironmentInFlowRateSensor myAccumulatorCO2AirEnvironmentInFlowRateSensor = CO2AirEnvironmentInFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAccumulatorCO2AirEnvironmentInFlowRateSensorName+myID));
 					modules.put(myAccumulatorCO2AirEnvironmentInFlowRateSensorName , myAccumulatorCO2AirEnvironmentInFlowRateSensor);
+					sensors.put(myAccumulatorCO2AirEnvironmentInFlowRateSensorName , myAccumulatorCO2AirEnvironmentInFlowRateSensor);
 					O2AirEnvironmentInFlowRateSensor myAccumulatorO2AirEnvironmentInFlowRateSensor = O2AirEnvironmentInFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAccumulatorO2AirEnvironmentInFlowRateSensorName+myID));
 					modules.put(myAccumulatorO2AirEnvironmentInFlowRateSensorName , myAccumulatorO2AirEnvironmentInFlowRateSensor);
+					sensors.put(myAccumulatorO2AirEnvironmentInFlowRateSensorName , myAccumulatorO2AirEnvironmentInFlowRateSensor);
 					CO2AirStoreOutFlowRateSensor myAccumulatorCO2AirStoreOutFlowRateSensor = CO2AirStoreOutFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAccumulatorCO2AirStoreOutFlowRateSensorName+myID));
 					modules.put(myAccumulatorCO2AirStoreOutFlowRateSensorName , myAccumulatorCO2AirStoreOutFlowRateSensor);
+					sensors.put(myAccumulatorCO2AirStoreOutFlowRateSensorName , myAccumulatorCO2AirStoreOutFlowRateSensor);
 					O2AirStoreOutFlowRateSensor myAccumulatorO2AirStoreOutFlowRateSensor = O2AirStoreOutFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAccumulatorO2AirStoreOutFlowRateSensorName+myID));
 					modules.put(myAccumulatorO2AirStoreOutFlowRateSensorName , myAccumulatorO2AirStoreOutFlowRateSensor);
+					sensors.put(myAccumulatorO2AirStoreOutFlowRateSensorName , myAccumulatorO2AirStoreOutFlowRateSensor);
 				}
 				//Injector
 				{
 					CO2AirStoreInFlowRateSensor myInjectorCO2AirStoreInFlowRateSensor = CO2AirStoreInFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myInjectorCO2AirStoreInFlowRateSensorName+myID));
 					modules.put(myInjectorCO2AirStoreInFlowRateSensorName , myInjectorCO2AirStoreInFlowRateSensor);
+					sensors.put(myInjectorCO2AirStoreInFlowRateSensorName , myInjectorCO2AirStoreInFlowRateSensor);
 					O2AirStoreInFlowRateSensor myInjectorO2AirStoreInFlowRateSensor = O2AirStoreInFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myInjectorO2AirStoreInFlowRateSensorName+myID));
 					modules.put(myInjectorO2AirStoreInFlowRateSensorName , myInjectorO2AirStoreInFlowRateSensor);
+					sensors.put(myInjectorO2AirStoreInFlowRateSensorName , myInjectorO2AirStoreInFlowRateSensor);
 					CO2AirEnvironmentOutFlowRateSensor myInjectorCO2AirEnvironmentOutFlowRateSensor = CO2AirEnvironmentOutFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myInjectorCO2AirEnvironmentOutFlowRateSensorName+myID));
 					modules.put(myInjectorCO2AirEnvironmentOutFlowRateSensorName , myInjectorCO2AirEnvironmentOutFlowRateSensor);
+					sensors.put(myInjectorCO2AirEnvironmentOutFlowRateSensorName , myInjectorCO2AirEnvironmentOutFlowRateSensor);
 					O2AirEnvironmentOutFlowRateSensor myInjectorO2AirEnvironmentOutFlowRateSensor = O2AirEnvironmentOutFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myInjectorO2AirEnvironmentOutFlowRateSensorName+myID));
 					modules.put(myInjectorO2AirEnvironmentOutFlowRateSensorName , myInjectorO2AirEnvironmentOutFlowRateSensor);
+					sensors.put(myInjectorO2AirEnvironmentOutFlowRateSensorName , myInjectorO2AirEnvironmentOutFlowRateSensor);
 				}
 			}
 			System.out.println("BioHolder: Collecting actuator references to modules...");
@@ -413,23 +475,31 @@ public class BioHolder
 				{
 					PowerInFlowRateActuator myAirRSPowerInFlowRateActuator = PowerInFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAirRSPowerInFlowRateActuatorName+myID));
 					modules.put(myAirRSPowerInFlowRateActuatorName , myAirRSPowerInFlowRateActuator);
+					actuators.put(myAirRSPowerInFlowRateActuatorName , myAirRSPowerInFlowRateActuator);
 					AirInFlowRateActuator myAirRSAirInFlowRateActuator = AirInFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAirRSAirInFlowRateActuatorName+myID));
 					modules.put(myAirRSAirInFlowRateActuatorName , myAirRSAirInFlowRateActuator);
+					actuators.put(myAirRSAirInFlowRateActuatorName , myAirRSAirInFlowRateActuator);
 					AirOutFlowRateActuator myAirRSAirOutFlowRateActuator = AirOutFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAirRSAirOutFlowRateActuatorName+myID));
 					modules.put(myAirRSAirOutFlowRateActuatorName , myAirRSAirOutFlowRateActuator);
+					actuators.put(myAirRSAirOutFlowRateActuatorName , myAirRSAirOutFlowRateActuator);
 					O2OutFlowRateActuator myAirRSO2OutFlowRateActuator = O2OutFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAirRSO2OutFlowRateActuatorName+myID));
 					modules.put(myAirRSO2OutFlowRateActuatorName , myAirRSO2OutFlowRateActuator);
+					actuators.put(myAirRSO2OutFlowRateActuatorName , myAirRSO2OutFlowRateActuator);
 					CO2InFlowRateActuator myAirRSCO2InFlowRateActuator = CO2InFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAirRSCO2InFlowRateActuatorName+myID));
 					modules.put(myAirRSCO2InFlowRateActuatorName , myAirRSCO2InFlowRateActuator);
+					actuators.put(myAirRSCO2InFlowRateActuatorName , myAirRSCO2InFlowRateActuator);
 					CO2OutFlowRateActuator myAirRSCO2OutFlowRateActuator = CO2OutFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAirRSCO2OutFlowRateActuatorName+myID));
 					modules.put(myAirRSCO2OutFlowRateActuatorName , myAirRSCO2OutFlowRateActuator);
+					actuators.put(myAirRSCO2OutFlowRateActuatorName , myAirRSCO2OutFlowRateActuator);
 				}
 				//Stores
 				{
 					O2StoreLevelActuator myO2StoreLevelActuator = O2StoreLevelActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myO2StoreLevelActuatorName+myID));
 					modules.put(myO2StoreLevelActuatorName , myO2StoreLevelActuator);
+					actuators.put(myO2StoreLevelActuatorName , myO2StoreLevelActuator);
 					CO2StoreLevelActuator myCO2StoreLevelActuator = CO2StoreLevelActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCO2StoreLevelActuatorName+myID));
 					modules.put(myCO2StoreLevelActuatorName , myCO2StoreLevelActuator);
+					actuators.put(myCO2StoreLevelActuatorName , myCO2StoreLevelActuator);
 				}
 			}
 			//Power
@@ -438,11 +508,13 @@ public class BioHolder
 				{
 					PowerOutFlowRateActuator myPowerPSPowerOutFlowRateActuator = PowerOutFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPowerPSPowerOutFlowRateActuatorName+myID));
 					modules.put(myPowerPSPowerOutFlowRateActuatorName , myPowerPSPowerOutFlowRateActuator);
+					actuators.put(myPowerPSPowerOutFlowRateActuatorName , myPowerPSPowerOutFlowRateActuator);
 				}
 				//Stores
 				{
 					PowerStoreLevelActuator myPowerStoreLevelActuator = PowerStoreLevelActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPowerStoreLevelActuatorName+myID));
 					modules.put(myPowerStoreLevelActuatorName , myPowerStoreLevelActuator);
+					actuators.put(myPowerStoreLevelActuatorName , myPowerStoreLevelActuator);
 				}
 			}
 			//Environment
@@ -451,19 +523,25 @@ public class BioHolder
 				{
 					OtherAirMolesActuator myCrewEnvironmentOtherAirMolesActuator = OtherAirMolesActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentOtherAirMolesActuatorName+myID));
 					modules.put(myCrewEnvironmentOtherAirMolesActuatorName , myCrewEnvironmentOtherAirMolesActuator);
+					actuators.put(myCrewEnvironmentOtherAirMolesActuatorName , myCrewEnvironmentOtherAirMolesActuator);
 					O2AirMolesActuator myCrewEnvironmentO2AirMolesActuator = O2AirMolesActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentO2AirMolesActuatorName+myID));
 					modules.put(myCrewEnvironmentO2AirMolesActuatorName , myCrewEnvironmentO2AirMolesActuator);
+					actuators.put(myCrewEnvironmentO2AirMolesActuatorName , myCrewEnvironmentO2AirMolesActuator);
 					CO2AirMolesActuator myCrewEnvironmentCO2AirMolesActuator = CO2AirMolesActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentCO2AirMolesActuatorName+myID));
 					modules.put(myCrewEnvironmentCO2AirMolesActuatorName , myCrewEnvironmentCO2AirMolesActuator);
+					actuators.put(myCrewEnvironmentCO2AirMolesActuatorName , myCrewEnvironmentCO2AirMolesActuator);
 				}
 				//Plant
 				{
 					OtherAirMolesActuator myPlantEnvironmentOtherAirMolesActuator = OtherAirMolesActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentOtherAirMolesActuatorName+myID));
 					modules.put(myPlantEnvironmentOtherAirMolesActuatorName , myPlantEnvironmentOtherAirMolesActuator);
+					actuators.put(myPlantEnvironmentOtherAirMolesActuatorName , myPlantEnvironmentOtherAirMolesActuator);
 					O2AirMolesActuator myPlantEnvironmentO2AirMolesActuator = O2AirMolesActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentO2AirMolesActuatorName+myID));
 					modules.put(myPlantEnvironmentO2AirMolesActuatorName , myPlantEnvironmentO2AirMolesActuator);
+					actuators.put(myPlantEnvironmentO2AirMolesActuatorName , myPlantEnvironmentO2AirMolesActuator);
 					CO2AirMolesActuator myPlantEnvironmentCO2AirMolesActuator = CO2AirMolesActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentCO2AirMolesActuatorName+myID));
 					modules.put(myPlantEnvironmentCO2AirMolesActuatorName , myPlantEnvironmentCO2AirMolesActuator);
+					actuators.put(myPlantEnvironmentCO2AirMolesActuatorName , myPlantEnvironmentCO2AirMolesActuator);
 				}
 			}
 			//Water
@@ -472,21 +550,28 @@ public class BioHolder
 				{
 					DirtyWaterInFlowRateActuator myWaterRSDirtyWaterInFlowRateActuator = DirtyWaterInFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myWaterRSDirtyWaterInFlowRateActuatorName+myID));
 					modules.put(myWaterRSDirtyWaterInFlowRateActuatorName , myWaterRSDirtyWaterInFlowRateActuator);
+					actuators.put(myWaterRSDirtyWaterInFlowRateActuatorName , myWaterRSDirtyWaterInFlowRateActuator);
 					GreyWaterInFlowRateActuator myWaterRSGreyWaterInFlowRateActuator = GreyWaterInFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myWaterRSGreyWaterInFlowRateActuatorName+myID));
 					modules.put(myWaterRSGreyWaterInFlowRateActuatorName , myWaterRSGreyWaterInFlowRateActuator);
+					actuators.put(myWaterRSGreyWaterInFlowRateActuatorName , myWaterRSGreyWaterInFlowRateActuator);
 					PowerInFlowRateActuator myWaterRSPowerInFlowRateActuator = PowerInFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myWaterRSPowerInFlowRateActuatorName+myID));
 					modules.put(myWaterRSPowerInFlowRateActuatorName , myWaterRSPowerInFlowRateActuator);
+					actuators.put(myWaterRSPowerInFlowRateActuatorName , myWaterRSPowerInFlowRateActuator);
 					PotableWaterOutFlowRateActuator myWaterRSPotableWaterOutFlowRateActuator = PotableWaterOutFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myWaterRSPotableWaterOutFlowRateActuatorName+myID));
 					modules.put(myWaterRSPotableWaterOutFlowRateActuatorName , myWaterRSPotableWaterOutFlowRateActuator);
+					actuators.put(myWaterRSPotableWaterOutFlowRateActuatorName , myWaterRSPotableWaterOutFlowRateActuator);
 				}
 				//Stores
 				{
 					PotableWaterStoreLevelActuator myPotableWaterStoreLevelActuator = PotableWaterStoreLevelActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPotableWaterStoreLevelActuatorName+myID));
 					modules.put(myPotableWaterStoreLevelActuatorName , myPotableWaterStoreLevelActuator);
+					actuators.put(myPotableWaterStoreLevelActuatorName , myPotableWaterStoreLevelActuator);
 					GreyWaterStoreLevelActuator myGreyWaterStoreLevelActuator = GreyWaterStoreLevelActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myGreyWaterStoreLevelActuatorName+myID));
 					modules.put(myGreyWaterStoreLevelActuatorName , myGreyWaterStoreLevelActuator);
+					actuators.put(myGreyWaterStoreLevelActuatorName , myGreyWaterStoreLevelActuator);
 					DirtyWaterStoreLevelActuator myDirtyWaterStoreLevelActuator = DirtyWaterStoreLevelActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myDirtyWaterStoreLevelActuatorName+myID));
 					modules.put(myDirtyWaterStoreLevelActuatorName , myDirtyWaterStoreLevelActuator);
+					actuators.put(myDirtyWaterStoreLevelActuatorName , myDirtyWaterStoreLevelActuator);
 				}
 			}
 			//Food
@@ -495,32 +580,43 @@ public class BioHolder
 				{
 					AirInFlowRateActuator myBiomassRSAirInFlowRateActuator = AirInFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myBiomassRSAirInFlowRateActuatorName+myID));
 					modules.put(myBiomassRSAirInFlowRateActuatorName , myBiomassRSAirInFlowRateActuator);
+					actuators.put(myBiomassRSAirInFlowRateActuatorName , myBiomassRSAirInFlowRateActuator);
 					AirOutFlowRateActuator myBiomassRSAirOutFlowRateActuator = AirOutFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myBiomassRSAirOutFlowRateActuatorName+myID));
 					modules.put(myBiomassRSAirOutFlowRateActuatorName , myBiomassRSAirOutFlowRateActuator);
+					actuators.put(myBiomassRSAirOutFlowRateActuatorName , myBiomassRSAirOutFlowRateActuator);
 					PotableWaterInFlowRateActuator myBiomassRSPotableWaterInFlowRateActuator = PotableWaterInFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myBiomassRSPotableWaterInFlowRateActuatorName+myID));
 					modules.put(myBiomassRSPotableWaterInFlowRateActuatorName , myBiomassRSPotableWaterInFlowRateActuator);
+					actuators.put(myBiomassRSPotableWaterInFlowRateActuatorName , myBiomassRSPotableWaterInFlowRateActuator);
 					GreyWaterInFlowRateActuator myBiomassRSGreyWaterInFlowRateActuator = GreyWaterInFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myBiomassRSGreyWaterInFlowRateActuatorName+myID));
 					modules.put(myBiomassRSGreyWaterInFlowRateActuatorName , myBiomassRSGreyWaterInFlowRateActuator);
+					actuators.put(myBiomassRSGreyWaterInFlowRateActuatorName , myBiomassRSGreyWaterInFlowRateActuator);
 					BiomassOutFlowRateActuator myBiomassRSBiomassOutFlowRateActuator = BiomassOutFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myBiomassRSBiomassOutFlowRateActuatorName+myID));
 					modules.put(myBiomassRSBiomassOutFlowRateActuatorName , myBiomassRSBiomassOutFlowRateActuator);
+					actuators.put(myBiomassRSBiomassOutFlowRateActuatorName , myBiomassRSBiomassOutFlowRateActuator);
 					PowerInFlowRateActuator myBiomassRSPowerInFlowRateActuator = PowerInFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myBiomassRSPowerInFlowRateActuatorName+myID));
 					modules.put(myBiomassRSPowerInFlowRateActuatorName , myBiomassRSPowerInFlowRateActuator);
+					actuators.put(myBiomassRSPowerInFlowRateActuatorName , myBiomassRSPowerInFlowRateActuator);
 				}
 				//Food Processor
 				{
 					PowerInFlowRateActuator myFoodProcessorPowerInFlowRateActuator = PowerInFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myFoodProcessorPowerInFlowRateActuatorName+myID));
 					modules.put(myFoodProcessorPowerInFlowRateActuatorName , myFoodProcessorPowerInFlowRateActuator);
+					actuators.put(myFoodProcessorPowerInFlowRateActuatorName , myFoodProcessorPowerInFlowRateActuator);
 					BiomassInFlowRateActuator myFoodProcessorBiomassInFlowRateActuator = BiomassInFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myFoodProcessorBiomassInFlowRateActuatorName+myID));
 					modules.put(myFoodProcessorBiomassInFlowRateActuatorName , myFoodProcessorBiomassInFlowRateActuator);
+					actuators.put(myFoodProcessorBiomassInFlowRateActuatorName , myFoodProcessorBiomassInFlowRateActuator);
 					FoodOutFlowRateActuator myFoodProcessorFoodOutFlowRateActuator = FoodOutFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myFoodProcessorFoodOutFlowRateActuatorName+myID));
 					modules.put(myFoodProcessorFoodOutFlowRateActuatorName , myFoodProcessorFoodOutFlowRateActuator);
+					actuators.put(myFoodProcessorFoodOutFlowRateActuatorName , myFoodProcessorFoodOutFlowRateActuator);
 				}
 				//Stores
 				{
 					BiomassStoreLevelActuator myBiomassStoreLevelActuator = BiomassStoreLevelActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myBiomassStoreLevelActuatorName+myID));
 					modules.put(myBiomassStoreLevelActuatorName , myBiomassStoreLevelActuator);
+					actuators.put(myBiomassStoreLevelActuatorName , myBiomassStoreLevelActuator);
 					FoodStoreLevelActuator myFoodStoreLevelActuator = FoodStoreLevelActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myFoodStoreLevelActuatorName+myID));
 					modules.put(myFoodStoreLevelActuatorName , myFoodStoreLevelActuator);
+					actuators.put(myFoodStoreLevelActuatorName , myFoodStoreLevelActuator);
 				}
 			}
 			//Framework
@@ -529,23 +625,31 @@ public class BioHolder
 				{
 					CO2AirEnvironmentInFlowRateActuator myAccumulatorCO2AirEnvironmentInFlowRateActuator = CO2AirEnvironmentInFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAccumulatorCO2AirEnvironmentInFlowRateActuatorName+myID));
 					modules.put(myAccumulatorCO2AirEnvironmentInFlowRateActuatorName , myAccumulatorCO2AirEnvironmentInFlowRateActuator);
+					actuators.put(myAccumulatorCO2AirEnvironmentInFlowRateActuatorName , myAccumulatorCO2AirEnvironmentInFlowRateActuator);
 					O2AirEnvironmentInFlowRateActuator myAccumulatorO2AirEnvironmentInFlowRateActuator = O2AirEnvironmentInFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAccumulatorO2AirEnvironmentInFlowRateActuatorName+myID));
 					modules.put(myAccumulatorO2AirEnvironmentInFlowRateActuatorName , myAccumulatorO2AirEnvironmentInFlowRateActuator);
+					actuators.put(myAccumulatorO2AirEnvironmentInFlowRateActuatorName , myAccumulatorO2AirEnvironmentInFlowRateActuator);
 					CO2AirStoreOutFlowRateActuator myAccumulatorCO2AirStoreOutFlowRateActuator = CO2AirStoreOutFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAccumulatorCO2AirStoreOutFlowRateActuatorName+myID));
 					modules.put(myAccumulatorCO2AirStoreOutFlowRateActuatorName , myAccumulatorCO2AirStoreOutFlowRateActuator);
+					actuators.put(myAccumulatorCO2AirStoreOutFlowRateActuatorName , myAccumulatorCO2AirStoreOutFlowRateActuator);
 					O2AirStoreOutFlowRateActuator myAccumulatorO2AirStoreOutFlowRateActuator = O2AirStoreOutFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAccumulatorO2AirStoreOutFlowRateActuatorName+myID));
 					modules.put(myAccumulatorO2AirStoreOutFlowRateActuatorName , myAccumulatorO2AirStoreOutFlowRateActuator);
+					actuators.put(myAccumulatorO2AirStoreOutFlowRateActuatorName , myAccumulatorO2AirStoreOutFlowRateActuator);
 				}
 				//Injector
 				{
 					CO2AirStoreInFlowRateActuator myInjectorCO2AirStoreInFlowRateActuator = CO2AirStoreInFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myInjectorCO2AirStoreInFlowRateActuatorName+myID));
 					modules.put(myInjectorCO2AirStoreInFlowRateActuatorName , myInjectorCO2AirStoreInFlowRateActuator);
+					actuators.put(myInjectorCO2AirStoreInFlowRateActuatorName , myInjectorCO2AirStoreInFlowRateActuator);
 					O2AirStoreInFlowRateActuator myInjectorO2AirStoreInFlowRateActuator = O2AirStoreInFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myInjectorO2AirStoreInFlowRateActuatorName+myID));
 					modules.put(myInjectorO2AirStoreInFlowRateActuatorName , myInjectorO2AirStoreInFlowRateActuator);
+					actuators.put(myInjectorO2AirStoreInFlowRateActuatorName , myInjectorO2AirStoreInFlowRateActuator);
 					CO2AirEnvironmentOutFlowRateActuator myInjectorCO2AirEnvironmentOutFlowRateActuator = CO2AirEnvironmentOutFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myInjectorCO2AirEnvironmentOutFlowRateActuatorName+myID));
 					modules.put(myInjectorCO2AirEnvironmentOutFlowRateActuatorName , myInjectorCO2AirEnvironmentOutFlowRateActuator);
+					actuators.put(myInjectorCO2AirEnvironmentOutFlowRateActuatorName , myInjectorCO2AirEnvironmentOutFlowRateActuator);
 					O2AirEnvironmentOutFlowRateActuator myInjectorO2AirEnvironmentOutFlowRateActuator = O2AirEnvironmentOutFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myInjectorO2AirEnvironmentOutFlowRateActuatorName+myID));
 					modules.put(myInjectorO2AirEnvironmentOutFlowRateActuatorName , myInjectorO2AirEnvironmentOutFlowRateActuator);
+					actuators.put(myInjectorO2AirEnvironmentOutFlowRateActuatorName , myInjectorO2AirEnvironmentOutFlowRateActuator);
 				}
 			}
 			System.out.println("BioHolder: Collecting framework references to modules...");

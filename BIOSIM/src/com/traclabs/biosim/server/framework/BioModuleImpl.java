@@ -33,6 +33,8 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	private int myID = 0;
 	//The Malfunctions in a Map (key is a Long representing the Malfunction ID, value is the Malfunction Object)
 	protected Map myMalfunctions;
+	private boolean canBreakdown = false;
+	private float sigmoidSlope = 0f;
 	
 	/**
 	* Constructor to create a BioModule, should only be called by those deriving from BioModule.
@@ -49,15 +51,35 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	* Called at every tick of the simulation.  Does nothing if not overriden.
 	*/
 	public void tick(){
+		if (canBreakdown)
+			checkBreakdownRisk();
 		if (isMalfunctioning())
 			performMalfunctions();
 		if (moduleLogging)
 			log();
 	}
 	
+	private void checkBreakdownRisk(){
+		sigmoidSlope += 0.01f;
+		float sigmoidReturn = sigmoid(sigmoidSlope);
+		float randomNumber = myRandomGen.nextFloat();
+		if (sigmoidReturn <= randomNumber)
+			startMalfunction(MalfunctionIntensity.LOW_MALF, MalfunctionLength.TEMPORARY_MALF);
+	}
+	
 	protected void performMalfunctions(){
 	}
+	
 	protected void log(){
+	}
+	
+	private float sigmoid(float slope){
+		float exponent = exp(-(1/slope));
+		return 1 / (1 - (exponent));
+	}
+	
+	private float exp(float a){
+		return (new Double(Math.exp(a))).floatValue();
 	}
 	
 	/**
@@ -218,6 +240,17 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	* NOT IMPLEMENTED YET
 	*/
 	public void maitenance(){
+		sigmoidSlope -= 0.2f;
+		if (sigmoidSlope < 0f)
+			sigmoidSlope = 0f;
+	}
+	
+	public void setEnableBreakdown(boolean pValue){
+		canBreakdown = pValue;
+	}
+	
+	public boolean breakdownIsEnabled(){
+		return canBreakdown;
 	}
 	
 	/**
