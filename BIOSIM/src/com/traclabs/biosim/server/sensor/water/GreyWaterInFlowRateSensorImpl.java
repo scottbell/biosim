@@ -34,6 +34,10 @@ public class GreyWaterInFlowRateSensorImpl extends GenericSensorImpl implements 
 		return myIndex;
 	}
 	
+	public float getMax(){
+		return myConsumer.getGreyWaterInputMaxFlowRate(myIndex);
+	}
+	
 	/**
 	* Returns the name of this module (GreyWaterInFlowRateSensor)
 	* @return the name of the module

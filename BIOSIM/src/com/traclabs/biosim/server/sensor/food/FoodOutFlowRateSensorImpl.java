@@ -26,6 +26,10 @@ public class FoodOutFlowRateSensorImpl extends GenericSensorImpl implements Food
 		myIndex = pIndex;
 	}
 	
+	public float getMax(){
+		return myProducer.getFoodOutputMaxFlowRate(myIndex);
+	}
+	
 	public FoodProducer getInput(){
 		return myProducer;
 	}

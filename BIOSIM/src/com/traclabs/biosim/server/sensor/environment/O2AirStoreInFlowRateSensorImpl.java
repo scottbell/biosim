@@ -27,6 +27,10 @@ public class O2AirStoreInFlowRateSensorImpl extends GenericSensorImpl implements
 		myIndex = pIndex;
 	}
 	
+	public float getMax(){
+		return myConsumer.getO2AirEnvironmentInputMaxFlowRate(myIndex);
+	}
+	
 	public O2AirConsumer getInput(){
 		return myConsumer;
 	}

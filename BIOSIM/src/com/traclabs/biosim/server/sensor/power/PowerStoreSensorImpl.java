@@ -23,6 +23,10 @@ public abstract class PowerStoreSensorImpl extends GenericSensorImpl implements 
 		return myPowerStore;
 	}
 	
+	public float getMax(){
+		return myPowerStore.getCapacity();
+	}
+	
 	/**
 	* Returns the name of this module (PowerStoreSensor)
 	* @return the name of the module

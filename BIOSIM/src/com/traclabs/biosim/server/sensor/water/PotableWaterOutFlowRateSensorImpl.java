@@ -34,6 +34,10 @@ public class PotableWaterOutFlowRateSensorImpl extends GenericSensorImpl impleme
 		return myIndex;
 	}
 	
+	public float getMax(){
+		return myProducer.getPotableWaterOutputMaxFlowRate(myIndex);
+	}
+	
 	/**
 	* Returns the name of this module (PotableWaterOutFlowRateSensor)
 	* @return the name of the module

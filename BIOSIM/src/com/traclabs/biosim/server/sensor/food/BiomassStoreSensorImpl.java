@@ -23,6 +23,10 @@ public abstract class BiomassStoreSensorImpl extends GenericSensorImpl implement
 		return myBiomassStore;
 	}
 	
+	public float getMax(){
+		return myBiomassStore.getCapacity();
+	}
+	
 	/**
 	* Returns the name of this module (BiomassStoreSensor)
 	* @return the name of the module

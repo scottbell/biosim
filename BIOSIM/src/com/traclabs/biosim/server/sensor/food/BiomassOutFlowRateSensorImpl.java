@@ -26,6 +26,10 @@ public class BiomassOutFlowRateSensorImpl extends GenericSensorImpl implements B
 		myIndex = pIndex;
 	}
 	
+	public float getMax(){
+		return myProducer.getBiomassOutputMaxFlowRate(myIndex);
+	}
+	
 	public BiomassProducer getInput(){
 		return myProducer;
 	}

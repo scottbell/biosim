@@ -23,6 +23,10 @@ public abstract class PotableWaterStoreSensorImpl extends GenericSensorImpl impl
 		return myPotableWaterStore;
 	}
 	
+	public float getMax(){
+		return myPotableWaterStore.getCapacity();
+	}
+	
 	/**
 	* Returns the name of this module (PotableWaterStoreSensor)
 	* @return the name of the module
