@@ -189,8 +189,8 @@ public class IncineratorImpl extends SimBioModuleImpl implements IncineratorOper
 		}
 		else{
 			currentO2Consumed = 0f;
-			Arrays.currentDryWasteConsumed(O2ActualFlowRates, 0f);
-			currentO2Consumed = 0f;
+			Arrays.fill(O2ActualFlowRates, 0f);
+			currentDryWasteConsumed = 0f;
 			Arrays.fill(dryWasteActualFlowRates, 0f);
 		}
 	}
