@@ -4,7 +4,7 @@
 ; NOTE: this .NSI script is designed for NSIS v1.8+
 
 Name "BioSim"
-OutFile "InstallBiosim.exe"
+OutFile "Setup.exe"
 
 ; Some default compiler settings (uncomment and change at will):
 ; SetCompress auto ; (can be off or force)
@@ -27,6 +27,8 @@ File run-distro-server.bat
 File run-distro-client.bat
 File run-distro-nameserver.bat
 File run-biosim.bat
+File biosim.ico
+CreateShortCut "$INSTDIR\BioSim.lnk" "$INSTDIR\run-biosim.bat" "" "$INSTDIR\biosim.ico" 0
 WriteRegStr HKEY_LOCAL_MACHINE "SOFTWARE\TRACLabs\BioSim" "" "$INSTDIR"
 WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\BioSim" "DisplayName" "BioSim (remove only)"
 WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\BioSim" "UninstallString" '"$INSTDIR\uninst.exe"'
@@ -34,6 +36,12 @@ WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninst
 WriteUninstaller "$INSTDIR\uninst.exe"
 SectionEnd ; end of default section
 
+; optional section
+Section "Start Menu Shortcuts"
+  CreateDirectory "$SMPROGRAMS\BioSim"
+  CreateShortCut "$SMPROGRAMS\BioSim\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
+  CreateShortCut "$SMPROGRAMS\BioSim\BioSim.lnk" "$INSTDIR\run-biosim.bat"
+SectionEnd
 
 ; begin uninstall settings/section
 UninstallText "This will uninstall BioSIM from your system"
@@ -41,6 +49,12 @@ UninstallText "This will uninstall BioSIM from your system"
 Section Uninstall
 ; add delete commands to delete whatever files/registry keys/etc you installed here.
 Delete "$INSTDIR\uninst.exe"
+Delete "$INSTDIR\biosim.jar"
+Delete "$INSTDIR\run-distro-server.bat"
+Delete "$INSTDIR\run-distro-client.bat"
+Delete "$INSTDIR\run-distro-nameserver.bat"
+Delete "$INSTDIR\run-biosim.bat"
+Delete "$INSTDIR\biosim.ico"
 DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\TRACLabs\BioSim"
 DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\BioSim"
 RMDir "$INSTDIR"
