@@ -103,8 +103,8 @@ public class BioSimulator implements Runnable
 
 		//Add some power
 		PowerStore myPowerStore = (PowerStore)(getBioModule(powerStoreName));
-		myPowerStore.setPowerCapacity(300f);
-		myPowerStore.setPowerLevel(300f);
+		myPowerStore.setPowerCapacity(30000f);
+		myPowerStore.setPowerLevel(30000f);
 	}
 
 	private void runSimulation(){

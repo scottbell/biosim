@@ -1,41 +1,40 @@
 module biosim{
-
         module idl{
 		
-		module framework{
-			interface BioModule{
-				void tick();
-				string getModuleName();
-			};
-		};
-		
+                module framework{
+                        interface BioModule{
+                                void tick();
+                                string getModuleName();
+                        };
+                };
+
                 module crew{
-			interface Activity;
-			interface CrewPerson;
-			interface CrewGroup;
-			typedef sequence <CrewPerson> CrewPersonList;
-			enum Sex {male, female};
+                        interface Activity;
+                        interface CrewPerson;
+                        interface CrewGroup;
+                        typedef sequence <CrewPerson> CrewPersonList;
+                        enum Sex {male, female};
                         interface Activity{
                                 string getName();
                                 long getTimeLength();
-				long getActivityIntensity();
+                                long getActivityIntensity();
                         };
                         interface CrewPerson{
                                 Activity getCurrentActivity();
                                 void setCurrentActivity(in Activity newActivity);
                                 string getName();
-				float getAge();
-				float getWeight();
-				long getTimeActivityPerformed();
-				Sex getSex();
-				string getStatus();
+                                float getAge();
+                                float getWeight();
+                                long getTimeActivityPerformed();
+                                Sex getSex();
+                                string getStatus();
                         };
                         interface CrewGroup : framework::BioModule{
                                 Activity getScheduledActivityByName(in string name);
                                 Activity getScheduledActivityByOrder(in long order);
                                 CrewPerson getCrewPerson(in string name);
                                 CrewPerson createCrewPerson(in string name, in float age, in float weight, in Sex pSex);
-				CrewPersonList getCrewPeople();
+                                CrewPersonList getCrewPeople();
                         };
                 };
 
@@ -72,19 +71,19 @@ module biosim{
                                 float takeCO2(in float liters);
                                 float getCO2Level();
                         };
-			
-			struct Breath{
-				float O2;
-				float CO2;
-				float other;
-			};
+
+                        struct Breath{
+                                float O2;
+                                float CO2;
+                                float other;
+                        };
                 };
 
                 module food{
                         interface BiomassRS : framework::BioModule{
                                 float getPowerConsumed();
                                 float getGreyWaterConsumed();
-				float getCO2Consumed();
+                                float getCO2Consumed();
                                 float getBiomassProduced();
                         };
                         interface BiomassStore : framework::BioModule{
@@ -113,20 +112,20 @@ module biosim{
                                 void setCO2Level(in float liters);
                                 void setO2Level(in float liters);
                                 void setOtherLevel(in float liters);
-				void setTotalLevel(in float liters);
+                                void setTotalLevel(in float liters);
                                 void setCapacity(in float liters);
                                 float getO2Level();
                                 float getCO2Level();
-				float getOtherLevel();
-				float getTotalLevel();
+                                float getOtherLevel();
+                                float getTotalLevel();
                                 float addCO2(in float liters);
                                 float addO2(in float liters);
-				float addOther(in float liters);
+                                float addOther(in float liters);
                                 air::Breath takeO2Breath(in float liters);
-				air::Breath takeCO2Breath(in float liters);
-				long getTicks();
-				void resetTicks();
-				void resetLevels();
+                                air::Breath takeCO2Breath(in float liters);
+                                long getTicks();
+                                void resetTicks();
+                                void resetLevels();
                         };
                 };
 
@@ -136,6 +135,11 @@ module biosim{
                                 float getGreyWaterProduced();
                                 float getPowerConsumed();
                                 float getDirtyWaterConsumed();
+                                float getGreyWaterConsumed();
+                                string getROStatus();
+                                string getAESStatus();
+                                string getPPSStatus();
+                                string getBWPStatus();
                         };
                         interface PotableWaterStore : framework::BioModule{
                                 void setWaterCapacity(in float liters);

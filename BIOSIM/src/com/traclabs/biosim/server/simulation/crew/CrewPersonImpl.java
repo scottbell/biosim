@@ -26,7 +26,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private float age = 30f;
 	private float weight = 170f;
 	private Sex sex = Sex.male;
-	private String status = "normal";
+	private String status = "nominal";
 
 	public CrewPersonImpl(String pName, float pAge, float pWeight, Sex pSex, CrewGroupImpl pCrewGroup){
 		myCrewGroup = pCrewGroup;
