@@ -32,16 +32,16 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	private FoodStore myFoodStore;
 	private PowerStore myPowerStore;
 	private BiomassStore myBiomassStore;
-	
+
 	/**
 	* Resets production/consumption levels
 	*/
 	public void reset(){
-		 currentBiomassConsumed = 0f;
-		 currentPowerConsumed = 0f;
-		 currentFoodProduced = 0f;
+		currentBiomassConsumed = 0f;
+		currentPowerConsumed = 0f;
+		currentFoodProduced = 0f;
 	}
-	
+
 	/**
 	* Returns the biomass consumed (in kilograms) by the Food Processor during the current tick
 	* @return the biomass consumed (in kilograms) by the Food Processor during the current tick
@@ -49,7 +49,7 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	public float getBiomassConsumed(){
 		return currentBiomassConsumed;
 	}
-	
+
 	/**
 	* Returns the power consumed (in watts) by the Food Processor during the current tick
 	* @return the power consumed (in watts) by the Food Processor during the current tick
@@ -57,7 +57,7 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	public float getPowerConsumed(){
 		return currentPowerConsumed;
 	}
-	
+
 	/**
 	* Returns the food produced (in kilograms) by the Food Processor during the current tick
 	* @return the food produced (in kilograms) by the Food Processor during the current tick
@@ -65,7 +65,7 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	public float getFoodProduced(){
 		return currentFoodProduced;
 	}
-	
+
 	/**
 	* Checks whether Food Processor has enough power or not
 	* @return <code>true</code> if the Food Processor has enough power, <code>false</code> if not.
@@ -73,7 +73,7 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	public boolean hasPower(){
 		return hasEnoughPower;
 	}
-	
+
 	/**
 	* Checks whether Food Processor has enough biomass to run optimally or not
 	* @return <code>true</code> if the Food Processor has enough biomass, <code>false</code> if not.
@@ -81,7 +81,7 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	public boolean hasBiomass(){
 		return hasEnoughBiomass;
 	}
-	
+
 	/**
 	* Collects references to servers needed for putting/getting resources.
 	*/
@@ -98,7 +98,7 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 			e.printStackTrace(System.out);
 		}
 	}
-	
+
 	/**
 	* Attempts to collect enough power from the Power PS to run the Food Processor for one tick.
 	*/
@@ -111,7 +111,7 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 			hasEnoughPower = true;
 		}
 	}
-	
+
 	/**
 	* Attempts to collect enough biomass from the Biomass Store to run the Food Processor optimally for one tick.
 	*/
@@ -124,7 +124,7 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 			hasEnoughBiomass = true;
 		}
 	}
-	
+
 	/**
 	* If the Food Processor has any biomass and enough power, it provides some food to put into the store.
 	*/
@@ -134,7 +134,7 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 			myFoodStore.add(currentFoodProduced);
 		}
 	}
-	
+
 	/**
 	* Attempts to consume resource (power and biomass) for Food Processor
 	*/
@@ -142,19 +142,19 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 		gatherPower();
 		gatherBiomass();
 	}
-	
+
 	/**
 	* When ticked, the Food Processor
 	* 1) attempts to collect references to various server (if not already done)
-	* 4) consumes power and biomass
-	* 5) creates food (if possible)
+	* 2) consumes power and biomass
+	* 3) creates food (if possible)
 	*/
 	public void tick(){
 		collectReferences();
 		consumeResources();
 		createFood();
 	}
-	
+
 	/**
 	* Returns the name of this module (FoodProcessor)
 	* @return the name of the module
