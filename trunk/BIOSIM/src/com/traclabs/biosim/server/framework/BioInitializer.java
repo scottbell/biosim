@@ -1,12 +1,14 @@
 package biosim.server.framework;
 
+import org.xml.sax.*;
+import java.io.*;
 
 /*
  *
  * @author    Scott Bell
  */
 
-public class BioInitializer
+public class BioInitializer extends DefaultHandler implements ContentHandler, DTDHandler, ErrorHandler, DeclHandler, LexicalHandler
 {
 	
 	public static void main(String args[]){
