@@ -20,7 +20,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	//During any given tick, this much power is needed for the food processor to run at all
 	private float powerNeeded = 100;
 	//During any given tick, this much biomass is needed for the food processor to run optimally
-	private float biomassNeeded = 0.2f;
+	private float biomassNeeded = 200f;
 	//Flag switched when the Food Processor has collected references to other servers it need
 	private boolean hasCollectedReferences = false;
 	//Flag to determine if the Food Processor has enough power to function
