@@ -45,7 +45,7 @@ public abstract class PlantImpl extends PlantPOA{
 	private SimpleBuffer consumedCO2HighBuffer;
 	private SimpleBuffer consumedHeatBuffer;
 	private SimpleBuffer consumedLightBuffer;
-	private static final float WATER_TILL_DEAD = 1f;
+	private static final float WATER_TILL_DEAD = 1.5f;
 	private static final float WATER_RECOVERY_RATE = 0.002f;
 	private static final float CO2_LOW_TILL_DEAD = 24f;
 	private static final float CO2_LOW_RECOVERY_RATE = 0.2f;
@@ -70,10 +70,10 @@ public abstract class PlantImpl extends PlantPOA{
 		Arrays.fill(canopyClosureConstants, 0f);
 		Arrays.fill(canopyQYConstants, 0f);
 		consumedWaterBuffer = new SimpleBuffer(WATER_TILL_DEAD, WATER_TILL_DEAD);
+		consumedLightBuffer = new SimpleBuffer(LIGHT_TILL_DEAD, LIGHT_TILL_DEAD);
 		consumedCO2LowBuffer = new SimpleBuffer(CO2_LOW_TILL_DEAD * CO2_RATIO_LOW, CO2_LOW_TILL_DEAD * CO2_RATIO_LOW);
 		consumedCO2HighBuffer = new SimpleBuffer(CO2_HIGH_TILL_DEAD * CO2_RATIO_HIGH, CO2_HIGH_TILL_DEAD * CO2_RATIO_HIGH);
 		consumedHeatBuffer = new SimpleBuffer(HEAT_TILL_DEAD * DANGEROUS_HEAT_LEVEL, HEAT_TILL_DEAD * DANGEROUS_HEAT_LEVEL);
-		consumedLightBuffer = new SimpleBuffer(LIGHT_TILL_DEAD, LIGHT_TILL_DEAD);
 		myRandomGen = new Random();
 		numFormat = new DecimalFormat("#,##0.0;(#)");
 	}
@@ -165,8 +165,8 @@ public abstract class PlantImpl extends PlantPOA{
 	}
 
 	private void recoverPlants(){
-		consumedWaterBuffer.add((WATER_RECOVERY_RATE * consumedWaterBuffer.getCapacity()) / myShelfImpl.getCropAreaUsed());
-		consumedCO2LowBuffer.add(CO2_LOW_RECOVERY_RATE * consumedCO2LowBuffer.getCapacity() / myShelfImpl.getCropAreaUsed());
+		consumedWaterBuffer.add(WATER_RECOVERY_RATE * consumedWaterBuffer.getCapacity());
+		consumedCO2LowBuffer.add(CO2_LOW_RECOVERY_RATE * consumedCO2LowBuffer.getCapacity());
 		consumedCO2HighBuffer.add(CO2_HIGH_RECOVERY_RATE * consumedCO2HighBuffer.getCapacity());
 		consumedHeatBuffer.add(HEAT_RECOVERY_RATE * consumedHeatBuffer.getCapacity());
 		consumedLightBuffer.add(LIGHT_RECOVERY_RATE * consumedLightBuffer.getCapacity());
@@ -176,6 +176,11 @@ public abstract class PlantImpl extends PlantPOA{
 	* If not all the resources required were consumed, we damage the crew member.
 	*/
 	private void afflictPlants(){
+		/*System.out.println("asked for "+myWaterNeeded+" and got "+myWaterLevel+", water buffer at "+consumedWaterBuffer.getLevel());
+		System.out.println("taking from water "+(myWaterNeeded - myWaterLevel) / myShelfImpl.getCropAreaUsed());
+		System.out.println("asked for "+getPPFNeeded()+" and got "+myAveragePPF+", light buffer at "+consumedLightBuffer.getLevel());
+		System.out.println("taking from light "+(getPPFNeeded() - myAveragePPF) / myShelfImpl.getCropAreaUsed());
+		*/
 		consumedWaterBuffer.take((myWaterNeeded - myWaterLevel) / myShelfImpl.getCropAreaUsed());
 		consumedLightBuffer.take((getPPFNeeded() - myAveragePPF) / myShelfImpl.getCropAreaUsed());
 		if (myAveragePPF > DANGEROUS_HEAT_LEVEL)
