@@ -375,7 +375,7 @@ public class SimDesktop extends BioFrame {
         myDisplayStochasticButton.setText("");
         getContentPane().add(myToolBar, BorderLayout.NORTH);
         setTitle("BioSim: Advanced Life Support Simulation  Copyright "
-                + new Character('\u00A9') + " 2003, TRACLabs");
+                + new Character('\u00A9') + " 2005, TRACLabs");
         myDesktop.setDragMode(JDesktopPane.LIVE_DRAG_MODE);
         setIconImage(biosimIcon.getImage());
         getContentPane().add(myDesktop, BorderLayout.CENTER);
@@ -392,66 +392,66 @@ public class SimDesktop extends BioFrame {
         try {
             waterIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
                     .getResource(
-                            "com/traclabs/biosim/client/water/gui/water.jpg"));
+                            "com/traclabs/biosim/client/water/gui/water.png"));
             foodIcon = new ImageIcon(
                     ClassLoader.getSystemClassLoader().getResource(
-                            "com/traclabs/biosim/client/food/gui/food.jpg"));
+                            "com/traclabs/biosim/client/food/gui/food.png"));
             powerIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
                     .getResource(
-                            "com/traclabs/biosim/client/power/gui/power.jpg"));
+                            "com/traclabs/biosim/client/power/gui/power.png"));
             crewIcon = new ImageIcon(
                     ClassLoader.getSystemClassLoader().getResource(
-                            "com/traclabs/biosim/client/crew/gui/crew.jpg"));
+                            "com/traclabs/biosim/client/crew/gui/crew.png"));
             environmentIcon = new ImageIcon(
                     ClassLoader
                             .getSystemClassLoader()
                             .getResource(
-                                    "com/traclabs/biosim/client/environment/gui/environment.jpg"));
+                                    "com/traclabs/biosim/client/environment/gui/environment.png"));
             airIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
-                    .getResource("com/traclabs/biosim/client/air/gui/air.jpg"));
+                    .getResource("com/traclabs/biosim/client/air/gui/air.png"));
             allIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
                     .getResource(
-                            "com/traclabs/biosim/client/framework/gui/all.jpg"));
+                            "com/traclabs/biosim/client/framework/gui/all.png"));
             startIcon = new ImageIcon(
                     ClassLoader
                             .getSystemClassLoader()
                             .getResource(
-                                    "com/traclabs/biosim/client/framework/gui/stop.gif"));
+                                    "com/traclabs/biosim/client/framework/gui/start.png"));
             playIcon = new ImageIcon(
                     ClassLoader
                             .getSystemClassLoader()
                             .getResource(
-                                    "com/traclabs/biosim/client/framework/gui/play.gif"));
+                                    "com/traclabs/biosim/client/framework/gui/play.png"));
             stopIcon = new ImageIcon(
                     ClassLoader
                             .getSystemClassLoader()
                             .getResource(
-                                    "com/traclabs/biosim/client/framework/gui/power.gif"));
+                                    "com/traclabs/biosim/client/framework/gui/stop.png"));
             pauseIcon = new ImageIcon(
                     ClassLoader
                             .getSystemClassLoader()
                             .getResource(
-                                    "com/traclabs/biosim/client/framework/gui/pause.gif"));
+                                    "com/traclabs/biosim/client/framework/gui/pause.png"));
             forwardIcon = new ImageIcon(
                     ClassLoader
                             .getSystemClassLoader()
                             .getResource(
-                                    "com/traclabs/biosim/client/framework/gui/forward.gif"));
+                                    "com/traclabs/biosim/client/framework/gui/forward.png"));
             biosimIcon = new ImageIcon(
                     ClassLoader
                             .getSystemClassLoader()
                             .getResource(
-                                    "com/traclabs/biosim/client/framework/gui/biosim.gif"));
+                                    "com/traclabs/biosim/client/framework/gui/biosim.png"));
             malfunctionIcon = new ImageIcon(
                     ClassLoader
                             .getSystemClassLoader()
                             .getResource(
-                                    "com/traclabs/biosim/client/framework/gui/gear.gif"));
+                                    "com/traclabs/biosim/client/framework/gui/gear.png"));
             stochasticIcon = new ImageIcon(
                     ClassLoader
                             .getSystemClassLoader()
                             .getResource(
-                                    "com/traclabs/biosim/client/framework/gui/dice.jpg"));
+                                    "com/traclabs/biosim/client/framework/gui/dice.png"));
         } catch (Exception e) {
             myLogger.error("Couldn't find icon (" + e + "), skipping");
             e.printStackTrace();
@@ -790,7 +790,7 @@ public class SimDesktop extends BioFrame {
                 String message = myFnord.getFnord();
                 ImageIcon fnordIcon = new ImageIcon(
                         ClassLoader
-                                .getSystemResource("biosim/client/framework/gui/pyramid.gif"));
+                                .getSystemResource("biosim/client/framework/gui/pyramid.png"));
                 JOptionPane fnordPane = new JOptionPane(message,
                         JOptionPane.INFORMATION_MESSAGE,
                         JOptionPane.DEFAULT_OPTION, fnordIcon);
