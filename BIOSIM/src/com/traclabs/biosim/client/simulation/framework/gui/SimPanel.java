@@ -1,4 +1,4 @@
-package biosim.client.gui;
+package biosim.client.control.gui;
 
 import biosim.client.control.*;
 import javax.swing.*;

@@ -1,143 +1,160 @@
-module ALSS{
+module biosim{
 
-	interface BioModule{
-		oneway void tick();
-		string getModuleName();
-	};
+        module idl{
+		
+		module framework{
+			interface BioModule{
+				void tick();
+				string getModuleName();
+			};
+		};
+		
+		module util{
+			interface BioUtils{
+				void addTick();
+				long getTicks();
+			};
+		};
 
-	interface Activity{
-		string getName();
-		long getTimeLength();
-	};
+                module crew{
+                        interface Activity{
+                                string getName();
+                                long getTimeLength();
+                        };
+                        interface CrewPerson{
+                                Object getCurrentActivity();
+                                void setCurrentActivity(in Object newActivity);
+                                string getName();
+                        };
+                        interface CrewGroup : framework::BioModule{
+                                Object getScheduledActivityByName(in string name);
+                                Object getScheduledActivityByOrder(in long order);
+                                Object getCrewPerson(in string name);
+                                Object createCrewPerson(in string name);
+                        };
+                };
 
-	//Object representing a crew person
-	interface CrewPerson{
-		Activity getCurrentActivity();
-		void setCurrentActivity(in Activity newActivity);
-		string getName();
-	};
+                module power{
+                        interface PowerPS : framework::BioModule{
+                                float getPowerProduced();
+                        };
+                        interface PowerStore : framework::BioModule{
+                                void setPowerCapacity(in float watts);
+                                void setPowerLevel(in float watts);
+                                float addPower(in float watts);
+                                float takePower(in float watts);
+                                float getPowerLevel();
+                        };
+                };
 
-	//Object representing the crew
-	interface Crew : BioModule{
-		Object getScheduledActivityByName(in string name);
-		Activity getScheduledActivityByOrder(in long order);
-		CrewPerson getCrewPerson(in string name);
-		CrewPerson createCrewPerson(in string name);
-	};
+                module air{
+                        interface AirRS : framework::BioModule{
+                                float getPowerConsumed();
+                                float getCO2Consumed();
+                                float getO2Produced();
+                        };
+                        interface O2Store : framework::BioModule{
+                                void setO2Capacity(in float liters);
+                                void setO2Level(in float liters);
+                                float addO2(in float liters);
+                                float takeO2(in float liters);
+                                float getO2Level();
+                        };
+                        interface CO2Store : framework::BioModule{
+                                void setCO2Capacity(in float liters);
+                                void setCO2Level(in float liters);
+                                float addCO2(in float liters);
+                                float takeCO2(in float liters);
+                                float getCO2Level();
+                        };
+                };
 
-	//Object representing the Energy Production System
-	interface PowerPS : BioModule{
-		float getPowerProduced();
-	};
+                module food{
+                        interface BiomassRS : framework::BioModule{
+                                float getPowerConsumed();
+                                float getGreyWaterConsumed();
+                                float getBiomassProduced();
+                        };
+                        interface BiomassStore : framework::BioModule{
+                                void setBiomassCapacity(in float kilograms);
+                                void setBiomassLevel(in float kilograms);
+                                float addBiomass(in float kilograms);
+                                float takeBiomass(in float kilograms);
+                                float getBiomassLevel();
+                        };
+                        interface FoodProcessor : framework::BioModule{
+                                float getBiomassConsumed();
+                                float getPowerConsumed();
+                                float getFoodProduced();
+                        };
+                        interface FoodStore : framework::BioModule{
+                                void setFoodCapacity(in float kilograms);
+                                void setFoodLevel(in float kilograms);
+                                float addFood(in float kilograms);
+                                float takeFood(in float kilograms);
+                                float getFoodLevel();
+                        };
+                };
 
-	//Object representing the Power Store
-	interface PowerStore : BioModule{
-		void setPowerCapacity(in float watts);
-		void setPowerLevel(in float watts);
-		float addPower(in float watts);
-		float takePower(in float watts);
-		float getPowerLevel();
-	};
+                module environment{
+                        interface SimEnvironment : framework::BioModule{
+                                void setCO2Capacity(in float liters);
+                                void setCO2Level(in float liters);
+                                void setO2Capacity(in float liters);
+                                void setO2Level(in float liters);
+                                float getO2Level();
+                                float getCO2Level();
+                                float addCO2(in float liters);
+                                float addO2(in float liters);
+                                float takeO2(in float liters);
+                                float takeCO2(in float liters);
+                        };
+                };
 
-	//Object representing the Air Recovery System
-	interface AirRS : BioModule{
-		float getPowerConsumed();
-		float getCO2Consumed();
-		float getO2Produced();
-	};
-
-	//Object representing the Air Store
-	interface O2Store : BioModule{
-		void setO2Capacity(in float liters);
-		void setO2Level(in float liters);
-		float addO2(in float liters);
-		float takeO2(in float liters);
-		float getO2Level();
-	};
-
-	interface CO2Store : BioModule{
-		void setCO2Capacity(in float liters);
-		void setCO2Level(in float liters);
-		float addCO2(in float liters);
-		float takeCO2(in float liters);
-		float getCO2Level();
-	};
-
-	//Object representing the Biomass Recovery System
-	interface BiomassRS : BioModule{
-		float getPowerConsumed();
-		float getGreyWaterConsumed();
-		float getBiomassProduced();
-	};
-	
-	interface FoodProcessor : BioModule{
-		float getBiomassConsumed();
-		float getPowerConsumed();
-		float getFoodProduced();
-	};
-	
-	interface FoodStore : BioModule{
-		void setFoodCapacity(in float kilograms);
-		void setFoodLevel(in float kilograms);
-		float addFood(in float kilograms);
-		float takeFood(in float kilograms);
-		float getFoodLevel();
-	};
-	
-	interface SimEnvironment : BioModule{
-		void setCO2Capacity(in float liters);
-		void setCO2Level(in float liters);
-		void setO2Capacity(in float liters);
-		void setO2Level(in float liters);
-		float getO2Level();
-		float getCO2Level();
-		float addCO2(in float liters);
-		float addO2(in float liters);
-		float takeO2(in float liters);
-		float takeCO2(in float liters);
-	};
-
-	//Object representing the Biomass Store
-	interface BiomassStore : BioModule{
-		void setBiomassCapacity(in float kilograms);
-		void setBiomassLevel(in float kilograms);
-		float addBiomass(in float kilograms);
-		float takeBiomass(in float kilograms);
-		float getBiomassLevel();
-	};
-
-	//Object representing the Water Recovery System
-	interface WaterRS : BioModule{
-		float getPotableWaterProduced();
-		float getGreyWaterProduced();
-		float getPowerConsumed();
-		float getDirtyWaterConsumed();
-	};
-
-	//Object representing the Potable Water Store
-	interface PotableWaterStore : BioModule{
-		void setWaterCapacity(in float liters);
-		void setWaterLevel(in float liters);
-		float takeWater(in float liters);
-		float addWater(in float liters);
-		float getWaterLevel();
-	};
-	
-	//Object representing the Grey Water Store
-	interface GreyWaterStore : BioModule{
-		void setWaterCapacity(in float liters);
-		void setWaterLevel(in float liters);
-		float takeWater(in float liters);
-		float addWater(in float liters);
-		float getWaterLevel();
-	};
-	
-	//Object representing the Dirty Water Store
-	interface DirtyWaterStore : BioModule{
-		void setWaterCapacity(in float liters);
-		void setWaterLevel(in float liters);
-		float takeWater(in float liters);
-		float addWater(in float liters);
-		float getWaterLevel();
-	};
+                module water{
+                        interface WaterRS : framework::BioModule{
+                                float getPotableWaterProduced();
+                                float getGreyWaterProduced();
+                                float getPowerConsumed();
+                                float getDirtyWaterConsumed();
+                        };
+                        interface PotableWaterStore : framework::BioModule{
+                                void setWaterCapacity(in float liters);
+                                void setWaterLevel(in float liters);
+                                float takeWater(in float liters);
+                                float addWater(in float liters);
+                                float getWaterLevel();
+                        };
+                        interface GreyWaterStore : framework::BioModule{
+                                void setWaterCapacity(in float liters);
+                                void setWaterLevel(in float liters);
+                                float takeWater(in float liters);
+                                float addWater(in float liters);
+                                float getWaterLevel();
+                        };
+                        interface DirtyWaterStore : framework::BioModule{
+                                void setWaterCapacity(in float liters);
+                                void setWaterLevel(in float liters);
+                                float takeWater(in float liters);
+                                float addWater(in float liters);
+                                float getWaterLevel();
+                        };
+                };
+        };
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

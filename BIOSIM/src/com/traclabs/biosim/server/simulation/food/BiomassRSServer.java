@@ -1,6 +1,6 @@
 package biosim.server.food;
 
-import ALSS.*;
+import biosim.idl.food.*;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;

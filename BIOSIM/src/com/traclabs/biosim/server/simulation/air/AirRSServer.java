@@ -1,6 +1,6 @@
 package biosim.server.air;
 
-import ALSS.*;
+import biosim.idl.air.*;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;

@@ -1,16 +1,27 @@
 package biosim.server.util;
 
+import biosim.idl.util.*;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
 
-public class ALSSUtils {
+public class BioSimUtilsImpl extends BioUtilsPOA {
+	private int ticks = 0;
+	
 	private static boolean runOnce = false;
 	private static POA rootpoa = null;
 	private static ORB orb = null;
+	
+	public void addTick(){
+		ticks++;
+	}
 
+	public int getTicks(){
+		return ticks;
+	}
+	
 	private static void initialize(){
 		try{
 			String[] nullArgs = null;

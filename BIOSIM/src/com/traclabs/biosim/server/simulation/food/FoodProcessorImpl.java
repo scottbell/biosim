@@ -1,7 +1,6 @@
 package biosim.server.food;
 
-// The package containing our stubs.
-import ALSS.*;
+import biosim.idl.food.*;
 
 public class FoodProcessorImpl extends FoodProcessorPOA {
 	private float currentBiomassConsumed = 0f;

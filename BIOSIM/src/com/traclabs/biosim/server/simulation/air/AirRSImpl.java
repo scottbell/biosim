@@ -1,7 +1,6 @@
 package biosim.server.air;
 
-// The package containing our stubs.
-import ALSS.*;
+import biosim.idl.air.*;
 
 public class AirRSImpl extends AirRSPOA {
 	private float currentO2Produced = 0f;

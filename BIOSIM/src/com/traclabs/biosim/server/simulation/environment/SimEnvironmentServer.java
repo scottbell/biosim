@@ -1,6 +1,6 @@
 package biosim.server.environment;
 
-import ALSS.*;
+import biosim.idl.environment.*;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;

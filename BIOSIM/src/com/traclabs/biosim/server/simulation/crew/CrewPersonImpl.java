@@ -1,10 +1,11 @@
 package biosim.server.crew;
 
 import biosim.idl.crew.*;
+import biosim.server.util.*;
 
 public class CrewPersonImpl extends CrewPersonPOA {
 	private String myName;
-	private Activity myCurrentActivity;
+	private ActivityImpl myCurrentActivity;
 
 	public CrewPersonImpl(String pName){
 		myName = pName;
@@ -14,12 +15,12 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		return myName;
 	}
 
-	public Activity getCurrentActivity(){
-		return myCurrentActivity;
+	public org.omg.CORBA.Object getCurrentActivity(){
+		return (BioSimUtilsImpl.poaToCorbaObj(myCurrentActivity));
 	}
 
-	public void setCurrentActivity(Activity pActivity){
-		myCurrentActivity = pActivity;
+	public void setCurrentActivity(org.omg.CORBA.Object pActivity){
+		//myCurrentActivity = BioSimUtilsImpl.corbaObjToPoa(pActivity);
 	}
 
 	public String toString(){

@@ -19,7 +19,7 @@ public static void main(String args[]) {
 		 rootpoa.the_POAManager().activate();
 		 
 		 // create servant and register it with  ORB
-		 CrewImpl myCrewImpl = new CrewImpl();
+		 CrewGroupImpl myCrewImpl = new CrewGroupImpl();
 
 		 // get object reference from the servant
 		 org.omg.CORBA.Object ref = rootpoa.servant_to_reference(myCrewImpl);		 // get the root naming context
