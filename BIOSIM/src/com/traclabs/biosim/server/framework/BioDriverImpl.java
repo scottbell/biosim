@@ -57,7 +57,6 @@ public class BioDriverImpl extends BioDriverPOA
 	private int driverPauseLength = 0;
 	//The ID of this instance of BioSim
 	private int myID = 0;
-	private String myName = "NoName";
 	//If we loop after end conditions of a simulation run have been met (crew death or n-ticks)
 	private boolean looping = false;
 	private CrewGroup[] crews;
@@ -69,9 +68,8 @@ public class BioDriverImpl extends BioDriverPOA
 	* Constructs the BioDriver
 	* @param pID The ID of this instance of the BioSim (must be the same for all modules in the instance)
 	*/
-	public BioDriverImpl(int pID, String pName){
+	public BioDriverImpl(int pID){
 		myID = pID;
-		myName = pName;
 	}
 
 	/**
@@ -79,7 +77,7 @@ public class BioDriverImpl extends BioDriverPOA
 	* @return The name of this instance (BioDriver + ID)
 	*/
 	public String getName(){
-		return myName+myID;
+		return "BioDriver";
 	}
 
 	/**

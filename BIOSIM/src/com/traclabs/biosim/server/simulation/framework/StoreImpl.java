@@ -111,7 +111,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	private void collectReferences(){
 		if (!hasCollectedReferences){
 			try{
-				myDriver = BioDriverHelper.narrow(OrbUtils.getNCRef().resolve_str("BioDriver"+getID()));
+				myDriver = BioDriverHelper.narrow(OrbUtils.getNamingContext(getID()).resolve_str("BioDriver"));
 				hasCollectedReferences = true;
 
 			}

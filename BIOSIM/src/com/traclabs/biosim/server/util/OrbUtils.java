@@ -12,14 +12,16 @@ import org.omg.PortableServer.POA;
  */
 
 public class OrbUtils{
-	//Flag to make sure OrbUtils only runs initialize once  
-	private static boolean runOnce = false;
+	//Flag to make sure OrbUtils only runs initialize once
+	private static boolean initializeOrbRunOnce = false;  
+	private static boolean initializeNamingRunOnce = false;
 	//The root POA for transformation methods and other things
-	private static POA rootPOA = null;
+	private static POA myRootPOA = null;
 	//The server ORB used resolving references
 	private static ORB myOrb = null;
-	//The naming context reference
-	private static NamingContextExt ncRef = null;
+	//The root biosim naming context reference
+	private static NamingContextExt myBiosimNamingContext = null;
+	private static NamingContextExt myRootContext = null;
 	
 	/**
 	* Shouldn't be called (everything static!)
@@ -42,47 +44,75 @@ public class OrbUtils{
 	*/
 	public static POA getRootPOA(){
 		initialize();
-		return rootPOA;
+		return myRootPOA;
 	}
 	
 	/**
-	* Returns the naming context
+	* Returns the naming context associated with this ID
 	* @return the naming context
 	*/
-	public static NamingContextExt getNCRef(){
-		initialize();
-		return ncRef;
+	public static NamingContextExt getNamingContext(int pID){
+		initializeNamingContexts(pID);
+		NamingContextExt idContext = null;
+		try{
+			idContext = NamingContextExtHelper.narrow(myBiosimNamingContext.resolve_str(""+pID));
+		}
+		catch (Exception e){}
+		return idContext;
 	}
 	
 	/**
 	* Forces OrbUtils to retrieve the RootPoa and Naming Service again on next request.
 	*/
 	public static void resetInit(){
-		runOnce = false;
+		initializeOrbRunOnce = false;  
+		initializeNamingRunOnce = false;
+	}
+	
+	private static void initializeNamingContexts(int pID){
+		if (initializeNamingRunOnce)
+			return;
+		initialize();
+		try{
+			//Attempt to create id context, if already there, don't bother
+			NameComponent idComponent = new NameComponent(pID+"", "");
+			NameComponent[] idComponents = {idComponent};
+			NamingContext IDContext = myBiosimNamingContext.bind_new_context(idComponents);
+			initializeNamingRunOnce = true;
+		}
+		catch (Exception e){}
 	}
 	
 	/**
 	* Done only once, this method initializes the ORB, resolves the root POA, and grabs the naming context.
 	*/
 	private static void initialize(){
-		if (runOnce)
+		if (initializeOrbRunOnce)
 			return;
 		try{
 			String[] nullArgs = null;
 			// create and initialize the ORB
 			myOrb = ORB.init(nullArgs, null);
 			// get reference to rootpoa & activate the POAManager
-			rootPOA = POAHelper.narrow(myOrb.resolve_initial_references("RootPOA"));
-			rootPOA.the_POAManager().activate();
+			myRootPOA = POAHelper.narrow(myOrb.resolve_initial_references("RootPOA"));
+			myRootPOA.the_POAManager().activate();
 			org.omg.CORBA.Object objRef = myOrb.resolve_initial_references("NameService");
-			ncRef = NamingContextExtHelper.narrow(objRef);
-			runOnce = true;
+			myRootContext = NamingContextExtHelper.narrow(objRef);
+			initializeOrbRunOnce = true;
 		}
 		catch (Exception e){
 			System.out.println("OrbUtils: nameserver not found, polling again");
 			sleepAwhile();
 			initialize();
+			return;
 		}
+		try{
+			//Attempt to create biosim context, if already there, don't bother
+			NameComponent biosimComponent = new NameComponent("biosim", "");
+			NameComponent[] biosimComponentArray = {biosimComponent};
+			myBiosimNamingContext = (NamingContextExt)(myRootContext.bind_new_context(biosimComponentArray));
+		}
+		catch (Exception e){}
 	}
 	
 	/**
@@ -104,7 +134,7 @@ public class OrbUtils{
 		org.omg.CORBA.Object newObject = null;
 		try{
 			initialize();
-			newObject = rootPOA.servant_to_reference(poa);
+			newObject = myRootPOA.servant_to_reference(poa);
 		}
 		catch(org.omg.PortableServer.POAPackage.ServantNotActive e){
 			e.printStackTrace();
@@ -124,7 +154,7 @@ public class OrbUtils{
 		org.omg.PortableServer.Servant newPoa = null;
 		try{
 			initialize();
-			newPoa = rootPOA.reference_to_servant( pObject );
+			newPoa = myRootPOA.reference_to_servant( pObject );
 		}
 		catch (org.omg.PortableServer.POAPackage.ObjectNotActive e){
 			e.printStackTrace();
