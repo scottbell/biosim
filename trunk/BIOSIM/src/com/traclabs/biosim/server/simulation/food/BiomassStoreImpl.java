@@ -85,8 +85,12 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 		}
 		level -= collectedMass;
 		//return the array
-		BioMatter[] returnArrayType = new BioMatter[0];
-		return (BioMatter[])(itemsToReturn.toArray(returnArrayType));
+		BioMatter[] emptyArray = new BioMatter[0];
+		BioMatter[] returnArray = (BioMatter[])(itemsToReturn.toArray(emptyArray));
+		if (returnArray == null)
+			return emptyArray;
+		else
+			return returnArray;
 	}
 
 	public BioMatter takeBioMatterMassAndType(float pMass, PlantType pType){
