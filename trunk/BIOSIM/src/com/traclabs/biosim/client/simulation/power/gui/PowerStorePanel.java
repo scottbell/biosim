@@ -56,7 +56,8 @@ public class PowerStorePanel extends GraphPanel
 			myDataset.setCategories(theCategory);
 		}
 		else{
-			if (rangeAxis.getRange().getUpperBound() != myPowerStore.getCapacity()){
+			float capacity = myPowerStore.getCapacity();
+			if ((rangeAxis.getRange().getUpperBound() != capacity) && (capacity > 0)){
 				rangeAxis.setRange(0.0, myPowerStore.getCapacity());
 				myChartPanel.repaint();
 			}

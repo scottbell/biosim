@@ -21,7 +21,7 @@ Section "BioSim Program (must be installed)" ; (default section)
 	lbl_noJava:
 		MessageBox MB_YESNO|MB_ICONQUESTION "Couldn't find Java Runtime 1.4.0 or greater installed.$\nThis is required for BioSim to run.  If you chose to continue installation anyway, make sure your JAVA_HOME environment variable is set.$\nDo you want to quit the installation and go to Sun's website to download it?" IDNO lbl_noWebsite
 
-	ExecShell open "http://java.sun.com/j2se/downloads.html"
+	ExecShell open "http://java.sun.com/getjava/"
 	Sleep 600
 	; BringToFront will bring the installer window back to the front
 	; if the web browser hides it

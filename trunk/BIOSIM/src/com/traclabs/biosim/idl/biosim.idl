@@ -12,6 +12,8 @@ module biosim{
 				MalfunctionIntensity getIntensity();
 				long getID();
 				string getName();
+				boolean hasPerformed();
+				void setPerformed(in boolean pPerformed);
 				MalfunctionLength getLength();
 			};
 			
