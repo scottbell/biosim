@@ -1,12 +1,15 @@
 /*
  * Created on Jan 26, 2005
+ *
+ * TODO
  */
 package com.traclabs.biosim.server.editor;
 
-
 /**
  * @author scott
+ *
+ * TODO
  */
-public class AirPanel extends ModulePanel {
-    
+public class WaterToolBar extends EditorToolBar {
+
 }

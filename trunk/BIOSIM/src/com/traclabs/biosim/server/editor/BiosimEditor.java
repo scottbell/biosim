@@ -59,19 +59,19 @@ public class BiosimEditor {
 
     private QuitAction myQuitAction;
 
-    private JComponent myAirPanel;
+    private JComponent myAirToolBar;
 
-    private JComponent myCrewPanel;
+    private JComponent myCrewToolBar;
 
-    private JComponent myEnvironmentPanel;
+    private JComponent myEnvironmentToolBar;
 
-    private JComponent myFrameworkPanel;
+    private JComponent myFrameworkToolBar;
 
-    private JComponent myPowerPanel;
+    private JComponent myPowerToolBar;
 
-    private JComponent myWastePanel;
+    private JComponent myWasteToolBar;
 
-    private JComponent myWaterPanel;
+    private JComponent myWaterToolBar;
     
     private Fig myCurrentFigure;
 
@@ -98,6 +98,7 @@ public class BiosimEditor {
         
         //do splitpane
         mySplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,myTabbedPane, myGraphPanel);
+        //mySplitPane.setResizeWeight(0.5);
         myMainFrame.getContentPane().setLayout(new GridLayout(1, 1));
         myMainFrame.getContentPane().add(mySplitPane);
         
@@ -133,54 +134,54 @@ public class BiosimEditor {
     private void createTabbedPane() {
         myTabbedPane = new JTabbedPane();
         
-        myAirPanel = new AirPanel();
+        myAirToolBar = new AirToolBar();
         myTabbedPane
                 .addTab(
                         "Air",
                         createImageIcon("com/traclabs/biosim/client/air/gui/air.jpg"),
-                        myAirPanel);
+                        myAirToolBar);
         
-        myCrewPanel = new CrewPanel();
+        myCrewToolBar = new CrewToolBar();
         myTabbedPane
                 .addTab(
                         "Crew",
                         createImageIcon("com/traclabs/biosim/client/crew/gui/crew.jpg"),
-                        myCrewPanel);
+                        myCrewToolBar);
         
-        myEnvironmentPanel = new EnvironmentPanel();
+        myEnvironmentToolBar = new EnvironmentToolBar();
         myTabbedPane
                 .addTab(
                         "Environment",
                         createImageIcon("com/traclabs/biosim/client/environment/gui/environment.jpg"),
-                        myEnvironmentPanel);
+                        myEnvironmentToolBar);
         
-        myFrameworkPanel = new FrameworkPanel();
+        myFrameworkToolBar = new FrameworkToolBar();
         myTabbedPane
                 .addTab(
                         "Framework",
                         createImageIcon("com/traclabs/biosim/client/framework/gui/all.jpg"),
-                        myFrameworkPanel);
+                        myFrameworkToolBar);
         
-        myPowerPanel = new PowerPanel();
+        myPowerToolBar = new PowerToolBar();
         myTabbedPane
                 .addTab(
                         "Power",
                         createImageIcon("com/traclabs/biosim/client/power/gui/power.jpg"),
-                        myPowerPanel);
+                        myPowerToolBar);
         
-        myWastePanel = new WastePanel();
+        myWasteToolBar = new WasteToolBar();
         myTabbedPane
                 .addTab(
                         "Waste",
                         createImageIcon("com/traclabs/biosim/client/framework/gui/gear.gif"),
-                        myWastePanel);
+                        myWasteToolBar);
         
-        myWaterPanel = new WaterPanel();
+        myWaterToolBar = new WaterToolBar();
         myTabbedPane
                 .addTab(
                         "Water",
                         createImageIcon("com/traclabs/biosim/client/water/gui/water.jpg"),
-                        myWaterPanel);
+                        myWaterToolBar);
     }
 
     /**

@@ -10,6 +10,6 @@ package com.traclabs.biosim.server.editor;
  *
  * TODO
  */
-public class WaterPanel extends ModulePanel {
+public class EnvironmentToolBar extends EditorToolBar {
 
 }
