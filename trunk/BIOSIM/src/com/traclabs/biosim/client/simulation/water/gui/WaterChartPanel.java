@@ -21,21 +21,14 @@ public class WaterChartPanel extends BioTabPanel
 		setLayout(new BorderLayout());
 		myWaterStorePanel = new WaterStorePanel(pBioSimulator);
 		add(myWaterStorePanel, BorderLayout.CENTER);
-		myWaterStorePanel.start();
 	}
 	
 	public void lostFocus(){
-			myWaterStorePanel.pause();
 	}
 	
 	public void gotFocus(){
-			myWaterStorePanel.start();
 	}
 	
 	public void visibilityChange(boolean isVisible){
-		if (isVisible)
-			myWaterStorePanel.start();
-		else
-			myWaterStorePanel.stop();
 	}
 }

@@ -41,7 +41,7 @@ clientDir="$devRootDir/src/biosim/client"
 driverName="biosim.client.framework.TestDriver"
 resourceString="/resources"
 resourceDir=$devRootDir$resourceString
-plotClasspath="$devRootDir/lib/plot/plot.jar"
+plotClasspath="$devRootDir/lib/jfreechart/jcommon.jar$separator$devRootDir/lib/jfreechart/junit.jar$separator$devRootDir/lib/jfreechart/jfreechart.jar"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME"
 jacoInvocation="$java_command -client -classpath $plotClasspath$separator$clientClassesDir$separator$jacoClasspath$separator$resourceDir $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
 echo "	-starting client"

@@ -79,7 +79,7 @@ simString="biosim"
 simStubDir="$stubDir/$simString"
 clientDir="$devRootDir/src/biosim/client"
 sourceDir="$devRootDir/src"
-plotClasspath="$devRootDir/lib/plot/plot.jar"
+plotClasspath="$devRootDir/lib/jfreechart/jcommon.jar$separator$devRootDir/lib/jfreechart/junit.jar$separator$devRootDir/lib/jfreechart/jfreechart.jar"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME"
 compilationInvocation="$javac_command -d $clientClassesDir -classpath $plotClasspath$separator$stubDir$separator$clientClassesDir$separator$sourceDir$separator$jacoClasspath"
 if [ "$userSelect" == "all" ]; then
