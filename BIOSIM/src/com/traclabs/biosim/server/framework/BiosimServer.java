@@ -138,8 +138,8 @@ public class BiosimServer extends GenericServer{
 			{
 				O2StoreLevelSensorImpl myO2StoreLevelSensorImpl = new O2StoreLevelSensorImpl(id);
 				CO2StoreLevelSensorImpl myCO2StoreLevelSensorImpl = new CO2StoreLevelSensorImpl(id);
-				registerServer(new O2StoreLevelSensorPOATie(myO2StoreLevelSensorImpl), "O2Store" + myO2StoreLevelSensorImpl.getModuleName());
-				registerServer(new CO2StoreLevelSensorPOATie(myCO2StoreLevelSensorImpl), "CO2Store" + myCO2StoreLevelSensorImpl.getModuleName());
+				registerServer(new O2StoreLevelSensorPOATie(myO2StoreLevelSensorImpl), myO2StoreLevelSensorImpl.getModuleName());
+				registerServer(new CO2StoreLevelSensorPOATie(myCO2StoreLevelSensorImpl), myCO2StoreLevelSensorImpl.getModuleName());
 			}
 		}
 
@@ -153,7 +153,7 @@ public class BiosimServer extends GenericServer{
 			//Stores
 			{
 				PowerStoreLevelSensorImpl myPowerStoreLevelSensorImpl = new PowerStoreLevelSensorImpl(id);
-				registerServer(new PowerStoreLevelSensorPOATie(myPowerStoreLevelSensorImpl), "PowerStore" + myPowerStoreLevelSensorImpl.getModuleName());
+				registerServer(new PowerStoreLevelSensorPOATie(myPowerStoreLevelSensorImpl), myPowerStoreLevelSensorImpl.getModuleName());
 			}
 		}
 
@@ -189,8 +189,8 @@ public class BiosimServer extends GenericServer{
 			{
 				BiomassStoreLevelSensorImpl myBiomassStoreLevelSensorImpl = new BiomassStoreLevelSensorImpl(id);
 				FoodStoreLevelSensorImpl myFoodStoreLevelSensorImpl = new FoodStoreLevelSensorImpl(id);
-				registerServer(new BiomassStoreLevelSensorPOATie(myBiomassStoreLevelSensorImpl), "BiomassStore" + myBiomassStoreLevelSensorImpl.getModuleName());
-				registerServer(new FoodStoreLevelSensorPOATie(myFoodStoreLevelSensorImpl), "FoodStore" + myFoodStoreLevelSensorImpl.getModuleName());
+				registerServer(new BiomassStoreLevelSensorPOATie(myBiomassStoreLevelSensorImpl), myBiomassStoreLevelSensorImpl.getModuleName());
+				registerServer(new FoodStoreLevelSensorPOATie(myFoodStoreLevelSensorImpl), myFoodStoreLevelSensorImpl.getModuleName());
 			}
 		}
 
@@ -214,9 +214,9 @@ public class BiosimServer extends GenericServer{
 				PotableWaterStoreLevelSensorImpl myPotableWaterStoreLevelSensorImpl = new PotableWaterStoreLevelSensorImpl(id);
 				GreyWaterStoreLevelSensorImpl myGreyWaterStoreLevelSensorImpl = new GreyWaterStoreLevelSensorImpl(id);
 				DirtyWaterStoreLevelSensorImpl myDirtyWaterStoreLevelSensorImpl = new DirtyWaterStoreLevelSensorImpl(id);
-				registerServer(new PotableWaterStoreLevelSensorPOATie(myPotableWaterStoreLevelSensorImpl), "PotableWaterStore" + myPotableWaterStoreLevelSensorImpl.getModuleName());
-				registerServer(new GreyWaterStoreLevelSensorPOATie(myGreyWaterStoreLevelSensorImpl), "GreyWaterStore" + myGreyWaterStoreLevelSensorImpl.getModuleName());
-				registerServer(new DirtyWaterStoreLevelSensorPOATie(myDirtyWaterStoreLevelSensorImpl), "DirtyWaterStore" + myDirtyWaterStoreLevelSensorImpl.getModuleName());
+				registerServer(new PotableWaterStoreLevelSensorPOATie(myPotableWaterStoreLevelSensorImpl), myPotableWaterStoreLevelSensorImpl.getModuleName());
+				registerServer(new GreyWaterStoreLevelSensorPOATie(myGreyWaterStoreLevelSensorImpl), myGreyWaterStoreLevelSensorImpl.getModuleName());
+				registerServer(new DirtyWaterStoreLevelSensorPOATie(myDirtyWaterStoreLevelSensorImpl), myDirtyWaterStoreLevelSensorImpl.getModuleName());
 			}
 		}
 
@@ -227,9 +227,9 @@ public class BiosimServer extends GenericServer{
 			O2AirLevelSensorImpl myO2AirLevelSensorImpl = new O2AirLevelSensorImpl(id);
 			CO2AirLevelSensorImpl myCO2AirLevelSensorImpl = new CO2AirLevelSensorImpl(id);
 			OtherAirLevelSensorImpl myOtherAirLevelSensorImpl = new OtherAirLevelSensorImpl(id);
-			registerServer(new O2AirLevelSensorPOATie(myO2AirLevelSensorImpl), "O2Air" + myO2AirLevelSensorImpl.getModuleName());
-			registerServer(new CO2AirLevelSensorPOATie(myCO2AirLevelSensorImpl), "CO2Air" + myCO2AirLevelSensorImpl.getModuleName());
-			registerServer(new OtherAirLevelSensorPOATie(myOtherAirLevelSensorImpl), "OtherAir" + myOtherAirLevelSensorImpl.getModuleName());
+			registerServer(new O2AirLevelSensorPOATie(myO2AirLevelSensorImpl), myO2AirLevelSensorImpl.getModuleName());
+			registerServer(new CO2AirLevelSensorPOATie(myCO2AirLevelSensorImpl), myCO2AirLevelSensorImpl.getModuleName());
+			registerServer(new OtherAirLevelSensorPOATie(myOtherAirLevelSensorImpl), myOtherAirLevelSensorImpl.getModuleName());
 
 		}
 
