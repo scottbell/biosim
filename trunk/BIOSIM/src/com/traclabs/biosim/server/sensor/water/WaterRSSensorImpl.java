@@ -23,7 +23,7 @@ public abstract class WaterRSSensorImpl extends GenericSensorImpl implements Wat
 		return myWaterRS;
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(getInput());
 	}
 }

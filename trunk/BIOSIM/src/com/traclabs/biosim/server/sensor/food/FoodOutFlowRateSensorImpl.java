@@ -34,7 +34,7 @@ public class FoodOutFlowRateSensorImpl extends GenericSensorImpl implements Food
 		return myProducer;
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(myProducer);
 	}
 	

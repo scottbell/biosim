@@ -26,7 +26,7 @@ public abstract class StoreSensorImpl extends GenericSensorImpl implements Store
 		return myStore.getCapacity();
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(getInput());
 	}
 }

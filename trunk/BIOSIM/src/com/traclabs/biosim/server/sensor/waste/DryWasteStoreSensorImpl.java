@@ -27,7 +27,7 @@ public abstract class DryWasteStoreSensorImpl extends GenericSensorImpl implemen
 		return myDryWasteStore.getCapacity();
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(getInput());
 	}
 }

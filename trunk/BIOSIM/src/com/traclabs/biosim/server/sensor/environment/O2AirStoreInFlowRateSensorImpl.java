@@ -35,7 +35,7 @@ public class O2AirStoreInFlowRateSensorImpl extends GenericSensorImpl implements
 		return myConsumer;
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(myConsumer);
 	}
 	

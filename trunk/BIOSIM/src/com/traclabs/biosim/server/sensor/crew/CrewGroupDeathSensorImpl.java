@@ -24,7 +24,7 @@ public class CrewGroupDeathSensorImpl extends CrewGroupSensorImpl implements Cre
 	protected void notifyListeners(){
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(getInput());
 	}
 }

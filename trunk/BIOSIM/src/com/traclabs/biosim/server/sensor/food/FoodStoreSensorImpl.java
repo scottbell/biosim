@@ -27,7 +27,7 @@ public abstract class FoodStoreSensorImpl extends GenericSensorImpl implements F
 		return myFoodStore.getLevel();
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(getInput());
 	}
 }

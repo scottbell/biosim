@@ -34,7 +34,7 @@ public class O2InFlowRateSensorImpl extends GenericSensorImpl implements O2InFlo
 		return myIndex;
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(myConsumer);
 	}
 	

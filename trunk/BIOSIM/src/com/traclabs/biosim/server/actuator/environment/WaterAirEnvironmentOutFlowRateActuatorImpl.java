@@ -27,7 +27,7 @@ public class WaterAirEnvironmentOutFlowRateActuatorImpl extends GenericActuatorI
 		myIndex = pIndex;
 	}
 	
-	protected BioModule getOutputModule(){
+	public BioModule getOutputModule(){
 		return (BioModule)(myProducer);
 	}
 	

@@ -27,7 +27,7 @@ public abstract class O2StoreSensorImpl extends GenericSensorImpl implements O2S
 		return myO2Store.getCapacity();
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(getInput());
 	}
 }

@@ -27,7 +27,7 @@ public abstract class PotableWaterStoreSensorImpl extends GenericSensorImpl impl
 		return myPotableWaterStore.getCapacity();
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(getInput());
 	}
 }

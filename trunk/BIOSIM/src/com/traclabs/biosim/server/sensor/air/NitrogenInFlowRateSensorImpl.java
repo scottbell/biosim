@@ -34,7 +34,7 @@ public class NitrogenInFlowRateSensorImpl extends GenericSensorImpl implements N
 		return myConsumer;
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(myConsumer);
 	}
 	

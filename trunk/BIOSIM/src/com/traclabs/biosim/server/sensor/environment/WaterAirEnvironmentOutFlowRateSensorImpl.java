@@ -35,7 +35,7 @@ public class WaterAirEnvironmentOutFlowRateSensorImpl extends GenericSensorImpl 
 		return myProducer;
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(myProducer);
 	}
 	

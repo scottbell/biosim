@@ -23,7 +23,7 @@ public abstract class ShelfSensorImpl extends GenericSensorImpl implements Shelf
 		return myShelf;
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return myShelf.getBiomassRS();
 	}
 }

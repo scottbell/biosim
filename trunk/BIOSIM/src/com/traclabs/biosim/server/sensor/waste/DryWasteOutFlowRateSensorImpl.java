@@ -38,7 +38,7 @@ public class DryWasteOutFlowRateSensorImpl extends GenericSensorImpl implements 
 		return myIndex;
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(myProducer);
 	}
 }

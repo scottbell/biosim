@@ -27,7 +27,7 @@ public abstract class PowerStoreSensorImpl extends GenericSensorImpl implements 
 		return myPowerStore.getCapacity();
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(getInput());
 	}
 }

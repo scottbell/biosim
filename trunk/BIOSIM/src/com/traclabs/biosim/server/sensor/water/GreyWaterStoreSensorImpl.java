@@ -27,7 +27,7 @@ public abstract class GreyWaterStoreSensorImpl extends GenericSensorImpl impleme
 		return myGreyWaterStore.getCapacity();
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(getInput());
 	}
 }

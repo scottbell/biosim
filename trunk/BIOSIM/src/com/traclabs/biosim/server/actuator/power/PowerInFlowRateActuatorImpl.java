@@ -26,7 +26,7 @@ public class PowerInFlowRateActuatorImpl extends GenericActuatorImpl implements 
 		myIndex = pIndex;
 	}
 	
-	protected BioModule getOutputModule(){
+	public BioModule getOutputModule(){
 		return (BioModule)(myConsumer);
 	}
 	

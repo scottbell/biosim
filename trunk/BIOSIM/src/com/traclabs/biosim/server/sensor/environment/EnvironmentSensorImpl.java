@@ -23,7 +23,7 @@ public abstract class EnvironmentSensorImpl extends GenericSensorImpl implements
 		return myEnvironment;
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(getInput());
 	}
 }

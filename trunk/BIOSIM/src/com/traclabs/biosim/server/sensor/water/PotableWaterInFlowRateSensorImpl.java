@@ -34,7 +34,7 @@ public class PotableWaterInFlowRateSensorImpl extends GenericSensorImpl implemen
 		return myIndex;
 	}
 	
-	protected BioModule getInputModule(){
+	public BioModule getInputModule(){
 		return (BioModule)(myConsumer);
 	}
 	

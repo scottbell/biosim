@@ -27,7 +27,7 @@ public class NitrogenAirEnvironmentOutFlowRateActuatorImpl extends GenericActuat
 		myIndex = pIndex;
 	}
 	
-	protected BioModule getOutputModule(){
+	public BioModule getOutputModule(){
 		return (BioModule)(myProducer);
 	}
 	
