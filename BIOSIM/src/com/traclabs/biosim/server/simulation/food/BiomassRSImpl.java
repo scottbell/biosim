@@ -135,7 +135,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	}
 	
 	/**
-	* Attempts to collected enough power from the Power PS to run the Biomass RS for one tick.
+	* Attempts to collect enough power from the Power PS to run the Biomass RS for one tick.
 	*/
 	private void gatherPower(){
 		currentPowerConsumed = myPowerStore.take(powerNeeded);
@@ -150,7 +150,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	}
 	
 	/**
-	* Attempts to collected enough water from the Grey Water Store for the plants for one tick.
+	* Attempts to collect enough water from the Grey Water Store for the plants for one tick.
 	*/
 	private void gatherWater(){
 		currentGreyWaterConsumed = myGreyWaterStore.take(waterNeeded);
