@@ -60,7 +60,7 @@ public class RO extends WaterRSSubSystem{
 	}
 	
 	public void reset(){
-		currentPower = 0;
+		currentPowerConsumed = 0;
 		hasEnoughPower = false;
 		hasEnoughWater = false;
 		waterLevel = 0;
