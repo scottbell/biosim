@@ -20,6 +20,7 @@ import org.omg.CORBA.*;
 public class BioHolder
 {
 	//Module Names
+	//Simulation
 	public final static String crewName = "CrewGroup";
 	public final static String powerPSName = "PowerPS";
 	public final static String powerStoreName = "PowerStore";
@@ -37,6 +38,67 @@ public class BioHolder
 	public final static String simEnvironmentName = "CrewEnvironment";
 	public final static String crewEnvironmentName = "CrewEnvironment";
 	public final static String plantEnvironmentName = "PlantEnvironment";
+	//Sensor
+	//Air
+	//AirRs
+	private String myAirRSPowerInFlowRateSensorName = "AirRSPowerInFlowRateSensor";
+	private String myAirRSAirInFlowRateSensorName = "AirRSAirInFlowRateSensor";
+	private String myAirRSAirOutFlowRateSensorName = "AirRSAirOutFlowRateSensor";
+	private String myAirRSO2OutFlowRateSensorName = "AirRSO2OutFlowRateSensor";
+	private String myAirRSCO2InFlowRateSensorName = "AirRSCO2InFlowRateSensor";
+	private String myAirRSCO2OutFlowRateSensorName = "AirRSCO2OutFlowRateSensor";
+	//Stores
+	private String myO2StoreLevelSensorName = "O2StoreLevelSensor";
+	private String myCO2StoreLevelSensorName = "CO2StoreLevel";
+	//Power
+	//PowerPS
+	private String myPowerPSPowerOutFlowRateSensorName = "PowerPSPowerOutFlowRateSensor";
+	//Stores
+	private String myPowerStoreLevelSensorName = "PowerStoreLevelSensor";
+	//Environment
+	//Crew
+	private String myCrewEnvironmentOtherAirLevelSensorName = "CrewEnvironmentOtherAirLevelSensor";
+	private String myCrewEnvironmentCO2AirLevelSensorName = "CrewEnvironmentCO2AirLevelSensor";
+	private String myCrewEnvironmentO2AirLevelSensorName = "CrewEnvironmentO2AirLevelSensor";
+	//Plant
+	private String myPlantEnvironmentOtherAirLevelSensorName = "PlantEnvironmentOtherAirLevelSensor";
+	private String myPlantEnvironmentCO2AirLevelSensorName = "PlantEnvironmentCO2AirLevelSensor";
+	private String myPlantEnvironmentO2AirLevelSensorName = "PlantEnvironmentO2AirLevelSensor";
+	//Water
+	//WaterRS
+	private String myWaterRSDirtyWaterInFlowRateSensorName = "WaterRSDirtyWaterInFlowRateSensor";
+	private String myWaterRSGreyWaterInFlowRateSensorName = "WaterRSGreyWaterInFlowRateSensor";
+	private String myWaterRSPowerInFlowRateSensorName = "WaterRSPowerInFlowRateSensor";
+	private String myWaterRSPotableWaterOutFlowRateSensorName = "WaterRSPotableWaterOutFlowRateSensor";
+	//Stores
+	private String myPotableWaterStoreLevelSensorName = "PotableWaterStoreLevelSensor";
+	private String myGreyWaterStoreLevelSensorName = "GreyWaterStoreLevelSensor";
+	private String myDirtyWaterStoreLevelSensorName = "DirtyWaterStoreLevelSensor";
+	//Food
+	//BiomassRS
+	private String myBiomassRSAirInFlowRateSensorName = "BiomassRSAirInFlowRateSensor";
+	private String myBiomassRSAirOutFlowRateSensorName = "BiomassRSAirOutFlowRateSensor";
+	private String myBiomassRSPotableWaterInFlowRateSensorName = "BiomassRSPotableWaterInFlowRateSensor";
+	private String myBiomassRSGreyWaterInFlowRateSensorName = "BiomassRSGreyWaterInFlowRateSensor";
+	private String myBiomassRSBiomassOutFlowRateSensorName = "BiomassRSBiomassOutFlowRateSensor";
+	//Food Processor
+	private String myFoodProcessorPowerInFlowRateSensorName = "FoodProcessorPowerInFlowRateSensor";
+	private String myFoodProcessorBiomassInFlowRateSensorName = "FoodProcessorBiomassInFlowRateSensor";
+	private String myFoodProcessorFoodOutFlowRateSensorName = "FoodProcessorFoodOutFlowRateSensor";
+	//Stores
+	private String myBiomassStoreLevelSensorName = "BiomassStoreLevelSensor";
+	private String myFoodStoreLevelSensorName = "FoodStoreLevelSensor";
+	//Framework
+	//Accumulator
+	private String myAccumulatorCO2AirEnvironmentInFlowRateSensorName = "AccumulatorCO2AirEnvironmentInFlowRateSensor";
+	private String myAccumulatorO2AirEnvironmentInFlowRateSensorName = "AccumulatorO2AirEnvironmentInFlowRateSensor";
+	private String myAccumulatorCO2AirStoreOutFlowRateSensorName = "AccumulatorCO2AirStoreOutFlowRateSensor";
+	private String myAccumulatorO2AirStoreOutFlowRateSensorName = "AccumulatorO2AirStoreOutFlowRateSensor";
+	//Injector
+	private String myInjectorCO2AirStoreInFlowRateSensorName = "InjectorCO2AirStoreInFlowRateSensor";
+	private String myInjectorO2AirStoreInFlowRateSensorName = "InjectorO2AirStoreInFlowRateSensor";
+	private String myInjectorCO2AirEnvironmentOutFlowRateSensorName = "InjectorCO2AirEnvironmentOutFlowRateSensor";
+	private String myInjectorO2AirEnvironmentOutFlowRateSensorName = "InjectorO2AirEnvironmentOutFlowRateSensor";
 
 	//A hastable containing the server references
 	private static Map modules;
