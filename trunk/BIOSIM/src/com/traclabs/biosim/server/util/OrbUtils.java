@@ -100,10 +100,19 @@ public class OrbUtils{
 			myRootPOA = POAHelper.narrow(myOrb.resolve_initial_references("RootPOA"));
 			myRootPOA.the_POAManager().activate();
 			myRootContext = NamingContextExtHelper.narrow(myOrb.resolve_initial_references("NameService"));
-			//Attempt to create biosim context, if already there, don't bother
+			//Attempt to create com.traclabs.biosim context, if already there, don't bother
+			NameComponent comComponent = new NameComponent("com", "");
+			NameComponent[] comComponentArray = {comComponent};
+			myRootContext.bind_new_context(comComponentArray);
+			NamingContextExt comContext = NamingContextExtHelper.narrow(myRootContext.resolve_str("com"));
+			NameComponent traclabsComponent = new NameComponent("traclabs", "");
+			NameComponent[] traclabsComponentArray = {traclabsComponent};
+			comContext.bind_new_context(traclabsComponentArray);
+			
+			NamingContextExt traclabsContext = NamingContextExtHelper.narrow(comContext.resolve_str("traclabs"));
 			NameComponent biosimComponent = new NameComponent("biosim", "");
 			NameComponent[] biosimComponentArray = {biosimComponent};
-			myRootContext.bind_new_context(biosimComponentArray);
+			traclabsContext.bind_new_context(biosimComponentArray);
 		}
 		catch (org.omg.CosNaming.NamingContextPackage.AlreadyBound e){
 		}
@@ -114,7 +123,9 @@ public class OrbUtils{
 			return;
 		}
 		try{
-			myBiosimNamingContext = NamingContextExtHelper.narrow(myRootContext.resolve_str("biosim"));
+			NamingContextExt comContext = NamingContextExtHelper.narrow(myRootContext.resolve_str("com"));
+			NamingContextExt traclabsContext = NamingContextExtHelper.narrow(comContext.resolve_str("traclabs"));
+			myBiosimNamingContext = NamingContextExtHelper.narrow(traclabsContext.resolve_str("biosim"));
 			initializeOrbRunOnce = true;
 		}
 		catch (Exception e){
