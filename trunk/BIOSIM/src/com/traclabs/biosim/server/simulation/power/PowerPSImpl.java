@@ -2,6 +2,7 @@ package biosim.server.power;
 
 import biosim.idl.power.*;
 import biosim.idl.util.*;
+import biosim.idl.environment.*;
 import biosim.server.util.*;
 import biosim.server.framework.*;
 /**
@@ -13,29 +14,34 @@ import biosim.server.framework.*;
 
 public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperations {
 	//The power produced (in watts) by the Power PS at the current tick
-	protected float currentPowerProduced = 6720f;
+	protected float currentPowerProduced = 0f;
 	//Flag switched when the Power PS has collected references to other servers it need
 	private boolean hasCollectedReferences = false;
 	//References to the PowerStore the Power PS takes/puts power into
 	protected PowerStore myPowerStore;
+	protected SimEnvironment mySimEnvironment;
 	private LogIndex myLogIndex;
 	
 	/**
-	* When ticked, the Food Processor does the following:
+	* When ticked, the PowerPS does the following:
 	* 1) attempts to collect references to various server (if not already done).
 	* 2) creates power and places it into the power store.
 	*/
 	public void tick(){
 		collectReferences();
+		calculatePowerProduced();
 		myPowerStore.add(currentPowerProduced);
 		if (moduleLogging)
 			log();
 	}
 	
+	protected abstract void calculatePowerProduced();
+	
 	/**
 	* Reset does nothing right now
 	*/
 	public void reset(){
+		currentPowerProduced = 0f;
 	}
 	
 	/**
@@ -44,6 +50,7 @@ public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperat
 	protected void collectReferences(){
 		try{
 			if (!hasCollectedReferences){
+				mySimEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str("SimEnvironment"));
 				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"));
 				hasCollectedReferences = true;
 			}

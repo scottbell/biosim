@@ -13,7 +13,8 @@ import biosim.idl.power.*;
 public class RO extends WaterRSSubSystem{
 	//The subsystem to send the water to next
 	private AES myAES;
-	
+	private PPS myPPS;
+
 	/**
 	* Constructor that creates the RO
 	* @param pWaterRSImpl The Water RS system the RO is contained in
@@ -26,23 +27,27 @@ public class RO extends WaterRSSubSystem{
 	* Flushes the water from this subsystem to the AES
 	*/
 	private void pushWater(){
-		myAES.addWater(waterLevel);
+		if (myAES.isEnabled())
+			myAES.addWater(new Double(waterLevel * 0.15f).floatValue());
+		myPPS.addWater(new Double(waterLevel * 0.85f).floatValue());
 		waterLevel = 0;
 	}
-	
+
 	/**
 	* In one tick, this subsystem:
 	* 1) Collects references (if needed).
 	* 2) Flushes the water from this subsystem to the AES.
 	*/
 	public void tick(){
-		collectReferences();
-		gatherPower();
-		if (hasEnoughPower){
-			pushWater();
+		if (enabled){
+			collectReferences();
+			gatherPower();
+			if (hasEnoughPower){
+				pushWater();
+			}
 		}
 	}
-	
+
 	/**
 	* Collects references to subsystems needed for putting/getting resources
 	*/
@@ -50,6 +55,7 @@ public class RO extends WaterRSSubSystem{
 		if (!hasCollectedReferences){
 			try{
 				myAES = myWaterRS.getAES();
+				myPPS = myWaterRS.getPPS();
 				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"));
 				hasCollectedReferences = true;
 			}
@@ -58,7 +64,7 @@ public class RO extends WaterRSSubSystem{
 			}
 		}
 	}
-	
+
 	public void reset(){
 		currentPowerConsumed = 0;
 		hasEnoughPower = false;

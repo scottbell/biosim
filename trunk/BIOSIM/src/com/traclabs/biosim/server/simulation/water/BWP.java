@@ -13,10 +13,15 @@ import biosim.idl.water.*;
 public class BWP extends WaterRSSubSystem{
 	//The subsystem to send the water to next
 	private RO myRO;
+	private AES myAES;
 	private DirtyWaterStore myDirtyWaterStore;
 	private GreyWaterStore myGreyWaterStore;
 	private float currentDirtyWaterConsumed = 0f;
 	private float currentGreyWaterConsumed = 0f;
+	private final float NORMAL_WATER_NEEDED = waterNeeded;
+	private final float RO_DISABLED_WATER_NEEDED = new Double(waterNeeded * 0.15).floatValue();
+	private final float BOTH_DISABLED_WATER_NEEDED = 0f;
+	
 
 	/**
 	* Constructor that creates the BWP
@@ -33,6 +38,7 @@ public class BWP extends WaterRSSubSystem{
 		if (!hasCollectedReferences){
 			try{
 				myRO = myWaterRS.getRO();
+				myAES = myWaterRS.getAES();
 				myDirtyWaterStore = DirtyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("DirtyWaterStore"));
 				myGreyWaterStore = GreyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("GreyWaterStore"));
 				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"));
@@ -57,6 +63,15 @@ public class BWP extends WaterRSSubSystem{
 	* If the Dirty Water Store can't provide enough, the Water RS supplements from the Grey Water Store.
 	*/
 	private void gatherWater(){
+		if (!myRO.isEnabled()){
+			if (myAES.isEnabled())
+				waterNeeded = RO_DISABLED_WATER_NEEDED;
+			else
+				waterNeeded = BOTH_DISABLED_WATER_NEEDED;
+		}
+		else{
+			waterNeeded = NORMAL_WATER_NEEDED;
+		}
 		//draw as much as we can from dirty water
 		if (myDirtyWaterStore.getLevel() >= waterNeeded){
 			currentDirtyWaterConsumed = myDirtyWaterStore.take(waterNeeded);
@@ -75,7 +90,14 @@ public class BWP extends WaterRSSubSystem{
 	* Flushes the water from this subsystem to the RO
 	*/
 	private void pushWater(){
-		myRO.addWater(waterLevel);
+		if (myRO.isEnabled())
+			myRO.addWater(waterLevel);
+		else if (myAES.isEnabled()){
+			myAES.addWater(waterLevel);
+		}
+		else{
+			//dump water! no subsystem enabled to send water to
+		}
 		waterLevel = 0;
 	}
 

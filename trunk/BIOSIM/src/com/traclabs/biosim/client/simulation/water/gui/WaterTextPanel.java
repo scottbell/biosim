@@ -206,6 +206,8 @@ public class WaterTextPanel extends BioTabPanel
 	 * @return	A String representing the status of the AES
 	 */
 	private String coallateAESStatus(){
+		if (!myWaterRS.AESIsEnabled())
+			return ("disabled");
 		StringBuffer statusBuffer = new StringBuffer();
 		if (!myWaterRS.AESHasPower())
 			statusBuffer.append("needs power, ");
@@ -242,6 +244,8 @@ public class WaterTextPanel extends BioTabPanel
 	 * @return	A String representing the status of the BWP
 	 */
 	private String coallateROStatus(){
+		if (!myWaterRS.ROIsEnabled())
+			return ("disabled");
 		StringBuffer statusBuffer = new StringBuffer();
 		if (!myWaterRS.ROHasPower())
 			statusBuffer.append("needs power, ");

@@ -138,6 +138,11 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myPotableWaterStore.setLevel(500f);
 		myGreyWaterStore.setCapacity(500f);
 		myGreyWaterStore.setLevel(500f);
+		
+		//Turn off RO
+		WaterRS myWaterRS = (WaterRS)(getBioModule(waterRSName));
+		myWaterRS.setROEnabled(false);
+		myWaterRS.setAESEnabled(false);
 
 		//Fill the air tanks
 		CO2Store myCO2Store = (CO2Store)(getBioModule(CO2StoreName));
