@@ -1,5 +1,16 @@
 <?xml version="1.0"?>
 <biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='BiosimInitialization.xsd'>
+	<Globals>
+		<runTillDead>true</runTillDead>
+		<runTillN isEnabled="false"/>
+		<isFullLoggingEnabled>false</isFullLoggingEnabled>
+		<isSensorLoggingEnabled>false</isSensorLoggingEnabled>
+		<isActuatorLoggingEnabled>false</isActuatorLoggingEnabled>
+		<driverPauseLength>0</driverPauseLength>
+		<isLooping>false</isLooping>
+		<initialTicks>0</initialTicks>
+		<setStochasticIntensity>NONE_STOCH</setStochasticIntensity>
+	</Globals>
 	<PotableWaterStore xsi:type="Store">
 		<isLoggingEnabled>false</isLoggingEnabled>
 		<isBreakdownEnabled>false</isBreakdownEnabled>
