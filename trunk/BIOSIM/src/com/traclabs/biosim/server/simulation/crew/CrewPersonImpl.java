@@ -629,6 +629,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			timeActivityPerformed = 0;
 		}
 	}
+	
+	private void eatFood(float pFoodNeeded){
+		foodConsumed = myCrewGroup.getFractionalResourceFromStore(myCrewGroup.getFoodInputs(), myCrewGroup.getFoodInputMaxFlowRates(), myCrewGroup.getFoodInputDesiredFlowRates(), myCrewGroup.getFoodInputActualFlowRates(), foodNeeded, 1f / myCrewGroup.getCrewSize());
+	}
 
 	/**
 	* Attempts to consume resource for this crew memeber.
@@ -644,10 +648,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		greyWaterProduced = calculateGreyWaterProduced(potableWaterNeeded);
 		CO2Produced = calculateCO2Produced(O2Needed);
 		//adjust tanks
-		foodConsumed = myCrewGroup.getResourceFromStorePerPerson(myCrewGroup.getFoodInputs(), myCrewGroup.getFoodInputMaxFlowRates(), myCrewGroup.getFoodInputDesiredFlowRates(), myCrewGroup.getFoodInputActualFlowRates(), foodNeeded);
-		cleanWaterConsumed = myCrewGroup.getResourceFromStorePerPerson(myCrewGroup.getPotableWaterInputs(), myCrewGroup.getPotableWaterInputMaxFlowRates(), myCrewGroup.getPotableWaterInputDesiredFlowRates(), myCrewGroup.getPotableWaterInputActualFlowRates(), potableWaterNeeded);
-		float distributedDirtyWaterLeft = myCrewGroup.pushResourceToStorePerPerson(myCrewGroup.getDirtyWaterOutputs(), myCrewGroup.getDirtyWaterOutputMaxFlowRates(), myCrewGroup.getDirtyWaterOutputDesiredFlowRates(), myCrewGroup.getDirtyWaterOutputActualFlowRates(), dirtyWaterProduced);
-		float distributedGreyWaterLeft = myCrewGroup.pushResourceToStorePerPerson(myCrewGroup.getGreyWaterOutputs(), myCrewGroup.getGreyWaterOutputMaxFlowRates(), myCrewGroup.getGreyWaterOutputDesiredFlowRates(), myCrewGroup.getGreyWaterOutputActualFlowRates(), greyWaterProduced);
+		eatFood(foodNeeded);
+		cleanWaterConsumed = myCrewGroup.getFractionalResourceFromStore(myCrewGroup.getPotableWaterInputs(), myCrewGroup.getPotableWaterInputMaxFlowRates(), myCrewGroup.getPotableWaterInputDesiredFlowRates(), myCrewGroup.getPotableWaterInputActualFlowRates(), potableWaterNeeded, 1f / myCrewGroup.getCrewSize());
+		float distributedDirtyWaterLeft = myCrewGroup.pushFractionalResourceToStore(myCrewGroup.getDirtyWaterOutputs(), myCrewGroup.getDirtyWaterOutputMaxFlowRates(), myCrewGroup.getDirtyWaterOutputDesiredFlowRates(), myCrewGroup.getDirtyWaterOutputActualFlowRates(), dirtyWaterProduced, 1f / myCrewGroup.getCrewSize());
+		float distributedGreyWaterLeft = myCrewGroup.pushFractionalResourceToStore(myCrewGroup.getGreyWaterOutputs(), myCrewGroup.getGreyWaterOutputMaxFlowRates(), myCrewGroup.getGreyWaterOutputDesiredFlowRates(), myCrewGroup.getGreyWaterOutputActualFlowRates(), greyWaterProduced, 1f / myCrewGroup.getCrewSize());
 	
 		SimEnvironment[] myAirInputs = myCrewGroup.getAirInputs();
 		SimEnvironment[] myAirOutputs = myCrewGroup.getAirOutputs();
