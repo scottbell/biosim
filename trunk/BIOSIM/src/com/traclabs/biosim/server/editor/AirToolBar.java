@@ -7,7 +7,9 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import org.tigris.gef.base.CmdCreateNode;
+import org.tigris.gef.base.CmdSetMode;
+import org.tigris.gef.base.ModeCreateFigCircle;
+import org.tigris.gef.base.ModeSelect;
 
 /**
  * @author scott
@@ -16,8 +18,9 @@ public class AirToolBar extends EditorToolBar {
 
     public AirToolBar(BiosimEditor pEditor) {
         super("Air");
-
-        add(new CmdCreateNode(H2StoreFig.class, true, null, "H2Store"));
+        add(new CmdSetMode(ModeSelect.class, "Select"));
+        add(new CmdSetMode(ModeCreateFigCircle.class, "Circle"));
+        addSeparator();
         add(new NitrogenStoreAction());
         add(new CH4StoreAction());
         add(new O2StoreAction());
