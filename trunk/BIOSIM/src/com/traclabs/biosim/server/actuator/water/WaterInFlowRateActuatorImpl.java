@@ -42,6 +42,6 @@ public class WaterInFlowRateActuatorImpl extends GenericActuatorImpl implements
     }
 
     public float getMax() {
-        return myConsumer.getWaterConsumerDefinition().getDesiredFlowRate(myIndex);
+        return myConsumer.getWaterConsumerDefinition().getMaxFlowRate(myIndex);
     }
 }

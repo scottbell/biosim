@@ -42,6 +42,6 @@ public class DryWasteInFlowRateActuatorImpl extends GenericActuatorImpl
     }
 
     public float getMax() {
-        return myConsumer.getDryWasteConsumerDefinition().getDesiredFlowRate(myIndex);
+        return myConsumer.getDryWasteConsumerDefinition().getMaxFlowRate(myIndex);
     }
 }

@@ -31,7 +31,7 @@ public class NitrogenAirStoreInFlowRateSensorImpl extends GenericSensorImpl
     }
 
     public float getMax() {
-        return myConsumer.getNitrogenAirConsumerDefinition().getEnvironmentMaxFlowRate(myIndex);
+        return myConsumer.getNitrogenAirConsumerDefinition().getStoreMaxFlowRate(myIndex);
     }
 
     public NitrogenAirConsumer getInput() {

@@ -42,6 +42,6 @@ public class WaterOutFlowRateActuatorImpl extends GenericActuatorImpl implements
     }
 
     public float getMax() {
-        return myProducer.getWaterProducerDefinition().getDesiredFlowRate(myIndex);
+        return myProducer.getWaterProducerDefinition().getMaxFlowRate(myIndex);
     }
 }

@@ -6,10 +6,10 @@ import java.io.InputStreamReader;
 
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.client.util.OrbUtils;
-import com.traclabs.biosim.idl.actuator.framework.GenericActuator;
-import com.traclabs.biosim.idl.actuator.framework.GenericActuatorHelper;
 import com.traclabs.biosim.idl.framework.BioDriver;
 import com.traclabs.biosim.idl.framework.BioDriverHelper;
+import com.traclabs.biosim.idl.simulation.food.BiomassRS;
+import com.traclabs.biosim.idl.simulation.food.BiomassRSHelper;
 
 /**
  * Runs a CLI interface to the simulation.
@@ -126,8 +126,8 @@ public class SimCommandLine {
     }
 
     private void runTest() {
-    	GenericActuator currentActuator = GenericActuatorHelper.narrow(BioHolderInitializer.grabModule("BaseBiomassRSPotableWaterInFlowRateActuator"));
-    	float max = currentActuator.getMax();
+    	BiomassRS baseBiomassRS = BiomassRSHelper.narrow(BioHolderInitializer.grabModule("BaseBiomassRS"));
+    	float max = baseBiomassRS.getPotableWaterConsumerDefinition().getMaxFlowRates()[0];
     	System.out.println("max is "+max);
     }
 

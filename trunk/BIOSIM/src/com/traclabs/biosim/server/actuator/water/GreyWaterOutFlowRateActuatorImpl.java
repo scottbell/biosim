@@ -42,6 +42,6 @@ public class GreyWaterOutFlowRateActuatorImpl extends GenericActuatorImpl
     }
 
     public float getMax() {
-        return myProducer.getGreyWaterProducerDefinition().getDesiredFlowRate(myIndex);
+        return myProducer.getGreyWaterProducerDefinition().getMaxFlowRate(myIndex);
     }
 }
