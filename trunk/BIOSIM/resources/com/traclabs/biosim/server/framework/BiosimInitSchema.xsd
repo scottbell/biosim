@@ -35,15 +35,16 @@
 			<xsd:element name="comment" type="xsd:string" minOccurs="0" maxOccurs="1"/>	
 			<xsd:element name="author" type="xsd:string" minOccurs="0" maxOccurs="1"/>	
 		</xsd:sequence>
-		<xsd:attribute name="runTillN" type="xsd:nonNegativeInteger"/>
+		<xsd:attribute name="startPaused" type="xsd:boolean" default="true"/>
+		<xsd:attribute name="runTillN" type="xsd:nonNegativeInteger" default="0"/>
 		<xsd:attribute name="runTillDead" type="xsd:boolean" default="true"/>
+		<xsd:attribute name="crewsToWatch" type="xsd:stringList" use="optional"/>
 		<xsd:attribute name="isFullLoggingEnabled" type="xsd:boolean" default="false"/>
 		<xsd:attribute name="isSensorLoggingEnabled" type="xsd:boolean" default="false"/>    
 		<xsd:attribute name="isActuatorLoggingEnabled" type="xsd:boolean" default="false"/>
-		<xsd:attribute name="driverPauseLength" type="xsd:nonNegativeInteger" default="0"/>     
+		<xsd:attribute name="driverStutterLength" type="xsd:nonNegativeInteger" default="0"/>     
 		<xsd:attribute name="isLooping" type="xsd:boolean" default="false"/>
-		<xsd:attribute name="initialTicks" type="xsd:nonNegativeInteger" default="0"/>
-		<xsd:attribute name="setStochasticIntensity" type="StochasticIntensityType" default="NONE_STOCH"/>
+		<xsd:attribute name="stochasticIntensity" type="StochasticIntensityType" default="NONE_STOCH"/>
 	</xsd:complexType>
 	
 	<xsd:simpleType name="StochasticIntensityType">

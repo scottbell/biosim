@@ -1,32 +1,9 @@
 package biosim.server.framework;
 
-import biosim.idl.simulation.air.*;
-import biosim.idl.simulation.crew.*;
-import biosim.idl.simulation.environment.*;
-import biosim.idl.simulation.food.*;
-import biosim.idl.simulation.power.*;
-import biosim.idl.simulation.water.*;
-import biosim.idl.simulation.framework.*;
-import biosim.idl.sensor.framework.*;
-import biosim.idl.sensor.air.*;
-import biosim.idl.sensor.crew.*;
-import biosim.idl.sensor.environment.*;
-import biosim.idl.sensor.food.*;
-import biosim.idl.sensor.power.*;
-import biosim.idl.sensor.water.*;
-import biosim.idl.actuator.framework.*;
-import biosim.idl.actuator.air.*;
-import biosim.idl.actuator.crew.*;
-import biosim.idl.actuator.environment.*;
-import biosim.idl.actuator.food.*;
-import biosim.idl.actuator.power.*;
-import biosim.idl.actuator.water.*;
 import biosim.idl.framework.*;
 import biosim.idl.util.log.*;
+import biosim.idl.simulation.crew.*;
 import biosim.server.util.*;
-import org.omg.CosNaming.*;
-import org.omg.CosNaming.NamingContextPackage.*;
-import org.omg.CORBA.*;
 import java.util.*;
 
 /*
@@ -34,8 +11,7 @@ import java.util.*;
  * @author    Scott Bell
  */
 
-public class BioDriverImpl extends BioDriverPOA
-{
+public class BioDriverImpl extends BioDriverPOA{
 	//The thread to run the simulation
 	private Thread myTickThread;
 	//Flag to see whether the BioDriverImpl is paused (started but not ticking)
@@ -60,9 +36,9 @@ public class BioDriverImpl extends BioDriverPOA
 	//If we loop after end conditions of a simulation run have been met (crew death or n-ticks)
 	private boolean looping = false;
 	private CrewGroup[] crews;
-	private Map modules;
-	private Map sensors;
-	private Map actuators;
+	private BioModule[] modules;
+	private BioModule[] sensors;
+	private BioModule[] actuators;
 
 	/**
 	* Constructs the BioDriver
@@ -70,6 +46,18 @@ public class BioDriverImpl extends BioDriverPOA
 	*/
 	public BioDriverImpl(int pID){
 		myID = pID;
+		modules = new BioModule[0];
+		sensors = new BioModule[0];
+		actuators = new BioModule[0];
+		crews = new CrewGroup[0];
+	}
+
+	/**
+	* Starts the simulation
+	*/
+	public void startSimulation(){
+		myTickThread = new Thread(new Ticker());
+		myTickThread.start();
 	}
 
 	/**
@@ -95,7 +83,7 @@ public class BioDriverImpl extends BioDriverPOA
 	public boolean isStarted(){
 		return simulationStarted;
 	}
-	
+
 	/**
 	* Tells The ID of this module.  Should be the same as every other module in this BioSim instance
 	* @return The ID of this module.  Should be the same as every other module in this BioSim instance
@@ -105,66 +93,50 @@ public class BioDriverImpl extends BioDriverPOA
 	}
 
 	/**
-	* Run a simulation on a different thread (paused at first);
+	* Simulation runs till all the crew dies if true.
 	*/
-	public void spawnSimulation(){
-		runTillDead = false;
-		runTillN = false;
-		pauseSimulation();
+	public void setRunTillDead(boolean pRunTillDead){
+		runTillDead = pRunTillDead;
+	}
 
-		
-		myTickThread = new Thread(new Ticker());
-		myTickThread.start();
+	public void setModules(String[] pModules){
+		for (int i = 0; i < pModules.length; i++){
+
+		}
+	}
+
+	public void setSensors(String[] pSensors){
+	}
+
+	public void setActuators(String[] pActuators){
+	}
+
+	public void setCrewsToWatch(CrewGroup[] pCrewGroups){
+		crews = pCrewGroups;
 	}
 
 	/**
-	* Run a simulation on a different thread and runs continuously (ticks till signalled to end)
+	* Simulation runs till n ticks.
+	* @param pTicks ticks to run simulation
 	*/
-	public void spawnSimulationAndRun(){
-		runTillDead = false;
-		runTillN = false;
-
-		
-		myTickThread = new Thread(new Ticker());
-		myTickThread.start();
-	}
-
-	/**
-	* Run a simulation on a different thread and runs continously till the crew dies
-	*/
-	public void spawnSimulationAndRunTillDead(){
-		runTillDead = true;
-
-		
-		myTickThread = new Thread(new Ticker());
-		myTickThread.start();
-	}
-
-	/**
-	* Run a simulation on a different thread and runs continously till n-Ticks
-	* @param pTicks The number of ticks to run the simulation
-	*/
-	public void spawnSimulationAndRunTillN(int pTicks){
+	public void setRunTillN(int pTicks){
 		nTicks = pTicks;
-		runTillN = true;
-		runTillDead = false;
-
-		
-		myTickThread = new Thread(new Ticker());
-		myTickThread.start();
+		if (nTicks > 0)
+			runTillN = true;
 	}
 
 	/**
-	* If n-ticks have been reached or the crew is dead, this method restarts the simulation
+	* If n-ticks have been reached or the crew is dead, the simulation restarts
 	*/
-	private void loopSimulation(){
-
-		
-		myTickThread = new Thread(new Ticker());
-		myTickThread.start();
+	public void setLoopSimulation(boolean pLooping){
+		looping = pLooping;
 	}
 
-
+	public void setPauseSimulation(boolean pPaused){
+		simulationIsPaused = true;
+		if (!simulationIsPaused)
+			notify();
+	}
 
 	/**
 	* The ticking simulation loop.  Uses a variety of semaphores to pause/resume/end without causing deadlock.
@@ -188,16 +160,20 @@ public class BioDriverImpl extends BioDriverPOA
 			if (isDone()){
 				endSimulation();
 				if (looping)
-					loopSimulation();
+					startSimulation();
 			}
 		}
+	}
+	
+	public void setLogger(Logger pLogger){
+		myLogger = pLogger;
 	}
 
 	/**
 	* Sets how long BioDriver should pause between full simulation ticks (e.g., tick all modules, wait, tick all modules, wait, etc.)
 	* @param pDriverPauseLength the length (in milliseconds) for the driver to pause between ticks
 	*/
-	public void setDriverPauseLength(int pDriverPauseLength){
+	public void setDriverStutterLength(int pDriverPauseLength){
 		if (pDriverPauseLength > 0)
 			System.out.println("BioDriverImpl:"+myID+" driver pause of "+pDriverPauseLength+" milliseconds");
 		driverPauseLength = pDriverPauseLength;
@@ -207,7 +183,7 @@ public class BioDriverImpl extends BioDriverPOA
 	* Tells how long the simulation pauses between full simulation ticks.
 	* @return How long the simulation pauses between full simulation ticks.
 	*/
-	public int getDriverPauseLength(){
+	public int getDriverStutterLength(){
 		return driverPauseLength;
 	}
 
@@ -258,21 +234,6 @@ public class BioDriverImpl extends BioDriverPOA
 	}
 
 	/**
-	* Fetches a BioModule (e.g. AirRS, FoodProcessor, PotableWaterStore) that has been collected by the BioDriverImpl
-	* @return the BioModule requested, null if not found
-	*/
-	private BioModule getBioModule(String type){
-		return (BioModule)(modules.get(type));
-	}
-
-	/**
-	* Pauses the simulation.  Does nothing if already paused.
-	*/
-	public synchronized void pauseSimulation(){
-		simulationIsPaused = true;
-	}
-
-	/**
 	* Ends the simulation entirely. 
 	*/
 	public synchronized void endSimulation(){
@@ -297,17 +258,8 @@ public class BioDriverImpl extends BioDriverPOA
 	*/
 	public synchronized void advanceOneTick(){
 		if (!simulationIsPaused)
-			pauseSimulation();
-
+			setPauseSimulation(true);
 		tick();
-	}
-
-	/**
-	* Resumes the simulation.  Does nothing if already running.
-	*/
-	public synchronized void resumeSimulation(){
-		simulationIsPaused = false;
-		notify();
 	}
 
 	/**
@@ -315,11 +267,12 @@ public class BioDriverImpl extends BioDriverPOA
 	* @param pLogSim Whether or not modules should log.
 	*/
 	public synchronized void setFullLogging(boolean pLogSim){
-		for (Iterator iter = modules.values().iterator(); iter.hasNext();){
-			BioModule currentBioModule = (BioModule)(iter.next());
+		for (int i = 0; i < modules.length; i++){
+			BioModule currentBioModule = (BioModule)(modules[i]);
 			currentBioModule.setLogging(pLogSim);
 		}
-		myLogger.setProcessingLogs(pLogSim);
+		if (myLogger != null)
+			myLogger.setProcessingLogs(pLogSim);
 	}
 
 	/**
@@ -327,11 +280,12 @@ public class BioDriverImpl extends BioDriverPOA
 	* @param pLogSim Whether or not sensors should log.
 	*/
 	public synchronized void setSensorLogging(boolean pLogSim){
-		for (Iterator iter = sensors.values().iterator(); iter.hasNext();){
-			BioModule currentBioModule = (BioModule)(iter.next());
+		for (int i = 0; i < sensors.length; i++){
+			BioModule currentBioModule = (BioModule)(sensors[i]);
 			currentBioModule.setLogging(pLogSim);
 		}
-		myLogger.setProcessingLogs(pLogSim);
+		if (myLogger != null)
+			myLogger.setProcessingLogs(pLogSim);
 	}
 
 	/**
@@ -339,11 +293,12 @@ public class BioDriverImpl extends BioDriverPOA
 	* @param pLogSim Whether or not actuators should log.
 	*/
 	public synchronized void setActuatorLogging(boolean pLogSim){
-		for (Iterator iter = actuators.values().iterator(); iter.hasNext();){
-			BioModule currentBioModule = (BioModule)(iter.next());
+		for (int i = 0; i < actuators.length; i++){
+			BioModule currentBioModule = (BioModule)(actuators[i]);
 			currentBioModule.setLogging(pLogSim);
 		}
-		myLogger.setProcessingLogs(pLogSim);
+		if (myLogger != null)
+			myLogger.setProcessingLogs(pLogSim);
 	}
 
 	/**
@@ -356,8 +311,8 @@ public class BioDriverImpl extends BioDriverPOA
 	* <code>StochasticIntensity.NONE_STOCH</code>
 	*/
 	public void setStochasticIntensity(StochasticIntensity pValue){
-		for (Iterator iter = modules.values().iterator(); iter.hasNext();){
-			BioModule currentBioModule = (BioModule)(iter.next());
+		for (int i = 0; i < modules.length; i++){
+			BioModule currentBioModule = (BioModule)(modules[i]);
 			currentBioModule.setStochasticIntensity(pValue);
 		}
 	}
@@ -375,8 +330,8 @@ public class BioDriverImpl extends BioDriverPOA
 	* &nbsp;&nbsp;&nbsp;<code>MalfunctionLength.PERMANENT_MALF</code><br>
 	*/
 	public void startMalfunction(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
-		for (Iterator iter = modules.values().iterator(); iter.hasNext();){
-			BioModule currentBioModule = (BioModule)(iter.next());
+		for (int i = 0; i < modules.length; i++){
+			BioModule currentBioModule = (BioModule)(modules[i]);
 			currentBioModule.startMalfunction(pIntensity, pLength);
 		}
 	}
@@ -386,10 +341,9 @@ public class BioDriverImpl extends BioDriverPOA
 	* Typically this means resetting the various gas levels, crew people, water levels, etc.
 	*/
 	public void reset(){
-
 		System.out.println("BioDriverImpl:"+myID+" Resetting simulation");
-		for (Iterator iter = modules.values().iterator(); iter.hasNext();){
-			BioModule currentBioModule = (BioModule)(iter.next());
+		for (int i = 0; i < modules.length; i++){
+			BioModule currentBioModule = (BioModule)(modules[i]);
 			currentBioModule.reset();
 		}
 	}
@@ -401,8 +355,8 @@ public class BioDriverImpl extends BioDriverPOA
 	*/
 	private void tick(){
 		//Iterate through the rest of the modules and tick them
-		for (Iterator iter = modules.values().iterator(); iter.hasNext();){
-			BioModule currentBioModule = (BioModule)(iter.next());
+		for (int i = 0; i < modules.length; i++){
+			BioModule currentBioModule = (BioModule)(modules[i]);
 			currentBioModule.tick();
 		}
 		ticksGoneBy++;
@@ -419,6 +373,5 @@ public class BioDriverImpl extends BioDriverPOA
 			runSimulation();
 		}
 	}
-
 }
 
