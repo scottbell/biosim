@@ -83,7 +83,122 @@
 				<level>100</level>
 				<name>CO2Store</name>
 			</CO2Store>
+			<H2Store>
+				<isLoggingEnabled>false</isLoggingEnabled>
+				<isBreakdownEnabled>false</isBreakdownEnabled>
+				<capacity>500</capacity>
+				<level>100</level>
+				<name>H2Store</name>
+			</H2Store>
 		</air>
+		<crew>
+			<CrewGroup>
+				<isLoggingEnabled>false</isLoggingEnabled>
+				<isBreakdownEnabled>false</isBreakdownEnabled>
+				<name>CrewGroup</name>
+				<potableWaterConsumer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<input>PotableWaterStore</input>
+				</potableWaterConsumer>
+				<airConsumer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<input>SimEnvironment</input>
+				</airConsumer>
+				<foodConsumer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<input>FoodStore</input>
+				</foodConsumer>
+				<dirtyWaterProducer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<output>DirtyWaterStore</output>
+				</dirtyWaterProducer>
+				<greyWaterProducer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<output>GreyWaterStore</output>
+				</greyWaterProducer>
+				<airProducer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<output>SimEnvironment</output>
+				</airProducer>
+				<schedule>
+					<activity>
+						<name>sleeping</name>
+						<length>8</length>
+						<intensity>1</intensity>
+					</activity>
+					<activity>
+						<name>hygiene</name>
+						<length>1</length>
+						<intensity>2</intensity>
+					</activity>
+					<activity>
+						<name>exercise</name>
+						<length>1</length>
+						<intensity>5</intensity>
+					</activity>
+					<activity>
+						<name>eating</name>
+						<length>1</length>
+						<intensity>2</intensity>
+					</activity>
+					<activity>
+						<name>recreation</name>
+						<length>2</length>
+						<intensity>3</intensity>
+					</activity>
+					<activity>
+						<name>mission</name>
+						<length>2</length>
+						<intensity>2</intensity>
+					</activity>
+					<activity>
+						<name>health</name>
+						<length>1</length>
+						<intensity>4</intensity>
+					</activity>
+					<activity>
+						<name>maintenance</name>
+						<length>1</length>
+						<intensity>3</intensity>
+					</activity>
+					<activity>
+						<name>mission</name>
+						<length>7</length>
+						<intensity>3</intensity>
+					</activity>
+				</schedule>			
+				<crewPerson>
+					<name>Bob Roberts</name>
+					<age>43</age>
+					<weight>170</weight>
+					<sex>MALE</sex>
+				</crewPerson>
+				<crewPerson>
+					<name>Stephanie Stevens</name>
+					<age>25</age>
+					<weight>125</weight>
+					<sex>FEMALE</sex>
+				</crewPerson>
+				<crewPerson>
+					<name>Bill Williams</name>
+					<age>30</age>
+					<weight>165</weight>
+					<sex>MALE</sex>
+				</crewPerson>
+				<crewPerson>
+					<name>Janet Janey</name>
+					<age>22</age>
+					<weight>130</weight>
+					<sex>FEMALE</sex>
+				</crewPerson>
+			</CrewGroup>
+		</crew>
 		<water>
 			<PotableWaterStore>
 				<isLoggingEnabled>false</isLoggingEnabled>
