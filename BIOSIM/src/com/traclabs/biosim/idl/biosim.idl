@@ -1115,6 +1115,24 @@ module biosim{
                                         long getIndex();
                                 };
                         };
+                        module waste{
+                                interface DryWasteStoreSensor : framework::GenericSensor{
+                                        void setInput(in simulation::waste::DryWasteStore source);
+                                        simulation::waste::DryWasteStore getInput();
+                                };
+                                interface DryWasteStoreLevelSensor : DryWasteStoreSensor{};
+				
+				interface DryWasteInFlowRateSensor : framework::GenericSensor{
+                                        void setInput(in framework::DryWasteConsumer pConsumer, in long pIndex);
+                                        framework::DryWasteConsumer getInput();
+                                        long getIndex();
+                                };
+                                interface DryWasteOutFlowRateSensor : framework::GenericSensor{
+                                        void setInput(in framework::DryWasteProducer pProducer, in long pIndex);
+                                        framework::DryWasteProducer getInput();
+                                        long getIndex();
+                                };
+			};
                         module water{
                                 interface WaterRSSensor : framework::GenericSensor{
                                         void setInput(in simulation::water::WaterRS source);
@@ -1392,6 +1410,18 @@ module biosim{
                                         long getIndex();
                                 };
                         };
+			module waste{
+				interface DryWasteInFlowRateActuator : framework::GenericActuator{
+                                        void setOutput(in framework::DryWasteConsumer pConsumer, in long pIndex);
+                                        framework::DryWasteConsumer getOutput();
+                                        long getIndex();
+                                };
+                                interface DryWasteOutFlowRateActuator : framework::GenericActuator{
+                                        void setOutput(in framework::DryWasteProducer pProducer, in long pIndex);
+                                        framework::DryWasteProducer getOutput();
+                                        long getIndex();
+                                };
+			};
                         module water{
                                 interface WaterRSActuator : framework::GenericActuator{
                                         void setOutput(in simulation::water::WaterRS source);
