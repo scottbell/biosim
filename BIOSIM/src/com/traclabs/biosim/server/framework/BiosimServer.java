@@ -21,6 +21,7 @@ public class BiosimServer extends GenericServer{
 			System.err.println("Exiting...");
 			System.exit(1);
 		}
+		System.out.println("Loading init file: "+documentUrl);
 		LoggerImpl myLoggerImpl = new LoggerImpl(id);
 		BioDriverImpl myBioDriverImpl = new BioDriverImpl(id);
 		myBioDriverImpl.setDriverStutterLength(stutterLength);
