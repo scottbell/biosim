@@ -4,7 +4,7 @@ import biosim.server.sensor.framework.*;
 import biosim.idl.sensor.air.*;
 import biosim.idl.simulation.air.*;
 
-public abstract class O2StoreLevelSensorImpl extends O2StoreSensorImpl implements O2StoreLevelSensorOperations{
+public class O2StoreLevelSensorImpl extends O2StoreSensorImpl implements O2StoreLevelSensorOperations{
 	public O2StoreLevelSensorImpl(int pID){
 		super(pID);
 	}
