@@ -9,8 +9,8 @@ import java.util.*;
 
 public class ScreenLogHandler extends LogHandler{
 
-	public void writeLog(Log logToWrite){
-		printTree(logToWrite.getHead(), 0);
+	public void writeLog(LogNode logToWrite){
+		printTree(logToWrite, 0);
 	}
 	//revert to recursive
 	private void printTree(LogNode currentNode, int currentDepth) {

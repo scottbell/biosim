@@ -28,9 +28,9 @@ public class XMLLogHandler extends LogHandler{
 		myOutputFile = pOutputFile;
 	}
 
-	public void writeLog(Log logToWrite){
+	public void writeLog(LogNode logToWrite){
 		initializeXML();
-		printTree(logToWrite.getHead(), 0);
+		printTree(logToWrite, 0);
 	}
 
 	private void initializeXML(){
@@ -42,13 +42,13 @@ public class XMLLogHandler extends LogHandler{
 			TransformerHandler hd = tf.newTransformerHandler();
 			Transformer serializer = hd.getTransformer();
 			serializer.setOutputProperty(OutputKeys.ENCODING,"ISO-8859-1");
-			serializer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM,"users.dtd");
+			serializer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM,"biosim.dtd");
 			serializer.setOutputProperty(OutputKeys.INDENT,"yes");
 			hd.setResult(streamResult);
 			hd.startDocument();
 			AttributesImpl atts = new AttributesImpl();
-			// USERS tag.
-			hd.startElement("","","USERS",atts);
+			// BIOSIM tag.
+			hd.startElement("","","biosim",atts);
 			// USER tags.
 			String[] id = {"PWD122","MX787","A4Q45"};
 			String[] type = {"customer","manager","employee"};

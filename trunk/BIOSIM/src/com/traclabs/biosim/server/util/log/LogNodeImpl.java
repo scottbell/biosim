@@ -15,8 +15,13 @@ public class LogNodeImpl extends LogNodePOA{
 	private LogNodeImpl parent;
 	//The children below this node
 	private LinkedList childrenList;
+	
+	public LogNodeImpl (String pValue){
+		myValue = pValue;
+		parent = null;
+	}
 
-	protected LogNodeImpl (String pValue, LogNodeImpl pParent){
+	public LogNodeImpl (String pValue, LogNodeImpl pParent){
 		myValue = pValue;
 		parent = pParent;
 	}
@@ -27,6 +32,17 @@ public class LogNodeImpl extends LogNodePOA{
 	
 	public void setValue(String newValue){
 		myValue = newValue;
+	}
+	
+	protected void setParent(LogNodeImpl newParent){
+		parent = newParent;
+	}
+	
+	public LogNode getHead(){
+		if (parent == null)
+			return LogNodeHelper.narrow(OrbUtils.poaToCorbaObj(this));
+		else 
+			return parent.getHead();
 	}
 	
 	public LogNode getChildShallow(String pName){
@@ -78,11 +94,19 @@ public class LogNodeImpl extends LogNodePOA{
 		return (childrenList == null);
 	}
 
-	public LogNode addChild (String pChildValue){
+	public LogNode addChild(String pChildValue){
 		if (childrenList == null)
 			childrenList = new LinkedList();
 		LogNodeImpl newLogNodeImpl = new LogNodeImpl(pChildValue, this);
 		childrenList.add(newLogNodeImpl);
 		return  LogNodeHelper.narrow(OrbUtils.poaToCorbaObj(newLogNodeImpl));
+	}
+	
+	protected LogNode addChild(LogNodeImpl pChildNode){
+		if (childrenList == null)
+			childrenList = new LinkedList();
+		pChildNode.setParent(this);
+		childrenList.add(pChildNode);
+		return LogNodeHelper.narrow(OrbUtils.poaToCorbaObj(pChildNode));
 	}
 }

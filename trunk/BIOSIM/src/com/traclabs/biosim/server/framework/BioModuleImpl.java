@@ -12,13 +12,12 @@ import biosim.idl.util.*;
 public abstract class BioModuleImpl extends BioModulePOA{
 	protected boolean logInitialized = false;
 	protected boolean moduleLogging = false;
-	protected LogImpl myLog;
+	protected LogNodeImpl myLog;
 	private Logger myLogger;
 	private boolean collectedLogger = false;
 
 	public BioModuleImpl(){
-		myLog = new LogImpl(getModuleName());
-		myLog.getHead().addChild("tick").addChild("0");
+		myLog = new LogNodeImpl(getModuleName());
 	}
 	/**
 	* Called at every tick of the simulation.  Does nothing if not overriden.
@@ -42,7 +41,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		return moduleLogging;
 	}
 
-	protected void sendLog(LogImpl logToProcess){
+	protected void sendLog(LogNodeImpl logToProcess){
 		if (!collectedLogger){
 			try{
 				myLogger = LoggerHelper.narrow(OrbUtils.getNCRef().resolve_str("Logger"));
@@ -52,7 +51,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 				e.printStackTrace(System.out);
 			}
 		}
-		myLogger.processLog(LogHelper.narrow(OrbUtils.poaToCorbaObj(logToProcess)));
+		myLogger.processLog(LogNodeHelper.narrow(OrbUtils.poaToCorbaObj(logToProcess)));
 	}
 
 	/**
