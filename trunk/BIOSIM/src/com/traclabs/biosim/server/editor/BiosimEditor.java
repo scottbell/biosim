@@ -34,16 +34,24 @@ public class BiosimEditor {
     private void buildGui() {
         //init graph
         myGraph = new JGraph();
-        myGraph.setDrawingSize(300,200);
+        myGraph.setDrawingSize(640,480);
         
         //init tabbed pane tool bar
         myTabbedPane = new JTabbedPane();
-        JComponent panel1 = makeTextPanel("Panel #1");
-        myTabbedPane.addTab("Tab 1", panel1);
-        JComponent panel2 = makeTextPanel("Panel #2");
-        myTabbedPane.addTab("Tab 2", panel2);
-        JComponent panel3 = makeTextPanel("Panel #3");
-        myTabbedPane.addTab("Tab 3", panel3);
+        JComponent airPanel = makeTextPanel("Air Panel");
+        myTabbedPane.addTab("Air", airPanel);
+        JComponent crewPanel = makeTextPanel("Crew Panel");
+        myTabbedPane.addTab("Crew", crewPanel);
+        JComponent environmentPanel = makeTextPanel("Environment Panel");
+        myTabbedPane.addTab("Environment", environmentPanel);
+        JComponent frameworkPanel = makeTextPanel("Framework Panel");
+        myTabbedPane.addTab("Framework", frameworkPanel);
+        JComponent powerPanel = makeTextPanel("Power Panel");
+        myTabbedPane.addTab("Power", powerPanel);
+        JComponent wastePanel = makeTextPanel("Waste Panel");
+        myTabbedPane.addTab("Waste", wastePanel);
+        JComponent waterPanel = makeTextPanel("Water Panel");
+        myTabbedPane.addTab("Water", waterPanel);
         //myTabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
         
         myMainFrame = new JFrame();
@@ -54,7 +62,7 @@ public class BiosimEditor {
         
         constraints.gridwidth = GridBagConstraints.RELATIVE;
         constraints.fill = GridBagConstraints.BOTH;
-        constraints.weightx = 1.0;
+        constraints.ipadx = 40;
         gridbag.setConstraints(myTabbedPane, constraints);
         myMainFrame.getContentPane().add(myTabbedPane);
         
