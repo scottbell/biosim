@@ -75,7 +75,7 @@ if [ ! -e  "$clientClassesDir" ]; then
 fi
 relativeIDLDir="/src/biosim/idl/biosim.idl"
 fullIDLDir=$devRootDir$relativeIDLDir
-idlInvocation="$java_command -classpath $JACORB_HOME/idl.jar org.jacorb.idl.parser"
+idlInvocation="$java_command -classpath $JACORB_HOME/idl.jar$separator$JACORB_HOME/logkit.jar org.jacorb.idl.parser"
 if [ "$userSelect" == "all" ]; then
 	echo "		-generating stubs"
 	$idlInvocation  -noskel -d $stubDir $fullIDLDir

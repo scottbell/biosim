@@ -4,7 +4,8 @@ import biosim.idl.framework.*;
 import biosim.client.util.*;
 import java.io.*;
 
-import biosim.idl.sensor.water.*;
+import biosim.idl.sensor.framework.*;
+import biosim.idl.simulation.food.*;
 
 /**
  * Runs a CLI interface to the simulation.
@@ -141,40 +142,6 @@ public class SimCommandLine
 	}
 
 	private void runTest(){
-		System.out.println("Function Test");
-		for (float i = 0.01f; i < 1.0f; i += 0.01f){
-			float value = function(i);
-			System.out.println("("+i+", "+value+")");
-		}
-	}
-
-	private float sin(float a){
-		return (new Double(Math.sin(a))).floatValue();
-	}
-
-	private float exp(float a){
-		return (new Double(Math.exp(a))).floatValue();
-	}
-
-	private float pow(float a, float power){
-		return (new Double(Math.pow(a, power))).floatValue();
-	}
-
-	private float abs(float a){
-		return (new Double(Math.abs(a))).floatValue();
-	}
-
-	private float log(float a){
-		return (new Double(Math.log(a))).floatValue();
-	}
-
-	private float function(float x){
-		if (x >= 1f)
-			return 1f;
-		else if ((x < 1f) && (x > 0f))
-			return 0.6f * x * (1f - abs(x - 2f) / 2f);
-		else
-			return 0f;
 	}
 }
 

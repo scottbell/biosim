@@ -43,6 +43,6 @@ then
         echo "          -creating ns directory"
 fi
 echo "  -invoking nameserver"
-jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME"
+jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME/avalon-framework.jar$separator$JACORB_HOME/logkit.jar$separator$JACORB_HOME"
 #$java_command -classpath $jacoClasspath $jacoOrbClass $jacoSingletonOrbClass $nameServer $nsDir/ior.txt
 $java_command -classpath $jacoClasspath $jacoOrbClass $jacoSingletonOrbClass $nameServer $nsDir/ior.txt
