@@ -71,13 +71,12 @@ public class BioHolderInitializer{
 			myParser.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, DEFAULT_SCHEMA_FULL_CHECKING);
 			myParser.setFeature(VALIDATION_FEATURE_ID, DEFAULT_VALIDATION);
 			myParser.setFeature(NAMESPACES_FEATURE_ID, DEFAULT_NAMESPACES);
-			initialized = true;
 		}
 		catch (SAXException e) {
 			System.err.println("warning: Parser does not support feature ("+NAMESPACES_FEATURE_ID+")");
 		}
 		parseFile();
-		myBioHolder.coallateLists();
+		initialized = true;
 	}
 
 	public static BioHolder getBioHolder(){
@@ -91,20 +90,22 @@ public class BioHolderInitializer{
 
 	public static void setID(int pID){
 		myID = pID;
-		if (initialized)
+		if (initialized){
 			myBioHolder.reset();
+			parseFile();
+		}
 		else
 			initialize();
-		parseFile();
 	}
 
 	public static void setFile(String pFilename){
 		xmlLocation = pFilename;
-		if (initialized)
+		if (initialized){
 			myBioHolder.reset();
+			parseFile();
+		}
 		else
 			initialize();
-		parseFile();
 	}
 
 	/** Traverses the specified node, recursively. */
