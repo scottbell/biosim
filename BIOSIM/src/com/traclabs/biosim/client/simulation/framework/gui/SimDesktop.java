@@ -246,12 +246,6 @@ public class SimDesktop extends BioFrame
 		catch (Exception e){
 			System.out.println("Couldn't find icon ("+e+"), skipping");
 			e.printStackTrace();
-			waterIcon = new ImageIcon();
-			foodIcon = new ImageIcon();
-			powerIcon = new ImageIcon();
-			crewIcon = new ImageIcon();
-			environmentIcon = new ImageIcon();
-			airIcon = new ImageIcon();
 		}
 	}
 
