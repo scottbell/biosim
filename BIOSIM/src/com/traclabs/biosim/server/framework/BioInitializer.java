@@ -431,6 +431,7 @@ public class BioInitializer{
 		for (int i = 0; tokenizer.hasMoreTokens(); i++){
 			try{
 				outputs[i] = BioModuleHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(tokenizer.nextToken()));
+				System.out.println("Fetched "+outputs[i].getModuleName());
 			}
 			catch(org.omg.CORBA.UserException e){
 				e.printStackTrace();
@@ -533,7 +534,8 @@ public class BioInitializer{
 	}
 
 	private Activity createActivity(Node node){
-		String moduleName = node.getAttributes().getNamedItem("moduleName").getNodeValue();
+		System.out.println("activity node name "+node.getNodeName());
+		String name = node.getAttributes().getNamedItem("name").getNodeValue();
 		int length = 0;
 		int intensity = 0;
 		try{
@@ -544,25 +546,37 @@ public class BioInitializer{
 
 			e.printStackTrace();
 		}
-		ActivityImpl newActivityImpl = new ActivityImpl(moduleName, length, intensity);
+		ActivityImpl newActivityImpl = new ActivityImpl(name, length, intensity);
 		return ActivityHelper.narrow(OrbUtils.poaToCorbaObj(newActivityImpl));
 	}
 
 	private Schedule createSchedule(Node node){
 		Schedule newSchedule = new Schedule();
 		Node child = node.getFirstChild();
-		for (int i = 0; child != null; i++){
-			newSchedule.insertActivityInSchedule(createActivity(child), i);
+		int i = 0;
+		while(child != null){
+			if (child.getNodeName().equals("activity")){
+				Activity newActivity = createActivity(child);
+				System.out.println("creating activity "+newActivity.getName());
+				newSchedule.insertActivityInSchedule(newActivity, i);
+				i++;
+			}
 			child = child.getNextSibling();
 		}
 		return newSchedule;
 	}
 
 	private void createCrewPerson(Node node, CrewGroupImpl crew){
-		Schedule schedule = createSchedule(node.getFirstChild());
-		String moduleName = node.getAttributes().getNamedItem("moduleName").getNodeValue();
+		Node child = node.getFirstChild();
+		Schedule schedule = null;
+		while (child != null){
+			if (child.getNodeName().equals("schedule"))
+				schedule = createSchedule(node.getFirstChild().getNextSibling());
+			child = child.getNextSibling();
+		}
+		String name = node.getAttributes().getNamedItem("name").getNodeValue();
 		Sex sex;
-		if (node.getAttributes().getNamedItem("moduleName").getNodeValue().equals("FEMALE"))
+		if (node.getAttributes().getNamedItem("sex").getNodeValue().equals("FEMALE"))
 			sex = Sex.female;
 		else
 			sex = Sex.male;
@@ -576,7 +590,7 @@ public class BioInitializer{
 
 			e.printStackTrace();
 		}
-		crew.createCrewPerson(moduleName, age, weight, sex, schedule);
+		crew.createCrewPerson(name, age, weight, sex, schedule);
 	}
 
 	private void createCrewGroup(Node node){
