@@ -7,15 +7,19 @@ import biosim.idl.util.log.*;
 import biosim.idl.simulation.environment.*;
 import biosim.server.util.*;
 import biosim.server.simulation.framework.*;
+import java.text.*;
 /**
  * Plant
  * @author    Scott Bell
  */
 
 public abstract class PlantImpl extends PlantPOA{
+	private DecimalFormat numFormat;
+	private Random myRandomGen;
 	protected int myAge = 0;
 	private LogIndex myLogIndex;
 	private boolean logInitialized = false;
+	private boolean hasDied = false;
 	protected ShelfImpl myShelfImpl;
 	private float myAveragePPF = 0f;
 	private float myTotalPPF = 0f;
@@ -41,12 +45,17 @@ public abstract class PlantImpl extends PlantPOA{
 	private SimpleBuffer consumedWaterBuffer;
 	private SimpleBuffer consumedCO2Buffer;
 	private SimpleBuffer consumedHeatBuffer;
-	private static final float WATER_TILL_DEAD = 8.1f;
-	private static final float WATER_RECOVERY_RATE=0.01f;
-	private static final float CO2_TILL_DEAD = 10f;
+	private SimpleBuffer consumedLightBuffer;
+	private static final float WATER_TILL_DEAD = 336f;
+	private static final float WATER_RECOVERY_RATE=2f;
+	private static final float CO2_TILL_DEAD = 24f;
 	private static final float CO2_RECOVERY_RATE=0.001f;
-	private static final float HEAT_TILL_DEAD = 168f;
+	private static final float CO2_RATIO_NEEDED=0.03f;
+	private static final float HEAT_TILL_DEAD = 48f;
 	private static final float HEAT_RECOVERY_RATE=0.1f;
+	private static final float DANGEROUS_HEAT_LEVEL = 3000f;
+	private static final float LIGHT_TILL_DEAD = 48f;
+	private static final float LIGHT_RECOVERY_RATE=0.1f;
 
 	public PlantImpl(ShelfImpl pShelfImpl){
 		myShelfImpl = pShelfImpl;
@@ -57,6 +66,9 @@ public abstract class PlantImpl extends PlantPOA{
 		consumedWaterBuffer = new SimpleBuffer(WATER_TILL_DEAD, WATER_TILL_DEAD);
 		consumedCO2Buffer = new SimpleBuffer(CO2_TILL_DEAD, CO2_TILL_DEAD);
 		consumedHeatBuffer = new SimpleBuffer(HEAT_TILL_DEAD, HEAT_TILL_DEAD);
+		consumedLightBuffer = new SimpleBuffer(LIGHT_TILL_DEAD, LIGHT_TILL_DEAD);
+		myRandomGen = new Random();
+		numFormat = new DecimalFormat("#,##0.0;(#)");
 	}
 
 	protected abstract float getBCF();
@@ -95,18 +107,24 @@ public abstract class PlantImpl extends PlantPOA{
 		myTotalCO2Concentration = 0f;
 		myNumberOfCO2ConcentrationReadings = 0;
 		myAge = 0;
+		hasDied = false;
 		consumedWaterBuffer.reset();
 		consumedCO2Buffer.reset();
 		consumedHeatBuffer.reset();
+		consumedLightBuffer.reset();
 	}
 
 	public void tick(){
 		//System.out.println("PlantImpl: **************Begin plant tick***********");
 		myAge++;
-		calculateAverageCO2Concentration();
-		calculateAverageCO2MicroConcentration();
-		growBiomass();
-		recoverPlants();
+		if (!hasDied){
+			calculateAverageCO2Concentration();
+			calculateAverageCO2MicroConcentration();
+			growBiomass();
+			afflictPlants();
+			healthCheck();
+			recoverPlants();
+		}
 		//System.out.println("PlantImpl: **************End plant tick***********");
 		
 	}
@@ -132,6 +150,53 @@ public abstract class PlantImpl extends PlantPOA{
 		consumedWaterBuffer.add(WATER_RECOVERY_RATE * consumedWaterBuffer.getCapacity());
 		consumedCO2Buffer.add(CO2_RECOVERY_RATE * consumedCO2Buffer.getCapacity());
 		consumedHeatBuffer.add(HEAT_RECOVERY_RATE * consumedHeatBuffer.getCapacity());
+		consumedLightBuffer.add(LIGHT_RECOVERY_RATE * consumedLightBuffer.getCapacity());
+	}
+	
+	/**
+	* If not all the resources required were consumed, we damage the crew member.
+	*/
+	private void afflictPlants(){
+		consumedWaterBuffer.take(myWaterNeeded - myWaterLevel);
+		consumedLightBuffer.take(myAveragePPF - getPPFNeeded());
+		if (myAveragePPF > DANGEROUS_HEAT_LEVEL)
+			consumedHeatBuffer.take(myAveragePPF - DANGEROUS_HEAT_LEVEL);
+		if (myAverageCO2Concentration < CO2_RATIO_NEEDED)
+			consumedCO2Buffer.take(CO2_RATIO_NEEDED - myAverageCO2Concentration);
+	}
+	
+	/**
+	* Checks to see if crew memeber has been lethally damaged (i.e., hasn't received a resource for too many ticks)
+	*/
+	private void healthCheck(){
+		//check for death
+		float randomNumber = myRandomGen.nextFloat();
+		float CO2RiskReturn = sigmoidLikeProbability((consumedCO2Buffer.getCapacity() - consumedCO2Buffer.getLevel()) / consumedCO2Buffer.getCapacity());
+		float waterRiskReturn = sigmoidLikeProbability((consumedWaterBuffer.getCapacity() - consumedWaterBuffer.getLevel()) / consumedWaterBuffer.getCapacity());
+		float heatRiskReturn = sigmoidLikeProbability((consumedHeatBuffer.getCapacity() - consumedHeatBuffer.getLevel()) / consumedHeatBuffer.getCapacity());
+		float lightRiskReturn = sigmoidLikeProbability((consumedLightBuffer.getCapacity() - consumedLightBuffer.getLevel()) / consumedLightBuffer.getCapacity());
+		
+		if (CO2RiskReturn > randomNumber){
+			hasDied = true;
+			System.out.println("Plants have died from CO2 (risk was "+numFormat.format(CO2RiskReturn * 100)+"%)");
+		}
+		else if (waterRiskReturn > randomNumber){
+			hasDied = true;
+			System.out.println("Plants have died from lack of water (risk was "+numFormat.format(waterRiskReturn * 100)+"%)");
+		}
+		else if (heatRiskReturn > randomNumber){
+			hasDied = true;
+			System.out.println("Plants have died from lack of heat (risk was "+numFormat.format(heatRiskReturn * 100)+"%)");
+		}
+		else if (lightRiskReturn > randomNumber){
+			hasDied = true;
+			System.out.println("Plants have died from lack of light (risk was "+numFormat.format(lightRiskReturn * 100)+"%)");
+		}
+		//if died, kill
+		if (hasDied){
+			reset();
+			hasDied = true;
+		}
 	}
 
 	private float calculateDailyCanopyTranspirationRate(){
@@ -503,6 +568,19 @@ public abstract class PlantImpl extends PlantPOA{
 
 	protected float exp(float a){
 		return (new Double(Math.exp(a))).floatValue();
+	}
+	
+	private float abs(float a){
+		return (new Double(Math.abs(a))).floatValue();
+	}
+	
+	private float sigmoidLikeProbability(float x){
+		if (x >= 1f)
+			return 1f;
+		else if ((x < 1f) && (x > 0f))
+			return 0.3f * x * (1f - abs(x - 2f) / 2f);
+		else
+			return 0f;
 	}
 
 	public void log(LogNode myLogHead){

@@ -632,8 +632,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		consumedOxygenBuffer.take(O2Needed - O2Consumed);
 		if (getCO2Ratio() > DANGEROUS_CO2_RATION)
 			consumedCO2Buffer.take(getCO2Ratio() - DANGEROUS_CO2_RATION);
-		
-		
 	}
 
 	private float abs(float a){
