@@ -80,10 +80,16 @@ public class BioInitializer{
 
 	private DOMParser myParser = null;
 	private int myID = 0;
+	private List myModules;
+	private List mySensors;
+	private List myActuators;
 
 	/** Default constructor. */
 	public BioInitializer(int pID){
 		myID = pID;
+		myModules = new Vector();
+		mySensors = new Vector();
+		myActuators = new Vector();
 		try {
 			myParser = new DOMParser();
 			myParser.setFeature(SCHEMA_VALIDATION_FEATURE_ID, DEFAULT_SCHEMA_VALIDATION);
@@ -491,6 +497,7 @@ public class BioInitializer{
 			System.out.println("Creating AirRS with moduleName: "+moduleName);
 			AirRSImpl myAirRSImpl = new AirRSImpl(myID, moduleName);
 			BiosimServer.registerServer(new AirRSPOATie(myAirRSImpl), myAirRSImpl.getModuleName(), myAirRSImpl.getID());
+			myModules.add(OrbUtils.poaToCorbaObj(myAirRSImpl));
 		}
 		else
 			printRemoteWarningMessage(moduleName);
@@ -515,6 +522,7 @@ public class BioInitializer{
 			O2StoreImpl myO2StoreImpl = new O2StoreImpl(myID, moduleName);
 			myO2StoreImpl.setLevel(getStoreLevel(node));
 			myO2StoreImpl.setCapacity(getStoreCapacity(node));
+			myModules.add(OrbUtils.poaToCorbaObj(myO2StoreImpl));
 			BiosimServer.registerServer(new O2StorePOATie(myO2StoreImpl), myO2StoreImpl.getModuleName(), myO2StoreImpl.getID());
 		}
 		else
@@ -528,6 +536,7 @@ public class BioInitializer{
 			CO2StoreImpl myCO2StoreImpl = new CO2StoreImpl(myID, moduleName);
 			myCO2StoreImpl.setLevel(getStoreLevel(node));
 			myCO2StoreImpl.setCapacity(getStoreCapacity(node));
+			myModules.add(OrbUtils.poaToCorbaObj(myCO2StoreImpl));
 			BiosimServer.registerServer(new CO2StorePOATie(myCO2StoreImpl), myCO2StoreImpl.getModuleName(), myCO2StoreImpl.getID());
 		}
 		else
@@ -541,6 +550,7 @@ public class BioInitializer{
 			H2StoreImpl myH2StoreImpl = new H2StoreImpl(myID, moduleName);
 			myH2StoreImpl.setLevel(getStoreLevel(node));
 			myH2StoreImpl.setCapacity(getStoreCapacity(node));
+			myModules.add(OrbUtils.poaToCorbaObj(myH2StoreImpl));
 			BiosimServer.registerServer(new H2StorePOATie(myH2StoreImpl), myH2StoreImpl.getModuleName(), myH2StoreImpl.getID());
 		}
 		else
@@ -640,13 +650,15 @@ public class BioInitializer{
 		if (isCreatedLocally(node)){
 			System.out.println("Creating CrewGroup with moduleName: "+moduleName);
 			CrewGroupImpl myCrewGroupImpl = new CrewGroupImpl(myID, moduleName);
-			BiosimServer.registerServer(new CrewGroupPOATie(myCrewGroupImpl), myCrewGroupImpl.getModuleName(), myCrewGroupImpl.getID());
 			Node child = node.getFirstChild();
 			while (child != null) {
 				if (child.getNodeName().equals("crewPerson"))
 					createCrewPerson(child, myCrewGroupImpl);
 				child = child.getNextSibling();
 			}
+			myModules.add(OrbUtils.poaToCorbaObj(myCrewGroupImpl));
+			BiosimServer.registerServer(new CrewGroupPOATie(myCrewGroupImpl), myCrewGroupImpl.getModuleName(), myCrewGroupImpl.getID());
+			
 		}
 		else
 			printRemoteWarningMessage(moduleName);
@@ -716,6 +728,7 @@ public class BioInitializer{
 				mySimEnvironmentImpl = new SimEnvironmentImpl(CO2Moles, O2Moles, otherMoles, waterMoles, volume, moduleName, myID);
 			else
 				mySimEnvironmentImpl = new SimEnvironmentImpl(myID, volume, moduleName);
+			myModules.add(OrbUtils.poaToCorbaObj(mySimEnvironmentImpl));
 			BiosimServer.registerServer(new SimEnvironmentPOATie(mySimEnvironmentImpl), mySimEnvironmentImpl.getModuleName(), mySimEnvironmentImpl.getID());
 		}
 		else
@@ -739,6 +752,7 @@ public class BioInitializer{
 		if (isCreatedLocally(node)){
 			System.out.println("Creating Accumulator with moduleName: "+moduleName);
 			AccumulatorImpl myAccumulatorImpl = new AccumulatorImpl(myID, moduleName);
+			myModules.add(OrbUtils.poaToCorbaObj(myAccumulatorImpl));
 			BiosimServer.registerServer(new AccumulatorPOATie(myAccumulatorImpl), myAccumulatorImpl.getModuleName(), myAccumulatorImpl.getID());
 		}
 		else
@@ -762,6 +776,7 @@ public class BioInitializer{
 		if (isCreatedLocally(node)){
 			System.out.println("Creating Injector with moduleName: "+moduleName);
 			InjectorImpl myInjectorImpl = new InjectorImpl(myID, moduleName);
+			myModules.add(OrbUtils.poaToCorbaObj(myInjectorImpl));
 			BiosimServer.registerServer(new InjectorPOATie(myInjectorImpl), myInjectorImpl.getModuleName(), myInjectorImpl.getID());
 		}
 		else
@@ -846,6 +861,7 @@ public class BioInitializer{
 					myBiomassRSImpl.createNewShelf(getCropType(child), getCropArea(child));
 				child = child.getNextSibling();
 			}
+			myModules.add(OrbUtils.poaToCorbaObj(myBiomassRSImpl));
 			BiosimServer.registerServer(new BiomassRSPOATie(myBiomassRSImpl), myBiomassRSImpl.getModuleName(), myBiomassRSImpl.getID());
 		}
 		else
@@ -869,6 +885,7 @@ public class BioInitializer{
 		if (isCreatedLocally(node)){
 			System.out.println("Creating FoodProcessor with moduleName: "+moduleName);
 			FoodProcessorImpl myFoodProcessorImpl = new FoodProcessorImpl(myID, moduleName);
+			myModules.add(OrbUtils.poaToCorbaObj(myFoodProcessorImpl));
 			BiosimServer.registerServer(new FoodProcessorPOATie(myFoodProcessorImpl), myFoodProcessorImpl.getModuleName(), myFoodProcessorImpl.getID());
 		}
 		else
@@ -894,6 +911,7 @@ public class BioInitializer{
 			BiomassStoreImpl myBiomassStoreImpl = new BiomassStoreImpl(myID, moduleName);
 			myBiomassStoreImpl.setLevel(getStoreLevel(node));
 			myBiomassStoreImpl.setCapacity(getStoreCapacity(node));
+			myModules.add(OrbUtils.poaToCorbaObj(myBiomassStoreImpl));
 			BiosimServer.registerServer(new BiomassStorePOATie(myBiomassStoreImpl), myBiomassStoreImpl.getModuleName(), myBiomassStoreImpl.getID());
 		}
 		else
@@ -907,6 +925,7 @@ public class BioInitializer{
 			FoodStoreImpl myFoodStoreImpl = new FoodStoreImpl(myID, moduleName);
 			myFoodStoreImpl.setLevel(getStoreLevel(node));
 			myFoodStoreImpl.setCapacity(getStoreCapacity(node));
+			myModules.add(OrbUtils.poaToCorbaObj(myFoodStoreImpl));
 			BiosimServer.registerServer(new FoodStorePOATie(myFoodStoreImpl), myFoodStoreImpl.getModuleName(), myFoodStoreImpl.getID());
 		}
 		else
@@ -950,6 +969,7 @@ public class BioInitializer{
 				myPowerPSImpl = new SolarPowerPS(myID, moduleName);
 			else
 				myPowerPSImpl = new NuclearPowerPS(myID, moduleName);
+			myModules.add(OrbUtils.poaToCorbaObj(myPowerPSImpl));
 			BiosimServer.registerServer(new PowerPSPOATie(myPowerPSImpl), myPowerPSImpl.getModuleName(), myPowerPSImpl.getID());
 		}
 		else
@@ -975,6 +995,7 @@ public class BioInitializer{
 			PowerStoreImpl myPowerStoreImpl = new PowerStoreImpl(myID, moduleName);
 			myPowerStoreImpl.setLevel(getStoreLevel(node));
 			myPowerStoreImpl.setCapacity(getStoreCapacity(node));
+			myModules.add(OrbUtils.poaToCorbaObj(myPowerStoreImpl));
 			BiosimServer.registerServer(new PowerStorePOATie(myPowerStoreImpl), myPowerStoreImpl.getModuleName(), myPowerStoreImpl.getID());
 		}
 		else
@@ -1004,6 +1025,7 @@ public class BioInitializer{
 		if (isCreatedLocally(node)){
 			System.out.println("Creating WaterRS with moduleName: "+moduleName);
 			WaterRSImpl myWaterRSImpl = new WaterRSImpl(myID, moduleName);
+			myModules.add(OrbUtils.poaToCorbaObj(myWaterRSImpl));
 			BiosimServer.registerServer(new WaterRSPOATie(myWaterRSImpl), myWaterRSImpl.getModuleName(), myWaterRSImpl.getID());
 		}
 		else
@@ -1029,6 +1051,7 @@ public class BioInitializer{
 			PotableWaterStoreImpl myPotableWaterStoreImpl = new PotableWaterStoreImpl(myID, moduleName);
 			myPotableWaterStoreImpl.setLevel(getStoreLevel(node));
 			myPotableWaterStoreImpl.setCapacity(getStoreCapacity(node));
+			myModules.add(OrbUtils.poaToCorbaObj(myPotableWaterStoreImpl));
 			BiosimServer.registerServer(new PotableWaterStorePOATie(myPotableWaterStoreImpl), myPotableWaterStoreImpl.getModuleName(), myPotableWaterStoreImpl.getID());
 		}
 		else
@@ -1042,6 +1065,7 @@ public class BioInitializer{
 			DirtyWaterStoreImpl myDirtyWaterStoreImpl = new DirtyWaterStoreImpl(myID, moduleName);
 			myDirtyWaterStoreImpl.setLevel(getStoreLevel(node));
 			myDirtyWaterStoreImpl.setCapacity(getStoreCapacity(node));
+			myModules.add(OrbUtils.poaToCorbaObj(myDirtyWaterStoreImpl));
 			BiosimServer.registerServer(new DirtyWaterStorePOATie(myDirtyWaterStoreImpl), myDirtyWaterStoreImpl.getModuleName(), myDirtyWaterStoreImpl.getID());
 		}
 		else
@@ -1055,6 +1079,7 @@ public class BioInitializer{
 			GreyWaterStoreImpl myGreyWaterStoreImpl = new GreyWaterStoreImpl(myID, moduleName);
 			myGreyWaterStoreImpl.setLevel(getStoreLevel(node));
 			myGreyWaterStoreImpl.setCapacity(getStoreCapacity(node));
+			myModules.add(OrbUtils.poaToCorbaObj(myGreyWaterStoreImpl));
 			BiosimServer.registerServer(new GreyWaterStorePOATie(myGreyWaterStoreImpl), myGreyWaterStoreImpl.getModuleName(), myGreyWaterStoreImpl.getID());
 		}
 		else
