@@ -176,10 +176,6 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	}
 	
 	private BioMatter[] getBioMassFromStore(BiomassStore[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates, float[] pActualFlowRates, float amountNeeded){
-		/*
-		System.out.println("*************** "+getModuleName()+": getBioMassFromStore method start ***************");
-		System.out.println(getModuleName()+": pStores[0].getLevel()="+pStores[0].getLevel());
-		*/
 		float gatheredResource = 0f;
 		List gatheredBioMatterArrays = new Vector();
 		int sizeOfMatterArray = 0;
@@ -199,23 +195,12 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 			System.arraycopy(matterArray, 0, fullMatterTaken, lastPosition, matterArray.length);
 			lastPosition = matterArray.length;
 		}
-		/*
-		System.out.println(getModuleName()+": pStores[0].getLevel()="+pStores[0].getLevel());
-		System.out.println(getModuleName()+": amountNeeded="+amountNeeded);
-		System.out.println(getModuleName()+": fullMatterTaken.length="+fullMatterTaken.length);
-		System.out.println(getModuleName()+": fullMatterTaken[0].mass="+fullMatterTaken[0].mass);
-		System.out.println("*************** "+getModuleName()+": getBioMassFromStore method end ***************");
-		*/
+		
 		return fullMatterTaken;
 	}
 	
 	public float pushFoodToStore(FoodStore[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates, float[] pActualFlowRates, FoodMatter[] foodToPush){
 		float fullMassToDistribute = calculateSizeOfFoodMatter(foodToPush);
-		/*
-		System.out.println("*************** "+getModuleName()+": pushFoodToStore method start ***************");
-		System.out.println(getModuleName()+": fullMassToDistribute="+fullMassToDistribute);
-		System.out.println(getModuleName()+": pStores[0].getLevel()="+pStores[0].getLevel());
-		*/
 		float resourceDistributed = fullMassToDistribute;
 		FoodMatter[] copyOfMatter = new FoodMatter[foodToPush.length];
 		System.arraycopy(foodToPush, 0, copyOfMatter, 0, foodToPush.length);
@@ -226,11 +211,6 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 			resourceDistributed -= pActualFlowRates[i];
 		}
 		float amountPushed = (fullMassToDistribute - resourceDistributed);
-		/*
-		System.out.println(getModuleName()+": amountPushed="+amountPushed);
-		System.out.println(getModuleName()+": pStores[0].getLevel()="+pStores[0].getLevel());
-		System.out.println("*************** "+getModuleName()+": pushFoodToStore method end ***************");
-		*/
 		return amountPushed;
 	}
 	
@@ -240,7 +220,12 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	}
 	
 	private FoodMatter transformBioMatter(BioMatter inMatter){
-		FoodMatter newFoodMatter = new FoodMatter(1f - (inMatter.mass * inMatter.inedibleFraction), inMatter.edibleWaterContent,inMatter.type);
+		float foodMass = 0f;
+		if (inMatter.inedibleFraction > 0)
+			foodMass = 1f - (inMatter.mass * inMatter.inedibleFraction);
+		else
+			foodMass = inMatter.mass;
+		FoodMatter newFoodMatter = new FoodMatter(foodMass, inMatter.edibleWaterContent,inMatter.type);
 		newFoodMatter.mass = randomFilter(newFoodMatter.mass) * myProductionRate;
 		return newFoodMatter;
 	}

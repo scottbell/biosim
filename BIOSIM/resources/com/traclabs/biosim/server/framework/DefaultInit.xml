@@ -89,7 +89,7 @@
 		<food>
 			<FoodProcessor name="FoodProcessor">
 				<powerConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PowerStore"/>
-				<biomassConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BiomassStore"/>
+				<biomassConsumer maxFlowRates="200" desiredFlowRates="200" inputs="BiomassStore"/>
 				<foodProducer maxFlowRates="200" desiredFlowRates="200" outputs="FoodStore"/>
 				<dryWasteProducer maxFlowRates="100" desiredFlowRates="100" outputs="DryWasteStore"/>
 				<waterProducer maxFlowRates="100 100" desiredFlowRates="100 100" outputs="DirtyWaterStore GreyWaterStore"/>
