@@ -8,8 +8,8 @@ import biosim.idl.simulation.crew.*;
 public abstract class CrewGroupSensorImpl extends GenericSensorImpl implements CrewGroupSensorOperations{
 	protected CrewGroup myCrewGroup;
 	
-	public CrewGroupSensorImpl(int pID){
-		super(pID);
+	public CrewGroupSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected abstract void gatherData();
@@ -21,14 +21,6 @@ public abstract class CrewGroupSensorImpl extends GenericSensorImpl implements C
 	
 	public CrewGroup getInput(){
 		return myCrewGroup;
-	}
-	
-	/**
-	* Returns the name of this module (CrewGroupSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "CrewGroupSensor"+getID();
 	}
 	
 	protected BioModule getInputModule(){

@@ -8,8 +8,8 @@ import biosim.idl.simulation.food.*;
 public abstract class FoodProcessorActuatorImpl extends GenericActuatorImpl implements FoodProcessorActuatorOperations{
 	protected FoodProcessor myFoodProcessor;
 	
-	public FoodProcessorActuatorImpl(int pID){
-		super(pID);
+	public FoodProcessorActuatorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 	
 	public void setOutput(FoodProcessor source){
@@ -18,13 +18,5 @@ public abstract class FoodProcessorActuatorImpl extends GenericActuatorImpl impl
 	
 	public FoodProcessor getOutput(){
 		return myFoodProcessor;
-	}
-	
-	/**
-	* Returns the name of this module (FoodProcessorActuator)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "FoodProcessorActuator"+getID();
 	}
 }

@@ -48,8 +48,8 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	private float[] biomassDesiredFlowRates;
 	private float[] foodDesiredFlowRates;
 	
-	public FoodProcessorImpl(int pID){
-		super(pID);
+	public FoodProcessorImpl(int pID, String pName){
+		super(pID, pName);
 		myFoodStores = new FoodStore[0];
 		myPowerStores = new PowerStore[0];
 		myBiomassStores = new BiomassStore[0];
@@ -299,15 +299,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 			returnBuffer.append("Production Rate Decrease (Permanent)");
 		return returnBuffer.toString();
 	}
-
-	/**
-	* Returns the name of this module (FoodProcessor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "FoodProcessor"+getID();
-	}
-
+	
 	protected void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){

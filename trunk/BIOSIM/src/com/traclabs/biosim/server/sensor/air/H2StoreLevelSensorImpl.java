@@ -5,8 +5,8 @@ import biosim.idl.sensor.air.*;
 import biosim.idl.framework.*;
 
 public class H2StoreLevelSensorImpl extends H2StoreSensorImpl implements H2StoreLevelSensorOperations{
-	public H2StoreLevelSensorImpl(int pID){
-		super(pID);
+	public H2StoreLevelSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -17,11 +17,4 @@ public class H2StoreLevelSensorImpl extends H2StoreSensorImpl implements H2Store
 		//Does nothing right now..
 	}
 	
-	/**
-	* Returns the name of this module (H2StoreLevelSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "H2StoreLevelSensor"+getID();
-	}
 }

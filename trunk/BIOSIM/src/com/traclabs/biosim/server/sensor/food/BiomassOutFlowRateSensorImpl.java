@@ -8,8 +8,8 @@ public class BiomassOutFlowRateSensorImpl extends GenericSensorImpl implements B
 	private BiomassProducer myProducer;
 	private int myIndex;
 	
-	public BiomassOutFlowRateSensorImpl(int pID){
-		super(pID);
+	public BiomassOutFlowRateSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -40,13 +40,5 @@ public class BiomassOutFlowRateSensorImpl extends GenericSensorImpl implements B
 	
 	public int getIndex(){
 		return myIndex;
-	}
-	
-	/**
-	* Returns the name of this module (BiomassOutFlowRateSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "BiomassOutFlowRateSensor"+getID();
 	}
 }

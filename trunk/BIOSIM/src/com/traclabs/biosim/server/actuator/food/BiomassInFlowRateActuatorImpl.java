@@ -8,8 +8,8 @@ public class BiomassInFlowRateActuatorImpl extends GenericActuatorImpl implement
 	private BiomassConsumer myConsumer;
 	private int myIndex;
 	
-	public BiomassInFlowRateActuatorImpl(int pID){
-		super(pID);
+	public BiomassInFlowRateActuatorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void processData(){
@@ -40,13 +40,5 @@ public class BiomassInFlowRateActuatorImpl extends GenericActuatorImpl implement
 	
 	public float getMax(){
 		return myConsumer.getBiomassInputMaxFlowRate(myIndex);
-	}
-	
-	/**
-	* Returns the name of this module (BiomassInFlowRateActuator)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "BiomassInFlowRateActuator"+getID();
 	}
 }

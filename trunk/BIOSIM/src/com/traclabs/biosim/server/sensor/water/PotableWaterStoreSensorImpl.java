@@ -8,8 +8,8 @@ import biosim.idl.simulation.water.*;
 public abstract class PotableWaterStoreSensorImpl extends GenericSensorImpl implements PotableWaterStoreSensorOperations{
 	protected PotableWaterStore myPotableWaterStore;
 	
-	public PotableWaterStoreSensorImpl(int pID){
-		super(pID);
+	public PotableWaterStoreSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected abstract void gatherData();
@@ -25,14 +25,6 @@ public abstract class PotableWaterStoreSensorImpl extends GenericSensorImpl impl
 	
 	public float getMax(){
 		return myPotableWaterStore.getCapacity();
-	}
-	
-	/**
-	* Returns the name of this module (PotableWaterStoreSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "PotableWaterStoreSensor"+getID();
 	}
 	
 	protected BioModule getInputModule(){

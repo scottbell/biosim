@@ -8,8 +8,8 @@ import biosim.idl.simulation.power.*;
 
 public class SolarPowerPS extends PowerPSImpl {
 	
-	public SolarPowerPS(int pID){
-		super(pID);
+	public SolarPowerPS(int pID, String pName){
+		super(pID, pName);
 	}
 	
 	float calculatePowerProduced(){

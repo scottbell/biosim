@@ -9,8 +9,8 @@ public class O2AirEnvironmentOutFlowRateActuatorImpl extends GenericActuatorImpl
 	private O2AirProducer myProducer;
 	private int myIndex;
 	
-	public O2AirEnvironmentOutFlowRateActuatorImpl(int pID){
-		super(pID);
+	public O2AirEnvironmentOutFlowRateActuatorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void processData(){
@@ -41,13 +41,5 @@ public class O2AirEnvironmentOutFlowRateActuatorImpl extends GenericActuatorImpl
 	
 	public int getIndex(){
 		return myIndex;
-	}
-	
-	/**
-	* Returns the name of this module (O2AirEnvironmentOutFlowRateActuator)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "O2AirEnvironmentOutFlowRateActuator"+getID();
 	}
 }

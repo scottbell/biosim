@@ -9,8 +9,8 @@ public class AirInFlowRateActuatorImpl extends GenericActuatorImpl implements Ai
 	private AirConsumer myConsumer;
 	private int myIndex;
 	
-	public AirInFlowRateActuatorImpl(int pID){
-		super(pID);
+	public AirInFlowRateActuatorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void processData(){
@@ -41,13 +41,5 @@ public class AirInFlowRateActuatorImpl extends GenericActuatorImpl implements Ai
 	
 	public float getMax(){
 		return myConsumer.getAirInputMaxFlowRate(myIndex);
-	}
-	
-	/**
-	* Returns the name of this module (AirInFlowRateActuator)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "AirInFlowRateActuator"+getID();
 	}
 }

@@ -8,8 +8,8 @@ public class H2InFlowRateActuatorImpl extends GenericActuatorImpl implements H2I
 	private H2Consumer myConsumer;
 	private int myIndex;
 	
-	public H2InFlowRateActuatorImpl(int pID){
-		super(pID);
+	public H2InFlowRateActuatorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void processData(){
@@ -40,13 +40,5 @@ public class H2InFlowRateActuatorImpl extends GenericActuatorImpl implements H2I
 	
 	public float getMax(){
 		return myConsumer.getH2InputMaxFlowRate(myIndex);
-	}
-	
-	/**
-	* Returns the name of this module (H2InFlowRateActuatorImpl)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "H2InFlowRateActuator"+getID();
 	}
 }

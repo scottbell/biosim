@@ -5,8 +5,8 @@ import biosim.idl.sensor.water.*;
 import biosim.idl.framework.*;
 
 public class GreyWaterStoreLevelSensorImpl extends GreyWaterStoreSensorImpl implements GreyWaterStoreLevelSensorOperations{
-	public GreyWaterStoreLevelSensorImpl(int pID){
-		super(pID);
+	public GreyWaterStoreLevelSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -15,13 +15,5 @@ public class GreyWaterStoreLevelSensorImpl extends GreyWaterStoreSensorImpl impl
 	}
 	
 	protected void notifyListeners(){
-	}
-	
-	/**
-	* Returns the name of this module (GreyWaterStoreLevelSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "GreyWaterStoreLevelSensor"+getID();
 	}
 }

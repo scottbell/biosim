@@ -8,8 +8,8 @@ import biosim.idl.simulation.food.*;
 public abstract class FoodStoreSensorImpl extends GenericSensorImpl implements FoodStoreSensorOperations{
 	protected FoodStore myFoodStore;
 	
-	public FoodStoreSensorImpl(int pID){
-		super(pID);
+	public FoodStoreSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected abstract void gatherData();
@@ -25,14 +25,6 @@ public abstract class FoodStoreSensorImpl extends GenericSensorImpl implements F
 	
 	public float getMax(){
 		return myFoodStore.getLevel();
-	}
-	
-	/**
-	* Returns the name of this module (FoodStoreSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "FoodStoreSensor"+getID();
 	}
 	
 	protected BioModule getInputModule(){

@@ -9,8 +9,8 @@ public class O2AirEnvironmentOutFlowRateSensorImpl extends GenericSensorImpl imp
 	private O2AirProducer myProducer;
 	private int myIndex;
 	
-	public O2AirEnvironmentOutFlowRateSensorImpl(int pID){
-		super(pID);
+	public O2AirEnvironmentOutFlowRateSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -41,13 +41,5 @@ public class O2AirEnvironmentOutFlowRateSensorImpl extends GenericSensorImpl imp
 	
 	public int getIndex(){
 		return myIndex;
-	}
-	
-	/**
-	* Returns the name of this module (O2AirEnvironmentOutFlowRateSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "O2AirEnvironmentOutFlowRateSensor"+getID();
 	}
 }

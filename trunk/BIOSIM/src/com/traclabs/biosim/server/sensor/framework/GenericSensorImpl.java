@@ -10,8 +10,8 @@ public abstract class GenericSensorImpl extends BioModuleImpl implements Generic
 	private LogNode valueNode;
 	private LogNode inputNode;
 	
-	public GenericSensorImpl(int pID){
-		super(pID);
+	public GenericSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 	
 	protected abstract void gatherData();
@@ -37,14 +37,6 @@ public abstract class GenericSensorImpl extends BioModuleImpl implements Generic
 			System.out.println(getModuleName()+" had an exception: "+e);
 			e.printStackTrace();
 		}
-	}
-	
-	/**
-	* Returns the name of this module (GenericSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "GenericSensor"+getID();
 	}
 	
 	protected abstract BioModule getInputModule();

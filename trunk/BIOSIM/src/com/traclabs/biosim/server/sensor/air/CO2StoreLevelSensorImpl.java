@@ -5,8 +5,8 @@ import biosim.idl.sensor.air.*;
 import biosim.idl.framework.*;
 
 public class CO2StoreLevelSensorImpl extends CO2StoreSensorImpl implements CO2StoreLevelSensorOperations{
-	public CO2StoreLevelSensorImpl(int pID){
-		super(pID);
+	public CO2StoreLevelSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -17,11 +17,4 @@ public class CO2StoreLevelSensorImpl extends CO2StoreSensorImpl implements CO2St
 		//Does nothing right now..
 	}
 	
-	/**
-	* Returns the name of this module (CO2StoreLevelSensorImpl)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "CO2StoreLevelSensor"+getID();
-	}
 }

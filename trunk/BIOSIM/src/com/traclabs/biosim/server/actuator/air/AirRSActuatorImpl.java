@@ -8,8 +8,8 @@ import biosim.idl.framework.*;
 public abstract class AirRSActuatorImpl extends GenericActuatorImpl implements AirRSActuatorOperations{
 	protected AirRS myAirRS;
 	
-	public AirRSActuatorImpl(int pID){
-		super(pID);
+	public AirRSActuatorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 	
 	public void setOutput(AirRS source){
@@ -18,13 +18,5 @@ public abstract class AirRSActuatorImpl extends GenericActuatorImpl implements A
 	
 	public AirRS getOutput(){
 		return myAirRS;
-	}
-	
-	/**
-	* Returns the name of this module (AirRSActuator)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "AirRSActuator"+getID();
 	}
 }

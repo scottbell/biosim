@@ -8,8 +8,8 @@ public class DirtyWaterOutFlowRateActuatorImpl extends GenericActuatorImpl imple
 	private DirtyWaterProducer myProducer;
 	private int myIndex;
 	
-	public DirtyWaterOutFlowRateActuatorImpl(int pID){
-		super(pID);
+	public DirtyWaterOutFlowRateActuatorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void processData(){
@@ -40,13 +40,5 @@ public class DirtyWaterOutFlowRateActuatorImpl extends GenericActuatorImpl imple
 	
 	public float getMax(){
 		return myProducer.getDirtyWaterOutputMaxFlowRate(myIndex);
-	}
-	
-	/**
-	* Returns the name of this module (DirtyWaterOutFlowRateActuator)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "DirtyWaterOutFlowRateActuator"+getID();
 	}
 }

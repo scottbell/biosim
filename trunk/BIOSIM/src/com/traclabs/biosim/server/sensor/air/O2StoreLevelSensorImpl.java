@@ -5,8 +5,8 @@ import biosim.idl.sensor.air.*;
 import biosim.idl.framework.*;
 
 public class O2StoreLevelSensorImpl extends O2StoreSensorImpl implements O2StoreLevelSensorOperations{
-	public O2StoreLevelSensorImpl(int pID){
-		super(pID);
+	public O2StoreLevelSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -15,13 +15,5 @@ public class O2StoreLevelSensorImpl extends O2StoreSensorImpl implements O2Store
 	}
 	protected void notifyListeners(){
 		//Does nothing right now..
-	}
-	
-	/**
-	* Returns the name of this module (O2StoreLevelSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "O2StoreLevelSensor"+getID();
 	}
 }

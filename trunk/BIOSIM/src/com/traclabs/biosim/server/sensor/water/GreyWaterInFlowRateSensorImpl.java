@@ -8,8 +8,8 @@ public class GreyWaterInFlowRateSensorImpl extends GenericSensorImpl implements 
 	private GreyWaterConsumer myConsumer;
 	private int myIndex;
 	
-	public GreyWaterInFlowRateSensorImpl(int pID){
-		super(pID);
+	public GreyWaterInFlowRateSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -40,13 +40,5 @@ public class GreyWaterInFlowRateSensorImpl extends GenericSensorImpl implements 
 	
 	public float getMax(){
 		return myConsumer.getGreyWaterInputMaxFlowRate(myIndex);
-	}
-	
-	/**
-	* Returns the name of this module (GreyWaterInFlowRateSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "GreyWaterInFlowRateSensor"+getID();
 	}
 }

@@ -5,8 +5,8 @@ import biosim.idl.sensor.environment.*;
 import biosim.idl.simulation.environment.*;
 
 public class CO2AirConcentrationSensorImpl extends EnvironmentSensorImpl implements CO2AirConcentrationSensorOperations{
-	public CO2AirConcentrationSensorImpl(int pID){
-		super(pID);
+	public CO2AirConcentrationSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -21,11 +21,4 @@ public class CO2AirConcentrationSensorImpl extends EnvironmentSensorImpl impleme
 		return 1f;
 	}
 	
-	/**
-	* Returns the name of this module (CO2AirConcentrationSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "CO2AirConcentrationSensor"+getID();
-	}
 }

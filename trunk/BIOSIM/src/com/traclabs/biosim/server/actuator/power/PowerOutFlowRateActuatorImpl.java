@@ -8,8 +8,8 @@ public class PowerOutFlowRateActuatorImpl extends GenericActuatorImpl implements
 	private PowerProducer myProducer;
 	private int myIndex;
 	
-	public PowerOutFlowRateActuatorImpl(int pID){
-		super(pID);
+	public PowerOutFlowRateActuatorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void processData(){
@@ -40,13 +40,5 @@ public class PowerOutFlowRateActuatorImpl extends GenericActuatorImpl implements
 	
 	public float getMax(){
 		return myProducer.getPowerOutputMaxFlowRate(myIndex);
-	}
-	
-	/**
-	* Returns the name of this module (PowerOutFlowRateActuator)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "PowerOutFlowRateActuator"+getID();
 	}
 }

@@ -7,8 +7,8 @@ import biosim.idl.simulation.power.*;
  */
 
 public class NuclearPowerPS extends PowerPSImpl {
-	public NuclearPowerPS(int pID){
-		super(pID);
+	public NuclearPowerPS(int pID, String pName){
+		super(pID, pName);
 	}
 	float calculatePowerProduced(){
 		//Constant steady stream of power

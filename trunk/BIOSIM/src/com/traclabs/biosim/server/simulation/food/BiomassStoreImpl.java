@@ -13,8 +13,8 @@ import biosim.idl.framework.*;
 public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperations{
 	List currentBiomassItems;
 
-	public BiomassStoreImpl(int pID){
-		super(pID);
+	public BiomassStoreImpl(int pID, String pName){
+		super(pID, pName);
 		currentBiomassItems = new Vector();
 	}
 	
@@ -147,11 +147,4 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 		currentBiomassItems.clear();
 	}
 
-	/**
-	* Returns the name of this module (BiomassStore)
-	* @return the name of this module
-	*/
-	public String getModuleName(){
-		return "BiomassStore"+getID();
-	}
 }

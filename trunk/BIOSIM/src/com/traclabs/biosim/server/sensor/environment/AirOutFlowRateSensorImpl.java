@@ -9,8 +9,8 @@ public class AirOutFlowRateSensorImpl extends GenericSensorImpl implements AirOu
 	private AirProducer myProducer;
 	private int myIndex;
 	
-	public AirOutFlowRateSensorImpl(int pID){
-		super(pID);
+	public AirOutFlowRateSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -43,11 +43,4 @@ public class AirOutFlowRateSensorImpl extends GenericSensorImpl implements AirOu
 		return myIndex;
 	}
 	
-	/**
-	* Returns the name of this module (AirOutFlowRateSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "AirOutFlowRateSensor"+getID();
-	}
 }

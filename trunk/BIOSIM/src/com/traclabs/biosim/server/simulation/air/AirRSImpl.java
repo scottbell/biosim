@@ -67,8 +67,8 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	private static final int NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER = 3;
 	private float myProductionRate = 1f;
 
-	public AirRSImpl(int pID){
-		super(pID);
+	public AirRSImpl(int pID, String pName){
+		super(pID, pName);
 		myVCCR = new VCCR(this);
 		myCRS = new CRS(this);
 		myCH4Tank = new CH4Tank(this);
@@ -237,14 +237,6 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 		myCRS.reset();
 		myCH4Tank.reset();
 		myOGS.reset();
-	}
-
-	/**
-	* Returns the name of this module (AirRS)
-	* @return the name of this module
-	*/
-	public String getModuleName(){
-		return "AirRS"+getID();
 	}
 
 	protected void log(){

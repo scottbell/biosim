@@ -8,8 +8,8 @@ public class GreyWaterOutFlowRateSensorImpl extends GenericSensorImpl implements
 	private GreyWaterProducer myProducer;
 	private int myIndex;
 	
-	public GreyWaterOutFlowRateSensorImpl(int pID){
-		super(pID);
+	public GreyWaterOutFlowRateSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -40,13 +40,5 @@ public class GreyWaterOutFlowRateSensorImpl extends GenericSensorImpl implements
 	
 	protected BioModule getInputModule(){
 		return (BioModule)(myProducer);
-	}
-	
-	/**
-	* Returns the name of this module (GreyWaterOutFlowRateSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "GreyWaterOutFlowRateSensor"+getID();
 	}
 }

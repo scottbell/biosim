@@ -53,8 +53,8 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 	private SimEnvironment[] myAirInputs;                                               
 	private SimEnvironment[] myAirOutputs;
 
-	public BiomassRSImpl(int pID){
-		super(pID);
+	public BiomassRSImpl(int pID, String pName){
+		super(pID, pName);
 		myShelves = new Vector();
 		myGreyWaterStores = new GreyWaterStore[0];
 		myPotableWaterStores = new PotableWaterStore[0];
@@ -145,14 +145,6 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 		}
 		if (moduleLogging)
 			log();
-	}
-
-	/**
-	* Returns the name of this module (BiomassRS)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "BiomassRS"+getID();
 	}
 
 	protected void log(){

@@ -8,8 +8,8 @@ public class CO2InFlowRateSensorImpl extends GenericSensorImpl implements CO2InF
 	private CO2Consumer myConsumer;
 	private int myIndex;
 	
-	public CO2InFlowRateSensorImpl(int pID){
-		super(pID);
+	public CO2InFlowRateSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -42,11 +42,4 @@ public class CO2InFlowRateSensorImpl extends GenericSensorImpl implements CO2InF
 		return myIndex;
 	}
 	
-	/**
-	* Returns the name of this module (CO2InFlowRateSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "CO2InFlowRateSensor"+getID();
-	}
 }

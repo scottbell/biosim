@@ -72,7 +72,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @param initialVolume the initial volume of the environment in liters
 	*/
 	public SimEnvironmentImpl(int pID, float pInitialVolume, String pName){
-		super(pID);
+		super(pID, pName);
 		myName = pName;
 		volume = initialVolume = pInitialVolume;
 		O2Pressure = cachedO2Pressure = initialO2Pressure = 2.0f;
@@ -95,7 +95,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	public SimEnvironmentImpl (float pInitialCO2Moles, float pInitialO2Moles, float pInitialOtherMoles, float pInitialWaterMoles,
 	                           float pInitialVolume, String pName, int pID)
 	{
-		super(pID);
+		super(pID, pName);
 		myName = pName;
 		CO2Moles = cachedCO2Moles = initialCO2Moles = pInitialCO2Moles;
 		O2Moles = cachedO2Moles = initialO2Moles = pInitialO2Moles;
@@ -737,14 +737,6 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		//System.out.println(getModuleName()+": otherPressure: "+otherPressure);
 		//System.out.println(getModuleName()+": waterPressure: "+waterPressure);
 		ticks++;
-	}
-
-	/**
-	* Returns the name of this module (SimEnvironment)
-	* @return the name of this module
-	*/
-	public String getModuleName(){
-		return myName+getID();
 	}
 
 	protected void log(){

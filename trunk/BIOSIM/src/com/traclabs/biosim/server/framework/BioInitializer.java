@@ -102,8 +102,7 @@ public class BioInitializer{
 	//Modules
 	private void createAirRS(Node node){
 		System.out.println("Creating AirRS");
-		AirRSImpl myAirRSImpl = new AirRSImpl(myID);
-		
+		AirRSImpl myAirRSImpl = new AirRSImpl(myID, "AirRS");
 		BiosimServer.registerServer(new AirRSPOATie(myAirRSImpl), myAirRSImpl.getModuleName());
 	}
 

@@ -5,8 +5,8 @@ import biosim.idl.sensor.food.*;
 import biosim.idl.framework.*;
 
 public class FoodStoreLevelSensorImpl extends FoodStoreSensorImpl implements FoodStoreLevelSensorOperations{
-	public FoodStoreLevelSensorImpl(int pID){
-		super(pID);
+	public FoodStoreLevelSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -15,13 +15,5 @@ public class FoodStoreLevelSensorImpl extends FoodStoreSensorImpl implements Foo
 	}
 	
 	protected void notifyListeners(){
-	}
-	
-	/**
-	* Returns the name of this module (FoodStoreLevelSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "FoodStoreLevelSensor"+getID();
 	}
 }

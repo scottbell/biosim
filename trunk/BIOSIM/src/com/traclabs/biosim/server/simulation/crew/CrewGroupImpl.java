@@ -53,8 +53,8 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 	/**
 	* Default constructor.  Uses a default schedule.
 	*/
-	public CrewGroupImpl(int pID){
-		super(pID);
+	public CrewGroupImpl(int pID, String pName){
+		super(pID, pName);
 		crewPeople = new Hashtable();
 		myRandom = new Random();
 		myFoodStores = new FoodStore[0];
@@ -81,14 +81,6 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 		dirtyWaterDesiredFlowRates = new float[0];
 		airInDesiredFlowRates = new float[0];
 		airOutDesiredFlowRates = new float[0];
-	}
-
-	/**
-	* Returns the name of this module (CrewGroup)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "CrewGroup"+getID();
 	}
 
 	/**

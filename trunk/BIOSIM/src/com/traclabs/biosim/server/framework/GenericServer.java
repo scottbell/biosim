@@ -25,20 +25,37 @@ public class GenericServer{
 	*/
 	protected static int getIDfromArgs(String[] myArgs){
 		int myID = 0;
-		if (myArgs.length > 1){
-			if (myArgs[0].startsWith("-id=")){
+		for (int i = 0; i < myArgs.length; i++){
+			if (myArgs[i].startsWith("-id=")){
 				try{
-					StringTokenizer st = new StringTokenizer(myArgs[0],"=");
+					StringTokenizer st = new StringTokenizer(myArgs[i],"=");
 					st.nextToken();
 					myID = Integer.parseInt(st.nextToken());
 				}
 				catch (Exception e){
-					System.err.println("Problem parsing arguments on arg "+myArgs[0]);
+					System.err.println("Problem parsing arguments on arg "+myArgs[i]);
 					e.printStackTrace();
 				}
 			}
 		}
 		return myID;
+	}
+	
+	/**
+	* Grabs name parameter from an array of string
+	* @param myArgs an array of strings to parse for the name server switch, "-name".  Used for setting name of
+	* this instance of the server.  example, java myServer -name=MyServer
+	*/
+	protected static String getNamefromArgs(String[] myArgs){
+		String myName = "NoName";
+		for (int i = 0; i < myArgs.length; i++){
+			if (myArgs[i].startsWith("-name=")){
+				StringTokenizer st = new StringTokenizer(myArgs[i],"=");
+				st.nextToken();
+				myName = st.nextToken();
+			}
+		}
+		return myName;
 	}
 	
 	/**

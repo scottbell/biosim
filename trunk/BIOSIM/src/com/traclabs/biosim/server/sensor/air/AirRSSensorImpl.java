@@ -8,8 +8,8 @@ import biosim.idl.framework.*;
 public abstract class AirRSSensorImpl extends GenericSensorImpl implements AirRSSensorOperations{
 	protected AirRS myAirRS;
 	
-	public AirRSSensorImpl(int pID){
-		super(pID);
+	public AirRSSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	public void setInput(AirRS source){
@@ -18,14 +18,6 @@ public abstract class AirRSSensorImpl extends GenericSensorImpl implements AirRS
 	
 	public AirRS getInput(){
 		return myAirRS;
-	}
-	
-	/**
-	* Returns the name of this module (AirRSSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "AirRSSensor"+getID();
 	}
 	
 	protected BioModule getInputModule(){

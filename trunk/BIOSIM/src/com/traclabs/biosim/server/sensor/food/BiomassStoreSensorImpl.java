@@ -8,8 +8,8 @@ import biosim.idl.simulation.food.*;
 public abstract class BiomassStoreSensorImpl extends GenericSensorImpl implements BiomassStoreSensorOperations{
 	protected BiomassStore myBiomassStore;
 	
-	public BiomassStoreSensorImpl(int pID){
-		super(pID);
+	public BiomassStoreSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected abstract void gatherData();
@@ -25,14 +25,6 @@ public abstract class BiomassStoreSensorImpl extends GenericSensorImpl implement
 	
 	public float getMax(){
 		return myBiomassStore.getCapacity();
-	}
-	
-	/**
-	* Returns the name of this module (BiomassStoreSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "BiomassStoreSensor"+getID();
 	}
 	
 	protected BioModule getInputModule(){

@@ -11,8 +11,8 @@ public abstract class GenericActuatorImpl extends BioModuleImpl implements Gener
 	private LogNode valueNode;
 	private LogNode outputNode;
 	
-	public GenericActuatorImpl(int pID){
-		super(pID);
+	public GenericActuatorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 	
 	public void setValue(float pValue){
@@ -39,15 +39,6 @@ public abstract class GenericActuatorImpl extends BioModuleImpl implements Gener
 	}
 	
 	protected abstract void processData();
-	
-	
-	/**
-	* Returns the name of this module (GenericActuator)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "GenericActuator"+getID();
-	}
 	
 	protected abstract BioModule getOutputModule();
 	

@@ -8,8 +8,8 @@ import biosim.idl.simulation.water.*;
 public abstract class GreyWaterStoreSensorImpl extends GenericSensorImpl implements GreyWaterStoreSensorOperations{
 	protected GreyWaterStore myGreyWaterStore;
 	
-	public GreyWaterStoreSensorImpl(int pID){
-		super(pID);
+	public GreyWaterStoreSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected abstract void gatherData();
@@ -25,14 +25,6 @@ public abstract class GreyWaterStoreSensorImpl extends GenericSensorImpl impleme
 	
 	public float getMax(){
 		return myGreyWaterStore.getCapacity();
-	}
-	
-	/**
-	* Returns the name of this module (GreyWaterStoreSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "GreyWaterStoreSensor"+getID();
 	}
 	
 	protected BioModule getInputModule(){

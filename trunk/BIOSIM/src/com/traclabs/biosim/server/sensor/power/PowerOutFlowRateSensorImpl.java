@@ -8,8 +8,8 @@ public class PowerOutFlowRateSensorImpl extends GenericSensorImpl implements Pow
 	private PowerProducer myProducer;
 	private int myIndex;
 	
-	public PowerOutFlowRateSensorImpl(int pID){
-		super(pID);
+	public PowerOutFlowRateSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -40,13 +40,5 @@ public class PowerOutFlowRateSensorImpl extends GenericSensorImpl implements Pow
 	
 	protected BioModule getInputModule(){
 		return (BioModule)(myProducer);
-	}
-	
-	/**
-	* Returns the name of this module (PowerOutFlowRateSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "PowerOutFlowRateSensor"+getID();
 	}
 }

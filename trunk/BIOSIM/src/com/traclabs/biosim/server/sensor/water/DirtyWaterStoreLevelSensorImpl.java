@@ -5,8 +5,8 @@ import biosim.idl.sensor.water.*;
 import biosim.idl.framework.*;
 
 public class DirtyWaterStoreLevelSensorImpl extends DirtyWaterStoreSensorImpl implements DirtyWaterStoreLevelSensorOperations{
-	public DirtyWaterStoreLevelSensorImpl(int pID){
-		super(pID);
+	public DirtyWaterStoreLevelSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -15,13 +15,5 @@ public class DirtyWaterStoreLevelSensorImpl extends DirtyWaterStoreSensorImpl im
 	}
 	
 	protected void notifyListeners(){
-	}
-	
-	/**
-	* Returns the name of this module (DirtyWaterStoreLevelSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "DirtyWaterStoreLevelSensor"+getID();
 	}
 }

@@ -13,8 +13,8 @@ import biosim.idl.framework.*;
 public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 	List currentFoodItems;
 
-	public FoodStoreImpl(int pID){
-		super(pID);
+	public FoodStoreImpl(int pID, String pName){
+		super(pID, pName);
 		currentFoodItems = new Vector();
 	}
 	
@@ -231,13 +231,5 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 	public void reset(){
 		super.reset();
 		currentFoodItems.clear();
-	}
-
-	/**
-	* Returns the name of this module (FoodStore)
-	* @return the name of this module
-	*/
-	public String getModuleName(){
-		return "FoodStore"+getID();
 	}
 }

@@ -9,8 +9,8 @@ public class CO2AirStoreOutFlowRateActuatorImpl extends GenericActuatorImpl impl
 	private CO2AirProducer myProducer;
 	private int myIndex;
 	
-	public CO2AirStoreOutFlowRateActuatorImpl(int pID){
-		super(pID);
+	public CO2AirStoreOutFlowRateActuatorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void processData(){
@@ -41,13 +41,5 @@ public class CO2AirStoreOutFlowRateActuatorImpl extends GenericActuatorImpl impl
 	
 	public int getIndex(){
 		return myIndex;
-	}
-	
-	/**
-	* Returns the name of this module (CO2AirStoreOutFlowRateActuator)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "CO2AirStoreOutFlowRateActuator"+getID();
 	}
 }

@@ -8,8 +8,8 @@ public class DirtyWaterInFlowRateActuatorImpl extends GenericActuatorImpl implem
 	private DirtyWaterConsumer myConsumer;
 	private int myIndex;
 	
-	public DirtyWaterInFlowRateActuatorImpl(int pID){
-		super(pID);
+	public DirtyWaterInFlowRateActuatorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void processData(){
@@ -40,13 +40,5 @@ public class DirtyWaterInFlowRateActuatorImpl extends GenericActuatorImpl implem
 	
 	public float getMax(){
 		return myConsumer.getDirtyWaterInputMaxFlowRate(myIndex);
-	}
-	
-	/**
-	* Returns the name of this module (DirtyWaterInFlowRateActuator)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "DirtyWaterInFlowRateActuator"+getID();
 	}
 }

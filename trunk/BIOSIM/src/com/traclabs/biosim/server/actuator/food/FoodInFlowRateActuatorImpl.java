@@ -8,8 +8,8 @@ public class FoodInFlowRateActuatorImpl extends GenericActuatorImpl implements F
 	private FoodConsumer myConsumer;
 	private int myIndex;
 	
-	public FoodInFlowRateActuatorImpl(int pID){
-		super(pID);
+	public FoodInFlowRateActuatorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void processData(){
@@ -40,13 +40,5 @@ public class FoodInFlowRateActuatorImpl extends GenericActuatorImpl implements F
 	
 	public float getMax(){
 		return myConsumer.getFoodInputMaxFlowRate(myIndex);
-	}
-	
-	/**
-	* Returns the name of this module (FoodInFlowRateActuator)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "FoodInFlowRateActuator"+getID();
 	}
 }

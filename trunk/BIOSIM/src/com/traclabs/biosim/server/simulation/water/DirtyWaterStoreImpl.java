@@ -8,14 +8,7 @@ import biosim.server.simulation.framework.*;
  */
 
 public class DirtyWaterStoreImpl extends StoreImpl implements DirtyWaterStoreOperations {
-	public DirtyWaterStoreImpl(int pID){
-		super(pID);
-	}
-	/**
-	* Returns the name of this module (DirtyWaterStore)
-	* @return the name of this module
-	*/
-	public String getModuleName(){
-		return "DirtyWaterStore"+getID();
+	public DirtyWaterStoreImpl(int pID, String pName){
+		super(pID, pName);
 	}
 }

@@ -5,8 +5,8 @@ import biosim.idl.sensor.water.*;
 import biosim.idl.framework.*;
 
 public class PotableWaterStoreLevelSensorImpl extends PotableWaterStoreSensorImpl implements PotableWaterStoreLevelSensorOperations{
-	public PotableWaterStoreLevelSensorImpl(int pID){
-		super(pID);
+	public PotableWaterStoreLevelSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -15,13 +15,5 @@ public class PotableWaterStoreLevelSensorImpl extends PotableWaterStoreSensorImp
 	}
 	
 	protected void notifyListeners(){
-	}
-	
-	/**
-	* Returns the name of this module (PotableWaterStoreLevelSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "PotableWaterStoreLevelSensor"+getID();
 	}
 }

@@ -8,8 +8,8 @@ import biosim.idl.simulation.food.*;
 public abstract class FoodProcessorSensorImpl extends GenericSensorImpl implements FoodProcessorSensorOperations{
 	protected FoodProcessor myFoodProcessor;
 	
-	public FoodProcessorSensorImpl(int pID){
-		super(pID);
+	public FoodProcessorSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected abstract void gatherData();
@@ -21,14 +21,6 @@ public abstract class FoodProcessorSensorImpl extends GenericSensorImpl implemen
 	
 	public FoodProcessor getInput(){
 		return myFoodProcessor;
-	}
-	
-	/**
-	* Returns the name of this module (FoodProcessorSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "FoodProcessorSensor"+getID();
 	}
 	
 	protected BioModule getInputModule(){

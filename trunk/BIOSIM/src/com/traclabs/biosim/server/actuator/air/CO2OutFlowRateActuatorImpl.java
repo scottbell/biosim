@@ -8,8 +8,8 @@ public class CO2OutFlowRateActuatorImpl extends GenericActuatorImpl implements C
 	private CO2Producer myProducer;
 	private int myIndex;
 	
-	public CO2OutFlowRateActuatorImpl(int pID){
-		super(pID);
+	public CO2OutFlowRateActuatorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void processData(){
@@ -40,13 +40,5 @@ public class CO2OutFlowRateActuatorImpl extends GenericActuatorImpl implements C
 	
 	public float getMax(){
 		return myProducer.getCO2OutputMaxFlowRate(myIndex);
-	}
-	
-	/**
-	* Returns the name of this module (CO2OutFlowRateActuator)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "CO2OutFlowRateActuator"+getID();
 	}
 }

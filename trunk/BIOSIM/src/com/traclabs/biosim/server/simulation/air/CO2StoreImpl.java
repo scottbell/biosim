@@ -11,15 +11,8 @@ import biosim.server.simulation.framework.*;
 
 public class CO2StoreImpl extends StoreImpl implements CO2StoreOperations {
 	
-	public CO2StoreImpl(int pID){
-		super(pID);
+	public CO2StoreImpl(int pID, String pName){
+		super(pID, pName);
 	}
 	
-	/**
-	* Returns the name of this module (CO2Store)
-	* @return the name of this module
-	*/
-	public String getModuleName(){
-		return "CO2Store"+getID();
-	}
 }

@@ -5,8 +5,8 @@ import biosim.idl.sensor.environment.*;
 import biosim.idl.simulation.environment.*;
 
 public class WaterAirPressureSensorImpl extends EnvironmentSensorImpl implements WaterAirPressureSensorOperations{
-	public WaterAirPressureSensorImpl(int pID){
-		super(pID);
+	public WaterAirPressureSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -19,13 +19,5 @@ public class WaterAirPressureSensorImpl extends EnvironmentSensorImpl implements
 	
 	public float getMax(){
 		return 1f;
-	}
-	
-	/**
-	* Returns the name of this module (WaterAirPressureSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "WaterAirPressureSensor"+getID();
 	}
 }

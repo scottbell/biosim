@@ -8,8 +8,8 @@ import biosim.idl.framework.*;
 public abstract class EnvironmentSensorImpl extends GenericSensorImpl implements EnvironmentSensorOperations{
 	protected SimEnvironment myEnvironment;
 	
-	public EnvironmentSensorImpl(int pID){
-		super(pID);
+	public EnvironmentSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected abstract void gatherData();
@@ -21,14 +21,6 @@ public abstract class EnvironmentSensorImpl extends GenericSensorImpl implements
 	
 	public SimEnvironment getInput(){
 		return myEnvironment;
-	}
-	
-	/**
-	* Returns the name of this module (EnvironmentSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "EnvironmentSensor"+getID();
 	}
 	
 	protected BioModule getInputModule(){

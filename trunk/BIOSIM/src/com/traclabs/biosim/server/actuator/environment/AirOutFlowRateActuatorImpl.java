@@ -9,8 +9,8 @@ public class AirOutFlowRateActuatorImpl extends GenericActuatorImpl implements A
 	private AirProducer myProducer;
 	private int myIndex;
 	
-	public AirOutFlowRateActuatorImpl(int pID){
-		super(pID);
+	public AirOutFlowRateActuatorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void processData(){
@@ -41,13 +41,5 @@ public class AirOutFlowRateActuatorImpl extends GenericActuatorImpl implements A
 	
 	public int getIndex(){
 		return myIndex;
-	}
-	
-	/**
-	* Returns the name of this module (AirOutFlowRateActuator)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "AirOutFlowRateActuator"+getID();
 	}
 }
