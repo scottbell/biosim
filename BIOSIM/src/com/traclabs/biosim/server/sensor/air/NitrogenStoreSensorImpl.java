@@ -26,7 +26,7 @@ public abstract class NitrogenStoreSensorImpl extends GenericSensorImpl
     }
 
     public float getMax() {
-        return myNitrogenStore.getCapacity();
+        return myNitrogenStore.getCurrentCapacity();
     }
 
     public BioModule getInputModule() {

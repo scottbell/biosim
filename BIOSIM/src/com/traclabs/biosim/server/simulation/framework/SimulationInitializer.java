@@ -732,10 +732,11 @@ public class SimulationInitializer {
     }
 
     private void setupStore(StoreImpl pStore, Node pNode) {
-        pStore.setCapacity(getStoreCapacity(pNode));
-        pStore.setLevel(getStoreLevel(pNode));
+        pStore.setInitialCapacity(getStoreCapacity(pNode));
+        pStore.setInitialLevel(getStoreLevel(pNode));
         pStore.setResupply(getStoreResupplyFrequency(pNode),
                 getStoreResupplyAmount(pNode));
+        BioInitializer.setupBioModule(pStore, pNode);
     }
 
     private void createAirRS(Node node) {
@@ -786,7 +787,6 @@ public class SimulationInitializer {
         if (BioInitializer.isCreatedLocally(node)) {
             O2StoreImpl myO2StoreImpl = new O2StoreImpl(myID, moduleName);
             setupStore(myO2StoreImpl, node);
-            BioInitializer.setupBioModule(myO2StoreImpl, node);
             BiosimServer.registerServer(new O2StorePOATie(myO2StoreImpl),
                     myO2StoreImpl.getModuleName(), myO2StoreImpl.getID());
         } else
@@ -797,7 +797,6 @@ public class SimulationInitializer {
         String moduleName = BioInitializer.getModuleName(node);
         if (BioInitializer.isCreatedLocally(node)) {
             CO2StoreImpl myCO2StoreImpl = new CO2StoreImpl(myID, moduleName);
-            BioInitializer.setupBioModule(myCO2StoreImpl, node);
             setupStore(myCO2StoreImpl, node);
             BiosimServer.registerServer(new CO2StorePOATie(myCO2StoreImpl),
                     myCO2StoreImpl.getModuleName(), myCO2StoreImpl.getID());
@@ -809,7 +808,6 @@ public class SimulationInitializer {
         String moduleName = BioInitializer.getModuleName(node);
         if (BioInitializer.isCreatedLocally(node)) {
             H2StoreImpl myH2StoreImpl = new H2StoreImpl(myID, moduleName);
-            BioInitializer.setupBioModule(myH2StoreImpl, node);
             setupStore(myH2StoreImpl, node);
             BiosimServer.registerServer(new H2StorePOATie(myH2StoreImpl),
                     myH2StoreImpl.getModuleName(), myH2StoreImpl.getID());
@@ -822,7 +820,6 @@ public class SimulationInitializer {
         if (BioInitializer.isCreatedLocally(node)) {
             NitrogenStoreImpl myNitrogenStoreImpl = new NitrogenStoreImpl(myID,
                     moduleName);
-            BioInitializer.setupBioModule(myNitrogenStoreImpl, node);
             setupStore(myNitrogenStoreImpl, node);
             BiosimServer.registerServer(new NitrogenStorePOATie(
                     myNitrogenStoreImpl), myNitrogenStoreImpl.getModuleName(),
@@ -1318,8 +1315,8 @@ public class SimulationInitializer {
             "inedibleWaterContent").getNodeValue());
             PlantType theCropType = getCropType(node);
             BioMatter newBioMatter = new BioMatter(getStoreLevel(node), inedibleFraction, edibleWaterContent, inedibleWaterContent, theCropType);
-            myBiomassStoreImpl.setCapacity(getStoreCapacity(node));
-            myBiomassStoreImpl.setBioMatterLevel(newBioMatter);
+            myBiomassStoreImpl.setInitialCapacity(getStoreCapacity(node));
+            myBiomassStoreImpl.setInitialBioMatterLevel(newBioMatter);
             myBiomassStoreImpl.setResupply(getStoreResupplyFrequency(node),
                     getStoreResupplyAmount(node));
             BiosimServer.registerServer(new BiomassStorePOATie(
@@ -1339,8 +1336,8 @@ public class SimulationInitializer {
             "waterContent").getNodeValue());
             PlantType theCropType = getCropType(node);
             FoodMatter newFoodMatter = new FoodMatter(getStoreLevel(node), waterContent, theCropType);
-            myFoodStoreImpl.setCapacity(getStoreCapacity(node));
-            myFoodStoreImpl.setFoodMatterLevel(newFoodMatter);
+            myFoodStoreImpl.setInitialCapacity(getStoreCapacity(node));
+            myFoodStoreImpl.setInitialFoodMatterLevel(newFoodMatter);
             myFoodStoreImpl.setResupply(getStoreResupplyFrequency(node),
                     getStoreResupplyAmount(node));
             BiosimServer.registerServer(new FoodStorePOATie(myFoodStoreImpl),
@@ -1394,7 +1391,7 @@ public class SimulationInitializer {
                 myPowerPSImpl = new NuclearPowerPS(myID, moduleName);
             float upperPowerGeneration = Float.parseFloat(node.getAttributes().getNamedItem(
             "upperPowerGeneration").getNodeValue());
-            myPowerPSImpl.setUpperPowerGeneration(upperPowerGeneration);
+            myPowerPSImpl.setInitialUpperPowerGeneration(upperPowerGeneration);
             BioInitializer.setupBioModule(myPowerPSImpl, node);
             BiosimServer.registerServer(new PowerPSPOATie(myPowerPSImpl),
                     myPowerPSImpl.getModuleName(), myPowerPSImpl.getID());
@@ -1416,11 +1413,7 @@ public class SimulationInitializer {
                     .debug("Creating PowerStore with moduleName: " + moduleName);
             PowerStoreImpl myPowerStoreImpl = new PowerStoreImpl(myID,
                     moduleName);
-            BioInitializer.setupBioModule(myPowerStoreImpl, node);
-            myPowerStoreImpl.setLevel(getStoreLevel(node));
-            myPowerStoreImpl.setCapacity(getStoreCapacity(node));
-            myPowerStoreImpl.setResupply(getStoreResupplyFrequency(node),
-                    getStoreResupplyAmount(node));
+            setupStore(myPowerStoreImpl, node);
             BiosimServer.registerServer(new PowerStorePOATie(myPowerStoreImpl),
                     myPowerStoreImpl.getModuleName(), myPowerStoreImpl.getID());
         } else
@@ -1505,12 +1498,7 @@ public class SimulationInitializer {
                     + moduleName);
             PotableWaterStoreImpl myPotableWaterStoreImpl = new PotableWaterStoreImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myPotableWaterStoreImpl, node);
-            myPotableWaterStoreImpl.setLevel(getStoreLevel(node));
-            myPotableWaterStoreImpl.setCapacity(getStoreCapacity(node));
-            myPotableWaterStoreImpl.setResupply(
-                    getStoreResupplyFrequency(node),
-                    getStoreResupplyAmount(node));
+            setupStore(myPotableWaterStoreImpl, node);
             BiosimServer.registerServer(new PotableWaterStorePOATie(
                     myPotableWaterStoreImpl), myPotableWaterStoreImpl
                     .getModuleName(), myPotableWaterStoreImpl.getID());
@@ -1525,11 +1513,7 @@ public class SimulationInitializer {
                     + moduleName);
             DirtyWaterStoreImpl myDirtyWaterStoreImpl = new DirtyWaterStoreImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myDirtyWaterStoreImpl, node);
-            myDirtyWaterStoreImpl.setLevel(getStoreLevel(node));
-            myDirtyWaterStoreImpl.setCapacity(getStoreCapacity(node));
-            myDirtyWaterStoreImpl.setResupply(getStoreResupplyFrequency(node),
-                    getStoreResupplyAmount(node));
+            setupStore(myDirtyWaterStoreImpl, node);
             BiosimServer.registerServer(new DirtyWaterStorePOATie(
                     myDirtyWaterStoreImpl), myDirtyWaterStoreImpl
                     .getModuleName(), myDirtyWaterStoreImpl.getID());
@@ -1544,11 +1528,7 @@ public class SimulationInitializer {
                     + moduleName);
             GreyWaterStoreImpl myGreyWaterStoreImpl = new GreyWaterStoreImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myGreyWaterStoreImpl, node);
-            myGreyWaterStoreImpl.setLevel(getStoreLevel(node));
-            myGreyWaterStoreImpl.setCapacity(getStoreCapacity(node));
-            myGreyWaterStoreImpl.setResupply(getStoreResupplyFrequency(node),
-                    getStoreResupplyAmount(node));
+            setupStore(myGreyWaterStoreImpl, node);
             BiosimServer.registerServer(new GreyWaterStorePOATie(
                     myGreyWaterStoreImpl),
                     myGreyWaterStoreImpl.getModuleName(), myGreyWaterStoreImpl
@@ -1621,11 +1601,7 @@ public class SimulationInitializer {
                     + moduleName);
             DryWasteStoreImpl myDryWasteStoreImpl = new DryWasteStoreImpl(myID,
                     moduleName);
-            BioInitializer.setupBioModule(myDryWasteStoreImpl, node);
-            myDryWasteStoreImpl.setLevel(getStoreLevel(node));
-            myDryWasteStoreImpl.setCapacity(getStoreCapacity(node));
-            myDryWasteStoreImpl.setResupply(getStoreResupplyFrequency(node),
-                    getStoreResupplyAmount(node));
+            setupStore(myDryWasteStoreImpl, node);
             BiosimServer.registerServer(new DryWasteStorePOATie(
                     myDryWasteStoreImpl), myDryWasteStoreImpl.getModuleName(),
                     myDryWasteStoreImpl.getID());

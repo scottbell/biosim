@@ -25,7 +25,7 @@ public abstract class StoreSensorImpl extends GenericSensorImpl implements
     }
 
     public float getMax() {
-        return myStore.getCapacity();
+        return myStore.getCurrentCapacity();
     }
 
     public BioModule getInputModule() {

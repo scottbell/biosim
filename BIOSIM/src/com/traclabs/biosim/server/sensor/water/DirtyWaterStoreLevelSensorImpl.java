@@ -9,7 +9,7 @@ public class DirtyWaterStoreLevelSensorImpl extends DirtyWaterStoreSensorImpl
     }
 
     protected void gatherData() {
-        float preFilteredValue = getInput().getLevel();
+        float preFilteredValue = getInput().getCurrentLevel();
         myValue = randomFilter(preFilteredValue);
     }
 

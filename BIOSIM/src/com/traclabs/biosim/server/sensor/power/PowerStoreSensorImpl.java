@@ -26,7 +26,7 @@ public abstract class PowerStoreSensorImpl extends GenericSensorImpl implements
     }
 
     public float getMax() {
-        return myPowerStore.getCapacity();
+        return myPowerStore.getCurrentCapacity();
     }
 
     public BioModule getInputModule() {

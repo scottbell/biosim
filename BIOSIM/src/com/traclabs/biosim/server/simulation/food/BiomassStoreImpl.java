@@ -32,9 +32,14 @@ public class BiomassStoreImpl extends StoreImpl implements
                 PlantType.UNKNOWN_PLANT);
         return addBioMatter(newBioMatter);
     }
+    
+    public void setInitialLevel(float metricAmount) {
+        super.setInitialLevel(metricAmount);
+        setCurrentLevel(metricAmount);
+    }
 
-    public void setLevel(float metricAmount) {
-        super.setLevel(metricAmount);
+    public void setCurrentLevel(float metricAmount) {
+        super.setCurrentLevel(metricAmount);
         currentBiomassItems.clear();
         if (metricAmount > 0) {
             BioMatter newBioMatter = new BioMatter(metricAmount, 0, 0, 0,
@@ -44,8 +49,8 @@ public class BiomassStoreImpl extends StoreImpl implements
         }
     }
     
-    public void setBioMatterLevel(BioMatter pMatter) {
-        super.setLevel(pMatter.mass);
+    public void setInitialBioMatterLevel(BioMatter pMatter) {
+        super.setInitialLevel(pMatter.mass);
         currentBiomassItems.clear();
         if (pMatter.mass > 0) {
             currentBiomassItems.add(pMatter);
@@ -134,10 +139,10 @@ public class BiomassStoreImpl extends StoreImpl implements
             return 0f;
         myLogger.debug("pMatter.mass trying to be added=" + pMatter.mass);
         float acutallyAdded = 0f;
-        if ((pMatter.mass + level) > capacity) {
-            //adding more than capacity
-            acutallyAdded = capacity - level;
-            level += acutallyAdded;
+        if ((pMatter.mass + currentLevel) > currentCapacity) {
+            //adding more than currentCapacity
+            acutallyAdded = currentCapacity - currentLevel;
+            currentLevel += acutallyAdded;
             overflow += (pMatter.mass - acutallyAdded);
 
             float fractionOfOriginal = acutallyAdded / pMatter.mass;
@@ -146,14 +151,14 @@ public class BiomassStoreImpl extends StoreImpl implements
                             * fractionOfOriginal, pMatter.inedibleWaterContent
                             * fractionOfOriginal, pMatter.type);
             currentBiomassItems.add(newBioMatter);
-            myLogger.debug("added = " + newBioMatter.mass + " with level @ "
-                    + level);
+            myLogger.debug("added = " + newBioMatter.mass + " with currentLevel @ "
+                    + currentLevel);
             return acutallyAdded;
         } else {
             acutallyAdded = randomFilter(pMatter.mass);
-            level += acutallyAdded;
+            currentLevel += acutallyAdded;
             currentBiomassItems.add(pMatter);
-            myLogger.debug("added = " + pMatter.mass + "with level @ " + level);
+            myLogger.debug("added = " + pMatter.mass + "with currentLevel @ " + currentLevel);
             return acutallyAdded;
         }
     }
@@ -195,7 +200,7 @@ public class BiomassStoreImpl extends StoreImpl implements
         for (Iterator iter = itemsToRemove.iterator(); iter.hasNext();) {
             currentBiomassItems.remove(iter.next());
         }
-        level -= collectedMass;
+        currentLevel -= collectedMass;
         //return the array
         BioMatter[] emptyArray = new BioMatter[0];
         BioMatter[] returnArray = (BioMatter[]) (itemsToReturn
@@ -209,7 +214,7 @@ public class BiomassStoreImpl extends StoreImpl implements
     public void reset() {
         super.reset();
         currentBiomassItems.clear();
-        if (level > 0)
+        if (currentLevel > 0)
             currentBiomassItems.add(myOriginalMatter);
     }
 

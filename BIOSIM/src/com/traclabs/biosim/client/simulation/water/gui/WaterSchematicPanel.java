@@ -291,13 +291,13 @@ public class WaterSchematicPanel extends TimedPanel {
 
     public void refresh() {
         potableWaterButton.setToolTipText(numFormat.format(myPotableWaterStore
-                .getLevel())
+                .getCurrentLevel())
                 + " L");
         dirtyWaterButton.setToolTipText(numFormat.format(myDirtyWaterStore
-                .getLevel())
+                .getCurrentLevel())
                 + " L");
         greyWaterButton.setToolTipText(numFormat.format(myGreyWaterStore
-                .getLevel())
+                .getCurrentLevel())
                 + " L");
     }
 

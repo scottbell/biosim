@@ -91,21 +91,21 @@ public class AirTextPanel extends TimedPanel {
         O2StorePanel.setLayout(new GridLayout(1, 1));
         O2StorePanel.setBorder(BorderFactory.createTitledBorder("O2 Store"));
         O2StoreLevelLabel = new JLabel("O2 level:    "
-                + numFormat.format(myO2Store.getLevel()) + " moles");
+                + numFormat.format(myO2Store.getCurrentLevel()) + " moles");
         O2StorePanel.add(O2StoreLevelLabel);
 
         CO2StorePanel = new JPanel();
         CO2StorePanel.setLayout(new GridLayout(1, 1));
         CO2StorePanel.setBorder(BorderFactory.createTitledBorder("CO2 Store"));
         CO2StoreLevelLabel = new JLabel("CO2 level:  "
-                + numFormat.format(myCO2Store.getLevel()) + " moles");
+                + numFormat.format(myCO2Store.getCurrentLevel()) + " moles");
         CO2StorePanel.add(CO2StoreLevelLabel);
 
         H2StorePanel = new JPanel();
         H2StorePanel.setLayout(new GridLayout(1, 1));
         H2StorePanel.setBorder(BorderFactory.createTitledBorder("H2 Store"));
         H2StoreLevelLabel = new JLabel("H2 level:  "
-                + numFormat.format(myH2Store.getLevel()) + " moles");
+                + numFormat.format(myH2Store.getCurrentLevel()) + " moles");
         H2StorePanel.add(H2StoreLevelLabel);
 
         nitrogenStorePanel = new JPanel();
@@ -113,7 +113,7 @@ public class AirTextPanel extends TimedPanel {
         nitrogenStorePanel.setBorder(BorderFactory
                 .createTitledBorder("Nitrogen Store"));
         nitrogenStoreLevelLabel = new JLabel("Nitrogen level:  "
-                + numFormat.format(myNitrogenStore.getLevel()) + " moles");
+                + numFormat.format(myNitrogenStore.getCurrentLevel()) + " moles");
         nitrogenStorePanel.add(nitrogenStoreLevelLabel);
 
         c.fill = GridBagConstraints.BOTH;
@@ -158,12 +158,12 @@ public class AirTextPanel extends TimedPanel {
      */
     public void refresh() {
         CO2StoreLevelLabel.setText("CO2 level:      "
-                + numFormat.format(myCO2Store.getLevel()) + " moles");
+                + numFormat.format(myCO2Store.getCurrentLevel()) + " moles");
         H2StoreLevelLabel.setText("H2 level:      "
-                + numFormat.format(myH2Store.getLevel()) + " moles");
+                + numFormat.format(myH2Store.getCurrentLevel()) + " moles");
         nitrogenStoreLevelLabel.setText("Nitrogen level:      "
-                + numFormat.format(myNitrogenStore.getLevel()) + " moles");
+                + numFormat.format(myNitrogenStore.getCurrentLevel()) + " moles");
         O2StoreLevelLabel.setText("O2 level:       "
-                + numFormat.format(myO2Store.getLevel()) + " moles");
+                + numFormat.format(myO2Store.getCurrentLevel()) + " moles");
     }
 }

@@ -9,7 +9,7 @@ public class FoodStoreLevelSensorImpl extends FoodStoreSensorImpl implements
     }
 
     protected void gatherData() {
-        float preFilteredValue = getInput().getLevel();
+        float preFilteredValue = getInput().getCurrentLevel();
         myValue = randomFilter(preFilteredValue);
     }
 

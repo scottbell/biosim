@@ -78,12 +78,12 @@ public class StateMap {
                 myPotableWaterStore);
 
         capacities = new float[6];
-        capacities[0] = myCO2Store.getCapacity();
-        capacities[1] = myDirtyWaterStore.getCapacity();
-        capacities[2] = myDirtyWaterStore.getCapacity();
-        capacities[3] = myH2Store.getCapacity();
-        capacities[4] = myO2Store.getCapacity();
-        capacities[5] = myPotableWaterStore.getCapacity();
+        capacities[0] = myCO2Store.getCurrentCapacity();
+        capacities[1] = myDirtyWaterStore.getCurrentCapacity();
+        capacities[2] = myDirtyWaterStore.getCurrentCapacity();
+        capacities[3] = myH2Store.getCurrentCapacity();
+        capacities[4] = myO2Store.getCurrentCapacity();
+        capacities[5] = myPotableWaterStore.getCurrentCapacity();
     }
 
     public void updateState() {

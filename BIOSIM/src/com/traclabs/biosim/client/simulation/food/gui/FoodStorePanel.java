@@ -50,7 +50,7 @@ public class FoodStorePanel extends GraphPanel {
         CategoryPlot myPlot = myChart.getCategoryPlot();
         rangeAxis = myPlot.getRangeAxis();
         rangeAxis.setAutoRange(false);
-        rangeAxis.setRange(0.0, myFoodStore.getCapacity());
+        rangeAxis.setRange(0.0, myFoodStore.getCurrentCapacity());
         CategoryItemRenderer renderer = myPlot.getRenderer();
         renderer.setSeriesPaint(0, new Color(51, 153, 51));
         renderer.setSeriesPaint(1, new Color(204, 204, 0));
@@ -68,19 +68,19 @@ public class FoodStorePanel extends GraphPanel {
             String series1 = "Biomass";
             String series2 = "Food";
             String category = "";
-            myDataset.addValue(myBiomassStore.getLevel(), series1, category);
-            myDataset.addValue(myFoodStore.getLevel(), series2, category);
+            myDataset.addValue(myBiomassStore.getCurrentLevel(), series1, category);
+            myDataset.addValue(myFoodStore.getCurrentLevel(), series2, category);
         } else {
-            float capacity = Math.max(myBiomassStore.getCapacity(), myFoodStore
-                    .getCapacity());
+            float capacity = Math.max(myBiomassStore.getCurrentCapacity(), myFoodStore
+                    .getCurrentCapacity());
             if ((rangeAxis.getRange().getUpperBound() != capacity)
                     && (capacity > 0)) {
                 rangeAxis.setRange(0.0, capacity);
                 myChartPanel.repaint();
             }
-            myDataset.setValue(new Float(myBiomassStore.getLevel()), "Biomass",
+            myDataset.setValue(new Float(myBiomassStore.getCurrentLevel()), "Biomass",
                     "");
-            myDataset.setValue(new Float(myFoodStore.getLevel()), "Food", "");
+            myDataset.setValue(new Float(myFoodStore.getCurrentLevel()), "Food", "");
         }
     }
 }

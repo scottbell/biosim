@@ -9,7 +9,7 @@ public class NitrogenStoreLevelSensorImpl extends NitrogenStoreSensorImpl
     }
 
     protected void gatherData() {
-        float preFilteredValue = getInput().getLevel();
+        float preFilteredValue = getInput().getCurrentLevel();
         myValue = randomFilter(preFilteredValue);
     }
 

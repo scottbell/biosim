@@ -22,25 +22,25 @@ import com.traclabs.biosim.server.util.OrbUtils;
 
 public abstract class StoreImpl extends SimBioModuleImpl implements
         StoreOperations {
-    //The level of whatever this store is holding (at t)
-    protected float level = 0f;
+    //The currentLevel of whatever this store is holding (at t)
+    protected float currentLevel = 0f;
 
-    //The level of whatever this store is holding (at t-1)
-    protected float oldLevel = 0f;
+    //The currentLevel of whatever this store is holding (at t-1)
+    protected float cachedLevel = 0f;
 
-    //The capacity of what this store can hold (at t)
-    protected float capacity = 0f;
+    //The currentCapacity of what this store can hold (at t)
+    protected float currentCapacity = 0f;
 
-    //The capacity of what this store can hold (at t-1)
-    protected float oldCapacity = 0f;
+    //The currentCapacity of what this store can hold (at t-1)
+    protected float cachedCapacity = 0f;
 
     //What this store has leaked (at t-1)
-    protected float oldOverflow = 0f;
+    protected float cachedOverflow = 0f;
 
     //What this store has leaked (at t)
     protected float overflow = 0f;
 
-    //What the capacity was before the permanent malfunction
+    //What the currentCapacity was before the permanent malfunction
     private float preMalfunctionCapacity = 0.0f;
 
     //Used for finding what the current tick is (to see if we're behind or
@@ -61,7 +61,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements
     private float resupplyAmount = 0f;
 
     /**
-     * Creates a Store with an initial level and capacity of 0
+     * Creates a Store with an initial currentLevel and currentCapacity of 0
      * 
      * @param pID
      *            the ID of the store
@@ -70,36 +70,36 @@ public abstract class StoreImpl extends SimBioModuleImpl implements
      */
     public StoreImpl(int pID, String pName) {
         super(pID, pName);
-        level = oldLevel = initialLevel = 0f;
-        capacity = preMalfunctionCapacity = oldCapacity = initialCapacity = 10f;
+        currentLevel = cachedLevel = initialLevel = 0f;
+        currentCapacity = preMalfunctionCapacity = cachedCapacity = initialCapacity = 10f;
     }
 
     /**
-     * Creates a Store with an initial level and capacity user specified
+     * Creates a Store with an initial currentLevel and currentCapacity user specified
      * 
      * @param pID
-     *            the initial level of the store
+     *            the initial currentLevel of the store
      * @param pName
      *            the name of the store
      * @param pInitialCapacity
-     *            the initial capacity of the store
+     *            the initial currentCapacity of the store
      * @param pInitialLevel
-     *            the initial level of the store
+     *            the initial currentLevel of the store
      * @param pPipe
      *            whether this store should act like a pipe. dynamic capcity ==
-     *            level == whatever is added THIS tick (0 if nothing added,
+     *            currentLevel == whatever is added THIS tick (0 if nothing added,
      *            maxFlowRate should dictate pipe size, infinite otherwise)
      */
     public StoreImpl(int pID, String pName, float pInitialLevel,
             float pInitialCapacity, boolean pPipe) {
         super(pID, pName);
         pipe = pPipe;
-        level = oldLevel = initialLevel = pInitialLevel;
-        capacity = preMalfunctionCapacity = oldCapacity = initialCapacity = pInitialCapacity;
+        currentLevel = cachedLevel = initialLevel = pInitialLevel;
+        currentCapacity = preMalfunctionCapacity = cachedCapacity = initialCapacity = pInitialCapacity;
     }
 
     /**
-     * If this store acts like a pipe. dynamic capcity == level == whatever is
+     * If this store acts like a pipe. dynamic capcity == currentLevel == whatever is
      * added THIS tick (0 if nothing added, maxFlowRate should dictate pipe
      * size, infinite otherwise)
      * 
@@ -110,7 +110,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements
     }
 
     /**
-     * Sets this store to act like a pipe. dynamic capcity == level == whatever
+     * Sets this store to act like a pipe. dynamic capcity == currentLevel == whatever
      * is added THIS tick (0 if nothing added, maxFlowRate should dictate pipe
      * size, infinite otherwise)
      * 
@@ -125,32 +125,42 @@ public abstract class StoreImpl extends SimBioModuleImpl implements
         resupplyFrequency = pResupplyFrequency;
         resupplyAmount = pResupplyAmount;
     }
+    
+    public void setInitialCapacity(float metricAmount){
+        initialCapacity = metricAmount;
+        setCurrentLevel(metricAmount);
+    }
 
     /**
-     * Sets the capacity of the store (how much it can hold)
+     * Sets the currentCapacity of the store (how much it can hold)
      * 
      * @param metricAmount
      *            the new volume of the store
      */
-    public void setCapacity(float metricAmount) {
-        capacity = preMalfunctionCapacity = oldCapacity = initialCapacity = metricAmount;
+    public void setCurrentCapacity(float metricAmount) {
+        currentCapacity = preMalfunctionCapacity = cachedCapacity = metricAmount;
     }
 
     /**
-     * Sets the level to a set amount
+     * Sets the currentLevel to a set amount
      * 
      * @param metricAmount
-     *            the level to set the store to
+     *            the currentLevel to set the store to
      */
-    public void setLevel(float metricAmount) {
-        level = oldLevel = initialLevel = metricAmount;
+    public void setCurrentLevel(float metricAmount) {
+        currentLevel = cachedLevel = metricAmount;
+    }
+    
+    public void setInitialLevel(float metricAmount){
+        initialLevel = metricAmount;
+        setCurrentLevel(metricAmount);
     }
 
     public void tick() {
         super.tick();
-        oldLevel = level;
-        oldCapacity = capacity;
-        oldOverflow = overflow;
+        cachedLevel = currentLevel;
+        cachedCapacity = currentCapacity;
+        cachedOverflow = overflow;
         if ((getMyTicks() > 0) && (resupplyFrequency > 0)) {
             int remainder = getMyTicks() % resupplyFrequency;
             if (remainder == 0) {
@@ -158,8 +168,8 @@ public abstract class StoreImpl extends SimBioModuleImpl implements
             }
         }
         if (pipe) {
-            level = 0f;
-            capacity = 0f;
+            currentLevel = 0f;
+            currentCapacity = 0f;
         }
     }
 
@@ -207,7 +217,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements
     }
 
     /**
-     * Actually performs the malfunctions. Reduces levels/capacity
+     * Actually performs the malfunctions. Reduces levels/currentCapacity
      */
     protected void performMalfunctions() {
         for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext();) {
@@ -220,33 +230,33 @@ public abstract class StoreImpl extends SimBioModuleImpl implements
                     leakRate = .10f;
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
                     leakRate = .05f;
-                level -= (level * leakRate);
+                currentLevel -= (currentLevel * leakRate);
                 currentMalfunction.setPerformed(true);
             } else if ((currentMalfunction.getLength() == MalfunctionLength.PERMANENT_MALF)
                     && (!currentMalfunction.hasPerformed())) {
                 float percentage;
-                if (capacity <= 0) {
-                    level = 0;
+                if (currentCapacity <= 0) {
+                    currentLevel = 0;
                     percentage = 0;
                     currentMalfunction.setPerformed(true);
                     return;
                 }
-                percentage = level / capacity;
+                percentage = currentLevel / currentCapacity;
                 if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
-                    capacity = 0f;
+                    currentCapacity = 0f;
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
-                    capacity *= 0.5;
+                    currentCapacity *= 0.5;
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
-                    capacity *= .25f;
-                level = percentage * capacity;
+                    currentCapacity *= .25f;
+                currentLevel = percentage * currentCapacity;
                 currentMalfunction.setPerformed(true);
             }
         }
     }
 
     /**
-     * Attempts to add to the store. If the level is near capacity, it will only
-     * up to capacity
+     * Attempts to add to the store. If the currentLevel is near currentCapacity, it will only
+     * up to currentCapacity
      * 
      * @param amountRequested
      *            the amount wanted to add to the store
@@ -264,17 +274,17 @@ public abstract class StoreImpl extends SimBioModuleImpl implements
         if (amountRequested <= 0)
             return 0f;
         if (pipe)
-            capacity += amountRequested;
+            currentCapacity += amountRequested;
         float acutallyAdded = 0f;
-        if ((amountRequested + level) > capacity) {
-            //adding more than capacity
-            acutallyAdded = randomFilter(capacity - level);
-            level += acutallyAdded;
+        if ((amountRequested + currentLevel) > currentCapacity) {
+            //adding more than currentCapacity
+            acutallyAdded = randomFilter(currentCapacity - currentLevel);
+            currentLevel += acutallyAdded;
             overflow += (amountRequested - acutallyAdded);
             return acutallyAdded;
         } else {
             acutallyAdded = randomFilter(amountRequested);
-            level += acutallyAdded;
+            currentLevel += acutallyAdded;
             return acutallyAdded;
         }
     }
@@ -288,7 +298,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements
      */
     public float take(float amountRequested) {
         if (pipe)
-            capacity -= amountRequested;
+            currentCapacity -= amountRequested;
         //idiot check
         if (Float.isNaN(amountRequested)) {
             myLogger
@@ -301,28 +311,28 @@ public abstract class StoreImpl extends SimBioModuleImpl implements
             return 0f;
         float takenAmount;
         //asking for more stuff than exists
-        if (amountRequested > level) {
-            takenAmount = randomFilter(level);
-            level = 0f;
+        if (amountRequested > currentLevel) {
+            takenAmount = randomFilter(currentLevel);
+            currentLevel = 0f;
         }
         //stuff exists for request
         else {
             takenAmount = randomFilter(amountRequested);
-            level -= takenAmount;
+            currentLevel -= takenAmount;
         }
         return takenAmount;
     }
 
     /**
-     * Retrieves the level of the store
+     * Retrieves the currentLevel of the store
      * 
-     * @return the level of the store
+     * @return the currentLevel of the store
      */
-    public float getLevel() {
+    public float getCurrentLevel() {
         if (cachedValueNeeded())
-            return oldLevel;
+            return cachedLevel;
         else
-            return level;
+            return currentLevel;
     }
 
     /**
@@ -332,31 +342,31 @@ public abstract class StoreImpl extends SimBioModuleImpl implements
      */
     public float getOverflow() {
         if (cachedValueNeeded())
-            return oldOverflow;
+            return cachedOverflow;
         else
             return overflow;
     }
 
     /**
-     * Retrieves the capacity of the store
+     * Retrieves the currentCapacity of the store
      * 
-     * @return the capacity of the store
+     * @return the currentCapacity of the store
      */
-    public float getCapacity() {
+    public float getCurrentCapacity() {
         if (cachedValueNeeded())
-            return oldCapacity;
+            return cachedCapacity;
         else
-            return capacity;
+            return currentCapacity;
     }
 
     /**
-     * Resets the level to 0
+     * Resets the currentLevel to 0
      */
     public void reset() {
         super.reset();
-        level = oldLevel = initialLevel;
-        capacity = preMalfunctionCapacity = oldCapacity = initialCapacity;
-        overflow = oldOverflow = 0f;
+        currentLevel = cachedLevel = initialLevel;
+        currentCapacity = preMalfunctionCapacity = cachedCapacity = initialCapacity;
+        overflow = cachedOverflow = 0f;
     }
 
     private boolean cachedValueNeeded() {
@@ -369,14 +379,21 @@ public abstract class StoreImpl extends SimBioModuleImpl implements
      * Logs this store and sends it to the Logger to be processed
      */
     public void log() {
-        /*
-         * LogNode levelHead = myLog.addChild("level"); myLogIndex.levelIndex =
-         * levelHead.addChild((""+level)); LogNode capacityHead =
-         * myLog.addChild("capacity"); myLogIndex.capacityIndex =
-         * capacityHead.addChild((""+capacity)); LogNode overflowHead =
-         * myLog.addChild("overflow"); myLogIndex.overflowIndex =
-         * overflowHead.addChild((""+overflow));
-         */
+        myLogger.debug("currentLevel="+currentLevel);
+        myLogger.debug("currentCapacity="+currentCapacity);
+        myLogger.debug("overflow="+overflow);
     }
 
+    /**
+     * @return Returns the initialCapacity.
+     */
+    public float getInitialCapacity() {
+        return initialCapacity;
+    }
+    /**
+     * @return Returns the initialLevel.
+     */
+    public float getInitialLevel() {
+        return initialLevel;
+    }
 }

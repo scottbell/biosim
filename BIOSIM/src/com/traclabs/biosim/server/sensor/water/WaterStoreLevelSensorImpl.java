@@ -9,7 +9,7 @@ public class WaterStoreLevelSensorImpl extends WaterStoreSensorImpl implements
     }
 
     protected void gatherData() {
-        float preFilteredValue = getInput().getLevel();
+        float preFilteredValue = getInput().getCurrentLevel();
         myValue = randomFilter(preFilteredValue);
     }
 

@@ -164,12 +164,12 @@ public class WaterMonitor extends Thread {
 
         while (true) {
 
-            potableLevel = myPotableWaterStore.getLevel();
-            greyLevel = myGreyWaterStore.getLevel();
-            dirtyLevel = myDirtyWaterStore.getLevel();
-            potableCap = myPotableWaterStore.getCapacity();
-            greyCap = myGreyWaterStore.getCapacity();
-            dirtyCap = myGreyWaterStore.getCapacity();
+            potableLevel = myPotableWaterStore.getCurrentLevel();
+            greyLevel = myGreyWaterStore.getCurrentLevel();
+            dirtyLevel = myDirtyWaterStore.getCurrentLevel();
+            potableCap = myPotableWaterStore.getCurrentCapacity();
+            greyCap = myGreyWaterStore.getCurrentCapacity();
+            dirtyCap = myGreyWaterStore.getCurrentCapacity();
 
             unrealStream.println(cmdPrefix + potableLevel + " " + greyLevel
                     + " " + dirtyLevel + " " + potableCap + " " + greyCap + " "
