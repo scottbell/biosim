@@ -14,14 +14,8 @@
 	<property name="tmpDir" location="tmp"/>
 	<property name="nsDir" location="${tmpDir}/ns"/>
 	<property name="resourceDir" location="resources"/>
-	<!-- set server properties for this build --> 
-	<property name="server" location="${buildDir}/server"/>
-	<property name="serverClasses" location="${server}/classes"/>
-	<property name="serverStubs" location="${server}/stubs"/>
-	<!-- set client properties for this build --> 
-	<property name="client" location="${buildDir}/client"/>
-	<property name="clientClasses" location="${client}/classes"/>
-	<property name="clientStubs" location="${client}/stubs"/>
+	<property name="stubsDir" location="stubs"/>
+	<!-- set client properties for this build -->
 	<property name="plotDir" location="${lib}/jfreechart"/>
 	<!-- set distro properties for this build -->
 	<property name="distroDir" location="distro"/>
@@ -50,20 +44,18 @@
 		<mkdir dir="${tmpDir}"/>
 	</target>
 	
-	<target name="init-stub">
+  	<target name="stub-idl" depends="init-build" description="stub the IDL file">
+		<mkdir dir="${stubsDir}"/>
+		<mkdir dir="${tmpDir}"/>
 		<javac srcdir="${jacorbDir}">
 			<classpath>
 				<pathelement location="${jacorbDir}/idl.jar"/>
 			</classpath>
 		</javac>
-	</target>
-  
-  	<target name="stub-server" depends="init-build,init-stub" description="stub the IDL file for the server">
-		<echo message="Stubbing the IDL file for the server"/>
-		<mkdir dir="${serverStubs}"/>
+		<echo message="Stubbing the IDL file"/>
 		<java classname="ParserHack" failonerror="yes">
 			<arg value="-d"/> 
-			<arg file="${serverStubs}"/>
+			<arg file="${stubsDir}"/>
 			<arg file="${src}/biosim/idl/biosim.idl"/>
 			<classpath>
 				<pathelement location="${jacorbDir}"/>
@@ -71,23 +63,20 @@
 				<pathelement location="${jacorbDir}/logkit.jar"/>
 			</classpath>
 		</java>
-		<mkdir dir="${serverClasses}"/>
-		<echo message="Compiling server stubs"/>
-		<javac srcdir="${serverStubs}" destdir="${serverClasses}">
+		<echo message="Compiling stubs"/>
+		<javac srcdir="${stubsDir}" destdir="${buildDir}">
 			<classpath>
 				<pathelement location="${jacorbDir}/jacorb.jar"/>
 			</classpath>
 		</javac>
 	</target>
 
-	<target name="build-server" depends="stub-server" description="compile the server">
-		<mkdir dir="${server}"/>
-		<mkdir dir="${serverClasses}"/>
+	<target name="build-server" depends="stub-idl" description="compile the server">
 		<echo message="Compling the server"/>
-		<javac srcdir="${src}/biosim/server" destdir="${serverClasses}">
+		<javac srcdir="${src}/biosim/server" destdir="${buildDir}">
 			<classpath>
 				<pathelement location="${src}"/>
-				<pathelement location="${serverClasses}"/>
+				<pathelement location="${buildDir}"/>
 				<pathelement location="${jacorbDir}/jacorb.jar"/>
 				<pathelement location="${xercesDir}/xercesImpl.jar"/>
 				<pathelement location="${xercesDir}/xml-apis.jar"/>
@@ -95,39 +84,13 @@
 			</classpath>
 		</javac>
 	</target>
-	
-	<target name="stub-client" depends="init-build,init-stub" description="stub the IDL file for the client">
-		<echo message="Stubbing the IDL file for the client"/>
-		<mkdir dir="${clientStubs}"/>
-		<echo message="Compiling server stubs"/>
-		<java classname="ParserHack" failonerror="yes">
-			<arg value="-noskel"/> 
-			<arg value="-d"/>
-			<arg file="${clientStubs}"/>
-			<arg file="${src}/biosim/idl/biosim.idl"/>
-			<classpath>
-				<pathelement location="${jacorbDir}"/>
-				<pathelement location="${jacorbDir}/idl.jar"/>
-				<pathelement location="${jacorbDir}/logkit.jar"/>
-			</classpath>
-		</java>
-		<mkdir dir="${clientClasses}"/>
-		<echo message="Compiling client stubs"/>
-		<javac srcdir="${clientStubs}" destdir="${clientClasses}">
-			<classpath>
-				<pathelement location="${jacorbDir}/jacorb.jar"/>
-			</classpath>
-		</javac>
-	</target>
   
-   	<target name="build-client" depends="stub-client" description="compile the client">
-		<mkdir dir="${client}"/>
-		<mkdir dir="${clientClasses}"/>
+   	<target name="build-client" depends="stub-idl" description="compile the client">
 		<echo message="Compling the client"/>
-		<javac srcdir="${src}/biosim/client" destdir="${clientClasses}">
+		<javac srcdir="${src}/biosim/client" destdir="${buildDir}">
 			<classpath>
 				<pathelement location="${src}"/>
-				<pathelement location="${clientClasses}"/>
+				<pathelement location="${buildDir}"/>
 				<pathelement location="${jacorbDir}/jacorb.jar"/>
 				<pathelement location="${xercesDir}/xercesImpl.jar"/>
 				<pathelement location="${xercesDir}/xml-apis.jar"/>
@@ -154,8 +117,7 @@
 		</unzip>
 		<echo message="Create biosim jar"/>
 		<jar destfile="${winDistroDir}/biosim.jar">
-			<fileset dir="${serverClasses}"/>
-			<fileset dir="${clientClasses}"/>
+			<fileset dir="${buildDir}"/>
 			<fileset dir="${resourceDir}"/>
 			<fileset dir="${winDistroTmpDir}">
 				<exclude name="META-INF"/>
@@ -175,7 +137,8 @@
 		<mkdir dir="${gaDistroDir}"/>
 		<echo message="Creating biosim jar for genetic algorithm engine"/>
 		<jar destfile="${gaDistroDir}/biosim.jar">
-			<fileset dir="${serverClasses}"/>
+			<fileset dir="${buildDir}/biosim/server">
+			</fileset>
 			<fileset dir="${resourceDir}"/>
 		</jar>
 	</target>
@@ -194,12 +157,10 @@
 			maxmemory="160m">
 			<sourcepath>
 				<pathelement location="${src}"/>
-				<pathelement location="${serverStubs}"/>
-				<pathelement location="${clientStubs}"/>
+				<pathelement location="${stubsDir}"/>
 			</sourcepath>
 			<classpath>
-				<pathelement location="${serverClasses}"/>
-				<pathelement location="${clientClasses}"/>
+				<pathelement location="${buildDir}"/>
 				<pathelement location="${resourceDir}"/>
 				<pathelement location="${jacorbDir}/jacorb.jar"/>
 				<pathelement location="${jacorbDir}/logkit.jar"/>
@@ -289,7 +250,7 @@
 			<sysproperty key="org.omg.CORBA.ORBSingletonClass" value="org.jacorb.orb.ORBSingleton"/>
 			<sysproperty key="ORBInitRef.NameService" value="file:${nsDir}/ior.txt"/>
 			<classpath>
-				<pathelement location="${serverClasses}"/>
+				<pathelement location="${buildDir}"/>
 				<pathelement location="${resourceDir}"/>
 				<pathelement location="${jacorbDir}/jacorb.jar"/>
 				<pathelement location="${jacorbDir}/logkit.jar"/>
@@ -309,7 +270,7 @@
 			<sysproperty key="org.omg.CORBA.ORBSingletonClass" value="org.jacorb.orb.ORBSingleton"/>
 			<sysproperty key="ORBInitRef.NameService" value="file:${nsDir}/ior.txt"/>
 			<classpath>
-				<pathelement location="${clientClasses}"/>
+				<pathelement location="${buildDir}"/>
 				<pathelement location="${resourceDir}"/>
 				<pathelement location="${jacorbDir}/jacorb.jar"/>
 				<pathelement location="${jacorbDir}/logkit.jar"/>
@@ -342,6 +303,7 @@
 		<delete dir="${buildDir}"/>
 		<delete dir="${distroDir}"/>
 		<delete dir="${tmpDir}"/>
+		<delete dir="${stubsDir}"/>
 	</target>
 	
 	<target name="fetch" description="gets the latest version from CVS">
