@@ -1393,7 +1393,7 @@ public class BioInitializer{
 		if (isCreatedLocally(node)){
 			//System.out.println("Creating WaterRS with moduleName: "+moduleName);
 			if (node.getAttributes().getNamedItem("implementation").getNodeValue().equals("MATLAB")){
-				System.out.print("...created Matlab WaterRS...");
+				System.out.print("created Matlab WaterRS...");
 				WaterRSMatlabImpl myWaterRSImpl = new WaterRSMatlabImpl(myID, moduleName);
 				setupBioModule(myWaterRSImpl, node);
 				BiosimServer.registerServer(new WaterRSPOATie(myWaterRSImpl), myWaterRSImpl.getModuleName(), myWaterRSImpl.getID());
