@@ -104,9 +104,15 @@ public class BioInitializer{
 
 	//Globals
 	private void crawlGlobals(Node node, boolean firstPass){
+		BioDriver myDriver = null;
+		try{
+			myDriver = BioDriverHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str("BioDriver"));
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
 		if (firstPass){
 			try{
-				BioDriver myDriver = BioDriverHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str("BioDriver"));
 				Logger myLogger = LoggerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str("Logger"));
 				myDriver.setLogger(myLogger);
 				myDriver.setRunTillN(Integer.parseInt(node.getAttributes().getNamedItem("runTillN").getNodeValue()));
@@ -148,11 +154,15 @@ public class BioInitializer{
 						e.printStackTrace();
 					}
 				}
+				myDriver.setCrewsToWatch(crewGroups);
 			}
 			//Give Modules, Sensors, Actuatos to BioDriver to tick
 			BioModule[] moduleArray = convertList(myModules);
 			BioModule[] sensorArray = convertList(mySensors);
 			BioModule[] actuatorArray = convertList(myActuators);
+			myDriver.setModules(moduleArray);
+			myDriver.setSensors(sensorArray);
+			myDriver.setActuators(actuatorArray);
 		}
 	}
 	
