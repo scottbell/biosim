@@ -15,6 +15,8 @@ public abstract class Plant {
 	protected boolean hasEnoughCO2 = false;
 	protected boolean hasEnoughWater = false;
 	protected boolean hasEnoughLight = false;
+	protected float CO2Consumed = 0f;
+	protected float O2Produced = 0f;
 	protected int myAge = 0;
 	protected Breath airRetrieved;
 	protected float totalArea = 11.2f;
@@ -48,9 +50,29 @@ public abstract class Plant {
 	protected abstract void calculateWaterNeeded();
 	protected abstract void calculateProducedBiomass();
 	public abstract String getPlantType();
-
+	
+	public boolean hasWater(){
+		return hasEnoughWater;
+	}
+	
+	public boolean hasLight(){
+		return hasEnoughLight;
+	}
+	
+	public boolean isDead(){
+		return plantsDead;
+	}
+	
+	public boolean hasCO2(){
+		return hasEnoughCO2;
+	}
+	
 	public float getCO2Consumed(){
-		return airRetrieved.CO2;
+		return CO2Consumed;
+	}
+	
+	public float getO2Produced(){
+		return O2Produced;
 	}
 
 	private double pow(double a, double b){
@@ -69,6 +91,8 @@ public abstract class Plant {
 			hasEnoughCO2 = false;
 		else
 			hasEnoughCO2 = true;
+		CO2Consumed = airRetrieved.CO2;
+		O2Produced = new Double(airRetrieved.O2 + airRetrieved.CO2 * .90).floatValue();
 		mySimEnvironment.addO2(new Double(airRetrieved.O2 + airRetrieved.CO2 * .90).floatValue());
 		mySimEnvironment.addOther(airRetrieved.other);
 		mySimEnvironment.addCO2(new Double(airRetrieved.CO2 * .10).floatValue());
@@ -103,6 +127,8 @@ public abstract class Plant {
 		CO2Needed = 0f;
 		currentPowerLevel = 0f;
 		biomassProduced = 0f;
+		CO2Consumed = 0f;
+		O2Produced = 0f;
 		plantsDead = false;
 	}
 	
@@ -112,6 +138,10 @@ public abstract class Plant {
 			myBiomassStore.add(biomassProduced);
 			myAge = 0;
 		}
+	}
+	
+	public float getBiomassProduced(){
+		return biomassProduced;
 	}
 
 	public void tick(){
@@ -157,10 +187,7 @@ public abstract class Plant {
 		        (noWaterTime > surviveNoWater) ||
 		        (noLightTime  > surviveNoLight))
 		{
-			if (noWaterTime > surviveNoWater)
-				System.out.println("Plants out of water");
 			reset();
-			System.out.println("Plants dead");
 			plantsDead = true;
 		}
 	}

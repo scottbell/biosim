@@ -41,6 +41,33 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 		return theWater;
 	}
 	
+	public float getTotalBiomassProduced(){
+		float theBiomass = 0.0f;
+		for (Enumeration e = myShelves.elements(); e.hasMoreElements();){
+			ShelfImpl currentShelf = (ShelfImpl)(e.nextElement());
+			theBiomass += currentShelf.getBiomassProduced();
+		}
+		return theBiomass;
+	}
+	
+	public float getTotalCO2Consumed(){
+		float theCO2Consumed = 0.0f;
+		for (Enumeration e = myShelves.elements(); e.hasMoreElements();){
+			ShelfImpl currentShelf = (ShelfImpl)(e.nextElement());
+			theCO2Consumed += currentShelf.getCO2Consumed();
+		}
+		return theCO2Consumed;
+	}
+	
+	public float getTotalO2Produced(){
+		float theO2Produced = 0.0f;
+		for (Enumeration e = myShelves.elements(); e.hasMoreElements();){
+			ShelfImpl currentShelf = (ShelfImpl)(e.nextElement());
+			theO2Produced += currentShelf.getO2Produced();
+		}
+		return theO2Produced;
+	}
+	
 	public float getTotalGreyWaterConsumed(){
 		float theWater = 0.0f;
 		for (Enumeration e = myShelves.elements(); e.hasMoreElements();){

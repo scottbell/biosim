@@ -27,6 +27,8 @@ import java.util.Enumeration;
 
 public class BioDriverImpl extends BioDriverPOA implements Runnable 
 {
+	private final static int DRIVER_PAUSED = 0;
+	
 	//Module Names
 	private final static  String crewName = "CrewGroup";
 	private final static  String powerPSName = "PowerPS";
@@ -175,7 +177,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			reset();
 		while (myTickThread == theCurrentThread) {
 			try {
-				myTickThread.sleep(5);
+				myTickThread.sleep(DRIVER_PAUSED);
 				synchronized(this) {
 					while (simulationIsPaused && (myTickThread==theCurrentThread)){
 						wait();

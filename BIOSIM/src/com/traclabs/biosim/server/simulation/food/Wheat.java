@@ -41,7 +41,7 @@ public class Wheat extends Plant{
 	}
 	
 	public String getPlantType(){
-		return "Wheat";
+		return "wheat";
 	}
 	
 	protected void calculatePowerNeeded(){
