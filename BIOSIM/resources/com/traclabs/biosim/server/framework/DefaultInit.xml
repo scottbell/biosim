@@ -164,6 +164,15 @@
 			<GreyWaterStore name="GreyWaterStore" capacity="500" level="500"/>
 			<DirtyWaterStore name="DirtyWaterStore" capacity="500" level="250"/>
 		</water>
+		<waste>
+			<Incinerator name="Incinerator">
+				<powerConsumer maxFlowRates="100" desiredFlowRates="0" inputs="PowerStore"/>
+				<O2Consumer maxFlowRates="100" desiredFlowRates="10" inputs="O2Store"/>
+				<dryWasteConsumer maxFlowRates="100" desiredFlowRates="10" inputs="DryWasteStore"/>
+				<CO2Producer maxFlowRates="100" desiredFlowRates="10" outputs="CO2Store"/>
+			</Incinerator>
+			<DryWasteStore name="DryWasteStore" capacity="500" level="0"/>
+		</waste>
 	</SimBioModules>
 	<Sensors>
 		<air>
@@ -242,6 +251,7 @@
 			<StoreOverflowSensor name="PotableWaterStoreOverflowSensor" input="PotableWaterStore"/>
 			<StoreOverflowSensor name="GreyWaterStoreOverflowSensor" input="GreyWaterStore"/>
 			<StoreOverflowSensor name="DirtyWaterStoreOverflowSensor" input="DirtyWaterStore"/>
+			<StoreOverflowSensor name="DryWasteStoreOverflowSensor" input="DryWasteStore"/>
 		</framework>
 		<power>
 			<PowerInFlowRateSensor name="AirRSPowerInFlowRateSensor" index="0" input="AirRS"/>
