@@ -22,7 +22,7 @@ public class ActivityImpl extends ActivityPOA {
 	* @param pActivityIntensity The intensity of this activity (how much exertion it takes to perform it)
 	* @param pSpecial If this activity is "special" (i.e. meaningful and not in regular schedule)
 	*/
-	ActivityImpl(String pName, int pTimeLength, int pActivityIntensity){
+	public ActivityImpl(String pName, int pTimeLength, int pActivityIntensity){
 		myName = pName;
 		myTimeLength = pTimeLength;
 		myActivityIntensity = pActivityIntensity;

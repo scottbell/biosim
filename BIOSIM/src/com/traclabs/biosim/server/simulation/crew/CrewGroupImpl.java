@@ -85,7 +85,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 
 	/**
 	* Creates a crew person and adds them to the crew
-	* @param pName the name of the new crew person
+	* @param pName the name of the new crew person                                
 	* @param pAge the age of the new crew person
 	* @param pWeight the weight of the new crew person
 	* @param pSex the sex of the new crew person
@@ -93,6 +93,12 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 	*/
 	public CrewPerson createCrewPerson(String pName, float pAge, float pWeight, Sex pSex){
 		CrewPersonImpl newCrewPerson = new CrewPersonImpl(pName, pAge, pWeight, pSex, this);
+		crewPeople.put(pName, newCrewPerson);
+		return CrewPersonHelper.narrow((OrbUtils.poaToCorbaObj(newCrewPerson)));
+	}
+	
+	public CrewPerson createCrewPerson(String pName, float pAge, float pWeight, Sex pSex, Schedule pSchedule){
+		CrewPersonImpl newCrewPerson = new CrewPersonImpl(pName, pAge, pWeight, pSex, this, pSchedule);
 		crewPeople.put(pName, newCrewPerson);
 		return CrewPersonHelper.narrow((OrbUtils.poaToCorbaObj(newCrewPerson)));
 	}
@@ -148,7 +154,11 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 		randomCrewPerson.insertActivityInScheduleNow(newRepairActivity);
 	}
 	
-	public void setSchedule(ScheduleType pType){
+	public void setSchedule(ScheduleType pSchedule){
+		for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();){
+			CrewPersonImpl currentPerson = (CrewPersonImpl)(iter.next());
+			currentPerson.reset();
+		}
 	}
 
 	/**
