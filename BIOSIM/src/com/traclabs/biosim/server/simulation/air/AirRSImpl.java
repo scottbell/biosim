@@ -132,6 +132,7 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 			}
 		}
 		else{
+			airRetrieved = new Breath(0,0,0);
 			currentCO2Consumed = 0f;
 		}
 			
@@ -242,7 +243,7 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 			myLogIndex.currentCO2ConsumedIndex.setValue(""+ currentCO2Consumed);
 			myLogIndex.currentCO2ProducedIndex.setValue(""+ currentCO2Produced);
 			myLogIndex.currentPowerConsumedIndex.setValue(""+ currentPowerConsumed);
-			myLogIndex.airRetrievedIndex.setValue(airRetrieved.O2 + " - " +airRetrieved.CO2 +" - " +airRetrieved.other);
+			myLogIndex.airRetrievedIndex.setValue(airRetrieved.O2 + " # " +airRetrieved.CO2 +" # " +airRetrieved.other);
 		}
 		sendLog(myLog);
 	}
