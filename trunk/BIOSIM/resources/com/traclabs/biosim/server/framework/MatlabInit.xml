@@ -1,160 +1,14 @@
 <?xml version="1.0"?>
 <biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='BiosimInitSchema.xsd'>
-	<Globals crewsToWatch="CrewGroup">
-		<comment>The default initialization for BioSim</comment>
+	<Globals>
+		<comment>initialization for Matlab test</comment>
 		<author>Scott Bell</author>
+		<log4jProperty name="log4j.logger.com.traclabs.biosim.server.simulation.water" value="DEBUG"/>
+		<log4jProperty name="log4j.logger.com.traclabs.biosim.server.util.MatlabAceEngine" value="DEBUG"/>
 	</Globals>
 	<SimBioModules>
-		<air>
-			<AirRS name="AirRS">
-				<powerConsumer maxFlowRates="300" desiredFlowRates="300" inputs="PowerStore"/>
-				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
-				<airConsumer maxFlowRates="100" desiredFlowRates="100" inputs="CrewEnvironment"/>
-				<CO2Consumer maxFlowRates="100" desiredFlowRates="100" inputs="CO2Store"/>
-				<H2Consumer maxFlowRates="100" desiredFlowRates="100" inputs="H2Store"/>
-				<potableWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="PotableWaterStore"/>
-				<O2Producer maxFlowRates="100" desiredFlowRates="100" outputs="O2Store"/>
-				<airProducer maxFlowRates="100" desiredFlowRates="100" outputs="CrewEnvironment"/>
-				<CO2Producer maxFlowRates="100" desiredFlowRates="100" outputs="CO2Store"/>
-				<H2Producer maxFlowRates="100" desiredFlowRates="100" outputs="H2Store"/>
-			</AirRS>
-			<O2Store name="O2Store" capacity="1000" level="250"/>
-			<CO2Store name="CO2Store" capacity="1000" level="500"/>
-			<H2Store name="H2Store" capacity="5000" level="2000"/>
-			<NitrogenStore name="NitrogenStore" capacity="5000" level="4000"/>
-		</air>
-		<crew>
-			<CrewGroup name="CrewGroup">
-				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
-				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="CrewEnvironment"/>
-				<foodConsumer maxFlowRates="100" desiredFlowRates="100" inputs="FoodStore"/>
-				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="DirtyWaterStore"/>
-				<greyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="GreyWaterStore"/>
-				<airProducer maxFlowRates="0" desiredFlowRates="0" outputs="CrewEnvironment"/>
-				<dryWasteProducer maxFlowRates="100" desiredFlowRates="100" outputs="DryWasteStore"/>
-				<crewPerson name="Bob Roberts" age="43" weight="77" sex="MALE">
-					<schedule>
-						<activity name="sleep" length="8" intensity="1"/>
-						<activity name="hygiene" length="1" intensity="2"/>
-						<activity name="exercise" length="1" intensity="5"/>
-						<activity name="eating" length="1" intensity="2"/>
-						<activity name="mission" length="9" intensity="3"/>
-						<activity name="health" length="1" intensity="2"/>
-						<activity name="maintenance" length="1" intensity="2"/>
-						<activity name="leisure" length="2" intensity="2"/>
-					</schedule>
-				</crewPerson>
-				<crewPerson name="Stephanie Stevens" age="25" weight="56" sex="FEMALE">
-					<schedule>
-						<activity name="sleep" length="8" intensity="1"/>
-						<activity name="hygiene" length="1" intensity="2"/>
-						<activity name="exercise" length="1" intensity="5"/>
-						<activity name="eating" length="1" intensity="2"/>
-						<activity name="mission" length="9" intensity="3"/>
-						<activity name="health" length="1" intensity="2"/>
-						<activity name="maintenance" length="1" intensity="2"/>
-						<activity name="leisure" length="2" intensity="2"/>
-					</schedule>
-				</crewPerson>
-				<crewPerson name="Bill Williams" age="30" weight="75" sex="MALE">
-					<schedule>
-						<activity name="sleep" length="8" intensity="1"/>
-						<activity name="hygiene" length="1" intensity="2"/>
-						<activity name="exercise" length="1" intensity="5"/>
-						<activity name="eating" length="1" intensity="2"/>
-						<activity name="mission" length="9" intensity="3"/>
-						<activity name="health" length="1" intensity="2"/>
-						<activity name="maintenance" length="1" intensity="2"/>
-						<activity name="leisure" length="2" intensity="2"/>
-					</schedule>
-				</crewPerson>
-				<crewPerson name="Janet Janey" age="22" weight="58" sex="FEMALE">
-					<schedule>
-						<activity name="sleep" length="8" intensity="1"/>
-						<activity name="hygiene" length="1" intensity="2"/>
-						<activity name="exercise" length="1" intensity="5"/>
-						<activity name="eating" length="1" intensity="2"/>
-						<activity name="mission" length="9" intensity="3"/>
-						<activity name="health" length="1" intensity="2"/>
-						<activity name="maintenance" length="1" intensity="2"/>
-						<activity name="leisure" length="2" intensity="2"/>
-					</schedule>
-				</crewPerson>
-			</CrewGroup>
-		</crew>
-		<environment>
-			<SimEnvironment name="CrewEnvironment" initialVolume="1548930"/>
-			<SimEnvironment name="PlantEnvironment" initialVolume="1548930"/>
-		</environment>                    
-		<food>
-			<FoodProcessor name="FoodProcessor">
-				<powerConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PowerStore"/>
-				<biomassConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BiomassStore"/>
-				<foodProducer maxFlowRates="100" desiredFlowRates="100" outputs="FoodStore"/>
-				<dryWasteProducer maxFlowRates="100" desiredFlowRates="100" outputs="DryWasteStore"/>
-				<waterProducer maxFlowRates="100" desiredFlowRates="100" outputs="DirtyWaterStore"/>
-			</FoodProcessor>
-			<BiomassRS name="BiomassRS">
-				<shelf  cropArea="10" cropType="WHEAT"/>
-				<powerConsumer maxFlowRates="400" desiredFlowRates="400" inputs="PowerStore"/>
-				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
-				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="GreyWaterStore"/>
-				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="PlantEnvironment"/>
-				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="DirtyWaterStore"/>
-				<biomassProducer maxFlowRates="100" desiredFlowRates="100" outputs="BiomassStore"/>
-				<airProducer maxFlowRates="0" desiredFlowRates="0" outputs="PlantEnvironment"/>
-			</BiomassRS>
-			<BiomassStore name="BiomassStore" capacity="500" level="300"/>
-			<FoodStore name="FoodStore" capacity="2000" level="2000"/>
-		</food>
-		<framework>
-			<Accumulator name="Accumulator">
-				<waterAirConsumer>
-					<environmentInputs maxFlowRates="14063 14063" desiredFlowRates="10 10" inputs="PlantEnvironment CrewEnvironment"/>
-				</waterAirConsumer>
-				<waterAirProducer>
-					<storeOutputs  maxFlowRates="14063" desiredFlowRates="10" outputs="PotableWaterStore"/>
-				</waterAirProducer>
-				<O2AirConsumer>
-					<environmentInputs maxFlowRates="14063" desiredFlowRates="10" inputs="PlantEnvironment"/>
-				</O2AirConsumer>
-				<O2AirProducer>
-					<storeOutputs  maxFlowRates="14063" desiredFlowRates="10" outputs="O2Store"/>
-				</O2AirProducer>
-				<CO2AirConsumer>
-					<environmentInputs maxFlowRates="14063" desiredFlowRates="10" inputs="CrewEnvironment"/>
-				</CO2AirConsumer>
-				<CO2AirProducer>
-					<storeOutputs maxFlowRates="14063" desiredFlowRates="10" outputs="CO2Store"/>
-				</CO2AirProducer>
-			</Accumulator>
-			<Injector name="Injector">
-				<nitrogenAirConsumer>
-					<storeInputs maxFlowRates="14063" desiredFlowRates="0" inputs="NitrogenStore"/>
-				</nitrogenAirConsumer>
-				<nitrogenAirProducer>
-					<environmentOutputs  maxFlowRates="14063 14063" desiredFlowRates="0 0" outputs="CrewEnvironment PlantEnvironment"/>
-				</nitrogenAirProducer>
-				<O2AirConsumer>
-					<storeInputs maxFlowRates="14063" desiredFlowRates="10" inputs="O2Store"/>
-				</O2AirConsumer>
-				<O2AirProducer>
-					<environmentOutputs maxFlowRates="14063" desiredFlowRates="10" outputs="CrewEnvironment"/>
-				</O2AirProducer>
-				<CO2AirConsumer>
-					<storeInputs maxFlowRates="14063" desiredFlowRates="10" inputs="CO2Store"/>
-				</CO2AirConsumer>
-				<CO2AirProducer>
-					<environmentOutputs maxFlowRates="14063" desiredFlowRates="10" outputs="PlantEnvironment"/>
-				</CO2AirProducer>
-			</Injector>
-		</framework>
 		<power>
-			<PowerPS name="PowerPS" generation="SOLAR">
-				<lightConsumer maxFlowRates="0" desiredFlowRates="0" inputs="CrewEnvironment"/>
-				<powerProducer maxFlowRates="10000" desiredFlowRates="10000" outputs="PowerStore"/>
-			</PowerPS>
-			<PowerStore name="PowerStore" capacity="10000" level="10000"/>
+			<PowerStore name="PowerStore" capacity="1000000" level="1000000"/>
 		</power>
 		<water>
 			<WaterRS name="WaterRS" implementation="MATLAB">
@@ -163,28 +17,9 @@
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="GreyWaterStore"/>
 				<potableWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="PotableWaterStore"/>
 			</WaterRS>
-			<PotableWaterStore name="PotableWaterStore" capacity="500" level="500"/>
-			<GreyWaterStore name="GreyWaterStore" capacity="500" level="500"/>
-			<DirtyWaterStore name="DirtyWaterStore" capacity="500" level="250"/>
+			<PotableWaterStore name="PotableWaterStore" capacity="50000" level="0"/>
+			<GreyWaterStore name="GreyWaterStore" capacity="50000" level="5000"/>
+			<DirtyWaterStore name="DirtyWaterStore" capacity="50000" level="2500"/>
 		</water>
-		<waste>
-			<Incinerator name="Incinerator">
-				<powerConsumer maxFlowRates="100" desiredFlowRates="0" inputs="PowerStore"/>
-				<O2Consumer maxFlowRates="100" desiredFlowRates="10" inputs="O2Store"/>
-				<dryWasteConsumer maxFlowRates="100" desiredFlowRates="10" inputs="DryWasteStore"/>
-				<CO2Producer maxFlowRates="100" desiredFlowRates="10" outputs="CO2Store"/>
-			</Incinerator>
-			<DryWasteStore name="DryWasteStore" capacity="500" level="0"/>
-		</waste>
-		<mission>
-			<EVAMission name="EVAMission">
-				<powerConsumer maxFlowRates="100" desiredFlowRates="0" inputs="PowerStore"/>
-				<airConsumer maxFlowRates="100" desiredFlowRates="10" inputs="CrewEnvironment"/>
-			</EVAMission>
-		</mission>
 	</SimBioModules>
-	<Sensors>
-	</Sensors>
-	<Actuators>
-	</Actuators>
 </biosim>
