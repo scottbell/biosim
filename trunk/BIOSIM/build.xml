@@ -63,7 +63,7 @@
 		<mkdir dir="${clientStubs}"/>
 		<java classname="ParserHack">
 			<arg value="-noskel"/> 
-			<arg value="-d"/> 
+			<arg value="-d"/>
 			<arg file="${clientStubs}"/>
 			<arg file="${src}/biosim/idl/biosim.idl"/>
 			<classpath>
