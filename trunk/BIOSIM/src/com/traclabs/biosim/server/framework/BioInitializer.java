@@ -140,6 +140,7 @@ public class BioInitializer{
 			crawlBiosim(document, true);
 			crawlBiosim(document, false);
 			System.out.println("done");
+			System.out.flush();
 		}
 		catch (Exception e){
 			System.err.println("error: Parse error occurred - "+e.getMessage());
@@ -779,6 +780,7 @@ public class BioInitializer{
 
 			e.printStackTrace();
 		}
+		System.out.println("Schedule for "+name+"\n"+schedule);
 		crew.createCrewPerson(name, age, weight, sex, schedule);
 	}
 

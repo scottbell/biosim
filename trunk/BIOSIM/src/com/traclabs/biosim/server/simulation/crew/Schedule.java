@@ -13,34 +13,32 @@ public class Schedule{
 	private Map allActivities;
 	//Each activity ordered (scheduled if you will)
 	private List orderedSchedule;
-	private static Activity myBornActivity;
-	private static Activity myDeadActivity;
-	private static Activity mySickActivity;
-	
+	private Activity myBornActivity;
+	private Activity myDeadActivity;
+	private Activity mySickActivity;
+
 	/**
 	* Constructor that creates a new default schedule.
 	*/
 	public Schedule(){
 		createDefaultActivites();
 	}
-	
+
 	private void createDefaultActivites(){
 		allActivities = new Hashtable();
 		orderedSchedule = new Vector();
-		if ((myBornActivity == null) || (myDeadActivity == null) || (mySickActivity == null)){
-			ActivityImpl bornActivityImpl = new ActivityImpl("born", 0, 0);
-			ActivityImpl deadActivityImpl = new ActivityImpl("dead", 0, 0);
-			ActivityImpl sickActivityImpl = new ActivityImpl("sick", 24, 1);
-			myBornActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(bornActivityImpl));
-			myDeadActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(deadActivityImpl));
-			mySickActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(sickActivityImpl));
-			allActivities.put("born", myBornActivity);
-			orderedSchedule.add(0, myBornActivity);
-			allActivities.put("dead", myDeadActivity);
-			allActivities.put("sick", mySickActivity);
-		}
+		ActivityImpl bornActivityImpl = new ActivityImpl("born", 0, 0);
+		ActivityImpl deadActivityImpl = new ActivityImpl("dead", 0, 0);
+		ActivityImpl sickActivityImpl = new ActivityImpl("sick", 24, 1);
+		myBornActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(bornActivityImpl));
+		myDeadActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(deadActivityImpl));
+		mySickActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(sickActivityImpl));
+		allActivities.put("born", myBornActivity);
+		orderedSchedule.add(0, myBornActivity);
+		allActivities.put("dead", myDeadActivity);
+		allActivities.put("sick", mySickActivity);
 	}
-	
+
 	/**
 	* Finds and returns an activity specified by a name
 	* @param activityName the name of the activity wanted
@@ -49,7 +47,23 @@ public class Schedule{
 	public Activity getActivityByName(String activityName){
 		return (Activity)allActivities.get(activityName);
 	}
-	
+
+	public String toString(){
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("-Ordered Schedule-\n");
+		for (Iterator iter = orderedSchedule.iterator(); iter.hasNext();){
+			Activity currentActivity = (Activity)(iter.next());
+			buffer.append(orderedSchedule.indexOf(currentActivity)+":  (");
+			buffer.append(currentActivity.getName()+", "+currentActivity.getTimeLength()+"h, "+currentActivity.getActivityIntensity()+")\n");
+		}
+		buffer.append("\n-All Activities-\n");
+		for (Iterator iter = allActivities.values().iterator(); iter.hasNext();){
+			Activity currentActivity = (Activity)(iter.next());
+			buffer.append("("+currentActivity.getName()+", "+currentActivity.getTimeLength()+"h, "+currentActivity.getActivityIntensity()+")\n");
+		}
+		return buffer.toString();
+	}
+
 	public int getOrderOfScheduledActivity(String activityName){
 		Object foundActivity = allActivities.get(activityName);
 		if (foundActivity != null)
@@ -66,7 +80,7 @@ public class Schedule{
 	public Activity getScheduledActivityByOrder(int order){
 		return (Activity)(orderedSchedule.get(order));
 	}
-	
+
 	/**
 	* Returns the number of activities in the schedule
 	* @return the number of activities in the schedule
@@ -74,13 +88,13 @@ public class Schedule{
 	public int getNumberOfScheduledActivities(){
 		return orderedSchedule.size();
 	}
-	
+
 	public void insertActivityInSchedule(Activity pActivity){
 		if (!allActivities.containsKey(pActivity.getName()))
 			allActivities.put(pActivity.getName(), pActivity);
 		orderedSchedule.add(pActivity);
 	}
-	
+
 	public void insertActivityInSchedule(Activity pActivity, int pOrder){
 		if (!allActivities.containsKey(pActivity.getName()))
 			allActivities.put(pActivity.getName(), pActivity);
