@@ -127,7 +127,7 @@ public class ShelfImpl extends ShelfPOA {
 		if (autoHarvest){
 			if (myCrop.readyForHarvest()){
 				float biomassProduced = myCrop.harvest();
-				float biomassLeft = myBiomassRSImpl.pushFractionalResourceToStore(myBiomassRSImpl.getBiomassOutputs(), myBiomassRSImpl.getBiomassOutputMaxFlowRates(), myBiomassRSImpl.getBiomassOutputDesiredFlowRates(), myBiomassRSImpl.getBiomassOutputActualFlowRates(), biomassProduced, myBiomassRSImpl.getNumberOfShelves());		
+				float biomassAdded = myBiomassRSImpl.pushFractionalResourceToStore(myBiomassRSImpl.getBiomassOutputs(), myBiomassRSImpl.getBiomassOutputMaxFlowRates(), myBiomassRSImpl.getBiomassOutputDesiredFlowRates(), myBiomassRSImpl.getBiomassOutputActualFlowRates(), biomassProduced, myBiomassRSImpl.getNumberOfShelves());		
 			}
 		}
 	}
