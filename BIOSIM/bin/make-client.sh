@@ -5,9 +5,12 @@ echo "	-initializing biosim build...";
 userSelect="$@"
 # see if the biosim directory exists, if it doesn't, assume it's one directory back (i.e., user is in bin directory)
 devRootDir=$BIOSIM_HOME
+currentDir=`pwd`
 if [ -z "$devRootDir" ]
 then
-	devRootDir=".."
+	cd ..
+	devRootDir=`pwd`
+	cd $currentDir
 	echo "		-assuming BIOSIM_HOME is $devRootDir"
 fi
 JACORB_HOME="$devRootDir/lib/jacorb"

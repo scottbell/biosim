@@ -5,9 +5,12 @@ echo "	-initializing biosim distro build...";
 userSelect="$@"
 # see if the biosim directory exists, if it doesn't, assume it's one directory back (i.e., user is in bin directory)
 devRootDir=$BIOSIM_HOME
+currentDir=`pwd`
 if [ -z "$devRootDir" ]
 then
-	devRootDir=".."
+	cd ..
+	devRootDir=`pwd`
+	cd $currentDir
 	echo "		-assuming BIOSIM_HOME is $devRootDir"
 fi
 JACORB_HOME="$devRootDir/lib/jacorb"
@@ -44,7 +47,6 @@ if [ ! -e "$distroTmp" ]; then
 	echo "		-creating distro tmp directory"
 fi
 echo "			-changing dir to distro tmp"
-currentDir=`pwd`
 cd $distroTmp
 jarExpand="$jarCommand -xf"
 echo "			-expanding jcommon"
@@ -82,6 +84,8 @@ echo "		-changing to distro dir"
 cd ..
 echo "		-removing distro tmp"
 rm -Rf $distroTmp
+echo "		-copying invocation files over"
+cp -f $devRootDir/lib/distro/win/* .
 echo "		-changing to back to invocation dir"
 cd $currentDir
 echo "*done creating biosim distro"
