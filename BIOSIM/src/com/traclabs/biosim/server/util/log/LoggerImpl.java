@@ -9,8 +9,8 @@ import java.util.*;
  */
 
 public class LoggerImpl extends LoggerPOA  {
-	private LogHandler myLogHandler;
-	private LogHandlerType logType;
+	private Vector myLogHandlers;
+	private Vector logTypes;
 	private boolean hasCollectedReferences = false;
 	private SimEnvironment myEnvironment;
 	private boolean processingLogs = true;
@@ -19,18 +19,16 @@ public class LoggerImpl extends LoggerPOA  {
 	private int currentTick = -1;
 	
 	public LoggerImpl(){
-		//use default handler (System.out)
-		setLogHandlerType(LogHandlerType.XML);
 		rootLogNode = new LogNodeImpl("");
+		myLogHandlers = new Vector();
+		logTypes = new Vector();
+		addLogHandlerType(LogHandlerType.SCREEN);
+		addLogHandlerType(LogHandlerType.XML);
+		addLogHandlerType(LogHandlerType.SCREEN);
 	}
 	
-	public LoggerImpl(LogHandlerType pLogType){
-		setLogHandlerType(pLogType);
-		rootLogNode = new LogNodeImpl("");
-	}
-	
-	public LogHandlerType getLogHandlerType(){
-		return logType;
+	public LogHandlerType[] getLogHandlerTypes(){
+		return (LogHandlerType[])(logTypes.toArray());
 	}
 	
 	/**
@@ -58,23 +56,28 @@ public class LoggerImpl extends LoggerPOA  {
 	}
 	
 	public void endLog(){
-		myLogHandler.endLog();
+		for (Enumeration e = myLogHandlers.elements(); e.hasMoreElements();){
+				LogHandler currentLogHandler = (LogHandler)(e.nextElement());
+				currentLogHandler.endLog();
+		}
 	}
 	
 	public boolean isProcessingLogs(){
 		return processingLogs;
 	}
 	
-	public void setLogHandlerType(LogHandlerType pLogType){
-		logType = pLogType;
-		if (logType == LogHandlerType.SCREEN)
-			myLogHandler = new ScreenLogHandler();
-		if (logType == LogHandlerType.DB)
-			myLogHandler = new ScreenLogHandler();
-		if (logType == LogHandlerType.FLAT)
-			myLogHandler = new ScreenLogHandler();
-		if (logType == LogHandlerType.XML)
-			myLogHandler = new XMLLogHandler();
+	public void addLogHandlerType(LogHandlerType pLogType){
+		if (logTypes.contains(pLogType))
+			return;
+		logTypes.add(pLogType);
+		if (pLogType == LogHandlerType.SCREEN)
+			myLogHandlers.add(new ScreenLogHandler());
+		if (pLogType == LogHandlerType.DB)
+			myLogHandlers.add(new ScreenLogHandler());
+		if (pLogType == LogHandlerType.FLAT)
+			myLogHandlers.add(new ScreenLogHandler());
+		if (pLogType == LogHandlerType.XML)
+			myLogHandlers.add(new XMLLogHandler());
 	}
 	
 	public void processLog(LogNode logToAdd){
@@ -83,7 +86,10 @@ public class LoggerImpl extends LoggerPOA  {
 		collectReferences();
 		//One Tick has passed
 		if ((currentTick != myEnvironment.getTicks()) && (currentTickLogNode != null)){
-			myLogHandler.writeLog(LogNodeHelper.narrow(OrbUtils.poaToCorbaObj(currentTickLogNode)));
+			for (Enumeration e = myLogHandlers.elements(); e.hasMoreElements();){
+				LogHandler currentLogHandler = (LogHandler)(e.nextElement());
+				currentLogHandler.writeLog(LogNodeHelper.narrow(OrbUtils.poaToCorbaObj(currentTickLogNode)));
+			}
 		}
 		if (currentTick != myEnvironment.getTicks()){
 			currentTick = myEnvironment.getTicks();

@@ -38,10 +38,11 @@ module biosim{
                         interface Logger;
                         interface LogNode;
                         enum LogHandlerType {SCREEN,XML,FLAT,DB};
+			typedef sequence <LogHandlerType> LogHandlerTypeList;
                         interface Logger{
                                 void processLog(in LogNode thingToLog);
-                                LogHandlerType getLogHandlerType();
-                                void setLogHandlerType(in LogHandlerType pLogType);
+                                LogHandlerTypeList getLogHandlerTypes();
+                                void addLogHandlerType(in LogHandlerType pLogType);
                                 void setProcessingLogs(in boolean pAllowLogging);
                                 boolean isProcessingLogs();
 				void endLog();
