@@ -11,7 +11,8 @@
 	<property name="lib" location="lib"/>
 	<property name="jacorbDir" location="${lib}/jacorb"/>
 	<property name="xercesDir" location="${lib}/xerces"/>
-	<property name="nsDir" location="${buildDir}/ns"/>
+	<property name="tmpDir" location="tmp"/>
+	<property name="nsDir" location="${tmpDir}/ns"/>
 	<property name="resourceDir" location="resources"/>
 	<!-- set server properties for this build --> 
 	<property name="server" location="${buildDir}/server"/>
@@ -41,6 +42,10 @@
 	
 	<target name="init-distro">
 		<mkdir dir="${distroDir}"/>
+	</target>
+	
+	<target name="init-tmp">
+		<mkdir dir="${tmpDir}"/>
 	</target>
   
   	<target name="stubServer" depends="init-build" description="stub the IDL file for the server">
@@ -116,10 +121,10 @@
 		</javac>
 	</target>
 	
-	<target name="build-win-distro" depends="build-server,build-client, init-distro" description="creates windows distro">
+	<target name="build-win-distro" depends="build-server,build-client, init-distro, init-tmp" description="creates windows distro">
 		<mkdir dir="${winDistroDir}"/>
-		<mkdir dir="${winDistroDir}/tmp"/>
-		<unzip dest="${winDistroDir}/tmp">
+		<mkdir dir="${tmpDir}/win"/>
+		<unzip dest="${tmpDir}/win">
 			<fileset file="${jacorbDir}/jacorb.jar"/>
 			<fileset file="${jacorbDir}/logkit.jar"/>
 			<fileset file="${jacorbDir}/avalon-framework.jar"/>
@@ -133,7 +138,7 @@
 			<fileset dir="${serverClasses}"/>
 			<fileset dir="${clientClasses}"/>
 			<fileset dir="${resourceDir}"/>
-			<fileset dir="${winDistroDir}/tmp">
+			<fileset dir="${tmpDir}/win">
 				<exclude name="META-INF"/>
 				<exclude name="license-INF"/>
 			</fileset>
@@ -144,7 +149,6 @@
 				<exclude name="CVS"/>
 			</fileset>
 		</copy>
-		<delete dir="${winDistroDir}/tmp"/>
 	</target>
 	
 	<target name="build-ga-distro" depends="build-server,build-client,init-distro" description="creates ga distro">
@@ -213,7 +217,7 @@
 	
 	<target name="run-nameserver" depends="init-build" description="runs the nameserver">
 		<mkdir dir="${nsDir}"/>
-		<java classname="org.jacorb.naming.NameServer">
+		<java classname="org.jacorb.naming.NameServer" error="nameserver.txt">
 			<sysproperty key="org.omg.CORBA.ORBClass" value="org.jacorb.orb.ORB"/>
 			<sysproperty key="org.omg.CORBA.ORBSingletonClass" value="org.jacorb.orb.ORBSingleton"/>
 			<arg value="${nsDir}/ior.txt"/>
@@ -291,6 +295,7 @@
 	<target name="clean" description="clean up">
 		<delete dir="${buildDir}"/>
 		<delete dir="${distroDir}"/>
+		<delete dir="${tmpDir}"/>
 	</target>
 	
 	<target name="fetch" description="gets the latest version from CVS">
