@@ -131,12 +131,11 @@ public class AccumulatorImpl extends BioModuleImpl implements AccumulatorOperati
 
 
 	public void tick(){
-		/*getAndPushResources();
+		getAndPushResources();
 		if (isMalfunctioning())
 			performMalfunctions();
 		if (moduleLogging)
 			log();
-		*/
 	}
 	
 	private void getAndPushResources(){
