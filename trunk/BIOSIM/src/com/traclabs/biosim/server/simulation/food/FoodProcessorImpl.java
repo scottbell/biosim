@@ -549,7 +549,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 		myWaterStores = destinations;
 		waterMaxFlowRates = maxFlowRates;
 		waterDesiredFlowRates = desiredFlowRates;
-		waterActualFlowRates = new float[waterDesiredFlowRates.length]; 
+		waterActualFlowRates = new float[waterDesiredFlowRates.length];
 	}
 	public WaterStore[] getWaterOutputs(){
 		return myWaterStores;

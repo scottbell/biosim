@@ -454,6 +454,14 @@ public class BioInitializer{
 					inputs[i] = DirtyWaterStoreHelper.narrow(modules[i]);
 				myDirtyWaterConsumer.setDirtyWaterInputs(inputs, getMaxFlowRates(child), getDesiredFlowRates(child));
 			}
+			else if (childName.equals("waterConsumer")){
+				WaterConsumer myWaterConsumer = (WaterConsumer)(pModule);
+				BioModule[] modules = getInputs(child);
+				WaterStore[] inputs = new WaterStore[modules.length];
+				for (int i = 0; i < modules.length; i++)
+					inputs[i] = WaterStoreHelper.narrow(modules[i]);
+				myWaterConsumer.setWaterInputs(inputs, getMaxFlowRates(child), getDesiredFlowRates(child));
+			}
 			else if (childName.equals("airConsumer")){
 				AirConsumer myAirConsumer = (AirConsumer)(pModule);
 				BioModule[] modules = getInputs(child);
@@ -617,6 +625,14 @@ public class BioInitializer{
 				for (int i = 0; i < modules.length; i++)
 					outputs[i] = DirtyWaterStoreHelper.narrow(modules[i]);
 				myDirtyWaterProducer.setDirtyWaterOutputs(outputs, getMaxFlowRates(child), getDesiredFlowRates(child));
+			}
+			else if (childName.equals("waterProducer")){
+				WaterProducer myWaterProducer = (WaterProducer)(pModule);
+				BioModule[] modules = getOutputs(child);
+				WaterStore[] outputs = new WaterStore[modules.length];
+				for (int i = 0; i < modules.length; i++)
+					outputs[i] = WaterStoreHelper.narrow(modules[i]);
+				myWaterProducer.setWaterOutputs(outputs, getMaxFlowRates(child), getDesiredFlowRates(child));
 			}
 			else if (childName.equals("airProducer")){
 				AirProducer myAirProducer = (AirProducer)(pModule);
