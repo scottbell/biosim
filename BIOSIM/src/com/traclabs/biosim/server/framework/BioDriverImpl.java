@@ -265,14 +265,31 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			PotableWaterStore[] potableWaterStoreInput = {myPotableWaterStore};
 			GreyWaterStore[] greyWaterStoreInput = {myGreyWaterStore};
 			BiomassStore[] biomassStoreOutput = {myBiomassStore};
+			float[] powerFlowRates = {10000f};
 			float[] potableWaterFlowRates = {10000f};
 			float[] greyWaterFlowRates = {10000f};
 			float[] biomassFlowRates = {10000f};
-			float[] powerFlowRates = {10000f};
 			myBiomassRS.setPowerInputs(powerStoreInput, powerFlowRates);
 			myBiomassRS.setPotableWaterInputs(potableWaterStoreInput, potableWaterFlowRates);
 			myBiomassRS.setGreyWaterInputs(greyWaterStoreInput, greyWaterFlowRates);
 			myBiomassRS.setBiomassOutputs(biomassStoreOutput, biomassFlowRates);
+		}
+		
+		//Hook up Air RS to other modules
+		{
+			PowerStore[] powerStoreInput = {myPowerStore};
+			SimEnvironment[] simEnvironmentInput = {mySimEnvironment};
+			SimEnvironment[] simEnvironmentOutput = {mySimEnvironment};
+			O2Store[] O2StoreOutput = {myO2Store};
+			float[] powerFlowRates = {10000f};
+			float[] simEnvironmentInputFlowRates = {10000f};
+			float[] simEnvironmentOutputFlowRates = {10000f};
+			float[] O2StoreFlowRates = {10000f};
+			AirRS myAirRS = (AirRS)(getBioModule(airRSName));
+			myAirRS.setPowerInputs(powerStoreInput, powerFlowRates);
+			myAirRS.setAirInputs(simEnvironmentInput, simEnvironmentInputFlowRates);
+			myAirRS.setAirOutputs(simEnvironmentOutput, simEnvironmentOutputFlowRates);
+			myAirRS.setO2Outputs(O2StoreOutput, O2StoreFlowRates);
 		}
 	}
 
