@@ -35,6 +35,8 @@ public class WaterRSMatlabImpl extends SimBioModuleImpl implements WaterRSOperat
 	private float[] dirtyWaterDesiredFlowRates;
 	private float[] greyWaterDesiredFlowRates;
 	private float[] potableWaterDesiredFlowRates;
+	
+	private WaterRSMatlabTechInfoImpl myWaterRSMatlabTechInfoImpl;
 
 	/**
 	* Creates the Water RS and it's subsystems
@@ -57,7 +59,12 @@ public class WaterRSMatlabImpl extends SimBioModuleImpl implements WaterRSOperat
 		dirtyWaterDesiredFlowRates = new float[0];
 		greyWaterDesiredFlowRates = new float[0];
 		potableWaterDesiredFlowRates = new float[0];
-		myTechSpecificInfo = TechSpecificInfoHelper.narrow(OrbUtils.poaToCorbaObj(new WaterRSMatlabTechInfoImpl()));
+		//use this object to play with
+		myWaterRSMatlabTechInfoImpl = new WaterRSMatlabTechInfoImpl();
+		//don't touch this one.
+		myTechSpecificInfo = TechSpecificInfoHelper.narrow(OrbUtils.poaToCorbaObj(myWaterRSMatlabTechInfoImpl));
+		
+		myWaterRSMatlabTechInfoImpl.changeString("matlab changed string");
 	}
 
 	/**
