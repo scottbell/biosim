@@ -253,8 +253,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	* @return the level of the store
 	*/
 	public float getLevel(){
-		collectReferences();
-		if (getMyTicks() == myDriver.getTicks())
+		if (cachedValueNeeded())
 			return oldLevel;
 		else
 			return level;
@@ -265,8 +264,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	* @return the overflow of the store
 	*/
 	public float getOverflow(){
-		collectReferences();
-		if (getMyTicks() == myDriver.getTicks())
+		if (cachedValueNeeded())
 			return oldOverflow;
 		else
 			return overflow;
@@ -277,8 +275,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	* @return the capacity of the store
 	*/
 	public float getCapacity(){
-		collectReferences();
-		if (getMyTicks() == myDriver.getTicks())
+		if (cachedValueNeeded())
 			return oldCapacity;
 		else
 			return capacity;
@@ -292,6 +289,11 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 		level = oldLevel = initialLevel;
 		capacity = preMalfunctionCapacity = oldCapacity = initialCapacity;
 		overflow = oldOverflow = 0f;
+	}
+	
+	private boolean cachedValueNeeded(){
+		collectReferences();
+		return (getMyTicks() == myDriver.getTicks());
 	}
 	
 	/**

@@ -48,10 +48,11 @@ public class DehumidifierImpl extends SimBioModuleImpl implements DehumidifierOp
 	}
 
 	private void dehumidifyEnvironments(){
-		/*float currentWaterMolesInEnvironment = myAirInputs[0].getWaterMoles();
+		float currentWaterMolesInEnvironment = myAirInputs[0].getWaterMoles();
 		float totalMolesInEnvironment = myAirInputs[0].getTotalMoles();
-		System.out.println("Before: Water concentration now "+currentWaterMolesInEnvironment / totalMolesInEnvironment);
-		*/
+		myAirInputs[0].printCachedEnvironment();
+		System.out.println("Before: Water concentration "+currentWaterMolesInEnvironment / totalMolesInEnvironment);
+		
 		float molesOfWaterGathered = 0f;
 		for (int i = 0; i < myAirInputs.length; i++){
 			float molesNeededToRemove = calculateMolesNeededToRemove(myAirInputs[i]);
@@ -60,22 +61,24 @@ public class DehumidifierImpl extends SimBioModuleImpl implements DehumidifierOp
 				float resourceToGatherFirst = Math.min(molesNeededToRemove, airInMaxFlowRates[i]);
 				float resourceToGatherFinal = Math.min(resourceToGatherFirst, airInDesiredFlowRates[i]);
 				airInActualFlowRates[i] = myAirInputs[i].takeWaterMoles(resourceToGatherFinal);
+				System.out.println("Going to remove "+resourceToGatherFinal+" moles of water");
 				molesOfWaterGathered += airInActualFlowRates[i];
 			}
 		}
 		float waterPushedToStore = pushResourceToStore(myDirtyWaterOutputs, dirtyWaterOutMaxFlowRates, dirtyWaterOutDesiredFlowRates, dirtyWaterOutActualFlowRates, waterMolesToLiters(molesOfWaterGathered));
 		
-		/*currentWaterMolesInEnvironment = myAirInputs[0].getWaterMoles();
+		
+		currentWaterMolesInEnvironment = myAirInputs[0].getWaterMoles();
 		totalMolesInEnvironment = myAirInputs[0].getTotalMoles();
-		System.out.println("After: Pushed "+waterPushedToStore+" liters of water to the store, water concentration now "+currentWaterMolesInEnvironment / totalMolesInEnvironment);
-		*/
+		System.out.println("After: Pushed "+waterPushedToStore+" liters of water to the store (gathered "+molesOfWaterGathered+" moles), water concentration now "+currentWaterMolesInEnvironment / totalMolesInEnvironment);
+		myAirInputs[0].printEnvironment();
 	}
 	
 	private static float calculateMolesNeededToRemove(SimEnvironment pEnvironment){
 		float currentWaterMolesInEnvironment = pEnvironment.getWaterMoles();
 		float totalMolesInEnvironment = pEnvironment.getTotalMoles();
 		if ((currentWaterMolesInEnvironment / totalMolesInEnvironment) > OPTIMAL_MOISTURE_CONCENTRATION){
-			float waterMolesAtOptimalConcentration = totalMolesInEnvironment * OPTIMAL_MOISTURE_CONCENTRATION;
+			float waterMolesAtOptimalConcentration =((totalMolesInEnvironment - currentWaterMolesInEnvironment) * OPTIMAL_MOISTURE_CONCENTRATION) / (1 - OPTIMAL_MOISTURE_CONCENTRATION);
 			return currentWaterMolesInEnvironment - waterMolesAtOptimalConcentration;
 		}
 		else

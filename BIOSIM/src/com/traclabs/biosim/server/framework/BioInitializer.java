@@ -86,7 +86,8 @@ public class BioInitializer{
 	private DOMParser myParser = null;
 	private int myID = 0;
 	private List myModules;
-	private List mySimModules;
+	private List myActiveSimModules;
+	private List myPassiveSimModules;
 	private List mySensors;
 	private List myActuators;
 
@@ -96,7 +97,8 @@ public class BioInitializer{
 		myModules = new Vector();
 		mySensors = new Vector();
 		myActuators = new Vector();
-		mySimModules = new Vector();
+		myPassiveSimModules = new Vector();
+		myActiveSimModules = new Vector();
 		try {
 			myParser = new DOMParser();
 			myParser.setFeature(SCHEMA_VALIDATION_FEATURE_ID, DEFAULT_SCHEMA_VALIDATION);
@@ -158,18 +160,21 @@ public class BioInitializer{
 			}
 			//Fold Actuators, SimModules, and Sensors into  modules
 			myModules.addAll(mySensors);
-			myModules.addAll(mySimModules);
+			myModules.addAll(myPassiveSimModules);
+			myModules.addAll(myActiveSimModules);
 			myModules.addAll(myActuators);
 
 			//Give Modules, Sensors, Actuatos to BioDriver to tick
 			BioModule[] moduleArray = convertList(myModules);
 			BioModule[] sensorArray = convertList(mySensors);
 			BioModule[] actuatorArray = convertList(myActuators);
-			BioModule[] simModulesArray = convertList(mySimModules);
+			BioModule[] passiveSimModulesArray = convertList(myPassiveSimModules);
+			BioModule[] activeSimModulesArray = convertList(myActiveSimModules);
 			myDriver.setModules(moduleArray);
 			myDriver.setSensors(sensorArray);
 			myDriver.setActuators(actuatorArray);
-			myDriver.setSimModules(simModulesArray);
+			myDriver.setActiveSimModules(activeSimModulesArray);
+			myDriver.setPassiveSimModules(passiveSimModulesArray);
 			System.out.println("done");
 			System.out.flush();
 		}
@@ -901,7 +906,7 @@ public class BioInitializer{
 	private void configureAirRS(Node node){
 		AirRS myAirRS = AirRSHelper.narrow(grabModule(getModuleName(node)));
 		configureSimBioModule(myAirRS, node);
-		mySimModules.add(myAirRS);
+		myActiveSimModules.add(myAirRS);
 	}
 
 	private void createO2Store(Node node){
@@ -967,27 +972,27 @@ public class BioInitializer{
 				if (firstPass)
 					createO2Store(child);
 				else
-					mySimModules.add(O2StoreHelper.narrow(grabModule(getModuleName(child))));
+					 myPassiveSimModules.add(O2StoreHelper.narrow(grabModule(getModuleName(child))));
 			}
 			else if (childName.equals("CO2Store")){
 				if (firstPass)
 					createCO2Store(child);
 				else
-					mySimModules.add(CO2StoreHelper.narrow(grabModule(getModuleName(child))));
+					myPassiveSimModules.add(CO2StoreHelper.narrow(grabModule(getModuleName(child))));
 
 			}
 			else if (childName.equals("H2Store")){
 				if (firstPass)
 					createH2Store(child);
 				else
-					mySimModules.add(H2StoreHelper.narrow(grabModule(getModuleName(child))));
+					myPassiveSimModules.add(H2StoreHelper.narrow(grabModule(getModuleName(child))));
 
 			}
 			else if (childName.equals("NitrogenStore")){
 				if (firstPass)
 					createNitrogenStore(child);
 				else
-					mySimModules.add(NitrogenStoreHelper.narrow(grabModule(getModuleName(child))));
+					myPassiveSimModules.add(NitrogenStoreHelper.narrow(grabModule(getModuleName(child))));
 
 			}
 			child = child.getNextSibling();
@@ -1078,7 +1083,7 @@ public class BioInitializer{
 	private void configureCrewGroup(Node node){
 		CrewGroup myCrewGroup = CrewGroupHelper.narrow(grabModule(getModuleName(node)));
 		configureSimBioModule(myCrewGroup, node);
-		mySimModules.add(myCrewGroup);
+		myActiveSimModules.add(myCrewGroup);
 	}
 
 	private void crawlCrewModules(Node node, boolean firstPass){
@@ -1160,7 +1165,7 @@ public class BioInitializer{
 	private void configureDehumidifier(Node node){
 		Dehumidifier myDehumidifier = DehumidifierHelper.narrow(grabModule(getModuleName(node)));
 		configureSimBioModule(myDehumidifier, node);
-		mySimModules.add(myDehumidifier);
+		myActiveSimModules.add(myDehumidifier);
 	}
 
 	private void crawlEnvironmentModules(Node node, boolean firstPass){
@@ -1171,7 +1176,7 @@ public class BioInitializer{
 				if (firstPass)
 					createSimEnvironment(child);
 				else
-					mySimModules.add(SimEnvironmentHelper.narrow(grabModule(getModuleName(child))));
+					myPassiveSimModules.add(SimEnvironmentHelper.narrow(grabModule(getModuleName(child))));
 			}
 			if (childName.equals("Dehumidifier")){
 				if (firstPass)
@@ -1198,7 +1203,7 @@ public class BioInitializer{
 	private void configureAccumulator(Node node){
 		Accumulator myAccumulator = AccumulatorHelper.narrow(grabModule(getModuleName(node)));
 		configureSimBioModule(myAccumulator, node);
-		mySimModules.add(myAccumulator);
+		myActiveSimModules.add(myAccumulator);
 	}
 
 	private void createInjector(Node node){
@@ -1216,7 +1221,7 @@ public class BioInitializer{
 	private void configureInjector(Node node){
 		Injector myInjector = InjectorHelper.narrow(grabModule(getModuleName(node)));
 		configureSimBioModule(myInjector, node);
-		mySimModules.add(myInjector);
+		myActiveSimModules.add(myInjector);
 	}
 
 	private void crawlFrameworkModules(Node node, boolean firstPass){
@@ -1308,7 +1313,7 @@ public class BioInitializer{
 	private void configureBiomassRS(Node node){
 		BiomassRS myBiomassRS = BiomassRSHelper.narrow(grabModule(getModuleName(node)));
 		configureSimBioModule(myBiomassRS, node);
-		mySimModules.add(myBiomassRS);
+		myActiveSimModules.add(myBiomassRS);
 	}
 
 	private void createFoodProcessor(Node node){
@@ -1326,7 +1331,7 @@ public class BioInitializer{
 	private void configureFoodProcessor(Node node){
 		FoodProcessor myFoodProcessor = FoodProcessorHelper.narrow(grabModule(getModuleName(node)));
 		configureSimBioModule(myFoodProcessor, node);
-		mySimModules.add(myFoodProcessor);
+		myActiveSimModules.add(myFoodProcessor);
 	}
 
 	private void createBiomassStore(Node node){
@@ -1379,13 +1384,13 @@ public class BioInitializer{
 				if (firstPass)
 					createBiomassStore(child);
 				else
-					mySimModules.add(BiomassStoreHelper.narrow(grabModule(getModuleName(child))));
+					myPassiveSimModules.add(BiomassStoreHelper.narrow(grabModule(getModuleName(child))));
 			}
 			else if (childName.equals("FoodStore")){
 				if (firstPass)
 					createFoodStore(child);
 				else
-					mySimModules.add(FoodStoreHelper.narrow(grabModule(getModuleName(child))));
+					myPassiveSimModules.add(FoodStoreHelper.narrow(grabModule(getModuleName(child))));
 			}
 			child = child.getNextSibling();
 		}
@@ -1410,7 +1415,7 @@ public class BioInitializer{
 	private void configurePowerPS(Node node){
 		PowerPS myPowerPS = PowerPSHelper.narrow(grabModule(getModuleName(node)));
 		configureSimBioModule(myPowerPS, node);
-		mySimModules.add(myPowerPS);
+		myActiveSimModules.add(myPowerPS);
 	}
 
 	private void createPowerStore(Node node){
@@ -1442,7 +1447,7 @@ public class BioInitializer{
 				if (firstPass)
 					createPowerStore(child);
 				else
-					mySimModules.add(PowerStoreHelper.narrow(grabModule(getModuleName(child))));
+					myPassiveSimModules.add(PowerStoreHelper.narrow(grabModule(getModuleName(child))));
 			}
 			child = child.getNextSibling();
 		}
@@ -1471,7 +1476,7 @@ public class BioInitializer{
 	private void configureWaterRS(Node node){
 		WaterRS myWaterRS = WaterRSHelper.narrow(grabModule(getModuleName(node)));
 		configureSimBioModule(myWaterRS, node);
-		mySimModules.add(myWaterRS);
+		myActiveSimModules.add(myWaterRS);
 	}
 
 	private void createPotableWaterStore(Node node){
@@ -1533,19 +1538,19 @@ public class BioInitializer{
 				if (firstPass)
 					createPotableWaterStore(child);
 				else
-					mySimModules.add(PotableWaterStoreHelper.narrow(grabModule(getModuleName(child))));
+					myPassiveSimModules.add(PotableWaterStoreHelper.narrow(grabModule(getModuleName(child))));
 			}
 			else if (childName.equals("GreyWaterStore")){
 				if (firstPass)
 					createGreyWaterStore(child);
 				else
-					mySimModules.add(GreyWaterStoreHelper.narrow(grabModule(getModuleName(child))));
+					myPassiveSimModules.add(GreyWaterStoreHelper.narrow(grabModule(getModuleName(child))));
 			}
 			else if (childName.equals("DirtyWaterStore")){
 				if (firstPass)
 					createDirtyWaterStore(child);
 				else
-					mySimModules.add(DirtyWaterStoreHelper.narrow(grabModule(getModuleName(child))));
+					myPassiveSimModules.add(DirtyWaterStoreHelper.narrow(grabModule(getModuleName(child))));
 			}
 			child = child.getNextSibling();
 		}
@@ -1566,7 +1571,7 @@ public class BioInitializer{
 	private void configureIncinerator(Node node){
 		Incinerator myIncinerator = IncineratorHelper.narrow(grabModule(getModuleName(node)));
 		configureSimBioModule(myIncinerator, node);
-		mySimModules.add(myIncinerator);
+		myActiveSimModules.add(myIncinerator);
 	}
 
 	private void createDryWasteStore(Node node){
@@ -1598,7 +1603,7 @@ public class BioInitializer{
 				if (firstPass)
 					createDryWasteStore(child);
 				else
-					mySimModules.add(DryWasteStoreHelper.narrow(grabModule(getModuleName(child))));
+					myPassiveSimModules.add(DryWasteStoreHelper.narrow(grabModule(getModuleName(child))));
 			}
 			child = child.getNextSibling();
 		}
@@ -1619,7 +1624,7 @@ public class BioInitializer{
 	private void configureEVAMission(Node node){
 		EVAMission myEVAMission = EVAMissionHelper.narrow(grabModule(getModuleName(node)));
 		configureSimBioModule(myEVAMission, node);
-		mySimModules.add(myEVAMission);
+		myActiveSimModules.add(myEVAMission);
 	}
 	
 	private void crawlMissionModules(Node node, boolean firstPass){
