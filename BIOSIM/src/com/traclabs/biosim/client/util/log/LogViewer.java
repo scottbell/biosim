@@ -15,6 +15,13 @@ public class LogViewer extends JPanel
 {
 	private JTree myLogTree;
 	private DefaultMutableTreeNode myTopNode;
+	private JToolBar myToolBar;
+	private ImageIcon folderIcon;
+	private ImageIcon refreshIcon;
+	private ImageIcon lastIcon;
+	private ImageIcon backIcon;
+	private ImageIcon nextIcon;
+	private ImageIcon firstIcon;
 	
 	/**
 	* Default constructor
@@ -23,13 +30,22 @@ public class LogViewer extends JPanel
 		buildGui();
 	}
 	
+	private void loadIcons(){
+		folderIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/util/log/folder.jpg"));
+		refreshIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/util/log/refresh.jpg"));
+		lastIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/util/log/last.jpg"));
+		backIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/util/log/back.jpg"));
+		nextIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/util/log/next.jpg"));
+		firstIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/util/log/first.jpg"));
+	}
+	
 	/**
 	* Creates close listener and adds it to the window
 	*/
 	private void buildGui(){
 		myTopNode = new DefaultMutableTreeNode("Log");
 		myLogTree = new JTree(myTopNode);
-		
+		myToolBar = new JToolBar();
 		add(myLogTree);
 	}
 	
