@@ -35,7 +35,7 @@ waterRSName="biosim.server.water.WaterRSServer"
 waterStoreName="biosim.server.water.WaterStoreServer"
 separator=":"
 serverType=uname
-if [ $serverType == "CYGWIN_NT-5.1" ]
+if [ "$serverType" == "CYGWIN_NT-5.1" ]
 then
 	separator=";"
 fi
