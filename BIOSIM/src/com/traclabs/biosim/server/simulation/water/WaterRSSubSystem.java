@@ -95,7 +95,6 @@ public abstract class WaterRSSubSystem {
             currentPowerNeeded = 0;
         else
             currentPowerNeeded = basePowerNeeded;
-            
     }
 
     public void setMalfunctioning(boolean pMalfunctioning) {

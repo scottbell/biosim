@@ -4,14 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import com.traclabs.biosim.client.util.BioHolder;
-import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.client.util.OrbUtils;
 import com.traclabs.biosim.idl.framework.BioDriver;
 import com.traclabs.biosim.idl.framework.BioDriverHelper;
-import com.traclabs.biosim.idl.sensor.food.BiomassStoreLevelSensor;
-import com.traclabs.biosim.idl.sensor.food.BiomassStoreLevelSensorHelper;
-import com.traclabs.biosim.idl.simulation.food.BiomassStore;
 
 /**
  * Runs a CLI interface to the simulation.
@@ -128,17 +123,6 @@ public class SimCommandLine {
     }
 
     private void runTest() {
-        BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
-
-        BiomassStore myBiomassStore = (BiomassStore) myBioHolder.theBiomassStores
-                .get(0);
-        BiomassStoreLevelSensor currentSensor = BiomassStoreLevelSensorHelper
-                .narrow((myBioHolder
-                        .getSensorAttachedTo(
-                                myBioHolder.theBiomassStoreLevelSensors,
-                                myBiomassStore)));
-        //replant 100 meters squared of rice
-        System.out.println("Value of sensor is: " + currentSensor.getValue());
     }
 
 }

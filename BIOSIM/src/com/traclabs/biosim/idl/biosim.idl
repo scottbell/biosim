@@ -26,6 +26,7 @@ module com{
                                                 interface CrewGroup;
                                         };
                                         module air{
+                                        		enum AirRSOperationMode {FULL, OFF, LESS, MOST};
                                                 interface AirRS;
                                                 interface O2Store;
                                                 interface CO2Store;
@@ -828,6 +829,8 @@ module com{
                                         };
                                         module air{
                                                 interface AirRS : framework::SimBioModule, framework::PowerConsumer, framework::H2Consumer, framework::H2Producer, framework::AirConsumer, framework::AirProducer, framework::CO2Producer, framework::O2Producer, framework::CO2Consumer, framework::PotableWaterConsumer, framework::PotableWaterProducer{
+                                                	void setOperationMode(in AirRSOperationMode pMode);
+                                                	AirRSOperationMode getOpertationMode();
                                                 };
                                                 interface H2Store : framework::Store{
                                                 };
