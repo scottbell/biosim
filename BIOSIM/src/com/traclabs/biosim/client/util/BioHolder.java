@@ -69,6 +69,9 @@ public class BioHolder
 	public final static String myO2StoreLevelSensorName = "O2StoreLevelSensor";
 	public final static String myCO2StoreLevelSensorName = "CO2StoreLevelSensor";
 	public final static String myH2StoreLevelSensorName = "H2StoreLevelSensor";
+	public final static String myO2StoreOverflowSensorName = "O2StoreOverflowSensor";
+	public final static String myCO2StoreOverflowSensorName = "CO2StoreOverflowSensor";
+	public final static String myH2StoreOverflowSensorName = "H2StoreOverflowSensor";
 	//Crew
 	public final static String myCrewGroupDeathSensorName = "CrewGroupDeathSensor";
 	public final static String myCrewGroupPotableWaterInFlowRateSensorName = "CrewGroupPotableWaterInFlowRateSensor";
@@ -79,6 +82,7 @@ public class BioHolder
 	public final static String myPowerPSPowerOutFlowRateSensorName = "PowerPSPowerOutFlowRateSensor";
 	//Stores
 	public final static String myPowerStoreLevelSensorName = "PowerStoreLevelSensor";
+	public final static String myPowerStoreOverflowSensorName = "PowerStoreOverflowSensor";
 	//Environment
 	//Crew
 	public final static String myCrewEnvironmentOtherAirConcentrationSensorName = "CrewEnvironmentOtherAirConcentrationSensor";
@@ -108,6 +112,9 @@ public class BioHolder
 	public final static String myPotableWaterStoreLevelSensorName = "PotableWaterStoreLevelSensor";
 	public final static String myGreyWaterStoreLevelSensorName = "GreyWaterStoreLevelSensor";
 	public final static String myDirtyWaterStoreLevelSensorName = "DirtyWaterStoreLevelSensor";
+	public final static String myPotableWaterStoreOverflowSensorName = "PotableWaterStoreOverflowSensor";
+	public final static String myGreyWaterStoreOverflowSensorName = "GreyWaterStoreOverflowSensor";
+	public final static String myDirtyWaterStoreOverflowSensorName = "DirtyWaterStoreOverflowSensor";
 	//Food
 	//BiomassRS
 	public final static String myBiomassRSPotableWaterInFlowRateSensorName = "BiomassRSPotableWaterInFlowRateSensor";
@@ -122,6 +129,8 @@ public class BioHolder
 	//Stores
 	public final static String myBiomassStoreLevelSensorName = "BiomassStoreLevelSensor";
 	public final static String myFoodStoreLevelSensorName = "FoodStoreLevelSensor";
+	public final static String myBiomassStoreOverflowSensorName = "BiomassStoreOverflowSensor";
+	public final static String myFoodStoreOverflowSensorName = "FoodStoreOverflowSensor";
 	//Framework
 	//Accumulator
 	public final static String myAccumulatorCO2AirEnvironmentInFlowRateSensorName = "AccumulatorCO2AirEnvironmentInFlowRateSensor";
@@ -331,6 +340,16 @@ public class BioHolder
 					H2StoreLevelSensor myH2StoreLevelSensor = H2StoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myH2StoreLevelSensorName));
 					modules.put(myH2StoreLevelSensorName , myH2StoreLevelSensor);
 					sensors.put(myH2StoreLevelSensorName , myH2StoreLevelSensor);
+					
+					StoreOverflowSensor myO2StoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myO2StoreOverflowSensorName));
+					modules.put(myO2StoreOverflowSensorName , myO2StoreOverflowSensor);
+					sensors.put(myO2StoreOverflowSensorName , myO2StoreOverflowSensor);
+					StoreOverflowSensor myCO2StoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCO2StoreOverflowSensorName));
+					modules.put(myCO2StoreOverflowSensorName , myCO2StoreOverflowSensor);
+					sensors.put(myCO2StoreOverflowSensorName , myCO2StoreOverflowSensor);
+					StoreOverflowSensor myH2StoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myH2StoreOverflowSensorName));
+					modules.put(myH2StoreOverflowSensorName , myH2StoreOverflowSensor);
+					sensors.put(myH2StoreOverflowSensorName , myH2StoreOverflowSensor);
 				}
 			}
 			//Power
@@ -346,6 +365,10 @@ public class BioHolder
 					PowerStoreLevelSensor myPowerStoreLevelSensor = PowerStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myPowerStoreLevelSensorName));
 					modules.put(myPowerStoreLevelSensorName , myPowerStoreLevelSensor);
 					sensors.put(myPowerStoreLevelSensorName , myPowerStoreLevelSensor);
+					
+					StoreOverflowSensor myPowerStoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myPowerStoreOverflowSensorName));
+					modules.put(myPowerStoreOverflowSensorName , myPowerStoreOverflowSensor);
+					sensors.put(myPowerStoreOverflowSensorName , myPowerStoreOverflowSensor);
 				}
 			}
 			//Crew
@@ -451,6 +474,16 @@ public class BioHolder
 					DirtyWaterStoreLevelSensor myDirtyWaterStoreLevelSensor = DirtyWaterStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myDirtyWaterStoreLevelSensorName));
 					modules.put(myDirtyWaterStoreLevelSensorName , myDirtyWaterStoreLevelSensor);
 					sensors.put(myDirtyWaterStoreLevelSensorName , myDirtyWaterStoreLevelSensor);
+					
+					StoreOverflowSensor myPotableWaterStoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myPotableWaterStoreOverflowSensorName));
+					modules.put(myPotableWaterStoreOverflowSensorName , myPotableWaterStoreOverflowSensor);
+					sensors.put(myPotableWaterStoreOverflowSensorName , myPotableWaterStoreOverflowSensor);
+					StoreOverflowSensor myGreyWaterStoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myGreyWaterStoreOverflowSensorName));
+					modules.put(myGreyWaterStoreOverflowSensorName , myGreyWaterStoreOverflowSensor);
+					sensors.put(myGreyWaterStoreOverflowSensorName , myGreyWaterStoreOverflowSensor);
+					StoreOverflowSensor myDirtyWaterStoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myDirtyWaterStoreOverflowSensorName));
+					modules.put(myDirtyWaterStoreOverflowSensorName , myDirtyWaterStoreOverflowSensor);
+					sensors.put(myDirtyWaterStoreOverflowSensorName , myDirtyWaterStoreOverflowSensor);
 				}
 			}
 			//Food
@@ -493,6 +526,13 @@ public class BioHolder
 					FoodStoreLevelSensor myFoodStoreLevelSensor = FoodStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myFoodStoreLevelSensorName));
 					modules.put(myFoodStoreLevelSensorName , myFoodStoreLevelSensor);
 					sensors.put(myFoodStoreLevelSensorName , myFoodStoreLevelSensor);
+					
+					StoreOverflowSensor myBiomassStoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myBiomassStoreOverflowSensorName));
+					modules.put(myBiomassStoreOverflowSensorName , myBiomassStoreOverflowSensor);
+					sensors.put(myBiomassStoreOverflowSensorName , myBiomassStoreOverflowSensor);
+					StoreOverflowSensor myFoodStoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myFoodStoreOverflowSensorName));
+					modules.put(myFoodStoreOverflowSensorName , myFoodStoreOverflowSensor);
+					sensors.put(myFoodStoreOverflowSensorName , myFoodStoreOverflowSensor);
 				}
 			}
 			//Framework
