@@ -759,7 +759,7 @@
 		<xsd:attribute name="age" type="nonNegativeFloat" use="required"/>
 		<xsd:attribute name="weight" type="nonNegativeFloat" use="required"/>
 		<xsd:attribute name="arrivalDate" type="xsd:nonNegativeInteger" default="0"/>
-		<xsd:attribute name="departureDate" type="xsd:nonNegativeInteger" default="-1"/>
+		<xsd:attribute name="departureDate" type="xsd:nonNegativeInteger" default="0"/>
 	</xsd:complexType>
 	
 	<xsd:simpleType name="SexType">
