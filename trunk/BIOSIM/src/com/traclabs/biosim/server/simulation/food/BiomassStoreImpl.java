@@ -113,6 +113,11 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 		level -= matterToReturn.mass;
 		return matterToReturn;
 	}
+	
+	public void reset(){
+		super.reset();
+		currentBiomassItems.clear();
+	}
 
 	/**
 	* Returns the name of this module (BiomassStore)

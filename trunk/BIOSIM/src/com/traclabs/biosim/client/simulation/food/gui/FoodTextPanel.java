@@ -143,6 +143,7 @@ public class FoodTextPanel extends TimedPanel
 		foodProcessorBiomassConsumedLabel.setText("biomass consumed:   "+numFormat.format(myFoodProcessor.getBiomassConsumed())+" kg");
 		foodProcessorPowerLabel.setText("power consumed:      "+numFormat.format(myFoodProcessor.getPowerConsumed())+" W");
 		foodStoreLevelLabel.setText("food level:    "+numFormat.format(myFoodStore.getLevel())+" kg");
+		biomassStoreLevelLabel.setText("biomass level:    "+numFormat.format(myBiomassStore.getLevel())+" kg");
 		foodProcessorStatusLabel.setText("status:                       "+coallateFoodProcessorStatus());
 }
 }
