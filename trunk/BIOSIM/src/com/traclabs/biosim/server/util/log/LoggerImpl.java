@@ -88,7 +88,7 @@ public class LoggerImpl extends LoggerPOA  {
 	/**
 	* Tells the handler to flush its output
 	*/
-	private void endLog(){
+	public void endLog(){
 		for (Iterator iter = myLogHandlers.iterator(); iter.hasNext();){
 			LogHandler currentLogHandler = (LogHandler)(iter.next());
 			currentLogHandler.endLog();
@@ -136,7 +136,7 @@ public class LoggerImpl extends LoggerPOA  {
 		//One Tick has passed
 		if ((currentTick != myDriver.getTicks()) && (currentTickLogNode != null)){
 			for (Iterator iter = myLogHandlers.iterator(); iter.hasNext();){
-			LogHandler currentLogHandler = (LogHandler)(iter.next());
+				LogHandler currentLogHandler = (LogHandler)(iter.next());
 				currentLogHandler.writeLog(LogNodeHelper.narrow(OrbUtils.poaToCorbaObj(currentTickLogNode)));
 			}
 		}

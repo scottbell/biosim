@@ -23,6 +23,7 @@ public abstract class GenericActuatorImpl extends BioModuleImpl implements Gener
 	}
 	
 	public void tick(){
+		super.tick();
 		if (newValue){
 			processData();
 			newValue = false;
