@@ -212,7 +212,7 @@
 				<isBreakdownEnabled>false</isBreakdownEnabled>
 				<initialVolume>1548930</initialVolume>
 			</SimEnvironment>
-		</environment>
+		</environment>                    
 		<food>
 			<FoodProcessor>
 				<name>FoodProcessor</name>
@@ -276,8 +276,64 @@
 					<output>PlantEnvironment</output>
 				</airProducer>
 			</BiomassRS>
+			<BiomassStore>
+				<name>BiomassStore</name>
+				<isLoggingEnabled>false</isLoggingEnabled>
+				<isBreakdownEnabled>false</isBreakdownEnabled>
+				<capacity>500</capacity>
+				<level>100</level>
+			</BiomassStore>
+			<FoodStore>
+				<name>FoodStore</name>
+				<isLoggingEnabled>false</isLoggingEnabled>
+				<isBreakdownEnabled>false</isBreakdownEnabled>
+				<capacity>500</capacity>
+				<level>100</level>
+			</FoodStore>
 		</food>
+		<power>
+			<PowerPS>
+				<name>PowerPS</name>
+				<isLoggingEnabled>false</isLoggingEnabled>
+				<isBreakdownEnabled>false</isBreakdownEnabled>
+				<generation>SOLAR</generation>
+				<powerProducer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<output>PowerStore</output>
+				</powerProducer>
+			</PowerPS>
+			<PowerStore>
+				<name>PowerStore</name>
+				<isLoggingEnabled>false</isLoggingEnabled>
+				<isBreakdownEnabled>false</isBreakdownEnabled>
+				<capacity>500</capacity>
+				<level>100</level>
+			</PowerStore>
+		</power>
 		<water>
+			<WaterRS>
+				<powerConsumer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<input>PowerStore</input>
+				</powerConsumer>
+				<dirtyWaterConsumer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<input>DirtyWaterStore</input>
+				</dirtyWaterConsumer>
+				<greyWaterConsumer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<input>GreyWaterStore</input>
+				</greyWaterConsumer>
+				<potableWaterProducer>
+					<maxFlowRates>100</maxFlowRates>
+					<desiredFlowRates>100</desiredFlowRates>
+					<output>PotableWaterStore</output>
+				</potableWaterProducer>
+			</WaterRS>
 			<PotableWaterStore>
 				<name>PotableWaterStore</name>
 				<isLoggingEnabled>false</isLoggingEnabled>
@@ -285,6 +341,20 @@
 				<capacity>500</capacity>
 				<level>100</level>
 			</PotableWaterStore>
+			<GreyWaterStore>
+				<name>GreyWaterStore</name>
+				<isLoggingEnabled>false</isLoggingEnabled>
+				<isBreakdownEnabled>false</isBreakdownEnabled>
+				<capacity>500</capacity>
+				<level>100</level>
+			</GreyWaterStore>
+			<DirtyWaterStore>
+				<name>DirtyWaterStore</name>
+				<isLoggingEnabled>false</isLoggingEnabled>
+				<isBreakdownEnabled>false</isBreakdownEnabled>
+				<capacity>500</capacity>
+				<level>100</level>
+			</DirtyWaterStore>
 		</water>
 	</SimModules>
 	<Sensors>
