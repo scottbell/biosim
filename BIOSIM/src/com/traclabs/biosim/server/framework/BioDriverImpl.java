@@ -820,30 +820,28 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			{
 
 				Accumulator myAccumulator = AccumulatorHelper.narrow(getBioModule(myAccumulatorName));
+				CO2AirStoreOutFlowRateSensor myAccumulatorCO2AirStoreOutFlowRateSensor = CO2AirStoreOutFlowRateSensorHelper.narrow(getBioModule(myAccumulatorCO2AirStoreOutFlowRateSensorName));
 				CO2AirEnvironmentInFlowRateSensor myAccumulatorCO2AirEnvironmentInFlowRateSensor = CO2AirEnvironmentInFlowRateSensorHelper.narrow(getBioModule(myAccumulatorCO2AirEnvironmentInFlowRateSensorName));
-				myAccumulatorCO2AirEnvironmentInFlowRateSensor.setInput(myAccumulator, 0);
-				
 				O2AirEnvironmentInFlowRateSensor myAccumulatorO2AirEnvironmentInFlowRateSensor = O2AirEnvironmentInFlowRateSensorHelper.narrow(getBioModule(myAccumulatorO2AirEnvironmentInFlowRateSensorName));
+				O2AirStoreOutFlowRateSensor myAccumulatorO2AirStoreOutFlowRateSensor = O2AirStoreOutFlowRateSensorHelper.narrow(getBioModule(myAccumulatorO2AirStoreOutFlowRateSensorName));
+				myAccumulatorCO2AirEnvironmentInFlowRateSensor.setInput(myAccumulator, 0);
 				myAccumulatorO2AirEnvironmentInFlowRateSensor.setInput(myAccumulator, 0);
+				myAccumulatorO2AirStoreOutFlowRateSensor.setInput(myAccumulator, 0);
+				myAccumulatorCO2AirStoreOutFlowRateSensor.setInput(myAccumulator, 0);
 			}
-
 			//Injector
 			{
 				Injector myInjector = InjectorHelper.narrow(getBioModule(myInjectorName));
+				CO2AirStoreInFlowRateSensor myInjectorCO2AirStoreInFlowRateSensor = CO2AirStoreInFlowRateSensorHelper.narrow(getBioModule(myInjectorCO2AirStoreInFlowRateSensorName));
+				O2AirStoreInFlowRateSensor myInjectorO2AirStoreInFlowRateSensor = O2AirStoreInFlowRateSensorHelper.narrow(getBioModule(myInjectorO2AirStoreInFlowRateSensorName));
+				O2AirEnvironmentOutFlowRateSensor myInjectorO2AirEnvironmentOutFlowRateSensor = O2AirEnvironmentOutFlowRateSensorHelper.narrow(getBioModule(myInjectorO2AirEnvironmentOutFlowRateSensorName));
+				CO2AirEnvironmentOutFlowRateSensor myInjectorCO2AirEnvironmentOutFlowRateSensor = CO2AirEnvironmentOutFlowRateSensorHelper.narrow(getBioModule(myInjectorCO2AirEnvironmentOutFlowRateSensorName));
+				myInjectorCO2AirStoreInFlowRateSensor.setInput(myInjector, 0);
+				myInjectorO2AirStoreInFlowRateSensor.setInput(myInjector, 0);
+				myInjectorCO2AirEnvironmentOutFlowRateSensor.setInput(myInjector, 0);
+				myInjectorO2AirEnvironmentOutFlowRateSensor.setInput(myInjector, 0);
 			}
 		}
-		/*
-		//Framework
-		//Accumulator
-		private String myAccumulatorO2AirEnvironmentInFlowRateSensorName;
-		private String myAccumulatorCO2AirStoreOutFlowRateSensorName;
-		private String myAccumulatorO2AirStoreOutFlowRateSensorName;
-		//Injector
-		private String myInjectorCO2AirStoreInFlowRateSensorName;
-		private String myInjectorO2AirStoreInFlowRateSensorName;
-		private String myInjectorCO2AirEnvironmentOutFlowRateSensorName;
-		private String myInjectorO2AirEnvironmentOutFlowRateSensorName;
-		*/
 	}
 
 	/**
