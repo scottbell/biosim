@@ -1,3 +1,12 @@
+/**
+ * BioSimulator exists as the driver for the simulation.  It gathers references to all the various servers, initializes them, then ticks them.
+ * This is all done multithreaded through the use of the spawnSimulation method.
+ * BioSimulator also can notify listeners when it has sucessfully ticked all the servers.  The listener needs only to implement BioSimulatorListener and
+ * register with BioSimulator.
+ *
+ * @author    Scott Bell
+ */
+
 package biosim.client.framework;
 
 import biosim.idl.air.*;
@@ -33,25 +42,40 @@ public class BioSimulator implements Runnable
 	public final static  String greyWaterStoreName = "GreyWaterStore";
 	public final static  String simEnvironmentName = "SimEnvironment";
 	public final static  String bioModuleHarnessName = "BioModuleHarness";
-
+	//A hastable containing the server references
 	private Hashtable modules;
+	//A reference to the naming service
 	private NamingContextExt ncRef;
+	//The thread to run the simulation
 	private Thread myThread;
+	//Flag to see whether the BioSimulator is paused (started but not ticking)
 	private boolean simulationIsPaused = false;
+	//Flag to see whether the BioSimulator is started at all
 	private boolean simulationStarted = false;
+	//A vector containing the listeners registered with BioSimulator.  Right now this is exclusively GUI's
 	private Vector listeners;
-
+	
+	/**
+	* Creates the BioSimulator and collects references to the servers.
+	*/
 	public BioSimulator() {
 	        listeners = new Vector();
 		System.out.println("BioSimulator: Getting server references...");
 		collectReferences();
 	}
-
+	
+	/**
+	* Spawns a simulation on a different thread and runs continously (ticks till signalled to end)
+	*/
 	public void spawnSimulation(){
 		myThread = new Thread(this);
 		myThread.start();
 	}
-
+	
+	/**
+	* Invoked by the myThread.start() method call and necessary to implement Runnable
+	* Sets flag that simulation is running, intializes servers, then begins ticking them.
+	*/
 	public void run(){
 		simulationStarted = true;
 		System.out.println("BioSimulator: Initializing simulation...");
@@ -59,7 +83,10 @@ public class BioSimulator implements Runnable
 		System.out.println("BioSimulator: Running simulation...");
 		runSimulation();
 	}
-
+	
+	/**
+	* Initializes the various servers with various dummy data
+	*/
 	private void initializeSimulation(){
 		//reset servers
 		reset();
@@ -114,7 +141,10 @@ public class BioSimulator implements Runnable
 		myPowerStore.setCapacity(30000f);
 		myPowerStore.setLevel(30000f);
 	}
-
+	/**
+	* The ticking simulation loop.  Uses a variety of semaphores to pause/resume/end without causing deadlock.
+	* Essentially runs till told to pause or die.
+	*/
 	private void runSimulation(){
 		if (!simulationStarted)
 			reset();
@@ -122,6 +152,7 @@ public class BioSimulator implements Runnable
 			Thread theCurrentThread = Thread.currentThread();
 			while (myThread == theCurrentThread) {
 				tick();
+				//Conditional below to speed up things
 				if (simulationIsPaused && (myThread==theCurrentThread)){
 					try {
 						synchronized(this) {
@@ -135,43 +166,72 @@ public class BioSimulator implements Runnable
 			}
 		}
 	}
-
+	
+	/**
+	* Fetches a BioModule (e.g. AirRS, FoodProcessor, PotableWaterStore) that has been collected by the BioSimulator
+	* @return the BioModule requested, null if not found
+	*/
 	public BioModule getBioModule(String type){
 		return (BioModule)(modules.get(type));
 	}
-
+	
+	/**
+	* Pauses the simulation.  Does nothing if already paused.
+	*/
 	public synchronized void pauseSimulation(){
 		simulationIsPaused = true;
 		System.out.println("BioSimulator: simulation paused");
 	}
 
+	/**
+	* Ends the simulation entirely. 
+	*/
 	public synchronized void endSimulation(){
 		myThread = null;
 		notify();
 		simulationStarted = false;
 		System.out.println("BioSimulator: simulation ended");
 	}
-
+	
+	/**
+	* Check whether simulation has begun.
+	* @return <code>true</code> if simulation has started, <code>false</code> if not
+	*/
 	public boolean simulationHasStarted(){
 		return simulationStarted;
 	}
 
-	//Pause simulation before you use this function
+	/**
+	* Advances the simulation once tick.
+	* NOTICE: not pausing the simulation before using this method can be very risky.  Don't do it.
+	*/
 	public synchronized void advanceOneTick(){
 		System.out.println("BioSimulator: ticking simulation once");
 		tick();
 	}
-
+	
+	/**
+	* Resumes the simulation.  Does nothing if already running.
+	*/
 	public synchronized void resumeSimulation(){
 		simulationIsPaused = false;
 		notify();
 		System.out.println("BioSimulator: simulation resumed");
 	}
-
+	
+	/**
+	* Registers a listener with the BioSimulator.  Synchronized as to avoid adding a listener at the same time it's notifying all of them.
+	* This listener will have it's processTick method invoked each time the BioSimulator ticks all the servers.
+	* This is typically done so the listener can go poll a server to see what's happened since the last tick.
+	* @param newListener The listener that wants to be notified on a BioSimulator tick.
+	*/
 	public synchronized void registerListener(BioSimulatorListener newListener){
 		listeners.add(newListener);
 	}
-
+	
+	/**
+	* Tries to collect references to all the servers and adds them to a hashtable than can be accessed by outside classes.
+	*/
 	private void collectReferences(){
 		// resolve the Objects Reference in Naming
 		modules = new Hashtable();
@@ -283,7 +343,10 @@ public class BioSimulator implements Runnable
 			System.out.println("BioSimulator: Couldn't locate WaterRS, skipping...");
 		}
 	}
-
+	
+	/**
+	* Called after every tick, this enumerates through each known listener and calls it's processTick method.
+	*/
 	private void notifyListeners(){
 		for (Enumeration e = listeners.elements(); e.hasMoreElements();){
 			BioSimulatorListener currentListener = (BioSimulatorListener)(e.nextElement());
@@ -291,6 +354,10 @@ public class BioSimulator implements Runnable
 		}
 	}
 	
+	/**
+	* Resets the simulation by calling every known server's reset method.
+	* Typically this means resetting the various gas levels, crew people, water levels, etc.
+	*/
 	private void reset(){
 		System.out.println("Resetting simulation");
 		for (Enumeration e = modules.elements(); e.hasMoreElements();){
@@ -298,7 +365,12 @@ public class BioSimulator implements Runnable
 			currentBioModule.reset();
 		}
 	}
-
+	
+	/**
+	* Ticks every server.  The SimEnvironment is ticked first as it keeps track of time for the rest of the server.
+	* The other server are ticked in no particular order by enumerating through the module hashtable.
+	* When every server has been ticked, BioSimulator notifies all it's listeners that this has happened.
+	*/
 	private void tick(){
 		//first tick SimEnvironment
 		SimEnvironment mySimEnvironment =(SimEnvironment)(getBioModule(simEnvironmentName));

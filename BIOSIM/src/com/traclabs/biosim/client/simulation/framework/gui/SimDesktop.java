@@ -1,3 +1,9 @@
+/**
+ * SimDesktop is the main client GUI.  It holds references to all the rest of the various modules' GUIs.
+ *
+ * @author    Scott Bell
+ */
+
 package biosim.client.framework.gui;
 
 import biosim.client.framework.*;
@@ -49,7 +55,8 @@ public class SimDesktop extends BaseJFrame
 	private JMenuItem myShowWaterDisplayItem;
 	private JMenuItem myShowPowerDisplayItem;
 	private JMenuItem myShowCrewDisplayItem;
-
+	
+	//Various actions attributed to Buttons/MenuItems
 	private Action myStartAction;
 	private Action myPauseAction;
 	private Action myAdvanceAction;
@@ -62,7 +69,8 @@ public class SimDesktop extends BaseJFrame
 	private Action myShowFoodDisplayAction;
 	private Action myShowPowerDisplayAction;
 	private Action myQuitAction;
-
+	
+	//Various icons used to display buttons
 	private ImageIcon waterIcon;
 	private ImageIcon foodIcon;
 	private ImageIcon powerIcon;
@@ -75,21 +83,30 @@ public class SimDesktop extends BaseJFrame
 	private ImageIcon stopIcon;
 	private ImageIcon pauseIcon;
 	private ImageIcon forwardIcon;
-
+	
+	//A hashtable containing each client panel (water, food, air, etc)
 	private Hashtable myPanels;
-
-	//GUI properties
+	//Count of how many frames are opened.  Used to stagger windows
 	private int openFrameCount = 0;
+	//Integers dictating how much the windows should be staggered.
 	private int xOffset = 30, yOffset = 30;
+	//Local flags set when simulation is paused/started
+	//Probably unecessary as this information can be accessed from the BioSimulator itself, not sure if that'll work though.
 	private boolean isPaused = false;
 	private boolean isStarted = true;
-
+	
+	/**
+	* Creates a BioSimulator, a panel hashtable, and creates the GUI
+	*/
 	public SimDesktop(){
 		myBiosim = new BioSimulator();
 		myPanels = new Hashtable();
 		buildGUI();
 	}
-
+	
+	/**
+	* Creates the toolbar, creates the menubar, sets the title and displays the desktop.
+	*/
 	private void buildGUI(){
 		myDesktop = new JDesktopPane();
 		loadIcons();
@@ -195,7 +212,10 @@ public class SimDesktop extends BaseJFrame
 		setTitle("Advanced Life Support Simulation  Copyright "+ new Character( '\u00A9' ) + " 2002, TRACLabs");
 		getContentPane().add(myDesktop, BorderLayout.CENTER);
 	}
-
+	
+	/**
+	* Attempts to load the icons from the resource directory.
+	*/
 	private void loadIcons(){
 		try{
 			waterIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/water.jpg"));
@@ -221,7 +241,12 @@ public class SimDesktop extends BaseJFrame
 			airIcon = new ImageIcon();
 		}
 	}
-
+	
+	/**
+	* Returns a selected SimFrame (an internal frame) that contains the panel passed into it
+	* @return the parent frame requested, null if not found
+	* @param thePanel the panel who's parent frame is needed
+	*/
 	private SimDesktopFrame getSimFrame(JPanel thePanel){
 		Container theContainer = thePanel.getParent();
 		while (theContainer != null){
@@ -232,7 +257,12 @@ public class SimDesktop extends BaseJFrame
 		}
 		return null;
 	}
-
+	
+	/**
+	* Returns a n icon based on the string desciptor (air, water crew, etc)
+	* @return the icon specified by the title
+	* @param title the descriptor of the icon wanted
+	*/
 	private ImageIcon findIcon(String title){
 		if (title.equals("Air"))
 			return airIcon;
@@ -249,7 +279,13 @@ public class SimDesktop extends BaseJFrame
 		else
 			return new ImageIcon();
 	}
-
+	
+	/**
+	* Creates a new SimDesktopFrame (an internal frame), adds it to the desktop, and adds it to it's hashtable.
+	* If the panel already has a SimDesktopFrame, it repacks the frame and brings it to the front.
+	* @param title the name of the new internal frame
+	* @param newPanel the panel to be added to the new internal frame
+	*/
 	private void addInternalFrame(String title, JPanel newPanel){
 		JPanel existingPanel = (JPanel)(myPanels.get(title));
 		if (existingPanel != null){
@@ -273,18 +309,28 @@ public class SimDesktop extends BaseJFrame
 			myPanels.put(title, newPanel);
 		}
 	}
-
+	
+	/**
+	* Implemented to satisfy BaseJFrame's interface.  Called when SimDesktop is exiting.
+	* Stops the simulation if necessary.
+	*/
 	protected void frameExiting(){
 		if (myBiosim.simulationHasStarted())
 			myBiosim.endSimulation();
 	}
-
+	
+	/**
+	* Action describing a simulation start/stop (depending on the button state).  Enables/disables various buttons on the SimDesktop
+	* and invokes BioSimulator's stop or start method.
+	*/
 	private class StartSimulationAction extends AbstractAction{
 		public StartSimulationAction(String name){
 			super(name);
 		}
 		public void actionPerformed(ActionEvent ae){
+			//Flip whatever state we were in.
 			isStarted = !isStarted;
+			//If we're already started, end the simulation
 			if (isStarted){
 				setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				myStartSimButton.setToolTipText("Starts the simulation");
@@ -297,6 +343,7 @@ public class SimDesktop extends BaseJFrame
 				myBiosim.endSimulation();
 				setCursor(Cursor.getDefaultCursor());
 			}
+			//We haven't started the simulation, start one up.
 			else{
 				setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				myStartSimButton.setToolTipText("Ends the simulation");
@@ -306,6 +353,7 @@ public class SimDesktop extends BaseJFrame
 				myPauseSimItem.setEnabled(true);
 				myAdvanceSimButton.setEnabled(true);
 				myAdvanceSimItem.setEnabled(true);
+				//If we're paused, stay paused.
 				if (isPaused){
 					myPauseSimButton.setToolTipText("Resume the simulation");
 					myPauseSimButton.setIcon(playIcon);
@@ -313,6 +361,7 @@ public class SimDesktop extends BaseJFrame
 					myAdvanceSimButton.setEnabled(true);
 					myAdvanceSimItem.setEnabled(true);
 				}
+				//If we're not paused, start ticking immediatly
 				else{
 					myPauseSimButton.setToolTipText("Pause the simulation");
 					myPauseSimButton.setIcon(pauseIcon);
@@ -320,28 +369,27 @@ public class SimDesktop extends BaseJFrame
 					myAdvanceSimButton.setEnabled(false);
 					myAdvanceSimItem.setEnabled(false);
 				}
+				//Tell the biosimulator to enter loop
 				myBiosim.spawnSimulation();
 				setCursor(Cursor.getDefaultCursor());
 			}
 		}
 	}
-
+	
+	/**
+	* Action describing a simulation pause/resume (depending on the button state).  Enables/disables various buttons on the SimDesktop
+	* and invokes BioSimulator's pause or resume method.
+	*/
 	private class PauseSimulationAction extends AbstractAction{
 		public PauseSimulationAction(String name){
 			super(name);
 		}
 		public void actionPerformed(ActionEvent ae){
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			//Flip whatever state we were in.
 			isPaused = !isPaused;
+			//If we're already paused, resume the simulation
 			if (isPaused){
-				myPauseSimButton.setToolTipText("Resume the simulation");
-				myPauseSimButton.setIcon(playIcon);
-				myPauseSimItem.setText("Resume");
-				myAdvanceSimButton.setEnabled(true);
-				myAdvanceSimItem.setEnabled(true);
-				myBiosim.pauseSimulation();
-			}
-			else{
 				myPauseSimButton.setToolTipText("Pause the simulation");
 				myPauseSimButton.setIcon(pauseIcon);
 				myPauseSimItem.setText("Pause");
@@ -349,10 +397,22 @@ public class SimDesktop extends BaseJFrame
 				myAdvanceSimItem.setEnabled(false);
 				myBiosim.resumeSimulation();
 			}
+			//If we're running, pause the simulation
+			else{myPauseSimButton.setToolTipText("Resume the simulation");
+				myPauseSimButton.setIcon(playIcon);
+				myPauseSimItem.setText("Resume");
+				myAdvanceSimButton.setEnabled(true);
+				myAdvanceSimItem.setEnabled(true);
+				myBiosim.pauseSimulation();
+			}
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}
-
+	
+	/**
+	* Action describing a simulation advance of one tick.  Enables/disables various buttons on the SimDesktop
+	* and invokes BioSimulator's tick method.  Used only when BioSimulator is paused.
+	*/
 	private class AdvanceTickSimulationAction extends AbstractAction{
 		public AdvanceTickSimulationAction(String name){
 			super(name);
@@ -363,7 +423,10 @@ public class SimDesktop extends BaseJFrame
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}
-
+	
+	/**
+	*  Action that brings up a dialog box about authors, company, etc.
+	*/
 	private class AboutAction extends AbstractAction{
 		public AboutAction(String name){
 			super(name);
@@ -372,31 +435,52 @@ public class SimDesktop extends BaseJFrame
 			JOptionPane.showMessageDialog(null,"Advanced Life Support Simulation\nCopyright "+ new Character( '\u00A9' ) + " 2002, TRACLabs\nby Scott Bell and David Kortenkamp");
 		}
 	}
-
+	
+	/**
+	*  Displays the Air panel with an internal frame inside this desktop.
+	*/
 	private void displayAir(){
 		addInternalFrame("Air",new AirPanel(myBiosim));
 	}
-
+	
+	/**
+	*  Displays the Environment panel with an internal frame inside this desktop.
+	*/
 	private void displayEnvironment(){
 		addInternalFrame("Environment",new EnvironmentPanel(myBiosim));
 	}
-
+	
+	/**
+	*  Displays the Crew panel with an internal frame inside this desktop.
+	*/
 	private void displayCrew(){
 		addInternalFrame("Crew",new CrewPanel(myBiosim));
 	}
-
+	
+	/**
+	*  Displays the Food panel with an internal frame inside this desktop.
+	*/
 	private void displayFood(){
 		addInternalFrame("Food",new FoodPanel(myBiosim));
 	}
-
+	
+	/**
+	*  Displays the Power panel with an internal frame inside this desktop.
+	*/
 	private void displayPower(){
 		addInternalFrame("Power",new PowerPanel(myBiosim));
 	}
-
+	
+	/**
+	*  Displays the Water panel with an internal frame inside this desktop.
+	*/
 	private void displayWater(){
 		addInternalFrame("Water",new WaterPanel(myBiosim));
 	}
-
+	
+	/**
+	*  Action that displays all the panels with internal frames inside this desktop.
+	*/
 	private class ShowAllDisplaysAction extends AbstractAction{
 		public ShowAllDisplaysAction(String name){
 			super(name);
@@ -413,6 +497,9 @@ public class SimDesktop extends BaseJFrame
 		}
 	}
 
+	/**
+	* Action that displays the environment panel in an internal frame on the desktop.
+	*/
 	private class ShowEnvironmentDisplayAction extends AbstractAction{
 		public ShowEnvironmentDisplayAction(String name){
 			super(name);
@@ -423,7 +510,10 @@ public class SimDesktop extends BaseJFrame
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}
-
+	
+	/**
+	* Action that displays the air panel in an internal frame on the desktop.
+	*/
 	private class ShowAirDisplayAction extends AbstractAction{
 		public ShowAirDisplayAction(String name){
 			super(name);
@@ -434,7 +524,10 @@ public class SimDesktop extends BaseJFrame
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}
-
+	
+	/**
+	* Action that displays the crew panel in an internal frame on the desktop.
+	*/
 	private class ShowCrewDisplayAction extends AbstractAction{
 		public ShowCrewDisplayAction(String name){
 			super(name);
@@ -445,7 +538,10 @@ public class SimDesktop extends BaseJFrame
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}
-
+	
+	/**
+	* Action that displays the food panel in an internal frame on the desktop.
+	*/
 	private class ShowFoodDisplayAction extends AbstractAction{
 		public ShowFoodDisplayAction(String name){
 			super(name);
@@ -456,7 +552,10 @@ public class SimDesktop extends BaseJFrame
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}
-
+	
+	/**
+	* Action that displays the power panel in an internal frame on the desktop.
+	*/
 	private class ShowPowerDisplayAction extends AbstractAction{
 		public ShowPowerDisplayAction(String name){
 			super(name);
@@ -467,7 +566,10 @@ public class SimDesktop extends BaseJFrame
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}
-
+	
+	/**
+	* Action that displays the water panel in an internal frame on the desktop.
+	*/
 	private class ShowWaterDisplayAction extends AbstractAction{
 		public ShowWaterDisplayAction(String name){
 			super(name);
@@ -478,7 +580,10 @@ public class SimDesktop extends BaseJFrame
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}
-
+	
+	/**
+	* Action that stops the simulation and exits (by way of the frameClosing method)
+	*/
 	private class QuitAction extends AbstractAction{
 		public QuitAction(String name){
 			super(name);
