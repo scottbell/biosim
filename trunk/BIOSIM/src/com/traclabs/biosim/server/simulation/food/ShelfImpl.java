@@ -4,6 +4,7 @@ import biosim.idl.food.*;
 import biosim.idl.water.*;
 import biosim.server.util.*;
 import biosim.idl.power.*;
+import biosim.idl.util.*;
 import java.util.*;
 /**
  * Tray contains Plants
@@ -24,6 +25,8 @@ public class ShelfImpl extends ShelfPOA {
 	private PotableWaterStore myPotableWaterStore;
 	private GreyWaterStore myGreyWaterStore;
 	private PowerStore myPowerStore;
+	private LogIndex myLogIndex;
+	private boolean logInitialized = false;
 	
 	public ShelfImpl(){
 		myCrop = new Wheat(areaPerCrop, cropCapacity);
@@ -107,5 +110,57 @@ public class ShelfImpl extends ShelfPOA {
 			waterPlants();
 		}
 		myCrop.tick();
+	}
+	
+	public void log(LogNode myLogHead){
+		//If not initialized, fill in the log
+		if (!logInitialized){
+			myLogIndex = new LogIndex();
+			myLogIndex.plantHead = myLogHead.addChild("Plant");
+			myCrop.log(myLogIndex.plantHead);
+			LogNode cropCapacityHead = myLogHead.addChild("Crop Capacity");
+			myLogIndex.cropCapacityIndex = cropCapacityHead.addChild(""+cropCapacity);
+			LogNode currentPowerConsumedHead = myLogHead.addChild("Power Consumed");
+			myLogIndex.currentPowerConsumedIndex = currentPowerConsumedHead.addChild(""+currentPowerConsumed);
+			LogNode totalAreaHead = myLogHead.addChild("Total Area");
+			myLogIndex.totalAreaIndex = totalAreaHead.addChild(""+totalArea);
+			LogNode areaPerCropHead = myLogHead.addChild("Area Per Crop");
+			myLogIndex.areaPerCropIndex = areaPerCropHead.addChild(""+areaPerCrop);
+			LogNode currentGreyWaterConsumedHead = myLogHead.addChild("Grey Water Consumed");
+			myLogIndex.currentGreyWaterConsumedIndex = currentGreyWaterConsumedHead.addChild(""+currentGreyWaterConsumed);
+			LogNode PotableWaterConsumedHead = myLogHead.addChild("Potable Water Consumed");
+			myLogIndex.currentPotableWaterConsumedIndex = PotableWaterConsumedHead.addChild(""+currentPotableWaterConsumed);
+			LogNode hasEnoughWaterHead = myLogHead.addChild("Has Enough Water");
+			myLogIndex.hasEnoughWaterIndex = hasEnoughWaterHead.addChild(""+hasEnoughWater);
+			LogNode hasEnoughPowerHead = myLogHead.addChild("Has Enough Power");
+			myLogIndex.hasEnoughPowerIndex = hasEnoughPowerHead.addChild(""+hasEnoughPower);
+			logInitialized = true; 
+		}
+		else{
+			myCrop.log(myLogIndex.plantHead);
+			myLogIndex.cropCapacityIndex.setValue(""+cropCapacity);
+			myLogIndex.currentPowerConsumedIndex.setValue(""+currentPowerConsumed);
+			myLogIndex.totalAreaIndex.setValue(""+totalArea);
+			myLogIndex.areaPerCropIndex.setValue(""+areaPerCrop);
+			myLogIndex.currentGreyWaterConsumedIndex.setValue(""+currentGreyWaterConsumed);
+			myLogIndex.currentPotableWaterConsumedIndex.setValue(""+currentPotableWaterConsumed);
+			myLogIndex.hasEnoughWaterIndex.setValue(""+hasEnoughWater);
+			myLogIndex.hasEnoughPowerIndex.setValue(""+hasEnoughPower);
+		}
+	}
+	
+	/**
+	* For fast reference to the log tree
+	*/
+	private class LogIndex{
+		public LogNode plantHead;
+		public LogNode cropCapacityIndex;
+		public LogNode currentPowerConsumedIndex;
+		public LogNode totalAreaIndex;
+		public LogNode areaPerCropIndex;
+		public LogNode currentGreyWaterConsumedIndex;
+		public LogNode currentPotableWaterConsumedIndex;
+		public LogNode hasEnoughWaterIndex;
+		public LogNode hasEnoughPowerIndex;
 	}
 }

@@ -2,6 +2,7 @@ package biosim.server.food;
 
 import biosim.idl.food.*;
 import biosim.idl.air.*;
+import biosim.idl.util.*;
 import biosim.idl.environment.*;
 import biosim.server.util.*;
 /**
@@ -33,6 +34,8 @@ public abstract class Plant {
 	private boolean plantsDead = true;
 	private SimEnvironment mySimEnvironment;
 	private BiomassStore myBiomassStore;
+	private LogIndex myLogIndex;
+	private boolean logInitialized = false;
 
 	public Plant(){
 	}
@@ -41,7 +44,7 @@ public abstract class Plant {
 		areaPerCrop = pAreaPerCrop;
 		numberOfCrops = pNumberOfCrops;
 	}
-	
+
 	protected abstract void calculateCO2Needed();
 	protected abstract void calculatePowerNeeded();
 	protected abstract void calculateWaterNeeded();
@@ -102,6 +105,8 @@ public abstract class Plant {
 		plantsDead = false;
 	}
 	
+	public abstract String getPlantType();
+	
 	private void produceBiomass(){
 		calculateProducedBiomass();
 		if (biomassProduced > 0){
@@ -127,14 +132,14 @@ public abstract class Plant {
 		else{
 			noCO2Time = 0;
 		}
-		
+
 		if (!hasEnoughWater){
 			noWaterTime++;
 		}
 		else{
 			noWaterTime = 0;
 		}
-		
+
 		if (!hasEnoughLight){
 			noLightTime++;
 		}
@@ -182,5 +187,113 @@ public abstract class Plant {
 				e.printStackTrace(System.out);
 			}
 		}
+	}
+
+	public void log(LogNode myLogHead){
+		//If not initialized, fill in the log
+		if (!logInitialized){
+			myLogIndex = new LogIndex();
+			LogNode typeHead = myLogHead.addChild("Plant Type");
+			myLogIndex.typeIndex = typeHead.addChild(""+getPlantType());
+			LogNode hasEnoughCO2Head = myLogHead.addChild("Has Enough CO2");
+			myLogIndex.hasEnoughCO2Index = hasEnoughCO2Head.addChild(""+hasEnoughCO2);
+			LogNode hasEnoughWaterHead = myLogHead.addChild("Has Enough Water");
+			myLogIndex.hasEnoughWaterIndex = hasEnoughWaterHead.addChild(""+hasEnoughWater);
+			LogNode hasEnoughLightHead = myLogHead.addChild("Has Enough Light");
+			myLogIndex.hasEnoughLightIndex = hasEnoughLightHead.addChild(""+hasEnoughLight);
+			LogNode myAgeHead = myLogHead.addChild("Age");
+			myLogIndex.myAgeIndex = myAgeHead.addChild(""+myAge);
+			LogNode O2RetrievedHead = myLogHead.addChild("O2 Retrieved");
+			myLogIndex.O2RetrievedIndex = O2RetrievedHead.addChild(""+airRetrieved.O2);
+			LogNode CO2RetrievedHead = myLogHead.addChild("CO2 Retrieved");
+			myLogIndex.CO2RetrievedIndex = CO2RetrievedHead.addChild(""+airRetrieved.CO2);
+			LogNode otherRetrievedHead = myLogHead.addChild("Other Retrieved");
+			myLogIndex.otherRetrievedIndex = otherRetrievedHead.addChild(""+airRetrieved.other);
+			LogNode areaPerCropHead = myLogHead.addChild("Area Per Crop");
+			myLogIndex.areaPerCropIndex = areaPerCropHead.addChild(""+areaPerCrop);
+			LogNode waterNeededHead = myLogHead.addChild("Water Needed");
+			myLogIndex.waterNeededIndex = waterNeededHead.addChild(""+waterNeeded);
+			LogNode powerNeededHead = myLogHead.addChild("Power Needed");
+			myLogIndex.powerNeededIndex = powerNeededHead.addChild(""+powerNeeded);
+			LogNode CO2NeededHead = myLogHead.addChild("CO2 Needed");
+			myLogIndex.CO2NeededIndex = CO2NeededHead.addChild(""+CO2Needed);
+			LogNode numberOfCropsHead = myLogHead.addChild("Number of Crops");
+			myLogIndex.numberOfCropsIndex = numberOfCropsHead.addChild(""+numberOfCrops);
+			LogNode currentWaterLevelHead = myLogHead.addChild("Water Level");
+			myLogIndex.currentWaterLevelIndex = currentWaterLevelHead.addChild(""+currentWaterLevel);
+			LogNode currentPowerLevelHead = myLogHead.addChild("Power Level");
+			myLogIndex.currentPowerLevelIndex = currentPowerLevelHead.addChild(""+currentPowerLevel);
+			LogNode biomassProducedlHead = myLogHead.addChild("Biomass Produced");
+			myLogIndex.biomassProducedIndex = biomassProducedlHead.addChild(""+biomassProduced);
+			LogNode surviveNoWaterHead = myLogHead.addChild("Duration Plants Can Survive Without Water");
+			myLogIndex.surviveNoWaterIndex = surviveNoWaterHead.addChild(""+surviveNoWater);
+			LogNode surviveNoCO2Head = myLogHead.addChild("Duration Plants Can Survive Without CO2");
+			myLogIndex.surviveNoCO2Index = surviveNoCO2Head.addChild(""+surviveNoCO2);
+			LogNode surviveNoLightHead = myLogHead.addChild("Duration Plants Can Survive Without Light");
+			myLogIndex.surviveNoLightIndex = surviveNoLightHead.addChild(""+surviveNoLight);
+			LogNode noWaterTimeHead = myLogHead.addChild("Duration Without Water");
+			myLogIndex.noWaterTimeIndex = noWaterTimeHead.addChild(""+noWaterTime);
+			LogNode noCO2TimeHead = myLogHead.addChild("Duration Without CO2");
+			myLogIndex.noCO2TimeIndex = noCO2TimeHead.addChild(""+noCO2Time);
+			LogNode noLightTimeHead = myLogHead.addChild("Duration Without Light");
+			myLogIndex.noLightTimeIndex = noLightTimeHead.addChild(""+noLightTime);
+			LogNode plantsDeadHead = myLogHead.addChild("Plants Dead");
+			myLogIndex.plantsDeadIndex = plantsDeadHead.addChild(""+plantsDead);
+			logInitialized = true;
+		}
+		else{
+			myLogIndex.typeIndex.setValue(""+getPlantType());
+			myLogIndex.hasEnoughCO2Index.setValue(""+hasEnoughCO2);
+			myLogIndex.hasEnoughWaterIndex.setValue(""+hasEnoughWater);
+			myLogIndex.hasEnoughLightIndex.setValue(""+hasEnoughLight);
+			myLogIndex.myAgeIndex.setValue(""+myAge);
+			myLogIndex.O2RetrievedIndex.setValue(""+airRetrieved.O2);
+			myLogIndex.CO2RetrievedIndex.setValue(""+airRetrieved.CO2);
+			myLogIndex.otherRetrievedIndex.setValue(""+airRetrieved.other);
+			myLogIndex.areaPerCropIndex.setValue(""+areaPerCrop);
+			myLogIndex.waterNeededIndex.setValue(""+waterNeeded);
+			myLogIndex.powerNeededIndex.setValue(""+powerNeeded);
+			myLogIndex.CO2NeededIndex.setValue(""+CO2Needed);
+			myLogIndex.numberOfCropsIndex.setValue(""+numberOfCrops);
+			myLogIndex.currentWaterLevelIndex.setValue(""+currentWaterLevel);
+			myLogIndex.currentPowerLevelIndex.setValue(""+currentPowerLevel);
+			myLogIndex.biomassProducedIndex.setValue(""+biomassProduced);
+			myLogIndex.surviveNoWaterIndex.setValue(""+surviveNoWater);
+			myLogIndex.surviveNoCO2Index.setValue(""+surviveNoCO2);
+			myLogIndex.surviveNoLightIndex.setValue(""+surviveNoLight);
+			myLogIndex.noWaterTimeIndex.setValue(""+noWaterTime);
+			myLogIndex.noCO2TimeIndex.setValue(""+noCO2Time);
+			myLogIndex.noLightTimeIndex.setValue(""+noLightTime);
+			myLogIndex.plantsDeadIndex.setValue(""+plantsDead);
+		}
+	}
+
+	/**
+	* For fast reference to the log tree
+	*/
+	private class LogIndex{
+		public LogNode typeIndex;
+		public LogNode hasEnoughCO2Index;
+		public LogNode hasEnoughWaterIndex;
+		public LogNode hasEnoughLightIndex;
+		public LogNode myAgeIndex;
+		public LogNode O2RetrievedIndex;
+		public LogNode CO2RetrievedIndex;
+		public LogNode otherRetrievedIndex;
+		public LogNode areaPerCropIndex;
+		public LogNode waterNeededIndex;
+		public LogNode powerNeededIndex;
+		public LogNode CO2NeededIndex;
+		public LogNode numberOfCropsIndex;
+		public LogNode currentWaterLevelIndex;
+		public LogNode currentPowerLevelIndex;
+		public LogNode biomassProducedIndex;
+		public LogNode surviveNoWaterIndex;
+		public LogNode surviveNoCO2Index;
+		public LogNode surviveNoLightIndex;
+		public LogNode noWaterTimeIndex;
+		public LogNode noCO2TimeIndex;
+		public LogNode noLightTimeIndex;
+		public LogNode plantsDeadIndex;
 	}
 }

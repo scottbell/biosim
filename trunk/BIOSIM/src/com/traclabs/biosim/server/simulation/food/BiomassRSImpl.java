@@ -12,9 +12,9 @@ import java.util.*;
  */
 
 public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations {
-	private LogIndex myLogIndex;
 	private Vector myShelves;
 	private int shelfCapacity = 10;
+	private Vector shelfLogs;
 	
 	public BiomassRSImpl(){
 		myShelves = new Vector(shelfCapacity);
@@ -63,15 +63,25 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	public String getModuleName(){
 		return "BiomassRS";
 	}
-
+	
 	private void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
-			myLogIndex = new LogIndex();
+			shelfLogs = new Vector();
+			for (int i = 0; i < myShelves.size(); i++){
+				ShelfImpl currentShelf = (ShelfImpl)(myShelves.get(i));
+				LogNode newShelfHead= myLog.getHead().addChild("Shelf "+i);
+				shelfLogs.add(newShelfHead);
+				currentShelf.log(newShelfHead);
+			}
 			logInitialized = true;
 		}
 		else{
-			//update log
+			for (int i = 0; i < myShelves.size(); i++){
+				ShelfImpl currentShelf = (ShelfImpl)(myShelves.get(i));
+				LogNode shelfHead = (LogNode)(shelfLogs.get(i));
+				currentShelf.log(shelfHead);
+			}
 		}
 		sendLog(myLog);
 	}
