@@ -107,10 +107,10 @@
 		<framework>
 			<Accumulator name="Accumulator">
 				<waterAirConsumer>
-					<environmentInputs maxFlowRates="14063 14063" desiredFlowRates="0 0" inputs="CrewEnvironment PlantEnvironment"/>
+					<environmentInputs maxFlowRates="14063 14063" desiredFlowRates="20 20" inputs="PlantEnvironment CrewEnvironment"/>
 				</waterAirConsumer>
 				<waterAirProducer>
-					<storeOutputs  maxFlowRates="14063" desiredFlowRates="0" outputs="PotableWaterStore"/>
+					<storeOutputs  maxFlowRates="14063" desiredFlowRates="20" outputs="PotableWaterStore"/>
 				</waterAirProducer>
 				<O2AirConsumer>
 					<environmentInputs maxFlowRates="14063" desiredFlowRates="0" inputs="PlantEnvironment"/>
