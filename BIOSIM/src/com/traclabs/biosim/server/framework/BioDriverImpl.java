@@ -193,10 +193,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		//CrewPerson myCrewPerson6 = myCrew.createCrewPerson("Marvin Metsky", 33, 145, Sex.male);
 
 		//stagger actvities
-		myCrewPerson1.setCurrentActivity(myCrew.getScheduledActivityByOrder(0));
-		myCrewPerson2.setCurrentActivity(myCrew.getScheduledActivityByOrder(1));
-		myCrewPerson3.setCurrentActivity(myCrew.getScheduledActivityByOrder(2));
-		myCrewPerson4.setCurrentActivity(myCrew.getScheduledActivityByOrder(3));
+		myCrewPerson1.setCurrentActivity(myCrewPerson1.getScheduledActivityByOrder(0));
+		myCrewPerson2.setCurrentActivity(myCrewPerson2.getScheduledActivityByOrder(1));
+		myCrewPerson3.setCurrentActivity(myCrewPerson3.getScheduledActivityByOrder(2));
+		myCrewPerson4.setCurrentActivity(myCrewPerson4.getScheduledActivityByOrder(3));
 		//myCrewPerson5.setCurrentActivity(myCrew.getScheduledActivityByOrder(4));
 		//myCrewPerson6.setCurrentActivity(myCrew.getScheduledActivityByOrder(5));
 

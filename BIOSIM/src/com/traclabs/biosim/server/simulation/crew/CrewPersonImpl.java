@@ -1,12 +1,15 @@
 package biosim.server.crew;
 
+import biosim.idl.air.*;
 import biosim.idl.crew.*;
 import biosim.idl.environment.*;
-import biosim.idl.water.*;
 import biosim.idl.food.*;
-import biosim.idl.air.*;
+import biosim.idl.power.*;
+import biosim.idl.water.*;
+import biosim.idl.framework.*;
 import biosim.idl.util.log.*;
 import biosim.server.util.*;
+import java.util.*;
 /**
  * The Crew Person Implementation.  Eats/drinks/excercises away resources according to a set schedule.
  *
@@ -19,8 +22,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private String myName = "No Name";
 	//The current activity this crew member is performing
 	private Activity myCurrentActivity;
-	//The Crew that this crew person belongs to
-	private CrewGroupImpl myCrewGroup;
 	//Flag to determine if the server references have been collected for putting/taking resources
 	private boolean hasCollectedReferences = false;
 	//The current activity order this crew member is on
@@ -45,12 +46,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private boolean personPoisoned = false;
 	//Flag to determine if the person has died
 	private boolean hasDied = false;
-	//References to the servers the crew member takes/puts resources (like air, food, etc)
-	private SimEnvironment myCurrentEnvironment;
-	private FoodStore myFoodStore;
-	private PotableWaterStore myPotableWaterStore;
-	private DirtyWaterStore myDirtyWaterStore;
-	private GreyWaterStore myGreyWaterStore;
 	//The current age of the crew memeber
 	private float age = 30f;
 	//The current weight of the crew memeber
@@ -81,6 +76,25 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private LogIndex myLogIndex;
 	private boolean isSick = false;
 	private int myMissionProductivity = 0;
+	private Schedule mySchedule;
+	private CrewGroupImpl myCrewGroup;
+	
+	public final static String powerPSName = "PowerPS";
+	public final static String powerStoreName = "PowerStore";
+	public final static String airRSName = "AirRS";
+	public final static String CO2StoreName = "CO2Store";
+	public final static String O2StoreName = "O2Store";
+	public final static String biomassRSName = "BiomassRS";
+	public final static String biomassStoreName = "BiomassStore";
+	public final static String foodProcessorName = "FoodProcessor";
+	public final static String foodStoreName = "FoodStore";
+	public final static String waterRSName = "WaterRS";
+	public final static String dirtyWaterStoreName = "DirtyWaterStore";
+	public final static String potableWaterStoreName = "PotableWaterStore";
+	public final static String greyWaterStoreName = "GreyWaterStore";
+	public final static String simEnvironmentName = "SimEnvironment";
+	//A hastable containing the server references
+	private static Map myModules;
 
 	/**
 	* Constructor that creates a new crew person
@@ -90,12 +104,13 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* @param pCrewGroup the crew that the new crew person belongs in
 	*/
 	protected CrewPersonImpl(String pName, float pAge, float pWeight, Sex pSex, CrewGroupImpl pCrewGroup){
-		myCrewGroup = pCrewGroup;
 		myName = pName;
 		age = pAge;
 		weight = pWeight;
 		sex = pSex;
-		myCurrentActivity = myCrewGroup.getScheduledActivityByOrder(currentOrder);
+		myCrewGroup = pCrewGroup;
+		mySchedule = new Schedule();
+		myCurrentActivity = mySchedule.getScheduledActivityByOrder(currentOrder);
 	}
 
 	/**
@@ -220,7 +235,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 
 	public void sicken(){
 		isSick = true;
-		myCurrentActivity = myCrewGroup.getScheduledActivityByOrder(-2);
+		myCurrentActivity = mySchedule.getActivityByName("sick");
 	}
 
 	/**
@@ -237,7 +252,25 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	*/
 	public void setCurrentActivity(Activity pActivity){
 		myCurrentActivity = pActivity;
-		currentOrder = myCrewGroup.getOrderOfActivity(myCurrentActivity.getName());
+		currentOrder = mySchedule.getOrderOfScheduledActivity(myCurrentActivity.getName());
+	}
+	
+	/**
+	* Returns a scheduled activity by name (like "sleeping")
+	* @param name the name of the activity to fetch
+	* @return the activity in the schedule asked for by name
+	*/
+	public Activity getScheduledActivityByName(String name){
+		return mySchedule.getActivityByName(name);
+	}
+
+	/**
+	* Returns a scheduled activity by order
+	* @param order the order of the activity to fetch
+	* @return the activity in the schedule asked for by order
+	*/
+	public Activity getScheduledActivityByOrder(int order){
+		return mySchedule.getScheduledActivityByOrder(order);
 	}
 
 	/**
@@ -259,22 +292,57 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	}
 
 	/**
-	* Collects references to servers needed for putting/getting resources.
+	* Tries to collect references to all the servers and adds them to a hashtable than can be accessed by outside classes.
 	*/
 	private void collectReferences(){
-		if (!hasCollectedReferences){
-			try{
-				myCurrentEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str("SimEnvironment"+myCrewGroup.getID()));
-				myFoodStore = FoodStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("FoodStore"+myCrewGroup.getID()));
-				myPotableWaterStore = PotableWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PotableWaterStore"+myCrewGroup.getID()));
-				myDirtyWaterStore = DirtyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("DirtyWaterStore"+myCrewGroup.getID()));
-				myGreyWaterStore = GreyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("GreyWaterStore"+myCrewGroup.getID()));
-				hasCollectedReferences = true;
-			}
-			catch (org.omg.CORBA.UserException e){
-				System.err.println("Couldn't find SimEnvironment!!");
-				e.printStackTrace(System.out);
-			}
+		if (hasCollectedReferences)
+			return;
+		// resolve the Objects Reference in Naming
+		try{
+			if (myModules == null)
+				myModules = new Hashtable();
+			int myID = myCrewGroup.getID();
+			System.out.println("BioHolder: Collecting references to myModules...");
+			PowerPS myPowerPS = PowerPSHelper.narrow(OrbUtils.getNCRef().resolve_str(powerPSName+myID));
+			myModules.put(powerPSName , myPowerPS);
+			PowerStore myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(powerStoreName+myID));
+			myModules.put(powerStoreName , myPowerStore);
+			AirRS myAirRS = AirRSHelper.narrow(OrbUtils.getNCRef().resolve_str(airRSName+myID));
+			myModules.put(airRSName , myAirRS);
+			SimEnvironment mySimEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str(simEnvironmentName+myID));
+			myModules.put(simEnvironmentName , mySimEnvironment);
+			GreyWaterStore myGreyWaterStore = GreyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(greyWaterStoreName+myID));
+			myModules.put(greyWaterStoreName , myGreyWaterStore);
+			PotableWaterStore myPotableWaterStore = PotableWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(potableWaterStoreName+myID));
+			myModules.put(potableWaterStoreName , myPotableWaterStore);
+			DirtyWaterStore myDirtyWaterStore = DirtyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(dirtyWaterStoreName+myID));
+			myModules.put(dirtyWaterStoreName , myDirtyWaterStore);
+			FoodProcessor myFoodProcessor = FoodProcessorHelper.narrow(OrbUtils.getNCRef().resolve_str(foodProcessorName+myID));
+			myModules.put(foodProcessorName , myFoodProcessor);
+			FoodStore myFoodStore= FoodStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(foodStoreName+myID));
+			myModules.put(foodStoreName , myFoodStore);
+			CO2Store myCO2Store = CO2StoreHelper.narrow(OrbUtils.getNCRef().resolve_str(CO2StoreName+myID));
+			myModules.put(CO2StoreName , myCO2Store);
+			O2Store myO2Store = O2StoreHelper.narrow(OrbUtils.getNCRef().resolve_str(O2StoreName+myID));
+			myModules.put(O2StoreName , myO2Store);
+			BiomassRS myBiomassRS = BiomassRSHelper.narrow(OrbUtils.getNCRef().resolve_str(biomassRSName+myID));
+			myModules.put(biomassRSName , myBiomassRS);
+			BiomassStore myBiomassStore = BiomassStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(biomassStoreName+myID));
+			myModules.put(biomassStoreName, myBiomassStore);
+			WaterRS myWaterRS = WaterRSHelper.narrow(OrbUtils.getNCRef().resolve_str(waterRSName+myID));
+			myModules.put(waterRSName , myWaterRS);
+			hasCollectedReferences = true;
+		}
+		catch (org.omg.CORBA.UserException e){
+			System.err.println("BioHolder: Had problems collecting server references, polling again...");
+			OrbUtils.sleepAwhile();
+			collectReferences();
+		}
+		catch (Exception e){
+			System.err.println("BioHolder: Had problems collecting server references, polling again...");
+			OrbUtils.resetInit();
+			OrbUtils.sleepAwhile();
+			collectReferences();
 		}
 	}
 
@@ -285,9 +353,9 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		checkForMeaningfulActivity();
 		if (timeActivityPerformed >= myCurrentActivity.getTimeLength()){
 			currentOrder++;
-			if (currentOrder >= (myCrewGroup.getNumberOfScheduledActivities()))
+			if (currentOrder >= (mySchedule.getNumberOfScheduledActivities()))
 				currentOrder = 1;
-			myCurrentActivity = myCrewGroup.getScheduledActivityByOrder(currentOrder);
+			myCurrentActivity = mySchedule.getScheduledActivityByOrder(currentOrder);
 			timeActivityPerformed = 0;
 		}
 	}
@@ -296,21 +364,33 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		if (myCurrentActivity.getName().equals("Mission")){
 			addProductivity();
 		}
-		else if (myCurrentActivity.getName().equals("Maitenance")){
-			maitenanceModules();
+		else if (myCurrentActivity.getName().startsWith("Maitenance")){
+			StringTokenizer strtok = new StringTokenizer(myCurrentActivity.getName(), "-");
+			if (strtok.countTokens() > 2){
+				strtok.nextToken();
+				maitenanceModule(strtok.nextToken());
+			}
 		}
-		else if (myCurrentActivity.getName().equals("Repair")){
-			repairModule();
+		else if (myCurrentActivity.getName().startsWith("Repair")){
+			StringTokenizer strtok = new StringTokenizer(myCurrentActivity.getName(), "-");
+			if (strtok.countTokens() > 2){
+				strtok.nextToken();
+				repairModule(strtok.nextToken());
+			}
 		}
 	}
 	
 	private void addProductivity(){
 	}
 	
-	private void repairModule(){
+	private void repairModule(String moduleName){
 	}
 	
-	private void maitenanceModules(){
+	private void maitenanceModule(String moduleName){
+	}
+	
+	private BioModule getBioModule(String moduleName){
+		return null;
 	}
 
 	/**
@@ -526,7 +606,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			cleanWaterConsumed = 0f;
 			dirtyWaterProduced = 0f;
 			greyWaterProduced = 0f;
-			myCurrentActivity = myCrewGroup.getScheduledActivityByName("dead");
+			myCurrentActivity = mySchedule.getActivityByName("dead");
 			hasDied = true;
 			timeActivityPerformed = 0;
 		}
@@ -537,6 +617,13 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* inhales/drinks/eats, then exhales/excretes
 	*/
 	private void consumeResources(){
+		//get server references from List
+		FoodStore myFoodStore = (FoodStore)(myModules.get(foodStoreName));
+		PotableWaterStore myPotableWaterStore = (PotableWaterStore)(myModules.get(potableWaterStoreName));
+		SimEnvironment myCurrentEnvironment = (SimEnvironment)(myModules.get(simEnvironmentName));
+		DirtyWaterStore myDirtyWaterStore = (DirtyWaterStore)(myModules.get(dirtyWaterStoreName));
+		GreyWaterStore myGreyWaterStore = (GreyWaterStore)(myModules.get(greyWaterStoreName));
+		//consume
 		int currentActivityIntensity = myCurrentActivity.getActivityIntensity();
 		O2Needed = calculateO2Needed(currentActivityIntensity);
 		cleanWaterNeeded = calculateCleanWaterNeeded(currentActivityIntensity);
