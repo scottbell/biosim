@@ -13,6 +13,7 @@ import biosim.idl.simulation.water.*;
 import biosim.idl.simulation.power.*;
 import biosim.idl.simulation.environment.*;
 import biosim.idl.simulation.framework.*;
+import biosim.idl.framework.*;
 import biosim.server.simulation.air.*;
 import biosim.server.simulation.crew.*;
 import biosim.server.simulation.food.*;
@@ -170,15 +171,53 @@ public class BioInitializer{
 		return desiredFlowRates;
 	}
 	
-	private static void configureSimBioModule(SimBioModule pModule){
+	
+	private void configureSimBioModule(SimBioModule pModule, Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("powerConsumer")){
+				PowerConsumer myPowerConsumer = (PowerConsumer)(pModule);
+				BioModule[] modules = getInputs(child);
+				PowerStore blob = PowerStoreHelper.narrow(modules[0]);
+				PowerStore[] inputs = (PowerStore[])(modules);
+				myPowerConsumer.setPowerInputs(inputs, getMaxFlowRates(child), getDesiredFlowRates(child));
+			}
+			else if (childName.equals("potableWaterConsumer")){
+			}
+			child = child.getNextSibling();
+		}
 	}
 
-	private static String getInput(Node node){
-		return node.getAttributes().getNamedItem("input").getNodeValue();
+	private BioModule[] getInputs(Node node){
+		String arrayString = node.getAttributes().getNamedItem("inputs").getNodeValue();
+		StringTokenizer tokenizer = new StringTokenizer(arrayString);
+		BioModule[] inputs = new BioModule[tokenizer.countTokens()];
+		for (int i = 0; tokenizer.hasMoreTokens(); i++){
+			try{
+				inputs[i] = BioModuleHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(tokenizer.nextToken()));
+				System.out.println("Fetched "+inputs[i].getModuleName());
+			}
+			catch(org.omg.CORBA.UserException e){
+				e.printStackTrace();
+			}
+		}
+		return inputs;
 	}
-
-	private static String getOutput(Node node){
-		return node.getAttributes().getNamedItem("output").getNodeValue();
+	
+	private BioModule[] getOutputs(Node node){
+		String arrayString = node.getAttributes().getNamedItem("outputs").getNodeValue();
+		StringTokenizer tokenizer = new StringTokenizer(arrayString);
+		BioModule[] outputs = new BioModule[tokenizer.countTokens()];
+		for (int i = 0; tokenizer.hasMoreTokens(); i++){
+			try{
+				outputs[i] = BioModuleHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(tokenizer.nextToken()));
+			}
+			catch(org.omg.CORBA.UserException e){
+				e.printStackTrace();
+			}
+		}
+		return outputs;
 	}
 
 	//Modules
@@ -198,7 +237,7 @@ public class BioInitializer{
 		String moduleName = getModuleName(node);
 		try{
 			AirRS myAirRS = AirRSHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			configureSimBioModule(myAirRS);
+			configureSimBioModule(myAirRS, node);
 		}
 		catch(org.omg.CORBA.UserException e){
 			e.printStackTrace();

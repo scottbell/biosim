@@ -287,7 +287,7 @@
 	<xsd:complexType name="ConsumerType">  
 		<xsd:complexContent>
 			<xsd:extension base="FlowRateType">
-					<xsd:attribute name="input" type="stringList" use="required"/>
+					<xsd:attribute name="inputs" type="stringList" use="required"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -295,7 +295,7 @@
 	<xsd:complexType name="ProducerType">  
 		<xsd:complexContent>
 			<xsd:extension base="FlowRateType">
-					<xsd:attribute name="output" type="stringList" use="required"/>
+					<xsd:attribute name="outputs" type="stringList" use="required"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
