@@ -11,7 +11,7 @@ public class BioDriverServer extends GenericServer{
 	
 	/**
 	* Instantiates the server and binds it to the name server.
-	* @param args aren't used for anything
+	* @param args first element can be the ID of the server
 	*/
 	public static void main(String args[]) {
 		BioDriverServer myServer = new BioDriverServer();
