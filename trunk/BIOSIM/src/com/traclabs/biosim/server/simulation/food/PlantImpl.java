@@ -22,6 +22,9 @@ public abstract class PlantImpl extends PlantPOA{
 	private float myAverageCO2Concentration = 0f;
 	private float myTotalCO2Concentration = 0f;
 	private int myNumberOfCO2ConcentrationReadings = 0;
+	private float myAverageCO2MicroConcentration = 0f;
+	private float myTotalCO2MicroConcentration = 0f;
+	private int myNumberOfCO2MicroConcentrationReadings = 0;
 	//in dry weight
 	private float myCurrentTotalWetBiomass = 0f;
 	private float myCurrentEdibleWetBiomass = 0f;
@@ -84,6 +87,7 @@ public abstract class PlantImpl extends PlantPOA{
 		//System.out.println("PlantImpl: **************Begin plant tick***********");
 		myAge++;
 		calculateAverageCO2Concentration();
+		calculateAverageCO2MicroConcentration();
 		growBiomass();
 		//System.out.println("PlantImpl: **************End plant tick***********");
 		
@@ -283,9 +287,14 @@ public abstract class PlantImpl extends PlantPOA{
 	protected float getAverageCO2Concentration(){
 		return myAverageCO2Concentration;
 	}
+	
+	protected float getAverageCO2MicroConcentration(){
+		return myAverageCO2MicroConcentration;
+	}
 
-	//Convert current CO2 levels to micromoles of CO2 / moles of air
-	private void calculateAverageCO2Concentration(){
+	//Convert current CO2Micro levels to moles of CO2Micro / moles of air
+	private void calculateAverageCO2MicroConcentration(){
+		//Convert current CO2Micro levels to micromoles of CO2Micro / moles of air
 		SimEnvironment myEnvironment = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0];
 		float CO2MicroMoles = myEnvironment.getCO2Moles() * pow (10,6); //in micro moles
 		float airMoles = myEnvironment.getTotalMoles(); //in moles
@@ -293,9 +302,25 @@ public abstract class PlantImpl extends PlantPOA{
 			CO2MicroMoles = pow(1f, -30f);
 		else if (airMoles <= 0)
 			airMoles = pow(1f, -30f);
-		//System.out.println("PlantImpl: CO2MicroMoles: "+CO2MicroMoles);
+		////System.out.println("PlantImpl: CO2MicroMoles: "+CO2MicroMoles);
+		////System.out.println("PlantImpl: airMoles: "+airMoles);
+		myTotalCO2MicroConcentration += (CO2MicroMoles / airMoles);
+		myNumberOfCO2MicroConcentrationReadings ++;
+		myAverageCO2MicroConcentration = myTotalCO2MicroConcentration / myNumberOfCO2MicroConcentrationReadings;
+	}
+	
+	//Convert current CO2 levels to moles of CO2 / moles of air
+	private void calculateAverageCO2Concentration(){
+		SimEnvironment myEnvironment = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0];
+		float CO2Moles = myEnvironment.getCO2Moles(); //in moles
+		float airMoles = myEnvironment.getTotalMoles(); //in moles
+		if (CO2Moles <=0)
+			CO2Moles = pow(1f, -30f);
+		else if (airMoles <= 0)
+			airMoles = pow(1f, -30f);
+		//System.out.println("PlantImpl: CO2Moles: "+CO2Moles);
 		//System.out.println("PlantImpl: airMoles: "+airMoles);
-		myTotalCO2Concentration += (CO2MicroMoles / airMoles);
+		myTotalCO2Concentration += (CO2Moles / airMoles);
 		myNumberOfCO2ConcentrationReadings ++;
 		myAverageCO2Concentration = myTotalCO2Concentration / myNumberOfCO2ConcentrationReadings;
 	}
@@ -316,7 +341,7 @@ public abstract class PlantImpl extends PlantPOA{
 		float thePPFcubed = pow(thePPF, 3f);
 
 
-		float theCO2 = getAverageCO2Concentration();
+		float theCO2 = getAverageCO2MicroConcentration();
 		float oneOverCO2 = 1f / theCO2;
 		float theCO2squared = pow(theCO2, 2f);
 		float theCO2cubed = pow(theCO2, 3f);
