@@ -20,6 +20,7 @@ public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperat
 	float currentPowerProduced = 0f;
 	//Flag switched when the Power PS has collected references to other servers it need
 	private boolean hasCollectedReferences = false;
+	//Used for speedy access to the LogNode
 	private LogIndex myLogIndex;
 	private PowerStore[] myPowerStores;
 	private float[] powerFlowRates;
