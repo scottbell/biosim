@@ -97,7 +97,8 @@ public class ShelfImpl extends ShelfPOA {
 		float gatheredPower = 0f;
 		PowerStore[] myPowerStores = myBiomassImpl.getPowerInputs();
 		for (int i = 0; (i < myPowerStores.length) && (gatheredPower < myCrop.getPowerNeeded()); i++){
-			gatheredPower += java.lang.Math.min(myPowerStores[i].take(myCrop.getPowerNeeded()) , myBiomassImpl.getPowerInputFlowrate(i));
+			float powerToGather = Math.min(myCrop.getPowerNeeded(), myBiomassImpl.getPowerInputFlowrate(i));
+			gatheredPower += myPowerStores[i].take(powerToGather);
 		}
 		currentPowerConsumed = gatheredPower;
 		if (currentPowerConsumed < myCrop.getPowerNeeded()){
@@ -120,11 +121,13 @@ public class ShelfImpl extends ShelfPOA {
 		GreyWaterStore[] myGreyWaterStores = myBiomassImpl.getGreyWaterInputs();
 		PotableWaterStore[] myPotableWaterStores = myBiomassImpl.getPotableWaterInputs();
 		for (int i = 0; (i < myGreyWaterStores.length) && (gatheredWater < myCrop.getWaterNeeded()); i++){
-			gatheredWater += java.lang.Math.min(myGreyWaterStores[i].take(myCrop.getWaterNeeded()) , myBiomassImpl.getGreyWaterInputFlowrate(i));
+			float greyWaterToGather = Math.min(myBiomassImpl.getGreyWaterInputFlowrate(i), myCrop.getWaterNeeded());
+			gatheredWater += myGreyWaterStores[i].take(greyWaterToGather);
 		}
 		currentGreyWaterConsumed = gatheredWater;
 		for (int i = 0; (i < myPotableWaterStores.length) && (gatheredWater < myCrop.getWaterNeeded()); i++){ 
-			gatheredWater += java.lang.Math.min(myPotableWaterStores[i].take(myCrop.getWaterNeeded()) , myBiomassImpl.getPotableWaterInputFlowrate(i));
+			float potableWaterToGather = Math.min(myBiomassImpl.getPotableWaterInputFlowrate(i), myCrop.getWaterNeeded());
+			gatheredWater += myPotableWaterStores[i].take(potableWaterToGather);
 		}
 		currentPotableWaterConsumed = gatheredWater - currentGreyWaterConsumed;
 		if (gatheredWater < myCrop.getWaterNeeded()){
