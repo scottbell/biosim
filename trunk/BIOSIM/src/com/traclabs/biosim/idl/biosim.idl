@@ -831,6 +831,7 @@ module biosim{
                                 };
                                 interface O2StoreLevelSensor : O2StoreSensor{};
                                 interface H2StoreLevelSensor : H2StoreSensor{};
+                                interface NitrogenStoreLevelSensor : NitrogenStoreSensor{};
                                 interface CO2StoreLevelSensor : CO2StoreSensor{};
                                 interface O2InFlowRateSensor : framework::GenericSensor{
                                         void setInput(in framework::O2Consumer pConsumer, in long pIndex);
