@@ -53,6 +53,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 		myFoodStores = new FoodStore[0];
 		myPowerStores = new PowerStore[0];
 		myBiomassStores = new BiomassStore[0];
+		biomatterConsumed = new BioMatter[0];
 		powerMaxFlowRates = new float[0];
 		biomassMaxFlowRates = new float[0];
 		foodMaxFlowRates = new float[0];
@@ -212,6 +213,10 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	*/
 	private void createFood(){
 		if (hasEnoughPower){
+			if (biomatterConsumed == null){
+				currentFoodProduced = 0f;
+				return;
+			}
 			FoodMatter[] foodMatterArray = new FoodMatter[biomatterConsumed.length];
 			for (int i = 0; i < foodMatterArray.length; i++){
 				foodMatterArray[i] = transformBioMatter(biomatterConsumed[i]);
