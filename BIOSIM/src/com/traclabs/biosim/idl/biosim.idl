@@ -9,11 +9,6 @@ module biosim{
 			};
 		};
 		
-		module util{
-			interface BioSimUtils{
-			};
-		};
-
                 module crew{
                         interface Activity{
                                 string getName();

@@ -24,9 +24,9 @@ public class BioModuleServer {
 public static void main(String args[]) {
 	try{
 		// create and initialize the ORB
-		ORB orb = BioSimUtilsImpl.getORB();
-		NamingContextExt ncRef = BioSimUtilsImpl.getNCRef();
-		POA rootpoa = BioSimUtilsImpl.getRootPOA();
+		ORB orb = OrbUtils.getORB();
+		NamingContextExt ncRef = OrbUtils.getNCRef();
+		POA rootpoa = OrbUtils.getRootPOA();
 		 
 		 // create servants and register them with ORB
 		 SimEnvironmentImpl mySimEnvironmentImpl = new SimEnvironmentImpl();

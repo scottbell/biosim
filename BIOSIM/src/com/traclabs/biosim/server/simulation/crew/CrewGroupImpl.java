@@ -28,13 +28,13 @@ public class CrewGroupImpl extends CrewGroupPOA {
 	public org.omg.CORBA.Object createCrewPerson(String name){
 		CrewPersonImpl newCrewPerson = new CrewPersonImpl(name, this);
 		crewPeople.put(name, newCrewPerson);
-		return (BioSimUtilsImpl.poaToCorbaObj(newCrewPerson));
+		return (OrbUtils.poaToCorbaObj(newCrewPerson));
 	}
 
 	public org.omg.CORBA.Object getScheduledActivityByName(String name){
 		ActivityImpl foundActivity = mySchedule.getActivityByName(name);
 		if (foundActivity != null)
-			return (BioSimUtilsImpl.poaToCorbaObj(foundActivity));
+			return (OrbUtils.poaToCorbaObj(foundActivity));
 		else{
 			System.out.println("Couldn't find Activity by that name!");
 			return null;
@@ -44,7 +44,7 @@ public class CrewGroupImpl extends CrewGroupPOA {
 	public org.omg.CORBA.Object getScheduledActivityByOrder(int order){
 		ActivityImpl foundActivity = mySchedule.getActivityByOrder(order);
 		if (foundActivity != null)
-			return (BioSimUtilsImpl.poaToCorbaObj(foundActivity));
+			return (OrbUtils.poaToCorbaObj(foundActivity));
 		else{
 			System.out.println("Couldn't find Activity by that order!");
 			return null;
@@ -73,7 +73,7 @@ public class CrewGroupImpl extends CrewGroupPOA {
 
 	public org.omg.CORBA.Object getCrewPerson(String crewPersonName){
 		CrewPersonImpl foundPerson = (CrewPersonImpl)(crewPeople.get(crewPersonName));
-		return (BioSimUtilsImpl.poaToCorbaObj(foundPerson));
+		return (OrbUtils.poaToCorbaObj(foundPerson));
 	}
 	
 	protected int getNumberOfActivities(){

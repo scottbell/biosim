@@ -16,15 +16,15 @@ public class GreyWaterStoreImpl extends GreyWaterStorePOA {
 		greyWaterCapacity = initialGreyWaterCapacity;
 	}
 	
-	void setWaterCapacity(float liters){
+	public void setWaterCapacity(float liters){
 		greyWaterCapacity = liters;
 	}
 
-	void setWaterLevel(float liters){
+	public void setWaterLevel(float liters){
 		greyWaterLevel = liters;
 	}
 
-	float addWater(float liters){
+	public float addWater(float liters){
 		if ((liters +greyWaterLevel) > greyWaterCapacity){
 			float returnValue = (greyWaterCapacity - greyWaterLevel);
 			greyWaterLevel = greyWaterCapacity;
@@ -36,7 +36,7 @@ public class GreyWaterStoreImpl extends GreyWaterStorePOA {
 		}
 	}
 
-	float takeWater(float liters){
+	public float takeWater(float liters){
 		if ((greyWaterLevel - liters) < 0){
 			greyWaterLevel = 0;
 			if (liters < 0)
@@ -49,7 +49,7 @@ public class GreyWaterStoreImpl extends GreyWaterStorePOA {
 			return liters;
 		}
 	}
-	float getWaterLevel(){
+	public float getWaterLevel(){
 		return greyWaterLevel;
 	}
 

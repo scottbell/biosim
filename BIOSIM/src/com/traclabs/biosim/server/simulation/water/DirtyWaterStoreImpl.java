@@ -16,15 +16,15 @@ public class DirtyWaterStoreImpl extends DirtyWaterStorePOA {
 		dirtyWaterCapacity = initialDirtyWaterCapacity;
 	}
 	
-	void setWaterCapacity(float liters){
+	public void setWaterCapacity(float liters){
 		dirtyWaterCapacity = liters;
 	}
 
-	void setWaterLevel(float liters){
+	public void setWaterLevel(float liters){
 		dirtyWaterLevel = liters;
 	}
 
-	float addWater(float liters){
+	public float addWater(float liters){
 		if ((liters +dirtyWaterLevel) > dirtyWaterCapacity){
 			float returnValue = (dirtyWaterCapacity - dirtyWaterLevel);
 			dirtyWaterLevel = dirtyWaterCapacity;
@@ -36,7 +36,7 @@ public class DirtyWaterStoreImpl extends DirtyWaterStorePOA {
 		}
 	}
 
-	float takeWater(float liters){
+	public float takeWater(float liters){
 		if ((dirtyWaterLevel - liters) < 0){
 			dirtyWaterLevel = 0;
 			if (liters < 0)
@@ -49,7 +49,7 @@ public class DirtyWaterStoreImpl extends DirtyWaterStorePOA {
 			return liters;
 		}
 	}
-	float getWaterLevel(){
+	public float getWaterLevel(){
 		return dirtyWaterLevel;
 	}
 

@@ -5,9 +5,8 @@ import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
-import biosim.idl.util.*;
 
-public class BioSimUtilsImpl extends BioSimUtilsPOA{
+public class OrbUtils{
 	private static boolean runOnce = false;
 	private static POA rootPOA = null;
 	private static ORB myOrb = null;

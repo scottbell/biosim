@@ -16,15 +16,15 @@ public class FoodStoreImpl extends FoodStorePOA {
 		foodCapacity = initialFoodCapacity;
 	}
 
-	void setFoodCapacity(float kilograms){
+	public void setFoodCapacity(float kilograms){
 		foodCapacity = kilograms;
 	}
 
-	void setFoodLevel(float kilograms){
+	public void setFoodLevel(float kilograms){
 		foodLevel = kilograms;
 	}
 
-	float addFood(float kilograms){
+	public float addFood(float kilograms){
 		if ((kilograms +foodLevel) > foodCapacity){
 			float returnValue = (foodCapacity - foodLevel);
 			foodLevel = foodCapacity;
@@ -36,7 +36,7 @@ public class FoodStoreImpl extends FoodStorePOA {
 		}
 	}
 
-	float takeFood(float kilograms){
+	public float takeFood(float kilograms){
 		if ((foodLevel - kilograms) < 0){
 			foodLevel = 0;
 			if (kilograms < 0)
@@ -49,7 +49,7 @@ public class FoodStoreImpl extends FoodStorePOA {
 			return kilograms;
 		}
 	}
-	float getFoodLevel(){
+	public float getFoodLevel(){
 		return foodLevel;
 	}
 
