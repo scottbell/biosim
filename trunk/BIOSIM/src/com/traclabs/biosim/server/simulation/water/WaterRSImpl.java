@@ -1,7 +1,6 @@
 package biosim.server.water;
 
 import biosim.idl.water.*;
-import biosim.idl.power.*;
 import biosim.idl.util.*;
 import biosim.server.util.*;
 import biosim.server.framework.*;
@@ -13,19 +12,6 @@ import biosim.server.framework.*;
  */
 
 public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
-	//The potable water produced (in liters) by the Water RS at the current tick
-	private float currentPotableWaterProduced = 0f;
-	//The grey water produced (in liters) by the Water RS at the current tick
-	private float currentGreyWaterProduced = 0f;
-	//The power consumed (in watts) by the Water RS at the current tick
-	private float currentPowerConsumed = 0f;
-	//The dirty water consumed (in liters) by the Water RS at the current tick
-	private float currentDirtyWaterConsumed = 0f;
-	//The grey water consumed (in liters) by the Water RS at the current tick
-	private float currentGreyWaterConsumed = 0f;
-	//Flag switched when the Water RS has collected references to other servers it need
-	private boolean hasCollectedReferences = false;
-	private float powerNeeded = 0f;
 	//The various subsystems of Water RS that clean the water
 	private BWP myBWP;
 	private RO myRO;
@@ -33,7 +19,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	private PPS myPPS;
 	private LogIndex myLogIndex;
 	//References to the servers the Water RS takes/puts resources (power and water)
-	private PowerStore myPowerStore;
+	
 	private PotableWaterStore myPotableWaterStore;
 	private DirtyWaterStore myDirtyWaterStore;
 	private GreyWaterStore myGreyWaterStore;
@@ -52,12 +38,6 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	* Resets production/consumption levels and resets all the subsystems
 	*/
 	public void reset(){
-		currentPotableWaterProduced = 0f;
-		currentGreyWaterProduced = 0f;
-		currentPowerConsumed = 0f;
-		currentDirtyWaterConsumed = 0f;
-		currentGreyWaterConsumed = 0f;
-		powerNeeded = 0f;
 		myBWP.reset();
 		myRO.reset();
 		myAES.reset();
@@ -132,7 +112,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	* Returns the RO subsystem
 	* @return the RO subsystem
 	*/
-	public RO getRO(){
+	protected RO getRO(){
 		return myRO;
 	}
 
@@ -140,7 +120,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	* Returns the AES subsystem
 	* @return the AES subsystem
 	*/
-	public AES getAES(){
+	protected AES getAES(){
 		return myAES;
 	}
 
@@ -148,7 +128,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	* Returns the PPS subsystem
 	* @return the PPS subsystem
 	*/
-	public PPS getPPS(){
+	protected PPS getPPS(){
 		return myPPS;
 	}
 
@@ -156,7 +136,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	* Returns the BWP subsystem
 	* @return the BWP subsystem
 	*/
-	public BWP getBWP(){
+	protected BWP getBWP(){
 		return myBWP;
 	}
 
@@ -165,7 +145,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	* @return the potable water produced (in liters) by the Water RS during the current tick
 	*/
 	public float getPotableWaterProduced(){
-		return currentPotableWaterProduced;
+		return myPPS.getPotableWaterProduced();
 	}
 
 	/**
@@ -173,7 +153,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	* @return the grey water produced (in liters) by the Water RS during the current tick
 	*/
 	public float getGreyWaterProduced(){
-		return currentGreyWaterProduced;
+		return 0f;
 	}
 
 	/**
@@ -181,7 +161,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	* @return the grey water consumed (in liters) by the Water RS during the current tick
 	*/
 	public float getGreyWaterConsumed(){
-		return currentGreyWaterConsumed;
+		return myBWP.getGreyWaterConsumed();
 	}
 
 	/**
@@ -189,7 +169,9 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	* @return the power consumed (in watts) by the Water RS during the current tick
 	*/
 	public float getPowerConsumed(){
-		return currentPowerConsumed;
+		float powerConsumed = myAES.getPowerConsumed() + myPPS.getPowerConsumed() + 
+							myBWP.getPowerConsumed() + myRO.getPowerConsumed();
+		return powerConsumed;
 	}
 
 	/**
@@ -197,99 +179,23 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	* @return the dirty water consumed (in liters) by the Water RS during the current tick
 	*/
 	public float getDirtyWaterConsumed(){
-		return currentDirtyWaterConsumed;
-	}
-
-	/**
-	* Collects references to servers needed for putting/getting resources.
-	*/
-	private void collectReferences(){
-		try{
-			if (!hasCollectedReferences){
-				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"));
-				myDirtyWaterStore = DirtyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("DirtyWaterStore"));
-				myGreyWaterStore = GreyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("GreyWaterStore"));
-				myPotableWaterStore = PotableWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PotableWaterStore"));
-				hasCollectedReferences = true;
-			}
-		}
-		catch (org.omg.CORBA.UserException e){
-			e.printStackTrace(System.out);
-		}
+		return myBWP.getDirtyWaterConsumed();
 	}
 
 	/**
 	* When ticked, the Water RS:
-	* 1) attempts to collect references to various server (if not already done).
-	* 2) consumes power.
-	* 3) consumes unpotable water.
-	* 4) ticks each subsystem.
-	* 5) distributes the now potable water
+	* 1) ticks each subsystem.
 	*/
 	public void tick(){
-		//collect references
-		collectReferences();
-		//gather power for each system
-		gatherPower();
-		//gather dirty & clean water for BWP
-		gatherUnpotableWater();
 		//tick each system
 		myBWP.tick();
 		myRO.tick();
 		myAES.tick();
 		myPPS.tick();
-		//get clean water from PPS and put in clean water store
-		distributePotableWater();
 		if (moduleLogging)
 			log();
 	}
 
-	/**
-	* Attempts to collect enough power from the Power PS to run each subsystem.
-	* If any subsystem can't get enough power, the Water RS ceases to function.
-	*/
-	private void gatherPower(){
-		powerNeeded = myPPS.getPowerNeeded() + myRO.getPowerNeeded() + myBWP.getPowerNeeded() + myAES.getPowerNeeded();
-		currentPowerConsumed = myPowerStore.take(powerNeeded);
-		if (currentPowerConsumed < powerNeeded){
-			myPPS.addPower(0);
-			myRO.addPower(0);
-			myBWP.addPower(0);
-			myAES.addPower(0);
-		}
-		else{
-			myPPS.addPower(myPPS.getPowerNeeded());
-			myRO.addPower(myRO.getPowerNeeded());
-			myBWP.addPower(myBWP.getPowerNeeded());
-			myAES.addPower(myAES.getPowerNeeded());
-		}
-	}
-
-	/**
-	* Attempts to collect enough water from the Dirty Water Store to put into the BWP.
-	* If the Dirty Water Store can't provide enough, the Water RS supplements from the Grey Water Store.
-	*/
-	private void gatherUnpotableWater(){
-		//draw as much as we can from dirty water
-		if (myDirtyWaterStore.getLevel() >= myBWP.getWaterWanted()){
-			currentDirtyWaterConsumed = myDirtyWaterStore.take(myBWP.getWaterWanted());
-			currentGreyWaterConsumed = 0;
-		}
-		//draw from both
-		else{
-			currentDirtyWaterConsumed = myDirtyWaterStore.take(myBWP.getWaterWanted());
-			currentGreyWaterConsumed = myGreyWaterStore.take(myBWP.getWaterWanted() - currentDirtyWaterConsumed);
-		}
-		myBWP.addWater(currentDirtyWaterConsumed + currentGreyWaterConsumed);
-	}
-
-	/**
-	* Takes clean water from the PPS as add it to the Potable Water Store
-	*/
-	private void distributePotableWater(){
-		currentPotableWaterProduced = myPPS.takeWater();
-		myPotableWaterStore.add(currentPotableWaterProduced);
-	}
 
 	/**
 	* Returns the name of this module (WaterRS)
@@ -303,18 +209,16 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();
-			LogNode powerNeededHead = myLog.getHead().addChild("Power Needed");
-			myLogIndex.powerNeededIndex = powerNeededHead.addChild(""+powerNeeded);
 			LogNode currentPotableWaterProducedHead = myLog.getHead().addChild("Potable Water Produced");
-			myLogIndex.currentPotableWaterProducedIndex = currentPotableWaterProducedHead.addChild(""+currentPotableWaterProduced);
+			myLogIndex.currentPotableWaterProducedIndex = currentPotableWaterProducedHead.addChild(""+getPotableWaterProduced());
 			LogNode currentGreyWaterProducedHead = myLog.getHead().addChild("Grey Water Produced");
-			myLogIndex.currentGreyWaterProducedIndex = currentGreyWaterProducedHead.addChild(""+currentGreyWaterProduced);
+			myLogIndex.currentGreyWaterProducedIndex = currentGreyWaterProducedHead.addChild(""+getGreyWaterProduced());
 			LogNode currentPowerConsumedHead = myLog.getHead().addChild("Power Consumed");
-			myLogIndex.currentPowerConsumedIndex = currentPowerConsumedHead.addChild(""+currentPowerConsumed);
+			myLogIndex.currentPowerConsumedIndex = currentPowerConsumedHead.addChild(""+getPowerConsumed());
 			LogNode currentDirtyWaterConsumedHead = myLog.getHead().addChild("Dirty Water Consumed");
-			myLogIndex.currentDirtyWaterConsumedIndex = currentDirtyWaterConsumedHead.addChild(""+currentDirtyWaterConsumed);
+			myLogIndex.currentDirtyWaterConsumedIndex = currentDirtyWaterConsumedHead.addChild(""+getDirtyWaterConsumed());
 			LogNode currentGreyWaterConsumedHead = myLog.getHead().addChild("Grey Water Consumed");
-			myLogIndex.currentGreyWaterConsumedIndex = currentGreyWaterConsumedHead.addChild(""+currentGreyWaterConsumed);
+			myLogIndex.currentGreyWaterConsumedIndex = currentGreyWaterConsumedHead.addChild(""+getGreyWaterConsumed());
 			myLogIndex.AESIndex = myLog.getHead().addChild("AES");
 			myAES.log(myLogIndex.AESIndex);
 			myLogIndex.BWPIndex = myLog.getHead().addChild("BWP");
@@ -326,12 +230,11 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 			logInitialized = true;
 		}
 		else{
-			myLogIndex.powerNeededIndex.setValue(""+powerNeeded);
-			myLogIndex.currentPotableWaterProducedIndex.setValue(""+currentPotableWaterProduced);
-			myLogIndex.currentGreyWaterProducedIndex.setValue(""+currentGreyWaterProduced);
-			myLogIndex.currentPowerConsumedIndex.setValue(""+currentPowerConsumed);
-			myLogIndex.currentDirtyWaterConsumedIndex.setValue(""+currentDirtyWaterConsumed);
-			myLogIndex.currentGreyWaterConsumedIndex.setValue(""+currentGreyWaterConsumed);
+			myLogIndex.currentPotableWaterProducedIndex.setValue(""+getPotableWaterProduced());
+			myLogIndex.currentGreyWaterProducedIndex.setValue(""+getGreyWaterProduced());
+			myLogIndex.currentPowerConsumedIndex.setValue(""+getPowerConsumed());
+			myLogIndex.currentDirtyWaterConsumedIndex.setValue(""+getDirtyWaterConsumed());
+			myLogIndex.currentGreyWaterConsumedIndex.setValue(""+getGreyWaterConsumed());
 			myAES.log(myLogIndex.AESIndex);
 			myBWP.log(myLogIndex.BWPIndex);
 			myRO.log(myLogIndex.ROIndex);

@@ -1,4 +1,8 @@
 package biosim.server.water;
+
+import biosim.server.util.*;
+import biosim.idl.power.*;
+import biosim.idl.water.*;
 /**
  * The Biological Waste Processor is the first stage of water purification.  It takes dirty/grey water, filters it some, and
  * sends the water to the RO
@@ -9,9 +13,11 @@ package biosim.server.water;
 public class BWP extends WaterRSSubSystem{
 	//The subsystem to send the water to next
 	private RO myRO;
-	//Flag switched when the BWP has collected references to other subsystems it needs
-	private boolean hasCollectedReferences = false;
-	
+	private DirtyWaterStore myDirtyWaterStore;
+	private GreyWaterStore myGreyWaterStore;
+	private float currentDirtyWaterConsumed = 0f;
+	private float currentGreyWaterConsumed = 0f;
+
 	/**
 	* Constructor that creates the BWP
 	* @param pWaterRSImpl The Water RS system the BWP is contained in
@@ -19,39 +25,60 @@ public class BWP extends WaterRSSubSystem{
 	public BWP(WaterRSImpl pWaterRSImpl){
 		super(pWaterRSImpl);
 	}
-	
+
 	/**
 	* Collects references to subsystems needed for putting/getting resources
 	*/
 	private void collectReferences(){
 		if (!hasCollectedReferences){
-			myRO = myWaterRS.getRO();
-			hasCollectedReferences = true;
+			try{
+				myRO = myWaterRS.getRO();
+				myDirtyWaterStore = DirtyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("DirtyWaterStore"));
+				myGreyWaterStore = GreyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("GreyWaterStore"));
+				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"));
+				hasCollectedReferences = true;
+			}
+			catch (org.omg.CORBA.UserException e){
+				e.printStackTrace(System.out);
+			}
 		}
 	}
 	
+	public float getDirtyWaterConsumed(){
+		return currentDirtyWaterConsumed;
+	}
+	
+	public float getGreyWaterConsumed(){
+		return currentGreyWaterConsumed;
+	}
+
 	/**
-	* Returns the amount of water (in liters) the BWP would like for this tick
-	* @return the amount of water (in liters the BWP wants, 0 if the BWP has no power
+	* Attempts to collect enough water from the Dirty Water Store to put into the BWP.
+	* If the Dirty Water Store can't provide enough, the Water RS supplements from the Grey Water Store.
 	*/
-	public float getWaterWanted(){
-		if (!hasEnoughPower){
-			hasEnoughWater = true;
-			return 0;
+	private void gatherWater(){
+		//draw as much as we can from dirty water
+		if (myDirtyWaterStore.getLevel() >= waterNeeded){
+			currentDirtyWaterConsumed = myDirtyWaterStore.take(waterNeeded);
+			currentGreyWaterConsumed = 0;
 		}
-		else
-			return waterNeeded;
+		//draw from both
+		else{
+			currentDirtyWaterConsumed = myDirtyWaterStore.take(waterNeeded);
+			currentGreyWaterConsumed = myGreyWaterStore.take(waterNeeded - currentDirtyWaterConsumed);
+		}
+		addWater(currentDirtyWaterConsumed + currentGreyWaterConsumed);
 	}
-	
+
 	/**
 	* Flushes the water from this subsystem to the RO
 	*/
 	private void pushWater(){
-		myWaterRS.getRO().addWater(waterLevel);
+		myRO.addWater(waterLevel);
 		waterLevel = 0;
 	}
-	
-	
+
+
 	/**
 	* In one tick, this subsystem:
 	* 1) Collects references (if needed).
@@ -59,6 +86,19 @@ public class BWP extends WaterRSSubSystem{
 	*/
 	public void tick(){
 		collectReferences();
-		pushWater();
+		gatherPower();
+		if (hasEnoughPower){
+			gatherWater();
+			pushWater();
+		}
+	}
+	
+	public void reset(){
+		currentDirtyWaterConsumed = 0f;
+		currentGreyWaterConsumed = 0f;
+		currentPower = 0;
+		hasEnoughPower = false;
+		hasEnoughWater = false;
+		waterLevel = 0;
 	}
 }
