@@ -126,8 +126,8 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 	* Returns the number of activities in the schedule
 	* @return the number of activities in the schedule
 	*/
-	protected int getNumberOfActivities(){
-		return mySchedule.getNumberOfActivities();
+	protected int getNumberOfScheduledActivities(){
+		return mySchedule.getNumberOfScheduledActivities();
 	}
 	
 	protected int getOrderOfActivity(String activityName){

@@ -87,8 +87,8 @@ public class Schedule{
 	* Returns the number of activities in the schedule
 	* @return the number of activities in the schedule
 	*/
-	public int getNumberOfActivities(){
-		return allActivities.size();
+	public int getNumberOfScheduledActivities(){
+		return orderedSchedule.size();
 	}
 	
 	/**

@@ -285,7 +285,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		checkForMeaningfulActivity();
 		if (timeActivityPerformed >= myCurrentActivity.getTimeLength()){
 			currentOrder++;
-			if (currentOrder >= (myCrewGroup.getNumberOfActivities()))
+			if (currentOrder >= (myCrewGroup.getNumberOfScheduledActivities()))
 				currentOrder = 1;
 			myCurrentActivity = myCrewGroup.getScheduledActivityByOrder(currentOrder);
 			timeActivityPerformed = 0;
