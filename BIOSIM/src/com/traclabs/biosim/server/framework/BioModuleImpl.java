@@ -42,7 +42,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); ){
 			Malfunction currentMalfunction = (Malfunction)(iter.next());
 			if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF)	
-				myMalfunctions.remove(new Integer(currentMalfunction.getID()));
+				myMalfunctions.remove(new Long(currentMalfunction.getID()));
 		}
 	}
 	
@@ -84,14 +84,14 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		String malfunctionName = getMalfunctionName(pIntensity, pLength);
 		MalfunctionImpl newMalfunctionImpl = new MalfunctionImpl(malfunctionName,pIntensity,pLength);
 		Malfunction newMalfunction = MalfunctionHelper.narrow(OrbUtils.poaToCorbaObj(newMalfunctionImpl));
-		myMalfunctions.put((new Integer(newMalfunction.getID())), newMalfunction);
+		myMalfunctions.put((new Long(newMalfunction.getID())), newMalfunction);
 		return newMalfunction;
 	}
 
-	public void fixMalfunction(int pID){
-		Malfunction theMalfunction = (Malfunction)(myMalfunctions.get(new Integer(pID)));
+	public void fixMalfunction(long pID){
+		Malfunction theMalfunction = (Malfunction)(myMalfunctions.get(new Long(pID)));
 		if (theMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF)	
-			myMalfunctions.remove(new Integer(pID));
+			myMalfunctions.remove(new Long(pID));
 	}
 
 	public boolean isMalfunctioning(){

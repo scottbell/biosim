@@ -8,7 +8,7 @@ import biosim.idl.framework.*;
 
 public class MalfunctionImpl extends MalfunctionPOA  {
 	private static long lastID = 0;
-	private int myID;
+	private long myID;
 	private MalfunctionIntensity myIntensity;
 	private MalfunctionLength myLength;
 	private String myName;
@@ -33,7 +33,7 @@ public class MalfunctionImpl extends MalfunctionPOA  {
 				maxRepairTime = 4;	
 	}
 	
-	public int getID(){
+	public long getID(){
 		return myID;
 	}
 	

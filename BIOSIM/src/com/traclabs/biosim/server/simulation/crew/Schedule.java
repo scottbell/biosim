@@ -88,7 +88,7 @@ public class Schedule{
 	public void insertActivityInSchedule(Activity pActivity, int pOrder){
 		if (!allActivities.containsKey(pActivity.getName()))
 			allActivities.put(pActivity.getName(), pActivity);
-		orderedSchedule.add(pOrder, pActivity)
+		orderedSchedule.add(pOrder, pActivity);
 	}
 	
 	/**

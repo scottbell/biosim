@@ -10,7 +10,7 @@ module biosim{
 			
 			interface Malfunction{
 				MalfunctionIntensity getIntensity();
-				long getID();
+				long long getID();
 				string getName();
 				boolean hasPerformed();
 				void setPerformed(in boolean pPerformed);
@@ -30,7 +30,7 @@ module biosim{
 				void setStochasticIntensity(in StochasticIntensity pIntensity);
 				StochasticIntensity getStochasticIntensity();
 				Malfunction startMalfunction(in MalfunctionIntensity pIntensity, in MalfunctionLength pLength);
-				void fixMalfunction(in long id);
+				void fixMalfunction(in long long id);
 				void fixAllMalfunctions();
 				boolean isMalfunctioning();
 				StringList getMalfunctionNames();
