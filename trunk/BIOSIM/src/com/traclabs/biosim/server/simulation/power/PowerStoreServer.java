@@ -10,31 +10,29 @@ import org.omg.PortableServer.POA;
 
 public class PowerStoreServer {
 
-public static void main(String args[]) {
-	try{
-		// create and initialize the ORB
-		ORB orb = OrbUtils.getORB();
-		NamingContextExt ncRef = OrbUtils.getNCRef();
-		POA rootpoa = OrbUtils.getRootPOA();
-
-		 // create servant and register it with  ORB
-		 PowerStoreImpl myPowerStoreImpl = new PowerStoreImpl();
-
-		 // get object reference from the servant
-		 org.omg.CORBA.Object ref = rootpoa.servant_to_reference(myPowerStoreImpl);
-		 // bind the Object Reference in Naming
-		 NameComponent path[] = ncRef.to_name("PowerStore");
-		 ncRef.rebind(path, ref);
-		 
-		 System.out.println("PowerStore Server ready and waiting ...");
-		 // wait for invocations from clients
-		 orb.run();
-	}
-	catch (Exception e) {
-		System.err.println("ERROR: " + e);
-		e.printStackTrace(System.out);
-	}
-	System.out.println("PowerStore Server Exiting ...");
+	public static void main(String args[]) {
+		try{
+			// create and initialize the ORB
+			ORB orb = OrbUtils.getORB();
+			NamingContextExt ncRef = OrbUtils.getNCRef();
+			POA rootpoa = OrbUtils.getRootPOA();
+			rootpoa.the_POAManager().activate();
+			// create servant and register it with  ORB
+			PowerStoreImpl myPowerStoreImpl = new PowerStoreImpl();
+			// get object reference from the servant
+			org.omg.CORBA.Object ref =rootpoa.servant_to_reference(new PowerStorePOATie(myPowerStoreImpl));
+			// bind the Object Reference in Naming
+			NameComponent path[] = ncRef.to_name("PowerStore");
+			ncRef.rebind(path, ref);
+			System.out.println("PowerStore Server ready and waiting ...");
+			// wait for invocations from clients
+			orb.run();
+		}
+		catch (Exception e) {
+			System.err.println("ERROR: " + e);
+			e.printStackTrace(System.out);
+		}
+		System.out.println("PowerStore Server Exiting ...");
 	}
 }
 

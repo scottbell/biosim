@@ -19,12 +19,11 @@ public class AirRSServer {
 			rootpoa.the_POAManager().activate();
 			// create servant and register it with  ORB
 			AirRSImpl myAirRSImpl = new AirRSImpl();
-
-			org.omg.CORBA.Object ref =rootpoa.servant_to_reference( new AirRSPOATie(myAirRSImpl));
+			// get object reference from the servant
+			org.omg.CORBA.Object ref =rootpoa.servant_to_reference(new AirRSPOATie(myAirRSImpl));
 			// bind the Object Reference in Naming
 			NameComponent path[] = ncRef.to_name("AirRS");
 			ncRef.rebind(path, ref);
-
 			System.out.println("AirRS Server ready and waiting ...");
 			// wait for invocations from clients
 			orb.run();

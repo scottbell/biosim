@@ -2,8 +2,9 @@ package biosim.server.environment;
 
 import biosim.idl.environment.*;
 import biosim.idl.air.*;
+import biosim.server.framework.*;
 
-public class SimEnvironmentImpl extends SimEnvironmentPOA {
+public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentOperations {
 	private float O2Level;
 	private float CO2Level;
 	private float otherLevel;

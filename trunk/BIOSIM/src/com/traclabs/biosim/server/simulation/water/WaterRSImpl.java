@@ -3,8 +3,9 @@ package biosim.server.water;
 import biosim.idl.water.*;
 import biosim.idl.power.*;
 import biosim.server.util.*;
+import biosim.server.framework.*;
 
-public class WaterRSImpl extends WaterRSPOA {
+public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	private float currentPotableWaterProduced = 0f;
 	private float currentGreyWaterProduced = 0f;
 	private float currentPowerConsumed = 0f;

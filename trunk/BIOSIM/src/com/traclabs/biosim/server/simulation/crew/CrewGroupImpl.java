@@ -5,8 +5,9 @@ import java.net.*;
 import java.util.*;
 import biosim.server.util.*;
 import biosim.idl.crew.*;
+import biosim.server.framework.*;
 
-public class CrewGroupImpl extends CrewGroupPOA {
+public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations {
 	private Schedule mySchedule;
 	private Hashtable crewPeople;
 
