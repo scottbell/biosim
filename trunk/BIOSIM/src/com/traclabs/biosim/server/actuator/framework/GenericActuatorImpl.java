@@ -42,7 +42,7 @@ public abstract class GenericActuatorImpl extends BioModuleImpl implements Gener
 	
 	protected abstract BioModule getOutputModule();
 	
-	protected void log(){
+	public void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			LogNode outputNodeHead = myLog.addChild("output");

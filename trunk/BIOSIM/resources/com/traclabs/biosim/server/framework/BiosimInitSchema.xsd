@@ -41,7 +41,8 @@
 		<xsd:attribute name="crewsToWatch" type="stringList" use="optional"/>
 		<xsd:attribute name="isFullLoggingEnabled" type="xsd:boolean" default="false"/>
 		<xsd:attribute name="isSensorLoggingEnabled" type="xsd:boolean" default="false"/>    
-		<xsd:attribute name="isActuatorLoggingEnabled" type="xsd:boolean" default="false"/>
+		<xsd:attribute name="isActuatorLoggingEnabled" type="xsd:boolean" default="false"/>    
+		<xsd:attribute name="logLastTick" type="xsd:boolean" default="false"/>
 		<xsd:attribute name="driverStutterLength" type="xsd:integer" default="-1"/>     
 		<xsd:attribute name="isLooping" type="xsd:boolean" default="false"/>
 		<xsd:attribute name="stochasticIntensity" type="StochasticIntensityType" default="NONE_STOCH"/>
