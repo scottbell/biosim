@@ -433,11 +433,17 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private float calculateO2Needed(int currentActivityIntensity){
 		if (currentActivityIntensity < 0)
 			return 0f;
-		double heartRate = (currentActivityIntensity * 30f) + 15f;
-		double a = 0.223804f;
-		double b = 5.64f * (Math.pow(10f, -7f));
-		Double result = new Double((a+b * Math.pow(heartRate, 3f)) * 60f);
-		return myCrewGroup.randomFilter(result.floatValue()); //Liters/hour
+		float heartRate = (currentActivityIntensity * 30f) + 15f;
+		float a = 0.223804f;
+		float b = 5.64f * pow(10f, -7f);
+		float resultInLiters = a + (b * pow(heartRate, 3f) * 60f); //liters per hour
+		float idealGasConstant = 8.314f;
+		float resultInMoles = (resultInLiters * 10) / (idealGasConstant * 871.608f); //moles per hour
+		return myCrewGroup.randomFilter(resultInMoles); //Liters/hour
+	}
+	
+	private float pow(float a, float b){
+		return (new Double(Math.pow(a,b))).floatValue();
 	}
 
 	/**
@@ -447,8 +453,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* @return CO2 produced in liters
 	*/
 	private float calculateCO2Produced(float O2Consumed){
-		Double result = new Double(O2Consumed * 0.86);
-		return myCrewGroup.randomFilter(result.floatValue());
+		float result = O2Consumed * 0.86f;
+		return result;
 	}
 
 	/**
