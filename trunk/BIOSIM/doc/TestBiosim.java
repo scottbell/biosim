@@ -20,10 +20,12 @@ import biosim.idl.framework.BioDriverHelper;
  2)run run-server.sh
  3)java -classpath .:$BIOSIM_HOME\lib\jacorb\jacorb.jar:$BIOSIM_HOME\lib\jacorb:$BIOSIM_HOME\generated\client\classes 
  -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB
+ -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton
  -DORBInitRef.NameService=file:$BIOSIM_HOME/generated/ns/ior.txt TestBiosim
  (all the above on one line)
  
- -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB - overriding Sun's default orb (using Jacorb instead)
+ -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB - overriding Sun's default ORB (using Jacorb instead)
+ -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton - overriding Sun's default ORB (using Jacorb instead)
  -DORBInitRef.NameService=file:$BIOSIM_HOME/generated/ns/ior.txt - telling the client where to look for the ior (serialized nameservice object, produced by run-nameserver.sh)
  
  Good Luck!  If you have any questions, email me at:

@@ -13,10 +13,15 @@ import java.util.*;
  * @author    Scott Bell
  */
 
-public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations {
+public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations{
 	private List myShelves;
 	private int shelfCapacity = 100;
 	private List shelfLogs;
+	private float powerFlowRate = 0f;
+	private float potableWaterFlowRate = 0f;
+	private float greyWaterFlowRate = 0f;
+	private float biomassFlowRate = 0f;
+	
 
 	public BiomassRSImpl(int pID){
 		super(pID);

@@ -13,7 +13,7 @@ import java.util.*;
  * @author    Scott Bell
  */
 
-public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOperations, PowerConsumerOperations{
+public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOperations, PowerConsumerOperations, BiomassConsumerOperations, FoodProducerOperations{
 	//During any given tick, this much power is needed for the food processor to run at all
 	private float powerNeeded = 100;
 	//During any given tick, this much biomass is needed for the food processor to run optimally
@@ -31,12 +31,14 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	//The food produced (in kilograms) by the Food Processor at the current tick
 	private float currentFoodProduced = 0f;
 	//References to the servers the Food Processor takes/puts resources (like power, biomass, etc)
-	private FoodStore myFoodStore;
-	private PowerStore myPowerStore;
-	private BiomassStore myBiomassStore;
+	private FoodStore[] myFoodStores;
+	private PowerStore[] myPowerStores;
+	private BiomassStore[] myBiomassStores;
 	private LogIndex myLogIndex;
-	private float myProductionRate = 1f;
-	private float powerFlowRate = 0f;
+	private float myProductionRate;
+	private float[] powerFlowRates;
+	private float[] biomassFlowRates;
+	private float[] foodFlowRates;
 	
 	public FoodProcessorImpl(int pID){
 		super(pID);
@@ -93,27 +95,10 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	}
 
 	/**
-	* Collects references to servers needed for putting/getting resources.
-	*/
-	private void collectReferences(){
-		try{
-			if (!hasCollectedReferences){
-				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"+getID()));
-				myFoodStore = FoodStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("FoodStore"+getID()));
-				myBiomassStore = BiomassStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("BiomassStore"+getID()));
-				hasCollectedReferences = true;
-			}
-		}
-		catch (org.omg.CORBA.UserException e){
-			e.printStackTrace(System.out);
-		}
-	}
-
-	/**
 	* Attempts to collect enough power from the Power PS to run the Food Processor for one tick.
 	*/
 	private void gatherPower(){
-		currentPowerConsumed = myPowerStore.take(powerNeeded);
+		currentPowerConsumed = myPowerStores[0].take(powerNeeded);
 		if (currentPowerConsumed < powerNeeded){
 			hasEnoughPower = false;
 		}
@@ -126,7 +111,7 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	* Attempts to collect enough biomass from the Biomass Store to run the Food Processor optimally for one tick.
 	*/
 	private void gatherBiomass(){
-		currentBiomassConsumed = myBiomassStore.take(biomassNeeded);
+		currentBiomassConsumed = myBiomassStores[0].take(biomassNeeded);
 		if (currentBiomassConsumed < biomassNeeded){
 			hasEnoughBiomass = false;
 		}
@@ -141,7 +126,7 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	private void createFood(){
 		if (hasEnoughPower){
 			currentFoodProduced = randomFilter(currentBiomassConsumed * 0.8f) * myProductionRate;
-			myFoodStore.add(currentFoodProduced);
+			myFoodStores[0].add(currentFoodProduced);
 		}
 	}
 
@@ -188,7 +173,6 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	* 3) creates food (if possible)
 	*/
 	public void tick(){
-		collectReferences();
 		consumeResources();
 		if (isMalfunctioning())
 			performMalfunctions();
@@ -249,15 +233,55 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 		sendLog(myLog);
 	}
 	
-	public void setPowerInputFlowrate(float watts){
-		powerFlowRate = watts;
+	public void setPowerInputFlowrate(float watts, int index){
+		powerFlowRates[index] = watts;
 	}
 	
-	public float getPowerInputFlowrate(){
-		return powerFlowRate;
+	public float getPowerInputFlowrate(int index){
+		return powerFlowRates[index];
 	}
 	
-	public void setPowerInput(PowerStore source){
+	public void setPowerInputs(PowerStore[] sources, float[] flowRates){
+		myPowerStores = sources;
+		powerFlowRates = flowRates;
+	}
+	
+	public PowerStore[] getPowerInputs(){
+		return myPowerStores;
+	}
+	
+	public void setBiomassInputFlowrate(float kilograms, int index){
+		biomassFlowRates[index] = kilograms;
+	}
+	
+	public float getBiomassInputFlowrate(int index){
+		return biomassFlowRates[index];
+	}
+	
+	public void setBiomassInputs(BiomassStore[] sources, float[] flowRates){
+		myBiomassStores = sources;
+		biomassFlowRates = flowRates;
+	}
+	
+	public BiomassStore[] getBiomassInputs(){
+		return myBiomassStores;
+	}
+	
+	public void setFoodOutputFlowrate(float kilograms, int index){
+		foodFlowRates[index] = kilograms;
+	}
+	
+	public float getFoodOutputFlowrate(int index){
+		return foodFlowRates[index];
+	}
+	
+	public void setFoodOutputs(FoodStore[] destinations, float[] flowRates){
+		myFoodStores = destinations;
+		foodFlowRates = flowRates;
+	}
+	
+	public FoodStore[] getFoodOutputs(){
+		return myFoodStores;
 	}
 
 	/**
