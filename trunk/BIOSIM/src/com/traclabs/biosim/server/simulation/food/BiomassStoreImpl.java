@@ -25,8 +25,10 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 	public void setLevel(float metricAmount){
 		super.setLevel(metricAmount);
 		currentBiomassItems.clear();
-		BioMatter newBioMatter = new BioMatter(metricAmount, PlantType.UNKNOWN_PLANT);
-		currentBiomassItems.add(newBioMatter);
+		if (metricAmount > 0){
+			BioMatter newFoodMatter = new BioMatter(metricAmount, PlantType.UNKNOWN_PLANT);
+			currentBiomassItems.add(newFoodMatter);
+		}
 	}
 	
 	public float take(float pMass){
@@ -145,6 +147,8 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 	public void reset(){
 		super.reset();
 		currentBiomassItems.clear();
+		if (level > 0)
+			currentBiomassItems.add(new BioMatter(level, PlantType.UNKNOWN_PLANT));
 	}
 
 }

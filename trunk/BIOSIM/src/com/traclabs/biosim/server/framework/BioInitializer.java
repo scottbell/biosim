@@ -758,8 +758,8 @@ public class BioInitializer{
 			//System.out.println("Creating O2Store with moduleName: "+moduleName);
 			O2StoreImpl myO2StoreImpl = new O2StoreImpl(myID, moduleName);
 			setupBioModule(myO2StoreImpl, node);
-			myO2StoreImpl.setLevel(getStoreLevel(node));
 			myO2StoreImpl.setCapacity(getStoreCapacity(node));
+			myO2StoreImpl.setLevel(getStoreLevel(node));
 			myO2StoreImpl.setResupply(getStoreResupplyFrequency(node), getStoreResupplyAmount(node));
 			mySimModules.add(OrbUtils.poaToCorbaObj(myO2StoreImpl));
 			BiosimServer.registerServer(new O2StorePOATie(myO2StoreImpl), myO2StoreImpl.getModuleName(), myO2StoreImpl.getID());
@@ -774,8 +774,8 @@ public class BioInitializer{
 			//System.out.println("Creating CO2Store with moduleName: "+moduleName);
 			CO2StoreImpl myCO2StoreImpl = new CO2StoreImpl(myID, moduleName);
 			setupBioModule(myCO2StoreImpl, node);
-			myCO2StoreImpl.setLevel(getStoreLevel(node));
 			myCO2StoreImpl.setCapacity(getStoreCapacity(node));
+			myCO2StoreImpl.setLevel(getStoreLevel(node));
 			myCO2StoreImpl.setResupply(getStoreResupplyFrequency(node), getStoreResupplyAmount(node));
 			mySimModules.add(OrbUtils.poaToCorbaObj(myCO2StoreImpl));
 			BiosimServer.registerServer(new CO2StorePOATie(myCO2StoreImpl), myCO2StoreImpl.getModuleName(), myCO2StoreImpl.getID());
@@ -790,8 +790,8 @@ public class BioInitializer{
 			//System.out.println("Creating H2Store with moduleName: "+moduleName);
 			H2StoreImpl myH2StoreImpl = new H2StoreImpl(myID, moduleName);
 			setupBioModule(myH2StoreImpl, node);
-			myH2StoreImpl.setLevel(getStoreLevel(node));
 			myH2StoreImpl.setCapacity(getStoreCapacity(node));
+			myH2StoreImpl.setLevel(getStoreLevel(node));
 			myH2StoreImpl.setResupply(getStoreResupplyFrequency(node), getStoreResupplyAmount(node));
 			mySimModules.add(OrbUtils.poaToCorbaObj(myH2StoreImpl));
 			BiosimServer.registerServer(new H2StorePOATie(myH2StoreImpl), myH2StoreImpl.getModuleName(), myH2StoreImpl.getID());
@@ -1157,8 +1157,8 @@ public class BioInitializer{
 			//System.out.println("Creating BiomassStore with moduleName: "+moduleName);
 			BiomassStoreImpl myBiomassStoreImpl = new BiomassStoreImpl(myID, moduleName);
 			setupBioModule(myBiomassStoreImpl, node);
-			myBiomassStoreImpl.setLevel(getStoreLevel(node));
 			myBiomassStoreImpl.setCapacity(getStoreCapacity(node));
+			myBiomassStoreImpl.setLevel(getStoreLevel(node));
 			myBiomassStoreImpl.setResupply(getStoreResupplyFrequency(node), getStoreResupplyAmount(node));
 			mySimModules.add(OrbUtils.poaToCorbaObj(myBiomassStoreImpl));
 			BiosimServer.registerServer(new BiomassStorePOATie(myBiomassStoreImpl), myBiomassStoreImpl.getModuleName(), myBiomassStoreImpl.getID());
@@ -1173,8 +1173,8 @@ public class BioInitializer{
 			//System.out.println("Creating FoodStore with moduleName: "+moduleName);
 			FoodStoreImpl myFoodStoreImpl = new FoodStoreImpl(myID, moduleName);
 			setupBioModule(myFoodStoreImpl, node);
-			myFoodStoreImpl.setLevel(getStoreLevel(node));
 			myFoodStoreImpl.setCapacity(getStoreCapacity(node));
+			myFoodStoreImpl.setLevel(getStoreLevel(node));
 			myFoodStoreImpl.setResupply(getStoreResupplyFrequency(node), getStoreResupplyAmount(node));
 			mySimModules.add(OrbUtils.poaToCorbaObj(myFoodStoreImpl));
 			BiosimServer.registerServer(new FoodStorePOATie(myFoodStoreImpl), myFoodStoreImpl.getModuleName(), myFoodStoreImpl.getID());

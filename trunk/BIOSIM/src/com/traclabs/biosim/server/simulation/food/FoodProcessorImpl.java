@@ -160,17 +160,17 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	private static BioMatter[] getBioMassFromStore(BiomassStore[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates, float[] pActualFlowRates, float amountNeeded){
 		float gatheredResource = 0f;
 		List gatheredBioMatterArrays = new Vector();
-		int sizeOfMatter = 0;
+		int sizeOfMatterArray = 0;
 		for (int i = 0; (i < pStores.length) && (gatheredResource < amountNeeded); i++){
 			float resourceToGatherFirst = Math.min(amountNeeded, pMaxFlowRates[i]);
 			float resourceToGatherFinal = Math.min(resourceToGatherFirst, pDesiredFlowRates[i]);
 			BioMatter[] takenMatter = pStores[i].takeBioMatterMass(resourceToGatherFinal);
-			sizeOfMatter += takenMatter.length;
+			sizeOfMatterArray += takenMatter.length;
 			gatheredBioMatterArrays.add(takenMatter);
 			pActualFlowRates[i] = calculateSizeOfBioMatter(takenMatter);
 			gatheredResource += pActualFlowRates[i];
 		}
-		BioMatter[] fullMatterTaken = new BioMatter[sizeOfMatter];
+		BioMatter[] fullMatterTaken = new BioMatter[sizeOfMatterArray];
 		int lastPosition = 0;
 		for (Iterator iter = gatheredBioMatterArrays.iterator(); iter.hasNext();){
 			BioMatter[] matterArray = (BioMatter[])(iter.next());
