@@ -30,7 +30,7 @@ case $javaVersionString in
 	*)java_command="$java_command -client";echo "		-assuming Sun VM";;
 esac
 JACORB_HOME="$devRootDir/lib/jacorb"
-jacoNameIOR="-DORBInitRef.NameService=file:$iorHome/build/ns/ior.txt"
+jacoNameIOR="-DORBInitRef.NameService=file:$iorHome/tmp/ns/ior.txt"
 separator=":"
 machineType=`uname -s`
 winName="CYGWIN"
