@@ -273,7 +273,7 @@
 			<PowerInFlowRateSensor name="BaseVCCRPowerInFlowRateSensor" index="0" input="BaseVCCR"/>
 			<PowerInFlowRateSensor name="BaseFoodProcessorPowerInFlowRateSensor" index="0" input="BaseFoodProcessor"/>
 			<PowerInFlowRateSensor name="BaseBiomassRSPowerInFlowRateSensor" index="0" input="BaseBiomassRS"/>
-			<PowerInFlowRateSensor name="BaseWaterRSPowerInFlowRateSensor" index="0" input="BaseBiomassRS"/>
+			<PowerInFlowRateSensor name="BaseWaterRSPowerInFlowRateSensor" index="0" input="BaseWaterRS"/>
 			<PowerOutFlowRateSensor name="BasePowerPSPowerOutFlowRateSensor" index="0" input="BasePowerPS"/>
 			<PowerStoreLevelSensor name="BasePowerStoreLevelSensor" input="BasePowerStore"/>
 		</power>
@@ -329,7 +329,7 @@
 			<PowerInFlowRateActuator name="BaseVCCRPowerInFlowRateActuator" index="0" output="BaseVCCR"/>
 			<PowerInFlowRateActuator name="BaseFoodProcessorPowerInFlowRateActuator" index="0" output="BaseFoodProcessor"/>
 			<PowerInFlowRateActuator name="BaseBiomassRSPowerInFlowRateActuator" index="0" output="BaseBiomassRS"/>
-			<PowerInFlowRateActuator name="BaseWaterRSPowerInFlowRateActuator" index="0" output="BaseBiomassRS"/>
+			<PowerInFlowRateActuator name="BaseWaterRSPowerInFlowRateActuator" index="0" output="BaseWaterRS"/>
 			<PowerOutFlowRateActuator name="BasePowerPSPowerOutFlowRateActuator" index="0" output="BasePowerPS"/>
 		</power>
 		<water>
