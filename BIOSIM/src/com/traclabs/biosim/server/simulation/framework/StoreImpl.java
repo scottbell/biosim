@@ -216,14 +216,14 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 		if (pipe)
 			capacity -= amountRequested;
 		//idiot check
-		if (amountRequested < 0){
+		if (amountRequested <= 0f){
 			return 0f;
 		}
 		float takenAmount;
 		//asking for more stuff than exists
 		if (amountRequested > level){
 			takenAmount = randomFilter(level);
-			level = 0;
+			level = 0f;
 		}
 		//stuff exists for request
 		else{

@@ -10,12 +10,12 @@ import biosim.idl.simulation.power.*;
 
 public abstract class AirRSSubSystem{
 	//The power consumed (in watts) by this air subsystem at this tick (default)
-	float currentPowerConsumed = 0;
+	protected float currentPowerConsumed = 0;
 	//During any given tick, this much power (in watts) is needed for a air subsystem (default)
-	float powerNeeded =100;
-	AirRSImpl myAirRS;
+	private float powerNeeded = 100f;
+	protected AirRSImpl myAirRS;
 	//Flag to determine whether the air subsystem has received enough power for this tick
-	boolean hasEnoughPower = false;
+	protected boolean hasEnoughPower = false;
 	private boolean logInitialized = false;
 	private LogIndex myLogIndex;
 
@@ -41,20 +41,11 @@ public abstract class AirRSSubSystem{
 	* Adds power to the subsystem for this tick
 	*/
 	protected void gatherPower(){
-		float gatheredPower = 0f;
-		for (int i = 0; (i < myAirRS.getPowerInputs().length) && (gatheredPower < powerNeeded); i++){
-			float powerToGatherFirst = Math.min(powerNeeded, (myAirRS.getPowerInputMaxFlowRate(i) / myAirRS.getSubsystemsConsumingPower()));
-			float powerToGatherFinal = Math.min(powerToGatherFirst, (myAirRS.getPowerInputDesiredFlowRate(i) / myAirRS.getSubsystemsConsumingPower()));
-			myAirRS.addPowerInputActualFlowRate((myAirRS.getPowerInputs())[i].take(powerToGatherFinal), i);
-			gatheredPower += myAirRS.getPowerInputActualFlowRate(i);
-		}
-		currentPowerConsumed = gatheredPower;
-		if (currentPowerConsumed < powerNeeded){
+		float gatheredPower = myAirRS.getFractionalResourceFromStore(myAirRS.getPowerInputs(), myAirRS.getPowerInputMaxFlowRates(), myAirRS.getPowerInputDesiredFlowRates(), myAirRS.getPowerInputActualFlowRates(), powerNeeded, 1f / myAirRS.getSubsystemsConsumingPower());
+		if (gatheredPower < powerNeeded)
 			hasEnoughPower = false;
-		}
-		else{
+		else
 			hasEnoughPower = true;
-		}
 	}
 
 	public void tick(){
