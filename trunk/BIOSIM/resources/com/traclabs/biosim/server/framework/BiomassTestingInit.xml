@@ -22,12 +22,12 @@
 			<BiomassStore name="BiomassStore" capacity="500" level="300"/>
 		</food>
 		<power>
-			<PowerStore name="PowerStore" capacity="10000000" level="10000000"/>
+			<PowerStore name="PowerStore" capacity="100000000000" level="100000000000"/>
 		</power>
 		<water>
-			<PotableWaterStore name="PotableWaterStore" capacity="500000" level="500000"/>
-			<GreyWaterStore name="GreyWaterStore" capacity="500000" level="500000"/>
-			<DirtyWaterStore name="DirtyWaterStore" capacity="500000" level="0"/>
+			<PotableWaterStore name="PotableWaterStore" capacity="500000000" level="500000000"/>
+			<GreyWaterStore name="GreyWaterStore" capacity="500000000" level="500000000"/>
+			<DirtyWaterStore name="DirtyWaterStore" capacity="500000000" level="0"/>
 		</water>
 	</SimBioModules>
 	<Sensors>
