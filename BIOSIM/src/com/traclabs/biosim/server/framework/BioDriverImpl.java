@@ -491,6 +491,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	* Typically this means resetting the various gas levels, crew people, water levels, etc.
 	*/
 	public void reset(){
+		collectReferences();
 		System.out.println("BioDriverImpl:"+myID+" Resetting simulation");
 		for (Enumeration e = modules.elements(); e.hasMoreElements();){
 			BioModule currentBioModule = (BioModule)(e.nextElement());
