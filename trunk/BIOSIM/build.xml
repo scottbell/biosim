@@ -133,13 +133,12 @@
 		</copy>
 	</target>
 	
-	<target name="build-ga-distro" depends="build-server,build-client,init-distro" description="creates ga distro">
+	<target name="build-ga-distro" depends="build-server,init-distro" description="creates ga distro">
 		<mkdir dir="${gaDistroDir}"/>
 		<echo message="Creating biosim jar for genetic algorithm engine"/>
 		<jar destfile="${gaDistroDir}/biosim.jar">
-			<fileset dir="${buildDir}/biosim/server">
-			</fileset>
-			<fileset dir="${resourceDir}"/>
+			<fileset dir="${buildDir}" includes="biosim/server/**"/>
+			<fileset dir="${resourceDir}" includes="biosim/server/**"/>
 		</jar>
 	</target>
 	
