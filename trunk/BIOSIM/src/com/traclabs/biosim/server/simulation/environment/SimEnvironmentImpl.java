@@ -97,7 +97,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	}
 	
 	private float calculatePressure(float pNumberOfMoles){
-		return (pNumberOfMoles * idealGasConstant * temperature) / volume;
+		return (pNumberOfMoles * idealGasConstant * (temperature + 273f)) / volume;
 	}
 
 	/**
@@ -126,24 +126,11 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		return lightIntensity;
 	}
 
-	/*
-	pv = nrg
-	pressure * volume = numberOfMoles * idealGasConstant * temperature
-	since temperature (initially) is going to remain constant:
-	(p1 * v1) / n1 = p2 * v2 / n2
-
-	8.314 J K-1 mol-1 = ideal gas constant
-	100.3 kPa per atmosphere
-
-	volume in liters, temp in kelvin, pressure in kPA
-	*/
-
-	//return 101 kPA
 	public float getAirPressure(){
 		return cachedCO2Pressure + cachedO2Pressure + cachedOtherPressure;
 	}
 	
-	//returns 23 C
+	//returns temperature
 	public float getTemperature(){
 		return temperature;
 	}
