@@ -1,8 +1,9 @@
 package biosim.server.air;
 
 import biosim.idl.air.*;
+import biosim.server.framework.*;
 
-public class AirRSImpl extends AirRSPOA {
+public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 	private float currentO2Produced = 0f;
 	private float currentCO2Consumed = 0f;
 	private float currentPowerConsumed = 0f;

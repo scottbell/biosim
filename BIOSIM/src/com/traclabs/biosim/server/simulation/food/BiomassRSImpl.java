@@ -6,8 +6,9 @@ import biosim.idl.water.*;
 import biosim.idl.power.*;
 import biosim.server.util.*;
 import biosim.idl.air.*;
+import biosim.server.framework.*;
 
-public class BiomassRSImpl extends BiomassRSPOA {
+public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations {
 	private float currentPowerConsumed = 0f;
 	private float currentGreyWaterConsumed = 0f;
 	private float currentBiomassProduced = 0f;

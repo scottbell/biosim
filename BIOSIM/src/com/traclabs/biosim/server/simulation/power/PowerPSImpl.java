@@ -2,8 +2,9 @@ package biosim.server.power;
 
 import biosim.idl.power.*;
 import biosim.server.util.*;
+import biosim.server.framework.*;
 
-public class PowerPSImpl extends PowerPSPOA {
+public class PowerPSImpl extends BioModuleImpl implements PowerPSOperations {
 	private float currentPowerProduced = 0f;
 	private boolean hasCollectedReferences = false;
 	private PowerStore myPowerStore;

@@ -1,8 +1,9 @@
 package biosim.server.food;
 
 import biosim.idl.food.*;
+import biosim.server.framework.*;
 
-public class FoodProcessorImpl extends FoodProcessorPOA {
+public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOperations {
 	private float currentBiomassConsumed = 0f;
 	private float currentPowerConsumed = 0f;
 	private float currentFoodProduced = 0f;
