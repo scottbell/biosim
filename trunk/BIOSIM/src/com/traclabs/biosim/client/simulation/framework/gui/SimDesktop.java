@@ -55,7 +55,7 @@ public class SimDesktop extends BioFrame
 	private JMenuItem myShowWaterDisplayItem;
 	private JMenuItem myShowPowerDisplayItem;
 	private JMenuItem myShowCrewDisplayItem;
-	
+
 	//Various actions attributed to Buttons/MenuItems
 	private Action myStartAction;
 	private Action myPauseAction;
@@ -70,7 +70,7 @@ public class SimDesktop extends BioFrame
 	private Action myShowPowerDisplayAction;
 	private Action myLoggingAction;
 	private Action myQuitAction;
-	
+
 	//Various icons used to display buttons
 	private ImageIcon waterIcon;
 	private ImageIcon foodIcon;
@@ -84,14 +84,14 @@ public class SimDesktop extends BioFrame
 	private ImageIcon stopIcon;
 	private ImageIcon pauseIcon;
 	private ImageIcon forwardIcon;
-	
+
 	//A hashtable containing each client panel (water, food, air, etc)
 	private Hashtable myPanels;
 	//Count of how many frames are opened.  Used to stagger windows
 	private int openFrameCount = 0;
 	//Integers dictating how much the windows should be staggered.
 	private int xOffset = 30, yOffset = 30;
-	
+
 	/**
 	* Creates a BioSimulator, a panel hashtable, and creates the GUI
 	*/
@@ -100,7 +100,7 @@ public class SimDesktop extends BioFrame
 		myPanels = new Hashtable();
 		buildGUI();
 	}
-	
+
 	/**
 	* Creates the toolbar, creates the menubar, sets the title and displays the desktop.
 	*/
@@ -120,7 +120,7 @@ public class SimDesktop extends BioFrame
 		myShowFoodDisplayAction = new ShowFoodDisplayAction("Show Food");
 		myShowPowerDisplayAction = new ShowPowerDisplayAction("Show Power");
 		myLoggingAction = new LoggingAction("Enable Logging");
-		
+
 		myMenuBar = new JMenuBar();
 		myFileMenu = new JMenu("File");
 		myFileMenu.setMnemonic(KeyEvent.VK_F);
@@ -213,7 +213,7 @@ public class SimDesktop extends BioFrame
 		myDesktop.setDragMode(JDesktopPane.LIVE_DRAG_MODE);
 		getContentPane().add(myDesktop, BorderLayout.CENTER);
 	}
-	
+
 	/**
 	* Attempts to load the icons from the resource directory.
 	*/
@@ -243,7 +243,7 @@ public class SimDesktop extends BioFrame
 			airIcon = new ImageIcon();
 		}
 	}
-	
+
 	/**
 	* Returns a selected SimFrame (an internal frame) that contains the panel passed into it
 	* @return the parent frame requested, null if not found
@@ -259,7 +259,7 @@ public class SimDesktop extends BioFrame
 		}
 		return null;
 	}
-	
+
 	/**
 	* Returns a n icon based on the string desciptor (air, water crew, etc)
 	* @return the icon specified by the title
@@ -281,14 +281,8 @@ public class SimDesktop extends BioFrame
 		else
 			return new ImageIcon();
 	}
-	
-	/**
-	* Creates a new SimDesktopFrame (an internal frame), adds it to the desktop, and adds it to it's hashtable.
-	* If the panel already has a SimDesktopFrame, it repacks the frame and brings it to the front.
-	* @param title the name of the new internal frame
-	* @param newPanel the panel to be added to the new internal frame
-	*/
-	private void addInternalFrame(String title, JPanel newPanel){
+
+	private boolean tryExisitingInternalFrame(String title){
 		JPanel existingPanel = (JPanel)(myPanels.get(title));
 		if (existingPanel != null){
 			SimDesktopFrame existingFrame = getSimFrame(existingPanel);
@@ -296,22 +290,33 @@ public class SimDesktop extends BioFrame
 				existingFrame.pack();
 				existingFrame.moveToFront();
 				existingFrame.setVisible(true);
+				return true;
 			}
 		}
-		else {
-			SimDesktopFrame newFrame = new SimDesktopFrame(title, this);
-			newFrame.getContentPane().add(newPanel, BorderLayout.CENTER);
-			newFrame.pack();
-			myDesktop.add(newFrame);
-			openFrameCount = myDesktop.getAllFrames().length;
-			newFrame.setFrameIcon(findIcon(title));
-			newFrame.setLocation(xOffset * openFrameCount, yOffset * openFrameCount);
-			newFrame.moveToFront();
-			newFrame.setVisible(true);
-			myPanels.put(title, newPanel);
-		}
+		return false;
 	}
-	
+
+	/**
+	* Creates a new SimDesktopFrame (an internal frame), adds it to the desktop, and adds it to it's hashtable.
+	* @param title the name of the new internal frame
+	* @param newPanel the panel to be added to the new internal frame
+	*/
+	private void addInternalFrame(String title, JPanel newPanel){
+		SimDesktopFrame newFrame = new SimDesktopFrame(title, this);
+		if (newPanel instanceof BioTabbedPanel)
+			newFrame.addBioTabbedPanel((BioTabbedPanel)(newPanel));
+		else
+			newFrame.getContentPane().add(newPanel, BorderLayout.CENTER);
+		newFrame.pack();
+		myDesktop.add(newFrame);
+		openFrameCount = myDesktop.getAllFrames().length;
+		newFrame.setFrameIcon(findIcon(title));
+		newFrame.setLocation(xOffset * openFrameCount, yOffset * openFrameCount);
+		newFrame.moveToFront();
+		newFrame.setVisible(true);
+		myPanels.put(title, newPanel);
+	}
+
 	/**
 	* Implemented to satisfy BaseJFrame's interface.  Called when SimDesktop is exiting.
 	* Stops the simulation if necessary.
@@ -320,7 +325,7 @@ public class SimDesktop extends BioFrame
 		if (myBiosim.simulationHasStarted())
 			myBiosim.endSimulation();
 	}
-	
+
 	/**
 	* Action describing a simulation start/stop (depending on the button state).  Enables/disables various buttons on the SimDesktop
 	* and invokes BioSimulator's stop or start method.
@@ -375,7 +380,7 @@ public class SimDesktop extends BioFrame
 			}
 		}
 	}
-	
+
 	/**
 	* Action describing a simulation pause/resume (depending on the button state).  Enables/disables various buttons on the SimDesktop
 	* and invokes BioSimulator's pause or resume method.
@@ -406,7 +411,7 @@ public class SimDesktop extends BioFrame
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}
-	
+
 	/**
 	* Action describing a simulation advance of one tick.  Enables/disables various buttons on the SimDesktop
 	* and invokes BioSimulator's tick method.  Used only when BioSimulator is paused.
@@ -421,7 +426,7 @@ public class SimDesktop extends BioFrame
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}
-	
+
 	/**
 	*  Action that brings up a dialog box about authors, company, etc.
 	*/
@@ -433,49 +438,55 @@ public class SimDesktop extends BioFrame
 			JOptionPane.showMessageDialog(null,"Advanced Life Support Simulation\nCopyright "+ new Character( '\u00A9' ) + " 2002, TRACLabs\nby Scott Bell and David Kortenkamp");
 		}
 	}
-	
+
 	/**
 	*  Displays the Air panel with an internal frame inside this desktop.
 	*/
 	private void displayAir(){
-		addInternalFrame("Air",new AirPanel(myBiosim));
+		if (!tryExisitingInternalFrame("Air"))
+			addInternalFrame("Air",new AirPanel(myBiosim));
 	}
-	
+
 	/**
 	*  Displays the Environment panel with an internal frame inside this desktop.
 	*/
 	private void displayEnvironment(){
-		addInternalFrame("Environment",new EnvironmentPanel(myBiosim));
+		if (!tryExisitingInternalFrame("Environment"))
+			addInternalFrame("Environment",new EnvironmentPanel(myBiosim));
 	}
-	
+
 	/**
 	*  Displays the Crew panel with an internal frame inside this desktop.
 	*/
 	private void displayCrew(){
-		addInternalFrame("Crew",new CrewPanel(myBiosim));
+		if (!tryExisitingInternalFrame("Crew"))
+			addInternalFrame("Crew",new CrewPanel(myBiosim));
 	}
-	
+
 	/**
 	*  Displays the Food panel with an internal frame inside this desktop.
 	*/
 	private void displayFood(){
-		addInternalFrame("Food",new FoodPanel(myBiosim));
+		if (!tryExisitingInternalFrame("Food"))
+			addInternalFrame("Food",new FoodPanel(myBiosim));
 	}
-	
+
 	/**
 	*  Displays the Power panel with an internal frame inside this desktop.
 	*/
 	private void displayPower(){
-		addInternalFrame("Power",new PowerPanel(myBiosim));
+		if (!tryExisitingInternalFrame("Power"))
+			addInternalFrame("Power",new PowerPanel(myBiosim));
 	}
-	
+
 	/**
 	*  Displays the Water panel with an internal frame inside this desktop.
 	*/
 	private void displayWater(){
-		addInternalFrame("Water",new WaterPanel(myBiosim));
+		if (!tryExisitingInternalFrame("Water"))
+			addInternalFrame("Water",new WaterPanel(myBiosim));
 	}
-	
+
 	/**
 	*  Action that displays all the panels with internal frames inside this desktop.
 	*/
@@ -508,7 +519,7 @@ public class SimDesktop extends BioFrame
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}
-	
+
 	/**
 	* Action that displays the air panel in an internal frame on the desktop.
 	*/
@@ -522,7 +533,7 @@ public class SimDesktop extends BioFrame
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}
-	
+
 	/**
 	* Action that displays the crew panel in an internal frame on the desktop.
 	*/
@@ -536,7 +547,7 @@ public class SimDesktop extends BioFrame
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}
-	
+
 	/**
 	* Action that displays the food panel in an internal frame on the desktop.
 	*/
@@ -550,7 +561,7 @@ public class SimDesktop extends BioFrame
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}
-	
+
 	/**
 	* Action that displays the power panel in an internal frame on the desktop.
 	*/
@@ -564,7 +575,7 @@ public class SimDesktop extends BioFrame
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}
-	
+
 	/**
 	* Action that displays the water panel in an internal frame on the desktop.
 	*/
@@ -578,7 +589,7 @@ public class SimDesktop extends BioFrame
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}
-	
+
 	/**
 	* Action that stops the simulation and exits (by way of the frameClosing method)
 	*/
@@ -592,7 +603,7 @@ public class SimDesktop extends BioFrame
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}
-	
+
 	/**
 	* Action that enables/disables logging
 	*/

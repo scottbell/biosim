@@ -9,11 +9,13 @@ package biosim.client.framework.gui;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import java.util.*;
 
 public class SimDesktopFrame extends javax.swing.JInternalFrame
 {
 	//A reference to the desktop this frame is added to.
 	SimDesktop myDesktop;
+	Vector bioTabPanels;
 	
 	/**
 	* Creates frame's GUI with minimizable, resizable, maxizable, and closeable properties.
@@ -21,6 +23,7 @@ public class SimDesktopFrame extends javax.swing.JInternalFrame
 	public SimDesktopFrame(String pTitle, SimDesktop pDesktop){
 		super(pTitle, true, true, true, true);
 		myDesktop = pDesktop;
+		bioTabPanels = new Vector();
 		buildGui();
 	}
 	
@@ -34,12 +37,29 @@ public class SimDesktopFrame extends javax.swing.JInternalFrame
 		this.addInternalFrameListener(myFCL);
 	}
 	
+	public void addBioTabbedPanel(BioTabbedPanel newPanel){
+		getContentPane().add(newPanel, BorderLayout.CENTER);
+		bioTabPanels.add(newPanel);
+	}
+	
 	/**
 	* Hides the frame
 	*/
 	protected void frameClosing()
 	{
 		setVisible(false);		 // hide the Frame
+	}
+	
+	public void setVisible(boolean b){
+		if (b == isVisible())
+			return;
+		super.setVisible(b);
+		if (bioTabPanels == null)
+			return;
+		for (Enumeration e = bioTabPanels.elements(); e.hasMoreElements();){
+			BioTabbedPanel currentPanel = (BioTabbedPanel)(e.nextElement());
+			currentPanel.visibilityChange(b);
+		}
 	}
 	
 	/**
