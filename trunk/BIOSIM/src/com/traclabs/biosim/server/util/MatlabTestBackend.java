@@ -22,26 +22,26 @@ import org.apache.log4j.PropertyConfigurator;
  * @author Scott Bell
  */
 public class MatlabTestBackend {
-	private ServerSocket myIncomingSocket;
+	private ServerSocket myPutSocket;
+	private DataInputStream myPutSocketDataInputStream;
+	private BufferedWriter myPutSocketTextWriter;
+	private BufferedReader myPutSocketTextReader;
+	
+	private ServerSocket myGetSocket;
+	private DataOutputStream myGetSocketDataOutputStream;
+	private BufferedWriter myGetSocketTextWriter;
+	private BufferedReader myGetSocketTextReader;
 
 	private Logger myLogger;
-
 	private double[] myCurrentInputData;
 
-	private DataOutputStream mySocketDataOutputStream;
-
-	private BufferedWriter mySocketTextWriter;
-
-	private DataInputStream mySocketDataInputStream;
-
-	private BufferedReader mySocketTextReader;
-
-	public MatlabTestBackend(int pPortToListen) {
+	public MatlabTestBackend(int pPutPortToListen, int pGetPortToListen) {
 		myLogger = Logger.getLogger(this.getClass().toString());
 		try {
-			myIncomingSocket = new ServerSocket(pPortToListen);
+			myPutSocket = new ServerSocket(pPutPortToListen);
+			myGetSocket = new ServerSocket(pGetPortToListen);
 		} catch (IOException e) {
-			myLogger.error("Couldn't create server socket!");
+			myLogger.error("Couldn't create server sockets!");
 			myLogger.error(e);
 		}
 	}
@@ -59,63 +59,149 @@ public class MatlabTestBackend {
 				"DEBUG, matlabAppender");
 		PropertyConfigurator.configure(logProps);
 
-		int serverPort = MatlabAceEngine.DEFAULT_PORT;
-		if (args.length > 1) {
+		int getServerPort = MatlabAceEngine.DEFAULT_GET_PORT;
+		int putServerPort = MatlabAceEngine.DEFAULT_PUT_PORT;
+		if ((args.length > 2) || (args.length == 1)) {
 			Logger
 					.getLogger(MatlabTestBackend.class)
 					.error(
-							"usage: java com.traclabs.biosim.server.util.MatlabTestBackend [server port]");
+							"usage: java com.traclabs.biosim.server.util.MatlabTestBackend [put server port] [get server port]");
 			return;
-		} else if (args.length == 1) {
+		} else if (args.length == 2) {
 			try {
-				serverPort = Integer.parseInt(args[0]);
+				putServerPort = Integer.parseInt(args[0]);
+				getServerPort = Integer.parseInt(args[1]);
 			} catch (NumberFormatException e) {
 				Logger.getLogger(MatlabTestBackend.class).error(e);
 				Logger.getLogger(MatlabTestBackend.class).error(
-						"Had problems parsing server port you specified: "
-								+ args[0]);
+						"Had problems parsing server port you specified");
 				return;
 			}
 		}
 		MatlabTestBackend newMatlabTestBackend = new MatlabTestBackend(
-				serverPort);
-		newMatlabTestBackend.run();
+				putServerPort, getServerPort);
+		newMatlabTestBackend.startServer();
 	}
 
 	/**
 	 *  
 	 */
-	private void run() {
-		myLogger.debug("Starting server on port "+myIncomingSocket.getLocalPort());
+	private void startServer() {
+		//Spawn put server
+		myLogger.debug("Starting put server on "+myPutSocket.getLocalPort());
+		PutServer myPutServer = new PutServer();
+		myPutServer.start();
+		//Spawn get server
+		myLogger.debug("Starting get server on "+myGetSocket.getLocalPort());
+		GetServer myGetServer = new GetServer();
+		myGetServer.start();
+	}
+
+	/**
+	 * 
+	 */
+	private class PutServer extends Thread{
+		public void run(){
 		while (true) {
 			try {
-				Socket clientSocket = myIncomingSocket.accept();
-				myLogger.debug("Socket connection");
-				handleSocketConnection(clientSocket);
+				Socket clientSocket = myPutSocket.accept();
+				myLogger.debug("Socket connection on put server");
+				handlePutSocketConnection(clientSocket);
 
 			} catch (IOException e) {
 				myLogger.error(e);
-				myLogger.error("Problem with server socket");
+				myLogger.error("Problem with put server socket");
 			}
+		}
+		}
+	}
+
+	/**
+	 * 
+	 */
+	private class GetServer extends Thread{
+		public void run(){
+		while (true) {
+			try {
+				Socket clientSocket = myGetSocket.accept();
+				myLogger.debug("Socket connection on get server");
+				handleGetSocketConnection(clientSocket);
+
+			} catch (IOException e) {
+				myLogger.error(e);
+				myLogger.error("Problem with get server socket");
+			}
+		}
 		}
 	}
 
 	/**
 	 * @param clientSocket
 	 */
-	private void handleSocketConnection(Socket clientSocket) {
+	private void handleGetSocketConnection(Socket clientSocket) {
 		try {
-			initializeStreams(clientSocket);
-			if (isBiosimClient()) {
-				myLogger.debug("Client connected!");
+
+			myGetSocketTextReader = new BufferedReader(new InputStreamReader(
+					clientSocket.getInputStream()));
+			myGetSocketTextWriter = new BufferedWriter(new OutputStreamWriter(
+					clientSocket.getOutputStream()));
+			myGetSocketDataOutputStream = new DataOutputStream(clientSocket
+					.getOutputStream());
+			if (isBiosimGetClient()) {
+				myLogger.debug("Client connected to get server!");
 				boolean clientWantsToLeave = false;
 				while (!clientWantsToLeave) {
-					String operationRequested = determineOperationRequested();
-					if (operationRequested.equals(MatlabAceEngine.PUT_REQUEST))
-						handlePutRequest();
+					String operationRequested = myGetSocketTextReader.readLine();
+					if (operationRequested == null){
+						myLogger.warn("null opertation requested");
+						return;
+					}
 					else if (operationRequested
 							.equals(MatlabAceEngine.GET_REQUEST))
 						handleGetRequest();
+					else if (operationRequested
+							.equals(MatlabAceEngine.CLIENT_BYE))
+						clientWantsToLeave = true;
+					else
+						myLogger.warn("Unknown operation requested: "
+								+ operationRequested);
+				}
+			} else {
+				myLogger
+						.debug("Non-biosim client attempted to connect");
+			}
+			myLogger.debug("closing socket");
+			clientSocket.close();
+
+		} catch (IOException e) {
+			myLogger.error(e);
+			myLogger.error("Problem handling socket request");
+		}
+	}
+	
+	/**
+	 * @param clientSocket
+	 */
+	private void handlePutSocketConnection(Socket clientSocket) {
+		try {
+
+			myPutSocketTextReader = new BufferedReader(new InputStreamReader(
+					clientSocket.getInputStream()));
+			myPutSocketTextWriter = new BufferedWriter(new OutputStreamWriter(
+					clientSocket.getOutputStream()));
+			myPutSocketDataInputStream = new DataInputStream(clientSocket
+					.getInputStream());
+			if (isBiosimPutClient()) {
+				myLogger.debug("Client connected on put server!");
+				boolean clientWantsToLeave = false;
+				while (!clientWantsToLeave) {
+					String operationRequested = myPutSocketTextReader.readLine();
+					if (operationRequested == null){
+						myLogger.warn("null opertation requested");
+						return;
+					}
+					else if (operationRequested.equals(MatlabAceEngine.PUT_REQUEST))
+						handlePutRequest();
 					else if (operationRequested
 							.equals(MatlabAceEngine.CLIENT_BYE))
 						clientWantsToLeave = true;
@@ -141,21 +227,15 @@ public class MatlabTestBackend {
 	 */
 	private void handlePutRequest() throws IOException {
 		myLogger.debug("handling put request");
-		int vectorLength = mySocketDataInputStream.readInt();
+		int vectorLength = myPutSocketDataInputStream.readInt();
     	myLogger.debug("vector length was: "+vectorLength);
     	myCurrentInputData = new double[vectorLength];
         for (int i = 0; i < myCurrentInputData.length; i++){
-        	myCurrentInputData[i] = mySocketDataInputStream.readDouble();
+        	myCurrentInputData[i] = myPutSocketDataInputStream.readDouble();
         	myLogger.debug("getting double: "+myCurrentInputData[i]);
         }
 	}
 
-	/**
-	 * @return
-	 */
-	private String determineOperationRequested() throws IOException{
-		return mySocketTextReader.readLine();
-	}
 
 	/**
 	 *  
@@ -164,38 +244,34 @@ public class MatlabTestBackend {
 		double[] outputVector = {6d, 7.54d, Math.PI * 2d, 5.9d, 8d, 9.23322d};
 		myLogger.debug("handling get request");
 		myLogger.debug("sending vector length: "+outputVector.length);
-		mySocketDataOutputStream.writeInt(outputVector.length);
-		mySocketDataOutputStream.flush();
+		myGetSocketDataOutputStream.writeInt(outputVector.length);
+		myGetSocketDataOutputStream.flush();
     	for (int i = 0; i < outputVector.length; i++){
     		myLogger.debug("sending double: "+outputVector[i]);
-    		mySocketDataOutputStream.writeDouble(outputVector[i]);
-    		mySocketDataOutputStream.flush();
+    		myGetSocketDataOutputStream.writeDouble(outputVector[i]);
+    		myGetSocketDataOutputStream.flush();
     	}
 	}
 
 	/**
 	 * @return
 	 */
-	private boolean isBiosimClient() throws IOException {
+	private boolean isBiosimPutClient() throws IOException {
 		//Say Hello
-		mySocketTextWriter.write(MatlabAceEngine.SERVER_HELLO + "\n");
-		mySocketTextWriter.flush();
-		return mySocketTextReader.readLine().equals(MatlabAceEngine.CLIENT_HELLO);
+		myPutSocketTextWriter.write(MatlabAceEngine.SERVER_HELLO + "\n");
+		myPutSocketTextWriter.flush();
+		return myPutSocketTextReader.readLine().equals(MatlabAceEngine.CLIENT_HELLO);
 	}
-
+	
 	/**
-	 * @param clientSocket
+	 * @return
 	 */
-	private void initializeStreams(Socket clientSocket) throws IOException {
-		mySocketTextReader = new BufferedReader(new InputStreamReader(
-				clientSocket.getInputStream()));
-		mySocketDataInputStream = new DataInputStream(clientSocket
-				.getInputStream());
-		mySocketTextWriter = new BufferedWriter(new OutputStreamWriter(
-				clientSocket.getOutputStream()));
-		mySocketDataOutputStream = new DataOutputStream(clientSocket
-				.getOutputStream());
-
+	private boolean isBiosimGetClient() throws IOException {
+		//Say Hello
+		myGetSocketTextWriter.write(MatlabAceEngine.SERVER_HELLO + "\n");
+		myGetSocketTextWriter.flush();
+		return myGetSocketTextReader.readLine().equals(MatlabAceEngine.CLIENT_HELLO);
 	}
+
 
 }
