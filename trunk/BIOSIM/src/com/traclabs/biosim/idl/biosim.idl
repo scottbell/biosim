@@ -108,6 +108,7 @@ module biosim{
                         enum MalfunctionIntensity {SEVERE_MALF, MEDIUM_MALF, LOW_MALF};
                         enum MalfunctionLength {TEMPORARY_MALF, PERMANENT_MALF};
                         interface Malfunction;
+                        interface TechSpecificInfo;
                         typedef sequence <Malfunction> MalfunctionList;
                         interface BioModule;
                         typedef sequence <BioModule> BioModuleList;
@@ -157,6 +158,9 @@ module biosim{
 module biosim{
         module idl{
                 module framework{
+			interface TechSpecificInfo{
+				string print();
+			};
                         interface Malfunction{
                                 MalfunctionIntensity getIntensity();
                                 long long getID();
@@ -183,6 +187,7 @@ module biosim{
                                 boolean isMalfunctioning();
                                 StringList getMalfunctionNames();
                                 MalfunctionList getMalfunctions();
+				TechSpecificInfo getTechSpecificInfo();
                                 void maitenance();
                                 void log();
                                 void repair(in long long id);

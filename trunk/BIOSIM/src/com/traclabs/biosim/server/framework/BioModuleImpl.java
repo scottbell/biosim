@@ -41,6 +41,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	private float breakdownFactor = 0f;
 	//What I think the current tick is.
 	private int myTicks = 0;
+	protected TechSpecificInfo myTechSpecificInfo;
 	
 	/**
 	* Constructor to create a BioModule, should only be called by those deriving from BioModule.
@@ -54,6 +55,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		myName = pName;
 		myID = pID;
 		myLog = new LogNodeImpl(getModuleName());
+		myTechSpecificInfo = TechSpecificInfoHelper.narrow(OrbUtils.poaToCorbaObj(new EmptyTechInfoImpl()));
 	}
 	
 	/**
@@ -72,6 +74,10 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	
 	public int getMyTicks(){
 		return myTicks;
+	}
+	
+	public TechSpecificInfo getTechSpecificInfo(){
+		return myTechSpecificInfo;
 	}
 	
 	private void checkBreakdownRisk(){

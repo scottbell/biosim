@@ -4,11 +4,7 @@ import biosim.idl.framework.*;
 import biosim.client.util.*;
 import java.io.*;
 
-import biosim.idl.sensor.food.*;
-import biosim.idl.sensor.framework.*;
-import biosim.idl.actuator.food.*;
-import biosim.idl.actuator.framework.*;
-import biosim.idl.simulation.food.*;
+import biosim.idl.simulation.water.*;
 
 /**
  * Runs a CLI interface to the simulation.
@@ -146,15 +142,9 @@ public class SimCommandLine
 
 	private void runTest(){
 		BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
-		BiomassRS myBiomassRS = (BiomassRS)myBioHolder.theBiomassRSModules.get(0);
-		PlantingActuator currentActuator = PlantingActuatorHelper.narrow((myBioHolder.getActuatorAttachedTo(myBioHolder.thePlantingActuators, myBiomassRS)));
-		//replant 100 meters squared of rice
-		currentActuator.setPlantType(PlantType.RICE);
-		currentActuator.setValue(100);
-		
-		HarvestSensor currentSensor = HarvestSensorHelper.narrow((myBioHolder.getShelfSensorAttachedTo(myBioHolder.theHarvestSensors, myBiomassRS, 0)));
-		//replant 100 meters squared of rice
-		System.out.println("Value of sensor is: "+currentSensor.getValue());
+		WaterRS myWaterRS = (WaterRS)myBioHolder.theWaterRSModules.get(0);
+		TechSpecificInfo someInfo = myWaterRS.getTechSpecificInfo();
+		System.out.println("WaterRS tech specific info:"+someInfo.print());
 	}
 }
 
