@@ -794,6 +794,7 @@ module biosim{
 
                                 interface Shelf{
                                         void harvest();
+                                        float getHarvestInterval();
                                         boolean isReadyForHavest();
                                         boolean isDead();
 					PlantType getCropType();

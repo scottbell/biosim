@@ -219,23 +219,23 @@ public abstract class PlantImpl extends PlantPOA{
 
 		if (CO2RiskLowReturn > randomNumber){
 			hasDied = true;
-			System.out.println("PlantImpl: Plants have died from low CO2 at "+getDaysOfGrowth()+" days (risk was "+(CO2RiskLowReturn * 100)+"%)");
+			System.out.println("PlantImpl: "+getPlantTypeString()+" crops have died from low CO2 at "+getDaysOfGrowth()+" days (risk was "+(CO2RiskLowReturn * 100)+"%)");
 		}
 		else if (CO2RiskHighReturn > randomNumber){
 			hasDied = true;
-			System.out.println("PlantImpl: Plants have died from high CO2 at "+getDaysOfGrowth()+" days (risk was "+(CO2RiskHighReturn * 100)+"%)");
+			System.out.println("PlantImpl: "+getPlantTypeString()+" crops have died from high CO2 at "+getDaysOfGrowth()+" days (risk was "+(CO2RiskHighReturn * 100)+"%)");
 		}
 		else if (waterRiskReturn > randomNumber){
 			hasDied = true;
-			System.out.println("PlantImpl: Plants ("+getPlantTypeString()+") have died from lack of water at "+getDaysOfGrowth()+" days (risk was "+(waterRiskReturn * 100)+"%)");
+			System.out.println("PlantImpl: "+getPlantTypeString()+" crops have died from lack of water at "+getDaysOfGrowth()+" days (risk was "+(waterRiskReturn * 100)+"%)");
 		}
 		else if (heatRiskReturn > randomNumber){
 			hasDied = true;
-			System.out.println("PlantImpl: Plants have died from lack of heat at "+getDaysOfGrowth()+" days (risk was "+(heatRiskReturn * 100)+"%)");
+			System.out.println("PlantImpl: "+getPlantTypeString()+" crops have died from lack of heat at "+getDaysOfGrowth()+" days (risk was "+(heatRiskReturn * 100)+"%)");
 		}
 		else if (lightRiskReturn > randomNumber){
 			hasDied = true;
-			System.out.println("PlantImpl: Plants have died from lack of light at "+getDaysOfGrowth()+" days (risk was "+(lightRiskReturn * 100)+"%)");
+			System.out.println("PlantImpl: "+getPlantTypeString()+" crops have died from lack of light at "+getDaysOfGrowth()+" days (risk was "+(lightRiskReturn * 100)+"%)");
 		}
 		//if died, kill
 		if (hasDied){
