@@ -25,20 +25,22 @@ public class WaterAirProducerDefinitionImpl extends StoreEnvironmentFlowRateCont
     
     public void setWaterAirEnvironmentOutputs(SimEnvironment[] pEnvironments, float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setEnvironments(pEnvironments);
-        setMaxFlowRates(pMaxFlowRates);
-        setDesiredFlowRates(pDesiredFlowRates);
+        setEnvironmentMaxFlowRates(pMaxFlowRates);
+        setEnvironmentDesiredFlowRates(pDesiredFlowRates);
     }
 
     public void setWaterAirStoreOutputs(WaterStore[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setStores(pStores);
-        setMaxFlowRates(pMaxFlowRates);
-        setDesiredFlowRates(pDesiredFlowRates);
+        setStoreMaxFlowRates(pMaxFlowRates);
+        setStoreDesiredFlowRates(pDesiredFlowRates);
     }
     
     /**
      * @return The total amount of Water pushed to the environments
      */
     public float pushWaterToEnvironment(float pMolesToPush) {
+        if (getEnvironments() == null)
+            return 0f;
         float WaterAirLeft = pMolesToPush;
         for (int i = 0; (i < getEnvironments().length)
                 && (WaterAirLeft > 0); i++) {

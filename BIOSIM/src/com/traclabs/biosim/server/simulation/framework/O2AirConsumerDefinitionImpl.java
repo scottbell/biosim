@@ -25,14 +25,14 @@ public class O2AirConsumerDefinitionImpl extends StoreEnvironmentFlowRateControl
     
     public void setO2AirEnvironmentInputs(SimEnvironment[] pEnvironments, float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setEnvironments(pEnvironments);
-        setMaxFlowRates(pMaxFlowRates);
-        setDesiredFlowRates(pDesiredFlowRates);
+        setEnvironmentMaxFlowRates(pMaxFlowRates);
+        setEnvironmentDesiredFlowRates(pDesiredFlowRates);
     }
 
     public void setO2AirStoreInputs(O2Store[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setStores(pStores);
-        setMaxFlowRates(pMaxFlowRates);
-        setDesiredFlowRates(pDesiredFlowRates);
+        setStoreMaxFlowRates(pMaxFlowRates);
+        setStoreDesiredFlowRates(pDesiredFlowRates);
     }
     
     /**
@@ -40,6 +40,8 @@ public class O2AirConsumerDefinitionImpl extends StoreEnvironmentFlowRateControl
      * @return The total amount of O2 grabbed from the environments
      */
     public float getMostO2FromEnvironment() {
+        if (getEnvironments() == null)
+            return 0f;
         float gatheredO2Air = 0f;
         for (int i = 0; i < getEnvironments().length; i++) {
             float amountToTake = Math.min(getEnvironmentMaxFlowRate(i),

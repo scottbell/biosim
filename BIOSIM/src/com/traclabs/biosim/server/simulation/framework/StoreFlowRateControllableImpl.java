@@ -17,6 +17,8 @@ public abstract class StoreFlowRateControllableImpl extends SingleFlowRateContro
     
     protected void setStores(Store[] pStores){
         myStores = pStores;
+        float[] emptyActualFlowRates = new float[pStores.length];
+        setActualFlowRates(emptyActualFlowRates);
     }
     
     /**
@@ -24,6 +26,8 @@ public abstract class StoreFlowRateControllableImpl extends SingleFlowRateContro
      * @return The total amount of resource grabbed from the stores
      */
     public float getMostResourceFromStore() {
+        if (getStores() == null)
+            return 0f;
         float gatheredResource = 0f;
         for (int i = 0; i < getStores().length; i++) {
             float amountToTake = Math.min(getMaxFlowRate(i),
@@ -42,6 +46,8 @@ public abstract class StoreFlowRateControllableImpl extends SingleFlowRateContro
      *         the amount needed if sucessful)
      */
     public float getResourceFromStore(float amountNeeded) {
+        if (getStores() == null)
+            return 0f;
         float gatheredResource = 0f;
         for (int i = 0; (i < getStores().length)
                 && (gatheredResource < amountNeeded); i++) {
@@ -65,6 +71,8 @@ public abstract class StoreFlowRateControllableImpl extends SingleFlowRateContro
      *         the amount needed if sucessful)
      */
     public float getFractionalResourceFromStore(float amountNeeded, float fraction) {
+        if (getStores() == null)
+            return 0f;
         float gatheredResource = 0f;
         for (int i = 0; (i < getStores().length)
                 && (gatheredResource < amountNeeded); i++) {
@@ -92,6 +100,8 @@ public abstract class StoreFlowRateControllableImpl extends SingleFlowRateContro
      *         the amount needed if sucessful)
      */
     public static float getFractionalResourceFromStore(StoreFlowRateControllable pDefinition, float amountNeeded, float fraction) {
+        if (pDefinition.getStores() == null)
+            return 0f;
         float gatheredResource = 0f;
         for (int i = 0; (i < pDefinition.getStores().length)
                 && (gatheredResource < amountNeeded); i++) {
@@ -119,6 +129,8 @@ public abstract class StoreFlowRateControllableImpl extends SingleFlowRateContro
      *         amount to push if sucessful)
      */
     public static float pushFractionalResourceToStore(StoreFlowRateControllable pDefinition, float amountToPush, float fraction) {
+        if (pDefinition.getStores() == null)
+            return 0f;
         float resourceRemaining = amountToPush;
         for (int i = 0; (i < pDefinition.getStores().length) && (resourceRemaining > 0); i++) {
             float resourceToDistributeFirst = Math.min(resourceRemaining,
@@ -141,6 +153,8 @@ public abstract class StoreFlowRateControllableImpl extends SingleFlowRateContro
      *         amount to push if sucessful)
      */
     public float pushResourceToStore(float amountToPush) {
+        if (getStores() == null)
+            return 0f;
         float resourceRemaining = amountToPush;
         for (int i = 0; (i < getStores().length) && (resourceRemaining > 0); i++) {
             float resourceToDistributeFirst = Math.min(resourceRemaining,
@@ -163,6 +177,8 @@ public abstract class StoreFlowRateControllableImpl extends SingleFlowRateContro
      *         amount to push if sucessful)
      */
     public float pushFractionalResourceToStore(float amountToPush, float fraction) {
+        if (getStores() == null)
+            return 0f;
         float resourceRemaining = amountToPush;
         for (int i = 0; (i < getStores().length) && (resourceRemaining > 0); i++) {
             float resourceToDistributeFirst = Math.min(resourceRemaining,

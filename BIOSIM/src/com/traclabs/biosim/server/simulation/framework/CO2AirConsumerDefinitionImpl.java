@@ -25,14 +25,14 @@ public class CO2AirConsumerDefinitionImpl extends StoreEnvironmentFlowRateContro
     
     public void setCO2AirEnvironmentInputs(SimEnvironment[] pEnvironments, float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setEnvironments(pEnvironments);
-        setMaxFlowRates(pMaxFlowRates);
-        setDesiredFlowRates(pDesiredFlowRates);
+        setEnvironmentMaxFlowRates(pMaxFlowRates);
+        setEnvironmentDesiredFlowRates(pDesiredFlowRates);
     }
 
     public void setCO2AirStoreInputs(CO2Store[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setStores(pStores);
-        setMaxFlowRates(pMaxFlowRates);
-        setDesiredFlowRates(pDesiredFlowRates);
+        setStoreMaxFlowRates(pMaxFlowRates);
+        setStoreDesiredFlowRates(pDesiredFlowRates);
     }
     
     /**
@@ -40,6 +40,8 @@ public class CO2AirConsumerDefinitionImpl extends StoreEnvironmentFlowRateContro
      * @return The total amount of CO2 grabbed from the environments
      */
     public float getMostCO2FromEnvironment() {
+        if (getEnvironments() == null)
+            return 0f;
         float gatheredCO2Air = 0f;
         for (int i = 0; i < getEnvironments().length; i++) {
             float amountToTake = Math.min(getEnvironmentMaxFlowRate(i),

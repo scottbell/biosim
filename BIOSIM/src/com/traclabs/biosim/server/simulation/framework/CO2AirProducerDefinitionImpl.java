@@ -28,21 +28,23 @@ public class CO2AirProducerDefinitionImpl extends
     public void setCO2AirEnvironmentOutputs(SimEnvironment[] pEnvironments,
             float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setEnvironments(pEnvironments);
-        setMaxFlowRates(pMaxFlowRates);
-        setDesiredFlowRates(pDesiredFlowRates);
+        setEnvironmentMaxFlowRates(pMaxFlowRates);
+        setEnvironmentDesiredFlowRates(pDesiredFlowRates);
     }
 
     public void setCO2AirStoreOutputs(CO2Store[] pStores,
             float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setStores(pStores);
-        setMaxFlowRates(pMaxFlowRates);
-        setDesiredFlowRates(pDesiredFlowRates);
+        setStoreMaxFlowRates(pMaxFlowRates);
+        setStoreDesiredFlowRates(pDesiredFlowRates);
     }
 
     /**
      * @return The total amount of CO2 pushed to the environments
      */
     public float pushCO2ToEnvironment(float pMolesToPush) {
+        if (getEnvironments() == null)
+            return 0f;
         float CO2AirLeft = pMolesToPush;
         for (int i = 0; (i < getEnvironments().length)
                 && (CO2AirLeft > 0); i++) {

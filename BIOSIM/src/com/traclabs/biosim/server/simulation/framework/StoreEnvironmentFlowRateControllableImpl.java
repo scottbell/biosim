@@ -10,7 +10,7 @@ import com.traclabs.biosim.idl.simulation.framework.StoreFlowRateControllable;
  * @author Scott Bell
  */
 
-public abstract class StoreEnvironmentFlowRateControllableImpl extends SingleFlowRateControllableImpl implements StoreEnvironmentFlowRateControllableOperations {
+public abstract class StoreEnvironmentFlowRateControllableImpl implements StoreEnvironmentFlowRateControllableOperations {
     private SimEnvironment[] mySimEnvironment;
     private Store[] myStores;
     
@@ -42,6 +42,8 @@ public abstract class StoreEnvironmentFlowRateControllableImpl extends SingleFlo
     
     protected void setStores(Store[] pStores){
         myStores = pStores;
+        float[] emptyActualFlowRates = new float[pStores.length];
+        setStoreActualFlowRates(emptyActualFlowRates);
     }
     
     public void setStoreMaxFlowRate(float value, int index) {
@@ -93,12 +95,14 @@ public abstract class StoreEnvironmentFlowRateControllableImpl extends SingleFlo
      * @return The total amount of resource grabbed from the stores
      */
     public float getMostResourceFromStore() {
+        if (getStores() == null)
+            return 0f;
         float gatheredResource = 0f;
         for (int i = 0; i < getStores().length; i++) {
-            float amountToTake = Math.min(getMaxFlowRate(i),
-                    getDesiredFlowRate(i));
-            getActualFlowRates()[i] = getStores()[i].take(amountToTake);
-            gatheredResource += getActualFlowRate(i);
+            float amountToTake = Math.min(getStoreMaxFlowRate(i),
+                    getStoreDesiredFlowRate(i));
+            getStoreActualFlowRates()[i] = getStores()[i].take(amountToTake);
+            gatheredResource += getStoreActualFlowRate(i);
         }
         return gatheredResource;
     }
@@ -111,15 +115,17 @@ public abstract class StoreEnvironmentFlowRateControllableImpl extends SingleFlo
      *         the amount needed if sucessful)
      */
     public float getResourceFromStore(float amountNeeded) {
+        if (getStores() == null)
+            return 0f;
         float gatheredResource = 0f;
         for (int i = 0; (i < getStores().length)
                 && (gatheredResource < amountNeeded); i++) {
             float resourceToGatherFirst = Math.min(amountNeeded,
-                    getMaxFlowRate(i));
+                    getStoreMaxFlowRate(i));
             float resourceToGatherFinal = Math.min(resourceToGatherFirst,
-                    getDesiredFlowRate(i));
-            getActualFlowRates()[i] = getStores()[i].take(resourceToGatherFinal);
-            gatheredResource += getActualFlowRate(i);
+                    getStoreDesiredFlowRate(i));
+            getStoreActualFlowRates()[i] = getStores()[i].take(resourceToGatherFinal);
+            gatheredResource += getStoreActualFlowRate(i);
         }
         return gatheredResource;
     }
@@ -134,15 +140,17 @@ public abstract class StoreEnvironmentFlowRateControllableImpl extends SingleFlo
      *         the amount needed if sucessful)
      */
     public float getFractionalResourceFromStore(float amountNeeded, float fraction) {
+        if (getStores() == null)
+            return 0f;
         float gatheredResource = 0f;
         for (int i = 0; (i < getStores().length)
                 && (gatheredResource < amountNeeded); i++) {
             float resourceToGatherFirst = Math.min(amountNeeded,
-                    getMaxFlowRate(i) * fraction);
+                    getStoreMaxFlowRate(i) * fraction);
             float resourceToGatherFinal = Math.min(resourceToGatherFirst,
-                    getDesiredFlowRate(i) * fraction);
+                    getStoreDesiredFlowRate(i) * fraction);
             float grabbed = getStores()[i].take(resourceToGatherFinal);
-            getActualFlowRates()[i] += grabbed;
+            getStoreActualFlowRates()[i] += grabbed;
             gatheredResource += grabbed;
         }
         return gatheredResource;
@@ -161,6 +169,8 @@ public abstract class StoreEnvironmentFlowRateControllableImpl extends SingleFlo
      *         the amount needed if sucessful)
      */
     public static float getFractionalResourceFromStore(StoreFlowRateControllable pDefinition, float amountNeeded, float fraction) {
+        if (pDefinition.getStores() == null)
+            return 0f;
         float gatheredResource = 0f;
         for (int i = 0; (i < pDefinition.getStores().length)
                 && (gatheredResource < amountNeeded); i++) {
@@ -188,6 +198,8 @@ public abstract class StoreEnvironmentFlowRateControllableImpl extends SingleFlo
      *         amount to push if sucessful)
      */
     public static float pushFractionalResourceToStore(StoreFlowRateControllable pDefinition, float amountToPush, float fraction) {
+        if (pDefinition.getStores() == null)
+            return 0f;
         float resourceRemaining = amountToPush;
         for (int i = 0; (i < pDefinition.getStores().length) && (resourceRemaining > 0); i++) {
             float resourceToDistributeFirst = Math.min(resourceRemaining,
@@ -210,14 +222,16 @@ public abstract class StoreEnvironmentFlowRateControllableImpl extends SingleFlo
      *         amount to push if sucessful)
      */
     public float pushResourceToStore(float amountToPush) {
+        if (getStores() == null)
+            return 0f;
         float resourceRemaining = amountToPush;
         for (int i = 0; (i < getStores().length) && (resourceRemaining > 0); i++) {
             float resourceToDistributeFirst = Math.min(resourceRemaining,
-                    getMaxFlowRate(i));
+                    getStoreMaxFlowRate(i));
             float resourceToDistributeFinal = Math.min(
-                    resourceToDistributeFirst, getDesiredFlowRate(i));
-            getActualFlowRates()[i] = getStores()[i].add(resourceToDistributeFinal);
-            resourceRemaining -= getActualFlowRate(i);
+                    resourceToDistributeFirst, getStoreDesiredFlowRate(i));
+            getStoreActualFlowRates()[i] = getStores()[i].add(resourceToDistributeFinal);
+            resourceRemaining -= getStoreActualFlowRate(i);
         }
         return (amountToPush - resourceRemaining);
     }
@@ -232,14 +246,16 @@ public abstract class StoreEnvironmentFlowRateControllableImpl extends SingleFlo
      *         amount to push if sucessful)
      */
     public float pushFractionalResourceToStore(float amountToPush, float fraction) {
+        if (getStores() == null)
+            return 0f;
         float resourceRemaining = amountToPush;
         for (int i = 0; (i < getStores().length) && (resourceRemaining > 0); i++) {
             float resourceToDistributeFirst = Math.min(resourceRemaining,
-                    getMaxFlowRate(i) * fraction);
+                    getStoreMaxFlowRate(i) * fraction);
             float resourceToDistributeFinal = Math.min(
-                    resourceToDistributeFirst, getDesiredFlowRate(i) * fraction);
+                    resourceToDistributeFirst, getStoreDesiredFlowRate(i) * fraction);
             float given = getStores()[i].add(resourceToDistributeFinal);
-            getActualFlowRates()[i] += given;
+            getStoreActualFlowRates()[i] += given;
             resourceRemaining -= given;
         }
         return (amountToPush - resourceRemaining);
@@ -250,8 +266,10 @@ public abstract class StoreEnvironmentFlowRateControllableImpl extends SingleFlo
        return mySimEnvironment;
     }
     
-    protected void setEnvironments(SimEnvironment[] pSimEnvironment){
-        mySimEnvironment = pSimEnvironment;
+    protected void setEnvironments(SimEnvironment[] pSimEnvironments){
+        mySimEnvironment = pSimEnvironments;
+        float[] emptyActualFlowRates = new float[pSimEnvironments.length];
+        setEnvironmentActualFlowRates(emptyActualFlowRates);
     }
     
     public void setEnvironmentMaxFlowRate(float value, int index) {
@@ -305,6 +323,8 @@ public abstract class StoreEnvironmentFlowRateControllableImpl extends SingleFlo
      * @return Breath of air consumed
      */
     public Breath getAirFromEnvironment(float molesNeeded) {
+        if (getEnvironments() == null)
+            return new Breath(0f, 0f, 0f, 0f, 0f);
         float gatheredAir = 0f;
         float gatheredO2 = 0f;
         float gatheredCO2 = 0f;
@@ -313,15 +333,15 @@ public abstract class StoreEnvironmentFlowRateControllableImpl extends SingleFlo
         float gatheredNitrogen = 0f;
         for (int i = 0; (i < getEnvironments().length)
                 && (gatheredAir < molesNeeded); i++) {
-            float resourceToGatherFirst = Math.min(molesNeeded, getMaxFlowRate(i));
+            float resourceToGatherFirst = Math.min(molesNeeded, getEnvironmentMaxFlowRate(i));
             float resourceToGatherFinal = Math.min(resourceToGatherFirst,
-                    getDesiredFlowRate(i));
+                    getEnvironmentDesiredFlowRate(i));
             Breath currentBreath = getEnvironments()[i]
                     .takeAirMoles(resourceToGatherFinal);
             gatheredAir += currentBreath.O2 + currentBreath.CO2
                     + currentBreath.other + currentBreath.water
                     + currentBreath.nitrogen;
-            getActualFlowRates()[i] = gatheredAir;
+            getEnvironmentActualFlowRates()[i] = gatheredAir;
             gatheredO2 += currentBreath.O2;
             gatheredCO2 += currentBreath.CO2;
             gatheredOther += currentBreath.other;
@@ -342,6 +362,8 @@ public abstract class StoreEnvironmentFlowRateControllableImpl extends SingleFlo
      * @return Breath of air consumed
      */
     public Breath getMostAirFromEnvironment() {
+        if (getEnvironments() == null)
+            return new Breath(0f, 0f, 0f, 0f, 0f);
         float gatheredAir = 0f;
         float gatheredO2 = 0f;
         float gatheredCO2 = 0f;
@@ -349,14 +371,14 @@ public abstract class StoreEnvironmentFlowRateControllableImpl extends SingleFlo
         float gatheredWater = 0f;
         float gatheredNitrogen = 0f;
         for (int i = 0; (i < getEnvironments().length); i++) {
-            float resourceToGatherFinal = Math.min(getMaxFlowRate(i),
-                    getDesiredFlowRate(i));
+            float resourceToGatherFinal = Math.min(getEnvironmentMaxFlowRate(i),
+                    getEnvironmentDesiredFlowRate(i));
             Breath currentBreath = getEnvironments()[i]
                     .takeAirMoles(resourceToGatherFinal);
             gatheredAir += currentBreath.O2 + currentBreath.CO2
                     + currentBreath.other + currentBreath.water
                     + currentBreath.nitrogen;
-            getActualFlowRates()[i] = gatheredAir;
+            getEnvironmentActualFlowRates()[i] = gatheredAir;
             gatheredO2 += currentBreath.O2;
             gatheredCO2 += currentBreath.CO2;
             gatheredOther += currentBreath.other;
@@ -380,6 +402,8 @@ public abstract class StoreEnvironmentFlowRateControllableImpl extends SingleFlo
      *         amount to push if sucessful)
      */
     public Breath pushAirToEnvironments(Breath breathToPush) {
+        if (getEnvironments() == null)
+            return new Breath(0f, 0f, 0f, 0f, 0f);
         float distributedO2Left = breathToPush.O2;
         float distributedCO2Left = breathToPush.CO2;
         float distributedOtherLeft = breathToPush.other;
@@ -391,9 +415,9 @@ public abstract class StoreEnvironmentFlowRateControllableImpl extends SingleFlo
             float totalToDistribute = distributedO2Left + distributedCO2Left + distributedOtherLeft
                     + distributedWaterLeft + distributedNitrogenLeft;
             float resourceToDistributeFirst = Math.min(totalToDistribute,
-                    getMaxFlowRate(i));
+                    getEnvironmentMaxFlowRate(i));
             float resourceToDistributeFinal = Math.min(
-                    resourceToDistributeFirst, getDesiredFlowRate(i));
+                    resourceToDistributeFirst, getEnvironmentDesiredFlowRate(i));
             //Recalculate percentages based on smaller volume
             float reducedO2ToPass = resourceToDistributeFinal
                     * (distributedO2Left / totalToDistribute);
@@ -419,7 +443,7 @@ public abstract class StoreEnvironmentFlowRateControllableImpl extends SingleFlo
             distributedOtherLeft -= otherAdded;
             distributedWaterLeft -= waterAdded;
             distributedNitrogenLeft -= nitrogenAdded;
-            getActualFlowRates()[i] = reducedO2ToPass + reducedCO2ToPass
+            getEnvironmentActualFlowRates()[i] = reducedO2ToPass + reducedCO2ToPass
                     + reducedOtherToPass + reducedWaterToPass
                     + reducedNitrogenToPass;
         }

@@ -25,14 +25,14 @@ public class WaterAirConsumerDefinitionImpl extends StoreEnvironmentFlowRateCont
     
     public void setWaterAirEnvironmentInputs(SimEnvironment[] pEnvironments, float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setEnvironments(pEnvironments);
-        setMaxFlowRates(pMaxFlowRates);
-        setDesiredFlowRates(pDesiredFlowRates);
+        setEnvironmentMaxFlowRates(pMaxFlowRates);
+        setEnvironmentDesiredFlowRates(pDesiredFlowRates);
     }
 
     public void setWaterAirStoreInputs(WaterStore[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setStores(pStores);
-        setMaxFlowRates(pMaxFlowRates);
-        setDesiredFlowRates(pDesiredFlowRates);
+        setStoreMaxFlowRates(pMaxFlowRates);
+        setStoreDesiredFlowRates(pDesiredFlowRates);
     }
     
     /**
@@ -40,6 +40,8 @@ public class WaterAirConsumerDefinitionImpl extends StoreEnvironmentFlowRateCont
      * @return The total amount of Water grabbed from the environments
      */
     public float getMostWaterFromEnvironment() {
+        if (getEnvironments() == null)
+            return 0f;
         float gatheredWaterAir = 0f;
         for (int i = 0; i < getEnvironments().length; i++) {
             float amountToTake = Math.min(getEnvironmentMaxFlowRate(i),
