@@ -20,35 +20,35 @@ module water{
         interface DirtyWaterStoreLevelSensor : DirtyWaterStoreSensor{};
 	
 	interface PotableWaterInFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::water::PotableWaterConsumer pConsumer, in long pIndex);
-		simulation::water::PotableWaterConsumer getInput();
+		void setInput(in framework::PotableWaterConsumer pConsumer, in long pIndex);
+		framework::PotableWaterConsumer getInput();
 		long getIndex();
 	};
 	interface PotableWaterOutFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::water::PotableWaterProducer pProducer, in long pIndex);
-		simulation::water::PotableWaterProducer getInput();
+		void setInput(in framework::PotableWaterProducer pProducer, in long pIndex);
+		framework::PotableWaterProducer getInput();
 		long getIndex();
 	};
 	
 	interface GreyWaterInFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::water::GreyWaterConsumer pConsumer, in long pIndex);
-		simulation::water::GreyWaterConsumer getInput();
+		void setInput(in framework::GreyWaterConsumer pConsumer, in long pIndex);
+		framework::GreyWaterConsumer getInput();
 		long getIndex();
 	};
 	interface GreyWaterOutFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::water::GreyWaterProducer pProducer, in long pIndex);
-		simulation::water::GreyWaterProducer getInput();
+		void setInput(in framework::GreyWaterProducer pProducer, in long pIndex);
+		framework::GreyWaterProducer getInput();
 		long getIndex();
 	};
 	
 	interface DirtyWaterInFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::water::DirtyWaterConsumer pConsumer, in long pIndex);
-		simulation::water::DirtyWaterConsumer getInput();
+		void setInput(in framework::DirtyWaterConsumer pConsumer, in long pIndex);
+		framework::DirtyWaterConsumer getInput();
 		long getIndex();
 	};
 	interface DirtyWaterOutFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::water::DirtyWaterProducer pProducer, in long pIndex);
-		simulation::water::DirtyWaterProducer getInput();
+		void setInput(in framework::DirtyWaterProducer pProducer, in long pIndex);
+		framework::DirtyWaterProducer getInput();
 		long getIndex();
 	};
 };

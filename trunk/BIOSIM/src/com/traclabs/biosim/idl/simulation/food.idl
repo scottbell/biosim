@@ -1,10 +1,10 @@
 module food{
-        interface BiomassRS : framework::SimBioModule, power::PowerConsumer, water::PotableWaterConsumer, water::GreyWaterConsumer, BiomassProducer, environment::AirConsumer, environment::AirProducer{
+        interface BiomassRS : framework::SimBioModule, framework::PowerConsumer, framework::PotableWaterConsumer, framework::GreyWaterConsumer, framework::BiomassProducer, framework::AirConsumer, framework::AirProducer{
                 ShelfList getShelves();
 		Shelf createNewShelf(in PlantType pType, in float pCropArea);
         };
 
-        interface FoodProcessor : framework::SimBioModule, power::PowerConsumer, BiomassConsumer, FoodProducer{
+        interface FoodProcessor : framework::SimBioModule, framework::PowerConsumer, framework::BiomassConsumer, framework::FoodProducer{
                 float getBiomassConsumed();
                 float getPowerConsumed();
                 float getFoodProduced();
@@ -32,41 +32,4 @@ module food{
 	interface Plant{
         };
 	
-	interface BiomassConsumer{
-                void setBiomassInputMaxFlowRate(in float kilograms, in long index);
-                float getBiomassInputMaxFlowRate(in long index);
-                void setBiomassInputDesiredFlowRate(in float kilograms, in long index);
-                float getBiomassInputDesiredFlowRate(in long index);
-                float getBiomassInputActualFlowRate(in long index);
-                void setBiomassInputs(in food::BiomassStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                food::BiomassStoreList getBiomassInputs();
-        };
-	
-        interface FoodConsumer{
-                void setFoodInputMaxFlowRate(in float kilograms, in long index);
-                float getFoodInputMaxFlowRate(in long index);
-                void setFoodInputDesiredFlowRate(in float kilograms, in long index);
-                float getFoodInputDesiredFlowRate(in long index);
-                float getFoodInputActualFlowRate(in long index);
-                void setFoodInputs(in food::FoodStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                food::FoodStoreList getFoodInputs();
-        };
-	interface BiomassProducer{
-                void setBiomassOutputMaxFlowRate(in float kilograms, in long index);
-                float getBiomassOutputMaxFlowRate(in long index);
-                void setBiomassOutputDesiredFlowRate(in float kilograms, in long index);
-                float getBiomassOutputDesiredFlowRate(in long index);
-                float getBiomassOutputActualFlowRate(in long index);
-                void setBiomassOutputs(in food::BiomassStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                food::BiomassStoreList getBiomassOutputs();
-        };
-        interface FoodProducer{
-                void setFoodOutputMaxFlowRate(in float kilograms, in long index);
-                float getFoodOutputMaxFlowRate(in long index);
-                void setFoodOutputDesiredFlowRate(in float kilograms, in long index);
-                float getFoodOutputDesiredFlowRate(in long index);
-                float getFoodOutputActualFlowRate(in long index);
-                void setFoodOutputs(in food::FoodStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                food::FoodStoreList getFoodOutputs();
-        };
 };

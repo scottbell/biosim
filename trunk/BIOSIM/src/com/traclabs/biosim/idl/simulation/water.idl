@@ -1,5 +1,5 @@
 module water{
-        interface WaterRS : framework::SimBioModule, power::PowerConsumer, GreyWaterConsumer, DirtyWaterConsumer, PotableWaterProducer{
+        interface WaterRS : framework::SimBioModule, framework::PowerConsumer, framework::GreyWaterConsumer, framework::DirtyWaterConsumer, framework::PotableWaterProducer{
                 float getPotableWaterProduced();
                 float getGreyWaterProduced();
                 float getPowerConsumed();
@@ -28,59 +28,5 @@ module water{
         interface GreyWaterStore : framework::Store{
         };
         interface DirtyWaterStore : framework::Store{
-        };
-	interface PotableWaterConsumer{
-                void setPotableWaterInputMaxFlowRate(in float liters, in long index);
-                float getPotableWaterInputMaxFlowRate(in long index);
-                void setPotableWaterInputDesiredFlowRate(in float liters, in long index);
-                float getPotableWaterInputDesiredFlowRate(in long index);
-                float getPotableWaterInputActualFlowRate(in long index);
-                void setPotableWaterInputs(in water::PotableWaterStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                water::PotableWaterStoreList getPotableWaterInputs();
-        };
-        interface GreyWaterConsumer{
-                void setGreyWaterInputMaxFlowRate(in float liters, in long index);
-                float getGreyWaterInputMaxFlowRate(in long index);
-                void setGreyWaterInputDesiredFlowRate(in float liters, in long index);
-                float getGreyWaterInputDesiredFlowRate(in long index);
-                float getGreyWaterInputActualFlowRate(in long index);
-                void setGreyWaterInputs(in water::GreyWaterStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                water::GreyWaterStoreList getGreyWaterInputs();
-        };
-        interface DirtyWaterConsumer{
-                void setDirtyWaterInputMaxFlowRate(in float liters, in long index);
-                float getDirtyWaterInputMaxFlowRate(in long index);
-                void setDirtyWaterInputDesiredFlowRate(in float liters, in long index);
-                float getDirtyWaterInputDesiredFlowRate(in long index);
-                float getDirtyWaterInputActualFlowRate(in long index);
-                void setDirtyWaterInputs(in water::DirtyWaterStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                water::DirtyWaterStoreList getDirtyWaterInputs();
-        };
-	interface PotableWaterProducer{
-                void setPotableWaterOutputMaxFlowRate(in float liters, in long index);
-                float getPotableWaterOutputMaxFlowRate(in long index);
-                void setPotableWaterOutputDesiredFlowRate(in float liters, in long index);
-                float getPotableWaterOutputDesiredFlowRate(in long index);
-                float getPotableWaterOutputActualFlowRate(in long index);
-                void setPotableWaterOutputs(in water::PotableWaterStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                water::PotableWaterStoreList getPotableWaterOutputs();
-        };
-        interface GreyWaterProducer{
-                void setGreyWaterOutputMaxFlowRate(in float liters, in long index);
-                float getGreyWaterOutputMaxFlowRate(in long index);
-                void setGreyWaterOutputDesiredFlowRate(in float liters, in long index);
-                float getGreyWaterOutputDesiredFlowRate(in long index);
-                float getGreyWaterOutputActualFlowRate(in long index);
-                void setGreyWaterOutputs(in water::GreyWaterStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                water::GreyWaterStoreList getGreyWaterOutputs();
-        };
-        interface DirtyWaterProducer{
-                void setDirtyWaterOutputMaxFlowRate(in float liters, in long index);
-                float getDirtyWaterOutputMaxFlowRate(in long index);
-                void setDirtyWaterOutputDesiredFlowRate(in float liters, in long index);
-                float getDirtyWaterOutputDesiredFlowRate(in long index);
-                float getDirtyWaterOutputActualFlowRate(in long index);
-                void setDirtyWaterOutputs(in water::DirtyWaterStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                water::DirtyWaterStoreList getDirtyWaterOutputs();
         };
 };

@@ -20,35 +20,35 @@ module water{
         interface DirtyWaterStoreLevelActuator : DirtyWaterStoreActuator{};
 	
 	interface PotableWaterInFlowRateActuator : framework::GenericActuator{
-		void setOutput(in simulation::water::PotableWaterConsumer pConsumer, in long pIndex);
-		simulation::water::PotableWaterConsumer getOutput();
+		void setOutput(in framework::PotableWaterConsumer pConsumer, in long pIndex);
+		framework::PotableWaterConsumer getOutput();
 		long getIndex();
 	};
 	interface PotableWaterOutFlowRateActuator : framework::GenericActuator{
-		void setOutput(in simulation::water::PotableWaterProducer pProducer, in long pIndex);
-		simulation::water::PotableWaterProducer getOutput();
+		void setOutput(in framework::PotableWaterProducer pProducer, in long pIndex);
+		framework::PotableWaterProducer getOutput();
 		long getIndex();
 	};
 	
 	interface GreyWaterInFlowRateActuator : framework::GenericActuator{
-		void setOutput(in simulation::water::GreyWaterConsumer pConsumer, in long pIndex);
-		simulation::water::GreyWaterConsumer getOutput();
+		void setOutput(in framework::GreyWaterConsumer pConsumer, in long pIndex);
+		framework::GreyWaterConsumer getOutput();
 		long getIndex();
 	};
 	interface GreyWaterOutFlowRateActuator : framework::GenericActuator{
-		void setOutput(in simulation::water::GreyWaterProducer pProducer, in long pIndex);
-		simulation::water::GreyWaterProducer getOutput();
+		void setOutput(in framework::GreyWaterProducer pProducer, in long pIndex);
+		framework::GreyWaterProducer getOutput();
 		long getIndex();
 	};
 	
 	interface DirtyWaterInFlowRateActuator : framework::GenericActuator{
-		void setOutput(in simulation::water::DirtyWaterConsumer pConsumer, in long pIndex);
-		simulation::water::DirtyWaterConsumer getOutput();
+		void setOutput(in framework::DirtyWaterConsumer pConsumer, in long pIndex);
+		framework::DirtyWaterConsumer getOutput();
 		long getIndex();
 	};
 	interface DirtyWaterOutFlowRateActuator : framework::GenericActuator{
-		void setOutput(in simulation::water::DirtyWaterProducer pProducer, in long pIndex);
-		simulation::water::DirtyWaterProducer getOutput();
+		void setOutput(in framework::DirtyWaterProducer pProducer, in long pIndex);
+		framework::DirtyWaterProducer getOutput();
 		long getIndex();
 	};
 };
