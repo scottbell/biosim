@@ -13,7 +13,7 @@ import biosim.server.util.*;
 
 public class VCCR extends AirRSSubSystem{
 	private Breath myBreath;
-	private final static float molesAirNeeded = 100.0f;
+	private final static float molesAirNeeded = 50.0f;
 	private float currentCO2Produced = 0f;
 	private float myProductionRate = 1f;
 
@@ -78,14 +78,12 @@ public class VCCR extends AirRSSubSystem{
 			float reducedO2ToPass = resourceToDistributeFinal * (distributedO2Left / totalToDistribute);
 			float reducedOtherToPass = resourceToDistributeFinal * (distributedOtherLeft / totalToDistribute);
 			float reducedWaterToPass = resourceToDistributeFinal * (distributedWaterLeft / totalToDistribute);
-			//System.out.println("VCCR: passing reducedO2ToPass:"+reducedO2ToPass);
 			float O2Added = myAirRS.getAirOutputs()[i].addO2Moles(reducedO2ToPass);
 			float otherAdded = myAirRS.getAirOutputs()[i].addOtherMoles(reducedOtherToPass);
 			float waterAdded = myAirRS.getAirOutputs()[i].addWaterMoles(reducedWaterToPass);
 			distributedO2Left -= O2Added;
 			distributedOtherLeft -= otherAdded;
 			distributedWaterLeft -= waterAdded;
-			//System.out.println("VCCR: distributedO2Left:"+distributedO2Left);
 			myAirRS.setAirOutputActualFlowRate(reducedO2ToPass + reducedOtherToPass + reducedWaterToPass, i);
 		}
 		currentCO2Produced = myBreath.CO2 * myProductionRate;

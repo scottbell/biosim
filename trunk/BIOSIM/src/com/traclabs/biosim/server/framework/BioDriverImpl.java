@@ -777,22 +777,22 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			CO2Store[] CO2StoreInput = {myCO2Store};
 			PotableWaterStore[] potableWaterStoreOutput = {myPotableWaterStore};
 			PotableWaterStore[] potableWaterStoreInput = {myPotableWaterStore};
-			float[] powerMaxFlowRates = {10f};
-			float[] simEnvironmentInputMaxFlowRates = {10f};
-			float[] simEnvironmentOutputMaxFlowRates = {10f};
-			float[] O2StoreMaxFlowRates = {10f};
-			float[] CO2StoreInputMaxFlowRates = {10f};
-			float[] CO2StoreOutputMaxFlowRates = {10f};
-			float[] powerDesiredFlowRates = {10f};
-			float[] simEnvironmentInputDesiredFlowRates = {10f};
-			float[] simEnvironmentOutputDesiredFlowRates = {10f};
-			float[] O2StoreDesiredFlowRates = {10f};
-			float[] CO2StoreInputDesiredFlowRates = {10f};
-			float[] CO2StoreOutputDesiredFlowRates = {10f};
-			float[] potableWaterStoreInputDesiredFlowRates = {10f};
-			float[] potableWaterStoreOutputDesiredFlowRates = {10f};
-			float[] potableWaterStoreInputMaxFlowRates = {10f};
-			float[] potableWaterStoreOutputMaxFlowRates = {10f};
+			float[] powerMaxFlowRates = {10000f};
+			float[] simEnvironmentInputMaxFlowRates = {10000f};
+			float[] simEnvironmentOutputMaxFlowRates = {10000f};
+			float[] O2StoreMaxFlowRates = {10000f};
+			float[] CO2StoreInputMaxFlowRates = {10000f};
+			float[] CO2StoreOutputMaxFlowRates = {10000f};
+			float[] powerDesiredFlowRates = {10000f};
+			float[] simEnvironmentInputDesiredFlowRates = {10000f};
+			float[] simEnvironmentOutputDesiredFlowRates = {10000f};
+			float[] O2StoreDesiredFlowRates = {10000f};
+			float[] CO2StoreInputDesiredFlowRates = {10000f};
+			float[] CO2StoreOutputDesiredFlowRates = {10000f};
+			float[] potableWaterStoreInputDesiredFlowRates = {10000f};
+			float[] potableWaterStoreOutputDesiredFlowRates = {10000f};
+			float[] potableWaterStoreInputMaxFlowRates = {10000f};
+			float[] potableWaterStoreOutputMaxFlowRates = {10000f};
 			AirRS myAirRS = AirRSHelper.narrow(getBioModule(myAirRSName));
 			myAirRS.setPowerInputs(powerStoreInput, powerMaxFlowRates, powerDesiredFlowRates);
 			myAirRS.setAirInputs(simEnvironmentInput, simEnvironmentInputMaxFlowRates, simEnvironmentInputDesiredFlowRates);
@@ -875,10 +875,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			//so 7.5 slpm for all flow rates
 			// (7.5 liters O2 / min)(1000 grams/liters)(1 mole O2/ 31.9988 grams O2)(60 min/ hour)
 			// 7.5 O2 slpm == 14063.0 moles per hour
-			float[] O2AirInputMaxFlowRates = {50f};
-			float[] O2AirOutputMaxFlowRates = {50f};
-			float[] O2AirInputDesiredFlowRates = {.01f};
-			float[] O2AirOutputDesiredFlowRates = {.01f};
+			float[] O2AirInputMaxFlowRates = {10f};
+			float[] O2AirOutputMaxFlowRates = {10f};
+			float[] O2AirInputDesiredFlowRates = {10f};
+			float[] O2AirOutputDesiredFlowRates = {10f};
 			Accumulator myAccumulator = AccumulatorHelper.narrow(getBioModule(myAccumulatorName));
 			myAccumulator.setO2AirEnvironmentInputs(O2AirInput, O2AirInputMaxFlowRates, O2AirInputDesiredFlowRates);
 			myAccumulator.setO2AirStoreOutputs(O2AirOutput, O2AirOutputMaxFlowRates, O2AirOutputDesiredFlowRates);
@@ -888,10 +888,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			// 7.5 CO2 slpm == 11247.2 moles per hour
 			SimEnvironment[] CO2AirInput = {myCrewEnvironment};
 			CO2Store[] CO2AirOutput = {myCO2Store};
-			float[] CO2AirInputMaxFlowRates = {50f};
-			float[] CO2AirOutputMaxFlowRates = {50f};
-			float[] CO2AirInputDesiredFlowRates = {.01f};
-			float[] CO2AirOutputDesiredFlowRates = {.01f};
+			float[] CO2AirInputMaxFlowRates = {10f};
+			float[] CO2AirOutputMaxFlowRates = {10f};
+			float[] CO2AirInputDesiredFlowRates = {10f};
+			float[] CO2AirOutputDesiredFlowRates = {10f};
 			myAccumulator.setCO2AirEnvironmentInputs(CO2AirInput, CO2AirInputMaxFlowRates, CO2AirInputDesiredFlowRates);
 			myAccumulator.setCO2AirStoreOutputs(CO2AirOutput, CO2AirOutputMaxFlowRates, CO2AirOutputDesiredFlowRates);
 		}
@@ -905,10 +905,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			//so 7.5 slpm for all flow rates
 			// (7.5 liters O2 / min)(1000 grams/liters)(1 mole O2/ 31.9988 grams O2)(60 min/ hour)
 			// 7.5 O2 slpm == 14063.0 moles per hour
-			float[] O2AirInputMaxFlowRates = {50f};
-			float[] O2AirOutputMaxFlowRates = {50f};
-			float[] O2AirInputDesiredFlowRates = {.01f};
-			float[] O2AirOutputDesiredFlowRates = {.01f};
+			float[] O2AirInputMaxFlowRates = {10f};
+			float[] O2AirOutputMaxFlowRates = {10f};
+			float[] O2AirInputDesiredFlowRates = {10f};
+			float[] O2AirOutputDesiredFlowRates = {10f};
 			Injector myInjector = InjectorHelper.narrow(getBioModule(myInjectorName));
 			myInjector.setO2AirStoreInputs(O2AirInput, O2AirInputMaxFlowRates, O2AirInputDesiredFlowRates);
 			myInjector.setO2AirEnvironmentOutputs(O2AirOutput, O2AirOutputMaxFlowRates, O2AirOutputDesiredFlowRates);
@@ -918,10 +918,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			// 7.5 CO2 slpm == 11247.2 moles per hour
 			CO2Store[] CO2AirInput = {myCO2Store};
 			SimEnvironment[] CO2AirOutput = {myPlantEnvironment};
-			float[] CO2AirInputMaxFlowRates = {50f};
-			float[] CO2AirOutputMaxFlowRates = {50f};
-			float[] CO2AirInputDesiredFlowRates = {.01f};
-			float[] CO2AirOutputDesiredFlowRates = {.01f};
+			float[] CO2AirInputMaxFlowRates = {10f};
+			float[] CO2AirOutputMaxFlowRates = {10f};
+			float[] CO2AirInputDesiredFlowRates = {10f};
+			float[] CO2AirOutputDesiredFlowRates = {10f};
 			myInjector.setCO2AirStoreInputs(CO2AirInput, CO2AirInputMaxFlowRates, CO2AirInputDesiredFlowRates);
 			myInjector.setCO2AirEnvironmentOutputs(CO2AirOutput, CO2AirOutputMaxFlowRates, CO2AirOutputDesiredFlowRates);
 		}
