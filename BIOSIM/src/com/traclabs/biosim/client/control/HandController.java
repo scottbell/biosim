@@ -45,7 +45,7 @@ import com.traclabs.biosim.idl.simulation.water.WaterRS;
 public class HandController {
 
     //feedback loop sttuff
-    private double CrewO2Level = 0.20f;
+    private double CrewO2Level = 0.25f;
 
     private double CrewCO2Level = 0.0012f;
 
@@ -154,7 +154,6 @@ public class HandController {
         } catch (IOException e) {
         }
         pw = new PrintWriter(fw, true);
-        setThresholds();
         myBioHolder = BioHolderInitializer.getBioHolder();
         myBioDriver = myBioHolder.theBioDriver;
         plantsExist = myBioHolder.theBiomassRSModules.size() > 0;
@@ -214,6 +213,8 @@ public class HandController {
                             myBiomassRS));
             currentActuator.setValue(2);
         }
+        
+        setThresholds();
 
         // initialize everything to off
         currentActuator.setValue(0);
@@ -233,10 +234,7 @@ public class HandController {
         crewCO2integral = 0f;
         crewH2Ointegral = 0f;
         Runs++;
-
-        for (i = 0; i < ATMOSPHERIC_PERIOD; i++)
-            myBioDriver.advanceOneTick();
-
+        
         continuousState = new StateMap();
         continuousState.updateState();
         classifiedState = classifyState(continuousState);
@@ -283,17 +281,17 @@ public class HandController {
         int i;
         Map subMap;
         int dirtyWaterHighLevel = (int)myDirtyWaterStore.getCurrentCapacity();
-        int dirtyWaterLowLevel = dirtyWaterHighLevel / 4;
+        int dirtyWaterLowLevel = dirtyWaterHighLevel / 40;
         int greyWaterHighLevel = (int)myGreyWaterStore.getCurrentCapacity();
-        int greyWaterLowLevel = greyWaterHighLevel / 4;
+        int greyWaterLowLevel = greyWaterHighLevel / 40;
         int potableWaterHighLevel = (int)myPotableWaterStore.getCurrentCapacity();
-        int potableWaterLowLevel = potableWaterHighLevel / 4;
+        int potableWaterLowLevel = potableWaterHighLevel / 40;
         int O2StoreHighLevel = (int)myO2Store.getCurrentCapacity();
-        int O2StoreLowLevel = O2StoreHighLevel / 4;
+        int O2StoreLowLevel = O2StoreHighLevel / 40;
         int CO2StoreHighLevel = (int)myCO2Store.getCurrentCapacity();
-        int CO2StoreLowLevel = CO2StoreHighLevel / 4;
+        int CO2StoreLowLevel = CO2StoreHighLevel / 40;
         int H2StoreHighLevel = (int)myH2Store.getCurrentCapacity();
-        int H2StoreLowLevel = H2StoreHighLevel / 10;
+        int H2StoreLowLevel = H2StoreHighLevel / 100;
 
         subMap = new TreeMap();
         subMap.put("low", new Integer(dirtyWaterLowLevel));
