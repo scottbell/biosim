@@ -175,7 +175,12 @@ public class BiosimServer extends GenericServer{
 		{
 			CrewGroupDeathSensorImpl myCrewGroupDeathSensorImpl = new CrewGroupDeathSensorImpl(id);
 			registerServer(new CrewGroupDeathSensorPOATie(myCrewGroupDeathSensorImpl), myCrewGroupDeathSensorImpl.getModuleName());
-
+			PotableWaterInFlowRateSensorImpl myPotableWaterInFlowRateSensorImpl = new PotableWaterInFlowRateSensorImpl(id);
+			registerServer(new PotableWaterInFlowRateSensorPOATie(myPotableWaterInFlowRateSensorImpl), "CrewGroup" + myPotableWaterInFlowRateSensorImpl.getModuleName());
+			DirtyWaterOutFlowRateSensorImpl myDirtyWaterOutFlowRateSensorImpl = new DirtyWaterOutFlowRateSensorImpl(id);
+			registerServer(new DirtyWaterOutFlowRateSensorPOATie(myDirtyWaterOutFlowRateSensorImpl), "CrewGroup" + myDirtyWaterOutFlowRateSensorImpl.getModuleName());
+			GreyWaterOutFlowRateSensorImpl myGreyWaterOutFlowRateSensorImpl = new GreyWaterOutFlowRateSensorImpl(id);
+			registerServer(new GreyWaterOutFlowRateSensorPOATie(myGreyWaterOutFlowRateSensorImpl), "CrewGroup" + myGreyWaterOutFlowRateSensorImpl.getModuleName());
 		}
 
 		//Food Sensors
@@ -295,7 +300,7 @@ public class BiosimServer extends GenericServer{
 		}
 
 		//
-		//Actuators
+		//Actuator
 		//
 
 		//Air Sesnors
@@ -317,7 +322,7 @@ public class BiosimServer extends GenericServer{
 			}
 		}
 
-		//Power Actuators
+		//Power Actuator
 		{
 			//Power PS
 			{
@@ -326,7 +331,7 @@ public class BiosimServer extends GenericServer{
 			}
 		}
 
-		//Food Actuators
+		//Food Actuator
 		{
 			//Food Processor
 			{
@@ -355,9 +360,19 @@ public class BiosimServer extends GenericServer{
 				registerServer(new GreyWaterInFlowRateActuatorPOATie(myGreyWaterInFlowRateActuatorImpl), "BiomassRS" + myGreyWaterInFlowRateActuatorImpl.getModuleName());
 			}
 		}
+		
+		//Crew Actuators
+		{
+			PotableWaterInFlowRateActuatorImpl myPotableWaterInFlowRateActuatorImpl = new PotableWaterInFlowRateActuatorImpl(id);
+			registerServer(new PotableWaterInFlowRateActuatorPOATie(myPotableWaterInFlowRateActuatorImpl), "CrewGroup" + myPotableWaterInFlowRateActuatorImpl.getModuleName());
+			DirtyWaterOutFlowRateActuatorImpl myDirtyWaterOutFlowRateActuatorImpl = new DirtyWaterOutFlowRateActuatorImpl(id);
+			registerServer(new DirtyWaterOutFlowRateActuatorPOATie(myDirtyWaterOutFlowRateActuatorImpl), "CrewGroup" + myDirtyWaterOutFlowRateActuatorImpl.getModuleName());
+			GreyWaterOutFlowRateActuatorImpl myGreyWaterOutFlowRateActuatorImpl = new GreyWaterOutFlowRateActuatorImpl(id);
+			registerServer(new GreyWaterOutFlowRateActuatorPOATie(myGreyWaterOutFlowRateActuatorImpl), "CrewGroup" + myGreyWaterOutFlowRateActuatorImpl.getModuleName());
+		}
 
 		//
-		//Water Actuators
+		//Water Actuator
 		//
 		{
 			//Water RS
@@ -374,7 +389,7 @@ public class BiosimServer extends GenericServer{
 		}
 
 		//
-		//Framework Actuators
+		//Framework Actuator
 		//
 		{
 			//Accumulator
