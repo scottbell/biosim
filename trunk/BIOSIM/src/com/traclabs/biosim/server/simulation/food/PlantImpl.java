@@ -217,20 +217,20 @@ public abstract class PlantImpl extends PlantPOA{
 			//are we bigger than tA? trim some values
 			if (pList.size() > (canopyClosureInHours)){
 				int numberToRemove = pList.size() - (int)canopyClosureInHours;
-				//System.out.println("Trimming Canopy Closure by "+numberToRemove+" items, tA = "+canopyClosureInHours+" while size is "+pList.size());
+				//System.out.println("Trimming Canopy Closure by "+numberToRemove+" items, tA(hours) = "+canopyClosureInHours+" while size is "+pList.size());
 				for (int i = 0; i < numberToRemove; i++)
 					pList.remove(pList.size() - 1);
 			}
 			//are we smaller than tA? then add some values
 			else if (pList.size() < (canopyClosureInHours)){
 				int numberToAdd = (int)canopyClosureInHours - pList.size();
-				//System.out.println("Adding filler "+numberToAdd+" Canopy Closure items, tA = "+canopyClosureInHours+" while size is "+pList.size());
+				//System.out.println("Adding filler "+numberToAdd+" Canopy Closure items, tA(hours) = "+canopyClosureInHours+" while size is "+pList.size());
 				for (int i = 0; i < numberToAdd; i++)
 					pList.add(fillerFloat);
 			}
 		}
 		//add
-		//System.out.println("Inserting value "+pValueToInsert+" at index (age) "+myAge);
+		//System.out.println("Inserting value "+pValueToInsert+" at index (age) "+myAge+" with tA(days) = "+myTimeTillCanopyClosure);
 		pList.add(myAge, new CanopyFloat(pValueToInsert));
 		//get rid of last value
 		pList.remove(pList.size() - 1);
@@ -392,8 +392,8 @@ public abstract class PlantImpl extends PlantPOA{
 		CQY = calculateCQY();
 		carbonUseEfficiency24 = getCarbonUseEfficiency24();
 		float dailyCarbonGain = calculateDailyCarbonGain();
-		//if (myAge % 24 == 0)
-		//	System.out.println(getDaysOfGrowth()+"\t"+dailyCarbonGain);
+		if (myAge % 24 == 0)
+			System.out.println(getDaysOfGrowth()+"\t"+dailyCarbonGain);
 		//totalCO2MolesConsumed += (dailyCarbonGain / 24f);
 		float cropGrowthRate = molecularWeightOfCarbon * (dailyCarbonGain / getBCF());
 		//System.out.println("PlantImpl: cropGrowthRate: "+cropGrowthRate);

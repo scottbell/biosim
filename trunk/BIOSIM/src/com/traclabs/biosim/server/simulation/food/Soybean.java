@@ -9,6 +9,7 @@ import biosim.idl.simulation.food.*;
 public class Soybean extends Legume{
 	private static final int taInitialValue = 1200;
 	private static final float initialPPFValue = 648.15f;
+	//private static final float initialPPFValue = 462.96f;
 	private static final float initialCO2Value = 1200f;
 	
 	public Soybean(ShelfImpl pShelfImpl){
@@ -96,8 +97,8 @@ public class Soybean extends Legume{
 	}
 
 	protected float getTimeAtCropMaturity(){
-		//return 86f;
-		return 97f;
+		return 86f;
+		//return 97f;
 	}
 
 	protected float getOPF(){
