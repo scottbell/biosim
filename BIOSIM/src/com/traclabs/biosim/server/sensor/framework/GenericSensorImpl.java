@@ -29,6 +29,7 @@ public abstract class GenericSensorImpl extends BioModuleImpl implements Generic
 	
 	public void tick(){
 		super.tick();
+		//System.out.println(getModuleName()+": moduleLogging="+moduleLogging);
 		try{
 			gatherData();
 			notifyListeners();

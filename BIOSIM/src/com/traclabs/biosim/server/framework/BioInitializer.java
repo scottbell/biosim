@@ -91,6 +91,11 @@ public class BioInitializer{
 	private List myPrioritySimModules;
 	private List mySensors;
 	private List myActuators;
+	
+	//Global Logging
+	private boolean areActuatorsLogging = false;
+	private boolean areSensorsLogging = false;
+	private boolean areModulesLogging = false;
 
 	/** Default constructor. */
 	public BioInitializer(int pID){
@@ -180,6 +185,12 @@ public class BioInitializer{
 			myDriver.setActiveSimModules(activeSimModulesArray);
 			myDriver.setPassiveSimModules(passiveSimModulesArray);
 			myDriver.setPrioritySimModules(prioritySimModulesArray);
+			
+			//Logging
+			myDriver.setFullLogging(areModulesLogging);
+			myDriver.setSensorLogging(areSensorsLogging);
+			myDriver.setActuatorLogging(areActuatorsLogging);
+			
 			System.out.println("done");
 			System.out.flush();
 		}
@@ -212,11 +223,10 @@ public class BioInitializer{
 				myDriver.setPauseSimulation(node.getAttributes().getNamedItem("startPaused").getNodeValue().equals("true"));
 				myDriver.setRunTillCrewDeath(node.getAttributes().getNamedItem("runTillCrewDeath").getNodeValue().equals("true"));
 				myDriver.setRunTillPlantDeath(node.getAttributes().getNamedItem("runTillPlantDeath").getNodeValue().equals("true"));
-				myDriver.setFullLogging(node.getAttributes().getNamedItem("isFullLoggingEnabled").getNodeValue().equals("true"));
 				myDriver.setLogLastTick(node.getAttributes().getNamedItem("logLastTick").getNodeValue().equals("true"));
-				myDriver.setSensorLogging(node.getAttributes().getNamedItem("isSensorLoggingEnabled").getNodeValue().equals("true"));
-				myDriver.setActuatorLogging(node.getAttributes().getNamedItem("isActuatorLoggingEnabled").getNodeValue().equals("true"));
-				myDriver.setFullLogging(node.getAttributes().getNamedItem("isFullLoggingEnabled").getNodeValue().equals("true"));
+				areSensorsLogging = (node.getAttributes().getNamedItem("isSensorLoggingEnabled").getNodeValue().equals("true"));
+				areActuatorsLogging = (node.getAttributes().getNamedItem("isActuatorLoggingEnabled").getNodeValue().equals("true"));
+				areModulesLogging = (node.getAttributes().getNamedItem("isFullLoggingEnabled").getNodeValue().equals("true"));
 				int stutterLength = Integer.parseInt(node.getAttributes().getNamedItem("driverStutterLength").getNodeValue());
 				if (stutterLength >= 0)
 					myDriver.setDriverStutterLength(stutterLength);
