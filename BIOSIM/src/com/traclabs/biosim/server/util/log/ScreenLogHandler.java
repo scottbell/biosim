@@ -7,8 +7,11 @@ import java.util.*;
  * @author    Scott Bell
  */
 
-public class ScreenLogHandler extends LogHandler{
+public class ScreenLogHandler implements LogHandler{
 
+	public ScreenLogHandler(){
+	}
+	
 	public void writeLog(LogNode logToWrite){
 		printTree(logToWrite, 0);
 	}
@@ -25,5 +28,9 @@ public class ScreenLogHandler extends LogHandler{
 		for (int i = 0; i < childrenNodes.length; i++){
 			printTree(childrenNodes[i], currentDepth + 1);
 		}
+	}
+	
+	public void endLog(){
+		System.out.flush();
 	}
 }

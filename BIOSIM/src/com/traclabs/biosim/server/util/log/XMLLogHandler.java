@@ -16,13 +16,27 @@ import javax.xml.transform.sax.*;
  * @author    Scott Bell
  */
 
-public class XMLLogHandler extends LogHandler{
+public class XMLLogHandler implements LogHandler{
 	private File myOutputFile;
 	private static String DEFAULT_FILENAME = "biosim-output.xml";
 	private TransformerHandler myHandler;
+	private AttributesImpl emptyAtts;
+	private boolean initialized = false;
 
 	public XMLLogHandler(){
-		myOutputFile = new File(DEFAULT_FILENAME);
+		String biosimPath = new String();
+		try{
+			biosimPath = System.getProperty("BIOSIM_HOME");
+			if (biosimPath != null)
+				biosimPath = biosimPath + "/";
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+		if (biosimPath != null)
+			myOutputFile = new File(biosimPath + DEFAULT_FILENAME);
+		else
+			myOutputFile = new File(DEFAULT_FILENAME);
 	}
 
 	public XMLLogHandler(File pOutputFile){
@@ -31,17 +45,31 @@ public class XMLLogHandler extends LogHandler{
 
 	public void writeLog(LogNode logToWrite){
 		try{
-			initializeXML();
-			printXMLTree(logToWrite, 0);
+			if (!initialized)
+				initializeXML();
+			printXMLTree(logToWrite);
 		}
 		catch(Exception e){
 			System.err.println("Had problems writing XML log!");
 			e.printStackTrace();
 		}
 	}
+	
+	public void endLog(){
+		if (!initialized)
+			return;
+		try{
+			endXML();
+			initialized = false;
+		}
+		catch (SAXException e){
+			e.printStackTrace();
+		}
+	}
 
-	private void initializeXML() throws IOException, TransformerConfigurationException{
+	private void initializeXML() throws IOException, TransformerConfigurationException, SAXException{
 		// PrintWriter from a Servlet
+		emptyAtts = new AttributesImpl();
 		FileWriter myFileWriter = new FileWriter(myOutputFile);
 		StreamResult streamResult = new StreamResult(myFileWriter);
 		SAXTransformerFactory tf = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
@@ -51,16 +79,31 @@ public class XMLLogHandler extends LogHandler{
 		serializer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM,"biosim.dtd");
 		serializer.setOutputProperty(OutputKeys.INDENT,"yes");
 		myHandler.setResult(streamResult);
+		myHandler.startDocument();
+		myHandler.startElement("","","biosim",emptyAtts);
+		initialized = true;
+	}
+	
+	private void endXML() throws SAXException{
+		myHandler.endElement("","","biosim");
+		myHandler.endDocument();
 	}
 
-	private void printXMLTree(LogNode currentNode, int currentDepth) throws SAXException{
-		myHandler.startDocument();
-		AttributesImpl atts = new AttributesImpl();
-		// BIOSIM tag.
-		myHandler.startElement("","","biosim",atts);
-		myHandler.startElement("","","USER",atts);
-		//myHandler.characters(desc[i].toCharArray(),0,desc[i].length());
-		myHandler.endElement("","","USER");
-		myHandler.endDocument();
+	private void printXMLTree(LogNode currentNode) throws SAXException{
+		if (currentNode == null){
+			return;  // There is nothing to print in an empty tree.
+		}
+		String tagName = currentNode.getValue();
+		if (!currentNode.hasChildren()){
+			myHandler.characters(tagName.toCharArray(),0,tagName.length());
+		}
+		else{
+			myHandler.startElement("","",tagName,emptyAtts);
+			LogNode[] childrenNodes =currentNode.getChildren();
+			for (int i = 0; i < childrenNodes.length; i++){
+				printXMLTree(childrenNodes[i]);
+			}
+			myHandler.endElement("","",tagName);
+		}
 	}
 }
