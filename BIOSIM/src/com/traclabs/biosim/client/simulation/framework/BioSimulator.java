@@ -46,23 +46,9 @@ public class BioSimulator implements Runnable
 	public void run(){
 		initializeORB();
 		collectReferences();
-		
-		DirtyWaterStore myDirtyWater = (DirtyWaterStore)(getBioModule("DirtyWaterStore"));
-		System.out.println("Trying to add "+2f+" liters of dirty water");
-		float actuallyAdded = myDirtyWater.addWater(2f);
-		System.out.println("Actually added "+actuallyAdded+" liters of dirty water");
-		System.out.println("Dirty water levels at: "+myDirtyWater.getWaterLevel());
-		System.out.println("Trying to add "+12f+" liters of dirty water");
-		actuallyAdded = myDirtyWater.addWater(12f);
-		System.out.println("Actually added "+actuallyAdded+" liters of dirty water");
-		System.out.println("Dirty water levels at: "+myDirtyWater.getWaterLevel());
 		CrewGroup myCrew = (CrewGroup)(getBioModule(crewName));
 		CrewPerson myCrewPerson = CrewPersonHelper.narrow(myCrew.createCrewPerson("Bob Roberts"));
-		Activity sleeping = ActivityHelper.narrow(myCrew.getScheduledActivityByName("sleeping"));
-		myCrewPerson.setCurrentActivity(sleeping);
-		Activity currentActivity = ActivityHelper.narrow(myCrewPerson.getCurrentActivity());
-		System.out.println(myCrewPerson.getName()+" is "+currentActivity.getName()+" for "+currentActivity.getTimeLength()+" hours");
-		for (int i = 0; i < 10; i ++){
+		for (int i = 0; i < 1000; i ++){
 			tick();
 		}
 	}

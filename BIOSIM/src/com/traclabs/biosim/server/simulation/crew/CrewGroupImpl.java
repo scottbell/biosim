@@ -26,7 +26,7 @@ public class CrewGroupImpl extends CrewGroupPOA {
 	}
 
 	public org.omg.CORBA.Object createCrewPerson(String name){
-		CrewPersonImpl newCrewPerson = new CrewPersonImpl(name);
+		CrewPersonImpl newCrewPerson = new CrewPersonImpl(name, this);
 		crewPeople.put(name, newCrewPerson);
 		return (BioSimUtilsImpl.poaToCorbaObj(newCrewPerson));
 	}
@@ -50,10 +50,34 @@ public class CrewGroupImpl extends CrewGroupPOA {
 			return null;
 		}
 	}
+	
+	protected ActivityImpl getRawActivityByName(String name){
+		ActivityImpl foundActivity = mySchedule.getActivityByName(name);
+		if (foundActivity != null)
+			return foundActivity;
+		else{
+			System.out.println("Couldn't find Activity by that name!");
+			return null;
+		}
+	}
+
+	protected ActivityImpl getRawActivityByOrder(int order){
+		ActivityImpl foundActivity = mySchedule.getActivityByOrder(order);
+		if (foundActivity != null)
+			return foundActivity;
+		else{
+			System.out.println("Couldn't find Activity by that order!");
+			return null;
+		}
+	}
 
 	public org.omg.CORBA.Object getCrewPerson(String crewPersonName){
 		CrewPersonImpl foundPerson = (CrewPersonImpl)(crewPeople.get(crewPersonName));
 		return (BioSimUtilsImpl.poaToCorbaObj(foundPerson));
+	}
+	
+	protected int getNumberOfActivities(){
+		return mySchedule.getNumberOfActivities();
 	}
 
 	public void tick(){

@@ -8,6 +8,8 @@ public class Schedule{
 	
 	private Hashtable scheduleNameHash;
 	private Hashtable scheduleOrderHash;
+	
+	int numberOfActivities = 0;
 
 	public Schedule(){
 		scheduleNameHash = new Hashtable();
@@ -51,13 +53,22 @@ public class Schedule{
 		else
 			return null;
 	}
+	
+	public int getNumberOfActivities(){
+		return numberOfActivities;
+	}
 
 
 	private void parseSchedule(File scheduleFile){
+		//Add 2 defaults..
+		scheduleNameHash.put("Born", new ActivityImpl("Born", 0));
+		scheduleOrderHash.put(new Integer(0), new ActivityImpl("Born", 0));
+		scheduleNameHash.put("Dead", new ActivityImpl("Dead", -1));
+		scheduleOrderHash.put(new Integer(-1), new ActivityImpl("Dead", -1));
 		try{
 			 BufferedReader inputReader = new BufferedReader(new FileReader(scheduleFile));
 			 String currentLine = inputReader.readLine().trim();
-			 int itemsRead = 0;
+			 int itemsRead = 1;
 			 while ((currentLine != null) && (!currentLine.equals("#DayEnd"))){
 			 	try{
 					StringTokenizer tokenizer = new StringTokenizer(currentLine);
@@ -73,6 +84,7 @@ public class Schedule{
 					System.out.println("Problem parsing line "+itemsRead+" in "+scheduleFile+": "+currentLine);
 				}
 			 }
+			 numberOfActivities = itemsRead;
 		}
 		catch (IOException e){
 			System.out.println("Had problems parsing schedule file "+scheduleFile+" with exception: "+e);
