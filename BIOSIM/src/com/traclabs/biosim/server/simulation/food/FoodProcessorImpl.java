@@ -26,7 +26,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	//Flag to determine if the Food Processor has enough biomass to function nominally
 	private boolean hasEnoughBiomass = false;
 	//The biomass consumed (in kilograms) by the Food Processor at the current tick
-	private float currentBiomassConsumed = 0f;
+	private float massConsumed = 0f;
 	//The power consumed (in watts) by the Food Processor at the current tick
 	private float currentPowerConsumed = 0f;
 	//The food produced (in kilograms) by the Food Processor at the current tick
@@ -37,6 +37,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	private FoodStore[] myFoodStores;
 	private PowerStore[] myPowerStores;
 	private BiomassStore[] myBiomassStores;
+	BioMatter[]  biomatterConsumed;
 	private float[] powerMaxFlowRates;
 	private float[] biomassMaxFlowRates;
 	private float[] foodMaxFlowRates;
@@ -68,7 +69,8 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	*/
 	public void reset(){
 		super.reset();
-		currentBiomassConsumed = 0f;
+		massConsumed = 0f;
+		biomatterConsumed = null;
 		currentPowerConsumed = 0f;
 		currentFoodProduced = 0f;
 	}
@@ -78,7 +80,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	* @return the biomass consumed (in kilograms) by the Food Processor during the current tick
 	*/
 	public float getBiomassConsumed(){
-		return currentBiomassConsumed;
+		return massConsumed;
 	}
 
 	/**
@@ -130,21 +132,69 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	* Attempts to collect enough biomass from the Biomass Store to run the Food Processor optimally for one tick.
 	*/
 	private void gatherBiomass(){
-		currentBiomassConsumed = getResourceFromStore(myBiomassStores, biomassMaxFlowRates, biomassDesiredFlowRates, biomassActualFlowRates, biomassNeeded);
-		if (currentBiomassConsumed < biomassNeeded){
+		BioMatter[]  biomatterConsumed = getBioMassFromStore(myBiomassStores, biomassMaxFlowRates, biomassDesiredFlowRates, biomassActualFlowRates, biomassNeeded);
+		massConsumed = calculateSizeOfBioMatter(biomatterConsumed);
+		if (massConsumed < biomassNeeded){
 			hasEnoughBiomass = false;
 		}
 		else{
 			hasEnoughBiomass = true;
 		}
 	}
-
+	
+	private static float calculateSizeOfBioMatter(BioMatter[] arrayOfMatter){
+		float totalSize = 0f;
+		for (int i = 0; i < arrayOfMatter.length; i++)
+			totalSize += arrayOfMatter[i].mass;
+		return totalSize;
+	}
+	
+	private static float calculateSizeOfFoodMatter(FoodMatter[] arrayOfMatter){
+		float totalSize = 0f;
+		for (int i = 0; i < arrayOfMatter.length; i++)
+			totalSize += arrayOfMatter[i].mass;
+		return totalSize;
+	}
+	
+	private static BioMatter[] getBioMassFromStore(BiomassStore[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates, float[] pActualFlowRates, float amountNeeded){
+		float gatheredResource = 0f;
+		BioMatter[] takenMatter = new BioMatter[0];
+		for (int i = 0; (i < pStores.length) && (gatheredResource < amountNeeded); i++){
+			float resourceToGatherFirst = Math.min(amountNeeded, pMaxFlowRates[i]);
+			float resourceToGatherFinal = Math.min(resourceToGatherFirst, pDesiredFlowRates[i]);
+			//this should append
+			takenMatter = pStores[i].takeBioMatterMass(resourceToGatherFinal);
+			pActualFlowRates[i] = calculateSizeOfBioMatter(takenMatter);
+			gatheredResource += pActualFlowRates[i];
+		}
+		return takenMatter;
+	}
+	
+	public static void pushFoodToStore(FoodStore[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates, float[] pActualFlowRates, FoodMatter[] foodToPush){
+		float fullMassToDistribute = calculateSizeOfFoodMatter(foodToPush);
+		float resourceDistributed = fullMassToDistribute;
+		for (int i = 0; (i < pStores.length) && (resourceDistributed > 0); i++){
+			float resourceToDistributeFirst = Math.min(resourceDistributed, pMaxFlowRates[i]);
+			float resourceToDistributeFinal = Math.min(resourceToDistributeFirst, pDesiredFlowRates[i]);
+			pActualFlowRates[i] = pStores[i].add(resourceToDistributeFinal);
+			resourceDistributed -= pActualFlowRates[i];
+		}
+		float amountPushed= (fullMassToDistribute - resourceDistributed);
+	}
+	
+	private FoodMatter transformBioMatter(BioMatter inMatter){
+		return new FoodMatter(inMatter.mass, inMatter.type);
+	}
+	
 	/**
 	* If the Food Processor has any biomass and enough power, it provides some food to put into the store.
 	*/
 	private void createFood(){
 		if (hasEnoughPower){
-			currentFoodProduced = randomFilter(currentBiomassConsumed * 0.8f) * myProductionRate;
+			for (int i = 0; i < biomatterConsumed.length; i++){
+				
+			}
+			currentFoodProduced = randomFilter(massConsumed * 0.8f) * myProductionRate;
 			float distributedFoodLeft = pushResourceToStore(myFoodStores, foodMaxFlowRates, foodDesiredFlowRates, foodActualFlowRates, currentFoodProduced);
 		}
 	}
@@ -230,8 +280,8 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 			myLogIndex.hasEnoughPowerIndex = hasEnoughPowerHead.addChild(""+hasEnoughPower);
 			LogNode biomassNeededHead = myLog.addChild("biomass_needed");
 			myLogIndex.biomassNeededIndex = biomassNeededHead.addChild(""+biomassNeeded);
-			LogNode currentBiomassConsumedHead = myLog.addChild("current_biomass_consumed");
-			myLogIndex.currentBiomassConsumedIndex = currentBiomassConsumedHead.addChild(""+currentBiomassConsumed);
+			LogNode massConsumedHead = myLog.addChild("current_biomass_consumed");
+			myLogIndex.massConsumedIndex = massConsumedHead.addChild(""+massConsumed);
 			LogNode currentPowerConsumedHead = myLog.addChild("current_power_consumed");
 			myLogIndex.currentPowerConsumedIndex = currentPowerConsumedHead.addChild(""+currentPowerConsumed);
 			LogNode currentFoodProducedHead = myLog.addChild("current_food_produced");
@@ -242,7 +292,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 			myLogIndex.powerNeededIndex.setValue(""+powerNeeded);
 			myLogIndex.hasEnoughPowerIndex.setValue(""+hasEnoughPower);
 			myLogIndex.biomassNeededIndex.setValue(""+biomassNeeded);
-			myLogIndex.currentBiomassConsumedIndex.setValue(""+currentBiomassConsumed);
+			myLogIndex.massConsumedIndex.setValue(""+massConsumed);
 			myLogIndex.currentPowerConsumedIndex.setValue(""+currentPowerConsumed);
 			myLogIndex.currentFoodProducedIndex.setValue(""+currentFoodProduced);
 		}
@@ -363,7 +413,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 		public LogNode hasEnoughPowerIndex;
 		public LogNode biomassNeededIndex;
 		public LogNode hasEnoughBiomassIndex;
-		public LogNode currentBiomassConsumedIndex;
+		public LogNode massConsumedIndex;
 		public LogNode currentPowerConsumedIndex;
 		public LogNode currentFoodProducedIndex;
 	}
