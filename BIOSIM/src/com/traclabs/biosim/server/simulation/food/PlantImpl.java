@@ -118,7 +118,7 @@ public abstract class PlantImpl extends PlantPOA{
 		return 3600f * getPhotoperiod() * (18.015f / 998.23f) * canopySurfaceConductance * (vaporPressureDeficit / airPressure);
 	}
 	
-	private float calculateVaporPressureDeficit(){
+	protected float calculateVaporPressureDeficit(){
 		float saturatedMoistureVaporPressure = calculateSaturatedMoistureVaporPressure();
 		float actualMoistureVaporPressure = calculateActualMoistureVaporPressure();
 		System.out.println("PlantImpl: saturatedMoistureVaporPressure: "+saturatedMoistureVaporPressure);
