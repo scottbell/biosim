@@ -13,20 +13,21 @@ import javax.swing.JToolBar;
 public abstract class EditorToolBar extends JToolBar {
     private BiosimEditor myEditor;
 
-    public EditorToolBar() {
-        this("No Name");
+    public EditorToolBar(BiosimEditor pEditor) {
+        this("No Name", pEditor);
     }
 
-    public EditorToolBar(String pName) {
+    public EditorToolBar(String pName, BiosimEditor pEditor) {
         super(pName);
         setFloatable(false);
+        registerEditor(pEditor);
     }
 
     public void registerEditor(BiosimEditor pEditor) {
         myEditor = pEditor;
     }
 
-    protected void notfifyEditor(EditorFig pFigFactory) {
-        myEditor.setCurrentFig(pFigFactory);
+    protected void notfifyEditor(EditorFig pFig) {
+        myEditor.setCurrentFig(pFig);
     }
 }

@@ -19,8 +19,8 @@ public class PowerToolBar extends EditorToolBar {
 
     private JButton myConduitButton;
 
-    public PowerToolBar() {
-        super("Power");
+    public PowerToolBar(BiosimEditor pEditor) {
+        super("Power", pEditor);
         myPowerPSButton = new JButton("Power PS");
         myPowerStoreButton = new JButton("Power Store");
 

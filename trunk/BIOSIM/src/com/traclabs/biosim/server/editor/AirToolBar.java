@@ -12,8 +12,8 @@ import javax.swing.AbstractAction;
  */
 public class AirToolBar extends EditorToolBar {
 
-    public AirToolBar() {
-        super("Air");
+    public AirToolBar(BiosimEditor pEditor) {
+        super("Air", pEditor);
 
         add(new H2StoreAction());
         add(new NitrogenStoreAction());
@@ -35,7 +35,7 @@ public class AirToolBar extends EditorToolBar {
         }
 
         public void actionPerformed(ActionEvent e) {
-            System.out.println("Action for first button/menu item" + e);
+            notfifyEditor(H2StoreFig.getFactoryInstance());
         }
     }
 

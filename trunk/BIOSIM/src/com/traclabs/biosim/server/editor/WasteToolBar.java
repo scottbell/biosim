@@ -19,8 +19,8 @@ public class WasteToolBar extends EditorToolBar {
 
     private JButton myConduitButton;
 
-    public WasteToolBar() {
-        super("Waste");
+    public WasteToolBar(BiosimEditor pEditor) {
+        super("Waste", pEditor);
         myIncineratorButton = new JButton("Incinerator");
         myDryWasteStoreButton = new JButton("Dry Waste Store");
         myConduitButton = new JButton("Conduit");
