@@ -24,7 +24,7 @@ II. MAKING BIOSIM
 	1) Open a shell (or a command prompt in windows).
 	2) If you didn't opt to add the BIOSIM_HOME bin directory to your path, cd to the BIOSIM_HOME bin directory now.
 	3) Type "make-biosim" (or "./make-biosim" if . is not in your path) without the quotes.
-	You can also make each application separately using: "make-server all" and "make-client all"
+	You can also make each application separately using: "make-server all" and "make-client all".
 	
 III. RUNNING BIOSIM
 	Running the BIOSIM may be done 2 ways:
