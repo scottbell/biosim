@@ -25,8 +25,8 @@ import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigEdge;
 
 import com.traclabs.biosim.editor.base.EditorDocument;
-import com.traclabs.biosim.editor.base.VesprEditor;
-import com.traclabs.biosim.editor.base.VesprLayer;
+import com.traclabs.biosim.editor.base.BiosimEditor;
+import com.traclabs.biosim.editor.base.EditorLayer;
 import com.traclabs.biosim.editor.graph.EditorFigEdge;
 import com.traclabs.biosim.editor.graph.EditorFigNode;
 
@@ -54,7 +54,7 @@ public class VesprWriter implements DocumentWriter {
         }
     }
 
-    protected void saveGraph(VesprLayer lay, Writer out, int indent) {
+    protected void saveGraph(EditorLayer lay, Writer out, int indent) {
         if (lay == null) {
             return;
         }
@@ -184,7 +184,7 @@ public class VesprWriter implements DocumentWriter {
      * Saves all Figs that have been selected in the specified editor to a
      * temporary file for the Copy operation.
      */
-    public synchronized void copySelections(Writer out, VesprEditor ed)
+    public synchronized void copySelections(Writer out, BiosimEditor ed)
             throws Exception {
         EditorDocument doc = (EditorDocument) ed.document();
         // Write the beginning tag
@@ -198,7 +198,7 @@ public class VesprWriter implements DocumentWriter {
      * Find the selected figs in the editor filtering out the edges that do not
      * have both source and destination nodes selected.
      */
-    protected Vector getSelectedFigs(VesprEditor ed) {
+    protected Vector getSelectedFigs(BiosimEditor ed) {
         Vector selections = ed.getSelectionManager().selections();
 
         // Create a list of figs to be copied.

@@ -31,7 +31,7 @@ public class EditorCmdSpawn extends Cmd {
 
     // doIt must create a VesprFrame instead of a JGraphFrame.
     public void doIt() {
-        VesprEditor ce = (VesprEditor) Globals.curEditor();
+        BiosimEditor ce = (BiosimEditor) Globals.curEditor();
         EditorFrame frame = (EditorFrame) ce.findFrame();
 
         if (frame != null) {

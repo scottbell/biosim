@@ -22,7 +22,7 @@ public class CmdSaveAsVespr extends Cmd {
     }
 
     public void doIt() {
-        VesprEditor ce = (VesprEditor) Globals.curEditor();
+        BiosimEditor ce = (BiosimEditor) Globals.curEditor();
         _cmd.saveAs((EditorDocument) ce.document());
     }
 

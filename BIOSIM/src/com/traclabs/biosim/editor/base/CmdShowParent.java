@@ -26,7 +26,7 @@ public class CmdShowParent extends Cmd {
     }
 
     public void doIt() {
-        VesprEditor editor = (VesprEditor) Globals.curEditor();
+        BiosimEditor editor = (BiosimEditor) Globals.curEditor();
         editor.showParent();
     }
 

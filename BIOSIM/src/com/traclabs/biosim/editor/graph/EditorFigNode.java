@@ -20,7 +20,7 @@ import org.tigris.gef.presentation.FigPoly;
 import org.tigris.gef.presentation.FigRect;
 import org.tigris.gef.presentation.FigText;
 
-import com.traclabs.biosim.editor.base.VesprLayer;
+import com.traclabs.biosim.editor.base.EditorLayer;
 
 /**
  * VesprFigNode is the fig level representation of a VesprNode. Visually, it has
@@ -44,7 +44,7 @@ public abstract class EditorFigNode extends FigNode {
 
     protected Color _shadowColor = Color.GRAY;
 
-    protected VesprLayer _nestedLayer;
+    protected EditorLayer _nestedLayer;
 
     public EditorFigNode() {
         super();
@@ -173,7 +173,7 @@ public abstract class EditorFigNode extends FigNode {
         // Tie the nested layer to its GraphModel.
         GraphModel gm = node.getNestedModel();
         if (gm != null) {
-            _nestedLayer = new VesprLayer(getText(), (EditorGraphModel) gm, this);
+            _nestedLayer = new EditorLayer(getText(), (EditorGraphModel) gm, this);
         }
 
         // Update the fig using net node properties.
@@ -235,7 +235,7 @@ public abstract class EditorFigNode extends FigNode {
         return center;
     }
 
-    public VesprLayer getNestedLayer() {
+    public EditorLayer getNestedLayer() {
         return _nestedLayer;
     }
 

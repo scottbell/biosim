@@ -24,8 +24,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.traclabs.biosim.editor.base.EditorDocument;
-import com.traclabs.biosim.editor.base.VesprEditor;
-import com.traclabs.biosim.editor.base.VesprLayer;
+import com.traclabs.biosim.editor.base.BiosimEditor;
+import com.traclabs.biosim.editor.base.EditorLayer;
 import com.traclabs.biosim.editor.graph.DecisionNode;
 import com.traclabs.biosim.editor.graph.GoToNode;
 import com.traclabs.biosim.editor.graph.OptionalNode;
@@ -50,7 +50,7 @@ public class VesprParser extends DefaultHandler implements DocumentReader {
 
     protected Stack _graphModelStack = new Stack();
 
-    protected VesprLayer _layer;
+    protected EditorLayer _layer;
 
     protected MutableGraphModel _graphModel;
 
@@ -304,7 +304,7 @@ public class VesprParser extends DefaultHandler implements DocumentReader {
             _layerStack.pop();
             _layer.repaintParent();
             _graphModel = (DefaultGraphModel) _graphModelStack.peek();
-            _layer = (VesprLayer) _layerStack.peek();
+            _layer = (EditorLayer) _layerStack.peek();
         }
     }
 
@@ -315,12 +315,12 @@ public class VesprParser extends DefaultHandler implements DocumentReader {
     }
 
     /** Reads the items from a file and adds them to the specified layer. */
-    public synchronized void pasteSelections(Reader in, VesprEditor ed)
+    public synchronized void pasteSelections(Reader in, BiosimEditor ed)
             throws Exception {
-        parseXML(in, (VesprLayer) ed.getLayerManager().getActiveLayer());
+        parseXML(in, (EditorLayer) ed.getLayerManager().getActiveLayer());
     }
 
-    protected void parseXML(Reader in, VesprLayer layer) throws Exception {
+    protected void parseXML(Reader in, EditorLayer layer) throws Exception {
         _layer = layer;
         _graphModel = (MutableGraphModel) _layer.getGraphModel();
         _netNodeList = new Hashtable();

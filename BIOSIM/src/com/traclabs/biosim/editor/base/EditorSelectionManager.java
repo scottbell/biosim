@@ -25,9 +25,9 @@ import org.tigris.gef.base.Selection;
 import org.tigris.gef.base.SelectionManager;
 import org.tigris.gef.presentation.Handle;
 
-public class VesprSelectionManager extends SelectionManager {
+public class EditorSelectionManager extends SelectionManager {
 
-    public VesprSelectionManager(VesprEditor editor) {
+    public EditorSelectionManager(BiosimEditor editor) {
         super(editor);
     }
 

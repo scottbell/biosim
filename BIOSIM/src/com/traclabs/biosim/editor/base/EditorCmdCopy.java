@@ -43,7 +43,7 @@ public class EditorCmdCopy extends Cmd implements ClipboardOwner {
     }
 
     public void doIt() {
-        VesprEditor ed = (VesprEditor) Globals.curEditor();
+        BiosimEditor ed = (BiosimEditor) Globals.curEditor();
         try {
             Clipboard clipboard = ed.getJComponent().getToolkit()
                     .getSystemClipboard();
