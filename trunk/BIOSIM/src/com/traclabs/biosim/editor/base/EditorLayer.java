@@ -21,23 +21,23 @@ import org.tigris.gef.presentation.Fig;
 import com.traclabs.biosim.editor.graph.EditorFigNode;
 import com.traclabs.biosim.editor.graph.EditorGraphModel;
 
-public class VesprLayer extends LayerPerspective {
+public class EditorLayer extends LayerPerspective {
     EditorFigNode _parent = null;
 
-    public VesprLayer(String name, EditorGraphModel gm, EditorFigNode parent) {
+    public EditorLayer(String name, EditorGraphModel gm, EditorFigNode parent) {
         super(name, gm);
         _parent = parent;
     }
 
-    public VesprLayer(String name, EditorGraphModel gm) {
+    public EditorLayer(String name, EditorGraphModel gm) {
         this(name, gm, null);
     }
 
-    public VesprLayer(EditorGraphModel gm) {
+    public EditorLayer(EditorGraphModel gm) {
         this("Root", gm, null);
     }
 
-    public VesprLayer(String name) {
+    public EditorLayer(String name) {
         this(name, new EditorGraphModel());
     }
 
@@ -105,8 +105,8 @@ public class VesprLayer extends LayerPerspective {
         Iterator i = _editors.iterator();
         while (i.hasNext()) {
             Editor ed = (Editor) i.next();
-            if (ed instanceof VesprEditor) {
-                VesprEditor ved = (VesprEditor) ed;
+            if (ed instanceof BiosimEditor) {
+                BiosimEditor ved = (BiosimEditor) ed;
                 EditorDocument doc = (EditorDocument) ved.document();
                 doc.setModified(true);
             }
@@ -123,8 +123,8 @@ public class VesprLayer extends LayerPerspective {
                 return true;
             }
             Layer layer = parent.getLayer();
-            if (layer != null && layer instanceof VesprLayer) {
-                parent = ((VesprLayer) layer).getParent();
+            if (layer != null && layer instanceof EditorLayer) {
+                parent = ((EditorLayer) layer).getParent();
             } else {
                 return false;
             }

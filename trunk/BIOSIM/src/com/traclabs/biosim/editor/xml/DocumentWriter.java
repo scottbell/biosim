@@ -15,7 +15,7 @@ package com.traclabs.biosim.editor.xml;
 import java.io.Writer;
 
 import com.traclabs.biosim.editor.base.EditorDocument;
-import com.traclabs.biosim.editor.base.VesprEditor;
+import com.traclabs.biosim.editor.base.BiosimEditor;
 
 /**
  * @author kkusy
@@ -28,5 +28,5 @@ public interface DocumentWriter {
      * Writes the selected items in the editor to the Writer. Used for paste
      * command.
      */
-    void copySelections(Writer w, VesprEditor ed) throws Exception;
+    void copySelections(Writer w, BiosimEditor ed) throws Exception;
 }

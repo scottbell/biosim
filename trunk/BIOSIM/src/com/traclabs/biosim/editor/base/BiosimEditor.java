@@ -23,34 +23,34 @@ import com.traclabs.biosim.editor.graph.EditorGraphModel;
  * child layer (VesprLayer) associated with it that visually represents the
  * nested contents of the node.
  */
-public class VesprEditor extends Editor {
+public class BiosimEditor extends Editor {
 
-    public VesprEditor() {
-        this(new VesprLayer("Root"));
+    public BiosimEditor() {
+        this(new EditorLayer("Root"));
     }
 
-    public VesprEditor(EditorGraphModel gm) {
-        this(new VesprLayer("Root", gm));
+    public BiosimEditor(EditorGraphModel gm) {
+        this(new EditorLayer("Root", gm));
     }
 
-    public VesprEditor(VesprLayer lay) {
+    public BiosimEditor(EditorLayer lay) {
         this(new EditorDocument(lay));
     }
 
-    public VesprEditor(EditorDocument doc) {
+    public BiosimEditor(EditorDocument doc) {
         super(doc.getRoot().getGraphModel(), null, doc.getRoot());
 
         doc.addEditor(this);
         super.document(doc);
 
-        _selectionManager = new VesprSelectionManager(this);
-        _modeManager = new VesprModeManager(this);
+        _selectionManager = new EditorSelectionManager(this);
+        _modeManager = new EditorModeManager(this);
 
         pushMode(new ModeSelect(this));
         pushMode(new ModeDragScroll(this));
     }
 
-    protected VesprEditor(VesprEditor ed) {
+    protected BiosimEditor(BiosimEditor ed) {
         this((EditorDocument) ed.document());
 
         getLayerManager().replaceActiveLayer(
@@ -78,7 +78,7 @@ public class VesprEditor extends Editor {
     /**
      * Returns the root of the layer tree.
      */
-    public VesprLayer getRoot() {
+    public EditorLayer getRoot() {
         EditorDocument vd = (EditorDocument) _document;
         return vd.getRoot();
     }
@@ -92,11 +92,11 @@ public class VesprEditor extends Editor {
     }
 
     public void showParent() {
-        VesprLayer layer = (VesprLayer) getLayerManager().getActiveLayer();
+        EditorLayer layer = (EditorLayer) getLayerManager().getActiveLayer();
         EditorFigNode figNode = layer.getParent();
         // Check for root.
         if (figNode != null) {
-            layer = (VesprLayer) figNode.getLayer();
+            layer = (EditorLayer) figNode.getLayer();
             getLayerManager().replaceActiveLayer(layer);
             getSelectionManager().deselectAll();
             damageAll();
@@ -105,7 +105,7 @@ public class VesprEditor extends Editor {
 
     public void expandNode(EditorFigNode figNode) {
         if (figNode != null && figNode.getNestedLayer() != null) {
-            VesprLayer layer = (VesprLayer) figNode.getNestedLayer();
+            EditorLayer layer = (EditorLayer) figNode.getNestedLayer();
             getLayerManager().replaceActiveLayer(layer);
             getSelectionManager().deselectAll();
             damageAll();
@@ -124,7 +124,7 @@ public class VesprEditor extends Editor {
     public Object clone() {
         // Create a new editor with its own layer manager, selection manager,
         // and mode manager.
-        VesprEditor ed = new VesprEditor((EditorDocument) document());
+        BiosimEditor ed = new BiosimEditor((EditorDocument) document());
         return ed;
     }
 

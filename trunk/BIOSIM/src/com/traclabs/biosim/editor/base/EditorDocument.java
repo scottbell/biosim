@@ -42,7 +42,7 @@ import com.traclabs.biosim.editor.xml.VesprWriter;
 
 public class EditorDocument {
     /** The layer at the root of the hierarchy */
-    protected VesprLayer _root = null;
+    protected EditorLayer _root = null;
 
     /** Flag indicating whether the document has been modified */
     protected boolean _modifiedFlag = false;
@@ -60,33 +60,33 @@ public class EditorDocument {
     DocumentWriter _writer;
 
     public EditorDocument() {
-        this(new VesprLayer("Root"));
+        this(new EditorLayer("Root"));
     }
 
-    public EditorDocument(VesprLayer root, File file) {
+    public EditorDocument(EditorLayer root, File file) {
         this(root);
         setFile(file);
     }
 
-    public EditorDocument(VesprLayer root) {
+    public EditorDocument(EditorLayer root) {
         setRoot(root);
         _reader = createReader();
         _writer = createWriter();
     }
 
     public EditorDocument(EditorGraphModel model) {
-        this(new VesprLayer(model));
+        this(new EditorLayer(model));
     }
 
     public EditorDocument(EditorGraphModel model, File file) {
-        this(new VesprLayer(model), file);
+        this(new EditorLayer(model), file);
     }
 
-    private void setRoot(VesprLayer root) {
+    private void setRoot(EditorLayer root) {
         _root = root;
     }
 
-    public VesprLayer getRoot() {
+    public EditorLayer getRoot() {
         return _root;
     }
 
@@ -113,7 +113,7 @@ public class EditorDocument {
             title = _file.getPath();
         }
         for (Enumeration e = _editors.elements(); e.hasMoreElements();) {
-            VesprEditor ed = (VesprEditor) e.nextElement();
+            BiosimEditor ed = (BiosimEditor) e.nextElement();
             Frame frame = ed.findFrame();
             if (frame != null) {
                 frame.setTitle(getAppName() + " - " + title);
@@ -125,12 +125,12 @@ public class EditorDocument {
         return _editors;
     }
 
-    void addEditor(VesprEditor e) {
+    void addEditor(BiosimEditor e) {
         _editors.remove(e);
         _editors.add(e);
     }
 
-    void removeEditor(VesprEditor e) {
+    void removeEditor(BiosimEditor e) {
         _editors.remove(e);
     }
 
@@ -143,10 +143,10 @@ public class EditorDocument {
             EditorFigNode node = (EditorFigNode) f;
             Enumeration eds = _editors.elements();
             while (eds.hasMoreElements()) {
-                VesprEditor ed = (VesprEditor) eds.nextElement();
+                BiosimEditor ed = (BiosimEditor) eds.nextElement();
                 Layer layer = ed.getLayerManager().getActiveLayer();
-                if (layer instanceof VesprLayer) {
-                    if (((VesprLayer) layer).isDescendantDiagram(node)) {
+                if (layer instanceof EditorLayer) {
+                    if (((EditorLayer) layer).isDescendantDiagram(node)) {
                         ed.showRoot();
                     }
                 }
@@ -185,7 +185,7 @@ public class EditorDocument {
         _writer.saveDocument(out, this);
     }
 
-    void copySelections(File file, VesprEditor editor) throws Exception {
+    void copySelections(File file, BiosimEditor editor) throws Exception {
         Writer out = new BufferedWriter(new FileWriter(file));
         _writer.copySelections(out, editor);
     }
@@ -201,7 +201,7 @@ public class EditorDocument {
         _reader.openDocument(in, this);
     }
 
-    void pasteSelections(File file, VesprEditor editor) throws Exception {
+    void pasteSelections(File file, BiosimEditor editor) throws Exception {
         Reader in = new BufferedReader(new FileReader(file));
         _reader.pasteSelections(in, editor);
     }

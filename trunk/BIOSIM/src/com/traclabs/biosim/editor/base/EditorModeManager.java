@@ -17,9 +17,9 @@ import org.tigris.gef.presentation.Fig;
 
 import com.traclabs.biosim.editor.graph.EditorFigNode;
 
-public class VesprModeManager extends ModeManager {
+public class EditorModeManager extends ModeManager {
 
-    public VesprModeManager(Editor par) {
+    public EditorModeManager(Editor par) {
         super(par);
     }
 

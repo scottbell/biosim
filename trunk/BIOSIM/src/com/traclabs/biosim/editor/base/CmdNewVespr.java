@@ -24,7 +24,7 @@ public class CmdNewVespr extends Cmd {
         // TODO: Prompt to save changes if this is the only editor
         // open on this document and the document has been modified.
 
-        VesprEditor ce = (VesprEditor) Globals.curEditor();
+        BiosimEditor ce = (BiosimEditor) Globals.curEditor();
 
         if (_cmd.promptSave(ce)) {
             // Create the new document.

@@ -35,7 +35,7 @@ public class CmdOpenVespr extends Cmd {
     }
 
     public void doIt() {
-        VesprEditor ce = (VesprEditor) Globals.curEditor();
+        BiosimEditor ce = (BiosimEditor) Globals.curEditor();
         try {
             Class clazz = ce.document().getClass();
             EditorDocument doc = (EditorDocument) clazz.newInstance();
@@ -45,7 +45,7 @@ public class CmdOpenVespr extends Cmd {
                 // Prompt to save changes if this is the only editor
                 // open on the document and the document has been modified.
 
-                if (_cmdSave.promptSave((VesprEditor) ce)) {
+                if (_cmdSave.promptSave((BiosimEditor) ce)) {
                     // TODO: Check if a document for this file is already open
                     // in
                     // an editor and use this document else read the file.

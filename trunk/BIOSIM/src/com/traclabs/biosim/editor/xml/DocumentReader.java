@@ -6,7 +6,7 @@ package com.traclabs.biosim.editor.xml;
 import java.io.Reader;
 
 import com.traclabs.biosim.editor.base.EditorDocument;
-import com.traclabs.biosim.editor.base.VesprEditor;
+import com.traclabs.biosim.editor.base.BiosimEditor;
 
 /**
  * @author kkusy
@@ -19,5 +19,5 @@ public interface DocumentReader {
      * Reads items from the Reader and adds them to the active layer in
      * specified the editor. Used for copy command.
      */
-    void pasteSelections(Reader in, VesprEditor ed) throws Exception;
+    void pasteSelections(Reader in, BiosimEditor ed) throws Exception;
 }

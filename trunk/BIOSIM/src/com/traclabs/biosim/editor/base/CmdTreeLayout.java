@@ -51,7 +51,7 @@ public class CmdTreeLayout extends Cmd {
     }
 
     public void doIt() {
-        VesprEditor ed = (VesprEditor) Globals.curEditor();
+        BiosimEditor ed = (BiosimEditor) Globals.curEditor();
 
         Vector selection = ed.getSelectionManager().selections();
         Enumeration sel = selection.elements();

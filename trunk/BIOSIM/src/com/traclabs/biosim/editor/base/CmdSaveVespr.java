@@ -26,7 +26,7 @@ public class CmdSaveVespr extends Cmd {
     }
 
     public void doIt() {
-        VesprEditor ce = (VesprEditor) Globals.curEditor();
+        BiosimEditor ce = (BiosimEditor) Globals.curEditor();
         if (!save((EditorDocument) ce.document())) {
             JOptionPane.showMessageDialog(ce.findFrame(),
                     "Failed to save document.");
@@ -115,7 +115,7 @@ public class CmdSaveVespr extends Cmd {
      * 
      * @return Returns false if the user cancels or if the save fails.
      */
-    boolean promptSave(VesprEditor e) {
+    boolean promptSave(BiosimEditor e) {
         EditorDocument doc = (EditorDocument) e.document();
         // Prompt to save changes.
         Vector editors = doc.getEditors();

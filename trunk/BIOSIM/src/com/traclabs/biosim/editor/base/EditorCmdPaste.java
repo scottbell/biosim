@@ -45,7 +45,7 @@ public class EditorCmdPaste extends Cmd {
     public void doIt() {
 
         try {
-            VesprEditor ed = (VesprEditor) Globals.curEditor();
+            BiosimEditor ed = (BiosimEditor) Globals.curEditor();
             Clipboard clipboard = ed.getJComponent().getToolkit()
                     .getSystemClipboard();
             DataFlavor flavor = new DataFlavor(Class.forName("java.io.File"),

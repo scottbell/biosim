@@ -57,7 +57,7 @@ import com.traclabs.biosim.editor.base.EditorCmdPaste;
 import com.traclabs.biosim.editor.base.EditorCmdSpawn;
 import com.traclabs.biosim.editor.base.EditorCmdZoom;
 import com.traclabs.biosim.editor.base.EditorDocument;
-import com.traclabs.biosim.editor.base.VesprEditor;
+import com.traclabs.biosim.editor.base.BiosimEditor;
 import com.traclabs.biosim.editor.ui.EditorPalette;
 
 public class EditorFrame extends JGraphFrame {
@@ -68,18 +68,18 @@ public class EditorFrame extends JGraphFrame {
     private static EditorFrame _active;
 
     public EditorFrame() {
-        this("VESPR - ", new VesprEditor());
+        this("VESPR - ", new BiosimEditor());
     }
 
     public EditorFrame(String title) {
-        this(title, new VesprEditor());
+        this(title, new BiosimEditor());
     }
 
     public EditorFrame(EditorDocument doc) {
-        this(doc.getAppName(), new VesprEditor(doc));
+        this(doc.getAppName(), new BiosimEditor(doc));
     }
 
-    public EditorFrame(String title, VesprEditor ed) {
+    public EditorFrame(String title, BiosimEditor ed) {
         super(title, ed);
 
         _refCount++;
@@ -458,7 +458,7 @@ public class EditorFrame extends JGraphFrame {
      */
     public void exit() {
         // Remove this editor from the document.
-        Editor ed = (VesprEditor) getGraph().getEditor();
+        Editor ed = (BiosimEditor) getGraph().getEditor();
 
         // Remove the editor from the layer.
         Layer layer = ed.getLayerManager().getActiveLayer();
@@ -481,7 +481,7 @@ public class EditorFrame extends JGraphFrame {
     ////////////////////////////////////////////////////////////////
     // Cloneable implementation
     public Object clone() {
-        return new EditorFrame(getTitle(), (VesprEditor) getGraph().getEditor()
+        return new EditorFrame(getTitle(), (BiosimEditor) getGraph().getEditor()
                 .clone());
     }
 
