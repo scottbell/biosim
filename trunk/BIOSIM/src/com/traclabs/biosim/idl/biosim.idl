@@ -719,6 +719,11 @@ module biosim{
                                 interface O2AirConcentrationSensor : EnvironmentSensor{};
                                 interface CO2AirConcentrationSensor : EnvironmentSensor{};
                                 interface OtherAirConcentrationSensor : EnvironmentSensor{};
+                                interface WaterAirConcentrationSensor : EnvironmentSensor{};
+                                interface O2AirPressureSensor : EnvironmentSensor{};
+                                interface CO2AirPressureSensor : EnvironmentSensor{};
+                                interface OtherAirPressureSensor : EnvironmentSensor{};
+                                interface WaterAirPressureSensor : EnvironmentSensor{};
 
                                 interface AirInFlowRateSensor : framework::GenericSensor{
                                         void setInput(in framework::AirConsumer pConsumer, in long pIndex);
