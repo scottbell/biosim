@@ -18,7 +18,6 @@ public abstract class WaterRSSubSystem{
 	float waterNeeded = 576.0f;
 	//Reference to the WaterRS to get other watersubsystems
 	WaterRSImpl myWaterRS;
-	PowerStore myPowerStore;
 	//Flag to determine whether the water subsystem has received enough power for this tick
 	boolean hasEnoughPower = false;
 	//Flag to determine whether the water subsystem has received enough water for this tick
@@ -27,8 +26,6 @@ public abstract class WaterRSSubSystem{
 	float waterLevel = 0;
 	private boolean logInitialized = false;
 	private LogIndex myLogIndex;
-	//Flag switched when the BWP has collected references to other subsystems it needs
-	boolean hasCollectedReferences = false;
 	boolean enabled = true;
 	private boolean malfunctioning = false;
 
@@ -47,6 +44,7 @@ public abstract class WaterRSSubSystem{
 		hasEnoughPower = false;
 		hasEnoughWater = false;
 		waterLevel = 0;
+		currentPowerConsumed = 0f;
 		malfunctioning = false;
 		enabled = true;
 	}
@@ -94,7 +92,12 @@ public abstract class WaterRSSubSystem{
 	* Adds power to the subsystem for this tick
 	*/
 	protected void gatherPower(){
-		currentPowerConsumed = myPowerStore.take(powerNeeded);
+		float gatheredPower = 0f;
+		for (int i = 0; (i < myWaterRS.getPowerInputs().length) && (gatheredPower < powerNeeded); i++){
+			float powerToGather = Math.min(powerNeeded, (myWaterRS.getPowerInputFlowrate(i) / myWaterRS.getSubsystemsConsumingPower()));
+			gatheredPower += (myWaterRS.getPowerInputs())[i].take(powerToGather);
+		}
+		currentPowerConsumed = gatheredPower;
 		if (currentPowerConsumed < powerNeeded){
 			hasEnoughPower = false;
 		}
@@ -121,6 +124,10 @@ public abstract class WaterRSSubSystem{
 	* Tick does nothing by default
 	*/
 	public void tick(){
+		if (enabled)
+			gatherPower();
+		else
+			currentPowerConsumed = 0f;
 	}
 
 	public void log(LogNode myHead){

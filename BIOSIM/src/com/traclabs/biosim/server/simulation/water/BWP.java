@@ -12,10 +12,6 @@ import biosim.idl.water.*;
 
 public class BWP extends WaterRSSubSystem{
 	//The subsystem to send the water to next
-	private RO myRO;
-	private AES myAES;
-	private DirtyWaterStore myDirtyWaterStore;
-	private GreyWaterStore myGreyWaterStore;
 	private float currentDirtyWaterConsumed = 0f;
 	private float currentGreyWaterConsumed = 0f;
 	private float currentROWaterProduced = 0f;
@@ -32,25 +28,6 @@ public class BWP extends WaterRSSubSystem{
 	public BWP(WaterRSImpl pWaterRSImpl){
 		super(pWaterRSImpl);
 	}
-
-	/**
-	* Collects references to subsystems needed for putting/getting resources
-	*/
-	private void collectReferences(){
-		if (!hasCollectedReferences){
-			try{
-				myRO = myWaterRS.getRO();
-				myAES = myWaterRS.getAES();
-				myDirtyWaterStore = DirtyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("DirtyWaterStore"+myWaterRS.getID()));
-				myGreyWaterStore = GreyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("GreyWaterStore"+myWaterRS.getID()));
-				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"+myWaterRS.getID()));
-				hasCollectedReferences = true;
-			}
-			catch (org.omg.CORBA.UserException e){
-				e.printStackTrace();
-			}
-		}
-	}
 	
 	public float getDirtyWaterConsumed(){
 		return currentDirtyWaterConsumed;
@@ -65,8 +42,8 @@ public class BWP extends WaterRSSubSystem{
 	* If the Dirty Water Store can't provide enough, the Water RS supplements from the Grey Water Store.
 	*/
 	private void gatherWater(){
-		if (!myRO.isEnabled()){
-			if (myAES.isEnabled())
+		if (!myWaterRS.getRO().isEnabled()){
+			if (myWaterRS.getAES().isEnabled())
 				waterNeeded = RO_DISABLED_WATER_NEEDED;
 			else
 				waterNeeded = BOTH_DISABLED_WATER_NEEDED;
@@ -74,17 +51,25 @@ public class BWP extends WaterRSSubSystem{
 		else{
 			waterNeeded = NORMAL_WATER_NEEDED;
 		}
-		//draw as much as we can from dirty water
-		if (myDirtyWaterStore.getLevel() >= waterNeeded){
-			currentDirtyWaterConsumed = myDirtyWaterStore.take(waterNeeded);
-			//currentGreyWaterConsumed = 0;
+		float gatheredWater = 0f;
+		GreyWaterStore[] myGreyWaterStores = myWaterRS.getGreyWaterInputs();
+		DirtyWaterStore[] myDirtyWaterStores = myWaterRS.getDirtyWaterInputs();
+		for (int i = 0; (i < myDirtyWaterStores.length) && (gatheredWater < waterNeeded); i++){ 
+			float dirtyWaterToGather = Math.min(myWaterRS.getDirtyWaterInputFlowrate(i), waterNeeded);
+			gatheredWater += myDirtyWaterStores[i].take(dirtyWaterToGather);
 		}
-		//draw from both
+		currentDirtyWaterConsumed = gatheredWater;
+		for (int i = 0; (i < myGreyWaterStores.length) && (gatheredWater < waterNeeded); i++){
+			float greyWaterToGather = Math.min(myWaterRS.getGreyWaterInputFlowrate(i), waterNeeded);
+			gatheredWater += myGreyWaterStores[i].take(greyWaterToGather);
+		}
+		currentGreyWaterConsumed = gatheredWater - currentDirtyWaterConsumed;
+		if (gatheredWater < waterNeeded){
+			hasEnoughWater = false;
+		}
 		else{
-			currentDirtyWaterConsumed = myDirtyWaterStore.take(waterNeeded);
-			//currentGreyWaterConsumed = myGreyWaterStore.take(waterNeeded - currentDirtyWaterConsumed);
+			hasEnoughWater = true;
 		}
-		currentGreyWaterConsumed = 0;
 		addWater(currentDirtyWaterConsumed + currentGreyWaterConsumed);
 	}
 
@@ -92,15 +77,15 @@ public class BWP extends WaterRSSubSystem{
 	* Flushes the water from this subsystem to the RO
 	*/
 	private void pushWater(){
-		if (myRO.isEnabled()){
+		if (myWaterRS.getRO().isEnabled()){
 			currentROWaterProduced = waterLevel;
 			currentAESWaterProduced = 0;
-			myRO.addWater(currentROWaterProduced);
+			myWaterRS.getRO().addWater(currentROWaterProduced);
 		}
-		else if (myAES.isEnabled()){
+		else if (myWaterRS.getAES().isEnabled()){
 			currentROWaterProduced = 0;
 			currentAESWaterProduced = waterLevel;
-			myAES.addWater(currentAESWaterProduced);
+			myWaterRS.getAES().addWater(currentAESWaterProduced);
 		}
 		else{
 			//dump water! no subsystem enabled to send water to
@@ -124,8 +109,7 @@ public class BWP extends WaterRSSubSystem{
 	* 2) Flushes the water from this subsystem to the RO.
 	*/
 	public void tick(){
-		collectReferences();
-		gatherPower();
+		super.tick();
 		if (hasEnoughPower){
 			gatherWater();
 			pushWater();
@@ -142,7 +126,6 @@ public class BWP extends WaterRSSubSystem{
 		super.reset();
 		currentDirtyWaterConsumed = 0f;
 		currentGreyWaterConsumed = 0f;
-		currentPowerConsumed = 0;
 		currentROWaterProduced = 0f;
 		currentAESWaterProduced = 0f;
 	}

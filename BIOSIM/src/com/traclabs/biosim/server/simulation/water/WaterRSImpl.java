@@ -29,6 +29,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations, Pow
 	private float[] dirtyWaterFlowRates;
 	private float[] greyWaterFlowRates;
 	private float[] potableWaterFlowRates;
+	private static final int NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER = 3;
 
 	/**
 	* Creates the Water RS and it's subsystems
@@ -345,6 +346,10 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations, Pow
 		public LogNode PPSIndex;
 		public LogNode BWPIndex;
 		public LogNode ROIndex;
+	}
+	
+	int getSubsystemsConsumingPower(){
+		return NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER;
 	}
 	
 	public void setPowerInputFlowrate(float watts, int index){
