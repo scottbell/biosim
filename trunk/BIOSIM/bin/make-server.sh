@@ -47,7 +47,7 @@ Sun_libs="$JRE_HOME/lib/rt.jar"
 javaVersionString=`$java_command -version 2>&1 | grep IBM`
 case $javaVersionString in
 	*"IBM"*) JRE_libs=$IBM_libs;echo "		-VM is IBM";;
-	*)JRE_lib=$Sun_libs;echo "		-assuming Sun VM";;
+	*)JRE_libs=$Sun_libs;echo "		-assuming Sun VM";;
 esac
 ####################
 #		SERVER INIT    #
