@@ -80,10 +80,20 @@ public class BioHolder
 	public final static String myCrewEnvironmentOtherAirConcentrationSensorName = "CrewEnvironmentOtherAirConcentrationSensor";
 	public final static String myCrewEnvironmentCO2AirConcentrationSensorName = "CrewEnvironmentCO2AirConcentrationSensor";
 	public final static String myCrewEnvironmentO2AirConcentrationSensorName = "CrewEnvironmentO2AirConcentrationSensor";
+	public final static String myCrewEnvironmentWaterAirConcentrationSensorName = "CrewEnvironmentWaterAirConcentrationSensor";
+	public final static String myCrewEnvironmentOtherAirPressureSensorName = "CrewEnvironmentOtherAirPressureSensor";
+	public final static String myCrewEnvironmentCO2AirPressureSensorName = "CrewEnvironmentCO2AirPressureSensor";
+	public final static String myCrewEnvironmentO2AirPressureSensorName = "CrewEnvironmentO2AirPressureSensor";
+	public final static String myCrewEnvironmentWaterAirPressureSensorName = "CrewEnvironmentWaterAirPressureSensor";
 	//Plant
 	public final static String myPlantEnvironmentOtherAirConcentrationSensorName = "PlantEnvironmentOtherAirConcentrationSensor";
 	public final static String myPlantEnvironmentCO2AirConcentrationSensorName = "PlantEnvironmentCO2AirConcentrationSensor";
 	public final static String myPlantEnvironmentO2AirConcentrationSensorName = "PlantEnvironmentO2AirConcentrationSensor";
+	public final static String myPlantEnvironmentWaterAirConcentrationSensorName = "PlantEnvironmentWaterAirConcentrationSensor";
+	public final static String myPlantEnvironmentOtherAirPressureSensorName = "PlantEnvironmentOtherAirPressureSensor";
+	public final static String myPlantEnvironmentCO2AirPressureSensorName = "PlantEnvironmentCO2AirPressureSensor";
+	public final static String myPlantEnvironmentO2AirPressureSensorName = "PlantEnvironmentO2AirPressureSensor";
+	public final static String myPlantEnvironmentWaterAirPressureSensorName = "PlantEnvironmentWaterAirPressureSensor";
 	//Water
 	//WaterRS
 	public final static String myWaterRSDirtyWaterInFlowRateSensorName = "WaterRSDirtyWaterInFlowRateSensor";
@@ -364,6 +374,21 @@ public class BioHolder
 					CO2AirConcentrationSensor myCrewEnvironmentCO2AirConcentrationSensor = CO2AirConcentrationSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentCO2AirConcentrationSensorName+myID));
 					modules.put(myCrewEnvironmentCO2AirConcentrationSensorName , myCrewEnvironmentCO2AirConcentrationSensor);
 					sensors.put(myCrewEnvironmentCO2AirConcentrationSensorName , myCrewEnvironmentCO2AirConcentrationSensor);
+					WaterAirConcentrationSensor myCrewEnvironmentWaterAirConcentrationSensor = WaterAirConcentrationSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentWaterAirConcentrationSensorName+myID));
+					modules.put(myCrewEnvironmentWaterAirConcentrationSensorName , myCrewEnvironmentWaterAirConcentrationSensor);
+					sensors.put(myCrewEnvironmentWaterAirConcentrationSensorName , myCrewEnvironmentWaterAirConcentrationSensor);
+					OtherAirPressureSensor myCrewEnvironmentOtherAirPressureSensor = OtherAirPressureSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentOtherAirPressureSensorName+myID));
+					modules.put(myCrewEnvironmentOtherAirPressureSensorName , myCrewEnvironmentOtherAirPressureSensor);
+					sensors.put(myCrewEnvironmentOtherAirPressureSensorName , myCrewEnvironmentOtherAirPressureSensor);
+					O2AirPressureSensor myCrewEnvironmentO2AirPressureSensor = O2AirPressureSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentO2AirPressureSensorName+myID));
+					modules.put(myCrewEnvironmentO2AirPressureSensorName , myCrewEnvironmentO2AirPressureSensor);
+					sensors.put(myCrewEnvironmentO2AirPressureSensorName , myCrewEnvironmentO2AirPressureSensor);
+					CO2AirPressureSensor myCrewEnvironmentCO2AirPressureSensor = CO2AirPressureSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentCO2AirPressureSensorName+myID));
+					modules.put(myCrewEnvironmentCO2AirPressureSensorName , myCrewEnvironmentCO2AirPressureSensor);
+					sensors.put(myCrewEnvironmentCO2AirPressureSensorName , myCrewEnvironmentCO2AirPressureSensor);
+					WaterAirPressureSensor myCrewEnvironmentWaterAirPressureSensor = WaterAirPressureSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentWaterAirPressureSensorName+myID));
+					modules.put(myCrewEnvironmentWaterAirPressureSensorName , myCrewEnvironmentWaterAirPressureSensor);
+					sensors.put(myCrewEnvironmentWaterAirPressureSensorName , myCrewEnvironmentWaterAirPressureSensor);
 				}
 				//Plant
 				{
@@ -376,6 +401,21 @@ public class BioHolder
 					CO2AirConcentrationSensor myPlantEnvironmentCO2AirConcentrationSensor = CO2AirConcentrationSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentCO2AirConcentrationSensorName+myID));
 					modules.put(myPlantEnvironmentCO2AirConcentrationSensorName , myPlantEnvironmentCO2AirConcentrationSensor);
 					sensors.put(myPlantEnvironmentCO2AirConcentrationSensorName , myPlantEnvironmentCO2AirConcentrationSensor);
+					WaterAirConcentrationSensor myPlantEnvironmentWaterAirConcentrationSensor = WaterAirConcentrationSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentWaterAirConcentrationSensorName+myID));
+					modules.put(myPlantEnvironmentWaterAirConcentrationSensorName , myPlantEnvironmentWaterAirConcentrationSensor);
+					sensors.put(myPlantEnvironmentWaterAirConcentrationSensorName , myPlantEnvironmentWaterAirConcentrationSensor);
+					OtherAirPressureSensor myPlantEnvironmentOtherAirPressureSensor = OtherAirPressureSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentOtherAirPressureSensorName+myID));
+					modules.put(myPlantEnvironmentOtherAirPressureSensorName , myPlantEnvironmentOtherAirPressureSensor);
+					sensors.put(myPlantEnvironmentOtherAirPressureSensorName , myPlantEnvironmentOtherAirPressureSensor);
+					O2AirPressureSensor myPlantEnvironmentO2AirPressureSensor = O2AirPressureSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentO2AirPressureSensorName+myID));
+					modules.put(myPlantEnvironmentO2AirPressureSensorName , myPlantEnvironmentO2AirPressureSensor);
+					sensors.put(myPlantEnvironmentO2AirPressureSensorName , myPlantEnvironmentO2AirPressureSensor);
+					CO2AirPressureSensor myPlantEnvironmentCO2AirPressureSensor = CO2AirPressureSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentCO2AirPressureSensorName+myID));
+					modules.put(myPlantEnvironmentCO2AirPressureSensorName , myPlantEnvironmentCO2AirPressureSensor);
+					sensors.put(myPlantEnvironmentCO2AirPressureSensorName , myPlantEnvironmentCO2AirPressureSensor);
+					WaterAirPressureSensor myPlantEnvironmentWaterAirPressureSensor = WaterAirPressureSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentWaterAirPressureSensorName+myID));
+					modules.put(myPlantEnvironmentWaterAirPressureSensorName , myPlantEnvironmentWaterAirPressureSensor);
+					sensors.put(myPlantEnvironmentWaterAirPressureSensorName , myPlantEnvironmentWaterAirPressureSensor);
 				}
 			}
 			//Water
