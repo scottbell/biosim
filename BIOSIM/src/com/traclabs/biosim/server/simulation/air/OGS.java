@@ -54,17 +54,10 @@ public class OGS extends AirRSSubSystem {
                 * myProductionRate;
         float O2ToDistrubute = myAirRS.randomFilter(currentO2Produced);
         float H2ToDistrubute = myAirRS.randomFilter(currentH2Produced);
-        //System.out.println("*tick*");
-        //System.out.println("O2ToDistrubute:"+O2ToDistrubute);
-        //System.out.println("O2level
-        // before:"+myAirRS.getO2Outputs()[0].getLevel());
         float distributedO2 = SimBioModuleImpl.pushResourceToStore(myAirRS
                 .getO2Outputs(), myAirRS.getO2OutputMaxFlowRates(), myAirRS
                 .getO2OutputDesiredFlowRates(), myAirRS
                 .getO2OutputActualFlowRates(), O2ToDistrubute);
-        //System.out.println("O2level
-        // after:"+myAirRS.getO2Outputs()[0].getLevel());
-        //System.out.println("distributedO2:"+distributedO2);
         float distributedH2 = SimBioModuleImpl.pushResourceToStore(myAirRS
                 .getH2Outputs(), myAirRS.getH2OutputMaxFlowRates(), myAirRS
                 .getH2OutputDesiredFlowRates(), myAirRS

@@ -222,8 +222,8 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements
                 biomassMaxFlowRates, biomassDesiredFlowRates,
                 biomassActualFlowRates, biomassNeeded);
         massConsumed = calculateSizeOfBioMatter(biomatterConsumed);
-        //if (massConsumed > 0)
-        //System.out.println(getModuleName()+": massConsumed = "+massConsumed);
+        if (massConsumed > 0)
+		myLogger.debug(getModuleName()+": massConsumed = "+massConsumed);
         if (massConsumed < biomassNeeded) {
             hasEnoughBiomass = false;
         } else {
@@ -307,8 +307,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements
             foodMass = inMatter.mass * (1f - inMatter.inedibleFraction);
         else
             foodMass = inMatter.mass;
-        //System.out.println(getModuleName()+": Creating "+foodMass+" kg of
-        // food");
+        myLogger.debug(getModuleName()+": Creating "+foodMass+" kg of food");
         FoodMatter newFoodMatter = new FoodMatter(foodMass,
                 inMatter.edibleWaterContent, inMatter.type);
         newFoodMatter.mass = randomFilter(newFoodMatter.mass)

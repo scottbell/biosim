@@ -818,9 +818,9 @@ public class BioInitializer {
             if (e instanceof SAXException)
                 se = ((SAXException) e).getException();
             if (se != null)
-                se.printStackTrace(System.err);
+                se.printStackTrace();
             else
-                e.printStackTrace(System.err);
+                e.printStackTrace();
         }
     }
 

@@ -665,7 +665,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
      */
     public float addCO2Moles(float molesRequested) {
         if (Float.isNaN(molesRequested)) {
-            System.out.println("in addCO2Moles, attemped to add "
+            myLogger.warn("in addCO2Moles, attemped to add "
                     + molesRequested);
             return 0f;
         }
@@ -692,7 +692,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
      */
     public float addO2Moles(float molesRequested) {
         if (Float.isNaN(molesRequested)) {
-            System.out.println("in addO2Moles, attemped to add "
+            myLogger.warn("in addO2Moles, attemped to add "
                     + molesRequested);
             return 0f;
         }
@@ -719,7 +719,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
      */
     public float addOtherMoles(float molesRequested) {
         if (Float.isNaN(molesRequested)) {
-            System.out.println("in addOtherMoles, attemped to add "
+            myLogger.warn("in addOtherMoles, attemped to add "
                     + molesRequested);
             return 0f;
         }
@@ -746,7 +746,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
      */
     public float addWaterMoles(float molesRequested) {
         if (Float.isNaN(molesRequested)) {
-            System.out.println("in addWaterMoles, attemped to add "
+            myLogger.warn("in addWaterMoles, attemped to add "
                     + molesRequested);
             return 0f;
         }
@@ -773,7 +773,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
      */
     public float addNitrogenMoles(float molesRequested) {
         if (Float.isNaN(molesRequested)) {
-            System.out.println("in addNitrogenMoles, attemped to add "
+            myLogger.warn("in addNitrogenMoles, attemped to add "
                     + molesRequested);
             return 0f;
         }
@@ -791,7 +791,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
     public float takeCO2Moles(float molesRequested) {
         //idiot check
         if (Float.isNaN(molesRequested)) {
-            System.out.println("in takeCO2Moles, attemped to remove "
+            myLogger.warn("in takeCO2Moles, attemped to remove "
                     + molesRequested);
             return 0f;
         }
@@ -816,7 +816,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
     public float takeO2Moles(float molesRequested) {
         //idiot check
         if (Float.isNaN(molesRequested)) {
-            System.out.println("in takeO2Moles, attemped to remove "
+            myLogger.warn("in takeO2Moles, attemped to remove "
                     + molesRequested);
             return 0f;
         }
@@ -1107,9 +1107,9 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
                 hasCollectedReferences = true;
 
             } catch (org.omg.CORBA.UserException e) {
-                System.err.println(getModuleName()
+                myLogger.error(getModuleName()
                         + ": Couldn't find BioDriver!!");
-                e.printStackTrace(System.out);
+                e.printStackTrace();
             }
         }
     }

@@ -20,6 +20,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.apache.log4j.Logger;
+
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.framework.StochasticIntensity;
@@ -37,12 +39,15 @@ public class StochasticPanel extends TimedPanel {
     private JPanel myOperatorPanel;
 
     private ImageIcon myIcon;
+    
+    private Logger myLogger;
 
     /**
      * Default constructor.
      */
     public StochasticPanel() {
         super();
+        myLogger = Logger.getLogger(this.getClass());
         buildGui();
         refresh();
     }
@@ -147,7 +152,7 @@ public class StochasticPanel extends TimedPanel {
             myIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
                     .getResource("biosim/client/framework/gui/dice.jpg"));
         } catch (Exception e) {
-            System.err.println("Couldn't find icon (" + e + "), skipping");
+            myLogger.debug("Couldn't find icon (" + e + "), skipping");
             e.printStackTrace();
         }
     }

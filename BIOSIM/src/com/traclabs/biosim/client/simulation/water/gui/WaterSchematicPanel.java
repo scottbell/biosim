@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
+import org.apache.log4j.Logger;
+
 import com.traclabs.biosim.client.framework.gui.TimedPanel;
 import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
@@ -105,11 +107,14 @@ public class WaterSchematicPanel extends TimedPanel {
 
     //For formatting floats
     private DecimalFormat numFormat;
+    
+    private Logger myLogger;
 
     /**
      * Default constructor.
      */
     public WaterSchematicPanel() {
+	myLogger = Logger.getLogger(this.getClass());
         BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
         myWaterRS = (WaterRS) (myBioHolder.theWaterRSModules.get(0));
         myPotableWaterStore = (PotableWaterStore) (myBioHolder.thePotableWaterStores

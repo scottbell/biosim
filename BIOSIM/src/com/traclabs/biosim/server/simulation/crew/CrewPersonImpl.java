@@ -537,12 +537,11 @@ public class CrewPersonImpl extends CrewPersonPOA {
      * several time depending on the severity of the malfunction
      */
     private void checkForMeaningfulActivity() {
-        //System.out.println("Checking to see if
-        // "+myCurrentActivity.getName()+" is a meaningful activity");
+        myLogger.debug("Checking to see if"+myCurrentActivity.getName()+" is a meaningful activity");
         if (myCurrentActivity.getName().equals("mission")) {
             addProductivity();
         } else if (myCurrentActivity.getName().equals("maitenance")) {
-            //System.out.println("");
+		myLogger.debug("maintain");
         } else if (myCurrentActivity.getName().startsWith("sleep")
                 || myCurrentActivity.getName().startsWith("sick")) {
             sleepBuffer.add(SLEEP_RECOVERY_RATE);

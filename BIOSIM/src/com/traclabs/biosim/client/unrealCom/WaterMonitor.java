@@ -29,6 +29,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import org.apache.log4j.Logger;
+
 import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.idl.simulation.water.DirtyWaterStore;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterStore;
@@ -79,6 +81,8 @@ public class WaterMonitor extends Thread {
      *            The dirty Water storage information.
      */
     private DirtyWaterStore myDirtyWaterStore;
+    
+    private Logger myLogger;
 
     /**
      * Constructor to create a new WaterMonitor object.
@@ -89,7 +93,7 @@ public class WaterMonitor extends Thread {
      *            BioHolder used to get the simulation's water information.
      */
     WaterMonitor(Socket unrealSocket, BioHolder bioHolder) {
-
+	myLogger = Logger.getLogger(this.getClass());
         mySocket = unrealSocket;
         myBioHolder = bioHolder;
 
@@ -99,7 +103,7 @@ public class WaterMonitor extends Thread {
 
         } catch (IOException e) {
 
-            System.err.println("WaterMonitor: Failed to establish socket I/O.");
+            myLogger.error("WaterMonitor: Failed to establish socket I/O.");
             System.exit(1);
         }
 
@@ -123,7 +127,7 @@ public class WaterMonitor extends Thread {
      *            than one exist in a level.
      */
     WaterMonitor(Socket unrealSocket, BioHolder bioHolder, String matchTag) {
-        System.out.println("matchTag: " + matchTag);
+        myLogger.info("matchTag: " + matchTag);
         mySocket = unrealSocket;
         cmdPrefix = cmdPrefix.concat(matchTag);
         cmdPrefix = cmdPrefix.concat(" ");
@@ -135,7 +139,7 @@ public class WaterMonitor extends Thread {
 
         } catch (IOException e) {
 
-            System.err.println("WaterMonitor: Failed to establish socket I/O.");
+            myLogger.error("WaterMonitor: Failed to establish socket I/O.");
             System.exit(1);
         }
 
@@ -156,7 +160,7 @@ public class WaterMonitor extends Thread {
         float dirtyCap;
         float greyCap;
 
-        System.out.println("Starting WaterMonitor thread");
+        myLogger.info("Starting WaterMonitor thread");
 
         while (true) {
 

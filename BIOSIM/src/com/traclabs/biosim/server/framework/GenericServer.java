@@ -53,7 +53,7 @@ public class GenericServer {
                     st.nextToken();
                     myID = Integer.parseInt(st.nextToken());
                 } catch (Exception e) {
-                    System.err.println("Problem parsing arguments on arg "
+                    Logger.getLogger(GenericServer.class).warn("Problem parsing arguments on arg "
                             + myArgs[i]);
                     e.printStackTrace();
                 }
@@ -175,7 +175,7 @@ public class GenericServer {
             OrbUtils.getORB().run();
         } catch (Exception e) {
             myLogger.error(serverName + " ERROR: " + e);
-            e.printStackTrace(System.out);
+            e.printStackTrace();
         }
         myLogger.error(serverName + " exiting");
     }
