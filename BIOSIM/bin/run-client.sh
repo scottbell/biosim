@@ -23,6 +23,7 @@ then
 	java_command="java"
 fi
 JACORB_HOME="$devRootDir/lib/jacorb"
+#jacoNameIOR="-DORBInitRef.NameService=file:$devRootDir/generated/ns/ior.txt"
 jacoNameIOR="-DORBInitRef.NameService=file:$devRootDir/generated/ns/ior.txt"
 separator=":"
 machineType=`uname`

@@ -151,6 +151,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myTickThread = new Thread(this);
 		myTickThread.start();
 	}
+	
+	public void setDefaultInitialization(boolean value){
+		useDefaultInitialization = value;
+	}
 
 	/**
 	* Invoked by the myTickThread.start() method call and necessary to implement Runnable.
@@ -161,7 +165,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		ticksGoneBy = 0;
 		if (useDefaultInitialization){
 			System.out.println("BioDriverImpl:"+myID+" Initializing simulation...");
-			initializeSimulation();
+			defaultInitialization();
 		}
 		System.out.println("BioDriverImpl:"+myID+" Running simulation...");
 		runSimulation();
@@ -170,7 +174,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	/**
 	* Initializes the various servers with various dummy data
 	*/
-	private void initializeSimulation(){
+	private void defaultInitialization(){
 		//reset servers
 		reset();
 
@@ -486,7 +490,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	* Resets the simulation by calling every known server's reset method.
 	* Typically this means resetting the various gas levels, crew people, water levels, etc.
 	*/
-	private void reset(){
+	public void reset(){
 		System.out.println("BioDriverImpl:"+myID+" Resetting simulation");
 		for (Enumeration e = modules.elements(); e.hasMoreElements();){
 			BioModule currentBioModule = (BioModule)(e.nextElement());

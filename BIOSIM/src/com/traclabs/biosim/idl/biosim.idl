@@ -38,6 +38,8 @@ module biosim{
 				string getName();
 				boolean isDone();
 				long getTicks();
+				void reset();
+				void setDefaultInitialization(in boolean value);
                         };
                 };
 
