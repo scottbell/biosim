@@ -42,52 +42,52 @@ public class SimCommandLine
 		}
 		else if (userCommand.equals("start")){
 			if (!myDriver.isStarted())
-				myDriver.spawnSimulationTillDead();
+				myDriver.spawnsimulationTillDead();
 			else
-				System.out.println("Simulation has already started!");
+				System.out.println("simulation has already started");
 		}
 		else if (userCommand.equals("startLog")){
 			if (!myDriver.isLogging())
 				myDriver.setLogging(true);
 			else
-				System.out.println("Simulation is already logging!");
+				System.out.println("simulation is already logging");
 		}
 		else if (userCommand.equals("stopLog")){
 			if (myDriver.isLogging())
 				myDriver.setLogging(false);
 			else
-				System.out.println("Simulation isn't logging!");
+				System.out.println("simulation isn't logging");
 		}
 		else if (userCommand.equals("pause")){
 			if (!myDriver.isPaused())
-				myDriver.pauseSimulation();
+				myDriver.pausesimulation();
 			else
-				System.out.println("Simulation has already been paused!");
+				System.out.println("simulation is already paused");
 		}
 		else if (userCommand.equals("resume")){
 			if (myDriver.isPaused())
-				myDriver.resumeSimulation();
+				myDriver.resumesimulation();
 			else
-				System.out.println("Simulation isn't paused!");
+				System.out.println("simulation isn't paused");
 		}
 		else if (userCommand.equals("stop")){
 			if (myDriver.isStarted())
-				myDriver.endSimulation();
+				myDriver.endsimulation();
 			else
-				System.out.println("Simulation hasn't been started!");
+				System.out.println("simulation isn't running");
 		}
 		else if (userCommand.equals("advance")){
 			if (myDriver.isPaused())
 				myDriver.advanceOneTick();
 			else
-				System.out.println("Simulation needs to be paused!!");
+				System.out.println("simulation needs to be paused frist");
 		}
 		else if (userCommand.equals("?")){
 			System.out.println("commands: start, stop, pause, resume, quit, startLog, stopLog");
 		}
 		else{
-			System.out.println("Unrecognized command: "+userCommand);
-			System.out.println("Type ? for help");
+			System.out.println("unrecognized command: "+userCommand);
+			System.out.println("type ? for help");
 		}
 	}
 }

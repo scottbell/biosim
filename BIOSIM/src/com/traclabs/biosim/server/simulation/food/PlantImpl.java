@@ -270,15 +270,15 @@ public abstract class PlantImpl extends PlantPOA{
 	//Convert current CO2 levels to micromoles of CO2 / moles of air
 	private void calculateAverageCO2Concentration(){
 		SimEnvironment myEnvironment = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0];
-		float CO2Moles = myEnvironment.getCO2Moles() * pow (10,6); //in micro moles
+		float CO2MicroMoles = myEnvironment.getCO2Moles() * pow (10,6); //in micro moles
 		float airMoles = myEnvironment.getTotalMoles(); //in moles
-		if (CO2Moles <=0)
-			CO2Moles = pow(1f, -30f);
+		if (CO2MicroMoles <=0)
+			CO2MicroMoles = pow(1f, -30f);
 		else if (airMoles <= 0)
 			airMoles = pow(1f, -30f);
-		System.out.println("PlantImpl: CO2Moles: "+CO2Moles);
+		System.out.println("PlantImpl: CO2MicroMoles: "+CO2MicroMoles);
 		System.out.println("PlantImpl: airMoles: "+airMoles);
-		myTotalCO2Concentration += (CO2Moles / airMoles);
+		myTotalCO2Concentration += (CO2MicroMoles / airMoles);
 		myNumberOfCO2ConcentrationReadings ++;
 		myAverageCO2Concentration = myTotalCO2Concentration / myNumberOfCO2ConcentrationReadings;
 	}
@@ -329,8 +329,10 @@ public abstract class PlantImpl extends PlantPOA{
 			   canopyClosureConstants[22] * thePPFcubed  * theCO2 +
 			   canopyClosureConstants[23] * thePPFcubed  * theCO2squared +
 			   canopyClosureConstants[24] * thePPFcubed  * theCO2cubed;
-		if (tA < 0)
+		if (tA < 0){
 			tA = 0;
+			System.out.println("PlantImpl: Time till canopy closure is negative!");
+		}
 		return tA;
 	}
 	
@@ -392,8 +394,10 @@ public abstract class PlantImpl extends PlantPOA{
 			   canopyQYConstants[22] * thePPFcubed  * theCO2 +
 			   canopyQYConstants[23] * thePPFcubed  * theCO2squared +
 			   canopyQYConstants[24] * thePPFcubed  * theCO2cubed;
-		if (theCQYMax < 0)
+		if (theCQYMax < 0){
 			theCQYMax = 0;
+			System.out.println("PlantImpl: CQYMax is negative!");
+		}
 		return theCQYMax;
 	}
 
