@@ -382,8 +382,8 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	public boolean randomFilter(boolean pValue){
 		if (randomCoefficient <= 0)
 			return pValue;
-		double deviation = randomCoefficient * 1;
-		return (gaussian(1, deviation) > 1);
+		double deviation = randomCoefficient;
+		return (gaussian(1, randomCoefficient) > 1);
 	}
 	
 	/**
