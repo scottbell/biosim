@@ -324,6 +324,23 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			myCrew.setDirtyWaterOutputs(dirtyWaterOutputs, dirtyWaterOutputFlowRates);
 			myCrew.setGreyWaterOutputs(greyWaterOutputs, greyWaterOutputFlowRates);
 		}
+		
+		//Hook up Water to other modules
+		{
+			PotableWaterStore[] potableWaterOutput = {myPotableWaterStore};
+			GreyWaterStore[] greyWaterInputs = {myGreyWaterStore};
+			DirtyWaterStore[] dirtyWaterInputs = {myDirtyWaterStore};
+			PowerStore[] powerInput = {myPowerStore};
+			float[] potableWaterOutputFlowRates = {10000f};
+			float[] greyWaterInputFlowRates = {10000f};
+			float[] dirtyWaterInputFlowRates = {10000f};
+			float[] powerInputFlowRates = {10000f};
+			WaterRS myWaterRS = (WaterRS)(getBioModule(waterRSName));
+			myWaterRS.setPotableWaterOutputs(potableWaterOutput, potableWaterOutputFlowRates);
+			myWaterRS.setGreyWaterInputs(greyWaterInputs, greyWaterInputFlowRates);
+			myWaterRS.setDirtyWaterInputs(dirtyWaterInputs, dirtyWaterInputFlowRates);
+			myWaterRS.setPowerInputs(powerInput, powerInputFlowRates);
+		}
 	}
 
 	/**
