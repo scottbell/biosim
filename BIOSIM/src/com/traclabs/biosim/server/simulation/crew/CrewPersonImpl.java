@@ -79,6 +79,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private Breath airRetrieved;
 	private boolean logInitialized = false;
 	private LogIndex myLogIndex;
+	private boolean isSick = false;
 
 	/**
 	* Constructor that creates a new crew person
@@ -217,6 +218,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	}
 	
 	public void sicken(){
+		isSick = true;
+		myCurrentActivity = myCrewGroup.getScheduledActivityByOrder(-2);
 	}
 
 	/**
@@ -304,6 +307,14 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			consumeResources();
 			afflictCrew();
 			deathCheck();
+		}
+		else if (isSick){
+			collectReferences();
+			consumeResources();
+			afflictCrew();
+			deathCheck();
+			advanceActivity();
+			isSick = false;
 		}
 	}
 
