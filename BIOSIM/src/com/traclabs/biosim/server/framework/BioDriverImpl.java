@@ -842,7 +842,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myCO2Store.setCapacity(1000f);
 		myO2Store.setCapacity(1000f);
 		myH2Store.setCapacity(5000f);
-		myH2Store.setLevel(250f);
+		myH2Store.setLevel(2000f);
 		myCO2Store.setLevel(500f);
 		myO2Store.setLevel(250f);
 
