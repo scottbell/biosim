@@ -224,7 +224,7 @@ public class BioInitializer{
 			myModules.addAll(mySensors);
 			myModules.addAll(mySimModules);
 			myModules.addAll(myActuators);
-			
+
 			//Give Modules, Sensors, Actuatos to BioDriver to tick
 			BioModule[] moduleArray = convertList(myModules);
 			BioModule[] sensorArray = convertList(mySensors);
@@ -258,6 +258,25 @@ public class BioInitializer{
 		System.out.println("Instance of the module moduleNamed "+pName+" should be created remotely (if not already done)");
 	}
 
+	private org.omg.CORBA.Object grabModule(String moduleName){
+		org.omg.CORBA.Object moduleToReturn = null;
+		while (moduleToReturn == null){
+			try{
+				moduleToReturn = OrbUtils.getNamingContext(myID).resolve_str(moduleName);
+			}
+			catch (org.omg.CORBA.UserException e){
+				System.err.println("BioHolder: Couldn't find module "+moduleName+", polling again...");
+				OrbUtils.sleepAwhile();
+			}
+			catch (Exception e){
+				System.err.println("BioHolder: Had problems contacting nameserver with module "+moduleName+", polling again...");
+				OrbUtils.resetInit();
+				OrbUtils.sleepAwhile();
+			}
+		}
+		return moduleToReturn;
+	}
+
 	private static float getStoreLevel(Node node){
 		float level = 0f;
 		try{
@@ -281,7 +300,7 @@ public class BioInitializer{
 		}
 		return capacity;
 	}
-	
+
 	private static int getStoreResupplyFrequency(Node node){
 		int frequency = 0;
 		try{
@@ -293,7 +312,7 @@ public class BioInitializer{
 		}
 		return frequency;
 	}
-	
+
 	private static float getStoreResupplyAmount(Node node){
 		float amount = 0f;
 		try{
@@ -769,15 +788,15 @@ public class BioInitializer{
 			child = child.getNextSibling();
 		}
 	}
-	
+
 	private boolean getEnableBreakDown(Node pNode){
 		return pNode.getAttributes().getNamedItem("isLoggingEnabled").getNodeValue().equals("true");
 	}
-	
+
 	private boolean getLogging(Node pNode){
 		return pNode.getAttributes().getNamedItem("isBreakdownEnabled").getNodeValue().equals("true");
 	}
-	
+
 	private StochasticIntensity getStochasticIntensity(Node pNode){
 		String intensityString = pNode.getAttributes().getNamedItem("setStochasticIntensity").getNodeValue();
 		if (intensityString.equals("HIGH_STOCH"))
@@ -789,7 +808,7 @@ public class BioInitializer{
 		else
 			return StochasticIntensity.NONE_STOCH;
 	}
-	
+
 	private MalfunctionIntensity getMalfunctionIntensity(Node pNode){
 		String intensityString = pNode.getAttributes().getNamedItem("intensity").getNodeValue();
 		if (intensityString.equals("SEVERE_MALF"))
@@ -799,7 +818,7 @@ public class BioInitializer{
 		else
 			return MalfunctionIntensity.LOW_MALF;
 	}
-	
+
 	private MalfunctionLength getMalfunctionLength(Node pNode){
 		String lengthString = pNode.getAttributes().getNamedItem("length").getNodeValue();
 		if (lengthString.equals("TEMPORARY_MALF"))
@@ -807,7 +826,7 @@ public class BioInitializer{
 		else
 			return MalfunctionLength.PERMANENT_MALF;
 	}
-	
+
 	private int getMalfunctionTick(Node pNode){
 		int occursAtTick = 0;
 		try{
@@ -819,7 +838,7 @@ public class BioInitializer{
 		}
 		return occursAtTick;
 	}
-	
+
 	private void setupBioModule(BioModuleImpl pModule, Node node){
 		pModule.setEnableBreakdown(getEnableBreakDown(node));
 		pModule.setLogging(getLogging(node));
@@ -836,7 +855,6 @@ public class BioInitializer{
 	private void createAirRS(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating AirRS with moduleName: "+moduleName);
 			AirRSImpl myAirRSImpl = new AirRSImpl(myID, moduleName);
 			setupBioModule(myAirRSImpl, node);
 			BiosimServer.registerServer(new AirRSPOATie(myAirRSImpl), myAirRSImpl.getModuleName(), myAirRSImpl.getID());
@@ -846,27 +864,23 @@ public class BioInitializer{
 			printRemoteWarningMessage(moduleName);
 	}
 
+	private void setupStore(StoreImpl pStore, Node pNode){
+		pStore.setCapacity(getStoreCapacity(pNode));
+		pStore.setLevel(getStoreLevel(pNode));
+		pStore.setResupply(getStoreResupplyFrequency(pNode), getStoreResupplyAmount(pNode));
+	}
+
 	private void configureAirRS(Node node){
-		//System.out.println("Configuring AirRS");
-		String moduleName = getModuleName(node);
-		try{
-			AirRS myAirRS = AirRSHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			configureSimBioModule(myAirRS, node);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
+		AirRS myAirRS = AirRSHelper.narrow(grabModule(getModuleName(node)));
+		configureSimBioModule(myAirRS, node);
 	}
 
 	private void createO2Store(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating O2Store with moduleName: "+moduleName);
 			O2StoreImpl myO2StoreImpl = new O2StoreImpl(myID, moduleName);
+			setupStore(myO2StoreImpl, node);
 			setupBioModule(myO2StoreImpl, node);
-			myO2StoreImpl.setCapacity(getStoreCapacity(node));
-			myO2StoreImpl.setLevel(getStoreLevel(node));
-			myO2StoreImpl.setResupply(getStoreResupplyFrequency(node), getStoreResupplyAmount(node));
 			mySimModules.add(OrbUtils.poaToCorbaObj(myO2StoreImpl));
 			BiosimServer.registerServer(new O2StorePOATie(myO2StoreImpl), myO2StoreImpl.getModuleName(), myO2StoreImpl.getID());
 		}
@@ -877,12 +891,9 @@ public class BioInitializer{
 	private void createCO2Store(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating CO2Store with moduleName: "+moduleName);
 			CO2StoreImpl myCO2StoreImpl = new CO2StoreImpl(myID, moduleName);
 			setupBioModule(myCO2StoreImpl, node);
-			myCO2StoreImpl.setCapacity(getStoreCapacity(node));
-			myCO2StoreImpl.setLevel(getStoreLevel(node));
-			myCO2StoreImpl.setResupply(getStoreResupplyFrequency(node), getStoreResupplyAmount(node));
+			setupStore(myCO2StoreImpl, node);
 			mySimModules.add(OrbUtils.poaToCorbaObj(myCO2StoreImpl));
 			BiosimServer.registerServer(new CO2StorePOATie(myCO2StoreImpl), myCO2StoreImpl.getModuleName(), myCO2StoreImpl.getID());
 		}
@@ -893,28 +904,22 @@ public class BioInitializer{
 	private void createH2Store(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating H2Store with moduleName: "+moduleName);
 			H2StoreImpl myH2StoreImpl = new H2StoreImpl(myID, moduleName);
 			setupBioModule(myH2StoreImpl, node);
-			myH2StoreImpl.setCapacity(getStoreCapacity(node));
-			myH2StoreImpl.setLevel(getStoreLevel(node));
-			myH2StoreImpl.setResupply(getStoreResupplyFrequency(node), getStoreResupplyAmount(node));
+			setupStore(myH2StoreImpl, node);
 			mySimModules.add(OrbUtils.poaToCorbaObj(myH2StoreImpl));
 			BiosimServer.registerServer(new H2StorePOATie(myH2StoreImpl), myH2StoreImpl.getModuleName(), myH2StoreImpl.getID());
 		}
 		else
 			printRemoteWarningMessage(moduleName);
 	}
-	
+
 	private void createNitrogenStore(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating NitrogenStore with moduleName: "+moduleName);
 			NitrogenStoreImpl myNitrogenStoreImpl = new NitrogenStoreImpl(myID, moduleName);
 			setupBioModule(myNitrogenStoreImpl, node);
-			myNitrogenStoreImpl.setCapacity(getStoreCapacity(node));
-			myNitrogenStoreImpl.setLevel(getStoreLevel(node));
-			myNitrogenStoreImpl.setResupply(getStoreResupplyFrequency(node), getStoreResupplyAmount(node));
+			setupStore(myNitrogenStoreImpl, node);
 			mySimModules.add(OrbUtils.poaToCorbaObj(myNitrogenStoreImpl));
 			BiosimServer.registerServer(new NitrogenStorePOATie(myNitrogenStoreImpl), myNitrogenStoreImpl.getModuleName(), myNitrogenStoreImpl.getID());
 		}
@@ -1034,15 +1039,8 @@ public class BioInitializer{
 	}
 
 	private void configureCrewGroup(Node node){
-		//System.out.println("Configuring CrewGroup");
-		String moduleName = getModuleName(node);
-		try{
-			CrewGroup myCrewGroup = CrewGroupHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			configureSimBioModule(myCrewGroup, node);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
+		CrewGroup myCrewGroup = CrewGroupHelper.narrow(grabModule(getModuleName(node)));
+		configureSimBioModule(myCrewGroup, node);
 	}
 
 	private void crawlCrewModules(Node node, boolean firstPass){
@@ -1136,15 +1134,8 @@ public class BioInitializer{
 	}
 
 	private void configureAccumulator(Node node){
-		//System.out.println("Configuring Accumulator");
-		String moduleName = getModuleName(node);
-		try{
-			Accumulator myAccumulator = AccumulatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			configureSimBioModule(myAccumulator, node);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
+		Accumulator myAccumulator = AccumulatorHelper.narrow(grabModule(getModuleName(node)));
+		configureSimBioModule(myAccumulator, node);
 	}
 
 	private void createInjector(Node node){
@@ -1161,15 +1152,8 @@ public class BioInitializer{
 	}
 
 	private void configureInjector(Node node){
-		//System.out.println("Configuring Injector");
-		String moduleName = getModuleName(node);
-		try{
-			Injector myInjector = InjectorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			configureSimBioModule(myInjector, node);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
+		Injector myInjector = InjectorHelper.narrow(grabModule(getModuleName(node)));
+		configureSimBioModule(myInjector, node);
 	}
 
 	private void crawlFrameworkModules(Node node, boolean firstPass){
@@ -1249,15 +1233,8 @@ public class BioInitializer{
 	}
 
 	private void configureBiomassRS(Node node){
-		//System.out.println("Configuring BiomassRS");
-		String moduleName = getModuleName(node);
-		try{
-			BiomassRS myBiomassRS = BiomassRSHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			configureSimBioModule(myBiomassRS, node);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
+		BiomassRS myBiomassRS = BiomassRSHelper.narrow(grabModule(getModuleName(node)));
+		configureSimBioModule(myBiomassRS, node);
 	}
 
 	private void createFoodProcessor(Node node){
@@ -1274,15 +1251,8 @@ public class BioInitializer{
 	}
 
 	private void configureFoodProcessor(Node node){
-		//System.out.println("Configuring FoodProcessor");
-		String moduleName = getModuleName(node);
-		try{
-			FoodProcessor myFoodProcessor = FoodProcessorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			configureSimBioModule(myFoodProcessor, node);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
+		FoodProcessor myFoodProcessor = FoodProcessorHelper.narrow(grabModule(getModuleName(node)));
+		configureSimBioModule(myFoodProcessor, node);
 	}
 
 	private void createBiomassStore(Node node){
@@ -1363,15 +1333,8 @@ public class BioInitializer{
 	}
 
 	private void configurePowerPS(Node node){
-		//System.out.println("Configuring PowerPS");
-		String moduleName = getModuleName(node);
-		try{
-			PowerPS myPowerPS = PowerPSHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			configureSimBioModule(myPowerPS, node);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
+		PowerPS myPowerPS = PowerPSHelper.narrow(grabModule(getModuleName(node)));
+		configureSimBioModule(myPowerPS, node);
 	}
 
 	private void createPowerStore(Node node){
@@ -1422,15 +1385,8 @@ public class BioInitializer{
 	}
 
 	private void configureWaterRS(Node node){
-		//System.out.println("Configuring WaterRS");
-		String moduleName = getModuleName(node);
-		try{
-			WaterRS myWaterRS = WaterRSHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			configureSimBioModule(myWaterRS, node);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
+		WaterRS myWaterRS = WaterRSHelper.narrow(grabModule(getModuleName(node)));
+		configureSimBioModule(myWaterRS, node);
 	}
 
 	private void createPotableWaterStore(Node node){
@@ -1506,7 +1462,7 @@ public class BioInitializer{
 			child = child.getNextSibling();
 		}
 	}
-	
+
 	private void createIncinerator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
@@ -1521,17 +1477,10 @@ public class BioInitializer{
 	}
 
 	private void configureIncinerator(Node node){
-		//System.out.println("Configuring Incinerator");
-		String moduleName = getModuleName(node);
-		try{
-			Incinerator myIncinerator = IncineratorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			configureSimBioModule(myIncinerator, node);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
+		Incinerator myIncinerator = IncineratorHelper.narrow(grabModule(getModuleName(node)));
+		configureSimBioModule(myIncinerator, node);
 	}
-	
+
 	private void createDryWasteStore(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
@@ -1547,7 +1496,7 @@ public class BioInitializer{
 		else
 			printRemoteWarningMessage(moduleName);
 	}
-	
+
 	private void crawlWasteModules(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -1607,6 +1556,14 @@ public class BioInitializer{
 		}
 	}
 
+	private static String getInputName(Node pNode){
+		return pNode.getAttributes().getNamedItem("input").getNodeValue();
+	}
+
+	private static int getFlowRateIndex(Node pNode){
+		return Integer.parseInt(pNode.getAttributes().getNamedItem("index").getNodeValue());
+	}
+
 	//Air
 	private void createCO2InFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
@@ -1622,20 +1579,8 @@ public class BioInitializer{
 	}
 
 	private void configureCO2InFlowRateSensor(Node node){
-		//System.out.println("Configuring CO2InFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			CO2InFlowRateSensor myCO2InFlowRateSensor = CO2InFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myCO2InFlowRateSensor.setInput(CO2ConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		CO2InFlowRateSensor myCO2InFlowRateSensor = CO2InFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myCO2InFlowRateSensor.setInput(CO2ConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createCO2OutFlowRateSensor(Node node){
@@ -1652,20 +1597,8 @@ public class BioInitializer{
 	}
 
 	private void configureCO2OutFlowRateSensor(Node node){
-		//System.out.println("Configuring CO2OutFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			CO2OutFlowRateSensor myCO2OutFlowRateSensor = CO2OutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myCO2OutFlowRateSensor.setInput(CO2ProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		CO2OutFlowRateSensor myCO2OutFlowRateSensor = CO2OutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myCO2OutFlowRateSensor.setInput(CO2ProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createCO2StoreLevelSensor(Node node){
@@ -1682,19 +1615,8 @@ public class BioInitializer{
 	}
 
 	private void configureCO2StoreLevelSensor(Node node){
-		//System.out.println("Configuring CO2StoreLevelSensor");
-		String moduleName = getModuleName(node);
-		try{
-			CO2StoreLevelSensor myCO2StoreLevelSensor = CO2StoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			myCO2StoreLevelSensor.setInput(CO2StoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		CO2StoreLevelSensor myCO2StoreLevelSensor = CO2StoreLevelSensorHelper.narrow(grabModule(getModuleName(node)));
+		myCO2StoreLevelSensor.setInput(CO2StoreHelper.narrow(grabModule(getInputName(node))));
 	}
 
 	private void createO2InFlowRateSensor(Node node){
@@ -1711,20 +1633,8 @@ public class BioInitializer{
 	}
 
 	private void configureO2InFlowRateSensor(Node node){
-		//System.out.println("Configuring O2InFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			O2InFlowRateSensor myO2InFlowRateSensor = O2InFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myO2InFlowRateSensor.setInput(O2ConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		O2InFlowRateSensor myO2InFlowRateSensor = O2InFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myO2InFlowRateSensor.setInput(O2ConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createO2OutFlowRateSensor(Node node){
@@ -1741,20 +1651,8 @@ public class BioInitializer{
 	}
 
 	private void configureO2OutFlowRateSensor(Node node){
-		//System.out.println("Configuring O2OutFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			O2OutFlowRateSensor myO2OutFlowRateSensor = O2OutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myO2OutFlowRateSensor.setInput(O2ProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		O2OutFlowRateSensor myO2OutFlowRateSensor = O2OutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myO2OutFlowRateSensor.setInput(O2ProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createO2StoreLevelSensor(Node node){
@@ -1771,19 +1669,8 @@ public class BioInitializer{
 	}
 
 	private void configureO2StoreLevelSensor(Node node){
-		//System.out.println("Configuring O2StoreLevelSensor");
-		String moduleName = getModuleName(node);
-		try{
-			O2StoreLevelSensor myO2StoreLevelSensor = O2StoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			myO2StoreLevelSensor.setInput(O2StoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		O2StoreLevelSensor myO2StoreLevelSensor = O2StoreLevelSensorHelper.narrow(grabModule(getModuleName(node)));
+		myO2StoreLevelSensor.setInput(O2StoreHelper.narrow(grabModule(getInputName(node))));
 	}
 
 	private void createH2InFlowRateSensor(Node node){
@@ -1800,20 +1687,8 @@ public class BioInitializer{
 	}
 
 	private void configureH2InFlowRateSensor(Node node){
-		//System.out.println("Configuring H2InFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			H2InFlowRateSensor myH2InFlowRateSensor = H2InFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myH2InFlowRateSensor.setInput(H2ConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		H2InFlowRateSensor myH2InFlowRateSensor = H2InFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myH2InFlowRateSensor.setInput(H2ConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createH2OutFlowRateSensor(Node node){
@@ -1830,20 +1705,8 @@ public class BioInitializer{
 	}
 
 	private void configureH2OutFlowRateSensor(Node node){
-		//System.out.println("Configuring H2OutFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			H2OutFlowRateSensor myH2OutFlowRateSensor = H2OutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myH2OutFlowRateSensor.setInput(H2ProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		H2OutFlowRateSensor myH2OutFlowRateSensor = H2OutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myH2OutFlowRateSensor.setInput(H2ProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createH2StoreLevelSensor(Node node){
@@ -1860,21 +1723,10 @@ public class BioInitializer{
 	}
 
 	private void configureH2StoreLevelSensor(Node node){
-		//System.out.println("Configuring H2StoreLevelSensor");
-		String moduleName = getModuleName(node);
-		try{
-			H2StoreLevelSensor myH2StoreLevelSensor = H2StoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			myH2StoreLevelSensor.setInput(H2StoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		H2StoreLevelSensor myH2StoreLevelSensor = H2StoreLevelSensorHelper.narrow(grabModule(getModuleName(node)));
+		myH2StoreLevelSensor.setInput(H2StoreHelper.narrow(grabModule(getInputName(node))));
 	}
-	
+
 	private void createNitrogenInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
@@ -1889,20 +1741,8 @@ public class BioInitializer{
 	}
 
 	private void configureNitrogenInFlowRateSensor(Node node){
-		//System.out.println("Configuring NitrogenInFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			NitrogenInFlowRateSensor myNitrogenInFlowRateSensor = NitrogenInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myNitrogenInFlowRateSensor.setInput(NitrogenConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		NitrogenInFlowRateSensor myNitrogenInFlowRateSensor = NitrogenInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myNitrogenInFlowRateSensor.setInput(NitrogenConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createNitrogenOutFlowRateSensor(Node node){
@@ -1919,20 +1759,8 @@ public class BioInitializer{
 	}
 
 	private void configureNitrogenOutFlowRateSensor(Node node){
-		//System.out.println("Configuring NitrogenOutFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			NitrogenOutFlowRateSensor myNitrogenOutFlowRateSensor = NitrogenOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myNitrogenOutFlowRateSensor.setInput(NitrogenProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		NitrogenOutFlowRateSensor myNitrogenOutFlowRateSensor = NitrogenOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myNitrogenOutFlowRateSensor.setInput(NitrogenProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createNitrogenStoreLevelSensor(Node node){
@@ -1949,19 +1777,8 @@ public class BioInitializer{
 	}
 
 	private void configureNitrogenStoreLevelSensor(Node node){
-		//System.out.println("Configuring NitrogenStoreLevelSensor");
-		String moduleName = getModuleName(node);
-		try{
-			NitrogenStoreLevelSensor myNitrogenStoreLevelSensor = NitrogenStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			myNitrogenStoreLevelSensor.setInput(NitrogenStoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		NitrogenStoreLevelSensor myNitrogenStoreLevelSensor = NitrogenStoreLevelSensorHelper.narrow(grabModule(getModuleName(node)));
+		myNitrogenStoreLevelSensor.setInput(NitrogenStoreHelper.narrow(grabModule(getInputName(node))));
 	}
 
 	private void crawlAirSensors(Node node, boolean firstPass){
@@ -2059,21 +1876,10 @@ public class BioInitializer{
 	}
 
 	private void configureCrewGroupDeathSensor(Node node){
-		//System.out.println("Configuring CrewGroupDeathSensor");
-		String moduleName = getModuleName(node);
-		try{
-			CrewGroupDeathSensor myCrewGroupDeathSensor = CrewGroupDeathSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			myCrewGroupDeathSensor.setInput(CrewGroupHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		CrewGroupDeathSensor myCrewGroupDeathSensor = CrewGroupDeathSensorHelper.narrow(grabModule(getModuleName(node)));
+		myCrewGroupDeathSensor.setInput(CrewGroupHelper.narrow(grabModule(getInputName(node))));
 	}
-	
+
 	private void createCrewGroupAnyDeadSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
@@ -2088,21 +1894,10 @@ public class BioInitializer{
 	}
 
 	private void configureCrewGroupAnyDeadSensor(Node node){
-		//System.out.println("Configuring CrewGroupAnyDeadSensor");
-		String moduleName = getModuleName(node);
-		try{
-			CrewGroupAnyDeadSensor myCrewGroupAnyDeadSensor = CrewGroupAnyDeadSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			myCrewGroupAnyDeadSensor.setInput(CrewGroupHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		CrewGroupAnyDeadSensor myCrewGroupAnyDeadSensor = CrewGroupAnyDeadSensorHelper.narrow(grabModule(getModuleName(node)));
+		myCrewGroupAnyDeadSensor.setInput(CrewGroupHelper.narrow(grabModule(getInputName(node))));
 	}
-	
+
 	private void createCrewGroupProductivitySensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
@@ -2116,19 +1911,8 @@ public class BioInitializer{
 			printRemoteWarningMessage(moduleName);
 	}
 	private void configureCrewGroupProductivitySensor(Node node){
-		//System.out.println("Configuring CrewGroupProductivitySensor");
-		String moduleName = getModuleName(node);
-		try{
-			CrewGroupProductivitySensor myCrewGroupProductivitySensor = CrewGroupProductivitySensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			myCrewGroupProductivitySensor.setInput(CrewGroupHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		CrewGroupProductivitySensor myCrewGroupProductivitySensor = CrewGroupProductivitySensorHelper.narrow(grabModule(getModuleName(node)));
+		myCrewGroupProductivitySensor.setInput(CrewGroupHelper.narrow(grabModule(getInputName(node))));
 	}
 
 	private void crawlCrewSensors(Node node, boolean firstPass){
@@ -2172,20 +1956,8 @@ public class BioInitializer{
 	}
 
 	private void configureAirInFlowRateSensor(Node node){
-		//System.out.println("Configuring AirInFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			AirInFlowRateSensor myAirInFlowRateSensor = AirInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myAirInFlowRateSensor.setInput(AirConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		AirInFlowRateSensor myAirInFlowRateSensor = AirInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myAirInFlowRateSensor.setInput(AirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createAirOutFlowRateSensor(Node node){
@@ -2202,20 +1974,8 @@ public class BioInitializer{
 	}
 
 	private void configureAirOutFlowRateSensor(Node node){
-		//System.out.println("Configuring AirOutFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			AirOutFlowRateSensor myAirOutFlowRateSensor = AirOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myAirOutFlowRateSensor.setInput(AirProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		AirOutFlowRateSensor myAirOutFlowRateSensor = AirOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myAirOutFlowRateSensor.setInput(AirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createCO2AirConcentrationSensor(Node node){
@@ -2232,19 +1992,8 @@ public class BioInitializer{
 	}
 
 	private void configureCO2AirConcentrationSensor(Node node){
-		//System.out.println("Configuring CO2AirConcentrationSensor");
-		String moduleName = getModuleName(node);
-		try{
-			CO2AirConcentrationSensor myCO2AirConcentrationSensor = CO2AirConcentrationSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			myCO2AirConcentrationSensor.setInput(SimEnvironmentHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		CO2AirConcentrationSensor myCO2AirConcentrationSensor = CO2AirConcentrationSensorHelper.narrow(grabModule(getModuleName(node)));
+		myCO2AirConcentrationSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
 	}
 
 	private void createCO2AirPressureSensor(Node node){
@@ -2261,19 +2010,8 @@ public class BioInitializer{
 	}
 
 	private void configureCO2AirPressureSensor(Node node){
-		//System.out.println("Configuring CO2AirPressureSensor");
-		String moduleName = getModuleName(node);
-		try{
-			CO2AirPressureSensor myCO2AirPressureSensor = CO2AirPressureSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			myCO2AirPressureSensor.setInput(SimEnvironmentHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		CO2AirPressureSensor myCO2AirPressureSensor = CO2AirPressureSensorHelper.narrow(grabModule(getModuleName(node)));
+		myCO2AirPressureSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
 	}
 
 	private void createCO2AirEnvironmentInFlowRateSensor(Node node){
@@ -2290,20 +2028,8 @@ public class BioInitializer{
 	}
 
 	private void configureCO2AirEnvironmentInFlowRateSensor(Node node){
-		//System.out.println("Configuring CO2AirEnvironmentInFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			CO2AirEnvironmentInFlowRateSensor myCO2AirEnvironmentInFlowRateSensor = CO2AirEnvironmentInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myCO2AirEnvironmentInFlowRateSensor.setInput(CO2AirConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		CO2AirPressureSensor myCO2AirPressureSensor = CO2AirPressureSensorHelper.narrow(grabModule(getModuleName(node)));
+		myCO2AirPressureSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
 	}
 
 	private void createCO2AirEnvironmentOutFlowRateSensor(Node node){
@@ -2320,20 +2046,8 @@ public class BioInitializer{
 	}
 
 	private void configureCO2AirEnvironmentOutFlowRateSensor(Node node){
-		//System.out.println("Configuring CO2AirEnvironmentOutFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			CO2AirEnvironmentOutFlowRateSensor myCO2AirEnvironmentOutFlowRateSensor = CO2AirEnvironmentOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myCO2AirEnvironmentOutFlowRateSensor.setInput(CO2AirProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		CO2AirEnvironmentOutFlowRateSensor myCO2AirEnvironmentOutFlowRateSensor = CO2AirEnvironmentOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myCO2AirEnvironmentOutFlowRateSensor.setInput(CO2AirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createCO2AirStoreInFlowRateSensor(Node node){
@@ -2350,20 +2064,8 @@ public class BioInitializer{
 	}
 
 	private void configureCO2AirStoreInFlowRateSensor(Node node){
-		//System.out.println("Configuring CO2AirStoreInFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			CO2AirStoreInFlowRateSensor myCO2AirStoreInFlowRateSensor = CO2AirStoreInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myCO2AirStoreInFlowRateSensor.setInput(CO2AirConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		CO2AirStoreInFlowRateSensor myCO2AirStoreInFlowRateSensor = CO2AirStoreInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myCO2AirStoreInFlowRateSensor.setInput(CO2AirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createCO2AirStoreOutFlowRateSensor(Node node){
@@ -2380,22 +2082,10 @@ public class BioInitializer{
 	}
 
 	private void configureCO2AirStoreOutFlowRateSensor(Node node){
-		//System.out.println("Configuring CO2AirStoreOutFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			CO2AirStoreOutFlowRateSensor myCO2AirStoreOutFlowRateSensor = CO2AirStoreOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myCO2AirStoreOutFlowRateSensor.setInput(CO2AirProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		CO2AirStoreOutFlowRateSensor myCO2AirStoreOutFlowRateSensor = CO2AirStoreOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myCO2AirStoreOutFlowRateSensor.setInput(CO2AirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
-
+	
 	private void createO2AirConcentrationSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
@@ -2410,19 +2100,8 @@ public class BioInitializer{
 	}
 
 	private void configureO2AirConcentrationSensor(Node node){
-		//System.out.println("Configuring O2AirConcentrationSensor");
-		String moduleName = getModuleName(node);
-		try{
-			O2AirConcentrationSensor myO2AirConcentrationSensor = O2AirConcentrationSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			myO2AirConcentrationSensor.setInput(SimEnvironmentHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		O2AirConcentrationSensor myO2AirConcentrationSensor = O2AirConcentrationSensorHelper.narrow(grabModule(getModuleName(node)));
+		myO2AirConcentrationSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
 	}
 
 	private void createO2AirPressureSensor(Node node){
@@ -2439,19 +2118,8 @@ public class BioInitializer{
 	}
 
 	private void configureO2AirPressureSensor(Node node){
-		//System.out.println("Configuring O2AirPressureSensor");
-		String moduleName = getModuleName(node);
-		try{
-			O2AirPressureSensor myO2AirPressureSensor = O2AirPressureSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			myO2AirPressureSensor.setInput(SimEnvironmentHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		O2AirPressureSensor myO2AirPressureSensor = O2AirPressureSensorHelper.narrow(grabModule(getModuleName(node)));
+		myO2AirPressureSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
 	}
 
 	private void createO2AirEnvironmentInFlowRateSensor(Node node){
@@ -2468,20 +2136,8 @@ public class BioInitializer{
 	}
 
 	private void configureO2AirEnvironmentInFlowRateSensor(Node node){
-		//System.out.println("Configuring O2AirEnvironmentInFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			O2AirEnvironmentInFlowRateSensor myO2AirEnvironmentInFlowRateSensor = O2AirEnvironmentInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myO2AirEnvironmentInFlowRateSensor.setInput(O2AirConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		O2AirPressureSensor myO2AirPressureSensor = O2AirPressureSensorHelper.narrow(grabModule(getModuleName(node)));
+		myO2AirPressureSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
 	}
 
 	private void createO2AirEnvironmentOutFlowRateSensor(Node node){
@@ -2498,20 +2154,8 @@ public class BioInitializer{
 	}
 
 	private void configureO2AirEnvironmentOutFlowRateSensor(Node node){
-		//System.out.println("Configuring O2AirEnvironmentOutFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			O2AirEnvironmentOutFlowRateSensor myO2AirEnvironmentOutFlowRateSensor = O2AirEnvironmentOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myO2AirEnvironmentOutFlowRateSensor.setInput(O2AirProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		O2AirEnvironmentOutFlowRateSensor myO2AirEnvironmentOutFlowRateSensor = O2AirEnvironmentOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myO2AirEnvironmentOutFlowRateSensor.setInput(O2AirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createO2AirStoreInFlowRateSensor(Node node){
@@ -2528,20 +2172,8 @@ public class BioInitializer{
 	}
 
 	private void configureO2AirStoreInFlowRateSensor(Node node){
-		//System.out.println("Configuring O2AirStoreInFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			O2AirStoreInFlowRateSensor myO2AirStoreInFlowRateSensor = O2AirStoreInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myO2AirStoreInFlowRateSensor.setInput(O2AirConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		O2AirStoreInFlowRateSensor myO2AirStoreInFlowRateSensor = O2AirStoreInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myO2AirStoreInFlowRateSensor.setInput(O2AirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createO2AirStoreOutFlowRateSensor(Node node){
@@ -2558,20 +2190,8 @@ public class BioInitializer{
 	}
 
 	private void configureO2AirStoreOutFlowRateSensor(Node node){
-		//System.out.println("Configuring O2AirStoreOutFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			O2AirStoreOutFlowRateSensor myO2AirStoreOutFlowRateSensor = O2AirStoreOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myO2AirStoreOutFlowRateSensor.setInput(O2AirProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		O2AirStoreOutFlowRateSensor myO2AirStoreOutFlowRateSensor = O2AirStoreOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myO2AirStoreOutFlowRateSensor.setInput(O2AirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createOtherAirConcentrationSensor(Node node){
@@ -2588,19 +2208,8 @@ public class BioInitializer{
 	}
 
 	private void configureOtherAirConcentrationSensor(Node node){
-		//System.out.println("Configuring OtherAirConcentrationSensor");
-		String moduleName = getModuleName(node);
-		try{
-			OtherAirConcentrationSensor myOtherAirConcentrationSensor = OtherAirConcentrationSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			myOtherAirConcentrationSensor.setInput(SimEnvironmentHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		OtherAirConcentrationSensor myOtherAirConcentrationSensor = OtherAirConcentrationSensorHelper.narrow(grabModule(getModuleName(node)));
+		myOtherAirConcentrationSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
 	}
 
 	private void createOtherAirPressureSensor(Node node){
@@ -2617,19 +2226,8 @@ public class BioInitializer{
 	}
 
 	private void configureOtherAirPressureSensor(Node node){
-		//System.out.println("Configuring OtherAirPressureSensor");
-		String moduleName = getModuleName(node);
-		try{
-			OtherAirPressureSensor myOtherAirPressureSensor = OtherAirPressureSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			myOtherAirPressureSensor.setInput(SimEnvironmentHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		OtherAirPressureSensor myOtherAirPressureSensor = OtherAirPressureSensorHelper.narrow(grabModule(getModuleName(node)));
+		myOtherAirPressureSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
 	}
 
 	private void createWaterAirConcentrationSensor(Node node){
@@ -2646,19 +2244,8 @@ public class BioInitializer{
 	}
 
 	private void configureWaterAirConcentrationSensor(Node node){
-		//System.out.println("Configuring WaterAirConcentrationSensor");
-		String moduleName = getModuleName(node);
-		try{
-			WaterAirConcentrationSensor myWaterAirConcentrationSensor = WaterAirConcentrationSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			myWaterAirConcentrationSensor.setInput(SimEnvironmentHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		WaterAirConcentrationSensor myWaterAirConcentrationSensor = WaterAirConcentrationSensorHelper.narrow(grabModule(getModuleName(node)));
+		myWaterAirConcentrationSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
 	}
 
 	private void createWaterAirPressureSensor(Node node){
@@ -2675,21 +2262,10 @@ public class BioInitializer{
 	}
 
 	private void configureWaterAirPressureSensor(Node node){
-		//System.out.println("Configuring WaterAirPressureSensor");
-		String moduleName = getModuleName(node);
-		try{
-			WaterAirPressureSensor myWaterAirPressureSensor = WaterAirPressureSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			myWaterAirPressureSensor.setInput(SimEnvironmentHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		WaterAirPressureSensor myWaterAirPressureSensor = WaterAirPressureSensorHelper.narrow(grabModule(getModuleName(node)));
+		myWaterAirPressureSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
 	}
-	
+
 	private void createWaterAirEnvironmentInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
@@ -2704,20 +2280,8 @@ public class BioInitializer{
 	}
 
 	private void configureWaterAirEnvironmentInFlowRateSensor(Node node){
-		//System.out.println("Configuring WaterAirEnvironmentInFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			WaterAirEnvironmentInFlowRateSensor myWaterAirEnvironmentInFlowRateSensor = WaterAirEnvironmentInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myWaterAirEnvironmentInFlowRateSensor.setInput(WaterAirConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		WaterAirPressureSensor myWaterAirPressureSensor = WaterAirPressureSensorHelper.narrow(grabModule(getModuleName(node)));
+		myWaterAirPressureSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
 	}
 
 	private void createWaterAirEnvironmentOutFlowRateSensor(Node node){
@@ -2734,20 +2298,8 @@ public class BioInitializer{
 	}
 
 	private void configureWaterAirEnvironmentOutFlowRateSensor(Node node){
-		//System.out.println("Configuring WaterAirEnvironmentOutFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			WaterAirEnvironmentOutFlowRateSensor myWaterAirEnvironmentOutFlowRateSensor = WaterAirEnvironmentOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myWaterAirEnvironmentOutFlowRateSensor.setInput(WaterAirProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		WaterAirEnvironmentOutFlowRateSensor myWaterAirEnvironmentOutFlowRateSensor = WaterAirEnvironmentOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myWaterAirEnvironmentOutFlowRateSensor.setInput(WaterAirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createWaterAirStoreInFlowRateSensor(Node node){
@@ -2764,20 +2316,8 @@ public class BioInitializer{
 	}
 
 	private void configureWaterAirStoreInFlowRateSensor(Node node){
-		//System.out.println("Configuring WaterAirStoreInFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			WaterAirStoreInFlowRateSensor myWaterAirStoreInFlowRateSensor = WaterAirStoreInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myWaterAirStoreInFlowRateSensor.setInput(WaterAirConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		WaterAirStoreInFlowRateSensor myWaterAirStoreInFlowRateSensor = WaterAirStoreInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myWaterAirStoreInFlowRateSensor.setInput(WaterAirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createWaterAirStoreOutFlowRateSensor(Node node){
@@ -2794,20 +2334,8 @@ public class BioInitializer{
 	}
 
 	private void configureWaterAirStoreOutFlowRateSensor(Node node){
-		//System.out.println("Configuring WaterAirStoreOutFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			WaterAirStoreOutFlowRateSensor myWaterAirStoreOutFlowRateSensor = WaterAirStoreOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myWaterAirStoreOutFlowRateSensor.setInput(WaterAirProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		WaterAirStoreOutFlowRateSensor myWaterAirStoreOutFlowRateSensor = WaterAirStoreOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myWaterAirStoreOutFlowRateSensor.setInput(WaterAirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 	
 	private void createNitrogenAirConcentrationSensor(Node node){
@@ -2824,19 +2352,8 @@ public class BioInitializer{
 	}
 
 	private void configureNitrogenAirConcentrationSensor(Node node){
-		//System.out.println("Configuring NitrogenAirConcentrationSensor");
-		String moduleName = getModuleName(node);
-		try{
-			NitrogenAirConcentrationSensor myNitrogenAirConcentrationSensor = NitrogenAirConcentrationSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			myNitrogenAirConcentrationSensor.setInput(SimEnvironmentHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		NitrogenAirConcentrationSensor myNitrogenAirConcentrationSensor = NitrogenAirConcentrationSensorHelper.narrow(grabModule(getModuleName(node)));
+		myNitrogenAirConcentrationSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
 	}
 
 	private void createNitrogenAirPressureSensor(Node node){
@@ -2853,19 +2370,8 @@ public class BioInitializer{
 	}
 
 	private void configureNitrogenAirPressureSensor(Node node){
-		//System.out.println("Configuring NitrogenAirPressureSensor");
-		String moduleName = getModuleName(node);
-		try{
-			NitrogenAirPressureSensor myNitrogenAirPressureSensor = NitrogenAirPressureSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			myNitrogenAirPressureSensor.setInput(SimEnvironmentHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		NitrogenAirPressureSensor myNitrogenAirPressureSensor = NitrogenAirPressureSensorHelper.narrow(grabModule(getModuleName(node)));
+		myNitrogenAirPressureSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
 	}
 
 	private void createNitrogenAirEnvironmentInFlowRateSensor(Node node){
@@ -2882,20 +2388,8 @@ public class BioInitializer{
 	}
 
 	private void configureNitrogenAirEnvironmentInFlowRateSensor(Node node){
-		//System.out.println("Configuring NitrogenAirEnvironmentInFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			NitrogenAirEnvironmentInFlowRateSensor myNitrogenAirEnvironmentInFlowRateSensor = NitrogenAirEnvironmentInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myNitrogenAirEnvironmentInFlowRateSensor.setInput(NitrogenAirConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		NitrogenAirPressureSensor myNitrogenAirPressureSensor = NitrogenAirPressureSensorHelper.narrow(grabModule(getModuleName(node)));
+		myNitrogenAirPressureSensor.setInput(SimEnvironmentHelper.narrow(grabModule(getInputName(node))));
 	}
 
 	private void createNitrogenAirEnvironmentOutFlowRateSensor(Node node){
@@ -2912,20 +2406,8 @@ public class BioInitializer{
 	}
 
 	private void configureNitrogenAirEnvironmentOutFlowRateSensor(Node node){
-		//System.out.println("Configuring NitrogenAirEnvironmentOutFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			NitrogenAirEnvironmentOutFlowRateSensor myNitrogenAirEnvironmentOutFlowRateSensor = NitrogenAirEnvironmentOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myNitrogenAirEnvironmentOutFlowRateSensor.setInput(NitrogenAirProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		NitrogenAirEnvironmentOutFlowRateSensor myNitrogenAirEnvironmentOutFlowRateSensor = NitrogenAirEnvironmentOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myNitrogenAirEnvironmentOutFlowRateSensor.setInput(NitrogenAirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createNitrogenAirStoreInFlowRateSensor(Node node){
@@ -2942,20 +2424,8 @@ public class BioInitializer{
 	}
 
 	private void configureNitrogenAirStoreInFlowRateSensor(Node node){
-		//System.out.println("Configuring NitrogenAirStoreInFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			NitrogenAirStoreInFlowRateSensor myNitrogenAirStoreInFlowRateSensor = NitrogenAirStoreInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myNitrogenAirStoreInFlowRateSensor.setInput(NitrogenAirConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		NitrogenAirStoreInFlowRateSensor myNitrogenAirStoreInFlowRateSensor = NitrogenAirStoreInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myNitrogenAirStoreInFlowRateSensor.setInput(NitrogenAirConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createNitrogenAirStoreOutFlowRateSensor(Node node){
@@ -2972,20 +2442,8 @@ public class BioInitializer{
 	}
 
 	private void configureNitrogenAirStoreOutFlowRateSensor(Node node){
-		//System.out.println("Configuring NitrogenAirStoreOutFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			NitrogenAirStoreOutFlowRateSensor myNitrogenAirStoreOutFlowRateSensor = NitrogenAirStoreOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myNitrogenAirStoreOutFlowRateSensor.setInput(NitrogenAirProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		NitrogenAirStoreOutFlowRateSensor myNitrogenAirStoreOutFlowRateSensor = NitrogenAirStoreOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myNitrogenAirStoreOutFlowRateSensor.setInput(NitrogenAirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void crawlEnvironmentSensors(Node node, boolean firstPass){
@@ -3179,20 +2637,8 @@ public class BioInitializer{
 	}
 
 	private void configureBiomassInFlowRateSensor(Node node){
-		//System.out.println("Configuring BiomassInFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			BiomassInFlowRateSensor myBiomassInFlowRateSensor = BiomassInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myBiomassInFlowRateSensor.setInput(BiomassConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		BiomassInFlowRateSensor myBiomassInFlowRateSensor = BiomassInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myBiomassInFlowRateSensor.setInput(BiomassConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createBiomassOutFlowRateSensor(Node node){
@@ -3209,20 +2655,8 @@ public class BioInitializer{
 	}
 
 	private void configureBiomassOutFlowRateSensor(Node node){
-		//System.out.println("Configuring BiomassOutFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			BiomassOutFlowRateSensor myBiomassOutFlowRateSensor = BiomassOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myBiomassOutFlowRateSensor.setInput(BiomassProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		BiomassOutFlowRateSensor myBiomassOutFlowRateSensor = BiomassOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myBiomassOutFlowRateSensor.setInput(BiomassProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createBiomassStoreLevelSensor(Node node){
@@ -3239,19 +2673,8 @@ public class BioInitializer{
 	}
 
 	private void configureBiomassStoreLevelSensor(Node node){
-		//System.out.println("Configuring BiomassStoreLevelSensor");
-		String moduleName = getModuleName(node);
-		try{
-			BiomassStoreLevelSensor myBiomassStoreLevelSensor = BiomassStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			myBiomassStoreLevelSensor.setInput(BiomassStoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		BiomassStoreLevelSensor myBiomassStoreLevelSensor = BiomassStoreLevelSensorHelper.narrow(grabModule(getModuleName(node)));
+		myBiomassStoreLevelSensor.setInput(BiomassStoreHelper.narrow(grabModule(getInputName(node))));
 	}
 
 	private void createFoodInFlowRateSensor(Node node){
@@ -3268,20 +2691,8 @@ public class BioInitializer{
 	}
 
 	private void configureFoodInFlowRateSensor(Node node){
-		//System.out.println("Configuring FoodInFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			FoodInFlowRateSensor myFoodInFlowRateSensor = FoodInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myFoodInFlowRateSensor.setInput(FoodConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		FoodInFlowRateSensor myFoodInFlowRateSensor = FoodInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myFoodInFlowRateSensor.setInput(FoodConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createFoodOutFlowRateSensor(Node node){
@@ -3298,20 +2709,8 @@ public class BioInitializer{
 	}
 
 	private void configureFoodOutFlowRateSensor(Node node){
-		//System.out.println("Configuring FoodOutFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			FoodOutFlowRateSensor myFoodOutFlowRateSensor = FoodOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myFoodOutFlowRateSensor.setInput(FoodProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		FoodOutFlowRateSensor myFoodOutFlowRateSensor = FoodOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myFoodOutFlowRateSensor.setInput(FoodProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createFoodStoreLevelSensor(Node node){
@@ -3328,21 +2727,10 @@ public class BioInitializer{
 	}
 
 	private void configureFoodStoreLevelSensor(Node node){
-		//System.out.println("Configuring FoodStoreLevelSensor");
-		String moduleName = getModuleName(node);
-		try{
-			FoodStoreLevelSensor myFoodStoreLevelSensor = FoodStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			myFoodStoreLevelSensor.setInput(FoodStoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		FoodStoreLevelSensor myFoodStoreLevelSensor = FoodStoreLevelSensorHelper.narrow(grabModule(getModuleName(node)));
+		myFoodStoreLevelSensor.setInput(FoodStoreHelper.narrow(grabModule(getInputName(node))));
 	}
-	
+
 	private void createHarvestSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
@@ -3357,20 +2745,12 @@ public class BioInitializer{
 	}
 
 	private void configureHarvestSensor(Node node){
-		//System.out.println("Configuring HarvestSensor");
-		String moduleName = getModuleName(node);
 		try{
-			HarvestSensor myHarvestSensor = HarvestSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
 			int index = Integer.parseInt(node.getAttributes().getNamedItem("shelfIndex").getNodeValue());
-			myHarvestSensor.setInput(BiomassRSHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
+			HarvestSensor myHarvestSensor = HarvestSensorHelper.narrow(grabModule(getModuleName(node)));
+			myHarvestSensor.setInput(BiomassRSHelper.narrow(grabModule(getInputName(node))), index);
 		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		catch (NumberFormatException e){e.printStackTrace();}
 	}
 
 	private void crawlFoodSensors(Node node, boolean firstPass){
@@ -3438,19 +2818,8 @@ public class BioInitializer{
 	}
 
 	private void configureStoreLevelSensor(Node node){
-		//System.out.println("Configuring StoreLevelSensor");
-		String moduleName = getModuleName(node);
-		try{
-			StoreLevelSensor myStoreLevelSensor = StoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			myStoreLevelSensor.setInput(StoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		StoreLevelSensor myStoreLevelSensor = StoreLevelSensorHelper.narrow(grabModule(getModuleName(node)));
+		myStoreLevelSensor.setInput(StoreHelper.narrow(grabModule(getInputName(node))));
 	}
 
 	private void createStoreOverflowSensor(Node node){
@@ -3467,19 +2836,8 @@ public class BioInitializer{
 	}
 
 	private void configureStoreOverflowSensor(Node node){
-		//System.out.println("Configuring StoreOverflowSensor");
-		String moduleName = getModuleName(node);
-		try{
-			StoreOverflowSensor myStoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			myStoreOverflowSensor.setInput(StoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		StoreOverflowSensor myStoreOverflowSensor = StoreOverflowSensorHelper.narrow(grabModule(getModuleName(node)));
+		myStoreOverflowSensor.setInput(StoreHelper.narrow(grabModule(getInputName(node))));
 	}
 
 	private void crawlFrameworkSensors(Node node, boolean firstPass){
@@ -3517,20 +2875,8 @@ public class BioInitializer{
 	}
 
 	private void configurePowerInFlowRateSensor(Node node){
-		//System.out.println("Configuring PowerInFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			PowerInFlowRateSensor myPowerInFlowRateSensor = PowerInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myPowerInFlowRateSensor.setInput(PowerConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		PowerInFlowRateSensor myPowerInFlowRateSensor = PowerInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myPowerInFlowRateSensor.setInput(PowerConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createPowerOutFlowRateSensor(Node node){
@@ -3547,20 +2893,8 @@ public class BioInitializer{
 	}
 
 	private void configurePowerOutFlowRateSensor(Node node){
-		//System.out.println("Configuring PowerOutFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			PowerOutFlowRateSensor myPowerOutFlowRateSensor = PowerOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myPowerOutFlowRateSensor.setInput(PowerProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		PowerOutFlowRateSensor myPowerOutFlowRateSensor = PowerOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myPowerOutFlowRateSensor.setInput(PowerProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createPowerStoreLevelSensor(Node node){
@@ -3577,19 +2911,8 @@ public class BioInitializer{
 	}
 
 	private void configurePowerStoreLevelSensor(Node node){
-		//System.out.println("Configuring PowerStoreLevelSensor");
-		String moduleName = getModuleName(node);
-		try{
-			PowerStoreLevelSensor myPowerStoreLevelSensor = PowerStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			myPowerStoreLevelSensor.setInput(PowerStoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		PowerStoreLevelSensor myPowerStoreLevelSensor = PowerStoreLevelSensorHelper.narrow(grabModule(getModuleName(node)));
+		myPowerStoreLevelSensor.setInput(PowerStoreHelper.narrow(grabModule(getInputName(node))));
 	}
 
 	private void crawlPowerSensors(Node node, boolean firstPass){
@@ -3633,20 +2956,8 @@ public class BioInitializer{
 	}
 
 	private void configurePotableWaterInFlowRateSensor(Node node){
-		//System.out.println("Configuring PotableWaterInFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			PotableWaterInFlowRateSensor myPotableWaterInFlowRateSensor = PotableWaterInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myPotableWaterInFlowRateSensor.setInput(PotableWaterConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		PotableWaterInFlowRateSensor myPotableWaterInFlowRateSensor = PotableWaterInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myPotableWaterInFlowRateSensor.setInput(PotableWaterConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createPotableWaterOutFlowRateSensor(Node node){
@@ -3663,20 +2974,8 @@ public class BioInitializer{
 	}
 
 	private void configurePotableWaterOutFlowRateSensor(Node node){
-		//System.out.println("Configuring PotableWaterOutFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			PotableWaterOutFlowRateSensor myPotableWaterOutFlowRateSensor = PotableWaterOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myPotableWaterOutFlowRateSensor.setInput(PotableWaterProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		PotableWaterOutFlowRateSensor myPotableWaterOutFlowRateSensor = PotableWaterOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myPotableWaterOutFlowRateSensor.setInput(PotableWaterProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createPotableWaterStoreLevelSensor(Node node){
@@ -3693,19 +2992,8 @@ public class BioInitializer{
 	}
 
 	private void configurePotableWaterStoreLevelSensor(Node node){
-		//System.out.println("Configuring PotableWaterStoreLevelSensor");
-		String moduleName = getModuleName(node);
-		try{
-			PotableWaterStoreLevelSensor myPotableWaterStoreLevelSensor = PotableWaterStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			myPotableWaterStoreLevelSensor.setInput(PotableWaterStoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		PotableWaterStoreLevelSensor myPotableWaterStoreLevelSensor = PotableWaterStoreLevelSensorHelper.narrow(grabModule(getModuleName(node)));
+		myPotableWaterStoreLevelSensor.setInput(PotableWaterStoreHelper.narrow(grabModule(getInputName(node))));
 	}
 
 	private void createGreyWaterInFlowRateSensor(Node node){
@@ -3722,20 +3010,8 @@ public class BioInitializer{
 	}
 
 	private void configureGreyWaterInFlowRateSensor(Node node){
-		//System.out.println("Configuring GreyWaterInFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			GreyWaterInFlowRateSensor myGreyWaterInFlowRateSensor = GreyWaterInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myGreyWaterInFlowRateSensor.setInput(GreyWaterConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		GreyWaterInFlowRateSensor myGreyWaterInFlowRateSensor = GreyWaterInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myGreyWaterInFlowRateSensor.setInput(GreyWaterConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createGreyWaterOutFlowRateSensor(Node node){
@@ -3752,20 +3028,8 @@ public class BioInitializer{
 	}
 
 	private void configureGreyWaterOutFlowRateSensor(Node node){
-		//System.out.println("Configuring GreyWaterOutFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			GreyWaterOutFlowRateSensor myGreyWaterOutFlowRateSensor = GreyWaterOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myGreyWaterOutFlowRateSensor.setInput(GreyWaterProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		GreyWaterOutFlowRateSensor myGreyWaterOutFlowRateSensor = GreyWaterOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myGreyWaterOutFlowRateSensor.setInput(GreyWaterProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createGreyWaterStoreLevelSensor(Node node){
@@ -3782,19 +3046,8 @@ public class BioInitializer{
 	}
 
 	private void configureGreyWaterStoreLevelSensor(Node node){
-		//System.out.println("Configuring GreyWaterStoreLevelSensor");
-		String moduleName = getModuleName(node);
-		try{
-			GreyWaterStoreLevelSensor myGreyWaterStoreLevelSensor = GreyWaterStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			myGreyWaterStoreLevelSensor.setInput(GreyWaterStoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		GreyWaterStoreLevelSensor myGreyWaterStoreLevelSensor = GreyWaterStoreLevelSensorHelper.narrow(grabModule(getModuleName(node)));
+		myGreyWaterStoreLevelSensor.setInput(GreyWaterStoreHelper.narrow(grabModule(getInputName(node))));
 	}
 
 	private void createDirtyWaterInFlowRateSensor(Node node){
@@ -3811,20 +3064,8 @@ public class BioInitializer{
 	}
 
 	private void configureDirtyWaterInFlowRateSensor(Node node){
-		//System.out.println("Configuring DirtyWaterInFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			DirtyWaterInFlowRateSensor myDirtyWaterInFlowRateSensor = DirtyWaterInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myDirtyWaterInFlowRateSensor.setInput(DirtyWaterConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		DirtyWaterInFlowRateSensor myDirtyWaterInFlowRateSensor = DirtyWaterInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myDirtyWaterInFlowRateSensor.setInput(DirtyWaterConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createDirtyWaterOutFlowRateSensor(Node node){
@@ -3841,20 +3082,8 @@ public class BioInitializer{
 	}
 
 	private void configureDirtyWaterOutFlowRateSensor(Node node){
-		//System.out.println("Configuring DirtyWaterOutFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			DirtyWaterOutFlowRateSensor myDirtyWaterOutFlowRateSensor = DirtyWaterOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myDirtyWaterOutFlowRateSensor.setInput(DirtyWaterProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		DirtyWaterOutFlowRateSensor myDirtyWaterOutFlowRateSensor = DirtyWaterOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myDirtyWaterOutFlowRateSensor.setInput(DirtyWaterProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createDirtyWaterStoreLevelSensor(Node node){
@@ -3871,20 +3100,10 @@ public class BioInitializer{
 	}
 
 	private void configureDirtyWaterStoreLevelSensor(Node node){
-		//System.out.println("Configuring DirtyWaterStoreLevelSensor");
-		String moduleName = getModuleName(node);
-		try{
-			DirtyWaterStoreLevelSensor myDirtyWaterStoreLevelSensor = DirtyWaterStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			myDirtyWaterStoreLevelSensor.setInput(DirtyWaterStoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		DirtyWaterStoreLevelSensor myDirtyWaterStoreLevelSensor = DirtyWaterStoreLevelSensorHelper.narrow(grabModule(getModuleName(node)));
+		myDirtyWaterStoreLevelSensor.setInput(DirtyWaterStoreHelper.narrow(grabModule(getInputName(node))));
 	}
+	
 	private void crawlWaterSensors(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -3946,7 +3165,7 @@ public class BioInitializer{
 			child = child.getNextSibling();
 		}
 	}
-	
+
 	//Waste
 	private void createDryWasteInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
@@ -3962,20 +3181,8 @@ public class BioInitializer{
 	}
 
 	private void configureDryWasteInFlowRateSensor(Node node){
-		//System.out.println("Configuring DryWasteInFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			DryWasteInFlowRateSensor myDryWasteInFlowRateSensor = DryWasteInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myDryWasteInFlowRateSensor.setInput(DryWasteConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		DryWasteInFlowRateSensor myDryWasteInFlowRateSensor = DryWasteInFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myDryWasteInFlowRateSensor.setInput(DryWasteConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createDryWasteOutFlowRateSensor(Node node){
@@ -3992,20 +3199,8 @@ public class BioInitializer{
 	}
 
 	private void configureDryWasteOutFlowRateSensor(Node node){
-		//System.out.println("Configuring DryWasteOutFlowRateSensor");
-		String moduleName = getModuleName(node);
-		try{
-			DryWasteOutFlowRateSensor myDryWasteOutFlowRateSensor = DryWasteOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myDryWasteOutFlowRateSensor.setInput(DryWasteProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		DryWasteOutFlowRateSensor myDryWasteOutFlowRateSensor = DryWasteOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node)));
+		myDryWasteOutFlowRateSensor.setInput(DryWasteProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createDryWasteStoreLevelSensor(Node node){
@@ -4022,20 +3217,10 @@ public class BioInitializer{
 	}
 
 	private void configureDryWasteStoreLevelSensor(Node node){
-		//System.out.println("Configuring DryWasteStoreLevelSensor");
-		String moduleName = getModuleName(node);
-		try{
-			DryWasteStoreLevelSensor myDryWasteStoreLevelSensor = DryWasteStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
-			myDryWasteStoreLevelSensor.setInput(DryWasteStoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		DryWasteStoreLevelSensor myDryWasteStoreLevelSensor = DryWasteStoreLevelSensorHelper.narrow(grabModule(getModuleName(node)));
+		myDryWasteStoreLevelSensor.setInput(DryWasteStoreHelper.narrow(grabModule(getInputName(node))));
 	}
+	
 	private void crawlWasteSensors(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -4079,20 +3264,8 @@ public class BioInitializer{
 	}
 
 	private void configureCO2InFlowRateActuator(Node node){
-		//System.out.println("Configuring CO2InFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			CO2InFlowRateActuator myCO2InFlowRateActuator = CO2InFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myCO2InFlowRateActuator.setOutput(CO2ConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		CO2InFlowRateActuator myCO2InFlowRateActuator = CO2InFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myCO2InFlowRateActuator.setOutput(CO2ConsumerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createCO2OutFlowRateActuator(Node node){
@@ -4109,20 +3282,8 @@ public class BioInitializer{
 	}
 
 	private void configureCO2OutFlowRateActuator(Node node){
-		//System.out.println("Configuring CO2OutFlowRateActuator");
-		String moduleName = getModuleName(node);
-		try{
-			CO2OutFlowRateActuator myCO2OutFlowRateActuator = CO2OutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
-			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
-			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
-			myCO2OutFlowRateActuator.setOutput(CO2ProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
-		}
-		catch(org.omg.CORBA.UserException e){
-			e.printStackTrace();
-		}
-		catch (NumberFormatException e){
-			e.printStackTrace();
-		}
+		CO2OutFlowRateActuator myCO2OutFlowRateActuator = CO2OutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myCO2OutFlowRateActuator.setOutput(CO2ProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 	}
 
 	private void createO2InFlowRateActuator(Node node){
@@ -4593,7 +3754,7 @@ public class BioInitializer{
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void createWaterAirEnvironmentInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
@@ -4713,7 +3874,7 @@ public class BioInitializer{
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void createNitrogenAirEnvironmentInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
@@ -5070,7 +4231,7 @@ public class BioInitializer{
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void createHarvestingActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
@@ -5100,7 +4261,7 @@ public class BioInitializer{
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void createPlantingActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
@@ -5480,7 +4641,7 @@ public class BioInitializer{
 			child = child.getNextSibling();
 		}
 	}
-	
+
 	//Waste
 	private void createDryWasteInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
