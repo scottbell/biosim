@@ -48,7 +48,7 @@ public abstract class PlantImpl extends PlantPOA{
 	private static final float WATER_TILL_DEAD = 336f;
 	private static final float WATER_RECOVERY_RATE = 2f;
 	private static final float CO2_LOW_TILL_DEAD = 24f;
-	private static final float CO2_LOW_RECOVERY_RATE = 5f;
+	private static final float CO2_LOW_RECOVERY_RATE = 1f;
 	private static final float CO2_RATIO_LOW = 50f;
 	private static final float CO2_HIGH_TILL_DEAD = 24f;
 	private static final float CO2_HIGH_RECOVERY_RATE=100f;
@@ -60,6 +60,7 @@ public abstract class PlantImpl extends PlantPOA{
 	private static final float LIGHT_RECOVERY_RATE = 0.1f;
 	private float totalO2GramsProduced = 0f;
 	private float totalCO2GramsConsumed = 0f;
+	private float totalCO2MolesConsumed = 0f;
 	private float totalWaterLitersTranspired = 0f;
 
 	public PlantImpl(ShelfImpl pShelfImpl){
@@ -120,6 +121,7 @@ public abstract class PlantImpl extends PlantPOA{
 		myAge = 0;
 		totalO2GramsProduced = 0f;
 		totalCO2GramsConsumed = 0f;
+		totalCO2MolesConsumed = 0f;
 		totalWaterLitersTranspired = 0f;
 		hasDied = false;
 		consumedWaterBuffer.reset();
@@ -299,6 +301,7 @@ public abstract class PlantImpl extends PlantPOA{
 		float dailyCarbonGain = calculateDailyCarbonGain();
 		//if (myAge % 24 == 0)
 		//	System.out.println(getDaysOfGrowth()+"\t"+dailyCarbonGain);
+		//totalCO2MolesConsumed += (dailyCarbonGain / 24f);
 		float cropGrowthRate = molecularWeightOfCarbon * (dailyCarbonGain / getBCF());
 		//System.out.println("PlantImpl: cropGrowthRate: "+cropGrowthRate);
 		myCurrentDryBiomass += (cropGrowthRate / 1000 / 24f * myShelfImpl.getCropAreaUsed()); //in kilograms per hour

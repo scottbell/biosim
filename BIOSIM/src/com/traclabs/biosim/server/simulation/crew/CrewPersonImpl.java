@@ -85,13 +85,14 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private SimpleBuffer leisureBuffer;
 	private static final float WATER_TILL_DEAD = 8.1f;
 	private static final float WATER_RECOVERY_RATE=0.01f;
-	private static final float OXYGEN_TILL_DEAD = 3f;
-	private static final float OXYGEN_RECOVERY_RATE=0.01f;
 	private static final float CALORIE_TILL_DEAD = 180000f;
 	private static final float CALORIE_RECOVERY_RATE=0.0001f;
-	private static final float DANGEROUS_CO2_RATION = 0.06f;
-	private static final float CO2_TILL_DEAD = 10f;
-	private static final float CO2_RECOVERY_RATE=0.001f;
+	private static final float CO2_RATIO_HIGH = 0.06f;
+	private static final float CO2_TILL_DEAD = 4f;
+	private static final float CO2_RECOVERY_RATE=0.01f;
+	private static final float O2_RATIO_LOW = 0.1f;
+	private static final float O2_TILL_DEAD = 2f;
+	private static final float O2_RECOVERY_RATE=0.01f;
 	private static final float LEISURE_TILL_BURNOUT = 168f;
 	private static final float LEISURE_RECOVERY_RATE=90f;
 	private static final float AWAKE_TILL_EXHAUSTION = 120f;
@@ -116,9 +117,9 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		myCrewGroup = pCrewGroup;
 		mySchedule = pSchedule;
 		consumedWaterBuffer = new SimpleBuffer(WATER_TILL_DEAD, WATER_TILL_DEAD);
-		consumedOxygenBuffer = new SimpleBuffer(OXYGEN_TILL_DEAD, OXYGEN_TILL_DEAD);
 		consumedCaloriesBuffer = new SimpleBuffer(CALORIE_TILL_DEAD, CALORIE_TILL_DEAD);
-		consumedCO2Buffer = new SimpleBuffer(CO2_TILL_DEAD, CO2_TILL_DEAD);
+		consumedCO2Buffer = new SimpleBuffer(CO2_TILL_DEAD * CO2_RATIO_HIGH, CO2_TILL_DEAD * CO2_RATIO_HIGH);
+		consumedOxygenBuffer = new SimpleBuffer(O2_TILL_DEAD * O2_RATIO_LOW, O2_TILL_DEAD * O2_RATIO_LOW);
 		sleepBuffer = new SimpleBuffer(AWAKE_TILL_EXHAUSTION, AWAKE_TILL_EXHAUSTION);
 		leisureBuffer = new SimpleBuffer(LEISURE_TILL_BURNOUT, LEISURE_TILL_BURNOUT);
 		myRandomGen = new Random();
@@ -613,11 +614,30 @@ public class CrewPersonImpl extends CrewPersonPOA {
 				return (myAirInputs[0].getCO2Moles() / myAirInputs[0].getTotalMoles());
 		}
 	}
+	
+	/**
+	* Calculate the O2 ratio in the breath of air inhaled by the crew member.
+	* Used to see if crew member has inhaled lethal amount of O2
+	* @param aBreath the breath inhaled by the crew memeber this tick
+	* @return percentage of O2 in air
+	*/
+	private float getO2Ratio(){
+		SimEnvironment[] myAirInputs = myCrewGroup.getAirInputs();
+		if (myAirInputs.length < 1){
+			return 0f;
+		}
+		else{
+			if (myAirInputs[0].getTotalMoles() <= 0)
+				return 0f;
+			else
+				return (myAirInputs[0].getO2Moles() / myAirInputs[0].getTotalMoles());
+		}
+	}
 
 	private void recoverCrew(){
 		consumedCaloriesBuffer.add(CALORIE_RECOVERY_RATE * consumedCaloriesBuffer.getCapacity());
 		consumedWaterBuffer.add(WATER_RECOVERY_RATE * consumedWaterBuffer.getCapacity());
-		consumedOxygenBuffer.add(OXYGEN_RECOVERY_RATE * consumedOxygenBuffer.getCapacity());
+		consumedOxygenBuffer.add(O2_RECOVERY_RATE * consumedOxygenBuffer.getCapacity());
 		consumedCO2Buffer.add(CO2_RECOVERY_RATE * consumedCO2Buffer.getCapacity());
 	}
 
@@ -629,9 +649,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		leisureBuffer.take(1);
 		consumedCaloriesBuffer.take(caloriesNeeded - caloriesConsumed);
 		consumedWaterBuffer.take(potableWaterNeeded - cleanWaterConsumed);
-		consumedOxygenBuffer.take(O2Needed - O2Consumed);
-		if (getCO2Ratio() > DANGEROUS_CO2_RATION)
-			consumedCO2Buffer.take(getCO2Ratio() - DANGEROUS_CO2_RATION);
+		if (getO2Ratio() < O2_RATIO_LOW)
+			consumedOxygenBuffer.take(O2_RATIO_LOW - getO2Ratio());
+		if (getCO2Ratio() > CO2_RATIO_HIGH)
+			consumedCO2Buffer.take(getCO2Ratio() - CO2_RATIO_HIGH);
 	}
 
 	private float abs(float a){
