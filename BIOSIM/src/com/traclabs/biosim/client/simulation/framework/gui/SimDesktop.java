@@ -799,7 +799,7 @@ public class SimDesktop extends BioFrame {
                         JOptionPane.DEFAULT_OPTION, fnordIcon);
                 JDialog dialog = fnordPane.createDialog(null,
                         "Your message from the Illuminati");
-                dialog.show();
+                dialog.setVisible(true);
             }
             setCursor(Cursor.getDefaultCursor());
         }
