@@ -7,11 +7,11 @@ import java.util.*;
  * @author    Scott Bell
  */
 
-public class Tray {
+public class ShelfImpl extends ShelfPOA {
 	private Vector crops;
 	private int cropCapacity = 10;
 	
-	public Tray(){
+	public ShelfImpl(){
 		crops = new Vector();
 		for (int i = 0; i < cropCapacity; i++){
 			Plant newPlant = new Wheat();
