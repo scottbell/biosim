@@ -11,9 +11,9 @@ public abstract class Planophile extends PlantImpl{
 	protected abstract float getCarbonUseEfficiency24();
 	protected abstract float getPhotoperiod();
 	protected abstract float getN();
-	protected abstract float getTimeTillCanopySenescence();
+	protected abstract float getTimeAtCanopySenescence();
 	protected abstract float getCQYMin();
-	protected abstract float getTimeTillCropMaturity();
+	protected abstract float getTimeAtCropMaturity();
 	protected abstract float getOPF();
 	protected abstract float getFreshFactor();
 	protected abstract float getFractionOfEdibleBiomass();
