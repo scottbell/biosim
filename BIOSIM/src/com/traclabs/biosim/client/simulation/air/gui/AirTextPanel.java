@@ -137,8 +137,8 @@ public class AirTextPanel extends BioTabPanel
 			statusBuffer.append("needs power, ");
 		if (!myAirRS.CRSHasEnoughCO2())
 			statusBuffer.append("needs CO2, ");
-			if (!myAirRS.CRSHasEnoughH2())
-			statusBuffer.append("needs H2, ");
+		if (!myAirRS.CRSHasEnoughH2())
+				statusBuffer.append("needs H2, ");
 		if (statusBuffer.length() < 1)
 			return "nominal";
 		else{
