@@ -14,7 +14,7 @@ import java.util.*;
 import java.net.*;
 /**
  * The Crew Person Implementation.  Eats/drinks/excercises away resources according to a set schedule.
- *
+ * 
  * @author    Scott Bell
  */
 
@@ -74,12 +74,16 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private float foodNeeded = 0f;
 	//The breath inhaled by this crew member in the current tick
 	private Breath airRetrieved;
+	//Whether this crew member is sick or not.  If the crew member is sick, puts them into sleep like state.
+	private boolean isSick = false;
+	//A mission productivity measure, used when "mission" is specified in the schedule.  Not implemented correctly yet.
+	private int myMissionProductivity = 0;
+	//The schedule used for this crew memeber
+	private Schedule mySchedule;
+	//The crew group associated with this crew member
+	private CrewGroupImpl myCrewGroup;
 	private boolean logInitialized = false;
 	private LogIndex myLogIndex;
-	private boolean isSick = false;
-	private int myMissionProductivity = 0;
-	private Schedule mySchedule;
-	private CrewGroupImpl myCrewGroup;
 
 	/**
 	* Constructor that creates a new crew person
@@ -117,7 +121,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		myCurrentActivity = mySchedule.getScheduledActivityByOrder(currentOrder);
 		airRetrieved = new Breath(0f, 0f, 0f);
 	}
-
+	
+	/**
+	* Resets the state of this crew member
+	*/
 	void reset(){
 		airRetrieved.O2 = 0f;
 		airRetrieved.CO2 = 0f;
@@ -267,7 +274,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	public Sex getSex(){
 		return sex;
 	}
-
+	
+	/**
+	* Makes this crew member sick (sleep like)
+	*/
 	public void sicken(){
 		isSick = true;
 		myCurrentActivity = mySchedule.getActivityByName("sick");
@@ -339,7 +349,14 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			timeActivityPerformed = 0;
 		}
 	}
-
+	
+	/**
+	* Looks at current activity to see if it's "meaningful"
+	* i.e., the activity affects other modules.
+	* mission - productivity measure, used for metrics.  the longer the crew does this, the better evaluation (not implemented yet)
+	* maitenance - prevents other modules from breaking down (not implemented yet)
+	* repair - attempts to fix a module.  may have to be called several time depending on the severity of the malfunction
+	*/
 	private void checkForMeaningfulActivity(){
 		if (myCurrentActivity.getName().equals("mission")){
 			addProductivity();
@@ -351,11 +368,19 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			repairModule(repairActivity.getModuleNameToRepair(), repairActivity.getMalfunctionIDToRepair());
 		}
 	}
-
+	
+	/**
+	* productivity measure, used for metrics.  the longer the crew does this, the better evaluation (not implemented yet)
+	* invoked when crew person performs "mission" activity
+	*/
 	private void addProductivity(){
 		myMissionProductivity++;
 	}
-
+	
+	/**
+	* attempts to fix a module.  may have to be called several time depending on the severity of the malfunction
+	* invoked when crew person performs "repair" activity
+	*/
 	private void repairModule(String moduleName, long id){
 		try{
 			BioModule moduleToRepair = BioModuleHelper.narrow(OrbUtils.getNCRef().resolve_str(moduleName));
@@ -365,7 +390,11 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			System.err.println("CrewPersonImp:"+myCrewGroup.getID()+": Couldn't locate "+moduleName+" to repair, skipping...");
 		}
 	}
-
+	
+	/**
+	* prevents other modules from breaking down (not implemented yet)
+	* invoked when crew person performs "maitenance" activity
+	*/
 	private void maitenanceModule(String moduleName){
 	}
 
