@@ -27,7 +27,7 @@ import java.util.Enumeration;
 
 public class BioDriverImpl extends BioDriverPOA implements Runnable 
 {
-	private final static int DRIVER_PAUSED = 0;
+	private final static int DRIVER_PAUSED = 5;
 	
 	//Module Names
 	private final static  String crewName = "CrewGroup";
