@@ -24,7 +24,7 @@ public class PowerStorePanel extends GraphPanel
 
 	protected void createGraph(){
 		// create the chart...
-		myPowerStore = (PowerStore)(BioHolder.getBioModule(BioHolder.powerStoreName));
+		myPowerStore = (PowerStore)(BioHolderInitializer.getBioHolder().thePowerStores.get(0));
 		refresh();
 		myChart = ChartFactory.createBarChart3D(
 		                  "Power Store Level",  // chart title

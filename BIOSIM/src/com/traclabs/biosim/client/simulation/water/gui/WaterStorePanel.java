@@ -25,9 +25,10 @@ public class WaterStorePanel extends GraphPanel
 
 	protected void createGraph(){
 		// create the chart...
-		myPotableWaterStore = (PotableWaterStore)(BioHolder.getBioModule(BioHolder.potableWaterStoreName));
-		myDirtyWaterStore = (DirtyWaterStore)(BioHolder.getBioModule(BioHolder.dirtyWaterStoreName));
-		myGreyWaterStore = (GreyWaterStore)(BioHolder.getBioModule(BioHolder.greyWaterStoreName));
+		BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
+		myPotableWaterStore = (PotableWaterStore)(myBioHolder.thePotableWaterStores.get(0));
+		myDirtyWaterStore = (DirtyWaterStore)(myBioHolder.theDirtyWaterStores.get(0));
+		myGreyWaterStore = (GreyWaterStore)(myBioHolder.theGreyWaterStores.get(0));
 		refresh();
 		JFreeChart myChart = ChartFactory.createBarChart3D(
 		                  "Water Store Levels",  // chart title

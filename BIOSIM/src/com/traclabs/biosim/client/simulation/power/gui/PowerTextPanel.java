@@ -32,8 +32,9 @@ public class PowerTextPanel extends TimedPanel
 	* Creates and registers this panel.
 	*/
 	public PowerTextPanel(){
-		myPowerPS = (PowerPS)(BioHolder.getBioModule(BioHolder.powerPSName));
-		myPowerStore = (PowerStore)(BioHolder.getBioModule(BioHolder.powerStoreName));
+		BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
+		myPowerPS = (PowerPS)(myBioHolder.thePowerPSModules.get(0));
+		myPowerStore = (PowerStore)(myBioHolder.thePowerStores.get(0));
 		buildGui();
 	}
 	

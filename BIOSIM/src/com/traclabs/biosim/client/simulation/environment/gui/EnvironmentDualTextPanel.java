@@ -1,6 +1,7 @@
 package biosim.client.simulation.environment.gui;
 
 import biosim.client.framework.gui.*;
+import biosim.idl.simulation.environment.*;
 import biosim.client.util.*;
 import javax.swing.*;
 import java.awt.*;
@@ -16,8 +17,11 @@ public class EnvironmentDualTextPanel extends UpdatablePanel
 
 	public EnvironmentDualTextPanel() {
 		setLayout(new GridLayout(1,2));
-		myCrewEnvironmentTextPanel = new EnvironmentTextPanel(BioHolder.crewEnvironmentName);
-		myPlantEnvironmentTextPanel = new EnvironmentTextPanel(BioHolder.plantEnvironmentName);
+		BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
+		SimEnvironment myCrewEnvironment = (SimEnvironment)(myBioHolder.theSimEnvironments.get(0));
+		SimEnvironment myPlantEnvironment = (SimEnvironment)(myBioHolder.theSimEnvironments.get(1));
+		myCrewEnvironmentTextPanel = new EnvironmentTextPanel(myCrewEnvironment);
+		myPlantEnvironmentTextPanel = new EnvironmentTextPanel(myPlantEnvironment);
 		
 		add(myCrewEnvironmentTextPanel);
 		add(myPlantEnvironmentTextPanel);

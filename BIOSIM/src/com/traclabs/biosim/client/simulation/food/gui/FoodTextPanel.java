@@ -40,10 +40,11 @@ public class FoodTextPanel extends TimedPanel
 	* Creates and registers this panel.
 	*/
 	public FoodTextPanel(){
-		myBiomassRS = (BiomassRS)(BioHolder.getBioModule(BioHolder.biomassRSName));
-		myBiomassStore = (BiomassStore)(BioHolder.getBioModule(BioHolder.biomassStoreName));
-		myFoodProcessor = (FoodProcessor)(BioHolder.getBioModule(BioHolder.foodProcessorName));
-		myFoodStore = (FoodStore)(BioHolder.getBioModule(BioHolder.foodStoreName));
+		BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
+		myBiomassRS = (BiomassRS)(myBioHolder.theBiomassRSModules.get(0));
+		myBiomassStore = (BiomassStore)(myBioHolder.theBiomassStores.get(0));
+		myFoodProcessor = (FoodProcessor)(myBioHolder.theFoodProcessors.get(0));
+		myFoodStore = (FoodStore)(myBioHolder.theFoodStores.get(0));
 		buildGui();
 	}
 	/**

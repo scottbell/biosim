@@ -33,9 +33,9 @@ public class EnvironmentTextPanel extends TimedPanel
 	/**
 	* Creates and registers this panel.
 	*/
-	public EnvironmentTextPanel(String environmentName){
+	public EnvironmentTextPanel(SimEnvironment pSimEnvironment){
 		super();
-		mySimEnvironment = (SimEnvironment)(BioHolder.getBioModule(environmentName));
+		mySimEnvironment = pSimEnvironment;
 		buildGui();
 	}
 	
@@ -48,9 +48,9 @@ public class EnvironmentTextPanel extends TimedPanel
 		GridBagConstraints c = new GridBagConstraints();
 		setLayout(gridbag);
 		JLabel moduleLabel = new JLabel("Environment");
-		if (mySimEnvironment.getModuleName().startsWith(BioHolder.crewEnvironmentName))
+		if (mySimEnvironment.getModuleName().startsWith("Crew"))
 			moduleLabel.setText("Crew Environment");
-		else if (mySimEnvironment.getModuleName().startsWith(BioHolder.plantEnvironmentName))
+		else if (mySimEnvironment.getModuleName().startsWith("Plant"))
 			moduleLabel.setText("Plant Environment");
 		JPanel modulePanel =  new JPanel();
 		modulePanel.setLayout(new BorderLayout());
@@ -58,7 +58,7 @@ public class EnvironmentTextPanel extends TimedPanel
 		modulePanel.add(moduleLabel, BorderLayout.CENTER);
 		
 		
-		long ticksExpired = BioHolder.getBioDriver().getTicks();
+		long ticksExpired = BioHolderInitializer.getBioHolder().theBioDriver.getTicks();
 		tickLabel = new JLabel(ticksExpired + " hours ("+(ticksExpired/24)+" days)");
 		tickPanel = new JPanel();
 		tickPanel.setLayout(new BorderLayout());
@@ -98,7 +98,7 @@ public class EnvironmentTextPanel extends TimedPanel
 	 * Updates every label on the panel with new data pulled from the servers.
 	 */
 	public void refresh(){
-		long ticksExpired = BioHolder.getBioDriver().getTicks();
+		long ticksExpired = BioHolderInitializer.getBioHolder().theBioDriver.getTicks();
 		tickLabel.setText(ticksExpired + " hours ("+(ticksExpired/24)+" days)");
 		O2Label.setText("O2:     "+numFormat.format(mySimEnvironment.getO2Moles()) +" moles");
 		CO2Label.setText("CO2:   "+numFormat.format(mySimEnvironment.getCO2Moles()) + " moles");

@@ -24,8 +24,9 @@ public class FoodStorePanel extends GraphPanel
 
 	protected void createGraph(){
 		// create the chart...
-		myFoodStore = (FoodStore)(BioHolder.getBioModule(BioHolder.foodStoreName));
-		myBiomassStore = (BiomassStore)(BioHolder.getBioModule(BioHolder.biomassStoreName));
+		BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
+		myBiomassStore = (BiomassStore)(myBioHolder.theBiomassStores.get(0));
+		myFoodStore = (FoodStore)(myBioHolder.theFoodStores.get(0));
 		refresh();
 		JFreeChart myChart = ChartFactory.createBarChart3D(
 		                  "Food Store Levels",  // chart title

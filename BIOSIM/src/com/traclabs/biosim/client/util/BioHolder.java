@@ -12,6 +12,9 @@ import biosim.idl.actuator.framework.*;
  */
 public class BioHolder{
 	public BioDriver theBioDriver;
+	
+	public Map theModulesMapped;
+	
 	//Upper Categories
 	public List theModules;
 	public List theSimModules;
@@ -174,6 +177,7 @@ public class BioHolder{
 	public List theDirtyWaterOutFlowRateActuators;
 
 	protected BioHolder(){
+		theModulesMapped = new Hashtable();
 		//Upper Categories
 		theModules = new Vector();
 		theSimModules = new Vector();
@@ -355,6 +359,11 @@ public class BioHolder{
 	}
 
 	protected void coallateLists(){
+		//Make named list;
+		for (Iterator iter = theModules.iterator(); iter.hasNext();){
+			BioModule currentModule = (BioModule)(iter.next());
+			theModulesMapped.put(currentModule.getModuleName(), currentModule);
+		}
 		//Specific Modules
 		//Simulation
 		//Air
@@ -516,6 +525,7 @@ public class BioHolder{
 	}
 
 	protected void reset(){
+		theModulesMapped.clear();
 		//Upper Categories
 		theModules.clear();
 		theSimModules.clear();
