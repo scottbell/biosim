@@ -104,9 +104,9 @@ public class BiosimMain
 	}
 	
 	public void run3D(int myID){
-		BioHolderInitializer.setID(myID);
-		SimulationEngine myEngine = new SimulationEngine(myID);
-		myEngine.runEngine();
+		//BioHolderInitializer.setID(myID);
+		//SimulationEngine myEngine = new SimulationEngine(myID);
+		//myEngine.runEngine();
 	}
 }
 

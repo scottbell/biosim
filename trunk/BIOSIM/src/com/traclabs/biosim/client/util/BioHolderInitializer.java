@@ -668,6 +668,9 @@ public class BioHolderInitializer{
 	private static void fetchBiomassStoreLevelSensor(Node node){
 		myBioHolder.theBiomassStoreLevelSensors.add(BiomassStoreLevelSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
+	private static void fetchBiomassStoreWaterContentSensor(Node node){
+		myBioHolder.theBiomassStoreWaterContentSensors.add(BiomassStoreWaterContentSensorHelper.narrow(grabModule(getModuleName(node))));
+	}
 	private static void fetchFoodInFlowRateSensor(Node node){
 		myBioHolder.theFoodInFlowRateSensors.add(FoodInFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
@@ -693,6 +696,8 @@ public class BioHolderInitializer{
 				fetchBiomassOutFlowRateSensor(child);
 			else if (childName.equals("BiomassStoreLevelSensor"))
 				fetchBiomassStoreLevelSensor(child);
+			else if (childName.equals("BiomassStoreWaterContentSensor"))
+				fetchBiomassStoreWaterContentSensor(child);
 			else if (childName.equals("FoodInFlowRateSensor"))
 				fetchFoodInFlowRateSensor(child);
 			else if (childName.equals("FoodOutFlowRateSensor"))
