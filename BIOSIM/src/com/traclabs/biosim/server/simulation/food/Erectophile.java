@@ -22,6 +22,9 @@ public abstract class Erectophile extends PlantImpl{
 	protected abstract float getConstantPPF();
 	public abstract PlantType getPlantType();
 	public abstract String getPlantTypeString();
+	protected abstract float getInitialPPFValue();
+	protected abstract float getInitialCO2Value();
+	protected abstract int getTAInitialValue();
 	
 	public Erectophile(ShelfImpl pShelfImpl){
 		super(pShelfImpl);

@@ -7,6 +7,10 @@ import biosim.idl.simulation.food.*;
  */
 
 public class Tomato extends Planophile{
+	private static final int taInitialValue = 1200;
+	private static final float initialPPFValue = 200f;
+	private static final float initialCO2Value = 100f;
+	
 	public Tomato(ShelfImpl pShelfImpl){
 		super(pShelfImpl);
 		canopyClosureConstants[0] = 627740f;
@@ -22,6 +26,18 @@ public class Tomato extends Planophile{
 		canopyQYConstants[12] = -0.00000001182f;
 		canopyQYConstants[13] =  0.00000000000550264f;
 		canopyQYConstants[16] = -0.0000000071241f;
+	}
+	
+	protected float getInitialPPFValue(){
+		return initialPPFValue;
+	}
+	
+	protected float getInitialCO2Value(){
+		return initialCO2Value;
+	}
+	
+	protected int getTAInitialValue(){
+		return taInitialValue;
 	}
 
 	public PlantType getPlantType(){

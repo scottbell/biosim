@@ -22,6 +22,10 @@ public abstract class Planophile extends PlantImpl{
 	protected abstract float getConstantPPF();
 	public abstract PlantType getPlantType();
 	public abstract String getPlantTypeString();
+	protected abstract float getInitialPPFValue();
+	protected abstract float getInitialCO2Value();
+	protected abstract int getTAInitialValue();
+	
 	public Planophile(ShelfImpl pShelfImpl){
 		super(pShelfImpl);
 	}

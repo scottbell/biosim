@@ -7,6 +7,10 @@ import biosim.idl.simulation.food.*;
  */
 
 public class Wheat extends Erectophile{
+	private static final int taInitialValue = 1200;
+	private static final float initialPPFValue = 200f;
+	private static final float initialCO2Value = 100f;
+	
 	public Wheat(ShelfImpl pShelfImpl){
 		super(pShelfImpl);
 		canopyClosureConstants[0] = 95488f;
@@ -22,6 +26,18 @@ public class Wheat extends Erectophile{
 		canopyQYConstants[11] = -0.0000051946f;
 		canopyQYConstants[17] = -0.0000000000049303f;
 		canopyQYConstants[18] = 0.0000000000000022255f;
+	}
+	
+	protected float getInitialPPFValue(){
+		return initialPPFValue;
+	}
+	
+	protected float getInitialCO2Value(){
+		return initialCO2Value;
+	}
+	
+	protected int getTAInitialValue(){
+		return taInitialValue;
 	}
 
 	public PlantType getPlantType(){

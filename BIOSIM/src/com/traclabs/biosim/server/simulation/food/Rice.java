@@ -7,6 +7,10 @@ import biosim.idl.simulation.food.*;
  */
 
 public class Rice extends Erectophile{
+	private static final int taInitialValue = 1200;
+	private static final float initialPPFValue = 200f;
+	private static final float initialCO2Value = 100f;
+	
 	public Rice(ShelfImpl pShelfImpl){
 		super(pShelfImpl);
 		canopyClosureConstants[0] = 6591400f;
@@ -24,6 +28,18 @@ public class Rice extends Erectophile{
 		canopyQYConstants[12] = -0.0000000091477f;
 		canopyQYConstants[13] = 0.000000000003889f;
 		canopyQYConstants[16] = -0.0000000026712f;
+	}
+	
+	protected float getInitialPPFValue(){
+		return initialPPFValue;
+	}
+	
+	protected float getInitialCO2Value(){
+		return initialCO2Value;
+	}
+	
+	protected int getTAInitialValue(){
+		return taInitialValue;
 	}
 
 	public PlantType getPlantType(){
