@@ -2,16 +2,103 @@ package biosim.server.simulation.food;
 
 import biosim.idl.simulation.food.*;
 import biosim.server.simulation.framework.*;
+import java.util.*;
+import biosim.idl.framework.*;
 /**
- * The Food Store Implementation.  Food placed here by the food processor is eaten by the crew memebers.
+ * The Food Store Implementation.  Takes raw plant matter from the Food RS to be used by the Food Processor.
  *
  * @author    Scott Bell
  */
 
 public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
+	List currentFoodItems;
+
 	public FoodStoreImpl(int pID){
 		super(pID);
+		currentFoodItems = new Vector();
 	}
+
+	public float addFoodMatter(float pMass, PlantType pType){
+		float acutallyAdded = 0f;
+		if ((pMass + level) > capacity){
+			//adding more than capacity
+			acutallyAdded = capacity - level;
+			level += acutallyAdded;
+			overflow += (pMass - acutallyAdded);
+			FoodMatter newFoodMatter = new FoodMatter(acutallyAdded, pType);
+			currentFoodItems.add(newFoodMatter);
+			return acutallyAdded;
+		}
+		else{
+			acutallyAdded = randomFilter(pMass);
+			level += acutallyAdded;
+			FoodMatter newFoodMatter = new FoodMatter(acutallyAdded, pType);
+			currentFoodItems.add(newFoodMatter);
+			return acutallyAdded;
+		}
+	}
+
+	public FoodMatter[] takeFoodMatterMass(float pMass){
+		List itemsToReturn = new Vector();
+		float collectedMass = 0f;
+		for (Iterator iter = currentFoodItems.iterator(); iter.hasNext() &&  (collectedMass <= pMass);){
+			FoodMatter currentFoodMatter = (FoodMatter)(iter.next());
+			//we need to get more bio matter
+			if (currentFoodMatter.mass < (pMass - collectedMass)){
+				itemsToReturn.add(currentFoodMatter);
+				currentFoodItems.remove(currentFoodMatter);
+				collectedMass += currentFoodMatter.mass;
+			}
+			//we have enough, let's cut up the biomass (if too much)
+			else if (currentFoodMatter.mass >= (pMass - collectedMass)){
+				FoodMatter partialReturnedFoodMatter = new FoodMatter(pMass - collectedMass, currentFoodMatter.type);
+				currentFoodMatter.mass -= partialReturnedFoodMatter.mass;
+				itemsToReturn.add(partialReturnedFoodMatter);
+				if (currentFoodMatter.mass <= 0)
+					currentFoodItems.remove(currentFoodMatter);
+				collectedMass += partialReturnedFoodMatter.mass;
+			}
+		}
+		//return the array
+		FoodMatter[] returnArrayType = new FoodMatter[0];
+		return (FoodMatter[])(itemsToReturn.toArray(returnArrayType));
+	}
+
+	public FoodMatter takeFoodMatterMassAndType(float pMass, PlantType pType){
+		FoodMatter matterToReturn = new FoodMatter(0f, pType);
+		for (Iterator iter = currentFoodItems.iterator(); iter.hasNext() &&  (matterToReturn.mass <= pMass);){
+			FoodMatter currentFoodMatter = (FoodMatter)(iter.next());
+			if (currentFoodMatter.type == pType){
+				//we need to get more bio matter
+				if (currentFoodMatter.mass < (pMass - matterToReturn.mass)){
+					matterToReturn.mass += currentFoodMatter.mass;
+					currentFoodItems.remove(currentFoodMatter);
+				}
+				//we have enough, let's cut up the biomass (if too much)
+				else if (currentFoodMatter.mass >= (pMass - matterToReturn.mass)){
+					float partialMassToReturn = (pMass - matterToReturn.mass);
+					currentFoodMatter.mass -= partialMassToReturn;
+					matterToReturn.mass += partialMassToReturn;
+					if (currentFoodMatter.mass <= 0)
+						currentFoodItems.remove(currentFoodMatter);
+				}
+			}
+		}
+		return matterToReturn;
+	}
+
+	public FoodMatter takeFoodMatterType(PlantType pType){
+		FoodMatter matterToReturn = new FoodMatter(0f, pType);
+		for (Iterator iter = currentFoodItems.iterator(); iter.hasNext();){
+			FoodMatter currentFoodMatter = (FoodMatter)(iter.next());
+			if (currentFoodMatter.type == pType){
+				matterToReturn.mass += currentFoodMatter.mass;
+				currentFoodItems.remove(currentFoodMatter);
+			}
+		}
+		return matterToReturn;
+	}
+
 	/**
 	* Returns the name of this module (FoodStore)
 	* @return the name of this module

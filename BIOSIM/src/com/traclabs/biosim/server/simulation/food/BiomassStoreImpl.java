@@ -18,27 +18,27 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 		currentBiomassItems = new Vector();
 	}
 
-	public float addBiomatter(float pMass, PlantType pType){
+	public float addBioMatter(float pMass, PlantType pType){
 		float acutallyAdded = 0f;
 		if ((pMass + level) > capacity){
 			//adding more than capacity
 			acutallyAdded = capacity - level;
 			level += acutallyAdded;
 			overflow += (pMass - acutallyAdded);
-			BioMatter newBiomatter = new BioMatter(acutallyAdded, pType);
-			currentBiomassItems.add(newBiomatter);
+			BioMatter newBioMatter = new BioMatter(acutallyAdded, pType);
+			currentBiomassItems.add(newBioMatter);
 			return acutallyAdded;
 		}
 		else{
 			acutallyAdded = randomFilter(pMass);
 			level += acutallyAdded;
-			BioMatter newBiomatter = new BioMatter(acutallyAdded, pType);
-			currentBiomassItems.add(newBiomatter);
+			BioMatter newBioMatter = new BioMatter(acutallyAdded, pType);
+			currentBiomassItems.add(newBioMatter);
 			return acutallyAdded;
 		}
 	}
 
-	public BioMatter[] takeBiomatterMass(float pMass){
+	public BioMatter[] takeBioMatterMass(float pMass){
 		List itemsToReturn = new Vector();
 		float collectedMass = 0f;
 		for (Iterator iter = currentBiomassItems.iterator(); iter.hasNext() &&  (collectedMass <= pMass);){
@@ -64,7 +64,7 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 		return (BioMatter[])(itemsToReturn.toArray(returnArrayType));
 	}
 
-	public BioMatter takeBiomatterMassAndType(float pMass, PlantType pType){
+	public BioMatter takeBioMatterMassAndType(float pMass, PlantType pType){
 		BioMatter matterToReturn = new BioMatter(0f, pType);
 		for (Iterator iter = currentBiomassItems.iterator(); iter.hasNext() &&  (matterToReturn.mass <= pMass);){
 			BioMatter currentBioMatter = (BioMatter)(iter.next());
@@ -87,7 +87,7 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 		return matterToReturn;
 	}
 
-	public BioMatter takeBiomatterType(PlantType pType){
+	public BioMatter takeBioMatterType(PlantType pType){
 		BioMatter matterToReturn = new BioMatter(0f, pType);
 		for (Iterator iter = currentBiomassItems.iterator(); iter.hasNext();){
 			BioMatter currentBioMatter = (BioMatter)(iter.next());
