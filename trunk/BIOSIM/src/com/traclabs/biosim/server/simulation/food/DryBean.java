@@ -1,6 +1,7 @@
 package biosim.server.simulation.food;
 
 import biosim.idl.simulation.food.*;
+import java.util.*;
 /**
  * DryBean
  * @author    Scott Bell
