@@ -133,7 +133,12 @@ public class BioSimulator implements Runnable
 		notify();
 		System.out.println("BioSimulator: simulation ended");
 	}
-
+	
+	//Pause simulation before you use this function
+	public synchronized void advanceOneTick(){
+		System.out.println("BioSimulator: ticking simulation once");
+		tick();
+	}
 
 	public synchronized void resumeSimulation(){
 		simulationIsPaused = false;
@@ -253,7 +258,7 @@ public class BioSimulator implements Runnable
 		}
 	}
 
-	public void tick(){
+	private void tick(){
 		//first tick SimEnvironment
 		SimEnvironment mySimEnvironment =(SimEnvironment)(modules.get(simEnvironmentName));
 		mySimEnvironment.tick();
