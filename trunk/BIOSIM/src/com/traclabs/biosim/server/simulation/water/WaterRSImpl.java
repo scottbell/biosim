@@ -326,6 +326,7 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
     public void tick() {
         super.tick();
         Arrays.fill(powerActualFlowRates, 0f);
+        gatherPower();
         //tick each system
         myBWP.tick();
         myRO.tick();
@@ -333,6 +334,13 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
         myPPS.tick();
         myAES.setMalfunctioning(false);
         myRO.setMalfunctioning(false);
+    }
+
+    /**
+     * Grabs power for the subsytems.  Enables/disables subsystems based on amount of power gathered
+     */
+    private void gatherPower() {
+        
     }
 
     protected void performMalfunctions() {

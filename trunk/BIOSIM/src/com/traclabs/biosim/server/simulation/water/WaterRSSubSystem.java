@@ -175,4 +175,10 @@ public abstract class WaterRSSubSystem {
         myLogger.debug("water_level="+waterLevel);
     }
 
+    /**
+     * @return Returns the powerNeeded.
+     */
+    public float getPowerNeeded() {
+        return powerNeeded;
+    }
 }
