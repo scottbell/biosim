@@ -3,12 +3,25 @@ package com.traclabs.biosim.server.simulation.framework;
 import com.traclabs.biosim.idl.simulation.air.NitrogenStore;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.idl.simulation.framework.NitrogenAirProducerDefinitionOperations;
+import com.traclabs.biosim.idl.simulation.framework.NitrogenAirProducerDefinition;
+import com.traclabs.biosim.idl.simulation.framework.NitrogenAirProducerDefinitionHelper;
+import com.traclabs.biosim.idl.simulation.framework.NitrogenAirProducerDefinitionPOATie;
+import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
  * @author Scott Bell
  */
 
 public class NitrogenAirProducerDefinitionImpl extends StoreEnvironmentFlowRateControllableImpl implements NitrogenAirProducerDefinitionOperations {
+    private NitrogenAirProducerDefinition myNitrogenAirProducerDefinition;
+    
+    public NitrogenAirProducerDefinitionImpl(){
+        myNitrogenAirProducerDefinition = NitrogenAirProducerDefinitionHelper.narrow(OrbUtils.poaToCorbaObj(new NitrogenAirProducerDefinitionPOATie(this)));
+    }
+    
+    public NitrogenAirProducerDefinition getCorbaObject(){
+        return myNitrogenAirProducerDefinition;
+    }
     
     public void setNitrogenAirEnvironmentOutputs(SimEnvironment[] pEnvironments, float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setEnvironments(pEnvironments);

@@ -3,13 +3,27 @@ package com.traclabs.biosim.server.simulation.framework;
 import com.traclabs.biosim.idl.simulation.food.BioMatter;
 import com.traclabs.biosim.idl.simulation.food.BiomassStore;
 import com.traclabs.biosim.idl.simulation.food.BiomassStoreHelper;
+import com.traclabs.biosim.idl.simulation.framework.BiomassProducerDefinition;
+import com.traclabs.biosim.idl.simulation.framework.BiomassProducerDefinitionHelper;
 import com.traclabs.biosim.idl.simulation.framework.BiomassProducerDefinitionOperations;
+import com.traclabs.biosim.idl.simulation.framework.BiomassProducerDefinitionPOATie;
+import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
  * @author Scott Bell
  */
 
 public class BiomassProducerDefinitionImpl extends StoreFlowRateControllableImpl implements BiomassProducerDefinitionOperations {
+    private BiomassProducerDefinition myBiomassProducerDefinition;
+    
+    public BiomassProducerDefinitionImpl(){
+        myBiomassProducerDefinition = BiomassProducerDefinitionHelper.narrow(OrbUtils.poaToCorbaObj(new BiomassProducerDefinitionPOATie(this)));
+    }
+    
+    public BiomassProducerDefinition getCorbaObject(){
+        return myBiomassProducerDefinition;
+    }
+    
     public void setBiomassOutputs(BiomassStore[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setStores(pStores);
         setMaxFlowRates(pMaxFlowRates);

@@ -7,13 +7,27 @@ import java.util.Vector;
 import com.traclabs.biosim.idl.simulation.food.BioMatter;
 import com.traclabs.biosim.idl.simulation.food.BiomassStore;
 import com.traclabs.biosim.idl.simulation.food.BiomassStoreHelper;
+import com.traclabs.biosim.idl.simulation.framework.BiomassConsumerDefinition;
+import com.traclabs.biosim.idl.simulation.framework.BiomassConsumerDefinitionHelper;
 import com.traclabs.biosim.idl.simulation.framework.BiomassConsumerDefinitionOperations;
+import com.traclabs.biosim.idl.simulation.framework.BiomassConsumerDefinitionPOATie;
+import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
  * @author Scott Bell
  */
 
 public class BiomassConsumerDefinitionImpl extends StoreFlowRateControllableImpl implements BiomassConsumerDefinitionOperations {
+    private BiomassConsumerDefinition myBiomassConsumerDefinition;
+    
+    public BiomassConsumerDefinitionImpl(){
+        myBiomassConsumerDefinition = BiomassConsumerDefinitionHelper.narrow(OrbUtils.poaToCorbaObj(new BiomassConsumerDefinitionPOATie(this)));
+    }
+    
+    public BiomassConsumerDefinition getCorbaObject(){
+        return myBiomassConsumerDefinition;
+    }
+    
     public void setBiomassInputs(BiomassStore[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setStores(pStores);
         setMaxFlowRates(pMaxFlowRates);

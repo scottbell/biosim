@@ -1,14 +1,27 @@
 package com.traclabs.biosim.server.simulation.framework;
 
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.idl.simulation.framework.WaterAirConsumerDefinition;
+import com.traclabs.biosim.idl.simulation.framework.WaterAirConsumerDefinitionHelper;
+import com.traclabs.biosim.idl.simulation.framework.WaterAirConsumerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.framework.WaterAirConsumerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.water.WaterStore;
+import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
  * @author Scott Bell
  */
 
 public class WaterAirConsumerDefinitionImpl extends StoreEnvironmentFlowRateControllableImpl implements WaterAirConsumerDefinitionOperations {
+    private WaterAirConsumerDefinition myWaterAirConsumerDefinition;
+    
+    public WaterAirConsumerDefinitionImpl(){
+        myWaterAirConsumerDefinition = WaterAirConsumerDefinitionHelper.narrow(OrbUtils.poaToCorbaObj(new WaterAirConsumerDefinitionPOATie(this)));
+    }
+    
+    public WaterAirConsumerDefinition getCorbaObject(){
+        return myWaterAirConsumerDefinition;
+    }
     
     public void setWaterAirEnvironmentInputs(SimEnvironment[] pEnvironments, float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setEnvironments(pEnvironments);

@@ -15,7 +15,6 @@ import com.traclabs.biosim.server.simulation.framework.AirProducerDefinitionImpl
 import com.traclabs.biosim.server.simulation.framework.CO2ProducerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.PowerConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
-import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
  * The Air Revitalization System Implementation. Takes in Air (O2, CO2, other)
@@ -51,19 +50,19 @@ public class VCCRImpl extends SimBioModuleImpl implements VCCROperations,
     }
     
     public PowerConsumerDefinition getPowerConsumerDefinition(){
-        return (PowerConsumerDefinition)(OrbUtils.poaToCorbaObj(myPowerConsumerDefinitionImpl));
+        return myPowerConsumerDefinitionImpl.getCorbaObject();
     }
     
     public AirConsumerDefinition getAirConsumerDefinition(){
-        return (AirConsumerDefinition)(OrbUtils.poaToCorbaObj(myAirConsumerDefinitionImpl));
+        return myAirConsumerDefinitionImpl.getCorbaObject();
     }
     
     public AirProducerDefinition getAirProducerDefinition(){
-        return (AirProducerDefinition)(OrbUtils.poaToCorbaObj(myAirProducerDefinitionImpl));
+        return myAirProducerDefinitionImpl.getCorbaObject();
     }
     
     public CO2ProducerDefinition getCO2ProducerDefinition(){
-        return (CO2ProducerDefinition)(OrbUtils.poaToCorbaObj(myCO2ProducerDefinitionImpl));
+        return myCO2ProducerDefinitionImpl.getCorbaObject();
     }
 
     /**
