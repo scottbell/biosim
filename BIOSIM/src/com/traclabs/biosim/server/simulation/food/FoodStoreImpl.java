@@ -17,6 +17,18 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 		super(pID);
 		currentFoodItems = new Vector();
 	}
+	
+	public float add(float pMass){
+		return addFoodMatter(pMass, PlantType.UNKNOWN_PLANT);
+	}
+	
+	public float take(float pMass){
+		FoodMatter[] massArray = takeFoodMatterMass(pMass);
+		float matterToReturn = 0f;
+		for (int i = 0; i < massArray.length; i++)
+			matterToReturn += massArray[i].mass;
+		return matterToReturn;
+	}
 
 	public float addFoodMatter(float pMass, PlantType pType){
 		float acutallyAdded = 0f;
