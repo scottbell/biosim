@@ -99,7 +99,7 @@ public class HandController{
 		pw = new PrintWriter(fw, true) ;
 		myBioDriver = BioHolder.getBioDriver();
 		//myBioDriver.setFullLogging(true);
-		myBioDriver.spawnSimulation();
+		myBioDriver.startSimulation();
 
 		CrewGroup myCrew = (CrewGroup)BioHolder.getBioModule(BioHolder.crewName);
 

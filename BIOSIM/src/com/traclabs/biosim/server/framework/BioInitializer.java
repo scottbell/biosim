@@ -66,8 +66,6 @@ public class BioInitializer{
 	private static final String SCHEMA_VALIDATION_FEATURE_ID = "http://apache.org/xml/features/validation/schema";
 	/** Schema full checking feature id (http://apache.org/xml/features/validation/schema-full-checking). */
 	private static final String SCHEMA_FULL_CHECKING_FEATURE_ID = "http://apache.org/xml/features/validation/schema-full-checking";
-
-
 	// default settings
 	/** Default moduleNamespaces support (true). */
 	private static final boolean DEFAULT_NAMESPACES = true;

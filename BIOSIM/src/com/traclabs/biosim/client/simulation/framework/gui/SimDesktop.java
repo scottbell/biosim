@@ -412,7 +412,7 @@ public class SimDesktop extends BioFrame
 					myAdvanceSimItem.setEnabled(false);
 				}
 				//Tell the biosimulator to enter loop
-				myDriver.spawnSimulationAndRunTillDead();
+				myDriver.startSimulation();
 				//myDriver.spawnSimulation();
 				setCursor(Cursor.getDefaultCursor());
 			}
@@ -436,7 +436,7 @@ public class SimDesktop extends BioFrame
 				myPauseSimItem.setText("Pause");
 				myAdvanceSimButton.setEnabled(false);
 				myAdvanceSimItem.setEnabled(false);
-				myDriver.resumeSimulation();
+				myDriver.setPauseSimulation(false);
 			}
 			//We want to pause the simulation
 			else{myPauseSimButton.setToolTipText("Resume the simulation");
@@ -446,7 +446,7 @@ public class SimDesktop extends BioFrame
 					myAdvanceSimButton.setEnabled(true);
 					myAdvanceSimItem.setEnabled(true);
 				}
-				myDriver.pauseSimulation();
+				myDriver.setPauseSimulation(true);
 			}
 			setCursor(Cursor.getDefaultCursor());
 		}
