@@ -4,7 +4,7 @@
 		<comment>The lunar mission initialization for BioSim</comment>
 		<author>Scott Bell</author>
 		<!-- <log4jProperty name="log4j.logger.com.traclabs.biosim.server.sensor" value="DEBUG"/> !-->
-		<log4jProperty name="log4j.logger.com.traclabs.biosim.server.simulation.framework.SimulationInitializer" value="DEBUG"/>
+		<log4jProperty name="log4j.logger.com.traclabs.biosim.server.simulation.crew.CrewPersonImpl" value="DEBUG"/>
 	</Globals>
 	
 	<SimBioModules>
@@ -39,42 +39,6 @@
 					<schedule>
 						<activity name="sleep" length="8" intensity="1"/>
 						<activity xsi:type="EVAActivityType" name="eva" length="4" intensity="3" evaCrewGroup="EVACrewGroup"/>
-						<activity name="hygiene" length="1" intensity="2"/>
-						<activity name="exercise" length="1" intensity="5"/>
-						<activity name="eating" length="1" intensity="2"/>
-						<activity name="mission" length="9" intensity="3"/>
-						<activity name="health" length="1" intensity="2"/>
-						<activity name="maintenance" length="1" intensity="2"/>
-						<activity name="leisure" length="2" intensity="2"/>
-					</schedule>
-				</crewPerson>
-				<crewPerson name="Stephanie Stevens" age="32" weight="70" sex="FEMALE">
-					<schedule>
-						<activity name="sleep" length="8" intensity="1"/>
-						<activity name="hygiene" length="1" intensity="2"/>
-						<activity name="exercise" length="1" intensity="5"/>
-						<activity name="eating" length="1" intensity="2"/>
-						<activity name="mission" length="9" intensity="3"/>
-						<activity name="health" length="1" intensity="2"/>
-						<activity name="maintenance" length="1" intensity="2"/>
-						<activity name="leisure" length="2" intensity="2"/>
-					</schedule>
-				</crewPerson>
-				<crewPerson name="Bill Williams" age="36" weight="70" sex="MALE">
-					<schedule>
-						<activity name="sleep" length="8" intensity="1"/>
-						<activity name="hygiene" length="1" intensity="2"/>
-						<activity name="exercise" length="1" intensity="5"/>
-						<activity name="eating" length="1" intensity="2"/>
-						<activity name="mission" length="9" intensity="3"/>
-						<activity name="health" length="1" intensity="2"/>
-						<activity name="maintenance" length="1" intensity="2"/>
-						<activity name="leisure" length="2" intensity="2"/>
-					</schedule>
-				</crewPerson>
-				<crewPerson name="Janet Janey" age="38" weight="70" sex="FEMALE">
-					<schedule>
-						<activity name="sleep" length="8" intensity="1"/>
 						<activity name="hygiene" length="1" intensity="2"/>
 						<activity name="exercise" length="1" intensity="5"/>
 						<activity name="eating" length="1" intensity="2"/>
