@@ -6,6 +6,10 @@ import java.util.*;
 import biosim.server.util.*;
 import biosim.idl.crew.*;
 import biosim.idl.util.log.*;
+import biosim.idl.air.*;
+import biosim.idl.water.*;
+import biosim.idl.food.*;
+import biosim.idl.environment.*;
 import biosim.server.framework.*;
 import biosim.idl.framework.*;
 /**
@@ -14,13 +18,25 @@ import biosim.idl.framework.*;
  * @author    Scott Bell
  */
 
-public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations {
+public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations, AirConsumerOperations, PotableWaterConsumerOperations, FoodConsumerOperations, AirProducerOperations, GreyWaterProducerOperations, DirtyWaterProducerOperations {
 	//The crew persons that make up the crew.
 	//They are the ones consuming air/food/water and producing air/water/waste as they perform activities
 	private Map crewPeople;
 	private Map crewPeopleLogs;
 	private float healthyPercentage = 1f;
 	private Random myRandom;
+	private FoodStore[] myFoodStores;
+	private PotableWaterStore[] myPotableWaterStores;
+	private GreyWaterStore[] myGreyWaterStores;
+	private DirtyWaterStore[] myDirtyWaterStores;
+	private SimEnvironment[] myAirInputs;
+	private SimEnvironment[] myAirOutputs;
+	private float[] foodFlowRates;
+	private float[] potableWaterFlowRates;
+	private float[] greyWaterFlowRates;
+	private float[] dirtyWaterFlowRates;
+	private float[] airInFlowRates;
+	private float[] airOutFlowRates;
 
 	/**
 	* Default constructor.  Uses a default schedule.
@@ -29,6 +45,18 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 		super(pID);
 		crewPeople = new Hashtable();
 		myRandom = new Random();
+		myFoodStores = new FoodStore[0];
+		myPotableWaterStores = new PotableWaterStore[0];
+		myGreyWaterStores = new GreyWaterStore[0];
+		myDirtyWaterStores = new DirtyWaterStore[0];
+		myAirInputs = new SimEnvironment[0];
+		myAirOutputs = new SimEnvironment[0];
+		foodFlowRates = new float[0];
+		potableWaterFlowRates = new float[0];
+		greyWaterFlowRates = new float[0];
+		dirtyWaterFlowRates = new float[0];
+		airInFlowRates = new float[0];
+		airOutFlowRates = new float[0];
 	}
 
 	/**
@@ -245,5 +273,107 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 			totalO2Consumed += currentPerson.getO2Consumed();
 		}
 		return totalO2Consumed;
+	}
+	
+	public void setAirInputFlowrate(float liters, int index){
+		airInFlowRates[index] = liters;
+	}
+
+	public float getAirInputFlowrate(int index){
+		return airInFlowRates[index];
+	}
+
+	public void setAirInputs(SimEnvironment[] sources, float[] flowRates){
+		myAirInputs = sources;
+		airInFlowRates = flowRates;
+	}
+
+	public SimEnvironment[] getAirInputs(){
+		return myAirInputs;
+	}
+
+	public void setAirOutputFlowrate(float liters, int index){
+		airOutFlowRates[index] = liters;
+	}
+
+	public float getAirOutputFlowrate(int index){
+		return airOutFlowRates[index];
+	}
+
+	public void setAirOutputs(SimEnvironment[] sources, float[] flowRates){
+		myAirOutputs = sources;
+		airOutFlowRates = flowRates;
+	}
+
+	public SimEnvironment[] getAirOutputs(){
+		return myAirOutputs;
+	}
+	
+	public void setPotableWaterInputFlowrate(float liters, int index){
+		potableWaterFlowRates[index] = liters;
+	}
+	
+	public float getPotableWaterInputFlowrate(int index){
+		return potableWaterFlowRates[index];
+	}
+	
+	public void setPotableWaterInputs(PotableWaterStore[] sources, float[] flowRates){
+		myPotableWaterStores = sources;
+		potableWaterFlowRates = flowRates;
+	}
+	
+	public PotableWaterStore[] getPotableWaterInputs(){
+		return myPotableWaterStores;
+	}
+	
+	public void setGreyWaterOutputFlowrate(float liters, int index){
+		greyWaterFlowRates[index] = liters;
+	}
+	
+	public float getGreyWaterOutputFlowrate(int index){
+		return greyWaterFlowRates[index];
+	}
+	
+	public void setGreyWaterOutputs(GreyWaterStore[] destinations, float[] flowRates){
+		myGreyWaterStores = destinations;
+		greyWaterFlowRates = flowRates;
+	}
+	
+	public GreyWaterStore[] getGreyWaterOutputs(){
+		return myGreyWaterStores;
+	}
+	
+	public void setDirtyWaterOutputFlowrate(float liters, int index){
+		dirtyWaterFlowRates[index] = liters;
+	}
+	
+	public float getDirtyWaterOutputFlowrate(int index){
+		return dirtyWaterFlowRates[index];
+	}
+	
+	public void setDirtyWaterOutputs(DirtyWaterStore[] destinations, float[] flowRates){
+		myDirtyWaterStores = destinations;
+		dirtyWaterFlowRates = flowRates;
+	}
+	
+	public DirtyWaterStore[] getDirtyWaterOutputs(){
+		return myDirtyWaterStores;
+	}
+	
+	public void setFoodInputFlowrate(float kilograms, int index){
+		foodFlowRates[index] = kilograms;
+	}
+	
+	public float getFoodInputFlowrate(int index){
+		return foodFlowRates[index];
+	}
+	
+	public void setFoodInputs(FoodStore[] sources, float[] flowRates){
+		myFoodStores = sources;
+		foodFlowRates = flowRates;
+	}
+	
+	public FoodStore[] getFoodInputs(){
+		return myFoodStores;
 	}
 }
