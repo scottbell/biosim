@@ -61,7 +61,7 @@ echo "		-creating package list"
 java -classpath $devRootDir/lib/docutil/doccheck.jar com.sun.tools.doclets.util.PackageList -skipAll CVS $sourceDir $serverGenDir$skeletonString > $docDir/package-list
 echo "		-creating html documentation"
 javadocInvocation="$javadocCommand -breakiterator -d $docDir -classpath $docClasspath -sourcepath $docSourcepath"
-$javadocInvocation @$docDir/package-list
+$javadocInvocation @$docDir/package-list > /dev/null
 echo "		-removing package list"
 rm -f $docDir/package-list
 echo "*done creating biosim docs"
