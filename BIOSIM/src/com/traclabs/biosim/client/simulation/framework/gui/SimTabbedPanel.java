@@ -63,14 +63,14 @@ public abstract class BioTabbedPanel extends JPanel
 		}
 	}
 	
-	public void visibilityChange(boolean isVisible){
-		if (isVisible)
+	public void visibilityChange(boolean nowVisible){
+		if (nowVisible)
 			myBioSimulator.addDisplayListener(myUpdateActionListener);
 		else
 			myBioSimulator.removeDisplayListener(myUpdateActionListener);
-		myTextPanel.visibilityChange(isVisible);
-		myChartPanel.visibilityChange(isVisible);
-		mySchematicPanel.visibilityChange(isVisible);
+		myTextPanel.visibilityChange(nowVisible);
+		myChartPanel.visibilityChange(nowVisible);
+		mySchematicPanel.visibilityChange(nowVisible);
 	}
 	
 	private class UpdateActionListener implements ActionListener {

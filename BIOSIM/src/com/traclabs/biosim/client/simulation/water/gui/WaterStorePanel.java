@@ -42,13 +42,13 @@ public class WaterStorePanel extends JPanel
 		mySimEnvironment = (SimEnvironment)(myBioSimulator.getBioModule(BioSimulator.simEnvironmentName));
 		createGraph();
 		refreshButton = new JButton(new RefreshAction("Refresh"));
-		add(refreshButton, BorderLayout.NORTH);
 		add(myChartPanel, BorderLayout.CENTER);
+		add(refreshButton, BorderLayout.NORTH);
 	}
 
 	private void createGraph(){
 		// create the chart...
-		updateDataset();
+		refresh();
 		JFreeChart chart = ChartFactory.createVerticalBarChart3D(
 		                           "Water Store Levels",  // chart title
 		                           "Stores",              // domain axis label
@@ -62,7 +62,7 @@ public class WaterStorePanel extends JPanel
 		myChartPanel = new ChartPanel(chart);
 	}
 
-	private void updateDataset() {
+	public void refresh() {
 		if (myDataset == null){
 			double[][] data = { {myPotableWaterStore.getLevel()}, {myGreyWaterStore.getLevel()}, {myDirtyWaterStore.getLevel()}};
 			myDataset = new DefaultCategoryDataset(data);
@@ -87,7 +87,7 @@ public class WaterStorePanel extends JPanel
 		}
 		public void actionPerformed(ActionEvent ae){
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			updateDataset();
+			refresh();
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}

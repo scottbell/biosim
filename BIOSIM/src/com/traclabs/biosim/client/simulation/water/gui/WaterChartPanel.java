@@ -27,8 +27,11 @@ public class WaterChartPanel extends BioTabPanel
 	}
 	
 	public void gotFocus(){
+		myWaterStorePanel.refresh();
 	}
 	
-	public void visibilityChange(boolean isVisible){
+	public void visibilityChange(boolean nowVisible){
+		if (nowVisible)
+			myWaterStorePanel.refresh();
 	}
 }
