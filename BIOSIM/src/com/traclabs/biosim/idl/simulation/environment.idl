@@ -30,7 +30,7 @@ module environment{
                 float getLightIntensity();
                 air::Breath takeO2Breath(in float moles);
                 air::Breath takeCO2Breath(in float moles);
-                air::Breath takeVolume(in float moles);
+                air::Breath takeAirMoles(in float moles);
                 long getTicks();
                 void setTotalMoles(in float moles);
                 void setTotalPressure(in float moles);

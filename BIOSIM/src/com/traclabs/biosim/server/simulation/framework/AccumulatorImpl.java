@@ -293,17 +293,17 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		float CO2Pushed = pushResourceToStore(myCO2Outputs, CO2OutMaxFlowRates, CO2OutDesiredFlowRates, CO2OutActualFlowRates, CO2Gathered);
 
 
-		Breath gatheredAir = new Breath(0,0,0);
+		Breath gatheredAir = new Breath(0f, 0f, 0f, 0f);
 		for (int i = 0; (i < myAirInputs.length); i++){
 			float amountToTake = Math.min(airInMaxFlowRates[i], airInDesiredFlowRates[i]);
-			Breath currentBreath = myAirInputs[i].takeVolume(amountToTake);
+			Breath currentBreath = myAirInputs[i].takeAirMoles(amountToTake);
 			gatheredAir.O2 += currentBreath.O2;
 			gatheredAir.CO2 += currentBreath.CO2;
 			gatheredAir.other += currentBreath.other;
 			airInActualFlowRates[i] = currentBreath.O2 + currentBreath.CO2 + currentBreath.other;
 		}
 
-		Breath distributedAir = new Breath(gatheredAir.O2, gatheredAir.CO2, gatheredAir.other);
+		Breath distributedAir = new Breath(gatheredAir.O2, gatheredAir.CO2, gatheredAir.water, gatheredAir.other);
 		for (int i = 0; (i < myAirOutputs.length) && ((distributedAir.O2 + distributedAir.CO2 + distributedAir.other) > 0); i++){
 			Breath breathAdded = myAirInputs[i].addBreath(distributedAir);
 			distributedAir.O2 -= breathAdded.O2;
@@ -316,7 +316,7 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		float gatheredCO2Air = getMostResourceFromStore(myCO2AirStoreInputs, CO2AirStoreInMaxFlowRates, CO2AirStoreInDesiredFlowRates, CO2AirStoreInActualFlowRates);
 		for (int i = 0; i < myCO2AirEnvironmentInputs.length; i++){
 			float amountToTake = Math.min(CO2AirEnvironmentInMaxFlowRates[i], CO2AirEnvironmentInDesiredFlowRates[i]);
-			CO2AirEnvironmentInActualFlowRates[i] = myCO2AirEnvironmentInputs[i].takeCO2(amountToTake);
+			CO2AirEnvironmentInActualFlowRates[i] = myCO2AirEnvironmentInputs[i].takeCO2Moles(amountToTake);
 			gatheredCO2Air += CO2AirEnvironmentInActualFlowRates[i];
 		}
 		//Push CO2
@@ -324,7 +324,7 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		float CO2AirLeft = gatheredCO2Air - CO2AirPushed;
 		for (int i = 0; (i < myCO2AirEnvironmentOutputs.length) && (CO2AirLeft > 0); i++){
 			float amountToPush = Math.min(CO2AirEnvironmentOutMaxFlowRates[i], CO2AirEnvironmentOutDesiredFlowRates[i]);
-			CO2AirEnvironmentOutActualFlowRates[i] = myCO2AirEnvironmentOutputs[i].addCO2(amountToPush);
+			CO2AirEnvironmentOutActualFlowRates[i] = myCO2AirEnvironmentOutputs[i].addCO2Moles(amountToPush);
 			CO2AirLeft -= CO2AirEnvironmentOutActualFlowRates[i];
 		}
 		CO2AirPushed = gatheredCO2Air - CO2AirLeft;
@@ -333,7 +333,7 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		float gatheredO2Air = getMostResourceFromStore(myO2AirStoreInputs, O2AirStoreInMaxFlowRates, O2AirStoreInDesiredFlowRates, O2AirStoreInActualFlowRates);
 		for (int i = 0; i < myO2AirEnvironmentInputs.length; i++){
 			float amountToTake = Math.min(O2AirEnvironmentInMaxFlowRates[i], O2AirEnvironmentInDesiredFlowRates[i]);
-			O2AirEnvironmentInActualFlowRates[i] = myO2AirEnvironmentInputs[i].takeO2(amountToTake);
+			O2AirEnvironmentInActualFlowRates[i] = myO2AirEnvironmentInputs[i].takeO2Moles(amountToTake);
 			gatheredO2Air += O2AirEnvironmentInActualFlowRates[i];
 		}
 		//Push O2
@@ -341,7 +341,7 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		float O2AirLeft = gatheredO2Air - O2AirPushed;
 		for (int i = 0; (i < myO2AirEnvironmentOutputs.length) && (O2AirLeft > 0); i++){
 			float amountToPush = Math.min(O2AirEnvironmentOutMaxFlowRates[i], O2AirEnvironmentOutDesiredFlowRates[i]);
-			O2AirEnvironmentOutActualFlowRates[i] = myO2AirEnvironmentOutputs[i].addO2(amountToPush);
+			O2AirEnvironmentOutActualFlowRates[i] = myO2AirEnvironmentOutputs[i].addO2Moles(amountToPush);
 			O2AirLeft -= O2AirEnvironmentOutActualFlowRates[i];
 		}
 		O2AirPushed = gatheredO2Air - O2AirLeft;

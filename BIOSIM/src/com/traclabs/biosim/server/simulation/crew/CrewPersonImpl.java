@@ -100,7 +100,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		myCrewGroup = pCrewGroup;
 		mySchedule = new Schedule();
 		myCurrentActivity = mySchedule.getScheduledActivityByOrder(currentOrder);
-		airRetrieved = new Breath(0f, 0f, 0f);
+		airRetrieved = new Breath(0f, 0f, 0f, 0f);
 	}
 	
 	/**
@@ -119,7 +119,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		myCrewGroup = pCrewGroup;
 		mySchedule = new Schedule(pScheduleURL);
 		myCurrentActivity = mySchedule.getScheduledActivityByOrder(currentOrder);
-		airRetrieved = new Breath(0f, 0f, 0f);
+		airRetrieved = new Breath(0f, 0f, 0f, 0f);
 	}
 	
 	/**
@@ -653,8 +653,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		}
 		O2Consumed = airRetrieved.O2;
 		if (myAirOutputs.length > 0){
-			myAirOutputs[0].addCO2(CO2Produced);
-			myAirOutputs[0].addOther(airRetrieved.other);
+			myAirOutputs[0].addCO2Moles(CO2Produced);
+			myAirOutputs[0].addOtherMoles(airRetrieved.other);
 		}
 	}
 
