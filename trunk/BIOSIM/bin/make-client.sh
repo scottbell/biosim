@@ -29,13 +29,6 @@ if [ -z "$JAVA_HOME" ]; then
 	java_command="java"
 fi
 JRE_HOME="$JAVA_HOME/jre"
-IBM_libs="$JRE_HOME/lib/core.jar$separator$JRE_HOME/lib/charsets.jar$separator$JRE_HOME/lib/graphics.jar$separator$JRE_HOME/lib/security.jar$separator$JRE_HOME/lib/server.jar$separator$JRE_HOME/lib/xml.jar"
-Sun_libs="$JRE_HOME/lib/rt.jar"
-javaVersionString=`$java_command -version 2>&1 | grep IBM`
-case $javaVersionString in
-	*"IBM"*) JRE_libs=$IBM_libs;echo "		-VM is IBM";;
-	*)JRE_lib=$Sun_libs;echo "		-assuming Sun VM";;
-esac
 genString="/generated"
 genDir=$devRootDir$genString
 if [ ! -e "$genDir" ]; then
@@ -48,6 +41,13 @@ winName="CYGWIN"
 case $machineType in
 	*$winName*) separator=";";echo "		-machine type is $winName";;
 	*)separator=":";echo "		-assuming Unix machine type";;
+esac
+IBM_libs="$JRE_HOME/lib/core.jar$separator$JRE_HOME/lib/charsets.jar$separator$JRE_HOME/lib/graphics.jar$separator$JRE_HOME/lib/security.jar$separator$JRE_HOME/lib/server.jar$separator$JRE_HOME/lib/xml.jar"
+Sun_libs="$JRE_HOME/lib/rt.jar"
+javaVersionString=`$java_command -version 2>&1 | grep IBM`
+case $javaVersionString in
+	*"IBM"*) JRE_libs=$IBM_libs;echo "		-VM is IBM";;
+	*)JRE_lib=$Sun_libs;echo "		-assuming Sun VM";;
 esac
 ####################
 #	CLIENT INIT             #
