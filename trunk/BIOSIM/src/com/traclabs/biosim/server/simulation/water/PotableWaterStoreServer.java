@@ -16,7 +16,7 @@ public class PotableWaterStoreServer extends GenericServer{
 	*/
 	public static void main(String args[]) {
 		PotableWaterStoreServer myServer = new PotableWaterStoreServer();
-		PotableWaterStoreImpl myPotableWaterStoreImpl = new PotableWaterStoreImpl(0);
+		PotableWaterStoreImpl myPotableWaterStoreImpl = new PotableWaterStoreImpl(myServer.getIDfromArgs(args));
 		myServer.registerServerAndRun(new PotableWaterStorePOATie(myPotableWaterStoreImpl), myPotableWaterStoreImpl.getModuleName());
 	}
 }

@@ -15,7 +15,7 @@ public class BioDriverServer extends GenericServer{
 	*/
 	public static void main(String args[]) {
 		BioDriverServer myServer = new BioDriverServer();
-		BioDriverImpl myBioDriver = new BioDriverImpl(0);
+		BioDriverImpl myBioDriver = new BioDriverImpl(myServer.getIDfromArgs(args));
 		myServer.registerServerAndRun(myBioDriver, myBioDriver.getName());
 	}
 }
