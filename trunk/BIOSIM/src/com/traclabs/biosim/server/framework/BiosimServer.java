@@ -31,7 +31,13 @@ public class BiosimServer {
 	* Instantiates the server and binds it to the name server.
 	* @param args aren't used for anything
 	*/
+	
 	public static void main(String args[]) {
+		BiosimServer myServer = new BiosimServer();
+		myServer.createServers(0);
+	}
+	
+	private void createServers(int id){
 		try{
 			// create and initialize the ORB
 			ORB orb = OrbUtils.getORB();
