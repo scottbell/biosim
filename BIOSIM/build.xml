@@ -2,16 +2,22 @@
 	<description>
         	Build file for BioSim
 	</description>
-	<!-- set global properties for this build -->
+	<!-- set global properties for this build --> 
+	<property name="build.compiler"  value="jikes"/>
   	<property name="src" location="src"/>
 	<property name="generated" location="generated"/>
 	<property name="classes" location="${generated}/classes"/>
-	<property name="server" location="${generated}/server"/>
-	<property name="serverClasses" location="${server}/classes"/>
-	<property name="serverStubs" location="${server}/stubs"/>
 	<property name="lib" location="lib"/>
 	<property name="jacorbDir" location="${lib}/jacorb"/>
 	<property name="xercesDir" location="${lib}/xerces"/>
+	<!-- set server properties for this build --> 
+	<property name="server" location="${generated}/server"/>
+	<property name="serverClasses" location="${server}/classes"/>
+	<property name="serverStubs" location="${server}/stubs"/>
+	<!-- set client properties for this build --> 
+	<property name="client" location="${generated}/client"/>
+	<property name="clientClasses" location="${client}/classes"/>
+	<property name="clientStubs" location="${client}/stubs"/>
 
 	<target name="init">
 		<mkdir dir="${generated}"/>
@@ -30,17 +36,17 @@
 			</classpath>
 		</java>
 		<mkdir dir="${serverClasses}"/>
-		<javac srcdir="${serverStubs}" destdir="${serverClasses}" compiler="jikes">
+		<javac srcdir="${serverStubs}" destdir="${serverClasses}">
 			<classpath>
 				<pathelement location="${jacorbDir}/jacorb.jar"/>
 			</classpath>
 		</javac>
 	</target>
 
-	<target name="server" depends="stubServer" description="compile the server" >
+	<target name="server" description="compile the server" >
 		<mkdir dir="${server}"/>
 		<mkdir dir="${serverClasses}"/>
-		<javac srcdir="${src}" destdir="${generated}" compiler="jikes">
+		<javac srcdir="${src}/biosim/server" destdir="${generated}">
 			<classpath>
 				<pathelement location="${serverClasses}"/>
 				<pathelement location="${jacorbDir}/jacorb.jar"/>
@@ -52,6 +58,17 @@
 	</target>
   
    	<target name="client" description="compile the client" >
+		<mkdir dir="${client}"/>
+		<mkdir dir="${clientClasses}"/>
+		<javac srcdir="${src}/biosim/client" destdir="${generated}">
+			<classpath>
+				<pathelement location="${clientClasses}"/>
+				<pathelement location="${jacorbDir}/jacorb.jar"/>
+				<pathelement location="${xercesDir}/xercesImpl.jar"/>
+				<pathelement location="${xercesDir}/xml-apis.jar"/>
+				<pathelement location="${xercesDir}/xmlParserAPIs.jar"/>
+			</classpath>
+		</javac>
 	</target>
   
   	<target name="all" depends="server,client" description="compile biosim" >
