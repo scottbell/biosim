@@ -22,6 +22,7 @@ public class EnvironmentTextPanel extends TimedPanel
 	private JLabel O2Label;
 	private JLabel CO2Label;
 	private JLabel waterLabel;
+	private JLabel nitrogenLabel;
 	private JLabel otherLabel;
 	private JPanel airPanel;
 	//Server required for data polling
@@ -58,7 +59,7 @@ public class EnvironmentTextPanel extends TimedPanel
 		modulePanel.add(moduleLabel, BorderLayout.CENTER);
 		
 		
-		long ticksExpired = mySimEnvironment.getTicks();
+		long ticksExpired = BioHolder.getBioDriver().getTicks();
 		tickLabel = new JLabel(ticksExpired + " hours ("+(ticksExpired/24)+" days)");
 		tickPanel = new JPanel();
 		tickPanel.setLayout(new BorderLayout());
@@ -66,14 +67,16 @@ public class EnvironmentTextPanel extends TimedPanel
 		tickPanel.add(tickLabel, BorderLayout.CENTER);
 
 		airPanel = new JPanel();
-		airPanel.setLayout(new GridLayout(4,1));
+		airPanel.setLayout(new GridLayout(5,1));
 		airPanel.setBorder(BorderFactory.createTitledBorder("Air"));
 		O2Label =    new JLabel("O2:     "+numFormat.format(mySimEnvironment.getO2Moles()) +" moles");
 		CO2Label =  new JLabel("CO2:   "+numFormat.format(mySimEnvironment.getCO2Moles()) + " moles");
+		nitrogenLabel =  new JLabel("nitrogen:   "+numFormat.format(mySimEnvironment.getNitrogenMoles()) + " moles");
 		waterLabel =  new JLabel("water:   "+numFormat.format(mySimEnvironment.getWaterMoles()) + " moles");
 		otherLabel = new JLabel("other:  "+numFormat.format(mySimEnvironment.getOtherMoles()) + " moles");
 		airPanel.add(O2Label);
 		airPanel.add(CO2Label);
+		airPanel.add(nitrogenLabel);
 		airPanel.add(waterLabel);
 		airPanel.add(otherLabel);
 
@@ -96,10 +99,11 @@ public class EnvironmentTextPanel extends TimedPanel
 	 * Updates every label on the panel with new data pulled from the servers.
 	 */
 	public void refresh(){
-		long ticksExpired = mySimEnvironment.getTicks();
+		long ticksExpired = BioHolder.getBioDriver().getTicks();
 		tickLabel.setText(ticksExpired + " hours ("+(ticksExpired/24)+" days)");
 		O2Label.setText("O2:     "+numFormat.format(mySimEnvironment.getO2Moles()) +" moles");
 		CO2Label.setText("CO2:   "+numFormat.format(mySimEnvironment.getCO2Moles()) + " moles");
+		nitrogenLabel.setText("nitrogen:   "+numFormat.format(mySimEnvironment.getNitrogenMoles()) + " moles");
 		waterLabel.setText("water:   "+numFormat.format(mySimEnvironment.getWaterMoles()) + " moles");
 		otherLabel.setText("other:  "+numFormat.format(mySimEnvironment.getOtherMoles()) + " moles");
 	}
