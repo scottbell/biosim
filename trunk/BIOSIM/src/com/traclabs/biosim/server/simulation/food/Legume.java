@@ -20,7 +20,7 @@ public abstract class Legume extends Planophile{
 	protected abstract float getInedibleFreshBasisWaterContent();
 	protected abstract float getCUEMax();
 	protected abstract float getCUEMin();
-	public abstract float getPPFNeeded();
+	protected abstract float getConstantPPF();
 	public abstract PlantType getPlantType();
 	
 	public Legume(ShelfImpl pShelfImpl){

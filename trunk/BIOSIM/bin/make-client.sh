@@ -119,6 +119,8 @@ if [ "$userSelect" == "all" ]; then
 	$compilationInvocation $simStubDir/idl/simulation/framework/*.java
 	echo "				-compiling waste stubs"
 	$compilationInvocation $simStubDir/idl/simulation/waste/*.java
+	echo "				-compiling mission stubs"
+	$compilationInvocation $simStubDir/idl/simulation/mission/*.java
 	echo "			-compiling sensor stubs"
 	echo "				-compiling air stubs"
 	$compilationInvocation $simStubDir/idl/sensor/air/*.java

@@ -235,7 +235,7 @@ public class BioDriverImpl extends BioDriverPOA{
 	public boolean isDone(){
 		if (runTillN){
 			if (ticksGoneBy >= nTicks){
-				System.out.println("BioDriverImpl"+myID+": Reached user defined tick limit");
+				System.out.println("BioDriverImpl"+myID+": Reached user defined tick limit of "+nTicks);
 				return true;
 			}
 		}

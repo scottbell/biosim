@@ -32,13 +32,11 @@ public class Peanut extends Legume{
 	public PlantType getPlantType(){
 		return PlantType.DRY_BEAN;
 	}
-
-	public float getPPFNeeded(){
-		float cropArea = myShelfImpl.getCropAreaUsed();
-		float constantPPF = 27f; //in moles per meters squared days
-		return (constantPPF * cropArea) / 24;
+	
+	protected float getConstantPPF(){
+		return 27000000f;
 	}
-
+	
 	protected float getBCF(){
 		return 0.50f;
 	}
