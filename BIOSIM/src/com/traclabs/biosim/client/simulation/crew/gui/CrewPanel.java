@@ -105,12 +105,12 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 			newPersonPanel.add(newPersonGUI.O2ConsumedLabel);
 			newPersonGUI.activityNameLabel = new JLabel("current activity: "+myCrewPeople[i].getCurrentActivity().getName());
 			newPersonPanel.add(newPersonGUI.activityNameLabel);
-			newPersonGUI.activityCurrentDurationLabel = new JLabel("	performed for: "+myCrewPeople[i].getTimeActivityPerformed());
+			newPersonGUI.activityCurrentDurationLabel = new JLabel("	performed for: "+myCrewPeople[i].getTimeActivityPerformed()+" h");
 			newPersonPanel.add(newPersonGUI.activityCurrentDurationLabel);
-			newPersonGUI.activityTotalDurationLabel = new JLabel("	total duration: "+myCrewPeople[i].getCurrentActivity().getTimeLength());
+			newPersonGUI.activityTotalDurationLabel = new JLabel("	total duration: "+myCrewPeople[i].getCurrentActivity().getTimeLength()" h");
 			newPersonPanel.add(newPersonGUI.activityTotalDurationLabel);
 			newPersonGUI.activityIntensityLabel = new JLabel("	intensity: "+myCrewPeople[i].getCurrentActivity().getActivityIntensity());
-			newPersonPanel.add(newPersonGUI.activityIntensityLabel);
+			newPersonPanel.add(newPersonGUI.activityIntensityLabel); 
 			crewPersonGUIVector.add(newPersonGUI);
 			add(newPersonPanel);
 		}
@@ -157,8 +157,8 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 			newPersonGUI.ageLabel.setText("age: "+crewPerson.getAge());
 			newPersonGUI.weightLabel.setText("weight: "+crewPerson.getWeight());
 			newPersonGUI.activityNameLabel.setText("current activity: "+crewPerson.getCurrentActivity().getName());
-			newPersonGUI.activityCurrentDurationLabel.setText("	performed for: "+crewPerson.getTimeActivityPerformed());
-			newPersonGUI.activityTotalDurationLabel.setText("	total duration: "+crewPerson.getCurrentActivity().getTimeLength());
+			newPersonGUI.activityCurrentDurationLabel.setText("	performed for: "+crewPerson.getTimeActivityPerformed()+" h");
+			newPersonGUI.activityTotalDurationLabel.setText("	total duration: "+crewPerson.getCurrentActivity().getTimeLength()+" h");
 			newPersonGUI.activityIntensityLabel.setText("	intensity: "+crewPerson.getCurrentActivity().getActivityIntensity());
 			newPersonGUI.statusLabel.setText("status: "+coallateStatus(crewPerson));
 			newPersonGUI.greyWaterProducedLabel.setText("grey water produced: "+numFormat.format(crewPerson.getGreyWaterProduced())+" L");

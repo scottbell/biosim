@@ -3,6 +3,7 @@ package biosim.server.air;
 import biosim.idl.air.*;
 import biosim.idl.environment.*;
 import biosim.idl.power.*;
+import biosim.idl.util.*;
 import biosim.server.framework.*;
 import biosim.server.util.*;
 
@@ -203,5 +204,8 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 	*/
 	public String getModuleName(){
 		return "AirRS";
+	}
+	
+	public void log(){
 	}
 }
