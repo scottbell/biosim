@@ -71,22 +71,24 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 		if (moduleLogging)
 			log();
 	}
-	
+
 	/**
 	* Collects references to servers needed for putting/getting resources.
 	*/
 	private void collectReferences(){
-		try{
-			if (!hasCollectedReferences){
+		if (!hasCollectedReferences){
+			try{
 				myCurrentEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str("SimEnvironment"+getID()));
+				hasCollectedReferences = true;
+
+			}
+			catch (org.omg.CORBA.UserException e){
+				System.err.println("Couldn't find SimEnvironment!!");
+				e.printStackTrace(System.out);
 			}
 		}
-		catch (org.omg.CORBA.UserException e){
-			System.err.println("Couldn't find SimEnvironment!!");
-			e.printStackTrace(System.out);
-		}
 	}
-	
+
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
 		StringBuffer returnBuffer = new StringBuffer();
 		if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
@@ -188,7 +190,7 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 	public float getLevel(){
 		collectReferences();
 		if (myTicks == myCurrentEnvironment.getTicks())
-			return oldLevel; 
+			return oldLevel;
 		else
 			return level;
 	}
@@ -200,7 +202,7 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 	public float getCapacity(){
 		collectReferences();
 		if (myTicks == myCurrentEnvironment.getTicks())
-			return oldCapacity; 
+			return oldCapacity;
 		else
 			return capacity;
 	}

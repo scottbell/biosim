@@ -216,7 +216,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	public Sex getSex(){
 		return sex;
 	}
-	
+
 	public void sicken(){
 		isSick = true;
 		myCurrentActivity = myCrewGroup.getScheduledActivityByOrder(-2);
@@ -261,18 +261,19 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* Collects references to servers needed for putting/getting resources.
 	*/
 	private void collectReferences(){
-		try{
-			if (!hasCollectedReferences){
+		if (!hasCollectedReferences){
+			try{
 				myCurrentEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str("SimEnvironment"+myCrewGroup.getID()));
 				myFoodStore = FoodStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("FoodStore"+myCrewGroup.getID()));
 				myPotableWaterStore = PotableWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PotableWaterStore"+myCrewGroup.getID()));
 				myDirtyWaterStore = DirtyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("DirtyWaterStore"+myCrewGroup.getID()));
 				myGreyWaterStore = GreyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("GreyWaterStore"+myCrewGroup.getID()));
+				hasCollectedReferences = true;
 			}
-		}
-		catch (org.omg.CORBA.UserException e){
-			System.err.println("Couldn't find SimEnvironment!!");
-			e.printStackTrace(System.out);
+			catch (org.omg.CORBA.UserException e){
+				System.err.println("Couldn't find SimEnvironment!!");
+				e.printStackTrace(System.out);
+			}
 		}
 	}
 
@@ -595,7 +596,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			myLogIndex.CO2RetrievedIndex = CO2RetrievedHead.addChild(""+airRetrieved.CO2);
 			LogNode otherRetrievedHead = airRetrievedHead.addChild("other_retrieved");
 			myLogIndex.otherRetrievedIndex = otherRetrievedHead.addChild(""+airRetrieved.other);
-			logInitialized = true; 
+			logInitialized = true;
 		}
 		else{
 			myLogIndex.nameIndex.setValue(""+myName);
