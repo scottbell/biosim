@@ -24,15 +24,15 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private boolean hasCollectedReferences = false;
 	//The current activity order this crew member is on
 	private int currentOrder = 0;
-	//How long this crew member has been performing thier current activity
+	//How long this crew member has been performing thier current activity (in ticks)
 	private int timeActivityPerformed = 0;
-	//How long this crew member has been starving
+	//How long this crew member has been starving (in ticks)
 	private int starvingTime = 0;
-	//How long this crew member has been thirsty
+	//How long this crew member has been thirsty (in ticks)
 	private int thirstTime = 0;
-	//How long this crew member has been suffocating
+	//How long this crew member has been suffocating (in ticks)
 	private int suffocateTime = 0;
-	//How long this crew member has been CO2 poisoned
+	//How long this crew member has been CO2 poisoned (in ticks)
 	private int poisonTime = 0;
 	//Flag to determine if the person is starving
 	private boolean personStarving = false;
@@ -282,18 +282,18 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	
 	/**
 	* When the CrewGroup ticks the crew member, the member
-	* 1) attempts to collect references to various server (if not already done)
-	* 2) increases the time the activity has been performed by 1
-	* on the condition that that crew memeber isn't dead he/she then:
+	* 1) increases the time the activity has been performed by 1
+	* on the condition that the crew memeber isn't dead he/she then:
+	* 2) attempts to collect references to various server (if not already done)
 	* 3) possibly advances to the next activity
 	* 4) consumes air/food/water, exhales and excretes
-	* 5) takes affliction from lack of any resources
-	* 6) checks whether affliction is fatal
+	* 5) takes afflictions from lack of any resources
+	* 6) checks whether afflictions (if any) are fatal
 	*/
 	public void processTick(){
-		collectReferences();
 		timeActivityPerformed++;
 		if (!hasDied){
+			collectReferences();
 			advanceActivity();
 			consumeResources();
 			afflictCrew();

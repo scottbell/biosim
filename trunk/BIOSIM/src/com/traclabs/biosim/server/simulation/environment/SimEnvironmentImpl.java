@@ -1,5 +1,5 @@
 /**
- * The SimEnvironment acts as the environment in which the astronauts breathe from and as the keeper of time.
+ * The SimEnvironment acts as the environment in which the crew breathes from and as the keeper of time.
  *
  * @author    Scott Bell
  */
