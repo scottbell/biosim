@@ -818,11 +818,15 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		{
 			//Accumulator
 			{
-				
+
+				Accumulator myAccumulator = AccumulatorHelper.narrow(getBioModule(myAccumulatorName));
+				CO2AirEnvironmentInFlowRateSensor myAccumulatorCO2AirEnvironmentInFlowRateSensor = AccumulatorCO2AirEnvironmentInFlowRateSensorHelper.narrow(getBioModule(myAccumulatorCO2AirEnvironmentInFlowRateSensorName));
+				myAccumulatorCO2AirEnvironmentInFlowRateSensor.setInput(myDirtyWaterStore);
 			}
 
 			//Injector
 			{
+				Injector myInjector = InjectorHelper.narrow(getBioModule(myInjectorName));
 			}
 		}
 		/*
