@@ -18,12 +18,13 @@
 	<property name="client" location="${generated}/client"/>
 	<property name="clientClasses" location="${client}/classes"/>
 	<property name="clientStubs" location="${client}/stubs"/>
+	<property name="plotDir" location="${lib}/jfreechart"/>
 
 	<target name="init">
 		<mkdir dir="${generated}"/>
 	</target>
   
-  	<target name="stubServer" depends="init" description="stub the IDL file" >
+  	<target name="stubServer" depends="init" description="stub the IDL file for the server" >
 		<mkdir dir="${serverStubs}"/>
 		<java classname="ParserHack">
 			<arg value="-d"/> 
@@ -43,11 +44,12 @@
 		</javac>
 	</target>
 
-	<target name="server" description="compile the server" >
+	<target name="server" depends="stubServer" description="compile the server" >
 		<mkdir dir="${server}"/>
 		<mkdir dir="${serverClasses}"/>
-		<javac srcdir="${src}/biosim/server" destdir="${generated}">
+		<javac srcdir="${src}/biosim/server" destdir="${serverClasses}">
 			<classpath>
+				<pathelement location="${src}"/>
 				<pathelement location="${serverClasses}"/>
 				<pathelement location="${jacorbDir}/jacorb.jar"/>
 				<pathelement location="${xercesDir}/xercesImpl.jar"/>
@@ -56,17 +58,41 @@
 			</classpath>
 		</javac>
 	</target>
+	
+	<target name="stubClient" depends="init" description="stub the IDL file for the client" >
+		<mkdir dir="${clientStubs}"/>
+		<java classname="ParserHack">
+			<arg value="-noskel"/> 
+			<arg value="-d"/> 
+			<arg file="${clientStubs}"/>
+			<arg file="${src}/biosim/idl/biosim.idl"/>
+			<classpath>
+				<pathelement location="${jacorbDir}"/>
+				<pathelement location="${jacorbDir}/idl.jar"/>
+				<pathelement location="${jacorbDir}/logkit.jar"/>
+			</classpath>
+		</java>
+		<mkdir dir="${clientClasses}"/>
+		<javac srcdir="${clientStubs}" destdir="${clientClasses}">
+			<classpath>
+				<pathelement location="${jacorbDir}/jacorb.jar"/>
+			</classpath>
+		</javac>
+	</target>
   
-   	<target name="client" description="compile the client" >
+   	<target name="client" depends="stubClient" description="compile the client" >
 		<mkdir dir="${client}"/>
 		<mkdir dir="${clientClasses}"/>
-		<javac srcdir="${src}/biosim/client" destdir="${generated}">
+		<javac srcdir="${src}/biosim/client" destdir="${clientClasses}">
 			<classpath>
+				<pathelement location="${src}"/>
 				<pathelement location="${clientClasses}"/>
 				<pathelement location="${jacorbDir}/jacorb.jar"/>
 				<pathelement location="${xercesDir}/xercesImpl.jar"/>
 				<pathelement location="${xercesDir}/xml-apis.jar"/>
 				<pathelement location="${xercesDir}/xmlParserAPIs.jar"/>
+				<pathelement location="${plotDir}/jcommon.jar"/>
+				<pathelement location="${plotDir}/jfreechart.jar"/>
 			</classpath>
 		</javac>
 	</target>
