@@ -100,6 +100,58 @@ public class BioInitializer{
 		}
 	}
 
+	/** Traverses the specified node, recursively. */
+	private void crawlBiosim(Node node, boolean firstPass) {
+		// is there anything to do?
+		if (node == null)
+			return;
+		String nodeName = node.getNodeName();
+		if (nodeName.equals("Globals")){
+			crawlGlobals(node, firstPass);
+			return;
+		}
+		else if (nodeName.equals("SimBioModules")){
+			crawlModules(node, firstPass);
+			return;
+		}
+		else if (nodeName.equals("Sensors")){
+			crawlSensors(node, firstPass);
+			return;
+		}
+		else if (nodeName.equals("Actuators")){
+			crawlActuators(node, firstPass);
+			return;
+		}
+		else{
+			Node child = node.getFirstChild();
+			while (child != null) {
+				crawlBiosim(child, firstPass);
+				child = child.getNextSibling();
+			}
+		}
+
+	}
+
+	public void parseFile(String fileToParse){
+		try{
+			System.out.println("Starting to parse file: "+fileToParse);
+			myParser.parse(fileToParse);
+			Document document = myParser.getDocument();
+			crawlBiosim(document, true);
+			crawlBiosim(document, false);
+		}
+		catch (Exception e){
+			System.err.println("error: Parse error occurred - "+e.getMessage());
+			Exception se = e;
+			if (e instanceof SAXException)
+				se = ((SAXException)e).getException();
+			if (se != null)
+				se.printStackTrace(System.err);
+			else
+				e.printStackTrace(System.err);
+		}
+	}
+
 	//Globals
 	private void crawlGlobals(Node node, boolean firstPass){
 		BioDriver myDriver = null;
@@ -513,6 +565,42 @@ public class BioInitializer{
 	}
 
 	//Modules
+	private void crawlModules(Node node, boolean firstPass){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("air")){
+				crawlAirModules(child, firstPass);
+
+			}
+			else if (childName.equals("crew")){
+				crawlCrewModules(child, firstPass);
+
+			}
+			else if (childName.equals("environment")){
+				crawlEnvironmentModules(child, firstPass);
+
+			}
+			else if (childName.equals("food")){
+				crawlFoodModules(child, firstPass);
+
+			}
+			else if (childName.equals("framework")){
+				crawlFrameworkModules(child, firstPass);
+
+			}
+			else if (childName.equals("power")){
+				crawlPowerModules(child, firstPass);
+
+			}
+			else if (childName.equals("water")){
+				crawlWaterModules(child, firstPass);
+
+			}
+			child = child.getNextSibling();
+		}
+	}
+	
 	private void createAirRS(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
@@ -1135,6 +1223,38 @@ public class BioInitializer{
 	}
 
 	//Sensors
+	private void crawlSensors(Node node, boolean firstPass){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("air")){
+				crawlAirSensors(child, firstPass);
+
+			}
+			else if (childName.equals("crew")){
+				crawlCrewSensors(child, firstPass);
+
+			}
+			else if (childName.equals("environment")){
+				crawlEnvironmentSensors(child, firstPass);
+
+			}
+			else if (childName.equals("food")){
+				crawlFoodSensors(child, firstPass);
+
+			}
+			else if (childName.equals("power")){
+				crawlPowerSensors(child, firstPass);
+
+			}
+			else if (childName.equals("water")){
+				crawlWaterSensors(child, firstPass);
+
+			}
+			child = child.getNextSibling();
+		}
+	}
+	
 	//Air
 	private void createCO2InFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
@@ -2809,74 +2929,6 @@ public class BioInitializer{
 		System.out.println(node.getNodeName());
 	}
 
-	private void crawlModules(Node node, boolean firstPass){
-		Node child = node.getFirstChild();
-		while (child != null) {
-			String childName = child.getNodeName();
-			if (childName.equals("air")){
-				crawlAirModules(child, firstPass);
-
-			}
-			else if (childName.equals("crew")){
-				crawlCrewModules(child, firstPass);
-
-			}
-			else if (childName.equals("environment")){
-				crawlEnvironmentModules(child, firstPass);
-
-			}
-			else if (childName.equals("food")){
-				crawlFoodModules(child, firstPass);
-
-			}
-			else if (childName.equals("framework")){
-				crawlFrameworkModules(child, firstPass);
-
-			}
-			else if (childName.equals("power")){
-				crawlPowerModules(child, firstPass);
-
-			}
-			else if (childName.equals("water")){
-				crawlWaterModules(child, firstPass);
-
-			}
-			child = child.getNextSibling();
-		}
-	}
-
-	private void crawlSensors(Node node, boolean firstPass){
-		Node child = node.getFirstChild();
-		while (child != null) {
-			String childName = child.getNodeName();
-			if (childName.equals("air")){
-				crawlAirSensors(child, firstPass);
-
-			}
-			else if (childName.equals("crew")){
-				crawlCrewSensors(child, firstPass);
-
-			}
-			else if (childName.equals("environment")){
-				crawlEnvironmentSensors(child, firstPass);
-
-			}
-			else if (childName.equals("food")){
-				crawlFoodSensors(child, firstPass);
-
-			}
-			else if (childName.equals("power")){
-				crawlPowerSensors(child, firstPass);
-
-			}
-			else if (childName.equals("water")){
-				crawlWaterSensors(child, firstPass);
-
-			}
-			child = child.getNextSibling();
-		}
-	}
-
 	private void crawlActuators(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -2905,58 +2957,6 @@ public class BioInitializer{
 
 			}
 			child = child.getNextSibling();
-		}
-	}
-
-	/** Traverses the specified node, recursively. */
-	private void crawlBiosim(Node node, boolean firstPass) {
-		// is there anything to do?
-		if (node == null)
-			return;
-		String nodeName = node.getNodeName();
-		if (nodeName.equals("Globals")){
-			crawlGlobals(node, firstPass);
-			return;
-		}
-		else if (nodeName.equals("SimBioModules")){
-			crawlModules(node, firstPass);
-			return;
-		}
-		else if (nodeName.equals("Sensors")){
-			crawlSensors(node, firstPass);
-			return;
-		}
-		else if (nodeName.equals("Actuators")){
-			crawlActuators(node, firstPass);
-			return;
-		}
-		else{
-			Node child = node.getFirstChild();
-			while (child != null) {
-				crawlBiosim(child, firstPass);
-				child = child.getNextSibling();
-			}
-		}
-
-	}
-
-	public void parseFile(String fileToParse){
-		try{
-			System.out.println("Starting to parse file: "+fileToParse);
-			myParser.parse(fileToParse);
-			Document document = myParser.getDocument();
-			crawlBiosim(document, true);
-			crawlBiosim(document, false);
-		}
-		catch (Exception e){
-			System.err.println("error: Parse error occurred - "+e.getMessage());
-			Exception se = e;
-			if (e instanceof SAXException)
-				se = ((SAXException)e).getException();
-			if (se != null)
-				se.printStackTrace(System.err);
-			else
-				e.printStackTrace(System.err);
 		}
 	}
 }

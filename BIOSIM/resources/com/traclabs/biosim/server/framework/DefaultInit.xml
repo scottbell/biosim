@@ -164,7 +164,7 @@
 			<BiomassOutFlowRateSensor name="BiomassRSBiomassOutFlowRateSensor" index="0" input="BiomassRS"/>
 			<BiomassStoreLevelSensor name="BiomassStoreLevelSensor" input="BiomassStore"/>
 			<FoodInFlowRateSensor name="CrewGroupFoodInFlowRateSensor" index="0" input="CrewGroup"/>
-			<FoodOutFlowRateSensor name="BiomassRSFoodOutFlowRateSensor" index="0" input="BiomassRS"/>
+			<FoodOutFlowRateSensor name="FoodProcessorFoodOutFlowRateSensor" index="0" input="FoodProcessor"/>
 			<FoodStoreLevelSensor name="FoodStoreLevelSensor" input="FoodStore"/>
 		</food>
 		<power>
@@ -183,7 +183,6 @@
 			<GreyWaterInFlowRateSensor name="WaterRSGreyWaterInFlowRateSensor" index="0" input="WaterRS"/>
 			<GreyWaterInFlowRateSensor name="BiomassRSGreyWaterInFlowRateSensor" index="0" input="BiomassRS"/>
 			<GreyWaterOutFlowRateSensor name="CrewGroupGreyWaterOutFlowRateSensor" index="0" input="CrewGroup"/>
-			<GreyWaterOutFlowRateSensor name="BiomassRSGreyWaterOutFlowRateSensor" index="0" input="BiomassRS"/>
 			<GreyWaterStoreLevelSensor name="GreyWaterStoreLevelSensor" input="GreyWaterStore"/>
 			<PotableWaterInFlowRateSensor name="AirRSPotableWaterInFlowRateSensor" index="0" input="AirRS"/>
 			<PotableWaterInFlowRateSensor name="CrewGroupPotableWaterInFlowRateSensor" index="0" input="CrewGroup"/>
