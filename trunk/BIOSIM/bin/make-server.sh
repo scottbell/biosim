@@ -53,6 +53,7 @@ relativeIDLDir="/src/biosim/idl/SIMULATION.idl"
 fullIDLDir=$devRootDir$relativeIDLDir
 echo "			-generating skeletons"
 idlInvocation="java -classpath $JACORB_HOME/lib/idl.jar org.jacorb.idl.parser"
+echo "				-invoking idl with: $idlInvocation  -nostub -d $skeletonDir $fullIDLDir"
 $idlInvocation  -nostub -d $skeletonDir $fullIDLDir
 #######################
 #		SERVER COMPILATION	#
