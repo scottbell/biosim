@@ -54,9 +54,9 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	private float[] dryWasteMaxFlowRates;
 	private float[] dryWasteActualFlowRates;
 	private float[] dryWasteDesiredFlowRates;
-	private float[] dirtyWaterMaxFlowRates;
-	private float[] dirtyWaterActualFlowRates;
-	private float[] dirtyWaterDesiredFlowRates;
+	private float[] waterMaxFlowRates;
+	private float[] waterActualFlowRates;
+	private float[] waterDesiredFlowRates;
 	
 	public FoodProcessorImpl(int pID, String pName){
 		super(pID, pName);
@@ -78,9 +78,9 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 		dryWasteActualFlowRates = new float[0];
 		dryWasteDesiredFlowRates = new float[0];
 		myWaterStores = new WaterStore[0];
-		dirtyWaterMaxFlowRates = new float[0];
-		dirtyWaterActualFlowRates = new float[0];
-		dirtyWaterDesiredFlowRates = new float[0];
+		waterMaxFlowRates = new float[0];
+		waterActualFlowRates = new float[0];
+		waterDesiredFlowRates = new float[0];
 	}
 	
 	/**
@@ -279,7 +279,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 			float distributedFoodLeft = pushFoodToStore(myFoodStores, foodMaxFlowRates, foodDesiredFlowRates, foodActualFlowRates, foodMatterArray);
 			float currentDryWasteProduced = currentFoodProduced - calculateSizeOfBioMatter(biomatterConsumed);
 			float distributedDryWasteLeft = pushResourceToStore(myDryWasteStores, dryWasteMaxFlowRates, dryWasteDesiredFlowRates, dryWasteActualFlowRates, currentDryWasteProduced);
-			float distributedWaterLeft = pushResourceToStore(myWaterStores, dirtyWaterMaxFlowRates, dirtyWaterDesiredFlowRates, dirtyWaterActualFlowRates, currentWaterProduced);
+			float distributedWaterLeft = pushResourceToStore(myWaterStores, waterMaxFlowRates, waterDesiredFlowRates, waterActualFlowRates, currentWaterProduced);
 		}
 	}
 
@@ -522,34 +522,34 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	
 	//Water Output
 	public void setWaterOutputMaxFlowRate(float kilograms, int index){
-		dirtyWaterMaxFlowRates[index] = kilograms;
+		waterMaxFlowRates[index] = kilograms;
 	}
 	public float getWaterOutputMaxFlowRate(int index){
-		return dirtyWaterMaxFlowRates[index];
+		return waterMaxFlowRates[index];
 	}
 	public float[] getWaterOutputMaxFlowRates(){
-		return dirtyWaterMaxFlowRates;
+		return waterMaxFlowRates;
 	}
 	public void setWaterOutputDesiredFlowRate(float kilograms, int index){
-		dirtyWaterDesiredFlowRates[index] = kilograms;
+		waterDesiredFlowRates[index] = kilograms;
 	}
 	public float getWaterOutputDesiredFlowRate(int index){
-		return dirtyWaterDesiredFlowRates[index];
+		return waterDesiredFlowRates[index];
 	}
 	public float[] getWaterOutputDesiredFlowRates(){
-		return dirtyWaterDesiredFlowRates;
+		return waterDesiredFlowRates;
 	}
 	public float getWaterOutputActualFlowRate(int index){
-		return dirtyWaterActualFlowRates[index];
+		return waterActualFlowRates[index];
 	}
 	public float[] getWaterOutputActualFlowRates(){
-		return dirtyWaterActualFlowRates;
+		return waterActualFlowRates;
 	}
 	public void setWaterOutputs(WaterStore[] destinations, float[] maxFlowRates, float[] desiredFlowRates){
 		myWaterStores = destinations;
-		dirtyWaterMaxFlowRates = maxFlowRates;
-		dirtyWaterDesiredFlowRates = desiredFlowRates;
-		dirtyWaterActualFlowRates = new float[dirtyWaterDesiredFlowRates.length]; 
+		waterMaxFlowRates = maxFlowRates;
+		waterDesiredFlowRates = desiredFlowRates;
+		waterActualFlowRates = new float[waterDesiredFlowRates.length]; 
 	}
 	public WaterStore[] getWaterOutputs(){
 		return myWaterStores;
