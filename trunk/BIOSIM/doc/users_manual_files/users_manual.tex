@@ -873,15 +873,11 @@ only for module-specific malfunction information.
 
 \subsubsection{Malfunctions}
 
-
-
-
 \subsection{Air}
 \index{air}
 \subsubsection{Sensors}
 
 \begin{enumerate}
-
 \item {\tt CO2InFlowRateSensor}: Reports the CO2 flow rate (in moles) into a module
 \item {\tt CO2OutFlowRateSensor}: Reports the CO2 flow rate (in moles) out of a module
 \item {\tt CO2StoreLevelSensor}: How much CO2 (in moles) is contained in this store.
@@ -894,13 +890,11 @@ only for module-specific malfunction information.
 \item {\tt O2InFlowRateSensor}: Reports the O2 flow rate (in moles) into a module
 \item {\tt O2OutFlowRateSensor}: Reports the O2 flow rate (in moles) out of a module
 \item {\tt O2StoreLevelSensor}: How much O2 (in moles) is contained in this store.
-
 \end{enumerate}
 
 \subsubsection{Actuators}
 
 \begin{enumerate}
-
 \item {\tt CO2InFlowRateAcutator}: Changes how much CO2 (in moles) goes into the module
 \item {\tt CO2OutFlowRateAcutator}: Changes how much CO2 (in moles) goes out of the module
 \item {\tt H2InFlowRateAcutator}: Changes how much H2 (in moles) goes into the module
@@ -909,7 +903,6 @@ only for module-specific malfunction information.
 \item {\tt NitrogenOutFlowRateAcutator}: Changes how much nitrogen (in moles) goes out of the module
 \item {\tt O2InFlowRateAcutator}: Changes how much O2 (in moles) goes into the module
 \item {\tt O2OutFlowRateAcutator}: Changes how much O2 (in moles) goes out of the module
-
 \end{enumerate}
 
 \subsubsection{Malfunctions}
@@ -922,7 +915,6 @@ Same as others
 
 \subsubsection{Sensors}
 \begin{enumerate}
-
 \item {\tt DirtyWaterInFlowRateSensor}: Reports the dirty water flow rate (in liters) into a module
 \item {\tt DirtyWaterOutFlowRateSensor}: Reports the dirty water flow rate (in liters) out of a module
 \item {\tt DirtyWaterStoreLevelSensor}: How much dirty water (in liters) is contained in this store.
@@ -937,13 +929,12 @@ Same as others
 \subsubsection{Actuators}
 
 \begin{enumerate}
-
-\item {\tt DirtyWaterInFlowRateActuator}: Changes how much dirty water (in liters) goes out of the module
-\item {\tt DirtyWaterOutFlowRateActuator}: Changes how much dirty water (in liters) goes into the module
-\item {\tt GreyWaterInFlowRateActuator}: Changes how much grey water (in liters) goes out of the module
-\item {\tt GreyWaterOutFlowRateActuator}: Changes how much grey water (in liters) goes into the module
-\item {\tt PotableWaterInFlowRateActuator}: Changes how much potable water (in liters) goes out of the module
-\item {\tt PotableWaterOutFlowRateActuator}: Changes how much potable water (in liters) goes into the module
+\item {\tt DirtyWaterInFlowRateActuator}: Changes how much dirty water (in liters) goes into the module
+\item {\tt DirtyWaterOutFlowRateActuator}: Changes how much dirty water (in liters) goes ouf of the module
+\item {\tt GreyWaterInFlowRateActuator}: Changes how much grey water (in liters) goes into the module
+\item {\tt GreyWaterOutFlowRateActuator}: Changes how much grey water (in liters) goes ouf of the module
+\item {\tt PotableWaterInFlowRateActuator}: Changes how much potable water (in liters) goes into the module
+\item {\tt PotableWaterOutFlowRateActuator}: Changes how much potable water (in liters) goes ouf of the module
 \end{enumerate}
 
 \subsubsection{Malfunctions}
@@ -952,17 +943,39 @@ Same as others
 \index{biomass}
 
 \subsubsection{Sensors}
+\begin{enumerate}
+\item {\tt BiomassInFlowRateSensor}: Reports the biomass flow rate (in kilograms) into a module
+\item {\tt BiomassOutFlowRateSensor}: Reports the biomass flow rate (in kilograms) out of a module
+\item {\tt BiomassStoreLevelSensor}: How much biomass (in kilograms) is contained in this store.
+\item {\tt FoodInFlowRateSensor}: Reports the food flow rate (in kilograms) into a module
+\item {\tt FoodOutFlowRateSensor}: Reports the food flow rate (in kilograms) out of a module
+\item {\tt FoodStoreLevelSensor}: How much food (in kilograms) is contained in this store.
+\end{enumerate}
 
 \subsubsection{Actuators}
+\begin{enumerate}
+\item {\tt BiomassInFlowRateActuator}: Changes how much biomass (in kilograms) goes into the module
+\item {\tt BiomassOutFlowRateActuator}: Changes how much biomass (in kilograms) goes out of the module
+\item {\tt FoodInFlowRateActuator}: Changes how much food (in kilograms) goes into the module
+\item {\tt FoodOutFlowRateActuator}: Changes how much food (in kilograms) goes out of the module
+\end{enumerate}
 
 \subsubsection{Malfunctions}
 
-\subsection{Solid Waste}
+\subsection{Dry Waste}
 \index{waste}
-
 \subsubsection{Sensors}
+\begin{enumerate}
+\item {\tt DryWasteInFlowRateSensor}: Changes how much dry Waste (in kilograms) goes into the module
+\item {\tt DryWasteOutFlowRateSensor}: Changes how much dry Waste (in kilograms) goes out of the module
+\item {\tt DryWasteStoreLevelSensor}: How much dry Waste (in kilograms) is contained in this store.
+\end{enumerate}
 
 \subsubsection{Actuators}
+\begin{enumerate}
+\item {\tt DryWasteInFlowRateActuator}: Changes how much dry waste (in kilograms) goes into the module
+\item {\tt DryWasteOutFlowRateActuator}: Changes how much dry waste (in kilograms) goes out of the the module
+\end{enumerate}
 
 \subsubsection{Malfunctions}
 
