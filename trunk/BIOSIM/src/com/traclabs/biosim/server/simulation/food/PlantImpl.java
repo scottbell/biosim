@@ -42,11 +42,13 @@ public abstract class Plant {
 	private float myProductionRate = 1f;
 
 	public Plant(int pID, BiomassRSImpl pBiomassImpl){
+		airRetrieved = new Breath(0,0,0);
 		myBiomassImpl = pBiomassImpl;
 		myID = pID;
 	}
 
 	public Plant(int pID, float pTotalArea, BiomassRSImpl pBiomassImpl){
+		airRetrieved = new Breath(0,0,0);
 		myBiomassImpl = pBiomassImpl;
 		myID = pID;
 		totalArea = pTotalArea;
@@ -92,17 +94,29 @@ public abstract class Plant {
 	* and exhale fraction of the CO2 inhaled, a multiple of the O2 inhaled, and the same amount of other gasses inhaled.
 	*/
 	private void consumeAir(){
+		SimEnvironment[] myAirInputs = myBiomassImpl.getAirInputs();
+		SimEnvironment[] myAirOutputs = myBiomassImpl.getAirOutputs();
 		CO2Needed = calculateCO2Needed();
-		airRetrieved = mySimEnvironment.takeCO2Breath(CO2Needed);
+		if (myAirInputs.length < 1){
+			airRetrieved.O2 = 0;
+			airRetrieved.CO2 = 0;
+			airRetrieved.other = 0;
+		}
+		else{
+			airRetrieved = myAirInputs[0].takeCO2Breath(CO2Needed);
+		}
 		if (airRetrieved.CO2 < (.10 * CO2Needed))
 			hasEnoughCO2 = false;
 		else
 			hasEnoughCO2 = true;
 		CO2Consumed =airRetrieved.CO2;
+		//exhale air
 		O2Produced = new Double(airRetrieved.O2 + airRetrieved.CO2 * .90).floatValue();
-		mySimEnvironment.addO2(new Double(airRetrieved.O2 + airRetrieved.CO2 * .90).floatValue());
-		mySimEnvironment.addOther(airRetrieved.other);
-		mySimEnvironment.addCO2(new Double(airRetrieved.CO2 * .10).floatValue());
+		if (myAirInputs.length > 0){
+			myAirOutputs[0].addO2(new Double(airRetrieved.O2 + airRetrieved.CO2 * .90).floatValue());
+			myAirOutputs[0].addOther(airRetrieved.other);
+			myAirOutputs[0].addCO2(new Double(airRetrieved.CO2 * .10).floatValue());
+		}
 	}
 
 	public void addWater(float pWaterToAdd){
@@ -145,7 +159,7 @@ public abstract class Plant {
 			float distributedBiomassLeft = biomassProduced;
 			BiomassStore[] myBiomassStores = myBiomassImpl.getBiomassOutputs();
 			for (int i = 0; (i < myBiomassStores.length) && (distributedBiomassLeft <= 0); i++){
-				distributedBiomassLeft -= myBiomassStores[i].add(distributedBiomassLeft);
+				distributedBiomassLeft -= java.lang.Math.min(myBiomassStores[i].add(distributedBiomassLeft) , myBiomassImpl.getBiomassOutputFlowrate(i));
 			}
 			myAge = 0;
 		}
@@ -161,7 +175,6 @@ public abstract class Plant {
 
 	public void tick(){
 		if (!plantsDead){
-			collectReferences();
 			myAge++;
 			consumeAir();
 			produceBiomass();
@@ -213,22 +226,6 @@ public abstract class Plant {
 
 	public float getPowerNeeded(){
 		return powerNeeded;
-	}
-
-	/**
-	* Collects references to subsystems needed for putting/getting resources
-	*/
-	private void collectReferences(){
-		if (!hasCollectedReferences){
-			try{
-				mySimEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str("SimEnvironment"+myID));
-				myBiomassStore = BiomassStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("BiomassStore"+myID));
-				hasCollectedReferences = true;
-			}
-			catch (org.omg.CORBA.UserException e){
-				e.printStackTrace(System.out);
-			}
-		}
 	}
 
 	public void log(LogNode myLogHead){

@@ -264,14 +264,20 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			PotableWaterStore[] potableWaterStoreInput = {myPotableWaterStore};
 			GreyWaterStore[] greyWaterStoreInput = {myGreyWaterStore};
 			BiomassStore[] biomassStoreOutput = {myBiomassStore};
+			SimEnvironment[] simEnvironmentInput = {mySimEnvironment};
+			SimEnvironment[] simEnvironmentOutput = {mySimEnvironment};
 			float[] powerFlowRates = {10000f};
 			float[] potableWaterFlowRates = {10000f};
 			float[] greyWaterFlowRates = {10000f};
 			float[] biomassFlowRates = {10000f};
+			float[] simEnvironmentInputFlowRates = {10000f};
+			float[] simEnvironmentOutputFlowRates = {10000f};
 			myBiomassRS.setPowerInputs(powerStoreInput, powerFlowRates);
 			myBiomassRS.setPotableWaterInputs(potableWaterStoreInput, potableWaterFlowRates);
 			myBiomassRS.setGreyWaterInputs(greyWaterStoreInput, greyWaterFlowRates);
 			myBiomassRS.setBiomassOutputs(biomassStoreOutput, biomassFlowRates);
+			myBiomassRS.setAirInputs(simEnvironmentInput, simEnvironmentInputFlowRates);
+			myBiomassRS.setAirOutputs(simEnvironmentOutput, simEnvironmentOutputFlowRates);
 		}
 		
 		//Hook up Air RS to other modules
