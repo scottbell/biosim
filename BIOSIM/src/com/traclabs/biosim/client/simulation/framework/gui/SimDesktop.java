@@ -230,7 +230,7 @@ public class SimDesktop extends BioFrame
 		myDisplayFoodButton.setIcon(foodIcon);
 		myDisplayFoodButton.setText("");
 		getContentPane().add(myToolBar, BorderLayout.NORTH);
-		setTitle("BIOSIM Advanced Life Support Simulation  Copyright "+ new Character( '\u00A9' ) + " 2002, TRACLabs");
+		setTitle("BioSim: Advanced Life Support Simulation  Copyright "+ new Character( '\u00A9' ) + " 2002, TRACLabs");
 		myDesktop.setDragMode(JDesktopPane.LIVE_DRAG_MODE);
 		setIconImage(biosimIcon.getImage());
 		getContentPane().add(myDesktop, BorderLayout.CENTER);
@@ -437,7 +437,7 @@ public class SimDesktop extends BioFrame
 			super(name);
 		}
 		public void actionPerformed(ActionEvent ae){
-			JOptionPane.showMessageDialog(null,"Advanced Life Support Simulation\nCopyright "+ new Character( '\u00A9' ) + " 2002, TRACLabs\nby Scott Bell and David Kortenkamp");
+			JOptionPane.showMessageDialog(null,"BioSim: Advanced Life Support Simulation\nCopyright "+ new Character( '\u00A9' ) + " 2002, TRACLabs\nby Scott Bell and David Kortenkamp");
 		}
 	}
 
