@@ -1,7 +1,25 @@
 module power{
-        interface PowerPS : framework::SimBioModule, framework::PowerProducer, framework::LightConsumer{
+        interface PowerPS : framework::SimBioModule, PowerProducer, environment::LightConsumer{
                 float getPowerProduced();
         };
         interface PowerStore : framework::Store{
+        };
+        interface PowerConsumer{
+                void setPowerInputMaxFlowRate(in float watts, in long index);
+                float getPowerInputMaxFlowRate(in long index);
+                void setPowerInputDesiredFlowRate(in float watts, in long index);
+                float getPowerInputDesiredFlowRate(in long index);
+                float getPowerInputActualFlowRate(in long index);
+                void setPowerInputs(in ::power::PowerStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                power::PowerStoreList getPowerInputs();
+        };
+	interface PowerProducer{
+                void setPowerOutputMaxFlowRate(in float watts, in long index);
+                float getPowerOutputMaxFlowRate(in long index);
+                void setPowerOutputDesiredFlowRate(in float watts, in long index);
+                float getPowerOutputDesiredFlowRate(in long index);
+                float getPowerOutputActualFlowRate(in long index);
+                void setPowerOutputs(in ::power::PowerStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                power::PowerStoreList getPowerOutputs();
         };
 };
