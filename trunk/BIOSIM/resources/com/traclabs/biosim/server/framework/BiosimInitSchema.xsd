@@ -895,6 +895,7 @@
 					<xsd:element name="greyWaterConsumer" type="GreyWaterConsumerType"/>
 					<xsd:element name="potableWaterProducer" type="PotableWaterProducerType"/>
 				</xsd:sequence>
+				<xsd:attribute name="implementation" type="WaterRSImplementationType" default="biosim"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>

@@ -139,17 +139,6 @@ public class WaterTextPanel extends TimedPanel
 	*/
 	private void createWaterRSLevelPanel(){
 		waterRSLevelPanel = new JPanel();
-		waterRSLevelPanel.setLayout(new GridLayout(5,1));
-		waterRSPotableWaterProducedLabel =new JLabel("potable water produced:   "+numFormat.format(myWaterRS.getPotableWaterProduced())+" L");
-	        waterRSGreyWaterProducedLabel =    new JLabel("grey water produced:        "+numFormat.format(myWaterRS.getGreyWaterProduced())+" L");
-	        waterRSDirtyWaterConsumedLabel =   new JLabel("dirty water consumed:      "+numFormat.format(myWaterRS.getDirtyWaterConsumed())+" L");
-	        waterRSGreyWaterConsumedLabel =    new JLabel("grey water consumed:      "+numFormat.format(myWaterRS.getGreyWaterConsumed())+" L");
-	        waterRSPowerConsumedLabel =         new JLabel("power consumed:             "+numFormat.format(myWaterRS.getPowerConsumed())+" W");
-		waterRSLevelPanel.add(waterRSPotableWaterProducedLabel);
-		waterRSLevelPanel.add(waterRSGreyWaterProducedLabel);
-		waterRSLevelPanel.add(waterRSDirtyWaterConsumedLabel);
-		waterRSLevelPanel.add(waterRSGreyWaterConsumedLabel);
-		waterRSLevelPanel.add(waterRSPowerConsumedLabel);
 	}
 	
 	/**
@@ -157,15 +146,6 @@ public class WaterTextPanel extends TimedPanel
 	*/
 	private void createWaterRSStatusPanel(){
 		waterRSStatusPanel = new JPanel();
-		waterRSStatusPanel.setLayout(new GridLayout(4,1));
-	        waterRSBWPStatusLabel =new JLabel("BWP status: "+coallateBWPStatus());
-	        waterRSROStatusLabel =  new JLabel("RO status:  "+coallateROStatus());
-	        waterRSAESStatusLabel = new JLabel("AES status: "+coallateAESStatus());
-	        waterRSPPSStatusLabel = new JLabel("PPS status: "+coallatePPSStatus());
-		waterRSStatusPanel.add(waterRSBWPStatusLabel);
-		waterRSStatusPanel.add(waterRSROStatusLabel);
-		waterRSStatusPanel.add(waterRSAESStatusLabel);
-		waterRSStatusPanel.add(waterRSPPSStatusLabel);
 	}
 	
 	/**
@@ -202,94 +182,9 @@ public class WaterTextPanel extends TimedPanel
 	}
 	
 	/**
-	 * Checks the status of AES WaterRS subsystem and constructs a string describing it.
-	 * @return	A String representing the status of the AES
-	 */
-	private String coallateAESStatus(){
-		if (!myWaterRS.AESIsEnabled())
-			return ("disabled");
-		StringBuffer statusBuffer = new StringBuffer();
-		if (!myWaterRS.AESHasPower())
-			statusBuffer.append("needs power, ");
-		if (!myWaterRS.AESHasWater())
-			statusBuffer.append("needs water, ");
-		if (statusBuffer.length() < 1)
-			return "nominal";
-		else{
-			statusBuffer.delete(statusBuffer.length() -2, statusBuffer.length());
-			return statusBuffer.toString();
-		}
-	}
-	
-	/**
-	 * Checks the status of BWP WaterRS subsystem and constructs a string describing it.
-	 * @return	A String representing the status of the BWP
-	 */
-	private String coallateBWPStatus(){
-		StringBuffer statusBuffer = new StringBuffer();
-		if (!myWaterRS.BWPHasPower())
-			statusBuffer.append("needs power, ");
-		if (!myWaterRS.BWPHasWater())
-			statusBuffer.append("needs water, ");
-		if (statusBuffer.length() < 1)
-			return "nominal";
-		else{
-			statusBuffer.delete(statusBuffer.length() -2, statusBuffer.length());
-			return statusBuffer.toString();
-		}
-	}
-	
-	/**
-	 * Checks the status of RO WaterRS subsystem and constructs a string describing it.
-	 * @return	A String representing the status of the BWP
-	 */
-	private String coallateROStatus(){
-		if (!myWaterRS.ROIsEnabled())
-			return ("disabled");
-		StringBuffer statusBuffer = new StringBuffer();
-		if (!myWaterRS.ROHasPower())
-			statusBuffer.append("needs power, ");
-		if (!myWaterRS.ROHasWater())
-			statusBuffer.append("needs water, ");
-		if (statusBuffer.length() < 1)
-			return "nominal";
-		else{
-			statusBuffer.delete(statusBuffer.length() -2, statusBuffer.length());
-			return statusBuffer.toString();
-		}
-	}
-	
-	/**
-	 * Checks the status of PPS WaterRS subsystem and constructs a string describing it.
-	 * @return	A String representing the status of the BWP
-	 */
-	private String coallatePPSStatus(){
-		StringBuffer statusBuffer = new StringBuffer();
-		if (!myWaterRS.PPSHasPower())
-			statusBuffer.append("needs power, ");
-		if (!myWaterRS.PPSHasWater())
-			statusBuffer.append("needs water, ");
-		if (statusBuffer.length() < 1)
-			return "nominal";
-		else{
-			statusBuffer.delete(statusBuffer.length() -2, statusBuffer.length());
-			return statusBuffer.toString();
-		}
-	}
-	
-	/**
 	 * Updates every label on the panel with new data pulled from the servers.
 	 */
 	public void refresh(){
-		waterRSPotableWaterProducedLabel.setText("potable water produced:   "+numFormat.format(myWaterRS.getPotableWaterProduced())+" L");
-		waterRSGreyWaterProducedLabel.setText("grey water produced:        "+numFormat.format(myWaterRS.getGreyWaterProduced())+" L");
-		waterRSDirtyWaterConsumedLabel.setText("dirty water consumed:      "+numFormat.format(myWaterRS.getDirtyWaterConsumed())+" L");
-		waterRSPowerConsumedLabel.setText("power consumed:             "+numFormat.format(myWaterRS.getPowerConsumed())+" W");
-		waterRSGreyWaterConsumedLabel.setText("grey water consumed:      "+numFormat.format(myWaterRS.getGreyWaterConsumed())+" L");
-		waterRSAESStatusLabel.setText("AES status: "+coallateAESStatus());
-		waterRSBWPStatusLabel.setText("BWP status: "+coallateBWPStatus());
-		waterRSROStatusLabel.setText("RO status:  "+coallateROStatus());
-		waterRSPPSStatusLabel.setText("PPS status: "+coallatePPSStatus());
 		potableWaterStoreLevelLabel.setText("water level:    "+numFormat.format(myPotableWaterStore.getLevel())+" L");
 		greyWaterStoreLevelLabel.setText("water level:    "+numFormat.format(myGreyWaterStore.getLevel())+" L");
 		dirtyWaterStoreLevelLabel.setText("water level:    "+numFormat.format(myDirtyWaterStore.getLevel())+" L");
