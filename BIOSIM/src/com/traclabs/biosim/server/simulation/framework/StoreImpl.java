@@ -53,8 +53,39 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 	}
 	
 	public void tick(){
+		if (leakRate > 0)
+			level -= (level * leakRate);
 		if (moduleLogging)
 			log();
+	}
+	
+	public void startMalfunction(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
+		if (pLength == MalfunctionLength.TEMPORARY_MALF){
+			if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
+				leakRate = .20f;
+			else if (pIntensity == MalfunctionIntensity.MEDIUM_MALF)
+				leakRate = .10f;
+			else if (pIntensity == MalfunctionIntensity.LOW_MALF)
+				leakRate = .05f;
+		}
+		else if (pLength == MalfunctionLength.PERMANENT_MALF){
+			float percentage = level / capacity;
+			if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
+				capacity = 0f;
+			else if (pIntensity == MalfunctionIntensity.MEDIUM_MALF)
+				capacity *= 0.5;
+			else if (pIntensity == MalfunctionIntensity.LOW_MALF)
+				capacity *= .2f;
+			level = percentage * capacity;
+		}
+	}
+	
+	public void endMalfunction(){
+		leakRate = 0f;
+	}
+	
+	public boolean isMalfunctioning(){
+		return (leakRate > 0);
 	}
 	
 	/**

@@ -5,7 +5,7 @@ module biosim{
                 module framework{
 			enum BioDriverInit {DEFAULT_INIT, OPTIMAL_INIT, NO_INIT};
 			enum StochasticIntensity {HIGH_STOCH, MEDIUM_STOCH, LOW_STOCH, NONE_STOCH};
-			enum MalfunctionIntensity {HIGH_MALF, MEDIUM_MALF, LOW_MALF};
+			enum MalfunctionIntensity {SEVERE_MALF, MEDIUM_MALF, LOW_MALF};
 			enum MalfunctionLength {TEMPORARY_MALF, PERMANENT_MALF};
 			
                         interface BioModule{
@@ -50,6 +50,7 @@ module biosim{
 				void reset();
 				void setInitialization(in BioDriverInit myInit);
 				void setStochasticIntensity(in StochasticIntensity pIntensity);
+				void startMalfunction(in MalfunctionIntensity pIntensity, in MalfunctionLength pLength);
                         };
                 };
 
