@@ -32,8 +32,9 @@ public class EnvironmentTextPanel extends TimedPanel
 	* Creates and registers this panel.
 	* @param pBioSimulator	The Biosimulator this Panel will register itself with.
 	*/
-	public EnvironmentTextPanel(){
-		mySimEnvironment = (SimEnvironment)(BioHolder.getBioModule(BioHolder.simEnvironmentName));
+	public EnvironmentTextPanel(String environmentName){
+		super();
+		mySimEnvironment = (SimEnvironment)(BioHolder.getBioModule(environmentName));
 		buildGui();
 	}
 	

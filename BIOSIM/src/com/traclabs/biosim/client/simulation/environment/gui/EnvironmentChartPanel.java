@@ -3,6 +3,7 @@ package biosim.client.environment.gui;
 import javax.swing.*;
 import java.awt.*;
 import biosim.client.framework.gui.*;
+import biosim.client.framework.*;
 
 /**
  * This is the JPanel that displays a chart about the Water
@@ -11,19 +12,25 @@ import biosim.client.framework.gui.*;
  */
 public class EnvironmentChartPanel extends UpdatablePanel
 {
-	private UpdatablePanel myEnvironmentPieChartPanel;
+	private UpdatablePanel myCrewEnvironmentPieChartPanel;
+	private UpdatablePanel myPlantEnvironmentPieChartPanel;
 
 	public EnvironmentChartPanel() {
 		setLayout(new BorderLayout());
-		myEnvironmentPieChartPanel = new EnvironmentPieChartPanel();
-		add(myEnvironmentPieChartPanel, BorderLayout.CENTER);
+		myCrewEnvironmentPieChartPanel = new EnvironmentPieChartPanel(BioHolder.crewEnvironmentName);
+		myPlantEnvironmentPieChartPanel = new EnvironmentPieChartPanel(BioHolder.plantEnvironmentName);
+		
+		add(myCrewEnvironmentPieChartPanel, BorderLayout.WEST);
+		add(myPlantEnvironmentPieChartPanel, BorderLayout.EAST);
 	}
 	
 	public void refresh(){
-		myEnvironmentPieChartPanel.refresh();
+		myCrewEnvironmentPieChartPanel.refresh();
+		myPlantEnvironmentPieChartPanel.refresh();
 	}
 	
 	public void visibilityChange(boolean nowVisible){
-		myEnvironmentPieChartPanel.visibilityChange(nowVisible);
+		myCrewEnvironmentPieChartPanel.visibilityChange(nowVisible);
+		myPlantEnvironmentPieChartPanel.visibilityChange(nowVisible);
 	}
 }

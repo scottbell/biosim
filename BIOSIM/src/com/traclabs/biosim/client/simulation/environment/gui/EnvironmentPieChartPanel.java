@@ -26,10 +26,14 @@ public class EnvironmentPieChartPanel extends GraphPanel
 	private String otherCategory = "Other";
 	private String vacuumCategory = "Vacuum";
 	private boolean isVacuum = false;
-                       
+	private String environmentName = "";
+
+	public EnvironmentPieChartPanel(String pEnvironmentName){
+		environmentName = pEnvironmentName;
+	}
+
 	protected void createGraph(){
 		// create the chart...
-		mySimEnvironment = (SimEnvironment)(BioHolder.getBioModule(BioHolder.simEnvironmentName));
 		refresh();
 		myChart = ChartFactory.createPie3DChart("Environment Gas Composition", myDataset, true, true, false);
 		myPlot = (Pie3DPlot)(myChart.getPlot());
@@ -41,6 +45,10 @@ public class EnvironmentPieChartPanel extends GraphPanel
 		myChartPanel.setMinimumDrawHeight(250);
 		myChartPanel.setMinimumDrawWidth(250);
 		myChartPanel.setPreferredSize(new Dimension(250, 250));
+	}
+	
+	protected void initializeDataSources(){
+		mySimEnvironment = (SimEnvironment)(BioHolder.getBioModule(environmentName));
 	}
 
 	public void refresh() {
@@ -72,8 +80,10 @@ public class EnvironmentPieChartPanel extends GraphPanel
 			myDataset.setValue(otherCategory, new Float(mySimEnvironment.getOtherLevel()));
 		}
 	}
-	
+
 	private void initDataset(){
+		if (mySimEnvironment == null)
+			System.err.println("EnvironmentPieChartPanel: mySimEnvironment is null!");
 		if ((mySimEnvironment.getO2Level() <= 0) && (mySimEnvironment.getCO2Level() <= 0) && (mySimEnvironment.getOtherLevel() <= 0)){
 			myDataset.setValue(vacuumCategory, new Float(1f));
 			myPlot.setPaint(0, Color.DARK_GRAY);

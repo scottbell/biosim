@@ -34,6 +34,8 @@ public class BioHolder
 	public final static String potableWaterStoreName = "PotableWaterStore";
 	public final static String greyWaterStoreName = "GreyWaterStore";
 	public final static String simEnvironmentName = "CrewEnvironment";
+	public final static String crewEnvironmentName = "CrewEnvironment";
+	public final static String plantEnvironmentName = "PlantEnvironment";
 
 	//A hastable containing the server references
 	private static Map modules;
@@ -47,9 +49,16 @@ public class BioHolder
 	*/
 	public static BioModule getBioModule(String type){
 		collectReferences();
-		if (type == null)
+		if (type == null){
+			System.err.println("BioHolder: Passed null string....");
 			return null;
-		return (BioModule)(modules.get(type));
+		}
+		BioModule returnModule = (BioModule)(modules.get(type));
+		if (returnModule == null){
+			System.err.println("BioHolder: Couldn't find module: "+type);
+			return null;
+		}
+		return returnModule;
 	}
 	
 	public static BioModule[] getBioModules(){
@@ -94,8 +103,10 @@ public class BioHolder
 			modules.put(powerStoreName , myPowerStore);
 			AirRS myAirRS = AirRSHelper.narrow(OrbUtils.getNCRef().resolve_str(airRSName+myID));
 			modules.put(airRSName , myAirRS);
-			SimEnvironment mySimEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str(simEnvironmentName+myID));
-			modules.put(simEnvironmentName , mySimEnvironment);
+			SimEnvironment myCrewEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str(crewEnvironmentName+myID));
+			modules.put(crewEnvironmentName , myCrewEnvironment);
+			SimEnvironment myPlantEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str(plantEnvironmentName+myID));
+			modules.put(plantEnvironmentName , myPlantEnvironment);
 			GreyWaterStore myGreyWaterStore = GreyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(greyWaterStoreName+myID));
 			modules.put(greyWaterStoreName , myGreyWaterStore);
 			PotableWaterStore myPotableWaterStore = PotableWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(potableWaterStoreName+myID));
