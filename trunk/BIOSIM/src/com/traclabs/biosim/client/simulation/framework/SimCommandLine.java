@@ -7,8 +7,7 @@ import java.io.*;
 import biosim.idl.sensor.water.*;
 
 /**
- * A simple driver that creates a SimDesktop, sets the size and visibility, then lets it run.
- *
+ * Runs a CLI interface to the simulation.
  * @author    Scott Bell
  */	
 
@@ -16,6 +15,7 @@ public class SimCommandLine
 {
 	private BioDriver myDriver;
 	private int myID = 0;
+	
 	public SimCommandLine(int pID){
 		myID = pID;
 	}

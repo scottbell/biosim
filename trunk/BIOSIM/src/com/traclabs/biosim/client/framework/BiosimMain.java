@@ -2,6 +2,7 @@ package biosim.client.framework;
 
 import biosim.client.simulation.framework.gui.*;
 import biosim.client.simulation.framework.*;
+import biosim.client.sim3D.*;
 import biosim.client.util.*;
 import biosim.client.framework.gui.*;
 import java.io.*;
@@ -27,6 +28,7 @@ public class BiosimMain
 		boolean wantsToRunCommandLine = false;
 		boolean wantsToRunGUI = false;
 		boolean wantsToRunController = false;
+		boolean wantsToRun3D = false;
 		for (int i = 0; i < myArgs.length; i++){
 			if (myArgs[i].equals("gui")){
 				wantsToRunGUI = true;
@@ -36,6 +38,9 @@ public class BiosimMain
 			}
 			else if (myArgs[i].equals("controller")){
 				wantsToRunController = true;
+			}
+			else if (myArgs[i].equals("3D")){
+				wantsToRun3D = true;
 			}
 			else if (myArgs[i].startsWith("-id=")){
 				try{
@@ -56,6 +61,8 @@ public class BiosimMain
 			runGUI(myID);
 		else if (wantsToRunController)
 			runHandController(myID);
+		else if (wantsToRun3D)
+			run3D(myID);
 		else{
 			System.out.println("Using default, starting GUI with server ID="+myID);
 			runGUI(myID);
@@ -82,6 +89,11 @@ public class BiosimMain
 	public void runHandController(int myID){
 		HandController myController = new HandController();
 		myController.runSim();
+	}
+	
+	public void run3D(int myID){
+		SimulationEngine myEngine = new SimulationEngine(myID);
+		myEngine.runEngine();
 	}
 }
 
