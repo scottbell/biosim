@@ -108,10 +108,10 @@ public class ShelfImpl extends ShelfPOA {
 		////System.out.println("ShelfImpl: powerLevel: "+powerLevel);
 		////System.out.println("ShelfImpl: getLampEfficiency: "+getLampEfficiency());
 		////System.out.println("ShelfImpl: getPSEfficiency: "+getPSEfficiency());
-		float powerToDeliver = 	Math.min(powerLevel, myCrop.getPPFNeeded() / (getLampEfficiency() * getPSEfficiency()));
+		float powerToDeliver = 	Math.min(powerLevel, myCrop.getPPFNeeded() * getCropAreaUsed() / (getLampEfficiency() * getPSEfficiency()));
 		if (powerToDeliver <= 0)
 			powerToDeliver = pow(1f, -30f);
-		float thePPF = powerToDeliver * getLampEfficiency() * getPSEfficiency();
+		float thePPF = powerToDeliver * getLampEfficiency() * getPSEfficiency() / getCropAreaUsed();
 		////System.out.println("ShelfImpl: thePPF: "+thePPF);
 		myCrop.shine(thePPF);
 	}
