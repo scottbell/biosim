@@ -841,7 +841,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		H2Store myH2Store = H2StoreHelper.narrow(getBioModule(myH2StoreName));
 		myCO2Store.setCapacity(1000f);
 		myO2Store.setCapacity(1000f);
-		myH2Store.setCapacity(1000f);
+		myH2Store.setCapacity(5000f);
 		myH2Store.setLevel(250f);
 		myCO2Store.setLevel(500f);
 		myO2Store.setLevel(250f);
