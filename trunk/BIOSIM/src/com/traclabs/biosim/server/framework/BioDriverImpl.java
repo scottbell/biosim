@@ -820,8 +820,11 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			{
 
 				Accumulator myAccumulator = AccumulatorHelper.narrow(getBioModule(myAccumulatorName));
-				CO2AirEnvironmentInFlowRateSensor myAccumulatorCO2AirEnvironmentInFlowRateSensor = AccumulatorCO2AirEnvironmentInFlowRateSensorHelper.narrow(getBioModule(myAccumulatorCO2AirEnvironmentInFlowRateSensorName));
-				myAccumulatorCO2AirEnvironmentInFlowRateSensor.setInput(myDirtyWaterStore);
+				CO2AirEnvironmentInFlowRateSensor myAccumulatorCO2AirEnvironmentInFlowRateSensor = CO2AirEnvironmentInFlowRateSensorHelper.narrow(getBioModule(myAccumulatorCO2AirEnvironmentInFlowRateSensorName));
+				myAccumulatorCO2AirEnvironmentInFlowRateSensor.setInput(myAccumulator, 0);
+				
+				O2AirEnvironmentInFlowRateSensor myAccumulatorO2AirEnvironmentInFlowRateSensor = O2AirEnvironmentInFlowRateSensorHelper.narrow(getBioModule(myAccumulatorO2AirEnvironmentInFlowRateSensorName));
+				myAccumulatorO2AirEnvironmentInFlowRateSensor.setInput(myAccumulator, 0);
 			}
 
 			//Injector
@@ -832,7 +835,6 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		/*
 		//Framework
 		//Accumulator
-		private String myAccumulatorCO2AirEnvironmentInFlowRateSensorName;
 		private String myAccumulatorO2AirEnvironmentInFlowRateSensorName;
 		private String myAccumulatorCO2AirStoreOutFlowRateSensorName;
 		private String myAccumulatorO2AirStoreOutFlowRateSensorName;
