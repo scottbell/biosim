@@ -18,15 +18,19 @@ public class Wheat extends Plant{
 	}
 
 	protected void calculateCO2Needed(){
-		float time = 1.0f;
-		double CO2FlowRate = (-1.4950 + 0.1944 * time - 9.9587 * Math.exp(-3) * (time * time) + 1.1802 * Math.exp(-4) * (time * time * time) -
+		double time = (myAge / 24);
+		double CO2FlowRate = (-1.4950 + 0.31944 * time - 9.9587 * Math.exp(-3) * (time * time) + 1.1802 * Math.exp(-4) * (time * time * time) -
 		                      5.0269 * Math.exp(-7) * (time * time * time* time)) / areaPerCrop;
-		Double CO2FlowRateObj = new Double(CO2FlowRate * numberOfCrops);
+		Double CO2FlowRateObj = new Double((CO2FlowRate * numberOfCrops) / 24);
 		CO2Needed = CO2FlowRateObj.floatValue();
 	}
 	
 	protected void calculateWaterNeeded(){
-		return ;
+		return;
+	}
+	
+	public String getPlantType(){
+		return "Wheat";
 	}
 	
 	protected void calculatePowerNeeded(){
