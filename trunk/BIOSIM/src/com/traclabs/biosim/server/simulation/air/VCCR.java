@@ -20,6 +20,7 @@ public class VCCR extends AirRSSubSystem{
 	private float currentCO2Consumed = 0;
 	private float currentO2Consumed = 0;
 	private float currentO2Produced = 0;
+	private float myProductionRate = 1f;
 
 	public VCCR(AirRSImpl pAirRSImpl){
 		super(pAirRSImpl);
@@ -35,6 +36,14 @@ public class VCCR extends AirRSSubSystem{
 	
 	public float getCO2Consumed(){
 		return currentCO2Consumed;
+	}
+	
+	public void setProductionRate(float percentage){
+		myProductionRate = percentage;
+	}
+	
+	public float getProductionRate(){
+		return myProductionRate;
 	}
 	
 	/**
@@ -65,10 +74,10 @@ public class VCCR extends AirRSSubSystem{
 	}
 	
 	private void pushAir(){
-		currentO2Produced = myBreath.O2;
-		mySimEnvironment.addOther(myBreath.other);
-		mySimEnvironment.addO2(myBreath.O2);
-		myCO2Tank.addCO2(myBreath.CO2);
+		currentO2Produced = myBreath.O2 * myProductionRate;
+		mySimEnvironment.addOther(myBreath.other * myProductionRate);
+		mySimEnvironment.addO2(currentO2Produced);
+		myCO2Tank.addCO2(myBreath.CO2 * myProductionRate);
 	}
 	
 	public void reset(){

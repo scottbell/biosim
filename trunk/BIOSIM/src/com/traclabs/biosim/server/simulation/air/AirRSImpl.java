@@ -1,7 +1,9 @@
 package biosim.server.air;
 
 import biosim.idl.air.*;
+import biosim.idl.framework.*;
 import biosim.idl.util.log.*;
+import java.util.*;
 import biosim.server.util.*;
 import biosim.server.framework.*;
 
@@ -125,8 +127,39 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 		myH2Tank.tick();
 		myCH4Tank.tick();
 		myOGS.tick();
+		if (isMalfunctioning())
+			performMalfunctions();
 		if (moduleLogging)
 			log();
+	}
+	
+	public void setProductionRate(float percentage){
+		myVCCR.setProductionRate(percentage);
+		myOGS.setProductionRate(percentage);
+	}
+	
+	private void performMalfunctions(){
+		float productionRate = 1f;
+		for (Enumeration e = myMalfunctions.elements(); e.hasMoreElements();){
+			Malfunction currentMalfunction = (Malfunction)(e.nextElement());
+			if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF){
+				if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
+					productionRate *= 0.50;
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
+					productionRate *= 0.25;
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
+					productionRate *= 0.10;
+			}
+			else if (currentMalfunction.getLength() == MalfunctionLength.PERMANENT_MALF){
+				if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
+					productionRate *= 0.50;
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
+					productionRate *= 0.25;
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
+					productionRate *= 0.10;
+			}
+		}
+		setProductionRate(productionRate);
 	}
 	
 	/**

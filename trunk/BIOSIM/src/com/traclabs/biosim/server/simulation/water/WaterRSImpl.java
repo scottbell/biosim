@@ -231,6 +231,8 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 		myRO.tick();
 		myAES.tick();
 		myPPS.tick();
+		if (isMalfunctioning())
+			performMalfunctions();
 		if (moduleLogging)
 			log();
 	}

@@ -18,6 +18,7 @@ public class OGS extends AirRSSubSystem{
 	private float currentH2OConsumed = 0;
 	private float currentO2Produced = 0;
 	private float currentH2Produced = 0;
+	private float myProductionRate = 1f;
 
 	public OGS(AirRSImpl pAirRSImpl){
 		super(pAirRSImpl);
@@ -58,9 +59,17 @@ public class OGS extends AirRSSubSystem{
 	}
 	
 	private void pushGasses(){
-		currentO2Produced = myAirRS.randomFilter(currentH2OConsumed * 0.70f);
+		currentO2Produced = myAirRS.randomFilter(currentH2OConsumed * 0.70f) * myProductionRate;
 		mySimEnvironment.addO2(myAirRS.randomFilter(currentO2Produced));
-		currentH2Produced = myAirRS.randomFilter(currentH2OConsumed * 0.30f);
+		currentH2Produced = myAirRS.randomFilter(currentH2OConsumed * 0.30f) * myProductionRate;
+	}
+	
+	public void setProductionRate(float percentage){
+		myProductionRate = percentage;
+	}
+	
+	public float getProductionRate(){
+		return myProductionRate;
 	}
 	
 	public float takeH2(float H2toTake){
