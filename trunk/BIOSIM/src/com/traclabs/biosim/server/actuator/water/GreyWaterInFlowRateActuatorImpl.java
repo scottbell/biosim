@@ -2,7 +2,7 @@ package com.traclabs.biosim.server.actuator.water;
 
 import com.traclabs.biosim.idl.actuator.water.GreyWaterInFlowRateActuatorOperations;
 import com.traclabs.biosim.idl.framework.BioModule;
-import com.traclabs.biosim.idl.framework.GreyWaterConsumer;
+import com.traclabs.biosim.idl.simulation.framework.GreyWaterConsumer;
 import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
 
 public class GreyWaterInFlowRateActuatorImpl extends GenericActuatorImpl

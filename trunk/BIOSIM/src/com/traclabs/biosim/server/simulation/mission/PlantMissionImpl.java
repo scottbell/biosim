@@ -1,12 +1,12 @@
 package com.traclabs.biosim.server.simulation.mission;
 
-import com.traclabs.biosim.idl.framework.AirConsumerOperations;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
-import com.traclabs.biosim.idl.framework.PotableWaterConsumerOperations;
-import com.traclabs.biosim.idl.framework.PowerConsumerOperations;
 import com.traclabs.biosim.idl.simulation.air.Breath;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.idl.simulation.framework.AirConsumerOperations;
+import com.traclabs.biosim.idl.simulation.framework.PotableWaterConsumerOperations;
+import com.traclabs.biosim.idl.simulation.framework.PowerConsumerOperations;
 import com.traclabs.biosim.idl.simulation.mission.PlantMissionOperations;
 import com.traclabs.biosim.idl.simulation.power.PowerStore;
 import com.traclabs.biosim.idl.simulation.water.PotableWaterStore;

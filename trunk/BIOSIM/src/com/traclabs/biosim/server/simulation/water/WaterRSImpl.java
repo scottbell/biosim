@@ -3,13 +3,13 @@ package com.traclabs.biosim.server.simulation.water;
 import java.util.Arrays;
 import java.util.Iterator;
 
-import com.traclabs.biosim.idl.framework.DirtyWaterConsumerOperations;
-import com.traclabs.biosim.idl.framework.GreyWaterConsumerOperations;
 import com.traclabs.biosim.idl.framework.Malfunction;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
-import com.traclabs.biosim.idl.framework.PotableWaterProducerOperations;
-import com.traclabs.biosim.idl.framework.PowerConsumerOperations;
+import com.traclabs.biosim.idl.simulation.framework.DirtyWaterConsumerOperations;
+import com.traclabs.biosim.idl.simulation.framework.GreyWaterConsumerOperations;
+import com.traclabs.biosim.idl.simulation.framework.PotableWaterProducerOperations;
+import com.traclabs.biosim.idl.simulation.framework.PowerConsumerOperations;
 import com.traclabs.biosim.idl.simulation.power.PowerStore;
 import com.traclabs.biosim.idl.simulation.water.DirtyWaterStore;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterStore;

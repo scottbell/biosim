@@ -2,12 +2,12 @@ package com.traclabs.biosim.server.simulation.power;
 
 import java.util.Iterator;
 
-import com.traclabs.biosim.idl.framework.LightConsumerOperations;
 import com.traclabs.biosim.idl.framework.Malfunction;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
-import com.traclabs.biosim.idl.framework.PowerProducerOperations;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.idl.simulation.framework.LightConsumerOperations;
+import com.traclabs.biosim.idl.simulation.framework.PowerProducerOperations;
 import com.traclabs.biosim.idl.simulation.power.PowerPSOperations;
 import com.traclabs.biosim.idl.simulation.power.PowerStore;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;

@@ -2,7 +2,7 @@ package com.traclabs.biosim.server.actuator.air;
 
 import com.traclabs.biosim.idl.actuator.air.CO2OutFlowRateActuatorOperations;
 import com.traclabs.biosim.idl.framework.BioModule;
-import com.traclabs.biosim.idl.framework.CO2Producer;
+import com.traclabs.biosim.idl.simulation.framework.CO2Producer;
 import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
 
 public class CO2OutFlowRateActuatorImpl extends GenericActuatorImpl implements
