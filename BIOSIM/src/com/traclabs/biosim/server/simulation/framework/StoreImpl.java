@@ -1,12 +1,11 @@
+package biosim.server.framework;
+
+import biosim.idl.framework.*;
 /**
  * The basic Store Implementation.  Allows for basic store functionality (like adding, removing).
  *
  * @author    Scott Bell
  */
-
-package biosim.server.framework;
-
-import biosim.idl.framework.*;
 
 public abstract class StoreImpl extends BioModuleImpl implements StoreOperations{
 	//The level of whatever this store is holding

@@ -1,12 +1,12 @@
+package biosim.server.power;
+
+import biosim.idl.power.*;
+import biosim.server.framework.*;
 /**
  * The Power Store Implementation.  Takes power from the Power Production System and stores it here for other modules to use.
  *
  * @author    Scott Bell
  */
-package biosim.server.power;
-
-import biosim.idl.power.*;
-import biosim.server.framework.*;
 
 public class PowerStoreImpl extends StoreImpl implements PowerStoreOperations {
 	/**

@@ -2,35 +2,60 @@ package biosim.client.gui;
 
 import java.awt.*;
 import javax.swing.*;
+/**
+ * A  frame that has a closing listener and (if wanted) a popup dialog asking "Do you want to close"
+ *
+ * @author    Scott Bell
+ */
 
 public class BaseJFrame extends javax.swing.JFrame
 {
+	//Flag that decides if the frame pops up a dialog box when closing
 	private boolean showCloseDialog = true;
 	
+	/**
+	* Default constructor makes the frame and registers the close listener
+	*/
 	public BaseJFrame(){
 		buildGui();
 	}
-
-	public BaseJFrame( String newTitle )
+	
+	/**
+	* Constructor that makes the frame with the title specified and registers the close listener
+	* @param newTitle The title of the frame
+	*/
+	public BaseJFrame(String newTitle )
 	{
 		super( newTitle );
 		buildGui();
 	}
 	
-	public BaseJFrame( String newTitle, boolean show_close_dialog )
+	/**
+	* Constructor that makes the frame with the title specified and registers the close listener.
+	* Also has option to have frame popup a dialog when closing
+	* @param newTitle The title of the frame
+	* @param show_close_dialog if <code>true</code>, popup dialog comes up asking "Do you want to close?", on <code>true</code> it doesn't
+	*/
+	public BaseJFrame(String newTitle, boolean show_close_dialog )
 	{
 		super( newTitle );
 		showCloseDialog = showCloseDialog;
 		buildGui();
 	}
-
+	
+	/**
+	* Creates close listener and adds it to the window
+	*/
 	private void buildGui()
 	{
-		setDefaultCloseOperation( WindowConstants.DO_NOTHING_ON_CLOSE );
+		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE );
 		WindowCloseListener myWCL = new WindowCloseListener();
 		this.addWindowListener(myWCL);
 	}
-
+	
+	/**
+	* Invoked on window closing
+	*/
 	protected void frameClosing()
 	{
 		if( !showCloseDialog || JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(
@@ -44,9 +69,15 @@ public class BaseJFrame extends javax.swing.JFrame
 		}
 	}
 	
+	/**
+	* Invoked on window exiting
+	*/
 	protected void frameExiting(){
 	}
 	
+	/**
+	* The Window Close listener for this Frame
+	*/
 	private class WindowCloseListener extends java.awt.event.WindowAdapter
 	{
 		public void windowClosing(java.awt.event.WindowEvent event)

@@ -1,12 +1,12 @@
+package biosim.client.framework;
+
+import biosim.client.framework.gui.*;
+import javax.swing.*;
 /**
  * A simple driver that creates a SimDesktop, sets the size and visibility, then lets it run.
  *
  * @author    Scott Bell
  */	
-package biosim.client.framework;
-
-import biosim.client.framework.gui.*;
-import javax.swing.*;
 
 public class TestDriver
 {

@@ -1,15 +1,14 @@
+package biosim.server.power;
+
+import biosim.idl.power.*;
+import biosim.server.util.*;
+import biosim.server.framework.*;
 /**
  * The Power Production System creates power from a generator (say a solar panel) and stores it in the power store.
  * This provides power to all the biomodules in the system.
  *
  * @author    Scott Bell
  */
-
-package biosim.server.power;
-
-import biosim.idl.power.*;
-import biosim.server.util.*;
-import biosim.server.framework.*;
 
 public class PowerPSImpl extends BioModuleImpl implements PowerPSOperations {
 	//The power produced (in watts) by the Power PS at the current tick
@@ -20,9 +19,9 @@ public class PowerPSImpl extends BioModuleImpl implements PowerPSOperations {
 	private PowerStore myPowerStore;
 	
 	/**
-	* When ticked, the Food Processor
-	* 1) attempts to collect references to various server (if not already done)
-	* 4) creates power and places it into the power store
+	* When ticked, the Food Processor does the following:
+	* 1) attempts to collect references to various server (if not already done).
+	* 2) creates power and places it into the power store.
 	*/
 	public void tick(){
 		collectReferences();

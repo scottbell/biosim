@@ -1,10 +1,3 @@
-/**
- * This is the JPanel that displays information about the Water RS and the water stores.
- * Each tick it polls each water related server for new information regarding these systems.
- *
- * @author    Scott Bell
- */
-
 package biosim.client.water.gui;
 
 import biosim.client.framework.*;
@@ -14,6 +7,13 @@ import javax.swing.border.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.text.*;
+/**
+ * This is the JPanel that displays information about the Water RS and the water stores.
+ * Each tick it polls each water related server for new information regarding these systems.
+ *
+ * @author    Scott Bell
+ */
+
 
 public class WaterPanel extends JPanel implements BioSimulatorListener
 {

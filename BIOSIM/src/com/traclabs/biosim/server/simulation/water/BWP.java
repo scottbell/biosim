@@ -1,11 +1,10 @@
+package biosim.server.water;
 /**
  * The Biological Waste Processor is the first stage of water purification.  It takes dirty/grey water, filters it some, and
  * sends the water to the RO
  *
  * @author    Scott Bell
  */
-
-package biosim.server.water;
 
 public class BWP extends WaterRSSubSystem{
 	//The subsystem to send the water to next
@@ -55,8 +54,8 @@ public class BWP extends WaterRSSubSystem{
 	
 	/**
 	* In one tick, this subsystem:
-	* 1) Collects references (if needed)
-	* 2) Flushes the water from this subsystem to the RO
+	* 1) Collects references (if needed).
+	* 2) Flushes the water from this subsystem to the RO.
 	*/
 	public void tick(){
 		collectReferences();

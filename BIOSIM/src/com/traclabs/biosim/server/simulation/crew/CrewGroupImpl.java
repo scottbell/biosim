@@ -1,9 +1,3 @@
-/**
- * The Crew Implementation.  Holds multiple crew persons and their schedule.
- *
- * @author    Scott Bell
- */
-
 package biosim.server.crew;
 
 import java.io.*;
@@ -12,6 +6,11 @@ import java.util.*;
 import biosim.server.util.*;
 import biosim.idl.crew.*;
 import biosim.server.framework.*;
+/**
+ * The Crew Implementation.  Holds multiple crew persons and their schedule.
+ *
+ * @author    Scott Bell
+ */
 
 public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations {
 	//The schedule using by the crew.  Contains the activities (and order) which the crew persons perform.

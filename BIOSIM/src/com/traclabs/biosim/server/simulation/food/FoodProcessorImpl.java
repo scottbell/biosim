@@ -1,15 +1,14 @@
-/**
- * The Food Processor takes biomass (plants matter) and refines it to food for the crew members.
- *
- * @author    Scott Bell
- */
-
 package biosim.server.food;
 
 import biosim.idl.food.*;
 import biosim.idl.power.*;
 import biosim.server.util.*;
 import biosim.server.framework.*;
+/**
+ * The Food Processor takes biomass (plants matter) and refines it to food for the crew members.
+ *
+ * @author    Scott Bell
+ */
 
 public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOperations {
 	//During any given tick, this much power is needed for the food processor to run at all
@@ -144,9 +143,9 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	}
 
 	/**
-	* When ticked, the Food Processor
-	* 1) attempts to collect references to various server (if not already done)
-	* 2) consumes power and biomass
+	* When ticked, the Food Processor does the following: 
+	* 1) attempts to collect references to various server (if not already done).
+	* 2) consumes power and biomass.
 	* 3) creates food (if possible)
 	*/
 	public void tick(){

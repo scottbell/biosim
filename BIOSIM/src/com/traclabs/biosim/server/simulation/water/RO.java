@@ -1,11 +1,10 @@
+package biosim.server.water;
 /**
  * The RO is the second stage of water purification.  It takes water from the BWP, filters it some, and
  * sends the water to the AES
  *
  * @author    Scott Bell
  */
-
-package biosim.server.water;
 
 public class RO extends WaterRSSubSystem{
 	//The subsystem to send the water to next
@@ -31,8 +30,8 @@ public class RO extends WaterRSSubSystem{
 	
 	/**
 	* In one tick, this subsystem:
-	* 1) Collects references (if needed)
-	* 2) Flushes the water from this subsystem to the AES
+	* 1) Collects references (if needed).
+	* 2) Flushes the water from this subsystem to the AES.
 	*/
 	public void tick(){
 		collectReferences();

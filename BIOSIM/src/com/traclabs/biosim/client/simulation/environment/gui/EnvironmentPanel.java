@@ -1,9 +1,3 @@
-/** 
- * This is the JPanel that displays information about the environment (gas levels, current time, etc.)
- *
- * @author    Scott Bell
- */
- 
 package biosim.client.environment.gui;
 
 import biosim.client.framework.*;
@@ -13,6 +7,11 @@ import javax.swing.border.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.text.*;
+/** 
+ * This is the JPanel that displays information about the environment (gas levels, current time, etc.)
+ *
+ * @author    Scott Bell
+ */
 
 public class EnvironmentPanel extends JPanel implements BioSimulatorListener
 {

@@ -1,10 +1,3 @@
-/**
- * The Biomass RS is essentially responsible for growing plants.  The plant matter (biomass) is fed into the food processor to create food
- * for the crew.  The plants can also (along with the AirRS) take CO2 out of the air and add O2.
- *
- * @author    Scott Bell
- */
-
 package biosim.server.food;
 
 import biosim.idl.food.*;
@@ -14,6 +7,12 @@ import biosim.idl.power.*;
 import biosim.server.util.*;
 import biosim.idl.air.*;
 import biosim.server.framework.*;
+/**
+ * The Biomass RS is essentially responsible for growing plants.  The plant matter (biomass) is fed into the food processor to create food
+ * for the crew.  The plants can also (along with the AirRS) take CO2 out of the air and add O2.
+ *
+ * @author    Scott Bell
+ */
 
 public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations {
 	//During any given tick, this much water is needed for the plants
@@ -164,7 +163,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	}
 	
 	/**
-	* Calculate the O2 ratio in the breath of air inhaled by the plants
+	* Calculate the O2 ratio in the breath of air inhaled by the plants.
 	* Used to see if plants has inhaled lethal amount of O2
 	* @param aBreath the breath inhaled by the plants this tick
 	* @return percentage of O2 in air
@@ -194,8 +193,8 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	}
 	
 	/**
-	* The "inhalation" and "exhalation" of the plants for one tick
-	* The plants inhale a needed amount of CO2 (along with O2 and other gasses)
+	* The "inhalation" and "exhalation" of the plants for one tick.
+	* The plants inhale a needed amount of CO2 (along with O2 and other gasses).
 	* and exhale fraction of the CO2 inhaled, a multiple of the O2 inhaled, and the same amount of other gasses inhaled.
 	*/
 	private void gatherAir(){
@@ -275,7 +274,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	}
 	
 	/**
-	* Attempts to consume resource for the Biomass RS
+	* Attempts to consume resource for the Biomass RS.
 	* inhales/drinks, then exhales
 	*/
 	private void consumeResources(){
@@ -309,11 +308,11 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	}
 	
 	/**
-	* When ticked, the Biomass RS
-	* on the condition that the plants aren't dead it:
-	* 1) attempts to collect references to various server (if not already done)
-	* 4) consumes air/light/water, exhales
-	* 5) creates biomass (if possible)
+	* When ticked, the Biomass RS does the following
+	* on the condition that the plants aren't dead it.
+	* 1) attempts to collect references to various server (if not already done).
+	* 4) consumes air/light/water, exhales.
+	* 5) creates biomass (if possible).
 	* 6) checks whether afflictions (if any) are fatal
 	*/
 	public void tick(){

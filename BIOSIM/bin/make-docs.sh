@@ -47,16 +47,16 @@ simStubDir="$stubDir/$simString"
 sourceDir="$devRootDir/src"
 clientDir="$sourceDir/biosim/client"
 jacoClasspath="$JACORB_HOME/lib/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME/lib$separator$JACORB_HOME/lib/idl.jar"
-docSourcepath="$stubDir$separator$skeletonDir$"
+docSourcepath="$sourceDir$separator$stubDir$separator$skeletonDir$"
 docClasspath="$clientClassesDir$separator$serverClassesDir$separator$jacoClasspath"
 ####################
 #	DOC BUILD             #
 ####################
 echo "	-creating docs"
 echo "		-creating package list"
-java -classpath $devRootDir/lib/docutil/doccheck.jar com.sun.tools.doclets.util.PackageList -skipAll CVS $sourceDir > $docDir/package-list
+java -classpath $devRootDir/lib/docutil/doccheck.jar com.sun.tools.doclets.util.PackageList -skipAll CVS $sourceDir $serverGenDir$skeletonString > $docDir/package-list
 echo "		-creating html documentation"
-javadocInvocation="$javadocCommand -d $docDir -classpath $docClasspath -sourcepath $docSourcepath"
+javadocInvocation="$javadocCommand -breakiterator -d $docDir -classpath $docClasspath -sourcepath $docSourcepath"
 $javadocInvocation @$docDir/package-list
 echo "		-removing package list"
 rm -f $docDir/package-list

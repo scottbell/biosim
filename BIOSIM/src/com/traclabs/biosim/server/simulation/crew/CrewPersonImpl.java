@@ -1,9 +1,3 @@
-/**
- * The Crew Person Implementation.  Eats/drinks/excercises away resources according to a set schedule.
- *
- * @author    Scott Bell
- */
-
 package biosim.server.crew;
 
 import biosim.idl.crew.*;
@@ -12,6 +6,12 @@ import biosim.idl.water.*;
 import biosim.idl.food.*;
 import biosim.idl.air.*;
 import biosim.server.util.*;
+/**
+ * The Crew Person Implementation.  Eats/drinks/excercises away resources according to a set schedule.
+ *
+ * @author    Scott Bell
+ */
+
 
 public class CrewPersonImpl extends CrewPersonPOA {
 	//The name of this crew memeber
@@ -239,7 +239,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	}
 
 	/**
-	* Returns a string representation of the crew memeber in the form:
+	* Returns a string representation of the crew memeber in the form:   
 	* [name] now performing [activity] for [x] hours
 	* @return a string representation of the crew member
 	*/
@@ -281,14 +281,14 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	}
 	
 	/**
-	* When the CrewGroup ticks the crew member, the member
-	* 1) increases the time the activity has been performed by 1
-	* on the condition that the crew memeber isn't dead he/she then:
-	* 2) attempts to collect references to various server (if not already done)
-	* 3) possibly advances to the next activity
-	* 4) consumes air/food/water, exhales and excretes
-	* 5) takes afflictions from lack of any resources
-	* 6) checks whether afflictions (if any) are fatal
+	* When the CrewGroup ticks the crew member, the member:
+	* 1) increases the time the activity has been performed by 1.
+	* on the condition that the crew memeber isn't dead he/she then:.
+	* 2) attempts to collect references to various server (if not already done).
+	* 3) possibly advances to the next activity.
+	* 4) consumes air/food/water, exhales and excretes.
+	* 5) takes afflictions from lack of any resources.
+	* 6) checks whether afflictions (if any) are fatal.
 	*/
 	public void processTick(){
 		timeActivityPerformed++;

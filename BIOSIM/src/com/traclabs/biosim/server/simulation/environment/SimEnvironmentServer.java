@@ -1,9 +1,3 @@
-/**
- * The Simulation Environment Server.  Creates an instance of the SimEnvironment and registers it with the nameserver.
- *
- * @author    Scott Bell
- */
-
 package biosim.server.environment;
 
 import biosim.idl.environment.*;
@@ -13,6 +7,11 @@ import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
+/**
+ * The Simulation Environment Server.  Creates an instance of the SimEnvironment and registers it with the nameserver.
+ *
+ * @author    Scott Bell
+ */
 
 public class SimEnvironmentServer {
 	

@@ -1,27 +1,26 @@
-/**
- * The Schedule dictates what each crew member shall do at what time, for how long, and at what intensity
- * You cannot have two activities at the same time and each name must be unique.
- * Schedules must be in a text file and are specified like so:
- * [activity name]	[time length]	[intensity]
- * [activity name]	[time length]	[intensity]
- * [activity name]	[time length]	[intensity]
- * 			...						
- * [activity name]	[time length]	[intensity]
- * #DayEnd
- * They must be in the above format or it won't parse and the CrewGroup will fail to start (it won't have a schedule)
- * By default, the Schedule loads a text file in BIOSIM_HOME/resources/biosim/server/crew/defaultSchedule.txt
- * You may override this using the constructor that takes a File.
- * The Schedule puts 2 default activities into every Schedule, born and dead
- * They both have a timelength and an intensity of 0.
- * Born has the order of 0
- * Death has the order of -1
- * @author    Scott Bell
- */
 package biosim.server.crew;
-
 import java.io.*;
 import java.net.*;
 import java.util.*;
+/**
+ * The Schedule dictates what each crew member shall do at what time, for how long, and at what intensity.
+ * You cannot have two activities at the same time and each name must be unique.
+ * Schedules must be in a text file and are specified like so:<br>
+ * [activity name]	[time length]	[intensity]<br>
+ * [activity name]	[time length]	[intensity]<br>
+ * [activity name]	[time length]	[intensity]<br>
+ * 			...						<br>
+ * [activity name]	[time length]	[intensity]<br>
+ * #DayEnd<br>
+ * They must be in the above format or it won't parse and the CrewGroup will fail to start (it won't have a schedule).
+ * By default, the Schedule loads a text file in BIOSIM_HOME/resources/biosim/server/crew/defaultSchedule.txt.
+ * You may override this using the constructor that takes a File.
+ * The Schedule puts 2 default activities into every Schedule, born and dead.
+ * They both have a timelength and an intensity of 0..
+ * Born has the order of 0.
+ * Death has the order of -1
+ * @author    Scott Bell
+ */
 
 public class Schedule{
 	//Each activity hashed by their names

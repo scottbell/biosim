@@ -1,10 +1,3 @@
-/**
- * The Air Revitalization System Implementation.  Takes in Air (O2, CO2, other) from the environment and
- * power from the Power Production System and produces air with less CO2 and more O2.
- *
- * @author    Scott Bell
- */
-
 package biosim.server.air;
 
 import biosim.idl.air.*;
@@ -12,6 +5,13 @@ import biosim.idl.environment.*;
 import biosim.idl.power.*;
 import biosim.server.framework.*;
 import biosim.server.util.*;
+
+/**
+ * The Air Revitalization System Implementation.  Takes in Air (O2, CO2, other) from the environment and
+ * power from the Power Production System and produces air with less CO2 and more O2.
+ *
+ * @author    Scott Bell
+ */
 
 public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 	//During any given tick, this much power (in watts) is needed for the AirRS to run at all.

@@ -1,9 +1,3 @@
-/**
- * The Power Production System Server.  Creates an instance of the PowerPS and registers it with the nameserver.
- *
- * @author    Scott Bell
- */
-
 package biosim.server.power;
 
 import biosim.idl.power.*;
@@ -13,6 +7,11 @@ import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
+/**
+ * The Power Production System Server.  Creates an instance of the PowerPS and registers it with the nameserver.
+ *
+ * @author    Scott Bell
+ */
 
 public class PowerPSServer {
 	/**

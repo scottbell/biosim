@@ -1,12 +1,11 @@
+package biosim.server.crew;
+
+import biosim.idl.crew.*;
 /**
  * Activities are performed by crew members (CrewPerson) for a certain amount of time with a certain intensity in a certain order.
  *
  * @author    Scott Bell
  */
-
-package biosim.server.crew;
-
-import biosim.idl.crew.*;
 
 public class ActivityImpl extends ActivityPOA {
 	//The name of this activity

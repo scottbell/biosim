@@ -1,9 +1,3 @@
-/**
- * The Crew Server.  Creates an instance of the CrewGroup and registers it with the nameserver.
- *
- * @author    Scott Bell
- */
-
 package biosim.server.crew;
 
 import biosim.idl.crew.*;
@@ -13,6 +7,11 @@ import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
+/**
+ * The Crew Server.  Creates an instance of the CrewGroup and registers it with the nameserver.
+ *
+ * @author    Scott Bell
+ */
 
 public class CrewGroupServer {
 	
