@@ -455,9 +455,21 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	}
 
 	/**
-	* Run a simulation on a different thread and runs continuously (ticks till signalled to end)
+	* Run a simulation on a different thread (paused at first);
 	*/
 	public void spawnSimulation(){
+		runTillDead = false;
+		runTillN = false;
+		pauseSimulation();
+		collectReferences();
+		myTickThread = new Thread(this);
+		myTickThread.start();
+	}
+	
+	/**
+	* Run a simulation on a different thread and runs continuously (ticks till signalled to end)
+	*/
+	public void spawnSimulationAndRun(){
 		runTillDead = false;
 		runTillN = false;
 		collectReferences();
@@ -468,7 +480,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	/**
 	* Run a simulation on a different thread and runs continously till the crew dies
 	*/
-	public void spawnSimulationTillDead(){
+	public void spawnSimulationAndRunTillDead(){
 		runTillDead = true;
 		collectReferences();
 		myTickThread = new Thread(this);
@@ -479,7 +491,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	* Run a simulation on a different thread and runs continously till n-Ticks
 	* @param pTicks The number of ticks to run the simulation
 	*/
-	public void spawnSimulationTillN(int pTicks){
+	public void spawnSimulationAndRunTillN(int pTicks){
 		nTicks = pTicks;
 		runTillN = true;
 		runTillDead = false;
@@ -530,8 +542,11 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		else if (initializationToUse == BioDriverInit.FLOWS_ONLY_INIT){
 			System.out.println("BioDriverImpl:"+myID+" Initializing flows only simulation...");
 		}
+		System.out.println("BioDriverImpl:"+myID+" configuring module flows");
 		configureModuleFlows();
+		System.out.println("BioDriverImpl:"+myID+" configuring sensor inputs");
 		configureSensorsInputs();
+		System.out.println("BioDriverImpl:"+myID+" configuring actuator outputs");
 		configureActuatorsOutputs();
 		System.out.println("BioDriverImpl:"+myID+" Running simulation...");
 		runSimulation();
@@ -1351,6 +1366,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	* NOTICE: not pausing the simulation before using this method can be very risky.  Don't do it.
 	*/
 	public synchronized void advanceOneTick(){
+		if (!simulationIsPaused)
+			pauseSimulation();
 		collectReferences();
 		System.out.println("BioDriverImpl:"+myID+" ticking simulation once");
 		tick();
