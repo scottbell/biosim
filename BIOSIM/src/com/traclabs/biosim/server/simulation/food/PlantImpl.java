@@ -270,7 +270,7 @@ public abstract class PlantImpl extends PlantPOA{
 		CQY = calculateCQY();
 		carbonUseEfficiency24 = getCarbonUseEfficiency24();
 		float dailyCarbonGain = calculateDailyCarbonGain();
-		System.out.println("PlantImpl: dailyCarbonGain: "+dailyCarbonGain);
+		//System.out.println("PlantImpl: dailyCarbonGain: "+dailyCarbonGain);
 		float cropGrowthRate = molecularWeightOfCarbon * (dailyCarbonGain / getBCF());
 		//System.out.println("PlantImpl: cropGrowthRate: "+cropGrowthRate);
 		myCurrentDryBiomass += (cropGrowthRate / 1000 / 24f); //in kilograms
@@ -392,11 +392,12 @@ public abstract class PlantImpl extends PlantPOA{
 			CO2MicroMoles = pow(1f, -30f);
 		else if (airMoles <= 0)
 			airMoles = pow(1f, -30f);
-		////System.out.println("PlantImpl: CO2MicroMoles: "+CO2MicroMoles);
-		////System.out.println("PlantImpl: airMoles: "+airMoles);
+		//System.out.println("PlantImpl: CO2MicroMoles: "+CO2MicroMoles);
+		//System.out.println("PlantImpl: airMoles: "+airMoles);
 		myTotalCO2MicroConcentration += (CO2MicroMoles / airMoles);
 		myNumberOfCO2MicroConcentrationReadings ++;
 		myAverageCO2MicroConcentration = myTotalCO2MicroConcentration / myNumberOfCO2MicroConcentrationReadings;
+		//System.out.println("PlantImpl: myAverageCO2MicroConcentration: "+myAverageCO2MicroConcentration);
 	}
 	
 	//Convert current CO2 levels to moles of CO2 / moles of air
@@ -487,7 +488,7 @@ public abstract class PlantImpl extends PlantPOA{
 		float oneOverPPf = 1f / thePPF;
 		float thePPFsquared = pow(thePPF, 2f);
 		float thePPFcubed = pow(thePPF, 3f);
-		//System.out.println("PlantImpl: thePPF: "+thePPF);
+		System.out.println("PlantImpl: thePPF: "+thePPF);
 		//System.out.println("PlantImpl: oneOverPPf: "+oneOverPPf);
 		//System.out.println("PlantImpl: thePPFsquared: "+thePPFsquared);
 		//System.out.println("PlantImpl: thePPFcubed: "+thePPFcubed);
@@ -496,7 +497,7 @@ public abstract class PlantImpl extends PlantPOA{
 		float oneOverCO2 = 1f / theCO2;
 		float theCO2squared = pow(theCO2, 2f);
 		float theCO2cubed = pow(theCO2, 3f);
-		//System.out.println("PlantImpl: theCO2: "+theCO2);
+		System.out.println("PlantImpl: theCO2: "+theCO2);
 		//System.out.println("PlantImpl: oneOverCO2: "+oneOverCO2);
 		//System.out.println("PlantImpl: theCO2squared: "+theCO2squared);
 		//System.out.println("PlantImpl: theCO2cubed: "+theCO2cubed);
