@@ -24,7 +24,6 @@ public class EnvironmentPieChartPanel extends GraphPanel
 	private String otherCategory = "Other";
 
 	protected void createGraph(){
-		setDelay(10000);
 		// create the chart...
 		mySimEnvironment = (SimEnvironment)(BioHolder.getBioModule(BioHolder.simEnvironmentName));
 		refresh();
@@ -35,7 +34,7 @@ public class EnvironmentPieChartPanel extends GraphPanel
 		          );
 		// add the chart to a panel...
 		myPlot = (Pie3DPlot)(myChart.getPlot());
-		myPlot.setDepthFactor(2.0d);
+		myPlot.setDepthFactor(0.1d);
 		myPlot.setSeriesPaint(new Paint[] { Color.BLUE, Color.GREEN, Color.RED});
 		TextTitle myTextTitle = (TextTitle)(myChart.getTitle(0));
 		myTextTitle.setFont(myTextTitle.getFont().deriveFont(12.0f));
@@ -46,8 +45,10 @@ public class EnvironmentPieChartPanel extends GraphPanel
 	}
 
 	public void refresh() {
-		if (myDataset == null)
+		if (myDataset == null){
 			myDataset = new DefaultPieDataset();
+			return;
+		}
 		myDataset.setValue(O2Category, new Float(mySimEnvironment.getO2Level()));
 		myDataset.setValue(CO2Category, new Float(mySimEnvironment.getCO2Level()));
 		myDataset.setValue(otherCategory, new Float(mySimEnvironment.getOtherLevel()));
