@@ -92,6 +92,11 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 		return theShelfArray;
 	}
 	
+	public int getNumberOfShelves(){
+		return myShelves.size();
+	}
+	
+	
 	public Shelf createNewShelf(PlantType pType){
 		ShelfImpl newShelfImpl = new ShelfImpl(this, pType);
 		myShelves.add(newShelfImpl);
@@ -108,8 +113,18 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 			currentShelf.reset();
 		}
 	}
+	
+	private void clearActualFlowRates(){
+		Arrays.fill(powerActualFlowRates, 0f);
+		Arrays.fill(biomassActualFlowRates, 0f);
+		Arrays.fill(potableWaterActualFlowRates, 0f);
+		Arrays.fill(greyWaterActualFlowRates, 0f);
+		Arrays.fill(airInActualFlowRates, 0f);
+		Arrays.fill(airOutActualFlowRates, 0f);
+	}
 
 	public void tick(){
+		clearActualFlowRates();
 		for (Iterator iter = myShelves.iterator(); iter.hasNext();){
 			ShelfImpl currentShelf = (ShelfImpl)(iter.next());
 			currentShelf.tick();
@@ -190,6 +205,9 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 	public PowerStore[] getPowerInputs(){
 		return myPowerStores;
 	}
+	public void addPowerInputActualFlowRates(int index, float value){
+		powerActualFlowRates[index] += value;
+	}
 	
 	//Grey Water Inputs
 	public void setGreyWaterInputMaxFlowRate(float liters, int index){
@@ -224,6 +242,10 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 	}
 	public GreyWaterStore[] getGreyWaterInputs(){
 		return myGreyWaterStores;
+	}
+	
+	public void addGreyWaterInputActualFlowRates(int index, float value){
+		greyWaterActualFlowRates[index] += value;
 	}
 	
 	//Potable Water Inputs
@@ -261,6 +283,10 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 		return myPotableWaterStores;
 	}
 	
+	public void addPotableWaterInputActualFlowRates(int index, float value){
+		potableWaterActualFlowRates[index] += value;
+	}
+	
 	//Biomass Outputs
 	public void setBiomassOutputMaxFlowRate(float kilograms, int index){
 		biomassMaxFlowRates[index] = kilograms;
@@ -294,6 +320,9 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 	}
 	public BiomassStore[] getBiomassOutputs(){
 		return myBiomassStores;
+	}
+	public void addBiomassOutputActualFlowRates(int index, float value){
+		biomassActualFlowRates[index] += value;
 	}
 	
 	//Air Inputs
@@ -330,6 +359,9 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 	public SimEnvironment[] getAirInputs(){
 		return myAirInputs;
 	}
+	public void addAirInputActualFlowRates(int index, float value){
+		airInActualFlowRates[index] += value;
+	}
 	
 	//Air Outputs
 	public void setAirOutputMaxFlowRate(float liters, int index){
@@ -364,5 +396,9 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 	}
 	public SimEnvironment[] getAirOutputs(){
 		return myAirOutputs;
+	}
+	
+	public void addAirOutputActualFlowRates(int index, float value){
+		airOutActualFlowRates[index] += value;
 	}
 }

@@ -26,6 +26,13 @@ public abstract class PlantImpl extends PlantPOA{
 	public void tick(){
 	}
 	
+	public void shine(){
+	}
+	
+	public float getWaterNeeded(){
+		return 0.1f;
+	}
+	
 	public abstract String getPlantType();
 
 	public void log(LogNode myLogHead){
