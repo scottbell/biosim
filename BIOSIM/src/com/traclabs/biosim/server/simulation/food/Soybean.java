@@ -36,7 +36,7 @@ public class Soybean extends Legume{
 	}
 
 	public float getPPFNeeded(){
-		float cropArea = myShelfImpl.getCropArea();
+		float cropArea = myShelfImpl.getCropAreaUsed();
 		float constantPPF = 28f; //in moles per meters squared days
 		return (constantPPF * cropArea) / 24;
 	}
