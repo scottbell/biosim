@@ -103,12 +103,15 @@ public class BiosimMain
 		myController.runSim();
 	}
 	
+	/**
+	 * Runs the UnrealCom interface to communicate with UnrealTournament 2004
+	 */
 	public void runUnreal(int myID){
 		BioHolderInitializer.setID(myID);
 		
-		LightClient myLightClient = new LightClient();
+		UnrealCom myUnrealCom = new UnrealCom();
 		
-		myLightClient.initUnrealComm();
+		myUnrealCom.initUnrealComm();
 		
 	}
 }
