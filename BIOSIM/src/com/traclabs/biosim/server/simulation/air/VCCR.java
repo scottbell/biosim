@@ -48,19 +48,22 @@ public class VCCR extends AirRSSubSystem{
 		float gatheredO2 = 0f;
 		float gatheredCO2 = 0f;
 		float gatheredOther = 0f;
+		float gatheredWater = 0f;
 		for (int i = 0; (i < myAirRS.getAirInputs().length) && (gatheredAir < airNeededFiltered); i++){
 			float resourceToGatherFirst = Math.min(airNeededFiltered, myAirRS.getAirInputMaxFlowRate(i));
 			float resourceToGatherFinal = Math.min(resourceToGatherFirst, myAirRS.getAirInputDesiredFlowRate(i));
 			Breath currentBreath = myAirRS.getAirInputs()[i].takeAirMoles(resourceToGatherFinal);
-			gatheredAir += currentBreath.O2 + currentBreath.CO2 + currentBreath.other;
+			gatheredAir += currentBreath.O2 + currentBreath.CO2 + currentBreath.other + currentBreath.water;
 			myAirRS.setAirInputActualFlowRate(gatheredAir, i);
 			gatheredO2 += currentBreath.CO2;
 			gatheredCO2 += currentBreath.O2;
 			gatheredOther += currentBreath.other;
+			gatheredWater += currentBreath.water;
 		}
 		myBreath.O2 =  gatheredO2;
 		myBreath.CO2 = gatheredCO2;
 		myBreath.other = gatheredOther;
+		myBreath.water = gatheredWater;
 		if ((gatheredAir +.1) < airNeededFiltered)
 			enoughAir = false;
 		else
@@ -77,6 +80,7 @@ public class VCCR extends AirRSSubSystem{
 			//Recalculate percentages based on smaller volume
 			float reducedO2ToPass = resourceToDistributeFinal * (distributedO2Left / (distributedO2Left + distributedOtherLeft));
 			float reducedOtherToPass = resourceToDistributeFinal * (distributedOtherLeft / (distributedO2Left + distributedOtherLeft));
+			float reducedWaterToPass = resourceToDistributeFinal * (distributedWaterLeft / (distributedO2Left + distributedWaterLeft));
 			distributedO2Left -= myAirRS.getAirOutputs()[i].addO2Moles(reducedO2ToPass);
 			distributedOtherLeft -= myAirRS.getAirOutputs()[i].addOtherMoles(reducedOtherToPass);
 			myAirRS.setAirOutputActualFlowRate(reducedO2ToPass + reducedOtherToPass, i);

@@ -129,6 +129,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		airRetrieved.O2 = 0f;
 		airRetrieved.CO2 = 0f;
 		airRetrieved.other = 0f;
+		airRetrieved.water = 0f;
 		mySchedule.reset();
 		myMissionProductivity = 0;
 		currentOrder = 0;
@@ -653,6 +654,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			airRetrieved.O2 = 0;
 			airRetrieved.CO2 = 0;
 			airRetrieved.other = 0;
+			airRetrieved.water = 0;
 		}
 		else{
 			airRetrieved = myAirInputs[0].takeO2Breath(O2Needed);
@@ -661,6 +663,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		if (myAirOutputs.length > 0){
 			myAirOutputs[0].addCO2Moles(CO2Produced);
 			myAirOutputs[0].addOtherMoles(airRetrieved.other);
+			myAirOutputs[0].addWaterMoles(airRetrieved.water);
 		}
 	}
 

@@ -268,7 +268,7 @@ public abstract class PlantImpl extends PlantPOA{
 	//Convert current CO2 levels to micromoles of CO2 / moles of air
 	private void calculateAverageCO2Concentration(){
 		SimEnvironment myEnvironment = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0];
-		float CO2Moles = myEnvironment.getCO2Moles(); //in moles
+		float CO2Moles = myEnvironment.getCO2Moles() * pow (10,6); //in micro moles
 		float airMoles = myEnvironment.getTotalMoles(); //in moles
 		if (CO2Moles <=0)
 			CO2Moles = pow(1f, -30f);
