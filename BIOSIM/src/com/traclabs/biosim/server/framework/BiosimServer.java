@@ -64,7 +64,13 @@ public class BiosimServer extends GenericServer{
 	*/
 	public void createServers(int id){
 		// create servants and register them with ORB
-
+		
+		//Framework
+		LoggerImpl myLoggerImpl = new LoggerImpl(id);
+		BioDriverImpl myBioDriverImpl = new BioDriverImpl(id);
+		registerServer(myLoggerImpl, myLoggerImpl.getName());
+		registerServer(myBioDriverImpl, myBioDriverImpl.getName());
+		
 		//Simulation
 		SimEnvironmentImpl myCrewEnvironmentImpl = new SimEnvironmentImpl(id, "CrewEnvironment");
 		SimEnvironmentImpl myPlantEnvironmentImpl = new SimEnvironmentImpl(id, "PlantEnvironment");
@@ -84,8 +90,6 @@ public class BiosimServer extends GenericServer{
 		GreyWaterStoreImpl myGreyWaterStoreImpl = new GreyWaterStoreImpl(id);
 		PotableWaterStoreImpl myPotableWaterStoreImpl = new PotableWaterStoreImpl(id);
 		DirtyWaterStoreImpl myDirtyWaterStoreImpl = new DirtyWaterStoreImpl(id);
-		LoggerImpl myLoggerImpl = new LoggerImpl(id);
-		BioDriverImpl myBioDriverImpl = new BioDriverImpl(id);
 		registerServer(new SimEnvironmentPOATie(myCrewEnvironmentImpl), myCrewEnvironmentImpl.getModuleName());
 		registerServer(new SimEnvironmentPOATie(myPlantEnvironmentImpl), myPlantEnvironmentImpl.getModuleName());
 		registerServer(new AirRSPOATie(myAirRSImpl), myAirRSImpl.getModuleName());
@@ -102,8 +106,6 @@ public class BiosimServer extends GenericServer{
 		registerServer(new GreyWaterStorePOATie(myGreyWaterStoreImpl), myGreyWaterStoreImpl.getModuleName());
 		registerServer(new PotableWaterStorePOATie(myPotableWaterStoreImpl), myPotableWaterStoreImpl.getModuleName());
 		registerServer(new DirtyWaterStorePOATie(myDirtyWaterStoreImpl), myDirtyWaterStoreImpl.getModuleName());
-		registerServer(myLoggerImpl, myLoggerImpl.getName());
-		registerServer(myBioDriverImpl, myBioDriverImpl.getName());
 		registerServer(new InjectorPOATie(myInjectorImpl), myInjectorImpl.getModuleName());
 		registerServer(new AccumulatorPOATie(myAccumulatorImpl), myAccumulatorImpl.getModuleName());
 
@@ -145,7 +147,6 @@ public class BiosimServer extends GenericServer{
 		PotableWaterInFlowRateSensorImpl myPotableWaterInFlowRateSensorImpl = new PotableWaterInFlowRateSensorImpl(id);
 		PotableWaterOutFlowRateSensorImpl myPotableWaterOutFlowRateSensorImpl = new PotableWaterOutFlowRateSensorImpl(id);
 		PotableWaterStoreLevelSensorImpl myPotableWaterStoreLevelSensorImpl = new PotableWaterStoreLevelSensorImpl(id);
-
 		registerServer(new CO2InFlowRateSensorPOATie(myCO2InFlowRateSensorImpl), myCO2InFlowRateSensorImpl.getModuleName());
 		registerServer(new CO2OutFlowRateSensorPOATie(myCO2OutFlowRateSensorImpl), myCO2OutFlowRateSensorImpl.getModuleName());
 		registerServer(new CO2StoreLevelSensorPOATie(myCO2StoreLevelSensorImpl), myCO2StoreLevelSensorImpl.getModuleName());
@@ -154,21 +155,17 @@ public class BiosimServer extends GenericServer{
 		registerServer(new O2StoreLevelSensorPOATie(myO2StoreLevelSensorImpl), myO2StoreLevelSensorImpl.getModuleName());
 		registerServer(new AirInFlowRateSensorPOATie(myAirInFlowRateSensorImpl), myAirInFlowRateSensorImpl.getModuleName());
 		registerServer(new AirOutFlowRateSensorPOATie(myAirOutFlowRateSensorImpl), myAirOutFlowRateSensorImpl.getModuleName());
-
 		registerServer(new CO2AirStoreInFlowRateSensorPOATie(myCO2AirStoreInFlowRateSensorImpl), myCO2AirStoreInFlowRateSensorImpl.getModuleName());
 		registerServer(new CO2AirStoreOutFlowRateSensorPOATie(myCO2AirStoreOutFlowRateSensorImpl), myCO2AirStoreOutFlowRateSensorImpl.getModuleName());
 		registerServer(new CO2AirEnvironmentInFlowRateSensorPOATie(myCO2AirEnvironmentInFlowRateSensorImpl), myCO2AirEnvironmentInFlowRateSensorImpl.getModuleName());
 		registerServer(new CO2AirEnvironmentOutFlowRateSensorPOATie(myCO2AirEnvironmentOutFlowRateSensorImpl), myCO2AirEnvironmentOutFlowRateSensorImpl.getModuleName());
-		
 		registerServer(new O2AirStoreInFlowRateSensorPOATie(myO2AirStoreInFlowRateSensorImpl), myO2AirStoreInFlowRateSensorImpl.getModuleName());
 		registerServer(new O2AirStoreOutFlowRateSensorPOATie(myO2AirStoreOutFlowRateSensorImpl), myO2AirStoreOutFlowRateSensorImpl.getModuleName());
 		registerServer(new O2AirEnvironmentInFlowRateSensorPOATie(myO2AirEnvironmentInFlowRateSensorImpl), myO2AirEnvironmentInFlowRateSensorImpl.getModuleName());
 		registerServer(new O2AirEnvironmentOutFlowRateSensorPOATie(myO2AirEnvironmentOutFlowRateSensorImpl), myO2AirEnvironmentOutFlowRateSensorImpl.getModuleName());
-		
 		registerServer(new OtherAirLevelSensorPOATie(myOtherAirLevelSensorImpl), myOtherAirLevelSensorImpl.getModuleName());
 		registerServer(new O2AirLevelSensorPOATie(myO2AirLevelSensorImpl), myO2AirLevelSensorImpl.getModuleName());
 		registerServer(new CO2AirLevelSensorPOATie(myCO2AirLevelSensorImpl), myCO2AirLevelSensorImpl.getModuleName());
-
 		registerServer(new BiomassInFlowRateSensorPOATie(myBiomassInFlowRateSensorImpl), myBiomassInFlowRateSensorImpl.getModuleName());
 		registerServer(new BiomassOutFlowRateSensorPOATie(myBiomassOutFlowRateSensorImpl), myBiomassOutFlowRateSensorImpl.getModuleName());
 		registerServer(new BiomassStoreLevelSensorPOATie(myBiomassStoreLevelSensorImpl), myBiomassStoreLevelSensorImpl.getModuleName());
