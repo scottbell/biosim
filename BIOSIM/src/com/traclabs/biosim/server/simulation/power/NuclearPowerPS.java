@@ -2,7 +2,7 @@ package biosim.server.power;
 
 import biosim.idl.power.*;
 /**
- * Solar Power Production System
+ * Nuclear Power Production System
  * @author    Scott Bell
  */
 
