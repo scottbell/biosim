@@ -60,6 +60,7 @@ public class WaterStorePanel extends JPanel
 		CategoryPlot plot = chart.getCategoryPlot();
 		plot.setSeriesPaint(new Paint[] { Color.BLUE, Color.GRAY, Color.YELLOW });
 		myChartPanel = new ChartPanel(chart);
+		myChartPanel.zoomOutBoth(50,50);
 	}
 
 	public void refresh() {

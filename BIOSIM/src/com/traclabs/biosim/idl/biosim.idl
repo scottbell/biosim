@@ -18,6 +18,19 @@ module biosim{
                                 float getLevel();
 				float getCapacity();
 			};
+			
+			interface BioDriver{
+				boolean isPaused();
+				boolean isStarted();
+				void spawnSimulation(in boolean pUseDefaultInitialization);
+				void pauseSimulation();
+				void endSimulation();
+				boolean simulationHasStarted();
+				void advanceOneTick();
+				void resumeSimulation();
+				void setLogging(in boolean pLogSim);
+				boolean isLogging();
+			};
                 };
 		
 		module util{
