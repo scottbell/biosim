@@ -173,6 +173,10 @@ public class SimEnvironmentImpl extends SimEnvironmentPOA {
 			return new Breath(takenO2, takenCO2, takenOther);
 		}
 	}
+	
+	public void resetTicks(){
+		ticks = 0;
+	}
 
 	public void tick(){
 		ticks++;

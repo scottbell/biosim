@@ -108,6 +108,8 @@ public class BioSimulator implements Runnable
 	}
 
 	private void runSimulation(){
+		SimEnvironment mySimEnvironment =(SimEnvironment)(getBioModule(simEnvironmentName));
+		mySimEnvironment.resetTicks();
 		for (int i = 0; true; i ++){
 			Thread theCurrentThread = Thread.currentThread();
 			while (myThread == theCurrentThread) {
