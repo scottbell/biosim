@@ -44,7 +44,7 @@
 			</VCCR>
 			<O2Store name="BaseO2Store" capacity="2000" level="2000"/>
 			<O2Store name="EVAO2Store" capacity="800" level="800" resupplyAmount="800" resupplyFrequency="24"/>
-			<CO2Store name="BaseCO2Store" capacity="0" level="0"/>
+			<CO2Store name="BaseCO2Store" capacity="2000" level="2000"/>
 			<CO2Store name="EVACO2Store" capacity="10" level="10"/>
 			<H2Store name="BaseH2Store" capacity="1000" level="1000"/>
 			<H2Store name="EVAH2Store" capacity="10" level="10"/>
@@ -238,13 +238,13 @@
 			<AirOutFlowRateSensor name="BaseVCCRAirOutFlowRateSensor" index="0" input="BaseVCCR"/>
 			<CO2AirConcentrationSensor name="BaseCrewEnvironmentCO2AirConcentrationSensor" input="BaseCrewEnvironment"/>
 			<CO2AirConcentrationSensor name="BasePlantEnvironmentCO2AirConcentrationSensor" input="BasePlantEnvironment"/>
-			<CO2AirEnvironmentOutFlowRateSensor index="0" name="BaseCO2InjectorAccumulatorCO2AirEnvironmentInFlowRateSensor" input="BaseCO2Injector" />
+			<CO2AirEnvironmentOutFlowRateSensor index="0" name="BaseCO2InjectorAccumulatorCO2AirEnvironmentOutFlowRateSensor" input="BaseCO2Injector" />
 			<CO2AirStoreInFlowRateSensor index="0" name="BaseCO2InjectorCO2AirEnvironmentInFlowRateSensor" input="BaseCO2Injector" />
 			<O2AirConcentrationSensor name="BaseCrewEnvironmentO2AirConcentrationSensor" input="BaseCrewEnvironment"/>
 			<O2AirConcentrationSensor name="BasePlantEnvironmentO2AirConcentrationSensor" input="BasePlantEnvironment"/>
 			<O2AirEnvironmentInFlowRateSensor index="0" name="BaseO2AccumulatorO2AirEnvironmentInFlowRateSensor" input="BaseO2Accumulator" />
-			<O2AirEnvironmentOutFlowRateSensor index="0" name="BaseO2InjectorAccumulatorO2AirEnvironmentInFlowRateSensor" input="BaseO2Injector" />
-			<O2AirStoreInFlowRateSensor index="0" name="BaseO2InjectorO2AirEnvironmentInFlowRateSensor" input="BaseO2Injector" />
+			<O2AirEnvironmentOutFlowRateSensor index="0" name="BaseO2InjectorAccumulatorO2AirEnvironmentOutFlowRateSensor" input="BaseO2Injector" />
+			<O2AirStoreInFlowRateSensor index="0" name="BaseO2InjectorO2AirStoreInFlowRateSensor" input="BaseO2Injector" />
 			<O2AirStoreOutFlowRateSensor index="0" name="BaseO2AccumulatorO2AirStoreOutFlowRateSensor" input="BaseO2Accumulator" />
 			<NitrogenAirConcentrationSensor name="BaseCrewEnvironmentNitrogenAirConcentrationSensor" input="BaseCrewEnvironment"/>
 			<NitrogenAirConcentrationSensor name="BasePlantEnvironmentNitrogenAirConcentrationSensor" input="BasePlantEnvironment"/>
