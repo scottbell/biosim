@@ -21,13 +21,15 @@ public abstract class SimBioModuleImpl extends BioModuleImpl implements SimBioMo
 	/**
 	* Grabs as much resources as it can (i.e., the maxFlowRate) from a store.
 	* @param pStores The stores to grab the resources from
-	* @param pMaxFlowRates The flow rates from this module to the stores
+	* @param pMaxFlowRates The max flow rates from this module to the stores
+	* @param pActualFlowRates The actual flow rates from this module to the stores
 	* @return The total amount of resource grabbed from the stores
 	*/
-	public static float getMaxResourceFromStore(Store[] pStores, float[] pMaxFlowRates){
+	public static float getMostResourceFromStore(Store[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates){
 		float gatheredResource = 0f;
 		for (int i = 0; i < pStores.length; i++){
-			gatheredResource += pStores[i].take(pMaxFlowRates[i]);
+			float amountToTake = Math.min(pMaxFlowRates[i], pDesiredFlowRates[i]);
+			gatheredResource += pStores[i].take(amountToTake);
 		}
 		return gatheredResource;
 	}
