@@ -13,5 +13,5 @@ public class Wheat extends PlantImpl{
 	public String getPlantType(){
 		return "wheat";
 	}
-
+	
 }

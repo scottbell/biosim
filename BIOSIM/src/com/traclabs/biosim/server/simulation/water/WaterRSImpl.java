@@ -257,8 +257,7 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 	* 1) ticks each subsystem.
 	*/
 	public void tick(){
-		for (int i =0; i < powerActualFlowRates.length; i++)
-			powerActualFlowRates[i] = 0;
+		Arrays.fill(powerActualFlowRates, 0f);
 		//tick each system
 		myBWP.tick();
 		myRO.tick();

@@ -169,8 +169,7 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	* Processes a tick by collecting referernces (if needed), resources, and pushing the new air out.
 	*/
 	public void tick(){
-		for (int i =0; i < powerActualFlowRates.length; i++)
-			powerActualFlowRates[i] = 0;
+		Arrays.fill(powerActualFlowRates, 0f);
 		myVCCR.tick();
 		myCRS.tick();
 		myH2Tank.tick();
