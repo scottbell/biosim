@@ -33,12 +33,16 @@ public class Schedule{
 	URL myScheduleURL;
 	//Whether the schedule is using the default schedule (no schedule was specified by user)
 	private boolean defaultSchedule = false;
+	private static Activity myBornActivity;
+	private static Activity myDeadActivity;
+	private static Activity mySickActivity;
 	
 	/**
 	* Constructor that creates a new default schedule.
 	*/
 	public Schedule(){
 		defaultSchedule = true;
+		createDefaultActivites();
 		reset();
 	}
 	
@@ -48,7 +52,21 @@ public class Schedule{
 	*/
 	public Schedule(URL pScheduleURL){
 		myScheduleURL = pScheduleURL;
+		createDefaultActivites();
 		reset();
+	}
+	
+	private void createDefaultActivites(){		
+		allActivities = new Hashtable();
+		orderedSchedule = new Vector();
+		if ((myBornActivity == null) || (myDeadActivity == null) || (mySickActivity == null)){
+			ActivityImpl bornActivityImpl = new ActivityImpl("born", 0, 0);
+			ActivityImpl deadActivityImpl = new ActivityImpl("dead", 0, 0);
+			ActivityImpl sickActivityImpl = new ActivityImpl("sick", 24, 1);
+			myBornActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(bornActivityImpl));
+			myDeadActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(deadActivityImpl));
+			mySickActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(sickActivityImpl));
+		}
 	}
 	
 	/**
@@ -90,15 +108,13 @@ public class Schedule{
 			allActivities.put(pActivity.getName(), pActivity);
 		orderedSchedule.add(pOrder, pActivity);
 	}
-	
+
 	/**
 	* Reloads the schedule from the file and parses it again.
 	*/
 	public void reset(){
-		allActivities = null;
-		allActivities = new Hashtable();
-		orderedSchedule = null;
-		orderedSchedule = new Vector();
+		allActivities.clear();
+		orderedSchedule.clear();
 		if (defaultSchedule){
 			//use default schedule
 			defaultSchedule = true;
@@ -120,16 +136,10 @@ public class Schedule{
 	*/
 	private void parseSchedule(URL scheduleURL){
 		//Add 3 defaults..
-		ActivityImpl bornActivityImpl = new ActivityImpl("born", 0, 0);
-		ActivityImpl deadActivityImpl = new ActivityImpl("dead", 0, 0);
-		ActivityImpl sickActivityImpl = new ActivityImpl("sick", 24, 1);
-		Activity bornActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(bornActivityImpl));
-		Activity deadActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(deadActivityImpl));
-		Activity sickActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(sickActivityImpl));
-		allActivities.put("born", bornActivity);
-		orderedSchedule.add(0, bornActivity);
-		allActivities.put("dead", deadActivity);
-		allActivities.put("sick", sickActivity);
+		allActivities.put("born", myBornActivity);
+		orderedSchedule.add(0, myBornActivity);
+		allActivities.put("dead", myDeadActivity);
+		allActivities.put("sick", mySickActivity);
 		try{
 			BufferedReader inputReader = new BufferedReader(new InputStreamReader(scheduleURL.openStream()));
 			String currentLine = inputReader.readLine().trim();

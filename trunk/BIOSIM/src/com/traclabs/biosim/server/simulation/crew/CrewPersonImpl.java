@@ -122,7 +122,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* Resets the state of this crew member
 	*/
 	void reset(){
-		mySchedule.reset();
 		myMissionProductivity = 0;
 		currentOrder = 0;
 		myCurrentActivity = mySchedule.getScheduledActivityByOrder(currentOrder);
