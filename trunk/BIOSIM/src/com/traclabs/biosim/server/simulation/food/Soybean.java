@@ -19,7 +19,7 @@ public class Soybean extends Legume{
 		canopyClosureConstants[15] = -0.13637f;
 		canopyClosureConstants[20] = .000066918f;
 		canopyClosureConstants[21] = -.000000021367f;
-		canopyClosureConstants[22] = 000000000015467f;
+		canopyClosureConstants[22] = .000000000015467f;
 
 		canopyQYConstants[6] = 0.041513f;
 		canopyQYConstants[7] = 0.000051157f;

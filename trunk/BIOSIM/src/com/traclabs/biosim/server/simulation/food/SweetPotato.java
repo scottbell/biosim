@@ -15,13 +15,13 @@ public class SweetPotato extends Planophile{
 		canopyClosureConstants[20] = .00000040109f;
 		canopyClosureConstants[22] = .0000000000020193f;
 
-		canopyQYConstants[6] = 0.039317f;
-		canopyQYConstants[7] = 0.000056741f;
-		canopyQYConstants[8] = -0.000000021797f;
+		canopyQYConstants[6] =   0.039317f;
+		canopyQYConstants[7] =   0.000056741f;
+		canopyQYConstants[8] =  -0.000000021797f;
 		canopyQYConstants[11] = -0.000013836f;
 		canopyQYConstants[12] = -0.0000000063397f;
 		canopyQYConstants[17] = -0.000000000013464f;
-		canopyQYConstants[18] = 0.0000000000000077362f;
+		canopyQYConstants[18] =  0.0000000000000077362f;
 	}
 
 	public PlantType getPlantType(){
@@ -49,7 +49,7 @@ public class SweetPotato extends Planophile{
 	}
 	
 	protected float getCUEMin(){
-		return 0.50f;
+		return 0f;
 	}
 
 	protected float getPhotoperiod(){
@@ -61,7 +61,7 @@ public class SweetPotato extends Planophile{
 	}
 
 	protected float getCQYMin(){
-		return .001f;
+		return 0f;
 	}
 
 	protected float getTimeAtCanopySenescence(){

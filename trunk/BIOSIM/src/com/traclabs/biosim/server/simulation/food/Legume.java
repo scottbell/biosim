@@ -42,6 +42,7 @@ public abstract class Legume extends Planophile{
 			//System.out.println("Legume: CUEMin: "+CUEMin);
 			//System.out.println("Legume: daysOfGrowth: "+daysOfGrowth);
 			//System.out.println("Legume: timeTillCropMaturity: "+timeTillCropMaturity);
+			//System.out.println("Legume: calculatedCUE24: "+calculatedCUE24);
 			if (calculatedCUE24 < 0f)
 				return 0f;
 			else

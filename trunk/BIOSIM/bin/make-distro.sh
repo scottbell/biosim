@@ -59,6 +59,12 @@ $jarExpand $jfreechartPath
 echo "			-expanding jacorb"
 jacorbPath="$devRootDir/lib/jacorb/jacorb.jar"
 $jarExpand $jacorbPath
+logkitPath="$devRootDir/lib/jacorb/logkit.jar"
+$jarExpand $logkitPath
+concurrentPath="$devRootDir/lib/jacorb/concurrent.jar"
+$jarExpand $concurrentPath
+avalonPath="$devRootDir/lib/jacorb/avalon-framework.jar"
+$jarExpand $avalonPath
 echo "			-expanding xerces"
 xercesImplPath="$devRootDir/lib/xerces/xercesImpl.jar"
 xercesApisPath="$devRootDir/lib/xerces/xml-apis.jar"

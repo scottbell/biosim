@@ -11,16 +11,16 @@ public class Tomato extends Planophile{
 		super(pShelfImpl);
 		canopyClosureConstants[0] = 627740f;
 		canopyClosureConstants[1] = 3172.4f;
-		canopyClosureConstants[6] = 24.281f;
-		canopyClosureConstants[10] = 0.44686f;
-		canopyClosureConstants[11] = .0056276f;
-		canopyClosureConstants[16] = -.0000030690f;
+		canopyClosureConstants[6] =  24.281f;
+		canopyClosureConstants[10] =  0.44686f;
+		canopyClosureConstants[11] =  0.0056276f;
+		canopyClosureConstants[16] = -0.0000030690f;
 
-		canopyQYConstants[6] = 0.040061f;
-		canopyQYConstants[7] = 0.00005688f;
-		canopyQYConstants[8] = -0.000000022598f;
+		canopyQYConstants[6] =   0.040061f;
+		canopyQYConstants[7] =   0.00005688f;
+		canopyQYConstants[8] =  -0.000000022598f;
 		canopyQYConstants[12] = -0.00000001182f;
-		canopyQYConstants[13] = 0.00000000000550264f;
+		canopyQYConstants[13] =  0.00000000000550264f;
 		canopyQYConstants[16] = -0.0000000071241f;
 	}
 
@@ -33,7 +33,7 @@ public class Tomato extends Planophile{
 	}
 	
 	protected float getCarbonUseEfficiency24(){
-		return 0.0f;
+		return 0.65f;
 	}
 
 	protected float getBCF(){
@@ -61,7 +61,7 @@ public class Tomato extends Planophile{
 	}
 
 	protected float getCQYMin(){
-		return .001f;
+		return 0.01f;
 	}
 
 	protected float getTimeAtCanopySenescence(){
