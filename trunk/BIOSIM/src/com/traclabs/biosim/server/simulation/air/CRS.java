@@ -44,7 +44,7 @@ public class CRS extends AirRSSubSystem{
 			if (limitingReactant == currentH2Consumed)
 				myAirRS.pushResourceToStore(myAirRS.getCO2Inputs(), myAirRS.getCO2InputMaxFlowRates(), myAirRS.getCO2InputDesiredFlowRates(), myAirRS.getCO2InputActualFlowRates(), currentCO2Consumed - limitingReactant);
 			else
-				myAirRS.pushResourceToStore(myAirRS.getH2Inputs(), myAirRS.getH2InputMaxFlowRates(), myAirRS.getH2InputDesiredFlowRates(), myAirRS.getH2InputActualFlowRates(), currentH2Consumed - limitingReactant);
+				myAirRS.pushResourceToStore(myAirRS.getH2Inputs(), myAirRS.getH2InputMaxFlowRates(), myAirRS.getH2InputDesiredFlowRates(), myAirRS.getH2InputActualFlowRates(), currentH2Consumed - 4f * limitingReactant);
 			float waterMolesProduced = 2f * limitingReactant;
 			float waterLitersProduced = (waterMolesProduced * 18.01524f) / 1000f; //1000g/liter, 18.01524g/mole
 			float methaneMolesProduced = limitingReactant;

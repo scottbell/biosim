@@ -7,6 +7,14 @@
 		<xsd:complexType>     
 			<xsd:sequence>
 				<xsd:element name="PotableWaterStore" type="Store" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element name="DirtyWaterStore" type="Store" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element name="GreyWaterStore" type="Store" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element name="O2Store" type="Store" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element name="CO2Store" type="Store" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element name="H2Store" type="Store" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element name="FoodStore" type="Store" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element name="BiomassStore" type="Store" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element name="PowerStore" type="Store" minOccurs="0" maxOccurs="unbounded"/>
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
@@ -29,3 +37,4 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 </xsd:schema>
+
