@@ -36,18 +36,6 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 		capacity = initialCapacity;
 	}
 	
-	public void startLeak(float percentage){
-		leakRate = percentage;
-	}
-	
-	public void stopLeak(){
-		leakRate = 0.0f;
-	}
-	
-	public boolean isLeaking(){
-		return (leakRate > 0);
-	}
-	
 	/**
 	* Sets the capacity of the store (how much it can hold)
 	* @param metricAmount the new volume of the store
@@ -65,8 +53,6 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 	}
 	
 	public void tick(){
-		if (leakRate > 0)
-			level -= leakRate * level;
 		if (moduleLogging)
 			log();
 	}
