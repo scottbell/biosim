@@ -10,6 +10,7 @@ public abstract class GenericActuatorImpl extends BioModuleImpl implements Gener
 	
 	protected abstract void gatherData();
 	protected abstract void processData();
+	public abstract double getValue();
 	public void tick(){
 		gatherData();
 		processData();
