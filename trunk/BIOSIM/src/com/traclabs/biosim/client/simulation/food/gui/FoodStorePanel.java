@@ -43,8 +43,8 @@ public class FoodStorePanel extends GraphPanel
 		Renderer renderer = myPlot.getRenderer();
 		renderer.setSeriesPaint(0, new Color(51,153,51));
 		renderer.setSeriesPaint(1, new Color(204,204,0));
-		//TextTitle myTextTitle = (TextTitle)(myChart.getTitle(0));
-		//myTextTitle.setFont(myTextTitle.getFont().deriveFont(12.0f));
+		TextTitle myTextTitle = (TextTitle)(myChart.getTitle());
+		myTextTitle.setFont(myTextTitle.getFont().deriveFont(13.0f));
 		myChartPanel = new ChartPanel(myChart);
 		myChartPanel.setMinimumDrawHeight(300);
 		myChartPanel.setMinimumDrawWidth(250);

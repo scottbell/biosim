@@ -318,7 +318,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			float[] dirtyWaterOutputFlowRates = {10000f};
 			float[] greyWaterOutputFlowRates = {10000f};
 			myCrew.setAirInputs(airInputs, airInputFlowRates);
-			myCrew.setAirInputs(airOutputs, airOutputFlowRates);
+			myCrew.setAirOutputs(airOutputs, airOutputFlowRates);
 			myCrew.setFoodInputs(foodInputs, foodInputFlowRates);
 			myCrew.setPotableWaterInputs(potableWaterInput, potableWaterInputFlowRates);
 			myCrew.setDirtyWaterOutputs(dirtyWaterOutputs, dirtyWaterOutputFlowRates);
