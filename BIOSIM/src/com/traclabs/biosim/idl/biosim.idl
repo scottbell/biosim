@@ -127,6 +127,10 @@ module biosim{
 				boolean AESHasPower();
 				boolean PPSHasPower();
 				boolean BWPHasPower();
+				boolean ROHasWater();
+				boolean AESHasWater();
+				boolean PPSHasWater();
+				boolean BWPHasWater();
                         };
                         interface PotableWaterStore : framework::Store{
                         };

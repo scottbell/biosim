@@ -50,6 +50,22 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 		return myBWP.hasPower();
 	}
 	
+	public boolean ROHasWater(){
+		return myRO.hasWater();
+	}
+	
+	public boolean AESHasWater(){
+		return myAES.hasWater();
+	}
+	
+	public boolean PPSHasWater(){
+		return myPPS.hasWater();
+	}
+	
+	public boolean BWPHasWater(){
+		return myBWP.hasWater();
+	}
+	
 	public RO getRO(){
 		return myRO;
 	}

@@ -83,27 +83,23 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 	}
 	
 	private String coallateStatus(CrewPerson pCrewPerson){
-		Vector statusVector = new Vector();
-		StringBuffer statusBuffer = new StringBuffer();
 		if (pCrewPerson.isDead())
 			return "dead";
+		StringBuffer statusBuffer = new StringBuffer();
 		if (pCrewPerson.isStarving())
-			statusVector.add("starving");
-		else if (pCrewPerson.isPoisoned())
-			statusVector.add("CO2 poisoned");
-		else if (pCrewPerson.isThirsty())
-			statusVector.add("thirsty");
-		else if (pCrewPerson.isSuffocating())
-			statusVector.add("suffocating");
-		if (statusVector.size() < 1)
+			statusBuffer.append("starving, ");
+		if (pCrewPerson.isPoisoned())
+			statusBuffer.append("CO2 poisoned, ");
+		if (pCrewPerson.isThirsty())
+			statusBuffer.append("thirsty, ");
+		if (pCrewPerson.isSuffocating())
+			statusBuffer.append("suffocating, ");
+		if (statusBuffer.length() < 1)
 			return "nominal";
-		for (Enumeration e = statusVector.elements(); e.hasMoreElements();){
-			String currentStatus = (String)(e.nextElement());
-			statusBuffer.append(currentStatus);
-			if (e.hasMoreElements())
-				statusBuffer.append(", ");
+		else{
+			statusBuffer.delete(statusBuffer.length() -2, statusBuffer.length());
+			return statusBuffer.toString();
 		}
-		return statusBuffer.toString();
 	}
 
 	public void processTick(){
