@@ -62,7 +62,7 @@ public class OGS extends AirRSSubSystem{
 	}
 
 	public void tick(){
-		gatherPower();
+		super.tick();
 		if (hasEnoughPower){
 			gatherWater();
 			pushGasses();
