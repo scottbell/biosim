@@ -18,7 +18,7 @@ then
 fi
 separator=":"
 machineType=`uname`
-winName="Windows"
+winName="CYGWIN"
 case $machineType in
 	*$winName*) separator=";";echo "		-machine type is $winName";;
 	*)separator=":";echo "		-assuming Unix machine type";;
