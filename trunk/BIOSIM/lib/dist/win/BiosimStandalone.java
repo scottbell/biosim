@@ -1,9 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import org.jacorb.naming.NameServer;
-import biosim.server.framework.BiosimServer;
-import biosim.client.framework.BiosimMain;
+import java.util.*;
+import org.jacorb.naming.*;
+import biosim.server.framework.*;
+import biosim.client.framework.*;
 
 /**
  * A standalone BioSim instance (server, nameserver, client in one)
@@ -18,21 +19,22 @@ public class BiosimStandalone
 	private Thread myClientThread;
 	private Thread waitThread;
 	private ReadyListener myReadyListener;
+	private static final int PORT_NUMBER=11200;
+	private static final String XML_INIT_FILENAME="biosim/server/framework/DefaultInitialization.xml";
 	
 	private JFrame myFrame;
 	private JProgressBar myProgressBar;
 
 	public static void main(String args[]){
-		if (args.length < 1){
-			System.err.println("Must specifify where IOR is located!");
-			return;
-		}
-		BiosimStandalone myBiosimStandalone = new BiosimStandalone(args[0]);
+		System.getProperties().setProperty("ORBInitRef.NameService", "corbaloc::127.0.0.1:11200/StandardNS/NameServer-POA/_root");
+		System.getProperties().setProperty("org.omg.CORBA.ORBSingletonClass", "org.jacorb.orb.ORBSingleton");
+		System.getProperties().setProperty("org.omg.CORBA.ORBClass", "org.jacorb.orb.ORB");
+		BiosimStandalone myBiosimStandalone = new BiosimStandalone();
 		myBiosimStandalone.beginSimulation();
 	}
 	
-	public BiosimStandalone(String pIORLocation){
-		myNamingServiceThread = new Thread(new NamingServiceThread(pIORLocation));
+	public BiosimStandalone(){
+		myNamingServiceThread = new Thread(new NamingServiceThread());
 		myServerThread = new Thread(new ServerThread());
 		myClientThread = new Thread(new ClientThread());
 		myProgressBar = new JProgressBar();
@@ -55,27 +57,21 @@ public class BiosimStandalone
 		myFrame.setCursor(Cursor.WAIT_CURSOR);
 		myFrame.setVisible(true);
 		myNamingServiceThread.start();
-		myServerThread.start();
-		myClientThread.start();
+		//myServerThread.start();
+		//myClientThread.start();
 	}
 
 	private class NamingServiceThread implements Runnable{
-		private String myIORLocation;
-		
-		public NamingServiceThread(String pIORLocation){
-			myIORLocation = pIORLocation;
-		}
-		
 	        public void run(){
 			NameServer myNameserver = new NameServer();
-			String[] iorArgs = {myIORLocation};
-			myNameserver.main(iorArgs);
+			String[] nameArgs = {"-p", ""+PORT_NUMBER};
+			myNameserver.main(nameArgs);
 	        }
 	}
 	
 	private class ServerThread implements Runnable{
 	        public void run(){
-			BiosimServer myBiosimServer = new BiosimServer(0, 500);
+			BiosimServer myBiosimServer = new BiosimServer(0, 500, XML_INIT_FILENAME);
 			myBiosimServer.addReadyListener(myReadyListener);
 			myBiosimServer.runServer("BiosimServer (id="+0+")");
 	        }
