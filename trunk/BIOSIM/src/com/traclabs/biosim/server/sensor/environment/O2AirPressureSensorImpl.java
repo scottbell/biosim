@@ -10,7 +10,7 @@ public class O2AirPressureSensorImpl extends EnvironmentSensorImpl implements O2
 	}
 
 	protected void gatherData(){
-		float preFilteredValue = getInput().getO2Moles() / getInput().getTotalMoles();
+		float preFilteredValue = getInput().getO2Pressure();
 		myValue = randomFilter(preFilteredValue);
 	}
 

@@ -10,7 +10,7 @@ public class NitrogenAirPressureSensorImpl extends EnvironmentSensorImpl impleme
 	}
 
 	protected void gatherData(){
-		float preFilteredValue = getInput().getNitrogenMoles() / getInput().getTotalMoles();
+		float preFilteredValue = getInput().getNitrogenPressure();
 		myValue = randomFilter(preFilteredValue);
 	}
 

@@ -10,7 +10,7 @@ public class OtherAirPressureSensorImpl extends EnvironmentSensorImpl implements
 	}
 
 	protected void gatherData(){
-		float preFilteredValue = getInput().getOtherMoles() / getInput().getTotalMoles();
+		float preFilteredValue = getInput().getOtherPressure();
 		myValue = randomFilter(preFilteredValue);
 	}
 
