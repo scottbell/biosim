@@ -1,5 +1,4 @@
 //Prototyping
-
 module com{
         module traclabs{
                 module biosim{
@@ -157,8 +156,12 @@ module com{
                                 };
                         };
                 };
+        };
+};
 
-                //Declarations
+//Declarations
+module com{
+        module traclabs{
                 module biosim{
                         module idl{
                                 module framework{
@@ -1514,4 +1517,3 @@ module com{
                 };
         };
 };
-
