@@ -720,9 +720,9 @@
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
 				<xsd:sequence>
-					<xsd:element name="generation" type="GenerationType"/>
 					<xsd:element name="powerProducer" type="PowerProducerType"/>
 				</xsd:sequence>
+				<xsd:attribute name="generation" type="GenerationType" default="NUCLEAR"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
