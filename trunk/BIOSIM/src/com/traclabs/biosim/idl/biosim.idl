@@ -26,6 +26,7 @@ module biosim{
                                 string getName();
                                 long getTimeLength();
                                 long getActivityIntensity();
+				long getOrder();
                         };
                         interface CrewPerson{
                                 Activity getCurrentActivity();
@@ -40,6 +41,12 @@ module biosim{
 				boolean isThirsty();
 				boolean isSuffocating();
 				boolean isDead();
+				float getGreyWaterProduced();
+				float getDirtyWaterProduced();
+				float getPotableWaterConsumed();
+				float getFoodConsumed();
+				float getCO2Produced();
+				float getO2Consumed();
                         };
                         interface CrewGroup : framework::BioModule{
                                 Activity getScheduledActivityByName(in string name);

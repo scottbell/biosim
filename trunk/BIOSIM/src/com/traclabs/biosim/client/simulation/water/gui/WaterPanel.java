@@ -50,7 +50,7 @@ public class WaterPanel extends JPanel implements BioSimulatorListener
 	}
 
 	private void buildGui(){
-		numFormat = new DecimalFormat("#,###.00;(#)");
+		numFormat = new DecimalFormat("#,##0.00;(#)");
 		GridBagLayout gridbag = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();
 		setLayout(gridbag);
