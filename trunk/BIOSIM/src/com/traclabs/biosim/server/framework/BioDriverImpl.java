@@ -579,15 +579,12 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 
 		//Put some air in the crew cabin
 		SimEnvironment myCrewEnvironment = SimEnvironmentHelper.narrow(getBioModule(myCrewEnvironmentName));
-		double environmentCapacity = 1.54893 * Math.pow(10, 6);
-		//for dave, make bigger
-		environmentCapacity *= 10;
-		Double environmentCapacityObj = new Double(environmentCapacity);
-		myCrewEnvironment.setVolume(environmentCapacityObj.floatValue());
+		float environmentCapacity = 1.54893f * pow(10, 6);
+		myCrewEnvironment.setVolume(environmentCapacity);
 
 		//Put some air in the plant cabin
 		SimEnvironment myPlantEnvironment = SimEnvironmentHelper.narrow(getBioModule(myPlantEnvironmentName));
-		myPlantEnvironment.setVolume(environmentCapacityObj.floatValue());
+		myPlantEnvironment.setVolume(environmentCapacity);
 
 		//Add some crops and food
 		BiomassStore myBiomassStore = BiomassStoreHelper.narrow(getBioModule(myBiomassStoreName));
@@ -603,6 +600,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		PowerStore myPowerStore = PowerStoreHelper.narrow(getBioModule(myPowerStoreName));
 		myPowerStore.setCapacity(10000f);
 		myPowerStore.setLevel(10000f);
+	}
+	
+	private float pow(float a, float b){
+		return (new Double(Math.pow(a,b))).floatValue();
 	}
 
 	/**
