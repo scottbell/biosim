@@ -131,6 +131,7 @@ public class BioHolder
 	public final static String myBiomassRSBiomassOutFlowRateSensorName = "BiomassRSBiomassOutFlowRateSensor";
 	public final static String myBiomassRSPowerInFlowRateSensorName = "BiomassRSPowerInFlowRateSensor";
 	public final static String myBiomassRSDirtyWaterOutFlowRateSensorName = "BiomassRSDirtyWaterOutFlowRateSensor";
+	public final static String myShelf0HarvestSensorName = "Shelf0HarvestSensor";
 	//Food Processor
 	public final static String myFoodProcessorPowerInFlowRateSensorName = "FoodProcessorPowerInFlowRateSensor";
 	public final static String myFoodProcessorBiomassInFlowRateSensorName = "FoodProcessorBiomassInFlowRateSensor";
@@ -191,6 +192,8 @@ public class BioHolder
 	public final static String myBiomassRSGreyWaterInFlowRateActuatorName = "BiomassRSGreyWaterInFlowRateActuator";
 	public final static String myBiomassRSBiomassOutFlowRateActuatorName = "BiomassRSBiomassOutFlowRateActuator";
 	public final static String myBiomassRSPowerInFlowRateActuatorName = "BiomassRSPowerInFlowRateActuator";
+	public final static String myShelf0PlantingActuatorName = "Shelf0PlantingActuator";
+	public final static String myShelf0HarvestingActuatorName = "Shelf0HarvestingActuator";
 	//Food Processor
 	public final static String myFoodProcessorPowerInFlowRateActuatorName = "FoodProcessorPowerInFlowRateActuator";
 	public final static String myFoodProcessorBiomassInFlowRateActuatorName = "FoodProcessorBiomassInFlowRateActuator";
@@ -556,6 +559,9 @@ public class BioHolder
 					PowerInFlowRateSensor myBiomassRSPowerInFlowRateSensor = PowerInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myBiomassRSPowerInFlowRateSensorName));
 					modules.put(myBiomassRSPowerInFlowRateSensorName , myBiomassRSPowerInFlowRateSensor);
 					sensors.put(myBiomassRSPowerInFlowRateSensorName , myBiomassRSPowerInFlowRateSensor);
+					HarvestSensor myShelf0HarvestSensor = HarvestSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myShelf0HarvestSensorName));
+					modules.put(myShelf0HarvestSensorName , myShelf0HarvestSensor);
+					sensors.put(myShelf0HarvestSensorName , myShelf0HarvestSensor);
 				}
 				//Food Processor
 				{
@@ -740,6 +746,12 @@ public class BioHolder
 					PowerInFlowRateActuator myBiomassRSPowerInFlowRateActuator = PowerInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myBiomassRSPowerInFlowRateActuatorName));
 					modules.put(myBiomassRSPowerInFlowRateActuatorName , myBiomassRSPowerInFlowRateActuator);
 					actuators.put(myBiomassRSPowerInFlowRateActuatorName , myBiomassRSPowerInFlowRateActuator);
+					HarvestingActuator myShelf0HarvestingActuator = HarvestingActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myShelf0HarvestingActuatorName));
+					modules.put(myShelf0HarvestingActuator , myShelf0HarvestingActuatorName);
+					actuators.put(myShelf0HarvestingActuator , myShelf0HarvestingActuatorName);
+					PlantingActuator myShelf0PlantingActuator = PlantingActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myShelf0PlantingActuatorName));
+					modules.put(myShelf0PlantingActuator , myShelf0PlantingActuatorName);
+					actuators.put(myShelf0PlantingActuator , myShelf0PlantingActuatorName);
 				}
 				//Food Processor
 				{

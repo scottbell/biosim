@@ -25,7 +25,7 @@ public class ShelfImpl extends ShelfPOA {
 	private float powerLevel = 0f;
 	private float powerPerLamp = 400f;
 	private float numberOfLamps = 1f;
-	
+
 
 	public ShelfImpl(PlantType pType, float pCropAreaTotal, BiomassRSImpl pBiomassImpl){
 		cropAreaTotal = pCropAreaTotal;
@@ -44,7 +44,7 @@ public class ShelfImpl extends ShelfPOA {
 		powerLevel = 0f;
 		replant(initialType);
 	}
-	
+
 	public BiomassRS getBiomassRS(){
 		return BiomassRSHelper.narrow(OrbUtils.poaToCorbaObj(myBiomassRSImpl));
 	}
@@ -56,7 +56,7 @@ public class ShelfImpl extends ShelfPOA {
 	public float getCropAreaTotal(){
 		return cropAreaTotal;
 	}
-	
+
 	public float getCropAreaUsed(){
 		return cropAreaUsed;
 	}
@@ -83,7 +83,7 @@ public class ShelfImpl extends ShelfPOA {
 	private void flushPower(){
 		powerLevel = 0f;
 	}
-	
+
 	public float takeWater(float pLiters){
 		if (waterLevel < pLiters){
 			float waterTaken = waterLevel;
@@ -95,7 +95,7 @@ public class ShelfImpl extends ShelfPOA {
 			return pLiters;
 		}
 	}
-	
+
 	private float pow(float a, float b){
 		return (new Double(Math.pow(a,b))).floatValue();
 	}
@@ -121,22 +121,24 @@ public class ShelfImpl extends ShelfPOA {
 	}
 
 	public void harvest(){
-		myCrop.harvest();
+		float biomassProduced = myCrop.harvest();
+		float biomassAdded = pushFractionalResourceToBiomassStore(myBiomassRSImpl.getBiomassOutputs(), myBiomassRSImpl.getBiomassOutputMaxFlowRates(), myBiomassRSImpl.getBiomassOutputDesiredFlowRates(), myBiomassRSImpl.getBiomassOutputActualFlowRates(), biomassProduced, myBiomassRSImpl.getNumberOfShelves(), myCrop.getPlantType());
 	}
-	
+
 	public boolean isReadyForHavest(){
 		return myCrop.readyForHarvest();
 	}
-	
+
 	private void tryHarvesting(){
 		if (myBiomassRSImpl.autoHarvestAndReplantEnabled()){
 			if (myCrop.readyForHarvest()){
 				float biomassProduced = myCrop.harvest();
-				float biomassAdded = pushFractionalResourceToBiomassStore(myBiomassRSImpl.getBiomassOutputs(), myBiomassRSImpl.getBiomassOutputMaxFlowRates(), myBiomassRSImpl.getBiomassOutputDesiredFlowRates(), myBiomassRSImpl.getBiomassOutputActualFlowRates(), biomassProduced, myBiomassRSImpl.getNumberOfShelves(), myCrop.getPlantType());		
+				float biomassAdded = pushFractionalResourceToBiomassStore(myBiomassRSImpl.getBiomassOutputs(), myBiomassRSImpl.getBiomassOutputMaxFlowRates(), myBiomassRSImpl.getBiomassOutputDesiredFlowRates(), myBiomassRSImpl.getBiomassOutputActualFlowRates(), biomassProduced, myBiomassRSImpl.getNumberOfShelves(), myCrop.getPlantType());
 			}
+			myCrop.reset();
 		}
 	}
-	
+
 	private float pushFractionalResourceToBiomassStore(BiomassStore[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates, float[] pActualFlowRates, float amountToPush, float fraction, PlantType pType){
 		float resourceDistributed = amountToPush;
 		for (int i = 0; (i < pStores.length) && (resourceDistributed > 0); i++){
@@ -161,7 +163,7 @@ public class ShelfImpl extends ShelfPOA {
 	public void replant(PlantType pType){
 		replant(pType, cropAreaTotal);
 	}
-	
+
 	public void replant(PlantType pType, float pArea){
 		if (pArea > cropAreaTotal)
 			cropAreaUsed = cropAreaTotal;
