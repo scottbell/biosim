@@ -105,7 +105,7 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	*/
 	private void gatherPower(){
 		float gatheredPower = 0f;
-		for (int i = 0; (i < myPowerStores.length) && (gatheredPower >= powerNeeded); i++){
+		for (int i = 0; (i < myPowerStores.length) && (gatheredPower < powerNeeded); i++){
 			gatheredPower += myPowerStores[i].take(powerNeeded);
 		}
 		currentPowerConsumed = gatheredPower;
@@ -122,7 +122,7 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	*/
 	private void gatherBiomass(){
 		float gatheredBiomass = 0f;
-		for (int i = 0; (i < myBiomassStores.length) && (gatheredBiomass >= biomassNeeded); i++){
+		for (int i = 0; (i < myBiomassStores.length) && (gatheredBiomass < biomassNeeded); i++){
 			gatheredBiomass += myBiomassStores[i].take(biomassNeeded);
 		}
 		currentBiomassConsumed = gatheredBiomass;
@@ -141,7 +141,7 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 		if (hasEnoughPower){
 			currentFoodProduced = randomFilter(currentBiomassConsumed * 0.8f) * myProductionRate;
 			float distributedFoodLeft = currentFoodProduced;
-			for (int i = 0; (i < myFoodStores.length) && (distributedFoodLeft <= 0); i++){
+			for (int i = 0; (i < myFoodStores.length) && (distributedFoodLeft > 0); i++){
 				distributedFoodLeft -= myFoodStores[i].add(distributedFoodLeft);
 			}
 		}
