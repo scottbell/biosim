@@ -185,8 +185,6 @@ public class BiosimEditor {
                         "Water",
                         createImageIcon("com/traclabs/biosim/client/water/gui/water.jpg"),
                         myWaterPanel);
-        //myTabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-        
     }
 
     /**
