@@ -176,8 +176,8 @@ module biosim{
                                 boolean simulationHasStarted();
                                 void advanceOneTick();
                                 void resumeSimulation();
-                                void setLogging(in boolean pLogSim);
-                                boolean isLogging();
+                                void setFullLogging(in boolean pLogSim);
+                                boolean isFullLogging();
                                 void setSensorLogging(in boolean pLogSim);
                                 boolean isSensorLogging();
                                 void setActuatorLogging(in boolean pLogSim);

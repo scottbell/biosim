@@ -207,7 +207,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	//The number of ticks gone by
 	private int ticksGoneBy = 0;
 	//Tells whether all the modules known are logging or not (only checked when logging turned on/off)
-	private boolean logging = false;
+	private boolean fullLogging = false;
 	private boolean actuatorsLogging = false;
 	private boolean sensorsLogging = false;
 	//The logger module
@@ -1551,14 +1551,14 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	* Iterates through the modules setting their logs
 	* @param pLogSim Whether or not modules should log.
 	*/
-	public synchronized void setLogging(boolean pLogSim){
+	public synchronized void setFullLogging(boolean pLogSim){
 		collectReferences();
-		logging = pLogSim;
-		if (logging){
-			System.out.println("BioDriverImpl:"+myID+" Enabling logging");
+		fullLogging = pLogSim;
+		if (fullLogging){
+			System.out.println("BioDriverImpl:"+myID+" Enabling fullLogging");
 		}
 		else{
-			System.out.println("BioDriverImpl:"+myID+" Disabling logging");
+			System.out.println("BioDriverImpl:"+myID+" Disabling fullLogging");
 		}
 		for (Iterator iter = modules.values().iterator(); iter.hasNext();){
 			BioModule currentBioModule = (BioModule)(iter.next());
@@ -1643,11 +1643,11 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	}
 
 	/**
-	* Tells whether the modules are logging or not
-	* @return Whether the modules are logging or not
+	* Tells whether the modules are full Logging or not
+	* @return Whether the modules are full Logging or not
 	*/
-	public boolean isLogging(){
-		return logging;
+	public boolean isFullLogging(){
+		return fullLogging;
 	}
 	
 	/**
