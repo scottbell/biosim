@@ -10,7 +10,7 @@ module biosim{
                                 void reset();
                                 void setLogging(in boolean pLogging);
                                 boolean isLogging();
-				void setStochasticCoefficient(in float pValue);
+				void setRandomCoefficient(in float pValue);
                         };
 
                         interface Store : BioModule{
@@ -42,7 +42,7 @@ module biosim{
 				long getTicks();
 				void reset();
 				void setInitialization(in BioDriverInit myInit);
-				void setStochasticCoefficient(in float pValue);
+				void setRandomCoefficient(in float pValue);
                         };
                 };
 

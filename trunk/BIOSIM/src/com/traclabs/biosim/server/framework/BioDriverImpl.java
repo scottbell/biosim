@@ -410,10 +410,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myLogger.setProcessingLogs(pLogSim);
 	}
 	
-	public void setStochasticCoefficient(float pValue){
+	public void setRandomCoefficient(float pValue){
 		for (Enumeration e = modules.elements(); e.hasMoreElements();){
 			BioModule currentBioModule = (BioModule)(e.nextElement());
-			currentBioModule.setStochasticCoefficient(pValue);
+			currentBioModule.setRandomCoefficient(pValue);
 		}
 		
 	}
