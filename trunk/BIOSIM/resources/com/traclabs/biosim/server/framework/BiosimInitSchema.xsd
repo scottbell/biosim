@@ -112,6 +112,14 @@
 					</xsd:all>
 				</xsd:complexType>
 			</xsd:element>
+			<xsd:element name="framework" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:all>
+						<xsd:element name="Accumulator" type="AccumulatorType" minOccurs="0"/>
+						<xsd:element name="Injector" type="InjectorType" minOccurs="0"/>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
 		</xsd:all>     
 	</xsd:complexType>
 	
@@ -391,6 +399,28 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	
+	<xsd:complexType name="O2AirConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateTypes">
+				<xsd:sequence>
+					<xsd:element name="environmentInputs" type="SimEnvironmentNameType"/>
+					<xsd:element name="storeInputs" type="O2StoreNameType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="CO2AirConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateTypes">
+				<xsd:sequence>
+					<xsd:element name="environmentInputs" type="SimEnvironmentNameType"/>
+					<xsd:element name="storeInputs" type="CO2StoreNameType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
 	<xsd:complexType name="PowerProducerType">  
 		<xsd:complexContent>
 			<xsd:extension base="FlowRateTypes">
@@ -486,6 +516,28 @@
 			<xsd:extension base="FlowRateTypes">
 				<xsd:sequence>
 					<xsd:element name="output" type="FoodStoreNameType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="O2AirProducerType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateTypes">
+				<xsd:sequence>
+					<xsd:element name="environmentOutputs" type="SimEnvironmentNameType"/>
+					<xsd:element name="storeOutputs" type="O2StoreNameType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="CO2AirProducerType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateTypes">
+				<xsd:sequence>
+					<xsd:element name="environmentOutputs" type="SimEnvironmentNameType"/>
+					<xsd:element name="storeOutputs" type="CO2StoreNameType"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -683,8 +735,16 @@
 			<xsd:element name="name" type="xsd:string"/>
 			<xsd:element name="age" type="nonNegativeFloat"/>
 			<xsd:element name="weight" type="nonNegativeFloat"/>
+			<xsd:element name="sex" type="SexType"/>
 		</xsd:sequence>
 	</xsd:complexType>
+	
+	<xsd:simpleType name="SexType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="MALE"/>
+			<xsd:enumeration value="FEMALE"/>
+		</xsd:restriction>
+	</xsd:simpleType>
 	
 	<!-- Special BiomassRS specific declarations -->
 	<xsd:simpleType name="CropType">
@@ -819,6 +879,78 @@
 					<xsd:element name="dirtyWaterConsumer" type="DirtyWaterConsumerType"/>
 					<xsd:element name="greyWaterConsumer" type="GreyWaterConsumerType"/>
 					<xsd:element name="potableWaterProducer" type="PotableWaterProducerType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="AccumulatorType">  
+		<xsd:complexContent>
+			<xsd:extension base="NonStoreBioModuleType">
+				<xsd:sequence>
+					<xsd:element name="powerConsumer" type="PowerConsumerType"/>
+					<xsd:element name="powerProducer" type="PowerProducerType"/>
+					<xsd:element name="potableWaterConsumer" type="PotableWaterConsumerType"/>
+					<xsd:element name="potableWaterProducer" type="PotableWaterProducerType"/>
+					<xsd:element name="greyWaterConsumer" type="GreyWaterConsumerType"/>
+					<xsd:element name="greyWaterProducer" type="GreyWaterProducerType"/>
+					<xsd:element name="dirtyWaterConsumer" type="DirtyWaterConsumerType"/>
+					<xsd:element name="dirtyWaterProducer" type="DirtyWaterProducerType"/>
+					<xsd:element name="airConsumer" type="AirConsumerType"/>
+					<xsd:element name="airProducer" type="AirProducerType"/>
+					<xsd:element name="H2Consumer" type="H2ConsumerType"/>
+					<xsd:element name="H2Producer" type="H2ProducerType"/>
+					<xsd:element name="O2AirConsumer" type="O2AirConsumerType"/>
+					<xsd:element name="O2AirProducer" type="O2AirProducerType"/>
+					<xsd:element name="CO2AirConsumer" type="CO2AirConsumerType"/>
+					<xsd:element name="CO2AirProducer" type="CO2AirProducerType"/>
+					<xsd:element name="O2AirConsumer" type="O2AirConsumerType"/>
+					<xsd:element name="O2AirProducer" type="O2AirProducerType"/>
+					<xsd:element name="O2Consumer" type="O2ConsumerType"/>
+					<xsd:element name="O2Producer" type="O2ProducerType"/>
+					<xsd:element name="CO2Consumer" type="CO2ConsumerType"/>
+					<xsd:element name="CO2Producer" type="CO2ProducerType"/>
+					<xsd:element name="LightConsumer" type="LightConsumerType"/>
+					<xsd:element name="biomassConsumer" type="BiomassConsumerType"/>
+					<xsd:element name="biomassProducer" type="BiomassProducerType"/>
+					<xsd:element name="foodConsumer" type="FoodConsumerType"/>
+					<xsd:element name="foodProducer" type="FoodProducerType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="InjectorType">  
+		<xsd:complexContent>
+			<xsd:extension base="NonStoreBioModuleType">
+				<xsd:sequence>
+					<xsd:element name="powerConsumer" type="PowerConsumerType"/>
+					<xsd:element name="powerProducer" type="PowerProducerType"/>
+					<xsd:element name="potableWaterConsumer" type="PotableWaterConsumerType"/>
+					<xsd:element name="potableWaterProducer" type="PotableWaterProducerType"/>
+					<xsd:element name="greyWaterConsumer" type="GreyWaterConsumerType"/>
+					<xsd:element name="greyWaterProducer" type="GreyWaterProducerType"/>
+					<xsd:element name="dirtyWaterConsumer" type="DirtyWaterConsumerType"/>
+					<xsd:element name="dirtyWaterProducer" type="DirtyWaterProducerType"/>
+					<xsd:element name="airConsumer" type="AirConsumerType"/>
+					<xsd:element name="airProducer" type="AirProducerType"/>
+					<xsd:element name="H2Consumer" type="H2ConsumerType"/>
+					<xsd:element name="H2Producer" type="H2ProducerType"/>
+					<xsd:element name="O2AirConsumer" type="O2AirConsumerType"/>
+					<xsd:element name="O2AirProducer" type="O2AirProducerType"/>
+					<xsd:element name="CO2AirConsumer" type="CO2AirConsumerType"/>
+					<xsd:element name="CO2AirProducer" type="CO2AirProducerType"/>
+					<xsd:element name="O2AirConsumer" type="O2AirConsumerType"/>
+					<xsd:element name="O2AirProducer" type="O2AirProducerType"/>
+					<xsd:element name="O2Consumer" type="O2ConsumerType"/>
+					<xsd:element name="O2Producer" type="O2ProducerType"/>
+					<xsd:element name="CO2Consumer" type="CO2ConsumerType"/>
+					<xsd:element name="CO2Producer" type="CO2ProducerType"/>
+					<xsd:element name="LightConsumer" type="LightConsumerType"/>
+					<xsd:element name="biomassConsumer" type="BiomassConsumerType"/>
+					<xsd:element name="biomassProducer" type="BiomassProducerType"/>
+					<xsd:element name="foodConsumer" type="FoodConsumerType"/>
+					<xsd:element name="foodProducer" type="FoodProducerType"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
