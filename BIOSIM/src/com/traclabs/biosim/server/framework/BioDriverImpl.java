@@ -18,16 +18,16 @@ import java.util.*;
 
 /**
  * BioDriverImpl exists as the driver for the simulation.  It gathers references to all the various servers, initializes them, then ticks them.
- * This is all done multithreaded through the use of the spawnSimulation method.
+ * This is all done multithreaded through the use of the spawnSimulation methods.
  * BioDriverImpl also can notify listeners when it has sucessfully ticked all the servers.  The listener needs only to implement BioDriverImplListener and
- * register with BioDriverImpl.
+ * register with BioDriverImpl.  Note that any configuration of the simulation other than the one supplied will need to use <code>BioDriverInit.NONE_INIT</code>
  *
  * @author    Scott Bell
  */
 
 public class BioDriverImpl extends BioDriverPOA implements Runnable
 {
-	//Module Names
+	//Module Names, only used for initialization
 	private String crewName;
 	private String powerPSName;
 	private String powerStoreName;
@@ -59,18 +59,33 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	private boolean simulationStarted = false;
 	//Flag to see if user wants to use default intialization (i.e., fill tanks with x amount gas, generate crew memebers, etc)
 	private BioDriverInit initializationToUse = BioDriverInit.DEFAULT_INIT;
+	//Tells whether simulation runs until crew death
 	private boolean runTillDead = false;
+	//Tells whether simulation runs till a fixed number of ticks
 	private boolean runTillN = false;
+	//If <runTillN == true, this is the number of ticks to run for.
 	private int nTicks = 0;
+	//The number of ticks gone by
 	private int ticksGoneBy = 0;
+	//Tells whether all the modules known are logging or not (only checked when logging turned on/off)
 	private boolean logging = false;
+	//The logger module
 	private Logger myLogger;
+	//Tells whether BioDriver has collected references to modules it needs from the nameserver (used for initializations)
 	private boolean hasCollectedReferences = false;
+	//How long BioDriver should pause between ticks
 	private int driverPauseLength = 0;
-	private int myID = 0;
+	//The ID of this instance of BioSim
+	private int myID = 0;createdCrew
+	//If the initialization has already created the crew or not.
 	private boolean createdCrew = false;
+	//If we loop after end conditions of a simulation run have been met (crew death or n-ticks)
 	private boolean looping = false;
-
+	
+	/**
+	* Checks to see if the simulation is paused.
+	* @param pID The ID of this instance of the BioSim (must be the same for all modules in the instance)
+	*/
 	public BioDriverImpl(int pID){
 		myID = pID;
 		crewName = "CrewGroup"+myID;
@@ -94,11 +109,18 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		injectorName = "Injector"+myID;
 		checkMachineType();
 	}
-
+	
+	/**
+	* @return The name of this instance (BioDriver + ID)
+	*/
 	public String getName(){
 		return "BioDriver"+myID;
 	}
-
+	
+	/**
+	* Attempts to discover the machine type we're running on.  If it's windows, set a driver pause between ticks
+	* to keep from starving windows GUI.  Checked by looking at the Java System Property "MACHINE_TYPE"
+	*/
 	private void checkMachineType(){
 		String machineType = null;
 		machineType = System.getProperty("MACHINE_TYPE");
@@ -132,9 +154,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	}
 
 	/**
-	* Run a simulation on a different thread and runs continously (ticks till signalled to end)
-	* param pUseDefaultInitialization set to <code>true</code> if user wants to use default intialization 
-	* (i.e., fill tanks with x amount gas, generate crew memebers, etc)
+	* Run a simulation on a different thread and runs continuously (ticks till signalled to end)
 	*/
 	public void spawnSimulation(){
 		runTillDead = false;
@@ -143,14 +163,21 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myTickThread = new Thread(this);
 		myTickThread.start();
 	}
-
+	
+	/**
+	* Run a simulation on a different thread and runs continously till the crew dies
+	*/
 	public void spawnSimulationTillDead(){
 		runTillDead = true;
 		collectReferences();
 		myTickThread = new Thread(this);
 		myTickThread.start();
 	}
-
+	
+	/**
+	* Run a simulation on a different thread and runs continously till n-Ticks
+	* @param pTicks The number of ticks to run the simulation
+	*/
 	public void spawnSimulationTillN(int pTicks){
 		nTicks = pTicks;
 		runTillN = true;
@@ -159,7 +186,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myTickThread = new Thread(this);
 		myTickThread.start();
 	}
-
+	
+	/**
+	* If n-ticks have been reached or the crew is dead, this method restarts the simulation
+	*/
 	private void loopSimulation(){
 		collectReferences();
 		myTickThread = new Thread(this);
@@ -167,10 +197,11 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	}
 	
 	/**
-	* Tells BioDriver which initialization to use:
+	* Tells BioDriver which initialization to use
+	* @param pInitializationToUse the initialization to use:
 	* <code>BioDriverInit.DEFAULT_INIT</code> - default initialization (sets resource flows, initializes buffers, adds crew, etc)
 	* <code>BioDriverInit.OPTIMAL_INIT</code> - optimal initialization, same as default, but with bigger buffers, smaller crew, etc
-	* <code>BioDriverInit.NONE_INIT</code> - no initialization.  everything must be set up manually
+	* <code>BioDriverInit.NONE_INIT</code> - no initialization.  everything must be set up manually. use this if you've reconfigured the simulation
 	*/
 	public void setInitialization(BioDriverInit pInitializationToUse){
 		initializationToUse = pInitializationToUse;
@@ -178,7 +209,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 
 	/**
 	* Invoked by the myTickThread.start() method call and necessary to implement Runnable.
-	* Sets flag that simulation is running, intializes servers, then begins ticking them.
+	* Sets flag that simulation is running, intializes servers (if applicable), then begins ticking them.
 	*/
 	public void run(){
 		simulationStarted = true;
@@ -196,7 +227,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	}
 
 	/**
-	* Initializes the various servers with various dummy data
+	* Initializes the various servers with various dummy data.
+	* Crew is created, stores are filled, etc.
 	*/
 	private void defaultInitialization(){
 		//reset servers
@@ -262,7 +294,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 
 		configureFlows();
 	}
-
+	
+	/**
+	* Configures the simulation.  By default, 2 environments are used along with one module of everything else.
+	*/
 	private void configureFlows(){
 		BiomassStore myBiomassStore = (BiomassStore)(getBioModule(biomassStoreName));
 		PowerStore myPowerStore = (PowerStore)(getBioModule(powerStoreName));
@@ -409,7 +444,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	}
 
 	/**
-	* Initializes the various servers with various optimal data
+	* Initializes the various servers with various optimal data.
+	* One crew member created, stores filled high, etc.
 	*/
 	private void optimalInitialization(){
 		//reset servers
@@ -488,25 +524,41 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			}
 		}
 	}
-
+	
+	/**
+	* Sets how long BioDriver should pause between full simulation ticks (e.g., tick all modules, wait, tick all modules, wait, etc.)
+	* @param pDriverPauseLength the length (in milliseconds) for the driver to pause between ticks
+	*/
 	public void setDriverPauseLength(int pDriverPauseLength){
 		if (pDriverPauseLength > 0)
 			System.out.println("BioDriverImpl:"+myID+" driver pause of "+pDriverPauseLength+" milliseconds");
 		driverPauseLength = pDriverPauseLength;
 	}
-
+	
+	/**
+	* @return How long the simulation paused between full simulation ticks.
+	*/
 	public int getDriverPauseLength(){
 		return driverPauseLength;
 	}
-
+	
+	/**
+	* @return Whether BioDriver is looping the simulation after end conditions have been met.
+	*/
 	public boolean isLooping(){
 		return looping;
 	}
-
+	
+	/**
+	* @param pLoop Wheter BioDriver should loop the simulation after end conditions have been met.
+	*/
 	public void setLooping(boolean pLoop){
 		looping = pLoop;
 	}
-
+	
+	/**
+	* @return Whether the simulation has met an end condition and has stopped. 
+	*/
 	public boolean isDone(){
 		if (runTillN){
 			if (ticksGoneBy >= nTicks){
@@ -523,7 +575,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		}
 		return false;
 	}
-
+	
+	/**
+	* @return The number of times BioDriver has ticked the simulation
+	*/
 	public int getTicks(){
 		return ticksGoneBy;
 	}
@@ -580,7 +635,11 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		notify();
 		System.out.println("BioDriverImpl:"+myID+" simulation resumed");
 	}
-
+	
+	/**
+	* Iterates through the modules setting their logs
+	* @param pLogSim Whether or not modules should log.
+	*/
 	public synchronized void setLogging(boolean pLogSim){
 		collectReferences();
 		logging = pLogSim;
@@ -596,21 +655,44 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		}
 		myLogger.setProcessingLogs(pLogSim);
 	}
-
+	
+	/**
+	* @param pValue The amount of stochastic intensity the modules will undergo.
+	* Options are:
+	* <code>StochasticIntensity.HIGH_STOCH</code>
+	* <code>StochasticIntensity.MEDIUM_STOCH</code>
+	* <code>StochasticIntensity.LOW_STOCH</code>
+	* <code>StochasticIntensity.NONE_STOCH</code>
+	*/
 	public void setStochasticIntensity(StochasticIntensity pValue){
 		for (Iterator iter = modules.values().iterator(); iter.hasNext();){
 			BioModule currentBioModule = (BioModule)(iter.next());
 			currentBioModule.setStochasticIntensity(pValue);
 		}
 	}
-
-	public  void startMalfunction(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
+	
+	/**
+	* Starts a malfunction on every module
+	* @param pIntensity The intensity of the malfunction
+	* Options are:
+	* <code>MalfunctionIntensity.SEVERE_MALF</code>
+	* <code>MalfunctionIntensity.MEDIUM_MALF</code>
+	* <code>MalfunctionIntensity.LOW_MALF</code>
+	* @param pLength The length (time-wise) of the malfunction
+	* Options are:
+	* <code>MalfunctionLength.TEMPORARY_MALF</code>
+	* <code>MalfunctionLength.PERMANENT_MALF</code>
+	*/
+	public void startMalfunction(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
 		for (Iterator iter = modules.values().iterator(); iter.hasNext();){
 			BioModule currentBioModule = (BioModule)(iter.next());
 			currentBioModule.startMalfunction(pIntensity, pLength);
 		}
 	}
-
+	
+	/**
+	* @return Whether the modules are logging or not
+	*/
 	public boolean isLogging(){
 		return logging;
 	}
