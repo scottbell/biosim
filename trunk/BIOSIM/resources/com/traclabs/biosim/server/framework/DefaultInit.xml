@@ -250,6 +250,10 @@
 			<H2InFlowRateActuator name="AirRSH2InFlowRateActuator" index="0" output="AirRS"/>
 			<H2OutFlowRateActuator name="AirRSH2OutFlowRateActuator" index="0" output="AirRS"/>
 		</air>
+		<environment>
+			<AirInFlowRateActuator name="AirRSAirInFlowRateActuator" index="0" output="AirRS"/>
+			<AirOutFlowRateActuator name="AirRSAirOutFlowRateActuator" index="0" output="AirRS"/>
+		</environment>
 		<food>
 			<BiomassInFlowRateActuator name="FoodProcessorBiomassInFlowRateActuator" index="0" output="FoodProcessor"/>
 			<BiomassOutFlowRateActuator name="BiomassRSBiomassOutFlowRateActuator" index="0" output="BiomassRS"/>
