@@ -155,7 +155,7 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	* @return the CO2 produced (in moles) at the current tick
 	*/
 	public float getCO2Produced(){
-		return 0;
+		return myVCCR.getCO2Produced();
 	}
 
 	/**

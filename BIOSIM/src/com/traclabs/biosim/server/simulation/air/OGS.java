@@ -32,8 +32,9 @@ public class OGS extends AirRSSubSystem{
 	}
 
 	private void pushGasses(){
-		currentO2Produced = myAirRS.randomFilter(currentH2OConsumed * 0.66666f) * myProductionRate;
-		currentH2Produced = myAirRS.randomFilter(currentH2OConsumed * 0.33333f) * myProductionRate;
+		float molesOfWater = (currentH2OConsumed * 1000f) / 18.01524f; //1000g/liter, 18.01524g/mole
+		currentO2Produced = myAirRS.randomFilter(molesOfWater * 0.444f) * myProductionRate;
+		currentH2Produced = myAirRS.randomFilter(molesOfWater * 0.111f) * myProductionRate;
 		float distributedO2 = myAirRS.randomFilter(currentO2Produced);
 		float distributedO2Left = myAirRS.pushResourceToStore(myAirRS.getO2Outputs(), myAirRS.getO2OutputMaxFlowRates(), myAirRS.getO2OutputDesiredFlowRates(), myAirRS.getO2OutputActualFlowRates(), distributedO2);
 	}

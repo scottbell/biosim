@@ -12,8 +12,8 @@ import biosim.server.util.*;
  */
 
 public class CRS extends AirRSSubSystem{
-	private final static float CO2Needed = 4.0f;
-	private final static float H2Needed = 1.0f;
+	private final static float CO2Needed = 10f;
+	private final static float H2Needed = 40f;
 	private float currentCO2Consumed = 0;
 	private float currentH2Consumed = 0;
 	private float currentH2OProduced = 0;
@@ -31,9 +31,18 @@ public class CRS extends AirRSSubSystem{
 	}
 
 	private void pushGasses(){
-		currentH2OProduced = myAirRS.randomFilter(new Double((currentH2Consumed + currentCO2Consumed) * .80).floatValue());
+		if ((currentH2Consumed <= 0) || (currentCO2Consumed <=0)){
+			currentH2OProduced = myAirRS.randomFilter(0f);
+			currentCH4Produced = myAirRS.randomFilter(0f);
+		}
+		else{
+			float waterMolesProduced = (0.5f * currentH2Consumed) + (.727f * currentCO2Consumed);
+			float waterLitersProduced = (waterMolesProduced * 18.01524f) / 1000f; //1000g/liter, 18.01524g/mole
+			float methaneMolesProduced = (0.5f * currentH2Consumed) + (.273f * currentCO2Consumed);
+			currentH2OProduced = myAirRS.randomFilter(waterLitersProduced);
+			currentCH4Produced = myAirRS.randomFilter(methaneMolesProduced);
+		}
 		float distributedWaterLeft = myAirRS.pushResourceToStore(myAirRS.getPotableWaterOutputs(), myAirRS.getPotableWaterOutputMaxFlowRates(), myAirRS.getPotableWaterOutputDesiredFlowRates(), myAirRS.getPotableWaterOutputActualFlowRates(), currentH2OProduced);
-		currentCH4Produced = myAirRS.randomFilter(new Double((currentH2Consumed + currentCO2Consumed) * .20).floatValue());
 		myAirRS.getCH4Tank().addCH4(currentCH4Produced);
 	}
 
