@@ -20,6 +20,8 @@ public class IncineratorImpl extends SimBioModuleImpl implements IncineratorOper
 	private float powerNeeded = 100;
 	//During any given tick, this much dry waste is needed for the incinerator to run optimally
 	private float dryWasteNeeded = 10f;
+	//During any given tick, this much O2 is needed for the incinerator to run optimally
+	private float O2Needed = 10f;
 	//Flag switched when the Incinerator has collected references to other servers it need
 	private boolean hasCollectedReferences = false;
 	//Flag to determine if the Incinerator has enough power to function
@@ -163,6 +165,17 @@ public class IncineratorImpl extends SimBioModuleImpl implements IncineratorOper
 			hasEnoughDryWaste = false;
 		else
 			hasEnoughDryWaste = true;
+	}
+	
+	/**
+	* Attempts to collect enough O2 from the O2 Store to run the Incinerator optimally for one tick.
+	*/
+	private void gatherO2(){
+		currentO2Consumed = getResourceFromStore(myO2Stores, O2MaxFlowRates, O2DesiredFlowRates, O2ActualFlowRates, O2Needed);
+		if (currentO2Consumed < O2Needed)
+			hasEnoughO2 = false;
+		else
+			hasEnoughO2 = true;
 	}
 	
 	/**
