@@ -14,4 +14,8 @@ public class WaterRSMatlabTechInfoImpl extends TechSpecificInfoPOA {
 	public String print(){
 		return dummyString;
 	}
+	
+	public void changeString(String changeUp){
+		dummyString = changeUp;
+	}
 }
