@@ -37,8 +37,9 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	private float initialO2Pressure = 0f;
 	private float initialCO2Pressure = 0f;
 	private float initialOtherPressure = 0f;
-	private float temperature = 0f;
-	private float relativeHumidity = 0f;
+	private final float temperature = 23f;
+	private final float relativeHumidity = 75f;
+	private final static float idealGasConstant = 8.314f; // J K ^-1 mol -1 (assumes units in liters, kevlin, and kPascals)
 	//The total volume of the environment (all the open space)
 	private float volume = 0f;
 	private float initialVolume = 0f;
@@ -66,13 +67,14 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	*/
 	public SimEnvironmentImpl(int pID, float initialVolume, String pName){
 		super(pID);
-		temperature = 23;
-		relativeHumidity = 75;
 		myName = pName;
-		volume = cachedVolume = initialVolume;
+		volume = initialVolume;
 		O2Level = cachedO2Level = initialO2Level = (new Double(volume * 0.21)).floatValue();
 		otherLevel = cachedOtherLevel = initialOtherLevel = (new Double(volume * 0.786)).floatValue();
 		CO2Level = cachedCO2Level = initialCO2Level = (new Double(volume * 0.004)).floatValue();
+		O2Pressure = cachedO2Pressure = initialO2Pressure = calculatePressure(O2Level);
+		CO2Pressure = cachedCO2Pressure = initialCO2Pressure = calculatePressure(CO2Level);
+		otherPressure = cachedOtherPressure = initialOtherPressure = calculatePressure(otherLevel);
 	}
 
 	/**
@@ -89,6 +91,13 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		O2Level = cachedO2Level = initialO2Level = pInitialO2Level;
 		otherLevel = cachedOtherLevel = initialOtherLevel = pInitialOtherLevel;
 		volume = initialVolume = pInitialVolume;
+		O2Pressure = cachedO2Pressure = initialO2Pressure = calculatePressure(O2Level);
+		CO2Pressure = cachedCO2Pressure = initialCO2Pressure = calculatePressure(CO2Level);
+		otherPressure = cachedOtherPressure = initialOtherPressure = calculatePressure(otherLevel);
+	}
+	
+	private float calculatePressure(float pNumberOfMoles){
+		return (pNumberOfMoles * idealGasConstant * temperature) / volume;
 	}
 
 	/**
@@ -96,7 +105,17 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	*/
 	public void reset(){
 		ticks = 0;
-		resetLevels();
+		volume = initialVolume;
+		resetGasses();
+	}
+	
+	private void resetGasses(){
+		O2Level = cachedO2Level = initialO2Level;
+		otherLevel = cachedOtherLevel = initialOtherLevel;
+		CO2Level = cachedCO2Level = initialCO2Level;
+		O2Pressure = cachedO2Pressure = initialO2Pressure = calculatePressure(O2Level);
+		CO2Pressure = cachedCO2Pressure = initialCO2Pressure = calculatePressure(CO2Level);
+		otherPressure = cachedOtherPressure = initialOtherPressure = calculatePressure(otherLevel);
 	}
 
 	/**
@@ -150,16 +169,6 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	}
 
 	/**
-	* Resets the gas levels to correct percantages of sea level air
-	*/
-	private void resetLevels(){
-		O2Level = cachedO2Level = initialO2Level;
-		otherLevel = cachedOtherLevel = initialOtherLevel;
-		CO2Level = cachedCO2Level = initialCO2Level;
-		volume = initialVolume;
-	}
-
-	/**
 	* Gets the number of ticks that have occured during this simulation run
 	* @return the number of ticks that have occured during this simulation run 
 	*/
@@ -198,7 +207,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	public void setCapacity(float litersRequested){
 		super.reset();
 		volume = litersRequested;
-		resetLevels();
+		resetGasses();
 	}
 
 	/**
