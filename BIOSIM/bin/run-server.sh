@@ -85,7 +85,7 @@ case $userSelect in
 	powerStore) echo "			 -starting $userSelect";$jacoInvocation $powerStoreName $1 $2 $3;;
 	crew) echo "			 -starting $userSelect";$jacoInvocation $crewNam $1 $2 $3e;;
 	waterRS) echo "			 -starting $userSelect";$jacoInvocation $waterRSName $1 $2 $3;;
-	waterRSMatlab) echo "			 -starting $userSelect";$jacoInvocation $waterRSMatlabName $1 $2 $3;;
+	waterRSMatlab) echo "			 -starting $userSelect";$jacoInvocation $waterRSMatlabName WaterRS $1 $2 $3;;
 	dirtyWaterStore) echo "			 -starting $userSelect";$jacoInvocation $dirtyWaterStoreName $1 $2 $3;;
 	potableWaterStore) echo "			 -starting $userSelect";$jacoInvocation $potableWaterStoreName $1 $2 $3;;
 	greyWaterStore) echo "			 -starting $userSelect";$jacoInvocation $greyWaterStoreName $1 $2 $3;;
