@@ -44,7 +44,7 @@
 		<xsd:attribute name="isFullLoggingEnabled" type="xsd:boolean" default="false"/>
 		<xsd:attribute name="isSensorLoggingEnabled" type="xsd:boolean" default="false"/>    
 		<xsd:attribute name="isActuatorLoggingEnabled" type="xsd:boolean" default="false"/>      
-		<xsd:attribute name="logHandler" type="LogHandlerType" default="NONE"/>  
+		<xsd:attribute name="logHandler" type="LogHandlerType" default="STANDARD_OUT"/>  
 		<xsd:attribute name="logLastTick" type="xsd:boolean" default="false"/>
 		<xsd:attribute name="driverStutterLength" type="xsd:integer" default="-1"/>     
 		<xsd:attribute name="isLooping" type="xsd:boolean" default="false"/>

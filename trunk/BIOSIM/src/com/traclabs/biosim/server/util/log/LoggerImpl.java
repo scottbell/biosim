@@ -29,7 +29,7 @@ public class LoggerImpl extends LoggerPOA  {
 	//The ID of this Logger (should be the same as all the rest of the modules sending logs and the BioDriver)
 	private int myID = 0;
 
-	
+
 	/**
 	* Creates a Logger Server with an ID (should be the same as all the rest of the modules sending logs and the BioDriver)<br>
 	* Also initializes logtypes and adds and XML handler.
@@ -54,14 +54,14 @@ public class LoggerImpl extends LoggerPOA  {
 	* Collects references to servers needed for putting/getting resources.
 	*/
 	private void collectReferences(){
-		try{
-			if (!hasCollectedReferences){
+		if (!hasCollectedReferences){
+			try{
 				myDriver = BioDriverHelper.narrow(OrbUtils.getNamingContext(getID()).resolve_str("BioDriver"));
 				hasCollectedReferences = true;
 			}
-		}
-		catch (org.omg.CORBA.UserException e){
-			e.printStackTrace(System.out);
+			catch (org.omg.CORBA.UserException e){
+				e.printStackTrace(System.out);
+			}
 		}
 	}
 
@@ -151,6 +151,7 @@ public class LoggerImpl extends LoggerPOA  {
 			return;
 		collectReferences();
 		//One Tick has passed
+		System.out.println("LoggerImpl: Processing log..");
 		if ((currentTick != myDriver.getTicks()) && (currentTickLogNode != null)){
 			for (Iterator iter = myLogHandlers.iterator(); iter.hasNext();){
 				LogHandler currentLogHandler = (LogHandler)(iter.next());
