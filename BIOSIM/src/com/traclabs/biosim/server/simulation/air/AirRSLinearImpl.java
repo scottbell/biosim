@@ -171,71 +171,14 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations
         float gatheredWater = 0f;
         float gatheredNitrogen = 0f;
         float airNeeded = currentPowerConsumed * LINEAR_MULTIPLICATIVE_FACTOR;
-        for (int i = 0; (i < getAirInputs().length)
-                && (gatheredAir < airNeeded); i++) {
-            float resourceToGatherFirst = Math.min(airNeeded, getAirInputMaxFlowRate(i));
-            float resourceToGatherFinal = Math.min(resourceToGatherFirst,
-                    getAirInputDesiredFlowRate(i));
-            Breath currentBreath = getAirInputs()[i]
-                    .takeAirMoles(resourceToGatherFinal);
-            gatheredAir += currentBreath.O2 + currentBreath.CO2
-                    + currentBreath.other + currentBreath.water
-                    + currentBreath.nitrogen;
-            setAirInputActualFlowRate(gatheredAir, i);
-            gatheredO2 += currentBreath.O2;
-            gatheredCO2 += currentBreath.CO2;
-            gatheredOther += currentBreath.other;
-            gatheredWater += currentBreath.water;
-            gatheredNitrogen += currentBreath.nitrogen;
-        }
-        myCurrentBreath.O2 = gatheredO2;
-        myCurrentBreath.CO2 = gatheredCO2;
-        myCurrentBreath.other = gatheredOther;
-        myCurrentBreath.water = gatheredWater;
-        myCurrentBreath.nitrogen = gatheredNitrogen;
+        myCurrentBreath = myAirConsumerDefinitionImpl.getAirFromEnvironment(airNeeded);
     }
 
     private void pushAir() {
-        float distributedO2Left = myCurrentBreath.O2;
-        float distributedOtherLeft = myCurrentBreath.other;
-        float distributedWaterLeft = myCurrentBreath.water;
-        float distributedNitrogenLeft = myCurrentBreath.nitrogen;
-        for (int i = 0; (i < getAirOutputs().length)
-                && ((distributedO2Left > 0) || (distributedOtherLeft > 0)
-                        || (distributedWaterLeft > 0) || (distributedNitrogenLeft > 0)); i++) {
-            float totalToDistribute = distributedO2Left + distributedOtherLeft
-                    + distributedWaterLeft + distributedNitrogenLeft;
-            float resourceToDistributeFirst = Math.min(totalToDistribute,
-                    getAirOutputMaxFlowRate(i));
-            float resourceToDistributeFinal = Math.min(
-                    resourceToDistributeFirst, getAirOutputDesiredFlowRate(i));
-            //Recalculate percentages based on smaller volume
-            float reducedO2ToPass = resourceToDistributeFinal
-                    * (distributedO2Left / totalToDistribute);
-            float reducedOtherToPass = resourceToDistributeFinal
-                    * (distributedOtherLeft / totalToDistribute);
-            float reducedWaterToPass = resourceToDistributeFinal
-                    * (distributedWaterLeft / totalToDistribute);
-            float reducedNitrogenToPass = resourceToDistributeFinal
-                    * (distributedNitrogenLeft / totalToDistribute);
-            float O2Added = getAirOutputs()[i]
-                    .addO2Moles(reducedO2ToPass);
-            float otherAdded = getAirOutputs()[i]
-                    .addOtherMoles(reducedOtherToPass);
-            float waterAdded = getAirOutputs()[i]
-                    .addWaterMoles(reducedWaterToPass);
-            float nitrogenAdded = getAirOutputs()[i]
-                    .addNitrogenMoles(reducedNitrogenToPass);
-            distributedO2Left -= O2Added;
-            distributedOtherLeft -= otherAdded;
-            distributedWaterLeft -= waterAdded;
-            distributedNitrogenLeft -= nitrogenAdded;
-            setAirOutputActualFlowRate(reducedO2ToPass
-                    + reducedOtherToPass + reducedWaterToPass
-                    + reducedNitrogenToPass, i);
-        }
+        Breath breathToDistribute = new Breath(myCurrentBreath.O2, 0f, myCurrentBreath.water, myCurrentBreath.other, myCurrentBreath.nitrogen);
+        Breath breathDistributed = myAirProducerDefinitionImpl.pushAirToEnvironments(breathToDistribute);
         currentCO2Produced = myCurrentBreath.CO2;
-        float distributedCO2Left = SimBioModuleImpl.pushResourceToStore(getCO2Outputs(), getCO2OutputMaxFlowRates(), getCO2OutputDesiredFlowRates(), getCO2OutputActualFlowRates(), currentCO2Produced = 0f);
+        float distributedCO2Left = myCO2ProducerDefinitionImpl.pushResourceToStore(currentCO2Produced);
     }
     
     private void gatherH2andCO2() {
@@ -243,29 +186,24 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations
         float H2Needed = CO2Needed * 4f;
         float filteredCO2Needed = randomFilter(CO2Needed);
         float filteredH2Needed = randomFilter(H2Needed);
-        currentCO2Consumed = SimBioModuleImpl.getResourceFromStore(getCO2Inputs(), getCO2InputMaxFlowRates(), getCO2InputDesiredFlowRates(), getCO2InputActualFlowRates(), filteredCO2Needed);
-        currentH2Consumed = SimBioModuleImpl.getResourceFromStore(getH2Inputs(), getH2InputMaxFlowRates(), getH2InputDesiredFlowRates(), getH2InputActualFlowRates(), filteredH2Needed);
+        currentCO2Consumed = myCO2ConsumerDefinitionImpl.getResourceFromStore(filteredCO2Needed);
+        currentH2Consumed = myH2ConsumerDefinitionImpl.getResourceFromStore(filteredH2Needed);
     }
 
     private void pushWaterAndMethane() {
         if ((currentH2Consumed <= 0) || (currentCO2Consumed <= 0)) {
             currentH2OProduced = 0f;
             currentCH4Produced = 0f;
-            SimBioModuleImpl.pushResourceToStore(getH2Inputs(), getH2InputMaxFlowRates(), getH2InputDesiredFlowRates(), getH2InputActualFlowRates(), currentH2Consumed);
-            SimBioModuleImpl.pushResourceToStore(getCO2Inputs(),
-                    getCO2InputMaxFlowRates(), getCO2InputDesiredFlowRates(), getCO2InputActualFlowRates(), currentCO2Consumed);
+            myH2ConsumerDefinitionImpl.pushResourceToStore(currentH2Consumed);
+            myCO2ConsumerDefinitionImpl.pushResourceToStore(currentCO2Consumed);
         } else {
             // CO2 + 4H2 --> CH4 + 2H20
             float limitingReactant = Math.min(currentH2Consumed / 4f,
                     currentCO2Consumed);
             if (limitingReactant == currentH2Consumed)
-                SimBioModuleImpl.pushResourceToStore(getCO2Inputs(),
-                        getCO2InputMaxFlowRates(), getCO2InputDesiredFlowRates(), getCO2InputActualFlowRates(),
-                        currentCO2Consumed - limitingReactant);
+                myCO2ConsumerDefinitionImpl.pushResourceToStore(currentCO2Consumed - limitingReactant); 
             else
-                SimBioModuleImpl.pushResourceToStore(getH2Inputs(),
-                        getH2InputMaxFlowRates(), getH2InputDesiredFlowRates(), getH2InputActualFlowRates(), currentH2Consumed
-                                - 4f * limitingReactant);
+                myH2ConsumerDefinitionImpl.pushResourceToStore(currentH2Consumed - 4f * limitingReactant);
             float waterMolesProduced = 2f * limitingReactant;
             float waterLitersProduced = (waterMolesProduced * 18.01524f) / 1000f; //1000g/liter,
             // 18.01524g/mole
@@ -273,9 +211,7 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations
             currentH2OProduced = randomFilter(waterLitersProduced);
             currentCH4Produced = randomFilter(methaneMolesProduced);
         }
-        float distributedWaterLeft = SimBioModuleImpl.pushResourceToStore(
-                getPotableWaterOutputs(), getPotableWaterOutputMaxFlowRates(), getPotableWaterOutputDesiredFlowRates(), getPotableWaterOutputActualFlowRates(),
-                currentH2OProduced);
+        float distributedWaterLeft = myPotableWaterProducerDefinitionImpl.pushResourceToStore(currentH2OProduced);
         CH4Produced += currentCH4Produced;
     }
     
