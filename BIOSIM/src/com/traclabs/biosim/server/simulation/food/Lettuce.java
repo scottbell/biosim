@@ -82,7 +82,7 @@ public class Lettuce extends Planophile{
 	}
 
 	public static float getFractionOfEdibleBiomass(){
-		return 0.95f;
+		return 0.9f;
 	}
 	
 	protected float getProtectedFractionOfEdibleBiomass(){

@@ -92,7 +92,7 @@ public class Peanut extends Legume{
 	}
 
 	public static float getFractionOfEdibleBiomass(){
-		return 0.49f;
+		return 0.25f;
 	}
 	
 	protected float getProtectedFractionOfEdibleBiomass(){

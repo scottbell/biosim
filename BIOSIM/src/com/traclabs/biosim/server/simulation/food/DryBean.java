@@ -84,7 +84,7 @@ public class DryBean extends Legume{
 	}
 	
 	public static float getFractionOfEdibleBiomass(){
-		return 0.97f;
+		return 0.4f;
 	}
 	
 	protected float getProtectedFractionOfEdibleBiomass(){

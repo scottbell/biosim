@@ -80,7 +80,7 @@ public class Wheat extends Erectophile{
 	}
 
 	public static float getFractionOfEdibleBiomass(){
-		return 1.00f;
+		return 0.4f;
 	}
 	
 	protected float getProtectedFractionOfEdibleBiomass(){

@@ -87,7 +87,7 @@ public class Tomato extends Planophile{
 	}
 
 	public static float getFractionOfEdibleBiomass(){
-		return 0.70f;
+		return 0.45f;
 	}
 	
 	protected float getProtectedFractionOfEdibleBiomass(){
