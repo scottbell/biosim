@@ -695,6 +695,12 @@ module biosim{
 					float getMax();
 					float getMin();
                                 };
+				interface StoreSensor : GenericSensor{
+                                        void setInput(in simulation::framework::Store source);
+                                        simulation::framework::Store getInput();
+				};
+				interface StoreLevelSensor : StoreSensor{};
+				interface StoreOverflowSensor : StoreSensor{};
                         };
                         module air{
                                 interface O2StoreSensor : framework::GenericSensor{
