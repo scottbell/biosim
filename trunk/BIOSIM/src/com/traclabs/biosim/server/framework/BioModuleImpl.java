@@ -208,13 +208,13 @@ public abstract class BioModuleImpl extends BioModulePOA {
      * @param malfunctionID
      *            the ID of the malfunction to repair
      */
-    public void repair(long malfunctionID) {
+    public void doSomeRepairWork(long malfunctionID) {
         Malfunction currentMalfunction = (Malfunction) (myMalfunctions
                 .get(new Long(malfunctionID)));
         if (currentMalfunction == null)
             return;
-        currentMalfunction.repair();
-        if (currentMalfunction.isRepaired())
+        currentMalfunction.doSomeRepairWork();
+        if (currentMalfunction.doneEnoughRepairWork())
             fixMalfunction(currentMalfunction.getID());
     }
 

@@ -218,8 +218,8 @@ module com{
                                                 boolean hasPerformed();
                                                 void setPerformed(in boolean pPerformed);
                                                 MalfunctionLength getLength();
-                                                void repair();
-                                                boolean isRepaired();
+                                                void doSomeRepairWork();
+                                                boolean doneEnoughRepairWork();
                                         };
                                         interface BioModule{
                                                 void tick();
@@ -238,7 +238,7 @@ module com{
                                                 TechSpecificInfo getTechSpecificInfo();
                                                 void maitenance();
                                                 void log();
-                                                void repair(in long long id);
+                                                void doSomeRepairWork(in long long id);
                                                 void clearMalfunction(in long long id);
                                                 void setEnableBreakdown(in boolean pValue);
                                                 boolean breakdownIsEnabled();

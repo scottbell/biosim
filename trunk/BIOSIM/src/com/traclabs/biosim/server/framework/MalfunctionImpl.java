@@ -121,7 +121,7 @@ public class MalfunctionImpl extends MalfunctionPOA {
      * Repairs this module once. Must be called several times depending on the
      * severity of the malfunction to fix the malfunction.
      */
-    public void repair() {
+    public void doSomeRepairWork() {
         if (myLength == MalfunctionLength.TEMPORARY_MALF)
             repairTime++;
     }
@@ -132,7 +132,7 @@ public class MalfunctionImpl extends MalfunctionPOA {
      * 
      * @return whether this malfunction has been repaired
      */
-    public boolean isRepaired() {
+    public boolean doneEnoughRepairWork() {
         return (repairTime >= maxRepairTime);
     }
 
