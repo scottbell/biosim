@@ -108,13 +108,13 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* @param pCrewGroup the crew that the new crew person belongs in
 	* @param pScheduleURL The URL of the schedule
 	*/
-	CrewPersonImpl(String pName, float pAge, float pWeight, Sex pSex, CrewGroupImpl pCrewGroup, URL pScheduleURL){
+	CrewPersonImpl(String pName, float pAge, float pWeight, Sex pSex, CrewGroupImpl pCrewGroup, Schedule pSchedule){
 		myName = pName;
 		age = pAge;
 		weight = pWeight;
 		sex = pSex;
 		myCrewGroup = pCrewGroup;
-		mySchedule = new Schedule(pScheduleURL);
+		mySchedule = pSchedule;
 		myCurrentActivity = mySchedule.getScheduledActivityByOrder(currentOrder);
 	}
 	
@@ -265,6 +265,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	*/
 	public Sex getSex(){
 		return sex;
+	}
+	
+	public void setSchedule(Schedule pSchedule){
+		mySchedule = pSchedule;
 	}
 	
 	/**

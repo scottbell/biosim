@@ -225,6 +225,53 @@ public class BioInitializer{
 			child = child.getNextSibling();
 		}
 	}
+	
+	private Activity createActivity(Node node){
+		String name = node.getAttributes().getNamedItem("name").getNodeValue();
+		int length = 0;
+		int intensity = 0;
+		try{
+			length = Integer.parseInt(node.getAttributes().getNamedItem("length").getNodeValue());
+			intensity = Integer.parseInt(node.getAttributes().getNamedItem("intensity").getNodeValue());
+		}
+		catch (NumberFormatException e){
+			System.out.println("Had problems parsing a float...");
+			e.printStackTrace();
+		}
+		ActivityImpl newActivityImpl = new ActivityImpl(name, length, intensity);
+		return ActivityHelper.narrow(OrbUtils.poaToCorbaObj(newActivityImpl)); 
+	}
+
+	private Schedule createSchedule(Node node){
+		Schedule newSchedule = new Schedule();
+		Node child = node.getFirstChild();
+		for (int i = 0; child != null; i++){
+			newSchedule.insertActivityInSchedule(createActivity(child), i);
+			child = child.getNextSibling();
+		}
+		return newSchedule;
+	}
+
+	private void createCrewPerson(Node node, CrewGroupImpl crew){
+		Schedule schedule = createSchedule(node.getFirstChild());
+		String name = node.getAttributes().getNamedItem("name").getNodeValue();
+		Sex sex;
+		if (node.getAttributes().getNamedItem("name").getNodeValue().equals("FEMALE"))
+			sex = Sex.female;
+		else
+			sex = Sex.male;
+		float age = 0f;
+		float weight = 0f;
+		try{
+			age = Float.parseFloat(node.getAttributes().getNamedItem("age").getNodeValue());
+			weight = Float.parseFloat(node.getAttributes().getNamedItem("weight").getNodeValue());
+		}
+		catch (NumberFormatException e){
+			System.out.println("Had problems parsing a float...");
+			e.printStackTrace();
+		}
+		crew.createCrewPerson(name, age, weight, sex, schedule);
+	}
 
 	private void createCrewGroup(Node node){
 		String name = getName(node);
@@ -232,7 +279,12 @@ public class BioInitializer{
 			System.out.println("Creating CrewGroup with name: "+name);
 			CrewGroupImpl myCrewGroupImpl = new CrewGroupImpl(myID, name);
 			BiosimServer.registerServer(new CrewGroupPOATie(myCrewGroupImpl), myCrewGroupImpl.getModuleName(), myCrewGroupImpl.getID());
-			 
+			Node child = node.getFirstChild();
+			while (child != null) {
+				if (child.getNodeName().equals("CrewPerson"))
+					createCrewPerson(child, myCrewGroupImpl);
+				child = child.getNextSibling();
+			}
 		}
 		else
 			printRemoteWarningMessage(name);
@@ -372,11 +424,11 @@ public class BioInitializer{
 		else
 			printRemoteWarningMessage(name);
 	}
-	
+
 	private void configureBiomassRS(Node node){
 		System.out.println("Configuring BiomassRS");
 	}
-	
+
 	private void createFoodProcessor(Node node){
 		String name = getName(node);
 		if (isCreatedLocally(node)){
@@ -387,11 +439,11 @@ public class BioInitializer{
 		else
 			printRemoteWarningMessage(name);
 	}
-	
+
 	private void configureFoodProcessor(Node node){
 		System.out.println("Configuring FoodProcessor");
 	}
-	
+
 	private void createBiomassStore(Node node){
 		String name = getName(node);
 		if (isCreatedLocally(node)){
@@ -414,7 +466,7 @@ public class BioInitializer{
 		else
 			printRemoteWarningMessage(name);
 	}
-	
+
 	private void createFoodStore(Node node){
 		String name = getName(node);
 		if (isCreatedLocally(node)){
