@@ -90,6 +90,31 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		return lightIntensity;
 	}
 
+	/*
+	pv = nrg
+	pressure * volume = numberOfMoles * idealGasConstant * temperature
+
+	8.314 J K-1 mol-1 
+	100.3 kPa per atmosphere
+
+	volume in liters, temp in kelvin, pressure in kPA
+	*/
+
+	//return 101 kPA
+	public float getAirPressure(){
+		return 101f;
+	}
+
+	//returns 23 C
+	public float getTemperature(){
+		return 23f;
+	}
+
+	//returns relative humidity
+	public float getRelativeHumidity(){
+		return 80f;
+	}
+
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
 		StringBuffer returnBuffer = new StringBuffer();
 		if (pIntensity == MalfunctionIntensity.SEVERE_MALF)

@@ -15,7 +15,7 @@ public abstract class PlantImpl extends PlantPOA{
 	private int myAge = 0;
 	private LogIndex myLogIndex;
 	private boolean logInitialized = false;
-	private ShelfImpl myShelfImpl;
+	protected ShelfImpl myShelfImpl;
 	private float myPPF = 0f;
 	private float myCurrentBiomass = 0f;
 	private Breath myCurrentBreath;
@@ -38,17 +38,8 @@ public abstract class PlantImpl extends PlantPOA{
 		myAge = 0;
 		myCurrentBreath = new Breath(0f,0f,0f);
 	}
-	
-	private void collectWater(){
-		myWaterLevel = myShelfImpl.takeWater(getWaterNeeded());
-	}
-	
-	private void collectAir(){
-	}
 
 	public void tick(){
-		collectWater();
-		collectAir();
 		growBiomass();
 	}
 
@@ -62,18 +53,42 @@ public abstract class PlantImpl extends PlantPOA{
 	public void shine(float pPPF){
 		myPPF = pPPF;
 	}
-
+	
+	private float calculateDailyCanopyTranspirationRate(){
+		//assumes water is at 20 C and 101kPA of total pressure
+		float airPressure = myShelfImpl.getBiomassRSImpl().getAirInputs()[0].getAirPressure();
+		return 3600f * getPhotoperiod() * (18.015f / 998.23f) * calculateCanopySurfaceConductance() * (calculateVaporPressureDeficit() / airPressure);
+	}
+	
+	private float calculateVaporPressureDeficit(){
+		return 0.1f;
+	}
+	
+	protected float calculateCanopyPhotosynthesis(){
+		return 0.1f;
+	}
+	
+	private float calculateCanopySurfaceConductance(){
+		float canopyStomatalConductance = calculateCanopyStomatalConductance();
+		float atmosphericAeroDynamicConductance = calculateAtmosphericAeroDynamicConductance();
+		return (atmosphericAeroDynamicConductance * canopyStomatalConductance) / (canopyStomatalConductance + atmosphericAeroDynamicConductance);
+	}
+	
+	
 	private void growBiomass(){
+		myWaterLevel = myShelfImpl.takeWater(getWaterNeeded());
 		float molecularWeightOfCarbon = 12.011f; // g/mol
 		float dailyCarbonGain = calculateDailyCarbonGain();
 		float cropGrowthRate = molecularWeightOfCarbon * dailyCarbonGain / getBCF();
-		myCurrentBiomass = cropGrowthRate * 1000 * myShelfImpl.getCropArea(); //in kilograms
+		myCurrentBiomass += cropGrowthRate * 1000 * myShelfImpl.getCropArea(); //in kilograms
 		float O2Produced = getOPF() * dailyCarbonGain * myShelfImpl.getCropArea() / 24; //in mol of oxygen per hour
-		
+		myShelfImpl.getBiomassRSImpl().getAirOutputs()[0].addO2(O2Produced);
+		myShelfImpl.getBiomassRSImpl().addAirOutputActualFlowRates(0,O2Produced);
 	}
-
+	
+	//in g/meters^2*hour
 	private float calculateDailyCarbonGain(){
-		return 0.0036f * getPhotoperiod() * getCarbonUseEfficiency24() * calculatePPFFractionAbsorbed() * calculateCQY() * getPPF();
+		return 0.0036f * getPhotoperiod() * getCarbonUseEfficiency24() * calculatePPFFractionAbsorbed() * calculateCQY() * getPPF() * 24;
 	}
 
 	protected abstract float getBCF();
@@ -85,11 +100,13 @@ public abstract class PlantImpl extends PlantPOA{
 	protected abstract float getTimeTillCropMaturity();
 	protected abstract float getWaterNeeded();
 	protected abstract float getOPF();
+	protected abstract float calculateCanopyStomatalConductance();
+	protected abstract float calculateAtmosphericAeroDynamicConductance();
 	public abstract float getPPFNeeded();
 	public abstract PlantType getPlantType();
 
-	//Need to convert current CO2 levels to micromoles of CO2 / molecules of air
-	private float calculateCO2(){
+	//Convert current CO2 levels to micromoles of CO2 / molecules of air
+	protected float calculateCO2(){
 		return (myCurrentBreath.CO2 * pow (10,-6)) / (myCurrentBreath.O2 + myCurrentBreath.CO2 + myCurrentBreath.other);
 	}
 	
