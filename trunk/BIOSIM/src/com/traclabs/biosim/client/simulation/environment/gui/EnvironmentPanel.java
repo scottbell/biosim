@@ -1,3 +1,9 @@
+/** 
+ * This is the JPanel that displays information about the environment (gas levels, current time, etc.)
+ *
+ * @author    Scott Bell
+ */
+ 
 package biosim.client.environment.gui;
 
 import biosim.client.framework.*;
@@ -10,23 +16,34 @@ import java.text.*;
 
 public class EnvironmentPanel extends JPanel implements BioSimulatorListener
 {
+	//Various GUI componenets
 	private JLabel tickLabel;
 	private JPanel tickPanel;
 	private JLabel O2Label;
 	private JLabel CO2Label;
 	private JLabel otherLabel;
 	private JPanel airPanel;
+	//Server required for data polling
 	private SimEnvironment mySimEnvironment;
+	//Used for registereing this panel (for knowing when a tick occurs)
 	private BioSimulator myBioSimulator;
+	//For formatting floats
 	private DecimalFormat numFormat;
-
+	
+	/**
+	* Creates and registers this panel.
+	* @param pBioSimulator	The Biosimulator this Panel will register itself with.
+	*/
 	public EnvironmentPanel(BioSimulator pBioSimulator){
 		myBioSimulator = pBioSimulator;
 		mySimEnvironment = (SimEnvironment)(myBioSimulator.getBioModule(BioSimulator.simEnvironmentName));
 		buildGui();
 		myBioSimulator.registerListener(this);
 	}
-
+	
+	/**
+	* Contructs GUI components, adds them to the panel.
+	*/
 	private void buildGui(){
 		numFormat = new DecimalFormat("#,##0.00;(#)");
 		GridBagLayout gridbag = new GridBagLayout();
@@ -66,7 +83,10 @@ public class EnvironmentPanel extends JPanel implements BioSimulatorListener
 		gridbag.setConstraints(airPanel, c);
 		add(airPanel);
 	}
-
+	
+	/**
+	 * Updates every label on the panel with new data pulled from the servers.
+	 */
 	public void processTick(){
 		long ticksExpired = mySimEnvironment.getTicks();
 		tickLabel.setText(ticksExpired + " hours ("+(ticksExpired/24)+" days)");

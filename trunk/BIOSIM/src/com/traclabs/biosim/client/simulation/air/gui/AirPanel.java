@@ -1,3 +1,10 @@
+/**
+ * This is the JPanel that displays information about the AirRS, the O2 store, and the CO2 Store.
+ * Each tick it polls each air related server for new information regarding these systems.
+ *
+ * @author    Scott Bell
+ */
+
 package biosim.client.air.gui;
 
 import biosim.client.framework.*;
@@ -10,6 +17,7 @@ import java.text.*;
 
 public class AirPanel extends JPanel implements BioSimulatorListener
 {
+	//Various GUI componenets
 	private JPanel airRSPanel;
 	private JLabel airRSStatusLabel;
 	private JLabel airRSPowerLabel;
@@ -20,13 +28,19 @@ public class AirPanel extends JPanel implements BioSimulatorListener
 	private JLabel O2StoreLevelLabel;
 	private JPanel CO2StorePanel;
 	private JLabel CO2StoreLevelLabel;
-
+	//Servers required for data polling
 	private AirRS myAirRS;
 	private O2Store myO2Store;
 	private CO2Store myCO2Store;
+	//Used for registereing this panel (for knowing when a tick occurs)
 	private BioSimulator myBioSimulator;
+	//For formatting floats
 	private DecimalFormat numFormat;
 
+	/**
+	* Creates and registers this panel.
+	* @param pBioSimulator	The Biosimulator this Panel will register itself with.
+	*/
 	public AirPanel(BioSimulator pBioSimulator){
 		myBioSimulator = pBioSimulator;
 		myAirRS = (AirRS)(myBioSimulator.getBioModule(BioSimulator.airRSName));
@@ -36,6 +50,9 @@ public class AirPanel extends JPanel implements BioSimulatorListener
 		myBioSimulator.registerListener(this);
 	}
 
+	/**
+	* Contructs GUI components, adds them to the panel.
+	*/
 	private void buildGui(){
 		numFormat = new DecimalFormat("#,##0.00;(#)");
 		GridBagLayout gridbag = new GridBagLayout();
@@ -61,7 +78,7 @@ public class AirPanel extends JPanel implements BioSimulatorListener
 		O2StorePanel.setBorder(BorderFactory.createTitledBorder("O2 Store"));
 		O2StoreLevelLabel =    new JLabel("O2 level:    "+numFormat.format(myO2Store.getLevel())+" L");
 		O2StorePanel.add(O2StoreLevelLabel);
-		
+
 		CO2StorePanel = new JPanel();
 		CO2StorePanel.setLayout(new GridLayout(1,1));
 		CO2StorePanel.setBorder(BorderFactory.createTitledBorder("CO2 Store"));
@@ -89,7 +106,11 @@ public class AirPanel extends JPanel implements BioSimulatorListener
 		gridbag.setConstraints(CO2StorePanel, c);
 		add(CO2StorePanel);
 	}
-	
+
+	/**
+	 * Checks the status of AirRS and constructs a string describing it.
+	 * @return	A String representing the status of the AirRS
+	 */
 	private String coallateAirRSStatus(){
 		StringBuffer statusBuffer = new StringBuffer();
 		if (!myAirRS.hasPower())
@@ -103,7 +124,10 @@ public class AirPanel extends JPanel implements BioSimulatorListener
 			return statusBuffer.toString();
 		}
 	}
-
+	
+	/**
+	 * Updates every label on the panel with new data pulled from the servers.
+	 */
 	public void processTick(){
 		airRSStatusLabel.setText("status:                   "+coallateAirRSStatus());
 		airRSO2ProducedLabel.setText("O2 produced:         "+numFormat.format(myAirRS.getO2Produced())+" L");

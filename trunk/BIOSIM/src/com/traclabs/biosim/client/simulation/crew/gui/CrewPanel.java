@@ -1,3 +1,10 @@
+/** 
+ * This is the JPanel that displays information about the crew and the resources they consume.
+ * Each tick it polls the crew server for new information.
+ *
+ * @author    Scott Bell
+ */
+ 
 package biosim.client.crew.gui;
 
 import biosim.client.framework.*;
@@ -12,16 +19,26 @@ import java.text.*;
 
 public class CrewPanel extends JPanel implements BioSimulatorListener
 {
+	//Panel containing each crew member
 	private JPanel crewPanel;
-
-	private CrewGroup myCrew;
-	private BioSimulator myBioSimulator;
-	private CrewPerson[] myCrewPeople;
-	private Vector crewPersonGUIVector;
+	//Panel and Label displayed when no crew member are found on the server
 	private JPanel noCrewPanel;
 	private JLabel noCrewLabel;
+	//Refernce to the server where crew information is pulled
+	private CrewGroup myCrew;
+	//BioSimulator that CrewPanel registers with
+	private BioSimulator myBioSimulator;
+	//Array of crew people pulled from server
+	private CrewPerson[] myCrewPeople;
+	//Vector of crew people GUI's and their respective GUI components
+	private Vector crewPersonGUIVector;
+	//Used to format floats
 	private DecimalFormat numFormat;
-
+	
+	/**
+	* Creates and registers this panel.
+	* @param pBioSimulator	The Biosimulator this Panel will register itself with.
+	*/
 	public CrewPanel(BioSimulator pBioSimulator){
 		numFormat = new DecimalFormat("#,##0.00;(#)");
 		myBioSimulator = pBioSimulator;
@@ -31,6 +48,9 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 		myBioSimulator.registerListener(this);
 	}
 	
+	/**
+	* Refreshes GUI when simulation has been restarted and repacks panel
+	*/
 	private void rebuildGui(){
 		myCrew = (CrewGroup)(myBioSimulator.getBioModule(BioSimulator.crewName));
 		crewPersonGUIVector = new Vector();
@@ -39,7 +59,10 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 		if (mySimFrame != null)
 			mySimFrame.pack();
 	}
-
+	
+	/**
+	* Contructs GUI components, adds them to the panel.
+	*/
 	private void buildGui(){
 		removeAll();
 		myCrewPeople = myCrew.getCrewPeople();
@@ -94,6 +117,11 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 		}
 	}
 	
+	/**
+	 * Checks the status of a CrewPerson and constructs a string describing them.
+	 * @return	A String representing the status of the crew person
+	 * @param pCrewPerson the crew person who's status needs to be described
+	 */
 	private String coallateStatus(CrewPerson pCrewPerson){
 		if (pCrewPerson.isDead())
 			return "dead";
@@ -113,7 +141,10 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 			return statusBuffer.toString();
 		}
 	}
-
+	
+	/**
+	 * Enumerates through all the crew memebers this panel knows about and updates their labels by pulling from the crew server.
+	 */
 	public void processTick(){
 		if (crewPersonGUIVector.size() == 0){
 			myCrewPeople = myCrew.getCrewPeople();
@@ -146,6 +177,10 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 		}
 	}
 	
+	/**
+	 * Recursively seeks the SimDesktopFrame that contains this panel.
+	 * @return The SimDesktopFrame parent this panel is in.
+	 */
 	private SimDesktopFrame getSimFrame(){
 		Container theContainer = getParent();
 		while (theContainer != null){
@@ -156,7 +191,10 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 		}
 		return null;
 	}
-
+	
+	/**
+	 * A small internal class containing lables for one crew person.
+	 */
 	private class CrewPersonGUI{
 		String name;
 		JLabel ageLabel;
