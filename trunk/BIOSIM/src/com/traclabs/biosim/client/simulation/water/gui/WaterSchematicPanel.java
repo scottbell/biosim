@@ -19,16 +19,26 @@ public class WaterSchematicPanel extends TimedPanel
 	private ImageIcon greyWaterStoreIcon;
 	private ImageIcon horizontalPipeIcon;
 	private ImageIcon susbsytemIcon;
+	private ImageIcon rightLegDownPipeIcon;
+	private ImageIcon rightLegUpPipeIcon;
+	private ImageIcon leftLegDownPipeIcon;
+	private ImageIcon leftLegUpPipeIcon;
+	private ImageIcon verticalPipeIcon;
+	private ImageIcon tDownPipeIcon;
+	private ImageIcon tUpPipeIcon;
 	private JButton AESButton;
 	private JButton BWPButton;
 	private JButton PPSButton;
 	private JButton ROButton;
-	private JLabel horizontalPipeLabel1;
-	private JLabel horizontalPipeLabel2;
-	private JLabel horizontalPipeLabel3;
-	private JLabel potableWaterLabel;
-	private JLabel greyWaterLabel;
-	private JLabel dirtyWaterLabel;
+	private JButton potableWaterButton;
+	private JButton greyWaterButton;
+	private JButton dirtyWaterButton;
+	private JLabel horizontalPipeLabel;
+	private JLabel verticalPipeLabel1;
+	private JLabel verticalPipeLabel2;
+	private JLabel tDownPipeLabel1;
+	private JLabel tDownPipeLabel2;
+	private JLabel tUpPipeLabel;
 	private WaterRS myWaterRS;
 	private PotableWaterStore myPotableWaterStore;
 	private GreyWaterStore myGreyWaterStore;
@@ -60,32 +70,62 @@ public class WaterSchematicPanel extends TimedPanel
 		ROButton = new JButton(new ROAction("RO (nominal)", susbsytemIcon));
 		ROButton.setVerticalTextPosition(SwingConstants.BOTTOM);
 		ROButton.setHorizontalTextPosition(SwingConstants.CENTER);
-		horizontalPipeLabel1 = new JLabel(horizontalPipeIcon);
-		horizontalPipeLabel2 = new JLabel(horizontalPipeIcon);
-		horizontalPipeLabel3 = new JLabel(horizontalPipeIcon);
-		potableWaterLabel = new JLabel("Potable Water Store", potableWaterStoreIcon, SwingConstants.CENTER);
-		potableWaterLabel.setVerticalTextPosition(SwingConstants.BOTTOM);
-		potableWaterLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-		dirtyWaterLabel = new JLabel("Dirty Water Store", dirtyWaterStoreIcon, SwingConstants.CENTER);
-		dirtyWaterLabel.setVerticalTextPosition(SwingConstants.BOTTOM);
-		dirtyWaterLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-		greyWaterLabel = new JLabel("Grey Water Store", greyWaterStoreIcon, SwingConstants.CENTER);
-		greyWaterLabel.setVerticalTextPosition(SwingConstants.BOTTOM);
-		greyWaterLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-		Color tempColor = this.getBackground();
-		System.out.println("red: "+tempColor.getRed());
-		System.out.println("green: "+tempColor.getGreen());
-		System.out.println("blue: "+tempColor.getBlue());
+		tDownPipeLabel1 = new JLabel(tDownPipeIcon);
+		tDownPipeLabel2 = new JLabel(tDownPipeIcon);
+		tUpPipeLabel = new JLabel(tUpPipeIcon);
+		horizontalPipeLabel = new JLabel(horizontalPipeIcon);
+		verticalPipeLabel1 = new JLabel(verticalPipeIcon);
+		verticalPipeLabel2 = new JLabel(verticalPipeIcon);
+		potableWaterButton = new JButton("Potable Water", potableWaterStoreIcon);
+		potableWaterButton.setVerticalTextPosition(SwingConstants.BOTTOM);
+		potableWaterButton.setHorizontalTextPosition(SwingConstants.CENTER);
+		dirtyWaterButton = new JButton("Dirty Water", dirtyWaterStoreIcon);
+		dirtyWaterButton.setVerticalTextPosition(SwingConstants.BOTTOM);
+		dirtyWaterButton.setHorizontalTextPosition(SwingConstants.CENTER);
+		greyWaterButton = new JButton("Grey Water", greyWaterStoreIcon);
+		greyWaterButton.setVerticalTextPosition(SwingConstants.BOTTOM);
+		greyWaterButton.setHorizontalTextPosition(SwingConstants.CENTER);
 		
 		//add components
 		GridBagLayout gridbag = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();
 		setLayout(gridbag);
+		
 		c.fill = GridBagConstraints.NONE;
 		c.gridheight = 1;
-		c.weightx = 0.1;
-		c.gridwidth = 1;
-		c.weighty = 0.1;
+		c.weightx = 1.0;
+		c.gridwidth = GridBagConstraints.RELATIVE;
+		c.weighty = 1.0;
+		c.ipadx = 0;
+		c.ipady = 0;
+		gridbag.setConstraints(greyWaterButton, c);
+		add(greyWaterButton);
+		
+		c.fill = GridBagConstraints.NONE;
+		c.gridheight = 1;
+		c.weightx = 1.0;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		c.weighty = 1.0;
+		c.ipadx = 0;
+		c.ipady = 0;
+		gridbag.setConstraints(dirtyWaterButton, c);
+		add(dirtyWaterButton);
+		
+		c.fill = GridBagConstraints.NONE;
+		c.gridheight = 1;
+		c.weightx = 1.0;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		c.weighty = 1.0;
+		c.ipadx = 0;
+		c.ipady = 0;
+		gridbag.setConstraints(tDownPipeLabel1, c);
+		add(tDownPipeLabel1);
+		
+		c.fill = GridBagConstraints.NONE;
+		c.gridheight = 1;
+		c.weightx = 1.0;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		c.weighty = 1.0;
 		c.ipadx = 0;
 		c.ipady = 0;
 		gridbag.setConstraints(BWPButton, c);
@@ -93,39 +133,39 @@ public class WaterSchematicPanel extends TimedPanel
 
 		c.fill = GridBagConstraints.NONE;
 		c.gridheight = 1;
-		c.weightx = 0.1;
-		c.gridwidth = 1;
-		c.weighty = 0.1;
+		c.weightx = 1.0;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		c.weighty = 1.0;
 		c.ipadx = 0;
 		c.ipady = 0;
-		gridbag.setConstraints(horizontalPipeLabel1, c);
-		add(horizontalPipeLabel1);
-
+		gridbag.setConstraints(tUpPipeLabel, c);
+		add(tUpPipeLabel);
+		
 		c.fill = GridBagConstraints.NONE;
 		c.gridheight = 1;
-		c.weightx = 0.1;
+		c.weightx = 1.0;
 		c.gridwidth = 1;
-		c.weighty = 0.1;
+		c.weighty = 1.0;
 		c.ipadx = 0;
 		c.ipady = 0;
 		gridbag.setConstraints(ROButton, c);
 		add(ROButton);
 		
-		c.fill = GridBagConstraints.NONE;
+		c.fill = GridBagConstraints.BOTH;
 		c.gridheight = 1;
-		c.weightx = 0.1;
-		c.gridwidth = 1;
-		c.weighty = 0.1;
+		c.weightx = 1.0;
+		c.gridwidth = GridBagConstraints.RELATIVE;
+		c.weighty = 1.0;
 		c.ipadx = 0;
 		c.ipady = 0;
-		gridbag.setConstraints(horizontalPipeLabel2, c);
-		add(horizontalPipeLabel2);
+		gridbag.setConstraints(horizontalPipeLabel, c);
+		add(horizontalPipeLabel);
 		
 		c.fill = GridBagConstraints.NONE;
 		c.gridheight = 1;
-		c.weightx = 0.1;
-		c.gridwidth = 1;
-		c.weighty = 0.1;
+		c.weightx = 1.0;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		c.weighty = 1.0;
 		c.ipadx = 0;
 		c.ipady = 0;
 		gridbag.setConstraints(AESButton, c);
@@ -133,19 +173,19 @@ public class WaterSchematicPanel extends TimedPanel
 		
 		c.fill = GridBagConstraints.NONE;
 		c.gridheight = 1;
-		c.weightx = 0.1;
-		c.gridwidth = 1;
-		c.weighty = 0.1;
+		c.weightx = 1.0;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		c.weighty = 1.0;
 		c.ipadx = 0;
 		c.ipady = 0;
-		gridbag.setConstraints(horizontalPipeLabel3, c);
-		add(horizontalPipeLabel3);
+		gridbag.setConstraints(tDownPipeLabel2, c);
+		add(tDownPipeLabel2);
 		
 		c.fill = GridBagConstraints.NONE;
 		c.gridheight = 1;
-		c.weightx = 0.1;
+		c.weightx = 1.0;
 		c.gridwidth = GridBagConstraints.REMAINDER;
-		c.weighty = 0.1;
+		c.weighty = 1.0;
 		c.ipadx = 0;
 		c.ipady = 0;
 		gridbag.setConstraints(PPSButton, c);
@@ -153,33 +193,24 @@ public class WaterSchematicPanel extends TimedPanel
 		
 		c.fill = GridBagConstraints.NONE;
 		c.gridheight = 1;
-		c.weightx = 0.1;
-		c.gridwidth = 1;
-		c.weighty = 0.1;
+		c.weightx = 1.0;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		c.weighty = 1.0;
 		c.ipadx = 0;
 		c.ipady = 0;
-		gridbag.setConstraints(dirtyWaterLabel, c);
-		add(dirtyWaterLabel);
+		gridbag.setConstraints(verticalPipeLabel2, c);
+		add(verticalPipeLabel2);
 		
 		c.fill = GridBagConstraints.NONE;
 		c.gridheight = 1;
-		c.weightx = 0.1;
-		c.gridwidth = 1;
-		c.weighty = 0.1;
+		c.weightx = 1.0;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		c.weighty = 1.0;
 		c.ipadx = 0;
 		c.ipady = 0;
-		gridbag.setConstraints(greyWaterLabel, c);
-		add(greyWaterLabel);
+		gridbag.setConstraints(potableWaterButton, c);
+		add(potableWaterButton);
 		
-		c.fill = GridBagConstraints.NONE;
-		c.gridheight = 1;
-		c.weightx = 0.1;
-		c.gridwidth = 1;
-		c.weighty = 0.1;
-		c.ipadx = 0;
-		c.ipady = 0;
-		gridbag.setConstraints(potableWaterLabel, c);
-		add(potableWaterLabel);
 	}
 	
 	public void refresh(){
@@ -195,6 +226,9 @@ public class WaterSchematicPanel extends TimedPanel
 			greyWaterStoreIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/grey-watertank.jpg"));
 			horizontalPipeIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/horizontal-pipe.jpg"));
 			susbsytemIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/subsystem.jpg"));
+			verticalPipeIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/vertical-pipe.jpg"));
+			tUpPipeIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/tUp-pipe.jpg"));
+			tDownPipeIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/tDown-pipe.jpg"));
 		}
 		catch (Exception e){
 			System.out.println("Couldn't find icon, skipping icon loading");
@@ -204,6 +238,11 @@ public class WaterSchematicPanel extends TimedPanel
 			greyWaterStoreIcon = new ImageIcon();
 			horizontalPipeIcon = new ImageIcon();
 			susbsytemIcon = new ImageIcon();
+			rightLegDownPipeIcon = new ImageIcon();
+			rightLegUpPipeIcon = new ImageIcon();
+			leftLegDownPipeIcon = new ImageIcon();
+			leftLegUpPipeIcon = new ImageIcon();
+			verticalPipeIcon = new ImageIcon();
 		}
 	}
 	
