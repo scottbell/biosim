@@ -50,7 +50,7 @@ public abstract class Planophile extends PlantImpl {
     }
 
     protected float calculateCanopyStomatalConductance() {
-        float temperature = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0]
+        float temperature = myShelfImpl.getBiomassRSImpl().getAirProducerDefinition().getEnvironments()[0]
                 .getTemperature();
         float vaporPressureDeficit = calculateVaporPressureDeficit();
         float netCanopyPhotosynthesis = calculateNetCanopyPhotosynthesis();

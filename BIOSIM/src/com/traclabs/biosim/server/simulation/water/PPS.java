@@ -1,6 +1,5 @@
 package com.traclabs.biosim.server.simulation.water;
 
-import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 
 /**
  * The PPS is the last stage of water purification. It takes water from the AES,
@@ -30,12 +29,7 @@ public class PPS extends WaterRSSubSystem {
     private void pushWater() {
         potableWaterProduced = waterLevel;
         waterLevel = 0;
-        float distributedWaterLeft = SimBioModuleImpl.pushResourceToStore(
-                myWaterRS.getPotableWaterOutputs(), myWaterRS
-                        .getPotableWaterOutputMaxFlowRates(), myWaterRS
-                        .getPotableWaterOutputDesiredFlowRates(), myWaterRS
-                        .getPotableWaterOutputActualFlowRates(),
-                potableWaterProduced);
+        float distributedWaterLeft = myWaterRS.getPotableWaterProducerDefinitionImpl().pushResourceToStore(potableWaterProduced);
     }
 
     public float getPotableWaterProduced() {

@@ -51,7 +51,7 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations
         O2ProducerOperations, AirProducerOperations, CO2ProducerOperations,
         CO2ConsumerOperations, H2ProducerOperations, H2ConsumerOperations {
 
-    //Consumers
+    //Consumers, Producers
     private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
     private PotableWaterConsumerDefinitionImpl myPotableWaterConsumerDefinitionImpl;
     private PotableWaterProducerDefinitionImpl myPotableWaterProducerDefinitionImpl;
@@ -142,11 +142,10 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations
         return (H2ConsumerDefinition)(OrbUtils.poaToCorbaObj(myH2ConsumerDefinitionImpl));
     }
     
+    
     private void gatherPower() {
         currentPowerConsumed = myPowerConsumerDefinitionImpl.getMostResourceFromStore();
     }
-
-
     /**
      * Processes a tick by collecting referernces (if needed), resources, and
      * pushing the new air out.

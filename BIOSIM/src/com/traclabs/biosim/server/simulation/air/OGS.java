@@ -1,6 +1,5 @@
 package com.traclabs.biosim.server.simulation.air;
 
-import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 
 /**
  * OGS Subsystem
@@ -36,11 +35,7 @@ public class OGS extends AirRSSubSystem {
     }
 
     private void gatherWater() {
-        currentH2OConsumed = SimBioModuleImpl.getResourceFromStore(myAirRS
-                .getPotableWaterInputs(), myAirRS
-                .getPotableWaterInputMaxFlowRates(), myAirRS
-                .getPotableWaterInputDesiredFlowRates(), myAirRS
-                .getPotableWaterInputActualFlowRates(), waterNeeded);
+        currentH2OConsumed = myAirRS.getPotableWaterProducerDefinitionImpl().pushResourceToStore(waterNeeded);
     }
 
     private void pushGasses() {
@@ -54,14 +49,8 @@ public class OGS extends AirRSSubSystem {
                 * myProductionRate;
         float O2ToDistrubute = myAirRS.randomFilter(currentO2Produced);
         float H2ToDistrubute = myAirRS.randomFilter(currentH2Produced);
-        float distributedO2 = SimBioModuleImpl.pushResourceToStore(myAirRS
-                .getO2Outputs(), myAirRS.getO2OutputMaxFlowRates(), myAirRS
-                .getO2OutputDesiredFlowRates(), myAirRS
-                .getO2OutputActualFlowRates(), O2ToDistrubute);
-        float distributedH2 = SimBioModuleImpl.pushResourceToStore(myAirRS
-                .getH2Outputs(), myAirRS.getH2OutputMaxFlowRates(), myAirRS
-                .getH2OutputDesiredFlowRates(), myAirRS
-                .getH2OutputActualFlowRates(), H2ToDistrubute);
+        float distributedO2 = myAirRS.getO2ProducerDefinitionImpl().pushResourceToStore(O2ToDistrubute);
+        float distributedH2 = myAirRS.getH2ProducerDefinitionImpl().pushResourceToStore(H2ToDistrubute);
     }
 
     public void setProductionRate(float percentage) {

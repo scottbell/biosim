@@ -5,12 +5,15 @@ import java.util.Iterator;
 import com.traclabs.biosim.idl.framework.Malfunction;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
-import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.idl.simulation.framework.LightConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.LightConsumerOperations;
+import com.traclabs.biosim.idl.simulation.framework.PowerProducerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.PowerProducerOperations;
 import com.traclabs.biosim.idl.simulation.power.PowerPSOperations;
-import com.traclabs.biosim.idl.simulation.power.PowerStore;
+import com.traclabs.biosim.server.simulation.framework.LightConsumerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.framework.PowerProducerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
+import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
  * The Power Production System creates power from a generator (say a solar
@@ -28,27 +31,29 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements
     //Flag switched when the Power PS has collected references to other servers
     // it need
     private boolean hasCollectedReferences = false;
-
-    private PowerStore[] myPowerStores;
-
-    private float[] powerMaxFlowRates;
-
-    private float[] powerActualFlowRates;
-
-    private float[] powerDesiredFlowRates;
-
+    
     private float currentUpperPowerGeneration = 500f;
     
     private float initialUpperPowerGeneration = 500f;
 
-    private SimEnvironment myLightInput;
+    //Consumers, Producers
+    private PowerProducerDefinitionImpl myPowerProducerDefinitionImpl;
+    private LightConsumerDefinitionImpl myLightConsumerDefinitionImpl;
 
     public PowerPSImpl(int pID, String pName) {
         super(pID, pName);
-        myPowerStores = new PowerStore[0];
-        powerMaxFlowRates = new float[0];
-        powerActualFlowRates = new float[0];
-        powerDesiredFlowRates = new float[0];
+        myPowerProducerDefinitionImpl = new PowerProducerDefinitionImpl();
+        myLightConsumerDefinitionImpl = new LightConsumerDefinitionImpl();
+    }
+    
+    public PowerProducerDefinition getPowerProducerDefinition() {
+        return (PowerProducerDefinition) (OrbUtils
+                .poaToCorbaObj(myPowerProducerDefinitionImpl));
+    }
+    
+    public LightConsumerDefinition getLightConsumerDefinition() {
+        return (LightConsumerDefinition) (OrbUtils
+                .poaToCorbaObj(myLightConsumerDefinitionImpl));
     }
 
     /**
@@ -59,9 +64,7 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements
     public void tick() {
         currentPowerProduced = calculatePowerProduced();
         super.tick();
-        float distributedPowerLeft = pushResourceToStore(myPowerStores,
-                powerMaxFlowRates, powerDesiredFlowRates, powerActualFlowRates,
-                currentPowerProduced);
+        float distributedPowerLeft = myPowerProducerDefinitionImpl.pushResourceToStore(currentPowerProduced);
     }
 
     protected String getMalfunctionName(MalfunctionIntensity pIntensity,
@@ -127,61 +130,7 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements
     public void log() {
         myLogger.debug("power_produced=" + currentPowerProduced);
     }
-
-    //Power Outputs
-    public void setPowerOutputMaxFlowRate(float watts, int index) {
-        powerMaxFlowRates[index] = watts;
-    }
-
-    public float getPowerOutputMaxFlowRate(int index) {
-        return powerMaxFlowRates[index];
-    }
-
-    public float[] getPowerOutputMaxFlowRates() {
-        return powerMaxFlowRates;
-    }
-
-    public void setPowerOutputDesiredFlowRate(float watts, int index) {
-        powerDesiredFlowRates[index] = watts;
-    }
-
-    public float getPowerOutputDesiredFlowRate(int index) {
-        return powerDesiredFlowRates[index];
-    }
-
-    public float[] getPowerOutputDesiredFlowRates() {
-        return powerDesiredFlowRates;
-    }
-
-    public float getPowerOutputActualFlowRate(int index) {
-        return powerActualFlowRates[index];
-    }
-
-    public float[] getPowerOutputActualFlowRates() {
-        return powerActualFlowRates;
-    }
-
-    public void setPowerOutputs(PowerStore[] destinations,
-            float[] maxFlowRates, float[] desiredFlowRates) {
-        myPowerStores = destinations;
-        powerMaxFlowRates = maxFlowRates;
-        powerDesiredFlowRates = desiredFlowRates;
-        powerActualFlowRates = new float[powerDesiredFlowRates.length];
-    }
-
-    public PowerStore[] getPowerOutputs() {
-        return myPowerStores;
-    }
-
-    //Light Inputs
-    public void setLightInput(SimEnvironment source) {
-        myLightInput = source;
-    }
-
-    public SimEnvironment getLightInput() {
-        return myLightInput;
-    }
-
+    
     /**
      * @return Returns the currentUpperPowerGeneration.
      */
@@ -209,4 +158,5 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements
         setCurrentUpperPowerGeneration(pInitialUpperPowerGeneration);
         initialUpperPowerGeneration = pInitialUpperPowerGeneration;
     }
+
 }

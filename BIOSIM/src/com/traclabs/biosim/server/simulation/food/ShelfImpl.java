@@ -5,12 +5,10 @@ import org.apache.log4j.Logger;
 import com.traclabs.biosim.idl.simulation.food.BioMatter;
 import com.traclabs.biosim.idl.simulation.food.BiomassRS;
 import com.traclabs.biosim.idl.simulation.food.BiomassRSHelper;
-import com.traclabs.biosim.idl.simulation.food.BiomassStore;
 import com.traclabs.biosim.idl.simulation.food.Plant;
 import com.traclabs.biosim.idl.simulation.food.PlantHelper;
 import com.traclabs.biosim.idl.simulation.food.PlantType;
 import com.traclabs.biosim.idl.simulation.food.ShelfPOA;
-import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
@@ -117,41 +115,24 @@ public class ShelfImpl extends ShelfPOA {
         if (extraWaterNeeded < 0) {
             extraWaterNeeded = 0;
         }
-        float gatheredGreyWater = SimBioModuleImpl
-                .getFractionalResourceFromStore(myBiomassRSImpl
-                        .getGreyWaterInputs(), myBiomassRSImpl
-                        .getGreyWaterInputMaxFlowRates(), myBiomassRSImpl
-                        .getGreyWaterInputDesiredFlowRates(), myBiomassRSImpl
-                        .getGreyWaterInputActualFlowRates(), extraWaterNeeded,
+        float gatheredGreyWater = myBiomassRSImpl.getGreyWaterConsumerDefinitionImpl()
+                .getFractionalResourceFromStore(extraWaterNeeded,
                         1f / myBiomassRSImpl.getNumberOfShelves());
-        float gatheredPotableWater = SimBioModuleImpl
-                .getFractionalResourceFromStore(myBiomassRSImpl
-                        .getPotableWaterInputs(), myBiomassRSImpl
-                        .getPotableWaterInputMaxFlowRates(), myBiomassRSImpl
-                        .getPotableWaterInputDesiredFlowRates(),
-                        myBiomassRSImpl.getPotableWaterInputActualFlowRates(),
-                        extraWaterNeeded - gatheredGreyWater,
+        float gatheredPotableWater = myBiomassRSImpl.getPotableWaterConsumerDefinitionImpl()
+                .getFractionalResourceFromStore(extraWaterNeeded - gatheredGreyWater,
                         1f / myBiomassRSImpl.getNumberOfShelves());
         waterLevel += gatheredGreyWater + gatheredPotableWater;
     }
 
     private void gatherPower() {
         float powerNeeded = calculatePowerNeeded();
-        powerLevel += SimBioModuleImpl.getFractionalResourceFromStore(
-                myBiomassRSImpl.getPowerInputs(), myBiomassRSImpl
-                        .getPowerInputMaxFlowRates(), myBiomassRSImpl
-                        .getPowerInputDesiredFlowRates(), myBiomassRSImpl
-                        .getPowerInputActualFlowRates(), powerNeeded,
-                myBiomassRSImpl.getNumberOfShelves());
+        powerLevel += myBiomassRSImpl.getPowerConsumerDefinitionImpl().getFractionalResourceFromStore(powerNeeded,
+                1f / myBiomassRSImpl.getNumberOfShelves());
     }
 
     private void flushWater() {
-        waterLevel -= SimBioModuleImpl.pushFractionalResourceToStore(
-                myBiomassRSImpl.getDirtyWaterOutputs(), myBiomassRSImpl
-                        .getDirtyWaterOutputMaxFlowRates(), myBiomassRSImpl
-                        .getDirtyWaterOutputDesiredFlowRates(), myBiomassRSImpl
-                        .getDirtyWaterOutputActualFlowRates(), waterLevel,
-                myBiomassRSImpl.getNumberOfShelves());
+        waterLevel -= myBiomassRSImpl.getDirtyWaterProducerDefinitionImpl().pushFractionalResourceToStore(waterLevel,
+                1f / myBiomassRSImpl.getNumberOfShelves());
     }
 
     private void flushPower() {
@@ -198,12 +179,7 @@ public class ShelfImpl extends ShelfPOA {
 
     public void harvest() {
         BioMatter biomassProduced = myCrop.harvest();
-        pushFractionalResourceToBiomassStore(myBiomassRSImpl
-                .getBiomassOutputs(), myBiomassRSImpl
-                .getBiomassOutputMaxFlowRates(), myBiomassRSImpl
-                .getBiomassOutputDesiredFlowRates(), myBiomassRSImpl
-                .getBiomassOutputActualFlowRates(), biomassProduced,
-                myBiomassRSImpl.getNumberOfShelves());
+        myBiomassRSImpl.getBiomassProducerDefinitionImpl().pushFractionalResourceToBiomassStore(biomassProduced, 1f / myBiomassRSImpl.getNumberOfShelves());
     }
 
     public boolean isReadyForHavest() {
@@ -224,40 +200,10 @@ public class ShelfImpl extends ShelfPOA {
                 BioMatter biomassProduced = myCrop.harvest();
                 myLogger.info("ShelfImpl: Harvested " + biomassProduced.mass
                         + "kg of " + myCrop.getPlantTypeString());
-                float biomassAdded = pushFractionalResourceToBiomassStore(
-                        myBiomassRSImpl.getBiomassOutputs(), myBiomassRSImpl
-                                .getBiomassOutputMaxFlowRates(),
-                        myBiomassRSImpl.getBiomassOutputDesiredFlowRates(),
-                        myBiomassRSImpl.getBiomassOutputActualFlowRates(),
-                        biomassProduced, myBiomassRSImpl.getNumberOfShelves());
+                float biomassAdded = myBiomassRSImpl.getBiomassProducerDefinitionImpl().pushFractionalResourceToBiomassStore(biomassProduced, 1f / myBiomassRSImpl.getNumberOfShelves());
                 myCrop.reset();
             }
         }
-    }
-
-    private float pushFractionalResourceToBiomassStore(BiomassStore[] pStores,
-            float[] pMaxFlowRates, float[] pDesiredFlowRates,
-            float[] pActualFlowRates, BioMatter matterToPush,
-            float shelfFraction) {
-        float resourceDistributed = matterToPush.mass;
-        for (int i = 0; (i < pStores.length) && (resourceDistributed > 0); i++) {
-            float resourceToDistributeFirst = Math.min(resourceDistributed,
-                    pMaxFlowRates[i] * shelfFraction);
-            float resourceToDistributeFinal = Math.min(
-                    resourceToDistributeFirst, pDesiredFlowRates[i]
-                            * shelfFraction);
-
-            float fractionOfOriginal = resourceToDistributeFinal
-                    / resourceDistributed;
-            BioMatter newBioMatter = new BioMatter(resourceToDistributeFinal,
-                    matterToPush.inedibleFraction,
-                    matterToPush.edibleWaterContent * fractionOfOriginal,
-                    matterToPush.inedibleWaterContent * fractionOfOriginal,
-                    matterToPush.type);
-            pActualFlowRates[i] += pStores[i].addBioMatter(newBioMatter);
-            resourceDistributed -= pActualFlowRates[i];
-        }
-        return (matterToPush.mass - resourceDistributed);
     }
 
     public void tick() {

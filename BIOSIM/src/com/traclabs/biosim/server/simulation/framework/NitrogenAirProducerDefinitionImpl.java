@@ -21,5 +21,23 @@ public class NitrogenAirProducerDefinitionImpl extends StoreEnvironmentFlowRateC
         setMaxFlowRates(pMaxFlowRates);
         setDesiredFlowRates(pDesiredFlowRates);
     }
+    
+    /**
+     * @return The total amount of Nitrogen pushed to the environments
+     */
+    public float pushNitrogenToEnvironment(float pMolesToPush) {
+        float NitrogenAirLeft = pMolesToPush;
+        for (int i = 0; (i < getEnvironments().length)
+                && (NitrogenAirLeft > 0); i++) {
+            float amountToPushFirst = Math.min(
+                    getEnvironmentMaxFlowRate(i),
+                    getEnvironmentDesiredFlowRate(i));
+            float amountToPushFinal = Math.min(amountToPushFirst, NitrogenAirLeft);
+            getEnvironmentActualFlowRates()[i] = getEnvironments()[i]
+                    .addNitrogenMoles(amountToPushFinal);
+            NitrogenAirLeft -= getEnvironmentActualFlowRate(i);
+        }
+        return pMolesToPush - NitrogenAirLeft;
+    }
 
 }

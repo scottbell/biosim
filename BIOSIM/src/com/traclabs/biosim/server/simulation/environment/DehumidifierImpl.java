@@ -4,10 +4,14 @@ import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.simulation.environment.DehumidifierOperations;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.idl.simulation.framework.AirConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.AirConsumerOperations;
+import com.traclabs.biosim.idl.simulation.framework.DirtyWaterProducerDefinition;
 import com.traclabs.biosim.idl.simulation.framework.DirtyWaterProducerOperations;
-import com.traclabs.biosim.idl.simulation.water.DirtyWaterStore;
+import com.traclabs.biosim.server.simulation.framework.AirConsumerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.framework.DirtyWaterProducerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
+import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
  * The basic Dehimidifier Implementation.
@@ -18,36 +22,29 @@ import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 public class DehumidifierImpl extends SimBioModuleImpl implements
         DehumidifierOperations, AirConsumerOperations,
         DirtyWaterProducerOperations {
-    private DirtyWaterStore[] myDirtyWaterOutputs;
 
-    private float[] dirtyWaterOutMaxFlowRates;
+    //Consumers, Producers
+    private AirConsumerDefinitionImpl myAirConsumerDefinitionImpl;
 
-    private float[] dirtyWaterOutActualFlowRates;
-
-    private float[] dirtyWaterOutDesiredFlowRates;
-
-    private SimEnvironment[] myAirInputs;
-
-    private float[] airInMaxFlowRates;
-
-    private float[] airInActualFlowRates;
-
-    private float[] airInDesiredFlowRates;
+    private DirtyWaterProducerDefinitionImpl myDirtyWaterProducerDefinitionImpl;
 
     private static final float OPTIMAL_MOISTURE_CONCENTRATION = 0.01f; //in kPA
 
     public DehumidifierImpl(int pID, String pName) {
         super(pID, pName);
 
-        myDirtyWaterOutputs = new DirtyWaterStore[0];
-        dirtyWaterOutMaxFlowRates = new float[0];
-        dirtyWaterOutActualFlowRates = new float[0];
-        dirtyWaterOutDesiredFlowRates = new float[0];
+        myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl();
+        myDirtyWaterProducerDefinitionImpl = new DirtyWaterProducerDefinitionImpl();
+    }
 
-        myAirInputs = new SimEnvironment[0];
-        airInMaxFlowRates = new float[0];
-        airInActualFlowRates = new float[0];
-        airInDesiredFlowRates = new float[0];
+    public AirConsumerDefinition getAirConsumerDefinition() {
+        return (AirConsumerDefinition) (OrbUtils
+                .poaToCorbaObj(myAirConsumerDefinitionImpl));
+    }
+
+    public DirtyWaterProducerDefinition getDirtyWaterProducerDefinition() {
+        return (DirtyWaterProducerDefinition) (OrbUtils
+                .poaToCorbaObj(myDirtyWaterProducerDefinitionImpl));
     }
 
     public void tick() {
@@ -57,40 +54,49 @@ public class DehumidifierImpl extends SimBioModuleImpl implements
     }
 
     private void dehumidifyEnvironments() {
-        float currentWaterMolesInEnvironment = myAirInputs[0].getWaterMoles();
-        float totalMolesInEnvironment = myAirInputs[0].getTotalMoles();
-        //myAirInputs[0].printCachedEnvironment();
-        myLogger.debug("Before: Water concentration"
-                + currentWaterMolesInEnvironment / totalMolesInEnvironment);
-
+        if (myLogger.isDebugEnabled()) {
+            float currentWaterMolesInEnvironment = myAirConsumerDefinitionImpl
+                    .getEnvironments()[0].getWaterMoles();
+            float totalMolesInEnvironment = myAirConsumerDefinitionImpl
+                    .getEnvironments()[0].getTotalMoles();
+            //myAirInputs[0].printCachedEnvironment();
+            myLogger.debug("Before: Water concentration"
+                    + currentWaterMolesInEnvironment / totalMolesInEnvironment);
+        }
         float molesOfWaterGathered = 0f;
-        for (int i = 0; i < myAirInputs.length; i++) {
-            float molesNeededToRemove = calculateMolesNeededToRemove(myAirInputs[i]);
+        for (int i = 0; i < myAirConsumerDefinitionImpl.getEnvironments().length; i++) {
+            float molesNeededToRemove = calculateMolesNeededToRemove(myAirConsumerDefinitionImpl
+                    .getEnvironments()[i]);
             if (molesNeededToRemove > 0) {
                 //cycle through and take molesNeededToRemove (or less if
                 // desired is less)
                 float resourceToGatherFirst = Math.min(molesNeededToRemove,
-                        airInMaxFlowRates[i]);
+                        myAirConsumerDefinitionImpl.getMaxFlowRate(i));
                 float resourceToGatherFinal = Math.min(resourceToGatherFirst,
-                        airInDesiredFlowRates[i]);
-                airInActualFlowRates[i] = myAirInputs[i]
+                        myAirConsumerDefinitionImpl.getDesiredFlowRate(i));
+                myAirConsumerDefinitionImpl.getActualFlowRates()[i] = myAirConsumerDefinitionImpl
+                        .getEnvironments()[i]
                         .takeWaterMoles(resourceToGatherFinal);
                 myLogger.debug("Going to remove " + resourceToGatherFinal
                         + " moles of water");
-                molesOfWaterGathered += airInActualFlowRates[i];
+                molesOfWaterGathered += myAirConsumerDefinitionImpl
+                        .getActualFlowRate(i);
             }
         }
-        float waterPushedToStore = pushResourceToStore(myDirtyWaterOutputs,
-                dirtyWaterOutMaxFlowRates, dirtyWaterOutDesiredFlowRates,
-                dirtyWaterOutActualFlowRates,
-                waterMolesToLiters(molesOfWaterGathered));
+        float waterPushedToStore = myDirtyWaterProducerDefinitionImpl
+                .pushResourceToStore(waterMolesToLiters(molesOfWaterGathered));
 
-        currentWaterMolesInEnvironment = myAirInputs[0].getWaterMoles();
-        totalMolesInEnvironment = myAirInputs[0].getTotalMoles();
-        myLogger.debug("After: Pushed " + waterPushedToStore
-                + " liters of water to the store (gathered "
-                + molesOfWaterGathered + " moles), water concentration now "
-                + currentWaterMolesInEnvironment / totalMolesInEnvironment);
+        if (myLogger.isDebugEnabled()) {
+            float currentWaterMolesInEnvironment = myAirConsumerDefinitionImpl
+                    .getEnvironments()[0].getWaterMoles();
+            float totalMolesInEnvironment = myAirConsumerDefinitionImpl
+                    .getEnvironments()[0].getTotalMoles();
+            myLogger.debug("After: Pushed " + waterPushedToStore
+                    + " liters of water to the store (gathered "
+                    + molesOfWaterGathered
+                    + " moles), water concentration now "
+                    + currentWaterMolesInEnvironment / totalMolesInEnvironment);
+        }
     }
 
     private static float calculateMolesNeededToRemove(
@@ -138,95 +144,5 @@ public class DehumidifierImpl extends SimBioModuleImpl implements
     }
 
     public void log() {
-    }
-
-    //Dirty Water Outputs
-    public void setDirtyWaterOutputMaxFlowRate(float amount, int index) {
-        dirtyWaterOutMaxFlowRates[index] = amount;
-    }
-
-    public float getDirtyWaterOutputMaxFlowRate(int index) {
-        return dirtyWaterOutMaxFlowRates[index];
-    }
-
-    public float[] getDirtyWaterOutputMaxFlowRates() {
-        return dirtyWaterOutMaxFlowRates;
-    }
-
-    public void setDirtyWaterOutputDesiredFlowRate(float amount, int index) {
-        dirtyWaterOutDesiredFlowRates[index] = amount;
-    }
-
-    public float getDirtyWaterOutputDesiredFlowRate(int index) {
-        return dirtyWaterOutDesiredFlowRates[index];
-    }
-
-    public float[] getDirtyWaterOutputDesiredFlowRates() {
-        return dirtyWaterOutDesiredFlowRates;
-    }
-
-    public float getDirtyWaterOutputActualFlowRate(int index) {
-        return dirtyWaterOutActualFlowRates[index];
-    }
-
-    public float[] getDirtyWaterOutputActualFlowRates() {
-        return dirtyWaterOutActualFlowRates;
-    }
-
-    public void setDirtyWaterOutputs(DirtyWaterStore[] destinations,
-            float[] maxFlowRates, float[] desiredFlowRates) {
-        myDirtyWaterOutputs = destinations;
-        dirtyWaterOutMaxFlowRates = maxFlowRates;
-        dirtyWaterOutDesiredFlowRates = desiredFlowRates;
-        dirtyWaterOutActualFlowRates = new float[dirtyWaterOutDesiredFlowRates.length];
-    }
-
-    public DirtyWaterStore[] getDirtyWaterOutputs() {
-        return myDirtyWaterOutputs;
-    }
-
-    //Air Inputs
-    public void setAirInputMaxFlowRate(float amount, int index) {
-        airInMaxFlowRates[index] = amount;
-    }
-
-    public float getAirInputMaxFlowRate(int index) {
-        return airInMaxFlowRates[index];
-    }
-
-    public float[] getAirInputMaxFlowRates() {
-        return airInMaxFlowRates;
-    }
-
-    public void setAirInputDesiredFlowRate(float amount, int index) {
-        airInDesiredFlowRates[index] = amount;
-    }
-
-    public float getAirInputDesiredFlowRate(int index) {
-        return airInDesiredFlowRates[index];
-    }
-
-    public float[] getAirInputDesiredFlowRates() {
-        return airInDesiredFlowRates;
-    }
-
-    public float getAirInputActualFlowRate(int index) {
-        return airInActualFlowRates[index];
-    }
-
-    public float[] getAirInputActualFlowRates() {
-        return airInActualFlowRates;
-    }
-
-    public void setAirInputs(SimEnvironment[] sources, float[] maxFlowRates,
-            float[] desiredFlowRates) {
-        myAirInputs = sources;
-        airInMaxFlowRates = maxFlowRates;
-        airInDesiredFlowRates = desiredFlowRates;
-        airInActualFlowRates = new float[airInDesiredFlowRates.length];
-    }
-
-    public SimEnvironment[] getAirInputs() {
-        return myAirInputs;
     }
 }
