@@ -20,11 +20,13 @@ module framework{
                 Malfunction startMalfunction(in MalfunctionIntensity pIntensity, in MalfunctionLength pLength);
                 void fixMalfunction(in long long id);
                 void fixAllMalfunctions();
+                void clearAllMalfunctions();
                 boolean isMalfunctioning();
                 StringList getMalfunctionNames();
                 MalfunctionList getMalfunctions();
                 void maitenance();
                 void repair(in long long id);
+                void clearMalfunction(in long long id);
         };
         interface BioDriver{
                 boolean isPaused();

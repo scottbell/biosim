@@ -13,24 +13,38 @@ import biosim.idl.util.log.*;
  */
 
 public abstract class BioModuleImpl extends BioModulePOA{
+	//The random number generator used for gaussian function (stochastic stuff)
 	private Random myRandomGen;
+	//Whether the log for this module is initialized or not
 	protected boolean logInitialized = false;
+	//Whether this module is logging or not
 	protected boolean moduleLogging = false;
+	//The root log node for this module.  Below this are name/value pairs of data
 	protected LogNodeImpl myLog;
+	//The logger that this module sends it's log node to
 	private Logger myLogger;
+	//Whether this module has collected a reference to logger server
 	private boolean collectedLogger = false;
+	//The numerical value for the stochastic intensity
 	private float randomCoefficient = 0f;
+	//The stochastic intensity of this module
 	protected StochasticIntensity myStochasticIntensity = StochasticIntensity.NONE_STOCH;
+	//The unique ID for this module (all the modules this module communicates with should have the same ID)
 	private int myID = 0;
-	private static final int RANDOM_PRECISION = 1000;
+	//The Malfunctions in a Map (key is a Long representing the Malfunction ID, value is the Malfunction Object)
 	protected Map myMalfunctions;
-
-	public BioModuleImpl(int pID){
+	
+	/**
+	* Constructor to create a BioModule, should only be called by those deriving from BioModule.
+	* @param pID The unique ID for this module (all the modules this module communicates with should have the same ID)
+	*/
+	protected BioModuleImpl(int pID){
 		myRandomGen = new Random();
 		myMalfunctions = new Hashtable();
 		myLog = new LogNodeImpl(getModuleName());
 		myID = pID;
 	}
+	
 	/**
 	* Called at every tick of the simulation.  Does nothing if not overriden.
 	*/
@@ -39,6 +53,9 @@ public abstract class BioModuleImpl extends BioModulePOA{
 			log();
 	}
 	
+	/**
+	* Fixes all malfunctions.  Permanent malfunctions are unfixable.
+	*/
 	public void fixAllMalfunctions(){
 		for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); ){
 			Malfunction currentMalfunction = (Malfunction)(iter.next());
@@ -47,6 +64,19 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		}
 	}
 	
+	/**
+	* Clears all malfunctions regardless of temporal length (i.e., permanent malfunctions removed)
+	*/
+	public void clearAllMalfunctions(){
+		for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); ){
+			Malfunction currentMalfunction = (Malfunction)(iter.next());
+			myMalfunctions.remove(new Long(currentMalfunction.getID()));
+		}
+	}
+	
+	/**
+	* @return An array of String containing the names of the malfunctions currently active with this module
+	*/
 	public String[] getMalfunctionNames(){
 		String[] malfunctionNames = new String[myMalfunctions.size()];
 		int i = 0;
@@ -57,11 +87,19 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		return malfunctionNames;
 	}
 	
+	/**
+	* @return An array of Malfunctions currently active with this module
+	*/
 	public Malfunction[] getMalfunctions(){
 		Malfunction[] arrayMalfunctions = new Malfunction[myMalfunctions.size()];
 		return (Malfunction[])(myMalfunctions.values().toArray(arrayMalfunctions));
 	}
 	
+	/**
+	* Fixes a malfunction currently active with this module.  The malfunction must be "repaired" a certain number of times depending
+	* on the intensity/severity of the malfunction.
+	* @param malfunctionID the ID of the malfunction to repair
+	*/
 	public void repair(long malfunctionID){
 		Malfunction currentMalfunction = (Malfunction)(myMalfunctions.get(new Long(malfunctionID)));
 		if (currentMalfunction == null)
@@ -72,7 +110,11 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	}
 
 	/**
-	 * Override this to get custom malfunction names.
+	 * Returns a nice description of the malfunction.  The default implementation (provided here) should
+	 * be overriden in the specific modules (i.e., temporary low mafunction means a small leak in the Store modules)
+	 * @param pIntensity the intensity of the malfunction
+	 * @param pLength the temporal length of the malfunction
+	 * @return the description/name of the malfunction specified
 	 */
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
 		StringBuffer returnBuffer = new StringBuffer();
@@ -89,7 +131,13 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		returnBuffer.append("Malfunction");
 		return returnBuffer.toString();
 	}
-
+	
+	/**
+	 * Starts a malfunction in this module.
+	 * @param pIntensity the intensity of the malfunction
+	 * @param pLength the temporal length of the malfunction
+	 * @return the malfunction started
+	 */
 	public Malfunction startMalfunction(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
 		String malfunctionName = getMalfunctionName(pIntensity, pLength);
 		MalfunctionImpl newMalfunctionImpl = new MalfunctionImpl(malfunctionName,pIntensity,pLength);
@@ -97,46 +145,90 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		myMalfunctions.put((new Long(newMalfunction.getID())), newMalfunction);
 		return newMalfunction;
 	}
-
+	
+	/**
+	* Fixes a temporary malfunction currently active with this module instantly.
+	* @param malfunctionID the ID of the malfunction to remove
+	*/
 	public void fixMalfunction(long pID){
 		Malfunction theMalfunction = (Malfunction)(myMalfunctions.get(new Long(pID)));
 		if (theMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF)	
 			myMalfunctions.remove(new Long(pID));
 	}
-
+	
+	/**
+	* Clears a malfunction currently active with this module regardless of temporal length (i.e., permanent malfunctions removed)
+	* @param malfunctionID the ID of the malfunction to remove
+	*/
+	public void clearMalfunction(long malfunctionID){
+		myMalfunctions.remove(new Long(malfunctionID));
+	}
+	
+	/**
+	* @return if this module is malfunctioning (i.e. has > 0 malfunctions), returns <code>true</code>, else <code>false</code>
+	*/
 	public boolean isMalfunctioning(){
 		return (myMalfunctions.size() > 0);
 	}
 	
+	/**
+	* Resets this module (should be called by extended classes as it clears malfunctions)
+	*/
 	public void reset(){
 		myMalfunctions.clear();
 	}
 
 	/**
-	* Logs this module to the Logger
+	* Logs this module to the Logger server
 	*/
 	private void log(){
 	}
-
+	
+	/**
+	* Sets the logging for this module.
+	* @param pLogging <code>true</code> if this module should log, <code>false</code> if not
+	*/
 	public void setLogging(boolean pLogging){
 		moduleLogging = pLogging;
 	}
-
+	
+	/**
+	* @return <code>true</code> if this module is loging, <code>false</code> if not
+	*/
 	public boolean isLogging(){
 		return moduleLogging;
 	}
-
+	
+	/**
+	* @return The ID of this module.  Should be the same as every other module in this BioSim instance
+	*/
 	public int getID(){
 		return myID;
 	}
 	
+	/**
+	* Maintains this module.  Must be invoked from time to time to prevent this risk of spoontaneous malfunctions.
+	* The longer into the sim (i.e., the more the module has been ticked), the greater this risk is.
+	* NOT IMPLEMENTED YET
+	*/
 	public void maitenance(){
 	}
-
+	
+	/**
+	* @return The Stochastic intentsity of this module (i.e., the indeterminism)
+	*/
 	public StochasticIntensity getStochasticIntensity(){
 		return myStochasticIntensity;
 	}
-
+	
+	/**
+	* Sets how stochastically intense this module should be.
+	* @param pValue The intensity for this module.  Options are:
+	* <code>StochasticIntensity.HIGH_STOCH</code> for high intensity
+	* <code>StochasticIntensity.MEDIUM_STOCH</code> for medium intensity
+	* <code>StochasticIntensity.LOW_STOCH</code> for low intensity
+	* <code>StochasticIntensity.NONE_STOCH</code> for no intensity (deterministic, default)
+	*/
 	public void setStochasticIntensity(StochasticIntensity pValue){
 		myStochasticIntensity = pValue;
 		if (pValue == StochasticIntensity.NONE_STOCH)
@@ -149,6 +241,10 @@ public abstract class BioModuleImpl extends BioModulePOA{
 			randomCoefficient = .08f;
 	}
 	
+	/**
+	* @param pValue Filters using a gaussian function.
+	* @return the randomized result
+	*/
 	public float randomFilter(float pValue){
 		if (randomCoefficient <= 0)
 			return pValue;
@@ -159,7 +255,11 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		else
 			return (new Double(result)).floatValue();
 	}
-
+	
+	/**
+	* @param pValue Filters using a gaussian function.
+	* @return the randomized result
+	*/
 	public double randomFilter(double pValue){
 		if (randomCoefficient <= 0)
 			return pValue;
@@ -170,14 +270,22 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		else
 			return result;
 	}
-
+	
+	/**
+	* @param pValue Filters using a gaussian function.
+	* @return the randomized result
+	*/
 	public boolean randomFilter(boolean pValue){
 		if (randomCoefficient <= 0)
 			return pValue;
 		double deviation = randomCoefficient * 1;
 		return (gaussian(1, deviation) > 1);
 	}
-
+	
+	/**
+	* @param pValue Filters using a gaussian function.
+	* @return the randomized result
+	*/
 	public int randomFilter(int pValue){
 		if (randomCoefficient <= 0)
 			return pValue;
@@ -188,7 +296,11 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		else
 			return (new Double(result)).intValue();
 	}
-
+	
+	/**
+	* Sends a log node to the Logger server
+	* @param logToProcess the log node to process (i.e., send to the Logger server)
+	*/
 	protected void sendLog(LogNodeImpl logToProcess){
 		if (!collectedLogger){
 			try{
@@ -202,10 +314,12 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		myLogger.processLog(LogNodeHelper.narrow(OrbUtils.poaToCorbaObj(logToProcess)));
 	}
 	
-	/* ------------------------------------------------ *
-	* gaussian -- generates a gaussian random variable *
-	*             with mean a and standard deviation d *
-	* ------------------------------------------------ */
+	/**
+	* A basic Gaussian function
+	* @param mean where the gaussian is "centered".  e.g., a value of 3 would yield numbers around 3
+	* @param deviation how far the gaussian deviates from the mean
+	* @return the randomized value
+	*/
 	private double gaussian(double mean,double deviation){
 		double t = 0.0;
 		double x,v1,v2,r;
@@ -226,6 +340,12 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		}
 	}
 	
+	/**
+	* Grabs as much resources as it can (i.e., the flowrate) from a store.
+	* @param pStores The stores to grab the resources from
+	* @param pFlowRates The flow rates from this module to the stores
+	* @return The total amount of resource grabbed from the stores
+	*/
 	public static float getMaxResourceFromStore(Store[] pStores, float[] pFlowRates){
 		float gatheredResource = 0f;
 		for (int i = 0; i < pStores.length; i++){
@@ -234,6 +354,13 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		return gatheredResource;
 	}
 	
+	/**
+	* Attempts to grab a specified amount from a collection of stores
+	* @param pStores The stores to grab the resources from
+	* @param pFlowRates The flow rates from this module to the stores
+	* @param amountNeeded The amount to gather from the stores
+	* @return The total amount of resource grabbed from the stores (equal to the amount needed if sucessful)
+	*/
 	public static float getResourceFromStore(Store[] pStores, float[] pFlowRates, float amountNeeded){
 		float gatheredResource = 0f;
 		for (int i = 0; (i < pStores.length) && (gatheredResource < amountNeeded); i++){
@@ -243,6 +370,13 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		return gatheredResource;
 	}
 	
+	/**
+	* Attempts to push a specified amount to a collection of stores
+	* @param pStores The stores to push the resources to
+	* @param pFlowRates The flow rates from this module to the stores
+	* @param amountToPush The amount to push to the stores
+	* @return The total amount of resource pushed to the stores (equal to the amount to push if sucessful)
+	*/
 	public static float pushResourceToStore(Store[] pStores, float[] pFlowRates, float amountToPush){
 		float totalResourceDistributed = amountToPush;
 		for (int i = 0; (i < pStores.length) && (totalResourceDistributed > 0); i++){
