@@ -126,11 +126,11 @@ public class HandController{
 		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.thePotableWaterOutFlowRateActuators, myWaterRS));
 		currentActuator.setValue(10);
 		// initialize everything to off
-		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theCO2InFlowRateSensors, myAirRS));
+		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theCO2InFlowRateActuators, myAirRS));
 		currentActuator.setValue(0);
-		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.thePotableWaterInFlowRateSensors, myAirRS));
+		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.thePotableWaterInFlowRateActuators, myAirRS));
 		currentActuator.setValue(0);
-		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theDirtyWaterInFlowRateSensors, myAirRS));
+		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theDirtyWaterInFlowRateActuators, myWaterRS));
 		currentActuator.setValue(0);
 
 		System.out.println("starting run...");
@@ -312,11 +312,11 @@ public class HandController{
 		BiomassRS myBiomassRS = (BiomassRS)myBioHolder.theBiomassRSModules.get(0);
 		FoodProcessor myFoodProcessor = (FoodProcessor)myBioHolder.theFoodProcessors.get(0);
 		if (SimState.get("dirtywater") == "low" || SimState.get("potablewater") == "high") {
-			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theDirtyWaterInFlowRateSensors, myWaterRS));
+			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theDirtyWaterInFlowRateActuators, myWaterRS));
 			currentActuator.setValue(0);
 		}
 		if (SimState.get("potablewater") == "low" || SimState.get("dirtywater") == "high") {
-			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theDirtyWaterInFlowRateSensors, myWaterRS));
+			currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theDirtyWaterInFlowRateActuators, myWaterRS));
 			currentActuator.setValue(10);
 		}
 
