@@ -102,6 +102,14 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 	}
 	
 	/**
+	* Retrieves the capacity of the store
+	* @return the capacity of the store
+	*/
+	public float getCapacity(){
+		return capacity;
+	}
+	
+	/**
 	* Resets the level to 0
 	*/
 	public void reset(){

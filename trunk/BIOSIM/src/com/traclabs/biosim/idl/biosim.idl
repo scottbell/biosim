@@ -16,6 +16,7 @@ module biosim{
 				float add(in float metricAmount);
                                 float take(in float metricAmount);
                                 float getLevel();
+				float getCapacity();
 			};
                 };
 		
