@@ -269,6 +269,10 @@
 						<xsd:element name="NitrogenAirEnvironmentOutFlowRateActuator" type="NitrogenAirEnvironmentOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
 						<xsd:element name="NitrogenAirStoreInFlowRateActuator" type="NitrogenAirStoreInFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
 						<xsd:element name="NitrogenAirStoreOutFlowRateActuator" type="NitrogenAirStoreOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="WaterAirEnvironmentInFlowRateActuator" type="WaterAirEnvironmentInFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="WaterAirEnvironmentOutFlowRateActuator" type="WaterAirEnvironmentOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="WaterAirStoreInFlowRateActuator" type="WaterAirStoreInFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="WaterAirStoreOutFlowRateActuator" type="WaterAirStoreOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
