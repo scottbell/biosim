@@ -51,7 +51,10 @@ public class BaseJFrame extends javax.swing.JFrame
 	{
 		public void windowClosing(java.awt.event.WindowEvent event)
 		{
+			
+			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			frameClosing();
+			setCursor(Cursor.getDefaultCursor());
 		}
 	}
 
