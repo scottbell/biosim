@@ -781,9 +781,7 @@
 	<xsd:complexType name="SensorType">  
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
-				<xsd:sequence>
-					<xsd:element name="input" type="xsd:string"/>
-				</xsd:sequence>
+				<xsd:attribute name="input" type="xsd:string" use="required"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -1120,9 +1118,7 @@
 	<xsd:complexType name="ActuatorType">  
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
-				<xsd:sequence>
-					<xsd:element name="output" type="xsd:string"/>
-				</xsd:sequence>
+				<xsd:attribute name="output" type="xsd:string" use="required"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>

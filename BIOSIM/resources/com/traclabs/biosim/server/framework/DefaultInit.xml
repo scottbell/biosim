@@ -86,254 +86,102 @@
 	</SimModules>
 	<Sensors>
 		<air>
-			<CO2InFlowRateSensor name="AirRSCO2InFlowRateSensor">
-				<input>AirRS</input>
-			</CO2InFlowRateSensor>
-			<CO2OutFlowRateSensor name="AirRSCO2OutFlowRateSensor">
-				<input>AirRS</input>
-			</CO2OutFlowRateSensor>
-			<CO2StoreLevelSensor name="CO2StoreLevelSensor">
-				<input>CO2Store</input>
-			</CO2StoreLevelSensor>
-			<O2OutFlowRateSensor name="AirRSO2OutFlowRateSensor">
-				<input>AirRS</input>
-			</O2OutFlowRateSensor>
-			<O2StoreLevelSensor name="O2StoreLevelSensor">
-				<input>O2Store</input>
-			</O2StoreLevelSensor>
-			<H2InFlowRateSensor name="AirRSH2InFlowRateSensor">
-				<input>AirRS</input>
-			</H2InFlowRateSensor>
-			<H2OutFlowRateSensor name="AirRSH2OutFlowRateSensor">
-				<input>AirRS</input>
-			</H2OutFlowRateSensor>
-			<H2StoreLevelSensor name="H2StoreLevelSensor">
-				<input>H2Store</input>
-			</H2StoreLevelSensor>
+			<CO2InFlowRateSensor name="AirRSCO2InFlowRateSensor" input="AirRS"/>
+			<CO2OutFlowRateSensor name="AirRSCO2OutFlowRateSensor" input="AirRS"/>
+			<CO2StoreLevelSensor name="CO2StoreLevelSensor" input="CO2Store"/>
+			<O2OutFlowRateSensor name="AirRSO2OutFlowRateSensor" input="AirRS"/>
+			<O2StoreLevelSensor name="O2StoreLevelSensor" input="O2Store"/>
+			<H2InFlowRateSensor name="AirRSH2InFlowRateSensor" input="AirRS"/>
+			<H2OutFlowRateSensor name="AirRSH2OutFlowRateSensor" input="AirRS"/>
+			<H2StoreLevelSensor name="H2StoreLevelSensor" input="H2Store"/>
 		</air>
 		<crew>
-			<CrewGroupDeathSensor name="CrewGroupDeathSensor">
-				<input>CrewGroup</input>
-			</CrewGroupDeathSensor>
+			<CrewGroupDeathSensor name="CrewGroupDeathSensor" input="CrewGroup"/>
 		</crew>
 		<environment>
-			<AirInFlowRateSensor name="AirRSAirInFlowRateSensor">
-				<input>AirRS</input>
-			</AirInFlowRateSensor>
-			<AirOutFlowRateSensor name="AirRSAirOutFlowRateSensor">
-				<input>AirRS</input>
-			</AirOutFlowRateSensor>
-			<CO2AirConcentrationSensor name="CrewEnvironmentCO2AirConcentrationSensor">
-				<input>CrewEnvironment</input>
-			</CO2AirConcentrationSensor>
-			<CO2AirConcentrationSensor name="PlantEnvironmentCO2AirConcentrationSensor">
-				<input>PlantEnvironment</input>
-			</CO2AirConcentrationSensor>
-			<CO2AirPressureSensor name="CrewEnvironmentCO2AirPressureSensor">
-				<input>CrewEnvironment</input>
-			</CO2AirPressureSensor>
-			<CO2AirPressureSensor name="PlantEnvironmentCO2AirPressureSensor">
-				<input>PlantEnvironment</input>
-			</CO2AirPressureSensor>
-			<O2AirConcentrationSensor name="CrewEnvironmentO2AirConcentrationSensor">
-				<input>CrewEnvironment</input>
-			</O2AirConcentrationSensor>
-			<O2AirConcentrationSensor name="PlantEnvironmentO2AirConcentrationSensor">
-				<input>PlantEnvironment</input>
-			</O2AirConcentrationSensor>
-			<O2AirPressureSensor name="CrewEnvironmentO2AirPressureSensor">
-				<input>CrewEnvironment</input>
-			</O2AirPressureSensor>
-			<O2AirPressureSensor name="PlantEnvironmentO2AirPressureSensor">
-				<input>PlantEnvironment</input>
-			</O2AirPressureSensor>
-			<OtherAirConcentrationSensor name="CrewEnvironmentOtherAirConcentrationSensor">
-				<input>CrewEnvironment</input>
-			</OtherAirConcentrationSensor>
-			<OtherAirConcentrationSensor name="PlantEnvironmentOtherAirConcentrationSensor">
-				<input>PlantEnvironment</input>
-			</OtherAirConcentrationSensor>
-			<OtherAirPressureSensor name="CrewEnvironmentOtherAirPressureSensor">
-				<input>CrewEnvironment</input>
-			</OtherAirPressureSensor>
-			<OtherAirPressureSensor name="PlantEnvironmentOtherAirPressureSensor">
-				<input>PlantEnvironment</input>
-			</OtherAirPressureSensor>
-			<WaterAirConcentrationSensor name="CrewEnvironmentWaterAirConcentrationSensor">
-				<input>CrewEnvironment</input>
-			</WaterAirConcentrationSensor>
-			<WaterAirConcentrationSensor name="PlantEnvironmentWaterAirConcentrationSensor">
-				<input>PlantEnvironment</input>
-			</WaterAirConcentrationSensor>
-			<WaterAirPressureSensor name="CrewEnvironmentWaterAirPressureSensor">
-				<input>CrewEnvironment</input>
-			</WaterAirPressureSensor>
-			<WaterAirPressureSensor name="PlantEnvironmentWaterAirPressureSensor">
-				<input>PlantEnvironment</input>
-			</WaterAirPressureSensor>
+			<AirInFlowRateSensor name="AirRSAirInFlowRateSensor" input="AirRS"/>
+			<AirOutFlowRateSensor name="AirRSAirOutFlowRateSensor" input="AirRS"/>
+			<CO2AirConcentrationSensor name="CrewEnvironmentCO2AirConcentrationSensor" input="CrewEnvironment"/>
+			<CO2AirConcentrationSensor name="PlantEnvironmentCO2AirConcentrationSensor" input="PlantEnvironment"/>
+			<CO2AirPressureSensor name="CrewEnvironmentCO2AirPressureSensor" input="CrewEnvironment"/>
+			<CO2AirPressureSensor name="PlantEnvironmentCO2AirPressureSensor" input="PlantEnvironment"/>
+			<O2AirConcentrationSensor name="CrewEnvironmentO2AirConcentrationSensor" input="CrewEnvironment"/>
+			<O2AirConcentrationSensor name="PlantEnvironmentO2AirConcentrationSensor" input="PlantEnvironment"/>
+			<O2AirPressureSensor name="CrewEnvironmentO2AirPressureSensor" input="CrewEnvironment"/>
+			<O2AirPressureSensor name="PlantEnvironmentO2AirPressureSensor" input="PlantEnvironment"/>
+			<OtherAirConcentrationSensor name="CrewEnvironmentOtherAirConcentrationSensor" input="CrewEnvironment"/>
+			<OtherAirConcentrationSensor name="PlantEnvironmentOtherAirConcentrationSensor" input="PlantEnvironment"/>
+			<OtherAirPressureSensor name="CrewEnvironmentOtherAirPressureSensor" input="CrewEnvironment"/>
+			<OtherAirPressureSensor name="PlantEnvironmentOtherAirPressureSensor" input="PlantEnvironment"/>
+			<WaterAirConcentrationSensor name="CrewEnvironmentWaterAirConcentrationSensor" input="CrewEnvironment"/>
+			<WaterAirConcentrationSensor name="PlantEnvironmentWaterAirConcentrationSensor" input="PlantEnvironment"/>
+			<WaterAirPressureSensor name="CrewEnvironmentWaterAirPressureSensor" input="CrewEnvironment"/>
+			<WaterAirPressureSensor name="PlantEnvironmentWaterAirPressureSensor" input="PlantEnvironment"/>
 		</environment>
 		<food>
-			<BiomassInFlowRateSensor name="FoodProcessorBiomassInFlowRateSensor">
-				<input>FoodProcessor</input>
-			</BiomassInFlowRateSensor>
-			<BiomassOutFlowRateSensor name="BiomassRSBiomassOutFlowRateSensor">
-				<input>BiomassRS</input>
-			</BiomassOutFlowRateSensor>
-			<BiomassStoreLevelSensor name="BiomassStoreLevelSensor">
-				<input>BiomassStore</input>
-			</BiomassStoreLevelSensor>
-			<FoodInFlowRateSensor name="CrewGroupFoodInFlowRateSensor">
-				<input>CrewGroup</input>
-			</FoodInFlowRateSensor>
-			<FoodOutFlowRateSensor name="BiomassRSFoodOutFlowRateSensor">
-				<input>BiomassRS</input>
-			</FoodOutFlowRateSensor>
-			<FoodStoreLevelSensor name="FoodStoreLevelSensor">
-				<input>FoodStore</input>
-			</FoodStoreLevelSensor>
+			<BiomassInFlowRateSensor name="FoodProcessorBiomassInFlowRateSensor" input="FoodProcessor"/>
+			<BiomassOutFlowRateSensor name="BiomassRSBiomassOutFlowRateSensor" input="BiomassRS"/>
+			<BiomassStoreLevelSensor name="BiomassStoreLevelSensor" input="BiomassStore"/>
+			<FoodInFlowRateSensor name="CrewGroupFoodInFlowRateSensor" input="CrewGroup"/>
+			<FoodOutFlowRateSensor name="BiomassRSFoodOutFlowRateSensor" input="BiomassRS"/>
+			<FoodStoreLevelSensor name="FoodStoreLevelSensor" input="FoodStore"/>
 		</food>
 		<power>
-			<PowerInFlowRateSensor name="AirRSPowerInFlowRateSensor">
-				<input>AirRS</input>
-			</PowerInFlowRateSensor>
-			<PowerInFlowRateSensor name="FoodProcessorPowerInFlowRateSensor">
-				<input>FoodProcessor</input>
-			</PowerInFlowRateSensor>
-			<PowerInFlowRateSensor name="BiomassRSPowerInFlowRateSensor">
-				<input>BiomassRS</input>
-			</PowerInFlowRateSensor>
-			<PowerInFlowRateSensor name="WaterRSPowerInFlowRateSensor">
-				<input>BiomassRS</input>
-			</PowerInFlowRateSensor>
-			<PowerOutFlowRateSensor name="PowerPSPowerOutFlowRateSensor">
-				<input>PowerPS</input>
-			</PowerOutFlowRateSensor>
-			<PowerStoreLevelSensor name="PowerStoreLevelSensor">
-				<input>PowerStore</input>
-			</PowerStoreLevelSensor>
+			<PowerInFlowRateSensor name="AirRSPowerInFlowRateSensor" input="AirRS"/>
+			<PowerInFlowRateSensor name="FoodProcessorPowerInFlowRateSensor" input="FoodProcessor"/>
+			<PowerInFlowRateSensor name="BiomassRSPowerInFlowRateSensor" input="BiomassRS"/>
+			<PowerInFlowRateSensor name="WaterRSPowerInFlowRateSensor" input="BiomassRS"/>
+			<PowerOutFlowRateSensor name="PowerPSPowerOutFlowRateSensor" input="PowerPS"/>
+			<PowerStoreLevelSensor name="PowerStoreLevelSensor" input="PowerStore"/>
 		</power>
 		<water>
-			<DirtyWaterInFlowRateSensor name="WaterRSDirtyWaterInFlowRateSensor">
-				<input>WaterRS</input>
-			</DirtyWaterInFlowRateSensor>
-			<DirtyWaterOutFlowRateSensor name="CrewGroupDirtyWaterOutFlowRateSensor">
-				<input>CrewGroup</input>
-			</DirtyWaterOutFlowRateSensor>
-			<DirtyWaterOutFlowRateSensor name="BiomassRSDirtyWaterOutFlowRateSensor">
-				<input>BiomassRS</input> 
-			</DirtyWaterOutFlowRateSensor>
-			<DirtyWaterStoreLevelSensor name="DirtyWaterStoreLevelSensor">
-				<input>DirtyWaterStore</input>
-			</DirtyWaterStoreLevelSensor>
-			<GreyWaterInFlowRateSensor name="WaterRSGreyWaterInFlowRateSensor">
-				<input>WaterRS</input>
-			</GreyWaterInFlowRateSensor>
-			<GreyWaterInFlowRateSensor name="BiomassRSGreyWaterInFlowRateSensor">
-				<input>BiomassRS</input>
-			</GreyWaterInFlowRateSensor>
-			<GreyWaterOutFlowRateSensor name="CrewGroupGreyWaterOutFlowRateSensor">
-				<input>CrewGroup</input>
-			</GreyWaterOutFlowRateSensor>
-			<GreyWaterOutFlowRateSensor name="BiomassRSGreyWaterOutFlowRateSensor">
-				<input>BiomassRS</input>
-			</GreyWaterOutFlowRateSensor>
-			<GreyWaterStoreLevelSensor name="GreyWaterStoreLevelSensor">
-				<input>GreyWaterStore</input>
-			</GreyWaterStoreLevelSensor>
-			<PotableWaterInFlowRateSensor name="AirRSPotableWaterInFlowRateSensor">
-				<input>AirRS</input>
-			</PotableWaterInFlowRateSensor>
-			<PotableWaterInFlowRateSensor name="CrewGroupPotableWaterInFlowRateSensor">
-				<input>CrewGroup</input>
-			</PotableWaterInFlowRateSensor>
-			<PotableWaterInFlowRateSensor name="BiomassRSPotableWaterInFlowRateSensor">
-				<input>BiomassRS</input>
-			</PotableWaterInFlowRateSensor>
-			<PotableWaterStoreLevelSensor name="PotableWaterStoreLevelSensor">
-				<input>PotableWaterStore</input>
-			</PotableWaterStoreLevelSensor>
+			<DirtyWaterInFlowRateSensor name="WaterRSDirtyWaterInFlowRateSensor" input="WaterRS"/>
+			<DirtyWaterOutFlowRateSensor name="CrewGroupDirtyWaterOutFlowRateSensor" input="CrewGroup"/>
+			<DirtyWaterOutFlowRateSensor name="BiomassRSDirtyWaterOutFlowRateSensor" input="BiomassRS"/>
+			<DirtyWaterStoreLevelSensor name="DirtyWaterStoreLevelSensor" input="DirtyWaterStore"/>
+			<GreyWaterInFlowRateSensor name="WaterRSGreyWaterInFlowRateSensor" input="WaterRS"/>
+			<GreyWaterInFlowRateSensor name="BiomassRSGreyWaterInFlowRateSensor" input="BiomassRS"/>
+			<GreyWaterOutFlowRateSensor name="CrewGroupGreyWaterOutFlowRateSensor" input="CrewGroup"/>
+			<GreyWaterOutFlowRateSensor name="BiomassRSGreyWaterOutFlowRateSensor" input="BiomassRS"/>
+			<GreyWaterStoreLevelSensor name="GreyWaterStoreLevelSensor" input="GreyWaterStore"/>
+			<PotableWaterInFlowRateSensor name="AirRSPotableWaterInFlowRateSensor" input="AirRS"/>
+			<PotableWaterInFlowRateSensor name="CrewGroupPotableWaterInFlowRateSensor" input="CrewGroup"/>
+			<PotableWaterInFlowRateSensor name="BiomassRSPotableWaterInFlowRateSensor" input="BiomassRS"/>
+			<PotableWaterStoreLevelSensor name="PotableWaterStoreLevelSensor" input="PotableWaterStore"/>
 		</water>
 	</Sensors>
 	<Actuators>
 		<air>
-			<CO2InFlowRateActuator name="AirRSCO2InFlowRateActuator">
-				<output>AirRS</output>
-			</CO2InFlowRateActuator>
-			<CO2OutFlowRateActuator name="AirRSCO2OutFlowRateActuator">
-				<output>AirRS</output>
-			</CO2OutFlowRateActuator>
-			<O2OutFlowRateActuator name="AirRSO2OutFlowRateActuator">
-				<output>AirRS</output>
-			</O2OutFlowRateActuator>
-			<H2InFlowRateActuator name="AirRSH2InFlowRateActuator">
-				<output>AirRS</output>
-			</H2InFlowRateActuator>
-			<H2OutFlowRateActuator name="AirRSH2OutFlowRateActuator">
-				<output>AirRS</output>
-			</H2OutFlowRateActuator>
+			<CO2InFlowRateActuator name="AirRSCO2InFlowRateActuator" output="AirRS"/>
+			<CO2OutFlowRateActuator name="AirRSCO2OutFlowRateActuator" output="AirRS"/>
+			<O2OutFlowRateActuator name="AirRSO2OutFlowRateActuator" output="AirRS"/>
+			<H2InFlowRateActuator name="AirRSH2InFlowRateActuator" output="AirRS"/>
+			<H2OutFlowRateActuator name="AirRSH2OutFlowRateActuator" output="AirRS"/>
 		</air>
 		<food>
-			<BiomassInFlowRateActuator name="FoodProcessorBiomassInFlowRateActuator">
-				<output>FoodProcessor</output>
-			</BiomassInFlowRateActuator>
-			<BiomassOutFlowRateActuator name="BiomassRSBiomassOutFlowRateActuator">
-				<output>BiomassRS</output>
-			</BiomassOutFlowRateActuator>
-			<FoodInFlowRateActuator name="CrewGroupFoodInFlowRateActuator">
-				<output>CrewGroup</output>
-			</FoodInFlowRateActuator>
-			<FoodOutFlowRateActuator name="BiomassRSFoodOutFlowRateActuator">
-				<output>BiomassRS</output>
-			</FoodOutFlowRateActuator>
+			<BiomassInFlowRateActuator name="FoodProcessorBiomassInFlowRateActuator" output="FoodProcessor"/>
+			<BiomassOutFlowRateActuator name="BiomassRSBiomassOutFlowRateActuator" output="BiomassRS"/>
+			<FoodInFlowRateActuator name="CrewGroupFoodInFlowRateActuator" output="CrewGroup"/>
+			<FoodOutFlowRateActuator name="BiomassRSFoodOutFlowRateActuator" output="BiomassRS"/>
 		</food>
 		<power>
-			<PowerInFlowRateActuator name="AirRSPowerInFlowRateActuator">
-				<output>AirRS</output>
-			</PowerInFlowRateActuator>
-			<PowerInFlowRateActuator name="FoodProcessorPowerInFlowRateActuator">
-				<output>FoodProcessor</output>
-			</PowerInFlowRateActuator>
-			<PowerInFlowRateActuator name="BiomassRSPowerInFlowRateActuator">
-				<output>BiomassRS</output>
-			</PowerInFlowRateActuator>
-			<PowerInFlowRateActuator name="WaterRSPowerInFlowRateActuator">
-				<output>BiomassRS</output>
-			</PowerInFlowRateActuator>
-			<PowerOutFlowRateActuator name="PowerPSPowerOutFlowRateActuator">
-				<output>PowerPS</output>
-			</PowerOutFlowRateActuator>
+			<PowerInFlowRateActuator name="AirRSPowerInFlowRateActuator" output="AirRS"/>
+			<PowerInFlowRateActuator name="FoodProcessorPowerInFlowRateActuator" output="FoodProcessor"/>
+			<PowerInFlowRateActuator name="BiomassRSPowerInFlowRateActuator" output="BiomassRS"/>
+			<PowerInFlowRateActuator name="WaterRSPowerInFlowRateActuator" output="BiomassRS"/>
+			<PowerOutFlowRateActuator name="PowerPSPowerOutFlowRateActuator" output="PowerPS"/>
 		</power>
 		<water>
-			<DirtyWaterInFlowRateActuator name="WaterRSDirtyWaterInFlowRateActuator">
-				<output>WaterRS</output>
-			</DirtyWaterInFlowRateActuator>
-			<DirtyWaterOutFlowRateActuator name="CrewGroupDirtyWaterOutFlowRateActuator">
-				<output>CrewGroup</output>
-			</DirtyWaterOutFlowRateActuator>
-			<DirtyWaterOutFlowRateActuator name="BiomassRSDirtyWaterOutFlowRateActuator">
-				<output>BiomassRS</output> 
-			</DirtyWaterOutFlowRateActuator>
-			<GreyWaterInFlowRateActuator name="WaterRSGreyWaterInFlowRateActuator">
-				<output>WaterRS</output>
-			</GreyWaterInFlowRateActuator>
-			<GreyWaterInFlowRateActuator name="BiomassRSGreyWaterInFlowRateActuator">
-				<output>BiomassRS</output>
-			</GreyWaterInFlowRateActuator>
-			<GreyWaterOutFlowRateActuator name="CrewGroupGreyWaterOutFlowRateActuator">
-				<output>CrewGroup</output>
-			</GreyWaterOutFlowRateActuator>
-			<GreyWaterOutFlowRateActuator name="BiomassRSGreyWaterOutFlowRateActuator">
-				<output>BiomassRS</output>
-			</GreyWaterOutFlowRateActuator>
-			<PotableWaterInFlowRateActuator name="AirRSPotableWaterInFlowRateActuator">
-				<output>AirRS</output>
-			</PotableWaterInFlowRateActuator>
-			<PotableWaterInFlowRateActuator name="CrewGroupPotableWaterInFlowRateActuator">
-				<output>CrewGroup</output>
-			</PotableWaterInFlowRateActuator>
-			<PotableWaterInFlowRateActuator name="BiomassRSPotableWaterInFlowRateActuator">
-				<output>BiomassRS</output>
-			</PotableWaterInFlowRateActuator>
+			<DirtyWaterInFlowRateActuator name="WaterRSDirtyWaterInFlowRateActuator" output="WaterRS"/>
+			<DirtyWaterOutFlowRateActuator name="CrewGroupDirtyWaterOutFlowRateActuator" output="CrewGroup"/>
+			<DirtyWaterOutFlowRateActuator name="BiomassRSDirtyWaterOutFlowRateActuator" output="BiomassRS"/>
+			<GreyWaterInFlowRateActuator name="WaterRSGreyWaterInFlowRateActuator" output="WaterRS"/>
+			<GreyWaterInFlowRateActuator name="BiomassRSGreyWaterInFlowRateActuator" output="BiomassRS"/>
+			<GreyWaterOutFlowRateActuator name="CrewGroupGreyWaterOutFlowRateActuator" output="CrewGroup"/>
+			<GreyWaterOutFlowRateActuator name="BiomassRSGreyWaterOutFlowRateActuator" output="BiomassRS"/>
+			<PotableWaterInFlowRateActuator name="AirRSPotableWaterInFlowRateActuator" output="AirRS"/>
+			<PotableWaterInFlowRateActuator name="CrewGroupPotableWaterInFlowRateActuator" output="CrewGroup"/>
+			<PotableWaterInFlowRateActuator name="BiomassRSPotableWaterInFlowRateActuator" output="BiomassRS"/>
 		</water>
 	</Actuators>
 </biosim>
