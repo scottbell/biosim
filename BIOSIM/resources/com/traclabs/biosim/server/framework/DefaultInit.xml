@@ -229,6 +229,7 @@
 			<FoodInFlowRateSensor name="CrewGroupFoodInFlowRateSensor" index="0" input="CrewGroup"/>
 			<FoodOutFlowRateSensor name="FoodProcessorFoodOutFlowRateSensor" index="0" input="FoodProcessor"/>
 			<FoodStoreLevelSensor name="FoodStoreLevelSensor" input="FoodStore"/>
+			<HarvestSensor name="HarvestSensor" shelfIndex="0" input="BiomassRS"/>
 		</food>
 		<framework>
 			<StoreOverflowSensor name="PowerStoreOverflowSensor" input="PowerStore"/>
@@ -300,6 +301,8 @@
 			<BiomassOutFlowRateActuator name="BiomassRSBiomassOutFlowRateActuator" index="0" output="BiomassRS"/>
 			<FoodInFlowRateActuator name="CrewGroupFoodInFlowRateActuator" index="0" output="CrewGroup"/>
 			<FoodOutFlowRateActuator name="FoodProcessorFoodOutFlowRateActuator" index="0" output="FoodProcessor"/>
+			<HarvestingActuator name="HarvestingActuator" shelfIndex="0" output="BiomassRS"/>
+			<HarvestingActuator name="PlantingActuator" shelfIndex="0" output="BiomassRS"/>
 		</food>
 		<power>
 			<PowerInFlowRateActuator name="AirRSPowerInFlowRateActuator" index="0" output="AirRS"/>

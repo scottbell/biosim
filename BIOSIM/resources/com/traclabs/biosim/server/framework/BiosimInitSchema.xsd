@@ -195,6 +195,7 @@
 						<xsd:element name="FoodInFlowRateSensor" type="FoodInFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
 						<xsd:element name="FoodOutFlowRateSensor" type="FoodOutFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
 						<xsd:element name="FoodStoreLevelSensor" type="FoodStoreLevelSensorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="HarvestSensor" type="HarvestSensorType" minOccurs="0" maxOccurs="unbounded"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -286,6 +287,8 @@
 						<xsd:element name="BiomassOutFlowRateActuator" type="BiomassOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
 						<xsd:element name="FoodInFlowRateActuator" type="FoodInFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
 						<xsd:element name="FoodOutFlowRateActuator" type="FoodOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="HarvestingActuator" type="HarvestingActuatorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="PlantingActuator" type="PlantingActuatorType" minOccurs="0" maxOccurs="unbounded"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -930,6 +933,14 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	
+	<xsd:complexType name="ShelfSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="SensorType">
+				<xsd:attribute name="shelfIndex" type="xsd:nonNegativeInteger" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
 	<!-- Air sensor declarations -->
 	<xsd:complexType name="CO2InFlowRateSensorType">  
 		<xsd:complexContent>
@@ -1277,6 +1288,13 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	
+	<xsd:complexType name="HarvestSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="ShelfSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
 	<!-- Framework sensor declarations -->
 	<xsd:complexType name="StoreLevelSensorType">  
 		<xsd:complexContent>
@@ -1391,6 +1409,14 @@
 		<xsd:complexContent>
 			<xsd:extension base="ActuatorType">
 				<xsd:attribute name="index" type="xsd:nonNegativeInteger" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="ShelfActuatorType">  
+		<xsd:complexContent>
+			<xsd:extension base="ActuatorType">
+				<xsd:attribute name="shelfIndex" type="xsd:nonNegativeInteger" use="required"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -1604,6 +1630,20 @@
 	<xsd:complexType name="FoodOutFlowRateActuatorType">  
 		<xsd:complexContent>
 			<xsd:extension base="FlowRateActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="PlantingActuatorType">  
+		<xsd:complexContent>
+			<xsd:extension base="ShelfActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="HarvestingActuatorType">  
+		<xsd:complexContent>
+			<xsd:extension base="ShelfActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>

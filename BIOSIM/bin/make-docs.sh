@@ -14,7 +14,7 @@ then
 	echo "		-assuming BIOSIM_HOME is $devRootDir"
 fi
 JACORB_HOME="$devRootDir/lib/jacorb"
-javadocCommand="javadoc"
+javadocCommand="javadoc -J-Xmx100m"
 type $javadocCommand 2> /dev/null >/dev/null
 if [ $? != 0 ]; then
 	echo "		-couldn't find javadoc command!"
@@ -58,8 +58,9 @@ sourceDir="$devRootDir/src"
 clientDir="$sourceDir/biosim/client"
 plotClasspath="$devRootDir/lib/jfreechart/jcommon.jar$separator$devRootDir/lib/jfreechart/jfreechart.jar"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME$separator$JACORB_HOME/idl.jar"
-docSourcepath="$sourceDir$separator$stubDir$separator$skeletonDir$"
-docClasspath="$clientClassesDir$separator$serverClassesDir$separator$jacoClasspath$separator$plotClasspath"
+xmlClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME$separator$JACORB_HOME/idl.jar"
+docSourcepath="$sourceDir$separator$stubDir$separator$skeletonDir"
+docClasspath="$clientClassesDir$separator$serverClassesDir$separator$jacoClasspath$separator$plotClasspath$separator$xmlClasspath"
 ####################
 #DOC BUILD  #
 ####################
