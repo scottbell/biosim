@@ -238,7 +238,7 @@ public abstract class PlantImpl extends PlantPOA{
 		float molesOfWaterAdded = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0].addWaterMoles(molesOfWaterProduced);
 		myShelfImpl.getBiomassRSImpl().addAirOutputActualFlowRates(0,molesOfWaterAdded);
 		//System.out.println("PlantImpl: litersOfWaterProduced: "+litersOfWaterProduced);
-		System.out.println("PlantImpl: molesOfWaterProduced: "+molesOfWaterProduced);
+		//System.out.println("PlantImpl: molesOfWaterProduced: "+molesOfWaterProduced);
 		//System.out.println("PlantImpl: molesOfWaterAdded: "+molesOfWaterAdded);
 		
 	}
