@@ -41,7 +41,9 @@ public class WaterSchematicPanel extends BioTabPanel
 		catch (Exception e){
 			System.out.println("Couldn't find icon ("+e+"), skipping");
 			e.printStackTrace();
-			waterIcon = new ImageIcon();
+			problemIcon = new ImageIcon();
+			offIcon = new ImageIcon();
+			okIcon = new ImageIcon();
 		}
 	}
 }
