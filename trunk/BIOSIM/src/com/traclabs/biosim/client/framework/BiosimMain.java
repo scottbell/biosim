@@ -25,7 +25,7 @@ public class BiosimMain {
 
     public BiosimMain() {
         Properties logProps = new Properties();
-        logProps.setProperty("log4j.rootLogger", "INFO, rootAppender");
+        logProps.setProperty("log4j.rootLogger", "DEBUG, rootAppender");
         logProps.setProperty("log4j.appender.rootAppender",
                 "org.apache.log4j.ConsoleAppender");
         logProps.setProperty("log4j.appender.rootAppender.layout",

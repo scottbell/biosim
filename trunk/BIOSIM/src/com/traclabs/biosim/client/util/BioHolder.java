@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import org.apache.log4j.Logger;
+
 import com.traclabs.biosim.idl.actuator.food.ShelfActuator;
 import com.traclabs.biosim.idl.actuator.framework.GenericActuator;
 import com.traclabs.biosim.idl.framework.BioDriver;
@@ -564,11 +566,7 @@ public class BioHolder {
     }
 
     protected void coallateLists() {
-        //Make named list;
-        for (Iterator iter = theModules.iterator(); iter.hasNext();) {
-            BioModule currentModule = (BioModule) (iter.next());
-            theModulesMapped.put(currentModule.getModuleName(), currentModule);
-        }
+        Logger.getLogger(BioHolder.class.toString()).debug("coallating lists");
         //Specific Modules
         //Simulation
         //Air
@@ -737,6 +735,14 @@ public class BioHolder {
         theModules.addAll(theSimModules);
         theModules.addAll(theSensors);
         theModules.addAll(theActuators);
+        
+        Logger.getLogger(BioHolder.class.toString()).debug("theModules.size() = "+theModules.size());
+        //Make named list;
+        for (Iterator iter = theModules.iterator(); iter.hasNext();) {
+            BioModule currentModule = (BioModule) (iter.next());
+            theModulesMapped.put(currentModule.getModuleName(), currentModule);
+            Logger.getLogger(BioHolder.class.toString()).debug("mapped "+currentModule.getModuleName());
+        }
     }
 
     protected void reset() {
