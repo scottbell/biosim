@@ -95,13 +95,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 
 	private void checkMachineType(){
 		String machineType = null;
-		try{
-			machineType = System.getProperty("MACHINE_TYPE");
-			System.out.println("Machine type is "+machineType);
-		}
-		catch (Exception e){
-			e.printStackTrace();
-		}
+		machineType = System.getProperty("MACHINE_TYPE");
 		if (machineType != null){
 			if (machineType.equals("CYGWIN")){
 				setDriverPauseLength(5);
