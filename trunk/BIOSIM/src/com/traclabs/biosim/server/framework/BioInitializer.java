@@ -49,7 +49,7 @@ public class BioInitializer extends DefaultHandler {
 	private static final boolean DEFAULT_SCHEMA_FULL_CHECKING = true;
 
 	/** Default dynamic validation support (false). */
-	private static final boolean DEFAULT_DYNAMIC_VALIDATION = false;
+	private static final boolean DEFAULT_DYNAMIC_VALIDATION = true;
 	
 	private static XMLReader myParser = null;
 	private static BioInitializer myInitializer = null;
@@ -64,8 +64,6 @@ public class BioInitializer extends DefaultHandler {
 			myParser.setFeature(VALIDATION_FEATURE_ID, DEFAULT_VALIDATION);
 			myParser.setFeature(NAMESPACES_FEATURE_ID, DEFAULT_NAMESPACES);
 			myParser.setFeature(DYNAMIC_VALIDATION_FEATURE_ID, DEFAULT_DYNAMIC_VALIDATION);
-			myParser.setContentHandler(myInitializer);
-			myParser.setErrorHandler(myInitializer);
 		}
 		catch (SAXException e) {
 			System.err.println("warning: Parser does not support feature ("+NAMESPACES_FEATURE_ID+")");
@@ -79,7 +77,7 @@ public class BioInitializer extends DefaultHandler {
 	public void startElement(String uri, String local, String raw, Attributes attributes) throws SAXException {
 		if (attributes != null) {
 			for (int i = 0; i < attributes.getLength(); i++) {
-				System.out.println(attributes.getLocalName(i)+" = "+attributes.getValue(i));
+				//System.out.println(attributes.getLocalName(i)+" = "+attributes.getValue(i));
 			}
 		}
 
@@ -101,7 +99,6 @@ public class BioInitializer extends DefaultHandler {
 
 	/** Prints the error message. */
 	protected void printError(String type, SAXParseException ex) {
-
 		System.err.print("[");
 		System.err.print(type);
 		System.err.print("] ");
@@ -127,7 +124,10 @@ public class BioInitializer extends DefaultHandler {
 	private static void parseFile(String fileToParse){
 		if (myInitializer == null)
 			myInitializer = new BioInitializer();
+			myParser.setContentHandler(myInitializer);
+			myParser.setErrorHandler(myInitializer);
 		try{
+			System.out.println("Starting to parse file: "+fileToParse);
 			myParser.parse(fileToParse);
 		}
 		catch (Exception e){
