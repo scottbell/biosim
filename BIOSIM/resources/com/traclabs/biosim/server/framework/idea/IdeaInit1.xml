@@ -124,17 +124,17 @@
 			<SimEnvironment name="BaseCrewEnvironment" initialVolume="2000000" leakRate="0.00224" airlockVolume="3.7"/>
 			<SimEnvironment name="BasePlantEnvironment" initialVolume="2000000" leakRate="0.00224" airlockVolume="3.7"/>
 			<SimEnvironment name="EVACrewEnvironment" initialVolume="1000" leakRate="0.00500" airlockVolume="999"/>
-			<Dehumidifier name="Dehumidifier">
+			<Dehumidifier name="PlantDehumidifier">
 				<airConsumer maxFlowRates="200000" desiredFlowRates="200000" inputs="BasePlantEnvironment"/>
 				<dirtyWaterProducer maxFlowRates="200000" desiredFlowRates="200000" outputs="BaseDirtyWaterStore"/>	
 			</Dehumidifier>
-			<Dehumidifier name="Dehumidifier">
+			<Dehumidifier name="CrewDehumidifier">
 				<airConsumer maxFlowRates="200000" desiredFlowRates="200000" inputs="BaseCrewEnvironment"/>
 				<dirtyWaterProducer maxFlowRates="200000" desiredFlowRates="200000" outputs="BaseDirtyWaterStore"/>	
 			</Dehumidifier>
 		</environment>        
 		<food>
-			<FoodProcessor name="FoodProcessor">
+			<FoodProcessor name="BaseFoodProcessor">
 				<powerConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BasePowerStore"/>
 				<biomassConsumer maxFlowRates="200" desiredFlowRates="200" inputs="BaseBiomassStore"/>
 				<foodProducer maxFlowRates="200" desiredFlowRates="200" outputs="BaseFoodStore"/>
@@ -157,7 +157,7 @@
 			<FoodStore name="EVAFoodStore" capacity="0" level="0"/>
 		</food>
 		<framework>
-			<Accumulator name="BasePlantAccumulator">
+			<Accumulator name="BaseAccumulator">
 				<O2AirConsumer>
 					<environmentInputs desiredFlowRates="100000000" maxFlowRates="100000000" inputs="BasePlantEnvironment"/>
 				</O2AirConsumer>
@@ -183,15 +183,15 @@
 			</Injector>
 		</framework>
 		<power>
-			<PowerPS name="PowerPS" generationType="SOLAR" upperPowerGeneration="700000">
+			<PowerPS name="BasePowerPS" generationType="SOLAR" upperPowerGeneration="7000000">
 				<lightConsumer maxFlowRates="0" desiredFlowRates="0" inputs="BaseCrewEnvironment"/>
-				<powerProducer maxFlowRates="5000" desiredFlowRates="5000" outputs="BasePowerStore"/>
+				<powerProducer maxFlowRates="50000" desiredFlowRates="50000" outputs="BasePowerStore"/>
 			</PowerPS>
-			<PowerStore name="BasePowerStore" capacity="500000" level="500000"/>
+			<PowerStore name="BasePowerStore" capacity="5000000" level="5000000"/>
 			<PowerStore name="EVAPowerStore" capacity="1000" level="1000"/>
 		</power>
 		<water>
-			<WaterRS name="WaterRS" implementation="LINEAR">
+			<WaterRS name="BaseWaterRS" implementation="LINEAR">
 				<powerConsumer maxFlowRates="3000" desiredFlowRates="3000" inputs="BasePowerStore"/>
 				<dirtyWaterConsumer maxFlowRates="10000000" desiredFlowRates="10000000" inputs="BaseDirtyWaterStore"/>
 				<greyWaterConsumer maxFlowRates="10000000" desiredFlowRates="10000000" inputs="BaseGreyWaterStore"/>
@@ -213,39 +213,35 @@
 	<Sensors>
 		<air>
 			<CO2OutFlowRateSensor name="BaseVCCRO2OutFlowRateSensor" index="0" input="BaseVCCR"/>
+			<CO2StoreLevelSensor name="BaseCO2StoreLevelSensor" input="BaseCO2Store"/>
 			<O2OutFlowRateSensor name="BaseOGSO2OutFlowRateSensor" index="0" input="BaseOGS"/>
 			<O2StoreLevelSensor name="BaseO2StoreLevelSensor" input="BaseO2Store"/>
-			<O2StoreLevelSensor name="BaseCO2StoreLevelSensor" input="BaseCO2Store"/>
-			<O2StoreLevelSensor name="BaseH2StoreLevelSensor" input="BaseH2Store"/>
-			<O2StoreLevelSensor name="BaseNitrogenStoreLevelSensor" input="BaseNitrogenStore"/>
 			<H2OutFlowRateSensor name="BaseOGSH2OutFlowRateSensor" index="0" input="BaseOGS"/>
+			<H2StoreLevelSensor name="BaseH2StoreLevelSensor" input="BaseH2Store"/>
+			<NitrogenStoreLevelSensor name="BaseNitrogenStoreLevelSensor" input="BaseNitrogenStore"/>
 		</air>
 		<crew>
 			<CrewGroupAnyDeadSensor name="CrewGroupAnyDeadSensor" input="BaseCrewGroup"/>
 		</crew>
 		<environment>
+			<AirInFlowRateSensor name="PlantDehumidifierAirInFlowRateSensor" index="0" input="PlantDehumidifier"/>
+			<AirInFlowRateSensor name="CrewDehumidifierAirInFlowRateSensor" index="0" input="CrewDehumidifier"/>
 			<AirInFlowRateSensor name="BaseVCCRAirInFlowRateSensor" index="0" input="BaseVCCR"/>
 			<AirOutFlowRateSensor name="BaseVCCRAirOutFlowRateSensor" index="0" input="BaseVCCR"/>
 			<CO2AirConcentrationSensor name="BaseCrewEnvironmentCO2AirConcentrationSensor" input="BaseCrewEnvironment"/>
 			<CO2AirConcentrationSensor name="BasePlantEnvironmentCO2AirConcentrationSensor" input="BasePlantEnvironment"/>
-			<CO2AirPressureSensor name="BaseCrewEnvironmentCO2AirPressureSensor" input="BaseCrewEnvironment"/>
-			<CO2AirPressureSensor name="BasePlantEnvironmentCO2AirPressureSensor" input="BasePlantEnvironment"/>
 			<O2AirConcentrationSensor name="BaseCrewEnvironmentO2AirConcentrationSensor" input="BaseCrewEnvironment"/>
 			<O2AirConcentrationSensor name="BasePlantEnvironmentO2AirConcentrationSensor" input="BasePlantEnvironment"/>
-			<O2AirPressureSensor name="BaseCrewEnvironmentO2AirPressureSensor" input="BaseCrewEnvironment"/>
-			<O2AirPressureSensor name="BasePlantEnvironmentO2AirPressureSensor" input="BasePlantEnvironment"/>
+			<O2AirEnvironmentInFlowRateSensor index="0" name="BaseAccumulatorO2AirEnvironmentInFlowRateSensor" input="BaseAccumulator" />
+			<O2AirEnvironmentOutFlowRateSensor index="0" name="BaseInjectorAccumulatorO2AirEnvironmentInFlowRateSensor" input="BaseInjector" />
+			<O2AirStoreInFlowRateSensor index="0" name="BaseInjectorO2AirEnvironmentInFlowRateSensor" input="BaseInjector" />
+			<O2AirStoreOutFlowRateSensor index="0" name="BaseAccumulatorO2AirStoreOutFlowRateSensor" input="BaseAccumulator" />
 			<NitrogenAirConcentrationSensor name="BaseCrewEnvironmentNitrogenAirConcentrationSensor" input="BaseCrewEnvironment"/>
 			<NitrogenAirConcentrationSensor name="BasePlantEnvironmentNitrogenAirConcentrationSensor" input="BasePlantEnvironment"/>
-			<NitrogenAirPressureSensor name="BaseCrewEnvironmentNitrogenAirPressureSensor" input="BaseCrewEnvironment"/>
-			<NitrogenAirPressureSensor name="BasePlantEnvironmentNitrogenAirPressureSensor" input="BasePlantEnvironment"/>
 			<WaterAirConcentrationSensor name="BaseCrewEnvironmentWaterAirConcentrationSensor" input="BaseCrewEnvironment"/>
 			<WaterAirConcentrationSensor name="BasePlantEnvironmentWaterAirConcentrationSensor" input="BasePlantEnvironment"/>
-			<WaterAirPressureSensor name="BaseCrewEnvironmentWaterAirPressureSensor" input="BaseCrewEnvironment"/>
-			<WaterAirPressureSensor name="BasePlantEnvironmentWaterAirPressureSensor" input="BasePlantEnvironment"/>
 			<OtherAirConcentrationSensor name="BaseCrewEnvironmentOtherAirConcentrationSensor" input="BaseCrewEnvironment"/>
 			<OtherAirConcentrationSensor name="BasePlantEnvironmentOtherAirConcentrationSensor" input="BasePlantEnvironment"/>
-			<OtherAirPressureSensor name="BaseCrewEnvironmentOtherAirPressureSensor" input="BaseCrewEnvironment"/>
-			<OtherAirPressureSensor name="BasePlantEnvironmentOtherAirPressureSensor" input="BasePlantEnvironment"/>
 		</environment>
 		<food>
 			<BiomassInFlowRateSensor name="BaseFoodProcessorBiomassInFlowRateSensor" index="0" input="BaseFoodProcessor"/>
@@ -283,6 +279,8 @@
 		</power>
 		<water>
 			<DirtyWaterInFlowRateSensor name="BaseWaterRSDirtyWaterInFlowRateSensor" index="0" input="BaseWaterRS"/>
+			<DirtyWaterOutFlowRateSensor name="PlantDehumidifierDirtyWaterOutFlowRateSensor" index="0" input="PlantDehumidifier"/>
+			<DirtyWaterOutFlowRateSensor name="CrewDehumidifierDirtyWaterOutFlowRateSensor" index="0" input="CrewDehumidifier"/>
 			<DirtyWaterOutFlowRateSensor name="BaseCrewGroupDirtyWaterOutFlowRateSensor" index="0" input="BaseCrewGroup"/>
 			<DirtyWaterOutFlowRateSensor name="BaseBiomassRSDirtyWaterOutFlowRateSensor" index="0" input="BaseBiomassRS"/>
 			<DirtyWaterStoreLevelSensor name="BaseDirtyWaterStoreLevelSensor" input="BaseDirtyWaterStore"/>
@@ -300,9 +298,60 @@
 		</water>
 		<waste>
 			<DryWasteOutFlowRateSensor name="BaseCrewGroupDryWasteOutFlowRateSensor" index="0" input="BaseCrewGroup"/>
-			<DryWasteOutFlowRateSensor name="BaseFoodProcessorDryWasteOutFlowRateSensor" index="0" input="FBaseoodProcessor"/>
+			<DryWasteOutFlowRateSensor name="BaseFoodProcessorDryWasteOutFlowRateSensor" index="0" input="BaseFoodProcessor"/>
 			<DryWasteStoreLevelSensor name="BaseDryWasteStoreLevelSensor" input="BaseDryWasteStore"/>
 		</waste>
 	</Sensors>
+	<Actuators>
+		<air>
+			<CO2OutFlowRateActuator name="BaseVCCRO2OutFlowRateActuator" index="0" output="BaseVCCR"/>
+			<O2OutFlowRateActuator name="BaseOGSO2OutFlowRateActuator" index="0" output="BaseOGS"/>
+			<H2OutFlowRateActuator name="BaseOGSH2OutFlowRateActuator" index="0" output="BaseOGS"/>
+		</air>
+		<environment>
+			<AirInFlowRateActuator name="PlantDehumidifierAirInFlowRateActuator" index="0" output="PlantDehumidifier"/>
+			<AirInFlowRateActuator name="CrewDehumidifierAirInFlowRateActuator" index="0" output="CrewDehumidifier"/>
+			<AirInFlowRateActuator name="BaseVCCRAirInFlowRateActuator" index="0" output="BaseVCCR"/>
+			<AirOutFlowRateActuator name="BaseVCCRAirOutFlowRateActuator" index="0" output="BaseVCCR"/>
+		</environment>
+		<food>
+			<BiomassInFlowRateActuator name="BaseFoodProcessorBiomassInFlowRateActuator" index="0" output="BaseFoodProcessor"/>
+			<BiomassOutFlowRateActuator name="BaseBiomassRSBiomassOutFlowRateActuator" index="0" output="BaseBiomassRS"/>
+			<FoodInFlowRateActuator name="BaseCrewGroupFoodInFlowRateActuator" index="0" output="BaseCrewGroup"/>
+			<FoodOutFlowRateActuator name="BaseFoodProcessorFoodOutFlowRateActuator" index="0" output="BaseFoodProcessor"/>
+			<HarvestingActuator name="BaseShelf0HarvestingActuator" shelfIndex="0" output="BaseBiomassRS"/>
+			<HarvestingActuator name="BaseShelf1HarvestingActuator" shelfIndex="1" output="BaseBiomassRS"/>
+			<PlantingActuator name="BaseShelf0PlantingActuator" shelfIndex="0" output="BaseBiomassRS"/>
+			<PlantingActuator name="BaseShelf1PlantingActuator" shelfIndex="1" output="BaseBiomassRS"/>
+		</food>
+		<power>
+			<PowerInFlowRateActuator name="BaseOGSPowerInFlowRateActuator" index="0" output="BaseOGS"/>
+			<PowerInFlowRateActuator name="BaseVCCRPowerInFlowRateActuator" index="0" output="BaseVCCR"/>
+			<PowerInFlowRateActuator name="BaseFoodProcessorPowerInFlowRateActuator" index="0" output="BaseFoodProcessor"/>
+			<PowerInFlowRateActuator name="BaseBiomassRSPowerInFlowRateActuator" index="0" output="BaseBiomassRS"/>
+			<PowerInFlowRateActuator name="BaseWaterRSPowerInFlowRateActuator" index="0" output="BaseBiomassRS"/>
+			<PowerOutFlowRateActuator name="BasePowerPSPowerOutFlowRateActuator" index="0" output="BasePowerPS"/>
+		</power>
+		<water>
+			<DirtyWaterInFlowRateActuator name="BaseWaterRSDirtyWaterInFlowRateActuator" index="0" output="BaseWaterRS"/>
+			<DirtyWaterOutFlowRateActuator name="PlantDehumidifierDirtyWaterOutFlowRateActuator" index="0" output="PlantDehumidifier"/>
+			<DirtyWaterOutFlowRateActuator name="CrewDehumidifierDirtyWaterOutFlowRateActuator" index="0" output="CrewDehumidifier"/>
+			<DirtyWaterOutFlowRateActuator name="BaseCrewGroupDirtyWaterOutFlowRateActuator" index="0" output="BaseCrewGroup"/>
+			<DirtyWaterOutFlowRateActuator name="BaseBiomassRSDirtyWaterOutFlowRateActuator" index="0" output="BaseBiomassRS"/>
+			<GreyWaterInFlowRateActuator name="BaseWaterRSGreyWaterInFlowRateActuator" index="0" output="BaseWaterRS"/>
+			<GreyWaterInFlowRateActuator name="BaseBiomassRSGreyWaterInFlowRateActuator" index="0" output="BaseBiomassRS"/>
+			<GreyWaterOutFlowRateActuator name="BaseCrewGroupGreyWaterOutFlowRateActuator" index="0" output="BaseCrewGroup"/>
+			<PotableWaterInFlowRateActuator name="BaseOGSPotableWaterInFlowRateActuator" index="0" output="BaseOGS"/>
+			<PotableWaterInFlowRateActuator name="BaseCrewGroupPotableWaterInFlowRateActuator" index="0" output="BaseCrewGroup"/>
+			<PotableWaterInFlowRateActuator name="BaseBiomassRSPotableWaterInFlowRateActuator" index="0" output="BaseBiomassRS"/>
+			<PotableWaterOutFlowRateActuator name="BaseWaterRSPotableWaterOutFlowRateActuator" index="0" output="BaseWaterRS"/>
+			<WaterOutFlowRateActuator name="BaseFoodProcessorDirtyWaterOutFlowRateActuator" index="0" output="BaseFoodProcessor"/>
+			<WaterOutFlowRateActuator name="BaseFoodProcessorGreyWaterOutFlowRateActuator" index="1" output="BaseFoodProcessor"/>
+		</water>
+		<waste>
+			<DryWasteOutFlowRateActuator name="BaseCrewGroupDryWasteOutFlowRateActuator" index="0" output="BaseCrewGroup"/>
+			<DryWasteOutFlowRateActuator name="BaseFoodProcessorDryWasteOutFlowRateActuator" index="0" output="BaseFoodProcessor"/>
+		</waste>
+	</Actuators>
 </biosim>
 
