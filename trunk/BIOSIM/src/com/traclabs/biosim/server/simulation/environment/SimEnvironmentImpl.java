@@ -617,7 +617,6 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	}
 
 	public float takeO2Moles(float amountRequested){
-		System.out.println("Someone asking for: "+amountRequested+" moles of O2");
 		//idiot check
 		if (amountRequested < 0){
 			return 0f;
