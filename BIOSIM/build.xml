@@ -292,4 +292,12 @@
 		<delete dir="${buildDir}"/>
 		<delete dir="${distroDir}"/>
 	</target>
+	
+	<target name="fetch" description="gets the latest version from CVS">
+		<cvs command="update -d"/>
+	</target>
+	
+	<target name="commit" description="gets the latest version from CVS">
+		<cvs command="commit -m '' "/>
+	</target>
 </project>
