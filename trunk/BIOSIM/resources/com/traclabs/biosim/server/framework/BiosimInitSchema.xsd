@@ -209,7 +209,13 @@
 			<xsd:element name="air" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:all>
-						<xsd:element name="CO2InFlowRateActuator" type="CO2InFlowRateActuatorType" minOccurs="0"/></xsd:all>
+						<xsd:element name="CO2InFlowRateActuator" type="CO2InFlowRateActuatorType" minOccurs="0"/>
+						<xsd:element name="CO2OutFlowRateActuator" type="CO2OutFlowRateActuatorType" minOccurs="0"/>
+						<xsd:element name="H2InFlowRateActuator" type="H2InFlowRateActuatorType" minOccurs="0"/>
+						<xsd:element name="H2OutFlowRateActuator" type="H2OutFlowRateActuatorType" minOccurs="0"/>
+						<xsd:element name="O2InFlowRateActuator" type="O2InFlowRateActuatorType" minOccurs="0"/>
+						<xsd:element name="O2OutFlowRateActuator" type="O2OutFlowRateActuatorType" minOccurs="0"/>
+					</xsd:all>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="crew" minOccurs="0" maxOccurs="1">
@@ -221,24 +227,46 @@
 			<xsd:element name="environment" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:all>
+						<xsd:element name="AirInFlowRateActuator" type="AirInFlowRateActuatorType" minOccurs="0"/>
+						<xsd:element name="AirOutFlowRateActuator" type="AirOutFlowRateActuatorType" minOccurs="0"/>
+						<xsd:element name="CO2AirEnvironmentInFlowRateActuator" type="CO2AirEnvironmentInFlowRateActuatorType" minOccurs="0"/>
+						<xsd:element name="CO2AirEnvironmentOutFlowRateActuator" type="CO2AirEnvironmentOutFlowRateActuatorType" minOccurs="0"/>
+						<xsd:element name="CO2AirStoreInFlowRateActuator" type="CO2AirStoreInFlowRateActuatorType" minOccurs="0"/>
+						<xsd:element name="CO2AirStoreOutFlowRateActuator" type="CO2AirStoreOutFlowRateActuatorType" minOccurs="0"/>
+						<xsd:element name="O2AirEnvironmentInFlowRateActuator" type="O2AirEnvironmentInFlowRateActuatorType" minOccurs="0"/>
+						<xsd:element name="O2AirEnvironmentOutFlowRateActuator" type="O2AirEnvironmentOutFlowRateActuatorType" minOccurs="0"/>
+						<xsd:element name="O2AirStoreInFlowRateActuator" type="O2AirStoreInFlowRateActuatorType" minOccurs="0"/>
+						<xsd:element name="O2AirStoreOutFlowRateActuator" type="O2AirStoreOutFlowRateActuatorType" minOccurs="0"/>
 					</xsd:all>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="food" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:all>
+						<xsd:element name="BiomassInFlowRateActuator" type="BiomassInFlowRateActuatorType" minOccurs="0"/>
+						<xsd:element name="BiomassOutFlowRateActuator" type="BiomassOutFlowRateActuatorType" minOccurs="0"/>
+						<xsd:element name="FoodInFlowRateActuator" type="FoodInFlowRateActuatorType" minOccurs="0"/>
+						<xsd:element name="FoodOutFlowRateActuator" type="FoodOutFlowRateActuatorType" minOccurs="0"/>
 					</xsd:all>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="power" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:all>
+						<xsd:element name="PowerInFlowRateActuator" type="PowerInFlowRateActuatorType" minOccurs="0"/>
+						<xsd:element name="PowerOutFlowRateActuator" type="PowerOutFlowRateActuatorType" minOccurs="0"/>
 					</xsd:all>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="water" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:all>
+						<xsd:element name="DirtyWaterInFlowRateActuator" type="DirtyWaterInFlowRateActuatorType" minOccurs="0"/>
+						<xsd:element name="DirtyWaterOutFlowRateActuator" type="DirtyWaterOutFlowRateActuatorType" minOccurs="0"/>
+						<xsd:element name="GreyWaterInFlowRateActuator" type="GreyWaterInFlowRateActuatorType" minOccurs="0"/>
+						<xsd:element name="GreyWaterOutFlowRateActuator" type="GreyWaterOutFlowRateActuatorType" minOccurs="0"/>
+						<xsd:element name="PotableWaterInFlowRateActuator" type="PotableWaterInFlowRateActuatorType" minOccurs="0"/>
+						<xsd:element name="PotableWaterOutFlowRateActuator" type="PotableWaterOutFlowRateActuatorType" minOccurs="0"/>
 					</xsd:all>
 				</xsd:complexType>
 			</xsd:element>
