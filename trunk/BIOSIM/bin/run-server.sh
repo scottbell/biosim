@@ -57,6 +57,7 @@ dirtyWaterStoreName="biosim.server.water.DirtyWaterStoreServer"
 potableWaterStoreName="biosim.server.water.PotableWaterStoreServer"
 greyWaterStoreName="biosim.server.water.GreyWaterStoreServer"
 frameworkName="biosim.server.framework.BioModuleServer"
+loggerName="biosim.server.util.LoggerServer"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME"
 jacoInvocation="$java_command -server -classpath $serverClassesDir$separator$resourceDir$separator$jacoClasspath $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
 echo "	-starting servers"
@@ -76,8 +77,9 @@ case $userSelect in
 	potableWaterStore) echo "			 -starting $userSelect";$jacoInvocation $potableWaterStoreName;;
 	greyWaterStore) echo "			 -starting $userSelect";$jacoInvocation $greyWaterStoreName;;
 	simEnvironment) echo "			 -starting $userSelect";$jacoInvocation $simEnvironmentName;;
+	logger) echo "			 -starting $userSelect";$jacoInvocation $loggerName;;
 	all) echo "			-starting $userSelect";$jacoInvocation $frameworkName;;
-	"-?") echo "choose from: [all, greyWaterStore, potableWaterStore, dirtyWaterStore, powerStore, powerPS, simEnvironment, foodStoreName, foodProcessor, airRS, o2StoreName, co2StoreName, biomassRS, biomassStore, crew, waterRS]";;
+	"-?") echo "choose from: [all, logger, greyWaterStore, potableWaterStore, dirtyWaterStore, powerStore, powerPS, simEnvironment, foodStoreName, foodProcessor, airRS, o2StoreName, co2StoreName, biomassRS, biomassStore, crew, waterRS]";;
 	*) echo "			-assuming all";$jacoInvocation $frameworkName;;
 esac
 echo "*done invoking servers"
