@@ -30,6 +30,7 @@ public class MatlabAceEngine extends Engine {
     	if (isInitialized)
     		return;
     	try{
+        	myLogger.debug("Connecting to "+DEFAULT_HOSTNAME+" on port "+DEFAULT_PORT);
     		//create streams
     		mySocket = new Socket(DEFAULT_HOSTNAME, DEFAULT_PORT);
     		mySocketTextReader = new BufferedReader(new InputStreamReader(mySocket.getInputStream())) ;
@@ -64,7 +65,7 @@ public class MatlabAceEngine extends Engine {
     		myLogger.debug("sending PUT request: ");
     		mySocketTextWriter.write(PUT_REQUEST + "\n");
 			mySocketTextWriter.flush();
-    		myLogger.debug("sending double length: "+inputVector.length);
+    		myLogger.debug("sending vector length: "+inputVector.length);
     		mySocketDataOutputStream.writeInt(inputVector.length);
     		mySocketDataOutputStream.flush();
     		for (int i = 0; i < inputVector.length; i++){
@@ -87,12 +88,12 @@ public class MatlabAceEngine extends Engine {
     		myLogger.debug("sending GET request: ");
     		mySocketTextWriter.write(GET_REQUEST + "\n");
 			mySocketTextWriter.flush();
-        	myLogger.debug("getting double length");
+        	myLogger.debug("getting vector length");
     		int vectorLength = mySocketDataInputStream.readInt();
     		receivedDoubleVector = new double[vectorLength];
         	for (int i = 0; i < receivedDoubleVector.length; i++){
-        		myLogger.debug("sending double: "+receivedDoubleVector[i]);
         		receivedDoubleVector[i] = mySocketDataInputStream.readDouble();
+        		myLogger.debug("getting double: "+receivedDoubleVector[i]);
         	}
         }
         catch (IOException e){
