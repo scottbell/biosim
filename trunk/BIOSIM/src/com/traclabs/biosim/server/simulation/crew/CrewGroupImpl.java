@@ -34,8 +34,8 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 	* Constructor that takes a schedule file and uses it.
 	* @param pScheduleFile the schedule file for the crew persons to use.
 	*/
-	public CrewGroupImpl(File pScheduleFile){
-		mySchedule = new Schedule(pScheduleFile);
+	public CrewGroupImpl(URL pScheduleURL){
+		mySchedule = new Schedule(pScheduleURL);
 		crewPeople = new Hashtable();
 	}
 
