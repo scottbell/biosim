@@ -149,7 +149,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		//adjust tanks
 		float foodRetrieved = myFoodStore.takeFood(foodNeeded);
 		float waterRetrieved = myPotableWaterStore.takeWater(waterNeeded);
-		float O2Retrieved = myCurrentEnvironment.takeO2(O2Needed);
+		Breath airRetrieved = myCurrentEnvironment.takeO2(O2Needed);
+		float O2Retrieved = airRetrieved.O2;
 		myDirtyWaterStore.addWater(waterOut);
 		myCurrentEnvironment.addCO2(CO2Out);
 		//afflict crew

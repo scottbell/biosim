@@ -1,6 +1,7 @@
 package biosim.server.environment;
 
 import biosim.idl.environment.*;
+import biosim.idl.air.*;
 
 public class SimEnvironmentImpl extends SimEnvironmentPOA {
 	private float O2level;
@@ -58,17 +59,19 @@ public class SimEnvironmentImpl extends SimEnvironmentPOA {
 		}
 	}
 
-	public float takeO2(float liters){
+	public Breath takeO2(float liters){
 		if ((O2level - liters) < 0){
 			O2level = 0;
-			if (liters < 0)
-				return 0;
-			else
-				return O2level;
+			if (liters < 0){
+				return new Breath(0, 0);
+			}
+			else{
+				return new Breath(O2level, O2level/getRatio());
+			}
 		}
 		else{
 			O2level = O2level - liters;
-			return liters;
+			return new Breath(liters, liters/getRatio());
 		}
 	}
 
@@ -90,22 +93,28 @@ public class SimEnvironmentImpl extends SimEnvironmentPOA {
 		}
 	}
 
-	public float takeCO2(float liters){
+	public Breath takeCO2(float liters){
 		if ((CO2level - liters) < 0){
 			CO2level = 0;
-			if (liters < 0)
-				return 0;
-			else
-				return CO2level;
+			if (liters < 0){
+				return new Breath(0,0);
+			}
+			else{
+				return new Breath(getRatio()*CO2level , CO2level);
+			}
 		}
 		else{
 			CO2level = CO2level - liters;
-			return liters;
+			return new Breath(getRatio() * liters, liters);
 		}
 	}
 
 	public float getCO2Level(){
 		return CO2level;
+	}
+	
+	public float getRatio(){
+		return O2level/CO2level;
 	}
 
 	public void tick(){

@@ -61,6 +61,11 @@ module biosim{
                                 float takeCO2(in float liters);
                                 float getCO2Level();
                         };
+			
+			struct Breath{
+				float O2;
+				float CO2;
+			};
                 };
 
                 module food{
@@ -100,8 +105,8 @@ module biosim{
                                 float getCO2Level();
                                 float addCO2(in float liters);
                                 float addO2(in float liters);
-                                float takeO2(in float liters);
-                                float takeCO2(in float liters);
+                                air::Breath takeO2(in float liters);
+                                air::Breath takeCO2(in float liters);
 				long getTicks();
                         };
                 };
