@@ -4,7 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 import biosim.idl.simulation.crew.*;
 import biosim.client.framework.gui.*;
-import biosim.client.simulation.framework.*;
+import biosim.client.util.*;
 import com.jrefinery.chart.*;
 import com.jrefinery.data.*;
 import com.jrefinery.chart.axis.*;

@@ -7,7 +7,7 @@ import biosim.client.simulation.framework.gui.*;
  * @author    Scott Bell
  */
 
-public class EnvironmentPanel extends BioTabbedPanel
+public class EnvironmentPanel extends SimTabbedPanel
 {
 	protected void createPanels(){
 		myTextPanel = new EnvironmentDualTextPanel();

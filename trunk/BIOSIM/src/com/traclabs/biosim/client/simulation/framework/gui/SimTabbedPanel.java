@@ -11,7 +11,7 @@ import java.awt.event.*;
  * @author    Scott Bell
  */
 
-public abstract class BioTabbedPanel extends UpdatablePanel
+public abstract class SimTabbedPanel extends UpdatablePanel
 {
 	private JTabbedPane myTabbedPane;
 	protected UpdatablePanel myTextPanel;
@@ -27,7 +27,7 @@ public abstract class BioTabbedPanel extends UpdatablePanel
 	* Creates and registers this panel.
 	* @param pBioSimulator	The Biosimulator this Panel will register itself with.
 	*/
-	public BioTabbedPanel(){
+	public SimTabbedPanel(){
 		createPanels();
 		buildGui();
 	}

@@ -1,7 +1,7 @@
 package biosim.client.simulation.environment.gui;
 
 import biosim.client.framework.gui.*;
-import biosim.client.simulation.framework.*;
+import biosim.client.util.*;
 import biosim.idl.simulation.environment.*;
 import javax.swing.*;
 import javax.swing.border.*;
