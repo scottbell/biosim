@@ -1,7 +1,7 @@
 <project name="BioSim" default="build" basedir=".">
 	<description>
         	Build file for BioSim
-		by Scott Bell
+		by Scott Bell 2005
 	</description>
 	<!-- set global properties for this build -->
 	<property name="build.compiler"  value="jikes"/>
