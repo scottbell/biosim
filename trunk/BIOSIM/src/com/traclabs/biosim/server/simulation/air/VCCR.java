@@ -47,6 +47,7 @@ public class VCCR extends AirRSSubSystem{
 		for (int i = 0; (i < myAirRS.getAirInputs().length) && (gatheredAir < airNeededFiltered); i++){
 			float resourceToGatherFirst = Math.min(airNeededFiltered, myAirRS.getAirInputMaxFlowRate(i));
 			float resourceToGatherFinal = Math.min(resourceToGatherFirst, myAirRS.getAirInputDesiredFlowRate(i));
+			System.out.println("VCCR: resourceToGatherFinal: "+resourceToGatherFinal);
 			Breath currentBreath = myAirRS.getAirInputs()[i].takeAirMoles(resourceToGatherFinal);
 			gatheredAir += currentBreath.O2 + currentBreath.CO2 + currentBreath.other + currentBreath.water;
 			myAirRS.setAirInputActualFlowRate(gatheredAir, i);
@@ -54,6 +55,7 @@ public class VCCR extends AirRSSubSystem{
 			gatheredCO2 += currentBreath.O2;
 			gatheredOther += currentBreath.other;
 			gatheredWater += currentBreath.water;
+			System.out.println("VCCR: gatheredAir: "+gatheredAir);
 		}
 		myBreath.O2 =  gatheredO2;
 		myBreath.CO2 = gatheredCO2;
