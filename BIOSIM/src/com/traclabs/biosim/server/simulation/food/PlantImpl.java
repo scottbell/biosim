@@ -52,8 +52,8 @@ public abstract class PlantImpl extends PlantPOA{
 	private SimpleBuffer consumedLightBuffer;
 	protected float[] canopyClosureConstants;
 	protected float[] canopyQYConstants;
-	protected List myPPFValues;
-	protected List myCO2Values;
+	protected List myCanopyClosurePPFValues;
+	protected List myCanopyClosureCO2Values;
 	private static final float WATER_TILL_DEAD = 200f;
 	private static final float WATER_RECOVERY_RATE = 0.005f;
 	private static final float CO2_LOW_TILL_DEAD = 24f;
@@ -684,4 +684,5 @@ public abstract class PlantImpl extends PlantPOA{
 	}
 
 }
+
 
