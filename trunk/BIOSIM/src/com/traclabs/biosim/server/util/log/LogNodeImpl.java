@@ -9,19 +9,19 @@ import java.util.*;
 
 public class LogNodeImpl extends LogNodePOA{
 	//The name of this node
-	private String myName;
+	private org.omg.CORBA.Object myValue;
 	//The parent of this node
 	private LogNodeImpl parent;
 	//The children below this node
 	private LinkedList childrenList;
 
-	protected LogNodeImpl (String pName, LogNodeImpl pParent){
-		myName = pName;
+	protected LogNodeImpl (org.omg.CORBA.Object pValue, LogNodeImpl pParent){
+		myValue = pValue;
 		parent = pParent;
 	}
 
-	public String getName(){
-		return myName;
+	public org.omg.CORBA.Object getValue(){
+		return myValue;
 	}
 	
 	public LogNode[] getChildren(){
@@ -35,9 +35,9 @@ public class LogNodeImpl extends LogNodePOA{
 		return theChildrenArray;
 	}
 
-	public void addChild (String pChildName){
+	public void addChild (org.omg.CORBA.Object pChildValue){
 		if (childrenList == null)
 			childrenList = new LinkedList();
-		childrenList.add(new LogNodeImpl(pChildName, this));
+		childrenList.add(new LogNodeImpl(pChildValue, this));
 	}
 }

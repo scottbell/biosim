@@ -42,8 +42,8 @@ esac
 ####################
 #		SERVER INIT    #
 ####################
-echo "	-building server"
-echo "		-initializing server build"
+echo "	-building biosim server"
+echo "		-initializing biosim server build"
 serverGenString="/server"
 serverGenDir=$genDir$serverGenString
 if [ ! -e  "$serverGenDir" ]

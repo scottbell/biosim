@@ -31,8 +31,8 @@ module biosim{
 			};
 			typedef sequence <LogNode> LogNodeList;
 			interface LogNode{
-				string getName();
-				void addChild (in string pChildName);
+				Object getValue();
+				void addChild (in Object pChildName);
 				LogNodeList getChildren();
 			};
 		};
