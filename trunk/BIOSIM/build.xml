@@ -49,8 +49,16 @@
 	<target name="init-tmp">
 		<mkdir dir="${tmpDir}"/>
 	</target>
+	
+	<target name="init-stub">
+		<javac srcdir="${jacorbDir}" destdir="${jacorbDir}">
+			<classpath>
+				<pathelement location="${jacorbDir}/idl.jar"/>
+			</classpath>
+		</javac>
+	</target>
   
-  	<target name="stub-server" depends="init-build" description="stub the IDL file for the server">
+  	<target name="stub-server" depends="init-build,init-stub" description="stub the IDL file for the server">
 		<echo message="Stubbing the IDL file for the server"/>
 		<mkdir dir="${serverStubs}"/>
 		<java classname="ParserHack" failonerror="yes">
@@ -88,7 +96,7 @@
 		</javac>
 	</target>
 	
-	<target name="stub-client" depends="init-build" description="stub the IDL file for the client">
+	<target name="stub-client" depends="init-build,init-stub" description="stub the IDL file for the client">
 		<echo message="Stubbing the IDL file for the client"/>
 		<mkdir dir="${clientStubs}"/>
 		<echo message="Compiling server stubs"/>
@@ -328,6 +336,9 @@
 	</target>
 
 	<target name="clean" description="clean up">
+		<delete>
+			<fileset dir="${jacorbDir}" includes="*.class"/>
+		</delete>
 		<delete dir="${buildDir}"/>
 		<delete dir="${distroDir}"/>
 		<delete dir="${tmpDir}"/>
