@@ -658,12 +658,12 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		DirtyWaterStore myDirtyWaterStore = DirtyWaterStoreHelper.narrow(getBioModule(myDirtyWaterStoreName));
 		PotableWaterStore myPotableWaterStore = PotableWaterStoreHelper.narrow(getBioModule(myPotableWaterStoreName));
 		GreyWaterStore myGreyWaterStore = GreyWaterStoreHelper.narrow(getBioModule(myGreyWaterStoreName));
-		myDirtyWaterStore.setCapacity(10000f);
+		myDirtyWaterStore.setCapacity(500f);
 		myDirtyWaterStore.setLevel(0f);
-		myPotableWaterStore.setCapacity(10000f);
-		myPotableWaterStore.setLevel(10000f);
-		myGreyWaterStore.setCapacity(10000f);
-		myGreyWaterStore.setLevel(10000f);
+		myPotableWaterStore.setCapacity(500f);
+		myPotableWaterStore.setLevel(500f);
+		myGreyWaterStore.setCapacity(500f);
+		myGreyWaterStore.setLevel(500f);
 
 		//Fill the air tanks
 		CO2Store myCO2Store = CO2StoreHelper.narrow(getBioModule(myCO2StoreName));
@@ -675,7 +675,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 
 		//Put some air in the crew cabin
 		SimEnvironment myCrewEnvironment = SimEnvironmentHelper.narrow(getBioModule(myCrewEnvironmentName));
-		float environmentCapacity = 1.54893f * pow(10, 6);
+		//float environmentCapacity = 1.54893f * pow(10, 6);
+		float environmentCapacity = 1.54893f * pow(10, 10);
 		myCrewEnvironment.setInitialVolumeAtSeaLevel(environmentCapacity);
 
 		//Put some air in the plant cabin
