@@ -143,9 +143,24 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		return cachedCO2Pressure + cachedO2Pressure + cachedWaterPressure + cachedOtherPressure;
 	}
 	
+	//constant for right now (function of temperature);
+	public float getWaterDensity(){
+		return 998.23f;
+	}
+	
+	public float getRelativeHumidity(){
+		float exponent = (14.4f * getTemperature()) / (getTemperature() + 239f);
+		float saturatedVaporPressure = 6.11f * exp(exponent);
+		return getTotalPressure() / saturatedVaporPressure;
+	}
+	
 	//returns temperature in celsius
 	public float getTemperature(){
 		return temperature;
+	}
+	
+	private float exp(float a){
+		return (new Double(Math.exp(a))).floatValue();
 	}
 
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
