@@ -745,7 +745,12 @@ module com{
                                                         void setTotalPressure(in float moles);
                                                         float getVolume();
                                                         float getLeakRate();
-                                                        void setLeakRate(in float pLeakRate);
+                                                        float getDayLength();
+                                                        void setDayLength(in float dayLength);
+                                                        float getHourOfDayStart();
+                                                        void setHourOfDayStart(in float hourOfDayStart);
+                                                        float getMaxLumens();
+                                                        void setMaxLumens(in float maxLumens);
                                                 };
                                         };
                                         module food{

@@ -1832,12 +1832,14 @@ public class BioInitializer {
             float nitrogenMoles = 0f;
             float volume = 0f;
             float leakRate = 0f;
+            float dayLength = 0f;
+            float hourOfDayStart = 0f;
+            float maxLumens = 0f;
             Node CO2MolesNode = null;
             Node O2MolesNode = null;
             Node waterMolesNode = null;
             Node otherMolesNode = null;
             Node nitrogenMolesNode = null;
-            Node leakRateNode = null;
             try {
                 volume = Float.parseFloat(node.getAttributes().getNamedItem(
                         "initialVolume").getNodeValue());
@@ -1851,8 +1853,6 @@ public class BioInitializer {
                         "initialOtherMoles");
                 otherMolesNode = node.getAttributes().getNamedItem(
                         "initialNitrogenMoles");
-                leakRateNode = node.getAttributes().getNamedItem(
-                		"leakRate");
                 if (CO2MolesNode != null)
                     CO2Moles = Float.parseFloat(CO2MolesNode.getNodeValue());
                 if (O2MolesNode != null)
@@ -1866,9 +1866,10 @@ public class BioInitializer {
                 if (nitrogenMolesNode != null)
                     nitrogenMoles = Float.parseFloat(nitrogenMolesNode
                             .getNodeValue());
-                if (leakRateNode != null)
-                    leakRate = Float.parseFloat(leakRateNode
-                            .getNodeValue());
+                leakRate = Float.parseFloat(node.getAttributes().getNamedItem("leakRate").getNodeValue());
+                dayLength = Float.parseFloat(node.getAttributes().getNamedItem("dayLength").getNodeValue());
+                hourOfDayStart = Float.parseFloat(node.getAttributes().getNamedItem("hourOfDayStart").getNodeValue());
+                maxLumens = Float.parseFloat(node.getAttributes().getNamedItem("maxLumens").getNodeValue());
             } catch (NumberFormatException e) {
 
                 e.printStackTrace();
@@ -1883,6 +1884,9 @@ public class BioInitializer {
                 mySimEnvironmentImpl = new SimEnvironmentImpl(myID, volume,
                         moduleName);
             mySimEnvironmentImpl.setLeakRate(leakRate);
+            mySimEnvironmentImpl.setDayLength(dayLength);
+            mySimEnvironmentImpl.setHourOfDayStart(hourOfDayStart);
+            mySimEnvironmentImpl.setMaxLumens(maxLumens);
             setupBioModule(mySimEnvironmentImpl, node);
             BiosimServer.registerServer(new SimEnvironmentPOATie(
                     mySimEnvironmentImpl),

@@ -104,11 +104,11 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
     //The light intensity outside
     private float lightIntensity = 0f;
 
-    private static final float MAXIMUM_LUMENS = 50000f;
+    private float maxLumens = 50000f;
 
-    private static final float STARTING_HOUR = 0f;
+    private float hourOfDayStart = 0f;
 
-    private static final float DAY_LENGTH = 24f;
+    private float dayLength = 24f;
 
     private String myName;
 
@@ -1041,9 +1041,9 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
     }
 
     private void calculateLightIntensity() {
-        lightIntensity = new Double(MAXIMUM_LUMENS
-                * (Math.sin(2f * Math.PI * (getMyTicks() - STARTING_HOUR)
-                        / DAY_LENGTH) + 1f)).floatValue();
+        lightIntensity = new Double(maxLumens
+                * (Math.sin(Math.PI * (getMyTicks() - hourOfDayStart)
+                        / dayLength) + 1f)).floatValue();
     }
 
     /**
@@ -1122,5 +1122,41 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
      */
     public void setLeakRate(float pLeakRate) {
         permanentLeakRate = pLeakRate;
+    }
+    /**
+     * @return Returns the dayLength.
+     */
+    public float getDayLength() {
+        return dayLength;
+    }
+    /**
+     * @param dayLength The dayLength to set.
+     */
+    public void setDayLength(float dayLength) {
+        this.dayLength = dayLength;
+    }
+    /**
+     * @return Returns the hourOfDayStart.
+     */
+    public float getHourOfDayStart() {
+        return hourOfDayStart;
+    }
+    /**
+     * @param hourOfDayStart The hourOfDayStart to set.
+     */
+    public void setHourOfDayStart(float hourOfDayStart) {
+        this.hourOfDayStart = hourOfDayStart;
+    }
+    /**
+     * @return Returns the maxLumens.
+     */
+    public float getMaxLumens() {
+        return maxLumens;
+    }
+    /**
+     * @param maxLumens The maxLumens to set.
+     */
+    public void setMaxLumens(float maxLumens) {
+        this.maxLumens = maxLumens;
     }
 }
