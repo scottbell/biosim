@@ -745,7 +745,7 @@ module biosim{
                                         boolean autoHarvestAndReplantEnabled();
                                 };
 
-                                interface FoodProcessor : framework::SimBioModule, framework::PowerConsumer, framework::BiomassConsumer, framework::FoodProducer, framework::DryWasteProducer{
+                                interface FoodProcessor : framework::SimBioModule, framework::PowerConsumer, framework::BiomassConsumer, framework::FoodProducer, framework::DryWasteProducer, framework::DirtyWaterProducer{
                                         float getBiomassConsumed();
                                         float getPowerConsumed();
                                         float getFoodProduced();
@@ -761,6 +761,7 @@ module biosim{
                                         FoodMatter takeFoodMatterMassAndType(in float mass, in PlantType pType);
                                         FoodMatter takeFoodMatterType(in PlantType pType);
                                         float calculateCalories(in FoodMatterList pList);
+                                        float calculateWaterContent(in FoodMatterList pList);
                                 };
 
                                 interface BiomassStore : framework::Store{
