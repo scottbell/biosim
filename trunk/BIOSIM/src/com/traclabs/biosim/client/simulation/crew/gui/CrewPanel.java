@@ -107,7 +107,7 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 			newPersonPanel.add(newPersonGUI.activityNameLabel);
 			newPersonGUI.activityCurrentDurationLabel = new JLabel("	performed for: "+myCrewPeople[i].getTimeActivityPerformed()+" h");
 			newPersonPanel.add(newPersonGUI.activityCurrentDurationLabel);
-			newPersonGUI.activityTotalDurationLabel = new JLabel("	total duration: "+myCrewPeople[i].getCurrentActivity().getTimeLength()" h");
+			newPersonGUI.activityTotalDurationLabel = new JLabel("	total duration: "+myCrewPeople[i].getCurrentActivity().getTimeLength()+" h");
 			newPersonPanel.add(newPersonGUI.activityTotalDurationLabel);
 			newPersonGUI.activityIntensityLabel = new JLabel("	intensity: "+myCrewPeople[i].getCurrentActivity().getActivityIntensity());
 			newPersonPanel.add(newPersonGUI.activityIntensityLabel); 
