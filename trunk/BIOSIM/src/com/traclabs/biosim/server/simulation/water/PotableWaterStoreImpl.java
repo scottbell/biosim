@@ -16,15 +16,15 @@ public class PotableWaterStoreImpl extends PotableWaterStorePOA {
 		potableWaterCapacity = initialPotableWaterCapacity;
 	}
 	
-	void setWaterCapacity(float liters){
+	public void setWaterCapacity(float liters){
 		potableWaterCapacity = liters;
 	}
 
-	void setWaterLevel(float liters){
+	public void setWaterLevel(float liters){
 		potableWaterLevel = liters;
 	}
 
-	float addWater(float liters){
+	public float addWater(float liters){
 		if ((liters +potableWaterLevel) > potableWaterCapacity){
 			float returnValue = (potableWaterCapacity - potableWaterLevel);
 			potableWaterLevel = potableWaterCapacity;
@@ -36,7 +36,7 @@ public class PotableWaterStoreImpl extends PotableWaterStorePOA {
 		}
 	}
 
-	float takeWater(float liters){
+	public float takeWater(float liters){
 		if ((potableWaterLevel - liters) < 0){
 			potableWaterLevel = 0;
 			if (liters < 0)
@@ -49,7 +49,7 @@ public class PotableWaterStoreImpl extends PotableWaterStorePOA {
 			return liters;
 		}
 	}
-	float getWaterLevel(){
+	public float getWaterLevel(){
 		return potableWaterLevel;
 	}
 

@@ -26,6 +26,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		myCrewGroup = pCrewGroup;
 		myName = pName;
 		myCurrentActivity = myCrewGroup.getRawActivityByOrder(currentOrder);
+		System.out.println("CrewPerson: "+myName+" is "+myCurrentActivity.getName());
 	}
 
 	public String getName(){
@@ -33,25 +34,25 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	}
 
 	public org.omg.CORBA.Object getCurrentActivity(){
-		return (BioSimUtilsImpl.poaToCorbaObj(myCurrentActivity));
+		return (OrbUtils.poaToCorbaObj(myCurrentActivity));
 	}
 
 	public void setCurrentActivity(org.omg.CORBA.Object pActivity){
-		myCurrentActivity = (ActivityImpl)(BioSimUtilsImpl.corbaObjToPoa(pActivity));
+		myCurrentActivity = (ActivityImpl)(OrbUtils.corbaObjToPoa(pActivity));
 	}
 
 	public String toString(){
 		return (myName + " now performing activity " +myCurrentActivity.getName() +
-		        " for " + myCurrentActivity .getTimeLength() + " hours");
+		        " for " + timeActivityPerformed + " of "+myCurrentActivity .getTimeLength() +"hours");
 	}
 
 	private void collectReferences(){
 		try{
 			if (!hasCollectedReferences){
-				myCurrentEnvironment = SimEnvironmentHelper.narrow(BioSimUtilsImpl.getNCRef().resolve_str("SimEnvironment"));
-				myFoodStore = FoodStoreHelper.narrow(BioSimUtilsImpl.getNCRef().resolve_str("FoodStore"));
-				myPotableWaterStore = PotableWaterStoreHelper.narrow(BioSimUtilsImpl.getNCRef().resolve_str("PotableWaterStore"));
-				myDirtyWaterStore = DirtyWaterStoreHelper.narrow(BioSimUtilsImpl.getNCRef().resolve_str("DirtyWaterStore"));
+				myCurrentEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str("SimEnvironment"));
+				myFoodStore = FoodStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("FoodStore"));
+				myPotableWaterStore = PotableWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PotableWaterStore"));
+				myDirtyWaterStore = DirtyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("DirtyWaterStore"));
 			}
 		}
 		catch (org.omg.CORBA.UserException e){
@@ -70,89 +71,95 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		collectReferences();
 		//done with this timestep, advance 1 timestep
 		timeActivityPerformed++;
-		if (!(myCurrentActivity.getName().equals("Dead"))){
+		if (!(myCurrentActivity.getName().equals("dead"))){
 			if (timeActivityPerformed >= myCurrentActivity.getTimeLength()){
 				advanceCurrentOrder();
 				myCurrentActivity = myCrewGroup.getRawActivityByOrder(currentOrder);
 				timeActivityPerformed = 0;
 			}
+			consumeResources();
+			deathCheck();
 		}
-		consumeResources();
-		deathCheck();
 		System.out.println("CrewPerson: "+toString());
 	}
 	
 	private void deathCheck(){
-		boolean dead = false;
-		if (starvingTime > 504)
-			dead = true;
-		if (thirstTime > 72)
-			dead = true;
-		if (suffocateTime > 1)
-			dead = true;
-		if (dead)
-			myCurrentActivity = myCrewGroup.getRawActivityByName("Dead");
+		if (starvingTime > 504){
+			myCurrentActivity = myCrewGroup.getRawActivityByName("dead");
+			timeActivityPerformed = 0;
+			System.out.println("CrewPerson: "+myName+" has starved to death!");
+		}
+		if (thirstTime > 72){
+			myCurrentActivity = myCrewGroup.getRawActivityByName("dead");
+			timeActivityPerformed = 0;
+			System.out.println("CrewPerson: "+myName+" has died of thirst!");
+		}
+		if (suffocateTime > 1){
+			myCurrentActivity = myCrewGroup.getRawActivityByName("dead");
+			timeActivityPerformed = 0;
+			System.out.println("CrewPerson: "+myName+" has suffocated!!");
+		}
 	}
 	
 	private void consumeResources(){
 		int currentActivityIntensity = myCurrentActivity.getActivityIntensity();
-		float O2In = 0f;
+		float O2Needed = 0f;
 		float CO2Out = 0f;
-		float waterIn = 0f;
+		float waterNeeded = 0f;
 		float waterOut = 0f;
-		float foodIn = 0f;
+		float foodNeeded = 0f;
 		if (currentActivityIntensity == 0){
 			//born, human needs nothing
 		}
 		else if (currentActivityIntensity == 1){
-			O2In = 1f;
+			O2Needed = 1f;
 			CO2Out = 1f;
-			waterIn = 1f;
+			waterNeeded = 1f;
 			waterOut = 1f;
-			foodIn = 0.5f;
+			foodNeeded = 0.5f;
 		}
 		else if (currentActivityIntensity == 2){
-			O2In = 2f;
+			O2Needed = 2f;
 			CO2Out = 2f;
-			waterIn = 1f;
+			waterNeeded = 1f;
 			waterOut = 1f;
-			foodIn = 0.5f;
+			foodNeeded = 0.5f;
 		}
 		else if (currentActivityIntensity == 3){
-			O2In = 2f;
+			O2Needed = 2f;
 			CO2Out = 2f;
-			waterIn = 2f;
+			waterNeeded = 2f;
 			waterOut = 2f;
-			foodIn = 0.5f;
+			foodNeeded = 0.5f;
 		}
 		else if (currentActivityIntensity == 4){
-			O2In = 3f;
+			O2Needed = 3f;
 			CO2Out = 3f;
-			waterIn = 2f;
+			waterNeeded = 2f;
 			waterOut = 2f;
-			foodIn = 0.5f;
+			foodNeeded = 0.5f;
 		}
 		else if (currentActivityIntensity == 5){
-			O2In = 3f;
+			O2Needed = 3f;
 			CO2Out = 3f;
-			waterIn = 3f;
+			waterNeeded = 3f;
 			waterOut = 3f;
-			foodIn = 0.5f;
+			foodNeeded = 0.5f;
 		}
 		//adjust tanks
-		float foodRetrieved = myFoodStore.addFood(foodIn);
-		float waterRetrieved = myPotableWaterStore.addWater(waterIn);
-		float O2Retrieved = myCurrentEnvironment.addO2(O2In);
+		float foodRetrieved = myFoodStore.takeFood(foodNeeded);
+		float waterRetrieved = myPotableWaterStore.takeWater(waterNeeded);
+		float O2Retrieved = myCurrentEnvironment.takeO2(O2Needed);
 		myDirtyWaterStore.addWater(waterOut);
 		myCurrentEnvironment.addCO2(CO2Out);
 		//afflict crew
-		if (foodRetrieved != foodIn){
+		if (foodRetrieved < foodNeeded){
 			starvingTime++;
 		}
-		if (waterRetrieved != waterIn){
+		if (waterRetrieved < waterNeeded){
 			thirstTime++;
 		}
-		if (O2Retrieved != O2In){
+		if (O2Retrieved < O2Needed){
 			suffocateTime++;
 		}
 	}

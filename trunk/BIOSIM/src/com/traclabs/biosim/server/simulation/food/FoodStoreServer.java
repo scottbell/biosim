@@ -13,9 +13,9 @@ public class FoodStoreServer {
 public static void main(String args[]) {
 	try{
 		// create and initialize the ORB
-		ORB orb = BioSimUtilsImpl.getORB();
-		NamingContextExt ncRef = BioSimUtilsImpl.getNCRef();
-		POA rootpoa = BioSimUtilsImpl.getRootPOA();
+		ORB orb = OrbUtils.getORB();
+		NamingContextExt ncRef = OrbUtils.getNCRef();
+		POA rootpoa = OrbUtils.getRootPOA();
 
 		 // create servant and register it with  ORB
 		 FoodStoreImpl myFoodStoreImpl = new FoodStoreImpl();

@@ -78,10 +78,10 @@ public class BioSimulator implements Runnable
 		
 		//Put some air in the cabin
 		SimEnvironment mySimEnvironment = (SimEnvironment)(getBioModule(simEnvironmentName));
-		mySimEnvironment.setCO2Capacity(10f);
-		mySimEnvironment.setO2Capacity(10f);
-		mySimEnvironment.setCO2Level(10f);
-		mySimEnvironment.setO2Level(10f);
+		mySimEnvironment.setCO2Capacity(500f);
+		mySimEnvironment.setO2Capacity(500f);
+		mySimEnvironment.setCO2Level(500f);
+		mySimEnvironment.setO2Level(500f);
 		
 		//Add some crops and food
 		BiomassStore myBiomassStore = (BiomassStore)(getBioModule(biomassStoreName));

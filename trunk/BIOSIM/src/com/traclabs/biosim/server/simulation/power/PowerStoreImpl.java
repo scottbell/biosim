@@ -5,7 +5,7 @@ import biosim.idl.power.*;
 public class PowerStoreImpl extends PowerStorePOA {
 	private float powerLevel;
 	private float powerCapacity;
-	
+
 	public PowerStoreImpl(){
 		powerLevel = 0.0f;
 		powerCapacity = 10.0f;
@@ -15,16 +15,16 @@ public class PowerStoreImpl extends PowerStorePOA {
 		powerLevel = initialPowerLevel;
 		powerCapacity = initialPowerCapacity;
 	}
-	
-	void setPowerCapacity(float watts){
+
+	public void setPowerCapacity(float watts){
 		powerCapacity = watts;
 	}
 
-	void setPowerLevel(float watts){
+	public void setPowerLevel(float watts){
 		powerLevel = watts;
 	}
 
-	float addPower(float watts){
+	public float addPower(float watts){
 		if ((watts +powerLevel) > powerCapacity){
 			float returnValue = (powerCapacity - powerLevel);
 			powerLevel = powerCapacity;
@@ -36,7 +36,7 @@ public class PowerStoreImpl extends PowerStorePOA {
 		}
 	}
 
-	float takePower(float watts){
+	public float takePower(float watts){
 		if ((powerLevel - watts) < 0){
 			powerLevel = 0;
 			if (watts < 0)
@@ -49,7 +49,7 @@ public class PowerStoreImpl extends PowerStorePOA {
 			return watts;
 		}
 	}
-	float getPowerLevel(){
+	public float getPowerLevel(){
 		return powerLevel;
 	}
 

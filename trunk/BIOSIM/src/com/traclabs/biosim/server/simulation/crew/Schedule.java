@@ -61,11 +61,11 @@ public class Schedule{
 
 	private void parseSchedule(File scheduleFile){
 		//Add 2 defaults..
-		ActivityImpl bornActivity = new ActivityImpl("Dead", 0, 0);
-		ActivityImpl deadActivity = new ActivityImpl("Born", 0, 0);
-		scheduleNameHash.put("Born", bornActivity);
+		ActivityImpl bornActivity = new ActivityImpl("born", 0, 0);
+		ActivityImpl deadActivity = new ActivityImpl("dead", 0, 0);
+		scheduleNameHash.put("born", bornActivity);
 		scheduleOrderHash.put(new Integer(0), bornActivity);
-		scheduleNameHash.put("Dead", deadActivity);
+		scheduleNameHash.put("dead", deadActivity);
 		scheduleOrderHash.put(new Integer(-1), deadActivity);
 		try{
 			BufferedReader inputReader = new BufferedReader(new FileReader(scheduleFile));

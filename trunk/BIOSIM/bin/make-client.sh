@@ -61,9 +61,12 @@ then
 fi
 relativeIDLDir="/src/biosim/idl/biosim.idl"
 fullIDLDir=$devRootDir$relativeIDLDir
-echo "			-generating stubs"
 idlInvocation="$java_command -classpath $JACORB_HOME/lib/idl.jar org.jacorb.idl.parser"
-$idlInvocation  -noskel -d $stubDir $fullIDLDir
+if [ "$userSelect" = "all" ]
+then
+	echo "			-generating stubs"
+	$idlInvocation  -noskel -d $stubDir $fullIDLDir
+fi
 #######################
 #		Client COMPILATION	#
 #######################
@@ -74,23 +77,26 @@ clientDir="$devRootDir/src/biosim/client"
 sourceDir="$devRootDir/src"
 jacoClasspath="$JACORB_HOME/lib/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME/lib"
 compilationInvocation="$javac_command -d $clientClassesDir -classpath $stubDir$separator$clientClassesDir$separator$sourceDir$separator$jacoClasspath"
-echo "			-compiling stubs"
-echo "				-compiling air stubs"
-$compilationInvocation $simStubDir/idl/air/*.java
-echo "				-compiling water stubs"
-$compilationInvocation $simStubDir/idl/water/*.java
-echo "				-compiling power stubs"
-$compilationInvocation $simStubDir/idl/power/*.java
-echo "				-compiling crew stubs"
-$compilationInvocation $simStubDir/idl/crew/*.java
-echo "				-compiling food stubs"
-$compilationInvocation $simStubDir/idl/food/*.java
-echo "				-compiling environment stubs"
-$compilationInvocation $simStubDir/idl/environment/*.java
-echo "				-compiling framework stubs"
-$compilationInvocation $simStubDir/idl/framework/*.java
-echo "				-compiling util stubs"
-$compilationInvocation $simStubDir/idl/util/*.java
+if [ "$userSelect" = "all" ]
+then
+	echo "			-compiling stubs"
+	echo "				-compiling air stubs"
+	$compilationInvocation $simStubDir/idl/air/*.java
+	echo "				-compiling water stubs"
+	$compilationInvocation $simStubDir/idl/water/*.java
+	echo "				-compiling power stubs"
+	$compilationInvocation $simStubDir/idl/power/*.java
+	echo "				-compiling crew stubs"
+	$compilationInvocation $simStubDir/idl/crew/*.java
+	echo "				-compiling food stubs"
+	$compilationInvocation $simStubDir/idl/food/*.java
+	echo "				-compiling environment stubs"
+	$compilationInvocation $simStubDir/idl/environment/*.java
+	echo "				-compiling framework stubs"
+	$compilationInvocation $simStubDir/idl/framework/*.java
+	echo "				-compiling util stubs"
+	$compilationInvocation $simStubDir/idl/util/*.java
+fi
 echo "			-compiling control"
 $compilationInvocation $clientDir/control/*.java
 echo "				-compiling gui"
