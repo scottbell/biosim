@@ -79,7 +79,6 @@
 			<xsd:element name="environment" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:all>
-						
 						<xsd:element name="SimEnvironment" type="SimEnvironmentType" minOccurs="0"/>
 					</xsd:all>
 				</xsd:complexType>
@@ -120,13 +119,92 @@
 	
 	<xsd:complexType name="SensorsType">
 		<xsd:all>
-			<xsd:element name="CO2InFlowRateSensor" type="CO2InFlowRateSensorType" minOccurs="0"/>
+			<xsd:element name="air" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:all>
+						<xsd:element name="CO2InFlowRateSensor" type="CO2InFlowRateSensorType" minOccurs="0"/>
+						<xsd:element name="CO2OutFlowRateSensor" type="CO2OutFlowRateSensorType" minOccurs="0"/>
+						<xsd:element name="CO2StoreLevelSensor" type="CO2StoreLevelSensorType" minOccurs="0"/>
+						<xsd:element name="O2InFlowRateSensor" type="O2InFlowRateSensorType" minOccurs="0"/>
+						<xsd:element name="O2OutFlowRateSensor" type="O2OutFlowRateSensorType" minOccurs="0"/>
+						<xsd:element name="O2StoreLevelSensor" type="O2StoreLevelSensorType" minOccurs="0"/>
+						<xsd:element name="H2InFlowRateSensor" type="H2InFlowRateSensorType" minOccurs="0"/>
+						<xsd:element name="H2OutFlowRateSensor" type="H2OutFlowRateSensorType" minOccurs="0"/>
+						<xsd:element name="H2StoreLevelSensor" type="H2StoreLevelSensorType" minOccurs="0"/>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="crew" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:all>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="environment" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:all>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="food" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:all>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="power" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:all>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="water" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:all>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
 		</xsd:all>     
 	</xsd:complexType>
 	
 	<xsd:complexType name="ActuatorsType">
 		<xsd:all>
-			<xsd:element name="CO2InFlowRateActuator" type="CO2InFlowRateActuatorType" minOccurs="0"/>
+			<xsd:element name="air" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:all>
+						<xsd:element name="CO2InFlowRateActuator" type="CO2InFlowRateActuatorType" minOccurs="0"/></xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="crew" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:all>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="environment" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:all>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="food" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:all>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="power" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:all>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="water" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:all>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
 		</xsd:all>     
 	</xsd:complexType>
 	
