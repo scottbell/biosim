@@ -1,0 +1,12 @@
+sleep		8
+hygiene		1
+exercise		1
+eating		1
+recreation		3
+reporting		1
+health		1
+maintenance	1
+science		7
+#DayEnd
+
+
