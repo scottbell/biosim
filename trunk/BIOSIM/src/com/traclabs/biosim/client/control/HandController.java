@@ -247,6 +247,7 @@ public class HandController {
 
     public void runSim() {
         initializeSim();
+        myLogger.info("Controller starting run");
         while (!myBioDriver.isDone()) {
             stepSim();
         }

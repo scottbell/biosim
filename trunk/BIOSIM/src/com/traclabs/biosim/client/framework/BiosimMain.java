@@ -53,6 +53,7 @@ public class BiosimMain {
     private void checkArgs(String[] myArgs) {
         myLogger.debug("arg length = "+myArgs.length);
         int myID = 0;
+        String xmlFile = null;
         boolean wantsToRunCommandLine = false;
         boolean wantsToRunGUI = false;
         boolean wantsToRunController = false;
@@ -76,7 +77,7 @@ public class BiosimMain {
                         .toString(CLIENT_OA_PORT));
             } else if (myArgs[i].startsWith("-xml=")) {
                 try {
-                    String xmlFile = myArgs[i].split("=")[1];
+                    xmlFile = myArgs[i].split("=")[1];
                     myLogger.info("Using xml=" + xmlFile);
                     BioHolderInitializer.setFile(xmlFile);
                 } catch (Exception e) {
@@ -103,30 +104,34 @@ public class BiosimMain {
                 }
             }
         }
+        if (xmlFile != null)
+            BioHolderInitializer.setFileAndID(myID, xmlFile);
+        else
+            BioHolderInitializer.setID(myID);
+        
         if (wantsToRunCommandLine)
             runCommandLine(myID);
         else if (wantsToRunGUI)
-            runGUI(myID);
+            runGUI();
         else if (wantsToRunController)
-            runHandController(myID);
+            runHandController();
         else if (wantsToRunUnreal) {
             if (unrealServerGiven) {
-                runUnreal2(myID, unrealServer);
+                runUnreal2(unrealServer);
             } else {
-                runUnreal(myID);
+                runUnreal();
             }
         } else {
             myLogger.info("Using default, starting GUI with server ID=" + myID);
-            runGUI(myID);
+            runGUI();
         }
     }
 
     /**
      * Runs the SimDesktop front end for the simulation.
      */
-    private void runGUI(int myID) {
-        BioHolderInitializer.setID(myID);
-        SimDesktop newDesktop = new SimDesktop(myID);
+    private void runGUI() {
+        SimDesktop newDesktop = new SimDesktop();
         newDesktop.setSize(1024, 768);
         newDesktop.setVisible(true);
     }
@@ -139,8 +144,7 @@ public class BiosimMain {
         newCommandLine.runCommandLine();
     }
 
-    public void runHandController(int myID) {
-        BioHolderInitializer.setID(myID);
+    public void runHandController() {
         HandController myController = new HandController();
         myController.runSim();
     }
@@ -148,13 +152,9 @@ public class BiosimMain {
     /**
      * Runs the UnrealCom interface to communicate with UnrealTournament 2004
      */
-    public void runUnreal(int myID) {
-        BioHolderInitializer.setID(myID);
-
+    public void runUnreal() {
         UnrealCom myUnrealCom = new UnrealCom();
-
         myUnrealCom.initUnrealComm();
-
     }
 
     /**
@@ -163,13 +163,9 @@ public class BiosimMain {
      * @param unServer
      *            The name of the unreal Server to connect to.
      */
-    public void runUnreal2(int myID, String unServer) {
-        BioHolderInitializer.setID(myID);
-
+    public void runUnreal2(String unServer) {
         UnrealCom myUnrealCom = new UnrealCom(unServer);
-
         myUnrealCom.initUnrealComm();
-
     }
 }
 
