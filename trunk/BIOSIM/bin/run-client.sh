@@ -24,7 +24,7 @@ then
 fi
 JACORB_HOME="$devRootDir/lib/jacorb"
 #jacoNameIOR="-DORBInitRef.NameService=file:$devRootDir/generated/ns/ior.txt"
-jacoNameIOR="-DORBInitRef.NameService=file:$devRootDir/generated/ns/ior.txt"
+jacoNameIOR="-DORBInitRef.NameService=file:$GA_HOME/generated/ns/ior.txt"
 separator=":"
 machineType=`uname`
 winName="CYGWIN"

@@ -311,7 +311,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myTickThread = null;
 		notify();
 		simulationStarted = false;
-		System.out.println("BioDriverImpl:"+myID+" simulation ended");
+		System.out.println("BioDriverImpl"+myID+": simulation ended");
 	}
 
 	/**
