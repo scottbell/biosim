@@ -30,6 +30,7 @@ public abstract class WaterRSSubSystem{
 	//Flag switched when the BWP has collected references to other subsystems it needs
 	protected boolean hasCollectedReferences = false;
 	protected boolean enabled = true;
+	private boolean malfunctioning = false;
 
 	/**
 	* Constructor that creates the subsystem
@@ -61,7 +62,20 @@ public abstract class WaterRSSubSystem{
 	}
 
 	public void setEnabled(boolean pEnabled){
-		enabled = pEnabled;
+		if (malfunctioning && pEnabled)
+			return;
+		else
+			enabled = pEnabled;
+	}
+	
+	public void setMalfunctioning(boolean pMalfunctioning){
+		malfunctioning = pMalfunctioning;
+		if (malfunctioning)
+			enabled = false;
+	}
+	
+	public boolean isMalfunctioning(){
+		return malfunctioning;
 	}
 
 	/**

@@ -1,9 +1,11 @@
 package biosim.server.water;
 
 import biosim.idl.water.*;
+import biosim.idl.framework.*;
 import biosim.idl.util.log.*;
 import biosim.server.util.*;
 import biosim.server.framework.*;
+import java.util.*;
 /**
  * The Water Recovery System takes grey/dirty water and refines it to potable water for the crew members and grey water for the crops..
  * Class modeled after the paper:.
@@ -231,6 +233,32 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 		myPPS.tick();
 		if (moduleLogging)
 			log();
+	}
+	
+	private void performMalfunctions(){
+		for (Enumeration e = myMalfunctions.elements(); e.hasMoreElements();){
+			Malfunction currentMalfunction = (Malfunction)(e.nextElement());
+			if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF){
+				if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF){
+					myAES.setMalfunctioning(true);
+					myRO.setMalfunctioning(true);
+				}
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
+					myRO.setMalfunctioning(true);
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
+					myAES.setMalfunctioning(true);
+			}
+			else if (currentMalfunction.getLength() == MalfunctionLength.PERMANENT_MALF){
+				if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF){
+					myAES.setMalfunctioning(true);
+					myRO.setMalfunctioning(true);
+				}
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
+					myRO.setMalfunctioning(true);
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
+					myAES.setMalfunctioning(true);
+			}
+		}
 	}
 
 
