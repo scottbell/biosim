@@ -1368,6 +1368,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	public synchronized void advanceOneTick(){
 		if (!simulationIsPaused)
 			pauseSimulation();
+		while (!simulationStarted)
+			OrbUtils.sleepAwhile();
 		collectReferences();
 		System.out.println("BioDriverImpl:"+myID+" ticking simulation once");
 		tick();
