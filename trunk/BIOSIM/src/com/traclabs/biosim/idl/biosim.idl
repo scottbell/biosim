@@ -27,6 +27,7 @@ module ALSS{
 
 	//Object representing the Energy Production System
 	interface PowerPS : BioModule{
+		float getPowerProduced();
 	};
 
 	//Object representing the Power Store
@@ -38,6 +39,9 @@ module ALSS{
 
 	//Object representing the Air Recovery System
 	interface AirRS : BioModule{
+		float getPowerConsumed();
+		float getCO2Consumed();
+		float getO2Produced();
 	};
 
 	//Object representing the Air Store
@@ -59,9 +63,15 @@ module ALSS{
 
 	//Object representing the Biomass Recovery System
 	interface BiomassRS : BioModule{
+		float getPowerConsumed();
+		float getGreyWaterConsumed();
+		float getBiomassProduced();
 	};
 	
 	interface FoodProcessor : BioModule{
+		float getBiomassConsumed();
+		float getPowerConsumed();
+		float getFoodProduced();
 	};
 	
 	interface FoodStore : BioModule{
@@ -92,6 +102,10 @@ module ALSS{
 
 	//Object representing the Water Recovery System
 	interface WaterRS : BioModule{
+		float getPotableWaterProduced();
+		float getGreyWaterProduced();
+		float getPowerConsumed();
+		float getDirtyWaterConsumed();
 	};
 
 	//Object representing the Potable Water Store
