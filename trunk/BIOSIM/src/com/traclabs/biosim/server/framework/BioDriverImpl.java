@@ -56,7 +56,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	//Flag to see whether the BioDriverImpl is started at all
 	private boolean simulationStarted = false;
 	//Flag to see if user wants to use default intialization (i.e., fill tanks with x amount gas, generate crew memebers, etc)
-	private boolean useDefaultInitialization = true;
+	private BioDriverInit initializationToUse = BioDriverInit.DEFAULT_INIT;
 	private boolean runTillDead = false;
 	private boolean runTillN = false;
 	private int nTicks = 0;
@@ -152,8 +152,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myTickThread.start();
 	}
 	
-	public void setDefaultInitialization(boolean value){
-		useDefaultInitialization = value;
+	public void setInitialization(BioDriverInit pInitializationToUse){
+		initializationToUse = pInitializationToUse;
 	}
 
 	/**
@@ -163,9 +163,13 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	public void run(){
 		simulationStarted = true;
 		ticksGoneBy = 0;
-		if (useDefaultInitialization){
-			System.out.println("BioDriverImpl:"+myID+" Initializing simulation...");
+		if (initializationToUse == BioDriverInit.DEFAULT_INIT){
+			System.out.println("BioDriverImpl:"+myID+" Initializing default simulation...");
 			defaultInitialization();
+		}
+		else if (initializationToUse == BioDriverInit.OPTIMAL_INIT){
+			System.out.println("BioDriverImpl:"+myID+" Initializing optimal simulation...");
+			optimalInitialization();
 		}
 		System.out.println("BioDriverImpl:"+myID+" Running simulation...");
 		runSimulation();
@@ -232,6 +236,54 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myPowerStore.setCapacity(7500f);
 		myPowerStore.setLevel(0f);
 	}
+	
+	/**
+	* Initializes the various servers with various optimal data
+	*/
+	private void optimalInitialization(){
+		//reset servers
+		reset();
+
+		//Make some crew members
+		CrewGroup myCrew = (CrewGroup)(getBioModule(crewName));
+		CrewPerson myCrewPerson1 = myCrew.createCrewPerson("Alice Optimal", 50, 80, Sex.female);
+
+		//Fill the clean water stores to the brim (20 liters), and all stores' capacities
+		DirtyWaterStore myDirtyWaterStore = (DirtyWaterStore)(getBioModule(dirtyWaterStoreName));
+		PotableWaterStore myPotableWaterStore = (PotableWaterStore)(getBioModule(potableWaterStoreName));
+		GreyWaterStore myGreyWaterStore = (GreyWaterStore)(getBioModule(greyWaterStoreName));
+		myDirtyWaterStore.setCapacity(100f);
+		myDirtyWaterStore.setLevel(100f);
+		myPotableWaterStore.setCapacity(100f);
+		myPotableWaterStore.setLevel(100f);
+		myGreyWaterStore.setCapacity(100f);
+		myGreyWaterStore.setLevel(100f);
+
+		//Fill the air tanks
+		CO2Store myCO2Store = (CO2Store)(getBioModule(CO2StoreName));
+		O2Store myO2Store = (O2Store)(getBioModule(O2StoreName));
+		myCO2Store.setCapacity(100f);
+		myO2Store.setCapacity(100f);
+		myCO2Store.setLevel(100f);
+		myO2Store.setLevel(100f);
+
+		//Put some air in the cabin
+		SimEnvironment mySimEnvironment = (SimEnvironment)(getBioModule(simEnvironmentName));
+		mySimEnvironment.setCapacity(10000000f);
+
+		//Add some crops and food
+		BiomassStore myBiomassStore = (BiomassStore)(getBioModule(biomassStoreName));
+		FoodStore myFoodStore = (FoodStore)(getBioModule(foodStoreName));
+		myBiomassStore.setCapacity(100f);
+		myFoodStore.setCapacity(100f);
+		myBiomassStore.setLevel(100f);
+		myFoodStore.setLevel(100f);
+
+		//Add some power
+		PowerStore myPowerStore = (PowerStore)(getBioModule(powerStoreName));
+		myPowerStore.setCapacity(100f);
+		myPowerStore.setLevel(100f);
+	}
 
 	/**
 	* The ticking simulation loop.  Uses a variety of semaphores to pause/resume/end without causing deadlock.
@@ -277,7 +329,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		else if (runTillDead){
 			CrewGroup myCrew = (CrewGroup)(getBioModule(crewName));
 			if (myCrew.isDead()){
-				System.out.println("BioDriverImpl"+myID+": Crew's dead");
+				System.out.println("BioDriverImpl"+myID+": Crew's dead @"+ticksGoneBy+" ticks");
 				return true;
 			}
 		}
