@@ -106,8 +106,6 @@ public class HandController {
 
     private Injector myInjector;
 
-    private float myInjectorMax;
-
     private GenericActuator myO2AirStoreInInjectorAcutator;
     
     private GenericActuator myO2AirEnvironmentOutInjectorAcutator;
@@ -163,9 +161,6 @@ public class HandController {
         myOGS = (OGS) myBioHolder.theOGSModules.get(0);
 
         myInjector = (Injector) myBioHolder.theInjectors.get(1);
-        myInjectorMax = myInjector.getO2AirProducerDefinition()
-                .getEnvironmentDesiredFlowRate(0);
-        myLogger.info("myInjectorMax = "+myInjectorMax);
 
         myDirtyWaterStore = (DirtyWaterStore) myBioHolder.theDirtyWaterStores
                 .get(0);
@@ -282,7 +277,7 @@ public class HandController {
         float delta = levelToKeepO2At - crewO2;
         crewO2integral += delta;
         float signal = (delta * crewO2p + crewO2i * crewO2integral) + 2;
-        float valueToSet = Math.min(myInjectorMax, signal);
+        float valueToSet = Math.min(myO2AirEnvironmentOutInjectorAcutator.getMax(), signal);
         myO2AirEnvironmentOutInjectorAcutator.setValue(valueToSet);
         myO2AirStoreInInjectorAcutator.setValue(valueToSet);
     }
