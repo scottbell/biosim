@@ -169,6 +169,9 @@ public class BioInitializer{
 		}
 		return desiredFlowRates;
 	}
+	
+	private static void configureSimBioModule(SimBioModule pModule){
+	}
 
 	private static String getInput(Node node){
 		return node.getAttributes().getNamedItem("input").getNodeValue();
@@ -195,6 +198,7 @@ public class BioInitializer{
 		String moduleName = getModuleName(node);
 		try{
 			AirRS myAirRS = AirRSHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			configureSimBioModule(myAirRS);
 		}
 		catch(org.omg.CORBA.UserException e){
 			e.printStackTrace();
@@ -847,7 +851,7 @@ public class BioInitializer{
 			crawlGlobals(node, firstPass);
 			return;
 		}
-		else if (nodeName.equals("SimModules")){
+		else if (nodeName.equals("SimBioModules")){
 			crawlModules(node, firstPass);
 			return;
 		}

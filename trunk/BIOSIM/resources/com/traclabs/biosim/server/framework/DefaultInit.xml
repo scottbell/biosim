@@ -4,7 +4,7 @@
 		<comment>The default initialization for BioSim</comment>
 		<author>Scott Bell</author>
 	</Globals>
-	<SimModules>
+	<SimBioModules>
 		<air>
 			<AirRS name="AirRS">
 				<powerConsumer maxFlowRates="100" desiredFlowRates="100" input="PowerStore"/>
@@ -123,7 +123,7 @@
 			<GreyWaterStore name="GreyWaterStore" capacity="500" level="100"/>
 			<DirtyWaterStore name="DirtyWaterStore" capacity="500" level="100"/>
 		</water>
-	</SimModules>
+	</SimBioModules>
 	<Sensors>
 		<air>
 			<CO2InFlowRateSensor name="AirRSCO2InFlowRateSensor" input="AirRS"/>
