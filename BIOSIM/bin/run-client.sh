@@ -3,8 +3,8 @@
 echo "*running client"
 echo "	-initializing"
 case $1 in
-	"-ga") userSelect=$2;iorHome=$GA_HOME;;
-	*) userSelect=$1;iorHome=$BIOSIM_HOME;;
+	"-ga") userSelect=$2;idSelect=$3;iorHome=$GA_HOME;;
+	*) userSelect=$1;idSelect="$2";iorHome=$BIOSIM_HOME;;
 esac
 devRootDir=$BIOSIM_HOME
 jacoOrbClass="-Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB"
@@ -73,6 +73,7 @@ case $userSelect in
 	$stochastic) echo "			 -starting $userSelect";$jacoInvocation $stochasticName;;
 	$sensor) echo "			 -starting $userSelect";$jacoInvocation $sensorName;;
 	$help) echo "Usage: make-client.sh (-ga) [console, gui, logviewer, malfunction, stochastic, controller]";;
+	"-id"*) echo "			-assuming all (id user specified)";$jacoInvocation $driverName $1;;
 	*) echo "			 -starting default";$jacoInvocation $driverName;;
 esac
 echo "*done invoking clients"
