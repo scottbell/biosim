@@ -111,6 +111,21 @@ public class BioDriverImpl extends BioDriverPOA{
 	public void setActuators(BioModule[] pActuators){
 		actuators = pActuators;
 	}
+	
+	public BioModule[] getModules(){
+		System.out.println("modules length is :"+modules.length);
+		return modules;
+	}
+
+	public BioModule[] getSensors(){
+		System.out.println("sensors length is :"+sensors.length);
+		return sensors;
+	}
+
+	public BioModule[] getActuators(){
+		System.out.println("actuators length is :"+actuators.length);
+		return actuators;
+	}
 
 	public void setCrewsToWatch(CrewGroup[] pCrewGroups){
 		crews = pCrewGroups;
