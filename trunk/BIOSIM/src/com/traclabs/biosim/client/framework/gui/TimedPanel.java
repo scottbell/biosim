@@ -12,7 +12,7 @@ public abstract class TimedPanel extends UpdatablePanel
 {
 	protected RefreshAction myRefreshAction;
 	private Timer refreshTimer;
-	private final static int TIMER_DELAY=500;
+	private final static int DEFAULT_TIMER_DELAY=500;
 	protected boolean tracking = true; 
 
 	/**
@@ -20,11 +20,19 @@ public abstract class TimedPanel extends UpdatablePanel
 	 */
 	public TimedPanel() {
 		myRefreshAction = new RefreshAction("Refresh");
-		refreshTimer = new Timer (TIMER_DELAY, myRefreshAction);
+		refreshTimer = new Timer (DEFAULT_TIMER_DELAY, myRefreshAction);
 	}
 	
 	public boolean isTracking(){
 		return tracking;
+	}
+	
+	public void setDelay(int pDelay){
+		refreshTimer.setDelay(pDelay);
+	}
+	
+	public int getDelay(){
+		return refreshTimer.getDelay();
 	}
 	
 	public void setTracking(boolean pTrackingWanted){
