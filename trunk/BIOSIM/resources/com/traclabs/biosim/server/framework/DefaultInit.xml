@@ -397,6 +397,26 @@
 				<input>PlantEnvironment</input>
 			</WaterAirPressureSensor>
 		</environment>
+		<food>
+			<BiomassInFlowRateSensor name="FoodProcessorBiomassInFlowRateSensor">
+				<input>FoodProcessor</input>
+			</BiomassInFlowRateSensor>
+			<BiomassOutFlowRateSensor name="BiomassRSBiomassOutFlowRateSensor">
+				<input>BiomassRS</input>
+			</BiomassOutFlowRateSensor>
+			<BiomassStoreLevelSensor name="BiomassStoreLevelSensor">
+				<input>BiomassStore</input>
+			</BiomassStoreLevelSensor>
+			<FoodInFlowRateSensor name="CrewGroupFoodInFlowRateSensor">
+				<input>CrewGroup</input>
+			</FoodInFlowRateSensor>
+			<FoodOutFlowRateSensor name="BiomassRSFoodOutFlowRateSensor">
+				<input>BiomassRS</input>
+			</FoodOutFlowRateSensor>
+			<FoodStoreLevelSensor name="FoodStoreLevelSensor">
+				<input>FoodStore</input>
+			</FoodStoreLevelSensor>
+		</food>
 		<power>
 			<PowerInFlowRateSensor name="AirRSPowerInFlowRateSensor">
 				<input>AirRS</input>
@@ -413,6 +433,9 @@
 			<PowerOutFlowRateSensor name="PowerPSPowerOutFlowRateSensor">
 				<input>PowerPS</input>
 			</PowerOutFlowRateSensor>
+			<PowerStoreLevelSensor name="PowerStoreLevelSensor">
+				<input>PowerStore</input>
+			</PowerStoreLevelSensor>
 		</power>
 	</Sensors>
 	<Actuators>
