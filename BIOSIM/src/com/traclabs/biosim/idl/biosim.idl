@@ -776,6 +776,7 @@ module biosim{
                                         boolean isReadyForHavest();
                                         boolean isDead();
 					PlantType getCropType();
+					string getCropTypeString();
                                         void replant(in PlantType pType, in float area);
 					float getCropAreaTotal();
 					float getCropAreaUsed();

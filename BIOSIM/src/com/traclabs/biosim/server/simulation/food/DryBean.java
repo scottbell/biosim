@@ -27,6 +27,10 @@ public class DryBean extends Legume{
 	public PlantType getPlantType(){
 		return PlantType.DRY_BEAN;
 	}
+	
+	public String getPlantTypeString(){
+		return "Dry Bean";
+	}
 
 	protected float getConstantPPF(){
 		return 370f;

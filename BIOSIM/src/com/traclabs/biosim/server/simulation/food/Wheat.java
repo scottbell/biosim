@@ -28,6 +28,10 @@ public class Wheat extends Erectophile{
 		return PlantType.WHEAT;
 	}
 	
+	public String getPlantTypeString(){
+		return "Wheat";
+	}
+	
 	protected float getConstantPPF(){
 		return 1452f;
 	}

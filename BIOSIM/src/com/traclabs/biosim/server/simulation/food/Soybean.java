@@ -34,6 +34,10 @@ public class Soybean extends Legume{
 	public PlantType getPlantType(){
 		return PlantType.SOYBEAN;
 	}
+	
+	public String getPlantTypeString(){
+		return "Soybean";
+	}
 
 	protected float getConstantPPF(){
 		return 648f;

@@ -33,6 +33,10 @@ public class Peanut extends Legume{
 		return PlantType.PEANUT;
 	}
 	
+	public String getPlantTypeString(){
+		return "Peanut";
+	}
+	
 	protected float getConstantPPF(){
 		return 625f;
 	}

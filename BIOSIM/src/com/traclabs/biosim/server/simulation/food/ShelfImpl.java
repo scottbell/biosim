@@ -48,6 +48,10 @@ public class ShelfImpl extends ShelfPOA {
 	public PlantType getCropType(){
 		return myCrop.getPlantType();
 	}
+	
+	public String getCropTypeString(){
+		return myCrop.getPlantTypeString();
+	}
 
 	public BiomassRS getBiomassRS(){
 		return BiomassRSHelper.narrow(OrbUtils.poaToCorbaObj(myBiomassRSImpl));

@@ -27,6 +27,10 @@ public class SweetPotato extends Planophile{
 	public PlantType getPlantType(){
 		return PlantType.SWEET_POTATO;
 	}
+	
+	public String getPlantTypeString(){
+		return "Sweet Potato";
+	}
 
 	protected float getConstantPPF(){
 		return 648f;

@@ -94,6 +94,7 @@ public abstract class PlantImpl extends PlantPOA{
 	protected abstract float getTimeAtOrganFormation();
 	protected abstract float getConstantPPF();
 	public abstract PlantType getPlantType();
+	public abstract String getPlantTypeString();
 
 	public float getPPFNeeded(){
 		return getConstantPPF();

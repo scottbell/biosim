@@ -28,6 +28,10 @@ public class Tomato extends Planophile{
 		return PlantType.TOMATO;
 	}
 	
+	public String getPlantTypeString(){
+		return "Tomato";
+	}
+	
 	protected float getConstantPPF(){
 		return 625f;
 	}
