@@ -127,6 +127,7 @@
 			<fileset dir="${winDistLibDir}">
 				<exclude name="CVS"/>
 				<exclude name="BiosimStandalone.java"/>
+				<exclude name="mars.gif"/>
 			</fileset>
 		</copy>
 		<copy file="${winDistLibDir}/BiosimStandalone.java" todir="${winDistTmpDir}"/>
@@ -144,6 +145,7 @@
 				<exclude name="META-INF"/>
 				<exclude name="license-INF"/>
 			</fileset>
+			<fileset file="${winDistDir}/mars.gif"/>
 			<fileset file="${jacorbDir}/jacorb.properties"/>
 		</jar>
 	</target>
