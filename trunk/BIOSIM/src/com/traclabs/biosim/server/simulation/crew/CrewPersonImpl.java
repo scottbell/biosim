@@ -89,9 +89,9 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private static final float CO2_TILL_DEAD = 10f;
 	private static final float CO2_RECOVERY_RATE=0.001f;
 	private static final float LEISURE_TILL_BURNOUT = 168f;
-	private static final float LEISURE_RECOVERY_RATE=84f;
-	private static final float AWAKE_TILL_EXHAUSTION = 128f;
-	private static final float SLEEP_RECOVERY_RATE=9f;
+	private static final float LEISURE_RECOVERY_RATE=90f;
+	private static final float AWAKE_TILL_EXHAUSTION = 120f;
+	private static final float SLEEP_RECOVERY_RATE=12f;
 
 	/**
 	* Constructor that creates a new crew person
@@ -369,10 +369,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		else if (myCurrentActivity.getName().equals("maitenance")){
 		}
 		else if (myCurrentActivity.getName().equals("sleep") || myCurrentActivity.getName().equals("sick")){
-			sleepBuffer.add(SLEEP_RECOVERY_RATE);
+			sleepBuffer.add(SLEEP_RECOVERY_RATE * myCurrentActivity.getTimeLength());
 		}
 		else if (myCurrentActivity.getName().equals("leisure")){
-			leisureBuffer.add(LEISURE_RECOVERY_RATE);
+			leisureBuffer.add(LEISURE_RECOVERY_RATE * myCurrentActivity.getTimeLength());
 		}
 		if (myCurrentActivity instanceof RepairActivity){
 			RepairActivity repairActivity = (RepairActivity)(myCurrentActivity);
@@ -638,7 +638,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		//System.out.println("\tCO2 taken="+(getCO2Ratio() - DANGEROUS_CO2_RATION)+", recovered "+CO2_RECOVERY_RATE * consumedCO2Buffer.getCapacity()+" CO2 risk level="+(consumedCO2Buffer.getCapacity() - consumedCO2Buffer.getLevel()) / consumedCO2Buffer.getCapacity()+" (level="+consumedCO2Buffer.getLevel()+", capacity="+consumedCO2Buffer.getCapacity()+")");
 		//System.out.println("\tCO2 ration ="+getCO2Ratio()+", DANGEROUS_CO2_RATION="+DANGEROUS_CO2_RATION);
 		
-		if (sleepRiskReturn > randomNumber){
+		if (sleepRiskReturn > (randomNumber + 0.05f)){
 			sicken();
 			System.out.println(getName()+" has fallen ill from exhaustion (risk was "+numFormat.format(sleepRiskReturn * 100)+"%)");
 		}
