@@ -846,7 +846,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		//System.out.println(getModuleName()+": waterPressure: "+waterPressure);
 	}
 
-	protected void log(){
+	public void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();

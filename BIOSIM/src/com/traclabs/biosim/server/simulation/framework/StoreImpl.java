@@ -293,7 +293,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	/**
 	* Logs this store and sends it to the Logger to be processed
 	*/
-	protected void log(){
+	public void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();

@@ -505,7 +505,7 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		super.reset();
 	}
 
-	protected void log(){
+	public void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();

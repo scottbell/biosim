@@ -279,7 +279,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 		return areTheyDead;
 	}
 
-	protected void log(){
+	public void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			crewPeopleLogs = new Hashtable();

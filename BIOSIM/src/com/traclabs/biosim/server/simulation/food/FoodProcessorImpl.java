@@ -300,7 +300,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 		return returnBuffer.toString();
 	}
 	
-	protected void log(){
+	public void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();

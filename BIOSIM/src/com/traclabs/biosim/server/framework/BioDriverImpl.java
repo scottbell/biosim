@@ -35,6 +35,7 @@ public class BioDriverImpl extends BioDriverPOA{
 	private int myID = 0;
 	//If we loop after end conditions of a simulation run have been met (crew death or n-ticks)
 	private boolean looping = false;
+	private boolean logLastTick = false;
 	private CrewGroup[] crews;
 	private BioModule[] modules;
 	private BioModule[] simModules;
@@ -285,6 +286,26 @@ public class BioDriverImpl extends BioDriverPOA{
 			setPauseSimulation(true);
 		tick();
 	}
+	
+	/**
+	* Forces log
+	*/
+	public synchronized void forceLog(){
+		if (myLogger != null)
+			myLogger.setProcessingLogs(true);
+		for (int i = 0; i < modules.length; i++){
+			BioModule currentBioModule = (BioModule)(sensors[i]);
+			currentBioModule.log();
+		}
+	}
+	
+	/**
+	* Whether to log the last tick
+	* @param pLogSim Whether to log the last tick
+	*/
+	public synchronized void setLogLastTick(boolean pLogLastTick){
+		logLastTick = pLogLastTick;
+	}
 
 	/**
 	* Iterates through the modules setting their logs
@@ -394,6 +415,8 @@ public class BioDriverImpl extends BioDriverPOA{
 			tick();
 			if (isDone()){
 				endSimulation();
+				if (logLastTick)
+					forceLog();
 				if (looping)
 					startSimulation();
 			}

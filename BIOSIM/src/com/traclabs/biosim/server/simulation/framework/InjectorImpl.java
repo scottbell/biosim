@@ -504,7 +504,7 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		super.reset();
 	}
 
-	protected void log(){
+	public void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();

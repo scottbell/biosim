@@ -172,6 +172,7 @@ module biosim{
                                 StringList getMalfunctionNames();
                                 MalfunctionList getMalfunctions();
                                 void maitenance();
+                                void log();
                                 void repair(in long long id);
                                 void clearMalfunction(in long long id);
                                 void setEnableBreakdown(in boolean pValue);
@@ -210,9 +211,11 @@ module biosim{
                                 boolean isDone();
                                 long getTicks();
                                 void reset();
+                                void forceLog();
                                 void setLogger(in util::log::Logger pLogger);
                                 boolean isLooping();
                                 void setLooping(in boolean pLoop);
+                                void setLogLastTick(in boolean pLogLastTick);
                                 void setStochasticIntensity(in StochasticIntensity pIntensity);
                                 void startMalfunction(in MalfunctionIntensity pIntensity, in MalfunctionLength pLength);
                         };

@@ -93,7 +93,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	protected void performMalfunctions(){
 	}
 	
-	protected void log(){
+	public void log(){
 	}
 	
 	private float abs(float a){

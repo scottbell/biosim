@@ -105,7 +105,7 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements PowerPSOpe
 		return currentPowerProduced;
 	}
 
-	protected void log(){
+	public void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();
