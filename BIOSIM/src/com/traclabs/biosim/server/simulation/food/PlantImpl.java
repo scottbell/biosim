@@ -94,6 +94,7 @@ public abstract class PlantImpl extends PlantPOA{
 	}
 	
 	public boolean readyForHarvest(){
+		//System.out.println("PlantImpl: daysOfGrowth: "+getDaysOfGrowth()+" and timeAtCropMaturity: "+getTimeAtCropMaturity());
 		return (getDaysOfGrowth() >= getTimeAtCropMaturity());
 	}
 
