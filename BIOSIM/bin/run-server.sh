@@ -15,7 +15,7 @@ fi
 JACORB_HOME="$devRootDir/lib/jacorb"
 jacoNameIOR="-DORBInitRef.NameService=file:$devRootDir/generated/ns/ior.txt"
 separator=":"
-machineType=`echo %OS%`
+machineType=`cmd`
 winName="Windows"
 case $machineType in
 	*$winName*) separator=";";echo "		-machine type is $winName";;
