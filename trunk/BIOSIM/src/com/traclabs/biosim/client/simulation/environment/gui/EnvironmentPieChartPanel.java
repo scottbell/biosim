@@ -26,16 +26,15 @@ public class EnvironmentPieChartPanel extends GraphPanel
 	private String otherCategory = "Other";
 	private String vacuumCategory = "Vacuum";
 	private boolean isVacuum = false;
-	private String environmentName = "";
 
 	public EnvironmentPieChartPanel(String pEnvironmentName){
-		environmentName = pEnvironmentName;
+		super(pEnvironmentName);
 	}
 
 	protected void createGraph(){
 		// create the chart...
 		refresh();
-		myChart = ChartFactory.createPie3DChart("Environment Gas Composition", myDataset, true, true, false);
+		myChart = ChartFactory.createPie3DChart(mySimEnvironment.getModuleName(), myDataset, true, true, false);
 		myPlot = (Pie3DPlot)(myChart.getPlot());
 		myPlot.setDepthFactor(0.1d);
 		initDataset();
@@ -47,8 +46,8 @@ public class EnvironmentPieChartPanel extends GraphPanel
 		myChartPanel.setPreferredSize(new Dimension(250, 250));
 	}
 	
-	protected void initializeDataSources(){
-		mySimEnvironment = (SimEnvironment)(BioHolder.getBioModule(environmentName));
+	protected void initializeDataSources(String dataSourceName){
+		mySimEnvironment = (SimEnvironment)(BioHolder.getBioModule(dataSourceName));
 	}
 
 	public void refresh() {

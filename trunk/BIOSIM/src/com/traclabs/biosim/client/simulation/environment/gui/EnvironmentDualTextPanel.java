@@ -15,12 +15,12 @@ public class EnvironmentDualTextPanel extends UpdatablePanel
 	private UpdatablePanel myPlantEnvironmentTextPanel;
 
 	public EnvironmentDualTextPanel() {
-		setLayout(new BorderLayout());
+		setLayout(new GridLayout(1,2));
 		myCrewEnvironmentTextPanel = new EnvironmentTextPanel(BioHolder.crewEnvironmentName);
 		myPlantEnvironmentTextPanel = new EnvironmentTextPanel(BioHolder.plantEnvironmentName);
 		
-		add(myCrewEnvironmentTextPanel, BorderLayout.WEST);
-		add(myPlantEnvironmentTextPanel, BorderLayout.EAST);
+		add(myCrewEnvironmentTextPanel);
+		add(myPlantEnvironmentTextPanel);
 	}
 	
 	public void refresh(){

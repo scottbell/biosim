@@ -47,9 +47,17 @@ public class EnvironmentTextPanel extends TimedPanel
 		GridBagConstraints c = new GridBagConstraints();
 		setLayout(gridbag);
 		
+		JLabel moduleLabel = new JLabel(mySimEnvironment.getModuleName());
+		JPanel modulePanel =  new JPanel();
+		modulePanel.setLayout(new BorderLayout());
+		modulePanel.setBorder(BorderFactory.createTitledBorder("Module"));
+		modulePanel.add(moduleLabel, BorderLayout.CENTER);
+		
+		
 		long ticksExpired = mySimEnvironment.getTicks();
 		tickLabel = new JLabel(ticksExpired + " hours ("+(ticksExpired/24)+" days)");
 		tickPanel = new JPanel();
+		tickPanel.setLayout(new BorderLayout());
 		tickPanel.setBorder(BorderFactory.createTitledBorder("Time"));
 		tickPanel.add(tickLabel, BorderLayout.CENTER);
 
@@ -65,18 +73,15 @@ public class EnvironmentTextPanel extends TimedPanel
 
 		c.fill = GridBagConstraints.BOTH;
 		c.gridheight = 1;
-		c.gridwidth = GridBagConstraints.REMAINDER;
 		c.weightx = 1.0;
-		c.gridwidth = 1;
+		c.gridwidth = GridBagConstraints.REMAINDER;
 		c.weighty = 1.0;
+		gridbag.setConstraints(modulePanel, c);
+		add(modulePanel);
+		
 		gridbag.setConstraints(tickPanel, c);
 		add(tickPanel);
 
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 2.0;
-		c.weighty = 1.0;
-		c.gridheight = 1;
-		c.gridwidth = GridBagConstraints.REMAINDER;
 		gridbag.setConstraints(airPanel, c);
 		add(airPanel);
 	}
