@@ -42,6 +42,6 @@ public class DirtyWaterInFlowRateActuatorImpl extends GenericActuatorImpl
     }
 
     public float getMax() {
-        return myConsumer.getDirtyWaterConsumerDefinition().getDesiredFlowRate(myIndex);
+        return myConsumer.getDirtyWaterConsumerDefinition().getMaxFlowRate(myIndex);
     }
 }

@@ -42,6 +42,6 @@ public class BiomassOutFlowRateActuatorImpl extends GenericActuatorImpl
     }
 
     public float getMax() {
-        return myProducer.getBiomassProducerDefinition().getDesiredFlowRate(myIndex);
+        return myProducer.getBiomassProducerDefinition().getMaxFlowRate(myIndex);
     }
 }

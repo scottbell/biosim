@@ -42,6 +42,6 @@ public class PowerInFlowRateActuatorImpl extends GenericActuatorImpl implements
     }
 
     public float getMax() {
-        return myConsumer.getPowerConsumerDefinition().getDesiredFlowRate(myIndex);
+        return myConsumer.getPowerConsumerDefinition().getMaxFlowRate(myIndex);
     }
 }

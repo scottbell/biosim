@@ -31,7 +31,7 @@ public class WaterAirStoreInFlowRateActuatorImpl extends GenericActuatorImpl
     }
 
     public float getMax() {
-        return myConsumer.getWaterAirConsumerDefinition().getEnvironmentMaxFlowRate(myIndex);
+        return myConsumer.getWaterAirConsumerDefinition().getStoreMaxFlowRate(myIndex);
     }
 
     public BioModule getOutputModule() {

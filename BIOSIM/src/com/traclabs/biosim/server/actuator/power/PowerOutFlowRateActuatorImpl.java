@@ -42,6 +42,6 @@ public class PowerOutFlowRateActuatorImpl extends GenericActuatorImpl implements
     }
 
     public float getMax() {
-        return myProducer.getPowerProducerDefinition().getDesiredFlowRate(myIndex);
+        return myProducer.getPowerProducerDefinition().getMaxFlowRate(myIndex);
     }
 }
