@@ -9,9 +9,6 @@ import org.w3c.dom.Node;
 
 import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.framework.BioModuleHelper;
-import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
-import com.traclabs.biosim.idl.framework.MalfunctionLength;
-import com.traclabs.biosim.idl.framework.StochasticIntensity;
 import com.traclabs.biosim.idl.simulation.air.AirRS;
 import com.traclabs.biosim.idl.simulation.air.AirRSHelper;
 import com.traclabs.biosim.idl.simulation.air.AirRSPOATie;
@@ -123,7 +120,7 @@ import com.traclabs.biosim.idl.simulation.water.WaterRSHelper;
 import com.traclabs.biosim.idl.simulation.water.WaterRSPOATie;
 import com.traclabs.biosim.idl.simulation.water.WaterStore;
 import com.traclabs.biosim.idl.simulation.water.WaterStoreHelper;
-import com.traclabs.biosim.server.framework.BioModuleImpl;
+import com.traclabs.biosim.server.framework.BioInitializer;
 import com.traclabs.biosim.server.framework.BiosimServer;
 import com.traclabs.biosim.server.simulation.air.AirRSImpl;
 import com.traclabs.biosim.server.simulation.air.CO2StoreImpl;
@@ -204,43 +201,6 @@ public class SimulationInitializer {
             child = child.getNextSibling();
         }
     }
-    
-    //Remove these later
-    private static boolean isCreatedLocally(Node node) {
-        return node.getAttributes().getNamedItem("createLocally")
-                .getNodeValue().equals("true");
-    }
-
-    private static String getModuleName(Node node) {
-        return node.getAttributes().getNamedItem("name").getNodeValue();
-    }
-
-    private void printRemoteWarningMessage(String pName) {
-        myLogger.warn("\nInstance of the module named " + pName
-                + " should be created remotely (if not already done)");
-    }
-
-    private org.omg.CORBA.Object grabModule(String moduleName) {
-        org.omg.CORBA.Object moduleToReturn = null;
-        while (moduleToReturn == null) {
-            try {
-                moduleToReturn = OrbUtils.getNamingContext(myID).resolve_str(
-                        moduleName);
-            } catch (org.omg.CORBA.UserException e) {
-                myLogger.error("BioHolder: Couldn't find module " + moduleName
-                        + ", polling again...");
-                OrbUtils.sleepAwhile();
-            } catch (Exception e) {
-                myLogger
-                        .error("BioHolder: Had problems contacting nameserver with module "
-                                + moduleName + ", polling again...");
-                OrbUtils.resetInit();
-                OrbUtils.sleepAwhile();
-            }
-        }
-        return moduleToReturn;
-    }
-    //Remove end
     
     private static float getStoreLevel(Node node) {
         float level = 0f;
@@ -765,74 +725,6 @@ public class SimulationInitializer {
         return outputs;
     }
 
-    private boolean getEnableBreakDown(Node pNode) {
-        return pNode.getAttributes().getNamedItem("isLoggingEnabled")
-                .getNodeValue().equals("true");
-    }
-
-    private boolean getLogging(Node pNode) {
-        return pNode.getAttributes().getNamedItem("isBreakdownEnabled")
-                .getNodeValue().equals("true");
-    }
-
-    private StochasticIntensity getStochasticIntensity(Node pNode) {
-        String intensityString = pNode.getAttributes().getNamedItem(
-                "setStochasticIntensity").getNodeValue();
-        if (intensityString.equals("HIGH_STOCH"))
-            return StochasticIntensity.HIGH_STOCH;
-        else if (intensityString.equals("MEDIUM_STOCH"))
-            return StochasticIntensity.MEDIUM_STOCH;
-        else if (intensityString.equals("LOW_STOCH"))
-            return StochasticIntensity.LOW_STOCH;
-        else
-            return StochasticIntensity.NONE_STOCH;
-    }
-
-    private MalfunctionIntensity getMalfunctionIntensity(Node pNode) {
-        String intensityString = pNode.getAttributes()
-                .getNamedItem("intensity").getNodeValue();
-        if (intensityString.equals("SEVERE_MALF"))
-            return MalfunctionIntensity.SEVERE_MALF;
-        else if (intensityString.equals("MEDIUM_MALF"))
-            return MalfunctionIntensity.MEDIUM_MALF;
-        else
-            return MalfunctionIntensity.LOW_MALF;
-    }
-
-    private MalfunctionLength getMalfunctionLength(Node pNode) {
-        String lengthString = pNode.getAttributes().getNamedItem("length")
-                .getNodeValue();
-        if (lengthString.equals("TEMPORARY_MALF"))
-            return MalfunctionLength.TEMPORARY_MALF;
-        else
-            return MalfunctionLength.PERMANENT_MALF;
-    }
-
-    private int getMalfunctionTick(Node pNode) {
-        int occursAtTick = 0;
-        try {
-            occursAtTick = Integer.parseInt(pNode.getAttributes().getNamedItem(
-                    "occursAtTick").getNodeValue());
-        } catch (NumberFormatException e) {
-
-            e.printStackTrace();
-        }
-        return occursAtTick;
-    }
-
-    private void setupBioModule(BioModuleImpl pModule, Node node) {
-        pModule.setEnableBreakdown(getEnableBreakDown(node));
-        pModule.setStochasticIntensity(getStochasticIntensity(node));
-        Node child = node.getFirstChild();
-        while (child != null) {
-            if (child.getNodeName().equals("malfunction")) {
-                pModule.scheduleMalfunction(getMalfunctionIntensity(child),
-                        getMalfunctionLength(child), getMalfunctionTick(child));
-            }
-            child = child.getNextSibling();
-        }
-    }
-
     private void setupStore(StoreImpl pStore, Node pNode) {
         pStore.setCapacity(getStoreCapacity(pNode));
         pStore.setLevel(getStoreLevel(pNode));
@@ -841,70 +733,70 @@ public class SimulationInitializer {
     }
 
     private void createAirRS(Node node) {
-        String moduleName = getModuleName(node);
-        if (isCreatedLocally(node)) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
             AirRSImpl myAirRSImpl = new AirRSImpl(myID, moduleName);
-            setupBioModule(myAirRSImpl, node);
+            BioInitializer.setupBioModule (myAirRSImpl, node);
             BiosimServer.registerServer(new AirRSPOATie(myAirRSImpl),
                     myAirRSImpl.getModuleName(), myAirRSImpl.getID());
         } else
-            printRemoteWarningMessage(moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureAirRS(Node node) {
-        AirRS myAirRS = AirRSHelper.narrow(grabModule(getModuleName(node)));
+        AirRS myAirRS = AirRSHelper.narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
         configureSimBioModule(myAirRS, node);
         myActiveSimModules.add(myAirRS);
     }
 
     private void createO2Store(Node node) {
-        String moduleName = getModuleName(node);
-        if (isCreatedLocally(node)) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
             O2StoreImpl myO2StoreImpl = new O2StoreImpl(myID, moduleName);
             setupStore(myO2StoreImpl, node);
-            setupBioModule(myO2StoreImpl, node);
+            BioInitializer.setupBioModule (myO2StoreImpl, node);
             BiosimServer.registerServer(new O2StorePOATie(myO2StoreImpl),
                     myO2StoreImpl.getModuleName(), myO2StoreImpl.getID());
         } else
-            printRemoteWarningMessage(moduleName);
+            BioInitializer.printRemoteWarningMessage (moduleName);
     }
 
     private void createCO2Store(Node node) {
-        String moduleName = getModuleName(node);
-        if (isCreatedLocally(node)) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
             CO2StoreImpl myCO2StoreImpl = new CO2StoreImpl(myID, moduleName);
-            setupBioModule(myCO2StoreImpl, node);
+            BioInitializer.setupBioModule (myCO2StoreImpl, node);
             setupStore(myCO2StoreImpl, node);
             BiosimServer.registerServer(new CO2StorePOATie(myCO2StoreImpl),
                     myCO2StoreImpl.getModuleName(), myCO2StoreImpl.getID());
         } else
-            printRemoteWarningMessage(moduleName);
+            BioInitializer.printRemoteWarningMessage (moduleName);
     }
 
     private void createH2Store(Node node) {
-        String moduleName = getModuleName(node);
-        if (isCreatedLocally(node)) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
             H2StoreImpl myH2StoreImpl = new H2StoreImpl(myID, moduleName);
-            setupBioModule(myH2StoreImpl, node);
+            BioInitializer.setupBioModule (myH2StoreImpl, node);
             setupStore(myH2StoreImpl, node);
             BiosimServer.registerServer(new H2StorePOATie(myH2StoreImpl),
                     myH2StoreImpl.getModuleName(), myH2StoreImpl.getID());
         } else
-            printRemoteWarningMessage(moduleName);
+            BioInitializer.printRemoteWarningMessage (moduleName);
     }
 
     private void createNitrogenStore(Node node) {
-        String moduleName = getModuleName(node);
-        if (isCreatedLocally(node)) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
             NitrogenStoreImpl myNitrogenStoreImpl = new NitrogenStoreImpl(myID,
                     moduleName);
-            setupBioModule(myNitrogenStoreImpl, node);
+            BioInitializer.setupBioModule (myNitrogenStoreImpl, node);
             setupStore(myNitrogenStoreImpl, node);
             BiosimServer.registerServer(new NitrogenStorePOATie(
                     myNitrogenStoreImpl), myNitrogenStoreImpl.getModuleName(),
                     myNitrogenStoreImpl.getID());
         } else
-            printRemoteWarningMessage(moduleName);
+            BioInitializer.printRemoteWarningMessage (moduleName);
     }
 
     private void crawlAirModules(Node node, boolean firstPass) {
@@ -922,27 +814,27 @@ public class SimulationInitializer {
                     createO2Store(child);
                 else
                     myPassiveSimModules.add(O2StoreHelper
-                            .narrow(grabModule(getModuleName(child))));
+                            .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(child))));
             } else if (childName.equals("CO2Store")) {
                 if (firstPass)
                     createCO2Store(child);
                 else
                     myPassiveSimModules.add(CO2StoreHelper
-                            .narrow(grabModule(getModuleName(child))));
+                            .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(child))));
 
             } else if (childName.equals("H2Store")) {
                 if (firstPass)
                     createH2Store(child);
                 else
                     myPassiveSimModules.add(H2StoreHelper
-                            .narrow(grabModule(getModuleName(child))));
+                            .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(child))));
 
             } else if (childName.equals("NitrogenStore")) {
                 if (firstPass)
                     createNitrogenStore(child);
                 else
                     myPassiveSimModules.add(NitrogenStoreHelper
-                            .narrow(grabModule(getModuleName(child))));
+                            .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(child))));
 
             }
             child = child.getNextSibling();
@@ -1018,11 +910,11 @@ public class SimulationInitializer {
     }
 
     private void createCrewGroup(Node node) {
-        String moduleName = getModuleName(node);
-        if (isCreatedLocally(node)) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
             myLogger.debug("Creating CrewGroup with moduleName: " + moduleName);
             CrewGroupImpl myCrewGroupImpl = new CrewGroupImpl(myID, moduleName);
-            setupBioModule(myCrewGroupImpl, node);
+            BioInitializer.setupBioModule (myCrewGroupImpl, node);
             Node child = node.getFirstChild();
             while (child != null) {
                 if (child.getNodeName().equals("crewPerson"))
@@ -1033,12 +925,12 @@ public class SimulationInitializer {
                     myCrewGroupImpl.getModuleName(), myCrewGroupImpl.getID());
 
         } else
-            printRemoteWarningMessage(moduleName);
+            BioInitializer.printRemoteWarningMessage (moduleName);
     }
 
     private void configureCrewGroup(Node node) {
         CrewGroup myCrewGroup = CrewGroupHelper
-                .narrow(grabModule(getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
         configureSimBioModule(myCrewGroup, node);
         myActiveSimModules.add(myCrewGroup);
     }
@@ -1059,8 +951,8 @@ public class SimulationInitializer {
     }
 
     private void createSimEnvironment(Node node) {
-        String moduleName = getModuleName(node);
-        if (isCreatedLocally(node)) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
             myLogger.debug("Creating SimEnvironment with moduleName: "
                     + moduleName);
             SimEnvironmentImpl mySimEnvironmentImpl = null;
@@ -1126,33 +1018,33 @@ public class SimulationInitializer {
             mySimEnvironmentImpl.setDayLength(dayLength);
             mySimEnvironmentImpl.setHourOfDayStart(hourOfDayStart);
             mySimEnvironmentImpl.setMaxLumens(maxLumens);
-            setupBioModule(mySimEnvironmentImpl, node);
+            BioInitializer.setupBioModule (mySimEnvironmentImpl, node);
             BiosimServer.registerServer(new SimEnvironmentPOATie(
                     mySimEnvironmentImpl),
                     mySimEnvironmentImpl.getModuleName(), mySimEnvironmentImpl
                             .getID());
         } else
-            printRemoteWarningMessage(moduleName);
+            BioInitializer.printRemoteWarningMessage (moduleName);
     }
 
     private void createDehumidifier(Node node) {
-        String moduleName = getModuleName(node);
-        if (isCreatedLocally(node)) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
             myLogger.debug("Creating Dehumidifier with moduleName: "
                     + moduleName);
             DehumidifierImpl myDehumidifierImpl = new DehumidifierImpl(myID,
                     moduleName);
-            setupBioModule(myDehumidifierImpl, node);
+            BioInitializer.setupBioModule (myDehumidifierImpl, node);
             BiosimServer.registerServer(new DehumidifierPOATie(
                     myDehumidifierImpl), myDehumidifierImpl.getModuleName(),
                     myDehumidifierImpl.getID());
         } else
-            printRemoteWarningMessage(moduleName);
+            BioInitializer.printRemoteWarningMessage (moduleName);
     }
 
     private void configureDehumidifier(Node node) {
         Dehumidifier myDehumidifier = DehumidifierHelper
-                .narrow(grabModule(getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
         configureSimBioModule(myDehumidifier, node);
         myPrioritySimModules.add(myDehumidifier);
     }
@@ -1166,7 +1058,7 @@ public class SimulationInitializer {
                     createSimEnvironment(child);
                 else
                     myPassiveSimModules.add(SimEnvironmentHelper
-                            .narrow(grabModule(getModuleName(child))));
+                            .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(child))));
             }
             if (childName.equals("Dehumidifier")) {
                 if (firstPass)
@@ -1179,42 +1071,42 @@ public class SimulationInitializer {
     }
 
     private void createAccumulator(Node node) {
-        String moduleName = getModuleName(node);
-        if (isCreatedLocally(node)) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
             myLogger.debug("Creating Accumulator with moduleName: "
                     + moduleName);
             AccumulatorImpl myAccumulatorImpl = new AccumulatorImpl(myID,
                     moduleName);
-            setupBioModule(myAccumulatorImpl, node);
+            BioInitializer.setupBioModule (myAccumulatorImpl, node);
             BiosimServer.registerServer(
                     new AccumulatorPOATie(myAccumulatorImpl), myAccumulatorImpl
                             .getModuleName(), myAccumulatorImpl.getID());
         } else
-            printRemoteWarningMessage(moduleName);
+            BioInitializer.printRemoteWarningMessage (moduleName);
     }
 
     private void configureAccumulator(Node node) {
         Accumulator myAccumulator = AccumulatorHelper
-                .narrow(grabModule(getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
         configureSimBioModule(myAccumulator, node);
         myActiveSimModules.add(myAccumulator);
     }
 
     private void createInjector(Node node) {
-        String moduleName = getModuleName(node);
-        if (isCreatedLocally(node)) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
             myLogger.debug("Creating Injector with moduleName: " + moduleName);
             InjectorImpl myInjectorImpl = new InjectorImpl(myID, moduleName);
-            setupBioModule(myInjectorImpl, node);
+            BioInitializer.setupBioModule (myInjectorImpl, node);
             BiosimServer.registerServer(new InjectorPOATie(myInjectorImpl),
                     myInjectorImpl.getModuleName(), myInjectorImpl.getID());
         } else
-            printRemoteWarningMessage(moduleName);
+            BioInitializer.printRemoteWarningMessage (moduleName);
     }
 
     private void configureInjector(Node node) {
         Injector myInjector = InjectorHelper
-                .narrow(grabModule(getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
         configureSimBioModule(myInjector, node);
         myActiveSimModules.add(myInjector);
     }
@@ -1286,15 +1178,15 @@ public class SimulationInitializer {
     }
 
     private void createBiomassRS(Node node) {
-        String moduleName = getModuleName(node);
-        if (isCreatedLocally(node)) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
             myLogger.debug("Creating BiomassRS with moduleName: " + moduleName);
             BiomassRSImpl myBiomassRSImpl = new BiomassRSImpl(myID, moduleName);
             boolean autoHarvestAndReplant = node.getAttributes().getNamedItem(
                     "autoHarvestAndReplant").getNodeValue().equals("true");
             myBiomassRSImpl
                     .setAutoHarvestAndReplantEnabled(autoHarvestAndReplant);
-            setupBioModule(myBiomassRSImpl, node);
+            BioInitializer.setupBioModule (myBiomassRSImpl, node);
             Node child = node.getFirstChild();
             while (child != null) {
                 if (child.getNodeName().equals("shelf"))
@@ -1305,46 +1197,46 @@ public class SimulationInitializer {
             BiosimServer.registerServer(new BiomassRSPOATie(myBiomassRSImpl),
                     myBiomassRSImpl.getModuleName(), myBiomassRSImpl.getID());
         } else
-            printRemoteWarningMessage(moduleName);
+            BioInitializer.printRemoteWarningMessage (moduleName);
     }
 
     private void configureBiomassRS(Node node) {
         BiomassRS myBiomassRS = BiomassRSHelper
-                .narrow(grabModule(getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
         configureSimBioModule(myBiomassRS, node);
         myActiveSimModules.add(myBiomassRS);
     }
 
     private void createFoodProcessor(Node node) {
-        String moduleName = getModuleName(node);
-        if (isCreatedLocally(node)) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
             myLogger.debug("Creating FoodProcessor with moduleName: "
                     + moduleName);
             FoodProcessorImpl myFoodProcessorImpl = new FoodProcessorImpl(myID,
                     moduleName);
-            setupBioModule(myFoodProcessorImpl, node);
+            BioInitializer.setupBioModule (myFoodProcessorImpl, node);
             BiosimServer.registerServer(new FoodProcessorPOATie(
                     myFoodProcessorImpl), myFoodProcessorImpl.getModuleName(),
                     myFoodProcessorImpl.getID());
         } else
-            printRemoteWarningMessage(moduleName);
+            BioInitializer.printRemoteWarningMessage (moduleName);
     }
 
     private void configureFoodProcessor(Node node) {
         FoodProcessor myFoodProcessor = FoodProcessorHelper
-                .narrow(grabModule(getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
         configureSimBioModule(myFoodProcessor, node);
         myActiveSimModules.add(myFoodProcessor);
     }
 
     private void createBiomassStore(Node node) {
-        String moduleName = getModuleName(node);
-        if (isCreatedLocally(node)) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
             myLogger.debug("Creating BiomassStore with moduleName: "
                     + moduleName);
             BiomassStoreImpl myBiomassStoreImpl = new BiomassStoreImpl(myID,
                     moduleName);
-            setupBioModule(myBiomassStoreImpl, node);
+            BioInitializer.setupBioModule (myBiomassStoreImpl, node);
             myBiomassStoreImpl.setCapacity(getStoreCapacity(node));
             myBiomassStoreImpl.setLevel(getStoreLevel(node));
             myBiomassStoreImpl.setResupply(getStoreResupplyFrequency(node),
@@ -1353,15 +1245,15 @@ public class SimulationInitializer {
                     myBiomassStoreImpl), myBiomassStoreImpl.getModuleName(),
                     myBiomassStoreImpl.getID());
         } else
-            printRemoteWarningMessage(moduleName);
+            BioInitializer.printRemoteWarningMessage (moduleName);
     }
 
     private void createFoodStore(Node node) {
-        String moduleName = getModuleName(node);
-        if (isCreatedLocally(node)) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
             myLogger.debug("Creating FoodStore with moduleName: " + moduleName);
             FoodStoreImpl myFoodStoreImpl = new FoodStoreImpl(myID, moduleName);
-            setupBioModule(myFoodStoreImpl, node);
+            BioInitializer.setupBioModule (myFoodStoreImpl, node);
             myFoodStoreImpl.setCapacity(getStoreCapacity(node));
             myFoodStoreImpl.setLevel(getStoreLevel(node));
             myFoodStoreImpl.setResupply(getStoreResupplyFrequency(node),
@@ -1369,7 +1261,7 @@ public class SimulationInitializer {
             BiosimServer.registerServer(new FoodStorePOATie(myFoodStoreImpl),
                     myFoodStoreImpl.getModuleName(), myFoodStoreImpl.getID());
         } else
-            printRemoteWarningMessage(moduleName);
+            BioInitializer.printRemoteWarningMessage (moduleName);
     }
 
     private void crawlFoodModules(Node node, boolean firstPass) {
@@ -1391,21 +1283,21 @@ public class SimulationInitializer {
                     createBiomassStore(child);
                 else
                     myPassiveSimModules.add(BiomassStoreHelper
-                            .narrow(grabModule(getModuleName(child))));
+                            .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(child))));
             } else if (childName.equals("FoodStore")) {
                 if (firstPass)
                     createFoodStore(child);
                 else
                     myPassiveSimModules.add(FoodStoreHelper
-                            .narrow(grabModule(getModuleName(child))));
+                            .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(child))));
             }
             child = child.getNextSibling();
         }
     }
 
     private void createPowerPS(Node node) {
-        String moduleName = getModuleName(node);
-        if (isCreatedLocally(node)) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
             myLogger.debug("Creating PowerPS with moduleName: " + moduleName);
             PowerPSImpl myPowerPSImpl = null;
             if (node.getAttributes().getNamedItem("generation").getNodeValue()
@@ -1413,28 +1305,28 @@ public class SimulationInitializer {
                 myPowerPSImpl = new SolarPowerPS(myID, moduleName);
             else
                 myPowerPSImpl = new NuclearPowerPS(myID, moduleName);
-            setupBioModule(myPowerPSImpl, node);
+            BioInitializer.setupBioModule (myPowerPSImpl, node);
             BiosimServer.registerServer(new PowerPSPOATie(myPowerPSImpl),
                     myPowerPSImpl.getModuleName(), myPowerPSImpl.getID());
         } else
-            printRemoteWarningMessage(moduleName);
+            BioInitializer.printRemoteWarningMessage (moduleName);
     }
 
     private void configurePowerPS(Node node) {
         PowerPS myPowerPS = PowerPSHelper
-                .narrow(grabModule(getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
         configureSimBioModule(myPowerPS, node);
         myActiveSimModules.add(myPowerPS);
     }
 
     private void createPowerStore(Node node) {
-        String moduleName = getModuleName(node);
-        if (isCreatedLocally(node)) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
             myLogger
                     .debug("Creating PowerStore with moduleName: " + moduleName);
             PowerStoreImpl myPowerStoreImpl = new PowerStoreImpl(myID,
                     moduleName);
-            setupBioModule(myPowerStoreImpl, node);
+            BioInitializer.setupBioModule (myPowerStoreImpl, node);
             myPowerStoreImpl.setLevel(getStoreLevel(node));
             myPowerStoreImpl.setCapacity(getStoreCapacity(node));
             myPowerStoreImpl.setResupply(getStoreResupplyFrequency(node),
@@ -1442,7 +1334,7 @@ public class SimulationInitializer {
             BiosimServer.registerServer(new PowerStorePOATie(myPowerStoreImpl),
                     myPowerStoreImpl.getModuleName(), myPowerStoreImpl.getID());
         } else
-            printRemoteWarningMessage(moduleName);
+            BioInitializer.printRemoteWarningMessage (moduleName);
     }
 
     private void crawlPowerModules(Node node, boolean firstPass) {
@@ -1459,49 +1351,49 @@ public class SimulationInitializer {
                     createPowerStore(child);
                 else
                     myPassiveSimModules.add(PowerStoreHelper
-                            .narrow(grabModule(getModuleName(child))));
+                            .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(child))));
             }
             child = child.getNextSibling();
         }
     }
 
     private void createWaterRS(Node node) {
-        String moduleName = getModuleName(node);
-        if (isCreatedLocally(node)) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
             myLogger.debug("Creating WaterRS with moduleName: " + moduleName);
             if (node.getAttributes().getNamedItem("implementation")
                     .getNodeValue().equals("MATLAB")) {
                 myLogger.debug("created Matlab WaterRS...");
                 WaterRSMatlabImpl myWaterRSImpl = new WaterRSMatlabImpl(myID,
                         moduleName);
-                setupBioModule(myWaterRSImpl, node);
+                BioInitializer.setupBioModule (myWaterRSImpl, node);
                 BiosimServer.registerServer(new WaterRSPOATie(myWaterRSImpl),
                         myWaterRSImpl.getModuleName(), myWaterRSImpl.getID());
             } else {
                 WaterRSImpl myWaterRSImpl = new WaterRSImpl(myID, moduleName);
-                setupBioModule(myWaterRSImpl, node);
+                BioInitializer.setupBioModule (myWaterRSImpl, node);
                 BiosimServer.registerServer(new WaterRSPOATie(myWaterRSImpl),
                         myWaterRSImpl.getModuleName(), myWaterRSImpl.getID());
             }
         } else
-            printRemoteWarningMessage(moduleName);
+            BioInitializer.printRemoteWarningMessage (moduleName);
     }
 
     private void configureWaterRS(Node node) {
         WaterRS myWaterRS = WaterRSHelper
-                .narrow(grabModule(getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
         configureSimBioModule(myWaterRS, node);
         myActiveSimModules.add(myWaterRS);
     }
 
     private void createPotableWaterStore(Node node) {
-        String moduleName = getModuleName(node);
-        if (isCreatedLocally(node)) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
             myLogger.debug("Creating PotableWaterStore with moduleName: "
                     + moduleName);
             PotableWaterStoreImpl myPotableWaterStoreImpl = new PotableWaterStoreImpl(
                     myID, moduleName);
-            setupBioModule(myPotableWaterStoreImpl, node);
+            BioInitializer.setupBioModule (myPotableWaterStoreImpl, node);
             myPotableWaterStoreImpl.setLevel(getStoreLevel(node));
             myPotableWaterStoreImpl.setCapacity(getStoreCapacity(node));
             myPotableWaterStoreImpl.setResupply(
@@ -1511,17 +1403,17 @@ public class SimulationInitializer {
                     myPotableWaterStoreImpl), myPotableWaterStoreImpl
                     .getModuleName(), myPotableWaterStoreImpl.getID());
         } else
-            printRemoteWarningMessage(moduleName);
+            BioInitializer.printRemoteWarningMessage (moduleName);
     }
 
     private void createDirtyWaterStore(Node node) {
-        String moduleName = getModuleName(node);
-        if (isCreatedLocally(node)) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
             myLogger.debug("Creating DirtyWaterStore with moduleName: "
                     + moduleName);
             DirtyWaterStoreImpl myDirtyWaterStoreImpl = new DirtyWaterStoreImpl(
                     myID, moduleName);
-            setupBioModule(myDirtyWaterStoreImpl, node);
+            BioInitializer.setupBioModule (myDirtyWaterStoreImpl, node);
             myDirtyWaterStoreImpl.setLevel(getStoreLevel(node));
             myDirtyWaterStoreImpl.setCapacity(getStoreCapacity(node));
             myDirtyWaterStoreImpl.setResupply(getStoreResupplyFrequency(node),
@@ -1530,17 +1422,17 @@ public class SimulationInitializer {
                     myDirtyWaterStoreImpl), myDirtyWaterStoreImpl
                     .getModuleName(), myDirtyWaterStoreImpl.getID());
         } else
-            printRemoteWarningMessage(moduleName);
+            BioInitializer.printRemoteWarningMessage (moduleName);
     }
 
     private void createGreyWaterStore(Node node) {
-        String moduleName = getModuleName(node);
-        if (isCreatedLocally(node)) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
             myLogger.debug("Creating GreyWaterStore with moduleName: "
                     + moduleName);
             GreyWaterStoreImpl myGreyWaterStoreImpl = new GreyWaterStoreImpl(
                     myID, moduleName);
-            setupBioModule(myGreyWaterStoreImpl, node);
+            BioInitializer.setupBioModule (myGreyWaterStoreImpl, node);
             myGreyWaterStoreImpl.setLevel(getStoreLevel(node));
             myGreyWaterStoreImpl.setCapacity(getStoreCapacity(node));
             myGreyWaterStoreImpl.setResupply(getStoreResupplyFrequency(node),
@@ -1550,7 +1442,7 @@ public class SimulationInitializer {
                     myGreyWaterStoreImpl.getModuleName(), myGreyWaterStoreImpl
                             .getID());
         } else
-            printRemoteWarningMessage(moduleName);
+            BioInitializer.printRemoteWarningMessage (moduleName);
     }
 
     private void crawlWaterModules(Node node, boolean firstPass) {
@@ -1567,54 +1459,54 @@ public class SimulationInitializer {
                     createPotableWaterStore(child);
                 else
                     myPassiveSimModules.add(PotableWaterStoreHelper
-                            .narrow(grabModule(getModuleName(child))));
+                            .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(child))));
             } else if (childName.equals("GreyWaterStore")) {
                 if (firstPass)
                     createGreyWaterStore(child);
                 else
                     myPassiveSimModules.add(GreyWaterStoreHelper
-                            .narrow(grabModule(getModuleName(child))));
+                            .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(child))));
             } else if (childName.equals("DirtyWaterStore")) {
                 if (firstPass)
                     createDirtyWaterStore(child);
                 else
                     myPassiveSimModules.add(DirtyWaterStoreHelper
-                            .narrow(grabModule(getModuleName(child))));
+                            .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(child))));
             }
             child = child.getNextSibling();
         }
     }
 
     private void createIncinerator(Node node) {
-        String moduleName = getModuleName(node);
-        if (isCreatedLocally(node)) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
             myLogger.debug("Creating Incinerator with moduleName: "
                     + moduleName);
             IncineratorImpl myIncineratorImpl = new IncineratorImpl(myID,
                     moduleName);
-            setupBioModule(myIncineratorImpl, node);
+            BioInitializer.setupBioModule (myIncineratorImpl, node);
             BiosimServer.registerServer(
                     new IncineratorPOATie(myIncineratorImpl), myIncineratorImpl
                             .getModuleName(), myIncineratorImpl.getID());
         } else
-            printRemoteWarningMessage(moduleName);
+            BioInitializer.printRemoteWarningMessage (moduleName);
     }
 
     private void configureIncinerator(Node node) {
         Incinerator myIncinerator = IncineratorHelper
-                .narrow(grabModule(getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
         configureSimBioModule(myIncinerator, node);
         myActiveSimModules.add(myIncinerator);
     }
 
     private void createDryWasteStore(Node node) {
-        String moduleName = getModuleName(node);
-        if (isCreatedLocally(node)) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
             myLogger.debug("Creating DryWasteStore with moduleName: "
                     + moduleName);
             DryWasteStoreImpl myDryWasteStoreImpl = new DryWasteStoreImpl(myID,
                     moduleName);
-            setupBioModule(myDryWasteStoreImpl, node);
+            BioInitializer.setupBioModule (myDryWasteStoreImpl, node);
             myDryWasteStoreImpl.setLevel(getStoreLevel(node));
             myDryWasteStoreImpl.setCapacity(getStoreCapacity(node));
             myDryWasteStoreImpl.setResupply(getStoreResupplyFrequency(node),
@@ -1623,7 +1515,7 @@ public class SimulationInitializer {
                     myDryWasteStoreImpl), myDryWasteStoreImpl.getModuleName(),
                     myDryWasteStoreImpl.getID());
         } else
-            printRemoteWarningMessage(moduleName);
+            BioInitializer.printRemoteWarningMessage (moduleName);
     }
 
     private void crawlWasteModules(Node node, boolean firstPass) {
@@ -1640,29 +1532,29 @@ public class SimulationInitializer {
                     createDryWasteStore(child);
                 else
                     myPassiveSimModules.add(DryWasteStoreHelper
-                            .narrow(grabModule(getModuleName(child))));
+                            .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(child))));
             }
             child = child.getNextSibling();
         }
     }
 
     private void createEVAMission(Node node) {
-        String moduleName = getModuleName(node);
-        if (isCreatedLocally(node)) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
             myLogger
                     .debug("Creating EVAMission with moduleName: " + moduleName);
             EVAMissionImpl myEVAMissionImpl = new EVAMissionImpl(myID,
                     moduleName);
-            setupBioModule(myEVAMissionImpl, node);
+            BioInitializer.setupBioModule (myEVAMissionImpl, node);
             BiosimServer.registerServer(new EVAMissionPOATie(myEVAMissionImpl),
                     myEVAMissionImpl.getModuleName(), myEVAMissionImpl.getID());
         } else
-            printRemoteWarningMessage(moduleName);
+            BioInitializer.printRemoteWarningMessage (moduleName);
     }
 
     private void configureEVAMission(Node node) {
         EVAMission myEVAMission = EVAMissionHelper
-                .narrow(grabModule(getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
         configureSimBioModule(myEVAMission, node);
         myActiveSimModules.add(myEVAMission);
     }
