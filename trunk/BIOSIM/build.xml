@@ -7,7 +7,6 @@
   	<property name="src" location="src"/>
   	<property name="doc" location="doc"/>
 	<property name="buildDir" location="build"/>
-	<property name="classes" location="${buildDir}/classes"/>
 	<property name="lib" location="lib"/>
 	<property name="jacorbDir" location="${lib}/jacorb"/>
 	<property name="xercesDir" location="${lib}/xerces"/>
@@ -316,7 +315,4 @@
 		<cvs command="commit -m ''"/>
 	</target>
 	
-	<target name="test" description="test">
-		<dirname property="foo.dirname" file="."/>
-	</target>
 </project>
