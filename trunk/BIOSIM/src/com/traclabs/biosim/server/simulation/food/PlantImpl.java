@@ -279,7 +279,7 @@ public abstract class PlantImpl extends PlantPOA{
 		carbonUseEfficiency24 = getCarbonUseEfficiency24();
 		float dailyCarbonGain = calculateDailyCarbonGain();
 		//if (myAge % 24 == 0)
-			//System.out.println(getDaysOfGrowth()+","+dailyCarbonGain);
+		//	System.out.println(getDaysOfGrowth()+"\t"+dailyCarbonGain);
 		float cropGrowthRate = molecularWeightOfCarbon * (dailyCarbonGain / getBCF());
 		//System.out.println("PlantImpl: cropGrowthRate: "+cropGrowthRate);
 		myCurrentDryBiomass += (cropGrowthRate / 1000 / 24f * myShelfImpl.getCropAreaUsed()); //in kilograms per hour
@@ -437,7 +437,7 @@ public abstract class PlantImpl extends PlantPOA{
 		float oneOverCO2 = 1f / theCO2;
 		float theCO2squared = pow(theCO2, 2f);
 		float theCO2cubed = pow(theCO2, 3f);
-
+		
 		float tA = canopyClosureConstants[0] * oneOverPPf * oneOverCO2 +
 		           canopyClosureConstants[1] * oneOverPPf +
 		           canopyClosureConstants[2] * oneOverPPf * theCO2 +
@@ -465,8 +465,9 @@ public abstract class PlantImpl extends PlantPOA{
 		           canopyClosureConstants[24] * thePPFcubed  * theCO2cubed;
 		if ((tA < 0) || (Float.isNaN(tA))){
 			tA = 0;
-			//System.out.println("PlantImpl: Time till canopy closure is negative or NAN!");
+			System.out.println("PlantImpl: Time till canopy closure is negative or NAN!");
 		}
+		//System.out.println("PlantImpl: tA: "+tA);
 		return tA;
 	}
 
@@ -501,7 +502,7 @@ public abstract class PlantImpl extends PlantPOA{
 		//System.out.println("PlantImpl: oneOverCO2: "+oneOverCO2);
 		//System.out.println("PlantImpl: theCO2squared: "+theCO2squared);
 		//System.out.println("PlantImpl: theCO2cubed: "+theCO2cubed);
-
+		
 		float theCQYMax = canopyQYConstants[0] * oneOverPPf * oneOverCO2 +
 		                  canopyQYConstants[1] * oneOverPPf +
 		                  canopyQYConstants[2] * oneOverPPf * theCO2 +
@@ -529,7 +530,7 @@ public abstract class PlantImpl extends PlantPOA{
 		                  canopyQYConstants[24] * thePPFcubed  * theCO2cubed;
 		if ((theCQYMax < 0) || (Float.isNaN(theCQYMax))){
 			theCQYMax = 0;
-			//System.out.println("PlantImpl: CQYMax is negative or NaN!");
+			System.out.println("PlantImpl: CQYMax is negative or NaN!");
 		}
 		//System.out.println("PlantImpl: theCQYMax: "+theCQYMax);
 		return theCQYMax;

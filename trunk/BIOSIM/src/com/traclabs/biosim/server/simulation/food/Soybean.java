@@ -60,7 +60,7 @@ public class Soybean extends Legume{
 	}
 
 	protected float getN(){
-		return 1.0f;
+		return 1.5f;
 	}
 
 	protected float getCQYMin(){

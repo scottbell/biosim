@@ -57,7 +57,7 @@ public class SweetPotato extends Planophile{
 	}
 
 	protected float getN(){
-		return 1.0f;
+		return 1.5f;
 	}
 
 	protected float getCQYMin(){
@@ -65,7 +65,7 @@ public class SweetPotato extends Planophile{
 	}
 
 	protected float getTimeAtCanopySenescence(){
-		return getTimeAtCropMaturity();
+		return 121f;
 	}
 
 	protected float getTimeAtCropMaturity(){

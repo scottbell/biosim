@@ -12,9 +12,9 @@ public class Lettuce extends Planophile{
 		canopyClosureConstants[1] = 10289f;
 		canopyClosureConstants[2] = -3.7018f;
 		canopyClosureConstants[4] = .00000036648f;
-		canopyClosureConstants[6] = 1.751f;
+		canopyClosureConstants[6] = 1.7571f;
 		canopyClosureConstants[8] = .0000023127f;
-		canopyClosureConstants[10] = 1.8760f;
+		canopyClosureConstants[10] = 1.876f;
 
 		canopyQYConstants[6] = 0.044763f;
 		canopyQYConstants[7] = 0.00005163f;
@@ -53,7 +53,7 @@ public class Lettuce extends Planophile{
 	}
 
 	protected float getN(){
-		return 1.0f;
+		return 2.5f;
 	}
 
 	protected float getCQYMin(){
@@ -61,7 +61,7 @@ public class Lettuce extends Planophile{
 	}
 
 	protected float getTimeAtCanopySenescence(){
-		return getTimeAtCropMaturity();
+		return 31f;
 	}
 
 	protected float getTimeAtCropMaturity(){
