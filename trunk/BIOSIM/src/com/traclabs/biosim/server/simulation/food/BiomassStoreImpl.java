@@ -65,11 +65,38 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 	}
 
 	public BioMatter takeBiomatter(float pMass, PlantType pType){
-		return (new BioMatter(pMass, pType));
+		BioMatter matterToReturn = new BioMatter(0f, pType);
+		for (Iterator iter = currentBiomassItems.iterator(); iter.hasNext() &&  (matterToReturn.mass <= pMass);){
+			BioMatter currentBioMatter = (BioMatter)(iter.next());
+			if (currentBioMatter.type == pType){
+				//we need to get more bio matter
+				if (currentBioMatter.mass < (pMass - matterToReturn.mass)){
+					matterToReturn.mass += currentBioMatter.mass;
+					currentBiomassItems.remove(currentBioMatter);
+				}
+				//we have enough, let's cut up the biomass (if too much)
+				else if (currentBioMatter.mass >= (pMass - matterToReturn.mass)){
+					float partialMassToReturn = (pMass - matterToReturn.mass);
+					currentBioMatter.mass -= partialMassToReturn;
+					matterToReturn.mass += partialMassToReturn;
+					if (currentBioMatter.mass <= 0)
+						currentBiomassItems.remove(currentBioMatter);
+				}
+			}
+		}
+		return matterToReturn;
 	}
 
 	public BioMatter takeBiomatter(PlantType pType){
-		return (new BioMatter(10f, pType));
+		BioMatter matterToReturn = new BioMatter(0f, pType);
+		for (Iterator iter = currentBiomassItems.iterator(); iter.hasNext();){
+			BioMatter currentBioMatter = (BioMatter)(iter.next());
+			if (currentBioMatter.type == pType){
+				matterToReturn.mass += currentBioMatter.mass;
+				currentBiomassItems.remove(currentBioMatter);
+			}
+		}
+		return matterToReturn;
 	}
 
 	/**
