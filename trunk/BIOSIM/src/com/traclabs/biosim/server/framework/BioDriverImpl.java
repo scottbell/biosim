@@ -95,7 +95,7 @@ public class BioDriverImpl extends BioDriverPOA{
 	/**
 	* Simulation runs till all the crew dies if true.
 	*/
-	public void setRunTillDead(boolean pRunTillDead){
+	public synchronized void setRunTillDead(boolean pRunTillDead){
 		runTillDead = pRunTillDead;
 	}
 
@@ -119,7 +119,7 @@ public class BioDriverImpl extends BioDriverPOA{
 	* Simulation runs till n ticks.
 	* @param pTicks ticks to run simulation
 	*/
-	public void setRunTillN(int pTicks){
+	public synchronized void setRunTillN(int pTicks){
 		nTicks = pTicks;
 		if (nTicks > 0)
 			runTillN = true;
@@ -128,43 +128,16 @@ public class BioDriverImpl extends BioDriverPOA{
 	/**
 	* If n-ticks have been reached or the crew is dead, the simulation restarts
 	*/
-	public void setLoopSimulation(boolean pLooping){
+	public synchronized void setLoopSimulation(boolean pLooping){
 		looping = pLooping;
 	}
 
-	public void setPauseSimulation(boolean pPaused){
-		simulationIsPaused = true;
+	public synchronized void setPauseSimulation(boolean pPaused){
+		simulationIsPaused = pPaused;
 		if (!simulationIsPaused)
 			notify();
 	}
 
-	/**
-	* The ticking simulation loop.  Uses a variety of semaphores to pause/resume/end without causing deadlock.
-	* Essentially runs till told to pause or die.
-	*/
-	private void runSimulation(){
-		Thread theCurrentThread = Thread.currentThread();
-		if (!simulationStarted)
-			reset();
-		while (myTickThread == theCurrentThread) {
-			try {
-				myTickThread.sleep(driverPauseLength);
-				synchronized(this) {
-					while (simulationIsPaused && (myTickThread==theCurrentThread)){
-						wait();
-					}
-				}
-			}
-			catch (InterruptedException e){}
-			tick();
-			if (isDone()){
-				endSimulation();
-				if (looping)
-					startSimulation();
-			}
-		}
-	}
-	
 	public void setLogger(Logger pLogger){
 		myLogger = pLogger;
 	}
@@ -173,7 +146,7 @@ public class BioDriverImpl extends BioDriverPOA{
 	* Sets how long BioDriver should pause between full simulation ticks (e.g., tick all modules, wait, tick all modules, wait, etc.)
 	* @param pDriverPauseLength the length (in milliseconds) for the driver to pause between ticks
 	*/
-	public void setDriverStutterLength(int pDriverPauseLength){
+	public synchronized void setDriverStutterLength(int pDriverPauseLength){
 		if (pDriverPauseLength > 0)
 			System.out.println("BioDriverImpl:"+myID+" driver pause of "+pDriverPauseLength+" milliseconds");
 		driverPauseLength = pDriverPauseLength;
@@ -199,7 +172,7 @@ public class BioDriverImpl extends BioDriverPOA{
 	* Tells whether BioDriver should loop the simulation after end conditions have been met.
 	* @param pLoop Whether BioDriver should loop the simulation after end conditions have been met.
 	*/
-	public void setLooping(boolean pLoop){
+	public synchronized void setLooping(boolean pLoop){
 		looping = pLoop;
 	}
 
@@ -371,6 +344,32 @@ public class BioDriverImpl extends BioDriverPOA{
 			System.out.println("BioDriverImpl:"+myID+" Running simulation...");
 			simulationStarted = true;
 			runSimulation();
+		}
+		/**
+		* The ticking simulation loop.  Uses a variety of semaphores to pause/resume/end without causing deadlock.
+		* Essentially runs till told to pause or die.
+		*/
+		private void runSimulation(){
+			Thread theCurrentThread = Thread.currentThread();
+			if (!simulationStarted)
+				reset();
+			while (myTickThread == theCurrentThread) {
+				try {
+					myTickThread.sleep(driverPauseLength);
+					synchronized(this) {
+						while (simulationIsPaused && (myTickThread==theCurrentThread)){
+							wait();
+						}
+					}
+				}
+				catch (InterruptedException e){}
+				tick();
+				if (isDone()){
+					endSimulation();
+					if (looping)
+						startSimulation();
+				}
+			}
 		}
 	}
 }

@@ -126,6 +126,7 @@ public class SimDesktop extends BioFrame
 	public SimDesktop(int pID){
 		BioHolder.setID(myID);
 		myDriver = BioHolder.getBioDriver();
+		myDriver.setPauseSimulation(false);
 		myFrames = new Hashtable();
 		buildGUI();
 	}
