@@ -779,12 +779,7 @@ public class SimDesktop extends BioFrame
 	private class RefreshGuiAction extends AbstractAction{
 		public void actionPerformed(ActionEvent ae){
 			//Initialize buttons by looking at server
-			if (myDriver.isFullLogging()){
-				myLoggingItem.setText("Disable Logging");
-			}
-			else{
-				myLoggingItem.setText("Enable Logging");
-			}
+			myLoggingItem.setText("Enable Logging");
 			//Simulation has stopped
 			if (!myDriver.isStarted()){
 				myStartSimButton.setToolTipText("Starts the simulation");
@@ -837,13 +832,8 @@ public class SimDesktop extends BioFrame
 		}
 		public void actionPerformed(ActionEvent ae){
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			myDriver.setFullLogging(!myDriver.isFullLogging());
-			if (myDriver.isFullLogging()){
-				myLoggingItem.setText("Disable Logging");
-			}
-			else{
-				myLoggingItem.setText("Enable Logging");
-			}
+			myDriver.setFullLogging(true);
+			myLoggingItem.setText("Enable Logging");
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}

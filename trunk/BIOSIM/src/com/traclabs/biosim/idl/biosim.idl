@@ -179,11 +179,8 @@ module biosim{
                                 void advanceOneTick();
                                 void resumeSimulation();
                                 void setFullLogging(in boolean pLogSim);
-                                boolean isFullLogging();
                                 void setSensorLogging(in boolean pLogSim);
-                                boolean isSensorLogging();
                                 void setActuatorLogging(in boolean pLogSim);
-                                boolean isActuatorLogging();
                                 void setDriverPauseLength(in long pDriverPauseLength);
                                 long getDriverPauseLength();
                                 string getName();
