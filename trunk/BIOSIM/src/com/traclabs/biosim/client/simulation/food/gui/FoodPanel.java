@@ -62,7 +62,7 @@ public class FoodPanel extends JPanel implements BioSimulatorListener
 		biomassStorePanel = new JPanel();
 		biomassStorePanel.setLayout(new GridLayout(1,1));
 		biomassStorePanel.setBorder(BorderFactory.createTitledBorder("Biomass Store"));
-		biomassStoreLevelLabel =    new JLabel("biomass level:    "+numFormat.format(myBiomassStore.getBiomassLevel())+" kg");
+		biomassStoreLevelLabel =    new JLabel("biomass level:    "+numFormat.format(myBiomassStore.getLevel())+" kg");
 		biomassStorePanel.add(biomassStoreLevelLabel);
 
 		foodProcessorPanel = new JPanel();
@@ -78,7 +78,7 @@ public class FoodPanel extends JPanel implements BioSimulatorListener
 		foodStorePanel = new JPanel();
 		foodStorePanel.setLayout(new GridLayout(1,1));
 		foodStorePanel.setBorder(BorderFactory.createTitledBorder("Food Store"));
-		foodStoreLevelLabel =    new JLabel("food level:    "+numFormat.format(myFoodStore.getFoodLevel())+" kg");
+		foodStoreLevelLabel =    new JLabel("food level:    "+numFormat.format(myFoodStore.getLevel())+" kg");
 		foodStorePanel.add(foodStoreLevelLabel);
 
 		c.fill = GridBagConstraints.BOTH;
@@ -119,10 +119,10 @@ public class FoodPanel extends JPanel implements BioSimulatorListener
 		biomassRSCO2ConsumedLabel.setText("CO2 consumed:               "+numFormat.format(myBiomassRS.getCO2Consumed())+" L");
 		biomassRSGreyWaterConsumedLabel.setText("grey water consumed:     "+numFormat.format(myBiomassRS.getGreyWaterConsumed())+" L");
 		biomassRSPowerLabel.setText("power consumed:            "+numFormat.format(myBiomassRS.getPowerConsumed())+" W");
-		biomassStoreLevelLabel.setText("biomass level:    "+numFormat.format(myBiomassStore.getBiomassLevel())+" kg");
+		biomassStoreLevelLabel.setText("biomass level:    "+numFormat.format(myBiomassStore.getLevel())+" kg");
 		foodProcessorFoodProducedLabel.setText("food produced:          "+numFormat.format(myFoodProcessor.getFoodProduced())+" kg");
 		foodProcessorBiomassConsumedLabel.setText("biomass consumed:  "+numFormat.format(myFoodProcessor.getBiomassConsumed())+" kg");
 		foodProcessorPowerLabel.setText("power consumed:      "+numFormat.format(myFoodProcessor.getPowerConsumed())+" W");
-		foodStoreLevelLabel.setText("food level:    "+numFormat.format(myFoodStore.getFoodLevel())+" kg");
+		foodStoreLevelLabel.setText("food level:    "+numFormat.format(myFoodStore.getLevel())+" kg");
 	}
 }

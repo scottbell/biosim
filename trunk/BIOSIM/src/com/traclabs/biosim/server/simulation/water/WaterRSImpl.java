@@ -33,20 +33,20 @@ public class WaterRSImpl extends WaterRSPOA {
 		return currentPotableWaterProduced;
 	}
 	
-	public String getROStatus(){
-		return myRO.getStatus();
+	public boolean ROHasPower(){
+		return myRO.hasPower();
 	}
 	
-	public String getAESStatus(){
-		return myAES.getStatus();
+	public boolean AESHasPower(){
+		return myAES.hasPower();
 	}
 	
-	public String getPPSStatus(){
-		return myPPS.getStatus();
+	public boolean PPSHasPower(){
+		return myPPS.hasPower();
 	}
 	
-	public String getBWPStatus(){
-		return myBWP.getStatus();
+	public boolean BWPHasPower(){
+		return myBWP.hasPower();
 	}
 	
 	public RO getRO(){
@@ -114,7 +114,7 @@ public class WaterRSImpl extends WaterRSPOA {
 
 	private void gatherPower(){
 		float powerNeeded = 468;
-		currentPowerConsumed = myPowerStore.takePower(powerNeeded);
+		currentPowerConsumed = myPowerStore.take(powerNeeded);
 		if (currentPowerConsumed < powerNeeded){
 			myPPS.addPower(0);
 			myRO.addPower(0);
@@ -131,21 +131,21 @@ public class WaterRSImpl extends WaterRSPOA {
 
 	private void gatherUnpotableWater(){
 		//draw as much as we can from dirty water
-		if (myDirtyWaterStore.getWaterLevel() >= myBWP.getWaterWanted()){
-			currentDirtyWaterConsumed = myDirtyWaterStore.takeWater(myBWP.getWaterWanted());
+		if (myDirtyWaterStore.getLevel() >= myBWP.getWaterWanted()){
+			currentDirtyWaterConsumed = myDirtyWaterStore.take(myBWP.getWaterWanted());
 			currentGreyWaterConsumed = 0;
 		}
 		//draw from both
 		else{
-			currentDirtyWaterConsumed = myDirtyWaterStore.takeWater(myBWP.getWaterWanted());
-			currentGreyWaterConsumed = myGreyWaterStore.takeWater(myBWP.getWaterWanted() - currentDirtyWaterConsumed);
+			currentDirtyWaterConsumed = myDirtyWaterStore.take(myBWP.getWaterWanted());
+			currentGreyWaterConsumed = myGreyWaterStore.take(myBWP.getWaterWanted() - currentDirtyWaterConsumed);
 		}
 		myBWP.addWater(currentDirtyWaterConsumed + currentGreyWaterConsumed);
 	}
 
 	private void distributePotableWater(){
 		currentPotableWaterProduced = myPPS.takePotableWater();
-		myPotableWaterStore.addWater(currentPotableWaterProduced);
+		myPotableWaterStore.add(currentPotableWaterProduced);
 	}
 
 	public String getModuleName(){

@@ -72,20 +72,20 @@ public class BioSimulator implements Runnable
 		DirtyWaterStore myDirtyWaterStore = (DirtyWaterStore)(getBioModule(dirtyWaterStoreName));
 		PotableWaterStore myPotableWaterStore = (PotableWaterStore)(getBioModule(potableWaterStoreName));
 		GreyWaterStore myGreyWaterStore = (GreyWaterStore)(getBioModule(greyWaterStoreName));
-		myDirtyWaterStore.setWaterCapacity(2000f);
-		myDirtyWaterStore.setWaterLevel(0f);
-		myPotableWaterStore.setWaterCapacity(200f);
-		myPotableWaterStore.setWaterLevel(200f);
-		myGreyWaterStore.setWaterCapacity(2000f);
-		myGreyWaterStore.setWaterLevel(0f);
+		myDirtyWaterStore.setCapacity(2000f);
+		myDirtyWaterStore.setLevel(0f);
+		myPotableWaterStore.setCapacity(200f);
+		myPotableWaterStore.setLevel(200f);
+		myGreyWaterStore.setCapacity(2000f);
+		myGreyWaterStore.setLevel(0f);
 
 		//Fill the air tanks
 		CO2Store myCO2Store = (CO2Store)(getBioModule(CO2StoreName));
 		O2Store myO2Store = (O2Store)(getBioModule(O2StoreName));
-		myCO2Store.setCO2Capacity(1000f);
-		myO2Store.setO2Capacity(1000f);
-		myCO2Store.setCO2Level(0f);
-		myO2Store.setO2Level(0f);
+		myCO2Store.setCapacity(1000f);
+		myO2Store.setCapacity(1000f);
+		myCO2Store.setLevel(0f);
+		myO2Store.setLevel(0f);
 
 		//Put some air in the cabin
 		SimEnvironment mySimEnvironment = (SimEnvironment)(getBioModule(simEnvironmentName));
@@ -96,15 +96,15 @@ public class BioSimulator implements Runnable
 		//Add some crops and food
 		BiomassStore myBiomassStore = (BiomassStore)(getBioModule(biomassStoreName));
 		FoodStore myFoodStore = (FoodStore)(getBioModule(foodStoreName));
-		myBiomassStore.setBiomassCapacity(100f);
-		myFoodStore.setFoodCapacity(500f);
-		myBiomassStore.setBiomassLevel(0f);
-		myFoodStore.setFoodLevel(500f);
+		myBiomassStore.setCapacity(100f);
+		myFoodStore.setCapacity(500f);
+		myBiomassStore.setLevel(0f);
+		myFoodStore.setLevel(500f);
 
 		//Add some power
 		PowerStore myPowerStore = (PowerStore)(getBioModule(powerStoreName));
-		myPowerStore.setPowerCapacity(30000f);
-		myPowerStore.setPowerLevel(30000f);
+		myPowerStore.setCapacity(30000f);
+		myPowerStore.setLevel(30000f);
 	}
 
 	private void runSimulation(){

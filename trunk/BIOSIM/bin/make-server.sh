@@ -15,7 +15,7 @@ jikesCommand="jikes"
 type $jikesCommand 2> /dev/null >/dev/null
 if [ $? != 0 ]; then
 	javac_command=javac
-	echo "		-using javac compiler (assuming it's in the parth)"
+	echo "		-using javac compiler (assuming it's in the path)"
 else
 	javac_command=jikes
 	echo "		-using jikes compiler"
@@ -104,6 +104,10 @@ then
 	$compilationInvocation $simSkeletonDir/idl/framework/*.java
 fi
 echo "			-compiling implementations"
+echo "				-compiling util implementation"
+$compilationInvocation $serverDir/util/*.java
+echo "				-compiling framework implementation"
+$compilationInvocation $serverDir/framework/*.java
 echo "				-compiling air implementation"
 $compilationInvocation $serverDir/air/*.java
 echo "				-compiling water implementation"
@@ -116,10 +120,6 @@ echo "				-compiling food implementation"
 $compilationInvocation $serverDir/food/*.java
 echo "				-compiling environment implementation"
 $compilationInvocation $serverDir/environment/*.java
-echo "				-compiling framework implementation"
-$compilationInvocation $serverDir/framework/*.java
-echo "				-compiling util implementation"
-$compilationInvocation $serverDir/util/*.java
 echo "*done building biosim"
 
 
