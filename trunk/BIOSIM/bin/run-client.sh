@@ -24,8 +24,6 @@ then
 	echo "		-JAVA_HOME not set, assuming java and javac are in path..."
 	java_command="java"
 fi
-echo "verison from $java_command is:"
-$java_command -version
 JACORB_HOME="$devRootDir/lib/jacorb"
 jacoNameIOR="-DORBInitRef.NameService=file:$iorHome/generated/ns/ior.txt"
 separator=":"

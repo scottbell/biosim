@@ -203,12 +203,12 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		DirtyWaterStore myDirtyWaterStore = (DirtyWaterStore)(getBioModule(dirtyWaterStoreName));
 		PotableWaterStore myPotableWaterStore = (PotableWaterStore)(getBioModule(potableWaterStoreName));
 		GreyWaterStore myGreyWaterStore = (GreyWaterStore)(getBioModule(greyWaterStoreName));
-		myDirtyWaterStore.setCapacity(500f);
+		myDirtyWaterStore.setCapacity(10000f);
 		myDirtyWaterStore.setLevel(0f);
-		myPotableWaterStore.setCapacity(500f);
-		myPotableWaterStore.setLevel(500f);
-		myGreyWaterStore.setCapacity(500f);
-		myGreyWaterStore.setLevel(500f);
+		myPotableWaterStore.setCapacity(10000f);
+		myPotableWaterStore.setLevel(10000f);
+		myGreyWaterStore.setCapacity(10000f);
+		myGreyWaterStore.setLevel(10000f);
 
 		//Fill the air tanks
 		CO2Store myCO2Store = (CO2Store)(getBioModule(CO2StoreName));
@@ -220,8 +220,11 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 
 		//Put some air in the cabin
 		SimEnvironment mySimEnvironment = (SimEnvironment)(getBioModule(simEnvironmentName));
-		Double environmentCapacity = new Double(1.54893 * Math.pow(10, 6));
-		mySimEnvironment.setCapacity(environmentCapacity.floatValue());
+		double environmentCapacity = 1.54893 * Math.pow(10, 6);
+		//for dave, make bigger
+		environmentCapacity *= 10;
+		Double environmentCapacityObj = new Double(environmentCapacity);
+		mySimEnvironment.setCapacity(environmentCapacityObj.floatValue());
 
 		//Add some crops and food
 		BiomassStore myBiomassStore = (BiomassStore)(getBioModule(biomassStoreName));
