@@ -124,6 +124,15 @@ public class WaterRSImpl extends WaterRSPOA {
 	}
 
 	private void gatherUnpotableWater(){
+		if (myDirtyWaterStore.getWaterLevel() != 0){
+			currentDirtyWaterConsumed = myDirtyWaterStore.takeWater(myBWP.getWaterWanted());
+			currentGreyWaterConsumed = 0;
+		}
+		else{
+			currentDirtyWaterConsumed = 0;
+			currentGreyWaterConsumed = myGreyWaterStore.takeWater(myBWP.getWaterWanted());
+		}
+		myBWP.addWater(currentDirtyWaterConsumed + currentGreyWaterConsumed);
 	}
 
 	private void distributeCleanWater(){
