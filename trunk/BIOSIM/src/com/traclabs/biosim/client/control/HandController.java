@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -45,7 +46,7 @@ import com.traclabs.biosim.idl.simulation.water.WaterRS;
 public class HandController {
 
     //feedback loop sttuff
-    private double levelToKeepO2At = 0.25f;
+    private double levelToKeepO2At = 0.20f;
 
     private double CrewCO2Level = 0.0012f;
 
@@ -58,13 +59,13 @@ public class HandController {
     private final static String TAB = "\t";
 
     // hand controller stuff;
-    private  int water = 0;
+    private int dirtyWater = 0;
 
-    private int gwater = 0;
+    private int greyWater = 0;
 
     private int CO2 = 0;
 
-    private int potable = 0;
+    private int potableWater = 0;
 
     private StateMap continuousState;
 
@@ -104,7 +105,7 @@ public class HandController {
 
     private PowerStore myPowerStore;
 
-    private  O2Store myO2Store;
+    private O2Store myO2Store;
 
     private CO2Store myCO2Store;
 
@@ -132,8 +133,15 @@ public class HandController {
 
     private boolean plantsExist;
 
+    private DecimalFormat numFormat;
+    
+    private static final Integer HIGH = new Integer(0);
+    private static final Integer LOW = new Integer(1);
+    private static final Integer NORMAL = new Integer(2);
+
     public HandController() {
         myLogger = Logger.getLogger(this.getClass());
+        numFormat = new DecimalFormat("#,##0.0;(#)");
     }
 
     public static void main(String[] args) {
@@ -149,11 +157,13 @@ public class HandController {
         float tmp2, oldvalue, newvalue;
         GenericActuator currentActuator;
 
-        try {
-            fw = new FileWriter(outFile);
-        } catch (IOException e) {
+        if (myLogger.isDebugEnabled()) {
+            try {
+                fw = new FileWriter(outFile);
+            } catch (IOException e) {
+            }
+            pw = new PrintWriter(fw, true);
         }
-        pw = new PrintWriter(fw, true);
         myBioHolder = BioHolderInitializer.getBioHolder();
         myBioDriver = myBioHolder.theBioDriver;
         plantsExist = myBioHolder.theBiomassRSModules.size() > 0;
@@ -185,12 +195,13 @@ public class HandController {
         myFoodStore = (FoodStore) myBioHolder.theFoodStores.get(0);
         myPowerStore = (PowerStore) myBioHolder.thePowerStores.get(0);
         //supply power
-        currentActuator = (GenericActuator) (myBioHolder.getActuatorAttachedTo(
+        /*currentActuator = (GenericActuator) (myBioHolder.getActuatorAttachedTo(
                 myBioHolder.thePowerInFlowRateActuators, myWaterRS));
         currentActuator.setValue(500);
         currentActuator = (GenericActuator) (myBioHolder.getActuatorAttachedTo(
                 myBioHolder.thePowerInFlowRateActuators, myOGS));
         currentActuator.setValue(300);
+        */
         //set values for other inputs and outputs
         currentActuator = (GenericActuator) (myBioHolder.getActuatorAttachedTo(
                 myBioHolder.thePotableWaterOutFlowRateActuators, myWaterRS));
@@ -213,7 +224,7 @@ public class HandController {
                             myBiomassRS));
             currentActuator.setValue(2);
         }
-        
+
         setThresholds();
 
         // initialize everything to off
@@ -234,11 +245,11 @@ public class HandController {
         crewCO2integral = 0f;
         crewH2Ointegral = 0f;
         Runs++;
-        
+
         continuousState = new StateMap();
         continuousState.updateState();
         classifiedState = classifyState(continuousState);
-        currentAction = handController(classifiedState);
+        currentAction = findActionMap(classifiedState);
         setActuators(currentAction);
 
     }
@@ -258,7 +269,7 @@ public class HandController {
             currentAction.printMe();
             continuousState.updateState();
             classifiedState = classifyState(continuousState);
-            currentAction = handController(classifiedState);
+            currentAction = findActionMap(classifiedState);
             setActuators(currentAction);
             if (plantsExist) {
                 doFoodProcessor();
@@ -278,47 +289,48 @@ public class HandController {
         // sets up the threshold map variable
         int i;
         Map subMap;
-        int dirtyWaterHighLevel = (int)myDirtyWaterStore.getCurrentCapacity();
+        int dirtyWaterHighLevel = (int) myDirtyWaterStore.getCurrentCapacity();
         int dirtyWaterLowLevel = dirtyWaterHighLevel / 40;
-        int greyWaterHighLevel = (int)myGreyWaterStore.getCurrentCapacity();
+        int greyWaterHighLevel = (int) myGreyWaterStore.getCurrentCapacity();
         int greyWaterLowLevel = greyWaterHighLevel / 40;
-        int potableWaterHighLevel = (int)myPotableWaterStore.getCurrentCapacity();
+        int potableWaterHighLevel = (int) myPotableWaterStore
+                .getCurrentCapacity();
         int potableWaterLowLevel = potableWaterHighLevel / 40;
-        int O2StoreHighLevel = (int)myO2Store.getCurrentCapacity();
-        int O2StoreLowLevel = O2StoreHighLevel / 40;
-        int CO2StoreHighLevel = (int)myCO2Store.getCurrentCapacity();
+        int O2StoreHighLevel = (int) myO2Store.getCurrentCapacity();
+        int O2StoreLowLevel = O2StoreHighLevel / 4;
+        int CO2StoreHighLevel = (int) myCO2Store.getCurrentCapacity();
         int CO2StoreLowLevel = CO2StoreHighLevel / 40;
-        int H2StoreHighLevel = (int)myH2Store.getCurrentCapacity();
+        int H2StoreHighLevel = (int) myH2Store.getCurrentCapacity();
         int H2StoreLowLevel = H2StoreHighLevel / 100;
 
         subMap = new TreeMap();
-        subMap.put("low", new Integer(dirtyWaterLowLevel));
-        subMap.put("high", new Integer(dirtyWaterHighLevel));
+        subMap.put(LOW, new Integer(dirtyWaterLowLevel));
+        subMap.put(HIGH, new Integer(dirtyWaterHighLevel));
         thresholdMap.put("dirtywater", subMap);
 
         subMap = new TreeMap();
-        subMap.put("low", new Integer(greyWaterLowLevel));
-        subMap.put("high", new Integer(greyWaterHighLevel));
+        subMap.put(LOW, new Integer(greyWaterLowLevel));
+        subMap.put(HIGH, new Integer(greyWaterHighLevel));
         thresholdMap.put("greywater", subMap);
 
         subMap = new TreeMap();
-        subMap.put("low", new Integer(potableWaterLowLevel));
-        subMap.put("high", new Integer(potableWaterHighLevel));
+        subMap.put(LOW, new Integer(potableWaterLowLevel));
+        subMap.put(HIGH, new Integer(potableWaterHighLevel));
         thresholdMap.put("potablewater", subMap);
 
         subMap = new TreeMap();
-        subMap.put("low", new Integer(O2StoreLowLevel));
-        subMap.put("high", new Integer(O2StoreHighLevel));
+        subMap.put(LOW, new Integer(O2StoreLowLevel));
+        subMap.put(HIGH, new Integer(O2StoreHighLevel));
         thresholdMap.put("oxygen", subMap);
 
         subMap = new TreeMap();
-        subMap.put("low", new Integer(CO2StoreLowLevel));
-        subMap.put("high", new Integer(CO2StoreHighLevel));
+        subMap.put(LOW, new Integer(CO2StoreLowLevel));
+        subMap.put(HIGH, new Integer(CO2StoreHighLevel));
         thresholdMap.put("carbondioxide", subMap);
 
         subMap = new TreeMap();
-        subMap.put("low", new Integer(H2StoreLowLevel));
-        subMap.put("high", new Integer(H2StoreHighLevel));
+        subMap.put(LOW, new Integer(H2StoreLowLevel));
+        subMap.put(HIGH, new Integer(H2StoreHighLevel));
         thresholdMap.put("hydrogen", subMap);
 
     }
@@ -342,13 +354,13 @@ public class HandController {
             fileoutput.append(instate.getStateValue(stateNames[i]));
             fileoutput.append(TAB);
             if (instate.getStateValue(stateNames[i]) < ((Integer) thisSet
-                    .get("low")).intValue())
-                state.put(stateNames[i], "low");
+                    .get(LOW)).intValue())
+                state.put(stateNames[i], LOW);
             else if (instate.getStateValue(stateNames[i]) > ((Integer) thisSet
-                    .get("high")).intValue())
-                state.put(stateNames[i], "high");
+                    .get(HIGH)).intValue())
+                state.put(stateNames[i], HIGH);
             else
-                state.put(stateNames[i], "normal");
+                state.put(stateNames[i], NORMAL);
         }
 
         if (plantsExist) {
@@ -404,7 +416,7 @@ public class HandController {
             currentActuator = (GenericActuator) (ActionMap.actuators[i]);
             currentActuator.setValue((float) currentAction
                     .getActuatorValue(names[i]));
-            myLogger.debug("Setting " + names[i] + " to "
+            myLogger.info("Setting " + names[i] + " to "
                     + currentAction.getActuatorValue(names[i]));
         }
 
@@ -433,9 +445,16 @@ public class HandController {
         crewO2 = levelSensor.getValue();
         delta = (double) (levelToKeepO2At - crewO2);
         crewO2integral += delta;
-        float fudgeFactor = 2f;
-        signal = (delta * crewO2p + crewO2i * crewO2integral) * fudgeFactor;
-        myLogger.info("O2 flow from tank to Crew environment: " + signal);
+        signal = (delta * crewO2p + crewO2i * crewO2integral) + 2;
+        
+        myLogger.info("levelToKeepO2At = "+levelToKeepO2At);
+        myLogger.info("crewO2 = "+crewO2);
+        myLogger.info("crewO2integral = "+crewO2integral);
+        myLogger.info("delta = "+delta);
+        myLogger.info("O2 tank ("
+                + numFormat.format(myO2Store.getCurrentLevel())
+                + ") flow to Crew environment: " + numFormat.format(signal));
+        
         currentActuator = (GenericActuator) (myBioHolder
                 .getActuatorAttachedTo(
                         myBioHolder.theO2AirEnvironmentOutFlowRateActuators,
@@ -487,52 +506,52 @@ public class HandController {
 
     }
 
-    private ActionMap handController(Map SimState) {
+    private ActionMap findActionMap(Map SimState) {
         String printout = "";
         ActionMap myAction;
         int i;
-        if (SimState.get("potablewater") == "low") {
-            water = 1;
-        } else if (SimState.get("dirtywater") == "high"
-                && SimState.get("potablewater") != "high") {
-            water = 1;
+        if (SimState.get("potablewater") == LOW) {
+            dirtyWater = 1;
+        } else if (SimState.get("dirtywater") == HIGH
+                && SimState.get("potablewater") != HIGH) {
+            dirtyWater = 1;
         } else {
-            water = 0;
+            dirtyWater = 0;
         }
-        if (SimState.get("potablewater") == "low"
-                && SimState.get("greywater") != "low") {
-            gwater = 1;
-        } else if (SimState.get("greywater") == "high"
-                && SimState.get("potablewater") != "high") {
-            gwater = 1;
+        if (SimState.get("potablewater") == LOW
+                && SimState.get("greywater") != LOW) {
+            greyWater = 1;
+        } else if (SimState.get("greywater") == HIGH
+                && SimState.get("potablewater") != HIGH) {
+            greyWater = 1;
         } else {
-            gwater = 0;
+            greyWater = 0;
         }
 
-        if (SimState.get("carbondioxide") == "low") {
+        if (SimState.get("carbondioxide") == LOW) {
             CO2 = 0;
         }
-        if (SimState.get("hydrogen") == "low") {
+        if (SimState.get("hydrogen") == LOW) {
             CO2 = 0;
         }
-        if (SimState.get("hydrogen") == "high") {
+        if (SimState.get("hydrogen") == HIGH) {
             CO2 = 1;
-            potable = 0;
+            potableWater = 0;
         }
-        if (SimState.get("oxygen") == "low") {
-            potable = 1;
+        if (SimState.get("oxygen") == LOW) {
+            potableWater = 1;
 
         }
-        if (SimState.get("oxygen") == "high") {
-            potable = 0;
+        if (SimState.get("oxygen") == HIGH) {
+            potableWater = 0;
         }
-        if (SimState.get("carbondioxide") == "high") {
+        if (SimState.get("carbondioxide") == HIGH) {
             CO2 = 1;
         }
 
-        myLogger.debug("CRS: " + CO2 + " OGS: " + potable + " Dirty Water: "
-                + water + " Grey Water: " + gwater);
-        myAction = new ActionMap(new int[] { CO2, potable, water, gwater });
+        myLogger.debug("CRS: " + CO2 + " OGS: " + potableWater + " Dirty Water: "
+                + dirtyWater + " Grey Water: " + greyWater);
+        myAction = new ActionMap(new int[] { CO2, potableWater, dirtyWater, greyWater });
         return myAction;
 
     }
