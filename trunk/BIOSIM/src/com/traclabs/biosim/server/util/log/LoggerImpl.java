@@ -15,15 +15,18 @@ public class LoggerImpl extends LoggerPOA  {
 	private SimEnvironment myEnvironment;
 	private boolean processingLogs = true;
 	private LogNodeImpl currentTickLogNode;
+	private LogNodeImpl rootLogNode;
 	private int currentTick = -1;
 	
 	public LoggerImpl(){
 		//use default handler (System.out)
 		setLogHandlerType(LogHandlerType.XML);
+		rootLogNode = new LogNodeImpl("");
 	}
 	
 	public LoggerImpl(LogHandlerType pLogType){
 		setLogHandlerType(pLogType);
+		rootLogNode = new LogNodeImpl("");
 	}
 	
 	public LogHandlerType getLogHandlerType(){
@@ -54,7 +57,7 @@ public class LoggerImpl extends LoggerPOA  {
 		processingLogs = pAllowLogging;
 	}
 	
-	public void writeLog(){
+	public void endLog(){
 		myLogHandler.endLog();
 	}
 	
@@ -83,10 +86,8 @@ public class LoggerImpl extends LoggerPOA  {
 			myLogHandler.writeLog(LogNodeHelper.narrow(OrbUtils.poaToCorbaObj(currentTickLogNode)));
 		}
 		if (currentTick != myEnvironment.getTicks()){
-			currentTickLogNode = new LogNodeImpl("biosim");
-			LogNode tickLabel = currentTickLogNode.addChild("tick");
-			tickLabel.addChild(""+(myEnvironment.getTicks() - 1));
 			currentTick = myEnvironment.getTicks();
+			currentTickLogNode = rootLogNode.addChildImpl("tick "+currentTick);
 		}
 		currentTickLogNode.addChild(logToAdd);
 	}
