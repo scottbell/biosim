@@ -8,15 +8,10 @@ import org.apache.log4j.Logger;
 import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
-import com.traclabs.biosim.idl.simulation.air.CO2Store;
 import com.traclabs.biosim.idl.simulation.air.O2Store;
 import com.traclabs.biosim.idl.simulation.water.DirtyWaterStore;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterStore;
 import com.traclabs.biosim.idl.simulation.water.PotableWaterStore;
-
-//javac -classpath
-// .:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/generated/client/classes
-// StateMap.java
 
 public class StateMap {
     private Map myMap;
@@ -30,8 +25,6 @@ public class StateMap {
     private GreyWaterStore myGreyWaterStore;
 
     private O2Store myO2Store;
-
-    private CO2Store myCO2Store;
 
     public static float[] capacities;
 
@@ -56,7 +49,6 @@ public class StateMap {
                 .get(0);
 
         myO2Store = (O2Store) myBioHolder.theO2Stores.get(0);
-        myCO2Store = (CO2Store) myBioHolder.theCO2Stores.get(0);
 
         stateSources = new GenericSensor[4];
         stateSources[0] = (GenericSensor) myBioHolder.getSensorAttachedTo(
@@ -78,46 +70,17 @@ public class StateMap {
 
     public void updateState() {
         // gathers continuous valued state variables
-        int i;
         GenericSensor currentSensor;
 
-        for (i = 0; i < stateSources.length; i++) {
+        for (int i = 0; i < stateSources.length; i++) {
             currentSensor = (GenericSensor) (stateSources[i]);
             myMap.put(stateNames[i], new Float(currentSensor.getValue()));
         }
 
     }
 
-    public void setStatefromVector(float[] outputvector) {
-        int i;
-        for (i = 0; i < stateNames.length; i++)
-            myMap
-                    .put(stateNames[i], new Float(capacities[i]
-                            * outputvector[i]));
-    }
-
-    public Map getState() {
-        return myMap;
-    }
-
-    public GenericSensor[] getStateSources() {
-        return stateSources;
-    }
-
     public float getStateValue(String name) {
         return ((Float) myMap.get(name)).floatValue();
-    }
-
-    public int size() {
-        return stateSources.length;
-    }
-
-    public void printMe() {
-        myLogger.debug(myMap);
-    }
-
-    public Map getMap() {
-        return myMap;
     }
 
 }

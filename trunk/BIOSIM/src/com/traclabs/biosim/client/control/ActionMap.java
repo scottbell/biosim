@@ -25,35 +25,44 @@ public class ActionMap {
     private static final Integer LOW = new Integer(1);
 
     private GenericActuator myOGSPotableWaterInFlowRateActuator;
-    private GenericActuator myOGSPowerActuator;
+    private GenericActuator myOGSPowerInFlowRateActuator;
+    private float myOGSPotableWaterInFlowRateMax;
+    private float myOGSPowerInFlowRateMax;
     
     private GenericActuator myWaterRSDirtyWaterInFlowRateActuator;
     private GenericActuator myWaterRSGreyWaterInFlowRateActuator;
-    private GenericActuator myWaterRSPowerActuator;
+    private GenericActuator myWaterRSPowerInFlowRateActuator;
+    private float myWaterRSDirtyWaterInFlowRateMax;
+    private float myWaterRSGreyWaterInFlowRateMax;
+    private float myWaterRSPowerInFlowRateMax;
 
     public ActionMap() {
         myLogger = Logger.getLogger(this.getClass());
         
         myBioHolder = BioHolderInitializer.getBioHolder();
 
-        WaterRS myWaterRS = (WaterRS) myBioHolder.theWaterRSModules.get(0);
+        WaterRS myWaterRS = (WaterRS)myBioHolder.theWaterRSModules.get(0);
+        myWaterRSDirtyWaterInFlowRateMax = myWaterRS.getDirtyWaterConsumerDefinition().getDesiredFlowRate(0);
+        myWaterRSGreyWaterInFlowRateMax = myWaterRS.getGreyWaterConsumerDefinition().getDesiredFlowRate(0);
+        myWaterRSPowerInFlowRateMax = myWaterRS.getPowerConsumerDefinition().getDesiredFlowRate(0);
+
+        myLogger.info("myOGSPotableWaterInFlowRateMax = "+myOGSPotableWaterInFlowRateMax);
         OGS myOGS = (OGS) myBioHolder.theOGSModules.get(0);
+        myOGSPotableWaterInFlowRateMax = myOGS.getPowerConsumerDefinition().getDesiredFlowRate(0);
+        myLogger.info("myOGSPotableWaterInFlowRateMax = "+myOGSPotableWaterInFlowRateMax);
         
         myOGSPotableWaterInFlowRateActuator = myBioHolder.getActuatorAttachedTo(
                 myBioHolder.thePotableWaterInFlowRateActuators, myOGS);
-        myOGSPowerActuator = myBioHolder.getActuatorAttachedTo(
+        myOGSPowerInFlowRateActuator = myBioHolder.getActuatorAttachedTo(
                 myBioHolder.thePowerInFlowRateActuators, myOGS);
         
         myWaterRSDirtyWaterInFlowRateActuator = myBioHolder.getActuatorAttachedTo(
                 myBioHolder.theDirtyWaterInFlowRateActuators, myWaterRS);
         myWaterRSGreyWaterInFlowRateActuator = myBioHolder.getActuatorAttachedTo(
                 myBioHolder.theGreyWaterInFlowRateActuators, myWaterRS);
-        myWaterRSPowerActuator = myBioHolder.getActuatorAttachedTo(
+        myWaterRSPowerInFlowRateActuator = myBioHolder.getActuatorAttachedTo(
                 myBioHolder.thePowerInFlowRateActuators, myWaterRS);
 
-    }
-
-    public void printMe() {
     }
 
     /**
@@ -93,24 +102,24 @@ public class ActionMap {
         //OGS
         if (myOGSProduceO2){
             myOGSPotableWaterInFlowRateActuator.setValue(myOGSPotableWaterInFlowRateActuator.getMax());
-            myOGSPowerActuator.setValue(myOGSPowerActuator.getMax());
+            myOGSPowerInFlowRateActuator.setValue(myOGSPowerInFlowRateMax);
         }
         else{
             myOGSPotableWaterInFlowRateActuator.setValue(myOGSPotableWaterInFlowRateActuator.getMin());
-            myOGSPowerActuator.setValue(myOGSPowerActuator.getMin());
+            myOGSPowerInFlowRateActuator.setValue(myOGSPowerInFlowRateActuator.getMin());
         }
         
         //WaterRS
         if (myWaterRSConsumeDirtyWater || myWaterRSConsumeGreyWater)
-            myWaterRSPowerActuator.setValue(myWaterRSPowerActuator.getMax());
+            myWaterRSPowerInFlowRateActuator.setValue(myWaterRSPowerInFlowRateMax);
         else
-            myWaterRSPowerActuator.setValue(myWaterRSPowerActuator.getMin());
+            myWaterRSPowerInFlowRateActuator.setValue(myWaterRSPowerInFlowRateActuator.getMin());
         if (myWaterRSConsumeDirtyWater)
-            myWaterRSDirtyWaterInFlowRateActuator.setValue(myWaterRSDirtyWaterInFlowRateActuator.getMax());
+            myWaterRSDirtyWaterInFlowRateActuator.setValue(myWaterRSDirtyWaterInFlowRateMax);
         else
             myWaterRSDirtyWaterInFlowRateActuator.setValue(myWaterRSDirtyWaterInFlowRateActuator.getMin());
         if (myWaterRSConsumeGreyWater)
-            myWaterRSGreyWaterInFlowRateActuator.setValue(myWaterRSGreyWaterInFlowRateActuator.getMax());
+            myWaterRSGreyWaterInFlowRateActuator.setValue(myWaterRSGreyWaterInFlowRateMax);
         else
             myWaterRSGreyWaterInFlowRateActuator.setValue(myWaterRSGreyWaterInFlowRateActuator.getMin());
     }
