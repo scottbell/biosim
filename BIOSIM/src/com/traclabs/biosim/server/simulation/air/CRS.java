@@ -35,6 +35,8 @@ public class CRS extends AirRSSubSystem{
 		if ((currentH2Consumed <= 0) || (currentCO2Consumed <=0)){
 			currentH2OProduced = myAirRS.randomFilter(0f);
 			currentCH4Produced = myAirRS.randomFilter(0f);
+			myAirRS.pushResourceToStore(myAirRS.getH2Inputs(), myAirRS.getH2InputMaxFlowRates(), myAirRS.getH2InputDesiredFlowRates(), myAirRS.getH2InputActualFlowRates(), currentH2Consumed);
+			myAirRS.pushResourceToStore(myAirRS.getCO2Inputs(), myAirRS.getCO2InputMaxFlowRates(), myAirRS.getCO2InputDesiredFlowRates(), myAirRS.getCO2InputActualFlowRates(), currentCO2Consumed);
 		}
 		else{
 			// CO2 + 4H2 --> CH4 + 2H20
