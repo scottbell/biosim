@@ -5,7 +5,7 @@
 
 	</description>
 	<!-- set global properties for this build -->
-	<property name="build.compiler" value="jikes" />
+	<!-- <property name="build.compiler" value="jikes" /> -->
 	<property name="src" location="src" />
 	<property name="doc" location="doc" />
 	<property name="buildDir" location="build" />
@@ -70,14 +70,14 @@
 			</classpath>
 		</java>
 		<echo message="Compiling stubs" />
-		<javac srcdir="${stubsDir}" destdir="${buildDir}" fork="no" memoryMaximumSize="128m" nowarn="yes">
+		<javac srcdir="${stubsDir}" destdir="${buildDir}" fork="yes" memoryMaximumSize="128m" nowarn="yes">
 			<classpath>
 				<pathelement location="${jacorbDir}/jacorb.jar" />
 			</classpath>
 		</javac>
 	</target>
 
-	<target name="build-server" depends="stub-idl" description="compile the server">
+	<target name="build-server" depends="stub-idl, build-client" description="compile the server">
 		<echo message="Compling the server" />
 		<javac srcdir="${src}/com/traclabs/biosim/server" destdir="${buildDir}" nowarn="yes">
 			<classpath>
@@ -111,7 +111,7 @@
 		</javac>
 	</target>
 
-	<target name="build-editor" description="builds editor">
+	<target name="build-editor" depends="build-client" description="builds editor">
 		<echo message="Compling the editor" />
 		<javac srcdir="${src}/com/traclabs/biosim/server/editor" destdir="${buildDir}" nowarn="yes">
 			<classpath>
