@@ -95,15 +95,15 @@
 				<waterProducer maxFlowRates="100 100" desiredFlowRates="100 100" outputs="DirtyWaterStore GreyWaterStore"/>
 			</FoodProcessor>
 			<BiomassRS name="BiomassRS">
-				<shelf cropArea="5" cropType="WHEAT"/>
-				<shelf cropArea="5" cropType="WHITE_POTATO"/>
-				<shelf cropArea="5" cropType="RICE"/>
-				<shelf cropArea="5" cropType="TOMATO"/>
-				<shelf cropArea="5" cropType="SOYBEAN"/>
-				<shelf cropArea="5" cropType="DRY_BEAN"/>
-				<shelf cropArea="5" cropType="LETTUCE"/>
-				<shelf cropArea="5" cropType="SWEET_POTATO"/>
-				<shelf cropArea="5" cropType="PEANUT"/>
+				<shelf cropArea="29" cropType="WHEAT"/>
+				<shelf cropArea="0" cropType="WHITE_POTATO"/>
+				<shelf cropArea="0" cropType="RICE"/>
+				<shelf cropArea="0" cropType="TOMATO"/>
+				<shelf cropArea="0" cropType="SOYBEAN"/>
+				<shelf cropArea="0" cropType="DRY_BEAN"/>
+				<shelf cropArea="0" cropType="LETTUCE"/>
+				<shelf cropArea="0" cropType="SWEET_POTATO"/>
+				<shelf cropArea="0" cropType="PEANUT"/>
 				<powerConsumer maxFlowRates="400" desiredFlowRates="400" inputs="PowerStore"/>
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="GreyWaterStore"/>
@@ -112,8 +112,8 @@
 				<biomassProducer maxFlowRates="100" desiredFlowRates="100" outputs="BiomassStore"/>
 				<airProducer maxFlowRates="0" desiredFlowRates="0" outputs="PlantEnvironment"/>
 			</BiomassRS>
-			<BiomassStore name="BiomassStore" capacity="1000" level="300"/>
-			<FoodStore name="FoodStore" capacity="2000" level="2000"/>
+			<BiomassStore name="BiomassStore" capacity="1000" level="1000"/>
+			<FoodStore name="FoodStore" capacity="2000" level="500"/>
 		</food>
 		<framework>
 			<Accumulator name="Accumulator">
