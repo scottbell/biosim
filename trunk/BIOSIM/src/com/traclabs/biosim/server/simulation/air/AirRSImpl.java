@@ -146,7 +146,7 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 	* @return the name of this module
 	*/
 	public String getModuleName(){
-		return "AirRS";
+		return "AirRS"+getID();
 	}
 	
 	private void log(){

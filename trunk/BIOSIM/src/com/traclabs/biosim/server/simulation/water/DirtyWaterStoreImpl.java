@@ -16,6 +16,6 @@ public class DirtyWaterStoreImpl extends StoreImpl implements DirtyWaterStoreOpe
 	* @return the name of this module
 	*/
 	public String getModuleName(){
-		return "DirtyWaterStore";
+		return "DirtyWaterStore"+getID();
 	}
 }

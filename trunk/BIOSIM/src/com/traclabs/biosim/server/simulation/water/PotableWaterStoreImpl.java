@@ -17,6 +17,6 @@ public class PotableWaterStoreImpl extends StoreImpl implements PotableWaterStor
 	* @return the name of this module
 	*/
 	public String getModuleName(){
-		return "PotableWaterStore";
+		return "PotableWaterStore"+getID();
 	}
 }

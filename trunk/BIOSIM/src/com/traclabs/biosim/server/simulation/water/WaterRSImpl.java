@@ -239,7 +239,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	* @return the name of the module
 	*/
 	public String getModuleName(){
-		return "WaterRS";
+		return "WaterRS"+getID();
 	}
 
 	private void log(){

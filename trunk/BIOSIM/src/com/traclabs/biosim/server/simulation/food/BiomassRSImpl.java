@@ -149,7 +149,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	* @return the name of the module
 	*/
 	public String getModuleName(){
-		return "BiomassRS";
+		return "BiomassRS"+getID();
 	}
 	
 	private void log(){

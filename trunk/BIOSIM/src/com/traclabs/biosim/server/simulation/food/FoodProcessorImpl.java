@@ -167,7 +167,7 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	* @return the name of the module
 	*/
 	public String getModuleName(){
-		return "FoodProcessor";
+		return "FoodProcessor"+getID();
 	}
 
 	private void log(){

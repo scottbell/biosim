@@ -46,7 +46,7 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 	* @return the name of the module
 	*/
 	public String getModuleName(){
-		return "CrewGroup";
+		return "CrewGroup"+getID();
 	}
 
 	/**

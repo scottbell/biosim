@@ -77,7 +77,7 @@ public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperat
 	* @return the name of the module
 	*/
 	public String getModuleName(){
-		return "PowerPS";
+		return "PowerPS"+getID();
 	}
 	
 	protected void log(){
