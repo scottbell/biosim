@@ -35,6 +35,24 @@ public abstract class PlantImpl extends PlantPOA{
 		Arrays.fill(canopyQYConstants, 0f);
 	}
 
+	protected abstract float getBCF();
+	protected abstract float getCarbonUseEfficiency24();
+	protected abstract float getPhotoperiod();
+	protected abstract float getN();
+	protected abstract float getTimeTillCanopySenescence();
+	protected abstract float getCQYMin();
+	protected abstract float getTimeTillCropMaturity();
+	protected abstract float getOPF();
+	protected abstract float getFreshFactor();
+	protected abstract float calculateCanopyStomatalConductance();
+	protected abstract float calculateAtmosphericAeroDynamicConductance();
+	protected abstract float getFractionOfEdibleBiomass();
+	protected abstract float getEdibleFreshBasisWaterContent();
+	protected abstract float getInedibleFreshBasisWaterContent();
+	public abstract float getPPFNeeded();
+	public abstract PlantType getPlantType();
+	
+
 	public void reset(){
 		myPPF = 0f;
 		myCurrentTotalWetBiomass = 0f;
@@ -152,23 +170,6 @@ public abstract class PlantImpl extends PlantPOA{
 	private float calculateDryIncoporatedWaterUptake(float pDailyCanopyTranspirationRate, float pWetIncoporatedWaterUptake){
 		return (pDailyCanopyTranspirationRate + pWetIncoporatedWaterUptake) / 500;
 	}
-
-	protected abstract float getBCF();
-	protected abstract float getCarbonUseEfficiency24();
-	protected abstract float getPhotoperiod();
-	protected abstract float getN();
-	protected abstract float getTimeTillCanopySenescence();
-	protected abstract float getCQYMin();
-	protected abstract float getTimeTillCropMaturity();
-	protected abstract float getOPF();
-	protected abstract float getFreshFactor();
-	protected abstract float calculateCanopyStomatalConductance();
-	protected abstract float calculateAtmosphericAeroDynamicConductance();
-	protected abstract float getFractionOfEdibleBiomass();
-	protected abstract float getEdibleFreshBasisWaterContent();
-	protected abstract float getInedibleFreshBasisWaterContent();
-	public abstract float getPPFNeeded();
-	public abstract PlantType getPlantType();
 	
 	public float getWaterNeeded(){
 		return myWaterNeeded;
