@@ -61,7 +61,6 @@ public class AirPanel extends JPanel implements BioSimulatorListener
 		CO2StorePanel.setBorder(BorderFactory.createTitledBorder("CO2 Store"));
 		CO2StoreLevelLabel =    new JLabel("CO2 level:  "+numFormat.format(myCO2Store.getCO2Level())+" L");
 		CO2StorePanel.add(CO2StoreLevelLabel);
-
 		c.fill = GridBagConstraints.BOTH;
 		c.gridheight = 1;
 		c.weightx = 1.0;
@@ -69,7 +68,6 @@ public class AirPanel extends JPanel implements BioSimulatorListener
 		c.weighty = 1.0;
 		gridbag.setConstraints(airRSPanel, c);
 		add(airRSPanel);
-		
 		c.fill = GridBagConstraints.BOTH;
 		c.gridheight = 1;
 		c.weightx = 1.0;
@@ -77,7 +75,6 @@ public class AirPanel extends JPanel implements BioSimulatorListener
 		c.weighty = 1.0;
 		gridbag.setConstraints(O2StorePanel, c);
 		add(O2StorePanel);
-
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 2.0;
 		c.weighty = 1.0;
