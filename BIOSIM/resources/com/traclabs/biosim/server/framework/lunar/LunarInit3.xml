@@ -47,7 +47,7 @@
 			<O2Store name="BaseO2Store" capacity="2000" level="502">
 				<malfunction occursAtTick="200" length="PERMANENT_MALF" intensity="MEDIUM_MALF"/>
 			</O2Store>
-			<O2Store name="EVAO2Store" capacity="40" level="40"/>
+			<O2Store name="EVAO2Store" capacity="800" level="800" resupplyAmount="800" resupplyFrequency="24"/>
 			<CO2Store name="BaseCO2Store" capacity="0" level="0"/>
 			<CO2Store name="EVACO2Store" capacity="10" level="10"/>
 			<H2Store name="BaseH2Store" capacity="10000000" level="10000000"/>
@@ -152,6 +152,22 @@
 			<FoodStore name="EVAFoodStore" capacity="0" level="0"/>
 		</food>
 		<framework>
+			<Injector name="EVAInjector">
+				<O2AirConsumer>
+					<storeInputs desiredFlowRates="30" maxFlowRates="30" inputs="EVAO2Store"/>
+				</O2AirConsumer>
+				<O2AirProducer>
+					<environmentOutputs desiredFlowRates="30" maxFlowRates="30" outputs="EVACrewEnvironment"/>
+				</O2AirProducer>
+			</Injector>
+			<Injector name="BaseInjector">
+				<O2AirConsumer>
+					<storeInputs desiredFlowRates="30" maxFlowRates="30" inputs="BaseO2Store"/>
+				</O2AirConsumer>
+				<O2AirProducer>
+					<environmentOutputs desiredFlowRates="30" maxFlowRates="30" outputs="BaseCrewEnvironment"/>
+				</O2AirProducer>
+			</Injector>
 		</framework>
 		<power>
 			<PowerPS name="PowerPS" generation="SOLAR">
@@ -162,14 +178,14 @@
 			<PowerStore name="EVAPowerStore" capacity="1000" level="1000"/>
 		</power>
 		<water>
-			<WaterRS name="CrewWaterRS">
+			<WaterRS name="CrewWaterRS" implementation="LINEAR">
 				<malfunction occursAtTick="502" length="TEMPORARY_MALF" intensity="SEVERE_MALF"/>
 				<powerConsumer maxFlowRates="500" desiredFlowRates="500" inputs="BasePowerStore"/>
 				<dirtyWaterConsumer maxFlowRates="100" desiredFlowRates="10" inputs="CrewBaseDirtyWaterStore"/>
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="10" inputs="CrewBaseGreyWaterStore"/>
 				<potableWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="CrewBasePotableWaterStore"/>
 			</WaterRS>
-				<WaterRS name="PlantWaterRS">
+				<WaterRS name="PlantWaterRS" implementation="LINEAR">
 				<powerConsumer maxFlowRates="500" desiredFlowRates="500" inputs="BasePowerStore"/>
 				<dirtyWaterConsumer maxFlowRates="100" desiredFlowRates="10" inputs="PlantBaseDirtyWaterStore"/>
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="10" inputs="PlantBaseGreyWaterStore"/>
