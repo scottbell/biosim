@@ -102,10 +102,13 @@ echo "			-compiling util"
 $compilationInvocation $clientDir/util/*.java
 echo "			-compiling gui"
 $compilationInvocation $clientDir/gui/*.java
-echo "			-compiling control"
-$compilationInvocation $clientDir/control/*.java
-echo "				-compiling control.gui"
-$compilationInvocation $clientDir/control/gui/*.java
+echo "			-compiling environment"
+echo "				-compiling environment.gui"
+$compilationInvocation $clientDir/environment/gui/*.java
+echo "			-compiling framework"
+$compilationInvocation $clientDir/framework/*.java
+echo "				-compiling framework.gui"
+$compilationInvocation $clientDir/framework/gui/*.java
 echo "*done building biosim"
 
 
