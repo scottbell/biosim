@@ -61,7 +61,7 @@ jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME$separator$JACORB_HO
 docSourcepath="$sourceDir$separator$stubDir$separator$skeletonDir$"
 docClasspath="$clientClassesDir$separator$serverClassesDir$separator$jacoClasspath$separator$plotClasspath"
 ####################
-#	DOC BUILD  #
+#DOC BUILD  #
 ####################
 echo "	-creating docs"
 echo "		-creating html documentation"
