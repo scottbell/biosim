@@ -65,6 +65,9 @@ public class WaterStorePanel extends JPanel
 		                   );
 		// add the chart to a panel...
 		CategoryPlot plot = chart.getCategoryPlot();
+		ValueAxis axis = plot.getRangeAxis();
+		axis.setAutoRange(false);
+		axis.setRange(0.0, myPotableWaterStore.getCapacity());
 		plot.setSeriesPaint(new Paint[] { Color.BLUE, Color.GRAY, Color.YELLOW });
 		myChartPanel = new ChartPanel(chart);
 	}
