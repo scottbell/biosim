@@ -139,6 +139,10 @@ echo "		-compiling log"
 $compilationInvocation $clientDir/util/log/*.java
 echo "	-compiling framework"
 $compilationInvocation $clientDir/framework/*.java
+echo "		-compiling gui"
+$compilationInvocation $clientDir/framework/gui/*.java
+echo "			-compiling spreadsheet"
+$compilationInvocation $clientDir/framework/gui/spreadsheet/*.java
 echo "	-compiling simulation"
 echo "		-compiling air"
 echo "			-compiling air.gui"

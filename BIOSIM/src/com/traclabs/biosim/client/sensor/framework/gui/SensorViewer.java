@@ -76,7 +76,10 @@ public class SensorViewer extends BioFrame
 	private O2AirStoreInFlowRateSensor myInjectorO2AirStoreInFlowRateSensor;
 	private CO2AirEnvironmentOutFlowRateSensor myInjectorCO2AirEnvironmentOutFlowRateSensor;
 	private O2AirEnvironmentOutFlowRateSensor myInjectorO2AirEnvironmentOutFlowRateSensor;
-
+	
+	//Table information
+	String[] columnNames = {"First Name", "Last Name", "Sport", "# of Years", "Vegetarian"};
+	String[] rowNames = {"First Name", "Last Name", "Sport", "# of Years", "Vegetarian"};
 
 	public SensorViewer(){
 		super("Sensor Viewer", false);
