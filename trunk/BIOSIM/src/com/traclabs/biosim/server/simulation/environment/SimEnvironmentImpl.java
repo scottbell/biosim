@@ -716,10 +716,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
         }
         if (molesRequested <= 0)
             return 0f;
-        float afterAdditionCO2 = 0f;
-        float actuallyAddedCO2 = 0f;
-        afterAdditionCO2 = randomFilter(CO2Moles + molesRequested);
-        actuallyAddedCO2 = afterAdditionCO2 - CO2Moles;
+        float afterAdditionCO2 = randomFilter(CO2Moles + molesRequested);
+        float actuallyAddedCO2 = afterAdditionCO2 - CO2Moles;
         CO2Moles = afterAdditionCO2;
 
         return actuallyAddedCO2;
@@ -742,10 +740,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
         }
         if (molesRequested <= 0)
             return 0f;
-        float afterAdditionO2 = 0f;
-        float actuallyAddedO2 = 0f;
-        afterAdditionO2 = randomFilter(O2Moles + molesRequested);
-        actuallyAddedO2 = afterAdditionO2 - O2Moles;
+        float afterAdditionO2 = randomFilter(O2Moles + molesRequested);
+        float actuallyAddedO2 = afterAdditionO2 - O2Moles;
         O2Moles = afterAdditionO2;
 
         return actuallyAddedO2;
@@ -769,10 +765,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
         }
         if (molesRequested <= 0)
             return 0f;
-        float afterAdditionOther = 0f;
-        float actuallyAddedOther = 0f;
-        afterAdditionOther = randomFilter(otherMoles + molesRequested);
-        actuallyAddedOther = afterAdditionOther - otherMoles;
+        float afterAdditionOther = randomFilter(otherMoles + molesRequested);
+        float actuallyAddedOther = afterAdditionOther - otherMoles;
         otherMoles = afterAdditionOther;
 
         return actuallyAddedOther;
@@ -796,10 +790,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
         }
         if (molesRequested <= 0)
             return 0f;
-        float afterAdditionWater = 0f;
-        float actuallyAddedWater = 0f;
-        afterAdditionWater = randomFilter(waterMoles + molesRequested);
-        actuallyAddedWater = afterAdditionWater - waterMoles;
+        float afterAdditionWater = randomFilter(waterMoles + molesRequested);
+        float actuallyAddedWater = afterAdditionWater - waterMoles;
         waterMoles = afterAdditionWater;
 
         return actuallyAddedWater;
@@ -823,10 +815,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
         }
         if (molesRequested <= 0)
             return 0f;
-        float afterAdditionNitrogen = 0f;
-        float actuallyAddedNitrogen = 0f;
-        afterAdditionNitrogen = randomFilter(nitrogenMoles + molesRequested);
-        actuallyAddedNitrogen = afterAdditionNitrogen - nitrogenMoles;
+        float afterAdditionNitrogen = randomFilter(nitrogenMoles + molesRequested);
+        float actuallyAddedNitrogen = afterAdditionNitrogen - nitrogenMoles;
         nitrogenMoles = afterAdditionNitrogen;
 
         return actuallyAddedNitrogen;

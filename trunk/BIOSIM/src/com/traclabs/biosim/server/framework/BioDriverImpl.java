@@ -206,7 +206,7 @@ public class BioDriverImpl extends BioDriverPOA {
         for (int i = 0; i < passiveSimModules.length; i++)
             simModules[i + activeSimModules.length] = passiveSimModules[i];
         for (int i = 0; i < prioritySimModules.length; i++)
-            simModules[i + activeSimModules.length + prioritySimModules.length] = prioritySimModules[i];
+            simModules[i + activeSimModules.length + passiveSimModules.length] = prioritySimModules[i];
         return simModules;
     }
 
@@ -255,7 +255,7 @@ public class BioDriverImpl extends BioDriverPOA {
     public String[] getSimModuleNames() {
         BioModule[] simModules = getSimModules();
         String[] simModuleNameArray = new String[simModules.length];
-        for (int i = 0; i < simModuleNameArray.length; i++)
+        for (int i = 0; i < simModules.length; i++)
             simModuleNameArray[i] = simModules[i].getModuleName();
         return simModuleNameArray;
     }

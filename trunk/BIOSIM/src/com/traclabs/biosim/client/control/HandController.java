@@ -45,7 +45,7 @@ import com.traclabs.biosim.idl.simulation.water.WaterRS;
 public class HandController {
 
     //feedback loop sttuff
-    private double CrewO2Level = 0.25f;
+    private double levelToKeepO2At = 0.25f;
 
     private double CrewCO2Level = 0.0012f;
 
@@ -122,7 +122,7 @@ public class HandController {
     public static String[] actuatorNames = { "OGSpotable", "waterRSdirty",
             "waterRSgrey" };
 
-    private File outFile = new File("/dev/null");
+    private File outFile = new File("handcontroller-output.txt");
 
     private FileWriter fw;
 
@@ -268,11 +268,9 @@ public class HandController {
                 }
             }
         }
-        //advancing the sim n ticks
-        for (int i = 0; (i < ATMOSPHERIC_PERIOD) && (!myBioDriver.isDone()); i++)
-            myBioDriver.advanceOneTick();
         doInjectors();
-
+        //advancing the sim n ticks
+        myBioDriver.advanceOneTick();
     }
 
     public void setThresholds() {
@@ -433,10 +431,11 @@ public class HandController {
         levelSensor = (GenericSensor) (myBioHolder.getSensorAttachedTo(
                 myBioHolder.theO2AirConcentrationSensors, myCrewEnvironment));
         crewO2 = levelSensor.getValue();
-        delta = (double) (CrewO2Level - crewO2);
+        delta = (double) (levelToKeepO2At - crewO2);
         crewO2integral += delta;
-        signal = delta * crewO2p + crewO2i * crewO2integral;
-        myLogger.debug("O2 flow from tank to Crew environment: " + signal);
+        float fudgeFactor = 2f;
+        signal = (delta * crewO2p + crewO2i * crewO2integral) * fudgeFactor;
+        myLogger.info("O2 flow from tank to Crew environment: " + signal);
         currentActuator = (GenericActuator) (myBioHolder
                 .getActuatorAttachedTo(
                         myBioHolder.theO2AirEnvironmentOutFlowRateActuators,
