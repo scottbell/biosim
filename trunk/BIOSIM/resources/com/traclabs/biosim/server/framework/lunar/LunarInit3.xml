@@ -22,11 +22,11 @@
 		<air>
 			<AirRS name="BaseAirRS" implementation="LINEAR">
 				<powerConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BasePowerStore"/>
-				<potableWaterConsumer maxFlowRates="1" desiredFlowRates="1" inputs="BasePotableWaterStore"/>
+				<potableWaterConsumer maxFlowRates="1" desiredFlowRates="1" inputs="CrewBasePotableWaterStore"/>
 				<airConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BaseCrewEnvironment"/>
 				<CO2Consumer maxFlowRates="100" desiredFlowRates="100" inputs="BaseCO2Store"/>
 				<H2Consumer maxFlowRates="400" desiredFlowRates="400" inputs="BaseH2Store"/>
-				<potableWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="BasePotableWaterStore"/>
+				<potableWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="CrewBasePotableWaterStore"/>
 				<O2Producer maxFlowRates="100" desiredFlowRates="100" outputs="BaseO2Store"/>
 				<airProducer maxFlowRates="100" desiredFlowRates="100" outputs="BaseCrewEnvironment"/>
 				<CO2Producer maxFlowRates="100" desiredFlowRates="100" outputs="BaseCO2Store"/>
