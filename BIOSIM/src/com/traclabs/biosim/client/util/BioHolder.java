@@ -124,33 +124,15 @@ public class BioHolder
 	public final static String myAirRSO2OutFlowRateActuatorName = "AirRSO2OutFlowRateActuator";
 	public final static String myAirRSCO2InFlowRateActuatorName = "AirRSCO2InFlowRateActuator";
 	public final static String myAirRSCO2OutFlowRateActuatorName = "AirRSCO2OutFlowRateActuator";
-	//Stores
-	public final static String myO2StoreLevelActuatorName = "O2StoreLevelActuator";
-	public final static String myCO2StoreLevelActuatorName = "CO2StoreLevelActuator";
 	//Power
 	//PowerPS
 	public final static String myPowerPSPowerOutFlowRateActuatorName = "PowerPSPowerOutFlowRateActuator";
-	//Stores
-	public final static String myPowerStoreLevelActuatorName = "PowerStoreLevelActuator";
-	//Environment
-	//Crew
-	public final static String myCrewEnvironmentOtherAirMolesActuatorName = "CrewEnvironmentOtherAirMolesActuator";
-	public final static String myCrewEnvironmentCO2AirMolesActuatorName = "CrewEnvironmentCO2AirMolesActuator";
-	public final static String myCrewEnvironmentO2AirMolesActuatorName = "CrewEnvironmentO2AirMolesActuator";
-	//Plant
-	public final static String myPlantEnvironmentOtherAirMolesActuatorName = "PlantEnvironmentOtherAirMolesActuator";
-	public final static String myPlantEnvironmentCO2AirMolesActuatorName = "PlantEnvironmentCO2AirMolesActuator";
-	public final static String myPlantEnvironmentO2AirMolesActuatorName = "PlantEnvironmentO2AirMolesActuator";
 	//Water
 	//WaterRS
 	public final static String myWaterRSDirtyWaterInFlowRateActuatorName = "WaterRSDirtyWaterInFlowRateActuator";
 	public final static String myWaterRSGreyWaterInFlowRateActuatorName = "WaterRSGreyWaterInFlowRateActuator";
 	public final static String myWaterRSPowerInFlowRateActuatorName = "WaterRSPowerInFlowRateActuator";
 	public final static String myWaterRSPotableWaterOutFlowRateActuatorName = "WaterRSPotableWaterOutFlowRateActuator";
-	//Stores
-	public final static String myPotableWaterStoreLevelActuatorName = "PotableWaterStoreLevelActuator";
-	public final static String myGreyWaterStoreLevelActuatorName = "GreyWaterStoreLevelActuator";
-	public final static String myDirtyWaterStoreLevelActuatorName = "DirtyWaterStoreLevelActuator";
 	//Food
 	//BiomassRS
 	public final static String myBiomassRSAirInFlowRateActuatorName = "BiomassRSAirInFlowRateActuator";
@@ -163,9 +145,6 @@ public class BioHolder
 	public final static String myFoodProcessorPowerInFlowRateActuatorName = "FoodProcessorPowerInFlowRateActuator";
 	public final static String myFoodProcessorBiomassInFlowRateActuatorName = "FoodProcessorBiomassInFlowRateActuator";
 	public final static String myFoodProcessorFoodOutFlowRateActuatorName = "FoodProcessorFoodOutFlowRateActuator";
-	//Stores
-	public final static String myBiomassStoreLevelActuatorName = "BiomassStoreLevelActuator";
-	public final static String myFoodStoreLevelActuatorName = "FoodStoreLevelActuator";
 	//Framework
 	//Accumulator
 	public final static String myAccumulatorCO2AirEnvironmentInFlowRateActuatorName = "AccumulatorCO2AirEnvironmentInFlowRateActuator";

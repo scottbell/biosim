@@ -138,35 +138,17 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	private String myAirRSO2OutFlowRateActuatorName;
 	private String myAirRSCO2InFlowRateActuatorName;
 	private String myAirRSCO2OutFlowRateActuatorName;
-	//Stores
-	private String myO2StoreLevelActuatorName;
-	private String myCO2StoreLevelActuatorName;
 	//Power
 	//PowerPS
 	private String myPowerPSPowerOutFlowRateActuatorName;
-	//Stores
-	private String myPowerStoreLevelActuatorName;
 	//Crew
 	private String myCrewGroupDeathSensorName;
-	//Environment
-	//Crew
-	private String myCrewEnvironmentOtherAirMolesActuatorName;
-	private String myCrewEnvironmentCO2AirMolesActuatorName;
-	private String myCrewEnvironmentO2AirMolesActuatorName;
-	//Plant
-	private String myPlantEnvironmentOtherAirMolesActuatorName;
-	private String myPlantEnvironmentCO2AirMolesActuatorName;
-	private String myPlantEnvironmentO2AirMolesActuatorName;
 	//Water
 	//WaterRS
 	private String myWaterRSDirtyWaterInFlowRateActuatorName;
 	private String myWaterRSGreyWaterInFlowRateActuatorName;
 	private String myWaterRSPowerInFlowRateActuatorName;
 	private String myWaterRSPotableWaterOutFlowRateActuatorName;
-	//Stores
-	private String myPotableWaterStoreLevelActuatorName;
-	private String myGreyWaterStoreLevelActuatorName;
-	private String myDirtyWaterStoreLevelActuatorName;
 	//Food
 	//BiomassRS
 	private String myBiomassRSAirInFlowRateActuatorName;
@@ -179,9 +161,6 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	private String myFoodProcessorPowerInFlowRateActuatorName;
 	private String myFoodProcessorBiomassInFlowRateActuatorName;
 	private String myFoodProcessorFoodOutFlowRateActuatorName;
-	//Stores
-	private String myBiomassStoreLevelActuatorName;
-	private String myFoodStoreLevelActuatorName;
 	//Framework
 	//Accumulator
 	private String myAccumulatorCO2AirEnvironmentInFlowRateActuatorName;
@@ -410,33 +389,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames.add(myAirRSO2OutFlowRateActuatorName);
 		myModuleNames.add(myAirRSCO2InFlowRateActuatorName);
 		myModuleNames.add(myAirRSCO2OutFlowRateActuatorName);
-		//Stores
-		myO2StoreLevelActuatorName = "O2StoreLevelActuator"+myID;
-		myCO2StoreLevelActuatorName = "CO2StoreLevelActuator"+myID;
-		myModuleNames.add(myO2StoreLevelActuatorName);
-		myModuleNames.add(myCO2StoreLevelActuatorName);
 		//Power
 		//PowerPS
 		myPowerPSPowerOutFlowRateActuatorName = "PowerPSPowerOutFlowRateActuator"+myID;
 		myModuleNames.add(myPowerPSPowerOutFlowRateActuatorName);
-		//Stores
-		myPowerStoreLevelActuatorName = "PowerStoreLevelActuator"+myID;
-		myModuleNames.add(myPowerStoreLevelActuatorName);
-		//Environment
-		//Crew
-		myCrewEnvironmentOtherAirMolesActuatorName = "CrewEnvironmentOtherAirMolesActuator"+myID;
-		myCrewEnvironmentCO2AirMolesActuatorName = "CrewEnvironmentCO2AirMolesActuator"+myID;
-		myCrewEnvironmentO2AirMolesActuatorName = "CrewEnvironmentO2AirMolesActuator"+myID;
-		myModuleNames.add(myCrewEnvironmentOtherAirMolesActuatorName);
-		myModuleNames.add(myCrewEnvironmentCO2AirMolesActuatorName);
-		myModuleNames.add(myCrewEnvironmentO2AirMolesActuatorName);
-		//Plant
-		myPlantEnvironmentOtherAirMolesActuatorName = "PlantEnvironmentOtherAirMolesActuator"+myID;
-		myPlantEnvironmentCO2AirMolesActuatorName = "PlantEnvironmentCO2AirMolesActuator"+myID;
-		myPlantEnvironmentO2AirMolesActuatorName = "PlantEnvironmentO2AirMolesActuator"+myID;
-		myModuleNames.add(myPlantEnvironmentOtherAirMolesActuatorName);
-		myModuleNames.add(myPlantEnvironmentCO2AirMolesActuatorName);
-		myModuleNames.add(myPlantEnvironmentO2AirMolesActuatorName);
 		//Water
 		//WaterRS
 		myWaterRSDirtyWaterInFlowRateActuatorName = "WaterRSDirtyWaterInFlowRateActuator"+myID;
@@ -447,13 +403,6 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames.add(myWaterRSGreyWaterInFlowRateActuatorName);
 		myModuleNames.add(myWaterRSPowerInFlowRateActuatorName);
 		myModuleNames.add(myWaterRSPotableWaterOutFlowRateActuatorName);
-		//Stores
-		myPotableWaterStoreLevelActuatorName = "PotableWaterStoreLevelActuator"+myID;
-		myGreyWaterStoreLevelActuatorName = "GreyWaterStoreLevelActuator"+myID;
-		myDirtyWaterStoreLevelActuatorName = "DirtyWaterStoreLevelActuator"+myID;
-		myModuleNames.add(myPotableWaterStoreLevelActuatorName);
-		myModuleNames.add(myGreyWaterStoreLevelActuatorName);
-		myModuleNames.add(myDirtyWaterStoreLevelActuatorName);
 		//Food
 		//BiomassRS
 		myBiomassRSAirInFlowRateActuatorName = "BiomassRSAirInFlowRateActuator"+myID;
@@ -475,11 +424,6 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames.add(myFoodProcessorPowerInFlowRateActuatorName);
 		myModuleNames.add(myFoodProcessorBiomassInFlowRateActuatorName);
 		myModuleNames.add(myFoodProcessorFoodOutFlowRateActuatorName);
-		//Stores
-		myBiomassStoreLevelActuatorName = "BiomassStoreLevelActuator"+myID;
-		myFoodStoreLevelActuatorName = "FoodStoreLevelActuator"+myID;
-		myModuleNames.add(myBiomassStoreLevelActuatorName);
-		myModuleNames.add(myFoodStoreLevelActuatorName);
 		//Framework
 		//Accumulator
 		myAccumulatorCO2AirEnvironmentInFlowRateActuatorName = "AccumulatorCO2AirEnvironmentInFlowRateActuator"+myID;
