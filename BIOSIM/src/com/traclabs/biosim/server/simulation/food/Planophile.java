@@ -22,8 +22,8 @@ public abstract class Planophile extends PlantImpl{
 	protected abstract float getConstantPPF();
 	public abstract PlantType getPlantType();
 	public abstract String getPlantTypeString();
-	public Planophile(ShelfImpl pShelfImpl){
-		super(pShelfImpl);
+	public Planophile(ShelfImpl pShelfImpl, int pStartDay){
+		super(pShelfImpl, pStartDay);
 	}
 	
 	protected float calculateCanopyStomatalConductance(){

@@ -7,8 +7,8 @@ import biosim.idl.simulation.food.*;
  */
 
 public class Tomato extends Planophile{
-	public Tomato(ShelfImpl pShelfImpl){
-		super(pShelfImpl);
+	public Tomato(ShelfImpl pShelfImpl, int pStartDay){
+		super(pShelfImpl, pStartDay);
 		canopyClosureConstants[0] = 627740f;
 		canopyClosureConstants[1] = 3172.4f;
 		canopyClosureConstants[6] =  24.281f;

@@ -7,8 +7,8 @@ import biosim.idl.simulation.food.*;
  */
 
 public class DryBean extends Legume{
-	public DryBean(ShelfImpl pShelfImpl){
-		super(pShelfImpl);
+	public DryBean(ShelfImpl pShelfImpl, int pStartDay){
+		super(pShelfImpl, pStartDay);
 		canopyClosureConstants[0] = 290410f;
 		canopyClosureConstants[1] = 1559.4f;
 		canopyClosureConstants[6] = 15.840f;

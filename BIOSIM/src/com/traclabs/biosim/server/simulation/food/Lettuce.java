@@ -7,8 +7,8 @@ import biosim.idl.simulation.food.*;
  */
 
 public class Lettuce extends Planophile{
-	public Lettuce(ShelfImpl pShelfImpl){
-		super(pShelfImpl);
+	public Lettuce(ShelfImpl pShelfImpl, int pStartDay){
+		super(pShelfImpl, pStartDay);
 		canopyClosureConstants[1] = 10289f;
 		canopyClosureConstants[2] = -3.7018f;
 		canopyClosureConstants[4] = .00000036648f;

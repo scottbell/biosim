@@ -7,8 +7,8 @@ import biosim.idl.simulation.food.*;
  */
 
 public class SweetPotato extends Planophile{
-	public SweetPotato(ShelfImpl pShelfImpl){
-		super(pShelfImpl);
+	public SweetPotato(ShelfImpl pShelfImpl, int pStartDay){
+		super(pShelfImpl, pStartDay);
 		canopyClosureConstants[0] = 1207000f;
 		canopyClosureConstants[1] = 4948.4f;
 		canopyClosureConstants[6] = 4.2978f;

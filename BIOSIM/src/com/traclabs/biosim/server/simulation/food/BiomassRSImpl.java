@@ -113,8 +113,8 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 		autoHarvestAndReplant = pAutoHarvestAndReplant;
 	}
 	
-	public Shelf createNewShelf(PlantType pType, float pCropArea){
-		ShelfImpl newShelfImpl = new ShelfImpl(pType, pCropArea, this);
+	public Shelf createNewShelf(PlantType pType, float pCropArea, int pStartDay){
+		ShelfImpl newShelfImpl = new ShelfImpl(pType, pCropArea, this, pStartDay);
 		myShelves.add(newShelfImpl);
 		return ShelfHelper.narrow(OrbUtils.poaToCorbaObj(newShelfImpl));
 	}

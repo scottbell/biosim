@@ -17,6 +17,7 @@ public abstract class PlantImpl extends PlantPOA{
 	private DecimalFormat numFormat;
 	private Random myRandomGen;
 	protected int myAge = 0;
+	protected int initialAge = 0;
 	private LogIndex myLogIndex;
 	private boolean logInitialized = false;
 	private boolean hasDied = false;
@@ -41,13 +42,17 @@ public abstract class PlantImpl extends PlantPOA{
 	private float myWaterLevel = 0f;
 	private float CQY = 0f;
 	private float carbonUseEfficiency24 = 0f;
-	protected float[] canopyClosureConstants;
-	protected float[] canopyQYConstants;
+	private float totalO2GramsProduced = 0f;
+	private float totalCO2GramsConsumed = 0f;
+	private float totalCO2MolesConsumed = 0f;
+	private float totalWaterLitersTranspired = 0f;
 	private SimpleBuffer consumedWaterBuffer;
 	private SimpleBuffer consumedCO2LowBuffer;
 	private SimpleBuffer consumedCO2HighBuffer;
 	private SimpleBuffer consumedHeatBuffer;
 	private SimpleBuffer consumedLightBuffer;
+	protected float[] canopyClosureConstants;
+	protected float[] canopyQYConstants;
 	private static final float WATER_TILL_DEAD = 700f;
 	private static final float WATER_RECOVERY_RATE = 0.005f;
 	private static final float CO2_LOW_TILL_DEAD = 24f;
@@ -61,12 +66,10 @@ public abstract class PlantImpl extends PlantPOA{
 	private static final float DANGEROUS_HEAT_LEVEL = 300000f;
 	private static final float LIGHT_TILL_DEAD = 150f;
 	private static final float LIGHT_RECOVERY_RATE = 0.005f;
-	private float totalO2GramsProduced = 0f;
-	private float totalCO2GramsConsumed = 0f;
-	private float totalCO2MolesConsumed = 0f;
-	private float totalWaterLitersTranspired = 0f;
 
-	public PlantImpl(ShelfImpl pShelfImpl){
+	public PlantImpl(ShelfImpl pShelfImpl, int pStartDay){
+		initialAge = pStartDay;
+		myAge = initialAge;
 		myShelfImpl = pShelfImpl;
 		canopyClosureConstants = new float[25];
 		canopyQYConstants = new float[25];
@@ -124,7 +127,7 @@ public abstract class PlantImpl extends PlantPOA{
 		myAverageCO2Concentration = 0f;
 		myTotalCO2Concentration = 0f;
 		myNumberOfCO2ConcentrationReadings = 0;
-		myAge = 0;
+		myAge = initialAge;
 		totalO2GramsProduced = 0f;
 		totalCO2GramsConsumed = 0f;
 		totalCO2MolesConsumed = 0f;
@@ -142,7 +145,7 @@ public abstract class PlantImpl extends PlantPOA{
 		if (!hasDied){
 			calculateAverageCO2Concentration();
 			growBiomass();
-			if (myAge > 1){
+			if (myAge > initialAge){
 				afflictPlants();
 				healthCheck();
 				recoverPlants();
