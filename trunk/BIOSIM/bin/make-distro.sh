@@ -85,7 +85,12 @@ cd ..
 echo "		-removing distro tmp"
 rm -Rf $distroTmp
 echo "		-copying invocation files over"
-cp -f ../../lib/distro/win/* . 2> /dev/null
+cp -f ../../lib/distro/win/biosim.nsi . 2> /dev/null
+cp -f ../../lib/distro/win/run-biosim.bat . 2> /dev/null
+cp -f ../../lib/distro/win/run-distro-nameserver.bat . 2> /dev/null
+cp -f ../../lib/distro/win/run-distro-server.bat . 2> /dev/null
+cp -f ../../lib/distro/win/run-distro-client.bat . 2> /dev/null
+cp -f ../../lib/distro/win/biosim.ico . 2> /dev/null
 echo "		-changing to back to invocation dir"
 cd $currentDir
 echo "*done creating biosim distro"
