@@ -30,10 +30,12 @@
 	<!-- set win distro properties for this build --> 
 	<property name="winDistroDir" location="${distroDir}/win"/>
 	<property name="winDistroLibDir" location="${lib}/distro/win"/>
+	<property name="winDistroTmpDir" location="${tmpDir}/win"/>
 	<!-- set javadoc properties for this build --> 
 	<property name="javadocDir" location="${doc}/javadoc"/>
 	<!-- set users manual properties for this build --> 
 	<property name="manualDir" location="${doc}/users_manual_files"/>
+	<property name="manualTmpDir" location="${tmpDir}/users_manual"/>
 	
 
 	<target name="init-build">
@@ -49,6 +51,7 @@
 	</target>
   
   	<target name="stubServer" depends="init-build" description="stub the IDL file for the server">
+		<echo message="Stubbing the IDL file for the server"/>
 		<mkdir dir="${serverStubs}"/>
 		<java classname="ParserHack">
 			<arg value="-d"/> 
@@ -61,6 +64,7 @@
 			</classpath>
 		</java>
 		<mkdir dir="${serverClasses}"/>
+		<echo message="Compiling server stubs"/>
 		<javac srcdir="${serverStubs}" destdir="${serverClasses}">
 			<classpath>
 				<pathelement location="${jacorbDir}/jacorb.jar"/>
@@ -71,6 +75,7 @@
 	<target name="build-server" depends="stubServer" description="compile the server">
 		<mkdir dir="${server}"/>
 		<mkdir dir="${serverClasses}"/>
+		<echo message="Compling the server"/>
 		<javac srcdir="${src}/biosim/server" destdir="${serverClasses}">
 			<classpath>
 				<pathelement location="${src}"/>
@@ -84,7 +89,9 @@
 	</target>
 	
 	<target name="stubClient" depends="init-build" description="stub the IDL file for the client">
+		<echo message="Stubbing the IDL file for the client"/>
 		<mkdir dir="${clientStubs}"/>
+		<echo message="Compiling server stubs"/>
 		<java classname="ParserHack">
 			<arg value="-noskel"/> 
 			<arg value="-d"/>
@@ -97,6 +104,7 @@
 			</classpath>
 		</java>
 		<mkdir dir="${clientClasses}"/>
+		<echo message="Compiling client stubs"/>
 		<javac srcdir="${clientStubs}" destdir="${clientClasses}">
 			<classpath>
 				<pathelement location="${jacorbDir}/jacorb.jar"/>
@@ -107,6 +115,7 @@
    	<target name="build-client" depends="stubClient" description="compile the client">
 		<mkdir dir="${client}"/>
 		<mkdir dir="${clientClasses}"/>
+		<echo message="Compling the client"/>
 		<javac srcdir="${src}/biosim/client" destdir="${clientClasses}">
 			<classpath>
 				<pathelement location="${src}"/>
@@ -123,8 +132,9 @@
 	
 	<target name="build-win-distro" depends="build-server,build-client, init-distro, init-tmp" description="creates windows distro">
 		<mkdir dir="${winDistroDir}"/>
-		<mkdir dir="${tmpDir}/win"/>
-		<unzip dest="${tmpDir}/win">
+		<mkdir dir="${winDistroTmpDir}"/>
+		<echo message="Unpacking libraries"/>
+		<unzip dest="${winDistroTmpDir}">
 			<fileset file="${jacorbDir}/jacorb.jar"/>
 			<fileset file="${jacorbDir}/logkit.jar"/>
 			<fileset file="${jacorbDir}/avalon-framework.jar"/>
@@ -134,16 +144,18 @@
 			<fileset file="${plotDir}/jcommon.jar"/>
 			<fileset file="${plotDir}/jfreechart.jar"/>
 		</unzip>
+		<echo message="Create biosim jar"/>
 		<jar destfile="${winDistroDir}/biosim.jar">
 			<fileset dir="${serverClasses}"/>
 			<fileset dir="${clientClasses}"/>
 			<fileset dir="${resourceDir}"/>
-			<fileset dir="${tmpDir}/win">
+			<fileset dir="${winDistroTmpDir}">
 				<exclude name="META-INF"/>
 				<exclude name="license-INF"/>
 			</fileset>
 			<fileset file="${jacorbDir}/jacorb.properties"/>
 		</jar>
+		<echo message="Copying necessary windows distro utilities"/>
 		<copy todir="${winDistroDir}">
 			<fileset dir="${winDistroLibDir}">
 				<exclude name="CVS"/>
@@ -153,6 +165,7 @@
 	
 	<target name="build-ga-distro" depends="build-server,build-client,init-distro" description="creates ga distro">
 		<mkdir dir="${gaDistroDir}"/>
+		<echo message="Creating biosim jar for genetic algorithm engine"/>
 		<jar destfile="${gaDistroDir}/biosim.jar">
 			<fileset dir="${serverClasses}"/>
 			<fileset dir="${resourceDir}"/>
@@ -161,6 +174,7 @@
 	
 	<target name="javadocs" depends="build-server,build-client" description="creates BioSim API documentation">
 		<mkdir dir="${javadocDir}"/>
+		<echo message="Creating javadocs for BioSim"/>
 		<javadoc 
 			destdir="${javadocDir}" 
 			breakiterator="true" 
@@ -191,32 +205,49 @@
 		</javadoc>
 	</target>
 	
-	<target name="build-manual" description="creates the user's manual">
-		<touch file="${manualDir}/users_manual.ind"/>
-		<exec executable="latex" dir="${manualDir}">
+	<target name="build-manual" depends="init-tmp" description="creates the user's manual">
+		<echo message="Creating the user's manual"/>
+		<mkdir dir="${manualTmpDir}"/>
+		<echo message="Copying neccessary files"/>
+		<copy todir="${manualTmpDir}">
+			<fileset dir="${manualDir}">
+				<exclude name="CVS"/>
+			</fileset>
+		</copy>
+		<echo message="Logging to ${manualTmpDir}, check there for output/errors"/>
+		<echo message="Creating empty index file"/>
+		<touch file="${manualTmpDir}/users_manual.ind"/>
+		<echo message="First latex pass"/>
+		<exec executable="latex" dir="${manualTmpDir}" error="${manualTmpDir}/latex1.err" output="${manualTmpDir}/latex1.out">
 			<arg line="${manualDir}/users_manual.tex"/>
 		</exec>
-		<exec executable="makeindex" dir="${manualDir}">
-			<arg line="${manualDir}/users_manual.idx"/>
+		<echo message="Making index file"/>
+		<exec executable="makeindex" dir="${manualDir}" error="${manualTmpDir}/makeindex.err" output="${manualTmpDir}/makeindex.out">
+			<arg line="${manualTmpDir}/users_manual.idx"/>
 		</exec>
-		<exec executable="bibtex" dir="${manualDir}">
-			<arg line="${manualDir}/users_manual.tex"/>
+		<echo message="Making bibliography"/>
+		<exec executable="bibtex" dir="${manualTmpDir}" error="${manualTmpDir}/bibtex.err" output="${manualTmpDir}/bibtex.out">
+			<arg line="${manualTmpDir}/users_manual.tex"/>
 		</exec>
-		<exec executable="latex" dir="${manualDir}">
-			<arg line="${manualDir}/users_manual.tex"/>
+		<echo message="Second latex pass"/>
+		<exec executable="latex" dir="${manualTmpDir}" error="${manualTmpDir}/latex2.err" output="${manualTmpDir}/latex2.out">
+			<arg line="${manualTmpDir}/users_manual.tex"/>
 		</exec>
-		<exec executable="dvips" dir="${manualDir}">
+		<echo message="Creating ps file"/>
+		<exec executable="dvips" dir="${manualTmpDir}" error="${manualTmpDir}/ps.err" output="${manualTmpDir}/ps.out">
 			<arg line="-o"/>
-			<arg line="${manualDir}/users_manual.ps"/>
-			<arg line="${manualDir}/users_manual.dvi"/>
+			<arg line="${manualTmpDir}/users_manual.ps"/>
+			<arg line="${manualTmpDir}/users_manual.dvi"/>
 		</exec>
-		<exec executable="ps2pdf" dir="${doc}">
-			<arg line="${manualDir}/users_manual.ps"/>
+		<echo message="Creating users_manual.pdf file in ${doc}"/>
+		<exec executable="ps2pdf" dir="${doc}" error="${manualTmpDir}/pdf.err" output="${manualTmpDir}/pdf.out">
+			<arg line="${manualTmpDir}/users_manual.ps"/>
 		</exec>
 	</target>
 	
 	<target name="run-nameserver" depends="init-build" description="runs the nameserver">
 		<mkdir dir="${nsDir}"/>
+		<echo message="Starting nameserver"/>
 		<java classname="org.jacorb.naming.NameServer" error="nameserver.txt">
 			<sysproperty key="org.omg.CORBA.ORBClass" value="org.jacorb.orb.ORB"/>
 			<sysproperty key="org.omg.CORBA.ORBSingletonClass" value="org.jacorb.orb.ORBSingleton"/>
@@ -230,6 +261,7 @@
 	</target>
 	
 	<target name="run-nameserver-viewer" description="runs the nameserver viewer">
+		<echo message="Starting nameserver viewer"/>
 		<java classname="org.jacorb.naming.namemanager.NameManager">
 			<sysproperty key="org.omg.CORBA.ORBClass" value="org.jacorb.orb.ORB"/>
 			<sysproperty key="org.omg.CORBA.ORBSingletonClass" value="org.jacorb.orb.ORBSingleton"/>
@@ -243,6 +275,7 @@
 	</target>
 	
 	<target name="run-server" description="runs the server">
+		<echo message="Starting biosim server"/>
 		<java classname="biosim.server.framework.BiosimServer">
 			<sysproperty key="org.omg.CORBA.ORBClass" value="org.jacorb.orb.ORB"/>
 			<sysproperty key="org.omg.CORBA.ORBSingletonClass" value="org.jacorb.orb.ORBSingleton"/>
@@ -261,6 +294,7 @@
 	</target>
 	
 	<target name="run-client" description="runs the client">
+		<echo message="Starting biosim client"/>
 		<java classname="biosim.client.framework.BiosimMain">
 			<sysproperty key="org.omg.CORBA.ORBClass" value="org.jacorb.orb.ORB"/>
 			<sysproperty key="org.omg.CORBA.ORBSingletonClass" value="org.jacorb.orb.ORBSingleton"/>
@@ -307,5 +341,9 @@
 	
 	<target name="commit" description="gets the latest version from CVS">
 		<cvs command="commit -m ''"/>
+	</target>
+	
+	<target name="test" description="test">
+		<dirname property="foo.dirname" file="."/>
 	</target>
 </project>
