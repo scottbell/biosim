@@ -58,7 +58,7 @@ import com.traclabs.biosim.editor.base.VesprCmdSpawn;
 import com.traclabs.biosim.editor.base.VesprCmdZoom;
 import com.traclabs.biosim.editor.base.VesprDocument;
 import com.traclabs.biosim.editor.base.VesprEditor;
-import com.traclabs.biosim.editor.ui.VesprPalette;
+import com.traclabs.biosim.editor.ui.EditorPalette;
 
 public class VesprFrame extends JGraphFrame {
     protected Cmd _exitCmd;
@@ -116,7 +116,7 @@ public class VesprFrame extends JGraphFrame {
             }
         });
 
-        setToolBar(new VesprPalette()); //needs-more-work
+        setToolBar(new EditorPalette()); //needs-more-work
 
         // make the delete key remove elements from the underlying GraphModel
         getGraph().bindKey(new CmdDeleteFromModel(), KeyEvent.VK_DELETE, 0);
