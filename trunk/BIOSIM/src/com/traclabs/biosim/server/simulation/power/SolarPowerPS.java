@@ -14,7 +14,10 @@ public class SolarPowerPS extends PowerPSImpl {
 	
 	float calculatePowerProduced(){
 		//Varying stream of power
-		return randomFilter(new Double(mySimEnvironment.getLightIntensity() *.09).floatValue());
+		if (getLightInput() != null)
+			return randomFilter(new Double(getLightInput().getLightIntensity() *.09).floatValue());
+		else
+			return randomFilter(0);
 	}
 	
 }
