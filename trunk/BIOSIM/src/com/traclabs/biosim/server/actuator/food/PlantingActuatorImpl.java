@@ -15,6 +15,7 @@ public class PlantingActuatorImpl extends ShelfActuatorImpl implements PlantingA
 	protected void processData(){
 		float myFilteredValue = randomFilter(myValue);
 		//replant crops
+		myShelf.replant(myType, myFilteredValue);
 	}
 	
 	protected void notifyListeners(){
@@ -22,7 +23,7 @@ public class PlantingActuatorImpl extends ShelfActuatorImpl implements PlantingA
 	}
 	
 	public float getMax(){
-		return myShelf.getCropArea();
+		return myShelf.getCropAreaTotal();
 	}
 	
 	public void setPlantType(PlantType pType){

@@ -732,8 +732,9 @@ module biosim{
 
                                 interface Shelf{
                                         void harvest();
-                                        void replant(in PlantType pType);
-					float getCropArea();
+                                        void replant(in PlantType pType, in float area);
+					float getCropAreaTotal();
+					float getCropAreaUsed();
 					BiomassRS getBiomassRS();
                                         void setAutoHarvestEnabled(in boolean pHarvestEnabled);
                                         boolean isAutoHarvestEnabled();

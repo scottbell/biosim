@@ -231,7 +231,7 @@ public abstract class PlantImpl extends PlantPOA{
 		//System.out.println("PlantImpl: molesOfCO2Inhaled: "+molesOfCO2Inhaled);
 		
 		//Exhale Air
-		float O2Produced = getOPF() * dailyCarbonGain * myShelfImpl.getCropArea() / 24f; //in mol of oxygen per hour
+		float O2Produced = getOPF() * dailyCarbonGain * myShelfImpl.getCropAreaUsed() / 24f; //in mol of oxygen per hour
 		float O2Exhaled = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0].addO2Moles(O2Produced);
 		myShelfImpl.getBiomassRSImpl().addAirOutputActualFlowRates(0,O2Exhaled);
 		//System.out.println("PlantImpl: O2Produced: "+O2Produced);
@@ -269,14 +269,14 @@ public abstract class PlantImpl extends PlantPOA{
 		//System.out.println("PlantImpl: PPFFractionAbsorbed: "+PPFFractionAbsorbed);
 		//System.out.println("PlantImpl: CQY: "+CQY);
 		//System.out.println("PlantImpl: PPF: "+PPF);
-		return (0.0036f * photoperiod * carbonUseEfficiency24 * myShelfImpl.getCropArea() * PPFFractionAbsorbed * CQY * PPF);
+		return (0.0036f * photoperiod * carbonUseEfficiency24 * myShelfImpl.getCropAreaUsed() * PPFFractionAbsorbed * CQY * PPF);
 	}
 
 	private float calculateWaterUptake(){
 		float dailyCanopyTranspirationRate = calculateDailyCanopyTranspirationRate();
 		float wetIncoporatedWaterUptake = calculateWetIncoporatedWaterUptake();
 		float dryIncoporatedWaterUptake = calculateDryIncoporatedWaterUptake(dailyCanopyTranspirationRate, wetIncoporatedWaterUptake);
-		float cropArea = myShelfImpl.getCropArea();
+		float cropArea = myShelfImpl.getCropAreaUsed();
 		//System.out.println("PlantImpl: dailyCanopyTranspirationRate: "+dailyCanopyTranspirationRate);
 		//System.out.println("PlantImpl: wetIncoporatedWaterUptake: "+wetIncoporatedWaterUptake);
 		//System.out.println("PlantImpl: dryIncoporatedWaterUptake: "+dryIncoporatedWaterUptake);

@@ -13,7 +13,9 @@ import java.util.*;
 
 public class ShelfImpl extends ShelfPOA {
 	private PlantImpl myCrop;
-	private float cropArea;
+	private PlantType initialType;
+	private float cropAreaTotal = 0f;
+	private float cropAreaUsed = 0f;
 	private LogIndex myLogIndex;
 	private boolean logInitialized = false;
 	private BiomassRSImpl myBiomassRSImpl;
@@ -26,26 +28,12 @@ public class ShelfImpl extends ShelfPOA {
 	private boolean autoHarvest = true;
 	
 
-	public ShelfImpl(PlantType pType, float pCropArea, BiomassRSImpl pBiomassImpl){
-		cropArea = pCropArea;
+	public ShelfImpl(PlantType pType, float pCropAreaTotal, BiomassRSImpl pBiomassImpl){
+		cropAreaTotal = pCropAreaTotal;
 		myBiomassRSImpl = pBiomassImpl;
-		waterNeeded = cropArea * waterNeededPerMeterSquared;
-		if (pType == PlantType.DRY_BEAN)
-			myCrop = new DryBean(this);
-		else if (pType == PlantType.LETTUCE)
-			myCrop = new Lettuce(this);
-		else if (pType == PlantType.PEANUT)
-			myCrop = new Peanut(this);
-		else if (pType == PlantType.SOYBEAN)
-			myCrop = new Soybean(this);
-		else if (pType == PlantType.SWEET_POTATO)
-			myCrop = new SweetPotato(this);
-		else if (pType == PlantType.TOMATO)
-			myCrop = new Tomato(this);
-		else if (pType == PlantType.WHEAT)
-			myCrop = new Wheat(this);
-		else if (pType == PlantType.WHITE_POTATO)
-			myCrop = new WhitePotato(this);
+		initialType = pType;
+		replant(pType);
+		waterNeeded = cropAreaUsed * waterNeededPerMeterSquared;
 	}
 
 	public Plant getPlant(){
@@ -55,7 +43,7 @@ public class ShelfImpl extends ShelfPOA {
 	public void reset(){
 		waterLevel = 0f;
 		powerLevel = 0f;
-		myCrop.reset();
+		replant(initialType);
 	}
 	
 	public BiomassRS getBiomassRS(){
@@ -66,8 +54,12 @@ public class ShelfImpl extends ShelfPOA {
 		return myBiomassRSImpl;
 	}
 
-	public float getCropArea(){
-		return cropArea;
+	public float getCropAreaTotal(){
+		return cropAreaTotal;
+	}
+	
+	public float getCropAreaUsed(){
+		return cropAreaUsed;
 	}
 	
 	public boolean isAutoHarvestEnabled(){
@@ -172,6 +164,31 @@ public class ShelfImpl extends ShelfPOA {
 	}
 
 	public void replant(PlantType pType){
+		replant(pType, cropAreaTotal);
+	}
+	
+	public void replant(PlantType pType, float pArea){
+		if (pArea > cropAreaTotal)
+			cropAreaUsed = cropAreaTotal;
+		else
+			cropAreaUsed = pArea;
+		if (pType == PlantType.DRY_BEAN)
+			myCrop = new DryBean(this);
+		else if (pType == PlantType.LETTUCE)
+			myCrop = new Lettuce(this);
+		else if (pType == PlantType.PEANUT)
+			myCrop = new Peanut(this);
+		else if (pType == PlantType.SOYBEAN)
+			myCrop = new Soybean(this);
+		else if (pType == PlantType.SWEET_POTATO)
+			myCrop = new SweetPotato(this);
+		else if (pType == PlantType.TOMATO)
+			myCrop = new Tomato(this);
+		else if (pType == PlantType.WHEAT)
+			myCrop = new Wheat(this);
+		else if (pType == PlantType.WHITE_POTATO)
+			myCrop = new WhitePotato(this);
+		waterNeeded = cropAreaUsed * waterNeededPerMeterSquared;
 	}
 
 	public void log(LogNode myLogHead){

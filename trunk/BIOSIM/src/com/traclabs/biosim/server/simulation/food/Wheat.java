@@ -29,7 +29,7 @@ public class Wheat extends Erectophile{
 	}
 
 	public float getPPFNeeded(){
-		float cropArea = myShelfImpl.getCropArea();
+		float cropArea = myShelfImpl.getCropAreaUsed();
 		float constantPPF = 115f; //in moles per meters squared days
 		return (constantPPF * cropArea) / 24;
 	}
