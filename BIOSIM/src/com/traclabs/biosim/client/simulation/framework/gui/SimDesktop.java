@@ -673,7 +673,7 @@ public class SimDesktop extends BioFrame {
                             null,
                             "BioSim: Advanced Life Support Simulation\nCopyright "
                                     + new Character('\u00A9')
-                                    + " 2002, TRACLabs\nby Scott Bell and David Kortenkamp");
+                                    + " 2005, TRACLabs\nby Scott Bell and David Kortenkamp");
         }
     }
 

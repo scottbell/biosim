@@ -64,7 +64,7 @@ public class BioFrame extends javax.swing.JFrame {
     /**
      * Invoked on window closing
      */
-    protected void frameClosing() {
+    public void frameClosing() {
         if (!showCloseDialog
                 || JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(
                         this, "Do you really want to quit?", "Quit Dialog",
