@@ -2,7 +2,6 @@ package biosim.client.water.gui;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
 import javax.swing.*;
 import biosim.client.framework.*;
 import biosim.client.framework.gui.*;
@@ -26,7 +25,13 @@ public class WaterStorePanel extends JPanel
 	private SimEnvironment mySimEnvironment;
 	private DefaultCategoryDataset myDataset;
 	private JButton refreshButton;
+	private JButton trackingButton;
 	private ChartPanel myChartPanel;
+	private RefreshAction myRefreshAction;
+	private TrackingAction myTrackingAction;
+	private Timer refreshTimer;
+	private final static int TIMER_DELAY=500;
+	private boolean trackingWanted = false;
 
 	/**
 	 * Default constructor.
@@ -38,9 +43,14 @@ public class WaterStorePanel extends JPanel
 		myGreyWaterStore = (GreyWaterStore)(BioHolder.getBioModule(BioHolder.greyWaterStoreName));
 		mySimEnvironment = (SimEnvironment)(BioHolder.getBioModule(BioHolder.simEnvironmentName));
 		createGraph();
-		refreshButton = new JButton(new RefreshAction("Refresh"));
+		myRefreshAction = new RefreshAction("Refresh");
+		refreshButton = new JButton(myRefreshAction);
+		myTrackingAction = new TrackingAction("Start Tracking");
+		trackingButton = new JButton(myTrackingAction);
+		refreshTimer = new Timer (TIMER_DELAY, myRefreshAction);
 		add(myChartPanel, BorderLayout.CENTER);
 		add(refreshButton, BorderLayout.NORTH);
+		add(trackingButton, BorderLayout.NORTH);
 	}
 
 	private void createGraph(){
@@ -57,7 +67,6 @@ public class WaterStorePanel extends JPanel
 		CategoryPlot plot = chart.getCategoryPlot();
 		plot.setSeriesPaint(new Paint[] { Color.BLUE, Color.GRAY, Color.YELLOW });
 		myChartPanel = new ChartPanel(chart);
-		myChartPanel.zoomOutBoth(50,50);
 	}
 
 	public void refresh() {
@@ -76,6 +85,15 @@ public class WaterStorePanel extends JPanel
 		}
 	}
 	
+	public void visibilityChange(boolean nowVisible){
+		if (nowVisible && trackingWanted){
+			refreshTimer.start();
+		}
+		else{
+			refreshTimer.stop();
+		}
+	}
+	
 	/**
 	* Action that displays the power panel in an internal frame on the desktop.
 	*/
@@ -87,6 +105,27 @@ public class WaterStorePanel extends JPanel
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			refresh();
 			setCursor(Cursor.getDefaultCursor());
+		}
+	}
+	
+	/**
+	* Action that displays the power panel in an internal frame on the desktop.
+	*/
+	private class TrackingAction extends AbstractAction{
+		public TrackingAction(String name){
+			super(name);
+		}
+		public void actionPerformed(ActionEvent ae){
+			if (refreshTimer.isRunning()){
+				refreshTimer.stop();
+				trackingButton.setText("Start Tracking");
+				trackingWanted = false;
+			}
+			else{
+				refreshTimer.start();
+				trackingButton.setText("Stop Tracking");
+				trackingWanted = true;
+			}
 		}
 	}
 }

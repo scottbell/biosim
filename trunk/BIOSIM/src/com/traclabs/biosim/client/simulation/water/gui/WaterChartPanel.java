@@ -23,15 +23,7 @@ public class WaterChartPanel extends BioTabPanel
 		add(myWaterStorePanel, BorderLayout.CENTER);
 	}
 	
-	public void lostFocus(){
-	}
-	
-	public void gotFocus(){
-		myWaterStorePanel.refresh();
-	}
-	
 	public void visibilityChange(boolean nowVisible){
-		if (nowVisible)
-			myWaterStorePanel.refresh();
+		myWaterStorePanel.visibilityChange(nowVisible);
 	}
 }
