@@ -202,7 +202,7 @@
 			<BiomassInFlowRateActuator name="FoodProcessorBiomassInFlowRateActuator" index="0" output="FoodProcessor"/>
 			<BiomassOutFlowRateActuator name="BiomassRSBiomassOutFlowRateActuator" index="0" output="BiomassRS"/>
 			<FoodInFlowRateActuator name="CrewGroupFoodInFlowRateActuator" index="0" output="CrewGroup"/>
-			<FoodOutFlowRateActuator name="BiomassRSFoodOutFlowRateActuator" index="0" output="BiomassRS"/>
+			<FoodOutFlowRateActuator name="FoodProcessorFoodOutFlowRateActuator" index="0" output="FoodProcessor"/>
 		</food>
 		<power>
 			<PowerInFlowRateActuator name="AirRSPowerInFlowRateActuator" index="0" output="AirRS"/>
@@ -218,7 +218,6 @@
 			<GreyWaterInFlowRateActuator name="WaterRSGreyWaterInFlowRateActuator" index="0" output="WaterRS"/>
 			<GreyWaterInFlowRateActuator name="BiomassRSGreyWaterInFlowRateActuator" index="0" output="BiomassRS"/>
 			<GreyWaterOutFlowRateActuator name="CrewGroupGreyWaterOutFlowRateActuator" index="0" output="CrewGroup"/>
-			<GreyWaterOutFlowRateActuator name="BiomassRSGreyWaterOutFlowRateActuator" index="0" output="BiomassRS"/>
 			<PotableWaterInFlowRateActuator name="AirRSPotableWaterInFlowRateActuator" index="0" output="AirRS"/>
 			<PotableWaterInFlowRateActuator name="CrewGroupPotableWaterInFlowRateActuator" index="0" output="CrewGroup"/>
 			<PotableWaterInFlowRateActuator name="BiomassRSPotableWaterInFlowRateActuator" index="0" output="BiomassRS"/>
