@@ -121,8 +121,6 @@
 		</xsd:all>     
 	</xsd:complexType>
 	
-	
-	
 	<xsd:complexType name="SensorsType">
 		<xsd:all>
 			<xsd:element name="air" minOccurs="0" maxOccurs="1">
@@ -797,17 +795,25 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	
+	<xsd:complexType name="FlowRateSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="SensorType">
+				<xsd:attribute name="index" type="xsd:nonNegativeInteger" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
 	<!-- Air sensor declarations -->
 	<xsd:complexType name="CO2InFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="CO2OutFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -821,14 +827,14 @@
 	
 	<xsd:complexType name="H2InFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="H2OutFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -842,14 +848,14 @@
 	
 	<xsd:complexType name="O2InFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="O2OutFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -872,14 +878,14 @@
 	<!-- Environment sensor declarations -->
 	<xsd:complexType name="AirInFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="AirOutFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -893,14 +899,14 @@
 	
 	<xsd:complexType name="CO2AirEnvironmentInFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="CO2AirEnvironmentOutFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -914,14 +920,14 @@
 	
 	<xsd:complexType name="CO2AirStoreInFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="CO2AirStoreOutFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -935,14 +941,14 @@
 	
 	<xsd:complexType name="O2AirEnvironmentInFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="O2AirEnvironmentOutFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -956,14 +962,14 @@
 	
 	<xsd:complexType name="O2AirStoreInFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="O2AirStoreOutFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -999,14 +1005,14 @@
 	<!-- Food sensor declarations -->
 	<xsd:complexType name="BiomassInFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="BiomassOutFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -1020,14 +1026,14 @@
 	
 	<xsd:complexType name="FoodInFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="FoodOutFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -1042,14 +1048,14 @@
 	<!-- Food sensor declarations -->
 	<xsd:complexType name="PowerInFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="PowerOutFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -1064,14 +1070,14 @@
 	<!-- Water sensor declarations -->
 	<xsd:complexType name="DirtyWaterInFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="DirtyWaterOutFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -1085,14 +1091,14 @@
 	
 	<xsd:complexType name="GreyWaterInFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="GreyWaterOutFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -1106,14 +1112,14 @@
 	
 	<xsd:complexType name="PotableWaterInFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="PotableWaterOutFlowRateSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="SensorType">
+			<xsd:extension base="FlowRateSensorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -1134,45 +1140,53 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	
+	<xsd:complexType name="FlowRateActuatorType">  
+		<xsd:complexContent>
+			<xsd:extension base="ActuatorType">
+				<xsd:attribute name="index" type="xsd:nonNegativeInteger" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
 	<!-- Air actuator declarations -->
 	<xsd:complexType name="CO2InFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="CO2OutFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="H2InFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="H2OutFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="O2InFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="O2OutFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -1180,70 +1194,70 @@
 	<!-- Environment actuator declarations -->
 	<xsd:complexType name="AirInFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="AirOutFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="CO2AirEnvironmentInFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="CO2AirEnvironmentOutFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="CO2AirStoreInFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="CO2AirStoreOutFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="O2AirEnvironmentInFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="O2AirEnvironmentOutFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="O2AirStoreInFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="O2AirStoreOutFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -1251,28 +1265,28 @@
 	<!-- Food actuator declarations -->
 	<xsd:complexType name="BiomassInFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="BiomassOutFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="FoodInFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="FoodOutFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -1280,14 +1294,14 @@
 	<!-- Power actuator declarations -->
 	<xsd:complexType name="PowerInFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="PowerOutFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -1295,42 +1309,42 @@
 	<!-- Water actuator declarations -->
 	<xsd:complexType name="DirtyWaterInFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="DirtyWaterOutFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="GreyWaterInFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="GreyWaterOutFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="PotableWaterInFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="PotableWaterOutFlowRateActuatorType">  
 		<xsd:complexContent>
-			<xsd:extension base="ActuatorType">
+			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
