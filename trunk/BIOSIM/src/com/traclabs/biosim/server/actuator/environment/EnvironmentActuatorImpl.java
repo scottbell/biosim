@@ -10,10 +10,7 @@ public abstract class EnvironmentActuatorImpl extends GenericActuatorImpl implem
 	public EnvironmentActuatorImpl(int pID){
 		super(pID);
 	}
-
-	protected abstract void processData();
-	protected abstract void notifyListeners();
-
+	
 	public void setOutput(SimEnvironment source){
 		myEnvironment = source;
 	}

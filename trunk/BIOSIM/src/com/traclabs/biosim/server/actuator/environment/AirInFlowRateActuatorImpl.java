@@ -31,6 +31,10 @@ public class AirInFlowRateActuatorImpl extends GenericActuatorImpl implements Ai
 		return myConsumer;
 	}
 	
+	protected BioModule getModuleOuput(){
+		return (BioModule)(myConsumer);
+	}
+	
 	public int getIndex(){
 		return myIndex;
 	}

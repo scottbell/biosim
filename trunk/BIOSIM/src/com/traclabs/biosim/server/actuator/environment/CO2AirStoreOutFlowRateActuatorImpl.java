@@ -27,6 +27,10 @@ public class CO2AirStoreOutFlowRateActuatorImpl extends GenericActuatorImpl impl
 		myIndex = pIndex;
 	}
 	
+	protected BioModule getModuleOuput(){
+		return (BioModule)(myProducer);
+	}
+	
 	public float getMax(){
 		return myProducer.getCO2AirStoreOutputMaxFlowRate(myIndex);
 	}

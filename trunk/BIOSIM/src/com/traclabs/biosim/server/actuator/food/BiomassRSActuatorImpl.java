@@ -12,9 +12,6 @@ public abstract class BiomassRSActuatorImpl extends GenericActuatorImpl implemen
 		super(pID);
 	}
 
-	protected abstract void processData();
-	protected abstract void notifyListeners();
-
 	public void setOutput(BiomassRS source){
 		myBiomassRS = source;
 	}

@@ -26,6 +26,10 @@ public class BiomassOutFlowRateActuatorImpl extends GenericActuatorImpl implemen
 		myIndex = pIndex;
 	}
 	
+	protected BioModule getModuleOuput(){
+		return (BioModule)(myProducer);
+	}
+	
 	public BiomassProducer getOutput(){
 		return myProducer;
 	}

@@ -11,10 +11,7 @@ public abstract class AirRSActuatorImpl extends GenericActuatorImpl implements A
 	public AirRSActuatorImpl(int pID){
 		super(pID);
 	}
-
-	protected abstract void processData();
-	protected abstract void notifyListeners();
-
+	
 	public void setOutput(AirRS source){
 		myAirRS = source;
 	}

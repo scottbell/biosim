@@ -12,9 +12,6 @@ public abstract class PowerPSActuatorImpl extends GenericActuatorImpl implements
 		super(pID);
 	}
 
-	protected abstract void processData();
-	protected abstract void notifyListeners();
-
 	public void setOutput(PowerPS source){
 		myPowerPS = source;
 	}
