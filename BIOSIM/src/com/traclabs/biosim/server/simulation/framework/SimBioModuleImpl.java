@@ -70,8 +70,9 @@ public abstract class SimBioModuleImpl extends BioModuleImpl implements SimBioMo
 		for (int i = 0; (i < pStores.length) && (gatheredResource < amountNeeded); i++){
 			float resourceToGatherFirst = Math.min(amountNeeded, pMaxFlowRates[i] * fraction);
 			float resourceToGatherFinal = Math.min(resourceToGatherFirst, pDesiredFlowRates[i] * fraction);
-			pActualFlowRates[i] += pStores[i].take(resourceToGatherFinal);
-			gatheredResource += pActualFlowRates[i];
+			float grabbed = pStores[i].take(resourceToGatherFinal);
+			pActualFlowRates[i] += grabbed;
+			gatheredResource += grabbed;
 		}
 		return gatheredResource;
 	}
@@ -111,8 +112,9 @@ public abstract class SimBioModuleImpl extends BioModuleImpl implements SimBioMo
 		for (int i = 0; (i < pStores.length) && (resourceDistributed > 0); i++){
 			float resourceToDistributeFirst = Math.min(resourceDistributed, pMaxFlowRates[i] * fraction);
 			float resourceToDistributeFinal = Math.min(resourceToDistributeFirst, pDesiredFlowRates[i] * fraction);
-			pActualFlowRates[i] += pStores[i].add(resourceToDistributeFinal);
-			resourceDistributed -= pActualFlowRates[i];
+			float given = pStores[i].add(resourceToDistributeFinal);
+			pActualFlowRates[i] += given;
+			resourceDistributed -= given;
 		}
 		return (amountToPush - resourceDistributed);
 	}

@@ -31,22 +31,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private int currentOrder = 0;
 	//How long this crew member has been performing thier current activity (in ticks)
 	private int timeActivityPerformed = 0;
-	//How long this crew member has been starving (in ticks)
-	private int starvingTime = 0;
-	//How long this crew member has been thirsty (in ticks)
-	private int thirstTime = 0;
-	//How long this crew member has been suffocating (in ticks)
-	private int suffocateTime = 0;
-	//How long this crew member has been CO2 poisoned (in ticks)
-	private int poisonTime = 0;
-	//Flag to determine if the person is starving
-	private boolean personStarving = false;
-	//Flag to determine if the person is thirsty
-	private boolean personThirsty = false;
-	//Flag to determine if the person is suffocating
-	private boolean personSuffocating = false;
-	//Flag to determine if the person is CO2 poisoned
-	private boolean personPoisoned = false;
 	//Flag to determine if the person has died
 	private boolean hasDied = false;
 	//The current age of the crew memeber
@@ -86,13 +70,18 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private Random myRandomGen;
 	private SimpleBuffer consumedWater;
 	private SimpleBuffer consumedOxygen;
-	private SimpleBuffer consumedFood;
+	private SimpleBuffer consumedCalories;
 	private SimpleBuffer consumedCO2;
-	private static final float WATER_SLOPE = 10f;
-	private static final float OXYGEN_SLOPE = 10f;
-	private static final float FOOD_SLOPE = 10f;
-	private static final float CO2_SLOPE = 10f;
-
+	private static final float WATER_TILL_DEAD = 8.1f;
+	private static final float WATER_RECOVERY_RATE=0.05f;
+	private static final float OXYGEN_TILL_DEAD = 3f;
+	private static final float OXYGEN_RECOVERY_RATE=0.05f;
+	private static final float CALORIE_TILL_DEAD = 180000f;
+	private static final float CALORIE_RECOVERY_RATE=0.05f;
+	private static final float DANGEROUS_CO2_RATION = 0.06f;
+	private static final float CO2_TILL_DEAD = 10f;
+	private static final float CO2_RECOVERY_RATE=0.05f;
+	
 	/**
 	* Constructor that creates a new crew person
 	* @param pName the name of the new crew person
@@ -111,9 +100,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		sex = pSex;
 		myCrewGroup = pCrewGroup;
 		mySchedule = pSchedule;		
-		consumedWater = new SimpleBuffer();
-		consumedWater = new SimpleBuffer();
-		consumedFood = new SimpleBuffer();
+		consumedWater = new SimpleBuffer(WATER_TILL_DEAD, WATER_TILL_DEAD);
+		consumedOxygen = new SimpleBuffer(OXYGEN_TILL_DEAD, OXYGEN_TILL_DEAD);
+		consumedCalories = new SimpleBuffer(CALORIE_TILL_DEAD, CALORIE_TILL_DEAD);
+		consumedCO2 = new SimpleBuffer(CO2_TILL_DEAD, CO2_TILL_DEAD);
 		myRandomGen = new Random();
 		myCurrentActivity = mySchedule.getScheduledActivityByOrder(currentOrder);
 	}
@@ -126,15 +116,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		currentOrder = 0;
 		myCurrentActivity = mySchedule.getScheduledActivityByOrder(currentOrder);
 		timeActivityPerformed = 0;
-		starvingTime = 0;
-		thirstTime = 0;
-		suffocateTime = 0;
-		poisonTime = 0;
 		sick = false;
-		personStarving = false;
-		personThirsty = false;
-		personSuffocating = false;
-		personPoisoned = false;
 		hasDied = false;
 		O2Consumed= 0f;
 		CO2Produced = 0f;
@@ -216,7 +198,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* @return <code>true</code> if the crew memeber is starving, <code>false</code> if not.
 	*/
 	public boolean isStarving(){
-		return personStarving;
+		return false;
 	}
 
 	/**
@@ -224,7 +206,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* @return <code>true</code> if the crew memeber is CO2 poisoned, <code>false</code> if not.
 	*/
 	public boolean isPoisoned(){
-		return personPoisoned;
+		return false;
 	}
 
 	/**
@@ -232,7 +214,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* @return <code>true</code> if the crew memeber is thirsty, <code>false</code> if not.
 	*/
 	public boolean isThirsty(){
-		return personThirsty;
+		return false;
 	}
 
 	/**
@@ -240,7 +222,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* @return <code>true</code> if the crew memeber is suffocating from lack of O2, <code>false</code> if not.
 	*/
 	public boolean isSuffocating(){
-		return personSuffocating;
+		return false;
 	}
 
 	/**
@@ -417,6 +399,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			consumeResources();
 			afflictCrew();
 			deathCheck();
+			recoverCrew();
 		}
 	}
 
@@ -553,48 +536,35 @@ public class CrewPersonImpl extends CrewPersonPOA {
 				return (myAirInputs[0].getCO2Moles() / myAirInputs[0].getTotalMoles());
 		}
 	}
+	
+	private void recoverCrew(){
+		consumedCalories.add(CALORIE_RECOVERY_RATE * consumedCalories.getCapacity());
+		consumedWater.add(WATER_RECOVERY_RATE * consumedWater.getCapacity());
+		consumedOxygen.add(OXYGEN_RECOVERY_RATE * consumedOxygen.getCapacity());
+		consumedCO2.add(CO2_RECOVERY_RATE * consumedCO2.getCapacity());
+	}
 
 	/**
 	* If not all the resources required were consumed, we damage the crew member.
 	*/
 	private void afflictCrew(){
-		//afflict crew
-		if (caloriesConsumed < (caloriesNeeded * .9f)){
-			//System.out.println("CrewPersonImpl: needs "+caloriesNeeded+" calories");
-			//System.out.println("CrewPersonImpl: got "+caloriesConsumed+" calories");
-			personStarving = true;
-			starvingTime++;
-		}
-		else{
-			personStarving = false;
-			starvingTime = 0;
-		}
-		if (cleanWaterConsumed < (potableWaterNeeded * .9f)){
-			personThirsty = true;
-			thirstTime++;
-		}
-		else{
-			personThirsty = false;
-			thirstTime = 0;
-		}
-		if (getCO2Ratio() > 0.06){
-			personPoisoned = true;
-			poisonTime++;
-		}
-		else{
-			personPoisoned = false;
-			poisonTime = 0;
-		}
-		if (O2Consumed < (O2Needed * .9f)){
-			//System.out.println("CrewPersonImpl: needs "+O2Needed+" moles of O2");
-			//System.out.println("CrewPersonImpl: got "+O2Consumed+" moles of O2");
-			personSuffocating = true;
-			suffocateTime++;
-		}
-		else{
-			personSuffocating = false;
-			suffocateTime = 0;
-		}
+		consumedCalories.take(caloriesNeeded - caloriesConsumed);
+		consumedWater.take(potableWaterNeeded - cleanWaterConsumed);
+		consumedOxygen.take(O2Needed - O2Consumed);
+		consumedCO2.take(getCO2Ratio() - DANGEROUS_CO2_RATION);
+	}
+	
+	private float abs(float a){
+		return (new Double(Math.abs(a))).floatValue();
+	}
+	
+	private float deathProbability(float x){
+		if (x >= 1f)
+			return 1f;
+		else if ((x < 1f) && (x > 0f))
+			return 0.5f * x * (1f - abs(x - 2f) / 2f);
+		else
+			return 0f;
 	}
 
 	/**
@@ -602,25 +572,35 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	*/
 	private void deathCheck(){
 		//check for death
-		if (starvingTime > 504){
-			System.out.println("CrewPersonImpl"+myCrewGroup.getID()+": "+myName + " dead from starvation");
+		float randomNumber = myRandomGen.nextFloat();
+		float calorieRiskReturn = deathProbability((consumedCalories.getCapacity() - consumedCalories.getLevel()) / consumedCalories.getCapacity());
+		float waterRiskReturn = deathProbability((consumedWater.getCapacity() - consumedWater.getLevel()) / consumedWater.getCapacity());
+		float oxygenRiskReturn = deathProbability((consumedOxygen.getCapacity() - consumedOxygen.getLevel()) / consumedOxygen.getCapacity());
+		float CO2RiskReturn = deathProbability((consumedCO2.getCapacity() - consumedCO2.getLevel()) / consumedCO2.getCapacity());
+		/*
+		System.out.println(getName());
+		System.out.println("\tcalorie risk level = "+(consumedCalories.getCapacity() - consumedCalories.getLevel()) / consumedCalories.getCapacity());
+		System.out.println("\tthirst risk level = "+(consumedWater.getCapacity() - consumedWater.getLevel()) / consumedWater.getCapacity());
+		System.out.println("\toxygen risk level = "+(consumedOxygen.getCapacity() - consumedOxygen.getLevel()) / consumedOxygen.getCapacity());
+		System.out.println("\tCO2 risk level = "+(consumedCO2.getCapacity() - consumedCO2.getLevel()) / consumedCO2.getCapacity());
+		*/
+		if (calorieRiskReturn > randomNumber){
 			hasDied = true;
+			System.out.println(getName()+" has died from starvation (risk was "+calorieRiskReturn+")");
 		}
-		else if (thirstTime > 72){
-			System.out.println("CrewPersonImpl"+myCrewGroup.getID()+": "+myName + " dead from thirst");
+		else if (waterRiskReturn > randomNumber){
 			hasDied = true;
+			System.out.println(getName()+" has died from thirst (risk was "+waterRiskReturn+")");
 		}
-		else if (suffocateTime > 2){
-			System.out.println("CrewPersonImpl"+myCrewGroup.getID()+": "+myName + " dead from suffocation");
+		else if (oxygenRiskReturn > randomNumber){
 			hasDied = true;
+			System.out.println(getName()+" has died from lack of oxygen (risk was "+oxygenRiskReturn+")");
 		}
-		else if (poisonTime > 5){
-			System.out.println("CrewPersonImpl"+myCrewGroup.getID()+": "+myName + " dead from CO2 poisoning");
+		else if (CO2RiskReturn > randomNumber){
 			hasDied = true;
+			System.out.println(getName()+" has died from CO2 poisoning (risk was "+CO2RiskReturn+")");
 		}
-		else{
-			hasDied = false;
-		}
+		//if died, kill
 		if (hasDied){
 			O2Consumed= 0f;
 			CO2Produced = 0f;
@@ -630,7 +610,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			greyWaterProduced = 0f;
 			caloriesConsumed = 0f;
 			myCurrentActivity = mySchedule.getActivityByName("dead");
-			hasDied = true;
 			timeActivityPerformed = 0;
 		}
 	}
@@ -687,22 +666,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			myLogIndex.currentActivityOrderIndex = currentActivityOrderHead.addChild(""+currentOrder);
 			LogNode timeActivityPerformedHead = myLogHead.addChild("duration_of_activity");
 			myLogIndex.timeActivityPerformedIndex = timeActivityPerformedHead.addChild(""+timeActivityPerformed);
-			LogNode starvingTimeHead = myLogHead.addChild("starving_time");
-			myLogIndex.starvingTimeIndex = starvingTimeHead.addChild(""+starvingTime);
-			LogNode thirstTimeHead = myLogHead.addChild("thirst_time");
-			myLogIndex.thirstTimeIndex = thirstTimeHead.addChild(""+thirstTime);
-			LogNode suffocateTimeHead = myLogHead.addChild("suffocate_time");
-			myLogIndex.suffocateTimeIndex = suffocateTimeHead.addChild(""+suffocateTime);
-			LogNode poisonTimeHead = myLogHead.addChild("poison_time");
-			myLogIndex.poisonTimeIndex = poisonTimeHead.addChild(""+poisonTime);
-			LogNode personStarvingHead = myLogHead.addChild("person_starving");
-			myLogIndex.personStarvingIndex = personStarvingHead.addChild(""+personStarving);
-			LogNode personThirstyHead = myLogHead.addChild("person_thirsty");
-			myLogIndex.personThirstyIndex = personThirstyHead.addChild(""+personThirsty);
-			LogNode personSuffocatingHead = myLogHead.addChild("person_suffocating");
-			myLogIndex.personSuffocatingIndex = personSuffocatingHead.addChild(""+personSuffocating);
-			LogNode personPoisonedHead = myLogHead.addChild("person_poisoned");
-			myLogIndex.personPoisonedIndex = personPoisonedHead.addChild(""+personPoisoned);
 			LogNode hasDiedHead = myLogHead.addChild("has_died");
 			myLogIndex.hasDiedIndex = hasDiedHead.addChild(""+hasDied);
 			LogNode ageHead = myLogHead.addChild("age");
@@ -739,14 +702,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			myLogIndex.currentActivityIndex.setValue(""+myCurrentActivity.getName());
 			myLogIndex.currentActivityOrderIndex.setValue(""+currentOrder);
 			myLogIndex.timeActivityPerformedIndex.setValue(""+timeActivityPerformed);
-			myLogIndex.starvingTimeIndex.setValue(""+starvingTime);
-			myLogIndex.thirstTimeIndex.setValue(""+thirstTime);
-			myLogIndex.suffocateTimeIndex.setValue(""+suffocateTime);
-			myLogIndex.poisonTimeIndex.setValue(""+poisonTime);
-			myLogIndex.personStarvingIndex.setValue(""+personStarving);
-			myLogIndex.personThirstyIndex.setValue(""+personThirsty);
-			myLogIndex.personSuffocatingIndex.setValue(""+personSuffocating);
-			myLogIndex.personPoisonedIndex.setValue(""+personPoisoned);
 			myLogIndex.hasDiedIndex.setValue(""+hasDied);
 			myLogIndex.ageIndex.setValue(""+age);
 			myLogIndex.weightIndex.setValue(""+weight);
@@ -774,10 +729,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		public LogNode currentActivityIndex;
 		public LogNode currentActivityOrderIndex;
 		public LogNode timeActivityPerformedIndex;
-		public LogNode starvingTimeIndex;
-		public LogNode thirstTimeIndex;
-		public LogNode suffocateTimeIndex;
-		public LogNode poisonTimeIndex;
 		public LogNode personStarvingIndex;
 		public LogNode personThirstyIndex;
 		public LogNode personSuffocatingIndex;

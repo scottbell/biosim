@@ -106,7 +106,7 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 		return (FoodMatter[])(itemsToReturn.toArray(returnArrayType));
 	}
 	
-	private float calculateCaloriesSingular(FoodMatter pFood){
+	private static float calculateCaloriesSingular(FoodMatter pFood){
 		PlantType theType = pFood.type;
 		float theMass = pFood.mass;
 		if (theType == PlantType.DRY_BEAN)
@@ -146,8 +146,27 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 			FoodMatter currentFoodMatter = (FoodMatter)(iter.next());
 			float currentCalories = calculateCaloriesSingular(currentFoodMatter);
 			float caloriesStillNeeded = pCalories - collectedCalories;
-			//Too much for flowrate
-			if ((collectedMass + currentFoodMatter.mass) > limitingMass){ 
+			
+			//Too many calories and too big, need to pair down to flowrate, then pair down to needed calories
+			if (((currentCalories > caloriesStillNeeded) || (collectedMass + currentFoodMatter.mass) > limitingMass)){
+				//pair it to mass
+				FoodMatter pairedToFlowrateFoodMatter = new FoodMatter(limitingMass - collectedMass, currentFoodMatter.type);
+				float pairedToFlowrateCalories = calculateCaloriesSingular(pairedToFlowrateFoodMatter);
+				//pair it to calories
+				float fractionOfMassToKeep = (pairedToFlowrateCalories - caloriesStillNeeded) / pairedToFlowrateCalories;
+				float pairedToCaloriesMassToKeep = pairedToFlowrateFoodMatter.mass * fractionOfMassToKeep;
+				float massToReturn = pairedToFlowrateFoodMatter.mass - pairedToCaloriesMassToKeep;
+				currentFoodMatter.mass -= massToReturn;
+				
+				FoodMatter partialReturnedFoodMatter = new FoodMatter(massToReturn, currentFoodMatter.type);
+				itemsToReturn.add(partialReturnedFoodMatter);
+				if (currentFoodMatter.mass <= 0)
+					itemsToRemove.add(currentFoodMatter);
+				collectedMass += partialReturnedFoodMatter.mass;
+				collectedCalories = pCalories;
+			}
+			//Not enough calories and too big.  Pair down to flowrate
+			else if (((collectedMass + currentFoodMatter.mass) > limitingMass) && (currentCalories <= caloriesStillNeeded)){
 				FoodMatter partialReturnedFoodMatter = new FoodMatter(limitingMass - collectedMass, currentFoodMatter.type);
 				currentFoodMatter.mass -= partialReturnedFoodMatter.mass;
 				itemsToReturn.add(partialReturnedFoodMatter);
@@ -156,15 +175,8 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 				collectedMass += partialReturnedFoodMatter.mass;
 				collectedCalories = calculateCaloriesSingular(partialReturnedFoodMatter);
 			}
-			//we need to get more bio matter
-			else if (currentCalories < caloriesStillNeeded){
-				itemsToReturn.add(currentFoodMatter);
-				itemsToRemove.add(currentFoodMatter);
-				collectedCalories += currentCalories;
-				collectedMass += currentFoodMatter.mass;
-			}
-			//we have enough, let's cut up the biomass (if too much)
-			else if (currentCalories > caloriesStillNeeded){
+			//Too many calories and small.  Pair down to calories
+			else if (((collectedMass + currentFoodMatter.mass) <= limitingMass) && (currentCalories > caloriesStillNeeded)){
 				float fractionOfMassToKeep = (currentCalories - caloriesStillNeeded) / currentCalories;
 				float massToKeep = currentFoodMatter.mass * fractionOfMassToKeep;
 				float massToReturn = currentFoodMatter.mass - massToKeep;
@@ -176,6 +188,13 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 					itemsToRemove.add(currentFoodMatter);
 				collectedMass += partialReturnedFoodMatter.mass;
 				collectedCalories = pCalories;
+			}
+			//Too little calories and small.  Just add
+			else{
+				itemsToReturn.add(currentFoodMatter);
+				itemsToRemove.add(currentFoodMatter);
+				collectedCalories += currentCalories;
+				collectedMass += currentFoodMatter.mass;
 			}
 		}
 		//Remove items from List

@@ -135,6 +135,7 @@
 		</framework>
 		<power>
 			<PowerPS name="PowerPS" generation="SOLAR">
+				<lightConsumer maxFlowRates="0" desiredFlowRates="0" inputs="CrewEnvironment"/>
 				<powerProducer maxFlowRates="10000" desiredFlowRates="10000" outputs="PowerStore"/>
 			</PowerPS>
 			<PowerStore name="PowerStore" capacity="2000" level="2000"/>

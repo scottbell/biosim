@@ -705,6 +705,7 @@
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
 				<xsd:sequence>
+					<xsd:element name="lightConsumer" type="LightConsumerType"/>
 					<xsd:element name="powerProducer" type="PowerProducerType"/>
 				</xsd:sequence>
 				<xsd:attribute name="generation" type="GenerationType" use="required"/>

@@ -16,8 +16,10 @@ public class SolarPowerPS extends PowerPSImpl {
 		//Varying stream of power
 		if (getLightInput() != null)
 			return randomFilter(new Double(getLightInput().getLightIntensity() *.09).floatValue());
-		else
+		else{
+			System.out.println("SolarPowerPS: no light input!");
 			return randomFilter(0);
+		}
 	}
 	
 }

@@ -36,7 +36,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	//The Malfunctions in a Map (key is a Long representing the Malfunction ID, value is the Malfunction Object)
 	protected Map myMalfunctions;
 	private boolean canBreakdown = false;
-	private float sigmoidSlope = 0f;
+	private float breakdownFactor = 0f;
 	
 	/**
 	* Constructor to create a BioModule, should only be called by those deriving from BioModule.
@@ -64,10 +64,10 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	}
 	
 	private void checkBreakdownRisk(){
-		sigmoidSlope += 0.01f;
-		float sigmoidReturn = sigmoid(sigmoidSlope);
+		breakdownFactor += 0.01f;
+		float breakdownReturn = breakdownFunction(breakdownFactor);
 		float randomNumber = myRandomGen.nextFloat();
-		if (sigmoidReturn <= randomNumber)
+		if (breakdownReturn <= randomNumber)
 			startMalfunction(MalfunctionIntensity.LOW_MALF, MalfunctionLength.TEMPORARY_MALF);
 	}
 	
@@ -77,9 +77,23 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	protected void log(){
 	}
 	
-	private float sigmoid(float slope){
-		float exponent = exp(-(1/slope));
-		return 1 / (1 - (exponent));
+	private float abs(float a){
+		return (new Double(Math.abs(a))).floatValue();
+	}
+
+	private float mathLogFunction(float a){
+		return (new Double(Math.log(a))).floatValue();
+	}
+	
+	private float breakdownFunction(float x){
+		if (x >= 1f)
+			return 1f;
+		else if ((x < 1f) && (x > 0.3f))
+			return 2f * x * (1f - abs(x - 2f) / 2f);
+		else if ((x > 0) && (x < 0.3f))
+			return 0.3f * mathLogFunction(x + 1);
+		else
+			return 0f;
 	}
 	
 	private float exp(float a){
@@ -211,7 +225,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	* Resets this module (should be called by extended classes as it clears malfunctions)
 	*/
 	public void reset(){
-		sigmoidSlope = 0f;
+		breakdownFactor = 0f;
 		myMalfunctions.clear();
 	}
 	
@@ -245,9 +259,9 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	* NOT IMPLEMENTED YET
 	*/
 	public void maitenance(){
-		sigmoidSlope -= 0.2f;
-		if (sigmoidSlope < 0f)
-			sigmoidSlope = 0f;
+		breakdownFactor -= 0.2f;
+		if (breakdownFactor < 0f)
+			breakdownFactor = 0f;
 	}
 	
 	public void setEnableBreakdown(boolean pValue){

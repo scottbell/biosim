@@ -138,13 +138,12 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 	}
 
 	public void tick(){
+		super.tick();
 		clearActualFlowRates();
 		for (Iterator iter = myShelves.iterator(); iter.hasNext();){
 			ShelfImpl currentShelf = (ShelfImpl)(iter.next());
 			currentShelf.tick();
 		}
-		if (moduleLogging)
-			log();
 	}
 
 	protected void log(){
