@@ -376,7 +376,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		
 		float averagePercentFull = (caloriePercentFull + waterPercentFull + oxygenPercentFull + CO2PercentFull) / 4f;
 		if (averagePercentFull < 1f)
-			averagePercentFull * 0.5f;
+			averagePercentFull *= 0.5f;
 		System.out.println("averagePercentFull = "+averagePercentFull);
 		myMissionProductivity += averagePercentFull;
 	}
