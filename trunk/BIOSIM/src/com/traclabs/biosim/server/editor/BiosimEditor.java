@@ -133,7 +133,7 @@ public class BiosimEditor {
         GridBagConstraints constraints = new GridBagConstraints();
         myMainFrame.getContentPane().setLayout(gridbag);
 
-        constraints.gridwidth = GridBagConstraints.RELATIVE;
+        constraints.gridwidth = GridBagConstraints.REMAINDER;
         constraints.fill = GridBagConstraints.BOTH;
         constraints.ipadx = 0;
         gridbag.setConstraints(myTabbedPane, constraints);
@@ -162,7 +162,7 @@ public class BiosimEditor {
 
         //set size, pack, show
         myMainFrame.pack();
-        myMainFrame.setSize(640, 480);
+        myMainFrame.setSize(650, 600);
         myMainFrame.setVisible(true);
     }
 
