@@ -113,18 +113,36 @@ public class BioDriverImpl extends BioDriverPOA{
 	}
 	
 	public BioModule[] getModules(){
-		System.out.println("modules length is :"+modules.length);
 		return modules;
 	}
 
 	public BioModule[] getSensors(){
-		System.out.println("sensors length is :"+sensors.length);
 		return sensors;
 	}
 
 	public BioModule[] getActuators(){
-		System.out.println("actuators length is :"+actuators.length);
 		return actuators;
+	}
+	
+	public String[] getModuleNames(){
+		String[] moduleNameArray = new String[modules.length];
+		for (int i = 0; i < moduleNameArray.length; i++)
+			moduleNameArray[i] = modules[i].getModuleName();
+		return moduleNameArray;
+	}
+
+	public String[] getSensorNames(){
+		String[] sensorNameArray = new String[sensors.length];
+		for (int i = 0; i < sensorNameArray.length; i++)
+			sensorNameArray[i] = sensors[i].getModuleName();
+		return sensorNameArray;
+	}
+
+	public String[] getActuatorNames(){
+		String[] actuatorNameArray = new String[actuators.length];
+		for (int i = 0; i < actuatorNameArray.length; i++)
+			actuatorNameArray[i] = actuators[i].getModuleName();
+		return actuatorNameArray;
 	}
 
 	public void setCrewsToWatch(CrewGroup[] pCrewGroups){

@@ -189,6 +189,9 @@ module biosim{
 				BioModuleList getModules();
 				BioModuleList getSensors();
 				BioModuleList getActuators();
+				StringList getModuleNames();
+				StringList getSensorNames();
+				StringList getActuatorNames();
 				void setCrewsToWatch(in simulation::crew::CrewGroupList pCrews);
                                 string getName();
                                 boolean isDone();

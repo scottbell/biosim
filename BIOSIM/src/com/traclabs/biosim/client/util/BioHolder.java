@@ -225,14 +225,6 @@ public class BioHolder
 		return (BioModule[])(actuators.values().toArray(arrayActuators));
 	}
 
-	public static String[] getBioModuleNames(){
-		collectReferences();
-		String[] arrayModuleNames = new String[modules.size()];
-		if (modules.size() == 0)
-			return arrayModuleNames;
-		return (String[])(modules.keySet().toArray(arrayModuleNames));
-	}
-
 	public static BioDriver getBioDriver(){
 		collectReferences();
 		return myBioDriver;
@@ -242,10 +234,11 @@ public class BioHolder
 		myID = pID;
 	}
 	
-	private static Map convertArrayToMap(BioModule[] moduleArray){
+	private static Map fetchModules(String[] moduleNameArray) throws org.omg.CORBA.UserException{
 		Map newMap = new Hashtable();
-		for (int i =0; i < moduleArray.length; i++){
-			newMap.put(moduleArray[i].getModuleName(), moduleArray[i]);
+		for (int i = 0; i < moduleNameArray.length; i++){
+			BioModule module = BioModuleHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleNameArray[i]));
+			newMap.put(moduleNameArray[i], module);
 		}
 		return newMap;
 	}
@@ -263,14 +256,14 @@ public class BioHolder
 				actuators = new Hashtable();			
 			System.out.println("BioHolder: Collecting simulation references to modules...");
 			myBioDriver = BioDriverHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str("BioDriver"));
-			BioModule[] myModuleArray = myBioDriver.getModules();
-			BioModule[] mySensorArray = myBioDriver.getSensors();
-			BioModule[] myActuatorArray = myBioDriver.getActuators();
-			if ((myModuleArray.length <= 0) || (mySensorArray.length <= 0) || (myActuatorArray.length <= 0))
+			String[] myModuleNameArray = myBioDriver.getModuleNames();
+			String[] mySensorNameArray = myBioDriver.getSensorNames();
+			String[] myActuatorNameArray = myBioDriver.getActuatorNames();
+			if ((myModuleNameArray.length <= 0) || (mySensorNameArray.length <= 0) || (myActuatorNameArray.length <= 0))
 				throw new Exception();
-			modules = convertArrayToMap(myModuleArray);
-			sensors = convertArrayToMap(mySensorArray);
-			actuators = convertArrayToMap(myActuatorArray);
+			modules = fetchModules(myModuleNameArray);
+			sensors = fetchModules(mySensorNameArray);
+			actuators = fetchModules(myActuatorNameArray);
 			hasCollectedReferences = true;
 		}
 		catch (org.omg.CORBA.UserException e){
