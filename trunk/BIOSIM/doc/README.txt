@@ -1,5 +1,5 @@
 **********************************************
-BIOSIM - Adavanced Life Support Simulation v2.0
+BIOSIM - Advanced Life Support Simulation v2.0
 	by Scott Bell and Dave Kortenkamp
 	copyright 2002
 **********************************************
