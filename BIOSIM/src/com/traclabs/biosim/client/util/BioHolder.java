@@ -355,9 +355,8 @@ public class BioHolder{
 			if (currentSensor.getInputModule()._is_equivalent(moduleWatched)){
 				BiomassRS currentBiomassRS = BiomassRSHelper.narrow(currentSensor.getInputModule());
 				Shelf[] shelfArray = currentBiomassRS.getShelves();
-				for (int i = 0; i < shelfArray.length; i++)
-					if (currentSensor.getInput()._is_equivalent(shelfArray[i]))
-						return currentSensor;
+				if (currentSensor.getInput()._is_equivalent(shelfArray[shelfIndex]))
+					return currentSensor;
 			}
 		}
 		return null;
@@ -369,9 +368,8 @@ public class BioHolder{
 			if (currentActuator.getOutputModule()._is_equivalent(moduleWatched)){
 				BiomassRS currentBiomassRS = BiomassRSHelper.narrow(currentActuator.getOutputModule());
 				Shelf[] shelfArray = currentBiomassRS.getShelves();
-				for (int i = 0; i < shelfArray.length; i++)
-					if (currentActuator.getOutput()._is_equivalent(shelfArray[i]))
-						return currentActuator;
+				if (currentActuator.getOutput()._is_equivalent(shelfArray[shelfIndex]))
+					return currentActuator;
 			}
 		}
 		return null;
