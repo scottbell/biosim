@@ -42,7 +42,7 @@ crewName="biosim.server.crew.CrewServer"
 waterRSName="biosim.server.water.WaterRSServer"
 waterStoreName="biosim.server.water.WaterStoreServer"
 jacoClasspath="$JACORB_HOME/lib/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME/lib"
-jacoInvocation="java -classpath $serverClassesDir$separator$jacoClasspath$separator$CLASSPATH $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
+jacoInvocation="$JAVA_HOME/bin/java -classpath $serverClassesDir$separator$jacoClasspath$separator$CLASSPATH $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
 echo "	-starting servers"
 case $userSelect in
 	AirRS) echo "			 -starting $userSelect";$jacoInvocation $airRSName;;
