@@ -24,8 +24,8 @@ public abstract class Legume extends Planophile{
 	public abstract PlantType getPlantType();
 	public abstract String getPlantTypeString();
 	
-	public Legume(ShelfImpl pShelfImpl, int pStartDay){
-		super(pShelfImpl, pStartDay);
+	public Legume(ShelfImpl pShelfImpl){
+		super(pShelfImpl);
 	}
 
 	protected float getCarbonUseEfficiency24(){

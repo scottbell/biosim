@@ -7,8 +7,8 @@ import biosim.idl.simulation.food.*;
  */
 
 public class Wheat extends Erectophile{
-	public Wheat(ShelfImpl pShelfImpl, int pStartDay){
-		super(pShelfImpl, pStartDay);
+	public Wheat(ShelfImpl pShelfImpl){
+		super(pShelfImpl);
 		canopyClosureConstants[0] = 95488f;
 		canopyClosureConstants[1] = 1068.6f;
 		canopyClosureConstants[6] = 15.977f;

@@ -782,7 +782,6 @@ module biosim{
 					PlantType getCropType();
 					string getCropTypeString();
                                         void replant(in PlantType pType, in float area);
-                                        void replantHotStart(in PlantType pType, in float area, in long startDay);
 					float getCropAreaTotal();
 					float getCropAreaUsed();
 					BiomassRS getBiomassRS();

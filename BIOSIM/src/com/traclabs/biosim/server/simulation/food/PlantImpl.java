@@ -17,7 +17,6 @@ public abstract class PlantImpl extends PlantPOA{
 	private DecimalFormat numFormat;
 	private Random myRandomGen;
 	protected int myAge = 0;
-	protected int initialAge = 0;
 	private LogIndex myLogIndex;
 	private boolean logInitialized = false;
 	private boolean hasDied = false;
@@ -67,9 +66,8 @@ public abstract class PlantImpl extends PlantPOA{
 	private static final float LIGHT_TILL_DEAD = 150f;
 	private static final float LIGHT_RECOVERY_RATE = 0.005f;
 
-	public PlantImpl(ShelfImpl pShelfImpl, int pStartDay){
-		initialAge = pStartDay;
-		myAge = initialAge;
+	public PlantImpl(ShelfImpl pShelfImpl){
+		myAge = 0;
 		myShelfImpl = pShelfImpl;
 		canopyClosureConstants = new float[25];
 		canopyQYConstants = new float[25];
@@ -127,7 +125,7 @@ public abstract class PlantImpl extends PlantPOA{
 		myAverageCO2Concentration = 0f;
 		myTotalCO2Concentration = 0f;
 		myNumberOfCO2ConcentrationReadings = 0;
-		myAge = initialAge;
+		myAge = 0;
 		totalO2GramsProduced = 0f;
 		totalCO2GramsConsumed = 0f;
 		totalCO2MolesConsumed = 0f;
@@ -145,7 +143,7 @@ public abstract class PlantImpl extends PlantPOA{
 		if (!hasDied){
 			calculateAverageCO2Concentration();
 			growBiomass();
-			if (myAge > initialAge){
+			if (myAge > 1){
 				afflictPlants();
 				healthCheck();
 				recoverPlants();
@@ -355,8 +353,8 @@ public abstract class PlantImpl extends PlantPOA{
 			myCurrentDryBiomass -= (float)(1f-waterFraction)*(cropGrowthRate / 1000 / 24f * myShelfImpl.getCropAreaUsed());
 			if (getDaysOfGrowth() > getTimeAtOrganFormation())
 				myCurrentEdibleDryBiomass -= (float)(1f - waterFraction) * (cropGrowthRate / 1000 / 24f * myShelfImpl.getCropAreaUsed() * getProtectedFractionOfEdibleBiomass());
-//			System.out.println("PlantImpl: myCurrentDryBiomass: "+myCurrentDryBiomass);
-//			System.out.println("PlantImpl: myCurrentEdibleDryBiomass: "+myCurrentEdibleDryBiomass);
+			//System.out.println("PlantImpl: myCurrentDryBiomass: "+myCurrentDryBiomass);
+			//System.out.println("PlantImpl: myCurrentEdibleDryBiomass: "+myCurrentEdibleDryBiomass);
 
 			waterInsideEdibleBiomass = myCurrentEdibleDryBiomass * getProtectedEdibleFreshBasisWaterContent() / (1f - getProtectedEdibleFreshBasisWaterContent());
 			myCurrentEdibleWetBiomass = waterInsideEdibleBiomass + myCurrentEdibleDryBiomass;

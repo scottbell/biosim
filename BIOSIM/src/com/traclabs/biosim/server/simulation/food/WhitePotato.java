@@ -7,8 +7,8 @@ import biosim.idl.simulation.food.*;
  */
 
 public class WhitePotato extends Planophile{
-	public WhitePotato(ShelfImpl pShelfImpl, int pStartDay){
-		super(pShelfImpl, pStartDay);
+	public WhitePotato(ShelfImpl pShelfImpl){
+		super(pShelfImpl);
 		canopyClosureConstants[0] = 657730f;
 		canopyClosureConstants[1] = 8562.6f;
 		canopyClosureConstants[11] = 0.042749f;

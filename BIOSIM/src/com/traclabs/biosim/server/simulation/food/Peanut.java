@@ -7,8 +7,8 @@ import biosim.idl.simulation.food.*;
  */
 
 public class Peanut extends Legume{
-	public Peanut(ShelfImpl pShelfImpl, int pStartDay){
-		super(pShelfImpl, pStartDay);
+	public Peanut(ShelfImpl pShelfImpl){
+		super(pShelfImpl);
 		canopyClosureConstants[0] = 3748700f;
 		canopyClosureConstants[1] = 2920f;
 		canopyClosureConstants[4] = .000000094008f;
