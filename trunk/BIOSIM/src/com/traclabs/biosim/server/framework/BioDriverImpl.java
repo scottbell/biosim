@@ -76,6 +76,11 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	//Stores
 	private String myO2StoreLevelSensorName;
 	private String myCO2StoreLevelSensorName;
+	//Crew
+	private String myCrewGroupDeathSensorName;
+	private String myCrewGroupPotableWaterInFlowRateSensorName;
+	private String myCrewGroupGreyWaterOutFlowRateSensorName;
+	private String myCrewGroupDirtyWaterOutFlowRateSensorName;
 	//Power
 	//PowerPS
 	private String myPowerPSPowerOutFlowRateSensorName;
@@ -141,14 +146,16 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	//Power
 	//PowerPS
 	private String myPowerPSPowerOutFlowRateActuatorName;
-	//Crew
-	private String myCrewGroupDeathSensorName;
 	//Water
 	//WaterRS
 	private String myWaterRSDirtyWaterInFlowRateActuatorName;
 	private String myWaterRSGreyWaterInFlowRateActuatorName;
 	private String myWaterRSPowerInFlowRateActuatorName;
 	private String myWaterRSPotableWaterOutFlowRateActuatorName;
+	//Crew
+	private String myCrewGroupPotableWaterInFlowRateActuatorName;
+	private String myCrewGroupGreyWaterOutFlowRateActuatorName;
+	private String myCrewGroupDirtyWaterOutFlowRateActuatorName;
 	//Food
 	//BiomassRS
 	private String myBiomassRSAirInFlowRateActuatorName;
@@ -286,7 +293,13 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames.add(myCO2StoreLevelSensorName);
 		//Crew
 		myCrewGroupDeathSensorName = "CrewGroupDeathSensor"+myID;
+		myCrewGroupPotableWaterInFlowRateSensorName = "CrewGroupPotableWaterInFlowRateSensor"+myID;
+		myCrewGroupGreyWaterOutFlowRateSensorName = "CrewGroupGreyWaterOutFlowRateSensor"+myID;
+		myCrewGroupDirtyWaterOutFlowRateSensorName = "CrewGroupDirtyWaterOutFlowRateSensor"+myID;
 		myModuleNames.add(myCrewGroupDeathSensorName);
+		myModuleNames.add(myCrewGroupPotableWaterInFlowRateSensorName);
+		myModuleNames.add(myCrewGroupGreyWaterOutFlowRateSensorName);
+		myModuleNames.add(myCrewGroupDirtyWaterOutFlowRateSensorName);
 		//Power
 		//PowerPS
 		myPowerPSPowerOutFlowRateSensorName = "PowerPSPowerOutFlowRateSensor"+myID;
@@ -403,6 +416,13 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames.add(myWaterRSGreyWaterInFlowRateActuatorName);
 		myModuleNames.add(myWaterRSPowerInFlowRateActuatorName);
 		myModuleNames.add(myWaterRSPotableWaterOutFlowRateActuatorName);
+		//Crew
+		myCrewGroupPotableWaterInFlowRateActuatorName = "CrewGroupPotableWaterInFlowRateActuator"+myID;
+		myCrewGroupGreyWaterOutFlowRateActuatorName = "CrewGroupGreyWaterOutFlowRateActuator"+myID;
+		myCrewGroupDirtyWaterOutFlowRateActuatorName = "CrewGroupDirtyWaterOutFlowRateActuator"+myID;
+		myModuleNames.add(myCrewGroupPotableWaterInFlowRateActuatorName);
+		myModuleNames.add(myCrewGroupGreyWaterOutFlowRateActuatorName);
+		myModuleNames.add(myCrewGroupDirtyWaterOutFlowRateActuatorName);
 		//Food
 		//BiomassRS
 		myBiomassRSAirInFlowRateActuatorName = "BiomassRSAirInFlowRateActuator"+myID;
@@ -598,7 +618,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		System.out.println("BioDriverImpl:"+myID+" configuring sensor inputs");
 		configureSensorsInputs();
 		System.out.println("BioDriverImpl:"+myID+" configuring actuator outputs");
-		configureActuatorsOutputs();
+		configureActuatorOutputs();
 	}
 
 	/**
@@ -939,7 +959,13 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		{
 			CrewGroup myCrewGroup = CrewGroupHelper.narrow(getBioModule(myCrewGroupName));
 			CrewGroupDeathSensor myCrewGroupDeathSensor = CrewGroupDeathSensorHelper.narrow(getBioModule(myCrewGroupDeathSensorName));
+			PotableWaterInFlowRateSensor myCrewGroupPotableWaterInFlowRateSensor = PotableWaterInFlowRateSensorHelper.narrow(getBioModule(myCrewGroupPotableWaterInFlowRateSensorName));
+			GreyWaterOutFlowRateSensor myCrewGroupGreyWaterOutFlowRateSensor = GreyWaterOutFlowRateSensorHelper.narrow(getBioModule(myCrewGroupGreyWaterOutFlowRateSensorName));
+			DirtyWaterOutFlowRateSensor myCrewGroupDirtyWaterOutFlowRateSensor = DirtyWaterOutFlowRateSensorHelper.narrow(getBioModule(myCrewGroupDirtyWaterOutFlowRateSensorName));
 			myCrewGroupDeathSensor.setInput(myCrewGroup);
+			myCrewGroupPotableWaterInFlowRateSensor.setInput(myCrewGroup, 0);
+			myCrewGroupGreyWaterOutFlowRateSensor.setInput(myCrewGroup, 0);
+			myCrewGroupDirtyWaterOutFlowRateSensor.setInput(myCrewGroup, 0);
 		}
 
 		//
@@ -1070,7 +1096,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		}
 	}
 
-	private void configureActuatorsOutputs(){
+	private void configureActuatorOutputs(){
 		//
 		//Air
 		//
@@ -1136,6 +1162,19 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 				myFoodProcessorFoodOutFlowRateActuator.setOutput(myFoodProcessor, 0);
 				myFoodProcessorBiomassInFlowRateActuator.setOutput(myFoodProcessor, 0);
 			}
+		}
+		
+		//
+		//Crew
+		//
+		{
+			CrewGroup myCrewGroup = CrewGroupHelper.narrow(getBioModule(myCrewGroupName));
+			PotableWaterInFlowRateActuator myCrewGroupPotableWaterInFlowRateActuator = PotableWaterInFlowRateActuatorHelper.narrow(getBioModule(myCrewGroupPotableWaterInFlowRateActuatorName));
+			GreyWaterOutFlowRateActuator myCrewGroupGreyWaterOutFlowRateActuator = GreyWaterOutFlowRateActuatorHelper.narrow(getBioModule(myCrewGroupGreyWaterOutFlowRateActuatorName));
+			DirtyWaterOutFlowRateActuator myCrewGroupDirtyWaterOutFlowRateActuator = DirtyWaterOutFlowRateActuatorHelper.narrow(getBioModule(myCrewGroupDirtyWaterOutFlowRateActuatorName));
+			myCrewGroupPotableWaterInFlowRateActuator.setOutput(myCrewGroup, 0);
+			myCrewGroupGreyWaterOutFlowRateActuator.setOutput(myCrewGroup, 0);
+			myCrewGroupDirtyWaterOutFlowRateActuator.setOutput(myCrewGroup, 0);
 		}
 
 		//

@@ -21,12 +21,14 @@ public class Soybean extends Legume{
 		canopyClosureConstants[21] = -.000000021367f;
 		canopyClosureConstants[22] = 000000000015467f;
 
-		canopyQYConstants[6] = .04191f;
-		canopyQYConstants[7] = .000053852f;
-		canopyQYConstants[8] = -.000000021275f;
-		canopyQYConstants[11] = -.00001238f;
-		canopyQYConstants[17] = -.00000000001544f;
-		canopyQYConstants[18] = .000000000000006469f;
+		canopyQYConstants[6] = 0.041513f;
+		canopyQYConstants[7] = 0.000051157f;
+		canopyQYConstants[8] = -0.000000020992f;
+		canopyQYConstants[12] = 0.000000040864f;
+		canopyQYConstants[16] = -0.000000021582f;
+		canopyQYConstants[17] = -0.00000000010468f;
+		canopyQYConstants[22] = 0.000000000000048541f;
+		canopyQYConstants[24] = 0.0000000000000000000039259f;
 	}
 
 	public PlantType getPlantType(){

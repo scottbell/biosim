@@ -65,6 +65,9 @@ public class BioHolder
 	public final static String myCO2StoreLevelSensorName = "CO2StoreLevelSensor";
 	//Crew
 	public final static String myCrewGroupDeathSensorName = "CrewGroupDeathSensor";
+	public final static String myCrewGroupPotableWaterInFlowRateSensorName = "CrewGroupPotableWaterInFlowRateSensor";
+	public final static String myCrewGroupGreyWaterOutFlowRateSensorName = "CrewGroupGreyWaterOutFlowRateSensor";
+	public final static String myCrewGroupDirtyWaterOutFlowRateSensorName = "CrewGroupDirtyWaterOutFlowRateSensor";
 	//Power
 	//PowerPS
 	public final static String myPowerPSPowerOutFlowRateSensorName = "PowerPSPowerOutFlowRateSensor";
@@ -133,6 +136,10 @@ public class BioHolder
 	public final static String myWaterRSGreyWaterInFlowRateActuatorName = "WaterRSGreyWaterInFlowRateActuator";
 	public final static String myWaterRSPowerInFlowRateActuatorName = "WaterRSPowerInFlowRateActuator";
 	public final static String myWaterRSPotableWaterOutFlowRateActuatorName = "WaterRSPotableWaterOutFlowRateActuator";
+	//Crew
+	public final static String myCrewGroupPotableWaterInFlowRateActuatorName = "CrewGroupPotableWaterInFlowRateActuator";
+	public final static String myCrewGroupGreyWaterOutFlowRateActuatorName = "CrewGroupGreyWaterOutFlowRateActuator";
+	public final static String myCrewGroupDirtyWaterOutFlowRateActuatorName = "CrewGroupDirtyWaterOutFlowRateActuator";
 	//Food
 	//BiomassRS
 	public final static String myBiomassRSAirInFlowRateActuatorName = "BiomassRSAirInFlowRateActuator";
@@ -318,8 +325,20 @@ public class BioHolder
 			//Crew
 			{
 				CrewGroupDeathSensor myCrewGroupDeathSensor = CrewGroupDeathSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewGroupDeathSensorName+myID));
+				PotableWaterInFlowRateSensor myCrewGroupPotableWaterInFlowRateSensor = PotableWaterInFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewGroupPotableWaterInFlowRateSensorName+myID));
+				GreyWaterOutFlowRateSensor myCrewGroupGreyWaterOutFlowRateSensor = GreyWaterOutFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewGroupGreyWaterOutFlowRateSensorName+myID));
+				DirtyWaterOutFlowRateSensor myCrewGroupDirtyWaterOutFlowRateSensor = DirtyWaterOutFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewGroupDirtyWaterOutFlowRateSensorName+myID));
+				
 				modules.put(myCrewGroupDeathSensorName , myCrewGroupDeathSensor);
+				modules.put(myCrewGroupPotableWaterInFlowRateSensorName , myCrewGroupPotableWaterInFlowRateSensor);
+				modules.put(myCrewGroupGreyWaterOutFlowRateSensorName , myCrewGroupGreyWaterOutFlowRateSensor);
+				modules.put(myCrewGroupDirtyWaterOutFlowRateSensorName , myCrewGroupDirtyWaterOutFlowRateSensor);
+				
 				sensors.put(myCrewGroupDeathSensorName , myCrewGroupDeathSensor);
+				sensors.put(myCrewGroupPotableWaterInFlowRateSensorName , myCrewGroupPotableWaterInFlowRateSensor);
+				sensors.put(myCrewGroupGreyWaterOutFlowRateSensorName , myCrewGroupGreyWaterOutFlowRateSensor);
+				sensors.put(myCrewGroupDirtyWaterOutFlowRateSensorName , myCrewGroupDirtyWaterOutFlowRateSensor);
+				
 			}
 			//Environment
 			{
@@ -507,6 +526,21 @@ public class BioHolder
 					modules.put(myWaterRSPotableWaterOutFlowRateActuatorName , myWaterRSPotableWaterOutFlowRateActuator);
 					actuators.put(myWaterRSPotableWaterOutFlowRateActuatorName , myWaterRSPotableWaterOutFlowRateActuator);
 				}
+			}
+			//Crew
+			{
+				PotableWaterInFlowRateActuator myCrewGroupPotableWaterInFlowRateActuator = PotableWaterInFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewGroupPotableWaterInFlowRateActuatorName+myID));
+				GreyWaterOutFlowRateActuator myCrewGroupGreyWaterOutFlowRateActuator = GreyWaterOutFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewGroupGreyWaterOutFlowRateActuatorName+myID));
+				DirtyWaterOutFlowRateActuator myCrewGroupDirtyWaterOutFlowRateActuator = DirtyWaterOutFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewGroupDirtyWaterOutFlowRateActuatorName+myID));
+				
+				modules.put(myCrewGroupPotableWaterInFlowRateActuatorName , myCrewGroupPotableWaterInFlowRateActuator);
+				modules.put(myCrewGroupGreyWaterOutFlowRateActuatorName , myCrewGroupGreyWaterOutFlowRateActuator);
+				modules.put(myCrewGroupDirtyWaterOutFlowRateActuatorName , myCrewGroupDirtyWaterOutFlowRateActuator);
+				
+				actuators.put(myCrewGroupPotableWaterInFlowRateActuatorName , myCrewGroupPotableWaterInFlowRateActuator);
+				actuators.put(myCrewGroupGreyWaterOutFlowRateActuatorName , myCrewGroupGreyWaterOutFlowRateActuator);
+				actuators.put(myCrewGroupDirtyWaterOutFlowRateActuatorName , myCrewGroupDirtyWaterOutFlowRateActuator);
+				
 			}
 			//Food
 			{
