@@ -70,6 +70,8 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
     private float[] greyWaterDesiredFlowRates;
 
     private float[] potableWaterDesiredFlowRates;
+    
+    private WaterRSSubSystem[] mySubsystems;
 
     private WaterRSOperationMode myMode;
 
@@ -100,6 +102,11 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
         myRO = new RO(this);
         myAES = new AES(this);
         myPPS = new PPS(this);
+        mySubsystems = new WaterRSSubSystem[4];
+        mySubsystems[0] = myBWP;
+        mySubsystems[1] = myRO;
+        mySubsystems[2] = myAES;
+        mySubsystems[3] = myPPS;
     }
 
     /**
@@ -107,10 +114,8 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
      */
     public void reset() {
         super.reset();
-        myBWP.reset();
-        myRO.reset();
-        myAES.reset();
-        myPPS.reset();
+        for (int i = 0; i < mySubsystems.length; i++)
+            mySubsystems[i].reset();
     }
 
     /**
@@ -190,9 +195,9 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
      *         tick
      */
     public float getPowerConsumed() {
-        float powerConsumed = myAES.getPowerConsumed()
-                + myPPS.getPowerConsumed() + myBWP.getPowerConsumed()
-                + myRO.getPowerConsumed();
+        float powerConsumed = 0f; 
+        for (int i = 0; i < mySubsystems.length; i++)
+            powerConsumed += mySubsystems[i].getPowerConsumed();
         return powerConsumed;
     }
 
@@ -213,13 +218,35 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
     public void tick() {
         super.tick();
         Arrays.fill(powerActualFlowRates, 0f);
+        enableSubsystemsBasedOnPower();
         //tick each system
-        myBWP.tick();
-        myRO.tick();
-        myAES.tick();
-        myPPS.tick();
+        for (int i = 0; i < mySubsystems.length; i++)
+            mySubsystems[i].tick();
         myAES.setMalfunctioning(false);
         myRO.setMalfunctioning(false);
+    }
+
+    /**
+     * @param sumOfDesiredFlowRates
+     * @param powerNeeded
+     */
+    private void enableSubsystemsBasedOnPower() {
+        float sumOfDesiredFlowRates = 0f;
+        for (int i = 0; i < powerDesiredFlowRates.length; i++)
+            sumOfDesiredFlowRates += powerDesiredFlowRates[i];
+        
+        float totalPowerNeeded = 0;
+        for (int i = 0; i < mySubsystems.length; i++)
+            totalPowerNeeded += mySubsystems[i].getBasePowerNeeded();
+        
+        if (sumOfDesiredFlowRates >= totalPowerNeeded)
+            setOperationMode(WaterRSOperationMode.FULL);
+        else if (sumOfDesiredFlowRates >= (totalPowerNeeded - myAES.getBasePowerNeeded()))
+                setOperationMode(WaterRSOperationMode.PARTIAL);
+        else if (sumOfDesiredFlowRates >= (totalPowerNeeded - myAES.getBasePowerNeeded() - myPPS.getBasePowerNeeded()))
+            setOperationMode(WaterRSOperationMode.GREY_WATER_ONLY);
+        else
+            setOperationMode(WaterRSOperationMode.OFF);
     }
 
     protected void performMalfunctions() {
@@ -473,7 +500,7 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
             myBWP.setEnabled(true);
             myPPS.setEnabled(false);
             myRO.setEnabled(true);
-            myAES.setEnabled(true);
+            myAES.setEnabled(false);
         } else if (myMode == WaterRSOperationMode.PARTIAL) {
             myBWP.setEnabled(true);
             myPPS.setEnabled(true);

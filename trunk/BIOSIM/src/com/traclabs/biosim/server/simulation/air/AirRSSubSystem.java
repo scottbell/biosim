@@ -92,4 +92,10 @@ public abstract class AirRSSubSystem {
         myLogger.debug("power_needed=" + currentPowerNeeded);
     }
 
+    /**
+     * @return Returns the basePowerNeeded.
+     */
+    public float getBasePowerNeeded() {
+        return basePowerNeeded;
+    }
 }

@@ -20,7 +20,7 @@
 	</Globals>
 	<SimBioModules>
 		<air>
-			<AirRS name="BaseAirRS" operationMode="FULL">
+			<AirRS name="BaseAirRS">
 				<powerConsumer maxFlowRates="300" desiredFlowRates="300" inputs="BasePowerStore"/>
 				<potableWaterConsumer maxFlowRates="10" desiredFlowRates="10" inputs="CrewBasePotableWaterStore"/>
 				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="BaseCrewEnvironment"/>
@@ -32,7 +32,7 @@
 				<CO2Producer maxFlowRates="100" desiredFlowRates="100" outputs="BaseCO2Store"/>
 				<H2Producer maxFlowRates="100" desiredFlowRates="100" outputs="BaseH2Store"/>
 			</AirRS>
-			<AirRS name="EVAAirRS" operationMode="LESS">
+			<AirRS name="EVAAirRS">
 				<powerConsumer maxFlowRates="300" desiredFlowRates="300" inputs="EVAPowerStore"/>
 				<potableWaterConsumer maxFlowRates="10" desiredFlowRates="10" inputs="EVAPotableWaterStore"/>
 				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="EVACrewEnvironment"/>
@@ -162,14 +162,14 @@
 			<PowerStore name="EVAPowerStore" capacity="1000" level="1000"/>
 		</power>
 		<water>
-			<WaterRS name="CrewWaterRS" operationMode="PARTIAL">
+			<WaterRS name="CrewWaterRS">
 				<malfunction occursAtTick="502" length="TEMPORARY_MALF" intensity="SEVERE_MALF"/>
 				<powerConsumer maxFlowRates="500" desiredFlowRates="500" inputs="BasePowerStore"/>
 				<dirtyWaterConsumer maxFlowRates="100" desiredFlowRates="10" inputs="CrewBaseDirtyWaterStore"/>
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="10" inputs="CrewBaseGreyWaterStore"/>
 				<potableWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="CrewBasePotableWaterStore"/>
 			</WaterRS>
-				<WaterRS name="PlantWaterRS" operationMode="PARTIAL">
+				<WaterRS name="PlantWaterRS">
 				<powerConsumer maxFlowRates="500" desiredFlowRates="500" inputs="BasePowerStore"/>
 				<dirtyWaterConsumer maxFlowRates="100" desiredFlowRates="10" inputs="PlantBaseDirtyWaterStore"/>
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="10" inputs="PlantBaseGreyWaterStore"/>

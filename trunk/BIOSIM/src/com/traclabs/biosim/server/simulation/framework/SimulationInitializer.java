@@ -11,7 +11,6 @@ import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.framework.BioModuleHelper;
 import com.traclabs.biosim.idl.simulation.air.AirRS;
 import com.traclabs.biosim.idl.simulation.air.AirRSHelper;
-import com.traclabs.biosim.idl.simulation.air.AirRSOperationMode;
 import com.traclabs.biosim.idl.simulation.air.AirRSPOATie;
 import com.traclabs.biosim.idl.simulation.air.CO2Store;
 import com.traclabs.biosim.idl.simulation.air.CO2StoreHelper;
@@ -119,7 +118,6 @@ import com.traclabs.biosim.idl.simulation.water.PotableWaterStoreHelper;
 import com.traclabs.biosim.idl.simulation.water.PotableWaterStorePOATie;
 import com.traclabs.biosim.idl.simulation.water.WaterRS;
 import com.traclabs.biosim.idl.simulation.water.WaterRSHelper;
-import com.traclabs.biosim.idl.simulation.water.WaterRSOperationMode;
 import com.traclabs.biosim.idl.simulation.water.WaterRSPOATie;
 import com.traclabs.biosim.idl.simulation.water.WaterStore;
 import com.traclabs.biosim.idl.simulation.water.WaterStoreHelper;
@@ -751,18 +749,19 @@ public class SimulationInitializer {
         AirRS myAirRS = AirRSHelper.narrow(BioInitializer.grabModule(myID,
                 BioInitializer.getModuleName(node)));
         configureSimBioModule(myAirRS, node);
-        String operationModeString = node.getAttributes().getNamedItem(
-                "operationMode").getNodeValue();
-        if (operationModeString.equals("FULL"))
-            myAirRS.setOperationMode(AirRSOperationMode.FULL);
-        else if (operationModeString.equals("MOST"))
-            myAirRS.setOperationMode(AirRSOperationMode.MOST);
-        else if (operationModeString.equals("LESS"))
-            myAirRS.setOperationMode(AirRSOperationMode.LESS);
-        else if (operationModeString.equals("OFF"))
-            myAirRS.setOperationMode(AirRSOperationMode.OFF);
-        else
-            myLogger.error("AirRSOperationMode not found!");
+        /*
+         * String operationModeString = node.getAttributes().getNamedItem(
+         * "operationMode").getNodeValue(); if
+         * (operationModeString.equals("FULL"))
+         * myAirRS.setOperationMode(AirRSOperationMode.FULL); else if
+         * (operationModeString.equals("MOST"))
+         * myAirRS.setOperationMode(AirRSOperationMode.MOST); else if
+         * (operationModeString.equals("LESS"))
+         * myAirRS.setOperationMode(AirRSOperationMode.LESS); else if
+         * (operationModeString.equals("OFF"))
+         * myAirRS.setOperationMode(AirRSOperationMode.OFF); else
+         * myLogger.error("AirRSOperationMode not found!");
+         */
         myActiveSimModules.add(myAirRS);
     }
 
@@ -875,22 +874,28 @@ public class SimulationInitializer {
         }
         String name = node.getAttributes().getNamedItem("name").getNodeValue();
         Node activityTypeNode = node.getAttributes().getNamedItem("xsi:type");
-        if (activityTypeNode != null){
-            if (activityTypeNode.getNodeValue().equals("EVAActivityType")){
-                myLogger.debug("Type is "+activityTypeNode.getNodeValue());
-                String evaCrewGroupName = node.getAttributes().getNamedItem("evaCrewGroup").getNodeValue();
-                EVAActivityImpl newEVAActivityImpl = new EVAActivityImpl(name, length, intensity, crew.getModuleName(), evaCrewGroupName);
-                return EVAActivityHelper.narrow(ActivityHelper.narrow(OrbUtils.poaToCorbaObj(newEVAActivityImpl)));
-            }
-            else{
-                myLogger.error("Activity not of expected type even though it was explicitly declared! (can only be EVA type right now)");
-                myLogger.error("type was: "+activityTypeNode.getNodeValue()+", should be: EVAActivityType");
+        if (activityTypeNode != null) {
+            if (activityTypeNode.getNodeValue().equals("EVAActivityType")) {
+                myLogger.debug("Type is " + activityTypeNode.getNodeValue());
+                String evaCrewGroupName = node.getAttributes().getNamedItem(
+                        "evaCrewGroup").getNodeValue();
+                EVAActivityImpl newEVAActivityImpl = new EVAActivityImpl(name,
+                        length, intensity, crew.getModuleName(),
+                        evaCrewGroupName);
+                return EVAActivityHelper.narrow(ActivityHelper.narrow(OrbUtils
+                        .poaToCorbaObj(newEVAActivityImpl)));
+            } else {
+                myLogger
+                        .error("Activity not of expected type even though it was explicitly declared! (can only be EVA type right now)");
+                myLogger.error("type was: " + activityTypeNode.getNodeValue()
+                        + ", should be: EVAActivityType");
                 return null;
             }
-        }
-        else{
-            ActivityImpl newActivityImpl = new ActivityImpl(name, length, intensity);
-            return ActivityHelper.narrow(OrbUtils.poaToCorbaObj(newActivityImpl));
+        } else {
+            ActivityImpl newActivityImpl = new ActivityImpl(name, length,
+                    intensity);
+            return ActivityHelper.narrow(OrbUtils
+                    .poaToCorbaObj(newActivityImpl));
         }
     }
 
@@ -907,12 +912,14 @@ public class SimulationInitializer {
         return newSchedule;
     }
 
-    private void createCrewPerson(Node node, CrewGroupImpl pCrewGroupImpl, CrewGroup pCrewGroup) {
+    private void createCrewPerson(Node node, CrewGroupImpl pCrewGroupImpl,
+            CrewGroup pCrewGroup) {
         Node child = node.getFirstChild();
         Schedule schedule = null;
         while (child != null) {
             if (child.getNodeName().equals("schedule"))
-                schedule = createSchedule(node.getFirstChild().getNextSibling(), pCrewGroupImpl);
+                schedule = createSchedule(
+                        node.getFirstChild().getNextSibling(), pCrewGroupImpl);
             child = child.getNextSibling();
         }
         String name = node.getAttributes().getNamedItem("name").getNodeValue();
@@ -953,7 +960,7 @@ public class SimulationInitializer {
             BioInitializer.setupBioModule(myCrewGroupImpl, node);
             BiosimServer.registerServer(new CrewGroupPOATie(myCrewGroupImpl),
                     myCrewGroupImpl.getModuleName(), myCrewGroupImpl.getID());
-            
+
             //Create crew members
 
             CrewGroup myCrewGroup = CrewGroupHelper.narrow(BioInitializer
@@ -1046,8 +1053,8 @@ public class SimulationInitializer {
                         .getNamedItem("hourOfDayStart").getNodeValue());
                 maxLumens = Float.parseFloat(node.getAttributes().getNamedItem(
                         "maxLumens").getNodeValue());
-                airlockVolume = Float.parseFloat(node.getAttributes().getNamedItem(
-                "airlockVolume").getNodeValue());
+                airlockVolume = Float.parseFloat(node.getAttributes()
+                        .getNamedItem("airlockVolume").getNodeValue());
             } catch (NumberFormatException e) {
 
                 e.printStackTrace();
@@ -1414,8 +1421,16 @@ public class SimulationInitializer {
         String moduleName = BioInitializer.getModuleName(node);
         if (BioInitializer.isCreatedLocally(node)) {
             myLogger.debug("Creating WaterRS with moduleName: " + moduleName);
-            if (node.getAttributes().getNamedItem("implementation")
-                    .getNodeValue().equals("MATLAB")) {
+            String implementationString = node.getAttributes().getNamedItem(
+                    "implementation").getNodeValue();
+            if (implementationString.equals("MATLAB")) {
+                myLogger.debug("created Matlab WaterRS...");
+                WaterRSMatlabImpl myWaterRSImpl = new WaterRSMatlabImpl(myID,
+                        moduleName);
+                BioInitializer.setupBioModule(myWaterRSImpl, node);
+                BiosimServer.registerServer(new WaterRSPOATie(myWaterRSImpl),
+                        myWaterRSImpl.getModuleName(), myWaterRSImpl.getID());
+            } else if (implementationString.equals("LINEAR")) {
                 myLogger.debug("created Matlab WaterRS...");
                 WaterRSMatlabImpl myWaterRSImpl = new WaterRSMatlabImpl(myID,
                         moduleName);
@@ -1436,18 +1451,19 @@ public class SimulationInitializer {
         WaterRS myWaterRS = WaterRSHelper.narrow(BioInitializer.grabModule(
                 myID, BioInitializer.getModuleName(node)));
         configureSimBioModule(myWaterRS, node);
-        String operationModeString = node.getAttributes().getNamedItem(
-                "operationMode").getNodeValue();
-        if (operationModeString.equals("FULL"))
-            myWaterRS.setOperationMode(WaterRSOperationMode.FULL);
-        else if (operationModeString.equals("PARTIAL"))
-            myWaterRS.setOperationMode(WaterRSOperationMode.PARTIAL);
-        else if (operationModeString.equals("GREY_WATER_ONLY"))
-            myWaterRS.setOperationMode(WaterRSOperationMode.GREY_WATER_ONLY);
-        else if (operationModeString.equals("OFF"))
-            myWaterRS.setOperationMode(WaterRSOperationMode.OFF);
-        else
-            myLogger.error("WaterRSOperationMode not found!");
+        /*
+         * String operationModeString = node.getAttributes().getNamedItem(
+         * "operationMode").getNodeValue(); if
+         * (operationModeString.equals("FULL"))
+         * myWaterRS.setOperationMode(WaterRSOperationMode.FULL); else if
+         * (operationModeString.equals("PARTIAL"))
+         * myWaterRS.setOperationMode(WaterRSOperationMode.PARTIAL); else if
+         * (operationModeString.equals("GREY_WATER_ONLY"))
+         * myWaterRS.setOperationMode(WaterRSOperationMode.GREY_WATER_ONLY);
+         * else if (operationModeString.equals("OFF"))
+         * myWaterRS.setOperationMode(WaterRSOperationMode.OFF); else
+         * myLogger.error("WaterRSOperationMode not found!");
+         */
         myActiveSimModules.add(myWaterRS);
     }
 

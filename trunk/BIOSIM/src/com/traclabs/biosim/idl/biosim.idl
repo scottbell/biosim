@@ -915,10 +915,7 @@ module com{
                                                 interface FoodStore : framework::Store{
                                                         float addFoodMatterMass(in FoodMatter pMatter);
                                                         float addFoodMatterArray(in FoodMatterList pList);
-                                                        //FoodMatterList takeFoodMatterMass(in float mass);
                                                         FoodMatterList takeFoodMatterCalories(in float calories, in float limitingMass);
-                                                        //FoodMatter takeFoodMatterMassAndType(in float mass, in PlantType pType);
-                                                        //FoodMatter takeFoodMatterType(in PlantType pType);
                                                         float calculateCalories(in FoodMatterList pList);
                                                         float calculateWaterContent(in FoodMatterList pList);
                                                 };
@@ -926,8 +923,6 @@ module com{
                                                 interface BiomassStore : framework::Store{
                                                         float addBioMatter(in BioMatter pBioMatter);
                                                         BioMatterList takeBioMatterMass(in float mass);
-                                                        //BioMatter takeBioMatterMassAndType(in float mass, in PlantType pType);
-                                                        //BioMatter takeBioMatterType(in PlantType pType);
                                                         float calculateWaterContentInStore();
                                                 };
 
@@ -969,8 +964,8 @@ module com{
                                         };
                                         module air{
                                                 interface AirRS : framework::SimBioModule, framework::PowerConsumer, framework::H2Consumer, framework::H2Producer, framework::AirConsumer, framework::AirProducer, framework::CO2Producer, framework::O2Producer, framework::CO2Consumer, framework::PotableWaterConsumer, framework::PotableWaterProducer{
-                                                        void setOperationMode(in AirRSOperationMode pMode);
-                                                        AirRSOperationMode getOpertationMode();
+                                                        //void setOperationMode(in AirRSOperationMode pMode);
+                                                        //AirRSOperationMode getOpertationMode();
                                                 };
                                                 interface H2Store : framework::Store{
                                                 };
@@ -983,8 +978,8 @@ module com{
                                         };
                                         module water{
                                                 interface WaterRS : framework::SimBioModule, framework::PowerConsumer, framework::GreyWaterConsumer, framework::DirtyWaterConsumer, framework::PotableWaterProducer{
-                                                        void setOperationMode(in WaterRSOperationMode pMode);
-                                                        WaterRSOperationMode getOpertationMode();
+                                                        //void setOperationMode(in WaterRSOperationMode pMode);
+                                                        //WaterRSOperationMode getOpertationMode();
                                                 };
                                                 interface WaterStore : framework::Store{
                                                 };

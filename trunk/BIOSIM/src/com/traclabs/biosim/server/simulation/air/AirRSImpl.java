@@ -130,6 +130,8 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations,
     private static final int NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER = 3;
 
     private float myProductionRate = 1f;
+    
+    private AirRSSubSystem[] mySubsystems;
 
     private AirRSOperationMode myMode;
 
@@ -176,6 +178,12 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations,
         airOutMaxFlowRates = new float[0];
         airOutActualFlowRates = new float[0];
         airOutDesiredFlowRates = new float[0];
+        
+        mySubsystems = new AirRSSubSystem[4];
+        mySubsystems[0] = myVCCR;
+        mySubsystems[1] = myCRS;
+        mySubsystems[2] = myOGS;
+        mySubsystems[3] = myCH4Tank;
     }
 
     public boolean VCCRHasPower() {
@@ -251,10 +259,32 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations,
     public void tick() {
         super.tick();
         Arrays.fill(powerActualFlowRates, 0f);
-        myVCCR.tick();
-        myCRS.tick();
-        myCH4Tank.tick();
-        myOGS.tick();
+        enableSubsystemsBasedOnPower();
+        for (int i = 0; i < mySubsystems.length; i++)
+            mySubsystems[i].tick();
+    }
+    
+    /**
+     * @param sumOfDesiredFlowRates
+     * @param powerNeeded
+     */
+    private void enableSubsystemsBasedOnPower() {
+        float sumOfDesiredFlowRates = 0f;
+        for (int i = 0; i < powerDesiredFlowRates.length; i++)
+            sumOfDesiredFlowRates += powerDesiredFlowRates[i];
+        
+        float totalPowerNeeded = 0;
+        for (int i = 0; i < mySubsystems.length; i++)
+            totalPowerNeeded += mySubsystems[i].getBasePowerNeeded();
+        
+        if (sumOfDesiredFlowRates >= totalPowerNeeded)
+            setOperationMode(AirRSOperationMode.FULL);
+        else if (sumOfDesiredFlowRates >= (totalPowerNeeded - myOGS.getBasePowerNeeded()))
+                setOperationMode(AirRSOperationMode.MOST);
+        else if (sumOfDesiredFlowRates >= (totalPowerNeeded - myOGS.getBasePowerNeeded() - myCRS.getBasePowerNeeded()))
+            setOperationMode(AirRSOperationMode.LESS);
+        else
+            setOperationMode(AirRSOperationMode.OFF);
     }
 
     public void setProductionRate(float percentage) {
@@ -306,10 +336,8 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations,
      */
     public void reset() {
         super.reset();
-        myVCCR.reset();
-        myCRS.reset();
-        myCH4Tank.reset();
-        myOGS.reset();
+        for (int i = 0; i < mySubsystems.length; i++)
+            mySubsystems[i].reset();
     }
 
     int getSubsystemsConsumingPower() {
