@@ -59,9 +59,9 @@ module framework{
                 void setStochasticIntensity(in StochasticIntensity pIntensity);
                 void startMalfunction(in MalfunctionIntensity pIntensity, in MalfunctionLength pLength);
         };
-	interface Injector : BioModule, PowerConsumer, PotableWaterConsumer, GreyWaterConsumer, DirtyWaterConsumer, O2Consumer, CO2Consumer, AirConsumer, BiomassConsumer, FoodConsumer, PowerProducer, PotableWaterProducer, GreyWaterProducer, DirtyWaterProducer, O2Producer, CO2Producer, AirProducer, BiomassProducer, FoodProducer, LightConsumer{
+	interface Injector : BioModule, PowerConsumer, PotableWaterConsumer, GreyWaterConsumer, DirtyWaterConsumer, O2Consumer, CO2Consumer, AirConsumer, BiomassConsumer, FoodConsumer, PowerProducer, PotableWaterProducer, GreyWaterProducer, DirtyWaterProducer, O2Producer, CO2Producer, AirProducer, BiomassProducer, FoodProducer{
 	};
-	interface Accumulator : BioModule, PowerConsumer, PotableWaterConsumer, GreyWaterConsumer, DirtyWaterConsumer, O2Consumer, CO2Consumer, AirConsumer, BiomassConsumer, FoodConsumer, PowerProducer, PotableWaterProducer, GreyWaterProducer, DirtyWaterProducer, O2Producer, CO2Producer, AirProducer, BiomassProducer, FoodProducer, LightConsumer{
+	interface Accumulator : BioModule, PowerConsumer, PotableWaterConsumer, GreyWaterConsumer, DirtyWaterConsumer, O2Consumer, CO2Consumer, AirConsumer, BiomassConsumer, FoodConsumer, PowerProducer, PotableWaterProducer, GreyWaterProducer, DirtyWaterProducer, O2Producer, CO2Producer, AirProducer, BiomassProducer, FoodProducer{
 	};
         interface PowerConsumer{
                 void setPowerInputFlowrate(in float watts, in long index);
