@@ -106,7 +106,7 @@ public class OrbUtils{
 		catch (org.omg.CosNaming.NamingContextPackage.AlreadyBound e){
 		}
 		catch (Exception e){
-			System.out.println("OrbUtils: nameserver not found, polling again");
+			System.out.println("OrbUtils: nameserver not found, polling again: "+e);
 			sleepAwhile();
 			initialize();
 			return;
