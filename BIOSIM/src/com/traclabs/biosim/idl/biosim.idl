@@ -34,6 +34,7 @@ module biosim{
                                 struct Breath{
                                         float O2;
                                         float CO2;
+					float water;
                                         float other;
                                 };
                                 typedef sequence <O2Store> O2StoreList;
