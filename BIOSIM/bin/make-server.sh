@@ -16,6 +16,15 @@ then
 	mkdir $genDir
 	echo "		-creating generated directory"
 fi
+separator=":"
+machineType=`uname`
+winName="CYGWIN"
+linuxName="Linux"
+case $machineType in
+	*$winName*) separator=";";echo "		-machine type is $winName";;
+	*$linuxName*) separator=":";echo "		-machine type is $linuxName";;
+	*)separator=":";echo "		-unknown machine type, using $linuxName separator";;
+esac
 ####################
 #		SERVER INIT		#
 ####################
@@ -54,12 +63,6 @@ echo "		-compiling server";
 simString="SIMULATION"
 simSkeletonDir="$skeletonDir/$simString"
 serverDir="$devRootDir/src/biosim/server"
-separator=":"
-serverType=`uname`
-if [ "$serverType" == "CYGWIN_NT-5.1" ]
-then
-	separator=";"
-fi
 compilationInvocation="javac -d $serverClassesDir -classpath $skeletonDir$separator$serverClassesDir$separator$CLASSPATH"
 echo "			-compiling skeletons"
 $compilationInvocation $simSkeletonDir/*.java
