@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.tree.*;
 import biosim.idl.util.*;
 import biosim.client.framework.gui.*;
+import javax.imageio.*;
 /**
  * A  panel that displays the log
  *
