@@ -20,7 +20,6 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 	//They are the ones consuming air/food/water and producing air/water/waste as they perform activities
 	private Hashtable crewPeople;
 	private Hashtable crewPeopleLogs;
-	private boolean logInitialized = false;
 	
 	/**
 	* Default constructor.  Uses a default schedule.
@@ -131,7 +130,7 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 	public void tick(){
 		for (Enumeration e = crewPeople.elements(); e.hasMoreElements(); ){
 			CrewPersonImpl tempPerson = (CrewPersonImpl)(e.nextElement());
-			tempPerson.processTick();
+			tempPerson.tick();
 		}
 		if (moduleLogging)
 			log();
@@ -145,7 +144,7 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 		crewPeople = new Hashtable();
 	}
 	
-	public void log(){
+	private void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			crewPeopleLogs = new Hashtable();
@@ -154,7 +153,7 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 				CrewPersonImpl currentPerson = (CrewPersonImpl)(e.nextElement());
 				LogNode newPersonLabel = myLog.getHead().addChild(currentPerson.getName());
 				crewPeopleLogs.put(currentPerson, newPersonLabel);
-				currentPerson.processLog(newPersonLabel);
+				currentPerson.log(newPersonLabel);
 				i++;
 			}
 			logInitialized = true;
@@ -163,11 +162,9 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 			for (Enumeration e = crewPeopleLogs.keys(); e.hasMoreElements();){
 				CrewPersonImpl currentPerson = (CrewPersonImpl)(e.nextElement());
 				LogNode crewPersonLabel = (LogNode)(crewPeopleLogs.get(currentPerson));
-				currentPerson.processLog(crewPersonLabel);
+				currentPerson.log(crewPersonLabel);
 			}
 		}
 		sendLog(myLog);
 	}
-
-	
 }

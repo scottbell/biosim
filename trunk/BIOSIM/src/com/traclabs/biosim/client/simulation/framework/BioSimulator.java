@@ -56,6 +56,7 @@ public class BioSimulator implements Runnable
 	private boolean useDefaultInitialization = false;
 	//A vector containing the listeners registered with BioSimulator.  Right now this is exclusively GUI's
 	private Vector listeners;
+	private boolean logging = false;
 	
 	/**
 	* Creates the BioSimulator and collects references to the servers.
@@ -64,6 +65,7 @@ public class BioSimulator implements Runnable
 	        listeners = new Vector();
 		System.out.println("BioSimulator: Getting server references...");
 		collectReferences();
+		setLogging(false);
 	}
 	
 	/**
@@ -250,6 +252,24 @@ public class BioSimulator implements Runnable
 	*/
 	public synchronized void registerListener(BioSimulatorListener newListener){
 		listeners.add(newListener);
+	}
+	
+	public synchronized void setLogging(boolean pLogSim){
+		logging = pLogSim;
+		if (logging){
+			System.out.println("Enabling logging");
+		}
+		else{
+			System.out.println("Disabling logging");
+		}
+		for (Enumeration e = modules.elements(); e.hasMoreElements();){
+			BioModule currentBioModule = (BioModule)(e.nextElement());
+			currentBioModule.setLogging(pLogSim);
+		}
+	}
+	
+	public boolean isLogging(){
+		return logging;
 	}
 	
 	/**

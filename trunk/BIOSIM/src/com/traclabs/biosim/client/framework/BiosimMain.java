@@ -78,6 +78,18 @@ public class TestDriver
 			else
 				System.out.println("Simulation has already started!");
 		}
+		else if (userCommand.equals("startLog")){
+			if (!myBiosimulator.isLogging())
+				myBiosimulator.setLogging(true);
+			else
+				System.out.println("Simulation is already logging!");
+		}
+		else if (userCommand.equals("endLog")){
+			if (myBiosimulator.isLogging())
+				myBiosimulator.setLogging(false);
+			else
+				System.out.println("Simulation isn't logging!");
+		}
 		else if (userCommand.equals("pause")){
 			if (!myBiosimulator.isPaused())
 				myBiosimulator.pauseSimulation();
@@ -103,7 +115,7 @@ public class TestDriver
 				System.out.println("Simulation needs to be paused!!");
 		}
 		else if (userCommand.equals("?")){
-			System.out.println("commands: start, stop, pause, resume, quit");
+			System.out.println("commands: start, stop, pause, resume, quit, startLog, endLog");
 		}
 		else{
 			System.out.println("Unrecognized command: "+userCommand);

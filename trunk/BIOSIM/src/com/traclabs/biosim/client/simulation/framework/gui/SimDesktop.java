@@ -41,6 +41,7 @@ public class SimDesktop extends BaseJFrame
 	private JMenuBar myMenuBar;
 	private JMenu myFileMenu;
 	private JMenu myNewMenu;
+	private JMenuItem myLoggingItem;
 	private JMenuItem myQuitItem;
 	private JMenu myHelpMenu;
 	private JMenuItem myAboutItem;
@@ -68,6 +69,7 @@ public class SimDesktop extends BaseJFrame
 	private Action myShowEnvironmentDisplayAction;
 	private Action myShowFoodDisplayAction;
 	private Action myShowPowerDisplayAction;
+	private Action myLoggingAction;
 	private Action myQuitAction;
 	
 	//Various icons used to display buttons
@@ -118,6 +120,7 @@ public class SimDesktop extends BaseJFrame
 		myShowEnvironmentDisplayAction = new ShowEnvironmentDisplayAction("Show Environment");
 		myShowFoodDisplayAction = new ShowFoodDisplayAction("Show Food");
 		myShowPowerDisplayAction = new ShowPowerDisplayAction("Show Power");
+		myLoggingAction = new LoggingAction("Enable Logging");
 		
 		myMenuBar = new JMenuBar();
 		myFileMenu = new JMenu("File");
@@ -139,6 +142,8 @@ public class SimDesktop extends BaseJFrame
 		myShowEnvironmentDisplayItem = myNewMenu.add(myShowEnvironmentDisplayAction);
 		myShowEnvironmentDisplayItem.setMnemonic(KeyEvent.VK_E);
 		myFileMenu.add(myNewMenu);
+		myLoggingItem = myFileMenu.add(myLoggingAction);
+		myLoggingItem.setMnemonic(KeyEvent.VK_L);
 		myQuitItem = myFileMenu.add(myQuitAction);
 		myQuitItem.setMnemonic(KeyEvent.VK_Q);
 		myControlMenu = new JMenu("Control");
@@ -584,6 +589,26 @@ public class SimDesktop extends BaseJFrame
 		public void actionPerformed(ActionEvent ae){
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			frameClosing();
+			setCursor(Cursor.getDefaultCursor());
+		}
+	}
+	
+	/**
+	* Action that enables/disables logging
+	*/
+	private class LoggingAction extends AbstractAction{
+		public LoggingAction(String name){
+			super(name);
+		}
+		public void actionPerformed(ActionEvent ae){
+			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			myBiosim.setLogging(!myBiosim.isLogging());
+			if (myBiosim.isLogging()){
+				myLoggingItem.setText("Disable Logging");
+			}
+			else{
+				myLoggingItem.setText("Enable Logging");
+			}
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}

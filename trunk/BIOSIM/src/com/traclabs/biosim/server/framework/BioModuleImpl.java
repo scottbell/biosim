@@ -31,7 +31,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	/**
 	* Logs this module to the Logger
 	*/
-	public void log(){
+	private void log(){
 	}
 
 	public void setLogging(boolean pLogging){

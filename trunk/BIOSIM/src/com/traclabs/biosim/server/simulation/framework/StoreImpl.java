@@ -108,7 +108,7 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 		level = 0.0f;
 	}
 	
-	public void log(){
+	private void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();
