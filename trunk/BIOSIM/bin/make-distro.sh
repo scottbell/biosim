@@ -108,6 +108,7 @@ if [ -z "$JAVA_HOME" ]; then
 	echo "		-JAVA_HOME not set! assuming java is in path..."
 fi
 JRE_HOME="$JAVA_HOME/jre"
+java_command=$JAVA_HOME/bin/java
 biosimJar="$distroDir/biosim.jar"
 separator=":"
 machineType=`uname`
