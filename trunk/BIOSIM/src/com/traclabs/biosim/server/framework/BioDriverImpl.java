@@ -157,6 +157,11 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames = new String[25];
 		
 		//
+		//framework
+		//
+		myLoggerName = "Logger"+myID;
+		
+		//
 		//simulation
 		//
 		myModuleNames[0] = myCrewName = "CrewGroup"+myID;
@@ -946,14 +951,14 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 				modules.put(myModuleNames[i] , currentModule);
 			}
 			catch (Exception e){
-				System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+myModuleNames[i]+", skipping...");
+				System.err.println("BioDriverImpl:"+myID+" Couldn't locate ("+i+" element) called "+myModuleNames[i]+", skipping...");
 			}
 		}
 		try{
 			myLogger = LoggerHelper.narrow(OrbUtils.getNCRef().resolve_str(myLoggerName));
 		}
 		catch (Exception e){
-			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+myLoggerName+", skipping...");
+			System.err.println("BioDriverImpl:"+myID+" Couldn't locate logger named "+myLoggerName+", skipping...");
 		}
 		hasCollectedReferences = true;
 	}
