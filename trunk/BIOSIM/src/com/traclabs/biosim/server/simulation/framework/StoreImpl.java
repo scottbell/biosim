@@ -379,9 +379,9 @@ public abstract class StoreImpl extends SimBioModuleImpl implements
      * Logs this store and sends it to the Logger to be processed
      */
     public void log() {
-        myLogger.debug("currentLevel="+currentLevel);
-        myLogger.debug("currentCapacity="+currentCapacity);
-        myLogger.debug("overflow="+overflow);
+        myLogger.debug(getModuleName()+":\tcurrentLevel="+currentLevel);
+        myLogger.debug(getModuleName()+":\tcurrentCapacity="+currentCapacity);
+        myLogger.debug(getModuleName()+":\toverflow="+overflow);
     }
 
     /**

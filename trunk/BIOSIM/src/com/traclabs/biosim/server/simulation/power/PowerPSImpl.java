@@ -193,8 +193,8 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements
      * @param currentUpperPowerGeneration
      *            The currentUpperPowerGeneration to set.
      */
-    public void setCurrentUpperPowerGeneration(float currentUpperPowerGeneration) {
-        this.currentUpperPowerGeneration = currentUpperPowerGeneration;
+    public void setCurrentUpperPowerGeneration(float pCurrentUpperPowerGeneration) {
+        currentUpperPowerGeneration = pCurrentUpperPowerGeneration;
     }
     /**
      * @return Returns the initialUpperPowerGeneration.
@@ -205,7 +205,8 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements
     /**
      * @param initialUpperPowerGeneration The initialUpperPowerGeneration to set.
      */
-    public void setInitialUpperPowerGeneration(float initialUpperPowerGeneration) {
-        this.initialUpperPowerGeneration = initialUpperPowerGeneration;
+    public void setInitialUpperPowerGeneration(float pInitialUpperPowerGeneration) {
+        setCurrentUpperPowerGeneration(pInitialUpperPowerGeneration);
+        initialUpperPowerGeneration = pInitialUpperPowerGeneration;
     }
 }
