@@ -358,7 +358,7 @@ public class BioDriverImpl extends BioDriverPOA{
 					myTickThread.sleep(driverPauseLength);
 					synchronized(this) {
 						while (simulationIsPaused && (myTickThread==theCurrentThread)){
-							wait();
+							this.wait();
 						}
 					}
 				}
