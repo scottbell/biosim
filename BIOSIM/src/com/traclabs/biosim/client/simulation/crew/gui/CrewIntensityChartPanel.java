@@ -43,7 +43,7 @@ public class CrewIntensityChartPanel extends JPanel
 			setLayout(new BorderLayout());
 			JPanel noCrewPanel = new JPanel();
 			noCrewPanel.setLayout(new BorderLayout());
-			JLabel noCrewLabel = new JLabel("\t\tNo crew to display");
+			JLabel noCrewLabel = new JLabel("No crew to display");
 			noCrewPanel.add(noCrewLabel, BorderLayout.CENTER);
 			add(noCrewPanel, BorderLayout.CENTER);
 			refreshTimer.start();
