@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import org.apache.log4j.Logger;
 import org.apache.xerces.parsers.DOMParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -690,6 +691,7 @@ public class BioInitializer{
 	private List myPrioritySimModules;
 	private List mySensors;
 	private List myActuators;
+	private Logger myLogger;
 	
 	//Global Logging
 	private boolean areActuatorsLogging = false;
@@ -705,6 +707,7 @@ public class BioInitializer{
 		myPassiveSimModules = new Vector();
 		myActiveSimModules = new Vector();
 		myPrioritySimModules = new Vector();
+		myLogger = Logger.getLogger(BioDriverImpl.class); 
 		try {
 			myParser = new DOMParser();
 			myParser.setFeature(SCHEMA_VALIDATION_FEATURE_ID, DEFAULT_SCHEMA_VALIDATION);
@@ -713,7 +716,7 @@ public class BioInitializer{
 			myParser.setFeature(NAMESPACES_FEATURE_ID, DEFAULT_NAMESPACES);
 		}
 		catch (SAXException e) {
-			System.err.println("warning: Parser does not support feature ("+NAMESPACES_FEATURE_ID+")");
+			myLogger.error("warning: Parser does not support feature ("+NAMESPACES_FEATURE_ID+")");
 		}
 	}
 
@@ -751,7 +754,7 @@ public class BioInitializer{
 
 	public void parseFile(String fileToParse){
 		try{
-			System.out.print("Initializing...");
+			myLogger.info("Initializing...");
 			myParser.parse(fileToParse);
 			Document document = myParser.getDocument();
 			crawlBiosim(document, true);
@@ -785,11 +788,10 @@ public class BioInitializer{
 			myDriver.setPassiveSimModules(passiveSimModulesArray);
 			myDriver.setPrioritySimModules(prioritySimModulesArray);
 			
-			System.out.println("done");
-			System.out.flush();
+			myLogger.info("done");
 		}
 		catch (Exception e){
-			System.err.println("error: Parse error occurred - "+e.getMessage());
+			myLogger.error("error: Parse error occurred - "+e.getMessage());
 			Exception se = e;
 			if (e instanceof SAXException)
 				se = ((SAXException)e).getException();
@@ -847,7 +849,7 @@ public class BioInitializer{
 				for (int i = 0; tokenizer.hasMoreTokens(); i++){
 					try{
 						crewGroups[i] = CrewGroupHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(tokenizer.nextToken()));
-						//System.out.println("Fetched "+crewGroups[i].getModuleName());
+						myLogger.debug("Fetched "+crewGroups[i].getModuleName());
 					}
 					catch(org.omg.CORBA.UserException e){
 						e.printStackTrace();
@@ -865,7 +867,7 @@ public class BioInitializer{
 				for (int i = 0; tokenizer.hasMoreTokens(); i++){
 					try{
 						biomassRSs[i] = BiomassRSHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(tokenizer.nextToken()));
-						//System.out.println("Fetched "+plantGroups[i].getModuleName());
+						myLogger.debug("Fetched "+biomassRSs[i].getModuleName());
 					}
 					catch(org.omg.CORBA.UserException e){
 						e.printStackTrace();
@@ -893,8 +895,8 @@ public class BioInitializer{
 		return node.getAttributes().getNamedItem("name").getNodeValue();
 	}
 
-	private static void printRemoteWarningMessage(String pName){
-		System.out.println("\nWarning: Instance of the module named "+pName+" should be created remotely (if not already done)");
+	private void printRemoteWarningMessage(String pName){
+		myLogger.warn("\nInstance of the module named "+pName+" should be created remotely (if not already done)");
 	}
 
 	private org.omg.CORBA.Object grabModule(String moduleName){
@@ -904,11 +906,11 @@ public class BioInitializer{
 				moduleToReturn = OrbUtils.getNamingContext(myID).resolve_str(moduleName);
 			}
 			catch (org.omg.CORBA.UserException e){
-				System.err.println("BioHolder: Couldn't find module "+moduleName+", polling again...");
+				myLogger.error("BioHolder: Couldn't find module "+moduleName+", polling again...");
 				OrbUtils.sleepAwhile();
 			}
 			catch (Exception e){
-				System.err.println("BioHolder: Had problems contacting nameserver with module "+moduleName+", polling again...");
+				myLogger.error("BioHolder: Had problems contacting nameserver with module "+moduleName+", polling again...");
 				OrbUtils.resetInit();
 				OrbUtils.sleepAwhile();
 			}
@@ -1376,7 +1378,7 @@ public class BioInitializer{
 		for (int i = 0; tokenizer.hasMoreTokens(); i++){
 			try{
 				inputs[i] = BioModuleHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(tokenizer.nextToken()));
-				//System.out.println("Fetched "+inputs[i].getModuleName());
+				myLogger.debug("Fetched "+inputs[i].getModuleName());
 			}
 			catch(org.omg.CORBA.UserException e){
 				e.printStackTrace();
@@ -1394,7 +1396,7 @@ public class BioInitializer{
 		for (int i = 0; tokenizer.hasMoreTokens(); i++){
 			try{
 				outputs[i] = BioModuleHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(tokenizer.nextToken()));
-				//System.out.println("Fetched "+outputs[i].getModuleName());
+				myLogger.debug("Fetched "+outputs[i].getModuleName());
 			}
 			catch(org.omg.CORBA.UserException e){
 				e.printStackTrace();
@@ -1680,7 +1682,7 @@ public class BioInitializer{
 	private void createCrewGroup(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating CrewGroup with moduleName: "+moduleName);
+			myLogger.debug("Creating CrewGroup with moduleName: "+moduleName);
 			CrewGroupImpl myCrewGroupImpl = new CrewGroupImpl(myID, moduleName);
 			setupBioModule(myCrewGroupImpl, node);
 			Node child = node.getFirstChild();
@@ -1720,7 +1722,7 @@ public class BioInitializer{
 	private void createSimEnvironment(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating SimEnvironment with moduleName: "+moduleName);
+			myLogger.debug("Creating SimEnvironment with moduleName: "+moduleName);
 			SimEnvironmentImpl mySimEnvironmentImpl = null;
 			float CO2Moles = 0f;
 			float O2Moles = 0f;
@@ -1769,7 +1771,7 @@ public class BioInitializer{
 	private void createDehumidifier(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating Dehumidifier with moduleName: "+moduleName);
+			myLogger.debug("Creating Dehumidifier with moduleName: "+moduleName);
 			DehumidifierImpl myDehumidifierImpl = new DehumidifierImpl(myID, moduleName);
 			setupBioModule(myDehumidifierImpl, node);
 			BiosimServer.registerServer(new DehumidifierPOATie(myDehumidifierImpl), myDehumidifierImpl.getModuleName(), myDehumidifierImpl.getID());
@@ -1807,7 +1809,7 @@ public class BioInitializer{
 	private void createAccumulator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating Accumulator with moduleName: "+moduleName);
+			myLogger.debug("Creating Accumulator with moduleName: "+moduleName);
 			AccumulatorImpl myAccumulatorImpl = new AccumulatorImpl(myID, moduleName);
 			setupBioModule(myAccumulatorImpl, node);
 			BiosimServer.registerServer(new AccumulatorPOATie(myAccumulatorImpl), myAccumulatorImpl.getModuleName(), myAccumulatorImpl.getID());
@@ -1825,7 +1827,7 @@ public class BioInitializer{
 	private void createInjector(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating Injector with moduleName: "+moduleName);
+			myLogger.debug("Creating Injector with moduleName: "+moduleName);
 			InjectorImpl myInjectorImpl = new InjectorImpl(myID, moduleName);
 			setupBioModule(myInjectorImpl, node);
 			BiosimServer.registerServer(new InjectorPOATie(myInjectorImpl), myInjectorImpl.getModuleName(), myInjectorImpl.getID());
@@ -1909,7 +1911,7 @@ public class BioInitializer{
 	private void createBiomassRS(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating BiomassRS with moduleName: "+moduleName);
+			myLogger.debug("Creating BiomassRS with moduleName: "+moduleName);
 			BiomassRSImpl myBiomassRSImpl = new BiomassRSImpl(myID, moduleName);
 			boolean autoHarvestAndReplant = node.getAttributes().getNamedItem("autoHarvestAndReplant").getNodeValue().equals("true");
 			myBiomassRSImpl.setAutoHarvestAndReplantEnabled(autoHarvestAndReplant);
@@ -1935,7 +1937,7 @@ public class BioInitializer{
 	private void createFoodProcessor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating FoodProcessor with moduleName: "+moduleName);
+			myLogger.debug("Creating FoodProcessor with moduleName: "+moduleName);
 			FoodProcessorImpl myFoodProcessorImpl = new FoodProcessorImpl(myID, moduleName);
 			setupBioModule(myFoodProcessorImpl, node);
 			BiosimServer.registerServer(new FoodProcessorPOATie(myFoodProcessorImpl), myFoodProcessorImpl.getModuleName(), myFoodProcessorImpl.getID());
@@ -1953,7 +1955,7 @@ public class BioInitializer{
 	private void createBiomassStore(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating BiomassStore with moduleName: "+moduleName);
+			myLogger.debug("Creating BiomassStore with moduleName: "+moduleName);
 			BiomassStoreImpl myBiomassStoreImpl = new BiomassStoreImpl(myID, moduleName);
 			setupBioModule(myBiomassStoreImpl, node);
 			myBiomassStoreImpl.setCapacity(getStoreCapacity(node));
@@ -1968,7 +1970,7 @@ public class BioInitializer{
 	private void createFoodStore(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating FoodStore with moduleName: "+moduleName);
+			myLogger.debug("Creating FoodStore with moduleName: "+moduleName);
 			FoodStoreImpl myFoodStoreImpl = new FoodStoreImpl(myID, moduleName);
 			setupBioModule(myFoodStoreImpl, node);
 			myFoodStoreImpl.setCapacity(getStoreCapacity(node));
@@ -2015,7 +2017,7 @@ public class BioInitializer{
 	private void createPowerPS(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating PowerPS with moduleName: "+moduleName);
+			myLogger.debug("Creating PowerPS with moduleName: "+moduleName);
 			PowerPSImpl myPowerPSImpl = null;
 			if (node.getAttributes().getNamedItem("generation").getNodeValue().equals("SOLAR"))
 				myPowerPSImpl = new SolarPowerPS(myID, moduleName);
@@ -2037,7 +2039,7 @@ public class BioInitializer{
 	private void createPowerStore(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating PowerStore with moduleName: "+moduleName);
+			myLogger.debug("Creating PowerStore with moduleName: "+moduleName);
 			PowerStoreImpl myPowerStoreImpl = new PowerStoreImpl(myID, moduleName);
 			setupBioModule(myPowerStoreImpl, node);
 			myPowerStoreImpl.setLevel(getStoreLevel(node));
@@ -2072,9 +2074,9 @@ public class BioInitializer{
 	private void createWaterRS(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating WaterRS with moduleName: "+moduleName);
+			myLogger.debug("Creating WaterRS with moduleName: "+moduleName);
 			if (node.getAttributes().getNamedItem("implementation").getNodeValue().equals("MATLAB")){
-				System.out.print("created Matlab WaterRS...");
+				myLogger.debug("created Matlab WaterRS...");
 				WaterRSMatlabImpl myWaterRSImpl = new WaterRSMatlabImpl(myID, moduleName);
 				setupBioModule(myWaterRSImpl, node);
 				BiosimServer.registerServer(new WaterRSPOATie(myWaterRSImpl), myWaterRSImpl.getModuleName(), myWaterRSImpl.getID());
@@ -2098,7 +2100,7 @@ public class BioInitializer{
 	private void createPotableWaterStore(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating PotableWaterStore with moduleName: "+moduleName);
+			myLogger.debug("Creating PotableWaterStore with moduleName: "+moduleName);
 			PotableWaterStoreImpl myPotableWaterStoreImpl = new PotableWaterStoreImpl(myID, moduleName);
 			setupBioModule(myPotableWaterStoreImpl, node);
 			myPotableWaterStoreImpl.setLevel(getStoreLevel(node));
@@ -2113,7 +2115,7 @@ public class BioInitializer{
 	private void createDirtyWaterStore(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating DirtyWaterStore with moduleName: "+moduleName);
+			myLogger.debug("Creating DirtyWaterStore with moduleName: "+moduleName);
 			DirtyWaterStoreImpl myDirtyWaterStoreImpl = new DirtyWaterStoreImpl(myID, moduleName);
 			setupBioModule(myDirtyWaterStoreImpl, node);
 			myDirtyWaterStoreImpl.setLevel(getStoreLevel(node));
@@ -2128,7 +2130,7 @@ public class BioInitializer{
 	private void createGreyWaterStore(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating GreyWaterStore with moduleName: "+moduleName);
+			myLogger.debug("Creating GreyWaterStore with moduleName: "+moduleName);
 			GreyWaterStoreImpl myGreyWaterStoreImpl = new GreyWaterStoreImpl(myID, moduleName);
 			setupBioModule(myGreyWaterStoreImpl, node);
 			myGreyWaterStoreImpl.setLevel(getStoreLevel(node));
@@ -2175,7 +2177,7 @@ public class BioInitializer{
 	private void createIncinerator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating Incinerator with moduleName: "+moduleName);
+			myLogger.debug("Creating Incinerator with moduleName: "+moduleName);
 			IncineratorImpl myIncineratorImpl = new IncineratorImpl(myID, moduleName);
 			setupBioModule(myIncineratorImpl, node);
 			BiosimServer.registerServer(new IncineratorPOATie(myIncineratorImpl), myIncineratorImpl.getModuleName(), myIncineratorImpl.getID());
@@ -2193,7 +2195,7 @@ public class BioInitializer{
 	private void createDryWasteStore(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating DryWasteStore with moduleName: "+moduleName);
+			myLogger.debug("Creating DryWasteStore with moduleName: "+moduleName);
 			DryWasteStoreImpl myDryWasteStoreImpl = new DryWasteStoreImpl(myID, moduleName);
 			setupBioModule(myDryWasteStoreImpl, node);
 			myDryWasteStoreImpl.setLevel(getStoreLevel(node));
@@ -2228,7 +2230,7 @@ public class BioInitializer{
 	private void createEVAMission(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating EVAMission with moduleName: "+moduleName);
+			myLogger.debug("Creating EVAMission with moduleName: "+moduleName);
 			EVAMissionImpl myEVAMissionImpl = new EVAMissionImpl(myID, moduleName);
 			setupBioModule(myEVAMissionImpl, node);
 			BiosimServer.registerServer(new EVAMissionPOATie(myEVAMissionImpl), myEVAMissionImpl.getModuleName(), myEVAMissionImpl.getID());
@@ -2314,7 +2316,7 @@ public class BioInitializer{
 	private void createCO2InFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating CO2InFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating CO2InFlowRateSensor with moduleName: "+moduleName);
 			CO2InFlowRateSensorImpl myCO2InFlowRateSensorImpl = new CO2InFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myCO2InFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new CO2InFlowRateSensorPOATie(myCO2InFlowRateSensorImpl), myCO2InFlowRateSensorImpl.getModuleName(), myCO2InFlowRateSensorImpl.getID());
@@ -2332,7 +2334,7 @@ public class BioInitializer{
 	private void createCO2OutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating CO2OutFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating CO2OutFlowRateSensor with moduleName: "+moduleName);
 			CO2OutFlowRateSensorImpl myCO2OutFlowRateSensorImpl = new CO2OutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myCO2OutFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new CO2OutFlowRateSensorPOATie(myCO2OutFlowRateSensorImpl), myCO2OutFlowRateSensorImpl.getModuleName(), myCO2OutFlowRateSensorImpl.getID());
@@ -2350,7 +2352,7 @@ public class BioInitializer{
 	private void createCO2StoreLevelSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating CO2StoreLevelSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating CO2StoreLevelSensor with moduleName: "+moduleName);
 			CO2StoreLevelSensorImpl myCO2StoreLevelSensorImpl = new CO2StoreLevelSensorImpl(myID, moduleName);
 			setupBioModule(myCO2StoreLevelSensorImpl, node);
 			BiosimServer.registerServer(new CO2StoreLevelSensorPOATie(myCO2StoreLevelSensorImpl), myCO2StoreLevelSensorImpl.getModuleName(), myCO2StoreLevelSensorImpl.getID());
@@ -2368,7 +2370,7 @@ public class BioInitializer{
 	private void createO2InFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating O2InFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating O2InFlowRateSensor with moduleName: "+moduleName);
 			O2InFlowRateSensorImpl myO2InFlowRateSensorImpl = new O2InFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myO2InFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new O2InFlowRateSensorPOATie(myO2InFlowRateSensorImpl), myO2InFlowRateSensorImpl.getModuleName(), myO2InFlowRateSensorImpl.getID());
@@ -2386,7 +2388,7 @@ public class BioInitializer{
 	private void createO2OutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating O2OutFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating O2OutFlowRateSensor with moduleName: "+moduleName);
 			O2OutFlowRateSensorImpl myO2OutFlowRateSensorImpl = new O2OutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myO2OutFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new O2OutFlowRateSensorPOATie(myO2OutFlowRateSensorImpl), myO2OutFlowRateSensorImpl.getModuleName(), myO2OutFlowRateSensorImpl.getID());
@@ -2404,7 +2406,7 @@ public class BioInitializer{
 	private void createO2StoreLevelSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating O2StoreLevelSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating O2StoreLevelSensor with moduleName: "+moduleName);
 			O2StoreLevelSensorImpl myO2StoreLevelSensorImpl = new O2StoreLevelSensorImpl(myID, moduleName);
 			setupBioModule(myO2StoreLevelSensorImpl, node);
 			BiosimServer.registerServer(new O2StoreLevelSensorPOATie(myO2StoreLevelSensorImpl), myO2StoreLevelSensorImpl.getModuleName(), myO2StoreLevelSensorImpl.getID());
@@ -2422,7 +2424,7 @@ public class BioInitializer{
 	private void createH2InFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating H2InFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating H2InFlowRateSensor with moduleName: "+moduleName);
 			H2InFlowRateSensorImpl myH2InFlowRateSensorImpl = new H2InFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myH2InFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new H2InFlowRateSensorPOATie(myH2InFlowRateSensorImpl), myH2InFlowRateSensorImpl.getModuleName(), myH2InFlowRateSensorImpl.getID());
@@ -2440,7 +2442,7 @@ public class BioInitializer{
 	private void createH2OutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating H2OutFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating H2OutFlowRateSensor with moduleName: "+moduleName);
 			H2OutFlowRateSensorImpl myH2OutFlowRateSensorImpl = new H2OutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myH2OutFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new H2OutFlowRateSensorPOATie(myH2OutFlowRateSensorImpl), myH2OutFlowRateSensorImpl.getModuleName(), myH2OutFlowRateSensorImpl.getID());
@@ -2458,7 +2460,7 @@ public class BioInitializer{
 	private void createH2StoreLevelSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating H2StoreLevelSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating H2StoreLevelSensor with moduleName: "+moduleName);
 			H2StoreLevelSensorImpl myH2StoreLevelSensorImpl = new H2StoreLevelSensorImpl(myID, moduleName);
 			setupBioModule(myH2StoreLevelSensorImpl, node);
 			BiosimServer.registerServer(new H2StoreLevelSensorPOATie(myH2StoreLevelSensorImpl), myH2StoreLevelSensorImpl.getModuleName(), myH2StoreLevelSensorImpl.getID());
@@ -2476,7 +2478,7 @@ public class BioInitializer{
 	private void createNitrogenInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating NitrogenInFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating NitrogenInFlowRateSensor with moduleName: "+moduleName);
 			NitrogenInFlowRateSensorImpl myNitrogenInFlowRateSensorImpl = new NitrogenInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myNitrogenInFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new NitrogenInFlowRateSensorPOATie(myNitrogenInFlowRateSensorImpl), myNitrogenInFlowRateSensorImpl.getModuleName(), myNitrogenInFlowRateSensorImpl.getID());
@@ -2494,7 +2496,7 @@ public class BioInitializer{
 	private void createNitrogenOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating NitrogenOutFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating NitrogenOutFlowRateSensor with moduleName: "+moduleName);
 			NitrogenOutFlowRateSensorImpl myNitrogenOutFlowRateSensorImpl = new NitrogenOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myNitrogenOutFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new NitrogenOutFlowRateSensorPOATie(myNitrogenOutFlowRateSensorImpl), myNitrogenOutFlowRateSensorImpl.getModuleName(), myNitrogenOutFlowRateSensorImpl.getID());
@@ -2512,7 +2514,7 @@ public class BioInitializer{
 	private void createNitrogenStoreLevelSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating NitrogenStoreLevelSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating NitrogenStoreLevelSensor with moduleName: "+moduleName);
 			NitrogenStoreLevelSensorImpl myNitrogenStoreLevelSensorImpl = new NitrogenStoreLevelSensorImpl(myID, moduleName);
 			setupBioModule(myNitrogenStoreLevelSensorImpl, node);
 			BiosimServer.registerServer(new NitrogenStoreLevelSensorPOATie(myNitrogenStoreLevelSensorImpl), myNitrogenStoreLevelSensorImpl.getModuleName(), myNitrogenStoreLevelSensorImpl.getID());
@@ -2611,7 +2613,7 @@ public class BioInitializer{
 	private void createCrewGroupDeathSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating CrewGroupDeathSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating CrewGroupDeathSensor with moduleName: "+moduleName);
 			CrewGroupDeathSensorImpl myCrewGroupDeathSensorImpl = new CrewGroupDeathSensorImpl(myID, moduleName);
 			setupBioModule(myCrewGroupDeathSensorImpl, node);
 			BiosimServer.registerServer(new CrewGroupDeathSensorPOATie(myCrewGroupDeathSensorImpl), myCrewGroupDeathSensorImpl.getModuleName(), myCrewGroupDeathSensorImpl.getID());
@@ -2629,7 +2631,7 @@ public class BioInitializer{
 	private void createCrewGroupAnyDeadSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating CrewGroupAnyDeadSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating CrewGroupAnyDeadSensor with moduleName: "+moduleName);
 			CrewGroupAnyDeadSensorImpl myCrewGroupAnyDeadSensorImpl = new CrewGroupAnyDeadSensorImpl(myID, moduleName);
 			setupBioModule(myCrewGroupAnyDeadSensorImpl, node);
 			BiosimServer.registerServer(new CrewGroupAnyDeadSensorPOATie(myCrewGroupAnyDeadSensorImpl), myCrewGroupAnyDeadSensorImpl.getModuleName(), myCrewGroupAnyDeadSensorImpl.getID());
@@ -2647,7 +2649,7 @@ public class BioInitializer{
 	private void createCrewGroupProductivitySensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating CrewGroupProductivitySensor with moduleName: "+moduleName);
+			myLogger.debug("Creating CrewGroupProductivitySensor with moduleName: "+moduleName);
 			CrewGroupProductivitySensorImpl myCrewGroupProductivitySensorImpl = new CrewGroupProductivitySensorImpl(myID, moduleName);
 			setupBioModule(myCrewGroupProductivitySensorImpl, node);
 			BiosimServer.registerServer(new CrewGroupProductivitySensorPOATie(myCrewGroupProductivitySensorImpl), myCrewGroupProductivitySensorImpl.getModuleName(), myCrewGroupProductivitySensorImpl.getID());
@@ -2691,7 +2693,7 @@ public class BioInitializer{
 	private void createAirInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating AirInFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating AirInFlowRateSensor with moduleName: "+moduleName);
 			AirInFlowRateSensorImpl myAirInFlowRateSensorImpl = new AirInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myAirInFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new AirInFlowRateSensorPOATie(myAirInFlowRateSensorImpl), myAirInFlowRateSensorImpl.getModuleName(), myAirInFlowRateSensorImpl.getID());
@@ -2709,7 +2711,7 @@ public class BioInitializer{
 	private void createAirOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating AirOutFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating AirOutFlowRateSensor with moduleName: "+moduleName);
 			AirOutFlowRateSensorImpl myAirOutFlowRateSensorImpl = new AirOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myAirOutFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new AirOutFlowRateSensorPOATie(myAirOutFlowRateSensorImpl), myAirOutFlowRateSensorImpl.getModuleName(), myAirOutFlowRateSensorImpl.getID());
@@ -2727,7 +2729,7 @@ public class BioInitializer{
 	private void createCO2AirConcentrationSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating CO2AirConcentrationSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating CO2AirConcentrationSensor with moduleName: "+moduleName);
 			CO2AirConcentrationSensorImpl myCO2AirConcentrationSensorImpl = new CO2AirConcentrationSensorImpl(myID, moduleName);
 			setupBioModule(myCO2AirConcentrationSensorImpl, node);
 			BiosimServer.registerServer(new CO2AirConcentrationSensorPOATie(myCO2AirConcentrationSensorImpl), myCO2AirConcentrationSensorImpl.getModuleName(), myCO2AirConcentrationSensorImpl.getID());
@@ -2745,7 +2747,7 @@ public class BioInitializer{
 	private void createCO2AirPressureSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating CO2AirPressureSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating CO2AirPressureSensor with moduleName: "+moduleName);
 			CO2AirPressureSensorImpl myCO2AirPressureSensorImpl = new CO2AirPressureSensorImpl(myID, moduleName);
 			setupBioModule(myCO2AirPressureSensorImpl, node);
 			BiosimServer.registerServer(new CO2AirPressureSensorPOATie(myCO2AirPressureSensorImpl), myCO2AirPressureSensorImpl.getModuleName(), myCO2AirPressureSensorImpl.getID());
@@ -2763,7 +2765,7 @@ public class BioInitializer{
 	private void createCO2AirEnvironmentInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating CO2AirEnvironmentInFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating CO2AirEnvironmentInFlowRateSensor with moduleName: "+moduleName);
 			CO2AirEnvironmentInFlowRateSensorImpl myCO2AirEnvironmentInFlowRateSensorImpl = new CO2AirEnvironmentInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myCO2AirEnvironmentInFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new CO2AirEnvironmentInFlowRateSensorPOATie(myCO2AirEnvironmentInFlowRateSensorImpl), myCO2AirEnvironmentInFlowRateSensorImpl.getModuleName(), myCO2AirEnvironmentInFlowRateSensorImpl.getID());
@@ -2781,7 +2783,7 @@ public class BioInitializer{
 	private void createCO2AirEnvironmentOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating CO2AirEnvironmentOutFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating CO2AirEnvironmentOutFlowRateSensor with moduleName: "+moduleName);
 			CO2AirEnvironmentOutFlowRateSensorImpl myCO2AirEnvironmentOutFlowRateSensorImpl = new CO2AirEnvironmentOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myCO2AirEnvironmentOutFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new CO2AirEnvironmentOutFlowRateSensorPOATie(myCO2AirEnvironmentOutFlowRateSensorImpl), myCO2AirEnvironmentOutFlowRateSensorImpl.getModuleName(), myCO2AirEnvironmentOutFlowRateSensorImpl.getID());
@@ -2799,7 +2801,7 @@ public class BioInitializer{
 	private void createCO2AirStoreInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating CO2AirStoreInFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating CO2AirStoreInFlowRateSensor with moduleName: "+moduleName);
 			CO2AirStoreInFlowRateSensorImpl myCO2AirStoreInFlowRateSensorImpl = new CO2AirStoreInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myCO2AirStoreInFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new CO2AirStoreInFlowRateSensorPOATie(myCO2AirStoreInFlowRateSensorImpl), myCO2AirStoreInFlowRateSensorImpl.getModuleName(), myCO2AirStoreInFlowRateSensorImpl.getID());
@@ -2817,7 +2819,7 @@ public class BioInitializer{
 	private void createCO2AirStoreOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating CO2AirStoreOutFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating CO2AirStoreOutFlowRateSensor with moduleName: "+moduleName);
 			CO2AirStoreOutFlowRateSensorImpl myCO2AirStoreOutFlowRateSensorImpl = new CO2AirStoreOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myCO2AirStoreOutFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new CO2AirStoreOutFlowRateSensorPOATie(myCO2AirStoreOutFlowRateSensorImpl), myCO2AirStoreOutFlowRateSensorImpl.getModuleName(), myCO2AirStoreOutFlowRateSensorImpl.getID());
@@ -2835,7 +2837,7 @@ public class BioInitializer{
 	private void createO2AirConcentrationSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating O2AirConcentrationSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating O2AirConcentrationSensor with moduleName: "+moduleName);
 			O2AirConcentrationSensorImpl myO2AirConcentrationSensorImpl = new O2AirConcentrationSensorImpl(myID, moduleName);
 			setupBioModule(myO2AirConcentrationSensorImpl, node);
 			BiosimServer.registerServer(new O2AirConcentrationSensorPOATie(myO2AirConcentrationSensorImpl), myO2AirConcentrationSensorImpl.getModuleName(), myO2AirConcentrationSensorImpl.getID());
@@ -2853,7 +2855,7 @@ public class BioInitializer{
 	private void createO2AirPressureSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating O2AirPressureSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating O2AirPressureSensor with moduleName: "+moduleName);
 			O2AirPressureSensorImpl myO2AirPressureSensorImpl = new O2AirPressureSensorImpl(myID, moduleName);
 			setupBioModule(myO2AirPressureSensorImpl, node);
 			BiosimServer.registerServer(new O2AirPressureSensorPOATie(myO2AirPressureSensorImpl), myO2AirPressureSensorImpl.getModuleName(), myO2AirPressureSensorImpl.getID());
@@ -2871,7 +2873,7 @@ public class BioInitializer{
 	private void createO2AirEnvironmentInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating O2AirEnvironmentInFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating O2AirEnvironmentInFlowRateSensor with moduleName: "+moduleName);
 			O2AirEnvironmentInFlowRateSensorImpl myO2AirEnvironmentInFlowRateSensorImpl = new O2AirEnvironmentInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myO2AirEnvironmentInFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new O2AirEnvironmentInFlowRateSensorPOATie(myO2AirEnvironmentInFlowRateSensorImpl), myO2AirEnvironmentInFlowRateSensorImpl.getModuleName(), myO2AirEnvironmentInFlowRateSensorImpl.getID());
@@ -2889,7 +2891,7 @@ public class BioInitializer{
 	private void createO2AirEnvironmentOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating O2AirEnvironmentOutFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating O2AirEnvironmentOutFlowRateSensor with moduleName: "+moduleName);
 			O2AirEnvironmentOutFlowRateSensorImpl myO2AirEnvironmentOutFlowRateSensorImpl = new O2AirEnvironmentOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myO2AirEnvironmentOutFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new O2AirEnvironmentOutFlowRateSensorPOATie(myO2AirEnvironmentOutFlowRateSensorImpl), myO2AirEnvironmentOutFlowRateSensorImpl.getModuleName(), myO2AirEnvironmentOutFlowRateSensorImpl.getID());
@@ -2907,7 +2909,7 @@ public class BioInitializer{
 	private void createO2AirStoreInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating O2AirStoreInFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating O2AirStoreInFlowRateSensor with moduleName: "+moduleName);
 			O2AirStoreInFlowRateSensorImpl myO2AirStoreInFlowRateSensorImpl = new O2AirStoreInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myO2AirStoreInFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new O2AirStoreInFlowRateSensorPOATie(myO2AirStoreInFlowRateSensorImpl), myO2AirStoreInFlowRateSensorImpl.getModuleName(), myO2AirStoreInFlowRateSensorImpl.getID());
@@ -2925,7 +2927,7 @@ public class BioInitializer{
 	private void createO2AirStoreOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating O2AirStoreOutFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating O2AirStoreOutFlowRateSensor with moduleName: "+moduleName);
 			O2AirStoreOutFlowRateSensorImpl myO2AirStoreOutFlowRateSensorImpl = new O2AirStoreOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myO2AirStoreOutFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new O2AirStoreOutFlowRateSensorPOATie(myO2AirStoreOutFlowRateSensorImpl), myO2AirStoreOutFlowRateSensorImpl.getModuleName(), myO2AirStoreOutFlowRateSensorImpl.getID());
@@ -2943,7 +2945,7 @@ public class BioInitializer{
 	private void createOtherAirConcentrationSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating OtherAirConcentrationSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating OtherAirConcentrationSensor with moduleName: "+moduleName);
 			OtherAirConcentrationSensorImpl myOtherAirConcentrationSensorImpl = new OtherAirConcentrationSensorImpl(myID, moduleName);
 			setupBioModule(myOtherAirConcentrationSensorImpl, node);
 			BiosimServer.registerServer(new OtherAirConcentrationSensorPOATie(myOtherAirConcentrationSensorImpl), myOtherAirConcentrationSensorImpl.getModuleName(), myOtherAirConcentrationSensorImpl.getID());
@@ -2961,7 +2963,7 @@ public class BioInitializer{
 	private void createOtherAirPressureSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating OtherAirPressureSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating OtherAirPressureSensor with moduleName: "+moduleName);
 			OtherAirPressureSensorImpl myOtherAirPressureSensorImpl = new OtherAirPressureSensorImpl(myID, moduleName);
 			setupBioModule(myOtherAirPressureSensorImpl, node);
 			BiosimServer.registerServer(new OtherAirPressureSensorPOATie(myOtherAirPressureSensorImpl), myOtherAirPressureSensorImpl.getModuleName(), myOtherAirPressureSensorImpl.getID());
@@ -2979,7 +2981,7 @@ public class BioInitializer{
 	private void createWaterAirConcentrationSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating WaterAirConcentrationSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating WaterAirConcentrationSensor with moduleName: "+moduleName);
 			WaterAirConcentrationSensorImpl myWaterAirConcentrationSensorImpl = new WaterAirConcentrationSensorImpl(myID, moduleName);
 			setupBioModule(myWaterAirConcentrationSensorImpl, node);
 			BiosimServer.registerServer(new WaterAirConcentrationSensorPOATie(myWaterAirConcentrationSensorImpl), myWaterAirConcentrationSensorImpl.getModuleName(), myWaterAirConcentrationSensorImpl.getID());
@@ -2997,7 +2999,7 @@ public class BioInitializer{
 	private void createWaterAirPressureSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating WaterAirPressureSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating WaterAirPressureSensor with moduleName: "+moduleName);
 			WaterAirPressureSensorImpl myWaterAirPressureSensorImpl = new WaterAirPressureSensorImpl(myID, moduleName);
 			setupBioModule(myWaterAirPressureSensorImpl, node);
 			BiosimServer.registerServer(new WaterAirPressureSensorPOATie(myWaterAirPressureSensorImpl), myWaterAirPressureSensorImpl.getModuleName(), myWaterAirPressureSensorImpl.getID());
@@ -3015,7 +3017,7 @@ public class BioInitializer{
 	private void createWaterAirEnvironmentInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating WaterAirEnvironmentInFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating WaterAirEnvironmentInFlowRateSensor with moduleName: "+moduleName);
 			WaterAirEnvironmentInFlowRateSensorImpl myWaterAirEnvironmentInFlowRateSensorImpl = new WaterAirEnvironmentInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myWaterAirEnvironmentInFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new WaterAirEnvironmentInFlowRateSensorPOATie(myWaterAirEnvironmentInFlowRateSensorImpl), myWaterAirEnvironmentInFlowRateSensorImpl.getModuleName(), myWaterAirEnvironmentInFlowRateSensorImpl.getID());
@@ -3033,7 +3035,7 @@ public class BioInitializer{
 	private void createWaterAirEnvironmentOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating WaterAirEnvironmentOutFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating WaterAirEnvironmentOutFlowRateSensor with moduleName: "+moduleName);
 			WaterAirEnvironmentOutFlowRateSensorImpl myWaterAirEnvironmentOutFlowRateSensorImpl = new WaterAirEnvironmentOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myWaterAirEnvironmentOutFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new WaterAirEnvironmentOutFlowRateSensorPOATie(myWaterAirEnvironmentOutFlowRateSensorImpl), myWaterAirEnvironmentOutFlowRateSensorImpl.getModuleName(), myWaterAirEnvironmentOutFlowRateSensorImpl.getID());
@@ -3051,7 +3053,7 @@ public class BioInitializer{
 	private void createWaterAirStoreInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating WaterAirStoreInFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating WaterAirStoreInFlowRateSensor with moduleName: "+moduleName);
 			WaterAirStoreInFlowRateSensorImpl myWaterAirStoreInFlowRateSensorImpl = new WaterAirStoreInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myWaterAirStoreInFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new WaterAirStoreInFlowRateSensorPOATie(myWaterAirStoreInFlowRateSensorImpl), myWaterAirStoreInFlowRateSensorImpl.getModuleName(), myWaterAirStoreInFlowRateSensorImpl.getID());
@@ -3069,7 +3071,7 @@ public class BioInitializer{
 	private void createWaterAirStoreOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating WaterAirStoreOutFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating WaterAirStoreOutFlowRateSensor with moduleName: "+moduleName);
 			WaterAirStoreOutFlowRateSensorImpl myWaterAirStoreOutFlowRateSensorImpl = new WaterAirStoreOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myWaterAirStoreOutFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new WaterAirStoreOutFlowRateSensorPOATie(myWaterAirStoreOutFlowRateSensorImpl), myWaterAirStoreOutFlowRateSensorImpl.getModuleName(), myWaterAirStoreOutFlowRateSensorImpl.getID());
@@ -3087,7 +3089,7 @@ public class BioInitializer{
 	private void createNitrogenAirConcentrationSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating NitrogenAirConcentrationSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating NitrogenAirConcentrationSensor with moduleName: "+moduleName);
 			NitrogenAirConcentrationSensorImpl myNitrogenAirConcentrationSensorImpl = new NitrogenAirConcentrationSensorImpl(myID, moduleName);
 			setupBioModule(myNitrogenAirConcentrationSensorImpl, node);
 			BiosimServer.registerServer(new NitrogenAirConcentrationSensorPOATie(myNitrogenAirConcentrationSensorImpl), myNitrogenAirConcentrationSensorImpl.getModuleName(), myNitrogenAirConcentrationSensorImpl.getID());
@@ -3105,7 +3107,7 @@ public class BioInitializer{
 	private void createNitrogenAirPressureSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating NitrogenAirPressureSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating NitrogenAirPressureSensor with moduleName: "+moduleName);
 			NitrogenAirPressureSensorImpl myNitrogenAirPressureSensorImpl = new NitrogenAirPressureSensorImpl(myID, moduleName);
 			setupBioModule(myNitrogenAirPressureSensorImpl, node);
 			BiosimServer.registerServer(new NitrogenAirPressureSensorPOATie(myNitrogenAirPressureSensorImpl), myNitrogenAirPressureSensorImpl.getModuleName(), myNitrogenAirPressureSensorImpl.getID());
@@ -3123,7 +3125,7 @@ public class BioInitializer{
 	private void createNitrogenAirEnvironmentInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating NitrogenAirEnvironmentInFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating NitrogenAirEnvironmentInFlowRateSensor with moduleName: "+moduleName);
 			NitrogenAirEnvironmentInFlowRateSensorImpl myNitrogenAirEnvironmentInFlowRateSensorImpl = new NitrogenAirEnvironmentInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myNitrogenAirEnvironmentInFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new NitrogenAirEnvironmentInFlowRateSensorPOATie(myNitrogenAirEnvironmentInFlowRateSensorImpl), myNitrogenAirEnvironmentInFlowRateSensorImpl.getModuleName(), myNitrogenAirEnvironmentInFlowRateSensorImpl.getID());
@@ -3141,7 +3143,7 @@ public class BioInitializer{
 	private void createNitrogenAirEnvironmentOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating NitrogenAirEnvironmentOutFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating NitrogenAirEnvironmentOutFlowRateSensor with moduleName: "+moduleName);
 			NitrogenAirEnvironmentOutFlowRateSensorImpl myNitrogenAirEnvironmentOutFlowRateSensorImpl = new NitrogenAirEnvironmentOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myNitrogenAirEnvironmentOutFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new NitrogenAirEnvironmentOutFlowRateSensorPOATie(myNitrogenAirEnvironmentOutFlowRateSensorImpl), myNitrogenAirEnvironmentOutFlowRateSensorImpl.getModuleName(), myNitrogenAirEnvironmentOutFlowRateSensorImpl.getID());
@@ -3159,7 +3161,7 @@ public class BioInitializer{
 	private void createNitrogenAirStoreInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating NitrogenAirStoreInFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating NitrogenAirStoreInFlowRateSensor with moduleName: "+moduleName);
 			NitrogenAirStoreInFlowRateSensorImpl myNitrogenAirStoreInFlowRateSensorImpl = new NitrogenAirStoreInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myNitrogenAirStoreInFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new NitrogenAirStoreInFlowRateSensorPOATie(myNitrogenAirStoreInFlowRateSensorImpl), myNitrogenAirStoreInFlowRateSensorImpl.getModuleName(), myNitrogenAirStoreInFlowRateSensorImpl.getID());
@@ -3177,7 +3179,7 @@ public class BioInitializer{
 	private void createNitrogenAirStoreOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating NitrogenAirStoreOutFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating NitrogenAirStoreOutFlowRateSensor with moduleName: "+moduleName);
 			NitrogenAirStoreOutFlowRateSensorImpl myNitrogenAirStoreOutFlowRateSensorImpl = new NitrogenAirStoreOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myNitrogenAirStoreOutFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new NitrogenAirStoreOutFlowRateSensorPOATie(myNitrogenAirStoreOutFlowRateSensorImpl), myNitrogenAirStoreOutFlowRateSensorImpl.getModuleName(), myNitrogenAirStoreOutFlowRateSensorImpl.getID());
@@ -3372,7 +3374,7 @@ public class BioInitializer{
 	private void createBiomassInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating BiomassInFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating BiomassInFlowRateSensor with moduleName: "+moduleName);
 			BiomassInFlowRateSensorImpl myBiomassInFlowRateSensorImpl = new BiomassInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myBiomassInFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new BiomassInFlowRateSensorPOATie(myBiomassInFlowRateSensorImpl), myBiomassInFlowRateSensorImpl.getModuleName(), myBiomassInFlowRateSensorImpl.getID());
@@ -3390,7 +3392,7 @@ public class BioInitializer{
 	private void createBiomassOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating BiomassOutFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating BiomassOutFlowRateSensor with moduleName: "+moduleName);
 			BiomassOutFlowRateSensorImpl myBiomassOutFlowRateSensorImpl = new BiomassOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myBiomassOutFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new BiomassOutFlowRateSensorPOATie(myBiomassOutFlowRateSensorImpl), myBiomassOutFlowRateSensorImpl.getModuleName(), myBiomassOutFlowRateSensorImpl.getID());
@@ -3408,7 +3410,7 @@ public class BioInitializer{
 	private void createBiomassStoreLevelSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating BiomassStoreLevelSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating BiomassStoreLevelSensor with moduleName: "+moduleName);
 			BiomassStoreLevelSensorImpl myBiomassStoreLevelSensorImpl = new BiomassStoreLevelSensorImpl(myID, moduleName);
 			setupBioModule(myBiomassStoreLevelSensorImpl, node);
 			BiosimServer.registerServer(new BiomassStoreLevelSensorPOATie(myBiomassStoreLevelSensorImpl), myBiomassStoreLevelSensorImpl.getModuleName(), myBiomassStoreLevelSensorImpl.getID());
@@ -3426,7 +3428,7 @@ public class BioInitializer{
 	private void createFoodInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating FoodInFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating FoodInFlowRateSensor with moduleName: "+moduleName);
 			FoodInFlowRateSensorImpl myFoodInFlowRateSensorImpl = new FoodInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myFoodInFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new FoodInFlowRateSensorPOATie(myFoodInFlowRateSensorImpl), myFoodInFlowRateSensorImpl.getModuleName(), myFoodInFlowRateSensorImpl.getID());
@@ -3444,7 +3446,7 @@ public class BioInitializer{
 	private void createFoodOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating FoodOutFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating FoodOutFlowRateSensor with moduleName: "+moduleName);
 			FoodOutFlowRateSensorImpl myFoodOutFlowRateSensorImpl = new FoodOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myFoodOutFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new FoodOutFlowRateSensorPOATie(myFoodOutFlowRateSensorImpl), myFoodOutFlowRateSensorImpl.getModuleName(), myFoodOutFlowRateSensorImpl.getID());
@@ -3462,7 +3464,7 @@ public class BioInitializer{
 	private void createFoodStoreLevelSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating FoodStoreLevelSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating FoodStoreLevelSensor with moduleName: "+moduleName);
 			FoodStoreLevelSensorImpl myFoodStoreLevelSensorImpl = new FoodStoreLevelSensorImpl(myID, moduleName);
 			setupBioModule(myFoodStoreLevelSensorImpl, node);
 			BiosimServer.registerServer(new FoodStoreLevelSensorPOATie(myFoodStoreLevelSensorImpl), myFoodStoreLevelSensorImpl.getModuleName(), myFoodStoreLevelSensorImpl.getID());
@@ -3480,7 +3482,7 @@ public class BioInitializer{
 	private void createBiomassStoreWaterContentSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating BiomassStoreWaterContentSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating BiomassStoreWaterContentSensor with moduleName: "+moduleName);
 			BiomassStoreWaterContentSensorImpl myBiomassStoreWaterContentSensorImpl = new BiomassStoreWaterContentSensorImpl(myID, moduleName);
 			setupBioModule(myBiomassStoreWaterContentSensorImpl, node);
 			BiosimServer.registerServer(new BiomassStoreWaterContentSensorPOATie(myBiomassStoreWaterContentSensorImpl), myBiomassStoreWaterContentSensorImpl.getModuleName(), myBiomassStoreWaterContentSensorImpl.getID());
@@ -3498,7 +3500,7 @@ public class BioInitializer{
 	private void createHarvestSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating HarvestSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating HarvestSensor with moduleName: "+moduleName);
 			HarvestSensorImpl myHarvestSensorImpl = new HarvestSensorImpl(myID, moduleName);
 			setupBioModule(myHarvestSensorImpl, node);
 			BiosimServer.registerServer(new HarvestSensorPOATie(myHarvestSensorImpl), myHarvestSensorImpl.getModuleName(), myHarvestSensorImpl.getID());
@@ -3520,7 +3522,7 @@ public class BioInitializer{
 	private void createPlantDeathSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating PlantDeathSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating PlantDeathSensor with moduleName: "+moduleName);
 			PlantDeathSensorImpl myPlantDeathSensorImpl = new PlantDeathSensorImpl(myID, moduleName);
 			setupBioModule(myPlantDeathSensorImpl, node);
 			BiosimServer.registerServer(new PlantDeathSensorPOATie(myPlantDeathSensorImpl), myPlantDeathSensorImpl.getModuleName(), myPlantDeathSensorImpl.getID());
@@ -3605,7 +3607,7 @@ public class BioInitializer{
 	private void createStoreLevelSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating StoreLevelSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating StoreLevelSensor with moduleName: "+moduleName);
 			StoreLevelSensorImpl myStoreLevelSensorImpl = new StoreLevelSensorImpl(myID, moduleName);
 			setupBioModule(myStoreLevelSensorImpl, node);
 			BiosimServer.registerServer(new StoreLevelSensorPOATie(myStoreLevelSensorImpl), myStoreLevelSensorImpl.getModuleName(), myStoreLevelSensorImpl.getID());
@@ -3623,7 +3625,7 @@ public class BioInitializer{
 	private void createStoreOverflowSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating StoreOverflowSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating StoreOverflowSensor with moduleName: "+moduleName);
 			StoreOverflowSensorImpl myStoreOverflowSensorImpl = new StoreOverflowSensorImpl(myID, moduleName);
 			setupBioModule(myStoreOverflowSensorImpl, node);
 			BiosimServer.registerServer(new StoreOverflowSensorPOATie(myStoreOverflowSensorImpl), myStoreOverflowSensorImpl.getModuleName(), myStoreOverflowSensorImpl.getID());
@@ -3662,7 +3664,7 @@ public class BioInitializer{
 	private void createPowerInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating PowerInFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating PowerInFlowRateSensor with moduleName: "+moduleName);
 			PowerInFlowRateSensorImpl myPowerInFlowRateSensorImpl = new PowerInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myPowerInFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new PowerInFlowRateSensorPOATie(myPowerInFlowRateSensorImpl), myPowerInFlowRateSensorImpl.getModuleName(), myPowerInFlowRateSensorImpl.getID());
@@ -3680,7 +3682,7 @@ public class BioInitializer{
 	private void createPowerOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating PowerOutFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating PowerOutFlowRateSensor with moduleName: "+moduleName);
 			PowerOutFlowRateSensorImpl myPowerOutFlowRateSensorImpl = new PowerOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myPowerOutFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new PowerOutFlowRateSensorPOATie(myPowerOutFlowRateSensorImpl), myPowerOutFlowRateSensorImpl.getModuleName(), myPowerOutFlowRateSensorImpl.getID());
@@ -3698,7 +3700,7 @@ public class BioInitializer{
 	private void createPowerStoreLevelSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating PowerStoreLevelSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating PowerStoreLevelSensor with moduleName: "+moduleName);
 			PowerStoreLevelSensorImpl myPowerStoreLevelSensorImpl = new PowerStoreLevelSensorImpl(myID, moduleName);
 			setupBioModule(myPowerStoreLevelSensorImpl, node);
 			BiosimServer.registerServer(new PowerStoreLevelSensorPOATie(myPowerStoreLevelSensorImpl), myPowerStoreLevelSensorImpl.getModuleName(), myPowerStoreLevelSensorImpl.getID());
@@ -3743,7 +3745,7 @@ public class BioInitializer{
 	private void createPotableWaterInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating PotableWaterInFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating PotableWaterInFlowRateSensor with moduleName: "+moduleName);
 			PotableWaterInFlowRateSensorImpl myPotableWaterInFlowRateSensorImpl = new PotableWaterInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myPotableWaterInFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new PotableWaterInFlowRateSensorPOATie(myPotableWaterInFlowRateSensorImpl), myPotableWaterInFlowRateSensorImpl.getModuleName(), myPotableWaterInFlowRateSensorImpl.getID());
@@ -3761,7 +3763,7 @@ public class BioInitializer{
 	private void createPotableWaterOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating PotableWaterOutFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating PotableWaterOutFlowRateSensor with moduleName: "+moduleName);
 			PotableWaterOutFlowRateSensorImpl myPotableWaterOutFlowRateSensorImpl = new PotableWaterOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myPotableWaterOutFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new PotableWaterOutFlowRateSensorPOATie(myPotableWaterOutFlowRateSensorImpl), myPotableWaterOutFlowRateSensorImpl.getModuleName(), myPotableWaterOutFlowRateSensorImpl.getID());
@@ -3779,7 +3781,7 @@ public class BioInitializer{
 	private void createPotableWaterStoreLevelSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating PotableWaterStoreLevelSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating PotableWaterStoreLevelSensor with moduleName: "+moduleName);
 			PotableWaterStoreLevelSensorImpl myPotableWaterStoreLevelSensorImpl = new PotableWaterStoreLevelSensorImpl(myID, moduleName);
 			setupBioModule(myPotableWaterStoreLevelSensorImpl, node);
 			BiosimServer.registerServer(new PotableWaterStoreLevelSensorPOATie(myPotableWaterStoreLevelSensorImpl), myPotableWaterStoreLevelSensorImpl.getModuleName(), myPotableWaterStoreLevelSensorImpl.getID());
@@ -3797,7 +3799,7 @@ public class BioInitializer{
 	private void createGreyWaterInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating GreyWaterInFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating GreyWaterInFlowRateSensor with moduleName: "+moduleName);
 			GreyWaterInFlowRateSensorImpl myGreyWaterInFlowRateSensorImpl = new GreyWaterInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myGreyWaterInFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new GreyWaterInFlowRateSensorPOATie(myGreyWaterInFlowRateSensorImpl), myGreyWaterInFlowRateSensorImpl.getModuleName(), myGreyWaterInFlowRateSensorImpl.getID());
@@ -3815,7 +3817,7 @@ public class BioInitializer{
 	private void createGreyWaterOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating GreyWaterOutFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating GreyWaterOutFlowRateSensor with moduleName: "+moduleName);
 			GreyWaterOutFlowRateSensorImpl myGreyWaterOutFlowRateSensorImpl = new GreyWaterOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myGreyWaterOutFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new GreyWaterOutFlowRateSensorPOATie(myGreyWaterOutFlowRateSensorImpl), myGreyWaterOutFlowRateSensorImpl.getModuleName(), myGreyWaterOutFlowRateSensorImpl.getID());
@@ -3833,7 +3835,7 @@ public class BioInitializer{
 	private void createGreyWaterStoreLevelSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating GreyWaterStoreLevelSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating GreyWaterStoreLevelSensor with moduleName: "+moduleName);
 			GreyWaterStoreLevelSensorImpl myGreyWaterStoreLevelSensorImpl = new GreyWaterStoreLevelSensorImpl(myID, moduleName);
 			setupBioModule(myGreyWaterStoreLevelSensorImpl, node);
 			BiosimServer.registerServer(new GreyWaterStoreLevelSensorPOATie(myGreyWaterStoreLevelSensorImpl), myGreyWaterStoreLevelSensorImpl.getModuleName(), myGreyWaterStoreLevelSensorImpl.getID());
@@ -3851,7 +3853,7 @@ public class BioInitializer{
 	private void createDirtyWaterInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating DirtyWaterInFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating DirtyWaterInFlowRateSensor with moduleName: "+moduleName);
 			DirtyWaterInFlowRateSensorImpl myDirtyWaterInFlowRateSensorImpl = new DirtyWaterInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myDirtyWaterInFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new DirtyWaterInFlowRateSensorPOATie(myDirtyWaterInFlowRateSensorImpl), myDirtyWaterInFlowRateSensorImpl.getModuleName(), myDirtyWaterInFlowRateSensorImpl.getID());
@@ -3869,7 +3871,7 @@ public class BioInitializer{
 	private void createDirtyWaterOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating DirtyWaterOutFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating DirtyWaterOutFlowRateSensor with moduleName: "+moduleName);
 			DirtyWaterOutFlowRateSensorImpl myDirtyWaterOutFlowRateSensorImpl = new DirtyWaterOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myDirtyWaterOutFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new DirtyWaterOutFlowRateSensorPOATie(myDirtyWaterOutFlowRateSensorImpl), myDirtyWaterOutFlowRateSensorImpl.getModuleName(), myDirtyWaterOutFlowRateSensorImpl.getID());
@@ -3887,7 +3889,7 @@ public class BioInitializer{
 	private void createDirtyWaterStoreLevelSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating DirtyWaterStoreLevelSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating DirtyWaterStoreLevelSensor with moduleName: "+moduleName);
 			DirtyWaterStoreLevelSensorImpl myDirtyWaterStoreLevelSensorImpl = new DirtyWaterStoreLevelSensorImpl(myID, moduleName);
 			setupBioModule(myDirtyWaterStoreLevelSensorImpl, node);
 			BiosimServer.registerServer(new DirtyWaterStoreLevelSensorPOATie(myDirtyWaterStoreLevelSensorImpl), myDirtyWaterStoreLevelSensorImpl.getModuleName(), myDirtyWaterStoreLevelSensorImpl.getID());
@@ -3905,7 +3907,7 @@ public class BioInitializer{
 	private void createWaterInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating WaterInFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating WaterInFlowRateSensor with moduleName: "+moduleName);
 			WaterInFlowRateSensorImpl myWaterInFlowRateSensorImpl = new WaterInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myWaterInFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new WaterInFlowRateSensorPOATie(myWaterInFlowRateSensorImpl), myWaterInFlowRateSensorImpl.getModuleName(), myWaterInFlowRateSensorImpl.getID());
@@ -3923,7 +3925,7 @@ public class BioInitializer{
 	private void createWaterOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating WaterOutFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating WaterOutFlowRateSensor with moduleName: "+moduleName);
 			WaterOutFlowRateSensorImpl myWaterOutFlowRateSensorImpl = new WaterOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myWaterOutFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new WaterOutFlowRateSensorPOATie(myWaterOutFlowRateSensorImpl), myWaterOutFlowRateSensorImpl.getModuleName(), myWaterOutFlowRateSensorImpl.getID());
@@ -3941,7 +3943,7 @@ public class BioInitializer{
 	private void createWaterStoreLevelSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating WaterStoreLevelSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating WaterStoreLevelSensor with moduleName: "+moduleName);
 			WaterStoreLevelSensorImpl myWaterStoreLevelSensorImpl = new WaterStoreLevelSensorImpl(myID, moduleName);
 			setupBioModule(myWaterStoreLevelSensorImpl, node);
 			BiosimServer.registerServer(new WaterStoreLevelSensorPOATie(myWaterStoreLevelSensorImpl), myWaterStoreLevelSensorImpl.getModuleName(), myWaterStoreLevelSensorImpl.getID());
@@ -4040,7 +4042,7 @@ public class BioInitializer{
 	private void createDryWasteInFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating DryWasteInFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating DryWasteInFlowRateSensor with moduleName: "+moduleName);
 			DryWasteInFlowRateSensorImpl myDryWasteInFlowRateSensorImpl = new DryWasteInFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myDryWasteInFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new DryWasteInFlowRateSensorPOATie(myDryWasteInFlowRateSensorImpl), myDryWasteInFlowRateSensorImpl.getModuleName(), myDryWasteInFlowRateSensorImpl.getID());
@@ -4058,7 +4060,7 @@ public class BioInitializer{
 	private void createDryWasteOutFlowRateSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating DryWasteOutFlowRateSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating DryWasteOutFlowRateSensor with moduleName: "+moduleName);
 			DryWasteOutFlowRateSensorImpl myDryWasteOutFlowRateSensorImpl = new DryWasteOutFlowRateSensorImpl(myID, moduleName);
 			setupBioModule(myDryWasteOutFlowRateSensorImpl, node);
 			BiosimServer.registerServer(new DryWasteOutFlowRateSensorPOATie(myDryWasteOutFlowRateSensorImpl), myDryWasteOutFlowRateSensorImpl.getModuleName(), myDryWasteOutFlowRateSensorImpl.getID());
@@ -4076,7 +4078,7 @@ public class BioInitializer{
 	private void createDryWasteStoreLevelSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating DryWasteStoreLevelSensor with moduleName: "+moduleName);
+			myLogger.debug("Creating DryWasteStoreLevelSensor with moduleName: "+moduleName);
 			DryWasteStoreLevelSensorImpl myDryWasteStoreLevelSensorImpl = new DryWasteStoreLevelSensorImpl(myID, moduleName);
 			setupBioModule(myDryWasteStoreLevelSensorImpl, node);
 			BiosimServer.registerServer(new DryWasteStoreLevelSensorPOATie(myDryWasteStoreLevelSensorImpl), myDryWasteStoreLevelSensorImpl.getModuleName(), myDryWasteStoreLevelSensorImpl.getID());
@@ -4127,7 +4129,7 @@ public class BioInitializer{
 	private void createCO2InFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating CO2InFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating CO2InFlowRateActuator with moduleName: "+moduleName);
 			CO2InFlowRateActuatorImpl myCO2InFlowRateActuatorImpl = new CO2InFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myCO2InFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new CO2InFlowRateActuatorPOATie(myCO2InFlowRateActuatorImpl), myCO2InFlowRateActuatorImpl.getModuleName(), myCO2InFlowRateActuatorImpl.getID());
@@ -4145,7 +4147,7 @@ public class BioInitializer{
 	private void createCO2OutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating CO2OutFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating CO2OutFlowRateActuator with moduleName: "+moduleName);
 			CO2OutFlowRateActuatorImpl myCO2OutFlowRateActuatorImpl = new CO2OutFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myCO2OutFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new CO2OutFlowRateActuatorPOATie(myCO2OutFlowRateActuatorImpl), myCO2OutFlowRateActuatorImpl.getModuleName(), myCO2OutFlowRateActuatorImpl.getID());
@@ -4163,7 +4165,7 @@ public class BioInitializer{
 	private void createO2InFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating O2InFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating O2InFlowRateActuator with moduleName: "+moduleName);
 			O2InFlowRateActuatorImpl myO2InFlowRateActuatorImpl = new O2InFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myO2InFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new O2InFlowRateActuatorPOATie(myO2InFlowRateActuatorImpl), myO2InFlowRateActuatorImpl.getModuleName(), myO2InFlowRateActuatorImpl.getID());
@@ -4181,7 +4183,7 @@ public class BioInitializer{
 	private void createO2OutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating O2OutFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating O2OutFlowRateActuator with moduleName: "+moduleName);
 			O2OutFlowRateActuatorImpl myO2OutFlowRateActuatorImpl = new O2OutFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myO2OutFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new O2OutFlowRateActuatorPOATie(myO2OutFlowRateActuatorImpl), myO2OutFlowRateActuatorImpl.getModuleName(), myO2OutFlowRateActuatorImpl.getID());
@@ -4199,7 +4201,7 @@ public class BioInitializer{
 	private void createH2InFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating H2InFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating H2InFlowRateActuator with moduleName: "+moduleName);
 			H2InFlowRateActuatorImpl myH2InFlowRateActuatorImpl = new H2InFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myH2InFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new H2InFlowRateActuatorPOATie(myH2InFlowRateActuatorImpl), myH2InFlowRateActuatorImpl.getModuleName(), myH2InFlowRateActuatorImpl.getID());
@@ -4217,7 +4219,7 @@ public class BioInitializer{
 	private void createH2OutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating H2OutFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating H2OutFlowRateActuator with moduleName: "+moduleName);
 			H2OutFlowRateActuatorImpl myH2OutFlowRateActuatorImpl = new H2OutFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myH2OutFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new H2OutFlowRateActuatorPOATie(myH2OutFlowRateActuatorImpl), myH2OutFlowRateActuatorImpl.getModuleName(), myH2OutFlowRateActuatorImpl.getID());
@@ -4235,7 +4237,7 @@ public class BioInitializer{
 	private void createNitrogenInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating NitrogenInFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating NitrogenInFlowRateActuator with moduleName: "+moduleName);
 			NitrogenInFlowRateActuatorImpl myNitrogenInFlowRateActuatorImpl = new NitrogenInFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myNitrogenInFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new NitrogenInFlowRateActuatorPOATie(myNitrogenInFlowRateActuatorImpl), myNitrogenInFlowRateActuatorImpl.getModuleName(), myNitrogenInFlowRateActuatorImpl.getID());
@@ -4253,7 +4255,7 @@ public class BioInitializer{
 	private void createNitrogenOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating NitrogenOutFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating NitrogenOutFlowRateActuator with moduleName: "+moduleName);
 			NitrogenOutFlowRateActuatorImpl myNitrogenOutFlowRateActuatorImpl = new NitrogenOutFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myNitrogenOutFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new NitrogenOutFlowRateActuatorPOATie(myNitrogenOutFlowRateActuatorImpl), myNitrogenOutFlowRateActuatorImpl.getModuleName(), myNitrogenOutFlowRateActuatorImpl.getID());
@@ -4328,7 +4330,7 @@ public class BioInitializer{
 	private void createAirInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating AirInFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating AirInFlowRateActuator with moduleName: "+moduleName);
 			AirInFlowRateActuatorImpl myAirInFlowRateActuatorImpl = new AirInFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myAirInFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new AirInFlowRateActuatorPOATie(myAirInFlowRateActuatorImpl), myAirInFlowRateActuatorImpl.getModuleName(), myAirInFlowRateActuatorImpl.getID());
@@ -4346,7 +4348,7 @@ public class BioInitializer{
 	private void createAirOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating AirOutFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating AirOutFlowRateActuator with moduleName: "+moduleName);
 			AirOutFlowRateActuatorImpl myAirOutFlowRateActuatorImpl = new AirOutFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myAirOutFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new AirOutFlowRateActuatorPOATie(myAirOutFlowRateActuatorImpl), myAirOutFlowRateActuatorImpl.getModuleName(), myAirOutFlowRateActuatorImpl.getID());
@@ -4364,7 +4366,7 @@ public class BioInitializer{
 	private void createCO2AirEnvironmentInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating CO2AirEnvironmentInFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating CO2AirEnvironmentInFlowRateActuator with moduleName: "+moduleName);
 			CO2AirEnvironmentInFlowRateActuatorImpl myCO2AirEnvironmentInFlowRateActuatorImpl = new CO2AirEnvironmentInFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myCO2AirEnvironmentInFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new CO2AirEnvironmentInFlowRateActuatorPOATie(myCO2AirEnvironmentInFlowRateActuatorImpl), myCO2AirEnvironmentInFlowRateActuatorImpl.getModuleName(), myCO2AirEnvironmentInFlowRateActuatorImpl.getID());
@@ -4382,7 +4384,7 @@ public class BioInitializer{
 	private void createCO2AirEnvironmentOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating CO2AirEnvironmentOutFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating CO2AirEnvironmentOutFlowRateActuator with moduleName: "+moduleName);
 			CO2AirEnvironmentOutFlowRateActuatorImpl myCO2AirEnvironmentOutFlowRateActuatorImpl = new CO2AirEnvironmentOutFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myCO2AirEnvironmentOutFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new CO2AirEnvironmentOutFlowRateActuatorPOATie(myCO2AirEnvironmentOutFlowRateActuatorImpl), myCO2AirEnvironmentOutFlowRateActuatorImpl.getModuleName(), myCO2AirEnvironmentOutFlowRateActuatorImpl.getID());
@@ -4400,7 +4402,7 @@ public class BioInitializer{
 	private void createCO2AirStoreInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating CO2AirStoreInFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating CO2AirStoreInFlowRateActuator with moduleName: "+moduleName);
 			CO2AirStoreInFlowRateActuatorImpl myCO2AirStoreInFlowRateActuatorImpl = new CO2AirStoreInFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myCO2AirStoreInFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new CO2AirStoreInFlowRateActuatorPOATie(myCO2AirStoreInFlowRateActuatorImpl), myCO2AirStoreInFlowRateActuatorImpl.getModuleName(), myCO2AirStoreInFlowRateActuatorImpl.getID());
@@ -4418,7 +4420,7 @@ public class BioInitializer{
 	private void createCO2AirStoreOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating CO2AirStoreOutFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating CO2AirStoreOutFlowRateActuator with moduleName: "+moduleName);
 			CO2AirStoreOutFlowRateActuatorImpl myCO2AirStoreOutFlowRateActuatorImpl = new CO2AirStoreOutFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myCO2AirStoreOutFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new CO2AirStoreOutFlowRateActuatorPOATie(myCO2AirStoreOutFlowRateActuatorImpl), myCO2AirStoreOutFlowRateActuatorImpl.getModuleName(), myCO2AirStoreOutFlowRateActuatorImpl.getID());
@@ -4436,7 +4438,7 @@ public class BioInitializer{
 	private void createO2AirEnvironmentInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating O2AirEnvironmentInFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating O2AirEnvironmentInFlowRateActuator with moduleName: "+moduleName);
 			O2AirEnvironmentInFlowRateActuatorImpl myO2AirEnvironmentInFlowRateActuatorImpl = new O2AirEnvironmentInFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myO2AirEnvironmentInFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new O2AirEnvironmentInFlowRateActuatorPOATie(myO2AirEnvironmentInFlowRateActuatorImpl), myO2AirEnvironmentInFlowRateActuatorImpl.getModuleName(), myO2AirEnvironmentInFlowRateActuatorImpl.getID());
@@ -4454,7 +4456,7 @@ public class BioInitializer{
 	private void createO2AirEnvironmentOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating O2AirEnvironmentOutFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating O2AirEnvironmentOutFlowRateActuator with moduleName: "+moduleName);
 			O2AirEnvironmentOutFlowRateActuatorImpl myO2AirEnvironmentOutFlowRateActuatorImpl = new O2AirEnvironmentOutFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myO2AirEnvironmentOutFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new O2AirEnvironmentOutFlowRateActuatorPOATie(myO2AirEnvironmentOutFlowRateActuatorImpl), myO2AirEnvironmentOutFlowRateActuatorImpl.getModuleName(), myO2AirEnvironmentOutFlowRateActuatorImpl.getID());
@@ -4472,7 +4474,7 @@ public class BioInitializer{
 	private void createO2AirStoreInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating O2AirStoreInFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating O2AirStoreInFlowRateActuator with moduleName: "+moduleName);
 			O2AirStoreInFlowRateActuatorImpl myO2AirStoreInFlowRateActuatorImpl = new O2AirStoreInFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myO2AirStoreInFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new O2AirStoreInFlowRateActuatorPOATie(myO2AirStoreInFlowRateActuatorImpl), myO2AirStoreInFlowRateActuatorImpl.getModuleName(), myO2AirStoreInFlowRateActuatorImpl.getID());
@@ -4490,7 +4492,7 @@ public class BioInitializer{
 	private void createO2AirStoreOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating O2AirStoreOutFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating O2AirStoreOutFlowRateActuator with moduleName: "+moduleName);
 			O2AirStoreOutFlowRateActuatorImpl myO2AirStoreOutFlowRateActuatorImpl = new O2AirStoreOutFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myO2AirStoreOutFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new O2AirStoreOutFlowRateActuatorPOATie(myO2AirStoreOutFlowRateActuatorImpl), myO2AirStoreOutFlowRateActuatorImpl.getModuleName(), myO2AirStoreOutFlowRateActuatorImpl.getID());
@@ -4508,7 +4510,7 @@ public class BioInitializer{
 	private void createWaterAirEnvironmentInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating WaterAirEnvironmentInFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating WaterAirEnvironmentInFlowRateActuator with moduleName: "+moduleName);
 			WaterAirEnvironmentInFlowRateActuatorImpl myWaterAirEnvironmentInFlowRateActuatorImpl = new WaterAirEnvironmentInFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myWaterAirEnvironmentInFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new WaterAirEnvironmentInFlowRateActuatorPOATie(myWaterAirEnvironmentInFlowRateActuatorImpl), myWaterAirEnvironmentInFlowRateActuatorImpl.getModuleName(), myWaterAirEnvironmentInFlowRateActuatorImpl.getID());
@@ -4526,7 +4528,7 @@ public class BioInitializer{
 	private void createWaterAirEnvironmentOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating WaterAirEnvironmentOutFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating WaterAirEnvironmentOutFlowRateActuator with moduleName: "+moduleName);
 			WaterAirEnvironmentOutFlowRateActuatorImpl myWaterAirEnvironmentOutFlowRateActuatorImpl = new WaterAirEnvironmentOutFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myWaterAirEnvironmentOutFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new WaterAirEnvironmentOutFlowRateActuatorPOATie(myWaterAirEnvironmentOutFlowRateActuatorImpl), myWaterAirEnvironmentOutFlowRateActuatorImpl.getModuleName(), myWaterAirEnvironmentOutFlowRateActuatorImpl.getID());
@@ -4544,7 +4546,7 @@ public class BioInitializer{
 	private void createWaterAirStoreInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating WaterAirStoreInFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating WaterAirStoreInFlowRateActuator with moduleName: "+moduleName);
 			WaterAirStoreInFlowRateActuatorImpl myWaterAirStoreInFlowRateActuatorImpl = new WaterAirStoreInFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myWaterAirStoreInFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new WaterAirStoreInFlowRateActuatorPOATie(myWaterAirStoreInFlowRateActuatorImpl), myWaterAirStoreInFlowRateActuatorImpl.getModuleName(), myWaterAirStoreInFlowRateActuatorImpl.getID());
@@ -4562,7 +4564,7 @@ public class BioInitializer{
 	private void createWaterAirStoreOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating WaterAirStoreOutFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating WaterAirStoreOutFlowRateActuator with moduleName: "+moduleName);
 			WaterAirStoreOutFlowRateActuatorImpl myWaterAirStoreOutFlowRateActuatorImpl = new WaterAirStoreOutFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myWaterAirStoreOutFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new WaterAirStoreOutFlowRateActuatorPOATie(myWaterAirStoreOutFlowRateActuatorImpl), myWaterAirStoreOutFlowRateActuatorImpl.getModuleName(), myWaterAirStoreOutFlowRateActuatorImpl.getID());
@@ -4580,7 +4582,7 @@ public class BioInitializer{
 	private void createNitrogenAirEnvironmentInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating NitrogenAirEnvironmentInFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating NitrogenAirEnvironmentInFlowRateActuator with moduleName: "+moduleName);
 			NitrogenAirEnvironmentInFlowRateActuatorImpl myNitrogenAirEnvironmentInFlowRateActuatorImpl = new NitrogenAirEnvironmentInFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myNitrogenAirEnvironmentInFlowRateActuatorImpl, node);
 			myActuators.add(OrbUtils.poaToCorbaObj(myNitrogenAirEnvironmentInFlowRateActuatorImpl));
@@ -4599,7 +4601,7 @@ public class BioInitializer{
 	private void createNitrogenAirEnvironmentOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating NitrogenAirEnvironmentOutFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating NitrogenAirEnvironmentOutFlowRateActuator with moduleName: "+moduleName);
 			NitrogenAirEnvironmentOutFlowRateActuatorImpl myNitrogenAirEnvironmentOutFlowRateActuatorImpl = new NitrogenAirEnvironmentOutFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myNitrogenAirEnvironmentOutFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new NitrogenAirEnvironmentOutFlowRateActuatorPOATie(myNitrogenAirEnvironmentOutFlowRateActuatorImpl), myNitrogenAirEnvironmentOutFlowRateActuatorImpl.getModuleName(), myNitrogenAirEnvironmentOutFlowRateActuatorImpl.getID());
@@ -4617,7 +4619,7 @@ public class BioInitializer{
 	private void createNitrogenAirStoreInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating NitrogenAirStoreInFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating NitrogenAirStoreInFlowRateActuator with moduleName: "+moduleName);
 			NitrogenAirStoreInFlowRateActuatorImpl myNitrogenAirStoreInFlowRateActuatorImpl = new NitrogenAirStoreInFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myNitrogenAirStoreInFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new NitrogenAirStoreInFlowRateActuatorPOATie(myNitrogenAirStoreInFlowRateActuatorImpl), myNitrogenAirStoreInFlowRateActuatorImpl.getModuleName(), myNitrogenAirStoreInFlowRateActuatorImpl.getID());
@@ -4635,7 +4637,7 @@ public class BioInitializer{
 	private void createNitrogenAirStoreOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating NitrogenAirStoreOutFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating NitrogenAirStoreOutFlowRateActuator with moduleName: "+moduleName);
 			NitrogenAirStoreOutFlowRateActuatorImpl myNitrogenAirStoreOutFlowRateActuatorImpl = new NitrogenAirStoreOutFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myNitrogenAirStoreOutFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new NitrogenAirStoreOutFlowRateActuatorPOATie(myNitrogenAirStoreOutFlowRateActuatorImpl), myNitrogenAirStoreOutFlowRateActuatorImpl.getModuleName(), myNitrogenAirStoreOutFlowRateActuatorImpl.getID());
@@ -4770,7 +4772,7 @@ public class BioInitializer{
 	private void createBiomassInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating BiomassInFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating BiomassInFlowRateActuator with moduleName: "+moduleName);
 			BiomassInFlowRateActuatorImpl myBiomassInFlowRateActuatorImpl = new BiomassInFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myBiomassInFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new BiomassInFlowRateActuatorPOATie(myBiomassInFlowRateActuatorImpl), myBiomassInFlowRateActuatorImpl.getModuleName(), myBiomassInFlowRateActuatorImpl.getID());
@@ -4788,7 +4790,7 @@ public class BioInitializer{
 	private void createBiomassOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating BiomassOutFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating BiomassOutFlowRateActuator with moduleName: "+moduleName);
 			BiomassOutFlowRateActuatorImpl myBiomassOutFlowRateActuatorImpl = new BiomassOutFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myBiomassOutFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new BiomassOutFlowRateActuatorPOATie(myBiomassOutFlowRateActuatorImpl), myBiomassOutFlowRateActuatorImpl.getModuleName(), myBiomassOutFlowRateActuatorImpl.getID());
@@ -4806,7 +4808,7 @@ public class BioInitializer{
 	private void createFoodInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating FoodInFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating FoodInFlowRateActuator with moduleName: "+moduleName);
 			FoodInFlowRateActuatorImpl myFoodInFlowRateActuatorImpl = new FoodInFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myFoodInFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new FoodInFlowRateActuatorPOATie(myFoodInFlowRateActuatorImpl), myFoodInFlowRateActuatorImpl.getModuleName(), myFoodInFlowRateActuatorImpl.getID());
@@ -4824,7 +4826,7 @@ public class BioInitializer{
 	private void createFoodOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating FoodOutFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating FoodOutFlowRateActuator with moduleName: "+moduleName);
 			FoodOutFlowRateActuatorImpl myFoodOutFlowRateActuatorImpl = new FoodOutFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myFoodOutFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new FoodOutFlowRateActuatorPOATie(myFoodOutFlowRateActuatorImpl), myFoodOutFlowRateActuatorImpl.getModuleName(), myFoodOutFlowRateActuatorImpl.getID());
@@ -4842,7 +4844,7 @@ public class BioInitializer{
 	private void createPlantingActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating PlantingActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating PlantingActuator with moduleName: "+moduleName);
 			PlantingActuatorImpl myPlantingActuatorImpl = new PlantingActuatorImpl(myID, moduleName);
 			setupBioModule(myPlantingActuatorImpl, node);
 			BiosimServer.registerServer(new PlantingActuatorPOATie(myPlantingActuatorImpl), myPlantingActuatorImpl.getModuleName(), myPlantingActuatorImpl.getID());
@@ -4860,7 +4862,7 @@ public class BioInitializer{
 	private void createHarvestingActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating HarvestingActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating HarvestingActuator with moduleName: "+moduleName);
 			HarvestingActuatorImpl myHarvestingActuatorImpl = new HarvestingActuatorImpl(myID, moduleName);
 			setupBioModule(myHarvestingActuatorImpl, node);
 			BiosimServer.registerServer(new HarvestingActuatorPOATie(myHarvestingActuatorImpl), myHarvestingActuatorImpl.getModuleName(), myHarvestingActuatorImpl.getID());
@@ -4923,7 +4925,7 @@ public class BioInitializer{
 	private void createPowerInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating PowerInFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating PowerInFlowRateActuator with moduleName: "+moduleName);
 			PowerInFlowRateActuatorImpl myPowerInFlowRateActuatorImpl = new PowerInFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myPowerInFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new PowerInFlowRateActuatorPOATie(myPowerInFlowRateActuatorImpl), myPowerInFlowRateActuatorImpl.getModuleName(), myPowerInFlowRateActuatorImpl.getID());
@@ -4941,7 +4943,7 @@ public class BioInitializer{
 	private void createPowerOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating PowerOutFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating PowerOutFlowRateActuator with moduleName: "+moduleName);
 			PowerOutFlowRateActuatorImpl myPowerOutFlowRateActuatorImpl = new PowerOutFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myPowerOutFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new PowerOutFlowRateActuatorPOATie(myPowerOutFlowRateActuatorImpl), myPowerOutFlowRateActuatorImpl.getModuleName(), myPowerOutFlowRateActuatorImpl.getID());
@@ -4980,7 +4982,7 @@ public class BioInitializer{
 	private void createPotableWaterInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating PotableWaterInFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating PotableWaterInFlowRateActuator with moduleName: "+moduleName);
 			PotableWaterInFlowRateActuatorImpl myPotableWaterInFlowRateActuatorImpl = new PotableWaterInFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myPotableWaterInFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new PotableWaterInFlowRateActuatorPOATie(myPotableWaterInFlowRateActuatorImpl), myPotableWaterInFlowRateActuatorImpl.getModuleName(), myPotableWaterInFlowRateActuatorImpl.getID());
@@ -4998,7 +5000,7 @@ public class BioInitializer{
 	private void createPotableWaterOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating PotableWaterOutFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating PotableWaterOutFlowRateActuator with moduleName: "+moduleName);
 			PotableWaterOutFlowRateActuatorImpl myPotableWaterOutFlowRateActuatorImpl = new PotableWaterOutFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myPotableWaterOutFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new PotableWaterOutFlowRateActuatorPOATie(myPotableWaterOutFlowRateActuatorImpl), myPotableWaterOutFlowRateActuatorImpl.getModuleName(), myPotableWaterOutFlowRateActuatorImpl.getID());
@@ -5016,7 +5018,7 @@ public class BioInitializer{
 	private void createGreyWaterInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating GreyWaterInFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating GreyWaterInFlowRateActuator with moduleName: "+moduleName);
 			GreyWaterInFlowRateActuatorImpl myGreyWaterInFlowRateActuatorImpl = new GreyWaterInFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myGreyWaterInFlowRateActuatorImpl, node);
 			myActuators.add(OrbUtils.poaToCorbaObj(myGreyWaterInFlowRateActuatorImpl));
@@ -5035,7 +5037,7 @@ public class BioInitializer{
 	private void createGreyWaterOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating GreyWaterOutFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating GreyWaterOutFlowRateActuator with moduleName: "+moduleName);
 			GreyWaterOutFlowRateActuatorImpl myGreyWaterOutFlowRateActuatorImpl = new GreyWaterOutFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myGreyWaterOutFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new GreyWaterOutFlowRateActuatorPOATie(myGreyWaterOutFlowRateActuatorImpl), myGreyWaterOutFlowRateActuatorImpl.getModuleName(), myGreyWaterOutFlowRateActuatorImpl.getID());
@@ -5053,7 +5055,7 @@ public class BioInitializer{
 	private void createDirtyWaterInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating DirtyWaterInFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating DirtyWaterInFlowRateActuator with moduleName: "+moduleName);
 			DirtyWaterInFlowRateActuatorImpl myDirtyWaterInFlowRateActuatorImpl = new DirtyWaterInFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myDirtyWaterInFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new DirtyWaterInFlowRateActuatorPOATie(myDirtyWaterInFlowRateActuatorImpl), myDirtyWaterInFlowRateActuatorImpl.getModuleName(), myDirtyWaterInFlowRateActuatorImpl.getID());
@@ -5071,7 +5073,7 @@ public class BioInitializer{
 	private void createDirtyWaterOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating DirtyWaterOutFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating DirtyWaterOutFlowRateActuator with moduleName: "+moduleName);
 			DirtyWaterOutFlowRateActuatorImpl myDirtyWaterOutFlowRateActuatorImpl = new DirtyWaterOutFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myDirtyWaterOutFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new DirtyWaterOutFlowRateActuatorPOATie(myDirtyWaterOutFlowRateActuatorImpl), myDirtyWaterOutFlowRateActuatorImpl.getModuleName(), myDirtyWaterOutFlowRateActuatorImpl.getID());
@@ -5089,7 +5091,7 @@ public class BioInitializer{
 	private void createWaterInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating WaterInFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating WaterInFlowRateActuator with moduleName: "+moduleName);
 			WaterInFlowRateActuatorImpl myWaterInFlowRateActuatorImpl = new WaterInFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myWaterInFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new WaterInFlowRateActuatorPOATie(myWaterInFlowRateActuatorImpl), myWaterInFlowRateActuatorImpl.getModuleName(), myWaterInFlowRateActuatorImpl.getID());
@@ -5107,7 +5109,7 @@ public class BioInitializer{
 	private void createWaterOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating WaterOutFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating WaterOutFlowRateActuator with moduleName: "+moduleName);
 			WaterOutFlowRateActuatorImpl myWaterOutFlowRateActuatorImpl = new WaterOutFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myWaterOutFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new WaterOutFlowRateActuatorPOATie(myWaterOutFlowRateActuatorImpl), myWaterOutFlowRateActuatorImpl.getModuleName(), myWaterOutFlowRateActuatorImpl.getID());
@@ -5182,7 +5184,7 @@ public class BioInitializer{
 	private void createDryWasteInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating DryWasteInFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating DryWasteInFlowRateActuator with moduleName: "+moduleName);
 			DryWasteInFlowRateActuatorImpl myDryWasteInFlowRateActuatorImpl = new DryWasteInFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myDryWasteInFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new DryWasteInFlowRateActuatorPOATie(myDryWasteInFlowRateActuatorImpl), myDryWasteInFlowRateActuatorImpl.getModuleName(), myDryWasteInFlowRateActuatorImpl.getID());
@@ -5200,7 +5202,7 @@ public class BioInitializer{
 	private void createDryWasteOutFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
-			//System.out.println("Creating DryWasteOutFlowRateActuator with moduleName: "+moduleName);
+			myLogger.debug("Creating DryWasteOutFlowRateActuator with moduleName: "+moduleName);
 			DryWasteOutFlowRateActuatorImpl myDryWasteOutFlowRateActuatorImpl = new DryWasteOutFlowRateActuatorImpl(myID, moduleName);
 			setupBioModule(myDryWasteOutFlowRateActuatorImpl, node);
 			BiosimServer.registerServer(new DryWasteOutFlowRateActuatorPOATie(myDryWasteOutFlowRateActuatorImpl), myDryWasteOutFlowRateActuatorImpl.getModuleName(), myDryWasteOutFlowRateActuatorImpl.getID());
