@@ -38,7 +38,7 @@ public class GreyWaterStoreServer {
 		}
 		catch (Exception e) {
 			System.err.println("ERROR: " + e);
-			e.printStackTrace(System.out);
+			e.printStackTrace();
 		}
 		System.out.println("GreyWaterStore Server Exiting ...");
 	}

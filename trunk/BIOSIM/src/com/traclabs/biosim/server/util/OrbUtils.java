@@ -66,10 +66,10 @@ public class OrbUtils{
 			runOnce = true;
 		}
 		catch (org.omg.CORBA.ORBPackage.InvalidName e){
-			e.printStackTrace(System.out);
+			e.printStackTrace();
 		}
 		catch(org.omg.PortableServer.POAManagerPackage.AdapterInactive e){
-			e.printStackTrace(System.out);
+			e.printStackTrace();
 		}
 	}
 	
@@ -85,10 +85,10 @@ public class OrbUtils{
 			newObject = rootPOA.servant_to_reference( poa );
 		}
 		catch(org.omg.PortableServer.POAPackage.ServantNotActive e){
-			e.printStackTrace(System.out);
+			e.printStackTrace();
 		}
 		catch(org.omg.PortableServer.POAPackage.WrongPolicy e){
-			e.printStackTrace(System.out);
+			e.printStackTrace();
 		}
 		return newObject;
 	}
@@ -105,13 +105,13 @@ public class OrbUtils{
 			newPoa = rootPOA.reference_to_servant( pObject );
 		}
 		catch (org.omg.PortableServer.POAPackage.ObjectNotActive e){
-			e.printStackTrace(System.out);
+			e.printStackTrace();
 		}
 		catch(org.omg.PortableServer.POAPackage.WrongPolicy e){
-			e.printStackTrace(System.out);
+			e.printStackTrace();
 		}
 		catch(org.omg.PortableServer.POAPackage.WrongAdapter e){
-			e.printStackTrace(System.out);
+			e.printStackTrace();
 		}
 		return newPoa;
 	}

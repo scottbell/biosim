@@ -19,71 +19,48 @@ import javax.xml.transform.sax.*;
 public class XMLLogHandler extends LogHandler{
 	private File myOutputFile;
 	private static String DEFAULT_FILENAME = "biosim-output.xml";
-	
+	private TransformerHandler myHandler;
+
 	public XMLLogHandler(){
 		myOutputFile = new File(DEFAULT_FILENAME);
 	}
-	
+
 	public XMLLogHandler(File pOutputFile){
 		myOutputFile = pOutputFile;
 	}
 
 	public void writeLog(LogNode logToWrite){
-		initializeXML();
-		printTree(logToWrite, 0);
-	}
-
-	private void initializeXML(){
 		try{
-			// PrintWriter from a Servlet
-			FileWriter myFileWriter = new FileWriter(myOutputFile);
-			StreamResult streamResult = new StreamResult(myFileWriter);
-			SAXTransformerFactory tf = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
-			TransformerHandler hd = tf.newTransformerHandler();
-			Transformer serializer = hd.getTransformer();
-			serializer.setOutputProperty(OutputKeys.ENCODING,"ISO-8859-1");
-			serializer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM,"biosim.dtd");
-			serializer.setOutputProperty(OutputKeys.INDENT,"yes");
-			hd.setResult(streamResult);
-			hd.startDocument();
-			AttributesImpl atts = new AttributesImpl();
-			// BIOSIM tag.
-			hd.startElement("","","biosim",atts);
-			// USER tags.
-			String[] id = {"PWD122","MX787","A4Q45"};
-			String[] type = {"customer","manager","employee"};
-			String[] desc = {"Tim@Home","Jack&Moud","John D'oé"};
-			for (int i=0;i<id.length;i++)
-			{
-				atts.clear();
-				atts.addAttribute("","","ID","CDATA",id[i]);
-				atts.addAttribute("","","TYPE","CDATA",type[i]);
-				hd.startElement("","","USER",atts);
-				hd.characters(desc[i].toCharArray(),0,desc[i].length());
-				hd.endElement("","","USER");
-			}
-			hd.endElement("","","USERS");
-			hd.endDocument();
+			initializeXML();
+			printXMLTree(logToWrite, 0);
 		}
-		catch (Exception e){
+		catch(Exception e){
+			System.err.println("Had problems writing XML log!");
 			e.printStackTrace();
 		}
 	}
 
+	private void initializeXML() throws IOException, TransformerConfigurationException{
+		// PrintWriter from a Servlet
+		FileWriter myFileWriter = new FileWriter(myOutputFile);
+		StreamResult streamResult = new StreamResult(myFileWriter);
+		SAXTransformerFactory tf = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
+		myHandler = tf.newTransformerHandler();
+		Transformer serializer = myHandler.getTransformer();
+		serializer.setOutputProperty(OutputKeys.ENCODING,"ISO-8859-1");
+		serializer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM,"biosim.dtd");
+		serializer.setOutputProperty(OutputKeys.INDENT,"yes");
+		myHandler.setResult(streamResult);
+	}
 
-	private void printTree(LogNode currentNode, int currentDepth) {
-		/*
-		if (currentNode == null){
-			return;  // There is nothing to print in an empty tree.
-	}
-		for (int i = 0; i < currentDepth; i ++){
-			System.out.print("\t");
-	}
-		System.out.println(currentNode.getValue());
-		LogNode[] childrenNodes =currentNode.getChildren();
-		for (int i = 0; i < childrenNodes.length; i++){
-			printTree(childrenNodes[i], currentDepth + 1);
-	}
-		*/
+	private void printXMLTree(LogNode currentNode, int currentDepth) throws SAXException{
+		myHandler.startDocument();
+		AttributesImpl atts = new AttributesImpl();
+		// BIOSIM tag.
+		myHandler.startElement("","","biosim",atts);
+		myHandler.startElement("","","USER",atts);
+		//myHandler.characters(desc[i].toCharArray(),0,desc[i].length());
+		myHandler.endElement("","","USER");
+		myHandler.endDocument();
 	}
 }

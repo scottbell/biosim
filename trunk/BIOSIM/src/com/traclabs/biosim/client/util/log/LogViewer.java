@@ -54,7 +54,7 @@ public class LogViewer extends JPanel
 			firstIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/util/log/first.gif"));
 		}
 		catch(Exception e){
-			System.out.println("Couldn't load icons!");
+			System.err.println("Couldn't load icons!");
 			e.printStackTrace();
 		}
 	}

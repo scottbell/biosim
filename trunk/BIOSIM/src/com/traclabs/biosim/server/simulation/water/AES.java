@@ -46,7 +46,7 @@ public class AES extends WaterRSSubSystem{
 				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"));
 			}
 			catch (org.omg.CORBA.UserException e){
-				e.printStackTrace(System.out);
+				e.printStackTrace();
 			}
 		}
 	}

@@ -48,7 +48,7 @@ public class PPS extends WaterRSSubSystem{
 				hasCollectedReferences = true;
 			}
 			catch (org.omg.CORBA.UserException e){
-				e.printStackTrace(System.out);
+				e.printStackTrace();
 			}
 		}
 	}
