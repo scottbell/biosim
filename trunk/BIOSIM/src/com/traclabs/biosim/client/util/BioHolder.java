@@ -67,13 +67,13 @@ public class BioHolder
 	public final static String myPowerStoreLevelSensorName = "PowerStoreLevelSensor";
 	//Environment
 	//Crew
-	public final static String myCrewEnvironmentOtherAirLevelSensorName = "CrewEnvironmentOtherAirLevelSensor";
-	public final static String myCrewEnvironmentCO2AirLevelSensorName = "CrewEnvironmentCO2AirLevelSensor";
-	public final static String myCrewEnvironmentO2AirLevelSensorName = "CrewEnvironmentO2AirLevelSensor";
+	public final static String myCrewEnvironmentOtherAirMolesSensorName = "CrewEnvironmentOtherAirMolesSensor";
+	public final static String myCrewEnvironmentCO2AirMolesSensorName = "CrewEnvironmentCO2AirMolesSensor";
+	public final static String myCrewEnvironmentO2AirMolesSensorName = "CrewEnvironmentO2AirMolesSensor";
 	//Plant
-	public final static String myPlantEnvironmentOtherAirLevelSensorName = "PlantEnvironmentOtherAirLevelSensor";
-	public final static String myPlantEnvironmentCO2AirLevelSensorName = "PlantEnvironmentCO2AirLevelSensor";
-	public final static String myPlantEnvironmentO2AirLevelSensorName = "PlantEnvironmentO2AirLevelSensor";
+	public final static String myPlantEnvironmentOtherAirMolesSensorName = "PlantEnvironmentOtherAirMolesSensor";
+	public final static String myPlantEnvironmentCO2AirMolesSensorName = "PlantEnvironmentCO2AirMolesSensor";
+	public final static String myPlantEnvironmentO2AirMolesSensorName = "PlantEnvironmentO2AirMolesSensor";
 	//Water
 	//WaterRS
 	public final static String myWaterRSDirtyWaterInFlowRateSensorName = "WaterRSDirtyWaterInFlowRateSensor";
@@ -129,13 +129,13 @@ public class BioHolder
 	public final static String myPowerStoreLevelActuatorName = "PowerStoreLevelActuator";
 	//Environment
 	//Crew
-	public final static String myCrewEnvironmentOtherAirLevelActuatorName = "CrewEnvironmentOtherAirLevelActuator";
-	public final static String myCrewEnvironmentCO2AirLevelActuatorName = "CrewEnvironmentCO2AirLevelActuator";
-	public final static String myCrewEnvironmentO2AirLevelActuatorName = "CrewEnvironmentO2AirLevelActuator";
+	public final static String myCrewEnvironmentOtherAirMolesActuatorName = "CrewEnvironmentOtherAirMolesActuator";
+	public final static String myCrewEnvironmentCO2AirMolesActuatorName = "CrewEnvironmentCO2AirMolesActuator";
+	public final static String myCrewEnvironmentO2AirMolesActuatorName = "CrewEnvironmentO2AirMolesActuator";
 	//Plant
-	public final static String myPlantEnvironmentOtherAirLevelActuatorName = "PlantEnvironmentOtherAirLevelActuator";
-	public final static String myPlantEnvironmentCO2AirLevelActuatorName = "PlantEnvironmentCO2AirLevelActuator";
-	public final static String myPlantEnvironmentO2AirLevelActuatorName = "PlantEnvironmentO2AirLevelActuator";
+	public final static String myPlantEnvironmentOtherAirMolesActuatorName = "PlantEnvironmentOtherAirMolesActuator";
+	public final static String myPlantEnvironmentCO2AirMolesActuatorName = "PlantEnvironmentCO2AirMolesActuator";
+	public final static String myPlantEnvironmentO2AirMolesActuatorName = "PlantEnvironmentO2AirMolesActuator";
 	//Water
 	//WaterRS
 	public final static String myWaterRSDirtyWaterInFlowRateActuatorName = "WaterRSDirtyWaterInFlowRateActuator";
@@ -307,21 +307,21 @@ public class BioHolder
 			{
 				//Crew
 				{
-					OtherAirLevelSensor myCrewEnvironmentOtherAirLevelSensor = OtherAirLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentOtherAirLevelSensorName+myID));
-					modules.put(myCrewEnvironmentOtherAirLevelSensorName , myCrewEnvironmentOtherAirLevelSensor);
-					O2AirLevelSensor myCrewEnvironmentO2AirLevelSensor = O2AirLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentO2AirLevelSensorName+myID));
-					modules.put(myCrewEnvironmentO2AirLevelSensorName , myCrewEnvironmentO2AirLevelSensor);
-					CO2AirLevelSensor myCrewEnvironmentCO2AirLevelSensor = CO2AirLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentCO2AirLevelSensorName+myID));
-					modules.put(myCrewEnvironmentCO2AirLevelSensorName , myCrewEnvironmentCO2AirLevelSensor);
+					OtherAirMolesSensor myCrewEnvironmentOtherAirMolesSensor = OtherAirMolesSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentOtherAirMolesSensorName+myID));
+					modules.put(myCrewEnvironmentOtherAirMolesSensorName , myCrewEnvironmentOtherAirMolesSensor);
+					O2AirMolesSensor myCrewEnvironmentO2AirMolesSensor = O2AirMolesSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentO2AirMolesSensorName+myID));
+					modules.put(myCrewEnvironmentO2AirMolesSensorName , myCrewEnvironmentO2AirMolesSensor);
+					CO2AirMolesSensor myCrewEnvironmentCO2AirMolesSensor = CO2AirMolesSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentCO2AirMolesSensorName+myID));
+					modules.put(myCrewEnvironmentCO2AirMolesSensorName , myCrewEnvironmentCO2AirMolesSensor);
 				}
 				//Plant
 				{
-					OtherAirLevelSensor myPlantEnvironmentOtherAirLevelSensor = OtherAirLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentOtherAirLevelSensorName+myID));
-					modules.put(myPlantEnvironmentOtherAirLevelSensorName , myPlantEnvironmentOtherAirLevelSensor);
-					O2AirLevelSensor myPlantEnvironmentO2AirLevelSensor = O2AirLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentO2AirLevelSensorName+myID));
-					modules.put(myPlantEnvironmentO2AirLevelSensorName , myPlantEnvironmentO2AirLevelSensor);
-					CO2AirLevelSensor myPlantEnvironmentCO2AirLevelSensor = CO2AirLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentCO2AirLevelSensorName+myID));
-					modules.put(myPlantEnvironmentCO2AirLevelSensorName , myPlantEnvironmentCO2AirLevelSensor);
+					OtherAirMolesSensor myPlantEnvironmentOtherAirMolesSensor = OtherAirMolesSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentOtherAirMolesSensorName+myID));
+					modules.put(myPlantEnvironmentOtherAirMolesSensorName , myPlantEnvironmentOtherAirMolesSensor);
+					O2AirMolesSensor myPlantEnvironmentO2AirMolesSensor = O2AirMolesSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentO2AirMolesSensorName+myID));
+					modules.put(myPlantEnvironmentO2AirMolesSensorName , myPlantEnvironmentO2AirMolesSensor);
+					CO2AirMolesSensor myPlantEnvironmentCO2AirMolesSensor = CO2AirMolesSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentCO2AirMolesSensorName+myID));
+					modules.put(myPlantEnvironmentCO2AirMolesSensorName , myPlantEnvironmentCO2AirMolesSensor);
 				}
 			}
 			//Water
@@ -449,21 +449,21 @@ public class BioHolder
 			{
 				//Crew
 				{
-					OtherAirLevelActuator myCrewEnvironmentOtherAirLevelActuator = OtherAirLevelActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentOtherAirLevelActuatorName+myID));
-					modules.put(myCrewEnvironmentOtherAirLevelActuatorName , myCrewEnvironmentOtherAirLevelActuator);
-					O2AirLevelActuator myCrewEnvironmentO2AirLevelActuator = O2AirLevelActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentO2AirLevelActuatorName+myID));
-					modules.put(myCrewEnvironmentO2AirLevelActuatorName , myCrewEnvironmentO2AirLevelActuator);
-					CO2AirLevelActuator myCrewEnvironmentCO2AirLevelActuator = CO2AirLevelActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentCO2AirLevelActuatorName+myID));
-					modules.put(myCrewEnvironmentCO2AirLevelActuatorName , myCrewEnvironmentCO2AirLevelActuator);
+					OtherAirMolesActuator myCrewEnvironmentOtherAirMolesActuator = OtherAirMolesActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentOtherAirMolesActuatorName+myID));
+					modules.put(myCrewEnvironmentOtherAirMolesActuatorName , myCrewEnvironmentOtherAirMolesActuator);
+					O2AirMolesActuator myCrewEnvironmentO2AirMolesActuator = O2AirMolesActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentO2AirMolesActuatorName+myID));
+					modules.put(myCrewEnvironmentO2AirMolesActuatorName , myCrewEnvironmentO2AirMolesActuator);
+					CO2AirMolesActuator myCrewEnvironmentCO2AirMolesActuator = CO2AirMolesActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentCO2AirMolesActuatorName+myID));
+					modules.put(myCrewEnvironmentCO2AirMolesActuatorName , myCrewEnvironmentCO2AirMolesActuator);
 				}
 				//Plant
 				{
-					OtherAirLevelActuator myPlantEnvironmentOtherAirLevelActuator = OtherAirLevelActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentOtherAirLevelActuatorName+myID));
-					modules.put(myPlantEnvironmentOtherAirLevelActuatorName , myPlantEnvironmentOtherAirLevelActuator);
-					O2AirLevelActuator myPlantEnvironmentO2AirLevelActuator = O2AirLevelActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentO2AirLevelActuatorName+myID));
-					modules.put(myPlantEnvironmentO2AirLevelActuatorName , myPlantEnvironmentO2AirLevelActuator);
-					CO2AirLevelActuator myPlantEnvironmentCO2AirLevelActuator = CO2AirLevelActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentCO2AirLevelActuatorName+myID));
-					modules.put(myPlantEnvironmentCO2AirLevelActuatorName , myPlantEnvironmentCO2AirLevelActuator);
+					OtherAirMolesActuator myPlantEnvironmentOtherAirMolesActuator = OtherAirMolesActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentOtherAirMolesActuatorName+myID));
+					modules.put(myPlantEnvironmentOtherAirMolesActuatorName , myPlantEnvironmentOtherAirMolesActuator);
+					O2AirMolesActuator myPlantEnvironmentO2AirMolesActuator = O2AirMolesActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentO2AirMolesActuatorName+myID));
+					modules.put(myPlantEnvironmentO2AirMolesActuatorName , myPlantEnvironmentO2AirMolesActuator);
+					CO2AirMolesActuator myPlantEnvironmentCO2AirMolesActuator = CO2AirMolesActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentCO2AirMolesActuatorName+myID));
+					modules.put(myPlantEnvironmentCO2AirMolesActuatorName , myPlantEnvironmentCO2AirMolesActuator);
 				}
 			}
 			//Water
