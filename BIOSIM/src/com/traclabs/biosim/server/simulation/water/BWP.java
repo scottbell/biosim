@@ -1,8 +1,7 @@
 package biosim.server.simulation.water;
 
-import biosim.server.util.*;
-import biosim.idl.simulation.power.*;
-import biosim.idl.simulation.water.*;
+import biosim.server.simulation.framework.SimBioModuleImpl;
+
 /**
  * The Biological Waste Processor is the first stage of water purification.  It takes dirty/grey water, filters it some, and
  * sends the water to the RO
@@ -51,8 +50,8 @@ public class BWP extends WaterRSSubSystem{
 		else{
 			waterNeeded = NORMAL_WATER_NEEDED;
 		}
-		currentDirtyWaterConsumed = myWaterRS.getResourceFromStore(myWaterRS.getDirtyWaterInputs(), myWaterRS.getDirtyWaterInputMaxFlowRates(), myWaterRS.getDirtyWaterInputDesiredFlowRates(), myWaterRS.getDirtyWaterInputActualFlowRates(), waterNeeded);
-		currentGreyWaterConsumed = myWaterRS.getResourceFromStore(myWaterRS.getGreyWaterInputs(), myWaterRS.getGreyWaterInputMaxFlowRates(), myWaterRS.getGreyWaterInputDesiredFlowRates(), myWaterRS.getGreyWaterInputActualFlowRates(), waterNeeded - currentDirtyWaterConsumed);
+		currentDirtyWaterConsumed = SimBioModuleImpl.getResourceFromStore(myWaterRS.getDirtyWaterInputs(), myWaterRS.getDirtyWaterInputMaxFlowRates(), myWaterRS.getDirtyWaterInputDesiredFlowRates(), myWaterRS.getDirtyWaterInputActualFlowRates(), waterNeeded);
+		currentGreyWaterConsumed = SimBioModuleImpl.getResourceFromStore(myWaterRS.getGreyWaterInputs(), myWaterRS.getGreyWaterInputMaxFlowRates(), myWaterRS.getGreyWaterInputDesiredFlowRates(), myWaterRS.getGreyWaterInputActualFlowRates(), waterNeeded - currentDirtyWaterConsumed);
 		float gatheredWater = currentDirtyWaterConsumed + currentGreyWaterConsumed;
 		if (gatheredWater < waterNeeded){
 			hasEnoughWater = false;

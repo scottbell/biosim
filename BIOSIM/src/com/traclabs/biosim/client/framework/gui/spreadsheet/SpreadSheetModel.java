@@ -1,7 +1,5 @@
 package biosim.client.framework.gui.spreadsheet;
 
-import java.awt.*;
-import javax.swing.*;
 import javax.swing.table.*;
 
 /**

@@ -16,7 +16,7 @@ public class IncineratorServer extends GenericServer{
 	*/
 	public static void main(String args[]) {
 		IncineratorServer myServer = new IncineratorServer();
-		IncineratorImpl myIncinerator = new IncineratorImpl(myServer.getIDfromArgs(args), myServer.getNamefromArgs(args));
+		IncineratorImpl myIncinerator = new IncineratorImpl(GenericServer.getIDfromArgs(args), GenericServer.getNamefromArgs(args));
 		myServer.registerServerAndRun(new IncineratorPOATie(myIncinerator), myIncinerator.getModuleName(), myIncinerator.getID());
 	}
 }

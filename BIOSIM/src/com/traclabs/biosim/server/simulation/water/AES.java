@@ -1,7 +1,7 @@
 package biosim.server.simulation.water;
 
-import biosim.server.util.*;
-import biosim.idl.simulation.power.*;
+import biosim.server.simulation.framework.SimBioModuleImpl;
+
 /**
  * The AES is the third stage of water purification.  It takes water from the RO, filters it some, and
  * sends the water to the PPS
@@ -46,7 +46,7 @@ public class AES extends WaterRSSubSystem{
 			else{
 				currentPPSWaterProduced = 0f;
 				//try to put back into dirtyWater Store.
-				waterLevel = myWaterRS.pushResourceToStore(myWaterRS.getDirtyWaterInputs(), myWaterRS.getDirtyWaterInputMaxFlowRates(), myWaterRS.getDirtyWaterInputDesiredFlowRates(), myWaterRS.getDirtyWaterInputActualFlowRates(), waterLevel);
+				waterLevel = SimBioModuleImpl.pushResourceToStore(myWaterRS.getDirtyWaterInputs(), myWaterRS.getDirtyWaterInputMaxFlowRates(), myWaterRS.getDirtyWaterInputDesiredFlowRates(), myWaterRS.getDirtyWaterInputActualFlowRates(), waterLevel);
 				//dump extra water
 			        waterLevel = 0f;
 			        
@@ -54,7 +54,7 @@ public class AES extends WaterRSSubSystem{
 		else{
 				currentPPSWaterProduced = 0f;
 				//try to put back into dirtyWater Store.
-				waterLevel = myWaterRS.pushResourceToStore(myWaterRS.getDirtyWaterInputs(), myWaterRS.getDirtyWaterInputMaxFlowRates(), myWaterRS.getDirtyWaterInputDesiredFlowRates(), myWaterRS.getDirtyWaterInputActualFlowRates(), waterLevel);
+				waterLevel = SimBioModuleImpl.pushResourceToStore(myWaterRS.getDirtyWaterInputs(), myWaterRS.getDirtyWaterInputMaxFlowRates(), myWaterRS.getDirtyWaterInputDesiredFlowRates(), myWaterRS.getDirtyWaterInputActualFlowRates(), waterLevel);
 				//dump extra water
 			        waterLevel = 0f;
 		}

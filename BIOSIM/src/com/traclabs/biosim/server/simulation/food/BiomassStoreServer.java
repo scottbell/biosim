@@ -16,7 +16,7 @@ public class BiomassStoreServer extends GenericServer{
 	*/
 	public static void main(String args[]) {
 		BiomassStoreServer myServer = new BiomassStoreServer();
-		BiomassStoreImpl myBiomassStore = new BiomassStoreImpl(myServer.getIDfromArgs(args), myServer.getNamefromArgs(args));
+		BiomassStoreImpl myBiomassStore = new BiomassStoreImpl(GenericServer.getIDfromArgs(args), GenericServer.getNamefromArgs(args));
 		myServer.registerServerAndRun(new BiomassStorePOATie(myBiomassStore), myBiomassStore.getModuleName(), myBiomassStore.getID());
 	}
 }

@@ -16,7 +16,7 @@ public class DirtyWaterStoreServer extends GenericServer{
 	*/
 	public static void main(String args[]) {
 		DirtyWaterStoreServer myServer = new DirtyWaterStoreServer();
-		DirtyWaterStoreImpl myDirtyWaterStore = new DirtyWaterStoreImpl(myServer.getIDfromArgs(args), myServer.getNamefromArgs(args));
+		DirtyWaterStoreImpl myDirtyWaterStore = new DirtyWaterStoreImpl(GenericServer.getIDfromArgs(args), GenericServer.getNamefromArgs(args));
 		myServer.registerServerAndRun(new DirtyWaterStorePOATie(myDirtyWaterStore), myDirtyWaterStore.getModuleName(), myDirtyWaterStore.getID());
 	}
 }

@@ -4,7 +4,6 @@ import biosim.client.framework.gui.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
-import java.awt.event.*;
 /**
  * This is the JPanel that displays information about the a bio module
  *

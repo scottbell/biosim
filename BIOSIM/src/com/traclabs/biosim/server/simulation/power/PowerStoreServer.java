@@ -16,7 +16,7 @@ public class PowerStoreServer extends GenericServer{
 	*/
 	public static void main(String args[]) {
 		PowerStoreServer myServer = new PowerStoreServer();
-		PowerStoreImpl myPowerStore = new PowerStoreImpl(myServer.getIDfromArgs(args), myServer.getNamefromArgs(args));
+		PowerStoreImpl myPowerStore = new PowerStoreImpl(GenericServer.getIDfromArgs(args), GenericServer.getNamefromArgs(args));
 		myServer.registerServerAndRun(new PowerStorePOATie(myPowerStore), myPowerStore.getModuleName(), myPowerStore.getID());
 	}
 }

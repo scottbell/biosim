@@ -24,7 +24,6 @@ import java.net.*;
 import java.io.*;
 import biosim.client.util.*;
 import biosim.idl.simulation.air.*;
-import biosim.idl.framework.*;
 
 public class ARSMonitor extends Thread {
 	

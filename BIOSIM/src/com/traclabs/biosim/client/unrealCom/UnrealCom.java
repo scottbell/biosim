@@ -3,7 +3,6 @@ package biosim.client.unrealCom;
 import java.io.*;
 import java.net.*;
 import biosim.client.util.*;
-import biosim.idl.simulation.water.*;
 import biosim.idl.framework.*;
 
 /**

@@ -19,7 +19,6 @@ import java.net.*;
 import java.io.*;
 import biosim.client.util.*;
 import biosim.idl.simulation.environment.*;
-import biosim.idl.framework.*;
 
 public class EnvironAirMonitor extends Thread {
 	

@@ -5,7 +5,6 @@ import java.io.*;
 import java.util.*;
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
-import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.stream.*;
 import javax.xml.transform.sax.*;

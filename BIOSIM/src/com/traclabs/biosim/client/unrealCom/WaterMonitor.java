@@ -24,7 +24,6 @@ import java.net.*;
 import java.io.*;
 import biosim.client.util.*;
 import biosim.idl.simulation.water.*;
-import biosim.idl.framework.*;
 
 public class WaterMonitor extends Thread {
 	

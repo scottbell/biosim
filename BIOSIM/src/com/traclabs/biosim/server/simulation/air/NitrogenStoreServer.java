@@ -15,7 +15,7 @@ public class NitrogenStoreServer extends GenericServer{
 	*/
 	public static void main(String args[]) {
 		NitrogenStoreServer myServer = new NitrogenStoreServer();
-		NitrogenStoreImpl myNitrogenStore = new NitrogenStoreImpl(myServer.getIDfromArgs(args), myServer.getNamefromArgs(args));
+		NitrogenStoreImpl myNitrogenStore = new NitrogenStoreImpl(GenericServer.getIDfromArgs(args), GenericServer.getNamefromArgs(args));
 		myServer.registerServerAndRun(new NitrogenStorePOATie(myNitrogenStore), myNitrogenStore.getModuleName(), myNitrogenStore.getID());
 	}
 }

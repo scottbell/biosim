@@ -1,8 +1,7 @@
 package biosim.server.simulation.water;
 
-import biosim.idl.util.log.*;
-import biosim.server.util.*;
-import biosim.idl.simulation.power.*;
+import biosim.server.simulation.framework.SimBioModuleImpl;
+
 /**
  * The RO is the second stage of water purification.  It takes water from the BWP, filters it some, and
  * sends the water to the AES
@@ -59,7 +58,7 @@ public class RO extends WaterRSSubSystem{
 			}
 			else{
 				//try to put back into dirtyWater Store.
-				waterLevel = myWaterRS.pushResourceToStore(myWaterRS.getDirtyWaterInputs(), myWaterRS.getDirtyWaterInputMaxFlowRates(), myWaterRS.getDirtyWaterInputDesiredFlowRates(), myWaterRS.getDirtyWaterInputActualFlowRates(), waterLevel);
+				waterLevel = SimBioModuleImpl.pushResourceToStore(myWaterRS.getDirtyWaterInputs(), myWaterRS.getDirtyWaterInputMaxFlowRates(), myWaterRS.getDirtyWaterInputDesiredFlowRates(), myWaterRS.getDirtyWaterInputActualFlowRates(), waterLevel);
 				//dump extra water
 				waterLevel = 0f;
 				currentAESWaterProduced = 0f;
@@ -68,7 +67,7 @@ public class RO extends WaterRSSubSystem{
 		}
 		else{
 			//try to put back into dirtyWater Store.
-			waterLevel = myWaterRS.pushResourceToStore(myWaterRS.getDirtyWaterInputs(), myWaterRS.getDirtyWaterInputMaxFlowRates(), myWaterRS.getDirtyWaterInputDesiredFlowRates(), myWaterRS.getDirtyWaterInputActualFlowRates(), waterLevel);
+			waterLevel = SimBioModuleImpl.pushResourceToStore(myWaterRS.getDirtyWaterInputs(), myWaterRS.getDirtyWaterInputMaxFlowRates(), myWaterRS.getDirtyWaterInputDesiredFlowRates(), myWaterRS.getDirtyWaterInputActualFlowRates(), waterLevel);
 			//dump extra water
 			waterLevel = 0f;
 			currentAESWaterProduced = 0f;

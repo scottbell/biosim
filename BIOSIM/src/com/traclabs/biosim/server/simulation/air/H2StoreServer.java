@@ -15,7 +15,7 @@ public class H2StoreServer extends GenericServer{
 	*/
 	public static void main(String args[]) {
 		H2StoreServer myServer = new H2StoreServer();
-		H2StoreImpl myH2Store = new H2StoreImpl(myServer.getIDfromArgs(args), myServer.getNamefromArgs(args));
+		H2StoreImpl myH2Store = new H2StoreImpl(GenericServer.getIDfromArgs(args), GenericServer.getNamefromArgs(args));
 		myServer.registerServerAndRun(new H2StorePOATie(myH2Store), myH2Store.getModuleName(), myH2Store.getID());
 	}
 }

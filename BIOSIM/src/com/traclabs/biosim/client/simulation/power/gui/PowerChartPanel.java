@@ -1,6 +1,5 @@
 package biosim.client.simulation.power.gui;
 
-import javax.swing.*;
 import java.awt.*;
 import biosim.client.framework.gui.*;
 

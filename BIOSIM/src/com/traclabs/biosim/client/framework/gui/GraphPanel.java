@@ -4,8 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import org.jfree.chart.*;
-import org.jfree.data.*;
-import org.jfree.ui.*;
 
 /**
  * 

@@ -3,6 +3,7 @@ package biosim.client.sensor.framework.gui;
 /**
  * @author    Scott Bell
  */	
+/*
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.*;
@@ -15,6 +16,7 @@ import biosim.idl.sensor.food.*;
 import biosim.idl.sensor.power.*;
 import biosim.idl.sensor.water.*;
 import java.text.*;
+*/
 
 public class SensorViewer
 //public class SensorViewer extends SpreadSheet

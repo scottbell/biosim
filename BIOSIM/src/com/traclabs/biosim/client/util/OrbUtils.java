@@ -1,7 +1,6 @@
 package biosim.client.util;
 
 import org.omg.CosNaming.*;
-import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
@@ -97,7 +96,7 @@ public class OrbUtils{
 	*/
 	public static void sleepAwhile(){
 		try{
-			Thread.currentThread().sleep(2000);
+			Thread.sleep(2000);
 		}
 		catch (InterruptedException e){}
 	}
