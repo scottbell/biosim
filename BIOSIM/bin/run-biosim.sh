@@ -1,11 +1,11 @@
 #!/bin/bash
 
 echo "*running biosim"
-run-nameserver &
+run-nameserver.sh &
 sleep 5
-run-server &
+run-server.sh &
 sleep 5
-run-client
+run-client.sh
 echo "*done running biosim"
 
 

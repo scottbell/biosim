@@ -1,1 +1,1 @@
-bash %BIOSIM_HOME%/bin/make-server
+bash %BIOSIM_HOME%/bin/make-server.sh

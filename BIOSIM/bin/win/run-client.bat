@@ -1,1 +1,1 @@
-bash %BIOSIM_HOME%/bin/run-client %1
+bash %BIOSIM_HOME%/bin/run-client.sh %1
