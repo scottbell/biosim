@@ -263,20 +263,24 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		return driverPauseLength;
 	}
 	
-	public synchronized boolean isDone(){
+	public boolean isDone(){
 		if (runTillN){
-			if (ticksGoneBy >= nTicks)
+			if (ticksGoneBy >= nTicks){
+				System.out.println("BioDriverImpl:"+myID+"Too many ticks?");
 				return true;
+			}
 		}
 		else if (runTillDead){
 			CrewGroup myCrew = (CrewGroup)(getBioModule(crewName));
-			if (myCrew.isDead())
+			if (myCrew.isDead()){
+				System.out.println("BioDriverImpl"+myID+": Crew's dead");
 				return true;
+			}
 		}
 		return false;
 	}
 	
-	public synchronized int getTicks(){
+	public int getTicks(){
 		return ticksGoneBy;
 	}
 
