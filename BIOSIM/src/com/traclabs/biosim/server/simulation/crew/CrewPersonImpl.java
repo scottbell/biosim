@@ -66,6 +66,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private float vaporProduced = 0f;
 	//Whether this crew member is sick or not.  If the crew member is sick, puts them into sleep like state.
 	private boolean sick = false;
+	private boolean onBoard = true;
 	//A mission productivity measure, used when "mission" is specified in the schedule.  Not implemented correctly yet.
 	private float myMissionProductivity = 0;
 	//The schedule used for this crew memeber
@@ -85,7 +86,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private SimpleBuffer consumedCO2Buffer;
 	private SimpleBuffer sleepBuffer;
 	private SimpleBuffer leisureBuffer;
-	private static final float WATER_TILL_DEAD = 8.1f;
+	private static final float WATER_TILL_DEAD = 5.3f;
 	private static final float WATER_RECOVERY_RATE=0.01f;
 	private static final float CALORIE_TILL_DEAD = 180000f;
 	private static final float CALORIE_RECOVERY_RATE=0.0001f;
@@ -107,15 +108,17 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* @param pSex the sex of the new crew person
 	* @param pCrewGroup the crew that the new crew person belongs in
 	*/
-	CrewPersonImpl(String pName, float pAge, float pWeight, Sex pSex, CrewGroupImpl pCrewGroup){
-		this(pName, pAge, pWeight, pSex, pCrewGroup, new Schedule());
+	CrewPersonImpl(String pName, float pAge, float pWeight, Sex pSex, int pArrivalTick, int pDepartureTick, CrewGroupImpl pCrewGroup){
+		this(pName, pAge, pWeight, pSex, pArrivalTick, pDepartureTick, pCrewGroup, new Schedule());
 	}
 
-	CrewPersonImpl(String pName, float pAge, float pWeight, Sex pSex, CrewGroupImpl pCrewGroup, Schedule pSchedule){
+	CrewPersonImpl(String pName, float pAge, float pWeight, Sex pSex, int pArrivalTick, int pDepartureTick, CrewGroupImpl pCrewGroup, Schedule pSchedule){
 		myName = pName;
 		age = pAge;
 		weight = pWeight;
 		sex = pSex;
+		myArrivalTick = pArrivalTick;
+		myDepartureTick = pDepartureTick;
 		myCrewGroup = pCrewGroup;
 		mySchedule = pSchedule;
 		consumedWaterBuffer = new SimpleBuffer(WATER_TILL_DEAD, WATER_TILL_DEAD);
@@ -144,6 +147,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		myCurrentActivity = mySchedule.getScheduledActivityByOrder(currentOrder);
 		timeActivityPerformed = 0;
 		sick = false;
+		onBoard = true;
 		hasDied = false;
 		O2Consumed= 0f;
 		CO2Produced = 0f;
@@ -454,10 +458,27 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	}
 
 	/**
-	* prevents other modules from breaking down (not implemented yet)
+	* prevents other modules from breaking down
 	* invoked when crew person performs "maitenance" activity
 	*/
 	private void maitenanceModule(String moduleName){
+		try{
+			BioModule module = BioModuleHelper.narrow(OrbUtils.getNamingContext(myCrewGroup.getID()).resolve_str(moduleName));
+			module.maitenance();
+		}
+		catch (org.omg.CORBA.UserException e){
+			System.err.println("CrewPersonImp:"+myCrewGroup.getID()+": Couldn't locate "+moduleName+" to repair, skipping...");
+		}
+	}
+	
+	private void checkIfOnBoard(){
+		if ((myCrewGroup.getMyTicks()  >= myArrivalTick) && (myCrewGroup.getMyTicks() < myDepartureTick)){
+			onBoard = true;
+		}
+		else if (onBoard){
+			myCurrentActivity = mySchedule.getActivityByName("absent");
+			onBoard = false;
+		}
 	}
 
 	/**
@@ -474,11 +495,14 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		timeActivityPerformed++;
 		//System.out.println(getName()+" performed activity "+myCurrentActivity.getName()+" for "+timeActivityPerformed+" of "+myCurrentActivity.getTimeLength()+" ticks");
 		if (!hasDied){
-			advanceActivity();
-			consumeResources();
-			afflictCrew();
-			healthCheck();
-			recoverCrew();
+			checkIfOnBoard();
+			if (onBoard){
+				advanceActivity();
+				consumeResources();
+				afflictCrew();
+				healthCheck();
+				recoverCrew();
+			}
 		}
 	}
 

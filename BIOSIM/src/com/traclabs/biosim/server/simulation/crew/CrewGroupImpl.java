@@ -100,13 +100,13 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 	* @param pSex the sex of the new crew person
 	* @return the crew person just created
 	*/
-	public CrewPerson createCrewPerson(String pName, float pAge, float pWeight, Sex pSex){
-		CrewPersonImpl newCrewPerson = new CrewPersonImpl(pName, pAge, pWeight, pSex, this);
+	public CrewPerson createCrewPerson(String pName, float pAge, float pWeight, Sex pSex, int pArrivalTick, int pDepartureTick){
+		CrewPersonImpl newCrewPerson = new CrewPersonImpl(pName, pAge, pWeight, pSex, pArrivalTick, pDepartureTick, this);
 		crewPeople.put(pName, newCrewPerson);
 		return CrewPersonHelper.narrow((OrbUtils.poaToCorbaObj(newCrewPerson)));
 	}
-	public CrewPerson createCrewPerson(String pName, float pAge, float pWeight, Sex pSex, Schedule pSchedule){
-		CrewPersonImpl newCrewPerson = new CrewPersonImpl(pName, pAge, pWeight, pSex, this, pSchedule);
+	public CrewPerson createCrewPerson(String pName, float pAge, float pWeight, Sex pSex, int pArrivalTick, int pDepartureTick, Schedule pSchedule){
+		CrewPersonImpl newCrewPerson = new CrewPersonImpl(pName, pAge, pWeight, pSex, pArrivalTick, pDepartureTick, this, pSchedule);
 		crewPeople.put(pName, newCrewPerson);
 		return CrewPersonHelper.narrow((OrbUtils.poaToCorbaObj(newCrewPerson)));
 	}
