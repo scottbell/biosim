@@ -14,7 +14,7 @@ public class FoodPanel extends BioTabbedPanel
 {
 	protected void createPanels(){
 		myTextPanel = new FoodTextPanel();
-		myChartPanel = new BioTabPanel();
+		myChartPanel = new FoodChartPanel();
 		mySchematicPanel = new BioTabPanel();
 	}
 }

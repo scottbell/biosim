@@ -27,9 +27,9 @@ public class AirStorePanel extends JPanel
 	private Timer refreshTimer;
 	private final static int TIMER_DELAY=500;
 	private boolean trackingWanted = false;
-	ValueAxis rangeAxis;
-	CategoryPlot myPlot;
-	JFreeChart myChart;
+	private ValueAxis rangeAxis;
+	private CategoryPlot myPlot;
+	private JFreeChart myChart;
 
 	/**
 	 * Default constructor.
