@@ -1,7 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<annotation>
 		<documentation xml:lang="en">
-			Default initialization for BioSim.
+			XML initialization schema for BioSim.
 		</documentation>
 	</annotation>
 	<complexType name="BioSim" minOccurs="1">
