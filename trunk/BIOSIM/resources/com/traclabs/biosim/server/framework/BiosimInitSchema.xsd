@@ -244,7 +244,7 @@
 					<xsd:sequence>
 						<xsd:element name="DryWasteInFlowRateSensor" type="DryWasteInFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
 						<xsd:element name="DryWasteOutFlowRateSensor" type="DryWasteOutFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
-						<xsd:element name="DryWasteStoreLevelSensor" type="DryWasteStoreLevelSensorType" minOccurs="0" maxOccurs="unbounded"/>>
+						<xsd:element name="DryWasteStoreLevelSensor" type="DryWasteStoreLevelSensorType" minOccurs="0" maxOccurs="unbounded"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
