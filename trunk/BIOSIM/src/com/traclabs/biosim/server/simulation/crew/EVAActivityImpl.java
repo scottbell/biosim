@@ -1,6 +1,7 @@
 package com.traclabs.biosim.server.simulation.crew;
 
-import com.traclabs.biosim.idl.simulation.crew.EVAActivityOperations;
+import com.traclabs.biosim.idl.simulation.crew.EVAActivityPOA;
+
 
 /**
  * An EVA Activity for a crew member. During this activity, the crew member
@@ -11,16 +12,26 @@ import com.traclabs.biosim.idl.simulation.crew.EVAActivityOperations;
  * @author Scott Bell
  */
 
-public class EVAActivityImpl extends ActivityImpl implements
-        EVAActivityOperations {
+public class EVAActivityImpl extends EVAActivityPOA{
     private String myBaseCrewGroupName;
 
     private String myEVACrewGroupName;
 
-    private int bob;
+    
+//  The name of this activity
+    private String myName = "unknown";
+
+    //How long this activity will be performed
+    private int myTimeLength = 0;
+
+    //The intensity of this activity (how much exertion it takes to perform it)
+    private int myActivityIntensity = 0;
 
     public EVAActivityImpl(String pName, int pTimeLength, int pIntensity,String pBaseCrewGroupName, String pEVACrewGroupName) {
-        super(pName, pTimeLength, pIntensity);
+
+        myName = pName;
+        myTimeLength = pTimeLength;
+        myActivityIntensity = pIntensity;
         myBaseCrewGroupName = pBaseCrewGroupName;
         myEVACrewGroupName = pEVACrewGroupName;
     }
@@ -31,5 +42,43 @@ public class EVAActivityImpl extends ActivityImpl implements
 
     public String getEVACrewGroupName() {
         return myEVACrewGroupName;
+    }
+
+    /**
+     * Returns the name of this activity
+     * 
+     * @return The name of this activity
+     */
+    public String getName() {
+        return myName;
+    }
+
+    /**
+     * Returns how long this activity will be performed
+     * 
+     * @return How long this activity will be performed
+     */
+    public int getTimeLength() {
+        return myTimeLength;
+    }
+
+    /**
+     * Returns the intensity of this activity (how much exertion it takes to
+     * perform it)
+     * 
+     * @return The intensity of this activity (how much exertion it takes to
+     *         perform it)
+     */
+    public int getActivityIntensity() {
+        return myActivityIntensity;
+    }
+
+    /**
+     * Returns the name of this activity
+     * 
+     * @return The name of this activity
+     */
+    public String toString() {
+        return myName;
     }
 }

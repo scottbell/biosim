@@ -30,7 +30,6 @@ import com.traclabs.biosim.idl.simulation.crew.ActivityHelper;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroupHelper;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroupPOATie;
-import com.traclabs.biosim.idl.simulation.crew.EVAActivity;
 import com.traclabs.biosim.idl.simulation.crew.EVAActivityHelper;
 import com.traclabs.biosim.idl.simulation.crew.Sex;
 import com.traclabs.biosim.idl.simulation.environment.Dehumidifier;
@@ -881,9 +880,7 @@ public class SimulationInitializer {
                 myLogger.debug("Type is "+activityTypeNode.getNodeValue());
                 String evaCrewGroupName = node.getAttributes().getNamedItem("evaCrewGroup").getNodeValue();
                 EVAActivityImpl newEVAActivityImpl = new EVAActivityImpl(name, length, intensity, crew.getModuleName(), evaCrewGroupName);
-                Object newEVAActivityObject = OrbUtils.poaToCorbaObj(newEVAActivityImpl);
-                EVAActivity newEVAActivity = EVAActivityHelper.narrow(newEVAActivityObject);
-                return newEVAActivity;
+                return EVAActivityHelper.narrow(ActivityHelper.narrow(OrbUtils.poaToCorbaObj(newEVAActivityImpl)));
             }
             else{
                 myLogger.error("Activity not of expected type even though it was explicitly declared! (can only be EVA type right now)");
@@ -910,12 +907,12 @@ public class SimulationInitializer {
         return newSchedule;
     }
 
-    private void createCrewPerson(Node node, CrewGroupImpl crew) {
+    private void createCrewPerson(Node node, CrewGroupImpl pCrewGroupImpl, CrewGroup pCrewGroup) {
         Node child = node.getFirstChild();
         Schedule schedule = null;
         while (child != null) {
             if (child.getNodeName().equals("schedule"))
-                schedule = createSchedule(node.getFirstChild().getNextSibling(), crew);
+                schedule = createSchedule(node.getFirstChild().getNextSibling(), pCrewGroupImpl);
             child = child.getNextSibling();
         }
         String name = node.getAttributes().getNamedItem("name").getNodeValue();
@@ -944,8 +941,8 @@ public class SimulationInitializer {
 
             e.printStackTrace();
         }
-        crew.createCrewPerson(name, age, weight, sex, arrivalDate,
-                departureDate, schedule);
+        pCrewGroupImpl.createCrewPerson(name, age, weight, sex, arrivalDate,
+                departureDate, schedule, pCrewGroup);
     }
 
     private void createCrewGroup(Node node) {
@@ -954,15 +951,19 @@ public class SimulationInitializer {
             myLogger.debug("Creating CrewGroup with moduleName: " + moduleName);
             CrewGroupImpl myCrewGroupImpl = new CrewGroupImpl(myID, moduleName);
             BioInitializer.setupBioModule(myCrewGroupImpl, node);
+            BiosimServer.registerServer(new CrewGroupPOATie(myCrewGroupImpl),
+                    myCrewGroupImpl.getModuleName(), myCrewGroupImpl.getID());
+            
+            //Create crew members
+
+            CrewGroup myCrewGroup = CrewGroupHelper.narrow(BioInitializer
+                    .grabModule(myID, myCrewGroupImpl.getModuleName()));
             Node child = node.getFirstChild();
             while (child != null) {
                 if (child.getNodeName().equals("crewPerson"))
-                    createCrewPerson(child, myCrewGroupImpl);
+                    createCrewPerson(child, myCrewGroupImpl, myCrewGroup);
                 child = child.getNextSibling();
             }
-            BiosimServer.registerServer(new CrewGroupPOATie(myCrewGroupImpl),
-                    myCrewGroupImpl.getModuleName(), myCrewGroupImpl.getID());
-
         } else
             BioInitializer.printRemoteWarningMessage(moduleName);
     }
@@ -1005,6 +1006,7 @@ public class SimulationInitializer {
             float dayLength = 0f;
             float hourOfDayStart = 0f;
             float maxLumens = 0f;
+            float airlockVolume = 0f;
             Node CO2MolesNode = null;
             Node O2MolesNode = null;
             Node waterMolesNode = null;
@@ -1044,6 +1046,8 @@ public class SimulationInitializer {
                         .getNamedItem("hourOfDayStart").getNodeValue());
                 maxLumens = Float.parseFloat(node.getAttributes().getNamedItem(
                         "maxLumens").getNodeValue());
+                airlockVolume = Float.parseFloat(node.getAttributes().getNamedItem(
+                "airlockVolume").getNodeValue());
             } catch (NumberFormatException e) {
 
                 e.printStackTrace();
@@ -1061,6 +1065,7 @@ public class SimulationInitializer {
             mySimEnvironmentImpl.setDayLength(dayLength);
             mySimEnvironmentImpl.setHourOfDayStart(hourOfDayStart);
             mySimEnvironmentImpl.setMaxLumens(maxLumens);
+            mySimEnvironmentImpl.setAirlockVolume(airlockVolume);
             BioInitializer.setupBioModule(mySimEnvironmentImpl, node);
             BiosimServer.registerServer(new SimEnvironmentPOATie(
                     mySimEnvironmentImpl),
