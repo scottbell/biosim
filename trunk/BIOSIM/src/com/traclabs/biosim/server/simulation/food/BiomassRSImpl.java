@@ -1,6 +1,8 @@
 package biosim.server.food;
 
 import biosim.idl.food.*;
+import biosim.idl.power.*;
+import biosim.idl.water.*;
 import biosim.idl.util.log.*;
 import biosim.server.util.*;
 import biosim.server.framework.*;
@@ -13,7 +15,7 @@ import java.util.*;
  * @author    Scott Bell
  */
 
-public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations{
+public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations, PotableWaterConsumerOperations, GreyWaterConsumerOperations, BiomassProducerOperations{
 	private List myShelves;
 	private int shelfCapacity = 100;
 	private List shelfLogs;
@@ -21,7 +23,14 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations{
 	private float potableWaterFlowRate = 0f;
 	private float greyWaterFlowRate = 0f;
 	private float biomassFlowRate = 0f;
-	
+	private float[] powerFlowRates;
+	private float[] biomassFlowRates;
+	private float[] potableWaterFlowRates;
+	private float[] greyWaterFlowRates;
+	private GreyWaterStore[] myGreyWaterStores;
+	private PotableWaterStore[] myPotableWaterStores;
+	private PowerStore[] myPowerStores;
+	private BiomassStore[] myBiomassStores;
 
 	public BiomassRSImpl(int pID){
 		super(pID);
@@ -234,5 +243,73 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations{
 	*/
 	private class LogIndex{
 		public LogNode nothingIndex;
+	}
+	
+	public void setPowerInputFlowrate(float watts, int index){
+		powerFlowRates[index] = watts;
+	}
+	
+	public float getPowerInputFlowrate(int index){
+		return powerFlowRates[index];
+	}
+	
+	public void setPowerInputs(PowerStore[] sources, float[] flowRates){
+		myPowerStores = sources;
+		powerFlowRates = flowRates;
+	}
+	
+	public PowerStore[] getPowerInputs(){
+		return myPowerStores;
+	}
+	
+	public void setGreyWaterInputFlowrate(float liters, int index){
+		greyWaterFlowRates[index] = liters;
+	}
+	
+	public float getGreyWaterInputFlowrate(int index){
+		return greyWaterFlowRates[index];
+	}
+	
+	public void setGreyWaterInputs(GreyWaterStore[] sources, float[] flowRates){
+		myGreyWaterStores = sources;
+		greyWaterFlowRates = flowRates;
+	}
+	
+	public GreyWaterStore[] getGreyWaterInputs(){
+		return myGreyWaterStores;
+	}
+	
+	public void setPotableWaterInputFlowrate(float liters, int index){
+		potableWaterFlowRates[index] = liters;
+	}
+	
+	public float getPotableWaterInputFlowrate(int index){
+		return potableWaterFlowRates[index];
+	}
+	
+	public void setPotableWaterInputs(PotableWaterStore[] sources, float[] flowRates){
+		myPotableWaterStores = sources;
+		potableWaterFlowRates = flowRates;
+	}
+	
+	public PotableWaterStore[] getPotableWaterInputs(){
+		return myPotableWaterStores;
+	}
+	
+	public void setBiomassOutputFlowrate(float kilograms, int index){
+		biomassFlowRates[index] = kilograms;
+	}
+	
+	public float getBiomassOutputFlowrate(int index){
+		return biomassFlowRates[index];
+	}
+	
+	public void setBiomassOutputs(BiomassStore[] destinations, float[] flowRates){
+		myBiomassStores = destinations;
+		biomassFlowRates = flowRates;
+	}
+	
+	public BiomassStore[] getBiomassOutputs(){
+		return myBiomassStores;
 	}
 }

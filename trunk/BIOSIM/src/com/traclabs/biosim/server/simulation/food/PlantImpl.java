@@ -11,34 +11,34 @@ import biosim.server.util.*;
  */
 
 public abstract class Plant {
-	protected boolean hasCollectedReferences = false;
-	protected boolean hasEnoughCO2 = false;
-	protected boolean hasEnoughWater = false;
-	protected boolean hasEnoughLight = false;
-	protected float CO2Consumed = 0f;
-	protected float O2Produced = 0f;
-	protected int myAge = 0;
-	protected Breath airRetrieved;
-	protected float totalArea = 11.2f;
-	protected float waterNeeded = .01f;
-	protected float powerNeeded = 2.0f; 
-	protected float CO2Needed = 1.0f;
-	protected float currentWaterLevel = 0f;
-	protected float currentPowerLevel = 0f;
-	protected float biomassProduced = 0f;
-	protected int surviveNoWater = 168;
-	protected int surviveNoCO2 = 800;
-	protected int surviveNoLight = 168;
+	boolean hasCollectedReferences = false;
+	boolean hasEnoughCO2 = false;
+	boolean hasEnoughWater = false;
+	boolean hasEnoughLight = false;
+	float CO2Consumed = 0f;
+	float O2Produced = 0f;
+	int myAge = 0;
+	Breath airRetrieved;
+	float totalArea = 11.2f;
+	float waterNeeded = .01f;
+	float powerNeeded = 2.0f;
+	float CO2Needed = 1.0f;
+	float currentWaterLevel = 0f;
+	float currentPowerLevel = 0f;
+	float biomassProduced = 0f;
+	int surviveNoWater = 168;
+	int surviveNoCO2 = 800;
+	int surviveNoLight = 168;
 	private int noWaterTime = 0;
 	private int noCO2Time = 0;
 	private int noLightTime = 0;
 	private boolean plantsDead = true;
 	private SimEnvironment mySimEnvironment;
-	protected BiomassStore myBiomassStore;
+	BiomassStore myBiomassStore;
 	private LogIndex myLogIndex;
 	private boolean logInitialized = false;
 	private int myID = 0;
-	protected BiomassRSImpl myBiomassImpl;
+	BiomassRSImpl myBiomassImpl;
 	private float myProductionRate = 1f;
 
 	public Plant(int pID, BiomassRSImpl pBiomassImpl){
@@ -52,32 +52,32 @@ public abstract class Plant {
 		totalArea = pTotalArea;
 	}
 
-	protected abstract float calculateCO2Needed();
-	protected abstract float calculatePowerNeeded();
-	protected abstract float calculateWaterNeeded();
-	protected abstract float calculateProducedBiomass();
+	abstract float calculateCO2Needed();
+	abstract float calculatePowerNeeded();
+	abstract float calculateWaterNeeded();
+	abstract float calculateProducedBiomass();
 	public abstract String getPlantType();
-	
+
 	public boolean hasWater(){
 		return hasEnoughWater;
 	}
-	
+
 	public boolean hasLight(){
 		return hasEnoughLight;
 	}
-	
+
 	public boolean isDead(){
 		return plantsDead;
 	}
-	
+
 	public boolean hasCO2(){
 		return hasEnoughCO2;
 	}
-	
+
 	public float getCO2Consumed(){
 		return CO2Consumed;
 	}
-	
+
 	public float getO2Produced(){
 		return O2Produced;
 	}
@@ -138,19 +138,23 @@ public abstract class Plant {
 		O2Produced = 0f;
 		plantsDead = false;
 	}
-	
+
 	private void produceBiomass(){
 		biomassProduced = calculateProducedBiomass() * myProductionRate;
 		if (biomassProduced > 0){
-			myBiomassStore.add(biomassProduced);
+			float distributedBiomassLeft = biomassProduced;
+			BiomassStore[] myBiomassStores = myBiomassImpl.getBiomassOutputs();
+			for (int i = 0; (i < myBiomassStores.length) || (distributedBiomassLeft <= 0); i++){
+				distributedBiomassLeft -= myBiomassStores[i].add(distributedBiomassLeft);
+			}
 			myAge = 0;
 		}
 	}
-	
+
 	public float getBiomassProduced(){
 		return biomassProduced;
 	}
-	
+
 	public void setProductionRate(float pProductionRate){
 		myProductionRate = pProductionRate;
 	}
@@ -166,7 +170,7 @@ public abstract class Plant {
 		}
 	}
 
-	protected void afflict(){
+	void afflict(){
 		if (!hasEnoughCO2){
 			noCO2Time++;
 		}
@@ -193,7 +197,7 @@ public abstract class Plant {
 		return plantsDead;
 	}
 
-	protected void deathCheck(){
+	void deathCheck(){
 		if (	(noCO2Time   > surviveNoCO2) ||
 		        (noWaterTime > surviveNoWater) ||
 		        (noLightTime  > surviveNoLight))

@@ -10,16 +10,16 @@ import biosim.idl.power.*;
 
 public abstract class AirRSSubSystem{
 	//The power consumed (in watts) by this air subsystem at this tick (default)
-	protected float currentPowerConsumed = 0;
+	float currentPowerConsumed = 0;
 	//During any given tick, this much power (in watts) is needed for a air subsystem (default)
-	protected float powerNeeded =100;
-	protected AirRSImpl myAirRS;
-	protected PowerStore myPowerStore;
+	float powerNeeded =100;
+	AirRSImpl myAirRS;
+	PowerStore myPowerStore;
 	//Flag to determine whether the air subsystem has received enough power for this tick
-	protected boolean hasEnoughPower = false;
+	boolean hasEnoughPower = false;
 	private boolean logInitialized = false;
 	private LogIndex myLogIndex;
-	protected boolean hasCollectedReferences = false;
+	boolean hasCollectedReferences = false;
 
 	public AirRSSubSystem(AirRSImpl pAirRSImpl){
 		myAirRS = pAirRSImpl;
