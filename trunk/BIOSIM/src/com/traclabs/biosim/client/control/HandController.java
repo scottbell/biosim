@@ -308,7 +308,7 @@ public class HandController {
         float crewO2 = myO2AirConcentrationSensor.getValue();
         float delta = levelToKeepO2At - crewO2;
         crewO2integral += delta;
-        float signal = (delta * crewO2p + crewO2i * crewO2integral) + 2;
+        float signal = (delta * crewO2p + crewO2i * crewO2integral);
         float valueToSet = Math.min(myO2AirStoreInInjectorMax, signal);
         myLogger.debug("setting O2 injector to " + valueToSet);
         valueToSet = Math.min(myO2AirStoreInInjectorMax, signal);
@@ -324,7 +324,7 @@ public class HandController {
         float crewCO2 = myCO2AirConcentrationSensor.getValue();
         float delta = levelToKeepCO2At - crewCO2;
         crewCO2integral += delta;
-        float signal = (delta * crewCO2p + crewCO2i * crewCO2integral) + 2;
+        float signal = (delta * crewCO2p + crewCO2i * crewCO2integral);
         float valueToSet = Math.min(myCO2AirStoreInInjectorMax, signal);
         myLogger.debug("setting CO2 injector to " + valueToSet);
         valueToSet = Math.min(myCO2AirStoreInInjectorMax, signal);
