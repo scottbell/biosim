@@ -20,7 +20,7 @@ import java.util.*;
  * BioDriverImpl exists as the driver for the simulation.  It gathers references to all the various servers, initializes them, then ticks them.<br>
  * This is all done multithreaded through the use of the spawnSimulation methods.<br>
  * BioDriverImpl also can notify listeners when it has sucessfully ticked all the servers.  The listener needs only to implement BioDriverImplListener and<br>
- * register with BioDriverImpl.  Note that any configuration of the simulation other than the one supplied will need to use <code>BioDriverInit.NONE_INIT</code>
+ * register with BioDriverImpl.  Note that any configuration of the simulation other than the one supplied will need to use <code>BioDriverInit.NONE_INIT</code> and specify the module names in the second constructor.
  *
  * @author    Scott Bell
  */
@@ -57,6 +57,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	private boolean simulationIsPaused = false;
 	//Flag to see whether the BioDriverImpl is started at all
 	private boolean simulationStarted = false;
+	private boolean usedDefaultModules = true;
 	//Flag to see if user wants to use default intialization (i.e., fill tanks with x amount gas, generate crew memebers, etc)
 	private BioDriverInit initializationToUse = BioDriverInit.DEFAULT_INIT;
 	//Tells whether simulation runs until crew death
@@ -81,35 +82,50 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	private boolean createdCrew = false;
 	//If we loop after end conditions of a simulation run have been met (crew death or n-ticks)
 	private boolean looping = false;
-	
+	private String[] myModuleNames;
+
 	/**
-	* Checks to see if the simulation is paused.
+	* Constructs the BioDriver
 	* @param pID The ID of this instance of the BioSim (must be the same for all modules in the instance)
 	*/
 	public BioDriverImpl(int pID){
 		myID = pID;
-		crewName = "CrewGroup"+myID;
-		powerPSName = "PowerPS"+myID;
-		powerStoreName = "PowerStore"+myID;
-		airRSName = "AirRS"+myID;
-		CO2StoreName = "CO2Store"+myID;
-		O2StoreName = "O2Store"+myID;
-		biomassRSName = "BiomassRS"+myID;
-		biomassStoreName = "BiomassStore"+myID;
-		foodProcessorName = "FoodProcessor"+myID;
-		foodStoreName = "FoodStore"+myID;
-		waterRSName = "WaterRS"+myID;
-		dirtyWaterStoreName = "DirtyWaterStore"+myID;
-		potableWaterStoreName = "PotableWaterStore"+myID;
-		greyWaterStoreName = "GreyWaterStore"+myID;
-		crewEnvironmentName = "CrewEnvironment"+myID;
-		plantEnvironmentName = "PlantEnvironment"+myID;
-		loggerName = "Logger"+myID;
-		accumulatorName = "Accumulator"+myID;
-		injectorName = "Injector"+myID;
+		myModuleNames = new String[18];
+		myModuleNames[0] = crewName = "CrewGroup"+myID;
+		myModuleNames[1] = powerPSName = "PowerPS"+myID;
+		myModuleNames[2] = powerStoreName = "PowerStore"+myID;
+		myModuleNames[3] = airRSName = "AirRS"+myID;
+		myModuleNames[4] = CO2StoreName = "CO2Store"+myID;
+		myModuleNames[5] = O2StoreName = "O2Store"+myID;
+		myModuleNames[6] = biomassRSName = "BiomassRS"+myID;
+		myModuleNames[7] = biomassStoreName = "BiomassStore"+myID;
+		myModuleNames[8] = foodProcessorName = "FoodProcessor"+myID;
+		myModuleNames[9] = foodStoreName = "FoodStore"+myID;
+		myModuleNames[10] = waterRSName = "WaterRS"+myID;
+		myModuleNames[11] = dirtyWaterStoreName = "DirtyWaterStore"+myID;
+		myModuleNames[12] = potableWaterStoreName = "PotableWaterStore"+myID;
+		myModuleNames[13] = greyWaterStoreName = "GreyWaterStore"+myID;
+		myModuleNames[14] = crewEnvironmentName = "CrewEnvironment"+myID;
+		myModuleNames[15] = plantEnvironmentName = "PlantEnvironment"+myID;
+		myModuleNames[16] = accumulatorName = "Accumulator"+myID;
+		myModuleNames[17] = injectorName = "Injector"+myID;
+		usedDefaultModules = true;
 		checkMachineType();
 	}
 	
+	/**
+	* Constructs the BioDriver
+	* @param pModuleNames The module names this BioDriver should tick.
+	* @param pID The ID of this instance of the BioSim (must be the same for all modules in the instance)
+	*/
+	public BioDriverImpl(String[] pModuleNames, int pID){
+		myID = pID;
+		myModuleNames = pModuleNames;
+		loggerName = "Logger"+myID;
+		usedDefaultModules = false;
+		initializationToUse = BioDriverInit.NO_INIT;
+	}
+
 	/**
 	* Returns the name of this instance of BioDriver
 	* @return The name of this instance (BioDriver + ID)
@@ -117,7 +133,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	public String getName(){
 		return "BioDriver"+myID;
 	}
-	
+
 	/**
 	* Attempts to discover the machine type we're running on.  If it's windows, set a driver pause between ticks
 	* to keep from starving windows GUI.  Checked by looking at the Java System Property "MACHINE_TYPE"
@@ -164,7 +180,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myTickThread = new Thread(this);
 		myTickThread.start();
 	}
-	
+
 	/**
 	* Run a simulation on a different thread and runs continously till the crew dies
 	*/
@@ -174,7 +190,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myTickThread = new Thread(this);
 		myTickThread.start();
 	}
-	
+
 	/**
 	* Run a simulation on a different thread and runs continously till n-Ticks
 	* @param pTicks The number of ticks to run the simulation
@@ -187,7 +203,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myTickThread = new Thread(this);
 		myTickThread.start();
 	}
-	
+
 	/**
 	* If n-ticks have been reached or the crew is dead, this method restarts the simulation
 	*/
@@ -196,7 +212,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myTickThread = new Thread(this);
 		myTickThread.start();
 	}
-	
+
 	/**
 	* Tells BioDriver which initialization to use
 	* @param pInitializationToUse the initialization to use:<br>
@@ -205,6 +221,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	* &nbsp;&nbsp;&nbsp;<code>BioDriverInit.NONE_INIT</code> - no initialization.  everything must be set up manually. use this if you've reconfigured the simulation
 	*/
 	public void setInitialization(BioDriverInit pInitializationToUse){
+		if (!usedDefaultModules){
+			System.err.println("BioDriverImpl:"+myID+" Attempting to change initialization after not using default modules, not allowing!");
+			return;
+		}
 		initializationToUse = pInitializationToUse;
 	}
 
@@ -239,7 +259,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		//reset servers
 		reset();
 		//Make some crew members
-		CrewGroup myCrew = (CrewGroup)(getBioModule(crewName));
+		CrewGroup myCrew = CrewGroupHelper.narrow(getBioModule(crewName));
 		myCrew.setStochasticIntensity(StochasticIntensity.MEDIUM_STOCH);
 		if (!createdCrew){
 			CrewPerson myCrewPerson1 = myCrew.createCrewPerson("Bob Roberts", 43, 170, Sex.male);
@@ -253,9 +273,9 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		for (int i = 0; i < myCrewPeople.length; i++)
 			myCrewPeople[i].setCurrentActivity(myCrewPeople[i].getScheduledActivityByOrder(i));
 		//Fill the clean water stores to the brim (20 liters), and all stores' capacities
-		DirtyWaterStore myDirtyWaterStore = (DirtyWaterStore)(getBioModule(dirtyWaterStoreName));
-		PotableWaterStore myPotableWaterStore = (PotableWaterStore)(getBioModule(potableWaterStoreName));
-		GreyWaterStore myGreyWaterStore = (GreyWaterStore)(getBioModule(greyWaterStoreName));
+		DirtyWaterStore myDirtyWaterStore = DirtyWaterStoreHelper.narrow(getBioModule(dirtyWaterStoreName));
+		PotableWaterStore myPotableWaterStore = PotableWaterStoreHelper.narrow(getBioModule(potableWaterStoreName));
+		GreyWaterStore myGreyWaterStore = GreyWaterStoreHelper.narrow(getBioModule(greyWaterStoreName));
 		myDirtyWaterStore.setCapacity(10000f);
 		myDirtyWaterStore.setLevel(0f);
 		myPotableWaterStore.setCapacity(10000f);
@@ -264,15 +284,15 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myGreyWaterStore.setLevel(10000f);
 
 		//Fill the air tanks
-		CO2Store myCO2Store = (CO2Store)(getBioModule(CO2StoreName));
-		O2Store myO2Store = (O2Store)(getBioModule(O2StoreName));
+		CO2Store myCO2Store = CO2StoreHelper.narrow(getBioModule(CO2StoreName));
+		O2Store myO2Store = O2StoreHelper.narrow(getBioModule(O2StoreName));
 		myCO2Store.setCapacity(1000f);
 		myO2Store.setCapacity(1000f);
 		myCO2Store.setLevel(500f);
 		myO2Store.setLevel(250f);
 
 		//Put some air in the crew cabin
-		SimEnvironment myCrewEnvironment = (SimEnvironment)(getBioModule(crewEnvironmentName));
+		SimEnvironment myCrewEnvironment = SimEnvironmentHelper.narrow(getBioModule(crewEnvironmentName));
 		double environmentCapacity = 1.54893 * Math.pow(10, 6);
 		//for dave, make bigger
 		environmentCapacity *= 10;
@@ -280,41 +300,41 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myCrewEnvironment.setCapacity(environmentCapacityObj.floatValue());
 
 		//Put some air in the plant cabin
-		SimEnvironment myPlantEnvironment = (SimEnvironment)(getBioModule(plantEnvironmentName));
+		SimEnvironment myPlantEnvironment = SimEnvironmentHelper.narrow(getBioModule(plantEnvironmentName));
 		myPlantEnvironment.setCapacity(environmentCapacityObj.floatValue());
 
 		//Add some crops and food
-		BiomassStore myBiomassStore = (BiomassStore)(getBioModule(biomassStoreName));
-		FoodStore myFoodStore = (FoodStore)(getBioModule(foodStoreName));
-		BiomassRS myBiomassRS = (BiomassRS)(getBioModule(biomassRSName));
+		BiomassStore myBiomassStore = BiomassStoreHelper.narrow(getBioModule(biomassStoreName));
+		FoodStore myFoodStore = FoodStoreHelper.narrow(getBioModule(foodStoreName));
+		BiomassRS myBiomassRS = BiomassRSHelper.narrow(getBioModule(biomassRSName));
 		myBiomassStore.setCapacity(500f);
 		myFoodStore.setCapacity(2000f);
 		myBiomassStore.setLevel(300f);
 		myFoodStore.setLevel(2000f);
 
 		//Add some power
-		PowerStore myPowerStore = (PowerStore)(getBioModule(powerStoreName));
+		PowerStore myPowerStore = PowerStoreHelper.narrow(getBioModule(powerStoreName));
 		myPowerStore.setCapacity(10000f);
 		myPowerStore.setLevel(10000f);
 
 		configureFlows();
 	}
-	
+
 	/**
 	* Configures the simulation.  By default, 2 environments are used along with one module of everything else.
 	*/
 	private void configureFlows(){
-		BiomassStore myBiomassStore = (BiomassStore)(getBioModule(biomassStoreName));
-		PowerStore myPowerStore = (PowerStore)(getBioModule(powerStoreName));
-		FoodStore myFoodStore = (FoodStore)(getBioModule(foodStoreName));
-		PotableWaterStore myPotableWaterStore = (PotableWaterStore)(getBioModule(potableWaterStoreName));
-		DirtyWaterStore myDirtyWaterStore = (DirtyWaterStore)(getBioModule(dirtyWaterStoreName));
-		GreyWaterStore myGreyWaterStore = (GreyWaterStore)(getBioModule(greyWaterStoreName));
-		SimEnvironment myCrewEnvironment = (SimEnvironment)(getBioModule(crewEnvironmentName));
-		SimEnvironment myPlantEnvironment = (SimEnvironment)(getBioModule(plantEnvironmentName));
-		O2Store myO2Store = (O2Store)(getBioModule(O2StoreName));
-		CO2Store myCO2Store = (CO2Store)(getBioModule(CO2StoreName));
-		
+		BiomassStore myBiomassStore = BiomassStoreHelper.narrow(getBioModule(biomassStoreName));
+		PowerStore myPowerStore = PowerStoreHelper.narrow(getBioModule(powerStoreName));
+		FoodStore myFoodStore = FoodStoreHelper.narrow(getBioModule(foodStoreName));
+		PotableWaterStore myPotableWaterStore = PotableWaterStoreHelper.narrow(getBioModule(potableWaterStoreName));
+		DirtyWaterStore myDirtyWaterStore = DirtyWaterStoreHelper.narrow(getBioModule(dirtyWaterStoreName));
+		GreyWaterStore myGreyWaterStore = GreyWaterStoreHelper.narrow(getBioModule(greyWaterStoreName));
+		SimEnvironment myCrewEnvironment = SimEnvironmentHelper.narrow(getBioModule(crewEnvironmentName));
+		SimEnvironment myPlantEnvironment = SimEnvironmentHelper.narrow(getBioModule(plantEnvironmentName));
+		O2Store myO2Store = O2StoreHelper.narrow(getBioModule(O2StoreName));
+		CO2Store myCO2Store = CO2StoreHelper.narrow(getBioModule(CO2StoreName));
+
 		//Hook up Food Processor to other modules
 		{
 			BiomassStore[] biomassStoreInput = {myBiomassStore};
@@ -323,7 +343,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			float[] biomassFlowRates = {10000f};
 			float[] powerFlowRates = {10000f};
 			float[] foodFlowRates = {10000f};
-			FoodProcessor myFoodProcessor = (FoodProcessor)(getBioModule(foodProcessorName));
+			FoodProcessor myFoodProcessor = FoodProcessorHelper.narrow(getBioModule(foodProcessorName));
 			myFoodProcessor.setBiomassInputs(biomassStoreInput, biomassFlowRates);
 			myFoodProcessor.setPowerInputs(powerStoreInput, powerFlowRates);
 			myFoodProcessor.setFoodOutputs(foodStoreOutput, foodFlowRates);
@@ -343,7 +363,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			float[] biomassFlowRates = {10000f};
 			float[] simEnvironmentInputFlowRates = {10000f};
 			float[] simEnvironmentOutputFlowRates = {10000f};
-			BiomassRS myBiomassRS = (BiomassRS)(getBioModule(biomassRSName));
+			BiomassRS myBiomassRS = BiomassRSHelper.narrow(getBioModule(biomassRSName));
 			myBiomassRS.setPowerInputs(powerStoreInput, powerFlowRates);
 			myBiomassRS.setPotableWaterInputs(potableWaterStoreInput, potableWaterFlowRates);
 			myBiomassRS.setGreyWaterInputs(greyWaterStoreInput, greyWaterFlowRates);
@@ -366,7 +386,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			float[] O2StoreFlowRates = {10000f};
 			float[] CO2StoreInputFlowRates = {10000f};
 			float[] CO2StoreOutputFlowRates = {10000f};
-			AirRS myAirRS = (AirRS)(getBioModule(airRSName));
+			AirRS myAirRS = AirRSHelper.narrow(getBioModule(airRSName));
 			myAirRS.setPowerInputs(powerStoreInput, powerFlowRates);
 			myAirRS.setAirInputs(simEnvironmentInput, simEnvironmentInputFlowRates);
 			myAirRS.setAirOutputs(simEnvironmentOutput, simEnvironmentOutputFlowRates);
@@ -389,7 +409,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			float[] potableWaterInputFlowRates = {10000f};
 			float[] dirtyWaterOutputFlowRates = {10000f};
 			float[] greyWaterOutputFlowRates = {10000f};
-			CrewGroup myCrew = (CrewGroup)(getBioModule(crewName));
+			CrewGroup myCrew = CrewGroupHelper.narrow(getBioModule(crewName));
 			myCrew.setAirInputs(airInputs, airInputFlowRates);
 			myCrew.setAirOutputs(airOutputs, airOutputFlowRates);
 			myCrew.setFoodInputs(foodInputs, foodInputFlowRates);
@@ -408,7 +428,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			float[] greyWaterInputFlowRates = {10000f};
 			float[] dirtyWaterInputFlowRates = {10000f};
 			float[] powerInputFlowRates = {10000f};
-			WaterRS myWaterRS = (WaterRS)(getBioModule(waterRSName));
+			WaterRS myWaterRS = WaterRSHelper.narrow(getBioModule(waterRSName));
 			myWaterRS.setPotableWaterOutputs(potableWaterOutput, potableWaterOutputFlowRates);
 			myWaterRS.setGreyWaterInputs(greyWaterInputs, greyWaterInputFlowRates);
 			myWaterRS.setDirtyWaterInputs(dirtyWaterInputs, dirtyWaterInputFlowRates);
@@ -420,7 +440,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			PowerStore[] powerOutput = {myPowerStore};
 			SimEnvironment lightInput = myCrewEnvironment;
 			float[] powerOuputsFlowRates = {10000f};
-			PowerPS myPowerPS = (PowerPS)(getBioModule(powerPSName));
+			PowerPS myPowerPS = PowerPSHelper.narrow(getBioModule(powerPSName));
 			myPowerPS.setPowerOutputs(powerOutput, powerOuputsFlowRates);
 			myPowerPS.setLightInput(lightInput);
 		}
@@ -432,10 +452,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			O2Store[] O2AirOutput = {myO2Store};
 			float[] O2AirInputFlowRates = {20f};
 			float[] O2AirOutputFlowRates = {20f};
-			Accumulator myAccumulator = (Accumulator)(getBioModule(accumulatorName));
+			Accumulator myAccumulator = AccumulatorHelper.narrow(getBioModule(accumulatorName));
 			myAccumulator.setO2AirEnvironmentInputs(O2AirInput, O2AirInputFlowRates);
 			myAccumulator.setO2AirStoreOutputs(O2AirOutput, O2AirOutputFlowRates);
-			
+
 			//Accumulate CO2 from crew environment, put it in CO2 store
 			SimEnvironment[] CO2AirInput = {myCrewEnvironment};
 			CO2Store[] CO2AirOutput = {myCO2Store};
@@ -452,10 +472,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			SimEnvironment[] O2AirOutput = {myCrewEnvironment};
 			float[] O2AirInputFlowRates = {100f};
 			float[] O2AirOutputFlowRates = {100f};
-			Injector myInjector = (Injector)(getBioModule(injectorName));
+			Injector myInjector = InjectorHelper.narrow(getBioModule(injectorName));
 			myInjector.setO2AirStoreInputs(O2AirInput, O2AirInputFlowRates);
 			myInjector.setO2AirEnvironmentOutputs(O2AirOutput, O2AirOutputFlowRates);
-			
+
 			//Take CO2 from store, inject it into plant environment
 			CO2Store[] CO2AirInput = {myCO2Store};
 			SimEnvironment[] CO2AirOutput = {myPlantEnvironment};
@@ -475,16 +495,16 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		reset();
 
 		//Make some crew members
-		CrewGroup myCrew = (CrewGroup)(getBioModule(crewName));
+		CrewGroup myCrew = CrewGroupHelper.narrow(getBioModule(crewName));
 		if (!createdCrew){
 			CrewPerson myCrewPerson1 = myCrew.createCrewPerson("Alice Optimal", 50, 80, Sex.female);
 			createdCrew = true;
 		}
 
 		//Fill the clean water stores to the brim (20 liters), and all stores' capacities
-		DirtyWaterStore myDirtyWaterStore = (DirtyWaterStore)(getBioModule(dirtyWaterStoreName));
-		PotableWaterStore myPotableWaterStore = (PotableWaterStore)(getBioModule(potableWaterStoreName));
-		GreyWaterStore myGreyWaterStore = (GreyWaterStore)(getBioModule(greyWaterStoreName));
+		DirtyWaterStore myDirtyWaterStore = DirtyWaterStoreHelper.narrow(getBioModule(dirtyWaterStoreName));
+		PotableWaterStore myPotableWaterStore = PotableWaterStoreHelper.narrow(getBioModule(potableWaterStoreName));
+		GreyWaterStore myGreyWaterStore = GreyWaterStoreHelper.narrow(getBioModule(greyWaterStoreName));
 		myDirtyWaterStore.setCapacity(100f);
 		myDirtyWaterStore.setLevel(100f);
 		myPotableWaterStore.setCapacity(100f);
@@ -493,29 +513,29 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myGreyWaterStore.setLevel(100f);
 
 		//Fill the air tanks
-		CO2Store myCO2Store = (CO2Store)(getBioModule(CO2StoreName));
-		O2Store myO2Store = (O2Store)(getBioModule(O2StoreName));
+		CO2Store myCO2Store = CO2StoreHelper.narrow(getBioModule(CO2StoreName));
+		O2Store myO2Store = O2StoreHelper.narrow(getBioModule(O2StoreName));
 		myCO2Store.setCapacity(100f);
 		myO2Store.setCapacity(100f);
 		myCO2Store.setLevel(100f);
 		myO2Store.setLevel(100f);
 
 		//Put some air in the cabin
-		SimEnvironment myCrewEnvironment = (SimEnvironment)(getBioModule(crewEnvironmentName));
+		SimEnvironment myCrewEnvironment = SimEnvironmentHelper.narrow(getBioModule(crewEnvironmentName));
 		myCrewEnvironment.setCapacity(10000000f);
-		SimEnvironment myPlantEnvironment = (SimEnvironment)(getBioModule(plantEnvironmentName));
+		SimEnvironment myPlantEnvironment = SimEnvironmentHelper.narrow(getBioModule(plantEnvironmentName));
 		myPlantEnvironment.setCapacity(10000000f);
 
 		//Add some crops and food
-		BiomassStore myBiomassStore = (BiomassStore)(getBioModule(biomassStoreName));
-		FoodStore myFoodStore = (FoodStore)(getBioModule(foodStoreName));
+		BiomassStore myBiomassStore = BiomassStoreHelper.narrow(getBioModule(biomassStoreName));
+		FoodStore myFoodStore = FoodStoreHelper.narrow(getBioModule(foodStoreName));
 		myBiomassStore.setCapacity(100f);
 		myFoodStore.setCapacity(100f);
 		myBiomassStore.setLevel(100f);
 		myFoodStore.setLevel(100f);
 
 		//Add some power
-		PowerStore myPowerStore = (PowerStore)(getBioModule(powerStoreName));
+		PowerStore myPowerStore = PowerStoreHelper.narrow(getBioModule(powerStoreName));
 		myPowerStore.setCapacity(100f);
 		myPowerStore.setLevel(100f);
 		configureFlows();
@@ -547,7 +567,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			}
 		}
 	}
-	
+
 	/**
 	* Sets how long BioDriver should pause between full simulation ticks (e.g., tick all modules, wait, tick all modules, wait, etc.)
 	* @param pDriverPauseLength the length (in milliseconds) for the driver to pause between ticks
@@ -557,7 +577,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			System.out.println("BioDriverImpl:"+myID+" driver pause of "+pDriverPauseLength+" milliseconds");
 		driverPauseLength = pDriverPauseLength;
 	}
-	
+
 	/**
 	* Tells how long the simulation pauses between full simulation ticks.
 	* @return How long the simulation pauses between full simulation ticks.
@@ -565,7 +585,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	public int getDriverPauseLength(){
 		return driverPauseLength;
 	}
-	
+
 	/**
 	* Tells whether BioDriver is looping the simulation after end conditions have been met.
 	* @return Whether BioDriver is looping the simulation after end conditions have been met.
@@ -573,7 +593,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	public boolean isLooping(){
 		return looping;
 	}
-	
+
 	/**
 	* Tells whether BioDriver should loop the simulation after end conditions have been met.
 	* @param pLoop Whether BioDriver should loop the simulation after end conditions have been met.
@@ -581,7 +601,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	public void setLooping(boolean pLoop){
 		looping = pLoop;
 	}
-	
+
 	/**
 	* Tells whether the simulation has met an end condition and has stopped.
 	* @return Whether the simulation has met an end condition and has stopped. 
@@ -594,7 +614,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			}
 		}
 		else if (runTillDead){
-			CrewGroup myCrew = (CrewGroup)(getBioModule(crewName));
+			CrewGroup myCrew = CrewGroupHelper.narrow(getBioModule(crewName));
 			if (myCrew.isDead()){
 				System.out.println("BioDriverImpl"+myID+": Crew's dead @"+ticksGoneBy+" ticks");
 				return true;
@@ -602,7 +622,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		}
 		return false;
 	}
-	
+
 	/**
 	* Tells the number of times BioDriver has ticked the simulation
 	* @return The number of times BioDriver has ticked the simulation
@@ -663,7 +683,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		notify();
 		System.out.println("BioDriverImpl:"+myID+" simulation resumed");
 	}
-	
+
 	/**
 	* Iterates through the modules setting their logs
 	* @param pLogSim Whether or not modules should log.
@@ -683,7 +703,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		}
 		myLogger.setProcessingLogs(pLogSim);
 	}
-	
+
 	/**
 	* Tells the amount of stochastic intensity the modules will undergo.
 	* @param pValue The amount of stochastic intensity the modules will undergo.
@@ -699,7 +719,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			currentBioModule.setStochasticIntensity(pValue);
 		}
 	}
-	
+
 	/**
 	* Starts a malfunction on every module
 	* @param pIntensity The intensity of the malfunction<br>
@@ -718,7 +738,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			currentBioModule.startMalfunction(pIntensity, pLength);
 		}
 	}
-	
+
 	/**
 	* Tells whether the modules are logging or not
 	* @return Whether the modules are logging or not
@@ -736,139 +756,20 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		// resolve the Objects Reference in Naming
 		modules = new Hashtable();
 		System.out.println("BioDriverImpl:"+myID+" Collecting references to modules...");
-		try{
-			CrewGroup myCrew = CrewGroupHelper.narrow(OrbUtils.getNCRef().resolve_str(crewName));
-			modules.put(crewName , myCrew);
-		}
-		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+crewName+", skipping...");
-		}
-		try{
-			PowerPS myPowerPS = PowerPSHelper.narrow(OrbUtils.getNCRef().resolve_str(powerPSName));
-			modules.put(powerPSName , myPowerPS);
-		}
-		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+powerPSName+", skipping...");
-		}
-		try{
-			PowerStore myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(powerStoreName));
-			modules.put(powerStoreName , myPowerStore);
-		}
-		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+powerStoreName+", skipping...");
-		}
-		try{
-			AirRS myAirRS = AirRSHelper.narrow(OrbUtils.getNCRef().resolve_str(airRSName));
-			modules.put(airRSName , myAirRS);
-		}
-		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+airRSName+", skipping...");
-		}
-		try{
-			SimEnvironment myCrewEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str(crewEnvironmentName));
-			modules.put(crewEnvironmentName , myCrewEnvironment);
-		}
-		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+crewEnvironmentName+", ending!");
-			System.exit(0);
-		}
-		try{
-			SimEnvironment myPlantEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str(plantEnvironmentName));
-			modules.put(plantEnvironmentName , myPlantEnvironment);
-		}
-		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+plantEnvironmentName+", ending!");
-			System.exit(0);
-		}
-		try{
-			GreyWaterStore myGreyWaterStore = GreyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(greyWaterStoreName));
-			modules.put(greyWaterStoreName , myGreyWaterStore);
-		}
-		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+greyWaterStoreName+", skipping...");
-		}
-		try{
-			PotableWaterStore myPotableWaterStore = PotableWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(potableWaterStoreName));
-			modules.put(potableWaterStoreName , myPotableWaterStore);
-		}
-		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+potableWaterStoreName+", skipping...");
-		}
-		try{
-			DirtyWaterStore myDirtyWaterStore = DirtyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(dirtyWaterStoreName));
-			modules.put(dirtyWaterStoreName , myDirtyWaterStore);
-		}
-		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+dirtyWaterStoreName+", skipping...");
-		}
-		try{
-			FoodProcessor myFoodProcessor = FoodProcessorHelper.narrow(OrbUtils.getNCRef().resolve_str(foodProcessorName));
-			modules.put(foodProcessorName , myFoodProcessor);
-		}
-		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+foodProcessorName+", skipping...");
-		}
-		try{
-			FoodStore myFoodStore= FoodStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(foodStoreName));
-			modules.put(foodStoreName , myFoodStore);
-		}
-		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+foodStoreName+", skipping...");
-		}
-		try{
-			CO2Store myCO2Store = CO2StoreHelper.narrow(OrbUtils.getNCRef().resolve_str(CO2StoreName));
-			modules.put(CO2StoreName , myCO2Store);
-		}
-		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+CO2StoreName+", skipping...");
-		}
-		try{
-			O2Store myO2Store = O2StoreHelper.narrow(OrbUtils.getNCRef().resolve_str(O2StoreName));
-			modules.put(O2StoreName , myO2Store);
-		}
-		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+O2StoreName+", skipping...");
-		}
-		try{
-			BiomassRS myBiomassRS = BiomassRSHelper.narrow(OrbUtils.getNCRef().resolve_str(biomassRSName));
-			modules.put(biomassRSName , myBiomassRS);
-		}
-		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+biomassRSName+", skipping...");
-		}
-		try{
-			BiomassStore myBiomassStore = BiomassStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(biomassStoreName));
-			modules.put(biomassStoreName, myBiomassStore);
-		}
-		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+biomassStoreName+", skipping...");
-		}
-		try{
-			WaterRS myWaterRS = WaterRSHelper.narrow(OrbUtils.getNCRef().resolve_str(waterRSName));
-			modules.put(waterRSName , myWaterRS);
-		}
-		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+waterRSName+", skipping...");
+		for (int i =0; i < myModuleNames.length; i++){
+			try{
+				BioModule currentModule = BioModuleHelper.narrow(OrbUtils.getNCRef().resolve_str(myModuleNames[i]));
+				modules.put(myModuleNames[i] , currentModule);
+			}
+			catch (Exception e){
+				System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+myModuleNames[i]+", skipping...");
+			}
 		}
 		try{
 			myLogger = LoggerHelper.narrow(OrbUtils.getNCRef().resolve_str(loggerName));
 		}
-		catch (org.omg.CORBA.UserException e){
+		catch (Exception e){
 			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+loggerName+", skipping...");
-		}
-		try{
-			Accumulator myAccumulator = AccumulatorHelper.narrow(OrbUtils.getNCRef().resolve_str(accumulatorName));
-			modules.put(accumulatorName , myAccumulator);
-		}
-		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+accumulatorName+", skipping...");
-		}
-		try{
-			Injector myInjector = InjectorHelper.narrow(OrbUtils.getNCRef().resolve_str(injectorName));
-			modules.put(injectorName , myInjector);
-		}
-		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+injectorName+", skipping...");
 		}
 		hasCollectedReferences = true;
 	}
