@@ -357,7 +357,7 @@ public class WaterSchematicPanel extends TimedPanel {
                     .getSystemClassLoader().getResource(
                             "biosim/client/water/gui/tDownWaterFull-pipe.jpg"));
         } catch (Exception e) {
-            System.err.println("Couldn't find icon, skipping icon loading");
+            myLogger.warn("Couldn't find icon, skipping icon loading");
             e.printStackTrace();
         }
     }

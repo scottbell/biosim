@@ -1,5 +1,7 @@
 package com.traclabs.biosim.client.framework.gui.spreadsheet;
 
+import org.apache.log4j.Logger;
+
 /*******************************************************************************
  * This class implements an interpreter that reads the content of a cell and
  * computes its associated value.
@@ -8,11 +10,6 @@ package com.traclabs.biosim.client.framework.gui.spreadsheet;
  * @author Thierry Manfé
  ******************************************************************************/
 class Interpreter {
-
-    /**
-     * Set this variable to true to get some debugging traces.
-     */
-    static final boolean DEBUG = false;
 
     static final String FORMULA = "FORMULA";
 
@@ -105,8 +102,11 @@ class Interpreter {
     private String _leaf;
 
     private StringBuffer _buffer;
+    
+    private Logger myLogger;
 
     Interpreter(SpreadSheetModel data) {
+        myLogger = Logger.getLogger(this.getClass());
         _data = data;
     }
 
@@ -131,10 +131,7 @@ class Interpreter {
      * @return Object The computed value
      */
     void interpret(SheetCell cell, boolean edition) {
-
-        if (DEBUG) {
-            _depth = 0;
-        }
+        _depth = 0;
         _noEmptyRef = true;
         _userEdition = edition;
         _formula = cell.formula.trim();
@@ -198,18 +195,14 @@ class Interpreter {
      *         computable)
      */
     Object accept(String syntagma) throws InterpreterEvent {
-
-        if (DEBUG) {
-            _depth++;
-            System.out.println("********** Depth: " + _depth);
-        }
+        _depth++;
+        myLogger.debug("********** Depth: " + _depth);
 
         Float value = null;
 
         if (syntagma.equals(FORMULA)) {
 
-            if (DEBUG)
-                System.out.println("Looking for a FORMULA");
+            myLogger.debug("Looking for a FORMULA");
 
             Float leftTerm = null;
             Float rightTerm = null;
@@ -231,8 +224,7 @@ class Interpreter {
                     if (_noEmptyRef) {
                         res = computeOperation(op, leftTerm.floatValue(),
                                 rightTerm.floatValue());
-                        if (DEBUG)
-                            System.out.println("Result MULTIPLY/DEVIDE is: "
+                        myLogger.debug("Result MULTIPLY/DEVIDE is: "
                                     + res);
                     }
 
@@ -248,13 +240,11 @@ class Interpreter {
                         if (_noEmptyRef) {
                             res = computeOperation(op, res, rightTerm
                                     .floatValue());
-                            if (DEBUG)
-                                System.out.println("Result ADD/SUBSTRACT: "
+                            myLogger.debug("Result ADD/SUBSTRACT: "
                                         + res);
                         }
                     } catch (SyntagmaMismatch evt) {
-                        if (DEBUG)
-                            _depth--;
+                        _depth--;
                         try {
                             op = (String) accept(MULTIPLY_OR_DEVIDE);
                             try {
@@ -267,17 +257,14 @@ class Interpreter {
                             if (_noEmptyRef) {
                                 res = computeOperation(op, res, rightTerm
                                         .floatValue());
-                                if (DEBUG)
-                                    System.out
-                                            .println("Result MULTIPLY/DEVIDE: "
+                                myLogger.debug("Result MULTIPLY/DEVIDE: "
                                                     + res);
                             }
                         } catch (SyntagmaMismatch evt2) {
                             throw new SyntaxError();
                         }
                     } catch (EndFormula evt) {
-                        if (DEBUG)
-                            _depth--;
+                        _depth--;
                     }
                 } catch (EndFormula err) {
                     throw new SyntaxError();
@@ -286,8 +273,7 @@ class Interpreter {
                 }
             } catch (SyntagmaMismatch evt1) {
 
-                if (DEBUG)
-                    _depth--;
+                _depth--;
                 try {
                     op = (String) accept(ADD_OR_SUBSTRACT);
                     try {
@@ -295,8 +281,7 @@ class Interpreter {
                         if (_noEmptyRef) {
                             res = computeOperation(op, leftTerm.floatValue(),
                                     rightTerm.floatValue());
-                            if (DEBUG)
-                                System.out.println("Result ADD/SUBSTRACT: "
+                            myLogger.debug("Result ADD/SUBSTRACT: "
                                         + res);
                         }
                     } catch (SyntagmaMismatch evt2) {
@@ -305,21 +290,18 @@ class Interpreter {
                 } catch (SyntagmaMismatch evt3) {
                     throw new SyntaxError();
                 } catch (EndFormula end) {
-                    if (DEBUG)
-                        _depth--;
+                    _depth--;
                     if (_noEmptyRef)
                         res = leftTerm.floatValue();
                 }
 
             } catch (EndFormula end2) {
-                if (DEBUG)
-                    _depth--;
+                _depth--;
                 if (_noEmptyRef)
                     res = leftTerm.floatValue();
             }
 
-            if (DEBUG)
-                _depth--;
+            _depth--;
             if (_noEmptyRef)
                 return new Float(res);
             else
@@ -329,21 +311,18 @@ class Interpreter {
 
         if (syntagma.equals(TERM)) {
 
-            if (DEBUG)
-                System.out.println("Looking for a TERM");
+            myLogger.debug("Looking for a TERM");
 
             try {
                 String parenthesis = (String) accept(OPENPAR);
                 value = (Float) accept(FORMULA);
                 parenthesis = (String) accept(CLOSEPAR);
             } catch (SyntagmaMismatch evt) {
-                if (DEBUG)
-                    _depth--;
+                _depth--;
                 try {
                     value = (Float) accept(CELLID);
                 } catch (SyntagmaMismatch ev) {
-                    if (DEBUG)
-                        _depth--;
+                    _depth--;
                     value = (Float) accept(NUMBER);
                 } catch (EmptyReference ev) {
                     _noEmptyRef = false;
@@ -351,10 +330,8 @@ class Interpreter {
                 }
             }
 
-            if (DEBUG) {
-                System.out.println("TERM is: " + value);
+            myLogger.debug("TERM is: " + value);
                 _depth--;
-            }
             return value;
 
         }
@@ -365,8 +342,7 @@ class Interpreter {
 
         if (syntagma.equals(NUMBER)) {
 
-            if (DEBUG)
-                System.out.println("Looking for a NUMBER");
+            myLogger.debug("Looking for a NUMBER");
 
             readLeaf();
             try {
@@ -376,17 +352,14 @@ class Interpreter {
             }
 
             updateFormula();
-            if (DEBUG)
-                System.out.println("Number=" + value);
-            if (DEBUG)
+            myLogger.debug("Number=" + value);
                 _depth--;
             return value;
         }
 
         if (syntagma.equals(CELLID)) {
 
-            if (DEBUG)
-                System.out.println("Looking for a CELLID");
+            myLogger.debug("Looking for a CELLID");
 
             readLeaf();
 
@@ -420,13 +393,12 @@ class Interpreter {
 
             // A cell can not reference itself
             if (_cell.row == r && _cell.column == c) {
-                System.out.println("Self reference not allowed in cells.");
+                myLogger.debug("Self reference not allowed in cells.");
                 throw new SyntaxError();
             }
 
             String cellVal = _data.getValueAt(r, c).toString();
-            if (DEBUG)
-                System.out.println("cellVal: " + cellVal);
+            myLogger.debug("cellVal: " + cellVal);
 
             updateFormula();
 
@@ -453,20 +425,17 @@ class Interpreter {
             try {
                 value = Float.valueOf(cellVal);
             } catch (NumberFormatException ex) {
-                if (DEBUG)
-                    System.out.println("Can't read value at: " + row + ", "
+                myLogger.debug("Can't read value at: " + row + ", "
                             + column);
                 throw new SyntagmaMismatch();
             }
 
-            if (DEBUG)
-                _depth--;
+            _depth--;
             return value;
         }
 
         if (syntagma.equals(MULTIPLY_OR_DEVIDE)) {
-            if (DEBUG)
-                System.out.println("Looking for MULTIPLY or DEVIDE");
+            myLogger.debug("Looking for MULTIPLY or DEVIDE");
 
             String op = null;
             try {
@@ -475,40 +444,33 @@ class Interpreter {
                 op = readCharLeaf(DEVIDE);
             }
 
-            if (DEBUG)
-                _depth--;
+            _depth--;
             return op;
         }
 
         if (syntagma.equals(ADD_OR_SUBSTRACT)) {
-            if (DEBUG)
-                System.out.println("Looking for ADD or SUBSTRACT");
+            myLogger.debug("Looking for ADD or SUBSTRACT");
             String op = null;
             try {
                 op = readCharLeaf(ADD);
             } catch (SyntagmaMismatch evt) {
                 op = readCharLeaf(SUBSTRACT);
             }
-            if (DEBUG)
-                _depth--;
+            _depth--;
             return op;
         }
 
         if (syntagma.equals(OPENPAR)) {
-            if (DEBUG)
-                System.out.println("Looking for an OPENPAR");
+            myLogger.debug("Looking for an OPENPAR");
             readCharLeaf(OPENPAR);
-            if (DEBUG)
-                _depth--;
+            _depth--;
             return null;
         }
 
         if (syntagma.equals(CLOSEPAR)) {
-            if (DEBUG)
-                System.out.println("Looking for a CLOSEPAR");
+            myLogger.debug("Looking for a CLOSEPAR");
             readCharLeaf(CLOSEPAR);
-            if (DEBUG)
-                _depth--;
+            _depth--;
             return null;
         }
 
@@ -549,8 +511,7 @@ class Interpreter {
 
     private String readCharLeaf(String c) throws SyntagmaMismatch, EndFormula {
         if (_formula.length() == 0) {
-            if (DEBUG)
-                System.out.println("readLeaf(): End Of Formula");
+            myLogger.debug("readLeaf(): End Of Formula");
             throw new EndFormula();
         }
         if (_formula.substring(0, 1).equals(c)) {
@@ -558,8 +519,7 @@ class Interpreter {
             updateFormula();
         } else {
             if (_formula.substring(0, 1).equals(CLOSEPAR)) {
-                if (DEBUG)
-                    System.out.println("readLeaf(): End Of Formula");
+                myLogger.debug("readLeaf(): End Of Formula");
                 throw new EndFormula();
             }
             throw new SyntagmaMismatch();
@@ -573,8 +533,7 @@ class Interpreter {
     private void updateFormula() {
         _buffer = _buffer.delete(0, _leaf.length());
         _formula = _buffer.toString().trim();
-        if (DEBUG)
-            System.out.println("_formula: " + _formula);
+        myLogger.debug("_formula: " + _formula);
     }
 
     private float computeOperation(String op, float left, float right) {

@@ -3,6 +3,8 @@ package com.traclabs.biosim.client.framework.gui.spreadsheet;
 import java.awt.Color;
 import java.util.Vector;
 
+import org.apache.log4j.Logger;
+
 /**
  * This class specifies the cell format.
  * 
@@ -10,11 +12,6 @@ import java.util.Vector;
  * @author Thierry Manfé
  */
 class SheetCell {
-
-    /**
-     * Set this field to true and recompile to get debug traces
-     */
-    public static final boolean DEBUG = false;
 
     static final int UNDEFINED = 0;
 
@@ -43,8 +40,11 @@ class SheetCell {
     int row;
 
     int column;
+    
+    Logger myLogger;
 
     SheetCell(int r, int c) {
+        myLogger = Logger.getLogger(this.getClass());
         row = r;
         column = c;
         value = null;
@@ -83,8 +83,7 @@ class SheetCell {
         for (int ii = 0; ii < listeners.size(); ii++) {
             SheetCell cell = (SheetCell) listeners.get(ii);
             SpreadSheetModel.interpreter.interpret(cell, UPDATE_EVENT);
-            if (DEBUG)
-                System.out.println("Listener updated.");
+            myLogger.debug("Listener updated.");
             cell.updateListeners();
         }
     }

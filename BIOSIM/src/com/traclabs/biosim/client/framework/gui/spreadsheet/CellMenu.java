@@ -9,6 +9,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JWindow;
 
+import org.apache.log4j.Logger;
+
 /**
  * This class implements a popup-menu used to customize cell appearance.
  * 
@@ -16,11 +18,6 @@ import javax.swing.JWindow;
  * @author Thierry Manfé
  */
 class CellMenu extends JPopupMenu implements ActionListener {
-
-    /**
-     * Set this field to true and recompile to get debug traces
-     */
-    public static final boolean DEBUG = false;
 
     static private final String _FOREGROUND = "Foreground";
 
@@ -36,8 +33,11 @@ class CellMenu extends JPopupMenu implements ActionListener {
     private JWindow _colorWindow;
 
     private SpreadSheet _sp;
+    
+    private Logger myLogger;
 
     CellMenu(SpreadSheet parent) {
+        myLogger = Logger.getLogger(this.getClass());
 
         _sp = parent;
 
@@ -58,8 +58,7 @@ class CellMenu extends JPopupMenu implements ActionListener {
 
     public void actionPerformed(ActionEvent ev) {
 
-        if (DEBUG)
-            System.out.println("Size of selection: " + _targetCells.length);
+        myLogger.debug("Size of selection: " + _targetCells.length);
 
         if (ev.getActionCommand().equals(_FOREGROUND)) {
             setVisible(false);

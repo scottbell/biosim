@@ -3,6 +3,8 @@ package com.traclabs.biosim.client.util;
 import java.util.Date;
 import java.util.Random;
 
+import org.apache.log4j.Logger;
+
 /**
  * Title: Fnorder
  */
@@ -253,7 +255,7 @@ public class Fnorder {
 
     public static void main(String[] args) {
         Fnorder myFnord = new Fnorder();
-        System.out.println(myFnord.getFnord());
+        Logger.getLogger(Fnorder.class).info(myFnord.getFnord());
     }
 
     private int random(int MAX) {
