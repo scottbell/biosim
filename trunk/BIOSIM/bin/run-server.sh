@@ -39,16 +39,7 @@ machineTypeEnv="-DMACHINE_TYPE=$machineType"
 ####################
 #		SERVERS START	#
 ####################
-genString="/build"
-genDir=$devRootDir$genString
-serverGenString="/server"
-serverGenDir=$genDir$serverGenString
-serverClassesString="/classes"
-serverClassesDir=$serverGenDir$serverClassesString
-resourceString="/resources"
-resourceDir=$devRootDir$resourceString
-skeletonClassesDir="$serverGenDir/skeletons"
-serverDir="$devRootDir/biosim/server"
+buildDir="$devRootDir/build"
 airRSName="biosim.server.simulation.air.AirRSServer"
 airStoreName="biosim.server.simulation.air.AirStoreServer"
 co2StoreName="biosim.server.simulation.air.CO2StoreServer"
@@ -71,7 +62,7 @@ initializerName="biosim.server.framework.BioInitializer"
 loggerName="biosim.server.util.LoggerServer"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME$separator$JACORB_HOME/avalon-framework.jar$separator$JACORB_HOME/logkit.jar"
 xmlClasspath="$devRootDir/lib/xerces/xercesImpl.jar$separator$devRootDir/lib/xerces/xml-apis.jar$separator$devRootDir/lib/xerces/xmlParserAPIs.jar"
-jacoInvocation="$java_command -classpath $serverClassesDir$separator$resourceDir$separator$jacoClasspath$separator$xmlClasspath $machineTypeEnv $biosimHome $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
+jacoInvocation="$java_command -classpath $buildDir$separator$resourceDir$separator$jacoClasspath$separator$xmlClasspath $machineTypeEnv $biosimHome $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
 nojitOption="-Djava.compiler=none"
 case $userSelect in
 	"-nojit") echo "		-starting with no JIT";jacoInvocation="$jacoInvocation $nojitOption";userSelect=$2;;
