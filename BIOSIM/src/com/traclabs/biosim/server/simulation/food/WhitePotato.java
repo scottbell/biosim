@@ -15,12 +15,12 @@ public class WhitePotato extends Planophile{
 		canopyClosureConstants[10] = 0.00000088437f;
 		canopyClosureConstants[17] = -0.000017905f;
 
-		canopyQYConstants[6] = .04191f;
-		canopyQYConstants[7] = .000053852f;
-		canopyQYConstants[8] = -.000000021275f;
-		canopyQYConstants[11] = -.00001238f;
-		canopyQYConstants[17] = -.00000000001544f;
-		canopyQYConstants[18] = .000000000000006469f;
+		canopyQYConstants[6] = 0.046929f;
+		canopyQYConstants[7] = 0.000050910f;
+		canopyQYConstants[8] = -0.000000021878f;
+		canopyQYConstants[14] = 0.0000000000000043976f;
+		canopyQYConstants[17] = -0.000000000015272f;
+		canopyQYConstants[21] = -0.000000000019602f;
 	}
 
 	public PlantType getPlantType(){
