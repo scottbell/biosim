@@ -96,7 +96,7 @@ public class ShelfImpl extends ShelfPOA {
 	private void collectPower(){
 		float gatheredPower = 0f;
 		PowerStore[] myPowerStores = myBiomassImpl.getPowerInputs();
-		for (int i = 0; (i < myPowerStores.length) || (gatheredPower >= myCrop.getPowerNeeded()); i++){
+		for (int i = 0; (i < myPowerStores.length) && (gatheredPower >= myCrop.getPowerNeeded()); i++){
 			gatheredPower += myPowerStores[i].take(myCrop.getPowerNeeded());
 		}
 		currentPowerConsumed = gatheredPower;
@@ -119,10 +119,10 @@ public class ShelfImpl extends ShelfPOA {
 		float gatheredWater = 0f;
 		GreyWaterStore[] myGreyWaterStores = myBiomassImpl.getGreyWaterInputs();
 		PotableWaterStore[] myPotableWaterStores = myBiomassImpl.getPotableWaterInputs();
-		for (int i = 0; (i < myGreyWaterStores.length) || (gatheredWater >= myCrop.getWaterNeeded()); i++){
+		for (int i = 0; (i < myGreyWaterStores.length) && (gatheredWater >= myCrop.getWaterNeeded()); i++){
 			gatheredWater += myGreyWaterStores[i].take(myCrop.getWaterNeeded());
 		}
-		for (int i = 0; (i < myPotableWaterStores.length) || (gatheredWater >= myCrop.getWaterNeeded()); i++){
+		for (int i = 0; (i < myPotableWaterStores.length) && (gatheredWater >= myCrop.getWaterNeeded()); i++){
 			gatheredWater += myPotableWaterStores[i].take(myCrop.getWaterNeeded());
 		}
 		currentGreyWaterConsumed = gatheredWater;

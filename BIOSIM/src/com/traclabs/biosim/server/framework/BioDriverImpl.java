@@ -153,7 +153,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myTickThread = new Thread(this);
 		myTickThread.start();
 	}
-	
+
 	private void loopSimulation(){
 		collectReferences();
 		myTickThread = new Thread(this);
@@ -244,18 +244,36 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		PowerStore myPowerStore = (PowerStore)(getBioModule(powerStoreName));
 		myPowerStore.setCapacity(10000f);
 		myPowerStore.setLevel(10000f);
-		
-		//Hook up FoodProcessor to other modules (experimental)
-		FoodProcessor myFoodProcessor = (FoodProcessor)(getBioModule(foodProcessorName));
-		BiomassStore[] biomassStoreInput = {myBiomassStore};
-		float[] biomassFlowRates = {10000f};
-		PowerStore[] powerStoreInput = {myPowerStore};
-		float[] powerFlowRates = {10000f};
-		FoodStore[] foodStoreOutput = {myFoodStore};
-		float[] foodFlowRates = {10000f};
-		myFoodProcessor.setBiomassInputs(biomassStoreInput, biomassFlowRates);
-		myFoodProcessor.setPowerInputs(powerStoreInput, powerFlowRates);
-		myFoodProcessor.setFoodOutputs(foodStoreOutput, foodFlowRates);
+
+		//Hook up Food Processor to other modules
+		{
+			FoodProcessor myFoodProcessor = (FoodProcessor)(getBioModule(foodProcessorName));
+			BiomassStore[] biomassStoreInput = {myBiomassStore};
+			PowerStore[] powerStoreInput = {myPowerStore};
+			FoodStore[] foodStoreOutput = {myFoodStore};
+			float[] biomassFlowRates = {10000f};
+			float[] powerFlowRates = {10000f};
+			float[] foodFlowRates = {10000f};
+			myFoodProcessor.setBiomassInputs(biomassStoreInput, biomassFlowRates);
+			myFoodProcessor.setPowerInputs(powerStoreInput, powerFlowRates);
+			myFoodProcessor.setFoodOutputs(foodStoreOutput, foodFlowRates);
+		}
+
+		//Hook up Biomass RS to other modules
+		{
+			PowerStore[] powerStoreInput = {myPowerStore};
+			PotableWaterStore[] potableWaterStoreInput = {myPotableWaterStore};
+			GreyWaterStore[] greyWaterStoreInput = {myGreyWaterStore};
+			BiomassStore[] biomassStoreOutput = {myBiomassStore};
+			float[] potableWaterFlowRates = {10000f};
+			float[] greyWaterFlowRates = {10000f};
+			float[] biomassFlowRates = {10000f};
+			float[] powerFlowRates = {10000f};
+			myBiomassRS.setPowerInputs(powerStoreInput, powerFlowRates);
+			myBiomassRS.setPotableWaterInputs(potableWaterStoreInput, potableWaterFlowRates);
+			myBiomassRS.setGreyWaterInputs(greyWaterStoreInput, greyWaterFlowRates);
+			myBiomassRS.setBiomassOutputs(biomassStoreOutput, biomassFlowRates);
+		}
 	}
 
 	/**
@@ -345,11 +363,11 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	public int getDriverPauseLength(){
 		return driverPauseLength;
 	}
-	
+
 	public boolean isLooping(){
 		return looping;
 	}
-	
+
 	public void setLooping(boolean pLoop){
 		looping = pLoop;
 	}
