@@ -1041,9 +1041,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
     }
 
     private void calculateLightIntensity() {
-        lightIntensity = new Double(maxLumens
-                * (Math.sin(Math.PI * (getMyTicks() - hourOfDayStart)
-                        / dayLength) + 1f)).floatValue();
+        lightIntensity = (float)(maxLumens * Math.pow(Math.sin(Math.PI / dayLength * (getMyTicks() - hourOfDayStart)), 2f));
     }
 
     /**

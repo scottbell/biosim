@@ -512,11 +512,6 @@ public class BioDriverImpl extends BioDriverPOA {
             BioModule currentBioModule = (BioModule) (prioritySimModules[i]);
             currentBioModule.tick();
         }
-        //Iterate through the passive sim modules and tick them
-        for (int i = 0; i < passiveSimModules.length; i++) {
-            BioModule currentBioModule = (BioModule) (passiveSimModules[i]);
-            currentBioModule.tick();
-        }
         //Iterate through the sensors and tick them
         for (int i = 0; i < sensors.length; i++) {
             BioModule currentBioModule = (BioModule) (sensors[i]);
