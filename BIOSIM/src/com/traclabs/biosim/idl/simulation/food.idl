@@ -1,14 +1,6 @@
 module food{
         interface BiomassRS : framework::SimBioModule, power::PowerConsumer, water::PotableWaterConsumer, water::GreyWaterConsumer, BiomassProducer, environment::AirConsumer, environment::AirProducer{
                 ShelfList getShelves();
-                float getTotalPotableWaterConsumed();
-                float getTotalGreyWaterConsumed();
-                float getTotalPowerConsumed();
-                float getTotalPlantArea();
-                float getTotalBiomassProduced();
-                StringList getPlantTypes();
-                float getTotalO2Produced();
-                float getTotalCO2Consumed();
         };
 
         interface BiomassStore : framework::Store{};
@@ -24,17 +16,9 @@ module food{
         interface FoodStore : framework::Store{};
 	
         interface Shelf{
-                float getArea();
-                float getPowerConsumed();
-                float getGreyWaterConsumed();
-                float getPotableWaterConsumed();
-                float getO2Produced();
-                float getCO2Consumed();
-                float getBiomassProduced();
-                boolean hasWater();
-                boolean hasLight();
-                boolean isDead();
-                boolean hasCO2();
+        };
+	
+	interface Plant{
         };
 	
 	interface BiomassConsumer{
