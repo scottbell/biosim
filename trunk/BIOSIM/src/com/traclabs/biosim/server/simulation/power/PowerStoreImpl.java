@@ -17,6 +17,6 @@ public class PowerStoreImpl extends StoreImpl implements PowerStoreOperations {
 	* @return the name of this module
 	*/
 	public String getModuleName(){
-		return "PowerStore";
+		return "PowerStore"+getID();
 	}
 }

@@ -60,6 +60,7 @@ public class BiosimServer extends GenericServer{
 		registerServer(new BiomassRSPOATie(myBiomassRSImpl), myBiomassRSImpl.getModuleName());
 		registerServer(new BiomassStorePOATie(myBiomassStoreImpl), myBiomassStoreImpl.getModuleName());
 		registerServer(new FoodProcessorPOATie(myFoodProcessorImpl), myFoodProcessorImpl.getModuleName());
+		registerServer(new FoodStorePOATie(myFoodStoreImpl), myFoodStoreImpl.getModuleName());
 		registerServer(new PowerPSPOATie(myPowerPSImpl), myPowerPSImpl.getModuleName());
 		registerServer(new PowerStorePOATie(myPowerStoreImpl), myPowerStoreImpl.getModuleName());
 		registerServer(new WaterRSPOATie(myWaterRSImpl), myWaterRSImpl.getModuleName());
