@@ -26,12 +26,16 @@ public class BiosimMain
 		int myID = 0;
 		boolean wantsToRunCommandLine = false;
 		boolean wantsToRunGUI = false;
+		boolean wantsToRunController = false;
 		for (int i = 0; i < myArgs.length; i++){
 			if (myArgs[i].equals("gui")){
 				wantsToRunGUI = true;
 			}
 			else if (myArgs[i].equals("console")){
 				wantsToRunCommandLine = true;
+			}
+			else if (myArgs[i].equals("controller")){
+				wantsToRunController = true;
 			}
 			else if (myArgs[i].startsWith("-id=")){
 				try{
@@ -49,6 +53,8 @@ public class BiosimMain
 			runCommandLine(myID);
 		else if (wantsToRunGUI)
 			runGUI(myID);
+		else if (wantsToRunController)
+			runHandController(myID);
 		else{
 			System.out.println("Unknown option, starting GUI with server ID="+myID);
 			runGUI(myID);
@@ -58,7 +64,7 @@ public class BiosimMain
 	/**
 	* Runs the SimDesktop front end for the simulation.
 	*/
-	public void runGUI(int myID){
+	private void runGUI(int myID){
 		SimDesktop newDesktop = new SimDesktop(myID);
 		newDesktop.setSize(1024, 768);
 		newDesktop.setVisible(true);
@@ -67,9 +73,14 @@ public class BiosimMain
 	/**
 	* Runs the commandline front end for the simulation.
 	*/
-	public void runCommandLine(int myID){
+	private void runCommandLine(int myID){
 		SimCommandLine newCommandLine = new SimCommandLine(myID);
 		newCommandLine.runCommandLine();
+	}
+	
+	public void runHandController(int myID){
+		HandController myController = new HandController();
+		myController.runSim();
 	}
 }
 
