@@ -41,7 +41,7 @@ machineTypeEnv="-DMACHINE_TYPE=$machineType"
 #		SERVERS START	#
 ####################
 buildDir="$devRootDir/build"
-editorName="com.traclabs.biosim.server.editor.BiosimEditor"
+editorName="com.traclabs.biosim.editor.BiosimEditor"
 resourceDir="$devRootDir/resources"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME$separator$JACORB_HOME/avalon-framework.jar$separator$JACORB_HOME/logkit.jar"
 logCLasspath="$devRootDir/lib/log4j/log4j.jar$separator$devRootDir/lib/log4j/commons-logging.jar"

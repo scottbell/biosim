@@ -12,7 +12,7 @@
  * Created on February 6, 2003, 10:59 AM
  */
 
-package com.traclabs.biosim.server.editor.xml;
+package com.traclabs.biosim.editor.xml;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;

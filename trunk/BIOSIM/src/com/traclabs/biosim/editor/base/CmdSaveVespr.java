@@ -5,7 +5,7 @@
  * applicable provisions of the FAR and its supplements. Use is subject to
  * license terms.
  */
-package com.traclabs.biosim.server.editor.base;
+package com.traclabs.biosim.editor.base;
 
 import java.io.File;
 import java.util.Vector;

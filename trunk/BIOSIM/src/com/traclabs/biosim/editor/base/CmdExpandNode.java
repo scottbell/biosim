@@ -6,7 +6,7 @@
  * provisions of the FAR and its supplements.
  * Use is subject to license terms.
  */
-package com.traclabs.biosim.server.editor.base;
+package com.traclabs.biosim.editor.base;
 
 import java.util.Vector;
 
@@ -17,7 +17,7 @@ import org.tigris.gef.base.Globals;
 import org.tigris.gef.base.SelectionManager;
 import org.tigris.gef.presentation.Fig;
 
-import com.traclabs.biosim.server.editor.graph.VesprFigNode;
+import com.traclabs.biosim.editor.graph.VesprFigNode;
 
 /**
  * Displays the contents of the node that is current selected in the editor.

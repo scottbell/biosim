@@ -9,7 +9,7 @@
 /*
  * Created on Jun 10, 2004
  */
-package com.traclabs.biosim.server.editor.base;
+package com.traclabs.biosim.editor.base;
 
 import org.tigris.gef.base.Cmd;
 import org.tigris.gef.base.Editor;

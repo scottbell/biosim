@@ -6,7 +6,7 @@
  * provisions of the FAR and its supplements.
  * Use is subject to license terms.
  */
-package com.traclabs.biosim.server.editor.ui;
+package com.traclabs.biosim.editor.ui;
 
 import org.tigris.gef.base.CmdCreateNode;
 import org.tigris.gef.base.CmdSetMode;
@@ -14,18 +14,18 @@ import org.tigris.gef.base.ModeBroom;
 import org.tigris.gef.base.ModeSelect;
 import org.tigris.gef.ui.PaletteFig;
 
-import com.traclabs.biosim.server.editor.base.CmdExpandNode;
-import com.traclabs.biosim.server.editor.base.CmdNewVespr;
-import com.traclabs.biosim.server.editor.base.CmdOpenVespr;
-import com.traclabs.biosim.server.editor.base.CmdSaveVespr;
-import com.traclabs.biosim.server.editor.base.CmdShowParent;
-import com.traclabs.biosim.server.editor.base.CmdShowRoot;
-import com.traclabs.biosim.server.editor.base.ModeZoom;
-import com.traclabs.biosim.server.editor.graph.DecisionNode;
-import com.traclabs.biosim.server.editor.graph.GoToNode;
-import com.traclabs.biosim.server.editor.graph.OptionalNode;
-import com.traclabs.biosim.server.editor.graph.RequiredNode;
-import com.traclabs.biosim.server.editor.graph.TerminatorNode;
+import com.traclabs.biosim.editor.base.CmdExpandNode;
+import com.traclabs.biosim.editor.base.CmdNewVespr;
+import com.traclabs.biosim.editor.base.CmdOpenVespr;
+import com.traclabs.biosim.editor.base.CmdSaveVespr;
+import com.traclabs.biosim.editor.base.CmdShowParent;
+import com.traclabs.biosim.editor.base.CmdShowRoot;
+import com.traclabs.biosim.editor.base.ModeZoom;
+import com.traclabs.biosim.editor.graph.DecisionNode;
+import com.traclabs.biosim.editor.graph.GoToNode;
+import com.traclabs.biosim.editor.graph.OptionalNode;
+import com.traclabs.biosim.editor.graph.RequiredNode;
+import com.traclabs.biosim.editor.graph.TerminatorNode;
 
 /**
  * A class to define a custom palette for use in some demos.

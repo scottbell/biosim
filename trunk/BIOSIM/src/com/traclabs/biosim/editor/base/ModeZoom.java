@@ -9,7 +9,7 @@
 /*
  * Created on Jun 10, 2004
  */
-package com.traclabs.biosim.server.editor.base;
+package com.traclabs.biosim.editor.base;
 
 import java.awt.Cursor;
 import java.awt.Point;

@@ -5,7 +5,7 @@
  * applicable provisions of the FAR and its supplements. Use is subject to
  * license terms.
  */
-package com.traclabs.biosim.server.editor.xml;
+package com.traclabs.biosim.editor.xml;
 
 import java.io.Reader;
 import java.util.Hashtable;
@@ -23,18 +23,18 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import com.traclabs.biosim.server.editor.base.VesprDocument;
-import com.traclabs.biosim.server.editor.base.VesprEditor;
-import com.traclabs.biosim.server.editor.base.VesprLayer;
-import com.traclabs.biosim.server.editor.graph.DecisionNode;
-import com.traclabs.biosim.server.editor.graph.GoToNode;
-import com.traclabs.biosim.server.editor.graph.OptionalNode;
-import com.traclabs.biosim.server.editor.graph.RequiredNode;
-import com.traclabs.biosim.server.editor.graph.TerminatorNode;
-import com.traclabs.biosim.server.editor.graph.VesprFigEdge;
-import com.traclabs.biosim.server.editor.graph.VesprFigNode;
-import com.traclabs.biosim.server.editor.graph.VesprNode;
-import com.traclabs.biosim.server.editor.graph.VesprPort;
+import com.traclabs.biosim.editor.base.VesprDocument;
+import com.traclabs.biosim.editor.base.VesprEditor;
+import com.traclabs.biosim.editor.base.VesprLayer;
+import com.traclabs.biosim.editor.graph.DecisionNode;
+import com.traclabs.biosim.editor.graph.GoToNode;
+import com.traclabs.biosim.editor.graph.OptionalNode;
+import com.traclabs.biosim.editor.graph.RequiredNode;
+import com.traclabs.biosim.editor.graph.TerminatorNode;
+import com.traclabs.biosim.editor.graph.VesprFigEdge;
+import com.traclabs.biosim.editor.graph.VesprFigNode;
+import com.traclabs.biosim.editor.graph.VesprNode;
+import com.traclabs.biosim.editor.graph.VesprPort;
 
 public class VesprParser extends DefaultHandler implements DocumentReader {
 

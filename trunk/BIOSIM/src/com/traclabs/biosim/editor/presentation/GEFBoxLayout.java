@@ -10,7 +10,7 @@
  * Created on Dec 3, 2003
  *
  */
-package com.traclabs.biosim.server.editor.presentation;
+package com.traclabs.biosim.editor.presentation;
 
 import java.awt.Dimension;
 import java.awt.Insets;

@@ -5,7 +5,7 @@
  * applicable provisions of the FAR and its supplements. Use is subject to
  * license terms.
  */
-package com.traclabs.biosim.server.editor.base;
+package com.traclabs.biosim.editor.base;
 
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
@@ -15,7 +15,7 @@ import org.tigris.gef.base.ModeCreateEdge;
 import org.tigris.gef.base.ModeManager;
 import org.tigris.gef.presentation.Fig;
 
-import com.traclabs.biosim.server.editor.graph.VesprFigNode;
+import com.traclabs.biosim.editor.graph.VesprFigNode;
 
 public class VesprModeManager extends ModeManager {
 

@@ -5,7 +5,7 @@
  * applicable provisions of the FAR and its supplements. Use is subject to
  * license terms.
  */
-package com.traclabs.biosim.server.editor.presentation;
+package com.traclabs.biosim.editor.presentation;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -44,21 +44,21 @@ import org.tigris.gef.base.Globals;
 import org.tigris.gef.base.Layer;
 import org.tigris.gef.graph.presentation.JGraphFrame;
 
-import com.traclabs.biosim.server.editor.base.CmdNewVespr;
-import com.traclabs.biosim.server.editor.base.CmdOpenVespr;
-import com.traclabs.biosim.server.editor.base.CmdSaveAsVespr;
-import com.traclabs.biosim.server.editor.base.CmdSaveVespr;
-import com.traclabs.biosim.server.editor.base.CmdTreeLayout;
-import com.traclabs.biosim.server.editor.base.CmdZoomTo;
-import com.traclabs.biosim.server.editor.base.VesprCmdCopy;
-import com.traclabs.biosim.server.editor.base.VesprCmdCut;
-import com.traclabs.biosim.server.editor.base.VesprCmdExit;
-import com.traclabs.biosim.server.editor.base.VesprCmdPaste;
-import com.traclabs.biosim.server.editor.base.VesprCmdSpawn;
-import com.traclabs.biosim.server.editor.base.VesprCmdZoom;
-import com.traclabs.biosim.server.editor.base.VesprDocument;
-import com.traclabs.biosim.server.editor.base.VesprEditor;
-import com.traclabs.biosim.server.editor.ui.VesprPalette;
+import com.traclabs.biosim.editor.base.CmdNewVespr;
+import com.traclabs.biosim.editor.base.CmdOpenVespr;
+import com.traclabs.biosim.editor.base.CmdSaveAsVespr;
+import com.traclabs.biosim.editor.base.CmdSaveVespr;
+import com.traclabs.biosim.editor.base.CmdTreeLayout;
+import com.traclabs.biosim.editor.base.CmdZoomTo;
+import com.traclabs.biosim.editor.base.VesprCmdCopy;
+import com.traclabs.biosim.editor.base.VesprCmdCut;
+import com.traclabs.biosim.editor.base.VesprCmdExit;
+import com.traclabs.biosim.editor.base.VesprCmdPaste;
+import com.traclabs.biosim.editor.base.VesprCmdSpawn;
+import com.traclabs.biosim.editor.base.VesprCmdZoom;
+import com.traclabs.biosim.editor.base.VesprDocument;
+import com.traclabs.biosim.editor.base.VesprEditor;
+import com.traclabs.biosim.editor.ui.VesprPalette;
 
 public class VesprFrame extends JGraphFrame {
     protected Cmd _exitCmd;

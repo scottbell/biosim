@@ -5,7 +5,7 @@
  * applicable provisions of the FAR and its supplements. Use is subject to
  * license terms.
  */
-package com.traclabs.biosim.server.editor.base;
+package com.traclabs.biosim.editor.base;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -18,8 +18,8 @@ import org.tigris.gef.base.LayerPerspective;
 import org.tigris.gef.graph.GraphEvent;
 import org.tigris.gef.presentation.Fig;
 
-import com.traclabs.biosim.server.editor.graph.VesprFigNode;
-import com.traclabs.biosim.server.editor.graph.VesprGraphModel;
+import com.traclabs.biosim.editor.graph.VesprFigNode;
+import com.traclabs.biosim.editor.graph.VesprGraphModel;
 
 public class VesprLayer extends LayerPerspective {
     VesprFigNode _parent = null;

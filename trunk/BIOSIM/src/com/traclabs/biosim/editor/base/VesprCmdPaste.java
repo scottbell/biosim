@@ -11,7 +11,7 @@
  * that have been saved to a temporary file. The clipboard contains the name of
  * this file.
  */
-package com.traclabs.biosim.server.editor.base;
+package com.traclabs.biosim.editor.base;
 
 import java.awt.Component;
 import java.awt.Point;

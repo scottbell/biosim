@@ -5,7 +5,7 @@
  * applicable provisions of the FAR and its supplements. Use is subject to
  * license terms.
  */
-package com.traclabs.biosim.server.editor.ui;
+package com.traclabs.biosim.editor.ui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;

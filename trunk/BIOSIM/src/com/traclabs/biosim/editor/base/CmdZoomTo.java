@@ -9,7 +9,7 @@
 /*
  * Created on Jun 9, 2004
  */
-package com.traclabs.biosim.server.editor.base;
+package com.traclabs.biosim.editor.base;
 
 import java.awt.Frame;
 import java.awt.Rectangle;
@@ -18,7 +18,7 @@ import org.tigris.gef.base.Cmd;
 import org.tigris.gef.base.Editor;
 import org.tigris.gef.base.Globals;
 
-import com.traclabs.biosim.server.editor.ui.ZoomDialog;
+import com.traclabs.biosim.editor.ui.ZoomDialog;
 
 /**
  * Displays the Zoom dialog which allows the user to change the magnification on

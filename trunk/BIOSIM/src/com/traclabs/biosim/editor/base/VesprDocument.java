@@ -6,7 +6,7 @@
  * provisions of the FAR and its supplements.
  * Use is subject to license terms.
  */
-package com.traclabs.biosim.server.editor.base;
+package com.traclabs.biosim.editor.base;
 
 import java.awt.Frame;
 import java.io.BufferedReader;
@@ -22,12 +22,12 @@ import java.util.Vector;
 import org.tigris.gef.base.Layer;
 import org.tigris.gef.presentation.Fig;
 
-import com.traclabs.biosim.server.editor.graph.VesprFigNode;
-import com.traclabs.biosim.server.editor.graph.VesprGraphModel;
-import com.traclabs.biosim.server.editor.xml.DocumentReader;
-import com.traclabs.biosim.server.editor.xml.DocumentWriter;
-import com.traclabs.biosim.server.editor.xml.VesprParser;
-import com.traclabs.biosim.server.editor.xml.VesprWriter;
+import com.traclabs.biosim.editor.graph.VesprFigNode;
+import com.traclabs.biosim.editor.graph.VesprGraphModel;
+import com.traclabs.biosim.editor.xml.DocumentReader;
+import com.traclabs.biosim.editor.xml.DocumentWriter;
+import com.traclabs.biosim.editor.xml.VesprParser;
+import com.traclabs.biosim.editor.xml.VesprWriter;
 
 /**
  * VesprDocument represents a document which contains a hierachy of nested vespr
