@@ -33,9 +33,9 @@ linuxName="Linux"
 macName="Darwin"
 sim3DLibDir="$devRootDir/lib/sim3D"
 case $machineType in
-	*$winName*) separator=";";joglDir="$sim3DLibDir/win32";echo "		-machine type is $winName";;
+	*$winName*) separator=";";joglDir="$sim3DLibDir/win32";echo "		-machine type is $winName(windows)";;
 	*$linuxName*) separator=":";joglDir="$sim3DLibDir/linux";echo "		-machine type is $linuxName";;
-	*$macName*) separator=":";joglDir="$sim3DLibDir/mac";echo "		-machine type is $macName";;
+	*$macName*) separator=":";joglDir="$sim3DLibDir/mac";echo "		-machine type is $macName(macintosh)";;
 	*)separator=":";echo "		-assuming Unix machine type";;
 esac
 machineTypeEnv="-DMACHINE_TYPE=$machineType"
