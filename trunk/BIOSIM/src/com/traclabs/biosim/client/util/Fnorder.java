@@ -249,7 +249,7 @@ public class Fnorder {
 
     public Fnorder() {
         Date currentDate = new Date(); //used for seed in generating random
-                                       // numbers
+        // numbers
         myRandom = new Random(currentDate.getTime());
     }
 

@@ -102,7 +102,7 @@ class Interpreter {
     private String _leaf;
 
     private StringBuffer _buffer;
-    
+
     private Logger myLogger;
 
     Interpreter(SpreadSheetModel data) {
@@ -224,8 +224,7 @@ class Interpreter {
                     if (_noEmptyRef) {
                         res = computeOperation(op, leftTerm.floatValue(),
                                 rightTerm.floatValue());
-                        myLogger.debug("Result MULTIPLY/DEVIDE is: "
-                                    + res);
+                        myLogger.debug("Result MULTIPLY/DEVIDE is: " + res);
                     }
 
                     try {
@@ -240,8 +239,7 @@ class Interpreter {
                         if (_noEmptyRef) {
                             res = computeOperation(op, res, rightTerm
                                     .floatValue());
-                            myLogger.debug("Result ADD/SUBSTRACT: "
-                                        + res);
+                            myLogger.debug("Result ADD/SUBSTRACT: " + res);
                         }
                     } catch (SyntagmaMismatch evt) {
                         _depth--;
@@ -257,8 +255,8 @@ class Interpreter {
                             if (_noEmptyRef) {
                                 res = computeOperation(op, res, rightTerm
                                         .floatValue());
-                                myLogger.debug("Result MULTIPLY/DEVIDE: "
-                                                    + res);
+                                myLogger
+                                        .debug("Result MULTIPLY/DEVIDE: " + res);
                             }
                         } catch (SyntagmaMismatch evt2) {
                             throw new SyntaxError();
@@ -281,8 +279,7 @@ class Interpreter {
                         if (_noEmptyRef) {
                             res = computeOperation(op, leftTerm.floatValue(),
                                     rightTerm.floatValue());
-                            myLogger.debug("Result ADD/SUBSTRACT: "
-                                        + res);
+                            myLogger.debug("Result ADD/SUBSTRACT: " + res);
                         }
                     } catch (SyntagmaMismatch evt2) {
                         throw new SyntaxError();
@@ -331,7 +328,7 @@ class Interpreter {
             }
 
             myLogger.debug("TERM is: " + value);
-                _depth--;
+            _depth--;
             return value;
 
         }
@@ -353,7 +350,7 @@ class Interpreter {
 
             updateFormula();
             myLogger.debug("Number=" + value);
-                _depth--;
+            _depth--;
             return value;
         }
 
@@ -425,8 +422,7 @@ class Interpreter {
             try {
                 value = Float.valueOf(cellVal);
             } catch (NumberFormatException ex) {
-                myLogger.debug("Can't read value at: " + row + ", "
-                            + column);
+                myLogger.debug("Can't read value at: " + row + ", " + column);
                 throw new SyntagmaMismatch();
             }
 

@@ -37,7 +37,7 @@ public class PowerStorePanel extends GraphPanel {
                 .get(0));
         refresh();
         myChart = ChartFactory.createBarChart3D("Power Store Level", // chart
-                                                                     // title
+                // title
                 "", // domain axis label
                 "Power Level (W)", // range axis label
                 myDataset, PlotOrientation.VERTICAL, // data

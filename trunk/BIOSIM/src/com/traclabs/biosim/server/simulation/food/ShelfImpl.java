@@ -21,7 +21,7 @@ import com.traclabs.biosim.server.util.OrbUtils;
 
 public class ShelfImpl extends ShelfPOA {
     private Logger myLogger;
-    
+
     private PlantImpl myCrop;
 
     private PlantType initialType;
@@ -37,11 +37,12 @@ public class ShelfImpl extends ShelfPOA {
     private float waterLevel = 0f;
 
     private static final float waterNeededPerMeterSquared = 50f; //grab up to
-                                                                 // 50 liters
-                                                                 // per meters
-                                                                 // squared of
-                                                                 // crops per
-                                                                 // hour(WAG)
+
+    // 50 liters
+    // per meters
+    // squared of
+    // crops per
+    // hour(WAG)
 
     private float waterNeeded = 0f;
 
@@ -173,9 +174,9 @@ public class ShelfImpl extends ShelfPOA {
     }
 
     private void lightPlants() {
-        myLogger.debug("ShelfImpl: powerLevel: "+powerLevel);
-        myLogger.debug("ShelfImpl: getLampEfficiency:"+getLampEfficiency());
-        myLogger.debug("ShelfImpl: getPSEfficiency: "+getPSEfficiency());
+        myLogger.debug("ShelfImpl: powerLevel: " + powerLevel);
+        myLogger.debug("ShelfImpl: getLampEfficiency:" + getLampEfficiency());
+        myLogger.debug("ShelfImpl: getPSEfficiency: " + getPSEfficiency());
         float powerToDeliver = Math
                 .min(powerLevel, myCrop.getPPFNeeded() * getCropAreaUsed()
                         / (getLampEfficiency() * getPSEfficiency()));
@@ -183,7 +184,7 @@ public class ShelfImpl extends ShelfPOA {
             powerToDeliver = Float.MIN_VALUE;
         float thePPF = powerToDeliver * getLampEfficiency() * getPSEfficiency()
                 / getCropAreaUsed();
-        myLogger.debug("ShelfImpl: thePPF: "+thePPF);
+        myLogger.debug("ShelfImpl: thePPF: " + thePPF);
         myCrop.shine(thePPF);
     }
 
@@ -221,9 +222,8 @@ public class ShelfImpl extends ShelfPOA {
         if (myBiomassRSImpl.autoHarvestAndReplantEnabled()) {
             if (myCrop.readyForHarvest() || myCrop.isDead()) {
                 BioMatter biomassProduced = myCrop.harvest();
-                myLogger.info("ShelfImpl: Harvested "
-                        + biomassProduced.mass + "kg of "
-                        + myCrop.getPlantTypeString());
+                myLogger.info("ShelfImpl: Harvested " + biomassProduced.mass
+                        + "kg of " + myCrop.getPlantTypeString());
                 float biomassAdded = pushFractionalResourceToBiomassStore(
                         myBiomassRSImpl.getBiomassOutputs(), myBiomassRSImpl
                                 .getBiomassOutputMaxFlowRates(),

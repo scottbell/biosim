@@ -81,7 +81,7 @@ public class WaterMonitor extends Thread {
      *            The dirty Water storage information.
      */
     private DirtyWaterStore myDirtyWaterStore;
-    
+
     private Logger myLogger;
 
     /**
@@ -93,7 +93,7 @@ public class WaterMonitor extends Thread {
      *            BioHolder used to get the simulation's water information.
      */
     WaterMonitor(Socket unrealSocket, BioHolder bioHolder) {
-	myLogger = Logger.getLogger(this.getClass());
+        myLogger = Logger.getLogger(this.getClass());
         mySocket = unrealSocket;
         myBioHolder = bioHolder;
 

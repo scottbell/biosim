@@ -23,11 +23,11 @@ public class RO extends WaterRSSubSystem {
     public RO(WaterRSImpl pWaterRSImpl) {
         super(pWaterRSImpl);
     }
-    
-    public void log(){
+
+    public void log() {
         super.log();
-        myLogger.debug("currentAESWaterProduced="+currentAESWaterProduced);
-        myLogger.debug("currentPPSWaterProduced="+currentPPSWaterProduced);
+        myLogger.debug("currentAESWaterProduced=" + currentAESWaterProduced);
+        myLogger.debug("currentPPSWaterProduced=" + currentPPSWaterProduced);
     }
 
     public float getAESWaterProduced() {
@@ -53,13 +53,14 @@ public class RO extends WaterRSSubSystem {
             currentAESWaterProduced = 0f;
         }
         //if PPS is enabled, give it to it
-        if (myWaterRS.getPPS().isEnabled()){
-            currentPPSWaterProduced = (new Double(waterLevel * 0.85f)).floatValue();
-        	myWaterRS.getPPS().addWater(currentPPSWaterProduced);
+        if (myWaterRS.getPPS().isEnabled()) {
+            currentPPSWaterProduced = (new Double(waterLevel * 0.85f))
+                    .floatValue();
+            myWaterRS.getPPS().addWater(currentPPSWaterProduced);
             waterLevel = 0;
         }
         //if not, send it to grey water tank
-        else{
+        else {
             waterLevel = SimBioModuleImpl.pushResourceToStore(myWaterRS
                     .getGreyWaterInputs(), myWaterRS
                     .getGreyWaterInputMaxFlowRates(), myWaterRS

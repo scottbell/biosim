@@ -25,13 +25,13 @@ public class CH4Tank extends AirRSSubSystem {
         CH4Level = 0;
     }
 
-    public void tick(){
+    public void tick() {
         super.tick();
     }
-    
-    public void log(){
+
+    public void log() {
         super.log();
-        myLogger.debug("CH4Level="+CH4Level);
+        myLogger.debug("CH4Level=" + CH4Level);
     }
 
 }

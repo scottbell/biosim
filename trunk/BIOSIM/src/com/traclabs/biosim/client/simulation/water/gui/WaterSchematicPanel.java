@@ -107,14 +107,14 @@ public class WaterSchematicPanel extends TimedPanel {
 
     //For formatting floats
     private DecimalFormat numFormat;
-    
+
     private Logger myLogger;
 
     /**
      * Default constructor.
      */
     public WaterSchematicPanel() {
-	myLogger = Logger.getLogger(this.getClass());
+        myLogger = Logger.getLogger(this.getClass());
         BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
         myWaterRS = (WaterRS) (myBioHolder.theWaterRSModules.get(0));
         myPotableWaterStore = (PotableWaterStore) (myBioHolder.thePotableWaterStores
@@ -306,56 +306,96 @@ public class WaterSchematicPanel extends TimedPanel {
      */
     private void loadIcons() {
         try {
-            potableWaterStoreIcon = new ImageIcon(ClassLoader
-                    .getSystemClassLoader().getResource(
-                            "com/traclabs/biosim/client/water/gui/potable-watertank.jpg"));
-            dirtyWaterStoreIcon = new ImageIcon(ClassLoader
-                    .getSystemClassLoader().getResource(
-                            "com/traclabs/biosim/client/water/gui/dirty-watertank.jpg"));
-            greyWaterStoreIcon = new ImageIcon(ClassLoader
-                    .getSystemClassLoader().getResource(
-                            "com/traclabs/biosim/client/water/gui/grey-watertank.jpg"));
-            horizontalPipeIcon = new ImageIcon(ClassLoader
-                    .getSystemClassLoader().getResource(
-                            "com/traclabs/biosim/client/water/gui/horizontal-pipe.jpg"));
-            horizontalWaterPipeIcon = new ImageIcon(ClassLoader
-                    .getSystemClassLoader().getResource(
-                            "com/traclabs/biosim/client/water/gui/horizontalWater-pipe.jpg"));
-            susbsytemDisabledIcon = new ImageIcon(ClassLoader
-                    .getSystemClassLoader().getResource(
-                            "com/traclabs/biosim/client/water/gui/subsystem-disabled.jpg"));
-            susbsytemOkIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
-                    .getResource("com/traclabs/biosim/client/water/gui/subsystem-ok.jpg"));
-            susbsytemProblemIcon = new ImageIcon(ClassLoader
-                    .getSystemClassLoader().getResource(
-                            "com/traclabs/biosim/client/water/gui/subsystem-problem.jpg"));
-            verticalPipeIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
-                    .getResource("com/traclabs/biosim/client/water/gui/vertical-pipe.jpg"));
-            verticalWaterPipeIcon = new ImageIcon(ClassLoader
-                    .getSystemClassLoader().getResource(
-                            "com/traclabs/biosim/client/water/gui/verticalWater-pipe.jpg"));
-            tUpPipeIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
-                    .getResource("com/traclabs/biosim/client/water/gui/tUp-pipe.jpg"));
-            tUpWaterRightPipeIcon = new ImageIcon(ClassLoader
-                    .getSystemClassLoader().getResource(
-                            "com/traclabs/biosim/client/water/gui/tUpWaterRight-pipe.jpg"));
-            tUpWaterLeftPipeIcon = new ImageIcon(ClassLoader
-                    .getSystemClassLoader().getResource(
-                            "com/traclabs/biosim/client/water/gui/tUpWaterLeft-pipe.jpg"));
-            tUpWaterFullPipeIcon = new ImageIcon(ClassLoader
-                    .getSystemClassLoader().getResource(
-                            "com/traclabs/biosim/client/water/gui/tUpWaterFull-pipe.jpg"));
-            tDownPipeIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
-                    .getResource("com/traclabs/biosim/client/water/gui/tDown-pipe.jpg"));
-            tDownWaterRightPipeIcon = new ImageIcon(ClassLoader
-                    .getSystemClassLoader().getResource(
-                            "com/traclabs/biosim/client/water/gui/tDownWaterRight-pipe.jpg"));
-            tDownWaterLeftPipeIcon = new ImageIcon(ClassLoader
-                    .getSystemClassLoader().getResource(
-                            "com/traclabs/biosim/client/water/gui/tDownWaterLeft-pipe.jpg"));
-            tDownWaterFullPipeIcon = new ImageIcon(ClassLoader
-                    .getSystemClassLoader().getResource(
-                            "com/traclabs/biosim/client/water/gui/tDownWaterFull-pipe.jpg"));
+            potableWaterStoreIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/water/gui/potable-watertank.jpg"));
+            dirtyWaterStoreIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/water/gui/dirty-watertank.jpg"));
+            greyWaterStoreIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/water/gui/grey-watertank.jpg"));
+            horizontalPipeIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/water/gui/horizontal-pipe.jpg"));
+            horizontalWaterPipeIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/water/gui/horizontalWater-pipe.jpg"));
+            susbsytemDisabledIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/water/gui/subsystem-disabled.jpg"));
+            susbsytemOkIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/water/gui/subsystem-ok.jpg"));
+            susbsytemProblemIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/water/gui/subsystem-problem.jpg"));
+            verticalPipeIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/water/gui/vertical-pipe.jpg"));
+            verticalWaterPipeIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/water/gui/verticalWater-pipe.jpg"));
+            tUpPipeIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/water/gui/tUp-pipe.jpg"));
+            tUpWaterRightPipeIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/water/gui/tUpWaterRight-pipe.jpg"));
+            tUpWaterLeftPipeIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/water/gui/tUpWaterLeft-pipe.jpg"));
+            tUpWaterFullPipeIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/water/gui/tUpWaterFull-pipe.jpg"));
+            tDownPipeIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/water/gui/tDown-pipe.jpg"));
+            tDownWaterRightPipeIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/water/gui/tDownWaterRight-pipe.jpg"));
+            tDownWaterLeftPipeIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/water/gui/tDownWaterLeft-pipe.jpg"));
+            tDownWaterFullPipeIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/water/gui/tDownWaterFull-pipe.jpg"));
         } catch (Exception e) {
             myLogger.warn("Couldn't find icon, skipping icon loading");
             e.printStackTrace();

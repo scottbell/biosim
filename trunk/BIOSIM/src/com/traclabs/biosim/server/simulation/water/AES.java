@@ -26,10 +26,10 @@ public class AES extends WaterRSSubSystem {
     public float getPPSWaterProduced() {
         return currentPPSWaterProduced;
     }
-    
-    public void log(){
+
+    public void log() {
         super.log();
-        myLogger.debug("currentPPSWaterProduced="+currentPPSWaterProduced);
+        myLogger.debug("currentPPSWaterProduced=" + currentPPSWaterProduced);
     }
 
     /**
@@ -37,13 +37,13 @@ public class AES extends WaterRSSubSystem {
      */
     private void pushWater() {
         //if PPS is enabled, give it to it
-        if (myWaterRS.getPPS().isEnabled()){
+        if (myWaterRS.getPPS().isEnabled()) {
             currentPPSWaterProduced = waterLevel;
             myWaterRS.getPPS().addWater(currentPPSWaterProduced);
             waterLevel = 0;
         }
         //otherwise, push it to the grey water tank
-        else{
+        else {
             waterLevel = SimBioModuleImpl.pushResourceToStore(myWaterRS
                     .getGreyWaterInputs(), myWaterRS
                     .getGreyWaterInputMaxFlowRates(), myWaterRS

@@ -67,7 +67,7 @@ public class WaterRSMatlabImpl extends SimBioModuleImpl implements
     private float[] greyWaterDesiredFlowRates;
 
     private float[] potableWaterDesiredFlowRates;
-    
+
     private WaterRSOperationMode myMode;
 
     //MatLab specific
@@ -320,18 +320,22 @@ public class WaterRSMatlabImpl extends SimBioModuleImpl implements
         return myPotableWaterOutputs;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.traclabs.biosim.idl.simulation.water.WaterRSOperations#setOperationMode(com.traclabs.biosim.idl.simulation.water.WaterRSOperationMode)
      */
     public void setOperationMode(WaterRSOperationMode pMode) {
         myMode = pMode;
-        if (myMode == WaterRSOperationMode.FULL){
-            
+        if (myMode == WaterRSOperationMode.FULL) {
+
         }
-        
+
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.traclabs.biosim.idl.simulation.water.WaterRSOperations#getOpertationMode()
      */
     public WaterRSOperationMode getOpertationMode() {

@@ -17,6 +17,7 @@ public abstract class AirRSSubSystem {
     //During any given tick, this much power (in watts) is needed for a air
     // subsystem (default)
     float currentPowerNeeded;
+
     float basePowerNeeded = 100;
 
     protected AirRSImpl myAirRS;
@@ -26,9 +27,9 @@ public abstract class AirRSSubSystem {
     protected boolean hasEnoughPower = false;
 
     private boolean logInitialized = false;
-    
+
     boolean enabled = true;
-    
+
     protected Logger myLogger;
 
     public AirRSSubSystem(AirRSImpl pAirRSImpl) {
@@ -42,7 +43,7 @@ public abstract class AirRSSubSystem {
     public float getPowerConsumed() {
         return currentPowerConsumed;
     }
-    
+
     public boolean isEnabled() {
         return enabled;
     }
@@ -71,8 +72,8 @@ public abstract class AirRSSubSystem {
         float gatheredPower = myAirRS.getFractionalResourceFromStore(myAirRS
                 .getPowerInputs(), myAirRS.getPowerInputMaxFlowRates(), myAirRS
                 .getPowerInputDesiredFlowRates(), myAirRS
-                .getPowerInputActualFlowRates(), currentPowerNeeded, 1f / myAirRS
-                .getSubsystemsConsumingPower());
+                .getPowerInputActualFlowRates(), currentPowerNeeded,
+                1f / myAirRS.getSubsystemsConsumingPower());
         if (gatheredPower < currentPowerNeeded)
             hasEnoughPower = false;
         else
@@ -86,7 +87,7 @@ public abstract class AirRSSubSystem {
     }
 
     public void log() {
-        myLogger.debug("power_needed="+currentPowerNeeded);
+        myLogger.debug("power_needed=" + currentPowerNeeded);
     }
 
 }

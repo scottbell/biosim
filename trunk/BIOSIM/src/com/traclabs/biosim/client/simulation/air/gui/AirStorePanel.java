@@ -48,7 +48,7 @@ public class AirStorePanel extends GraphPanel {
         myNitrogenStore = (NitrogenStore) (myBioHolder.theNitrogenStores.get(0));
         refresh();
         JFreeChart myChart = ChartFactory.createBarChart3D("Gas Store Levels", // chart
-                                                                               // title
+                // title
                 "Stores", // domain axis label
                 "Gas Level (L)", // range axis label
                 myDataset, PlotOrientation.VERTICAL, // data

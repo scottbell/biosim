@@ -68,8 +68,11 @@ public class BiosimMain {
             } else if (myArgs[i].equals("unreal")) {
                 wantsToRunUnreal = true;
             } else if (myArgs[i].equals("-debug")) {
-                Environment.setProperty("ORBInitRef.NameService","corbaloc::localhost:" + NAMESERVER_PORT + "/NameService");
-                Environment.setProperty("OAPort", Integer.toString(CLIENT_OA_PORT));
+                Environment.setProperty("ORBInitRef.NameService",
+                        "corbaloc::localhost:" + NAMESERVER_PORT
+                                + "/NameService");
+                Environment.setProperty("OAPort", Integer
+                        .toString(CLIENT_OA_PORT));
             } else if (myArgs[i].equals("-xml=")) {
                 try {
                     StringTokenizer st = new StringTokenizer(myArgs[i], "=");
@@ -115,8 +118,7 @@ public class BiosimMain {
             } else {
                 runUnreal(myID);
             }
-        }
-        else {
+        } else {
             myLogger.info("Using default, starting GUI with server ID=" + myID);
             runGUI(myID);
         }

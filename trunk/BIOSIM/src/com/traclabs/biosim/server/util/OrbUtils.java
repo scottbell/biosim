@@ -31,7 +31,7 @@ public class OrbUtils {
     private static NamingContextExt myBiosimNamingContext = null;
 
     private static NamingContextExt myRootContext = null;
-    
+
     private static Properties myORBProperties;
 
     /**
@@ -98,7 +98,6 @@ public class OrbUtils {
             e.printStackTrace();
         }
     }
-    
 
     /**
      * Done only once, this method initializes the ORB, resolves the root POA,
@@ -108,7 +107,7 @@ public class OrbUtils {
         if (initializeOrbRunOnce)
             return;
         try {
-            
+
             String[] nullArgs = null;
             // create and initialize the ORB
             myOrb = ORB.init(nullArgs, myORBProperties);
@@ -130,8 +129,8 @@ public class OrbUtils {
             comContext.bind_new_context(traclabsComponentArray);
         } catch (org.omg.CosNaming.NamingContextPackage.AlreadyBound e) {
         } catch (Exception e) {
-            Logger.getLogger(OrbUtils.class).info("OrbUtils: nameserver not found, polling again: "
-                            + e);
+            Logger.getLogger(OrbUtils.class).info(
+                    "OrbUtils: nameserver not found, polling again: " + e);
             sleepAwhile();
             initialize();
             return;
@@ -220,8 +219,10 @@ public class OrbUtils {
         }
         return newPoa;
     }
+
     /**
-     * @param pORBProperties The myORBProperties to set.
+     * @param pORBProperties
+     *            The myORBProperties to set.
      */
     public static void setMyORBProperties(Properties pORBProperties) {
         myORBProperties = pORBProperties;

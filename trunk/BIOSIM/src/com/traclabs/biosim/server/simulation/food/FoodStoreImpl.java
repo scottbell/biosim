@@ -265,7 +265,7 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
         returnArray = (FoodMatter[]) (itemsToReturn.toArray(returnArray));
         return returnArray;
     }
-    
+
     public void reset() {
         super.reset();
         currentFoodItems.clear();

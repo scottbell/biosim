@@ -43,12 +43,12 @@ public class EnvironmentPieChartPanel extends GraphPanel {
     private String vacuumCategory = "Vacuum";
 
     private boolean isVacuum = false;
-    
+
     private Logger myLogger;
 
     public EnvironmentPieChartPanel(String pEnvironmentName) {
         super(pEnvironmentName);
-	myLogger = Logger.getLogger(this.getClass());
+        myLogger = Logger.getLogger(this.getClass());
     }
 
     protected void createGraph() {
@@ -125,7 +125,8 @@ public class EnvironmentPieChartPanel extends GraphPanel {
 
     private void initDataset() {
         if (mySimEnvironment == null)
-            myLogger.error("EnvironmentPieChartPanel: mySimEnvironment is null!");
+            myLogger
+                    .error("EnvironmentPieChartPanel: mySimEnvironment is null!");
         if ((mySimEnvironment.getO2Moles() <= 0)
                 && (mySimEnvironment.getCO2Moles() <= 0)
                 && (mySimEnvironment.getNitrogenMoles() <= 0)

@@ -208,8 +208,9 @@ public class BioHolderInitializer {
             myParser.setFeature(VALIDATION_FEATURE_ID, DEFAULT_VALIDATION);
             myParser.setFeature(NAMESPACES_FEATURE_ID, DEFAULT_NAMESPACES);
         } catch (SAXException e) {
-            Logger.getLogger(BioHolderInitializer.class).warn("warning: Parser does not support feature ("
-                    + NAMESPACES_FEATURE_ID + ")");
+            Logger.getLogger(BioHolderInitializer.class).warn(
+                    "warning: Parser does not support feature ("
+                            + NAMESPACES_FEATURE_ID + ")");
         }
         parseFile();
         initialized = true;
@@ -277,20 +278,23 @@ public class BioHolderInitializer {
         URL documentUrl = ClassLoader.getSystemClassLoader().getResource(
                 xmlLocation);
         if (documentUrl == null) {
-            Logger.getLogger(BioHolderInitializer.class).error("Couldn't find init xml file: " + xmlLocation);
+            Logger.getLogger(BioHolderInitializer.class).error(
+                    "Couldn't find init xml file: " + xmlLocation);
             Logger.getLogger(BioHolderInitializer.class).error("Exiting...");
             System.exit(1);
         }
         String documentString = documentUrl.toString();
         if (documentString.length() > 0) {
             try {
-                Logger.getLogger(BioHolderInitializer.class).info("Initializing...");
+                Logger.getLogger(BioHolderInitializer.class).info(
+                        "Initializing...");
                 myParser.parse(documentString);
                 Document document = myParser.getDocument();
                 crawlBiosim(document);
                 Logger.getLogger(BioHolderInitializer.class).info("done");
             } catch (Exception e) {
-                Logger.getLogger(BioHolderInitializer.class).error("error: Parse error occurred - " + e.getMessage());
+                Logger.getLogger(BioHolderInitializer.class).error(
+                        "error: Parse error occurred - " + e.getMessage());
                 Exception se = e;
                 if (e instanceof SAXException)
                     se = ((SAXException) e).getException();
@@ -310,11 +314,13 @@ public class BioHolderInitializer {
                 moduleToReturn = OrbUtils.getNamingContext(myID).resolve_str(
                         moduleName);
             } catch (org.omg.CORBA.UserException e) {
-                Logger.getLogger(BioHolderInitializer.class).error("BioHolder: Couldn't find module "
-                        + moduleName + ", polling again...");
+                Logger.getLogger(BioHolderInitializer.class).error(
+                        "BioHolder: Couldn't find module " + moduleName
+                                + ", polling again...");
                 OrbUtils.sleepAwhile();
             } catch (Exception e) {
-                Logger.getLogger(BioHolderInitializer.class).error("BioHolder: Had problems contacting nameserver with module "
+                Logger.getLogger(BioHolderInitializer.class).error(
+                        "BioHolder: Had problems contacting nameserver with module "
                                 + moduleName + ", polling again...");
                 OrbUtils.resetInit();
                 OrbUtils.sleepAwhile();

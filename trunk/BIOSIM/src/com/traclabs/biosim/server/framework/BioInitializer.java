@@ -73,11 +73,11 @@ public class BioInitializer {
     private List myModules;
 
     private Logger myLogger;
-    
+
     private SimulationInitializer mySimulationInitializer;
-    
+
     private SensorInitializer mySensorInitializer;
-    
+
     private ActuatorInitializer myActuatorInitializer;
 
     /** Default constructor. */
@@ -88,7 +88,7 @@ public class BioInitializer {
         myActuatorInitializer = new ActuatorInitializer(myID);
         myModules = new Vector();
         myLogger = Logger.getLogger(this.getClass());
-        
+
         try {
             myParser = new DOMParser();
             myParser.setFeature(SCHEMA_VALIDATION_FEATURE_ID,
@@ -116,10 +116,10 @@ public class BioInitializer {
             mySimulationInitializer.crawlSimModules(node, firstPass);
             return;
         } else if (nodeName.equals("Sensors")) {
-        	mySensorInitializer.crawlSensors(node, firstPass);
+            mySensorInitializer.crawlSensors(node, firstPass);
             return;
         } else if (nodeName.equals("Actuators")) {
-        	myActuatorInitializer.crawlActuators(node, firstPass);
+            myActuatorInitializer.crawlActuators(node, firstPass);
             return;
         } else {
             Node child = node.getFirstChild();
@@ -155,11 +155,16 @@ public class BioInitializer {
 
             //Give Modules, Sensors, Actuatos to BioDriver to tick
             BioModule[] moduleArray = convertList(myModules);
-            BioModule[] sensorArray = convertList(mySensorInitializer.getSensors());
-            BioModule[] actuatorArray = convertList(myActuatorInitializer.getActuators());
-            BioModule[] passiveSimModulesArray = convertList(mySimulationInitializer.getPassiveSimModules());
-            BioModule[] activeSimModulesArray = convertList(mySimulationInitializer.getActiveSimModules());
-            BioModule[] prioritySimModulesArray = convertList(mySimulationInitializer.getPrioritySimModules());
+            BioModule[] sensorArray = convertList(mySensorInitializer
+                    .getSensors());
+            BioModule[] actuatorArray = convertList(myActuatorInitializer
+                    .getActuators());
+            BioModule[] passiveSimModulesArray = convertList(mySimulationInitializer
+                    .getPassiveSimModules());
+            BioModule[] activeSimModulesArray = convertList(mySimulationInitializer
+                    .getActiveSimModules());
+            BioModule[] prioritySimModulesArray = convertList(mySimulationInitializer
+                    .getPrioritySimModules());
             myDriver.setModules(moduleArray);
             myDriver.setSensors(sensorArray);
             myDriver.setActuators(actuatorArray);
@@ -312,12 +317,13 @@ public class BioInitializer {
                 moduleToReturn = OrbUtils.getNamingContext(pID).resolve_str(
                         moduleName);
             } catch (org.omg.CORBA.UserException e) {
-                Logger.getLogger(BioInitializer.class).error("Couldn't find module " + moduleName
-                        + ", polling again...");
+                Logger.getLogger(BioInitializer.class).error(
+                        "Couldn't find module " + moduleName
+                                + ", polling again...");
                 OrbUtils.sleepAwhile();
             } catch (Exception e) {
-            	Logger.getLogger(BioInitializer.class)
-                        .error("Had problems contacting nameserver with module "
+                Logger.getLogger(BioInitializer.class).error(
+                        "Had problems contacting nameserver with module "
                                 + moduleName + ", polling again...");
                 OrbUtils.resetInit();
                 OrbUtils.sleepAwhile();
@@ -325,17 +331,18 @@ public class BioInitializer {
         }
         return moduleToReturn;
     }
-    
-    public static void printRemoteWarningMessage(String pName){
-    	Logger.getLogger(BioInitializer.class).warn("\nInstance of the module named " + pName
-                + " should be created remotely (if not already done)");
+
+    public static void printRemoteWarningMessage(String pName) {
+        Logger.getLogger(BioInitializer.class).warn(
+                "\nInstance of the module named " + pName
+                        + " should be created remotely (if not already done)");
     }
-    
+
     private static boolean getEnableBreakDown(Node pNode) {
         return pNode.getAttributes().getNamedItem("isLoggingEnabled")
                 .getNodeValue().equals("true");
     }
-    
+
     private static StochasticIntensity getStochasticIntensity(Node pNode) {
         String intensityString = pNode.getAttributes().getNamedItem(
                 "setStochasticIntensity").getNodeValue();
@@ -348,7 +355,7 @@ public class BioInitializer {
         else
             return StochasticIntensity.NONE_STOCH;
     }
-    
+
     private static MalfunctionLength getMalfunctionLength(Node pNode) {
         String lengthString = pNode.getAttributes().getNamedItem("length")
                 .getNodeValue();
@@ -380,7 +387,7 @@ public class BioInitializer {
         else
             return MalfunctionIntensity.LOW_MALF;
     }
-    
+
     public static void setupBioModule(BioModuleImpl pModule, Node node) {
         pModule.setEnableBreakdown(getEnableBreakDown(node));
         pModule.setStochasticIntensity(getStochasticIntensity(node));

@@ -232,7 +232,7 @@ public class ActuatorInitializer {
     private List myActuators;
 
     private Logger myLogger;
-    
+
     /** Default constructor. */
     public ActuatorInitializer(int pID) {
         myID = pID;
@@ -244,11 +244,11 @@ public class ActuatorInitializer {
         return Integer.parseInt(pNode.getAttributes()
                 .getNamedItem("shelfIndex").getNodeValue());
     }
-    
+
     private static String getOutputName(Node pNode) {
         return pNode.getAttributes().getNamedItem("output").getNodeValue();
     }
-    
+
     private static int getFlowRateIndex(Node pNode) {
         return Integer.parseInt(pNode.getAttributes().getNamedItem("index")
                 .getNodeValue());
@@ -267,12 +267,13 @@ public class ActuatorInitializer {
                     myCO2InFlowRateActuatorImpl), myCO2InFlowRateActuatorImpl
                     .getModuleName(), myCO2InFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureCO2InFlowRateActuator(Node node) {
         CO2InFlowRateActuator myCO2InFlowRateActuator = CO2InFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myCO2InFlowRateActuator.setOutput(CO2ConsumerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -291,12 +292,13 @@ public class ActuatorInitializer {
                     myCO2OutFlowRateActuatorImpl), myCO2OutFlowRateActuatorImpl
                     .getModuleName(), myCO2OutFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureCO2OutFlowRateActuator(Node node) {
         CO2OutFlowRateActuator myCO2OutFlowRateActuator = CO2OutFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myCO2OutFlowRateActuator.setOutput(CO2ProducerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -315,15 +317,16 @@ public class ActuatorInitializer {
                     myO2InFlowRateActuatorImpl), myO2InFlowRateActuatorImpl
                     .getModuleName(), myO2InFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureO2InFlowRateActuator(Node node) {
         O2InFlowRateActuator myO2InFlowRateActuator = O2InFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myO2InFlowRateActuator.setOutput(O2ConsumerHelper
-                .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
-                getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myO2InFlowRateActuator
+                .setOutput(O2ConsumerHelper.narrow(BioInitializer.grabModule(
+                        myID, getOutputName(node))), getFlowRateIndex(node));
         myActuators.add(myO2InFlowRateActuator);
     }
 
@@ -339,12 +342,13 @@ public class ActuatorInitializer {
                     myO2OutFlowRateActuatorImpl), myO2OutFlowRateActuatorImpl
                     .getModuleName(), myO2OutFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureO2OutFlowRateActuator(Node node) {
         O2OutFlowRateActuator myO2OutFlowRateActuator = O2OutFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myO2OutFlowRateActuator.setOutput(O2ProducerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -363,15 +367,16 @@ public class ActuatorInitializer {
                     myH2InFlowRateActuatorImpl), myH2InFlowRateActuatorImpl
                     .getModuleName(), myH2InFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureH2InFlowRateActuator(Node node) {
         H2InFlowRateActuator myH2InFlowRateActuator = H2InFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myH2InFlowRateActuator.setOutput(H2ConsumerHelper
-                .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
-                getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myH2InFlowRateActuator
+                .setOutput(H2ConsumerHelper.narrow(BioInitializer.grabModule(
+                        myID, getOutputName(node))), getFlowRateIndex(node));
         myActuators.add(myH2InFlowRateActuator);
     }
 
@@ -387,12 +392,13 @@ public class ActuatorInitializer {
                     myH2OutFlowRateActuatorImpl), myH2OutFlowRateActuatorImpl
                     .getModuleName(), myH2OutFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureH2OutFlowRateActuator(Node node) {
         H2OutFlowRateActuator myH2OutFlowRateActuator = H2OutFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myH2OutFlowRateActuator.setOutput(H2ProducerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -407,18 +413,20 @@ public class ActuatorInitializer {
                             + moduleName);
             NitrogenInFlowRateActuatorImpl myNitrogenInFlowRateActuatorImpl = new NitrogenInFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myNitrogenInFlowRateActuatorImpl, node);
+            BioInitializer.setupBioModule(myNitrogenInFlowRateActuatorImpl,
+                    node);
             BiosimServer.registerServer(new NitrogenInFlowRateActuatorPOATie(
                     myNitrogenInFlowRateActuatorImpl),
                     myNitrogenInFlowRateActuatorImpl.getModuleName(),
                     myNitrogenInFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureNitrogenInFlowRateActuator(Node node) {
         NitrogenInFlowRateActuator myNitrogenInFlowRateActuator = NitrogenInFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myNitrogenInFlowRateActuator.setOutput(NitrogenConsumerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -433,18 +441,20 @@ public class ActuatorInitializer {
                             + moduleName);
             NitrogenOutFlowRateActuatorImpl myNitrogenOutFlowRateActuatorImpl = new NitrogenOutFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myNitrogenOutFlowRateActuatorImpl, node);
+            BioInitializer.setupBioModule(myNitrogenOutFlowRateActuatorImpl,
+                    node);
             BiosimServer.registerServer(new NitrogenOutFlowRateActuatorPOATie(
                     myNitrogenOutFlowRateActuatorImpl),
                     myNitrogenOutFlowRateActuatorImpl.getModuleName(),
                     myNitrogenOutFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureNitrogenOutFlowRateActuator(Node node) {
         NitrogenOutFlowRateActuator myNitrogenOutFlowRateActuator = NitrogenOutFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myNitrogenOutFlowRateActuator.setOutput(NitrogenProducerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -513,12 +523,13 @@ public class ActuatorInitializer {
                     myAirInFlowRateActuatorImpl), myAirInFlowRateActuatorImpl
                     .getModuleName(), myAirInFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureAirInFlowRateActuator(Node node) {
         AirInFlowRateActuator myAirInFlowRateActuator = AirInFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myAirInFlowRateActuator.setOutput(AirConsumerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -537,12 +548,13 @@ public class ActuatorInitializer {
                     myAirOutFlowRateActuatorImpl), myAirOutFlowRateActuatorImpl
                     .getModuleName(), myAirOutFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureAirOutFlowRateActuator(Node node) {
         AirOutFlowRateActuator myAirOutFlowRateActuator = AirOutFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myAirOutFlowRateActuator.setOutput(AirProducerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -557,19 +569,21 @@ public class ActuatorInitializer {
                             + moduleName);
             CO2AirEnvironmentInFlowRateActuatorImpl myCO2AirEnvironmentInFlowRateActuatorImpl = new CO2AirEnvironmentInFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myCO2AirEnvironmentInFlowRateActuatorImpl, node);
+            BioInitializer.setupBioModule(
+                    myCO2AirEnvironmentInFlowRateActuatorImpl, node);
             BiosimServer.registerServer(
                     new CO2AirEnvironmentInFlowRateActuatorPOATie(
                             myCO2AirEnvironmentInFlowRateActuatorImpl),
                     myCO2AirEnvironmentInFlowRateActuatorImpl.getModuleName(),
                     myCO2AirEnvironmentInFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureCO2AirEnvironmentInFlowRateActuator(Node node) {
         CO2AirEnvironmentInFlowRateActuator myCO2AirEnvironmentInFlowRateActuator = CO2AirEnvironmentInFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myCO2AirEnvironmentInFlowRateActuator.setOutput(CO2AirConsumerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -584,19 +598,21 @@ public class ActuatorInitializer {
                             + moduleName);
             CO2AirEnvironmentOutFlowRateActuatorImpl myCO2AirEnvironmentOutFlowRateActuatorImpl = new CO2AirEnvironmentOutFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myCO2AirEnvironmentOutFlowRateActuatorImpl, node);
+            BioInitializer.setupBioModule(
+                    myCO2AirEnvironmentOutFlowRateActuatorImpl, node);
             BiosimServer.registerServer(
                     new CO2AirEnvironmentOutFlowRateActuatorPOATie(
                             myCO2AirEnvironmentOutFlowRateActuatorImpl),
                     myCO2AirEnvironmentOutFlowRateActuatorImpl.getModuleName(),
                     myCO2AirEnvironmentOutFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureCO2AirEnvironmentOutFlowRateActuator(Node node) {
         CO2AirEnvironmentOutFlowRateActuator myCO2AirEnvironmentOutFlowRateActuator = CO2AirEnvironmentOutFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myCO2AirEnvironmentOutFlowRateActuator.setOutput(CO2AirProducerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -611,19 +627,21 @@ public class ActuatorInitializer {
                             + moduleName);
             CO2AirStoreInFlowRateActuatorImpl myCO2AirStoreInFlowRateActuatorImpl = new CO2AirStoreInFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myCO2AirStoreInFlowRateActuatorImpl, node);
+            BioInitializer.setupBioModule(myCO2AirStoreInFlowRateActuatorImpl,
+                    node);
             BiosimServer.registerServer(
                     new CO2AirStoreInFlowRateActuatorPOATie(
                             myCO2AirStoreInFlowRateActuatorImpl),
                     myCO2AirStoreInFlowRateActuatorImpl.getModuleName(),
                     myCO2AirStoreInFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureCO2AirStoreInFlowRateActuator(Node node) {
         CO2AirStoreInFlowRateActuator myCO2AirStoreInFlowRateActuator = CO2AirStoreInFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myCO2AirStoreInFlowRateActuator.setOutput(CO2AirConsumerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -638,19 +656,21 @@ public class ActuatorInitializer {
                             + moduleName);
             CO2AirStoreOutFlowRateActuatorImpl myCO2AirStoreOutFlowRateActuatorImpl = new CO2AirStoreOutFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myCO2AirStoreOutFlowRateActuatorImpl, node);
+            BioInitializer.setupBioModule(myCO2AirStoreOutFlowRateActuatorImpl,
+                    node);
             BiosimServer.registerServer(
                     new CO2AirStoreOutFlowRateActuatorPOATie(
                             myCO2AirStoreOutFlowRateActuatorImpl),
                     myCO2AirStoreOutFlowRateActuatorImpl.getModuleName(),
                     myCO2AirStoreOutFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureCO2AirStoreOutFlowRateActuator(Node node) {
         CO2AirStoreOutFlowRateActuator myCO2AirStoreOutFlowRateActuator = CO2AirStoreOutFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myCO2AirStoreOutFlowRateActuator.setOutput(CO2AirProducerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -665,19 +685,21 @@ public class ActuatorInitializer {
                             + moduleName);
             O2AirEnvironmentInFlowRateActuatorImpl myO2AirEnvironmentInFlowRateActuatorImpl = new O2AirEnvironmentInFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myO2AirEnvironmentInFlowRateActuatorImpl, node);
+            BioInitializer.setupBioModule(
+                    myO2AirEnvironmentInFlowRateActuatorImpl, node);
             BiosimServer.registerServer(
                     new O2AirEnvironmentInFlowRateActuatorPOATie(
                             myO2AirEnvironmentInFlowRateActuatorImpl),
                     myO2AirEnvironmentInFlowRateActuatorImpl.getModuleName(),
                     myO2AirEnvironmentInFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureO2AirEnvironmentInFlowRateActuator(Node node) {
         O2AirEnvironmentInFlowRateActuator myO2AirEnvironmentInFlowRateActuator = O2AirEnvironmentInFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myO2AirEnvironmentInFlowRateActuator.setOutput(O2AirConsumerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -692,19 +714,21 @@ public class ActuatorInitializer {
                             + moduleName);
             O2AirEnvironmentOutFlowRateActuatorImpl myO2AirEnvironmentOutFlowRateActuatorImpl = new O2AirEnvironmentOutFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myO2AirEnvironmentOutFlowRateActuatorImpl, node);
+            BioInitializer.setupBioModule(
+                    myO2AirEnvironmentOutFlowRateActuatorImpl, node);
             BiosimServer.registerServer(
                     new O2AirEnvironmentOutFlowRateActuatorPOATie(
                             myO2AirEnvironmentOutFlowRateActuatorImpl),
                     myO2AirEnvironmentOutFlowRateActuatorImpl.getModuleName(),
                     myO2AirEnvironmentOutFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureO2AirEnvironmentOutFlowRateActuator(Node node) {
         O2AirEnvironmentOutFlowRateActuator myO2AirEnvironmentOutFlowRateActuator = O2AirEnvironmentOutFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myO2AirEnvironmentOutFlowRateActuator.setOutput(O2AirProducerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -719,18 +743,20 @@ public class ActuatorInitializer {
                             + moduleName);
             O2AirStoreInFlowRateActuatorImpl myO2AirStoreInFlowRateActuatorImpl = new O2AirStoreInFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myO2AirStoreInFlowRateActuatorImpl, node);
+            BioInitializer.setupBioModule(myO2AirStoreInFlowRateActuatorImpl,
+                    node);
             BiosimServer.registerServer(new O2AirStoreInFlowRateActuatorPOATie(
                     myO2AirStoreInFlowRateActuatorImpl),
                     myO2AirStoreInFlowRateActuatorImpl.getModuleName(),
                     myO2AirStoreInFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureO2AirStoreInFlowRateActuator(Node node) {
         O2AirStoreInFlowRateActuator myO2AirStoreInFlowRateActuator = O2AirStoreInFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myO2AirStoreInFlowRateActuator.setOutput(O2AirConsumerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -745,19 +771,21 @@ public class ActuatorInitializer {
                             + moduleName);
             O2AirStoreOutFlowRateActuatorImpl myO2AirStoreOutFlowRateActuatorImpl = new O2AirStoreOutFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myO2AirStoreOutFlowRateActuatorImpl, node);
+            BioInitializer.setupBioModule(myO2AirStoreOutFlowRateActuatorImpl,
+                    node);
             BiosimServer.registerServer(
                     new O2AirStoreOutFlowRateActuatorPOATie(
                             myO2AirStoreOutFlowRateActuatorImpl),
                     myO2AirStoreOutFlowRateActuatorImpl.getModuleName(),
                     myO2AirStoreOutFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureO2AirStoreOutFlowRateActuator(Node node) {
         O2AirStoreOutFlowRateActuator myO2AirStoreOutFlowRateActuator = O2AirStoreOutFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myO2AirStoreOutFlowRateActuator.setOutput(O2AirProducerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -772,7 +800,8 @@ public class ActuatorInitializer {
                             + moduleName);
             WaterAirEnvironmentInFlowRateActuatorImpl myWaterAirEnvironmentInFlowRateActuatorImpl = new WaterAirEnvironmentInFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myWaterAirEnvironmentInFlowRateActuatorImpl, node);
+            BioInitializer.setupBioModule(
+                    myWaterAirEnvironmentInFlowRateActuatorImpl, node);
             BiosimServer
                     .registerServer(
                             new WaterAirEnvironmentInFlowRateActuatorPOATie(
@@ -781,15 +810,16 @@ public class ActuatorInitializer {
                                     .getModuleName(),
                             myWaterAirEnvironmentInFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureWaterAirEnvironmentInFlowRateActuator(Node node) {
         WaterAirEnvironmentInFlowRateActuator myWaterAirEnvironmentInFlowRateActuator = WaterAirEnvironmentInFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myWaterAirEnvironmentInFlowRateActuator.setOutput(
-                WaterAirConsumerHelper.narrow(BioInitializer.grabModule(myID, getOutputName(node))),
-                getFlowRateIndex(node));
+                WaterAirConsumerHelper.narrow(BioInitializer.grabModule(myID,
+                        getOutputName(node))), getFlowRateIndex(node));
         myActuators.add(myWaterAirEnvironmentInFlowRateActuator);
     }
 
@@ -801,7 +831,8 @@ public class ActuatorInitializer {
                             + moduleName);
             WaterAirEnvironmentOutFlowRateActuatorImpl myWaterAirEnvironmentOutFlowRateActuatorImpl = new WaterAirEnvironmentOutFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myWaterAirEnvironmentOutFlowRateActuatorImpl, node);
+            BioInitializer.setupBioModule(
+                    myWaterAirEnvironmentOutFlowRateActuatorImpl, node);
             BiosimServer.registerServer(
                     new WaterAirEnvironmentOutFlowRateActuatorPOATie(
                             myWaterAirEnvironmentOutFlowRateActuatorImpl),
@@ -809,15 +840,16 @@ public class ActuatorInitializer {
                             .getModuleName(),
                     myWaterAirEnvironmentOutFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureWaterAirEnvironmentOutFlowRateActuator(Node node) {
         WaterAirEnvironmentOutFlowRateActuator myWaterAirEnvironmentOutFlowRateActuator = WaterAirEnvironmentOutFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myWaterAirEnvironmentOutFlowRateActuator.setOutput(
-                WaterAirProducerHelper.narrow(BioInitializer.grabModule(myID, getOutputName(node))),
-                getFlowRateIndex(node));
+                WaterAirProducerHelper.narrow(BioInitializer.grabModule(myID,
+                        getOutputName(node))), getFlowRateIndex(node));
         myActuators.add(myWaterAirEnvironmentOutFlowRateActuator);
     }
 
@@ -829,19 +861,21 @@ public class ActuatorInitializer {
                             + moduleName);
             WaterAirStoreInFlowRateActuatorImpl myWaterAirStoreInFlowRateActuatorImpl = new WaterAirStoreInFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myWaterAirStoreInFlowRateActuatorImpl, node);
+            BioInitializer.setupBioModule(
+                    myWaterAirStoreInFlowRateActuatorImpl, node);
             BiosimServer.registerServer(
                     new WaterAirStoreInFlowRateActuatorPOATie(
                             myWaterAirStoreInFlowRateActuatorImpl),
                     myWaterAirStoreInFlowRateActuatorImpl.getModuleName(),
                     myWaterAirStoreInFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureWaterAirStoreInFlowRateActuator(Node node) {
         WaterAirStoreInFlowRateActuator myWaterAirStoreInFlowRateActuator = WaterAirStoreInFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myWaterAirStoreInFlowRateActuator.setOutput(WaterAirConsumerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -856,19 +890,21 @@ public class ActuatorInitializer {
                             + moduleName);
             WaterAirStoreOutFlowRateActuatorImpl myWaterAirStoreOutFlowRateActuatorImpl = new WaterAirStoreOutFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myWaterAirStoreOutFlowRateActuatorImpl, node);
+            BioInitializer.setupBioModule(
+                    myWaterAirStoreOutFlowRateActuatorImpl, node);
             BiosimServer.registerServer(
                     new WaterAirStoreOutFlowRateActuatorPOATie(
                             myWaterAirStoreOutFlowRateActuatorImpl),
                     myWaterAirStoreOutFlowRateActuatorImpl.getModuleName(),
                     myWaterAirStoreOutFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureWaterAirStoreOutFlowRateActuator(Node node) {
         WaterAirStoreOutFlowRateActuator myWaterAirStoreOutFlowRateActuator = WaterAirStoreOutFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myWaterAirStoreOutFlowRateActuator.setOutput(WaterAirProducerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -883,7 +919,8 @@ public class ActuatorInitializer {
                             + moduleName);
             NitrogenAirEnvironmentInFlowRateActuatorImpl myNitrogenAirEnvironmentInFlowRateActuatorImpl = new NitrogenAirEnvironmentInFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myNitrogenAirEnvironmentInFlowRateActuatorImpl, node);
+            BioInitializer.setupBioModule(
+                    myNitrogenAirEnvironmentInFlowRateActuatorImpl, node);
             myActuators
                     .add(OrbUtils
                             .poaToCorbaObj(myNitrogenAirEnvironmentInFlowRateActuatorImpl));
@@ -894,16 +931,16 @@ public class ActuatorInitializer {
                             .getModuleName(),
                     myNitrogenAirEnvironmentInFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureNitrogenAirEnvironmentInFlowRateActuator(Node node) {
         NitrogenAirEnvironmentInFlowRateActuator myNitrogenAirEnvironmentInFlowRateActuator = NitrogenAirEnvironmentInFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myNitrogenAirEnvironmentInFlowRateActuator.setOutput(
-                NitrogenAirConsumerHelper
-                        .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
-                getFlowRateIndex(node));
+                NitrogenAirConsumerHelper.narrow(BioInitializer.grabModule(
+                        myID, getOutputName(node))), getFlowRateIndex(node));
         myActuators.add(myNitrogenAirEnvironmentInFlowRateActuator);
     }
 
@@ -915,8 +952,8 @@ public class ActuatorInitializer {
                             + moduleName);
             NitrogenAirEnvironmentOutFlowRateActuatorImpl myNitrogenAirEnvironmentOutFlowRateActuatorImpl = new NitrogenAirEnvironmentOutFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myNitrogenAirEnvironmentOutFlowRateActuatorImpl,
-                    node);
+            BioInitializer.setupBioModule(
+                    myNitrogenAirEnvironmentOutFlowRateActuatorImpl, node);
             BiosimServer.registerServer(
                     new NitrogenAirEnvironmentOutFlowRateActuatorPOATie(
                             myNitrogenAirEnvironmentOutFlowRateActuatorImpl),
@@ -924,16 +961,16 @@ public class ActuatorInitializer {
                             .getModuleName(),
                     myNitrogenAirEnvironmentOutFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureNitrogenAirEnvironmentOutFlowRateActuator(Node node) {
         NitrogenAirEnvironmentOutFlowRateActuator myNitrogenAirEnvironmentOutFlowRateActuator = NitrogenAirEnvironmentOutFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myNitrogenAirEnvironmentOutFlowRateActuator.setOutput(
-                NitrogenAirProducerHelper
-                        .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
-                getFlowRateIndex(node));
+                NitrogenAirProducerHelper.narrow(BioInitializer.grabModule(
+                        myID, getOutputName(node))), getFlowRateIndex(node));
         myActuators.add(myNitrogenAirEnvironmentOutFlowRateActuator);
     }
 
@@ -945,23 +982,24 @@ public class ActuatorInitializer {
                             + moduleName);
             NitrogenAirStoreInFlowRateActuatorImpl myNitrogenAirStoreInFlowRateActuatorImpl = new NitrogenAirStoreInFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myNitrogenAirStoreInFlowRateActuatorImpl, node);
+            BioInitializer.setupBioModule(
+                    myNitrogenAirStoreInFlowRateActuatorImpl, node);
             BiosimServer.registerServer(
                     new NitrogenAirStoreInFlowRateActuatorPOATie(
                             myNitrogenAirStoreInFlowRateActuatorImpl),
                     myNitrogenAirStoreInFlowRateActuatorImpl.getModuleName(),
                     myNitrogenAirStoreInFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureNitrogenAirStoreInFlowRateActuator(Node node) {
         NitrogenAirStoreInFlowRateActuator myNitrogenAirStoreInFlowRateActuator = NitrogenAirStoreInFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myNitrogenAirStoreInFlowRateActuator.setOutput(
-                NitrogenAirConsumerHelper
-                        .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
-                getFlowRateIndex(node));
+                NitrogenAirConsumerHelper.narrow(BioInitializer.grabModule(
+                        myID, getOutputName(node))), getFlowRateIndex(node));
         myActuators.add(myNitrogenAirStoreInFlowRateActuator);
     }
 
@@ -973,23 +1011,24 @@ public class ActuatorInitializer {
                             + moduleName);
             NitrogenAirStoreOutFlowRateActuatorImpl myNitrogenAirStoreOutFlowRateActuatorImpl = new NitrogenAirStoreOutFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myNitrogenAirStoreOutFlowRateActuatorImpl, node);
+            BioInitializer.setupBioModule(
+                    myNitrogenAirStoreOutFlowRateActuatorImpl, node);
             BiosimServer.registerServer(
                     new NitrogenAirStoreOutFlowRateActuatorPOATie(
                             myNitrogenAirStoreOutFlowRateActuatorImpl),
                     myNitrogenAirStoreOutFlowRateActuatorImpl.getModuleName(),
                     myNitrogenAirStoreOutFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureNitrogenAirStoreOutFlowRateActuator(Node node) {
         NitrogenAirStoreOutFlowRateActuator myNitrogenAirStoreOutFlowRateActuator = NitrogenAirStoreOutFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myNitrogenAirStoreOutFlowRateActuator.setOutput(
-                NitrogenAirProducerHelper
-                        .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
-                getFlowRateIndex(node));
+                NitrogenAirProducerHelper.narrow(BioInitializer.grabModule(
+                        myID, getOutputName(node))), getFlowRateIndex(node));
         myActuators.add(myNitrogenAirStoreOutFlowRateActuator);
     }
 
@@ -1105,18 +1144,20 @@ public class ActuatorInitializer {
                             + moduleName);
             BiomassInFlowRateActuatorImpl myBiomassInFlowRateActuatorImpl = new BiomassInFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myBiomassInFlowRateActuatorImpl, node);
+            BioInitializer
+                    .setupBioModule(myBiomassInFlowRateActuatorImpl, node);
             BiosimServer.registerServer(new BiomassInFlowRateActuatorPOATie(
                     myBiomassInFlowRateActuatorImpl),
                     myBiomassInFlowRateActuatorImpl.getModuleName(),
                     myBiomassInFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureBiomassInFlowRateActuator(Node node) {
         BiomassInFlowRateActuator myBiomassInFlowRateActuator = BiomassInFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myBiomassInFlowRateActuator.setOutput(BiomassConsumerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -1131,18 +1172,20 @@ public class ActuatorInitializer {
                             + moduleName);
             BiomassOutFlowRateActuatorImpl myBiomassOutFlowRateActuatorImpl = new BiomassOutFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myBiomassOutFlowRateActuatorImpl, node);
+            BioInitializer.setupBioModule(myBiomassOutFlowRateActuatorImpl,
+                    node);
             BiosimServer.registerServer(new BiomassOutFlowRateActuatorPOATie(
                     myBiomassOutFlowRateActuatorImpl),
                     myBiomassOutFlowRateActuatorImpl.getModuleName(),
                     myBiomassOutFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureBiomassOutFlowRateActuator(Node node) {
         BiomassOutFlowRateActuator myBiomassOutFlowRateActuator = BiomassOutFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myBiomassOutFlowRateActuator.setOutput(BiomassProducerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -1161,12 +1204,13 @@ public class ActuatorInitializer {
                     myFoodInFlowRateActuatorImpl), myFoodInFlowRateActuatorImpl
                     .getModuleName(), myFoodInFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureFoodInFlowRateActuator(Node node) {
         FoodInFlowRateActuator myFoodInFlowRateActuator = FoodInFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myFoodInFlowRateActuator.setOutput(FoodConsumerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -1186,12 +1230,13 @@ public class ActuatorInitializer {
                     myFoodOutFlowRateActuatorImpl.getModuleName(),
                     myFoodOutFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureFoodOutFlowRateActuator(Node node) {
         FoodOutFlowRateActuator myFoodOutFlowRateActuator = FoodOutFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myFoodOutFlowRateActuator.setOutput(FoodProducerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -1210,14 +1255,15 @@ public class ActuatorInitializer {
                     myPlantingActuatorImpl), myPlantingActuatorImpl
                     .getModuleName(), myPlantingActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configurePlantingActuator(Node node) {
         PlantingActuator myPlantingActuator = PlantingActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myPlantingActuator.setOutput(BiomassRSHelper
-                .narrow(BioInitializer.grabModule(myID, getOutputName(node))), getShelfIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myPlantingActuator.setOutput(BiomassRSHelper.narrow(BioInitializer
+                .grabModule(myID, getOutputName(node))), getShelfIndex(node));
         myActuators.add(myPlantingActuator);
     }
 
@@ -1233,14 +1279,15 @@ public class ActuatorInitializer {
                     myHarvestingActuatorImpl), myHarvestingActuatorImpl
                     .getModuleName(), myHarvestingActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureHarvestingActuator(Node node) {
         HarvestingActuator myHarvestingActuator = HarvestingActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myHarvestingActuator.setOutput(BiomassRSHelper
-                .narrow(BioInitializer.grabModule(myID, getOutputName(node))), getShelfIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myHarvestingActuator.setOutput(BiomassRSHelper.narrow(BioInitializer
+                .grabModule(myID, getOutputName(node))), getShelfIndex(node));
         myActuators.add(myHarvestingActuator);
     }
 
@@ -1297,12 +1344,13 @@ public class ActuatorInitializer {
                     myPowerInFlowRateActuatorImpl.getModuleName(),
                     myPowerInFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configurePowerInFlowRateActuator(Node node) {
         PowerInFlowRateActuator myPowerInFlowRateActuator = PowerInFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myPowerInFlowRateActuator.setOutput(PowerConsumerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -1323,12 +1371,13 @@ public class ActuatorInitializer {
                     myPowerOutFlowRateActuatorImpl.getModuleName(),
                     myPowerOutFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configurePowerOutFlowRateActuator(Node node) {
         PowerOutFlowRateActuator myPowerOutFlowRateActuator = PowerOutFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myPowerOutFlowRateActuator.setOutput(PowerProducerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -1363,19 +1412,21 @@ public class ActuatorInitializer {
                             + moduleName);
             PotableWaterInFlowRateActuatorImpl myPotableWaterInFlowRateActuatorImpl = new PotableWaterInFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myPotableWaterInFlowRateActuatorImpl, node);
+            BioInitializer.setupBioModule(myPotableWaterInFlowRateActuatorImpl,
+                    node);
             BiosimServer.registerServer(
                     new PotableWaterInFlowRateActuatorPOATie(
                             myPotableWaterInFlowRateActuatorImpl),
                     myPotableWaterInFlowRateActuatorImpl.getModuleName(),
                     myPotableWaterInFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configurePotableWaterInFlowRateActuator(Node node) {
         PotableWaterInFlowRateActuator myPotableWaterInFlowRateActuator = PotableWaterInFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myPotableWaterInFlowRateActuator.setOutput(PotableWaterConsumerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -1390,19 +1441,21 @@ public class ActuatorInitializer {
                             + moduleName);
             PotableWaterOutFlowRateActuatorImpl myPotableWaterOutFlowRateActuatorImpl = new PotableWaterOutFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myPotableWaterOutFlowRateActuatorImpl, node);
+            BioInitializer.setupBioModule(
+                    myPotableWaterOutFlowRateActuatorImpl, node);
             BiosimServer.registerServer(
                     new PotableWaterOutFlowRateActuatorPOATie(
                             myPotableWaterOutFlowRateActuatorImpl),
                     myPotableWaterOutFlowRateActuatorImpl.getModuleName(),
                     myPotableWaterOutFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configurePotableWaterOutFlowRateActuator(Node node) {
         PotableWaterOutFlowRateActuator myPotableWaterOutFlowRateActuator = PotableWaterOutFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myPotableWaterOutFlowRateActuator.setOutput(PotableWaterProducerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -1417,7 +1470,8 @@ public class ActuatorInitializer {
                             + moduleName);
             GreyWaterInFlowRateActuatorImpl myGreyWaterInFlowRateActuatorImpl = new GreyWaterInFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myGreyWaterInFlowRateActuatorImpl, node);
+            BioInitializer.setupBioModule(myGreyWaterInFlowRateActuatorImpl,
+                    node);
             myActuators.add(OrbUtils
                     .poaToCorbaObj(myGreyWaterInFlowRateActuatorImpl));
             BiosimServer.registerServer(new GreyWaterInFlowRateActuatorPOATie(
@@ -1425,12 +1479,13 @@ public class ActuatorInitializer {
                     myGreyWaterInFlowRateActuatorImpl.getModuleName(),
                     myGreyWaterInFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureGreyWaterInFlowRateActuator(Node node) {
         GreyWaterInFlowRateActuator myGreyWaterInFlowRateActuator = GreyWaterInFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myGreyWaterInFlowRateActuator.setOutput(GreyWaterConsumerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -1445,18 +1500,20 @@ public class ActuatorInitializer {
                             + moduleName);
             GreyWaterOutFlowRateActuatorImpl myGreyWaterOutFlowRateActuatorImpl = new GreyWaterOutFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myGreyWaterOutFlowRateActuatorImpl, node);
+            BioInitializer.setupBioModule(myGreyWaterOutFlowRateActuatorImpl,
+                    node);
             BiosimServer.registerServer(new GreyWaterOutFlowRateActuatorPOATie(
                     myGreyWaterOutFlowRateActuatorImpl),
                     myGreyWaterOutFlowRateActuatorImpl.getModuleName(),
                     myGreyWaterOutFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureGreyWaterOutFlowRateActuator(Node node) {
         GreyWaterOutFlowRateActuator myGreyWaterOutFlowRateActuator = GreyWaterOutFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myGreyWaterOutFlowRateActuator.setOutput(GreyWaterProducerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -1471,18 +1528,20 @@ public class ActuatorInitializer {
                             + moduleName);
             DirtyWaterInFlowRateActuatorImpl myDirtyWaterInFlowRateActuatorImpl = new DirtyWaterInFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myDirtyWaterInFlowRateActuatorImpl, node);
+            BioInitializer.setupBioModule(myDirtyWaterInFlowRateActuatorImpl,
+                    node);
             BiosimServer.registerServer(new DirtyWaterInFlowRateActuatorPOATie(
                     myDirtyWaterInFlowRateActuatorImpl),
                     myDirtyWaterInFlowRateActuatorImpl.getModuleName(),
                     myDirtyWaterInFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureDirtyWaterInFlowRateActuator(Node node) {
         DirtyWaterInFlowRateActuator myDirtyWaterInFlowRateActuator = DirtyWaterInFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myDirtyWaterInFlowRateActuator.setOutput(DirtyWaterConsumerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -1497,19 +1556,21 @@ public class ActuatorInitializer {
                             + moduleName);
             DirtyWaterOutFlowRateActuatorImpl myDirtyWaterOutFlowRateActuatorImpl = new DirtyWaterOutFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myDirtyWaterOutFlowRateActuatorImpl, node);
+            BioInitializer.setupBioModule(myDirtyWaterOutFlowRateActuatorImpl,
+                    node);
             BiosimServer.registerServer(
                     new DirtyWaterOutFlowRateActuatorPOATie(
                             myDirtyWaterOutFlowRateActuatorImpl),
                     myDirtyWaterOutFlowRateActuatorImpl.getModuleName(),
                     myDirtyWaterOutFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureDirtyWaterOutFlowRateActuator(Node node) {
         DirtyWaterOutFlowRateActuator myDirtyWaterOutFlowRateActuator = DirtyWaterOutFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myDirtyWaterOutFlowRateActuator.setOutput(DirtyWaterProducerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -1529,12 +1590,13 @@ public class ActuatorInitializer {
                     myWaterInFlowRateActuatorImpl.getModuleName(),
                     myWaterInFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureWaterInFlowRateActuator(Node node) {
         WaterInFlowRateActuator myWaterInFlowRateActuator = WaterInFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myWaterInFlowRateActuator.setOutput(WaterConsumerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -1555,12 +1617,13 @@ public class ActuatorInitializer {
                     myWaterOutFlowRateActuatorImpl.getModuleName(),
                     myWaterOutFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureWaterOutFlowRateActuator(Node node) {
         WaterOutFlowRateActuator myWaterOutFlowRateActuator = WaterOutFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myWaterOutFlowRateActuator.setOutput(WaterProducerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -1625,18 +1688,20 @@ public class ActuatorInitializer {
                             + moduleName);
             DryWasteInFlowRateActuatorImpl myDryWasteInFlowRateActuatorImpl = new DryWasteInFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myDryWasteInFlowRateActuatorImpl, node);
+            BioInitializer.setupBioModule(myDryWasteInFlowRateActuatorImpl,
+                    node);
             BiosimServer.registerServer(new DryWasteInFlowRateActuatorPOATie(
                     myDryWasteInFlowRateActuatorImpl),
                     myDryWasteInFlowRateActuatorImpl.getModuleName(),
                     myDryWasteInFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureDryWasteInFlowRateActuator(Node node) {
         DryWasteInFlowRateActuator myDryWasteInFlowRateActuator = DryWasteInFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myDryWasteInFlowRateActuator.setOutput(DryWasteConsumerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -1651,18 +1716,20 @@ public class ActuatorInitializer {
                             + moduleName);
             DryWasteOutFlowRateActuatorImpl myDryWasteOutFlowRateActuatorImpl = new DryWasteOutFlowRateActuatorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule(myDryWasteOutFlowRateActuatorImpl, node);
+            BioInitializer.setupBioModule(myDryWasteOutFlowRateActuatorImpl,
+                    node);
             BiosimServer.registerServer(new DryWasteOutFlowRateActuatorPOATie(
                     myDryWasteOutFlowRateActuatorImpl),
                     myDryWasteOutFlowRateActuatorImpl.getModuleName(),
                     myDryWasteOutFlowRateActuatorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureDryWasteOutFlowRateActuator(Node node) {
         DryWasteOutFlowRateActuator myDryWasteOutFlowRateActuator = DryWasteOutFlowRateActuatorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myDryWasteOutFlowRateActuator.setOutput(DryWasteProducerHelper
                 .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
                 getFlowRateIndex(node));
@@ -1713,10 +1780,11 @@ public class ActuatorInitializer {
             child = child.getNextSibling();
         }
     }
-	/**
-	 * @return Returns the myActuators.
-	 */
-	public List getActuators() {
-		return myActuators;
-	}
+
+    /**
+     * @return Returns the myActuators.
+     */
+    public List getActuators() {
+        return myActuators;
+    }
 }

@@ -22,19 +22,23 @@ import com.traclabs.biosim.server.util.OrbUtils;
 
 public class GenericServer {
     private List readyListeners;
+
     protected Logger myLogger;
-    
-    public GenericServer(){
+
+    public GenericServer() {
         myLogger = Logger.getLogger(this.getClass());
         Properties logProps = new Properties();
         logProps.setProperty("log4j.rootLogger", "INFO, rootAppender");
-        logProps.setProperty("log4j.appender.rootAppender", "org.apache.log4j.ConsoleAppender");
-        logProps.setProperty("log4j.appender.rootAppender.layout", "org.apache.log4j.PatternLayout");
-        logProps.setProperty("log4j.appender.rootAppender.layout.ConversionPattern", "%5p [%c] - %m%n");
+        logProps.setProperty("log4j.appender.rootAppender",
+                "org.apache.log4j.ConsoleAppender");
+        logProps.setProperty("log4j.appender.rootAppender.layout",
+                "org.apache.log4j.PatternLayout");
+        logProps.setProperty(
+                "log4j.appender.rootAppender.layout.ConversionPattern",
+                "%5p [%c] - %m%n");
         PropertyConfigurator.configure(logProps);
-        
+
     }
-    
 
     /**
      * Grabs ID parameter from an array of string
@@ -53,8 +57,8 @@ public class GenericServer {
                     st.nextToken();
                     myID = Integer.parseInt(st.nextToken());
                 } catch (Exception e) {
-                    Logger.getLogger(GenericServer.class).warn("Problem parsing arguments on arg "
-                            + myArgs[i]);
+                    Logger.getLogger(GenericServer.class).warn(
+                            "Problem parsing arguments on arg " + myArgs[i]);
                     e.printStackTrace();
                 }
             }
@@ -121,8 +125,11 @@ public class GenericServer {
                     OrbUtils.getNamingContext(pID).to_name(pServerName),
                     OrbUtils.poaToCorbaObj(pPOA));
         } catch (org.omg.CORBA.UserException e) {
-            Logger.getLogger(GenericServer.class).error(pServerName
-                            + " had problems registering with nameservice, trying again..");
+            Logger
+                    .getLogger(GenericServer.class)
+                    .error(
+                            pServerName
+                                    + " had problems registering with nameservice, trying again..");
             e.printStackTrace();
             OrbUtils.sleepAwhile();
             registerServer(pPOA, pServerName, pID);

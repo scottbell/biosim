@@ -60,7 +60,8 @@ public class DehumidifierImpl extends SimBioModuleImpl implements
         float currentWaterMolesInEnvironment = myAirInputs[0].getWaterMoles();
         float totalMolesInEnvironment = myAirInputs[0].getTotalMoles();
         //myAirInputs[0].printCachedEnvironment();
-        myLogger.debug("Before: Water concentration"+currentWaterMolesInEnvironment / totalMolesInEnvironment);
+        myLogger.debug("Before: Water concentration"
+                + currentWaterMolesInEnvironment / totalMolesInEnvironment);
 
         float molesOfWaterGathered = 0f;
         for (int i = 0; i < myAirInputs.length; i++) {
@@ -74,7 +75,8 @@ public class DehumidifierImpl extends SimBioModuleImpl implements
                         airInDesiredFlowRates[i]);
                 airInActualFlowRates[i] = myAirInputs[i]
                         .takeWaterMoles(resourceToGatherFinal);
-                myLogger.debug("Going to remove "+resourceToGatherFinal+" moles of water");
+                myLogger.debug("Going to remove " + resourceToGatherFinal
+                        + " moles of water");
                 molesOfWaterGathered += airInActualFlowRates[i];
             }
         }
@@ -85,7 +87,10 @@ public class DehumidifierImpl extends SimBioModuleImpl implements
 
         currentWaterMolesInEnvironment = myAirInputs[0].getWaterMoles();
         totalMolesInEnvironment = myAirInputs[0].getTotalMoles();
-        myLogger.debug("After: Pushed "+waterPushedToStore+" liters of water to the store (gathered "+molesOfWaterGathered+" moles), water concentration now "+currentWaterMolesInEnvironment /totalMolesInEnvironment);
+        myLogger.debug("After: Pushed " + waterPushedToStore
+                + " liters of water to the store (gathered "
+                + molesOfWaterGathered + " moles), water concentration now "
+                + currentWaterMolesInEnvironment / totalMolesInEnvironment);
     }
 
     private static float calculateMolesNeededToRemove(

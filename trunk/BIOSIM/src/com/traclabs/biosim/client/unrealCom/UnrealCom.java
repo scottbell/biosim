@@ -57,7 +57,7 @@ public class UnrealCom {
      *            Boolean true if a server name was given.
      */
     private boolean bGivenServer;
-    
+
     private Logger myLogger;
 
     /**
@@ -65,7 +65,7 @@ public class UnrealCom {
      * server running on same computer.
      */
     public UnrealCom() {
-	myLogger = Logger.getLogger(this.getClass());
+        myLogger = Logger.getLogger(this.getClass());
         bGivenServer = false;
 
     }
@@ -78,7 +78,7 @@ public class UnrealCom {
      *            Name of BioSim3D server to connect to.
      */
     public UnrealCom(String name) {
-	myLogger = Logger.getLogger(this.getClass());
+        myLogger = Logger.getLogger(this.getClass());
         myServer = name;
         bGivenServer = true;
     }

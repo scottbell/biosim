@@ -53,10 +53,10 @@ public class PPS extends WaterRSSubSystem {
         else
             potableWaterProduced = 0f;
     }
-    
-    public void log(){
+
+    public void log() {
         super.log();
-        myLogger.debug("potableWaterProduced="+potableWaterProduced);
+        myLogger.debug("potableWaterProduced=" + potableWaterProduced);
     }
 
     public void reset() {

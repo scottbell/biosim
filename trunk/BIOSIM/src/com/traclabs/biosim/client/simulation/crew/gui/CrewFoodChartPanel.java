@@ -33,7 +33,7 @@ public class CrewFoodChartPanel extends GraphPanel {
                 .get(0));
         refresh();
         JFreeChart myChart = ChartFactory.createBarChart3D("Food Consumption", // chart
-                                                                               // title
+                // title
                 "", // domain axis label
                 "Kilograms", // range axis label
                 myDataset, PlotOrientation.VERTICAL, // data
