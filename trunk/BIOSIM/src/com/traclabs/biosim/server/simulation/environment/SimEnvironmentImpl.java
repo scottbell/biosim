@@ -61,10 +61,10 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	private LogIndex myLogIndex;
 
 	/**
-	* Creates a SimEnvironment (with a volume of 100 liters) and resets the gas levels to correct percantages of sea level air
+	* Creates a SimEnvironment (with a volume of 100000 liters) and resets the gas levels to correct percantages of sea level air
 	*/
 	public SimEnvironmentImpl(int pID, String pName){
-		this(pID, 100, pName);
+		this(pID, 100000, pName);
 	}
 
 	/**
@@ -123,6 +123,14 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		else
 			return 0;
 	}
+	
+	private float calculateMoles(float pPressure){
+		float kelvinTemperature = temperature + 273f;
+		if (kelvinTemperature > 0)
+			return (pPressure * volume) / (kelvinTemperature * idealGasConstant);
+		else
+			return 0;
+	}
 
 	/**
 	* Resets the ticks to 0 and the gas levels to correct percantages of sea level air
@@ -137,9 +145,9 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		O2Moles = cachedO2Moles = initialO2Moles;
 		otherMoles = cachedOtherMoles = initialOtherMoles;
 		CO2Moles = cachedCO2Moles = initialCO2Moles;
-		O2Pressure = cachedO2Pressure = initialO2Pressure = calculatePressure(O2Moles);
-		CO2Pressure = cachedCO2Pressure = initialCO2Pressure = calculatePressure(CO2Moles);
-		otherPressure = cachedOtherPressure = initialOtherPressure = calculatePressure(otherMoles);
+		O2Pressure = cachedO2Pressure = initialO2Pressure;
+		CO2Pressure = cachedCO2Pressure = initialCO2Pressure;
+		otherPressure = cachedOtherPressure = initialOtherPressure;
 	}
 
 	/**
@@ -160,7 +168,10 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	}
 
 	public float getRelativeHumidity(){
-		float exponent = (14.4f * getTemperature()) / (getTemperature() + 239f);
+		float kelvinTemperature = getTemperature() + 239f;
+		if (kelvinTemperature <= 0)
+			return 0f;
+		float exponent = (14.4f * getTemperature()) / kelvinTemperature;
 		float saturatedVaporPressure = 6.11f * exp(exponent);
 		return getTotalPressure() / saturatedVaporPressure;
 	}
@@ -202,11 +213,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @param molesRequested the amount of CO2 (in moles) to be in the air
 	*/
 	public void setCO2Moles(float molesRequested){
-		if (CO2Moles > 0)
-			CO2Pressure = CO2Pressure * molesRequested / CO2Moles;
-		else
-			CO2Pressure = 0;
 		CO2Moles = molesRequested;
+		adjustPressure();
 	}
 
 	/**
@@ -214,11 +222,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @param molesRequested the amount of O2 (in moles) to be in the air
 	*/
 	public void setO2Moles(float molesRequested){
-		if (O2Moles > 0)
-			O2Pressure = O2Pressure * molesRequested / O2Moles;
-		else
-			O2Pressure = 0;
 		O2Moles = molesRequested;
+		adjustPressure();
 	}
 
 	/**
@@ -226,11 +231,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @param molesRequested the amount of water gasses (in moles) to be in the air
 	*/
 	public void setWaterMoles(float molesRequested){
-		if (waterMoles > 0)
-			waterPressure = waterPressure * molesRequested / waterMoles;
-		else
-			waterPressure = 0;
 		waterMoles = molesRequested;
+		adjustPressure();
 	}
 
 	/**
@@ -238,11 +240,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @param molesRequested the amount of other gasses (in moles) to be in the air
 	*/
 	public void setOtherMoles(float molesRequested){
-		if (otherMoles > 0)
-			otherPressure = otherPressure * molesRequested / otherMoles;
-		else
-			otherPressure = 0;
 		otherMoles = molesRequested;
+		adjustPressure();
 	}
 
 	/**
@@ -250,11 +249,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @param pressureRequested the amount of CO2 (in kilo Pascals) to be in the air
 	*/
 	public void setCO2Pressure(float pressureRequested){
-		if (CO2Pressure > 0)
-			CO2Moles = pressureRequested * CO2Moles / CO2Pressure;
-		else
-			CO2Moles = 0;
 		CO2Pressure = pressureRequested;
+		adjustMoles();
 	}
 
 	/**
@@ -262,11 +258,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @param pressureRequested the amount of O2 (in kilo Pascals) to be in the air
 	*/
 	public void setO2Pressure(float pressureRequested){
-		if (O2Pressure > 0)
-			O2Moles = pressureRequested * O2Moles / O2Pressure;
-		else
-			O2Moles = 0;
 		O2Pressure = pressureRequested;
+		adjustMoles();
 	}
 
 	/**
@@ -274,11 +267,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @param pressureRequested the amount of water gasses (in kilo Pascals) to be in the air
 	*/
 	public void setWaterPressure(float pressureRequested){
-		if (waterPressure > 0)
-			waterMoles = pressureRequested * waterMoles / waterPressure;
-		else
-			waterMoles = 0;
 		waterPressure = pressureRequested;
+		adjustMoles();
 	}
 
 	/**
@@ -286,11 +276,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @param pressureRequested the amount of other gasses (in kilo Pascals) to be in the air
 	*/
 	public void setOtherPressure(float pressureRequested){
-		if (otherPressure > 0)
-			otherMoles = pressureRequested * otherMoles / otherPressure;
-		else
-			otherMoles = 0;
 		otherPressure = pressureRequested;
+		adjustMoles();
 	}
 
 	/**
@@ -324,30 +311,11 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @param molesRequested the amount (in moles) to set all the gas levels to
 	*/
 	public void setTotalMoles(float molesRequested){
-		if (O2Moles > 0)
-			O2Pressure = O2Pressure * molesRequested / O2Moles;
-		else
-			O2Pressure = 0;
-
-		if (CO2Moles > 0)
-			CO2Pressure = CO2Pressure * molesRequested / CO2Moles;
-		else
-			CO2Pressure = 0;
-
-		if (otherMoles > 0)
-			otherPressure = otherPressure * molesRequested / otherMoles;
-		else
-			otherPressure = 0;
-
-		if (waterMoles > 0)
-			waterPressure = waterPressure * molesRequested / waterMoles;
-		else
-			waterPressure = 0;
-
 		CO2Moles = molesRequested;
 		O2Moles = molesRequested;
 		otherMoles = molesRequested;
 		waterMoles = molesRequested;
+		adjustPressure();
 	}
 
 	/**
@@ -355,30 +323,25 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @param pressureRequested the amount (in pressure) to set all the gas levels to
 	*/
 	public void setTotalPressure(float pressureRequested){
-		if (O2Pressure > 0)
-			O2Moles = O2Moles * pressureRequested / O2Pressure;
-		else
-			O2Moles = 0;
-
-		if (CO2Pressure > 0)
-			CO2Moles = CO2Moles * pressureRequested / CO2Pressure;
-		else
-			CO2Moles = 0;
-
-		if (otherPressure > 0)
-			otherMoles = otherMoles * pressureRequested / otherPressure;
-		else
-			otherMoles = 0;
-
-		if (waterPressure > 0)
-			waterMoles = waterMoles * pressureRequested / waterPressure;
-		else
-			waterMoles = 0;
-
 		CO2Pressure = pressureRequested;
 		O2Pressure = pressureRequested;
 		otherPressure = pressureRequested;
 		waterPressure = pressureRequested;
+		adjustMoles();
+	}
+	
+	private void adjustMoles(){
+		CO2Moles = calculateMoles(CO2Pressure);
+		O2Moles = calculateMoles(O2Pressure);
+		otherMoles = calculateMoles(otherPressure);
+		waterMoles = calculateMoles(waterPressure);
+	}
+	
+	private void adjustPressure(){
+		CO2Pressure = calculatePressure(CO2Moles);
+		O2Pressure = calculatePressure(O2Moles);
+		otherPressure = calculatePressure(otherMoles);
+		waterPressure = calculatePressure(waterMoles);
 	}
 
 	/**
@@ -466,11 +429,6 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		}
 		else{
 			afterAddition = randomFilter(CO2Moles + molesRequested);
-			if (CO2Moles > 0)
-				CO2Pressure = CO2Pressure * afterAddition / CO2Moles;
-			else
-				CO2Pressure = 0f;
-			CO2Moles = afterAddition;
 			return afterAddition;
 		}
 	}
@@ -496,11 +454,6 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		}
 		else{
 			afterAddition = randomFilter(O2Moles + molesRequested);
-			if (O2Moles > 0)
-				O2Pressure = O2Pressure * afterAddition / O2Moles;
-			else
-				O2Pressure = 0f;
-			O2Moles = afterAddition;
 			return afterAddition;
 		}
 	}
@@ -515,21 +468,12 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		if ((molesRequested + getTotalMoles()) > volume){
 			//adding more Other than volume
 			afterAddition = randomFilter(otherMoles + volume - getTotalMoles());
-			//adjust pressure
-			if (otherMoles > 0)
-				otherPressure = otherPressure * afterAddition / otherMoles;
-			else
-				otherPressure = 0;
 			//add moles
 			otherMoles = afterAddition;
 			return  afterAddition;
 		}
 		else{
 			afterAddition = randomFilter(otherMoles + molesRequested);
-			if (otherMoles > 0)
-				otherPressure = otherPressure * afterAddition / otherMoles;
-			else
-				otherPressure = 0f;
 			otherMoles = afterAddition;
 			return afterAddition;
 		}
@@ -545,11 +489,6 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		if ((molesRequested + getTotalMoles()) > volume){
 			//adding more Water than volume
 			afterAddition = randomFilter(waterMoles + volume - getTotalMoles());
-			//adjust pressure
-			if (waterMoles > 0)
-				waterPressure = waterPressure * afterAddition / waterMoles;
-			else
-				waterPressure = 0;
 			//add moles
 			waterMoles = afterAddition;
 			return  afterAddition;
@@ -580,11 +519,6 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		//stuff exists for request
 		else{
 			afterRemoval = randomFilter(amountRequested);
-			//adjust pressure
-			if (CO2Moles > 0)
-				CO2Pressure = CO2Pressure * afterRemoval / CO2Moles;
-			else
-				CO2Pressure = 0;
 			//take moles
 			CO2Moles -= afterRemoval;
 		}
@@ -606,11 +540,6 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		//stuff exists for request
 		else{
 			afterRemoval = O2Moles - randomFilter(amountRequested);
-			//adjust pressure
-			if (O2Moles > 0)
-				O2Pressure = O2Pressure * afterRemoval / O2Moles;
-			else
-				O2Pressure = 0;
 			//take moles
 			O2Moles = afterRemoval;
 		}
@@ -632,11 +561,6 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		//stuff exists for request
 		else{
 			afterRemoval = otherMoles - randomFilter(amountRequested);
-			//adjust pressure
-			if (otherMoles > 0)
-				otherPressure = otherPressure * afterRemoval / otherMoles;
-			else
-				otherPressure = 0;
 			//take moles
 			otherMoles = afterRemoval;
 		}
@@ -658,11 +582,6 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		//stuff exists for request
 		else{
 			afterRemoval = waterMoles - randomFilter(amountRequested);
-			//adjust pressure
-			if (waterMoles > 0)
-				waterPressure = waterPressure * afterRemoval / waterMoles;
-			else
-				waterPressure = 0;
 			//take moles
 			waterMoles = afterRemoval;
 		}
@@ -706,25 +625,6 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 				afterRemovalOther = randomFilter(otherMoles - (otherMoles * percentageOfTotalGas));
 				afterRemovalWater = randomFilter(waterMoles - (waterMoles * percentageOfTotalGas));
 			}
-			if (O2Moles > 0)
-				O2Pressure = O2Pressure * afterRemovalO2 / O2Moles;
-			else
-				O2Pressure = 0;
-
-			if (CO2Moles > 0)
-				CO2Pressure = CO2Pressure * afterRemovalCO2 / CO2Moles;
-			else
-				CO2Pressure = 0;
-
-			if (otherMoles > 0)
-				otherPressure = otherPressure * afterRemovalOther / otherMoles;
-			else
-				otherPressure = 0;
-
-			if (waterMoles > 0)
-				waterPressure = waterPressure * afterRemovalWater / waterMoles;
-			else
-				waterPressure = 0;
 			O2Moles = afterRemovalO2;
 			CO2Moles = afterRemovalCO2;
 			otherMoles = afterRemovalOther;
@@ -766,25 +666,6 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 				afterRemovalOther = randomFilter(otherMoles - (otherMoles * percentageOfTotalGas));
 				afterRemovalWater = randomFilter(waterMoles - (waterMoles * percentageOfTotalGas));
 			}
-			if (O2Moles > 0)
-				O2Pressure = O2Pressure * afterRemovalO2 / O2Moles;
-			else
-				O2Pressure = 0;
-
-			if (CO2Moles > 0)
-				CO2Pressure = CO2Pressure * afterRemovalCO2 / CO2Moles;
-			else
-				CO2Pressure = 0;
-
-			if (otherMoles > 0)
-				otherPressure = otherPressure * afterRemovalOther / otherMoles;
-			else
-				otherPressure = 0;
-
-			if (waterMoles > 0)
-				waterPressure = waterPressure * afterRemovalWater / waterMoles;
-			else
-				waterPressure = 0;
 			O2Moles = afterRemovalO2;
 			CO2Moles = afterRemovalCO2;
 			otherMoles = afterRemovalOther;
@@ -815,25 +696,6 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 			float afterRemovalO2 = randomFilter(O2Moles - (O2Moles / volume) * molesRequested);
 			float afterRemovalOther = randomFilter(otherMoles - (otherMoles / volume) * molesRequested);
 			float afterRemovalWater = randomFilter(waterMoles - (waterMoles / volume) * molesRequested);
-			if (O2Moles > 0)
-				O2Pressure = O2Pressure * afterRemovalO2 / O2Moles;
-			else
-				O2Pressure = 0;
-
-			if (CO2Moles > 0)
-				CO2Pressure = CO2Pressure * afterRemovalCO2 / CO2Moles;
-			else
-				CO2Pressure = 0;
-
-			if (otherMoles > 0)
-				otherPressure = otherPressure * afterRemovalOther / otherMoles;
-			else
-				otherPressure = 0;
-
-			if (waterMoles > 0)
-				waterPressure = waterPressure * afterRemovalWater / waterMoles;
-			else
-				waterPressure = 0;
 			O2Moles = afterRemovalO2;
 			CO2Moles = afterRemovalCO2;
 			otherMoles = afterRemovalOther;
@@ -916,6 +778,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	*/
 	public void tick(){
 		super.tick();
+		adjustPressure();
 		cachedO2Moles = O2Moles;
 		cachedCO2Moles = CO2Moles;
 		cachedOtherMoles = otherMoles;

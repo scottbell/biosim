@@ -24,6 +24,8 @@ public abstract class PlantImpl extends PlantPOA{
 	private float myLastEdibleWetBiomass = 0f;
 	private float myWaterNeeded = 0f;
 	private float myWaterLevel = 0f;
+	private float CQY = 0f;
+	private float carbonUseEfficiency24 = 0f;
 	protected float[] canopyClosureConstants;
 	protected float[] canopyQYConstants;
 
@@ -57,7 +59,9 @@ public abstract class PlantImpl extends PlantPOA{
 		myPPF = 0f;
 		myCurrentTotalWetBiomass = 0f;
 		myLastTotalWetBiomass = 0f;
+		carbonUseEfficiency24 = 0f;
 		myAge = 0;
+		CQY = 0f;
 	}
 
 	public void tick(){
@@ -110,7 +114,6 @@ public abstract class PlantImpl extends PlantPOA{
 	
 	protected float calculateNetCanopyPhotosynthesis(){
 		float plantGrowthDiurnalCycle = 24f;
-		float carbonUseEfficiency24 = getCarbonUseEfficiency24();
 		float grossCanopyPhotosynthesis = calculateGrossCanopyPhotosynthesis();
 		float photoperiod = getPhotoperiod();
 		System.out.println("PlantImpl: plantGrowthDiurnalCycle: "+plantGrowthDiurnalCycle);
@@ -121,7 +124,6 @@ public abstract class PlantImpl extends PlantPOA{
 	}
 	
 	private float calculateGrossCanopyPhotosynthesis(){
-		float CQY = calculateCQY();
 		float PPF = getPPF();
 		float PPFFractionAbsorbed = calculatePPFFractionAbsorbed();
 		System.out.println("PlantImpl: CQY: "+CQY);
@@ -141,6 +143,8 @@ public abstract class PlantImpl extends PlantPOA{
 	private void growBiomass(){
 		//Biomass Grown
 		float molecularWeightOfCarbon = 12.011f; // g/mol
+		CQY = calculateCQY();
+		carbonUseEfficiency24 = getCarbonUseEfficiency24();
 		float dailyCarbonGain = calculateDailyCarbonGain();
 		System.out.println("PlantImpl: dailyCarbonGain: "+dailyCarbonGain);
 		float cropGrowthRate = molecularWeightOfCarbon * (dailyCarbonGain / getBCF());
@@ -187,9 +191,7 @@ public abstract class PlantImpl extends PlantPOA{
 	//in g/meters^2*hour
 	private float calculateDailyCarbonGain(){
 		float photoperiod = getPhotoperiod();
-		float carbonUseEfficiency24 = getCarbonUseEfficiency24();
 		float PPFFractionAbsorbed = calculatePPFFractionAbsorbed();
-		float CQY = calculateCQY();
 		float PPF = getPPF();
 		System.out.println("PlantImpl: photoperiod: "+photoperiod);
 		System.out.println("PlantImpl: carbonUseEfficiency24: "+carbonUseEfficiency24);
@@ -227,13 +229,15 @@ public abstract class PlantImpl extends PlantPOA{
 	//Convert current CO2 levels to micromoles of CO2 / moles of air
 	protected float calculateCO2Concentration(){
 		SimEnvironment myEnvironment = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0];
-		float CO2Moles = myEnvironment.getCO2Moles() * pow (10,-6); //in micro moles
+		float CO2Moles = myEnvironment.getCO2Moles() * pow (10,6); //in micro moles
 		float airMoles = myEnvironment.getTotalMoles(); //in moles
-		if ((CO2Moles <= 0) || (airMoles <= 0))
-			return pow(1f, -99f);
+		if (CO2Moles <=0)
+			CO2Moles = pow(1f, -30f);
+		else if (airMoles <= 0)
+			airMoles = pow(1f, -30f);
 		System.out.println("PlantImpl: CO2Moles: "+CO2Moles);
 		System.out.println("PlantImpl: airMoles: "+airMoles);
-		return airMoles / CO2Moles;
+		return CO2Moles / airMoles;
 	}
 	
 	//returns the age in days
@@ -295,7 +299,7 @@ public abstract class PlantImpl extends PlantPOA{
 		float thePPF = getPPF();
 		float oneOverPPf = 1f / thePPF;
 		float thePPFsquared = pow(thePPF, 2f);
-		float thePPFcubed = pow(thePPF, 3f);
+		float thePPFcubed = pow(thePPF, 3f);		
 		System.out.println("PlantImpl: thePPF: "+thePPF);
 		System.out.println("PlantImpl: oneOverPPf: "+oneOverPPf);
 		System.out.println("PlantImpl: thePPFsquared: "+thePPFsquared);
@@ -304,7 +308,7 @@ public abstract class PlantImpl extends PlantPOA{
 		float theCO2 = calculateCO2Concentration();
 		float oneOverCO2 = 1f / theCO2;
 		float theCO2squared = pow(theCO2, 2f);
-		float theCO2cubed = pow(theCO2, 3f);
+		float theCO2cubed = pow(theCO2, 3f);		
 		System.out.println("PlantImpl: theCO2: "+theCO2);
 		System.out.println("PlantImpl: oneOverCO2: "+oneOverCO2);
 		System.out.println("PlantImpl: theCO2squared: "+theCO2squared);
