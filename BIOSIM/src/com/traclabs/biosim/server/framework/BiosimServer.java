@@ -39,7 +39,6 @@ import biosim.server.actuator.air.*;
 import biosim.server.actuator.food.*;
 import biosim.server.actuator.water.*;
 import biosim.server.actuator.power.*;
-import biosim.server.actuator.crew.*;
 import biosim.server.actuator.environment.*;
 import biosim.server.actuator.framework.*;
 import biosim.idl.util.log.*;

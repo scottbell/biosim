@@ -187,6 +187,9 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	* @return the amount actually added to the store
 	*/
 	public float add(float amountRequested){
+		//idiot check
+		if (amountRequested < 0)
+			return 0f;
 		if (pipe)
 			capacity += amountRequested;
 		float acutallyAdded = 0f;
