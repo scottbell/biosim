@@ -16,7 +16,8 @@ public abstract class WaterRSSubSystem {
 
     //During any given tick, this much power (in watts) is needed for a water
     // subsystem (default)
-    float powerNeeded = 100;
+    float basePowerNeeded = 100;
+    float currentPowerNeeded;
 
     //During any given tick, this much water (in liters) is needed for a water
     // subsystem (default)
@@ -54,6 +55,7 @@ public abstract class WaterRSSubSystem {
     public WaterRSSubSystem(WaterRSImpl pWaterRSImpl) {
         myWaterRS = pWaterRSImpl;
         myLogger = Logger.getLogger(this.getClass());
+        currentPowerNeeded = basePowerNeeded;
     }
 
     /**
@@ -89,6 +91,11 @@ public abstract class WaterRSSubSystem {
     public void setEnabled(boolean pEnabled) {
         if (!malfunctioning)
             enabled = pEnabled;
+        if (enabled)
+            currentPowerNeeded = 0;
+        else
+            currentPowerNeeded = basePowerNeeded;
+            
     }
 
     public void setMalfunctioning(boolean pMalfunctioning) {
@@ -117,8 +124,8 @@ public abstract class WaterRSSubSystem {
     protected void gatherPower() {
         float gatheredPower = 0f;
         for (int i = 0; (i < myWaterRS.getPowerInputs().length)
-                && (gatheredPower < powerNeeded); i++) {
-            float powerToGatherFirst = Math.min(powerNeeded, (myWaterRS
+                && (gatheredPower < currentPowerNeeded); i++) {
+            float powerToGatherFirst = Math.min(currentPowerNeeded, (myWaterRS
                     .getPowerInputMaxFlowRate(i) / myWaterRS
                     .getSubsystemsConsumingPower()));
             float powerToGatherFinal = Math.min(powerToGatherFirst, (myWaterRS
@@ -131,7 +138,7 @@ public abstract class WaterRSSubSystem {
             gatheredPower += myWaterRS.getPowerInputActualFlowRate(i);
         }
         currentPowerConsumed = gatheredPower;
-        if (currentPowerConsumed < powerNeeded) {
+        if (currentPowerConsumed < currentPowerNeeded) {
             hasEnoughPower = false;
         } else {
             hasEnoughPower = true;
@@ -167,18 +174,12 @@ public abstract class WaterRSSubSystem {
 
     public void log() {
         myLogger.debug("enabled="+enabled);
-        myLogger.debug("power_needed="+powerNeeded);
+        myLogger.debug("basePowerNeeded="+basePowerNeeded);
+        myLogger.debug("currentPowerNeeded="+currentPowerNeeded);
         myLogger.debug("power_consumed="+currentPowerConsumed);
         myLogger.debug("water_needed="+waterNeeded);
         myLogger.debug("has_enough_power="+hasEnoughPower);
         myLogger.debug("has_enough_water="+hasEnoughWater);
         myLogger.debug("water_level="+waterLevel);
-    }
-
-    /**
-     * @return Returns the powerNeeded.
-     */
-    public float getPowerNeeded() {
-        return powerNeeded;
     }
 }

@@ -14,6 +14,7 @@ import com.traclabs.biosim.idl.simulation.power.PowerStore;
 import com.traclabs.biosim.idl.simulation.water.DirtyWaterStore;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterStore;
 import com.traclabs.biosim.idl.simulation.water.PotableWaterStore;
+import com.traclabs.biosim.idl.simulation.water.WaterRSOperationMode;
 import com.traclabs.biosim.idl.simulation.water.WaterRSOperations;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 
@@ -69,8 +70,10 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
     private float[] greyWaterDesiredFlowRates;
 
     private float[] potableWaterDesiredFlowRates;
-
-    private static final int NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER = 3;
+    
+    private WaterRSOperationMode myMode;
+    
+    private static final int NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER = 4;
 
     /**
      * Creates the Water RS and it's subsystems
@@ -111,48 +114,12 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
     }
 
     /**
-     * Checks whether RO subsystem has enough power or not
-     * 
-     * @return <code>true</code> if the RO subsystem has enough power,
-     *         <code>false</code> if not.
-     */
-    public boolean ROHasPower() {
-        return myRO.hasPower();
-    }
-
-    public boolean ROIsEnabled() {
-        return myRO.isEnabled();
-    }
-
-    public void setROEnabled(boolean pEnabled) {
-        myRO.setEnabled(pEnabled);
-    }
-
-    public float getROtoAESWater() {
-        return myRO.getAESWaterProduced();
-    }
-
-    public float getROtoPPSWater() {
-        return myRO.getPPSWaterProduced();
-    }
-
-    /**
      * Returns the RO subsystem
      * 
      * @return the RO subsystem
      */
     RO getRO() {
         return myRO;
-    }
-
-    /**
-     * Checks whether RO subsystem has enough water or not
-     * 
-     * @return <code>true</code> if the RO subsystem has enough water,
-     *         <code>false</code> if not.
-     */
-    public boolean ROHasWater() {
-        return myRO.hasWater();
     }
 
     /**
@@ -165,92 +132,12 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
     }
 
     /**
-     * Checks whether AES subsystem has enough power or not
-     * 
-     * @return <code>true</code> if the AES subsystem has enough power,
-     *         <code>false</code> if not.
-     */
-    public boolean AESHasPower() {
-        return myAES.hasPower();
-    }
-
-    /**
-     * Checks whether AES subsystem has enough water or not
-     * 
-     * @return <code>true</code> if the AES subsystem has enough water,
-     *         <code>false</code> if not.
-     */
-    public boolean AESHasWater() {
-        return myAES.hasWater();
-    }
-
-    public boolean AESIsEnabled() {
-        return myAES.isEnabled();
-    }
-
-    public void setAESEnabled(boolean pEnabled) {
-        myAES.setEnabled(pEnabled);
-    }
-
-    public float getAEStoPPSWater() {
-        return myAES.getPPSWaterProduced();
-    }
-
-    /**
-     * Checks whether PPS subsystem has enough power or not
-     * 
-     * @return <code>true</code> if the PPS subsystem has enough power,
-     *         <code>false</code> if not.
-     */
-    public boolean PPSHasPower() {
-        return myPPS.hasPower();
-    }
-
-    /**
-     * Checks whether PPS subsystem has enough water or not
-     * 
-     * @return <code>true</code> if the PPS subsystem has enough water,
-     *         <code>false</code> if not.
-     */
-    public boolean PPSHasWater() {
-        return myPPS.hasWater();
-    }
-
-    /**
      * Returns the PPS subsystem
      * 
      * @return the PPS subsystem
      */
     PPS getPPS() {
         return myPPS;
-    }
-
-    /**
-     * Checks whether BWP subsystem has enough power or not
-     * 
-     * @return <code>true</code> if the BWP subsystem has enough power,
-     *         <code>false</code> if not.
-     */
-    public boolean BWPHasPower() {
-        return myBWP.hasPower();
-    }
-
-    /**
-     * Checks whether BWP subsystem has enough water or not
-     * 
-     * @return <code>true</code> if the BWP subsystem has enough water,
-     *         <code>false</code> if not.
-     */
-    public boolean BWPHasWater() {
-        return myBWP.hasWater();
-    }
-
-    public float getBWPtoROWater() {
-        return myBWP.getROWaterProduced();
-    }
-
-    public float getBWPtoAESWater() {
-        return myBWP.getAESWaterProduced();
     }
 
     /**
@@ -326,7 +213,6 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
     public void tick() {
         super.tick();
         Arrays.fill(powerActualFlowRates, 0f);
-        gatherPower();
         //tick each system
         myBWP.tick();
         myRO.tick();
@@ -334,13 +220,6 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
         myPPS.tick();
         myAES.setMalfunctioning(false);
         myRO.setMalfunctioning(false);
-    }
-
-    /**
-     * Grabs power for the subsytems.  Enables/disables subsystems based on amount of power gathered
-     */
-    private void gatherPower() {
-        
     }
 
     protected void performMalfunctions() {
@@ -389,7 +268,7 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
         myLogger.debug("dirty_water_consumed="+getDirtyWaterConsumed());
         myLogger.debug("grey_water_consumed="+getGreyWaterConsumed());
     }
-
+    
     int getSubsystemsConsumingPower() {
         return NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER;
     }
@@ -576,5 +455,50 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
 
     public PotableWaterStore[] getPotableWaterOutputs() {
         return myPotableWaterOutputs;
+    }
+
+    /**
+     * Sets the current WaterRS operation mode
+     * FULL - WaterRS operates at full capacity (and power)
+     * GREY WATER ONLY - produces only grey water (saves power)
+     * PARTIAL - produces 85% potable
+     * OFF - turns off WaterRS
+     */
+    public void setOperationMode(WaterRSOperationMode pMode) {
+        myMode = pMode;
+        if (myMode == WaterRSOperationMode.FULL){
+            myBWP.setEnabled(true);
+            myPPS.setEnabled(true);
+            myRO.setEnabled(true);
+            myAES.setEnabled(true);
+        }
+        else if (myMode == WaterRSOperationMode.GREY_WATER_ONLY){
+            myBWP.setEnabled(true);
+            myPPS.setEnabled(false);
+            myRO.setEnabled(true);
+            myAES.setEnabled(true);
+        }
+        else if (myMode == WaterRSOperationMode.PARTIAL){
+            myBWP.setEnabled(true);
+            myPPS.setEnabled(true);
+            myRO.setEnabled(true);
+            myAES.setEnabled(false);
+        }
+        else if (myMode == WaterRSOperationMode.OFF){
+            myBWP.setEnabled(false);
+            myPPS.setEnabled(false);
+            myRO.setEnabled(false);
+            myAES.setEnabled(false);
+        }
+        else{
+            myLogger.warn("unknown state for WaterRS: "+myMode);
+        }
+    }
+
+    /**
+     * gets the current WaterRS Operation mode
+     */
+    public WaterRSOperationMode getOpertationMode() {
+        return myMode;
     }
 }
