@@ -136,8 +136,8 @@
 		<mkdir dir="${gaDistroDir}"/>
 		<echo message="Creating biosim jar for genetic algorithm engine"/>
 		<jar destfile="${gaDistroDir}/biosim.jar">
-			<fileset dir="${buildDir}" includes="biosim/server/**"/>
-			<fileset dir="${resourceDir}" includes="biosim/server/**"/>
+			<fileset dir="${buildDir}" includes="biosim/server/**, biosim/idl/**"/>
+			<fileset dir="${resourceDir}" includes="biosim/server/**, biosim/idl/**"/>
 		</jar>
 	</target>
 	
