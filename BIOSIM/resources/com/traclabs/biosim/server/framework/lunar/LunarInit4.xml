@@ -162,12 +162,12 @@
 			</Injector>
 		</framework>
 		<power>
-			<PowerPS name="PowerPS" generationType="SOLAR" upperPowerGeneration="1000">
+			<PowerPS name="PowerPS" generationType="SOLAR" upperPowerGeneration="1000000">
 				<malfunction occursAtTick="502" length="TEMPORARY_MALF" intensity="SEVERE_MALF"/>
 				<lightConsumer maxFlowRates="0" desiredFlowRates="0" inputs="BaseCrewEnvironment"/>
 				<powerProducer maxFlowRates="5000" desiredFlowRates="5000" outputs="BasePowerStore"/>
 			</PowerPS>
-			<PowerStore name="BasePowerStore" capacity="30000" level="30000"/>
+			<PowerStore name="BasePowerStore" capacity="2000000" level="2000000"/>
 			<PowerStore name="EVAPowerStore" capacity="1000" level="1000"/>
 		</power>
 		<water>
