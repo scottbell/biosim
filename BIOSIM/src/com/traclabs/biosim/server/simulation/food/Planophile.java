@@ -34,7 +34,11 @@ public abstract class Planophile extends PlantImpl{
 		//System.out.println("Planophile: vaporPressureDeficit: "+vaporPressureDeficit);
 		//System.out.println("Planophile: CO2Concentration: "+getAverageCO2Concentration());
 		//System.out.println("Planophile: netCanopyPhotosynthesis: "+netCanopyPhotosynthesis);
-		return (1.717f * temperature - 19.96f - 10.54f * vaporPressureDeficit) * (netCanopyPhotosynthesis / getAverageCO2Concentration());
+		float canopyStomatalConductance = (1.717f * temperature - 19.96f - 10.54f * vaporPressureDeficit) * (netCanopyPhotosynthesis / getAverageCO2Concentration());
+		if (canopyStomatalConductance <= 0)
+			return Float.MIN_VALUE;
+		else
+			return canopyStomatalConductance;
 	}
 	
 	protected float calculateAtmosphericAeroDynamicConductance(){
