@@ -187,12 +187,15 @@ module biosim{
 				void setModules(in BioModuleList pModules);
 				void setSensors(in BioModuleList pSensors);
 				void setActuators(in BioModuleList pActuators);
+				void setSimModules(in BioModuleList pSimModules);
 				BioModuleList getModules();
 				BioModuleList getSensors();
 				BioModuleList getActuators();
+				BioModuleList getSimModules();
 				StringList getModuleNames();
 				StringList getSensorNames();
 				StringList getActuatorNames();
+				StringList getSimModuleNames();
 				void setCrewsToWatch(in simulation::crew::CrewGroupList pCrews);
                                 string getName();
                                 boolean isDone();

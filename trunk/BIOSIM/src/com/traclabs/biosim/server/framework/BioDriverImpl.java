@@ -37,6 +37,7 @@ public class BioDriverImpl extends BioDriverPOA{
 	private boolean looping = false;
 	private CrewGroup[] crews;
 	private BioModule[] modules;
+	private BioModule[] simModules;
 	private BioModule[] sensors;
 	private BioModule[] actuators;
 
@@ -47,6 +48,7 @@ public class BioDriverImpl extends BioDriverPOA{
 	public BioDriverImpl(int pID){
 		myID = pID;
 		modules = new BioModule[0];
+		simModules = new BioModule[0];
 		sensors = new BioModule[0];
 		actuators = new BioModule[0];
 		crews = new CrewGroup[0];
@@ -111,13 +113,21 @@ public class BioDriverImpl extends BioDriverPOA{
 	public void setActuators(BioModule[] pActuators){
 		actuators = pActuators;
 	}
-
+	
+	public void setSimModules(BioModule[] pSimModules){
+		simModules = pSimModules;
+	}
+	
 	public BioModule[] getModules(){
 		return modules;
 	}
 
 	public BioModule[] getSensors(){
 		return sensors;
+	}
+	
+	public BioModule[] getSimModules(){
+		return simModules;
 	}
 
 	public BioModule[] getActuators(){
@@ -143,6 +153,13 @@ public class BioDriverImpl extends BioDriverPOA{
 		for (int i = 0; i < actuatorNameArray.length; i++)
 			actuatorNameArray[i] = actuators[i].getModuleName();
 		return actuatorNameArray;
+	}
+	
+	public String[] getSimModuleNames(){
+		String[] simModuleNameArray = new String[simModules.length];
+		for (int i = 0; i < simModuleNameArray.length; i++)
+			simModuleNameArray[i] = simModules[i].getModuleName();
+		return simModuleNameArray;
 	}
 
 	public void setCrewsToWatch(CrewGroup[] pCrewGroups){
@@ -393,9 +410,19 @@ public class BioDriverImpl extends BioDriverPOA{
 			System.out.println("Tick called when simulation wasn't started!");
 			return;
 		}
-		//Iterate through the rest of the modules and tick them
-		for (int i = 0; i < modules.length; i++){
-			BioModule currentBioModule = (BioModule)(modules[i]);
+		//Iterate through the sensors and tick them
+		for (int i = 0; i < sensors.length; i++){
+			BioModule currentBioModule = (BioModule)(sensors[i]);
+			currentBioModule.tick();
+		}
+		//Iterate through the sim modules and tick them
+		for (int i = 0; i < simModules.length; i++){
+			BioModule currentBioModule = (BioModule)(simModules[i]);
+			currentBioModule.tick();
+		}
+		//Iterate through the actuators and tick them
+		for (int i = 0; i < actuators.length; i++){
+			BioModule currentBioModule = (BioModule)(actuators[i]);
 			currentBioModule.tick();
 		}
 		ticksGoneBy++;
