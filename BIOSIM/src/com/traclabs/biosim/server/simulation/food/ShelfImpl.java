@@ -94,13 +94,7 @@ public class ShelfImpl extends ShelfPOA {
 	* Adds power for this tick
 	*/
 	private void collectPower(){
-		float gatheredPower = 0f;
-		PowerStore[] myPowerStores = myBiomassImpl.getPowerInputs();
-		for (int i = 0; (i < myPowerStores.length) && (gatheredPower < myCrop.getPowerNeeded()); i++){
-			float powerToGather = Math.min(myCrop.getPowerNeeded(), myBiomassImpl.getPowerInputFlowrate(i));
-			gatheredPower += myPowerStores[i].take(powerToGather);
-		}
-		currentPowerConsumed = gatheredPower;
+		currentPowerConsumed = currentGreyWaterConsumed = myBiomassImpl.getResourceFromStore(myBiomassImpl.getPowerInputs(), myBiomassImpl.getPowerInputFlowrates(), myCrop.getPowerNeeded());
 		if (currentPowerConsumed < myCrop.getPowerNeeded()){
 			hasEnoughPower = false;
 		}
@@ -117,20 +111,9 @@ public class ShelfImpl extends ShelfPOA {
 	* Adds power for this tick
 	*/
 	private void collectWater(){
-		float gatheredWater = 0f;
-		GreyWaterStore[] myGreyWaterStores = myBiomassImpl.getGreyWaterInputs();
-		PotableWaterStore[] myPotableWaterStores = myBiomassImpl.getPotableWaterInputs();
-		for (int i = 0; (i < myGreyWaterStores.length) && (gatheredWater < myCrop.getWaterNeeded()); i++){
-			float greyWaterToGather = Math.min(myBiomassImpl.getGreyWaterInputFlowrate(i), myCrop.getWaterNeeded());
-			gatheredWater += myGreyWaterStores[i].take(greyWaterToGather);
-		}
-		currentGreyWaterConsumed = gatheredWater;
-		//currentGreyWaterConsumed = getResourceFromStore(myGreyWaterStores, myBiomassImpl.getGreyWaterInputFlowrates());
-		for (int i = 0; (i < myPotableWaterStores.length) && (gatheredWater < myCrop.getWaterNeeded()); i++){ 
-			float potableWaterToGather = Math.min(myBiomassImpl.getPotableWaterInputFlowrate(i), myCrop.getWaterNeeded());
-			gatheredWater += myPotableWaterStores[i].take(potableWaterToGather);
-		}
-		currentPotableWaterConsumed = gatheredWater - currentGreyWaterConsumed;
+		currentGreyWaterConsumed = myBiomassImpl.getResourceFromStore(myBiomassImpl.getGreyWaterInputs(), myBiomassImpl.getGreyWaterInputFlowrates(), myCrop.getWaterNeeded());
+		currentPotableWaterConsumed = myBiomassImpl.getResourceFromStore(myBiomassImpl.getPotableWaterInputs(), myBiomassImpl.getGreyWaterInputFlowrates(), myCrop.getWaterNeeded() - currentGreyWaterConsumed);
+		float gatheredWater = currentGreyWaterConsumed + currentPotableWaterConsumed;
 		if (gatheredWater < myCrop.getWaterNeeded()){
 			hasEnoughWater = false;
 		}

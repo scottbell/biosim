@@ -83,12 +83,8 @@ public class VCCR extends AirRSSubSystem{
 			}
 
 		}
-		float distributedCO2Left = myBreath.CO2 * myProductionRate;
-		CO2Store[] myCO2Inputs = myAirRS.getCO2Outputs();
-		for (int i = 0; (i < myCO2Inputs.length) && (distributedCO2Left > 0); i++){
-			float CO2ToDistribute = Math.min(distributedCO2Left, myAirRS.getCO2OutputFlowrate(i));
-			distributedCO2Left -= myCO2Inputs[i].add(CO2ToDistribute);
-		}
+		float CO2ToDistribute = myBreath.CO2 * myProductionRate;
+		float distributedCO2Left = myAirRS.pushResourceToStore(myAirRS.getCO2Outputs(), myAirRS.getCO2OutputFlowrates(), CO2ToDistribute);
 	}
 
 	public void reset(){
