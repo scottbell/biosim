@@ -40,32 +40,7 @@ import com.traclabs.biosim.idl.simulation.water.PotableWaterStore;
 import com.traclabs.biosim.idl.simulation.water.WaterRS;
 
 /**
- * @author Theresa Klein To compile: 1) run make-client.sh 2) javac -classpath
- *         .:/home/tjk2/JNL/Classes:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/generated/client/classes
- *         HandController.java
- * 
- * javac - the compiler jacorb.jar - the library that has the ORB and various
- * CORBA utilities generated/client/classes - the generated client stubs
- * TestBiosim - this file
- * 
- * 
- * To run: 1)run run-nameserver.sh 2)run run-server.sh 3) java -classpath
- * .:/home/tjk2/JNL/Classes:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/lib/jacorb:$BIOSIM_HOME/generated/client/classes
- * -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB
- * -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton
- * -DORBInitRef.NameService=file:$BIOSIM_HOME/generated/ns/ior.txt
- * HandController (all the above on one line)
- * 
- * -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB - overriding Sun's default ORB
- * (using Jacorb instead)
- * -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton - overriding
- * Sun's default ORB (using Jacorb instead)
- * -DORBInitRef.NameService=file:$BIOSIM_HOME/generated/ns/ior.txt - telling the
- * client where to look for the ior (serialized nameservice object, produced by
- * run-nameserver.sh)
- * 
- * Good Luck! If you have any questions, email me at: scott@traclabs.com
- *  
+ * @author Theresa Klein
  */
 
 public class HandController {
