@@ -38,7 +38,8 @@ public class Peanut extends Legume{
 	}
 	
 	protected float getBCF(){
-		return 0.50f;
+		//return 0.50f;
+		return 0.60f;
 	}
 
 	protected float getTimeAtOrganFormation(){
@@ -74,7 +75,8 @@ public class Peanut extends Legume{
 	}
 
 	protected float getTimeAtCropMaturity(){
-		return 110;
+		//return 110;
+		return 104;
 	}
 
 	protected float getOPF(){

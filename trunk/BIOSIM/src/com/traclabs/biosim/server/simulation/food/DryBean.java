@@ -29,11 +29,12 @@ public class DryBean extends Legume{
 	}
 
 	protected float getConstantPPF(){
-		return 555.56f;
+		return 370f;
 	}
 
 	protected float getBCF(){
-		return 0.45f;
+		//return 0.45f;
+		return 0.46f;
 	}
 	
 	protected float getCUEMax(){
@@ -45,7 +46,8 @@ public class DryBean extends Legume{
 	}
 
 	protected float getPhotoperiod(){
-		return 12f;
+		//return 12f;
+		return 18f;
 	}
 	
 	protected float getNominalPhotoperiod(){
@@ -69,7 +71,8 @@ public class DryBean extends Legume{
 	}
 	
 	protected float getTimeAtCropMaturity(){
-		return 63f;
+		//return 63f;
+		return 85f;
 	}
 
 	protected float getOPF(){
