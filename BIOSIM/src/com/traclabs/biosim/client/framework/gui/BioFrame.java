@@ -16,6 +16,7 @@ public class BaseJFrame extends javax.swing.JFrame
 		super( newTitle );
 		buildGui();
 	}
+	
 	public BaseJFrame( String newTitle, boolean show_close_dialog )
 	{
 		super( newTitle );
@@ -30,7 +31,7 @@ public class BaseJFrame extends javax.swing.JFrame
 		this.addWindowListener(myWCL);
 	}
 
-	protected void frameClosing(java.awt.event.WindowEvent event)
+	protected void frameClosing()
 	{
 		if( !showCloseDialog || JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(
 		                this, "Do you really want to quit?",
@@ -38,20 +39,19 @@ public class BaseJFrame extends javax.swing.JFrame
 		{
 			setVisible(false);		 // hide the Frame
 			dispose();	            // free the system resources
+			frameExiting();
 			System.exit(0);         // close the application
 		}
 	}
-
-	public void closeFrameAndExit( java.awt.event.WindowEvent event )
-	{
-		frameClosing( event );
+	
+	protected void frameExiting(){
 	}
 	
 	private class WindowCloseListener extends java.awt.event.WindowAdapter
 	{
 		public void windowClosing(java.awt.event.WindowEvent event)
 		{
-			frameClosing(event);
+			frameClosing();
 		}
 	}
 

@@ -38,6 +38,7 @@ public class BioSimulator implements Runnable
 	private NamingContextExt ncRef;
 	private Thread myThread;
 	private boolean simulationIsPaused = false;
+	private boolean simulationStarted = false;
 
 	public void spawnSimulation(){
 		myThread = new Thread(this);
@@ -45,6 +46,7 @@ public class BioSimulator implements Runnable
 	}
 
 	public void run(){
+		simulationStarted = true;
 		System.out.println("BioSimulator: Getting server references...");
 		collectReferences();
 		System.out.println("BioSimulator: Initializing simulation...");
@@ -131,7 +133,12 @@ public class BioSimulator implements Runnable
 	public synchronized void endSimulation(){
 		myThread = null;
 		notify();
+		simulationStarted = false;
 		System.out.println("BioSimulator: simulation ended");
+	}
+	
+	public boolean simulationHasStarted(){
+		return simulationStarted;
 	}
 	
 	//Pause simulation before you use this function
