@@ -70,22 +70,22 @@ public class GEFBorderLayout implements GEFLayoutManager {
         int right = parent.getX() + parent.getWidth() - insets.right;
 
         if (_north != null) {
-            Dimension d = _north.getPreferedSize();
+            Dimension d = _north.getPreferredSize();
             _north.setBounds(left, top, right - left, d.height);
             top += d.height + _vgap;
         }
         if (_south != null) {
-            Dimension d = _south.getPreferedSize();
+            Dimension d = _south.getPreferredSize();
             _south.setBounds(left, bottom - d.height, right - left, d.height);
             bottom -= d.height + _vgap;
         }
         if (_east != null) {
-            Dimension d = _east.getPreferedSize();
+            Dimension d = _east.getPreferredSize();
             _east.setBounds(right - d.width, top, d.width, bottom - top);
             right -= d.width + _hgap;
         }
         if (_west != null) {
-            Dimension d = _west.getPreferedSize();
+            Dimension d = _west.getPreferredSize();
             _west.setBounds(left, top, d.width, bottom - top);
             left += d.width + _hgap;
         }
@@ -171,31 +171,31 @@ public class GEFBorderLayout implements GEFLayoutManager {
         int w = 0, h = 0;
 
         if (_west != null) {
-            Dimension d = _west.getPreferedSize();
+            Dimension d = _west.getPreferredSize();
             h = d.height;
             w = d.width + _hgap;
         }
 
         if (_center != null) {
-            Dimension d = _center.getPreferedSize();
+            Dimension d = _center.getPreferredSize();
             h = Math.max(h, d.height);
             w += d.width;
         }
 
         if (_east != null) {
-            Dimension d = _east.getPreferedSize();
+            Dimension d = _east.getPreferredSize();
             h = Math.max(h, d.height);
             w += d.width + _hgap;
         }
 
         if (_north != null) {
-            Dimension d = _north.getPreferedSize();
+            Dimension d = _north.getPreferredSize();
             h += d.height + _vgap;
             w = Math.max(w, d.width);
         }
 
         if (_south != null) {
-            Dimension d = _south.getPreferedSize();
+            Dimension d = _south.getPreferredSize();
             h += d.height + _vgap;
             w = Math.max(w, d.width);
         }

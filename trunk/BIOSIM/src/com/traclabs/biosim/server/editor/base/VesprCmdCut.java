@@ -10,17 +10,17 @@ package com.traclabs.biosim.server.editor.base;
 import javax.swing.Action;
 
 import org.tigris.gef.base.Cmd;
-import org.tigris.gef.base.CmdDispose;
+import org.tigris.gef.base.CmdDeleteFromModel;
 
 public class VesprCmdCut extends Cmd {
     VesprCmdCopy _copyCmd;
 
-    CmdDispose _deleteCmd;
+    CmdDeleteFromModel _deleteCmd;
 
     public VesprCmdCut() {
         super("Cut");
         _copyCmd = new VesprCmdCopy();
-        _deleteCmd = new CmdDispose();
+        _deleteCmd = new CmdDeleteFromModel();
         putValue(Action.SHORT_DESCRIPTION,
                 "Cuts the selection and puts it on the clipboard");
     }

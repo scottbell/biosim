@@ -33,7 +33,7 @@ public class GEFCenterLayout implements GEFLayoutManager {
         int nfigs = children.size();
         for (int i = 0; i < nfigs; i++) {
             Fig fig = (Fig) children.get(i);
-            Dimension dim = fig.getPreferedSize();
+            Dimension dim = fig.getPreferredSize();
             int x = rect.x + (rect.width - dim.width) / 2;
             int y = rect.y + (rect.height - dim.height) / 2;
             fig.setBounds(x, y, dim.width, dim.height);
@@ -54,7 +54,7 @@ public class GEFCenterLayout implements GEFLayoutManager {
         Dimension result = new Dimension(0, 0);
         for (int i = 0; i < nfigs; i++) {
             Fig fig = (Fig) children.get(i);
-            Dimension dim = fig.getPreferedSize();
+            Dimension dim = fig.getPreferredSize();
             result.width = Math.max(result.width, dim.width);
             result.height = Math.max(result.height, dim.height);
         }
