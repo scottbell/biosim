@@ -1323,6 +1323,9 @@ module biosim{
                                         framework::FoodProducer getOutput();
                                         long getIndex();
                                 };
+				interface PlantingActuator : BiomassRSActuator{
+                                        
+                                }; 
                         };
                         module power{
                                 interface PowerPSActuator : framework::GenericActuator{

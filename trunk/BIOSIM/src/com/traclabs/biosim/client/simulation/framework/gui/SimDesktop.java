@@ -124,6 +124,7 @@ public class SimDesktop extends BioFrame
 	* Creates a BioSimulator, a panel hashtable, and creates the GUI
 	*/
 	public SimDesktop(int pID){
+		myID = pID;
 		BioHolder.setID(myID);
 		myDriver = BioHolder.getBioDriver();
 		myDriver.setPauseSimulation(false);
