@@ -30,6 +30,10 @@ public class GreyWaterOutFlowRateSensorImpl extends GenericSensorImpl implements
 		return myProducer;
 	}
 	
+	public float getMax(){
+		return myProducer.getGreyWaterOutputMaxFlowRate(myIndex);
+	}
+	
 	public int getIndex(){
 		return myIndex;
 	}

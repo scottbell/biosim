@@ -23,6 +23,10 @@ public abstract class FoodStoreSensorImpl extends GenericSensorImpl implements F
 		return myFoodStore;
 	}
 	
+	public float getMax(){
+		return myFoodStore.getLevel();
+	}
+	
 	/**
 	* Returns the name of this module (FoodStoreSensor)
 	* @return the name of the module

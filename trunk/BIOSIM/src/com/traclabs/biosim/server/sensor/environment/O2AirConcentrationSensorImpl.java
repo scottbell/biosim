@@ -17,6 +17,10 @@ public class O2AirConcentrationSensorImpl extends EnvironmentSensorImpl implemen
 	protected void notifyListeners(){
 	}
 	
+	public float getMax(){
+		return 1f;
+	}
+	
 	/**
 	* Returns the name of this module (O2AirConcentrationSensor)
 	* @return the name of the module

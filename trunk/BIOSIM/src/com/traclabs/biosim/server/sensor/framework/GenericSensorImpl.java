@@ -19,9 +19,7 @@ public abstract class GenericSensorImpl extends BioModuleImpl implements Generic
 		return myValue;
 	}
 	
-	public float getMax(){
-		return 0f;
-	}
+	public abstract float getMax();
 	
 	public float getMin(){
 		return 0f;

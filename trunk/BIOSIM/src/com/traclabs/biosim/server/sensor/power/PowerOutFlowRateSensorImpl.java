@@ -26,6 +26,10 @@ public class PowerOutFlowRateSensorImpl extends GenericSensorImpl implements Pow
 		myIndex = pIndex;
 	}
 	
+	public float getMax(){
+		return myProducer.getPowerOutputMaxFlowRate(myIndex);
+	}
+	
 	public PowerProducer getInput(){
 		return myProducer;
 	}

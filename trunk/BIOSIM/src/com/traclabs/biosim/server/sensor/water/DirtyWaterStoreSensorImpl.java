@@ -23,6 +23,10 @@ public abstract class DirtyWaterStoreSensorImpl extends GenericSensorImpl implem
 		return myDirtyWaterStore;
 	}
 	
+	public float getMax(){
+		return myDirtyWaterStore.getCapacity();
+	}
+	
 	/**
 	* Returns the name of this module (DirtyWaterStoreSensor)
 	* @return the name of the module

@@ -30,6 +30,10 @@ public class DirtyWaterInFlowRateSensorImpl extends GenericSensorImpl implements
 		return myConsumer;
 	}
 	
+	public float getMax(){
+		return myConsumer.getDirtyWaterInputMaxFlowRate(myIndex);
+	}
+	
 	public int getIndex(){
 		return myIndex;
 	}

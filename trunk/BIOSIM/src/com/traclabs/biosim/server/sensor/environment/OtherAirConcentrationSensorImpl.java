@@ -17,6 +17,11 @@ public class OtherAirConcentrationSensorImpl extends EnvironmentSensorImpl imple
 	protected void notifyListeners(){
 	}
 	
+	public float getMax(){
+		return 1f;
+	}
+	
+	
 	/**
 	* Returns the name of this module (OtherAirConcentrationSensor)
 	* @return the name of the module

@@ -23,6 +23,10 @@ public abstract class GreyWaterStoreSensorImpl extends GenericSensorImpl impleme
 		return myGreyWaterStore;
 	}
 	
+	public float getMax(){
+		return myGreyWaterStore.getCapacity();
+	}
+	
 	/**
 	* Returns the name of this module (GreyWaterStoreSensor)
 	* @return the name of the module

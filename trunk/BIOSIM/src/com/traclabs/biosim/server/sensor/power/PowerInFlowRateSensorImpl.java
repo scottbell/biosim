@@ -26,6 +26,10 @@ public class PowerInFlowRateSensorImpl extends GenericSensorImpl implements Powe
 		myIndex = pIndex;
 	}
 	
+	public float getMax(){
+		return myConsumer.getPowerInputMaxFlowRate(myIndex);
+	}
+	
 	public PowerConsumer getInput(){
 		return myConsumer;
 	}

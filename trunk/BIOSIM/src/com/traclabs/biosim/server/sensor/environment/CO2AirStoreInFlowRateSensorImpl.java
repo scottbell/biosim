@@ -27,6 +27,10 @@ public class CO2AirStoreInFlowRateSensorImpl extends GenericSensorImpl implement
 		myIndex = pIndex;
 	}
 	
+	public float getMax(){
+		return myConsumer.getCO2AirStoreInputMaxFlowRate(myIndex);
+	}
+	
 	public CO2AirConsumer getInput(){
 		return myConsumer;
 	}
