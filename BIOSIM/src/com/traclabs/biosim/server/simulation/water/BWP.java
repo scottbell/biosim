@@ -60,13 +60,14 @@ public class BWP extends WaterRSSubSystem{
 		//draw as much as we can from dirty water
 		if (myDirtyWaterStore.getLevel() >= waterNeeded){
 			currentDirtyWaterConsumed = myDirtyWaterStore.take(waterNeeded);
-			currentGreyWaterConsumed = 0;
+			//currentGreyWaterConsumed = 0;
 		}
 		//draw from both
 		else{
 			currentDirtyWaterConsumed = myDirtyWaterStore.take(waterNeeded);
-			currentGreyWaterConsumed = myGreyWaterStore.take(waterNeeded - currentDirtyWaterConsumed);
+			//currentGreyWaterConsumed = myGreyWaterStore.take(waterNeeded - currentDirtyWaterConsumed);
 		}
+		currentGreyWaterConsumed = 0;
 		addWater(currentDirtyWaterConsumed + currentGreyWaterConsumed);
 	}
 

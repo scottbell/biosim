@@ -14,7 +14,6 @@ public class ShelfImpl extends ShelfPOA {
 	private Plant myCrop;
 	private int cropCapacity = 10;
 	private float currentPowerConsumed = 0f;
-	private float currentPowerNeeded = 10f;
 	private float totalArea = 8.24f;
 	private float areaPerCrop = totalArea / cropCapacity;
 	private float currentGreyWaterConsumed = 0f;
@@ -58,12 +57,16 @@ public class ShelfImpl extends ShelfPOA {
 		myCrop.addWater(currentGreyWaterConsumed + currentPotableWaterConsumed);
 	}
 	
+	private void lightPlants(){
+		myCrop.lightPlants(currentPowerConsumed);
+	}
+	
 	/**
 	* Adds power for this tick
 	*/
-	private void gatherPower(){
-		currentPowerConsumed = myPowerStore.take(currentPowerNeeded);
-		if (currentPowerConsumed < currentPowerNeeded){
+	private void collectPower(){
+		currentPowerConsumed = myPowerStore.take(myCrop.getPowerNeeded());
+		if (currentPowerConsumed < myCrop.getPowerNeeded()){
 			hasEnoughPower = false;
 		}
 		else{
@@ -74,7 +77,7 @@ public class ShelfImpl extends ShelfPOA {
 	/**
 	* Adds power for this tick
 	*/
-	private void gatherWater(){
+	private void collectWater(){
 		currentGreyWaterConsumed = myGreyWaterStore.take(myCrop.getWaterNeeded());
 		if (currentGreyWaterConsumed < myCrop.getWaterNeeded()){
 			hasEnoughWater = false;
@@ -87,7 +90,6 @@ public class ShelfImpl extends ShelfPOA {
 	public void reset(){
 		 cropCapacity = 10;
 		 currentPowerConsumed = 0f;
-		 currentPowerNeeded = 10f;
 		 currentGreyWaterConsumed = 0f;
 		 currentPotableWaterConsumed = 0f;
 		 hasCollectedReferences = false;
@@ -98,9 +100,10 @@ public class ShelfImpl extends ShelfPOA {
 	
 	public void tick(){
 		collectReferences();
-		gatherPower();
+		collectPower();
 		if (hasEnoughPower){
-			gatherWater();
+			collectWater();
+			lightPlants();
 			waterPlants();
 		}
 		myCrop.tick();
