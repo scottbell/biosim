@@ -70,7 +70,7 @@ echo "		-compiling client";
 simString="SIMULATION"
 simStubDir="$stubDir/$simString"
 clientDir="$devRootDir/src/biosim/client"
-compilationInvocation="$javac_command -d $clientClassesDir -classpath $stubDir$separator$clientClassesDir$separator$CLASSPATH"
+compilationInvocation="$javac_command -d $clientClassesDir -classpath $stubDir$separator$clientClassesDir"
 echo "			-compiling stubs"
 $compilationInvocation $simStubDir/*.java
 echo "			-compiling control"
