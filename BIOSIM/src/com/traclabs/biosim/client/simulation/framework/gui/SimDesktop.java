@@ -165,16 +165,28 @@ public class SimDesktop extends BaseJFrame
 		myDisplayAllButton.setToolTipText("Displays All the Views");
 		myDisplayWaterButton = myToolBar.add(myShowWaterDisplayAction);
 		myDisplayWaterButton.setToolTipText("Displays Water View");
+		myDisplayWaterButton.setIcon(waterIcon);
+		myDisplayWaterButton.setText("");
 		myDisplayCrewButton = myToolBar.add(myShowCrewDisplayAction);
 		myDisplayCrewButton.setToolTipText("Displays Crew View");
+		myDisplayCrewButton.setIcon(crewIcon);
+		myDisplayCrewButton.setText("");
 		myDisplayAirButton = myToolBar.add(myShowAirDisplayAction);
 		myDisplayAirButton.setToolTipText("Displays Air View");
+		myDisplayAirButton.setIcon(airIcon);
+		myDisplayAirButton.setText("");
 		myDisplayEnvironmentButton = myToolBar.add(myShowEnvironmentDisplayAction);
 		myDisplayEnvironmentButton.setToolTipText("Displays Environment View");
+		myDisplayEnvironmentButton.setIcon(environmentIcon);
+		myDisplayEnvironmentButton.setText("");
 		myDisplayPowerButton = myToolBar.add(myShowPowerDisplayAction);
 		myDisplayPowerButton.setToolTipText("Displays Power View");
+		myDisplayPowerButton.setIcon(powerIcon);
+		myDisplayPowerButton.setText("");
 		myDisplayFoodButton = myToolBar.add(myShowFoodDisplayAction);
 		myDisplayFoodButton.setToolTipText("Displays Food View");
+		myDisplayFoodButton.setIcon(foodIcon);
+		myDisplayFoodButton.setText("");
 		getContentPane().add(myToolBar, BorderLayout.NORTH);
 
 		setTitle("Advanced Life Support Simulation  Copyright "+ new Character( '\u00A9' ) + " 2002, TRACLabs");
@@ -183,15 +195,15 @@ public class SimDesktop extends BaseJFrame
 
 	private void loadIcons(){
 		try{
-			waterIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/waterIcon.jpg"));
-			foodIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/food/gui/foodIcon.jpg"));
-			powerIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/power/gui/powerIcon.jpg"));
-			crewIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/crew/gui/crewIcon.jpg"));
-			environmentIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/environment/gui/environmentIcon.jpg"));
-			airIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/air/gui/airIcon.jpg"));
+			waterIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/water.jpg"));
+			foodIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/food/gui/food.jpg"));
+			powerIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/power/gui/power.jpg"));
+			crewIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/crew/gui/crew.jpg"));
+			environmentIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/environment/gui/environment.jpg"));
+			airIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/air/gui/air.jpg"));
 		}
 		catch (Exception e){
-			System.out.println("Couldn't find icons, skipping");
+			System.out.println("Couldn't find icons ("+e+"), skipping");
 			waterIcon = new ImageIcon();
 			foodIcon = new ImageIcon();
 			powerIcon = new ImageIcon();
@@ -212,6 +224,23 @@ public class SimDesktop extends BaseJFrame
 		return null;
 	}
 
+	private ImageIcon findIcon(String title){
+		if (title.equals("Air"))
+			return airIcon;
+		else if (title.equals("Food"))
+			return foodIcon;
+		else if (title.equals("Power"))
+			return powerIcon;
+		else if (title.equals("Crew"))
+			return crewIcon;
+		else if (title.equals("Environment"))
+			return environmentIcon;
+		else if (title.equals("Water"))
+			return waterIcon;
+		else
+			return new ImageIcon();
+	}
+
 	private void addInternalFrame(String title, JPanel newPanel){
 		JPanel existingPanel = (JPanel)(myPanels.get(title));
 		if (existingPanel != null){
@@ -227,6 +256,7 @@ public class SimDesktop extends BaseJFrame
 			newFrame.pack();
 			myDesktop.add(newFrame);
 			openFrameCount = myDesktop.getAllFrames().length;
+			newFrame.setFrameIcon(findIcon(title));
 			newFrame.setLocation(xOffset * openFrameCount, yOffset * openFrameCount);
 			newFrame.moveToFront();
 			newFrame.setVisible(true);
