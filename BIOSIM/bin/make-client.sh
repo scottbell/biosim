@@ -39,7 +39,7 @@ separator=":"
 machineType=`uname`
 winName="CYGWIN"
 case $machineType in
-	*$winName*) separator=";";echo "		-machine type is $winName";;
+	*$winName*) separator=";";echo "	-machine type is $winName";;
 	*)separator=":";echo "		-assuming Unix machine type";;
 esac
 IBM_libs="$JRE_HOME/lib/core.jar$separator$JRE_HOME/lib/charsets.jar$separator$JRE_HOME/lib/graphics.jar$separator$JRE_HOME/lib/security.jar$separator$JRE_HOME/lib/server.jar$separator$JRE_HOME/lib/xml.jar"
@@ -52,39 +52,38 @@ esac
 ####################
 #	CLIENT INIT             #
 ####################
-echo "	-building client"
-echo "		-initializing client build"
+echo "	-initializing client build"
 clientString="/client"
 clientGenDir=$genDir$clientString
 if [ ! -e  "$clientGenDir" ]; then
 	mkdir $clientGenDir
-	echo "			-creating client directory"
+	echo "		-creating client directory"
 fi
 stubString="/stubs"
 stubDir=$clientGenDir$stubString
 if [ ! -e  "$stubDir" ]; then
 	mkdir $stubDir
-	echo "			-creating stubs directory"
-	echo "				-no stubs (switching to make all)"
+	echo "		-creating stubs directory"
+	echo "			-no stubs (switching to make all)"
 	userSelect="all"
 fi
 clientClassesString="/classes"
 clientClassesDir=$clientGenDir$clientClassesString
 if [ ! -e  "$clientClassesDir" ]; then
 	mkdir $clientClassesDir
-	echo "			-creating classes directory"
+	echo "		-creating classes directory"
 fi
 relativeIDLDir="/src/biosim/idl/biosim.idl"
 fullIDLDir=$devRootDir$relativeIDLDir
 idlInvocation="$java_command -classpath $JACORB_HOME/idl.jar org.jacorb.idl.parser"
 if [ "$userSelect" == "all" ]; then
-	echo "			-generating stubs"
+	echo "		-generating stubs"
 	$idlInvocation  -noskel -d $stubDir $fullIDLDir
 fi
 #######################
 #		Client COMPILATION	#
 #######################
-echo "		-compiling client";
+echo "	-compiling client";
 simString="biosim"
 simStubDir="$stubDir/$simString"
 clientDir="$devRootDir/src/biosim/client"
@@ -93,24 +92,28 @@ plotClasspath="$devRootDir/lib/jfreechart/jcommon.jar$separator$devRootDir/lib/j
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JRE_libs$separator$JACORB_HOME"
 compilationInvocation="$javac_command -d $clientClassesDir -classpath $plotClasspath$separator$stubDir$separator$clientClassesDir$separator$sourceDir$separator$jacoClasspath"
 if [ "$userSelect" == "all" ]; then
-	echo "			-compiling stubs"
-	echo "				-compiling air stubs"
-	$compilationInvocation $simStubDir/idl/air/*.java
-	echo "				-compiling water stubs"
-	$compilationInvocation $simStubDir/idl/water/*.java
-	echo "				-compiling power stubs"
-	$compilationInvocation $simStubDir/idl/power/*.java
-	echo "				-compiling crew stubs"
-	$compilationInvocation $simStubDir/idl/crew/*.java
-	echo "				-compiling food stubs"
-	$compilationInvocation $simStubDir/idl/food/*.java
-	echo "				-compiling environment stubs"
-	$compilationInvocation $simStubDir/idl/environment/*.java
-	echo "				-compiling framework stubs"
+	echo "		-compiling stubs"
+	$compilationInvocation $simStubDir/idl/*.java
+	echo "			-compiling framework stubs"
 	$compilationInvocation $simStubDir/idl/framework/*.java
-	echo "				-compiling util stubs"
-	echo "					-compiling log stubs"
+	echo "			-compiling util stubs"
+	echo "				-compiling log stubs"
 	$compilationInvocation $simStubDir/idl/util/log/*.java
+	echo "			-compiling simulation stubs"
+	echo "				-compiling air stubs"
+	$compilationInvocation $simStubDir/idl/simulation/air/*.java
+	echo "				-compiling water stubs"
+	$compilationInvocation $simStubDir/idl/simulation/water/*.java
+	echo "				-compiling power stubs"
+	$compilationInvocation $simStubDir/idl/simulation/power/*.java
+	echo "				-compiling crew stubs"
+	$compilationInvocation $simStubDir/idl/simulation/crew/*.java
+	echo "				-compiling food stubs"
+	$compilationInvocation $simStubDir/idl/simulation/food/*.java
+	echo "				-compiling environment stubs"
+	$compilationInvocation $simStubDir/idl/simulation/environment/*.java
+	echo "				-compiling framework stubs"
+	$compilationInvocation $simStubDir/idl/simulation/framework/*.java
 fi
 echo "			-compiling util"
 $compilationInvocation $clientDir/util/*.java

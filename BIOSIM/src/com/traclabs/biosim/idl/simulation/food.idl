@@ -10,9 +10,9 @@ module food{
                 float getTotalO2Produced();
                 float getTotalCO2Consumed();
         };
-	
+
         interface BiomassStore : framework::Store{};
-	
+
         interface FoodProcessor : framework::BioModule, framework::PowerConsumer, framework::BiomassConsumer, framework::FoodProducer{
                 float getBiomassConsumed();
                 float getPowerConsumed();
@@ -20,9 +20,9 @@ module food{
                 boolean hasPower();
                 boolean hasBiomass();
         };
-	
+
         interface FoodStore : framework::Store{};
-	
+
         interface Shelf{
                 float getArea();
                 float getPowerConsumed();

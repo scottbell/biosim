@@ -1,10 +1,12 @@
-package biosim.server.framework;
+package biosim.server.simulation.framework;
 
+import biosim.idl.simulation.framework.*;
 import biosim.idl.framework.*;
-import biosim.idl.environment.*;
+import biosim.idl.simulation.environment.*;
 import java.util.*;
 import biosim.server.util.*;
 import biosim.idl.util.log.*;
+import biosim.server.framework.*;
 /**
  * The basic Store Implementation.  Allows for basic store functionality (like adding, removing).
  *

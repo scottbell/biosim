@@ -1,6 +1,6 @@
-package biosim.server.crew;
+package biosim.server.simulation.crew;
 
-import biosim.idl.crew.*;
+import biosim.idl.simulation.crew.*;
 /**
  * Activities are performed by crew members (CrewPerson) for a certain amount of time with a certain intensity in a certain order.
  *

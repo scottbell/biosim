@@ -1,9 +1,10 @@
-package biosim.server.air;
+package biosim.server.simulation.air;
 
-import biosim.idl.air.*;
+import biosim.idl.simulation.air.*;
+import biosim.idl.simulation.framework.*;
 import biosim.idl.framework.*;
-import biosim.idl.environment.*;
-import biosim.idl.power.*;
+import biosim.idl.simulation.environment.*;
+import biosim.idl.simulation.power.*;
 import biosim.idl.util.log.*;
 import java.util.*;
 import biosim.server.util.*;

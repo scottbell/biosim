@@ -1,16 +1,17 @@
-package biosim.server.crew;
+package biosim.server.simulation.crew;
 
 import java.io.*;
 import java.net.*;
 import java.util.*;
 import biosim.server.util.*;
-import biosim.idl.crew.*;
+import biosim.idl.simulation.crew.*;
 import biosim.idl.util.log.*;
-import biosim.idl.air.*;
-import biosim.idl.water.*;
-import biosim.idl.food.*;
-import biosim.idl.environment.*;
+import biosim.idl.simulation.air.*;
+import biosim.idl.simulation.water.*;
+import biosim.idl.simulation.food.*;
+import biosim.idl.simulation.environment.*;
 import biosim.server.framework.*;
+import biosim.idl.simulation.framework.*;
 import biosim.idl.framework.*;
 /**
  * The Crew Implementation.  Holds multiple crew persons and their schedule.

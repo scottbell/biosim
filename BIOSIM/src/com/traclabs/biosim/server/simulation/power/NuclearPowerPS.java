@@ -1,6 +1,6 @@
-package biosim.server.power;
+package biosim.server.simulation.power;
 
-import biosim.idl.power.*;
+import biosim.idl.simulation.power.*;
 /**
  * Nuclear Power Production System
  * @author    Scott Bell

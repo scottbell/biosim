@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "*building biosim"
-echo "	-initializing biosim build...";
+echo "	-configuring environment";
 userSelect="$@"
 devRootDir=$BIOSIM_HOME
 currentDir=`pwd`
@@ -52,22 +52,21 @@ esac
 ####################
 #		SERVER INIT    #
 ####################
-echo "	-building biosim server"
-echo "		-initializing biosim server build"
+echo "	-initializing biosim server build"
 serverGenString="/server"
 serverGenDir=$genDir$serverGenString
 if [ ! -e  "$serverGenDir" ]
 then
 	mkdir $serverGenDir
-	echo "			-creating server directory"
+	echo "		-creating server directory"
 fi
 skeletonString="/skeletons"
 skeletonDir=$serverGenDir$skeletonString
 if [ ! -e  "$skeletonDir" ]
 then
 	mkdir $skeletonDir
-	echo "			-creating skeletons directory"
-	echo "				-no skeletons (switching to make all)"
+	echo "		-creating skeletons directory"
+	echo "			-no skeletons (switching to make all)"
 	userSelect="all"
 fi
 serverClassesString="/classes"
@@ -75,20 +74,20 @@ serverClassesDir=$serverGenDir$serverClassesString
 if [ ! -e  "$serverClassesDir" ]
 then
 	mkdir $serverClassesDir
-	echo "			-creating classes directory"
+	echo "		-creating classes directory"
 fi
 relativeIDLDir="/src/biosim/idl/biosim.idl"
 fullIDLDir=$devRootDir$relativeIDLDir
 idlInvocation="$java_command -classpath $JACORB_HOME/idl.jar org.jacorb.idl.parser"
 if [ "$userSelect" == "all" ]
 then
-	echo "			-generating skeletons/stubs"
+	echo "		-generating skeletons/stubs"
 	$idlInvocation -d $skeletonDir $fullIDLDir
 fi
 #######################
 #		SERVER COMPILATION	#
 #######################
-echo "		-compiling server";
+echo "	-compiling server";
 simString="biosim"
 simSkeletonDir="$skeletonDir/$simString"
 serverDir="$devRootDir/src/biosim/server"
@@ -97,44 +96,53 @@ jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JRE_libs$separator$JACORB_HOME"
 compilationInvocation="$javac_command -d $serverClassesDir -classpath $skeletonDir$separator$serverClassesDir$separator$sourceDir$separator$jacoClasspath"
 if [ "$userSelect" == "all" ]
 then
-	echo "			-compiling skeletons/stubs"
-	echo "				-compiling air skeletons/stubs"
-	$compilationInvocation $simSkeletonDir/idl/air/*.java
-	echo "				-compiling water skeletons/stubs"
-	$compilationInvocation $simSkeletonDir/idl/water/*.java
-	echo "				-compiling power skeletons/stubs"
-	$compilationInvocation $simSkeletonDir/idl/power/*.java
-	echo "				-compiling crew skeletons/stubs"
-	$compilationInvocation $simSkeletonDir/idl/crew/*.java
-	echo "				-compiling food skeletons/stubs"
-	$compilationInvocation $simSkeletonDir/idl/food/*.java
-	echo "				-compiling environment skeletons/stubs"
-	$compilationInvocation $simSkeletonDir/idl/environment/*.java
-	echo "				-compiling framework skeletons/stubs"
+	echo "		-compiling skeletons/stubs"
+	$compilationInvocation $simSkeletonDir/idl/*.java
+	echo "			-compiling framework skeletons/stubs"
 	$compilationInvocation $simSkeletonDir/idl/framework/*.java
-	echo "				-compiling util skeletons/stubs"
-	echo "					-compiling log skeletons/stubs"
+	echo "			-compiling util skeletons/stubs"
+	echo "				-compiling log skeletons/stubs"
 	$compilationInvocation $simSkeletonDir/idl/util/log/*.java
+	echo "			-compiling simulation skeletons/stubs"
+	echo "				-compiling air skeletons/stubs"
+	$compilationInvocation $simSkeletonDir/idl/simulation/air/*.java
+	echo "				-compiling water skeletons/stubs"
+	$compilationInvocation $simSkeletonDir/idl/simulation/water/*.java
+	echo "				-compiling power skeletons/stubs"
+	$compilationInvocation $simSkeletonDir/idl/simulation/power/*.java
+	echo "				-compiling crew skeletons/stubs"
+	$compilationInvocation $simSkeletonDir/idl/simulation/crew/*.java
+	echo "				-compiling food skeletons/stubs"
+	$compilationInvocation $simSkeletonDir/idl/simulation/food/*.java
+	echo "				-compiling environment skeletons/stubs"
+	$compilationInvocation $simSkeletonDir/idl/simulation/environment/*.java
+	echo "				-compiling framework skeletons/stubs"
+	$compilationInvocation $simSkeletonDir/idl/simulation/framework/*.java
 fi
-echo "			-compiling implementations"
-echo "				-compiling util implementation"
-$compilationInvocation $serverDir/util/*.java
-echo "					-compiling log implementation"
-$compilationInvocation $serverDir/util/log/*.java
-echo "				-compiling framework implementation"
+echo "		-compiling implementations"
+echo "			-compiling framework implementation"
 $compilationInvocation $serverDir/framework/*.java
+echo "			-compiling util implementation"
+$compilationInvocation $serverDir/util/*.java
+echo "				-compiling log implementation"
+$compilationInvocation $serverDir/util/log/*.java
+echo "			-compiling simulation implementation"
+echo "				-compiling framework implementation"
+$compilationInvocation $serverDir/simulation/framework/*.java
 echo "				-compiling air implementation"
-$compilationInvocation $serverDir/air/*.java
+$compilationInvocation $serverDir/simulation/air/*.java
 echo "				-compiling water implementation"
-$compilationInvocation $serverDir/water/*.java
+$compilationInvocation $serverDir/simulation/water/*.java
 echo "				-compiling power implementation"
-$compilationInvocation $serverDir/power/*.java
+$compilationInvocation $serverDir/simulation/power/*.java
 echo "				-compiling crew implementation"
-$compilationInvocation $serverDir/crew/*.java
+$compilationInvocation $serverDir/simulation/crew/*.java
 echo "				-compiling food implementation"
-$compilationInvocation $serverDir/food/*.java
+$compilationInvocation $serverDir/simulation/food/*.java
 echo "				-compiling environment implementation"
-$compilationInvocation $serverDir/environment/*.java
+$compilationInvocation $serverDir/simulation/environment/*.java
+echo "			-compiling actuator implementation"
+echo "			-compiling sensor implementation"
 echo "*done building biosim"
 
 

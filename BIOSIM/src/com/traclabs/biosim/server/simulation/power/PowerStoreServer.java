@@ -1,7 +1,7 @@
-package biosim.server.power;
+package biosim.server.simulation.power;
 
 import biosim.server.framework.*;
-import biosim.idl.power.*;
+import biosim.idl.simulation.power.*;
 /**
  * The Power Store Server.  Creates an instance of the Power Store and registers it with the nameserver.
  *

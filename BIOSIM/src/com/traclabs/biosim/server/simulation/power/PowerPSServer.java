@@ -1,7 +1,7 @@
-package biosim.server.power;
+package biosim.server.simulation.power;
 
 import biosim.server.framework.*;
-import biosim.idl.power.*;
+import biosim.idl.simulation.power.*;
 /**
  * The Power PS Server.  Creates an instance of the Power PS and registers it with the nameserver.
  *

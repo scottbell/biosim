@@ -1,19 +1,20 @@
 package biosim.server.framework;
 
-import biosim.idl.air.*;
-import biosim.idl.crew.*;
-import biosim.idl.food.*;
-import biosim.idl.water.*;
-import biosim.idl.power.*;
+import biosim.idl.simulation.air.*;
+import biosim.idl.simulation.crew.*;
+import biosim.idl.simulation.food.*;
+import biosim.idl.simulation.water.*;
+import biosim.idl.simulation.power.*;
 import biosim.idl.util.log.*;
-import biosim.idl.environment.*;
-import biosim.idl.framework.*;
-import biosim.server.air.*;
-import biosim.server.crew.*;
-import biosim.server.food.*;
-import biosim.server.water.*;
-import biosim.server.power.*;
-import biosim.server.environment.*;
+import biosim.idl.simulation.environment.*;
+import biosim.idl.simulation.framework.*;
+import biosim.server.simulation.framework.*;
+import biosim.server.simulation.air.*;
+import biosim.server.simulation.crew.*;
+import biosim.server.simulation.food.*;
+import biosim.server.simulation.water.*;
+import biosim.server.simulation.power.*;
+import biosim.server.simulation.environment.*;
 import biosim.server.util.*;
 import biosim.server.util.log.*;
 /**

@@ -2,7 +2,7 @@
 
 import biosim.client.framework.gui.*;
 import biosim.client.framework.*;
-import biosim.idl.power.*;
+import biosim.idl.simulation.power.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.event.*;

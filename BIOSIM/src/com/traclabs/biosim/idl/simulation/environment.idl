@@ -14,7 +14,7 @@ module environment{
                 float takeCO2(in float liters);
                 float takeO2(in float liters);
                 float takeOther(in float liters);
-		air::Breath addBreath(in air::Breath pBreath);
+                air::Breath addBreath(in air::Breath pBreath);
                 float getLightIntensity();
                 air::Breath takeO2Breath(in float liters);
                 air::Breath takeCO2Breath(in float liters);

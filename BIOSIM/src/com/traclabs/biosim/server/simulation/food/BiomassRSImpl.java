@@ -1,12 +1,13 @@
-package biosim.server.food;
+package biosim.server.simulation.food;
 
-import biosim.idl.food.*;
-import biosim.idl.power.*;
-import biosim.idl.water.*;
-import biosim.idl.environment.*;
+import biosim.idl.simulation.food.*;
+import biosim.idl.simulation.power.*;
+import biosim.idl.simulation.water.*;
+import biosim.idl.simulation.environment.*;
 import biosim.idl.util.log.*;
 import biosim.server.util.*;
 import biosim.server.framework.*;
+import biosim.idl.simulation.framework.*;
 import biosim.idl.framework.*;
 import java.util.*;
 /**

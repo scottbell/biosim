@@ -1,7 +1,7 @@
 package biosim.client.food.gui;
 
 import java.awt.*;
-import biosim.idl.food.*;
+import biosim.idl.simulation.food.*;
 import biosim.client.framework.gui.*;
 import biosim.client.framework.*;
 import com.jrefinery.chart.*;

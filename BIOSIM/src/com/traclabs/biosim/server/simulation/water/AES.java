@@ -1,7 +1,7 @@
-package biosim.server.water;
+package biosim.server.simulation.water;
 
 import biosim.server.util.*;
-import biosim.idl.power.*;
+import biosim.idl.simulation.power.*;
 /**
  * The AES is the third stage of water purification.  It takes water from the RO, filters it some, and
  * sends the water to the PPS

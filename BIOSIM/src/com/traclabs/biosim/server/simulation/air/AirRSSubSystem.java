@@ -1,7 +1,7 @@
-package biosim.server.air;
+package biosim.server.simulation.air;
 
 import biosim.idl.util.log.*;
-import biosim.idl.power.*;
+import biosim.idl.simulation.power.*;
 /**
  * The abstract class all the air subsystems derive from (the VCCR, CRS, OGS, ...)
  *

@@ -1,7 +1,7 @@
-package biosim.server.water;
+package biosim.server.simulation.water;
 
 import biosim.server.framework.*;
-import biosim.idl.water.*;
+import biosim.idl.simulation.water.*;
 /**
  * The Water Recovery System Server.  Creates an instance of the Water Recovery System and registers it with the nameserver.
  *

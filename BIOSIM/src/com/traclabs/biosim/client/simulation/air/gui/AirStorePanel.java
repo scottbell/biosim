@@ -1,6 +1,6 @@
 package biosim.client.air.gui;
 
-import biosim.idl.air.*;
+import biosim.idl.simulation.air.*;
 import biosim.client.framework.gui.*;
 import biosim.client.framework.*;
 import java.awt.*;

@@ -1,8 +1,9 @@
-package biosim.server.power;
+package biosim.server.simulation.power;
 
-import biosim.idl.power.*;
+import biosim.idl.simulation.power.*;
 import biosim.idl.util.log.*;
-import biosim.idl.environment.*;
+import biosim.idl.simulation.environment.*;
+import biosim.idl.simulation.framework.*;
 import biosim.idl.framework.*;
 import java.util.*;
 import biosim.server.util.*;

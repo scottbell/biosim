@@ -1,7 +1,7 @@
-package biosim.server.food;
+package biosim.server.simulation.food;
 
 import biosim.server.framework.*;
-import biosim.idl.food.*;
+import biosim.idl.simulation.food.*;
 /**
  * The BiomassRS System Server.  Creates an instance of the BiomassRS and registers it with the nameserver.
  *

@@ -1,7 +1,7 @@
 package biosim.client.environment.gui;
 
 import java.awt.*;
-import biosim.idl.environment.*;
+import biosim.idl.simulation.environment.*;
 import biosim.client.framework.gui.*;
 import biosim.client.framework.*;
 import com.jrefinery.chart.*;

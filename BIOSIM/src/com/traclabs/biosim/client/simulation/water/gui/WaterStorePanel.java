@@ -3,7 +3,7 @@ package biosim.client.water.gui;
 import java.awt.*;
 import biosim.client.framework.gui.*;
 import biosim.client.framework.*;
-import biosim.idl.water.*;
+import biosim.idl.simulation.water.*;
 import com.jrefinery.chart.*;
 import com.jrefinery.data.*;
 import com.jrefinery.chart.axis.*;

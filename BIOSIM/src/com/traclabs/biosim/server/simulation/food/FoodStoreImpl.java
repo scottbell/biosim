@@ -1,7 +1,7 @@
-package biosim.server.food;
+package biosim.server.simulation.food;
 
-import biosim.idl.food.*;
-import biosim.server.framework.*;
+import biosim.idl.simulation.food.*;
+import biosim.server.simulation.framework.*;
 /**
  * The Food Store Implementation.  Food placed here by the food processor is eaten by the crew memebers.
  *
