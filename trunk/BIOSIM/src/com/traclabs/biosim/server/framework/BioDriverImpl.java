@@ -225,6 +225,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	//If we loop after end conditions of a simulation run have been met (crew death or n-ticks)
 	private boolean looping = false;
 	private List myModuleNames;
+	private List mySensorNames;
+	private List myActuatorNames;
 
 	/**
 	* Constructs the BioDriver
@@ -233,6 +235,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	public BioDriverImpl(int pID){
 		myID = pID;
 		myModuleNames = new Vector();
+		mySensorNames = new Vector();
+		myActuatorNames = new Vector();
 		//
 		//framework
 		//
@@ -295,11 +299,19 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames.add(myAirRSO2OutFlowRateSensorName);
 		myModuleNames.add(myAirRSCO2InFlowRateSensorName);
 		myModuleNames.add(myAirRSCO2OutFlowRateSensorName);
+		mySensorNames.add(myAirRSPowerInFlowRateSensorName);
+		mySensorNames.add(myAirRSAirInFlowRateSensorName);
+		mySensorNames.add(myAirRSAirOutFlowRateSensorName);
+		mySensorNames.add(myAirRSO2OutFlowRateSensorName);
+		mySensorNames.add(myAirRSCO2InFlowRateSensorName);
+		mySensorNames.add(myAirRSCO2OutFlowRateSensorName);
 		//Stores
 		myO2StoreLevelSensorName = "O2StoreLevelSensor"+myID;
 		myCO2StoreLevelSensorName = "CO2StoreLevelSensor"+myID;
 		myModuleNames.add(myO2StoreLevelSensorName);
 		myModuleNames.add(myCO2StoreLevelSensorName);
+		mySensorNames.add(myO2StoreLevelSensorName);
+		mySensorNames.add(myCO2StoreLevelSensorName);
 		//Crew
 		myCrewGroupDeathSensorName = "CrewGroupDeathSensor"+myID;
 		myCrewGroupPotableWaterInFlowRateSensorName = "CrewGroupPotableWaterInFlowRateSensor"+myID;
@@ -309,13 +321,19 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames.add(myCrewGroupPotableWaterInFlowRateSensorName);
 		myModuleNames.add(myCrewGroupGreyWaterOutFlowRateSensorName);
 		myModuleNames.add(myCrewGroupDirtyWaterOutFlowRateSensorName);
+		mySensorNames.add(myCrewGroupDeathSensorName);
+		mySensorNames.add(myCrewGroupPotableWaterInFlowRateSensorName);
+		mySensorNames.add(myCrewGroupGreyWaterOutFlowRateSensorName);
+		mySensorNames.add(myCrewGroupDirtyWaterOutFlowRateSensorName);
 		//Power
 		//PowerPS
 		myPowerPSPowerOutFlowRateSensorName = "PowerPSPowerOutFlowRateSensor"+myID;
 		myModuleNames.add(myPowerPSPowerOutFlowRateSensorName);
+		mySensorNames.add(myPowerPSPowerOutFlowRateSensorName);
 		//Stores
 		myPowerStoreLevelSensorName = "PowerStoreLevelSensor"+myID;
 		myModuleNames.add(myPowerStoreLevelSensorName);
+		mySensorNames.add(myPowerStoreLevelSensorName);
 		//Environment
 		//Crew
 		myCrewEnvironmentOtherAirMolesSensorName = "CrewEnvironmentOtherAirMolesSensor"+myID;
@@ -324,6 +342,9 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames.add(myCrewEnvironmentOtherAirMolesSensorName);
 		myModuleNames.add(myCrewEnvironmentCO2AirMolesSensorName);
 		myModuleNames.add(myCrewEnvironmentO2AirMolesSensorName);
+		mySensorNames.add(myCrewEnvironmentOtherAirMolesSensorName);
+		mySensorNames.add(myCrewEnvironmentCO2AirMolesSensorName);
+		mySensorNames.add(myCrewEnvironmentO2AirMolesSensorName);
 		//Plant
 		myPlantEnvironmentOtherAirMolesSensorName = "PlantEnvironmentOtherAirMolesSensor"+myID;
 		myPlantEnvironmentCO2AirMolesSensorName = "PlantEnvironmentCO2AirMolesSensor"+myID;
@@ -331,6 +352,9 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames.add(myPlantEnvironmentOtherAirMolesSensorName);
 		myModuleNames.add(myPlantEnvironmentCO2AirMolesSensorName);
 		myModuleNames.add(myPlantEnvironmentO2AirMolesSensorName);
+		mySensorNames.add(myPlantEnvironmentOtherAirMolesSensorName);
+		mySensorNames.add(myPlantEnvironmentCO2AirMolesSensorName);
+		mySensorNames.add(myPlantEnvironmentO2AirMolesSensorName);
 		//Water
 		//WaterRS
 		myWaterRSDirtyWaterInFlowRateSensorName = "WaterRSDirtyWaterInFlowRateSensor"+myID;
@@ -341,6 +365,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames.add(myWaterRSGreyWaterInFlowRateSensorName);
 		myModuleNames.add(myWaterRSPowerInFlowRateSensorName);
 		myModuleNames.add(myWaterRSPotableWaterOutFlowRateSensorName);
+		mySensorNames.add(myWaterRSDirtyWaterInFlowRateSensorName);
+		mySensorNames.add(myWaterRSGreyWaterInFlowRateSensorName);
+		mySensorNames.add(myWaterRSPowerInFlowRateSensorName);
+		mySensorNames.add(myWaterRSPotableWaterOutFlowRateSensorName);
 		//Stores
 		myPotableWaterStoreLevelSensorName = "PotableWaterStoreLevelSensor"+myID;
 		myGreyWaterStoreLevelSensorName = "GreyWaterStoreLevelSensor"+myID;
@@ -348,6 +376,9 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames.add(myPotableWaterStoreLevelSensorName);
 		myModuleNames.add(myGreyWaterStoreLevelSensorName);
 		myModuleNames.add(myDirtyWaterStoreLevelSensorName);
+		mySensorNames.add(myPotableWaterStoreLevelSensorName);
+		mySensorNames.add(myGreyWaterStoreLevelSensorName);
+		mySensorNames.add(myDirtyWaterStoreLevelSensorName);
 		//Food
 		//BiomassRS
 		myBiomassRSAirInFlowRateSensorName = "BiomassRSAirInFlowRateSensor"+myID;
@@ -364,6 +395,13 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames.add(myBiomassRSGreyWaterInFlowRateSensorName);
 		myModuleNames.add(myBiomassRSDirtyWaterOutFlowRateSensorName);
 		myModuleNames.add(myBiomassRSBiomassOutFlowRateSensorName);
+		mySensorNames.add(myBiomassRSAirInFlowRateSensorName);
+		mySensorNames.add(myBiomassRSPowerInFlowRateSensorName);
+		mySensorNames.add(myBiomassRSAirOutFlowRateSensorName);
+		mySensorNames.add(myBiomassRSPotableWaterInFlowRateSensorName);
+		mySensorNames.add(myBiomassRSGreyWaterInFlowRateSensorName);
+		mySensorNames.add(myBiomassRSDirtyWaterOutFlowRateSensorName);
+		mySensorNames.add(myBiomassRSBiomassOutFlowRateSensorName);
 		//Food Processor
 		myFoodProcessorPowerInFlowRateSensorName = "FoodProcessorPowerInFlowRateSensor"+myID;
 		myFoodProcessorBiomassInFlowRateSensorName = "FoodProcessorBiomassInFlowRateSensor"+myID;
@@ -371,11 +409,16 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames.add(myFoodProcessorPowerInFlowRateSensorName);
 		myModuleNames.add(myFoodProcessorBiomassInFlowRateSensorName);
 		myModuleNames.add(myFoodProcessorFoodOutFlowRateSensorName);
+		mySensorNames.add(myFoodProcessorPowerInFlowRateSensorName);
+		mySensorNames.add(myFoodProcessorBiomassInFlowRateSensorName);
+		mySensorNames.add(myFoodProcessorFoodOutFlowRateSensorName);
 		//Stores
 		myBiomassStoreLevelSensorName = "BiomassStoreLevelSensor"+myID;
 		myFoodStoreLevelSensorName = "FoodStoreLevelSensor"+myID;
 		myModuleNames.add(myBiomassStoreLevelSensorName);
 		myModuleNames.add(myFoodStoreLevelSensorName);
+		mySensorNames.add(myBiomassStoreLevelSensorName);
+		mySensorNames.add(myFoodStoreLevelSensorName);
 		//Framework
 		//Accumulator
 		myAccumulatorCO2AirEnvironmentInFlowRateSensorName = "AccumulatorCO2AirEnvironmentInFlowRateSensor"+myID;
@@ -386,6 +429,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames.add(myAccumulatorO2AirEnvironmentInFlowRateSensorName);
 		myModuleNames.add(myAccumulatorCO2AirStoreOutFlowRateSensorName);
 		myModuleNames.add(myAccumulatorO2AirStoreOutFlowRateSensorName);
+		mySensorNames.add(myAccumulatorCO2AirEnvironmentInFlowRateSensorName);
+		mySensorNames.add(myAccumulatorO2AirEnvironmentInFlowRateSensorName);
+		mySensorNames.add(myAccumulatorCO2AirStoreOutFlowRateSensorName);
+		mySensorNames.add(myAccumulatorO2AirStoreOutFlowRateSensorName);
 		//Injector
 		myInjectorCO2AirStoreInFlowRateSensorName = "InjectorCO2AirStoreInFlowRateSensor"+myID;
 		myInjectorO2AirStoreInFlowRateSensorName = "InjectorO2AirStoreInFlowRateSensor"+myID;
@@ -395,6 +442,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames.add(myInjectorO2AirStoreInFlowRateSensorName);
 		myModuleNames.add(myInjectorCO2AirEnvironmentOutFlowRateSensorName);
 		myModuleNames.add(myInjectorO2AirEnvironmentOutFlowRateSensorName);
+		mySensorNames.add(myInjectorCO2AirStoreInFlowRateSensorName);
+		mySensorNames.add(myInjectorO2AirStoreInFlowRateSensorName);
+		mySensorNames.add(myInjectorCO2AirEnvironmentOutFlowRateSensorName);
+		mySensorNames.add(myInjectorO2AirEnvironmentOutFlowRateSensorName);
 
 		//
 		//actuators
@@ -413,10 +464,17 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames.add(myAirRSO2OutFlowRateActuatorName);
 		myModuleNames.add(myAirRSCO2InFlowRateActuatorName);
 		myModuleNames.add(myAirRSCO2OutFlowRateActuatorName);
+		myActuatorNames.add(myAirRSPowerInFlowRateActuatorName);
+		myActuatorNames.add(myAirRSAirInFlowRateActuatorName);
+		myActuatorNames.add(myAirRSAirOutFlowRateActuatorName);
+		myActuatorNames.add(myAirRSO2OutFlowRateActuatorName);
+		myActuatorNames.add(myAirRSCO2InFlowRateActuatorName);
+		myActuatorNames.add(myAirRSCO2OutFlowRateActuatorName);
 		//Power
 		//PowerPS
 		myPowerPSPowerOutFlowRateActuatorName = "PowerPSPowerOutFlowRateActuator"+myID;
 		myModuleNames.add(myPowerPSPowerOutFlowRateActuatorName);
+		myActuatorNames.add(myPowerPSPowerOutFlowRateActuatorName);
 		//Water
 		//WaterRS
 		myWaterRSDirtyWaterInFlowRateActuatorName = "WaterRSDirtyWaterInFlowRateActuator"+myID;
@@ -427,6 +485,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames.add(myWaterRSGreyWaterInFlowRateActuatorName);
 		myModuleNames.add(myWaterRSPowerInFlowRateActuatorName);
 		myModuleNames.add(myWaterRSPotableWaterOutFlowRateActuatorName);
+		myActuatorNames.add(myWaterRSDirtyWaterInFlowRateActuatorName);
+		myActuatorNames.add(myWaterRSGreyWaterInFlowRateActuatorName);
+		myActuatorNames.add(myWaterRSPowerInFlowRateActuatorName);
+		myActuatorNames.add(myWaterRSPotableWaterOutFlowRateActuatorName);
 		//Crew
 		myCrewGroupPotableWaterInFlowRateActuatorName = "CrewGroupPotableWaterInFlowRateActuator"+myID;
 		myCrewGroupGreyWaterOutFlowRateActuatorName = "CrewGroupGreyWaterOutFlowRateActuator"+myID;
@@ -434,6 +496,9 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames.add(myCrewGroupPotableWaterInFlowRateActuatorName);
 		myModuleNames.add(myCrewGroupGreyWaterOutFlowRateActuatorName);
 		myModuleNames.add(myCrewGroupDirtyWaterOutFlowRateActuatorName);
+		myActuatorNames.add(myCrewGroupPotableWaterInFlowRateActuatorName);
+		myActuatorNames.add(myCrewGroupGreyWaterOutFlowRateActuatorName);
+		myActuatorNames.add(myCrewGroupDirtyWaterOutFlowRateActuatorName);
 		//Food
 		//BiomassRS
 		myBiomassRSAirInFlowRateActuatorName = "BiomassRSAirInFlowRateActuator"+myID;
@@ -448,6 +513,12 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames.add(myBiomassRSPotableWaterInFlowRateActuatorName);
 		myModuleNames.add(myBiomassRSGreyWaterInFlowRateActuatorName);
 		myModuleNames.add(myBiomassRSBiomassOutFlowRateActuatorName);
+		myActuatorNames.add(myBiomassRSAirInFlowRateActuatorName);
+		myActuatorNames.add(myBiomassRSPowerInFlowRateActuatorName);
+		myActuatorNames.add(myBiomassRSAirOutFlowRateActuatorName);
+		myActuatorNames.add(myBiomassRSPotableWaterInFlowRateActuatorName);
+		myActuatorNames.add(myBiomassRSGreyWaterInFlowRateActuatorName);
+		myActuatorNames.add(myBiomassRSBiomassOutFlowRateActuatorName);
 		//Food Processor
 		myFoodProcessorPowerInFlowRateActuatorName = "FoodProcessorPowerInFlowRateActuator"+myID;
 		myFoodProcessorBiomassInFlowRateActuatorName = "FoodProcessorBiomassInFlowRateActuator"+myID;
@@ -455,6 +526,9 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames.add(myFoodProcessorPowerInFlowRateActuatorName);
 		myModuleNames.add(myFoodProcessorBiomassInFlowRateActuatorName);
 		myModuleNames.add(myFoodProcessorFoodOutFlowRateActuatorName);
+		myActuatorNames.add(myFoodProcessorPowerInFlowRateActuatorName);
+		myActuatorNames.add(myFoodProcessorBiomassInFlowRateActuatorName);
+		myActuatorNames.add(myFoodProcessorFoodOutFlowRateActuatorName);
 		//Framework
 		//Accumulator
 		myAccumulatorCO2AirEnvironmentInFlowRateActuatorName = "AccumulatorCO2AirEnvironmentInFlowRateActuator"+myID;
@@ -465,6 +539,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames.add(myAccumulatorO2AirEnvironmentInFlowRateActuatorName);
 		myModuleNames.add(myAccumulatorCO2AirStoreOutFlowRateActuatorName);
 		myModuleNames.add(myAccumulatorO2AirStoreOutFlowRateActuatorName);
+		myActuatorNames.add(myAccumulatorCO2AirEnvironmentInFlowRateActuatorName);
+		myActuatorNames.add(myAccumulatorO2AirEnvironmentInFlowRateActuatorName);
+		myActuatorNames.add(myAccumulatorCO2AirStoreOutFlowRateActuatorName);
+		myActuatorNames.add(myAccumulatorO2AirStoreOutFlowRateActuatorName);
 		//Injector
 		myInjectorCO2AirStoreInFlowRateActuatorName = "InjectorCO2AirStoreInFlowRateActuator"+myID;
 		myInjectorO2AirStoreInFlowRateActuatorName = "InjectorO2AirStoreInFlowRateActuator"+myID;
@@ -474,6 +552,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames.add(myInjectorO2AirStoreInFlowRateActuatorName);
 		myModuleNames.add(myInjectorCO2AirEnvironmentOutFlowRateActuatorName);
 		myModuleNames.add(myInjectorO2AirEnvironmentOutFlowRateActuatorName);
+		myActuatorNames.add(myInjectorCO2AirStoreInFlowRateActuatorName);
+		myActuatorNames.add(myInjectorO2AirStoreInFlowRateActuatorName);
+		myActuatorNames.add(myInjectorCO2AirEnvironmentOutFlowRateActuatorName);
+		myActuatorNames.add(myInjectorO2AirEnvironmentOutFlowRateActuatorName);
 
 		usedDefaultModules = true;
 		checkMachineType();
@@ -1599,11 +1681,9 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			try{
 				BioModule currentModule = BioModuleHelper.narrow(OrbUtils.getNCRef().resolve_str(currentModuleName));
 				modules.put(currentModuleName, currentModule);
-				if (currentModule instanceof GenericSensor){
+				if (mySensorNames.contains(currentModuleName))
 					sensors.put(currentModuleName, currentModule);
-					System.out.println("Found sensor!");
-				}
-				else if (currentModule instanceof GenericActuator)
+				else if (myActuatorNames.contains(currentModuleName))
 					actuators.put(currentModuleName, currentModule);
 			}
 			catch (Exception e){
