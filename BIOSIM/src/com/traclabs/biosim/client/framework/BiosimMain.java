@@ -39,7 +39,7 @@ public class TestDriver
 	}
 	
 	/**
-	* Runs the SimDesktop front end for the simulation
+	* Runs the SimDesktop front end for the simulation.
 	*/
 	public void runGUI(){
 		SimDesktop newDesktop = new SimDesktop();
@@ -48,7 +48,7 @@ public class TestDriver
 	}
 	
 	/**
-	* Runs the commandline front end for the simulation
+	* Runs the commandline front end for the simulation.
 	*/
 	public void runCommandLine(){
 		BufferedReader userInputReader = new BufferedReader(new InputStreamReader(System.in));
@@ -64,6 +64,10 @@ public class TestDriver
 		}
 	}
 	
+	/**
+	* Takes a command given by the user and performs and action.
+	* @param userCommand the user command taken from input
+	*/
 	private void processCommand(String userCommand){
 		if (userCommand.equals("quit")){
 			System.exit(0);
