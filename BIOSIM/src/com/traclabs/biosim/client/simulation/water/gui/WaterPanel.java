@@ -18,7 +18,7 @@ public class WaterPanel extends BioTabbedPanel
 	
 	protected void createPanels(){
 		myTextPanel = new WaterTextPanel(myBioSimulator);
-		myChartPanel = new BioTabPanel();
+		myChartPanel = new WaterChartPanel(myBioSimulator);
 		mySchematicPanel = new BioTabPanel();
 	}
 }

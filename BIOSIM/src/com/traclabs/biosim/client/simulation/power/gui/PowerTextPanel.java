@@ -82,7 +82,7 @@ public class PowerTextPanel extends BioTabPanel
 	/**
 	 * Updates every label on the panel with new data pulled from the servers.
 	 */
-	public void processTick(){
+	public void processUpdate(){
 		powerPSPowerProducedLabel.setText("power produced:         "+numFormat.format(myPowerPS.getPowerProduced())+" W");
 		powerStoreLevelLabel.setText("power level:    "+numFormat.format(myPowerStore.getLevel())+" W");
 	}

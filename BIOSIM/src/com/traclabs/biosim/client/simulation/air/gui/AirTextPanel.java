@@ -127,7 +127,7 @@ public class AirTextPanel extends BioTabPanel
 	/**
 	 * Updates every label on the panel with new data pulled from the servers.
 	 */
-	public void processTick(){
+	public void processUpdate(){
 		airRSStatusLabel.setText("status:                   "+coallateAirRSStatus());
 		airRSO2ProducedLabel.setText("O2 produced:         "+numFormat.format(myAirRS.getO2Produced())+" L");
 		airRSCO2ConsumedLabel.setText("CO2 consumed:     "+numFormat.format(myAirRS.getCO2Consumed())+" L");

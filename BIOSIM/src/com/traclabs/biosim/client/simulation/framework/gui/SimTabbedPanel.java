@@ -4,19 +4,21 @@ import biosim.client.framework.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
+import java.awt.event.*;
 /**
  * This is the JPanel that displays information about the a bio module
  *
  * @author    Scott Bell
  */
 
-public abstract class BioTabbedPanel extends JPanel implements BioSimulatorListener
+public abstract class BioTabbedPanel extends JPanel
 {
 	private JTabbedPane myTabbedPane;
 	protected BioTabPanel myTextPanel;
 	protected BioTabPanel myChartPanel;
 	protected BioTabPanel mySchematicPanel;
 	protected BioSimulator myBioSimulator;
+	private int oldSelectedIndex;
 
 	/**
 	* Creates and registers this panel.
@@ -26,7 +28,7 @@ public abstract class BioTabbedPanel extends JPanel implements BioSimulatorListe
 		myBioSimulator = pBioSimulator;
 		createPanels();
 		buildGui();
-		myBioSimulator.registerListener(this);
+		myBioSimulator.addDisplayListener(new UpdateActionListener());
 	}
 
 	protected abstract void createPanels();
@@ -40,34 +42,67 @@ public abstract class BioTabbedPanel extends JPanel implements BioSimulatorListe
 		myTabbedPane.addTab("Text", myTextPanel);
 		myTabbedPane.addTab("Chart", myChartPanel);
 		myTabbedPane.addTab("Schematic", mySchematicPanel);
+		oldSelectedIndex = myTabbedPane.getSelectedIndex();
 		add(myTabbedPane, BorderLayout.CENTER);
-		myTabbedPane.addChangeListener(new BioChangeListener());
+		myTabbedPane.addChangeListener(new TabChangeListener());
 	}
 
 	/**
 	 * Updates every label on the panel with new data pulled from the servers.
 	 */
-	public void processTick(){
+	public void actionPerformed(ActionEvent e){
+		System.out.println("Something happened");
 		if (myTabbedPane.getSelectedIndex() == 0){
-			myTextPanel.processTick();
+			myTextPanel.processUpdate();
 		}
 		else if (myTabbedPane.getSelectedIndex() == 1){
-			myChartPanel.processTick();
+			myChartPanel.processUpdate();
 		}
 		else if (myTabbedPane.getSelectedIndex() == 2){
 		}
 	}
 
-	private class BioChangeListener implements ChangeListener {
-		public void stateChanged(ChangeEvent e){
+	//
+	private class UpdateActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e){
 			if (myTabbedPane.getSelectedIndex() == 0){
-				myTextPanel.processTick();
+				myTextPanel.processUpdate();
 			}
 			else if (myTabbedPane.getSelectedIndex() == 1){
-				myChartPanel.processTick();
+				myChartPanel.processUpdate();
 			}
 			else if (myTabbedPane.getSelectedIndex() == 2){
+				mySchematicPanel.processUpdate();
 			}
+		}
+	}
+
+	private class TabChangeListener implements ChangeListener {
+		public void stateChanged(ChangeEvent e){
+			//Notify panel that we lost focus
+			if (oldSelectedIndex == 0){
+				myTextPanel.lostFocus();
+			}
+			else if (oldSelectedIndex == 1){
+				myChartPanel.lostFocus();
+			}
+			else if (oldSelectedIndex== 2){
+				mySchematicPanel.lostFocus();
+			}
+			//Notify panel that we gained focus
+			if (myTabbedPane.getSelectedIndex() == 0){
+				myTextPanel.processUpdate();
+				myTextPanel.gotFocus();
+			}
+			else if (myTabbedPane.getSelectedIndex() == 1){
+				myChartPanel.processUpdate();
+				myChartPanel.gotFocus();
+			}
+			else if (myTabbedPane.getSelectedIndex() == 2){
+				mySchematicPanel.processUpdate();
+				mySchematicPanel.gotFocus();
+			}
+			oldSelectedIndex = myTabbedPane.getSelectedIndex();
 		}
 	}
 }

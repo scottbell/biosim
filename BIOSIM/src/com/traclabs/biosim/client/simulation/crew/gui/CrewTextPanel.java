@@ -143,7 +143,7 @@ public class CrewTextPanel extends BioTabPanel
 	/**
 	 * Enumerates through all the crew memebers this panel knows about and updates their labels by pulling from the crew server.
 	 */
-	public void processTick(){
+	public void processUpdate(){
 		if (crewPersonGUIVector.size() == 0){
 			myCrewPeople = myCrew.getCrewPeople();
 			if (myCrewPeople.length > 0){
