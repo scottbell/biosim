@@ -115,8 +115,8 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 
 	private void performMalfunctions(){
 		healthyPercentage = 1f;
-		for (Enumeration e = myMalfunctions.elements(); e.hasMoreElements();){
-			Malfunction currentMalfunction = (Malfunction)(e.nextElement());
+		for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); ){
+			Malfunction currentMalfunction = (Malfunction)(iter.next());
 			if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF){
 				if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
 					healthyPercentage *= 0.50;
