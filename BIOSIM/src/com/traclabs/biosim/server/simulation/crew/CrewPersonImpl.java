@@ -562,7 +562,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		if (x >= 1f)
 			return 1f;
 		else if ((x < 1f) && (x > 0f))
-			return 0.5f * x * (1f - abs(x - 2f) / 2f);
+			return 0.6f * x * (1f - abs(x - 2f) / 2f);
 		else
 			return 0f;
 	}

@@ -35,6 +35,8 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	private String myName = "NoName";
 	//The Malfunctions in a Map (key is a Long representing the Malfunction ID, value is the Malfunction Object)
 	protected Map myMalfunctions;
+	//The Malfunctions in a Map (key is a Long representing the Malfunction ID, value is the Malfunction Object)
+	protected Map myScheduledMalfunctions;
 	private boolean canBreakdown = false;
 	private float breakdownFactor = 0f;
 	
@@ -46,6 +48,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	protected BioModuleImpl(int pID, String pName){
 		myRandomGen = new Random();
 		myMalfunctions = new Hashtable();
+		myScheduledMalfunctions = new Hashtable();
 		myLog = new LogNodeImpl(getModuleName());
 		myID = pID;
 		myName = pName;
@@ -192,6 +195,20 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		MalfunctionImpl newMalfunctionImpl = new MalfunctionImpl(malfunctionName,pIntensity,pLength);
 		Malfunction newMalfunction = MalfunctionHelper.narrow(OrbUtils.poaToCorbaObj(newMalfunctionImpl));
 		myMalfunctions.put((new Long(newMalfunction.getID())), newMalfunction);
+		return newMalfunction;
+	}
+	
+	/**
+	 * Schedules a malfunction in this module.
+	 * @param pIntensity the intensity of the malfunction
+	 * @param pLength the temporal length of the malfunction
+	 * @return the malfunction started
+	 */
+	public Malfunction scheduleMalfunction(MalfunctionIntensity pIntensity, MalfunctionLength pLength, int tickToOccur){
+		String malfunctionName = getMalfunctionName(pIntensity, pLength);
+		MalfunctionImpl newMalfunctionImpl = new MalfunctionImpl(malfunctionName,pIntensity,pLength);
+		Malfunction newMalfunction = MalfunctionHelper.narrow(OrbUtils.poaToCorbaObj(newMalfunctionImpl));
+		myScheduledMalfunctions.put((new Long(newMalfunction.getID())), newMalfunction);
 		return newMalfunction;
 	}
 	

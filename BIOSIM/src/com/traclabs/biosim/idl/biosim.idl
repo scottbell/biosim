@@ -155,6 +155,7 @@ module biosim{
                                 void setStochasticIntensity(in StochasticIntensity pIntensity);
                                 StochasticIntensity getStochasticIntensity();
                                 Malfunction startMalfunction(in MalfunctionIntensity pIntensity, in MalfunctionLength pLength);
+                                Malfunction scheduleMalfunction(in MalfunctionIntensity pIntensity, in MalfunctionLength pLength, in long pTickToMalfunction);
                                 void fixMalfunction(in long long id);
                                 void fixAllMalfunctions();
                                 void clearAllMalfunctions();
