@@ -107,16 +107,20 @@ public class BioInitializer{
 		return node.getAttributes().getNamedItem("name").getNodeValue();
 	}
 
+	private static void printRemoteWarningMessage(String pName){
+		System.out.println("Instance of the module named "+pName+" should be created remotely (if not already done)");
+	}
+
 	//Modules
 	private void createAirRS(Node node){
 		String name = getName(node);
 		if (isCreatedLocally(node)){
-			System.out.println("Creating AirRS with name: "+name);    
+			System.out.println("Creating AirRS with name: "+name);
 			AirRSImpl myAirRSImpl = new AirRSImpl(myID, name);
 			BiosimServer.registerServer(new AirRSPOATie(myAirRSImpl), myAirRSImpl.getModuleName(), myAirRSImpl.getID());
 		}
 		else
-			System.out.println("Instance of AirRS named:"+name+" should be created remotely (if not already done)...");
+			printRemoteWarningMessage(name);
 	}
 
 	private void configureAirRS(Node node){
@@ -124,15 +128,37 @@ public class BioInitializer{
 	}
 
 	private void createO2Store(Node node){
-		System.out.println("Creating O2Store");
+		String name = getName(node);
+		if (isCreatedLocally(node)){
+			System.out.println("Creating O2Store with name: "+name);
+			O2StoreImpl myO2StoreImpl = new O2StoreImpl(myID, name);
+			BiosimServer.registerServer(new O2StorePOATie(myO2StoreImpl), myO2StoreImpl.getModuleName(), myO2StoreImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(name);
 	}
 
 	private void createCO2Store(Node node){
-		System.out.println("Creating CO2Store");
+		String name = getName(node);
+		if (isCreatedLocally(node)){
+			System.out.println("Creating CO2Store with name: "+name);
+			CO2StoreImpl myCO2StoreImpl = new CO2StoreImpl(myID, name);
+			BiosimServer.registerServer(new CO2StorePOATie(myCO2StoreImpl), myCO2StoreImpl.getModuleName(), myCO2StoreImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(name);
+
 	}
 
 	private void createH2Store(Node node){
-		System.out.println("Creating H2Store");
+		String name = getName(node);
+		if (isCreatedLocally(node)){
+			System.out.println("Creating H2Store with name: "+name);
+			H2StoreImpl myH2StoreImpl = new H2StoreImpl(myID, name);
+			BiosimServer.registerServer(new H2StorePOATie(myH2StoreImpl), myH2StoreImpl.getModuleName(), myH2StoreImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(name);
 	}
 
 	private void crawlAirModules(Node node, boolean firstPass){
@@ -166,7 +192,14 @@ public class BioInitializer{
 	}
 
 	private void createCrewGroup(Node node){
-		System.out.println("Creating CrewGroup");
+		String name = getName(node);
+		if (isCreatedLocally(node)){
+			System.out.println("Creating CrewGroup with name: "+name);
+			CrewGroupImpl myCrewGroupImpl = new CrewGroupImpl(myID, name);
+			BiosimServer.registerServer(new CrewGroupPOATie(myCrewGroupImpl), myCrewGroupImpl.getModuleName(), myCrewGroupImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(name);
 	}
 
 	private void configureCrewGroup(Node node){
@@ -189,7 +222,46 @@ public class BioInitializer{
 	}
 
 	private void createSimEnvironment(Node node){
-		System.out.println("Creating SimEnvironment");
+		String name = getName(node);
+		if (isCreatedLocally(node)){
+			System.out.println("Creating SimEnvironment with name: "+name);
+			SimEnvironmentImpl mySimEnvironmentImpl = null;
+			float CO2Moles = 0f;
+			float O2Moles = 0f;
+			float waterMoles = 0f;
+			float otherMoles = 0f;
+			float volume = 0f;
+			Node CO2MolesNode = null;
+			Node O2MolesNode = null;
+			Node waterMolesNode = null;
+			Node otherMolesNode = null;
+			try{
+				volume = Float.parseFloat(node.getAttributes().getNamedItem("initialVolume").getNodeValue());
+				CO2MolesNode = node.getAttributes().getNamedItem("initialCO2Moles");
+				O2MolesNode = node.getAttributes().getNamedItem("initialO2Moles");
+				waterMolesNode = node.getAttributes().getNamedItem("initialWaterMoles");
+				otherMolesNode = node.getAttributes().getNamedItem("initialOtherMoles");
+				if (CO2MolesNode != null)
+					CO2Moles = Float.parseFloat(CO2MolesNode.getNodeValue());
+				if (O2MolesNode != null)
+					O2Moles = Float.parseFloat(O2MolesNode.getNodeValue());
+				if (waterMolesNode != null)
+					waterMoles = Float.parseFloat(waterMolesNode.getNodeValue());
+				if (otherMolesNode != null)
+					otherMoles = Float.parseFloat(otherMolesNode.getNodeValue());
+			}
+			catch (NumberFormatException e){
+				System.out.println("Had problems parsing a float...");
+				e.printStackTrace();
+			}
+			if ((CO2MolesNode != null) || (O2MolesNode != null) || (waterMolesNode != null) || (otherMolesNode != null))
+				mySimEnvironmentImpl = new SimEnvironmentImpl(CO2Moles, O2Moles, otherMoles, waterMoles, volume, name, myID);
+			else
+				mySimEnvironmentImpl = new SimEnvironmentImpl(myID, volume, name);
+			BiosimServer.registerServer(new SimEnvironmentPOATie(mySimEnvironmentImpl), mySimEnvironmentImpl.getModuleName(), mySimEnvironmentImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(name);
 	}
 
 	private void crawlEnvironmentModules(Node node, boolean firstPass){
