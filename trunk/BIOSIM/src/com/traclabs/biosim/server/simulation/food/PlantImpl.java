@@ -171,7 +171,7 @@ public abstract class PlantImpl extends PlantPOA{
 		System.out.println("PlantImpl: dailyCarbonGain: "+dailyCarbonGain);
 		float cropGrowthRate = molecularWeightOfCarbon * (dailyCarbonGain / getBCF());
 		System.out.println("PlantImpl: cropGrowthRate: "+cropGrowthRate);
-		myCurrentDryBiomass += (cropGrowthRate / 1000); //in kilograms
+		myCurrentDryBiomass += (cropGrowthRate / 1000 / 24f); //in kilograms
 		System.out.println("PlantImpl: myCurrentDryBiomass: "+myCurrentDryBiomass);
 		myLastTotalWetBiomass = myCurrentTotalWetBiomass;
 		myLastEdibleWetBiomass = myCurrentEdibleWetBiomass;
@@ -187,21 +187,21 @@ public abstract class PlantImpl extends PlantPOA{
 		System.out.println("PlantImpl: myWaterLevel: "+myWaterLevel);
 		
 		//Breathe Air
-		float molesOfCO2ToInhale = dailyCarbonGain;
+		float molesOfCO2ToInhale = dailyCarbonGain / 24f;
 		float molesOfCO2Inhaled = myShelfImpl.getBiomassRSImpl().getAirInputs()[0].takeCO2Moles(molesOfCO2ToInhale);
 		myShelfImpl.getBiomassRSImpl().addAirInputActualFlowRates(0,molesOfCO2Inhaled);
 		System.out.println("PlantImpl: molesOfCO2ToInhale: "+molesOfCO2ToInhale);
 		System.out.println("PlantImpl: molesOfCO2Inhaled: "+molesOfCO2Inhaled);
 		
 		//Exhale Air
-		float O2Produced = getOPF() * dailyCarbonGain * myShelfImpl.getCropArea() / 24; //in mol of oxygen per hour
+		float O2Produced = getOPF() * dailyCarbonGain * myShelfImpl.getCropArea() / 24f; //in mol of oxygen per hour
 		float O2Exhaled = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0].addO2Moles(O2Produced);
 		myShelfImpl.getBiomassRSImpl().addAirOutputActualFlowRates(0,O2Exhaled);
 		System.out.println("PlantImpl: O2Produced: "+O2Produced);
 		System.out.println("PlantImpl: O2Exhaled: "+O2Exhaled);
 		
 		//Water Vapor Produced
-		float litersOfWaterProduced = calculateDailyCanopyTranspirationRate();
+		float litersOfWaterProduced = calculateDailyCanopyTranspirationRate() / 24f;
 		float molesOfWaterProduced = (litersOfWaterProduced * 1000 * 18); //1000 liters per milliter, 1 gram per millilters, 18 moles per gram
 		float molesOfWaterAdded = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0].addWaterMoles(molesOfWaterProduced);
 		myShelfImpl.getBiomassRSImpl().addAirOutputActualFlowRates(0,molesOfWaterAdded);
@@ -210,7 +210,7 @@ public abstract class PlantImpl extends PlantPOA{
 		System.out.println("PlantImpl: molesOfWaterAdded: "+molesOfWaterAdded);
 	}
 	
-	//in g/meters^2*hour
+	//in g/meters^2*day
 	private float calculateDailyCarbonGain(){
 		float photoperiod = getPhotoperiod();
 		float PPFFractionAbsorbed = calculatePPFFractionAbsorbed();
@@ -220,7 +220,7 @@ public abstract class PlantImpl extends PlantPOA{
 		System.out.println("PlantImpl: PPFFractionAbsorbed: "+PPFFractionAbsorbed);
 		System.out.println("PlantImpl: CQY: "+CQY);
 		System.out.println("PlantImpl: PPF: "+PPF);
-		return (0.0036f * photoperiod * carbonUseEfficiency24 * myShelfImpl.getCropArea() * PPFFractionAbsorbed * CQY * PPF) / 24;
+		return (0.0036f * photoperiod * carbonUseEfficiency24 * myShelfImpl.getCropArea() * PPFFractionAbsorbed * CQY * PPF);
 	}
 	
 	private float calculateWaterUptake(){
@@ -230,7 +230,7 @@ public abstract class PlantImpl extends PlantPOA{
 		System.out.println("PlantImpl: dailyCanopyTranspirationRate: "+dailyCanopyTranspirationRate);
 		System.out.println("PlantImpl: wetIncoporatedWaterUptake: "+wetIncoporatedWaterUptake);
 		System.out.println("PlantImpl: dryIncoporatedWaterUptake: "+dryIncoporatedWaterUptake);
-		return ((dailyCanopyTranspirationRate + wetIncoporatedWaterUptake + dryIncoporatedWaterUptake) * myShelfImpl.getCropArea()) / 24;
+		return ((dailyCanopyTranspirationRate + wetIncoporatedWaterUptake + dryIncoporatedWaterUptake) * myShelfImpl.getCropArea()) / 24f;
 	}
 	
 	private float calculateWetIncoporatedWaterUptake(){
@@ -262,7 +262,7 @@ public abstract class PlantImpl extends PlantPOA{
 	//Convert current CO2 levels to micromoles of CO2 / moles of air
 	private void calculateAverageCO2Concentration(){
 		SimEnvironment myEnvironment = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0];
-		float CO2Moles = myEnvironment.getCO2Moles() * pow (10,6); //in micro moles
+		float CO2Moles = myEnvironment.getCO2Moles(); //in moles
 		float airMoles = myEnvironment.getTotalMoles(); //in moles
 		if (CO2Moles <=0)
 			CO2Moles = pow(1f, -30f);
