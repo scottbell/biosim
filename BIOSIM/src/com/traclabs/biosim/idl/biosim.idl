@@ -23,7 +23,9 @@ module biosim{
                         interface BioDriver{
                                 boolean isPaused();
                                 boolean isStarted();
-                                void spawnSimulation(in boolean pUseDefaultInitialization);
+                                void spawnSimulation();
+                                void spawnSimulationTillDead();
+                                void spawnSimulationTillN(in long nTicks);
                                 void pauseSimulation();
                                 void endSimulation();
                                 boolean simulationHasStarted();
@@ -31,6 +33,8 @@ module biosim{
                                 void resumeSimulation();
                                 void setLogging(in boolean pLogSim);
                                 boolean isLogging();
+				void setDriverPauseLength(in long pDriverPauseLength);
+				long getDriverPauseLength();
                         };
                 };
 
@@ -106,6 +110,7 @@ module biosim{
                                 float getFoodConsumed();
                                 float getCO2Produced();
                                 float getO2Consumed();
+                                boolean isDead();
                         };
                 };
 

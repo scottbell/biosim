@@ -31,6 +31,7 @@ case $machineType in
 	*$winName*) separator=";";echo "		-machine type is $winName";;
 	*)separator=":";echo "		-assuming Unix machine type";;
 esac
+machineTypeEnv="-DMACHINE_TYPE=$machineType"
 ####################
 #		SERVERS START	#
 ####################
@@ -63,7 +64,7 @@ greyWaterStoreName="biosim.server.water.GreyWaterStoreServer"
 frameworkName="biosim.server.framework.BiosimServer"
 loggerName="biosim.server.util.LoggerServer"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME"
-jacoInvocation="$java_command -server -classpath $serverClassesDir$separator$resourceDir$separator$jacoClasspath $biosimHome $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
+jacoInvocation="$java_command -server -classpath $serverClassesDir$separator$resourceDir$separator$jacoClasspath $machineTypeEnv $biosimHome $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
 echo "	-starting servers"
 case $userSelect in
 	airRS) echo "			 -starting $userSelect";$jacoInvocation $airRSName;;

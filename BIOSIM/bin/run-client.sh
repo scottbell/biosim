@@ -31,6 +31,7 @@ case $machineType in
 	*$winName*) separator=";";echo "		-machine type is $winName";;
 	*)separator=":";echo "		-assuming Unix machine type";;
 esac
+machineTypeEnv="-DMACHINE_TYPE=$machineType"
 ####################
 #		CLIENTS START	#
 ####################
