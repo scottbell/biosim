@@ -51,10 +51,9 @@ public class MatlabAceEngine extends Engine {
 		if (isInitialized)
 			return;
 		try {
-			myLogger.debug("Connecting to incoming socket at "
-					+ DEFAULT_HOSTNAME + " on port " + DEFAULT_GET_PORT);
-
-			//create streams
+			//create put streams
+			myLogger.debug("Connecting to PUT socket at "
+			+ DEFAULT_HOSTNAME + " on port " + DEFAULT_PUT_PORT);
 			myPutSocket = new Socket(DEFAULT_HOSTNAME, DEFAULT_PUT_PORT);
 			myPutSocketTextReader = new BufferedReader(new InputStreamReader(
 					myPutSocket.getInputStream()));
@@ -62,7 +61,11 @@ public class MatlabAceEngine extends Engine {
 					myPutSocket.getOutputStream()));
 			myPutSocketDataOutputStream = new DataOutputStream(myPutSocket
 					.getOutputStream());
-			myGetSocket = new Socket(DEFAULT_HOSTNAME, DEFAULT_PUT_PORT);
+			
+			//create get streams
+			myLogger.debug("Connecting to GET socket at "
+					+ DEFAULT_HOSTNAME + " on port " + DEFAULT_GET_PORT);
+			myGetSocket = new Socket(DEFAULT_HOSTNAME, DEFAULT_GET_PORT);
 			myGetSocketTextReader = new BufferedReader(new InputStreamReader(
 					myGetSocket.getInputStream()));
 			myGetSocketTextWriter = new BufferedWriter(new OutputStreamWriter(
@@ -72,8 +75,9 @@ public class MatlabAceEngine extends Engine {
 
 			//is this the correct server?
 			myLogger.debug("Saying hellos");
-			if ((myGetSocketTextReader.readLine().equals(SERVER_HELLO) && (myPutSocketTextReader
-					.readLine().equals(SERVER_HELLO)))) {
+			String getServerHello = myGetSocketTextReader.readLine();
+			String putServerHello = myPutSocketTextReader.readLine();
+			if ((getServerHello.equals(SERVER_HELLO) && (putServerHello.equals(SERVER_HELLO)))) {
 				//say hello back
 				myPutSocketTextWriter.write(CLIENT_HELLO + "\n");
 				myPutSocketTextWriter.flush();
