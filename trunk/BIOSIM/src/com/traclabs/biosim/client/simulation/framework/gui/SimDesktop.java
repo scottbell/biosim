@@ -621,6 +621,7 @@ public class SimDesktop extends BioFrame
 			if (!myDriver.isStarted()){
 				myStartSimButton.setToolTipText("Starts the simulation");
 				myStartSimButton.setIcon(startIcon);
+				myStartSimButton.setEnabled(true);
 				myStartSimItem.setText("Start");
 				myPauseSimButton.setEnabled(false);
 				myPauseSimItem.setEnabled(false);
@@ -631,6 +632,7 @@ public class SimDesktop extends BioFrame
 				myStartSimButton.setToolTipText("Ends the simulation");
 				myStartSimButton.setIcon(stopIcon);
 				myStartSimItem.setText("End");
+				myStartSimButton.setEnabled(true);
 				myPauseSimButton.setEnabled(true);
 				myPauseSimItem.setEnabled(true);
 				myAdvanceSimButton.setEnabled(true);
