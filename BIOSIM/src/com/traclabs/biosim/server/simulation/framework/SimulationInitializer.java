@@ -166,29 +166,56 @@ public class SimulationInitializer {
     private List myPassiveSimModules;
 
     private List myPrioritySimModules;
-
+    
     private Logger myLogger;
 
     /** Default constructor. */
     public SimulationInitializer(int pID) {
         myID = pID;
+        myLogger = Logger.getLogger(this.getClass());
         myPassiveSimModules = new Vector();
         myActiveSimModules = new Vector();
         myPrioritySimModules = new Vector();
-        myLogger = Logger.getLogger(this.getClass());
+    }
+    
+    public void crawlSimModules(Node node, boolean firstPass) {
+        Node child = node.getFirstChild();
+        while (child != null) {
+            String childName = child.getNodeName();
+            if (childName.equals("air")) {
+                crawlAirModules(child, firstPass);
+            } else if (childName.equals("crew")) {
+                crawlCrewModules(child, firstPass);
+            } else if (childName.equals("environment")) {
+                crawlEnvironmentModules(child, firstPass);
+            } else if (childName.equals("food")) {
+                crawlFoodModules(child, firstPass);
+            } else if (childName.equals("framework")) {
+                crawlFrameworkModules(child, firstPass);
+            } else if (childName.equals("power")) {
+                crawlPowerModules(child, firstPass);
+            } else if (childName.equals("water")) {
+                crawlWaterModules(child, firstPass);
+            } else if (childName.equals("waste")) {
+                crawlWasteModules(child, firstPass);
+            } else if (childName.equals("mission")) {
+                crawlMissionModules(child, firstPass);
+            }
+            child = child.getNextSibling();
+        }
     }
     
     //Remove these later
-    public static boolean isCreatedLocally(Node node) {
+    private static boolean isCreatedLocally(Node node) {
         return node.getAttributes().getNamedItem("createLocally")
                 .getNodeValue().equals("true");
     }
 
-    public static String getModuleName(Node node) {
+    private static String getModuleName(Node node) {
         return node.getAttributes().getNamedItem("name").getNodeValue();
     }
 
-    public void printRemoteWarningMessage(String pName) {
+    private void printRemoteWarningMessage(String pName) {
         myLogger.warn("\nInstance of the module named " + pName
                 + " should be created remotely (if not already done)");
     }
@@ -736,34 +763,6 @@ public class SimulationInitializer {
             }
         }
         return outputs;
-    }
-
-    //Modules
-    private void crawlSimModules(Node node, boolean firstPass) {
-        Node child = node.getFirstChild();
-        while (child != null) {
-            String childName = child.getNodeName();
-            if (childName.equals("air")) {
-                crawlAirModules(child, firstPass);
-            } else if (childName.equals("crew")) {
-                crawlCrewModules(child, firstPass);
-            } else if (childName.equals("environment")) {
-                crawlEnvironmentModules(child, firstPass);
-            } else if (childName.equals("food")) {
-                crawlFoodModules(child, firstPass);
-            } else if (childName.equals("framework")) {
-                crawlFrameworkModules(child, firstPass);
-            } else if (childName.equals("power")) {
-                crawlPowerModules(child, firstPass);
-            } else if (childName.equals("water")) {
-                crawlWaterModules(child, firstPass);
-            } else if (childName.equals("waste")) {
-                crawlWasteModules(child, firstPass);
-            } else if (childName.equals("mission")) {
-                crawlMissionModules(child, firstPass);
-            }
-            child = child.getNextSibling();
-        }
     }
 
     private boolean getEnableBreakDown(Node pNode) {
@@ -1680,5 +1679,24 @@ public class SimulationInitializer {
             }
             child = child.getNextSibling();
         }
+    }
+    
+    /**
+     * @return Returns the myActiveSimModules.
+     */
+    public List getActiveSimModules() {
+        return myActiveSimModules;
+    }
+    /**
+     * @return Returns the myPassiveSimModules.
+     */
+    public List getPassiveSimModules() {
+        return myPassiveSimModules;
+    }
+    /**
+     * @return Returns the myPrioritySimModules.
+     */
+    public List getPrioritySimModules() {
+        return myPrioritySimModules;
     }
 }
