@@ -750,7 +750,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		PotableWaterStore myPotableWaterStore = PotableWaterStoreHelper.narrow(getBioModule(myPotableWaterStoreName));
 		GreyWaterStore myGreyWaterStore = GreyWaterStoreHelper.narrow(getBioModule(myGreyWaterStoreName));
 		myDirtyWaterStore.setCapacity(500f);
-		myDirtyWaterStore.setLevel(0f);
+		myDirtyWaterStore.setLevel(250f);
 		myPotableWaterStore.setCapacity(500f);
 		myPotableWaterStore.setLevel(500f);
 		myGreyWaterStore.setCapacity(500f);
