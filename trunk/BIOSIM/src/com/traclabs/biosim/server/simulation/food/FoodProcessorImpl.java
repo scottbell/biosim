@@ -159,16 +159,25 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	
 	private static BioMatter[] getBioMassFromStore(BiomassStore[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates, float[] pActualFlowRates, float amountNeeded){
 		float gatheredResource = 0f;
-		BioMatter[] takenMatter = new BioMatter[0];
+		List gatheredBioMatterArrays = new Vector();
+		int sizeOfMatter = 0;
 		for (int i = 0; (i < pStores.length) && (gatheredResource < amountNeeded); i++){
 			float resourceToGatherFirst = Math.min(amountNeeded, pMaxFlowRates[i]);
 			float resourceToGatherFinal = Math.min(resourceToGatherFirst, pDesiredFlowRates[i]);
-			//this should append
-			takenMatter = pStores[i].takeBioMatterMass(resourceToGatherFinal);
+			BioMatter[] takenMatter = pStores[i].takeBioMatterMass(resourceToGatherFinal);
+			sizeOfMatter += takenMatter.length;
+			gatheredBioMatterArrays.add(takenMatter);
 			pActualFlowRates[i] = calculateSizeOfBioMatter(takenMatter);
 			gatheredResource += pActualFlowRates[i];
 		}
-		return takenMatter;
+		BioMatter[] fullMatterTaken = new BioMatter[sizeOfMatter];
+		int lastPosition = 0;
+		for (Iterator iter = gatheredBioMatterArrays.iterator(); iter.hasNext();){
+			BioMatter[] matterArray = (BioMatter[])(iter.next());
+			System.arraycopy(matterArray, 0, fullMatterTaken, lastPosition, matterArray.length);
+			lastPosition = matterArray.length;
+		}
+		return fullMatterTaken;
 	}
 	
 	public static float pushFoodToStore(FoodStore[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates, float[] pActualFlowRates, FoodMatter[] foodToPush){
