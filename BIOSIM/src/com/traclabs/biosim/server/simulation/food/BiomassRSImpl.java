@@ -1,7 +1,7 @@
 package biosim.server.food;
 
 import biosim.idl.food.*;
-import biosim.idl.util.*;
+import biosim.idl.util.log.*;
 import biosim.server.util.*;
 import biosim.server.framework.*;
 import java.util.*;

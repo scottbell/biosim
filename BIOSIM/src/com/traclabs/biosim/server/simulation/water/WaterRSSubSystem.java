@@ -1,6 +1,6 @@
 package biosim.server.water;
 
-import biosim.idl.util.*;
+import biosim.idl.util.log.*;
 import biosim.idl.power.*;
 /**
  * The abstract class all the water subsystems derive from (the AES, BWP, PPS, and RO).

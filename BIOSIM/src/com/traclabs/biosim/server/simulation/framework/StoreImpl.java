@@ -1,7 +1,7 @@
 package biosim.server.framework;
 
 import biosim.idl.framework.*;
-import biosim.idl.util.*;
+import biosim.idl.util.log.*;
 /**
  * The basic Store Implementation.  Allows for basic store functionality (like adding, removing).
  *

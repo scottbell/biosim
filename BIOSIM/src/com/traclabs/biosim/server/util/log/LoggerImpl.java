@@ -1,6 +1,7 @@
-package biosim.server.util;
+package biosim.server.util.log;
 
-import biosim.idl.util.*;
+import biosim.server.util.*;
+import biosim.idl.util.log.*;
 import biosim.idl.environment.*;
 import java.util.*;
 /**

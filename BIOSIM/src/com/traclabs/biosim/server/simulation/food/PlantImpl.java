@@ -2,7 +2,7 @@ package biosim.server.food;
 
 import biosim.idl.food.*;
 import biosim.idl.air.*;
-import biosim.idl.util.*;
+import biosim.idl.util.log.*;
 import biosim.idl.environment.*;
 import biosim.server.util.*;
 /**

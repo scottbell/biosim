@@ -105,10 +105,15 @@ then
 	$compilationInvocation $simSkeletonDir/idl/environment/*.java
 	echo "				-compiling framework skeletons/stubs"
 	$compilationInvocation $simSkeletonDir/idl/framework/*.java
+	echo "				-compiling util skeletons/stubs"
+	echo "					-compiling log skeletons/stubs"
+	$compilationInvocation $simSkeletonDir/idl/util/log/*.java
 fi
 echo "			-compiling implementations"
 echo "				-compiling util implementation"
 $compilationInvocation $serverDir/util/*.java
+echo "					-compiling log implementation"
+$compilationInvocation $serverDir/util/log/*.java
 echo "				-compiling framework implementation"
 $compilationInvocation $serverDir/framework/*.java
 echo "				-compiling air implementation"
