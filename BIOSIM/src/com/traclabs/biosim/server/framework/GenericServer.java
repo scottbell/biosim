@@ -87,7 +87,7 @@ public class GenericServer{
 			return;
 		for (Iterator iter = readyListeners.iterator(); iter.hasNext();){
 			ActionListener currentListener = (ActionListener)(iter.next());
-			currentListener.actionPerformed(new ActionEvent(this, 0, "server ready"));
+			currentListener.actionPerformed(new ActionEvent(this, 0, " server ready"));
 		}
 	}
 	
@@ -98,7 +98,7 @@ public class GenericServer{
 	protected void runServer(String serverName){
 		try{
 			notfiyListeners();
-			System.out.println(serverName+ "Server ready and waiting ...");
+			System.out.println(serverName+ " server ready and waiting ...");
 			// wait for invocations from clients
 			OrbUtils.getORB().run();
 		}
@@ -106,7 +106,7 @@ public class GenericServer{
 			System.err.println(serverName+" ERROR: " + e);
 			e.printStackTrace(System.out);
 		}
-		System.out.println(serverName+" Server Exiting ...");
+		System.out.println(serverName+" server Exiting ...");
 	}
 }
 

@@ -20,9 +20,13 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	//The level of whatever this store is holding (at t-1)
 	protected float oldLevel = 0f;
 	//The capacity of what this store can hold (at t)
-	protected float capacity = 0.0f;
+	protected float capacity = 0f;
 	//The capacity of what this store can hold (at t-1)
-	protected float oldCapacity = 0.0f;
+	protected float oldCapacity = 0f;
+	//What this store has leaked (at t-1)
+	protected float oldOverflow = 0f;
+	//What this store has leaked (at t)
+	protected float overflow = 0f;
 	//What the capacity was before the permanent malfunction
 	private float preMalfunctionCapacity = 0.0f;
 	//Used for finding what the current tick is (to see if we're behind or ahead)
@@ -93,6 +97,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 		super.tick();
 		oldLevel = level;
 		oldCapacity = capacity;
+		oldOverflow = overflow;
 		if (pipe){
 			level = 0f;
 			capacity = 0f;
@@ -189,6 +194,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 			//adding more than capacity
 			acutallyAdded = randomFilter(capacity - level);
 			level += acutallyAdded;
+			overflow += (amountRequested - acutallyAdded);
 			return  acutallyAdded;
 		}
 		else{
@@ -235,6 +241,18 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 		else
 			return level;
 	}
+	
+	/**
+	* Retrieves the overflow of the store
+	* @return the overflow of the store
+	*/
+	public float getOverflow(){
+		collectReferences();
+		if (myTicks == myDriver.getTicks())
+			return oldOverflow;
+		else
+			return overflow;
+	}
 
 	/**
 	* Retrieves the capacity of the store
@@ -254,7 +272,8 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	public void reset(){
 		super.reset();
 		capacity = preMalfunctionCapacity;
-		level = oldLevel = 0.0f;
+		level = oldLevel = 0f;
+		overflow = oldOverflow = 0f;
 	}
 	
 	/**
@@ -268,11 +287,14 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 			myLogIndex.levelIndex = levelHead.addChild((""+level));
 			LogNode capacityHead = myLog.addChild("capacity");
 			myLogIndex.capacityIndex = capacityHead.addChild((""+capacity));
+			LogNode overflowHead = myLog.addChild("overflow");
+			myLogIndex.overflowIndex = overflowHead.addChild((""+overflow));
 			logInitialized = true;
 		}
 		else{
 			myLogIndex.capacityIndex.setValue(""+capacity);
 			myLogIndex.levelIndex.setValue(""+level);
+			myLogIndex.overflowIndex.setValue(""+overflow);
 		}
 		sendLog(myLog);
 	}
@@ -283,6 +305,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	private class LogIndex{
 		public LogNode levelIndex;
 		public LogNode capacityIndex;
+		public LogNode overflowIndex;
 	}
 
 }

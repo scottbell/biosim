@@ -52,7 +52,7 @@ public class ShelfImpl extends ShelfPOA {
 	private void gatherWater(){
 		float gatheredGreyWater = 0f;
 		float gatheredPotableWater = 0f;
-		System.out.println("ShelfImpl: myCrop.getWaterNeeded(): "+myCrop.getWaterNeeded());
+		//System.out.println("ShelfImpl: myCrop.getWaterNeeded(): "+myCrop.getWaterNeeded());
 		for (int i = 0; (i < myBiomassImpl.getGreyWaterInputs().length) && (gatheredGreyWater < myCrop.getWaterNeeded()); i++){
 			float resourceToGatherFirst = Math.min(myCrop.getWaterNeeded(), myBiomassImpl.getGreyWaterInputMaxFlowRate(i) / myBiomassImpl.getNumberOfShelves());
 			float resourceToGatherFinal = Math.min(resourceToGatherFirst, myBiomassImpl.getGreyWaterInputDesiredFlowRate(i) / myBiomassImpl.getNumberOfShelves());
@@ -80,7 +80,7 @@ public class ShelfImpl extends ShelfPOA {
 			float currentPowerGathered = myBiomassImpl.getPowerInputs()[i].take(resourceToGatherFinal);
 			myBiomassImpl.addPowerInputActualFlowRates(i, currentPowerGathered);
 			gatheredPower += currentPowerGathered;
-			System.out.println("ShelfImpl: gatheredPower: "+gatheredPower);
+			//System.out.println("ShelfImpl: gatheredPower: "+gatheredPower);
 		}
 		powerLevel = gatheredPower;
 	}
@@ -111,13 +111,13 @@ public class ShelfImpl extends ShelfPOA {
 
 	private void lightPlants(){
 		gatherPower();
-		System.out.println("ShelfImpl: powerLevel: "+powerLevel);
-		System.out.println("ShelfImpl: getLampEfficiency: "+getLampEfficiency());
-		System.out.println("ShelfImpl: getPSEfficiency: "+getPSEfficiency());
+		//System.out.println("ShelfImpl: powerLevel: "+powerLevel);
+		//System.out.println("ShelfImpl: getLampEfficiency: "+getLampEfficiency());
+		//System.out.println("ShelfImpl: getPSEfficiency: "+getPSEfficiency());
 		if (powerLevel <= 0)
 			powerLevel = pow(1f, -30f);
 		float thePPF = powerLevel * getLampEfficiency() * getPSEfficiency();
-		System.out.println("ShelfImpl: thePPF: "+thePPF);
+		//System.out.println("ShelfImpl: thePPF: "+thePPF);
 		myCrop.shine(thePPF);
 		flushPower();
 	}
