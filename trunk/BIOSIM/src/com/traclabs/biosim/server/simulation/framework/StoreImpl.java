@@ -45,12 +45,12 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 			return 0f;
 		}
 		float takenAmount;
-		//asking for more water than exists
+		//asking for more stuff than exists
 		if (amountRequested > level){
 			takenAmount = level;
 			level = 0;
 		}
-		//water exists for request
+		//stuff exists for request
 		else{
 			takenAmount = amountRequested;
 			level -= amountRequested; 
