@@ -4,7 +4,7 @@ import java.awt.*;
 import biosim.client.framework.gui.*;
 
 /**
- * This is the JPanel that displays a chart about the Water
+ * This is the JPanel that displays a chart about the Air
  *
  * @author    Scott Bell
  */

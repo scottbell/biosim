@@ -79,7 +79,7 @@ public class AirStorePanel extends JPanel
 		myChart = ChartFactory.createVerticalBarChart3D(
 		                  "Air Store Levels",  // chart title
 		                  "Stores",              // domain axis label
-		                  "Air Level",                 // range axis label
+		                  "Air Level (L)",                 // range axis label
 		                  myDataset,                 // data
 		                  true                     // include legend
 		          );
@@ -92,9 +92,9 @@ public class AirStorePanel extends JPanel
 		TextTitle myTextTitle = (TextTitle)(myChart.getTitle(0));
 		myTextTitle.setFont(myTextTitle.getFont().deriveFont(12.0f));
 		myChartPanel = new ChartPanel(myChart);
-		myChartPanel.setMinimumDrawHeight(250);
-		myChartPanel.setMinimumDrawWidth(250);
-		myChartPanel.setPreferredSize(new Dimension(220, 250));
+		myChartPanel.setMinimumDrawHeight(200);
+		myChartPanel.setMinimumDrawWidth(230);
+		myChartPanel.setPreferredSize(new Dimension(200, 200));
 	}
 
 	public void refresh() {

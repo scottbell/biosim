@@ -1,24 +1,22 @@
-package biosim.client.water.gui;
+package biosim.client.power.gui;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import biosim.idl.power.*;
 import biosim.client.framework.*;
-import biosim.idl.water.*;
 import com.jrefinery.chart.*;
 import com.jrefinery.data.*;
 import com.jrefinery.ui.*;
 
 /**
- * This is the JPanel that displays a chart about the WaterStores
+ * This is the JPanel that displays a chart about the Power Store
  *
  * @author    Scott Bell
  */
-public class WaterStorePanel extends JPanel
+public class PowerStorePanel extends JPanel
 {
-	private PotableWaterStore myPotableWaterStore;
-	private GreyWaterStore myGreyWaterStore;
-	private DirtyWaterStore myDirtyWaterStore;
+	private PowerStore myPowerStore;
 	private DefaultCategoryDataset myDataset;
 	private JButton refreshButton;
 	private JButton trackingButton;
@@ -35,10 +33,8 @@ public class WaterStorePanel extends JPanel
 	/**
 	 * Default constructor.
 	 */
-	public WaterStorePanel() {
-		myPotableWaterStore = (PotableWaterStore)(BioHolder.getBioModule(BioHolder.potableWaterStoreName));
-		myDirtyWaterStore = (DirtyWaterStore)(BioHolder.getBioModule(BioHolder.dirtyWaterStoreName));
-		myGreyWaterStore = (GreyWaterStore)(BioHolder.getBioModule(BioHolder.greyWaterStoreName));
+	public PowerStorePanel() {
+		myPowerStore = (PowerStore)(BioHolder.getBioModule(BioHolder.powerStoreName));
 		createGraph();
 		myRefreshAction = new RefreshAction("Refresh");
 		refreshButton = new JButton(myRefreshAction);
@@ -79,9 +75,9 @@ public class WaterStorePanel extends JPanel
 		// create the chart...
 		refresh();
 		myChart = ChartFactory.createVerticalBarChart3D(
-		                  "Water Store Levels",  // chart title
-		                  "Stores",              // domain axis label
-		                  "Water Level (L)",                 // range axis label
+		                  "Power Store Level",  // chart title
+		                  "",              // domain axis label
+		                  "Power Level (W)",                 // range axis label
 		                  myDataset,                 // data
 		                  true                     // include legend
 		          );
@@ -89,33 +85,31 @@ public class WaterStorePanel extends JPanel
 		myPlot = myChart.getCategoryPlot();
 		rangeAxis = myPlot.getRangeAxis();
 		rangeAxis.setAutoRange(false);
-		rangeAxis.setRange(0.0, myPotableWaterStore.getCapacity());
-		myPlot.setSeriesPaint(new Paint[] { Color.BLUE, Color.GRAY, Color.YELLOW });
+		rangeAxis.setRange(0.0, myPowerStore.getCapacity());
+		myPlot.setSeriesPaint(new Paint[] { Color.ORANGE});
 		TextTitle myTextTitle = (TextTitle)(myChart.getTitle(0));
 		myTextTitle.setFont(myTextTitle.getFont().deriveFont(12.0f));
 		myChartPanel = new ChartPanel(myChart);
 		myChartPanel.setMinimumDrawHeight(200);
 		myChartPanel.setMinimumDrawWidth(230);
-		myChartPanel.setPreferredSize(new Dimension(50, 50));
+		myChartPanel.setPreferredSize(new Dimension(200, 200));
 	}
 
 	public void refresh() {
 		if (myDataset == null){
-			double[][] data = { {myPotableWaterStore.getLevel()}, {myGreyWaterStore.getLevel()}, {myDirtyWaterStore.getLevel()}};
+			double[][] data = { {myPowerStore.getLevel()} };
 			myDataset = new DefaultCategoryDataset(data);
-			String[] theSeries = {"Potable Water", "Grey Water", "Dirty Water"};
+			String[] theSeries = {"Power Store"};
 			String[] theCategory = {""};
 			myDataset.setSeriesNames(theSeries);
 			myDataset.setCategories(theCategory);
 		}
 		else{
-			if (rangeAxis.getRange().getUpperBound() != myPotableWaterStore.getCapacity()){
-				rangeAxis.setRange(0.0, myPotableWaterStore.getCapacity());
+			if (rangeAxis.getRange().getUpperBound() != myPowerStore.getCapacity()){
+				rangeAxis.setRange(0.0, myPowerStore.getCapacity());
 				myChartPanel.repaint();
 			}
-			myDataset.setValue(0, "", new Float(myPotableWaterStore.getLevel()));
-			myDataset.setValue(1, "", new Float(myGreyWaterStore.getLevel()));
-			myDataset.setValue(2, "", new Float(myDirtyWaterStore.getLevel()));
+			myDataset.setValue(0, "", new Float(myPowerStore.getLevel()));
 		}
 	}
 

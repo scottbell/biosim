@@ -1,25 +1,22 @@
-package biosim.client.water.gui;
+package biosim.client.environment.gui;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import biosim.idl.environment.*;
 import biosim.client.framework.*;
-import biosim.idl.water.*;
 import com.jrefinery.chart.*;
 import com.jrefinery.data.*;
 import com.jrefinery.ui.*;
 
 /**
- * This is the JPanel that displays a chart about the WaterStores
+ * This is the JPanel that displays a chart about the Environment
  *
  * @author    Scott Bell
  */
-public class WaterStorePanel extends JPanel
+public class EnvironmentPieChartPanel extends JPanel
 {
-	private PotableWaterStore myPotableWaterStore;
-	private GreyWaterStore myGreyWaterStore;
-	private DirtyWaterStore myDirtyWaterStore;
-	private DefaultCategoryDataset myDataset;
+	private SimEnvironment mySimEnvironment;
 	private JButton refreshButton;
 	private JButton trackingButton;
 	private ChartPanel myChartPanel;
@@ -28,17 +25,19 @@ public class WaterStorePanel extends JPanel
 	private Timer refreshTimer;
 	private final static int TIMER_DELAY=500;
 	private boolean trackingWanted = false;
-	ValueAxis rangeAxis;
-	CategoryPlot myPlot;
-	JFreeChart myChart;
+	private Pie3DPlot myPlot;
+	private JFreeChart myChart;
+	private DefaultPieDataset myDataset;
+	
+	private String O2Category = "O2";
+	private String CO2Category = "CO2";
+	private String otherCategory = "Other";
 
 	/**
 	 * Default constructor.
 	 */
-	public WaterStorePanel() {
-		myPotableWaterStore = (PotableWaterStore)(BioHolder.getBioModule(BioHolder.potableWaterStoreName));
-		myDirtyWaterStore = (DirtyWaterStore)(BioHolder.getBioModule(BioHolder.dirtyWaterStoreName));
-		myGreyWaterStore = (GreyWaterStore)(BioHolder.getBioModule(BioHolder.greyWaterStoreName));
+	public EnvironmentPieChartPanel() {
+		mySimEnvironment = (SimEnvironment)(BioHolder.getBioModule(BioHolder.simEnvironmentName));
 		createGraph();
 		myRefreshAction = new RefreshAction("Refresh");
 		refreshButton = new JButton(myRefreshAction);
@@ -78,45 +77,28 @@ public class WaterStorePanel extends JPanel
 	private void createGraph(){
 		// create the chart...
 		refresh();
-		myChart = ChartFactory.createVerticalBarChart3D(
-		                  "Water Store Levels",  // chart title
-		                  "Stores",              // domain axis label
-		                  "Water Level (L)",                 // range axis label
+		myChart = ChartFactory.createPie3DChart(
+		                  "Environment Gas Composition",  // chart title
 		                  myDataset,                 // data
 		                  true                     // include legend
 		          );
 		// add the chart to a panel...
-		myPlot = myChart.getCategoryPlot();
-		rangeAxis = myPlot.getRangeAxis();
-		rangeAxis.setAutoRange(false);
-		rangeAxis.setRange(0.0, myPotableWaterStore.getCapacity());
-		myPlot.setSeriesPaint(new Paint[] { Color.BLUE, Color.GRAY, Color.YELLOW });
+		myPlot = (Pie3DPlot)(myChart.getPlot());
+		myPlot.setSeriesPaint(new Paint[] { Color.BLUE, Color.GREEN, Color.RED});
 		TextTitle myTextTitle = (TextTitle)(myChart.getTitle(0));
 		myTextTitle.setFont(myTextTitle.getFont().deriveFont(12.0f));
 		myChartPanel = new ChartPanel(myChart);
-		myChartPanel.setMinimumDrawHeight(200);
-		myChartPanel.setMinimumDrawWidth(230);
-		myChartPanel.setPreferredSize(new Dimension(50, 50));
+		myChartPanel.setMinimumDrawHeight(250);
+		myChartPanel.setMinimumDrawWidth(250);
+		myChartPanel.setPreferredSize(new Dimension(250, 250));
 	}
 
 	public void refresh() {
-		if (myDataset == null){
-			double[][] data = { {myPotableWaterStore.getLevel()}, {myGreyWaterStore.getLevel()}, {myDirtyWaterStore.getLevel()}};
-			myDataset = new DefaultCategoryDataset(data);
-			String[] theSeries = {"Potable Water", "Grey Water", "Dirty Water"};
-			String[] theCategory = {""};
-			myDataset.setSeriesNames(theSeries);
-			myDataset.setCategories(theCategory);
-		}
-		else{
-			if (rangeAxis.getRange().getUpperBound() != myPotableWaterStore.getCapacity()){
-				rangeAxis.setRange(0.0, myPotableWaterStore.getCapacity());
-				myChartPanel.repaint();
-			}
-			myDataset.setValue(0, "", new Float(myPotableWaterStore.getLevel()));
-			myDataset.setValue(1, "", new Float(myGreyWaterStore.getLevel()));
-			myDataset.setValue(2, "", new Float(myDirtyWaterStore.getLevel()));
-		}
+		if (myDataset == null)
+			myDataset = new DefaultPieDataset();
+		myDataset.setValue(O2Category, new Float(mySimEnvironment.getO2Level()));
+		myDataset.setValue(CO2Category, new Float(mySimEnvironment.getO2Level()));
+		myDataset.setValue(otherCategory, new Float(mySimEnvironment.getOtherLevel()));
 	}
 
 	public void visibilityChange(boolean nowVisible){
