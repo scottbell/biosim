@@ -60,6 +60,7 @@ public class SensorViewer extends SpreadSheet
 	private AirOutFlowRateSensor myBiomassRSAirOutFlowRateSensor;
 	private PotableWaterInFlowRateSensor myBiomassRSPotableWaterInFlowRateSensor;
 	private GreyWaterInFlowRateSensor myBiomassRSGreyWaterInFlowRateSensor;
+	private DirtyWaterOutFlowRateSensor myBiomassRSDirtyWaterOutFlowRateSensor;
 	private BiomassOutFlowRateSensor myBiomassRSBiomassOutFlowRateSensor;
 	//Food Processor
 	private PowerInFlowRateSensor myFoodProcessorPowerInFlowRateSensor;
@@ -142,6 +143,7 @@ public class SensorViewer extends SpreadSheet
 		myBiomassRSAirOutFlowRateSensor = (AirOutFlowRateSensor)BioHolder.getBioModule(BioHolder.myBiomassRSAirOutFlowRateSensorName);
 		myBiomassRSPotableWaterInFlowRateSensor = (PotableWaterInFlowRateSensor)BioHolder.getBioModule(BioHolder.myBiomassRSPotableWaterInFlowRateSensorName);
 		myBiomassRSGreyWaterInFlowRateSensor = (GreyWaterInFlowRateSensor)BioHolder.getBioModule(BioHolder.myBiomassRSGreyWaterInFlowRateSensorName);
+		myBiomassRSDirtyWaterOutFlowRateSensor = (DirtyWaterOutFlowRateSensor)BioHolder.getBioModule(BioHolder.myBiomassRSDirtyWaterOutFlowRateSensorName);
 		myBiomassRSBiomassOutFlowRateSensor = (BiomassOutFlowRateSensor)BioHolder.getBioModule(BioHolder.myBiomassRSBiomassOutFlowRateSensorName);
 		myBiomassRSPowerInFlowRateSensor = (PowerInFlowRateSensor)BioHolder.getBioModule(BioHolder.myBiomassRSPowerInFlowRateSensorName);
 		//Food Processor
@@ -201,6 +203,7 @@ public class SensorViewer extends SpreadSheet
 		myTableModel.setValueAt(numFormat.format(myBiomassRSAirInFlowRateSensor.getValue())+" / "+numFormat.format(myBiomassRSAirOutFlowRateSensor.getValue()), 1, 5);
 		myTableModel.setValueAt(numFormat.format(myBiomassRSGreyWaterInFlowRateSensor.getValue())+" / *", 1, 6);
 		myTableModel.setValueAt(numFormat.format(myBiomassRSPotableWaterInFlowRateSensor.getValue())+" / *", 1, 8);
+		myTableModel.setValueAt("* / "+numFormat.format(myBiomassRSDirtyWaterOutFlowRateSensor.getValue()), 1, 7);
 		
 		//Food Processor
 		myTableModel.setValueAt("* / "+numFormat.format(myFoodProcessorFoodOutFlowRateSensor.getValue()), 2, 2);

@@ -560,7 +560,7 @@ module biosim{
                                 };
                         };
                         module food{
-                                interface BiomassRS : framework::SimBioModule, framework::PowerConsumer, framework::PotableWaterConsumer, framework::GreyWaterConsumer, framework::BiomassProducer, framework::AirConsumer, framework::AirProducer{
+                                interface BiomassRS : framework::SimBioModule, framework::PowerConsumer, framework::PotableWaterConsumer, framework::GreyWaterConsumer, framework::BiomassProducer, framework::AirConsumer, framework::AirProducer, framework::DirtyWaterProducer{
                                         ShelfList getShelves();
                                         Shelf createNewShelf(in PlantType pType, in float pCropArea);
                                 };

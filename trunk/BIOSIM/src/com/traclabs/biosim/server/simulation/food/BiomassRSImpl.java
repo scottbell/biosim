@@ -20,7 +20,7 @@ import java.util.*;
  * @author    Scott Bell
  */
 
-public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperations, PotableWaterConsumerOperations, AirConsumerOperations, AirProducerOperations, GreyWaterConsumerOperations, BiomassProducerOperations{
+public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperations, PotableWaterConsumerOperations, AirConsumerOperations, AirProducerOperations, GreyWaterConsumerOperations, BiomassProducerOperations, DirtyWaterProducerOperations{
 	private List myShelves;
 	private int shelfCapacity = 100;
 	private List shelfLogs;
@@ -33,20 +33,24 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 	private float[] powerActualFlowRates;
 	private float[] biomassActualFlowRates;
 	private float[] potableWaterActualFlowRates;
+	private float[] dirtyWaterMaxFlowRates;
 	private float[] greyWaterActualFlowRates;
 	private float[] airInActualFlowRates;
 	private float[] airOutActualFlowRates;
+	private float[] dirtyWaterActualFlowRates;
 	private float[] powerDesiredFlowRates;
 	private float[] biomassDesiredFlowRates;
 	private float[] potableWaterDesiredFlowRates;
+	private float[] dirtyWaterDesiredFlowRates;
 	private float[] greyWaterDesiredFlowRates;
 	private float[] airInDesiredFlowRates;
 	private float[] airOutDesiredFlowRates;
 	private GreyWaterStore[] myGreyWaterStores;
+	private DirtyWaterStore[] myDirtyWaterStores;
 	private PotableWaterStore[] myPotableWaterStores;
 	private PowerStore[] myPowerStores;
 	private BiomassStore[] myBiomassStores;
-	private SimEnvironment[] myAirInputs;
+	private SimEnvironment[] myAirInputs;                                               
 	private SimEnvironment[] myAirOutputs;
 
 	public BiomassRSImpl(int pID){
@@ -54,6 +58,7 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 		myShelves = new Vector();
 		myGreyWaterStores = new GreyWaterStore[0];
 		myPotableWaterStores = new PotableWaterStore[0];
+		myDirtyWaterStores = new DirtyWaterStore[0];
 		myPowerStores = new PowerStore[0];
 		myBiomassStores = new BiomassStore[0];
 		myAirInputs = new SimEnvironment[0];
@@ -66,6 +71,7 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 		airOutMaxFlowRates = new float[0];
 		powerActualFlowRates = new float[0];
 		biomassActualFlowRates = new float[0];
+		dirtyWaterActualFlowRates = new float[0];
 		potableWaterActualFlowRates = new float[0];
 		greyWaterActualFlowRates = new float[0];
 		airInActualFlowRates = new float[0];
@@ -73,6 +79,7 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 		powerDesiredFlowRates = new float[0];
 		biomassDesiredFlowRates = new float[0];
 		potableWaterDesiredFlowRates = new float[0];
+		dirtyWaterDesiredFlowRates = new float[0];
 		greyWaterDesiredFlowRates = new float[0];
 		airInDesiredFlowRates = new float[0];
 		airOutDesiredFlowRates = new float[0];
@@ -114,8 +121,9 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 	private void clearActualFlowRates(){
 		Arrays.fill(powerActualFlowRates, 0f);
 		Arrays.fill(biomassActualFlowRates, 0f);
-		Arrays.fill(potableWaterActualFlowRates, 0f);
+		Arrays.fill(potableWaterActualFlowRates, 0f);                  
 		Arrays.fill(greyWaterActualFlowRates, 0f);
+		Arrays.fill(dirtyWaterActualFlowRates, 0f);
 		Arrays.fill(airInActualFlowRates, 0f);
 		Arrays.fill(airOutActualFlowRates, 0f);
 	}
@@ -318,6 +326,45 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 	}
 	public void addBiomassOutputActualFlowRates(int index, float value){
 		biomassActualFlowRates[index] += value;
+	}
+	
+	
+	//DirtyWater Outputs
+	public void setDirtyWaterOutputMaxFlowRate(float liters, int index){
+		dirtyWaterMaxFlowRates[index] = liters;
+	}
+	public float getDirtyWaterOutputMaxFlowRate(int index){
+		return dirtyWaterMaxFlowRates[index];
+	}
+	public float[] getDirtyWaterOutputMaxFlowRates(){
+		return dirtyWaterMaxFlowRates;
+	}
+	public void setDirtyWaterOutputDesiredFlowRate(float liters, int index){
+		dirtyWaterDesiredFlowRates[index] = liters;
+	}
+	public float getDirtyWaterOutputDesiredFlowRate(int index){
+		return dirtyWaterDesiredFlowRates[index];
+	}
+	public float[] getDirtyWaterOutputDesiredFlowRates(){
+		return dirtyWaterDesiredFlowRates;
+	}
+	public float getDirtyWaterOutputActualFlowRate(int index){
+		return dirtyWaterActualFlowRates[index];
+	}
+	public float[] getDirtyWaterOutputActualFlowRates(){
+		return dirtyWaterActualFlowRates;
+	}
+	public void setDirtyWaterOutputs(DirtyWaterStore[] destinations, float[] maxFlowRates, float[] desiredFlowRates){
+		myDirtyWaterStores = destinations;
+		dirtyWaterMaxFlowRates = maxFlowRates;
+		dirtyWaterDesiredFlowRates = desiredFlowRates;
+		dirtyWaterActualFlowRates = new float[dirtyWaterDesiredFlowRates.length]; 
+	}
+	public DirtyWaterStore[] getDirtyWaterOutputs(){
+		return myDirtyWaterStores;
+	}
+	public void addDirtyWaterOutputActualFlowRates(int index, float value){
+		dirtyWaterActualFlowRates[index] += value;
 	}
 	
 	//Air Inputs

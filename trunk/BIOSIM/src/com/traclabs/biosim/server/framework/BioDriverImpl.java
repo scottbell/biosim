@@ -111,6 +111,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	private String myBiomassRSAirOutFlowRateSensorName;
 	private String myBiomassRSPotableWaterInFlowRateSensorName;
 	private String myBiomassRSGreyWaterInFlowRateSensorName;
+	private String myBiomassRSDirtyWaterOutFlowRateSensorName;
 	private String myBiomassRSBiomassOutFlowRateSensorName;
 	private String myBiomassRSPowerInFlowRateSensorName;
 	//Food Processor
@@ -348,12 +349,14 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myBiomassRSAirOutFlowRateSensorName = "BiomassRSAirOutFlowRateSensor"+myID;
 		myBiomassRSPotableWaterInFlowRateSensorName = "BiomassRSPotableWaterInFlowRateSensor"+myID;
 		myBiomassRSGreyWaterInFlowRateSensorName = "BiomassRSGreyWaterInFlowRateSensor"+myID;
+		myBiomassRSDirtyWaterOutFlowRateSensorName = "BiomassRSDirtyWaterOutFlowRateSensor"+myID;
 		myBiomassRSBiomassOutFlowRateSensorName = "BiomassRSBiomassOutFlowRateSensor"+myID;
 		myModuleNames.add(myBiomassRSAirInFlowRateSensorName);
 		myModuleNames.add(myBiomassRSPowerInFlowRateSensorName);
 		myModuleNames.add(myBiomassRSAirOutFlowRateSensorName);
 		myModuleNames.add(myBiomassRSPotableWaterInFlowRateSensorName);
 		myModuleNames.add(myBiomassRSGreyWaterInFlowRateSensorName);
+		myModuleNames.add(myBiomassRSDirtyWaterOutFlowRateSensorName);
 		myModuleNames.add(myBiomassRSBiomassOutFlowRateSensorName);
 		//Food Processor
 		myFoodProcessorPowerInFlowRateSensorName = "FoodProcessorPowerInFlowRateSensor"+myID;
@@ -744,6 +747,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			PotableWaterStore[] potableWaterStoreInput = {myPotableWaterStore};
 			GreyWaterStore[] greyWaterStoreInput = {myGreyWaterStore};
 			BiomassStore[] biomassStoreOutput = {myBiomassStore};
+			DirtyWaterStore[] dirtyWaterStoreOutput = {myDirtyWaterStore};
 			SimEnvironment[] simEnvironmentInput = {myPlantEnvironment};
 			SimEnvironment[] simEnvironmentOutput = {myPlantEnvironment};
 			float[] powerMaxFlowRates = {10000f};
@@ -752,9 +756,11 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			float[] biomassMaxFlowRates = {10000f};
 			float[] simEnvironmentInputMaxFlowRates = {10000f};
 			float[] simEnvironmentOutputMaxFlowRates = {10000f};
+			float[] dirtyWaterOutputMaxFlowRates = {10000f};
 			float[] powerDesiredFlowRates = {10000f};
 			float[] potableWaterDesiredFlowRates = {10000f};
 			float[] greyWaterDesiredFlowRates = {10000f};
+			float[] dirtyWaterOutputDesiredFlowRates = {10000f};
 			float[] biomassDesiredFlowRates = {10000f};
 			float[] simEnvironmentInputDesiredFlowRates = {10000f};
 			float[] simEnvironmentOutputDesiredFlowRates = {10000f};
@@ -765,6 +771,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			myBiomassRS.setBiomassOutputs(biomassStoreOutput, biomassMaxFlowRates, biomassDesiredFlowRates);
 			myBiomassRS.setAirInputs(simEnvironmentInput, simEnvironmentInputMaxFlowRates, simEnvironmentInputDesiredFlowRates);
 			myBiomassRS.setAirOutputs(simEnvironmentOutput, simEnvironmentOutputMaxFlowRates, simEnvironmentOutputDesiredFlowRates);
+			myBiomassRS.setDirtyWaterOutputs(dirtyWaterStoreOutput, dirtyWaterOutputMaxFlowRates, dirtyWaterOutputDesiredFlowRates);
 		}
 
 		//Hook up Air RS to other modules
@@ -1031,9 +1038,11 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 				AirOutFlowRateSensor myBiomassRSAirOutFlowRateSensor = AirOutFlowRateSensorHelper.narrow(getBioModule(myBiomassRSAirOutFlowRateSensorName));
 				PotableWaterInFlowRateSensor myBiomassRSPotableWaterInFlowRateSensor = PotableWaterInFlowRateSensorHelper.narrow(getBioModule(myBiomassRSPotableWaterInFlowRateSensorName));
 				GreyWaterInFlowRateSensor myBiomassRSGreyWaterInFlowRateSensor = GreyWaterInFlowRateSensorHelper.narrow(getBioModule(myBiomassRSGreyWaterInFlowRateSensorName));
+				DirtyWaterOutFlowRateSensor myBiomassRSDirtyWaterOutFlowRateSensor = DirtyWaterOutFlowRateSensorHelper.narrow(getBioModule(myBiomassRSDirtyWaterOutFlowRateSensorName));
 				BiomassOutFlowRateSensor myBiomassRSBiomassOutFlowRateSensor = BiomassOutFlowRateSensorHelper.narrow(getBioModule(myBiomassRSBiomassOutFlowRateSensorName));
 				PowerInFlowRateSensor myBiomassRSPowerInFlowRateSensor = PowerInFlowRateSensorHelper.narrow(getBioModule(myBiomassRSPowerInFlowRateSensorName));
 				myBiomassRSGreyWaterInFlowRateSensor.setInput(myBiomassRS, 0);
+				myBiomassRSDirtyWaterOutFlowRateSensor.setInput(myBiomassRS, 0);
 				myBiomassRSPotableWaterInFlowRateSensor.setInput(myBiomassRS, 0);
 				myBiomassRSAirOutFlowRateSensor.setInput(myBiomassRS, 0);
 				myBiomassRSAirInFlowRateSensor.setInput(myBiomassRS, 0);
