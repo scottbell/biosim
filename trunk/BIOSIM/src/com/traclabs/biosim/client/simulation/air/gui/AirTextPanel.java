@@ -1,11 +1,22 @@
 package biosim.client.simulation.air.gui;
 
-import biosim.client.framework.gui.*;
-import biosim.client.util.*;
-import biosim.idl.simulation.air.*;
-import javax.swing.*;
-import java.awt.*;
-import java.text.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.text.DecimalFormat;
+
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import biosim.client.framework.gui.TimedPanel;
+import biosim.client.util.BioHolder;
+import biosim.client.util.BioHolderInitializer;
+import biosim.idl.simulation.air.AirRS;
+import biosim.idl.simulation.air.CO2Store;
+import biosim.idl.simulation.air.H2Store;
+import biosim.idl.simulation.air.NitrogenStore;
+import biosim.idl.simulation.air.O2Store;
 /**
  * This is the JPanel that displays information about the AirRS, the O2 store, and the CO2 Store.
  * Each tick it polls each air related server for new information regarding these systems.

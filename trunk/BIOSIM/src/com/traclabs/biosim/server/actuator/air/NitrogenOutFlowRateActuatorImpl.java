@@ -1,8 +1,9 @@
 package biosim.server.actuator.air;
 
-import biosim.server.actuator.framework.*;
-import biosim.idl.actuator.air.*;
-import biosim.idl.framework.*;
+import biosim.idl.actuator.air.NitrogenOutFlowRateActuatorOperations;
+import biosim.idl.framework.BioModule;
+import biosim.idl.framework.NitrogenProducer;
+import biosim.server.actuator.framework.GenericActuatorImpl;
 
 public class NitrogenOutFlowRateActuatorImpl extends GenericActuatorImpl implements NitrogenOutFlowRateActuatorOperations{
 	private NitrogenProducer myProducer;

@@ -1,9 +1,9 @@
 package biosim.server.sensor.environment;
 
-import biosim.server.sensor.framework.*;
-import biosim.idl.sensor.environment.*;
-import biosim.idl.simulation.environment.*;
-import biosim.idl.framework.*;
+import biosim.idl.framework.BioModule;
+import biosim.idl.framework.O2AirProducer;
+import biosim.idl.sensor.environment.O2AirStoreOutFlowRateSensorOperations;
+import biosim.server.sensor.framework.GenericSensorImpl;
 
 public class O2AirStoreOutFlowRateSensorImpl extends GenericSensorImpl implements O2AirStoreOutFlowRateSensorOperations{
 	private O2AirProducer myProducer;

@@ -1,12 +1,27 @@
 package biosim.client.simulation.water.gui;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.text.*;
-import javax.swing.*;
-import biosim.idl.simulation.water.*;
-import biosim.client.framework.gui.*;
-import biosim.client.util.*;
+import java.awt.Cursor;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.text.DecimalFormat;
+
+import javax.swing.AbstractAction;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
+
+import biosim.client.framework.gui.TimedPanel;
+import biosim.client.util.BioHolder;
+import biosim.client.util.BioHolderInitializer;
+import biosim.idl.simulation.water.DirtyWaterStore;
+import biosim.idl.simulation.water.GreyWaterStore;
+import biosim.idl.simulation.water.PotableWaterStore;
+import biosim.idl.simulation.water.WaterRS;
 
 /**
  * This is the JPanel that displays a schematic

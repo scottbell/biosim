@@ -1,9 +1,9 @@
 package biosim.server.sensor.environment;
 
-import biosim.server.sensor.framework.*;
-import biosim.idl.sensor.environment.*;
-import biosim.idl.simulation.environment.*;
-import biosim.idl.framework.*;
+import biosim.idl.framework.BioModule;
+import biosim.idl.framework.NitrogenAirProducer;
+import biosim.idl.sensor.environment.NitrogenAirStoreOutFlowRateSensorOperations;
+import biosim.server.sensor.framework.GenericSensorImpl;
 
 public class NitrogenAirStoreOutFlowRateSensorImpl extends GenericSensorImpl implements NitrogenAirStoreOutFlowRateSensorOperations{
 	private NitrogenAirProducer myProducer;

@@ -1,9 +1,16 @@
 package biosim.server.util.log;
 
-import biosim.server.util.*;
-import biosim.idl.util.log.*;
-import biosim.idl.framework.*;
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
+
+import biosim.idl.framework.BioDriver;
+import biosim.idl.framework.BioDriverHelper;
+import biosim.idl.util.log.LogHandlerType;
+import biosim.idl.util.log.LogNode;
+import biosim.idl.util.log.LogNodeHelper;
+import biosim.idl.util.log.LoggerPOA;
+import biosim.server.util.OrbUtils;
 /**
  * The Logger takes Logs from the modules and outputs them using choosen handlers
  * @author    Scott Bell

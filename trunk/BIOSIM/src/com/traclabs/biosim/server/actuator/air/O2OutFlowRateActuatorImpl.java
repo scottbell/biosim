@@ -1,8 +1,9 @@
 package biosim.server.actuator.air;
 
-import biosim.server.actuator.framework.*;
-import biosim.idl.actuator.air.*;
-import biosim.idl.framework.*;
+import biosim.idl.actuator.air.O2OutFlowRateActuatorOperations;
+import biosim.idl.framework.BioModule;
+import biosim.idl.framework.O2Producer;
+import biosim.server.actuator.framework.GenericActuatorImpl;
 
 public class O2OutFlowRateActuatorImpl extends GenericActuatorImpl implements O2OutFlowRateActuatorOperations{
 	private O2Producer myProducer;

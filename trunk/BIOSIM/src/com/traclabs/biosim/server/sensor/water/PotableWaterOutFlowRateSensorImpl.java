@@ -1,8 +1,9 @@
 package biosim.server.sensor.water;
 
-import biosim.server.sensor.framework.*;
-import biosim.idl.sensor.water.*;
-import biosim.idl.framework.*;
+import biosim.idl.framework.BioModule;
+import biosim.idl.framework.PotableWaterProducer;
+import biosim.idl.sensor.water.PotableWaterOutFlowRateSensorOperations;
+import biosim.server.sensor.framework.GenericSensorImpl;
 
 public class PotableWaterOutFlowRateSensorImpl extends GenericSensorImpl implements PotableWaterOutFlowRateSensorOperations{
 	private PotableWaterProducer myProducer;

@@ -20,10 +20,15 @@
  
 package biosim.client.unrealCom;
 
-import java.net.*;
-import java.io.*;
-import biosim.client.util.*;
-import biosim.idl.simulation.air.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
+
+import biosim.client.util.BioHolder;
+import biosim.idl.simulation.air.CO2Store;
+import biosim.idl.simulation.air.H2Store;
+import biosim.idl.simulation.air.NitrogenStore;
+import biosim.idl.simulation.air.O2Store;
 
 public class ARSMonitor extends Thread {
 	

@@ -1,8 +1,9 @@
 package biosim.server.sensor.food;
 
-import biosim.server.sensor.framework.*;
-import biosim.idl.sensor.food.*;
-import biosim.idl.framework.*;
+import biosim.idl.framework.BioModule;
+import biosim.idl.framework.BiomassConsumer;
+import biosim.idl.sensor.food.BiomassInFlowRateSensorOperations;
+import biosim.server.sensor.framework.GenericSensorImpl;
 
 public class BiomassInFlowRateSensorImpl extends GenericSensorImpl implements BiomassInFlowRateSensorOperations{
 	private BiomassConsumer myConsumer;

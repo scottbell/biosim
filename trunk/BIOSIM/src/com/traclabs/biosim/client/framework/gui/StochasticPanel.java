@@ -1,11 +1,28 @@
 package biosim.client.framework.gui;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import java.util.*;
-import biosim.client.util.*;
-import biosim.idl.framework.*;
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.util.Arrays;
+import java.util.Dictionary;
+import java.util.Hashtable;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSlider;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import biosim.client.util.BioHolderInitializer;
+import biosim.idl.framework.BioModule;
+import biosim.idl.framework.StochasticIntensity;
 /**
  * @author    Scott Bell
  */

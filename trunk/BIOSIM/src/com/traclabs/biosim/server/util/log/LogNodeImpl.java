@@ -1,8 +1,12 @@
 package biosim.server.util.log;
 
-import biosim.idl.util.log.*;
-import biosim.server.util.*;
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedList;
+
+import biosim.idl.util.log.LogNode;
+import biosim.idl.util.log.LogNodeHelper;
+import biosim.idl.util.log.LogNodePOA;
+import biosim.server.util.OrbUtils;
 /**
  * An individual log node contained in the log.
  * @author    Scott Bell

@@ -1,9 +1,7 @@
 package biosim.server.actuator.food;
 
-import biosim.server.actuator.framework.*;
-import biosim.idl.actuator.food.*;
-import biosim.idl.framework.*;
-import biosim.idl.simulation.food.*;
+import biosim.idl.actuator.food.PlantingActuatorOperations;
+import biosim.idl.simulation.food.PlantType;
 
 public class PlantingActuatorImpl extends ShelfActuatorImpl implements PlantingActuatorOperations{
 	private PlantType myType = PlantType.UNKNOWN_PLANT;

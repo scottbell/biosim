@@ -1,9 +1,9 @@
 package biosim.server.sensor.framework;
 
-import biosim.server.framework.*;
-import biosim.idl.util.log.*;
-import biosim.idl.sensor.framework.*;
-import biosim.idl.framework.*;
+import biosim.idl.framework.BioModule;
+import biosim.idl.sensor.framework.GenericSensorOperations;
+import biosim.idl.util.log.LogNode;
+import biosim.server.framework.BioModuleImpl;
 
 public abstract class GenericSensorImpl extends BioModuleImpl implements GenericSensorOperations{
 	protected float myValue;

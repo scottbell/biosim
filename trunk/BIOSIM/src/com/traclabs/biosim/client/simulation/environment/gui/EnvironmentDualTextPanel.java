@@ -1,9 +1,11 @@
 package biosim.client.simulation.environment.gui;
 
-import biosim.client.framework.gui.*;
-import biosim.idl.simulation.environment.*;
-import biosim.client.util.*;
-import java.awt.*;
+import java.awt.GridLayout;
+
+import biosim.client.framework.gui.UpdatablePanel;
+import biosim.client.util.BioHolder;
+import biosim.client.util.BioHolderInitializer;
+import biosim.idl.simulation.environment.SimEnvironment;
 /** 
  * 
  * @author    Scott Bell

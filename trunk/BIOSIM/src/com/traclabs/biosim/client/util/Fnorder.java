@@ -1,6 +1,7 @@
 package biosim.client.util;
 
-import java.util.*;
+import java.util.Date;
+import java.util.Random;
 
 /**
  * Title:         Fnorder

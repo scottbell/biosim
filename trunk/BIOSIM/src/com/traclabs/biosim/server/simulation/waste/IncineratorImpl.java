@@ -1,14 +1,22 @@
 package biosim.server.simulation.waste;
 
-import biosim.idl.simulation.waste.*;
-import biosim.idl.simulation.power.*;
-import biosim.idl.simulation.air.*;
-import biosim.idl.simulation.framework.*;
-import biosim.idl.framework.*;
-import biosim.idl.util.log.*;
-import biosim.server.util.*;
-import biosim.server.simulation.framework.*;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Iterator;
+
+import biosim.idl.framework.CO2ProducerOperations;
+import biosim.idl.framework.DryWasteConsumerOperations;
+import biosim.idl.framework.Malfunction;
+import biosim.idl.framework.MalfunctionIntensity;
+import biosim.idl.framework.MalfunctionLength;
+import biosim.idl.framework.O2ConsumerOperations;
+import biosim.idl.framework.PowerConsumerOperations;
+import biosim.idl.simulation.air.CO2Store;
+import biosim.idl.simulation.air.O2Store;
+import biosim.idl.simulation.power.PowerStore;
+import biosim.idl.simulation.waste.DryWasteStore;
+import biosim.idl.simulation.waste.IncineratorOperations;
+import biosim.idl.util.log.LogNode;
+import biosim.server.simulation.framework.SimBioModuleImpl;
 /**
  * The Incinerator takes dryWaste (plants matter) and refines it to food for the crew members.
  *

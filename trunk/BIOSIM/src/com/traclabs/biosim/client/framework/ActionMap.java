@@ -1,11 +1,15 @@
 package biosim.client.framework;
 
 
-import java.util.*;
-import biosim.idl.actuator.framework.*;
-import biosim.idl.simulation.water.*;
-import biosim.idl.simulation.air.*;
-import biosim.client.util.*;
+import java.util.Map;
+import java.util.Random;
+import java.util.TreeMap;
+
+import biosim.client.util.BioHolder;
+import biosim.client.util.BioHolderInitializer;
+import biosim.idl.actuator.framework.GenericActuator;
+import biosim.idl.simulation.air.AirRS;
+import biosim.idl.simulation.water.WaterRS;
 
 
 

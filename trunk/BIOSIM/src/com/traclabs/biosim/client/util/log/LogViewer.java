@@ -1,10 +1,23 @@
 package biosim.client.util.log;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.tree.*;
-import biosim.client.framework.gui.*;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JToolBar;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import biosim.client.framework.gui.BioFrame;
 /**
  * A  panel that displays the log
  *

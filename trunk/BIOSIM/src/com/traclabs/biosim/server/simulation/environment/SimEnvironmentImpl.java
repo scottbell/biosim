@@ -1,14 +1,17 @@
 package biosim.server.simulation.environment;
 
-import biosim.idl.simulation.environment.*;
-import biosim.idl.simulation.air.*;
-import biosim.idl.util.log.*;
-import biosim.idl.simulation.framework.*;
-import biosim.idl.framework.*;
-import biosim.idl.framework.*;
-import biosim.server.simulation.framework.*;
-import biosim.server.util.*;
-import java.util.*;
+import java.util.Iterator;
+
+import biosim.idl.framework.BioDriver;
+import biosim.idl.framework.BioDriverHelper;
+import biosim.idl.framework.Malfunction;
+import biosim.idl.framework.MalfunctionIntensity;
+import biosim.idl.framework.MalfunctionLength;
+import biosim.idl.simulation.air.Breath;
+import biosim.idl.simulation.environment.SimEnvironmentOperations;
+import biosim.idl.util.log.LogNode;
+import biosim.server.simulation.framework.SimBioModuleImpl;
+import biosim.server.util.OrbUtils;
 /**
  * The SimEnvironment acts as the environment in which the crew breathes from and as the keeper of time.
  *

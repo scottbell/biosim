@@ -1,9 +1,13 @@
 package biosim.server.simulation.food;
 
-import biosim.idl.simulation.food.*;
-import biosim.server.simulation.framework.*;
-import java.util.*;
-import biosim.idl.framework.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
+
+import biosim.idl.simulation.food.FoodMatter;
+import biosim.idl.simulation.food.FoodStoreOperations;
+import biosim.idl.simulation.food.PlantType;
+import biosim.server.simulation.framework.StoreImpl;
 /**
  * The Food Store Implementation.  Takes raw plant matter from the Food RS to be used by the Food Processor.
  *

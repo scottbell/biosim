@@ -1,12 +1,11 @@
 package biosim.client.framework;
 
-import biosim.client.simulation.framework.gui.*;
-import biosim.client.simulation.framework.*;
-import biosim.client.util.*;
-import biosim.client.framework.gui.*;
-import biosim.client.unrealCom.*;
-import java.io.*;
-import java.util.*;
+import java.util.StringTokenizer;
+
+import biosim.client.simulation.framework.SimCommandLine;
+import biosim.client.simulation.framework.gui.SimDesktop;
+import biosim.client.unrealCom.UnrealCom;
+import biosim.client.util.BioHolderInitializer;
 /**
  * @author    Scott Bell
  */	

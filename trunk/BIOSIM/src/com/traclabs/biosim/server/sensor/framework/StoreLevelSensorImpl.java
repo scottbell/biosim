@@ -1,7 +1,6 @@
 package biosim.server.sensor.framework;
 
-import biosim.idl.framework.*;
-import biosim.idl.sensor.framework.*;
+import biosim.idl.sensor.framework.StoreLevelSensorOperations;
 
 public class StoreLevelSensorImpl extends StoreSensorImpl implements StoreLevelSensorOperations{
 	public StoreLevelSensorImpl(int pID, String pName){

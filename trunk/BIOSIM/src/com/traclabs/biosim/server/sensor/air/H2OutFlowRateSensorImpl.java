@@ -1,8 +1,9 @@
 package biosim.server.sensor.air;
 
-import biosim.server.sensor.framework.*;
-import biosim.idl.sensor.air.*;
-import biosim.idl.framework.*;
+import biosim.idl.framework.BioModule;
+import biosim.idl.framework.H2Producer;
+import biosim.idl.sensor.air.H2OutFlowRateSensorOperations;
+import biosim.server.sensor.framework.GenericSensorImpl;
 
 public class H2OutFlowRateSensorImpl extends GenericSensorImpl implements H2OutFlowRateSensorOperations{
 	private H2Producer myProducer;

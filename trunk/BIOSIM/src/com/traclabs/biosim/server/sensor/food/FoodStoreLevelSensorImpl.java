@@ -1,6 +1,6 @@
 package biosim.server.sensor.food;
 
-import biosim.idl.sensor.food.*;
+import biosim.idl.sensor.food.FoodStoreLevelSensorOperations;
 
 public class FoodStoreLevelSensorImpl extends FoodStoreSensorImpl implements FoodStoreLevelSensorOperations{
 	public FoodStoreLevelSensorImpl(int pID, String pName){

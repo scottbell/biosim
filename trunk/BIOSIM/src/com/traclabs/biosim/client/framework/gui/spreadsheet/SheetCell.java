@@ -1,7 +1,7 @@
 package biosim.client.framework.gui.spreadsheet;
 
-import java.awt.*;
-import java.util.*;
+import java.awt.Color;
+import java.util.Vector;
 
 /**
  * This class specifies the

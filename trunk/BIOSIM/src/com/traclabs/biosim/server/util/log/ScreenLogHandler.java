@@ -1,6 +1,7 @@
 package biosim.server.util.log;
 
-import biosim.idl.util.log.*;
+import biosim.idl.util.log.LogHandlerType;
+import biosim.idl.util.log.LogNode;
 /**
  * The ScreenLogHandler takes Logs and outputs them to the screen (via System.out)
  * @author    Scott Bell

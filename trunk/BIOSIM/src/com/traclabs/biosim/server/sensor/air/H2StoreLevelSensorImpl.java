@@ -1,8 +1,6 @@
 package biosim.server.sensor.air;
 
-import biosim.server.sensor.framework.*;
-import biosim.idl.sensor.air.*;
-import biosim.idl.framework.*;
+import biosim.idl.sensor.air.H2StoreLevelSensorOperations;
 
 public class H2StoreLevelSensorImpl extends H2StoreSensorImpl implements H2StoreLevelSensorOperations{
 	public H2StoreLevelSensorImpl(int pID, String pName){

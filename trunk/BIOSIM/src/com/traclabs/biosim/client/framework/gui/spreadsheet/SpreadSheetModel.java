@@ -1,6 +1,6 @@
 package biosim.client.framework.gui.spreadsheet;
 
-import javax.swing.table.*;
+import javax.swing.table.AbstractTableModel;
 
 /**
  * This class specifies the data format

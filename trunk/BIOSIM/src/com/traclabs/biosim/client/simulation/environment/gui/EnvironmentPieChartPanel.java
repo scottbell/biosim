@@ -1,12 +1,19 @@
 package biosim.client.simulation.environment.gui;
 
-import java.awt.*;
-import biosim.idl.simulation.environment.*;
-import biosim.client.framework.gui.*;
-import biosim.client.util.*;
-import org.jfree.chart.*;
-import org.jfree.data.*;
-import org.jfree.chart.plot.*;
+import java.awt.Color;
+import java.awt.Dimension;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.TextTitle;
+import org.jfree.chart.plot.Pie3DPlot;
+import org.jfree.data.DefaultPieDataset;
+
+import biosim.client.framework.gui.GraphPanel;
+import biosim.client.util.BioHolder;
+import biosim.client.util.BioHolderInitializer;
+import biosim.idl.simulation.environment.SimEnvironment;
 
 /**
  * This is the JPanel that displays a chart about the Environment

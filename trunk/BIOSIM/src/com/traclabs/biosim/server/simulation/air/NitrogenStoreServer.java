@@ -1,7 +1,7 @@
 package biosim.server.simulation.air;
 
-import biosim.idl.simulation.air.*;
-import biosim.server.framework.*;
+import biosim.idl.simulation.air.NitrogenStorePOATie;
+import biosim.server.framework.GenericServer;
 /**
  * The Nitrogen Store Server.  Creates an instance of the NitrogenStore and registers it with the nameserver.
  *

@@ -1,11 +1,21 @@
 package biosim.client.simulation.food.gui;
 
-import biosim.client.framework.gui.*;
-import biosim.client.util.*;
-import biosim.idl.simulation.food.*;
-import javax.swing.*;
-import java.awt.*;
-import java.text.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.text.DecimalFormat;
+
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import biosim.client.framework.gui.TimedPanel;
+import biosim.client.util.BioHolder;
+import biosim.client.util.BioHolderInitializer;
+import biosim.idl.simulation.food.BiomassRS;
+import biosim.idl.simulation.food.BiomassStore;
+import biosim.idl.simulation.food.FoodProcessor;
+import biosim.idl.simulation.food.FoodStore;
 /**
  * This is the JPanel that displays information about the Food Processor, the Biomass RS, and their respective stores.
  * Each tick it polls each related server for new information regarding these systems.

@@ -1,8 +1,6 @@
 package biosim.server.sensor.water;
 
-import biosim.server.sensor.framework.*;
-import biosim.idl.sensor.water.*;
-import biosim.idl.framework.*;
+import biosim.idl.sensor.water.GreyWaterStoreLevelSensorOperations;
 
 public class GreyWaterStoreLevelSensorImpl extends GreyWaterStoreSensorImpl implements GreyWaterStoreLevelSensorOperations{
 	public GreyWaterStoreLevelSensorImpl(int pID, String pName){

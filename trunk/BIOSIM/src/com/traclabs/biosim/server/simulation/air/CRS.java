@@ -1,10 +1,6 @@
 package biosim.server.simulation.air;
 
-import biosim.idl.util.log.*;
-import biosim.idl.simulation.environment.*;
-import biosim.idl.simulation.air.*;
-import biosim.idl.simulation.power.*;
-import biosim.server.util.*;
+import biosim.server.simulation.framework.SimBioModuleImpl;
 /**
  * CRS Subsystem
  *
@@ -27,31 +23,31 @@ public class CRS extends AirRSSubSystem{
 		float gatheredCO2 = 0f;
 		float filteredCO2Needed = myAirRS.randomFilter(CO2Needed);
 		float filteredH2Needed = myAirRS.randomFilter(H2Needed);
-		currentCO2Consumed = myAirRS.getResourceFromStore(myAirRS.getCO2Inputs(), myAirRS.getCO2InputMaxFlowRates(), myAirRS.getCO2InputDesiredFlowRates(), myAirRS.getCO2InputActualFlowRates(), filteredCO2Needed);
-		currentH2Consumed = myAirRS.getResourceFromStore(myAirRS.getH2Inputs(), myAirRS.getH2InputMaxFlowRates(), myAirRS.getH2InputDesiredFlowRates(), myAirRS.getH2InputActualFlowRates(), filteredH2Needed);
+		currentCO2Consumed = SimBioModuleImpl.getResourceFromStore(myAirRS.getCO2Inputs(), myAirRS.getCO2InputMaxFlowRates(), myAirRS.getCO2InputDesiredFlowRates(), myAirRS.getCO2InputActualFlowRates(), filteredCO2Needed);
+		currentH2Consumed = SimBioModuleImpl.getResourceFromStore(myAirRS.getH2Inputs(), myAirRS.getH2InputMaxFlowRates(), myAirRS.getH2InputDesiredFlowRates(), myAirRS.getH2InputActualFlowRates(), filteredH2Needed);
 	}
 
 	private void pushGasses(){
 		if ((currentH2Consumed <= 0) || (currentCO2Consumed <=0)){
 			currentH2OProduced = myAirRS.randomFilter(0f);
 			currentCH4Produced = myAirRS.randomFilter(0f);
-			myAirRS.pushResourceToStore(myAirRS.getH2Inputs(), myAirRS.getH2InputMaxFlowRates(), myAirRS.getH2InputDesiredFlowRates(), myAirRS.getH2InputActualFlowRates(), currentH2Consumed);
-			myAirRS.pushResourceToStore(myAirRS.getCO2Inputs(), myAirRS.getCO2InputMaxFlowRates(), myAirRS.getCO2InputDesiredFlowRates(), myAirRS.getCO2InputActualFlowRates(), currentCO2Consumed);
+			SimBioModuleImpl.pushResourceToStore(myAirRS.getH2Inputs(), myAirRS.getH2InputMaxFlowRates(), myAirRS.getH2InputDesiredFlowRates(), myAirRS.getH2InputActualFlowRates(), currentH2Consumed);
+			SimBioModuleImpl.pushResourceToStore(myAirRS.getCO2Inputs(), myAirRS.getCO2InputMaxFlowRates(), myAirRS.getCO2InputDesiredFlowRates(), myAirRS.getCO2InputActualFlowRates(), currentCO2Consumed);
 		}
 		else{
 			// CO2 + 4H2 --> CH4 + 2H20
 			float limitingReactant = Math.min(currentH2Consumed / 4f, currentCO2Consumed);
 			if (limitingReactant == currentH2Consumed)
-				myAirRS.pushResourceToStore(myAirRS.getCO2Inputs(), myAirRS.getCO2InputMaxFlowRates(), myAirRS.getCO2InputDesiredFlowRates(), myAirRS.getCO2InputActualFlowRates(), currentCO2Consumed - limitingReactant);
+				SimBioModuleImpl.pushResourceToStore(myAirRS.getCO2Inputs(), myAirRS.getCO2InputMaxFlowRates(), myAirRS.getCO2InputDesiredFlowRates(), myAirRS.getCO2InputActualFlowRates(), currentCO2Consumed - limitingReactant);
 			else
-				myAirRS.pushResourceToStore(myAirRS.getH2Inputs(), myAirRS.getH2InputMaxFlowRates(), myAirRS.getH2InputDesiredFlowRates(), myAirRS.getH2InputActualFlowRates(), currentH2Consumed - 4f * limitingReactant);
+				SimBioModuleImpl.pushResourceToStore(myAirRS.getH2Inputs(), myAirRS.getH2InputMaxFlowRates(), myAirRS.getH2InputDesiredFlowRates(), myAirRS.getH2InputActualFlowRates(), currentH2Consumed - 4f * limitingReactant);
 			float waterMolesProduced = 2f * limitingReactant;
 			float waterLitersProduced = (waterMolesProduced * 18.01524f) / 1000f; //1000g/liter, 18.01524g/mole
 			float methaneMolesProduced = limitingReactant;
 			currentH2OProduced = myAirRS.randomFilter(waterLitersProduced);
 			currentCH4Produced = myAirRS.randomFilter(methaneMolesProduced);
 		}
-		float distributedWaterLeft = myAirRS.pushResourceToStore(myAirRS.getPotableWaterOutputs(), myAirRS.getPotableWaterOutputMaxFlowRates(), myAirRS.getPotableWaterOutputDesiredFlowRates(), myAirRS.getPotableWaterOutputActualFlowRates(), currentH2OProduced);
+		float distributedWaterLeft = SimBioModuleImpl.pushResourceToStore(myAirRS.getPotableWaterOutputs(), myAirRS.getPotableWaterOutputMaxFlowRates(), myAirRS.getPotableWaterOutputDesiredFlowRates(), myAirRS.getPotableWaterOutputActualFlowRates(), currentH2OProduced);
 		myAirRS.getCH4Tank().addCH4(currentCH4Produced);
 	}
 

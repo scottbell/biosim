@@ -1,9 +1,9 @@
 package biosim.server.sensor.crew;
 
-import biosim.server.sensor.framework.*;
-import biosim.idl.sensor.crew.*;
-import biosim.idl.framework.*;
-import biosim.idl.simulation.crew.*;
+import biosim.idl.framework.BioModule;
+import biosim.idl.sensor.crew.CrewGroupSensorOperations;
+import biosim.idl.simulation.crew.CrewGroup;
+import biosim.server.sensor.framework.GenericSensorImpl;
 
 public abstract class CrewGroupSensorImpl extends GenericSensorImpl implements CrewGroupSensorOperations{
 	protected CrewGroup myCrewGroup;

@@ -1,7 +1,7 @@
 package biosim.server.simulation.mission;
 
-import biosim.server.simulation.framework.*;
-import biosim.idl.simulation.mission.*;
+import biosim.idl.simulation.mission.MissionModuleOperations;
+import biosim.server.simulation.framework.SimBioModuleImpl;
 /**
  * The MissionModule Implementation.
  *

@@ -1,7 +1,9 @@
 package biosim.client.framework.gui;
 
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.Timer;
 
 /**
  * 

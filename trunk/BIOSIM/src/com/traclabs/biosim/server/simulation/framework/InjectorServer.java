@@ -1,8 +1,7 @@
 package biosim.server.simulation.framework;
 
-import biosim.idl.simulation.framework.*;
-import biosim.server.framework.*;
-import biosim.server.simulation.framework.*;
+import biosim.idl.simulation.framework.InjectorPOATie;
+import biosim.server.framework.GenericServer;
 /**
  * The Injector Server.  Creates an instance of the Sim Environment and registers it with the nameserver.
  *

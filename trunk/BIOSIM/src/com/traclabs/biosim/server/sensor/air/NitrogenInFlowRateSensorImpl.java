@@ -1,8 +1,9 @@
 package biosim.server.sensor.air;
 
-import biosim.server.sensor.framework.*;
-import biosim.idl.sensor.air.*;
-import biosim.idl.framework.*;
+import biosim.idl.framework.BioModule;
+import biosim.idl.framework.NitrogenConsumer;
+import biosim.idl.sensor.air.NitrogenInFlowRateSensorOperations;
+import biosim.server.sensor.framework.GenericSensorImpl;
 
 public class NitrogenInFlowRateSensorImpl extends GenericSensorImpl implements NitrogenInFlowRateSensorOperations{
 	private NitrogenConsumer myConsumer;

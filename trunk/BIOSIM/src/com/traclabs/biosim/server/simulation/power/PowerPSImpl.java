@@ -1,13 +1,17 @@
 package biosim.server.simulation.power;
 
-import biosim.idl.simulation.power.*;
-import biosim.idl.util.log.*;
-import biosim.idl.simulation.environment.*;
-import biosim.idl.simulation.framework.*;
-import biosim.idl.framework.*;
-import java.util.*;
-import biosim.server.util.*;
-import biosim.server.simulation.framework.*;
+import java.util.Iterator;
+
+import biosim.idl.framework.LightConsumerOperations;
+import biosim.idl.framework.Malfunction;
+import biosim.idl.framework.MalfunctionIntensity;
+import biosim.idl.framework.MalfunctionLength;
+import biosim.idl.framework.PowerProducerOperations;
+import biosim.idl.simulation.environment.SimEnvironment;
+import biosim.idl.simulation.power.PowerPSOperations;
+import biosim.idl.simulation.power.PowerStore;
+import biosim.idl.util.log.LogNode;
+import biosim.server.simulation.framework.SimBioModuleImpl;
 /**
  * The Power Production System creates power from a generator (say a solar panel) and stores it in the power store.
  * This provides power to all the biomodules in the system.

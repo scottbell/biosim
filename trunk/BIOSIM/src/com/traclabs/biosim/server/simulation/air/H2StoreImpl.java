@@ -1,7 +1,7 @@
 package biosim.server.simulation.air;
 
-import biosim.idl.simulation.air.*;
-import biosim.server.simulation.framework.*;
+import biosim.idl.simulation.air.H2StoreOperations;
+import biosim.server.simulation.framework.StoreImpl;
 /**
  * The H2 Store Implementation.  Used by the AirRS to store excess H2 for the crew.
  * Not really used right now.

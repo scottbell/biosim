@@ -1,7 +1,7 @@
 package biosim.server.simulation.waste;
 
-import biosim.server.framework.*;
-import biosim.idl.simulation.waste.*;
+import biosim.idl.simulation.waste.DryWasteStorePOATie;
+import biosim.server.framework.GenericServer;
 /**
  * The DryWaste Store Server.  Creates an instance of the DryWaste Store and registers it with the nameserver.
  *

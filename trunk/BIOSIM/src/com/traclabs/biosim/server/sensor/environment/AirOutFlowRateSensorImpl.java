@@ -1,9 +1,9 @@
 package biosim.server.sensor.environment;
 
-import biosim.server.sensor.framework.*;
-import biosim.idl.sensor.environment.*;
-import biosim.idl.simulation.environment.*;
-import biosim.idl.framework.*;
+import biosim.idl.framework.AirProducer;
+import biosim.idl.framework.BioModule;
+import biosim.idl.sensor.environment.AirOutFlowRateSensorOperations;
+import biosim.server.sensor.framework.GenericSensorImpl;
 
 public class AirOutFlowRateSensorImpl extends GenericSensorImpl implements AirOutFlowRateSensorOperations{
 	private AirProducer myProducer;

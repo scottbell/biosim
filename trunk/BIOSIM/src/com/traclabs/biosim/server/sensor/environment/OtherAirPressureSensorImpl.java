@@ -1,8 +1,6 @@
 package biosim.server.sensor.environment;
 
-import biosim.server.sensor.framework.*;
-import biosim.idl.sensor.environment.*;
-import biosim.idl.simulation.environment.*;
+import biosim.idl.sensor.environment.OtherAirPressureSensorOperations;
 
 public class OtherAirPressureSensorImpl extends EnvironmentSensorImpl implements OtherAirPressureSensorOperations{
 	public OtherAirPressureSensorImpl(int pID, String pName){

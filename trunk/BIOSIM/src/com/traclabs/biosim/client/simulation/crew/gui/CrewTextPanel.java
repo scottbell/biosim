@@ -1,13 +1,22 @@
 package biosim.client.simulation.crew.gui;
 
-import biosim.client.framework.gui.*;
-import biosim.client.util.*;
-import biosim.client.simulation.framework.gui.*;
-import biosim.idl.simulation.crew.*;
-import javax.swing.*;
-import java.awt.*;
-import java.util.*;
-import java.text.*;
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.GridLayout;
+import java.text.DecimalFormat;
+import java.util.Iterator;
+import java.util.Vector;
+
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import biosim.client.framework.gui.TimedPanel;
+import biosim.client.simulation.framework.gui.SimDesktopFrame;
+import biosim.client.util.BioHolderInitializer;
+import biosim.idl.simulation.crew.CrewGroup;
+import biosim.idl.simulation.crew.CrewPerson;
+import biosim.idl.simulation.crew.Sex;
 /**
  * This is the JPanel that displays information about the crew and the resources they consume.
  * Each tick it polls the crew server for new information.

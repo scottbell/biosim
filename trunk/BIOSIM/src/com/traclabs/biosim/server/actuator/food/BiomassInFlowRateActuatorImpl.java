@@ -1,8 +1,9 @@
 package biosim.server.actuator.food;
 
-import biosim.server.actuator.framework.*;
-import biosim.idl.actuator.food.*;
-import biosim.idl.framework.*;
+import biosim.idl.actuator.food.BiomassInFlowRateActuatorOperations;
+import biosim.idl.framework.BioModule;
+import biosim.idl.framework.BiomassConsumer;
+import biosim.server.actuator.framework.GenericActuatorImpl;
 
 public class BiomassInFlowRateActuatorImpl extends GenericActuatorImpl implements BiomassInFlowRateActuatorOperations{
 	private BiomassConsumer myConsumer;

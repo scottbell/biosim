@@ -78,7 +78,7 @@ public class BWP extends WaterRSSubSystem{
 		}
 		else{
 			//dump water back to dirty water store
-			waterLevel = myWaterRS.pushResourceToStore(myWaterRS.getDirtyWaterInputs(), myWaterRS.getDirtyWaterInputMaxFlowRates(), myWaterRS.getDirtyWaterInputDesiredFlowRates(), myWaterRS.getDirtyWaterInputActualFlowRates(), waterLevel);
+			waterLevel = SimBioModuleImpl.pushResourceToStore(myWaterRS.getDirtyWaterInputs(), myWaterRS.getDirtyWaterInputMaxFlowRates(), myWaterRS.getDirtyWaterInputDesiredFlowRates(), myWaterRS.getDirtyWaterInputActualFlowRates(), waterLevel);
 			//dump rest
 			waterLevel = 0f;
 			currentAESWaterProduced = 0f;

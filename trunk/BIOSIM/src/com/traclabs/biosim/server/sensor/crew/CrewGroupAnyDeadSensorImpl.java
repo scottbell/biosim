@@ -1,8 +1,7 @@
 package biosim.server.sensor.crew;
 
-import biosim.server.sensor.framework.*;
-import biosim.idl.sensor.crew.*;
-import biosim.idl.framework.*;
+import biosim.idl.framework.BioModule;
+import biosim.idl.sensor.crew.CrewGroupAnyDeadSensorOperations;
 
 public class CrewGroupAnyDeadSensorImpl extends CrewGroupSensorImpl implements CrewGroupAnyDeadSensorOperations{
 	public CrewGroupAnyDeadSensorImpl(int pID, String pName){

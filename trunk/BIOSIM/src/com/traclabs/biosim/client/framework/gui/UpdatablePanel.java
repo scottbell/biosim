@@ -1,6 +1,6 @@
 package biosim.client.framework.gui;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 /**
  * 
