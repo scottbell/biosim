@@ -18,24 +18,28 @@ import biosim.idl.sensor.air.*;
 import biosim.idl.sensor.food.*;
 import biosim.idl.sensor.water.*;
 import biosim.idl.sensor.power.*;
+import biosim.idl.sensor.crew.*;
 import biosim.idl.sensor.environment.*;
 import biosim.idl.sensor.framework.*;
 import biosim.server.sensor.air.*;
 import biosim.server.sensor.food.*;
 import biosim.server.sensor.water.*;
 import biosim.server.sensor.power.*;
+import biosim.server.sensor.crew.*;
 import biosim.server.sensor.environment.*;
 import biosim.server.sensor.framework.*;
 import biosim.idl.actuator.air.*;
 import biosim.idl.actuator.food.*;
 import biosim.idl.actuator.water.*;
 import biosim.idl.actuator.power.*;
+import biosim.idl.actuator.crew.*;
 import biosim.idl.actuator.environment.*;
 import biosim.idl.actuator.framework.*;
 import biosim.server.actuator.air.*;
 import biosim.server.actuator.food.*;
 import biosim.server.actuator.water.*;
 import biosim.server.actuator.power.*;
+import biosim.server.actuator.crew.*;
 import biosim.server.actuator.environment.*;
 import biosim.server.actuator.framework.*;
 import biosim.idl.util.log.*;
@@ -167,6 +171,13 @@ public class BiosimServer extends GenericServer{
 			}
 		}
 
+		//Crew Sensors
+		{
+			CrewGroupDeathSensorImpl myCrewGroupDeathSensorImpl = new CrewGroupDeathSensorImpl(id);
+			registerServer(new CrewGroupDeathSensorPOATie(myCrewGroupDeathSensorImpl), myCrewGroupDeathSensorImpl.getModuleName());
+
+		}
+
 		//Food Sensors
 		{
 			//Food Processor
@@ -252,7 +263,7 @@ public class BiosimServer extends GenericServer{
 				registerServer(new CO2AirMolesSensorPOATie(myCO2AirMolesSensorImpl), "PlantEnvironment" + myCO2AirMolesSensorImpl.getModuleName());
 				registerServer(new OtherAirMolesSensorPOATie(myOtherAirMolesSensorImpl), "PlantEnvironment" + myOtherAirMolesSensorImpl.getModuleName());
 			}
-			
+
 		}
 
 		//
@@ -282,7 +293,7 @@ public class BiosimServer extends GenericServer{
 				registerServer(new O2AirEnvironmentOutFlowRateSensorPOATie(myO2AirEnvironmentOutFlowRateSensorImpl), "Injector" + myO2AirEnvironmentOutFlowRateSensorImpl.getModuleName());
 			}
 		}
-		
+
 		//
 		//Actuators
 		//
@@ -412,7 +423,7 @@ public class BiosimServer extends GenericServer{
 				registerServer(new CO2AirMolesActuatorPOATie(myCO2AirMolesActuatorImpl), "PlantEnvironment" + myCO2AirMolesActuatorImpl.getModuleName());
 				registerServer(new OtherAirMolesActuatorPOATie(myOtherAirMolesActuatorImpl), "PlantEnvironment" + myOtherAirMolesActuatorImpl.getModuleName());
 			}
-			
+
 		}
 
 		//
