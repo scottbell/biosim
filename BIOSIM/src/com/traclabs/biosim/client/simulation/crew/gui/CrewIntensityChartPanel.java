@@ -81,12 +81,9 @@ public class CrewIntensityChartPanel extends GraphPanel
 	}
 
 	public void refresh() {
-		System.out.println("CrewIntensityChartPanel: refreshing");
 		if (myChartPanel == null){
-			System.out.println("CrewIntensityChartPanel: myChartPanel is null");
 			myCrewPeople = myCrewGroup.getCrewPeople();
 			if (myCrewPeople.length > 0){
-				System.out.println("Found crew!");
 				buildRealGui();
 			}
 		}
