@@ -842,6 +842,7 @@ module biosim{
                                         float getValue();
                                         float getMax();
                                         float getMin();
+					framework::BioModule getInputModule();
                                 };
                                 interface StoreSensor : GenericSensor{
                                         void setInput(in simulation::framework::Store source);
@@ -1195,6 +1196,7 @@ module biosim{
                                         float getValue();
                                         float getMax();
                                         float getMin();
+					framework::BioModule getOutputModule();
                                 };
                         };
                         module air{
