@@ -387,6 +387,14 @@ public class BioInitializer{
 					inputs[i] = H2StoreHelper.narrow(modules[0]);
 				myH2Consumer.setH2Inputs(inputs, getMaxFlowRates(child), getDesiredFlowRates(child));
 			}
+			else if (childName.equals("nitrogenConsumer")){
+				NitrogenConsumer myNitrogenConsumer = (NitrogenConsumer)(pModule);
+				BioModule[] modules = getInputs(child);
+				NitrogenStore[] inputs = new NitrogenStore[modules.length];
+				for (int i = 0; i < modules.length; i++)
+					inputs[i] = NitrogenStoreHelper.narrow(modules[0]);
+				myNitrogenConsumer.setNitrogenInputs(inputs, getMaxFlowRates(child), getDesiredFlowRates(child));
+			}
 			else if (childName.equals("O2Consumer")){
 				O2Consumer myO2Consumer = (O2Consumer)(pModule);
 				BioModule[] modules = getInputs(child);
@@ -457,6 +465,36 @@ public class BioInitializer{
 				myCO2AirConsumer.setCO2AirEnvironmentInputs(environmentInputs, getMaxFlowRates(environmentNode), getDesiredFlowRates(environmentNode));
 				myCO2AirConsumer.setCO2AirStoreInputs(storeInputs, getMaxFlowRates(storeNode), getDesiredFlowRates(storeNode));
 			}
+			else if (childName.equals("nitrogenAirConsumer")){
+				NitrogenAirConsumer myNitrogenAirConsumer = (NitrogenAirConsumer)(pModule);
+				Node environmentNode = getEnvironmentNode(child);
+				Node storeNode = getStoreNode(child);
+				BioModule[] environmentModules = getInputs(environmentNode);
+				BioModule[] storeModules = getInputs(storeNode);
+				SimEnvironment[] environmentInputs = new SimEnvironment[environmentModules.length];
+				NitrogenStore[] storeInputs = new NitrogenStore[storeModules.length];
+				for (int i = 0; i < environmentModules.length; i++)
+					environmentInputs[i] = SimEnvironmentHelper.narrow(environmentModules[0]);
+				for (int i = 0; i < storeModules.length; i++)
+					storeInputs[i] = NitrogenStoreHelper.narrow(storeModules[0]);
+				myNitrogenAirConsumer.setNitrogenAirEnvironmentInputs(environmentInputs, getMaxFlowRates(environmentNode), getDesiredFlowRates(environmentNode));
+				myNitrogenAirConsumer.setNitrogenAirStoreInputs(storeInputs, getMaxFlowRates(storeNode), getDesiredFlowRates(storeNode));
+			}
+			else if (childName.equals("waterAirConsumer")){
+				WaterAirConsumer myWaterAirConsumer = (WaterAirConsumer)(pModule);
+				Node environmentNode = getEnvironmentNode(child);
+				Node storeNode = getStoreNode(child);
+				BioModule[] environmentModules = getInputs(environmentNode);
+				BioModule[] storeModules = getInputs(storeNode);
+				SimEnvironment[] environmentInputs = new SimEnvironment[environmentModules.length];
+				PotableWaterStore[] storeInputs = new PotableWaterStore[storeModules.length];
+				for (int i = 0; i < environmentModules.length; i++)
+					environmentInputs[i] = SimEnvironmentHelper.narrow(environmentModules[0]);
+				for (int i = 0; i < storeModules.length; i++)
+					storeInputs[i] = PotableWaterStoreHelper.narrow(storeModules[0]);
+				myWaterAirConsumer.setWaterAirEnvironmentInputs(environmentInputs, getMaxFlowRates(environmentNode), getDesiredFlowRates(environmentNode));
+				myWaterAirConsumer.setWaterAirStoreInputs(storeInputs, getMaxFlowRates(storeNode), getDesiredFlowRates(storeNode));
+			}
 			else if (childName.equals("powerProducer")){
 				PowerProducer myPowerProducer = (PowerProducer)(pModule);
 				BioModule[] modules = getOutputs(child);
@@ -504,6 +542,14 @@ public class BioInitializer{
 				for (int i = 0; i < modules.length; i++)
 					outputs[i] = H2StoreHelper.narrow(modules[0]);
 				myH2Producer.setH2Outputs(outputs, getMaxFlowRates(child), getDesiredFlowRates(child));
+			}
+			else if (childName.equals("nitrogenProducer")){
+				NitrogenProducer myNitrogenProducer = (NitrogenProducer)(pModule);
+				BioModule[] modules = getOutputs(child);
+				NitrogenStore[] outputs = new NitrogenStore[modules.length];
+				for (int i = 0; i < modules.length; i++)
+					outputs[i] = NitrogenStoreHelper.narrow(modules[0]);
+				myNitrogenProducer.setNitrogenOutputs(outputs, getMaxFlowRates(child), getDesiredFlowRates(child));
 			}
 			else if (childName.equals("O2Producer")){
 				O2Producer myO2Producer = (O2Producer)(pModule);
@@ -566,6 +612,36 @@ public class BioInitializer{
 					storeOutputs[i] = CO2StoreHelper.narrow(storeModules[0]);
 				myCO2AirProducer.setCO2AirEnvironmentOutputs(environmentOutputs, getMaxFlowRates(environmentNode), getDesiredFlowRates(environmentNode));
 				myCO2AirProducer.setCO2AirStoreOutputs(storeOutputs, getMaxFlowRates(storeNode), getDesiredFlowRates(storeNode));
+			}
+			else if (childName.equals("nitrogenAirProducer")){
+				NitrogenAirProducer myNitrogenAirProducer = (NitrogenAirProducer)(pModule);
+				Node environmentNode = getEnvironmentNode(child);
+				Node storeNode = getStoreNode(child);
+				BioModule[] environmentModules = getOutputs(environmentNode);
+				BioModule[] storeModules = getOutputs(storeNode);
+				SimEnvironment[] environmentOutputs = new SimEnvironment[environmentModules.length];
+				NitrogenStore[] storeOutputs = new NitrogenStore[storeModules.length];
+				for (int i = 0; i < environmentModules.length; i++)
+					environmentOutputs[i] = SimEnvironmentHelper.narrow(environmentModules[0]);
+				for (int i = 0; i < storeModules.length; i++)
+					storeOutputs[i] = NitrogenStoreHelper.narrow(storeModules[0]);
+				myNitrogenAirProducer.setNitrogenAirEnvironmentOutputs(environmentOutputs, getMaxFlowRates(environmentNode), getDesiredFlowRates(environmentNode));
+				myNitrogenAirProducer.setNitrogenAirStoreOutputs(storeOutputs, getMaxFlowRates(storeNode), getDesiredFlowRates(storeNode));
+			}
+			else if (childName.equals("waterAirProducer")){
+				WaterAirProducer myWaterAirProducer = (WaterAirProducer)(pModule);
+				Node environmentNode = getEnvironmentNode(child);
+				Node storeNode = getStoreNode(child);
+				BioModule[] environmentModules = getOutputs(environmentNode);
+				BioModule[] storeModules = getOutputs(storeNode);
+				SimEnvironment[] environmentOutputs = new SimEnvironment[environmentModules.length];
+				PotableWaterStore[] storeOutputs = new PotableWaterStore[storeModules.length];
+				for (int i = 0; i < environmentModules.length; i++)
+					environmentOutputs[i] = SimEnvironmentHelper.narrow(environmentModules[0]);
+				for (int i = 0; i < storeModules.length; i++)
+					storeOutputs[i] = PotableWaterStoreHelper.narrow(storeModules[0]);
+				myWaterAirProducer.setWaterAirEnvironmentOutputs(environmentOutputs, getMaxFlowRates(environmentNode), getDesiredFlowRates(environmentNode));
+				myWaterAirProducer.setWaterAirStoreOutputs(storeOutputs, getMaxFlowRates(storeNode), getDesiredFlowRates(storeNode));
 			}
 			child = child.getNextSibling();
 		}
@@ -799,6 +875,22 @@ public class BioInitializer{
 		else
 			printRemoteWarningMessage(moduleName);
 	}
+	
+	private void createNitrogenStore(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating NitrogenStore with moduleName: "+moduleName);
+			NitrogenStoreImpl myNitrogenStoreImpl = new NitrogenStoreImpl(myID, moduleName);
+			setupBioModule(myNitrogenStoreImpl, node);
+			myNitrogenStoreImpl.setCapacity(getStoreCapacity(node));
+			myNitrogenStoreImpl.setLevel(getStoreLevel(node));
+			myNitrogenStoreImpl.setResupply(getStoreResupplyFrequency(node), getStoreResupplyAmount(node));
+			mySimModules.add(OrbUtils.poaToCorbaObj(myNitrogenStoreImpl));
+			BiosimServer.registerServer(new NitrogenStorePOATie(myNitrogenStoreImpl), myNitrogenStoreImpl.getModuleName(), myNitrogenStoreImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
 
 	private void crawlAirModules(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
@@ -824,6 +916,11 @@ public class BioInitializer{
 			else if (childName.equals("H2Store")){
 				if (firstPass)
 					createH2Store(child);
+
+			}
+			else if (childName.equals("NitrogenStore")){
+				if (firstPass)
+					createNitrogenStore(child);
 
 			}
 			child = child.getNextSibling();
