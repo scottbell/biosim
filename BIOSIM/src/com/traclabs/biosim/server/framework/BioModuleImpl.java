@@ -51,9 +51,9 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		myRandomGen = new Random();
 		myMalfunctions = new Hashtable();
 		myScheduledMalfunctions = new Vector();
-		myLog = new LogNodeImpl(getModuleName());
-		myID = pID;
 		myName = pName;
+		myID = pID;
+		myLog = new LogNodeImpl(getModuleName());
 	}
 	
 	/**
