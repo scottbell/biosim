@@ -50,6 +50,18 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 		}
 	}
 	
+	public BioMatter takeBiomatter(float pMass){
+		return (new BioMatter(pMass, PlantType.WHEAT));
+	}
+	
+	public BioMatter takeBiomatter(float pMass, PlantType pType){
+		return (new BioMatter(pMass, pType));
+	}
+	
+	public BioMatter takeBiomatter(PlantType pType){
+		return (new BioMatter(10f, pType));
+	}
+	
 	/**
 	* Returns the name of this module (BiomassStore)
 	* @return the name of this module
