@@ -58,7 +58,7 @@ public class Peanut extends Legume{
 	}
 
 	protected float getN(){
-		return 1.0f;
+		return 2.0f;
 	}
 
 	protected float getCQYMin(){

@@ -57,7 +57,7 @@ public class Tomato extends Planophile{
 	}
 
 	protected float getN(){
-		return 1.0f;
+		return 2.5f;
 	}
 
 	protected float getCQYMin(){

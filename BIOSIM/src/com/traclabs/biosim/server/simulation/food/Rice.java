@@ -51,7 +51,7 @@ public class Rice extends Erectophile{
 	}
 
 	protected float getN(){
-		return 1.0f;
+		return 1.5f;
 	}
 
 	protected float getCQYMin(){

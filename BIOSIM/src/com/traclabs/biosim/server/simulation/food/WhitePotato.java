@@ -11,9 +11,9 @@ public class WhitePotato extends Planophile{
 		super(pShelfImpl);
 		canopyClosureConstants[0] = 657730f;
 		canopyClosureConstants[1] = 8562.6f;
-		canopyClosureConstants[6] = 0.042749f;
-		canopyClosureConstants[10] = 0.00000088437f;
-		canopyClosureConstants[17] = -0.000017905f;
+		canopyClosureConstants[11] = 0.042749f;
+		canopyClosureConstants[12] = 0.00000088437f;
+		canopyClosureConstants[16] = -0.000017905f;
 
 		canopyQYConstants[6] = 0.046929f;
 		canopyQYConstants[7] = 0.000050910f;
@@ -32,7 +32,7 @@ public class WhitePotato extends Planophile{
 	}
 	
 	protected float getCarbonUseEfficiency24(){
-		return 0.0f;
+		return 0.625f;
 	}
 
 	protected float getBCF(){
@@ -56,7 +56,7 @@ public class WhitePotato extends Planophile{
 	}
 
 	protected float getN(){
-		return 1.0f;
+		return 2.0f;
 	}
 
 	protected float getCQYMin(){
