@@ -71,6 +71,9 @@ module biosim{
                                 float getPowerConsumed();
                                 float getCO2Consumed();
                                 float getO2Produced();
+				float getCO2Produced();
+				boolean hasPower();
+				boolean hasCO2();
                         };
                         interface O2Store : framework::Store{
                         };
