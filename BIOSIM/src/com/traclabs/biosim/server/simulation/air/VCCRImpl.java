@@ -81,6 +81,7 @@ public class VCCRImpl extends SimBioModuleImpl implements VCCROperations,
      */
     private void gatherPower() {
         currentPowerConsumed = myPowerConsumerDefinitionImpl.getMostResourceFromStore();
+        myLogger.info("currentPowerConsumed = "+currentPowerConsumed);
     }
 
     /**

@@ -9,7 +9,6 @@ import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
 import com.traclabs.biosim.idl.simulation.air.CO2Store;
-import com.traclabs.biosim.idl.simulation.air.H2Store;
 import com.traclabs.biosim.idl.simulation.air.O2Store;
 import com.traclabs.biosim.idl.simulation.water.DirtyWaterStore;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterStore;
@@ -34,16 +33,14 @@ public class StateMap {
 
     private CO2Store myCO2Store;
 
-    private H2Store myH2Store;
-
     public static float[] capacities;
 
     public GenericSensor[] stateSources;
 
     private Logger myLogger;
 
-    public static String[] stateNames = { "carbondioxide", "dirtywater",
-            "greywater", "hydrogen", "oxygen", "potablewater" };
+    public static String[] stateNames = { "dirtywater",
+            "greywater", "potablewater", "oxygen"};
 
     public StateMap() {
         myLogger = Logger.getLogger(this.getClass());
@@ -60,30 +57,23 @@ public class StateMap {
 
         myO2Store = (O2Store) myBioHolder.theO2Stores.get(0);
         myCO2Store = (CO2Store) myBioHolder.theCO2Stores.get(0);
-        myH2Store = (H2Store) myBioHolder.theH2Stores.get(0);
 
-        stateSources = new GenericSensor[6];
+        stateSources = new GenericSensor[4];
         stateSources[0] = (GenericSensor) myBioHolder.getSensorAttachedTo(
-                myBioHolder.theCO2StoreLevelSensors, myCO2Store);
-        stateSources[1] = (GenericSensor) myBioHolder.getSensorAttachedTo(
                 myBioHolder.theDirtyWaterStoreLevelSensors, myDirtyWaterStore);
-        stateSources[2] = (GenericSensor) myBioHolder.getSensorAttachedTo(
+        stateSources[1] = (GenericSensor) myBioHolder.getSensorAttachedTo(
                 myBioHolder.theGreyWaterStoreLevelSensors, myGreyWaterStore);
-        stateSources[3] = (GenericSensor) myBioHolder.getSensorAttachedTo(
-                myBioHolder.theH2StoreLevelSensors, myH2Store);
-        stateSources[4] = (GenericSensor) myBioHolder.getSensorAttachedTo(
-                myBioHolder.theO2StoreLevelSensors, myO2Store);
-        stateSources[5] = (GenericSensor) myBioHolder.getSensorAttachedTo(
+        stateSources[2] = (GenericSensor) myBioHolder.getSensorAttachedTo(
                 myBioHolder.thePotableWaterStoreLevelSensors,
                 myPotableWaterStore);
+        stateSources[3] = (GenericSensor) myBioHolder.getSensorAttachedTo(
+                myBioHolder.theO2StoreLevelSensors, myO2Store);
 
-        capacities = new float[6];
-        capacities[0] = myCO2Store.getCurrentCapacity();
-        capacities[1] = myDirtyWaterStore.getCurrentCapacity();
-        capacities[2] = myDirtyWaterStore.getCurrentCapacity();
-        capacities[3] = myH2Store.getCurrentCapacity();
-        capacities[4] = myO2Store.getCurrentCapacity();
-        capacities[5] = myPotableWaterStore.getCurrentCapacity();
+        capacities = new float[4];
+        capacities[0] = myDirtyWaterStore.getCurrentCapacity();
+        capacities[1] = myGreyWaterStore.getCurrentCapacity();
+        capacities[2] = myPotableWaterStore.getCurrentCapacity();
+        capacities[3] = myO2Store.getCurrentCapacity();
     }
 
     public void updateState() {

@@ -36,7 +36,7 @@
 				<H2Producer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="BaseH2Store"/>
 			</OGS>
 			<VCCR name="BaseVCCR">
-				<powerConsumer maxFlowRates="100000" desiredFlowRates="100000" inputs="BasePowerStore"/>
+				<powerConsumer maxFlowRates="1000" desiredFlowRates="1000" inputs="BasePowerStore"/>
 				<airConsumer maxFlowRates="10000000" desiredFlowRates="10000000" inputs="BaseCrewEnvironment"/>
 				<airProducer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="BaseCrewEnvironment"/>
 				<CO2Producer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="BaseCO2Store"/>

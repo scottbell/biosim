@@ -21,8 +21,6 @@ import com.traclabs.biosim.idl.framework.BioDriver;
 import com.traclabs.biosim.idl.sensor.food.HarvestSensor;
 import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
 import com.traclabs.biosim.idl.sensor.framework.StoreOverflowSensor;
-import com.traclabs.biosim.idl.simulation.air.CO2Store;
-import com.traclabs.biosim.idl.simulation.air.H2Store;
 import com.traclabs.biosim.idl.simulation.air.O2Store;
 import com.traclabs.biosim.idl.simulation.air.OGS;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
@@ -107,18 +105,14 @@ public class HandController {
 
     private O2Store myO2Store;
 
-    private CO2Store myCO2Store;
-
-    private H2Store myH2Store;
-
     private static int ATMOSPHERIC_PERIOD = 2;
 
     private static int CORE_PERIOD_MULT = 5;
 
     private static int PLANT_PERIOD_MULT = 10;
 
-    public static String[] stateNames = { "carbondioxide", "dirtywater",
-            "greywater", "hydrogen", "oxygen", "potablewater" };
+    public static String[] stateNames = {"dirtywater",
+            "greywater", "potablewater", "oxygen"};
 
     public static String[] actuatorNames = { "OGSpotable", "waterRSdirty",
             "waterRSgrey" };
@@ -188,8 +182,6 @@ public class HandController {
                 .get(0);
 
         myO2Store = (O2Store) myBioHolder.theO2Stores.get(0);
-        myCO2Store = (CO2Store) myBioHolder.theCO2Stores.get(0);
-        myH2Store = (H2Store) myBioHolder.theH2Stores.get(0);
 
         myCrewEnvironment = (SimEnvironment) myBioHolder.theSimEnvironments
                 .get(0);
@@ -291,18 +283,14 @@ public class HandController {
         int i;
         Map subMap;
         int dirtyWaterHighLevel = (int) myDirtyWaterStore.getCurrentCapacity();
-        int dirtyWaterLowLevel = dirtyWaterHighLevel / 40;
+        int dirtyWaterLowLevel = dirtyWaterHighLevel / 3;
         int greyWaterHighLevel = (int) myGreyWaterStore.getCurrentCapacity();
-        int greyWaterLowLevel = greyWaterHighLevel / 40;
+        int greyWaterLowLevel = greyWaterHighLevel / 3;
         int potableWaterHighLevel = (int) myPotableWaterStore
                 .getCurrentCapacity();
-        int potableWaterLowLevel = potableWaterHighLevel / 40;
+        int potableWaterLowLevel = potableWaterHighLevel / 3;
         int O2StoreHighLevel = (int) myO2Store.getCurrentCapacity();
-        int O2StoreLowLevel = O2StoreHighLevel / 4;
-        int CO2StoreHighLevel = (int) myCO2Store.getCurrentCapacity();
-        int CO2StoreLowLevel = CO2StoreHighLevel / 40;
-        int H2StoreHighLevel = (int) myH2Store.getCurrentCapacity();
-        int H2StoreLowLevel = H2StoreHighLevel / 100;
+        int O2StoreLowLevel = O2StoreHighLevel / 3;
 
         subMap = new TreeMap();
         subMap.put(LOW, new Integer(dirtyWaterLowLevel));
@@ -315,25 +303,14 @@ public class HandController {
         thresholdMap.put("greywater", subMap);
 
         subMap = new TreeMap();
-        subMap.put(LOW, new Integer(potableWaterLowLevel));
-        subMap.put(HIGH, new Integer(potableWaterHighLevel));
-        thresholdMap.put("potablewater", subMap);
-
-        subMap = new TreeMap();
         subMap.put(LOW, new Integer(O2StoreLowLevel));
         subMap.put(HIGH, new Integer(O2StoreHighLevel));
         thresholdMap.put("oxygen", subMap);
 
         subMap = new TreeMap();
-        subMap.put(LOW, new Integer(CO2StoreLowLevel));
-        subMap.put(HIGH, new Integer(CO2StoreHighLevel));
-        thresholdMap.put("carbondioxide", subMap);
-
-        subMap = new TreeMap();
-        subMap.put(LOW, new Integer(H2StoreLowLevel));
-        subMap.put(HIGH, new Integer(H2StoreHighLevel));
-        thresholdMap.put("hydrogen", subMap);
-
+        subMap.put(LOW, new Integer(potableWaterLowLevel));
+        subMap.put(HIGH, new Integer(potableWaterHighLevel));
+        thresholdMap.put("potablewater", subMap);
     }
 
     public Map classifyState(StateMap instate) {
@@ -528,25 +505,11 @@ public class HandController {
         } else {
             greyWater = 0;
         }
-
-        if (SimState.get("carbondioxide") == LOW) {
-            CO2 = 0;
-        }
-        if (SimState.get("hydrogen") == LOW) {
-            CO2 = 0;
-        }
-        if (SimState.get("hydrogen") == HIGH) {
-            CO2 = 1;
-            potableWater = 0;
-        }
         if (SimState.get("oxygen") == LOW) {
             potableWater = 1;
         }
         if (SimState.get("oxygen") == HIGH) {
             potableWater = 0;
-        }
-        if (SimState.get("carbondioxide") == HIGH) {
-            CO2 = 1;
         }
 
         myLogger.debug("CRS: " + CO2 + " OGS: " + potableWater + " Dirty Water: "
@@ -571,10 +534,7 @@ public class HandController {
         harvestActuator = HarvestingActuatorHelper.narrow((myBioHolder
                 .getActuatorAttachedTo(myBioHolder.theHarvestingActuators,
                         myBiomassRS)));
-
-        co2OverflowSensor = (StoreOverflowSensor) myBioHolder
-                .getSensorAttachedTo(myBioHolder.theStoreOverflowSensors,
-                        myCO2Store);
+        
         o2OverflowSensor = (StoreOverflowSensor) myBioHolder
                 .getSensorAttachedTo(myBioHolder.theStoreOverflowSensors,
                         myO2Store);
@@ -590,9 +550,6 @@ public class HandController {
 
             if (currentSensor.getValue() == 1f) {
                 myLogger.debug(" Harvest Sensor " + currentSensor.getValue());
-                myLogger.debug(" CO2 Tank Overflow: "
-                        + co2OverflowSensor.getValue() + " O2 Tank Overflow: "
-                        + o2OverflowSensor.getValue());
                 myBiomassRS.getShelf(i).harvest();
                 cropacres = myBiomassRS.getShelf(i).getCropAreaTotal();
                 myLogger
