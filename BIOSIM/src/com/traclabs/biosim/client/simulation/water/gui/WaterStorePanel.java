@@ -98,6 +98,9 @@ public class WaterStorePanel extends JPanel
 		rangeAxis.setRange(0.0, myPotableWaterStore.getCapacity());
 		myPlot.setSeriesPaint(new Paint[] { Color.BLUE, Color.GRAY, Color.YELLOW });
 		myChartPanel = new ChartPanel(myChart);
+		myChartPanel.setMinimumDrawHeight(300);
+		myChartPanel.setMinimumDrawWidth(250);
+		myChartPanel.setPreferredSize(new Dimension(220, 300));
 	}
 
 	public void refresh() {
