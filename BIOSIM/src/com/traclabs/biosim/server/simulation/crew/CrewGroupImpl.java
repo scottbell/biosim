@@ -157,24 +157,15 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 	* Processes a tick by ticking each crew person it knows about.
 	*/
 	public void tick(){
-		if (isMalfunctioning()){
-			performMalfunctions();
-			int peopleAsleep = (new Float((1 - healthyPercentage) * crewPeople.size())).intValue();
-			for (int i = 0; i < peopleAsleep; i ++){
-				int randomIndex = myRandom.nextInt(crewPeople.size());
-				CrewPersonImpl tempPerson = (CrewPersonImpl)((crewPeople.values().toArray())[randomIndex]);
-				tempPerson.sicken();
-			}
-		}
+		super.tick();
 		for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();){
 			CrewPersonImpl tempPerson = (CrewPersonImpl)(iter.next());
 			tempPerson.tick();
 		}
-		if (moduleLogging)
-			log();
+
 	}
 
-	private void performMalfunctions(){
+	protected void performMalfunctions(){
 		healthyPercentage = 1f;
 		for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); ){
 			Malfunction currentMalfunction = (Malfunction)(iter.next());
@@ -194,6 +185,13 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
 					healthyPercentage *= 0.10;
 			}
+		}
+
+		int peopleAsleep = (new Float((1 - healthyPercentage) * crewPeople.size())).intValue();
+		for (int i = 0; i < peopleAsleep; i ++){
+			int randomIndex = myRandom.nextInt(crewPeople.size());
+			CrewPersonImpl tempPerson = (CrewPersonImpl)((crewPeople.values().toArray())[randomIndex]);
+			tempPerson.sicken();
 		}
 	}
 
@@ -219,7 +217,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 		return areTheyDead;
 	}
 
-	private void log(){
+	protected void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			crewPeopleLogs = new Hashtable();
@@ -330,7 +328,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 		myAirInputs = sources;
 		airInMaxFlowRates = maxFlowRates;
 		airInDesiredFlowRates = desiredFlowRates;
-		airInActualFlowRates = new float[airInDesiredFlowRates.length]; 
+		airInActualFlowRates = new float[airInDesiredFlowRates.length];
 	}
 	public SimEnvironment[] getAirInputs(){
 		return myAirInputs;
@@ -365,7 +363,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 		myAirOutputs = sources;
 		airOutMaxFlowRates = maxFlowRates;
 		airOutDesiredFlowRates = desiredFlowRates;
-		airOutActualFlowRates = new float[airOutDesiredFlowRates.length]; 
+		airOutActualFlowRates = new float[airOutDesiredFlowRates.length];
 	}
 	public SimEnvironment[] getAirOutputs(){
 		return myAirOutputs;
@@ -400,7 +398,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 		myPotableWaterStores = sources;
 		potableWaterMaxFlowRates = maxFlowRates;
 		potableWaterDesiredFlowRates = desiredFlowRates;
-		potableWaterActualFlowRates = new float[potableWaterDesiredFlowRates.length]; 
+		potableWaterActualFlowRates = new float[potableWaterDesiredFlowRates.length];
 	}
 	public PotableWaterStore[] getPotableWaterInputs(){
 		return myPotableWaterStores;
@@ -435,7 +433,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 		myGreyWaterStores = destinations;
 		greyWaterMaxFlowRates = maxFlowRates;
 		greyWaterDesiredFlowRates = desiredFlowRates;
-		greyWaterActualFlowRates = new float[greyWaterDesiredFlowRates.length]; 
+		greyWaterActualFlowRates = new float[greyWaterDesiredFlowRates.length];
 	}
 	public GreyWaterStore[] getGreyWaterOutputs(){
 		return myGreyWaterStores;
@@ -470,7 +468,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 		myDirtyWaterStores = destinations;
 		dirtyWaterMaxFlowRates = maxFlowRates;
 		dirtyWaterDesiredFlowRates = desiredFlowRates;
-		dirtyWaterActualFlowRates = new float[dirtyWaterDesiredFlowRates.length]; 
+		dirtyWaterActualFlowRates = new float[dirtyWaterDesiredFlowRates.length];
 	}
 	public DirtyWaterStore[] getDirtyWaterOutputs(){
 		return myDirtyWaterStores;
@@ -505,7 +503,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 		myFoodStores = sources;
 		foodMaxFlowRates = maxFlowRates;
 		foodDesiredFlowRates = desiredFlowRates;
-		foodActualFlowRates = new float[foodDesiredFlowRates.length]; 
+		foodActualFlowRates = new float[foodDesiredFlowRates.length];
 	}
 	public FoodStore[] getFoodInputs(){
 		return myFoodStores;

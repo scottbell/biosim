@@ -42,12 +42,10 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements PowerPSOpe
 	* 2) creates power and places it into the power store.
 	*/
 	public void tick(){
+		super.tick();
 		currentPowerProduced = calculatePowerProduced();
-		if (isMalfunctioning())
-			performMalfunctions();
 		float distributedPowerLeft = pushResourceToStore(myPowerStores, powerMaxFlowRates, powerDesiredFlowRates, powerActualFlowRates, currentPowerProduced);
-		if (moduleLogging)
-			log();
+
 	}
 
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
@@ -65,7 +63,7 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements PowerPSOpe
 		return returnBuffer.toString();
 	}
 
-	private void performMalfunctions(){
+	protected void performMalfunctions(){
 		float productionRate = 1f;
 		for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); ){
 			Malfunction currentMalfunction = (Malfunction)(iter.next());
@@ -115,7 +113,7 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements PowerPSOpe
 		return "PowerPS"+getID();
 	}
 
-	void log(){
+	protected void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();

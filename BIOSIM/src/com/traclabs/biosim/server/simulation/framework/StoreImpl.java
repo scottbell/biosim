@@ -90,6 +90,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	}
 
 	public void tick(){
+		super.tick();
 		oldLevel = level;
 		oldCapacity = capacity;
 		if (pipe){
@@ -97,10 +98,6 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 			capacity = 0f;
 		}
 		myTicks++;
-		if (isMalfunctioning())
-			performMalfunctions();
-		if (moduleLogging)
-			log();
 	}
 
 	/**
@@ -144,7 +141,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	/**
 	* Actually performs the malfunctions.  Reduces levels/capacity
 	*/
-	private void performMalfunctions(){
+	protected void performMalfunctions(){
 		for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); ){
 			Malfunction currentMalfunction = (Malfunction)(iter.next());
 			if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF){
@@ -257,13 +254,13 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	public void reset(){
 		super.reset();
 		capacity = preMalfunctionCapacity;
-		level = 0.0f;
+		level = oldLevel = 0.0f;
 	}
 	
 	/**
 	* Logs this store and sends it to the Logger to be processed
 	*/
-	private void log(){
+	protected void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();

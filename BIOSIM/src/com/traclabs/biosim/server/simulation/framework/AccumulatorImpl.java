@@ -260,11 +260,8 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 
 
 	public void tick(){
+		super.tick();
 		getAndPushResources();
-		if (isMalfunctioning())
-			performMalfunctions();
-		if (moduleLogging)
-			log();
 	}
 
 	private void getAndPushResources(){
@@ -362,14 +359,14 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		return returnBuffer.toString();
 	}
 
-	private void performMalfunctions(){
+	protected void performMalfunctions(){
 	}
 
 	public void reset(){
 		super.reset();
 	}
 
-	private void log(){
+	protected void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();

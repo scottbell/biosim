@@ -8,7 +8,7 @@ import biosim.server.simulation.framework.*;
  * @author    Scott Bell
  */
 
-public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
+public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 	public FoodStoreImpl(int pID){
 		super(pID);
 	}

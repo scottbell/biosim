@@ -161,7 +161,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 		myProductionRate = pProductionRate;
 	}
 	
-	private void performMalfunctions(){
+	protected void performMalfunctions(){
 		float productionRate = 1f;
 		for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); ){
 			Malfunction currentMalfunction = (Malfunction)(iter.next());
@@ -192,12 +192,9 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	* 3) creates food (if possible)
 	*/
 	public void tick(){
+		super.tick();
 		consumeResources();
-		if (isMalfunctioning())
-			performMalfunctions();
 		createFood();
-		if (moduleLogging)
-			log();
 	}
 	
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
@@ -223,7 +220,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 		return "FoodProcessor"+getID();
 	}
 
-	private void log(){
+	protected void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();

@@ -4,8 +4,6 @@ module food{
 		Shelf createNewShelf(in PlantType pType);
         };
 
-        interface BiomassStore : framework::Store{};
-
         interface FoodProcessor : framework::SimBioModule, power::PowerConsumer, BiomassConsumer, FoodProducer{
                 float getBiomassConsumed();
                 float getPowerConsumed();
@@ -14,7 +12,17 @@ module food{
                 boolean hasBiomass();
         };
 
-        interface FoodStore : framework::Store{};
+        interface FoodStore : framework::Store{
+	};
+	
+        interface BiomassStore : framework::Store{
+		//float addBiomatter(in float mass, in PlantType type);
+		//BioMatterList takeBiomatter(in float mass);
+                //void setCapacity(in float metricAmount);
+                //void setLevel(in float metricAmount);
+                //float getLevel();
+                //float getCapacity();
+	};
 	
         interface Shelf{
 		void harvest();
