@@ -40,6 +40,9 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	private float[] powerMaxFlowRates;
 	private float[] biomassMaxFlowRates;
 	private float[] foodMaxFlowRates;
+	private float[] powerActualFlowRates;
+	private float[] biomassActualFlowRates;
+	private float[] foodActualFlowRates;
 	
 	public FoodProcessorImpl(int pID){
 		super(pID);
@@ -49,6 +52,9 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 		powerMaxFlowRates = new float[0];
 		biomassMaxFlowRates = new float[0];
 		foodMaxFlowRates = new float[0];
+		powerActualFlowRates = new float[0];
+		biomassActualFlowRates = new float[0];
+		foodActualFlowRates = new float[0];
 	}
 	
 	/**
@@ -245,67 +251,89 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 		sendLog(myLog);
 	}
 	
+	//Power Input
 	public void setPowerInputMaxFlowRate(float watts, int index){
 		powerMaxFlowRates[index] = watts;
 	}
-	
 	public float getPowerInputMaxFlowRate(int index){
 		return powerMaxFlowRates[index];
 	}
-	
-	public void setPowerInputs(PowerStore[] sources, float[] maxFlowRates){
+	public float[] getPowerInputMaxFlowRates(){
+		return powerMaxFlowRates;
+	}
+	public void setPowerInputActualFlowRate(float watts, int index){
+		powerActualFlowRates[index] = watts;
+	}
+	public float getPowerInputActualFlowRate(int index){
+		return powerActualFlowRates[index];
+	}
+	public float[] getPowerInputActualFlowRates(){
+		return powerActualFlowRates;
+	}
+	public void setPowerInputs(PowerStore[] sources, float[] maxFlowRates, float[] actualFlowRates){
 		myPowerStores = sources;
 		powerMaxFlowRates = maxFlowRates;
+		powerActualFlowRates = actualFlowRates;
+		
 	}
-	
 	public PowerStore[] getPowerInputs(){
 		return myPowerStores;
 	}
 	
-	public float[] getPowerInputMaxFlowRates(){
-		return powerMaxFlowRates;
-	}
-	
+	//Biomass Input
 	public void setBiomassInputMaxFlowRate(float kilograms, int index){
 		biomassMaxFlowRates[index] = kilograms;
 	}
-	
 	public float getBiomassInputMaxFlowRate(int index){
 		return biomassMaxFlowRates[index];
 	}
-	
-	public void setBiomassInputs(BiomassStore[] sources, float[] maxFlowRates){
+	public float[] getBiomassInputMaxFlowRates(){
+		return biomassMaxFlowRates;
+	}
+	public void setBiomassInputActualFlowRate(float kilograms, int index){
+		biomassActualFlowRates[index] = kilograms;
+	}
+	public float getBiomassInputActualFlowRate(int index){
+		return biomassActualFlowRates[index];
+	}
+	public float[] getBiomassInputActualFlowRates(){
+		return biomassActualFlowRates;
+	}
+	public void setBiomassInputs(BiomassStore[] sources, float[] maxFlowRates, float[] actualFlowRates){
 		myBiomassStores = sources;
 		biomassMaxFlowRates = maxFlowRates;
+		biomassActualFlowRates = actualFlowRates;
 	}
-	
 	public BiomassStore[] getBiomassInputs(){
 		return myBiomassStores;
 	}
 	
-	public float[] getBiomassInputMaxFlowRates(){
-		return biomassMaxFlowRates;
-	}
-	
+	//Food Output
 	public void setFoodOutputMaxFlowRate(float kilograms, int index){
 		foodMaxFlowRates[index] = kilograms;
 	}
-	
 	public float getFoodOutputMaxFlowRate(int index){
 		return foodMaxFlowRates[index];
 	}
-	
-	public void setFoodOutputs(FoodStore[] destinations, float[] maxFlowRates){
-		myFoodStores = destinations;
-		foodMaxFlowRates = maxFlowRates;
-	}
-	
-	public FoodStore[] getFoodOutputs(){
-		return myFoodStores;
-	}
-	
 	public float[] getFoodOutputMaxFlowRates(){
 		return foodMaxFlowRates;
+	}
+	public void setFoodOutputActualFlowRate(float kilograms, int index){
+		foodActualFlowRates[index] = kilograms;
+	}
+	public float getFoodOutputActualFlowRate(int index){
+		return foodActualFlowRates[index];
+	}
+	public float[] getFoodOutputActualFlowRates(){
+		return foodActualFlowRates;
+	}
+	public void setFoodOutputs(FoodStore[] destinations, float[] maxFlowRates, float[] actualFlowRates){
+		myFoodStores = destinations;
+		foodMaxFlowRates = maxFlowRates;
+		foodActualFlowRates = actualFlowRates;
+	}
+	public FoodStore[] getFoodOutputs(){
+		return myFoodStores;
 	}
 
 	/**
