@@ -230,9 +230,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
         CrewPerson[] theCrew = new CrewPerson[crewPeople.size()];
         int i = 0;
         for (Iterator iter = crewPeople.values().iterator(); iter.hasNext(); i++) {
-            CrewPersonImpl tempPerson = (CrewPersonImpl) (iter.next());
-            theCrew[i] = CrewPersonHelper.narrow(OrbUtils
-                    .poaToCorbaObj(tempPerson));
+            theCrew[i] = (CrewPerson) (iter.next());
         }
         return theCrew;
     }
@@ -240,7 +238,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     public void scheduleRepair(String moduleName, long malfunctionID,
             int timeLength) {
         int randomCrewIndex = myRandom.nextInt(crewPeople.size());
-        CrewPersonImpl randomCrewPerson = (CrewPersonImpl) ((crewPeople
+        CrewPerson randomCrewPerson = (CrewPerson) ((crewPeople
                 .values().toArray())[randomCrewIndex]);
         RepairActivityImpl newRepairActivityImpl = new RepairActivityImpl(
                 moduleName, malfunctionID, timeLength);
@@ -252,7 +250,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
 
     public void setSchedule(ScheduleType pSchedule) {
         for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();) {
-            CrewPersonImpl currentPerson = (CrewPersonImpl) (iter.next());
+            CrewPerson currentPerson = (CrewPerson) (iter.next());
             currentPerson.reset();
         }
     }
@@ -265,9 +263,9 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
      * @return the crew person asked for
      */
     public CrewPerson getCrewPerson(String crewPersonName) {
-        CrewPersonImpl foundPerson = (CrewPersonImpl) (crewPeople
+        CrewPerson foundPerson = (CrewPerson) (crewPeople
                 .get(crewPersonName));
-        return CrewPersonHelper.narrow((OrbUtils.poaToCorbaObj(foundPerson)));
+        return foundPerson;
     }
 
     protected String getMalfunctionName(MalfunctionIntensity pIntensity,
@@ -342,7 +340,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
                 * crewPeople.size())).intValue();
         for (int i = 0; i < peopleAsleep; i++) {
             int randomIndex = myRandom.nextInt(crewPeople.size());
-            CrewPersonImpl tempPerson = (CrewPersonImpl) ((crewPeople.values()
+            CrewPerson tempPerson = (CrewPerson) ((crewPeople.values()
                     .toArray())[randomIndex]);
             tempPerson.sicken();
         }
