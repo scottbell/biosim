@@ -7,7 +7,7 @@ import java.net.*;
 
 public class CrewImpl extends CrewPOA {
 	
-	private CrewState currentState;
+	private Activity currentActivity;
 	private Schedule mySchedule;
 
 	public CrewImpl(){
@@ -19,10 +19,10 @@ public class CrewImpl extends CrewPOA {
 		mySchedule = new Schedule(pScheduleFile);
 	}
 
-	public void setState(CrewState newState){
-		if (currentState != newState){
-			currentState = newState;
-			System.out.println("Changed state to "+getStateName());
+	public void setCurrentActivity(Activity newActivity){
+		if (currentActivity != newActivity){
+			currentActivity = newActivity;
+			System.out.println("Changed activity to "+currentActivity.name);
 		}
 	}
 	
@@ -30,31 +30,28 @@ public class CrewImpl extends CrewPOA {
 		return "Crew";
 	}
 
-	public CrewState getState(){
-		return currentState;
+	public Activity getScheduledActivityByName(String name){
+		Activity foundActivity = mySchedule.getActivityByName(name);
+		if (foundActivity != null)
+			return foundActivity;
+		else{
+			System.out.println("Couldn't find Activity by that name!");
+			return null;
+		}
 	}
-	
-	public String getStateName(){
-		if (currentState == CrewState.ASLEEP)
-			return "asleep";
-		else if (currentState == CrewState.HYGIENE)
-			return "hygiene";
-		else if (currentState == CrewState.EXCERCISE)
-			return "excercise";
-		else if (currentState == CrewState.EATING)
-			return "eating";
-		else if (currentState == CrewState.RECREATION)
-			return "recreation";
-		else if (currentState == CrewState.REPORTING)
-			return "reporting";
-		else if (currentState == CrewState.HEALTH)
-			return "health";
-		else if (currentState == CrewState.MAINTENANCE)
-			return "maintenance";
-		else if (currentState == CrewState.SCIENCE)
-			return "science";
-		else
-			return "unknown";
+
+	public Activity getScheduledActivityByOrder(int order){
+		Activity foundActivity = mySchedule.getActivityByOrder(order);
+		if (foundActivity != null)
+			return foundActivity;
+		else{
+			System.out.println("Couldn't find Activity by that order!");
+			return null;
+		}
+	}
+
+	public Activity getCurrentActivity(){
+		return currentActivity;
 	}
 
 	public void tick(){

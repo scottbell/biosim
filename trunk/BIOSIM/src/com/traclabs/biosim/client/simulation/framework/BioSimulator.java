@@ -31,16 +31,21 @@ public class BioSimulator
 	{
 		BioSimulator biosim = new BioSimulator();
 		biosim.tick();
-		
+
 		//Play with crew object
 		Crew myCrew = (Crew)(biosim.getBioModule("Crew"));
 		if (myCrew == null){
 			System.out.println("Couldn't find crew to test....");
 		}
 		else{
-			System.out.println("Current crew state is: "+myCrew.getStateName());
-			myCrew.setState(CrewState.EATING);
-			System.out.println("Current crew state is: "+myCrew.getStateName());
+			Activity newActivity = myCrew.getScheduledActivityByName("sleeping");
+			myCrew.setCurrentActivity(newActivity);
+			Activity currentActivity = myCrew.getCurrentActivity();
+			System.out.println("Current crew state is "+currentActivity.name+ " for "+currentActivity.timeLength+" hours");
+			newActivity = myCrew.getScheduledActivityByName("eating");
+			myCrew.setCurrentActivity(newActivity);
+			currentActivity = myCrew.getCurrentActivity();
+			System.out.println("Current crew state is "+currentActivity.name+ " for "+currentActivity.timeLength+" hours");
 		}
 	}
 	
