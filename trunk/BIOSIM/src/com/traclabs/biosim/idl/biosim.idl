@@ -35,27 +35,29 @@ module biosim{
                 };
 
                 module util{
-                        interface Logger;
-                        interface LogNode;
-                        enum LogHandlerType {SCREEN,XML,FLAT,DB};
-			typedef sequence <LogHandlerType> LogHandlerTypeList;
-                        interface Logger{
-                                void processLog(in LogNode thingToLog);
-                                LogHandlerTypeList getLogHandlerTypes();
-                                void addLogHandlerType(in LogHandlerType pLogType);
-                                void setProcessingLogs(in boolean pAllowLogging);
-                                boolean isProcessingLogs();
-                        };
-                        typedef sequence <LogNode> LogNodeList;
-                        interface LogNode{
-				LogNode getHead();
-                                string getValue();
-                                void setValue(in string newValue);
-                                LogNode addChild (in string pChildName);
-                                LogNodeList getChildren();
-                                boolean hasChildren();
-                                LogNode getChildDeep(in string pName);
-                                LogNode getChildShallow(in string pName);
+                        module log{
+                                interface Logger;
+                                interface LogNode;
+                                enum LogHandlerType {SCREEN,XML,FLAT,DB};
+                                typedef sequence <LogHandlerType> LogHandlerTypeList;
+                                interface Logger{
+                                        void processLog(in LogNode thingToLog);
+                                        LogHandlerTypeList getLogHandlerTypes();
+                                        void addLogHandlerType(in LogHandlerType pLogType);
+                                        void setProcessingLogs(in boolean pAllowLogging);
+                                        boolean isProcessingLogs();
+                                };
+                                typedef sequence <LogNode> LogNodeList;
+                                interface LogNode{
+                                        LogNode getHead();
+                                        string getValue();
+                                        void setValue(in string newValue);
+                                        LogNode addChild (in string pChildName);
+                                        LogNodeList getChildren();
+                                        boolean hasChildren();
+                                        LogNode getChildDeep(in string pName);
+                                        LogNode getChildShallow(in string pName);
+                                };
                         };
                 };
 
@@ -194,7 +196,7 @@ module biosim{
                                 float addCO2(in float liters);
                                 float addO2(in float liters);
                                 float addOther(in float liters);
-				float getLightIntensity();
+                                float getLightIntensity();
                                 air::Breath takeO2Breath(in float liters);
                                 air::Breath takeCO2Breath(in float liters);
                                 long getTicks();
@@ -209,10 +211,10 @@ module biosim{
                                 float getPowerConsumed();
                                 float getDirtyWaterConsumed();
                                 float getGreyWaterConsumed();
-				void setROEnabled(in boolean pEnabled);
-				void setAESEnabled(in boolean pEnabled);
-				boolean ROIsEnabled();
-				boolean AESIsEnabled();
+                                void setROEnabled(in boolean pEnabled);
+                                void setAESEnabled(in boolean pEnabled);
+                                boolean ROIsEnabled();
+                                boolean AESIsEnabled();
                                 boolean ROHasPower();
                                 boolean AESHasPower();
                                 boolean PPSHasPower();
@@ -221,11 +223,11 @@ module biosim{
                                 boolean AESHasWater();
                                 boolean PPSHasWater();
                                 boolean BWPHasWater();
-				float getAEStoPPSWater();
-				float getROtoPPSWater();
-				float getROtoAESWater();
-				float getBWPtoROWater();
-				float getBWPtoAESWater();
+                                float getAEStoPPSWater();
+                                float getROtoPPSWater();
+                                float getROtoAESWater();
+                                float getBWPtoROWater();
+                                float getBWPtoAESWater();
                         };
                         interface PotableWaterStore : framework::Store{
                         };

@@ -5,7 +5,7 @@ import biosim.idl.environment.*;
 import biosim.idl.water.*;
 import biosim.idl.food.*;
 import biosim.idl.air.*;
-import biosim.idl.util.*;
+import biosim.idl.util.log.*;
 import biosim.server.util.*;
 /**
  * The Crew Person Implementation.  Eats/drinks/excercises away resources according to a set schedule.

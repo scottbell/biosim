@@ -7,7 +7,7 @@ import biosim.idl.food.*;
 import biosim.idl.power.*;
 import biosim.idl.water.*;
 import biosim.idl.framework.*;
-import biosim.idl.util.*;
+import biosim.idl.util.log.*;
 import biosim.server.util.*;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;

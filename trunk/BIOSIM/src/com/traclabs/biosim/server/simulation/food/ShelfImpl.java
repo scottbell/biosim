@@ -4,7 +4,7 @@ import biosim.idl.food.*;
 import biosim.idl.water.*;
 import biosim.server.util.*;
 import biosim.idl.power.*;
-import biosim.idl.util.*;
+import biosim.idl.util.log.*;
 import java.util.*;
 /**
  * Tray contains Plants

@@ -101,11 +101,14 @@ if [ "$userSelect" == "all" ]; then
 	$compilationInvocation $simStubDir/idl/environment/*.java
 	echo "				-compiling framework stubs"
 	$compilationInvocation $simStubDir/idl/framework/*.java
+	echo "				-compiling util stubs"
+	echo "					-compiling log stubs"
+	$compilationInvocation $simStubDir/idl/util/log/*.java
 fi
 echo "			-compiling util"
 $compilationInvocation $clientDir/util/*.java
 echo "				-compiling log"
-$compilationInvocation $clientDir/util//log/*.java
+$compilationInvocation $clientDir/util/log/*.java
 echo "			-compiling air"
 echo "				-compiling air.gui"
 $compilationInvocation $clientDir/air/gui/*.java

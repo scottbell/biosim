@@ -1,6 +1,6 @@
-package biosim.server.util;
+package biosim.server.util.log;
 
-import biosim.idl.util.*;
+import biosim.idl.util.log.*;
 import biosim.server.util.*;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;

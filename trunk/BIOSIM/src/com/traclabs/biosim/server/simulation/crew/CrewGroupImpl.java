@@ -5,7 +5,7 @@ import java.net.*;
 import java.util.*;
 import biosim.server.util.*;
 import biosim.idl.crew.*;
-import biosim.idl.util.*;
+import biosim.idl.util.log.*;
 import biosim.server.framework.*;
 /**
  * The Crew Implementation.  Holds multiple crew persons and their schedule.

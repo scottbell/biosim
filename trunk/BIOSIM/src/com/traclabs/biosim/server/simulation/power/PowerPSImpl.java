@@ -1,7 +1,7 @@
 package biosim.server.power;
 
 import biosim.idl.power.*;
-import biosim.idl.util.*;
+import biosim.idl.util.log.*;
 import biosim.idl.environment.*;
 import biosim.server.util.*;
 import biosim.server.framework.*;

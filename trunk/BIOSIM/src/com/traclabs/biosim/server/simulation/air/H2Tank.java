@@ -1,6 +1,6 @@
 package biosim.server.air;
 
-import biosim.idl.util.*;
+import biosim.idl.util.log.*;
 import biosim.idl.environment.*;
 import biosim.idl.power.*;
 /**

@@ -2,7 +2,8 @@ package biosim.server.framework;
 
 import biosim.idl.framework.*;
 import biosim.server.util.*;
-import biosim.idl.util.*;
+import biosim.server.util.log.*;
+import biosim.idl.util.log.*;
 /**
  * The BioModule Implementation.  Every Module should derive from this as to allow ticking and logging.
  *
