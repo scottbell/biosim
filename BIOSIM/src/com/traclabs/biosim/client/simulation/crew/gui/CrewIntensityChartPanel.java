@@ -88,6 +88,7 @@ public class CrewIntensityChartPanel extends GraphPanel
 			}
 		}
 		else{
+			myCrewPeople = myCrewGroup.getCrewPeople();
 			for (int i = 0; i < myCrewPeople.length; i ++){
 				myDataset.setValue(i, "", new Float(myCrewPeople[i].getCurrentActivity().getActivityIntensity()));
 			}
