@@ -13,7 +13,8 @@ import biosim.server.util.*;
 
 public class VCCR extends AirRSSubSystem{
 	private Breath myBreath;
-	private final static float molesAirNeeded = 4.0f;
+	private final static float molesAirNeeded = 100.0f;
+	private float currentCO2Produced = 0f;
 	private float myProductionRate = 1f;
 
 	public VCCR(AirRSImpl pAirRSImpl){
@@ -27,6 +28,10 @@ public class VCCR extends AirRSSubSystem{
 
 	public float getCO2Consumed(){
 		return myBreath.CO2;
+	}
+	
+	public float getCO2Produced(){
+		return currentCO2Produced;
 	}
 
 	public void setProductionRate(float percentage){
@@ -78,13 +83,14 @@ public class VCCR extends AirRSSubSystem{
 			distributedWaterLeft -= myAirRS.getAirOutputs()[i].addWaterMoles(reducedWaterToPass);
 			myAirRS.setAirOutputActualFlowRate(reducedO2ToPass + reducedOtherToPass + reducedWaterToPass, i);
 		}
-		float CO2ToDistribute = myBreath.CO2 * myProductionRate;
-		float distributedCO2Left = myAirRS.pushResourceToStore(myAirRS.getCO2Outputs(), myAirRS.getCO2OutputMaxFlowRates(), myAirRS.getCO2OutputDesiredFlowRates(), myAirRS.getCO2OutputActualFlowRates(), CO2ToDistribute);
+		currentCO2Produced = myBreath.CO2 * myProductionRate;
+		float distributedCO2Left = myAirRS.pushResourceToStore(myAirRS.getCO2Outputs(), myAirRS.getCO2OutputMaxFlowRates(), myAirRS.getCO2OutputDesiredFlowRates(), myAirRS.getCO2OutputActualFlowRates(), currentCO2Produced);
 	}
 
 	public void reset(){
 		myBreath = new Breath(0f, 0f, 0f, 0f);
 		currentPowerConsumed = 0;
+		currentCO2Produced = 0f;
 		hasEnoughPower = false;
 	}
 
