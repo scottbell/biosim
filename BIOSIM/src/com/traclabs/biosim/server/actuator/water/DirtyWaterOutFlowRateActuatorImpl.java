@@ -17,8 +17,8 @@ public class DirtyWaterOutFlowRateActuatorImpl extends GenericActuatorImpl
 
     protected void processData() {
         float myFilteredValue = randomFilter(myValue);
-        getOutput()
-                .setDirtyWaterOutputDesiredFlowRate(myFilteredValue, myIndex);
+        getOutput().getDirtyWaterProducerDefinition()
+                .setDesiredFlowRate(myFilteredValue, myIndex);
     }
 
     protected void notifyListeners() {
@@ -43,6 +43,6 @@ public class DirtyWaterOutFlowRateActuatorImpl extends GenericActuatorImpl
     }
 
     public float getMax() {
-        return myProducer.getDirtyWaterOutputMaxFlowRate(myIndex);
+        return myProducer.getDirtyWaterProducerDefinition().getDesiredFlowRate(myIndex);
     }
 }

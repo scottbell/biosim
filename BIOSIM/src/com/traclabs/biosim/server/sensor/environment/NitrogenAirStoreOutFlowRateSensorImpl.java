@@ -16,8 +16,8 @@ public class NitrogenAirStoreOutFlowRateSensorImpl extends GenericSensorImpl
     }
 
     protected void gatherData() {
-        float preFilteredValue = getInput()
-                .getNitrogenAirStoreOutputActualFlowRate(myIndex);
+        float preFilteredValue = getInput().getNitrogenAirProducerDefinition()
+                .getStoreActualFlowRate(myIndex);
         myValue = randomFilter(preFilteredValue);
     }
 
@@ -31,7 +31,7 @@ public class NitrogenAirStoreOutFlowRateSensorImpl extends GenericSensorImpl
     }
 
     public float getMax() {
-        return myProducer.getNitrogenAirStoreOutputMaxFlowRate(myIndex);
+        return myProducer.getNitrogenAirProducerDefinition().getStoreMaxFlowRate(myIndex);
     }
 
     public NitrogenAirProducer getInput() {

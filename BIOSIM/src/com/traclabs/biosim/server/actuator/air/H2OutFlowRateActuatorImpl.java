@@ -17,7 +17,7 @@ public class H2OutFlowRateActuatorImpl extends GenericActuatorImpl implements
 
     protected void processData() {
         float myFilteredValue = randomFilter(myValue);
-        getOutput().setH2OutputDesiredFlowRate(myFilteredValue, myIndex);
+        getOutput().getH2ProducerDefinition().setDesiredFlowRate(myFilteredValue, myIndex);
     }
 
     protected void notifyListeners() {
@@ -42,6 +42,6 @@ public class H2OutFlowRateActuatorImpl extends GenericActuatorImpl implements
     }
 
     public float getMax() {
-        return myProducer.getH2OutputMaxFlowRate(myIndex);
+        return myProducer.getH2ProducerDefinition().getMaxFlowRate(myIndex);
     }
 }

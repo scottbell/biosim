@@ -18,7 +18,7 @@ public class CO2AirEnvironmentOutFlowRateActuatorImpl extends
 
     protected void processData() {
         float myFilteredValue = randomFilter(myValue);
-        getOutput().setCO2AirEnvironmentOutputDesiredFlowRate(myFilteredValue,
+        getOutput().getCO2AirProducerDefinition().setEnvironmentDesiredFlowRate(myFilteredValue,
                 myIndex);
     }
 
@@ -36,7 +36,7 @@ public class CO2AirEnvironmentOutFlowRateActuatorImpl extends
     }
 
     public float getMax() {
-        return myProducer.getCO2AirEnvironmentOutputMaxFlowRate(myIndex);
+        return myProducer.getCO2AirProducerDefinition().getEnvironmentMaxFlowRate(myIndex);
     }
 
     public CO2AirProducer getOutput() {

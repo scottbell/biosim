@@ -16,7 +16,7 @@ public class PotableWaterInFlowRateSensorImpl extends GenericSensorImpl
     }
 
     protected void gatherData() {
-        float preFilteredValue = getInput().getPotableWaterInputActualFlowRate(
+        float preFilteredValue = getInput().getPotableWaterConsumerDefinition().getActualFlowRate(
                 myIndex);
         myValue = randomFilter(preFilteredValue);
     }
@@ -43,6 +43,6 @@ public class PotableWaterInFlowRateSensorImpl extends GenericSensorImpl
     }
 
     public float getMax() {
-        return myConsumer.getPotableWaterInputMaxFlowRate(myIndex);
+        return myConsumer.getPotableWaterConsumerDefinition().getMaxFlowRate(myIndex);
     }
 }

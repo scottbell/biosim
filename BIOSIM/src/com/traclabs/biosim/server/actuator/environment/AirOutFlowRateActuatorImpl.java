@@ -17,7 +17,7 @@ public class AirOutFlowRateActuatorImpl extends GenericActuatorImpl implements
 
     protected void processData() {
         float myFilteredValue = randomFilter(myValue);
-        getOutput().setAirOutputDesiredFlowRate(myFilteredValue, myIndex);
+        getOutput().getAirProducerDefinition().setDesiredFlowRate(myFilteredValue, myIndex);
     }
 
     protected void notifyListeners() {
@@ -34,7 +34,7 @@ public class AirOutFlowRateActuatorImpl extends GenericActuatorImpl implements
     }
 
     public float getMax() {
-        return myProducer.getAirOutputMaxFlowRate(myIndex);
+        return myProducer.getAirProducerDefinition().getMaxFlowRate(myIndex);
     }
 
     public AirProducer getOutput() {

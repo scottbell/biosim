@@ -18,7 +18,7 @@ public class NitrogenAirStoreOutFlowRateActuatorImpl extends
 
     protected void processData() {
         float myFilteredValue = randomFilter(myValue);
-        getOutput().setNitrogenAirStoreOutputDesiredFlowRate(myFilteredValue,
+        getOutput().getNitrogenAirProducerDefinition().setStoreDesiredFlowRate(myFilteredValue,
                 myIndex);
     }
 
@@ -36,7 +36,7 @@ public class NitrogenAirStoreOutFlowRateActuatorImpl extends
     }
 
     public float getMax() {
-        return myProducer.getNitrogenAirStoreOutputMaxFlowRate(myIndex);
+        return myProducer.getNitrogenAirProducerDefinition().getStoreMaxFlowRate(myIndex);
     }
 
     public NitrogenAirProducer getOutput() {

@@ -16,7 +16,7 @@ public class H2InFlowRateSensorImpl extends GenericSensorImpl implements
     }
 
     protected void gatherData() {
-        float preFilteredValue = getInput().getH2InputActualFlowRate(myIndex);
+        float preFilteredValue = getInput().getH2ConsumerDefinition().getActualFlowRate(myIndex);
         myValue = randomFilter(preFilteredValue);
     }
 
@@ -30,7 +30,7 @@ public class H2InFlowRateSensorImpl extends GenericSensorImpl implements
     }
 
     public float getMax() {
-        return myConsumer.getH2InputMaxFlowRate(myIndex);
+        return myConsumer.getH2ConsumerDefinition().getMaxFlowRate(myIndex);
     }
 
     public H2Consumer getInput() {

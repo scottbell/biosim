@@ -16,7 +16,7 @@ public class PowerOutFlowRateSensorImpl extends GenericSensorImpl implements
     }
 
     protected void gatherData() {
-        float preFilteredValue = getInput().getPowerOutputActualFlowRate(
+        float preFilteredValue = getInput().getPowerProducerDefinition().getActualFlowRate(
                 myIndex);
         myValue = randomFilter(preFilteredValue);
     }
@@ -31,7 +31,7 @@ public class PowerOutFlowRateSensorImpl extends GenericSensorImpl implements
     }
 
     public float getMax() {
-        return myProducer.getPowerOutputMaxFlowRate(myIndex);
+        return myProducer.getPowerProducerDefinition().getMaxFlowRate(myIndex);
     }
 
     public PowerProducer getInput() {

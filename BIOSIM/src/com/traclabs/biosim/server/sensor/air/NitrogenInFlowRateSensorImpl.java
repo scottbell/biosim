@@ -16,7 +16,7 @@ public class NitrogenInFlowRateSensorImpl extends GenericSensorImpl implements
     }
 
     protected void gatherData() {
-        float preFilteredValue = getInput().getNitrogenInputActualFlowRate(
+        float preFilteredValue = getInput().getNitrogenConsumerDefinition().getActualFlowRate(
                 myIndex);
         myValue = randomFilter(preFilteredValue);
     }
@@ -31,7 +31,7 @@ public class NitrogenInFlowRateSensorImpl extends GenericSensorImpl implements
     }
 
     public float getMax() {
-        return myConsumer.getNitrogenInputMaxFlowRate(myIndex);
+        return myConsumer.getNitrogenConsumerDefinition().getMaxFlowRate(myIndex);
     }
 
     public NitrogenConsumer getInput() {

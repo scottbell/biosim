@@ -14,9 +14,9 @@ public class CO2InFlowRateSensorImpl extends GenericSensorImpl implements
     public CO2InFlowRateSensorImpl(int pID, String pName) {
         super(pID, pName);
     }
-
+                                                                                   
     protected void gatherData() {
-        float preFilteredValue = getInput().getCO2InputActualFlowRate(myIndex);
+        float preFilteredValue = getInput().getCO2ConsumerDefinition().getActualFlowRate(myIndex);
         myValue = randomFilter(preFilteredValue);
     }
 
@@ -30,7 +30,7 @@ public class CO2InFlowRateSensorImpl extends GenericSensorImpl implements
     }
 
     public float getMax() {
-        return myConsumer.getCO2InputMaxFlowRate(myIndex);
+        return myConsumer.getCO2ConsumerDefinition().getMaxFlowRate(myIndex);
     }
 
     public CO2Consumer getInput() {

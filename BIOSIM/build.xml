@@ -50,7 +50,7 @@
   	<target name="stub-idl" depends="init-build,init-tmp" description="stub the IDL file">
 		<mkdir dir="${stubsDir}"/>
 		<mkdir dir="${parserHackTmpDir}"/>
-		<javac srcdir="${jacorbDir}" destdir="${parserHackTmpDir}">
+		<javac srcdir="${jacorbDir}" destdir="${parserHackTmpDir}" nowarn="yes">
 			<classpath>
 				<pathelement location="${jacorbDir}/idl.jar"/>
 			</classpath>
@@ -67,7 +67,7 @@
 			</classpath>
 		</java>
 		<echo message="Compiling stubs"/>
-		<javac srcdir="${stubsDir}" destdir="${buildDir}" fork="yes" memoryMaximumSize="128m" nowarn="yes">
+		<javac srcdir="${stubsDir}" destdir="${buildDir}" fork="no" memoryMaximumSize="128m" nowarn="yes">
 			<classpath>
 				<pathelement location="${jacorbDir}/jacorb.jar"/>
 			</classpath>

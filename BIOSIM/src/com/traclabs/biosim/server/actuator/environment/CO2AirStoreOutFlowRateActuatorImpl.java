@@ -17,7 +17,7 @@ public class CO2AirStoreOutFlowRateActuatorImpl extends GenericActuatorImpl
 
     protected void processData() {
         float myFilteredValue = randomFilter(myValue);
-        getOutput().setCO2AirStoreOutputDesiredFlowRate(myFilteredValue,
+        getOutput().getCO2AirProducerDefinition().setStoreDesiredFlowRate(myFilteredValue,
                 myIndex);
     }
 
@@ -35,7 +35,7 @@ public class CO2AirStoreOutFlowRateActuatorImpl extends GenericActuatorImpl
     }
 
     public float getMax() {
-        return myProducer.getCO2AirStoreOutputMaxFlowRate(myIndex);
+        return myProducer.getCO2AirProducerDefinition().getStoreMaxFlowRate(myIndex);
     }
 
     public CO2AirProducer getOutput() {

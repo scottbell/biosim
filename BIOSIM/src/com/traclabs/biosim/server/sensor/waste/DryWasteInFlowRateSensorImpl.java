@@ -16,7 +16,7 @@ public class DryWasteInFlowRateSensorImpl extends GenericSensorImpl implements
     }
 
     protected void gatherData() {
-        float preFilteredValue = getInput().getDryWasteInputActualFlowRate(
+        float preFilteredValue = getInput().getDryWasteConsumerDefinition().getActualFlowRate(
                 myIndex);
         myValue = randomFilter(preFilteredValue);
     }
@@ -35,7 +35,7 @@ public class DryWasteInFlowRateSensorImpl extends GenericSensorImpl implements
     }
 
     public float getMax() {
-        return myConsumer.getDryWasteInputMaxFlowRate(myIndex);
+        return myConsumer.getDryWasteConsumerDefinition().getMaxFlowRate(myIndex);
     }
 
     public BioModule getInputModule() {

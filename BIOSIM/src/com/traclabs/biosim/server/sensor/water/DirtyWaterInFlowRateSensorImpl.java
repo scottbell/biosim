@@ -16,7 +16,7 @@ public class DirtyWaterInFlowRateSensorImpl extends GenericSensorImpl implements
     }
 
     protected void gatherData() {
-        float preFilteredValue = getInput().getDirtyWaterInputActualFlowRate(
+        float preFilteredValue = getInput().getDirtyWaterConsumerDefinition().getActualFlowRate(
                 myIndex);
         myValue = randomFilter(preFilteredValue);
     }
@@ -35,7 +35,7 @@ public class DirtyWaterInFlowRateSensorImpl extends GenericSensorImpl implements
     }
 
     public float getMax() {
-        return myConsumer.getDirtyWaterInputMaxFlowRate(myIndex);
+        return myConsumer.getDirtyWaterConsumerDefinition().getMaxFlowRate(myIndex);
     }
 
     public BioModule getInputModule() {

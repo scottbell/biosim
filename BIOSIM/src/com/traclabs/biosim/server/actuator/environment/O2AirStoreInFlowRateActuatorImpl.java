@@ -17,7 +17,7 @@ public class O2AirStoreInFlowRateActuatorImpl extends GenericActuatorImpl
 
     protected void processData() {
         float myFilteredValue = randomFilter(myValue);
-        getOutput().setO2AirStoreInputDesiredFlowRate(myFilteredValue, myIndex);
+        getOutput().getO2AirConsumerDefinition().setStoreDesiredFlowRate(myFilteredValue, myIndex);
     }
 
     protected void notifyListeners() {
@@ -30,7 +30,7 @@ public class O2AirStoreInFlowRateActuatorImpl extends GenericActuatorImpl
     }
 
     public float getMax() {
-        return myConsumer.getO2AirEnvironmentInputMaxFlowRate(myIndex);
+        return myConsumer.getO2AirConsumerDefinition().getEnvironmentMaxFlowRate(myIndex);
     }
 
     public BioModule getOutputModule() {

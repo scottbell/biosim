@@ -17,7 +17,7 @@ public class PowerOutFlowRateActuatorImpl extends GenericActuatorImpl implements
 
     protected void processData() {
         float myFilteredValue = randomFilter(myValue);
-        getOutput().setPowerOutputDesiredFlowRate(myFilteredValue, myIndex);
+        getOutput().getPowerProducerDefinition().setDesiredFlowRate(myFilteredValue, myIndex);
     }
 
     protected void notifyListeners() {
@@ -42,6 +42,6 @@ public class PowerOutFlowRateActuatorImpl extends GenericActuatorImpl implements
     }
 
     public float getMax() {
-        return myProducer.getPowerOutputMaxFlowRate(myIndex);
+        return myProducer.getPowerProducerDefinition().getDesiredFlowRate(myIndex);
     }
 }

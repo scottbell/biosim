@@ -17,7 +17,7 @@ public class BiomassInFlowRateActuatorImpl extends GenericActuatorImpl
 
     protected void processData() {
         float myFilteredValue = randomFilter(myValue);
-        getOutput().setBiomassInputDesiredFlowRate(myFilteredValue, myIndex);
+        getOutput().getBiomassConsumerDefinition().setDesiredFlowRate(myFilteredValue, myIndex);
     }
 
     protected void notifyListeners() {
@@ -42,6 +42,6 @@ public class BiomassInFlowRateActuatorImpl extends GenericActuatorImpl
     }
 
     public float getMax() {
-        return myConsumer.getBiomassInputMaxFlowRate(myIndex);
+        return myConsumer.getBiomassConsumerDefinition().getMaxFlowRate(myIndex);
     }
 }
