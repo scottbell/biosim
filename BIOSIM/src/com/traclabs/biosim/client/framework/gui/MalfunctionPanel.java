@@ -10,11 +10,10 @@ import javax.swing.*;
  */
 public class MalfunctionPanel extends TimedPanel
 {
-
 	/**
 	 * Default constructor.
 	 */
-	public GraphPanel() {
+	public MalfunctionPanel() {
 		super();
 		buildGui();
 	}
