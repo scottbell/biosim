@@ -1,0 +1,22 @@
+module util{
+        module log{
+                interface Logger{
+                        void processLog(in LogNode thingToLog);
+                        LogHandlerTypeList getLogHandlerTypes();
+                        void addLogHandlerType(in LogHandlerType pLogType);
+                        void setProcessingLogs(in boolean pAllowLogging);
+                        boolean isProcessingLogs();
+                        string getName();
+                };
+                interface LogNode{
+                        LogNode getHead();
+                        string getValue();
+                        void setValue(in string newValue);
+                        LogNode addChild (in string pChildName);
+                        LogNodeList getChildren();
+                        boolean hasChildren();
+                        LogNode getChildDeep(in string pName);
+                        LogNode getChildShallow(in string pName);
+                };
+        };
+};
