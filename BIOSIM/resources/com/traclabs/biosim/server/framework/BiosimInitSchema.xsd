@@ -29,7 +29,7 @@
 	
 	<!-- Global types -->
 	<xsd:complexType name="GlobalsType">
-		<xsd:sequence>
+		<xsd:all>
 			<xsd:element name="runTillDead" type="xsd:boolean"/>
 			<xsd:element name="runTillN">
 				<xsd:complexType>
@@ -46,7 +46,7 @@
 			<xsd:element name="isLooping" type="xsd:boolean"/>
 			<xsd:element name="initialTicks" type="xsd:integer"/>
 			<xsd:element name="setStochasticIntensity" type="StochasticIntensityType"/>
-		</xsd:sequence>
+		</xsd:all>
 	</xsd:complexType>
 	
 	<xsd:simpleType name="StochasticIntensityType">
@@ -140,10 +140,10 @@
 	<xsd:complexType name="Store">  
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
-				<xsd:any>
-					<xsd:element name="capacity" type="xsd:integer" fixed="100"/>
-					<xsd:element name="level" type="xsd:integer" fixed="0"/>
-				</xsd:any>
+				<xsd:sequence>
+					<xsd:element name="capacity" type="xsd:integer"/>
+					<xsd:element name="level" type="xsd:integer"/>
+				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
