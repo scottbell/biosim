@@ -171,14 +171,14 @@ public class BiosimServer extends GenericServer{
 			//BiomassRS
 			{
 				PowerInFlowRateSensorImpl myPowerInFlowRateSensorImpl = new PowerInFlowRateSensorImpl(id);
-				BiomassInFlowRateSensorImpl myBiomassInFlowRateSensorImpl = new BiomassInFlowRateSensorImpl(id);
+				BiomassOutFlowRateSensorImpl myBiomassOutFlowRateSensorImpl = new BiomassOutFlowRateSensorImpl(id);
 				FoodOutFlowRateSensorImpl myFoodOutFlowRateSensorImpl = new FoodOutFlowRateSensorImpl(id);
 				AirInFlowRateSensorImpl myAirInFlowRateSensorImpl = new AirInFlowRateSensorImpl(id);
 				AirOutFlowRateSensorImpl myAirOutFlowRateSensorImpl = new AirOutFlowRateSensorImpl(id);
 				PotableWaterInFlowRateSensorImpl myPotableWaterInFlowRateSensorImpl = new PotableWaterInFlowRateSensorImpl(id);
 				GreyWaterInFlowRateSensorImpl myGreyWaterInFlowRateSensorImpl = new GreyWaterInFlowRateSensorImpl(id);
 				registerServer(new PowerInFlowRateSensorPOATie(myPowerInFlowRateSensorImpl), "BiomassRS" + myPowerInFlowRateSensorImpl.getModuleName());
-				registerServer(new BiomassInFlowRateSensorPOATie(myBiomassInFlowRateSensorImpl), "BiomassRS" + myBiomassInFlowRateSensorImpl.getModuleName());
+				registerServer(new BiomassOutFlowRateSensorPOATie(myBiomassOutFlowRateSensorImpl), "BiomassRS" + myBiomassOutFlowRateSensorImpl.getModuleName());
 				registerServer(new FoodOutFlowRateSensorPOATie(myFoodOutFlowRateSensorImpl), "BiomassRS" + myFoodOutFlowRateSensorImpl.getModuleName());
 				registerServer(new AirInFlowRateSensorPOATie(myAirInFlowRateSensorImpl), "BiomassRS" + myAirInFlowRateSensorImpl.getModuleName());
 				registerServer(new AirOutFlowRateSensorPOATie(myAirOutFlowRateSensorImpl), "BiomassRS" + myAirOutFlowRateSensorImpl.getModuleName());
