@@ -1,11 +1,9 @@
 package biosim.server.air;
 
 import biosim.idl.air.*;
-import biosim.idl.environment.*;
-import biosim.idl.power.*;
 import biosim.idl.util.*;
-import biosim.server.framework.*;
 import biosim.server.util.*;
+import biosim.server.framework.*;
 
 /**
  * The Air Revitalization System Implementation.  Takes in Air (O2, CO2, other) from the environment and
@@ -15,37 +13,53 @@ import biosim.server.util.*;
  */
 
 public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
-	//During any given tick, this much power (in watts) is needed for the AirRS to run at all.
-	private float powerNeeded = 130;
-	//During any given tick, this much CO2 (in liters) is needed for the AirRS to run optimally.
-	private float CO2Needed = 0.2f;
-	//Flag switched when the AirRS has collected references to other servers it needs
-	private boolean hasCollectedReferences = false;
-	//Flag to determine whether the AirRS has received enough power for this tick
-	private boolean hasEnoughPower = false;
-	//Flag to determine whether the AirRS has received enough CO2 to run at full
-	private boolean hasEnoughCO2 = false;
-	//The O2 produced (in liters) by the AirRS at this tick
-	private float currentO2Produced = 0f;
-	//The CO2 consumed (in liters) by the AirRS at this tick
-	private float currentCO2Consumed = 0f;
-	//The CO2 produced (in liters) by the AirRS at this tick
-	private float currentCO2Produced = 0f;
-	//The power consumed (in watts) by the AirRS at this tick
-	private float currentPowerConsumed = 0f;
-	//The air consumed by the AirRS at this tick (includes O2, CO2, and other)
-	private Breath airRetrieved;
-	//References to the servers the AirRS takes/puts resources (like air, power, etc)
-	private SimEnvironment myEnvironment;
-	private PowerStore myPowerStore;
 	private LogIndex myLogIndex;
+	private VCCR myVCCR;
+	private CO2Tank myCO2Tank;
+	private CRS myCRS;
+	private H2Tank myH2Tank;
+	private CH4Tank myCH4Tank;
+	private OGS myOGS;
+	
+	public AirRSImpl(){
+		myVCCR = new VCCR(this);
+		myCO2Tank = new CO2Tank(this);
+		myCRS = new CRS(this);
+		myH2Tank = new H2Tank(this);
+		myCH4Tank = new CH4Tank(this);
+		myOGS = new OGS(this);
+	}
+	
+	public VCCR getVCCR(){
+		return myVCCR;
+	}
+	
+	public CO2Tank getCO2Tank(){
+		return myCO2Tank;
+	}
+	
+	public CRS getCRS(){
+		return myCRS;
+	}
+	
+	public H2Tank getH2Tank(){
+		return myH2Tank;
+	}
+	
+	public CH4Tank getCH4Tank(){
+		return myCH4Tank;
+	}
+	
+	public OGS getOGS(){
+		return myOGS;
+	}
 	
 	/**
 	* Returns the power consumption (in watts) of the AirRS at the current tick.
 	* @return the power consumed (in watts) at the current tick
 	*/
 	public float getPowerConsumed(){
-		return currentPowerConsumed;
+		return 0;
 	}
 	
 	/**
@@ -53,7 +67,7 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 	* @return the CO2 consumed at the current tick
 	*/
 	public float getCO2Consumed(){
-		return currentCO2Consumed;
+		return 0;
 	}
 	
 	/**
@@ -61,7 +75,7 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 	* @return the O2 produced (in liters) at the current tick
 	*/
 	public float getO2Produced(){
-		return currentO2Produced;
+		return 0;
 	}
 	
 	/**
@@ -69,125 +83,19 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 	* @return the CO2 produced (in liters) at the current tick
 	*/
 	public float getCO2Produced(){
-		return currentCO2Produced;
-	}
-	
-	/**
-	* Returns whether the AirRS has enough power at the current tick.
-	* @return <code>true</code> if the AirRS has enough power to function, <code>false</code> if the AirRS doesn't
-	*/
-	public boolean hasPower(){
-		return hasEnoughPower;
-	}
-	
-	/**
-	* Returns whether the AirRS has enough CO2 at the current tick.
-	* @return <code>true</code> if the AirRS has enough power to optimally, <code>false</code> if the AirRS doesn't
-	*/
-	public boolean hasCO2(){
-		return hasEnoughCO2;
-	}
-	
-	/**
-	* Collects references to servers needed for putting/getting resources.
-	*/
-	private void collectReferences(){
-		try{
-			if (!hasCollectedReferences){
-				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"));
-				myEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str("SimEnvironment"));
-				hasCollectedReferences = true;
-			}
-		}
-		catch (org.omg.CORBA.UserException e){
-			e.printStackTrace(System.out);
-		}
-	}
-	
-	/**
-	* Attempts to collect enough power from the Power PS to run the AirRS for one tick.
-	*/
-	private void gatherPower(){
-		currentPowerConsumed = myPowerStore.take(powerNeeded);
-		if (currentPowerConsumed < powerNeeded){
-			hasEnoughPower = false;
-		}
-		else{
-			hasEnoughPower = true;
-		}
-	}
-	
-	/**
-	* If the Air RS has enough power, it attempts to collect enough air from the environment such that the CO2 requirement is filled.
-	*/
-	private void gatherAir(){
-		if (hasEnoughPower){
-			airRetrieved = myEnvironment.takeCO2Breath(CO2Needed);
-			currentCO2Consumed = airRetrieved.CO2;
-			if (currentCO2Consumed < CO2Needed){
-				hasEnoughCO2 = false;
-			}
-			else{
-				hasEnoughCO2 = true;
-			}
-		}
-		else{
-			airRetrieved = new Breath(0,0,0);
-			currentCO2Consumed = 0f;
-		}
-			
-	}
-	
-	/**
-	* Calculates how much O2 has been produced (in liters) during this tick.
-	* @return the O2 produced (in liters) during this tick.
-	*/
-	private float calculateO2Produced(){
-		float theO2 = airRetrieved.O2 * 2.15f;
-		return theO2;
-	}
-	
-	/**
-	* Calculates how much CO2 has been produced (in liters) during this tick.
-	* @return the CO2 produced (in liters) during this tick.
-	*/
-	private float calculateCO2Produced(){
-		float theCO2 = airRetrieved.CO2 * 0.15f;
-		return theCO2;
-	}
-	
-	/**
-	* If the Air RS has enough power, it scrubs the CO2, adds O2 and pushes it into the environment.
-	*/
-	private void pushAir(){
-		if (hasEnoughPower){
-			currentO2Produced = calculateO2Produced();
-			currentCO2Produced = calculateCO2Produced();
-			myEnvironment.addO2(currentO2Produced);
-			myEnvironment.addCO2(currentCO2Produced);
-			myEnvironment.addOther(airRetrieved.other);
-		}
-		else{
-			currentCO2Produced = 0f;
-			currentO2Produced = 0f;
-		}
-	}
-	
-	/**
-	* Consumes the resources required for one tick
-	*/
-	private void consumeResources(){
-		gatherPower();
-		gatherAir();
+		return 0;
 	}
 	
 	/**
 	* Processes a tick by collecting referernces (if needed), resources, and pushing the new air out.
 	*/
 	public void tick(){
-		collectReferences();
-		consumeResources();
-		pushAir();
+		myVCCR.tick();
+		myCO2Tank.tick();
+		myCRS.tick();
+		myH2Tank.tick();
+		myCH4Tank.tick();
+		myOGS.tick();
 		if (moduleLogging)
 			log();
 	}
@@ -196,10 +104,12 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 	* Resets production/consumption levels.
 	*/
 	public void reset(){
-		currentO2Produced = 0.0f;
-		currentCO2Consumed = 0.0f;
-		currentPowerConsumed = 0.0f;
-		currentCO2Produced = 0f;
+		myVCCR.reset();
+		myCO2Tank.reset();
+		myCRS.reset();
+		myH2Tank.reset();
+		myCH4Tank.reset();
+		myOGS.reset();
 	}
 	
 	/**
@@ -214,36 +124,14 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();
-			LogNode powerNeededHead = myLog.getHead().addChild("Power Needed");
-			myLogIndex.powerNeededIndex = powerNeededHead.addChild(""+powerNeeded);
 			LogNode CO2NeededHead = myLog.getHead().addChild("CO2 Needed");
-			myLogIndex.CO2NeededIndex = CO2NeededHead.addChild(""+CO2Needed);
-			LogNode hasEnoughPowerHead = myLog.getHead().addChild("Has Enough Power");
-			myLogIndex.hasEnoughPowerIndex = hasEnoughPowerHead.addChild(""+hasEnoughPower);
-			LogNode hasEnoughCO2Head = myLog.getHead().addChild("Has Enough CO2");
-			myLogIndex.hasEnoughCO2Index = hasEnoughCO2Head.addChild(""+hasEnoughCO2);
 			LogNode currentO2ProducedHead = myLog.getHead().addChild("O2 Produced");
-			myLogIndex.currentO2ProducedIndex = currentO2ProducedHead.addChild(""+currentO2Produced);
 			LogNode currentCO2ProducedHead = myLog.getHead().addChild("CO2 Produced");
-			myLogIndex.currentCO2ProducedIndex = currentCO2ProducedHead.addChild(""+currentCO2Produced);
 			LogNode currentCO2ConsumedHead = myLog.getHead().addChild("CO2 Consumed");
-			myLogIndex.currentCO2ConsumedIndex = currentCO2ConsumedHead.addChild(""+currentCO2Consumed);
 			LogNode currentPowerConsumedHead = myLog.getHead().addChild("Power Consumed");
-			myLogIndex.currentPowerConsumedIndex = currentPowerConsumedHead.addChild(""+currentPowerConsumed);
-			LogNode airRetrievedHead = myLog.getHead().addChild("Air Retrieved (O2 # CO2 # other)");
-			myLogIndex.airRetrievedIndex = airRetrievedHead.addChild(airRetrieved.O2 + " # " +airRetrieved.CO2 +" # " +airRetrieved.other);
 			logInitialized = true;
 		}
 		else{
-			myLogIndex.powerNeededIndex.setValue(""+powerNeeded);
-			myLogIndex.CO2NeededIndex.setValue(""+ CO2Needed);
-			myLogIndex.hasEnoughPowerIndex.setValue(""+ hasEnoughPower);
-			myLogIndex.hasEnoughCO2Index.setValue(""+ hasEnoughCO2);
-			myLogIndex.currentO2ProducedIndex.setValue(""+ currentO2Produced);
-			myLogIndex.currentCO2ConsumedIndex.setValue(""+ currentCO2Consumed);
-			myLogIndex.currentCO2ProducedIndex.setValue(""+ currentCO2Produced);
-			myLogIndex.currentPowerConsumedIndex.setValue(""+ currentPowerConsumed);
-			myLogIndex.airRetrievedIndex.setValue(airRetrieved.O2 + " # " +airRetrieved.CO2 +" # " +airRetrieved.other);
 		}
 		sendLog(myLog);
 	}
@@ -252,14 +140,10 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 	* For fast reference to the log tree
 	*/
 	private class LogIndex{
-		public LogNode powerNeededIndex;
 		public LogNode CO2NeededIndex;
-		public LogNode hasEnoughPowerIndex;
-		public LogNode hasEnoughCO2Index;
 		public LogNode currentO2ProducedIndex;
 		public LogNode currentCO2ConsumedIndex;
 		public LogNode currentCO2ProducedIndex;
 		public LogNode currentPowerConsumedIndex;
-		public LogNode airRetrievedIndex;
 	}
 }

@@ -28,7 +28,7 @@ public class Wheat extends Plant{
 		double f = 11.2;
 		double CO2FlowRate = (a + b - c + d - e) / f;
 		//convert kg -> L at STP
-		CO2FlowRate *= .001964;
+		CO2FlowRate *= .001964f;
 		if (CO2FlowRate < 0)
 			CO2Needed = 0f;
 		else{
