@@ -79,7 +79,7 @@ case $userSelect in
 	simEnvironment) echo "			 -starting $userSelect";$jacoInvocation $simEnvironmentName;;
 	logger) echo "			 -starting $userSelect";$jacoInvocation $loggerName;;
 	all) echo "			-starting $userSelect";$jacoInvocation $frameworkName;;
-	"-?") echo "choose from: [all, logger, greyWaterStore, potableWaterStore, dirtyWaterStore, powerStore, powerPS, simEnvironment, foodStoreName, foodProcessor, airRS, o2StoreName, co2StoreName, biomassRS, biomassStore, crew, waterRS]";;
+	"-?") echo "choose from: [all, logger, greyWaterStore, potableWaterStore, dirtyWaterStore, powerStore, powerPS, simEnvironment, foodStore, foodProcessor, airRS, o2Store, co2Store, biomassRS, biomassStore, crew, waterRS]";;
 	*) echo "			-assuming all";$jacoInvocation $frameworkName;;
 esac
 echo "*done invoking servers"
