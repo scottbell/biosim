@@ -1,17 +1,8 @@
 package com.traclabs.biosim.server.simulation.air;
 
-import java.util.Arrays;
-import java.util.Iterator;
-
-import com.traclabs.biosim.idl.framework.Malfunction;
-import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
-import com.traclabs.biosim.idl.framework.MalfunctionLength;
-import com.traclabs.biosim.idl.simulation.air.AirRSOperationMode;
-import com.traclabs.biosim.idl.simulation.air.AirRSOperations;
-import com.traclabs.biosim.idl.simulation.air.CO2Store;
 import com.traclabs.biosim.idl.simulation.air.H2Store;
 import com.traclabs.biosim.idl.simulation.air.O2Store;
-import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.idl.simulation.air.OGSOperations;
 import com.traclabs.biosim.idl.simulation.framework.H2ProducerOperations;
 import com.traclabs.biosim.idl.simulation.framework.O2ProducerOperations;
 import com.traclabs.biosim.idl.simulation.framework.PotableWaterConsumerOperations;
@@ -28,7 +19,7 @@ import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
  * @author Scott Bell
  */
 
-public class OGSImpl extends SimBioModuleImpl implements AirRSOperations,
+public class OGSImpl extends SimBioModuleImpl implements OGSOperations,
         PowerConsumerOperations, PotableWaterConsumerOperations,
         O2ProducerOperations, H2ProducerOperations{
     
