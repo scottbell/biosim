@@ -176,10 +176,6 @@ public abstract class PlantImpl extends PlantPOA{
 	* If not all the resources required were consumed, we damage the crew member.
 	*/
 	private void afflictPlants(){
-		if (myAveragePPF - getPPFNeeded() != 0){
-			System.out.println("Asked for "+getPPFNeeded()+" and got "+myAveragePPF);
-			System.out.println("Not enough light, consumed light buffer is at: " + consumedLightBuffer.getLevel());
-		}
 		consumedWaterBuffer.take((myWaterNeeded - myWaterLevel) / myShelfImpl.getCropAreaUsed());
 		consumedLightBuffer.take((getPPFNeeded() - myAveragePPF) / myShelfImpl.getCropAreaUsed());
 		if (myAveragePPF > DANGEROUS_HEAT_LEVEL)
