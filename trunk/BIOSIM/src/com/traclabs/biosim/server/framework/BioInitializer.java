@@ -1,134 +1,96 @@
 package biosim.server.framework;
 
-import java.io.*;
-import java.net.*;
-import org.xml.sax.*;
-import org.xml.sax.helpers.*;
+import java.io.PrintWriter;
+import java.net.URL;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.Text;
+import org.apache.xerces.parsers.DOMParser;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 /**
  * Reads BioSim configuration from XML file.
  *
  * @author Scott Bell
  */
-public class BioInitializer extends DefaultHandler {
+public class BioInitializer{
 	/** Namespaces feature id (http://xml.org/sax/features/namespaces). */
 	private static final String NAMESPACES_FEATURE_ID = "http://xml.org/sax/features/namespaces";
-
-	/** Namespace prefixes feature id (http://xml.org/sax/features/namespace-prefixes). */
-	private static final String NAMESPACE_PREFIXES_FEATURE_ID = "http://xml.org/sax/features/namespace-prefixes";
-
 	/** Validation feature id (http://xml.org/sax/features/validation). */
 	private static final String VALIDATION_FEATURE_ID = "http://xml.org/sax/features/validation";
-
 	/** Schema validation feature id (http://apache.org/xml/features/validation/schema). */
 	private static final String SCHEMA_VALIDATION_FEATURE_ID = "http://apache.org/xml/features/validation/schema";
-
 	/** Schema full checking feature id (http://apache.org/xml/features/validation/schema-full-checking). */
 	private static final String SCHEMA_FULL_CHECKING_FEATURE_ID = "http://apache.org/xml/features/validation/schema-full-checking";
 
-	/** Dynamic validation feature id (http://apache.org/xml/features/validation/dynamic). */
-	private static final String DYNAMIC_VALIDATION_FEATURE_ID = "http://apache.org/xml/features/validation/dynamic";
 
 	// default settings
-	/** Default parser name. */
-	private static final String DEFAULT_PARSER_NAME = "org.apache.xerces.parsers.SAXParser";
-
 	/** Default namespaces support (true). */
 	private static final boolean DEFAULT_NAMESPACES = true;
-
-	/** Default namespace prefixes (false). */
-	private static final boolean DEFAULT_NAMESPACE_PREFIXES = false;
-
 	/** Default validation support (false). */
 	private static final boolean DEFAULT_VALIDATION = true;
-
 	/** Default Schema validation support (false). */
 	private static final boolean DEFAULT_SCHEMA_VALIDATION = true;
-
 	/** Default Schema full checking support (false). */
 	private static final boolean DEFAULT_SCHEMA_FULL_CHECKING = true;
 
-	/** Default dynamic validation support (false). */
-	private static final boolean DEFAULT_DYNAMIC_VALIDATION = true;
-	
-	private static XMLReader myParser = null;
+	private static DOMParser myParser = null;
 	private static BioInitializer myInitializer = null;
-	
+
 	/** Default constructor. */
 	private BioInitializer(){
 		try {
-			myParser = XMLReaderFactory.createXMLReader(DEFAULT_PARSER_NAME);
+			myParser = new DOMParser();
 			myParser.setFeature(SCHEMA_VALIDATION_FEATURE_ID, DEFAULT_SCHEMA_VALIDATION);
 			myParser.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, DEFAULT_SCHEMA_FULL_CHECKING);
-			myParser.setFeature(NAMESPACE_PREFIXES_FEATURE_ID, DEFAULT_NAMESPACE_PREFIXES);
 			myParser.setFeature(VALIDATION_FEATURE_ID, DEFAULT_VALIDATION);
 			myParser.setFeature(NAMESPACES_FEATURE_ID, DEFAULT_NAMESPACES);
-			myParser.setFeature(DYNAMIC_VALIDATION_FEATURE_ID, DEFAULT_DYNAMIC_VALIDATION);
 		}
 		catch (SAXException e) {
 			System.err.println("warning: Parser does not support feature ("+NAMESPACES_FEATURE_ID+")");
 		}
-		catch (Exception e) {
-			System.err.println("error: Unable to instantiate parser ("+DEFAULT_PARSER_NAME+")");	
-		}
-	} 
+	}
 
-	/** Start element. */
-	public void startElement(String uri, String local, String raw, Attributes attributes) throws SAXException {
-		if (attributes != null) {
-			for (int i = 0; i < attributes.getLength(); i++) {
-				//System.out.println(attributes.getLocalName(i)+" = "+attributes.getValue(i));
+	/** Traverses the specified node, recursively. */
+	public static void crawl(Node node) {
+
+		// is there anything to do?
+		if (node == null) {
+			return;
+		}
+		int type = node.getNodeType();
+		if (type == Node.DOCUMENT_NODE) {
+			Document document = (Document)node;
+			crawl(document.getDocumentElement());
+		}
+		else if (type == Node.ELEMENT_NODE){
+			NamedNodeMap attrs = node.getAttributes();
+			// drop through to entity reference
+		}
+		else if (type == Node.ENTITY_REFERENCE_NODE){
+			Node child = node.getFirstChild();
+			while (child != null) {
+				crawl(child);
+				child = child.getNextSibling();
 			}
 		}
-
-	}
-
-	/** Warning. */
-	public void warning(SAXParseException ex) throws SAXException {
-		printError("Warning", ex);
-	}
-
-	/** Error. */
-	public void error(SAXParseException ex) throws SAXException {
-		printError("Error", ex);
-	}
-	/** Fatal error. */
-	public void fatalError(SAXParseException ex) throws SAXException {
-		printError("Fatal Error", ex);
-	}
-
-	/** Prints the error message. */
-	protected void printError(String type, SAXParseException ex) {
-		System.err.print("[");
-		System.err.print(type);
-		System.err.print("] ");
-		if (ex == null)
-			System.out.println("!!!");
-		String systemId = ex.getSystemId();
-		if (systemId != null) {
-			int index = systemId.lastIndexOf('/');
-			if (index != -1)
-				systemId = systemId.substring(index + 1);
-			System.err.print(systemId);
+		else if (type == Node.CDATA_SECTION_NODE){
 		}
-		System.err.print(':');
-		System.err.print(ex.getLineNumber());
-		System.err.print(':');
-		System.err.print(ex.getColumnNumber());
-		System.err.print(": ");
-		System.err.print(ex.getMessage());
-		System.err.println();
-		System.err.flush();
+		else if (type == Node.TEXT_NODE){
+		}
 	}
-	
+
 	private static void parseFile(String fileToParse){
 		if (myInitializer == null)
 			myInitializer = new BioInitializer();
-			myParser.setContentHandler(myInitializer);
-			myParser.setErrorHandler(myInitializer);
 		try{
 			System.out.println("Starting to parse file: "+fileToParse);
 			myParser.parse(fileToParse);
+			Document document = myParser.getDocument();
+			crawl(document);
 		}
 		catch (Exception e){
 			System.err.println("error: Parse error occurred - "+e.getMessage());
@@ -146,7 +108,7 @@ public class BioInitializer extends DefaultHandler {
 	public static void main(String argv[]) {
 		URL documentUrl = ClassLoader.getSystemClassLoader().getResource("biosim/server/framework/DefaultInitialization.xml");
 		String documentString = documentUrl.toString();
-		if (documentString.length() > 0) 
+		if (documentString.length() > 0)
 			BioInitializer.parseFile(documentString);
 	}
-} 
+}
