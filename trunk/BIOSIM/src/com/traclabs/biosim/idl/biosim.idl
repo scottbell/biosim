@@ -136,6 +136,8 @@ module biosim{
                         interface FoodConsumer;
                         interface BiomassProducer;
                         interface FoodProducer;
+			interface DryWasteConsumer;
+			interface DryWasteProducer;
                 };
         };
 };
@@ -1334,10 +1336,6 @@ module biosim{
                                         void setOutput(in framework::FoodProducer pProducer, in long pIndex);
                                         framework::FoodProducer getOutput();
                                         long getIndex();
-                                };
-                                interface ShelfActuator : framework::GenericActuator{
-                                        void setOutput(in simulation::food::BiomassRS source, in long index);
-                                        simulation::food::Shelf getOutput();
                                 };
 				interface PlantingActuator : ShelfActuator{
                                         void setPlantType(in simulation::food::PlantType type);
