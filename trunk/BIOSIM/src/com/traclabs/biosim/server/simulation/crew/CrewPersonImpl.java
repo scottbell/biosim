@@ -9,6 +9,8 @@ import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.framework.BioModuleHelper;
 import com.traclabs.biosim.idl.simulation.crew.Activity;
 import com.traclabs.biosim.idl.simulation.crew.CrewPersonPOA;
+import com.traclabs.biosim.idl.simulation.crew.EVAActivity;
+import com.traclabs.biosim.idl.simulation.crew.MaitenanceActivity;
 import com.traclabs.biosim.idl.simulation.crew.RepairActivity;
 import com.traclabs.biosim.idl.simulation.crew.Sex;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
@@ -536,30 +538,46 @@ public class CrewPersonImpl extends CrewPersonPOA {
      * implemented yet) repair - attempts to fix a module. may have to be called
      * several time depending on the severity of the malfunction
      * 
-     * New Stuff:
-     * 1) Put new environment to join in activity (make it like a repair activity)
-     * 2) sap 10% of air from old environment (look at air input of crew)
-     * 3) hook up old environment at end of EVA task (keep a record)
-     * 4) allow modules to be reconfigured using acutators (work on this later)
+     * New Stuff: 1) Put new environment to join in activity (make it like a
+     * repair activity) 2) sap 10% of air from old environment (look at air
+     * input of crew) 3) hook up old environment at end of EVA task (keep a
+     * record) 4) allow modules to be reconfigured using acutators (work on this
+     * later)
      */
     private void checkForMeaningfulActivity() {
         myLogger.debug("Checking to see if" + myCurrentActivity.getName()
                 + " is a meaningful activity");
         if (myCurrentActivity.getName().equals("mission")) {
             addProductivity();
-        } else if (myCurrentActivity.getName().equals("maitenance")) {
-            myLogger.debug("maintain");
         } else if (myCurrentActivity.getName().startsWith("sleep")
                 || myCurrentActivity.getName().startsWith("sick")) {
             sleepBuffer.add(SLEEP_RECOVERY_RATE);
         } else if (myCurrentActivity.getName().equals("leisure")) {
             leisureBuffer.add(LEISURE_RECOVERY_RATE);
-        }
-        if (myCurrentActivity instanceof RepairActivity) {
+        } else if (myCurrentActivity instanceof RepairActivity) {
             RepairActivity repairActivity = (RepairActivity) (myCurrentActivity);
             repairModule(repairActivity.getModuleNameToRepair(), repairActivity
                     .getMalfunctionIDToRepair());
+        } else if (myCurrentActivity instanceof EVAActivity) {
+            EVAActivity evaActivity = (EVAActivity) (myCurrentActivity);
+            performEVA(evaActivity.getBaseEnvironmentName(), evaActivity.getOutsideEnvironmentName());
+        } else if (myCurrentActivity instanceof MaitenanceActivity) {
+            MaitenanceActivity maitenanceActivity = (MaitenanceActivity) (myCurrentActivity);
+            maintainModule(maitenanceActivity.getModuleNameToMaintain());
         }
+    }
+
+    /**
+     * @param baseEnvironment
+     * @param outsideEnvironment
+     */
+    private void performEVA(String baseEnvironment, String outsideEnvironment) {
+        // TODO Auto-generated method stub
+        // remove 5% from base environment
+        // detach from current environment and attach to outside environment
+        // perform activity for X ticks
+        // reattach to to base environment
+        // remove 5% from base environment
     }
 
     /**
@@ -619,7 +637,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
      * prevents other modules from breaking down invoked when crew person
      * performs "maitenance" activity
      */
-    private void maitenanceModule(String moduleName) {
+    private void maintainModule(String moduleName) {
         try {
             BioModule module = BioModuleHelper.narrow(OrbUtils
                     .getNamingContext(myCrewGroup.getID()).resolve_str(

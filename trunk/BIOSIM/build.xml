@@ -318,16 +318,22 @@
 	
 	<target name="docs" depends="javadocs, build-manual" description="creates documentation">
 	</target>
-
+	
+	<target name="rebuild" depends="clean,build" description="cleans then builds">
+	</target>
+	
 	<target name="clean" description="clean up">
+			<delete dir="${buildDir}"/>
+			<delete dir="${stubsDir}"/>
+	</target>
+
+	<target name="clean-all" depends="clean" description="clean up everything (docs, tmp, dists)">
 		<delete>
 			<fileset dir="${jacorbDir}" includes="*.class"/>
 		</delete>
-		<delete dir="${buildDir}"/>
 		<delete dir="${distDir}"/>
 		<delete dir="${tmpDir}"/>
 		<delete dir="${javadocDir}"/>
-		<delete dir="${stubsDir}"/>
 	</target>
 	
 	<target name="fetch" description="gets the latest version from CVS">
