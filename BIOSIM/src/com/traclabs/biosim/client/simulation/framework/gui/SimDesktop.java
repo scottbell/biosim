@@ -2,6 +2,7 @@ package biosim.client.framework.gui;
 
 import biosim.client.framework.*;
 import biosim.client.gui.*;
+import biosim.client.environment.gui.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
@@ -92,6 +93,7 @@ public class SimDesktop extends BaseJFrame
 		setJMenuBar(myMenuBar);
 
 		myToolBar = new JToolBar();
+		myToolBar.setFloatable(false);
 		myStartSimButton = myToolBar.add(myStartAction);
 		myStartSimButton.setToolTipText("Starts the simulation");
 		myAdvanceSimButton = myToolBar.add(myAdvanceAction);
@@ -207,12 +209,21 @@ public class SimDesktop extends BaseJFrame
 		}
 	}
 	
+	private void displayEnvironment(){
+		JInternalFrame environmentFrame = new JInternalFrame("Environment", true, true, true, true);
+		environmentFrame.setSize(100,100);
+		environmentFrame.getContentPane().add(new EnvironmentPanel(myBiosim));
+		addInternalFrame(environmentFrame);
+	}
+	
 	private class ShowAllDisplaysAction extends AbstractAction{
 		public ShowAllDisplaysAction(String name){
 			super(name);
 		}
 		public void actionPerformed(ActionEvent ae){
-			System.out.println("Shows All Displays");
+			myDesktop.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			displayEnvironment();
+			myDesktop.setCursor(Cursor.getDefaultCursor());
 		}
 	}
 	
