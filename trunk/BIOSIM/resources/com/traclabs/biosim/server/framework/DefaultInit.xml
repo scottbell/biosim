@@ -171,9 +171,9 @@
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="10" inputs="GreyWaterStore"/>
 				<potableWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="PotableWaterStore"/>
 			</WaterRS>
-			<PotableWaterStore name="PotableWaterStore" capacity="800" level="500"/>
-			<GreyWaterStore name="GreyWaterStore" capacity="500" level="500"/>
-			<DirtyWaterStore name="DirtyWaterStore" capacity="500" level="250"/>
+			<PotableWaterStore name="PotableWaterStore" capacity="8000" level="5000"/>
+			<GreyWaterStore name="GreyWaterStore" capacity="5000" level="5000"/>
+			<DirtyWaterStore name="DirtyWaterStore" capacity="5000" level="2500"/>
 		</water>
 		<waste>
 			<Incinerator name="Incinerator">
