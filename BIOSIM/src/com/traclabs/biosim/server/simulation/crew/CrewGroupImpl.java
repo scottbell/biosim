@@ -56,7 +56,7 @@ public class CrewImpl extends CrewPOA {
 
 	public void tick(){
 		processState();
-		System.out.println("Tick!");
+		System.out.println("Crew has been ticked!");
 	}
 	
 	private void processState(){

@@ -42,6 +42,6 @@ public class DirtyWaterStoreImpl extends DirtyWaterStorePOA {
 		System.out.println("DirtyWater has been ticked!");
 	}
 	public String getModuleName(){
-		return "DirtyWater";
+		return "DirtyWaterStore";
 	}
 }

@@ -27,7 +27,7 @@ public static void main(String args[]) {
 		 NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
 
 		 // create servants and register them with ORB
-		 EnvironmentImpl myEnvironmentImpl = new EnvironmentImpl();
+		 SimEnvironmentImpl mySimEnvironmentImpl = new SimEnvironmentImpl();
 		 AirRSImpl myAirRSImpl = new AirRSImpl();
 		 CO2StoreImpl myCO2StoreImpl = new CO2StoreImpl();
 		 O2StoreImpl myO2StoreImpl = new O2StoreImpl();
@@ -44,8 +44,8 @@ public static void main(String args[]) {
 		 DirtyWaterStoreImpl myDirtyWaterStoreImpl = new DirtyWaterStoreImpl();
 		
 		// bind the Object References in Naming
-		 org.omg.CORBA.Object ref = rootpoa.servant_to_reference(myEnvironmentImpl);
-		 NameComponent path[] = ncRef.to_name(myEnvironmentImpl.getModuleName());
+		 org.omg.CORBA.Object ref = rootpoa.servant_to_reference(mySimEnvironmentImpl);
+		 NameComponent path[] = ncRef.to_name(mySimEnvironmentImpl.getModuleName());
 		 ncRef.rebind(path, ref);
 		 ref = rootpoa.servant_to_reference(myAirRSImpl);
 		 path = ncRef.to_name(myAirRSImpl.getModuleName());
@@ -81,10 +81,10 @@ public static void main(String args[]) {
 		 path = ncRef.to_name(myWaterRSImpl.getModuleName());
 		 ncRef.rebind(path, ref);
 		 ref = rootpoa.servant_to_reference(myGreyWaterStoreImpl);
-		 path = ncRef.to_name(myBiomassRSImpl.getModuleName());
+		 path = ncRef.to_name(myGreyWaterStoreImpl.getModuleName());
 		 ncRef.rebind(path, ref);
 		 ref = rootpoa.servant_to_reference(myPotableWaterStoreImpl);
-		 path = ncRef.to_name(myBiomassStoreImpl.getModuleName());
+		 path = ncRef.to_name(myPotableWaterStoreImpl.getModuleName());
 		 ncRef.rebind(path, ref);
 		 ref = rootpoa.servant_to_reference(myDirtyWaterStoreImpl);
 		 path = ncRef.to_name(myDirtyWaterStoreImpl.getModuleName());
