@@ -91,7 +91,7 @@ public class SimCommandLine
 			if (myDriver.isPaused())
 				myDriver.advanceOneTick();
 			else
-				System.out.println("simulation needs to be paused frist");
+				System.out.println("simulation needs to be paused first");
 		}
 		else if (userCommand.equals("test")){
 			runTest();
@@ -107,7 +107,7 @@ public class SimCommandLine
 			else
 				statusBuffer.append("not paused, ");
 			statusBuffer.delete(statusBuffer.length() -2, statusBuffer.length());
-			statusBuffer.append(" with "+myDriver.getTicks()+" ticks");
+			statusBuffer.append(" with "+myDriver.getTicks()+" tick(s)");
 			System.out.println(statusBuffer.toString());
 		}
 		else if (userCommand.equals("?") || userCommand.equals("help")){
