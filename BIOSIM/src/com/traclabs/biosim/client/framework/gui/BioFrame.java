@@ -24,7 +24,7 @@ public class BioFrame extends javax.swing.JFrame
 	* Constructor that makes the frame with the title specified and registers the close listener
 	* @param newTitle The title of the frame
 	*/
-	public BioFrame(String newTitle )
+	public BioFrame(String newTitle)
 	{
 		super( newTitle );
 		buildGui();
@@ -36,10 +36,10 @@ public class BioFrame extends javax.swing.JFrame
 	* @param newTitle The title of the frame
 	* @param show_close_dialog if <code>true</code>, popup dialog comes up asking "Do you want to close?", on <code>true</code> it doesn't
 	*/
-	public BioFrame(String newTitle, boolean show_close_dialog )
+	public BioFrame(String newTitle, boolean show_close_dialog)
 	{
-		super( newTitle );
-		showCloseDialog = showCloseDialog;
+		super(newTitle);
+		showCloseDialog = show_close_dialog;
 		buildGui();
 	}
 	
