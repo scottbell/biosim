@@ -10,7 +10,7 @@ public class CO2AirPressureSensorImpl extends EnvironmentSensorImpl implements C
 	}
 
 	protected void gatherData(){
-		float preFilteredValue = getInput().getCO2Moles() / getInput().getTotalMoles();
+		float preFilteredValue = getInput().getCO2Pressure();
 		myValue = randomFilter(preFilteredValue);
 	}
 

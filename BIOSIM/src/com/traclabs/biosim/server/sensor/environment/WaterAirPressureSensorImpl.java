@@ -10,7 +10,7 @@ public class WaterAirPressureSensorImpl extends EnvironmentSensorImpl implements
 	}
 
 	protected void gatherData(){
-		float preFilteredValue = getInput().getWaterMoles() / getInput().getTotalMoles();
+		float preFilteredValue = getInput().getWaterPressure();
 		myValue = randomFilter(preFilteredValue);
 	}
 
