@@ -423,17 +423,27 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 
 		//Hook up Accumulator to other modules
 		{
-			SimEnvironment[] CO2AirInput = {myPlantEnvironment};
-			CO2Store[] CO2AirOutput = {myCO2Store};
-			float[] CO2AirInputFlowRates = {20f};
-			float[] CO2AirOutputFlowRates = {20f};
+			//Accumulate O2 from plant environment, put it in O2 store
+			SimEnvironment[] O2AirInput = {myPlantEnvironment};
+			O2Store[] O2AirOutput = {myO2Store};
+			float[] O2AirInputFlowRates = {20f};
+			float[] O2AirOutputFlowRates = {20f};
 			Accumulator myAccumulator = (Accumulator)(getBioModule(accumulatorName));
+			myAccumulator.setO2AirEnvironmentInputs(O2AirInput, O2AirInputFlowRates);
+			myAccumulator.setO2AirStoreOutputs(O2AirOutput, O2AirOutputFlowRates);
+			
+			//Accumulate CO2 from crew environment, put it in CO2 store
+			SimEnvironment[] CO2AirInput = {myCrewEnvironment};
+			CO2Store[] CO2AirOutput = {myCO2Store};
+			float[] CO2AirInputFlowRates = {100f};
+			float[] CO2AirOutputFlowRates = {100f};
 			myAccumulator.setCO2AirEnvironmentInputs(CO2AirInput, CO2AirInputFlowRates);
 			myAccumulator.setCO2AirStoreOutputs(CO2AirOutput, CO2AirOutputFlowRates);
 		}
 
 		//Hook up Injector to other modules
 		{
+			//Take O2 from store, inject it into crew environment
 			O2Store[] O2AirInput = {myO2Store};
 			SimEnvironment[] O2AirOutput = {myCrewEnvironment};
 			float[] O2AirInputFlowRates = {100f};
@@ -441,6 +451,14 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			Injector myInjector = (Injector)(getBioModule(injectorName));
 			myInjector.setO2AirStoreInputs(O2AirInput, O2AirInputFlowRates);
 			myInjector.setO2AirEnvironmentOutputs(O2AirOutput, O2AirOutputFlowRates);
+			
+			//Take CO2 from store, inject it into plant environment
+			CO2Store[] CO2AirInput = {myCO2Store};
+			SimEnvironment[] CO2AirOutput = {myPlantEnvironment};
+			float[] CO2AirInputFlowRates = {100f};
+			float[] CO2AirOutputFlowRates = {100f};
+			myInjector.setCO2AirStoreInputs(CO2AirInput, CO2AirInputFlowRates);
+			myInjector.setCO2AirEnvironmentOutputs(CO2AirOutput, CO2AirOutputFlowRates);
 		}
 	}
 

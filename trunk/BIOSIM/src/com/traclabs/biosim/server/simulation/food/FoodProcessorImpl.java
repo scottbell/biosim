@@ -33,7 +33,7 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	private float currentFoodProduced = 0f;
 	//References to the servers the Food Processor takes/puts resources (like power, biomass, etc)
 	private LogIndex myLogIndex;
-	private float myProductionRate;
+	private float myProductionRate = 1f;
 	private FoodStore[] myFoodStores;
 	private PowerStore[] myPowerStores;
 	private BiomassStore[] myBiomassStores;
