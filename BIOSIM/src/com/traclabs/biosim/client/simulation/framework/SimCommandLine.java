@@ -1,6 +1,7 @@
 package biosim.client.simulation.framework;
 
 import biosim.idl.framework.*;
+import biosim.client.util.*;
 import java.io.*;
 /**
  * A simple driver that creates a SimDesktop, sets the size and visibility, then lets it run.

@@ -114,12 +114,30 @@ if [ "$userSelect" == "all" ]; then
 	$compilationInvocation $simStubDir/idl/simulation/environment/*.java
 	echo "			-compiling framework stubs"
 	$compilationInvocation $simStubDir/idl/simulation/framework/*.java
+	echo "		-compiling sensor stubs"
+	echo "			-compiling air stubs"
+	$compilationInvocation $simStubDir/idl/sensor/air/*.java
+	echo "			-compiling water stubs"
+	$compilationInvocation $simStubDir/idl/sensor/water/*.java
+	echo "			-compiling power stubs"
+	$compilationInvocation $simStubDir/idl/sensor/power/*.java
+	echo "			-compiling crew stubs"
+	$compilationInvocation $simStubDir/idl/sensor/crew/*.java
+	echo "			-compiling food stubs"
+	$compilationInvocation $simStubDir/idl/sensor/food/*.java
+	echo "			-compiling environment stubs"
+	$compilationInvocation $simStubDir/idl/sensor/environment/*.java
+	echo "			-compiling framework stubs"
+	$compilationInvocation $simStubDir/idl/sensor/framework/*.java
+	echo "			-compiling actuator skeletons/stubs"
+	echo "				-compiling framework skeletons/stubs"
+	$compilationInvocation $simStubDir/idl/actuator/framework/*.java
 fi
-echo "		-compiling util"
+echo "	-compiling util"
 $compilationInvocation $clientDir/util/*.java
-echo "			-compiling log"
+echo "		-compiling log"
 $compilationInvocation $clientDir/util/log/*.java
-echo "		-compiling framework"
+echo "	-compiling framework"
 $compilationInvocation $clientDir/framework/*.java
 echo "	-compiling simulation"
 echo "		-compiling air"
@@ -146,7 +164,7 @@ echo "			-compiling framework.gui"
 $compilationInvocation $clientDir/simulation/framework/gui/*.java
 echo "	-compiling sensor"
 echo "		-compiling framework"
-echo "			-framework air.gui"
+echo "			-compiling framework.gui"
 $compilationInvocation $clientDir/sensor/framework/gui/*.java
 echo "*done building biosim"
 
