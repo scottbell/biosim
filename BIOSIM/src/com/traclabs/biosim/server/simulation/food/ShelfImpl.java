@@ -141,9 +141,20 @@ public class ShelfImpl extends ShelfPOA {
 		if (autoHarvest){
 			if (myCrop.readyForHarvest()){
 				float biomassProduced = myCrop.harvest();
-				float biomassAdded = myBiomassRSImpl.pushFractionalResourceToStore(myBiomassRSImpl.getBiomassOutputs(), myBiomassRSImpl.getBiomassOutputMaxFlowRates(), myBiomassRSImpl.getBiomassOutputDesiredFlowRates(), myBiomassRSImpl.getBiomassOutputActualFlowRates(), biomassProduced, myBiomassRSImpl.getNumberOfShelves());		
+				float biomassAdded = pushFractionalResourceToBiomassStore(myBiomassRSImpl.getBiomassOutputs(), myBiomassRSImpl.getBiomassOutputMaxFlowRates(), myBiomassRSImpl.getBiomassOutputDesiredFlowRates(), myBiomassRSImpl.getBiomassOutputActualFlowRates(), biomassProduced, myBiomassRSImpl.getNumberOfShelves(), myCrop.getPlantType());		
 			}
 		}
+	}
+	
+	private float pushFractionalResourceToBiomassStore(BiomassStore[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates, float[] pActualFlowRates, float amountToPush, float fraction, PlantType pType){
+		float resourceDistributed = amountToPush;
+		for (int i = 0; (i < pStores.length) && (resourceDistributed > 0); i++){
+			float resourceToDistributeFirst = Math.min(resourceDistributed, pMaxFlowRates[i] * fraction);
+			float resourceToDistributeFinal = Math.min(resourceToDistributeFirst, pDesiredFlowRates[i] * fraction);
+			pActualFlowRates[i] += pStores[i].addBioMatter(resourceToDistributeFinal, pType);
+			resourceDistributed -= pActualFlowRates[i];
+		}
+		return (amountToPush - resourceDistributed);
 	}
 
 	public void tick(){
