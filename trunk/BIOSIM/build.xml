@@ -164,7 +164,7 @@
 				<exclude name="META-INF" />
 				<exclude name="license-INF" />
 			</fileset>
-			<fileset file="${winDistDir}/mars.gif" />
+			<fileset file="${winDistDir}/mars.png" />
 			<fileset file="${jacorbDir}/jacorb.properties" />
 		</jar>
 	</target>
