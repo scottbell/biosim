@@ -2,6 +2,7 @@ package biosim.server.simulation.food;
 
 import biosim.idl.simulation.food.*;
 import biosim.idl.simulation.air.*;
+import java.util.*;
 import biosim.idl.util.log.*;
 import biosim.idl.simulation.environment.*;
 import biosim.server.util.*;
@@ -21,6 +22,7 @@ public abstract class PlantImpl extends PlantPOA{
 	public PlantImpl(ShelfImpl pShelfImpl){
 		myShelfImpl = pShelfImpl;
 		canopyClosureConstants = new float[25];
+		Arrays.fill(canopyClosureConstants, 0f);
 	}
 
 	public void reset(){
@@ -28,43 +30,77 @@ public abstract class PlantImpl extends PlantPOA{
 
 	public void tick(){
 	}
-	
+
 	public void harvest(){
 	}
-	
+
 	public void shine(float pWatts){
 	}
-	
+
 	public float getWaterNeeded(){
 		return waterNeeded;
 	}
-	
+
 	private void calculateBiomass(){
 		float molecularWeightOfCarbon = 12.011f; // g/mol
 		float cropGrowthRate = molecularWeightOfCarbon * calculateDailyCarbonGain() / getBCF();
 	}
-	
+
 	private float calculateDailyCarbonGain(){
 		float thePPF = calculatePPF();
 		return 0.0036f * getPhotoperiod() * getCarbonUseEfficiency24() * calculatePPFFractionAbsorbed(thePPF) * calculateCQY() * thePPF;
 	}
-	
+
 	protected abstract float getBCF();
 	protected abstract float getCarbonUseEfficiency24();
 	protected abstract float getPhotoperiod();
 	protected abstract float getN();
-	
+
 	//Need to convert current CO2 levels to micromoles of CO2 / molecules of air
 	private float calculateCO2(){
 		return 0.1f;
 	}
-	
+
 	private float calculateTimeTillCanopyClosure(float pPPF){
 		float thePPF = pPPF;
+		float oneOverPPf = 1f / thePPF;
+		float thePPFsquared = pow(thePPF, 2f);
+		float thePPFcubed = pow(thePPF, 3f);
+
+
 		float theCO2 = calculateCO2();
-		return 0.1f;
+		float oneOverCO2 = 1f / theCO2;
+		float theCO2squared = pow(theCO2, 2f);
+		float theCO2cubed = pow(theCO2, 3f);
+
+		float tA = canopyClosureConstants[0] * oneOverPPf * oneOverCO2 +
+		           canopyClosureConstants[1] * oneOverPPf +
+			   canopyClosureConstants[2] * oneOverPPf * theCO2 +
+			   canopyClosureConstants[3] * oneOverPPf * theCO2squared +
+			   canopyClosureConstants[4] * oneOverPPf * theCO2cubed +
+			   canopyClosureConstants[5] * oneOverCO2 +
+			   canopyClosureConstants[6] +
+			   canopyClosureConstants[7] * theCO2 +
+			   canopyClosureConstants[8] * theCO2squared +
+			   canopyClosureConstants[9] * theCO2cubed +
+			   canopyClosureConstants[10] * thePPF * oneOverCO2 +
+			   canopyClosureConstants[11] * thePPF +
+			   canopyClosureConstants[12] * thePPF * theCO2 +
+			   canopyClosureConstants[13] * thePPF * theCO2squared +
+			   canopyClosureConstants[14] * thePPF * theCO2cubed +
+			   canopyClosureConstants[15] * thePPFsquared * oneOverCO2 +
+			   canopyClosureConstants[16] * thePPFsquared +
+			   canopyClosureConstants[17] * thePPFsquared * theCO2 +
+			   canopyClosureConstants[18] * thePPFsquared * theCO2squared +
+			   canopyClosureConstants[19] * thePPFsquared * theCO2cubed +
+			   canopyClosureConstants[20] * thePPFcubed * oneOverCO2 +
+			   canopyClosureConstants[21] * thePPFcubed +
+			   canopyClosureConstants[22] * thePPFcubed  * theCO2 +
+			   canopyClosureConstants[23] * thePPFcubed  * theCO2squared +
+			   canopyClosureConstants[24] * thePPFcubed  * theCO2cubed;
+		return tA;
 	}
-	
+
 	private float calculatePPFFractionAbsorbed(float pPPF){
 		float PPFFractionAbsorbedMax = 0.93f;
 		float timeTillCanopyClosure = calculateTimeTillCanopyClosure(pPPF);
@@ -74,19 +110,19 @@ public abstract class PlantImpl extends PlantPOA{
 		else
 			return PPFFractionAbsorbedMax;
 	}
-	
+
 	private float calculateCQY(){
 		return 0.1f;
 	}
-	
+
 	private float calculatePPF(){
 		return 0.1f;
 	}
-	
+
 	protected float pow(float a, float b){
 		return (new Double(Math.pow(a,b))).floatValue();
 	}
-	
+
 	public abstract String getPlantType();
 
 	public void log(LogNode myLogHead){
@@ -108,5 +144,5 @@ public abstract class PlantImpl extends PlantPOA{
 	private class LogIndex{
 		public LogNode typeIndex;
 	}
-	
+
 }
