@@ -41,7 +41,6 @@ Section "BioSim Program (must be installed)" ; (default section)
 		File run-distro-nameserver.bat
 		File run-biosim.bat
 		File biosim.ico
-		File sleep.exe
 		File LICENSE.txt
 		CreateShortCut "$INSTDIR\BioSim.lnk" "$INSTDIR\run-biosim.bat" "" "$INSTDIR\biosim.ico" 0
 		WriteRegStr HKEY_LOCAL_MACHINE "SOFTWARE\TRACLabs\BioSim" "" "$INSTDIR"
@@ -68,7 +67,6 @@ Section Uninstall
 	Delete "$INSTDIR\run-distro-nameserver.bat"
 	Delete "$INSTDIR\run-biosim.bat"
 	Delete "$INSTDIR\setENV.bat"
-	Delete "$INSTDIR\sleep.exe"
 	Delete "$INSTDIR\biosim.ico"
 	Delete "$INSTDIR\LICENSE.txt"
 	Delete "$INSTDIR\BioSim.lnk"
