@@ -520,7 +520,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		*/
 		afterAdditionWater = randomFilter(waterMoles + molesRequested);
 		actuallyAddedWater = afterAdditionWater - waterMoles;
-		waterMoles = actuallyAddedWater;
+		waterMoles = afterAdditionWater;
 
 		return  actuallyAddedWater;
 	}
@@ -560,9 +560,9 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		}
 		//stuff exists for request
 		else{
-			actuallyTaken = O2Moles - randomFilter(amountRequested);
+			actuallyTaken = randomFilter(amountRequested);
 			//take moles
-			O2Moles = actuallyTaken;
+			O2Moles -= actuallyTaken;
 		}
 		return actuallyTaken;
 	}
@@ -581,9 +581,9 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		}
 		//stuff exists for request
 		else{
-			actuallyTaken = otherMoles - randomFilter(amountRequested);
+			actuallyTaken = randomFilter(amountRequested);
 			//take moles
-			otherMoles = actuallyTaken;
+			otherMoles -= actuallyTaken;
 		}
 		return actuallyTaken;
 	}
@@ -602,9 +602,9 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		}
 		//stuff exists for request
 		else{
-			actuallyTaken = waterMoles - randomFilter(amountRequested);
+			actuallyTaken = randomFilter(amountRequested);
 			//take moles
-			waterMoles = actuallyTaken;
+			waterMoles -= actuallyTaken;
 		}
 		return actuallyTaken;
 	}
@@ -629,15 +629,20 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		}
 		//gas exists for request
 		else{
+			System.out.println(getModuleName()+": gas exists for request");
 			float afterRemovalCO2 = randomFilter(CO2Moles - (CO2Moles / getTotalMoles()) * molesRequested);
 			float afterRemovalO2 = randomFilter(O2Moles - (O2Moles / getTotalMoles()) * molesRequested);
 			float afterRemovalOther = randomFilter(otherMoles - (otherMoles / getTotalMoles()) * molesRequested);
 			float afterRemovalWater = randomFilter(waterMoles - (waterMoles / getTotalMoles()) * molesRequested);
+			O2MolesTaken = afterRemovalO2 - O2Moles ;
+			CO2MolesTaken = afterRemovalCO2 - CO2Moles;
+			otherMolesTaken = afterRemovalOther - otherMoles;
+			waterMolesTaken = afterRemovalWater - waterMoles;
 			O2Moles = afterRemovalO2;
 			CO2Moles = afterRemovalCO2;
 			otherMoles = afterRemovalOther;
 			waterMoles = afterRemovalWater;
-			return new Breath(afterRemovalO2, afterRemovalCO2, afterRemovalWater, afterRemovalOther);
+			return new Breath(O2MolesTaken, CO2MolesTaken, waterMolesTaken, otherMolesTaken);
 		}
 	}
 
