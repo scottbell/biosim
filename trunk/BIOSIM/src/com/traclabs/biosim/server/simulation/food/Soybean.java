@@ -9,12 +9,17 @@ import biosim.idl.simulation.food.*;
 public class Soybean extends Legume{
 	public Soybean(ShelfImpl pShelfImpl){
 		super(pShelfImpl);
-		canopyClosureConstants[0] = 290410f;
-		canopyClosureConstants[1] = 1559.4f;
-		canopyClosureConstants[6] = 15.840f;
-		canopyClosureConstants[10] = .0061120f;
-		canopyClosureConstants[17] = -0.0000000037409f;
-		canopyClosureConstants[24] = .00000000000000000096484f;
+		canopyClosureConstants[0] = 6797800f;
+		canopyClosureConstants[1] = -4365.8f;
+		canopyClosureConstants[2] = 1.5573f;
+		canopyClosureConstants[5] = -43260f;
+		canopyClosureConstants[6] = 33.959f;
+		canopyClosureConstants[10] = 112.63f;
+		canopyClosureConstants[13] = -.000000004911f;
+		canopyClosureConstants[15] = -0.13637f;
+		canopyClosureConstants[20] = .000066918f;
+		canopyClosureConstants[21] = -.000000021367f;
+		canopyClosureConstants[22] = 000000000015467f;
 
 		canopyQYConstants[6] = .04191f;
 		canopyQYConstants[7] = .000053852f;

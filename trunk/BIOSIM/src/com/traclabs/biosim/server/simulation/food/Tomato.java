@@ -9,12 +9,12 @@ import biosim.idl.simulation.food.*;
 public class Tomato extends Planophile{
 	public Tomato(ShelfImpl pShelfImpl){
 		super(pShelfImpl);
-		canopyClosureConstants[0] = 290410f;
-		canopyClosureConstants[1] = 1559.4f;
-		canopyClosureConstants[6] = 15.840f;
-		canopyClosureConstants[10] = .0061120f;
-		canopyClosureConstants[17] = -0.0000000037409f;
-		canopyClosureConstants[24] = .00000000000000000096484f;
+		canopyClosureConstants[0] = 627740f;
+		canopyClosureConstants[1] = 3172.4f;
+		canopyClosureConstants[6] = 24.281f;
+		canopyClosureConstants[10] = 0.44686f;
+		canopyClosureConstants[11] = .0056276f;
+		canopyClosureConstants[16] = -.0000030690f;
 
 		canopyQYConstants[6] = .04191f;
 		canopyQYConstants[7] = .000053852f;

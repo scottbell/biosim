@@ -16,12 +16,12 @@ public class DryBean extends Legume{
 		canopyClosureConstants[17] = -0.0000000037409f;
 		canopyClosureConstants[24] = .00000000000000000096484f;
 
-		canopyQYConstants[6] = .04191f;
-		canopyQYConstants[7] = .000053852f;
-		canopyQYConstants[8] = -.000000021275f;
-		canopyQYConstants[11] = -.00001238f;
-		canopyQYConstants[17] = -.00000000001544f;
-		canopyQYConstants[18] = .000000000000006469f;
+		canopyQYConstants[6] = 0.04191f;
+		canopyQYConstants[7] = 0.000053852f;
+		canopyQYConstants[8] = -0.000000021275f;
+		canopyQYConstants[11] = -0.00001238f;
+		canopyQYConstants[17] = -0.00000000001544f;
+		canopyQYConstants[18] = 0.000000000000006469f;
 	}
 
 	public PlantType getPlantType(){
