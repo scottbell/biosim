@@ -19,11 +19,14 @@ public abstract class PlantImpl extends PlantPOA{
 	private float waterNeeded = .01f;
 	private float myPPF = 0f;
 	protected float[] canopyClosureConstants;
+	protected float[] canopyQYConstants;
 
 	public PlantImpl(ShelfImpl pShelfImpl){
 		myShelfImpl = pShelfImpl;
 		canopyClosureConstants = new float[25];
+		canopyQYConstants = new float[25];
 		Arrays.fill(canopyClosureConstants, 0f);
+		Arrays.fill(canopyQYConstants, 0f);
 	}
 
 	public void reset(){
@@ -51,8 +54,7 @@ public abstract class PlantImpl extends PlantPOA{
 	}
 
 	private float calculateDailyCarbonGain(){
-		float thePPF = calculatePPF();
-		return 0.0036f * getPhotoperiod() * getCarbonUseEfficiency24() * calculatePPFFractionAbsorbed(thePPF) * calculateCQY() * thePPF;
+		return 0.0036f * getPhotoperiod() * getCarbonUseEfficiency24() * calculatePPFFractionAbsorbed() * calculateCQY() * getPPF();
 	}
 
 	protected abstract float getBCF();
@@ -75,8 +77,8 @@ public abstract class PlantImpl extends PlantPOA{
 		return myAge / 24f;
 	}
 
-	private float calculateTimeTillCanopyClosure(float pPPF){
-		float thePPF = pPPF;
+	private float calculateTimeTillCanopyClosure(){
+		float thePPF = getPPF();
 		float oneOverPPf = 1f / thePPF;
 		float thePPFsquared = pow(thePPF, 2f);
 		float thePPFcubed = pow(thePPF, 3f);
@@ -115,9 +117,9 @@ public abstract class PlantImpl extends PlantPOA{
 		return tA;
 	}
 
-	private float calculatePPFFractionAbsorbed(float pPPF){
+	private float calculatePPFFractionAbsorbed(){
 		float PPFFractionAbsorbedMax = 0.93f;
-		float timeTillCanopyClosure = calculateTimeTillCanopyClosure(pPPF);
+		float timeTillCanopyClosure = calculateTimeTillCanopyClosure();
 		if (getDaysOfGrowth() < timeTillCanopyClosure){
 			return PPFFractionAbsorbedMax * pow((getDaysOfGrowth() / timeTillCanopyClosure), getN());
 		}
@@ -126,7 +128,43 @@ public abstract class PlantImpl extends PlantPOA{
 	}
 	
 	private float calculateCQYMax(){
-		return 0.1f;
+		float thePPF = getPPF();
+		float oneOverPPf = 1f / thePPF;
+		float thePPFsquared = pow(thePPF, 2f);
+		float thePPFcubed = pow(thePPF, 3f);
+
+
+		float theCO2 = calculateCO2();
+		float oneOverCO2 = 1f / theCO2;
+		float theCO2squared = pow(theCO2, 2f);
+		float theCO2cubed = pow(theCO2, 3f);
+
+		float theCQYMax = canopyQYConstants[0] * oneOverPPf * oneOverCO2 +
+		           canopyQYConstants[1] * oneOverPPf +
+			   canopyQYConstants[2] * oneOverPPf * theCO2 +
+			   canopyQYConstants[3] * oneOverPPf * theCO2squared +
+			   canopyQYConstants[4] * oneOverPPf * theCO2cubed +
+			   canopyQYConstants[5] * oneOverCO2 +
+			   canopyQYConstants[6] +
+			   canopyQYConstants[7] * theCO2 +
+			   canopyQYConstants[8] * theCO2squared +
+			   canopyQYConstants[9] * theCO2cubed +
+			   canopyQYConstants[10] * thePPF * oneOverCO2 +
+			   canopyQYConstants[11] * thePPF +
+			   canopyQYConstants[12] * thePPF * theCO2 +
+			   canopyQYConstants[13] * thePPF * theCO2squared +
+			   canopyQYConstants[14] * thePPF * theCO2cubed +
+			   canopyQYConstants[15] * thePPFsquared * oneOverCO2 +
+			   canopyQYConstants[16] * thePPFsquared +
+			   canopyQYConstants[17] * thePPFsquared * theCO2 +
+			   canopyQYConstants[18] * thePPFsquared * theCO2squared +
+			   canopyQYConstants[19] * thePPFsquared * theCO2cubed +
+			   canopyQYConstants[20] * thePPFcubed * oneOverCO2 +
+			   canopyQYConstants[21] * thePPFcubed +
+			   canopyQYConstants[22] * thePPFcubed  * theCO2 +
+			   canopyQYConstants[23] * thePPFcubed  * theCO2squared +
+			   canopyQYConstants[24] * thePPFcubed  * theCO2cubed;
+		return theCQYMax;
 	}
 
 	private float calculateCQY(){
@@ -139,7 +177,7 @@ public abstract class PlantImpl extends PlantPOA{
 		}
 	}
 
-	private float calculatePPF(){
+	private float getPPF(){
 		return myPPF;
 	}
 
