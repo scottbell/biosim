@@ -132,10 +132,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		GreyWaterStore myGreyWaterStore = (GreyWaterStore)(getBioModule(greyWaterStoreName));
 		myDirtyWaterStore.setCapacity(2000f);
 		myDirtyWaterStore.setLevel(0f);
-		myPotableWaterStore.setCapacity(200f);
-		myPotableWaterStore.setLevel(200f);
+		myPotableWaterStore.setCapacity(2000f);
+		myPotableWaterStore.setLevel(2000f);
 		myGreyWaterStore.setCapacity(2000f);
-		myGreyWaterStore.setLevel(0f);
+		myGreyWaterStore.setLevel(2000f);
 
 		//Fill the air tanks
 		CO2Store myCO2Store = (CO2Store)(getBioModule(CO2StoreName));
@@ -154,7 +154,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		BiomassStore myBiomassStore = (BiomassStore)(getBioModule(biomassStoreName));
 		FoodStore myFoodStore = (FoodStore)(getBioModule(foodStoreName));
 		myBiomassStore.setCapacity(100f);
-		myFoodStore.setCapacity(500f);
+		myFoodStore.setCapacity(1000f);
 		myBiomassStore.setLevel(0f);
 		myFoodStore.setLevel(500f);
 

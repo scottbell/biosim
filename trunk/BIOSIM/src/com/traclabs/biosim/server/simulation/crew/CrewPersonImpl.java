@@ -463,19 +463,19 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private void deathCheck(){
 		//check for death
 		if (starvingTime > 504){
-			System.out.println(myName + " dead from starvation");
+			System.out.println("CrewPersonImpl: "+myName + " dead from starvation");
 			hasDied = true;
 		}
 		else if (thirstTime > 72){
-			System.out.println(myName + " dead from thirst");
+			System.out.println("CrewPersonImpl: "+myName + " dead from thirst");
 			hasDied = true;
 		}
 		else if (suffocateTime > 1){
-			System.out.println(myName + " dead from suffocation");
+			System.out.println("CrewPersonImpl: "+myName + " dead from suffocation");
 			hasDied = true;
 		}
 		else if (poisonTime > 5){
-			System.out.println(myName + " dead from CO2 poisoning");
+			System.out.println("CrewPersonImpl: "+myName + " dead from CO2 poisoning");
 			hasDied = true;
 		}
 		else{

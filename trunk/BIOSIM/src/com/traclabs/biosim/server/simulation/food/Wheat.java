@@ -7,30 +7,41 @@ package biosim.server.food;
 
 public class Wheat extends Plant{
 	private static final int HARVEST_TIME=83;
-	private static final float EDIBLE_GRAMS = .0025f;  //edible kilograms per meter squared per hour
-	
+	private static final float EDIBLE_KILOGRAMS = .0025f;  //edible kilograms per meter squared per hour
+	protected float waterNeeded = new Double((866.299 / HARVEST_TIME) * numberOfCrops).floatValue();
+
 	public Wheat(){
 	}
-	
+
 	public Wheat(float pAreaPerCrop, int pNumberOfCrops){
 		super(pAreaPerCrop, pNumberOfCrops);
 	}
-	
-	protected float calculateCO2Needed(){
+
+	protected void calculateCO2Needed(){
 		float time = 1.0f;
-		Double CO2FlowRate = new Double((-1.4950 + 0.1944 * time - 9.9587 * Math.exp(-3) * (time * time) + 1.1802 * Math.exp(-4) * (time * time * time) -
-		 5.0269 * Math.exp(-7) * (time * time * time* time)) / areaPerCrop);
-		 return CO2FlowRate.floatValue();
+		double CO2FlowRate = (-1.4950 + 0.1944 * time - 9.9587 * Math.exp(-3) * (time * time) + 1.1802 * Math.exp(-4) * (time * time * time) -
+		                      5.0269 * Math.exp(-7) * (time * time * time* time)) / areaPerCrop;
+		Double CO2FlowRateObj = new Double(CO2FlowRate * numberOfCrops);
+		CO2Needed = CO2FlowRateObj.floatValue();
 	}
 	
+	protected void calculateWaterNeeded(){
+		return ;
+	}
+	
+	protected void calculatePowerNeeded(){
+		powerNeeded  = new Double(2.0 * numberOfCrops).floatValue();
+	}
+
 	protected void calculateProducedBiomass(){
 		if (((myAge / 24)) >= HARVEST_TIME){
 			//Harvest time
-			biomassProduced = EDIBLE_GRAMS * myAge;
+			biomassProduced = EDIBLE_KILOGRAMS * myAge * areaPerCrop;
+			biomassProduced *= numberOfCrops;
 			myAge =0;
 		}
 		else
 			biomassProduced =  0f;
 	}
-	
+
 }
