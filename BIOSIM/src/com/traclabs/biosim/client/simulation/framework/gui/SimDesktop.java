@@ -5,6 +5,7 @@ import biosim.client.gui.*;
 import biosim.client.environment.gui.*;
 import biosim.client.air.gui.*;
 import biosim.client.crew.gui.*;
+import biosim.client.food.gui.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
@@ -209,7 +210,7 @@ public class SimDesktop extends BaseJFrame
 			super(name);
 		}
 		public void actionPerformed(ActionEvent ae){
-			JOptionPane.showMessageDialog(null,"Advanced Life Support System Simulation");
+			JOptionPane.showMessageDialog(null,"Advanced Life Support Simulation\nCopyright "+ new Character( '\u00A9' ) + " 2002, TRACLabs\nby Scott Bell and David Kortenkamp");
 		}
 	}
 	
@@ -222,6 +223,8 @@ public class SimDesktop extends BaseJFrame
 			addInternalFrame("Air",new AirPanel(myBiosim));
 			addInternalFrame("Environment",new EnvironmentPanel(myBiosim));
 			addInternalFrame("Crew",new CrewPanel(myBiosim));
+			addInternalFrame("Food",new FoodPanel(myBiosim));
+			addInternalFrame("Power",new PowerPanel(myBiosim));
 			myDesktop.setCursor(Cursor.getDefaultCursor());
 		}
 	}

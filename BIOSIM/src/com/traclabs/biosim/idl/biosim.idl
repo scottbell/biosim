@@ -84,6 +84,7 @@ module biosim{
                         interface BiomassRS : framework::BioModule{
                                 float getPowerConsumed();
                                 float getGreyWaterConsumed();
+				float getCO2Consumed();
                                 float getBiomassProduced();
                         };
                         interface BiomassStore : framework::BioModule{

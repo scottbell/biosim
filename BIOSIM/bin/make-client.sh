@@ -105,12 +105,18 @@ $compilationInvocation $clientDir/gui/*.java
 echo "			-compiling air"
 echo "				-compiling air.gui"
 $compilationInvocation $clientDir/air/gui/*.java
+echo "			-compiling power"
+echo "				-compiling power.gui"
+$compilationInvocation $clientDir/power/gui/*.java
 echo "			-compiling environment"
 echo "				-compiling environment.gui"
 $compilationInvocation $clientDir/environment/gui/*.java
 echo "			-compiling crew"
 echo "				-compiling crew.gui"
 $compilationInvocation $clientDir/crew/gui/*.java
+echo "			-compiling food"
+echo "				-compiling food.gui"
+$compilationInvocation $clientDir/food/gui/*.java
 echo "			-compiling framework"
 $compilationInvocation $clientDir/framework/*.java
 echo "				-compiling framework.gui"
