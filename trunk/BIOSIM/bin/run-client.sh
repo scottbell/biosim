@@ -67,8 +67,7 @@ resourceDir=$devRootDir$resourceString
 plotClasspath="$devRootDir/lib/jfreechart/jcommon.jar$separator$devRootDir/lib/jfreechart/jfreechart.jar"
 xmlClasspath="$devRootDir/lib/xerces/xercesImpl.jar$separator$devRootDir/lib/xerces/xml-apis.jar$separator$devRootDir/lib/xerces/xmlParserAPIs.jar"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME$separator$JACORB_HOME/avalon-framework.jar$separator$JACORB_HOME/logkit.jar"
-sim3DClasspath="$sim3DLibDir/joal.jar$separator$joglDir/jogl.jar$separator$sim3DLibDir/junit.jar$separator$sim3DLibDir/log4j.jar$separator$sim3DLibDir/vecmath.jar$separator$sim3DLibDir/vorbis.jar$separator$sim3DLibDir/xith3d.jar"
-jacoInvocation="$java_command -classpath $plotClasspath$separator$clientClassesDir$separator$jacoClasspath$separator$resourceDir$separator$xmlClasspath$separator$sim3DClasspath $biosimHome $jacoSingletonOrbClass $native3DDir $jacoOrbClass $jacoNameIOR"
+jacoInvocation="$java_command -classpath $plotClasspath$separator$clientClassesDir$separator$jacoClasspath$separator$resourceDir$separator$xmlClasspath $biosimHome $jacoSingletonOrbClass $native3DDir $jacoOrbClass $jacoNameIOR"
 echo "	-starting client"
 console="console"
 gui="gui"
@@ -77,7 +76,7 @@ logviewer="logviewer"
 malfunction="malfunction"
 stochastic="stochastic"
 controller="controller"
-sim3D="3D"
+unreal="unreal"
 sensor="sensor"
 test="test"
 case $userSelect in
@@ -88,7 +87,7 @@ case $userSelect in
 	$malfunction) echo "			 -starting $userSelect";$jacoInvocation $malfunctionName;;
 	$stochastic) echo "			 -starting $userSelect";$jacoInvocation $stochasticName;;
 	$sensor) echo "			 -starting $userSelect";$jacoInvocation $sensorName;;
-	$sim3D) echo "			 -starting $userSelect";$jacoInvocation $mainName $sim3D;;
+	$unreal) echo "			 -starting $userSelect";$jacoInvocation $mainName $unreal;;
 	$test) echo "			 -starting $userSelect";$jacoInvocation $testName $console;;
 	$help) echo "Usage: run-client.sh (-ga) [console, gui, logviewer, malfunction, stochastic, controller, 3D]";;
 	"-id"*) echo "			-assuming all (id user specified)";$jacoInvocation $mainName $1;;
