@@ -224,13 +224,25 @@ public class BiosimServer extends GenericServer{
 		//Environment Sensors
 		//
 		{
-			O2AirLevelSensorImpl myO2AirLevelSensorImpl = new O2AirLevelSensorImpl(id);
-			CO2AirLevelSensorImpl myCO2AirLevelSensorImpl = new CO2AirLevelSensorImpl(id);
-			OtherAirLevelSensorImpl myOtherAirLevelSensorImpl = new OtherAirLevelSensorImpl(id);
-			registerServer(new O2AirLevelSensorPOATie(myO2AirLevelSensorImpl), myO2AirLevelSensorImpl.getModuleName());
-			registerServer(new CO2AirLevelSensorPOATie(myCO2AirLevelSensorImpl), myCO2AirLevelSensorImpl.getModuleName());
-			registerServer(new OtherAirLevelSensorPOATie(myOtherAirLevelSensorImpl), myOtherAirLevelSensorImpl.getModuleName());
-
+			//CrewEnvironment
+			{
+				O2AirLevelSensorImpl myO2AirLevelSensorImpl = new O2AirLevelSensorImpl(id);
+				CO2AirLevelSensorImpl myCO2AirLevelSensorImpl = new CO2AirLevelSensorImpl(id);
+				OtherAirLevelSensorImpl myOtherAirLevelSensorImpl = new OtherAirLevelSensorImpl(id);
+				registerServer(new O2AirLevelSensorPOATie(myO2AirLevelSensorImpl), "CrewEnvironment" + myO2AirLevelSensorImpl.getModuleName());
+				registerServer(new CO2AirLevelSensorPOATie(myCO2AirLevelSensorImpl), "CrewEnvironment" + myCO2AirLevelSensorImpl.getModuleName());
+				registerServer(new OtherAirLevelSensorPOATie(myOtherAirLevelSensorImpl), "CrewEnvironment" + myOtherAirLevelSensorImpl.getModuleName());
+			}
+			//Plant Evnironment
+			{
+				O2AirLevelSensorImpl myO2AirLevelSensorImpl = new O2AirLevelSensorImpl(id);
+				CO2AirLevelSensorImpl myCO2AirLevelSensorImpl = new CO2AirLevelSensorImpl(id);
+				OtherAirLevelSensorImpl myOtherAirLevelSensorImpl = new OtherAirLevelSensorImpl(id);
+				registerServer(new O2AirLevelSensorPOATie(myO2AirLevelSensorImpl), "PlantEnvironment" + myO2AirLevelSensorImpl.getModuleName());
+				registerServer(new CO2AirLevelSensorPOATie(myCO2AirLevelSensorImpl), "PlantEnvironment" + myCO2AirLevelSensorImpl.getModuleName());
+				registerServer(new OtherAirLevelSensorPOATie(myOtherAirLevelSensorImpl), "PlantEnvironment" + myOtherAirLevelSensorImpl.getModuleName());
+			}
+			
 		}
 
 		//
