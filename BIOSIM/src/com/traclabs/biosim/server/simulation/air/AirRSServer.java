@@ -1,3 +1,9 @@
+/**
+ * The Air Revitalization System Server.  Creates an instance of the AirRS and registers it with the nameserver.
+ *
+ * @author    Scott Bell
+ */
+
 package biosim.server.air;
 
 import biosim.idl.air.*;
@@ -9,7 +15,11 @@ import org.omg.PortableServer.POA;
 import biosim.server.util.*;
 
 public class AirRSServer {
-
+	
+	/**
+	* Instantiates the server and binds it to the name server.
+	* @param args aren't used for anything
+	*/
 	public static void main(String args[]) {
 		try{
 			// create and initialize the ORB

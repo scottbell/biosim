@@ -1,4 +1,9 @@
-package biosim.server.air;
+/**
+ * The CO2 Store Server.  Creates an instance of the CO2Store and registers it with the nameserver.
+ *
+ * @author    Scott Bell
+ */
+ package biosim.server.air;
 
 import biosim.idl.air.*;
 import biosim.server.util.*;
@@ -10,6 +15,10 @@ import org.omg.PortableServer.POA;
 
 public class CO2StoreServer {
 
+	/**
+	* Instantiates the server and binds it to the name server.
+	* @param args aren't used for anything
+	*/
 	public static void main(String args[]) {
 		try{
 			// create and initialize the ORB
