@@ -17,7 +17,7 @@ public class NitrogenAirEnvironmentInFlowRateSensorImpl extends
     }
 
     protected void gatherData() {
-        float preFilteredValue = getInput().getNitorgenAirConsumerDefinition()
+        float preFilteredValue = getInput().getNitrogenAirConsumerDefinition()
                 .getEnvironmentActualFlowRate(myIndex);
         myValue = randomFilter(preFilteredValue);
     }
@@ -32,7 +32,7 @@ public class NitrogenAirEnvironmentInFlowRateSensorImpl extends
     }
 
     public float getMax() {
-        return myConsumer.getNitorgenAirConsumerDefinition().getEnvironmentMaxFlowRate(myIndex);
+        return myConsumer.getNitrogenAirConsumerDefinition().getEnvironmentMaxFlowRate(myIndex);
     }
 
     public NitrogenAirConsumer getInput() {
