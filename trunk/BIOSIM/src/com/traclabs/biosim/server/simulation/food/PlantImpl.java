@@ -57,7 +57,7 @@ public abstract class PlantImpl extends PlantPOA{
 	protected abstract float getFreshFactor();
 	protected abstract float calculateCanopyStomatalConductance();
 	protected abstract float calculateAtmosphericAeroDynamicConductance();
-	protected abstract float getFractionOfEdibleBiomass();
+	protected abstract float getCurrentFractionOfEdibleBiomass();
 	protected abstract float getEdibleFreshBasisWaterContent();
 	protected abstract float getInedibleFreshBasisWaterContent();
 	protected abstract float getTimeAtOrganFormation();
@@ -205,7 +205,7 @@ public abstract class PlantImpl extends PlantPOA{
 		myLastTotalWetBiomass = myCurrentTotalWetBiomass;
 		myLastEdibleWetBiomass = myCurrentEdibleWetBiomass;
 		myCurrentTotalWetBiomass = (myCurrentDryBiomass * getFreshFactor());
-		myCurrentEdibleWetBiomass = getFractionOfEdibleBiomass() * myCurrentTotalWetBiomass;
+		myCurrentEdibleWetBiomass = getCurrentFractionOfEdibleBiomass() * myCurrentTotalWetBiomass;
 		//System.out.println("PlantImpl: getFreshFactor(): "+getFreshFactor());
 		//System.out.println("PlantImpl: myCurrentTotalWetBiomass: "+myCurrentTotalWetBiomass);
 		//System.out.println("PlantImpl: myCurrentEdibleWetBiomass: "+myCurrentEdibleWetBiomass);

@@ -76,9 +76,13 @@ public class Rice extends Erectophile{
 		return 17.299f;
 	}
 
-	public float getFractionOfEdibleBiomass(){
-		if (myAge > getTimeAtCanopySenescence())
-			return 0.98f;
+	public static float getFractionOfEdibleBiomass(){
+		return 0.98f;
+	}
+	
+	protected float getCurrentFractionOfEdibleBiomass(){
+		if (myAge > getTimeAtOrganFormation())
+			return getFractionOfEdibleBiomass();
 		else
 			return 0f;
 	}

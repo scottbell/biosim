@@ -77,10 +77,14 @@ public class DryBean extends Legume{
 	protected float getFreshFactor(){
 		return 6.444f;
 	}
-
-	public float getFractionOfEdibleBiomass(){
+	
+	public static float getFractionOfEdibleBiomass(){
+		return 0.97f;
+	}
+	
+	protected float getCurrentFractionOfEdibleBiomass(){
 		if (myAge > getTimeAtOrganFormation())
-			return 0.97f;
+			return getFractionOfEdibleBiomass();
 		else
 			return 0f;
 	}

@@ -81,9 +81,13 @@ public class WhitePotato extends Planophile{
 		return 6.4988f;
 	}
 
-	public float getFractionOfEdibleBiomass(){
-		if (myAge > getTimeAtCanopySenescence())
-			return 1.00f;
+	public static float getFractionOfEdibleBiomass(){
+		return 1.00f;
+	}
+	
+	protected float getCurrentFractionOfEdibleBiomass(){
+		if (myAge > getTimeAtOrganFormation())
+			return getFractionOfEdibleBiomass();
 		else
 			return 0f;
 	}
