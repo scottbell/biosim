@@ -1,0 +1,10 @@
+module food{
+        interface BiomassLevelSensor{
+                void setBiomassSensorInput(in simulation::food::BiomassStore source);
+		simulation::food::BiomassStore getBiomassSensorInput();
+        };
+        interface FoodLevelSensor{
+                void setFoodSensorInput(in simulation::food::FoodStore source);
+		simulation::food::FoodStore getFoodSensorInput();
+        };
+};

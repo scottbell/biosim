@@ -1,0 +1,30 @@
+module environment{
+        interface AirLevelSensor{
+                void setAirSensorInput(in simulation::environment::SimEnvironment source);
+		simulation::environment::SimEnvironment getAirSensorInput();
+        };
+	interface LightLevelSensor{
+                void setLightSensorInput(in simulation::environment::SimEnvironment source);
+		simulation::environment::SimEnvironment getLightSensorInput();
+        };
+	interface O2AirLevelSensor{
+                void setO2AirSensorInput(in simulation::environment::SimEnvironment source);
+		simulation::environment::SimEnvironment getO2AirSensorInput();
+        };
+	interface CO2AirLevelSensor{
+                void setCO2AirSensorInput(in simulation::environment::SimEnvironment source);
+		simulation::environment::SimEnvironment getCO2AirSensorInput();
+        };
+        interface AirMaxFlowRateSensor{
+                void setAirSensorInput(in simulation::environment::SimEnvironment source, in long index);
+		simulation::environment::SimEnvironment getAirSensorInput();
+        };
+	interface O2AirMaxFlowRateSensor{
+                void setO2AirSensorInput(in simulation::environment::SimEnvironment source, in long index);
+		simulation::environment::SimEnvironment getO2AirSensorInput();
+        };
+	interface CO2AirMaxFlowRateSensor{
+                void setCO2AirSensorInput(in simulation::environment::SimEnvironment source, in long index);
+		simulation::environment::SimEnvironment getCO2AirSensorInput();
+        };
+};
