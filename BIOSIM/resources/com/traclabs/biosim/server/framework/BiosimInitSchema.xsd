@@ -7,7 +7,7 @@
 		<xsd:complexType>     
 			<xsd:sequence>
 				<xsd:element name="Globals" type="GlobalsType" minOccurs="1" maxOccurs="1"/>
-				<xsd:element name="PotableWaterStore" type="Store" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element name="PotableWaterStore" type="PotableWaterStoreType" minOccurs="0" maxOccurs="unbounded"/>
 				<xsd:element name="DirtyWaterStore" type="Store" minOccurs="0" maxOccurs="unbounded"/>
 				<xsd:element name="GreyWaterStore" type="Store" minOccurs="0" maxOccurs="unbounded"/>
 				<xsd:element name="O2Store" type="Store" minOccurs="0" maxOccurs="unbounded"/>
@@ -19,6 +19,22 @@
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
+	
+	<xsd:complexType name="PotableWaterStoreType">  
+		<xsd:complexContent>
+			<xsd:extension base="Store">
+				<xsd:sequence>
+					<xsd:element name="PotableWaterStoreName" type="PotableWaterStoreNameType" minOccurs="1" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:simpleType name="PotableWaterStoreNameType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="PotableWaterStore+.*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
 	
 	<xsd:complexType name="GlobalsType">
 		<xsd:sequence>
@@ -72,16 +88,11 @@
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
 				<xsd:sequence>
-					<xsd:element name="AirRSName" type="AirRSNameType"/>
+					<xsd:element name="AirRSName" type="xsd:string"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	
-	<xsd:simpleType name="AirRSNameType">
-		<xsd:restriction base="xsd:string">
-		</xsd:restriction>
-	</xsd:simpleType>
 	
 </xsd:schema>
 
