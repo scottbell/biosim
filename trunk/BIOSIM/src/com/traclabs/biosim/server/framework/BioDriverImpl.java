@@ -235,7 +235,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	*/
 	public BioDriverImpl(int pID){
 		myID = pID;
-		myModuleNames = new String[60];
+		myModuleNames = new String[102];
 		//
 		//framework
 		//
@@ -333,65 +333,65 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		//
 		//Air
 		//AirRS
-		myModuleNames[18] = myAirRSPowerInFlowRateActuatorName = "AirRSPowerInFlowRateActuator"+myID;
-		myModuleNames[19] = myAirRSAirInFlowRateActuatorName = "AirRSAirInFlowRateActuator"+myID;
-		myModuleNames[20] = myAirRSAirOutFlowRateActuatorName = "AirRSAirOutFlowRateActuator"+myID;
-		myModuleNames[21] = myAirRSO2OutFlowRateActuatorName = "AirRSO2OutFlowRateActuator"+myID;
-		myModuleNames[22] = myAirRSCO2InFlowRateActuatorName = "AirRSCO2InFlowRateActuator"+myID;
-		myModuleNames[23] = myAirRSCO2OutFlowRateActuatorName = "AirRSCO2OutFlowRateActuator"+myID;
+		myModuleNames[60] = myAirRSPowerInFlowRateActuatorName = "AirRSPowerInFlowRateActuator"+myID;
+		myModuleNames[61] = myAirRSAirInFlowRateActuatorName = "AirRSAirInFlowRateActuator"+myID;
+		myModuleNames[62] = myAirRSAirOutFlowRateActuatorName = "AirRSAirOutFlowRateActuator"+myID;
+		myModuleNames[63] = myAirRSO2OutFlowRateActuatorName = "AirRSO2OutFlowRateActuator"+myID;
+		myModuleNames[64] = myAirRSCO2InFlowRateActuatorName = "AirRSCO2InFlowRateActuator"+myID;
+		myModuleNames[65] = myAirRSCO2OutFlowRateActuatorName = "AirRSCO2OutFlowRateActuator"+myID;
 		//Stores
-		myModuleNames[24] = myO2StoreLevelActuatorName = "O2StoreLevelActuator"+myID;
-		myModuleNames[25] = myCO2StoreLevelActuatorName = "CO2StoreLevelActuator"+myID;
+		myModuleNames[66] = myO2StoreLevelActuatorName = "O2StoreLevelActuator"+myID;
+		myModuleNames[67] = myCO2StoreLevelActuatorName = "CO2StoreLevelActuator"+myID;
 		//Power
 		//PowerPS
-		myModuleNames[26] = myPowerPSPowerOutFlowRateActuatorName = "PowerPSPowerOutFlowRateActuator"+myID;
+		myModuleNames[68] = myPowerPSPowerOutFlowRateActuatorName = "PowerPSPowerOutFlowRateActuator"+myID;
 		//Stores
-		myModuleNames[27] = myPowerStoreLevelActuatorName = "PowerStoreLevelActuator"+myID;
+		myModuleNames[69] = myPowerStoreLevelActuatorName = "PowerStoreLevelActuator"+myID;
 		//Environment
 		//Crew
-		myModuleNames[28] = myCrewEnvironmentOtherAirLevelActuatorName = "CrewEnvironmentOtherAirLevelActuator"+myID;
-		myModuleNames[29] = myCrewEnvironmentCO2AirLevelActuatorName = "CrewEnvironmentCO2AirLevelActuator"+myID;
-		myModuleNames[30] = myCrewEnvironmentO2AirLevelActuatorName = "CrewEnvironmentO2AirLevelActuator"+myID;
+		myModuleNames[70] = myCrewEnvironmentOtherAirLevelActuatorName = "CrewEnvironmentOtherAirLevelActuator"+myID;
+		myModuleNames[71] = myCrewEnvironmentCO2AirLevelActuatorName = "CrewEnvironmentCO2AirLevelActuator"+myID;
+		myModuleNames[72] = myCrewEnvironmentO2AirLevelActuatorName = "CrewEnvironmentO2AirLevelActuator"+myID;
 		//Plant
-		myModuleNames[31] = myPlantEnvironmentOtherAirLevelActuatorName = "PlantEnvironmentOtherAirLevelActuator"+myID;
-		myModuleNames[32] = myPlantEnvironmentCO2AirLevelActuatorName = "PlantEnvironmentCO2AirLevelActuator"+myID;
-		myModuleNames[33] = myPlantEnvironmentO2AirLevelActuatorName = "PlantEnvironmentO2AirLevelActuator"+myID;
+		myModuleNames[73] = myPlantEnvironmentOtherAirLevelActuatorName = "PlantEnvironmentOtherAirLevelActuator"+myID;
+		myModuleNames[74] = myPlantEnvironmentCO2AirLevelActuatorName = "PlantEnvironmentCO2AirLevelActuator"+myID;
+		myModuleNames[75] = myPlantEnvironmentO2AirLevelActuatorName = "PlantEnvironmentO2AirLevelActuator"+myID;
 		//Water
 		//WaterRS
-		myModuleNames[34] = myWaterRSDirtyWaterInFlowRateActuatorName = "WaterRSDirtyWaterInFlowRateActuator"+myID;
-		myModuleNames[35] = myWaterRSGreyWaterInFlowRateActuatorName = "WaterRSGreyWaterInFlowRateActuator"+myID;
-		myModuleNames[36] = myWaterRSPowerInFlowRateActuatorName = "WaterRSPowerInFlowRateActuator"+myID;
-		myModuleNames[37] = myWaterRSPotableWaterOutFlowRateActuatorName = "WaterRSPotableWaterOutFlowRateActuator"+myID;
+		myModuleNames[76] = myWaterRSDirtyWaterInFlowRateActuatorName = "WaterRSDirtyWaterInFlowRateActuator"+myID;
+		myModuleNames[77] = myWaterRSGreyWaterInFlowRateActuatorName = "WaterRSGreyWaterInFlowRateActuator"+myID;
+		myModuleNames[78] = myWaterRSPowerInFlowRateActuatorName = "WaterRSPowerInFlowRateActuator"+myID;
+		myModuleNames[79] = myWaterRSPotableWaterOutFlowRateActuatorName = "WaterRSPotableWaterOutFlowRateActuator"+myID;
 		//Stores
-		myModuleNames[38] = myPotableWaterStoreLevelActuatorName = "PotableWaterStoreLevelActuator"+myID;
-		myModuleNames[39] = myGreyWaterStoreLevelActuatorName = "GreyWaterStoreLevelActuator"+myID;
-		myModuleNames[40] = myDirtyWaterStoreLevelActuatorName = "DirtyWaterStoreLevelActuator"+myID;
+		myModuleNames[80] = myPotableWaterStoreLevelActuatorName = "PotableWaterStoreLevelActuator"+myID;
+		myModuleNames[81] = myGreyWaterStoreLevelActuatorName = "GreyWaterStoreLevelActuator"+myID;
+		myModuleNames[82] = myDirtyWaterStoreLevelActuatorName = "DirtyWaterStoreLevelActuator"+myID;
 		//Food
 		//BiomassRS
-		myModuleNames[41] = myBiomassRSAirInFlowRateActuatorName = "BiomassRSAirInFlowRateActuator"+myID;
-		myModuleNames[42] = myBiomassRSPowerInFlowRateActuatorName = "BiomassRSPowerInFlowRateActuator"+myID;
-		myModuleNames[43] = myBiomassRSAirOutFlowRateActuatorName = "BiomassRSAirOutFlowRateActuator"+myID;
-		myModuleNames[44] = myBiomassRSPotableWaterInFlowRateActuatorName = "BiomassRSPotableWaterInFlowRateActuator"+myID;
-		myModuleNames[45] = myBiomassRSGreyWaterInFlowRateActuatorName = "BiomassRSGreyWaterInFlowRateActuator"+myID;
-		myModuleNames[46] = myBiomassRSBiomassOutFlowRateActuatorName = "BiomassRSBiomassOutFlowRateActuator"+myID;
+		myModuleNames[83] = myBiomassRSAirInFlowRateActuatorName = "BiomassRSAirInFlowRateActuator"+myID;
+		myModuleNames[84] = myBiomassRSPowerInFlowRateActuatorName = "BiomassRSPowerInFlowRateActuator"+myID;
+		myModuleNames[85] = myBiomassRSAirOutFlowRateActuatorName = "BiomassRSAirOutFlowRateActuator"+myID;
+		myModuleNames[86] = myBiomassRSPotableWaterInFlowRateActuatorName = "BiomassRSPotableWaterInFlowRateActuator"+myID;
+		myModuleNames[87] = myBiomassRSGreyWaterInFlowRateActuatorName = "BiomassRSGreyWaterInFlowRateActuator"+myID;
+		myModuleNames[88] = myBiomassRSBiomassOutFlowRateActuatorName = "BiomassRSBiomassOutFlowRateActuator"+myID;
 		//Food Processor
-		myModuleNames[47] = myFoodProcessorPowerInFlowRateActuatorName = "FoodProcessorPowerInFlowRateActuator"+myID;
-		myModuleNames[48] = myFoodProcessorBiomassInFlowRateActuatorName = "FoodProcessorBiomassInFlowRateActuator"+myID;
-		myModuleNames[49] = myFoodProcessorFoodOutFlowRateActuatorName = "FoodProcessorFoodOutFlowRateActuator"+myID;
+		myModuleNames[89] = myFoodProcessorPowerInFlowRateActuatorName = "FoodProcessorPowerInFlowRateActuator"+myID;
+		myModuleNames[90] = myFoodProcessorBiomassInFlowRateActuatorName = "FoodProcessorBiomassInFlowRateActuator"+myID;
+		myModuleNames[91] = myFoodProcessorFoodOutFlowRateActuatorName = "FoodProcessorFoodOutFlowRateActuator"+myID;
 		//Stores
-		myModuleNames[50] = myBiomassStoreLevelActuatorName = "BiomassStoreLevelActuator"+myID;
-		myModuleNames[51] = myFoodStoreLevelActuatorName = "FoodStoreLevelActuator"+myID;
+		myModuleNames[92] = myBiomassStoreLevelActuatorName = "BiomassStoreLevelActuator"+myID;
+		myModuleNames[93] = myFoodStoreLevelActuatorName = "FoodStoreLevelActuator"+myID;
 		//Framework
 		//Accumulator
-		myModuleNames[52] = myAccumulatorCO2AirEnvironmentInFlowRateActuatorName = "AccumulatorCO2AirEnvironmentInFlowRateActuator"+myID;
-		myModuleNames[53] = myAccumulatorO2AirEnvironmentInFlowRateActuatorName = "AccumulatorO2AirEnvironmentInFlowRateActuator"+myID;
-		myModuleNames[54] = myAccumulatorCO2AirStoreOutFlowRateActuatorName = "AccumulatorCO2AirStoreOutFlowRateActuator"+myID;
-		myModuleNames[55] = myAccumulatorO2AirStoreOutFlowRateActuatorName = "AccumulatorO2AirStoreOutFlowRateActuator"+myID;
+		myModuleNames[94] = myAccumulatorCO2AirEnvironmentInFlowRateActuatorName = "AccumulatorCO2AirEnvironmentInFlowRateActuator"+myID;
+		myModuleNames[95] = myAccumulatorO2AirEnvironmentInFlowRateActuatorName = "AccumulatorO2AirEnvironmentInFlowRateActuator"+myID;
+		myModuleNames[96] = myAccumulatorCO2AirStoreOutFlowRateActuatorName = "AccumulatorCO2AirStoreOutFlowRateActuator"+myID;
+		myModuleNames[97] = myAccumulatorO2AirStoreOutFlowRateActuatorName = "AccumulatorO2AirStoreOutFlowRateActuator"+myID;
 		//Injector
-		myModuleNames[56] = myInjectorCO2AirStoreInFlowRateActuatorName = "InjectorCO2AirStoreInFlowRateActuator"+myID;
-		myModuleNames[57] = myInjectorO2AirStoreInFlowRateActuatorName = "InjectorO2AirStoreInFlowRateActuator"+myID;
-		myModuleNames[58] = myInjectorCO2AirEnvironmentOutFlowRateActuatorName = "InjectorCO2AirEnvironmentOutFlowRateActuator"+myID;
-		myModuleNames[59] = myInjectorO2AirEnvironmentOutFlowRateActuatorName = "InjectorO2AirEnvironmentOutFlowRateActuator"+myID;
+		myModuleNames[98] = myInjectorCO2AirStoreInFlowRateActuatorName = "InjectorCO2AirStoreInFlowRateActuator"+myID;
+		myModuleNames[99] = myInjectorO2AirStoreInFlowRateActuatorName = "InjectorO2AirStoreInFlowRateActuator"+myID;
+		myModuleNames[100] = myInjectorCO2AirEnvironmentOutFlowRateActuatorName = "InjectorCO2AirEnvironmentOutFlowRateActuator"+myID;
+		myModuleNames[101] = myInjectorO2AirEnvironmentOutFlowRateActuatorName = "InjectorO2AirEnvironmentOutFlowRateActuator"+myID;
 		
 		usedDefaultModules = true;
 		checkMachineType();
