@@ -917,6 +917,10 @@ module biosim{
                                         void setOutput(in framework::CO2Producer pProducer, in long pIndex);
                                         framework::CO2Producer getOutput();
                                         long getIndex();
+                                };                                
+				interface AirRSActuator : framework::GenericActuator{
+                                        void setOutput(in simulation::air::AirRS source);
+                                        simulation::air::AirRS getOutput();
                                 };
                         };
                         module crew{
