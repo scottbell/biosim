@@ -8,8 +8,8 @@ public class O2StoreImpl extends O2StorePOA {
 	private float O2capacity;
 	
 	public O2StoreImpl(){
-		O2level = 0.0;
-		O2capacity = 10.0;
+		O2level = 0.0f;
+		O2capacity = 10.0f;
 	}
 	
 	public O2StoreImpl (float initialO2level, float  initialO2capacity){
@@ -21,7 +21,7 @@ public class O2StoreImpl extends O2StorePOA {
 		O2capacity = liters;
 	}
 	
-	void setO2level(float liters){
+	void setO2Level(float liters){
 		O2level = liters;
 	}
 
