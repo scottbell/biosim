@@ -7,6 +7,8 @@ module biosim{
                                 string getModuleName();
 				void reset();
 				void log();
+				void setLogging(in boolean pLogging);
+				boolean isLogging();
                         };
 			
 			interface Store : BioModule{
@@ -31,8 +33,9 @@ module biosim{
 			};
 			typedef sequence <LogNode> LogNodeList;
 			interface LogNode{
-				Object getValue();
-				void addChild (in Object pChildName);
+				string getValue();
+				void setValue(in string newValue);
+				LogNode addChild (in string pChildName);
 				LogNodeList getChildren();
 			};
 		};

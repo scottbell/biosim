@@ -5,6 +5,7 @@ import biosim.idl.crew.*;
 import biosim.idl.food.*;
 import biosim.idl.water.*;
 import biosim.idl.power.*;
+import biosim.idl.util.*;
 import biosim.idl.environment.*;
 import biosim.server.air.*;
 import biosim.server.crew.*;
@@ -53,6 +54,7 @@ public class BioModuleServer {
 			GreyWaterStoreImpl myGreyWaterStoreImpl = new GreyWaterStoreImpl();
 			PotableWaterStoreImpl myPotableWaterStoreImpl = new PotableWaterStoreImpl();
 			DirtyWaterStoreImpl myDirtyWaterStoreImpl = new DirtyWaterStoreImpl();
+			LoggerImpl myLoggerImpl = new LoggerImpl();
 
 			// bind the Object References in Naming
 			org.omg.CORBA.Object ref = rootpoa.servant_to_reference(new SimEnvironmentPOATie(mySimEnvironmentImpl));
@@ -99,6 +101,9 @@ public class BioModuleServer {
 			ncRef.rebind(path, ref);
 			ref = rootpoa.servant_to_reference(new DirtyWaterStorePOATie(myDirtyWaterStoreImpl));
 			path = ncRef.to_name(myDirtyWaterStoreImpl.getModuleName());
+			ncRef.rebind(path, ref);
+			ref = rootpoa.servant_to_reference(myLoggerImpl);
+			path = ncRef.to_name("Logger");
 			ncRef.rebind(path, ref);
 			System.out.println("BioModule Server ready and waiting ...");
 			// wait for invocations from clients

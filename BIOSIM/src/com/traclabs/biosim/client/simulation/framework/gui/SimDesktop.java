@@ -228,7 +228,8 @@ public class SimDesktop extends BaseJFrame
 			forwardIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/forward.gif"));
 		}
 		catch (Exception e){
-			System.out.println("Couldn't find icons ("+e+"), skipping");
+			System.out.println("Couldn't find icon ("+e+"), skipping");
+			e.printStackTrace();
 			waterIcon = new ImageIcon();
 			foodIcon = new ImageIcon();
 			powerIcon = new ImageIcon();

@@ -38,6 +38,7 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 	//References to the servers the AirRS takes/puts resources (like air, power, etc)
 	private SimEnvironment myEnvironment;
 	private PowerStore myPowerStore;
+	private LogIndex myLogIndex;
 	
 	/**
 	* Returns the power consumption (in watts) of the AirRS at the current tick.
@@ -186,6 +187,8 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 		collectReferences();
 		consumeResources();
 		pushAir();
+		if (moduleLogging)
+			log();
 	}
 	
 	/**
@@ -207,5 +210,53 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 	}
 	
 	public void log(){
+		//If not initialized, fill in the log
+		if (!logInitialized){
+			myLogIndex = new LogIndex();
+			LogNode powerNeededHead = myLog.getHead().addChild("Power Needed");
+			myLogIndex.powerNeededIndex = powerNeededHead.addChild((""+powerNeeded));
+			LogNode CO2NeededHead = myLog.getHead().addChild("CO2 Needed");
+			myLogIndex.CO2NeededIndex = CO2NeededHead.addChild((""+CO2Needed));
+			LogNode hasEnoughPowerHead = myLog.getHead().addChild("Has Enough Power");
+			myLogIndex.hasEnoughPowerIndex = hasEnoughPowerHead.addChild((""+hasEnoughPower));
+			LogNode hasEnoughCO2Head = myLog.getHead().addChild("Has Enough CO2");
+			myLogIndex.hasEnoughCO2Index = hasEnoughCO2Head.addChild((""+hasEnoughCO2));
+			LogNode currentO2ProducedHead = myLog.getHead().addChild("O2 Produced");
+			myLogIndex.currentO2ProducedIndex = currentO2ProducedHead.addChild((""+currentO2Produced));
+			LogNode currentCO2ConsumedHead = myLog.getHead().addChild("CO2 Consumed");
+			myLogIndex.currentCO2ConsumedIndex = currentCO2ConsumedHead.addChild((""+currentCO2Consumed));
+			LogNode currentPowerConsumedHead = myLog.getHead().addChild("Power Consumed");
+			myLogIndex.currentPowerConsumedIndex = powerNeededHead.addChild((""+currentPowerConsumed));
+			LogNode airRetrievedHead = myLog.getHead().addChild("Air Retrieved (O2-CO2-other");
+			myLogIndex.airRetrievedIndex = airRetrievedHead.addChild(airRetrieved.O2 + " - " +airRetrieved.CO2 +" - " +airRetrieved.other);
+			logInitialized = true;
+		}
+		else{
+			myLogIndex.powerNeededIndex.setValue(""+powerNeeded);
+			myLogIndex.CO2NeededIndex.setValue(""+ CO2Needed);
+			myLogIndex.hasEnoughPowerIndex.setValue(""+ hasEnoughPower);
+			myLogIndex.hasEnoughCO2Index.setValue(""+ hasEnoughCO2);
+			myLogIndex.currentO2ProducedIndex.setValue(""+ currentO2Produced);
+			myLogIndex.currentCO2ConsumedIndex.setValue(""+ currentCO2Consumed);
+			myLogIndex.currentCO2ProducedIndex.setValue(""+ currentCO2Produced);
+			myLogIndex.currentPowerConsumedIndex.setValue(""+ currentPowerConsumed);
+			myLogIndex.airRetrievedIndex.setValue(airRetrieved.O2 + " - " +airRetrieved.CO2 +" - " +airRetrieved.other);
+		}
+		sendLog(myLog);
+	}
+	
+	/**
+	* For fast reference to the log tree
+	*/
+	private class LogIndex{
+		public LogNode powerNeededIndex;
+		public LogNode CO2NeededIndex;
+		public LogNode hasEnoughPowerIndex;
+		public LogNode hasEnoughCO2Index;
+		public LogNode currentO2ProducedIndex;
+		public LogNode currentCO2ConsumedIndex;
+		public LogNode currentCO2ProducedIndex;
+		public LogNode currentPowerConsumedIndex;
+		public LogNode airRetrievedIndex;
 	}
 }
