@@ -6,6 +6,7 @@ import java.util.*;
 import biosim.idl.util.log.*;
 import biosim.idl.simulation.environment.*;
 import biosim.server.util.*;
+import biosim.server.simulation.framework.*;
 /**
  * Plant
  * @author    Scott Bell
@@ -37,6 +38,7 @@ public abstract class PlantImpl extends PlantPOA{
 	private float carbonUseEfficiency24 = 0f;
 	protected float[] canopyClosureConstants;
 	protected float[] canopyQYConstants;
+	private SimpleBuffer waterBuffer;
 
 	public PlantImpl(ShelfImpl pShelfImpl){
 		myShelfImpl = pShelfImpl;
@@ -44,6 +46,7 @@ public abstract class PlantImpl extends PlantPOA{
 		canopyQYConstants = new float[25];
 		Arrays.fill(canopyClosureConstants, 0f);
 		Arrays.fill(canopyQYConstants, 0f);
+		waterBuffer = new SimpleBuffer(300, 1000);
 	}
 
 	protected abstract float getBCF();
@@ -216,6 +219,7 @@ public abstract class PlantImpl extends PlantPOA{
 		//Water In
 		myWaterNeeded = calculateWaterUptake();
 		myWaterLevel = myShelfImpl.takeWater(myWaterNeeded);
+		waterBuffer.add(myWaterLevel);
 		//System.out.println("PlantImpl: myWaterNeeded: "+myWaterNeeded);
 		//System.out.println("PlantImpl: myWaterLevel: "+myWaterLevel);
 		
@@ -235,14 +239,24 @@ public abstract class PlantImpl extends PlantPOA{
 
 		//Water Vapor Produced
 		float litersOfWaterProduced = calculateDailyCanopyTranspirationRate() / 24f;
+		waterBuffer.take(litersOfWaterProduced);
 		//1/1000 liters per milliter, 1 gram per millilters, 8.016 grams per mole
-		float molesOfWaterProduced = ((litersOfWaterProduced * 1000f) / 8.016f);
+		float molesOfWaterProduced = waterLitersToMoles(litersOfWaterProduced);
 		float molesOfWaterAdded = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0].addWaterMoles(molesOfWaterProduced);
 		myShelfImpl.getBiomassRSImpl().addAirOutputActualFlowRates(0,molesOfWaterAdded);
 		//System.out.println("PlantImpl: litersOfWaterProduced: "+litersOfWaterProduced);
 		//System.out.println("PlantImpl: molesOfWaterProduced: "+molesOfWaterProduced);
 		//System.out.println("PlantImpl: molesOfWaterAdded: "+molesOfWaterAdded);
+		//System.out.println("PlantImpl: waterBuffer level: "+waterBuffer.getLevel());
 		
+	}
+	
+	private static float waterLitersToMoles(float pLiters){
+		return (pLiters * 1000f) / 18.01524f; // 1000g/liter, 18.01524g/mole
+	}
+	
+	private static float waterMolesToLiters(float pMoles){
+		return (pMoles * 18.01524f) / 1000f; // 1000g/liter, 18.01524g/mole
 	}
 
 	//in g/meters^2*day
