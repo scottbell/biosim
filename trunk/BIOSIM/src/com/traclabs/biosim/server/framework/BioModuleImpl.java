@@ -70,7 +70,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		myTicks++;
 	}
 	
-	protected int getMyTicks(){
+	public int getMyTicks(){
 		return myTicks;
 	}
 	

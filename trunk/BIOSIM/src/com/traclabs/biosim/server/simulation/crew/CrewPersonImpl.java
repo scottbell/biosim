@@ -377,17 +377,23 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* repair - attempts to fix a module.  may have to be called several time depending on the severity of the malfunction
 	*/
 	private void checkForMeaningfulActivity(){
+		//System.out.println("Checking to see if "+myCurrentActivity.getName()+" is a meaningful activity");
 		if (myCurrentActivity.getName().equals("mission")){
 			addProductivity();
+			//System.out.println("adding mission!");
 		}
 		else if (myCurrentActivity.getName().equals("maitenance")){
+			System.out.println("");
 		}
-		else if (myCurrentActivity.getName().equals("sleep") || myCurrentActivity.getName().equals("sick")){
-			sleepBuffer.add(SLEEP_RECOVERY_RATE * myCurrentActivity.getTimeLength());
+		else if (myCurrentActivity.getName().startsWith("sleep") || myCurrentActivity.getName().startsWith("sick")){
+			sleepBuffer.add(SLEEP_RECOVERY_RATE);
+			//System.out.println("adding "+(SLEEP_RECOVERY_RATE)+" to sleep buffer ("+sleepBuffer.getLevel()+"/"+sleepBuffer.getCapacity()+")");
 		}
 		else if (myCurrentActivity.getName().equals("leisure")){
-			leisureBuffer.add(LEISURE_RECOVERY_RATE * myCurrentActivity.getTimeLength());
+			leisureBuffer.add(LEISURE_RECOVERY_RATE);
+			//System.out.println("adding maitenance!");
 		}
+		//System.out.println("here2");
 		if (myCurrentActivity instanceof RepairActivity){
 			RepairActivity repairActivity = (RepairActivity)(myCurrentActivity);
 			repairModule(repairActivity.getModuleNameToRepair(), repairActivity.getMalfunctionIDToRepair());
@@ -450,6 +456,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	*/
 	public void tick(){
 		timeActivityPerformed++;
+		//System.out.println(getName()+" performed activity "+myCurrentActivity.getName()+" for "+timeActivityPerformed+" of "+myCurrentActivity.getTimeLength()+" ticks");
 		if (!hasDied){
 			advanceActivity();
 			consumeResources();
@@ -659,11 +666,12 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		//System.out.println("\twater taken="+(potableWaterNeeded - cleanWaterConsumed)+", recovered "+WATER_RECOVERY_RATE * consumedWaterBuffer.getCapacity()+" thirst risk level="+(consumedWaterBuffer.getCapacity() - consumedWaterBuffer.getLevel()) / consumedWaterBuffer.getCapacity()+" (level="+consumedWaterBuffer.getLevel()+", capacity="+consumedWaterBuffer.getCapacity()+")");
 		//System.out.println("\toxygen taken="+(O2Needed - O2Consumed)+", recovered "+OXYGEN_RECOVERY_RATE * consumedOxygenBuffer.getCapacity()+" O2 risk level="+(consumedOxygenBuffer.getCapacity() - consumedOxygenBuffer.getLevel()) / consumedOxygenBuffer.getCapacity()+" (level="+consumedOxygenBuffer.getLevel()+", capacity="+consumedOxygenBuffer.getCapacity()+")");
 		//System.out.println("\tCO2 taken="+(getCO2Ratio() - DANGEROUS_CO2_RATION)+", recovered "+CO2_RECOVERY_RATE * consumedCO2Buffer.getCapacity()+" CO2 risk level="+(consumedCO2Buffer.getCapacity() - consumedCO2Buffer.getLevel()) / consumedCO2Buffer.getCapacity()+" (level="+consumedCO2Buffer.getLevel()+", capacity="+consumedCO2Buffer.getCapacity()+")");
+		//System.out.println("\tsleep (level="+sleepBuffer.getLevel()+", capacity="+sleepBuffer.getCapacity()+")");
 		//System.out.println("\tCO2 ration ="+getCO2Ratio()+", DANGEROUS_CO2_RATION="+DANGEROUS_CO2_RATION);
 		
 		if (sleepRiskReturn > (randomNumber + 0.05f)){
 			sicken();
-			System.out.println(getName()+" has fallen ill from exhaustion (risk was "+numFormat.format(sleepRiskReturn * 100)+"%)");
+			System.out.println(getName()+" has fallen ill from exhaustion (risk was "+numFormat.format(sleepRiskReturn * 100)+"%) @ tick "+myCrewGroup.getMyTicks());
 		}
 		
 		if (calorieRiskReturn > randomNumber){
