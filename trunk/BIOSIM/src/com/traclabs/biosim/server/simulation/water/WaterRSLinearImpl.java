@@ -114,7 +114,8 @@ public class WaterRSLinearImpl extends SimBioModuleImpl implements
     }
     
     private void gatherWater() {
-        float waterNeeded = currentPowerConsumed * LINEAR_MULTIPLICATIVE_FACTOR;
+        //1540 Watts -> 4.26 liters of water
+        float waterNeeded = (currentPowerConsumed / 1540f) * 4.26f;
         float currentDirtyWaterConsumed = SimBioModuleImpl.getResourceFromStore(getDirtyWaterInputs(), getDirtyWaterInputMaxFlowRates(), getDirtyWaterInputDesiredFlowRates(), getDirtyWaterInputActualFlowRates(), waterNeeded);
         float currentGreyWaterConsumed = SimBioModuleImpl.getResourceFromStore(getGreyWaterInputs(), getGreyWaterInputMaxFlowRates(), getGreyWaterInputDesiredFlowRates(), getGreyWaterInputActualFlowRates(), waterNeeded - currentDirtyWaterConsumed);
         currentWaterConsumed = currentDirtyWaterConsumed

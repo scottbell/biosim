@@ -117,7 +117,6 @@ public class CRSImpl extends SimBioModuleImpl implements CRSOperations,
      */
     public void tick() {
         super.tick();
-        myLogger.debug("tick");
         gatherPower();
         gatherH2andCO2();
         pushWaterAndMethane();

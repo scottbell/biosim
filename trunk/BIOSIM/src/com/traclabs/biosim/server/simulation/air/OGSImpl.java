@@ -55,6 +55,16 @@ public class OGSImpl extends SimBioModuleImpl implements OGSOperations,
 
     private float[] H2OutputDesiredFlowRates;
 
+    private float currentH2OConsumed = 0;
+
+    private float currentO2Produced = 0;
+
+    private float currentH2Produced = 0;
+
+    private float myProductionRate = 1f;
+
+    private float currentPowerConsumed = 0f;
+
     public OGSImpl(int pID, String pName) {
         super(pID, pName);
 
@@ -79,6 +89,43 @@ public class OGSImpl extends SimBioModuleImpl implements OGSOperations,
      */
     public void reset() {
         super.reset();
+        currentH2OConsumed = 0;
+        currentO2Produced = 0;
+        currentH2Produced = 0;
+        currentPowerConsumed = 0;
+    }
+    
+    private void gatherPower() {
+        currentPowerConsumed = getMostResourceFromStore(myPowerStores, powerMaxFlowRates, powerDesiredFlowRates, powerActualFlowRates);
+    }
+    
+    public void tick(){
+        super.tick();
+        gatherPower();
+        gatherWater();
+        pushGasses();
+    }
+    
+
+    private void gatherWater() {
+        // 75 Watts -> 0.04167 liters of water
+        float waterToConsume = (currentPowerConsumed / 75f) * 0.04167f;
+        currentH2OConsumed = getResourceFromStore(getPotableWaterInputs(), getPotableWaterInputMaxFlowRates(), getPotableWaterInputDesiredFlowRates(), getPotableWaterInputActualFlowRates(), waterToConsume);
+    }
+
+    private void pushGasses() {
+        //2H20 --> 2H2 + O2
+        float molesOfWater = (currentH2OConsumed * 1000f) / 18.01524f; //1000g/liter,
+        // 18.01524g/mole
+        float molesOfReactant = molesOfWater / 2f;
+        currentO2Produced = randomFilter(molesOfReactant)
+                * myProductionRate;
+        currentH2Produced = randomFilter(molesOfReactant * 2f)
+                * myProductionRate;
+        float O2ToDistrubute = randomFilter(currentO2Produced);
+        float H2ToDistrubute = randomFilter(currentH2Produced);
+        float distributedO2 = SimBioModuleImpl.pushResourceToStore(getO2Outputs(), getO2OutputMaxFlowRates(), getO2OutputDesiredFlowRates(), getO2OutputActualFlowRates(), O2ToDistrubute);
+        float distributedH2 = SimBioModuleImpl.pushResourceToStore(getH2Outputs(), getH2OutputMaxFlowRates(), getH2OutputDesiredFlowRates(), getH2OutputActualFlowRates(), H2ToDistrubute);
     }
 
     //Power Inputs
