@@ -22,6 +22,14 @@ public class OGS extends AirRSSubSystem {
     public OGS(AirRSImpl pAirRSImpl) {
         super(pAirRSImpl);
     }
+    
+    public void log(){
+        super.log();
+        myLogger.debug("currentH2OConsumed="+currentH2OConsumed);
+        myLogger.debug("currentO2Produced="+currentO2Produced);
+        myLogger.debug("currentH2Produced="+currentH2Produced);
+        myLogger.debug("myProductionRate="+myProductionRate);
+    }
 
     public float getO2Produced() {
         return currentO2Produced;

@@ -25,7 +25,7 @@ public class BWP extends WaterRSSubSystem {
             waterNeeded * 0.15f).floatValue();
 
     private final static float BOTH_DISABLED_WATER_NEEDED = 0f;
-
+    
     /**
      * Constructor that creates the BWP
      * 
@@ -34,6 +34,15 @@ public class BWP extends WaterRSSubSystem {
      */
     public BWP(WaterRSImpl pWaterRSImpl) {
         super(pWaterRSImpl);
+    }
+    
+    public void log(){
+        super.log();
+        myLogger.debug("currentDirtyWaterConsumed="+currentDirtyWaterConsumed);
+        myLogger.debug("currentGreyWaterConsumed="+currentGreyWaterConsumed);
+        myLogger.debug("currentROWaterProduced="+currentROWaterProduced);
+        myLogger.debug("currentAESWaterProduced="+currentAESWaterProduced);
+        myLogger.debug("NORMAL_WATER_NEEDED="+NORMAL_WATER_NEEDED);
     }
 
     public float getDirtyWaterConsumed() {

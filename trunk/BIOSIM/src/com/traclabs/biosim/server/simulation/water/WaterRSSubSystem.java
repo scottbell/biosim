@@ -43,7 +43,7 @@ public abstract class WaterRSSubSystem {
 
     private boolean malfunctioning = false;
     
-    private Logger myLogger;
+    protected Logger myLogger;
 
     /**
      * Constructor that creates the subsystem

@@ -25,6 +25,11 @@ public class AES extends WaterRSSubSystem {
     public float getPPSWaterProduced() {
         return currentPPSWaterProduced;
     }
+    
+    public void log(){
+        super.log();
+        myLogger.debug("currentPPSWaterProduced="+currentPPSWaterProduced);
+    }
 
     /**
      * Flushes the water from this subsystem to the PPS

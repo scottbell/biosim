@@ -24,6 +24,16 @@ public class CRS extends AirRSSubSystem {
     public CRS(AirRSImpl pAirRSImpl) {
         super(pAirRSImpl);
     }
+    
+    public void log(){
+        super.log();
+        myLogger.debug("CO2Needed="+CO2Needed);
+        myLogger.debug("H2Needed="+H2Needed);
+        myLogger.debug("currentCO2Consumed="+currentCO2Consumed);
+        myLogger.debug("currentH2Consumed="+currentH2Consumed);
+        myLogger.debug("currentH2OProduced="+currentH2OProduced);
+        myLogger.debug("currentCH4Produced="+currentCH4Produced);
+    }
 
     private void gatherGasses() {
         float gatheredCO2 = 0f;
