@@ -37,11 +37,10 @@ machineType=`uname -s`
 winName="CYGWIN"
 linuxName="Linux"
 macName="Darwin"
-sim3DLibDir="$devRootDir/lib/sim3D"
 case $machineType in
-	*$winName*) separator=";";joglDir="$sim3DLibDir/win32";echo "		-machine type is $winName(windows)";;
-	*$linuxName*) separator=":";joglDir="$sim3DLibDir/linux";echo "		-machine type is $linuxName";;
-	*$macName*) separator=":";joglDir="$sim3DLibDir/mac";echo "		-machine type is $macName(macintosh)";;
+	*$winName*) separator=";";echo "		-machine type is $winName(windows)";;
+	*$linuxName*) separator=":";echo "		-machine type is $linuxName";;
+	*$macName*) separator=":";echo "		-machine type is $macName(macintosh)";;
 	*)separator=":";echo "		-assuming Unix machine type";;
 esac
 machineTypeEnv="-DMACHINE_TYPE=$machineType"
@@ -61,8 +60,9 @@ plotClasspath="$devRootDir/lib/jfreechart/jcommon.jar$separator$devRootDir/lib/j
 xmlClasspath="$devRootDir/lib/xerces/xercesImpl.jar$separator$devRootDir/lib/xerces/xml-apis.jar$separator$devRootDir/lib/xerces/xmlParserAPIs.jar"
 logCLasspath="$devRootDir/lib/log4j/log4j.jar"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME$separator$JACORB_HOME/avalon-framework.jar$separator$JACORB_HOME/logkit.jar"
-jacoInvocation="$java_command -classpath $buildDir$separator$plotClasspath$separator$logCLasspath$separator$jacoClasspath$separator$resourceDir$separator$xmlClasspath $openGLEnabled $biosimHome $jacoSingletonOrbClass $native3DDir $jacoOrbClass $jacoNameIOR"
+jacoInvocation="$java_command -classpath $buildDir$separator$plotClasspath$separator$logCLasspath$separator$jacoClasspath$separator$resourceDir$separator$xmlClasspath $openGLEnabled $biosimHome $jacoSingletonOrbClass $jacoOrbClass $jacoNameIOR"
 echo "	-starting client"
+echo "$jacoInvocation" > invocation.txt
 console="console"
 gui="gui"
 help="-?"
