@@ -1,7 +1,9 @@
 package biosim.server.framework;
 
 import biosim.idl.framework.*;
+import biosim.idl.environment.*;
 import java.util.*;
+import biosim.server.util.*;
 import biosim.idl.util.log.*;
 /**
  * The basic Store Implementation.  Allows for basic store functionality (like adding, removing).
@@ -10,19 +12,26 @@ import biosim.idl.util.log.*;
  */
 
 public abstract class StoreImpl extends BioModuleImpl implements StoreOperations{
-	//The level of whatever this store is holding
-	protected float level = 0.0f;
-	//The capacity of what this store can hold
+	//The level of whatever this store is holding (at t)
+	protected float level = 0f;
+	//The level of whatever this store is holding (at t-1)
+	protected float oldLevel = 0f;
+	//The capacity of what this store can hold (at t)
 	protected float capacity = 0.0f;
+	//The capacity of what this store can hold (at t-1)
+	protected float oldCapacity = 0.0f;
+	private SimEnvironment myCurrentEnvironment;
 	private LogIndex myLogIndex;
+	private int myTicks = 0;
+	private boolean hasCollectedReferences = false;
 
 	/**
 	* Creates a Store with an initial level and capacity of 0
 	*/
 	public StoreImpl(int pID){
 		super(pID);
-		level = 0.0f;
-		capacity = 10.0f;
+		level = oldLevel = 0.0f;
+		capacity = oldCapacity = 10.0f;
 	}
 
 	/**
@@ -32,8 +41,8 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 	*/
 	public StoreImpl (int pID, float initialLevel, float  initialCapacity){
 		super(pID);
-		level = initialLevel;
-		capacity = initialCapacity;
+		level = oldLevel = initialLevel;
+		capacity = oldCapacity = initialCapacity;
 	}
 
 	/**
@@ -53,10 +62,28 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 	}
 
 	public void tick(){
+		oldLevel = level;
+		oldCapacity = capacity;
+		myTicks++;
 		if (isMalfunctioning())
 			performMalfunctions();
 		if (moduleLogging)
 			log();
+	}
+	
+	/**
+	* Collects references to servers needed for putting/getting resources.
+	*/
+	private void collectReferences(){
+		try{
+			if (!hasCollectedReferences){
+				myCurrentEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str("SimEnvironment"+getID()));
+			}
+		}
+		catch (org.omg.CORBA.UserException e){
+			System.err.println("Couldn't find SimEnvironment!!");
+			e.printStackTrace(System.out);
+		}
 	}
 	
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
@@ -153,7 +180,11 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 	* @return the level of the store
 	*/
 	public float getLevel(){
-		return level;
+		collectReferences();
+		if (myTicks == myCurrentEnvironment.getTicks())
+			return oldLevel; 
+		else
+			return level;
 	}
 
 	/**
@@ -161,7 +192,11 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 	* @return the capacity of the store
 	*/
 	public float getCapacity(){
-		return capacity;
+		collectReferences();
+		if (myTicks == myCurrentEnvironment.getTicks())
+			return oldCapacity; 
+		else
+			return capacity;
 	}
 
 	/**
