@@ -20,12 +20,12 @@ import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
 /**
- * The BioModule Server.  Creates an instance of each module (AirRS, FoodProcessor, WaterRS, etc..) and binds them to the nameserver.
+ * The Biosim Server.  Creates an instance of each module (AirRS, FoodProcessor, WaterRS, etc..) and binds them to the nameserver.
  *
  * @author    Scott Bell
  */
 
-public class BioModuleServer {
+public class BiosimServer {
 	/**
 	* Instantiates the server and binds it to the name server.
 	* @param args aren't used for anything
@@ -55,6 +55,7 @@ public class BioModuleServer {
 			PotableWaterStoreImpl myPotableWaterStoreImpl = new PotableWaterStoreImpl();
 			DirtyWaterStoreImpl myDirtyWaterStoreImpl = new DirtyWaterStoreImpl();
 			LoggerImpl myLoggerImpl = new LoggerImpl();
+			BioDriverImpl myBioDriverImpl = new BioDriverImpl();
 
 			// bind the Object References in Naming
 			org.omg.CORBA.Object ref = rootpoa.servant_to_reference(new SimEnvironmentPOATie(mySimEnvironmentImpl));
@@ -105,7 +106,10 @@ public class BioModuleServer {
 			ref = rootpoa.servant_to_reference(myLoggerImpl);
 			path = ncRef.to_name("Logger");
 			ncRef.rebind(path, ref);
-			System.out.println("BioModule Server ready and waiting ...");
+			ref = rootpoa.servant_to_reference(myBioDriverImpl);
+			path = ncRef.to_name("BioDriver");
+			ncRef.rebind(path, ref);
+			System.out.println("Biosim Server ready and waiting ...");
 			// wait for invocations from clients
 			orb.run();
 		}
@@ -113,7 +117,7 @@ public class BioModuleServer {
 			System.err.println("ERROR: " + e);
 			e.printStackTrace(System.out);
 		}
-		System.out.println("BioModule Server Exiting ...");
+		System.out.println("Biosim Server Exiting ...");
 	}
 }
 
