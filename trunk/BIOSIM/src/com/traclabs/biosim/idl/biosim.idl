@@ -452,6 +452,7 @@ module biosim{
                                         float take(in float metricAmount);
                                         float getLevel();
                                         float getCapacity();
+                                        float getOverflow();
                                         boolean isPipe();
                                         void setPipe(in boolean pPipe);
                                 };

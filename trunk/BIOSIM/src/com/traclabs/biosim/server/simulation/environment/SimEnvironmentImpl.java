@@ -464,11 +464,11 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 			O2Moles = afterAddition;
 		}
 		else{
-			System.out.println(getModuleName()+": O2Moles: "+O2Moles);
-			System.out.println(getModuleName()+": molesRequested: "+molesRequested);
+			//System.out.println(getModuleName()+": O2Moles: "+O2Moles);
+			//System.out.println(getModuleName()+": molesRequested: "+molesRequested);
 			afterAddition = randomFilter(O2Moles + molesRequested);
 			actuallyAdded = afterAddition - O2Moles;
-			System.out.println(getModuleName()+": actuallyAdded: "+actuallyAdded);
+			//System.out.println(getModuleName()+": actuallyAdded: "+actuallyAdded);
 			O2Moles = afterAddition;
 		}
 		return  actuallyAdded;
@@ -820,14 +820,14 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		cachedOtherPressure = otherPressure;
 		cachedWaterPressure = waterPressure;
 		calculateLightIntensity();
-		System.out.println(getModuleName()+": O2Moles: "+O2Moles);
-		System.out.println(getModuleName()+": CO2Moles: "+CO2Moles);
-		System.out.println(getModuleName()+": otherMoles: "+otherMoles);
-		System.out.println(getModuleName()+": waterMoles: "+waterMoles);
-		System.out.println(getModuleName()+": O2Pressure: "+O2Pressure);
-		System.out.println(getModuleName()+": CO2Pressure: "+CO2Pressure);
-		System.out.println(getModuleName()+": otherPressure: "+otherPressure);
-		System.out.println(getModuleName()+": waterPressure: "+waterPressure);
+		//System.out.println(getModuleName()+": O2Moles: "+O2Moles);
+		//System.out.println(getModuleName()+": CO2Moles: "+CO2Moles);
+		//System.out.println(getModuleName()+": otherMoles: "+otherMoles);
+		//System.out.println(getModuleName()+": waterMoles: "+waterMoles);
+		//System.out.println(getModuleName()+": O2Pressure: "+O2Pressure);
+		//System.out.println(getModuleName()+": CO2Pressure: "+CO2Pressure);
+		//System.out.println(getModuleName()+": otherPressure: "+otherPressure);
+		//System.out.println(getModuleName()+": waterPressure: "+waterPressure);
 		ticks++;
 	}
 
