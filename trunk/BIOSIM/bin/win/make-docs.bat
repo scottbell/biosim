@@ -1,1 +1,1 @@
-bash %BIOSIM_HOME%/bin/make-docs %1
+bash %BIOSIM_HOME%/bin/make-docs.sh %1

@@ -1,1 +1,1 @@
-bash %BIOSIM_HOME%/bin/run-nameserver
+bash %BIOSIM_HOME%/bin/run-nameserver.sh

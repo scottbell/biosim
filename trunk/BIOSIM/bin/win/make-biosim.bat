@@ -1,1 +1,1 @@
-bash %BIOSIM_HOME%/bin/make-biosim
+bash %BIOSIM_HOME%/bin/make-biosim.sh

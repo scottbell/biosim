@@ -1,1 +1,1 @@
-bash %BIOSIM_HOME%/bin/make-client
+bash %BIOSIM_HOME%/bin/make-client.sh
