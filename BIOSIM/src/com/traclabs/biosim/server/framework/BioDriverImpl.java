@@ -964,7 +964,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			PotableWaterStore[] potableWaterStoreOutput = {myPotableWaterStore};
 			PotableWaterStore[] potableWaterStoreInput = {myPotableWaterStore};
 			float[] powerMaxFlowRates = {300f};
-			float[] simEnvironmentInputMaxFlowRates = {100f};
+			float[] simEnvironmentInputMaxFlowRates = {0f};
 			float[] simEnvironmentOutputMaxFlowRates = {100f};
 			float[] O2StoreMaxFlowRates = {100f};
 			float[] CO2StoreInputMaxFlowRates = {100f};
@@ -972,7 +972,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			float[] H2StoreInputMaxFlowRates = {100f};
 			float[] H2StoreOutputMaxFlowRates = {100f};
 			float[] powerDesiredFlowRates = {300f};
-			float[] simEnvironmentInputDesiredFlowRates = {100f};
+			float[] simEnvironmentInputDesiredFlowRates = {0f};
 			float[] simEnvironmentOutputDesiredFlowRates = {100f};
 			float[] O2StoreDesiredFlowRates = {100f};
 			float[] CO2StoreInputDesiredFlowRates = {100f};
@@ -1075,6 +1075,17 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			myAccumulator.setO2AirEnvironmentInputs(O2AirInput, O2AirInputMaxFlowRates, O2AirInputDesiredFlowRates);
 			myAccumulator.setO2AirStoreOutputs(O2AirOutput, O2AirOutputMaxFlowRates, O2AirOutputDesiredFlowRates);
 
+			//Accumulate CO2 from crew environment, put it in CO2 store
+			// (7.5 liters CO2 / min)(1000 grams/liters)(1 mole CO2/ 40.0098 grams CO2)(60 min/ hour)
+			// 7.5 CO2 slpm == 11247.2 moles per hour
+			SimEnvironment[] CO2AirInput = {myCrewEnvironment};
+			CO2Store[] CO2AirOutput = {myCO2Store};
+			float[] CO2AirInputMaxFlowRates = {14063f};
+			float[] CO2AirOutputMaxFlowRates = {14063f};
+			float[] CO2AirInputDesiredFlowRates = {10f};
+			float[] CO2AirOutputDesiredFlowRates = {10f};
+			myAccumulator.setCO2AirEnvironmentInputs(CO2AirInput, CO2AirInputMaxFlowRates, CO2AirInputDesiredFlowRates);
+			myAccumulator.setCO2AirStoreOutputs(CO2AirOutput, CO2AirOutputMaxFlowRates, CO2AirOutputDesiredFlowRates);
 		}
 
 		//Hook up Injector to other modules
