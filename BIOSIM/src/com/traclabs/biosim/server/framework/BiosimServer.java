@@ -117,7 +117,7 @@ public class BiosimServer extends GenericServer{
 		//Sensors
 		//
 
-		//AirRs
+		//AirRs Sesnors
 		{
 			PowerInFlowRateSensorImpl myPowerInFlowRateSensorImpl = new PowerInFlowRateSensorImpl(id);
 			AirInFlowRateSensorImpl myAirInFlowRateSensorImpl = new AirInFlowRateSensorImpl(id);
@@ -132,6 +132,13 @@ public class BiosimServer extends GenericServer{
 			registerServer(new O2OutFlowRateSensorPOATie(myO2OutFlowRateSensorImpl), "AirRS" + myO2OutFlowRateSensorImpl.getModuleName());
 			registerServer(new CO2InFlowRateSensorPOATie(myCO2InFlowRateSensorImpl), "AirRS" + myCO2InFlowRateSensorImpl.getModuleName());
 			registerServer(new CO2OutFlowRateSensorPOATie(myCO2OutFlowRateSensorImpl), "AirRS" + myCO2OutFlowRateSensorImpl.getModuleName());
+		}
+		
+		//PowerPS Sensors
+		{
+			PowerOutFlowRateSensorImpl myPowerOutFlowRateSensorImpl = new PowerOutFlowRateSensorImpl(id);
+
+			registerServer(new PowerOutFlowRateSensorPOATie(myPowerOutFlowRateSensorImpl), "PowerPS" + myPowerOutFlowRateSensorImpl.getModuleName());
 		}
 		/*
 		CO2InFlowRateSensorImpl myCO2InFlowRateSensorImpl = new CO2InFlowRateSensorImpl(id);
