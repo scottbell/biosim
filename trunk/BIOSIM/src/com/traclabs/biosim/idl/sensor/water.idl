@@ -1,4 +1,8 @@
 module water{
+	interface WaterRSSensor : framework::GenericSensor{
+		void setInput(in simulation::water::WaterRS source);
+		simulation::water::WaterRS getInput();
+	};
 	interface PotableWaterStoreSensor : framework::GenericSensor{
 		void setInput(in simulation::water::PotableWaterStore source);
 		simulation::water::PotableWaterStore getInput();
@@ -11,9 +15,9 @@ module water{
 		void setInput(in simulation::water::DirtyWaterStore source);
 		simulation::water::DirtyWaterStore getInput();
 	};
-        interface PotableWaterLevelSensor : PotableWaterStoreSensor{};
-        interface GreyWaterLevelSensor : GreyWaterStoreSensor{};
-        interface DirtyWaterLevelSensor : DirtyWaterStoreSensor{};
+        interface PotableWaterStoreLevelSensor : PotableWaterStoreSensor{};
+        interface GreyWaterStoreLevelSensor : GreyWaterStoreSensor{};
+        interface DirtyWaterStoreLevelSensor : DirtyWaterStoreSensor{};
 	
 	interface PotableWaterInFlowRateSensor : framework::GenericSensor{
 		void setInput(in simulation::water::PotableWaterConsumer pConsumer, in long pIndex);
