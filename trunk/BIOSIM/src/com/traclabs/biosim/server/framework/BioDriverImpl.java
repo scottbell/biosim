@@ -257,11 +257,10 @@ public class BioDriverImpl extends BioDriverPOA{
 		}
 		if (runTillCrewDeath){
 			for (int i = 0; i < crewsToWatch.length; i++){
-				if (!crewsToWatch[i].isDead()){
-					return false;
+				if (crewsToWatch[i].isDead()){
+					return true;
 				}
 			}
-			return true;
 		}
 		if(runTillPlantDeath){
 			for (int i = 0; i < plantsToWatch.length; i++){
