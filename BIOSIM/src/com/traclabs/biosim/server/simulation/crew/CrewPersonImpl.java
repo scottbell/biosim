@@ -487,10 +487,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		return myCrewGroup.randomFilter(result.floatValue());
 	}
 
-	public int hashCode(){
-		return myName.hashCode();
-	}
-
 	/**
 	* Calculate the current food needed (in kilograms) by the crew memeber given the intensity of the activity for the current tick.
 	* Algorithm derived from "Top Level Modeling of Crew Component of ALSS" by Goudrazi and Ting

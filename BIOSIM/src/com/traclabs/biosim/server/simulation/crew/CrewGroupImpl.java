@@ -60,10 +60,9 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 	public CrewPerson[] getCrewPeople(){
 		CrewPerson[] theCrew = new CrewPerson[crewPeople.size()];
 		int i = 0;
-		for (Iterator iter = crewPeople.values().iterator(); iter.hasNext(); ){
+		for (Iterator iter = crewPeople.values().iterator(); iter.hasNext(); i++){
 			CrewPersonImpl tempPerson = (CrewPersonImpl)(iter.next());
 			theCrew[i] = CrewPersonHelper.narrow(OrbUtils.poaToCorbaObj(tempPerson));
-			i++;
 		}
 		return theCrew;
 	}
