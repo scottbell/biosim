@@ -1,7 +1,7 @@
 package biosim.server.simulation.waste;
 
-import biosim.server.framework.*;
-import biosim.idl.simulation.waste.*;
+import biosim.idl.simulation.waste.IncineratorPOATie;
+import biosim.server.framework.GenericServer;
 /**
  * The Incinerator Server.  Creates an instance of the Incinerator  and registers it with the nameserver.
  *

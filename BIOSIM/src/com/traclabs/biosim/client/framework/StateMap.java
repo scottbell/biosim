@@ -1,10 +1,17 @@
 package biosim.client.framework;
 
-import java.util.*;
-import biosim.idl.sensor.framework.*;
-import biosim.idl.simulation.water.*;
-import biosim.idl.simulation.air.*;
-import biosim.client.util.*;
+import java.util.Map;
+import java.util.TreeMap;
+
+import biosim.client.util.BioHolder;
+import biosim.client.util.BioHolderInitializer;
+import biosim.idl.sensor.framework.GenericSensor;
+import biosim.idl.simulation.air.CO2Store;
+import biosim.idl.simulation.air.H2Store;
+import biosim.idl.simulation.air.O2Store;
+import biosim.idl.simulation.water.DirtyWaterStore;
+import biosim.idl.simulation.water.GreyWaterStore;
+import biosim.idl.simulation.water.PotableWaterStore;
 
 
 //javac -classpath .:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/generated/client/classes StateMap.java

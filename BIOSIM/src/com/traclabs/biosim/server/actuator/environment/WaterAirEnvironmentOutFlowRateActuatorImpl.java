@@ -1,9 +1,9 @@
 package biosim.server.actuator.environment;
 
-import biosim.server.actuator.framework.*;
-import biosim.idl.actuator.environment.*;
-import biosim.idl.simulation.environment.*;
-import biosim.idl.framework.*;
+import biosim.idl.actuator.environment.WaterAirEnvironmentOutFlowRateActuatorOperations;
+import biosim.idl.framework.BioModule;
+import biosim.idl.framework.WaterAirProducer;
+import biosim.server.actuator.framework.GenericActuatorImpl;
 
 public class WaterAirEnvironmentOutFlowRateActuatorImpl extends GenericActuatorImpl implements WaterAirEnvironmentOutFlowRateActuatorOperations{
 	private WaterAirProducer myProducer;

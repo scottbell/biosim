@@ -7,19 +7,39 @@ package biosim.client.simulation.framework.gui;
  */
 
 
-import biosim.client.util.*;
-import biosim.client.framework.gui.*;
-import biosim.client.simulation.environment.gui.*;
-import biosim.client.simulation.air.gui.*;
-import biosim.client.simulation.crew.gui.*;
-import biosim.client.simulation.food.gui.*;
-import biosim.client.simulation.power.gui.*;
-import biosim.client.simulation.water.gui.*;
-import biosim.idl.framework.*;
-import javax.swing.*;
-import java.awt.event.*;
-import java.awt.*;
-import java.util.*;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.util.Hashtable;
+import java.util.Map;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDesktopPane;
+import javax.swing.JDialog;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JToolBar;
+
+import biosim.client.framework.gui.BioFrame;
+import biosim.client.framework.gui.MalfunctionPanel;
+import biosim.client.framework.gui.StochasticPanel;
+import biosim.client.framework.gui.UpdatablePanel;
+import biosim.client.simulation.air.gui.AirPanel;
+import biosim.client.simulation.crew.gui.CrewPanel;
+import biosim.client.simulation.environment.gui.EnvironmentPanel;
+import biosim.client.simulation.food.gui.FoodPanel;
+import biosim.client.simulation.power.gui.PowerPanel;
+import biosim.client.simulation.water.gui.WaterPanel;
+import biosim.client.util.BioHolderInitializer;
+import biosim.client.util.Fnorder;
+import biosim.idl.framework.BioDriver;
 
 public class SimDesktop extends BioFrame
 {

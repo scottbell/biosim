@@ -1,6 +1,6 @@
 package biosim.client.simulation.crew.gui;
 
-import biosim.client.simulation.framework.gui.*;
+import biosim.client.simulation.framework.gui.SimTabbedPanel;
 /** 
  * This is the JPanel that displays information about the Crew
  *

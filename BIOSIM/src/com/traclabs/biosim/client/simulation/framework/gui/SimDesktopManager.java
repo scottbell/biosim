@@ -1,10 +1,14 @@
 package biosim.client.simulation.framework.gui;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Dimension;
 import java.awt.Rectangle;
-import java.util.*;
-import java.beans.*;
+import java.beans.PropertyVetoException;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Map;
+
+import javax.swing.DefaultDesktopManager;
+import javax.swing.JInternalFrame;
 
 public class SimDesktopManager extends DefaultDesktopManager{
 	private SimDesktop desktop;

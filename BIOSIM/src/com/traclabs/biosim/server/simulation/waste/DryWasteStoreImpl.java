@@ -1,7 +1,7 @@
 package biosim.server.simulation.waste;
 
-import biosim.idl.simulation.waste.*;
-import biosim.server.simulation.framework.*;
+import biosim.idl.simulation.waste.DryWasteStoreOperations;
+import biosim.server.simulation.framework.StoreImpl;
 /**
  * The DryWaste Store Implementation.
  *

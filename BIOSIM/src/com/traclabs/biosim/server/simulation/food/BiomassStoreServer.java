@@ -1,7 +1,7 @@
 package biosim.server.simulation.food;
 
-import biosim.server.framework.*;
-import biosim.idl.simulation.food.*;
+import biosim.idl.simulation.food.BiomassStorePOATie;
+import biosim.server.framework.GenericServer;
 /**
  * The Biomass Store Server.  Creates an instance of the BiomassStore and registers it with the nameserver.
  *

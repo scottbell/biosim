@@ -1,7 +1,7 @@
 package biosim.server.util.log;
 
-import biosim.server.framework.*;
-import biosim.idl.util.log.*;
+import biosim.idl.util.log.LogHandlerType;
+import biosim.server.framework.GenericServer;
 /**
  * The Logger Server.  Creates an instance of the Logger and registers it with the nameserver.
  *

@@ -1,9 +1,9 @@
 package biosim.server.sensor.air;
 
-import biosim.server.sensor.framework.*;
-import biosim.idl.sensor.air.*;
-import biosim.idl.framework.*;
-import biosim.idl.simulation.air.*;
+import biosim.idl.framework.BioModule;
+import biosim.idl.sensor.air.O2StoreSensorOperations;
+import biosim.idl.simulation.air.O2Store;
+import biosim.server.sensor.framework.GenericSensorImpl;
 
 public abstract class O2StoreSensorImpl extends GenericSensorImpl implements O2StoreSensorOperations{
 	private O2Store myO2Store;

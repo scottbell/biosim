@@ -1,8 +1,9 @@
 package biosim.server.sensor.power;
 
-import biosim.server.sensor.framework.*;
-import biosim.idl.sensor.power.*;
-import biosim.idl.framework.*;
+import biosim.idl.framework.BioModule;
+import biosim.idl.framework.PowerConsumer;
+import biosim.idl.sensor.power.PowerInFlowRateSensorOperations;
+import biosim.server.sensor.framework.GenericSensorImpl;
 
 public class PowerInFlowRateSensorImpl extends GenericSensorImpl implements PowerInFlowRateSensorOperations{
 	private PowerConsumer myConsumer;

@@ -1,10 +1,8 @@
 package biosim.server.framework;
 
-import java.net.*;
-import biosim.server.framework.*;
-import biosim.server.util.log.*;
-import biosim.idl.util.log.*;
-import biosim.server.util.*;
+import java.net.URL;
+
+import biosim.server.util.log.LoggerImpl;
 
 /**
  * The Biosim Server.  Creates an instance of each module (AirRS, FoodProcessor, WaterRS, etc..) and binds them to the nameserver.

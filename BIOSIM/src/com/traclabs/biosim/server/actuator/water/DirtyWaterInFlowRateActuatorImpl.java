@@ -1,8 +1,9 @@
 package biosim.server.actuator.water;
 
-import biosim.server.actuator.framework.*;
-import biosim.idl.actuator.water.*;
-import biosim.idl.framework.*;
+import biosim.idl.actuator.water.DirtyWaterInFlowRateActuatorOperations;
+import biosim.idl.framework.BioModule;
+import biosim.idl.framework.DirtyWaterConsumer;
+import biosim.server.actuator.framework.GenericActuatorImpl;
 
 public class DirtyWaterInFlowRateActuatorImpl extends GenericActuatorImpl implements DirtyWaterInFlowRateActuatorOperations{
 	private DirtyWaterConsumer myConsumer;

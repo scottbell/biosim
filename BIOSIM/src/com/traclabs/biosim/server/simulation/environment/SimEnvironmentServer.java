@@ -1,7 +1,7 @@
 package biosim.server.simulation.environment;
 
-import biosim.server.framework.*;
-import biosim.idl.simulation.environment.*;
+import biosim.idl.simulation.environment.SimEnvironmentPOATie;
+import biosim.server.framework.GenericServer;
 /**
  * The Sim Environment Server.  Creates an instance of the Sim Environment and registers it with the nameserver.
  *

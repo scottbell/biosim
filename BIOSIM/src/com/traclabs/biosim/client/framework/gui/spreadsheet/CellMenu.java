@@ -1,8 +1,13 @@
 package biosim.client.framework.gui.spreadsheet;
 
 import java.awt.Color;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JColorChooser;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.JWindow;
 
 /**
  * This class implements a popup-menu

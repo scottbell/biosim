@@ -1,8 +1,9 @@
 package biosim.server.actuator.food;
 
-import biosim.server.actuator.framework.*;
-import biosim.idl.actuator.food.*;
-import biosim.idl.framework.*;
+import biosim.idl.actuator.food.FoodOutFlowRateActuatorOperations;
+import biosim.idl.framework.BioModule;
+import biosim.idl.framework.FoodProducer;
+import biosim.server.actuator.framework.GenericActuatorImpl;
 
 public class FoodOutFlowRateActuatorImpl extends GenericActuatorImpl implements FoodOutFlowRateActuatorOperations{
 	private FoodProducer myProducer;

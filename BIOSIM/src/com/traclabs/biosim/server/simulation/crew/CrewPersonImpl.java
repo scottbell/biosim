@@ -1,19 +1,20 @@
 package biosim.server.simulation.crew;
 
-import biosim.idl.simulation.air.*;
-import biosim.idl.simulation.crew.*;
-import biosim.idl.simulation.environment.*;
-import biosim.idl.simulation.food.*;
-import biosim.idl.simulation.power.*;
-import biosim.idl.simulation.water.*;
-import biosim.idl.simulation.framework.*;
-import biosim.server.simulation.framework.*;
-import biosim.idl.framework.*;
-import biosim.idl.util.log.*;
-import biosim.server.util.*;
-import java.util.*;
-import java.net.*;
-import java.text.*;
+import java.text.DecimalFormat;
+import java.util.Random;
+
+import biosim.idl.framework.BioModule;
+import biosim.idl.framework.BioModuleHelper;
+import biosim.idl.simulation.crew.Activity;
+import biosim.idl.simulation.crew.CrewPersonPOA;
+import biosim.idl.simulation.crew.RepairActivity;
+import biosim.idl.simulation.crew.Sex;
+import biosim.idl.simulation.environment.SimEnvironment;
+import biosim.idl.simulation.food.FoodMatter;
+import biosim.idl.util.log.LogNode;
+import biosim.server.simulation.framework.SimBioModuleImpl;
+import biosim.server.simulation.framework.SimpleBuffer;
+import biosim.server.util.OrbUtils;
 /**
  * The Crew Person Implementation.  Eats/drinks/excercises away resources according to a set schedule.
  * 
@@ -800,7 +801,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	}
 
 	private void eatFood(float pFoodNeeded){
-		FoodMatter[] foodConsumed = myCrewGroup.getCaloriesFromStore(myCrewGroup.getFoodInputs(), myCrewGroup.getFoodInputMaxFlowRates(), myCrewGroup.getFoodInputDesiredFlowRates(), myCrewGroup.getFoodInputActualFlowRates(), caloriesNeeded);
+		FoodMatter[] foodConsumed = CrewGroupImpl.getCaloriesFromStore(myCrewGroup.getFoodInputs(), myCrewGroup.getFoodInputMaxFlowRates(), myCrewGroup.getFoodInputDesiredFlowRates(), myCrewGroup.getFoodInputActualFlowRates(), caloriesNeeded);
 		foodMassConsumed = calculateFoodMass(foodConsumed);
 		if ((foodConsumed.length == 0) || (myCrewGroup.getFoodInputs().length == 0))
 			caloriesConsumed = 0f;
@@ -837,9 +838,9 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		//adjust tanks
 		eatFood(caloriesNeeded);
 		cleanWaterConsumed = myCrewGroup.getFractionalResourceFromStore(myCrewGroup.getPotableWaterInputs(), myCrewGroup.getPotableWaterInputMaxFlowRates(), myCrewGroup.getPotableWaterInputDesiredFlowRates(), myCrewGroup.getPotableWaterInputActualFlowRates(), potableWaterNeeded, 1f / myCrewGroup.getCrewSize());
-		float distributedDirtyWater = myCrewGroup.pushFractionalResourceToStore(myCrewGroup.getDirtyWaterOutputs(), myCrewGroup.getDirtyWaterOutputMaxFlowRates(), myCrewGroup.getDirtyWaterOutputDesiredFlowRates(), myCrewGroup.getDirtyWaterOutputActualFlowRates(), dirtyWaterProduced, 1f / myCrewGroup.getCrewSize());
-		float distributedGreyWater = myCrewGroup.pushFractionalResourceToStore(myCrewGroup.getGreyWaterOutputs(), myCrewGroup.getGreyWaterOutputMaxFlowRates(), myCrewGroup.getGreyWaterOutputDesiredFlowRates(), myCrewGroup.getGreyWaterOutputActualFlowRates(), greyWaterProduced, 1f / myCrewGroup.getCrewSize());
-		float distributedDryWaste = myCrewGroup.pushFractionalResourceToStore(myCrewGroup.getDryWasteOutputs(), myCrewGroup.getDryWasteOutputMaxFlowRates(), myCrewGroup.getDryWasteOutputDesiredFlowRates(), myCrewGroup.getDryWasteOutputActualFlowRates(), dryWasteProduced, 1f / myCrewGroup.getCrewSize());
+		float distributedDirtyWater = SimBioModuleImpl.pushFractionalResourceToStore(myCrewGroup.getDirtyWaterOutputs(), myCrewGroup.getDirtyWaterOutputMaxFlowRates(), myCrewGroup.getDirtyWaterOutputDesiredFlowRates(), myCrewGroup.getDirtyWaterOutputActualFlowRates(), dirtyWaterProduced, 1f / myCrewGroup.getCrewSize());
+		float distributedGreyWater = SimBioModuleImpl.pushFractionalResourceToStore(myCrewGroup.getGreyWaterOutputs(), myCrewGroup.getGreyWaterOutputMaxFlowRates(), myCrewGroup.getGreyWaterOutputDesiredFlowRates(), myCrewGroup.getGreyWaterOutputActualFlowRates(), greyWaterProduced, 1f / myCrewGroup.getCrewSize());
+		float distributedDryWaste = SimBioModuleImpl.pushFractionalResourceToStore(myCrewGroup.getDryWasteOutputs(), myCrewGroup.getDryWasteOutputMaxFlowRates(), myCrewGroup.getDryWasteOutputDesiredFlowRates(), myCrewGroup.getDryWasteOutputActualFlowRates(), dryWasteProduced, 1f / myCrewGroup.getCrewSize());
 
 		SimEnvironment[] myAirInputs = myCrewGroup.getAirInputs();
 		SimEnvironment[] myAirOutputs = myCrewGroup.getAirOutputs();

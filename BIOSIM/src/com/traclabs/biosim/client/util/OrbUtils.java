@@ -1,9 +1,10 @@
 package biosim.client.util;
 
-import org.omg.CosNaming.*;
-import org.omg.CORBA.*;
-import org.omg.PortableServer.*;
+import org.omg.CORBA.ORB;
+import org.omg.CosNaming.NamingContextExt;
+import org.omg.CosNaming.NamingContextExtHelper;
 import org.omg.PortableServer.POA;
+import org.omg.PortableServer.POAHelper;
 /**
  * The OrbUtils class provides basic CORBA utilities to server components
  *

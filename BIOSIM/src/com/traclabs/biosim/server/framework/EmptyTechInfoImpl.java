@@ -1,6 +1,6 @@
 package biosim.server.framework;
 
-import biosim.idl.framework.*;
+import biosim.idl.framework.TechSpecificInfoPOA;
 
 public class EmptyTechInfoImpl extends TechSpecificInfoPOA {
 	

@@ -1,7 +1,7 @@
 package biosim.server.simulation.air;
 
-import biosim.idl.simulation.air.*;
-import biosim.server.simulation.framework.*;
+import biosim.idl.simulation.air.NitrogenStoreOperations;
+import biosim.server.simulation.framework.StoreImpl;
 /**
  * The Nitrogen Store Implementation.  Used by the AirRS to store excess Nitrogen for the crew.
  * Not really used right now.

@@ -1,10 +1,7 @@
 package biosim.server.simulation.air;
 
-import biosim.idl.util.log.*;
-import biosim.idl.simulation.air.*;
-import biosim.idl.simulation.environment.*;
-import biosim.idl.simulation.power.*;
-import biosim.server.util.*;
+import biosim.idl.simulation.air.Breath;
+import biosim.server.simulation.framework.SimBioModuleImpl;
 /**
  * VCCR Subsystem
  *
@@ -94,7 +91,7 @@ public class VCCR extends AirRSSubSystem{
 			myAirRS.setAirOutputActualFlowRate(reducedO2ToPass + reducedOtherToPass + reducedWaterToPass + reducedNitrogenToPass, i);
 		}
 		currentCO2Produced = myBreath.CO2 * myProductionRate;
-		float distributedCO2Left = myAirRS.pushResourceToStore(myAirRS.getCO2Outputs(), myAirRS.getCO2OutputMaxFlowRates(), myAirRS.getCO2OutputDesiredFlowRates(), myAirRS.getCO2OutputActualFlowRates(), currentCO2Produced);
+		float distributedCO2Left = SimBioModuleImpl.pushResourceToStore(myAirRS.getCO2Outputs(), myAirRS.getCO2OutputMaxFlowRates(), myAirRS.getCO2OutputDesiredFlowRates(), myAirRS.getCO2OutputActualFlowRates(), currentCO2Produced);
 	}
 
 	public void reset(){

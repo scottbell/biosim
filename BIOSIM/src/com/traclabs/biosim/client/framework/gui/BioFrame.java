@@ -1,7 +1,9 @@
 package biosim.client.framework.gui;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Cursor;
+
+import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 /**
  * A  frame that has a closing listener and (if wanted) a popup dialog asking "Do you want to close"
  *

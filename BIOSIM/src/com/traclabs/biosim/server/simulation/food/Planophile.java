@@ -1,6 +1,6 @@
 package biosim.server.simulation.food;
 
-import biosim.idl.simulation.food.*;
+import biosim.idl.simulation.food.PlantType;
 /**
  * Planophile
  * @author    Scott Bell

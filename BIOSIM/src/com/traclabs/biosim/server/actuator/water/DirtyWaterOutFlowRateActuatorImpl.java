@@ -1,8 +1,9 @@
 package biosim.server.actuator.water;
 
-import biosim.server.actuator.framework.*;
-import biosim.idl.actuator.water.*;
-import biosim.idl.framework.*;
+import biosim.idl.actuator.water.DirtyWaterOutFlowRateActuatorOperations;
+import biosim.idl.framework.BioModule;
+import biosim.idl.framework.DirtyWaterProducer;
+import biosim.server.actuator.framework.GenericActuatorImpl;
 
 public class DirtyWaterOutFlowRateActuatorImpl extends GenericActuatorImpl implements DirtyWaterOutFlowRateActuatorOperations{
 	private DirtyWaterProducer myProducer;

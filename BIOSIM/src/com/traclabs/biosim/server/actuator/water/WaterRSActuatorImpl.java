@@ -1,9 +1,8 @@
 package biosim.server.actuator.water;
 
-import biosim.server.actuator.framework.*;
-import biosim.idl.actuator.water.*;
-import biosim.idl.framework.*;
-import biosim.idl.simulation.water.*;
+import biosim.idl.actuator.water.WaterRSActuatorOperations;
+import biosim.idl.simulation.water.WaterRS;
+import biosim.server.actuator.framework.GenericActuatorImpl;
 
 public abstract class WaterRSActuatorImpl extends GenericActuatorImpl implements WaterRSActuatorOperations{
 	protected WaterRS myWaterRS;

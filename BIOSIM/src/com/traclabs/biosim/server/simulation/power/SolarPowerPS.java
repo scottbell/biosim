@@ -1,6 +1,5 @@
 package biosim.server.simulation.power;
 
-import biosim.idl.simulation.power.*;
 /**
  * Solar Power Production System
  * @author    Scott Bell

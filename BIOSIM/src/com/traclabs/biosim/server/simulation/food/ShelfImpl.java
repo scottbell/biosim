@@ -1,11 +1,17 @@
 package biosim.server.simulation.food;
 
-import biosim.idl.simulation.food.*;
-import biosim.idl.simulation.water.*;
-import biosim.server.util.*;
-import biosim.idl.simulation.power.*;
-import biosim.idl.util.log.*;
-import java.util.*;
+import biosim.idl.simulation.food.BioMatter;
+import biosim.idl.simulation.food.BiomassRS;
+import biosim.idl.simulation.food.BiomassRSHelper;
+import biosim.idl.simulation.food.BiomassStore;
+import biosim.idl.simulation.food.Plant;
+import biosim.idl.simulation.food.PlantHelper;
+import biosim.idl.simulation.food.PlantType;
+import biosim.idl.simulation.food.ShelfPOA;
+import biosim.idl.util.log.LogNode;
+import biosim.server.simulation.framework.SimBioModuleImpl;
+import biosim.server.util.OrbUtils;
+
 /**
  * Tray contains Plants
  * @author    Scott Bell
@@ -97,7 +103,7 @@ public class ShelfImpl extends ShelfPOA {
 	}
 
 	private void flushWater(){
-		waterLevel -= myBiomassRSImpl.pushFractionalResourceToStore(myBiomassRSImpl.getDirtyWaterOutputs(), myBiomassRSImpl.getDirtyWaterOutputMaxFlowRates(), myBiomassRSImpl.getDirtyWaterOutputDesiredFlowRates(), myBiomassRSImpl.getDirtyWaterOutputActualFlowRates(), waterLevel, myBiomassRSImpl.getNumberOfShelves());
+		waterLevel -= SimBioModuleImpl.pushFractionalResourceToStore(myBiomassRSImpl.getDirtyWaterOutputs(), myBiomassRSImpl.getDirtyWaterOutputMaxFlowRates(), myBiomassRSImpl.getDirtyWaterOutputDesiredFlowRates(), myBiomassRSImpl.getDirtyWaterOutputActualFlowRates(), waterLevel, myBiomassRSImpl.getNumberOfShelves());
 	}
 
 	private void flushPower(){

@@ -1,14 +1,21 @@
 package biosim.client.simulation.crew.gui;
 
-import java.awt.*;
-import biosim.idl.simulation.crew.*;
-import biosim.client.framework.gui.*;
-import biosim.client.util.*;
-import org.jfree.chart.*;
-import org.jfree.data.*;
-import org.jfree.chart.axis.*;
-import org.jfree.chart.plot.*;
-import org.jfree.chart.renderer.*;
+import java.awt.Color;
+import java.awt.Dimension;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.TextTitle;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.CategoryItemRenderer;
+import org.jfree.data.DefaultCategoryDataset;
+
+import biosim.client.framework.gui.GraphPanel;
+import biosim.client.util.BioHolderInitializer;
+import biosim.idl.simulation.crew.CrewGroup;
 
 /**
  * This is the JPanel that displays a chart about the crew and water

@@ -1,13 +1,18 @@
 package biosim.server.simulation.food;
 
-import biosim.idl.simulation.food.*;
-import biosim.idl.simulation.air.*;
-import java.util.*;
-import biosim.idl.util.log.*;
-import biosim.idl.simulation.environment.*;
-import biosim.server.util.*;
-import biosim.server.simulation.framework.*;
-import java.text.*;
+import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+import java.util.Vector;
+
+import biosim.idl.simulation.environment.SimEnvironment;
+import biosim.idl.simulation.food.BioMatter;
+import biosim.idl.simulation.food.PlantPOA;
+import biosim.idl.simulation.food.PlantType;
+import biosim.idl.util.log.LogNode;
+import biosim.server.simulation.framework.SimpleBuffer;
 /**
  * Plant
  * @author    Scott Bell

@@ -1,18 +1,41 @@
 package biosim.server.simulation.crew;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import biosim.server.util.*;
-import biosim.idl.simulation.crew.*;
-import biosim.idl.simulation.environment.*;
-import biosim.idl.simulation.water.*;
-import biosim.idl.simulation.food.*;
-import biosim.idl.simulation.waste.*;
-import biosim.idl.util.log.*;
-import biosim.server.simulation.framework.*;
-import biosim.idl.simulation.framework.*;
-import biosim.idl.framework.*;
+import java.util.Arrays;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Vector;
+
+import biosim.idl.framework.AirConsumerOperations;
+import biosim.idl.framework.AirProducerOperations;
+import biosim.idl.framework.DirtyWaterProducerOperations;
+import biosim.idl.framework.DryWasteProducerOperations;
+import biosim.idl.framework.FoodConsumerOperations;
+import biosim.idl.framework.GreyWaterProducerOperations;
+import biosim.idl.framework.Malfunction;
+import biosim.idl.framework.MalfunctionIntensity;
+import biosim.idl.framework.MalfunctionLength;
+import biosim.idl.framework.PotableWaterConsumerOperations;
+import biosim.idl.simulation.crew.CrewGroupOperations;
+import biosim.idl.simulation.crew.CrewPerson;
+import biosim.idl.simulation.crew.CrewPersonHelper;
+import biosim.idl.simulation.crew.RepairActivity;
+import biosim.idl.simulation.crew.RepairActivityHelper;
+import biosim.idl.simulation.crew.RepairActivityPOATie;
+import biosim.idl.simulation.crew.ScheduleType;
+import biosim.idl.simulation.crew.Sex;
+import biosim.idl.simulation.environment.SimEnvironment;
+import biosim.idl.simulation.food.FoodMatter;
+import biosim.idl.simulation.food.FoodStore;
+import biosim.idl.simulation.waste.DryWasteStore;
+import biosim.idl.simulation.water.DirtyWaterStore;
+import biosim.idl.simulation.water.GreyWaterStore;
+import biosim.idl.simulation.water.PotableWaterStore;
+import biosim.idl.util.log.LogNode;
+import biosim.server.simulation.framework.SimBioModuleImpl;
+import biosim.server.util.OrbUtils;
 /**
  * The Crew Implementation.  Holds multiple crew persons and their schedule.
  *

@@ -1,11 +1,21 @@
 package biosim.client.simulation.water.gui;
 
-import biosim.client.framework.gui.*;
-import biosim.client.util.*;
-import biosim.idl.simulation.water.*;
-import javax.swing.*;
-import java.awt.*;
-import java.text.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.text.DecimalFormat;
+
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import biosim.client.framework.gui.TimedPanel;
+import biosim.client.util.BioHolder;
+import biosim.client.util.BioHolderInitializer;
+import biosim.idl.simulation.water.DirtyWaterStore;
+import biosim.idl.simulation.water.GreyWaterStore;
+import biosim.idl.simulation.water.PotableWaterStore;
+import biosim.idl.simulation.water.WaterRS;
 /**
  * This is the JPanel that displays information about the Water RS and the water stores.
  * Each tick it polls each water related server for new information regarding these systems.

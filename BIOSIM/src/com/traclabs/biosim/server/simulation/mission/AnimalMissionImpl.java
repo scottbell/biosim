@@ -1,16 +1,16 @@
 package biosim.server.simulation.mission;
 
-import biosim.idl.simulation.framework.*;
-import biosim.idl.framework.*;
-import biosim.idl.simulation.environment.*;
-import biosim.idl.simulation.power.*;
-import biosim.idl.simulation.mission.*;
-import biosim.idl.simulation.air.*;
-import biosim.idl.simulation.water.*;
-import java.util.*;
-import biosim.server.util.*;
-import biosim.idl.util.log.*;
-import biosim.server.simulation.framework.*;
+import biosim.idl.framework.AirConsumerOperations;
+import biosim.idl.framework.MalfunctionIntensity;
+import biosim.idl.framework.MalfunctionLength;
+import biosim.idl.framework.PotableWaterConsumerOperations;
+import biosim.idl.framework.PowerConsumerOperations;
+import biosim.idl.simulation.air.Breath;
+import biosim.idl.simulation.environment.SimEnvironment;
+import biosim.idl.simulation.mission.AnimalMissionOperations;
+import biosim.idl.simulation.power.PowerStore;
+import biosim.idl.simulation.water.PotableWaterStore;
+import biosim.idl.util.log.LogNode;
 /**
  * The basic AnimalMission Implementation.
  * @author    Scott Bell

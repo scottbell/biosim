@@ -1,11 +1,19 @@
  package biosim.client.simulation.power.gui;
 
-import biosim.client.framework.gui.*;
-import biosim.client.util.*;
-import biosim.idl.simulation.power.*;
-import javax.swing.*;
-import java.awt.*;
-import java.text.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.text.DecimalFormat;
+
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import biosim.client.framework.gui.TimedPanel;
+import biosim.client.util.BioHolder;
+import biosim.client.util.BioHolderInitializer;
+import biosim.idl.simulation.power.PowerPS;
+import biosim.idl.simulation.power.PowerStore;
 /**
  * This is the JPanel that displays information about the Power Production System and it's store.
  * Each tick it polls each power related server for new information regarding these systems.

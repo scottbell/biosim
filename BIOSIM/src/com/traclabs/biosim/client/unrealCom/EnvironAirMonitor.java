@@ -15,10 +15,12 @@
  
 package biosim.client.unrealCom;
 
-import java.net.*;
-import java.io.*;
-import biosim.client.util.*;
-import biosim.idl.simulation.environment.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
+
+import biosim.client.util.BioHolder;
+import biosim.idl.simulation.environment.SimEnvironment;
 
 public class EnvironAirMonitor extends Thread {
 	

@@ -1,9 +1,9 @@
 package biosim.server.sensor.environment;
 
-import biosim.server.sensor.framework.*;
-import biosim.idl.sensor.environment.*;
-import biosim.idl.simulation.environment.*;
-import biosim.idl.framework.*;
+import biosim.idl.framework.BioModule;
+import biosim.idl.sensor.environment.EnvironmentSensorOperations;
+import biosim.idl.simulation.environment.SimEnvironment;
+import biosim.server.sensor.framework.GenericSensorImpl;
 
 public abstract class EnvironmentSensorImpl extends GenericSensorImpl implements EnvironmentSensorOperations{
 	protected SimEnvironment myEnvironment;

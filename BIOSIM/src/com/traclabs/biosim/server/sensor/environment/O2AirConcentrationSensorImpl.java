@@ -1,8 +1,6 @@
 package biosim.server.sensor.environment;
 
-import biosim.server.sensor.framework.*;
-import biosim.idl.sensor.environment.*;
-import biosim.idl.simulation.environment.*;
+import biosim.idl.sensor.environment.O2AirConcentrationSensorOperations;
 
 public class O2AirConcentrationSensorImpl extends EnvironmentSensorImpl implements O2AirConcentrationSensorOperations{
 	public O2AirConcentrationSensorImpl(int pID, String pName){

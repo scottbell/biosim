@@ -1,7 +1,7 @@
 package biosim.server.simulation.water;
 
-import biosim.server.framework.*;
-import biosim.idl.simulation.water.*;
+import biosim.idl.simulation.water.GreyWaterStorePOATie;
+import biosim.server.framework.GenericServer;
 /**
  * The Grey Water Store Server.  Creates an instance of the Grey Water Store and registers it with the nameserver.
  *

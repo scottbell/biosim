@@ -1,13 +1,22 @@
 package biosim.server.util.log;
 
-import biosim.idl.util.log.*;
-import java.io.*;
-import java.util.*;
-import org.xml.sax.*;
-import org.xml.sax.helpers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.stream.*;
-import javax.xml.transform.sax.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.StringTokenizer;
+
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.sax.SAXTransformerFactory;
+import javax.xml.transform.sax.TransformerHandler;
+import javax.xml.transform.stream.StreamResult;
+
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributesImpl;
+
+import biosim.idl.util.log.LogHandlerType;
+import biosim.idl.util.log.LogNode;
 
 /**
  * The XMLLogHandler takes Logs and outputs them to an xml file

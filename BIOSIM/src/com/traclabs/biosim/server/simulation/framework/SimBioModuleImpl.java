@@ -1,7 +1,8 @@
 package biosim.server.simulation.framework;
 
-import biosim.server.framework.*;
-import biosim.idl.simulation.framework.*;
+import biosim.idl.simulation.framework.SimBioModuleOperations;
+import biosim.idl.simulation.framework.Store;
+import biosim.server.framework.BioModuleImpl;
 /**
  * The SimBioModule Implementation.  Modules specific to the simulation.
  *

@@ -1,6 +1,8 @@
 package biosim.server.framework;
 
-import biosim.idl.framework.*;
+import biosim.idl.framework.MalfunctionIntensity;
+import biosim.idl.framework.MalfunctionLength;
+import biosim.idl.framework.MalfunctionPOA;
 /**
  * Malfunctions occur to BioModules and introduce interesting faults for a controller to deal with.<br>
  * Once they're started, crew members can be assigned to fix them using the repair() method.  After<br>

@@ -1,9 +1,9 @@
 package biosim.server.sensor.power;
 
-import biosim.server.sensor.framework.*;
-import biosim.idl.sensor.power.*;
-import biosim.idl.framework.*;
-import biosim.idl.simulation.power.*;
+import biosim.idl.framework.BioModule;
+import biosim.idl.sensor.power.PowerPSSensorOperations;
+import biosim.idl.simulation.power.PowerPS;
+import biosim.server.sensor.framework.GenericSensorImpl;
 
 public abstract class PowerPSSensorImpl extends GenericSensorImpl implements PowerPSSensorOperations{
 	protected PowerPS myPowerPS;

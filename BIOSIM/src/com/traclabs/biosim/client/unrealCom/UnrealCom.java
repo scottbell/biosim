@@ -1,9 +1,13 @@
 package biosim.client.unrealCom;
 
-import java.io.*;
-import java.net.*;
-import biosim.client.util.*;
-import biosim.idl.framework.*;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+import biosim.client.util.BioHolder;
+import biosim.client.util.BioHolderInitializer;
+import biosim.idl.framework.BioDriver;
 
 /**
  * Main class for communication between BioSim and the BioSim 3D mod done for UnrealTournament 2004.  

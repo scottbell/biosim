@@ -1,8 +1,9 @@
 package biosim.server.sensor.waste;
 
-import biosim.server.sensor.framework.*;
-import biosim.idl.sensor.waste.*;
-import biosim.idl.framework.*;
+import biosim.idl.framework.BioModule;
+import biosim.idl.framework.DryWasteProducer;
+import biosim.idl.sensor.waste.DryWasteOutFlowRateSensorOperations;
+import biosim.server.sensor.framework.GenericSensorImpl;
 
 public class DryWasteOutFlowRateSensorImpl extends GenericSensorImpl implements DryWasteOutFlowRateSensorOperations{
 	private DryWasteProducer myProducer;

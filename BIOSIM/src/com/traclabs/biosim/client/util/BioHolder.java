@@ -1,12 +1,20 @@
 package biosim.client.util;
 
-import java.util.*;
-import biosim.idl.framework.*;
-import biosim.idl.sensor.framework.*;
-import biosim.idl.sensor.food.*;
-import biosim.idl.actuator.framework.*;
-import biosim.idl.actuator.food.*;
-import biosim.idl.simulation.food.*;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
+
+import biosim.idl.actuator.food.ShelfActuator;
+import biosim.idl.actuator.framework.GenericActuator;
+import biosim.idl.framework.BioDriver;
+import biosim.idl.framework.BioModule;
+import biosim.idl.sensor.food.ShelfSensor;
+import biosim.idl.sensor.framework.GenericSensor;
+import biosim.idl.simulation.food.BiomassRS;
+import biosim.idl.simulation.food.BiomassRSHelper;
+import biosim.idl.simulation.food.Shelf;
 
 /**
  * Holds references to the servers

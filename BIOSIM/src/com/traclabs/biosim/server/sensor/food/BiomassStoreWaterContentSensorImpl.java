@@ -1,6 +1,6 @@
 package biosim.server.sensor.food;
 
-import biosim.idl.sensor.food.*;
+import biosim.idl.sensor.food.BiomassStoreWaterContentSensorOperations;
 
 public class BiomassStoreWaterContentSensorImpl extends BiomassStoreSensorImpl implements BiomassStoreWaterContentSensorOperations{
 	public BiomassStoreWaterContentSensorImpl(int pID, String pName){

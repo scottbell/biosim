@@ -1,15 +1,27 @@
 package biosim.server.simulation.food;
 
-import biosim.idl.simulation.food.*;
-import biosim.idl.simulation.power.*;
-import biosim.idl.simulation.framework.*;
-import biosim.idl.simulation.waste.*;
-import biosim.idl.simulation.water.*;
-import biosim.idl.framework.*;
-import biosim.idl.util.log.*;
-import biosim.server.util.*;
-import biosim.server.simulation.framework.*;
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
+
+import biosim.idl.framework.BiomassConsumerOperations;
+import biosim.idl.framework.DryWasteProducerOperations;
+import biosim.idl.framework.FoodProducerOperations;
+import biosim.idl.framework.Malfunction;
+import biosim.idl.framework.MalfunctionIntensity;
+import biosim.idl.framework.MalfunctionLength;
+import biosim.idl.framework.PowerConsumerOperations;
+import biosim.idl.framework.WaterProducerOperations;
+import biosim.idl.simulation.food.BioMatter;
+import biosim.idl.simulation.food.BiomassStore;
+import biosim.idl.simulation.food.FoodMatter;
+import biosim.idl.simulation.food.FoodProcessorOperations;
+import biosim.idl.simulation.food.FoodStore;
+import biosim.idl.simulation.power.PowerStore;
+import biosim.idl.simulation.waste.DryWasteStore;
+import biosim.idl.simulation.water.WaterStore;
+import biosim.idl.util.log.LogNode;
+import biosim.server.simulation.framework.SimBioModuleImpl;
 /**
  * The Food Processor takes biomass (plants matter) and refines it to food for the crew members.
  *

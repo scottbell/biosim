@@ -1,11 +1,14 @@
 package biosim.server.framework;
 
-import biosim.idl.framework.*;
-import biosim.idl.util.log.*;
-import biosim.idl.simulation.crew.*;
-import biosim.idl.simulation.food.*;
-import biosim.server.util.*;
-import java.util.*;
+import biosim.idl.framework.BioDriverPOA;
+import biosim.idl.framework.BioModule;
+import biosim.idl.framework.MalfunctionIntensity;
+import biosim.idl.framework.MalfunctionLength;
+import biosim.idl.framework.StochasticIntensity;
+import biosim.idl.simulation.crew.CrewGroup;
+import biosim.idl.simulation.food.BiomassRS;
+import biosim.idl.simulation.food.Shelf;
+import biosim.idl.util.log.Logger;
 
 /*
  *
@@ -458,7 +461,7 @@ public class BioDriverImpl extends BioDriverPOA{
 			reset();
 		while (myTickThread == theCurrentThread) {
 			try {
-				myTickThread.sleep(driverStutterLength);
+				Thread.sleep(driverStutterLength);
 				synchronized(this) {
 					while (simulationIsPaused && (myTickThread==theCurrentThread)){
 						wait();

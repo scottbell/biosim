@@ -1,8 +1,9 @@
 package biosim.server.actuator.water;
 
-import biosim.server.actuator.framework.*;
-import biosim.idl.actuator.water.*;
-import biosim.idl.framework.*;
+import biosim.idl.actuator.water.GreyWaterOutFlowRateActuatorOperations;
+import biosim.idl.framework.BioModule;
+import biosim.idl.framework.GreyWaterProducer;
+import biosim.server.actuator.framework.GenericActuatorImpl;
 
 public class GreyWaterOutFlowRateActuatorImpl extends GenericActuatorImpl implements GreyWaterOutFlowRateActuatorOperations{
 	private GreyWaterProducer myProducer;

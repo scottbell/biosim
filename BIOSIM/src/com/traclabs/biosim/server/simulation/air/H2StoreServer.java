@@ -1,7 +1,7 @@
 package biosim.server.simulation.air;
 
-import biosim.idl.simulation.air.*;
-import biosim.server.framework.*;
+import biosim.idl.simulation.air.H2StorePOATie;
+import biosim.server.framework.GenericServer;
 /**
  * The H2 Store Server.  Creates an instance of the H2Store and registers it with the nameserver.
  *

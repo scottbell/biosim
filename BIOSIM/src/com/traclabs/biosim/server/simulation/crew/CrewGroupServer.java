@@ -1,7 +1,7 @@
 package biosim.server.simulation.crew;
 
-import biosim.server.framework.*;
-import biosim.idl.simulation.crew.*;
+import biosim.idl.simulation.crew.CrewGroupPOATie;
+import biosim.server.framework.GenericServer;
 /**
  * The Crew Server.  Creates an instance of the Crew and registers it with the nameserver.
  *

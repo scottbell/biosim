@@ -1,9 +1,9 @@
 package biosim.server.sensor.food;
 
-import biosim.server.sensor.framework.*;
-import biosim.idl.sensor.food.*;
-import biosim.idl.framework.*;
-import biosim.idl.simulation.food.*;
+import biosim.idl.framework.BioModule;
+import biosim.idl.sensor.food.FoodProcessorSensorOperations;
+import biosim.idl.simulation.food.FoodProcessor;
+import biosim.server.sensor.framework.GenericSensorImpl;
 
 public abstract class FoodProcessorSensorImpl extends GenericSensorImpl implements FoodProcessorSensorOperations{
 	protected FoodProcessor myFoodProcessor;

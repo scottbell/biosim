@@ -1,12 +1,14 @@
 package biosim.server.simulation.environment;
 
-import biosim.idl.simulation.water.*;
-import biosim.idl.simulation.environment.*;
-import biosim.idl.framework.*;
-import java.util.*;
-import biosim.server.util.*;
-import biosim.idl.util.log.*;
-import biosim.server.simulation.framework.*;
+import biosim.idl.framework.AirConsumerOperations;
+import biosim.idl.framework.DirtyWaterProducerOperations;
+import biosim.idl.framework.MalfunctionIntensity;
+import biosim.idl.framework.MalfunctionLength;
+import biosim.idl.simulation.environment.DehumidifierOperations;
+import biosim.idl.simulation.environment.SimEnvironment;
+import biosim.idl.simulation.water.DirtyWaterStore;
+import biosim.idl.util.log.LogNode;
+import biosim.server.simulation.framework.SimBioModuleImpl;
 /**
  * The basic Dehimidifier Implementation.
  * @author    Scott Bell

@@ -1,9 +1,14 @@
 package biosim.client.simulation.framework.gui;
 
-import biosim.client.framework.gui.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.Dimension;
+
+import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import biosim.client.framework.gui.UpdatablePanel;
 /**
  * This is the JPanel that displays information about the a bio module
  *

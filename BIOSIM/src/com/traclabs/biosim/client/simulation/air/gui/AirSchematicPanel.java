@@ -1,6 +1,6 @@
 package biosim.client.simulation.air.gui;
 
-import biosim.client.framework.gui.*;
+import biosim.client.framework.gui.TimedPanel;
 
 /**
  * This is the JPanel that displays a schematic

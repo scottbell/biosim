@@ -1,9 +1,13 @@
 package biosim.client.framework.gui;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import org.jfree.chart.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.JButton;
+
+import org.jfree.chart.ChartPanel;
 
 /**
  * 

@@ -1,11 +1,17 @@
 package biosim.client.simulation.framework;
 
-import biosim.idl.framework.*;
-import biosim.client.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
-import biosim.idl.sensor.food.*;
-import biosim.idl.simulation.food.*;
+import biosim.client.util.BioHolder;
+import biosim.client.util.BioHolderInitializer;
+import biosim.client.util.OrbUtils;
+import biosim.idl.framework.BioDriver;
+import biosim.idl.framework.BioDriverHelper;
+import biosim.idl.sensor.food.BiomassStoreLevelSensor;
+import biosim.idl.sensor.food.BiomassStoreLevelSensorHelper;
+import biosim.idl.simulation.food.BiomassStore;
 
 /**
  * Runs a CLI interface to the simulation.

@@ -1,6 +1,7 @@
 package biosim.server.util.log;
 
-import biosim.idl.util.log.*;
+import biosim.idl.util.log.LogHandlerType;
+import biosim.idl.util.log.LogNode;
 /**
  * The LogHandler takes Logs and outputs them
  * @author    Scott Bell

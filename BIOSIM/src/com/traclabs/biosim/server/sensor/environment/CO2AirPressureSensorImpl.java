@@ -1,8 +1,6 @@
 package biosim.server.sensor.environment;
 
-import biosim.server.sensor.framework.*;
-import biosim.idl.sensor.environment.*;
-import biosim.idl.simulation.environment.*;
+import biosim.idl.sensor.environment.CO2AirPressureSensorOperations;
 
 public class CO2AirPressureSensorImpl extends EnvironmentSensorImpl implements CO2AirPressureSensorOperations{
 	public CO2AirPressureSensorImpl(int pID, String pName){

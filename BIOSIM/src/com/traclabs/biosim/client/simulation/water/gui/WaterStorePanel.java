@@ -1,14 +1,24 @@
 package biosim.client.simulation.water.gui;
 
-import java.awt.*;
-import biosim.client.framework.gui.*;
-import biosim.client.util.*;
-import biosim.idl.simulation.water.*;
-import org.jfree.chart.*;
-import org.jfree.data.*;
-import org.jfree.chart.axis.*;
-import org.jfree.chart.plot.*;
-import org.jfree.chart.renderer.*;
+import java.awt.Color;
+import java.awt.Dimension;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.TextTitle;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.CategoryItemRenderer;
+import org.jfree.data.DefaultCategoryDataset;
+
+import biosim.client.framework.gui.GraphPanel;
+import biosim.client.util.BioHolder;
+import biosim.client.util.BioHolderInitializer;
+import biosim.idl.simulation.water.DirtyWaterStore;
+import biosim.idl.simulation.water.GreyWaterStore;
+import biosim.idl.simulation.water.PotableWaterStore;
 
 /**
  * This is the JPanel that displays a chart about the WaterStores
