@@ -11,6 +11,7 @@ import biosim.idl.sensor.air.*;
 import biosim.idl.sensor.environment.*;
 import biosim.idl.sensor.food.*;
 import biosim.idl.sensor.power.*;
+import biosim.idl.sensor.crew.*;
 import biosim.idl.sensor.water.*;
 import biosim.idl.sensor.framework.*;
 import biosim.idl.actuator.air.*;
@@ -62,6 +63,8 @@ public class BioHolder
 	//Stores
 	public final static String myO2StoreLevelSensorName = "O2StoreLevelSensor";
 	public final static String myCO2StoreLevelSensorName = "CO2StoreLevelSensor";
+	//Crew
+	public final static String myCrewGroupDeathSensorName = "CrewGroupDeathSensor";
 	//Power
 	//PowerPS
 	public final static String myPowerPSPowerOutFlowRateSensorName = "PowerPSPowerOutFlowRateSensor";
@@ -206,13 +209,13 @@ public class BioHolder
 		BioModule[] arrayModules = new BioModule[modules.size()];
 		return (BioModule[])(modules.values().toArray(arrayModules));
 	}
-	
+
 	public static GenericSensor[] getSensors(){
 		collectReferences();
 		GenericSensor[] arraySensors = new GenericSensor[sensors.size()];
 		return (GenericSensor[])(sensors.values().toArray(arraySensors));
 	}
-	
+
 	public static GenericActuator[] getActuators(){
 		collectReferences();
 		GenericActuator[] arrayActuators = new GenericActuator[actuators.size()];
@@ -332,6 +335,12 @@ public class BioHolder
 					modules.put(myPowerStoreLevelSensorName , myPowerStoreLevelSensor);
 					sensors.put(myPowerStoreLevelSensorName , myPowerStoreLevelSensor);
 				}
+			}
+			//Crew
+			{
+				CrewGroupDeathSensor myCrewGroupDeathSensor = CrewGroupDeathSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewGroupDeathSensorName+myID));
+				modules.put(myCrewGroupDeathSensorName , myCrewGroupDeathSensor);
+				sensors.put(myCrewGroupDeathSensorName , myCrewGroupDeathSensor);
 			}
 			//Environment
 			{
