@@ -30,9 +30,137 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	
+	<xsd:complexType name="DirtyWaterStoreType">  
+		<xsd:complexContent>
+			<xsd:extension base="Store">
+				<xsd:sequence>
+					<xsd:element name="DirtyWaterStoreName" type="DirtyWaterStoreNameType" minOccurs="1" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="GreyWaterStoreType">  
+		<xsd:complexContent>
+			<xsd:extension base="Store">
+				<xsd:sequence>
+					<xsd:element name="GreyWaterStoreName" type="GreyWaterStoreNameType" minOccurs="1" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="O2StoreType">  
+		<xsd:complexContent>
+			<xsd:extension base="Store">
+				<xsd:sequence>
+					<xsd:element name="O2StoreName" type="O2StoreNameType" minOccurs="1" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="CO2StoreType">  
+		<xsd:complexContent>
+			<xsd:extension base="Store">
+				<xsd:sequence>
+					<xsd:element name="CO2StoreName" type="CO2StoreNameType" minOccurs="1" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="H2StoreType">  
+		<xsd:complexContent>
+			<xsd:extension base="Store">
+				<xsd:sequence>
+					<xsd:element name="H2StoreName" type="H2StoreNameType" minOccurs="1" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="FoodStoreType">  
+		<xsd:complexContent>
+			<xsd:extension base="Store">
+				<xsd:sequence>
+					<xsd:element name="FoodStoreName" type="FoodStoreNameType" minOccurs="1" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="BiomassStoreType">  
+		<xsd:complexContent>
+			<xsd:extension base="Store">
+				<xsd:sequence>
+					<xsd:element name="BiomassStoreName" type="BiomassStoreNameType" minOccurs="1" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="PowerStoreType">  
+		<xsd:complexContent>
+			<xsd:extension base="Store">
+				<xsd:sequence>
+					<xsd:element name="PowerStoreName" type="PowerStoreNameType" minOccurs="1" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
 	<xsd:simpleType name="PotableWaterStoreNameType">
 		<xsd:restriction base="xsd:string">
 			<xsd:pattern value="PotableWaterStore+.*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="DirtyWaterStoreNameType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="DirtyWaterStore+.*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="GreyWaterStoreNameType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="GreyWaterStore+.*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="O2StoreNameType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="O2Store+.*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="CO2StoreNameType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="CO2Store+.*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="H2StoreNameType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="H2Store+.*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="FoodStoreNameType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="FoodStore+.*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="BiomassStoreNameType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="BiomassStore+.*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="PowerStoreNameType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="PowerStore+.*"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 	
