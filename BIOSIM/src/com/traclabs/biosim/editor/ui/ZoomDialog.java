@@ -9,7 +9,7 @@
 /*
  * Created on Jun 9, 2004
  */
-package com.traclabs.biosim.server.editor.ui;
+package com.traclabs.biosim.editor.ui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;

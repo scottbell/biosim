@@ -1,12 +1,12 @@
 /*
  * Created on Feb 23, 2005
  */
-package com.traclabs.biosim.server.editor.xml;
+package com.traclabs.biosim.editor.xml;
 
 import java.io.Reader;
 
-import com.traclabs.biosim.server.editor.base.VesprDocument;
-import com.traclabs.biosim.server.editor.base.VesprEditor;
+import com.traclabs.biosim.editor.base.VesprDocument;
+import com.traclabs.biosim.editor.base.VesprEditor;
 
 /**
  * @author kkusy

@@ -12,7 +12,7 @@
  * Created on February 7, 2003, 3:30 PM
  */
 
-package com.traclabs.biosim.server.editor.base;
+package com.traclabs.biosim.editor.base;
 
 import javax.swing.filechooser.FileFilter;
 

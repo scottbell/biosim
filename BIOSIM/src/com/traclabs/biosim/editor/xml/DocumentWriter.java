@@ -10,12 +10,12 @@
 /*
  * Created on Mar 11, 2005
  */
-package com.traclabs.biosim.server.editor.xml;
+package com.traclabs.biosim.editor.xml;
 
 import java.io.Writer;
 
-import com.traclabs.biosim.server.editor.base.VesprDocument;
-import com.traclabs.biosim.server.editor.base.VesprEditor;
+import com.traclabs.biosim.editor.base.VesprDocument;
+import com.traclabs.biosim.editor.base.VesprEditor;
 
 /**
  * @author kkusy

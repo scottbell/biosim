@@ -6,7 +6,7 @@
  * provisions of the FAR and its supplements.
  * Use is subject to license terms.
  */
-package com.traclabs.biosim.server.editor.base;
+package com.traclabs.biosim.editor.base;
 
 import java.awt.event.MouseEvent;
 
@@ -14,8 +14,8 @@ import org.tigris.gef.base.Editor;
 import org.tigris.gef.base.ModeDragScroll;
 import org.tigris.gef.base.ModeSelect;
 
-import com.traclabs.biosim.server.editor.graph.VesprFigNode;
-import com.traclabs.biosim.server.editor.graph.VesprGraphModel;
+import com.traclabs.biosim.editor.graph.VesprFigNode;
+import com.traclabs.biosim.editor.graph.VesprGraphModel;
 
 /**
  * VesprEditor supports the nesting of graphs within nodes. VesprEditor simply

@@ -5,7 +5,7 @@
  * applicable provisions of the FAR and its supplements. Use is subject to
  * license terms.
  */
-package com.traclabs.biosim.server.editor.graph;
+package com.traclabs.biosim.editor.graph;
 
 import java.awt.Color;
 import java.awt.Dimension;

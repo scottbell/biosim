@@ -5,11 +5,11 @@
  * applicable provisions of the FAR and its supplements. Use is subject to
  * license terms.
  */
-package com.traclabs.biosim.server.editor.base;
+package com.traclabs.biosim.editor.base;
 
 import org.tigris.gef.base.Cmd;
 
-import com.traclabs.biosim.server.editor.presentation.VesprFrame;
+import com.traclabs.biosim.editor.presentation.VesprFrame;
 
 public class VesprCmdExit extends Cmd {
 

@@ -10,7 +10,7 @@
  * Copyright (c) 2001 by S&amp;K Electronics. All rights reserved.
  */
 
-package com.traclabs.biosim.server.editor;
+package com.traclabs.biosim.editor;
 
 import java.util.Locale;
 import java.util.Properties;
@@ -19,7 +19,7 @@ import org.apache.log4j.PropertyConfigurator;
 import org.tigris.gef.util.Localizer;
 import org.tigris.gef.util.ResourceLoader;
 
-import com.traclabs.biosim.server.editor.presentation.VesprFrame;
+import com.traclabs.biosim.editor.presentation.VesprFrame;
 
 public class BiosimEditor {
     ////////////////////////////////////////////////////////////////
@@ -33,7 +33,7 @@ public class BiosimEditor {
         Localizer.addResource("GefPres",
                 "org.tigris.gef.presentation.PresentationResourceBundle");
         Localizer.addResource("VesprBase",
-                "com.traclabs.biosim.server.editor.base.BaseResourceBundle");
+                "com.traclabs.biosim.editor.base.BaseResourceBundle");
         Localizer.addLocale(Locale.getDefault());
         Localizer.switchCurrentLocale(Locale.getDefault());
         ResourceLoader.addResourceExtension("gif");

@@ -1,11 +1,11 @@
 /*
  * Created on Feb 14, 2005
  */
-package com.traclabs.biosim.server.editor.graph;
+package com.traclabs.biosim.editor.graph;
 
 import org.tigris.gef.presentation.Fig;
 
-import com.traclabs.biosim.server.editor.presentation.FigPanel;
+import com.traclabs.biosim.editor.presentation.FigPanel;
 
 /**
  * Adds a panel for nodes that required more complex layout strategies.

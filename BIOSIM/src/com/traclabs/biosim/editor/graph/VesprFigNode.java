@@ -6,7 +6,7 @@
  * provisions of the FAR and its supplements.
  * Use is subject to license terms.
  */
-package com.traclabs.biosim.server.editor.graph;
+package com.traclabs.biosim.editor.graph;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -28,7 +28,7 @@ import org.tigris.gef.presentation.FigPoly;
 import org.tigris.gef.presentation.FigRect;
 import org.tigris.gef.presentation.FigText;
 
-import com.traclabs.biosim.server.editor.base.VesprLayer;
+import com.traclabs.biosim.editor.base.VesprLayer;
 
 /**
  * VesprFigNode is the fig level representation of a VesprNode. Visually, it has

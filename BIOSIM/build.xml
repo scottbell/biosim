@@ -111,9 +111,9 @@
 		</javac>
 	</target>
 
-	<target name="build-editor" depends="build-client" description="builds editor">
+	<target name="build-editor" description="builds editor">
 		<echo message="Compling the editor" />
-		<javac srcdir="${src}/com/traclabs/biosim/server/editor" destdir="${buildDir}" nowarn="yes" failonerror="yes">
+		<javac srcdir="${src}/com/traclabs/biosim/editor" destdir="${buildDir}" nowarn="yes" failonerror="yes">
 			<classpath>
 				<pathelement location="${src}" />
 				<pathelement location="${buildDir}" />
@@ -262,7 +262,7 @@
 	
 	<target name="run-editor">
 			<echo message="Starting editor" />
-			<java classname="com.traclabs.biosim.server.editor.BiosimEditor" fork="yes" failonerror="yes">
+			<java classname="com.traclabs.biosim.editor.BiosimEditor" fork="yes" failonerror="yes">
 				<classpath>
 					<pathelement location="${buildDir}" />
 					<pathelement location="${resourceDir}" />
@@ -338,10 +338,10 @@
 		</java>
 	</target>
 
-	<target name="build-all" depends="docs, build-manual, build-ga-dist, build-win-dist" description="compile biosim, create docs">
+	<target name="build-all" depends="docs, build-manual, build-ga-dist, build-win-dist, build-editor" description="compile biosim, create docs">
 	</target>
 
-	<target name="build" depends="build-server,build-client" description="builds biosim">
+	<target name="build" depends="build-server,build-client, build-editor" description="builds biosim">
 	</target>
 
 	<target name="all" depends="clean-all,build-all" description="cleans then builds everything">

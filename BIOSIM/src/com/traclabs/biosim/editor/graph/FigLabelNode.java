@@ -1,7 +1,7 @@
 /*
  * Created on Feb 14, 2005
  */
-package com.traclabs.biosim.server.editor.graph;
+package com.traclabs.biosim.editor.graph;
 
 import java.awt.Color;
 import java.awt.Dimension;

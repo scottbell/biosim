@@ -6,7 +6,7 @@
  * provisions of the FAR and its supplements.
  * Use is subject to license terms.
  */
-package com.traclabs.biosim.server.editor.base;
+package com.traclabs.biosim.editor.base;
 
 import java.awt.Rectangle;
 import java.util.Enumeration;
@@ -24,9 +24,9 @@ import org.tigris.gef.graph.presentation.NetPort;
 import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigNode;
 
-import com.traclabs.biosim.server.editor.graph.VesprFigNode;
-import com.traclabs.biosim.server.editor.graph.VesprNode;
-import com.traclabs.biosim.server.editor.graph.VesprPort;
+import com.traclabs.biosim.editor.graph.VesprFigNode;
+import com.traclabs.biosim.editor.graph.VesprNode;
+import com.traclabs.biosim.editor.graph.VesprPort;
 
 /**
  * Rearrange the selected node and all nodes that it leads to. Arrange them into

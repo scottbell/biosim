@@ -12,7 +12,7 @@
  * 
  * @author Kevin Kusy
  */
-package com.traclabs.biosim.server.editor.base;
+package com.traclabs.biosim.editor.base;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;

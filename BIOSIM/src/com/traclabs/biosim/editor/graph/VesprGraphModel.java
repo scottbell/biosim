@@ -10,7 +10,7 @@
  * Created on Oct 23, 2003
  *
  */
-package com.traclabs.biosim.server.editor.graph;
+package com.traclabs.biosim.editor.graph;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

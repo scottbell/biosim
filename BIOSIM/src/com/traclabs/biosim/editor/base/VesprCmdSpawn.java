@@ -6,14 +6,14 @@
  * provisions of the FAR and its supplements.
  * Use is subject to license terms.
  */
-package com.traclabs.biosim.server.editor.base;
+package com.traclabs.biosim.editor.base;
 
 import java.awt.Dimension;
 
 import org.tigris.gef.base.Cmd;
 import org.tigris.gef.base.Globals;
 
-import com.traclabs.biosim.server.editor.presentation.VesprFrame;
+import com.traclabs.biosim.editor.presentation.VesprFrame;
 
 /**
  * Cmd to open a new editor on the same document as in the current editor. Works

@@ -10,7 +10,7 @@
 /*
  * Created on Mar 11, 2005
  */
-package com.traclabs.biosim.server.editor.xml;
+package com.traclabs.biosim.editor.xml;
 
 import java.awt.Rectangle;
 import java.io.IOException;
@@ -24,11 +24,11 @@ import org.tigris.gef.base.Selection;
 import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigEdge;
 
-import com.traclabs.biosim.server.editor.base.VesprDocument;
-import com.traclabs.biosim.server.editor.base.VesprEditor;
-import com.traclabs.biosim.server.editor.base.VesprLayer;
-import com.traclabs.biosim.server.editor.graph.VesprFigEdge;
-import com.traclabs.biosim.server.editor.graph.VesprFigNode;
+import com.traclabs.biosim.editor.base.VesprDocument;
+import com.traclabs.biosim.editor.base.VesprEditor;
+import com.traclabs.biosim.editor.base.VesprLayer;
+import com.traclabs.biosim.editor.graph.VesprFigEdge;
+import com.traclabs.biosim.editor.graph.VesprFigNode;
 
 /**
  * Writes a VesprDocument to a file.
