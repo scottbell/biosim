@@ -20,9 +20,6 @@ public class CRS extends AirRSSubSystem{
 	private float currentH2Consumed = 0;
 	private float currentH2OProduced = 0;
 	private float currentCH4Produced = 0;
-	private H2Tank myH2Tank;
-	private CH4Tank myCH4Tank;
-	private OGS myOGS;
 
 	public CRS(AirRSImpl pAirRSImpl){
 		super(pAirRSImpl);
@@ -36,19 +33,6 @@ public class CRS extends AirRSSubSystem{
 		return enoughH2;
 	}
 
-	/**
-	* Collects references to subsystems needed for putting/getting resources
-	*/
-	private void collectReferences(){
-		if (!hasCollectedReferences){
-			myH2Tank = myAirRS.getH2Tank();
-			myCH4Tank = myAirRS.getCH4Tank();
-			myOGS = myAirRS.getOGS();
-			myPowerStores = myAirRS.getPowerInputs();
-			hasCollectedReferences = true;
-		}
-	}
-
 	private void gatherGasses(){
 		float gatheredCO2 = 0f;
 		CO2Needed = myAirRS.randomFilter(CO2Needed);
@@ -58,14 +42,14 @@ public class CRS extends AirRSSubSystem{
 			gatheredCO2 += myCO2StoreInputs[i].take(CO2ToGather);
 		}
 		currentCO2Consumed = gatheredCO2;
-		currentH2Consumed = myOGS.takeH2(myAirRS.randomFilter(H2Needed));
+		currentH2Consumed = myAirRS.getOGS().takeH2(myAirRS.randomFilter(H2Needed));
 		if (CO2Needed < currentCO2Consumed)
 			enoughCO2 = false;
 		else
 			enoughCO2 = true;
 		if (currentH2Consumed < H2Needed){
 			//Get remainder from H2 tank
-			currentH2Consumed += myH2Tank.takeH2(H2Needed - currentH2Consumed);
+			currentH2Consumed += myAirRS.getH2Tank().takeH2(H2Needed - currentH2Consumed);
 			//check again
 			if (currentH2Consumed < H2Needed)
 				enoughH2 = false;
@@ -78,9 +62,9 @@ public class CRS extends AirRSSubSystem{
 
 	private void pushGasses(){
 		currentH2OProduced = myAirRS.randomFilter(new Double((currentH2Consumed + currentCO2Consumed) * .80).floatValue());
-		myOGS.addH2O(currentH2OProduced);
+		myAirRS.getOGS().addH2O(currentH2OProduced);
 		currentCH4Produced = myAirRS.randomFilter(new Double((currentH2Consumed + currentCO2Consumed) * .20).floatValue());
-		myCH4Tank.addCH4(currentCH4Produced);
+		myAirRS.getCH4Tank().addCH4(currentCH4Produced);
 	}
 
 	public void reset(){
@@ -95,7 +79,6 @@ public class CRS extends AirRSSubSystem{
 	}
 
 	public void tick(){
-		collectReferences();
 		gatherPower();
 		if (hasEnoughPower){
 			gatherGasses();
