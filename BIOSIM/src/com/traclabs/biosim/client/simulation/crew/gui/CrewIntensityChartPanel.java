@@ -24,7 +24,6 @@ public class CrewIntensityChartPanel extends GraphPanel
 	private CrewGroup myCrewGroup;
 
 	protected void buildGui(){
-		System.out.println("Invoking CrewIntensityChartPanel buildGui");
 		myCrewGroup = (CrewGroup)(BioHolder.getBioModule(BioHolder.crewName));
 		myCrewPeople = myCrewGroup.getCrewPeople();
 		if (myCrewGroup.getCrewPeople().length == 0){
@@ -34,7 +33,6 @@ public class CrewIntensityChartPanel extends GraphPanel
 			JLabel noCrewLabel = new JLabel("No crew to display");
 			noCrewPanel.add(noCrewLabel, BorderLayout.CENTER);
 			add(noCrewPanel, BorderLayout.CENTER);
-			System.out.println("CrewIntensityChartPanel: no crew found, done with buildGui");
 		}
 		else{
 			buildRealGui();
