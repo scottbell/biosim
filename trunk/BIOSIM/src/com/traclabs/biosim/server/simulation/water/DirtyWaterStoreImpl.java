@@ -3,54 +3,63 @@ package biosim.server.water;
 import biosim.idl.water.*;
 
 public class DirtyWaterStoreImpl extends DirtyWaterStorePOA {
-	private float dirtyWaterLevel;
-	private float dirtyWaterCapacity;
+	private float waterLevel;
+	private float waterCapacity;
 	
 	public DirtyWaterStoreImpl(){
-		dirtyWaterLevel = 0.0f;
-		dirtyWaterCapacity = 10.0f;
+		waterLevel = 0.0f;
+		waterCapacity = 10.0f;
 	}
 
 	public DirtyWaterStoreImpl (float initialDirtyWaterLevel, float  initialDirtyWaterCapacity){
-		dirtyWaterLevel = initialDirtyWaterLevel;
-		dirtyWaterCapacity = initialDirtyWaterCapacity;
+		waterLevel = initialDirtyWaterLevel;
+		waterCapacity = initialDirtyWaterCapacity;
 	}
 	
 	public void setWaterCapacity(float liters){
-		dirtyWaterCapacity = liters;
+		waterCapacity = liters;
 	}
 
 	public void setWaterLevel(float liters){
-		dirtyWaterLevel = liters;
+		waterLevel = liters;
 	}
 
-	public float addWater(float liters){
-		if ((liters +dirtyWaterLevel) > dirtyWaterCapacity){
-			float returnValue = (dirtyWaterCapacity - dirtyWaterLevel);
-			dirtyWaterLevel = dirtyWaterCapacity;
-			return returnValue;
+	public float addWater(float litersRequested){
+		float acutallyAdded = 0f;
+		if ((litersRequested + waterLevel) > waterCapacity){
+			//adding more water than capacity
+			acutallyAdded = (waterCapacity - waterLevel);
+			waterLevel += acutallyAdded;
+			return  acutallyAdded;
 		}
 		else{
-			dirtyWaterLevel = dirtyWaterLevel + liters;
-			return liters;
+			acutallyAdded = litersRequested;
+			waterLevel += litersRequested;
+			return acutallyAdded;
 		}
 	}
 
-	public float takeWater(float liters){
-		if ((dirtyWaterLevel - liters) < 0){
-			dirtyWaterLevel = 0;
-			if (liters < 0)
-				return 0;
-			else
-				return dirtyWaterLevel;
+	public float takeWater(float litersRequested){
+		//idiot check
+		if (litersRequested < 0){
+			return 0f;
 		}
+		//asking for more water than exists
+		if (litersRequested > waterLevel){
+			float takenWater = waterLevel;
+			waterLevel = 0;
+			return takenWater;
+		}
+		//water exists for request
 		else{
-			dirtyWaterLevel = dirtyWaterLevel - liters;
-			return liters;
+			float takenWater = litersRequested;
+			waterLevel -= litersRequested; 
+			return takenWater;
 		}
 	}
+	
 	public float getWaterLevel(){
-		return dirtyWaterLevel;
+		return waterLevel;
 	}
 
 	public void tick(){

@@ -24,31 +24,40 @@ public class BiomassStoreImpl extends BiomassStorePOA {
 		biomassLevel = kilograms;
 	}
 
-	public float addBiomass(float kilograms){
-		if ((kilograms +biomassLevel) > biomassCapacity){
-			float returnValue = (biomassCapacity - biomassLevel);
-			biomassLevel = biomassCapacity;
-			return returnValue;
+	public float addBiomass(float kilosRequested){
+		float acutallyAdded = 0f;
+		if ((kilosRequested + biomassLevel) > biomassCapacity){
+			//adding more biomass than capacity
+			acutallyAdded = (biomassCapacity - biomassLevel);
+			biomassLevel += acutallyAdded;
+			return  acutallyAdded;
 		}
 		else{
-			biomassLevel = biomassLevel + kilograms;
-			return kilograms;
+			acutallyAdded = kilosRequested;
+			biomassLevel += kilosRequested;
+			return acutallyAdded;
 		}
 	}
 
-	public float takeBiomass(float kilograms){
-		if ((biomassLevel - kilograms) < 0){
-			biomassLevel = 0;
-			if (kilograms < 0)
-				return 0;
-			else
-				return biomassLevel;
+	public float takeBiomass(float kilosRequested){
+		//idiot check
+		if (kilosRequested < 0){
+			return 0f;
 		}
+		//asking for more biomass than exists
+		if (kilosRequested > biomassLevel){
+			float takenBiomass = biomassLevel;
+			biomassLevel = 0;
+			return takenBiomass;
+		}
+		//biomass exists for request
 		else{
-			biomassLevel = biomassLevel - kilograms;
-			return kilograms;
+			float takenBiomass = kilosRequested;
+			biomassLevel -= kilosRequested; 
+			return takenBiomass;
 		}
 	}
+	
 	public float getBiomassLevel(){
 		return biomassLevel;
 	}

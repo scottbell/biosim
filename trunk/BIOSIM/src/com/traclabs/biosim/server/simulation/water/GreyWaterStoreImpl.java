@@ -3,54 +3,63 @@ package biosim.server.water;
 import biosim.idl.water.*;
 
 public class GreyWaterStoreImpl extends GreyWaterStorePOA {
-	private float greyWaterLevel;
-	private float greyWaterCapacity;
+	private float waterLevel;
+	private float waterCapacity;
 
 	public GreyWaterStoreImpl(){
-		greyWaterLevel = 0.0f;
-		greyWaterCapacity = 10.0f;
+		waterLevel = 0.0f;
+		waterCapacity = 10.0f;
 	}
 
 	public GreyWaterStoreImpl (float initialGreyWaterLevel, float  initialGreyWaterCapacity){
-		greyWaterLevel = initialGreyWaterLevel;
-		greyWaterCapacity = initialGreyWaterCapacity;
+		waterLevel = initialGreyWaterLevel;
+		waterCapacity = initialGreyWaterCapacity;
 	}
 	
 	public void setWaterCapacity(float liters){
-		greyWaterCapacity = liters;
+		waterCapacity = liters;
 	}
 
 	public void setWaterLevel(float liters){
-		greyWaterLevel = liters;
+		waterLevel = liters;
 	}
 
-	public float addWater(float liters){
-		if ((liters +greyWaterLevel) > greyWaterCapacity){
-			float returnValue = (greyWaterCapacity - greyWaterLevel);
-			greyWaterLevel = greyWaterCapacity;
-			return returnValue;
+	public float addWater(float litersRequested){
+		float acutallyAdded = 0f;
+		if ((litersRequested + waterLevel) > waterCapacity){
+			//adding more water than capacity
+			acutallyAdded = (waterCapacity - waterLevel);
+			waterLevel += acutallyAdded;
+			return  acutallyAdded;
 		}
 		else{
-			greyWaterLevel = greyWaterLevel + liters;
-			return liters;
+			acutallyAdded = litersRequested;
+			waterLevel += litersRequested;
+			return acutallyAdded;
 		}
 	}
 
-	public float takeWater(float liters){
-		if ((greyWaterLevel - liters) < 0){
-			greyWaterLevel = 0;
-			if (liters < 0)
-				return 0;
-			else
-				return greyWaterLevel;
+	public float takeWater(float litersRequested){
+		//idiot check
+		if (litersRequested < 0){
+			return 0f;
 		}
+		//asking for more water than exists
+		if (litersRequested > waterLevel){
+			float takenWater = waterLevel;
+			waterLevel = 0;
+			return takenWater;
+		}
+		//water exists for request
 		else{
-			greyWaterLevel = greyWaterLevel - liters;
-			return liters;
+			float takenWater = litersRequested;
+			waterLevel -= litersRequested; 
+			return takenWater;
 		}
 	}
+	
 	public float getWaterLevel(){
-		return greyWaterLevel;
+		return waterLevel;
 	}
 
 	public void tick(){
