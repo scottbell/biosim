@@ -3,7 +3,9 @@
 	<Globals crewsToWatch="CrewGroup" isLooping="true">
 		<comment>The default initialization for BioSim</comment>
 		<author>Scott Bell</author>
+		<!-- <log4jProperty name="log4j.logger.com.traclabs.biosim.server.sensor.air" value="DEBUG"/> !-->
 	</Globals>
+	
 	<SimBioModules>
 		<air>
 			<AirRS name="AirRS">
@@ -184,15 +186,14 @@
 			</Incinerator>
 			<DryWasteStore name="DryWasteStore" capacity="500" level="0"/>
 		</waste>
-
 		<mission>
 			<EVAMission name="EVAMission">
 				<powerConsumer maxFlowRates="10" desiredFlowRates="0" inputs="PowerStore"/>
 				<airConsumer maxFlowRates="10" desiredFlowRates="1" inputs="CrewEnvironment"/>
 			</EVAMission>
 		</mission>
-
 	</SimBioModules>
+	
 	<Sensors>
 		<air>
 			<CO2InFlowRateSensor name="AirRSCO2InFlowRateSensor" index="0" input="AirRS"/>
@@ -326,6 +327,7 @@
 			<DryWasteStoreLevelSensor name="DryWasteStoreLevelSensor" input="DryWasteStore"/>
 		</waste>
 	</Sensors>
+	
 	<Actuators>
 		<air>
 			<CO2InFlowRateActuator name="AirRSCO2InFlowRateActuator" index="0" output="AirRS"/>

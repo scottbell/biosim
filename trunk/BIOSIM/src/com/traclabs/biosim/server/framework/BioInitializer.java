@@ -2,10 +2,12 @@ package com.traclabs.biosim.server.framework;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.apache.xerces.parsers.DOMParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -863,6 +865,21 @@ public class BioInitializer {
                 else
                     myDriver
                             .setStochasticIntensity(StochasticIntensity.NONE_STOCH);
+
+                Properties logProperties = new Properties();
+                Node child = node.getFirstChild();
+                while (child != null) {
+                    String childName = child.getNodeName();
+                    if (childName.equals("log4jProperty")) {
+                        String nameProperty = child.getAttributes()
+                                .getNamedItem("name").getNodeValue();
+                        String valueProperty = child.getAttributes()
+                                .getNamedItem("value").getNodeValue();
+                        logProperties.setProperty(nameProperty, valueProperty);
+                    }
+                    child = child.getNextSibling();
+                }
+                PropertyConfigurator.configure(logProperties);
             } catch (Exception e) {
                 e.printStackTrace();
             }
