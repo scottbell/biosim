@@ -67,6 +67,12 @@ module biosim{
                                 interface SimEnvironment;
                                 typedef sequence <SimEnvironment> SimEnvironmentList;
                         };
+			module mission{
+				interface MissionModule;
+				interface EVAMission;
+				interface AnimalMission;
+				interface PlantMission;
+			};
                         module water{
                                 interface WaterRS;
                                 interface PotableWaterStore;
@@ -773,6 +779,17 @@ module biosim{
                                 };
 
                         };
+			module mission{
+				interface MissionModule : framework::SimBioModule{
+					float getMissionProductivity();
+				};
+				interface EVAMission : MissionModule, framework::PowerConsumer, framework::AirConsumer{
+				};
+				interface AnimalMission : MissionModule, framework::PowerConsumer, framework::AirConsumer, framework::PotableWaterConsumer{
+				};
+				interface PlantMission : MissionModule, framework::PowerConsumer, framework::AirConsumer, framework::PotableWaterConsumer{
+				};
+			};
                         module power{
                                 interface PowerPS : framework::SimBioModule, framework::PowerProducer, framework::LightConsumer{
                                         float getPowerProduced();

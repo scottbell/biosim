@@ -122,6 +122,8 @@ then
 	$compilationInvocation $simSkeletonDir/idl/simulation/framework/*.java
 	echo "				-compiling waste skeletons/stubs"
 	$compilationInvocation $simSkeletonDir/idl/simulation/waste/*.java
+	echo "				-compiling mission skeletons/stubs"
+	$compilationInvocation $simSkeletonDir/idl/simulation/mission/*.java
 	echo "			-compiling sensor skeletons/stubs"
 	echo "				-compiling framework skeletons/stubs"
 	$compilationInvocation $simSkeletonDir/idl/sensor/framework/*.java
@@ -181,6 +183,8 @@ echo "				-compiling environment implementation"
 $compilationInvocation $serverDir/simulation/environment/*.java
 echo "				-compiling waste implementation"
 $compilationInvocation $serverDir/simulation/waste/*.java
+echo "				-compiling mission implementation"
+$compilationInvocation $serverDir/simulation/mission/*.java
 echo "			-compiling sensor implementation"
 echo "				-compiling framework implementation"
 $compilationInvocation $serverDir/sensor/framework/*.java

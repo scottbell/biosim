@@ -26,11 +26,9 @@ public class WhitePotato extends Planophile{
 	public PlantType getPlantType(){
 		return PlantType.DRY_BEAN;
 	}
-
-	public float getPPFNeeded(){
-		float cropArea = myShelfImpl.getCropAreaUsed();
-		float constantPPF = 28f; //in moles per meters squared days
-		return (constantPPF * cropArea) / 24;
+	
+	protected float getConstantPPF(){
+		return 28000000f;
 	}
 	
 	protected float getCarbonUseEfficiency24(){

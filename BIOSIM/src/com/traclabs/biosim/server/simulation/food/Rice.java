@@ -29,11 +29,9 @@ public class Rice extends Erectophile{
 	public PlantType getPlantType(){
 		return PlantType.WHEAT;
 	}
-
-	public float getPPFNeeded(){
-		float cropArea = myShelfImpl.getCropAreaUsed();
-		float constantPPF = 33f; //in moles per meters squared days
-		return (constantPPF * cropArea) / 24;
+	
+	protected float getConstantPPF(){
+		return 33000000f;
 	}
 	
 	protected float getCarbonUseEfficiency24(){

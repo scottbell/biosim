@@ -27,11 +27,9 @@ public class Wheat extends Erectophile{
 	public PlantType getPlantType(){
 		return PlantType.WHEAT;
 	}
-
-	public float getPPFNeeded(){
-		float cropArea = myShelfImpl.getCropAreaUsed();
-		float constantPPF = 115f; //in moles per meters squared days
-		return (constantPPF * cropArea) / 24f;
+	
+	protected float getConstantPPF(){
+		return 115f;
 	}
 	
 	protected float getCarbonUseEfficiency24(){

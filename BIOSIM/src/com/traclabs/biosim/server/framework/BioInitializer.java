@@ -13,6 +13,7 @@ import biosim.idl.simulation.waste.*;
 import biosim.idl.simulation.power.*;
 import biosim.idl.simulation.environment.*;
 import biosim.idl.simulation.framework.*;
+import biosim.idl.simulation.mission.*;
 import biosim.idl.framework.*;
 import biosim.server.simulation.air.*;
 import biosim.server.simulation.crew.*;
@@ -22,6 +23,7 @@ import biosim.server.simulation.power.*;
 import biosim.server.simulation.environment.*;
 import biosim.server.simulation.framework.*;
 import biosim.server.simulation.waste.*;
+import biosim.server.simulation.mission.*;
 import biosim.idl.sensor.air.*;
 import biosim.idl.sensor.food.*;
 import biosim.idl.sensor.water.*;
@@ -768,35 +770,30 @@ public class BioInitializer{
 			String childName = child.getNodeName();
 			if (childName.equals("air")){
 				crawlAirModules(child, firstPass);
-
 			}
 			else if (childName.equals("crew")){
 				crawlCrewModules(child, firstPass);
-
 			}
 			else if (childName.equals("environment")){
 				crawlEnvironmentModules(child, firstPass);
-
 			}
 			else if (childName.equals("food")){
 				crawlFoodModules(child, firstPass);
-
 			}
 			else if (childName.equals("framework")){
 				crawlFrameworkModules(child, firstPass);
-
 			}
 			else if (childName.equals("power")){
 				crawlPowerModules(child, firstPass);
-
 			}
 			else if (childName.equals("water")){
 				crawlWaterModules(child, firstPass);
-
 			}
 			else if (childName.equals("waste")){
 				crawlWasteModules(child, firstPass);
-
+			}
+			else if (childName.equals("mission")){
+				crawlMissionModules(child, firstPass);
 			}
 			child = child.getNextSibling();
 		}
@@ -1534,6 +1531,38 @@ public class BioInitializer{
 					createDryWasteStore(child);
 				else
 					mySimModules.add(DryWasteStoreHelper.narrow(grabModule(getModuleName(child))));
+			}
+			child = child.getNextSibling();
+		}
+	}
+	
+	private void createEVAMission(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating EVAMission with moduleName: "+moduleName);
+			EVAMissionImpl myEVAMissionImpl = new EVAMissionImpl(myID, moduleName);
+			setupBioModule(myEVAMissionImpl, node);
+			BiosimServer.registerServer(new EVAMissionPOATie(myEVAMissionImpl), myEVAMissionImpl.getModuleName(), myEVAMissionImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureEVAMission(Node node){
+		EVAMission myEVAMission = EVAMissionHelper.narrow(grabModule(getModuleName(node)));
+		configureSimBioModule(myEVAMission, node);
+		mySimModules.add(myEVAMission);
+	}
+	
+	private void crawlMissionModules(Node node, boolean firstPass){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("EVAMission")){
+				if (firstPass)
+					createEVAMission(child);
+				else
+					configureEVAMission(child);
 			}
 			child = child.getNextSibling();
 		}
