@@ -1,15 +1,15 @@
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
-import biosim.client.util.OrbUtils;
-import biosim.idl.framework.BioDriver;
-import biosim.idl.framework.BioDriverHelper;
-import biosim.client.framework.*;
+import com.traclabs.biosim.client.util.OrbUtils;
+import com.traclabs.biosim.idl.framework.BioDriver;
+import com.traclabs.biosim.idl.framework.BioDriverHelper;
+import com.traclabs.biosim.client.framework.*;
 
 /*
  To compile:
  1) build biosim (type ant in BIOSIM_HOME)
- 2) javac -classpath .:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/generated/client/classes TestBiosim.java
+ 2) javac -classpath .:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/build TestBiosim.java
  
  javac - the compiler
  jacorb.jar - the library that has the ORB and various CORBA utilities
@@ -20,7 +20,7 @@ import biosim.client.framework.*;
  To run:
  1)run run-nameserver.sh
  2)run run-server.sh
- 3)java -classpath .:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/lib/jacorb/logkit.jar:$BIOSIM_HOME/lib/jacorb/avalon-framework.jar:$BIOSIM_HOME/lib/jacorb:$BIOSIM_HOME/generated/client/classes -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton -DORBInitRef.NameService=file:$BIOSIM_HOME/generated/ns/ior.txt TestBiosim
+ 3)java -classpath .:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/lib/jacorb/logkit.jar:$BIOSIM_HOME/lib/jacorb/avalon-framework.jar:$BIOSIM_HOME/lib/jacorb:$BIOSIM_HOME/build -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton -DORBInitRef.NameService=file:$BIOSIM_HOME/tmp/ns/ior.txt TestBiosim
  
  
  -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB - overriding Sun's default ORB (using Jacorb instead)
