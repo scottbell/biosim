@@ -668,7 +668,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
             BioModule moduleToRepair = BioModuleHelper.narrow(OrbUtils
                     .getNamingContext(myCurrentCrewGroup.getID()).resolve_str(
                             moduleName));
-            moduleToRepair.repair(id);
+            moduleToRepair.doSomeRepairWork(id);
         } catch (org.omg.CORBA.UserException e) {
             myLogger.warn("CrewPersonImp:" + myCurrentCrewGroup.getID()
                     + ": Couldn't locate " + moduleName
