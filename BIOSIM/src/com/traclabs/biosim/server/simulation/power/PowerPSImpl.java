@@ -57,8 +57,8 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements
      * places it into the power store.
      */
     public void tick() {
-        super.tick();
         currentPowerProduced = calculatePowerProduced();
+        super.tick();
         float distributedPowerLeft = pushResourceToStore(myPowerStores,
                 powerMaxFlowRates, powerDesiredFlowRates, powerActualFlowRates,
                 currentPowerProduced);
