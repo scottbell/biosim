@@ -1,15 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<xsd:annotation>
-		<xsd:documentation xml:lang="en">
-			XML initialization schema for BioSim.
-		</xsd:documentation>
-	</xsd:annotation>
-	
-   <xsd:element name="comment" minOccurs="0"/>
-  <xsd:sequence>
-   <xsd:element name="shipTo" type="xsd:string"/>
-   <xsd:element name="billTo" type="xsd:string"/>
-  </xsd:sequence>
-  <xsd:attribute name="orderDate" type="xsd:date"/>
+
+ <xsd:annotation>
+  <xsd:documentation xml:lang="en">
+   BioSim Initialization Schema
+  </xsd:documentation>
+ </xsd:annotation>
+
+ <xsd:element name="biosim" type="BioSimType"/>
+
+ <xsd:element name="comment" type="xsd:string"/>
+
+ <xsd:complexType name="BioSimType">
+  <xsd:attribute name="id" type="xsd:int"/>
+ </xsd:complexType>
+ 
 </xsd:schema>
+
+
