@@ -5,7 +5,7 @@
 			The lunar mission initialization for BioSim (scenario 4)
 			Has the following properties:
 				- contains biomass
-				- biomass has same water as crew, but separate air system
+				- biomass has same water as crew, but separate cabins
 				*other properties same as scenario 1*
 				- big H2 tank
 				- 1 daily EVA
@@ -21,35 +21,35 @@
 		<air>
 			<AirRS name="BaseAirRS" implementation="LINEAR">
 				<powerConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BasePowerStore"/>
-				<potableWaterConsumer maxFlowRates="1" desiredFlowRates="1" inputs="BasePotableWaterStore"/>
-				<airConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BaseCrewEnvironment"/>
-				<CO2Consumer maxFlowRates="100" desiredFlowRates="100" inputs="BaseCO2Store"/>
-				<H2Consumer maxFlowRates="400" desiredFlowRates="400" inputs="BaseH2Store"/>
-				<potableWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="BasePotableWaterStore"/>
-				<O2Producer maxFlowRates="100" desiredFlowRates="100" outputs="BaseO2Store"/>
-				<airProducer maxFlowRates="100" desiredFlowRates="100" outputs="BaseCrewEnvironment"/>
-				<CO2Producer maxFlowRates="100" desiredFlowRates="100" outputs="BaseCO2Store"/>
-				<H2Producer maxFlowRates="100" desiredFlowRates="100" outputs="BaseH2Store"/>
+				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BasePotableWaterStore"/>
+				<airConsumer maxFlowRates="10000000" desiredFlowRates="10000000" inputs="BaseCrewEnvironment"/>
+				<CO2Consumer maxFlowRates="10000000" desiredFlowRates="10000000" inputs="BaseCO2Store"/>
+				<H2Consumer maxFlowRates="10000000" desiredFlowRates="10000000" inputs="BaseH2Store"/>
+				<potableWaterProducer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="BasePotableWaterStore"/>
+				<O2Producer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="BaseO2Store"/>
+				<airProducer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="BaseCrewEnvironment"/>
+				<CO2Producer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="BaseCO2Store"/>
+				<H2Producer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="BaseH2Store"/>
 			</AirRS>
 			<AirRS name="EVAAirRS" implementation="LINEAR">
-				<powerConsumer maxFlowRates="20" desiredFlowRates="20" inputs="EVAPowerStore"/>
-				<potableWaterConsumer maxFlowRates="10" desiredFlowRates="10" inputs="EVAPotableWaterStore"/>
-				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="EVACrewEnvironment"/>
-				<CO2Consumer maxFlowRates="10" desiredFlowRates="10" inputs="EVACO2Store"/>
-				<H2Consumer maxFlowRates="40" desiredFlowRates="40" inputs="EVAH2Store"/>
+				<powerConsumer maxFlowRates="100" desiredFlowRates="100" inputs="EVAPowerStore"/>
+				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="EVAPotableWaterStore"/>
+				<airConsumer maxFlowRates="100" desiredFlowRates="100" inputs="EVACrewEnvironment"/>
+				<CO2Consumer maxFlowRates="100" desiredFlowRates="100" inputs="EVACO2Store"/>
+				<H2Consumer maxFlowRates="400" desiredFlowRates="400" inputs="EVAH2Store"/>
 				<potableWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="EVAPotableWaterStore"/>
 				<O2Producer maxFlowRates="100" desiredFlowRates="100" outputs="EVAO2Store"/>
 				<airProducer maxFlowRates="100" desiredFlowRates="100" outputs="EVACrewEnvironment"/>
 				<CO2Producer maxFlowRates="100" desiredFlowRates="100" outputs="EVACO2Store"/>
 				<H2Producer maxFlowRates="100" desiredFlowRates="100" outputs="EVAH2Store"/>
 			</AirRS>
-			<O2Store name="BaseO2Store" capacity="2000" level="502">
+			<O2Store name="BaseO2Store" capacity="2000" level="2000">
 				<malfunction occursAtTick="200" length="PERMANENT_MALF" intensity="MEDIUM_MALF"/>
 			</O2Store>
 			<O2Store name="EVAO2Store" capacity="800" level="800" resupplyAmount="800" resupplyFrequency="24"/>
 			<CO2Store name="BaseCO2Store" capacity="0" level="0"/>
 			<CO2Store name="EVACO2Store" capacity="10" level="10"/>
-			<H2Store name="BaseH2Store" capacity="10000000" level="10000000"/>
+			<H2Store name="BaseH2Store" capacity="1000" level="1000"/>
 			<H2Store name="EVAH2Store" capacity="10" level="10"/>
 			<NitrogenStore name="BaseNitrogenStore" capacity="5000" level="4000"/>
 			<NitrogenStore name="EVANitrogenStore" capacity="10" level="10"/>
@@ -124,21 +124,13 @@
 			</CrewGroup>
 		</crew>
 		<environment>
-			<SimEnvironment name="BasePlantEnvironment" initialVolume="1548930" leakRate="0.00224" airlockVolume="3.7"/>
-			<SimEnvironment name="BaseCrewEnvironment" initialVolume="1548930" leakRate="0.00224" airlockVolume="3.7"/>
+			<SimEnvironment name="BasePlantEnvironment" initialVolume="15489300" leakRate="0.00224" airlockVolume="3.7"/>
+			<SimEnvironment name="BaseCrewEnvironment" initialVolume="15489300" leakRate="0.00224" airlockVolume="3.7"/>
 			<SimEnvironment name="EVACrewEnvironment" initialVolume="1000" leakRate="0.00500" airlockVolume="999"/>
 		</environment>                    
 		<food>
 			<BiomassRS name="BaseBiomassRS">
-				<shelf cropArea="5" cropType="WHEAT"/>
-				<shelf cropArea="5" cropType="WHITE_POTATO"/>
-				<shelf cropArea="5" cropType="RICE"/>
-				<shelf cropArea="5" cropType="TOMATO"/>
-				<shelf cropArea="5" cropType="SOYBEAN"/>
-				<shelf cropArea="5" cropType="DRY_BEAN"/>
-				<shelf cropArea="5" cropType="LETTUCE"/>
-				<shelf cropArea="5" cropType="SWEET_POTATO"/>
-				<shelf cropArea="5" cropType="PEANUT"/>
+				<shelf cropArea="100" cropType="WHEAT"/>
 				<powerConsumer maxFlowRates="400" desiredFlowRates="400" inputs="BasePowerStore"/>
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BasePotableWaterStore"/>
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BaseGreyWaterStore"/>
@@ -147,7 +139,7 @@
 				<biomassProducer maxFlowRates="100" desiredFlowRates="100" outputs="BaseBiomassStore"/>
 				<airProducer maxFlowRates="0" desiredFlowRates="0" outputs="BasePlantEnvironment"/>
 			</BiomassRS>
-			<BiomassStore name="BaseBiomassStore" capacity="1000" level="300"/>
+			<BiomassStore name="BaseBiomassStore" capacity="1000" level="1000"/>
 			<FoodStore name="BaseFoodStore" capacity="2000" level="2000"/>
 			<FoodStore name="EVAFoodStore" capacity="0" level="0"/>
 		</food>
@@ -170,22 +162,22 @@
 			</Injector>
 		</framework>
 		<power>
-			<PowerPS name="PowerPS" generationType="SOLAR">
+			<PowerPS name="PowerPS" generationType="SOLAR" upperPowerGeneration="1000">
+				<malfunction occursAtTick="502" length="TEMPORARY_MALF" intensity="SEVERE_MALF"/>
 				<lightConsumer maxFlowRates="0" desiredFlowRates="0" inputs="BaseCrewEnvironment"/>
-				<powerProducer maxFlowRates="10000" desiredFlowRates="10000" outputs="BasePowerStore"/>
+				<powerProducer maxFlowRates="5000" desiredFlowRates="5000" outputs="BasePowerStore"/>
 			</PowerPS>
-			<PowerStore name="BasePowerStore" capacity="3000000" level="3000000"/>
+			<PowerStore name="BasePowerStore" capacity="30000" level="30000"/>
 			<PowerStore name="EVAPowerStore" capacity="1000" level="1000"/>
 		</power>
 		<water>
 			<WaterRS name="WaterRS" implementation="LINEAR">
-				<malfunction occursAtTick="502" length="TEMPORARY_MALF" intensity="SEVERE_MALF"/>
 				<powerConsumer maxFlowRates="500" desiredFlowRates="500" inputs="BasePowerStore"/>
-				<dirtyWaterConsumer maxFlowRates="100" desiredFlowRates="10" inputs="BaseDirtyWaterStore"/>
-				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="10" inputs="BaseGreyWaterStore"/>
-				<potableWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="BasePotableWaterStore"/>
+				<dirtyWaterConsumer maxFlowRates="10000000" desiredFlowRates="10000000" inputs="BaseDirtyWaterStore"/>
+				<greyWaterConsumer maxFlowRates="10000000" desiredFlowRates="10000000" inputs="BaseGreyWaterStore"/>
+				<potableWaterProducer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="BasePotableWaterStore"/>
 			</WaterRS>
-			<PotableWaterStore name="BasePotableWaterStore" capacity="8000" level="5000"/>
+			<PotableWaterStore name="BasePotableWaterStore" capacity="8000" level="8000"/>
 			<PotableWaterStore name="EVAPotableWaterStore" capacity="2" level="2"/>
 			<GreyWaterStore name="BaseGreyWaterStore" capacity="5000" level="0"/>
 			<GreyWaterStore name="EVAGreyWaterStore" capacity="1" level="0"/>
