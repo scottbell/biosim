@@ -52,8 +52,7 @@ fi
 relativeIDLDir="/src/biosim/idl/SIMULATION.idl"
 fullIDLDir=$devRootDir$relativeIDLDir
 echo "			-generating skeletons"
-idlInvocation="java -classpath $JACORB_HOME/lib/idl.jar org.jacorb.idl.parser"
-echo "				-invoking idl with: $idlInvocation  -nostub -d $skeletonDir $fullIDLDir"
+idlInvocation="$JAVA_HOME/bin/java -classpath $JACORB_HOME/lib/idl.jar org.jacorb.idl.parser"
 $idlInvocation  -nostub -d $skeletonDir $fullIDLDir
 #######################
 #		SERVER COMPILATION	#
@@ -62,7 +61,7 @@ echo "		-compiling server";
 simString="SIMULATION"
 simSkeletonDir="$skeletonDir/$simString"
 serverDir="$devRootDir/src/biosim/server"
-compilationInvocation="javac -d $serverClassesDir -classpath $skeletonDir$separator$serverClassesDir$separator$CLASSPATH"
+compilationInvocation="$JAVA_HOME/bin/javac -d $serverClassesDir -classpath $skeletonDir$separator$serverClassesDir$separator$CLASSPATH"
 echo "			-compiling skeletons"
 $compilationInvocation $simSkeletonDir/*.java
 echo "			-compiling air"

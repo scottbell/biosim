@@ -34,7 +34,7 @@ stubsClassesDir="$clientGenDir/stubs"
 clientDir="$devRootDir/src/biosim/client"
 controlName="biosim.client.control.BioSimulator"
 jacoClasspath="$JACORB_HOME/lib/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME/lib"
-jacoInvocation="java -classpath $clientClassesDir$separator$jacoClasspath$separator$CLASSPATH $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
+jacoInvocation="$JAVA_HOME/bin/java -classpath $clientClassesDir$separator$jacoClasspath$separator$CLASSPATH $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
 echo "	-starting client"
 case $userSelect in
 	control) echo "			 -starting $userSelect";$jacoInvocation $controlName;;
