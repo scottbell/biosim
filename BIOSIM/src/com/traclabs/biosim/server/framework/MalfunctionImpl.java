@@ -35,6 +35,8 @@ public class MalfunctionImpl extends MalfunctionPOA  {
 	private int repairTime = 0;
 	//How many times it takes to repair this module
 	private int maxRepairTime = 1;
+	//When this malfunction should occur
+	private int tickToMalfunction = 0;
 	
 	/**
 	* Creates a malfunction with a unique ID, sets up repair time, etc.
@@ -70,6 +72,14 @@ public class MalfunctionImpl extends MalfunctionPOA  {
 	*/
 	public long getID(){
 		return myID;
+	}
+	
+	public void setTickToMalfunction(int pTick){
+		tickToMalfunction = pTick;
+	}
+	
+	public int getTickToMalfunction(){
+		return tickToMalfunction;
 	}
 	
 	/**

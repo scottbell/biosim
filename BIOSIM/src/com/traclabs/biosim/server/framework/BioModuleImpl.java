@@ -36,9 +36,11 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	//The Malfunctions in a Map (key is a Long representing the Malfunction ID, value is the Malfunction Object)
 	protected Map myMalfunctions;
 	//The Malfunctions in a Map (key is a Long representing the Malfunction ID, value is the Malfunction Object)
-	protected Map myScheduledMalfunctions;
+	protected List myScheduledMalfunctions;
 	private boolean canBreakdown = false;
 	private float breakdownFactor = 0f;
+	//What I think the current tick is.
+	private int myTicks = 0;
 	
 	/**
 	* Constructor to create a BioModule, should only be called by those deriving from BioModule.
@@ -48,7 +50,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	protected BioModuleImpl(int pID, String pName){
 		myRandomGen = new Random();
 		myMalfunctions = new Hashtable();
-		myScheduledMalfunctions = new Hashtable();
+		myScheduledMalfunctions = new Vector();
 		myLog = new LogNodeImpl(getModuleName());
 		myID = pID;
 		myName = pName;
@@ -58,12 +60,18 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	* Called at every tick of the simulation.  Does nothing if not overriden.
 	*/
 	public void tick(){
+		checkForScheduledMalfunctions();
 		if (canBreakdown)
 			checkBreakdownRisk();
 		if (isMalfunctioning())
 			performMalfunctions();
 		if (moduleLogging)
 			log();
+		myTicks++;
+	}
+	
+	protected int getMyTicks(){
+		return myTicks;
 	}
 	
 	private void checkBreakdownRisk(){
@@ -72,6 +80,14 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		float randomNumber = myRandomGen.nextFloat();
 		if (breakdownReturn <= randomNumber)
 			startMalfunction(MalfunctionIntensity.LOW_MALF, MalfunctionLength.TEMPORARY_MALF);
+	}
+	
+	private void checkForScheduledMalfunctions(){
+		for (Iterator iter = myScheduledMalfunctions.iterator(); iter.hasNext();){
+			MalfunctionImpl currentMalfunction = (MalfunctionImpl)(iter.next());
+			if (currentMalfunction.getTickToMalfunction() ==  getMyTicks())
+				startMalfunction(currentMalfunction);
+		}
 	}
 	
 	protected void performMalfunctions(){
@@ -199,17 +215,25 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	}
 	
 	/**
+	 * Starts a malfunction in this module.
+	 * @param pMalfunction the malfunction
+	 */
+	private void startMalfunction(MalfunctionImpl pMalfunction){
+		Malfunction newMalfunction = MalfunctionHelper.narrow(OrbUtils.poaToCorbaObj(pMalfunction));
+		myMalfunctions.put((new Long(newMalfunction.getID())), newMalfunction);
+	}
+	
+	/**
 	 * Schedules a malfunction in this module.
 	 * @param pIntensity the intensity of the malfunction
 	 * @param pLength the temporal length of the malfunction
 	 * @return the malfunction started
 	 */
-	public Malfunction scheduleMalfunction(MalfunctionIntensity pIntensity, MalfunctionLength pLength, int tickToOccur){
+	public void scheduleMalfunction(MalfunctionIntensity pIntensity, MalfunctionLength pLength, int tickToOccur){
 		String malfunctionName = getMalfunctionName(pIntensity, pLength);
 		MalfunctionImpl newMalfunctionImpl = new MalfunctionImpl(malfunctionName,pIntensity,pLength);
-		Malfunction newMalfunction = MalfunctionHelper.narrow(OrbUtils.poaToCorbaObj(newMalfunctionImpl));
-		myScheduledMalfunctions.put((new Long(newMalfunction.getID())), newMalfunction);
-		return newMalfunction;
+		newMalfunctionImpl.setTickToMalfunction(tickToOccur);
+		myScheduledMalfunctions.add(newMalfunctionImpl);
 	}
 	
 	/**
@@ -243,6 +267,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	*/
 	public void reset(){
 		breakdownFactor = 0f;
+		myTicks = 0;
 		myMalfunctions.clear();
 	}
 	

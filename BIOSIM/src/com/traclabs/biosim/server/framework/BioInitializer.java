@@ -656,27 +656,53 @@ public class BioInitializer{
 	}
 	
 	private boolean getEnableBreakDown(Node pNode){
-		return false;
+		return pNode.getAttributes().getNamedItem("isLoggingEnabled").getNodeValue().equals("true");
 	}
 	
 	private boolean getLogging(Node pNode){
-		return false;
+		return pNode.getAttributes().getNamedItem("isBreakdownEnabled").getNodeValue().equals("true");
 	}
 	
 	private StochasticIntensity getStochasticIntensity(Node pNode){
-		return StochasticIntensity.NONE_STOCH;
+		String intensityString = pNode.getAttributes().getNamedItem("setStochasticIntensity").getNodeValue();
+		if (intensityString.equals("HIGH_STOCH"))
+			return StochasticIntensity.HIGH_STOCH;
+		else if (intensityString.equals("MEDIUM_STOCH"))
+			return StochasticIntensity.MEDIUM_STOCH;
+		else if (intensityString.equals("LOW_STOCH"))
+			return StochasticIntensity.LOW_STOCH;
+		else
+			return StochasticIntensity.NONE_STOCH;
 	}
 	
 	private MalfunctionIntensity getMalfunctionIntensity(Node pNode){
-		return MalfunctionIntensity.LOW_MALF;
+		String intensityString = pNode.getAttributes().getNamedItem("intensity").getNodeValue();
+		if (intensityString.equals("SEVERE_MALF"))
+			return MalfunctionIntensity.SEVERE_MALF;
+		else if (intensityString.equals("MEDIUM_MALF"))
+			return MalfunctionIntensity.MEDIUM_MALF;
+		else
+			return MalfunctionIntensity.LOW_MALF;
 	}
 	
 	private MalfunctionLength getMalfunctionLength(Node pNode){
-		return MalfunctionLength.TEMPORARY_MALF;
+		String lengthString = pNode.getAttributes().getNamedItem("length").getNodeValue();
+		if (lengthString.equals("TEMPORARY_MALF"))
+			return MalfunctionLength.TEMPORARY_MALF;
+		else
+			return MalfunctionLength.PERMANENT_MALF;
 	}
 	
 	private int getMalfunctionTick(Node pNode){
-		return -1;
+		int occursAtTick = 0;
+		try{
+			occursAtTick = Integer.parseInt(pNode.getAttributes().getNamedItem("occursAtTick").getNodeValue());
+		}
+		catch (NumberFormatException e){
+
+			e.printStackTrace();
+		}
+		return occursAtTick;
 	}
 	
 	private void setupBioModule(BioModuleImpl pModule, Node node){
