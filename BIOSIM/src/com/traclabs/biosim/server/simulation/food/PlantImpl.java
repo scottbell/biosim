@@ -22,13 +22,9 @@ public abstract class PlantImpl extends PlantPOA{
 	private boolean hasDied = false;
 	protected ShelfImpl myShelfImpl;
 	private float myAveragePPF = 0f;
-	private float myTotalPPF = 0f;
-	private int myNumberOfPPFReadings = 0;
 	private float myAverageWaterNeeded = 0f;
 	private float myTotalWaterNeeded = 0f;
 	private float myAverageCO2Concentration = 0f;
-	private float myTotalCO2Concentration = 0f;
-	private int myNumberOfCO2ConcentrationReadings = 0;
 	//in dry weight
 	private float myCurrentTotalWaterInsideBiomass = 0f; 
 	private float myCurrentTotalWetBiomass = 0f;
@@ -122,11 +118,7 @@ public abstract class PlantImpl extends PlantPOA{
 		CQY = 0f;
 		carbonUseEfficiency24 = 0f;
 		myAveragePPF = 0f;
-		myTotalPPF = 0f;
-		myNumberOfPPFReadings = 0;
 		myAverageCO2Concentration = 0f;
-		myTotalCO2Concentration = 0f;
-		myNumberOfCO2ConcentrationReadings = 0;
 		myAge = 0;
 		totalO2GramsProduced = 0f;
 		totalCO2GramsConsumed = 0f;
@@ -171,9 +163,7 @@ public abstract class PlantImpl extends PlantPOA{
 	}
 
 	public void shine(float pPPF){
-		myTotalPPF += pPPF;
-		myNumberOfPPFReadings++;
-		myAveragePPF = myTotalPPF / myNumberOfPPFReadings;
+		myAveragePPF = 0f;
 	}
 
 	private void recoverPlants(){
@@ -488,9 +478,11 @@ public abstract class PlantImpl extends PlantPOA{
 		//System.out.println("PlantImpl: CO2Moles: "+CO2Moles);
 		//System.out.println("PlantImpl: airMoles: "+airMoles);
 		float CO2_Concentration = (CO2Moles / airMoles);
-		myTotalCO2Concentration += CO2_Concentration;
-		myNumberOfCO2ConcentrationReadings ++;
-		myAverageCO2Concentration = myTotalCO2Concentration / myNumberOfCO2ConcentrationReadings;
+		float totalCO2Concentration = 0f;
+		for (Iterator iter = myCO2Values.iterator(); iter.hasNext();){
+			totalCO2Concentration += ((Float)(iter.next())).floatValue();
+		}
+		myAverageCO2Concentration =  totalCO2Concentration / myCO2Values.size();
 		//System.out.println("PlantImpl: myAverageCO2Concentration: "+myAverageCO2Concentration);
 	}
 
