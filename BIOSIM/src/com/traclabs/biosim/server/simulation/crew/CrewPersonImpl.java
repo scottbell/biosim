@@ -535,6 +535,12 @@ public class CrewPersonImpl extends CrewPersonPOA {
      * yet) maitenance - prevents other modules from breaking down (not
      * implemented yet) repair - attempts to fix a module. may have to be called
      * several time depending on the severity of the malfunction
+     * 
+     * New Stuff:
+     * 1) Put new environment to join in activity (make it like a repair activity)
+     * 2) sap 10% of air from old environment (look at air input of crew)
+     * 3) hook up old environment at end of EVA task (keep a record)
+     * 4) allow modules to be reconfigured using acutators (work on this later)
      */
     private void checkForMeaningfulActivity() {
         myLogger.debug("Checking to see if" + myCurrentActivity.getName()
