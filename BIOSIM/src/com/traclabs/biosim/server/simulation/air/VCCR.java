@@ -22,13 +22,13 @@ public class VCCR extends AirRSSubSystem {
         super(pAirRSImpl);
         myBreath = new Breath(0f, 0f, 0f, 0f, 0f);
     }
-    
-    public void log(){
+
+    public void log() {
         super.log();
-        myLogger.debug("myBreath="+myBreath);
-        myLogger.debug("molesAirNeeded="+molesAirNeeded);
-        myLogger.debug("currentCO2Produced="+currentCO2Produced);
-        myLogger.debug("myProductionRate="+myProductionRate);
+        myLogger.debug("myBreath=" + myBreath);
+        myLogger.debug("molesAirNeeded=" + molesAirNeeded);
+        myLogger.debug("currentCO2Produced=" + currentCO2Produced);
+        myLogger.debug("myProductionRate=" + myProductionRate);
     }
 
     public float getAirProduced() {

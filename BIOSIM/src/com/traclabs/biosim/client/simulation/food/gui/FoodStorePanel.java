@@ -40,7 +40,7 @@ public class FoodStorePanel extends GraphPanel {
         myFoodStore = (FoodStore) (myBioHolder.theFoodStores.get(0));
         refresh();
         JFreeChart myChart = ChartFactory.createBarChart3D("Food Store Levels", // chart
-                                                                                // title
+                // title
                 "Stores", // domain axis label
                 "Level (kg)", // range axis label
                 myDataset, PlotOrientation.VERTICAL, // data

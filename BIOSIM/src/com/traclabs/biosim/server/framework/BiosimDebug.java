@@ -7,7 +7,6 @@ import org.apache.log4j.PropertyConfigurator;
 import org.jacorb.naming.NameServer;
 import org.jacorb.util.Environment;
 
-
 /**
  * A standalone BioSim instance (server, nameserver, client in one) for
  * debugging
@@ -39,10 +38,15 @@ public class BiosimDebug {
 
     public static void main(String args[]) {
         Properties logProps = new Properties();
-        logProps.setProperty("log4j.appender.biosimDebugAppender", "org.apache.log4j.ConsoleAppender");
-        logProps.setProperty("log4j.appender.biosimDebugAppender.layout", "org.apache.log4j.PatternLayout");
-        logProps.setProperty("log4j.appender.biosimDebugAppender.layout.ConversionPattern", "%5p [%c] - %m%n");
-        logProps.setProperty("log4j.logger."+BiosimDebug.class, "DEBUG, biosimDebugAppender");
+        logProps.setProperty("log4j.appender.biosimDebugAppender",
+                "org.apache.log4j.ConsoleAppender");
+        logProps.setProperty("log4j.appender.biosimDebugAppender.layout",
+                "org.apache.log4j.PatternLayout");
+        logProps.setProperty(
+                "log4j.appender.biosimDebugAppender.layout.ConversionPattern",
+                "%5p [%c] - %m%n");
+        logProps.setProperty("log4j.logger." + BiosimDebug.class,
+                "DEBUG, biosimDebugAppender");
         PropertyConfigurator.configure(logProps);
         BiosimDebug myBiosimStandalone = new BiosimDebug();
         myBiosimStandalone.beginSimulation();
@@ -56,7 +60,8 @@ public class BiosimDebug {
         } catch (Exception e) {
         }
         Environment.setProperty("OAPort", Integer.toString(SERVER_OA_PORT));
-        Environment.setProperty("ORBInitRef.NameService","corbaloc::localhost:" + NAMESERVER_PORT + "/NameService");
+        Environment.setProperty("ORBInitRef.NameService",
+                "corbaloc::localhost:" + NAMESERVER_PORT + "/NameService");
         myLogger.info("Server awake...");
         BiosimServer myBiosimServer = new BiosimServer(0, 0, XML_INIT_FILENAME);
         myBiosimServer.runServer("BiosimServer (id=0)");

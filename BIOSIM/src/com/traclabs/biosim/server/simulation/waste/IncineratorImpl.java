@@ -326,11 +326,11 @@ public class IncineratorImpl extends SimBioModuleImpl implements
     }
 
     public void log() {
-        myLogger.debug("power_needed="+powerNeeded);
-        myLogger.debug("has_enough_power="+hasEnoughPower);
-        myLogger.debug("dryWaste_needed="+dryWasteNeeded);
-        myLogger.debug("current_dryWaste_consumed="+currentDryWasteConsumed);
-        myLogger.debug("current_power_consumed="+currentPowerConsumed);
+        myLogger.debug("power_needed=" + powerNeeded);
+        myLogger.debug("has_enough_power=" + hasEnoughPower);
+        myLogger.debug("dryWaste_needed=" + dryWasteNeeded);
+        myLogger.debug("current_dryWaste_consumed=" + currentDryWasteConsumed);
+        myLogger.debug("current_power_consumed=" + currentPowerConsumed);
     }
 
     //Power Input

@@ -101,7 +101,8 @@ public class OrbUtils {
                     .narrow(myTraclabsContext.resolve_str("biosim"));
             initializeOrbRunOnce = true;
         } catch (Exception e) {
-            Logger.getLogger(OrbUtils.class).error("OrbUtils: nameserver not found, polling again: "+ e);
+            Logger.getLogger(OrbUtils.class).error(
+                    "OrbUtils: nameserver not found, polling again: " + e);
             sleepAwhile();
             initialize();
             return;

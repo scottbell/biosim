@@ -39,7 +39,7 @@ public class StochasticPanel extends TimedPanel {
     private JPanel myOperatorPanel;
 
     private ImageIcon myIcon;
-    
+
     private Logger myLogger;
 
     /**

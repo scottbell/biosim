@@ -39,17 +39,17 @@ public class StateMap {
     public static float[] capacities;
 
     public GenericSensor[] stateSources;
-    
+
     private Logger myLogger;
 
     public static String[] stateNames = { "carbondioxide", "dirtywater",
             "greywater", "hydrogen", "oxygen", "potablewater" };
 
     public StateMap() {
-	myLogger = Logger.getLogger(this.getClass());
+        myLogger = Logger.getLogger(this.getClass());
         myMap = new TreeMap();
         myBioHolder = BioHolderInitializer.getBioHolder();
-        myLogger.info(BioHolderInitializer.getID() +"");
+        myLogger.info(BioHolderInitializer.getID() + "");
 
         myDirtyWaterStore = (DirtyWaterStore) myBioHolder.theDirtyWaterStores
                 .get(0);
@@ -121,7 +121,7 @@ public class StateMap {
     public int size() {
         return stateSources.length;
     }
-    
+
     public void printMe() {
         myLogger.info(myMap);
     }

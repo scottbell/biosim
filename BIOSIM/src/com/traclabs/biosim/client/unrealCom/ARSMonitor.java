@@ -88,7 +88,7 @@ public class ARSMonitor extends Thread {
      *            The oxygen store storage information.
      */
     private O2Store myO2Store;
-    
+
     private Logger myLogger;
 
     /**
@@ -99,9 +99,9 @@ public class ARSMonitor extends Thread {
      * @param bioHolder -
      *            BioHolder used to get the simulation's water information.
      */
-     
+
     ARSMonitor(Socket unrealSocket, BioHolder bioHolder) {
-	myLogger = Logger.getLogger(this.getClass());
+        myLogger = Logger.getLogger(this.getClass());
         mySocket = unrealSocket;
         myBioHolder = bioHolder;
 

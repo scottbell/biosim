@@ -120,7 +120,7 @@ public class BiomassStoreImpl extends StoreImpl implements
     public float addBioMatter(BioMatter pMatter) {
         if (pMatter.mass <= 0)
             return 0f;
-        myLogger.debug("pMatter.mass trying to be added="+pMatter.mass);
+        myLogger.debug("pMatter.mass trying to be added=" + pMatter.mass);
         float acutallyAdded = 0f;
         if ((pMatter.mass + level) > capacity) {
             //adding more than capacity
@@ -134,13 +134,14 @@ public class BiomassStoreImpl extends StoreImpl implements
                             * fractionOfOriginal, pMatter.inedibleWaterContent
                             * fractionOfOriginal, pMatter.type);
             currentBiomassItems.add(newBioMatter);
-            myLogger.debug("added = "+newBioMatter.mass +" with level @ "+level);
+            myLogger.debug("added = " + newBioMatter.mass + " with level @ "
+                    + level);
             return acutallyAdded;
         } else {
             acutallyAdded = randomFilter(pMatter.mass);
             level += acutallyAdded;
             currentBiomassItems.add(pMatter);
-            myLogger.debug("added = "+pMatter.mass +"with level @ "+level);
+            myLogger.debug("added = " + pMatter.mass + "with level @ " + level);
             return acutallyAdded;
         }
     }

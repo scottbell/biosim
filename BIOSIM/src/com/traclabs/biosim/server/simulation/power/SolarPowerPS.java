@@ -14,11 +14,12 @@ public class SolarPowerPS extends PowerPSImpl {
 
     float calculatePowerProduced() {
         //Varying stream of power
-        if (getLightInput() != null){
-            float powerGenerated = getUpperPowerGeneration() * (getLightInput().getLightIntensity() / getLightInput().getMaxLumens());
+        if (getLightInput() != null) {
+            float powerGenerated = getUpperPowerGeneration()
+                    * (getLightInput().getLightIntensity() / getLightInput()
+                            .getMaxLumens());
             return randomFilter(powerGenerated);
-        }
-            else {
+        } else {
             myLogger.error("SolarPowerPS: no light input!");
             return randomFilter(0);
         }

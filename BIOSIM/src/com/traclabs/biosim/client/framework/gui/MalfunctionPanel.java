@@ -52,7 +52,7 @@ public class MalfunctionPanel extends TimedPanel {
     private JPanel myCurrentMalfunctionsPanel;
 
     private ImageIcon myIcon;
-    
+
     private Logger myLogger;
 
     /**
@@ -217,8 +217,11 @@ public class MalfunctionPanel extends TimedPanel {
         if (myIcon != null)
             return;
         try {
-            myIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
-                    .getResource("com/traclabs/biosim/client/framework/gui/gear.gif"));
+            myIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/framework/gui/gear.gif"));
         } catch (Exception e) {
             myLogger.warn("Couldn't find icon (" + e + "), skipping");
             e.printStackTrace();

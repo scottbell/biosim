@@ -33,7 +33,7 @@ class CellMenu extends JPopupMenu implements ActionListener {
     private JWindow _colorWindow;
 
     private SpreadSheet _sp;
-    
+
     private Logger myLogger;
 
     CellMenu(SpreadSheet parent) {

@@ -40,7 +40,7 @@ class SheetCell {
     int row;
 
     int column;
-    
+
     Logger myLogger;
 
     SheetCell(int r, int c) {

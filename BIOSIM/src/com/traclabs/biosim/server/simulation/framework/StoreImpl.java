@@ -255,7 +255,10 @@ public abstract class StoreImpl extends SimBioModuleImpl implements
     public float add(float amountRequested) {
         //idiot check
         if (Float.isNaN(amountRequested)) {
-            myLogger.warn(getModuleName() + ": warning, in add(), attemped to add "+ amountRequested);
+            myLogger
+                    .warn(getModuleName()
+                            + ": warning, in add(), attemped to add "
+                            + amountRequested);
             return 0f;
         }
         if (amountRequested <= 0)
@@ -288,7 +291,10 @@ public abstract class StoreImpl extends SimBioModuleImpl implements
             capacity -= amountRequested;
         //idiot check
         if (Float.isNaN(amountRequested)) {
-            myLogger.warn(getModuleName() + ": warning, in add(), attemped to add " + amountRequested);
+            myLogger
+                    .warn(getModuleName()
+                            + ": warning, in add(), attemped to add "
+                            + amountRequested);
             return 0f;
         }
         if (amountRequested <= 0)

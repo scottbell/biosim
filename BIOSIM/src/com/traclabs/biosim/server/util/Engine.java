@@ -4,11 +4,11 @@ import org.apache.log4j.Logger;
 
 public abstract class Engine {
     protected Logger myLogger;
-    
-    public Engine(){
-        
+
+    public Engine() {
+
     }
-    
+
     public abstract void open();
 
     public abstract void put(double[] inputVector);

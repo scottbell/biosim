@@ -215,14 +215,14 @@ public class SimDesktop extends BioFrame {
     private int xOffset = 30, yOffset = 30;
 
     private int myID = 0;
-    
+
     private Logger myLogger;
 
     /**
      * Creates a BioSimulator, a panel hashtable, and creates the GUI
      */
     public SimDesktop(int pID) {
-	myLogger = Logger.getLogger(this.getClass());
+        myLogger = Logger.getLogger(this.getClass());
         myID = pID;
         myDriver = BioHolderInitializer.getBioHolder().theBioDriver;
         myDriver.setPauseSimulation(false);
@@ -394,36 +394,67 @@ public class SimDesktop extends BioFrame {
     private void loadIcons() {
         try {
             waterIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
-                    .getResource("com/traclabs/biosim/client/water/gui/water.jpg"));
-            foodIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
-                    .getResource("com/traclabs/biosim/client/food/gui/food.jpg"));
-            powerIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
-                    .getResource("com/traclabs/biosim/client/power/gui/power.jpg"));
-            crewIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
-                    .getResource("com/traclabs/biosim/client/crew/gui/crew.jpg"));
-            environmentIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
                     .getResource(
-                            "com/traclabs/biosim/client/environment/gui/environment.jpg"));
+                            "com/traclabs/biosim/client/water/gui/water.jpg"));
+            foodIcon = new ImageIcon(
+                    ClassLoader.getSystemClassLoader().getResource(
+                            "com/traclabs/biosim/client/food/gui/food.jpg"));
+            powerIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
+                    .getResource(
+                            "com/traclabs/biosim/client/power/gui/power.jpg"));
+            crewIcon = new ImageIcon(
+                    ClassLoader.getSystemClassLoader().getResource(
+                            "com/traclabs/biosim/client/crew/gui/crew.jpg"));
+            environmentIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/environment/gui/environment.jpg"));
             airIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
                     .getResource("com/traclabs/biosim/client/air/gui/air.jpg"));
             allIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
-                    .getResource("com/traclabs/biosim/client/framework/gui/all.jpg"));
-            startIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
-                    .getResource("com/traclabs/biosim/client/framework/gui/stop.gif"));
-            playIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
-                    .getResource("com/traclabs/biosim/client/framework/gui/play.gif"));
-            stopIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
-                    .getResource("com/traclabs/biosim/client/framework/gui/power.gif"));
-            pauseIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
-                    .getResource("com/traclabs/biosim/client/framework/gui/pause.gif"));
-            forwardIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
-                    .getResource("com/traclabs/biosim/client/framework/gui/forward.gif"));
-            biosimIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
-                    .getResource("com/traclabs/biosim/client/framework/gui/biosim.gif"));
-            malfunctionIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
-                    .getResource("com/traclabs/biosim/client/framework/gui/gear.gif"));
-            stochasticIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
-                    .getResource("com/traclabs/biosim/client/framework/gui/dice.jpg"));
+                    .getResource(
+                            "com/traclabs/biosim/client/framework/gui/all.jpg"));
+            startIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/framework/gui/stop.gif"));
+            playIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/framework/gui/play.gif"));
+            stopIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/framework/gui/power.gif"));
+            pauseIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/framework/gui/pause.gif"));
+            forwardIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/framework/gui/forward.gif"));
+            biosimIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/framework/gui/biosim.gif"));
+            malfunctionIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/framework/gui/gear.gif"));
+            stochasticIcon = new ImageIcon(
+                    ClassLoader
+                            .getSystemClassLoader()
+                            .getResource(
+                                    "com/traclabs/biosim/client/framework/gui/dice.jpg"));
         } catch (Exception e) {
             myLogger.error("Couldn't find icon (" + e + "), skipping");
             e.printStackTrace();

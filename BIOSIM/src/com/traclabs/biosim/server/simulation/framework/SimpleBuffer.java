@@ -22,7 +22,7 @@ public class SimpleBuffer {
     protected float initialLevel = 0f;
 
     protected float initialCapacity = 0f;
-    
+
     private Logger myLogger;
 
     /**
@@ -60,10 +60,12 @@ public class SimpleBuffer {
             newCapacity = Float.MIN_VALUE;
         }
         float percentage = level / capacity;
-        myLogger.debug("SimpleBuffer: level = "+level+", capacity ="+capacity+" percentage = "+percentage);
+        myLogger.debug("SimpleBuffer: level = " + level + ", capacity ="
+                + capacity + " percentage = " + percentage);
         capacity = newCapacity;
         level = percentage * newCapacity;
-        myLogger.debug(", newCapacity = "+newCapacity+", newLevel = "+level);
+        myLogger.debug(", newCapacity = " + newCapacity + ", newLevel = "
+                + level);
     }
 
     /**

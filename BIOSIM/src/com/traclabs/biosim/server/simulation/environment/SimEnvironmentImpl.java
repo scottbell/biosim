@@ -90,9 +90,10 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
     private final static float temperature = 23f;
 
     private final static float idealGasConstant = 8.314f; // J K ^-1 mol -1
-                                                          // (assumes units in
-                                                          // moles, kevlin, and
-                                                          // kPascals)
+
+    // (assumes units in
+    // moles, kevlin, and
+    // kPascals)
 
     //The total volume of the environment (all the open space)
     private float volume = 0f;
@@ -664,8 +665,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
      */
     public float addCO2Moles(float molesRequested) {
         if (Float.isNaN(molesRequested)) {
-            myLogger.warn("in addCO2Moles, attemped to add "
-                    + molesRequested);
+            myLogger.warn("in addCO2Moles, attemped to add " + molesRequested);
             return 0f;
         }
         if (molesRequested <= 0)
@@ -691,8 +691,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
      */
     public float addO2Moles(float molesRequested) {
         if (Float.isNaN(molesRequested)) {
-            myLogger.warn("in addO2Moles, attemped to add "
-                    + molesRequested);
+            myLogger.warn("in addO2Moles, attemped to add " + molesRequested);
             return 0f;
         }
         if (molesRequested <= 0)
@@ -718,8 +717,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
      */
     public float addOtherMoles(float molesRequested) {
         if (Float.isNaN(molesRequested)) {
-            myLogger.warn("in addOtherMoles, attemped to add "
-                    + molesRequested);
+            myLogger
+                    .warn("in addOtherMoles, attemped to add " + molesRequested);
             return 0f;
         }
         if (molesRequested <= 0)
@@ -745,8 +744,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
      */
     public float addWaterMoles(float molesRequested) {
         if (Float.isNaN(molesRequested)) {
-            myLogger.warn("in addWaterMoles, attemped to add "
-                    + molesRequested);
+            myLogger
+                    .warn("in addWaterMoles, attemped to add " + molesRequested);
             return 0f;
         }
         if (molesRequested <= 0)
@@ -840,7 +839,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
     public float takeOtherMoles(float molesRequested) {
         //idiot check
         if (Float.isNaN(molesRequested)) {
-           myLogger.warn("in takeOtherMoles, attemped to remove "
+            myLogger.warn("in takeOtherMoles, attemped to remove "
                     + molesRequested);
             return 0f;
         }
@@ -965,14 +964,13 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
                     otherMolesTaken, nitrogenMolesTaken);
         }
     }
-    
-    private void performLeak(float pLeakRate){
+
+    private void performLeak(float pLeakRate) {
         float leakedO2Moles = O2Moles - (O2Moles * pLeakRate);
         float leakedCO2Moles = CO2Moles - (CO2Moles * pLeakRate);
         float leakedOtherMoles = otherMoles - (otherMoles * pLeakRate);
         float leakedWaterMoles = waterMoles - (waterMoles * pLeakRate);
-        float leakedNitrogenMoles = nitrogenMoles
-                - (nitrogenMoles * pLeakRate);
+        float leakedNitrogenMoles = nitrogenMoles - (nitrogenMoles * pLeakRate);
         O2Moles = leakedO2Moles;
         CO2Moles = leakedCO2Moles;
         otherMoles = leakedOtherMoles;
@@ -1041,7 +1039,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
     }
 
     private void calculateLightIntensity() {
-        lightIntensity = (float)(maxLumens * Math.pow(Math.sin(Math.PI / dayLength * (getMyTicks() - hourOfDayStart)), 2f));
+        lightIntensity = (float) (maxLumens * Math.pow(Math.sin(Math.PI
+                / dayLength * (getMyTicks() - hourOfDayStart)), 2f));
     }
 
     /**
@@ -1070,20 +1069,20 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
         myLogger.debug("cachedOtherMoles=" + cachedOtherMoles);
         myLogger.debug("cachedWaterMoles=" + cachedWaterMoles);
         myLogger.debug("cachedNitrogenMoles=" + cachedNitrogenMoles);
-        
-        myLogger.debug("O2_moles="+O2Moles);
-        myLogger.debug("CO2_moles="+CO2Moles);
-        myLogger.debug("other_moles="+otherMoles);
-        myLogger.debug("water_moles="+waterMoles);
-        myLogger.debug("nitrogen_moles="+nitrogenMoles);
-        myLogger.debug("O2_pressure="+O2Pressure);
-        myLogger.debug("CO2_pressure="+CO2Pressure);
-        myLogger.debug("other_pressure="+otherPressure);
-        myLogger.debug("water_pressure="+waterPressure);
-        myLogger.debug("nitrogen_pressure="+nitrogenPressure);
-        myLogger.debug("volume="+volume);
-        myLogger.debug("light_intensity="+lightIntensity);
-         
+
+        myLogger.debug("O2_moles=" + O2Moles);
+        myLogger.debug("CO2_moles=" + CO2Moles);
+        myLogger.debug("other_moles=" + otherMoles);
+        myLogger.debug("water_moles=" + waterMoles);
+        myLogger.debug("nitrogen_moles=" + nitrogenMoles);
+        myLogger.debug("O2_pressure=" + O2Pressure);
+        myLogger.debug("CO2_pressure=" + CO2Pressure);
+        myLogger.debug("other_pressure=" + otherPressure);
+        myLogger.debug("water_pressure=" + waterPressure);
+        myLogger.debug("nitrogen_pressure=" + nitrogenPressure);
+        myLogger.debug("volume=" + volume);
+        myLogger.debug("light_intensity=" + lightIntensity);
+
     }
 
     private boolean cachedValueNeeded() {
@@ -1103,56 +1102,67 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
                 hasCollectedReferences = true;
 
             } catch (org.omg.CORBA.UserException e) {
-                myLogger.error(getModuleName()
-                        + ": Couldn't find BioDriver!!");
+                myLogger.error(getModuleName() + ": Couldn't find BioDriver!!");
                 e.printStackTrace();
             }
         }
     }
+
     /**
      * @return Returns the permanentLeakRate.
      */
     public float getLeakRate() {
         return permanentLeakRate;
     }
+
     /**
-     * @param pLeakRate The permanentLeakRate to set.
+     * @param pLeakRate
+     *            The permanentLeakRate to set.
      */
     public void setLeakRate(float pLeakRate) {
         permanentLeakRate = pLeakRate;
     }
+
     /**
      * @return Returns the dayLength.
      */
     public float getDayLength() {
         return dayLength;
     }
+
     /**
-     * @param dayLength The dayLength to set.
+     * @param dayLength
+     *            The dayLength to set.
      */
     public void setDayLength(float dayLength) {
         this.dayLength = dayLength;
     }
+
     /**
      * @return Returns the hourOfDayStart.
      */
     public float getHourOfDayStart() {
         return hourOfDayStart;
     }
+
     /**
-     * @param hourOfDayStart The hourOfDayStart to set.
+     * @param hourOfDayStart
+     *            The hourOfDayStart to set.
      */
     public void setHourOfDayStart(float hourOfDayStart) {
         this.hourOfDayStart = hourOfDayStart;
     }
+
     /**
      * @return Returns the maxLumens.
      */
     public float getMaxLumens() {
         return maxLumens;
     }
+
     /**
-     * @param maxLumens The maxLumens to set.
+     * @param maxLumens
+     *            The maxLumens to set.
      */
     public void setMaxLumens(float maxLumens) {
         this.maxLumens = maxLumens;

@@ -17,6 +17,7 @@ public abstract class WaterRSSubSystem {
     //During any given tick, this much power (in watts) is needed for a water
     // subsystem (default)
     float basePowerNeeded = 100;
+
     float currentPowerNeeded;
 
     //During any given tick, this much water (in liters) is needed for a water
@@ -43,7 +44,7 @@ public abstract class WaterRSSubSystem {
     boolean enabled = true;
 
     private boolean malfunctioning = false;
-    
+
     protected Logger myLogger;
 
     /**
@@ -172,13 +173,13 @@ public abstract class WaterRSSubSystem {
     }
 
     public void log() {
-        myLogger.debug("enabled="+enabled);
-        myLogger.debug("basePowerNeeded="+basePowerNeeded);
-        myLogger.debug("currentPowerNeeded="+currentPowerNeeded);
-        myLogger.debug("power_consumed="+currentPowerConsumed);
-        myLogger.debug("water_needed="+waterNeeded);
-        myLogger.debug("has_enough_power="+hasEnoughPower);
-        myLogger.debug("has_enough_water="+hasEnoughWater);
-        myLogger.debug("water_level="+waterLevel);
+        myLogger.debug("enabled=" + enabled);
+        myLogger.debug("basePowerNeeded=" + basePowerNeeded);
+        myLogger.debug("currentPowerNeeded=" + currentPowerNeeded);
+        myLogger.debug("power_consumed=" + currentPowerConsumed);
+        myLogger.debug("water_needed=" + waterNeeded);
+        myLogger.debug("has_enough_power=" + hasEnoughPower);
+        myLogger.debug("has_enough_water=" + hasEnoughWater);
+        myLogger.debug("water_level=" + waterLevel);
     }
 }

@@ -65,7 +65,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
     private int myTicks = 0;
 
     protected TechSpecificInfo myTechSpecificInfo;
-    
+
     protected Logger myLogger;
 
     /**

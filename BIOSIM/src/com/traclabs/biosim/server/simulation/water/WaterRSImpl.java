@@ -70,9 +70,9 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
     private float[] greyWaterDesiredFlowRates;
 
     private float[] potableWaterDesiredFlowRates;
-    
+
     private WaterRSOperationMode myMode;
-    
+
     private static final int NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER = 4;
 
     /**
@@ -262,13 +262,13 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
     }
 
     public void log() {
-        myLogger.debug("potable_water_produced="+getPotableWaterProduced());
-        myLogger.debug("grey_water_produced="+getGreyWaterProduced());
-        myLogger.debug("power_consumed="+getPowerConsumed());
-        myLogger.debug("dirty_water_consumed="+getDirtyWaterConsumed());
-        myLogger.debug("grey_water_consumed="+getGreyWaterConsumed());
+        myLogger.debug("potable_water_produced=" + getPotableWaterProduced());
+        myLogger.debug("grey_water_produced=" + getGreyWaterProduced());
+        myLogger.debug("power_consumed=" + getPowerConsumed());
+        myLogger.debug("dirty_water_consumed=" + getDirtyWaterConsumed());
+        myLogger.debug("grey_water_consumed=" + getGreyWaterConsumed());
     }
-    
+
     int getSubsystemsConsumingPower() {
         return NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER;
     }
@@ -458,40 +458,34 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
     }
 
     /**
-     * Sets the current WaterRS operation mode
-     * FULL - WaterRS operates at full capacity (and power)
-     * GREY WATER ONLY - produces only grey water (saves power)
-     * PARTIAL - produces 85% potable
-     * OFF - turns off WaterRS
+     * Sets the current WaterRS operation mode FULL - WaterRS operates at full
+     * capacity (and power) GREY WATER ONLY - produces only grey water (saves
+     * power) PARTIAL - produces 85% potable OFF - turns off WaterRS
      */
     public void setOperationMode(WaterRSOperationMode pMode) {
         myMode = pMode;
-        if (myMode == WaterRSOperationMode.FULL){
+        if (myMode == WaterRSOperationMode.FULL) {
             myBWP.setEnabled(true);
             myPPS.setEnabled(true);
             myRO.setEnabled(true);
             myAES.setEnabled(true);
-        }
-        else if (myMode == WaterRSOperationMode.GREY_WATER_ONLY){
+        } else if (myMode == WaterRSOperationMode.GREY_WATER_ONLY) {
             myBWP.setEnabled(true);
             myPPS.setEnabled(false);
             myRO.setEnabled(true);
             myAES.setEnabled(true);
-        }
-        else if (myMode == WaterRSOperationMode.PARTIAL){
+        } else if (myMode == WaterRSOperationMode.PARTIAL) {
             myBWP.setEnabled(true);
             myPPS.setEnabled(true);
             myRO.setEnabled(true);
             myAES.setEnabled(false);
-        }
-        else if (myMode == WaterRSOperationMode.OFF){
+        } else if (myMode == WaterRSOperationMode.OFF) {
             myBWP.setEnabled(false);
             myPPS.setEnabled(false);
             myRO.setEnabled(false);
             myAES.setEnabled(false);
-        }
-        else{
-            myLogger.warn("unknown state for WaterRS: "+myMode);
+        } else {
+            myLogger.warn("unknown state for WaterRS: " + myMode);
         }
     }
 

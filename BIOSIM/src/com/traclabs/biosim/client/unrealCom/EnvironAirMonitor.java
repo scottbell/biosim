@@ -60,7 +60,7 @@ public class EnvironAirMonitor extends Thread {
      *            All information associated with a simulated environment.
      */
     private SimEnvironment mySimEnvironment;
-    
+
     private Logger myLogger;
 
     /**
@@ -76,7 +76,7 @@ public class EnvironAirMonitor extends Thread {
      */
     EnvironAirMonitor(Socket unrealSocket, BioHolder bioHolder,
             boolean isCrewEnv) {
-	myLogger = Logger.getLogger(this.getClass());
+        myLogger = Logger.getLogger(this.getClass());
 
         mySocket = unrealSocket;
 

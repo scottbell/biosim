@@ -24,15 +24,15 @@ public class CRS extends AirRSSubSystem {
     public CRS(AirRSImpl pAirRSImpl) {
         super(pAirRSImpl);
     }
-    
-    public void log(){
+
+    public void log() {
         super.log();
-        myLogger.debug("CO2Needed="+CO2Needed);
-        myLogger.debug("H2Needed="+H2Needed);
-        myLogger.debug("currentCO2Consumed="+currentCO2Consumed);
-        myLogger.debug("currentH2Consumed="+currentH2Consumed);
-        myLogger.debug("currentH2OProduced="+currentH2OProduced);
-        myLogger.debug("currentCH4Produced="+currentCH4Produced);
+        myLogger.debug("CO2Needed=" + CO2Needed);
+        myLogger.debug("H2Needed=" + H2Needed);
+        myLogger.debug("currentCO2Consumed=" + currentCO2Consumed);
+        myLogger.debug("currentH2Consumed=" + currentH2Consumed);
+        myLogger.debug("currentH2OProduced=" + currentH2OProduced);
+        myLogger.debug("currentCH4Produced=" + currentCH4Produced);
     }
 
     private void gatherGasses() {
@@ -79,7 +79,7 @@ public class CRS extends AirRSSubSystem {
                                 - 4f * limitingReactant);
             float waterMolesProduced = 2f * limitingReactant;
             float waterLitersProduced = (waterMolesProduced * 18.01524f) / 1000f; //1000g/liter,
-                                                                                  // 18.01524g/mole
+            // 18.01524g/mole
             float methaneMolesProduced = limitingReactant;
             currentH2OProduced = myAirRS.randomFilter(waterLitersProduced);
             currentCH4Produced = myAirRS.randomFilter(methaneMolesProduced);

@@ -69,7 +69,7 @@ public class SpreadSheet extends JTable {
 
     // Cells selected.
     private Object[] _selection;
-    
+
     private Logger myLogger;
 
     /**
@@ -82,14 +82,16 @@ public class SpreadSheet extends JTable {
 
         String vers = System.getProperty("java.version");
         if (vers.compareTo("1.3") < 0) {
-            Logger.getLogger(SpreadSheet.class).warn("Please use Java 1.3 or above.");
+            Logger.getLogger(SpreadSheet.class).warn(
+                    "Please use Java 1.3 or above.");
             //System.exit(1);
         }
 
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
         } catch (Exception ex) {
-            Logger.getLogger(SpreadSheet.class).error("Can't set look and feel MetalLookAndFeel");
+            Logger.getLogger(SpreadSheet.class).error(
+                    "Can't set look and feel MetalLookAndFeel");
             System.exit(2);
         }
 
@@ -171,7 +173,8 @@ public class SpreadSheet extends JTable {
         try {
             setDefaultRenderer(Class.forName("java.lang.Object"), _renderer);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SpreadSheet.class).debug("SpreadSheet() Can't modify renderer");
+            Logger.getLogger(SpreadSheet.class).debug(
+                    "SpreadSheet() Can't modify renderer");
         }
 
         _model = new SpreadSheetModel(foo, this, colNames);
@@ -402,8 +405,8 @@ public class SpreadSheet extends JTable {
             this.setBackground(sc.background);
             /*
              * if (isSelected) { this.setBorder(_selectBorder);
-             * this.setToolTipText("Right-click to change the cell's colors.");
-             *  } else { this.setBorder(_emptyBorder);
+             * this.setToolTipText("Right-click to change the cell's colors."); }
+             * else { this.setBorder(_emptyBorder);
              * this.setToolTipText("Single-Click to select a cell, " +
              * "double-click to edit."); }
              */

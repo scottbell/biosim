@@ -363,7 +363,7 @@ public class SensorInitializer {
         mySensors = new Vector();
         myLogger = Logger.getLogger(this.getClass());
     }
-    
+
     //Sensors
     public void crawlSensors(Node node, boolean firstPass) {
         Node child = node.getFirstChild();
@@ -401,17 +401,17 @@ public class SensorInitializer {
     private static String getInputName(Node pNode) {
         return pNode.getAttributes().getNamedItem("input").getNodeValue();
     }
-    
+
     private static int getFlowRateIndex(Node pNode) {
         return Integer.parseInt(pNode.getAttributes().getNamedItem("index")
                 .getNodeValue());
     }
-    
+
     private static int getShelfIndex(Node pNode) {
         return Integer.parseInt(pNode.getAttributes()
                 .getNamedItem("shelfIndex").getNodeValue());
     }
-    
+
     //Air
     private void createCO2InFlowRateSensor(Node node) {
         String moduleName = BioInitializer.getModuleName(node);
@@ -420,21 +420,20 @@ public class SensorInitializer {
                     + moduleName);
             CO2InFlowRateSensorImpl myCO2InFlowRateSensorImpl = new CO2InFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myCO2InFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myCO2InFlowRateSensorImpl, node);
             BiosimServer.registerServer(new CO2InFlowRateSensorPOATie(
                     myCO2InFlowRateSensorImpl), myCO2InFlowRateSensorImpl
                     .getModuleName(), myCO2InFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureCO2InFlowRateSensor(Node node) {
         CO2InFlowRateSensor myCO2InFlowRateSensor = CO2InFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myCO2InFlowRateSensor
-                .setInput(CO2ConsumerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myCO2InFlowRateSensor.setInput(CO2ConsumerHelper.narrow(BioInitializer
+                .grabModule(myID, getInputName(node))), getFlowRateIndex(node));
         mySensors.add(myCO2InFlowRateSensor);
     }
 
@@ -445,21 +444,20 @@ public class SensorInitializer {
                     + moduleName);
             CO2OutFlowRateSensorImpl myCO2OutFlowRateSensorImpl = new CO2OutFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myCO2OutFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myCO2OutFlowRateSensorImpl, node);
             BiosimServer.registerServer(new CO2OutFlowRateSensorPOATie(
                     myCO2OutFlowRateSensorImpl), myCO2OutFlowRateSensorImpl
                     .getModuleName(), myCO2OutFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureCO2OutFlowRateSensor(Node node) {
         CO2OutFlowRateSensor myCO2OutFlowRateSensor = CO2OutFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myCO2OutFlowRateSensor
-                .setInput(CO2ProducerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myCO2OutFlowRateSensor.setInput(CO2ProducerHelper.narrow(BioInitializer
+                .grabModule(myID, getInputName(node))), getFlowRateIndex(node));
         mySensors.add(myCO2OutFlowRateSensor);
     }
 
@@ -470,19 +468,20 @@ public class SensorInitializer {
                     + moduleName);
             CO2StoreLevelSensorImpl myCO2StoreLevelSensorImpl = new CO2StoreLevelSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myCO2StoreLevelSensorImpl, node);
+            BioInitializer.setupBioModule(myCO2StoreLevelSensorImpl, node);
             BiosimServer.registerServer(new CO2StoreLevelSensorPOATie(
                     myCO2StoreLevelSensorImpl), myCO2StoreLevelSensorImpl
                     .getModuleName(), myCO2StoreLevelSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureCO2StoreLevelSensor(Node node) {
         CO2StoreLevelSensor myCO2StoreLevelSensor = CO2StoreLevelSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myCO2StoreLevelSensor.setInput(CO2StoreHelper
-                .narrow(BioInitializer.grabModule(myID, getInputName(node))));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myCO2StoreLevelSensor.setInput(CO2StoreHelper.narrow(BioInitializer
+                .grabModule(myID, getInputName(node))));
         mySensors.add(myCO2StoreLevelSensor);
     }
 
@@ -493,21 +492,20 @@ public class SensorInitializer {
                     + moduleName);
             O2InFlowRateSensorImpl myO2InFlowRateSensorImpl = new O2InFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myO2InFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myO2InFlowRateSensorImpl, node);
             BiosimServer.registerServer(new O2InFlowRateSensorPOATie(
                     myO2InFlowRateSensorImpl), myO2InFlowRateSensorImpl
                     .getModuleName(), myO2InFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureO2InFlowRateSensor(Node node) {
         O2InFlowRateSensor myO2InFlowRateSensor = O2InFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myO2InFlowRateSensor
-                .setInput(O2ConsumerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myO2InFlowRateSensor.setInput(O2ConsumerHelper.narrow(BioInitializer
+                .grabModule(myID, getInputName(node))), getFlowRateIndex(node));
         mySensors.add(myO2InFlowRateSensor);
     }
 
@@ -518,21 +516,20 @@ public class SensorInitializer {
                     + moduleName);
             O2OutFlowRateSensorImpl myO2OutFlowRateSensorImpl = new O2OutFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myO2OutFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myO2OutFlowRateSensorImpl, node);
             BiosimServer.registerServer(new O2OutFlowRateSensorPOATie(
                     myO2OutFlowRateSensorImpl), myO2OutFlowRateSensorImpl
                     .getModuleName(), myO2OutFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureO2OutFlowRateSensor(Node node) {
         O2OutFlowRateSensor myO2OutFlowRateSensor = O2OutFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myO2OutFlowRateSensor
-                .setInput(O2ProducerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myO2OutFlowRateSensor.setInput(O2ProducerHelper.narrow(BioInitializer
+                .grabModule(myID, getInputName(node))), getFlowRateIndex(node));
         mySensors.add(myO2OutFlowRateSensor);
     }
 
@@ -543,19 +540,20 @@ public class SensorInitializer {
                     + moduleName);
             O2StoreLevelSensorImpl myO2StoreLevelSensorImpl = new O2StoreLevelSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myO2StoreLevelSensorImpl, node);
+            BioInitializer.setupBioModule(myO2StoreLevelSensorImpl, node);
             BiosimServer.registerServer(new O2StoreLevelSensorPOATie(
                     myO2StoreLevelSensorImpl), myO2StoreLevelSensorImpl
                     .getModuleName(), myO2StoreLevelSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureO2StoreLevelSensor(Node node) {
         O2StoreLevelSensor myO2StoreLevelSensor = O2StoreLevelSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myO2StoreLevelSensor.setInput(O2StoreHelper
-                .narrow(BioInitializer.grabModule(myID, getInputName(node))));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myO2StoreLevelSensor.setInput(O2StoreHelper.narrow(BioInitializer
+                .grabModule(myID, getInputName(node))));
         mySensors.add(myO2StoreLevelSensor);
     }
 
@@ -566,21 +564,20 @@ public class SensorInitializer {
                     + moduleName);
             H2InFlowRateSensorImpl myH2InFlowRateSensorImpl = new H2InFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myH2InFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myH2InFlowRateSensorImpl, node);
             BiosimServer.registerServer(new H2InFlowRateSensorPOATie(
                     myH2InFlowRateSensorImpl), myH2InFlowRateSensorImpl
                     .getModuleName(), myH2InFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureH2InFlowRateSensor(Node node) {
         H2InFlowRateSensor myH2InFlowRateSensor = H2InFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myH2InFlowRateSensor
-                .setInput(H2ConsumerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myH2InFlowRateSensor.setInput(H2ConsumerHelper.narrow(BioInitializer
+                .grabModule(myID, getInputName(node))), getFlowRateIndex(node));
         mySensors.add(myH2InFlowRateSensor);
     }
 
@@ -591,21 +588,20 @@ public class SensorInitializer {
                     + moduleName);
             H2OutFlowRateSensorImpl myH2OutFlowRateSensorImpl = new H2OutFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myH2OutFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myH2OutFlowRateSensorImpl, node);
             BiosimServer.registerServer(new H2OutFlowRateSensorPOATie(
                     myH2OutFlowRateSensorImpl), myH2OutFlowRateSensorImpl
                     .getModuleName(), myH2OutFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureH2OutFlowRateSensor(Node node) {
         H2OutFlowRateSensor myH2OutFlowRateSensor = H2OutFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myH2OutFlowRateSensor
-                .setInput(H2ProducerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myH2OutFlowRateSensor.setInput(H2ProducerHelper.narrow(BioInitializer
+                .grabModule(myID, getInputName(node))), getFlowRateIndex(node));
         mySensors.add(myH2OutFlowRateSensor);
     }
 
@@ -616,19 +612,20 @@ public class SensorInitializer {
                     + moduleName);
             H2StoreLevelSensorImpl myH2StoreLevelSensorImpl = new H2StoreLevelSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myH2StoreLevelSensorImpl, node);
+            BioInitializer.setupBioModule(myH2StoreLevelSensorImpl, node);
             BiosimServer.registerServer(new H2StoreLevelSensorPOATie(
                     myH2StoreLevelSensorImpl), myH2StoreLevelSensorImpl
                     .getModuleName(), myH2StoreLevelSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureH2StoreLevelSensor(Node node) {
         H2StoreLevelSensor myH2StoreLevelSensor = H2StoreLevelSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myH2StoreLevelSensor.setInput(H2StoreHelper
-                .narrow(BioInitializer.grabModule(myID, getInputName(node))));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myH2StoreLevelSensor.setInput(H2StoreHelper.narrow(BioInitializer
+                .grabModule(myID, getInputName(node))));
         mySensors.add(myH2StoreLevelSensor);
     }
 
@@ -640,22 +637,22 @@ public class SensorInitializer {
                             + moduleName);
             NitrogenInFlowRateSensorImpl myNitrogenInFlowRateSensorImpl = new NitrogenInFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myNitrogenInFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myNitrogenInFlowRateSensorImpl, node);
             BiosimServer.registerServer(new NitrogenInFlowRateSensorPOATie(
                     myNitrogenInFlowRateSensorImpl),
                     myNitrogenInFlowRateSensorImpl.getModuleName(),
                     myNitrogenInFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureNitrogenInFlowRateSensor(Node node) {
         NitrogenInFlowRateSensor myNitrogenInFlowRateSensor = NitrogenInFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myNitrogenInFlowRateSensor
-                .setInput(NitrogenConsumerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myNitrogenInFlowRateSensor.setInput(NitrogenConsumerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myNitrogenInFlowRateSensor);
     }
 
@@ -667,22 +664,23 @@ public class SensorInitializer {
                             + moduleName);
             NitrogenOutFlowRateSensorImpl myNitrogenOutFlowRateSensorImpl = new NitrogenOutFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myNitrogenOutFlowRateSensorImpl, node);
+            BioInitializer
+                    .setupBioModule(myNitrogenOutFlowRateSensorImpl, node);
             BiosimServer.registerServer(new NitrogenOutFlowRateSensorPOATie(
                     myNitrogenOutFlowRateSensorImpl),
                     myNitrogenOutFlowRateSensorImpl.getModuleName(),
                     myNitrogenOutFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureNitrogenOutFlowRateSensor(Node node) {
         NitrogenOutFlowRateSensor myNitrogenOutFlowRateSensor = NitrogenOutFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myNitrogenOutFlowRateSensor
-                .setInput(NitrogenProducerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myNitrogenOutFlowRateSensor.setInput(NitrogenProducerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myNitrogenOutFlowRateSensor);
     }
 
@@ -694,18 +692,19 @@ public class SensorInitializer {
                             + moduleName);
             NitrogenStoreLevelSensorImpl myNitrogenStoreLevelSensorImpl = new NitrogenStoreLevelSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myNitrogenStoreLevelSensorImpl, node);
+            BioInitializer.setupBioModule(myNitrogenStoreLevelSensorImpl, node);
             BiosimServer.registerServer(new NitrogenStoreLevelSensorPOATie(
                     myNitrogenStoreLevelSensorImpl),
                     myNitrogenStoreLevelSensorImpl.getModuleName(),
                     myNitrogenStoreLevelSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureNitrogenStoreLevelSensor(Node node) {
         NitrogenStoreLevelSensor myNitrogenStoreLevelSensor = NitrogenStoreLevelSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myNitrogenStoreLevelSensor.setInput(NitrogenStoreHelper
                 .narrow(BioInitializer.grabModule(myID, getInputName(node))));
         mySensors.add(myNitrogenStoreLevelSensor);
@@ -788,19 +787,20 @@ public class SensorInitializer {
                     + moduleName);
             CrewGroupDeathSensorImpl myCrewGroupDeathSensorImpl = new CrewGroupDeathSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myCrewGroupDeathSensorImpl, node);
+            BioInitializer.setupBioModule(myCrewGroupDeathSensorImpl, node);
             BiosimServer.registerServer(new CrewGroupDeathSensorPOATie(
                     myCrewGroupDeathSensorImpl), myCrewGroupDeathSensorImpl
                     .getModuleName(), myCrewGroupDeathSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureCrewGroupDeathSensor(Node node) {
         CrewGroupDeathSensor myCrewGroupDeathSensor = CrewGroupDeathSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myCrewGroupDeathSensor.setInput(CrewGroupHelper
-                .narrow(BioInitializer.grabModule(myID, getInputName(node))));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myCrewGroupDeathSensor.setInput(CrewGroupHelper.narrow(BioInitializer
+                .grabModule(myID, getInputName(node))));
         mySensors.add(myCrewGroupDeathSensor);
     }
 
@@ -811,19 +811,20 @@ public class SensorInitializer {
                     + moduleName);
             CrewGroupAnyDeadSensorImpl myCrewGroupAnyDeadSensorImpl = new CrewGroupAnyDeadSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myCrewGroupAnyDeadSensorImpl, node);
+            BioInitializer.setupBioModule(myCrewGroupAnyDeadSensorImpl, node);
             BiosimServer.registerServer(new CrewGroupAnyDeadSensorPOATie(
                     myCrewGroupAnyDeadSensorImpl), myCrewGroupAnyDeadSensorImpl
                     .getModuleName(), myCrewGroupAnyDeadSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureCrewGroupAnyDeadSensor(Node node) {
         CrewGroupAnyDeadSensor myCrewGroupAnyDeadSensor = CrewGroupAnyDeadSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myCrewGroupAnyDeadSensor.setInput(CrewGroupHelper
-                .narrow(BioInitializer.grabModule(myID, getInputName(node))));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myCrewGroupAnyDeadSensor.setInput(CrewGroupHelper.narrow(BioInitializer
+                .grabModule(myID, getInputName(node))));
         mySensors.add(myCrewGroupAnyDeadSensor);
     }
 
@@ -835,18 +836,20 @@ public class SensorInitializer {
                             + moduleName);
             CrewGroupProductivitySensorImpl myCrewGroupProductivitySensorImpl = new CrewGroupProductivitySensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myCrewGroupProductivitySensorImpl, node);
+            BioInitializer.setupBioModule(myCrewGroupProductivitySensorImpl,
+                    node);
             BiosimServer.registerServer(new CrewGroupProductivitySensorPOATie(
                     myCrewGroupProductivitySensorImpl),
                     myCrewGroupProductivitySensorImpl.getModuleName(),
                     myCrewGroupProductivitySensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureCrewGroupProductivitySensor(Node node) {
         CrewGroupProductivitySensor myCrewGroupProductivitySensor = CrewGroupProductivitySensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myCrewGroupProductivitySensor.setInput(CrewGroupHelper
                 .narrow(BioInitializer.grabModule(myID, getInputName(node))));
         mySensors.add(myCrewGroupProductivitySensor);
@@ -884,21 +887,20 @@ public class SensorInitializer {
                     + moduleName);
             AirInFlowRateSensorImpl myAirInFlowRateSensorImpl = new AirInFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myAirInFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myAirInFlowRateSensorImpl, node);
             BiosimServer.registerServer(new AirInFlowRateSensorPOATie(
                     myAirInFlowRateSensorImpl), myAirInFlowRateSensorImpl
                     .getModuleName(), myAirInFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureAirInFlowRateSensor(Node node) {
         AirInFlowRateSensor myAirInFlowRateSensor = AirInFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myAirInFlowRateSensor
-                .setInput(AirConsumerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myAirInFlowRateSensor.setInput(AirConsumerHelper.narrow(BioInitializer
+                .grabModule(myID, getInputName(node))), getFlowRateIndex(node));
         mySensors.add(myAirInFlowRateSensor);
     }
 
@@ -909,21 +911,20 @@ public class SensorInitializer {
                     + moduleName);
             AirOutFlowRateSensorImpl myAirOutFlowRateSensorImpl = new AirOutFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myAirOutFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myAirOutFlowRateSensorImpl, node);
             BiosimServer.registerServer(new AirOutFlowRateSensorPOATie(
                     myAirOutFlowRateSensorImpl), myAirOutFlowRateSensorImpl
                     .getModuleName(), myAirOutFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureAirOutFlowRateSensor(Node node) {
         AirOutFlowRateSensor myAirOutFlowRateSensor = AirOutFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myAirOutFlowRateSensor
-                .setInput(AirProducerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myAirOutFlowRateSensor.setInput(AirProducerHelper.narrow(BioInitializer
+                .grabModule(myID, getInputName(node))), getFlowRateIndex(node));
         mySensors.add(myAirOutFlowRateSensor);
     }
 
@@ -935,18 +936,20 @@ public class SensorInitializer {
                             + moduleName);
             CO2AirConcentrationSensorImpl myCO2AirConcentrationSensorImpl = new CO2AirConcentrationSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myCO2AirConcentrationSensorImpl, node);
+            BioInitializer
+                    .setupBioModule(myCO2AirConcentrationSensorImpl, node);
             BiosimServer.registerServer(new CO2AirConcentrationSensorPOATie(
                     myCO2AirConcentrationSensorImpl),
                     myCO2AirConcentrationSensorImpl.getModuleName(),
                     myCO2AirConcentrationSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureCO2AirConcentrationSensor(Node node) {
         CO2AirConcentrationSensor myCO2AirConcentrationSensor = CO2AirConcentrationSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myCO2AirConcentrationSensor.setInput(SimEnvironmentHelper
                 .narrow(BioInitializer.grabModule(myID, getInputName(node))));
         mySensors.add(myCO2AirConcentrationSensor);
@@ -959,17 +962,18 @@ public class SensorInitializer {
                     + moduleName);
             CO2AirPressureSensorImpl myCO2AirPressureSensorImpl = new CO2AirPressureSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myCO2AirPressureSensorImpl, node);
+            BioInitializer.setupBioModule(myCO2AirPressureSensorImpl, node);
             BiosimServer.registerServer(new CO2AirPressureSensorPOATie(
                     myCO2AirPressureSensorImpl), myCO2AirPressureSensorImpl
                     .getModuleName(), myCO2AirPressureSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureCO2AirPressureSensor(Node node) {
         CO2AirPressureSensor myCO2AirPressureSensor = CO2AirPressureSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myCO2AirPressureSensor.setInput(SimEnvironmentHelper
                 .narrow(BioInitializer.grabModule(myID, getInputName(node))));
         mySensors.add(myCO2AirPressureSensor);
@@ -983,23 +987,24 @@ public class SensorInitializer {
                             + moduleName);
             CO2AirEnvironmentInFlowRateSensorImpl myCO2AirEnvironmentInFlowRateSensorImpl = new CO2AirEnvironmentInFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myCO2AirEnvironmentInFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(
+                    myCO2AirEnvironmentInFlowRateSensorImpl, node);
             BiosimServer.registerServer(
                     new CO2AirEnvironmentInFlowRateSensorPOATie(
                             myCO2AirEnvironmentInFlowRateSensorImpl),
                     myCO2AirEnvironmentInFlowRateSensorImpl.getModuleName(),
                     myCO2AirEnvironmentInFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureCO2AirEnvironmentInFlowRateSensor(Node node) {
         CO2AirEnvironmentInFlowRateSensor myCO2AirEnvironmentInFlowRateSensor = CO2AirEnvironmentInFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myCO2AirEnvironmentInFlowRateSensor
-                .setInput(CO2AirConsumerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myCO2AirEnvironmentInFlowRateSensor.setInput(CO2AirConsumerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myCO2AirEnvironmentInFlowRateSensor);
     }
 
@@ -1011,23 +1016,24 @@ public class SensorInitializer {
                             + moduleName);
             CO2AirEnvironmentOutFlowRateSensorImpl myCO2AirEnvironmentOutFlowRateSensorImpl = new CO2AirEnvironmentOutFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myCO2AirEnvironmentOutFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(
+                    myCO2AirEnvironmentOutFlowRateSensorImpl, node);
             BiosimServer.registerServer(
                     new CO2AirEnvironmentOutFlowRateSensorPOATie(
                             myCO2AirEnvironmentOutFlowRateSensorImpl),
                     myCO2AirEnvironmentOutFlowRateSensorImpl.getModuleName(),
                     myCO2AirEnvironmentOutFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureCO2AirEnvironmentOutFlowRateSensor(Node node) {
         CO2AirEnvironmentOutFlowRateSensor myCO2AirEnvironmentOutFlowRateSensor = CO2AirEnvironmentOutFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myCO2AirEnvironmentOutFlowRateSensor
-                .setInput(CO2AirProducerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myCO2AirEnvironmentOutFlowRateSensor.setInput(CO2AirProducerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myCO2AirEnvironmentOutFlowRateSensor);
     }
 
@@ -1039,22 +1045,23 @@ public class SensorInitializer {
                             + moduleName);
             CO2AirStoreInFlowRateSensorImpl myCO2AirStoreInFlowRateSensorImpl = new CO2AirStoreInFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myCO2AirStoreInFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myCO2AirStoreInFlowRateSensorImpl,
+                    node);
             BiosimServer.registerServer(new CO2AirStoreInFlowRateSensorPOATie(
                     myCO2AirStoreInFlowRateSensorImpl),
                     myCO2AirStoreInFlowRateSensorImpl.getModuleName(),
                     myCO2AirStoreInFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureCO2AirStoreInFlowRateSensor(Node node) {
         CO2AirStoreInFlowRateSensor myCO2AirStoreInFlowRateSensor = CO2AirStoreInFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myCO2AirStoreInFlowRateSensor
-                .setInput(CO2AirConsumerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myCO2AirStoreInFlowRateSensor.setInput(CO2AirConsumerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myCO2AirStoreInFlowRateSensor);
     }
 
@@ -1066,22 +1073,23 @@ public class SensorInitializer {
                             + moduleName);
             CO2AirStoreOutFlowRateSensorImpl myCO2AirStoreOutFlowRateSensorImpl = new CO2AirStoreOutFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myCO2AirStoreOutFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myCO2AirStoreOutFlowRateSensorImpl,
+                    node);
             BiosimServer.registerServer(new CO2AirStoreOutFlowRateSensorPOATie(
                     myCO2AirStoreOutFlowRateSensorImpl),
                     myCO2AirStoreOutFlowRateSensorImpl.getModuleName(),
                     myCO2AirStoreOutFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureCO2AirStoreOutFlowRateSensor(Node node) {
         CO2AirStoreOutFlowRateSensor myCO2AirStoreOutFlowRateSensor = CO2AirStoreOutFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myCO2AirStoreOutFlowRateSensor
-                .setInput(CO2AirProducerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myCO2AirStoreOutFlowRateSensor.setInput(CO2AirProducerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myCO2AirStoreOutFlowRateSensor);
     }
 
@@ -1093,18 +1101,19 @@ public class SensorInitializer {
                             + moduleName);
             O2AirConcentrationSensorImpl myO2AirConcentrationSensorImpl = new O2AirConcentrationSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myO2AirConcentrationSensorImpl, node);
+            BioInitializer.setupBioModule(myO2AirConcentrationSensorImpl, node);
             BiosimServer.registerServer(new O2AirConcentrationSensorPOATie(
                     myO2AirConcentrationSensorImpl),
                     myO2AirConcentrationSensorImpl.getModuleName(),
                     myO2AirConcentrationSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureO2AirConcentrationSensor(Node node) {
         O2AirConcentrationSensor myO2AirConcentrationSensor = O2AirConcentrationSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myO2AirConcentrationSensor.setInput(SimEnvironmentHelper
                 .narrow(BioInitializer.grabModule(myID, getInputName(node))));
         mySensors.add(myO2AirConcentrationSensor);
@@ -1117,17 +1126,18 @@ public class SensorInitializer {
                     + moduleName);
             O2AirPressureSensorImpl myO2AirPressureSensorImpl = new O2AirPressureSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myO2AirPressureSensorImpl, node);
+            BioInitializer.setupBioModule(myO2AirPressureSensorImpl, node);
             BiosimServer.registerServer(new O2AirPressureSensorPOATie(
                     myO2AirPressureSensorImpl), myO2AirPressureSensorImpl
                     .getModuleName(), myO2AirPressureSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureO2AirPressureSensor(Node node) {
         O2AirPressureSensor myO2AirPressureSensor = O2AirPressureSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myO2AirPressureSensor.setInput(SimEnvironmentHelper
                 .narrow(BioInitializer.grabModule(myID, getInputName(node))));
         mySensors.add(myO2AirPressureSensor);
@@ -1141,23 +1151,24 @@ public class SensorInitializer {
                             + moduleName);
             O2AirEnvironmentInFlowRateSensorImpl myO2AirEnvironmentInFlowRateSensorImpl = new O2AirEnvironmentInFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myO2AirEnvironmentInFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(
+                    myO2AirEnvironmentInFlowRateSensorImpl, node);
             BiosimServer.registerServer(
                     new O2AirEnvironmentInFlowRateSensorPOATie(
                             myO2AirEnvironmentInFlowRateSensorImpl),
                     myO2AirEnvironmentInFlowRateSensorImpl.getModuleName(),
                     myO2AirEnvironmentInFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureO2AirEnvironmentInFlowRateSensor(Node node) {
         O2AirEnvironmentInFlowRateSensor myO2AirEnvironmentInFlowRateSensor = O2AirEnvironmentInFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myO2AirEnvironmentInFlowRateSensor
-                .setInput(O2AirConsumerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myO2AirEnvironmentInFlowRateSensor.setInput(O2AirConsumerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myO2AirEnvironmentInFlowRateSensor);
     }
 
@@ -1169,23 +1180,24 @@ public class SensorInitializer {
                             + moduleName);
             O2AirEnvironmentOutFlowRateSensorImpl myO2AirEnvironmentOutFlowRateSensorImpl = new O2AirEnvironmentOutFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myO2AirEnvironmentOutFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(
+                    myO2AirEnvironmentOutFlowRateSensorImpl, node);
             BiosimServer.registerServer(
                     new O2AirEnvironmentOutFlowRateSensorPOATie(
                             myO2AirEnvironmentOutFlowRateSensorImpl),
                     myO2AirEnvironmentOutFlowRateSensorImpl.getModuleName(),
                     myO2AirEnvironmentOutFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureO2AirEnvironmentOutFlowRateSensor(Node node) {
         O2AirEnvironmentOutFlowRateSensor myO2AirEnvironmentOutFlowRateSensor = O2AirEnvironmentOutFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myO2AirEnvironmentOutFlowRateSensor
-                .setInput(O2AirProducerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myO2AirEnvironmentOutFlowRateSensor.setInput(O2AirProducerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myO2AirEnvironmentOutFlowRateSensor);
     }
 
@@ -1197,22 +1209,23 @@ public class SensorInitializer {
                             + moduleName);
             O2AirStoreInFlowRateSensorImpl myO2AirStoreInFlowRateSensorImpl = new O2AirStoreInFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myO2AirStoreInFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myO2AirStoreInFlowRateSensorImpl,
+                    node);
             BiosimServer.registerServer(new O2AirStoreInFlowRateSensorPOATie(
                     myO2AirStoreInFlowRateSensorImpl),
                     myO2AirStoreInFlowRateSensorImpl.getModuleName(),
                     myO2AirStoreInFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureO2AirStoreInFlowRateSensor(Node node) {
         O2AirStoreInFlowRateSensor myO2AirStoreInFlowRateSensor = O2AirStoreInFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myO2AirStoreInFlowRateSensor
-                .setInput(O2AirConsumerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myO2AirStoreInFlowRateSensor.setInput(O2AirConsumerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myO2AirStoreInFlowRateSensor);
     }
 
@@ -1224,22 +1237,23 @@ public class SensorInitializer {
                             + moduleName);
             O2AirStoreOutFlowRateSensorImpl myO2AirStoreOutFlowRateSensorImpl = new O2AirStoreOutFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myO2AirStoreOutFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myO2AirStoreOutFlowRateSensorImpl,
+                    node);
             BiosimServer.registerServer(new O2AirStoreOutFlowRateSensorPOATie(
                     myO2AirStoreOutFlowRateSensorImpl),
                     myO2AirStoreOutFlowRateSensorImpl.getModuleName(),
                     myO2AirStoreOutFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureO2AirStoreOutFlowRateSensor(Node node) {
         O2AirStoreOutFlowRateSensor myO2AirStoreOutFlowRateSensor = O2AirStoreOutFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myO2AirStoreOutFlowRateSensor
-                .setInput(O2AirProducerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myO2AirStoreOutFlowRateSensor.setInput(O2AirProducerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myO2AirStoreOutFlowRateSensor);
     }
 
@@ -1251,18 +1265,20 @@ public class SensorInitializer {
                             + moduleName);
             OtherAirConcentrationSensorImpl myOtherAirConcentrationSensorImpl = new OtherAirConcentrationSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myOtherAirConcentrationSensorImpl, node);
+            BioInitializer.setupBioModule(myOtherAirConcentrationSensorImpl,
+                    node);
             BiosimServer.registerServer(new OtherAirConcentrationSensorPOATie(
                     myOtherAirConcentrationSensorImpl),
                     myOtherAirConcentrationSensorImpl.getModuleName(),
                     myOtherAirConcentrationSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureOtherAirConcentrationSensor(Node node) {
         OtherAirConcentrationSensor myOtherAirConcentrationSensor = OtherAirConcentrationSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myOtherAirConcentrationSensor.setInput(SimEnvironmentHelper
                 .narrow(BioInitializer.grabModule(myID, getInputName(node))));
         mySensors.add(myOtherAirConcentrationSensor);
@@ -1275,17 +1291,18 @@ public class SensorInitializer {
                     + moduleName);
             OtherAirPressureSensorImpl myOtherAirPressureSensorImpl = new OtherAirPressureSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myOtherAirPressureSensorImpl, node);
+            BioInitializer.setupBioModule(myOtherAirPressureSensorImpl, node);
             BiosimServer.registerServer(new OtherAirPressureSensorPOATie(
                     myOtherAirPressureSensorImpl), myOtherAirPressureSensorImpl
                     .getModuleName(), myOtherAirPressureSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureOtherAirPressureSensor(Node node) {
         OtherAirPressureSensor myOtherAirPressureSensor = OtherAirPressureSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myOtherAirPressureSensor.setInput(SimEnvironmentHelper
                 .narrow(BioInitializer.grabModule(myID, getInputName(node))));
         mySensors.add(myOtherAirPressureSensor);
@@ -1299,18 +1316,20 @@ public class SensorInitializer {
                             + moduleName);
             WaterAirConcentrationSensorImpl myWaterAirConcentrationSensorImpl = new WaterAirConcentrationSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myWaterAirConcentrationSensorImpl, node);
+            BioInitializer.setupBioModule(myWaterAirConcentrationSensorImpl,
+                    node);
             BiosimServer.registerServer(new WaterAirConcentrationSensorPOATie(
                     myWaterAirConcentrationSensorImpl),
                     myWaterAirConcentrationSensorImpl.getModuleName(),
                     myWaterAirConcentrationSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureWaterAirConcentrationSensor(Node node) {
         WaterAirConcentrationSensor myWaterAirConcentrationSensor = WaterAirConcentrationSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myWaterAirConcentrationSensor.setInput(SimEnvironmentHelper
                 .narrow(BioInitializer.grabModule(myID, getInputName(node))));
         mySensors.add(myWaterAirConcentrationSensor);
@@ -1323,17 +1342,18 @@ public class SensorInitializer {
                     + moduleName);
             WaterAirPressureSensorImpl myWaterAirPressureSensorImpl = new WaterAirPressureSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myWaterAirPressureSensorImpl, node);
+            BioInitializer.setupBioModule(myWaterAirPressureSensorImpl, node);
             BiosimServer.registerServer(new WaterAirPressureSensorPOATie(
                     myWaterAirPressureSensorImpl), myWaterAirPressureSensorImpl
                     .getModuleName(), myWaterAirPressureSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureWaterAirPressureSensor(Node node) {
         WaterAirPressureSensor myWaterAirPressureSensor = WaterAirPressureSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myWaterAirPressureSensor.setInput(SimEnvironmentHelper
                 .narrow(BioInitializer.grabModule(myID, getInputName(node))));
         mySensors.add(myWaterAirPressureSensor);
@@ -1347,23 +1367,24 @@ public class SensorInitializer {
                             + moduleName);
             WaterAirEnvironmentInFlowRateSensorImpl myWaterAirEnvironmentInFlowRateSensorImpl = new WaterAirEnvironmentInFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myWaterAirEnvironmentInFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(
+                    myWaterAirEnvironmentInFlowRateSensorImpl, node);
             BiosimServer.registerServer(
                     new WaterAirEnvironmentInFlowRateSensorPOATie(
                             myWaterAirEnvironmentInFlowRateSensorImpl),
                     myWaterAirEnvironmentInFlowRateSensorImpl.getModuleName(),
                     myWaterAirEnvironmentInFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureWaterAirEnvironmentInFlowRateSensor(Node node) {
         WaterAirEnvironmentInFlowRateSensor myWaterAirEnvironmentInFlowRateSensor = WaterAirEnvironmentInFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myWaterAirEnvironmentInFlowRateSensor
-                .setInput(WaterAirConsumerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myWaterAirEnvironmentInFlowRateSensor.setInput(WaterAirConsumerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myWaterAirEnvironmentInFlowRateSensor);
     }
 
@@ -1375,23 +1396,24 @@ public class SensorInitializer {
                             + moduleName);
             WaterAirEnvironmentOutFlowRateSensorImpl myWaterAirEnvironmentOutFlowRateSensorImpl = new WaterAirEnvironmentOutFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myWaterAirEnvironmentOutFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(
+                    myWaterAirEnvironmentOutFlowRateSensorImpl, node);
             BiosimServer.registerServer(
                     new WaterAirEnvironmentOutFlowRateSensorPOATie(
                             myWaterAirEnvironmentOutFlowRateSensorImpl),
                     myWaterAirEnvironmentOutFlowRateSensorImpl.getModuleName(),
                     myWaterAirEnvironmentOutFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureWaterAirEnvironmentOutFlowRateSensor(Node node) {
         WaterAirEnvironmentOutFlowRateSensor myWaterAirEnvironmentOutFlowRateSensor = WaterAirEnvironmentOutFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myWaterAirEnvironmentOutFlowRateSensor
-                .setInput(WaterAirProducerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myWaterAirEnvironmentOutFlowRateSensor.setInput(WaterAirProducerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myWaterAirEnvironmentOutFlowRateSensor);
     }
 
@@ -1403,23 +1425,24 @@ public class SensorInitializer {
                             + moduleName);
             WaterAirStoreInFlowRateSensorImpl myWaterAirStoreInFlowRateSensorImpl = new WaterAirStoreInFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myWaterAirStoreInFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myWaterAirStoreInFlowRateSensorImpl,
+                    node);
             BiosimServer.registerServer(
                     new WaterAirStoreInFlowRateSensorPOATie(
                             myWaterAirStoreInFlowRateSensorImpl),
                     myWaterAirStoreInFlowRateSensorImpl.getModuleName(),
                     myWaterAirStoreInFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureWaterAirStoreInFlowRateSensor(Node node) {
         WaterAirStoreInFlowRateSensor myWaterAirStoreInFlowRateSensor = WaterAirStoreInFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myWaterAirStoreInFlowRateSensor
-                .setInput(WaterAirConsumerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myWaterAirStoreInFlowRateSensor.setInput(WaterAirConsumerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myWaterAirStoreInFlowRateSensor);
     }
 
@@ -1431,23 +1454,24 @@ public class SensorInitializer {
                             + moduleName);
             WaterAirStoreOutFlowRateSensorImpl myWaterAirStoreOutFlowRateSensorImpl = new WaterAirStoreOutFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myWaterAirStoreOutFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myWaterAirStoreOutFlowRateSensorImpl,
+                    node);
             BiosimServer.registerServer(
                     new WaterAirStoreOutFlowRateSensorPOATie(
                             myWaterAirStoreOutFlowRateSensorImpl),
                     myWaterAirStoreOutFlowRateSensorImpl.getModuleName(),
                     myWaterAirStoreOutFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureWaterAirStoreOutFlowRateSensor(Node node) {
         WaterAirStoreOutFlowRateSensor myWaterAirStoreOutFlowRateSensor = WaterAirStoreOutFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myWaterAirStoreOutFlowRateSensor
-                .setInput(WaterAirProducerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myWaterAirStoreOutFlowRateSensor.setInput(WaterAirProducerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myWaterAirStoreOutFlowRateSensor);
     }
 
@@ -1459,19 +1483,21 @@ public class SensorInitializer {
                             + moduleName);
             NitrogenAirConcentrationSensorImpl myNitrogenAirConcentrationSensorImpl = new NitrogenAirConcentrationSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myNitrogenAirConcentrationSensorImpl, node);
+            BioInitializer.setupBioModule(myNitrogenAirConcentrationSensorImpl,
+                    node);
             BiosimServer.registerServer(
                     new NitrogenAirConcentrationSensorPOATie(
                             myNitrogenAirConcentrationSensorImpl),
                     myNitrogenAirConcentrationSensorImpl.getModuleName(),
                     myNitrogenAirConcentrationSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureNitrogenAirConcentrationSensor(Node node) {
         NitrogenAirConcentrationSensor myNitrogenAirConcentrationSensor = NitrogenAirConcentrationSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myNitrogenAirConcentrationSensor.setInput(SimEnvironmentHelper
                 .narrow(BioInitializer.grabModule(myID, getInputName(node))));
         mySensors.add(myNitrogenAirConcentrationSensor);
@@ -1485,18 +1511,20 @@ public class SensorInitializer {
                             + moduleName);
             NitrogenAirPressureSensorImpl myNitrogenAirPressureSensorImpl = new NitrogenAirPressureSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myNitrogenAirPressureSensorImpl, node);
+            BioInitializer
+                    .setupBioModule(myNitrogenAirPressureSensorImpl, node);
             BiosimServer.registerServer(new NitrogenAirPressureSensorPOATie(
                     myNitrogenAirPressureSensorImpl),
                     myNitrogenAirPressureSensorImpl.getModuleName(),
                     myNitrogenAirPressureSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureNitrogenAirPressureSensor(Node node) {
         NitrogenAirPressureSensor myNitrogenAirPressureSensor = NitrogenAirPressureSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myNitrogenAirPressureSensor.setInput(SimEnvironmentHelper
                 .narrow(BioInitializer.grabModule(myID, getInputName(node))));
         mySensors.add(myNitrogenAirPressureSensor);
@@ -1510,7 +1538,8 @@ public class SensorInitializer {
                             + moduleName);
             NitrogenAirEnvironmentInFlowRateSensorImpl myNitrogenAirEnvironmentInFlowRateSensorImpl = new NitrogenAirEnvironmentInFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myNitrogenAirEnvironmentInFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(
+                    myNitrogenAirEnvironmentInFlowRateSensorImpl, node);
             BiosimServer.registerServer(
                     new NitrogenAirEnvironmentInFlowRateSensorPOATie(
                             myNitrogenAirEnvironmentInFlowRateSensorImpl),
@@ -1518,16 +1547,16 @@ public class SensorInitializer {
                             .getModuleName(),
                     myNitrogenAirEnvironmentInFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureNitrogenAirEnvironmentInFlowRateSensor(Node node) {
         NitrogenAirEnvironmentInFlowRateSensor myNitrogenAirEnvironmentInFlowRateSensor = NitrogenAirEnvironmentInFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myNitrogenAirEnvironmentInFlowRateSensor.setInput(
-                NitrogenAirConsumerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                getFlowRateIndex(node));
+                NitrogenAirConsumerHelper.narrow(BioInitializer.grabModule(
+                        myID, getInputName(node))), getFlowRateIndex(node));
         mySensors.add(myNitrogenAirEnvironmentInFlowRateSensor);
     }
 
@@ -1539,7 +1568,8 @@ public class SensorInitializer {
                             + moduleName);
             NitrogenAirEnvironmentOutFlowRateSensorImpl myNitrogenAirEnvironmentOutFlowRateSensorImpl = new NitrogenAirEnvironmentOutFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myNitrogenAirEnvironmentOutFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(
+                    myNitrogenAirEnvironmentOutFlowRateSensorImpl, node);
             BiosimServer.registerServer(
                     new NitrogenAirEnvironmentOutFlowRateSensorPOATie(
                             myNitrogenAirEnvironmentOutFlowRateSensorImpl),
@@ -1547,16 +1577,16 @@ public class SensorInitializer {
                             .getModuleName(),
                     myNitrogenAirEnvironmentOutFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureNitrogenAirEnvironmentOutFlowRateSensor(Node node) {
         NitrogenAirEnvironmentOutFlowRateSensor myNitrogenAirEnvironmentOutFlowRateSensor = NitrogenAirEnvironmentOutFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myNitrogenAirEnvironmentOutFlowRateSensor.setInput(
-                NitrogenAirProducerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                getFlowRateIndex(node));
+                NitrogenAirProducerHelper.narrow(BioInitializer.grabModule(
+                        myID, getInputName(node))), getFlowRateIndex(node));
         mySensors.add(myNitrogenAirEnvironmentOutFlowRateSensor);
     }
 
@@ -1568,23 +1598,24 @@ public class SensorInitializer {
                             + moduleName);
             NitrogenAirStoreInFlowRateSensorImpl myNitrogenAirStoreInFlowRateSensorImpl = new NitrogenAirStoreInFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myNitrogenAirStoreInFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(
+                    myNitrogenAirStoreInFlowRateSensorImpl, node);
             BiosimServer.registerServer(
                     new NitrogenAirStoreInFlowRateSensorPOATie(
                             myNitrogenAirStoreInFlowRateSensorImpl),
                     myNitrogenAirStoreInFlowRateSensorImpl.getModuleName(),
                     myNitrogenAirStoreInFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureNitrogenAirStoreInFlowRateSensor(Node node) {
         NitrogenAirStoreInFlowRateSensor myNitrogenAirStoreInFlowRateSensor = NitrogenAirStoreInFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myNitrogenAirStoreInFlowRateSensor
-                .setInput(NitrogenAirConsumerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myNitrogenAirStoreInFlowRateSensor.setInput(NitrogenAirConsumerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myNitrogenAirStoreInFlowRateSensor);
     }
 
@@ -1596,23 +1627,24 @@ public class SensorInitializer {
                             + moduleName);
             NitrogenAirStoreOutFlowRateSensorImpl myNitrogenAirStoreOutFlowRateSensorImpl = new NitrogenAirStoreOutFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myNitrogenAirStoreOutFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(
+                    myNitrogenAirStoreOutFlowRateSensorImpl, node);
             BiosimServer.registerServer(
                     new NitrogenAirStoreOutFlowRateSensorPOATie(
                             myNitrogenAirStoreOutFlowRateSensorImpl),
                     myNitrogenAirStoreOutFlowRateSensorImpl.getModuleName(),
                     myNitrogenAirStoreOutFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureNitrogenAirStoreOutFlowRateSensor(Node node) {
         NitrogenAirStoreOutFlowRateSensor myNitrogenAirStoreOutFlowRateSensor = NitrogenAirStoreOutFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myNitrogenAirStoreOutFlowRateSensor
-                .setInput(NitrogenAirProducerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myNitrogenAirStoreOutFlowRateSensor.setInput(NitrogenAirProducerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myNitrogenAirStoreOutFlowRateSensor);
     }
 
@@ -1775,22 +1807,22 @@ public class SensorInitializer {
                     + moduleName);
             BiomassInFlowRateSensorImpl myBiomassInFlowRateSensorImpl = new BiomassInFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myBiomassInFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myBiomassInFlowRateSensorImpl, node);
             BiosimServer.registerServer(new BiomassInFlowRateSensorPOATie(
                     myBiomassInFlowRateSensorImpl),
                     myBiomassInFlowRateSensorImpl.getModuleName(),
                     myBiomassInFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureBiomassInFlowRateSensor(Node node) {
         BiomassInFlowRateSensor myBiomassInFlowRateSensor = BiomassInFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myBiomassInFlowRateSensor
-                .setInput(BiomassConsumerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myBiomassInFlowRateSensor.setInput(BiomassConsumerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myBiomassInFlowRateSensor);
     }
 
@@ -1802,22 +1834,22 @@ public class SensorInitializer {
                             + moduleName);
             BiomassOutFlowRateSensorImpl myBiomassOutFlowRateSensorImpl = new BiomassOutFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myBiomassOutFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myBiomassOutFlowRateSensorImpl, node);
             BiosimServer.registerServer(new BiomassOutFlowRateSensorPOATie(
                     myBiomassOutFlowRateSensorImpl),
                     myBiomassOutFlowRateSensorImpl.getModuleName(),
                     myBiomassOutFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureBiomassOutFlowRateSensor(Node node) {
         BiomassOutFlowRateSensor myBiomassOutFlowRateSensor = BiomassOutFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myBiomassOutFlowRateSensor
-                .setInput(BiomassProducerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myBiomassOutFlowRateSensor.setInput(BiomassProducerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myBiomassOutFlowRateSensor);
     }
 
@@ -1828,18 +1860,19 @@ public class SensorInitializer {
                     + moduleName);
             BiomassStoreLevelSensorImpl myBiomassStoreLevelSensorImpl = new BiomassStoreLevelSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myBiomassStoreLevelSensorImpl, node);
+            BioInitializer.setupBioModule(myBiomassStoreLevelSensorImpl, node);
             BiosimServer.registerServer(new BiomassStoreLevelSensorPOATie(
                     myBiomassStoreLevelSensorImpl),
                     myBiomassStoreLevelSensorImpl.getModuleName(),
                     myBiomassStoreLevelSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureBiomassStoreLevelSensor(Node node) {
         BiomassStoreLevelSensor myBiomassStoreLevelSensor = BiomassStoreLevelSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myBiomassStoreLevelSensor.setInput(BiomassStoreHelper
                 .narrow(BioInitializer.grabModule(myID, getInputName(node))));
         mySensors.add(myBiomassStoreLevelSensor);
@@ -1852,21 +1885,21 @@ public class SensorInitializer {
                     + moduleName);
             FoodInFlowRateSensorImpl myFoodInFlowRateSensorImpl = new FoodInFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myFoodInFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myFoodInFlowRateSensorImpl, node);
             BiosimServer.registerServer(new FoodInFlowRateSensorPOATie(
                     myFoodInFlowRateSensorImpl), myFoodInFlowRateSensorImpl
                     .getModuleName(), myFoodInFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureFoodInFlowRateSensor(Node node) {
         FoodInFlowRateSensor myFoodInFlowRateSensor = FoodInFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myFoodInFlowRateSensor
-                .setInput(FoodConsumerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myFoodInFlowRateSensor.setInput(FoodConsumerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myFoodInFlowRateSensor);
     }
 
@@ -1877,21 +1910,21 @@ public class SensorInitializer {
                     + moduleName);
             FoodOutFlowRateSensorImpl myFoodOutFlowRateSensorImpl = new FoodOutFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myFoodOutFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myFoodOutFlowRateSensorImpl, node);
             BiosimServer.registerServer(new FoodOutFlowRateSensorPOATie(
                     myFoodOutFlowRateSensorImpl), myFoodOutFlowRateSensorImpl
                     .getModuleName(), myFoodOutFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureFoodOutFlowRateSensor(Node node) {
         FoodOutFlowRateSensor myFoodOutFlowRateSensor = FoodOutFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myFoodOutFlowRateSensor
-                .setInput(FoodProducerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myFoodOutFlowRateSensor.setInput(FoodProducerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myFoodOutFlowRateSensor);
     }
 
@@ -1902,17 +1935,18 @@ public class SensorInitializer {
                     + moduleName);
             FoodStoreLevelSensorImpl myFoodStoreLevelSensorImpl = new FoodStoreLevelSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myFoodStoreLevelSensorImpl, node);
+            BioInitializer.setupBioModule(myFoodStoreLevelSensorImpl, node);
             BiosimServer.registerServer(new FoodStoreLevelSensorPOATie(
                     myFoodStoreLevelSensorImpl), myFoodStoreLevelSensorImpl
                     .getModuleName(), myFoodStoreLevelSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureBiomassStoreWaterContentSensor(Node node) {
         BiomassStoreWaterContentSensor myBiomassStoreWaterContentSensor = BiomassStoreWaterContentSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myBiomassStoreWaterContentSensor.setInput(BiomassStoreHelper
                 .narrow(BioInitializer.grabModule(myID, getInputName(node))));
         mySensors.add(myBiomassStoreWaterContentSensor);
@@ -1926,21 +1960,23 @@ public class SensorInitializer {
                             + moduleName);
             BiomassStoreWaterContentSensorImpl myBiomassStoreWaterContentSensorImpl = new BiomassStoreWaterContentSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myBiomassStoreWaterContentSensorImpl, node);
+            BioInitializer.setupBioModule(myBiomassStoreWaterContentSensorImpl,
+                    node);
             BiosimServer.registerServer(
                     new BiomassStoreWaterContentSensorPOATie(
                             myBiomassStoreWaterContentSensorImpl),
                     myBiomassStoreWaterContentSensorImpl.getModuleName(),
                     myBiomassStoreWaterContentSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureFoodStoreLevelSensor(Node node) {
         FoodStoreLevelSensor myFoodStoreLevelSensor = FoodStoreLevelSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myFoodStoreLevelSensor.setInput(FoodStoreHelper
-                .narrow(BioInitializer.grabModule(myID, getInputName(node))));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myFoodStoreLevelSensor.setInput(FoodStoreHelper.narrow(BioInitializer
+                .grabModule(myID, getInputName(node))));
         mySensors.add(myFoodStoreLevelSensor);
     }
 
@@ -1951,12 +1987,12 @@ public class SensorInitializer {
                     + moduleName);
             HarvestSensorImpl myHarvestSensorImpl = new HarvestSensorImpl(myID,
                     moduleName);
-            BioInitializer.setupBioModule (myHarvestSensorImpl, node);
+            BioInitializer.setupBioModule(myHarvestSensorImpl, node);
             BiosimServer.registerServer(new HarvestSensorPOATie(
                     myHarvestSensorImpl), myHarvestSensorImpl.getModuleName(),
                     myHarvestSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureHarvestSensor(Node node) {
@@ -1964,9 +2000,10 @@ public class SensorInitializer {
             int index = Integer.parseInt(node.getAttributes().getNamedItem(
                     "shelfIndex").getNodeValue());
             HarvestSensor myHarvestSensor = HarvestSensorHelper
-                    .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-            myHarvestSensor.setInput(BiomassRSHelper
-                    .narrow(BioInitializer.grabModule(myID, getInputName(node))), index);
+                    .narrow(BioInitializer.grabModule(myID, BioInitializer
+                            .getModuleName(node)));
+            myHarvestSensor.setInput(BiomassRSHelper.narrow(BioInitializer
+                    .grabModule(myID, getInputName(node))), index);
             mySensors.add(myHarvestSensor);
         } catch (NumberFormatException e) {
             e.printStackTrace();
@@ -1980,12 +2017,12 @@ public class SensorInitializer {
                     + moduleName);
             PlantDeathSensorImpl myPlantDeathSensorImpl = new PlantDeathSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myPlantDeathSensorImpl, node);
+            BioInitializer.setupBioModule(myPlantDeathSensorImpl, node);
             BiosimServer.registerServer(new PlantDeathSensorPOATie(
                     myPlantDeathSensorImpl), myPlantDeathSensorImpl
                     .getModuleName(), myPlantDeathSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configurePlantDeathSensor(Node node) {
@@ -1993,9 +2030,10 @@ public class SensorInitializer {
             int index = Integer.parseInt(node.getAttributes().getNamedItem(
                     "shelfIndex").getNodeValue());
             PlantDeathSensor myPlantDeathSensor = PlantDeathSensorHelper
-                    .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-            myPlantDeathSensor.setInput(BiomassRSHelper
-                    .narrow(BioInitializer.grabModule(myID, getInputName(node))), index);
+                    .narrow(BioInitializer.grabModule(myID, BioInitializer
+                            .getModuleName(node)));
+            myPlantDeathSensor.setInput(BiomassRSHelper.narrow(BioInitializer
+                    .grabModule(myID, getInputName(node))), index);
             mySensors.add(myPlantDeathSensor);
         } catch (NumberFormatException e) {
             e.printStackTrace();
@@ -2064,19 +2102,20 @@ public class SensorInitializer {
                     + moduleName);
             StoreLevelSensorImpl myStoreLevelSensorImpl = new StoreLevelSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myStoreLevelSensorImpl, node);
+            BioInitializer.setupBioModule(myStoreLevelSensorImpl, node);
             BiosimServer.registerServer(new StoreLevelSensorPOATie(
                     myStoreLevelSensorImpl), myStoreLevelSensorImpl
                     .getModuleName(), myStoreLevelSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureStoreLevelSensor(Node node) {
         StoreLevelSensor myStoreLevelSensor = StoreLevelSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myStoreLevelSensor.setInput(StoreHelper
-                .narrow(BioInitializer.grabModule(myID, getInputName(node))));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myStoreLevelSensor.setInput(StoreHelper.narrow(BioInitializer
+                .grabModule(myID, getInputName(node))));
         mySensors.add(myStoreLevelSensor);
     }
 
@@ -2087,19 +2126,20 @@ public class SensorInitializer {
                     + moduleName);
             StoreOverflowSensorImpl myStoreOverflowSensorImpl = new StoreOverflowSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myStoreOverflowSensorImpl, node);
+            BioInitializer.setupBioModule(myStoreOverflowSensorImpl, node);
             BiosimServer.registerServer(new StoreOverflowSensorPOATie(
                     myStoreOverflowSensorImpl), myStoreOverflowSensorImpl
                     .getModuleName(), myStoreOverflowSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureStoreOverflowSensor(Node node) {
         StoreOverflowSensor myStoreOverflowSensor = StoreOverflowSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myStoreOverflowSensor.setInput(StoreHelper
-                .narrow(BioInitializer.grabModule(myID, getInputName(node))));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myStoreOverflowSensor.setInput(StoreHelper.narrow(BioInitializer
+                .grabModule(myID, getInputName(node))));
         mySensors.add(myStoreOverflowSensor);
     }
 
@@ -2130,21 +2170,21 @@ public class SensorInitializer {
                     + moduleName);
             PowerInFlowRateSensorImpl myPowerInFlowRateSensorImpl = new PowerInFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myPowerInFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myPowerInFlowRateSensorImpl, node);
             BiosimServer.registerServer(new PowerInFlowRateSensorPOATie(
                     myPowerInFlowRateSensorImpl), myPowerInFlowRateSensorImpl
                     .getModuleName(), myPowerInFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configurePowerInFlowRateSensor(Node node) {
         PowerInFlowRateSensor myPowerInFlowRateSensor = PowerInFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myPowerInFlowRateSensor
-                .setInput(PowerConsumerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myPowerInFlowRateSensor.setInput(PowerConsumerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myPowerInFlowRateSensor);
     }
 
@@ -2155,21 +2195,21 @@ public class SensorInitializer {
                     + moduleName);
             PowerOutFlowRateSensorImpl myPowerOutFlowRateSensorImpl = new PowerOutFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myPowerOutFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myPowerOutFlowRateSensorImpl, node);
             BiosimServer.registerServer(new PowerOutFlowRateSensorPOATie(
                     myPowerOutFlowRateSensorImpl), myPowerOutFlowRateSensorImpl
                     .getModuleName(), myPowerOutFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configurePowerOutFlowRateSensor(Node node) {
         PowerOutFlowRateSensor myPowerOutFlowRateSensor = PowerOutFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myPowerOutFlowRateSensor
-                .setInput(PowerProducerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myPowerOutFlowRateSensor.setInput(PowerProducerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myPowerOutFlowRateSensor);
     }
 
@@ -2180,19 +2220,20 @@ public class SensorInitializer {
                     + moduleName);
             PowerStoreLevelSensorImpl myPowerStoreLevelSensorImpl = new PowerStoreLevelSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myPowerStoreLevelSensorImpl, node);
+            BioInitializer.setupBioModule(myPowerStoreLevelSensorImpl, node);
             BiosimServer.registerServer(new PowerStoreLevelSensorPOATie(
                     myPowerStoreLevelSensorImpl), myPowerStoreLevelSensorImpl
                     .getModuleName(), myPowerStoreLevelSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configurePowerStoreLevelSensor(Node node) {
         PowerStoreLevelSensor myPowerStoreLevelSensor = PowerStoreLevelSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myPowerStoreLevelSensor.setInput(PowerStoreHelper
-                .narrow(BioInitializer.grabModule(myID, getInputName(node))));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myPowerStoreLevelSensor.setInput(PowerStoreHelper.narrow(BioInitializer
+                .grabModule(myID, getInputName(node))));
         mySensors.add(myPowerStoreLevelSensor);
     }
 
@@ -2229,22 +2270,23 @@ public class SensorInitializer {
                             + moduleName);
             PotableWaterInFlowRateSensorImpl myPotableWaterInFlowRateSensorImpl = new PotableWaterInFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myPotableWaterInFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myPotableWaterInFlowRateSensorImpl,
+                    node);
             BiosimServer.registerServer(new PotableWaterInFlowRateSensorPOATie(
                     myPotableWaterInFlowRateSensorImpl),
                     myPotableWaterInFlowRateSensorImpl.getModuleName(),
                     myPotableWaterInFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configurePotableWaterInFlowRateSensor(Node node) {
         PotableWaterInFlowRateSensor myPotableWaterInFlowRateSensor = PotableWaterInFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myPotableWaterInFlowRateSensor
-                .setInput(PotableWaterConsumerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myPotableWaterInFlowRateSensor.setInput(PotableWaterConsumerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myPotableWaterInFlowRateSensor);
     }
 
@@ -2256,23 +2298,24 @@ public class SensorInitializer {
                             + moduleName);
             PotableWaterOutFlowRateSensorImpl myPotableWaterOutFlowRateSensorImpl = new PotableWaterOutFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myPotableWaterOutFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myPotableWaterOutFlowRateSensorImpl,
+                    node);
             BiosimServer.registerServer(
                     new PotableWaterOutFlowRateSensorPOATie(
                             myPotableWaterOutFlowRateSensorImpl),
                     myPotableWaterOutFlowRateSensorImpl.getModuleName(),
                     myPotableWaterOutFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configurePotableWaterOutFlowRateSensor(Node node) {
         PotableWaterOutFlowRateSensor myPotableWaterOutFlowRateSensor = PotableWaterOutFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myPotableWaterOutFlowRateSensor
-                .setInput(PotableWaterProducerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myPotableWaterOutFlowRateSensor.setInput(PotableWaterProducerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myPotableWaterOutFlowRateSensor);
     }
 
@@ -2284,18 +2327,20 @@ public class SensorInitializer {
                             + moduleName);
             PotableWaterStoreLevelSensorImpl myPotableWaterStoreLevelSensorImpl = new PotableWaterStoreLevelSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myPotableWaterStoreLevelSensorImpl, node);
+            BioInitializer.setupBioModule(myPotableWaterStoreLevelSensorImpl,
+                    node);
             BiosimServer.registerServer(new PotableWaterStoreLevelSensorPOATie(
                     myPotableWaterStoreLevelSensorImpl),
                     myPotableWaterStoreLevelSensorImpl.getModuleName(),
                     myPotableWaterStoreLevelSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configurePotableWaterStoreLevelSensor(Node node) {
         PotableWaterStoreLevelSensor myPotableWaterStoreLevelSensor = PotableWaterStoreLevelSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myPotableWaterStoreLevelSensor.setInput(PotableWaterStoreHelper
                 .narrow(BioInitializer.grabModule(myID, getInputName(node))));
         mySensors.add(myPotableWaterStoreLevelSensor);
@@ -2309,22 +2354,23 @@ public class SensorInitializer {
                             + moduleName);
             GreyWaterInFlowRateSensorImpl myGreyWaterInFlowRateSensorImpl = new GreyWaterInFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myGreyWaterInFlowRateSensorImpl, node);
+            BioInitializer
+                    .setupBioModule(myGreyWaterInFlowRateSensorImpl, node);
             BiosimServer.registerServer(new GreyWaterInFlowRateSensorPOATie(
                     myGreyWaterInFlowRateSensorImpl),
                     myGreyWaterInFlowRateSensorImpl.getModuleName(),
                     myGreyWaterInFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureGreyWaterInFlowRateSensor(Node node) {
         GreyWaterInFlowRateSensor myGreyWaterInFlowRateSensor = GreyWaterInFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myGreyWaterInFlowRateSensor
-                .setInput(GreyWaterConsumerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myGreyWaterInFlowRateSensor.setInput(GreyWaterConsumerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myGreyWaterInFlowRateSensor);
     }
 
@@ -2336,22 +2382,23 @@ public class SensorInitializer {
                             + moduleName);
             GreyWaterOutFlowRateSensorImpl myGreyWaterOutFlowRateSensorImpl = new GreyWaterOutFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myGreyWaterOutFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myGreyWaterOutFlowRateSensorImpl,
+                    node);
             BiosimServer.registerServer(new GreyWaterOutFlowRateSensorPOATie(
                     myGreyWaterOutFlowRateSensorImpl),
                     myGreyWaterOutFlowRateSensorImpl.getModuleName(),
                     myGreyWaterOutFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureGreyWaterOutFlowRateSensor(Node node) {
         GreyWaterOutFlowRateSensor myGreyWaterOutFlowRateSensor = GreyWaterOutFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myGreyWaterOutFlowRateSensor
-                .setInput(GreyWaterProducerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myGreyWaterOutFlowRateSensor.setInput(GreyWaterProducerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myGreyWaterOutFlowRateSensor);
     }
 
@@ -2363,18 +2410,20 @@ public class SensorInitializer {
                             + moduleName);
             GreyWaterStoreLevelSensorImpl myGreyWaterStoreLevelSensorImpl = new GreyWaterStoreLevelSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myGreyWaterStoreLevelSensorImpl, node);
+            BioInitializer
+                    .setupBioModule(myGreyWaterStoreLevelSensorImpl, node);
             BiosimServer.registerServer(new GreyWaterStoreLevelSensorPOATie(
                     myGreyWaterStoreLevelSensorImpl),
                     myGreyWaterStoreLevelSensorImpl.getModuleName(),
                     myGreyWaterStoreLevelSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureGreyWaterStoreLevelSensor(Node node) {
         GreyWaterStoreLevelSensor myGreyWaterStoreLevelSensor = GreyWaterStoreLevelSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myGreyWaterStoreLevelSensor.setInput(GreyWaterStoreHelper
                 .narrow(BioInitializer.grabModule(myID, getInputName(node))));
         mySensors.add(myGreyWaterStoreLevelSensor);
@@ -2388,22 +2437,23 @@ public class SensorInitializer {
                             + moduleName);
             DirtyWaterInFlowRateSensorImpl myDirtyWaterInFlowRateSensorImpl = new DirtyWaterInFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myDirtyWaterInFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myDirtyWaterInFlowRateSensorImpl,
+                    node);
             BiosimServer.registerServer(new DirtyWaterInFlowRateSensorPOATie(
                     myDirtyWaterInFlowRateSensorImpl),
                     myDirtyWaterInFlowRateSensorImpl.getModuleName(),
                     myDirtyWaterInFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureDirtyWaterInFlowRateSensor(Node node) {
         DirtyWaterInFlowRateSensor myDirtyWaterInFlowRateSensor = DirtyWaterInFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myDirtyWaterInFlowRateSensor
-                .setInput(DirtyWaterConsumerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myDirtyWaterInFlowRateSensor.setInput(DirtyWaterConsumerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myDirtyWaterInFlowRateSensor);
     }
 
@@ -2415,22 +2465,23 @@ public class SensorInitializer {
                             + moduleName);
             DirtyWaterOutFlowRateSensorImpl myDirtyWaterOutFlowRateSensorImpl = new DirtyWaterOutFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myDirtyWaterOutFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myDirtyWaterOutFlowRateSensorImpl,
+                    node);
             BiosimServer.registerServer(new DirtyWaterOutFlowRateSensorPOATie(
                     myDirtyWaterOutFlowRateSensorImpl),
                     myDirtyWaterOutFlowRateSensorImpl.getModuleName(),
                     myDirtyWaterOutFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureDirtyWaterOutFlowRateSensor(Node node) {
         DirtyWaterOutFlowRateSensor myDirtyWaterOutFlowRateSensor = DirtyWaterOutFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myDirtyWaterOutFlowRateSensor
-                .setInput(DirtyWaterProducerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myDirtyWaterOutFlowRateSensor.setInput(DirtyWaterProducerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myDirtyWaterOutFlowRateSensor);
     }
 
@@ -2442,18 +2493,20 @@ public class SensorInitializer {
                             + moduleName);
             DirtyWaterStoreLevelSensorImpl myDirtyWaterStoreLevelSensorImpl = new DirtyWaterStoreLevelSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myDirtyWaterStoreLevelSensorImpl, node);
+            BioInitializer.setupBioModule(myDirtyWaterStoreLevelSensorImpl,
+                    node);
             BiosimServer.registerServer(new DirtyWaterStoreLevelSensorPOATie(
                     myDirtyWaterStoreLevelSensorImpl),
                     myDirtyWaterStoreLevelSensorImpl.getModuleName(),
                     myDirtyWaterStoreLevelSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureDirtyWaterStoreLevelSensor(Node node) {
         DirtyWaterStoreLevelSensor myDirtyWaterStoreLevelSensor = DirtyWaterStoreLevelSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myDirtyWaterStoreLevelSensor.setInput(DirtyWaterStoreHelper
                 .narrow(BioInitializer.grabModule(myID, getInputName(node))));
         mySensors.add(myDirtyWaterStoreLevelSensor);
@@ -2466,21 +2519,21 @@ public class SensorInitializer {
                     + moduleName);
             WaterInFlowRateSensorImpl myWaterInFlowRateSensorImpl = new WaterInFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myWaterInFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myWaterInFlowRateSensorImpl, node);
             BiosimServer.registerServer(new WaterInFlowRateSensorPOATie(
                     myWaterInFlowRateSensorImpl), myWaterInFlowRateSensorImpl
                     .getModuleName(), myWaterInFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureWaterInFlowRateSensor(Node node) {
         WaterInFlowRateSensor myWaterInFlowRateSensor = WaterInFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myWaterInFlowRateSensor
-                .setInput(WaterConsumerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myWaterInFlowRateSensor.setInput(WaterConsumerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myWaterInFlowRateSensor);
     }
 
@@ -2491,21 +2544,21 @@ public class SensorInitializer {
                     + moduleName);
             WaterOutFlowRateSensorImpl myWaterOutFlowRateSensorImpl = new WaterOutFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myWaterOutFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myWaterOutFlowRateSensorImpl, node);
             BiosimServer.registerServer(new WaterOutFlowRateSensorPOATie(
                     myWaterOutFlowRateSensorImpl), myWaterOutFlowRateSensorImpl
                     .getModuleName(), myWaterOutFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureWaterOutFlowRateSensor(Node node) {
         WaterOutFlowRateSensor myWaterOutFlowRateSensor = WaterOutFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myWaterOutFlowRateSensor
-                .setInput(WaterProducerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myWaterOutFlowRateSensor.setInput(WaterProducerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myWaterOutFlowRateSensor);
     }
 
@@ -2516,19 +2569,20 @@ public class SensorInitializer {
                     + moduleName);
             WaterStoreLevelSensorImpl myWaterStoreLevelSensorImpl = new WaterStoreLevelSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myWaterStoreLevelSensorImpl, node);
+            BioInitializer.setupBioModule(myWaterStoreLevelSensorImpl, node);
             BiosimServer.registerServer(new WaterStoreLevelSensorPOATie(
                     myWaterStoreLevelSensorImpl), myWaterStoreLevelSensorImpl
                     .getModuleName(), myWaterStoreLevelSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureWaterStoreLevelSensor(Node node) {
         WaterStoreLevelSensor myWaterStoreLevelSensor = WaterStoreLevelSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myWaterStoreLevelSensor.setInput(WaterStoreHelper
-                .narrow(BioInitializer.grabModule(myID, getInputName(node))));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myWaterStoreLevelSensor.setInput(WaterStoreHelper.narrow(BioInitializer
+                .grabModule(myID, getInputName(node))));
         mySensors.add(myWaterStoreLevelSensor);
     }
 
@@ -2610,22 +2664,22 @@ public class SensorInitializer {
                             + moduleName);
             DryWasteInFlowRateSensorImpl myDryWasteInFlowRateSensorImpl = new DryWasteInFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myDryWasteInFlowRateSensorImpl, node);
+            BioInitializer.setupBioModule(myDryWasteInFlowRateSensorImpl, node);
             BiosimServer.registerServer(new DryWasteInFlowRateSensorPOATie(
                     myDryWasteInFlowRateSensorImpl),
                     myDryWasteInFlowRateSensorImpl.getModuleName(),
                     myDryWasteInFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureDryWasteInFlowRateSensor(Node node) {
         DryWasteInFlowRateSensor myDryWasteInFlowRateSensor = DryWasteInFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myDryWasteInFlowRateSensor
-                .setInput(DryWasteConsumerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myDryWasteInFlowRateSensor.setInput(DryWasteConsumerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myDryWasteInFlowRateSensor);
     }
 
@@ -2637,22 +2691,23 @@ public class SensorInitializer {
                             + moduleName);
             DryWasteOutFlowRateSensorImpl myDryWasteOutFlowRateSensorImpl = new DryWasteOutFlowRateSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myDryWasteOutFlowRateSensorImpl, node);
+            BioInitializer
+                    .setupBioModule(myDryWasteOutFlowRateSensorImpl, node);
             BiosimServer.registerServer(new DryWasteOutFlowRateSensorPOATie(
                     myDryWasteOutFlowRateSensorImpl),
                     myDryWasteOutFlowRateSensorImpl.getModuleName(),
                     myDryWasteOutFlowRateSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureDryWasteOutFlowRateSensor(Node node) {
         DryWasteOutFlowRateSensor myDryWasteOutFlowRateSensor = DryWasteOutFlowRateSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
-        myDryWasteOutFlowRateSensor
-                .setInput(DryWasteProducerHelper
-                        .narrow(BioInitializer.grabModule(myID, getInputName(node))),
-                        getFlowRateIndex(node));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myDryWasteOutFlowRateSensor.setInput(DryWasteProducerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
         mySensors.add(myDryWasteOutFlowRateSensor);
     }
 
@@ -2664,18 +2719,19 @@ public class SensorInitializer {
                             + moduleName);
             DryWasteStoreLevelSensorImpl myDryWasteStoreLevelSensorImpl = new DryWasteStoreLevelSensorImpl(
                     myID, moduleName);
-            BioInitializer.setupBioModule (myDryWasteStoreLevelSensorImpl, node);
+            BioInitializer.setupBioModule(myDryWasteStoreLevelSensorImpl, node);
             BiosimServer.registerServer(new DryWasteStoreLevelSensorPOATie(
                     myDryWasteStoreLevelSensorImpl),
                     myDryWasteStoreLevelSensorImpl.getModuleName(),
                     myDryWasteStoreLevelSensorImpl.getID());
         } else
-            BioInitializer.printRemoteWarningMessage (moduleName);
+            BioInitializer.printRemoteWarningMessage(moduleName);
     }
 
     private void configureDryWasteStoreLevelSensor(Node node) {
         DryWasteStoreLevelSensor myDryWasteStoreLevelSensor = DryWasteStoreLevelSensorHelper
-                .narrow(BioInitializer.grabModule(myID, BioInitializer.getModuleName(node)));
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
         myDryWasteStoreLevelSensor.setInput(DryWasteStoreHelper
                 .narrow(BioInitializer.grabModule(myID, getInputName(node))));
         mySensors.add(myDryWasteStoreLevelSensor);
@@ -2704,10 +2760,11 @@ public class SensorInitializer {
             child = child.getNextSibling();
         }
     }
-	/**
-	 * @return Returns the mySensors.
-	 */
-	public List getSensors() {
-		return mySensors;
-	}
+
+    /**
+     * @return Returns the mySensors.
+     */
+    public List getSensors() {
+        return mySensors;
+    }
 }
