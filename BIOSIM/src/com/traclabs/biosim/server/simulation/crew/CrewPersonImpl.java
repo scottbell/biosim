@@ -59,7 +59,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	//How much CO2 this crew member produced in the current tick
 	private float CO2Produced = 0f;
 	//How much food this crew member consumed in the current tick
-	private float foodConsumed = 0f;
+	private float caloriesConsumed = 0f;
 	//How much potable water this crew member consumed in the current tick
 	private float cleanWaterConsumed = 0f;
 	//How much dirty water this crew member produced in the current tick
@@ -71,7 +71,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	//How much potable water this crew member needs to consume in one tick
 	private float potableWaterNeeded = 0f;
 	//How much food this crew member needs to consume in one tick
-	private float foodNeeded = 0f;
+	private float caloriesNeeded = 0f;
 	//Whether this crew member is sick or not.  If the crew member is sick, puts them into sleep like state.
 	private boolean sick = false;
 	//A mission productivity measure, used when "mission" is specified in the schedule.  Not implemented correctly yet.
@@ -138,13 +138,13 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		hasDied = false;
 		O2Consumed= 0f;
 		CO2Produced = 0f;
-		foodConsumed = 0f;
+		caloriesConsumed = 0f;
 		cleanWaterConsumed = 0f;
 		dirtyWaterProduced = 0f;
 		greyWaterProduced = 0f;
 		O2Needed = 0f;
 		potableWaterNeeded = 0f;
-		foodNeeded = 0f;
+		caloriesNeeded = 0f;
 	}
 
 	/**
@@ -192,7 +192,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* @return the food consumed (in liters) by this crew member during the current tick
 	*/
 	public float getFoodConsumed(){
-		return foodConsumed;
+		return caloriesConsumed;
 	}
 
 	/**
@@ -479,26 +479,26 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* @return food needed in kilograms
 	*/
 	private float calculateFoodNeeded(int currentActivityIntensity){
-		if (currentActivityIntensity < 0)
+		if (currentActivityIntensity < 0f)
 			return 0f;
-		double activityCoefficient = (0.7 * (currentActivityIntensity - 1)) + 1;
-		double caloriesNeeded  = 0;
+		float activityCoefficient = (0.7f * (currentActivityIntensity - 1f)) + 1f;
+		float caloriesNeeded  = 0f;
 		if (sex == Sex.male)
-			if (age < 30)
-				caloriesNeeded = (106 * weight) + (5040 * activityCoefficient);
+			if (age < 30f)
+				caloriesNeeded = (106f * weight) + (5040f * activityCoefficient);
 			else
-				caloriesNeeded = (86 * weight) + (5990 * activityCoefficient);
+				caloriesNeeded = (86f * weight) + (5990f * activityCoefficient);
 		else
-			if (age < 30)
-				caloriesNeeded = (106 * weight) + (3200 * activityCoefficient);
+			if (age < 30f)
+				caloriesNeeded = (106f * weight) + (3200f * activityCoefficient);
 			else
-				caloriesNeeded = (106 * weight) + (6067 * activityCoefficient);
+				caloriesNeeded = (106f * weight) + (6067f * activityCoefficient);
 		//make it for one hour
-		caloriesNeeded = caloriesNeeded / 24;
+		caloriesNeeded = caloriesNeeded / 24f;
 		//assume they're eating only carbs
-		double energyFromFood = 17.22 * 1000;
-		Double kgFoodNeeded = new Double(caloriesNeeded / energyFromFood);
-		return myCrewGroup.randomFilter(kgFoodNeeded.floatValue());
+		//float energyFromFood = 17.22f * 1000f;
+		//float kgFoodNeeded = caloriesNeeded / energyFromFood;
+		return myCrewGroup.randomFilter(caloriesNeeded);
 	}
 
 	/**
@@ -557,7 +557,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	*/
 	private void afflictCrew(){
 		//afflict crew
-		if (foodConsumed < (foodNeeded * .9f)){
+		if (caloriesConsumed < (caloriesNeeded * .9f)){
 			personStarving = true;
 			starvingTime++;
 		}
@@ -620,7 +620,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		if (hasDied){
 			O2Consumed= 0f;
 			CO2Produced = 0f;
-			foodConsumed = 0f;
+			caloriesConsumed = 0f;
 			cleanWaterConsumed = 0f;
 			dirtyWaterProduced = 0f;
 			greyWaterProduced = 0f;
@@ -631,7 +631,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	}
 	
 	private void eatFood(float pFoodNeeded){
-		foodConsumed = myCrewGroup.getFractionalResourceFromStore(myCrewGroup.getFoodInputs(), myCrewGroup.getFoodInputMaxFlowRates(), myCrewGroup.getFoodInputDesiredFlowRates(), myCrewGroup.getFoodInputActualFlowRates(), foodNeeded, 1f / myCrewGroup.getCrewSize());
+		caloriesConsumed = myCrewGroup.getFractionalResourceFromStore(myCrewGroup.getFoodInputs(), myCrewGroup.getFoodInputMaxFlowRates(), myCrewGroup.getFoodInputDesiredFlowRates(), myCrewGroup.getFoodInputActualFlowRates(), caloriesNeeded, 1f / myCrewGroup.getCrewSize());
+		
 	}
 
 	/**
@@ -643,12 +644,12 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		int currentActivityIntensity = myCurrentActivity.getActivityIntensity();
 		O2Needed = calculateO2Needed(currentActivityIntensity);
 		potableWaterNeeded = calculateCleanWaterNeeded(currentActivityIntensity);
-		foodNeeded = calculateFoodNeeded(currentActivityIntensity);
+		caloriesNeeded = calculateFoodNeeded(currentActivityIntensity);
 		dirtyWaterProduced = calculateDirtyWaterProduced(potableWaterNeeded);
 		greyWaterProduced = calculateGreyWaterProduced(potableWaterNeeded);
 		CO2Produced = calculateCO2Produced(O2Needed);
 		//adjust tanks
-		eatFood(foodNeeded);
+		eatFood(caloriesNeeded);
 		cleanWaterConsumed = myCrewGroup.getFractionalResourceFromStore(myCrewGroup.getPotableWaterInputs(), myCrewGroup.getPotableWaterInputMaxFlowRates(), myCrewGroup.getPotableWaterInputDesiredFlowRates(), myCrewGroup.getPotableWaterInputActualFlowRates(), potableWaterNeeded, 1f / myCrewGroup.getCrewSize());
 		float distributedDirtyWaterLeft = myCrewGroup.pushFractionalResourceToStore(myCrewGroup.getDirtyWaterOutputs(), myCrewGroup.getDirtyWaterOutputMaxFlowRates(), myCrewGroup.getDirtyWaterOutputDesiredFlowRates(), myCrewGroup.getDirtyWaterOutputActualFlowRates(), dirtyWaterProduced, 1f / myCrewGroup.getCrewSize());
 		float distributedGreyWaterLeft = myCrewGroup.pushFractionalResourceToStore(myCrewGroup.getGreyWaterOutputs(), myCrewGroup.getGreyWaterOutputMaxFlowRates(), myCrewGroup.getGreyWaterOutputDesiredFlowRates(), myCrewGroup.getGreyWaterOutputActualFlowRates(), greyWaterProduced, 1f / myCrewGroup.getCrewSize());
@@ -709,8 +710,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			myLogIndex.O2ConsumedIndex = O2ConsumedHead.addChild(""+O2Consumed);
 			LogNode CO2ProducedHead = myLogHead.addChild("CO2_produced");
 			myLogIndex.CO2ProducedIndex = CO2ProducedHead.addChild(""+CO2Produced);
-			LogNode foodConsumedHead = myLogHead.addChild("food_consumed");
-			myLogIndex.foodConsumedIndex = foodConsumedHead.addChild(""+foodConsumed);
+			LogNode caloriesConsumedHead = myLogHead.addChild("food_consumed");
+			myLogIndex.caloriesConsumedIndex = caloriesConsumedHead.addChild(""+caloriesConsumed);
 			LogNode cleanWaterConsumedHead = myLogHead.addChild("potable_water_consumed");
 			myLogIndex.cleanWaterConsumedIndex = cleanWaterConsumedHead.addChild(""+cleanWaterConsumed);
 			LogNode dirtyWaterProducedHead = myLogHead.addChild("dirty_water_produced");
@@ -721,8 +722,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			myLogIndex.O2NeededIndex = O2NeededHead.addChild(""+O2Needed);
 			LogNode potableWaterNeededHead = myLogHead.addChild("potable_water_needed");
 			myLogIndex.potableWaterNeededIndex = potableWaterNeededHead.addChild(""+potableWaterNeeded);
-			LogNode foodNeededHead = myLogHead.addChild("food_needed");
-			myLogIndex.foodNeededIndex = foodNeededHead.addChild(""+foodNeeded);
+			LogNode caloriesNeededHead = myLogHead.addChild("food_needed");
+			myLogIndex.caloriesNeededIndex = caloriesNeededHead.addChild(""+caloriesNeeded);
 			logInitialized = true;
 		}
 		else{
@@ -747,13 +748,13 @@ public class CrewPersonImpl extends CrewPersonPOA {
 				myLogIndex.sexIndex.setValue("female");
 			myLogIndex.O2ConsumedIndex.setValue(""+O2Consumed);
 			myLogIndex.CO2ProducedIndex.setValue(""+CO2Produced);
-			myLogIndex.foodConsumedIndex.setValue(""+foodConsumed);
+			myLogIndex.caloriesConsumedIndex.setValue(""+caloriesConsumed);
 			myLogIndex.cleanWaterConsumedIndex.setValue(""+cleanWaterConsumed);
 			myLogIndex.dirtyWaterProducedIndex.setValue(""+dirtyWaterProduced);
 			myLogIndex.greyWaterProducedIndex.setValue(""+greyWaterProduced);
 			myLogIndex.O2NeededIndex.setValue(""+O2Needed);
 			myLogIndex.potableWaterNeededIndex.setValue(""+potableWaterNeeded);
-			myLogIndex.foodNeededIndex.setValue(""+foodNeeded);
+			myLogIndex.caloriesNeededIndex.setValue(""+caloriesNeeded);
 		}
 	}
 
@@ -779,12 +780,12 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		public LogNode sexIndex;
 		public LogNode O2ConsumedIndex;
 		public LogNode CO2ProducedIndex;
-		public LogNode foodConsumedIndex;
+		public LogNode caloriesConsumedIndex;
 		public LogNode cleanWaterConsumedIndex;
 		public LogNode dirtyWaterProducedIndex;
 		public LogNode greyWaterProducedIndex;
 		public LogNode O2NeededIndex;
 		public LogNode potableWaterNeededIndex;
-		public LogNode foodNeededIndex;
+		public LogNode caloriesNeededIndex;
 	}
 }
