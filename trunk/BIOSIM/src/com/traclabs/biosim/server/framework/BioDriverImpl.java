@@ -111,7 +111,7 @@ public class BioDriverImpl extends BioDriverPOA{
 	public void setActuators(BioModule[] pActuators){
 		actuators = pActuators;
 	}
-	
+
 	public BioModule[] getModules(){
 		return modules;
 	}
@@ -123,7 +123,7 @@ public class BioDriverImpl extends BioDriverPOA{
 	public BioModule[] getActuators(){
 		return actuators;
 	}
-	
+
 	public String[] getModuleNames(){
 		String[] moduleNameArray = new String[modules.length];
 		for (int i = 0; i < moduleNameArray.length; i++)
@@ -357,6 +357,33 @@ public class BioDriverImpl extends BioDriverPOA{
 	}
 
 	/**
+	* The ticking simulation loop.  Uses a variety of semaphores to pause/resume/end without causing deadlock.
+	* Essentially runs till told to pause or die.
+	*/
+	private void runSimulation(){
+		Thread theCurrentThread = Thread.currentThread();
+		if (!simulationStarted)
+			reset();
+		while (myTickThread == theCurrentThread) {
+			try {
+				myTickThread.sleep(driverPauseLength);
+				synchronized(this) {
+					while (simulationIsPaused && (myTickThread==theCurrentThread)){
+						wait();
+					}
+				}
+			}
+			catch (InterruptedException e){}
+			tick();
+			if (isDone()){
+				endSimulation();
+				if (looping)
+					startSimulation();
+			}
+		}
+	}
+
+	/**
 	* Ticks every server.  The SimEnvironment is ticked first as it keeps track of time for the rest of the server.
 	* The other server are ticked in no particular order by enumerating through the module hashtable.
 	* When every server has been ticked, BioDriverImpl notifies all it's listeners that this has happened.
@@ -380,32 +407,6 @@ public class BioDriverImpl extends BioDriverPOA{
 			System.out.println("BioDriverImpl:"+myID+" Running simulation...");
 			simulationStarted = true;
 			runSimulation();
-		}
-		/**
-		* The ticking simulation loop.  Uses a variety of semaphores to pause/resume/end without causing deadlock.
-		* Essentially runs till told to pause or die.
-		*/
-		private void runSimulation(){
-			Thread theCurrentThread = Thread.currentThread();
-			if (!simulationStarted)
-				reset();
-			while (myTickThread == theCurrentThread) {
-				try {
-					myTickThread.sleep(driverPauseLength);
-					synchronized(this) {
-						while (simulationIsPaused && (myTickThread==theCurrentThread)){
-							this.wait();
-						}
-					}
-				}
-				catch (InterruptedException e){}
-				tick();
-				if (isDone()){
-					endSimulation();
-					if (looping)
-						startSimulation();
-				}
-			}
 		}
 	}
 }
