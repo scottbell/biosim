@@ -50,13 +50,13 @@ import com.traclabs.biosim.editor.base.CmdSaveAsVespr;
 import com.traclabs.biosim.editor.base.CmdSaveVespr;
 import com.traclabs.biosim.editor.base.CmdTreeLayout;
 import com.traclabs.biosim.editor.base.CmdZoomTo;
-import com.traclabs.biosim.editor.base.VesprCmdCopy;
-import com.traclabs.biosim.editor.base.VesprCmdCut;
-import com.traclabs.biosim.editor.base.VesprCmdExit;
-import com.traclabs.biosim.editor.base.VesprCmdPaste;
-import com.traclabs.biosim.editor.base.VesprCmdSpawn;
-import com.traclabs.biosim.editor.base.VesprCmdZoom;
-import com.traclabs.biosim.editor.base.VesprDocument;
+import com.traclabs.biosim.editor.base.EditorCmdCopy;
+import com.traclabs.biosim.editor.base.EditorCmdCut;
+import com.traclabs.biosim.editor.base.EditorCmdExit;
+import com.traclabs.biosim.editor.base.EditorCmdPaste;
+import com.traclabs.biosim.editor.base.EditorCmdSpawn;
+import com.traclabs.biosim.editor.base.EditorCmdZoom;
+import com.traclabs.biosim.editor.base.EditorDocument;
 import com.traclabs.biosim.editor.base.VesprEditor;
 import com.traclabs.biosim.editor.ui.EditorPalette;
 
@@ -75,7 +75,7 @@ public class EditorFrame extends JGraphFrame {
         this(title, new VesprEditor());
     }
 
-    public EditorFrame(VesprDocument doc) {
+    public EditorFrame(EditorDocument doc) {
         this(doc.getAppName(), new VesprEditor(doc));
     }
 
@@ -184,7 +184,7 @@ public class EditorFrame extends JGraphFrame {
         file.addSeparator();
 
         // Create the Exit menu item.
-        JMenuItem exitItem = file.add(_exitCmd = new VesprCmdExit(this));
+        JMenuItem exitItem = file.add(_exitCmd = new EditorCmdExit(this));
         KeyStroke altF4 = KeyStroke.getKeyStroke(KeyEvent.VK_F4,
                 KeyEvent.ALT_MASK);
         exitItem.setAccelerator(altF4);
@@ -205,21 +205,21 @@ public class EditorFrame extends JGraphFrame {
         edit.addSeparator();
 
         // Create the Copy menu item
-        JMenuItem copyItem = edit.add(new VesprCmdCopy());
+        JMenuItem copyItem = edit.add(new EditorCmdCopy());
         copyItem.setMnemonic('C');
         KeyStroke ctrlC = KeyStroke.getKeyStroke(KeyEvent.VK_C,
                 KeyEvent.CTRL_MASK);
         copyItem.setAccelerator(ctrlC);
 
         // Create the Paste menu item
-        JMenuItem pasteItem = edit.add(new VesprCmdPaste());
+        JMenuItem pasteItem = edit.add(new EditorCmdPaste());
         pasteItem.setMnemonic('P');
         KeyStroke ctrlV = KeyStroke.getKeyStroke(KeyEvent.VK_V,
                 KeyEvent.CTRL_MASK);
         pasteItem.setAccelerator(ctrlV);
 
         // Create the Cut menu item.
-        JMenuItem cutItem = edit.add(new VesprCmdCut());
+        JMenuItem cutItem = edit.add(new EditorCmdCut());
         cutItem.setMnemonic('T');
         KeyStroke ctrlX = KeyStroke.getKeyStroke(KeyEvent.VK_X,
                 KeyEvent.CTRL_MASK);
@@ -262,7 +262,7 @@ public class EditorFrame extends JGraphFrame {
         _menubar.add(view);
         view.setMnemonic('V');
 
-        view.add(new VesprCmdSpawn());
+        view.add(new EditorCmdSpawn());
 
         JMenuItem propsItem = view.add(new CmdShowProperties());
         propsItem.setMnemonic('P');
@@ -296,12 +296,12 @@ public class EditorFrame extends JGraphFrame {
         _menubar.add(zoom);
         zoom.setMnemonic('Z');
 
-        JMenuItem zoomItem = zoom.add(new VesprCmdZoom(VesprCmdZoom.ZOOM_IN));
+        JMenuItem zoomItem = zoom.add(new EditorCmdZoom(EditorCmdZoom.ZOOM_IN));
         KeyStroke ctrlPlus = KeyStroke.getKeyStroke(KeyEvent.VK_ADD,
                 KeyEvent.CTRL_MASK);
         zoomItem.setAccelerator(ctrlPlus);
 
-        zoomItem = zoom.add(new VesprCmdZoom(VesprCmdZoom.ZOOM_OUT));
+        zoomItem = zoom.add(new EditorCmdZoom(EditorCmdZoom.ZOOM_OUT));
         KeyStroke ctrlMinus = KeyStroke.getKeyStroke(KeyEvent.VK_SUBTRACT,
                 KeyEvent.CTRL_MASK);
         zoomItem.setAccelerator(ctrlMinus);
@@ -485,7 +485,7 @@ public class EditorFrame extends JGraphFrame {
                 .clone());
     }
 
-    public VesprDocument getDocument() {
-        return (VesprDocument) this.getGraph().getEditor().document();
+    public EditorDocument getDocument() {
+        return (EditorDocument) this.getGraph().getEditor().document();
     }
 }

@@ -23,7 +23,7 @@ public class CmdSaveAsVespr extends Cmd {
 
     public void doIt() {
         VesprEditor ce = (VesprEditor) Globals.curEditor();
-        _cmd.saveAs((VesprDocument) ce.document());
+        _cmd.saveAs((EditorDocument) ce.document());
     }
 
     public void undoIt() {

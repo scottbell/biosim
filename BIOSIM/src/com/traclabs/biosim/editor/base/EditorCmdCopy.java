@@ -28,14 +28,14 @@ import javax.swing.JOptionPane;
 import org.tigris.gef.base.Cmd;
 import org.tigris.gef.base.Globals;
 
-public class VesprCmdCopy extends Cmd implements ClipboardOwner {
+public class EditorCmdCopy extends Cmd implements ClipboardOwner {
     private FileSelection _selection;
 
     private File _tempFile;
 
     private CmdSaveVespr _cmd;
 
-    public VesprCmdCopy() {
+    public EditorCmdCopy() {
         super("Copy");
         _cmd = new CmdSaveVespr();
         putValue(Action.SHORT_DESCRIPTION,
@@ -56,7 +56,7 @@ public class VesprCmdCopy extends Cmd implements ClipboardOwner {
                     _selection = new FileSelection(_tempFile);
                 }
 
-                VesprDocument doc = (VesprDocument) ed.document();
+                EditorDocument doc = (EditorDocument) ed.document();
                 doc.copySelections(_tempFile, ed);
                 clipboard.setContents(_selection, this);
             }

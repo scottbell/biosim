@@ -21,10 +21,10 @@ import org.tigris.gef.util.ResourceLoader;
 
 import com.traclabs.biosim.editor.presentation.EditorFrame;
 
-public class BiosimEditor {
+public class BiosimEditorMain {
     ////////////////////////////////////////////////////////////////
     // constructors
-    protected BiosimEditor() {
+    protected BiosimEditorMain() {
         // Set the images directory.
         // If this is not set properly, you get a 'Icon for xxx not found'
         // message
@@ -61,6 +61,6 @@ public class BiosimEditor {
                 "log4j.appender.rootAppender.layout.ConversionPattern",
                 "%5p [%c] - %m%n");
         PropertyConfigurator.configure(logProps);
-        BiosimEditor app = new BiosimEditor();
+        BiosimEditorMain app = new BiosimEditorMain();
     }
 } /* end class VESPR */

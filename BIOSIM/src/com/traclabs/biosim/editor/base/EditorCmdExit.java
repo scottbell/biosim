@@ -11,13 +11,13 @@ import org.tigris.gef.base.Cmd;
 
 import com.traclabs.biosim.editor.presentation.EditorFrame;
 
-public class VesprCmdExit extends Cmd {
+public class EditorCmdExit extends Cmd {
 
     EditorFrame _frame;
 
     private CmdSaveVespr _cmd = new CmdSaveVespr();
 
-    public VesprCmdExit(EditorFrame frame) {
+    public EditorCmdExit(EditorFrame frame) {
         super("VesprBase", "Exit");
         _frame = frame;
     }
@@ -25,7 +25,7 @@ public class VesprCmdExit extends Cmd {
     public void doIt() {
         if (_frame != null) {
             VesprEditor ed = (VesprEditor) _frame.getGraph().getEditor();
-            VesprDocument doc = (VesprDocument) ed.document();
+            EditorDocument doc = (EditorDocument) ed.document();
             if (_cmd.promptSave(ed)) {
                 _frame.exit();
             }

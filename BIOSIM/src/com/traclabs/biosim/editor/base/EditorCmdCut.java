@@ -12,14 +12,14 @@ import javax.swing.Action;
 import org.tigris.gef.base.Cmd;
 import org.tigris.gef.base.CmdDeleteFromModel;
 
-public class VesprCmdCut extends Cmd {
-    VesprCmdCopy _copyCmd;
+public class EditorCmdCut extends Cmd {
+    EditorCmdCopy _copyCmd;
 
     CmdDeleteFromModel _deleteCmd;
 
-    public VesprCmdCut() {
+    public EditorCmdCut() {
         super("Cut");
-        _copyCmd = new VesprCmdCopy();
+        _copyCmd = new EditorCmdCopy();
         _deleteCmd = new CmdDeleteFromModel();
         putValue(Action.SHORT_DESCRIPTION,
                 "Cuts the selection and puts it on the clipboard");

@@ -30,7 +30,7 @@ public class CmdNewVespr extends Cmd {
             // Create the new document.
             try {
                 Class clazz = ce.document().getClass();
-                VesprDocument doc = (VesprDocument) clazz.newInstance();
+                EditorDocument doc = (EditorDocument) clazz.newInstance();
                 ce.document(doc);
             } catch (Exception e) {
                 e.printStackTrace();

@@ -89,8 +89,8 @@ public class VesprLayer extends LayerPerspective {
             Editor ed = (Editor) _editors.get(0);
             if (ed != null) {
                 Object doc = ed.document();
-                if (doc != null && doc instanceof VesprDocument) {
-                    ((VesprDocument) doc).deleted(f);
+                if (doc != null && doc instanceof EditorDocument) {
+                    ((EditorDocument) doc).deleted(f);
                 }
             }
         }
@@ -107,7 +107,7 @@ public class VesprLayer extends LayerPerspective {
             Editor ed = (Editor) i.next();
             if (ed instanceof VesprEditor) {
                 VesprEditor ved = (VesprEditor) ed;
-                VesprDocument doc = (VesprDocument) ved.document();
+                EditorDocument doc = (EditorDocument) ved.document();
                 doc.setModified(true);
             }
         }

@@ -23,7 +23,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import com.traclabs.biosim.editor.base.VesprDocument;
+import com.traclabs.biosim.editor.base.EditorDocument;
 import com.traclabs.biosim.editor.base.VesprEditor;
 import com.traclabs.biosim.editor.base.VesprLayer;
 import com.traclabs.biosim.editor.graph.DecisionNode;
@@ -309,7 +309,7 @@ public class VesprParser extends DefaultHandler implements DocumentReader {
     }
 
     /** Reads the items from a file and adds them to the specified document. */
-    public synchronized void openDocument(Reader in, VesprDocument doc)
+    public synchronized void openDocument(Reader in, EditorDocument doc)
             throws Exception {
         parseXML(in, doc.getRoot());
     }

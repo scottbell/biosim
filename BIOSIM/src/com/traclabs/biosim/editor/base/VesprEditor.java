@@ -34,10 +34,10 @@ public class VesprEditor extends Editor {
     }
 
     public VesprEditor(VesprLayer lay) {
-        this(new VesprDocument(lay));
+        this(new EditorDocument(lay));
     }
 
-    public VesprEditor(VesprDocument doc) {
+    public VesprEditor(EditorDocument doc) {
         super(doc.getRoot().getGraphModel(), null, doc.getRoot());
 
         doc.addEditor(this);
@@ -51,21 +51,21 @@ public class VesprEditor extends Editor {
     }
 
     protected VesprEditor(VesprEditor ed) {
-        this((VesprDocument) ed.document());
+        this((EditorDocument) ed.document());
 
         getLayerManager().replaceActiveLayer(
                 ed.getLayerManager().getActiveLayer());
     }
 
     public void document(Object d) {
-        VesprDocument oldDoc = (VesprDocument) document();
+        EditorDocument oldDoc = (EditorDocument) document();
 
         if (oldDoc != null) {
             oldDoc.removeEditor(this);
         }
 
-        if (d != null && d instanceof VesprDocument) {
-            VesprDocument newDoc = (VesprDocument) d;
+        if (d != null && d instanceof EditorDocument) {
+            EditorDocument newDoc = (EditorDocument) d;
             newDoc.addEditor(this);
             newDoc.updateTitles();
             super.document(newDoc);
@@ -79,13 +79,13 @@ public class VesprEditor extends Editor {
      * Returns the root of the layer tree.
      */
     public VesprLayer getRoot() {
-        VesprDocument vd = (VesprDocument) _document;
+        EditorDocument vd = (EditorDocument) _document;
         return vd.getRoot();
     }
 
     public void showRoot() {
         // Switch out the layer that is being displayed.
-        VesprDocument vd = (VesprDocument) _document;
+        EditorDocument vd = (EditorDocument) _document;
         getLayerManager().replaceActiveLayer(vd.getRoot());
         getSelectionManager().deselectAll();
         damageAll();
@@ -124,7 +124,7 @@ public class VesprEditor extends Editor {
     public Object clone() {
         // Create a new editor with its own layer manager, selection manager,
         // and mode manager.
-        VesprEditor ed = new VesprEditor((VesprDocument) document());
+        VesprEditor ed = new VesprEditor((EditorDocument) document());
         return ed;
     }
 
