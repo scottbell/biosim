@@ -10,7 +10,7 @@
 		</environment>                    
 		<food>
 			<BiomassRS name="BiomassRS" autoHarvestAndReplant="false">
-				<shelf cropArea="1" cropType="LETTUCE"/>
+				<shelf cropArea="1" cropType="LETTUCE" startTick="300"/>
 				<powerConsumer maxFlowRates="400" desiredFlowRates="400" inputs="PowerStore"/>
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="GreyWaterStore"/>
@@ -22,10 +22,10 @@
 			<BiomassStore name="BiomassStore" capacity="500" level="300"/>
 		</food>
 		<power>
-			<PowerStore name="PowerStore" capacity="100000000000" level="100000000000"/>
+			<PowerStore name="PowerStore" capacity="100000000000" level="0"/>
 		</power>
 		<water>
-			<PotableWaterStore name="PotableWaterStore" capacity="500000000000" level="500000000000"/>
+			<PotableWaterStore name="PotableWaterStore" capacity="500000000000" level="0"/>
 			<GreyWaterStore name="GreyWaterStore" capacity="500000000000" level="500000000000"/>
 			<DirtyWaterStore name="DirtyWaterStore" capacity="500000000000" level="0"/>
 		</water>

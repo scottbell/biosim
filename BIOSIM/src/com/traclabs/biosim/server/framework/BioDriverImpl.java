@@ -290,7 +290,7 @@ public class BioDriverImpl extends BioDriverPOA{
 		notify();
 		simulationStarted = false;
 		myLogger.endLog();
-		System.out.println("BioDriverImpl"+myID+": simulation ended");
+		System.out.println("BioDriverImpl"+myID+": simulation ended on tick "+ticksGoneBy);
 	}
 
 	/**

@@ -25,15 +25,15 @@ public class ShelfImpl extends ShelfPOA {
 	private float powerLevel = 0f;
 	private float powerPerLamp = 400f;
 	private float numberOfLamps = 1f;
-	private int myStartDay;
+	private int myStartTick;
 
 
 	public ShelfImpl(PlantType pType, float pCropAreaTotal, BiomassRSImpl pBiomassImpl){
 		this(pType, pCropAreaTotal, pBiomassImpl, 0);
 	}
 	
-	public ShelfImpl(PlantType pType, float pCropAreaTotal, BiomassRSImpl pBiomassImpl, int pStartDay){
-		myStartDay = pStartDay;
+	public ShelfImpl(PlantType pType, float pCropAreaTotal, BiomassRSImpl pBiomassImpl, int pStartTick){
+		myStartTick = pStartTick;
 		cropAreaTotal = pCropAreaTotal;
 		myBiomassRSImpl = pBiomassImpl;
 		initialType = pType;
@@ -73,6 +73,10 @@ public class ShelfImpl extends ShelfPOA {
 
 	public float getCropAreaUsed(){
 		return cropAreaUsed;
+	}
+	
+	public void setStartTick(int tick){
+		myStartTick = tick;
 	}
 
 	private float calculatePowerNeeded(){
@@ -172,7 +176,7 @@ public class ShelfImpl extends ShelfPOA {
 	}
 
 	public void tick(){
-		if (cropAreaUsed > 0){
+		if (cropAreaUsed > 0 && (myBiomassRSImpl.getMyTicks() >= myStartTick)){
 			tryHarvesting();
 			gatherPower();
 			gatherWater();

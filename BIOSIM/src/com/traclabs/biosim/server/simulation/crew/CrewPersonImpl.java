@@ -400,20 +400,16 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		//System.out.println("Checking to see if "+myCurrentActivity.getName()+" is a meaningful activity");
 		if (myCurrentActivity.getName().equals("mission")){
 			addProductivity();
-			//System.out.println("adding mission!");
 		}
 		else if (myCurrentActivity.getName().equals("maitenance")){
 			//System.out.println("");
 		}
 		else if (myCurrentActivity.getName().startsWith("sleep") || myCurrentActivity.getName().startsWith("sick")){
 			sleepBuffer.add(SLEEP_RECOVERY_RATE);
-			//System.out.println("adding "+(SLEEP_RECOVERY_RATE)+" to sleep buffer ("+sleepBuffer.getLevel()+"/"+sleepBuffer.getCapacity()+")");
 		}
 		else if (myCurrentActivity.getName().equals("leisure")){
 			leisureBuffer.add(LEISURE_RECOVERY_RATE);
-			//System.out.println("adding maitenance!");
 		}
-		//System.out.println("here2");
 		if (myCurrentActivity instanceof RepairActivity){
 			RepairActivity repairActivity = (RepairActivity)(myCurrentActivity);
 			repairModule(repairActivity.getModuleNameToRepair(), repairActivity.getMalfunctionIDToRepair());
