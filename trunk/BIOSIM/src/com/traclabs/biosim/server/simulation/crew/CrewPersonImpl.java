@@ -562,7 +562,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* @return dry waste produced in kg
 	*/
 	private float calculateDryWasteProduced(float foodConsumed){
-		return myCrewGroup.randomFilter(foodConsumed * 0.632f);
+		return myCrewGroup.randomFilter(foodConsumed * 0.022f);
 	}
 
 	/**
