@@ -66,6 +66,7 @@ module biosim{
                         module environment{
                                 interface SimEnvironment;
                                 typedef sequence <SimEnvironment> SimEnvironmentList;
+                                interface Dehumidifier;
                         };
 			module mission{
 				interface MissionModule;
@@ -690,6 +691,9 @@ module biosim{
                         };
 
                         module environment{
+				interface Dehumidifier : framework::SimBioModule, framework::AirConsumer, framework::PotableWaterProducer{
+				};
+				
                                 interface SimEnvironment : framework::SimBioModule{
                                         void setCO2Moles(in float moles);
                                         void setO2Moles(in float moles);

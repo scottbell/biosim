@@ -1119,6 +1119,24 @@ public class BioInitializer{
 		else
 			printRemoteWarningMessage(moduleName);
 	}
+	
+	private void createDehumidifier(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating Dehumidifier with moduleName: "+moduleName);
+			DehumidifierImpl myDehumidifierImpl = new DehumidifierImpl(myID, moduleName);
+			setupBioModule(myDehumidifierImpl, node);
+			BiosimServer.registerServer(new DehumidifierPOATie(myDehumidifierImpl), myDehumidifierImpl.getModuleName(), myDehumidifierImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureDehumidifier(Node node){
+		Dehumidifier myDehumidifier = DehumidifierHelper.narrow(grabModule(getModuleName(node)));
+		configureSimBioModule(myDehumidifier, node);
+		mySimModules.add(myDehumidifier);
+	}
 
 	private void crawlEnvironmentModules(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
@@ -1129,6 +1147,12 @@ public class BioInitializer{
 					createSimEnvironment(child);
 				else
 					mySimModules.add(SimEnvironmentHelper.narrow(grabModule(getModuleName(child))));
+			}
+			if (childName.equals("Dehumidifier")){
+				if (firstPass)
+					createDehumidifier(child);
+				else
+					configureDehumidifier(child);
 			}
 			child = child.getNextSibling();
 		}

@@ -184,12 +184,6 @@
 			</Incinerator>
 			<DryWasteStore name="DryWasteStore" capacity="500" level="0"/>
 		</waste>
-		<mission>
-			<EVAMission name="EVAMission">
-				<powerConsumer maxFlowRates="100" desiredFlowRates="0" inputs="PowerStore"/>
-				<airConsumer maxFlowRates="100" desiredFlowRates="10" inputs="CrewEnvironment"/>
-			</EVAMission>
-		</mission>
 	</SimBioModules>
 	<Sensors>
 		<air>
