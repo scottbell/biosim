@@ -8,7 +8,7 @@ then
 	devRootDir=".."
 	echo "		-assuming BIOSIM_HOME is $devRootDir"
 fi
-JACORB_HOME="$devRootDir/jacorb"
+JACORB_HOME="$devRootDir/lib/jacorb"
 genString="/generated"
 genDir=$devRootDir$genString
 if [ ! -e "$genDir" ]
@@ -42,7 +42,7 @@ then
 	mkdir $clientClassesDir
 	echo "			-creating classes directory"
 fi
-relativeIDLDir="/biosim/idl/SIMULATION.idl"
+relativeIDLDir="/src/biosim/idl/SIMULATION.idl"
 fullIDLDir=$devRootDir$relativeIDLDir
 echo "			-generating stubs"
 idlInvocation="java -classpath $JACORB_HOME/lib/idl.jar org.jacorb.idl.parser"
@@ -53,7 +53,7 @@ $idlInvocation  -noskel -d $stubDir $fullIDLDir
 echo "		-compiling client";
 simString="SIMULATION"
 simStubDir="$stubDir/$simString"
-clientDir="$devRootDir/biosim/client"
+clientDir="$devRootDir/src/biosim/client"
 echo "			-compiling stubs"
 javac -d $clientClassesDir $simStubDir/*.java
 echo "			-compiling control"

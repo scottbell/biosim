@@ -12,7 +12,7 @@ then
 	devRootDir=".."
 	echo "		-assuming BIOSIM_HOME is $devRootDir"
 fi
-JACORB_HOME="$devRootDir/jacorb"
+JACORB_HOME="$devRootDir/lib/jacorb"
 jacoClasspath="$JACORB_HOME/lib/jacorb.jar:$JRE_HOME/lib/rt.jar"
 ####################
 #		SERVERS START	#
