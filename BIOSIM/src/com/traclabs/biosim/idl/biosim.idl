@@ -980,6 +980,12 @@ module com{
                                                         //void setOperationMode(in AirRSOperationMode pMode);
                                                         //AirRSOperationMode getOpertationMode();
                                                 };
+                                                interface OGS : framework::SimBioModule, framework::PowerConsumer, framework::H2Producer, framework::O2Producer, framework::PotableWaterConsumer{
+                                                };
+                                                interface VCCR : framework::SimBioModule, framework::PowerConsumer, framework::AirConsumer, framework::AirProducer, framework::CO2Producer{
+                                                };
+                                                interface CRS : framework::SimBioModule, framework::PowerConsumer, framework::H2Consumer, framework::CO2Consumer, framework::PotableWaterProducer{
+                                                };
                                                 interface H2Store : framework::Store{
                                                 };
                                                 interface O2Store : framework::Store{
