@@ -81,7 +81,7 @@ public class Fnorder{
 	                         "your evil twin ", "your father ", "your mother ", "your sister ",
 	                         "Zaphod Beeblebrox ", "Zeus ", "Zonker ","Donovan's Brain ",
 	                         "Tuos Mater ","Tristero ","the Archdean ","Asmodeus ",
-	                         "Archangel Gabriel ","O.J. Simpson ", "Scott Bell ", "Ryan McKay ", "Tom Graser ", "Dave Han "
+	                         "Archangel Gabriel ","O.J. Simpson ", "Scott Bell ", "David Kortenkamp ", "Bryn Wolfe ", "Tod Milam "
 	                 };
 
 	String[] places = {
