@@ -790,6 +790,7 @@
 					<xsd:element name="biomassProducer" type="BiomassProducerType"/>
 					<xsd:element name="airProducer" type="AirProducerType"/>
 				</xsd:sequence>
+				<xsd:attribute name="autoHarvestAndReplant" type="xsd:boolean" default="true"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>

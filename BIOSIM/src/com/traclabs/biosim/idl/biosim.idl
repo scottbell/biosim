@@ -703,6 +703,8 @@ module biosim{
                                 interface BiomassRS : framework::SimBioModule, framework::PowerConsumer, framework::PotableWaterConsumer, framework::GreyWaterConsumer, framework::BiomassProducer, framework::AirConsumer, framework::AirProducer, framework::DirtyWaterProducer{
                                         ShelfList getShelves();
                                         Shelf createNewShelf(in PlantType pType, in float pCropArea);
+                                        void setAutoHarvestAndReplantEnabled(in boolean pHarvestEnabled);
+                                        boolean autoHarvestAndReplantEnabled();
                                 };
 
                                 interface FoodProcessor : framework::SimBioModule, framework::PowerConsumer, framework::BiomassConsumer, framework::FoodProducer{
@@ -736,8 +738,6 @@ module biosim{
 					float getCropAreaTotal();
 					float getCropAreaUsed();
 					BiomassRS getBiomassRS();
-                                        void setAutoHarvestEnabled(in boolean pHarvestEnabled);
-                                        boolean isAutoHarvestEnabled();
                                 };
 
                                 interface Plant{
