@@ -71,6 +71,7 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 				collectedMass += partialReturnedBioMatter.mass;
 			}
 		}
+		level -= collectedMass;
 		//return the array
 		BioMatter[] returnArrayType = new BioMatter[0];
 		return (BioMatter[])(itemsToReturn.toArray(returnArrayType));
@@ -96,6 +97,7 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 				}
 			}
 		}
+		level -= matterToReturn.mass;
 		return matterToReturn;
 	}
 
@@ -108,6 +110,7 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 				currentBiomassItems.remove(currentBioMatter);
 			}
 		}
+		level -= matterToReturn.mass;
 		return matterToReturn;
 	}
 
