@@ -3,7 +3,10 @@ package biosim.client.util;
 import java.util.*;
 import biosim.idl.framework.*;
 import biosim.idl.sensor.framework.*;
+import biosim.idl.sensor.food.*;
 import biosim.idl.actuator.framework.*;
+import biosim.idl.actuator.food.*;
+import biosim.idl.simulation.food.*;
 
 /**
  * Holds references to the servers
@@ -344,6 +347,34 @@ public class BioHolder{
 		theDirtyWaterOutFlowRateActuators = new Vector();
 	}
 	
+	public GenericSensor getShelfSensorAttachedTo(List sensorList, BioModule moduleWatched, int shelfIndex){
+		for (Iterator iter = sensorList.iterator(); iter.hasNext();){
+			ShelfSensor currentSensor = (ShelfSensor)(iter.next());
+			if (currentSensor.getInputModule()._is_equivalent(moduleWatched)){
+				BiomassRS currentBiomassRS = BiomassRSHelper.narrow(currentSensor.getInputModule());
+				Shelf[] shelfArray = currentBiomassRS.getShelves();
+				for (int i = 0; i < shelfArray.length; i++)
+					if (currentSensor.getInput()._is_equivalent(shelfArray[i]))
+						return currentSensor;
+			}
+		}
+		return null;
+	}
+	
+	public GenericActuator getShelfActuatorAttachedTo(List sensorList, BioModule moduleWatched, int shelfIndex){
+		for (Iterator iter = sensorList.iterator(); iter.hasNext();){
+			ShelfActuator currentActuator = (ShelfActuator)(iter.next());
+			if (currentActuator.getOutputModule()._is_equivalent(moduleWatched)){
+				BiomassRS currentBiomassRS = BiomassRSHelper.narrow(currentActuator.getOutputModule());
+				Shelf[] shelfArray = currentBiomassRS.getShelves();
+				for (int i = 0; i < shelfArray.length; i++)
+					if (currentActuator.getOutput()._is_equivalent(shelfArray[i]))
+						return currentActuator;
+			}
+		}
+		return null;
+	}
+	
 	public GenericSensor getSensorAttachedTo(List sensorList, BioModule moduleWatched){
 		for (Iterator iter = sensorList.iterator(); iter.hasNext();){
 			GenericSensor currentSensor = (GenericSensor)(iter.next());
@@ -355,10 +386,8 @@ public class BioHolder{
 	
 	public GenericActuator getActuatorAttachedTo(List actuatorList, BioModule moduleWatched){
 		for (Iterator iter = actuatorList.iterator(); iter.hasNext();){
-			Object obj = iter.next();
-			GenericActuator currentActuator = (GenericActuator)(obj);
-			BioModule myModule = currentActuator.getOutputModule();
-			if (myModule._is_equivalent(moduleWatched))
+			GenericActuator currentActuator = (GenericActuator)(iter.next());
+			if (currentActuator.getOutputModule()._is_equivalent(moduleWatched))
 				return currentActuator;
 		}
 		return null;

@@ -480,7 +480,7 @@ public class HandController{
 			
 		}
 		
-		harvestSensor = HarvestSensorHelper.narrow((myBioHolder.getSensorAttachedTo(myBioHolder.theHarvestSensors, myBiomassRS.getShelf(0))));
+		harvestSensor = HarvestSensorHelper.narrow((myBioHolder.getShelfSensorAttachedTo(myBioHolder.theHarvestSensors, myBiomassRS, 0)));
 
 		System.out.println(" Harvest Sensor "+harvestSensor.getValue());
 		
