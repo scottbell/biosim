@@ -23,7 +23,7 @@ public class GenericServer{
 	* @param myArgs an array of strings to parse for the ID server switch, "-id".  Used for setting ID of
 	* this instance of the server.  example, java myServer -id=2
 	*/
-	protected int getIDfromArgs(String[] myArgs){
+	protected static int getIDfromArgs(String[] myArgs){
 		int myID = 0;
 		if (myArgs.length > 1){
 			if (myArgs[0].startsWith("-id=")){
@@ -46,7 +46,7 @@ public class GenericServer{
 	* @param pPOA the object to register
 	* @param servername the name that will be associated with this server in the naming service
 	*/
-	protected void registerServer(Servant pPOA, String serverName){
+	public static void registerServer(Servant pPOA, String serverName){
 		try{
 			// bind the Object Reference in Naming
 			OrbUtils.getNCRef().rebind(OrbUtils.getNCRef().to_name(serverName), OrbUtils.poaToCorbaObj(pPOA));

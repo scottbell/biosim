@@ -44,7 +44,6 @@
 		<xsd:attribute name="isLooping" type="xsd:boolean" default="false"/>
 		<xsd:attribute name="initialTicks" type="xsd:nonNegativeInteger" default="0"/>
 		<xsd:attribute name="setStochasticIntensity" type="StochasticIntensityType" default="NONE_STOCH"/>
-		<xsd:attribute name="id" type="xsd:nonNegativeInteger" default="0"/>
 	</xsd:complexType>
 	
 	<xsd:simpleType name="StochasticIntensityType">
