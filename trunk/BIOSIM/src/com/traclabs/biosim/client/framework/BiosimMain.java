@@ -25,7 +25,6 @@ public class BiosimMain
 
 	private void checkArgs(String[] myArgs){
 		int myID = 0;
-		String xmlLocation = ;
 		boolean wantsToRunCommandLine = false;
 		boolean wantsToRunGUI = false;
 		boolean wantsToRunController = false;
