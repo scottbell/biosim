@@ -43,7 +43,6 @@ public class VCCR extends AirRSSubSystem{
 	}
 
 	private void gatherAir(){
-		System.out.println("Before gathering, nitrogen moles="+myAirRS.getAirInputs()[0].getNitrogenMoles());
 		float airNeededFiltered = myAirRS.randomFilter(molesAirNeeded * myProductionRate);
 		float gatheredAir = 0f;
 		float gatheredO2 = 0f;
@@ -62,9 +61,7 @@ public class VCCR extends AirRSSubSystem{
 			gatheredOther += currentBreath.other;
 			gatheredWater += currentBreath.water;
 			gatheredNitrogen += currentBreath.nitrogen;
-			System.out.println("Gathered nitrogen moles="+currentBreath.nitrogen);
 		}
-		System.out.println("After gathering, nitrogen moles="+myAirRS.getAirInputs()[0].getNitrogenMoles());
 		myBreath.O2 =  gatheredO2;
 		myBreath.CO2 = gatheredCO2;
 		myBreath.other = gatheredOther;
@@ -73,7 +70,6 @@ public class VCCR extends AirRSSubSystem{
 	}
 
 	private void pushAir(){
-		System.out.println("Before push, nitrogen moles="+myAirRS.getAirOutputs()[0].getNitrogenMoles());
 		float distributedO2Left = myBreath.O2;
 		float distributedOtherLeft = myBreath.other;
 		float distributedWaterLeft = myBreath.water;
@@ -91,7 +87,6 @@ public class VCCR extends AirRSSubSystem{
 			float otherAdded = myAirRS.getAirOutputs()[i].addOtherMoles(reducedOtherToPass);
 			float waterAdded = myAirRS.getAirOutputs()[i].addWaterMoles(reducedWaterToPass);
 			float nitrogenAdded = myAirRS.getAirOutputs()[i].addNitrogenMoles(reducedNitrogenToPass);
-			System.out.println("Pushed nitrogen moles="+nitrogenAdded);
 			distributedO2Left -= O2Added;
 			distributedOtherLeft -= otherAdded;
 			distributedWaterLeft -= waterAdded;
@@ -100,7 +95,6 @@ public class VCCR extends AirRSSubSystem{
 		}
 		currentCO2Produced = myBreath.CO2 * myProductionRate;
 		float distributedCO2Left = myAirRS.pushResourceToStore(myAirRS.getCO2Outputs(), myAirRS.getCO2OutputMaxFlowRates(), myAirRS.getCO2OutputDesiredFlowRates(), myAirRS.getCO2OutputActualFlowRates(), currentCO2Produced);
-		System.out.println("After push, nitrogen moles="+myAirRS.getAirOutputs()[0].getNitrogenMoles());
 	}
 
 	public void reset(){

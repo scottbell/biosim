@@ -23,7 +23,7 @@ public class EnvironmentPieChartPanel extends GraphPanel
 	private DefaultPieDataset myDataset;
 	private String O2Category = "O2";
 	private String CO2Category = "CO2";
-	private String nitrogenCategory = "Nitrogen";
+	private String nitrogenCategory = "N";
 	private String waterCategory = "H20";
 	private String otherCategory = "Other";
 	private String vacuumCategory = "Vacuum";

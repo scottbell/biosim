@@ -844,12 +844,12 @@
 					<xsd:element name="airProducer" type="AirProducerType" minOccurs="0" maxOccurs="1"/>
 					<xsd:element name="H2Consumer" type="H2ConsumerType" minOccurs="0" maxOccurs="1"/>
 					<xsd:element name="H2Producer" type="H2ProducerType" minOccurs="0" maxOccurs="1"/>
-					<xsd:element name="NitrogenConsumer" type="NitrogenConsumerType" minOccurs="0" maxOccurs="1"/>
-					<xsd:element name="NitrogenProducer" type="NitrogenProducerType" minOccurs="0" maxOccurs="1"/>
-					<xsd:element name="NitrogenAirConsumer" type="NitrogenAirConsumerType" minOccurs="0" maxOccurs="1"/>
-					<xsd:element name="NitrogenAirProducer" type="NitrogenAirProducerType" minOccurs="0" maxOccurs="1"/>
-					<xsd:element name="WaterAirConsumer" type="WaterAirConsumerType" minOccurs="0" maxOccurs="1"/>
-					<xsd:element name="WaterAirProducer" type="WaterAirProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="nitrogenConsumer" type="NitrogenConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="nitrogenProducer" type="NitrogenProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="nitrogenAirConsumer" type="NitrogenAirConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="nitrogenAirProducer" type="NitrogenAirProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="waterAirConsumer" type="WaterAirConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="waterAirProducer" type="WaterAirProducerType" minOccurs="0" maxOccurs="1"/>
 					<xsd:element name="O2AirConsumer" type="O2AirConsumerType" minOccurs="0" maxOccurs="1"/>
 					<xsd:element name="O2AirProducer" type="O2AirProducerType" minOccurs="0" maxOccurs="1"/>
 					<xsd:element name="CO2AirConsumer" type="CO2AirConsumerType" minOccurs="0" maxOccurs="1"/>
@@ -884,12 +884,12 @@
 					<xsd:element name="airProducer" type="AirProducerType" minOccurs="0" maxOccurs="1"/>
 					<xsd:element name="H2Consumer" type="H2ConsumerType" minOccurs="0" maxOccurs="1"/>
 					<xsd:element name="H2Producer" type="H2ProducerType" minOccurs="0" maxOccurs="1"/>
-					<xsd:element name="NitrogenConsumer" type="NitrogenConsumerType" minOccurs="0" maxOccurs="1"/>
-					<xsd:element name="NitrogenProducer" type="NitrogenProducerType" minOccurs="0" maxOccurs="1"/>
-					<xsd:element name="NitrogenAirConsumer" type="NitrogenAirConsumerType" minOccurs="0" maxOccurs="1"/>
-					<xsd:element name="NitrogenAirProducer" type="NitrogenAirProducerType" minOccurs="0" maxOccurs="1"/>
-					<xsd:element name="WaterAirConsumer" type="WaterAirConsumerType" minOccurs="0" maxOccurs="1"/>
-					<xsd:element name="WaterAirProducer" type="WaterAirProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="nitrogenConsumer" type="NitrogenConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="nitrogenProducer" type="NitrogenProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="nitrogenAirConsumer" type="NitrogenAirConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="nitrogenAirProducer" type="NitrogenAirProducerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="waterAirConsumer" type="WaterAirConsumerType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="waterAirProducer" type="WaterAirProducerType" minOccurs="0" maxOccurs="1"/>
 					<xsd:element name="O2AirConsumer" type="O2AirConsumerType" minOccurs="0" maxOccurs="1"/>
 					<xsd:element name="O2AirProducer" type="O2AirProducerType" minOccurs="0" maxOccurs="1"/>
 					<xsd:element name="CO2AirConsumer" type="CO2AirConsumerType" minOccurs="0" maxOccurs="1"/>
