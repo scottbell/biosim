@@ -22,6 +22,9 @@ module biosim{
                                 float take(in float metricAmount);
                                 float getLevel();
                                 float getCapacity();
+				void startLeak(in float percentage);
+				void stopLeak();
+				boolean isLeaking();
                         };
 
                         interface BioDriver{
@@ -217,6 +220,9 @@ module biosim{
                                 air::Breath takeCO2Breath(in float liters);
                                 long getTicks();
                                 void setTotalLevel(in float liters);
+				void startLeak(in float percentage);
+				void stopLeak();
+				boolean isLeaking();
                         };
                 };
 
