@@ -94,7 +94,8 @@
 				<biomassConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BiomassStore"/>
 				<foodProducer maxFlowRates="100" desiredFlowRates="100" outputs="FoodStore"/>
 			</FoodProcessor>
-			<BiomassRS name="BiomassRS" cropArea="100" cropType="WHEAT">
+			<BiomassRS name="BiomassRS">
+				<shelf  cropArea="100" cropType="WHEAT"/>
 				<powerConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PowerStore"/>
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="GreyWaterStore"/>

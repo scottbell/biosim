@@ -119,7 +119,7 @@ public class BioInitializer{
 			level = Float.parseFloat(node.getAttributes().getNamedItem("level").getNodeValue());
 		}
 		catch (NumberFormatException e){
-			
+
 			e.printStackTrace();
 		}
 		return level;
@@ -131,7 +131,7 @@ public class BioInitializer{
 			capacity = Float.parseFloat(node.getAttributes().getNamedItem("capacity").getNodeValue());
 		}
 		catch (NumberFormatException e){
-			
+
 			e.printStackTrace();
 		}
 		return capacity;
@@ -147,7 +147,7 @@ public class BioInitializer{
 				maxFlowRates[i] = Float.parseFloat(tokenizer.nextToken());
 			}
 			catch (NumberFormatException e){
-				
+
 				e.printStackTrace();
 			}
 		}
@@ -164,14 +164,14 @@ public class BioInitializer{
 				desiredFlowRates[i] = Float.parseFloat(tokenizer.nextToken());
 			}
 			catch (NumberFormatException e){
-				
+
 				e.printStackTrace();
 			}
 		}
 		return desiredFlowRates;
 	}
-	
-	
+
+
 	private void configureSimBioModule(SimBioModule pModule, Node node){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -407,7 +407,7 @@ public class BioInitializer{
 			child = child.getNextSibling();
 		}
 	}
-	
+
 	private BioModule[] getInputs(Node node){
 		String arrayString = node.getAttributes().getNamedItem("inputs").getNodeValue();
 		StringTokenizer tokenizer = new StringTokenizer(arrayString);
@@ -423,7 +423,7 @@ public class BioInitializer{
 		}
 		return inputs;
 	}
-	
+
 	private BioModule[] getOutputs(Node node){
 		String arrayString = node.getAttributes().getNamedItem("outputs").getNodeValue();
 		StringTokenizer tokenizer = new StringTokenizer(arrayString);
@@ -541,7 +541,7 @@ public class BioInitializer{
 			intensity = Integer.parseInt(node.getAttributes().getNamedItem("intensity").getNodeValue());
 		}
 		catch (NumberFormatException e){
-			
+
 			e.printStackTrace();
 		}
 		ActivityImpl newActivityImpl = new ActivityImpl(moduleName, length, intensity);
@@ -573,7 +573,7 @@ public class BioInitializer{
 			weight = Float.parseFloat(node.getAttributes().getNamedItem("weight").getNodeValue());
 		}
 		catch (NumberFormatException e){
-			
+
 			e.printStackTrace();
 		}
 		crew.createCrewPerson(moduleName, age, weight, sex, schedule);
@@ -653,7 +653,7 @@ public class BioInitializer{
 					otherMoles = Float.parseFloat(otherMolesNode.getNodeValue());
 			}
 			catch (NumberFormatException e){
-				
+
 				e.printStackTrace();
 			}
 			if ((CO2MolesNode != null) || (O2MolesNode != null) || (waterMolesNode != null) || (otherMolesNode != null))
@@ -743,12 +743,31 @@ public class BioInitializer{
 			child = child.getNextSibling();
 		}
 	}
-	
+
 	private static PlantType getCropType(Node node){
 		String cropString = node.getAttributes().getNamedItem("cropType").getNodeValue();
-		return PlantType.WHEAT;
+		if (cropString.equals("DRY_BEAN"))
+			return PlantType.DRY_BEAN;
+		else if (cropString.equals("LETTUCE"))
+			return PlantType.LETTUCE;
+		else if (cropString.equals("PEANUT"))
+			return PlantType.PEANUT;
+		else if (cropString.equals("RICE"))
+			return PlantType.RICE;
+		else if (cropString.equals("SOYBEAN"))
+			return PlantType.SOYBEAN;
+		else if (cropString.equals("SWEET_POTATO"))
+			return PlantType.SWEET_POTATO;
+		else if (cropString.equals("TOMATO"))
+			return PlantType.TOMATO;
+		else if (cropString.equals("WHEAT"))
+			return PlantType.WHEAT;
+		else if (cropString.equals("WHITE_POTATO"))
+			return PlantType.WHITE_POTATO;
+		else
+			return PlantType.UNKNOWN_PLANT;
 	}
-	
+
 	private static float getCropArea(Node node){
 		float area = 0f;
 		try{
@@ -759,13 +778,18 @@ public class BioInitializer{
 		}
 		return area;
 	}
-	
+
 	private void createBiomassRS(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
 			System.out.println("Creating BiomassRS with moduleName: "+moduleName);
 			BiomassRSImpl myBiomassRSImpl = new BiomassRSImpl(myID, moduleName);
-			myBiomassRSImpl.createNewShelf(getCropType(node), getCropArea(node));
+			Node child = node.getFirstChild();
+			while (child != null) {
+				if (child.getNodeName().equals("shelf"))
+					myBiomassRSImpl.createNewShelf(getCropType(child), getCropArea(child));
+				child = child.getNextSibling();
+			}
 			BiosimServer.registerServer(new BiomassRSPOATie(myBiomassRSImpl), myBiomassRSImpl.getModuleName(), myBiomassRSImpl.getID());
 		}
 		else
