@@ -136,7 +136,9 @@ public abstract class PlantImpl extends PlantPOA{
 		//System.out.println("PlantImpl: canopySurfaceConductance: "+canopySurfaceConductance);
 		//System.out.println("PlantImpl: vaporPressureDeficit: "+vaporPressureDeficit);
 		//System.out.println("PlantImpl: getPhotoperiod(): "+getPhotoperiod());
-		return 3600f * photoperiod * (18.015f / 998.23f) * canopySurfaceConductance * (vaporPressureDeficit / airPressure);
+		//return 3600f * photoperiod * (18.015f / 998.23f) * canopySurfaceConductance * (vaporPressureDeficit / airPressure);
+		return photoperiod * (18.015f / 998.23f) * canopySurfaceConductance * (vaporPressureDeficit / airPressure);
+	
 	}
 
 	protected float calculateVaporPressureDeficit(){
