@@ -340,6 +340,9 @@ public class BioHolder
 					CO2StoreLevelSensor myCO2StoreLevelSensor = CO2StoreLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCO2StoreLevelSensorName+myID));
 					modules.put(myCO2StoreLevelSensorName , myCO2StoreLevelSensor);
 					sensors.put(myCO2StoreLevelSensorName , myCO2StoreLevelSensor);
+					H2StoreLevelSensor myH2StoreLevelSensor = H2StoreLevelSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myH2StoreLevelSensorName+myID));
+					modules.put(myH2StoreLevelSensorName , myH2StoreLevelSensor);
+					sensors.put(myH2StoreLevelSensorName , myH2StoreLevelSensor);
 				}
 			}
 			//Power
