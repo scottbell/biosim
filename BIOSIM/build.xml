@@ -2,8 +2,8 @@
 	<description>
         	Build file for BioSim
 	</description>
-	<!-- set global properties for this build --> 
-	<!-- <property name="build.compiler"  value="jikes"/> -->
+	<!-- set global properties for this build -->
+	<property name="build.compiler"  value="jikes"/>
   	<property name="src" location="src"/>
   	<property name="doc" location="doc"/>
 	<property name="buildDir" location="build"/>
