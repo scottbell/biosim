@@ -8,6 +8,7 @@ import java.util.*;
 import javax.swing.border.*;
 import biosim.client.framework.*;
 import biosim.idl.framework.*;
+import biosim.idl.crew.*;
 /**
  * @author    Scott Bell
  */
@@ -66,8 +67,6 @@ public class MalfunctionPanel extends TimedPanel
 		c.gridheight = 1;
 		c.gridx = 2;
 		c.gridwidth = GridBagConstraints.REMAINDER;
-		c.weightx = 0.1;
-		c.weighty = 0.1;
 		gridbag.setConstraints(myOperatorPanel, c);
 		add(myOperatorPanel);
 		c.gridy = 2;
@@ -143,23 +142,25 @@ public class MalfunctionPanel extends TimedPanel
 		currentMalfunctionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		currentMalfunctionList.setCellRenderer(new MalfunctionRenderer());
 		c.fill = GridBagConstraints.BOTH;
-		c.gridheight = 1;
+		c.gridheight = 3;
+		c.gridwidth = 1;
 		c.weightx = 1.0;
 		c.weighty = 1.0;
-		c.gridwidth = 1;
 		JScrollPane scrollPane = new JScrollPane(currentMalfunctionList);
 		gridbag.setConstraints(scrollPane, c);
 		myCurrentMalfunctionsPanel.add(scrollPane);
+		JButton scheduleRepairButton = new JButton(new ScheduleRepairMalfunctionAction());
+		scheduleRepairButton.setText("Schedule Repair");
+		c.gridheight = 1;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		gridbag.setConstraints(scheduleRepairButton, c);
+		myCurrentMalfunctionsPanel.add(scheduleRepairButton);
 		JButton fixButton = new JButton(new FixMalfunctionAction());
 		fixButton.setText("Fix");
-		c.weightx = 0.1;
-		c.weighty = 0.1;
-		c.gridwidth = GridBagConstraints.RELATIVE;
 		gridbag.setConstraints(fixButton, c);
 		myCurrentMalfunctionsPanel.add(fixButton);
 		JButton fixAllMalfunctionButton = new JButton(new FixAllMalfunctionAction());
 		fixAllMalfunctionButton.setText("Fix All");
-		c.gridwidth = GridBagConstraints.REMAINDER;
 		gridbag.setConstraints(fixAllMalfunctionButton, c);
 		myCurrentMalfunctionsPanel.add(fixAllMalfunctionButton);
 
@@ -245,6 +246,20 @@ public class MalfunctionPanel extends TimedPanel
 				return;
 			else
 				myModule.fixMalfunction(malfunctionSelected.getID());
+			refresh();
+		}
+	}
+	
+	private class ScheduleRepairMalfunctionAction extends AbstractAction{
+		public void actionPerformed(ActionEvent ae){
+			Malfunction malfunctionSelected = getSelectedMalfunction();
+			BioModule myModule = getSelectedModule();
+			if (malfunctionSelected == null || myModule == null)
+				return;
+			else{
+				CrewGroup myCrewGroup = (CrewGroup)(BioHolder.getBioModule("CrewGroup"));
+				myCrewGroup.scheduleRepair(myModule.getModuleName(), malfunctionSelected.getID(), 5);
+			}
 			refresh();
 		}
 	}

@@ -63,8 +63,6 @@ public class StochasticPanel extends TimedPanel
 		c.gridheight = 1;
 		c.gridx = 2;
 		c.gridwidth = GridBagConstraints.REMAINDER;
-		c.weightx = 0.1;
-		c.weighty = 0.1;
 		gridbag.setConstraints(myOperatorPanel, c);
 		add(myOperatorPanel);
 	}

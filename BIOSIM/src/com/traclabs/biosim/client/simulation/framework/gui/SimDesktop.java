@@ -524,7 +524,7 @@ public class SimDesktop extends BioFrame
 	private void displayMalfunction(){
 		if (!tryExisitingInternalFrame("Malfunction Controller")){
 			SimDesktopFrame newFrame = addInternalFrame("Malfunction Controller",new MalfunctionPanel());
-			newFrame.setSize(550,350);
+			newFrame.setSize(575,350);
 		}
 	}
 	
@@ -534,7 +534,7 @@ public class SimDesktop extends BioFrame
 	private void displayStochastic(){
 		if (!tryExisitingInternalFrame("Stochastic Controller")){
 			SimDesktopFrame newFrame = addInternalFrame("Stochastic Controller",new StochasticPanel());
-			newFrame.setSize(400,350);
+			newFrame.setSize(500,350);
 		}
 	}
 

@@ -9,7 +9,7 @@ import biosim.idl.crew.*;
 
 public class ActivityImpl extends ActivityPOA {
 	//The name of this activity
-	private String myName = "Unknown";
+	private String myName = "unknown";
 	//How long this activity will be performed
 	private int myTimeLength = 0;
 	//The intensity of this activity (how much exertion it takes to perform it)
