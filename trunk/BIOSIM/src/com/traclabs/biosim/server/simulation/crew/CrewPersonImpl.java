@@ -492,7 +492,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	}
 	
 	public int getOrderOfScheduledActivity(String activityName){
-		mySchedule.getOrderOfScheduledActivity(activityName);
+		return mySchedule.getOrderOfScheduledActivity(activityName);
 	}
 
 	/**
