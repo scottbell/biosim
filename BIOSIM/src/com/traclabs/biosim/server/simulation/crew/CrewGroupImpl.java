@@ -52,8 +52,6 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     // as they perform activities
     private Map crewPeople;
 
-    private Map crewPeopleLogs;
-
     private float healthyPercentage = 1f;
 
     private Random myRandom;
@@ -750,19 +748,11 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
         return myFoodStores;
     }
 
-    /* (non-Javadoc)
-     * @see com.traclabs.biosim.idl.simulation.crew.CrewGroupOperations#detachCrewPerson(java.lang.String)
-     */
     public void detachCrewPerson(String name) {
-        // TODO Auto-generated method stub
-        
+        crewPeople.remove(name);
     }
-
-    /* (non-Javadoc)
-     * @see com.traclabs.biosim.idl.simulation.crew.CrewGroupOperations#attachCrewPerson(com.traclabs.biosim.idl.simulation.crew.CrewPerson)
-     */
+    
     public void attachCrewPerson(CrewPerson pCrewPerson) {
-        // TODO Auto-generated method stub
-        
+        crewPeople.put(pCrewPerson.getName(),pCrewPerson);
     }
 }

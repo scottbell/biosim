@@ -8,6 +8,8 @@ import org.apache.log4j.Logger;
 import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.framework.BioModuleHelper;
 import com.traclabs.biosim.idl.simulation.crew.Activity;
+import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
+import com.traclabs.biosim.idl.simulation.crew.CrewPersonHelper;
 import com.traclabs.biosim.idl.simulation.crew.CrewPersonPOA;
 import com.traclabs.biosim.idl.simulation.crew.EVAActivity;
 import com.traclabs.biosim.idl.simulation.crew.MaitenanceActivity;
@@ -545,7 +547,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
      * later)
      */
     private void checkForMeaningfulActivity() {
-        myLogger.debug("Checking to see if" + myCurrentActivity.getName()
+        myLogger.debug("Checking to see if " + myCurrentActivity.getName()
                 + " is a meaningful activity");
         if (myCurrentActivity.getName().equals("mission")) {
             addProductivity();
@@ -559,8 +561,9 @@ public class CrewPersonImpl extends CrewPersonPOA {
             repairModule(repairActivity.getModuleNameToRepair(), repairActivity
                     .getMalfunctionIDToRepair());
         } else if (myCurrentActivity instanceof EVAActivity) {
+            myLogger.debug("Starting EVA");
             EVAActivity evaActivity = (EVAActivity) (myCurrentActivity);
-            performEVA(evaActivity.getBaseCrewGroupName(), evaActivity.getEVACrewGroupName());
+            startEVA(evaActivity.getEVACrewGroupName());
         } else if (myCurrentActivity instanceof MaitenanceActivity) {
             MaitenanceActivity maitenanceActivity = (MaitenanceActivity) (myCurrentActivity);
             maintainModule(maitenanceActivity.getModuleNameToMaintain());
@@ -568,19 +571,32 @@ public class CrewPersonImpl extends CrewPersonPOA {
     }
 
     /**
-     * @param baseCrewGroup
-     * @param evaCrewGroup
+     * @param evaCrewGroupName
      */
-    private void performEVA(String baseCrewGroup, String evaCrewGroup) {
-        // TODO Auto-generated method stub
-        // remove 5% from base environment
+    private void startEVA(String evaCrewGroupName) {
+        // remove 5% from base environment (assume 3.7 m3 airlock)
         myCrewGroup.getAirInputs()[0].removePercentage(0.05f);
-        // detach from current crew group and attach to eva crew group
+        // detach from current crew group
+        myCrewGroup.detachCrewPerson(getName());
+        //attach to eva crew group
+        CrewGroup evaCrewGroup = (CrewGroup)(OrbUtils.getBioModule(myCrewGroup.getID(), evaCrewGroupName));
+        evaCrewGroup.attachCrewPerson(CrewPersonHelper.narrow((OrbUtils.poaToCorbaObj(this))));
+        myCrewGroup = (CrewGroupImpl)OrbUtils.corbaObjToPoa(evaCrewGroup);
         // perform activity for X ticks
+    }
+    
+    /**
+     * @param baseCrewGroupName
+     */
+    private void endEVA(String baseCrewGroupName) {
+        // detach from EVA crew group
+        myCrewGroup.detachCrewPerson(getName());
         // reattach to base crew group
-        // remove 5% from base environment
+        // remove 5% from base environment (assume 3.7 m3 airlock)
         myCrewGroup.getAirInputs()[0].removePercentage(0.05f);
     }
+    
+
 
     /**
      * productivity measure, used for metrics. the longer the crew does this,
@@ -678,7 +694,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
     public void tick() {
         myLogger.debug(getName() + " ticked");
         timeActivityPerformed++;
-        myLogger.debug(getName() + " performed activity"
+        myLogger.debug(getName() + " performed activity "
                 + myCurrentActivity.getName() + " for " + timeActivityPerformed
                 + " of " + myCurrentActivity.getTimeLength() + " ticks");
         if (!hasDied) {

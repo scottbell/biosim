@@ -30,6 +30,8 @@ import com.traclabs.biosim.idl.simulation.crew.ActivityHelper;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroupHelper;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroupPOATie;
+import com.traclabs.biosim.idl.simulation.crew.EVAActivity;
+import com.traclabs.biosim.idl.simulation.crew.EVAActivityHelper;
 import com.traclabs.biosim.idl.simulation.crew.Sex;
 import com.traclabs.biosim.idl.simulation.environment.Dehumidifier;
 import com.traclabs.biosim.idl.simulation.environment.DehumidifierHelper;
@@ -862,7 +864,6 @@ public class SimulationInitializer {
     }
 
     private Activity createActivity(Node node, CrewGroupImpl crew) {
-        ActivityImpl newActivityImpl = null;
         int length = 0;
         int intensity = 0;
         try {
@@ -879,13 +880,21 @@ public class SimulationInitializer {
             if (activityTypeNode.getNodeValue().equals("EVAActivityType")){
                 myLogger.debug("Type is "+activityTypeNode.getNodeValue());
                 String evaCrewGroupName = node.getAttributes().getNamedItem("evaCrewGroup").getNodeValue();
-                newActivityImpl = new EVAActivityImpl(name, length, intensity, crew.getModuleName(), evaCrewGroupName);
+                EVAActivityImpl newEVAActivityImpl = new EVAActivityImpl(name, length, intensity, crew.getModuleName(), evaCrewGroupName);
+                Object newEVAActivityObject = OrbUtils.poaToCorbaObj(newEVAActivityImpl);
+                EVAActivity newEVAActivity = EVAActivityHelper.narrow(newEVAActivityObject);
+                return newEVAActivity;
+            }
+            else{
+                myLogger.error("Activity not of expected type even though it was explicitly declared! (can only be EVA type right now)");
+                myLogger.error("type was: "+activityTypeNode.getNodeValue()+", should be: EVAActivityType");
+                return null;
             }
         }
         else{
-            newActivityImpl = new ActivityImpl(name, length, intensity);
+            ActivityImpl newActivityImpl = new ActivityImpl(name, length, intensity);
+            return ActivityHelper.narrow(OrbUtils.poaToCorbaObj(newActivityImpl));
         }
-        return ActivityHelper.narrow(OrbUtils.poaToCorbaObj(newActivityImpl));
     }
 
     private Schedule createSchedule(Node node, CrewGroupImpl crew) {
