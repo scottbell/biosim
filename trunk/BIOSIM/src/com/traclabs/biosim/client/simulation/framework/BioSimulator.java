@@ -41,8 +41,8 @@ public class BioSimulator implements Runnable
 
 	public void run(){
 		DirtyWaterStore myDirtyWater = (DirtyWaterStore)(getBioModule("DirtyWaterStore"));
-		myDirtyWater.addWater(1.0);
-		System.out.println("Dirty water levels at: "+myDirtyWater.getWaterLevels());
+		myDirtyWater.addWater(1f);
+		System.out.println("Dirty water levels at: "+myDirtyWater.getWaterLevel());
 		Crew myCrew = (Crew)(getBioModule("Crew"));
 		myCrew.createCrewPerson("Bob Roberts");
 		
