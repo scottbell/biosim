@@ -37,7 +37,7 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations, PowerCo
 	private float[] airInFlowRates;
 	private float[] airOutFlowRates;
 	private static final int NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER = 3;
-	private float myProductionRate;
+	private float myProductionRate = 1f;
 
 	public AirRSImpl(int pID){
 		super(pID);
