@@ -288,7 +288,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			O2Store[] O2StoreOutput = {myO2Store};
 			CO2Store[] CO2StoreOutput = {myCO2Store};
 			CO2Store[] CO2StoreInput = {myCO2Store};
-			float[] powerFlowRates = {10000f};
+			float[] powerFlowRates = {2f};
 			float[] simEnvironmentInputFlowRates = {10000f};
 			float[] simEnvironmentOutputFlowRates = {10000f};
 			float[] O2StoreFlowRates = {10000f};
