@@ -86,6 +86,7 @@ echo "		-copying invocation files over"
 cp -f ../../lib/distro/win/biosim.nsi . 2> /dev/null
 cp -f ../../lib/distro/win/setENV.bat . 2> /dev/null
 cp -f ../../lib/distro/win/run-biosim.bat . 2> /dev/null
+cp -f ../../lib/distro/win/run-biosim-debug.bat . 2> /dev/null
 cp -f ../../lib/distro/win/biosim.ico . 2> /dev/null
 cp -f ../../lib/distro/win/LICENSE.txt . 2> /dev/null
 cp -f ../../lib/distro/win/BiosimStandalone.java . 2> /dev/null
