@@ -74,16 +74,15 @@ How can we evaluate different control philosophies?  We hope that the
 controls community can use this simulation to begin to build systems
 which will provide us with answers to these kinds of questions. 
 
-The simulation is written in Java and is distributed using the Common
-Object Request Broker Architecture (CORBA)\index{CORBA}.  CORBA is
-also used to interface to the simulation.  The distributed nature of
+The simulation is written in Java and is accessed using the Common
+Object Request Broker Architecture (CORBA)\index{CORBA}.  The distributed nature of
 the simulation allows for multiple instances to be run in parallel,
 making it ideal for testing advanced control concepts such as genetic
 algorithms or reinforcement learning, which require multiple trials.
 See \cite{kortenkamp_etal01} or \cite{schreckenghost_etal02} for a
 background on advanced life support control issues and previous work.
 This document begins with a brief introduction to advanced life
-support systems.  Then it provides details on installing, running and
+support systems and provides details on installing, running and
 interacting with the simulation.  The simulation is available from:
 
 \begin{verbatim}
@@ -96,7 +95,7 @@ An advanced life support system is one in which many resources are
 reused or regenerated.  Such systems will be necessary for long
 duration human missions, such as those to Mars, where resupply
 opportunities are limited.  Typically they have thin margins for mass,
-energy and buffers, which requires optimization and tight control.
+power and buffers, which requires optimization and tight control.
 Also, advanced life support systems consist of many interconnected
 subsystems all of which interact in both predictable and unpredictable
 ways (see Figure~\ref{fig:biosim}).  Autonomous control\index{control}
@@ -127,11 +126,11 @@ each produce and consume different resources.
 An environment\index{environment} contains air that is consumed by
 either people or crops.  Air\index{air} contains a mixture of gases --
 in our simulation these gases are oxygen (O2), carbon dioxide (CO2),
-nitrogen (N) and water vapor (H20).  The initial composition of the
-gases is set by the simulation init file (see
+nitrogen (N), water vapor (H20), and other gasses (trace).  The initial composition of the
+gases is set by the simulation initialization file (see
 Section~\ref{sec:init}).  As the simulation runs modules may consume
 air from the simulation and replace it with air of a different
-composition.  Thus, the composition of gases in the air changes over
+composition.  Thus, the composition of gases and pressure in the air change over
 time and can be measured by environment sensors
 (Section~\ref{sec:env_sen}).  As with all modules, there can be
 multiple environments.  For example, it is common for crew members
@@ -149,7 +148,7 @@ through a set of activities (sleep, maintenance, recreation, etc.).
 As they do so they consume O2, food and water and produce CO2, dirty
 water and solid waste.  The amount of resources consumed and produced
 varies according to crew member attributes and their activities.  The
-crew’s activities can be adjusted by passing a new crew schedule to
+crew's activities can be adjusted by passing a new crew schedule to
 the crew module.  A default schedule can also be used.  The crew
 module is connected to a crew environment that contains an atmosphere
 that they breathe.  The initial size and gas composition (percentages
@@ -160,10 +159,12 @@ of gases in the atmosphere changes.
 
 \subsection{Water}
 \label{sec:water}
+Consumes:Power, Grey Water, Dirty Water
+Produces: Potable Water
 
-The water\index{water} recovery module consumes dirty water and
-produces potable and grey water (i.e., water that can be used for
-washing but not drinking).  The water recovery module consists of four
+The water\index{water} recovery module consumes dirty water, grey water(i.e., water that can be used for
+washing but not drinking), and power and
+produces potable water.  The water recovery module consists of four
 subsystems that process the water.  The biological water processing
 (BWP) subsystem removes organic compounds.  Then the water passes to a
 reverse osmosis (RO) subsystem, which makes 85\% of the water passing
@@ -173,15 +174,17 @@ recovers the rest.  These two streams of grey water (from the RO and
 the AES) are passed through a post-processing subsystem (PPS) to
 create potable water.  An external controller can turn on or off
 various subsystems.  For example, all water can pass through the AES
-at a higher energy cost.  We based our water recovery module on a
+at a higher power cost.  We based our water recovery module on a
 recently completed test at NASA Johnson Space Center
 \cite{bonasso_etal03}.
 
 \subsection{Air}
 \label{sec:air}
+Consumes:Power, H2, Air, CO2, Potable Water
+Produces: Air (with less CO2), O2, H2, CO2, Potable Water
 
 The air\index{air} component takes in exhalant CO2 and produces O2 as long as
-there is sufficient energy being provided to the system.  This
+there is sufficient power being provided to the system.  This
 component is modeled on various Air Revitalization System (ARS) work
 at NASA JSC \cite{malin_etal00}.  There are three interacting air
 subsystems: the Variable Configuration Carbon Dioxide Removal (VCCR)
@@ -196,10 +199,12 @@ the biomass component (next subsection) also removes CO2 and adds O2.
 
 \subsection{Biomass}
 \label{sec:biomass}
+Consumes:Power, Potable Water, Grey Water, Air
+Produces: Air (with more CO2), Biomass, Dirty Water, CO2, Potable Water
 
 The biomass\index{biomass} component is where crops\index{crops} are
 grown.  It produces both biomass, which can be turned into
-food\index{food}, and O2 and consumes water, energy (light) and CO2.
+food\index{food}, and O2 and consumes water, power (light) and CO2.
 This component is based on models given in \cite{jones_cavazzoni00}.
 The system is modeled as shelves\index{shelves} that contain plants,
 lights and water.  Shelves are planted and harvested and there is
@@ -208,33 +213,41 @@ be planted in any ratio.
 
 \subsection{Food processing}
 \label{sec:food}
+Consumes:Power, Biomass
+Produces: Food
 
 Before biomass can be consumed by the crew it must be converted to
-food\index{food}.  The food processing component takes biomass, energy and crew
+food\index{food}.  The food processing component takes biomass, power and crew
 time and produces food and solid waste.  The crew needs to be involved
 in this process as it is labor intensive.  See Section~\ref{sec:crew}
 for more information on scheduling crew activities.
 
 \subsection{Waste}
 \label{sec:waste}
+Consumes:Power, Dry Waste, O2
+Produces: CO2
 
-The waste\index{waste} component consumes energy, O2 and solid waste
+The waste\index{waste} component consumes power, O2 and solid waste
 and produces CO2.  It is modeled on an incinerator used in the Phase
 III test in 1997 \cite{schreckenghost_etal02}.  Incineration can be
 scheduled.
 
 \subsection{Thermal control}
 \label{sec:thermal}
+Consumes: ?
+Produces: ?
 
 The thermal control\index{thermal} component regulates the air temperature in the
 habitat.  This component is not implemented for this simulation and it
 is assumed that external controllers are maintaining chamber
 temperature.
 
-\subsection{Energy}
-\label{sec:energy}
+\subsection{Power}
+\label{sec:power}
+Consumes: 
+Produces: Power
 
-The energy\index{energy} component supplies power to all of the other
+The power\index{power} component supplies power to all of the other
 components that need it.  There are two choices for power in the
 simulation.  The first is nuclear\index{nuclear} power, which supplies
 a fixed amount throughout the lifetime of the simulation.  The second
@@ -243,10 +256,23 @@ is solar\index{solar} power, which supplies a varying amount
 
 \subsection{Accumulators}
 \label{sec:accumulator}
-Scott -- not sure if we need this section.
+Consumes: All
+Produces: All
 
+The accumulator\index{accumulator} component can take a resource from any
+store or environment and place it into another environment or store.  It is
+functionally equivalent to an injector.
 
-\chapter{Simulation properties}
+\subsection{Injectors}
+\label{sec:injector}
+Consumes: All
+Produces: All
+
+The injector\index{injector} component can take a resource from any
+store or environment and place it into another environment or store.  It is
+functionally equivalent to an accumulator.
+
+\chapter{Simulation Properties}
 
 The simulation implements the modules outlined in the previous
 section.  BioSim does {\em not} simulate at the level of valves,
@@ -255,10 +281,17 @@ producer/consumer relationship, which is described in the next
 subsection.  The simulation also provides additional functionality to
 help test and debug control programs.
 
-\section{Producer/consumer model}
+\section{Producer/Consumer Model}
 
-Talk about what this is.  How the simulation works in generic sense
-(ticks, transfer of resources, etc.).
+No component in BioSim directly interacts with other components.  Instead, each component
+has a rigid set of resources that it consumes and produces.  The resources are taken from stores/environments
+and put into stores/environments.  The resources for BioSim currently consist of
+power, potable water, grey water, dirty water, air, H2, nitrogen, O2, CO2, biomass, food, and dry waste.  At each simulation tick,
+each module takes resource from it's store (it's consumables), and puts resources into stores (it's products).  Stores always report
+thier values (level and capacity) from the last tick and report new values after every component in the simulation has been ticked.  
+Resource conflicts can occur when two components ask for a limited resource, i.e. two WaterRS's both need 20 liters of dirty water and there
+is only 20 liters in the dirty water tank.  This is currently resolved on a winner-take-all basis that is for all practical purposes
+randomized.
 
 \section{Success criteria}
 
@@ -272,13 +305,42 @@ fail to get at the true success of a mission, the productivity of the
 crew in performing their science objectives.  Thus, the simulation
 includes an artificial productivity\index{productivity} measure.  As
 the crew cycles through their activities (see Section~\ref{sec:activities})
-the amount of time they spend doing science tasks is accumulated. This
+the amount of time they spend doing "mission" tasks is accumulated. This
 number is also multiplied by a factor that takes into account the
-amount of sleep, exercise, water, food and oxygen they are getting.
+amount of sleep, exercise, water, food and oxygen they are getting to approximate 
+crew effectivness at performing the task (a happy crew is a productive crew!).
 So each tick, for each crew member the productivity is given by the
 following equation:
 
         [need to put the equation here]
+	[some relevant code, derive equation later]
+	private static final float WATER_TILL_DEAD = 8.1f;
+	private static final float WATER_RECOVERY_RATE=0.01f;
+	private static final float OXYGEN_TILL_DEAD = 3f;
+	private static final float OXYGEN_RECOVERY_RATE=0.01f;
+	private static final float CALORIE_TILL_DEAD = 180000f;
+	private static final float CALORIE_RECOVERY_RATE=0.0001f;
+	private static final float DANGEROUS_CO2_RATION = 0.06f;
+	private static final float CO2_TILL_DEAD = 10f;
+	private static final float CO2_RECOVERY_RATE=0.001f;
+	private static final float LEISURE_TILL_BURNOUT = 168f;
+	private static final float LEISURE_RECOVERY_RATE=90f;
+	private static final float AWAKE_TILL_EXHAUSTION = 120f;
+	private static final float SLEEP_RECOVERY_RATE=12f;
+	consumedWaterBuffer = new SimpleBuffer(WATER_TILL_DEAD, WATER_TILL_DEAD);
+	consumedOxygenBuffer = new SimpleBuffer(OXYGEN_TILL_DEAD, OXYGEN_TILL_DEAD);
+	consumedCaloriesBuffer = new SimpleBuffer(CALORIE_TILL_DEAD, CALORIE_TILL_DEAD);
+	consumedCO2Buffer = new SimpleBuffer(CO2_TILL_DEAD, CO2_TILL_DEAD);
+	sleepBuffer = new SimpleBuffer(AWAKE_TILL_EXHAUSTION, AWAKE_TILL_EXHAUSTION);
+	leisureBuffer = new SimpleBuffer(LEISURE_TILL_BURNOUT, LEISURE_TILL_BURNOUT);
+	float caloriePercentFull = sigmoidLikeProbability(consumedCaloriesBuffer.getLevel() / consumedCaloriesBuffer.getCapacity());
+	float waterPercentFull = sigmoidLikeProbability(consumedWaterBuffer.getLevel() / consumedWaterBuffer.getCapacity());
+	float oxygenPercentFull = sigmoidLikeProbability(consumedOxygenBuffer.getLevel() / consumedOxygenBuffer.getCapacity());
+	float CO2PercentFull = sigmoidLikeProbability(consumedCO2Buffer.getLevel() / consumedCO2Buffer.getCapacity());
+	float sleepPercentFull = sleepBuffer.getLevel() / sleepBuffer.getCapacity();
+	float leisurePercentFull = leisureBuffer.getLevel() / leisureBuffer.getCapacity();
+	float averagePercentFull = (caloriePercentFull + waterPercentFull + oxygenPercentFull + CO2PercentFull + sleepPercentFull + leisurePercentFull) / 6f;
+	myMissionProductivity += myCrewGroup.randomFilter(averagePercentFull);
 
 \section{Stochastic processes}
 
@@ -302,7 +364,7 @@ control system’s ability to deal with stochastic processes.
 The simulation also has the ability to accept
 malfunction\index{malfunctions} requests (see Section 7.5).  These
 requests will change the operating regime of the simulation.  For
-example, by causing a crew member to be sick, energy supplies to drop,
+example, by causing a crew member to be sick, power supplies to drop,
 water to leak, plants to die, etc.  Different modules will have
 different sensitivities, for example once plants die they cannot
 recover, but if the water module is damaged and then repaired it will
@@ -314,27 +376,48 @@ home.
 \label{sec:activities}
 Crew members in an advanced life support system do not just consume
 and produce -- they do activities.  These may be science, maintenance,
-exercise, sleep, etc.  The following diagram shows the nominal daily
-routine for a crew member:
+exercise, sleep, etc.  The different activities go for a specified length
+and for a specified intensity.  The intensity is tied to how many resources the crew
+member will consume performing the activity (e.g., sleep takes less 02 to perform than exercise).  
+The following diagram shows the nominal daily routine for a crew member:
 
-[[Scott, little transition diagram here]]
+Schedule loop:
+	Sleep for 8 hours
+	Hygiene for 1 hour
+	Exercise for 1 hour
+	Eating for 1 hour
+	Mission tasks for 8 hours
+	Health for 1 hour
+	Maintenance for 1 hour
+	Leisure for 2 hours
+
+This schedule can be interrupted by malfunctions (a crew member's activity changed to repair),
+sickness, or even mission end (if the crew member hasn't recieved proper resources).
 
 \section{Mass balance}
-What is this?  Why is it important?  How did we do it? 
+Mass balanced means resources consumed by components are returned in totality (but usually in a different form) to stores, no mass is lost.
+This is important for closed loop simulations as it verfies the models (under perfect conditions) are keeping with the conversation of energy and mass.
+Our simulation has been mass balanced to a reasonable degree.  There is a slight loss in mass from the crew (they don't gain weight from eating or produce heat)
+and from the plants (who don't produce heat).  We plan to address these issues in the future, but the simulation is currently mass balanced
+enough to provide a very decent closed loop simulation.
 
 
 \chapter{Simulation implementation}
 
 All of the simulation components are written in Java\index{Java} to
-make the simulation portable.  Each component is its own
+make the simulation portable.  Each component can be run as it's own
 CORBA\index{CORBA} server so that they can be distributed across
-computers for increased performance.  We have tested the simulation on
+computers for increased performance, or the entire simulation can be run on one server.  We have tested the simulation on
 Windows\index{Windows}, Unix\index{Unix} and
 Macintosh\index{Macintosh} computers.  A user interface allows for
-insight into the simulation.  There is also a logging\index{logging}
-facility that will automatically save all simulation values to a file
-or a database.  We have Java and C++\index{C++} interfaces to the simulation.
+insight into the simulation which provides real time graphing and more.  There is also a logging\index{logging}
+facility that will automatically save all simulation values to a file (xml)
+or a database (in development).  We have written Java and C++\index{C++} interfaces to the simulation, though any
+language that supports CORBA should be able to access the simulation.
 
+(BioSim) <-> Server ORB <-> Client ORB <-> (Client)
+
+I think we should provide a link to a CORBA tutorial, but assume knowledge of basics of CORBA.
 Explain object oriented methodology and how it relates to BioSim.
 Would a figure be good here showing the relationship between servers,
 clients, CORBA, etc.?
@@ -348,7 +431,7 @@ installing the code onto your computer.
 \section{Installing an executable}
 
 An executable that will run under most Windows operating systems is
-available.  You can ownload the Windows executable from: {\tt
+available.  You can download the Windows executable from: {\tt
   www.traclabs.com/biosim}.
 
 At that site, go to Download and then download the Windows
@@ -369,15 +452,14 @@ simulation.
 
 \section{Installing source code}
 
-Scott -- I'll need your help here. I think it's just a matter of
-runnnig make-server.sh.
+Please read the README.txt file in the doc directory of your BIOSIM distribution.
 
 \chapter{Running the simulation}
 \label{sec:running}
 
 Doubleclicking on the ``BioSim'' icon in Windows will start the
 simulation.  In Linux, run the {\tt run-biosim.sh} shell script in the
-{\tt /bin} directory.  When BIOSim starts you’ll see a blank
+{\tt /bin} directory.  When BioSim starts you'll see a blank
 interface\index{interface} as shown in
 Figure~\ref{fig:empty_interface}.  Holding your mouse over the buttons
 on the top reveals what they do.  As noted in the figure, the first
@@ -414,10 +496,10 @@ BioSim is a server.  Client programs connect to BioSim via
 CORBA\index{CORBA} -- the Common Object Request Broker Architecture.
 In order to connect to the BioSim server will you will need to install
 an Object Request Broker (ORB)\index{ORB} on your machine.  We
-recommend the JacORB for Java (link here) and the ACEOrb for C++ (link
-here), although any CORBA-compliant ORB will work.  When the BioSim
+recommend the JacORB for Java (http://www.jacorb.org) and the ACEOrb for C++ (http://www.cs.wustl.edu/~schmidt/TAO.html), 
+although any CORBA-compliant ORB will work.  When the BioSim
 server is started it registers with a nameserver\index{nameserver},
-which tells client programs where to find it.  The Orbs we recommend
+which tells client programs where to find it.  The ORBs we recommend
 include a name server.  This manual will not cover the details of
 CORBA, we refer you to any book on CORBA for your language or look at
 the sample programs in Appendix A and B.  We also assume that you have
@@ -427,17 +509,18 @@ already installed one of the ORBs.
 \label{sec:init}
 BioSim is almost infinitely reconfigurable\index{recongifuration} --
 from the number of crew members to the size and number of the
-different modules.  The start-up configuration of BioSim is controlled
+different modules and should be able to provide scenarios ranging from quick shuttle launces to Mars colonies.  
+The start-up configuration of BioSim is controlled
 by an eXtensible Markup Language (XML)\index{XML} file that is read in
 during BioSim initialization.  If you want to change BioSim's
 configuration you need to change the XML file.  The default XML file
 is located in:
 
 \begin{verbatim}
-   $BIOSIM_HOME/resources/biosim/server/framework/DefaultInitialization.xml
+   BIOSIM/resources/biosim/server/framework/DefaultInitialization.xml
 \end{verbatim}
 
-\noindent where {\tt \$BIOSIM\_HOME} is the directory where you installed
+\noindent where {\tt \BIOSIM} is the directory where you installed
 BioSim.
 
 You can copy this file, change it's name, modify it and then give its
@@ -482,14 +565,11 @@ A snippet from the default initialization XML file is shown below:
 
 This file implements the producer/consumer relationship at the heart
 of the simulation.  Each module (only the crew module is shown above)
-has a name (there can be none, one or more than one of each module)
-and a list of resources that it consumes and produces along with max
+has a name and a list of resources that it consumes and produces along with max
 and desired flow rates and what source(s) produce(s) that resource
 (the {\tt inputs}) or from where the resource is drawn ({\tt outputs})
-More than one source or sink is allowed and the amount is drawn or
-deposited equally from all listed sources/sinks.  [[wow that's an
-awkward sentence or two, I'll try to clean it up]].   In the above
-snippet some flow rates are 0 because the user has no control over
+More than one source or sink is allowed, but the module tries to draw as much as it can from the first.
+In the above snippet some flow rates are 0 because the user has no control over
 them (e.g., crew air consumption is based on crew physiology and can't
 be directly controlled).  As shown above, you can have as many (or as
 few) crew members as you want of various ages, weights and sexes.  You
@@ -502,11 +582,7 @@ and edit it to reflect your requirements.  The default configuration
 is based on BIO-Plex\index{BIO-Plex} \cite{tri99}, a NASA JSC ground
 testbed for advanced life support.  As such, if all you want is a
 ``typical'' advanced life support configuration, then just use the
-default XML file.  
-
-NOTE: The graphical user interface described in
-Section~\ref{sec:running} only works with the default configuration.
-It does not read the XML file. 
+default XML file.
 
 \subsection{Initializing BioSim}
 
@@ -516,11 +592,40 @@ API.  Again, capacities, levels, logging, etc. can be set from here.
 \section{Enabling stochastic processes}
 \index{stochastic}
 BioSim provides the ability to change the stochastic nature of the
-underlying modules via API calls.  If you want a purely deterministic
+underlying modules via API calls or the XML initialization file.  If you want a purely deterministic
 simulation you can do that.  If you want a very unpredictable
 simulation you can do that as well.  This section provides an overview
 of the stochastic controls available in BioSim.
+The type {\tt StochasticIntensity} includes the following values:
 
+\begin{itemize}
+\item {\tt HIGH\_STOCH}
+\item {\tt MEDIUM\_STOCH}
+\item {\tt LOW\_STOCH}
+\item {\tt NONE\_STOCH}
+\end{itemize}
+
+Each of these controls the width of the Gaussian\index{Gaussian}
+function that provides the variations in output.  Setting the
+stochastic intensity to NONE\_STOCH means that the simulation is
+deterministic.  All noise is Gaussian.  The outputs of a module as
+determined by the module's underlying equations are run through a
+Gaussian filter before being output by the simulation.  The Gaussian
+filter's parameters are controlled by the stochastic intensity, namely 
+the higher the stochastic intensity, the higher the deviation.  
+
+\subsection{Setting logging via the XML configuration file}
+To change the stochastic intensity of a module in XML, simply add
+setStochasticIntensity as an attribute to the module (if one isn't listed, it defaults to NONE\_STOCH).
+example: <AirRS name="AirRS" setStochasticIntensity="HIGH\_STOCH">
+
+The stochastic level for the entire simulation (which is equivalent to
+setting each module's stochastic intensity) can by adding setStochasticIntensity to the Globals section at the head
+of the XML document.
+example:
+<Globals crewsToWatch="CrewGroup" setStochasticIntensity="LOW\_STOCH">
+
+\subsection{Setting logging via the API}
 Each module of BioSim (i.e., the {\tt SimBioModule} class) has the
 following methods:
 
@@ -531,47 +636,36 @@ following methods:
   Sets the current stochastic intensity of the module to {\tt
   pIntensity}.
 \end{itemize}
-
-The type {\tt StochasticIntensity} includes the following values:
-
-\begin{itemize}
-\item {\tt HIGH\_STOCH}:  Scott -- what do these mean number wise?
-\item {\tt LOW\_STOCH}
-\item {\tt MEDIUM\_STOCH}
-\item {\tt NONE\_STOCH}
-\end{itemize}
-
-Each of these controls the width of the Gaussian\index{Gaussian}
-function that provides the variations in output.  Setting the
-stochastic intensity to NONE means that the simulation is
-deterministic.  All noise is Gaussian.  The outputs of a module as
-determined by the module's underlying equations are run through a
-Gaussian filter before being output by the simulation.  The Gaussian
-filter's parameters are controlled by the stochastic intensity.
-
 The stochastic level for the entire simulation (which is equivalent to
 setting each module's stochastic intensity) can be set via the {\tt
-  BioDriver} class using the {\tt setStochasticIntensity} method with
-the same parameter ({\tt (StochasticIntensity}) as the method
-described above.
+BioDriver} class using the {\tt setStochasticIntensity} method with
+the same parameter ({\tt (StochasticIntensity})
 
 \section{Logging}
 \index{logging}
 
 \subsection{Setting logging via the XML configuration file}
 
-Scott, I'll need your help here
+To change the logging of a module in XML, add
+isLoggingEnabled as an attribute to the module (if one isn't listed, it defaults to false).
+example: <AirRS name="AirRS" isLoggingEnabled="true">
+You can also globally enable logging for the senors, actuators, or everything by adding
+isFullLoggingEnabled, isSensorLoggingEnabled or isActuatorLoggingEnabled to the Globals section at the head
+of the XML document.
+example:
+<Globals crewsToWatch="CrewGroup" isFullLoggingEnabled="true">
 
 \subsection{Setting logging via the API}
 
+Each module of BioSim (i.e., the {\tt SimBioModule} class) has the
+following methods:
 
-
-For whole simulation
-
-For each module
-
-
-
+\begin{itemize}
+\item {\tt isLogging()}: returns type {\tt
+    boolean}, whether the module is logging.
+\item {\tt setLogging(boolean pLogging)}:
+  Sets whether the module should log.
+\end{itemize}
 
 \begin{figure}
 \insertfigure{controller}{4.0in}
@@ -882,8 +976,8 @@ Same as others
 
 \subsubsection{Malfunctions}
 
-\subsection{Energy}
-\index{energy}
+\subsection{Power}
+\index{power}
 
 \subsubsection{Sensors}
 
