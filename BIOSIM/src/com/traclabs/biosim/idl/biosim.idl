@@ -165,6 +165,7 @@ module biosim{
                         interface BioDriver{
                                 boolean isPaused();
                                 boolean isStarted();
+				void configureSimulation();
                                 void spawnSimulation();
                                 void spawnSimulationAndRun();
                                 void spawnSimulationAndRunTillDead();
