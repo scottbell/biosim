@@ -6,12 +6,12 @@ import ALSS.*;
 public class O2StoreImpl extends O2StorePOA {
 	private float O2level;
 	private float O2capacity;
-	
+ 
 	public O2StoreImpl(){
 		O2level = 0.0f;
 		O2capacity = 10.0f;
 	}
-	
+
 	public O2StoreImpl (float initialO2level, float  initialO2capacity){
 		O2level = initialO2level;
 		O2capacity = initialO2capacity;

@@ -4,38 +4,56 @@ package biosim.server.water;
 import ALSS.*;
 
 public class DirtyWaterStoreImpl extends DirtyWaterStorePOA {
-	private float dirtyWaterlevel;
-	private float dirtyWatercapacity;
+	private float dirtyWaterLevel;
+	private float dirtyWaterCapacity;
+	
+	public DirtyWaterStoreImpl(){
+		dirtyWaterLevel = 0.0f;
+		dirtyWaterCapacity = 10.0f;
+	}
+
+	public DirtyWaterStoreImpl (float initialDirtyWaterLevel, float  initialDirtyWaterCapacity){
+		dirtyWaterLevel = initialDirtyWaterLevel;
+		dirtyWaterCapacity = initialDirtyWaterCapacity;
+	}
+	
+	void setWaterCapacity(float liters){
+		dirtyWaterCapacity = liters;
+	}
+
+	void setWaterLevel(float liters){
+		dirtyWaterLevel = liters;
+	}
 
 	float addWater(float liters){
-		if ((liters +dirtyWaterlevel) > dirtyWatercapacity){
-			dirtyWaterlevel = dirtyWatercapacity;
-			if (liters >=  dirtyWatercapacity)
+		if ((liters +dirtyWaterLevel) > dirtyWaterCapacity){
+			dirtyWaterLevel = dirtyWaterCapacity;
+			if (liters >=  dirtyWaterCapacity)
 				return 0;
 			else
-				return (dirtyWatercapacity - dirtyWaterlevel);
+				return (dirtyWaterCapacity - dirtyWaterLevel);
 		}
 		else{
-			dirtyWaterlevel = dirtyWaterlevel + liters;
+			dirtyWaterLevel = dirtyWaterLevel + liters;
 			return liters;
 		}
 	}
 
 	float takeWater(float liters){
-		if ((dirtyWaterlevel - liters) < 0){
-			dirtyWaterlevel = 0;
+		if ((dirtyWaterLevel - liters) < 0){
+			dirtyWaterLevel = 0;
 			if (liters < 0)
 				return 0;
 			else
-				return dirtyWaterlevel;
+				return dirtyWaterLevel;
 		}
 		else{
-			dirtyWaterlevel = dirtyWaterlevel - liters;
+			dirtyWaterLevel = dirtyWaterLevel - liters;
 			return liters;
 		}
 	}
 	float getWaterLevel(){
-		return dirtyWaterlevel;
+		return dirtyWaterLevel;
 	}
 
 	public void tick(){

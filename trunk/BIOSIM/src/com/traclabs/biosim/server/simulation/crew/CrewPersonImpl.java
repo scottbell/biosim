@@ -10,7 +10,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	public CrewPersonImpl(String pName){
 		myName = pName;
 	}
-	
+
 	public String getName(){
 		return myName;
 	}

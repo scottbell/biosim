@@ -4,38 +4,56 @@ package biosim.server.water;
 import ALSS.*;
 
 public class GreyWaterStoreImpl extends GreyWaterStorePOA {
-	private float greyWaterlevel;
-	private float greyWatercapacity;
+	private float greyWaterLevel;
+	private float greyWaterCapacity;
+
+	public GreyWaterStoreImpl(){
+		greyWaterLevel = 0.0f;
+		greyWaterCapacity = 10.0f;
+	}
+
+	public GreyWaterStoreImpl (float initialGreyWaterLevel, float  initialGreyWaterCapacity){
+		greyWaterLevel = initialGreyWaterLevel;
+		greyWaterCapacity = initialGreyWaterCapacity;
+	}
+	
+	void setWaterCapacity(float liters){
+		greyWaterCapacity = liters;
+	}
+
+	void setWaterLevel(float liters){
+		greyWaterLevel = liters;
+	}
 
 	float addWater(float liters){
-		if ((liters +greyWaterlevel) > greyWatercapacity){
-			greyWaterlevel = greyWatercapacity;
-			if (liters >=  greyWatercapacity)
+		if ((liters +greyWaterLevel) > greyWaterCapacity){
+			greyWaterLevel = greyWaterCapacity;
+			if (liters >=  greyWaterCapacity)
 				return 0;
 			else
-				return (greyWatercapacity - greyWaterlevel);
+				return (greyWaterCapacity - greyWaterLevel);
 		}
 		else{
-			greyWaterlevel = greyWaterlevel + liters;
+			greyWaterLevel = greyWaterLevel + liters;
 			return liters;
 		}
 	}
 
 	float takeWater(float liters){
-		if ((greyWaterlevel - liters) < 0){
-			greyWaterlevel = 0;
+		if ((greyWaterLevel - liters) < 0){
+			greyWaterLevel = 0;
 			if (liters < 0)
 				return 0;
 			else
-				return greyWaterlevel;
+				return greyWaterLevel;
 		}
 		else{
-			greyWaterlevel = greyWaterlevel - liters;
+			greyWaterLevel = greyWaterLevel - liters;
 			return liters;
 		}
 	}
 	float getWaterLevel(){
-		return greyWaterlevel;
+		return greyWaterLevel;
 	}
 
 	public void tick(){

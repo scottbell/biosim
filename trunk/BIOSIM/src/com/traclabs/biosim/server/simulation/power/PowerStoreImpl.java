@@ -6,6 +6,24 @@ import ALSS.*;
 public class PowerStoreImpl extends PowerStorePOA {
 	private float powerLevel;
 	private float powerCapacity;
+	
+	public PowerStoreImpl(){
+		powerLevel = 0.0f;
+		powerCapacity = 10.0f;
+	}
+
+	public PowerStoreImpl (float initialPowerLevel, float  initialPowerCapacity){
+		powerLevel = initialPowerLevel;
+		powerCapacity = initialPowerCapacity;
+	}
+	
+	void setPowerCapacity(float watts){
+		powerCapacity = watts;
+	}
+
+	void setPowerLevel(float watts){
+		powerLevel = watts;
+	}
 
 	float addPower(float watts){
 		if ((watts +powerLevel) > powerCapacity){

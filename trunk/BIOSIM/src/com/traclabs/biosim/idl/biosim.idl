@@ -22,7 +22,7 @@ module ALSS{
 		Activity getScheduledActivityByName(in string name);
 		Activity getScheduledActivityByOrder(in long order);
 		CrewPerson getCrewPerson(in string name);
-		void createCrewPerson(in string name);
+		CrewPerson createCrewPerson(in string name);
 	};
 
 	//Object representing the Energy Production System
@@ -32,6 +32,8 @@ module ALSS{
 
 	//Object representing the Power Store
 	interface PowerStore : BioModule{
+		void setPowerCapacity(in float watts);
+		void setPowerLevel(in float watts);
 		float addPower(in float watts);
 		float takePower(in float watts);
 		float getPowerLevel();
@@ -75,6 +77,8 @@ module ALSS{
 	};
 	
 	interface FoodStore : BioModule{
+		void setFoodCapacity(in float kilograms);
+		void setFoodLevel(in float kilograms);
 		float addFood(in float kilograms);
 		float takeFood(in float kilograms);
 		float getFoodLevel();
@@ -95,6 +99,8 @@ module ALSS{
 
 	//Object representing the Biomass Store
 	interface BiomassStore : BioModule{
+		void setBiomassCapacity(in float kilograms);
+		void setBiomassLevel(in float kilograms);
 		float addBiomass(in float kilograms);
 		float takeBiomass(in float kilograms);
 		float getBiomassLevel();
@@ -110,6 +116,8 @@ module ALSS{
 
 	//Object representing the Potable Water Store
 	interface PotableWaterStore : BioModule{
+		void setWaterCapacity(in float liters);
+		void setWaterLevel(in float liters);
 		float takeWater(in float liters);
 		float addWater(in float liters);
 		float getWaterLevel();
@@ -117,6 +125,8 @@ module ALSS{
 	
 	//Object representing the Grey Water Store
 	interface GreyWaterStore : BioModule{
+		void setWaterCapacity(in float liters);
+		void setWaterLevel(in float liters);
 		float takeWater(in float liters);
 		float addWater(in float liters);
 		float getWaterLevel();
@@ -124,6 +134,8 @@ module ALSS{
 	
 	//Object representing the Dirty Water Store
 	interface DirtyWaterStore : BioModule{
+		void setWaterCapacity(in float liters);
+		void setWaterLevel(in float liters);
 		float takeWater(in float liters);
 		float addWater(in float liters);
 		float getWaterLevel();
