@@ -45,26 +45,44 @@ Section "BioSim Program (must be installed)" ; (default section)
 	SetOutPath "$INSTDIR"
 
 	; Try finding Java Runtime
-	ReadRegStr $0 HKLM "SOFTWARE\Javasoft\Java Runtime Environment\1.4.1" JavaHome
-	StrCmp $0 "" lbl_noJava1_4_1 lbl_foundJava
-	lbl_noJava1_4_1:
-		ReadRegStr $0 HKLM "SOFTWARE\Javasoft\Java Runtime Environment\1.4.0" JavaHome
-		StrCmp $0 "" lbl_noJava lbl_foundJava
+	IntFmt $3 "%u" "1"
+	IntFmt $4 "%u" "3"
+	ReadRegStr $0 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" "CurrentVersion"
+	ReadRegStr $1 HKLM "SOFTWARE\Javasoft\Java Runtime Environment\$0" "JavaHome"
+	StrCmp $1 "" lbl_checkJDK
+	StrCpy $5 $0 1 0
+	StrCpy $6 $0 1 2
+	IntCmp $3 $5 lbl_subscriptCheckOutside lbl_foundJava lbl_checkJDK
+	lbl_subscriptCheckOutside:
+		IntCmp $4 $6 lbl_foundJava lbl_foundJava lbl_checkJDK
+	lbl_checkJDK:
+		ReadRegStr $0 HKLM "SOFTWARE\JavaSoft\Java Development Kit" "CurrentVersion"
+		ReadRegStr $1 HKLM "SOFTWARE\Javasoft\Java Development Kit\$0" "JavaHome"
+		StrCmp $1 "" lbl_noJava
+		StrCpy $5 $0 1 0
+		StrCpy $6 $0 1 2
+		IntCmp $3 $5 lbl_subscriptCheckInside lbl_foundJava lbl_noJava
+		lbl_subscriptCheckInside:
+			IntCmp $4 $6 lbl_foundJava lbl_foundJava lbl_noJava
 	lbl_noJava:
-		MessageBox MB_YESNO|MB_ICONQUESTION "Couldn't find Java Runtime 1.4.0 or greater installed.$\nThis is required for BioSim to run.  If you chose to continue installation anyway, make sure your JAVA_HOME environment variable is set.$\nDo you want to quit the installation and go to Sun's website to download it?" IDNO lbl_noWebsite
-
-	ExecShell open "http://java.sun.com/getjava/"
-	Sleep 600
-	; BringToFront will bring the installer window back to the front
-	; if the web browser hides it
-	BringToFront
-	MessageBox MB_OK "Installation aborted (Java not installed)"
-	Quit
-
+		MessageBox MB_YESNO|MB_ICONQUESTION "Couldn't find Java Runtime Environment > 1.3 installed.$\nThis is required for BioSim to run.$\nIf you chose to continue installation anyway, make sure your JAVA_HOME environment variable is set.$\nDo you want to quit the installation and go to Sun's website to download it?" IDNO lbl_useJavaHome 
+	
+	lbl_useWebsite:
+		ExecShell open "http://java.sun.com/getjava/"
+		Sleep 600
+		; BringToFront will bring the installer window back to the front
+		; if the web browser hides it
+		BringToFront
+		MessageBox MB_OK "Installation aborted (Java not installed)"
+		Quit
+	
+	lbl_useJavaHome:
+		ReadEnvStr $1 "JAVA_HOME"
+	
 	lbl_foundJava:
 		File setENV.bat
-		FileOpen $1 "$INSTDIR\setENV.bat" "w"
-		FileWrite $1 `set JAVA_HOME="$0"`
+		FileOpen $2 "$INSTDIR\setENV.bat" "w"
+		FileWrite $2 `set JAVA_HOME="$1"`
 
 	lbl_noWebsite:
 		File biosim.jar
