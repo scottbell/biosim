@@ -90,13 +90,13 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	private String myPowerStoreLevelSensorName;
 	//Environment
 	//Crew
-	private String myCrewEnvironmentOtherAirMolesSensorName;
-	private String myCrewEnvironmentCO2AirMolesSensorName;
-	private String myCrewEnvironmentO2AirMolesSensorName;
+	private String myCrewEnvironmentOtherAirConcentrationSensorName;
+	private String myCrewEnvironmentCO2AirConcentrationSensorName;
+	private String myCrewEnvironmentO2AirConcentrationSensorName;
 	//Plant
-	private String myPlantEnvironmentOtherAirMolesSensorName;
-	private String myPlantEnvironmentCO2AirMolesSensorName;
-	private String myPlantEnvironmentO2AirMolesSensorName;
+	private String myPlantEnvironmentOtherAirConcentrationSensorName;
+	private String myPlantEnvironmentCO2AirConcentrationSensorName;
+	private String myPlantEnvironmentO2AirConcentrationSensorName;
 	//Water
 	//WaterRS
 	private String myWaterRSDirtyWaterInFlowRateSensorName;
@@ -336,25 +336,25 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		mySensorNames.add(myPowerStoreLevelSensorName);
 		//Environment
 		//Crew
-		myCrewEnvironmentOtherAirMolesSensorName = "CrewEnvironmentOtherAirMolesSensor"+myID;
-		myCrewEnvironmentCO2AirMolesSensorName = "CrewEnvironmentCO2AirMolesSensor"+myID;
-		myCrewEnvironmentO2AirMolesSensorName = "CrewEnvironmentO2AirMolesSensor"+myID;
-		myModuleNames.add(myCrewEnvironmentOtherAirMolesSensorName);
-		myModuleNames.add(myCrewEnvironmentCO2AirMolesSensorName);
-		myModuleNames.add(myCrewEnvironmentO2AirMolesSensorName);
-		mySensorNames.add(myCrewEnvironmentOtherAirMolesSensorName);
-		mySensorNames.add(myCrewEnvironmentCO2AirMolesSensorName);
-		mySensorNames.add(myCrewEnvironmentO2AirMolesSensorName);
+		myCrewEnvironmentOtherAirConcentrationSensorName = "CrewEnvironmentOtherAirConcentrationSensor"+myID;
+		myCrewEnvironmentCO2AirConcentrationSensorName = "CrewEnvironmentCO2AirConcentrationSensor"+myID;
+		myCrewEnvironmentO2AirConcentrationSensorName = "CrewEnvironmentO2AirConcentrationSensor"+myID;
+		myModuleNames.add(myCrewEnvironmentOtherAirConcentrationSensorName);
+		myModuleNames.add(myCrewEnvironmentCO2AirConcentrationSensorName);
+		myModuleNames.add(myCrewEnvironmentO2AirConcentrationSensorName);
+		mySensorNames.add(myCrewEnvironmentOtherAirConcentrationSensorName);
+		mySensorNames.add(myCrewEnvironmentCO2AirConcentrationSensorName);
+		mySensorNames.add(myCrewEnvironmentO2AirConcentrationSensorName);
 		//Plant
-		myPlantEnvironmentOtherAirMolesSensorName = "PlantEnvironmentOtherAirMolesSensor"+myID;
-		myPlantEnvironmentCO2AirMolesSensorName = "PlantEnvironmentCO2AirMolesSensor"+myID;
-		myPlantEnvironmentO2AirMolesSensorName = "PlantEnvironmentO2AirMolesSensor"+myID;
-		myModuleNames.add(myPlantEnvironmentOtherAirMolesSensorName);
-		myModuleNames.add(myPlantEnvironmentCO2AirMolesSensorName);
-		myModuleNames.add(myPlantEnvironmentO2AirMolesSensorName);
-		mySensorNames.add(myPlantEnvironmentOtherAirMolesSensorName);
-		mySensorNames.add(myPlantEnvironmentCO2AirMolesSensorName);
-		mySensorNames.add(myPlantEnvironmentO2AirMolesSensorName);
+		myPlantEnvironmentOtherAirConcentrationSensorName = "PlantEnvironmentOtherAirConcentrationSensor"+myID;
+		myPlantEnvironmentCO2AirConcentrationSensorName = "PlantEnvironmentCO2AirConcentrationSensor"+myID;
+		myPlantEnvironmentO2AirConcentrationSensorName = "PlantEnvironmentO2AirConcentrationSensor"+myID;
+		myModuleNames.add(myPlantEnvironmentOtherAirConcentrationSensorName);
+		myModuleNames.add(myPlantEnvironmentCO2AirConcentrationSensorName);
+		myModuleNames.add(myPlantEnvironmentO2AirConcentrationSensorName);
+		mySensorNames.add(myPlantEnvironmentOtherAirConcentrationSensorName);
+		mySensorNames.add(myPlantEnvironmentCO2AirConcentrationSensorName);
+		mySensorNames.add(myPlantEnvironmentO2AirConcentrationSensorName);
 		//Water
 		//WaterRS
 		myWaterRSDirtyWaterInFlowRateSensorName = "WaterRSDirtyWaterInFlowRateSensor"+myID;
@@ -1097,22 +1097,22 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			//Crew
 			{
 				SimEnvironment myCrewEnvironment = SimEnvironmentHelper.narrow(getBioModule(myCrewEnvironmentName));
-				O2AirMolesSensor myCrewEnvironmentO2AirMolesSensor = O2AirMolesSensorHelper.narrow(getBioModule(myCrewEnvironmentO2AirMolesSensorName));
-				CO2AirMolesSensor myCrewEnvironmentCO2AirMolesSensor = CO2AirMolesSensorHelper.narrow(getBioModule(myCrewEnvironmentCO2AirMolesSensorName));
-				OtherAirMolesSensor myCrewEnvironmentOtherAirMolesSensor = OtherAirMolesSensorHelper.narrow(getBioModule(myCrewEnvironmentOtherAirMolesSensorName));
-				myCrewEnvironmentO2AirMolesSensor.setInput(myCrewEnvironment);
-				myCrewEnvironmentCO2AirMolesSensor.setInput(myCrewEnvironment);
-				myCrewEnvironmentOtherAirMolesSensor.setInput(myCrewEnvironment);
+				O2AirConcentrationSensor myCrewEnvironmentO2AirConcentrationSensor = O2AirConcentrationSensorHelper.narrow(getBioModule(myCrewEnvironmentO2AirConcentrationSensorName));
+				CO2AirConcentrationSensor myCrewEnvironmentCO2AirConcentrationSensor = CO2AirConcentrationSensorHelper.narrow(getBioModule(myCrewEnvironmentCO2AirConcentrationSensorName));
+				OtherAirConcentrationSensor myCrewEnvironmentOtherAirConcentrationSensor = OtherAirConcentrationSensorHelper.narrow(getBioModule(myCrewEnvironmentOtherAirConcentrationSensorName));
+				myCrewEnvironmentO2AirConcentrationSensor.setInput(myCrewEnvironment);
+				myCrewEnvironmentCO2AirConcentrationSensor.setInput(myCrewEnvironment);
+				myCrewEnvironmentOtherAirConcentrationSensor.setInput(myCrewEnvironment);
 			}
 			//Plant
 			{
 				SimEnvironment myPlantEnvironment = SimEnvironmentHelper.narrow(getBioModule(myPlantEnvironmentName));
-				O2AirMolesSensor myPlantEnvironmentO2AirMolesSensor = O2AirMolesSensorHelper.narrow(getBioModule(myPlantEnvironmentO2AirMolesSensorName));
-				CO2AirMolesSensor myPlantEnvironmentCO2AirMolesSensor = CO2AirMolesSensorHelper.narrow(getBioModule(myPlantEnvironmentCO2AirMolesSensorName));
-				OtherAirMolesSensor myPlantEnvironmentOtherAirMolesSensor = OtherAirMolesSensorHelper.narrow(getBioModule(myPlantEnvironmentOtherAirMolesSensorName));
-				myPlantEnvironmentO2AirMolesSensor.setInput(myPlantEnvironment);
-				myPlantEnvironmentCO2AirMolesSensor.setInput(myPlantEnvironment);
-				myPlantEnvironmentOtherAirMolesSensor.setInput(myPlantEnvironment);
+				O2AirConcentrationSensor myPlantEnvironmentO2AirConcentrationSensor = O2AirConcentrationSensorHelper.narrow(getBioModule(myPlantEnvironmentO2AirConcentrationSensorName));
+				CO2AirConcentrationSensor myPlantEnvironmentCO2AirConcentrationSensor = CO2AirConcentrationSensorHelper.narrow(getBioModule(myPlantEnvironmentCO2AirConcentrationSensorName));
+				OtherAirConcentrationSensor myPlantEnvironmentOtherAirConcentrationSensor = OtherAirConcentrationSensorHelper.narrow(getBioModule(myPlantEnvironmentOtherAirConcentrationSensorName));
+				myPlantEnvironmentO2AirConcentrationSensor.setInput(myPlantEnvironment);
+				myPlantEnvironmentCO2AirConcentrationSensor.setInput(myPlantEnvironment);
+				myPlantEnvironmentOtherAirConcentrationSensor.setInput(myPlantEnvironment);
 			}
 		}
 		//

@@ -13,7 +13,7 @@ public class CO2OutFlowRateSensorImpl extends GenericSensorImpl implements CO2Ou
 	}
 
 	protected void gatherData(){
-		double preFilteredValue = getInput().getCO2OutputActualFlowRate(myIndex);
+		float preFilteredValue = getInput().getCO2OutputActualFlowRate(myIndex);
 		myValue = randomFilter(preFilteredValue);
 	}
 	
@@ -24,6 +24,10 @@ public class CO2OutFlowRateSensorImpl extends GenericSensorImpl implements CO2Ou
 	public void setInput(CO2Producer pProducer, int pIndex){
 		myProducer = pProducer;
 		myIndex = pIndex;
+	}
+	
+	public float getMax(){
+		return myProducer.getCO2OutputMaxFlowRate(myIndex);
 	}
 	
 	public CO2Producer getInput(){

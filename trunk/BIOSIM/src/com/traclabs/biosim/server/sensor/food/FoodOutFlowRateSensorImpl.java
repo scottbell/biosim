@@ -13,7 +13,7 @@ public class FoodOutFlowRateSensorImpl extends GenericSensorImpl implements Food
 	}
 
 	protected void gatherData(){
-		double preFilteredValue = getInput().getFoodOutputActualFlowRate(myIndex);
+		float preFilteredValue = getInput().getFoodOutputActualFlowRate(myIndex);
 		myValue = randomFilter(preFilteredValue);
 	}
 	

@@ -18,6 +18,14 @@ public abstract class GenericActuatorImpl extends BioModuleImpl implements Gener
 		newValue = true;
 	}
 	
+	public float getMax(){
+		return 0f;
+	}
+	
+	public float getMin(){
+		return 0f;
+	}
+	
 	public float getValue(){
 		return myValue;
 	}

@@ -659,7 +659,9 @@ module biosim{
                 module sensor{
                         module framework{
                                 interface GenericSensor : framework::BioModule{
-                                        double getValue();
+                                        float getValue();
+					float getMax();
+					float getMin();
                                 };
                         };
                         module air{
@@ -711,11 +713,10 @@ module biosim{
                                         void setInput(in simulation::environment::SimEnvironment source);
                                         simulation::environment::SimEnvironment getInput();
                                 };
-                                interface AirMolesSensor : EnvironmentSensor{};
                                 interface LightLevelSensor : EnvironmentSensor{};
-                                interface O2AirMolesSensor : EnvironmentSensor{};
-                                interface CO2AirMolesSensor : EnvironmentSensor{};
-                                interface OtherAirMolesSensor : EnvironmentSensor{};
+                                interface O2AirConcentrationSensor : EnvironmentSensor{};
+                                interface CO2AirConcentrationSensor : EnvironmentSensor{};
+                                interface OtherAirConcentrationSensor : EnvironmentSensor{};
 
                                 interface AirInFlowRateSensor : framework::GenericSensor{
                                         void setInput(in framework::AirConsumer pConsumer, in long pIndex);
@@ -898,6 +899,8 @@ module biosim{
                                 interface GenericActuator : framework::BioModule{
                                         void setValue(in float pValue);
                                         float getValue();
+					float getMax();
+					float getMin();
                                 };
                         };
                         module air{

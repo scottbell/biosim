@@ -13,7 +13,7 @@ public class PowerOutFlowRateSensorImpl extends GenericSensorImpl implements Pow
 	}
 
 	protected void gatherData(){
-		double preFilteredValue = getInput().getPowerOutputActualFlowRate(myIndex);
+		float preFilteredValue = getInput().getPowerOutputActualFlowRate(myIndex);
 		myValue = randomFilter(preFilteredValue);
 	}
 	

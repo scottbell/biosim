@@ -13,7 +13,7 @@ public class BiomassOutFlowRateSensorImpl extends GenericSensorImpl implements B
 	}
 
 	protected void gatherData(){
-		double preFilteredValue = getInput().getBiomassOutputActualFlowRate(myIndex);
+		float preFilteredValue = getInput().getBiomassOutputActualFlowRate(myIndex);
 		myValue = randomFilter(preFilteredValue);
 	}
 	

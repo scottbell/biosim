@@ -23,6 +23,10 @@ public abstract class CO2StoreSensorImpl extends GenericSensorImpl implements CO
 		return myCO2Store;
 	}
 	
+	public float getMax(){
+		return myCO2Store.getCapacity();
+	}
+	
 	/**
 	* Returns the name of this module (CO2StoreSensorImpl)
 	* @return the name of the module

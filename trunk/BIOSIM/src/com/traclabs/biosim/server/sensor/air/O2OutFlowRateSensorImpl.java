@@ -13,7 +13,7 @@ public class O2OutFlowRateSensorImpl extends GenericSensorImpl implements O2OutF
 	}
 
 	protected void gatherData(){
-		double preFilteredValue = getInput().getO2OutputActualFlowRate(myIndex);
+		float preFilteredValue = getInput().getO2OutputActualFlowRate(myIndex);
 		myValue = randomFilter(preFilteredValue);
 	}
 	
@@ -24,6 +24,10 @@ public class O2OutFlowRateSensorImpl extends GenericSensorImpl implements O2OutF
 	public void setInput(O2Producer pProducer, int pIndex){
 		myProducer = pProducer;
 		myIndex = pIndex;
+	}
+	
+	public float getMax(){
+		return myProducer.getO2OutputMaxFlowRate(myIndex);
 	}
 	
 	public O2Producer getInput(){
