@@ -54,11 +54,11 @@ public class Wheat extends Erectophile{
 		return .001f;
 	}
 
-	protected float getTimeTillCanopySenescence(){
+	protected float getTimeAtCanopySenescence(){
 		return 33f;
 	}
 
-	protected float getTimeTillCropMaturity(){
+	protected float getTimeAtCropMaturity(){
 		return 62f;
 	}
 

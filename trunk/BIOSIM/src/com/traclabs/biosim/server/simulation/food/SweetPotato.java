@@ -43,7 +43,7 @@ public class SweetPotato extends Planophile{
 	}
 	
 	protected float getCUEMax(){
-		return 0.65f;
+		return 0.625f;
 	}
 	
 	protected float getCUEMin(){
@@ -51,7 +51,7 @@ public class SweetPotato extends Planophile{
 	}
 
 	protected float getPhotoperiod(){
-		return 20f;
+		return 18f;
 	}
 
 	protected float getN(){
@@ -62,16 +62,16 @@ public class SweetPotato extends Planophile{
 		return .001f;
 	}
 
-	protected float getTimeTillCanopySenescence(){
-		return 33f;
+	protected float getTimeAtCanopySenescence(){
+		return getTimeAtCropMaturity();
 	}
 
-	protected float getTimeTillCropMaturity(){
-		return 62f;
+	protected float getTimeAtCropMaturity(){
+		return 120f;
 	}
 
 	protected float getOPF(){
-		return 1.07f;
+		return 1.02f;
 	}
 
 	protected float getFreshFactor(){

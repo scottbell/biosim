@@ -44,9 +44,8 @@ public class Rice extends Erectophile{
 		return 0.44f;
 	}
 
-
 	protected float getPhotoperiod(){
-		return 20f;
+		return 12f;
 	}
 
 	protected float getN(){
@@ -57,16 +56,16 @@ public class Rice extends Erectophile{
 		return .001f;
 	}
 
-	protected float getTimeTillCanopySenescence(){
-		return 33f;
+	protected float getTimeAtCanopySenescence(){
+		return 61f;
 	}
-
-	protected float getTimeTillCropMaturity(){
-		return 62f;
+	
+	protected float getTimeAtCropMaturity(){
+		return 88f;
 	}
-
+	
 	protected float getOPF(){
-		return 1.07f;
+		return 1.08f;
 	}
 
 	protected float getFreshFactor(){

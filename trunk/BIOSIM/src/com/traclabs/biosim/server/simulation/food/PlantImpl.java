@@ -50,9 +50,9 @@ public abstract class PlantImpl extends PlantPOA{
 	protected abstract float getCarbonUseEfficiency24();
 	protected abstract float getPhotoperiod();
 	protected abstract float getN();
-	protected abstract float getTimeTillCanopySenescence();
+	protected abstract float getTimeAtCanopySenescence();
 	protected abstract float getCQYMin();
-	protected abstract float getTimeTillCropMaturity();
+	protected abstract float getTimeAtCropMaturity();
 	protected abstract float getOPF();
 	protected abstract float getFreshFactor();
 	protected abstract float calculateCanopyStomatalConductance();
@@ -94,7 +94,7 @@ public abstract class PlantImpl extends PlantPOA{
 	}
 	
 	public boolean readyForHarvest(){
-		return (getDaysOfGrowth() >= getTimeTillCanopySenescence());
+		return (getDaysOfGrowth() >= getTimeAtCropMaturity());
 	}
 
 	public float harvest(){
@@ -449,16 +449,16 @@ public abstract class PlantImpl extends PlantPOA{
 
 	private float calculateCQY(){
 		float CQYMax = calculateCQYMax();
-		float timeTillCanopySenescence = getTimeTillCanopySenescence();
+		float timeTillCanopySenescence = getTimeAtCanopySenescence();
 		//System.out.println("PlantImpl: CQYMax: "+CQYMax);
 		//System.out.println("PlantImpl: timeTillCanopySenescence: "+timeTillCanopySenescence);
-		if (getDaysOfGrowth() < getTimeTillCanopySenescence()){
+		if (getDaysOfGrowth() < getTimeAtCanopySenescence()){
 			return CQYMax;
 		}
 		else{
 			float CQYMin = getCQYMin();
 			float daysOfGrowth = getDaysOfGrowth();
-			float timeTillCropMaturity = getTimeTillCropMaturity();
+			float timeTillCropMaturity = getTimeAtCropMaturity();
 			float calculatedCQY = CQYMax - ((CQYMax - CQYMin) * ((daysOfGrowth - timeTillCanopySenescence)) / (timeTillCropMaturity - timeTillCanopySenescence));
 			//System.out.println("PlantImpl: CQYMin: "+CQYMin);
 			//System.out.println("PlantImpl: daysOfGrowth: "+daysOfGrowth);

@@ -47,7 +47,7 @@ public class DryBean extends Legume{
 	}
 
 	protected float getPhotoperiod(){
-		return 20f;
+		return 12f;
 	}
 
 	protected float getN(){
@@ -55,19 +55,19 @@ public class DryBean extends Legume{
 	}
 
 	protected float getCQYMin(){
-		return .001f;
+		return 0.02f;
 	}
 
-	protected float getTimeTillCanopySenescence(){
-		return 33f;
+	protected float getTimeAtCanopySenescence(){
+		return 42f;
 	}
 
-	protected float getTimeTillCropMaturity(){
-		return 62f;
+	protected float getTimeAtCropMaturity(){
+		return 63f;
 	}
 
 	protected float getOPF(){
-		return 1.07f;
+		return 1.1f;
 	}
 
 	protected float getFreshFactor(){

@@ -42,15 +42,15 @@ public class WhitePotato extends Planophile{
 	}
 	
 	protected float getCUEMax(){
-		return 0.65f;
+		return 0.625f;
 	}
 	
 	protected float getCUEMin(){
-		return 0.50f;
+		return 0f;
 	}
 
 	protected float getPhotoperiod(){
-		return 20f;
+		return 12f;
 	}
 
 	protected float getN(){
@@ -58,19 +58,19 @@ public class WhitePotato extends Planophile{
 	}
 
 	protected float getCQYMin(){
-		return .001f;
+		return 0.02f;
 	}
 
-	protected float getTimeTillCanopySenescence(){
-		return 33f;
+	protected float getTimeAtCanopySenescence(){
+		return 75f;
 	}
 
-	protected float getTimeTillCropMaturity(){
-		return 62f;
+	protected float getTimeAtCropMaturity(){
+		return 138f;
 	}
 
 	protected float getOPF(){
-		return 1.07f;
+		return 1.02f;
 	}
 
 	protected float getFreshFactor(){
