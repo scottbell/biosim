@@ -1779,6 +1779,95 @@ public class BioInitializer{
 			e.printStackTrace();
 		}
 	}
+	
+	private void createNitrogenInFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating NitrogenInFlowRateSensor with moduleName: "+moduleName);
+			NitrogenInFlowRateSensorImpl myNitrogenInFlowRateSensorImpl = new NitrogenInFlowRateSensorImpl(myID, moduleName);
+			setupBioModule(myNitrogenInFlowRateSensorImpl, node);
+			mySensors.add(OrbUtils.poaToCorbaObj(myNitrogenInFlowRateSensorImpl));
+			BiosimServer.registerServer(new NitrogenInFlowRateSensorPOATie(myNitrogenInFlowRateSensorImpl), myNitrogenInFlowRateSensorImpl.getModuleName(), myNitrogenInFlowRateSensorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureNitrogenInFlowRateSensor(Node node){
+		//System.out.println("Configuring NitrogenInFlowRateSensor");
+		String moduleName = getModuleName(node);
+		try{
+			NitrogenInFlowRateSensor myNitrogenInFlowRateSensor = NitrogenInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
+			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
+			myNitrogenInFlowRateSensor.setInput(NitrogenConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
+
+	private void createNitrogenOutFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating NitrogenOutFlowRateSensor with moduleName: "+moduleName);
+			NitrogenOutFlowRateSensorImpl myNitrogenOutFlowRateSensorImpl = new NitrogenOutFlowRateSensorImpl(myID, moduleName);
+			setupBioModule(myNitrogenOutFlowRateSensorImpl, node);
+			mySensors.add(OrbUtils.poaToCorbaObj(myNitrogenOutFlowRateSensorImpl));
+			BiosimServer.registerServer(new NitrogenOutFlowRateSensorPOATie(myNitrogenOutFlowRateSensorImpl), myNitrogenOutFlowRateSensorImpl.getModuleName(), myNitrogenOutFlowRateSensorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureNitrogenOutFlowRateSensor(Node node){
+		//System.out.println("Configuring NitrogenOutFlowRateSensor");
+		String moduleName = getModuleName(node);
+		try{
+			NitrogenOutFlowRateSensor myNitrogenOutFlowRateSensor = NitrogenOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
+			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
+			myNitrogenOutFlowRateSensor.setInput(NitrogenProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
+
+	private void createNitrogenStoreLevelSensor(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating NitrogenStoreLevelSensor with moduleName: "+moduleName);
+			NitrogenStoreLevelSensorImpl myNitrogenStoreLevelSensorImpl = new NitrogenStoreLevelSensorImpl(myID, moduleName);
+			setupBioModule(myNitrogenStoreLevelSensorImpl, node);
+			mySensors.add(OrbUtils.poaToCorbaObj(myNitrogenStoreLevelSensorImpl));
+			BiosimServer.registerServer(new NitrogenStoreLevelSensorPOATie(myNitrogenStoreLevelSensorImpl), myNitrogenStoreLevelSensorImpl.getModuleName(), myNitrogenStoreLevelSensorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureNitrogenStoreLevelSensor(Node node){
+		//System.out.println("Configuring NitrogenStoreLevelSensor");
+		String moduleName = getModuleName(node);
+		try{
+			NitrogenStoreLevelSensor myNitrogenStoreLevelSensor = NitrogenStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
+			myNitrogenStoreLevelSensor.setInput(NitrogenStoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
 
 	private void crawlAirSensors(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
@@ -1837,6 +1926,24 @@ public class BioInitializer{
 					createH2StoreLevelSensor(child);
 				else
 					configureH2StoreLevelSensor(child);
+			}
+			else if (childName.equals("NitrogenInFlowRateSensor")){
+				if (firstPass)
+					createNitrogenInFlowRateSensor(child);
+				else
+					configureNitrogenInFlowRateSensor(child);
+			}
+			else if (childName.equals("NitrogenOutFlowRateSensor")){
+				if (firstPass)
+					createNitrogenOutFlowRateSensor(child);
+				else
+					configureNitrogenOutFlowRateSensor(child);
+			}
+			else if (childName.equals("NitrogenStoreLevelSensor")){
+				if (firstPass)
+					createNitrogenStoreLevelSensor(child);
+				else
+					configureNitrogenStoreLevelSensor(child);
 			}
 			child = child.getNextSibling();
 		}
@@ -2418,6 +2525,304 @@ public class BioInitializer{
 			e.printStackTrace();
 		}
 	}
+	
+	private void createWaterAirEnvironmentInFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating WaterAirEnvironmentInFlowRateSensor with moduleName: "+moduleName);
+			WaterAirEnvironmentInFlowRateSensorImpl myWaterAirEnvironmentInFlowRateSensorImpl = new WaterAirEnvironmentInFlowRateSensorImpl(myID, moduleName);
+			setupBioModule(myWaterAirEnvironmentInFlowRateSensorImpl, node);
+			mySensors.add(OrbUtils.poaToCorbaObj(myWaterAirEnvironmentInFlowRateSensorImpl));
+			BiosimServer.registerServer(new WaterAirEnvironmentInFlowRateSensorPOATie(myWaterAirEnvironmentInFlowRateSensorImpl), myWaterAirEnvironmentInFlowRateSensorImpl.getModuleName(), myWaterAirEnvironmentInFlowRateSensorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureWaterAirEnvironmentInFlowRateSensor(Node node){
+		//System.out.println("Configuring WaterAirEnvironmentInFlowRateSensor");
+		String moduleName = getModuleName(node);
+		try{
+			WaterAirEnvironmentInFlowRateSensor myWaterAirEnvironmentInFlowRateSensor = WaterAirEnvironmentInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
+			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
+			myWaterAirEnvironmentInFlowRateSensor.setInput(WaterAirConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
+
+	private void createWaterAirEnvironmentOutFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating WaterAirEnvironmentOutFlowRateSensor with moduleName: "+moduleName);
+			WaterAirEnvironmentOutFlowRateSensorImpl myWaterAirEnvironmentOutFlowRateSensorImpl = new WaterAirEnvironmentOutFlowRateSensorImpl(myID, moduleName);
+			setupBioModule(myWaterAirEnvironmentOutFlowRateSensorImpl, node);
+			mySensors.add(OrbUtils.poaToCorbaObj(myWaterAirEnvironmentOutFlowRateSensorImpl));
+			BiosimServer.registerServer(new WaterAirEnvironmentOutFlowRateSensorPOATie(myWaterAirEnvironmentOutFlowRateSensorImpl), myWaterAirEnvironmentOutFlowRateSensorImpl.getModuleName(), myWaterAirEnvironmentOutFlowRateSensorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureWaterAirEnvironmentOutFlowRateSensor(Node node){
+		//System.out.println("Configuring WaterAirEnvironmentOutFlowRateSensor");
+		String moduleName = getModuleName(node);
+		try{
+			WaterAirEnvironmentOutFlowRateSensor myWaterAirEnvironmentOutFlowRateSensor = WaterAirEnvironmentOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
+			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
+			myWaterAirEnvironmentOutFlowRateSensor.setInput(WaterAirProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
+
+	private void createWaterAirStoreInFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating WaterAirStoreInFlowRateSensor with moduleName: "+moduleName);
+			WaterAirStoreInFlowRateSensorImpl myWaterAirStoreInFlowRateSensorImpl = new WaterAirStoreInFlowRateSensorImpl(myID, moduleName);
+			setupBioModule(myWaterAirStoreInFlowRateSensorImpl, node);
+			mySensors.add(OrbUtils.poaToCorbaObj(myWaterAirStoreInFlowRateSensorImpl));
+			BiosimServer.registerServer(new WaterAirStoreInFlowRateSensorPOATie(myWaterAirStoreInFlowRateSensorImpl), myWaterAirStoreInFlowRateSensorImpl.getModuleName(), myWaterAirStoreInFlowRateSensorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureWaterAirStoreInFlowRateSensor(Node node){
+		//System.out.println("Configuring WaterAirStoreInFlowRateSensor");
+		String moduleName = getModuleName(node);
+		try{
+			WaterAirStoreInFlowRateSensor myWaterAirStoreInFlowRateSensor = WaterAirStoreInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
+			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
+			myWaterAirStoreInFlowRateSensor.setInput(WaterAirConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
+
+	private void createWaterAirStoreOutFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating WaterAirStoreOutFlowRateSensor with moduleName: "+moduleName);
+			WaterAirStoreOutFlowRateSensorImpl myWaterAirStoreOutFlowRateSensorImpl = new WaterAirStoreOutFlowRateSensorImpl(myID, moduleName);
+			setupBioModule(myWaterAirStoreOutFlowRateSensorImpl, node);
+			mySensors.add(OrbUtils.poaToCorbaObj(myWaterAirStoreOutFlowRateSensorImpl));
+			BiosimServer.registerServer(new WaterAirStoreOutFlowRateSensorPOATie(myWaterAirStoreOutFlowRateSensorImpl), myWaterAirStoreOutFlowRateSensorImpl.getModuleName(), myWaterAirStoreOutFlowRateSensorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureWaterAirStoreOutFlowRateSensor(Node node){
+		//System.out.println("Configuring WaterAirStoreOutFlowRateSensor");
+		String moduleName = getModuleName(node);
+		try{
+			WaterAirStoreOutFlowRateSensor myWaterAirStoreOutFlowRateSensor = WaterAirStoreOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
+			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
+			myWaterAirStoreOutFlowRateSensor.setInput(WaterAirProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
+	
+	private void createNitrogenAirConcentrationSensor(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating NitrogenAirConcentrationSensor with moduleName: "+moduleName);
+			NitrogenAirConcentrationSensorImpl myNitrogenAirConcentrationSensorImpl = new NitrogenAirConcentrationSensorImpl(myID, moduleName);
+			setupBioModule(myNitrogenAirConcentrationSensorImpl, node);
+			mySensors.add(OrbUtils.poaToCorbaObj(myNitrogenAirConcentrationSensorImpl));
+			BiosimServer.registerServer(new NitrogenAirConcentrationSensorPOATie(myNitrogenAirConcentrationSensorImpl), myNitrogenAirConcentrationSensorImpl.getModuleName(), myNitrogenAirConcentrationSensorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureNitrogenAirConcentrationSensor(Node node){
+		//System.out.println("Configuring NitrogenAirConcentrationSensor");
+		String moduleName = getModuleName(node);
+		try{
+			NitrogenAirConcentrationSensor myNitrogenAirConcentrationSensor = NitrogenAirConcentrationSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
+			myNitrogenAirConcentrationSensor.setInput(SimEnvironmentHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
+
+	private void createNitrogenAirPressureSensor(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating NitrogenAirPressureSensor with moduleName: "+moduleName);
+			NitrogenAirPressureSensorImpl myNitrogenAirPressureSensorImpl = new NitrogenAirPressureSensorImpl(myID, moduleName);
+			setupBioModule(myNitrogenAirPressureSensorImpl, node);
+			mySensors.add(OrbUtils.poaToCorbaObj(myNitrogenAirPressureSensorImpl));
+			BiosimServer.registerServer(new NitrogenAirPressureSensorPOATie(myNitrogenAirPressureSensorImpl), myNitrogenAirPressureSensorImpl.getModuleName(), myNitrogenAirPressureSensorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureNitrogenAirPressureSensor(Node node){
+		//System.out.println("Configuring NitrogenAirPressureSensor");
+		String moduleName = getModuleName(node);
+		try{
+			NitrogenAirPressureSensor myNitrogenAirPressureSensor = NitrogenAirPressureSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
+			myNitrogenAirPressureSensor.setInput(SimEnvironmentHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
+
+	private void createNitrogenAirEnvironmentInFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating NitrogenAirEnvironmentInFlowRateSensor with moduleName: "+moduleName);
+			NitrogenAirEnvironmentInFlowRateSensorImpl myNitrogenAirEnvironmentInFlowRateSensorImpl = new NitrogenAirEnvironmentInFlowRateSensorImpl(myID, moduleName);
+			setupBioModule(myNitrogenAirEnvironmentInFlowRateSensorImpl, node);
+			mySensors.add(OrbUtils.poaToCorbaObj(myNitrogenAirEnvironmentInFlowRateSensorImpl));
+			BiosimServer.registerServer(new NitrogenAirEnvironmentInFlowRateSensorPOATie(myNitrogenAirEnvironmentInFlowRateSensorImpl), myNitrogenAirEnvironmentInFlowRateSensorImpl.getModuleName(), myNitrogenAirEnvironmentInFlowRateSensorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureNitrogenAirEnvironmentInFlowRateSensor(Node node){
+		//System.out.println("Configuring NitrogenAirEnvironmentInFlowRateSensor");
+		String moduleName = getModuleName(node);
+		try{
+			NitrogenAirEnvironmentInFlowRateSensor myNitrogenAirEnvironmentInFlowRateSensor = NitrogenAirEnvironmentInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
+			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
+			myNitrogenAirEnvironmentInFlowRateSensor.setInput(NitrogenAirConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
+
+	private void createNitrogenAirEnvironmentOutFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating NitrogenAirEnvironmentOutFlowRateSensor with moduleName: "+moduleName);
+			NitrogenAirEnvironmentOutFlowRateSensorImpl myNitrogenAirEnvironmentOutFlowRateSensorImpl = new NitrogenAirEnvironmentOutFlowRateSensorImpl(myID, moduleName);
+			setupBioModule(myNitrogenAirEnvironmentOutFlowRateSensorImpl, node);
+			mySensors.add(OrbUtils.poaToCorbaObj(myNitrogenAirEnvironmentOutFlowRateSensorImpl));
+			BiosimServer.registerServer(new NitrogenAirEnvironmentOutFlowRateSensorPOATie(myNitrogenAirEnvironmentOutFlowRateSensorImpl), myNitrogenAirEnvironmentOutFlowRateSensorImpl.getModuleName(), myNitrogenAirEnvironmentOutFlowRateSensorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureNitrogenAirEnvironmentOutFlowRateSensor(Node node){
+		//System.out.println("Configuring NitrogenAirEnvironmentOutFlowRateSensor");
+		String moduleName = getModuleName(node);
+		try{
+			NitrogenAirEnvironmentOutFlowRateSensor myNitrogenAirEnvironmentOutFlowRateSensor = NitrogenAirEnvironmentOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
+			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
+			myNitrogenAirEnvironmentOutFlowRateSensor.setInput(NitrogenAirProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
+
+	private void createNitrogenAirStoreInFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating NitrogenAirStoreInFlowRateSensor with moduleName: "+moduleName);
+			NitrogenAirStoreInFlowRateSensorImpl myNitrogenAirStoreInFlowRateSensorImpl = new NitrogenAirStoreInFlowRateSensorImpl(myID, moduleName);
+			setupBioModule(myNitrogenAirStoreInFlowRateSensorImpl, node);
+			mySensors.add(OrbUtils.poaToCorbaObj(myNitrogenAirStoreInFlowRateSensorImpl));
+			BiosimServer.registerServer(new NitrogenAirStoreInFlowRateSensorPOATie(myNitrogenAirStoreInFlowRateSensorImpl), myNitrogenAirStoreInFlowRateSensorImpl.getModuleName(), myNitrogenAirStoreInFlowRateSensorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureNitrogenAirStoreInFlowRateSensor(Node node){
+		//System.out.println("Configuring NitrogenAirStoreInFlowRateSensor");
+		String moduleName = getModuleName(node);
+		try{
+			NitrogenAirStoreInFlowRateSensor myNitrogenAirStoreInFlowRateSensor = NitrogenAirStoreInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
+			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
+			myNitrogenAirStoreInFlowRateSensor.setInput(NitrogenAirConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
+
+	private void createNitrogenAirStoreOutFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating NitrogenAirStoreOutFlowRateSensor with moduleName: "+moduleName);
+			NitrogenAirStoreOutFlowRateSensorImpl myNitrogenAirStoreOutFlowRateSensorImpl = new NitrogenAirStoreOutFlowRateSensorImpl(myID, moduleName);
+			setupBioModule(myNitrogenAirStoreOutFlowRateSensorImpl, node);
+			mySensors.add(OrbUtils.poaToCorbaObj(myNitrogenAirStoreOutFlowRateSensorImpl));
+			BiosimServer.registerServer(new NitrogenAirStoreOutFlowRateSensorPOATie(myNitrogenAirStoreOutFlowRateSensorImpl), myNitrogenAirStoreOutFlowRateSensorImpl.getModuleName(), myNitrogenAirStoreOutFlowRateSensorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureNitrogenAirStoreOutFlowRateSensor(Node node){
+		//System.out.println("Configuring NitrogenAirStoreOutFlowRateSensor");
+		String moduleName = getModuleName(node);
+		try{
+			NitrogenAirStoreOutFlowRateSensor myNitrogenAirStoreOutFlowRateSensor = NitrogenAirStoreOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
+			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
+			myNitrogenAirStoreOutFlowRateSensor.setInput(NitrogenAirProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
 
 	private void crawlEnvironmentSensors(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
@@ -2530,6 +2935,66 @@ public class BioInitializer{
 					createWaterAirPressureSensor(child);
 				else
 					configureWaterAirPressureSensor(child);
+			}
+			else if (childName.equals("WaterAirStoreInFlowRateSensor")){
+				if (firstPass)
+					createWaterAirStoreInFlowRateSensor(child);
+				else
+					configureWaterAirStoreInFlowRateSensor(child);
+			}
+			else if (childName.equals("WaterAirStoreOutFlowRateSensor")){
+				if (firstPass)
+					createWaterAirStoreOutFlowRateSensor(child);
+				else
+					configureWaterAirStoreOutFlowRateSensor(child);
+			}
+			else if (childName.equals("WaterAirEnvironmentInFlowRateSensor")){
+				if (firstPass)
+					createWaterAirEnvironmentInFlowRateSensor(child);
+				else
+					configureWaterAirEnvironmentInFlowRateSensor(child);
+			}
+			else if (childName.equals("WaterAirEnvironmentOutFlowRateSensor")){
+				if (firstPass)
+					createWaterAirEnvironmentOutFlowRateSensor(child);
+				else
+					configureWaterAirEnvironmentOutFlowRateSensor(child);
+			}
+			else if (childName.equals("NitrogenAirConcentrationSensor")){
+				if (firstPass)
+					createNitrogenAirConcentrationSensor(child);
+				else
+					configureNitrogenAirConcentrationSensor(child);
+			}
+			else if (childName.equals("NitrogenAirEnvironmentInFlowRateSensor")){
+				if (firstPass)
+					createNitrogenAirEnvironmentInFlowRateSensor(child);
+				else
+					configureNitrogenAirEnvironmentInFlowRateSensor(child);
+			}
+			else if (childName.equals("NitrogenAirEnvironmentOutFlowRateSensor")){
+				if (firstPass)
+					createNitrogenAirEnvironmentOutFlowRateSensor(child);
+				else
+					configureNitrogenAirEnvironmentOutFlowRateSensor(child);
+			}
+			else if (childName.equals("NitrogenAirPressureSensor")){
+				if (firstPass)
+					createNitrogenAirPressureSensor(child);
+				else
+					configureNitrogenAirPressureSensor(child);
+			}
+			else if (childName.equals("NitrogenAirStoreInFlowRateSensor")){
+				if (firstPass)
+					createNitrogenAirStoreInFlowRateSensor(child);
+				else
+					configureNitrogenAirStoreInFlowRateSensor(child);
+			}
+			else if (childName.equals("NitrogenAirStoreOutFlowRateSensor")){
+				if (firstPass)
+					createNitrogenAirStoreOutFlowRateSensor(child);
+				else
+					configureNitrogenAirStoreOutFlowRateSensor(child);
 			}
 			child = child.getNextSibling();
 		}
