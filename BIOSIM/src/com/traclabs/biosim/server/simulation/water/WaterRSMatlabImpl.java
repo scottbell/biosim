@@ -8,6 +8,8 @@ import biosim.idl.util.log.*;
 import biosim.server.util.*;
 import biosim.server.simulation.framework.*;
 import java.util.*;
+//import java.lang.*;
+
 /**
  * The Water Recovery System takes grey/dirty water and refines it to potable water for the crew members and grey water for the crops..
  * Class modeled after the paper:.
@@ -36,7 +38,9 @@ public class WaterRSMatlabImpl extends SimBioModuleImpl implements WaterRSOperat
 	private float[] greyWaterDesiredFlowRates;
 	private float[] potableWaterDesiredFlowRates;
 	
-	private WaterRSMatlabTechInfoImpl myTechSpecificInfoImpl;
+    //MatLab specific
+    private Engine myEngine;
+    private WaterRSMatlabTechInfoImpl myTechSpecificInfoImpl;
 
 	/**
 	* Creates the Water RS and it's subsystems
@@ -65,6 +69,7 @@ public class WaterRSMatlabImpl extends SimBioModuleImpl implements WaterRSOperat
 		myTechSpecificInfo = TechSpecificInfoHelper.narrow(OrbUtils.poaToCorbaObj(myTechSpecificInfoImpl));
 		
 		myTechSpecificInfoImpl.changeString("matlab changed string");
+		myEngine = new MatlabAceEngine();
 	}
 
 	/**
@@ -79,7 +84,10 @@ public class WaterRSMatlabImpl extends SimBioModuleImpl implements WaterRSOperat
 	* 1) ticks each subsystem.
 	*/
 	public void tick(){
+	    System.out.println("tick");
 		super.tick();
+	    
+
 	}
 	
 	protected void performMalfunctions(){
