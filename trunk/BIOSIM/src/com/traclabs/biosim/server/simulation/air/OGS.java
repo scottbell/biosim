@@ -31,22 +31,15 @@ public class OGS extends AirRSSubSystem{
 	}
 
 	private void pushGasses(){
-		if (currentH2OConsumed <= 0){
-			currentO2Produced = myAirRS.randomFilter(0f);
-			currentH2Produced = myAirRS.randomFilter(0f);
-			myAirRS.pushResourceToStore(myAirRS.getPotableWaterInputs(), myAirRS.getPotableWaterInputMaxFlowRates(), myAirRS.getPotableWaterInputDesiredFlowRates(), myAirRS.getPotableWaterInputActualFlowRates(), currentH2OConsumed);
-		}
-		else{
-			//2H20 --> 2H2 + O2
-			float molesOfWater = (currentH2OConsumed * 1000f) / 18.01524f; //1000g/liter, 18.01524g/mole
-			float molesOfReactant = molesOfWater / 2f;
-			currentO2Produced = myAirRS.randomFilter(molesOfReactant) * myProductionRate;
-			currentH2Produced = myAirRS.randomFilter(molesOfReactant * 2f) * myProductionRate;
-			float O2ToDistrubute = myAirRS.randomFilter(currentO2Produced);
-			float H2ToDistrubute = myAirRS.randomFilter(currentH2Produced);
-			float distributedO2 = myAirRS.pushResourceToStore(myAirRS.getO2Outputs(), myAirRS.getO2OutputMaxFlowRates(), myAirRS.getO2OutputDesiredFlowRates(), myAirRS.getO2OutputActualFlowRates(), O2ToDistrubute);
-			float distributedH2 = myAirRS.pushResourceToStore(myAirRS.getH2Outputs(), myAirRS.getH2OutputMaxFlowRates(), myAirRS.getH2OutputDesiredFlowRates(), myAirRS.getH2OutputActualFlowRates(), H2ToDistrubute);
-		}
+		//2H20 --> 2H2 + O2
+		float molesOfWater = (currentH2OConsumed * 1000f) / 18.01524f; //1000g/liter, 18.01524g/mole
+		float molesOfReactant = molesOfWater / 2f;
+		currentO2Produced = myAirRS.randomFilter(molesOfReactant) * myProductionRate;
+		currentH2Produced = myAirRS.randomFilter(molesOfReactant * 2f) * myProductionRate;
+		float O2ToDistrubute = myAirRS.randomFilter(currentO2Produced);
+		float H2ToDistrubute = myAirRS.randomFilter(currentH2Produced);
+		float distributedO2 = myAirRS.pushResourceToStore(myAirRS.getO2Outputs(), myAirRS.getO2OutputMaxFlowRates(), myAirRS.getO2OutputDesiredFlowRates(), myAirRS.getO2OutputActualFlowRates(), O2ToDistrubute);
+		float distributedH2 = myAirRS.pushResourceToStore(myAirRS.getH2Outputs(), myAirRS.getH2OutputMaxFlowRates(), myAirRS.getH2OutputDesiredFlowRates(), myAirRS.getH2OutputActualFlowRates(), H2ToDistrubute);
 	}
 
 	public void setProductionRate(float percentage){
