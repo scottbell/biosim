@@ -1,4 +1,8 @@
 module power{
+	interface PowerPSSensor : framework::GenericSensor{
+                void setInput(in simulation::power::PowerPS source);
+		simulation::power::PowerPS getInput();
+        };
 	interface PowerStoreSensor : framework::GenericSensor{
                 void setInput(in simulation::power::PowerStore source);
 		simulation::power::PowerStore getInput();
