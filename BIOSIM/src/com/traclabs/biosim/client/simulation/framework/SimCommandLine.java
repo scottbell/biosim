@@ -4,7 +4,8 @@ import biosim.idl.framework.*;
 import biosim.client.util.*;
 import java.io.*;
 
-import biosim.idl.sensor.food.*;
+import biosim.idl.sensor.water.*;
+import biosim.idl.simulation.food.*;
 
 /**
  * Runs a CLI interface to the simulation.
@@ -141,6 +142,11 @@ public class SimCommandLine
 	}
 
 	private void runTest(){
+		BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
+		FoodProcessor myFoodProcessor = (FoodProcessor)myBioHolder.theFoodProcessors.get(0);
+		WaterOutFlowRateSensor currentSensor = WaterOutFlowRateSensorHelper.narrow((myBioHolder.getSensorAttachedTo(myBioHolder.theWaterOutFlowRateSensors, myFoodProcessor)));
+		//replant 100 meters squared of rice
+		System.out.println("Value of sensor is: "+currentSensor.getValue());
 	}
 	
 }
