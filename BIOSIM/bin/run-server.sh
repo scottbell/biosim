@@ -51,16 +51,16 @@ jacoClasspath="$JACORB_HOME/lib/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separat
 jacoInvocation="$java_command -classpath $serverClassesDir$separator$jacoClasspath$separator$CLASSPATH $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
 echo "	-starting servers"
 case $userSelect in
-	AirRS) echo "			 -starting $userSelect";$jacoInvocation $airRSName;;
-	AirStore) echo "			 -starting $userSelect";$jacoInvocation $airStoreName;;
-	BiomassRS) echo "			 -starting $userSelect";$jacoInvocation $biomassRSName;;
-	BiomassStore) echo "			 -starting $userSelect";$jacoInvocation $biomassStoreName;;
-	EnergyPS) echo "			 -starting $userSelect";$jacoInvocation $energyPSName;;
-	EnergyStore) echo "			 -starting $userSelect";$jacoInvocation $energyStoreName;;
-	Crew) echo "			 -starting $userSelect";$jacoInvocation $crewName;;
-	WaterRS) echo "			 -starting $userSelect";$jacoInvocation $waterRSName;;
-	WaterStore) echo "			 -starting $userSelect";$jacoInvocation $waterStoreName;;
-	*) echo "!!!! unkown server: $userSelect";echo "please choose from: [AirRS, AirStore, BiomassRS, BiomassStore, EnergyPS, EnergyStore, Crew, WaterRS, WaterStore]";;
+	airRS) echo "			 -starting $userSelect";$jacoInvocation $airRSName;;
+	airStore) echo "			 -starting $userSelect";$jacoInvocation $airStoreName;;
+	biomassRS) echo "			 -starting $userSelect";$jacoInvocation $biomassRSName;;
+	biomassStore) echo "			 -starting $userSelect";$jacoInvocation $biomassStoreName;;
+	energyPS) echo "			 -starting $userSelect";$jacoInvocation $energyPSName;;
+	energyStore) echo "			 -starting $userSelect";$jacoInvocation $energyStoreName;;
+	crew) echo "			 -starting $userSelect";$jacoInvocation $crewName;;
+	waterRS) echo "			 -starting $userSelect";$jacoInvocation $waterRSName;;
+	waterStore) echo "			 -starting $userSelect";$jacoInvocation $waterStoreName;;
+	*) echo "!!!! unkown server: $userSelect";echo "please choose from: [airRS, airStore, biomassRS, biomassStore, energyPS, energyStore, crew, waterRS, waterStore]";;
 esac
 echo "*done invoking servers"
 
