@@ -34,6 +34,10 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 	private float[] dirtyWaterActualFlowRates;
 	private float[] greyWaterActualFlowRates;
 	private float[] potableWaterActualFlowRates;
+	private float[] powerDesiredFlowRates;
+	private float[] dirtyWaterDesiredFlowRates;
+	private float[] greyWaterDesiredFlowRates;
+	private float[] potableWaterDesiredFlowRates;
 	private static final int NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER = 3;
 
 	/**
@@ -53,6 +57,10 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 		dirtyWaterActualFlowRates = new float[0];
 		greyWaterActualFlowRates = new float[0];
 		potableWaterActualFlowRates = new float[0];
+		powerDesiredFlowRates = new float[0];
+		dirtyWaterDesiredFlowRates = new float[0];
+		greyWaterDesiredFlowRates = new float[0];
+		potableWaterDesiredFlowRates = new float[0];
 		myBWP = new BWP(this);
 		myRO = new RO(this);
 		myAES = new AES(this);
@@ -379,8 +387,14 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 	public float[] getPowerInputMaxFlowRates(){
 		return powerMaxFlowRates;
 	}
-	public void setPowerInputActualFlowRate(float watts, int index){
-		powerActualFlowRates[index] = watts;
+	public void setPowerInputDesiredFlowRate(float watts, int index){
+		powerDesiredFlowRates[index] = watts;
+	}
+	public float getPowerInputDesiredFlowRate(int index){
+		return powerDesiredFlowRates[index];
+	}
+	public float[] getPowerInputDesiredFlowRates(){
+		return powerDesiredFlowRates;
 	}
 	public float getPowerInputActualFlowRate(int index){
 		return powerActualFlowRates[index];
@@ -388,10 +402,11 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 	public float[] getPowerInputActualFlowRates(){
 		return powerActualFlowRates;
 	}
-	public void setPowerInputs(PowerStore[] sources, float[] maxFlowRates, float[] actualFlowRates){
+	public void setPowerInputs(PowerStore[] sources, float[] maxFlowRates, float[] desiredFlowRates){
 		myPowerInputs = sources;
 		powerMaxFlowRates = maxFlowRates;
-		powerActualFlowRates = actualFlowRates;
+		powerDesiredFlowRates = desiredFlowRates;
+		powerActualFlowRates = new float[powerDesiredFlowRates.length]; 
 	}
 	public PowerStore[] getPowerInputs(){
 		return myPowerInputs;
@@ -407,8 +422,14 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 	public float[] getDirtyWaterInputMaxFlowRates(){
 		return dirtyWaterMaxFlowRates;
 	}
-	public void setDirtyWaterInputActualFlowRate(float watts, int index){
-		dirtyWaterActualFlowRates[index] = watts;
+	public void setDirtyWaterInputDesiredFlowRate(float watts, int index){
+		dirtyWaterDesiredFlowRates[index] = watts;
+	}
+	public float getDirtyWaterInputDesiredFlowRate(int index){
+		return dirtyWaterDesiredFlowRates[index];
+	}
+	public float[] getDirtyWaterInputDesiredFlowRates(){
+		return dirtyWaterDesiredFlowRates;
 	}
 	public float getDirtyWaterInputActualFlowRate(int index){
 		return dirtyWaterActualFlowRates[index];
@@ -416,10 +437,11 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 	public float[] getDirtyWaterInputActualFlowRates(){
 		return dirtyWaterActualFlowRates;
 	}
-	public void setDirtyWaterInputs(DirtyWaterStore[] sources, float[] maxFlowRates, float[] actualFlowRates){
+	public void setDirtyWaterInputs(DirtyWaterStore[] sources, float[] maxFlowRates, float[] desiredFlowRates){
 		myDirtyWaterInputs = sources;
 		dirtyWaterMaxFlowRates = maxFlowRates;
-		dirtyWaterActualFlowRates = actualFlowRates;
+		dirtyWaterDesiredFlowRates = desiredFlowRates;
+		dirtyWaterActualFlowRates = new float[dirtyWaterDesiredFlowRates.length]; 
 	}
 	public DirtyWaterStore[] getDirtyWaterInputs(){
 		return myDirtyWaterInputs;
@@ -435,8 +457,14 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 	public float[] getGreyWaterInputMaxFlowRates(){
 		return greyWaterMaxFlowRates;
 	}
-	public void setGreyWaterInputActualFlowRate(float watts, int index){
-		greyWaterActualFlowRates[index] = watts;
+	public void setGreyWaterInputDesiredFlowRate(float watts, int index){
+		greyWaterDesiredFlowRates[index] = watts;
+	}
+	public float getGreyWaterInputDesiredFlowRate(int index){
+		return greyWaterDesiredFlowRates[index];
+	}
+	public float[] getGreyWaterInputDesiredFlowRates(){
+		return greyWaterDesiredFlowRates;
 	}
 	public float getGreyWaterInputActualFlowRate(int index){
 		return greyWaterActualFlowRates[index];
@@ -444,10 +472,11 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 	public float[] getGreyWaterInputActualFlowRates(){
 		return greyWaterActualFlowRates;
 	}
-	public void setGreyWaterInputs(GreyWaterStore[] sources, float[] maxFlowRates, float[] actualFlowRates){
+	public void setGreyWaterInputs(GreyWaterStore[] sources, float[] maxFlowRates, float[] desiredFlowRates){
 		myGreyWaterInputs = sources;
 		greyWaterMaxFlowRates = maxFlowRates;
-		greyWaterActualFlowRates = actualFlowRates;
+		greyWaterDesiredFlowRates = desiredFlowRates;
+		greyWaterActualFlowRates = new float[greyWaterDesiredFlowRates.length]; 
 	}
 	public GreyWaterStore[] getGreyWaterInputs(){
 		return myGreyWaterInputs;
@@ -463,8 +492,14 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 	public float[] getPotableWaterOutputMaxFlowRates(){
 		return potableWaterMaxFlowRates;
 	}
-	public void setPotableWaterOutputActualFlowRate(float watts, int index){
-		potableWaterActualFlowRates[index] = watts;
+	public void setPotableWaterOutputDesiredFlowRate(float watts, int index){
+		potableWaterDesiredFlowRates[index] = watts;
+	}
+	public float getPotableWaterOutputDesiredFlowRate(int index){
+		return potableWaterDesiredFlowRates[index];
+	}
+	public float[] getPotableWaterOutputDesiredFlowRates(){
+		return potableWaterDesiredFlowRates;
 	}
 	public float getPotableWaterOutputActualFlowRate(int index){
 		return potableWaterActualFlowRates[index];
@@ -472,10 +507,11 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 	public float[] getPotableWaterOutputActualFlowRates(){
 		return potableWaterActualFlowRates;
 	}
-	public void setPotableWaterOutputs(PotableWaterStore[] sources, float[] maxFlowRates, float[] actualFlowRates){
+	public void setPotableWaterOutputs(PotableWaterStore[] sources, float[] maxFlowRates, float[] desiredFlowRates){
 		myPotableWaterOutputs = sources;
 		potableWaterMaxFlowRates = maxFlowRates;
-		potableWaterActualFlowRates = actualFlowRates;
+		potableWaterDesiredFlowRates = desiredFlowRates;
+		potableWaterActualFlowRates = new float[potableWaterDesiredFlowRates.length]; 
 	}
 	public PotableWaterStore[] getPotableWaterOutputs(){
 		return myPotableWaterOutputs;

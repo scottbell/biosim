@@ -42,6 +42,12 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	private float[] CO2OutputActualFlowRates;
 	private float[] airInActualFlowRates;
 	private float[] airOutActualFlowRates;
+	private float[] powerDesiredFlowRates;
+	private float[] O2DesiredFlowRates;
+	private float[] CO2InputDesiredFlowRates;
+	private float[] CO2OutputDesiredFlowRates;
+	private float[] airInDesiredFlowRates;
+	private float[] airOutDesiredFlowRates;
 	private static final int NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER = 3;
 	private float myProductionRate = 1f;
 
@@ -71,6 +77,12 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 		CO2OutputActualFlowRates = new float[0];
 		airInActualFlowRates = new float[0];
 		airOutActualFlowRates = new float[0];
+		powerDesiredFlowRates = new float[0];
+		O2DesiredFlowRates = new float[0];
+		CO2InputDesiredFlowRates = new float[0];
+		CO2OutputDesiredFlowRates = new float[0];
+		airInDesiredFlowRates = new float[0];
+		airOutDesiredFlowRates = new float[0];
 	}
 
 	public boolean VCCRHasPower(){
@@ -274,8 +286,14 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	public float[] getPowerInputMaxFlowRates(){
 		return powerMaxFlowRates;
 	}
-	public void setPowerInputActualFlowRate(float watts, int index){
-		powerActualFlowRates[index] = watts;
+	public void setPowerInputDesiredFlowRate(float watts, int index){
+		powerDesiredFlowRates[index] = watts;
+	}
+	public float getPowerInputDesiredFlowRate(int index){
+		return powerDesiredFlowRates[index];
+	}
+	public float[] getPowerInputDesiredFlowRates(){
+		return powerDesiredFlowRates;
 	}
 	public float getPowerInputActualFlowRate(int index){
 		return powerActualFlowRates[index];
@@ -283,10 +301,11 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	public float[] getPowerInputActualFlowRates(){
 		return powerActualFlowRates;
 	}
-	public void setPowerInputs(PowerStore[] sources, float[] maxFlowRates, float[] actualFlowRates){
+	public void setPowerInputs(PowerStore[] sources, float[] maxFlowRates, float[] desiredFlowRates){
 		myPowerStores = sources;
 		powerMaxFlowRates = maxFlowRates;
-		powerActualFlowRates = actualFlowRates;
+		powerDesiredFlowRates = desiredFlowRates;
+		powerActualFlowRates = new float[powerDesiredFlowRates.length];
 	}
 	public PowerStore[] getPowerInputs(){
 		return myPowerStores;
@@ -302,8 +321,14 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	public float[] getAirInputMaxFlowRates(){
 		return airInMaxFlowRates;
 	}
-	public void setAirInputActualFlowRate(float liters, int index){
-		airInActualFlowRates[index] = liters;
+	public void setAirInputDesiredFlowRate(float liters, int index){
+		airInDesiredFlowRates[index] = liters;
+	}
+	public float getAirInputDesiredFlowRate(int index){
+		return airInDesiredFlowRates[index];
+	}
+	public float[] getAirInputDesiredFlowRates(){
+		return airInDesiredFlowRates;
 	}
 	public float getAirInputActualFlowRate(int index){
 		return airInActualFlowRates[index];
@@ -311,10 +336,11 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	public float[] getAirInputActualFlowRates(){
 		return airInActualFlowRates;
 	}
-	public void setAirInputs(SimEnvironment[] sources, float[] maxFlowRates, float[] actualFlowRates){
+	public void setAirInputs(SimEnvironment[] sources, float[] maxFlowRates, float[] desiredFlowRates){
 		mySimEnvironmentInputs = sources;
 		airInMaxFlowRates = maxFlowRates;
-		airInActualFlowRates = actualFlowRates;
+		airInDesiredFlowRates = desiredFlowRates;
+		airInActualFlowRates = new float[airInDesiredFlowRates.length];
 	}
 	public SimEnvironment[] getAirInputs(){
 		return mySimEnvironmentInputs;
@@ -330,8 +356,14 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	public float[] getAirOutputMaxFlowRates(){
 		return airOutMaxFlowRates;
 	}
-	public void setAirOutputActualFlowRate(float liters, int index){
-		airOutActualFlowRates[index] = liters;
+	public void setAirOutputDesiredFlowRate(float liters, int index){
+		airOutDesiredFlowRates[index] = liters;
+	}
+	public float getAirOutputDesiredFlowRate(int index){
+		return airOutDesiredFlowRates[index];
+	}
+	public float[] getAirOutputDesiredFlowRates(){
+		return airOutDesiredFlowRates;
 	}
 	public float getAirOutputActualFlowRate(int index){
 		return airOutActualFlowRates[index];
@@ -339,10 +371,11 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	public float[] getAirOutputActualFlowRates(){
 		return airOutActualFlowRates;
 	}
-	public void setAirOutputs(SimEnvironment[] sources, float[] maxFlowRates, float[] actualFlowRates){
+	public void setAirOutputs(SimEnvironment[] sources, float[] maxFlowRates, float[] desiredFlowRates){
 		mySimEnvironmentOutputs = sources;
 		airOutMaxFlowRates = maxFlowRates;
-		airOutActualFlowRates = actualFlowRates;
+		airOutDesiredFlowRates = desiredFlowRates;
+		airOutActualFlowRates = new float[airOutDesiredFlowRates.length]; 
 	}
 	public SimEnvironment[] getAirOutputs(){
 		return mySimEnvironmentOutputs;
@@ -358,8 +391,14 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	public float[] getO2OutputMaxFlowRates(){
 		return O2MaxFlowRates;
 	}
-	public void setO2OutputActualFlowRate(float liters, int index){
-		O2ActualFlowRates[index] = liters;
+	public void setO2OutputDesiredFlowRate(float liters, int index){
+		O2DesiredFlowRates[index] = liters;
+	}
+	public float getO2OutputDesiredFlowRate(int index){
+		return O2DesiredFlowRates[index];
+	}
+	public float[] getO2OutputDesiredFlowRates(){
+		return O2DesiredFlowRates;
 	}
 	public float getO2OutputActualFlowRate(int index){
 		return O2ActualFlowRates[index];
@@ -367,10 +406,11 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	public float[] getO2OutputActualFlowRates(){
 		return O2ActualFlowRates;
 	}
-	public void setO2Outputs(O2Store[] sources, float[] maxFlowRates, float[] actualFlowRates){
+	public void setO2Outputs(O2Store[] sources, float[] maxFlowRates, float[] desiredFlowRates){
 		myO2Stores = sources;
 		O2MaxFlowRates = maxFlowRates;
-		O2ActualFlowRates = actualFlowRates;
+		O2DesiredFlowRates = desiredFlowRates;
+		O2ActualFlowRates = new float[O2DesiredFlowRates.length]; 
 	}
 	public O2Store[] getO2Outputs(){
 		return myO2Stores;
@@ -386,8 +426,14 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	public float[] getCO2OutputMaxFlowRates(){
 		return CO2OutputMaxFlowRates;
 	}
-	public void setCO2OutputActualFlowRate(float liters, int index){
-		CO2OutputActualFlowRates[index] = liters;
+	public void setCO2OutputDesiredFlowRate(float liters, int index){
+		CO2OutputDesiredFlowRates[index] = liters;
+	}
+	public float getCO2OutputDesiredFlowRate(int index){
+		return CO2OutputDesiredFlowRates[index];
+	}
+	public float[] getCO2OutputDesiredFlowRates(){
+		return CO2OutputDesiredFlowRates;
 	}
 	public float getCO2OutputActualFlowRate(int index){
 		return CO2OutputActualFlowRates[index];
@@ -395,10 +441,11 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	public float[] getCO2OutputActualFlowRates(){
 		return CO2OutputActualFlowRates;
 	}
-	public void setCO2Outputs(CO2Store[] sources, float[] maxFlowRates, float[] actualFlowRates){
+	public void setCO2Outputs(CO2Store[] sources, float[] maxFlowRates, float[] desiredFlowRates){
 		myCO2OutputStores = sources;
 		CO2OutputMaxFlowRates = maxFlowRates;
-		CO2OutputActualFlowRates = actualFlowRates;
+		CO2OutputDesiredFlowRates = desiredFlowRates;
+		CO2OutputActualFlowRates = new float[CO2OutputDesiredFlowRates.length]; 
 	}
 	public CO2Store[] getCO2Outputs(){
 		return myCO2OutputStores;
@@ -414,8 +461,14 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	public float[] getCO2InputMaxFlowRates(){
 		return CO2InputMaxFlowRates;
 	}
-	public void setCO2InputActualFlowRate(float liters, int index){
-		CO2InputActualFlowRates[index] = liters;
+	public void setCO2InputDesiredFlowRate(float liters, int index){
+		CO2InputDesiredFlowRates[index] = liters;
+	}
+	public float getCO2InputDesiredFlowRate(int index){
+		return CO2InputDesiredFlowRates[index];
+	}
+	public float[] getCO2InputDesiredFlowRates(){
+		return CO2InputDesiredFlowRates;
 	}
 	public float getCO2InputActualFlowRate(int index){
 		return CO2InputActualFlowRates[index];
@@ -423,10 +476,11 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	public float[] getCO2InputActualFlowRates(){
 		return CO2InputActualFlowRates;
 	}
-	public void setCO2Inputs(CO2Store[] sources, float[] maxFlowRates, float[] actualFlowRates){
+	public void setCO2Inputs(CO2Store[] sources, float[] maxFlowRates, float[] desiredFlowRates){
 		myCO2InputStores = sources;
 		CO2InputMaxFlowRates = maxFlowRates;
-		CO2InputActualFlowRates = actualFlowRates;
+		CO2InputDesiredFlowRates = desiredFlowRates;
+		CO2InputActualFlowRates = new float[CO2InputDesiredFlowRates.length]; 
 	}
 	public CO2Store[] getCO2Inputs(){
 		return myCO2InputStores;

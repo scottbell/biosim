@@ -43,6 +43,9 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	private float[] powerActualFlowRates;
 	private float[] biomassActualFlowRates;
 	private float[] foodActualFlowRates;
+	private float[] powerDesiredFlowRates;
+	private float[] biomassDesiredFlowRates;
+	private float[] foodDesiredFlowRates;
 	
 	public FoodProcessorImpl(int pID){
 		super(pID);
@@ -55,6 +58,9 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 		powerActualFlowRates = new float[0];
 		biomassActualFlowRates = new float[0];
 		foodActualFlowRates = new float[0];
+		powerDesiredFlowRates = new float[0];
+		biomassDesiredFlowRates = new float[0];
+		foodDesiredFlowRates = new float[0];
 	}
 	
 	/**
@@ -261,8 +267,14 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	public float[] getPowerInputMaxFlowRates(){
 		return powerMaxFlowRates;
 	}
-	public void setPowerInputActualFlowRate(float watts, int index){
-		powerActualFlowRates[index] = watts;
+	public void setPowerInputDesiredFlowRate(float watts, int index){
+		powerDesiredFlowRates[index] = watts;
+	}
+	public float getPowerInputDesiredFlowRate(int index){
+		return powerDesiredFlowRates[index];
+	}
+	public float[] getPowerInputDesiredFlowRates(){
+		return powerDesiredFlowRates;
 	}
 	public float getPowerInputActualFlowRate(int index){
 		return powerActualFlowRates[index];
@@ -270,10 +282,11 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	public float[] getPowerInputActualFlowRates(){
 		return powerActualFlowRates;
 	}
-	public void setPowerInputs(PowerStore[] sources, float[] maxFlowRates, float[] actualFlowRates){
+	public void setPowerInputs(PowerStore[] sources, float[] maxFlowRates, float[] desiredFlowRates){
 		myPowerStores = sources;
 		powerMaxFlowRates = maxFlowRates;
-		powerActualFlowRates = actualFlowRates;
+		powerDesiredFlowRates = desiredFlowRates;
+		powerActualFlowRates = new float[powerDesiredFlowRates.length]; 
 		
 	}
 	public PowerStore[] getPowerInputs(){
@@ -290,8 +303,14 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	public float[] getBiomassInputMaxFlowRates(){
 		return biomassMaxFlowRates;
 	}
-	public void setBiomassInputActualFlowRate(float kilograms, int index){
-		biomassActualFlowRates[index] = kilograms;
+	public void setBiomassInputDesiredFlowRate(float kilograms, int index){
+		biomassDesiredFlowRates[index] = kilograms;
+	}
+	public float getBiomassInputDesiredFlowRate(int index){
+		return biomassDesiredFlowRates[index];
+	}
+	public float[] getBiomassInputDesiredFlowRates(){
+		return biomassDesiredFlowRates;
 	}
 	public float getBiomassInputActualFlowRate(int index){
 		return biomassActualFlowRates[index];
@@ -299,10 +318,11 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	public float[] getBiomassInputActualFlowRates(){
 		return biomassActualFlowRates;
 	}
-	public void setBiomassInputs(BiomassStore[] sources, float[] maxFlowRates, float[] actualFlowRates){
+	public void setBiomassInputs(BiomassStore[] sources, float[] maxFlowRates, float[] desiredFlowRates){
 		myBiomassStores = sources;
 		biomassMaxFlowRates = maxFlowRates;
-		biomassActualFlowRates = actualFlowRates;
+		biomassDesiredFlowRates = desiredFlowRates;
+		biomassActualFlowRates = new float[biomassDesiredFlowRates.length]; 
 	}
 	public BiomassStore[] getBiomassInputs(){
 		return myBiomassStores;
@@ -318,8 +338,14 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	public float[] getFoodOutputMaxFlowRates(){
 		return foodMaxFlowRates;
 	}
-	public void setFoodOutputActualFlowRate(float kilograms, int index){
-		foodActualFlowRates[index] = kilograms;
+	public void setFoodOutputDesiredFlowRate(float kilograms, int index){
+		foodDesiredFlowRates[index] = kilograms;
+	}
+	public float getFoodOutputDesiredFlowRate(int index){
+		return foodDesiredFlowRates[index];
+	}
+	public float[] getFoodOutputDesiredFlowRates(){
+		return foodDesiredFlowRates;
 	}
 	public float getFoodOutputActualFlowRate(int index){
 		return foodActualFlowRates[index];
@@ -327,10 +353,11 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	public float[] getFoodOutputActualFlowRates(){
 		return foodActualFlowRates;
 	}
-	public void setFoodOutputs(FoodStore[] destinations, float[] maxFlowRates, float[] actualFlowRates){
+	public void setFoodOutputs(FoodStore[] destinations, float[] maxFlowRates, float[] desiredFlowRates){
 		myFoodStores = destinations;
 		foodMaxFlowRates = maxFlowRates;
-		foodActualFlowRates = actualFlowRates;
+		foodDesiredFlowRates = desiredFlowRates;
+		foodActualFlowRates = new float[foodDesiredFlowRates.length]; 
 	}
 	public FoodStore[] getFoodOutputs(){
 		return myFoodStores;
