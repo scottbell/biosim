@@ -79,7 +79,7 @@ public class CrewTextPanel extends TimedPanel
 				setLayout(new GridLayout(myCrewPeople.length / 2, myCrewPeople.length / 2));
 			for (int i = 0; i < myCrewPeople.length; i++){
 				JPanel newPersonPanel = new JPanel();
-				newPersonPanel.setLayout(new GridLayout(14,1));
+				newPersonPanel.setLayout(new GridLayout(15,1));
 				newPersonPanel.setBorder(BorderFactory.createTitledBorder(myCrewPeople[i].getName()));
 				CrewPersonGUI newPersonGUI = new CrewPersonGUI();
 				newPersonGUI.name = myCrewPeople[i].getName();
@@ -116,6 +116,8 @@ public class CrewTextPanel extends TimedPanel
 				newPersonPanel.add(newPersonGUI.activityTotalDurationLabel);
 				newPersonGUI.activityIntensityLabel = new JLabel("	intensity: "+myCrewPeople[i].getCurrentActivity().getActivityIntensity());
 				newPersonPanel.add(newPersonGUI.activityIntensityLabel);
+				newPersonGUI.productivityLabel = new JLabel("productivity: "+numFormat.format(myCrewPeople[i].getProductivity()));
+				newPersonPanel.add(newPersonGUI.productivityLabel);
 				crewPersonGUIList.add(newPersonGUI);
 				add(newPersonPanel);
 			}
@@ -176,6 +178,7 @@ public class CrewTextPanel extends TimedPanel
 			newPersonGUI.CO2ProducedLabel.setText("CO2 produced: "+numFormat.format(crewPerson.getCO2Produced())+" moles");
 			newPersonGUI.O2ConsumedLabel.setText("O2 consumed: "+numFormat.format(crewPerson.getO2Consumed())+" moles");
 			newPersonGUI.activityNameLabel.setText("current activity: "+crewPerson.getCurrentActivity().getName());
+			newPersonGUI.productivityLabel.setText("productivity: "+numFormat.format(crewPerson.getProductivity()));
 			String sexString;
 			if (crewPerson.getSex() == Sex.male)
 				sexString = "male";
@@ -219,5 +222,6 @@ public class CrewTextPanel extends TimedPanel
 		JLabel foodConsumedLabel;
 		JLabel CO2ProducedLabel;
 		JLabel O2ConsumedLabel;
+		JLabel productivityLabel;
 	}
 }
