@@ -10,6 +10,7 @@ import biosim.idl.simulation.air.*;
 import biosim.idl.simulation.crew.*;
 import biosim.idl.simulation.food.*;
 import biosim.idl.simulation.water.*;
+import biosim.idl.simulation.waste.*;
 import biosim.idl.simulation.power.*;
 import biosim.idl.simulation.environment.*;
 import biosim.idl.simulation.framework.*;
@@ -21,6 +22,7 @@ import biosim.server.simulation.water.*;
 import biosim.server.simulation.power.*;
 import biosim.server.simulation.environment.*;
 import biosim.server.simulation.framework.*;
+import biosim.server.simulation.waste.*;
 import biosim.idl.sensor.air.*;
 import biosim.idl.sensor.food.*;
 import biosim.idl.sensor.water.*;
@@ -28,6 +30,7 @@ import biosim.idl.sensor.power.*;
 import biosim.idl.sensor.crew.*;
 import biosim.idl.sensor.environment.*;
 import biosim.idl.sensor.framework.*;
+import biosim.idl.sensor.waste.*;
 import biosim.server.sensor.air.*;
 import biosim.server.sensor.food.*;
 import biosim.server.sensor.water.*;
@@ -35,6 +38,7 @@ import biosim.server.sensor.power.*;
 import biosim.server.sensor.crew.*;
 import biosim.server.sensor.environment.*;
 import biosim.server.sensor.framework.*;
+import biosim.server.sensor.waste.*;
 import biosim.idl.actuator.air.*;
 import biosim.idl.actuator.food.*;
 import biosim.idl.actuator.water.*;
@@ -42,12 +46,14 @@ import biosim.idl.actuator.power.*;
 import biosim.idl.actuator.crew.*;
 import biosim.idl.actuator.environment.*;
 import biosim.idl.actuator.framework.*;
+import biosim.idl.actuator.waste.*;
 import biosim.server.actuator.air.*;
 import biosim.server.actuator.food.*;
 import biosim.server.actuator.water.*;
 import biosim.server.actuator.power.*;
 import biosim.server.actuator.environment.*;
 import biosim.server.actuator.framework.*;
+import biosim.server.actuator.waste.*;
 import biosim.idl.util.log.*;
 import biosim.server.util.*;
 import biosim.server.util.log.*;
@@ -431,6 +437,14 @@ public class BioInitializer{
 					inputs[i] = BiomassStoreHelper.narrow(modules[i]);
 				myBiomassConsumer.setBiomassInputs(inputs, getMaxFlowRates(child), getDesiredFlowRates(child));
 			}
+			else if (childName.equals("dryWasteConsumer")){
+				DryWasteConsumer myDryWasteConsumer = (DryWasteConsumer)(pModule);
+				BioModule[] modules = getInputs(child);
+				DryWasteStore[] inputs = new DryWasteStore[modules.length];
+				for (int i = 0; i < modules.length; i++)
+					inputs[i] = DryWasteStoreHelper.narrow(modules[i]);
+				myDryWasteConsumer.setDryWasteInputs(inputs, getMaxFlowRates(child), getDesiredFlowRates(child));
+			}
 			else if (childName.equals("foodConsumer")){
 				FoodConsumer myFoodConsumer = (FoodConsumer)(pModule);
 				BioModule[] modules = getInputs(child);
@@ -578,6 +592,14 @@ public class BioInitializer{
 				for (int i = 0; i < modules.length; i++)
 					outputs[i] = BiomassStoreHelper.narrow(modules[i]);
 				myBiomassProducer.setBiomassOutputs(outputs, getMaxFlowRates(child), getDesiredFlowRates(child));
+			}
+			else if (childName.equals("dryWasteProducer")){
+				DryWasteProducer myDryWasteProducer = (DryWasteProducer)(pModule);
+				BioModule[] modules = getOutputs(child);
+				DryWasteStore[] outputs = new DryWasteStore[modules.length];
+				for (int i = 0; i < modules.length; i++)
+					outputs[i] = DryWasteStoreHelper.narrow(modules[i]);
+				myDryWasteProducer.setDryWasteOutputs(outputs, getMaxFlowRates(child), getDesiredFlowRates(child));
 			}
 			else if (childName.equals("foodProducer")){
 				FoodProducer myFoodProducer = (FoodProducer)(pModule);
@@ -738,6 +760,10 @@ public class BioInitializer{
 			}
 			else if (childName.equals("water")){
 				crawlWaterModules(child, firstPass);
+
+			}
+			else if (childName.equals("waste")){
+				crawlWasteModules(child, firstPass);
 
 			}
 			child = child.getNextSibling();
@@ -1480,6 +1506,65 @@ public class BioInitializer{
 			child = child.getNextSibling();
 		}
 	}
+	
+	private void createIncinerator(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating Incinerator with moduleName: "+moduleName);
+			IncineratorImpl myIncineratorImpl = new IncineratorImpl(myID, moduleName);
+			setupBioModule(myIncineratorImpl, node);
+			mySimModules.add(OrbUtils.poaToCorbaObj(myIncineratorImpl));
+			BiosimServer.registerServer(new IncineratorPOATie(myIncineratorImpl), myIncineratorImpl.getModuleName(), myIncineratorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureIncinerator(Node node){
+		//System.out.println("Configuring Incinerator");
+		String moduleName = getModuleName(node);
+		try{
+			Incinerator myIncinerator = IncineratorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			configureSimBioModule(myIncinerator, node);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+	}
+	
+	private void createDryWasteStore(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating DryWasteStore with moduleName: "+moduleName);
+			DryWasteStoreImpl myDryWasteStoreImpl = new DryWasteStoreImpl(myID, moduleName);
+			setupBioModule(myDryWasteStoreImpl, node);
+			myDryWasteStoreImpl.setLevel(getStoreLevel(node));
+			myDryWasteStoreImpl.setCapacity(getStoreCapacity(node));
+			myDryWasteStoreImpl.setResupply(getStoreResupplyFrequency(node), getStoreResupplyAmount(node));
+			mySimModules.add(OrbUtils.poaToCorbaObj(myDryWasteStoreImpl));
+			BiosimServer.registerServer(new DryWasteStorePOATie(myDryWasteStoreImpl), myDryWasteStoreImpl.getModuleName(), myDryWasteStoreImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+	
+	private void crawlWasteModules(Node node, boolean firstPass){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("Incinerator")){
+				if (firstPass)
+					createIncinerator(child);
+				else
+					configureIncinerator(child);
+			}
+			else if (childName.equals("DryWasteStore")){
+				if (firstPass)
+					createDryWasteStore(child);
+			}
+			child = child.getNextSibling();
+		}
+	}
 
 	//Sensors
 	private void crawlSensors(Node node, boolean firstPass){
@@ -1512,6 +1597,10 @@ public class BioInitializer{
 			}
 			else if (childName.equals("water")){
 				crawlWaterSensors(child, firstPass);
+
+			}
+			else if (childName.equals("waste")){
+				crawlWasteSensors(child, firstPass);
 
 			}
 			child = child.getNextSibling();
@@ -3857,6 +3946,121 @@ public class BioInitializer{
 			child = child.getNextSibling();
 		}
 	}
+	
+	//Waste
+	private void createDryWasteInFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating DryWasteInFlowRateSensor with moduleName: "+moduleName);
+			DryWasteInFlowRateSensorImpl myDryWasteInFlowRateSensorImpl = new DryWasteInFlowRateSensorImpl(myID, moduleName);
+			setupBioModule(myDryWasteInFlowRateSensorImpl, node);
+			mySensors.add(OrbUtils.poaToCorbaObj(myDryWasteInFlowRateSensorImpl));
+			BiosimServer.registerServer(new DryWasteInFlowRateSensorPOATie(myDryWasteInFlowRateSensorImpl), myDryWasteInFlowRateSensorImpl.getModuleName(), myDryWasteInFlowRateSensorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureDryWasteInFlowRateSensor(Node node){
+		//System.out.println("Configuring DryWasteInFlowRateSensor");
+		String moduleName = getModuleName(node);
+		try{
+			DryWasteInFlowRateSensor myDryWasteInFlowRateSensor = DryWasteInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
+			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
+			myDryWasteInFlowRateSensor.setInput(DryWasteConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
+
+	private void createDryWasteOutFlowRateSensor(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating DryWasteOutFlowRateSensor with moduleName: "+moduleName);
+			DryWasteOutFlowRateSensorImpl myDryWasteOutFlowRateSensorImpl = new DryWasteOutFlowRateSensorImpl(myID, moduleName);
+			setupBioModule(myDryWasteOutFlowRateSensorImpl, node);
+			mySensors.add(OrbUtils.poaToCorbaObj(myDryWasteOutFlowRateSensorImpl));
+			BiosimServer.registerServer(new DryWasteOutFlowRateSensorPOATie(myDryWasteOutFlowRateSensorImpl), myDryWasteOutFlowRateSensorImpl.getModuleName(), myDryWasteOutFlowRateSensorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureDryWasteOutFlowRateSensor(Node node){
+		//System.out.println("Configuring DryWasteOutFlowRateSensor");
+		String moduleName = getModuleName(node);
+		try{
+			DryWasteOutFlowRateSensor myDryWasteOutFlowRateSensor = DryWasteOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
+			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
+			myDryWasteOutFlowRateSensor.setInput(DryWasteProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
+
+	private void createDryWasteStoreLevelSensor(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating DryWasteStoreLevelSensor with moduleName: "+moduleName);
+			DryWasteStoreLevelSensorImpl myDryWasteStoreLevelSensorImpl = new DryWasteStoreLevelSensorImpl(myID, moduleName);
+			setupBioModule(myDryWasteStoreLevelSensorImpl, node);
+			mySensors.add(OrbUtils.poaToCorbaObj(myDryWasteStoreLevelSensorImpl));
+			BiosimServer.registerServer(new DryWasteStoreLevelSensorPOATie(myDryWasteStoreLevelSensorImpl), myDryWasteStoreLevelSensorImpl.getModuleName(), myDryWasteStoreLevelSensorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureDryWasteStoreLevelSensor(Node node){
+		//System.out.println("Configuring DryWasteStoreLevelSensor");
+		String moduleName = getModuleName(node);
+		try{
+			DryWasteStoreLevelSensor myDryWasteStoreLevelSensor = DryWasteStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
+			myDryWasteStoreLevelSensor.setInput(DryWasteStoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)));
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
+	private void crawlWasteSensors(Node node, boolean firstPass){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("DryWasteInFlowRateSensor")){
+				if (firstPass)
+					createDryWasteInFlowRateSensor(child);
+				else
+					configureDryWasteInFlowRateSensor(child);
+			}
+			else if (childName.equals("DryWasteOutFlowRateSensor")){
+				if (firstPass)
+					createDryWasteOutFlowRateSensor(child);
+				else
+					configureDryWasteOutFlowRateSensor(child);
+			}
+			else if (childName.equals("DryWasteStoreLevelSensor")){
+				if (firstPass)
+					createDryWasteStoreLevelSensor(child);
+				else
+					configureDryWasteStoreLevelSensor(child);
+			}
+			child = child.getNextSibling();
+		}
+	}
 
 	//Actuators
 
@@ -5276,6 +5480,87 @@ public class BioInitializer{
 			child = child.getNextSibling();
 		}
 	}
+	
+	//Waste
+	private void createDryWasteInFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating DryWasteInFlowRateActuator with moduleName: "+moduleName);
+			DryWasteInFlowRateActuatorImpl myDryWasteInFlowRateActuatorImpl = new DryWasteInFlowRateActuatorImpl(myID, moduleName);
+			setupBioModule(myDryWasteInFlowRateActuatorImpl, node);
+			myActuators.add(OrbUtils.poaToCorbaObj(myDryWasteInFlowRateActuatorImpl));
+			BiosimServer.registerServer(new DryWasteInFlowRateActuatorPOATie(myDryWasteInFlowRateActuatorImpl), myDryWasteInFlowRateActuatorImpl.getModuleName(), myDryWasteInFlowRateActuatorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureDryWasteInFlowRateActuator(Node node){
+		//System.out.println("Configuring DryWasteInFlowRateActuator");
+		String moduleName = getModuleName(node);
+		try{
+			DryWasteInFlowRateActuator myDryWasteInFlowRateActuator = DryWasteInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
+			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
+			myDryWasteInFlowRateActuator.setOutput(DryWasteConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
+
+	private void createDryWasteOutFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating DryWasteOutFlowRateActuator with moduleName: "+moduleName);
+			DryWasteOutFlowRateActuatorImpl myDryWasteOutFlowRateActuatorImpl = new DryWasteOutFlowRateActuatorImpl(myID, moduleName);
+			setupBioModule(myDryWasteOutFlowRateActuatorImpl, node);
+			myActuators.add(OrbUtils.poaToCorbaObj(myDryWasteOutFlowRateActuatorImpl));
+			BiosimServer.registerServer(new DryWasteOutFlowRateActuatorPOATie(myDryWasteOutFlowRateActuatorImpl), myDryWasteOutFlowRateActuatorImpl.getModuleName(), myDryWasteOutFlowRateActuatorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureDryWasteOutFlowRateActuator(Node node){
+		//System.out.println("Configuring DryWasteOutFlowRateActuator");
+		String moduleName = getModuleName(node);
+		try{
+			DryWasteOutFlowRateActuator myDryWasteOutFlowRateActuator = DryWasteOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
+			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
+			myDryWasteOutFlowRateActuator.setOutput(DryWasteProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
+
+	private void crawlWasteActuators(Node node, boolean firstPass){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("DryWasteInFlowRateActuator")){
+				if (firstPass)
+					createDryWasteInFlowRateActuator(child);
+				else
+					configureDryWasteInFlowRateActuator(child);
+			}
+			else if (childName.equals("DryWasteOutFlowRateActuator")){
+				if (firstPass)
+					createDryWasteOutFlowRateActuator(child);
+				else
+					configureDryWasteOutFlowRateActuator(child);
+			}
+			child = child.getNextSibling();
+		}
+	}
 
 	private void crawlActuators(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
@@ -5302,6 +5587,10 @@ public class BioInitializer{
 			}
 			else if (childName.equals("water")){
 				crawlWaterActuators(child, firstPass);
+
+			}
+			else if (childName.equals("waste")){
+				crawlWasteActuators(child, firstPass);
 
 			}
 			child = child.getNextSibling();

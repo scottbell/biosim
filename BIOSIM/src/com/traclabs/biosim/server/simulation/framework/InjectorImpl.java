@@ -7,6 +7,7 @@ import biosim.idl.simulation.air.*;
 import biosim.idl.simulation.water.*;
 import biosim.idl.simulation.environment.*;
 import biosim.idl.simulation.power.*;
+import biosim.idl.simulation.waste.*;
 import java.util.*;
 import biosim.server.util.*;
 import biosim.idl.util.log.*;
@@ -74,6 +75,15 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 	private float[] foodInActualFlowRates;
 	private float[] foodOutDesiredFlowRates;
 	private float[] foodInDesiredFlowRates;
+
+	private DryWasteStore[] myDryWasteInputs;
+	private DryWasteStore[] myDryWasteOutputs;
+	private float[] dryWasteOutMaxFlowRates;
+	private float[] dryWasteInMaxFlowRates;
+	private float[] dryWasteOutActualFlowRates;
+	private float[] dryWasteInActualFlowRates;
+	private float[] dryWasteOutDesiredFlowRates;
+	private float[] dryWasteInDesiredFlowRates;
 
 	private SimEnvironment[] myAirInputs;
 	private SimEnvironment[] myAirOutputs;
@@ -238,6 +248,15 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		foodInActualFlowRates = new float[0];
 		foodOutDesiredFlowRates = new float[0];
 		foodInDesiredFlowRates = new float[0];
+		
+		myDryWasteOutputs = new DryWasteStore[0];
+		myDryWasteInputs = new DryWasteStore[0];
+		dryWasteOutMaxFlowRates = new float[0];
+		dryWasteInMaxFlowRates = new float[0];
+		dryWasteOutActualFlowRates = new float[0];
+		dryWasteInActualFlowRates = new float[0];
+		dryWasteOutDesiredFlowRates = new float[0];
+		dryWasteInDesiredFlowRates = new float[0];
 
 		myAirOutputs = new SimEnvironment[0];
 		myAirInputs = new SimEnvironment[0];
@@ -372,6 +391,9 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 
 		float foodGathered = getMostResourceFromStore(myFoodInputs, foodInMaxFlowRates, foodInDesiredFlowRates, foodInActualFlowRates);
 		float foodPushed = pushResourceToStore(myFoodOutputs, foodOutMaxFlowRates, foodOutDesiredFlowRates, foodOutActualFlowRates, foodGathered);
+		
+		float dryWasteGathered = getMostResourceFromStore(myDryWasteInputs, dryWasteInMaxFlowRates, dryWasteInDesiredFlowRates, dryWasteInActualFlowRates);
+		float dryWastePushed = pushResourceToStore(myDryWasteOutputs, dryWasteOutMaxFlowRates, dryWasteOutDesiredFlowRates, dryWasteOutActualFlowRates, dryWasteGathered);
 
 		float O2Gathered = getMostResourceFromStore(myO2Inputs, O2InMaxFlowRates, O2InDesiredFlowRates, O2InActualFlowRates);
 		float O2Pushed = pushResourceToStore(myO2Outputs, O2OutMaxFlowRates, O2OutDesiredFlowRates, O2OutActualFlowRates, O2Gathered);
@@ -458,6 +480,7 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		for (int i = 0; i < myWaterAirEnvironmentInputs.length; i++){
 			float amountToTake = Math.min(waterAirEnvironmentInMaxFlowRates[i], waterAirEnvironmentInDesiredFlowRates[i]);
 			waterAirEnvironmentInActualFlowRates[i] = myWaterAirEnvironmentInputs[i].takeWaterMoles(amountToTake);
+			//System.out.println("Taking "+waterAirEnvironmentInActualFlowRates[i]+" moles of water from "+myWaterAirEnvironmentInputs[i].getModuleName()+" ("+(i+1)+" of "+myWaterAirEnvironmentInputs.length+")");
 			gatheredWaterAirMoles += waterAirEnvironmentInActualFlowRates[i];
 		}
 		//Convert to liters (for water store)
@@ -947,6 +970,76 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 	}
 	public BiomassStore[] getBiomassOutputs(){
 		return myBiomassOutputs;
+	}
+	
+	//DryWaste Inputs
+	public void setDryWasteInputMaxFlowRate(float amount, int index){
+		dryWasteInMaxFlowRates[index] = amount;
+	}
+	public float getDryWasteInputMaxFlowRate(int index){
+		return dryWasteInMaxFlowRates[index];
+	}
+	public float[] getDryWasteInputMaxFlowRates(){
+		return dryWasteInMaxFlowRates;
+	}
+	public void setDryWasteInputDesiredFlowRate(float amount, int index){
+		dryWasteInDesiredFlowRates[index] = amount;
+	}
+	public float getDryWasteInputDesiredFlowRate(int index){
+		return dryWasteInDesiredFlowRates[index];
+	}
+	public float[] getDryWasteInputDesiredFlowRates(){
+		return dryWasteInDesiredFlowRates;
+	}
+	public float getDryWasteInputActualFlowRate(int index){
+		return dryWasteInActualFlowRates[index];
+	}
+	public float[] getDryWasteInputActualFlowRates(){
+		return dryWasteInActualFlowRates;
+	}
+	public void setDryWasteInputs(DryWasteStore[] sources, float[] maxFlowRates, float[] desiredFlowRates){
+		myDryWasteInputs = sources;
+		dryWasteInMaxFlowRates = maxFlowRates;
+		dryWasteInDesiredFlowRates = desiredFlowRates;
+		dryWasteInActualFlowRates = new float[dryWasteInDesiredFlowRates.length];
+	}
+	public DryWasteStore[] getDryWasteInputs(){
+		return myDryWasteInputs;
+	}
+	
+	//DryWaste Outputs
+	public void setDryWasteOutputMaxFlowRate(float amount, int index){
+		dryWasteOutMaxFlowRates[index] = amount;
+	}
+	public float getDryWasteOutputMaxFlowRate(int index){
+		return dryWasteOutMaxFlowRates[index];
+	}
+	public float[] getDryWasteOutputMaxFlowRates(){
+		return dryWasteOutMaxFlowRates;
+	}
+	public void setDryWasteOutputDesiredFlowRate(float amount, int index){
+		dryWasteOutDesiredFlowRates[index] = amount;
+	}
+	public float getDryWasteOutputDesiredFlowRate(int index){
+		return dryWasteOutDesiredFlowRates[index];
+	}
+	public float[] getDryWasteOutputDesiredFlowRates(){
+		return dryWasteOutDesiredFlowRates;
+	}
+	public float getDryWasteOutputActualFlowRate(int index){
+		return dryWasteOutActualFlowRates[index];
+	}
+	public float[] getDryWasteOutputActualFlowRates(){
+		return dryWasteOutActualFlowRates;
+	}
+	public void setDryWasteOutputs(DryWasteStore[] destinations, float[] maxFlowRates, float[] desiredFlowRates){
+		myDryWasteOutputs = destinations;
+		dryWasteOutMaxFlowRates = maxFlowRates;
+		dryWasteOutDesiredFlowRates = desiredFlowRates;
+		dryWasteOutActualFlowRates = new float[dryWasteOutDesiredFlowRates.length];
+	}
+	public DryWasteStore[] getDryWasteOutputs(){
+		return myDryWasteOutputs;
 	}
 
 	//Air Inputs
