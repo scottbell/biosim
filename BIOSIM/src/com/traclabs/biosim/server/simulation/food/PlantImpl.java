@@ -156,7 +156,7 @@ public abstract class Plant {
 	private void produceBiomass(){
 		biomassProduced = calculateProducedBiomass() * myProductionRate;
 		if (biomassProduced > 0){
-			float distributedBiomassLeft = myBiomassImpl.pushResourceToStore(myBiomassImpl.getBiomassOutputs(), myBiomassImpl.getBiomassOutputFlowrates(), biomassProduced);
+			float distributedBiomassLeft = myBiomassImpl.pushResourceToStore(myBiomassImpl.getBiomassOutputs(), myBiomassImpl.getBiomassOutputFlowRates(), biomassProduced);
 			myAge = 0;
 		}
 	}

@@ -351,7 +351,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	}
 	
 	/**
-	* Grabs as much resources as it can (i.e., the flowrate) from a store.
+	* Grabs as much resources as it can (i.e., the flowRate) from a store.
 	* @param pStores The stores to grab the resources from
 	* @param pFlowRates The flow rates from this module to the stores
 	* @return The total amount of resource grabbed from the stores

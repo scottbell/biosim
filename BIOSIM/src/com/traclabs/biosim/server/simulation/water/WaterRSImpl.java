@@ -361,11 +361,11 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 		return NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER;
 	}
 	
-	public void setPowerInputFlowrate(float watts, int index){
+	public void setPowerInputFlowRate(float watts, int index){
 		powerFlowRates[index] = watts;
 	}
 
-	public float getPowerInputFlowrate(int index){
+	public float getPowerInputFlowRate(int index){
 		return powerFlowRates[index];
 	}
 
@@ -378,15 +378,15 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 		return myPowerInputs;
 	}
 	
-	public float[] getPowerInputFlowrates(){
+	public float[] getPowerInputFlowRates(){
 		return powerFlowRates;
 	}
 	
-	public void setDirtyWaterInputFlowrate(float watts, int index){
+	public void setDirtyWaterInputFlowRate(float watts, int index){
 		dirtyWaterFlowRates[index] = watts;
 	}
 
-	public float getDirtyWaterInputFlowrate(int index){
+	public float getDirtyWaterInputFlowRate(int index){
 		return dirtyWaterFlowRates[index];
 	}
 
@@ -399,15 +399,15 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 		return myDirtyWaterInputs;
 	}
 	
-	public float[] getDirtyWaterInputFlowrates(){
+	public float[] getDirtyWaterInputFlowRates(){
 		return dirtyWaterFlowRates;
 	}
 	
-	public void setGreyWaterInputFlowrate(float watts, int index){
+	public void setGreyWaterInputFlowRate(float watts, int index){
 		greyWaterFlowRates[index] = watts;
 	}
 
-	public float getGreyWaterInputFlowrate(int index){
+	public float getGreyWaterInputFlowRate(int index){
 		return greyWaterFlowRates[index];
 	}
 
@@ -420,15 +420,15 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 		return myGreyWaterInputs;
 	}
 	
-	public float[] getGreyWaterInputFlowrates(){
+	public float[] getGreyWaterInputFlowRates(){
 		return greyWaterFlowRates;
 	}
 	
-	public void setPotableWaterOutputFlowrate(float watts, int index){
+	public void setPotableWaterOutputFlowRate(float watts, int index){
 		potableWaterFlowRates[index] = watts;
 	}
 
-	public float getPotableWaterOutputFlowrate(int index){
+	public float getPotableWaterOutputFlowRate(int index){
 		return potableWaterFlowRates[index];
 	}
 
@@ -441,7 +441,7 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 		return myPotableWaterOutputs;
 	}
 	
-	public float[] getPotableWaterOutputFlowrates(){
+	public float[] getPotableWaterOutputFlowRates(){
 		return potableWaterFlowRates;
 	}
 }
