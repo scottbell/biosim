@@ -4278,6 +4278,246 @@ public class BioInitializer{
 			e.printStackTrace();
 		}
 	}
+	
+	private void createWaterAirEnvironmentInFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating WaterAirEnvironmentInFlowRateActuator with moduleName: "+moduleName);
+			WaterAirEnvironmentInFlowRateActuatorImpl myWaterAirEnvironmentInFlowRateActuatorImpl = new WaterAirEnvironmentInFlowRateActuatorImpl(myID, moduleName);
+			setupBioModule(myWaterAirEnvironmentInFlowRateActuatorImpl, node);
+			myActuators.add(OrbUtils.poaToCorbaObj(myWaterAirEnvironmentInFlowRateActuatorImpl));
+			BiosimServer.registerServer(new WaterAirEnvironmentInFlowRateActuatorPOATie(myWaterAirEnvironmentInFlowRateActuatorImpl), myWaterAirEnvironmentInFlowRateActuatorImpl.getModuleName(), myWaterAirEnvironmentInFlowRateActuatorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureWaterAirEnvironmentInFlowRateActuator(Node node){
+		//System.out.println("Configuring WaterAirEnvironmentInFlowRateActuator");
+		String moduleName = getModuleName(node);
+		try{
+			WaterAirEnvironmentInFlowRateActuator myWaterAirEnvironmentInFlowRateActuator = WaterAirEnvironmentInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
+			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
+			myWaterAirEnvironmentInFlowRateActuator.setOutput(WaterAirConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
+
+	private void createWaterAirEnvironmentOutFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating WaterAirEnvironmentOutFlowRateActuator with moduleName: "+moduleName);
+			WaterAirEnvironmentOutFlowRateActuatorImpl myWaterAirEnvironmentOutFlowRateActuatorImpl = new WaterAirEnvironmentOutFlowRateActuatorImpl(myID, moduleName);
+			setupBioModule(myWaterAirEnvironmentOutFlowRateActuatorImpl, node);
+			myActuators.add(OrbUtils.poaToCorbaObj(myWaterAirEnvironmentOutFlowRateActuatorImpl));
+			BiosimServer.registerServer(new WaterAirEnvironmentOutFlowRateActuatorPOATie(myWaterAirEnvironmentOutFlowRateActuatorImpl), myWaterAirEnvironmentOutFlowRateActuatorImpl.getModuleName(), myWaterAirEnvironmentOutFlowRateActuatorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureWaterAirEnvironmentOutFlowRateActuator(Node node){
+		//System.out.println("Configuring WaterAirEnvironmentOutFlowRateActuator");
+		String moduleName = getModuleName(node);
+		try{
+			WaterAirEnvironmentOutFlowRateActuator myWaterAirEnvironmentOutFlowRateActuator = WaterAirEnvironmentOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
+			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
+			myWaterAirEnvironmentOutFlowRateActuator.setOutput(WaterAirProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
+
+	private void createWaterAirStoreInFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating WaterAirStoreInFlowRateActuator with moduleName: "+moduleName);
+			WaterAirStoreInFlowRateActuatorImpl myWaterAirStoreInFlowRateActuatorImpl = new WaterAirStoreInFlowRateActuatorImpl(myID, moduleName);
+			setupBioModule(myWaterAirStoreInFlowRateActuatorImpl, node);
+			myActuators.add(OrbUtils.poaToCorbaObj(myWaterAirStoreInFlowRateActuatorImpl));
+			BiosimServer.registerServer(new WaterAirStoreInFlowRateActuatorPOATie(myWaterAirStoreInFlowRateActuatorImpl), myWaterAirStoreInFlowRateActuatorImpl.getModuleName(), myWaterAirStoreInFlowRateActuatorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureWaterAirStoreInFlowRateActuator(Node node){
+		//System.out.println("Configuring WaterAirStoreInFlowRateActuator");
+		String moduleName = getModuleName(node);
+		try{
+			WaterAirStoreInFlowRateActuator myWaterAirStoreInFlowRateActuator = WaterAirStoreInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
+			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
+			myWaterAirStoreInFlowRateActuator.setOutput(WaterAirConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
+
+	private void createWaterAirStoreOutFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating WaterAirStoreOutFlowRateActuator with moduleName: "+moduleName);
+			WaterAirStoreOutFlowRateActuatorImpl myWaterAirStoreOutFlowRateActuatorImpl = new WaterAirStoreOutFlowRateActuatorImpl(myID, moduleName);
+			setupBioModule(myWaterAirStoreOutFlowRateActuatorImpl, node);
+			myActuators.add(OrbUtils.poaToCorbaObj(myWaterAirStoreOutFlowRateActuatorImpl));
+			BiosimServer.registerServer(new WaterAirStoreOutFlowRateActuatorPOATie(myWaterAirStoreOutFlowRateActuatorImpl), myWaterAirStoreOutFlowRateActuatorImpl.getModuleName(), myWaterAirStoreOutFlowRateActuatorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureWaterAirStoreOutFlowRateActuator(Node node){
+		//System.out.println("Configuring WaterAirStoreOutFlowRateActuator");
+		String moduleName = getModuleName(node);
+		try{
+			WaterAirStoreOutFlowRateActuator myWaterAirStoreOutFlowRateActuator = WaterAirStoreOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
+			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
+			myWaterAirStoreOutFlowRateActuator.setOutput(WaterAirProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
+	
+	private void createNitrogenAirEnvironmentInFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating NitrogenAirEnvironmentInFlowRateActuator with moduleName: "+moduleName);
+			NitrogenAirEnvironmentInFlowRateActuatorImpl myNitrogenAirEnvironmentInFlowRateActuatorImpl = new NitrogenAirEnvironmentInFlowRateActuatorImpl(myID, moduleName);
+			setupBioModule(myNitrogenAirEnvironmentInFlowRateActuatorImpl, node);
+			myActuators.add(OrbUtils.poaToCorbaObj(myNitrogenAirEnvironmentInFlowRateActuatorImpl));
+			BiosimServer.registerServer(new NitrogenAirEnvironmentInFlowRateActuatorPOATie(myNitrogenAirEnvironmentInFlowRateActuatorImpl), myNitrogenAirEnvironmentInFlowRateActuatorImpl.getModuleName(), myNitrogenAirEnvironmentInFlowRateActuatorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureNitrogenAirEnvironmentInFlowRateActuator(Node node){
+		//System.out.println("Configuring NitrogenAirEnvironmentInFlowRateActuator");
+		String moduleName = getModuleName(node);
+		try{
+			NitrogenAirEnvironmentInFlowRateActuator myNitrogenAirEnvironmentInFlowRateActuator = NitrogenAirEnvironmentInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
+			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
+			myNitrogenAirEnvironmentInFlowRateActuator.setOutput(NitrogenAirConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
+
+	private void createNitrogenAirEnvironmentOutFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating NitrogenAirEnvironmentOutFlowRateActuator with moduleName: "+moduleName);
+			NitrogenAirEnvironmentOutFlowRateActuatorImpl myNitrogenAirEnvironmentOutFlowRateActuatorImpl = new NitrogenAirEnvironmentOutFlowRateActuatorImpl(myID, moduleName);
+			setupBioModule(myNitrogenAirEnvironmentOutFlowRateActuatorImpl, node);
+			myActuators.add(OrbUtils.poaToCorbaObj(myNitrogenAirEnvironmentOutFlowRateActuatorImpl));
+			BiosimServer.registerServer(new NitrogenAirEnvironmentOutFlowRateActuatorPOATie(myNitrogenAirEnvironmentOutFlowRateActuatorImpl), myNitrogenAirEnvironmentOutFlowRateActuatorImpl.getModuleName(), myNitrogenAirEnvironmentOutFlowRateActuatorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureNitrogenAirEnvironmentOutFlowRateActuator(Node node){
+		//System.out.println("Configuring NitrogenAirEnvironmentOutFlowRateActuator");
+		String moduleName = getModuleName(node);
+		try{
+			NitrogenAirEnvironmentOutFlowRateActuator myNitrogenAirEnvironmentOutFlowRateActuator = NitrogenAirEnvironmentOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
+			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
+			myNitrogenAirEnvironmentOutFlowRateActuator.setOutput(NitrogenAirProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
+
+	private void createNitrogenAirStoreInFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating NitrogenAirStoreInFlowRateActuator with moduleName: "+moduleName);
+			NitrogenAirStoreInFlowRateActuatorImpl myNitrogenAirStoreInFlowRateActuatorImpl = new NitrogenAirStoreInFlowRateActuatorImpl(myID, moduleName);
+			setupBioModule(myNitrogenAirStoreInFlowRateActuatorImpl, node);
+			myActuators.add(OrbUtils.poaToCorbaObj(myNitrogenAirStoreInFlowRateActuatorImpl));
+			BiosimServer.registerServer(new NitrogenAirStoreInFlowRateActuatorPOATie(myNitrogenAirStoreInFlowRateActuatorImpl), myNitrogenAirStoreInFlowRateActuatorImpl.getModuleName(), myNitrogenAirStoreInFlowRateActuatorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureNitrogenAirStoreInFlowRateActuator(Node node){
+		//System.out.println("Configuring NitrogenAirStoreInFlowRateActuator");
+		String moduleName = getModuleName(node);
+		try{
+			NitrogenAirStoreInFlowRateActuator myNitrogenAirStoreInFlowRateActuator = NitrogenAirStoreInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
+			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
+			myNitrogenAirStoreInFlowRateActuator.setOutput(NitrogenAirConsumerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
+
+	private void createNitrogenAirStoreOutFlowRateActuator(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating NitrogenAirStoreOutFlowRateActuator with moduleName: "+moduleName);
+			NitrogenAirStoreOutFlowRateActuatorImpl myNitrogenAirStoreOutFlowRateActuatorImpl = new NitrogenAirStoreOutFlowRateActuatorImpl(myID, moduleName);
+			setupBioModule(myNitrogenAirStoreOutFlowRateActuatorImpl, node);
+			myActuators.add(OrbUtils.poaToCorbaObj(myNitrogenAirStoreOutFlowRateActuatorImpl));
+			BiosimServer.registerServer(new NitrogenAirStoreOutFlowRateActuatorPOATie(myNitrogenAirStoreOutFlowRateActuatorImpl), myNitrogenAirStoreOutFlowRateActuatorImpl.getModuleName(), myNitrogenAirStoreOutFlowRateActuatorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureNitrogenAirStoreOutFlowRateActuator(Node node){
+		//System.out.println("Configuring NitrogenAirStoreOutFlowRateActuator");
+		String moduleName = getModuleName(node);
+		try{
+			NitrogenAirStoreOutFlowRateActuator myNitrogenAirStoreOutFlowRateActuator = NitrogenAirStoreOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
+			int index = Integer.parseInt(node.getAttributes().getNamedItem("index").getNodeValue());
+			myNitrogenAirStoreOutFlowRateActuator.setOutput(NitrogenAirProducerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
 
 	private void crawlEnvironmentActuators(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
@@ -4342,6 +4582,54 @@ public class BioInitializer{
 					createO2AirStoreOutFlowRateActuator(child);
 				else
 					configureO2AirStoreOutFlowRateActuator(child);
+			}
+			else if (childName.equals("WaterAirEnvironmentInFlowRateActuator")){
+				if (firstPass)
+					createWaterAirEnvironmentInFlowRateActuator(child);
+				else
+					configureWaterAirEnvironmentInFlowRateActuator(child);
+			}
+			else if (childName.equals("WaterAirEnvironmentOutFlowRateActuator")){
+				if (firstPass)
+					createWaterAirEnvironmentOutFlowRateActuator(child);
+				else
+					configureWaterAirEnvironmentOutFlowRateActuator(child);
+			}
+			else if (childName.equals("WaterAirStoreInFlowRateActuator")){
+				if (firstPass)
+					createWaterAirStoreInFlowRateActuator(child);
+				else
+					configureWaterAirStoreInFlowRateActuator(child);
+			}
+			else if (childName.equals("WaterAirStoreOutFlowRateActuator")){
+				if (firstPass)
+					createWaterAirStoreOutFlowRateActuator(child);
+				else
+					configureWaterAirStoreOutFlowRateActuator(child);
+			}
+			else if (childName.equals("NitrogenAirEnvironmentInFlowRateActuator")){
+				if (firstPass)
+					createNitrogenAirEnvironmentInFlowRateActuator(child);
+				else
+					configureNitrogenAirEnvironmentInFlowRateActuator(child);
+			}
+			else if (childName.equals("NitrogenAirEnvironmentOutFlowRateActuator")){
+				if (firstPass)
+					createNitrogenAirEnvironmentOutFlowRateActuator(child);
+				else
+					configureNitrogenAirEnvironmentOutFlowRateActuator(child);
+			}
+			else if (childName.equals("NitrogenAirStoreInFlowRateActuator")){
+				if (firstPass)
+					createNitrogenAirStoreInFlowRateActuator(child);
+				else
+					configureNitrogenAirStoreInFlowRateActuator(child);
+			}
+			else if (childName.equals("NitrogenAirStoreOutFlowRateActuator")){
+				if (firstPass)
+					createNitrogenAirStoreOutFlowRateActuator(child);
+				else
+					configureNitrogenAirStoreOutFlowRateActuator(child);
 			}
 			child = child.getNextSibling();
 		}
