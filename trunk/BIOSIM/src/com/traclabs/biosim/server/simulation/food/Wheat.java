@@ -28,14 +28,14 @@ public class Wheat extends Plant{
 		double d = (1.1802 *  0.0001) * (time * time * time);
 		double e =  (5.0269  * 0.0000001) * (time * time * time * time);
 		double f = 11.2;
-		double CO2FlowRate = ((a + b - c + d - e) / f) * 10000;
+		double CO2MaxFlowRate = ((a + b - c + d - e) / f) * 10000;
 		//convert kg -> L at STP
-		CO2FlowRate *= .001964f;
-		if (CO2FlowRate < 0)
+		CO2MaxFlowRate *= .001964f;
+		if (CO2MaxFlowRate < 0)
 			CO2Needed = 0f;
 		else{
-			Double CO2FlowRateObj = new Double((CO2FlowRate * totalArea) / (24.0f));
-			theCO2Needed = myBiomassImpl.randomFilter(CO2FlowRateObj.floatValue());
+			Double CO2MaxFlowRateObj = new Double((CO2MaxFlowRate * totalArea) / (24.0f));
+			theCO2Needed = myBiomassImpl.randomFilter(CO2MaxFlowRateObj.floatValue());
 		}
 		return theCO2Needed;
 	}

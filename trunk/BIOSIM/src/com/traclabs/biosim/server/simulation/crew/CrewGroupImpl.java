@@ -32,12 +32,12 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 	private DirtyWaterStore[] myDirtyWaterStores;
 	private SimEnvironment[] myAirInputs;
 	private SimEnvironment[] myAirOutputs;
-	private float[] foodFlowRates;
-	private float[] potableWaterFlowRates;
-	private float[] greyWaterFlowRates;
-	private float[] dirtyWaterFlowRates;
-	private float[] airInFlowRates;
-	private float[] airOutFlowRates;
+	private float[] foodMaxFlowRates;
+	private float[] potableWaterMaxFlowRates;
+	private float[] greyWaterMaxFlowRates;
+	private float[] dirtyWaterMaxFlowRates;
+	private float[] airInMaxFlowRates;
+	private float[] airOutMaxFlowRates;
 
 	/**
 	* Default constructor.  Uses a default schedule.
@@ -52,12 +52,12 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 		myDirtyWaterStores = new DirtyWaterStore[0];
 		myAirInputs = new SimEnvironment[0];
 		myAirOutputs = new SimEnvironment[0];
-		foodFlowRates = new float[0];
-		potableWaterFlowRates = new float[0];
-		greyWaterFlowRates = new float[0];
-		dirtyWaterFlowRates = new float[0];
-		airInFlowRates = new float[0];
-		airOutFlowRates = new float[0];
+		foodMaxFlowRates = new float[0];
+		potableWaterMaxFlowRates = new float[0];
+		greyWaterMaxFlowRates = new float[0];
+		dirtyWaterMaxFlowRates = new float[0];
+		airInMaxFlowRates = new float[0];
+		airOutMaxFlowRates = new float[0];
 	}
 
 	/**
@@ -277,129 +277,129 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 		return totalO2Consumed;
 	}
 
-	public void setAirInputFlowRate(float liters, int index){
-		airInFlowRates[index] = liters;
+	public void setAirInputMaxFlowRate(float liters, int index){
+		airInMaxFlowRates[index] = liters;
 	}
 
-	public float getAirInputFlowRate(int index){
-		return airInFlowRates[index];
+	public float getAirInputMaxFlowRate(int index){
+		return airInMaxFlowRates[index];
 	}
 
-	public void setAirInputs(SimEnvironment[] sources, float[] flowRates){
+	public void setAirInputs(SimEnvironment[] sources, float[] maxFlowRates){
 		myAirInputs = sources;
-		airInFlowRates = flowRates;
+		airInMaxFlowRates = maxFlowRates;
 	}
 
 	public SimEnvironment[] getAirInputs(){
 		return myAirInputs;
 	}
 
-	public float[] getAirInputFlowRates(){
-		return airInFlowRates;
+	public float[] getAirInputMaxFlowRates(){
+		return airInMaxFlowRates;
 	}
 
-	public void setAirOutputFlowRate(float liters, int index){
-		airOutFlowRates[index] = liters;
+	public void setAirOutputMaxFlowRate(float liters, int index){
+		airOutMaxFlowRates[index] = liters;
 	}
 
-	public float getAirOutputFlowRate(int index){
-		return airOutFlowRates[index];
+	public float getAirOutputMaxFlowRate(int index){
+		return airOutMaxFlowRates[index];
 	}
 
-	public void setAirOutputs(SimEnvironment[] sources, float[] flowRates){
+	public void setAirOutputs(SimEnvironment[] sources, float[] maxFlowRates){
 		myAirOutputs = sources;
-		airOutFlowRates = flowRates;
+		airOutMaxFlowRates = maxFlowRates;
 	}
 
 	public SimEnvironment[] getAirOutputs(){
 		return myAirOutputs;
 	}
 
-	public float[] getAirOutputFlowRates(){
-		return airOutFlowRates;
+	public float[] getAirOutputMaxFlowRates(){
+		return airOutMaxFlowRates;
 	}
 
-	public void setPotableWaterInputFlowRate(float liters, int index){
-		potableWaterFlowRates[index] = liters;
+	public void setPotableWaterInputMaxFlowRate(float liters, int index){
+		potableWaterMaxFlowRates[index] = liters;
 	}
 
-	public float getPotableWaterInputFlowRate(int index){
-		return potableWaterFlowRates[index];
+	public float getPotableWaterInputMaxFlowRate(int index){
+		return potableWaterMaxFlowRates[index];
 	}
 
-	public void setPotableWaterInputs(PotableWaterStore[] sources, float[] flowRates){
+	public void setPotableWaterInputs(PotableWaterStore[] sources, float[] maxFlowRates){
 		myPotableWaterStores = sources;
-		potableWaterFlowRates = flowRates;
+		potableWaterMaxFlowRates = maxFlowRates;
 	}
 
 	public PotableWaterStore[] getPotableWaterInputs(){
 		return myPotableWaterStores;
 	}
 
-	public float[] getPotableWaterInputFlowRates(){
-		return potableWaterFlowRates;
+	public float[] getPotableWaterInputMaxFlowRates(){
+		return potableWaterMaxFlowRates;
 	}
 
-	public void setGreyWaterOutputFlowRate(float liters, int index){
-		greyWaterFlowRates[index] = liters;
+	public void setGreyWaterOutputMaxFlowRate(float liters, int index){
+		greyWaterMaxFlowRates[index] = liters;
 	}
 
-	public float getGreyWaterOutputFlowRate(int index){
-		return greyWaterFlowRates[index];
+	public float getGreyWaterOutputMaxFlowRate(int index){
+		return greyWaterMaxFlowRates[index];
 	}
 
-	public void setGreyWaterOutputs(GreyWaterStore[] destinations, float[] flowRates){
+	public void setGreyWaterOutputs(GreyWaterStore[] destinations, float[] maxFlowRates){
 		myGreyWaterStores = destinations;
-		greyWaterFlowRates = flowRates;
+		greyWaterMaxFlowRates = maxFlowRates;
 	}
 
 	public GreyWaterStore[] getGreyWaterOutputs(){
 		return myGreyWaterStores;
 	}
 
-	public float[] getGreyWaterOutputFlowRates(){
-		return greyWaterFlowRates;
+	public float[] getGreyWaterOutputMaxFlowRates(){
+		return greyWaterMaxFlowRates;
 	}
 
-	public void setDirtyWaterOutputFlowRate(float liters, int index){
-		dirtyWaterFlowRates[index] = liters;
+	public void setDirtyWaterOutputMaxFlowRate(float liters, int index){
+		dirtyWaterMaxFlowRates[index] = liters;
 	}
 
-	public float getDirtyWaterOutputFlowRate(int index){
-		return dirtyWaterFlowRates[index];
+	public float getDirtyWaterOutputMaxFlowRate(int index){
+		return dirtyWaterMaxFlowRates[index];
 	}
 
-	public void setDirtyWaterOutputs(DirtyWaterStore[] destinations, float[] flowRates){
+	public void setDirtyWaterOutputs(DirtyWaterStore[] destinations, float[] maxFlowRates){
 		myDirtyWaterStores = destinations;
-		dirtyWaterFlowRates = flowRates;
+		dirtyWaterMaxFlowRates = maxFlowRates;
 	}
 
 	public DirtyWaterStore[] getDirtyWaterOutputs(){
 		return myDirtyWaterStores;
 	}
 
-	public float[] getDirtyWaterOutputFlowRates(){
-		return dirtyWaterFlowRates;
+	public float[] getDirtyWaterOutputMaxFlowRates(){
+		return dirtyWaterMaxFlowRates;
 	}
 
-	public void setFoodInputFlowRate(float kilograms, int index){
-		foodFlowRates[index] = kilograms;
+	public void setFoodInputMaxFlowRate(float kilograms, int index){
+		foodMaxFlowRates[index] = kilograms;
 	}
 
-	public float getFoodInputFlowRate(int index){
-		return foodFlowRates[index];
+	public float getFoodInputMaxFlowRate(int index){
+		return foodMaxFlowRates[index];
 	}
 
-	public void setFoodInputs(FoodStore[] sources, float[] flowRates){
+	public void setFoodInputs(FoodStore[] sources, float[] maxFlowRates){
 		myFoodStores = sources;
-		foodFlowRates = flowRates;
+		foodMaxFlowRates = maxFlowRates;
 	}
 
 	public FoodStore[] getFoodInputs(){
 		return myFoodStores;
 	}
 
-	public float[] getFoodInputFlowRates(){
-		return foodFlowRates;
+	public float[] getFoodInputMaxFlowRates(){
+		return foodMaxFlowRates;
 	}
 }

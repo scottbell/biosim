@@ -37,18 +37,18 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	private FoodStore[] myFoodStores;
 	private PowerStore[] myPowerStores;
 	private BiomassStore[] myBiomassStores;
-	private float[] powerFlowRates;
-	private float[] biomassFlowRates;
-	private float[] foodFlowRates;
+	private float[] powerMaxFlowRates;
+	private float[] biomassMaxFlowRates;
+	private float[] foodMaxFlowRates;
 	
 	public FoodProcessorImpl(int pID){
 		super(pID);
 		myFoodStores = new FoodStore[0];
 		myPowerStores = new PowerStore[0];
 		myBiomassStores = new BiomassStore[0];
-		powerFlowRates = new float[0];
-		biomassFlowRates = new float[0];
-		foodFlowRates = new float[0];
+		powerMaxFlowRates = new float[0];
+		biomassMaxFlowRates = new float[0];
+		foodMaxFlowRates = new float[0];
 	}
 	
 	/**
@@ -107,7 +107,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	private void gatherPower(){
 		float gatheredPower = 0f;
 		for (int i = 0; (i < myPowerStores.length) && (gatheredPower < powerNeeded); i++){
-			float powerToGather = Math.min(powerNeeded, powerFlowRates[i]);
+			float powerToGather = Math.min(powerNeeded, powerMaxFlowRates[i]);
 			gatheredPower += myPowerStores[i].take(powerToGather);
 		}
 		currentPowerConsumed = gatheredPower;
@@ -123,7 +123,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	* Attempts to collect enough biomass from the Biomass Store to run the Food Processor optimally for one tick.
 	*/
 	private void gatherBiomass(){
-		currentBiomassConsumed = getResourceFromStore(myBiomassStores, biomassFlowRates, biomassNeeded);
+		currentBiomassConsumed = getResourceFromStore(myBiomassStores, biomassMaxFlowRates, biomassNeeded);
 		if (currentBiomassConsumed < biomassNeeded){
 			hasEnoughBiomass = false;
 		}
@@ -138,7 +138,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	private void createFood(){
 		if (hasEnoughPower){
 			currentFoodProduced = randomFilter(currentBiomassConsumed * 0.8f) * myProductionRate;
-			float distributedFoodLeft = pushResourceToStore(myFoodStores, foodFlowRates, currentFoodProduced);
+			float distributedFoodLeft = pushResourceToStore(myFoodStores, foodMaxFlowRates, currentFoodProduced);
 		}
 	}
 
@@ -245,67 +245,67 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 		sendLog(myLog);
 	}
 	
-	public void setPowerInputFlowRate(float watts, int index){
-		powerFlowRates[index] = watts;
+	public void setPowerInputMaxFlowRate(float watts, int index){
+		powerMaxFlowRates[index] = watts;
 	}
 	
-	public float getPowerInputFlowRate(int index){
-		return powerFlowRates[index];
+	public float getPowerInputMaxFlowRate(int index){
+		return powerMaxFlowRates[index];
 	}
 	
-	public void setPowerInputs(PowerStore[] sources, float[] flowRates){
+	public void setPowerInputs(PowerStore[] sources, float[] maxFlowRates){
 		myPowerStores = sources;
-		powerFlowRates = flowRates;
+		powerMaxFlowRates = maxFlowRates;
 	}
 	
 	public PowerStore[] getPowerInputs(){
 		return myPowerStores;
 	}
 	
-	public float[] getPowerInputFlowRates(){
-		return powerFlowRates;
+	public float[] getPowerInputMaxFlowRates(){
+		return powerMaxFlowRates;
 	}
 	
-	public void setBiomassInputFlowRate(float kilograms, int index){
-		biomassFlowRates[index] = kilograms;
+	public void setBiomassInputMaxFlowRate(float kilograms, int index){
+		biomassMaxFlowRates[index] = kilograms;
 	}
 	
-	public float getBiomassInputFlowRate(int index){
-		return biomassFlowRates[index];
+	public float getBiomassInputMaxFlowRate(int index){
+		return biomassMaxFlowRates[index];
 	}
 	
-	public void setBiomassInputs(BiomassStore[] sources, float[] flowRates){
+	public void setBiomassInputs(BiomassStore[] sources, float[] maxFlowRates){
 		myBiomassStores = sources;
-		biomassFlowRates = flowRates;
+		biomassMaxFlowRates = maxFlowRates;
 	}
 	
 	public BiomassStore[] getBiomassInputs(){
 		return myBiomassStores;
 	}
 	
-	public float[] getBiomassInputFlowRates(){
-		return biomassFlowRates;
+	public float[] getBiomassInputMaxFlowRates(){
+		return biomassMaxFlowRates;
 	}
 	
-	public void setFoodOutputFlowRate(float kilograms, int index){
-		foodFlowRates[index] = kilograms;
+	public void setFoodOutputMaxFlowRate(float kilograms, int index){
+		foodMaxFlowRates[index] = kilograms;
 	}
 	
-	public float getFoodOutputFlowRate(int index){
-		return foodFlowRates[index];
+	public float getFoodOutputMaxFlowRate(int index){
+		return foodMaxFlowRates[index];
 	}
 	
-	public void setFoodOutputs(FoodStore[] destinations, float[] flowRates){
+	public void setFoodOutputs(FoodStore[] destinations, float[] maxFlowRates){
 		myFoodStores = destinations;
-		foodFlowRates = flowRates;
+		foodMaxFlowRates = maxFlowRates;
 	}
 	
 	public FoodStore[] getFoodOutputs(){
 		return myFoodStores;
 	}
 	
-	public float[] getFoodOutputFlowRates(){
-		return foodFlowRates;
+	public float[] getFoodOutputMaxFlowRates(){
+		return foodMaxFlowRates;
 	}
 
 	/**
