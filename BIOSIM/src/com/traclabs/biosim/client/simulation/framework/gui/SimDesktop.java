@@ -779,7 +779,7 @@ public class SimDesktop extends BioFrame
 	private class RefreshGuiAction extends AbstractAction{
 		public void actionPerformed(ActionEvent ae){
 			//Initialize buttons by looking at server
-			if (myDriver.isLogging()){
+			if (myDriver.isFullLogging()){
 				myLoggingItem.setText("Disable Logging");
 			}
 			else{
@@ -837,8 +837,8 @@ public class SimDesktop extends BioFrame
 		}
 		public void actionPerformed(ActionEvent ae){
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			myDriver.setLogging(!myDriver.isLogging());
-			if (myDriver.isLogging()){
+			myDriver.setFullLogging(!myDriver.isFullLogging());
+			if (myDriver.isFullLogging()){
 				myLoggingItem.setText("Disable Logging");
 			}
 			else{

@@ -47,15 +47,39 @@ public class SimCommandLine
 			else
 				System.out.println("simulation has already started");
 		}
-		else if (userCommand.equals("startLog")){
-			if (!myDriver.isLogging())
-				myDriver.setLogging(true);
+		else if (userCommand.equals("startFullLog")){
+			if (!myDriver.isFullLogging())
+				myDriver.setFullLogging(true);
 			else
 				System.out.println("simulation is already logging");
 		}
-		else if (userCommand.equals("stopLog")){
-			if (myDriver.isLogging())
-				myDriver.setLogging(false);
+		else if (userCommand.equals("stopFullLog")){
+			if (myDriver.isFullLogging())
+				myDriver.setFullLogging(false);
+			else
+				System.out.println("simulation isn't logging");
+		}
+		else if (userCommand.equals("startSensorLog")){
+			if (!myDriver.isSensorLogging())
+				myDriver.setSensorLogging(true);
+			else
+				System.out.println("simulation is already logging");
+		}
+		else if (userCommand.equals("stopSensorLog")){
+			if (myDriver.isSensorLogging())
+				myDriver.setSensorLogging(false);
+			else
+				System.out.println("simulation isn't logging");
+		}
+		else if (userCommand.equals("startActuatorLog")){
+			if (!myDriver.isActuatorLogging())
+				myDriver.setActuatorLogging(true);
+			else
+				System.out.println("simulation is already logging");
+		}
+		else if (userCommand.equals("stopActuatorLog")){
+			if (myDriver.isActuatorLogging())
+				myDriver.setActuatorLogging(false);
 			else
 				System.out.println("simulation isn't logging");
 		}
@@ -96,15 +120,23 @@ public class SimCommandLine
 				statusBuffer.append("paused, ");
 			else
 				statusBuffer.append("not-paused, ");
-			if (myDriver.isLogging())
-				statusBuffer.append("logging, ");
+			if (myDriver.isFullLogging())
+				statusBuffer.append("full logging, ");
 			else
-				statusBuffer.append("not-logging, ");
+				statusBuffer.append("not-full logging, ");
+			if (myDriver.isSensorLogging())
+				statusBuffer.append("sensor logging, ");
+			else
+				statusBuffer.append("not-sensor logging, ");
+			if (myDriver.isActuatorLogging())
+				statusBuffer.append("sensor logging, ");
+			else
+				statusBuffer.append("not-sensor logging, ");
 			statusBuffer.delete(statusBuffer.length() -2, statusBuffer.length());
 			System.out.println(statusBuffer.toString());
 		}
 		else if (userCommand.equals("?") || userCommand.equals("help")){
-			System.out.println("commands: start, stop, pause, resume, status, quit, startLog, stopLog, help");
+			System.out.println("commands: start, stop, pause, resume, status, quit, startFullLog, stopFullLog, startSensorLog, stopSensorLog, startActuatorLog, stopActuatorLog, help");
 		}
 		else{
 			System.out.println("unrecognized command: "+userCommand);
