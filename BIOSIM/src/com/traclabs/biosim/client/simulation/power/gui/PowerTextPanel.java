@@ -61,7 +61,7 @@ public class PowerTextPanel extends BioTabPanel
 		c.fill = GridBagConstraints.BOTH;
 		c.gridheight = 1;
 		c.weightx = 1.0;
-		c.gridwidth = 1;
+		c.gridwidth = GridBagConstraints.REMAINDER;
 		c.weighty = 1.0;
 		gridbag.setConstraints(powerPSPanel, c);
 		add(powerPSPanel);
