@@ -3,26 +3,19 @@ package com.traclabs.biosim.client.framework.gui;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSlider;
-import javax.swing.ListSelectionModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import org.apache.log4j.Logger;
 
-import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.framework.StochasticIntensity;
 
@@ -32,9 +25,7 @@ import com.traclabs.biosim.idl.framework.StochasticIntensity;
 public class StochasticPanel extends TimedPanel {
     private JSlider mySlider;
 
-    private JList moduleList;
-
-    private JPanel myModulePanel;
+    private ModulePanel myModulePanel;
 
     private JPanel myOperatorPanel;
 
@@ -53,7 +44,7 @@ public class StochasticPanel extends TimedPanel {
     }
 
     public void refresh() {
-        BioModule myModule = getSelectedModule();
+        BioModule myModule = myModulePanel.getSelectedModule();
         if ((myModule == null) || (mySlider == null))
             return;
         else {
@@ -93,29 +84,10 @@ public class StochasticPanel extends TimedPanel {
     }
 
     private void createModuleSelectPanel() {
-        GridBagLayout gridbag = new GridBagLayout();
-        GridBagConstraints c = new GridBagConstraints();
-        myModulePanel = new JPanel();
+        myModulePanel = new ModulePanel();
         myModulePanel.setBorder(BorderFactory
                 .createTitledBorder("Module Select"));
-        myModulePanel.setLayout(gridbag);
-        String[] myModuleNames = BioHolderInitializer.getBioHolder().theBioDriver
-                .getModuleNames();
-        Arrays.sort(myModuleNames);
-        moduleList = new JList(myModuleNames);
-        moduleList.addListSelectionListener(new ModuleListener());
-        moduleList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        moduleList.setSelectedIndex(0);
-        c.fill = GridBagConstraints.BOTH;
-        c.gridheight = 1;
-        c.weightx = 1.0;
-        c.weighty = 1.0;
-        c.gridx = 1;
-        c.gridy = 1;
-        c.gridwidth = 1;
-        JScrollPane scrollPane = new JScrollPane(moduleList);
-        gridbag.setConstraints(scrollPane, c);
-        myModulePanel.add(scrollPane);
+        myModulePanel.addModuleSelectionListener(new MalfunctionModuleListener());
     }
 
     private void createOperatorPanel() {
@@ -176,28 +148,24 @@ public class StochasticPanel extends TimedPanel {
         public void stateChanged(ChangeEvent e) {
             int stochasticChoice = (int) mySlider.getValue();
             if (stochasticChoice == 0)
-                getSelectedModule().setStochasticIntensity(
+                myModulePanel.getSelectedModule().setStochasticIntensity(
                         StochasticIntensity.NONE_STOCH);
             else if (stochasticChoice == 1)
-                getSelectedModule().setStochasticIntensity(
+                myModulePanel.getSelectedModule().setStochasticIntensity(
                         StochasticIntensity.LOW_STOCH);
             else if (stochasticChoice == 2)
-                getSelectedModule().setStochasticIntensity(
+                myModulePanel.getSelectedModule().setStochasticIntensity(
                         StochasticIntensity.MEDIUM_STOCH);
             else if (stochasticChoice == 3)
-                getSelectedModule().setStochasticIntensity(
+                myModulePanel.getSelectedModule().setStochasticIntensity(
                         StochasticIntensity.HIGH_STOCH);
         }
     }
 
-    private BioModule getSelectedModule() {
-        String currentName = (String) (moduleList.getSelectedValue());
-        return ((BioModule) (BioHolderInitializer.getBioHolder().theModulesMapped
-                .get(currentName)));
-    }
+    
 
-    private class ModuleListener implements ListSelectionListener {
-        public void valueChanged(ListSelectionEvent e) {
+    private class MalfunctionModuleListener implements ModuleSelectionListener {
+        public void stateChanged(ChangeEvent e) {
             refresh();
         }
     }
