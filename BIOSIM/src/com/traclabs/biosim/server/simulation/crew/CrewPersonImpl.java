@@ -639,7 +639,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		potableWaterNeeded = calculateCleanWaterNeeded(currentActivityIntensity);
 		foodNeeded = calculateFoodNeeded(currentActivityIntensity);
 		dirtyWaterProduced = calculateDirtyWaterProduced(potableWaterNeeded);
-		greyWaterProduced = calculateGreyWaterProduced(dirtyWaterProduced);
+		greyWaterProduced = calculateGreyWaterProduced(potableWaterNeeded);
 		CO2Produced = calculateCO2Produced(O2Needed);
 		//adjust tanks
 		foodConsumed = myCrewGroup.getResourceFromStore(myCrewGroup.getFoodInputs(), myCrewGroup.getFoodInputMaxFlowRates(), myCrewGroup.getFoodInputDesiredFlowRates(), myCrewGroup.getFoodInputActualFlowRates(), foodNeeded);
