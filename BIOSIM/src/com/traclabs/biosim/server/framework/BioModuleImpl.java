@@ -1,5 +1,6 @@
 package biosim.server.framework;
 
+import java.util.*;
 import biosim.idl.framework.*;
 import biosim.server.util.*;
 import biosim.server.util.log.*;
@@ -11,13 +12,15 @@ import biosim.idl.util.log.*;
  */
 
 public abstract class BioModuleImpl extends BioModulePOA{
+	private Random myRandomGen;
 	protected boolean logInitialized = false;
 	protected boolean moduleLogging = false;
 	protected LogNodeImpl myLog;
 	private Logger myLogger;
 	private boolean collectedLogger = false;
-	private float stochasticCoefficient = 0f;
+	private float randomCoefficient = 0f;
 	private int myID = 0;
+	private static final int RANDOM_PRECISION = 100;
 
 	public BioModuleImpl(int pID){
 		myLog = new LogNodeImpl(getModuleName());
@@ -49,8 +52,52 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		return myID;
 	}
 	
-	public void setStochasticCoefficient(float pValue){
-		stochasticCoefficient = pValue;
+	public void setRandomCoefficient(float pValue){
+		randomCoefficient = pValue;
+	}
+	
+	protected float randomFilter(float pValue){
+		myRandomGen = new Random();
+		if (randomCoefficient <= 0)
+			return pValue;
+		int biggerCoef = (new Float(randomCoefficient * RANDOM_PRECISION)).intValue();
+		float randomBiggerCoef = (new Integer(myRandomGen.nextInt(biggerCoef))).floatValue();
+		float coefficient = randomBiggerCoef / RANDOM_PRECISION;
+		float addSubtractValue = coefficient * pValue;
+		int addSubtractDecider = myRandomGen.nextInt(2);
+		float newValue;
+		if (addSubtractDecider == 0)
+			return (pValue += addSubtractValue);
+		else
+			return (pValue -= addSubtractValue);
+	}
+	
+	protected boolean randomFilter(boolean pValue){
+		myRandomGen = new Random();
+		if (randomCoefficient <= 0)
+			return pValue;
+		int biggerCoef = (new Float(randomCoefficient * RANDOM_PRECISION)).intValue();
+		int decider = myRandomGen.nextInt(100);
+		if (decider < biggerCoef)
+			return !pValue;
+		else
+			return pValue;
+	}
+	
+	protected int randomFilter(int pValue){
+		myRandomGen = new Random();
+		if (randomCoefficient <= 0)
+			return pValue;
+		int biggerCoef = (new Float(randomCoefficient * RANDOM_PRECISION)).intValue();
+		float randomBiggerCoef = (new Integer(myRandomGen.nextInt(biggerCoef))).floatValue();
+		float coefficient = randomBiggerCoef / RANDOM_PRECISION;
+		float addSubtractValue = coefficient * pValue;
+		int addSubtractDecider = myRandomGen.nextInt(2);
+		int newValue;
+		if (addSubtractDecider == 0)
+			return (pValue += addSubtractValue);
+		else
+			return (pValue -= addSubtractValue);
 	}
 
 	protected void sendLog(LogNodeImpl logToProcess){
