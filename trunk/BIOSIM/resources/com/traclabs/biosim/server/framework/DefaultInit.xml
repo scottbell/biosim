@@ -113,16 +113,16 @@
 					<storeOutputs  maxFlowRates="14063" desiredFlowRates="10" outputs="PotableWaterStore"/>
 				</waterAirProducer>
 				<O2AirConsumer>
-					<environmentInputs maxFlowRates="14063" desiredFlowRates="0" inputs="PlantEnvironment"/>
+					<environmentInputs maxFlowRates="14063" desiredFlowRates="10" inputs="PlantEnvironment"/>
 				</O2AirConsumer>
 				<O2AirProducer>
-					<storeOutputs  maxFlowRates="14063" desiredFlowRates="0" outputs="O2Store"/>
+					<storeOutputs  maxFlowRates="14063" desiredFlowRates="10" outputs="O2Store"/>
 				</O2AirProducer>
 				<CO2AirConsumer>
-					<environmentInputs maxFlowRates="14063" desiredFlowRates="0" inputs="CrewEnvironment"/>
+					<environmentInputs maxFlowRates="14063" desiredFlowRates="10" inputs="CrewEnvironment"/>
 				</CO2AirConsumer>
 				<CO2AirProducer>
-					<storeOutputs maxFlowRates="14063" desiredFlowRates="0" outputs="CO2Store"/>
+					<storeOutputs maxFlowRates="14063" desiredFlowRates="10" outputs="CO2Store"/>
 				</CO2AirProducer>
 			</Accumulator>
 			<Injector name="Injector">
@@ -133,16 +133,16 @@
 					<environmentOutputs  maxFlowRates="14063 14063" desiredFlowRates="0 0" outputs="CrewEnvironment PlantEnvironment"/>
 				</nitrogenAirProducer>
 				<O2AirConsumer>
-					<storeInputs maxFlowRates="14063" desiredFlowRates="0" inputs="O2Store"/>
+					<storeInputs maxFlowRates="14063" desiredFlowRates="10" inputs="O2Store"/>
 				</O2AirConsumer>
 				<O2AirProducer>
-					<environmentOutputs maxFlowRates="14063" desiredFlowRates="0" outputs="CrewEnvironment"/>
+					<environmentOutputs maxFlowRates="14063" desiredFlowRates="10" outputs="CrewEnvironment"/>
 				</O2AirProducer>
 				<CO2AirConsumer>
-					<storeInputs maxFlowRates="14063" desiredFlowRates="0" inputs="CO2Store"/>
+					<storeInputs maxFlowRates="14063" desiredFlowRates="10" inputs="CO2Store"/>
 				</CO2AirConsumer>
 				<CO2AirProducer>
-					<environmentOutputs maxFlowRates="14063" desiredFlowRates="0" outputs="PlantEnvironment"/>
+					<environmentOutputs maxFlowRates="14063" desiredFlowRates="10" outputs="PlantEnvironment"/>
 				</CO2AirProducer>
 			</Injector>
 		</framework>
