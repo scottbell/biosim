@@ -234,11 +234,11 @@ public abstract class PlantImpl extends PlantPOA{
 		//Water Vapor Produced
 		float litersOfWaterProduced = calculateDailyCanopyTranspirationRate() / 24f;
 		//1/1000 liters per milliter, 1 gram per millilters, 8.016 grams per mole
-		float molesOfWaterProduced = ((litersOfWaterProduced / 1000f) / 18.016f);
+		float molesOfWaterProduced = ((litersOfWaterProduced * 1000f) / 8.016f);
 		float molesOfWaterAdded = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0].addWaterMoles(molesOfWaterProduced);
 		myShelfImpl.getBiomassRSImpl().addAirOutputActualFlowRates(0,molesOfWaterAdded);
 		//System.out.println("PlantImpl: litersOfWaterProduced: "+litersOfWaterProduced);
-		//System.out.println("PlantImpl: molesOfWaterProduced: "+molesOfWaterProduced);
+		System.out.println("PlantImpl: molesOfWaterProduced: "+molesOfWaterProduced);
 		//System.out.println("PlantImpl: molesOfWaterAdded: "+molesOfWaterAdded);
 		
 	}
