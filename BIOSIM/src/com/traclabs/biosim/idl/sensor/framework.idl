@@ -1,5 +1,0 @@
-module framework{
-        interface GenericSensor : framework::BioModule{
-		double getValue();
-	};
-};
