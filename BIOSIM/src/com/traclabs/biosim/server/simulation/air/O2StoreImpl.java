@@ -55,7 +55,6 @@ public class O2StoreImpl extends O2StorePOA {
 	}
 
 	public void tick(){
-		System.out.println("O2Store has been ticked!");
 	}
 	public String getModuleName(){
 		return "O2Store";
