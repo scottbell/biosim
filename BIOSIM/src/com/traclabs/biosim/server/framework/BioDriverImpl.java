@@ -394,7 +394,6 @@ public class BioDriverImpl extends BioDriverPOA{
 			BioModule currentBioModule = (BioModule)(modules[i]);
 			currentBioModule.tick();
 		}
-		System.out.println("ticksGoneBy="+ticksGoneBy);
 		ticksGoneBy++;
 	}
 
