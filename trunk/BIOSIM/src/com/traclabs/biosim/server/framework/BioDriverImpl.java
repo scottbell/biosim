@@ -59,57 +59,61 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	//
 	//sensor
 	//
-
-	//AirRS
+	//Air
+		//AirRs
 	private String myAirRSPowerInFlowRateSensorName;
 	private String myAirRSAirInFlowRateSensorName;
 	private String myAirRSAirOutFlowRateSensorName;
 	private String myAirRSO2OutFlowRateSensorName;
 	private String myAirRSCO2InFlowRateSensorName;
 	private String myAirRSCO2OutFlowRateSensorName;
-	
-	//PowerPS
-	private String myPowerPSPowerOutFlowRateSensorName;
-
-	/*
-	private String myCO2InFlowRateSensorName;
-	private String myCO2OutFlowRateSensorName;
+		//Stores	
+	private String myO2StoreLevelSensorName; 
 	private String myCO2StoreLevelSensorName;
-	private String myO2InFlowRateSensorName;
-	private String myO2OutFlowRateSensorName;
-	private String myO2StoreLevelSensorName;
-	private String myAirInFlowRateSensorName;
-	private String myAirOutFlowRateSensorName;
-	private String myCO2AirEnvironmentInFlowRateSensorName;
-	private String myCO2AirEnvironmentOutFlowRateSensorName;
-	private String myCO2AirLevelSensorName;
-	private String myCO2AirStoreInFlowRateSensorName;
-	private String myCO2AirStoreOutFlowRateSensorName;
-	private String myO2AirEnvironmentInFlowRateSensorName;
-	private String myO2AirEnvironmentOutFlowRateSensorName;
-	private String myO2AirLevelSensorName;
-	private String myO2AirStoreInFlowRateSensorName;
-	private String myO2AirStoreOutFlowRateSensorName;
-	private String myOtherAirLevelSensorName;
-	private String myBiomassInFlowRateSensorName;
-	private String myBiomassOutFlowRateSensorName;
-	private String myBiomassStoreLevelSensorName;
-	private String myFoodInFlowRateSensorName;
-	private String myFoodOutFlowRateSensorName;
-	private String myFoodStoreLevelSensorName;
-	private String myPowerInFlowRateSensorName;
-	private String myPowerOutFlowRateSensorName;
+	//Power
+		//PowerPS
+	private String myPowerPSPowerOutFlowRateSensorName;
+		//Stores
 	private String myPowerStoreLevelSensorName;
-	private String myDirtyWaterInFlowRateSensorName;
-	private String myDirtyWaterOutFlowRateSensorName;
-	private String myDirtyWaterStoreLevelSensorName;
-	private String myGreyWaterInFlowRateSensorName;
-	private String myGreyWaterOutFlowRateSensorName;
-	private String myGreyWaterStoreLevelSensorName;
-	private String myPotableWaterInFlowRateSensorName;
-	private String myPotableWaterOutFlowRateSensorName;
+	//Environment
+	private String myOtherAirLevelSensorName;
+	private String myCO2AirLevelSensorName;
+	private String myO2AirLevelSensorName;
+	//Water
+		//WaterRS	
+	private String myWaterRSDirtyWaterInFlowRateSensorName;
+	private String myWaterRSGreyWaterInFlowRateSensorName;
+	private String myWaterRSPowerInFlowRateSensorName;
+	private String myWaterRSPotableWaterOutFlowRateSensorName;
+		//Stores
 	private String myPotableWaterStoreLevelSensorName;
-	*/
+	private String myGreyWaterStoreLevelSensorName;
+	private String myDirtyWaterStoreLevelSensorName;
+	//Food
+		//BiomassRS
+	private String myBiomassRSAirInFlowRateSensorName;
+	private String myBiomassRSAirOutFlowRateSensorName;
+	private String myBiomassRSPotableWaterInFlowRateSensorName;
+	private String myBiomassRSGreyWaterInFlowRateSensorName;
+	private String myBiomassRSBiomassInFlowRateSensorName;
+		//Food Processor
+	private String myFoodProcessorPowerInFlowRateSensorName;
+	private String myFoodProcessorBiomassInFlowRateSensorName;
+	private String myFoodProcessorFoodOutFlowRateSensorName;
+		//Stores
+	private String myBiomassStoreLevelSensorName;
+	private String myFoodStoreLevelSensorName;
+	//Framework
+		//Accumulator
+	private String myAccumulatorCO2AirEnvironmentInFlowRateSensorName;
+	private String myAccumulatorO2AirEnvironmentInFlowRateSensorName;
+	private String myAccumulatorCO2AirStoreOutFlowRateSensorName;
+	private String myAccumulatorO2AirStoreOutFlowRateSensorName;
+		//Injector
+	private String myInjectorCO2AirStoreInFlowRateSensorName;
+	private String myInjectorO2AirStoreInFlowRateSensorName;
+	private String myInjectorCO2AirEnvironmentOutFlowRateSensorName;
+	private String myInjectorO2AirEnvironmentOutFlowRateSensorName;
 
 	//A hastable containing the server references
 	private Map modules;
@@ -155,12 +159,12 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	public BioDriverImpl(int pID){
 		myID = pID;
 		myModuleNames = new String[25];
-		
+
 		//
 		//framework
 		//
 		myLoggerName = "Logger"+myID;
-		
+
 		//
 		//simulation
 		//
@@ -182,11 +186,11 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames[15] = myPlantEnvironmentName = "PlantEnvironment"+myID;
 		myModuleNames[16] = myAccumulatorName = "Accumulator"+myID;
 		myModuleNames[17] = myInjectorName = "Injector"+myID;
-		
+
 		//
 		//sensors
 		//
-		
+
 		//AirRS
 		myModuleNames[18] = myAirRSPowerInFlowRateSensorName = "AirRSPowerInFlowRateSensor"+myID;
 		myModuleNames[19] = myAirRSAirInFlowRateSensorName = "AirRSAirInFlowRateSensor"+myID;
@@ -194,7 +198,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames[21] = myAirRSO2OutFlowRateSensorName = "AirRSO2OutFlowRateSensor"+myID;
 		myModuleNames[22] = myAirRSCO2InFlowRateSensorName = "AirRSCO2InFlowRateSensor"+myID;
 		myModuleNames[23] = myAirRSCO2OutFlowRateSensorName = "AirRSCO2OutFlowRateSensor"+myID;
-		
+
 		//PowerPS
 		myModuleNames[24] = myPowerPSPowerOutFlowRateSensorName = "PowerPSPowerOutFlowRateSensor"+myID;
 		/*
@@ -651,28 +655,88 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		AirRS myAirRS = AirRSHelper.narrow(getBioModule(myAirRSName));
 		PowerPS myPowerPS = PowerPSHelper.narrow(getBioModule(myPowerPSName));
 
-		//Hook up sensors to AirRS
+		//
+		//Air
+		//
 		{
-			PowerInFlowRateSensor myAirRSPowerInFlowRateSensor = PowerInFlowRateSensorHelper.narrow(getBioModule(myAirRSPowerInFlowRateSensorName));
-			AirInFlowRateSensor myAirRSAirInFlowRateSensor = AirInFlowRateSensorHelper.narrow(getBioModule(myAirRSAirInFlowRateSensorName));
-			AirOutFlowRateSensor myAirRSAirOutFlowRateSensor = AirOutFlowRateSensorHelper.narrow(getBioModule(myAirRSAirOutFlowRateSensorName));
-			O2OutFlowRateSensor myAirRSO2OutFlowRateSensor = O2OutFlowRateSensorHelper.narrow(getBioModule(myAirRSO2OutFlowRateSensorName));
-			CO2InFlowRateSensor myAirRSCO2InFlowRateSensor = CO2InFlowRateSensorHelper.narrow(getBioModule(myAirRSCO2InFlowRateSensorName));
-			CO2OutFlowRateSensor myAirRSCO2OutFlowRateSensor = CO2OutFlowRateSensorHelper.narrow(getBioModule(myAirRSCO2OutFlowRateSensorName));
-			
-			myAirRSPowerInFlowRateSensor.setInput(myAirRS, 0);
-			myAirRSAirInFlowRateSensor.setInput(myAirRS, 0);
-			myAirRSAirOutFlowRateSensor.setInput(myAirRS, 0);
-			myAirRSO2OutFlowRateSensor.setInput(myAirRS, 0);
-			myAirRSCO2InFlowRateSensor.setInput(myAirRS, 0);
-			myAirRSCO2OutFlowRateSensor.setInput(myAirRS, 0);
+			//AirRS
+			{
+				PowerInFlowRateSensor myAirRSPowerInFlowRateSensor = PowerInFlowRateSensorHelper.narrow(getBioModule(myAirRSPowerInFlowRateSensorName));
+				AirInFlowRateSensor myAirRSAirInFlowRateSensor = AirInFlowRateSensorHelper.narrow(getBioModule(myAirRSAirInFlowRateSensorName));
+				AirOutFlowRateSensor myAirRSAirOutFlowRateSensor = AirOutFlowRateSensorHelper.narrow(getBioModule(myAirRSAirOutFlowRateSensorName));
+				O2OutFlowRateSensor myAirRSO2OutFlowRateSensor = O2OutFlowRateSensorHelper.narrow(getBioModule(myAirRSO2OutFlowRateSensorName));
+				CO2InFlowRateSensor myAirRSCO2InFlowRateSensor = CO2InFlowRateSensorHelper.narrow(getBioModule(myAirRSCO2InFlowRateSensorName));
+				CO2OutFlowRateSensor myAirRSCO2OutFlowRateSensor = CO2OutFlowRateSensorHelper.narrow(getBioModule(myAirRSCO2OutFlowRateSensorName));
+				myAirRSPowerInFlowRateSensor.setInput(myAirRS, 0);
+				myAirRSAirInFlowRateSensor.setInput(myAirRS, 0);
+				myAirRSAirOutFlowRateSensor.setInput(myAirRS, 0);
+				myAirRSO2OutFlowRateSensor.setInput(myAirRS, 0);
+				myAirRSCO2InFlowRateSensor.setInput(myAirRS, 0);
+				myAirRSCO2OutFlowRateSensor.setInput(myAirRS, 0);
+			}
+			//Store
+			{
+			}
 		}
 		
-		//Hook up sensors to PowerPS
+		//
+		//Power
+		//
 		{
+			//PowerPS
+			{
 			PowerOutFlowRateSensor myPowerPSPowerOutFlowRateSensor = PowerOutFlowRateSensorHelper.narrow(getBioModule(myPowerPSPowerOutFlowRateSensorName));
-			
 			myPowerPSPowerOutFlowRateSensor.setInput(myPowerPS, 0);
+			}
+			//Stores
+			{
+			}
+		}
+		
+		//
+		//Environment
+		//
+		{
+		}
+		
+		//
+		//Food
+		//
+		{
+			//BiomassRS
+			{
+			}
+			//FoodProcessor
+			{
+			}
+			//Stores
+			{
+			}
+		}
+		
+		//
+		//Water
+		//
+		{
+			//WaterRS
+			{
+			}
+			//Stores
+			{
+			}
+		}
+		
+		//
+		//Framework
+		//
+		{
+			//Accumulatr
+			{
+			}
+			
+			//Injector
+			{
+			}
 		}
 	}
 
