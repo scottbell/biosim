@@ -219,7 +219,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	}
 	
 	private FoodMatter transformBioMatter(BioMatter inMatter){
-		FoodMatter newFoodMatter = new FoodMatter(1f - (inMatter.mass * inMatter.inedibleFraction), inMatter.type);
+		FoodMatter newFoodMatter = new FoodMatter(1f - (inMatter.mass * inMatter.inedibleFraction), inMatter.edibleWaterContent,inMatter.type);
 		newFoodMatter.mass = randomFilter(newFoodMatter.mass) * myProductionRate;
 		return newFoodMatter;
 	}
