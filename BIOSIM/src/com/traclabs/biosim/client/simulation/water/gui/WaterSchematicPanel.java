@@ -244,7 +244,7 @@ public class WaterSchematicPanel extends TimedPanel
 			tDownPipeLabel1.setIcon(tDownPipeIcon);
 		}
 		
-		tDownPipeLabel2.setToolTipText(numFormat.format(myWaterRS.getBWPtoROWater() + myWaterRS.getBWPtoAESWater())+" L");
+		tUpPipeLabel.setToolTipText(numFormat.format(myWaterRS.getBWPtoROWater() + myWaterRS.getBWPtoAESWater())+" L");
 		if ((myWaterRS.getBWPtoROWater() > 0) && (myWaterRS.getBWPtoAESWater() > 0))
 			tUpPipeLabel.setIcon(tUpWaterFullPipeIcon);
 		else if (myWaterRS.getBWPtoROWater() > 0)
@@ -255,7 +255,7 @@ public class WaterSchematicPanel extends TimedPanel
 			tUpPipeLabel.setIcon(tUpPipeIcon);
 		}
 		
-		verticalPipeLabel2.setToolTipText(numFormat.format(myWaterRS.getROtoAESWater())+" L");
+		horizontalPipeLabel.setToolTipText(numFormat.format(myWaterRS.getROtoAESWater())+" L");
 		if (myWaterRS.getROtoAESWater() > 0)
 			horizontalPipeLabel.setIcon(horizontalWaterPipeIcon);
 		else
