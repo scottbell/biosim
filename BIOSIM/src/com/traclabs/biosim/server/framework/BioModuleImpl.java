@@ -351,15 +351,15 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	}
 	
 	/**
-	* Grabs as much resources as it can (i.e., the flowRate) from a store.
+	* Grabs as much resources as it can (i.e., the maxFlowRate) from a store.
 	* @param pStores The stores to grab the resources from
-	* @param pFlowRates The flow rates from this module to the stores
+	* @param pMaxFlowRates The flow rates from this module to the stores
 	* @return The total amount of resource grabbed from the stores
 	*/
-	public static float getMaxResourceFromStore(Store[] pStores, float[] pFlowRates){
+	public static float getMaxResourceFromStore(Store[] pStores, float[] pMaxFlowRates){
 		float gatheredResource = 0f;
 		for (int i = 0; i < pStores.length; i++){
-			gatheredResource += pStores[i].take(pFlowRates[i]);
+			gatheredResource += pStores[i].take(pMaxFlowRates[i]);
 		}
 		return gatheredResource;
 	}
@@ -367,14 +367,14 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	/**
 	* Attempts to grab a specified amount from a collection of stores
 	* @param pStores The stores to grab the resources from
-	* @param pFlowRates The flow rates from this module to the stores
+	* @param pMaxFlowRates The flow rates from this module to the stores
 	* @param amountNeeded The amount to gather from the stores
 	* @return The total amount of resource grabbed from the stores (equal to the amount needed if sucessful)
 	*/
-	public static float getResourceFromStore(Store[] pStores, float[] pFlowRates, float amountNeeded){
+	public static float getResourceFromStore(Store[] pStores, float[] pMaxFlowRates, float amountNeeded){
 		float gatheredResource = 0f;
 		for (int i = 0; (i < pStores.length) && (gatheredResource < amountNeeded); i++){
-			float resourceToGather = Math.min(amountNeeded, pFlowRates[i]); 
+			float resourceToGather = Math.min(amountNeeded, pMaxFlowRates[i]); 
 			gatheredResource += pStores[i].take(resourceToGather);
 		}
 		return gatheredResource;
@@ -383,14 +383,14 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	/**
 	* Attempts to push a specified amount to a collection of stores
 	* @param pStores The stores to push the resources to
-	* @param pFlowRates The flow rates from this module to the stores
+	* @param pMaxFlowRates The flow rates from this module to the stores
 	* @param amountToPush The amount to push to the stores
 	* @return The total amount of resource pushed to the stores (equal to the amount to push if sucessful)
 	*/
-	public static float pushResourceToStore(Store[] pStores, float[] pFlowRates, float amountToPush){
+	public static float pushResourceToStore(Store[] pStores, float[] pMaxFlowRates, float amountToPush){
 		float totalResourceDistributed = amountToPush;
 		for (int i = 0; (i < pStores.length) && (totalResourceDistributed > 0); i++){
-			float resourceToDistribute = Math.min(totalResourceDistributed, pFlowRates[i]);
+			float resourceToDistribute = Math.min(totalResourceDistributed, pMaxFlowRates[i]);
 			totalResourceDistributed -= pStores[i].add(resourceToDistribute);
 		}
 		return (amountToPush - totalResourceDistributed);

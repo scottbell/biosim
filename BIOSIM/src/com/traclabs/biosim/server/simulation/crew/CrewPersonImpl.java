@@ -636,10 +636,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		greyWaterProduced = calculateGreyWaterProduced(dirtyWaterProduced);
 		CO2Produced = calculateCO2Produced(O2Needed);
 		//adjust tanks
-		foodConsumed = myCrewGroup.getResourceFromStore(myCrewGroup.getFoodInputs(), myCrewGroup.getFoodInputFlowRates(), foodNeeded);
-		cleanWaterConsumed = myCrewGroup.getResourceFromStore(myCrewGroup.getPotableWaterInputs(), myCrewGroup.getPotableWaterInputFlowRates(), potableWaterNeeded);
-		float distributedDirtyWaterLeft = myCrewGroup.pushResourceToStore(myCrewGroup.getDirtyWaterOutputs(), myCrewGroup.getDirtyWaterOutputFlowRates(), dirtyWaterProduced);
-		float distributedGreyWaterLeft = myCrewGroup.pushResourceToStore(myCrewGroup.getGreyWaterOutputs(), myCrewGroup.getGreyWaterOutputFlowRates(), greyWaterProduced);
+		foodConsumed = myCrewGroup.getResourceFromStore(myCrewGroup.getFoodInputs(), myCrewGroup.getFoodInputMaxFlowRates(), foodNeeded);
+		cleanWaterConsumed = myCrewGroup.getResourceFromStore(myCrewGroup.getPotableWaterInputs(), myCrewGroup.getPotableWaterInputMaxFlowRates(), potableWaterNeeded);
+		float distributedDirtyWaterLeft = myCrewGroup.pushResourceToStore(myCrewGroup.getDirtyWaterOutputs(), myCrewGroup.getDirtyWaterOutputMaxFlowRates(), dirtyWaterProduced);
+		float distributedGreyWaterLeft = myCrewGroup.pushResourceToStore(myCrewGroup.getGreyWaterOutputs(), myCrewGroup.getGreyWaterOutputMaxFlowRates(), greyWaterProduced);
 	
 		SimEnvironment[] myAirInputs = myCrewGroup.getAirInputs();
 		SimEnvironment[] myAirOutputs = myCrewGroup.getAirOutputs();

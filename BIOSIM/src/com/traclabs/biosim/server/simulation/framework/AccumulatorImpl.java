@@ -13,7 +13,7 @@ import biosim.idl.util.log.*;
 import biosim.server.simulation.framework.*;
 /**
  * The basic Accumulator Implementation.  Can be configured to take any modules as input, and any modules as output.
- * It takes as much as it can (max taken set by flowRates) from one module and pushes it into another module.
+ * It takes as much as it can (max taken set by maxFlowRates) from one module and pushes it into another module.
  * Functionally equivalent to an Injector at this point. 
  * @author    Scott Bell
  */
@@ -22,135 +22,135 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 	private LogIndex myLogIndex;
 	private PowerStore[] myPowerInputs;
 	private PowerStore[] myPowerOutputs;
-	private float[] powerOutFlowRates;
-	private float[] powerInFlowRates;
+	private float[] powerOutMaxFlowRates;
+	private float[] powerInMaxFlowRates;
 
 	private GreyWaterStore[] myGreyWaterInputs;
 	private GreyWaterStore[] myGreyWaterOutputs;
-	private float[] greyWaterOutFlowRates;
-	private float[] greyWaterInFlowRates;
+	private float[] greyWaterOutMaxFlowRates;
+	private float[] greyWaterInMaxFlowRates;
 
 	private DirtyWaterStore[] myDirtyWaterInputs;
 	private DirtyWaterStore[] myDirtyWaterOutputs;
-	private float[] dirtyWaterOutFlowRates;
-	private float[] dirtyWaterInFlowRates;
+	private float[] dirtyWaterOutMaxFlowRates;
+	private float[] dirtyWaterInMaxFlowRates;
 
 	private PotableWaterStore[] myPotableWaterInputs;
 	private PotableWaterStore[] myPotableWaterOutputs;
-	private float[] potableWaterOutFlowRates;
-	private float[] potableWaterInFlowRates;
+	private float[] potableWaterOutMaxFlowRates;
+	private float[] potableWaterInMaxFlowRates;
 
 	private BiomassStore[] myBiomassInputs;
 	private BiomassStore[] myBiomassOutputs;
-	private float[] biomassOutFlowRates;
-	private float[] biomassInFlowRates;
+	private float[] biomassOutMaxFlowRates;
+	private float[] biomassInMaxFlowRates;
 
 	private FoodStore[] myFoodInputs;
 	private FoodStore[] myFoodOutputs;
-	private float[] foodOutFlowRates;
-	private float[] foodInFlowRates;
+	private float[] foodOutMaxFlowRates;
+	private float[] foodInMaxFlowRates;
 
 	private SimEnvironment[] myAirInputs;
 	private SimEnvironment[] myAirOutputs;
-	private float[] airOutFlowRates;
-	private float[] airInFlowRates;
+	private float[] airOutMaxFlowRates;
+	private float[] airInMaxFlowRates;
 
 	private O2Store[] myO2Inputs;
 	private O2Store[] myO2Outputs;
-	private float[] O2OutFlowRates;
-	private float[] O2InFlowRates;
+	private float[] O2OutMaxFlowRates;
+	private float[] O2InMaxFlowRates;
 
 	private CO2Store[] myCO2Inputs;
 	private CO2Store[] myCO2Outputs;
-	private float[] CO2OutFlowRates;
-	private float[] CO2InFlowRates;
+	private float[] CO2OutMaxFlowRates;
+	private float[] CO2InMaxFlowRates;
 	
 	private CO2Store[] myCO2AirStoreInputs;
 	private CO2Store[] myCO2AirStoreOutputs;
-	private float[] CO2AirStoreOutFlowRates;
-	private float[] CO2AirStoreInFlowRates;
+	private float[] CO2AirStoreOutMaxFlowRates;
+	private float[] CO2AirStoreInMaxFlowRates;
 	
 	private O2Store[] myO2AirStoreInputs;
 	private O2Store[] myO2AirStoreOutputs;
-	private float[] O2AirStoreOutFlowRates;
-	private float[] O2AirStoreInFlowRates;
+	private float[] O2AirStoreOutMaxFlowRates;
+	private float[] O2AirStoreInMaxFlowRates;
 	
 	private SimEnvironment[] myCO2AirEnvironmentInputs;
 	private SimEnvironment[] myCO2AirEnvironmentOutputs;
-	private float[] CO2AirEnvironmentOutFlowRates;
-	private float[] CO2AirEnvironmentInFlowRates;
+	private float[] CO2AirEnvironmentOutMaxFlowRates;
+	private float[] CO2AirEnvironmentInMaxFlowRates;
 	
 	private SimEnvironment[] myO2AirEnvironmentInputs;
 	private SimEnvironment[] myO2AirEnvironmentOutputs;
-	private float[] O2AirEnvironmentOutFlowRates;
-	private float[] O2AirEnvironmentInFlowRates;
+	private float[] O2AirEnvironmentOutMaxFlowRates;
+	private float[] O2AirEnvironmentInMaxFlowRates;
 
 	public AccumulatorImpl(int pID){
 		super(pID);
 		myPowerOutputs = new PowerStore[0];
 		myPowerInputs = new PowerStore[0];
-		powerOutFlowRates = new float[0];
-		powerInFlowRates = new float[0];
+		powerOutMaxFlowRates = new float[0];
+		powerInMaxFlowRates = new float[0];
 
 		myGreyWaterOutputs = new GreyWaterStore[0];
 		myGreyWaterInputs = new GreyWaterStore[0];
-		greyWaterOutFlowRates = new float[0];
-		greyWaterInFlowRates = new float[0];
+		greyWaterOutMaxFlowRates = new float[0];
+		greyWaterInMaxFlowRates = new float[0];
 
 		myDirtyWaterOutputs = new DirtyWaterStore[0];
 		myDirtyWaterInputs = new DirtyWaterStore[0];
-		dirtyWaterOutFlowRates = new float[0];
-		dirtyWaterInFlowRates = new float[0];
+		dirtyWaterOutMaxFlowRates = new float[0];
+		dirtyWaterInMaxFlowRates = new float[0];
 
 		myPotableWaterOutputs = new PotableWaterStore[0];
 		myPotableWaterInputs = new PotableWaterStore[0];
-		potableWaterOutFlowRates = new float[0];
-		potableWaterInFlowRates = new float[0];
+		potableWaterOutMaxFlowRates = new float[0];
+		potableWaterInMaxFlowRates = new float[0];
 
 		myBiomassOutputs = new BiomassStore[0];
 		myBiomassInputs = new BiomassStore[0];
-		biomassOutFlowRates = new float[0];
-		biomassInFlowRates = new float[0];
+		biomassOutMaxFlowRates = new float[0];
+		biomassInMaxFlowRates = new float[0];
 
 		myFoodOutputs = new FoodStore[0];
 		myFoodInputs = new FoodStore[0];
-		foodOutFlowRates = new float[0];
-		foodInFlowRates = new float[0];
+		foodOutMaxFlowRates = new float[0];
+		foodInMaxFlowRates = new float[0];
 
 		myAirOutputs = new SimEnvironment[0];
 		myAirInputs = new SimEnvironment[0];
-		airOutFlowRates = new float[0];
-		airInFlowRates = new float[0];
+		airOutMaxFlowRates = new float[0];
+		airInMaxFlowRates = new float[0];
 
 		myO2Outputs = new O2Store[0];
 		myO2Inputs = new O2Store[0];
-		O2OutFlowRates = new float[0];
-		O2InFlowRates = new float[0];
+		O2OutMaxFlowRates = new float[0];
+		O2InMaxFlowRates = new float[0];
 
 		myCO2Outputs = new CO2Store[0];
 		myCO2Inputs = new CO2Store[0];
-		CO2OutFlowRates = new float[0];
-		CO2InFlowRates = new float[0];
+		CO2OutMaxFlowRates = new float[0];
+		CO2InMaxFlowRates = new float[0];
 		
 		myCO2AirStoreOutputs = new CO2Store[0];
 		myCO2AirStoreInputs = new CO2Store[0];
-		CO2AirStoreOutFlowRates = new float[0];
-		CO2AirStoreInFlowRates = new float[0];
+		CO2AirStoreOutMaxFlowRates = new float[0];
+		CO2AirStoreInMaxFlowRates = new float[0];
 		
 		myO2AirStoreOutputs = new O2Store[0];
 		myO2AirStoreInputs = new O2Store[0];
-		O2AirStoreOutFlowRates = new float[0];
-		O2AirStoreInFlowRates = new float[0];
+		O2AirStoreOutMaxFlowRates = new float[0];
+		O2AirStoreInMaxFlowRates = new float[0];
 		
 		myCO2AirEnvironmentOutputs = new SimEnvironment[0];
 		myCO2AirEnvironmentInputs = new SimEnvironment[0];
-		CO2AirEnvironmentOutFlowRates = new float[0];
-		CO2AirEnvironmentInFlowRates = new float[0];
+		CO2AirEnvironmentOutMaxFlowRates = new float[0];
+		CO2AirEnvironmentInMaxFlowRates = new float[0];
 		
 		myO2AirEnvironmentOutputs = new SimEnvironment[0];
 		myO2AirEnvironmentInputs = new SimEnvironment[0];
-		O2AirEnvironmentOutFlowRates = new float[0];
-		O2AirEnvironmentInFlowRates = new float[0];
+		O2AirEnvironmentOutMaxFlowRates = new float[0];
+		O2AirEnvironmentInMaxFlowRates = new float[0];
 	}
 
 
@@ -163,34 +163,34 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 	}
 	
 	private void getAndPushResources(){
-		float powerGathered = getMaxResourceFromStore(myPowerInputs, powerInFlowRates);
-		float powerPushed = pushResourceToStore(myPowerOutputs, powerOutFlowRates, powerGathered);
+		float powerGathered = getMaxResourceFromStore(myPowerInputs, powerInMaxFlowRates);
+		float powerPushed = pushResourceToStore(myPowerOutputs, powerOutMaxFlowRates, powerGathered);
 		
-		float greyWaterGathered = getMaxResourceFromStore(myGreyWaterInputs, greyWaterInFlowRates);
-		float greyWaterPushed = pushResourceToStore(myGreyWaterOutputs, greyWaterOutFlowRates, greyWaterGathered);
+		float greyWaterGathered = getMaxResourceFromStore(myGreyWaterInputs, greyWaterInMaxFlowRates);
+		float greyWaterPushed = pushResourceToStore(myGreyWaterOutputs, greyWaterOutMaxFlowRates, greyWaterGathered);
 		
-		float potableWaterGathered = getMaxResourceFromStore(myPotableWaterInputs, potableWaterInFlowRates);
-		float potableWaterPushed = pushResourceToStore(myPotableWaterOutputs, potableWaterOutFlowRates, potableWaterGathered);
+		float potableWaterGathered = getMaxResourceFromStore(myPotableWaterInputs, potableWaterInMaxFlowRates);
+		float potableWaterPushed = pushResourceToStore(myPotableWaterOutputs, potableWaterOutMaxFlowRates, potableWaterGathered);
 		
-		float dirtyWaterGathered = getMaxResourceFromStore(myDirtyWaterInputs, dirtyWaterInFlowRates);
-		float dirtyWaterPushed = pushResourceToStore(myDirtyWaterOutputs, dirtyWaterOutFlowRates, dirtyWaterGathered);
+		float dirtyWaterGathered = getMaxResourceFromStore(myDirtyWaterInputs, dirtyWaterInMaxFlowRates);
+		float dirtyWaterPushed = pushResourceToStore(myDirtyWaterOutputs, dirtyWaterOutMaxFlowRates, dirtyWaterGathered);
 		
-		float biomassGathered = getMaxResourceFromStore(myBiomassInputs, biomassInFlowRates);
-		float biomassPushed = pushResourceToStore(myBiomassOutputs, biomassOutFlowRates, biomassGathered);
+		float biomassGathered = getMaxResourceFromStore(myBiomassInputs, biomassInMaxFlowRates);
+		float biomassPushed = pushResourceToStore(myBiomassOutputs, biomassOutMaxFlowRates, biomassGathered);
 		
-		float foodGathered = getMaxResourceFromStore(myFoodInputs, foodInFlowRates);
-		float foodPushed = pushResourceToStore(myFoodOutputs, foodOutFlowRates, foodGathered);
+		float foodGathered = getMaxResourceFromStore(myFoodInputs, foodInMaxFlowRates);
+		float foodPushed = pushResourceToStore(myFoodOutputs, foodOutMaxFlowRates, foodGathered);
 		
-		float O2Gathered = getMaxResourceFromStore(myO2Inputs, O2InFlowRates);
-		float O2Pushed = pushResourceToStore(myO2Outputs, O2OutFlowRates, O2Gathered);
+		float O2Gathered = getMaxResourceFromStore(myO2Inputs, O2InMaxFlowRates);
+		float O2Pushed = pushResourceToStore(myO2Outputs, O2OutMaxFlowRates, O2Gathered);
 		
-		float CO2Gathered = getMaxResourceFromStore(myCO2Inputs, CO2InFlowRates);
-		float CO2Pushed = pushResourceToStore(myCO2Outputs, CO2OutFlowRates, CO2Gathered);
+		float CO2Gathered = getMaxResourceFromStore(myCO2Inputs, CO2InMaxFlowRates);
+		float CO2Pushed = pushResourceToStore(myCO2Outputs, CO2OutMaxFlowRates, CO2Gathered);
 		
 		
 		Breath gatheredAir = new Breath(0,0,0);
-		for (int i = 0; (i < myAirInputs.length) && ((gatheredAir.O2 + gatheredAir.CO2 + gatheredAir.other) < airInFlowRates[i]); i++){
-			Breath currentBreath = myAirInputs[i].takeVolume(airInFlowRates[i] - (gatheredAir.O2 + gatheredAir.CO2 + gatheredAir.other));
+		for (int i = 0; (i < myAirInputs.length) && ((gatheredAir.O2 + gatheredAir.CO2 + gatheredAir.other) < airInMaxFlowRates[i]); i++){
+			Breath currentBreath = myAirInputs[i].takeVolume(airInMaxFlowRates[i] - (gatheredAir.O2 + gatheredAir.CO2 + gatheredAir.other));
 			gatheredAir.O2 += currentBreath.O2;
 			gatheredAir.CO2 += currentBreath.CO2;
 			gatheredAir.other += currentBreath.other;
@@ -202,28 +202,28 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		}
 		
 		//Get CO2
-		float gatheredCO2Air = getMaxResourceFromStore(myCO2AirStoreInputs, CO2AirStoreInFlowRates);
+		float gatheredCO2Air = getMaxResourceFromStore(myCO2AirStoreInputs, CO2AirStoreInMaxFlowRates);
 		for (int i = 0; i < myCO2AirEnvironmentInputs.length; i++){
-			gatheredCO2Air += myCO2AirEnvironmentInputs[i].takeCO2(CO2AirEnvironmentInFlowRates[i]);
+			gatheredCO2Air += myCO2AirEnvironmentInputs[i].takeCO2(CO2AirEnvironmentInMaxFlowRates[i]);
 		}
 		//Push CO2
-		float CO2AirPushed = pushResourceToStore(myCO2AirStoreOutputs, CO2AirStoreOutFlowRates, gatheredCO2Air);
+		float CO2AirPushed = pushResourceToStore(myCO2AirStoreOutputs, CO2AirStoreOutMaxFlowRates, gatheredCO2Air);
 		float CO2AirLeft = gatheredCO2Air - CO2AirPushed;
 		for (int i = 0; (i < myCO2AirEnvironmentOutputs.length) && (CO2AirLeft > 0); i++){
-			CO2AirLeft -= myCO2AirEnvironmentOutputs[i].addCO2(CO2AirEnvironmentOutFlowRates[i]);
+			CO2AirLeft -= myCO2AirEnvironmentOutputs[i].addCO2(CO2AirEnvironmentOutMaxFlowRates[i]);
 		}
 		CO2AirPushed = gatheredCO2Air - CO2AirLeft;
 		
 		//Get O2
-		float gatheredO2Air = getMaxResourceFromStore(myO2AirStoreInputs, O2AirStoreInFlowRates);
+		float gatheredO2Air = getMaxResourceFromStore(myO2AirStoreInputs, O2AirStoreInMaxFlowRates);
 		for (int i = 0; i < myO2AirEnvironmentInputs.length; i++){
-			gatheredO2Air += myO2AirEnvironmentInputs[i].takeO2(O2AirEnvironmentInFlowRates[i]);
+			gatheredO2Air += myO2AirEnvironmentInputs[i].takeO2(O2AirEnvironmentInMaxFlowRates[i]);
 		}
 		//Push O2
-		float O2AirPushed = pushResourceToStore(myO2AirStoreOutputs, O2AirStoreOutFlowRates, gatheredO2Air);
+		float O2AirPushed = pushResourceToStore(myO2AirStoreOutputs, O2AirStoreOutMaxFlowRates, gatheredO2Air);
 		float O2AirLeft = gatheredO2Air - O2AirPushed;
 		for (int i = 0; (i < myO2AirEnvironmentOutputs.length) && (O2AirLeft > 0); i++){
-			O2AirLeft -= myO2AirEnvironmentOutputs[i].addO2(O2AirEnvironmentOutFlowRates[i]);
+			O2AirLeft -= myO2AirEnvironmentOutputs[i].addO2(O2AirEnvironmentOutMaxFlowRates[i]);
 		}
 		O2AirPushed = gatheredO2Air - O2AirLeft;
 	}
@@ -275,416 +275,416 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		public LogNode outIndex;
 	}
 
-	public void setPowerInputFlowRate(float amount, int index){
-		powerInFlowRates[index] = amount;
+	public void setPowerInputMaxFlowRate(float amount, int index){
+		powerInMaxFlowRates[index] = amount;
 	}
 
-	public float getPowerInputFlowRate(int index){
-		return powerInFlowRates[index];
+	public float getPowerInputMaxFlowRate(int index){
+		return powerInMaxFlowRates[index];
 	}
 
-	public void setPowerInputs(PowerStore[] sources, float[] flowRates){
+	public void setPowerInputs(PowerStore[] sources, float[] maxFlowRates){
 		myPowerInputs = sources;
-		powerInFlowRates = flowRates;
+		powerInMaxFlowRates = maxFlowRates;
 	}
 
 	public PowerStore[] getPowerInputs(){
 		return myPowerInputs;
 	}
 	
-	public float[] getPowerInputFlowRates(){
-		return powerInFlowRates;
+	public float[] getPowerInputMaxFlowRates(){
+		return powerInMaxFlowRates;
 	}
 
-	public void setPowerOutputFlowRate(float amount, int index){
-		powerOutFlowRates[index] = amount;
+	public void setPowerOutputMaxFlowRate(float amount, int index){
+		powerOutMaxFlowRates[index] = amount;
 	}
 
-	public float getPowerOutputFlowRate(int index){
-		return powerOutFlowRates[index];
+	public float getPowerOutputMaxFlowRate(int index){
+		return powerOutMaxFlowRates[index];
 	}
 
-	public void setPowerOutputs(PowerStore[] destinations, float[] flowRates){
+	public void setPowerOutputs(PowerStore[] destinations, float[] maxFlowRates){
 		myPowerOutputs = destinations;
-		powerOutFlowRates = flowRates;
+		powerOutMaxFlowRates = maxFlowRates;
 	}
 
 	public PowerStore[] getPowerOutputs(){
 		return myPowerOutputs;
 	}
 	
-	public float[] getPowerOutputFlowRates(){
-		return powerOutFlowRates;
+	public float[] getPowerOutputMaxFlowRates(){
+		return powerOutMaxFlowRates;
 	}
 
-	public void setGreyWaterInputFlowRate(float amount, int index){
-		greyWaterInFlowRates[index] = amount;
+	public void setGreyWaterInputMaxFlowRate(float amount, int index){
+		greyWaterInMaxFlowRates[index] = amount;
 	}
 
-	public float getGreyWaterInputFlowRate(int index){
-		return greyWaterInFlowRates[index];
+	public float getGreyWaterInputMaxFlowRate(int index){
+		return greyWaterInMaxFlowRates[index];
 	}
 
-	public void setGreyWaterInputs(GreyWaterStore[] sources, float[] flowRates){
+	public void setGreyWaterInputs(GreyWaterStore[] sources, float[] maxFlowRates){
 		myGreyWaterInputs = sources;
-		greyWaterInFlowRates = flowRates;
+		greyWaterInMaxFlowRates = maxFlowRates;
 	}
 
 	public GreyWaterStore[] getGreyWaterInputs(){
 		return myGreyWaterInputs;
 	}
 	
-	public float[] getGreyWaterInputFlowRates(){
-		return greyWaterInFlowRates;
+	public float[] getGreyWaterInputMaxFlowRates(){
+		return greyWaterInMaxFlowRates;
 	}
 
-	public void setGreyWaterOutputFlowRate(float amount, int index){
-		greyWaterOutFlowRates[index] = amount;
+	public void setGreyWaterOutputMaxFlowRate(float amount, int index){
+		greyWaterOutMaxFlowRates[index] = amount;
 	}
 
-	public float getGreyWaterOutputFlowRate(int index){
-		return greyWaterOutFlowRates[index];
+	public float getGreyWaterOutputMaxFlowRate(int index){
+		return greyWaterOutMaxFlowRates[index];
 	}
 
-	public void setGreyWaterOutputs(GreyWaterStore[] destinations, float[] flowRates){
+	public void setGreyWaterOutputs(GreyWaterStore[] destinations, float[] maxFlowRates){
 		myGreyWaterOutputs = destinations;
-		greyWaterOutFlowRates = flowRates;
+		greyWaterOutMaxFlowRates = maxFlowRates;
 	}
 
 	public GreyWaterStore[] getGreyWaterOutputs(){
 		return myGreyWaterOutputs;
 	}
 	
-	public float[] getGreyWaterOutputFlowRates(){
-		return greyWaterOutFlowRates;
+	public float[] getGreyWaterOutputMaxFlowRates(){
+		return greyWaterOutMaxFlowRates;
 	}
 
-	public void setDirtyWaterInputFlowRate(float amount, int index){
-		dirtyWaterInFlowRates[index] = amount;
+	public void setDirtyWaterInputMaxFlowRate(float amount, int index){
+		dirtyWaterInMaxFlowRates[index] = amount;
 	}
 
-	public float getDirtyWaterInputFlowRate(int index){
-		return dirtyWaterInFlowRates[index];
+	public float getDirtyWaterInputMaxFlowRate(int index){
+		return dirtyWaterInMaxFlowRates[index];
 	}
 
-	public void setDirtyWaterInputs(DirtyWaterStore[] sources, float[] flowRates){
+	public void setDirtyWaterInputs(DirtyWaterStore[] sources, float[] maxFlowRates){
 		myDirtyWaterInputs = sources;
-		dirtyWaterInFlowRates = flowRates;
+		dirtyWaterInMaxFlowRates = maxFlowRates;
 	}
 
 	public DirtyWaterStore[] getDirtyWaterInputs(){
 		return myDirtyWaterInputs;
 	}
 	
-	public float[] getDirtyWaterInputFlowRates(){
-		return dirtyWaterInFlowRates;
+	public float[] getDirtyWaterInputMaxFlowRates(){
+		return dirtyWaterInMaxFlowRates;
 	}
 
-	public void setDirtyWaterOutputFlowRate(float amount, int index){
-		dirtyWaterOutFlowRates[index] = amount;
+	public void setDirtyWaterOutputMaxFlowRate(float amount, int index){
+		dirtyWaterOutMaxFlowRates[index] = amount;
 	}
 
-	public float getDirtyWaterOutputFlowRate(int index){
-		return dirtyWaterOutFlowRates[index];
+	public float getDirtyWaterOutputMaxFlowRate(int index){
+		return dirtyWaterOutMaxFlowRates[index];
 	}
 
-	public void setDirtyWaterOutputs(DirtyWaterStore[] destinations, float[] flowRates){
+	public void setDirtyWaterOutputs(DirtyWaterStore[] destinations, float[] maxFlowRates){
 		myDirtyWaterOutputs = destinations;
-		dirtyWaterOutFlowRates = flowRates;
+		dirtyWaterOutMaxFlowRates = maxFlowRates;
 	}
 
 	public DirtyWaterStore[] getDirtyWaterOutputs(){
 		return myDirtyWaterOutputs;
 	}
 	
-	public float[] getDirtyWaterOutputFlowRates(){
-		return dirtyWaterOutFlowRates;
+	public float[] getDirtyWaterOutputMaxFlowRates(){
+		return dirtyWaterOutMaxFlowRates;
 	}
 
-	public void setPotableWaterInputFlowRate(float amount, int index){
-		potableWaterInFlowRates[index] = amount;
+	public void setPotableWaterInputMaxFlowRate(float amount, int index){
+		potableWaterInMaxFlowRates[index] = amount;
 	}
 
-	public float getPotableWaterInputFlowRate(int index){
-		return potableWaterInFlowRates[index];
+	public float getPotableWaterInputMaxFlowRate(int index){
+		return potableWaterInMaxFlowRates[index];
 	}
 
-	public void setPotableWaterInputs(PotableWaterStore[] sources, float[] flowRates){
+	public void setPotableWaterInputs(PotableWaterStore[] sources, float[] maxFlowRates){
 		myPotableWaterInputs = sources;
-		potableWaterInFlowRates = flowRates;
+		potableWaterInMaxFlowRates = maxFlowRates;
 	}
 
 	public PotableWaterStore[] getPotableWaterInputs(){
 		return myPotableWaterInputs;
 	}
 	
-	public float[] getPotableWaterInputFlowRates(){
-		return potableWaterInFlowRates;
+	public float[] getPotableWaterInputMaxFlowRates(){
+		return potableWaterInMaxFlowRates;
 	}
 
-	public void setPotableWaterOutputFlowRate(float amount, int index){
-		potableWaterOutFlowRates[index] = amount;
+	public void setPotableWaterOutputMaxFlowRate(float amount, int index){
+		potableWaterOutMaxFlowRates[index] = amount;
 	}
 
-	public float getPotableWaterOutputFlowRate(int index){
-		return potableWaterOutFlowRates[index];
+	public float getPotableWaterOutputMaxFlowRate(int index){
+		return potableWaterOutMaxFlowRates[index];
 	}
 
-	public void setPotableWaterOutputs(PotableWaterStore[] destinations, float[] flowRates){
+	public void setPotableWaterOutputs(PotableWaterStore[] destinations, float[] maxFlowRates){
 		myPotableWaterOutputs = destinations;
-		potableWaterOutFlowRates = flowRates;
+		potableWaterOutMaxFlowRates = maxFlowRates;
 	}
 
 	public PotableWaterStore[] getPotableWaterOutputs(){
 		return myPotableWaterOutputs;
 	}
 	
-	public float[] getPotableWaterOutputFlowRates(){
-		return potableWaterOutFlowRates;
+	public float[] getPotableWaterOutputMaxFlowRates(){
+		return potableWaterOutMaxFlowRates;
 	}
 
-	public void setFoodInputFlowRate(float amount, int index){
-		foodInFlowRates[index] = amount;
+	public void setFoodInputMaxFlowRate(float amount, int index){
+		foodInMaxFlowRates[index] = amount;
 	}
 
-	public float getFoodInputFlowRate(int index){
-		return foodInFlowRates[index];
+	public float getFoodInputMaxFlowRate(int index){
+		return foodInMaxFlowRates[index];
 	}
 
-	public void setFoodInputs(FoodStore[] sources, float[] flowRates){
+	public void setFoodInputs(FoodStore[] sources, float[] maxFlowRates){
 		myFoodInputs = sources;
-		foodInFlowRates = flowRates;
+		foodInMaxFlowRates = maxFlowRates;
 	}
 
 	public FoodStore[] getFoodInputs(){
 		return myFoodInputs;
 	}
 	
-	public float[] getFoodInFlowRates(){
-		return foodInFlowRates;
+	public float[] getFoodInMaxFlowRates(){
+		return foodInMaxFlowRates;
 	}
 
-	public void setFoodOutputFlowRate(float amount, int index){
-		foodOutFlowRates[index] = amount;
+	public void setFoodOutputMaxFlowRate(float amount, int index){
+		foodOutMaxFlowRates[index] = amount;
 	}
 
-	public float getFoodOutputFlowRate(int index){
-		return foodOutFlowRates[index];
+	public float getFoodOutputMaxFlowRate(int index){
+		return foodOutMaxFlowRates[index];
 	}
 
-	public void setFoodOutputs(FoodStore[] destinations, float[] flowRates){
+	public void setFoodOutputs(FoodStore[] destinations, float[] maxFlowRates){
 		myFoodOutputs = destinations;
-		foodOutFlowRates = flowRates;
+		foodOutMaxFlowRates = maxFlowRates;
 	}
 
 	public FoodStore[] getFoodOutputs(){
 		return myFoodOutputs;
 	}
 	
-	public float[] getFoodOutputFlowRates(){
-		return foodOutFlowRates;
+	public float[] getFoodOutputMaxFlowRates(){
+		return foodOutMaxFlowRates;
 	}
 	
-	public void setBiomassInputFlowRate(float amount, int index){
-		biomassInFlowRates[index] = amount;
+	public void setBiomassInputMaxFlowRate(float amount, int index){
+		biomassInMaxFlowRates[index] = amount;
 	}
 
-	public float getBiomassInputFlowRate(int index){
-		return biomassInFlowRates[index];
+	public float getBiomassInputMaxFlowRate(int index){
+		return biomassInMaxFlowRates[index];
 	}
 
-	public void setBiomassInputs(BiomassStore[] sources, float[] flowRates){
+	public void setBiomassInputs(BiomassStore[] sources, float[] maxFlowRates){
 		myBiomassInputs = sources;
-		biomassInFlowRates = flowRates;
+		biomassInMaxFlowRates = maxFlowRates;
 	}
 
 	public BiomassStore[] getBiomassInputs(){
 		return myBiomassInputs;
 	}
 	
-	public float[] getBiomassInputFlowRates(){
-		return biomassInFlowRates;
+	public float[] getBiomassInputMaxFlowRates(){
+		return biomassInMaxFlowRates;
 	}
 
-	public void setBiomassOutputFlowRate(float amount, int index){
-		biomassOutFlowRates[index] = amount;
+	public void setBiomassOutputMaxFlowRate(float amount, int index){
+		biomassOutMaxFlowRates[index] = amount;
 	}
 
-	public float getBiomassOutputFlowRate(int index){
-		return biomassOutFlowRates[index];
+	public float getBiomassOutputMaxFlowRate(int index){
+		return biomassOutMaxFlowRates[index];
 	}
 
-	public void setBiomassOutputs(BiomassStore[] destinations, float[] flowRates){
+	public void setBiomassOutputs(BiomassStore[] destinations, float[] maxFlowRates){
 		myBiomassOutputs = destinations;
-		biomassOutFlowRates = flowRates;
+		biomassOutMaxFlowRates = maxFlowRates;
 	}
 
 	public BiomassStore[] getBiomassOutputs(){
 		return myBiomassOutputs;
 	}
 	
-	public float[] getBiomassOutputFlowRates(){
-		return biomassOutFlowRates;
+	public float[] getBiomassOutputMaxFlowRates(){
+		return biomassOutMaxFlowRates;
 	}
 
-	public void setAirInputFlowRate(float amount, int index){
-		airInFlowRates[index] = amount;
+	public void setAirInputMaxFlowRate(float amount, int index){
+		airInMaxFlowRates[index] = amount;
 	}
 
-	public float getAirInputFlowRate(int index){
-		return airInFlowRates[index];
+	public float getAirInputMaxFlowRate(int index){
+		return airInMaxFlowRates[index];
 	}
 
-	public void setAirInputs(SimEnvironment[] sources, float[] flowRates){
+	public void setAirInputs(SimEnvironment[] sources, float[] maxFlowRates){
 		myAirInputs = sources;
-		airInFlowRates = flowRates;
+		airInMaxFlowRates = maxFlowRates;
 	}
 
 	public SimEnvironment[] getAirInputs(){
 		return myAirInputs;
 	}
 	
-	public float[] getAirInputFlowRates(){
-		return airInFlowRates;
+	public float[] getAirInputMaxFlowRates(){
+		return airInMaxFlowRates;
 	}
 
-	public void setAirOutputFlowRate(float amount, int index){
-		airOutFlowRates[index] = amount;
+	public void setAirOutputMaxFlowRate(float amount, int index){
+		airOutMaxFlowRates[index] = amount;
 	}
 
-	public float getAirOutputFlowRate(int index){
-		return airOutFlowRates[index];
+	public float getAirOutputMaxFlowRate(int index){
+		return airOutMaxFlowRates[index];
 	}
 
-	public void setAirOutputs(SimEnvironment[] destinations, float[] flowRates){
+	public void setAirOutputs(SimEnvironment[] destinations, float[] maxFlowRates){
 		myAirOutputs = destinations;
-		airOutFlowRates = flowRates;
+		airOutMaxFlowRates = maxFlowRates;
 	}
 
 	public SimEnvironment[] getAirOutputs(){
 		return myAirOutputs;
 	}
 	
-	public float[] getAirOutputFlowRates(){
-		return airOutFlowRates;
+	public float[] getAirOutputMaxFlowRates(){
+		return airOutMaxFlowRates;
 	}
 
-	public void setO2InputFlowRate(float amount, int index){
-		O2InFlowRates[index] = amount;
+	public void setO2InputMaxFlowRate(float amount, int index){
+		O2InMaxFlowRates[index] = amount;
 	}
 
-	public float getO2InputFlowRate(int index){
-		return O2InFlowRates[index];
+	public float getO2InputMaxFlowRate(int index){
+		return O2InMaxFlowRates[index];
 	}
 
-	public void setO2Inputs(O2Store[] sources, float[] flowRates){
+	public void setO2Inputs(O2Store[] sources, float[] maxFlowRates){
 		myO2Inputs = sources;
-		O2InFlowRates = flowRates;
+		O2InMaxFlowRates = maxFlowRates;
 	}
 
 	public O2Store[] getO2Inputs(){
 		return myO2Inputs;
 	}
 	
-	public float[] getO2InputFlowRates(){
-		return O2InFlowRates;
+	public float[] getO2InputMaxFlowRates(){
+		return O2InMaxFlowRates;
 	}
 
-	public void setO2OutputFlowRate(float amount, int index){
-		O2OutFlowRates[index] = amount;
+	public void setO2OutputMaxFlowRate(float amount, int index){
+		O2OutMaxFlowRates[index] = amount;
 	}
 
-	public float getO2OutputFlowRate(int index){
-		return O2OutFlowRates[index];
+	public float getO2OutputMaxFlowRate(int index){
+		return O2OutMaxFlowRates[index];
 	}
 
-	public void setO2Outputs(O2Store[] destinations, float[] flowRates){
+	public void setO2Outputs(O2Store[] destinations, float[] maxFlowRates){
 		myO2Outputs = destinations;
-		O2OutFlowRates = flowRates;
+		O2OutMaxFlowRates = maxFlowRates;
 	}
 
 	public O2Store[] getO2Outputs(){
 		return myO2Outputs;
 	}
 	
-	public float[] getO2OutputFlowRates(){
-		return O2OutFlowRates;
+	public float[] getO2OutputMaxFlowRates(){
+		return O2OutMaxFlowRates;
 	}
 
-	public void setCO2InputFlowRate(float amount, int index){
-		CO2InFlowRates[index] = amount;
+	public void setCO2InputMaxFlowRate(float amount, int index){
+		CO2InMaxFlowRates[index] = amount;
 	}
 
-	public float getCO2InputFlowRate(int index){
-		return CO2InFlowRates[index];
+	public float getCO2InputMaxFlowRate(int index){
+		return CO2InMaxFlowRates[index];
 	}
 
-	public void setCO2Inputs(CO2Store[] sources, float[] flowRates){
+	public void setCO2Inputs(CO2Store[] sources, float[] maxFlowRates){
 		myCO2Inputs = sources;
-		CO2InFlowRates = flowRates;
+		CO2InMaxFlowRates = maxFlowRates;
 	}
 	
-	public float[] getCO2InputFlowRates(){
-		return CO2InFlowRates;
+	public float[] getCO2InputMaxFlowRates(){
+		return CO2InMaxFlowRates;
 	}
 
 	public CO2Store[] getCO2Inputs(){
 		return myCO2Inputs;
 	}
 
-	public void setCO2OutputFlowRate(float amount, int index){
-		CO2OutFlowRates[index] = amount;
+	public void setCO2OutputMaxFlowRate(float amount, int index){
+		CO2OutMaxFlowRates[index] = amount;
 	}
 
-	public float getCO2OutputFlowRate(int index){
-		return CO2OutFlowRates[index];
+	public float getCO2OutputMaxFlowRate(int index){
+		return CO2OutMaxFlowRates[index];
 	}
 
-	public void setCO2Outputs(CO2Store[] destinations, float[] flowRates){
+	public void setCO2Outputs(CO2Store[] destinations, float[] maxFlowRates){
 		myCO2Outputs = destinations;
-		CO2OutFlowRates = flowRates;
+		CO2OutMaxFlowRates = maxFlowRates;
 	}
 
 	public CO2Store[] getCO2Outputs(){
 		return myCO2Outputs;
 	}
 	
-	public float[] getCO2OutputFlowRates(){
-		return CO2OutFlowRates;
+	public float[] getCO2OutputMaxFlowRates(){
+		return CO2OutMaxFlowRates;
 	}
 	
-	public void setCO2AirStoreInputFlowRate(float amount, int index){
-		CO2AirStoreInFlowRates[index] = amount;
+	public void setCO2AirStoreInputMaxFlowRate(float amount, int index){
+		CO2AirStoreInMaxFlowRates[index] = amount;
 	}
 	
-	public void setCO2AirEnvironmentInputFlowRate(float amount, int index){
-		CO2AirEnvironmentInFlowRates[index] = amount;
+	public void setCO2AirEnvironmentInputMaxFlowRate(float amount, int index){
+		CO2AirEnvironmentInMaxFlowRates[index] = amount;
 	}
 
-	public float getCO2AirStoreInputFlowRate(int index){
-		return CO2AirStoreInFlowRates[index];
+	public float getCO2AirStoreInputMaxFlowRate(int index){
+		return CO2AirStoreInMaxFlowRates[index];
 	}
 	
-	public float getCO2AirEnvironmentInputFlowRate(int index){
-		return CO2AirEnvironmentInFlowRates[index];
+	public float getCO2AirEnvironmentInputMaxFlowRate(int index){
+		return CO2AirEnvironmentInMaxFlowRates[index];
 	}
 
-	public void setCO2AirStoreInputs(CO2Store[] sources, float[] flowRates){
+	public void setCO2AirStoreInputs(CO2Store[] sources, float[] maxFlowRates){
 		myCO2AirStoreInputs = sources;
-		CO2AirStoreInFlowRates = flowRates;
+		CO2AirStoreInMaxFlowRates = maxFlowRates;
 	}
 	
-	public void setCO2AirEnvironmentInputs(SimEnvironment[] sources, float[] flowRates){
+	public void setCO2AirEnvironmentInputs(SimEnvironment[] sources, float[] maxFlowRates){
 		myCO2AirEnvironmentInputs = sources;
-		CO2AirEnvironmentInFlowRates = flowRates;
+		CO2AirEnvironmentInMaxFlowRates = maxFlowRates;
 	}
 	
-	public float[] getCO2AirStoreInputFlowRates(){
-		return CO2AirStoreInFlowRates;
+	public float[] getCO2AirStoreInputMaxFlowRates(){
+		return CO2AirStoreInMaxFlowRates;
 	}
 	
-	public float[] getCO2AirEnvironmentInputFlowRates(){
-		return CO2AirEnvironmentInFlowRates;
+	public float[] getCO2AirEnvironmentInputMaxFlowRates(){
+		return CO2AirEnvironmentInMaxFlowRates;
 	}
 	
 	public CO2Store[] getCO2AirStoreInputs(){
@@ -695,38 +695,38 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		return myCO2AirEnvironmentInputs;
 	}
 	
-	public void setCO2AirStoreOutputFlowRate(float amount, int index){
-		CO2AirStoreOutFlowRates[index] = amount;
+	public void setCO2AirStoreOutputMaxFlowRate(float amount, int index){
+		CO2AirStoreOutMaxFlowRates[index] = amount;
 	}
 	
-	public void setCO2AirEnvironmentOutputFlowRate(float amount, int index){
-		CO2AirEnvironmentOutFlowRates[index] = amount;
+	public void setCO2AirEnvironmentOutputMaxFlowRate(float amount, int index){
+		CO2AirEnvironmentOutMaxFlowRates[index] = amount;
 	}
 
-	public float getCO2AirStoreOutputFlowRate(int index){
-		return CO2AirStoreOutFlowRates[index];
+	public float getCO2AirStoreOutputMaxFlowRate(int index){
+		return CO2AirStoreOutMaxFlowRates[index];
 	}
 	
-	public float getCO2AirEnvironmentOutputFlowRate(int index){
-		return CO2AirEnvironmentOutFlowRates[index];
+	public float getCO2AirEnvironmentOutputMaxFlowRate(int index){
+		return CO2AirEnvironmentOutMaxFlowRates[index];
 	}
 
-	public void setCO2AirStoreOutputs(CO2Store[] destinations, float[] flowRates){
+	public void setCO2AirStoreOutputs(CO2Store[] destinations, float[] maxFlowRates){
 		myCO2AirStoreOutputs = destinations;
-		CO2AirStoreOutFlowRates = flowRates;
+		CO2AirStoreOutMaxFlowRates = maxFlowRates;
 	}
 	
-	public void setCO2AirEnvironmentOutputs(SimEnvironment[] destinations, float[] flowRates){
+	public void setCO2AirEnvironmentOutputs(SimEnvironment[] destinations, float[] maxFlowRates){
 		myCO2AirEnvironmentOutputs = destinations;
-		CO2AirEnvironmentOutFlowRates = flowRates;
+		CO2AirEnvironmentOutMaxFlowRates = maxFlowRates;
 	}
 	
-	public float[] getCO2AirStoreOutputFlowRates(){
-		return CO2AirStoreOutFlowRates;
+	public float[] getCO2AirStoreOutputMaxFlowRates(){
+		return CO2AirStoreOutMaxFlowRates;
 	}
 	
-	public float[] getCO2AirEnvironmentOutputFlowRates(){
-		return CO2AirEnvironmentOutFlowRates;
+	public float[] getCO2AirEnvironmentOutputMaxFlowRates(){
+		return CO2AirEnvironmentOutMaxFlowRates;
 	}
 	
 	public CO2Store[] getCO2AirStoreOutputs(){
@@ -737,38 +737,38 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		return myCO2AirEnvironmentOutputs;
 	}
 	
-	public void setO2AirStoreInputFlowRate(float amount, int index){
-		O2AirStoreInFlowRates[index] = amount;
+	public void setO2AirStoreInputMaxFlowRate(float amount, int index){
+		O2AirStoreInMaxFlowRates[index] = amount;
 	}
 	
-	public void setO2AirEnvironmentInputFlowRate(float amount, int index){
-		O2AirEnvironmentInFlowRates[index] = amount;
+	public void setO2AirEnvironmentInputMaxFlowRate(float amount, int index){
+		O2AirEnvironmentInMaxFlowRates[index] = amount;
 	}
 
-	public float getO2AirStoreInputFlowRate(int index){
-		return O2AirStoreInFlowRates[index];
+	public float getO2AirStoreInputMaxFlowRate(int index){
+		return O2AirStoreInMaxFlowRates[index];
 	}
 	
-	public float getO2AirEnvironmentInputFlowRate(int index){
-		return O2AirEnvironmentInFlowRates[index];
+	public float getO2AirEnvironmentInputMaxFlowRate(int index){
+		return O2AirEnvironmentInMaxFlowRates[index];
 	}
 
-	public void setO2AirStoreInputs(O2Store[] sources, float[] flowRates){
+	public void setO2AirStoreInputs(O2Store[] sources, float[] maxFlowRates){
 		myO2AirStoreInputs = sources;
-		O2AirStoreInFlowRates = flowRates;
+		O2AirStoreInMaxFlowRates = maxFlowRates;
 	}
 	
-	public void setO2AirEnvironmentInputs(SimEnvironment[] sources, float[] flowRates){
+	public void setO2AirEnvironmentInputs(SimEnvironment[] sources, float[] maxFlowRates){
 		myO2AirEnvironmentInputs = sources;
-		O2AirEnvironmentInFlowRates = flowRates;
+		O2AirEnvironmentInMaxFlowRates = maxFlowRates;
 	}
 	
-	public float[] getO2AirStoreInputFlowRates(){
-		return O2AirStoreInFlowRates;
+	public float[] getO2AirStoreInputMaxFlowRates(){
+		return O2AirStoreInMaxFlowRates;
 	}
 	
-	public float[] getO2AirEnvironmentInputFlowRates(){
-		return O2AirEnvironmentInFlowRates;
+	public float[] getO2AirEnvironmentInputMaxFlowRates(){
+		return O2AirEnvironmentInMaxFlowRates;
 	}
 	
 	public O2Store[] getO2AirStoreInputs(){
@@ -779,38 +779,38 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 		return myO2AirEnvironmentInputs;
 	}
 	
-	public void setO2AirStoreOutputFlowRate(float amount, int index){
-		O2AirStoreOutFlowRates[index] = amount;
+	public void setO2AirStoreOutputMaxFlowRate(float amount, int index){
+		O2AirStoreOutMaxFlowRates[index] = amount;
 	}
 	
-	public void setO2AirEnvironmentOutputFlowRate(float amount, int index){
-		O2AirEnvironmentOutFlowRates[index] = amount;
+	public void setO2AirEnvironmentOutputMaxFlowRate(float amount, int index){
+		O2AirEnvironmentOutMaxFlowRates[index] = amount;
 	}
 
-	public float getO2AirStoreOutputFlowRate(int index){
-		return O2AirStoreOutFlowRates[index];
+	public float getO2AirStoreOutputMaxFlowRate(int index){
+		return O2AirStoreOutMaxFlowRates[index];
 	}
 	
-	public float getO2AirEnvironmentOutputFlowRate(int index){
-		return O2AirEnvironmentOutFlowRates[index];
+	public float getO2AirEnvironmentOutputMaxFlowRate(int index){
+		return O2AirEnvironmentOutMaxFlowRates[index];
 	}
 
-	public void setO2AirStoreOutputs(O2Store[] destinations, float[] flowRates){
+	public void setO2AirStoreOutputs(O2Store[] destinations, float[] maxFlowRates){
 		myO2AirStoreOutputs = destinations;
-		O2AirStoreOutFlowRates = flowRates;
+		O2AirStoreOutMaxFlowRates = maxFlowRates;
 	}
 	
-	public void setO2AirEnvironmentOutputs(SimEnvironment[] destinations, float[] flowRates){
+	public void setO2AirEnvironmentOutputs(SimEnvironment[] destinations, float[] maxFlowRates){
 		myO2AirEnvironmentOutputs = destinations;
-		O2AirEnvironmentOutFlowRates = flowRates;
+		O2AirEnvironmentOutMaxFlowRates = maxFlowRates;
 	}
 	
-	public float[] getO2AirStoreOutputFlowRates(){
-		return O2AirStoreOutFlowRates;
+	public float[] getO2AirStoreOutputMaxFlowRates(){
+		return O2AirStoreOutMaxFlowRates;
 	}
 	
-	public float[] getO2AirEnvironmentOutputFlowRates(){
-		return O2AirEnvironmentOutFlowRates;
+	public float[] getO2AirEnvironmentOutputMaxFlowRates(){
+		return O2AirEnvironmentOutMaxFlowRates;
 	}
 	
 	public O2Store[] getO2AirStoreOutputs(){

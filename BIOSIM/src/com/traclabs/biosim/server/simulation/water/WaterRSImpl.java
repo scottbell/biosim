@@ -26,10 +26,10 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 	private DirtyWaterStore[] myDirtyWaterInputs;
 	private GreyWaterStore[] myGreyWaterInputs;
 	private PotableWaterStore[] myPotableWaterOutputs;
-	private float[] powerFlowRates;
-	private float[] dirtyWaterFlowRates;
-	private float[] greyWaterFlowRates;
-	private float[] potableWaterFlowRates;
+	private float[] powerMaxFlowRates;
+	private float[] dirtyWaterMaxFlowRates;
+	private float[] greyWaterMaxFlowRates;
+	private float[] potableWaterMaxFlowRates;
 	private static final int NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER = 3;
 
 	/**
@@ -41,10 +41,10 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 		myDirtyWaterInputs = new DirtyWaterStore[0];
 		myGreyWaterInputs = new GreyWaterStore[0];
 		myPotableWaterOutputs = new PotableWaterStore[0];
-		powerFlowRates = new float[0];
-		dirtyWaterFlowRates = new float[0];
-		greyWaterFlowRates = new float[0];
-		potableWaterFlowRates = new float[0];
+		powerMaxFlowRates = new float[0];
+		dirtyWaterMaxFlowRates = new float[0];
+		greyWaterMaxFlowRates = new float[0];
+		potableWaterMaxFlowRates = new float[0];
 		myBWP = new BWP(this);
 		myRO = new RO(this);
 		myAES = new AES(this);
@@ -361,87 +361,87 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 		return NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER;
 	}
 	
-	public void setPowerInputFlowRate(float watts, int index){
-		powerFlowRates[index] = watts;
+	public void setPowerInputMaxFlowRate(float watts, int index){
+		powerMaxFlowRates[index] = watts;
 	}
 
-	public float getPowerInputFlowRate(int index){
-		return powerFlowRates[index];
+	public float getPowerInputMaxFlowRate(int index){
+		return powerMaxFlowRates[index];
 	}
 
-	public void setPowerInputs(PowerStore[] sources, float[] flowRates){
+	public void setPowerInputs(PowerStore[] sources, float[] maxFlowRates){
 		myPowerInputs = sources;
-		powerFlowRates = flowRates;
+		powerMaxFlowRates = maxFlowRates;
 	}
 
 	public PowerStore[] getPowerInputs(){
 		return myPowerInputs;
 	}
 	
-	public float[] getPowerInputFlowRates(){
-		return powerFlowRates;
+	public float[] getPowerInputMaxFlowRates(){
+		return powerMaxFlowRates;
 	}
 	
-	public void setDirtyWaterInputFlowRate(float watts, int index){
-		dirtyWaterFlowRates[index] = watts;
+	public void setDirtyWaterInputMaxFlowRate(float watts, int index){
+		dirtyWaterMaxFlowRates[index] = watts;
 	}
 
-	public float getDirtyWaterInputFlowRate(int index){
-		return dirtyWaterFlowRates[index];
+	public float getDirtyWaterInputMaxFlowRate(int index){
+		return dirtyWaterMaxFlowRates[index];
 	}
 
-	public void setDirtyWaterInputs(DirtyWaterStore[] sources, float[] flowRates){
+	public void setDirtyWaterInputs(DirtyWaterStore[] sources, float[] maxFlowRates){
 		myDirtyWaterInputs = sources;
-		dirtyWaterFlowRates = flowRates;
+		dirtyWaterMaxFlowRates = maxFlowRates;
 	}
 
 	public DirtyWaterStore[] getDirtyWaterInputs(){
 		return myDirtyWaterInputs;
 	}
 	
-	public float[] getDirtyWaterInputFlowRates(){
-		return dirtyWaterFlowRates;
+	public float[] getDirtyWaterInputMaxFlowRates(){
+		return dirtyWaterMaxFlowRates;
 	}
 	
-	public void setGreyWaterInputFlowRate(float watts, int index){
-		greyWaterFlowRates[index] = watts;
+	public void setGreyWaterInputMaxFlowRate(float watts, int index){
+		greyWaterMaxFlowRates[index] = watts;
 	}
 
-	public float getGreyWaterInputFlowRate(int index){
-		return greyWaterFlowRates[index];
+	public float getGreyWaterInputMaxFlowRate(int index){
+		return greyWaterMaxFlowRates[index];
 	}
 
-	public void setGreyWaterInputs(GreyWaterStore[] sources, float[] flowRates){
+	public void setGreyWaterInputs(GreyWaterStore[] sources, float[] maxFlowRates){
 		myGreyWaterInputs = sources;
-		greyWaterFlowRates = flowRates;
+		greyWaterMaxFlowRates = maxFlowRates;
 	}
 
 	public GreyWaterStore[] getGreyWaterInputs(){
 		return myGreyWaterInputs;
 	}
 	
-	public float[] getGreyWaterInputFlowRates(){
-		return greyWaterFlowRates;
+	public float[] getGreyWaterInputMaxFlowRates(){
+		return greyWaterMaxFlowRates;
 	}
 	
-	public void setPotableWaterOutputFlowRate(float watts, int index){
-		potableWaterFlowRates[index] = watts;
+	public void setPotableWaterOutputMaxFlowRate(float watts, int index){
+		potableWaterMaxFlowRates[index] = watts;
 	}
 
-	public float getPotableWaterOutputFlowRate(int index){
-		return potableWaterFlowRates[index];
+	public float getPotableWaterOutputMaxFlowRate(int index){
+		return potableWaterMaxFlowRates[index];
 	}
 
-	public void setPotableWaterOutputs(PotableWaterStore[] sources, float[] flowRates){
+	public void setPotableWaterOutputs(PotableWaterStore[] sources, float[] maxFlowRates){
 		myPotableWaterOutputs = sources;
-		potableWaterFlowRates = flowRates;
+		potableWaterMaxFlowRates = maxFlowRates;
 	}
 
 	public PotableWaterStore[] getPotableWaterOutputs(){
 		return myPotableWaterOutputs;
 	}
 	
-	public float[] getPotableWaterOutputFlowRates(){
-		return potableWaterFlowRates;
+	public float[] getPotableWaterOutputMaxFlowRates(){
+		return potableWaterMaxFlowRates;
 	}
 }
