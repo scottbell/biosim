@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 import com.traclabs.biosim.client.framework.gui.TimedPanel;
 import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
-import com.traclabs.biosim.idl.simulation.air.AirRS;
 import com.traclabs.biosim.idl.simulation.air.CO2Store;
 import com.traclabs.biosim.idl.simulation.air.H2Store;
 import com.traclabs.biosim.idl.simulation.air.NitrogenStore;
@@ -47,8 +46,6 @@ public class AirTextPanel extends TimedPanel {
     private JLabel nitrogenStoreLevelLabel;
 
     //Servers required for data polling
-    private AirRS myAirRS;
-
     private O2Store myO2Store;
 
     private CO2Store myCO2Store;
@@ -65,7 +62,6 @@ public class AirTextPanel extends TimedPanel {
      */
     public AirTextPanel() {
         BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
-        myAirRS = (AirRS) (myBioHolder.theAirRSModules.get(0));
         myO2Store = (O2Store) (myBioHolder.theO2Stores.get(0));
         myCO2Store = (CO2Store) (myBioHolder.theCO2Stores.get(0));
         myH2Store = (H2Store) (myBioHolder.theH2Stores.get(0));
