@@ -417,7 +417,7 @@ public class HandController {
             currentActuator = (GenericActuator) (ActionMap.actuators[i]);
             currentActuator.setValue((float) currentAction
                     .getActuatorValue(names[i]));
-            myLogger.info("Setting " + names[i] + " to "
+            myLogger.debug("Setting " + names[i] + " to "
                     + currentAction.getActuatorValue(names[i]));
         }
 
@@ -540,7 +540,6 @@ public class HandController {
             potableWater = 0;
         }
         if (SimState.get("oxygen") == LOW) {
-        	myLogger.info("OXYGEN IS LOW");
             potableWater = 1;
         }
         if (SimState.get("oxygen") == HIGH) {
