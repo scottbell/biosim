@@ -18,7 +18,7 @@ import biosim.server.simulation.framework.*;
  * @author    Scott Bell
  */
 
-public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, PowerConsumerOperations, PotableWaterConsumerOperations, PotableWaterProducerOperations, AirConsumerOperations, O2ProducerOperations, CO2ProducerOperations, AirProducerOperations, CO2ConsumerOperations{
+public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, PowerConsumerOperations, PotableWaterConsumerOperations, PotableWaterProducerOperations, AirConsumerOperations, O2ProducerOperations, AirProducerOperations, CO2ProducerOperations, CO2ConsumerOperations, H2ProducerOperations, H2ConsumerOperations{
 	private LogIndex myLogIndex;
 	private VCCR myVCCR;
 	private CRS myCRS;
@@ -30,6 +30,8 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	private PotableWaterStore[] myPotableWaterStoreOutputs;
 	private CO2Store[] myCO2InputStores;
 	private CO2Store[] myCO2OutputStores;
+	private H2Store[] myH2InputStores;
+	private H2Store[] myH2OutputStores;
 	private SimEnvironment[] mySimEnvironmentInputs;
 	private SimEnvironment[] mySimEnvironmentOutputs;
 	private float[] powerMaxFlowRates;
@@ -50,6 +52,12 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	private float[] CO2OutputMaxFlowRates;
 	private float[] CO2OutputActualFlowRates;
 	private float[] CO2OutputDesiredFlowRates;
+	private float[] H2InputMaxFlowRates;
+	private float[] H2InputActualFlowRates;
+	private float[] H2InputDesiredFlowRates;
+	private float[] H2OutputMaxFlowRates;
+	private float[] H2OutputActualFlowRates;
+	private float[] H2OutputDesiredFlowRates;
 	private float[] airInMaxFlowRates;
 	private float[] airInActualFlowRates;
 	private float[] airInDesiredFlowRates;
@@ -90,6 +98,12 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 		CO2OutputMaxFlowRates = new float[0];
 		CO2OutputActualFlowRates = new float[0];
 		CO2OutputDesiredFlowRates = new float[0];
+		H2InputMaxFlowRates = new float[0];
+		H2InputActualFlowRates = new float[0];
+		H2InputDesiredFlowRates = new float[0];
+		H2OutputMaxFlowRates = new float[0];
+		H2OutputActualFlowRates = new float[0];
+		H2OutputDesiredFlowRates = new float[0];
 		airInMaxFlowRates = new float[0];
 		airInActualFlowRates = new float[0];
 		airInDesiredFlowRates = new float[0];
@@ -567,5 +581,81 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	}
 	void setCO2InputActualFlowRate(float moles, int index){
 		CO2InputActualFlowRates[index] = moles;
+	}
+	
+	//H2 Ouputs
+	public void setH2OutputMaxFlowRate(float moles, int index){
+		H2OutputMaxFlowRates[index] = moles;
+	}
+	public float getH2OutputMaxFlowRate(int index){
+		return H2OutputMaxFlowRates[index];
+	}
+	public float[] getH2OutputMaxFlowRates(){
+		return H2OutputMaxFlowRates;
+	}
+	public void setH2OutputDesiredFlowRate(float moles, int index){
+		H2OutputDesiredFlowRates[index] = moles;
+	}
+	public float getH2OutputDesiredFlowRate(int index){
+		return H2OutputDesiredFlowRates[index];
+	}
+	public float[] getH2OutputDesiredFlowRates(){
+		return H2OutputDesiredFlowRates;
+	}
+	public float getH2OutputActualFlowRate(int index){
+		return H2OutputActualFlowRates[index];
+	}
+	public float[] getH2OutputActualFlowRates(){
+		return H2OutputActualFlowRates;
+	}
+	public void setH2Outputs(H2Store[] sources, float[] maxFlowRates, float[] desiredFlowRates){
+		myH2OutputStores = sources;
+		H2OutputMaxFlowRates = maxFlowRates;
+		H2OutputDesiredFlowRates = desiredFlowRates;
+		H2OutputActualFlowRates = new float[H2OutputDesiredFlowRates.length]; 
+	}
+	public H2Store[] getH2Outputs(){
+		return myH2OutputStores;
+	}
+	void setH2OutputActualFlowRate(float moles, int index){
+		H2OutputActualFlowRates[index] = moles;
+	}
+	
+	//H2 Inputs
+	public void setH2InputMaxFlowRate(float moles, int index){
+		H2InputMaxFlowRates[index] = moles;
+	}
+	public float getH2InputMaxFlowRate(int index){
+		return H2InputMaxFlowRates[index];
+	}
+	public float[] getH2InputMaxFlowRates(){
+		return H2InputMaxFlowRates;
+	}
+	public void setH2InputDesiredFlowRate(float moles, int index){
+		H2InputDesiredFlowRates[index] = moles;
+	}
+	public float getH2InputDesiredFlowRate(int index){
+		return H2InputDesiredFlowRates[index];
+	}
+	public float[] getH2InputDesiredFlowRates(){
+		return H2InputDesiredFlowRates;
+	}
+	public float getH2InputActualFlowRate(int index){
+		return H2InputActualFlowRates[index];
+	}
+	public float[] getH2InputActualFlowRates(){
+		return H2InputActualFlowRates;
+	}
+	public void setH2Inputs(H2Store[] sources, float[] maxFlowRates, float[] desiredFlowRates){
+		myH2InputStores = sources;
+		H2InputMaxFlowRates = maxFlowRates;
+		H2InputDesiredFlowRates = desiredFlowRates;
+		H2InputActualFlowRates = new float[H2InputDesiredFlowRates.length]; 
+	}
+	public H2Store[] getH2Inputs(){
+		return myH2InputStores;
+	}
+	void setH2InputActualFlowRate(float moles, int index){
+		H2InputActualFlowRates[index] = moles;
 	}
 }

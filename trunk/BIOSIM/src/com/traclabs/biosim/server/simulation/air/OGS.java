@@ -22,7 +22,6 @@ public class OGS extends AirRSSubSystem{
 		super(pAirRSImpl);
 	}
 
-
 	public float getO2Produced(){
 		return currentO2Produced;
 	}
@@ -37,7 +36,9 @@ public class OGS extends AirRSSubSystem{
 		currentO2Produced = myAirRS.randomFilter(molesOfWater * 0.444f) * myProductionRate;
 		currentH2Produced = myAirRS.randomFilter(molesOfWater * 0.111f) * myProductionRate;
 		float O2ToDistrubute = myAirRS.randomFilter(currentO2Produced);
+		float H2ToDistrubute = myAirRS.randomFilter(currentH2Produced);
 		float distributedO2 = myAirRS.pushResourceToStore(myAirRS.getO2Outputs(), myAirRS.getO2OutputMaxFlowRates(), myAirRS.getO2OutputDesiredFlowRates(), myAirRS.getO2OutputActualFlowRates(), O2ToDistrubute);
+		float distributedH2 = myAirRS.pushResourceToStore(myAirRS.getH2Outputs(), myAirRS.getH2OutputMaxFlowRates(), myAirRS.getH2OutputDesiredFlowRates(), myAirRS.getH2OutputActualFlowRates(), H2ToDistrubute);
 	}
 
 	public void setProductionRate(float percentage){
@@ -48,18 +49,12 @@ public class OGS extends AirRSSubSystem{
 		return myProductionRate;
 	}
 
-	public float takeH2(float H2toTake){
-		if (H2toTake <= currentH2Produced)
-			return H2toTake;
-		else
-			return currentH2Produced;
-	}
-
 	public void reset(){
 		currentPowerConsumed = 0;
 		hasEnoughPower = false;
 		currentH2OConsumed = 0;
 		currentO2Produced = 0;
+		currentH2Produced = 0;
 	}
 
 	public void tick(){

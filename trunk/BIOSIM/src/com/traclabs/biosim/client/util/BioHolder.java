@@ -39,6 +39,7 @@ public class BioHolder
 	public final static String powerStoreName = "PowerStore";
 	public final static String airRSName = "AirRS";
 	public final static String CO2StoreName = "CO2Store";
+	public final static String H2StoreName = "H2Store";
 	public final static String O2StoreName = "O2Store";
 	public final static String biomassRSName = "BiomassRS";
 	public final static String biomassStoreName = "BiomassStore";
@@ -60,11 +61,14 @@ public class BioHolder
 	public final static String myAirRSO2OutFlowRateSensorName = "AirRSO2OutFlowRateSensor";
 	public final static String myAirRSCO2InFlowRateSensorName = "AirRSCO2InFlowRateSensor";
 	public final static String myAirRSCO2OutFlowRateSensorName = "AirRSCO2OutFlowRateSensor";
+	public final static String myAirRSH2InFlowRateSensorName = "AirRSH2InFlowRateSensor";
+	public final static String myAirRSH2OutFlowRateSensorName = "AirRSH2OutFlowRateSensor";
 	public final static String myAirRSPotableWaterInFlowRateSensorName = "AirRSPotableWaterInFlowRateSensor";
 	public final static String myAirRSPotableWaterOutFlowRateSensorName = "AirRSPotableWaterOutFlowRateSensor";
 	//Stores
 	public final static String myO2StoreLevelSensorName = "O2StoreLevelSensor";
 	public final static String myCO2StoreLevelSensorName = "CO2StoreLevelSensor";
+	public final static String myH2StoreLevelSensorName = "H2StoreLevelSensor";
 	//Crew
 	public final static String myCrewGroupDeathSensorName = "CrewGroupDeathSensor";
 	public final static String myCrewGroupPotableWaterInFlowRateSensorName = "CrewGroupPotableWaterInFlowRateSensor";
@@ -140,6 +144,8 @@ public class BioHolder
 	public final static String myAirRSO2OutFlowRateActuatorName = "AirRSO2OutFlowRateActuator";
 	public final static String myAirRSCO2InFlowRateActuatorName = "AirRSCO2InFlowRateActuator";
 	public final static String myAirRSCO2OutFlowRateActuatorName = "AirRSCO2OutFlowRateActuator";
+	public final static String myAirRSH2InFlowRateActuatorName = "AirRSH2InFlowRateActuator";
+	public final static String myAirRSH2OutFlowRateActuatorName = "AirRSH2OutFlowRateActuator";
 	public final static String myAirRSPotableWaterInFlowRateActuatorName = "AirRSPotableWaterInFlowRateActuator";
 	public final static String myAirRSPotableWaterOutFlowRateActuatorName = "AirRSPotableWaterOutFlowRateActuator";
 	//Power
@@ -279,6 +285,8 @@ public class BioHolder
 			modules.put(foodStoreName , myFoodStore);
 			CO2Store myCO2Store = CO2StoreHelper.narrow(OrbUtils.getNCRef().resolve_str(CO2StoreName+myID));
 			modules.put(CO2StoreName , myCO2Store);
+			H2Store myH2Store = H2StoreHelper.narrow(OrbUtils.getNCRef().resolve_str(H2StoreName+myID));
+			modules.put(H2StoreName , myH2Store);
 			O2Store myO2Store = O2StoreHelper.narrow(OrbUtils.getNCRef().resolve_str(O2StoreName+myID));
 			modules.put(O2StoreName , myO2Store);
 			BiomassRS myBiomassRS = BiomassRSHelper.narrow(OrbUtils.getNCRef().resolve_str(biomassRSName+myID));
@@ -311,6 +319,12 @@ public class BioHolder
 					CO2OutFlowRateSensor myAirRSCO2OutFlowRateSensor = CO2OutFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAirRSCO2OutFlowRateSensorName+myID));
 					modules.put(myAirRSCO2OutFlowRateSensorName , myAirRSCO2OutFlowRateSensor);
 					sensors.put(myAirRSCO2OutFlowRateSensorName , myAirRSCO2OutFlowRateSensor);
+					H2InFlowRateSensor myAirRSH2InFlowRateSensor = H2InFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAirRSH2InFlowRateSensorName+myID));
+					modules.put(myAirRSH2InFlowRateSensorName , myAirRSH2InFlowRateSensor);
+					sensors.put(myAirRSH2InFlowRateSensorName , myAirRSH2InFlowRateSensor);
+					H2OutFlowRateSensor myAirRSH2OutFlowRateSensor = H2OutFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAirRSH2OutFlowRateSensorName+myID));
+					modules.put(myAirRSH2OutFlowRateSensorName , myAirRSH2OutFlowRateSensor);
+					sensors.put(myAirRSH2OutFlowRateSensorName , myAirRSH2OutFlowRateSensor);
 					PotableWaterInFlowRateSensor myAirRSPotableWaterInFlowRateSensor = PotableWaterInFlowRateSensorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAirRSPotableWaterInFlowRateSensorName+myID));
 					modules.put(myAirRSPotableWaterInFlowRateSensorName , myAirRSPotableWaterInFlowRateSensor);
 					sensors.put(myAirRSPotableWaterInFlowRateSensorName , myAirRSPotableWaterInFlowRateSensor);
@@ -552,6 +566,12 @@ public class BioHolder
 					CO2OutFlowRateActuator myAirRSCO2OutFlowRateActuator = CO2OutFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAirRSCO2OutFlowRateActuatorName+myID));
 					modules.put(myAirRSCO2OutFlowRateActuatorName , myAirRSCO2OutFlowRateActuator);
 					actuators.put(myAirRSCO2OutFlowRateActuatorName , myAirRSCO2OutFlowRateActuator);
+					H2InFlowRateActuator myAirRSH2InFlowRateActuator = H2InFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAirRSH2InFlowRateActuatorName+myID));
+					modules.put(myAirRSH2InFlowRateActuatorName , myAirRSH2InFlowRateActuator);
+					actuators.put(myAirRSH2InFlowRateActuatorName , myAirRSH2InFlowRateActuator);
+					H2OutFlowRateActuator myAirRSH2OutFlowRateActuator = H2OutFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAirRSH2OutFlowRateActuatorName+myID));
+					modules.put(myAirRSH2OutFlowRateActuatorName , myAirRSH2OutFlowRateActuator);
+					actuators.put(myAirRSH2OutFlowRateActuatorName , myAirRSH2OutFlowRateActuator);
 					PotableWaterInFlowRateActuator myAirRSPotableWaterInFlowRateActuator = PotableWaterInFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myAirRSPotableWaterInFlowRateActuatorName+myID));
 					modules.put(myAirRSPotableWaterInFlowRateActuatorName , myAirRSPotableWaterInFlowRateActuator);
 					actuators.put(myAirRSPotableWaterInFlowRateActuatorName , myAirRSPotableWaterInFlowRateActuator);
