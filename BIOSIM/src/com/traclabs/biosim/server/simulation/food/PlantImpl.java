@@ -463,7 +463,7 @@ public abstract class PlantImpl extends PlantPOA{
 		           canopyClosureConstants[22] * thePPFcubed  * theCO2 +
 		           canopyClosureConstants[23] * thePPFcubed  * theCO2squared +
 		           canopyClosureConstants[24] * thePPFcubed  * theCO2cubed;
-		if ((tA < 0) || (tA == Float.NaN)){
+		if ((tA < 0) || (Float.isNaN(tA))){
 			tA = 0;
 			//System.out.println("PlantImpl: Time till canopy closure is negative or NAN!");
 		}
@@ -527,7 +527,7 @@ public abstract class PlantImpl extends PlantPOA{
 		                  canopyQYConstants[22] * thePPFcubed  * theCO2 +
 		                  canopyQYConstants[23] * thePPFcubed  * theCO2squared +
 		                  canopyQYConstants[24] * thePPFcubed  * theCO2cubed;
-		if ((theCQYMax < 0) || (theCQYMax == Float.NaN)){
+		if ((theCQYMax < 0) || (Float.isNaN(theCQYMax)){
 			theCQYMax = 0;
 			//System.out.println("PlantImpl: CQYMax is negative or NaN!");
 		}
