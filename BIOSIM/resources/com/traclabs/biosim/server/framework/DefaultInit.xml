@@ -171,7 +171,7 @@
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="10" inputs="GreyWaterStore"/>
 				<potableWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="PotableWaterStore"/>
 			</WaterRS>
-			<PotableWaterStore name="PotableWaterStore" capacity="700" level="500"/>
+			<PotableWaterStore name="PotableWaterStore" capacity="800" level="500"/>
 			<GreyWaterStore name="GreyWaterStore" capacity="500" level="500"/>
 			<DirtyWaterStore name="DirtyWaterStore" capacity="500" level="250"/>
 		</water>
@@ -368,7 +368,7 @@
 			<HarvestingActuator name="Shelf5HarvestingActuator" shelfIndex="5" output="BiomassRS"/>
 			<HarvestingActuator name="Shelf6HarvestingActuator" shelfIndex="6" output="BiomassRS"/>
 			<HarvestingActuator name="Shelf7HarvestingActuator" shelfIndex="7" output="BiomassRS"/>
-			<HarvestingActuator name="Shelf8HarvestingActuator" shelfIndex="7" output="BiomassRS"/>
+			<HarvestingActuator name="Shelf8HarvestingActuator" shelfIndex="8" output="BiomassRS"/>
 			<PlantingActuator name="Shelf0PlantingActuator" shelfIndex="0" output="BiomassRS"/>
 			<PlantingActuator name="Shelf1PlantingActuator" shelfIndex="1" output="BiomassRS"/>
 			<PlantingActuator name="Shelf2PlantingActuator" shelfIndex="2" output="BiomassRS"/>
