@@ -24,13 +24,13 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 	private boolean hasEnoughPower = false;
 	//Flag to determine whether the AirRS has received enough CO2 to run at full
 	private boolean hasEnoughCO2 = false;
-	//The O2 produced by the AirRS at this tick
+	//The O2 produced (in liters) by the AirRS at this tick
 	private float currentO2Produced = 0f;
-	//The CO2 consumed by the AirRS at this tick
+	//The CO2 consumed (in liters) by the AirRS at this tick
 	private float currentCO2Consumed = 0f;
-	//The CO2 produced by the AirRS at this tick
+	//The CO2 produced (in liters) by the AirRS at this tick
 	private float currentCO2Produced = 0f;
-	//The power consumed by the AirRS at this tick
+	//The power consumed (in watts) by the AirRS at this tick
 	private float currentPowerConsumed = 0f;
 	//The air consumed by the AirRS at this tick (includes O2, CO2, and other)
 	private Breath airRetrieved;
@@ -39,15 +39,15 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 	private PowerStore myPowerStore;
 	
 	/**
-	* Returns the power consumption of the AirRS at the current tick.
-	* @return the power consumed at the current tick
+	* Returns the power consumption (in watts) of the AirRS at the current tick.
+	* @return the power consumed (in watts) at the current tick
 	*/
 	public float getPowerConsumed(){
 		return currentPowerConsumed;
 	}
 	
 	/**
-	* Returns the CO2 consumption of the AirRS at the current tick.
+	* Returns the CO2 consumption (in liters) of the AirRS at the current tick.
 	* @return the CO2 consumed at the current tick
 	*/
 	public float getCO2Consumed(){
@@ -55,16 +55,16 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 	}
 	
 	/**
-	* Returns the O2 produced of the AirRS at the current tick.
-	* @return the O2 produced at the current tick
+	* Returns the O2 produced (in liters) of the AirRS at the current tick.
+	* @return the O2 produced (in liters) at the current tick
 	*/
 	public float getO2Produced(){
 		return currentO2Produced;
 	}
 	
 	/**
-	* Returns the CO2 produced of the AirRS at the current tick.
-	* @return the CO2 produced at the current tick
+	* Returns the CO2 produced (in liters) of the AirRS at the current tick.
+	* @return the CO2 produced (in liters) at the current tick
 	*/
 	public float getCO2Produced(){
 		return currentCO2Produced;
@@ -136,8 +136,8 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 	}
 	
 	/**
-	* Calculates how much O2 has been produced during this tick.
-	* @return the O2 produced during this tick.
+	* Calculates how much O2 has been produced (in liters) during this tick.
+	* @return the O2 produced (in liters) during this tick.
 	*/
 	private float calculateO2Produced(){
 		float theO2 = airRetrieved.O2 * 2.15f;
@@ -145,8 +145,8 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 	}
 	
 	/**
-	* Calculates how much CO2 has been produced during this tick.
-	* @return the CO2 produced during this tick.
+	* Calculates how much CO2 has been produced (in liters) during this tick.
+	* @return the CO2 produced (in liters) during this tick.
 	*/
 	private float calculateCO2Produced(){
 		float theCO2 = airRetrieved.CO2 * 0.15f;

@@ -1,3 +1,9 @@
+/**
+ * The BioModule Server.  Creates an instance of each module (AirRS, FoodProcessor, WaterRS, etc..) and binds them to the nameserver.
+ *
+ * @author    Scott Bell
+ */
+
 package biosim.server.framework;
 
 import biosim.idl.air.*;
@@ -20,11 +26,12 @@ import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
 
 public class BioModuleServer {
-
+	/**
+	* Instantiates the server and binds it to the name server.
+	* @param args aren't used for anything
+	*/
 	public static void main(String args[]) {
-
 		try{
-
 			// create and initialize the ORB
 			ORB orb = OrbUtils.getORB();
 			NamingContextExt ncRef = OrbUtils.getNCRef();
@@ -94,8 +101,6 @@ public class BioModuleServer {
 			ref = rootpoa.servant_to_reference(new DirtyWaterStorePOATie(myDirtyWaterStoreImpl));
 			path = ncRef.to_name(myDirtyWaterStoreImpl.getModuleName());
 			ncRef.rebind(path, ref);
-
-
 			System.out.println("BioModule Server ready and waiting ...");
 			// wait for invocations from clients
 			orb.run();
@@ -105,7 +110,6 @@ public class BioModuleServer {
 			e.printStackTrace(System.out);
 		}
 		System.out.println("BioModule Server Exiting ...");
-
 	}
 }
 

@@ -1,3 +1,9 @@
+/**
+ * The SimEnvironment acts as the environment in which the astronauts breathe from and as the keeper of time.
+ *
+ * @author    Scott Bell
+ */
+
 package biosim.server.environment;
 
 import biosim.idl.environment.*;
@@ -5,82 +11,152 @@ import biosim.idl.air.*;
 import biosim.server.framework.*;
 
 public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentOperations {
+	//The current amount of O2 in the environment (in liters)
 	private float O2Level;
+	//The current amount of CO2 in the environment (in liters)
 	private float CO2Level;
+	//The current amount of other gasses in the environment (in liters) 
 	private float otherLevel;
-	private float capacity;
+	//The total capacity of the environment (all the open space)
+	private float capacity = 100f;
+	//The number of ticks the simulation has gone through
 	private int ticks;
-
+	
+	/**
+	* Creates a SimEnvironment (with a capacity of 100 liters) and resets the gas levels to correct percantages of sea level air
+	*/
 	public SimEnvironmentImpl(){
 		reset();
 	}
-
+	
+	/**
+	* Creates a SimEnvironment with a set initial capacity and resets the gas levels to correct percantages of sea level air
+	* @param initialCapacity the initial capacity of the environment in liters
+	*/
 	public SimEnvironmentImpl(float initialCapacity){
 		capacity = initialCapacity;
 		reset();
 	}
-
+	
+	/**
+	* Creates a SimEnvironment with a set initial capacity and gas levels to correct percantages of sea level air
+	* @param initialCO2Level the initial capacity of the CO2 (in liters) in the environment
+	* @param initialO2Level the initial capacity of the O2 (in liters) in the environment
+	* @param initialOtherLevel the initial capacity of the other gasses (in liters) in the environment
+	* @param initialCapacity the initial capacity of the environment in liters
+	*/
 	public SimEnvironmentImpl (float initialCO2Level, float initialO2Level, float initialOtherLevel, float initialCapacity){
 		CO2Level = initialCO2Level;
 		O2Level = initialO2Level;
 		otherLevel = initialOtherLevel;
 		capacity = initialCapacity;
 	}
-
+	
+	/**
+	* Resets the ticks to 0 and the gas levels to correct percantages of sea level air
+	*/
 	public void reset(){
 		ticks = 0;
 		resetLevels();
 	}
-
-	public int getTicks(){
-		return ticks;
-	}
-
+	
+	/**
+	* Resets the gas levels to correct percantages of sea level air
+	*/
 	private void resetLevels(){
 		O2Level = (new Double(capacity * 0.21)).floatValue();
 		otherLevel = (new Double(capacity * 0.786)).floatValue();
 		CO2Level = (new Double(capacity * 0.004)).floatValue();
 	}
-
+	
+	/**
+	* Gets the number of ticks that have occured during this simulation run
+	* @return the number of ticks that have occured during this simulation run 
+	*/
+	public int getTicks(){
+		return ticks;
+	}
+	
+	/**
+	* Sets the CO2 level in the air to a set amount
+	* @param litersRequested the amount of CO2 (in liters) to be in the air
+	*/
 	public void setCO2Level(float litersRequested){
 		CO2Level = litersRequested;
 	}
-
+	
+	/**
+	* Sets the O2 level in the air to a set amount
+	* @param litersRequested the amount of O2 (in liters) to be in the air
+	*/
 	public void setO2Level(float litersRequested){
 		O2Level = litersRequested;
 	}
-
+	
+	/**
+	* Sets the other gasses level in the air to a set amount
+	* @param litersRequested the amount of other gasses (in liters) to be in the air
+	*/
 	public void setOtherLevel(float litersRequested){
 		otherLevel = litersRequested;
 	}
-
+	
+	/**
+	* Sets the capacity of the environment (how much gas it can hold)
+	* @param litersRequested the new volume of the environment (in liters)
+	*/
 	public void setCapacity(float litersRequested){
 		capacity = litersRequested;
 		resetLevels();
 	}
-
+	
+	/**
+	* Retrieves the the total level of gas in the environment (in liters)
+	* @return retrieves the the total level of gas in the environment (in liters)
+	*/
 	public float getTotalLevel(){
 		return CO2Level + O2Level + otherLevel;
 	}
-
+	
+	/**
+	* Sets every gas level (O2, CO2, other) to one value
+	* @param litersRequested the amount (in liters) to set all the gas levels to
+	*/
 	public void setTotalLevel(float litersRequested){
 		CO2Level = litersRequested;
 		O2Level = litersRequested;
 		otherLevel = litersRequested;
 	}
-
+	
+	/**
+	* Retrieves the other gasses level (in liters)
+	* @return the other gasses level (in liters)
+	*/
 	public float getOtherLevel(){
 		return otherLevel;
 	}
-
+	
+	/**
+	* Retrieves the O2 level (in liters)
+	* @return the O2 level (in liters)
+	*/
 	public float getO2Level(){
 		return O2Level;
 	}
-
+	
+	/**
+	* Retrieves the CO2 level (in liters)
+	* @return the CO2 level (in liters)
+	*/
 	public float getCO2Level(){
 		return CO2Level;
 	}
-
+	
+	/**
+	* Attempts to add CO2 to the environment.  If the total gas level is near capacity, it will only up to capacity
+	* @param litersRequested the amount of CO2 (in liters) wanted to add to the environment
+	* @return the amount of CO2 (in liters) actually added to the environment
+	*/
 	public float addCO2(float litersRequested){
 		float acutallyAdded = 0f;
 		if ((litersRequested + getTotalLevel()) > capacity){
@@ -95,7 +171,12 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 			return acutallyAdded;
 		}
 	}
-
+	
+	/**
+	* Attempts to add O2 to the environment.  If the total gas level is near capacity, it will only up to capacity
+	* @param litersRequested the amount of O2 (in liters) wanted to add to the environment
+	* @return the amount of O2 (in liters) actually added to the environment
+	*/
 	public float addO2(float litersRequested){
 		float acutallyAdded = 0f;
 		if ((litersRequested + getTotalLevel()) > capacity){
@@ -110,7 +191,12 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 			return acutallyAdded;
 		}
 	}
-
+	
+	/**
+	* Attempts to add other gasses to the environment.  If the total gas level is near capacity, it will only up to capacity
+	* @param litersRequested the amount of other gasses (in liters) wanted to add to the environment
+	* @return the amount of other gasses (in liters) actually added to the environment
+	*/
 	public float addOther(float litersRequested){
 		float acutallyAdded = 0f;
 		if ((litersRequested + getTotalLevel()) > capacity){
@@ -125,7 +211,12 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 			return acutallyAdded;
 		}
 	}
-
+	
+	/**
+	* Attemps to return a breath of air given a needed amount of O2 (in liters)
+	* @param litersO2Requested the amount of O2 (in liters) wanted in this breath
+	* @return the breath actually retrieved
+	*/
 	public Breath takeO2Breath(float litersO2Requested){
 		//idiot check
 		if (litersO2Requested < 0){
@@ -148,11 +239,15 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 			O2Level -= takenO2;
 			CO2Level -= takenCO2;
 			otherLevel -= takenOther;
-			//System.out.println(getModuleName()+": breath is O2("+takenO2+") CO2("+takenCO2+") other("+takenOther+")");
 			return new Breath(takenO2, takenCO2, takenOther);
 		}
 	}
-
+	
+	/**
+	* Attemps to return a breath of air given a needed amount of CO2 (in liters)
+	* @param litersCO2Requested the amount of CO2 (in liters) wanted in this breath
+	* @return the breath actually retrieved
+	*/
 	public Breath takeCO2Breath(float litersCO2Requested){
 		//idiot check
 		if (litersCO2Requested < 0){
@@ -178,16 +273,18 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 			return new Breath(takenO2, takenCO2, takenOther);
 		}
 	}
-
-	public void resetTicks(){
-		ticks = 0;
-	}
-
+	
+	/**
+	* Processes a tick by adding to the tick counter
+	*/
 	public void tick(){
 		ticks++;
-		//System.out.println("-----------------"+getModuleName() + ": advanced to timestep @ "+ticks+" -----------------");
 	}
-
+	
+	/**
+	* Returns the name of this module (SimEnvironment)
+	* @return the name of this module
+	*/
 	public String getModuleName(){
 		return "SimEnvironment";
 	}
