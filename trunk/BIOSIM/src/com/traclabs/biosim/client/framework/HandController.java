@@ -1,3 +1,5 @@
+package biosim.client.framework;
+
 import java.util.*;
 import java.io.*;
 import org.omg.CosNaming.*;
