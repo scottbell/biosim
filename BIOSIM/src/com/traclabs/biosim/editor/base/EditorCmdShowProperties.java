@@ -26,13 +26,13 @@ import com.traclabs.biosim.editor.graph.EditorFigNode;
 public class EditorCmdShowProperties extends Cmd {
 
     public EditorCmdShowProperties() {
-        super("VesprBase", "ShowProperties");
+        super("EditorBase", "ShowProperties");
         putValue(Action.SHORT_DESCRIPTION,
                 "Shows properties for the selected item");
     }
 
     public EditorCmdShowProperties(ImageIcon image) {
-        super(null, "VesprBase", "ShowProperties", image);
+        super(null, "EditorBase", "ShowProperties", image);
     }
 
     public void doIt() {

@@ -31,6 +31,5 @@ public class EditorCmdCut extends Cmd {
     }
 
     public void undoIt() {
-        System.out.println("VesprCmdCut.undoIt");
     }
 }

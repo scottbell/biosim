@@ -7,9 +7,9 @@ import org.tigris.gef.base.ModeSelect;
 import org.tigris.gef.ui.PaletteFig;
 
 import com.traclabs.biosim.editor.base.CmdExpandNode;
-import com.traclabs.biosim.editor.base.CmdNewVespr;
-import com.traclabs.biosim.editor.base.CmdOpenVespr;
-import com.traclabs.biosim.editor.base.CmdSaveVespr;
+import com.traclabs.biosim.editor.base.CmdNewEditor;
+import com.traclabs.biosim.editor.base.CmdOpenEditor;
+import com.traclabs.biosim.editor.base.CmdSaveEditor;
 import com.traclabs.biosim.editor.base.CmdShowParent;
 import com.traclabs.biosim.editor.base.CmdShowRoot;
 import com.traclabs.biosim.editor.base.ModeZoom;
@@ -40,18 +40,18 @@ public class EditorPalette extends PaletteFig {
         add(new CmdSetMode(ModeBroom.class, "Broom"));
         add(new CmdSetMode(ModeZoom.class, "Zoom"));
         addSeparator();
-        add(new CmdNewVespr());
-        add(new CmdSaveVespr());
-        add(new CmdOpenVespr());
+        add(new CmdNewEditor());
+        add(new CmdSaveEditor());
+        add(new CmdOpenEditor());
 
         addSeparator();
 
-        add(new CmdCreateNode(RequiredNode.class, "VesprBase", "RequiredNode"));
-        add(new CmdCreateNode(OptionalNode.class, "VesprBase", "OptionalNode"));
-        add(new CmdCreateNode(DecisionNode.class, "VesprBase", "DecisionNode"));
-        add(new CmdCreateNode(TerminatorNode.class, "VesprBase",
+        add(new CmdCreateNode(RequiredNode.class, "EditorBase", "RequiredNode"));
+        add(new CmdCreateNode(OptionalNode.class, "EditorBase", "OptionalNode"));
+        add(new CmdCreateNode(DecisionNode.class, "EditorBase", "DecisionNode"));
+        add(new CmdCreateNode(TerminatorNode.class, "EditorBase",
                 "TerminatorNode"));
-        add(new CmdCreateNode(GoToNode.class, "VesprBase", "GoToNode"));
+        add(new CmdCreateNode(GoToNode.class, "EditorBase", "GoToNode"));
 
         addSeparator();
 

@@ -1,15 +1,3 @@
-/*
- * Copyright © 2004 S&K Technologies, Inc, 56 Old Hwy 93, St Ignatius, MT 98865
- * All rights reserved.
- * U.S. Government Rights - Commercial software.  Government users are subject
- * to S&K Technologies, Inc, standard license agreement and applicable 
- * provisions of the FAR and its supplements.
- * Use is subject to license terms.
- */
-
-/*
- * Created on Mar 11, 2005
- */
 package com.traclabs.biosim.editor.xml;
 
 import java.awt.Rectangle;
@@ -31,9 +19,9 @@ import com.traclabs.biosim.editor.graph.EditorFigEdge;
 import com.traclabs.biosim.editor.graph.EditorFigNode;
 
 /**
- * Writes a VesprDocument to a file.
+ * Writes a Editor Document to a file.
  * 
- * @author kkusy
+ * @author scott
  */
 public class EditorWriter implements DocumentWriter {
     public static final EditorWriter SINGLETON = new EditorWriter();

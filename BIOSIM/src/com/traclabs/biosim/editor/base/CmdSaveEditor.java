@@ -17,9 +17,9 @@ import javax.swing.JOptionPane;
 import org.tigris.gef.base.Cmd;
 import org.tigris.gef.base.Globals;
 
-public class CmdSaveVespr extends Cmd {
+public class CmdSaveEditor extends Cmd {
 
-    public CmdSaveVespr() {
+    public CmdSaveEditor() {
         super("Save");
         putValue(Action.SHORT_DESCRIPTION,
                 "Saves the active document with a new name");

@@ -12,10 +12,10 @@ import javax.swing.Action;
 import org.tigris.gef.base.Cmd;
 import org.tigris.gef.base.Globals;
 
-public class CmdNewVespr extends Cmd {
-    protected CmdSaveVespr _cmd = new CmdSaveVespr();
+public class CmdNewEditor extends Cmd {
+    protected CmdSaveEditor _cmd = new CmdSaveEditor();
 
-    public CmdNewVespr() {
+    public CmdNewEditor() {
         super("New");
         this.putValue(Action.SHORT_DESCRIPTION, "Creates a new document");
     }

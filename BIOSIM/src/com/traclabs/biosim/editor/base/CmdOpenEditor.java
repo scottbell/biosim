@@ -26,10 +26,10 @@ import org.tigris.gef.base.Globals;
  * @see CmdSave
  */
 
-public class CmdOpenVespr extends Cmd {
-    protected CmdSaveVespr _cmdSave = new CmdSaveVespr();
+public class CmdOpenEditor extends Cmd {
+    protected CmdSaveEditor _cmdSave = new CmdSaveEditor();
 
-    public CmdOpenVespr() {
+    public CmdOpenEditor() {
         super("Open");
         this.putValue(Action.SHORT_DESCRIPTION, "Opens an existing document");
     }
