@@ -109,6 +109,7 @@ module biosim{
                                 void setCapacity(in float liters);
                                 float getO2Level();
                                 float getCO2Level();
+				float getOtherLevel();
 				float getTotalLevel();
                                 float addCO2(in float liters);
                                 float addO2(in float liters);

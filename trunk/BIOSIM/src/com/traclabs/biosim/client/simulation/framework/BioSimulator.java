@@ -17,28 +17,35 @@ import java.util.*;
 public class BioSimulator implements Runnable
 {
 	//Module Names
-	private final static  String crewName = "CrewGroup";
-	private final static  String powerPSName = "PowerPS";
-	private final static  String powerStoreName = "PowerStore";
-	private final static  String airRSName = "AirRS";
-	private final static  String co2StoreName = "CO2Store";
-	private final static  String o2StoreName = "O2Store";
-	private final static  String biomassRSName = "BiomassRS";
-	private final static  String biomassStoreName = "BiomassStore";
-	private final static  String foodProcessorName = "FoodProcessor";
-	private final static  String foodStoreName = "FoodStore";
-	private final static  String waterRSName = "WaterRS";
-	private final static  String dirtyWaterStoreName = "DirtyWaterStore";
-	private final static  String potableWaterStoreName = "PotableWaterStore";
-	private final static  String greyWaterStoreName = "GreyWaterStore";
-	private final static  String simEnvironmentName = "SimEnvironment";
-	private final static  String bioModuleHarnessName = "BioModuleHarness";
+	public final static  String crewName = "CrewGroup";
+	public final static  String powerPSName = "PowerPS";
+	public final static  String powerStoreName = "PowerStore";
+	public final static  String airRSName = "AirRS";
+	public final static  String co2StoreName = "CO2Store";
+	public final static  String o2StoreName = "O2Store";
+	public final static  String biomassRSName = "BiomassRS";
+	public final static  String biomassStoreName = "BiomassStore";
+	public final static  String foodProcessorName = "FoodProcessor";
+	public final static  String foodStoreName = "FoodStore";
+	public final static  String waterRSName = "WaterRS";
+	public final static  String dirtyWaterStoreName = "DirtyWaterStore";
+	public final static  String potableWaterStoreName = "PotableWaterStore";
+	public final static  String greyWaterStoreName = "GreyWaterStore";
+	public final static  String simEnvironmentName = "SimEnvironment";
+	public final static  String bioModuleHarnessName = "BioModuleHarness";
 
 	private Hashtable modules;
 	private NamingContextExt ncRef;
 	private Thread myThread;
 	private boolean simulationIsPaused = false;
 	private boolean simulationStarted = false;
+	private Vector listeners;
+
+	public BioSimulator() {
+	        listeners = new Vector();
+		System.out.println("BioSimulator: Getting server references...");
+		collectReferences();
+	}
 
 	public void spawnSimulation(){
 		myThread = new Thread(this);
@@ -47,8 +54,6 @@ public class BioSimulator implements Runnable
 
 	public void run(){
 		simulationStarted = true;
-		System.out.println("BioSimulator: Getting server references...");
-		collectReferences();
 		System.out.println("BioSimulator: Initializing simulation...");
 		initializeSimulation();
 		System.out.println("BioSimulator: Running simulation...");
@@ -136,11 +141,11 @@ public class BioSimulator implements Runnable
 		simulationStarted = false;
 		System.out.println("BioSimulator: simulation ended");
 	}
-	
+
 	public boolean simulationHasStarted(){
 		return simulationStarted;
 	}
-	
+
 	//Pause simulation before you use this function
 	public synchronized void advanceOneTick(){
 		System.out.println("BioSimulator: ticking simulation once");
@@ -151,6 +156,10 @@ public class BioSimulator implements Runnable
 		simulationIsPaused = false;
 		notify();
 		System.out.println("BioSimulator: simulation resumed");
+	}
+
+	public synchronized void registerListener(BioSimulatorListener newListener){
+		listeners.add(newListener);
 	}
 
 	private void collectReferences(){
@@ -265,9 +274,16 @@ public class BioSimulator implements Runnable
 		}
 	}
 
+	private void notifyListeners(){
+		for (Enumeration e = listeners.elements(); e.hasMoreElements();){
+			BioSimulatorListener currentListener = (BioSimulatorListener)(e.nextElement());
+			currentListener.processTick();
+		}
+	}
+
 	private void tick(){
 		//first tick SimEnvironment
-		SimEnvironment mySimEnvironment =(SimEnvironment)(modules.get(simEnvironmentName));
+		SimEnvironment mySimEnvironment =(SimEnvironment)(getBioModule(simEnvironmentName));
 		mySimEnvironment.tick();
 		//Iterate through the rest of the modules and tick them
 		for (Enumeration e = modules.elements(); e.hasMoreElements();){
@@ -276,6 +292,7 @@ public class BioSimulator implements Runnable
 				currentBioModule.tick();
 			}
 		}
+		notifyListeners();
 	}
 }
 
