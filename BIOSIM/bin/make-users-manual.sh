@@ -13,17 +13,23 @@ then
 fi
 userManDir="$devRootDir/doc/users_manual_files"
 cd $userManDir
-echo `pwd`
-touch users_manual.ind
-latex users_manual.tex
-makeindex users_manual.idx
-bibtex users_manual.tex
-latex users_manual.tex
-dvips -o users_manual.ps users_manual.dvi
-ps2pdf users_manual.ps
+echo "		-creating empty index file"
+touch users_manual.ind > /dev/null
+echo "		-first latex pass"
+latex users_manual.tex > /dev/null
+echo "		-making index file"
+makeindex users_manual.idx 2> /dev/null
+echo "		-making bibliography"
+bibtex users_manual.tex > /dev/null
+echo "		-second latex pass"
+latex users_manual.tex > /dev/null
+echo "		-creating ps file"
+dvips -o users_manual.ps users_manual.dvi 2> /dev/null
+echo "		-creating pdf file"
+ps2pdf users_manual.ps > /dev/null
 if [ "$1" == "show" ]; then
 	echo "		-launching kghostview"
-	kghostview users_manual.pdf &
+	kghostview users_manual.pdf &  > /dev/null
 fi
 cd $currentDir
 echo "*done users manual"
