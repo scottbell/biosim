@@ -7,8 +7,7 @@ import org.jacorb.idl.parser;
 
 public class ParserHack{
 	public static void main(String args[]){
-		parser myParser = new parser();
-		myParser.compileAndHandle(args);
+		parser.compileAndHandle(args);
 	}
 }
 
