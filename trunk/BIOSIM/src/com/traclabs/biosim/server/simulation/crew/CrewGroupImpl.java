@@ -8,6 +8,7 @@ import biosim.idl.simulation.crew.*;
 import biosim.idl.simulation.environment.*;
 import biosim.idl.simulation.water.*;
 import biosim.idl.simulation.food.*;
+import biosim.idl.simulation.waste.*;
 import biosim.idl.util.log.*;
 import biosim.server.simulation.framework.*;
 import biosim.idl.simulation.framework.*;
@@ -18,13 +19,14 @@ import biosim.idl.framework.*;
  * @author    Scott Bell
  */
 
-public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperations, AirConsumerOperations, PotableWaterConsumerOperations, FoodConsumerOperations, AirProducerOperations, GreyWaterProducerOperations, DirtyWaterProducerOperations {
+public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperations, AirConsumerOperations, PotableWaterConsumerOperations, FoodConsumerOperations, AirProducerOperations, GreyWaterProducerOperations, DirtyWaterProducerOperations, DryWasteProducerOperations{
 	//The crew persons that make up the crew.
 	//They are the ones consuming air/food/water and producing air/water/waste as they perform activities
 	private Map crewPeople;
 	private Map crewPeopleLogs;
 	private float healthyPercentage = 1f;
 	private Random myRandom;
+	private DryWasteStore[] myDryWasteStores;
 	private FoodStore[] myFoodStores;
 	private PotableWaterStore[] myPotableWaterStores;
 	private GreyWaterStore[] myGreyWaterStores;
@@ -32,22 +34,25 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 	private SimEnvironment[] myAirInputs;
 	private SimEnvironment[] myAirOutputs;
 	private float[] foodMaxFlowRates;
-	private float[] potableWaterMaxFlowRates;
-	private float[] greyWaterMaxFlowRates;
-	private float[] dirtyWaterMaxFlowRates;
-	private float[] airInMaxFlowRates;
-	private float[] airOutMaxFlowRates;
 	private float[] foodActualFlowRates;
-	private float[] potableWaterActualFlowRates;
-	private float[] greyWaterActualFlowRates;
-	private float[] dirtyWaterActualFlowRates;
-	private float[] airInActualFlowRates;
-	private float[] airOutActualFlowRates;
 	private float[] foodDesiredFlowRates;
+	private float[] dryWasteMaxFlowRates;
+	private float[] dryWasteActualFlowRates;
+	private float[] dryWasteDesiredFlowRates;
+	private float[] potableWaterMaxFlowRates;
+	private float[] potableWaterActualFlowRates;
 	private float[] potableWaterDesiredFlowRates;
+	private float[] greyWaterMaxFlowRates;
+	private float[] greyWaterActualFlowRates;
 	private float[] greyWaterDesiredFlowRates;
+	private float[] dirtyWaterMaxFlowRates;
+	private float[] dirtyWaterActualFlowRates;
 	private float[] dirtyWaterDesiredFlowRates;
+	private float[] airInMaxFlowRates;
 	private float[] airInDesiredFlowRates;
+	private float[] airInActualFlowRates;
+	private float[] airOutMaxFlowRates;
+	private float[] airOutActualFlowRates;
 	private float[] airOutDesiredFlowRates;
 
 	/**
@@ -58,28 +63,32 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 		crewPeople = new Hashtable();
 		myRandom = new Random();
 		myFoodStores = new FoodStore[0];
+		myDryWasteStores = new DryWasteStore[0];
 		myPotableWaterStores = new PotableWaterStore[0];
 		myGreyWaterStores = new GreyWaterStore[0];
 		myDirtyWaterStores = new DirtyWaterStore[0];
 		myAirInputs = new SimEnvironment[0];
 		myAirOutputs = new SimEnvironment[0];
 		foodMaxFlowRates = new float[0];
-		potableWaterMaxFlowRates = new float[0];
-		greyWaterMaxFlowRates = new float[0];
-		dirtyWaterMaxFlowRates = new float[0];
-		airInMaxFlowRates = new float[0];
-		airOutMaxFlowRates = new float[0];
 		foodActualFlowRates = new float[0];
-		potableWaterActualFlowRates = new float[0];
-		greyWaterActualFlowRates = new float[0];
-		dirtyWaterActualFlowRates = new float[0];
-		airInActualFlowRates = new float[0];
-		airOutActualFlowRates = new float[0];
 		foodDesiredFlowRates = new float[0];
+		dryWasteMaxFlowRates = new float[0];
+		dryWasteActualFlowRates = new float[0];
+		dryWasteDesiredFlowRates = new float[0];
+		potableWaterMaxFlowRates = new float[0];
+		potableWaterActualFlowRates = new float[0];
 		potableWaterDesiredFlowRates = new float[0];
+		greyWaterMaxFlowRates = new float[0];
+		greyWaterActualFlowRates = new float[0];
 		greyWaterDesiredFlowRates = new float[0];
+		dirtyWaterMaxFlowRates = new float[0];
+		dirtyWaterActualFlowRates = new float[0];
 		dirtyWaterDesiredFlowRates = new float[0];
+		airInMaxFlowRates = new float[0];
+		airInActualFlowRates = new float[0];
 		airInDesiredFlowRates = new float[0];
+		airOutMaxFlowRates = new float[0];
+		airOutActualFlowRates = new float[0];
 		airOutDesiredFlowRates = new float[0];
 	}
 
@@ -188,7 +197,8 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 	private void clearActualFlowRates(){
 		Arrays.fill(potableWaterActualFlowRates, 0f);
 		Arrays.fill(greyWaterActualFlowRates, 0f);                  
-		Arrays.fill(dirtyWaterActualFlowRates, 0f);
+		Arrays.fill(dirtyWaterActualFlowRates, 0f);            
+		Arrays.fill(dryWasteActualFlowRates, 0f);
 	}
 
 	/**
@@ -534,6 +544,41 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 	}
 	public DirtyWaterStore[] getDirtyWaterOutputs(){
 		return myDirtyWaterStores;
+	}
+	
+	//Dirty Water Output
+	public void setDryWasteOutputMaxFlowRate(float liters, int index){
+		dryWasteMaxFlowRates[index] = liters;
+	}
+	public float getDryWasteOutputMaxFlowRate(int index){
+		return dryWasteMaxFlowRates[index];
+	}
+	public float[] getDryWasteOutputMaxFlowRates(){
+		return dryWasteMaxFlowRates;
+	}
+	public void setDryWasteOutputDesiredFlowRate(float liters, int index){
+		dryWasteDesiredFlowRates[index] = liters;
+	}
+	public float getDryWasteOutputDesiredFlowRate(int index){
+		return dryWasteDesiredFlowRates[index];
+	}
+	public float[] getDryWasteOutputDesiredFlowRates(){
+		return dryWasteDesiredFlowRates;
+	}
+	public float getDryWasteOutputActualFlowRate(int index){
+		return dryWasteActualFlowRates[index];
+	}
+	public float[] getDryWasteOutputActualFlowRates(){
+		return dryWasteActualFlowRates;
+	}
+	public void setDryWasteOutputs(DryWasteStore[] destinations, float[] maxFlowRates, float[] desiredFlowRates){
+		myDryWasteStores = destinations;
+		dryWasteMaxFlowRates = maxFlowRates;
+		dryWasteDesiredFlowRates = desiredFlowRates;
+		dryWasteActualFlowRates = new float[dryWasteDesiredFlowRates.length];
+	}
+	public DryWasteStore[] getDryWasteOutputs(){
+		return myDryWasteStores;
 	}
 
 	//Food Water Input

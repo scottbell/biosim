@@ -46,10 +46,14 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private float CO2Produced = 0f;
 	//How much food this crew member consumed in the current tick
 	private float caloriesConsumed = 0f;
+	//How much food this crew member consumed in the current tick (in kg)
+	private float foodMassConsumed = 0f;
 	//How much potable water this crew member consumed in the current tick
 	private float cleanWaterConsumed = 0f;
 	//How much dirty water this crew member produced in the current tick
 	private float dirtyWaterProduced = 0f;
+	//How much dry waste this crew member produced in the current tick
+	private float dryWasteProduced = 0f;
 	//How much grey water this crew member produced in the current tick
 	private float greyWaterProduced = 0f;
 	//How much O2 this crew member needs to consume in one tick
@@ -141,8 +145,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		O2Consumed= 0f;
 		CO2Produced = 0f;
 		caloriesConsumed = 0f;
+		foodMassConsumed = 0f;
 		cleanWaterConsumed = 0f;
 		dirtyWaterProduced = 0f;
+		dryWasteProduced = 0f;
 		greyWaterProduced = 0f;
 		O2Needed = 0f;
 		potableWaterNeeded = 0f;
@@ -179,6 +185,14 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* @return the dirty water produced (in liters) by this crew member during the current tick
 	*/
 	public float getDirtyWaterProduced(){
+		return dirtyWaterProduced;
+	}
+	
+	/**
+	* Returns the dry waste produced (in liters) by this crew member during the current tick
+	* @return the dry waste produced (in liters) by this crew member during the current tick
+	*/
+	public float getDryWasteProduced(){
 		return dirtyWaterProduced;
 	}
 
@@ -534,6 +548,15 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private float calculateDirtyWaterProduced(float potableWaterConsumed){
 		return myCrewGroup.randomFilter(potableWaterConsumed * 0.3625f);
 	}
+	
+	/**
+	* Calculate the dry waste produced given the potable water consumed for the current tick.
+	* @param foodConsumed the food consumed (in kg) during this tick
+	* @return dry waste produced in kg
+	*/
+	private float calculateDryWasteProduced(float foodConsumed){
+		return myCrewGroup.randomFilter(foodConsumed * 0.632f);
+	}
 
 	/**
 	* Calculate the grey water produced given the potable water consumed for the current tick.
@@ -679,10 +702,20 @@ public class CrewPersonImpl extends CrewPersonPOA {
 
 	private void eatFood(float pFoodNeeded){
 		FoodMatter[] foodConsumed = myCrewGroup.getCaloriesFromStore(myCrewGroup.getFoodInputs(), myCrewGroup.getFoodInputMaxFlowRates(), myCrewGroup.getFoodInputDesiredFlowRates(), myCrewGroup.getFoodInputActualFlowRates(), caloriesNeeded);
+		foodMassConsumed = calculateFoodMass(foodConsumed);
 		if ((foodConsumed.length == 0) || (myCrewGroup.getFoodInputs().length == 0))
 			caloriesConsumed = 0f;
 		else
 			caloriesConsumed = myCrewGroup.getFoodInputs()[0].calculateCalories(foodConsumed);
+	}
+	
+	private static float calculateFoodMass(FoodMatter[] pMatter){
+		float mass = 0f;
+		if (pMatter == null)
+			return 0f;
+		for (int i = 0; i < pMatter.length; i++)
+			mass += pMatter[i].mass;
+		return mass;
 	}
 
 	/**
@@ -696,6 +729,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		potableWaterNeeded = calculateCleanWaterNeeded(currentActivityIntensity);
 		caloriesNeeded = calculateFoodNeeded(currentActivityIntensity);
 		dirtyWaterProduced = calculateDirtyWaterProduced(potableWaterNeeded);
+		dryWasteProduced = calculateDryWasteProduced(foodMassConsumed);
 		greyWaterProduced = calculateGreyWaterProduced(potableWaterNeeded);
 		CO2Produced = calculateCO2Produced(O2Needed);
 		vaporProduced = calculateVaporProduced(potableWaterNeeded);
@@ -704,6 +738,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		cleanWaterConsumed = myCrewGroup.getFractionalResourceFromStore(myCrewGroup.getPotableWaterInputs(), myCrewGroup.getPotableWaterInputMaxFlowRates(), myCrewGroup.getPotableWaterInputDesiredFlowRates(), myCrewGroup.getPotableWaterInputActualFlowRates(), potableWaterNeeded, 1f / myCrewGroup.getCrewSize());
 		float distributedDirtyWater = myCrewGroup.pushFractionalResourceToStore(myCrewGroup.getDirtyWaterOutputs(), myCrewGroup.getDirtyWaterOutputMaxFlowRates(), myCrewGroup.getDirtyWaterOutputDesiredFlowRates(), myCrewGroup.getDirtyWaterOutputActualFlowRates(), dirtyWaterProduced, 1f / myCrewGroup.getCrewSize());
 		float distributedGreyWater = myCrewGroup.pushFractionalResourceToStore(myCrewGroup.getGreyWaterOutputs(), myCrewGroup.getGreyWaterOutputMaxFlowRates(), myCrewGroup.getGreyWaterOutputDesiredFlowRates(), myCrewGroup.getGreyWaterOutputActualFlowRates(), greyWaterProduced, 1f / myCrewGroup.getCrewSize());
+		float distributedDryWaste = myCrewGroup.pushFractionalResourceToStore(myCrewGroup.getDryWasteOutputs(), myCrewGroup.getDryWasteOutputMaxFlowRates(), myCrewGroup.getDryWasteOutputDesiredFlowRates(), myCrewGroup.getDryWasteOutputActualFlowRates(), greyWaterProduced, 1f / myCrewGroup.getCrewSize());
 
 		SimEnvironment[] myAirInputs = myCrewGroup.getAirInputs();
 		SimEnvironment[] myAirOutputs = myCrewGroup.getAirOutputs();
