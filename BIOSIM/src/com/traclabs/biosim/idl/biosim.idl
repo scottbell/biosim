@@ -16,7 +16,7 @@ module biosim{
                                 typedef sequence <CrewGroup> CrewGroupList;
                                 typedef sequence <CrewPerson> CrewPersonList;
                                 enum Sex {male, female};
-				enum ScheduleType{ACTIVE_SCHED, PASSIVE_SCHED, VACATION_SCHED};
+                                enum ScheduleType{ACTIVE_SCHED, PASSIVE_SCHED, VACATION_SCHED};
                                 interface Activity;
                                 interface RepairActivity;
                                 interface MaitenanceActivity;
@@ -28,14 +28,17 @@ module biosim{
                                 interface O2Store;
                                 interface CO2Store;
                                 interface H2Store;
+                                interface NitrogenStore;
                                 struct Breath{
                                         float O2;
                                         float CO2;
                                         float water;
                                         float other;
+                                        float nitrogen;
                                 };
                                 typedef sequence <O2Store> O2StoreList;
                                 typedef sequence <CO2Store> CO2StoreList;
+                                typedef sequence <NitrogenStore> NitrogenStoreList;
                                 typedef sequence <H2Store> H2StoreList;
                         };
                         module food{
@@ -100,9 +103,9 @@ module biosim{
                         typedef sequence <BioModule> BioModuleList;
                         interface BioDriver;
                         //Producers & Consumers
-			interface FlowRateControllable;
-			interface Consumer;
-			interface Producer;
+                        interface FlowRateControllable;
+                        interface Consumer;
+                        interface Producer;
                         interface PowerConsumer;
                         interface PowerProducer;
                         interface PotableWaterConsumer;
@@ -115,6 +118,10 @@ module biosim{
                         interface AirProducer;
                         interface H2Consumer;
                         interface H2Producer;
+                        interface NitrogenAirConsumer;
+                        interface NitrogenAirProducer;
+                        interface WaterAirConsumer;
+                        interface WaterAirProducer;
                         interface O2AirConsumer;
                         interface O2AirProducer;
                         interface CO2AirConsumer;
@@ -123,6 +130,8 @@ module biosim{
                         interface O2Consumer;
                         interface CO2Producer;
                         interface CO2Consumer;
+                        interface NitrogenProducer;
+                        interface NitrogenConsumer;
                         interface LightConsumer;
                         interface BiomassConsumer;
                         interface FoodConsumer;
@@ -171,8 +180,8 @@ module biosim{
                         interface BioDriver{
                                 boolean isPaused();
                                 boolean isStarted();
-				void startSimulation();
-				void endSimulation();
+                                void startSimulation();
+                                void endSimulation();
                                 void setRunTillDead(in boolean pRunTillDead);
                                 void setRunTillN(in long pTicks);
                                 void setLoopSimulation(in boolean pLoop);
@@ -184,32 +193,32 @@ module biosim{
                                 void setActuatorLogging(in boolean pLogSim);
                                 void setDriverStutterLength(in long pDriverPauseLength);
                                 long getDriverStutterLength();
-				void setModules(in BioModuleList pModules);
-				void setSensors(in BioModuleList pSensors);
-				void setActuators(in BioModuleList pActuators);
-				void setSimModules(in BioModuleList pSimModules);
-				BioModuleList getModules();
-				BioModuleList getSensors();
-				BioModuleList getActuators();
-				BioModuleList getSimModules();
-				StringList getModuleNames();
-				StringList getSensorNames();
-				StringList getActuatorNames();
-				StringList getSimModuleNames();
-				void setCrewsToWatch(in simulation::crew::CrewGroupList pCrews);
+                                void setModules(in BioModuleList pModules);
+                                void setSensors(in BioModuleList pSensors);
+                                void setActuators(in BioModuleList pActuators);
+                                void setSimModules(in BioModuleList pSimModules);
+                                BioModuleList getModules();
+                                BioModuleList getSensors();
+                                BioModuleList getActuators();
+                                BioModuleList getSimModules();
+                                StringList getModuleNames();
+                                StringList getSensorNames();
+                                StringList getActuatorNames();
+                                StringList getSimModuleNames();
+                                void setCrewsToWatch(in simulation::crew::CrewGroupList pCrews);
                                 string getName();
                                 boolean isDone();
                                 long getTicks();
                                 void reset();
-				void setLogger(in util::log::Logger pLogger);
+                                void setLogger(in util::log::Logger pLogger);
                                 boolean isLooping();
                                 void setLooping(in boolean pLoop);
                                 void setStochasticIntensity(in StochasticIntensity pIntensity);
                                 void startMalfunction(in MalfunctionIntensity pIntensity, in MalfunctionLength pLength);
                         };
-			interface FlowRateControllable : BioModule{};
-			interface Consumer : FlowRateControllable{};
-			interface Producer : FlowRateControllable{};
+                        interface FlowRateControllable : BioModule{};
+                        interface Consumer : FlowRateControllable{};
+                        interface Producer : FlowRateControllable{};
                         interface PowerConsumer : Consumer{
                                 void setPowerInputMaxFlowRate(in float watts, in long index);
                                 float getPowerInputMaxFlowRate(in long index);
@@ -327,6 +336,38 @@ module biosim{
                                 simulation::air::CO2StoreList getCO2AirStoreInputs();
                                 simulation::environment::SimEnvironmentList getCO2AirEnvironmentInputs();
                         };
+                        interface NitrogenAirConsumer : Consumer{
+                                void setNitrogenAirStoreInputMaxFlowRate(in float liters, in long index);
+                                void setNitrogenAirEnvironmentInputMaxFlowRate(in float liters, in long index);
+                                float getNitrogenAirStoreInputMaxFlowRate(in long index);
+                                float getNitrogenAirEnvironmentInputMaxFlowRate(in long index);
+                                void setNitrogenAirStoreInputDesiredFlowRate(in float liters, in long index);
+                                void setNitrogenAirEnvironmentInputDesiredFlowRate(in float liters, in long index);
+                                float getNitrogenAirStoreInputDesiredFlowRate(in long index);
+                                float getNitrogenAirEnvironmentInputDesiredFlowRate(in long index);
+                                float getNitrogenAirStoreInputActualFlowRate(in long index);
+                                float getNitrogenAirEnvironmentInputActualFlowRate(in long index);
+                                void setNitrogenAirEnvironmentInputs(in simulation::environment::SimEnvironmentList source, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                void setNitrogenAirStoreInputs(in simulation::air::NitrogenStoreList source, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                simulation::air::NitrogenStoreList getNitrogenAirStoreInputs();
+                                simulation::environment::SimEnvironmentList getNitrogenAirEnvironmentInputs();
+                        };
+                        interface WaterAirConsumer : Consumer{
+                                void setWaterAirStoreInputMaxFlowRate(in float liters, in long index);
+                                void setWaterAirEnvironmentInputMaxFlowRate(in float liters, in long index);
+                                float getWaterAirStoreInputMaxFlowRate(in long index);
+                                float getWaterAirEnvironmentInputMaxFlowRate(in long index);
+                                void setWaterAirStoreInputDesiredFlowRate(in float liters, in long index);
+                                void setWaterAirEnvironmentInputDesiredFlowRate(in float liters, in long index);
+                                float getWaterAirStoreInputDesiredFlowRate(in long index);
+                                float getWaterAirEnvironmentInputDesiredFlowRate(in long index);
+                                float getWaterAirStoreInputActualFlowRate(in long index);
+                                float getWaterAirEnvironmentInputActualFlowRate(in long index);
+                                void setWaterAirEnvironmentInputs(in simulation::environment::SimEnvironmentList source, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                void setWaterAirStoreInputs(in simulation::water::PotableWaterStoreList source, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                simulation::water::PotableWaterStoreList getWaterAirStoreInputs();
+                                simulation::environment::SimEnvironmentList getWaterAirEnvironmentInputs();
+                        };
                         interface AirProducer : Producer{
                                 void setAirOutputMaxFlowRate(in float liters, in long index);
                                 float getAirOutputMaxFlowRate(in long index);
@@ -367,6 +408,38 @@ module biosim{
                                 void setCO2AirStoreOutputs(in simulation::air::CO2StoreList destination, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                 simulation::air::CO2StoreList getCO2AirStoreOutputs();
                                 simulation::environment::SimEnvironmentList getCO2AirEnvironmentOutputs();
+                        };
+                        interface WaterAirProducer : Producer{
+                                void setWaterAirStoreOutputMaxFlowRate(in float liters, in long index);
+                                void setWaterAirEnvironmentOutputMaxFlowRate(in float liters, in long index);
+                                float getWaterAirStoreOutputMaxFlowRate(in long index);
+                                float getWaterAirEnvironmentOutputMaxFlowRate(in long index);
+                                void setWaterAirStoreOutputDesiredFlowRate(in float liters, in long index);
+                                void setWaterAirEnvironmentOutputDesiredFlowRate(in float liters, in long index);
+                                float getWaterAirStoreOutputDesiredFlowRate(in long index);
+                                float getWaterAirEnvironmentOutputDesiredFlowRate(in long index);
+                                float getWaterAirStoreOutputActualFlowRate(in long index);
+                                float getWaterAirEnvironmentOutputActualFlowRate(in long index);
+                                void setWaterAirEnvironmentOutputs(in simulation::environment::SimEnvironmentList destination, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                void setWaterAirStoreOutputs(in simulation::water::PotableWaterStoreList destination, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                simulation::water::PotableWaterStoreList getWaterAirStoreOutputs();
+                                simulation::environment::SimEnvironmentList getWaterAirEnvironmentOutputs();
+                        };
+                        interface NitrogenAirProducer : Producer{
+                                void setNitrogenAirStoreOutputMaxFlowRate(in float liters, in long index);
+                                void setNitrogenAirEnvironmentOutputMaxFlowRate(in float liters, in long index);
+                                float getNitrogenAirStoreOutputMaxFlowRate(in long index);
+                                float getNitrogenAirEnvironmentOutputMaxFlowRate(in long index);
+                                void setNitrogenAirStoreOutputDesiredFlowRate(in float liters, in long index);
+                                void setNitrogenAirEnvironmentOutputDesiredFlowRate(in float liters, in long index);
+                                float getNitrogenAirStoreOutputDesiredFlowRate(in long index);
+                                float getNitrogenAirEnvironmentOutputDesiredFlowRate(in long index);
+                                float getNitrogenAirStoreOutputActualFlowRate(in long index);
+                                float getNitrogenAirEnvironmentOutputActualFlowRate(in long index);
+                                void setNitrogenAirEnvironmentOutputs(in simulation::environment::SimEnvironmentList destination, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                void setNitrogenAirStoreOutputs(in simulation::air::NitrogenStoreList destination, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                simulation::air::NitrogenStoreList getNitrogenAirStoreOutputs();
+                                simulation::environment::SimEnvironmentList getNitrogenAirEnvironmentOutputs();
                         };
                         interface BiomassConsumer : Consumer{
                                 void setBiomassInputMaxFlowRate(in float kilograms, in long index);
@@ -422,8 +495,8 @@ module biosim{
                                 float getO2OutputActualFlowRate(in long index);
                                 void setO2Outputs(in simulation::air::O2StoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                 simulation::air::O2StoreList getO2Outputs();
-                        }; 
-			interface H2Consumer : Consumer{
+                        };
+                        interface H2Consumer : Consumer{
                                 void setH2InputMaxFlowRate(in float liters, in long index);
                                 float getH2InputMaxFlowRate(in long index);
                                 void setH2InputDesiredFlowRate(in float liters, in long index);
@@ -459,6 +532,24 @@ module biosim{
                                 void setCO2Outputs(in simulation::air::CO2StoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                 simulation::air::CO2StoreList getCO2Outputs();
                         };
+                        interface NitrogenConsumer : Consumer{
+                                void setNitrogenInputMaxFlowRate(in float liters, in long index);
+                                float getNitrogenInputMaxFlowRate(in long index);
+                                void setNitrogenInputDesiredFlowRate(in float liters, in long index);
+                                float getNitrogenInputDesiredFlowRate(in long index);
+                                float getNitrogenInputActualFlowRate(in long index);
+                                void setNitrogenInputs(in simulation::air::NitrogenStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                simulation::air::NitrogenStoreList getNitrogenInputs();
+                        };
+                        interface NitrogenProducer : Producer{
+                                void setNitrogenOutputMaxFlowRate(in float liters, in long index);
+                                float getNitrogenOutputMaxFlowRate(in long index);
+                                void setNitrogenOutputDesiredFlowRate(in float liters, in long index);
+                                float getNitrogenOutputDesiredFlowRate(in long index);
+                                float getNitrogenOutputActualFlowRate(in long index);
+                                void setNitrogenOutputs(in simulation::air::NitrogenStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                simulation::air::NitrogenStoreList getNitrogenOutputs();
+                        };
                 };
                 module util{
                         module log{
@@ -467,7 +558,7 @@ module biosim{
                                         LogHandlerTypeList getLogHandlerTypes();
                                         void addLogHandlerType(in LogHandlerType pLogType);
                                         void setProcessingLogs(in boolean pAllowLogging);
-					void endLog();
+                                        void endLog();
                                         boolean isProcessingLogs();
                                         string getName();
                                 };
@@ -497,7 +588,7 @@ module biosim{
                                         void setPipe(in boolean pPipe);
                                 };
                                 interface SimBioModule : framework::BioModule{};
-                                interface Injector : framework::SimBioModule, framework::PowerConsumer, framework::PotableWaterConsumer, framework::GreyWaterConsumer, framework::DirtyWaterConsumer, framework::O2Consumer, framework::CO2Consumer, framework::AirConsumer, framework::BiomassConsumer, framework::FoodConsumer, framework::O2AirConsumer, framework::CO2AirConsumer, framework::PowerProducer, framework::PotableWaterProducer, framework::GreyWaterProducer, framework::DirtyWaterProducer, framework::O2Producer, framework::CO2Producer, framework::AirProducer, framework::BiomassProducer, framework::FoodProducer, framework::O2AirProducer, framework::CO2AirProducer{};
+                                interface Injector : framework::SimBioModule, framework::PowerConsumer, framework::PotableWaterConsumer, framework::GreyWaterConsumer, framework::DirtyWaterConsumer, framework::O2Consumer, framework::CO2Consumer, framework::NitrogenConsumer, framework::AirConsumer, framework::BiomassConsumer, framework::FoodConsumer, framework::O2AirConsumer, framework::CO2AirConsumer, framework::NitrogenAirConsumer, framework::WaterAirConsumer, framework::PowerProducer, framework::PotableWaterProducer, framework::GreyWaterProducer, framework::DirtyWaterProducer, framework::O2Producer, framework::CO2Producer, framework::NitrogenProducer, framework::AirProducer, framework::BiomassProducer, framework::FoodProducer, framework::O2AirProducer, framework::CO2AirProducer, framework::NitrogenAirProducer, framework::WaterAirProducer{};
                                 interface Accumulator : framework::SimBioModule, framework::PowerConsumer, framework::PotableWaterConsumer, framework::GreyWaterConsumer, framework::DirtyWaterConsumer, framework::O2Consumer, framework::CO2Consumer, framework::AirConsumer, framework::BiomassConsumer, framework::FoodConsumer, framework::O2AirConsumer, framework::CO2AirConsumer, framework::PowerProducer, framework::PotableWaterProducer, framework::GreyWaterProducer, framework::DirtyWaterProducer, framework::O2Producer, framework::CO2Producer, framework::AirProducer, framework::BiomassProducer, framework::FoodProducer, framework::O2AirProducer, framework::CO2AirProducer{};
                         };
                         module crew{
@@ -545,7 +636,7 @@ module biosim{
                                         CrewPerson createCrewPerson(in string name, in float age, in float weight, in Sex pSex);
                                         CrewPersonList getCrewPeople();
                                         void scheduleRepair(in string moduleName, in long long malfunctionID, in long timeLength);
-					long getCrewSize();
+                                        long getCrewSize();
                                         float getGreyWaterProduced();
                                         float getDirtyWaterProduced();
                                         float getPotableWaterConsumed();
@@ -562,21 +653,25 @@ module biosim{
                                         void setO2Moles(in float moles);
                                         void setOtherMoles(in float moles);
                                         void setWaterMoles(in float moles);
+                                        void setNitrogenMoles(in float moles);
                                         void setCO2Pressure(in float kPA);
                                         void setO2Pressure(in float kPA);
                                         void setOtherPressure(in float kPA);
                                         void setWaterPressure(in float kPA);
-                                        void setInitialVolume(in float pInitialCO2Moles, in float pInitialO2Moles, in float pInitialOtherMoles, in float pInitialWaterMoles, in float pInitialVolume);
+                                        void setNitrogenPressure(in float kPA);
+                                        void setInitialVolume(in float pInitialCO2Moles, in float pInitialO2Moles, in float pInitialOtherMoles, in float pInitialWaterMoles, in float pInitialNitrogenMoles, in float pInitialVolume);
                                         void setInitialVolumeAtSeaLevel(in float pInitialVolume);
                                         float getO2Moles();
                                         float getCO2Moles();
                                         float getOtherMoles();
                                         float getWaterMoles();
+                                        float getNitrogenMoles();
                                         float getTotalMoles();
                                         float getO2Pressure();
                                         float getCO2Pressure();
                                         float getOtherPressure();
                                         float getWaterPressure();
+                                        float getNitrogenPressure();
                                         float getTotalPressure();
                                         float getRelativeHumidity();
                                         float getWaterDensity();
@@ -584,15 +679,16 @@ module biosim{
                                         float addO2Moles(in float moles);
                                         float addOtherMoles(in float moles);
                                         float addWaterMoles(in float moles);
+                                        float addNitrogenMoles(in float moles);
                                         float takeCO2Moles(in float moles);
                                         float takeO2Moles(in float moles);
                                         float takeOtherMoles(in float moles);
                                         float takeWaterMoles(in float moles);
-					air::Breath addBreath(in air::Breath pBreath);
+                                        float takeNitrogenMoles(in float moles);
+                                        air::Breath addBreath(in air::Breath pBreath);
                                         float getTemperature();
                                         float getLightIntensity();
                                         air::Breath takeAirMoles(in float moles);
-                                        long getTicks();
                                         void setTotalMoles(in float moles);
                                         void setTotalPressure(in float moles);
                                 };
@@ -618,7 +714,7 @@ module biosim{
                                         FoodMatterList takeFoodMatterCalories(in float calories, in float limitingMass);
                                         FoodMatter takeFoodMatterMassAndType(in float mass, in PlantType pType);
                                         FoodMatter takeFoodMatterType(in PlantType pType);
-					float calculateCalories(in FoodMatterList pList);
+                                        float calculateCalories(in FoodMatterList pList);
                                 };
 
                                 interface BiomassStore : framework::Store{
@@ -631,8 +727,8 @@ module biosim{
                                 interface Shelf{
                                         void harvest();
                                         void replant(in PlantType pType);
-					void setAutoHarvestEnabled(in boolean pHarvestEnabled);
-					boolean isAutoHarvestEnabled();
+                                        void setAutoHarvestEnabled(in boolean pHarvestEnabled);
+                                        boolean isAutoHarvestEnabled();
                                 };
 
                                 interface Plant{
@@ -661,6 +757,8 @@ module biosim{
                                 interface O2Store : framework::Store{
                                 };
                                 interface CO2Store : framework::Store{
+                                };
+                                interface NitrogenStore : framework::Store{
                                 };
                         };
                         module water{
@@ -700,15 +798,15 @@ module biosim{
                         module framework{
                                 interface GenericSensor : framework::BioModule{
                                         float getValue();
-					float getMax();
-					float getMin();
+                                        float getMax();
+                                        float getMin();
                                 };
-				interface StoreSensor : GenericSensor{
+                                interface StoreSensor : GenericSensor{
                                         void setInput(in simulation::framework::Store source);
                                         simulation::framework::Store getInput();
-				};
-				interface StoreLevelSensor : StoreSensor{};
-				interface StoreOverflowSensor : StoreSensor{};
+                                };
+                                interface StoreLevelSensor : StoreSensor{};
+                                interface StoreOverflowSensor : StoreSensor{};
                         };
                         module air{
                                 interface O2StoreSensor : framework::GenericSensor{
@@ -722,6 +820,10 @@ module biosim{
                                 interface H2StoreSensor : framework::GenericSensor{
                                         void setInput(in simulation::air::H2Store source);
                                         simulation::air::H2Store getInput();
+                                };
+                                interface NitrogenStoreSensor : framework::GenericSensor{
+                                        void setInput(in simulation::air::NitrogenStore source);
+                                        simulation::air::NitrogenStore getInput();
                                 };
                                 interface AirRSSensor : framework::GenericSensor{
                                         void setInput(in simulation::air::AirRS source);
@@ -760,6 +862,16 @@ module biosim{
                                         framework::H2Producer getInput();
                                         long getIndex();
                                 };
+                                interface NitrogenInFlowRateSensor : framework::GenericSensor{
+                                        void setInput(in framework::NitrogenConsumer pConsumer, in long pIndex);
+                                        framework::NitrogenConsumer getInput();
+                                        long getIndex();
+                                };
+                                interface NitrogenOutFlowRateSensor : framework::GenericSensor{
+                                        void setInput(in framework::NitrogenProducer pProducer, in long pIndex);
+                                        framework::NitrogenProducer getInput();
+                                        long getIndex();
+                                };
                         };
                         module crew{
                                 interface CrewGroupSensor : framework::GenericSensor{
@@ -767,7 +879,7 @@ module biosim{
                                         simulation::crew::CrewGroup getInput();
                                 };
                                 interface CrewGroupActivitySensor : CrewGroupSensor{};
-				interface CrewGroupDeathSensor : CrewGroupSensor{};
+                                interface CrewGroupDeathSensor : CrewGroupSensor{};
                         };
                         module environment{
                                 interface EnvironmentSensor : framework::GenericSensor{
@@ -779,10 +891,12 @@ module biosim{
                                 interface CO2AirConcentrationSensor : EnvironmentSensor{};
                                 interface OtherAirConcentrationSensor : EnvironmentSensor{};
                                 interface WaterAirConcentrationSensor : EnvironmentSensor{};
+                                interface NitrogenAirConcentrationSensor : EnvironmentSensor{};
                                 interface O2AirPressureSensor : EnvironmentSensor{};
                                 interface CO2AirPressureSensor : EnvironmentSensor{};
                                 interface OtherAirPressureSensor : EnvironmentSensor{};
                                 interface WaterAirPressureSensor : EnvironmentSensor{};
+                                interface NitrogenAirPressureSensor : EnvironmentSensor{};
 
                                 interface AirInFlowRateSensor : framework::GenericSensor{
                                         void setInput(in framework::AirConsumer pConsumer, in long pIndex);
@@ -834,6 +948,49 @@ module biosim{
                                 interface CO2AirEnvironmentOutFlowRateSensor : framework::GenericSensor{
                                         void setInput(in framework::CO2AirProducer pProducer, in long pIndex);
                                         framework::CO2AirProducer getInput();
+                                        long getIndex();
+                                };
+
+
+                                interface NitrogenAirStoreInFlowRateSensor : framework::GenericSensor{
+                                        void setInput(in framework::NitrogenAirConsumer pConsumer, in long pIndex);
+                                        framework::NitrogenAirConsumer getInput();
+                                        long getIndex();
+                                };
+                                interface NitrogenAirStoreOutFlowRateSensor : framework::GenericSensor{
+                                        void setInput(in framework::NitrogenAirProducer pProducer, in long pIndex);
+                                        framework::NitrogenAirProducer getInput();
+                                        long getIndex();
+                                };
+                                interface NitrogenAirEnvironmentInFlowRateSensor : framework::GenericSensor{
+                                        void setInput(in framework::NitrogenAirConsumer pConsumer, in long pIndex);
+                                        framework::NitrogenAirConsumer getInput();
+                                        long getIndex();
+                                };
+                                interface NitrogenAirEnvironmentOutFlowRateSensor : framework::GenericSensor{
+                                        void setInput(in framework::NitrogenAirProducer pProducer, in long pIndex);
+                                        framework::NitrogenAirProducer getInput();
+                                        long getIndex();
+                                };
+
+                                interface WaterAirStoreInFlowRateSensor : framework::GenericSensor{
+                                        void setInput(in framework::WaterAirConsumer pConsumer, in long pIndex);
+                                        framework::WaterAirConsumer getInput();
+                                        long getIndex();
+                                };
+                                interface WaterAirStoreOutFlowRateSensor : framework::GenericSensor{
+                                        void setInput(in framework::WaterAirProducer pProducer, in long pIndex);
+                                        framework::WaterAirProducer getInput();
+                                        long getIndex();
+                                };
+                                interface WaterAirEnvironmentInFlowRateSensor : framework::GenericSensor{
+                                        void setInput(in framework::WaterAirConsumer pConsumer, in long pIndex);
+                                        framework::WaterAirConsumer getInput();
+                                        long getIndex();
+                                };
+                                interface WaterAirEnvironmentOutFlowRateSensor : framework::GenericSensor{
+                                        void setInput(in framework::WaterAirProducer pProducer, in long pIndex);
+                                        framework::WaterAirProducer getInput();
                                         long getIndex();
                                 };
 
@@ -891,7 +1048,7 @@ module biosim{
                                         void setInput(in simulation::power::PowerStore source);
                                         simulation::power::PowerStore getInput();
                                 };
-				
+
                                 interface PowerStoreLevelSensor : PowerStoreSensor{};
 
                                 interface PowerInFlowRateSensor : framework::GenericSensor{
@@ -965,8 +1122,8 @@ module biosim{
                                 interface GenericActuator : framework::BioModule{
                                         void setValue(in float pValue);
                                         float getValue();
-					float getMax();
-					float getMin();
+                                        float getMax();
+                                        float getMin();
                                 };
                         };
                         module air{
@@ -999,8 +1156,18 @@ module biosim{
                                         void setOutput(in framework::H2Producer pProducer, in long pIndex);
                                         framework::H2Producer getOutput();
                                         long getIndex();
-                                };                                
-				interface AirRSActuator : framework::GenericActuator{
+                                };
+                                interface NitrogenInFlowRateActuator : framework::GenericActuator{
+                                        void setOutput(in framework::NitrogenConsumer pConsumer, in long pIndex);
+                                        framework::NitrogenConsumer getOutput();
+                                        long getIndex();
+                                };
+                                interface NitrogenOutFlowRateActuator : framework::GenericActuator{
+                                        void setOutput(in framework::NitrogenProducer pProducer, in long pIndex);
+                                        framework::NitrogenProducer getOutput();
+                                        long getIndex();
+                                };
+                                interface AirRSActuator : framework::GenericActuator{
                                         void setOutput(in simulation::air::AirRS source);
                                         simulation::air::AirRS getOutput();
                                 };
@@ -1012,7 +1179,7 @@ module biosim{
                                 };
                                 interface CrewGroupActivityActuator : CrewGroupActuator{};
                         };
-			
+
                         module environment{
                                 interface EnvironmentActuator : framework::GenericActuator{
                                         void setOutput(in simulation::environment::SimEnvironment source);
@@ -1068,6 +1235,48 @@ module biosim{
                                 interface CO2AirEnvironmentOutFlowRateActuator : framework::GenericActuator{
                                         void setOutput(in framework::CO2AirProducer pProducer, in long pIndex);
                                         framework::CO2AirProducer getOutput();
+                                        long getIndex();
+                                };
+				
+				interface NitrogenAirStoreInFlowRateActuator : framework::GenericActuator{
+                                        void setOutput(in framework::NitrogenAirConsumer pConsumer, in long pIndex);
+                                        framework::NitrogenAirConsumer getOutput();
+                                        long getIndex();
+                                };
+                                interface NitrogenAirStoreOutFlowRateActuator : framework::GenericActuator{
+                                        void setOutput(in framework::NitrogenAirProducer pProducer, in long pIndex);
+                                        framework::NitrogenAirProducer getOutput();
+                                        long getIndex();
+                                };
+                                interface NitrogenAirEnvironmentInFlowRateActuator : framework::GenericActuator{
+                                        void setOutput(in framework::NitrogenAirConsumer pConsumer, in long pIndex);
+                                        framework::NitrogenAirConsumer getOutput();
+                                        long getIndex();
+                                };
+                                interface NitrogenAirEnvironmentOutFlowRateActuator : framework::GenericActuator{
+                                        void setOutput(in framework::NitrogenAirProducer pProducer, in long pIndex);
+                                        framework::NitrogenAirProducer getOutput();
+                                        long getIndex();
+                                };
+				
+				interface WaterAirStoreInFlowRateActuator : framework::GenericActuator{
+                                        void setOutput(in framework::WaterAirConsumer pConsumer, in long pIndex);
+                                        framework::WaterAirConsumer getOutput();
+                                        long getIndex();
+                                };
+                                interface WaterAirStoreOutFlowRateActuator : framework::GenericActuator{
+                                        void setOutput(in framework::WaterAirProducer pProducer, in long pIndex);
+                                        framework::WaterAirProducer getOutput();
+                                        long getIndex();
+                                };
+                                interface WaterAirEnvironmentInFlowRateActuator : framework::GenericActuator{
+                                        void setOutput(in framework::WaterAirConsumer pConsumer, in long pIndex);
+                                        framework::WaterAirConsumer getOutput();
+                                        long getIndex();
+                                };
+                                interface WaterAirEnvironmentOutFlowRateActuator : framework::GenericActuator{
+                                        void setOutput(in framework::WaterAirProducer pProducer, in long pIndex);
+                                        framework::WaterAirProducer getOutput();
                                         long getIndex();
                                 };
 

@@ -942,17 +942,20 @@ public class BioInitializer{
 			float O2Moles = 0f;
 			float waterMoles = 0f;
 			float otherMoles = 0f;
+			float nitrogenMoles = 0f;
 			float volume = 0f;
 			Node CO2MolesNode = null;
 			Node O2MolesNode = null;
 			Node waterMolesNode = null;
 			Node otherMolesNode = null;
+			Node nitrogenMolesNode = null;
 			try{
 				volume = Float.parseFloat(node.getAttributes().getNamedItem("initialVolume").getNodeValue());
 				CO2MolesNode = node.getAttributes().getNamedItem("initialCO2Moles");
 				O2MolesNode = node.getAttributes().getNamedItem("initialO2Moles");
 				waterMolesNode = node.getAttributes().getNamedItem("initialWaterMoles");
 				otherMolesNode = node.getAttributes().getNamedItem("initialOtherMoles");
+				otherMolesNode = node.getAttributes().getNamedItem("initialNitrogenMoles");
 				if (CO2MolesNode != null)
 					CO2Moles = Float.parseFloat(CO2MolesNode.getNodeValue());
 				if (O2MolesNode != null)
@@ -961,13 +964,15 @@ public class BioInitializer{
 					waterMoles = Float.parseFloat(waterMolesNode.getNodeValue());
 				if (otherMolesNode != null)
 					otherMoles = Float.parseFloat(otherMolesNode.getNodeValue());
+				if (nitrogenMolesNode != null)
+					nitrogenMoles = Float.parseFloat(nitrogenMolesNode.getNodeValue());
 			}
 			catch (NumberFormatException e){
 
 				e.printStackTrace();
 			}
-			if ((CO2MolesNode != null) || (O2MolesNode != null) || (waterMolesNode != null) || (otherMolesNode != null))
-				mySimEnvironmentImpl = new SimEnvironmentImpl(CO2Moles, O2Moles, otherMoles, waterMoles, volume, moduleName, myID);
+			if ((CO2MolesNode != null) || (O2MolesNode != null) || (waterMolesNode != null) || (otherMolesNode != null) || (nitrogenMolesNode != null))
+				mySimEnvironmentImpl = new SimEnvironmentImpl(CO2Moles, O2Moles, otherMoles, waterMoles, nitrogenMoles, volume, moduleName, myID);
 			else
 				mySimEnvironmentImpl = new SimEnvironmentImpl(myID, volume, moduleName);
 			setupBioModule(mySimEnvironmentImpl, node);

@@ -92,6 +92,15 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 	private float[] O2InActualFlowRates;
 	private float[] O2OutDesiredFlowRates;
 	private float[] O2InDesiredFlowRates;
+	
+	private NitrogenStore[] myNitrogenInputs;
+	private NitrogenStore[] myNitrogenOutputs;
+	private float[] nitrogenOutMaxFlowRates;
+	private float[] nitrogenInMaxFlowRates;
+	private float[] nitrogenOutActualFlowRates;
+	private float[] nitrogenInActualFlowRates;
+	private float[] nitrogenOutDesiredFlowRates;
+	private float[] nitrogenInDesiredFlowRates;
 
 	private CO2Store[] myCO2Inputs;
 	private CO2Store[] myCO2Outputs;
@@ -119,6 +128,24 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 	private float[] O2AirStoreInActualFlowRates;
 	private float[] O2AirStoreOutDesiredFlowRates;
 	private float[] O2AirStoreInDesiredFlowRates;
+	
+	private NitrogenStore[] myNitrogenAirStoreInputs;
+	private NitrogenStore[] myNitrogenAirStoreOutputs;
+	private float[] nitrogenAirStoreOutMaxFlowRates;
+	private float[] nitrogenAirStoreInMaxFlowRates;
+	private float[] nitrogenAirStoreOutActualFlowRates;
+	private float[] nitrogenAirStoreInActualFlowRates;
+	private float[] nitrogenAirStoreOutDesiredFlowRates;
+	private float[] nitrogenAirStoreInDesiredFlowRates;
+	
+	private PotableWaterStore[] myWaterAirStoreInputs;
+	private PotableWaterStore[] myWaterAirStoreOutputs;
+	private float[] waterAirStoreOutMaxFlowRates;
+	private float[] waterAirStoreInMaxFlowRates;
+	private float[] waterAirStoreOutActualFlowRates;
+	private float[] waterAirStoreInActualFlowRates;
+	private float[] waterAirStoreOutDesiredFlowRates;
+	private float[] waterAirStoreInDesiredFlowRates;
 
 	private SimEnvironment[] myCO2AirEnvironmentInputs;
 	private SimEnvironment[] myCO2AirEnvironmentOutputs;
@@ -137,7 +164,25 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 	private float[] O2AirEnvironmentInActualFlowRates;
 	private float[] O2AirEnvironmentOutDesiredFlowRates;
 	private float[] O2AirEnvironmentInDesiredFlowRates;
-                                              
+
+	private SimEnvironment[] myNitrogenAirEnvironmentInputs;
+	private SimEnvironment[] myNitrogenAirEnvironmentOutputs;
+	private float[] nitrogenAirEnvironmentOutMaxFlowRates;
+	private float[] nitrogenAirEnvironmentInMaxFlowRates;
+	private float[] nitrogenAirEnvironmentOutActualFlowRates;
+	private float[] nitrogenAirEnvironmentInActualFlowRates;
+	private float[] nitrogenAirEnvironmentOutDesiredFlowRates;
+	private float[] nitrogenAirEnvironmentInDesiredFlowRates;
+
+	private SimEnvironment[] myWaterAirEnvironmentInputs;
+	private SimEnvironment[] myWaterAirEnvironmentOutputs;
+	private float[] waterAirEnvironmentOutMaxFlowRates;
+	private float[] waterAirEnvironmentInMaxFlowRates;
+	private float[] waterAirEnvironmentOutActualFlowRates;
+	private float[] waterAirEnvironmentInActualFlowRates;
+	private float[] waterAirEnvironmentOutDesiredFlowRates;
+	private float[] waterAirEnvironmentInDesiredFlowRates;
+
 	public InjectorImpl(int pID, String pName){
 		super(pID, pName);
 		myPowerOutputs = new PowerStore[0];
@@ -220,6 +265,15 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		CO2InActualFlowRates = new float[0];
 		CO2OutDesiredFlowRates = new float[0];
 		CO2InDesiredFlowRates = new float[0];
+		
+		myNitrogenOutputs = new NitrogenStore[0];
+		myNitrogenInputs = new NitrogenStore[0];
+		nitrogenOutMaxFlowRates = new float[0];
+		nitrogenInMaxFlowRates = new float[0];
+		nitrogenOutActualFlowRates = new float[0];
+		nitrogenInActualFlowRates = new float[0];
+		nitrogenOutDesiredFlowRates = new float[0];
+		nitrogenInDesiredFlowRates = new float[0];
 
 		myCO2AirStoreOutputs = new CO2Store[0];
 		myCO2AirStoreInputs = new CO2Store[0];
@@ -230,15 +284,6 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		CO2AirStoreOutDesiredFlowRates = new float[0];
 		CO2AirStoreInDesiredFlowRates = new float[0];
 
-		myO2AirStoreOutputs = new O2Store[0];
-		myO2AirStoreInputs = new O2Store[0];
-		O2AirStoreOutMaxFlowRates = new float[0];
-		O2AirStoreInMaxFlowRates = new float[0];
-		O2AirStoreOutActualFlowRates = new float[0];
-		O2AirStoreInActualFlowRates = new float[0];
-		O2AirStoreOutDesiredFlowRates = new float[0];
-		O2AirStoreInDesiredFlowRates = new float[0];
-
 		myCO2AirEnvironmentOutputs = new SimEnvironment[0];
 		myCO2AirEnvironmentInputs = new SimEnvironment[0];
 		CO2AirEnvironmentOutMaxFlowRates = new float[0];
@@ -248,6 +293,15 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		CO2AirEnvironmentOutDesiredFlowRates = new float[0];
 		CO2AirEnvironmentInDesiredFlowRates = new float[0];
 
+		myO2AirStoreOutputs = new O2Store[0];
+		myO2AirStoreInputs = new O2Store[0];
+		O2AirStoreOutMaxFlowRates = new float[0];
+		O2AirStoreInMaxFlowRates = new float[0];
+		O2AirStoreOutActualFlowRates = new float[0];
+		O2AirStoreInActualFlowRates = new float[0];
+		O2AirStoreOutDesiredFlowRates = new float[0];
+		O2AirStoreInDesiredFlowRates = new float[0];
+
 		myO2AirEnvironmentOutputs = new SimEnvironment[0];
 		myO2AirEnvironmentInputs = new SimEnvironment[0];
 		O2AirEnvironmentOutMaxFlowRates = new float[0];
@@ -256,6 +310,42 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		O2AirEnvironmentInActualFlowRates = new float[0];
 		O2AirEnvironmentOutDesiredFlowRates = new float[0];
 		O2AirEnvironmentInDesiredFlowRates = new float[0];
+		
+		myNitrogenAirStoreOutputs = new NitrogenStore[0];
+		myNitrogenAirStoreInputs = new NitrogenStore[0];
+		nitrogenAirStoreOutMaxFlowRates = new float[0];
+		nitrogenAirStoreInMaxFlowRates = new float[0];
+		nitrogenAirStoreOutActualFlowRates = new float[0];
+		nitrogenAirStoreInActualFlowRates = new float[0];
+		nitrogenAirStoreOutDesiredFlowRates = new float[0];
+		nitrogenAirStoreInDesiredFlowRates = new float[0];
+
+		myNitrogenAirEnvironmentOutputs = new SimEnvironment[0];
+		myNitrogenAirEnvironmentInputs = new SimEnvironment[0];
+		nitrogenAirEnvironmentOutMaxFlowRates = new float[0];
+		nitrogenAirEnvironmentInMaxFlowRates = new float[0];
+		nitrogenAirEnvironmentOutActualFlowRates = new float[0];
+		nitrogenAirEnvironmentInActualFlowRates = new float[0];
+		nitrogenAirEnvironmentOutDesiredFlowRates = new float[0];
+		nitrogenAirEnvironmentInDesiredFlowRates = new float[0];
+		
+		myWaterAirStoreOutputs = new PotableWaterStore[0];
+		myWaterAirStoreInputs = new PotableWaterStore[0];
+		waterAirStoreOutMaxFlowRates = new float[0];
+		waterAirStoreInMaxFlowRates = new float[0];
+		waterAirStoreOutActualFlowRates = new float[0];
+		waterAirStoreInActualFlowRates = new float[0];
+		waterAirStoreOutDesiredFlowRates = new float[0];
+		waterAirStoreInDesiredFlowRates = new float[0];
+
+		myWaterAirEnvironmentOutputs = new SimEnvironment[0];
+		myWaterAirEnvironmentInputs = new SimEnvironment[0];
+		waterAirEnvironmentOutMaxFlowRates = new float[0];
+		waterAirEnvironmentInMaxFlowRates = new float[0];
+		waterAirEnvironmentOutActualFlowRates = new float[0];
+		waterAirEnvironmentInActualFlowRates = new float[0];
+		waterAirEnvironmentOutDesiredFlowRates = new float[0];
+		waterAirEnvironmentInDesiredFlowRates = new float[0];
 	}
 
 
@@ -288,35 +378,38 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 
 		float CO2Gathered = getMostResourceFromStore(myCO2Inputs, CO2InMaxFlowRates, CO2InDesiredFlowRates, CO2InActualFlowRates);
 		float CO2Pushed = pushResourceToStore(myCO2Outputs, CO2OutMaxFlowRates, CO2OutDesiredFlowRates, CO2OutActualFlowRates, CO2Gathered);
+		
+		float nitrogenGathered = getMostResourceFromStore(myNitrogenInputs, nitrogenInMaxFlowRates, nitrogenInDesiredFlowRates, nitrogenInActualFlowRates);
+		float nitrogenPushed = pushResourceToStore(myNitrogenOutputs, nitrogenOutMaxFlowRates, nitrogenOutDesiredFlowRates, nitrogenOutActualFlowRates, nitrogenGathered);
 
-
-		Breath gatheredAir = new Breath(0f, 0f, 0f, 0f);
+		Breath gatheredAir = new Breath(0f, 0f, 0f, 0f, 0f);
 		for (int i = 0; (i < myAirInputs.length); i++){
 			float amountToTake = Math.min(airInMaxFlowRates[i], airInDesiredFlowRates[i]);
 			Breath currentBreath = myAirInputs[i].takeAirMoles(amountToTake);
 			gatheredAir.O2 += currentBreath.O2;
 			gatheredAir.CO2 += currentBreath.CO2;
 			gatheredAir.other += currentBreath.other;
-			airInActualFlowRates[i] = currentBreath.O2 + currentBreath.CO2 + currentBreath.other;
+			airInActualFlowRates[i] = currentBreath.O2 + currentBreath.CO2 + currentBreath.other + currentBreath.nitrogen;
 		}
 
-		Breath distributedAir = new Breath(gatheredAir.O2, gatheredAir.CO2, gatheredAir.water, gatheredAir.other);
-		for (int i = 0; (i < myAirOutputs.length) && ((distributedAir.O2 + distributedAir.CO2 + distributedAir.other) > 0); i++){
+		Breath distributedAir = new Breath(gatheredAir.O2, gatheredAir.CO2, gatheredAir.water, gatheredAir.other, gatheredAir.nitrogen);
+		for (int i = 0; (i < myAirOutputs.length) && ((distributedAir.O2 + distributedAir.CO2 + distributedAir.other + distributedAir.nitrogen) > 0); i++){
 			Breath breathAdded = myAirInputs[i].addBreath(distributedAir);
 			distributedAir.O2 -= breathAdded.O2;
 			distributedAir.CO2 -= breathAdded.CO2;
 			distributedAir.other -= breathAdded.other;
-			airOutActualFlowRates[i] = breathAdded.O2 + breathAdded.CO2 + breathAdded.other;
+			distributedAir.nitrogen -= breathAdded.nitrogen;
+			airOutActualFlowRates[i] = breathAdded.O2 + breathAdded.CO2 + breathAdded.other + breathAdded.nitrogen;
 		}
 
-		//Get CO2
+		//Get CO2 from stores/environment
 		float gatheredCO2Air = getMostResourceFromStore(myCO2AirStoreInputs, CO2AirStoreInMaxFlowRates, CO2AirStoreInDesiredFlowRates, CO2AirStoreInActualFlowRates);
 		for (int i = 0; i < myCO2AirEnvironmentInputs.length; i++){
 			float amountToTake = Math.min(CO2AirEnvironmentInMaxFlowRates[i], CO2AirEnvironmentInDesiredFlowRates[i]);
 			CO2AirEnvironmentInActualFlowRates[i] = myCO2AirEnvironmentInputs[i].takeCO2Moles(amountToTake);
 			gatheredCO2Air += CO2AirEnvironmentInActualFlowRates[i];
 		}
-		//Push CO2
+		//Push CO2 to stores/environment
 		float CO2AirPushed = pushResourceToStore(myCO2AirStoreOutputs, CO2AirStoreOutMaxFlowRates, CO2AirStoreOutDesiredFlowRates, CO2AirStoreOutActualFlowRates, gatheredCO2Air);
 		float CO2AirLeft = gatheredCO2Air - CO2AirPushed;
 		for (int i = 0; (i < myCO2AirEnvironmentOutputs.length) && (CO2AirLeft > 0); i++){
@@ -326,14 +419,14 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		}
 		CO2AirPushed = gatheredCO2Air - CO2AirLeft;
 
-		//Get O2
+		//Get O2 from stores/environment
 		float gatheredO2Air = getMostResourceFromStore(myO2AirStoreInputs, O2AirStoreInMaxFlowRates, O2AirStoreInDesiredFlowRates, O2AirStoreInActualFlowRates);
 		for (int i = 0; i < myO2AirEnvironmentInputs.length; i++){
 			float amountToTake = Math.min(O2AirEnvironmentInMaxFlowRates[i], O2AirEnvironmentInDesiredFlowRates[i]);
 			O2AirEnvironmentInActualFlowRates[i] = myO2AirEnvironmentInputs[i].takeO2Moles(amountToTake);
 			gatheredO2Air += O2AirEnvironmentInActualFlowRates[i];
 		}
-		//Push O2
+		//Push O2 to stores/environment
 		float O2AirPushed = pushResourceToStore(myO2AirStoreOutputs, O2AirStoreOutMaxFlowRates, O2AirStoreOutDesiredFlowRates, O2AirStoreOutActualFlowRates, gatheredO2Air);
 		float O2AirLeft = gatheredO2Air - O2AirPushed;
 		for (int i = 0; (i < myO2AirEnvironmentOutputs.length) && (O2AirLeft > 0); i++){
@@ -342,6 +435,40 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 			O2AirLeft -= O2AirEnvironmentOutActualFlowRates[i];
 		}
 		O2AirPushed = gatheredO2Air - O2AirLeft;
+		
+		//Get nitrogen from stores/environment
+		float gatheredNitrogenAir = getMostResourceFromStore(myNitrogenAirStoreInputs, nitrogenAirStoreInMaxFlowRates, nitrogenAirStoreInDesiredFlowRates, nitrogenAirStoreInActualFlowRates);
+		for (int i = 0; i < myNitrogenAirEnvironmentInputs.length; i++){
+			float amountToTake = Math.min(nitrogenAirEnvironmentInMaxFlowRates[i], nitrogenAirEnvironmentInDesiredFlowRates[i]);
+			nitrogenAirEnvironmentInActualFlowRates[i] = myNitrogenAirEnvironmentInputs[i].takeNitrogenMoles(amountToTake);
+			gatheredNitrogenAir += nitrogenAirEnvironmentInActualFlowRates[i];
+		}
+		//Push nitrogen to stores/environment
+		float nitrogenAirPushed = pushResourceToStore(myNitrogenAirStoreOutputs, nitrogenAirStoreOutMaxFlowRates, nitrogenAirStoreOutDesiredFlowRates, nitrogenAirStoreOutActualFlowRates, gatheredNitrogenAir);
+		float nitrogenAirLeft = gatheredNitrogenAir - nitrogenAirPushed;
+		for (int i = 0; (i < myNitrogenAirEnvironmentOutputs.length) && (nitrogenAirLeft > 0); i++){
+			float amountToPush = Math.min(nitrogenAirEnvironmentOutMaxFlowRates[i], nitrogenAirEnvironmentOutDesiredFlowRates[i]);
+			nitrogenAirEnvironmentOutActualFlowRates[i] = myNitrogenAirEnvironmentOutputs[i].addNitrogenMoles(amountToPush);
+			nitrogenAirLeft -= nitrogenAirEnvironmentOutActualFlowRates[i];
+		}
+		nitrogenAirPushed = gatheredNitrogenAir - nitrogenAirLeft;
+		
+		//Get water from stores/environment
+		float gatheredWaterAir = getMostResourceFromStore(myWaterAirStoreInputs, waterAirStoreInMaxFlowRates, waterAirStoreInDesiredFlowRates, waterAirStoreInActualFlowRates);
+		for (int i = 0; i < myWaterAirEnvironmentInputs.length; i++){
+			float amountToTake = Math.min(waterAirEnvironmentInMaxFlowRates[i], waterAirEnvironmentInDesiredFlowRates[i]);
+			waterAirEnvironmentInActualFlowRates[i] = myWaterAirEnvironmentInputs[i].takeWaterMoles(amountToTake);
+			gatheredWaterAir += waterAirEnvironmentInActualFlowRates[i];
+		}
+		//Push water to stores/environment
+		float waterAirPushed = pushResourceToStore(myWaterAirStoreOutputs, waterAirStoreOutMaxFlowRates, waterAirStoreOutDesiredFlowRates, waterAirStoreOutActualFlowRates, gatheredWaterAir);
+		float waterAirLeft = gatheredWaterAir - waterAirPushed;
+		for (int i = 0; (i < myWaterAirEnvironmentOutputs.length) && (waterAirLeft > 0); i++){
+			float amountToPush = Math.min(waterAirEnvironmentOutMaxFlowRates[i], waterAirEnvironmentOutDesiredFlowRates[i]);
+			waterAirEnvironmentOutActualFlowRates[i] = myWaterAirEnvironmentOutputs[i].addWaterMoles(amountToPush);
+			waterAirLeft -= waterAirEnvironmentOutActualFlowRates[i];
+		}
+		waterAirPushed = gatheredWaterAir - waterAirLeft;
 	}
 
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
@@ -1292,5 +1419,346 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 	public SimEnvironment[] getO2AirEnvironmentOutputs(){
 		return myO2AirEnvironmentOutputs;
 	}
+	
+	//Nitrogen Inputs
+	public void setNitrogenInputMaxFlowRate(float amount, int index){
+		nitrogenInMaxFlowRates[index] = amount;
+	}
+	public float getNitrogenInputMaxFlowRate(int index){
+		return nitrogenInMaxFlowRates[index];
+	}
+	public float[] getNitrogenInputMaxFlowRates(){
+		return nitrogenInMaxFlowRates;
+	}
+	public void setNitrogenInputDesiredFlowRate(float amount, int index){
+		nitrogenInDesiredFlowRates[index] = amount;
+	}
+	public float getNitrogenInputDesiredFlowRate(int index){
+		return nitrogenInDesiredFlowRates[index];
+	}
+	public float[] getNitrogenInputDesiredFlowRates(){
+		return nitrogenInDesiredFlowRates;
+	}
+	public float getNitrogenInputActualFlowRate(int index){
+		return nitrogenInActualFlowRates[index];
+	}
+	public float[] getNitrogenInputActualFlowRates(){
+		return nitrogenInActualFlowRates;
+	}
+	public NitrogenStore[] getNitrogenInputs(){
+		return myNitrogenInputs;
+	}
+	public void setNitrogenInputs(NitrogenStore[] sources, float[] maxFlowRates, float[] desiredFlowRates){
+		myNitrogenInputs = sources;
+		nitrogenInMaxFlowRates = maxFlowRates;
+		nitrogenInDesiredFlowRates = desiredFlowRates;
+		nitrogenInActualFlowRates = new float[nitrogenInDesiredFlowRates.length];
+	}
 
+	//Nitrogen Outputs
+	public void setNitrogenOutputMaxFlowRate(float amount, int index){
+		nitrogenOutMaxFlowRates[index] = amount;
+	}
+	public float getNitrogenOutputMaxFlowRate(int index){
+		return nitrogenOutMaxFlowRates[index];
+	}
+	public float[] getNitrogenOutputMaxFlowRates(){
+		return nitrogenOutMaxFlowRates;
+	}
+	public void setNitrogenOutputDesiredFlowRate(float amount, int index){
+		nitrogenOutDesiredFlowRates[index] = amount;
+	}
+	public float getNitrogenOutputDesiredFlowRate(int index){
+		return nitrogenOutDesiredFlowRates[index];
+	}
+	public float[] getNitrogenOutputDesiredFlowRates(){
+		return nitrogenOutDesiredFlowRates;
+	}
+	public float getNitrogenOutputActualFlowRate(int index){
+		return nitrogenOutActualFlowRates[index];
+	}
+	public float[] getNitrogenOutputActualFlowRates(){
+		return nitrogenOutActualFlowRates;
+	}
+	public void setNitrogenOutputs(NitrogenStore[] destinations, float[] maxFlowRates, float[] desiredFlowRates){
+		myNitrogenOutputs = destinations;
+		nitrogenOutMaxFlowRates = maxFlowRates;
+		nitrogenOutDesiredFlowRates = desiredFlowRates;
+		nitrogenOutActualFlowRates = new float[nitrogenOutDesiredFlowRates.length];
+	}
+	public NitrogenStore[] getNitrogenOutputs(){
+		return myNitrogenOutputs;
+	}
+
+	//Nitrogen Air Inputs
+	public void setNitrogenAirStoreInputMaxFlowRate(float amount, int index){
+		nitrogenAirStoreInMaxFlowRates[index] = amount;
+	}
+	public void setNitrogenAirEnvironmentInputMaxFlowRate(float amount, int index){
+		nitrogenAirEnvironmentInMaxFlowRates[index] = amount;
+	}
+	public float getNitrogenAirStoreInputMaxFlowRate(int index){
+		return nitrogenAirStoreInMaxFlowRates[index];
+	}
+	public float getNitrogenAirEnvironmentInputMaxFlowRate(int index){
+		return nitrogenAirEnvironmentInMaxFlowRates[index];
+	}
+	public float[] getNitrogenAirStoreInputMaxFlowRates(){
+		return nitrogenAirStoreInMaxFlowRates;
+	}
+	public float[] getNitrogenAirEnvironmentInputMaxFlowRates(){
+		return nitrogenAirEnvironmentInMaxFlowRates;
+	}
+	public void setNitrogenAirStoreInputDesiredFlowRate(float amount, int index){
+		nitrogenAirStoreInDesiredFlowRates[index] = amount;
+	}
+	public void setNitrogenAirEnvironmentInputDesiredFlowRate(float amount, int index){
+		nitrogenAirEnvironmentInDesiredFlowRates[index] = amount;
+	}
+	public float getNitrogenAirStoreInputDesiredFlowRate(int index){
+		return nitrogenAirStoreInDesiredFlowRates[index];
+	}
+	public float getNitrogenAirEnvironmentInputDesiredFlowRate(int index){
+		return nitrogenAirEnvironmentInDesiredFlowRates[index];
+	}
+	public float[] getNitrogenAirStoreInputDesiredFlowRates(){
+		return nitrogenAirStoreInDesiredFlowRates;
+	}
+	public float[] getNitrogenAirEnvironmentInputDesiredFlowRates(){
+		return nitrogenAirEnvironmentInDesiredFlowRates;
+	}
+	public float getNitrogenAirStoreInputActualFlowRate(int index){
+		return nitrogenAirStoreInActualFlowRates[index];
+	}
+	public float getNitrogenAirEnvironmentInputActualFlowRate(int index){
+		return nitrogenAirEnvironmentInActualFlowRates[index];
+	}
+	public float[] getNitrogenAirStoreInputActualFlowRates(){
+		return nitrogenAirStoreInActualFlowRates;
+	}
+	public float[] getNitrogenAirEnvironmentInputActualFlowRates(){
+		return nitrogenAirEnvironmentInActualFlowRates;
+	}
+	public void setNitrogenAirStoreInputs(NitrogenStore[] sources, float[] maxFlowRates, float[] desiredFlowRates){
+		myNitrogenAirStoreInputs = sources;
+		nitrogenAirStoreInMaxFlowRates = maxFlowRates;
+		nitrogenAirStoreInDesiredFlowRates = desiredFlowRates;
+		nitrogenAirStoreInActualFlowRates = new float[nitrogenAirStoreInDesiredFlowRates.length];
+	}
+	public void setNitrogenAirEnvironmentInputs(SimEnvironment[] sources, float[] maxFlowRates, float[] desiredFlowRates){
+		myNitrogenAirEnvironmentInputs = sources;
+		nitrogenAirEnvironmentInMaxFlowRates = maxFlowRates;
+		nitrogenAirEnvironmentInDesiredFlowRates = desiredFlowRates;
+		nitrogenAirEnvironmentInActualFlowRates = new float[nitrogenAirEnvironmentInDesiredFlowRates.length];
+	}
+	public NitrogenStore[] getNitrogenAirStoreInputs(){
+		return myNitrogenAirStoreInputs;
+	}
+	public SimEnvironment[] getNitrogenAirEnvironmentInputs(){
+		return myNitrogenAirEnvironmentInputs;
+	}
+
+	//Nitrogen Air Outputs
+	public void setNitrogenAirStoreOutputMaxFlowRate(float amount, int index){
+		nitrogenAirStoreOutMaxFlowRates[index] = amount;
+	}
+	public void setNitrogenAirEnvironmentOutputMaxFlowRate(float amount, int index){
+		nitrogenAirEnvironmentOutMaxFlowRates[index] = amount;
+	}
+	public float getNitrogenAirStoreOutputMaxFlowRate(int index){
+		return nitrogenAirStoreOutMaxFlowRates[index];
+	}
+	public float getNitrogenAirEnvironmentOutputMaxFlowRate(int index){
+		return nitrogenAirEnvironmentOutMaxFlowRates[index];
+	}
+	public float[] getNitrogenAirStoreOutputMaxFlowRates(){
+		return nitrogenAirStoreOutMaxFlowRates;
+	}
+	public float[] getNitrogenAirEnvironmentOutputMaxFlowRates(){
+		return nitrogenAirEnvironmentOutMaxFlowRates;
+	}
+	public void setNitrogenAirStoreOutputDesiredFlowRate(float amount, int index){
+		nitrogenAirStoreOutDesiredFlowRates[index] = amount;
+	}
+	public void setNitrogenAirEnvironmentOutputDesiredFlowRate(float amount, int index){
+		nitrogenAirEnvironmentOutDesiredFlowRates[index] = amount;
+	}
+	public float getNitrogenAirStoreOutputDesiredFlowRate(int index){
+		return nitrogenAirStoreOutDesiredFlowRates[index];
+	}
+	public float getNitrogenAirEnvironmentOutputDesiredFlowRate(int index){
+		return nitrogenAirEnvironmentOutDesiredFlowRates[index];
+	}
+	public float[] getNitrogenAirStoreOutputDesiredFlowRates(){
+		return nitrogenAirStoreOutDesiredFlowRates;
+	}
+	public float[] getNitrogenAirEnvironmentOutputDesiredFlowRates(){
+		return nitrogenAirEnvironmentOutDesiredFlowRates;
+	}
+	public float getNitrogenAirStoreOutputActualFlowRate(int index){
+		return nitrogenAirStoreOutActualFlowRates[index];
+	}
+	public float getNitrogenAirEnvironmentOutputActualFlowRate(int index){
+		return nitrogenAirEnvironmentOutActualFlowRates[index];
+	}
+	public float[] getNitrogenAirStoreOutputActualFlowRates(){
+		return nitrogenAirStoreOutActualFlowRates;
+	}
+	public float[] getNitrogenAirEnvironmentOutputActualFlowRates(){
+		return nitrogenAirEnvironmentOutActualFlowRates;
+	}
+	public void setNitrogenAirStoreOutputs(NitrogenStore[] destinations, float[] maxFlowRates, float[] desiredFlowRates){
+		myNitrogenAirStoreOutputs = destinations;
+		nitrogenAirStoreOutMaxFlowRates = maxFlowRates;
+		nitrogenAirStoreOutDesiredFlowRates = desiredFlowRates;
+		nitrogenAirStoreOutActualFlowRates = new float[nitrogenAirStoreOutDesiredFlowRates.length];
+	}
+	public void setNitrogenAirEnvironmentOutputs(SimEnvironment[] destinations, float[] maxFlowRates, float[] desiredFlowRates){
+		myNitrogenAirEnvironmentOutputs = destinations;
+		nitrogenAirEnvironmentOutMaxFlowRates = maxFlowRates;
+		nitrogenAirEnvironmentOutDesiredFlowRates = desiredFlowRates;
+		nitrogenAirEnvironmentOutActualFlowRates = new float[nitrogenAirEnvironmentOutDesiredFlowRates.length];
+	}
+	public NitrogenStore[] getNitrogenAirStoreOutputs(){
+		return myNitrogenAirStoreOutputs;
+	}
+	public SimEnvironment[] getNitrogenAirEnvironmentOutputs(){
+		return myNitrogenAirEnvironmentOutputs;
+	}
+	
+	//Water Air Inputs
+	public void setWaterAirStoreInputMaxFlowRate(float amount, int index){
+		waterAirStoreInMaxFlowRates[index] = amount;
+	}
+	public void setWaterAirEnvironmentInputMaxFlowRate(float amount, int index){
+		waterAirEnvironmentInMaxFlowRates[index] = amount;
+	}
+	public float getWaterAirStoreInputMaxFlowRate(int index){
+		return waterAirStoreInMaxFlowRates[index];
+	}
+	public float getWaterAirEnvironmentInputMaxFlowRate(int index){
+		return waterAirEnvironmentInMaxFlowRates[index];
+	}
+	public float[] getWaterAirStoreInputMaxFlowRates(){
+		return waterAirStoreInMaxFlowRates;
+	}
+	public float[] getWaterAirEnvironmentInputMaxFlowRates(){
+		return waterAirEnvironmentInMaxFlowRates;
+	}
+	public void setWaterAirStoreInputDesiredFlowRate(float amount, int index){
+		waterAirStoreInDesiredFlowRates[index] = amount;
+	}
+	public void setWaterAirEnvironmentInputDesiredFlowRate(float amount, int index){
+		waterAirEnvironmentInDesiredFlowRates[index] = amount;
+	}
+	public float getWaterAirStoreInputDesiredFlowRate(int index){
+		return waterAirStoreInDesiredFlowRates[index];
+	}
+	public float getWaterAirEnvironmentInputDesiredFlowRate(int index){
+		return waterAirEnvironmentInDesiredFlowRates[index];
+	}
+	public float[] getWaterAirStoreInputDesiredFlowRates(){
+		return waterAirStoreInDesiredFlowRates;
+	}
+	public float[] getWaterAirEnvironmentInputDesiredFlowRates(){
+		return waterAirEnvironmentInDesiredFlowRates;
+	}
+	public float getWaterAirStoreInputActualFlowRate(int index){
+		return waterAirStoreInActualFlowRates[index];
+	}
+	public float getWaterAirEnvironmentInputActualFlowRate(int index){
+		return waterAirEnvironmentInActualFlowRates[index];
+	}
+	public float[] getWaterAirStoreInputActualFlowRates(){
+		return waterAirStoreInActualFlowRates;
+	}
+	public float[] getWaterAirEnvironmentInputActualFlowRates(){
+		return waterAirEnvironmentInActualFlowRates;
+	}
+	public void setWaterAirStoreInputs(PotableWaterStore[] sources, float[] maxFlowRates, float[] desiredFlowRates){
+		myWaterAirStoreInputs = sources;
+		waterAirStoreInMaxFlowRates = maxFlowRates;
+		waterAirStoreInDesiredFlowRates = desiredFlowRates;
+		waterAirStoreInActualFlowRates = new float[waterAirStoreInDesiredFlowRates.length];
+	}
+	public void setWaterAirEnvironmentInputs(SimEnvironment[] sources, float[] maxFlowRates, float[] desiredFlowRates){
+		myWaterAirEnvironmentInputs = sources;
+		waterAirEnvironmentInMaxFlowRates = maxFlowRates;
+		waterAirEnvironmentInDesiredFlowRates = desiredFlowRates;
+		waterAirEnvironmentInActualFlowRates = new float[waterAirEnvironmentInDesiredFlowRates.length];
+	}
+	public PotableWaterStore[] getWaterAirStoreInputs(){
+		return myWaterAirStoreInputs;
+	}
+	public SimEnvironment[] getWaterAirEnvironmentInputs(){
+		return myWaterAirEnvironmentInputs;
+	}
+
+	//Water Air Outputs
+	public void setWaterAirStoreOutputMaxFlowRate(float amount, int index){
+		waterAirStoreOutMaxFlowRates[index] = amount;
+	}
+	public void setWaterAirEnvironmentOutputMaxFlowRate(float amount, int index){
+		waterAirEnvironmentOutMaxFlowRates[index] = amount;
+	}
+	public float getWaterAirStoreOutputMaxFlowRate(int index){
+		return waterAirStoreOutMaxFlowRates[index];
+	}
+	public float getWaterAirEnvironmentOutputMaxFlowRate(int index){
+		return waterAirEnvironmentOutMaxFlowRates[index];
+	}
+	public float[] getWaterAirStoreOutputMaxFlowRates(){
+		return waterAirStoreOutMaxFlowRates;
+	}
+	public float[] getWaterAirEnvironmentOutputMaxFlowRates(){
+		return waterAirEnvironmentOutMaxFlowRates;
+	}
+	public void setWaterAirStoreOutputDesiredFlowRate(float amount, int index){
+		waterAirStoreOutDesiredFlowRates[index] = amount;
+	}
+	public void setWaterAirEnvironmentOutputDesiredFlowRate(float amount, int index){
+		waterAirEnvironmentOutDesiredFlowRates[index] = amount;
+	}
+	public float getWaterAirStoreOutputDesiredFlowRate(int index){
+		return waterAirStoreOutDesiredFlowRates[index];
+	}
+	public float getWaterAirEnvironmentOutputDesiredFlowRate(int index){
+		return waterAirEnvironmentOutDesiredFlowRates[index];
+	}
+	public float[] getWaterAirStoreOutputDesiredFlowRates(){
+		return waterAirStoreOutDesiredFlowRates;
+	}
+	public float[] getWaterAirEnvironmentOutputDesiredFlowRates(){
+		return waterAirEnvironmentOutDesiredFlowRates;
+	}
+	public float getWaterAirStoreOutputActualFlowRate(int index){
+		return waterAirStoreOutActualFlowRates[index];
+	}
+	public float getWaterAirEnvironmentOutputActualFlowRate(int index){
+		return waterAirEnvironmentOutActualFlowRates[index];
+	}
+	public float[] getWaterAirStoreOutputActualFlowRates(){
+		return waterAirStoreOutActualFlowRates;
+	}
+	public float[] getWaterAirEnvironmentOutputActualFlowRates(){
+		return waterAirEnvironmentOutActualFlowRates;
+	}
+	public void setWaterAirStoreOutputs(PotableWaterStore[] destinations, float[] maxFlowRates, float[] desiredFlowRates){
+		myWaterAirStoreOutputs = destinations;
+		waterAirStoreOutMaxFlowRates = maxFlowRates;
+		waterAirStoreOutDesiredFlowRates = desiredFlowRates;
+		waterAirStoreOutActualFlowRates = new float[waterAirStoreOutDesiredFlowRates.length];
+	}
+	public void setWaterAirEnvironmentOutputs(SimEnvironment[] destinations, float[] maxFlowRates, float[] desiredFlowRates){
+		myWaterAirEnvironmentOutputs = destinations;
+		waterAirEnvironmentOutMaxFlowRates = maxFlowRates;
+		waterAirEnvironmentOutDesiredFlowRates = desiredFlowRates;
+		waterAirEnvironmentOutActualFlowRates = new float[waterAirEnvironmentOutDesiredFlowRates.length];
+	}
+	public PotableWaterStore[] getWaterAirStoreOutputs(){
+		return myWaterAirStoreOutputs;
+	}
+	public SimEnvironment[] getWaterAirEnvironmentOutputs(){
+		return myWaterAirEnvironmentOutputs;
+	}
 }

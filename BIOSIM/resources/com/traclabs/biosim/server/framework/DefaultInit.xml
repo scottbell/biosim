@@ -106,30 +106,30 @@
 		<framework>
 			<Accumulator name="Accumulator">
 				<O2AirConsumer>
-					<environmentInputs maxFlowRates="14063" desiredFlowRates="10" inputs="PlantEnvironment"/>
+					<environmentInputs maxFlowRates="14063" desiredFlowRates="0" inputs="PlantEnvironment"/>
 				</O2AirConsumer>
 				<O2AirProducer>
-					<storeOutputs  maxFlowRates="14063" desiredFlowRates="10" outputs="O2Store"/>
+					<storeOutputs  maxFlowRates="14063" desiredFlowRates="0" outputs="O2Store"/>
 				</O2AirProducer>
 				<CO2AirConsumer>
-					<environmentInputs maxFlowRates="14063" desiredFlowRates="10" inputs="CrewEnvironment"/>
+					<environmentInputs maxFlowRates="14063" desiredFlowRates="0" inputs="CrewEnvironment"/>
 				</CO2AirConsumer>
 				<CO2AirProducer>
-					<storeOutputs maxFlowRates="14063" desiredFlowRates="10" outputs="CO2Store"/>
+					<storeOutputs maxFlowRates="14063" desiredFlowRates="0" outputs="CO2Store"/>
 				</CO2AirProducer>
 			</Accumulator>
 			<Injector name="Injector">
 				<O2AirConsumer>
-					<storeInputs maxFlowRates="14063" desiredFlowRates="10" inputs="O2Store"/>
+					<storeInputs maxFlowRates="14063" desiredFlowRates="0" inputs="O2Store"/>
 				</O2AirConsumer>
 				<O2AirProducer>
-					<environmentOutputs maxFlowRates="14063" desiredFlowRates="10" outputs="CrewEnvironment"/>
+					<environmentOutputs maxFlowRates="14063" desiredFlowRates="0" outputs="CrewEnvironment"/>
 				</O2AirProducer>
 				<CO2AirConsumer>
-					<storeInputs maxFlowRates="14063" desiredFlowRates="10" inputs="CO2Store"/>
+					<storeInputs maxFlowRates="14063" desiredFlowRates="0" inputs="CO2Store"/>
 				</CO2AirConsumer>
 				<CO2AirProducer>
-					<environmentOutputs maxFlowRates="14063" desiredFlowRates="10" outputs="PlantEnvironment"/>
+					<environmentOutputs maxFlowRates="14063" desiredFlowRates="0" outputs="PlantEnvironment"/>
 				</CO2AirProducer>
 			</Injector>
 		</framework>
@@ -186,14 +186,14 @@
 			<O2AirPressureSensor name="PlantEnvironmentO2AirPressureSensor" input="PlantEnvironment"/>
 			<O2AirStoreInFlowRateSensor name="InjectorO2AirStoreInFlowRateSensor" index="0" input="Injector"/>
 			<O2AirStoreOutFlowRateSensor name="AccumulatorO2AirStoreOutFlowRateSensor" index="0" input="Accumulator"/>
-			<OtherAirConcentrationSensor name="CrewEnvironmentOtherAirConcentrationSensor" input="CrewEnvironment"/>
-			<OtherAirConcentrationSensor name="PlantEnvironmentOtherAirConcentrationSensor" input="PlantEnvironment"/>
-			<OtherAirPressureSensor name="CrewEnvironmentOtherAirPressureSensor" input="CrewEnvironment"/>
-			<OtherAirPressureSensor name="PlantEnvironmentOtherAirPressureSensor" input="PlantEnvironment"/>
 			<WaterAirConcentrationSensor name="CrewEnvironmentWaterAirConcentrationSensor" input="CrewEnvironment"/>
 			<WaterAirConcentrationSensor name="PlantEnvironmentWaterAirConcentrationSensor" input="PlantEnvironment"/>
 			<WaterAirPressureSensor name="CrewEnvironmentWaterAirPressureSensor" input="CrewEnvironment"/>
 			<WaterAirPressureSensor name="PlantEnvironmentWaterAirPressureSensor" input="PlantEnvironment"/>
+			<OtherAirConcentrationSensor name="CrewEnvironmentOtherAirConcentrationSensor" input="CrewEnvironment"/>
+			<OtherAirConcentrationSensor name="PlantEnvironmentOtherAirConcentrationSensor" input="PlantEnvironment"/>
+			<OtherAirPressureSensor name="CrewEnvironmentOtherAirPressureSensor" input="CrewEnvironment"/>
+			<OtherAirPressureSensor name="PlantEnvironmentOtherAirPressureSensor" input="PlantEnvironment"/>
 		</environment>
 		<food>
 			<BiomassInFlowRateSensor name="FoodProcessorBiomassInFlowRateSensor" index="0" input="FoodProcessor"/>
