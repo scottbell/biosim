@@ -53,22 +53,22 @@ import biosim.idl.simulation.crew.*;
  */
 
 public class HandController{
-	int DirtyWaterLowLevel = 100;
-	int DirtyWaterHighLevel = 400;
-	int PotableWaterLowLevel = 100;
-	int PotableWaterHighLevel = 400;
-	int BiomassLowLevel = 100;
-	int BiomassHighLevel = 400;
-	int FoodLowLevel = 100;
-	int FoodHighLevel = 400;
-	int PowerLowLevel = 2000;
-	int PowerHighLevel = 4500;
-	int O2StoreLowLevel = 300;
-	int O2StoreHighLevel = 800;
-	int CO2StoreLowLevel = 300;
-	int CO2StoreHighLevel = 800;
-	int H2StoreLowLevel = 0;
-	int H2StoreHighLevel = 800;
+	double DirtyWaterLowLevel = 100f;
+	double DirtyWaterHighLevel = 400f;
+	double PotableWaterLowLevel = 100f;
+	double PotableWaterHighLevel = 400f;
+	double BiomassLowLevel = 100f;
+	double BiomassHighLevel = 400f;
+	double FoodLowLevel = 100f;
+	double FoodHighLevel = 400f;
+	double PowerLowLevel = 2000f;
+	double PowerHighLevel = 4500f;
+	double O2StoreLowLevel = 300f;
+	double O2StoreHighLevel = 800f;
+	double CO2StoreLowLevel = 300f;
+	double CO2StoreHighLevel = 800f;
+	double H2StoreLowLevel = 0f;
+	double H2StoreHighLevel = 800f;
 
 	double CrewO2Level = .20;
 	double CrewCO2Level = 0.005;
@@ -114,7 +114,8 @@ public class HandController{
 		//		PlantCO2Level = ((GenericSensor)(BioHolder.getBioModule(BioHolder.myPlantEnvironmentCO2AirConcentrationSensorName))).getValue(); ;
 		while (!myCrew.isDead()) {
 			// advance 10 ticks
-			for (i=0;i<10; i++) myBioDriver.advanceOneTick();
+			//for (i=0;i<10; i++) 
+				myBioDriver.advanceOneTick();
 			// collect data on the states, using the sensors
 			System.out.println("Checking Sensors...");
 			setSimState();
@@ -205,6 +206,8 @@ public class HandController{
 		fileoutput += currentSensor.getValue()+"   ";
 
 		currentSensor = (GenericSensor)(BioHolder.getBioModule(BioHolder.myH2StoreLevelSensorName));
+		System.out.println("Hydrogen..."+currentSensor.getValue()+"..."+SimState.get("hydrogen"));
+
 		if (currentSensor.getValue() < H2StoreLowLevel)
 			SimState.put("hydrogen", "low");
 		else if (currentSensor.getValue() > H2StoreHighLevel)
@@ -234,7 +237,7 @@ public class HandController{
 		System.out.println("Plant CO2..."+currentSensor.getValue());
 		fileoutput += currentSensor.getValue()+"   ";
 
-		currentSensor = (GenericSensor)(BioHolder.getBioModule(BioHolder.myCrewGroupPotableWaterInFlowRateSensorName));
+/*		currentSensor = (GenericSensor)(BioHolder.getBioModule(BioHolder.myCrewGroupPotableWaterInFlowRateSensorName));
 		System.out.println("Crew Water In FlowRate..."+currentSensor.getValue());
 		fileoutput += currentSensor.getValue()+"   ";
 
@@ -260,7 +263,7 @@ public class HandController{
 
 		currentSensor = (GenericSensor)(BioHolder.getBioModule(BioHolder.myBiomassRSPotableWaterInFlowRateSensorName));
 		System.out.println("Plants Potable Water In FlowRate..."+currentSensor.getValue());
-		fileoutput += currentSensor.getValue()+"   ";
+		fileoutput += currentSensor.getValue()+"   ";*/
 
 
 		System.out.println(fileoutput);
@@ -401,10 +404,9 @@ public class HandController{
 			currentActuator.setValue(0f);
 		}
 		if (SimState.get("hydrogen") == "low") {
-			//turn off CRS
-			currentActuator = (GenericActuator)(BioHolder.getBioModule(BioHolder.myAirRSCO2InFlowRateActuatorName));
+			currentActuator = (GenericActuator)(BioHolder.getBioModule(BioHolder.myAirRSPotableWaterInFlowRateActuatorName));
 			currentActuator.setValue(0f);
-			currentActuator = (GenericActuator)(BioHolder.getBioModule(BioHolder.myAirRSPotableWaterOutFlowRateActuatorName));
+			currentActuator = (GenericActuator)(BioHolder.getBioModule(BioHolder.myAirRSO2OutFlowRateActuatorName));
 			currentActuator.setValue(0f);
 		}
 
