@@ -46,7 +46,7 @@ public class SimCommandLine
 			else
 				System.out.println("Simulation is already logging!");
 		}
-		else if (userCommand.equals("endLog")){
+		else if (userCommand.equals("stopLog")){
 			if (myDriver.isLogging())
 				myDriver.setLogging(false);
 			else
@@ -77,7 +77,7 @@ public class SimCommandLine
 				System.out.println("Simulation needs to be paused!!");
 		}
 		else if (userCommand.equals("?")){
-			System.out.println("commands: start, stop, pause, resume, quit, startLog, endLog");
+			System.out.println("commands: start, stop, pause, resume, quit, startLog, stopLog");
 		}
 		else{
 			System.out.println("Unrecognized command: "+userCommand);

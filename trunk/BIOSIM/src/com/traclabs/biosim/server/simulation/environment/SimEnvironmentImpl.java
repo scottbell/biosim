@@ -296,10 +296,10 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	* Processes a tick by adding to the tick counter
 	*/
 	public void tick(){
-		ticks++;
 		calculateLightIntensity();
 		if (moduleLogging)
 			log();
+		ticks++;
 	}
 	
 	/**

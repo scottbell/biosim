@@ -19,7 +19,7 @@ public class LoggerImpl extends LoggerPOA  {
 	
 	public LoggerImpl(){
 		//use default handler (System.out)
-		setLogHandlerType(LogHandlerType.SCREEN);
+		setLogHandlerType(LogHandlerType.XML);
 	}
 	
 	public LoggerImpl(LogHandlerType pLogType){
@@ -81,7 +81,7 @@ public class LoggerImpl extends LoggerPOA  {
 		if (currentTick != myEnvironment.getTicks()){
 			currentTickLogNode = new LogNodeImpl("biosim");
 			LogNode tickLabel = currentTickLogNode.addChild("tick");
-			tickLabel.addChild(""+myEnvironment.getTicks() - 1);
+			tickLabel.addChild(""+(myEnvironment.getTicks() - 1));
 			currentTick = myEnvironment.getTicks();
 		}
 		currentTickLogNode.addChild(logToAdd);
