@@ -3,6 +3,7 @@
 show="false"
 textOutput=/dev/null
 usage="usage: make-users-manual.sh [-debug] [-show] [-?]"
+blank=""
 case $1 in
 -debug)
 	textOutput=/dev/tty
@@ -34,6 +35,8 @@ case $1 in
 		echo $usage
 		exit
 	fi
+	;;
+$blank)
 	;;
 -?)
 	echo $usage
