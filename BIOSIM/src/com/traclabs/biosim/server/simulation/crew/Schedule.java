@@ -122,7 +122,7 @@ public class Schedule{
 		//Add 3 defaults..
 		ActivityImpl bornActivityImpl = new ActivityImpl("born", 0, 0);
 		ActivityImpl deadActivityImpl = new ActivityImpl("dead", 0, 0);
-		ActivityImpl sickActivityImpl = new ActivityImpl("sick", 1, 1);
+		ActivityImpl sickActivityImpl = new ActivityImpl("sick", 24, 1);
 		Activity bornActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(bornActivityImpl));
 		Activity deadActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(deadActivityImpl));
 		Activity sickActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(sickActivityImpl));

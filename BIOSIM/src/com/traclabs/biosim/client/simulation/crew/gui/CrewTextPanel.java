@@ -130,14 +130,16 @@ public class CrewTextPanel extends TimedPanel
 		if (pCrewPerson.isDead())
 			return "dead";
 		StringBuffer statusBuffer = new StringBuffer();
-		if (pCrewPerson.isStarving())
-			statusBuffer.append("starving, ");
+		if (pCrewPerson.isSuffocating())
+			statusBuffer.append("suffocating, ");
 		if (pCrewPerson.isPoisoned())
 			statusBuffer.append("CO2 poisoned, ");
 		if (pCrewPerson.isThirsty())
 			statusBuffer.append("thirsty, ");
-		if (pCrewPerson.isSuffocating())
-			statusBuffer.append("suffocating, ");
+		if (pCrewPerson.isStarving())
+			statusBuffer.append("starving, ");
+		if (pCrewPerson.isSick())
+			statusBuffer.append("sick, ");
 		if (statusBuffer.length() < 1)
 			return "nominal";
 		else{

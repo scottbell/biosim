@@ -75,7 +75,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	//The breath inhaled by this crew member in the current tick
 	private Breath airRetrieved;
 	//Whether this crew member is sick or not.  If the crew member is sick, puts them into sleep like state.
-	private boolean isSick = false;
+	private boolean sick = false;
 	//A mission productivity measure, used when "mission" is specified in the schedule.  Not implemented correctly yet.
 	private int myMissionProductivity = 0;
 	//The schedule used for this crew memeber
@@ -138,7 +138,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		thirstTime = 0;
 		suffocateTime = 0;
 		poisonTime = 0;
-		isSick = false;
+		sick = false;
 		personStarving = false;
 		personThirsty = false;
 		personSuffocating = false;
@@ -279,7 +279,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* Makes this crew member sick (sleep like)
 	*/
 	public void sicken(){
-		isSick = true;
+		sick = true;
 		myCurrentActivity = mySchedule.getActivityByName("sick");
 	}
 
@@ -335,6 +335,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		return (myName + " now performing activity " +myCurrentActivity.getName() +
 		        " for " + timeActivityPerformed + " of "+myCurrentActivity .getTimeLength() +" hours");
 	}
+	
+	public boolean isSick(){
+		return sick;
+	}
 
 	/**
 	* If the crew memeber has been performing the current activity long enough, the new scheduled activity is assigned.
@@ -342,6 +346,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private void advanceActivity(){
 		checkForMeaningfulActivity();
 		if (timeActivityPerformed >= myCurrentActivity.getTimeLength()){
+			if (sick)
+				sick = false;
 			currentOrder++;
 			if (currentOrder >= (mySchedule.getNumberOfScheduledActivities()))
 				currentOrder = 1;
@@ -415,13 +421,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			consumeResources();
 			afflictCrew();
 			deathCheck();
-		}
-		else if (isSick){
-			consumeResources();
-			afflictCrew();
-			deathCheck();
-			advanceActivity();
-			isSick = false;
 		}
 	}
 

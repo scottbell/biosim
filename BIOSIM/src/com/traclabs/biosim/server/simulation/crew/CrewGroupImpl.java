@@ -95,7 +95,7 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations,
 		}
 		return theCrew;
 	}
-	
+
 	public void scheduleRepair(String moduleName, long malfunctionID, int timeLength){
 		int randomCrewIndex = myRandom.nextInt(crewPeople.size());
 		CrewPersonImpl randomCrewPerson = (CrewPersonImpl)((crewPeople.values().toArray())[randomCrewIndex]);
@@ -133,13 +133,14 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations,
 	* Processes a tick by ticking each crew person it knows about.
 	*/
 	public void tick(){
-		if (isMalfunctioning())
+		if (isMalfunctioning()){
 			performMalfunctions();
-		int peopleAsleep = (new Float((1 - healthyPercentage) * crewPeople.size())).intValue();
-		for (int i = 0; i < peopleAsleep; i ++){
-			int randomIndex = myRandom.nextInt(crewPeople.size());
-			CrewPersonImpl tempPerson = (CrewPersonImpl)((crewPeople.values().toArray())[randomIndex]);
-			tempPerson.sicken();
+			int peopleAsleep = (new Float((1 - healthyPercentage) * crewPeople.size())).intValue();
+			for (int i = 0; i < peopleAsleep; i ++){
+				int randomIndex = myRandom.nextInt(crewPeople.size());
+				CrewPersonImpl tempPerson = (CrewPersonImpl)((crewPeople.values().toArray())[randomIndex]);
+				tempPerson.sicken();
+			}
 		}
 		for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();){
 			CrewPersonImpl tempPerson = (CrewPersonImpl)(iter.next());
@@ -275,7 +276,7 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations,
 		}
 		return totalO2Consumed;
 	}
-	
+
 	public void setAirInputFlowrate(float liters, int index){
 		airInFlowRates[index] = liters;
 	}
@@ -292,7 +293,7 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations,
 	public SimEnvironment[] getAirInputs(){
 		return myAirInputs;
 	}
-	
+
 	public float[] getAirInputFlowrates(){
 		return airInFlowRates;
 	}
@@ -313,91 +314,91 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations,
 	public SimEnvironment[] getAirOutputs(){
 		return myAirOutputs;
 	}
-	
+
 	public float[] getAirOutputFlowrates(){
 		return airOutFlowRates;
 	}
-	
+
 	public void setPotableWaterInputFlowrate(float liters, int index){
 		potableWaterFlowRates[index] = liters;
 	}
-	
+
 	public float getPotableWaterInputFlowrate(int index){
 		return potableWaterFlowRates[index];
 	}
-	
+
 	public void setPotableWaterInputs(PotableWaterStore[] sources, float[] flowRates){
 		myPotableWaterStores = sources;
 		potableWaterFlowRates = flowRates;
 	}
-	
+
 	public PotableWaterStore[] getPotableWaterInputs(){
 		return myPotableWaterStores;
 	}
-	
+
 	public float[] getPotableWaterInputFlowrates(){
 		return potableWaterFlowRates;
 	}
-	
+
 	public void setGreyWaterOutputFlowrate(float liters, int index){
 		greyWaterFlowRates[index] = liters;
 	}
-	
+
 	public float getGreyWaterOutputFlowrate(int index){
 		return greyWaterFlowRates[index];
 	}
-	
+
 	public void setGreyWaterOutputs(GreyWaterStore[] destinations, float[] flowRates){
 		myGreyWaterStores = destinations;
 		greyWaterFlowRates = flowRates;
 	}
-	
+
 	public GreyWaterStore[] getGreyWaterOutputs(){
 		return myGreyWaterStores;
 	}
-	
+
 	public float[] getGreyWaterOutputFlowrates(){
 		return greyWaterFlowRates;
 	}
-	
+
 	public void setDirtyWaterOutputFlowrate(float liters, int index){
 		dirtyWaterFlowRates[index] = liters;
 	}
-	
+
 	public float getDirtyWaterOutputFlowrate(int index){
 		return dirtyWaterFlowRates[index];
 	}
-	
+
 	public void setDirtyWaterOutputs(DirtyWaterStore[] destinations, float[] flowRates){
 		myDirtyWaterStores = destinations;
 		dirtyWaterFlowRates = flowRates;
 	}
-	
+
 	public DirtyWaterStore[] getDirtyWaterOutputs(){
 		return myDirtyWaterStores;
 	}
-	
+
 	public float[] getDirtyWaterOutputFlowrates(){
 		return dirtyWaterFlowRates;
 	}
-	
+
 	public void setFoodInputFlowrate(float kilograms, int index){
 		foodFlowRates[index] = kilograms;
 	}
-	
+
 	public float getFoodInputFlowrate(int index){
 		return foodFlowRates[index];
 	}
-	
+
 	public void setFoodInputs(FoodStore[] sources, float[] flowRates){
 		myFoodStores = sources;
 		foodFlowRates = flowRates;
 	}
-	
+
 	public FoodStore[] getFoodInputs(){
 		return myFoodStores;
 	}
-	
+
 	public float[] getFoodInputFlowrates(){
 		return foodFlowRates;
 	}

@@ -26,6 +26,7 @@ module crew{
                 boolean isStarving();
                 boolean isPoisoned();
                 boolean isThirsty();
+		boolean isSick();
                 boolean isSuffocating();
                 boolean isDead();
                 float getGreyWaterProduced();
