@@ -15,13 +15,11 @@ fi
 JACORB_HOME="$devRootDir/lib/jacorb"
 jacoNameIOR="-DORBInitRef.NameService=file:$devRootDir/generated/ns/ior.txt"
 separator=":"
-machineType=`uname`
-winName="CYGWIN"
-linuxName="Linux"
+machineType=`echo %OS%`
+winName="Windows"
 case $machineType in
 	*$winName*) separator=";";echo "		-machine type is $winName";;
-	*$linuxName*) separator=":";echo "		-machine type is $linuxName";;
-	*)separator=":";echo "		-unknown machine type, using $linuxName separator";;
+	*)separator=":";echo "		-assuming Unix machine type";;
 esac
 ####################
 #		CLIENTS START	#
