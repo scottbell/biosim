@@ -75,7 +75,15 @@ public class LoggerImpl extends LoggerPOA  {
 	public String getName(){
 		return myName+myID;
 	}
-
+	
+	/**
+	* Tells The ID of this module.  Should be the same as every other module in this BioSim instance
+	* @return The ID of this module.  Should be the same as every other module in this BioSim instance
+	*/
+	public int getID(){
+		return myID;
+	}
+	
 	/**
 	* Switch to turn off the Logger's processing of logs (useful to stop logging globally)
 	* @param pAllowLogging set <code>true</code> to have Logger process incoming logs (default) or

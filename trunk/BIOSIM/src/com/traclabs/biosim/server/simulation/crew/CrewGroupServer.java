@@ -17,7 +17,7 @@ public class CrewGroupServer extends GenericServer{
 	public static void main(String args[]) {
 		CrewGroupServer myServer = new CrewGroupServer();
 		CrewGroupImpl myCrewGroup = new CrewGroupImpl(myServer.getIDfromArgs(args), myServer.getNamefromArgs(args));
-		myServer.registerServerAndRun(new CrewGroupPOATie(myCrewGroup), myCrewGroup.getModuleName());
+		myServer.registerServerAndRun(new CrewGroupPOATie(myCrewGroup), myCrewGroup.getModuleName(), myCrewGroup.getID());
 	}
 }
 

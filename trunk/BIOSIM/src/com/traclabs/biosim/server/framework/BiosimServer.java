@@ -14,10 +14,10 @@ public class BiosimServer extends GenericServer{
 	
 	public BiosimServer(int id){
 		URL documentUrl = ClassLoader.getSystemClassLoader().getResource("biosim/server/framework/DefaultInitialization.xml");
-		LoggerImpl myLoggerImpl = new LoggerImpl(id, "Logger-"+id);
-		BioDriverImpl myBioDriverImpl = new BioDriverImpl(id, "BioDriver-"+id);
-		registerServer(myLoggerImpl, myLoggerImpl.getName());
-		registerServer(myBioDriverImpl, myBioDriverImpl.getName());
+		LoggerImpl myLoggerImpl = new LoggerImpl(id, "Logger");
+		BioDriverImpl myBioDriverImpl = new BioDriverImpl(id, "BioDriver");
+		registerServer(myLoggerImpl, myLoggerImpl.getName(), myLoggerImpl.getID());
+		registerServer(myBioDriverImpl, myBioDriverImpl.getName(), myBioDriverImpl.getID());
 		BioInitializer myInitializer = new BioInitializer(id);
 		String documentString = documentUrl.toString();
 		if (documentString.length() > 0)

@@ -61,23 +61,24 @@ public class GenericServer{
 	/**
 	* Registers this server with the CORBA naming service
 	* @param pPOA the object to register
-	* @param servername the name that will be associated with this server in the naming service
+	* @param pServerName the name that will be associated with this server in the naming service
+	* @param pID the subcontext which to bind the name
 	*/
-	public static void registerServer(Servant pPOA, String serverName){
+	public static void registerServer(Servant pPOA, String pServerName, int pID){
 		try{
 			// bind the Object Reference in Naming
-			OrbUtils.getNCRef().rebind(OrbUtils.getNCRef().to_name(serverName), OrbUtils.poaToCorbaObj(pPOA));
+			OrbUtils.getNCRef().rebind(OrbUtils.getNCRef().to_name(pServerName), OrbUtils.poaToCorbaObj(pPOA));
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println(serverName+" had problems registering with nameservice, trying again..");
+			System.err.println(pServerName+" had problems registering with nameservice, trying again..");
 			OrbUtils.sleepAwhile();
-			registerServer(pPOA, serverName);
+			registerServer(pPOA, pServerName, pID);
 		}
 		catch (Exception e) {
-			System.err.println(serverName+" had problems registering with nameservice, trying again..");
+			System.err.println(pServerName+" had problems registering with nameservice, trying again..");
 			OrbUtils.sleepAwhile();
 			OrbUtils.resetInit();
-			registerServer(pPOA, serverName);
+			registerServer(pPOA, pServerName, pID);
 		}
 	}
 	
@@ -86,9 +87,9 @@ public class GenericServer{
 	* @param pPOA the object to register
 	* @param servername the name that will be associated with this server in the naming service
 	*/
-	protected void registerServerAndRun(Servant pPOA, String serverName){
-		registerServer(pPOA,serverName);
-		runServer(serverName);
+	protected void registerServerAndRun(Servant pPOA, String pServerName, int pID){
+		registerServer(pPOA,pServerName, pID);
+		runServer(pServerName);
 	}
 	
 	public void addReadyListener(ActionListener newListener){
