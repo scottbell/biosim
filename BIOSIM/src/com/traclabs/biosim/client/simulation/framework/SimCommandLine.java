@@ -148,9 +148,16 @@ public class SimCommandLine
 	}
 	
 	private void runTest(){
-		BioHolder.getBioDriver().configureSimulation();
-		PotableWaterStoreLevelSensor myPotableWaterStoreLevelSensor = (PotableWaterStoreLevelSensor)(BioHolder.getBioModule(BioHolder.myPotableWaterStoreLevelSensorName));
-		System.out.println("getMax returns: "+myPotableWaterStoreLevelSensor.getMax());
+		float molesOfCO2 = 40f;
+		float molesOfH2 = 20f;
+		
+		//CO2 + 4H2 => CH4 + 2H20
+		float limitingReactant = Math.min(molesOfCO2, molesOfH2 / 4f);
+		if (limitingReactant == molesOfH2){
+			
+		}
+		else{
+		}
 	}
 }
 

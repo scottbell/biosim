@@ -38,9 +38,10 @@ public class CRS extends AirRSSubSystem{
 		}
 		else{
 			// CO2 + 4H2 --> CH4 + 2H20
-			float waterMolesProduced = (0.5f * currentH2Consumed) + (.727f * currentCO2Consumed);
+			float limitingReactant = Math.min(currentH2Consumed / 4f, currentCO2Consumed);
+			float waterMolesProduced = 2f * limitingReactant;
 			float waterLitersProduced = (waterMolesProduced * 18.01524f) / 1000f; //1000g/liter, 18.01524g/mole
-			float methaneMolesProduced = (0.5f * currentH2Consumed) + (.273f * currentCO2Consumed);
+			float methaneMolesProduced = limitingReactant;
 			currentH2OProduced = myAirRS.randomFilter(waterLitersProduced);
 			currentCH4Produced = myAirRS.randomFilter(methaneMolesProduced);
 		}
