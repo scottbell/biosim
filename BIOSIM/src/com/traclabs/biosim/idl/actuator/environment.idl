@@ -10,55 +10,55 @@ module environment{
 	interface OtherAirMolesActuator : EnvironmentActuator{};
 	
 	interface AirInFlowRateActuator : framework::GenericActuator{
-		void setOutput(in simulation::environment::AirConsumer pConsumer, in long pIndex);
-		simulation::environment::AirConsumer getOutput();
+		void setOutput(in framework::AirConsumer pConsumer, in long pIndex);
+		framework::AirConsumer getOutput();
 		long getIndex();
 	};
 	interface AirOutFlowRateActuator : framework::GenericActuator{
-		void setOutput(in simulation::environment::AirProducer pProducer, in long pIndex);
-		simulation::environment::AirProducer getOutput();
+		void setOutput(in framework::AirProducer pProducer, in long pIndex);
+		framework::AirProducer getOutput();
 		long getIndex();
 	};
 	
 	interface O2AirStoreInFlowRateActuator : framework::GenericActuator{
-		void setOutput(in simulation::environment::O2AirConsumer pConsumer, in long pIndex);
-		simulation::environment::O2AirConsumer getOutput();
+		void setOutput(in framework::O2AirConsumer pConsumer, in long pIndex);
+		framework::O2AirConsumer getOutput();
 		long getIndex();
 	};
 	interface O2AirStoreOutFlowRateActuator : framework::GenericActuator{
-		void setOutput(in simulation::environment::O2AirProducer pProducer, in long pIndex);
-		simulation::environment::O2AirProducer getOutput();
+		void setOutput(in framework::O2AirProducer pProducer, in long pIndex);
+		framework::O2AirProducer getOutput();
 		long getIndex();
 	};
 	interface O2AirEnvironmentInFlowRateActuator : framework::GenericActuator{
-		void setOutput(in simulation::environment::O2AirConsumer pConsumer, in long pIndex);
-		simulation::environment::O2AirConsumer getOutput();
+		void setOutput(in framework::O2AirConsumer pConsumer, in long pIndex);
+		framework::O2AirConsumer getOutput();
 		long getIndex();
 	};
 	interface O2AirEnvironmentOutFlowRateActuator : framework::GenericActuator{
-		void setOutput(in simulation::environment::O2AirProducer pProducer, in long pIndex);
-		simulation::environment::O2AirProducer getOutput();
+		void setOutput(in framework::O2AirProducer pProducer, in long pIndex);
+		framework::O2AirProducer getOutput();
 		long getIndex();
 	};
 	
 	interface CO2AirStoreInFlowRateActuator : framework::GenericActuator{
-		void setOutput(in simulation::environment::CO2AirConsumer pConsumer, in long pIndex);
-		simulation::environment::CO2AirConsumer getOutput();
+		void setOutput(in framework::CO2AirConsumer pConsumer, in long pIndex);
+		framework::CO2AirConsumer getOutput();
 		long getIndex();
 	};
 	interface CO2AirStoreOutFlowRateActuator : framework::GenericActuator{
-		void setOutput(in simulation::environment::CO2AirProducer pProducer, in long pIndex);
-		simulation::environment::CO2AirProducer getOutput();
+		void setOutput(in framework::CO2AirProducer pProducer, in long pIndex);
+		framework::CO2AirProducer getOutput();
 		long getIndex();
 	};
 	interface CO2AirEnvironmentInFlowRateActuator : framework::GenericActuator{
-		void setOutput(in simulation::environment::CO2AirConsumer pConsumer, in long pIndex);
-		simulation::environment::CO2AirConsumer getOutput();
+		void setOutput(in framework::CO2AirConsumer pConsumer, in long pIndex);
+		framework::CO2AirConsumer getOutput();
 		long getIndex();
 	};
 	interface CO2AirEnvironmentOutFlowRateActuator : framework::GenericActuator{
-		void setOutput(in simulation::environment::CO2AirProducer pProducer, in long pIndex);
-		simulation::environment::CO2AirProducer getOutput();
+		void setOutput(in framework::CO2AirProducer pProducer, in long pIndex);
+		framework::CO2AirProducer getOutput();
 		long getIndex();
 	};
 	

@@ -7,8 +7,6 @@ module biosim{
                         module power{
                                 interface PowerPS;
                                 interface PowerStore;
-				interface PowerConsumer;
-				interface PowerProducer;
                                 typedef sequence <PowerStore> PowerStoreList;
                         };
                         module crew{
@@ -27,14 +25,10 @@ module biosim{
                                 interface AirRS;
                                 interface O2Store;
                                 interface CO2Store;
-				interface O2Consumer;
-                                interface CO2Consumer;
-				interface O2Producer;
-                                interface CO2Producer;
                                 struct Breath{
                                         float O2;
                                         float CO2;
-					float water;
+                                        float water;
                                         float other;
                                 };
                                 typedef sequence <O2Store> O2StoreList;
@@ -47,35 +41,24 @@ module biosim{
                                 interface FoodProcessor;
                                 interface FoodStore;
                                 interface Shelf;
-				interface Plant;
-				interface BiomassConsumer;
-                                interface FoodConsumer;
-				interface BiomassProducer;
-				interface FoodProducer;
+                                interface Plant;
                                 enum PlantType {WHEAT};
-				struct BioMatter{
-					float mass;
-					PlantType type;
-				};
-				struct FoodMatter{
-					float mass;
-					PlantType type;
-				};
+                                struct BioMatter{
+                                        float mass;
+                                        PlantType type;
+                                };
+                                struct FoodMatter{
+                                        float mass;
+                                        PlantType type;
+                                };
                                 typedef sequence <Shelf> ShelfList;
                                 typedef sequence <BiomassStore> BiomassStoreList;
                                 typedef sequence <FoodStore> FoodStoreList;
-				typedef sequence <BioMatter> BioMatterList;
-				typedef sequence <FoodMatter> FoodMatterList;
+                                typedef sequence <BioMatter> BioMatterList;
+                                typedef sequence <FoodMatter> FoodMatterList;
                         };
                         module environment{
                                 interface SimEnvironment;
-				interface AirConsumer;
-				interface LightConsumer;
-                                interface O2AirConsumer;
-                                interface CO2AirConsumer
-				;interface AirProducer;
-				interface O2AirProducer;
-                                interface CO2AirProducer;
                                 typedef sequence <SimEnvironment> SimEnvironmentList;
                         };
                         module water{
@@ -83,24 +66,18 @@ module biosim{
                                 interface PotableWaterStore;
                                 interface GreyWaterStore;
                                 interface DirtyWaterStore;
-				interface PotableWaterConsumer;
-                                interface GreyWaterConsumer;
-                                interface DirtyWaterConsumer;
-				interface PotableWaterProducer;
-                                interface GreyWaterProducer;
-                                interface DirtyWaterProducer;
                                 typedef sequence <PotableWaterStore> PotableWaterStoreList;
                                 typedef sequence <GreyWaterStore> GreyWaterStoreList;
                                 typedef sequence <DirtyWaterStore> DirtyWaterStoreList;
                         };
                         module framework{
-				interface SimBioModule;
-				interface Injector;
-				interface Accumulator;
-				interface Store;
+                                interface SimBioModule;
+                                interface Injector;
+                                interface Accumulator;
+                                interface Store;
                         };
                 };
-		module sensor{
+                module sensor{
                         module framework{
                                 interface GenericSensor;
                         };
@@ -123,6 +100,30 @@ module biosim{
                         typedef sequence <Malfunction> MalfunctionList;
                         interface BioModule;
                         interface BioDriver;
+                        //Producers & Consumers
+                        interface PowerConsumer;
+                        interface PowerProducer;
+                        interface PotableWaterConsumer;
+                        interface PotableWaterProducer;
+                        interface GreyWaterConsumer;
+                        interface GreyWaterProducer;
+                        interface DirtyWaterConsumer;
+                        interface DirtyWaterProducer;
+                        interface AirConsumer;
+                        interface AirProducer;
+                        interface O2AirConsumer;
+                        interface O2AirProducer;
+                        interface CO2AirConsumer;
+                        interface CO2AirProducer;
+                        interface O2Producer;
+                        interface O2Consumer;
+                        interface CO2Producer;
+                        interface CO2Consumer;
+                        interface LightConsumer;
+                        interface BiomassConsumer;
+                        interface FoodConsumer;
+                        interface BiomassProducer;
+                        interface FoodProducer;
                 };
         };
 };
@@ -130,18 +131,18 @@ module biosim{
 //Declarations
 module biosim{
         module idl{
-                #include "framework.idl";
+                #include "framework.idl"
                 #include "util.idl"
                 module simulation{
+                        #include "simulation/framework.idl"
                         #include "simulation/crew.idl"
                         #include "simulation/environment.idl"
                         #include "simulation/food.idl"
                         #include "simulation/power.idl"
                         #include "simulation/air.idl"
                         #include "simulation/water.idl"
-                        #include "simulation/framework.idl"
                 };
-		module sensor{
+                module sensor{
                         #include "sensor/framework.idl"
                         #include "sensor/air.idl"
                         #include "sensor/crew.idl"
@@ -150,7 +151,7 @@ module biosim{
                         #include "sensor/power.idl"
                         #include "sensor/water.idl"
                 };
-		module actuator{
+                module actuator{
                         #include "actuator/framework.idl"
                         #include "actuator/air.idl"
                         #include "actuator/crew.idl"
@@ -161,19 +162,4 @@ module biosim{
                 };
         };
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

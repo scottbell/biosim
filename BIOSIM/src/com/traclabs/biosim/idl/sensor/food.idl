@@ -21,24 +21,24 @@ module food{
         };
 	
 	interface BiomassInFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::food::BiomassConsumer pConsumer, in long pIndex);
-		simulation::food::BiomassConsumer getInput();
+		void setInput(in framework::BiomassConsumer pConsumer, in long pIndex);
+		framework::BiomassConsumer getInput();
 		long getIndex();
 	};
 	interface BiomassOutFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::food::BiomassProducer pProducer, in long pIndex);
-		simulation::food::BiomassProducer getInput();
+		void setInput(in framework::BiomassProducer pProducer, in long pIndex);
+		framework::BiomassProducer getInput();
 		long getIndex();
 	};
 	
 	interface FoodInFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::food::FoodConsumer pConsumer, in long pIndex);
-		simulation::food::FoodConsumer getInput();
+		void setInput(in framework::FoodConsumer pConsumer, in long pIndex);
+		framework::FoodConsumer getInput();
 		long getIndex();
 	};
 	interface FoodOutFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::food::FoodProducer pProducer, in long pIndex);
-		simulation::food::FoodProducer getInput();
+		void setInput(in framework::FoodProducer pProducer, in long pIndex);
+		framework::FoodProducer getInput();
 		long getIndex();
 	};
 };

@@ -1,5 +1,5 @@
 module air{
-        interface AirRS : framework::SimBioModule, power::PowerConsumer, environment::AirConsumer, environment::AirProducer, CO2Producer, O2Producer, CO2Consumer{
+        interface AirRS : framework::SimBioModule, framework::PowerConsumer, framework::AirConsumer, framework::AirProducer, framework::CO2Producer, framework::O2Producer, framework::CO2Consumer{
                 float getPowerConsumed();
                 float getCO2Consumed();
                 float getO2Produced();
@@ -15,41 +15,5 @@ module air{
         interface O2Store : framework::Store{
         };
         interface CO2Store : framework::Store{
-        };
-	interface O2Consumer{
-                void setO2InputMaxFlowRate(in float liters, in long index);
-                float getO2InputMaxFlowRate(in long index);
-                void setO2InputDesiredFlowRate(in float liters, in long index);
-                float getO2InputDesiredFlowRate(in long index);
-                float getO2InputActualFlowRate(in long index);
-                void setO2Inputs(in air::O2StoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                air::O2StoreList getO2Inputs();
-        };
-        interface CO2Consumer{
-                void setCO2InputMaxFlowRate(in float liters, in long index);
-                float getCO2InputMaxFlowRate(in long index);
-                void setCO2InputDesiredFlowRate(in float liters, in long index);
-                float getCO2InputDesiredFlowRate(in long index);
-                float getCO2InputActualFlowRate(in long index);
-                void setCO2Inputs(in air::CO2StoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                air::CO2StoreList getCO2Inputs();
-        };
-	interface O2Producer{
-                void setO2OutputMaxFlowRate(in float liters, in long index);
-                float getO2OutputMaxFlowRate(in long index);
-                void setO2OutputDesiredFlowRate(in float liters, in long index);
-                float getO2OutputDesiredFlowRate(in long index);
-                float getO2OutputActualFlowRate(in long index);
-                void setO2Outputs(in air::O2StoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                air::O2StoreList getO2Outputs();
-        };
-        interface CO2Producer{
-                void setCO2OutputMaxFlowRate(in float liters, in long index);
-                float getCO2OutputMaxFlowRate(in long index);
-                void setCO2OutputDesiredFlowRate(in float liters, in long index);
-                float getCO2OutputDesiredFlowRate(in long index);
-                float getCO2OutputActualFlowRate(in long index);
-                void setCO2Outputs(in air::CO2StoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                air::CO2StoreList getCO2Outputs();
         };
 };

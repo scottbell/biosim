@@ -10,13 +10,13 @@ module power{
 	interface PowerStoreLevelActuator : PowerStoreActuator{};
 	
 	interface PowerInFlowRateActuator : framework::GenericActuator{
-		void setOutput(in simulation::power::PowerConsumer pConsumer, in long pIndex);
-		simulation::power::PowerConsumer getOutput();
+		void setOutput(in framework::PowerConsumer pConsumer, in long pIndex);
+		framework::PowerConsumer getOutput();
 		long getIndex();
 	};
 	interface PowerOutFlowRateActuator : framework::GenericActuator{
-		void setOutput(in simulation::power::PowerProducer pProducer, in long pIndex);
-		simulation::power::PowerProducer getOutput();
+		void setOutput(in framework::PowerProducer pProducer, in long pIndex);
+		framework::PowerProducer getOutput();
 		long getIndex();
 	};
 };

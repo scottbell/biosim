@@ -10,55 +10,55 @@ module environment{
 	interface OtherAirMolesSensor : EnvironmentSensor{};
 	
 	interface AirInFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::environment::AirConsumer pConsumer, in long pIndex);
-		simulation::environment::AirConsumer getInput();
+		void setInput(in framework::AirConsumer pConsumer, in long pIndex);
+		framework::AirConsumer getInput();
 		long getIndex();
 	};
 	interface AirOutFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::environment::AirProducer pProducer, in long pIndex);
-		simulation::environment::AirProducer getInput();
+		void setInput(in framework::AirProducer pProducer, in long pIndex);
+		framework::AirProducer getInput();
 		long getIndex();
 	};
 	
 	interface O2AirStoreInFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::environment::O2AirConsumer pConsumer, in long pIndex);
-		simulation::environment::O2AirConsumer getInput();
+		void setInput(in framework::O2AirConsumer pConsumer, in long pIndex);
+		framework::O2AirConsumer getInput();
 		long getIndex();
 	};
 	interface O2AirStoreOutFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::environment::O2AirProducer pProducer, in long pIndex);
-		simulation::environment::O2AirProducer getInput();
+		void setInput(in framework::O2AirProducer pProducer, in long pIndex);
+		framework::O2AirProducer getInput();
 		long getIndex();
 	};
 	interface O2AirEnvironmentInFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::environment::O2AirConsumer pConsumer, in long pIndex);
-		simulation::environment::O2AirConsumer getInput();
+		void setInput(in framework::O2AirConsumer pConsumer, in long pIndex);
+		framework::O2AirConsumer getInput();
 		long getIndex();
 	};
 	interface O2AirEnvironmentOutFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::environment::O2AirProducer pProducer, in long pIndex);
-		simulation::environment::O2AirProducer getInput();
+		void setInput(in framework::O2AirProducer pProducer, in long pIndex);
+		framework::O2AirProducer getInput();
 		long getIndex();
 	};
 	
 	interface CO2AirStoreInFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::environment::CO2AirConsumer pConsumer, in long pIndex);
-		simulation::environment::CO2AirConsumer getInput();
+		void setInput(in framework::CO2AirConsumer pConsumer, in long pIndex);
+		framework::CO2AirConsumer getInput();
 		long getIndex();
 	};
 	interface CO2AirStoreOutFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::environment::CO2AirProducer pProducer, in long pIndex);
-		simulation::environment::CO2AirProducer getInput();
+		void setInput(in framework::CO2AirProducer pProducer, in long pIndex);
+		framework::CO2AirProducer getInput();
 		long getIndex();
 	};
 	interface CO2AirEnvironmentInFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::environment::CO2AirConsumer pConsumer, in long pIndex);
-		simulation::environment::CO2AirConsumer getInput();
+		void setInput(in framework::CO2AirConsumer pConsumer, in long pIndex);
+		framework::CO2AirConsumer getInput();
 		long getIndex();
 	};
 	interface CO2AirEnvironmentOutFlowRateSensor : framework::GenericSensor{
-		void setInput(in simulation::environment::CO2AirProducer pProducer, in long pIndex);
-		simulation::environment::CO2AirProducer getInput();
+		void setInput(in framework::CO2AirProducer pProducer, in long pIndex);
+		framework::CO2AirProducer getInput();
 		long getIndex();
 	};
 	

@@ -21,24 +21,24 @@ module food{
         };
 	
 	interface BiomassInFlowRateActuator : framework::GenericActuator{
-		void setOutput(in simulation::food::BiomassConsumer pConsumer, in long pIndex);
-		simulation::food::BiomassConsumer getOutput();
+		void setOutput(in framework::BiomassConsumer pConsumer, in long pIndex);
+		framework::BiomassConsumer getOutput();
 		long getIndex();
 	};
 	interface BiomassOutFlowRateActuator : framework::GenericActuator{
-		void setOutput(in simulation::food::BiomassProducer pProducer, in long pIndex);
-		simulation::food::BiomassProducer getOutput();
+		void setOutput(in framework::BiomassProducer pProducer, in long pIndex);
+		framework::BiomassProducer getOutput();
 		long getIndex();
 	};
 	
 	interface FoodInFlowRateActuator : framework::GenericActuator{
-		void setOutput(in simulation::food::FoodConsumer pConsumer, in long pIndex);
-		simulation::food::FoodConsumer getOutput();
+		void setOutput(in framework::FoodConsumer pConsumer, in long pIndex);
+		framework::FoodConsumer getOutput();
 		long getIndex();
 	};
 	interface FoodOutFlowRateActuator : framework::GenericActuator{
-		void setOutput(in simulation::food::FoodProducer pProducer, in long pIndex);
-		simulation::food::FoodProducer getOutput();
+		void setOutput(in framework::FoodProducer pProducer, in long pIndex);
+		framework::FoodProducer getOutput();
 		long getIndex();
 	};
 };
