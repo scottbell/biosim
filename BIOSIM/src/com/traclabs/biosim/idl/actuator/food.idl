@@ -1,0 +1,44 @@
+module food{
+	interface BiomassStoreActuator : framework::GenericActuator{
+                void setOutput(in simulation::food::BiomassStore source);
+		simulation::food::BiomassStore getOutput();
+	};
+        interface BiomassStoreLevelActuator : BiomassStoreActuator{};
+	interface FoodStoreActuator : framework::GenericActuator{
+                void setOutput(in simulation::food::FoodStore source);
+		simulation::food::FoodStore getOutput();
+	};
+        interface FoodStoreLevelActuator : FoodStoreActuator{};
+	
+	interface BiomassRSActuator : framework::GenericActuator{
+                void setOutput(in simulation::food::BiomassRS source);
+		simulation::food::BiomassRS getOutput();
+        };
+	
+	interface FoodProcessorActuator : framework::GenericActuator{
+                void setOutput(in simulation::food::FoodProcessor source);
+		simulation::food::FoodProcessor getOutput();
+        };
+	
+	interface BiomassInFlowRateActuator : framework::GenericActuator{
+		void setOutput(in simulation::food::BiomassConsumer pConsumer, in long pIndex);
+		simulation::food::BiomassConsumer getOutput();
+		long getIndex();
+	};
+	interface BiomassOutFlowRateActuator : framework::GenericActuator{
+		void setOutput(in simulation::food::BiomassProducer pProducer, in long pIndex);
+		simulation::food::BiomassProducer getOutput();
+		long getIndex();
+	};
+	
+	interface FoodInFlowRateActuator : framework::GenericActuator{
+		void setOutput(in simulation::food::FoodConsumer pConsumer, in long pIndex);
+		simulation::food::FoodConsumer getOutput();
+		long getIndex();
+	};
+	interface FoodOutFlowRateActuator : framework::GenericActuator{
+		void setOutput(in simulation::food::FoodProducer pProducer, in long pIndex);
+		simulation::food::FoodProducer getOutput();
+		long getIndex();
+	};
+};

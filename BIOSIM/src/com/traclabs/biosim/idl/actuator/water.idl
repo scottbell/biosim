@@ -1,0 +1,54 @@
+module water{
+	interface WaterRSActuator : framework::GenericActuator{
+		void setOutput(in simulation::water::WaterRS source);
+		simulation::water::WaterRS getOutput();
+	};
+	interface PotableWaterStoreActuator : framework::GenericActuator{
+		void setOutput(in simulation::water::PotableWaterStore source);
+		simulation::water::PotableWaterStore getOutput();
+	};
+	interface GreyWaterStoreActuator : framework::GenericActuator{
+		void setOutput(in simulation::water::GreyWaterStore source);
+		simulation::water::GreyWaterStore getOutput();
+	};
+	interface DirtyWaterStoreActuator : framework::GenericActuator{
+		void setOutput(in simulation::water::DirtyWaterStore source);
+		simulation::water::DirtyWaterStore getOutput();
+	};
+        interface PotableWaterStoreLevelActuator : PotableWaterStoreActuator{};
+        interface GreyWaterStoreLevelActuator : GreyWaterStoreActuator{};
+        interface DirtyWaterStoreLevelActuator : DirtyWaterStoreActuator{};
+	
+	interface PotableWaterInFlowRateActuator : framework::GenericActuator{
+		void setOutput(in simulation::water::PotableWaterConsumer pConsumer, in long pIndex);
+		simulation::water::PotableWaterConsumer getOutput();
+		long getIndex();
+	};
+	interface PotableWaterOutFlowRateActuator : framework::GenericActuator{
+		void setOutput(in simulation::water::PotableWaterProducer pProducer, in long pIndex);
+		simulation::water::PotableWaterProducer getOutput();
+		long getIndex();
+	};
+	
+	interface GreyWaterInFlowRateActuator : framework::GenericActuator{
+		void setOutput(in simulation::water::GreyWaterConsumer pConsumer, in long pIndex);
+		simulation::water::GreyWaterConsumer getOutput();
+		long getIndex();
+	};
+	interface GreyWaterOutFlowRateActuator : framework::GenericActuator{
+		void setOutput(in simulation::water::GreyWaterProducer pProducer, in long pIndex);
+		simulation::water::GreyWaterProducer getOutput();
+		long getIndex();
+	};
+	
+	interface DirtyWaterInFlowRateActuator : framework::GenericActuator{
+		void setOutput(in simulation::water::DirtyWaterConsumer pConsumer, in long pIndex);
+		simulation::water::DirtyWaterConsumer getOutput();
+		long getIndex();
+	};
+	interface DirtyWaterOutFlowRateActuator : framework::GenericActuator{
+		void setOutput(in simulation::water::DirtyWaterProducer pProducer, in long pIndex);
+		simulation::water::DirtyWaterProducer getOutput();
+		long getIndex();
+	};
+};

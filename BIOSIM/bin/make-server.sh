@@ -136,6 +136,18 @@ then
 	echo "			-compiling actuator skeletons/stubs"
 	echo "				-compiling framework skeletons/stubs"
 	$compilationInvocation $simSkeletonDir/idl/actuator/framework/*.java
+	echo "				-compiling air skeletons/stubs"
+	$compilationInvocation $simSkeletonDir/idl/actuator/air/*.java
+	echo "				-compiling environment skeletons/stubs"
+	$compilationInvocation $simSkeletonDir/idl/actuator/environment/*.java
+	echo "				-compiling crew skeletons/stubs"
+	$compilationInvocation $simSkeletonDir/idl/actuator/crew/*.java
+	echo "				-compiling food skeletons/stubs"
+	$compilationInvocation $simSkeletonDir/idl/actuator/food/*.java
+	echo "				-compiling power skeletons/stubs"
+	$compilationInvocation $simSkeletonDir/idl/actuator/power/*.java
+	echo "				-compiling water skeletons/stubs"
+	$compilationInvocation $simSkeletonDir/idl/actuator/water/*.java
 fi
 echo "		-compiling implementations"
 echo "			-compiling framework implementation"

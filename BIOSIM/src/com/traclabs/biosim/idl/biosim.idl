@@ -139,6 +139,12 @@ module biosim{
                 };
 		module actuator{
                         #include "actuator/framework.idl"
+                        #include "actuator/air.idl"
+                        #include "actuator/crew.idl"
+                        #include "actuator/environment.idl"
+                        #include "actuator/food.idl"
+                        #include "actuator/power.idl"
+                        #include "actuator/water.idl"
                 };
         };
 };
