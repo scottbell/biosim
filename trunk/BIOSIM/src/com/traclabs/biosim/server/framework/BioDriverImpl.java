@@ -67,6 +67,9 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	private String myAirRSO2OutFlowRateSensorName;
 	private String myAirRSCO2InFlowRateSensorName;
 	private String myAirRSCO2OutFlowRateSensorName;
+	
+	//PowerPS
+	private String myPowerPSPowerOutFlowRateSensorName;
 
 	/*
 	private String myCO2InFlowRateSensorName;
@@ -151,8 +154,11 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	*/
 	public BioDriverImpl(int pID){
 		myID = pID;
-		myModuleNames = new String[24];
+		myModuleNames = new String[25];
+		
+		//
 		//simulation
+		//
 		myModuleNames[0] = myCrewName = "CrewGroup"+myID;
 		myModuleNames[1] = myPowerPSName = "PowerPS"+myID;
 		myModuleNames[2] = myPowerStoreName = "PowerStore"+myID;
@@ -171,13 +177,21 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames[15] = myPlantEnvironmentName = "PlantEnvironment"+myID;
 		myModuleNames[16] = myAccumulatorName = "Accumulator"+myID;
 		myModuleNames[17] = myInjectorName = "Injector"+myID;
+		
+		//
+		//sensors
+		//
+		
+		//AirRS
 		myModuleNames[18] = myAirRSPowerInFlowRateSensorName = "AirRSPowerInFlowRateSensor"+myID;
 		myModuleNames[19] = myAirRSAirInFlowRateSensorName = "AirRSAirInFlowRateSensor"+myID;
 		myModuleNames[20] = myAirRSAirOutFlowRateSensorName = "AirRSAirOutFlowRateSensor"+myID;
 		myModuleNames[21] = myAirRSO2OutFlowRateSensorName = "AirRSO2OutFlowRateSensor"+myID;
 		myModuleNames[22] = myAirRSCO2InFlowRateSensorName = "AirRSCO2InFlowRateSensor"+myID;
 		myModuleNames[23] = myAirRSCO2OutFlowRateSensorName = "AirRSCO2OutFlowRateSensor"+myID;
-		//sensors
+		
+		//PowerPS
+		myModuleNames[24] = myPowerPSPowerOutFlowRateSensorName = "PowerPSPowerOutFlowRateSensor"+myID;
 		/*
 		myModuleNames[18] = myCO2InFlowRateSensorName = "CO2InFlowRateSensor"+myID;
 		myModuleNames[19] = myCO2OutFlowRateSensorName = "CO2OutFlowRateSensor"+myID;
@@ -630,9 +644,9 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 
 	private void configureSensors(){
 		AirRS myAirRS = AirRSHelper.narrow(getBioModule(myAirRSName));
+		PowerPS myPowerPS = PowerPSHelper.narrow(getBioModule(myPowerPSName));
 
-
-		//AirRS
+		//Hook up sensors to AirRS
 		{
 			PowerInFlowRateSensor myAirRSPowerInFlowRateSensor = PowerInFlowRateSensorHelper.narrow(getBioModule(myAirRSPowerInFlowRateSensorName));
 			AirInFlowRateSensor myAirRSAirInFlowRateSensor = AirInFlowRateSensorHelper.narrow(getBioModule(myAirRSAirInFlowRateSensorName));
@@ -647,6 +661,13 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			myAirRSO2OutFlowRateSensor.setInput(myAirRS, 0);
 			myAirRSCO2InFlowRateSensor.setInput(myAirRS, 0);
 			myAirRSCO2OutFlowRateSensor.setInput(myAirRS, 0);
+		}
+		
+		//Hook up sensors to PowerPS
+		{
+			PowerOutFlowRateSensor myPowerPSPowerOutFlowRateSensor = PowerOutFlowRateSensorHelper.narrow(getBioModule(myPowerPSPowerOutFlowRateSensorName));
+			
+			myPowerPSPowerOutFlowRateSensor.setInput(myPowerPS, 0);
 		}
 	}
 
