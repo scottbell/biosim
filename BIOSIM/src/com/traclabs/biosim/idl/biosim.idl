@@ -4,13 +4,15 @@ module biosim{
 
                 module framework{
 			enum BioDriverInit {DEFAULT_INIT, OPTIMAL_INIT, NO_INIT};
+			enum StochasticIntensity {HIGH, MEDIUM, LOW, NONE};
+			
                         interface BioModule{
                                 void tick();
                                 string getModuleName();
                                 void reset();
                                 void setLogging(in boolean pLogging);
                                 boolean isLogging();
-				void setRandomCoefficient(in float pValue);
+				void setStochasticIntensity(in StochasticIntensity pIntensity);
                         };
 
                         interface Store : BioModule{
@@ -42,7 +44,7 @@ module biosim{
 				long getTicks();
 				void reset();
 				void setInitialization(in BioDriverInit myInit);
-				void setRandomCoefficient(in float pValue);
+				void setStochasticIntensity(in StochasticIntensity pIntensity);
                         };
                 };
 

@@ -19,6 +19,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	private Logger myLogger;
 	private boolean collectedLogger = false;
 	private float randomCoefficient = 0f;
+	protected StochasticIntensity myStochasticIntensity = StochasticIntensity.NONE;
 	private int myID = 0;
 	private static final int RANDOM_PRECISION = 1000;
 
@@ -53,8 +54,20 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		return myID;
 	}
 	
-	public void setRandomCoefficient(float pValue){
-		randomCoefficient = pValue;
+	public StochasticIntensity getStochasticIntensity(){
+		return myStochasticIntensity;
+	}
+	
+	public void setStochasticIntensity(StochasticIntensity pValue){
+		myStochasticIntensity = pValue;
+		if (pValue == StochasticIntensity.NONE)
+			randomCoefficient = 0f;
+		else if (pValue == StochasticIntensity.LOW)
+			randomCoefficient = .03f;
+		else if (pValue == StochasticIntensity.MEDIUM)
+			randomCoefficient = .06f;
+		else if (pValue == StochasticIntensity.HIGH)
+			randomCoefficient = .09f;
 	}
 	
 	public float randomFilter(float pValue){
