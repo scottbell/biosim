@@ -132,7 +132,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		personThirsty = false;
 		personSuffocating = false;
 		personPoisoned = false;
-		hasDied 7= false;
+		hasDied = false;
 		O2Consumed= 0f;
 		CO2Produced = 0f;
 		caloriesConsumed = 0f;
