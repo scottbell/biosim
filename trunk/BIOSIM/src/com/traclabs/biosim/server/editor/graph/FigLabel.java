@@ -53,8 +53,8 @@ public class FigLabel extends VesprFigText {
         super.calcBounds();
 
         // calculate x, y to center in the parent node.
-        if (_group != null && _group instanceof FigLabelNode) {
-            VesprFigNode node = (VesprFigNode) _group;
+        if (getGroup() != null && getGroup() instanceof FigLabelNode) {
+            VesprFigNode node = (VesprFigNode) getGroup();
             Rectangle rect = node.getHandleBox();
             int x = (int) rect.getX();
             int y = (int) rect.getY();

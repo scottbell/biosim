@@ -98,7 +98,7 @@ public class ZoomDialog extends JDialog {
         _result = CANCEL;
         _magnificationCombo.setSelectedItem(_magnification + "%");
 
-        this.show();
+        this.setVisible(true);
         return _result;
     }
 
