@@ -10,6 +10,7 @@ public abstract class Erectophile extends PlantImpl{
 	protected abstract float getBCF();
 	protected abstract float getCarbonUseEfficiency24();
 	protected abstract float getPhotoperiod();
+	protected abstract float getNominalPhotoperiod();
 	protected abstract float getN();
 	protected abstract float getTimeAtCanopySenescence();
 	protected abstract float getCQYMin();

@@ -29,7 +29,7 @@ public class Wheat extends Erectophile{
 	}
 	
 	protected float getConstantPPF(){
-		return 1331f;
+		return 1402.8f;
 	}
 	
 	protected float getCarbonUseEfficiency24(){
@@ -41,6 +41,10 @@ public class Wheat extends Erectophile{
 	}
 
 	protected float getPhotoperiod(){
+		return 20f;
+	}
+	
+	protected float getNominalPhotoperiod(){
 		return 20f;
 	}
 	

@@ -29,7 +29,7 @@ public class Lettuce extends Planophile{
 	}
 	
 	protected float getConstantPPF(){
-		return 196.76f;
+		return 295.14f;
 	}
 	
 	protected float getCarbonUseEfficiency24(){
@@ -49,6 +49,10 @@ public class Lettuce extends Planophile{
 	}
 
 	protected float getPhotoperiod(){
+		return 16f;
+	}
+	
+	protected float getNominalPhotoperiod(){
 		return 16f;
 	}
 

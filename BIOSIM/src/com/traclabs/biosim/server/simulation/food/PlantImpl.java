@@ -74,6 +74,7 @@ public abstract class PlantImpl extends PlantPOA{
 	protected abstract float getBCF();
 	protected abstract float getCarbonUseEfficiency24();
 	protected abstract float getPhotoperiod();
+	protected abstract float getNominalPhotoperiod();
 	protected abstract float getN();
 	protected abstract float getTimeAtCanopySenescence();
 	protected abstract float getCQYMin();
@@ -428,7 +429,7 @@ public abstract class PlantImpl extends PlantPOA{
 	}
 
 	private float calculateTimeTillCanopyClosure(){
-		float thePPF = getAveragePPF();
+		float thePPF = getAveragePPF() * getPhotoperiod() / getNominalPhotoperiod();
 		float oneOverPPf = 1f / thePPF;
 		float thePPFsquared = pow(thePPF, 2f);
 		float thePPFcubed = pow(thePPF, 3f);
