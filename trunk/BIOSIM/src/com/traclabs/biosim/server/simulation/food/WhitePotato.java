@@ -27,6 +27,10 @@ public class WhitePotato extends Planophile{
 		return PlantType.WHITE_POTATO;
 	}
 	
+	public String getPlantTypeString(){
+		return "White Potato";
+	}
+	
 	protected float getConstantPPF(){
 		return 648f;
 	}

@@ -22,6 +22,7 @@ public abstract class Legume extends Planophile{
 	protected abstract float getCUEMin();
 	protected abstract float getConstantPPF();
 	public abstract PlantType getPlantType();
+	public abstract String getPlantTypeString();
 	
 	public Legume(ShelfImpl pShelfImpl){
 		super(pShelfImpl);

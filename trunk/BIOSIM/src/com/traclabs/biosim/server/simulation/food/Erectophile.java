@@ -21,6 +21,8 @@ public abstract class Erectophile extends PlantImpl{
 	protected abstract float getProtectedInedibleFreshBasisWaterContent();
 	protected abstract float getConstantPPF();
 	public abstract PlantType getPlantType();
+	public abstract String getPlantTypeString();
+	
 	public Erectophile(ShelfImpl pShelfImpl){
 		super(pShelfImpl);
 	}

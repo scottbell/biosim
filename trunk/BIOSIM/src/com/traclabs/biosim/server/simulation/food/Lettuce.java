@@ -28,6 +28,10 @@ public class Lettuce extends Planophile{
 		return PlantType.LETTUCE;
 	}
 	
+	public String getPlantTypeString(){
+		return "Lettuce";
+	}
+	
 	protected float getConstantPPF(){
 		return 295f;
 	}

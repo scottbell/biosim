@@ -30,6 +30,10 @@ public class Rice extends Erectophile{
 		return PlantType.WHEAT;
 	}
 	
+	public String getPlantTypeString(){
+		return "Rice";
+	}
+	
 	protected float getConstantPPF(){
 		return 764f;
 	}

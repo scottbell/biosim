@@ -21,6 +21,7 @@ public abstract class Planophile extends PlantImpl{
 	protected abstract float getProtectedInedibleFreshBasisWaterContent();
 	protected abstract float getConstantPPF();
 	public abstract PlantType getPlantType();
+	public abstract String getPlantTypeString();
 	public Planophile(ShelfImpl pShelfImpl){
 		super(pShelfImpl);
 	}
