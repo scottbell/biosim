@@ -22,11 +22,22 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 		return addBioMatter(pMass, PlantType.UNKNOWN_PLANT);
 	}
 	
+	public void setLevel(float metricAmount){
+		super.setLevel(metricAmount);
+		currentBiomassItems.clear();
+		BioMatter newBioMatter = new BioMatter(metricAmount, PlantType.UNKNOWN_PLANT);
+		currentBiomassItems.add(newBioMatter);
+	}
+	
 	public float take(float pMass){
+		System.out.println("Taking "+pMass+" from BiomassStore!");
+		System.out.println("currentBiomassItems size = "+currentBiomassItems.size());
 		BioMatter[] massArray = takeBioMatterMass(pMass);
 		float matterToReturn = 0f;
 		for (int i = 0; i < massArray.length; i++)
 			matterToReturn += massArray[i].mass;
+		System.out.println("taken biomass: "+matterToReturn);
+		System.out.println("level now: "+level);
 		return matterToReturn;
 	}
 
@@ -52,13 +63,14 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 
 	public BioMatter[] takeBioMatterMass(float pMass){
 		List itemsToReturn = new Vector();
+		List itemsToRemove = new Vector();
 		float collectedMass = 0f;
 		for (Iterator iter = currentBiomassItems.iterator(); iter.hasNext() &&  (collectedMass <= pMass);){
 			BioMatter currentBioMatter = (BioMatter)(iter.next());
 			//we need to get more bio matter
 			if (currentBioMatter.mass < (pMass - collectedMass)){
 				itemsToReturn.add(currentBioMatter);
-				currentBiomassItems.remove(currentBioMatter);
+				itemsToRemove.add(currentBioMatter);
 				collectedMass += currentBioMatter.mass;
 			}
 			//we have enough, let's cut up the biomass (if too much)
@@ -67,9 +79,13 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 				currentBioMatter.mass -= partialReturnedBioMatter.mass;
 				itemsToReturn.add(partialReturnedBioMatter);
 				if (currentBioMatter.mass <= 0)
-					currentBiomassItems.remove(currentBioMatter);
+					itemsToRemove.add(currentBioMatter);
 				collectedMass += partialReturnedBioMatter.mass;
 			}
+		}
+		//Remove items from List
+		for (Iterator iter = itemsToRemove.iterator(); iter.hasNext();){
+			currentBiomassItems.remove(iter.next());
 		}
 		level -= collectedMass;
 		//return the array
@@ -79,13 +95,14 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 
 	public BioMatter takeBioMatterMassAndType(float pMass, PlantType pType){
 		BioMatter matterToReturn = new BioMatter(0f, pType);
+		List itemsToRemove = new Vector();
 		for (Iterator iter = currentBiomassItems.iterator(); iter.hasNext() &&  (matterToReturn.mass <= pMass);){
 			BioMatter currentBioMatter = (BioMatter)(iter.next());
 			if (currentBioMatter.type == pType){
 				//we need to get more bio matter
 				if (currentBioMatter.mass < (pMass - matterToReturn.mass)){
 					matterToReturn.mass += currentBioMatter.mass;
-					currentBiomassItems.remove(currentBioMatter);
+					itemsToRemove.add(currentBioMatter);
 				}
 				//we have enough, let's cut up the biomass (if too much)
 				else if (currentBioMatter.mass >= (pMass - matterToReturn.mass)){
@@ -93,9 +110,13 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 					currentBioMatter.mass -= partialMassToReturn;
 					matterToReturn.mass += partialMassToReturn;
 					if (currentBioMatter.mass <= 0)
-						currentBiomassItems.remove(currentBioMatter);
+						itemsToRemove.add(currentBioMatter);
 				}
 			}
+		}
+		//Remove items from List
+		for (Iterator iter = itemsToRemove.iterator(); iter.hasNext();){
+			currentBiomassItems.remove(iter.next());
 		}
 		level -= matterToReturn.mass;
 		return matterToReturn;
@@ -103,12 +124,17 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 
 	public BioMatter takeBioMatterType(PlantType pType){
 		BioMatter matterToReturn = new BioMatter(0f, pType);
+		List itemsToRemove = new Vector();
 		for (Iterator iter = currentBiomassItems.iterator(); iter.hasNext();){
 			BioMatter currentBioMatter = (BioMatter)(iter.next());
 			if (currentBioMatter.type == pType){
 				matterToReturn.mass += currentBioMatter.mass;
-				currentBiomassItems.remove(currentBioMatter);
+				itemsToRemove.add(currentBioMatter);
 			}
+		}
+		//Remove items from List
+		for (Iterator iter = itemsToRemove.iterator(); iter.hasNext();){
+			currentBiomassItems.remove(iter.next());
 		}
 		level -= matterToReturn.mass;
 		return matterToReturn;

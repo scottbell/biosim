@@ -52,13 +52,14 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 
 	public FoodMatter[] takeFoodMatterMass(float pMass){
 		List itemsToReturn = new Vector();
+		List itemsToRemove = new Vector();
 		float collectedMass = 0f;
 		for (Iterator iter = currentFoodItems.iterator(); iter.hasNext() &&  (collectedMass <= pMass);){
 			FoodMatter currentFoodMatter = (FoodMatter)(iter.next());
 			//we need to get more bio matter
 			if (currentFoodMatter.mass < (pMass - collectedMass)){
 				itemsToReturn.add(currentFoodMatter);
-				currentFoodItems.remove(currentFoodMatter);
+				itemsToRemove.add(currentFoodMatter);
 				collectedMass += currentFoodMatter.mass;
 			}
 			//we have enough, let's cut up the biomass (if too much)
@@ -67,9 +68,13 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 				currentFoodMatter.mass -= partialReturnedFoodMatter.mass;
 				itemsToReturn.add(partialReturnedFoodMatter);
 				if (currentFoodMatter.mass <= 0)
-					currentFoodItems.remove(currentFoodMatter);
+					itemsToRemove.add(currentFoodMatter);
 				collectedMass += partialReturnedFoodMatter.mass;
 			}
+		}
+		//Remove items from List
+		for (Iterator iter = itemsToRemove.iterator(); iter.hasNext();){
+			currentFoodItems.remove(iter.next());
 		}
 		level -= collectedMass;
 		//return the array
@@ -79,13 +84,14 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 
 	public FoodMatter takeFoodMatterMassAndType(float pMass, PlantType pType){
 		FoodMatter matterToReturn = new FoodMatter(0f, pType);
+		List itemsToRemove = new Vector();
 		for (Iterator iter = currentFoodItems.iterator(); iter.hasNext() &&  (matterToReturn.mass <= pMass);){
 			FoodMatter currentFoodMatter = (FoodMatter)(iter.next());
 			if (currentFoodMatter.type == pType){
 				//we need to get more bio matter
 				if (currentFoodMatter.mass < (pMass - matterToReturn.mass)){
 					matterToReturn.mass += currentFoodMatter.mass;
-					currentFoodItems.remove(currentFoodMatter);
+					itemsToRemove.add(currentFoodMatter);
 				}
 				//we have enough, let's cut up the biomass (if too much)
 				else if (currentFoodMatter.mass >= (pMass - matterToReturn.mass)){
@@ -93,9 +99,13 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 					currentFoodMatter.mass -= partialMassToReturn;
 					matterToReturn.mass += partialMassToReturn;
 					if (currentFoodMatter.mass <= 0)
-						currentFoodItems.remove(currentFoodMatter);
+						itemsToRemove.add(currentFoodMatter);
 				}
 			}
+		}
+		//Remove items from List
+		for (Iterator iter = itemsToRemove.iterator(); iter.hasNext();){
+			currentFoodItems.remove(iter.next());
 		}
 		level -= matterToReturn.mass;
 		return matterToReturn;
@@ -103,12 +113,17 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 
 	public FoodMatter takeFoodMatterType(PlantType pType){
 		FoodMatter matterToReturn = new FoodMatter(0f, pType);
+		List itemsToRemove = new Vector();
 		for (Iterator iter = currentFoodItems.iterator(); iter.hasNext();){
 			FoodMatter currentFoodMatter = (FoodMatter)(iter.next());
 			if (currentFoodMatter.type == pType){
 				matterToReturn.mass += currentFoodMatter.mass;
-				currentFoodItems.remove(currentFoodMatter);
+				itemsToRemove.add(currentFoodMatter);
 			}
+		}
+		//Remove items from List
+		for (Iterator iter = itemsToRemove.iterator(); iter.hasNext();){
+			currentFoodItems.remove(iter.next());
 		}
 		level -= matterToReturn.mass;
 		return matterToReturn;
