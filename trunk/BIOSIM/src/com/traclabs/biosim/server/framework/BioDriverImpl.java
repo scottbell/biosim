@@ -450,8 +450,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			//Accumulate O2 from plant environment, put it in O2 store
 			SimEnvironment[] O2AirInput = {myPlantEnvironment};
 			O2Store[] O2AirOutput = {myO2Store};
-			float[] O2AirInputFlowRates = {20f};
-			float[] O2AirOutputFlowRates = {20f};
+			float[] O2AirInputFlowRates = {500f};
+			float[] O2AirOutputFlowRates = {500f};
 			Accumulator myAccumulator = AccumulatorHelper.narrow(getBioModule(accumulatorName));
 			myAccumulator.setO2AirEnvironmentInputs(O2AirInput, O2AirInputFlowRates);
 			myAccumulator.setO2AirStoreOutputs(O2AirOutput, O2AirOutputFlowRates);
@@ -459,8 +459,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			//Accumulate CO2 from crew environment, put it in CO2 store
 			SimEnvironment[] CO2AirInput = {myCrewEnvironment};
 			CO2Store[] CO2AirOutput = {myCO2Store};
-			float[] CO2AirInputFlowRates = {100f};
-			float[] CO2AirOutputFlowRates = {100f};
+			float[] CO2AirInputFlowRates = {500f};
+			float[] CO2AirOutputFlowRates = {500f};
 			myAccumulator.setCO2AirEnvironmentInputs(CO2AirInput, CO2AirInputFlowRates);
 			myAccumulator.setCO2AirStoreOutputs(CO2AirOutput, CO2AirOutputFlowRates);
 		}
@@ -470,8 +470,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			//Take O2 from store, inject it into crew environment
 			O2Store[] O2AirInput = {myO2Store};
 			SimEnvironment[] O2AirOutput = {myCrewEnvironment};
-			float[] O2AirInputFlowRates = {100f};
-			float[] O2AirOutputFlowRates = {100f};
+			float[] O2AirInputFlowRates = {500f};
+			float[] O2AirOutputFlowRates = {500f};
 			Injector myInjector = InjectorHelper.narrow(getBioModule(injectorName));
 			myInjector.setO2AirStoreInputs(O2AirInput, O2AirInputFlowRates);
 			myInjector.setO2AirEnvironmentOutputs(O2AirOutput, O2AirOutputFlowRates);
@@ -479,8 +479,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			//Take CO2 from store, inject it into plant environment
 			CO2Store[] CO2AirInput = {myCO2Store};
 			SimEnvironment[] CO2AirOutput = {myPlantEnvironment};
-			float[] CO2AirInputFlowRates = {100f};
-			float[] CO2AirOutputFlowRates = {100f};
+			float[] CO2AirInputFlowRates = {500f};
+			float[] CO2AirOutputFlowRates = {500f};
 			myInjector.setCO2AirStoreInputs(CO2AirInput, CO2AirInputFlowRates);
 			myInjector.setCO2AirEnvironmentOutputs(CO2AirOutput, CO2AirOutputFlowRates);
 		}

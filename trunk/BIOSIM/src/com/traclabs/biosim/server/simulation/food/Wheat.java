@@ -28,7 +28,7 @@ public class Wheat extends Plant{
 		double d = (1.1802 *  0.0001) * (time * time * time);
 		double e =  (5.0269  * 0.0000001) * (time * time * time * time);
 		double f = 11.2;
-		double CO2FlowRate = (a + b - c + d - e) / f;
+		double CO2FlowRate = ((a + b - c + d - e) / f) * 10000;
 		//convert kg -> L at STP
 		CO2FlowRate *= .001964f;
 		if (CO2FlowRate < 0)
@@ -42,8 +42,8 @@ public class Wheat extends Plant{
 	
 	float calculateWaterNeeded(){
 		float theWaterNeeded = 0f;
-		float biomassProducedForWater = EDIBLE_KILOGRAMS * totalArea;
-		waterNeeded =  myBiomassImpl.randomFilter(new Double(0.10274 * biomassProducedForWater).floatValue());
+		float biomassProducedForWater = EDIBLE_KILOGRAMS * totalArea / 2;
+		theWaterNeeded =  myBiomassImpl.randomFilter(new Double(0.10274 * biomassProducedForWater).floatValue());
 		return theWaterNeeded;
 	}
 	
