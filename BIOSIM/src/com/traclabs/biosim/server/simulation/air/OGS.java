@@ -35,7 +35,7 @@ public class OGS extends AirRSSubSystem {
     }
 
     private void gatherWater() {
-        currentH2OConsumed = myAirRS.getPotableWaterProducerDefinitionImpl().pushResourceToStore(waterNeeded);
+        currentH2OConsumed = myAirRS.getPotableWaterProducerDefinitionImpl().getResourceFromStore(waterNeeded);
     }
 
     private void pushGasses() {
