@@ -61,8 +61,8 @@ public class Schedule{
 
 	private void parseSchedule(File scheduleFile){
 		//Add 2 defaults..
-		ActivityImpl bornActivity = new ActivityImpl("born", 0, 0);
-		ActivityImpl deadActivity = new ActivityImpl("dead", 0, 0);
+		ActivityImpl bornActivity = new ActivityImpl("born", 0, 0, 0);
+		ActivityImpl deadActivity = new ActivityImpl("dead", 0, 0, -1);
 		scheduleNameHash.put("born", bornActivity);
 		scheduleOrderHash.put(new Integer(0), bornActivity);
 		scheduleNameHash.put("dead", deadActivity);
@@ -81,7 +81,7 @@ public class Schedule{
 							int intensityOfActivity = Integer.parseInt(tokenizer.nextToken());
 							Integer orderOfActivity = new Integer(itemsRead);
 							itemsRead++;
-							ActivityImpl newActivity = new ActivityImpl(activityName, lengthOfActivity, intensityOfActivity);
+							ActivityImpl newActivity = new ActivityImpl(activityName, lengthOfActivity, intensityOfActivity, orderOfActivity.intValue());
 							scheduleNameHash.put(activityName, newActivity);
 							scheduleOrderHash.put(orderOfActivity, newActivity);
 						}

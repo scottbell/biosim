@@ -6,11 +6,13 @@ public class ActivityImpl extends ActivityPOA {
 	private String myName = "";
 	private int myTimeLength = 0;
 	private int myActivityIntensity = 0;
+	private int order = 0;
 	
-	public ActivityImpl(String pName, int pTimeLength, int pActivityIntensity){
+	public ActivityImpl(String pName, int pTimeLength, int pActivityIntensity, int pOrder){
 		myName = pName;
 		myTimeLength = pTimeLength;
 		myActivityIntensity = pActivityIntensity;
+		order = pOrder;
 	}
 	
 	public String getName(){
@@ -21,7 +23,11 @@ public class ActivityImpl extends ActivityPOA {
 		return myTimeLength;
 	}
 	
-	public int getActivityIntensity (){
+	public int getActivityIntensity(){
 		return myActivityIntensity;
+	}
+	
+	public int getOrder(){
+		return order;
 	}
 }

@@ -20,8 +20,10 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 	private Vector crewPersonGUIVector;
 	private JPanel noCrewPanel;
 	private JLabel noCrewLabel;
+	private DecimalFormat numFormat;
 
 	public CrewPanel(BioSimulator pBioSimulator){
+		numFormat = new DecimalFormat("#,##0.00;(#)");
 		myBioSimulator = pBioSimulator;
 		myCrew = (CrewGroup)(myBioSimulator.getBioModule(BioSimulator.crewName));
 		crewPersonGUIVector = new Vector();
@@ -52,7 +54,7 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 		setLayout(new GridLayout(myCrewPeople.length / 2, 2));
 		for (int i = 0; i < myCrewPeople.length; i++){
 			JPanel newPersonPanel = new JPanel();
-			newPersonPanel.setLayout(new GridLayout(8,1));
+			newPersonPanel.setLayout(new GridLayout(13,1));
 			newPersonPanel.setBorder(BorderFactory.createTitledBorder(myCrewPeople[i].getName()));
 			CrewPersonGUI newPersonGUI = new CrewPersonGUI();
 			newPersonGUI.name = myCrewPeople[i].getName();
@@ -69,6 +71,16 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 			newPersonPanel.add(newPersonGUI.sexLabel);
 			newPersonGUI.statusLabel = new JLabel("status: "+coallateStatus(myCrewPeople[i]));
 			newPersonPanel.add(newPersonGUI.statusLabel);
+			newPersonGUI.greyWaterProducedLabel = new JLabel("grey water produced: "+numFormat.format(myCrewPeople[i].getGreyWaterProduced())+" L");
+			newPersonPanel.add(newPersonGUI.greyWaterProducedLabel);
+			newPersonGUI.potableWaterConsumedLabel = new JLabel("potable water consumed: "+numFormat.format(myCrewPeople[i].getPotableWaterConsumed())+" L");
+			newPersonPanel.add(newPersonGUI.potableWaterConsumedLabel);
+			newPersonGUI.foodConsumedLabel = new JLabel("food consumed: "+numFormat.format(myCrewPeople[i].getFoodConsumed())+" kg");
+			newPersonPanel.add(newPersonGUI.foodConsumedLabel);
+			newPersonGUI.CO2ProducedLabel = new JLabel("CO2 produced: "+numFormat.format(myCrewPeople[i].getCO2Produced())+" L");
+			newPersonPanel.add(newPersonGUI.CO2ProducedLabel);
+			newPersonGUI.O2ConsumedLabel = new JLabel("O2 consumed: "+numFormat.format(myCrewPeople[i].getO2Consumed())+" L");
+			newPersonPanel.add(newPersonGUI.O2ConsumedLabel);
 			newPersonGUI.activityNameLabel = new JLabel("current activity: "+myCrewPeople[i].getCurrentActivity().getName());
 			newPersonPanel.add(newPersonGUI.activityNameLabel);
 			newPersonGUI.activityCurrentDurationLabel = new JLabel("	performed for: "+myCrewPeople[i].getTimeActivityPerformed());
@@ -119,6 +131,12 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 			newPersonGUI.activityTotalDurationLabel.setText("	total duration: "+crewPerson.getCurrentActivity().getTimeLength());
 			newPersonGUI.activityIntensityLabel.setText("	intensity: "+crewPerson.getCurrentActivity().getActivityIntensity());
 			newPersonGUI.statusLabel.setText("status: "+coallateStatus(crewPerson));
+			newPersonGUI.greyWaterProducedLabel.setText("grey water produced: "+numFormat.format(crewPerson.getGreyWaterProduced())+" L");
+			newPersonGUI.potableWaterConsumedLabel.setText("potable water consumed: "+numFormat.format(crewPerson.getPotableWaterConsumed())+" L");
+			newPersonGUI.foodConsumedLabel.setText("food consumed: "+numFormat.format(crewPerson.getFoodConsumed())+" kg");
+			newPersonGUI.CO2ProducedLabel.setText("CO2 produced: "+numFormat.format(crewPerson.getCO2Produced())+" L");
+			newPersonGUI.O2ConsumedLabel.setText("O2 consumed: "+numFormat.format(crewPerson.getO2Consumed())+" L");
+			newPersonGUI.activityNameLabel.setText("current activity: "+crewPerson.getCurrentActivity().getName());
 			String sexString;
 			if (crewPerson.getSex() == Sex.male)
 				sexString = "male";
@@ -149,5 +167,11 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 		JLabel activityTotalDurationLabel;
 		JLabel activityIntensityLabel;
 		JLabel statusLabel;
+		JLabel greyWaterProducedLabel;
+		JLabel dirtyWaterProducedLabel;
+		JLabel potableWaterConsumedLabel;
+		JLabel foodConsumedLabel;
+		JLabel CO2ProducedLabel;
+		JLabel O2ConsumedLabel;
 	}
 }

@@ -21,8 +21,10 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	private SimEnvironment myEnvironment;
 	private GreyWaterStore myGreyWaterStore;
 	private PowerStore myPowerStore;
+	private BiomassStore myBiomassStore;
 	private String status = "off";
 	private boolean plantsDead = false;
+	private boolean O2Poisoned = false;
 
 	public float getPowerConsumed(){
 		return currentPowerConsumed;
@@ -54,6 +56,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"));
 				myGreyWaterStore = GreyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("GreyWaterStore"));
 				myEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str("SimEnvironment"));
+				myBiomassStore = BiomassStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("BiomassStore"));
 				hasCollectedReferences = true;
 			}
 		}
@@ -83,8 +86,8 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 			plantsHaveEnoughWater = true;
 	}
 
-	private float getCO2Ratio(Breath aBreath){
-		Double ratio = new Double(aBreath.CO2 / (aBreath.O2 + aBreath.CO2 + aBreath.other));
+	private float getO2Ratio(Breath aBreath){
+		Double ratio = new Double(aBreath.O2 / (aBreath.O2 + aBreath.CO2 + aBreath.other));
 		return ratio.floatValue();
 	}
 	
@@ -102,11 +105,15 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 		float CO2Needed = calculateCO2Needed();
 		Breath airRetrieved = myEnvironment.takeCO2Breath(CO2Needed);
 		currentCO2Consumed = airRetrieved.CO2;
-		if (getCO2Ratio(airRetrieved) < .02){
+		if (currentCO2Consumed < CO2Needed)
 			plantsHaveEnoughCO2 = false;
+		else
+			plantsHaveEnoughCO2 = true;
+		if (getO2Ratio(airRetrieved) < .10){
+			O2Poisoned = false;
 		}
 		else{
-			plantsHaveEnoughCO2 = true;
+			O2Poisoned = true;
 		}
 		currentO2Produced = calculateO2Produced(currentCO2Consumed);
 		myEnvironment.addO2(currentO2Produced);
@@ -128,6 +135,13 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	public boolean hasPower(){
 		return systemHasEnoughPower;
 	}
+	
+	private void createBiomass(){
+		if (plantsHaveEnoughCO2 && plantsHaveEnoughWater && systemHasEnoughPower){
+			currentBiomassProduced = 0.2f;
+			myBiomassStore.add(currentBiomassProduced);
+		}
+	}
 
 	private void consumeResources(){
 		//gather power for each system
@@ -145,6 +159,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 			//collect references
 			collectReferences();
 			consumeResources();
+			createBiomass();
 		}
 	}
 
