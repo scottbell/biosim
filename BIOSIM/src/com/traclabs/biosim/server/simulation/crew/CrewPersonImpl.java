@@ -17,15 +17,17 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private int starvingTime = 0;
 	private int thirstTime = 0;
 	private int suffocateTime = 0;
+	private int poisonTime = 0;
 	private SimEnvironment myCurrentEnvironment;
 	private FoodStore myFoodStore;
 	private PotableWaterStore myPotableWaterStore;
 	private DirtyWaterStore myDirtyWaterStore;
+	private GreyWaterStore myGreyWaterStore;
 	private float age = 30f;
 	private float weight = 170f;
-	private CrewPersonSex sex = CrewPersonSex.male;
+	private Sex sex = Sex.male;
 
-	public CrewPersonImpl(String pName, float pAge, float pWeight, CrewPersonSex pSex, CrewGroupImpl pCrewGroup){
+	public CrewPersonImpl(String pName, float pAge, float pWeight, Sex pSex, CrewGroupImpl pCrewGroup){
 		myCrewGroup = pCrewGroup;
 		myName = pName;
 		age = pAge;
@@ -47,7 +49,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		return weight;
 	}
 	
-	public CrewPersonSex getSex(){
+	public Sex getSex(){
 		return sex;
 	}
 	
@@ -71,6 +73,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 				myFoodStore = FoodStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("FoodStore"));
 				myPotableWaterStore = PotableWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PotableWaterStore"));
 				myDirtyWaterStore = DirtyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("DirtyWaterStore"));
+				myGreyWaterStore = GreyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("GreyWaterStore"));
 			}
 		}
 		catch (org.omg.CORBA.UserException e){
@@ -117,81 +120,113 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			timeActivityPerformed = 0;
 			System.out.println("CrewPerson: "+myName+" has suffocated!!");
 		}
+		if (poisonTime > 5){
+			myCurrentActivity = myCrewGroup.getRawActivityByName("dead");
+			timeActivityPerformed = 0;
+			System.out.println("CrewPerson: "+myName+" has died of CO2 poisioning!!");
+		}
 	}
 	
-	private double calculateO2Needed(int currentActivityIntensity){
+	private float calculateO2Needed(int currentActivityIntensity){
+		if (currentActivityIntensity < 0)
+			return 0f;
 		double heartRate = (currentActivityIntensity * 30f) + 15f;
 		double a = 0.223804f;
 		double b = 5.64f * (Math.pow(10f, -7f));
-		double result = (a+b * Math.pow(heartRate, 3f)) * 60f;
-		return result; //Liters/hour
+		Double result = new Double((a+b * Math.pow(heartRate, 3f)) * 60f);
+		return result.floatValue(); //Liters/hour
+	}
+	
+	private float calculateCO2Produced(float O2Consumed){
+		Double result = new Double(O2Consumed * 0.86);
+		return result.floatValue();
+	}
+	
+	private float calculateO2Produced(float O2Consumed){
+		Double result = new Double(O2Consumed * 0.14);
+		return result.floatValue();
 	}
 	
 	private float calculateFoodNeeded(int currentActivityIntensity){
-		return 0.0f;
+		if (currentActivityIntensity < 0)
+			return 0f;
+		double activityCoefficient = (0.7 * (currentActivityIntensity - 1)) + 1;
+		double caloriesNeeded  = 0;
+		if (sex == Sex.male)
+			if (age < 30)
+				caloriesNeeded = (106 * weight) + (5040 * activityCoefficient);
+			else
+				caloriesNeeded = (86 * weight) + (5990 * activityCoefficient);
+		else
+			if (age < 30)
+				caloriesNeeded = (106 * weight) + (3200 * activityCoefficient);
+			else
+				caloriesNeeded = (106 * weight) + (6067 * activityCoefficient);
+		//make it for one hour
+		caloriesNeeded = caloriesNeeded / 24;
+		//assume they're eating only carbs
+		double energyFromFood = 17.22 * 1000;
+		Double kgFoodNeeded = new Double(caloriesNeeded / energyFromFood);
+		return kgFoodNeeded.floatValue();
+	}
+	
+	private float calculateDirtyWaterProduced(float cleanWaterConsumed){
+		Double result = new Double(cleanWaterConsumed * 0.3625);
+		return result.floatValue();
+	}
+	
+	private float calculateGreyWaterProduced(float cleanWaterConsumed){
+		Double result = new Double(cleanWaterConsumed * 0.6375);
+		return result.floatValue();
+	}
+	
+	private float calculateCleanWaterNeeded(int currentActivityIntensity){
+		if (currentActivityIntensity > 0)
+			return 30f;
+		else
+			return 0f;
+	}
+	
+	private float getCO2Ratio(Breath aBreath){
+		Double ratio = new Double(aBreath.CO2 / (aBreath.O2 + aBreath.CO2 + aBreath.other));
+		return ratio.floatValue();
 	}
 	
 	private void consumeResources(){
 		int currentActivityIntensity = myCurrentActivity.getActivityIntensity();
-		float O2Needed = 0f;
-		float CO2Out = 0f;
-		float waterNeeded = 0f;
-		float waterOut = 0f;
-		float foodNeeded = 0f;
-		if (currentActivityIntensity == 0){
-			//born, human needs nothing
-		}
-		else if (currentActivityIntensity == 1){
-			O2Needed = 1f;
-			CO2Out = 1f;
-			waterNeeded = 1f;
-			waterOut = 1f;
-			foodNeeded = 0.5f;
-		}
-		else if (currentActivityIntensity == 2){
-			O2Needed = 2f;
-			CO2Out = 2f;
-			waterNeeded = 1f;
-			waterOut = 1f;
-			foodNeeded = 0.5f;
-		}
-		else if (currentActivityIntensity == 3){
-			O2Needed = 2f;
-			CO2Out = 2f;
-			waterNeeded = 2f;
-			waterOut = 2f;
-			foodNeeded = 0.5f;
-		}
-		else if (currentActivityIntensity == 4){
-			O2Needed = 3f;
-			CO2Out = 3f;
-			waterNeeded = 2f;
-			waterOut = 2f;
-			foodNeeded = 0.5f;
-		}
-		else if (currentActivityIntensity == 5){
-			O2Needed = 3f;
-			CO2Out = 3f;
-			waterNeeded = 3f;
-			waterOut = 3f;
-			foodNeeded = 0.5f;
-		}
+		float O2Needed = calculateO2Needed(currentActivityIntensity);
+		float CO2Out = calculateCO2Produced(O2Needed);
+		float cleanWaterNeeded = calculateCleanWaterNeeded(currentActivityIntensity);
+		float dirtyWaterOut = calculateDirtyWaterProduced(cleanWaterNeeded);
+		float greyWaterOut = calculateGreyWaterProduced(dirtyWaterOut);
+		float foodNeeded = calculateFoodNeeded(currentActivityIntensity);
+		
 		//adjust tanks
 		float foodRetrieved = myFoodStore.takeFood(foodNeeded);
-		float waterRetrieved = myPotableWaterStore.takeWater(waterNeeded);
-		Breath airRetrieved = myCurrentEnvironment.takeO2(O2Needed);
+		float waterRetrieved = myPotableWaterStore.takeWater(cleanWaterNeeded);
+		Breath airRetrieved = myCurrentEnvironment.takeBreath(O2Needed);
 		float O2Retrieved = airRetrieved.O2;
-		myDirtyWaterStore.addWater(waterOut);
+		myDirtyWaterStore.addWater(dirtyWaterOut);
+		myGreyWaterStore.addWater(greyWaterOut);
 		myCurrentEnvironment.addCO2(CO2Out);
+		float theCO2Ratio = getCO2Ratio(airRetrieved);
 		//afflict crew
+		
 		if (foodRetrieved < foodNeeded){
+			System.out.println("CrewPerson: "+myName +" needed "+foodNeeded+" kgs of food, got only "+foodRetrieved +" kgs");
 			starvingTime++;
 		}
-		if (waterRetrieved < waterNeeded){
+		if (waterRetrieved < cleanWaterNeeded){
+			System.out.println("CrewPerson: "+myName +" needed "+cleanWaterNeeded+" liters of waters, got only "+waterRetrieved +" liters");
 			thirstTime++;
 		}
-		if (O2Retrieved < O2Needed){
+		if (O2Retrieved < O2Needed){System.out.println(
+			"CrewPerson: "+myName +" needed "+O2Needed+" liters of O2, got only "+O2Retrieved +" liters");
 			suffocateTime++;
+		}
+		if (theCO2Ratio > 0.06){
+			System.out.println("CrewPerson: "+myName +" needed a ratio of "+0.06+" liters of CO2, got "+theCO2Ratio);
+			poisonTime++;
 		}
 	}
 }

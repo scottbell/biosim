@@ -15,20 +15,20 @@ module biosim{
                                 long getTimeLength();
 				long getActivityIntensity();
                         };
-			enum CrewPersonSex {male, female};
+			enum Sex {male, female};
                         interface CrewPerson{
                                 Object getCurrentActivity();
                                 void setCurrentActivity(in Object newActivity);
                                 string getName();
 				float getAge();
 				float getWeight();
-				CrewPersonSex getSex();
+				Sex getSex();
                         };
                         interface CrewGroup : framework::BioModule{
                                 Object getScheduledActivityByName(in string name);
                                 Object getScheduledActivityByOrder(in long order);
                                 Object getCrewPerson(in string name);
-                                Object createCrewPerson(in string name, in float pAge, in float pWeight, in CrewPersonSex pSex);
+                                Object createCrewPerson(in string name, in float age, in float weight, in Sex pSex);
                         };
                 };
 
@@ -69,6 +69,7 @@ module biosim{
 			struct Breath{
 				float O2;
 				float CO2;
+				float other;
 			};
                 };
 
@@ -101,17 +102,20 @@ module biosim{
 
                 module environment{
                         interface SimEnvironment : framework::BioModule{
-                                void setCO2Capacity(in float liters);
                                 void setCO2Level(in float liters);
-                                void setO2Capacity(in float liters);
                                 void setO2Level(in float liters);
+                                void setOtherLevel(in float liters);
+				void setTotalLevel(in float liters);
+                                void setCapacity(in float liters);
                                 float getO2Level();
                                 float getCO2Level();
+				float getTotalLevel();
                                 float addCO2(in float liters);
                                 float addO2(in float liters);
-                                air::Breath takeO2(in float liters);
-                                air::Breath takeCO2(in float liters);
+				float addOther(in float liters);
+                                air::Breath takeBreath(in float liters);
 				long getTicks();
+				void resetLevels();
                         };
                 };
 

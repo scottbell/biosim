@@ -25,31 +25,40 @@ public class O2StoreImpl extends O2StorePOA {
 		O2Level = liters;
 	}
 
-	public float addO2(float liters){
-		if ((liters + O2Level) > O2Capacity){
-			float returnValue = (O2Capacity - O2Level);
-			O2Level = O2Capacity;
-			return returnValue;
+	public float addO2(float litersRequested){
+		float acutallyAdded = 0f;
+		if ((litersRequested + O2Level) > O2Capacity){
+			//adding more O2 than capacity
+			acutallyAdded = (O2Capacity - O2Level);
+			O2Level += acutallyAdded;
+			return  acutallyAdded;
 		}
 		else{
-			O2Level = O2Level + liters;
-			return liters;
+			acutallyAdded = litersRequested;
+			O2Level += litersRequested;
+			return acutallyAdded;
 		}
 	}
 
-	public float takeO2(float liters){
-		if ((O2Level - liters) < 0){
-			O2Level = 0;
-			if (liters < 0)
-				return 0;
-			else
-				return O2Level;
+	public float takeO2(float litersRequested){
+		//idiot check
+		if (litersRequested < 0){
+			return 0f;
 		}
+		//asking for more O2 than exists
+		if (litersRequested > O2Level){
+			float takenO2 = O2Level;
+			O2Level = 0;
+			return takenO2;
+		}
+		//O2 exists for request
 		else{
-			O2Level = O2Level - liters;
-			return liters;
+			float takenO2 = litersRequested;
+			O2Level -= litersRequested; 
+			return takenO2;
 		}
 	}
+	
 	public float getO2Level(){
 		return O2Level;
 	}

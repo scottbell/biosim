@@ -24,31 +24,40 @@ public class PowerStoreImpl extends PowerStorePOA {
 		powerLevel = watts;
 	}
 
-	public float addPower(float watts){
-		if ((watts +powerLevel) > powerCapacity){
-			float returnValue = (powerCapacity - powerLevel);
-			powerLevel = powerCapacity;
-			return returnValue;
+	public float addPower(float wattsRequested){
+		float acutallyAdded = 0f;
+		if ((wattsRequested + powerLevel) > powerCapacity){
+			//adding more power than capacity
+			acutallyAdded = (powerCapacity - powerLevel);
+			powerLevel += acutallyAdded;
+			return  acutallyAdded;
 		}
 		else{
-			powerLevel = powerLevel + watts;
-			return watts;
+			acutallyAdded = wattsRequested;
+			powerLevel += wattsRequested;
+			return acutallyAdded;
 		}
 	}
 
-	public float takePower(float watts){
-		if ((powerLevel - watts) < 0){
-			powerLevel = 0;
-			if (watts < 0)
-				return 0;
-			else
-				return powerLevel;
+	public float takePower(float wattsRequested){
+		//idiot check
+		if (wattsRequested < 0){
+			return 0f;
 		}
+		//asking for more power than exists
+		if (wattsRequested > powerLevel){
+			float takenPower = powerLevel;
+			powerLevel = 0;
+			return takenPower;
+		}
+		//power exists for request
 		else{
-			powerLevel = powerLevel - watts;
-			return watts;
+			float takenPower = wattsRequested;
+			powerLevel -= wattsRequested; 
+			return takenPower;
 		}
 	}
+	
 	public float getPowerLevel(){
 		return powerLevel;
 	}

@@ -25,7 +25,7 @@ public class CrewGroupImpl extends CrewGroupPOA {
 		return "CrewGroup";
 	}
 
-	public org.omg.CORBA.Object createCrewPerson(String pName, float pAge, float pWeight, CrewPersonSex pSex){
+	public org.omg.CORBA.Object createCrewPerson(String pName, float pAge, float pWeight, Sex pSex){
 		CrewPersonImpl newCrewPerson = new CrewPersonImpl(pName, pAge, pWeight, pSex, this);
 		crewPeople.put(pName, newCrewPerson);
 		return (OrbUtils.poaToCorbaObj(newCrewPerson));

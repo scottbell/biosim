@@ -24,31 +24,40 @@ public class FoodStoreImpl extends FoodStorePOA {
 		foodLevel = kilograms;
 	}
 
-	public float addFood(float kilograms){
-		if ((kilograms +foodLevel) > foodCapacity){
-			float returnValue = (foodCapacity - foodLevel);
-			foodLevel = foodCapacity;
-			return returnValue;
+	public float addFood(float kilosRequested){
+		float acutallyAdded = 0f;
+		if ((kilosRequested + foodLevel) > foodCapacity){
+			//adding more food than capacity
+			acutallyAdded = (foodCapacity - foodLevel);
+			foodLevel += acutallyAdded;
+			return  acutallyAdded;
 		}
 		else{
-			foodLevel = foodLevel + kilograms;
-			return kilograms;
+			acutallyAdded = kilosRequested;
+			foodLevel += kilosRequested;
+			return acutallyAdded;
 		}
 	}
 
-	public float takeFood(float kilograms){
-		if ((foodLevel - kilograms) < 0){
-			foodLevel = 0;
-			if (kilograms < 0)
-				return 0;
-			else
-				return foodLevel;
+	public float takeFood(float kilosRequested){
+		//idiot check
+		if (kilosRequested < 0){
+			return 0f;
 		}
+		//asking for more food than exists
+		if (kilosRequested > foodLevel){
+			float takenFood = foodLevel;
+			foodLevel = 0;
+			return takenFood;
+		}
+		//food exists for request
 		else{
-			foodLevel = foodLevel - kilograms;
-			return kilograms;
+			float takenFood = kilosRequested;
+			foodLevel -= kilosRequested; 
+			return takenFood;
 		}
 	}
+	
 	public float getFoodLevel(){
 		return foodLevel;
 	}
