@@ -568,7 +568,7 @@ public class SimDesktop extends BioFrame
 	*/
 	private void displaySensorViewer(){
 			BioFrame sensorFrame = new BioFrame("Sensor Viewer", false);
-			sensorFrame.getContentPane().add((new SensorViewer()).getScrollPane());
+			//sensorFrame.getContentPane().add((new SensorViewer()).getScrollPane());
 			sensorFrame.pack();
 			sensorFrame.setVisible(true);
 	}

@@ -22,7 +22,7 @@ public class CrewFoodChartPanel extends GraphPanel
 
 	protected void createGraph(){
 		// create the chart...
-		myCrewGroup = (CrewGroup)(BioHolder.getBioModule(BioHolder.crewName));
+		myCrewGroup = (CrewGroup)(BioHolderInitializer.getBioHolder().theCrewGroups.get(0));
 		refresh();
 		JFreeChart myChart = ChartFactory.createBarChart3D(
 		                  "Food Consumption",  // chart title

@@ -80,7 +80,7 @@ public class MalfunctionPanel extends TimedPanel
 		myModulePanel = new JPanel();
 		myModulePanel.setBorder(BorderFactory.createTitledBorder("Module Select"));
 		myModulePanel.setLayout(gridbag);
-		String[] myModuleNames = BioHolder.getBioDriver().getModuleNames();
+		String[] myModuleNames = BioHolderInitializer.getBioHolder().theBioDriver.getModuleNames();
 		Arrays.sort(myModuleNames);
 		moduleList = new JList(myModuleNames);
 		moduleList.addListSelectionListener(new ModuleListener());
@@ -200,7 +200,7 @@ public class MalfunctionPanel extends TimedPanel
 
 	private BioModule getSelectedModule(){
 		String currentName = (String)(moduleList.getSelectedValue());
-		return (BioHolder.getBioModule(currentName));
+		return ((BioModule)(BioHolderInitializer.getBioHolder().theModulesMapped.get(currentName)));
 	}
 
 	private MalfunctionIntensity getSelectedIntensity(){
@@ -225,7 +225,6 @@ public class MalfunctionPanel extends TimedPanel
 
 	private Malfunction getSelectedMalfunction(){
 		return ((Malfunction)(currentMalfunctionList.getSelectedValue()));
-
 	}
 
 	private class FixAllMalfunctionAction extends AbstractAction{
@@ -258,7 +257,7 @@ public class MalfunctionPanel extends TimedPanel
 			if (malfunctionSelected == null || myModule == null)
 				return;
 			else{
-				CrewGroup myCrewGroup = (CrewGroup)(BioHolder.getBioModule("CrewGroup"));
+				CrewGroup myCrewGroup = (CrewGroup)(BioHolderInitializer.getBioHolder().theCrewGroups.get(0));
 				myCrewGroup.scheduleRepair(myModule.getModuleName(), malfunctionSelected.getID(), 5);
 			}
 			refresh();

@@ -49,10 +49,11 @@ public class WaterTextPanel extends TimedPanel
 	* Creates and registers this panel.
 	*/
 	public WaterTextPanel(){
-		myWaterRS = (WaterRS)(BioHolder.getBioModule(BioHolder.waterRSName));
-		myPotableWaterStore = (PotableWaterStore)(BioHolder.getBioModule(BioHolder.potableWaterStoreName));
-		myDirtyWaterStore = (DirtyWaterStore)(BioHolder.getBioModule(BioHolder.dirtyWaterStoreName));
-		myGreyWaterStore = (GreyWaterStore)(BioHolder.getBioModule(BioHolder.greyWaterStoreName));
+		BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
+		myWaterRS = (WaterRS)(myBioHolder.theWaterRSModules.get(0));
+		myPotableWaterStore = (PotableWaterStore)(myBioHolder.thePotableWaterStores.get(0));
+		myDirtyWaterStore = (DirtyWaterStore)(myBioHolder.theDirtyWaterStores.get(0));
+		myGreyWaterStore = (GreyWaterStore)(myBioHolder.theGreyWaterStores.get(0));
 		buildGui();
 	}
 	

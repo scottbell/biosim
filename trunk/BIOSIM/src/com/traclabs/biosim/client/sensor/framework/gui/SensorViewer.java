@@ -16,8 +16,10 @@ import biosim.idl.sensor.power.*;
 import biosim.idl.sensor.water.*;
 import java.text.*;
 
-public class SensorViewer extends SpreadSheet
+public class SensorViewer
+//public class SensorViewer extends SpreadSheet
 {
+	/*
 	//Air
 	//AirRs
 	private PowerInFlowRateSensor myAirRSPowerInFlowRateSensor;
@@ -171,9 +173,6 @@ public class SensorViewer extends SpreadSheet
 		myFrame.setVisible(true);
 	}
 	
-	/**
-	* Action that displays the power panel in an internal frame on the desktop.
-	*/
 	private class RefreshAction extends AbstractAction{
 		public RefreshAction(String name){
 			super(name);
@@ -211,6 +210,6 @@ public class SensorViewer extends SpreadSheet
 		myTableModel.setValueAt(numFormat.format(myWaterRSGreyWaterInFlowRateSensor.getValue())+" / *", 3, 6);
 		myTableModel.setValueAt("* / "+numFormat.format(myWaterRSPotableWaterOutFlowRateSensor.getValue()), 3, 8);	
 	}
-
+	*/
 }
 

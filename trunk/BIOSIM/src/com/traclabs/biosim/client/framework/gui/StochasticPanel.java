@@ -73,7 +73,7 @@ public class StochasticPanel extends TimedPanel
 		myModulePanel = new JPanel();
 		myModulePanel.setBorder(BorderFactory.createTitledBorder("Module Select"));
 		myModulePanel.setLayout(gridbag);
-		String[] myModuleNames = BioHolder.getBioDriver().getModuleNames();
+		String[] myModuleNames = BioHolderInitializer.getBioHolder().theBioDriver.getModuleNames();
 		Arrays.sort(myModuleNames);
 		moduleList = new JList(myModuleNames);
 		moduleList.addListSelectionListener(new ModuleListener());
@@ -160,7 +160,7 @@ public class StochasticPanel extends TimedPanel
 
 	private BioModule getSelectedModule(){
 		String currentName = (String)(moduleList.getSelectedValue());
-		return (BioHolder.getBioModule(currentName));
+		return ((BioModule)(BioHolderInitializer.getBioHolder().theModulesMapped.get(currentName)));
 	}
 
 	private class ModuleListener implements ListSelectionListener {

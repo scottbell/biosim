@@ -22,7 +22,7 @@ public class CrewIntensityChartPanel extends GraphPanel
 	private CrewGroup myCrewGroup;
 
 	protected void buildGui(){
-		myCrewGroup = (CrewGroup)(BioHolder.getBioModule(BioHolder.crewName));
+		myCrewGroup = (CrewGroup)(BioHolderInitializer.getBioHolder().theCrewGroups.get(0));
 		if (myCrewGroup.getCrewSize() == 0){
 			setLayout(new BorderLayout());
 			JPanel noCrewPanel = new JPanel();
