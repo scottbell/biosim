@@ -26,6 +26,18 @@ import biosim.server.sensor.water.*;
 import biosim.server.sensor.power.*;
 import biosim.server.sensor.environment.*;
 import biosim.server.sensor.framework.*;
+import biosim.idl.actuator.air.*;
+import biosim.idl.actuator.food.*;
+import biosim.idl.actuator.water.*;
+import biosim.idl.actuator.power.*;
+import biosim.idl.actuator.environment.*;
+import biosim.idl.actuator.framework.*;
+import biosim.server.actuator.air.*;
+import biosim.server.actuator.food.*;
+import biosim.server.actuator.water.*;
+import biosim.server.actuator.power.*;
+import biosim.server.actuator.environment.*;
+import biosim.server.actuator.framework.*;
 import biosim.idl.util.log.*;
 import biosim.server.util.*;
 import biosim.server.util.log.*;
@@ -268,6 +280,166 @@ public class BiosimServer extends GenericServer{
 				registerServer(new CO2AirEnvironmentOutFlowRateSensorPOATie(myCO2AirEnvironmentOutFlowRateSensorImpl), "Injector" + myCO2AirEnvironmentOutFlowRateSensorImpl.getModuleName());
 				registerServer(new O2AirStoreInFlowRateSensorPOATie(myO2AirStoreInFlowRateSensorImpl), "Injector" + myO2AirStoreInFlowRateSensorImpl.getModuleName());
 				registerServer(new O2AirEnvironmentOutFlowRateSensorPOATie(myO2AirEnvironmentOutFlowRateSensorImpl), "Injector" + myO2AirEnvironmentOutFlowRateSensorImpl.getModuleName());
+			}
+		}
+		
+		//
+		//Actuators
+		//
+
+		//Air Sesnors
+		{
+			//AirRS
+			{
+				PowerInFlowRateActuatorImpl myPowerInFlowRateActuatorImpl = new PowerInFlowRateActuatorImpl(id);
+				AirInFlowRateActuatorImpl myAirInFlowRateActuatorImpl = new AirInFlowRateActuatorImpl(id);
+				AirOutFlowRateActuatorImpl myAirOutFlowRateActuatorImpl = new AirOutFlowRateActuatorImpl(id);
+				O2OutFlowRateActuatorImpl myO2OutFlowRateActuatorImpl = new O2OutFlowRateActuatorImpl(id);
+				CO2OutFlowRateActuatorImpl myCO2OutFlowRateActuatorImpl = new CO2OutFlowRateActuatorImpl(id);
+				CO2InFlowRateActuatorImpl myCO2InFlowRateActuatorImpl = new CO2InFlowRateActuatorImpl(id);
+				registerServer(new PowerInFlowRateActuatorPOATie(myPowerInFlowRateActuatorImpl), "AirRS" + myPowerInFlowRateActuatorImpl.getModuleName());
+				registerServer(new AirInFlowRateActuatorPOATie(myAirInFlowRateActuatorImpl), "AirRS" + myAirInFlowRateActuatorImpl.getModuleName());
+				registerServer(new AirOutFlowRateActuatorPOATie(myAirOutFlowRateActuatorImpl), "AirRS" + myAirOutFlowRateActuatorImpl.getModuleName());
+				registerServer(new O2OutFlowRateActuatorPOATie(myO2OutFlowRateActuatorImpl), "AirRS" + myO2OutFlowRateActuatorImpl.getModuleName());
+				registerServer(new CO2InFlowRateActuatorPOATie(myCO2InFlowRateActuatorImpl), "AirRS" + myCO2InFlowRateActuatorImpl.getModuleName());
+				registerServer(new CO2OutFlowRateActuatorPOATie(myCO2OutFlowRateActuatorImpl), "AirRS" + myCO2OutFlowRateActuatorImpl.getModuleName());
+			}
+			//Stores
+			{
+				O2StoreLevelActuatorImpl myO2StoreLevelActuatorImpl = new O2StoreLevelActuatorImpl(id);
+				CO2StoreLevelActuatorImpl myCO2StoreLevelActuatorImpl = new CO2StoreLevelActuatorImpl(id);
+				registerServer(new O2StoreLevelActuatorPOATie(myO2StoreLevelActuatorImpl), myO2StoreLevelActuatorImpl.getModuleName());
+				registerServer(new CO2StoreLevelActuatorPOATie(myCO2StoreLevelActuatorImpl), myCO2StoreLevelActuatorImpl.getModuleName());
+			}
+		}
+
+		//Power Actuators
+		{
+			//Power PS
+			{
+				PowerOutFlowRateActuatorImpl myPowerOutFlowRateActuatorImpl = new PowerOutFlowRateActuatorImpl(id);
+				registerServer(new PowerOutFlowRateActuatorPOATie(myPowerOutFlowRateActuatorImpl), "PowerPS" + myPowerOutFlowRateActuatorImpl.getModuleName());
+			}
+			//Stores
+			{
+				PowerStoreLevelActuatorImpl myPowerStoreLevelActuatorImpl = new PowerStoreLevelActuatorImpl(id);
+				registerServer(new PowerStoreLevelActuatorPOATie(myPowerStoreLevelActuatorImpl), myPowerStoreLevelActuatorImpl.getModuleName());
+			}
+		}
+
+		//Food Actuators
+		{
+			//Food Processor
+			{
+				PowerInFlowRateActuatorImpl myPowerInFlowRateActuatorImpl = new PowerInFlowRateActuatorImpl(id);
+				BiomassInFlowRateActuatorImpl myBiomassInFlowRateActuatorImpl = new BiomassInFlowRateActuatorImpl(id);
+				FoodOutFlowRateActuatorImpl myFoodOutFlowRateActuatorImpl = new FoodOutFlowRateActuatorImpl(id);
+				registerServer(new PowerInFlowRateActuatorPOATie(myPowerInFlowRateActuatorImpl), "FoodProcessor" + myPowerInFlowRateActuatorImpl.getModuleName());
+				registerServer(new BiomassInFlowRateActuatorPOATie(myBiomassInFlowRateActuatorImpl), "FoodProcessor" + myBiomassInFlowRateActuatorImpl.getModuleName());
+				registerServer(new FoodOutFlowRateActuatorPOATie(myFoodOutFlowRateActuatorImpl), "FoodProcessor" + myFoodOutFlowRateActuatorImpl.getModuleName());
+			}
+			//BiomassRS
+			{
+				PowerInFlowRateActuatorImpl myPowerInFlowRateActuatorImpl = new PowerInFlowRateActuatorImpl(id);
+				BiomassOutFlowRateActuatorImpl myBiomassOutFlowRateActuatorImpl = new BiomassOutFlowRateActuatorImpl(id);
+				FoodOutFlowRateActuatorImpl myFoodOutFlowRateActuatorImpl = new FoodOutFlowRateActuatorImpl(id);
+				AirInFlowRateActuatorImpl myAirInFlowRateActuatorImpl = new AirInFlowRateActuatorImpl(id);
+				AirOutFlowRateActuatorImpl myAirOutFlowRateActuatorImpl = new AirOutFlowRateActuatorImpl(id);
+				PotableWaterInFlowRateActuatorImpl myPotableWaterInFlowRateActuatorImpl = new PotableWaterInFlowRateActuatorImpl(id);
+				GreyWaterInFlowRateActuatorImpl myGreyWaterInFlowRateActuatorImpl = new GreyWaterInFlowRateActuatorImpl(id);
+				registerServer(new PowerInFlowRateActuatorPOATie(myPowerInFlowRateActuatorImpl), "BiomassRS" + myPowerInFlowRateActuatorImpl.getModuleName());
+				registerServer(new BiomassOutFlowRateActuatorPOATie(myBiomassOutFlowRateActuatorImpl), "BiomassRS" + myBiomassOutFlowRateActuatorImpl.getModuleName());
+				registerServer(new FoodOutFlowRateActuatorPOATie(myFoodOutFlowRateActuatorImpl), "BiomassRS" + myFoodOutFlowRateActuatorImpl.getModuleName());
+				registerServer(new AirInFlowRateActuatorPOATie(myAirInFlowRateActuatorImpl), "BiomassRS" + myAirInFlowRateActuatorImpl.getModuleName());
+				registerServer(new AirOutFlowRateActuatorPOATie(myAirOutFlowRateActuatorImpl), "BiomassRS" + myAirOutFlowRateActuatorImpl.getModuleName());
+				registerServer(new PotableWaterInFlowRateActuatorPOATie(myPotableWaterInFlowRateActuatorImpl), "BiomassRS" + myPotableWaterInFlowRateActuatorImpl.getModuleName());
+				registerServer(new GreyWaterInFlowRateActuatorPOATie(myGreyWaterInFlowRateActuatorImpl), "BiomassRS" + myGreyWaterInFlowRateActuatorImpl.getModuleName());
+			}
+			//Stores
+			{
+				BiomassStoreLevelActuatorImpl myBiomassStoreLevelActuatorImpl = new BiomassStoreLevelActuatorImpl(id);
+				FoodStoreLevelActuatorImpl myFoodStoreLevelActuatorImpl = new FoodStoreLevelActuatorImpl(id);
+				registerServer(new BiomassStoreLevelActuatorPOATie(myBiomassStoreLevelActuatorImpl), myBiomassStoreLevelActuatorImpl.getModuleName());
+				registerServer(new FoodStoreLevelActuatorPOATie(myFoodStoreLevelActuatorImpl), myFoodStoreLevelActuatorImpl.getModuleName());
+			}
+		}
+
+		//
+		//Water Actuators
+		//
+		{
+			//Water RS
+			{
+				PowerInFlowRateActuatorImpl myPowerInFlowRateActuatorImpl = new PowerInFlowRateActuatorImpl(id);
+				GreyWaterInFlowRateActuatorImpl myGreyWaterInFlowRateActuatorImpl = new GreyWaterInFlowRateActuatorImpl(id);
+				DirtyWaterInFlowRateActuatorImpl myDirtyWaterInFlowRateActuatorImpl = new DirtyWaterInFlowRateActuatorImpl(id);
+				PotableWaterOutFlowRateActuatorImpl myPotableWaterOutFlowRateActuatorImpl = new PotableWaterOutFlowRateActuatorImpl(id);
+				registerServer(new PowerInFlowRateActuatorPOATie(myPowerInFlowRateActuatorImpl), "WaterRS" + myPowerInFlowRateActuatorImpl.getModuleName());
+				registerServer(new GreyWaterInFlowRateActuatorPOATie(myGreyWaterInFlowRateActuatorImpl), "WaterRS" + myGreyWaterInFlowRateActuatorImpl.getModuleName());
+				registerServer(new DirtyWaterInFlowRateActuatorPOATie(myDirtyWaterInFlowRateActuatorImpl), "WaterRS" + myDirtyWaterInFlowRateActuatorImpl.getModuleName());
+				registerServer(new PotableWaterOutFlowRateActuatorPOATie(myPotableWaterOutFlowRateActuatorImpl), "WaterRS" + myPotableWaterOutFlowRateActuatorImpl.getModuleName());
+			}
+			//Stores
+			{
+				PotableWaterStoreLevelActuatorImpl myPotableWaterStoreLevelActuatorImpl = new PotableWaterStoreLevelActuatorImpl(id);
+				GreyWaterStoreLevelActuatorImpl myGreyWaterStoreLevelActuatorImpl = new GreyWaterStoreLevelActuatorImpl(id);
+				DirtyWaterStoreLevelActuatorImpl myDirtyWaterStoreLevelActuatorImpl = new DirtyWaterStoreLevelActuatorImpl(id);
+				registerServer(new PotableWaterStoreLevelActuatorPOATie(myPotableWaterStoreLevelActuatorImpl), myPotableWaterStoreLevelActuatorImpl.getModuleName());
+				registerServer(new GreyWaterStoreLevelActuatorPOATie(myGreyWaterStoreLevelActuatorImpl), myGreyWaterStoreLevelActuatorImpl.getModuleName());
+				registerServer(new DirtyWaterStoreLevelActuatorPOATie(myDirtyWaterStoreLevelActuatorImpl), myDirtyWaterStoreLevelActuatorImpl.getModuleName());
+			}
+		}
+
+		//
+		//Environment Actuators
+		//
+		{
+			//CrewEnvironment
+			{
+				O2AirLevelActuatorImpl myO2AirLevelActuatorImpl = new O2AirLevelActuatorImpl(id);
+				CO2AirLevelActuatorImpl myCO2AirLevelActuatorImpl = new CO2AirLevelActuatorImpl(id);
+				OtherAirLevelActuatorImpl myOtherAirLevelActuatorImpl = new OtherAirLevelActuatorImpl(id);
+				registerServer(new O2AirLevelActuatorPOATie(myO2AirLevelActuatorImpl), "CrewEnvironment" + myO2AirLevelActuatorImpl.getModuleName());
+				registerServer(new CO2AirLevelActuatorPOATie(myCO2AirLevelActuatorImpl), "CrewEnvironment" + myCO2AirLevelActuatorImpl.getModuleName());
+				registerServer(new OtherAirLevelActuatorPOATie(myOtherAirLevelActuatorImpl), "CrewEnvironment" + myOtherAirLevelActuatorImpl.getModuleName());
+			}
+			//Plant Evnironment
+			{
+				O2AirLevelActuatorImpl myO2AirLevelActuatorImpl = new O2AirLevelActuatorImpl(id);
+				CO2AirLevelActuatorImpl myCO2AirLevelActuatorImpl = new CO2AirLevelActuatorImpl(id);
+				OtherAirLevelActuatorImpl myOtherAirLevelActuatorImpl = new OtherAirLevelActuatorImpl(id);
+				registerServer(new O2AirLevelActuatorPOATie(myO2AirLevelActuatorImpl), "PlantEnvironment" + myO2AirLevelActuatorImpl.getModuleName());
+				registerServer(new CO2AirLevelActuatorPOATie(myCO2AirLevelActuatorImpl), "PlantEnvironment" + myCO2AirLevelActuatorImpl.getModuleName());
+				registerServer(new OtherAirLevelActuatorPOATie(myOtherAirLevelActuatorImpl), "PlantEnvironment" + myOtherAirLevelActuatorImpl.getModuleName());
+			}
+			
+		}
+
+		//
+		//Framework Actuators
+		//
+		{
+			//Accumulator
+			{
+				CO2AirEnvironmentInFlowRateActuatorImpl myCO2AirEnvironmentInFlowRateActuatorImpl = new CO2AirEnvironmentInFlowRateActuatorImpl(id);
+				CO2AirStoreOutFlowRateActuatorImpl myCO2AirStoreOutFlowRateActuatorImpl = new CO2AirStoreOutFlowRateActuatorImpl(id);
+				O2AirEnvironmentInFlowRateActuatorImpl myO2AirEnvironmentInFlowRateActuatorImpl = new O2AirEnvironmentInFlowRateActuatorImpl(id);
+				O2AirStoreOutFlowRateActuatorImpl myO2AirStoreOutFlowRateActuatorImpl = new O2AirStoreOutFlowRateActuatorImpl(id);
+				registerServer(new CO2AirStoreOutFlowRateActuatorPOATie(myCO2AirStoreOutFlowRateActuatorImpl), "Accumulator" + myCO2AirStoreOutFlowRateActuatorImpl.getModuleName());
+				registerServer(new CO2AirEnvironmentInFlowRateActuatorPOATie(myCO2AirEnvironmentInFlowRateActuatorImpl), "Accumulator" + myCO2AirEnvironmentInFlowRateActuatorImpl.getModuleName());
+				registerServer(new O2AirStoreOutFlowRateActuatorPOATie(myO2AirStoreOutFlowRateActuatorImpl), "Accumulator" + myO2AirStoreOutFlowRateActuatorImpl.getModuleName());
+				registerServer(new O2AirEnvironmentInFlowRateActuatorPOATie(myO2AirEnvironmentInFlowRateActuatorImpl), "Accumulator" + myO2AirEnvironmentInFlowRateActuatorImpl.getModuleName());
+			}
+			//Injector
+			{
+				CO2AirEnvironmentOutFlowRateActuatorImpl myCO2AirEnvironmentOutFlowRateActuatorImpl = new CO2AirEnvironmentOutFlowRateActuatorImpl(id);
+				CO2AirStoreInFlowRateActuatorImpl myCO2AirStoreInFlowRateActuatorImpl = new CO2AirStoreInFlowRateActuatorImpl(id);
+				O2AirEnvironmentOutFlowRateActuatorImpl myO2AirEnvironmentOutFlowRateActuatorImpl = new O2AirEnvironmentOutFlowRateActuatorImpl(id);
+				O2AirStoreInFlowRateActuatorImpl myO2AirStoreInFlowRateActuatorImpl = new O2AirStoreInFlowRateActuatorImpl(id);
+				registerServer(new CO2AirStoreInFlowRateActuatorPOATie(myCO2AirStoreInFlowRateActuatorImpl), "Injector" + myCO2AirStoreInFlowRateActuatorImpl.getModuleName());
+				registerServer(new CO2AirEnvironmentOutFlowRateActuatorPOATie(myCO2AirEnvironmentOutFlowRateActuatorImpl), "Injector" + myCO2AirEnvironmentOutFlowRateActuatorImpl.getModuleName());
+				registerServer(new O2AirStoreInFlowRateActuatorPOATie(myO2AirStoreInFlowRateActuatorImpl), "Injector" + myO2AirStoreInFlowRateActuatorImpl.getModuleName());
+				registerServer(new O2AirEnvironmentOutFlowRateActuatorPOATie(myO2AirEnvironmentOutFlowRateActuatorImpl), "Injector" + myO2AirEnvironmentOutFlowRateActuatorImpl.getModuleName());
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 module framework{
         interface GenericActuator : framework::BioModule{
 		void setValue(in float pValue);
+		float getValue();
 	};
 };

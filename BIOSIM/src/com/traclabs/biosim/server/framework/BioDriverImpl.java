@@ -13,6 +13,12 @@ import biosim.idl.sensor.environment.*;
 import biosim.idl.sensor.food.*;
 import biosim.idl.sensor.power.*;
 import biosim.idl.sensor.water.*;
+import biosim.idl.actuator.air.*;
+import biosim.idl.actuator.crew.*;
+import biosim.idl.actuator.environment.*;
+import biosim.idl.actuator.food.*;
+import biosim.idl.actuator.power.*;
+import biosim.idl.actuator.water.*;
 import biosim.idl.framework.*;
 import biosim.idl.util.log.*;
 import biosim.server.util.*;
@@ -120,6 +126,71 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	private String myInjectorO2AirStoreInFlowRateSensorName;
 	private String myInjectorCO2AirEnvironmentOutFlowRateSensorName;
 	private String myInjectorO2AirEnvironmentOutFlowRateSensorName;
+	
+	//
+	//actuator
+	//
+	//Air
+	//AirRs
+	private String myAirRSPowerInFlowRateActuatorName;
+	private String myAirRSAirInFlowRateActuatorName;
+	private String myAirRSAirOutFlowRateActuatorName;
+	private String myAirRSO2OutFlowRateActuatorName;
+	private String myAirRSCO2InFlowRateActuatorName;
+	private String myAirRSCO2OutFlowRateActuatorName;
+	//Stores
+	private String myO2StoreLevelActuatorName;
+	private String myCO2StoreLevelActuatorName;
+	//Power
+	//PowerPS
+	private String myPowerPSPowerOutFlowRateActuatorName;
+	//Stores
+	private String myPowerStoreLevelActuatorName;
+	//Environment
+	//Crew
+	private String myCrewEnvironmentOtherAirLevelActuatorName;
+	private String myCrewEnvironmentCO2AirLevelActuatorName;
+	private String myCrewEnvironmentO2AirLevelActuatorName;
+	//Plant
+	private String myPlantEnvironmentOtherAirLevelActuatorName;
+	private String myPlantEnvironmentCO2AirLevelActuatorName;
+	private String myPlantEnvironmentO2AirLevelActuatorName;
+	//Water
+	//WaterRS
+	private String myWaterRSDirtyWaterInFlowRateActuatorName;
+	private String myWaterRSGreyWaterInFlowRateActuatorName;
+	private String myWaterRSPowerInFlowRateActuatorName;
+	private String myWaterRSPotableWaterOutFlowRateActuatorName;
+	//Stores
+	private String myPotableWaterStoreLevelActuatorName;
+	private String myGreyWaterStoreLevelActuatorName;
+	private String myDirtyWaterStoreLevelActuatorName;
+	//Food
+	//BiomassRS
+	private String myBiomassRSAirInFlowRateActuatorName;
+	private String myBiomassRSAirOutFlowRateActuatorName;
+	private String myBiomassRSPotableWaterInFlowRateActuatorName;
+	private String myBiomassRSGreyWaterInFlowRateActuatorName;
+	private String myBiomassRSBiomassOutFlowRateActuatorName;
+	private String myBiomassRSPowerInFlowRateActuatorName;
+	//Food Processor
+	private String myFoodProcessorPowerInFlowRateActuatorName;
+	private String myFoodProcessorBiomassInFlowRateActuatorName;
+	private String myFoodProcessorFoodOutFlowRateActuatorName;
+	//Stores
+	private String myBiomassStoreLevelActuatorName;
+	private String myFoodStoreLevelActuatorName;
+	//Framework
+	//Accumulator
+	private String myAccumulatorCO2AirEnvironmentInFlowRateActuatorName;
+	private String myAccumulatorO2AirEnvironmentInFlowRateActuatorName;
+	private String myAccumulatorCO2AirStoreOutFlowRateActuatorName;
+	private String myAccumulatorO2AirStoreOutFlowRateActuatorName;
+	//Injector
+	private String myInjectorCO2AirStoreInFlowRateActuatorName;
+	private String myInjectorO2AirStoreInFlowRateActuatorName;
+	private String myInjectorCO2AirEnvironmentOutFlowRateActuatorName;
+	private String myInjectorO2AirEnvironmentOutFlowRateActuatorName;
 
 	//A hastable containing the server references
 	private Map modules;
@@ -256,7 +327,72 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myModuleNames[57] = myInjectorO2AirStoreInFlowRateSensorName = "InjectorO2AirStoreInFlowRateSensor"+myID;
 		myModuleNames[58] = myInjectorCO2AirEnvironmentOutFlowRateSensorName = "InjectorCO2AirEnvironmentOutFlowRateSensor"+myID;
 		myModuleNames[59] = myInjectorO2AirEnvironmentOutFlowRateSensorName = "InjectorO2AirEnvironmentOutFlowRateSensor"+myID;
-
+		
+		//
+		//actuators
+		//
+		//Air
+		//AirRS
+		myModuleNames[18] = myAirRSPowerInFlowRateActuatorName = "AirRSPowerInFlowRateActuator"+myID;
+		myModuleNames[19] = myAirRSAirInFlowRateActuatorName = "AirRSAirInFlowRateActuator"+myID;
+		myModuleNames[20] = myAirRSAirOutFlowRateActuatorName = "AirRSAirOutFlowRateActuator"+myID;
+		myModuleNames[21] = myAirRSO2OutFlowRateActuatorName = "AirRSO2OutFlowRateActuator"+myID;
+		myModuleNames[22] = myAirRSCO2InFlowRateActuatorName = "AirRSCO2InFlowRateActuator"+myID;
+		myModuleNames[23] = myAirRSCO2OutFlowRateActuatorName = "AirRSCO2OutFlowRateActuator"+myID;
+		//Stores
+		myModuleNames[24] = myO2StoreLevelActuatorName = "O2StoreLevelActuator"+myID;
+		myModuleNames[25] = myCO2StoreLevelActuatorName = "CO2StoreLevelActuator"+myID;
+		//Power
+		//PowerPS
+		myModuleNames[26] = myPowerPSPowerOutFlowRateActuatorName = "PowerPSPowerOutFlowRateActuator"+myID;
+		//Stores
+		myModuleNames[27] = myPowerStoreLevelActuatorName = "PowerStoreLevelActuator"+myID;
+		//Environment
+		//Crew
+		myModuleNames[28] = myCrewEnvironmentOtherAirLevelActuatorName = "CrewEnvironmentOtherAirLevelActuator"+myID;
+		myModuleNames[29] = myCrewEnvironmentCO2AirLevelActuatorName = "CrewEnvironmentCO2AirLevelActuator"+myID;
+		myModuleNames[30] = myCrewEnvironmentO2AirLevelActuatorName = "CrewEnvironmentO2AirLevelActuator"+myID;
+		//Plant
+		myModuleNames[31] = myPlantEnvironmentOtherAirLevelActuatorName = "PlantEnvironmentOtherAirLevelActuator"+myID;
+		myModuleNames[32] = myPlantEnvironmentCO2AirLevelActuatorName = "PlantEnvironmentCO2AirLevelActuator"+myID;
+		myModuleNames[33] = myPlantEnvironmentO2AirLevelActuatorName = "PlantEnvironmentO2AirLevelActuator"+myID;
+		//Water
+		//WaterRS
+		myModuleNames[34] = myWaterRSDirtyWaterInFlowRateActuatorName = "WaterRSDirtyWaterInFlowRateActuator"+myID;
+		myModuleNames[35] = myWaterRSGreyWaterInFlowRateActuatorName = "WaterRSGreyWaterInFlowRateActuator"+myID;
+		myModuleNames[36] = myWaterRSPowerInFlowRateActuatorName = "WaterRSPowerInFlowRateActuator"+myID;
+		myModuleNames[37] = myWaterRSPotableWaterOutFlowRateActuatorName = "WaterRSPotableWaterOutFlowRateActuator"+myID;
+		//Stores
+		myModuleNames[38] = myPotableWaterStoreLevelActuatorName = "PotableWaterStoreLevelActuator"+myID;
+		myModuleNames[39] = myGreyWaterStoreLevelActuatorName = "GreyWaterStoreLevelActuator"+myID;
+		myModuleNames[40] = myDirtyWaterStoreLevelActuatorName = "DirtyWaterStoreLevelActuator"+myID;
+		//Food
+		//BiomassRS
+		myModuleNames[41] = myBiomassRSAirInFlowRateActuatorName = "BiomassRSAirInFlowRateActuator"+myID;
+		myModuleNames[42] = myBiomassRSPowerInFlowRateActuatorName = "BiomassRSPowerInFlowRateActuator"+myID;
+		myModuleNames[43] = myBiomassRSAirOutFlowRateActuatorName = "BiomassRSAirOutFlowRateActuator"+myID;
+		myModuleNames[44] = myBiomassRSPotableWaterInFlowRateActuatorName = "BiomassRSPotableWaterInFlowRateActuator"+myID;
+		myModuleNames[45] = myBiomassRSGreyWaterInFlowRateActuatorName = "BiomassRSGreyWaterInFlowRateActuator"+myID;
+		myModuleNames[46] = myBiomassRSBiomassOutFlowRateActuatorName = "BiomassRSBiomassOutFlowRateActuator"+myID;
+		//Food Processor
+		myModuleNames[47] = myFoodProcessorPowerInFlowRateActuatorName = "FoodProcessorPowerInFlowRateActuator"+myID;
+		myModuleNames[48] = myFoodProcessorBiomassInFlowRateActuatorName = "FoodProcessorBiomassInFlowRateActuator"+myID;
+		myModuleNames[49] = myFoodProcessorFoodOutFlowRateActuatorName = "FoodProcessorFoodOutFlowRateActuator"+myID;
+		//Stores
+		myModuleNames[50] = myBiomassStoreLevelActuatorName = "BiomassStoreLevelActuator"+myID;
+		myModuleNames[51] = myFoodStoreLevelActuatorName = "FoodStoreLevelActuator"+myID;
+		//Framework
+		//Accumulator
+		myModuleNames[52] = myAccumulatorCO2AirEnvironmentInFlowRateActuatorName = "AccumulatorCO2AirEnvironmentInFlowRateActuator"+myID;
+		myModuleNames[53] = myAccumulatorO2AirEnvironmentInFlowRateActuatorName = "AccumulatorO2AirEnvironmentInFlowRateActuator"+myID;
+		myModuleNames[54] = myAccumulatorCO2AirStoreOutFlowRateActuatorName = "AccumulatorCO2AirStoreOutFlowRateActuator"+myID;
+		myModuleNames[55] = myAccumulatorO2AirStoreOutFlowRateActuatorName = "AccumulatorO2AirStoreOutFlowRateActuator"+myID;
+		//Injector
+		myModuleNames[56] = myInjectorCO2AirStoreInFlowRateActuatorName = "InjectorCO2AirStoreInFlowRateActuator"+myID;
+		myModuleNames[57] = myInjectorO2AirStoreInFlowRateActuatorName = "InjectorO2AirStoreInFlowRateActuator"+myID;
+		myModuleNames[58] = myInjectorCO2AirEnvironmentOutFlowRateActuatorName = "InjectorCO2AirEnvironmentOutFlowRateActuator"+myID;
+		myModuleNames[59] = myInjectorO2AirEnvironmentOutFlowRateActuatorName = "InjectorO2AirEnvironmentOutFlowRateActuator"+myID;
+		
 		usedDefaultModules = true;
 		checkMachineType();
 	}
@@ -396,6 +532,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		}
 		configureFlows();
 		configureSensors();
+		configureActuators();
 		System.out.println("BioDriverImpl:"+myID+" Running simulation...");
 		runSimulation();
 	}
@@ -844,6 +981,187 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 				myInjectorO2AirStoreInFlowRateSensor.setInput(myInjector, 0);
 				myInjectorCO2AirEnvironmentOutFlowRateSensor.setInput(myInjector, 0);
 				myInjectorO2AirEnvironmentOutFlowRateSensor.setInput(myInjector, 0);
+			}
+		}
+	}
+	
+	private void configureActuators(){
+		//
+		//Air
+		//
+		{
+			//AirRS
+			{
+
+				AirRS myAirRS = AirRSHelper.narrow(getBioModule(myAirRSName));
+				PowerInFlowRateActuator myAirRSPowerInFlowRateActuator = PowerInFlowRateActuatorHelper.narrow(getBioModule(myAirRSPowerInFlowRateActuatorName));
+				AirInFlowRateActuator myAirRSAirInFlowRateActuator = AirInFlowRateActuatorHelper.narrow(getBioModule(myAirRSAirInFlowRateActuatorName));
+				AirOutFlowRateActuator myAirRSAirOutFlowRateActuator = AirOutFlowRateActuatorHelper.narrow(getBioModule(myAirRSAirOutFlowRateActuatorName));
+				O2OutFlowRateActuator myAirRSO2OutFlowRateActuator = O2OutFlowRateActuatorHelper.narrow(getBioModule(myAirRSO2OutFlowRateActuatorName));
+				CO2InFlowRateActuator myAirRSCO2InFlowRateActuator = CO2InFlowRateActuatorHelper.narrow(getBioModule(myAirRSCO2InFlowRateActuatorName));
+				CO2OutFlowRateActuator myAirRSCO2OutFlowRateActuator = CO2OutFlowRateActuatorHelper.narrow(getBioModule(myAirRSCO2OutFlowRateActuatorName));
+				myAirRSPowerInFlowRateActuator.setOutput(myAirRS, 0);
+				myAirRSAirInFlowRateActuator.setOutput(myAirRS, 0);
+				myAirRSAirOutFlowRateActuator.setOutput(myAirRS, 0);
+				myAirRSO2OutFlowRateActuator.setOutput(myAirRS, 0);
+				myAirRSCO2InFlowRateActuator.setOutput(myAirRS, 0);
+				myAirRSCO2OutFlowRateActuator.setOutput(myAirRS, 0);
+			}
+			//Store
+			{
+
+				O2Store myO2Store = O2StoreHelper.narrow(getBioModule(myO2StoreName));
+				CO2Store myCO2Store = CO2StoreHelper.narrow(getBioModule(myCO2StoreName));
+				O2StoreLevelActuator myO2StoreLevelActuator = O2StoreLevelActuatorHelper.narrow(getBioModule(myO2StoreLevelActuatorName));
+				CO2StoreLevelActuator myCO2StoreLevelActuator = CO2StoreLevelActuatorHelper.narrow(getBioModule(myCO2StoreLevelActuatorName));
+				myO2StoreLevelActuator.setOutput(myO2Store);
+				myCO2StoreLevelActuator.setOutput(myCO2Store);
+			}
+		}
+
+		//
+		//Power
+		//
+		{
+			//PowerPS
+			{
+
+				PowerPS myPowerPS = PowerPSHelper.narrow(getBioModule(myPowerPSName));
+				PowerOutFlowRateActuator myPowerPSPowerOutFlowRateActuator = PowerOutFlowRateActuatorHelper.narrow(getBioModule(myPowerPSPowerOutFlowRateActuatorName));
+				myPowerPSPowerOutFlowRateActuator.setOutput(myPowerPS, 0);
+			}
+			//Stores
+			{
+				PowerStore myPowerStore = PowerStoreHelper.narrow(getBioModule(myPowerStoreName));
+				PowerStoreLevelActuator myPowerStoreLevelActuator = PowerStoreLevelActuatorHelper.narrow(getBioModule(myPowerStoreLevelActuatorName));
+				myPowerStoreLevelActuator.setOutput(myPowerStore);
+			}
+		}
+
+		//
+		//Environment
+		//
+		{
+			//Crew
+			{
+				SimEnvironment myCrewEnvironment = SimEnvironmentHelper.narrow(getBioModule(myCrewEnvironmentName));
+				O2AirLevelActuator myCrewEnvironmentO2AirLevelActuator = O2AirLevelActuatorHelper.narrow(getBioModule(myCrewEnvironmentO2AirLevelActuatorName));
+				CO2AirLevelActuator myCrewEnvironmentCO2AirLevelActuator = CO2AirLevelActuatorHelper.narrow(getBioModule(myCrewEnvironmentCO2AirLevelActuatorName));
+				OtherAirLevelActuator myCrewEnvironmentOtherAirLevelActuator = OtherAirLevelActuatorHelper.narrow(getBioModule(myCrewEnvironmentOtherAirLevelActuatorName));
+				myCrewEnvironmentO2AirLevelActuator.setOutput(myCrewEnvironment);
+				myCrewEnvironmentCO2AirLevelActuator.setOutput(myCrewEnvironment);
+				myCrewEnvironmentOtherAirLevelActuator.setOutput(myCrewEnvironment);
+			}
+			//Plant
+			{
+				SimEnvironment myPlantEnvironment = SimEnvironmentHelper.narrow(getBioModule(myPlantEnvironmentName));
+				O2AirLevelActuator myPlantEnvironmentO2AirLevelActuator = O2AirLevelActuatorHelper.narrow(getBioModule(myPlantEnvironmentO2AirLevelActuatorName));
+				CO2AirLevelActuator myPlantEnvironmentCO2AirLevelActuator = CO2AirLevelActuatorHelper.narrow(getBioModule(myPlantEnvironmentCO2AirLevelActuatorName));
+				OtherAirLevelActuator myPlantEnvironmentOtherAirLevelActuator = OtherAirLevelActuatorHelper.narrow(getBioModule(myPlantEnvironmentOtherAirLevelActuatorName));
+				myPlantEnvironmentO2AirLevelActuator.setOutput(myPlantEnvironment);
+				myPlantEnvironmentCO2AirLevelActuator.setOutput(myPlantEnvironment);
+				myPlantEnvironmentOtherAirLevelActuator.setOutput(myPlantEnvironment);
+			}
+		}
+		//
+		//Food
+		//
+		{
+			//BiomassRS
+			{
+				BiomassRS myBiomassRS = BiomassRSHelper.narrow(getBioModule(myBiomassRSName));
+				AirInFlowRateActuator myBiomassRSAirInFlowRateActuator = AirInFlowRateActuatorHelper.narrow(getBioModule(myBiomassRSAirInFlowRateActuatorName));
+				AirOutFlowRateActuator myBiomassRSAirOutFlowRateActuator = AirOutFlowRateActuatorHelper.narrow(getBioModule(myBiomassRSAirOutFlowRateActuatorName));
+				PotableWaterInFlowRateActuator myBiomassRSPotableWaterInFlowRateActuator = PotableWaterInFlowRateActuatorHelper.narrow(getBioModule(myBiomassRSPotableWaterInFlowRateActuatorName));
+				GreyWaterInFlowRateActuator myBiomassRSGreyWaterInFlowRateActuator = GreyWaterInFlowRateActuatorHelper.narrow(getBioModule(myBiomassRSGreyWaterInFlowRateActuatorName));
+				BiomassOutFlowRateActuator myBiomassRSBiomassOutFlowRateActuator = BiomassOutFlowRateActuatorHelper.narrow(getBioModule(myBiomassRSBiomassOutFlowRateActuatorName));
+				PowerInFlowRateActuator myBiomassRSPowerInFlowRateActuator = PowerInFlowRateActuatorHelper.narrow(getBioModule(myBiomassRSPowerInFlowRateActuatorName));
+				myBiomassRSGreyWaterInFlowRateActuator.setOutput(myBiomassRS, 0);
+				myBiomassRSPotableWaterInFlowRateActuator.setOutput(myBiomassRS, 0);
+				myBiomassRSAirOutFlowRateActuator.setOutput(myBiomassRS, 0);
+				myBiomassRSAirInFlowRateActuator.setOutput(myBiomassRS, 0);
+				myBiomassRSBiomassOutFlowRateActuator.setOutput(myBiomassRS, 0);
+				myBiomassRSPowerInFlowRateActuator.setOutput(myBiomassRS, 0);
+			}
+			//FoodProcessor
+			{
+				FoodProcessor myFoodProcessor = FoodProcessorHelper.narrow(getBioModule(myFoodProcessorName));
+				BiomassInFlowRateActuator myFoodProcessorBiomassInFlowRateActuator = BiomassInFlowRateActuatorHelper.narrow(getBioModule(myFoodProcessorBiomassInFlowRateActuatorName));
+				FoodOutFlowRateActuator myFoodProcessorFoodOutFlowRateActuator = FoodOutFlowRateActuatorHelper.narrow(getBioModule(myFoodProcessorFoodOutFlowRateActuatorName));
+				PowerInFlowRateActuator myFoodProcessorPowerInFlowRateActuator = PowerInFlowRateActuatorHelper.narrow(getBioModule(myFoodProcessorPowerInFlowRateActuatorName));
+				myFoodProcessorPowerInFlowRateActuator.setOutput(myFoodProcessor, 0);
+				myFoodProcessorFoodOutFlowRateActuator.setOutput(myFoodProcessor, 0);
+				myFoodProcessorBiomassInFlowRateActuator.setOutput(myFoodProcessor, 0);
+			}
+			//Stores
+			{
+				FoodStore myFoodStore = FoodStoreHelper.narrow(getBioModule(myFoodStoreName));
+				BiomassStore myBiomassStore = BiomassStoreHelper.narrow(getBioModule(myBiomassStoreName));
+				BiomassStoreLevelActuator myBiomassStoreLevelActuator = BiomassStoreLevelActuatorHelper.narrow(getBioModule(myBiomassStoreLevelActuatorName));
+				FoodStoreLevelActuator myFoodStoreLevelActuator = FoodStoreLevelActuatorHelper.narrow(getBioModule(myFoodStoreLevelActuatorName));
+				myFoodStoreLevelActuator.setOutput(myFoodStore);
+				myBiomassStoreLevelActuator.setOutput(myBiomassStore);
+			}
+		}
+
+		//
+		//Water
+		//
+		{
+			//WaterRS
+			{
+				WaterRS myWaterRS = WaterRSHelper.narrow(getBioModule(myWaterRSName));
+				GreyWaterInFlowRateActuator myWaterRSGreyWaterInFlowRateActuator = GreyWaterInFlowRateActuatorHelper.narrow(getBioModule(myWaterRSGreyWaterInFlowRateActuatorName));
+				DirtyWaterInFlowRateActuator myWaterRSDirtyWaterInFlowRateActuator = DirtyWaterInFlowRateActuatorHelper.narrow(getBioModule(myWaterRSDirtyWaterInFlowRateActuatorName));
+				PotableWaterOutFlowRateActuator myWaterRSPotableWaterOutFlowRateActuator = PotableWaterOutFlowRateActuatorHelper.narrow(getBioModule(myWaterRSPotableWaterOutFlowRateActuatorName));
+				PowerInFlowRateActuator myWaterRSPowerInFlowRateActuator = PowerInFlowRateActuatorHelper.narrow(getBioModule(myWaterRSPowerInFlowRateActuatorName));
+				myWaterRSPotableWaterOutFlowRateActuator.setOutput(myWaterRS, 0);
+				myWaterRSDirtyWaterInFlowRateActuator.setOutput(myWaterRS, 0);
+				myWaterRSGreyWaterInFlowRateActuator.setOutput(myWaterRS, 0);
+				myWaterRSPowerInFlowRateActuator.setOutput(myWaterRS, 0);
+			}
+			//Stores
+			{
+				PotableWaterStore myPotableWaterStore = PotableWaterStoreHelper.narrow(getBioModule(myPotableWaterStoreName));
+				DirtyWaterStore myDirtyWaterStore = DirtyWaterStoreHelper.narrow(getBioModule(myDirtyWaterStoreName));
+				GreyWaterStore myGreyWaterStore = GreyWaterStoreHelper.narrow(getBioModule(myGreyWaterStoreName));
+				PotableWaterStoreLevelActuator myPotableWaterStoreLevelActuator = PotableWaterStoreLevelActuatorHelper.narrow(getBioModule(myPotableWaterStoreLevelActuatorName));
+				GreyWaterStoreLevelActuator myGreyWaterStoreLevelActuator = GreyWaterStoreLevelActuatorHelper.narrow(getBioModule(myGreyWaterStoreLevelActuatorName));
+				DirtyWaterStoreLevelActuator myDirtyWaterStoreLevelActuator = DirtyWaterStoreLevelActuatorHelper.narrow(getBioModule(myDirtyWaterStoreLevelActuatorName));
+				myPotableWaterStoreLevelActuator.setOutput(myPotableWaterStore);
+				myGreyWaterStoreLevelActuator.setOutput(myGreyWaterStore);
+				myDirtyWaterStoreLevelActuator.setOutput(myDirtyWaterStore);
+			}
+		}
+
+		//
+		//Framework
+		//
+		{
+			//Accumulator
+			{
+
+				Accumulator myAccumulator = AccumulatorHelper.narrow(getBioModule(myAccumulatorName));
+				CO2AirStoreOutFlowRateActuator myAccumulatorCO2AirStoreOutFlowRateActuator = CO2AirStoreOutFlowRateActuatorHelper.narrow(getBioModule(myAccumulatorCO2AirStoreOutFlowRateActuatorName));
+				CO2AirEnvironmentInFlowRateActuator myAccumulatorCO2AirEnvironmentInFlowRateActuator = CO2AirEnvironmentInFlowRateActuatorHelper.narrow(getBioModule(myAccumulatorCO2AirEnvironmentInFlowRateActuatorName));
+				O2AirEnvironmentInFlowRateActuator myAccumulatorO2AirEnvironmentInFlowRateActuator = O2AirEnvironmentInFlowRateActuatorHelper.narrow(getBioModule(myAccumulatorO2AirEnvironmentInFlowRateActuatorName));
+				O2AirStoreOutFlowRateActuator myAccumulatorO2AirStoreOutFlowRateActuator = O2AirStoreOutFlowRateActuatorHelper.narrow(getBioModule(myAccumulatorO2AirStoreOutFlowRateActuatorName));
+				myAccumulatorCO2AirEnvironmentInFlowRateActuator.setOutput(myAccumulator, 0);
+				myAccumulatorO2AirEnvironmentInFlowRateActuator.setOutput(myAccumulator, 0);
+				myAccumulatorO2AirStoreOutFlowRateActuator.setOutput(myAccumulator, 0);
+				myAccumulatorCO2AirStoreOutFlowRateActuator.setOutput(myAccumulator, 0);
+			}
+			//Injector
+			{
+				Injector myInjector = InjectorHelper.narrow(getBioModule(myInjectorName));
+				CO2AirStoreInFlowRateActuator myInjectorCO2AirStoreInFlowRateActuator = CO2AirStoreInFlowRateActuatorHelper.narrow(getBioModule(myInjectorCO2AirStoreInFlowRateActuatorName));
+				O2AirStoreInFlowRateActuator myInjectorO2AirStoreInFlowRateActuator = O2AirStoreInFlowRateActuatorHelper.narrow(getBioModule(myInjectorO2AirStoreInFlowRateActuatorName));
+				O2AirEnvironmentOutFlowRateActuator myInjectorO2AirEnvironmentOutFlowRateActuator = O2AirEnvironmentOutFlowRateActuatorHelper.narrow(getBioModule(myInjectorO2AirEnvironmentOutFlowRateActuatorName));
+				CO2AirEnvironmentOutFlowRateActuator myInjectorCO2AirEnvironmentOutFlowRateActuator = CO2AirEnvironmentOutFlowRateActuatorHelper.narrow(getBioModule(myInjectorCO2AirEnvironmentOutFlowRateActuatorName));
+				myInjectorCO2AirStoreInFlowRateActuator.setOutput(myInjector, 0);
+				myInjectorO2AirStoreInFlowRateActuator.setOutput(myInjector, 0);
+				myInjectorCO2AirEnvironmentOutFlowRateActuator.setOutput(myInjector, 0);
+				myInjectorO2AirEnvironmentOutFlowRateActuator.setOutput(myInjector, 0);
 			}
 		}
 	}
