@@ -696,11 +696,12 @@ module biosim{
                                 };
                         };
                         module crew{
-                                interface CrewSensor : framework::GenericSensor{
+                                interface CrewGroupSensor : framework::GenericSensor{
                                         void setInput(in simulation::crew::CrewGroup source);
                                         simulation::crew::CrewGroup getInput();
                                 };
-                                interface CrewActivitySensor : CrewSensor{};
+                                interface CrewGroupActivitySensor : CrewGroupSensor{};
+				interface CrewGroupDeathSensor : CrewGroupSensor{};
                         };
                         module environment{
                                 interface EnvironmentSensor : framework::GenericSensor{
@@ -933,11 +934,11 @@ module biosim{
                                 };
                         };
                         module crew{
-                                interface CrewActuator : framework::GenericActuator{
+                                interface CrewGroupActuator : framework::GenericActuator{
                                         void setOutput(in simulation::crew::CrewGroup source);
                                         simulation::crew::CrewGroup getOutput();
                                 };
-                                interface CrewActivityActuator : CrewActuator{};
+                                interface CrewGroupActivityActuator : CrewGroupActuator{};
                         };
                         module environment{
                                 interface EnvironmentActuator : framework::GenericActuator{
