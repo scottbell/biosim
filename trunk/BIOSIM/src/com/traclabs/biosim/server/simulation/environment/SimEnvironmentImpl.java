@@ -1,7 +1,7 @@
 package biosim.server.environment;
 
 // The package containing our stubs.
-import SIMULATION.*;
+import ALSS.*;
 
 public class SimEnvironmentImpl extends SimEnvironmentPOA {
 	private float O2level;

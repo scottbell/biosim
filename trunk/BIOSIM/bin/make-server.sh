@@ -58,7 +58,7 @@ then
 	mkdir $serverClassesDir
 	echo "			-creating classes directory"
 fi
-relativeIDLDir="/src/biosim/idl/SIMULATION.idl"
+relativeIDLDir="/src/biosim/idl/ALSS.idl"
 fullIDLDir=$devRootDir$relativeIDLDir
 echo "			-generating skeletons"
 idlInvocation="$java_command -classpath $JACORB_HOME/lib/idl.jar org.jacorb.idl.parser"
@@ -67,7 +67,7 @@ $idlInvocation  -nostub -d $skeletonDir $fullIDLDir
 #		SERVER COMPILATION	#
 #######################
 echo "		-compiling server";
-simString="SIMULATION"
+simString="ALSS"
 simSkeletonDir="$skeletonDir/$simString"
 serverDir="$devRootDir/src/biosim/server"
 sourceDir="$devRootDir/src"

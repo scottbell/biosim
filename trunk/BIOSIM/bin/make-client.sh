@@ -59,7 +59,7 @@ then
 	mkdir $clientClassesDir
 	echo "			-creating classes directory"
 fi
-relativeIDLDir="/src/biosim/idl/SIMULATION.idl"
+relativeIDLDir="/src/biosim/idl/ALSS.idl"
 fullIDLDir=$devRootDir$relativeIDLDir
 echo "			-generating stubs"
 idlInvocation="$java_command -classpath $JACORB_HOME/lib/idl.jar org.jacorb.idl.parser"
@@ -68,7 +68,7 @@ $idlInvocation  -noskel -d $stubDir $fullIDLDir
 #		Client COMPILATION	#
 #######################
 echo "		-compiling client";
-simString="SIMULATION"
+simString="ALSS"
 simStubDir="$stubDir/$simString"
 clientDir="$devRootDir/src/biosim/client"
 sourceDir="$devRootDir/src"

@@ -1,7 +1,7 @@
 package biosim.server.power;
 
 // The package containing our stubs.
-import SIMULATION.*;
+import ALSS.*;
 
 public class PowerPSImpl extends PowerPSPOA {
 	public void tick(){

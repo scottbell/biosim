@@ -1,4 +1,4 @@
-package biosim.server.power;
+package biosim.server.food;
 
 import ALSS.*;
 import org.omg.CosNaming.*;
@@ -7,7 +7,7 @@ import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
 
-public class PowerPSServer {
+public class BiomassStoreServer {
 
 public static void main(String args[]) {
 	try{
@@ -19,20 +19,19 @@ public static void main(String args[]) {
 		 rootpoa.the_POAManager().activate();
 
 		 // create servant and register it with  ORB
-		 PowerPSImpl myPowerPSImpl = new PowerPSImpl();
+		 BiomassStoreImpl myBiomassStoreImpl = new BiomassStoreImpl();
 
 		 // get object reference from the servant
-		 org.omg.CORBA.Object ref = rootpoa.servant_to_reference(myPowerPSImpl);
-
+		 org.omg.CORBA.Object ref = rootpoa.servant_to_reference(myBiomassStoreImpl);
 		 // get the root naming context
 		 org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
 		 // Use NamingContextExt which is part of the Interoperable Naming Service (INS) specification.
 		 NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
 		 // bind the Object Reference in Naming
-		 NameComponent path[] = ncRef.to_name("PowerPS");
+		 NameComponent path[] = ncRef.to_name("BiomassStore");
 		 ncRef.rebind(path, ref);
 		 
-		 System.out.println("PowerPS Server ready and waiting ...");
+		 System.out.println("BiomassStore Server ready and waiting ...");
 		 // wait for invocations from clients
 		 orb.run();
 	}
@@ -40,7 +39,7 @@ public static void main(String args[]) {
 		System.err.println("ERROR: " + e);
 		e.printStackTrace(System.out);
 	}
-	System.out.println("PowerPS Server Exiting ...");
+	System.out.println("BiomassStore Server Exiting ...");
 	}
 }
 
