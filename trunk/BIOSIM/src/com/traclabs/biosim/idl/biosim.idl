@@ -691,7 +691,7 @@ module biosim{
                         };
 
                         module environment{
-				interface Dehumidifier : framework::SimBioModule, framework::AirConsumer, framework::PotableWaterProducer{
+				interface Dehumidifier : framework::SimBioModule, framework::AirConsumer, framework::DirtyWaterProducer{
 				};
 				
                                 interface SimEnvironment : framework::SimBioModule{
