@@ -99,11 +99,24 @@ public class BioInitializer{
 		System.out.println(node.getNodeName());
 	}
 
+	private static boolean isCreatedLocally(Node node){
+		return node.getAttributes().getNamedItem("createLocally").getNodeValue().equals("true");
+	}
+
+	private static String getName(Node node){
+		return node.getAttributes().getNamedItem("name").getNodeValue();
+	}
+
 	//Modules
 	private void createAirRS(Node node){
-		System.out.println("Creating AirRS");
-		AirRSImpl myAirRSImpl = new AirRSImpl(myID, "AirRS");
-		BiosimServer.registerServer(new AirRSPOATie(myAirRSImpl), myAirRSImpl.getModuleName(), myAirRSImpl.getID());
+		String name = getName(node);
+		if (isCreatedLocally(node)){
+			System.out.println("Creating AirRS with name: "+name);    
+			AirRSImpl myAirRSImpl = new AirRSImpl(myID, name);
+			BiosimServer.registerServer(new AirRSPOATie(myAirRSImpl), myAirRSImpl.getModuleName(), myAirRSImpl.getID());
+		}
+		else
+			System.out.println("Instance of AirRS named:"+name+" should be created remotely (if not already done)...");
 	}
 
 	private void configureAirRS(Node node){
@@ -226,7 +239,7 @@ public class BioInitializer{
 			child = child.getNextSibling();
 		}
 	}
-	
+
 	private void createBiomassRS(Node node){
 		System.out.println("Creating BiomassRS");
 	}
@@ -273,7 +286,7 @@ public class BioInitializer{
 			child = child.getNextSibling();
 		}
 	}
-	
+
 	private void createPowerPS(Node node){
 		System.out.println("Creating PowerPS");
 	}
@@ -281,11 +294,11 @@ public class BioInitializer{
 	private void configurePowerPS(Node node){
 		System.out.println("Configuring PowerPS");
 	}
-	
+
 	private void createPowerStore(Node node){
 		System.out.println("Creating PowerStore");
 	}
-	
+
 	private void crawlPowerModules(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -303,7 +316,7 @@ public class BioInitializer{
 			child = child.getNextSibling();
 		}
 	}
-	
+
 	private void createWaterRS(Node node){
 		System.out.println("Creating WaterRS");
 	}
@@ -311,19 +324,19 @@ public class BioInitializer{
 	private void configureWaterRS(Node node){
 		System.out.println("Configuring WaterRS");
 	}
-	
+
 	private void createPotableWaterStore(Node node){
 		System.out.println("Creating PotableWaterStore");
 	}
-	
+
 	private void createGreyWaterStore(Node node){
 		System.out.println("Creating GreyWaterStore");
 	}
-	
+
 	private void createDirtyWaterStore(Node node){
 		System.out.println("Creating DirtyWaterStore");
 	}
-	
+
 	private void crawlWaterModules(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
 		while (child != null) {

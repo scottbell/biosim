@@ -31,7 +31,7 @@ public class BiosimServer extends GenericServer{
 	public static void main(String args[]) {
 		int id = BiosimServer.getIDfromArgs(args);
 		BiosimServer server = new BiosimServer(id);
-		server.runServer("BiosimServer"+id);
+		server.runServer("BiosimServer (id="+id+")");
 	}
 }
 

@@ -116,13 +116,5 @@ public abstract class SimBioModuleImpl extends BioModuleImpl implements SimBioMo
 		}
 		return (amountToPush - resourceDistributed);
 	}
-
-	/**
-	* Returns the name of the module, "Unamed" if not overriden
-	* @return the name of this module
-	*/
-	public String getModuleName(){
-		return "SimModule"+getID();
-	}
 }
 
