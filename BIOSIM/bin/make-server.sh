@@ -171,9 +171,6 @@ echo "				-compiling food implementation"
 $compilationInvocation $serverDir/simulation/food/*.java
 echo "				-compiling environment implementation"
 $compilationInvocation $serverDir/simulation/environment/*.java
-echo "			-compiling actuator implementation"
-echo "				-compiling framework implementation"
-$compilationInvocation $serverDir/actuator/framework/*.java
 echo "			-compiling sensor implementation"
 echo "				-compiling framework implementation"
 $compilationInvocation $serverDir/sensor/framework/*.java
@@ -187,6 +184,19 @@ echo "				-compiling power implementation"
 $compilationInvocation $serverDir/sensor/power/*.java
 echo "				-compiling water implementation"
 $compilationInvocation $serverDir/sensor/water/*.java
+echo "			-compiling actuator implementation"
+echo "				-compiling framework implementation"
+$compilationInvocation $serverDir/actuator/framework/*.java
+echo "				-compiling air implementation"
+$compilationInvocation $serverDir/actuator/air/*.java
+echo "				-compiling environment implementation"
+$compilationInvocation $serverDir/actuator/environment/*.java
+echo "				-compiling food implementation"
+$compilationInvocation $serverDir/actuator/food/*.java
+echo "				-compiling power implementation"
+$compilationInvocation $serverDir/actuator/power/*.java
+echo "				-compiling water implementation"
+$compilationInvocation $serverDir/actuator/water/*.java
 echo "*done building biosim"
 
 

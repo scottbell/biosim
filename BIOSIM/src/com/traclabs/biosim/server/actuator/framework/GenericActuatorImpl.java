@@ -4,13 +4,13 @@ import biosim.server.framework.*;
 import biosim.idl.actuator.framework.*;
 
 public abstract class GenericActuatorImpl extends BioModuleImpl implements GenericActuatorOperations{
-	protected double myValue;
+	protected float myValue;
 	
 	public GenericActuatorImpl(int pID){
 		super(pID);
 	}
 	
-	public void setValue(double pValue){
+	public void setValue(float pValue){
 		myValue = pValue;
 	}
 	
