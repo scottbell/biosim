@@ -37,7 +37,7 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements
 
     private float[] powerDesiredFlowRates;
     
-    protected float upperPowerGeneration = 500f;
+    private float upperPowerGeneration = 500f;
 
     private SimEnvironment myLightInput;
 
@@ -178,5 +178,17 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements
 
     public SimEnvironment getLightInput() {
         return myLightInput;
+    }
+    /**
+     * @return Returns the upperPowerGeneration.
+     */
+    public float getUpperPowerGeneration() {
+        return upperPowerGeneration;
+    }
+    /**
+     * @param upperPowerGeneration The upperPowerGeneration to set.
+     */
+    public void setUpperPowerGeneration(float upperPowerGeneration) {
+        this.upperPowerGeneration = upperPowerGeneration;
     }
 }
