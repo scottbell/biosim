@@ -16,9 +16,11 @@ public abstract class PlantImpl extends PlantPOA{
 	private boolean logInitialized = false;
 	private ShelfImpl myShelfImpl;
 	private float waterNeeded = .01f;
+	protected float[] canopyClosureConstants;
 
 	public PlantImpl(ShelfImpl pShelfImpl){
 		myShelfImpl = pShelfImpl;
+		canopyClosureConstants = new float[25];
 	}
 
 	public void reset(){
@@ -34,7 +36,7 @@ public abstract class PlantImpl extends PlantPOA{
 	}
 	
 	public float getWaterNeeded(){
-		return 0.1f;
+		return waterNeeded;
 	}
 	
 	private void calculateBiomass(){
@@ -43,15 +45,34 @@ public abstract class PlantImpl extends PlantPOA{
 	}
 	
 	private float calculateDailyCarbonGain(){
-		return 0.0036f * getPhotoperiod() * getCarbonUseEfficiency24() * calculatePPFFraction() * calculateCQY() * calculatePPF();
+		float thePPF = calculatePPF();
+		return 0.0036f * getPhotoperiod() * getCarbonUseEfficiency24() * calculatePPFFractionAbsorbed(thePPF) * calculateCQY() * thePPF;
 	}
 	
 	protected abstract float getBCF();
 	protected abstract float getCarbonUseEfficiency24();
 	protected abstract float getPhotoperiod();
+	protected abstract float getN();
 	
-	private float calculatePPFFraction(){
+	//Need to convert current CO2 levels to micromoles of CO2 / molecules of air
+	private float calculateCO2(){
 		return 0.1f;
+	}
+	
+	private float calculateTimeTillCanopyClosure(float pPPF){
+		float thePPF = pPPF;
+		float theCO2 = calculateCO2();
+		return 0.1f;
+	}
+	
+	private float calculatePPFFractionAbsorbed(float pPPF){
+		float PPFFractionAbsorbedMax = 0.93f;
+		float timeTillCanopyClosure = calculateTimeTillCanopyClosure(pPPF);
+		if (myAge < timeTillCanopyClosure){
+			return PPFFractionAbsorbedMax * pow((myAge / timeTillCanopyClosure), getN());
+		}
+		else
+			return PPFFractionAbsorbedMax;
 	}
 	
 	private float calculateCQY(){
@@ -60,6 +81,10 @@ public abstract class PlantImpl extends PlantPOA{
 	
 	private float calculatePPF(){
 		return 0.1f;
+	}
+	
+	protected float pow(float a, float b){
+		return (new Double(Math.pow(a,b))).floatValue();
 	}
 	
 	public abstract String getPlantType();
@@ -83,4 +108,5 @@ public abstract class PlantImpl extends PlantPOA{
 	private class LogIndex{
 		public LogNode typeIndex;
 	}
+	
 }
