@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='BiosimInitialization.xsd'>
-	<Globals runTillDead="false" runTillN="2040" isFullLoggingEnabled="false" startPaused="false" logHandler="STANDARD_OUT">
+	<Globals runTillCrewDeath="false" runTillN="2040" isFullLoggingEnabled="false" startPaused="false" logHandler="STANDARD_OUT">
 		<comment>The default initialization for BioSim</comment>
 		<author>Scott Bell</author>
 	</Globals>

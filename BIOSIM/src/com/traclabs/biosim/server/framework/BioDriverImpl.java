@@ -3,6 +3,7 @@ package biosim.server.framework;
 import biosim.idl.framework.*;
 import biosim.idl.util.log.*;
 import biosim.idl.simulation.crew.*;
+import biosim.idl.simulation.food.*;
 import biosim.server.util.*;
 import java.util.*;
 
@@ -23,7 +24,9 @@ public class BioDriverImpl extends BioDriverPOA{
 	//The number of ticks gone by
 	private int ticksGoneBy = 0;
 	//Tells whether simulation runs until crew death
-	private boolean runTillDead = false;
+	private boolean runTillCrewDeath = false;
+	//Tells whether simulation runs until plant death
+	private boolean runTillPlantDeath = false;
 	//Tells whether simulation runs till a fixed number of ticks
 	private boolean runTillN = false;
 	//If <runTillN == true, this is the number of ticks to run for.
@@ -36,7 +39,8 @@ public class BioDriverImpl extends BioDriverPOA{
 	//If we loop after end conditions of a simulation run have been met (crew death or n-ticks)
 	private boolean looping = false;
 	private boolean logLastTick = false;
-	private CrewGroup[] crews;
+	private CrewGroup[] crewsToWatch;
+	private BiomassRS[] plantsToWatch;
 	private BioModule[] modules;
 	private BioModule[] simModules;
 	private BioModule[] sensors;
@@ -52,7 +56,8 @@ public class BioDriverImpl extends BioDriverPOA{
 		simModules = new BioModule[0];
 		sensors = new BioModule[0];
 		actuators = new BioModule[0];
-		crews = new CrewGroup[0];
+		crewsToWatch = new CrewGroup[0];
+		plantsToWatch = new BiomassRS[0];
 	}
 
 	/**
@@ -99,8 +104,15 @@ public class BioDriverImpl extends BioDriverPOA{
 	/**
 	* Simulation runs till all the crew dies if true.
 	*/
-	public synchronized void setRunTillDead(boolean pRunTillDead){
-		runTillDead = pRunTillDead;
+	public synchronized void setRunTillCrewDeath(boolean pRunTillDead){
+		runTillCrewDeath = pRunTillDead;
+	}
+	
+	/**
+	* Simulation runs till all the crew dies if true.
+	*/
+	public synchronized void setRunTillPlantDeath(boolean pRunTillDead){
+		runTillPlantDeath = pRunTillDead;
 	}
 
 	public void setModules(BioModule[] pModules){
@@ -114,11 +126,11 @@ public class BioDriverImpl extends BioDriverPOA{
 	public void setActuators(BioModule[] pActuators){
 		actuators = pActuators;
 	}
-	
+
 	public void setSimModules(BioModule[] pSimModules){
 		simModules = pSimModules;
 	}
-	
+
 	public BioModule[] getModules(){
 		return modules;
 	}
@@ -126,7 +138,7 @@ public class BioDriverImpl extends BioDriverPOA{
 	public BioModule[] getSensors(){
 		return sensors;
 	}
-	
+
 	public BioModule[] getSimModules(){
 		return simModules;
 	}
@@ -155,7 +167,7 @@ public class BioDriverImpl extends BioDriverPOA{
 			actuatorNameArray[i] = actuators[i].getModuleName();
 		return actuatorNameArray;
 	}
-	
+
 	public String[] getSimModuleNames(){
 		String[] simModuleNameArray = new String[simModules.length];
 		for (int i = 0; i < simModuleNameArray.length; i++)
@@ -164,7 +176,11 @@ public class BioDriverImpl extends BioDriverPOA{
 	}
 
 	public void setCrewsToWatch(CrewGroup[] pCrewGroups){
-		crews = pCrewGroups;
+		crewsToWatch = pCrewGroups;
+	}
+
+	public void setPlantsToWatch(BiomassRS[] pPlants){
+		plantsToWatch = pPlants;
 	}
 
 	/**
@@ -239,13 +255,22 @@ public class BioDriverImpl extends BioDriverPOA{
 				return true;
 			}
 		}
-		if (runTillDead){
-			for (int i = 0; i < crews.length; i++){
-				if (!crews[i].isDead()){
+		if (runTillCrewDeath){
+			for (int i = 0; i < crewsToWatch.length; i++){
+				if (!crewsToWatch[i].isDead()){
 					return false;
 				}
 			}
 			return true;
+		}
+		if(runTillPlantDeath){
+			for (int i = 0; i < plantsToWatch.length; i++){
+				Shelf[] shelves = plantsToWatch[i].getShelves();
+				for (int j = 0; j < shelves.length; j++){
+					if (shelves[j].isDead())
+						return true;
+				}
+			}
 		}
 		return false;
 	}
@@ -286,7 +311,7 @@ public class BioDriverImpl extends BioDriverPOA{
 			setPauseSimulation(true);
 		tick();
 	}
-	
+
 	/**
 	* Forces log
 	*/
@@ -294,11 +319,11 @@ public class BioDriverImpl extends BioDriverPOA{
 		if (myLogger != null)
 			myLogger.setProcessingLogs(true);
 		for (int i = 0; i < modules.length; i++){
-				BioModule currentBioModule = (BioModule)(modules[i]);
-				currentBioModule.log();
+			BioModule currentBioModule = (BioModule)(modules[i]);
+			currentBioModule.log();
 		}
 	}
-	
+
 	/**
 	* Whether to log the last tick
 	* @param pLogLastTick Whether to log the last tick
