@@ -87,7 +87,7 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 	* @return the power consumed (in watts) at the current tick
 	*/
 	public float getPowerConsumed(){
-		return 0;
+		return myVCCR.getPowerConsumed() + myOGS.getPowerConsumed() + myCRS.getPowerConsumed();
 	}
 	
 	/**
@@ -95,7 +95,7 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 	* @return the CO2 consumed at the current tick
 	*/
 	public float getCO2Consumed(){
-		return 0;
+		return myVCCR.getCO2Consumed();
 	}
 	
 	/**
@@ -103,7 +103,7 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 	* @return the O2 produced (in liters) at the current tick
 	*/
 	public float getO2Produced(){
-		return 0;
+		return myVCCR.getO2Produced() + myOGS.getO2Produced();
 	}
 	
 	/**
