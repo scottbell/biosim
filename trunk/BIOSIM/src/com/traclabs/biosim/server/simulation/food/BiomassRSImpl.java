@@ -13,22 +13,27 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	private float currentGreyWaterConsumed = 0f;
 	private float currentBiomassProduced = 0f;
 	private float currentCO2Consumed= 0f;
+	private float currentO2Produced = 0f;
 	private boolean hasCollectedReferences = false;
-	private boolean hasEnoughPower = false;
-	private boolean hasEnoughWater = false;
-	private boolean hasEnoughCO2 = false;
+	private boolean systemHasEnoughPower = false;
+	private boolean plantsHaveEnoughWater = false;
+	private boolean plantsHaveEnoughCO2 = false;
 	private SimEnvironment myEnvironment;
 	private GreyWaterStore myGreyWaterStore;
 	private PowerStore myPowerStore;
 	private String status = "off";
-	private boolean isDead = false;
-	
+	private boolean plantsDead = false;
+
 	public float getPowerConsumed(){
 		return currentPowerConsumed;
 	}
-	
+
 	public float getCO2Consumed(){
 		return currentCO2Consumed;
+	}
+	
+	public float getO2Produced(){
+		return currentO2Produced;
 	}
 
 	public float getGreyWaterConsumed(){
@@ -38,11 +43,11 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	public float getBiomassProduced(){
 		return currentBiomassProduced;
 	}
-	
+
 	public String getStatus(){
 		return status;
 	}
-	
+
 	private void collectReferences(){
 		try{
 			if (!hasCollectedReferences){
@@ -56,69 +61,93 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 			e.printStackTrace(System.out);
 		}
 	}
-	
+
 	private void gatherPower(){
 		float powerNeeded = 100;
 		currentPowerConsumed = myPowerStore.take(powerNeeded);
 		if (currentPowerConsumed < powerNeeded){
-			hasEnoughPower = false;
+			systemHasEnoughPower = false;
 		}
 		else
-			hasEnoughPower = true;
-			
+			systemHasEnoughPower = true;
+
 	}
-	
+
 	private void gatherWater(){
 		float waterNeeded = 2;
 		currentGreyWaterConsumed = myGreyWaterStore.take(waterNeeded);
 		if (currentGreyWaterConsumed < waterNeeded){
-			hasEnoughWater = false;
+			plantsHaveEnoughWater = false;
 		}
 		else
-			hasEnoughWater = true;		
+			plantsHaveEnoughWater = true;
 	}
-	
+
 	private float getCO2Ratio(Breath aBreath){
 		Double ratio = new Double(aBreath.CO2 / (aBreath.O2 + aBreath.CO2 + aBreath.other));
 		return ratio.floatValue();
 	}
 	
-	private void gatherAir(){
-		float CO2Needed = 5f;
-		Breath airRetrieved = myEnvironment.takeO2Breath(CO2Needed);
-		currentCO2Consumed = airRetrieved.CO2;
-		if (getCO2Ratio(airRetrieved) < .02){
-			hasEnoughCO2 = false;
-		}
-		else{
-			hasEnoughCO2 = true;
-		}
+	private float calculateCO2Needed(){
+		Double result = new Double(.02);
+		return result.floatValue();
 	}
 	
-	private void checkStatus(){
-		if (isDead)
-			status = "plants dead";
-		else if (!hasEnoughCO2)
-			status = "not enough CO2";
-		else if (!hasEnoughWater)
-			status = "not enough water";
-		else if (!hasEnoughPower)
-			status = "not enough power";
+	private float calculateO2Produced(float CO2Consumed){
+		Double result = new Double(CO2Consumed * 0.86);
+		return result.floatValue();
 	}
 
-	public void tick(){
-		//collect references
-		collectReferences();
+	private void gatherAir(){
+		float CO2Needed = calculateCO2Needed();
+		Breath airRetrieved = myEnvironment.takeCO2Breath(CO2Needed);
+		currentCO2Consumed = airRetrieved.CO2;
+		if (getCO2Ratio(airRetrieved) < .02){
+			plantsHaveEnoughCO2 = false;
+		}
+		else{
+			plantsHaveEnoughCO2 = true;
+		}
+		currentO2Produced = calculateO2Produced(currentCO2Consumed);
+		myEnvironment.addO2(currentO2Produced);
+		myEnvironment.addOther(airRetrieved.other);
+	}
+
+	public boolean isDead(){
+		return plantsDead;
+	}
+
+	public boolean hasCO2(){
+		return plantsHaveEnoughCO2;
+	}
+
+	public boolean hasWater(){
+		return plantsHaveEnoughWater;
+	}
+
+	public boolean hasPower(){
+		return systemHasEnoughPower;
+	}
+
+	private void consumeResources(){
 		//gather power for each system
 		gatherPower();
 		//gather water for system
 		gatherWater();
 		//gather air for system
 		gatherAir();
-		//check status for plants
-		checkStatus();
 	}
-	
+
+	public void tick(){
+		if (plantsDead)
+			return;
+		else{
+			//collect references
+			collectReferences();
+			consumeResources();
+		}
+	}
+
 	public String getModuleName(){
 		return "BiomassRS";
 	}
