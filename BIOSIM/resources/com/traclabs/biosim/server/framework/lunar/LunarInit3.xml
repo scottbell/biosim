@@ -1,7 +1,20 @@
 <?xml version="1.0"?>
 <biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='BiosimInitSchema.xsd'>
 	<Globals crewsToWatch="BaseCrewGroup EVACrewGroup" runTillN="2160" runTillCrewDeath="true">
-		<comment>The lunar mission initialization for BioSim (scenario 3)</comment>
+		<comment>
+			The lunar mission initialization for BioSim (scenario 3)
+			Has the following properties:
+				- contains biomass
+				- biomass has same air as crew, but separate water system
+				*other properties same as scenario 1*
+				- big H2 tank
+				- 1 daily EVA
+				- cabin leak (very small)
+				- small C02 tank
+				- AES off
+				- roughly 11.82 MJ of energy expended by each crew member
+				- 2 malfunctions
+		</comment>
 		<author>Scott Bell</author>
 		<!-- <log4jProperty name="log4j.logger.com.traclabs.biosim.server.sensor" value="DEBUG"/> !-->
 	</Globals>
