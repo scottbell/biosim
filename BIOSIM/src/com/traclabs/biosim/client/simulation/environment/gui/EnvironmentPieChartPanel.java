@@ -94,15 +94,11 @@ public class EnvironmentPieChartPanel extends JPanel
 	}
 
 	public void refresh() {
-		System.out.println("Starting to refresh");
 		if (myDataset == null)
 			myDataset = new DefaultPieDataset();
 		myDataset.setValue(O2Category, new Float(mySimEnvironment.getO2Level()));
 		myDataset.setValue(CO2Category, new Float(mySimEnvironment.getCO2Level()));
 		myDataset.setValue(otherCategory, new Float(mySimEnvironment.getOtherLevel()));
-		if (myChartPanel != null)
-			myChartPanel.repaint();
-		System.out.println("Done refreshing...");
 	}
 
 	public void visibilityChange(boolean nowVisible){
