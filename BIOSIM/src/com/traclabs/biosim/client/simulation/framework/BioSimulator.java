@@ -223,7 +223,6 @@ public class BioSimulator implements Runnable
 
 	public void tick(){
 		//Iterate through modules and tick them
-		System.out.println("Ticking modules...");
 		for (Enumeration e = modules.elements(); e.hasMoreElements();){
 			BioModule currentBioModule = (BioModule)(e.nextElement());
 			currentBioModule.tick();
