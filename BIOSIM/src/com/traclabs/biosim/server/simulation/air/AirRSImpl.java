@@ -103,7 +103,7 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations {
 	}
 	
 	/**
-	* Attempts to collected enough power from the Power PS to run the AirRS for one tick.
+	* Attempts to collect enough power from the Power PS to run the AirRS for one tick.
 	*/
 	private void gatherPower(){
 		currentPowerConsumed = myPowerStore.take(powerNeeded);
