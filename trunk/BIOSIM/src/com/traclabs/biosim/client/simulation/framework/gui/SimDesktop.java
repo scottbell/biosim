@@ -27,6 +27,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
+import org.apache.log4j.Logger;
+
 import com.traclabs.biosim.client.framework.gui.BioFrame;
 import com.traclabs.biosim.client.framework.gui.MalfunctionPanel;
 import com.traclabs.biosim.client.framework.gui.StochasticPanel;
@@ -213,11 +215,14 @@ public class SimDesktop extends BioFrame {
     private int xOffset = 30, yOffset = 30;
 
     private int myID = 0;
+    
+    private Logger myLogger;
 
     /**
      * Creates a BioSimulator, a panel hashtable, and creates the GUI
      */
     public SimDesktop(int pID) {
+	myLogger = Logger.getLogger(this.getClass());
         myID = pID;
         myDriver = BioHolderInitializer.getBioHolder().theBioDriver;
         myDriver.setPauseSimulation(false);
@@ -420,7 +425,7 @@ public class SimDesktop extends BioFrame {
             stochasticIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
                     .getResource("biosim/client/framework/gui/dice.jpg"));
         } catch (Exception e) {
-            System.err.println("Couldn't find icon (" + e + "), skipping");
+            myLogger.warn("Couldn't find icon (" + e + "), skipping");
             e.printStackTrace();
         }
     }

@@ -53,15 +53,14 @@ public class DehumidifierImpl extends SimBioModuleImpl implements
     public void tick() {
         super.tick();
         dehumidifyEnvironments();
-        //System.out.println(getModuleName() + " ticked");
+        myLogger.debug(getModuleName() + " ticked");
     }
 
     private void dehumidifyEnvironments() {
         float currentWaterMolesInEnvironment = myAirInputs[0].getWaterMoles();
         float totalMolesInEnvironment = myAirInputs[0].getTotalMoles();
         //myAirInputs[0].printCachedEnvironment();
-        //System.out.println("Before: Water concentration
-        // "+currentWaterMolesInEnvironment / totalMolesInEnvironment);
+        myLogger.debug("Before: Water concentration"+currentWaterMolesInEnvironment / totalMolesInEnvironment);
 
         float molesOfWaterGathered = 0f;
         for (int i = 0; i < myAirInputs.length; i++) {
@@ -75,8 +74,7 @@ public class DehumidifierImpl extends SimBioModuleImpl implements
                         airInDesiredFlowRates[i]);
                 airInActualFlowRates[i] = myAirInputs[i]
                         .takeWaterMoles(resourceToGatherFinal);
-                //System.out.println("Going to remove "+resourceToGatherFinal+"
-                // moles of water");
+                myLogger.debug("Going to remove "+resourceToGatherFinal+" moles of water");
                 molesOfWaterGathered += airInActualFlowRates[i];
             }
         }
@@ -87,11 +85,7 @@ public class DehumidifierImpl extends SimBioModuleImpl implements
 
         currentWaterMolesInEnvironment = myAirInputs[0].getWaterMoles();
         totalMolesInEnvironment = myAirInputs[0].getTotalMoles();
-        //System.out.println("After: Pushed "+waterPushedToStore+" liters of
-        // water to the store (gathered "+molesOfWaterGathered+" moles), water
-        // concentration now "+currentWaterMolesInEnvironment /
-        // totalMolesInEnvironment);
-        //myAirInputs[0].printEnvironment();
+        myLogger.debug("After: Pushed "+waterPushedToStore+" liters of water to the store (gathered "+molesOfWaterGathered+" moles), water concentration now "+currentWaterMolesInEnvironment /totalMolesInEnvironment);
     }
 
     private static float calculateMolesNeededToRemove(

@@ -3,6 +3,8 @@ package com.traclabs.biosim.client.framework;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.log4j.Logger;
+
 import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
@@ -20,31 +22,34 @@ import com.traclabs.biosim.idl.simulation.water.PotableWaterStore;
 public class StateMap {
     private Map myMap;
 
-    BioHolder myBioHolder;
+    private BioHolder myBioHolder;
 
-    DirtyWaterStore myDirtyWaterStore;
+    private DirtyWaterStore myDirtyWaterStore;
 
-    PotableWaterStore myPotableWaterStore;
+    private PotableWaterStore myPotableWaterStore;
 
-    GreyWaterStore myGreyWaterStore;
+    private GreyWaterStore myGreyWaterStore;
 
-    O2Store myO2Store;
+    private O2Store myO2Store;
 
-    CO2Store myCO2Store;
+    private CO2Store myCO2Store;
 
-    H2Store myH2Store;
+    private H2Store myH2Store;
 
     public static float[] capacities;
 
     public GenericSensor[] stateSources;
+    
+    private Logger myLogger;
 
     public static String[] stateNames = { "carbondioxide", "dirtywater",
             "greywater", "hydrogen", "oxygen", "potablewater" };
 
-    StateMap() {
+    public StateMap() {
+	myLogger = Logger.getLogger(this.getClass());
         myMap = new TreeMap();
         myBioHolder = BioHolderInitializer.getBioHolder();
-        System.out.println(BioHolderInitializer.getID());
+        myLogger.info(BioHolderInitializer.getID() +"");
 
         myDirtyWaterStore = (DirtyWaterStore) myBioHolder.theDirtyWaterStores
                 .get(0);
@@ -116,9 +121,9 @@ public class StateMap {
     public int size() {
         return stateSources.length;
     }
-
+    
     public void printMe() {
-        System.out.println(myMap);
+        myLogger.info(myMap);
     }
 
     public Map getMap() {

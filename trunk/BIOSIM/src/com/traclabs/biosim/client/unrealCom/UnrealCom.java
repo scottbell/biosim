@@ -5,6 +5,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import org.apache.log4j.Logger;
+
 import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.idl.framework.BioDriver;
@@ -55,13 +57,15 @@ public class UnrealCom {
      *            Boolean true if a server name was given.
      */
     private boolean bGivenServer;
+    
+    private Logger myLogger;
 
     /**
      * Default UnrealCom constructor. Creates connection with UnrealTournament
      * server running on same computer.
      */
     public UnrealCom() {
-
+	myLogger = Logger.getLogger(this.getClass());
         bGivenServer = false;
 
     }
@@ -74,7 +78,7 @@ public class UnrealCom {
      *            Name of BioSim3D server to connect to.
      */
     public UnrealCom(String name) {
-
+	myLogger = Logger.getLogger(this.getClass());
         myServer = name;
         bGivenServer = true;
     }
@@ -107,11 +111,10 @@ public class UnrealCom {
             unrealSocket = new Socket(myServer, 7775);
         } catch (UnknownHostException e) {
 
-            System.err.println("Error: Could not contact host");
+            myLogger.error("Error: Could not contact host");
             System.exit(1);
         } catch (IOException e) {
-
-            System.err.println("Error: Failed to establish socket I/O");
+            myLogger.error("Error: Failed to establish socket I/O");
             System.exit(1);
         }
 

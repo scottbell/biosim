@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.log4j.Logger;
+
 import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.idl.actuator.food.HarvestingActuator;
@@ -28,6 +30,7 @@ import com.traclabs.biosim.idl.simulation.food.BiomassRS;
 import com.traclabs.biosim.idl.simulation.food.BiomassStore;
 import com.traclabs.biosim.idl.simulation.food.FoodProcessor;
 import com.traclabs.biosim.idl.simulation.food.FoodStore;
+import com.traclabs.biosim.idl.simulation.food.Shelf;
 import com.traclabs.biosim.idl.simulation.framework.Accumulator;
 import com.traclabs.biosim.idl.simulation.framework.Injector;
 import com.traclabs.biosim.idl.simulation.power.PowerStore;
@@ -165,6 +168,12 @@ public class HandController {
     FileWriter fw;
 
     PrintWriter pw;
+    
+    private Logger myLogger;
+    
+    public HandController(){
+        myLogger = Logger.getLogger(this.getClass());
+    }
 
     public static void main(String[] args) {
         boolean done = false;
@@ -271,7 +280,7 @@ public class HandController {
 
         myBioDriver.startSimulation();
 
-        System.out.println("starting run...");
+        myLogger.info("starting run...");
         crewO2integral = 0f;
         crewCO2integral = 0f;
         crewH2Ointegral = 0f;
@@ -291,7 +300,7 @@ public class HandController {
         //int max_ticks = (int)Math.pow(Runs, 2);
         while ((!myCrew.anyDead()) /* && myBioDriver.getTicks() < max_ticks */) {
             if (((myBioDriver.getTicks()) % (CORE_PERIOD_MULT * ATMOSPHERIC_PERIOD)) == 0) {
-                System.out.println(myBioDriver.getTicks());
+                myLogger.info(myBioDriver.getTicks() + "");
                 ContinuousState.printMe();
                 currentAction.printMe();
                 ContinuousState.updateState();
@@ -311,7 +320,7 @@ public class HandController {
             doAccumulatorsInjectors();
 
         }
-        System.out.println("crew dead at " + myBioDriver.getTicks() + " ticks");
+        myLogger.info("crew dead at " + myBioDriver.getTicks() + " ticks");
         myBioDriver.endSimulation();
 
     }
@@ -406,31 +415,31 @@ public class HandController {
 
         currentSensor = (GenericSensor) (myBioHolder.getSensorAttachedTo(
                 myBioHolder.theO2AirConcentrationSensors, myCrewEnvironment));
-        //		System.out.println("Crew O2..."+currentSensor.getValue());
+        		myLogger.debug("Crew O2..."+currentSensor.getValue());
         fileoutput.append(currentSensor.getValue());
         fileoutput.append(TAB);
 
         currentSensor = (GenericSensor) (myBioHolder.getSensorAttachedTo(
                 myBioHolder.theCO2AirConcentrationSensors, myCrewEnvironment));
-        //		System.out.println("Crew CO2..."+currentSensor.getValue());
+        		myLogger.debug("Crew CO2..."+currentSensor.getValue());
         fileoutput.append(currentSensor.getValue());
         fileoutput.append(TAB);
 
         currentSensor = (GenericSensor) (myBioHolder.getSensorAttachedTo(
                 myBioHolder.theWaterAirConcentrationSensors, myCrewEnvironment));
-        //		System.out.println("Crew Water Vapor..."+currentSensor.getValue());
+        		myLogger.debug("Crew Water Vapor..."+currentSensor.getValue());
         fileoutput.append(currentSensor.getValue());
         fileoutput.append(TAB);
 
         currentSensor = (GenericSensor) (myBioHolder.getSensorAttachedTo(
                 myBioHolder.theO2AirConcentrationSensors, myPlantEnvironment));
-        //		System.out.println("Plant O2..."+currentSensor.getValue());
+        		myLogger.debug("Plant O2..."+currentSensor.getValue());
         fileoutput.append(currentSensor.getValue());
         fileoutput.append(TAB);
 
         currentSensor = (GenericSensor) (myBioHolder.getSensorAttachedTo(
                 myBioHolder.theCO2AirConcentrationSensors, myPlantEnvironment));
-        //		System.out.println("Plant CO2..."+currentSensor.getValue());
+        		myLogger.debug("Plant CO2..."+currentSensor.getValue());
         fileoutput.append(currentSensor.getValue());
         fileoutput.append(TAB);
 
@@ -438,13 +447,13 @@ public class HandController {
                 .getSensorAttachedTo(
                         myBioHolder.theWaterAirConcentrationSensors,
                         myPlantEnvironment));
-        //		System.out.println("Plant Water Vapor..."+currentSensor.getValue());
+        		myLogger.debug("Plant Water Vapor..."+currentSensor.getValue());
         fileoutput.append(currentSensor.getValue());
         fileoutput.append(TAB);
 
         currentSensor = (GenericSensor) (myBioHolder.getSensorAttachedTo(
                 myBioHolder.thePowerStoreLevelSensors, myPowerStore));
-        System.out.println("Power..." + currentSensor.getValue());
+        myLogger.info("Power..." + currentSensor.getValue());
 
         pw.println(fileoutput);
 
@@ -464,8 +473,7 @@ public class HandController {
             currentActuator = (GenericActuator) (ActionMap.actuators[i]);
             currentActuator.setValue((float) currentAction
                     .getActuatorValue(names[i]));
-            //			System.out.println("Setting "+names[i]+" to
-            // "+currentAction.getActuatorValue(names[i]));
+	    myLogger.debug("Setting "+names[i]+" to "+currentAction.getActuatorValue(names[i]));
         }
 
     }
@@ -497,7 +505,7 @@ public class HandController {
         delta = (double) (CrewO2Level - crewO2);
         crewO2integral += delta;
         signal = delta * crewO2p + crewO2i * crewO2integral;
-        //		System.out.println("O2 flow from tank to Crew environment: "+signal);
+        		myLogger.debug("O2 flow from tank to Crew environment: "+signal);
         currentActuator = (GenericActuator) (myBioHolder
                 .getActuatorAttachedTo(
                         myBioHolder.theO2AirEnvironmentOutFlowRateActuators,
@@ -516,8 +524,7 @@ public class HandController {
         delta = (double) (CrewCO2Level - crewCO2);
         crewCO2integral += delta;
         signal = delta * crewCO2p + crewCO2i * crewCO2integral;
-        //		System.out.println("CO2 flow from Crew environment to tank:
-        // "+signal);
+        		myLogger.debug("CO2 flow from Crew environment to tank:"+signal);
         currentActuator = (GenericActuator) (myBioHolder.getActuatorAttachedTo(
                 myBioHolder.theCO2AirEnvironmentInFlowRateActuators,
                 myAccumulator));
@@ -538,8 +545,7 @@ public class HandController {
         plantO2integral += delta;
         signal = delta * plantO2p + plantO2i * plantO2integral + plantO2d
                 * plantO2delta;
-        //		System.out.println("O2 flow from Plant environment to tank:
-        // "+signal);
+        		myLogger.debug("O2 flow from Plant environment to tank:"+signal);
         currentActuator = (GenericActuator) (myBioHolder.getActuatorAttachedTo(
                 myBioHolder.theO2AirEnvironmentInFlowRateActuators,
                 myAccumulator));
@@ -560,9 +566,8 @@ public class HandController {
         plantCO2integral += delta;
         signal = delta * plantCO2p + plantCO2i * plantCO2integral + plantCO2d
                 * plantCO2delta;
-        //		System.out.println("CO2 integral: "+plantO2integral);
-        //		System.out.println("CO2 flow from tank to Plant environment:
-        // "+signal);
+        		myLogger.debug("CO2 integral: "+plantO2integral);
+        		myLogger.debug("CO2 flow from tank to Plant environment:"+signal);
 
         currentActuator = (GenericActuator) (myBioHolder.getActuatorAttachedTo(
                 myBioHolder.theCO2AirEnvironmentOutFlowRateActuators,
@@ -581,10 +586,8 @@ public class HandController {
         delta = (double) (CrewH2OLevel - crewH2O);
         crewH2Ointegral += delta;
         signal = delta * crewH2Op + crewH2Oi * crewH2Ointegral;
-        //System.out.println("crew H2O delta: "+delta+" crew H2O integral:
-        // "+crewH2Ointegral);
-        //		System.out.println("H2O flow from Crew environment to accumulator:
-        // "+signal);
+        myLogger.debug("crew H2O delta: "+delta+" crew H2O integral:"+crewH2Ointegral);
+        myLogger.debug("H2O flow from Crew environment to accumulator:"+signal);
         currentActuator = (GenericActuator) myBioHolder.theWaterAirEnvironmentInFlowRateActuators
                 .get(1);
         currentActuator.setValue((float) (signal));
@@ -604,10 +607,8 @@ public class HandController {
         plantH2Ointegral += delta;
         signal = delta * plantH2Op + plantH2Oi * plantH2Ointegral + plantH2Od
                 * plantH2Odelta;
-        //		System.out.println("plant H2O delta: "+delta+" Plant Integral:
-        // "+plantH2Ointegral+" Plant Delta: "+plantH2Odelta);
-        //		System.out.println("H2O flow from Plant environment to accumulator:
-        // "+signal);
+        		myLogger.debug("plant H2O delta: "+delta+" Plant Integral:"+plantH2Ointegral+" Plant Delta: "+plantH2Odelta);
+        		myLogger.debug("H2O flow from Plant environment to accumulator:"+signal);
         currentActuator = (GenericActuator) myBioHolder.theWaterAirEnvironmentInFlowRateActuators
                 .get(0);
         currentActuator.setValue((float) (signal));
@@ -625,13 +626,6 @@ public class HandController {
         GenericActuator foodProcessorPower, foodProcessorBiomass;
         float food, biomass;
         int turnon = 1;
-
-        //		List myBiomassStores = myBioHolder.theBiomassStores;
-        //		for (int i=0;i<myBiomassStores.size();i++) {
-        //			System.out.println("Biomass Store "+i+":
-        // "+((BiomassStore)myBiomassStores.get(i)).getLevel());
-        //		}
-        //
 
         GenericSensor myFoodStoreLevelSensor = (GenericSensor) (myBioHolder
                 .getSensorAttachedTo(myBioHolder.theFoodStoreLevelSensors,
@@ -654,7 +648,7 @@ public class HandController {
         else
             turnon = 1;
 
-        System.out.println("Food: " + food + " Biomass " + biomass
+        myLogger.info("Food: " + food + " Biomass " + biomass
                 + "     Food Processor Power: " + turnon);
 
         if (turnon > 0) {
@@ -710,7 +704,7 @@ public class HandController {
             CO2 = 1;
         }
 
-        System.out.println("CRS: " + CO2 + " OGS: " + potable
+        myLogger.info("CRS: " + CO2 + " OGS: " + potable
                 + " Dirty Water: " + water + " Grey Water: " + gwater);
         myAction = new ActionMap(new int[] { CO2, potable, water, gwater });
         return myAction;
@@ -750,15 +744,14 @@ public class HandController {
                     .get(i);
 
             if (currentSensor.getValue() == 1f) {
-                System.out.println(" Harvest Sensor "
+                myLogger.info(" Harvest Sensor "
                         + currentSensor.getValue());
-                System.out.println(" CO2 Tank Overflow: "
+                myLogger.info(" CO2 Tank Overflow: "
                         + co2OverflowSensor.getValue() + " O2 Tank Overflow: "
                         + o2OverflowSensor.getValue());
                 myBiomassRS.getShelf(i).harvest();
                 cropacres = myBiomassRS.getShelf(i).getCropAreaTotal();
-                //			System.out.println("Planting "+cropacres+"
-                // m^2."+((Shelf)myBiomassRS.getShelf(i)).getTypeString());
+                myLogger.debug("Planting "+cropacres+" m^2."+((Shelf)myBiomassRS.getShelf(i)).getCropTypeString());
                 currentActuator.setPlantType(myBiomassRS.getShelf(i)
                         .getCropType());
                 currentActuator.setValue(cropacres);

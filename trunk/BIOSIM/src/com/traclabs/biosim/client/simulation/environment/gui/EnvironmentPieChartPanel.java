@@ -3,6 +3,7 @@ package com.traclabs.biosim.client.simulation.environment.gui;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import org.apache.log4j.Logger;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -42,9 +43,12 @@ public class EnvironmentPieChartPanel extends GraphPanel {
     private String vacuumCategory = "Vacuum";
 
     private boolean isVacuum = false;
+    
+    private Logger myLogger;
 
     public EnvironmentPieChartPanel(String pEnvironmentName) {
         super(pEnvironmentName);
+	myLogger = Logger.getLogger(this.getClass());
     }
 
     protected void createGraph() {
@@ -121,8 +125,7 @@ public class EnvironmentPieChartPanel extends GraphPanel {
 
     private void initDataset() {
         if (mySimEnvironment == null)
-            System.err
-                    .println("EnvironmentPieChartPanel: mySimEnvironment is null!");
+            myLogger.error("EnvironmentPieChartPanel: mySimEnvironment is null!");
         if ((mySimEnvironment.getO2Moles() <= 0)
                 && (mySimEnvironment.getCO2Moles() <= 0)
                 && (mySimEnvironment.getNitrogenMoles() <= 0)

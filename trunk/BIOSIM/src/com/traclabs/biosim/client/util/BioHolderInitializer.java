@@ -2,6 +2,7 @@ package com.traclabs.biosim.client.util;
 
 import java.net.URL;
 
+import org.apache.log4j.Logger;
 import org.apache.xerces.parsers.DOMParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -207,7 +208,7 @@ public class BioHolderInitializer {
             myParser.setFeature(VALIDATION_FEATURE_ID, DEFAULT_VALIDATION);
             myParser.setFeature(NAMESPACES_FEATURE_ID, DEFAULT_NAMESPACES);
         } catch (SAXException e) {
-            System.err.println("warning: Parser does not support feature ("
+            Logger.getLogger(BioHolderInitializer.class).warn("warning: Parser does not support feature ("
                     + NAMESPACES_FEATURE_ID + ")");
         }
         parseFile();
@@ -276,22 +277,20 @@ public class BioHolderInitializer {
         URL documentUrl = ClassLoader.getSystemClassLoader().getResource(
                 xmlLocation);
         if (documentUrl == null) {
-            System.err.println("Couldn't find init xml file: " + xmlLocation);
-            System.err.println("Exiting...");
+            Logger.getLogger(BioHolderInitializer.class).error("Couldn't find init xml file: " + xmlLocation);
+            Logger.getLogger(BioHolderInitializer.class).error("Exiting...");
             System.exit(1);
         }
         String documentString = documentUrl.toString();
         if (documentString.length() > 0) {
             try {
-                System.out.print("Initializing...");
+                Logger.getLogger(BioHolderInitializer.class).info("Initializing...");
                 myParser.parse(documentString);
                 Document document = myParser.getDocument();
                 crawlBiosim(document);
-                System.out.println("done");
-                System.out.flush();
+                Logger.getLogger(BioHolderInitializer.class).info("done");
             } catch (Exception e) {
-                System.err.println("error: Parse error occurred - "
-                        + e.getMessage());
+                Logger.getLogger(BioHolderInitializer.class).error("error: Parse error occurred - " + e.getMessage());
                 Exception se = e;
                 if (e instanceof SAXException)
                     se = ((SAXException) e).getException();
@@ -311,12 +310,11 @@ public class BioHolderInitializer {
                 moduleToReturn = OrbUtils.getNamingContext(myID).resolve_str(
                         moduleName);
             } catch (org.omg.CORBA.UserException e) {
-                System.err.println("BioHolder: Couldn't find module "
+                Logger.getLogger(BioHolderInitializer.class).error("BioHolder: Couldn't find module "
                         + moduleName + ", polling again...");
                 OrbUtils.sleepAwhile();
             } catch (Exception e) {
-                System.err
-                        .println("BioHolder: Had problems contacting nameserver with module "
+                Logger.getLogger(BioHolderInitializer.class).error("BioHolder: Had problems contacting nameserver with module "
                                 + moduleName + ", polling again...");
                 OrbUtils.resetInit();
                 OrbUtils.sleepAwhile();

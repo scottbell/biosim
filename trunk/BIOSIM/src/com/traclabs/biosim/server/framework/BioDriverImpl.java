@@ -1,6 +1,7 @@
 package com.traclabs.biosim.server.framework;
 
 import org.apache.log4j.Logger;
+
 import com.traclabs.biosim.idl.framework.BioDriverPOA;
 import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
@@ -330,7 +331,6 @@ public class BioDriverImpl extends BioDriverPOA {
             if (ticksGoneBy >= nTicks) {
                 myLogger.info("BioDriverImpl" + myID
                         + ": Reached user defined tick limit of " + nTicks);
-                //System.exit(0);
                 return true;
             }
         }

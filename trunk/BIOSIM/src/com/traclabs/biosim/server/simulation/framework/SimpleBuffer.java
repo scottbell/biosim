@@ -59,12 +59,10 @@ public class SimpleBuffer {
             newCapacity = Float.MIN_VALUE;
         }
         float percentage = level / capacity;
-        //System.out.print("SimpleBuffer: level = "+level+", capacity =
-        // "+capacity+" percentage = "+percentage);
+        myLogger.debug("SimpleBuffer: level = "+level+", capacity ="+capacity+" percentage = "+percentage);
         capacity = newCapacity;
         level = percentage * newCapacity;
-        //System.out.println(", newCapacity = "+newCapacity+", newLevel =
-        // "+level);
+        myLogger.debug(", newCapacity = "+newCapacity+", newLevel = "+level);
     }
 
     /**

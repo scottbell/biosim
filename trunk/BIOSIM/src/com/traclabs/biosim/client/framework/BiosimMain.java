@@ -1,6 +1,10 @@
 package com.traclabs.biosim.client.framework;
 
+import java.util.Properties;
 import java.util.StringTokenizer;
+
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import com.traclabs.biosim.client.simulation.framework.SimCommandLine;
 import com.traclabs.biosim.client.simulation.framework.gui.SimDesktop;
@@ -16,6 +20,22 @@ public class BiosimMain {
     private static final int NAMESERVER_PORT = 16309;
 
     private static final int CLIENT_OA_PORT = 16311;
+
+    private Logger myLogger;
+
+    public BiosimMain() {
+        Properties logProps = new Properties();
+        logProps.setProperty("log4j.rootLogger", "INFO, rootAppender");
+        logProps.setProperty("log4j.appender.rootAppender",
+                "org.apache.log4j.ConsoleAppender");
+        logProps.setProperty("log4j.appender.rootAppender.layout",
+                "org.apache.log4j.PatternLayout");
+        logProps.setProperty(
+                "log4j.appender.rootAppender.layout.ConversionPattern",
+                "%5p [%c] - %m%n");
+        PropertyConfigurator.configure(logProps);
+        myLogger = Logger.getLogger(this.getClass());
+    }
 
     /**
      * The method to start the BIOSIM client.
@@ -36,7 +56,6 @@ public class BiosimMain {
         boolean wantsToRunController = false;
         boolean wantsToRunUnreal = false;
         boolean unrealServerGiven = false;
-        boolean wantsToRunDebug = false;
         String unrealServer = "";
         for (int i = 0; i < myArgs.length; i++) {
             if (myArgs[i].equals("gui")) {
@@ -47,15 +66,18 @@ public class BiosimMain {
                 wantsToRunController = true;
             } else if (myArgs[i].equals("unreal")) {
                 wantsToRunUnreal = true;
-            } else if (myArgs[i].equals("debug")) {
-                wantsToRunDebug = true;
+            } else if (myArgs[i].equals("-debug")) {
+                org.jacorb.util.Environment.setProperty("ORBInitRef.NameService",
+                        "corbaloc::localhost:" + NAMESERVER_PORT + "/NameService");
+                org.jacorb.util.Environment.setProperty("OAPort", Integer
+                        .toString(CLIENT_OA_PORT));
             } else if (myArgs[i].equals("-xml=")) {
                 try {
                     StringTokenizer st = new StringTokenizer(myArgs[i], "=");
                     st.nextToken();
                     BioHolderInitializer.setFile(st.nextToken());
                 } catch (Exception e) {
-                    System.err.println("Problem parsing arguments on arg "
+                    myLogger.error("Problem parsing arguments on arg "
                             + myArgs[i]);
                     e.printStackTrace();
                 }
@@ -65,7 +87,7 @@ public class BiosimMain {
                     st.nextToken();
                     myID = Integer.parseInt(st.nextToken());
                 } catch (Exception e) {
-                    System.err.println("Problem parsing arguments on arg "
+                    myLogger.error("Problem parsing arguments on arg "
                             + myArgs[i]);
                     e.printStackTrace();
                 }
@@ -76,7 +98,7 @@ public class BiosimMain {
                     unrealServerGiven = true;
                     unrealServer = st.nextToken();
                 } catch (Exception e) {
-                    System.err.println("Problem parsing arguments on arg "
+                    myLogger.warn("Problem parsing arguments on arg "
                             + myArgs[i]);
                     e.printStackTrace();
                 }
@@ -94,11 +116,9 @@ public class BiosimMain {
             } else {
                 runUnreal(myID);
             }
-        } else if (wantsToRunDebug)
-            runDebug(myID);
+        }
         else {
-            System.out.println("Using default, starting GUI with server ID="
-                    + myID);
+            myLogger.info("Using default, starting GUI with server ID=" + myID);
             runGUI(myID);
         }
     }
@@ -117,18 +137,6 @@ public class BiosimMain {
      * Runs the commandline front end for the simulation.
      */
     private void runCommandLine(int myID) {
-        SimCommandLine newCommandLine = new SimCommandLine(myID);
-        newCommandLine.runCommandLine();
-    }
-
-    /**
-     * Runs the debug commandLine front end for the simulation.
-     */
-    private void runDebug(int myID) {
-        org.jacorb.util.Environment.setProperty("ORBInitRef.NameService",
-                "corbaloc::localhost:" + NAMESERVER_PORT + "/NameService");
-        org.jacorb.util.Environment.setProperty("OAPort", Integer
-                .toString(CLIENT_OA_PORT));
         SimCommandLine newCommandLine = new SimCommandLine(myID);
         newCommandLine.runCommandLine();
     }

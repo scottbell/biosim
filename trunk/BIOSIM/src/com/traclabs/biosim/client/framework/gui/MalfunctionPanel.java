@@ -22,6 +22,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.apache.log4j.Logger;
+
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.framework.Malfunction;
@@ -50,12 +52,15 @@ public class MalfunctionPanel extends TimedPanel {
     private JPanel myCurrentMalfunctionsPanel;
 
     private ImageIcon myIcon;
+    
+    private Logger myLogger;
 
     /**
      * Default constructor.
      */
     public MalfunctionPanel() {
         super();
+        myLogger = Logger.getLogger(this.getClass());
         myMalfunctionVariables = new Hashtable();
         buildGui();
         refresh();
@@ -213,9 +218,9 @@ public class MalfunctionPanel extends TimedPanel {
             return;
         try {
             myIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
-                    .getResource("biosim/client/framework/gui/gear.gif"));
+                    .getResource("com/traclabs/biosim/client/framework/gui/gear.gif"));
         } catch (Exception e) {
-            System.err.println("Couldn't find icon (" + e + "), skipping");
+            myLogger.warn("Couldn't find icon (" + e + "), skipping");
             e.printStackTrace();
         }
     }

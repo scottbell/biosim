@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import org.apache.log4j.Logger;
+
 import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 
@@ -58,6 +60,8 @@ public class EnvironAirMonitor extends Thread {
      *            All information associated with a simulated environment.
      */
     private SimEnvironment mySimEnvironment;
+    
+    private Logger myLogger;
 
     /**
      * Constructor to create a new EnvironMonitor object.
@@ -72,6 +76,7 @@ public class EnvironAirMonitor extends Thread {
      */
     EnvironAirMonitor(Socket unrealSocket, BioHolder bioHolder,
             boolean isCrewEnv) {
+	myLogger = Logger.getLogger(this.getClass());
 
         mySocket = unrealSocket;
 
@@ -83,8 +88,7 @@ public class EnvironAirMonitor extends Thread {
 
         } catch (IOException e) {
 
-            System.err
-                    .println("EnvironMonitor: Failed to establish socket I/O.");
+            myLogger.error("EnvironMonitor: Failed to establish socket I/O.");
             System.exit(1);
         }
 
@@ -114,8 +118,7 @@ public class EnvironAirMonitor extends Thread {
 
         } catch (IOException e) {
 
-            System.err
-                    .println("EnvironMonitor: Failed to establish socket I/O.");
+            myLogger.error("EnvironMonitor: Failed to establish socket I/O.");
             System.exit(1);
         }
 

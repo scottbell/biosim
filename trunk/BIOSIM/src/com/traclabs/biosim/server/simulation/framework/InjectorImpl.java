@@ -736,10 +736,6 @@ public class InjectorImpl extends SimBioModuleImpl implements
                     waterAirEnvironmentInDesiredFlowRates[i]);
             waterAirEnvironmentInActualFlowRates[i] = myWaterAirEnvironmentInputs[i]
                     .takeWaterMoles(amountToTake);
-            //System.out.println("Taking
-            // "+waterAirEnvironmentInActualFlowRates[i]+" moles of water from
-            // "+myWaterAirEnvironmentInputs[i].getModuleName()+" ("+(i+1)+" of
-            // "+myWaterAirEnvironmentInputs.length+")");
             gatheredWaterAirMoles += waterAirEnvironmentInActualFlowRates[i];
         }
         //Convert to liters (for water store)

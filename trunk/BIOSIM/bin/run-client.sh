@@ -68,26 +68,21 @@ help="-?"
 logviewer="logviewer"
 malfunction="malfunction"
 stochastic="stochastic"
-controller="controller"
-unreal="unreal"
-sensor="sensor"
-test="test"
-debug="debug"
 case $userSelect in
-	$console) echo "			 -starting $userSelect";$jacoInvocation $mainName $console $2;;
-	$controller) echo "			 -starting $userSelect";$jacoInvocation $mainName $controller $2;;
-	$gui) echo "			 -starting $userSelect";$jacoInvocation $mainName $gui $2;;
-	$logviewer) echo "			 -starting $userSelect";$jacoInvocation $logviewerName;;
-	$malfunction) echo "			 -starting $userSelect";$jacoInvocation $malfunctionName;;
-	$stochastic) echo "			 -starting $userSelect";$jacoInvocation $stochasticName;;
+	$console) echo "			 -starting $userSelect";$jacoInvocation $mainName $1 $2 $3 $4;;
+	$controller) echo "			 -starting $userSelect";$jacoInvocation $mainName $1 $2 $3 $4;;
+	$gui) echo "			 -starting $userSelect";$jacoInvocation $mainName $1 $2 $3 $4;;
+	$logviewer) echo "			 -starting $userSelect";$jacoInvocation $logviewerName $1 $2 $3 $4;;
+	$malfunction) echo "			 -starting $userSelect";$jacoInvocation $malfunctionName $1 $2 $3 $4;;
+	$stochastic) echo "			 -starting $userSelect";$jacoInvocation $stochasticName $1 $2 $3 $4;;
 	$sensor) echo "			 -starting $userSelect";$jacoInvocation $sensorName;;
-	$debug) echo "			 -starting $userSelect";$jacoInvocation $mainName $debug $2;;
-	$unreal) echo "			 -starting $userSelect";$jacoInvocation $mainName $unreal $2;;
-	$test) echo "			 -starting $userSelect";$jacoInvocation $testName $console;;
+	$debug) echo "			 -starting $userSelect";$jacoInvocation $mainName $1 $2 $3 $4;;
+	$unreal) echo "			 -starting $userSelect";$jacoInvocation $mainName $1 $2 $3 $4;;
+	$test) echo "			 -starting $userSelect";$jacoInvocation $testName $1 $2 $3 $4;;
 	$help) echo "Usage: run-client.sh (-ga) [console, gui, logviewer, malfunction, stochastic, controller, 3D]";;
-	"-id"*) echo "			-assuming all (id user specified)";$jacoInvocation $mainName $1;;
-	"-xml"*) echo "			-assuming all (xml init user specified)";$jacoInvocation $mainName $1 $2;;
-	*) echo "			 -starting default";$jacoInvocation $mainName;;
+	"-id"*) echo "			-assuming all (id user specified)";$jacoInvocation $mainName $1 $2 $3 $4;;
+	"-xml"*) echo "			-assuming all (xml init user specified)";$jacoInvocation $mainName $1 $2 $3 $4;;
+	*) echo "			 -starting $userSelect";$jacoInvocation $mainName $1 $2 $3 $4;;
 esac
 echo "*done invoking clients"
 

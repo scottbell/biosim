@@ -29,6 +29,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import org.apache.log4j.Logger;
+
 import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.idl.simulation.air.CO2Store;
 import com.traclabs.biosim.idl.simulation.air.H2Store;
@@ -86,6 +88,8 @@ public class ARSMonitor extends Thread {
      *            The oxygen store storage information.
      */
     private O2Store myO2Store;
+    
+    private Logger myLogger;
 
     /**
      * Constructor to create a new ARSMonitor object.
@@ -95,8 +99,9 @@ public class ARSMonitor extends Thread {
      * @param bioHolder -
      *            BioHolder used to get the simulation's water information.
      */
+     
     ARSMonitor(Socket unrealSocket, BioHolder bioHolder) {
-
+	myLogger = Logger.getLogger(this.getClass());
         mySocket = unrealSocket;
         myBioHolder = bioHolder;
 
@@ -106,7 +111,7 @@ public class ARSMonitor extends Thread {
 
         } catch (IOException e) {
 
-            System.err.println("ARSMonitor: Failed to establish socket I/O.");
+            myLogger.error("ARSMonitor: Failed to establish socket I/O.");
             System.exit(1);
         }
 
@@ -141,7 +146,7 @@ public class ARSMonitor extends Thread {
 
         } catch (IOException e) {
 
-            System.err.println("WaterMonitor: Failed to establish socket I/O.");
+            myLogger.error("WaterMonitor: Failed to establish socket I/O.");
             System.exit(1);
         }
 
@@ -164,7 +169,7 @@ public class ARSMonitor extends Thread {
         float nCap;
         String netRequest;
 
-        System.out.println("Starting ARSMonitor thread");
+        myLogger.info("Starting ARSMonitor thread");
 
         while (true) {
 
