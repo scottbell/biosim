@@ -43,6 +43,7 @@ public class SimpleBuffer {
      *            the initial capacity of the store
      */
     public SimpleBuffer(float pInitialLevel, float pInitialCapacity) {
+        myLogger = Logger.getLogger(this.getClass());
         level = initialLevel = pInitialLevel;
         capacity = initialCapacity = pInitialCapacity;
     }
