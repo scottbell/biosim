@@ -1,7 +1,7 @@
-package biosim.server.power;
+package biosim.server.simulation.power;
 
-import biosim.idl.power.*;
-import biosim.server.framework.*;
+import biosim.idl.simulation.power.*;
+import biosim.server.simulation.framework.*;
 /**
  * The Power Store Implementation.  Takes power from the Power Production System and stores it here for other modules to use.
  *

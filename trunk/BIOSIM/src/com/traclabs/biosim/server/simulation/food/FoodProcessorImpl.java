@@ -1,7 +1,8 @@
-package biosim.server.food;
+package biosim.server.simulation.food;
 
-import biosim.idl.food.*;
-import biosim.idl.power.*;
+import biosim.idl.simulation.food.*;
+import biosim.idl.simulation.power.*;
+import biosim.idl.simulation.framework.*;
 import biosim.idl.framework.*;
 import biosim.idl.util.log.*;
 import biosim.server.util.*;

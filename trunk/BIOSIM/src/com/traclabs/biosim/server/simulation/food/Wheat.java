@@ -1,4 +1,4 @@
-package biosim.server.food;
+package biosim.server.simulation.food;
 
 /**
  * Wheat

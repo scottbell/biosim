@@ -1,8 +1,8 @@
-package biosim.server.water;
+package biosim.server.simulation.water;
 
 import biosim.server.util.*;
-import biosim.idl.power.*;
-import biosim.idl.water.*;
+import biosim.idl.simulation.power.*;
+import biosim.idl.simulation.water.*;
 /**
  * The Biological Waste Processor is the first stage of water purification.  It takes dirty/grey water, filters it some, and
  * sends the water to the RO

@@ -1,8 +1,8 @@
-package biosim.server.water;
+package biosim.server.simulation.water;
 
 import biosim.idl.util.log.*;
 import biosim.server.util.*;
-import biosim.idl.power.*;
+import biosim.idl.simulation.power.*;
 /**
  * The RO is the second stage of water purification.  It takes water from the BWP, filters it some, and
  * sends the water to the AES

@@ -1,7 +1,7 @@
 package biosim.client.crew.gui;
 
 import java.awt.*;
-import biosim.idl.crew.*;
+import biosim.idl.simulation.crew.*;
 import biosim.client.framework.gui.*;
 import biosim.client.framework.*;
 import com.jrefinery.chart.*;

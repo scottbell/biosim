@@ -2,7 +2,7 @@ package biosim.client.water.gui;
 
 import biosim.client.framework.gui.*;
 import biosim.client.framework.*;
-import biosim.idl.water.*;
+import biosim.idl.simulation.water.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.event.*;

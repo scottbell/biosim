@@ -1,8 +1,8 @@
-package biosim.server.water;
+package biosim.server.simulation.water;
 
-import biosim.idl.water.*;
+import biosim.idl.simulation.water.*;
 import biosim.server.util.*;
-import biosim.idl.power.*;
+import biosim.idl.simulation.power.*;
 /**
  * The PPS is the last stage of water purification.  It takes water from the AES, filters it, and
  * waits for the WaterRS to send the now clean water to the potable water store

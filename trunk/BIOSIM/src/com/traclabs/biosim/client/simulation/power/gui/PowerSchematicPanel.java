@@ -2,7 +2,7 @@ package biosim.client.power.gui;
 
 import java.awt.*;
 import javax.swing.*;
-import biosim.idl.power.*;
+import biosim.idl.simulation.power.*;
 import biosim.client.framework.gui.*;
 
 /**

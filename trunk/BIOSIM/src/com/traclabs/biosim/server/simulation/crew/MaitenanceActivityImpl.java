@@ -1,6 +1,6 @@
-package biosim.server.crew;
+package biosim.server.simulation.crew;
 
-import biosim.idl.crew.*;
+import biosim.idl.simulation.crew.*;
 /**
  * Repair Activities.
  *

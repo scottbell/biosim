@@ -1,7 +1,7 @@
-package biosim.server.air;
+package biosim.server.simulation.air;
 
 import biosim.server.framework.*;
-import biosim.idl.air.*;
+import biosim.idl.simulation.air.*;
 /**
  * The Air Revitalization System Server.  Creates an instance of the AirRS and registers it with the nameserver.
  *

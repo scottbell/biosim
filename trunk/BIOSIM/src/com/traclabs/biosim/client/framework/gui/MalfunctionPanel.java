@@ -8,7 +8,7 @@ import java.util.*;
 import javax.swing.border.*;
 import biosim.client.framework.*;
 import biosim.idl.framework.*;
-import biosim.idl.crew.*;
+import biosim.idl.simulation.crew.*;
 /**
  * @author    Scott Bell
  */

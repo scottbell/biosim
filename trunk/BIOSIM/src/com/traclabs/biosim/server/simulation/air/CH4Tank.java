@@ -1,8 +1,8 @@
-package biosim.server.air;
+package biosim.server.simulation.air;
 
 import biosim.idl.util.log.*;
-import biosim.idl.environment.*;
-import biosim.idl.power.*;
+import biosim.idl.simulation.environment.*;
+import biosim.idl.simulation.power.*;
 /**
  * CH4Tank Subsystem
  *

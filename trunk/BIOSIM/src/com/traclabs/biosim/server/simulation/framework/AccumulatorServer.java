@@ -1,6 +1,8 @@
 package biosim.server.framework;
 
-import biosim.idl.framework.*;
+import biosim.idl.simulation.framework.*;
+import biosim.server.framework.*;
+import biosim.server.simulation.framework.*;
 /**
  * The Sim Environment Server.  Creates an instance of the Sim Environment and registers it with the nameserver.
  *

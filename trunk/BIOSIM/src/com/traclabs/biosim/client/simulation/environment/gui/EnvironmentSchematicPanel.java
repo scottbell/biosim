@@ -2,7 +2,7 @@ package biosim.client.environment.gui;
 
 import java.awt.*;
 import javax.swing.*;
-import biosim.idl.environment.*;
+import biosim.idl.simulation.environment.*;
 import biosim.client.framework.gui.*;
 
 /**

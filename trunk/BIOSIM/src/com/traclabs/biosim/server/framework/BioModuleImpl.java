@@ -2,6 +2,7 @@ package biosim.server.framework;
 
 import java.util.*;
 import biosim.idl.framework.*;
+import biosim.idl.simulation.framework.*;
 import biosim.server.util.*;
 import biosim.server.util.log.*;
 import biosim.idl.util.log.*;

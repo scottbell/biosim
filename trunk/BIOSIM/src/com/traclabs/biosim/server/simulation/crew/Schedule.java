@@ -1,8 +1,8 @@
-package biosim.server.crew;
+package biosim.server.simulation.crew;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import biosim.idl.crew.*;
+import biosim.idl.simulation.crew.*;
 import biosim.server.util.*;
 /**
  * The Schedule dictates what each crew member shall do at what time, for how long, and at what intensity.

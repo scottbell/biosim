@@ -1,14 +1,16 @@
-package biosim.server.framework;
+package biosim.server.simulation.framework;
 
+import biosim.idl.simulation.framework.*;
 import biosim.idl.framework.*;
-import biosim.idl.food.*;
-import biosim.idl.air.*;
-import biosim.idl.water.*;
-import biosim.idl.environment.*;
-import biosim.idl.power.*;
+import biosim.idl.simulation.food.*;
+import biosim.idl.simulation.air.*;
+import biosim.idl.simulation.water.*;
+import biosim.idl.simulation.environment.*;
+import biosim.idl.simulation.power.*;
 import java.util.*;
 import biosim.server.util.*;
 import biosim.idl.util.log.*;
+import biosim.server.framework.*;
 /**
  * The basic Accumulator Implementation.
  * @author    Scott Bell

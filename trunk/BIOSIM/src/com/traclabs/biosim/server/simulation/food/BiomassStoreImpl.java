@@ -1,7 +1,7 @@
-package biosim.server.food;
+package biosim.server.simulation.food;
 
-import biosim.idl.food.*;
-import biosim.server.framework.*;
+import biosim.idl.simulation.food.*;
+import biosim.server.simulation.framework.*;
 /**
  * The Biomass Store Implementation.  Takes raw plant matter from the Biomass RS to be used by the Food Processor.
  *

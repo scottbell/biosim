@@ -1,7 +1,7 @@
-package biosim.server.water;
+package biosim.server.simulation.water;
 
 import biosim.server.framework.*;
-import biosim.idl.water.*;
+import biosim.idl.simulation.water.*;
 /**
  * The Dirty Water Store Server.  Creates an instance of the Dirty Water Store and registers it with the nameserver.
  *

@@ -1,7 +1,7 @@
 package biosim.client.power.gui;
 
 import java.awt.*;
-import biosim.idl.power.*;
+import biosim.idl.simulation.power.*;
 import biosim.client.framework.gui.*;
 import biosim.client.framework.*;
 import com.jrefinery.chart.*;

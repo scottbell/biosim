@@ -1,7 +1,7 @@
-package biosim.server.air;
+package biosim.server.simulation.air;
 
-import biosim.idl.air.*;
-import biosim.server.framework.*;
+import biosim.idl.simulation.air.*;
+import biosim.server.simulation.framework.*;
 /**
  * The CO2 Store Implementation.  Used by the AirRS to store excess CO2 for plants.
  * Not really used right now.

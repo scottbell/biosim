@@ -1,6 +1,6 @@
-package biosim.server.air;
+package biosim.server.simulation.air;
 
-import biosim.idl.air.*;
+import biosim.idl.simulation.air.*;
 import biosim.server.framework.*;
 /**
  * The O2 Store Server.  Creates an instance of the O2Store and registers it with the nameserver.

@@ -2,7 +2,7 @@ package biosim.server.util.log;
 
 import biosim.server.util.*;
 import biosim.idl.util.log.*;
-import biosim.idl.environment.*;
+import biosim.idl.simulation.environment.*;
 import java.util.*;
 /**
  * The Logger takes Logs and outputs them using the choosen handler

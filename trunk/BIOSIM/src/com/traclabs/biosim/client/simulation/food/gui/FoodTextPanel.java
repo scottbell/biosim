@@ -2,7 +2,7 @@ package biosim.client.food.gui;
 
 import biosim.client.framework.gui.*;
 import biosim.client.framework.*;
-import biosim.idl.food.*;
+import biosim.idl.simulation.food.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.event.*;

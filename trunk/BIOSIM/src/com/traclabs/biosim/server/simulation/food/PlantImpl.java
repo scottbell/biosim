@@ -1,9 +1,9 @@
-package biosim.server.food;
+package biosim.server.simulation.food;
 
-import biosim.idl.food.*;
-import biosim.idl.air.*;
+import biosim.idl.simulation.food.*;
+import biosim.idl.simulation.air.*;
 import biosim.idl.util.log.*;
-import biosim.idl.environment.*;
+import biosim.idl.simulation.environment.*;
 import biosim.server.util.*;
 /**
  * Plant

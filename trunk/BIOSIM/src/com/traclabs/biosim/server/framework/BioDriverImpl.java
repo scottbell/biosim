@@ -1,11 +1,12 @@
 package biosim.server.framework;
 
-import biosim.idl.air.*;
-import biosim.idl.crew.*;
-import biosim.idl.environment.*;
-import biosim.idl.food.*;
-import biosim.idl.power.*;
-import biosim.idl.water.*;
+import biosim.idl.simulation.air.*;
+import biosim.idl.simulation.crew.*;
+import biosim.idl.simulation.environment.*;
+import biosim.idl.simulation.food.*;
+import biosim.idl.simulation.power.*;
+import biosim.idl.simulation.water.*;
+import biosim.idl.simulation.framework.*;
 import biosim.idl.framework.*;
 import biosim.idl.util.log.*;
 import biosim.server.util.*;
@@ -267,6 +268,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		SimEnvironment myPlantEnvironment = (SimEnvironment)(getBioModule(plantEnvironmentName));
 		O2Store myO2Store = (O2Store)(getBioModule(O2StoreName));
 		CO2Store myCO2Store = (CO2Store)(getBioModule(CO2StoreName));
+		
 		//Hook up Food Processor to other modules
 		{
 			BiomassStore[] biomassStoreInput = {myBiomassStore};

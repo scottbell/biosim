@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.text.*;
 import javax.swing.*;
-import biosim.idl.water.*;
+import biosim.idl.simulation.water.*;
 import biosim.client.framework.gui.*;
 import biosim.client.framework.*;
 
