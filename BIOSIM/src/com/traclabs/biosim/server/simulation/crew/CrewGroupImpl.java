@@ -141,7 +141,10 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 	*/
 	public void reset(){
 		super.reset();
-		crewPeople = new Hashtable();
+		for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();){
+			CrewPersonImpl currentPerson = (CrewPersonImpl)(iter.next());
+			currentPerson.reset();
+		}
 	}
 
 	public boolean isDead(){

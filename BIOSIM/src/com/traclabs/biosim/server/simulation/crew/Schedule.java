@@ -57,11 +57,7 @@ public class Schedule{
 	* @return the activity sought
 	*/
 	public Activity getActivityByName(String activityName){
-		Object foundActivity = allActivities.get(activityName);
-		if (foundActivity != null)
-			return (Activity)(foundActivity);
-		else
-			return null;
+		return (Activity)allActivities.get(activityName);
 	}
 	
 	public int getOrderOfScheduledActivity(String activityName){
@@ -78,11 +74,7 @@ public class Schedule{
 	* @return the activity sought
 	*/
 	public Activity getScheduledActivityByOrder(int order){
-		Object foundActivity = orderedSchedule.get(order);
-		if (foundActivity != null)
-			return (Activity)(foundActivity);
-		else
-			return null;
+		return (Activity)(orderedSchedule.get(order));
 	}
 	
 	/**
@@ -122,13 +114,16 @@ public class Schedule{
 	*/
 	private void parseSchedule(URL scheduleURL){
 		//Add 3 defaults..
-		ActivityImpl bornActivity = new ActivityImpl("born", 0, 0);
-		ActivityImpl deadActivity = new ActivityImpl("dead", 0, 0, true);
-		ActivityImpl sickActivity = new ActivityImpl("sick", 1, 1, true);
-		allActivities.put("born", OrbUtils.poaToCorbaObj(bornActivity));
-		orderedSchedule.add(0,OrbUtils.poaToCorbaObj(bornActivity));
-		allActivities.put("dead", OrbUtils.poaToCorbaObj(deadActivity));
-		allActivities.put("sick", OrbUtils.poaToCorbaObj(sickActivity));
+		ActivityImpl bornActivityImpl = new ActivityImpl("born", 0, 0);
+		ActivityImpl deadActivityImpl = new ActivityImpl("dead", 0, 0, true);
+		ActivityImpl sickActivityImpl = new ActivityImpl("sick", 1, 1, true);
+		Activity bornActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(bornActivityImpl));
+		Activity deadActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(deadActivityImpl));
+		Activity sickActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(sickActivityImpl));
+		allActivities.put("born", bornActivity);
+		orderedSchedule.add(0, bornActivity);
+		allActivities.put("dead", deadActivity);
+		allActivities.put("sick", sickActivity);
 		try{
 			BufferedReader inputReader = new BufferedReader(new InputStreamReader(scheduleURL.openStream()));
 			String currentLine = inputReader.readLine().trim();
@@ -143,9 +138,10 @@ public class Schedule{
 							int intensityOfActivity = Integer.parseInt(tokenizer.nextToken());
 							int orderOfActivity = itemsRead;
 							itemsRead++;
-							ActivityImpl newActivity = new ActivityImpl(activityName, lengthOfActivity, intensityOfActivity);
-							allActivities.put(activityName, OrbUtils.poaToCorbaObj(newActivity));
-							orderedSchedule.add(orderOfActivity, OrbUtils.poaToCorbaObj(newActivity));
+							ActivityImpl newActivityImpl = new ActivityImpl(activityName, lengthOfActivity, intensityOfActivity);
+							Activity newActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(newActivityImpl));
+							allActivities.put(activityName, newActivity);
+							orderedSchedule.add(orderOfActivity, newActivity);
 						}
 					}
 					currentLine = inputReader.readLine().trim();
