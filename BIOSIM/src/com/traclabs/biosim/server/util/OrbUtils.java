@@ -104,7 +104,7 @@ public class OrbUtils{
 		org.omg.CORBA.Object newObject = null;
 		try{
 			initialize();
-			newObject = rootPOA.servant_to_reference( poa );
+			newObject = rootPOA.servant_to_reference(poa);
 		}
 		catch(org.omg.PortableServer.POAPackage.ServantNotActive e){
 			e.printStackTrace();
