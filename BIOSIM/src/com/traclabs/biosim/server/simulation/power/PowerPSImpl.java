@@ -35,7 +35,7 @@ public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperat
 	*/
 	public void tick(){
 		collectReferences();
-		calculatePowerProduced();
+		currentPowerProduced = calculatePowerProduced();
 		if (isMalfunctioning())
 			performMalfunctions();
 		myPowerStore.add(currentPowerProduced);
@@ -82,7 +82,7 @@ public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperat
 		currentPowerProduced *= productionRate;
 	}
 	
-	protected abstract void calculatePowerProduced();
+	protected abstract float calculatePowerProduced();
 	
 	/**
 	* Reset does nothing right now

@@ -80,6 +80,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private boolean logInitialized = false;
 	private LogIndex myLogIndex;
 	private boolean isSick = false;
+	private int myMissionProductivity = 0;
 
 	/**
 	* Constructor that creates a new crew person
@@ -281,12 +282,22 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* If the crew memeber has been performing the current activity long enough, the new scheduled activity is assigned.
 	*/
 	private void advanceActivity(){
+		checkForMeaningfulActivity();
 		if (timeActivityPerformed >= myCurrentActivity.getTimeLength()){
 			currentOrder++;
 			if (currentOrder >= (myCrewGroup.getNumberOfActivities()))
 				currentOrder = 1;
 			myCurrentActivity = myCrewGroup.getScheduledActivityByOrder(currentOrder);
 			timeActivityPerformed = 0;
+		}
+	}
+	
+	private void checkForMeaningfulActivity(){
+		if (myCurrentActivity.getName().equals("Mission")){
+			myMissionProductivity++;
+		}
+		else if (myCurrentActivity.getName().equals("Mission")){
+			//upkeep modules
 		}
 	}
 

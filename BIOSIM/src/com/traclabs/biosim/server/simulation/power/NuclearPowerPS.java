@@ -10,9 +10,9 @@ public class NuclearPowerPS extends PowerPSImpl {
 	public NuclearPowerPS(int pID){
 		super(pID);
 	}
-	protected void calculatePowerProduced(){
+	protected float calculatePowerProduced(){
 		//Constant steady stream of power
-		currentPowerProduced = randomFilter(500f);
+		return randomFilter(500f);
 	}
 	
 }
