@@ -72,7 +72,7 @@ public class LogNodeImpl extends LogNodePOA{
 	
 	/**
 	* Searches the immediate children beneath this node (i.e., one level down) and tries to find a match for the value passed in
-	* @param The value to search for
+	* @param pName The value to search for
 	* @return The immediate child with a matching value.
 	*/
 	public LogNode getChildShallow(String pName){
@@ -89,7 +89,7 @@ public class LogNodeImpl extends LogNodePOA{
 	
 	/**
 	* Searches all the children beneath this node (i.e., all levels down) and tries to find a match for the value passed in
-	* @param The value to search for
+	* @param pName The value to search for
 	* @return The child with a matching value.
 	*/
 	public LogNode getChildDeep(String pName){

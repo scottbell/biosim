@@ -42,6 +42,8 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 
 	/**
 	* Creates a Store with an initial level and capacity of 0
+	* @param pID the ID of the store
+	* @param pName the name of the store
 	*/
 	public StoreImpl(int pID, String pName){
 		super(pID, pName);
@@ -51,8 +53,10 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 
 	/**
 	* Creates a Store with an initial level and capacity user specified
-	* @param initialLevel the initial level of the store
-	* @param initialCapacity the initial capacity of the store
+	* @param pID the initial level of the store
+	* @param pName the name of the store
+	* @param pInitialCapacity the initial capacity of the store
+	* @param pInitialLevel the initial level of the store
 	* @param pPipe whether this store should act like a pipe.  dynamic capcity == level == whatever is added THIS tick (0 if nothing added, maxFlowRate should dictate pipe size, infinite otherwise)
 	*/
 	public StoreImpl (int pID, String pName, float pInitialLevel, float pInitialCapacity, boolean pPipe){
@@ -93,7 +97,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 
 	/**
 	* Sets the level to a set amount
-	* @param the level to set the store to
+	* @param metricAmount the level to set the store to
 	*/
 	public void setLevel(float metricAmount){
 		level = oldLevel = initialLevel = metricAmount;
@@ -136,7 +140,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	/**
 	* Gives a decent name/description of the malfunction as it relates to this module.
 	* @param pIntensity The intensity of the malfunction (severe, medium, low)
-	* @param pIntensity The temporal length of the malfunction (temporary, permanent)
+	* @param pLength The temporal length of the malfunction (temporary, permanent)
 	* @return the description/name of the malfunction
 	*/
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){

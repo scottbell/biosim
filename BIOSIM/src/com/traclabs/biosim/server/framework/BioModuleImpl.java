@@ -238,7 +238,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	
 	/**
 	* Fixes a temporary malfunction currently active with this module instantly.
-	* @param malfunctionID the ID of the malfunction to remove
+	* @param pID the ID of the malfunction to remove
 	*/
 	public void fixMalfunction(long pID){
 		Malfunction theMalfunction = (Malfunction)(myMalfunctions.get(new Long(pID)));

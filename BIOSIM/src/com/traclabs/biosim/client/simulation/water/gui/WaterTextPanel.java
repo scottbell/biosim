@@ -47,7 +47,6 @@ public class WaterTextPanel extends TimedPanel
 
 	/**
 	* Creates and registers this panel.
-	* @param pBioSimulator	The Biosimulator this Panel will register itself with.
 	*/
 	public WaterTextPanel(){
 		myWaterRS = (WaterRS)(BioHolder.getBioModule(BioHolder.waterRSName));

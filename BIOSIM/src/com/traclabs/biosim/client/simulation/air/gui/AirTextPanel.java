@@ -46,7 +46,6 @@ public class AirTextPanel extends TimedPanel
 
 	/**
 	* Creates and registers this panel.
-	* @param pBioSimulator	The Biosimulator this Panel will register itself with.
 	*/
 	public AirTextPanel(){
 		myAirRS = (AirRS)(BioHolder.getBioModule(BioHolder.airRSName));

@@ -74,7 +74,9 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 
 	/**
 	* Creates a SimEnvironment with a set initial volume and resets the gas levels to correct percantages of sea level air.
-	* @param initialVolume the initial volume of the environment in liters
+	* @param pInitialVolume the initial volume of the environment in liters
+	* @param pID the ID of the server
+	* @param pName the name of this environment
 	*/
 	public SimEnvironmentImpl(int pID, float pInitialVolume, String pName){
 		super(pID, pName);
@@ -94,10 +96,14 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 
 	/**
 	* Creates a SimEnvironment with a set initial volume and gas levels to correct percantages of sea level air
-	* @param initialCO2Moles the initial volume of the CO2 (in moles) in the environment
-	* @param initialO2Moles the initial volume of the O2 (in moles) in the environment
-	* @param initialOtherMoles the initial volume of the other gasses (in moles) in the environment
-	* @param initialVolume the initial volume of the environment in liters
+	* @param pInitialCO2Moles the initial volume of the CO2 (in moles) in the environment
+	* @param pInitialO2Moles the initial volume of the O2 (in moles) in the environment
+	* @param pInitialOtherMoles the initial volume of the other gasses (in moles) in the environment
+	* @param pInitialWaterMoles the initial volume of water (in moles) in the environment
+	* @param pInitialNitrogenMoles the initial volume of nitrogen (in moles) in the environment
+	* @param pInitialVolume the initial volume of the environment in liters
+	* @param pName the name of this environment
+	* @param pID the ID of the server
 	*/
 	public SimEnvironmentImpl (float pInitialCO2Moles, float pInitialO2Moles, float pInitialOtherMoles, float pInitialWaterMoles, float pInitialNitrogenMoles,
 	                           float pInitialVolume, String pName, int pID)
@@ -294,11 +300,12 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 
 	/**
 	* Sets the volume of the environment (how much gas it can hold)
-	* @param initialCO2Moles the initial volume of the CO2 (in moles) in the environment
-	* @param initialO2Moles the initial volume of the O2 (in moles) in the environment
-	* @param initialOtherMoles the initial volume of the other gasses (in moles) in the environment
-	* @param initialNitrogenMoles the initial volume of the nitrogen gasses (in moles) in the environment
-	* @param initialVolume the initial volume of the environment in liters
+	* @param pInitialCO2Moles the initial volume of the CO2 (in moles) in the environment
+	* @param pInitialO2Moles the initial volume of the O2 (in moles) in the environment
+	* @param pInitialOtherMoles the initial volume of the other gasses (in moles) in the environment
+	* @param pInitialNitrogenMoles the initial volume of nitrogen (in moles) in the environment
+	* @param pInitialWaterMoles the initial volume of nitrogen (in moles) in the environment
+	* @param pInitialVolume the initial volume of the environment in liters
 	*/
 	public void setInitialVolume(float pInitialCO2Moles, float pInitialO2Moles, float pInitialOtherMoles, float pInitialWaterMoles, float pInitialNitrogenMoles, float pInitialVolume)
 	{
@@ -317,7 +324,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 
 	/**
 	* Sets the volume of the environment (how much gas it can hold) w/ gas mixture at earth sea level
-	* @param litersRequested the new volume of the environment (in liters)
+	* @param pInitialVolume the new volume of the environment (in liters)
 	*/
 	public void setInitialVolumeAtSeaLevel(float pInitialVolume){
 		volume = initialVolume = pInitialVolume;

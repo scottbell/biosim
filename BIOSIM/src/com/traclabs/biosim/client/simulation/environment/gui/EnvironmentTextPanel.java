@@ -32,7 +32,6 @@ public class EnvironmentTextPanel extends TimedPanel
 	
 	/**
 	* Creates and registers this panel.
-	* @param pBioSimulator	The Biosimulator this Panel will register itself with.
 	*/
 	public EnvironmentTextPanel(String environmentName){
 		super();

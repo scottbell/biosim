@@ -38,7 +38,6 @@ public class FoodTextPanel extends TimedPanel
 
 	/**
 	* Creates and registers this panel.
-	* @param pBioSimulator	The Biosimulator this Panel will register itself with.
 	*/
 	public FoodTextPanel(){
 		myBiomassRS = (BiomassRS)(BioHolder.getBioModule(BioHolder.biomassRSName));

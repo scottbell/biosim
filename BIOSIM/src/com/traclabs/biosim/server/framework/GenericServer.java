@@ -98,7 +98,8 @@ public class GenericServer{
 	/**
 	* Registers this server with the CORBA naming service and starts the server
 	* @param pPOA the object to register
-	* @param servername the name that will be associated with this server in the naming service
+	* @param pServerName the name that will be associated with this server in the naming service
+	* @param pID the id of the server
 	*/
 	public void registerServerAndRun(Servant pPOA, String pServerName, int pID){
 		registerServer(pPOA,pServerName, pID);
@@ -122,7 +123,7 @@ public class GenericServer{
 	
 	/**
 	* Starts the server by calling ORB.run()
-	* @param servername the name associated with this server (for debug purposes only)
+	* @param serverName the name associated with this server (for debug purposes only)
 	*/
 	public void runServer(String serverName){
 		try{
