@@ -102,7 +102,7 @@ public class ARSMonitor extends Thread {
 	 * @param matchTag - String used to only trigger certain NetARSTriggers if more than one exist in a level.
 	 */
 	ARSMonitor(Socket unrealSocket, BioHolder bioHolder, String matchTag) {
-		System.out.println("matchTag: "+matchTag);
+	
 		mySocket = unrealSocket;
 		cmdPrefix = cmdPrefix.concat(matchTag);	
 		cmdPrefix = cmdPrefix.concat(" ");			
@@ -153,7 +153,7 @@ public class ARSMonitor extends Thread {
 			co2Cap = myCO2Store.getCapacity();
 			nCap = myNitrogenStore.getCapacity();
 			netRequest = cmdPrefix+o2Level+" "+co2Level+" "+h2Level+" "+nLevel+" "+o2Cap+" "+co2Cap+" "+h2Cap+" "+nCap;
-			System.out.println("Sent netRequest:"+netRequest);
+	
 			unrealStream.println(netRequest);
 			try {
 				sleep(2000);
