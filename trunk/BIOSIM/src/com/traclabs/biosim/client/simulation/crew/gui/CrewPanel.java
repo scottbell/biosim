@@ -1,6 +1,7 @@
 package biosim.client.crew.gui;
 
 import biosim.client.framework.*;
+import biosim.client.framework.gui.*;
 import biosim.idl.crew.*;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -16,6 +17,8 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 	private BioSimulator myBioSimulator;
 	private CrewPerson[] myCrewPeople;
 	private Vector crewPersonGUIVector;
+	private JPanel noCrewPanel;
+	private JLabel noCrewLabel;
 
 	public CrewPanel(BioSimulator pBioSimulator){
 		myBioSimulator = pBioSimulator;
@@ -24,11 +27,28 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 		buildGui();
 		myBioSimulator.registerListener(this);
 	}
+	
+	private void rebuildGui(){
+		myCrew = (CrewGroup)(myBioSimulator.getBioModule(BioSimulator.crewName));
+		crewPersonGUIVector = new Vector();
+		buildGui();
+		SimDesktopFrame mySimFrame = getSimFrame();
+		if (mySimFrame != null)
+			mySimFrame.pack();
+	}
 
 	private void buildGui(){
+		removeAll();
 		myCrewPeople = myCrew.getCrewPeople();
+		if (myCrewPeople.length == 0){
+			setLayout(new BorderLayout());
+			noCrewPanel = new JPanel();
+			noCrewPanel.setLayout(new BorderLayout());
+			noCrewLabel = new JLabel("No crew to display");
+			noCrewPanel.add(noCrewLabel, BorderLayout.CENTER);
+			add(noCrewPanel, BorderLayout.CENTER);
+		}
 		setLayout(new GridLayout(myCrewPeople.length / 2, 2));
-		
 		for (int i = 0; i < myCrewPeople.length; i++){
 			JPanel newPersonPanel = new JPanel();
 			newPersonPanel.setLayout(new GridLayout(8,1));
@@ -62,6 +82,12 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 	}
 
 	public void processTick(){
+		if (crewPersonGUIVector.size() == 0){
+			myCrewPeople = myCrew.getCrewPeople();
+			if (myCrewPeople.length > 0){
+				rebuildGui();
+			}
+		}
 		for (Enumeration e = crewPersonGUIVector.elements(); e.hasMoreElements();){
 			CrewPersonGUI newPersonGUI = (CrewPersonGUI)(e.nextElement());
 			CrewPerson crewPerson = myCrew.getCrewPerson(newPersonGUI.name);
@@ -79,6 +105,17 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 				sexString = "female";
 			newPersonGUI.sexLabel.setText("sex: "+sexString);
 		}
+	}
+	
+	private SimDesktopFrame getSimFrame(){
+		Container theContainer = getParent();
+		while (theContainer != null){
+			if (theContainer instanceof SimDesktopFrame)
+				return ((SimDesktopFrame)(theContainer));
+			else
+				theContainer = theContainer.getParent();
+		}
+		return null;
 	}
 
 	private class CrewPersonGUI{
