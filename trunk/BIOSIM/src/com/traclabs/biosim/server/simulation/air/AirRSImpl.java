@@ -36,6 +36,7 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations, PowerCo
 	private float[] CO2OutputFlowRates;
 	private float[] airInFlowRates;
 	private float[] airOutFlowRates;
+	private static final int NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER = 3;
 
 	public AirRSImpl(int pID){
 		super(pID);
@@ -345,5 +346,9 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations, PowerCo
 
 	public CO2Store[] getCO2Inputs(){
 		return myCO2InputStores;
+	}
+	
+	int getSubsystemsConsumingPower(){
+		return NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER;
 	}
 }
