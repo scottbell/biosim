@@ -482,8 +482,34 @@
 		</xsd:sequence>
 	</xsd:complexType>
 	
+	<!-- Malfunction declarations -->
+	
+	<xsd:simpleType name="MalfunctionIntensityType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="SEVERE_MALF"/>
+			<xsd:enumeration value="MEDIUM_MALF"/>
+			<xsd:enumeration value="LOW_MALF"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="MalfunctionIntensityLength">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="TEMPORARY_MALF"/>
+			<xsd:enumeration value="PERMANENT_MALF"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:complexType name="MalfunctionType">
+		<xsd:attribute name="intensity" type="MalfunctionIntensityType" use="required"/>
+		<xsd:attribute name="length" type="MalfunctionIntensityLength" use="required"/>
+		<xsd:attribute name="tickOccurs" type="xsd:nonNegativeInteger" use="required"/>
+	</xsd:complexType>
+	
 	<!-- Module declarations -->
 	<xsd:complexType name="BioModuleType">
+		<xsd:sequence>
+			<xsd:element name="malfunction" type="MalfunctionType" minOccurs="0" maxOccurs="1"/>
+		</xsd:sequence>
 		<xsd:attribute name="name" type="xsd:string" use="required"/>
 		<xsd:attribute name="isLoggingEnabled" type="xsd:boolean" default="false"/>
 		<xsd:attribute name="isBreakdownEnabled" type="xsd:boolean" default="false"/>
@@ -497,6 +523,8 @@
 			<xsd:extension base="BioModuleType">
 					<xsd:attribute name="capacity" type="xsd:nonNegativeInteger" use="required"/>
 					<xsd:attribute name="level" type="xsd:nonNegativeInteger" use="required"/>
+					<xsd:attribute name="resupplyFrequency" type="xsd:nonNegativeInteger" default="0"/>
+					<xsd:attribute name="resupplyAmount" type="xsd:nonNegativeInteger" default="0"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>

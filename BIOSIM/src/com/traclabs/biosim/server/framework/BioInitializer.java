@@ -262,6 +262,30 @@ public class BioInitializer{
 		}
 		return capacity;
 	}
+	
+	private static int getStoreResupplyFrequency(Node node){
+		int frequency = 0;
+		try{
+			frequency = Integer.parseInt(node.getAttributes().getNamedItem("resupplyFrequency").getNodeValue());
+		}
+		catch (NumberFormatException e){
+
+			e.printStackTrace();
+		}
+		return frequency;
+	}
+	
+	private static float getStoreResupplyAmount(Node node){
+		float amount = 0f;
+		try{
+			amount = Float.parseFloat(node.getAttributes().getNamedItem("resupplyAmount").getNodeValue());
+		}
+		catch (NumberFormatException e){
+
+			e.printStackTrace();
+		}
+		return amount;
+	}
 
 	private static float[] getMaxFlowRates(Node node){
 		if (node == null)
@@ -662,6 +686,7 @@ public class BioInitializer{
 			O2StoreImpl myO2StoreImpl = new O2StoreImpl(myID, moduleName);
 			myO2StoreImpl.setLevel(getStoreLevel(node));
 			myO2StoreImpl.setCapacity(getStoreCapacity(node));
+			myO2StoreImpl.setResupply(getStoreResupplyFrequency(node), getStoreResupplyAmount(node));
 			myModules.add(OrbUtils.poaToCorbaObj(myO2StoreImpl));
 			BiosimServer.registerServer(new O2StorePOATie(myO2StoreImpl), myO2StoreImpl.getModuleName(), myO2StoreImpl.getID());
 		}
@@ -676,6 +701,7 @@ public class BioInitializer{
 			CO2StoreImpl myCO2StoreImpl = new CO2StoreImpl(myID, moduleName);
 			myCO2StoreImpl.setLevel(getStoreLevel(node));
 			myCO2StoreImpl.setCapacity(getStoreCapacity(node));
+			myCO2StoreImpl.setResupply(getStoreResupplyFrequency(node), getStoreResupplyAmount(node));
 			myModules.add(OrbUtils.poaToCorbaObj(myCO2StoreImpl));
 			BiosimServer.registerServer(new CO2StorePOATie(myCO2StoreImpl), myCO2StoreImpl.getModuleName(), myCO2StoreImpl.getID());
 		}
@@ -690,6 +716,7 @@ public class BioInitializer{
 			H2StoreImpl myH2StoreImpl = new H2StoreImpl(myID, moduleName);
 			myH2StoreImpl.setLevel(getStoreLevel(node));
 			myH2StoreImpl.setCapacity(getStoreCapacity(node));
+			myH2StoreImpl.setResupply(getStoreResupplyFrequency(node), getStoreResupplyAmount(node));
 			myModules.add(OrbUtils.poaToCorbaObj(myH2StoreImpl));
 			BiosimServer.registerServer(new H2StorePOATie(myH2StoreImpl), myH2StoreImpl.getModuleName(), myH2StoreImpl.getID());
 		}
@@ -1049,6 +1076,7 @@ public class BioInitializer{
 			BiomassStoreImpl myBiomassStoreImpl = new BiomassStoreImpl(myID, moduleName);
 			myBiomassStoreImpl.setLevel(getStoreLevel(node));
 			myBiomassStoreImpl.setCapacity(getStoreCapacity(node));
+			myBiomassStoreImpl.setResupply(getStoreResupplyFrequency(node), getStoreResupplyAmount(node));
 			myModules.add(OrbUtils.poaToCorbaObj(myBiomassStoreImpl));
 			BiosimServer.registerServer(new BiomassStorePOATie(myBiomassStoreImpl), myBiomassStoreImpl.getModuleName(), myBiomassStoreImpl.getID());
 		}
@@ -1063,6 +1091,7 @@ public class BioInitializer{
 			FoodStoreImpl myFoodStoreImpl = new FoodStoreImpl(myID, moduleName);
 			myFoodStoreImpl.setLevel(getStoreLevel(node));
 			myFoodStoreImpl.setCapacity(getStoreCapacity(node));
+			myFoodStoreImpl.setResupply(getStoreResupplyFrequency(node), getStoreResupplyAmount(node));
 			myModules.add(OrbUtils.poaToCorbaObj(myFoodStoreImpl));
 			BiosimServer.registerServer(new FoodStorePOATie(myFoodStoreImpl), myFoodStoreImpl.getModuleName(), myFoodStoreImpl.getID());
 		}
@@ -1133,6 +1162,7 @@ public class BioInitializer{
 			PowerStoreImpl myPowerStoreImpl = new PowerStoreImpl(myID, moduleName);
 			myPowerStoreImpl.setLevel(getStoreLevel(node));
 			myPowerStoreImpl.setCapacity(getStoreCapacity(node));
+			myPowerStoreImpl.setResupply(getStoreResupplyFrequency(node), getStoreResupplyAmount(node));
 			myModules.add(OrbUtils.poaToCorbaObj(myPowerStoreImpl));
 			BiosimServer.registerServer(new PowerStorePOATie(myPowerStoreImpl), myPowerStoreImpl.getModuleName(), myPowerStoreImpl.getID());
 		}
@@ -1189,6 +1219,7 @@ public class BioInitializer{
 			PotableWaterStoreImpl myPotableWaterStoreImpl = new PotableWaterStoreImpl(myID, moduleName);
 			myPotableWaterStoreImpl.setLevel(getStoreLevel(node));
 			myPotableWaterStoreImpl.setCapacity(getStoreCapacity(node));
+			myPotableWaterStoreImpl.setResupply(getStoreResupplyFrequency(node), getStoreResupplyAmount(node));
 			myModules.add(OrbUtils.poaToCorbaObj(myPotableWaterStoreImpl));
 			BiosimServer.registerServer(new PotableWaterStorePOATie(myPotableWaterStoreImpl), myPotableWaterStoreImpl.getModuleName(), myPotableWaterStoreImpl.getID());
 		}
@@ -1203,6 +1234,7 @@ public class BioInitializer{
 			DirtyWaterStoreImpl myDirtyWaterStoreImpl = new DirtyWaterStoreImpl(myID, moduleName);
 			myDirtyWaterStoreImpl.setLevel(getStoreLevel(node));
 			myDirtyWaterStoreImpl.setCapacity(getStoreCapacity(node));
+			myDirtyWaterStoreImpl.setResupply(getStoreResupplyFrequency(node), getStoreResupplyAmount(node));
 			myModules.add(OrbUtils.poaToCorbaObj(myDirtyWaterStoreImpl));
 			BiosimServer.registerServer(new DirtyWaterStorePOATie(myDirtyWaterStoreImpl), myDirtyWaterStoreImpl.getModuleName(), myDirtyWaterStoreImpl.getID());
 		}
@@ -1217,6 +1249,7 @@ public class BioInitializer{
 			GreyWaterStoreImpl myGreyWaterStoreImpl = new GreyWaterStoreImpl(myID, moduleName);
 			myGreyWaterStoreImpl.setLevel(getStoreLevel(node));
 			myGreyWaterStoreImpl.setCapacity(getStoreCapacity(node));
+			myGreyWaterStoreImpl.setResupply(getStoreResupplyFrequency(node), getStoreResupplyAmount(node));
 			myModules.add(OrbUtils.poaToCorbaObj(myGreyWaterStoreImpl));
 			BiosimServer.registerServer(new GreyWaterStorePOATie(myGreyWaterStoreImpl), myGreyWaterStoreImpl.getModuleName(), myGreyWaterStoreImpl.getID());
 		}

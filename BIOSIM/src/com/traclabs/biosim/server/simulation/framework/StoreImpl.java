@@ -39,6 +39,8 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	private boolean pipe = false;
 	protected float initialLevel = 0f;
 	protected float initialCapacity = 0f;
+	private int resupplyFrequency = 0;
+	private float resupplyAmount = 0f;
 
 	/**
 	* Creates a Store with an initial level and capacity of 0
@@ -77,6 +79,11 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	public void setPipe(boolean pPipe){
 		pipe = pPipe;
 	}
+	
+	public void setResupply(int pResupplyFrequency, float pResupplyAmount){
+		resupplyFrequency = pResupplyFrequency;
+		resupplyAmount = pResupplyAmount;
+	}
 
 	/**
 	* Sets the capacity of the store (how much it can hold)
@@ -99,6 +106,8 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 		oldLevel = level;
 		oldCapacity = capacity;
 		oldOverflow = overflow;
+		if ((resupplyFrequency % myTicks) == 0)
+			add(resupplyAmount);
 		if (pipe){
 			level = 0f;
 			capacity = 0f;
