@@ -33,7 +33,8 @@ public class XMLLogHandler implements LogHandler{
 	* The default constructor creates a file in $BIOSIM_HOME/generated/biosim-log.xml
 	*/
 	public XMLLogHandler(){
-		String biosimPath = new String();biosimPath = System.getProperty("BIOSIM_HOME");
+		String biosimPath = new String();
+		biosimPath = System.getProperty("BIOSIM_HOME");
 		if (biosimPath != null)
 			biosimPath = biosimPath + "/generated/";
 		if (biosimPath != null)
