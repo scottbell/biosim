@@ -1,5 +1,6 @@
 package biosim.server.framework;
 
+import org.apache.log4j.Logger;
 import biosim.idl.framework.BioDriverPOA;
 import biosim.idl.framework.BioModule;
 import biosim.idl.framework.MalfunctionIntensity;
@@ -36,6 +37,7 @@ public class BioDriverImpl extends BioDriverPOA{
 	private int driverStutterLength = 0;
 	//The ID of this instance of BioSim
 	private int myID = 0;
+	private Logger myLogger;
 	//If we loop after end conditions of a simulation run have been met (crew death or n-ticks)
 	private boolean looping = false;
 	private CrewGroup[] crewsToWatch;
@@ -61,6 +63,7 @@ public class BioDriverImpl extends BioDriverPOA{
 		actuators = new BioModule[0];
 		crewsToWatch = new CrewGroup[0];
 		plantsToWatch = new BiomassRS[0];
+		myLogger = Logger.getLogger(BioDriverImpl.class);
 	}
 
 	/**
@@ -245,7 +248,7 @@ public class BioDriverImpl extends BioDriverPOA{
 	*/
 	public synchronized void setDriverStutterLength(int pDriverStutterLength){
 		if (pDriverStutterLength > 0)
-			System.out.println("BioDriverImpl"+myID+": driver pause of "+pDriverStutterLength+" milliseconds");
+			myLogger.info("BioDriverImpl"+myID+": driver pause of "+pDriverStutterLength+" milliseconds");
 		driverStutterLength = pDriverStutterLength;
 	}
 
@@ -280,7 +283,7 @@ public class BioDriverImpl extends BioDriverPOA{
 	public boolean isDone(){
 		if (runTillN){
 			if (ticksGoneBy >= nTicks){
-				System.out.println("BioDriverImpl"+myID+": Reached user defined tick limit of "+nTicks);
+				myLogger.info("BioDriverImpl"+myID+": Reached user defined tick limit of "+nTicks);
 				//System.exit(0);
 				return true;
 			}
@@ -288,7 +291,7 @@ public class BioDriverImpl extends BioDriverPOA{
 		if (runTillCrewDeath){
 			for (int i = 0; i < crewsToWatch.length; i++){
 				if (crewsToWatch[i].isDead()){
-					//System.out.println("BioDriverImpl"+myID+": simulation ended due to crew death at "+nTicks);
+					myLogger.debug("BioDriverImpl"+myID+": simulation ended due to crew death at "+nTicks);
 					return true;
 				}
 			}
@@ -298,7 +301,7 @@ public class BioDriverImpl extends BioDriverPOA{
 				Shelf[] shelves = plantsToWatch[i].getShelves();
 				for (int j = 0; j < shelves.length; j++){
 					if (shelves[j].isDead()){
-						//System.out.println("BioDriverImpl"+myID+": simulation ended due to plant death at "+nTicks);
+						myLogger.debug("BioDriverImpl"+myID+": simulation ended due to plant death at "+nTicks);
 						return true;
 					}
 				}
@@ -322,7 +325,7 @@ public class BioDriverImpl extends BioDriverPOA{
 		myTickThread = null;
 		notify();
 		simulationStarted = false;
-		System.out.println("BioDriverImpl"+myID+": simulation ended on tick "+ticksGoneBy);
+		myLogger.info("BioDriverImpl"+myID+": simulation ended on tick "+ticksGoneBy);
 	}
 
 	/**
@@ -376,7 +379,7 @@ public class BioDriverImpl extends BioDriverPOA{
 	* Typically this means resetting the various gas levels, crew people, water levels, etc.
 	*/
 	public void reset(){
-		System.out.println("BioDriverImpl"+myID+": Resetting simulation");
+		myLogger.info("BioDriverImpl"+myID+": Resetting simulation");
 		ticksGoneBy = 0;
 		for (int i = 0; i < modules.length; i++){
 			BioModule currentBioModule = (BioModule)(modules[i]);
@@ -418,10 +421,10 @@ public class BioDriverImpl extends BioDriverPOA{
 	*/
 	private void tick(){
 		if (!isStarted()){
-			//System.err.println("BioDriverImpl"+myID+": Tick called when simulation wasn't started!");
+			myLogger.debug("BioDriverImpl"+myID+": Tick called when simulation wasn't started!");
 			return;
 		}
-		//System.out.println("BioDriveImpl: begin Tick");
+		myLogger.debug("BioDriveImpl: begin Tick");
 		//Iterate through the actuators and tick them
 		for (int i = 0; i < actuators.length; i++){
 			BioModule currentBioModule = (BioModule)(actuators[i]);
@@ -461,7 +464,7 @@ public class BioDriverImpl extends BioDriverPOA{
 		* Sets flag that simulation is running, intializes servers (if applicable), then begins ticking them.
 		*/
 		public void run(){
-			System.out.println("BioDriverImpl"+myID+": Running simulation...");
+			myLogger.info("BioDriverImpl"+myID+": Running simulation...");
 			simulationStarted = true;
 			runSimulation();
 		}
