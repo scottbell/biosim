@@ -16,7 +16,7 @@ public class FoodProcessorServer extends GenericServer{
 	*/
 	public static void main(String args[]) {
 		FoodProcessorServer myServer = new FoodProcessorServer();
-		FoodProcessorImpl myFoodProcessor = new FoodProcessorImpl(0);
+		FoodProcessorImpl myFoodProcessor = new FoodProcessorImpl(myServer.getIDfromArgs(args));
 		myServer.registerServerAndRun(new FoodProcessorPOATie(myFoodProcessor), myFoodProcessor.getModuleName());
 	}
 }

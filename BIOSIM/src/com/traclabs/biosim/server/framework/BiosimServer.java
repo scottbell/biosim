@@ -29,7 +29,7 @@ public class BiosimServer extends GenericServer{
 
 	public static void main(String args[]) {
 		BiosimServer myServer = new BiosimServer();
-		myServer.createServers(0);
+		myServer.createServers(myServer.getIDfromArgs(args));
 	}
 
 	private void createServers(int id){

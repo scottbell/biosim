@@ -16,7 +16,7 @@ public class SimEnvironmentServer extends GenericServer{
 	*/
 	public static void main(String args[]) {
 		SimEnvironmentServer myServer = new SimEnvironmentServer();
-		SimEnvironmentImpl mySimEnvironment = new SimEnvironmentImpl(0);
+		SimEnvironmentImpl mySimEnvironment = new SimEnvironmentImpl(myServer.getIDfromArgs(args));
 		myServer.registerServerAndRun(new SimEnvironmentPOATie(mySimEnvironment), mySimEnvironment.getModuleName());
 	}
 }

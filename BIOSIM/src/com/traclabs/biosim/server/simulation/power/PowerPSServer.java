@@ -16,7 +16,7 @@ public class PowerPSServer extends GenericServer{
 	*/
 	public static void main(String args[]) {
 		PowerPSServer myServer = new PowerPSServer();
-		PowerPSImpl myPowerPS = new SolarPowerPS(0);
+		PowerPSImpl myPowerPS = new SolarPowerPS(myServer.getIDfromArgs(args));
 		myServer.registerServerAndRun(new PowerPSPOATie(myPowerPS), myPowerPS.getModuleName());
 	}
 }

@@ -15,7 +15,7 @@ public class O2StoreServer extends GenericServer{
 	*/
 	public static void main(String args[]) {
 		O2StoreServer myServer = new O2StoreServer();
-		O2StoreImpl myO2Store = new O2StoreImpl(0);
+		O2StoreImpl myO2Store = new O2StoreImpl(myServer.getIDfromArgs(args));
 		myServer.registerServerAndRun(new O2StorePOATie(myO2Store), myO2Store.getModuleName());
 	}
 }

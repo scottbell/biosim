@@ -31,7 +31,7 @@ public class BiosimMain
 			else if (myArgs[i].equals("console")){
 				wantsToRunCommandLine = true;
 			}
-			else if (myArgs[i].startsWith("id=")){
+			else if (myArgs[i].startsWith("-id=")){
 				try{
 					StringTokenizer st = new StringTokenizer(myArgs[i],"=");
 					st.nextToken();
