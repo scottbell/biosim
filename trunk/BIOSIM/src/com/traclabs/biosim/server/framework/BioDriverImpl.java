@@ -336,7 +336,7 @@ public class BioDriverImpl extends BioDriverPOA {
         }
         if (runTillCrewDeath) {
             for (int i = 0; i < crewsToWatch.length; i++) {
-                if (crewsToWatch[i].isDead()) {
+                if (crewsToWatch[i].anyDead()) {
                     myLogger.debug("BioDriverImpl" + myID
                             + ": simulation ended due to crew death at "
                             + nTicks);

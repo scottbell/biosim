@@ -122,7 +122,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 
     //The crew group associated with this crew member
     private CrewGroupImpl myBaseCrewGroupImpl;
-    
+
     private CrewGroup myCurrentCrewGroup;
 
     //Used to format floats
@@ -187,13 +187,15 @@ public class CrewPersonImpl extends CrewPersonPOA {
      *            the crew that the new crew person belongs in
      */
     CrewPersonImpl(String pName, float pAge, float pWeight, Sex pSex,
-            int pArrivalTick, int pDepartureTick, CrewGroupImpl pBaseCrewGroupImpl, CrewGroup pCurrentCrewGroup) {
+            int pArrivalTick, int pDepartureTick,
+            CrewGroupImpl pBaseCrewGroupImpl, CrewGroup pCurrentCrewGroup) {
         this(pName, pAge, pWeight, pSex, pArrivalTick, pDepartureTick,
                 pBaseCrewGroupImpl, pCurrentCrewGroup, new Schedule());
     }
 
     CrewPersonImpl(String pName, float pAge, float pWeight, Sex pSex,
-            int pArrivalTick, int pDepartureTick, CrewGroupImpl pBaseCrewGroupImpl, CrewGroup pCurrentCrewGroup,
+            int pArrivalTick, int pDepartureTick,
+            CrewGroupImpl pBaseCrewGroupImpl, CrewGroup pCurrentCrewGroup,
             Schedule pSchedule) {
         myLogger = Logger.getLogger(this.getClass());
         myName = pName;
@@ -565,7 +567,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
             repairModule(repairActivity.getModuleNameToRepair(), repairActivity
                     .getMalfunctionIDToRepair());
         } else if (myCurrentActivity instanceof EVAActivity) {
-        	handleEVA((EVAActivity) (myCurrentActivity));
+            handleEVA((EVAActivity) (myCurrentActivity));
         } else if (myCurrentActivity instanceof MaitenanceActivity) {
             MaitenanceActivity maitenanceActivity = (MaitenanceActivity) (myCurrentActivity);
             maintainModule(maitenanceActivity.getModuleNameToMaintain());
@@ -573,17 +575,17 @@ public class CrewPersonImpl extends CrewPersonPOA {
     }
 
     /**
-	 * @param pActivity
-	 */
-	private void handleEVA(EVAActivity pEVAActivity) {
+     * @param pActivity
+     */
+    private void handleEVA(EVAActivity pEVAActivity) {
         myLogger.debug("Handling EVA");
         if (timeActivityPerformed <= 1)
-        	startEVA(pEVAActivity.getEVACrewGroupName());
+            startEVA(pEVAActivity.getEVACrewGroupName());
         else if (timeActivityPerformed >= pEVAActivity.getTimeLength())
-        	endEVA(pEVAActivity.getBaseCrewGroupName());
-	}
+            endEVA(pEVAActivity.getBaseCrewGroupName());
+    }
 
-	/**
+    /**
      * @param evaCrewGroupName
      */
     private void startEVA(String evaCrewGroupName) {
@@ -593,12 +595,14 @@ public class CrewPersonImpl extends CrewPersonPOA {
         // detach from current crew group
         myCurrentCrewGroup.detachCrewPerson(getName());
         //attach to eva crew group
-        CrewGroup evaCrewGroup = CrewGroupHelper.narrow(OrbUtils.getBioModule(myCurrentCrewGroup.getID(), evaCrewGroupName));
-        evaCrewGroup.attachCrewPerson(CrewPersonHelper.narrow((OrbUtils.poaToCorbaObj(this))));
+        CrewGroup evaCrewGroup = CrewGroupHelper.narrow(OrbUtils.getBioModule(
+                myCurrentCrewGroup.getID(), evaCrewGroupName));
+        evaCrewGroup.attachCrewPerson(CrewPersonHelper.narrow((OrbUtils
+                .poaToCorbaObj(this))));
         myCurrentCrewGroup = evaCrewGroup;
         // perform activity for X ticks
     }
-    
+
     /**
      * @param baseCrewGroupName
      */
@@ -607,14 +611,14 @@ public class CrewPersonImpl extends CrewPersonPOA {
         // detach from EVA crew group
         myCurrentCrewGroup.detachCrewPerson(getName());
         // reattach to base crew group
-        CrewGroup baseCrewGroup = CrewGroupHelper.narrow((OrbUtils.getBioModule(myCurrentCrewGroup.getID(), baseCrewGroupName)));
-        baseCrewGroup.attachCrewPerson(CrewPersonHelper.narrow((OrbUtils.poaToCorbaObj(this))));
+        CrewGroup baseCrewGroup = CrewGroupHelper.narrow((OrbUtils
+                .getBioModule(myCurrentCrewGroup.getID(), baseCrewGroupName)));
+        baseCrewGroup.attachCrewPerson(CrewPersonHelper.narrow((OrbUtils
+                .poaToCorbaObj(this))));
         myCurrentCrewGroup = baseCrewGroup;
         // remove 5% from base environment (assume 3.7 m3 airlock)
         myCurrentCrewGroup.getAirInputs()[0].removeAirlockPercentage(0.05f);
     }
-    
-
 
     /**
      * productivity measure, used for metrics. the longer the crew does this,
@@ -641,7 +645,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
 
         float averagePercentFull = (caloriePercentFull + waterPercentFull
                 + oxygenPercentFull + CO2PercentFull + sleepPercentFull + leisurePercentFull) / 6f;
-        myMissionProductivity += myBaseCrewGroupImpl.randomFilter(averagePercentFull);
+        myMissionProductivity += myBaseCrewGroupImpl
+                .randomFilter(averagePercentFull);
     }
 
     /**
@@ -1063,17 +1068,19 @@ public class CrewPersonImpl extends CrewPersonPOA {
 
         if (calorieRiskReturn > randomNumber) {
             hasDied = true;
-            myLogger.info(getName() + " has died from starvation (risk was "
+            myLogger.info(getName() + " has died from starvation on tick "
+                    + myCurrentCrewGroup.getMyTicks() + " (risk was "
                     + numFormat.format(calorieRiskReturn * 100) + "%)");
         } else if (waterRiskReturn > randomNumber) {
             hasDied = true;
-            myLogger.info(getName() + " has died from thirst (risk was "
+            myLogger.info(getName() + " has died from thirst on tick "
+                    + myCurrentCrewGroup.getMyTicks() + " (risk was "
                     + numFormat.format(waterRiskReturn * 100) + "%)");
         } else if (oxygenRiskReturn > randomNumber) {
             hasDied = true;
             SimEnvironment[] myAirInputs = myCurrentCrewGroup.getAirInputs();
-            myLogger.info(getName()
-                    + " has died from lack of oxygen (risk was "
+            myLogger.info(getName() + " has died from lack of oxygen on tick "
+                    + myCurrentCrewGroup.getMyTicks() + " (risk was "
                     + numFormat.format(oxygenRiskReturn * 100) + "%)");
             myLogger.info(getName() + " Environmental conditions were: 02="
                     + myAirInputs[0].getO2Moles() + ", CO2="
@@ -1084,7 +1091,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
         } else if (CO2RiskReturn > randomNumber) {
             hasDied = true;
             SimEnvironment[] myAirInputs = myCurrentCrewGroup.getAirInputs();
-            myLogger.info(getName() + " has died from CO2 poisoning (risk was "
+            myLogger.info(getName() + " has died from CO2 poisoning on tick "
+                    + myCurrentCrewGroup.getMyTicks() + " (risk was "
                     + numFormat.format(CO2RiskReturn * 100) + "%)");
             myLogger.info(getName() + " Environmental conditions were: 02="
                     + myAirInputs[0].getO2Moles() + ", CO2="
@@ -1158,28 +1166,31 @@ public class CrewPersonImpl extends CrewPersonPOA {
         potableWaterConsumed = CrewGroupImpl.getFractionalResourceFromStore(
                 myCurrentCrewGroup.getPotableWaterInputs(), myCurrentCrewGroup
                         .getPotableWaterInputMaxFlowRates(), myCurrentCrewGroup
-                        .getPotableWaterInputDesiredFlowRates(), myCurrentCrewGroup
-                        .getPotableWaterInputActualFlowRates(),
+                        .getPotableWaterInputDesiredFlowRates(),
+                myCurrentCrewGroup.getPotableWaterInputActualFlowRates(),
                 potableWaterNeeded, 1f / myCurrentCrewGroup.getCrewSize());
         float distributedDirtyWater = SimBioModuleImpl
-                .pushFractionalResourceToStore(myCurrentCrewGroup
-                        .getDirtyWaterOutputs(), myCurrentCrewGroup
-                        .getDirtyWaterOutputMaxFlowRates(), myCurrentCrewGroup
-                        .getDirtyWaterOutputDesiredFlowRates(), myCurrentCrewGroup
-                        .getDirtyWaterOutputActualFlowRates(),
-                        dirtyWaterProduced, 1f / myCurrentCrewGroup.getCrewSize());
+                .pushFractionalResourceToStore(
+                        myCurrentCrewGroup.getDirtyWaterOutputs(),
+                        myCurrentCrewGroup.getDirtyWaterOutputMaxFlowRates(),
+                        myCurrentCrewGroup
+                                .getDirtyWaterOutputDesiredFlowRates(),
+                        myCurrentCrewGroup.getDirtyWaterOutputActualFlowRates(),
+                        dirtyWaterProduced, 1f / myCurrentCrewGroup
+                                .getCrewSize());
         float distributedGreyWater = SimBioModuleImpl
                 .pushFractionalResourceToStore(myCurrentCrewGroup
                         .getGreyWaterOutputs(), myCurrentCrewGroup
                         .getGreyWaterOutputMaxFlowRates(), myCurrentCrewGroup
-                        .getGreyWaterOutputDesiredFlowRates(), myCurrentCrewGroup
-                        .getGreyWaterOutputActualFlowRates(),
-                        greyWaterProduced, 1f / myCurrentCrewGroup.getCrewSize());
+                        .getGreyWaterOutputDesiredFlowRates(),
+                        myCurrentCrewGroup.getGreyWaterOutputActualFlowRates(),
+                        greyWaterProduced, 1f / myCurrentCrewGroup
+                                .getCrewSize());
         float distributedDryWaste = SimBioModuleImpl
-                .pushFractionalResourceToStore(
-                        myCurrentCrewGroup.getDryWasteOutputs(), myCurrentCrewGroup
-                                .getDryWasteOutputMaxFlowRates(), myCurrentCrewGroup
-                                .getDryWasteOutputDesiredFlowRates(),
+                .pushFractionalResourceToStore(myCurrentCrewGroup
+                        .getDryWasteOutputs(), myCurrentCrewGroup
+                        .getDryWasteOutputMaxFlowRates(), myCurrentCrewGroup
+                        .getDryWasteOutputDesiredFlowRates(),
                         myCurrentCrewGroup.getDryWasteOutputActualFlowRates(),
                         dryWasteProduced, 1f / myCurrentCrewGroup.getCrewSize());
 
