@@ -51,6 +51,15 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	public boolean ROHasPower(){
 		return myRO.hasPower();
 	}
+	
+	public boolean ROIsEnabled(){
+		return myRO.isEnabled();
+	}
+	
+	public void setROEnabled(boolean pEnabled){
+		myRO.setEnabled(pEnabled);
+	}
+	
 
 	/**
 	* Checks whether AES subsystem has enough power or not
@@ -58,6 +67,14 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	*/
 	public boolean AESHasPower(){
 		return myAES.hasPower();
+	}
+	
+	public boolean AESIsEnabled(){
+		return myAES.isEnabled();
+	}
+	
+	public void setAESEnabled(boolean pEnabled){
+		myAES.setEnabled(pEnabled);
 	}
 
 	/**

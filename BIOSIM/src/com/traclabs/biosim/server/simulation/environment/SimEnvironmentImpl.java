@@ -21,6 +21,11 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	private float capacity = 100f;
 	//The number of ticks the simulation has gone through
 	private int ticks;
+	//The light intensity outside
+	private float lightIntensity = 0f;
+	private static final float MAXIMUM_LUMENS = 50000f;
+	private static final float STARTING_HOUR = 0f;
+	private static final float DAY_LENGTH = 24f;
 	private LogIndex myLogIndex;
 	
 	/**
@@ -59,6 +64,14 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	public void reset(){
 		ticks = 0;
 		resetLevels();
+	}
+	
+	/**
+	* Gives the light intensity outside
+	* @return the light intensity in lumens
+	*/
+	public float getLightIntensity(){
+		return lightIntensity;
 	}
 	
 	/**
@@ -275,11 +288,16 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 		}
 	}
 	
+	private void calculateLightIntensity(){
+		lightIntensity = new Double(MAXIMUM_LUMENS*(Math.sin(2*Math.PI*(ticks-STARTING_HOUR)/DAY_LENGTH) + 1)).floatValue();
+	}
+	
 	/**
 	* Processes a tick by adding to the tick counter
 	*/
 	public void tick(){
 		ticks++;
+		calculateLightIntensity();
 		if (moduleLogging)
 			log();
 	}
@@ -304,6 +322,8 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 			myLogIndex.otherLevelIndex = otherLevelHead.addChild(""+otherLevel);
 			LogNode capacityHead = myLog.getHead().addChild("other Level");
 			myLogIndex.capacityIndex = capacityHead.addChild(""+capacity);
+			LogNode lightIntensityHead = myLog.getHead().addChild("light intensity");
+			myLogIndex.lightIntensityIndex = lightIntensityHead.addChild(""+lightIntensity);
 			logInitialized = true;
 		}
 		else{
@@ -311,6 +331,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 			myLogIndex.CO2LevelIndex.setValue(""+CO2Level);
 			myLogIndex.otherLevelIndex.setValue(""+otherLevel);
 			myLogIndex.capacityIndex.setValue(""+capacity);
+			myLogIndex.lightIntensityIndex.setValue(""+lightIntensity);
 		}
 		sendLog(myLog);
 	}
@@ -323,5 +344,6 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 		public LogNode CO2LevelIndex;
 		public LogNode otherLevelIndex;
 		public LogNode capacityIndex;
+		public LogNode lightIntensityIndex;
 	}
 }

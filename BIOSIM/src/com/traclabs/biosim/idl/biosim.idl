@@ -196,6 +196,7 @@ module biosim{
                                 float addCO2(in float liters);
                                 float addO2(in float liters);
                                 float addOther(in float liters);
+				float getLightIntensity();
                                 air::Breath takeO2Breath(in float liters);
                                 air::Breath takeCO2Breath(in float liters);
                                 long getTicks();
@@ -210,6 +211,10 @@ module biosim{
                                 float getPowerConsumed();
                                 float getDirtyWaterConsumed();
                                 float getGreyWaterConsumed();
+				void setROEnabled(in boolean pEnabled);
+				void setAESEnabled(in boolean pEnabled);
+				boolean ROIsEnabled();
+				boolean AESIsEnabled();
                                 boolean ROHasPower();
                                 boolean AESHasPower();
                                 boolean PPSHasPower();

@@ -29,6 +29,7 @@ public abstract class WaterRSSubSystem{
 	private LogIndex myLogIndex;
 	//Flag switched when the BWP has collected references to other subsystems it needs
 	protected boolean hasCollectedReferences = false;
+	protected boolean enabled = true;
 
 	/**
 	* Constructor that creates the subsystem
@@ -53,6 +54,18 @@ public abstract class WaterRSSubSystem{
 	*/
 	public boolean hasPower(){
 		return hasEnoughPower;
+	}
+
+	public boolean isEnabled(){
+		return enabled;
+	}
+
+	public void setEnabled(boolean pEnabled){
+		enabled = pEnabled;
+		if (!enabled){
+			hasEnoughWater = true;
+			hasEnoughPower = true;
+		}
 	}
 
 	/**
@@ -82,7 +95,7 @@ public abstract class WaterRSSubSystem{
 	*/
 	public void addWater(float pWater){
 		waterLevel = pWater;
-		if (waterLevel < waterNeeded){
+		if (waterLevel < 0){
 			hasEnoughWater = false;
 		}
 		else{
@@ -100,6 +113,8 @@ public abstract class WaterRSSubSystem{
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();
+			LogNode enabledHead = myHead.addChild("Enabled");
+			myLogIndex.enabledIndex = enabledHead.addChild(""+enabled);
 			LogNode powerNeededHead = myHead.addChild("Power Needed");
 			myLogIndex.powerNeededIndex = powerNeededHead.addChild(""+powerNeeded);
 			LogNode currentPowerConsumedHead = myHead.addChild("Power Consumed");
@@ -115,6 +130,7 @@ public abstract class WaterRSSubSystem{
 			logInitialized = true;
 		}
 		else{
+			myLogIndex.enabledIndex.setValue(""+enabled);
 			myLogIndex.powerNeededIndex.setValue(""+powerNeeded);
 			myLogIndex.currentPowerConsumedIndex.setValue(""+currentPowerConsumed);
 			myLogIndex.waterNeededIndex.setValue(""+waterNeeded);
@@ -128,6 +144,7 @@ public abstract class WaterRSSubSystem{
 	* For fast reference to the log tree
 	*/
 	private class LogIndex{
+		public LogNode enabledIndex;
 		public LogNode powerNeededIndex;
 		public LogNode currentPowerConsumedIndex;
 		public LogNode waterNeededIndex;
