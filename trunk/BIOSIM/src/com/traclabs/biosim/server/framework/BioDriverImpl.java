@@ -7,6 +7,7 @@ import biosim.idl.food.*;
 import biosim.idl.power.*;
 import biosim.idl.water.*;
 import biosim.idl.framework.*;
+import biosim.server.util.*;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
@@ -16,15 +17,15 @@ import java.util.Enumeration;
 
 
 /**
- * BioSimulator exists as the driver for the simulation.  It gathers references to all the various servers, initializes them, then ticks them.
+ * BioDriverImpl exists as the driver for the simulation.  It gathers references to all the various servers, initializes them, then ticks them.
  * This is all done multithreaded through the use of the spawnSimulation method.
- * BioSimulator also can notify listeners when it has sucessfully ticked all the servers.  The listener needs only to implement BioSimulatorListener and
- * register with BioSimulator.
+ * BioDriverImpl also can notify listeners when it has sucessfully ticked all the servers.  The listener needs only to implement BioDriverImplListener and
+ * register with BioDriverImpl.
  *
  * @author    Scott Bell
  */
 
-public class BioDriverImpl implements Runnable
+public class BioDriverImpl extends BioDriverPOA implements Runnable 
 {
 	//Module Names
 	private final static  String crewName = "CrewGroup";
@@ -49,9 +50,9 @@ public class BioDriverImpl implements Runnable
 	private NamingContextExt ncRef;
 	//The thread to run the simulation
 	private Thread myTickThread;
-	//Flag to see whether the BioSimulator is paused (started but not ticking)
+	//Flag to see whether the BioDriverImpl is paused (started but not ticking)
 	private boolean simulationIsPaused = false;
-	//Flag to see whether the BioSimulator is started at all
+	//Flag to see whether the BioDriverImpl is started at all
 	private boolean simulationStarted = false;
 	//Flag to see if user wants to use default intialization (i.e., fill tanks with x amount gas, generate crew memebers, etc)
 	private boolean useDefaultInitialization = false;
@@ -59,10 +60,10 @@ public class BioDriverImpl implements Runnable
 	private SimEnvironment mySimEnvironment;
 
 	/**
-	* Creates the BioSimulator and collects references to the servers.
+	* Creates the BioDriverImpl and collects references to the servers.
 	*/
-	public BioSimulator() {
-		System.out.println("BioSimulator: Getting server references...");
+	public BioDriverImpl() {
+		System.out.println("BioDriverImpl: Getting server references...");
 		collectReferences();
 		setLogging(false);
 	}
@@ -101,12 +102,10 @@ public class BioDriverImpl implements Runnable
 	public void run(){
 		simulationStarted = true;
 		if (useDefaultInitialization){
-			System.out.println("BioSimulator: Initializing simulation...");
+			System.out.println("BioDriverImpl: Initializing simulation...");
 			initializeSimulation();
 		}
-		System.out.println("BioSimulator: Running simulation...");
-		myTimer.restart();
-		System.out.println("BioSimulator: Display timer started...");
+		System.out.println("BioDriverImpl: Running simulation...");
 		runSimulation();
 	}
 
@@ -190,7 +189,7 @@ public class BioDriverImpl implements Runnable
 	}
 
 	/**
-	* Fetches a BioModule (e.g. AirRS, FoodProcessor, PotableWaterStore) that has been collected by the BioSimulator
+	* Fetches a BioModule (e.g. AirRS, FoodProcessor, PotableWaterStore) that has been collected by the BioDriverImpl
 	* @return the BioModule requested, null if not found
 	*/
 	private BioModule getBioModule(String type){
@@ -202,8 +201,7 @@ public class BioDriverImpl implements Runnable
 	*/
 	public synchronized void pauseSimulation(){
 		simulationIsPaused = true;
-		myTimer.stop();
-		System.out.println("BioSimulator: simulation paused");
+		System.out.println("BioDriverImpl: simulation paused");
 	}
 
 	/**
@@ -213,8 +211,7 @@ public class BioDriverImpl implements Runnable
 		myTickThread = null;
 		notify();
 		simulationStarted = false;
-		myTimer.stop();
-		System.out.println("BioSimulator: simulation ended");
+		System.out.println("BioDriverImpl: simulation ended");
 	}
 
 	/**
@@ -230,10 +227,8 @@ public class BioDriverImpl implements Runnable
 	* NOTICE: not pausing the simulation before using this method can be very risky.  Don't do it.
 	*/
 	public synchronized void advanceOneTick(){
-		System.out.println("BioSimulator: ticking simulation once");
+		System.out.println("BioDriverImpl: ticking simulation once");
 		tick();
-		myTimer.restart();
-		myTimer.stop();
 	}
 
 	/**
@@ -242,8 +237,7 @@ public class BioDriverImpl implements Runnable
 	public synchronized void resumeSimulation(){
 		simulationIsPaused = false;
 		notify();
-		myTimer.restart();
-		System.out.println("BioSimulator: simulation resumed");
+		System.out.println("BioDriverImpl: simulation resumed");
 	}
 
 	public synchronized void setLogging(boolean pLogSim){
@@ -270,41 +264,41 @@ public class BioDriverImpl implements Runnable
 	private void collectReferences(){
 		// resolve the Objects Reference in Naming
 		modules = new Hashtable();
-		System.out.println("BioSimulator: Collecting references to modules...");
+		System.out.println("BioDriverImpl: Collecting references to modules...");
 		try{
 			CrewGroup myCrew = CrewGroupHelper.narrow(OrbUtils.getNCRef().resolve_str(crewName));
 			modules.put(crewName , myCrew);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("BioSimulator: Couldn't locate CrewGroup, skipping...");
+			System.out.println("BioDriverImpl: Couldn't locate CrewGroup, skipping...");
 		}
 		try{
 			PowerPS myPowerPS = PowerPSHelper.narrow(OrbUtils.getNCRef().resolve_str(powerPSName));
 			modules.put(powerPSName , myPowerPS);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("BioSimulator: Couldn't locate PowerPS, skipping...");
+			System.out.println("BioDriverImpl: Couldn't locate PowerPS, skipping...");
 		}
 		try{
 			PowerStore myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(powerStoreName));
 			modules.put(powerStoreName , myPowerStore);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("BioSimulator: Couldn't locate EnergyStore, skipping...");
+			System.out.println("BioDriverImpl: Couldn't locate EnergyStore, skipping...");
 		}
 		try{
 			AirRS myAirRS = AirRSHelper.narrow(OrbUtils.getNCRef().resolve_str(airRSName));
 			modules.put(airRSName , myAirRS);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("BioSimulator: Couldn't locate AirRS, skipping...");
+			System.out.println("BioDriverImpl: Couldn't locate AirRS, skipping...");
 		}
 		try{
 			mySimEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str(simEnvironmentName));
 			modules.put(simEnvironmentName , mySimEnvironment);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("BioSimulator: Couldn't locate SimEnvironment, ending!");
+			System.out.println("BioDriverImpl: Couldn't locate SimEnvironment, ending!");
 			System.exit(0);
 		}
 		try{
@@ -312,70 +306,70 @@ public class BioDriverImpl implements Runnable
 			modules.put(greyWaterStoreName , myGreyWaterStore);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("BioSimulator: Couldn't locate GreyWaterStore, skipping...");
+			System.out.println("BioDriverImpl: Couldn't locate GreyWaterStore, skipping...");
 		}
 		try{
 			PotableWaterStore myPotableWaterStore = PotableWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(potableWaterStoreName));
 			modules.put(potableWaterStoreName , myPotableWaterStore);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("BioSimulator: Couldn't locate PotableWaterStore, skipping...");
+			System.out.println("BioDriverImpl: Couldn't locate PotableWaterStore, skipping...");
 		}
 		try{
 			DirtyWaterStore myDirtyWaterStore = DirtyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(dirtyWaterStoreName));
 			modules.put(dirtyWaterStoreName , myDirtyWaterStore);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("BioSimulator: Couldn't locate DirtyWaterStore, skipping...");
+			System.out.println("BioDriverImpl: Couldn't locate DirtyWaterStore, skipping...");
 		}
 		try{
 			FoodProcessor myFoodProcessor = FoodProcessorHelper.narrow(OrbUtils.getNCRef().resolve_str(foodProcessorName));
 			modules.put(foodProcessorName , myFoodProcessor);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("BioSimulator: Couldn't locate FoodProcessor, skipping...");
+			System.out.println("BioDriverImpl: Couldn't locate FoodProcessor, skipping...");
 		}
 		try{
 			FoodStore myFoodStore= FoodStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(foodStoreName));
 			modules.put(foodStoreName , myFoodStore);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("BioSimulator: Couldn't locate FoodStore, skipping...");
+			System.out.println("BioDriverImpl: Couldn't locate FoodStore, skipping...");
 		}
 		try{
 			CO2Store myCO2Store = CO2StoreHelper.narrow(OrbUtils.getNCRef().resolve_str(CO2StoreName));
 			modules.put(CO2StoreName , myCO2Store);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("BioSimulator: Couldn't locate CO2Store, skipping...");
+			System.out.println("BioDriverImpl: Couldn't locate CO2Store, skipping...");
 		}
 		try{
 			O2Store myO2Store = O2StoreHelper.narrow(OrbUtils.getNCRef().resolve_str(O2StoreName));
 			modules.put(O2StoreName , myO2Store);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("BioSimulator: Couldn't locate CO2Store, skipping...");
+			System.out.println("BioDriverImpl: Couldn't locate CO2Store, skipping...");
 		}
 		try{
 			BiomassRS myBiomassRS = BiomassRSHelper.narrow(OrbUtils.getNCRef().resolve_str(biomassRSName));
 			modules.put(biomassRSName , myBiomassRS);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("BioSimulator: Couldn't locate BiomassRS, skipping...");
+			System.out.println("BioDriverImpl: Couldn't locate BiomassRS, skipping...");
 		}
 		try{
 			BiomassStore myBiomassStore = BiomassStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(biomassStoreName));
 			modules.put(biomassStoreName, myBiomassStore);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("BioSimulator: Couldn't locate BiomassStore, skipping...");
+			System.out.println("BioDriverImpl: Couldn't locate BiomassStore, skipping...");
 		}
 		try{
 			WaterRS myWaterRS = WaterRSHelper.narrow(OrbUtils.getNCRef().resolve_str(waterRSName));
 			modules.put(waterRSName , myWaterRS);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("BioSimulator: Couldn't locate WaterRS, skipping...");
+			System.out.println("BioDriverImpl: Couldn't locate WaterRS, skipping...");
 		}
 	}
 
@@ -394,7 +388,7 @@ public class BioDriverImpl implements Runnable
 	/**
 	* Ticks every server.  The SimEnvironment is ticked first as it keeps track of time for the rest of the server.
 	* The other server are ticked in no particular order by enumerating through the module hashtable.
-	* When every server has been ticked, BioSimulator notifies all it's listeners that this has happened.
+	* When every server has been ticked, BioDriverImpl notifies all it's listeners that this has happened.
 	*/
 	private void tick(){
 		//first tick SimEnvironment
