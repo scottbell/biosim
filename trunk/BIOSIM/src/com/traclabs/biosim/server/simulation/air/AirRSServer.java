@@ -16,7 +16,7 @@ public class AirRSServer extends GenericServer{
 	*/
 	public static void main(String args[]) {
 		AirRSServer myServer = new AirRSServer();
-		AirRSImpl myAirRS = new AirRSImpl(myServer.getIDfromArgs(args), myServer.getNamefromArgs(args));
+		AirRSImpl myAirRS = new AirRSImpl(GenericServer.getIDfromArgs(args), GenericServer.getNamefromArgs(args));
 		myServer.registerServerAndRun(new AirRSPOATie(myAirRS), myAirRS.getModuleName(), myAirRS.getID());
 	}
 }

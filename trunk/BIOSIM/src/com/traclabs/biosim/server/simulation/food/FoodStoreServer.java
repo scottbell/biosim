@@ -16,7 +16,7 @@ public class FoodStoreServer extends GenericServer{
 	*/
 	public static void main(String args[]) {
 		FoodStoreServer myServer = new FoodStoreServer();
-		FoodStoreImpl myFoodStore = new FoodStoreImpl(myServer.getIDfromArgs(args), myServer.getNamefromArgs(args));
+		FoodStoreImpl myFoodStore = new FoodStoreImpl(GenericServer.getIDfromArgs(args), GenericServer.getNamefromArgs(args));
 		myServer.registerServerAndRun(new FoodStorePOATie(myFoodStore), myFoodStore.getModuleName(), myFoodStore.getID());
 	}
 }

@@ -16,7 +16,7 @@ public class BiomassRSServer extends GenericServer{
 	*/
 	public static void main(String args[]) {
 		BiomassRSServer myServer = new BiomassRSServer();
-		BiomassRSImpl myBiomassRS = new BiomassRSImpl(myServer.getIDfromArgs(args), myServer.getNamefromArgs(args));
+		BiomassRSImpl myBiomassRS = new BiomassRSImpl(GenericServer.getIDfromArgs(args), GenericServer.getNamefromArgs(args));
 		myServer.registerServerAndRun(new BiomassRSPOATie(myBiomassRS), myBiomassRS.getModuleName(), myBiomassRS.getID());
 	}
 }

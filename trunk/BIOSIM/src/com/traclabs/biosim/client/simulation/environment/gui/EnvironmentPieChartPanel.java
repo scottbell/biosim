@@ -6,9 +6,7 @@ import biosim.client.framework.gui.*;
 import biosim.client.util.*;
 import org.jfree.chart.*;
 import org.jfree.data.*;
-import org.jfree.chart.axis.*;
 import org.jfree.chart.plot.*;
-import org.jfree.chart.renderer.*;
 
 /**
  * This is the JPanel that displays a chart about the Environment

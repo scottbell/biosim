@@ -1,9 +1,6 @@
 package biosim.server.sensor.food;
 
-import biosim.server.sensor.framework.*;
 import biosim.idl.sensor.food.*;
-import biosim.idl.framework.*;
-import biosim.idl.simulation.food.*;
 
 public class HarvestSensorImpl extends ShelfSensorImpl implements HarvestSensorOperations{
 	public HarvestSensorImpl(int pID, String pName){

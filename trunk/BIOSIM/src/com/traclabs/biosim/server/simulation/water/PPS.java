@@ -1,8 +1,7 @@
 package biosim.server.simulation.water;
 
-import biosim.idl.simulation.water.*;
-import biosim.server.util.*;
-import biosim.idl.simulation.power.*;
+import biosim.server.simulation.framework.SimBioModuleImpl;
+
 /**
  * The PPS is the last stage of water purification.  It takes water from the AES, filters it, and
  * waits for the WaterRS to send the now clean water to the potable water store
@@ -28,7 +27,7 @@ public class PPS extends WaterRSSubSystem{
 	private void pushWater(){
 		potableWaterProduced = waterLevel;
 		waterLevel = 0;
-		float distributedWaterLeft = myWaterRS.pushResourceToStore(myWaterRS.getPotableWaterOutputs(), myWaterRS.getPotableWaterOutputMaxFlowRates(), myWaterRS.getPotableWaterOutputDesiredFlowRates(), myWaterRS.getPotableWaterOutputActualFlowRates(), potableWaterProduced);
+		float distributedWaterLeft = SimBioModuleImpl.pushResourceToStore(myWaterRS.getPotableWaterOutputs(), myWaterRS.getPotableWaterOutputMaxFlowRates(), myWaterRS.getPotableWaterOutputDesiredFlowRates(), myWaterRS.getPotableWaterOutputActualFlowRates(), potableWaterProduced);
 	}
 
 	public float getPotableWaterProduced(){

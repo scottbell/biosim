@@ -15,7 +15,7 @@ public class LoggerServer extends GenericServer{
 	*/
 	public static void main(String args[]) {
 		LoggerServer myServer = new LoggerServer();
-		LoggerImpl myLoggerImpl = new LoggerImpl(myServer.getIDfromArgs(args));
+		LoggerImpl myLoggerImpl = new LoggerImpl(GenericServer.getIDfromArgs(args));
 		myLoggerImpl.addLogHandlerType(LogHandlerType.XML);
 		myServer.registerServerAndRun(myLoggerImpl, myLoggerImpl.getName(), myLoggerImpl.getID());
 	}

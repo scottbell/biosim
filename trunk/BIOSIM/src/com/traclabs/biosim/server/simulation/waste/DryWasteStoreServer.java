@@ -16,7 +16,7 @@ public class DryWasteStoreServer extends GenericServer{
 	*/
 	public static void main(String args[]) {
 		DryWasteStoreServer myServer = new DryWasteStoreServer();
-		DryWasteStoreImpl myDryWasteStore = new DryWasteStoreImpl(myServer.getIDfromArgs(args), myServer.getNamefromArgs(args));
+		DryWasteStoreImpl myDryWasteStore = new DryWasteStoreImpl(GenericServer.getIDfromArgs(args), GenericServer.getNamefromArgs(args));
 		myServer.registerServerAndRun(new DryWasteStorePOATie(myDryWasteStore), myDryWasteStore.getModuleName(), myDryWasteStore.getID());
 	}
 }

@@ -1,9 +1,7 @@
 package biosim.client.simulation.framework.gui;
 
 import javax.swing.*;
-import javax.swing.event.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.Rectangle;
 import java.util.*;
 import java.beans.*;

@@ -17,7 +17,7 @@ public class InjectorServer extends GenericServer{
 	*/
 	public static void main(String args[]) {
 		InjectorServer myServer = new InjectorServer();
-		InjectorImpl myInjector = new InjectorImpl(myServer.getIDfromArgs(args), myServer.getNamefromArgs(args));
+		InjectorImpl myInjector = new InjectorImpl(GenericServer.getIDfromArgs(args), GenericServer.getNamefromArgs(args));
 		myServer.registerServerAndRun(new InjectorPOATie(myInjector), myInjector.getModuleName(), myInjector.getID());
 	}
 }

@@ -5,8 +5,6 @@ import biosim.client.util.*;
 import biosim.client.simulation.framework.gui.*;
 import biosim.idl.simulation.crew.*;
 import javax.swing.*;
-import javax.swing.border.*;
-import java.awt.event.*;
 import java.awt.*;
 import java.util.*;
 import java.text.*;

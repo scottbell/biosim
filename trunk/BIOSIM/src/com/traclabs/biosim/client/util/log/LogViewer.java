@@ -4,9 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.tree.*;
-import biosim.idl.util.log.*;
 import biosim.client.framework.gui.*;
-import javax.imageio.*;
 /**
  * A  panel that displays the log
  *

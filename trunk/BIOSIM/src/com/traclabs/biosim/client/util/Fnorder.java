@@ -1,7 +1,6 @@
 package biosim.client.util;
 
 import java.util.*;
-import java.lang.Math.*;
 
 /**
  * Title:         Fnorder

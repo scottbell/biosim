@@ -1,8 +1,5 @@
 package biosim.client.simulation.crew.gui;
 
-import java.awt.*;
-import javax.swing.*;
-import biosim.idl.simulation.crew.*;
 import biosim.client.framework.gui.*;
 
 /**

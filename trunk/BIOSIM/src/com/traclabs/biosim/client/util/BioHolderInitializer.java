@@ -1,7 +1,6 @@
 package biosim.client.util;
 
 import java.net.*;
-import java.util.*;
 import org.w3c.dom.*;
 import org.apache.xerces.parsers.*;
 import org.xml.sax.*;
@@ -26,9 +25,7 @@ import biosim.idl.actuator.air.*;
 import biosim.idl.actuator.food.*;
 import biosim.idl.actuator.water.*;
 import biosim.idl.actuator.power.*;
-import biosim.idl.actuator.crew.*;
 import biosim.idl.actuator.environment.*;
-import biosim.idl.actuator.framework.*;
 import biosim.idl.actuator.waste.*;
 
 /**

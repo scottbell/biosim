@@ -9,14 +9,12 @@ package biosim.client.simulation.framework.gui;
 
 import biosim.client.util.*;
 import biosim.client.framework.gui.*;
-import biosim.client.util.*;
 import biosim.client.simulation.environment.gui.*;
 import biosim.client.simulation.air.gui.*;
 import biosim.client.simulation.crew.gui.*;
 import biosim.client.simulation.food.gui.*;
 import biosim.client.simulation.power.gui.*;
 import biosim.client.simulation.water.gui.*;
-import biosim.client.sensor.framework.gui.*;
 import biosim.idl.framework.*;
 import javax.swing.*;
 import java.awt.event.*;

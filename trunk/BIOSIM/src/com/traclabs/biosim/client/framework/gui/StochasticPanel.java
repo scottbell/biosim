@@ -1,11 +1,9 @@
 package biosim.client.framework.gui;
 
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.util.*;
-import javax.swing.border.*;
 import biosim.client.util.*;
 import biosim.idl.framework.*;
 /**

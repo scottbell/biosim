@@ -16,7 +16,7 @@ public class WaterRSMatlabServer extends GenericServer{
 	*/
 	public static void main(String args[]) {
 		WaterRSMatlabServer myServer = new WaterRSMatlabServer();
-		WaterRSMatlabImpl myWaterRS = new WaterRSMatlabImpl(myServer.getIDfromArgs(args), myServer.getNamefromArgs(args));
+		WaterRSMatlabImpl myWaterRS = new WaterRSMatlabImpl(GenericServer.getIDfromArgs(args), GenericServer.getNamefromArgs(args));
 		myServer.registerServerAndRun(new WaterRSPOATie(myWaterRS), myWaterRS.getModuleName(), myWaterRS.getID());
 	}
 }
