@@ -146,6 +146,28 @@ public class BioInitializer{
 			Document document = myParser.getDocument();
 			crawlBiosim(document, true);
 			crawlBiosim(document, false);
+
+			BioDriver myDriver = null;
+			try{
+				myDriver = BioDriverHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str("BioDriver"));
+			}
+			catch (Exception e){
+				e.printStackTrace();
+			}
+			//Fold Actuators, SimModules, and Sensors into  modules
+			myModules.addAll(mySensors);
+			myModules.addAll(mySimModules);
+			myModules.addAll(myActuators);
+
+			//Give Modules, Sensors, Actuatos to BioDriver to tick
+			BioModule[] moduleArray = convertList(myModules);
+			BioModule[] sensorArray = convertList(mySensors);
+			BioModule[] actuatorArray = convertList(myActuators);
+			BioModule[] simModulesArray = convertList(mySimModules);
+			myDriver.setModules(moduleArray);
+			myDriver.setSensors(sensorArray);
+			myDriver.setActuators(actuatorArray);
+			myDriver.setSimModules(simModulesArray);
 			System.out.println("done");
 			System.out.flush();
 		}
@@ -219,20 +241,6 @@ public class BioInitializer{
 				}
 				myDriver.setCrewsToWatch(crewGroups);
 			}
-			//Fold Actuators, SimModules, and Sensors into  modules
-			myModules.addAll(mySensors);
-			myModules.addAll(mySimModules);
-			myModules.addAll(myActuators);
-
-			//Give Modules, Sensors, Actuatos to BioDriver to tick
-			BioModule[] moduleArray = convertList(myModules);
-			BioModule[] sensorArray = convertList(mySensors);
-			BioModule[] actuatorArray = convertList(myActuators);
-			BioModule[] simModulesArray = convertList(mySimModules);
-			myDriver.setModules(moduleArray);
-			myDriver.setSensors(sensorArray);
-			myDriver.setActuators(actuatorArray);
-			myDriver.setSimModules(simModulesArray);
 		}
 	}
 
@@ -1147,7 +1155,6 @@ public class BioInitializer{
 			//System.out.println("Creating Injector with moduleName: "+moduleName);
 			InjectorImpl myInjectorImpl = new InjectorImpl(myID, moduleName);
 			setupBioModule(myInjectorImpl, node);
-			mySimModules.add(OrbUtils.poaToCorbaObj(myInjectorImpl));
 			BiosimServer.registerServer(new InjectorPOATie(myInjectorImpl), myInjectorImpl.getModuleName(), myInjectorImpl.getID());
 		}
 		else
@@ -1500,7 +1507,6 @@ public class BioInitializer{
 			myDryWasteStoreImpl.setLevel(getStoreLevel(node));
 			myDryWasteStoreImpl.setCapacity(getStoreCapacity(node));
 			myDryWasteStoreImpl.setResupply(getStoreResupplyFrequency(node), getStoreResupplyAmount(node));
-			mySimModules.add(OrbUtils.poaToCorbaObj(myDryWasteStoreImpl));
 			BiosimServer.registerServer(new DryWasteStorePOATie(myDryWasteStoreImpl), myDryWasteStoreImpl.getModuleName(), myDryWasteStoreImpl.getID());
 		}
 		else
@@ -2097,7 +2103,7 @@ public class BioInitializer{
 		myCO2AirStoreOutFlowRateSensor.setInput(CO2AirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myCO2AirStoreOutFlowRateSensor);
 	}
-	
+
 	private void createO2AirConcentrationSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
@@ -2349,7 +2355,7 @@ public class BioInitializer{
 		myWaterAirStoreOutFlowRateSensor.setInput(WaterAirProducerHelper.narrow(grabModule(getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myWaterAirStoreOutFlowRateSensor);
 	}
-	
+
 	private void createNitrogenAirConcentrationSensor(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
@@ -2759,7 +2765,7 @@ public class BioInitializer{
 		try{
 			int index = Integer.parseInt(node.getAttributes().getNamedItem("shelfIndex").getNodeValue());
 			HarvestSensor myHarvestSensor = HarvestSensorHelper.narrow(grabModule(getModuleName(node)));
-			myHarvestSensor.setInput(BiomassRSHelper.narrow(grabModule(getInputName(node))), index);	
+			myHarvestSensor.setInput(BiomassRSHelper.narrow(grabModule(getInputName(node))), index);
 			mySensors.add(myHarvestSensor);
 		}
 		catch (NumberFormatException e){e.printStackTrace();}
@@ -3115,7 +3121,7 @@ public class BioInitializer{
 		myDirtyWaterStoreLevelSensor.setInput(DirtyWaterStoreHelper.narrow(grabModule(getInputName(node))));
 		mySensors.add(myDirtyWaterStoreLevelSensor);
 	}
-	
+
 	private void crawlWaterSensors(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -3232,7 +3238,7 @@ public class BioInitializer{
 		myDryWasteStoreLevelSensor.setInput(DryWasteStoreHelper.narrow(grabModule(getInputName(node))));
 		mySensors.add(myDryWasteStoreLevelSensor);
 	}
-	
+
 	private void crawlWasteSensors(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -3258,13 +3264,13 @@ public class BioInitializer{
 			child = child.getNextSibling();
 		}
 	}
-	
+
 	//Actuators
-	
+
 	private static String getOutputName(Node pNode){
 		return pNode.getAttributes().getNamedItem("output").getNodeValue();
 	}
-	
+
 	//Air
 	private void createCO2InFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
@@ -3409,7 +3415,7 @@ public class BioInitializer{
 		myNitrogenOutFlowRateActuator.setOutput(NitrogenProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myNitrogenOutFlowRateActuator);
 	}
-	
+
 	private void crawlAirActuators(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -3465,7 +3471,7 @@ public class BioInitializer{
 			child = child.getNextSibling();
 		}
 	}
-	
+
 	//Environment
 	private void createAirInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
@@ -3646,7 +3652,7 @@ public class BioInitializer{
 		myO2AirStoreOutFlowRateActuator.setOutput(O2AirProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myO2AirStoreOutFlowRateActuator);
 	}
-	
+
 	private void createWaterAirEnvironmentInFlowRateActuator(Node node){
 		String moduleName = getModuleName(node);
 		if (isCreatedLocally(node)){
@@ -4049,7 +4055,7 @@ public class BioInitializer{
 		myPowerOutFlowRateActuator.setOutput(PowerProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myPowerOutFlowRateActuator);
 	}
-	
+
 	private void crawlPowerActuators(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -4179,7 +4185,7 @@ public class BioInitializer{
 		myDirtyWaterOutFlowRateActuator.setOutput(DirtyWaterProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myDirtyWaterOutFlowRateActuator);
 	}
-	
+
 	private void crawlWaterActuators(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -4260,7 +4266,7 @@ public class BioInitializer{
 		myDryWasteOutFlowRateActuator.setOutput(DryWasteProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myDryWasteOutFlowRateActuator);
 	}
-	
+
 	private void crawlWasteActuators(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
 		while (child != null) {
