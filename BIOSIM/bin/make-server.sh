@@ -93,7 +93,8 @@ simSkeletonDir="$skeletonDir/$simString"
 serverDir="$devRootDir/src/biosim/server"
 sourceDir="$devRootDir/src"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JRE_libs$separator$JACORB_HOME"
-compilationInvocation="$javac_command -d $serverClassesDir -classpath $skeletonDir$separator$serverClassesDir$separator$sourceDir$separator$jacoClasspath"
+xmlClasspath="$devRootDir/lib/xerces/xercesImpl.jar$separator$devRootDir/lib/xerces/xml-apis.jar$separator$devRootDir/lib/xerces/xmlParserAPIs.jar"
+compilationInvocation="$javac_command -d $serverClassesDir -classpath $skeletonDir$separator$serverClassesDir$separator$sourceDir$separator$jacoClasspath$separator$xmlClasspath"
 if [ "$userSelect" == "all" ]
 then
 	echo "		-compiling skeletons/stubs"

@@ -1,0 +1,16 @@
+<schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<annotation>
+		<documentation xml:lang="en">
+			Default initialization for BioSim.
+		</documentation>
+	</annotation>
+	<complexType name="BioSim" minOccurs="1">
+			<complexType name = "SimModules">
+				<sequence>
+					<complexType name="AirRS" minOccurs="0" maxOccurs="unbounded">
+						<simpleType name="AirRSName"  type="string"/> 
+					</complexType>
+				</sequence>
+			</complexType>
+	</complexType>
+</schema>

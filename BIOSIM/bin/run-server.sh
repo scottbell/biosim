@@ -63,7 +63,8 @@ greyWaterStoreName="biosim.server.simulation.water.GreyWaterStoreServer"
 frameworkName="biosim.server.framework.BiosimServer"
 loggerName="biosim.server.util.LoggerServer"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME"
-jacoInvocation="$java_command -classpath $serverClassesDir$separator$resourceDir$separator$jacoClasspath $machineTypeEnv $biosimHome $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
+xmlClasspath="$devRootDir/lib/xerces/xercesImpl.jar$separator$devRootDir/lib/xerces/xml-apis.jar$separator$devRootDir/lib/xerces/xmlParserAPIs.jar"
+jacoInvocation="$java_command -classpath $serverClassesDir$separator$resourceDir$separator$jacoClasspath$separator$xmlClasspath $machineTypeEnv $biosimHome $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
 nojitOption="-Djava.compiler=none"
 case $userSelect in
 	"-nojit") echo "		-starting with no JIT";jacoInvocation="$jacoInvocation $nojitOption";userSelect=$2;;
