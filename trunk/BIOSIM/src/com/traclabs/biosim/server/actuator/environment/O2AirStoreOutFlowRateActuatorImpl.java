@@ -27,7 +27,7 @@ public class O2AirStoreOutFlowRateActuatorImpl extends GenericActuatorImpl imple
 		myIndex = pIndex;
 	}
 	
-	protected BioModule getModuleOuput(){
+	protected BioModule getModuleOutput(){
 		return (BioModule)(myProducer);
 	}
 	

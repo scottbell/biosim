@@ -26,7 +26,7 @@ public class BiomassInFlowRateActuatorImpl extends GenericActuatorImpl implement
 		myIndex = pIndex;
 	}
 	
-	protected BioModule getModuleOuput(){
+	protected BioModule getModuleOutput(){
 		return (BioModule)(myConsumer);
 	}
 	

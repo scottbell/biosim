@@ -26,7 +26,7 @@ public class O2InFlowRateActuatorImpl extends GenericActuatorImpl implements O2I
 		myIndex = pIndex;
 	}
 	
-	protected BioModule getModuleOuput(){
+	protected BioModule getModuleOutput(){
 		return (BioModule)(myConsumer);
 	}
 	
