@@ -25,7 +25,7 @@ public class Tomato extends Planophile{
 	}
 
 	public PlantType getPlantType(){
-		return PlantType.DRY_BEAN;
+		return PlantType.TOMATO;
 	}
 	
 	protected float getConstantPPF(){
@@ -76,12 +76,12 @@ public class Tomato extends Planophile{
 		return 1.09f;
 	}
 
-	protected float getFreshFactor(){
-		return 12.999f;
-	}
-
 	public static float getFractionOfEdibleBiomass(){
 		return 0.70f;
+	}
+	
+	protected float getProtectedFractionOfEdibleBiomass(){
+		return getFractionOfEdibleBiomass();
 	}
 	
 	/**
@@ -90,19 +90,12 @@ public class Tomato extends Planophile{
 	public static float getCaloriesPerKilogram(){
 		return 220f;
 	}
-	
-	protected float getCurrentFractionOfEdibleBiomass(){
-		if (myAge > getTimeAtOrganFormation())
-			return getFractionOfEdibleBiomass();
-		else
-			return 0f;
-	}
 
 	protected float getEdibleFreshBasisWaterContent(){
-		return 94f;
+		return 0.94f;
 	}
 
 	protected float getInedibleFreshBasisWaterContent(){
-		return 90f;
+		return 0.90f;
 	}
 }

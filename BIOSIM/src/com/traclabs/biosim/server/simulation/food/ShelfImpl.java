@@ -44,11 +44,11 @@ public class ShelfImpl extends ShelfPOA {
 		powerLevel = 0f;
 		replant(initialType);
 	}
-	
+
 	public PlantType getCropType(){
 		return myCrop.getPlantType();
 	}
-	
+
 	public BiomassRS getBiomassRS(){
 		return BiomassRSHelper.narrow(OrbUtils.poaToCorbaObj(myBiomassRSImpl));
 	}

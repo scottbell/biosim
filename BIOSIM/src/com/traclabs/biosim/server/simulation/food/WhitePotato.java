@@ -24,7 +24,7 @@ public class WhitePotato extends Planophile{
 	}
 
 	public PlantType getPlantType(){
-		return PlantType.DRY_BEAN;
+		return PlantType.WHITE_POTATO;
 	}
 	
 	protected float getConstantPPF(){
@@ -75,12 +75,12 @@ public class WhitePotato extends Planophile{
 		return 1.02f;
 	}
 
-	protected float getFreshFactor(){
-		return 6.4988f;
-	}
-
 	public static float getFractionOfEdibleBiomass(){
 		return 1.00f;
+	}
+	
+	protected float getProtectedFractionOfEdibleBiomass(){
+		return getFractionOfEdibleBiomass();
 	}
 	
 	/**
@@ -89,19 +89,12 @@ public class WhitePotato extends Planophile{
 	public static float getCaloriesPerKilogram(){
 		return 760f;
 	}
-	
-	protected float getCurrentFractionOfEdibleBiomass(){
-		if (myAge > getTimeAtOrganFormation())
-			return getFractionOfEdibleBiomass();
-		else
-			return 0f;
-	}
 
 	protected float getEdibleFreshBasisWaterContent(){
-		return 80f;
+		return 0.80f;
 	}
 
 	protected float getInedibleFreshBasisWaterContent(){
-		return 90f;
+		return 0.90f;
 	}
 }

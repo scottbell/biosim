@@ -68,12 +68,12 @@ public class Wheat extends Erectophile{
 		return 1.07f;
 	}
 
-	protected float getFreshFactor(){
-		return 6.4546f;
-	}
-
 	public static float getFractionOfEdibleBiomass(){
 		return 1.00f;
+	}
+	
+	protected float getProtectedFractionOfEdibleBiomass(){
+		return getFractionOfEdibleBiomass();
 	}
 	
 	/**
@@ -82,19 +82,12 @@ public class Wheat extends Erectophile{
 	public static float getCaloriesPerKilogram(){
 		return 3300f;
 	}
-	
-	protected float getCurrentFractionOfEdibleBiomass(){
-		if (myAge > getTimeAtOrganFormation())
-			return getFractionOfEdibleBiomass();
-		else
-			return 0f;
-	}
 
 	protected float getEdibleFreshBasisWaterContent(){
-		return 12f;
+		return 0.12f;
 	}
 
 	protected float getInedibleFreshBasisWaterContent(){
-		return 90f;
+		return 0.9f;
 	}
 }

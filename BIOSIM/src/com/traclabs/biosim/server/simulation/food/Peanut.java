@@ -30,7 +30,7 @@ public class Peanut extends Legume{
 	}
 
 	public PlantType getPlantType(){
-		return PlantType.DRY_BEAN;
+		return PlantType.PEANUT;
 	}
 	
 	protected float getConstantPPF(){
@@ -77,12 +77,16 @@ public class Peanut extends Legume{
 		return 1.19f;
 	}
 
-	protected float getFreshFactor(){
+	protected float getFreshBasisWaterContent(){
 		return 7.7614f;
 	}
 
 	public static float getFractionOfEdibleBiomass(){
 		return 0.49f;
+	}
+	
+	protected float getProtectedFractionOfEdibleBiomass(){
+		return getFractionOfEdibleBiomass();
 	}
 	
 	/**
@@ -91,19 +95,12 @@ public class Peanut extends Legume{
 	public static float getCaloriesPerKilogram(){
 		return 5680f;
 	}
-	
-	protected float getCurrentFractionOfEdibleBiomass(){
-		if (myAge > getTimeAtOrganFormation())
-			return getFractionOfEdibleBiomass();
-		else
-			return 0f;
-	}
 
 	protected float getEdibleFreshBasisWaterContent(){
-		return 5.6f;
+		return 0.056f;
 	}
 
 	protected float getInedibleFreshBasisWaterContent(){
-		return 90f;
+		return 0.90f;
 	}
 }
