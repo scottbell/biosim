@@ -18,7 +18,7 @@ public class AirPanel extends BioTabbedPanel
 	
 	protected void createPanels(){
 		myTextPanel = new AirTextPanel(myBioSimulator);
-		myChartPanel = new JPanel();
-		mySchematicPanel = new JPanel();
+		myChartPanel = new BioTabPanel();
+		mySchematicPanel = new BioTabPanel();
 	}
 }

@@ -1,6 +1,7 @@
 package biosim.client.air.gui;
 
 import biosim.client.framework.*;
+import biosim.client.framework.gui.*;
 import biosim.idl.air.*;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -14,7 +15,7 @@ import java.text.*;
  * @author    Scott Bell
  */
  
-public class AirTextPanel extends JPanel implements BioSimulatorListener
+public class AirTextPanel extends BioTabPanel
 {
 	//Various GUI componenets
 	private JPanel airRSPanel;
@@ -46,7 +47,6 @@ public class AirTextPanel extends JPanel implements BioSimulatorListener
 		myO2Store = (O2Store)(myBioSimulator.getBioModule(BioSimulator.O2StoreName));
 		myCO2Store = (CO2Store)(myBioSimulator.getBioModule(BioSimulator.CO2StoreName));
 		buildGui();
-		myBioSimulator.registerListener(this);
 	}
 
 	/**

@@ -1,6 +1,7 @@
 package biosim.client.environment.gui;
 
 import biosim.client.framework.*;
+import biosim.client.framework.gui.*;
 import biosim.idl.environment.*;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -13,7 +14,7 @@ import java.text.*;
  * @author    Scott Bell
  */
 
-public class EnvironmentTextPanel extends JPanel implements BioSimulatorListener
+public class EnvironmentTextPanel extends BioTabPanel
 {
 	//Various GUI componenets
 	private JLabel tickLabel;
@@ -37,7 +38,6 @@ public class EnvironmentTextPanel extends JPanel implements BioSimulatorListener
 		myBioSimulator = pBioSimulator;
 		mySimEnvironment = (SimEnvironment)(myBioSimulator.getBioModule(BioSimulator.simEnvironmentName));
 		buildGui();
-		myBioSimulator.registerListener(this);
 	}
 	
 	/**

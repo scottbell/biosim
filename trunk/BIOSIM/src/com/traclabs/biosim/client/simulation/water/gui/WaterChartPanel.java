@@ -3,6 +3,7 @@ package biosim.client.water.gui;
 import java.awt.*;
 import javax.swing.*;
 import biosim.client.framework.*;
+import biosim.client.framework.gui.*;
 import biosim.idl.water.*;
 import biosim.idl.environment.*;
 import net.sourceforge.chart2d.*;
@@ -12,7 +13,8 @@ import net.sourceforge.chart2d.*;
  *
  * @author    Scott Bell
  */
-public class WaterChartPanel extends JPanel implements BioSimulatorListener, Runnable{
+public class WaterChartPanel extends BioTabPanel
+{
 	//Used for registereing this panel (for knowing when a tick occurs)
 	private BioSimulator myBioSimulator;
 	private WaterRS myWaterRS;
@@ -42,7 +44,6 @@ public class WaterChartPanel extends JPanel implements BioSimulatorListener, Run
 		setLayout(new BorderLayout());
 		createGraph();
 		add(chart2D, BorderLayout.CENTER);
-		myBioSimulator.registerListener(this);
 	}
 
 	private Chart2D createGraph() {
@@ -74,7 +75,7 @@ public class WaterChartPanel extends JPanel implements BioSimulatorListener, Run
 		graphChart2DProps.setLabelsAxisTitleText ("Ticks (hours)");
 		graphChart2DProps.setNumbersAxisTitleText ("Water Level (liters)");
 		graphChart2DProps.setLabelsAxisTicksAlignment (graphChart2DProps.CENTERED);
-		
+
 		/*
 		graphChart2DProps.setChartDatasetCustomizeGreatestValue(true);
 		float largestCapacity = myPotableWaterStore.getCapacity();
@@ -118,11 +119,8 @@ public class WaterChartPanel extends JPanel implements BioSimulatorListener, Run
 
 		return chart2D;
 	}
-	
-	public void run(){
-		updateChart();
-	}
-	
+
+
 	private void updateChart(){
 		ticksGoneBy++;
 		//Start shifting to the left
@@ -152,7 +150,6 @@ public class WaterChartPanel extends JPanel implements BioSimulatorListener, Run
 	 * Updates every label on the panel with new data pulled from the servers.
 	 */
 	public void processTick(){
-		myThread = new Thread(this);
-		myThread.start();
+		updateChart();
 	}
 }

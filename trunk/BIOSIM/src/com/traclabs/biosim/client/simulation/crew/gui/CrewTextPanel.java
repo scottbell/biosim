@@ -16,7 +16,7 @@ import java.text.*;
  * @author    Scott Bell
  */
 
-public class CrewTextPanel extends JPanel implements BioSimulatorListener
+public class CrewTextPanel extends BioTabPanel
 {
 	//Panel containing each crew member
 	private JPanel crewPanel;
@@ -44,7 +44,6 @@ public class CrewTextPanel extends JPanel implements BioSimulatorListener
 		myCrew = (CrewGroup)(myBioSimulator.getBioModule(BioSimulator.crewName));
 		crewPersonGUIVector = new Vector();
 		buildGui();
-		myBioSimulator.registerListener(this);
 	}
 	
 	/**

@@ -1,6 +1,7 @@
 package biosim.client.food.gui;
 
 import biosim.client.framework.*;
+import biosim.client.framework.gui.*;
 import biosim.idl.food.*;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -14,7 +15,7 @@ import java.text.*;
  * @author    Scott Bell
  */
 
-public class FoodTextPanel extends JPanel implements BioSimulatorListener
+public class FoodTextPanel extends BioTabPanel
 {
 	//Various GUI componenets
 	private JPanel biomassRSPanel;
@@ -54,7 +55,6 @@ public class FoodTextPanel extends JPanel implements BioSimulatorListener
 		myFoodProcessor = (FoodProcessor)(myBioSimulator.getBioModule(BioSimulator.foodProcessorName));
 		myFoodStore = (FoodStore)(myBioSimulator.getBioModule(BioSimulator.foodStoreName));
 		buildGui();
-		myBioSimulator.registerListener(this);
 	}
 	
 	/**

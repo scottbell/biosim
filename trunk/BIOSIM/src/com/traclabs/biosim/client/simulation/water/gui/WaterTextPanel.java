@@ -1,6 +1,7 @@
 package biosim.client.water.gui;
 
 import biosim.client.framework.*;
+import biosim.client.framework.gui.*;
 import biosim.idl.water.*;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -15,7 +16,7 @@ import java.text.*;
  */
 
 
-public class WaterTextPanel extends JPanel implements BioSimulatorListener
+public class WaterTextPanel extends BioTabPanel
 {
 	//Various GUI componenets
 	private JPanel waterRSPanel;
@@ -57,7 +58,6 @@ public class WaterTextPanel extends JPanel implements BioSimulatorListener
 		myDirtyWaterStore = (DirtyWaterStore)(myBioSimulator.getBioModule(BioSimulator.dirtyWaterStoreName));
 		myGreyWaterStore = (GreyWaterStore)(myBioSimulator.getBioModule(BioSimulator.greyWaterStoreName));
 		buildGui();
-		myBioSimulator.registerListener(this);
 	}
 	
 	/**

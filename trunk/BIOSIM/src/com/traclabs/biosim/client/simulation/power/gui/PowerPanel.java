@@ -18,7 +18,7 @@ public class PowerPanel extends BioTabbedPanel
 	
 	protected void createPanels(){
 		myTextPanel = new PowerTextPanel(myBioSimulator);
-		myChartPanel = new JPanel();
-		mySchematicPanel = new JPanel();
+		myChartPanel = new BioTabPanel();
+		mySchematicPanel = new BioTabPanel();
 	}
 }
