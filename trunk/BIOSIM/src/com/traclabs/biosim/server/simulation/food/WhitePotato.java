@@ -2,17 +2,17 @@ package biosim.server.simulation.food;
 
 import biosim.idl.simulation.food.*;
 /**
- * DryBean
+ * WhitePotato
  * @author    Scott Bell
  */
 
-public class DryBean extends Legume{
-	public DryBean(ShelfImpl pShelfImpl){
+public class WhitePotato extends Planophile{
+	public WhitePotato(ShelfImpl pShelfImpl){
 		super(pShelfImpl);
 		canopyClosureConstants[0] = 290410f;
 		canopyClosureConstants[1] = 1559.4f;
 		canopyClosureConstants[6] = 15.840f;
-		canopyClosureConstants[10] = .0061120f;
+		canopyClosureConstants[10] = .0061120f;;
 		canopyClosureConstants[17] = -0.0000000037409f;
 		canopyClosureConstants[24] = .00000000000000000096484f;
 
@@ -32,6 +32,10 @@ public class DryBean extends Legume{
 		float cropArea = myShelfImpl.getCropArea();
 		float constantPPF = 115f; //in moles per meters squared days
 		return (constantPPF * cropArea) / 24;
+	}
+	
+	protected float getCarbonUseEfficiency24(){
+		return 0.0f;
 	}
 
 	protected float getBCF(){

@@ -33,14 +33,15 @@ public class Wheat extends Erectophile{
 		float constantPPF = 115f; //in moles per meters squared days
 		return (constantPPF * cropArea) / 24;
 	}
+	
+	protected float getCarbonUseEfficiency24(){
+		return 0.64f;
+	}
 
 	protected float getBCF(){
 		return 0.44f;
 	}
 
-	protected float getCarbonUseEfficiency24(){
-		return 0.64f;
-	}
 
 	protected float getPhotoperiod(){
 		return 20f;
