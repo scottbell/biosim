@@ -1,5 +1,6 @@
 module biosim{
         module idl{
+		typedef sequence <string> StringList;
 		
                 module framework{
                         interface BioModule{
@@ -138,7 +139,15 @@ module biosim{
                 };
 		
                 module food{
+			interface Shelf;
+			typedef sequence <Shelf> ShelfList;
                         interface BiomassRS : framework::BioModule{
+				ShelfList getShelves();
+				float getTotalPotableWaterConsumed();
+				float getTotalGreyWaterConsumed();
+				float getTotalPowerConsumed();
+				float getTotalPlantArea();
+				StringList getPlantTypes();
                         };
                         interface BiomassStore : framework::Store{
                         };
@@ -152,6 +161,10 @@ module biosim{
                         interface FoodStore : framework::Store{
                         };
 			interface Shelf{
+				float getArea();
+				float getPowerConsumed();
+				float getGreyWaterConsumed();
+				float getPotableWaterConsumed();
 			};
                 };
 

@@ -47,6 +47,7 @@ public abstract class Plant {
 	protected abstract void calculatePowerNeeded();
 	protected abstract void calculateWaterNeeded();
 	protected abstract void calculateProducedBiomass();
+	public abstract String getPlantType();
 
 	public float getCO2Consumed(){
 		return airRetrieved.CO2;
@@ -104,8 +105,6 @@ public abstract class Plant {
 		biomassProduced = 0f;
 		plantsDead = false;
 	}
-	
-	public abstract String getPlantType();
 	
 	private void produceBiomass(){
 		calculateProducedBiomass();

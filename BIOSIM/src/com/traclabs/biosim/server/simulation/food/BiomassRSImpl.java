@@ -2,6 +2,7 @@ package biosim.server.food;
 
 import biosim.idl.food.*;
 import biosim.idl.util.*;
+import biosim.server.util.*;
 import biosim.server.framework.*;
 import java.util.*;
 /**
@@ -29,6 +30,64 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 		for (int i = 0; i < shelfCapacity; i++){
 			myShelves.add(new ShelfImpl());
 		}
+	}
+	
+	public float getTotalPotableWaterConsumed(){
+		float theWater = 0.0f;
+		for (Enumeration e = myShelves.elements(); e.hasMoreElements();){
+			ShelfImpl currentShelf = (ShelfImpl)(e.nextElement());
+			theWater += currentShelf.getPotableWaterConsumed();
+		}
+		return theWater;
+	}
+	
+	public float getTotalGreyWaterConsumed(){
+		float theWater = 0.0f;
+		for (Enumeration e = myShelves.elements(); e.hasMoreElements();){
+			ShelfImpl currentShelf = (ShelfImpl)(e.nextElement());
+			theWater += currentShelf.getGreyWaterConsumed();
+		}
+		return theWater;
+	}
+	
+	public float getTotalPowerConsumed(){
+		float thePower = 0.0f;
+		for (Enumeration e = myShelves.elements(); e.hasMoreElements();){
+			ShelfImpl currentShelf = (ShelfImpl)(e.nextElement());
+			thePower += currentShelf.getPowerConsumed();
+		}
+		return thePower;
+	}
+	
+	public float getTotalPlantArea(){
+		float thePlantArea = 0.0f;
+		for (Enumeration e = myShelves.elements(); e.hasMoreElements();){
+			ShelfImpl currentShelf = (ShelfImpl)(e.nextElement());
+			thePlantArea += currentShelf.getArea();
+		}
+		return thePlantArea;
+	}
+	
+	public String[] getPlantTypes(){
+		Vector typeVector = new Vector();
+		for (Enumeration e = myShelves.elements(); e.hasMoreElements();){
+			ShelfImpl currentShelf = (ShelfImpl)(e.nextElement());
+			if (!typeVector.contains(currentShelf.getPlantType()))
+				typeVector.add(currentShelf.getPlantType());
+		}
+		String[] plantTypeArray = new String[typeVector.size()];
+		return (String[])(typeVector.toArray(plantTypeArray));
+	}
+	
+	public Shelf[] getShelves(){
+		Shelf[] theShelfArray = new Shelf[myShelves.size()];
+		int i = 0;
+		for (Enumeration e = myShelves.elements(); e.hasMoreElements(); ){
+			ShelfImpl tempShelf = (ShelfImpl)(e.nextElement());
+			theShelfArray[i] = ShelfHelper.narrow(OrbUtils.poaToCorbaObj(tempShelf));
+			i++;
+		}
+		return theShelfArray;
 	}
 
 	/**

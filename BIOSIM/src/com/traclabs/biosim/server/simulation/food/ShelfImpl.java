@@ -52,6 +52,22 @@ public class ShelfImpl extends ShelfPOA {
 		}
 	}
 	
+	public float getArea(){
+		return totalArea;
+	}
+	
+	public float getPowerConsumed(){
+		return currentPowerConsumed;
+	}
+	
+	public float getGreyWaterConsumed(){
+		return currentGreyWaterConsumed;
+	}
+	
+	public float getPotableWaterConsumed(){
+		return currentPotableWaterConsumed;
+	}
+	
 	private void waterPlants(){
 		myCrop.addWater(currentGreyWaterConsumed + currentPotableWaterConsumed);
 	}
@@ -71,6 +87,10 @@ public class ShelfImpl extends ShelfPOA {
 		else{
 			hasEnoughPower = true;
 		}
+	}
+	
+	public String getPlantType(){
+		return myCrop.getPlantType();
 	}
 	
 	/**
