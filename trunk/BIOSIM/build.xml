@@ -19,6 +19,7 @@
 	<property name="parserHackTmpDir" location="${tmpDir}/jacorb"/>
 	<!-- set server properties for this build -->
 	<property name="log4jDir" location="${lib}/log4j"/>
+	<property name="gefDir" location="${lib}/gef"/>
 	<!-- set client properties for this build -->
 	<property name="plotDir" location="${lib}/jfreechart"/>
 	<!-- set dist properties for this build -->
@@ -107,6 +108,21 @@
 			</classpath>
 		</javac>
 	</target>
+	
+	<target name="build-editor" description="builds editor">
+			<echo message="Compling the editor"/>
+			<javac srcdir="${src}/com/traclabs/biosim/server/editor" destdir="${buildDir}" nowarn="yes">
+				<classpath>
+					<pathelement location="${src}"/>
+					<pathelement location="${buildDir}"/>
+					<pathelement location="${log4jDir}/commons-logging.jar"/>
+					<pathelement location="${log4jDir}/log4j.jar"/>
+					<pathelement location="${xercesDir}/xercesImpl.jar"/>
+					<pathelement location="${xercesDir}/xml-apis.jar"/>
+					<pathelement location="${gefDir}/gef.jar"/>
+				</classpath>
+			</javac>
+		</target>
 	
 	<target name="build-win-dist" depends="build-server,build-client, init-dist, init-tmp" description="creates windows dist">
 		<mkdir dir="${winDistDir}"/>
