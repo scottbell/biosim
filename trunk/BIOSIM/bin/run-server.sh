@@ -49,8 +49,9 @@ energyStoreName="biosim.server.energy.EnergyStoreServer"
 crewName="biosim.server.crew.CrewServer"
 waterRSName="biosim.server.water.WaterRSServer"
 waterStoreName="biosim.server.water.WaterStoreServer"
+frameworkName="biosim.server.framework.FrameworkServer"
 jacoClasspath="$JACORB_HOME/lib/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME/lib"
-jacoInvocation="$java_command -classpath $serverClassesDir$separator$resourceDir$separator$jacoClasspath $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
+jacoInvocation="$java_command -server -classpath $serverClassesDir$separator$resourceDir$separator$jacoClasspath $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
 echo "	-starting servers"
 case $userSelect in
 	airRS) echo "			 -starting $userSelect";$jacoInvocation $airRSName;;
@@ -62,6 +63,7 @@ case $userSelect in
 	crew) echo "			 -starting $userSelect";$jacoInvocation $crewName;;
 	waterRS) echo "			 -starting $userSelect";$jacoInvocation $waterRSName;;
 	waterStore) echo "			 -starting $userSelect";$jacoInvocation $waterStoreName;;
+	framework) echo "			-starting $userSelect";$jacoInvocation $frameworkName;;
 	*) echo "!!!! unkown server: $userSelect";echo "please choose from: [airRS, airStore, biomassRS, biomassStore, energyPS, energyStore, crew, waterRS, waterStore]";;
 esac
 echo "*done invoking servers"
