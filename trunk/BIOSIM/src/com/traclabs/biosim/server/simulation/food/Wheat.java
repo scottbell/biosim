@@ -8,8 +8,8 @@ import biosim.idl.simulation.food.*;
 
 public class Wheat extends Erectophile{
 	private static final int taInitialValue = 1200;
-	private static final float initialPPFValue = 200f;
-	private static final float initialCO2Value = 100f;
+	private static final float initialPPFValue = 1500f;
+	private static final float initialCO2Value = 1200f;
 	
 	public Wheat(ShelfImpl pShelfImpl){
 		super(pShelfImpl);
