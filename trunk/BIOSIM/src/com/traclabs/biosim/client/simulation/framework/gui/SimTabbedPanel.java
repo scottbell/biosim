@@ -40,15 +40,16 @@ public abstract class BioTabbedPanel extends JPanel
 		myTabbedPane.addTab("Chart", myChartPanel);
 		myTabbedPane.addTab("Schematic", mySchematicPanel);
 		add(myTabbedPane, BorderLayout.CENTER);
-		myTabbedPane.setSelectedIndex(0);
 		myTabbedPane.addChangeListener(new TabChangeListener());
-		alterVisibility();
 	}
 	
 	public void visibilityChange(boolean nowVisible){
-		myTextPanel.visibilityChange(nowVisible);
-		myChartPanel.visibilityChange(nowVisible);
-		mySchematicPanel.visibilityChange(nowVisible);
+		if (nowVisible)
+			alterVisibility();
+		else
+			myTextPanel.visibilityChange(false);
+			myChartPanel.visibilityChange(false);
+			mySchematicPanel.visibilityChange(false);
 	}
 	
 	private void alterVisibility(){

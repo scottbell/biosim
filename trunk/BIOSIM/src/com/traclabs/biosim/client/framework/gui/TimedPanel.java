@@ -13,7 +13,7 @@ public abstract class TimedPanel extends UpdatablePanel
 	protected RefreshAction myRefreshAction;
 	private Timer refreshTimer;
 	private final static int TIMER_DELAY=500;
-	protected boolean tracking = false; 
+	protected boolean tracking = true; 
 
 	/**
 	 * Default constructor.
