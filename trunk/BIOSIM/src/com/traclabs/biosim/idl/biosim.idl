@@ -753,6 +753,7 @@ module biosim{
                                         ShelfList getShelves();
 					Shelf getShelf(in long index);
                                         Shelf createNewShelf(in PlantType pType, in float pCropArea, in long pStartTick);
+					void clearShelves();
                                         void setAutoHarvestAndReplantEnabled(in boolean pHarvestEnabled);
                                         boolean autoHarvestAndReplantEnabled();
                                 };

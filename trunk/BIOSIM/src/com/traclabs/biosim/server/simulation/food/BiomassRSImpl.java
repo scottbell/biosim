@@ -96,6 +96,10 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 		return theShelfArray;
 	}
 	
+	public void clearShelves(){
+		myShelves.clear();
+	}
+	
 	public Shelf getShelf(int index){
 		ShelfImpl theShelf = (ShelfImpl)(myShelves.get(index));
 		return ShelfHelper.narrow(OrbUtils.poaToCorbaObj(theShelf));

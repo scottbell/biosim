@@ -873,7 +873,7 @@
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
 				<xsd:sequence>
-					<xsd:element name="shelf" type="ShelfType" minOccurs="1" maxOccurs="unbounded"/>
+					<xsd:element name="shelf" type="ShelfType" minOccurs="0" maxOccurs="unbounded"/>
 					<xsd:element name="powerConsumer" type="PowerConsumerType"/>
 					<xsd:element name="potableWaterConsumer" type="PotableWaterConsumerType"/>
 					<xsd:element name="greyWaterConsumer" type="GreyWaterConsumerType"/>
