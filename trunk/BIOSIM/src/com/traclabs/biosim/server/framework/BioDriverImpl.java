@@ -165,7 +165,13 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myTickThread = new Thread(this);
 		myTickThread.start();
 	}
-
+	
+	/**
+	* Tells BioDriver which initialization to use:
+	* <code>BioDriverInit.DEFAULT_INIT</code> - default initialization (sets resource flows, initializes buffers, adds crew, etc)
+	* <code>BioDriverInit.OPTIMAL_INIT</code> - optimal initialization, same as default, but with bigger buffers, smaller crew, etc
+	* <code>BioDriverInit.NONE_INIT</code> - no initialization.  everything must be set up manually
+	*/
 	public void setInitialization(BioDriverInit pInitializationToUse){
 		initializationToUse = pInitializationToUse;
 	}
