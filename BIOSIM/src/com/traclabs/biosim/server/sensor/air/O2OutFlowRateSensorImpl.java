@@ -8,8 +8,8 @@ public class O2OutFlowRateSensorImpl extends GenericSensorImpl implements O2OutF
 	private O2Producer myProducer;
 	private int myIndex;
 	
-	public O2OutFlowRateSensorImpl(int pID){
-		super(pID);
+	public O2OutFlowRateSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -42,11 +42,4 @@ public class O2OutFlowRateSensorImpl extends GenericSensorImpl implements O2OutF
 		return myIndex;
 	}
 	
-	/**
-	* Returns the name of this module (O2OutFlowRateSensorImpl)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "O2OutFlowRateSensor"+getID();
-	}
 }

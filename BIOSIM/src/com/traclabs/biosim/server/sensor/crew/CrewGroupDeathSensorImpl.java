@@ -5,8 +5,8 @@ import biosim.idl.sensor.crew.*;
 import biosim.idl.framework.*;
 
 public class CrewGroupDeathSensorImpl extends CrewGroupSensorImpl implements CrewGroupDeathSensorOperations{
-	public CrewGroupDeathSensorImpl(int pID){
-		super(pID);
+	public CrewGroupDeathSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -22,14 +22,6 @@ public class CrewGroupDeathSensorImpl extends CrewGroupSensorImpl implements Cre
 	}
 	
 	protected void notifyListeners(){
-	}
-	
-	/**
-	* Returns the name of this module (CrewGroupDeathSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "CrewGroupDeathSensor"+getID();
 	}
 	
 	protected BioModule getInputModule(){

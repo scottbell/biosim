@@ -8,8 +8,8 @@ public class H2OutFlowRateSensorImpl extends GenericSensorImpl implements H2OutF
 	private H2Producer myProducer;
 	private int myIndex;
 	
-	public H2OutFlowRateSensorImpl(int pID){
-		super(pID);
+	public H2OutFlowRateSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -42,11 +42,4 @@ public class H2OutFlowRateSensorImpl extends GenericSensorImpl implements H2OutF
 		return myIndex;
 	}
 	
-	/**
-	* Returns the name of this module (H2OutFlowRateSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "H2OutFlowRateSensor"+getID();
-	}
 }

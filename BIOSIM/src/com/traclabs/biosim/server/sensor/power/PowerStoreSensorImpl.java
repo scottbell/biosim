@@ -8,8 +8,8 @@ import biosim.idl.simulation.power.*;
 public abstract class PowerStoreSensorImpl extends GenericSensorImpl implements PowerStoreSensorOperations{
 	protected PowerStore myPowerStore;
 	
-	public PowerStoreSensorImpl(int pID){
-		super(pID);
+	public PowerStoreSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected abstract void gatherData();
@@ -25,14 +25,6 @@ public abstract class PowerStoreSensorImpl extends GenericSensorImpl implements 
 	
 	public float getMax(){
 		return myPowerStore.getCapacity();
-	}
-	
-	/**
-	* Returns the name of this module (PowerStoreSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "PowerStoreSensor"+getID();
 	}
 	
 	protected BioModule getInputModule(){

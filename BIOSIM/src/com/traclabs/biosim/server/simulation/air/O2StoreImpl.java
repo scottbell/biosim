@@ -9,14 +9,7 @@ import biosim.server.simulation.framework.*;
  * @author    Scott Bell
  */
 public class O2StoreImpl extends StoreImpl implements O2StoreOperations {
-	public O2StoreImpl(int pID){
-		super(pID);
-	}
-	/**
-	* Returns the name of this module (O2Store)
-	* @return the name of this module
-	*/
-	public String getModuleName(){
-		return "O2Store"+getID();
+	public O2StoreImpl(int pID, String pName){
+		super(pID, pName);
 	}
 }

@@ -10,14 +10,7 @@ import biosim.server.simulation.framework.*;
  */
 
 public class GreyWaterStoreImpl extends StoreImpl implements GreyWaterStoreOperations {
-	public GreyWaterStoreImpl(int pID){
-		super(pID);
-	}
-	/**
-	* Returns the name of this module (GreyWaterStore)
-	* @return the name of this module
-	*/
-	public String getModuleName(){
-		return "GreyWaterStore"+getID();
+	public GreyWaterStoreImpl(int pID, String pName){
+		super(pID, pName);
 	}
 }

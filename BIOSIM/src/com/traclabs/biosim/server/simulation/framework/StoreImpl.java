@@ -42,8 +42,8 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	/**
 	* Creates a Store with an initial level and capacity of 0
 	*/
-	public StoreImpl(int pID){
-		super(pID);
+	public StoreImpl(int pID, String pName){
+		super(pID, pName);
 		level = oldLevel = 0.0f;
 		capacity = preMalfunctionCapacity = oldCapacity = 10.0f;
 	}
@@ -54,8 +54,8 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	* @param initialCapacity the initial capacity of the store
 	* @param pPipe whether this store should act like a pipe.  dynamic capcity == level == whatever is added THIS tick (0 if nothing added, maxFlowRate should dictate pipe size, infinite otherwise)
 	*/
-	public StoreImpl (int pID, float initialLevel, float initialCapacity, boolean pPipe){
-		super(pID);
+	public StoreImpl (int pID, String pName, float initialLevel, float initialCapacity, boolean pPipe){
+		super(pID, pName);
 		pipe = pPipe;
 		level = oldLevel = initialLevel;
 		capacity = preMalfunctionCapacity = oldCapacity = initialCapacity;

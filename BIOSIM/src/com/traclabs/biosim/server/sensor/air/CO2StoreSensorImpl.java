@@ -8,8 +8,8 @@ import biosim.idl.simulation.air.*;
 public abstract class CO2StoreSensorImpl extends GenericSensorImpl implements CO2StoreSensorOperations{
 	private CO2Store myCO2Store;
 	
-	public CO2StoreSensorImpl(int pID){
-		super(pID);
+	public CO2StoreSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected abstract void gatherData();
@@ -29,13 +29,5 @@ public abstract class CO2StoreSensorImpl extends GenericSensorImpl implements CO
 	
 	protected BioModule getInputModule(){
 		return (BioModule)(getInput());
-	}
-	
-	/**
-	* Returns the name of this module (CO2StoreSensorImpl)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "CO2StoreSensor"+getID();
 	}
 }

@@ -9,8 +9,8 @@ public class CO2AirStoreOutFlowRateSensorImpl extends GenericSensorImpl implemen
 	private CO2AirProducer myProducer;
 	private int myIndex;
 	
-	public CO2AirStoreOutFlowRateSensorImpl(int pID){
-		super(pID);
+	public CO2AirStoreOutFlowRateSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -41,13 +41,5 @@ public class CO2AirStoreOutFlowRateSensorImpl extends GenericSensorImpl implemen
 	
 	public int getIndex(){
 		return myIndex;
-	}
-	
-	/**
-	* Returns the name of this module (CO2AirStoreOutFlowRateSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "CO2AirStoreOutFlowRateSensor"+getID();
 	}
 }

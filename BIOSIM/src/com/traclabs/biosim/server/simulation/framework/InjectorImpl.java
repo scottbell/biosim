@@ -137,9 +137,9 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 	private float[] O2AirEnvironmentInActualFlowRates;
 	private float[] O2AirEnvironmentOutDesiredFlowRates;
 	private float[] O2AirEnvironmentInDesiredFlowRates;
-
-	public InjectorImpl(int pID){
-		super(pID);
+                                              
+	public InjectorImpl(int pID, String pName){
+		super(pID, pName);
 		myPowerOutputs = new PowerStore[0];
 		myPowerInputs = new PowerStore[0];
 		powerOutMaxFlowRates = new float[0];
@@ -1293,11 +1293,4 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		return myO2AirEnvironmentOutputs;
 	}
 
-	/**
-	* Returns the name of the module
-	* @return the name of this module
-	*/
-	public String getModuleName(){
-		return "Injector"+getID();
-	}
 }

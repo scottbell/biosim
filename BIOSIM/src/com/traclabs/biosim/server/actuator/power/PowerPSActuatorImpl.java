@@ -8,8 +8,8 @@ import biosim.idl.simulation.power.*;
 public abstract class PowerPSActuatorImpl extends GenericActuatorImpl implements PowerPSActuatorOperations{
 	protected PowerPS myPowerPS;
 	
-	public PowerPSActuatorImpl(int pID){
-		super(pID);
+	public PowerPSActuatorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	public void setOutput(PowerPS source){
@@ -18,13 +18,5 @@ public abstract class PowerPSActuatorImpl extends GenericActuatorImpl implements
 	
 	public PowerPS getOutput(){
 		return myPowerPS;
-	}
-	
-	/**
-	* Returns the name of this module (PowerPSActuator)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "PowerPSActuator"+getID();
 	}
 }

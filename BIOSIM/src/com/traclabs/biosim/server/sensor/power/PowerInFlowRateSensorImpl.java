@@ -8,8 +8,8 @@ public class PowerInFlowRateSensorImpl extends GenericSensorImpl implements Powe
 	private PowerConsumer myConsumer;
 	private int myIndex;
 	
-	public PowerInFlowRateSensorImpl(int pID){
-		super(pID);
+	public PowerInFlowRateSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -40,13 +40,5 @@ public class PowerInFlowRateSensorImpl extends GenericSensorImpl implements Powe
 	
 	public int getIndex(){
 		return myIndex;
-	}
-	
-	/**
-	* Returns the name of this module (PowerInFlowRateSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "PowerInFlowRateSensor"+getID();
 	}
 }

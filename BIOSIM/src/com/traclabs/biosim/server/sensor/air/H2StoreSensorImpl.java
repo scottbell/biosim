@@ -8,8 +8,8 @@ import biosim.idl.simulation.air.*;
 public abstract class H2StoreSensorImpl extends GenericSensorImpl implements H2StoreSensorOperations{
 	private H2Store myH2Store;
 	
-	public H2StoreSensorImpl(int pID){
-		super(pID);
+	public H2StoreSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected abstract void gatherData();
@@ -25,14 +25,6 @@ public abstract class H2StoreSensorImpl extends GenericSensorImpl implements H2S
 	
 	public float getMax(){
 		return myH2Store.getCapacity();
-	}
-	
-	/**
-	* Returns the name of this module (H2StoreSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "H2StoreSensor"+getID();
 	}
 	
 	protected BioModule getInputModule(){

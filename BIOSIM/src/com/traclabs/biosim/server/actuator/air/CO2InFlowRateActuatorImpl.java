@@ -8,8 +8,8 @@ public class CO2InFlowRateActuatorImpl extends GenericActuatorImpl implements CO
 	private CO2Consumer myConsumer;
 	private int myIndex;
 	
-	public CO2InFlowRateActuatorImpl(int pID){
-		super(pID);
+	public CO2InFlowRateActuatorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void processData(){
@@ -40,13 +40,5 @@ public class CO2InFlowRateActuatorImpl extends GenericActuatorImpl implements CO
 	
 	public float getMax(){
 		return myConsumer.getCO2InputMaxFlowRate(myIndex);
-	}
-	
-	/**
-	* Returns the name of this module (CO2InFlowRateActuator)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "CO2InFlowRateActuator"+getID();
 	}
 }

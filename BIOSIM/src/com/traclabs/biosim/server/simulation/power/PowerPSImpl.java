@@ -28,8 +28,8 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements PowerPSOpe
 	private float[] powerDesiredFlowRates;
 	private SimEnvironment myLightInput;
 
-	public PowerPSImpl(int pID){
-		super(pID);
+	public PowerPSImpl(int pID, String pName){
+		super(pID, pName);
 		myPowerStores = new PowerStore[0];
 		powerMaxFlowRates = new float[0];
 		powerActualFlowRates = new float[0];
@@ -103,14 +103,6 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements PowerPSOpe
 	*/
 	public  float getPowerProduced(){
 		return currentPowerProduced;
-	}
-
-	/**
-	* Returns the name of this module (PowerPS)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "PowerPS"+getID();
 	}
 
 	protected void log(){

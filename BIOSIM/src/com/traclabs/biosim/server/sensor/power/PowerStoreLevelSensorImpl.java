@@ -5,8 +5,8 @@ import biosim.idl.sensor.power.*;
 import biosim.idl.framework.*;
 
 public class PowerStoreLevelSensorImpl extends PowerStoreSensorImpl implements PowerStoreLevelSensorOperations{
-	public PowerStoreLevelSensorImpl(int pID){
-		super(pID);
+	public PowerStoreLevelSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -15,13 +15,5 @@ public class PowerStoreLevelSensorImpl extends PowerStoreSensorImpl implements P
 	}
 	
 	protected void notifyListeners(){
-	}
-	
-	/**
-	* Returns the name of this module (PowerStoreLevelSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "PowerStoreLevelSensor"+getID();
 	}
 }

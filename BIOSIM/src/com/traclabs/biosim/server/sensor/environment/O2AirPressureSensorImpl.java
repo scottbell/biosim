@@ -5,8 +5,8 @@ import biosim.idl.sensor.environment.*;
 import biosim.idl.simulation.environment.*;
 
 public class O2AirPressureSensorImpl extends EnvironmentSensorImpl implements O2AirPressureSensorOperations{
-	public O2AirPressureSensorImpl(int pID){
-		super(pID);
+	public O2AirPressureSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -21,11 +21,4 @@ public class O2AirPressureSensorImpl extends EnvironmentSensorImpl implements O2
 		return 1f;
 	}
 	
-	/**
-	* Returns the name of this module (O2AirPressureSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "O2AirPressureSensor"+getID();
-	}
 }

@@ -8,8 +8,8 @@ public class H2OutFlowRateActuatorImpl extends GenericActuatorImpl implements H2
 	private H2Producer myProducer;
 	private int myIndex;
 	
-	public H2OutFlowRateActuatorImpl(int pID){
-		super(pID);
+	public H2OutFlowRateActuatorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void processData(){
@@ -40,13 +40,5 @@ public class H2OutFlowRateActuatorImpl extends GenericActuatorImpl implements H2
 	
 	public float getMax(){
 		return myProducer.getH2OutputMaxFlowRate(myIndex);
-	}
-	
-	/**
-	* Returns the name of this module (H2OutFlowRateActuatorImpl)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "H2OutFlowRateActuator"+getID();
 	}
 }

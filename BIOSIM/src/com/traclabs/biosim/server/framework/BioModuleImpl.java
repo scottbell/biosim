@@ -31,6 +31,8 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	protected StochasticIntensity myStochasticIntensity = StochasticIntensity.NONE_STOCH;
 	//The unique ID for this module (all the modules this module communicates with should have the same ID)
 	private int myID = 0;
+	//The name of this module (should be the same in the nameserver)
+	private String myName = "NoName";
 	//The Malfunctions in a Map (key is a Long representing the Malfunction ID, value is the Malfunction Object)
 	protected Map myMalfunctions;
 	private boolean canBreakdown = false;
@@ -39,12 +41,14 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	/**
 	* Constructor to create a BioModule, should only be called by those deriving from BioModule.
 	* @param pID The unique ID for this module (all the modules this module communicates with should have the same ID)
+	* @param pName The name of the module
 	*/
-	protected BioModuleImpl(int pID){
+	protected BioModuleImpl(int pID, String pName){
 		myRandomGen = new Random();
 		myMalfunctions = new Hashtable();
 		myLog = new LogNodeImpl(getModuleName());
 		myID = pID;
+		myName = pName + "-" + myID;
 	}
 	
 	/**
@@ -390,7 +394,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	* @return the name of this module
 	*/
 	public String getModuleName(){
-		return "Unamed"+myID;
+		return myName;
 	}
 }
 

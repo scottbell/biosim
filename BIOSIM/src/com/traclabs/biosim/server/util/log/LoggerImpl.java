@@ -28,14 +28,16 @@ public class LoggerImpl extends LoggerPOA  {
 	private int currentTick = -1;
 	//The ID of this Logger (should be the same as all the rest of the modules sending logs and the BioDriver)
 	private int myID = 0;
+	private String myName = "NoName";
 	
 	/**
 	* Creates a Logger Server with an ID (should be the same as all the rest of the modules sending logs and the BioDriver)<br>
 	* Also initializes logtypes and adds and XML handler.
 	* @param pID the ID of this logger (should be the same as all the rest of the modules sending logs and the BioDriver)
 	*/
-	public LoggerImpl(int pID){
+	public LoggerImpl(int pID, String pName){
 		myID = pID;
+		myName = pName;
 		rootLogNode = new LogNodeImpl("");
 		myLogHandlers = new Vector();
 		logTypes = new Vector();
@@ -71,7 +73,7 @@ public class LoggerImpl extends LoggerPOA  {
 	* @return the name of the module
 	*/
 	public String getName(){
-		return "Logger"+myID;
+		return myName+myID;
 	}
 
 	/**

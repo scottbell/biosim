@@ -8,8 +8,8 @@ public class O2InFlowRateSensorImpl extends GenericSensorImpl implements O2InFlo
 	private O2Consumer myConsumer;
 	private int myIndex;
 	
-	public O2InFlowRateSensorImpl(int pID){
-		super(pID);
+	public O2InFlowRateSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -42,11 +42,4 @@ public class O2InFlowRateSensorImpl extends GenericSensorImpl implements O2InFlo
 		return myConsumer.getO2InputMaxFlowRate(myIndex);
 	}
 	
-	/**
-	* Returns the name of this module (O2InFlowRateSensorImpl)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "O2InFlowRateSensor"+getID();
-	}
 }

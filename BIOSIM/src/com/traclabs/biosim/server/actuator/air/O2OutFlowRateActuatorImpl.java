@@ -8,8 +8,8 @@ public class O2OutFlowRateActuatorImpl extends GenericActuatorImpl implements O2
 	private O2Producer myProducer;
 	private int myIndex;
 	
-	public O2OutFlowRateActuatorImpl(int pID){
-		super(pID);
+	public O2OutFlowRateActuatorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void processData(){
@@ -40,13 +40,5 @@ public class O2OutFlowRateActuatorImpl extends GenericActuatorImpl implements O2
 	
 	public float getMax(){
 		return myProducer.getO2OutputMaxFlowRate(myIndex);
-	}
-	
-	/**
-	* Returns the name of this module (O2OutFlowRateActuatorImpl)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "O2OutFlowRateActuator"+getID();
 	}
 }

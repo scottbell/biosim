@@ -14,8 +14,8 @@ public abstract class SimBioModuleImpl extends BioModuleImpl implements SimBioMo
 	* Constructor to create a BioModule, should only be called by those deriving from BioModule.
 	* @param pID The unique ID for this module (all the modules this module communicates with should have the same ID)
 	*/
-	protected SimBioModuleImpl(int pID){
-		super(pID);
+	protected SimBioModuleImpl(int pID, String pName){
+		super(pID, pName);
 	}
 	
 	/**

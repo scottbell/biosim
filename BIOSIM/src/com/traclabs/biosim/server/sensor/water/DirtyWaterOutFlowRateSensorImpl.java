@@ -8,8 +8,8 @@ public class DirtyWaterOutFlowRateSensorImpl extends GenericSensorImpl implement
 	private DirtyWaterProducer myProducer;
 	private int myIndex;
 	
-	public DirtyWaterOutFlowRateSensorImpl(int pID){
-		super(pID);
+	public DirtyWaterOutFlowRateSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -40,13 +40,5 @@ public class DirtyWaterOutFlowRateSensorImpl extends GenericSensorImpl implement
 	
 	protected BioModule getInputModule(){
 		return (BioModule)(myProducer);
-	}
-	
-	/**
-	* Returns the name of this module (DirtyWaterOutFlowRateSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "DirtyWaterOutFlowRateSensor"+getID();
 	}
 }

@@ -8,8 +8,8 @@ import biosim.idl.simulation.air.*;
 public abstract class O2StoreSensorImpl extends GenericSensorImpl implements O2StoreSensorOperations{
 	private O2Store myO2Store;
 	
-	public O2StoreSensorImpl(int pID){
-		super(pID);
+	public O2StoreSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected abstract void gatherData();
@@ -25,14 +25,6 @@ public abstract class O2StoreSensorImpl extends GenericSensorImpl implements O2S
 	
 	public float getMax(){
 		return myO2Store.getCapacity();
-	}
-	
-	/**
-	* Returns the name of this module (O2StoreSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "O2StoreSensor"+getID();
 	}
 	
 	protected BioModule getInputModule(){

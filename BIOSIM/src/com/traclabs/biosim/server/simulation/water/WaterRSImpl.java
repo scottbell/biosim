@@ -43,8 +43,8 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 	/**
 	* Creates the Water RS and it's subsystems
 	*/
-	public WaterRSImpl(int pID){
-		super(pID);
+	public WaterRSImpl(int pID, String pName){
+		super(pID, pName);
 		myPowerInputs = new PowerStore[0];
 		myDirtyWaterInputs = new DirtyWaterStore[0];
 		myGreyWaterInputs = new GreyWaterStore[0];
@@ -308,15 +308,7 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 			returnBuffer.append("destroyed");
 		return returnBuffer.toString();
 	}
-
-	/**
-	* Returns the name of this module (WaterRS)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "WaterRS"+getID();
-	}
-
+	
 	protected void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){

@@ -7,8 +7,8 @@ import biosim.idl.simulation.environment.*;
 public abstract class EnvironmentActuatorImpl extends GenericActuatorImpl implements EnvironmentActuatorOperations{
 	protected SimEnvironment myEnvironment;
 	
-	public EnvironmentActuatorImpl(int pID){
-		super(pID);
+	public EnvironmentActuatorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 	
 	public void setOutput(SimEnvironment source){
@@ -17,13 +17,5 @@ public abstract class EnvironmentActuatorImpl extends GenericActuatorImpl implem
 	
 	public SimEnvironment getOutput(){
 		return myEnvironment;
-	}
-	
-	/**
-	* Returns the name of this module (EnvironmentActuator)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "EnvironmentActuator"+getID();
 	}
 }

@@ -8,8 +8,8 @@ public class PotableWaterInFlowRateSensorImpl extends GenericSensorImpl implemen
 	private PotableWaterConsumer myConsumer;
 	private int myIndex;
 	
-	public PotableWaterInFlowRateSensorImpl(int pID){
-		super(pID);
+	public PotableWaterInFlowRateSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -40,13 +40,5 @@ public class PotableWaterInFlowRateSensorImpl extends GenericSensorImpl implemen
 	
 	public float getMax(){
 		return myConsumer.getPotableWaterInputMaxFlowRate(myIndex);
-	}
-	
-	/**
-	* Returns the name of this module (PotableWaterInFlowRateSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "PotableWaterInFlowRateSensor"+getID();
 	}
 }

@@ -8,8 +8,8 @@ public class FoodInFlowRateSensorImpl extends GenericSensorImpl implements FoodI
 	private FoodConsumer myConsumer;
 	private int myIndex;
 	
-	public FoodInFlowRateSensorImpl(int pID){
-		super(pID);
+	public FoodInFlowRateSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -40,13 +40,5 @@ public class FoodInFlowRateSensorImpl extends GenericSensorImpl implements FoodI
 	
 	public int getIndex(){
 		return myIndex;
-	}
-	
-	/**
-	* Returns the name of this module (FoodInFlowRateSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "FoodInFlowRateSensor"+getID();
 	}
 }

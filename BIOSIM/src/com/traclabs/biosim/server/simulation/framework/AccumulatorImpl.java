@@ -138,8 +138,8 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 	private float[] O2AirEnvironmentOutDesiredFlowRates;
 	private float[] O2AirEnvironmentInDesiredFlowRates;
 
-	public AccumulatorImpl(int pID){
-		super(pID);
+	public AccumulatorImpl(int pID, String pName){
+		super(pID, pName);
 		myPowerOutputs = new PowerStore[0];
 		myPowerInputs = new PowerStore[0];
 		powerOutMaxFlowRates = new float[0];
@@ -1291,13 +1291,5 @@ public class AccumulatorImpl extends SimBioModuleImpl implements AccumulatorOper
 	}
 	public SimEnvironment[] getO2AirEnvironmentOutputs(){
 		return myO2AirEnvironmentOutputs;
-	}
-
-	/**
-	* Returns the name of the module
-	* @return the name of this module
-	*/
-	public String getModuleName(){
-		return "Accumulator"+getID();
 	}
 }

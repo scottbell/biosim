@@ -8,8 +8,8 @@ public class PotableWaterOutFlowRateSensorImpl extends GenericSensorImpl impleme
 	private PotableWaterProducer myProducer;
 	private int myIndex;
 	
-	public PotableWaterOutFlowRateSensorImpl(int pID){
-		super(pID);
+	public PotableWaterOutFlowRateSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -40,13 +40,5 @@ public class PotableWaterOutFlowRateSensorImpl extends GenericSensorImpl impleme
 	
 	protected BioModule getInputModule(){
 		return (BioModule)(myProducer);
-	}
-	
-	/**
-	* Returns the name of this module (PotableWaterOutFlowRateSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "PotableWaterOutFlowRateSensor"+getID();
 	}
 }

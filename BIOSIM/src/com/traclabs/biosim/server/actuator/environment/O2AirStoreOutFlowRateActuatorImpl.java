@@ -9,8 +9,8 @@ public class O2AirStoreOutFlowRateActuatorImpl extends GenericActuatorImpl imple
 	private O2AirProducer myProducer;
 	private int myIndex;
 	
-	public O2AirStoreOutFlowRateActuatorImpl(int pID){
-		super(pID);
+	public O2AirStoreOutFlowRateActuatorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void processData(){
@@ -41,13 +41,5 @@ public class O2AirStoreOutFlowRateActuatorImpl extends GenericActuatorImpl imple
 	
 	public int getIndex(){
 		return myIndex;
-	}
-	
-	/**
-	* Returns the name of this module (O2AirStoreOutFlowRateActuator)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "O2AirStoreOutFlowRateActuator"+getID();
 	}
 }

@@ -8,8 +8,8 @@ public class GreyWaterOutFlowRateActuatorImpl extends GenericActuatorImpl implem
 	private GreyWaterProducer myProducer;
 	private int myIndex;
 	
-	public GreyWaterOutFlowRateActuatorImpl(int pID){
-		super(pID);
+	public GreyWaterOutFlowRateActuatorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void processData(){
@@ -40,13 +40,5 @@ public class GreyWaterOutFlowRateActuatorImpl extends GenericActuatorImpl implem
 	
 	public float getMax(){
 		return myProducer.getGreyWaterOutputMaxFlowRate(myIndex);
-	}
-	
-	/**
-	* Returns the name of this module (GreyWaterOutFlowRateActuator)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "GreyWaterOutFlowRateActuator"+getID();
 	}
 }

@@ -8,8 +8,8 @@ import biosim.idl.simulation.food.*;
 public abstract class BiomassRSActuatorImpl extends GenericActuatorImpl implements BiomassRSActuatorOperations{
 	protected BiomassRS myBiomassRS;
 	
-	public BiomassRSActuatorImpl(int pID){
-		super(pID);
+	public BiomassRSActuatorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	public void setOutput(BiomassRS source){
@@ -18,13 +18,5 @@ public abstract class BiomassRSActuatorImpl extends GenericActuatorImpl implemen
 	
 	public BiomassRS getOutput(){
 		return myBiomassRS;
-	}
-	
-	/**
-	* Returns the name of this module (BiomassRSActuator)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "BiomassRSActuator"+getID();
 	}
 }

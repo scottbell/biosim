@@ -8,8 +8,8 @@ import biosim.idl.simulation.food.*;
 public abstract class BiomassRSSensorImpl extends GenericSensorImpl implements BiomassRSSensorOperations{
 	protected BiomassRS myBiomassRS;
 	
-	public BiomassRSSensorImpl(int pID){
-		super(pID);
+	public BiomassRSSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected abstract void gatherData();
@@ -21,14 +21,6 @@ public abstract class BiomassRSSensorImpl extends GenericSensorImpl implements B
 	
 	public BiomassRS getInput(){
 		return myBiomassRS;
-	}
-	
-	/**
-	* Returns the name of this module (BiomassRSSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "BiomassRSSensor"+getID();
 	}
 	
 	protected BioModule getInputModule(){

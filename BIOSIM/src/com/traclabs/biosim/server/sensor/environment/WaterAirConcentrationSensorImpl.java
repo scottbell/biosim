@@ -5,8 +5,8 @@ import biosim.idl.sensor.environment.*;
 import biosim.idl.simulation.environment.*;
 
 public class WaterAirConcentrationSensorImpl extends EnvironmentSensorImpl implements WaterAirConcentrationSensorOperations{
-	public WaterAirConcentrationSensorImpl(int pID){
-		super(pID);
+	public WaterAirConcentrationSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -21,12 +21,4 @@ public class WaterAirConcentrationSensorImpl extends EnvironmentSensorImpl imple
 		return 1f;
 	}
 	
-	
-	/**
-	* Returns the name of this module (WaterAirConcentrationSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "WaterAirConcentrationSensor"+getID();
-	}
 }

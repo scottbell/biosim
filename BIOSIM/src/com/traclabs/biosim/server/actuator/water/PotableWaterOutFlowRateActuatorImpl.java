@@ -8,8 +8,8 @@ public class PotableWaterOutFlowRateActuatorImpl extends GenericActuatorImpl imp
 	private PotableWaterProducer myProducer;
 	private int myIndex;
 	
-	public PotableWaterOutFlowRateActuatorImpl(int pID){
-		super(pID);
+	public PotableWaterOutFlowRateActuatorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void processData(){
@@ -40,13 +40,5 @@ public class PotableWaterOutFlowRateActuatorImpl extends GenericActuatorImpl imp
 	
 	public float getMax(){
 		return myProducer.getPotableWaterOutputMaxFlowRate(myIndex);
-	}
-	
-	/**
-	* Returns the name of this module (PotableWaterOutFlowRateActuator)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "PotableWaterOutFlowRateActuator"+getID();
 	}
 }

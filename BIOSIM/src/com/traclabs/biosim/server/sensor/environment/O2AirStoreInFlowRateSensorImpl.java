@@ -9,8 +9,8 @@ public class O2AirStoreInFlowRateSensorImpl extends GenericSensorImpl implements
 	private O2AirConsumer myConsumer;
 	private int myIndex;
 	
-	public O2AirStoreInFlowRateSensorImpl(int pID){
-		super(pID);
+	public O2AirStoreInFlowRateSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -43,11 +43,4 @@ public class O2AirStoreInFlowRateSensorImpl extends GenericSensorImpl implements
 		return myIndex;
 	}
 	
-	/**
-	* Returns the name of this module (O2AirStoreInFlowRateSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "O2AirStoreInFlowRateSensor"+getID();
-	}
 }

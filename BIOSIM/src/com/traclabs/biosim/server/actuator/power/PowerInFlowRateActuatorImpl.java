@@ -8,8 +8,8 @@ public class PowerInFlowRateActuatorImpl extends GenericActuatorImpl implements 
 	private PowerConsumer myConsumer;
 	private int myIndex;
 	
-	public PowerInFlowRateActuatorImpl(int pID){
-		super(pID);
+	public PowerInFlowRateActuatorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void processData(){
@@ -40,13 +40,5 @@ public class PowerInFlowRateActuatorImpl extends GenericActuatorImpl implements 
 	
 	public float getMax(){
 		return myConsumer.getPowerInputMaxFlowRate(myIndex);
-	}
-	
-	/**
-	* Returns the name of this module (PowerInFlowRateActuator)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "PowerInFlowRateActuator"+getID();
 	}
 }

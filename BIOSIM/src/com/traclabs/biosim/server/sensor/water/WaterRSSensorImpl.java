@@ -8,8 +8,8 @@ import biosim.idl.simulation.water.*;
 public abstract class WaterRSSensorImpl extends GenericSensorImpl implements WaterRSSensorOperations{
 	protected WaterRS myWaterRS;
 	
-	public WaterRSSensorImpl(int pID){
-		super(pID);
+	public WaterRSSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected abstract void gatherData();
@@ -21,14 +21,6 @@ public abstract class WaterRSSensorImpl extends GenericSensorImpl implements Wat
 	
 	public WaterRS getInput(){
 		return myWaterRS;
-	}
-	
-	/**
-	* Returns the name of this module (WaterRSSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "WaterRSSensor"+getID();
 	}
 	
 	protected BioModule getInputModule(){

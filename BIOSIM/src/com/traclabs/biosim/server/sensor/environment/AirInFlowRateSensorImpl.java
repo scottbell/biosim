@@ -9,8 +9,8 @@ public class AirInFlowRateSensorImpl extends GenericSensorImpl implements AirInF
 	private AirConsumer myConsumer;
 	private int myIndex;
 	
-	public AirInFlowRateSensorImpl(int pID){
-		super(pID);
+	public AirInFlowRateSensorImpl(int pID, String pName){
+		super(pID, pName);
 	}
 
 	protected void gatherData(){
@@ -41,13 +41,5 @@ public class AirInFlowRateSensorImpl extends GenericSensorImpl implements AirInF
 	
 	public int getIndex(){
 		return myIndex;
-	}
-	
-	/**
-	* Returns the name of this module (AirInFlowRateSensor)
-	* @return the name of the module
-	*/
-	public String getModuleName(){
-		return "AirInFlowRateSensor"+getID();
 	}
 }
