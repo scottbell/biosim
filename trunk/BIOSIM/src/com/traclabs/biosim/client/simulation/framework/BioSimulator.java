@@ -37,6 +37,7 @@ public class BioSimulator implements Runnable
 	private Hashtable modules;
 	private NamingContextExt ncRef;
 	private Thread myThread;
+	private boolean simulationIsPaused = false;
 
 	public void spawnSimulation(){
 		myThread = new Thread(this);
@@ -44,12 +45,12 @@ public class BioSimulator implements Runnable
 	}
 
 	public void run(){
-		System.out.println("Getting server references...");
+		System.out.println("BioSimulator: Getting server references...");
 		collectReferences();
-		System.out.println("Initializing simulation...");
+		System.out.println("BioSimulator: Initializing simulation...");
 		initializeSimulation();
-		System.out.println("Starting simulation...");
-		runSimulation(75);
+		System.out.println("BioSimulator: Running simulation...");
+		runSimulation();
 	}
 
 	private void initializeSimulation(){
@@ -89,9 +90,9 @@ public class BioSimulator implements Runnable
 		BiomassStore myBiomassStore = (BiomassStore)(getBioModule(biomassStoreName));
 		FoodStore myFoodStore = (FoodStore)(getBioModule(foodStoreName));
 		myBiomassStore.setBiomassCapacity(100f);
-		myFoodStore.setFoodCapacity(50f);
+		myFoodStore.setFoodCapacity(500f);
 		myBiomassStore.setBiomassLevel(0f);
-		myFoodStore.setFoodLevel(50f);
+		myFoodStore.setFoodLevel(500f);
 
 		//Add some power
 		PowerStore myPowerStore = (PowerStore)(getBioModule(powerStoreName));
@@ -99,9 +100,22 @@ public class BioSimulator implements Runnable
 		myPowerStore.setPowerLevel(300f);
 	}
 
-	private void runSimulation(int numTicks){
-		for (int i = 0; i < numTicks; i ++){
-			tick();
+	private void runSimulation(){
+		for (int i = 0; true; i ++){
+			Thread theCurrentThread = Thread.currentThread();
+			while (myThread == theCurrentThread) {
+				tick();
+				if (simulationIsPaused && (myThread==theCurrentThread)){
+					try {
+						synchronized(this) {
+							while (simulationIsPaused && (myThread==theCurrentThread)){
+								wait();
+							}
+						}
+					}
+					catch (InterruptedException e){}
+				}
+			}
 		}
 	}
 
@@ -109,123 +123,146 @@ public class BioSimulator implements Runnable
 		return (BioModule)(modules.get(type));
 	}
 
-	private void collectReferences(){
+	public synchronized void pauseSimulation(){
+		simulationIsPaused = true;
+		System.out.println("BioSimulator: simulation paused");
+	}
 
+	public synchronized void endSimulation(){
+		myThread = null;
+		notify();
+		System.out.println("BioSimulator: simulation ended");
+	}
+
+
+	public synchronized void resumeSimulation(){
+		simulationIsPaused = false;
+		notify();
+		System.out.println("BioSimulator: simulation resumed");
+	}
+
+	private void collectReferences(){
 		// resolve the Objects Reference in Naming
 		modules = new Hashtable();
-		System.out.println("Collecting references to modules...");
+		System.out.println("BioSimulator: Collecting references to modules...");
 		try{
 			CrewGroup myCrew = CrewGroupHelper.narrow(OrbUtils.getNCRef().resolve_str(crewName));
 			modules.put(crewName , myCrew);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("Couldn't locate CrewGroup, skipping...");
+			System.out.println("BioSimulator: Couldn't locate CrewGroup, skipping...");
 		}
 		try{
 			PowerPS myPowerPS = PowerPSHelper.narrow(OrbUtils.getNCRef().resolve_str(powerPSName));
 			modules.put(powerPSName , myPowerPS);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("Couldn't locate PowerPS, skipping...");
+			System.out.println("BioSimulator: Couldn't locate PowerPS, skipping...");
 		}
 		try{
 			PowerStore myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(powerStoreName));
 			modules.put(powerStoreName , myPowerStore);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("Couldn't locate EnergyStore, skipping...");
+			System.out.println("BioSimulator: Couldn't locate EnergyStore, skipping...");
 		}
 		try{
 			AirRS myAirRS = AirRSHelper.narrow(OrbUtils.getNCRef().resolve_str(airRSName));
 			modules.put(airRSName , myAirRS);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("Couldn't locate AirRS, skipping...");
+			System.out.println("BioSimulator: Couldn't locate AirRS, skipping...");
 		}
 		try{
 			SimEnvironment mySimEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str(simEnvironmentName));
 			modules.put(simEnvironmentName , mySimEnvironment);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("Couldn't locate SimEnvironment, skipping...");
+			System.out.println("BioSimulator: Couldn't locate SimEnvironment, ending!");
+			System.exit(0);
 		}
 		try{
 			GreyWaterStore myGreyWaterStore = GreyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(greyWaterStoreName));
 			modules.put(greyWaterStoreName , myGreyWaterStore);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("Couldn't locate GreyWaterStore, skipping...");
+			System.out.println("BioSimulator: Couldn't locate GreyWaterStore, skipping...");
 		}
 		try{
 			PotableWaterStore myPotableWaterStore = PotableWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(potableWaterStoreName));
 			modules.put(potableWaterStoreName , myPotableWaterStore);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("Couldn't locate PotableWaterStore, skipping...");
+			System.out.println("BioSimulator: Couldn't locate PotableWaterStore, skipping...");
 		}
 		try{
 			DirtyWaterStore myDirtyWaterStore = DirtyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(dirtyWaterStoreName));
 			modules.put(dirtyWaterStoreName , myDirtyWaterStore);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("Couldn't locate DirtyWaterStore, skipping...");
+			System.out.println("BioSimulator: Couldn't locate DirtyWaterStore, skipping...");
 		}
 		try{
 			FoodProcessor myFoodProcessor = FoodProcessorHelper.narrow(OrbUtils.getNCRef().resolve_str(foodProcessorName));
 			modules.put(foodProcessorName , myFoodProcessor);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("Couldn't locate FoodProcessor, skipping...");
+			System.out.println("BioSimulator: Couldn't locate FoodProcessor, skipping...");
 		}
 		try{
 			FoodStore myFoodStore= FoodStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(foodStoreName));
 			modules.put(foodStoreName , myFoodStore);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("Couldn't locate FoodStore, skipping...");
+			System.out.println("BioSimulator: Couldn't locate FoodStore, skipping...");
 		}
 		try{
 			CO2Store myCO2Store = CO2StoreHelper.narrow(OrbUtils.getNCRef().resolve_str(co2StoreName));
 			modules.put(co2StoreName , myCO2Store);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("Couldn't locate CO2Store, skipping...");
+			System.out.println("BioSimulator: Couldn't locate CO2Store, skipping...");
 		}
 		try{
 			O2Store myO2Store = O2StoreHelper.narrow(OrbUtils.getNCRef().resolve_str(o2StoreName));
 			modules.put(o2StoreName , myO2Store);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("Couldn't locate CO2Store, skipping...");
+			System.out.println("BioSimulator: Couldn't locate CO2Store, skipping...");
 		}
 		try{
 			BiomassRS myBiomassRS = BiomassRSHelper.narrow(OrbUtils.getNCRef().resolve_str(biomassRSName));
 			modules.put(biomassRSName , myBiomassRS);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("Couldn't locate BiomassRS, skipping...");
+			System.out.println("BioSimulator: Couldn't locate BiomassRS, skipping...");
 		}
 		try{
 			BiomassStore myBiomassStore = BiomassStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(biomassStoreName));
 			modules.put(biomassStoreName, myBiomassStore);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("Couldn't locate BiomassStore, skipping...");
+			System.out.println("BioSimulator: Couldn't locate BiomassStore, skipping...");
 		}
 		try{
 			WaterRS myWaterRS = WaterRSHelper.narrow(OrbUtils.getNCRef().resolve_str(waterRSName));
 			modules.put(waterRSName , myWaterRS);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("Couldn't locate WaterRS, skipping...");
+			System.out.println("BioSimulator: Couldn't locate WaterRS, skipping...");
 		}
 	}
 
 	public void tick(){
-		//Iterate through modules and tick them
+		//first tick SimEnvironment
+		SimEnvironment mySimEnvironment =(SimEnvironment)(modules.get(simEnvironmentName));
+		mySimEnvironment.tick();
+		//Iterate through the rest of the modules and tick them
 		for (Enumeration e = modules.elements(); e.hasMoreElements();){
 			BioModule currentBioModule = (BioModule)(e.nextElement());
-			currentBioModule.tick();
+			if (!(currentBioModule.getModuleName().equals(simEnvironmentName))){
+				currentBioModule.tick();
+			}
 		}
 	}
 }

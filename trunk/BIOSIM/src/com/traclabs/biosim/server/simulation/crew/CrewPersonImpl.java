@@ -63,7 +63,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 
 	public String toString(){
 		return (myName + " now performing activity " +myCurrentActivity.getName() +
-		        " for " + timeActivityPerformed + " of "+myCurrentActivity .getTimeLength() +"hours");
+		        " for " + timeActivityPerformed + " of "+myCurrentActivity .getTimeLength() +" hours");
 	}
 
 	private void collectReferences(){
@@ -182,7 +182,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 
 	private float calculateCleanWaterNeeded(int currentActivityIntensity){
 		if (currentActivityIntensity > 0)
-			return 30f;
+			return 0.1667f;
 		else
 			return 0f;
 	}
