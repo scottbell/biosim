@@ -57,6 +57,7 @@ public class WaterRSMatlabImpl extends SimBioModuleImpl implements WaterRSOperat
 		dirtyWaterDesiredFlowRates = new float[0];
 		greyWaterDesiredFlowRates = new float[0];
 		potableWaterDesiredFlowRates = new float[0];
+		myTechSpecificInfo = TechSpecificInfoHelper.narrow(OrbUtils.poaToCorbaObj(new WaterRSMatlabTechInfoImpl()));
 	}
 
 	/**
