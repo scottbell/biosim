@@ -335,7 +335,7 @@ public abstract class PlantImpl extends PlantPOA{
 		float litersOfWaterProduced = 0f;
 		myLastTotalWetBiomass = myCurrentTotalWetBiomass;
 		myLastEdibleWetBiomass = myCurrentEdibleWetBiomass;
-		myPPFFractionAbsorbed = calculatePPFFractionAbsorbed();
+		calculatePPFFractionAbsorbed();
 		
 		if (getDaysOfGrowth() >= calculateTimeTillCanopyClosure())
 			canopyClosed = true;
