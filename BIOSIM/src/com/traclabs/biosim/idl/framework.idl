@@ -1,0 +1,107 @@
+module framework{
+        interface Malfunction{
+                MalfunctionIntensity getIntensity();
+                long long getID();
+                string getName();
+                boolean hasPerformed();
+                void setPerformed(in boolean pPerformed);
+                MalfunctionLength getLength();
+                void repair();
+                boolean isRepaired();
+        };
+        interface BioModule{
+                void tick();
+                string getModuleName();
+                void reset();
+                void setLogging(in boolean pLogging);
+                boolean isLogging();
+                void setStochasticIntensity(in StochasticIntensity pIntensity);
+                StochasticIntensity getStochasticIntensity();
+                Malfunction startMalfunction(in MalfunctionIntensity pIntensity, in MalfunctionLength pLength);
+                void fixMalfunction(in long long id);
+                void fixAllMalfunctions();
+                boolean isMalfunctioning();
+                StringList getMalfunctionNames();
+                MalfunctionList getMalfunctions();
+                void maitenance();
+                void repair(in long long id);
+        };
+        interface Store : BioModule{
+                void setCapacity(in float metricAmount);
+                void setLevel(in float metricAmount);
+                float add(in float metricAmount);
+                float take(in float metricAmount);
+                float getLevel();
+                float getCapacity();
+        };
+        interface BioDriver{
+                boolean isPaused();
+                boolean isStarted();
+                void spawnSimulation();
+                void spawnSimulationTillDead();
+                void spawnSimulationTillN(in long nTicks);
+                void pauseSimulation();
+                void endSimulation();
+                boolean simulationHasStarted();
+                void advanceOneTick();
+                void resumeSimulation();
+                void setLogging(in boolean pLogSim);
+                boolean isLogging();
+                void setDriverPauseLength(in long pDriverPauseLength);
+                long getDriverPauseLength();
+                string getName();
+                boolean isDone();
+                long getTicks();
+                void reset();
+                boolean isLooping();
+                void setLooping(in boolean pLoop);
+                void setInitialization(in BioDriverInit myInit);
+                void setStochasticIntensity(in StochasticIntensity pIntensity);
+                void startMalfunction(in MalfunctionIntensity pIntensity, in MalfunctionLength pLength);
+        };
+        interface PowerConsumer{
+                void setPowerInputFlowrate(in float watts);
+                float getPowerInputFlowrate();
+                void setPowerInput(in biosim::idl::power::PowerStore source);
+        };
+        interface PotableWaterConsumer{
+                void setPotableWaterInputFlowrate(in float liters);
+                float getPotableWaterInputFlowrate();
+                void setPotableWaterInput(in water::PotableWaterStore source);
+        };
+        interface GreyWaterConsumer{
+                void setGreyWaterInputFlowrate(in float liters);
+                float getGreyWaterInputFlowrate();
+                void setGreyWaterInput(in water::GreyWaterStore source);
+        };
+        interface DirtyWaterConsumer{
+                void setDirtyWaterInputFlowrate(in float liters);
+                float getDirtyWaterInputFlowrate();
+                void setDirtyWaterInput(in water::DirtyWaterStore source);
+        };
+        interface O2Consumer{
+                void setO2InputFlowrate(in float liters);
+                float getO2InputFlowrate();
+                void setO2Input(in air::O2Store source);
+        };
+        interface CO2Consumer{
+                void setCO2InputFlowrate(in float liters);
+                float getCO2InputFlowrate();
+                void setCO2Input(in air::CO2Store source);
+        };
+        interface AirConsumer{
+                void setAirInputFlowrate(in float liters);
+                float getAirInputFlowrate();
+                void setAirInput(in environment::SimEnvironment source);
+        };
+        interface BiomassConsumer{
+                void setCO2InputFlowrate(in float kilograms);
+                float getCO2InputFlowrate();
+                void setBiomassInput(in food::BiomassStore source);
+        };
+        interface FoodConsumer{
+                void setCO2InputFlowrate(in float kilograms);
+                float getCO2InputFlowrate();
+                void setFoodInput(in food::FoodStore source);
+        };
+};

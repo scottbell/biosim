@@ -1,0 +1,20 @@
+module environment{
+        interface SimEnvironment : framework::BioModule{
+                void setCO2Level(in float liters);
+                void setO2Level(in float liters);
+                void setOtherLevel(in float liters);
+                void setCapacity(in float liters);
+                float getO2Level();
+                float getCO2Level();
+                float getOtherLevel();
+                float getTotalLevel();
+                float addCO2(in float liters);
+                float addO2(in float liters);
+                float addOther(in float liters);
+                float getLightIntensity();
+                air::Breath takeO2Breath(in float liters);
+                air::Breath takeCO2Breath(in float liters);
+                long getTicks();
+                void setTotalLevel(in float liters);
+        };
+};

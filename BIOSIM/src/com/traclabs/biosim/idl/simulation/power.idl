@@ -1,0 +1,7 @@
+module power{
+        interface PowerPS : framework::BioModule{
+                float getPowerProduced();
+        };
+        interface PowerStore : framework::Store{
+        };
+};
