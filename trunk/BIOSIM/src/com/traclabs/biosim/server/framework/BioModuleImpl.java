@@ -20,9 +20,10 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	private boolean collectedLogger = false;
 	private float randomCoefficient = 0f;
 	private int myID = 0;
-	private static final int RANDOM_PRECISION = 100;
+	private static final int RANDOM_PRECISION = 1000;
 
 	public BioModuleImpl(int pID){
+		myRandomGen = new Random();
 		myLog = new LogNodeImpl(getModuleName());
 		myID = pID;
 	}
@@ -57,7 +58,6 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	}
 	
 	public float randomFilter(float pValue){
-		myRandomGen = new Random();
 		if (randomCoefficient <= 0)
 			return pValue;
 		int biggerCoef = (new Float(randomCoefficient * RANDOM_PRECISION)).intValue();
@@ -72,7 +72,6 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	}
 	
 	public double randomFilter(double pValue){
-		myRandomGen = new Random();
 		if (randomCoefficient <= 0)
 			return pValue;
 		int biggerCoef = (new Float(randomCoefficient * RANDOM_PRECISION)).intValue();
@@ -87,7 +86,6 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	}
 	
 	public boolean randomFilter(boolean pValue){
-		myRandomGen = new Random();
 		if (randomCoefficient <= 0)
 			return pValue;
 		int biggerCoef = (new Float(randomCoefficient * RANDOM_PRECISION)).intValue();
@@ -99,7 +97,6 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	}
 	
 	public int randomFilter(int pValue){
-		myRandomGen = new Random();
 		if (randomCoefficient <= 0)
 			return pValue;
 		int biggerCoef = (new Float(randomCoefficient * RANDOM_PRECISION)).intValue();

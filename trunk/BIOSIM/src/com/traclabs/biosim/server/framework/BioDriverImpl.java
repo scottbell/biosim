@@ -182,9 +182,9 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	private void defaultInitialization(){
 		//reset servers
 		reset();
-
 		//Make some crew members
 		CrewGroup myCrew = (CrewGroup)(getBioModule(crewName));
+		myCrew.setRandomCoefficient(.10f);
 		CrewPerson myCrewPerson1 = myCrew.createCrewPerson("Bob Roberts", 43, 170, Sex.male);
 		CrewPerson myCrewPerson2 = myCrew.createCrewPerson("Stephanie Stevens", 25, 125, Sex.female);
 		CrewPerson myCrewPerson3 = myCrew.createCrewPerson("Bill Williams", 30, 165, Sex.male);
@@ -227,6 +227,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		//Add some crops and food
 		BiomassStore myBiomassStore = (BiomassStore)(getBioModule(biomassStoreName));
 		FoodStore myFoodStore = (FoodStore)(getBioModule(foodStoreName));
+		BiomassRS myBiomassRS = (BiomassRS)(getBioModule(biomassRSName));
+		myBiomassRS.setRandomCoefficient(.05f);
 		myBiomassStore.setCapacity(100f);
 		myFoodStore.setCapacity(500f);
 		myBiomassStore.setLevel(0f);
