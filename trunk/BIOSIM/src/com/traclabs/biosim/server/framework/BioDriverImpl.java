@@ -234,7 +234,6 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		BiomassStore myBiomassStore = (BiomassStore)(getBioModule(biomassStoreName));
 		FoodStore myFoodStore = (FoodStore)(getBioModule(foodStoreName));
 		BiomassRS myBiomassRS = (BiomassRS)(getBioModule(biomassRSName));
-		myBiomassRS.setStochasticIntensity(StochasticIntensity.MEDIUM_STOCH);
 		myBiomassStore.setCapacity(100f);
 		myFoodStore.setCapacity(500f);
 		myBiomassStore.setLevel(0f);

@@ -64,7 +64,7 @@ public class VCCR extends AirRSSubSystem{
 		float gatheredO2 = 0f;
 		float gatheredCO2 = 0f;
 		float gatheredOther = 0f;
-		for (int i = 0; (i < myAirInputs.length) && (gatheredAir >= airNeededFiltered); i++){
+		for (int i = 0; (i < myAirInputs.length) && (gatheredAir < airNeededFiltered); i++){
 			Breath currentBreath = myAirInputs[i].takeVolume(airNeededFiltered);
 			gatheredAir += currentBreath.O2 + currentBreath.CO2 + currentBreath.other;
 			gatheredO2 += currentBreath.CO2;
@@ -84,7 +84,7 @@ public class VCCR extends AirRSSubSystem{
 		float distributedCO2Left = myBreath.CO2 * myProductionRate;
 		float distributedO2Left = myBreath.O2 * myProductionRate;
 		float distributedOtherLeft = myBreath.other * myProductionRate;
-		for (int i = 0; (i < myAirOutputs.length) && ((distributedO2Left <= 0) || (distributedOtherLeft <= 0)); i++){
+		for (int i = 0; (i < myAirOutputs.length) && ((distributedO2Left > 0) || (distributedOtherLeft > 0)); i++){
 			distributedO2Left -= myAirOutputs[i].addO2(distributedO2Left);
 			distributedOtherLeft -= myAirOutputs[i].addOther(distributedOtherLeft);
 		}
