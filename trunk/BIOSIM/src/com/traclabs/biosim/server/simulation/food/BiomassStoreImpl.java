@@ -19,15 +19,16 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 	}
 	
 	public float add(float pMass){
-		return addBioMatter(pMass, PlantType.UNKNOWN_PLANT);
+		BioMatter newBioMatter = new BioMatter(pMass, 0, 0, 0, PlantType.UNKNOWN_PLANT);
+		return addBioMatter(newBioMatter);
 	}
 	
 	public void setLevel(float metricAmount){
 		super.setLevel(metricAmount);
 		currentBiomassItems.clear();
 		if (metricAmount > 0){
-			BioMatter newFoodMatter = new BioMatter(metricAmount, PlantType.UNKNOWN_PLANT);
-			currentBiomassItems.add(newFoodMatter);
+			BioMatter newBioMatter = new BioMatter(metricAmount, 0, 0, 0, PlantType.UNKNOWN_PLANT);
+			currentBiomassItems.add(newBioMatter);
 		}
 	}
 	
@@ -71,26 +72,27 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 		return totalWater;
 	}
 
-	public float addBioMatter(float pMass, PlantType pType){
+	public float addBioMatter(BioMatter pMatter){
 		float acutallyAdded = 0f;
-		if ((pMass + level) > capacity){
+		if ((pMatter.mass + level) > capacity){
 			//adding more than capacity
 			acutallyAdded = capacity - level;
 			level += acutallyAdded;
-			overflow += (pMass - acutallyAdded);
-			BioMatter newBioMatter = new BioMatter(acutallyAdded, pType);
+			overflow += (pMatter.mass - acutallyAdded);
+			
+			float fractionOfOriginal = acutallyAdded / pMatter.mass;
+			BioMatter newBioMatter = new BioMatter(acutallyAdded, pMatter.inedibleFraction, pMatter.edibleWaterContent * fractionOfOriginal, pMatter.inedibleWaterContent * fractionOfOriginal, pMatter.type);
 			currentBiomassItems.add(newBioMatter);
 			return acutallyAdded;
 		}
 		else{
-			acutallyAdded = randomFilter(pMass);
+			acutallyAdded = randomFilter(pMatter.mass);
 			level += acutallyAdded;
-			BioMatter newBioMatter = new BioMatter(acutallyAdded, pType);
-			currentBiomassItems.add(newBioMatter);
+			currentBiomassItems.add(pMatter);
 			return acutallyAdded;
 		}
 	}
-
+	
 	public BioMatter[] takeBioMatterMass(float pMass){
 		List itemsToReturn = new Vector();
 		List itemsToRemove = new Vector();
@@ -106,7 +108,8 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 			}
 			//we have enough, let's cut up the biomass (if too much)
 			else if (currentBioMatter.mass >= massStillNeeded){
-				BioMatter partialReturnedBioMatter = new BioMatter(massStillNeeded, currentBioMatter.type);
+				float fractionOfOriginal = massStillNeeded / currentBioMatter.mass;
+				BioMatter partialReturnedBioMatter = new BioMatter(massStillNeeded, currentBioMatter.inedibleFraction, currentBioMatter.edibleWaterContent * fractionOfOriginal, currentBioMatter.inedibleWaterContent * fractionOfOriginal, currentBioMatter.type);
 				currentBioMatter.mass -= partialReturnedBioMatter.mass;
 				itemsToReturn.add(partialReturnedBioMatter);
 				if (currentBioMatter.mass <= 0)
@@ -127,9 +130,11 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 		else
 			return returnArray;
 	}
-
+	
+	//fix
+	/*
 	public BioMatter takeBioMatterMassAndType(float pMass, PlantType pType){
-		BioMatter matterToReturn = new BioMatter(0f, pType);
+		BioMatter matterToReturn = new BioMatter(0f, 0f, 0f, 0f, pType);
 		List itemsToRemove = new Vector();
 		for (Iterator iter = currentBiomassItems.iterator(); iter.hasNext() &&  (matterToReturn.mass <= pMass);){
 			BioMatter currentBioMatter = (BioMatter)(iter.next());
@@ -157,7 +162,8 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 		level -= matterToReturn.mass;
 		return matterToReturn;
 	}
-
+	
+	//fix
 	public BioMatter takeBioMatterType(PlantType pType){
 		BioMatter matterToReturn = new BioMatter(0f, pType);
 		List itemsToRemove = new Vector();
@@ -175,12 +181,13 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 		level -= matterToReturn.mass;
 		return matterToReturn;
 	}
+	*/
 	
 	public void reset(){
 		super.reset();
 		currentBiomassItems.clear();
 		if (level > 0)
-			currentBiomassItems.add(new BioMatter(level, PlantType.UNKNOWN_PLANT));
+			currentBiomassItems.add(new BioMatter(level, 0,0,0,PlantType.UNKNOWN_PLANT));
 	}
 
 }
