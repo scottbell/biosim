@@ -58,9 +58,11 @@ sourceDir="$devRootDir/src"
 clientDir="$sourceDir/biosim/client"
 plotClasspath="$devRootDir/lib/jfreechart/jcommon.jar$separator$devRootDir/lib/jfreechart/jfreechart.jar"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME$separator$JACORB_HOME/idl.jar"
+sim3DLibDir="$devRootDir/lib/sim3D"
+sim3DClasspath="$sim3DLibDir/joal.jar$separator$sim3DLibDir/linux/jogl.jar$separator$sim3DLibDir/junit.jar$separator$sim3DLibDir/log4j.jar$separator$sim3DLibDir/vecmath.jar$separator$sim3DLibDir/vorbis.jar$separator$sim3DLibDir/xith3d.jar"
 xmlClasspath="$devRootDir/lib/xerces/xercesImpl.jar$separator$devRootDir/lib/xerces/xml-apis.jar$separator$devRootDir/lib/xerces/xmlParserAPIs.jar"
 docSourcepath="$sourceDir$separator$stubDir$separator$skeletonDir"
-docClasspath="$clientClassesDir$separator$serverClassesDir$separator$jacoClasspath$separator$plotClasspath$separator$xmlClasspath"
+docClasspath="$clientClassesDir$separator$serverClassesDir$separator$jacoClasspath$separator$plotClasspath$separator$xmlClasspath$separator$sim3DClasspath"
 ####################
 #DOC BUILD  #
 ####################

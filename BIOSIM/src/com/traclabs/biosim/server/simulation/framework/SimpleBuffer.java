@@ -37,7 +37,7 @@ public class SimpleBuffer {
 	
 	/**
 	* Sets the capacity of the store (how much it can hold)
-	* @param metricAmount the new volume of the store
+	* @param newCapacity the new volume of the store
 	*/
 	public void setCapacity(float newCapacity){
 		if (newCapacity <= 0){
