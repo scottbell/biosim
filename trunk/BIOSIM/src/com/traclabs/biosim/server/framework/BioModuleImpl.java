@@ -49,8 +49,15 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	* Called at every tick of the simulation.  Does nothing if not overriden.
 	*/
 	public void tick(){
+		if (isMalfunctioning())
+			performMalfunctions();
 		if (moduleLogging)
 			log();
+	}
+	
+	protected void performMalfunctions(){
+	}
+	protected void log(){
 	}
 	
 	/**
@@ -179,12 +186,6 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	*/
 	public void reset(){
 		myMalfunctions.clear();
-	}
-
-	/**
-	* Logs this module to the Logger server
-	*/
-	private void log(){
 	}
 	
 	/**

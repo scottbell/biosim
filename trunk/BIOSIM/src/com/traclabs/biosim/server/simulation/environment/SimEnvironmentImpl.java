@@ -679,7 +679,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 
 	}
 
-	private void performMalfunctions(){
+	protected void performMalfunctions(){
 		for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); ){
 			Malfunction currentMalfunction = (Malfunction)(iter.next());
 			if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF){
@@ -751,16 +751,13 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* Processes a tick by adding to the tick counter
 	*/
 	public void tick(){
+		super.tick();
 		cachedO2Moles = O2Moles;
 		cachedCO2Moles = CO2Moles;
 		cachedOtherMoles = otherMoles;
 		cachedWaterMoles = waterMoles;
 		calculateLightIntensity();
-		if (moduleLogging)
-			log();
 		ticks++;
-		if (isMalfunctioning())
-			performMalfunctions();
 	}
 
 	/**
@@ -771,7 +768,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		return myName+getID();
 	}
 
-	private void log(){
+	protected void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();

@@ -52,10 +52,20 @@ module biosim{
                                 interface FoodConsumer;
 				interface BiomassProducer;
 				interface FoodProducer;
+                                enum PlantType {WHEAT};
+				struct BioMatter{
+					float mass;
+					PlantType type;
+				};
+				struct FoodMatter{
+					float mass;
+					PlantType type;
+				};
                                 typedef sequence <Shelf> ShelfList;
                                 typedef sequence <BiomassStore> BiomassStoreList;
                                 typedef sequence <FoodStore> FoodStoreList;
-                                enum PlantType {WHEAT};
+				typedef sequence <BioMatter> BioMatterList;
+				typedef sequence <FoodMatter> FoodMatterList;
                         };
                         module environment{
                                 interface SimEnvironment;

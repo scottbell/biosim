@@ -257,6 +257,7 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 	* 1) ticks each subsystem.
 	*/
 	public void tick(){
+		super.tick();
 		Arrays.fill(powerActualFlowRates, 0f);
 		//tick each system
 		myBWP.tick();
@@ -265,13 +266,9 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 		myPPS.tick();
 		myAES.setMalfunctioning(false);
 		myRO.setMalfunctioning(false);
-		if (isMalfunctioning())
-			performMalfunctions();
-		if (moduleLogging)
-			log();
 	}
 	
-	private void performMalfunctions(){
+	protected void performMalfunctions(){
 		for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); ){
 			Malfunction currentMalfunction = (Malfunction)(iter.next());
 			if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF){
@@ -320,7 +317,7 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations, 
 		return "WaterRS"+getID();
 	}
 
-	private void log(){
+	protected void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();

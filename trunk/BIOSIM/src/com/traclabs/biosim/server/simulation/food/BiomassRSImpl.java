@@ -141,7 +141,7 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 		return "BiomassRS"+getID();
 	}
 
-	private void log(){
+	protected void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			shelfLogs = new Vector();

@@ -169,16 +169,13 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	* Processes a tick by collecting referernces (if needed), resources, and pushing the new air out.
 	*/
 	public void tick(){
+		super.tick();
 		Arrays.fill(powerActualFlowRates, 0f);
 		myVCCR.tick();
 		myCRS.tick();
 		myH2Tank.tick();
 		myCH4Tank.tick();
 		myOGS.tick();
-		if (isMalfunctioning())
-			performMalfunctions();
-		if (moduleLogging)
-			log();
 	}
 
 	public void setProductionRate(float percentage){
@@ -201,7 +198,7 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 		return returnBuffer.toString();
 	}
 
-	private void performMalfunctions(){
+	protected void performMalfunctions(){
 		float productionRate = 1f;
 		for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); ){
 			Malfunction currentMalfunction = (Malfunction)(iter.next());
@@ -245,7 +242,7 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 		return "AirRS"+getID();
 	}
 
-	private void log(){
+	protected void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();
