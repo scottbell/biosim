@@ -179,7 +179,9 @@
 		<air>
 			<CO2InFlowRateSensor name="AirRSCO2InFlowRateSensor" index="0" input="AirRS"/>
 			<CO2OutFlowRateSensor name="AirRSCO2OutFlowRateSensor" index="0" input="AirRS"/>
+			<CO2OutFlowRateSensor name="IncineratorCO2OutFlowRateSensor" index="0" input="Incinerator"/>
 			<CO2StoreLevelSensor name="CO2StoreLevelSensor" input="CO2Store"/>
+			<O2InFlowRateSensor name="IncineratorO2InFlowRateSensor" index="0" input="Incinerator"/>
 			<O2OutFlowRateSensor name="AirRSO2OutFlowRateSensor" index="0" input="AirRS"/>
 			<O2StoreLevelSensor name="O2StoreLevelSensor" input="O2Store"/>
 			<H2InFlowRateSensor name="AirRSH2InFlowRateSensor" index="0" input="AirRS"/>
@@ -259,6 +261,7 @@
 			<PowerInFlowRateSensor name="FoodProcessorPowerInFlowRateSensor" index="0" input="FoodProcessor"/>
 			<PowerInFlowRateSensor name="BiomassRSPowerInFlowRateSensor" index="0" input="BiomassRS"/>
 			<PowerInFlowRateSensor name="WaterRSPowerInFlowRateSensor" index="0" input="BiomassRS"/>
+			<PowerInFlowRateSensor name="IncineratorPowerInFlowRateSensor" index="0" input="Incinerator"/>
 			<PowerOutFlowRateSensor name="PowerPSPowerOutFlowRateSensor" index="0" input="PowerPS"/>
 			<PowerStoreLevelSensor name="PowerStoreLevelSensor" input="PowerStore"/>
 		</power>
@@ -278,11 +281,18 @@
 			<PotableWaterOutFlowRateSensor name="WaterRSPotableWaterOutFlowRateSensor" index="0" input="WaterRS"/>
 			<PotableWaterStoreLevelSensor name="PotableWaterStoreLevelSensor" input="PotableWaterStore"/>
 		</water>
+		<waste>
+			<DryWasteInFlowRateSensor name="IncineratorDryWasteInFlowRateSensor" index="0" input="Incinerator"/>
+			<DryWasteOutFlowRateSensor name="CrewGroupDryWasteOutFlowRateSensor" index="0" input="CrewGroup"/>
+			<DryWasteStoreLevelSensor name="DryWasteStoreLevelSensor" input="DryWasteStore"/>
+		</waste>
 	</Sensors>
 	<Actuators>
 		<air>
 			<CO2InFlowRateActuator name="AirRSCO2InFlowRateActuator" index="0" output="AirRS"/>
 			<CO2OutFlowRateActuator name="AirRSCO2OutFlowRateActuator" index="0" output="AirRS"/>
+			<CO2OutFlowRateActuator name="IncineratorCO2OutFlowRateActuator" index="0" output="Incinerator"/>
+			<O2InFlowRateActuator name="IncineratorO2InFlowRateActuator" index="0" output="Incinerator"/>
 			<O2OutFlowRateActuator name="AirRSO2OutFlowRateActuator" index="0" output="AirRS"/>
 			<H2InFlowRateActuator name="AirRSH2InFlowRateActuator" index="0" output="AirRS"/>
 			<H2OutFlowRateActuator name="AirRSH2OutFlowRateActuator" index="0" output="AirRS"/>
@@ -319,7 +329,8 @@
 			<PowerInFlowRateActuator name="AirRSPowerInFlowRateActuator" index="0" output="AirRS"/>
 			<PowerInFlowRateActuator name="FoodProcessorPowerInFlowRateActuator" index="0" output="FoodProcessor"/>
 			<PowerInFlowRateActuator name="BiomassRSPowerInFlowRateActuator" index="0" output="BiomassRS"/>
-			<PowerInFlowRateActuator name="WaterRSPowerInFlowRateActuator" index="0" output="BiomassRS"/>
+			<PowerInFlowRateActuator name="WaterRSPowerInFlowRateActuator" index="0" output="WaterRS"/>
+			<PowerInFlowRateActuator name="IncineratorPowerInFlowRateActuator" index="0" output="Incinerator"/>
 			<PowerOutFlowRateActuator name="PowerPSPowerOutFlowRateActuator" index="0" output="PowerPS"/>
 		</power>
 		<water>
@@ -335,5 +346,8 @@
 			<PotableWaterOutFlowRateActuator name="AirRSPotableWaterOutFlowRateActuator" index="0" output="AirRS"/>
 			<PotableWaterOutFlowRateActuator name="WaterRSPotableWaterOutFlowRateActuator" index="0" output="WaterRS"/>
 		</water>
+		<waste>
+			<DryWasteInFlowRateActuator name="IncineratorDryWasteInFlowRateActuator" index="0" output="Incinerator"/>
+		</waste>
 	</Actuators>
 </biosim>

@@ -7,6 +7,7 @@ import biosim.idl.simulation.food.*;
 import biosim.idl.simulation.power.*;
 import biosim.idl.simulation.water.*;
 import biosim.idl.simulation.framework.*;
+import biosim.idl.simulation.waste.*;
 import biosim.idl.sensor.air.*;
 import biosim.idl.sensor.environment.*;
 import biosim.idl.sensor.food.*;
@@ -14,12 +15,14 @@ import biosim.idl.sensor.power.*;
 import biosim.idl.sensor.crew.*;
 import biosim.idl.sensor.water.*;
 import biosim.idl.sensor.framework.*;
+import biosim.idl.sensor.waste.*;
 import biosim.idl.actuator.air.*;
 import biosim.idl.actuator.environment.*;
 import biosim.idl.actuator.food.*;
 import biosim.idl.actuator.power.*;
 import biosim.idl.actuator.water.*;
 import biosim.idl.actuator.framework.*;
+import biosim.idl.actuator.waste.*;
 import biosim.idl.framework.*;
 import java.util.*;
 import biosim.client.util.*;
@@ -53,6 +56,8 @@ public class BioHolder
 	public final static String simEnvironmentName = "CrewEnvironment";
 	public final static String crewEnvironmentName = "CrewEnvironment";
 	public final static String plantEnvironmentName = "PlantEnvironment";
+	public final static String incineratorName = "Incinerator";
+	public final static String dryWasteStoreName = "DryWasteStore";
 	//Sensor
 	//Air
 	//AirRs
@@ -82,6 +87,7 @@ public class BioHolder
 	public final static String myCrewGroupPotableWaterInFlowRateSensorName = "CrewGroupPotableWaterInFlowRateSensor";
 	public final static String myCrewGroupGreyWaterOutFlowRateSensorName = "CrewGroupGreyWaterOutFlowRateSensor";
 	public final static String myCrewGroupDirtyWaterOutFlowRateSensorName = "CrewGroupDirtyWaterOutFlowRateSensor";
+	public final static String myCrewGroupDryWasteOutFlowRateSensorName = "CrewGroupDryWasteOutFlowRateSensor";
 	//Power
 	//PowerPS
 	public final static String myPowerPSPowerOutFlowRateSensorName = "PowerPSPowerOutFlowRateSensor";
@@ -141,6 +147,15 @@ public class BioHolder
 	public final static String myFoodStoreLevelSensorName = "FoodStoreLevelSensor";
 	public final static String myBiomassStoreOverflowSensorName = "BiomassStoreOverflowSensor";
 	public final static String myFoodStoreOverflowSensorName = "FoodStoreOverflowSensor";
+	//Waste
+	//Incinerator
+	public final static String myIncineratorPowerInFlowRateSensorName = "IncineratorPowerInFlowRateSensor";
+	public final static String myIncineratorO2InFlowRateSensorName = "IncineratorO2InFlowRateSensor";
+	public final static String myIncineratorDryWasteInFlowRateSensorName = "IncineratorDryWasteInFlowRateSensor";
+	public final static String myIncineratorCO2OutFlowRateSensorName = "IncineratorCO2OutFlowRateSensor";
+	//Stores
+	public final static String myDryWasteStoreLevelSensorName = "DryWasteStoreLevelSensor";
+	public final static String myDryWasteStoreOverflowSensorName = "DryWasteStoreOverflowSensor";
 	//Framework
 	//Accumulator
 	public final static String myAccumulatorCO2AirEnvironmentInFlowRateSensorName = "AccumulatorCO2AirEnvironmentInFlowRateSensor";
@@ -198,6 +213,12 @@ public class BioHolder
 	public final static String myFoodProcessorPowerInFlowRateActuatorName = "FoodProcessorPowerInFlowRateActuator";
 	public final static String myFoodProcessorBiomassInFlowRateActuatorName = "FoodProcessorBiomassInFlowRateActuator";
 	public final static String myFoodProcessorFoodOutFlowRateActuatorName = "FoodProcessorFoodOutFlowRateActuator";
+	//Waste
+	//Incinerator
+	public final static String myIncineratorPowerInFlowRateActuatorName = "IncineratorPowerInFlowRateActuator";
+	public final static String myIncineratorO2InFlowRateActuatorName = "IncineratorO2InFlowRateActuator";
+	public final static String myIncineratorDryWasteInFlowRateActuatorName = "IncineratorDryWasteInFlowRateActuator";
+	public final static String myIncineratorCO2OutFlowRateActuatorName = "IncineratorCO2OutFlowRateActuator";
 	//Framework
 	//Accumulator
 	public final static String myAccumulatorCO2AirEnvironmentInFlowRateActuatorName = "AccumulatorCO2AirEnvironmentInFlowRateActuator";
@@ -322,6 +343,10 @@ public class BioHolder
 			modules.put(biomassStoreName, myBiomassStore);
 			WaterRS myWaterRS = WaterRSHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(waterRSName));
 			modules.put(waterRSName , myWaterRS);
+			Incinerator myIncinerator = IncineratorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(incineratorName));
+			modules.put(incineratorName , myIncinerator);
+			DryWasteStore myDryWasteStore = DryWasteStoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(dryWasteStoreName));
+			modules.put(dryWasteStoreName, myDryWasteStore);
 
 			System.out.println("BioHolder: Collecting sensor references to modules...");
 			//Air
@@ -415,6 +440,7 @@ public class BioHolder
 				PotableWaterInFlowRateSensor myCrewGroupPotableWaterInFlowRateSensor = PotableWaterInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewGroupPotableWaterInFlowRateSensorName));
 				GreyWaterOutFlowRateSensor myCrewGroupGreyWaterOutFlowRateSensor = GreyWaterOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewGroupGreyWaterOutFlowRateSensorName));
 				DirtyWaterOutFlowRateSensor myCrewGroupDirtyWaterOutFlowRateSensor = DirtyWaterOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewGroupDirtyWaterOutFlowRateSensorName));
+				DryWasteOutFlowRateSensor myCrewGroupDryWasteOutFlowRateSensor = DryWasteOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewGroupDryWasteOutFlowRateSensorName));
 				
 				modules.put(myCrewGroupDeathSensorName , myCrewGroupDeathSensor);
 				modules.put(myCrewGroupAnyDeadSensorName , myCrewGroupAnyDeadSensor);
@@ -422,6 +448,7 @@ public class BioHolder
 				modules.put(myCrewGroupPotableWaterInFlowRateSensorName , myCrewGroupPotableWaterInFlowRateSensor);
 				modules.put(myCrewGroupGreyWaterOutFlowRateSensorName , myCrewGroupGreyWaterOutFlowRateSensor);
 				modules.put(myCrewGroupDirtyWaterOutFlowRateSensorName , myCrewGroupDirtyWaterOutFlowRateSensor);
+				modules.put(myCrewGroupDryWasteOutFlowRateSensorName , myCrewGroupDryWasteOutFlowRateSensor);
 				
 				sensors.put(myCrewGroupDeathSensorName , myCrewGroupDeathSensor);
 				sensors.put(myCrewGroupAnyDeadSensorName , myCrewGroupAnyDeadSensor);
@@ -429,6 +456,7 @@ public class BioHolder
 				sensors.put(myCrewGroupPotableWaterInFlowRateSensorName , myCrewGroupPotableWaterInFlowRateSensor);
 				sensors.put(myCrewGroupGreyWaterOutFlowRateSensorName , myCrewGroupGreyWaterOutFlowRateSensor);
 				sensors.put(myCrewGroupDirtyWaterOutFlowRateSensorName , myCrewGroupDirtyWaterOutFlowRateSensor);
+				sensors.put(myCrewGroupDryWasteOutFlowRateSensorName , myCrewGroupDryWasteOutFlowRateSensor);
 				
 			}
 			//Environment
@@ -590,6 +618,33 @@ public class BioHolder
 					StoreOverflowSensor myFoodStoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myFoodStoreOverflowSensorName));
 					modules.put(myFoodStoreOverflowSensorName , myFoodStoreOverflowSensor);
 					sensors.put(myFoodStoreOverflowSensorName , myFoodStoreOverflowSensor);
+				}
+			}
+			//Waste
+			{
+				//Incinerator
+				{
+					DryWasteInFlowRateSensor myIncineratorDryWasteInFlowRateSensor = DryWasteInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myIncineratorDryWasteInFlowRateSensorName));
+					modules.put(myIncineratorDryWasteInFlowRateSensorName , myIncineratorDryWasteInFlowRateSensor);
+					sensors.put(myIncineratorDryWasteInFlowRateSensorName , myIncineratorDryWasteInFlowRateSensor);
+					O2InFlowRateSensor myIncineratorO2InFlowRateSensor = O2InFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myIncineratorO2InFlowRateSensorName));
+					modules.put(myIncineratorO2InFlowRateSensorName , myIncineratorO2InFlowRateSensor);
+					sensors.put(myIncineratorO2InFlowRateSensorName , myIncineratorO2InFlowRateSensor);
+					CO2OutFlowRateSensor myIncineratorCO2OutFlowRateSensor = CO2OutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myIncineratorCO2OutFlowRateSensorName));
+					modules.put(myIncineratorCO2OutFlowRateSensorName , myIncineratorCO2OutFlowRateSensor);
+					sensors.put(myIncineratorCO2OutFlowRateSensorName , myIncineratorCO2OutFlowRateSensor);
+					PowerInFlowRateSensor myIncineratorPowerInFlowRateSensor = PowerInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myIncineratorPowerInFlowRateSensorName));
+					modules.put(myIncineratorPowerInFlowRateSensorName , myIncineratorPowerInFlowRateSensor);
+					sensors.put(myIncineratorPowerInFlowRateSensorName , myIncineratorPowerInFlowRateSensor);
+				}
+				//Stores
+				{
+					DryWasteStoreLevelSensor myDryWasteStoreLevelSensor = DryWasteStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myDryWasteStoreLevelSensorName));
+					modules.put(myDryWasteStoreLevelSensorName , myDryWasteStoreLevelSensor);
+					sensors.put(myDryWasteStoreLevelSensorName , myDryWasteStoreLevelSensor);
+					StoreOverflowSensor myDryWasteStoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myDryWasteStoreOverflowSensorName));
+					modules.put(myDryWasteStoreOverflowSensorName , myDryWasteStoreOverflowSensor);
+					sensors.put(myDryWasteStoreOverflowSensorName , myDryWasteStoreOverflowSensor);
 				}
 			}
 			//Framework
@@ -766,6 +821,22 @@ public class BioHolder
 					actuators.put(myFoodProcessorFoodOutFlowRateActuatorName , myFoodProcessorFoodOutFlowRateActuator);
 				}
 			}
+			//Waste
+				//Incinerator
+				{
+					DryWasteInFlowRateActuator myIncineratorDryWasteInFlowRateActuator = DryWasteInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myIncineratorDryWasteInFlowRateActuatorName));
+					modules.put(myIncineratorDryWasteInFlowRateActuatorName , myIncineratorDryWasteInFlowRateActuator);
+					actuators.put(myIncineratorDryWasteInFlowRateActuatorName , myIncineratorDryWasteInFlowRateActuator);
+					O2InFlowRateActuator myIncineratorO2InFlowRateActuator = O2InFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myIncineratorO2InFlowRateActuatorName));
+					modules.put(myIncineratorO2InFlowRateActuatorName , myIncineratorO2InFlowRateActuator);
+					actuators.put(myIncineratorO2InFlowRateActuatorName , myIncineratorO2InFlowRateActuator);
+					CO2OutFlowRateActuator myIncineratorCO2OutFlowRateActuator = CO2OutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myIncineratorCO2OutFlowRateActuatorName));
+					modules.put(myIncineratorCO2OutFlowRateActuatorName , myIncineratorCO2OutFlowRateActuator);
+					actuators.put(myIncineratorCO2OutFlowRateActuatorName , myIncineratorCO2OutFlowRateActuator);
+					PowerInFlowRateActuator myIncineratorPowerInFlowRateActuator = PowerInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myIncineratorPowerInFlowRateActuatorName));
+					modules.put(myIncineratorPowerInFlowRateActuatorName , myIncineratorPowerInFlowRateActuator);
+					actuators.put(myIncineratorPowerInFlowRateActuatorName , myIncineratorPowerInFlowRateActuator);
+				}
 			//Framework
 			{
 				//Accumulator
@@ -831,12 +902,14 @@ public class BioHolder
 			hasCollectedReferences = true;
 		}
 		catch (org.omg.CORBA.UserException e){
+			e.printStackTrace();
 			System.err.println("BioHolder: Had problems collecting server references, polling again...");
 			OrbUtils.sleepAwhile();
 			collectReferences();
 		}
 		catch (Exception e){
 			System.err.println("BioHolder: Had problems collecting server references, polling again...");
+			e.printStackTrace();
 			OrbUtils.resetInit();
 			OrbUtils.sleepAwhile();
 			collectReferences();
