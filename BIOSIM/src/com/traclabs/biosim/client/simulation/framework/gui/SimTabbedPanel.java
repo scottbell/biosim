@@ -45,21 +45,6 @@ public abstract class BioTabbedPanel extends JPanel
 		add(myTabbedPane, BorderLayout.CENTER);
 		myTabbedPane.addChangeListener(new TabChangeListener());
 	}
-
-	/**
-	 * Updates every label on the panel with new data pulled from the servers.
-	 */
-	public void actionPerformed(ActionEvent e){
-		System.out.println("Something happened");
-		if (myTabbedPane.getSelectedIndex() == 0){
-			myTextPanel.processUpdate();
-		}
-		else if (myTabbedPane.getSelectedIndex() == 1){
-			myChartPanel.processUpdate();
-		}
-		else if (myTabbedPane.getSelectedIndex() == 2){
-		}
-	}
 	
 	public void visibilityChange(boolean nowVisible){
 		if (nowVisible)
@@ -84,31 +69,34 @@ public abstract class BioTabbedPanel extends JPanel
 			}
 		}
 	}
+	
+	private void updateSelectedTab(){
+	}
 
 	private class TabChangeListener implements ChangeListener {
 		public void stateChanged(ChangeEvent e){
 			//Notify panel that we lost focus
 			if (oldSelectedIndex == 0){
-				myTextPanel.lostFocus();
+				myTextPanel.visibilityChange(false);
 			}
 			else if (oldSelectedIndex == 1){
-				myChartPanel.lostFocus();
+				myChartPanel.visibilityChange(false);
 			}
 			else if (oldSelectedIndex== 2){
-				mySchematicPanel.lostFocus();
+				mySchematicPanel.visibilityChange(false);
 			}
 			//Notify panel that we gained focus
 			if (myTabbedPane.getSelectedIndex() == 0){
 				myTextPanel.processUpdate();
-				myTextPanel.gotFocus();
+				myTextPanel.visibilityChange(true);
 			}
 			else if (myTabbedPane.getSelectedIndex() == 1){
 				myChartPanel.processUpdate();
-				myChartPanel.gotFocus();
+				myChartPanel.visibilityChange(true);
 			}
 			else if (myTabbedPane.getSelectedIndex() == 2){
 				mySchematicPanel.processUpdate();
-				mySchematicPanel.gotFocus();
+				mySchematicPanel.visibilityChange(true);
 			}
 			oldSelectedIndex = myTabbedPane.getSelectedIndex();
 		}

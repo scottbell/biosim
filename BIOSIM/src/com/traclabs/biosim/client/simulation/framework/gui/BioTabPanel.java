@@ -10,9 +10,5 @@ public class BioTabPanel extends JPanel
 {	
 	public void processUpdate(){}
 	
-	public void lostFocus(){}
-	
-	public void gotFocus(){}
-	
 	public void visibilityChange(boolean nowVisible){}
 }
