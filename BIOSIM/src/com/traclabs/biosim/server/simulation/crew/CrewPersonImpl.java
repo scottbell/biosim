@@ -415,7 +415,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	*/
 	private float getCO2Ratio(Breath aBreath){
 		Double ratio = new Double(aBreath.CO2 / (aBreath.O2 + aBreath.CO2 + aBreath.other));
-		return myCrewGroup.randomFilter(ratio.floatValue());
+		return ratio.floatValue();
 	}
 
 	/**
@@ -449,6 +449,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		}
 		if (O2Consumed < O2Needed){
 			personSuffocating = true;
+			System.out.println("CrewPersonImpl"+myCrewGroup.getID()+": "+myName + " needed "+O2Needed+" of 02, got "+O2Consumed);
 			suffocateTime++;
 		}
 		else{
@@ -463,14 +464,13 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private void deathCheck(){
 		//check for death
 		if (starvingTime > 504){
-			System.out.println("CrewPersonImpl"+myCrewGroup.getID()+": "+myName + " dead from starvation");
 			hasDied = true;
 		}
 		else if (thirstTime > 72){
 			System.out.println("CrewPersonImpl"+myCrewGroup.getID()+": "+myName + " dead from thirst");
 			hasDied = true;
 		}
-		else if (suffocateTime > 1){
+		else if (suffocateTime > 2){
 			System.out.println("CrewPersonImpl"+myCrewGroup.getID()+": "+myName + " dead from suffocation");
 			hasDied = true;
 		}
