@@ -6,7 +6,9 @@ import biosim.client.framework.gui.*;
 import biosim.client.framework.*;
 import com.jrefinery.chart.*;
 import com.jrefinery.data.*;
-import com.jrefinery.ui.*;
+import com.jrefinery.chart.axis.*;
+import com.jrefinery.chart.plot.*;
+import com.jrefinery.chart.renderer.*;
 
 /**
  * This is the JPanel that displays a chart about the Environment
@@ -29,12 +31,12 @@ public class EnvironmentPieChartPanel extends GraphPanel
 		// create the chart...
 		mySimEnvironment = (SimEnvironment)(BioHolder.getBioModule(BioHolder.simEnvironmentName));
 		refresh();
-		myChart = ChartFactory.createPie3DChart("Environment Gas Composition", myDataset, true);
+		myChart = ChartFactory.createPie3DChart("Environment Gas Composition", myDataset, true, true, false);
 		myPlot = (Pie3DPlot)(myChart.getPlot());
 		myPlot.setDepthFactor(0.1d);
 		initDataset();
-		TextTitle myTextTitle = (TextTitle)(myChart.getTitle(0));
-		myTextTitle.setFont(myTextTitle.getFont().deriveFont(12.0f));
+		//TextTitle myTextTitle = (TextTitle)(myChart.getTitle(0));
+		//myTextTitle.setFont(myTextTitle.getFont().deriveFont(12.0f));
 		myChartPanel = new ChartPanel(myChart);
 		myChartPanel.setMinimumDrawHeight(250);
 		myChartPanel.setMinimumDrawWidth(250);
@@ -51,7 +53,7 @@ public class EnvironmentPieChartPanel extends GraphPanel
 				myDataset = new DefaultPieDataset();
 				myPlot.setDataset(myDataset);
 				myDataset.setValue(vacuumCategory, new Float(1f));
-				myPlot.setSeriesPaint(new Paint[] { Color.DARK_GRAY});
+				myPlot.setPaint(0, Color.DARK_GRAY);
 				isVacuum = true;
 			}
 		}
@@ -60,7 +62,9 @@ public class EnvironmentPieChartPanel extends GraphPanel
 			if (isVacuum){
 				myDataset = new DefaultPieDataset();
 				myPlot.setDataset(myDataset);
-				myPlot.setSeriesPaint(new Paint[] { Color.BLUE, Color.GREEN, Color.RED});
+				myPlot.setPaint(0, Color.BLUE);
+				myPlot.setPaint(1, Color.GREEN);
+				myPlot.setPaint(2, Color.RED);
 				isVacuum = false;
 			}
 			myDataset.setValue(O2Category, new Float(mySimEnvironment.getO2Level()));
@@ -72,11 +76,13 @@ public class EnvironmentPieChartPanel extends GraphPanel
 	private void initDataset(){
 		if ((mySimEnvironment.getO2Level() <= 0) && (mySimEnvironment.getCO2Level() <= 0) && (mySimEnvironment.getOtherLevel() <= 0)){
 			myDataset.setValue(vacuumCategory, new Float(1f));
-			myPlot.setSeriesPaint(new Paint[] { Color.DARK_GRAY});
+			myPlot.setPaint(0, Color.DARK_GRAY);
 			isVacuum = true;
 		}
 		else{
-			myPlot.setSeriesPaint(new Paint[] { Color.BLUE, Color.GREEN, Color.RED});
+			myPlot.setPaint(0, Color.BLUE);
+			myPlot.setPaint(1, Color.GREEN);
+			myPlot.setPaint(2, Color.RED);
 			isVacuum = false;
 		}
 	}

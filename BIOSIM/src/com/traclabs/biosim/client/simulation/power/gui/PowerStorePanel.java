@@ -6,7 +6,9 @@ import biosim.client.framework.gui.*;
 import biosim.client.framework.*;
 import com.jrefinery.chart.*;
 import com.jrefinery.data.*;
-import com.jrefinery.ui.*;
+import com.jrefinery.chart.axis.*;
+import com.jrefinery.chart.plot.*;
+import com.jrefinery.chart.renderer.*;
 
 /**
  * This is the JPanel that displays a chart about the Power Store
@@ -18,7 +20,6 @@ public class PowerStorePanel extends GraphPanel
 	private PowerStore myPowerStore;
 	private DefaultCategoryDataset myDataset;
 	private ValueAxis rangeAxis;
-	private CategoryPlot myPlot;
 	private JFreeChart myChart;
 
 	protected void createGraph(){
@@ -30,16 +31,19 @@ public class PowerStorePanel extends GraphPanel
 		                  "",              // domain axis label
 		                  "Power Level (W)",                 // range axis label
 		                  myDataset,                 // data
-		                  true                     // include legend
+		                  true,                     // include legend
+				  true,
+				  false
 		          );
 		// add the chart to a panel...
-		myPlot = myChart.getCategoryPlot();
+		CategoryPlot myPlot = myChart.getCategoryPlot();
 		rangeAxis = myPlot.getRangeAxis();
 		rangeAxis.setAutoRange(false);
 		rangeAxis.setRange(0.0, myPowerStore.getCapacity());
-		myPlot.setSeriesPaint(new Paint[] { Color.ORANGE});
-		TextTitle myTextTitle = (TextTitle)(myChart.getTitle(0));
-		myTextTitle.setFont(myTextTitle.getFont().deriveFont(12.0f));
+		Renderer renderer = myPlot.getRenderer();
+		renderer.setSeriesPaint(0, Color.ORANGE);
+		//TextTitle myTextTitle = (TextTitle)(myChart.getTitle(0));
+		//myTextTitle.setFont(myTextTitle.getFont().deriveFont(12.0f));
 		myChartPanel = new ChartPanel(myChart);
 		myChartPanel.setMinimumDrawHeight(200);
 		myChartPanel.setMinimumDrawWidth(230);
@@ -48,12 +52,9 @@ public class PowerStorePanel extends GraphPanel
 
 	public void refresh() {
 		if (myDataset == null){
-			double[][] data = { {myPowerStore.getLevel()} };
-			myDataset = new DefaultCategoryDataset(data);
-			String[] theSeries = {"Power Store"};
-			String[] theCategory = {""};
-			myDataset.setSeriesNames(theSeries);
-			myDataset.setCategories(theCategory);
+			double[][] data = { {} };
+			myDataset = new DefaultCategoryDataset();
+			myDataset.addValue(myPowerStore.getLevel(),"Power Store", "");
 		}
 		else{
 			float capacity = myPowerStore.getCapacity();
@@ -61,7 +62,7 @@ public class PowerStorePanel extends GraphPanel
 				rangeAxis.setRange(0.0, myPowerStore.getCapacity());
 				myChartPanel.repaint();
 			}
-			myDataset.setValue(0, "", new Float(myPowerStore.getLevel()));
+			myDataset.setValue(new Float(myPowerStore.getLevel()), "Power Store", "");
 		}
 	}
 }
