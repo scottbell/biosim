@@ -480,6 +480,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			onBoard = false;
 		}
 	}
+	
+	public boolean isOnBoard(){
+		return onBoard;
+	}
 
 	/**
 	* When the CrewGroup ticks the crew member, the member:
