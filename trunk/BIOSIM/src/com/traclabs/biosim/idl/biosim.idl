@@ -109,6 +109,13 @@ module biosim{
                                 long getTimeLength();
                                 long getActivityIntensity();
                         };
+			interface RepairActivity : Activity{
+				string getModuleToRepair();
+				long getMalfunctionIDToRepair();
+			};
+			interface MaitenanceActivity : Activity{
+				string getModuleToMaitenance();
+			};
                         interface CrewPerson{
                                 Activity getCurrentActivity();
                                 void setCurrentActivity(in Activity newActivity);

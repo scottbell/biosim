@@ -14,8 +14,6 @@ public class ActivityImpl extends ActivityPOA {
 	private int myTimeLength = 0;
 	//The intensity of this activity (how much exertion it takes to perform it)
 	private int myActivityIntensity = 0;
-	//If this activity is "special" (i.e. meaningful and not in regular schedule)
-	private boolean special = false;
 	
 	/**
 	* Returns the power consumption of the AirRS at the current tick.
@@ -23,19 +21,6 @@ public class ActivityImpl extends ActivityPOA {
 	* @param pTimeLength How long this activity will be performed
 	* @param pActivityIntensity The intensity of this activity (how much exertion it takes to perform it)
 	* @param pSpecial If this activity is "special" (i.e. meaningful and not in regular schedule)
-	*/
-	protected ActivityImpl(String pName, int pTimeLength, int pActivityIntensity, boolean pSpecial){
-		myName = pName;
-		myTimeLength = pTimeLength;
-		myActivityIntensity = pActivityIntensity;
-		special = pSpecial;
-	}
-	
-	/**
-	* Returns the power consumption of the AirRS at the current tick.
-	* @param pName The name of this activity
-	* @param pTimeLength How long this activity will be performed
-	* @param pActivityIntensity The intensity of this activity (how much exertion it takes to perform it)
 	*/
 	protected ActivityImpl(String pName, int pTimeLength, int pActivityIntensity){
 		myName = pName;
@@ -65,14 +50,6 @@ public class ActivityImpl extends ActivityPOA {
 	*/
 	public int getActivityIntensity(){
 		return myActivityIntensity;
-	}
-	
-	/**
-	* Returns whether this activity is "special" (i.e. meaningful and not in regular schedule)
-	* @return whether this activity is "special" (i.e. meaningful and not in regular schedule)
-	*/
-	public boolean isSpecial(){
-		return special;
 	}
 	
 	/**
