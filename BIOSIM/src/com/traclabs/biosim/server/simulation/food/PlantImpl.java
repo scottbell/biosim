@@ -48,10 +48,10 @@ public abstract class PlantImpl extends PlantPOA{
 	private static final float WATER_TILL_DEAD = 336f;
 	private static final float WATER_RECOVERY_RATE = 2f;
 	private static final float CO2_LOW_TILL_DEAD = 24f;
-	private static final float CO2_LOW_RECOVERY_RATE = 1f;
-	private static final float CO2_RATIO_LOW = 50f;
+	private static final float CO2_LOW_RECOVERY_RATE = 25f;
+	private static final float CO2_RATIO_LOW = 500f;
 	private static final float CO2_HIGH_TILL_DEAD = 24f;
-	private static final float CO2_HIGH_RECOVERY_RATE=100f;
+	private static final float CO2_HIGH_RECOVERY_RATE=25f;
 	private static final float CO2_RATIO_HIGH = 20000f;
 	private static final float HEAT_TILL_DEAD = 48f;
 	private static final float HEAT_RECOVERY_RATE=0.1f;

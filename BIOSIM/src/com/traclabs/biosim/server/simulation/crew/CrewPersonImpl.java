@@ -89,7 +89,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private static final float CALORIE_RECOVERY_RATE=0.0001f;
 	private static final float CO2_RATIO_HIGH = 0.06f;
 	private static final float CO2_TILL_DEAD = 4f;
-	private static final float CO2_RECOVERY_RATE=0.01f;
+	private static final float CO2_RECOVERY_RATE=0.005f;
 	private static final float O2_RATIO_LOW = 0.1f;
 	private static final float O2_TILL_DEAD = 2f;
 	private static final float O2_RECOVERY_RATE=0.01f;
