@@ -523,14 +523,26 @@ public abstract class PlantImpl extends PlantPOA{
 		//System.out.println("PlantImpl: myAge: "+myAge);
 		return daysOfGrowth;
 	}
+	
+	
+	private static float getAverageForList(List pList){
+		if (pList.size() < 1)
+			return 0f;
+		float total = 0f;
+		for (Iterator iter = pList.iterator(); iter.hasNext();){
+			Float currentFloat = (Float)(iter.next());
+			total += currentFloat.floatValue();
+		}
+		return total / pList.size();
+	}
 
 	private float calculateTimeTillCanopyClosure(){
-		float thePPF = getAveragePPF() * getPhotoperiod() / getNominalPhotoperiod();
+		float thePPF = getAverageForList(myCanopyClosurePPFValues) * getPhotoperiod() / getNominalPhotoperiod();
 		float oneOverPPf = 1f / thePPF;
 		float thePPFsquared = pow(thePPF, 2f);
 		float thePPFcubed = pow(thePPF, 3f);
 
-		float theCO2 = getAverageCO2Concentration();
+		float theCO2 = getAverageForList(myCanopyClosureCO2Values);
 		float oneOverCO2 = 1f / theCO2;
 		float theCO2squared = pow(theCO2, 2f);
 		float theCO2cubed = pow(theCO2, 3f);
@@ -564,7 +576,6 @@ public abstract class PlantImpl extends PlantPOA{
 			tA = 0;
 			//System.out.println("PlantImpl: Time till canopy closure is negative or NAN!");
 		}
-		
 		//round the number according to Jim
 		long tALong = Math.round(tA);
 		tA = (float)tALong;
@@ -572,18 +583,22 @@ public abstract class PlantImpl extends PlantPOA{
 		return tA;
 	}
 
-	private float calculatePPFFractionAbsorbed(){
+	private void calculatePPFFractionAbsorbed(){
 		float PPFFractionAbsorbedMax = 0.93f;
 		//System.out.println("PlantImpl: PPFFractionAbsorbedMax: "+PPFFractionAbsorbedMax);
 		//System.out.println("PlantImpl: timeTillCanopyClosure: "+timeTillCanopyClosure);
 		//System.out.println("PlantImpl: getDaysOfGrowth(): "+getDaysOfGrowth());
 		//System.out.println("PlantImpl: getN(): "+getN());
 		if (canopyClosed)
-			return PPFFractionAbsorbedMax;
-		else{
-			return PPFFractionAbsorbedMax * pow((getDaysOfGrowth() / calculateTimeTillCanopyClosure()), getN());
-		}
-		
+			myPPFFractionAbsorbed = PPFFractionAbsorbedMax;
+		else
+			myPPFFractionAbsorbed += (calculateDaDt() / 24f);
+	}
+	
+	private float calculateDaDt(){
+		float PPFFractionAbsorbedMax = 0.93f;
+		float timeTillCanopyClosure = calculateTimeTillCanopyClosure();
+		return PPFFractionAbsorbedMax * getN() * pow((getDaysOfGrowth() / timeTillCanopyClosure), getN() - 1f) * (1f / timeTillCanopyClosure);
 	}
 
 	private float calculateCQYMax(){
