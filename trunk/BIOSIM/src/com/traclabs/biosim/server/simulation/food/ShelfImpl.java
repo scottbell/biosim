@@ -13,16 +13,20 @@ import java.util.*;
 
 public class ShelfImpl extends ShelfPOA {
 	private PlantImpl myCrop;
-	private float cropArea = 8.24f;
+	private float cropArea;
 	private LogIndex myLogIndex;
 	private boolean logInitialized = false;
-	private BiomassRSImpl myBiomassImpl;
-	float waterLevel = 0f;
-	float powerLevel = 0f;
+	private BiomassRSImpl myBiomassRSImpl;
+	private float waterLevel = 0f;
+	private static final float waterNeededPerMeterSquared = 2f; //grab up to 2 liters per meters squared of crops per hour(WAG)
+	private float waterNeeded = 0f;;
+	private float powerLevel = 0f;
+	
 
 	public ShelfImpl(PlantType pType, float pCropArea, BiomassRSImpl pBiomassImpl){
 		cropArea = pCropArea;
-		myBiomassImpl = pBiomassImpl;
+		myBiomassRSImpl = pBiomassImpl;
+		waterNeeded = cropArea * waterNeededPerMeterSquared;
 		if (pType == PlantType.WHEAT)
 			myCrop = new Wheat(this);
 	}
@@ -38,7 +42,7 @@ public class ShelfImpl extends ShelfPOA {
 	}
 
 	public BiomassRSImpl getBiomassRSImpl(){
-		return myBiomassImpl;
+		return myBiomassRSImpl;
 	}
 
 	public float getCropArea(){
@@ -50,39 +54,14 @@ public class ShelfImpl extends ShelfPOA {
 	}
 
 	private void gatherWater(){
-		float gatheredGreyWater = 0f;
-		float gatheredPotableWater = 0f;
-		//System.out.println("ShelfImpl: myCrop.getWaterNeeded(): "+myCrop.getWaterNeeded());
-		for (int i = 0; (i < myBiomassImpl.getGreyWaterInputs().length) && (gatheredGreyWater < myCrop.getWaterNeeded()); i++){
-			float resourceToGatherFirst = Math.min(myCrop.getWaterNeeded(), myBiomassImpl.getGreyWaterInputMaxFlowRate(i) / myBiomassImpl.getNumberOfShelves());
-			float resourceToGatherFinal = Math.min(resourceToGatherFirst, myBiomassImpl.getGreyWaterInputDesiredFlowRate(i) / myBiomassImpl.getNumberOfShelves());
-			float currentWaterGathered = myBiomassImpl.getGreyWaterInputs()[i].take(resourceToGatherFinal);
-			myBiomassImpl.addGreyWaterInputActualFlowRates(i, currentWaterGathered);
-			gatheredGreyWater += currentWaterGathered;
-		}
-		float waterRemainingToGather = myCrop.getWaterNeeded() - gatheredGreyWater;
-		for (int i = 0; (i < myBiomassImpl.getPotableWaterInputs().length) && (gatheredPotableWater < waterRemainingToGather); i++){
-			float resourceToGatherFirst = Math.min(waterRemainingToGather, myBiomassImpl.getPotableWaterInputMaxFlowRate(i) / myBiomassImpl.getNumberOfShelves());
-			float resourceToGatherFinal = Math.min(resourceToGatherFirst, myBiomassImpl.getPotableWaterInputDesiredFlowRate(i) / myBiomassImpl.getNumberOfShelves());
-			float currentWaterGathered = myBiomassImpl.getPotableWaterInputs()[i].take(resourceToGatherFinal);
-			myBiomassImpl.addPotableWaterInputActualFlowRates(i, currentWaterGathered);
-			gatheredPotableWater += currentWaterGathered;
-		}
-		waterLevel = gatheredGreyWater + gatheredPotableWater;
+		float gatheredGreyWater = myBiomassRSImpl.getFractionalResourceFromStore(myBiomassRSImpl.getGreyWaterInputs(), myBiomassRSImpl.getGreyWaterInputMaxFlowRates(), myBiomassRSImpl.getGreyWaterInputDesiredFlowRates(), myBiomassRSImpl.getGreyWaterInputActualFlowRates(), waterNeeded, 1f / myBiomassRSImpl.getNumberOfShelves());
+		float gatheredPotableWater = myBiomassRSImpl.getFractionalResourceFromStore(myBiomassRSImpl.getPotableWaterInputs(), myBiomassRSImpl.getPotableWaterInputMaxFlowRates(), myBiomassRSImpl.getPotableWaterInputDesiredFlowRates(), myBiomassRSImpl.getPotableWaterInputActualFlowRates(), waterNeeded - gatheredGreyWater, 1f / myBiomassRSImpl.getNumberOfShelves());
+		waterLevel += gatheredGreyWater + gatheredPotableWater;
 	}
 
 	private void gatherPower(){
-		float gatheredPower = 0f;
 		float powerNeeded = calculatePowerNeeded();
-		for (int i = 0; (i < myBiomassImpl.getPowerInputs().length) && (gatheredPower < powerNeeded); i++){
-			float resourceToGatherFirst = Math.min(powerNeeded, myBiomassImpl.getPowerInputMaxFlowRate(i) / myBiomassImpl.getNumberOfShelves());
-			float resourceToGatherFinal = Math.min(resourceToGatherFirst, myBiomassImpl.getPowerInputDesiredFlowRate(i) / myBiomassImpl.getNumberOfShelves());
-			float currentPowerGathered = myBiomassImpl.getPowerInputs()[i].take(resourceToGatherFinal);
-			myBiomassImpl.addPowerInputActualFlowRates(i, currentPowerGathered);
-			gatheredPower += currentPowerGathered;
-			//System.out.println("ShelfImpl: gatheredPower: "+gatheredPower);
-		}
-		powerLevel = gatheredPower;
+		powerLevel += myBiomassRSImpl.getFractionalResourceFromStore(myBiomassRSImpl.getPowerInputs(), myBiomassRSImpl.getPowerInputMaxFlowRates(), myBiomassRSImpl.getPowerInputDesiredFlowRates(), myBiomassRSImpl.getPowerInputActualFlowRates(), powerNeeded, myBiomassRSImpl.getNumberOfShelves());
 	}
 
 	private void flushWater(){
@@ -95,9 +74,9 @@ public class ShelfImpl extends ShelfPOA {
 
 	public float takeWater(float pLiters){
 		if (waterLevel < pLiters){
-			float waterLeft = waterLevel;
+			float waterTaken = waterLevel;
 			waterLevel = 0;
-			return waterLeft;
+			return waterTaken;
 		}
 		else{
 			waterLevel -= pLiters;
@@ -110,16 +89,14 @@ public class ShelfImpl extends ShelfPOA {
 	}
 
 	private void lightPlants(){
-		gatherPower();
-		//System.out.println("ShelfImpl: powerLevel: "+powerLevel);
-		//System.out.println("ShelfImpl: getLampEfficiency: "+getLampEfficiency());
-		//System.out.println("ShelfImpl: getPSEfficiency: "+getPSEfficiency());
+		////System.out.println("ShelfImpl: powerLevel: "+powerLevel);
+		////System.out.println("ShelfImpl: getLampEfficiency: "+getLampEfficiency());
+		////System.out.println("ShelfImpl: getPSEfficiency: "+getPSEfficiency());
 		if (powerLevel <= 0)
 			powerLevel = pow(1f, -30f);
 		float thePPF = powerLevel * getLampEfficiency() * getPSEfficiency();
-		//System.out.println("ShelfImpl: thePPF: "+thePPF);
+		////System.out.println("ShelfImpl: thePPF: "+thePPF);
 		myCrop.shine(thePPF);
-		flushPower();
 	}
 
 	private float getLampEfficiency(){
@@ -135,10 +112,12 @@ public class ShelfImpl extends ShelfPOA {
 	}
 
 	public void tick(){
-		lightPlants();
+		gatherPower();
 		gatherWater();
+		lightPlants();
 		myCrop.tick();
 		flushWater();
+		flushPower();
 	}
 
 	public void replant(PlantType pType){

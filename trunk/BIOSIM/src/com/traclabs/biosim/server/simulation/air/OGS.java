@@ -12,7 +12,7 @@ import biosim.server.util.*;
  */
 
 public class OGS extends AirRSSubSystem{
-	private float waterNeeded = 1.0f;
+	private final static float waterNeeded = 1.0f;
 	private float currentH2OConsumed = 0;
 	private float currentO2Produced = 0;
 	private float currentH2Produced = 0;

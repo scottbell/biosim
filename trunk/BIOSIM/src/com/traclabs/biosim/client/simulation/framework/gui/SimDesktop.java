@@ -218,7 +218,7 @@ public class SimDesktop extends BioFrame
 		myPauseSimButton.setToolTipText("Pauses the simulation");
 		myPauseSimButton.setIcon(pauseIcon);
 		myPauseSimButton.setText("");
-		myPauseSimButton.setEnabled(false);
+		myPauseSimButton.setEnabled(true);
 		myAdvanceSimButton = myToolBar.add(myAdvanceAction);
 		myAdvanceSimButton.setToolTipText("Advances the simulation one timestep");
 		myAdvanceSimButton.setText("");
@@ -382,8 +382,6 @@ public class SimDesktop extends BioFrame
 				myStartSimButton.setToolTipText("Starts the simulation");
 				myStartSimButton.setIcon(startIcon);
 				myStartSimItem.setText("Start");
-				myPauseSimButton.setEnabled(false);
-				myPauseSimItem.setEnabled(false);
 				myAdvanceSimButton.setEnabled(false);
 				myAdvanceSimItem.setEnabled(false);
 				myDriver.endSimulation();
@@ -395,8 +393,6 @@ public class SimDesktop extends BioFrame
 				myStartSimButton.setToolTipText("Ends the simulation");
 				myStartSimButton.setIcon(stopIcon);
 				myStartSimItem.setText("End");
-				myPauseSimButton.setEnabled(true);
-				myPauseSimItem.setEnabled(true);
 				myAdvanceSimButton.setEnabled(true);
 				myAdvanceSimItem.setEnabled(true);
 				//If we're paused, stay paused.
@@ -446,8 +442,10 @@ public class SimDesktop extends BioFrame
 			else{myPauseSimButton.setToolTipText("Resume the simulation");
 				myPauseSimButton.setIcon(playIcon);
 				myPauseSimItem.setText("Resume");
-				myAdvanceSimButton.setEnabled(true);
-				myAdvanceSimItem.setEnabled(true);
+				if(myDriver.isStarted()){
+					myAdvanceSimButton.setEnabled(true);
+					myAdvanceSimItem.setEnabled(true);
+				}
 				myDriver.pauseSimulation();
 			}
 			setCursor(Cursor.getDefaultCursor());
@@ -793,8 +791,6 @@ public class SimDesktop extends BioFrame
 				myStartSimButton.setIcon(startIcon);
 				myStartSimButton.setEnabled(true);
 				myStartSimItem.setText("Start");
-				myPauseSimButton.setEnabled(false);
-				myPauseSimItem.setEnabled(false);
 				myAdvanceSimButton.setEnabled(false);
 				myAdvanceSimItem.setEnabled(false);
 			}
@@ -804,8 +800,6 @@ public class SimDesktop extends BioFrame
 				myStartSimButton.setIcon(stopIcon);
 				myStartSimItem.setText("End");
 				myStartSimButton.setEnabled(true);
-				myPauseSimButton.setEnabled(true);
-				myPauseSimItem.setEnabled(true);
 				myAdvanceSimButton.setEnabled(true);
 				myAdvanceSimItem.setEnabled(true);
 			}
@@ -814,8 +808,10 @@ public class SimDesktop extends BioFrame
 				myPauseSimButton.setToolTipText("Resume the simulation");
 				myPauseSimButton.setIcon(playIcon);
 				myPauseSimItem.setText("Resume");
-				myAdvanceSimButton.setEnabled(true);
-				myAdvanceSimItem.setEnabled(true);
+				if (myDriver.isStarted()){
+					myAdvanceSimButton.setEnabled(true);
+					myAdvanceSimItem.setEnabled(true);
+				}
 			}
 			//Simulation has resumed
 			else{

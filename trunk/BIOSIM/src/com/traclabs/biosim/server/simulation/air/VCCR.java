@@ -13,7 +13,7 @@ import biosim.server.util.*;
 
 public class VCCR extends AirRSSubSystem{
 	private Breath myBreath;
-	private float molesAirNeeded = 4.0f;
+	private final static float molesAirNeeded = 4.0f;
 	private float myProductionRate = 1f;
 
 	public VCCR(AirRSImpl pAirRSImpl){

@@ -12,8 +12,8 @@ import biosim.server.util.*;
  */
 
 public class CRS extends AirRSSubSystem{
-	private float CO2Needed = 4.0f;
-	private float H2Needed = 1.0f;
+	private final static float CO2Needed = 4.0f;
+	private final static float H2Needed = 1.0f;
 	private float currentCO2Consumed = 0;
 	private float currentH2Consumed = 0;
 	private float currentH2OProduced = 0;
@@ -25,8 +25,8 @@ public class CRS extends AirRSSubSystem{
 
 	private void gatherGasses(){
 		float gatheredCO2 = 0f;
-		CO2Needed = myAirRS.randomFilter(CO2Needed);
-		currentCO2Consumed = myAirRS.getResourceFromStore(myAirRS.getCO2Inputs(), myAirRS.getCO2InputMaxFlowRates(), myAirRS.getCO2InputDesiredFlowRates(), myAirRS.getCO2InputActualFlowRates(), CO2Needed);
+		float filteredCO2Needed = myAirRS.randomFilter(CO2Needed);
+		currentCO2Consumed = myAirRS.getResourceFromStore(myAirRS.getCO2Inputs(), myAirRS.getCO2InputMaxFlowRates(), myAirRS.getCO2InputDesiredFlowRates(), myAirRS.getCO2InputActualFlowRates(), filteredCO2Needed);
 		currentH2Consumed = myAirRS.getOGS().takeH2(myAirRS.randomFilter(H2Needed));
 	}
 

@@ -207,6 +207,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	* Resets this module (should be called by extended classes as it clears malfunctions)
 	*/
 	public void reset(){
+		sigmoidSlope = 0f;
 		myMalfunctions.clear();
 	}
 	
