@@ -588,7 +588,7 @@ public abstract class PlantImpl extends PlantPOA{
 		if (!logInitialized){
 			myLogIndex = new LogIndex();
 			LogNode typeHead = myLogHead.addChild("plant_type");
-			myLogIndex.typeIndex = typeHead.addChild(""+getPlantType().value());
+			myLogIndex.typeIndex = typeHead.addChild("");
 			logInitialized = true;
 		}
 		else{

@@ -223,7 +223,7 @@ public class BioInitializer{
 				if (logHandlerString.equals("XML"))
 					myLogger.addLogHandlerType(LogHandlerType.XML);
 				else if (logHandlerString.equals("STANDARD_OUT"))
-					myLogger.addLogHandlerType(LogHandler.SCREEN);
+					myLogger.addLogHandlerType(LogHandlerType.SCREEN);
 			}
 			catch (Exception e){
 				e.printStackTrace();
