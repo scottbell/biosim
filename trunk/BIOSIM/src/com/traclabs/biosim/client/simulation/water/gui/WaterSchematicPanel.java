@@ -243,9 +243,9 @@ public class WaterSchematicPanel extends TimedPanel
 		else
 			horizontalPipeLabel.setIcon(horizontalPipeIcon);
 
-		if ((myWaterRS.getROtoAESWater() > 0) && (myWaterRS.getAEStoPPSWater() > 0))
+		if ((myWaterRS.getROtoPPSWater() > 0) && (myWaterRS.getAEStoPPSWater() > 0))
 			tDownPipeLabel2.setIcon(tDownWaterFullPipeIcon);
-		else if (myWaterRS.getROtoAESWater() > 0)
+		else if (myWaterRS.getROtoPPSWater() > 0)
 			tDownPipeLabel2.setIcon(tDownWaterLeftPipeIcon);
 		else if (myWaterRS.getAEStoPPSWater() > 0)
 			tDownPipeLabel2.setIcon(tDownWaterRightPipeIcon);

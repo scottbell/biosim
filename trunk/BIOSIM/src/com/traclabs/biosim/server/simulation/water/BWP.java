@@ -98,7 +98,6 @@ public class BWP extends WaterRSSubSystem{
 			myRO.addWater(currentROWaterProduced);
 		}
 		else if (myAES.isEnabled()){
-			System.out.println("BWP knows RO is disabled!");
 			currentROWaterProduced = 0;
 			currentAESWaterProduced = waterLevel;
 			myAES.addWater(currentAESWaterProduced);
