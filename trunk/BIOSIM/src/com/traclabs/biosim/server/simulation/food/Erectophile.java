@@ -23,8 +23,8 @@ public abstract class Erectophile extends PlantImpl{
 	public abstract PlantType getPlantType();
 	public abstract String getPlantTypeString();
 	
-	public Erectophile(ShelfImpl pShelfImpl, int pStartDay){
-		super(pShelfImpl, pStartDay);
+	public Erectophile(ShelfImpl pShelfImpl){
+		super(pShelfImpl);
 	}
 	
 	protected float calculateCanopyStomatalConductance(){

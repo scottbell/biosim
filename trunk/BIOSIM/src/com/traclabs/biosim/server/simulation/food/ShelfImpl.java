@@ -25,17 +25,19 @@ public class ShelfImpl extends ShelfPOA {
 	private float powerLevel = 0f;
 	private float powerPerLamp = 400f;
 	private float numberOfLamps = 1f;
+	private int myStartDay;
 
 
 	public ShelfImpl(PlantType pType, float pCropAreaTotal, BiomassRSImpl pBiomassImpl){
 		this(pType, pCropAreaTotal, pBiomassImpl, 0);
 	}
 	
-	public ShelfImpl(PlantType pType, float pCropAreaTotal, BiomassRSImpl pBiomassImpl, int startDay){
+	public ShelfImpl(PlantType pType, float pCropAreaTotal, BiomassRSImpl pBiomassImpl, int pStartDay){
+		myStartDay = pStartDay;
 		cropAreaTotal = pCropAreaTotal;
 		myBiomassRSImpl = pBiomassImpl;
 		initialType = pType;
-		replantHotStart(pType, cropAreaTotal, startDay);
+		replant(pType, cropAreaTotal);
 		waterNeeded = cropAreaUsed * waterNeededPerMeterSquared;
 	}
 
@@ -46,7 +48,6 @@ public class ShelfImpl extends ShelfPOA {
 	public void reset(){
 		waterLevel = 0f;
 		powerLevel = 0f;
-		//replant(initialType);
 		myCrop.reset();
 	}
 
@@ -185,34 +186,30 @@ public class ShelfImpl extends ShelfPOA {
 	public void replant(PlantType pType){
 		replant(pType, cropAreaTotal);
 	}
-	
-	public void replant(PlantType pType, float pArea){
-		replantHotStart(pType, pArea, 0);
-	}
 
-	public void replantHotStart(PlantType pType, float pArea, int pStartDay){
+	public void replant(PlantType pType, float pArea){
 		if (pArea > cropAreaTotal)
 			cropAreaUsed = cropAreaTotal;
 		else
 			cropAreaUsed = pArea;
 		if (pType == PlantType.DRY_BEAN)
-			myCrop = new DryBean(this, pStartDay);
+			myCrop = new DryBean(this);
 		else if (pType == PlantType.LETTUCE)
-			myCrop = new Lettuce(this, pStartDay);
+			myCrop = new Lettuce(this);
 		else if (pType == PlantType.PEANUT)
-			myCrop = new Peanut(this, pStartDay);
+			myCrop = new Peanut(this);
 		else if (pType == PlantType.SOYBEAN)
-			myCrop = new Soybean(this, pStartDay);
+			myCrop = new Soybean(this);
 		else if (pType == PlantType.RICE)
-			myCrop = new Rice(this, pStartDay);
+			myCrop = new Rice(this);
 		else if (pType == PlantType.SWEET_POTATO)
-			myCrop = new SweetPotato(this, pStartDay);
+			myCrop = new SweetPotato(this);
 		else if (pType == PlantType.TOMATO)
-			myCrop = new Tomato(this, pStartDay);
+			myCrop = new Tomato(this);
 		else if (pType == PlantType.WHEAT)
-			myCrop = new Wheat(this, pStartDay);
+			myCrop = new Wheat(this);
 		else if (pType == PlantType.WHITE_POTATO)
-			myCrop = new WhitePotato(this, pStartDay);
+			myCrop = new WhitePotato(this);
 		waterNeeded = cropAreaUsed * waterNeededPerMeterSquared;
 	}
 	

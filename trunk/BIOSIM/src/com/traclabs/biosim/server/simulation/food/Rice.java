@@ -7,8 +7,8 @@ import biosim.idl.simulation.food.*;
  */
 
 public class Rice extends Erectophile{
-	public Rice(ShelfImpl pShelfImpl, int pStartDay){
-		super(pShelfImpl, pStartDay);
+	public Rice(ShelfImpl pShelfImpl){
+		super(pShelfImpl);
 		canopyClosureConstants[0] = 6591400f;
 		canopyClosureConstants[1] = 25776f;
 		canopyClosureConstants[3] = .0064532f;

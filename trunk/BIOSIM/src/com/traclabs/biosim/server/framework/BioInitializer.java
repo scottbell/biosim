@@ -1252,7 +1252,7 @@ public class BioInitializer{
 	private static int getCropStartDay(Node node){
 		int startDay = 0;
 		try{
-			startDay = Integer.parseInt(node.getAttributes().getNamedItem("startDay").getNodeValue());
+			startDay = Integer.parseInt(node.getAttributes().getNamedItem("startTick").getNodeValue());
 		}
 		catch (NumberFormatException e){
 			e.printStackTrace();
