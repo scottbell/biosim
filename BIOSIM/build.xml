@@ -21,6 +21,11 @@
 	<property name="clientClasses" location="${client}/classes"/>
 	<property name="clientStubs" location="${client}/stubs"/>
 	<property name="plotDir" location="${lib}/jfreechart"/>
+	<!-- set distro properties for this build -->
+	<property name="distroDir" location="${generated}/distro"/>
+	<property name="distroLibDir" location="${lib}/distro/win"/>
+	<!-- set ga distro properties for this build --> 
+	<property name="gaDistroDir" location="${generated}/ga"/>
 
 	<target name="init">
 		<mkdir dir="${generated}"/>
@@ -97,6 +102,45 @@
 				<pathelement location="${plotDir}/jfreechart.jar"/>
 			</classpath>
 		</javac>
+	</target>
+	
+	<target name="make-distro" depends="make-server,make-client" description="creates windows distro" >
+		<mkdir dir="${distroDir}"/>
+		<mkdir dir="${distroDir}/tmp"/>
+		<unzip dest="${distroDir}/tmp">
+			<fileset file="${jacorbDir}/jacorb.jar"/>
+			<fileset file="${jacorbDir}/logkit.jar"/>
+			<fileset file="${jacorbDir}/avalon-framework.jar"/>
+			<fileset file="${xercesDir}/xercesImpl.jar"/>
+			<fileset file="${xercesDir}/xml-apis.jar"/>
+			<fileset file="${xercesDir}/xmlParserAPIs.jar"/>
+			<fileset file="${plotDir}/jcommon.jar"/>
+			<fileset file="${plotDir}/jfreechart.jar"/>
+		</unzip>
+		<jar destfile="${distroDir}/biosim.jar">
+			<fileset dir="${serverClasses}"/>
+			<fileset dir="${clientClasses}"/>
+			<fileset dir="${resourceDir}"/>
+			<fileset dir="${distroDir}/tmp">
+				<exclude name="META-INF"/>
+				<exclude name="license-INF"/>
+			</fileset>
+			<fileset file="${jacorbDir}/jacorb.properties"/>
+		</jar>
+		<copy todir="${distroDir}">
+			<fileset dir="${distroLibDir}">
+				<exclude name="CVS"/>
+			</fileset>
+		</copy>
+		<delete dir="${distroDir}/tmp"/>
+	</target>
+	
+	<target name="make-ga-distro" depends="make-server,make-client" description="creates ga distro" >
+		<mkdir dir="${gaDistroDir}"/>
+		<jar destfile="${gaDistroDir}/biosim.jar">
+			<fileset dir="${serverClasses}"/>
+			<fileset dir="${resourceDir}"/>
+		</jar>
 	</target>
 	
 	<target name="run-nameserver" depends="init" description="runs the nameserver" >
