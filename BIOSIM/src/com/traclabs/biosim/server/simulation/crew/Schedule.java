@@ -114,10 +114,13 @@ public class Schedule{
 		//Add 2 defaults..
 		ActivityImpl bornActivity = new ActivityImpl("born", 0, 0, 0);
 		ActivityImpl deadActivity = new ActivityImpl("dead", 0, 0, -1);
+		ActivityImpl sickActivity = new ActivityImpl("sick", 1, 1, -2);
 		scheduleNameHash.put("born", bornActivity);
 		scheduleOrderHash.put(new Integer(0), bornActivity);
 		scheduleNameHash.put("dead", deadActivity);
 		scheduleOrderHash.put(new Integer(-1), deadActivity);
+		scheduleNameHash.put("sick", sickActivity);
+		scheduleOrderHash.put(new Integer(-2), sickActivity);
 		try{
 			BufferedReader inputReader = new BufferedReader(new InputStreamReader(scheduleURL.openStream()));
 			String currentLine = inputReader.readLine().trim();

@@ -7,6 +7,7 @@ import biosim.server.util.*;
 import biosim.idl.crew.*;
 import biosim.idl.util.log.*;
 import biosim.server.framework.*;
+import biosim.idl.framework.*;
 /**
  * The Crew Implementation.  Holds multiple crew persons and their schedule.
  *
@@ -20,6 +21,8 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 	//They are the ones consuming air/food/water and producing air/water/waste as they perform activities
 	private Hashtable crewPeople;
 	private Hashtable crewPeopleLogs;
+	private float healthyPercentage = 1f;
+	private Random myRandom;
 
 	/**
 	* Default constructor.  Uses a default schedule.
@@ -29,6 +32,7 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 		//use default schedule
 		mySchedule = new Schedule();
 		crewPeople = new Hashtable();
+		myRandom = new Random();
 	}
 
 	/**
@@ -130,12 +134,43 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 	* Processes a tick by ticking each crew person it knows about.
 	*/
 	public void tick(){
-		for (Enumeration e = crewPeople.elements(); e.hasMoreElements(); ){
+		if (isMalfunctioning())
+			performMalfunctions();
+		int peopleAsleep = (new Float((1 - healthyPercentage) * crewPeople.size())).intValue();
+		for (int i = 0; i < peopleAsleep; i ++){
+			int randomIndex = myRandom.nextInt(crewPeople.size());
+			CrewPersonImpl tempPerson = (CrewPersonImpl)((crewPeople.values().toArray())[randomIndex]);
+			tempPerson.sicken();
+		}
+		for (Enumeration e = crewPeople.elements(); e.hasMoreElements();){
 			CrewPersonImpl tempPerson = (CrewPersonImpl)(e.nextElement());
 			tempPerson.tick();
 		}
 		if (moduleLogging)
 			log();
+	}
+	
+	private void performMalfunctions(){
+		healthyPercentage = 1f;
+		for (Enumeration e = myMalfunctions.elements(); e.hasMoreElements();){
+			Malfunction currentMalfunction = (Malfunction)(e.nextElement());
+			if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF){
+				if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
+					healthyPercentage *= 0.50;
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
+					healthyPercentage *= 0.25;
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
+					healthyPercentage *= 0.10;
+			}
+			else if (currentMalfunction.getLength() == MalfunctionLength.PERMANENT_MALF){
+				if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
+					healthyPercentage *= 0.50;
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
+					healthyPercentage *= 0.25;
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
+					healthyPercentage *= 0.10;
+			}
+		}
 	}
 
 	/**

@@ -109,7 +109,8 @@ module biosim{
                         interface CrewPerson{
                                 Activity getCurrentActivity();
                                 void setCurrentActivity(in Activity newActivity);
-                                string getName();
+                                void sicken();
+				string getName();
                                 float getAge();
                                 float getWeight();
                                 long getTimeActivityPerformed();
