@@ -404,11 +404,20 @@ public class HandController{
 			currentActuator.setValue(0f);
 		}
 		if (SimState.get("hydrogen") == "low") {
+			//turn off CRS
+			currentActuator = (GenericActuator)(BioHolder.getBioModule(BioHolder.myAirRSCO2InFlowRateActuatorName));
+			currentActuator.setValue(0f);
+			currentActuator = (GenericActuator)(BioHolder.getBioModule(BioHolder.myAirRSPotableWaterOutFlowRateActuatorName));
+			currentActuator.setValue(0f);
+		}
+		if (SimState.get("hydrogen") == "high") {
+			// OGS off
 			currentActuator = (GenericActuator)(BioHolder.getBioModule(BioHolder.myAirRSPotableWaterInFlowRateActuatorName));
 			currentActuator.setValue(0f);
 			currentActuator = (GenericActuator)(BioHolder.getBioModule(BioHolder.myAirRSO2OutFlowRateActuatorName));
 			currentActuator.setValue(0f);
 		}
+
 
 
 
