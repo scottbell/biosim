@@ -770,6 +770,7 @@
 	<xsd:complexType name="ShelfType">
 		<xsd:attribute name="cropType" type="CropType" use="required"/>
 		<xsd:attribute name="cropArea" type="nonNegativeFloat" use="required"/>
+		<xsd:attribute name="startDay" type="xsd:nonNegativeInteger" default="0"/>
 	</xsd:complexType>
 	
 	<xsd:simpleType name="CropType">

@@ -1248,6 +1248,17 @@ public class BioInitializer{
 		}
 		return area;
 	}
+	
+	private static int getCropStartDay(Node node){
+		int startDay = 0;
+		try{
+			startDay = Integer.parseInt(node.getAttributes().getNamedItem("startDay").getNodeValue());
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+		return startDay;
+	}
 
 	private void createBiomassRS(Node node){
 		String moduleName = getModuleName(node);
@@ -1260,7 +1271,7 @@ public class BioInitializer{
 			Node child = node.getFirstChild();
 			while (child != null) {
 				if (child.getNodeName().equals("shelf"))
-					myBiomassRSImpl.createNewShelf(getCropType(child), getCropArea(child));
+					myBiomassRSImpl.createNewShelf(getCropType(child), getCropArea(child), getCropStartDay(child));
 				child = child.getNextSibling();
 			}
 			BiosimServer.registerServer(new BiomassRSPOATie(myBiomassRSImpl), myBiomassRSImpl.getModuleName(), myBiomassRSImpl.getID());

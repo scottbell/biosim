@@ -744,7 +744,7 @@ module biosim{
                                 interface BiomassRS : framework::SimBioModule, framework::PowerConsumer, framework::PotableWaterConsumer, framework::GreyWaterConsumer, framework::BiomassProducer, framework::AirConsumer, framework::AirProducer, framework::DirtyWaterProducer{
                                         ShelfList getShelves();
 					Shelf getShelf(in long index);
-                                        Shelf createNewShelf(in PlantType pType, in float pCropArea);
+                                        Shelf createNewShelf(in PlantType pType, in float pCropArea, in long pStartDay);
                                         void setAutoHarvestAndReplantEnabled(in boolean pHarvestEnabled);
                                         boolean autoHarvestAndReplantEnabled();
                                 };
@@ -782,6 +782,7 @@ module biosim{
 					PlantType getCropType();
 					string getCropTypeString();
                                         void replant(in PlantType pType, in float area);
+                                        void replantHotStart(in PlantType pType, in float area, in long startDay);
 					float getCropAreaTotal();
 					float getCropAreaUsed();
 					BiomassRS getBiomassRS();
