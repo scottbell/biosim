@@ -85,14 +85,41 @@ public class LogViewer extends JPanel
 		nextButton = myToolBar.add(myNextAction);
 		nextButton.setText("");
 		firstButton = myToolBar.add(myFirstAction);
-		firstButton.setText("");
+		firstButton.setText(""); 
 		add(myToolBar, BorderLayout.NORTH);
 		add(myLogTree, BorderLayout.CENTER);
+	}
+	
+	private void createMenuItems(BioFrame myFrame){
+		JMenuBar myMenuBar = new JMenuBar();
+		JMenu fileMenu = new JMenu("File");
+		JMenuItem openMenuItem = fileMenu.add(myOpenAction);
+		openMenuItem.setIcon(null);
+		JMenuItem refreshMenuItem = fileMenu.add(myRefreshAction);
+		refreshMenuItem.setIcon(null);
+		myMenuBar.add(fileMenu);
+		JMenu controlMenu = new JMenu("Control");
+		JMenuItem lastMenuItem = controlMenu.add(myLastAction);
+		lastMenuItem.setIcon(null);
+		JMenuItem backMenuItem = controlMenu.add(myBackAction);
+		backMenuItem.setIcon(null);
+		JMenuItem nextMenuItem = controlMenu.add(myNextAction);
+		nextMenuItem.setIcon(null);
+		JMenuItem firstMenuItem = controlMenu.add(myFirstAction);
+		firstMenuItem.setIcon(null);
+		myMenuBar.add(controlMenu);
+		JMenu myHelpMenu = new JMenu("Help");
+		AboutAction myAboutAction = new AboutAction("About");
+		JMenuItem myAboutItem = myHelpMenu.add(myAboutAction);
+		myHelpMenu.add(myAboutItem);
+		myMenuBar.add(myHelpMenu);
+		myFrame.setJMenuBar(myMenuBar);
 	}
 
 	public static void main(String args[]){
 		LogViewer myLogViewer = new LogViewer();
 		BioFrame myFrame = new BioFrame("Log Viewer", false);
+		myLogViewer.createMenuItems(myFrame);
 		myFrame.getContentPane().add(myLogViewer);
 		myFrame.setSize(640,480);
 		myFrame.pack();
@@ -180,6 +207,18 @@ public class LogViewer extends JPanel
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			System.out.println("First!");
 			setCursor(Cursor.getDefaultCursor());
+		}
+	}
+	
+	/**
+	*  Action that brings up a dialog box about authors, company, etc.
+	*/
+	private class AboutAction extends AbstractAction{
+		public AboutAction(String name){
+			super(name);
+		}
+		public void actionPerformed(ActionEvent ae){
+			JOptionPane.showMessageDialog(null,"Advanced Life Support Simulation Log Viewer\nCopyright "+ new Character( '\u00A9' ) + " 2002, TRACLabs\nby Scott Bell and David Kortenkamp");
 		}
 	}
 }
