@@ -133,7 +133,7 @@ public class SpreadSheet extends JTable {
 		_numRow = rowNames.length;
 		_numCol = colNames.length;
 
-		_cellFont = new Font("Times", Font.PLAIN, 20);
+		_cellFont = new Font("Arial", Font.PLAIN, 14);
 
 		// Create the JScrollPane that includes the Table
 		_scp = new JScrollPane(this);
@@ -213,7 +213,7 @@ public class SpreadSheet extends JTable {
 		 * a call to setPreferredSize().
 		 */
 		JPanel pnl = new JPanel((LayoutManager)null);
-		Dimension dim = new Dimension( metrics.stringWidth("999")+insets.right+insets.left,
+		Dimension dim = new Dimension( metrics.stringWidth("9999999999999")+insets.right+insets.left,
 		                               rowHeight*_numRow);
 		pnl.setPreferredSize(dim);
 

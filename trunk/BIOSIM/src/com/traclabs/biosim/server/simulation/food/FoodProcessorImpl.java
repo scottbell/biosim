@@ -117,12 +117,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	* Attempts to collect enough power from the Power PS to run the Food Processor for one tick.
 	*/
 	private void gatherPower(){
-		float gatheredPower = 0f;
-		for (int i = 0; (i < myPowerStores.length) && (gatheredPower < powerNeeded); i++){
-			float powerToGather = Math.min(powerNeeded, powerMaxFlowRates[i]);
-			gatheredPower += myPowerStores[i].take(powerToGather);
-		}
-		currentPowerConsumed = gatheredPower;
+		currentPowerConsumed = getResourceFromStore(myPowerStores, powerMaxFlowRates, powerDesiredFlowRates, powerActualFlowRates, powerNeeded);
 		if (currentPowerConsumed < powerNeeded){
 			hasEnoughPower = false;
 		}

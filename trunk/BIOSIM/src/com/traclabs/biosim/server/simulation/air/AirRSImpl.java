@@ -169,6 +169,8 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	* Processes a tick by collecting referernces (if needed), resources, and pushing the new air out.
 	*/
 	public void tick(){
+		for (int i =0; i < powerActualFlowRates.length; i++)
+			powerActualFlowRates[i] = 0;
 		myVCCR.tick();
 		myCRS.tick();
 		myH2Tank.tick();
@@ -310,6 +312,9 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	public PowerStore[] getPowerInputs(){
 		return myPowerStores;
 	}
+	void addPowerInputActualFlowRate(float watts, int index){
+		powerActualFlowRates[index] += watts;
+	}
 	
 	//Air Inputs
 	public void setAirInputMaxFlowRate(float liters, int index){
@@ -344,6 +349,9 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	}
 	public SimEnvironment[] getAirInputs(){
 		return mySimEnvironmentInputs;
+	}
+	void setAirInputActualFlowRate(float liters, int index){
+		airInActualFlowRates[index] = liters;
 	}
 	
 	//Air Ouputs
@@ -380,6 +388,9 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	public SimEnvironment[] getAirOutputs(){
 		return mySimEnvironmentOutputs;
 	}
+	void setAirOutputActualFlowRate(float liters, int index){
+		airOutActualFlowRates[index] = liters;
+	}
 	
 	//O2 Ouputs
 	public void setO2OutputMaxFlowRate(float liters, int index){
@@ -414,6 +425,9 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	}
 	public O2Store[] getO2Outputs(){
 		return myO2Stores;
+	}
+	void setO2OutputActualFlowRate(float liters, int index){
+		O2ActualFlowRates[index] = liters;
 	}
 	
 	//CO2 Ouputs
@@ -450,6 +464,9 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	public CO2Store[] getCO2Outputs(){
 		return myCO2OutputStores;
 	}
+	void setCO2OutputActualFlowRate(float liters, int index){
+		CO2OutputActualFlowRates[index] = liters;
+	}
 	
 	//CO2 Inputs
 	public void setCO2InputMaxFlowRate(float liters, int index){
@@ -484,5 +501,8 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	}
 	public CO2Store[] getCO2Inputs(){
 		return myCO2InputStores;
+	}
+	void setCO2InputActualFlowRate(float liters, int index){
+		CO2InputActualFlowRates[index] = liters;
 	}
 }
