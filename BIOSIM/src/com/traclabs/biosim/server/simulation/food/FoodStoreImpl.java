@@ -25,8 +25,10 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 	public void setLevel(float metricAmount){
 		super.setLevel(metricAmount);
 		currentFoodItems.clear();
-		if (metricAmount > 0)
-			addFoodMatterMass(metricAmount, PlantType.UNKNOWN_PLANT);
+		if (metricAmount > 0){
+			FoodMatter newFoodMatter = new FoodMatter(metricAmount, PlantType.UNKNOWN_PLANT);
+			currentFoodItems.add(newFoodMatter);
+		}
 	}
 	
 	public float take(float pMass){

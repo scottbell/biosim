@@ -86,9 +86,9 @@
 		</environment>                    
 		<food>
 			<FoodProcessor name="FoodProcessor">
-				<powerConsumer maxFlowRates="1" desiredFlowRates="1" inputs="PowerStore"/>
+				<powerConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PowerStore"/>
 				<biomassConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BiomassStore"/>
-				<foodProducer maxFlowRates="1" desiredFlowRates="1" outputs="FoodStore"/>
+				<foodProducer maxFlowRates="100" desiredFlowRates="100" outputs="FoodStore"/>
 			</FoodProcessor>
 			<BiomassRS name="BiomassRS">
 				<shelf  cropArea="10" cropType="WHEAT"/>
