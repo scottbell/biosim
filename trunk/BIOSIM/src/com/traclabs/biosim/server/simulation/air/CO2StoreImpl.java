@@ -8,8 +8,8 @@ public class CO2StoreImpl extends CO2StorePOA {
 	private float CO2capacity;
 	
 	public CO2StoreImpl(){
-		CO2level = 0.0;
-		CO2capacity = 10.0;
+		CO2level = 0.0f;
+		CO2capacity = 10.0f;
 	}
 	
 	public CO2StoreImpl (float initialCO2level, float  initialCO2capacity){
@@ -21,7 +21,7 @@ public class CO2StoreImpl extends CO2StorePOA {
 		CO2capacity = liters;
 	}
 	
-	void setCO2level(float liters){
+	void setCO2Level(float liters){
 		CO2level = liters;
 	}
 
