@@ -902,14 +902,12 @@ public class BioHolder
 			hasCollectedReferences = true;
 		}
 		catch (org.omg.CORBA.UserException e){
-			e.printStackTrace();
 			System.err.println("BioHolder: Had problems collecting server references, polling again...");
 			OrbUtils.sleepAwhile();
 			collectReferences();
 		}
 		catch (Exception e){
 			System.err.println("BioHolder: Had problems collecting server references, polling again...");
-			e.printStackTrace();
 			OrbUtils.resetInit();
 			OrbUtils.sleepAwhile();
 			collectReferences();
