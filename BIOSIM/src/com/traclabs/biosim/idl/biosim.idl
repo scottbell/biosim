@@ -58,6 +58,7 @@ module biosim{
                                 typedef sequence <DirtyWaterStore> DirtyWaterStoreList;
                         };
                         module framework{
+				interface SimBioModule;
                                 interface PowerConsumer;
                                 interface PotableWaterConsumer;
                                 interface GreyWaterConsumer;
