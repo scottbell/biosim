@@ -76,6 +76,9 @@ public class WaterRSLinearImpl extends SimBioModuleImpl implements
 
     private WaterRSMatlabTechInfoImpl myTechSpecificInfoImpl;
 
+    //multiply times power to determine how much water we're consuming
+    private static final float LINEAR_MULTIPLICATIVE_FACTOR = 4;
+
     /**
      * Creates the Water RS and it's subsystems
      */
@@ -111,7 +114,7 @@ public class WaterRSLinearImpl extends SimBioModuleImpl implements
     }
     
     private void gatherWater() {
-        float waterNeeded = currentPowerConsumed;
+        float waterNeeded = currentPowerConsumed * LINEAR_MULTIPLICATIVE_FACTOR;
         float currentDirtyWaterConsumed = SimBioModuleImpl.getResourceFromStore(getDirtyWaterInputs(), getDirtyWaterInputMaxFlowRates(), getDirtyWaterInputDesiredFlowRates(), getDirtyWaterInputActualFlowRates(), waterNeeded);
         float currentGreyWaterConsumed = SimBioModuleImpl.getResourceFromStore(getGreyWaterInputs(), getGreyWaterInputMaxFlowRates(), getGreyWaterInputDesiredFlowRates(), getGreyWaterInputActualFlowRates(), waterNeeded - currentDirtyWaterConsumed);
         currentWaterConsumed = currentDirtyWaterConsumed

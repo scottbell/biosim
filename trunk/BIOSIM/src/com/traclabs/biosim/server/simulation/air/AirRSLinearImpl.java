@@ -136,6 +136,9 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations
     private float currentO2Produced;
 
     private float currentH2Produced;
+    
+    //multiply times power to determine how much air/H2/water we're consuming
+    private static final float LINEAR_MULTIPLICATIVE_FACTOR = 100;
 
     public AirRSLinearImpl(int pID, String pName) {
         super(pID, pName);
@@ -207,7 +210,7 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations
         float gatheredOther = 0f;
         float gatheredWater = 0f;
         float gatheredNitrogen = 0f;
-        float airNeeded = currentPowerConsumed;
+        float airNeeded = currentPowerConsumed * LINEAR_MULTIPLICATIVE_FACTOR;
         for (int i = 0; (i < getAirInputs().length)
                 && (gatheredAir < airNeeded); i++) {
             float resourceToGatherFirst = Math.min(airNeeded, getAirInputMaxFlowRate(i));
@@ -276,7 +279,7 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations
     }
     
     private void gatherH2andCO2() {
-        float CO2Needed = currentPowerConsumed;
+        float CO2Needed = currentPowerConsumed * LINEAR_MULTIPLICATIVE_FACTOR;
         float H2Needed = CO2Needed * 4f;
         float filteredCO2Needed = randomFilter(CO2Needed);
         float filteredH2Needed = randomFilter(H2Needed);
@@ -317,7 +320,7 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations
     }
     
     private void gatherWater() {
-        float waterNeeded = currentPowerConsumed;
+        float waterNeeded = currentPowerConsumed * LINEAR_MULTIPLICATIVE_FACTOR;
         currentH2OConsumed = SimBioModuleImpl.getResourceFromStore(getPotableWaterInputs(), getPotableWaterInputMaxFlowRates(), getPotableWaterInputDesiredFlowRates(), getPotableWaterInputActualFlowRates(), waterNeeded);
     }
 
