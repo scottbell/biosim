@@ -58,6 +58,21 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 		if (moduleLogging)
 			log();
 	}
+	
+	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
+		String returnName = new String();
+		if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
+			returnName += "Severe ";
+		else if (pIntensity == MalfunctionIntensity.MEDIUM_MALF)
+			returnName += "Medium ";
+		else if (pIntensity == MalfunctionIntensity.LOW_MALF)
+			returnName += "Low ";
+		if (pLength == MalfunctionLength.TEMPORARY_MALF)
+			returnName += "Leak";
+		else if (pLength == MalfunctionLength.PERMANENT_MALF)
+			returnName += "Capacity Reduction";
+		return returnName;
+	}
 
 	private void performMalfunctions(){
 		for (Enumeration e = myMalfunctions.elements(); e.hasMoreElements();){

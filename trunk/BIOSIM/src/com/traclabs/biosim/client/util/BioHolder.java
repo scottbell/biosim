@@ -61,6 +61,8 @@ public class BioHolder
 	public static String[] getBioModuleNames(){
 		collectReferences();
 		String[] arrayModuleNames = new String[modules.size()];
+		if (modules.size() == 0)
+			return arrayModuleNames;
 		return (String[])(modules.keySet().toArray(arrayModuleNames));
 	}
 
