@@ -229,7 +229,7 @@ public class InjectorImpl extends SimBioModuleImpl implements
         //Push CO2 to stores/environment
         float CO2AirPushed = myCO2AirProducerDefinitionImpl.pushResourceToStore(gatheredCO2Air);
         float CO2AirLeft = gatheredCO2Air - CO2AirPushed;
-        CO2AirLeft += myCO2AirProducerDefinitionImpl.pushCO2ToEnvironment(CO2AirLeft);
+        CO2AirLeft -= myCO2AirProducerDefinitionImpl.pushCO2ToEnvironment(CO2AirLeft);
         CO2AirPushed = gatheredCO2Air - CO2AirLeft;
 
         //Get O2 from stores/environment
@@ -238,7 +238,7 @@ public class InjectorImpl extends SimBioModuleImpl implements
         //Push O2 to stores/environment
         float O2AirPushed = myO2AirProducerDefinitionImpl.pushResourceToStore(gatheredO2Air);
         float O2AirLeft = gatheredO2Air - O2AirPushed;
-        O2AirLeft += myO2AirProducerDefinitionImpl.pushO2ToEnvironment(O2AirLeft);
+        O2AirLeft -= myO2AirProducerDefinitionImpl.pushO2ToEnvironment(O2AirLeft);
         O2AirPushed = gatheredO2Air - O2AirLeft;
 
         //Get Nitrogen from stores/environment
