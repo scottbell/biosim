@@ -743,8 +743,6 @@ module com{
                                                         void setTotalMoles(in float moles);
                                                         void setTotalPressure(in float moles);
                                                         float getVolume();
-                                                        void printEnvironment();
-                                                        void printCachedEnvironment();
                                                 };
                                         };
                                         module food{

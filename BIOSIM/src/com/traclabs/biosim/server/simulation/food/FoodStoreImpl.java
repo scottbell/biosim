@@ -265,38 +265,7 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
         returnArray = (FoodMatter[]) (itemsToReturn.toArray(returnArray));
         return returnArray;
     }
-
-    /*
-     * public FoodMatter takeFoodMatterMassAndType(float pMass, PlantType
-     * pType){ FoodMatter matterToReturn = new FoodMatter(0f, pType); List
-     * itemsToRemove = new Vector(); for (Iterator iter =
-     * currentFoodItems.iterator(); iter.hasNext() && (matterToReturn.mass <=
-     * pMass);){ FoodMatter currentFoodMatter = (FoodMatter)(iter.next()); if
-     * (currentFoodMatter.type == pType){ float massStillNeeded = pMass -
-     * matterToReturn.mass; //we need to get more bio matter if
-     * (currentFoodMatter.mass < massStillNeeded){ matterToReturn.mass +=
-     * currentFoodMatter.mass; itemsToRemove.add(currentFoodMatter); } //we have
-     * enough, let's cut up the biomass (if too much) else if
-     * (currentFoodMatter.mass >= massStillNeeded){ float partialMassToReturn =
-     * massStillNeeded; currentFoodMatter.mass -= partialMassToReturn;
-     * matterToReturn.mass += partialMassToReturn; if (currentFoodMatter.mass <=
-     * 0) itemsToRemove.add(currentFoodMatter); } } } //Remove items from List
-     * for (Iterator iter = itemsToRemove.iterator(); iter.hasNext();){
-     * currentFoodItems.remove(iter.next()); } level -= matterToReturn.mass;
-     * return matterToReturn; }
-     * 
-     * public FoodMatter takeFoodMatterType(PlantType pType){ FoodMatter
-     * matterToReturn = new FoodMatter(0f, pType); List itemsToRemove = new
-     * Vector(); for (Iterator iter = currentFoodItems.iterator();
-     * iter.hasNext();){ FoodMatter currentFoodMatter =
-     * (FoodMatter)(iter.next()); if (currentFoodMatter.type == pType){
-     * matterToReturn.mass += currentFoodMatter.mass;
-     * itemsToRemove.add(currentFoodMatter); } } //Remove items from List for
-     * (Iterator iter = itemsToRemove.iterator(); iter.hasNext();){
-     * currentFoodItems.remove(iter.next()); } level -= matterToReturn.mass;
-     * return matterToReturn; }
-     */
-
+    
     public void reset() {
         super.reset();
         currentFoodItems.clear();

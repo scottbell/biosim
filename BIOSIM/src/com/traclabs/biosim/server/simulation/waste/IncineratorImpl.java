@@ -326,24 +326,11 @@ public class IncineratorImpl extends SimBioModuleImpl implements
     }
 
     public void log() {
-        /*
-         * LogNode powerNeededHead = myLog.addChild("power_needed");
-         * myLogIndex.powerNeededIndex =
-         * powerNeededHead.addChild(""+powerNeeded); LogNode hasEnoughPowerHead =
-         * myLog.addChild("has_enough_power"); myLogIndex.hasEnoughPowerIndex =
-         * hasEnoughPowerHead.addChild(""+hasEnoughPower); LogNode
-         * dryWasteNeededHead = myLog.addChild("dryWaste_needed");
-         * myLogIndex.dryWasteNeededIndex =
-         * dryWasteNeededHead.addChild(""+dryWasteNeeded); LogNode
-         * currentDryWasteConsumedHead =
-         * myLog.addChild("current_dryWaste_consumed");
-         * myLogIndex.currentDryWasteConsumedIndex =
-         * currentDryWasteConsumedHead.addChild(""+currentDryWasteConsumed);
-         * LogNode currentPowerConsumedHead =
-         * myLog.addChild("current_power_consumed");
-         * myLogIndex.currentPowerConsumedIndex =
-         * currentPowerConsumedHead.addChild(""+currentPowerConsumed);
-         */
+        myLogger.debug("power_needed="+powerNeeded);
+        myLogger.debug("has_enough_power="+hasEnoughPower);
+        myLogger.debug("dryWaste_needed="+dryWasteNeeded);
+        myLogger.debug("current_dryWaste_consumed="+currentDryWasteConsumed);
+        myLogger.debug("current_power_consumed="+currentPowerConsumed);
     }
 
     //Power Input

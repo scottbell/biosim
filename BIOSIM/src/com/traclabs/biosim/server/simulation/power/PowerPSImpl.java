@@ -121,11 +121,7 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements
     }
 
     public void log() {
-        /*
-         * LogNode powerProducedHead = myLog.addChild("power_produced");
-         * myLogIndex.powerProducedIndex =
-         * powerProducedHead.addChild(""+currentPowerProduced);
-         */
+        myLogger.debug("power_produced="+currentPowerProduced);
     }
 
     //Power Outputs

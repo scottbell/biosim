@@ -1,5 +1,7 @@
 package com.traclabs.biosim.server.simulation.framework;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author Scott Bell
  */
@@ -20,11 +22,14 @@ public class SimpleBuffer {
     protected float initialLevel = 0f;
 
     protected float initialCapacity = 0f;
+    
+    private Logger myLogger;
 
     /**
      * Creates a Store with an initial level and capacity of 0
      */
     public SimpleBuffer() {
+        myLogger = Logger.getLogger(this.getClass());
         level = initialLevel = 0f;
         capacity = initialCapacity = 10f;
     }
@@ -50,7 +55,7 @@ public class SimpleBuffer {
      */
     public void setCapacity(float newCapacity) {
         if (newCapacity <= 0) {
-            //System.out.println("SimpleBuffer: told to change capacity to 0");
+            myLogger.debug("told to change capacity to 0");
             newCapacity = Float.MIN_VALUE;
         }
         float percentage = level / capacity;

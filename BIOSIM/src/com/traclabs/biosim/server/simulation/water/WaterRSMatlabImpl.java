@@ -114,7 +114,7 @@ public class WaterRSMatlabImpl extends SimBioModuleImpl implements
      * When ticked, the Water RS: 1) ticks each subsystem.
      */
     public void tick() {
-        System.out.println("tick");
+        myLogger.debug("tick");
         super.tick();
 
     }

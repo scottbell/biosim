@@ -54,13 +54,10 @@ public abstract class Planophile extends PlantImpl {
                 .getTemperature();
         float vaporPressureDeficit = calculateVaporPressureDeficit();
         float netCanopyPhotosynthesis = calculateNetCanopyPhotosynthesis();
-        //System.out.println("Planophile: temperature: "+temperature);
-        //System.out.println("Planophile: vaporPressureDeficit:
-        // "+vaporPressureDeficit);
-        //System.out.println("Planophile: CO2Concentration:
-        // "+getAverageCO2Concentration());
-        //System.out.println("Planophile: netCanopyPhotosynthesis:
-        // "+netCanopyPhotosynthesis);
+        myLogger.debug("Planophile: temperature: "+temperature);
+        myLogger.debug("Planophile: vaporPressureDeficit:"+vaporPressureDeficit);
+        myLogger.debug("Planophile: CO2Concentration:"+getAverageCO2Concentration());
+        myLogger.debug("Planophile: netCanopyPhotosynthesis:"+netCanopyPhotosynthesis);
         float canopyStomatalConductance = (1.717f * temperature - 19.96f - 10.54f * vaporPressureDeficit)
                 * (netCanopyPhotosynthesis / getAverageCO2Concentration());
         if (canopyStomatalConductance <= 0)

@@ -4,10 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.omg.PortableServer.Servant;
 
 import com.traclabs.biosim.server.util.OrbUtils;
@@ -24,6 +26,14 @@ public class GenericServer {
     
     public GenericServer(){
         myLogger = Logger.getLogger(this.getClass());
+        Properties logProps = new Properties();
+        logProps.setProperty("log4j.rootLogger", "OFF, stdout");
+        logProps.setProperty("log4j.logger"+this.getClass(), "INFO, stdout");
+        logProps.setProperty("log4j.appender.stdout", "org.apache.log4j.ConsoleAppender");
+        logProps.setProperty("log4j.appender.stdout.layout", "org.apache.log4j.PatternLayout");
+        logProps.setProperty("log4j.appender.stdout.layout.ConversionPattern", "%5p [%c] - %m%n");
+        PropertyConfigurator.configure(logProps);
+        
     }
     
 

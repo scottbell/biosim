@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
+import org.apache.log4j.Logger;
+
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.idl.simulation.food.BioMatter;
 import com.traclabs.biosim.idl.simulation.food.PlantPOA;
@@ -20,6 +22,8 @@ import com.traclabs.biosim.server.simulation.framework.SimpleBuffer;
  */
 
 public abstract class PlantImpl extends PlantPOA {
+    protected Logger myLogger;
+
     private DecimalFormat numFormat;
 
     private Random myRandomGen;
@@ -134,6 +138,7 @@ public abstract class PlantImpl extends PlantPOA {
     private static final float LIGHT_RECOVERY_RATE = 0.005f;
 
     public PlantImpl(ShelfImpl pShelfImpl) {
+        myLogger = Logger.getLogger(this.getClass());
         myAge = 0;
         myShelfImpl = pShelfImpl;
         canopyClosureConstants = new float[25];
@@ -266,8 +271,8 @@ public abstract class PlantImpl extends PlantPOA {
     }
 
     public boolean readyForHarvest() {
-        //System.out.println("PlantImpl: daysOfGrowth: "+getDaysOfGrowth()+"
-        // and timeAtCropMaturity: "+getTimeAtCropMaturity());
+        myLogger.debug("daysOfGrowth: " + getDaysOfGrowth()
+                + "and timeAtCropMaturity: " + getTimeAtCropMaturity());
         return (getDaysOfGrowth() >= getTimeAtCropMaturity());
     }
 
@@ -286,7 +291,7 @@ public abstract class PlantImpl extends PlantPOA {
         myAveragePPF = myTotalPPF / myNumberOfPPFReadings;
         if (!canopyClosed)
             addToCanopyClosureList(pPPF, myCanopyClosurePPFValues);
-        //System.out.println("PlantImpl: pPPF: "+pPPF);
+        myLogger.debug("pPPF: " + pPPF);
     }
 
     /**
@@ -314,26 +319,26 @@ public abstract class PlantImpl extends PlantPOA {
      * If not all the resources required were consumed, we damage the plant
      */
     private void afflictPlants() {
-        //System.out.println("PlantImpl: before: water buffer at
-        // "+consumedWaterBuffer.getLevel()+" of
-        // "+consumedWaterBuffer.getCapacity());
-        //System.out.println("PlantImpl: before: light buffer at
-        // "+consumedLightBuffer.getLevel()+" of
-        // "+consumedLightBuffer.getCapacity());
+        myLogger.debug("before: water buffer at "
+                + consumedWaterBuffer.getLevel() + " of "
+                + consumedWaterBuffer.getCapacity());
+        myLogger.debug("before: light buffer at "
+                + consumedLightBuffer.getLevel() + " of "
+                + consumedLightBuffer.getCapacity());
 
         consumedWaterBuffer.setCapacity(myAverageWaterNeeded * WATER_TILL_DEAD);
         consumedLightBuffer.setCapacity(getPPFNeeded() * LIGHT_TILL_DEAD);
 
-        //System.out.println("PlantImpl: after asked for "+myWaterNeeded+" and
-        // got "+myWaterLevel+", water buffer at
-        // "+consumedWaterBuffer.getLevel()+" of
-        // "+consumedWaterBuffer.getCapacity()+" and going to take
-        // "+(myWaterNeeded - myWaterLevel) +" from death buffer");
-        //System.out.println("PlantImpl: after asked for "+getPPFNeeded()+" and
-        // got "+myAveragePPF+", light buffer at
-        // "+consumedLightBuffer.getLevel()+" of
-        // "+consumedLightBuffer.getCapacity()+" and going to take
-        // "+(getPPFNeeded() - myAveragePPF));
+        myLogger.debug("after asked for " + myWaterNeeded
+                + " and got " + myWaterLevel + ", water buffer at "
+                + consumedWaterBuffer.getLevel() + " of "
+                + consumedWaterBuffer.getCapacity() + " and going to take "
+                + (myWaterNeeded - myWaterLevel) + " from death buffer");
+        myLogger.debug("after asked for " + getPPFNeeded()
+                + " and got " + myAveragePPF + ", light buffer at "
+                + consumedLightBuffer.getLevel() + " of "
+                + consumedLightBuffer.getCapacity() + " and going to take "
+                + (getPPFNeeded() - myAveragePPF));
 
         consumedWaterBuffer.take(myWaterNeeded - myWaterLevel);
         consumedLightBuffer.take(getPPFNeeded() - myAveragePPF);
@@ -372,29 +377,29 @@ public abstract class PlantImpl extends PlantPOA {
 
         if (CO2RiskLowReturn > randomNumber) {
             hasDied = true;
-            System.out.println("PlantImpl: " + getPlantTypeString()
+            myLogger.info(getPlantTypeString()
                     + " crops have died from low CO2 at " + getDaysOfGrowth()
                     + " days (risk was " + (CO2RiskLowReturn * 100) + "%)");
         } else if (CO2RiskHighReturn > randomNumber) {
             hasDied = true;
-            System.out.println("PlantImpl: " + getPlantTypeString()
+            myLogger.info(getPlantTypeString()
                     + " crops have died from high CO2 at " + getDaysOfGrowth()
                     + " days (risk was " + (CO2RiskHighReturn * 100) + "%)");
         } else if (waterRiskReturn > randomNumber) {
             hasDied = true;
-            System.out.println("PlantImpl: " + getPlantTypeString()
+            myLogger.info(getPlantTypeString()
                     + " crops have died from lack of water at "
                     + getDaysOfGrowth() + " days (risk was "
                     + (waterRiskReturn * 100) + "%)");
         } else if (heatRiskReturn > randomNumber) {
             hasDied = true;
-            System.out.println("PlantImpl: " + getPlantTypeString()
+            myLogger.info(getPlantTypeString()
                     + " crops have died from lack of heat at "
                     + getDaysOfGrowth() + " days (risk was "
                     + (heatRiskReturn * 100) + "%)");
         } else if (lightRiskReturn > randomNumber) {
             hasDied = true;
-            System.out.println("PlantImpl: " + getPlantTypeString()
+            myLogger.info(getPlantTypeString()
                     + " crops have died from lack of light at "
                     + getDaysOfGrowth() + " days (risk was "
                     + (lightRiskReturn * 100) + "%)");
@@ -412,12 +417,10 @@ public abstract class PlantImpl extends PlantPOA {
         float canopySurfaceConductance = calculateCanopySurfaceConductance();
         float vaporPressureDeficit = calculateVaporPressureDeficit();
         float photoperiod = getPhotoperiod();
-        //System.out.println("PlantImpl: airPressure: "+airPressure);
-        //System.out.println("PlantImpl: canopySurfaceConductance:
-        // "+canopySurfaceConductance);
-        //System.out.println("PlantImpl: vaporPressureDeficit:
-        // "+vaporPressureDeficit);
-        //System.out.println("PlantImpl: getPhotoperiod(): "+getPhotoperiod());
+        myLogger.debug("airPressure: "+airPressure);
+        myLogger.debug("canopySurfaceConductance:"+canopySurfaceConductance);
+        myLogger.debug("vaporPressureDeficit:"+vaporPressureDeficit);
+        myLogger.debug("getPhotoperiod(): "+getPhotoperiod());
         return 3600f * photoperiod * (18.015f / 998.23f)
                 * canopySurfaceConductance
                 * (vaporPressureDeficit / airPressure);
@@ -426,14 +429,11 @@ public abstract class PlantImpl extends PlantPOA {
     protected float calculateVaporPressureDeficit() {
         float saturatedMoistureVaporPressure = calculateSaturatedMoistureVaporPressure();
         float actualMoistureVaporPressure = calculateActualMoistureVaporPressure();
-        //System.out.println("PlantImpl: saturatedMoistureVaporPressure:
-        // "+saturatedMoistureVaporPressure);
-        //System.out.println("PlantImpl: actualMoistureVaporPressure:
-        // "+actualMoistureVaporPressure);
+        myLogger.debug("saturatedMoistureVaporPressure:"+saturatedMoistureVaporPressure);
+        myLogger.debug("actualMoistureVaporPressure:"+actualMoistureVaporPressure);
         float vaporPressureDeficit = saturatedMoistureVaporPressure
                 - actualMoistureVaporPressure;
-        //System.out.println("PlantImpl: vaporPressureDeficit:
-        // "+vaporPressureDeficit);
+        myLogger.debug("vaporPressureDeficit:"+vaporPressureDeficit);
         if (vaporPressureDeficit < 0)
             return 0f;
         else
@@ -444,8 +444,8 @@ public abstract class PlantImpl extends PlantPOA {
         float temperatureLight = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0]
                 .getTemperature();
         float exponent = (17.4f * temperatureLight) / (temperatureLight + 239f);
-        //System.out.println("PlantImpl: temperatureLight: "+temperatureLight);
-        //System.out.println("PlantImpl: exponent: "+exponent);
+        myLogger.debug("temperatureLight: "+temperatureLight);
+        myLogger.debug("exponent: "+exponent);
         return 0.611f * exp(exponent);
     }
 
@@ -458,33 +458,27 @@ public abstract class PlantImpl extends PlantPOA {
         float plantGrowthDiurnalCycle = 24f;
         float grossCanopyPhotosynthesis = calculateGrossCanopyPhotosynthesis();
         float photoperiod = getPhotoperiod();
-        //System.out.println("PlantImpl: plantGrowthDiurnalCycle:
-        // "+plantGrowthDiurnalCycle);
-        //System.out.println("PlantImpl: carbonUseEfficiency24:
-        // "+carbonUseEfficiency24);
-        //System.out.println("PlantImpl: grossCanopyPhotosynthesis:
-        // "+grossCanopyPhotosynthesis);
-        //System.out.println("PlantImpl: photoperiod: "+photoperiod);
+        myLogger.debug("plantGrowthDiurnalCycle:"+plantGrowthDiurnalCycle);
+        myLogger.debug("carbonUseEfficiency24:"+carbonUseEfficiency24);
+        myLogger.debug("grossCanopyPhotosynthesis:"+grossCanopyPhotosynthesis);
+        myLogger.debug("photoperiod: "+photoperiod);
         return (((plantGrowthDiurnalCycle - photoperiod) / plantGrowthDiurnalCycle) + ((photoperiod * carbonUseEfficiency24) / plantGrowthDiurnalCycle))
                 * grossCanopyPhotosynthesis;
     }
 
     private float calculateGrossCanopyPhotosynthesis() {
         float PPF = getAveragePPF();
-        //System.out.println("PlantImpl: CQY: "+CQY);
-        //System.out.println("PlantImpl: PPF: "+PPF);
-        //System.out.println("PlantImpl: myPPFFractionAbsorbed:
-        // "+myPPFFractionAbsorbed);
+        myLogger.debug("CQY: "+CQY);
+        myLogger.debug("PPF: "+PPF);
+        myLogger.debug("myPPFFractionAbsorbed:"+myPPFFractionAbsorbed);
         return myPPFFractionAbsorbed * CQY * PPF;
     }
 
     private float calculateCanopySurfaceConductance() {
         float canopyStomatalConductance = calculateCanopyStomatalConductance();
         float atmosphericAeroDynamicConductance = calculateAtmosphericAeroDynamicConductance();
-        //System.out.println("PlantImpl: canopyStomatalConductance:
-        // "+canopyStomatalConductance);
-        //System.out.println("PlantImpl: atmosphericAeroDynamicConductance:
-        // "+atmosphericAeroDynamicConductance);
+        myLogger.debug("canopyStomatalConductance:"+canopyStomatalConductance);
+        myLogger.debug("atmosphericAeroDynamicConductance:"+atmosphericAeroDynamicConductance);
         return (atmosphericAeroDynamicConductance * canopyStomatalConductance)
                 / (canopyStomatalConductance + atmosphericAeroDynamicConductance);
     }
@@ -496,11 +490,10 @@ public abstract class PlantImpl extends PlantPOA {
         myLastEdibleWetBiomass = myCurrentEdibleWetBiomass;
         calculateAverageCO2Concentration();
         if (!canopyClosed) {
-            //System.out.println("getDaysOfGrowth() = "+getDaysOfGrowth()+" and
-            // myTimeTillCanopyClosure = "+myTimeTillCanopyClosure);
+            myLogger.debug("getDaysOfGrowth() = "+getDaysOfGrowth()+" and myTimeTillCanopyClosure = "+myTimeTillCanopyClosure);
             if ((getDaysOfGrowth() >= myTimeTillCanopyClosure) && (myAge > 1)) {
                 canopyClosed = true;
-                //System.out.println("canopy closed");
+                myLogger.debug("canopy closed");
             } else
                 myTimeTillCanopyClosure = calculateTimeTillCanopyClosure();
         }
@@ -511,17 +504,16 @@ public abstract class PlantImpl extends PlantPOA {
         CQY = calculateCQY();
         carbonUseEfficiency24 = getCarbonUseEfficiency24();
         float dailyCarbonGain = calculateDailyCarbonGain();
-        //if (myAge % 24 == 0)
-        //	System.out.println(getDaysOfGrowth()+"\t"+dailyCarbonGain);
+        if (myAge % 24 == 0)
+            myLogger.debug(getDaysOfGrowth()+"\t"+dailyCarbonGain);
         totalCO2MolesConsumed += (dailyCarbonGain / 24f);
-        //System.out.println("dailyCarbonGain: "+dailyCarbonGain);
+        myLogger.debug("dailyCarbonGain: "+dailyCarbonGain);
         float cropGrowthRate = molecularWeightOfCarbon
                 * (dailyCarbonGain / getBCF());
-        //System.out.println("PlantImpl: cropGrowthRate: "+cropGrowthRate);
+        myLogger.debug("cropGrowthRate: "+cropGrowthRate);
         myCurrentDryBiomass += (cropGrowthRate / 1000 / 24f * myShelfImpl
                 .getCropAreaUsed()); //in kilograms per hour
-        //System.out.println("PlantImpl: myCurrentDryBiomass:
-        // "+myCurrentDryBiomass);
+        myLogger.debug("myCurrentDryBiomass:"+myCurrentDryBiomass);
 
         if (getDaysOfGrowth() > getTimeAtOrganFormation())
             myCurrentEdibleDryBiomass += (cropGrowthRate / 1000 / 24f
@@ -541,15 +533,14 @@ public abstract class PlantImpl extends PlantPOA {
                 + myCurrentInedbileDryBiomass;
         myCurrentTotalWetBiomass = myCurrentInedibleWetBiomass
                 + myCurrentEdibleWetBiomass;
-        //System.out.println("PlantImpl: myCurrentEdibleDryBiomass:
-        // "+myCurrentEdibleDryBiomass);
+        myLogger.debug("myCurrentEdibleDryBiomass: "+myCurrentEdibleDryBiomass);
 
         //Water In
         myWaterNeeded = calculateWaterUptake();
         myWaterLevel = myShelfImpl.takeWater(myWaterNeeded);
         consumedWaterBuffer.add(myWaterLevel);
-        //System.out.println("PlantImpl: myWaterNeeded: "+myWaterNeeded);
-        //System.out.println("PlantImpl: myWaterLevel: "+myWaterLevel);
+        myLogger.debug("myWaterNeeded: "+myWaterNeeded);
+        myLogger.debug("myWaterLevel: "+myWaterLevel);
         if (myWaterNeeded == 0)
             waterFraction = 1f;
         else
@@ -563,10 +554,8 @@ public abstract class PlantImpl extends PlantPOA {
                 myCurrentEdibleDryBiomass -= (float) (1f - waterFraction)
                         * (cropGrowthRate / 1000 / 24f
                                 * myShelfImpl.getCropAreaUsed() * getProtectedFractionOfEdibleBiomass());
-            //System.out.println("PlantImpl: myCurrentDryBiomass:
-            // "+myCurrentDryBiomass);
-            //System.out.println("PlantImpl: myCurrentEdibleDryBiomass:
-            // "+myCurrentEdibleDryBiomass);
+            myLogger.debug("myCurrentDryBiomass:"+myCurrentDryBiomass);
+            myLogger.debug("myCurrentEdibleDryBiomass:"+myCurrentEdibleDryBiomass);
 
             myCurrentWaterInsideEdibleBiomass = myCurrentEdibleDryBiomass
                     * getProtectedEdibleFreshBasisWaterContent()
@@ -596,12 +585,10 @@ public abstract class PlantImpl extends PlantPOA {
         float molesOfCO2Inhaled = myShelfImpl.getBiomassRSImpl().getAirInputs()[0]
                 .takeCO2Moles(molesOfCO2ToInhale);
         totalCO2GramsConsumed += molesOfCO2Inhaled * 44f;
-        //System.out.println("PlantImpl: totalCO2GramsConsumed:
-        // "+totalCO2GramsConsumed);
+        myLogger.debug("totalCO2GramsConsumed:"+totalCO2GramsConsumed);
         myShelfImpl.getBiomassRSImpl().addAirInputActualFlowRates(0,
                 molesOfCO2Inhaled);
-        //System.out.println("PlantImpl: molesOfCO2ToInhale:
-        // "+molesOfCO2ToInhale);
+        myLogger.debug("molesOfCO2ToInhale:"+molesOfCO2ToInhale);
 
         //Exhale Air
         float dailyO2MolesProduced = 0f;
@@ -612,20 +599,17 @@ public abstract class PlantImpl extends PlantPOA {
             dailyO2MolesProduced = getOPF() * dailyCarbonGain
                     * myShelfImpl.getCropAreaUsed();
         float dailyO2GramsProduced = dailyO2MolesProduced * 32f;
-        //System.out.println("PlantImpl: dailyO2MolesProduced:
-        // "+dailyO2MolesProduced);
-        //System.out.println("PlantImpl: dailyO2GramsProduced:
-        // "+dailyO2GramsProduced);
+        myLogger.debug("dailyO2MolesProduced:"+dailyO2MolesProduced);
+        myLogger.debug("dailyO2GramsProduced:"+dailyO2GramsProduced);
         totalO2GramsProduced += (dailyO2GramsProduced / 24f);
-        //System.out.println("PlantImpl: totalO2GramsProduced:
-        // "+totalO2GramsProduced);
+        myLogger.debug("totalO2GramsProduced:"+totalO2GramsProduced);
         float O2Produced = dailyO2MolesProduced / 24f; //in mol of oxygen per
         // hour
         float O2Exhaled = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0]
                 .addO2Moles(O2Produced);
         myShelfImpl.getBiomassRSImpl()
                 .addAirOutputActualFlowRates(0, O2Exhaled);
-        //System.out.println("PlantImpl: O2Produced: "+O2Produced);
+        myLogger.debug("O2Produced: "+O2Produced);
 
         //Water Vapor Produced
         if (waterFraction < 1f)
@@ -636,8 +620,7 @@ public abstract class PlantImpl extends PlantPOA {
             litersOfWaterProduced = calculateDailyCanopyTranspirationRate()
                     / 24f * myShelfImpl.getCropAreaUsed();
         totalWaterLitersTranspired += litersOfWaterProduced;
-        //System.out.println("PlantImpl: totalWaterLitersTranspired:
-        // "+totalWaterLitersTranspired);
+        myLogger.debug("totalWaterLitersTranspired:"+totalWaterLitersTranspired);
         //consumedWaterBuffer.take(litersOfWaterProduced);
         //1/1000 liters per milliter, 1 gram per millilters, 8.016 grams per
         // mole
@@ -646,14 +629,10 @@ public abstract class PlantImpl extends PlantPOA {
                 .getAirOutputs()[0].addWaterMoles(molesOfWaterProduced);
         myShelfImpl.getBiomassRSImpl().addAirOutputActualFlowRates(0,
                 molesOfWaterAdded);
-        //System.out.println("PlantImpl: litersOfWaterProduced:
-        // "+litersOfWaterProduced);
-        //System.out.println("PlantImpl: molesOfWaterProduced:
-        // "+molesOfWaterProduced);
-        //System.out.println("PlantImpl: molesOfWaterAdded:
-        // "+molesOfWaterAdded);
-        //System.out.println("PlantImpl: consumedWaterBuffer level:
-        // "+consumedWaterBuffer.getLevel());
+        myLogger.debug("litersOfWaterProduced:"+litersOfWaterProduced);
+        myLogger.debug("molesOfWaterProduced:"+molesOfWaterProduced);
+        myLogger.debug("molesOfWaterAdded:"+molesOfWaterAdded);
+        myLogger.debug("consumedWaterBuffer level:"+consumedWaterBuffer.getLevel());
 
     }
 
@@ -669,13 +648,11 @@ public abstract class PlantImpl extends PlantPOA {
     private float calculateDailyCarbonGain() {
         float photoperiod = getPhotoperiod();
         float PPF = getAveragePPF();
-        //System.out.println("PlantImpl: photoperiod: "+photoperiod);
-        //System.out.println("PlantImpl: carbonUseEfficiency24:
-        // "+carbonUseEfficiency24);
-        //System.out.println("PlantImpl: myPPFFractionAbsorbed:
-        // "+myPPFFractionAbsorbed);
-        //System.out.println("PlantImpl: CQY: "+CQY);
-        //System.out.println("PlantImpl: PPF: "+PPF);
+        myLogger.debug("photoperiod: "+photoperiod);
+        myLogger.debug("carbonUseEfficiency24:"+carbonUseEfficiency24);
+        myLogger.debug("myPPFFractionAbsorbed:"+myPPFFractionAbsorbed);
+        myLogger.debug("CQY: "+CQY);
+        myLogger.debug("PPF: "+PPF);
         return (0.0036f * photoperiod * carbonUseEfficiency24
                 * myPPFFractionAbsorbed * CQY * PPF);
     }
@@ -687,12 +664,9 @@ public abstract class PlantImpl extends PlantPOA {
         float wetIncoporatedWaterUptake = calculateWetIncoporatedWaterUptake();
         float dryIncoporatedWaterUptake = calculateDryIncoporatedWaterUptake(
                 dailyCanopyTranspirationRate, wetIncoporatedWaterUptake);
-        //System.out.println("PlantImpl: dailyCanopyTranspirationRate:
-        // "+dailyCanopyTranspirationRate);
-        //System.out.println("PlantImpl: wetIncoporatedWaterUptake:
-        // "+wetIncoporatedWaterUptake);
-        //System.out.println("PlantImpl: dryIncoporatedWaterUptake:
-        // "+dryIncoporatedWaterUptake);
+        myLogger.debug("dailyCanopyTranspirationRate:"+dailyCanopyTranspirationRate);
+        myLogger.debug("wetIncoporatedWaterUptake:"+wetIncoporatedWaterUptake);
+        myLogger.debug("dryIncoporatedWaterUptake:"+dryIncoporatedWaterUptake);
         float waterUptake = ((dailyCanopyTranspirationRate / 24f)
                 + wetIncoporatedWaterUptake + dryIncoporatedWaterUptake);
         return waterUptake;
@@ -707,19 +681,12 @@ public abstract class PlantImpl extends PlantPOA {
             myCurrentInedibleWetBiomass = 0f;
         if (myLastInedibleWetBiomass < 0)
             myLastInedibleWetBiomass = 0f;
-        //System.out.println("PlantImpl: myCurrentTotalWetBiomass:
-        // "+myCurrentTotalWetBiomass);
-        //System.out.println("PlantImpl: myCurrentEdibleWetBiomass:
-        // "+myCurrentEdibleWetBiomass);
-        //System.out.println("PlantImpl: myLastTotalWetBiomass:
-        // "+myLastTotalWetBiomass);
-        //System.out.println("PlantImpl: myLastEdibleWetBiomass:
-        // "+myLastEdibleWetBiomass);
-        //System.out.println("PlantImpl: myCurrentInedibleWetBiomass:
-        // "+myCurrentInedibleWetBiomass);
-        //System.out.println("PlantImpl: myLastInedibleWetBiomass:
-        // "+myLastInedibleWetBiomass);
-        //System.out.println("PlantImpl: densityOfWater: "+densityOfWater);
+        myLogger.debug("myCurrentTotalWetBiomass:"+myCurrentTotalWetBiomass);
+        myLogger.debug("myCurrentEdibleWetBiomass: "+myCurrentEdibleWetBiomass);
+        myLogger.debug("myLastTotalWetBiomass:"+myLastTotalWetBiomass);
+        myLogger.debug("myLastEdibleWetBiomass:"+myLastEdibleWetBiomass);
+        myLogger.debug("myCurrentInedibleWetBiomass:"+myCurrentInedibleWetBiomass);
+        myLogger.debug("myLastInedibleWetBiomass:"+myLastInedibleWetBiomass);
         return (((myCurrentEdibleWetBiomass - myLastEdibleWetBiomass) * getProtectedEdibleFreshBasisWaterContent()) + ((myCurrentInedibleWetBiomass - myLastInedibleWetBiomass) * getProtectedInedibleFreshBasisWaterContent()));
     }
 
@@ -745,55 +712,48 @@ public abstract class PlantImpl extends PlantPOA {
             CO2Moles = pow(1f, -30f);
         else if (airMoles <= 0)
             airMoles = pow(1f, -30f);
-        //System.out.println("PlantImpl: CO2Moles: "+CO2Moles);
-        //System.out.println("PlantImpl: airMoles: "+airMoles);
+        myLogger.debug("CO2Moles: "+CO2Moles);
+        myLogger.debug("airMoles: "+airMoles);
         float currentCO2Concentration = (CO2Moles / airMoles);
         if (!canopyClosed)
             addToCanopyClosureList(currentCO2Concentration,
                     myCanopyClosureCO2Values);
-        //System.out.println("PlantImpl: CO2_Concentration:
-        // "+CO2_Concentration);
+        myLogger.debug("CO2_Concentration: "+currentCO2Concentration);
         myTotalCO2Concentration += currentCO2Concentration;
         myNumberOfCO2ConcentrationReadings++;
         myAverageCO2Concentration = myTotalCO2Concentration
                 / myNumberOfCO2ConcentrationReadings;
-        //System.out.println("PlantImpl: myAverageCO2Concentration:
-        // "+myAverageCO2Concentration);
+        myLogger.debug("myAverageCO2Concentration: "+myAverageCO2Concentration);
     }
 
     //returns the age in days
     protected float getDaysOfGrowth() {
         float daysOfGrowth = (float) myAge / 24f;
-        //System.out.println("PlantImpl: daysOfGrowth: "+daysOfGrowth);
-        //System.out.println("PlantImpl: myAge: "+myAge);
+        myLogger.debug("daysOfGrowth: "+daysOfGrowth);
+        myLogger.debug("myAge: "+myAge);
         return daysOfGrowth;
     }
 
     private float getAverageForList(List pList, float fillerValue) {
-        //System.out.println("*********************************************");
+        myLogger.debug("*********************************************");
         if (pList.size() < 2)
             return fillerValue;
         float totalReal = 0f;
-        //System.out.print("list values = ["+fillerValue);
         for (Iterator iter = pList.iterator(); iter.hasNext();) {
             Float currentFloat = (Float) (iter.next());
             totalReal += currentFloat.floatValue();
-            //System.out.print(currentFloat.floatValue()+", ");
         }
-        //System.out.println("]");
+        myLogger.debug("]");
         float totalFiller = fillerValue
                 * ((myTimeTillCanopyClosure * 24f) - pList.size());
 
-        //System.out.println("fillerValue = "+fillerValue);
-        //System.out.println("totalFiller = "+totalFiller);
-        //System.out.println("totalReal = "+totalReal);
-        //System.out.println("pList.size() = "+pList.size());
-        //System.out.println("myTimeTillCanopyClosure * 24f =
-        // "+myTimeTillCanopyClosure * 24f);
-        //System.out.println("myTimeTillCanopyClosure =
-        // "+myTimeTillCanopyClosure);
-        //System.out.println("getAverageForList returning "+((totalFiller +
-        // totalReal) / (myTimeTillCanopyClosure * 24f)));
+        myLogger.debug("fillerValue = "+fillerValue);
+        myLogger.debug("totalFiller = "+totalFiller);
+        myLogger.debug("totalReal = "+totalReal);
+        myLogger.debug("pList.size() = "+pList.size());
+        myLogger.debug("myTimeTillCanopyClosure * 24f = "+myTimeTillCanopyClosure * 24f);
+        myLogger.debug("myTimeTillCanopyClosure = "+myTimeTillCanopyClosure);
+        myLogger.debug("getAverageForList returning "+((totalFiller + totalReal) / (myTimeTillCanopyClosure * 24f)));
 
         return (totalFiller + totalReal) / (myTimeTillCanopyClosure * 24f);
     }
@@ -837,25 +797,21 @@ public abstract class PlantImpl extends PlantPOA {
                 + canopyClosureConstants[24] * thePPFcubed * theCO2cubed;
         if ((tA < 0) || (Float.isNaN(tA))) {
             tA = 0;
-            //System.out.println("PlantImpl: Time till canopy closure is
-            // negative or NAN!");
+            myLogger.debug("Time till canopy closure is negative or NAN!");
         }
         //round the number according to Jim
         long tALong = Math.round(tA);
         tA = (float) tALong;
-        //System.out.println("PlantImpl: tA: "+tA);
+        myLogger.debug("tA: "+tA);
         return tA;
     }
 
     private void calculatePPFFractionAbsorbed() {
         float PPFFractionAbsorbedMax = 0.93f;
-        //System.out.println("PlantImpl: PPFFractionAbsorbedMax:
-        // "+PPFFractionAbsorbedMax);
-        //System.out.println("PlantImpl: myTimeTillCanopyClosure:
-        // "+myTimeTillCanopyClosure);
-        //System.out.println("PlantImpl: getDaysOfGrowth():
-        // "+getDaysOfGrowth());
-        //System.out.println("PlantImpl: getN(): "+getN());
+        myLogger.debug("PPFFractionAbsorbedMax:"+PPFFractionAbsorbedMax);
+        myLogger.debug("myTimeTillCanopyClosure:"+myTimeTillCanopyClosure);
+        myLogger.debug("getDaysOfGrowth():"+getDaysOfGrowth());
+        myLogger.debug("getN(): "+getN());
         if (canopyClosed)
             myPPFFractionAbsorbed = PPFFractionAbsorbedMax;
         else
@@ -870,7 +826,7 @@ public abstract class PlantImpl extends PlantPOA {
                 * getN()
                 * pow((getDaysOfGrowth() / myTimeTillCanopyClosure),
                         getN() - 1f) * (1f / myTimeTillCanopyClosure);
-        //System.out.println("PlantImpl: daDt: "+daDt);
+        myLogger.debug("daDt: "+daDt);
         return daDt;
     }
 
@@ -879,19 +835,19 @@ public abstract class PlantImpl extends PlantPOA {
         float oneOverPPf = 1f / thePPF;
         float thePPFsquared = pow(thePPF, 2f);
         float thePPFcubed = pow(thePPF, 3f);
-        //System.out.println("PlantImpl: thePPF: "+thePPF);
-        //System.out.println("PlantImpl: oneOverPPf: "+oneOverPPf);
-        //System.out.println("PlantImpl: thePPFsquared: "+thePPFsquared);
-        //System.out.println("PlantImpl: thePPFcubed: "+thePPFcubed);
+        myLogger.debug("thePPF: "+thePPF);
+        myLogger.debug("oneOverPPf: "+oneOverPPf);
+        myLogger.debug("thePPFsquared: "+thePPFsquared);
+        myLogger.debug("thePPFcubed: "+thePPFcubed);
 
         float theCO2 = getAverageCO2Concentration();
         float oneOverCO2 = 1f / theCO2;
         float theCO2squared = pow(theCO2, 2f);
         float theCO2cubed = pow(theCO2, 3f);
-        //System.out.println("PlantImpl: theCO2: "+theCO2);
-        //System.out.println("PlantImpl: oneOverCO2: "+oneOverCO2);
-        //System.out.println("PlantImpl: theCO2squared: "+theCO2squared);
-        //System.out.println("PlantImpl: theCO2cubed: "+theCO2cubed);
+        myLogger.debug("theCO2: "+theCO2);
+        myLogger.debug("oneOverCO2: "+oneOverCO2);
+        myLogger.debug("theCO2squared: "+theCO2squared);
+        myLogger.debug("theCO2cubed: "+theCO2cubed);
 
         float theCQYMax = canopyQYConstants[0] * oneOverPPf * oneOverCO2
                 + canopyQYConstants[1] * oneOverPPf + canopyQYConstants[2]
@@ -915,18 +871,17 @@ public abstract class PlantImpl extends PlantPOA {
                 + canopyQYConstants[24] * thePPFcubed * theCO2cubed;
         if ((theCQYMax < 0) || (Float.isNaN(theCQYMax))) {
             theCQYMax = 0;
-            //System.out.println("PlantImpl: CQYMax is negative or NaN!");
+            myLogger.debug("CQYMax is negative or NaN!");
         }
-        //System.out.println("PlantImpl: theCQYMax: "+theCQYMax);
+        myLogger.debug("theCQYMax: "+theCQYMax);
         return theCQYMax;
     }
 
     private float calculateCQY() {
         float CQYMax = calculateCQYMax();
         float timeTillCanopySenescence = getTimeAtCanopySenescence();
-        //System.out.println("PlantImpl: CQYMax: "+CQYMax);
-        //System.out.println("PlantImpl: timeTillCanopySenescence:
-        // "+timeTillCanopySenescence);
+        myLogger.debug("CQYMax: "+CQYMax);
+        myLogger.debug("timeTillCanopySenescence:"+timeTillCanopySenescence);
         if (getDaysOfGrowth() < getTimeAtCanopySenescence()) {
             return CQYMax;
         } else {
@@ -936,10 +891,9 @@ public abstract class PlantImpl extends PlantPOA {
             float calculatedCQY = CQYMax
                     - ((CQYMax - CQYMin)
                             * (daysOfGrowth - timeTillCanopySenescence) / (timeTillCropMaturity - timeTillCanopySenescence));
-            //System.out.println("PlantImpl: CQYMin: "+CQYMin);
-            //System.out.println("PlantImpl: daysOfGrowth: "+daysOfGrowth);
-            //System.out.println("PlantImpl: timeTillCropMaturity:
-            // "+timeTillCropMaturity);
+            myLogger.debug("CQYMin: "+CQYMin);
+            myLogger.debug("daysOfGrowth: "+daysOfGrowth);
+            myLogger.debug("timeTillCropMaturity: "+timeTillCropMaturity);
             if (calculatedCQY < 0f)
                 return 0f;
             else
@@ -970,9 +924,6 @@ public abstract class PlantImpl extends PlantPOA {
             return 0.3f * x * (1f - abs(x - 2f) / 2f);
         else
             return 0f;
-    }
-
-    public void log() {
     }
 
 }

@@ -18,7 +18,7 @@ public class SolarPowerPS extends PowerPSImpl {
             return randomFilter(new Double(
                     getLightInput().getLightIntensity() * .09).floatValue());
         else {
-            System.out.println("SolarPowerPS: no light input!");
+            myLogger.error("SolarPowerPS: no light input!");
             return randomFilter(0);
         }
     }

@@ -212,14 +212,10 @@ public class BiomassRSImpl extends SimBioModuleImpl implements
             ShelfImpl currentShelf = (ShelfImpl) (iter.next());
             currentShelf.tick();
         }
-        //System.out.println(getModuleName()+" ticked");
+        myLogger.debug(getModuleName()+" ticked");
     }
 
     public void log() {
-        /*
-         * LogNode newShelfHead= myLog.addChild("shelf");
-         * currentShelf.log(newShelfHead);
-         */
     }
 
     //Power Inputs

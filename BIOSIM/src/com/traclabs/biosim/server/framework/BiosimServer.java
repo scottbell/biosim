@@ -1,9 +1,6 @@
 package com.traclabs.biosim.server.framework;
 
 import java.net.URL;
-import java.util.Properties;
-
-import org.apache.log4j.PropertyConfigurator;
 
 /**
  * The Biosim Server. Creates an instance of each module (AirRS, FoodProcessor,
@@ -40,13 +37,6 @@ public class BiosimServer extends GenericServer {
      *            first element can be an ID to assign to this instance
      */
     public static void main(String args[]) {
-        Properties logProps = new Properties();
-        logProps.setProperty("log4j.rootLogger", "OFF, stdout");
-        logProps.setProperty("log4j.logger"+BiosimServer.class, "INFO, stdout");
-        logProps.setProperty("log4j.appender.stdout", "org.apache.log4j.ConsoleAppender");
-        logProps.setProperty("log4j.appender.stdout.layout", "org.apache.log4j.PatternLayout");
-        logProps.setProperty("log4j.appender.stdout.layout.ConversionPattern", "%5p [%c] - %m%n");
-        PropertyConfigurator.configure(logProps);
         int id = BiosimServer.getIDfromArgs(args);
         String xmlLocation = BiosimServer.getXMLfromArgs(args);
         BiosimServer server = new BiosimServer(id, 0, xmlLocation);

@@ -375,33 +375,11 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
     }
 
     public void log() {
-        /*
-         * LogNode currentPotableWaterProducedHead =
-         * myLog.addChild("potable_water_produced");
-         * myLogIndex.currentPotableWaterProducedIndex =
-         * currentPotableWaterProducedHead.addChild(""+getPotableWaterProduced());
-         * LogNode currentGreyWaterProducedHead =
-         * myLog.addChild("grey_water_produced");
-         * myLogIndex.currentGreyWaterProducedIndex =
-         * currentGreyWaterProducedHead.addChild(""+getGreyWaterProduced());
-         * LogNode currentPowerConsumedHead = myLog.addChild("power_consumed");
-         * myLogIndex.currentPowerConsumedIndex =
-         * currentPowerConsumedHead.addChild(""+getPowerConsumed()); LogNode
-         * currentDirtyWaterConsumedHead =
-         * myLog.addChild("dirty_water_consumed");
-         * myLogIndex.currentDirtyWaterConsumedIndex =
-         * currentDirtyWaterConsumedHead.addChild(""+getDirtyWaterConsumed());
-         * LogNode currentGreyWaterConsumedHead =
-         * myLog.addChild("grey_water_consumed");
-         * myLogIndex.currentGreyWaterConsumedIndex =
-         * currentGreyWaterConsumedHead.addChild(""+getGreyWaterConsumed());
-         * myLogIndex.AESIndex = myLog.addChild("AES");
-         * myAES.log(myLogIndex.AESIndex); myLogIndex.BWPIndex =
-         * myLog.addChild("BWP"); myBWP.log(myLogIndex.BWPIndex);
-         * myLogIndex.ROIndex = myLog.addChild("RO");
-         * myRO.log(myLogIndex.ROIndex); myLogIndex.PPSIndex =
-         * myLog.addChild("PPS"); myPPS.log(myLogIndex.PPSIndex);
-         */
+        myLogger.debug("potable_water_produced="+getPotableWaterProduced());
+        myLogger.debug("grey_water_produced="+getGreyWaterProduced());
+        myLogger.debug("power_consumed="+getPowerConsumed());
+        myLogger.debug("dirty_water_consumed="+getDirtyWaterConsumed());
+        myLogger.debug("grey_water_consumed="+getGreyWaterConsumed());
     }
 
     int getSubsystemsConsumingPower() {
