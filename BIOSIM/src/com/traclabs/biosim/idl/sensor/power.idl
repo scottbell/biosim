@@ -1,10 +1,7 @@
 module power{
-	interface PowerLevelSensor{
-                void setPowerSensorInput(in simulation::power::PowerStore source);
-		simulation::power::PowerStore getPowerSensorInput();
+	interface PowerStoreSensor{
+                void setInput(in simulation::power::PowerStore source);
+		simulation::power::PowerStore getInput();
         };
-	interface PowerMaxFlowRateSensor{
-                void setPowerSensorInput(in simulation::power::PowerStore source, in long index);
-		simulation::power::PowerStore getPowerSensorInput();
-        };
+	interface PowerStoreLevelSensor : PowerStoreSensor{};
 };

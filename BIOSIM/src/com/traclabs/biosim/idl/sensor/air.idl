@@ -1,18 +1,12 @@
 module air{
-        interface O2StoreLevelSensor{
-                void setO2SensorInput(in simulation::air::O2Store source);
-		simulation::air::O2Store getO2SensorInput();
-        };
-        interface CO2StoreLevelSensor{
-                void setCO2SensorInput(in simulation::air::CO2Store source);
-		simulation::air::CO2Store getCO2SensorInput();
-        };
-        interface O2StoreMaxFlowRateSensor{
-                void setO2SensorInput(in simulation::air::O2Store source, in long index);
-		simulation::air::O2Store getO2SensorInput();
-        };
-        interface CO2StoreMaxFlowRateSensor{
-                void setCO2SensorInput(in simulation::air::CO2Store source, in long index);
-		simulation::air::CO2Store getCO2SensorInput();
-        };
+        interface O2StoreSensor{
+                void setInput(in simulation::air::O2Store source);
+		simulation::air::O2Store getInput();
+	};
+	interface CO2StoreSensor{
+                void setInput(in simulation::air::CO2Store source);
+		simulation::air::CO2Store getInput();
+	};
+	interface O2StoreLevelSensor : O2StoreSensor{};
+        interface CO2StoreLevelSensor : CO2StoreSensor{};
 };

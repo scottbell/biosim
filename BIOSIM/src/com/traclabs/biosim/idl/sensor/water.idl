@@ -1,26 +1,17 @@
 module water{
-        interface PotableWaterLevelSensor{
-                void setPotableWaterSensorInput(in simulation::water::PotableWaterStore source);
-		simulation::water::PotableWaterStore getPotableWaterSensorInput();
-        };
-        interface GreyWaterLevelSensor{
-                void setGreyWaterSensorInput(in simulation::water::GreyWaterStore source);
-		simulation::water::GreyWaterStore getGreyWaterSensorInput();
-        };
-        interface DirtyWaterLevelSensor{
-                void setDirtyWaterSensorInput(in simulation::water::DirtyWaterStore source);
-		simulation::water::DirtyWaterStore getDirtyWaterSensorInput();
-        };
-        interface PotableWaterMaxFlowRateSensor{
-                void setPotableWaterSensorInput(in simulation::water::PotableWaterStore source, in long index);
-		simulation::water::PotableWaterStore getPotableWaterSensorInput();
-        };
-        interface GreyWaterMaxFlowRateSensor{
-                void setGreyWaterSensorInput(in simulation::water::GreyWaterStore source, in long index);
-		simulation::water::GreyWaterStore getGreyWaterSensorInput();
-        };
-        interface DirtyWaterMaxFlowRateSensor{
-                void setDirtyWaterSensorInput(in simulation::water::DirtyWaterStore source, in long index);
-		simulation::water::DirtyWaterStore getDirtyWaterSensorInput();
-        };
+	interface PotableWaterStoreSensor{
+		void setInput(in simulation::water::PotableWaterStore source);
+		simulation::water::PotableWaterStore getInput();
+	};
+	interface GreyWaterStoreSensor{
+		void setInput(in simulation::water::GreyWaterStore source);
+		simulation::water::GreyWaterStore getInput();
+	};
+	interface DirtyWaterStoreSensor{
+		void setInput(in simulation::water::DirtyWaterStore source);
+		simulation::water::DirtyWaterStore getInput();
+	};
+        interface PotableWaterLevelSensor : PotableWaterStoreSensor{};
+        interface GreyWaterLevelSensor : GreyWaterStoreSensor{};
+        interface DirtyWaterLevelSensor : DirtyWaterStoreSensor{};
 };
