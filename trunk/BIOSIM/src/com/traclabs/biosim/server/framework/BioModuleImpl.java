@@ -75,6 +75,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	}
 	
 	/**
+	* Tells the names of the malfunctions currently active with this module
 	* @return An array of String containing the names of the malfunctions currently active with this module
 	*/
 	public String[] getMalfunctionNames(){
@@ -88,7 +89,8 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	}
 	
 	/**
-	* @return An array of Malfunctions currently active with this module
+	* Tells the malfunctions currently active with this module
+	* @return An array of malfunctions currently active with this module
 	*/
 	public Malfunction[] getMalfunctions(){
 		Malfunction[] arrayMalfunctions = new Malfunction[myMalfunctions.size()];
@@ -165,6 +167,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	}
 	
 	/**
+	* Tells if this module is malfunctioning (i.e. has > 0 malfunctions)
 	* @return if this module is malfunctioning (i.e. has > 0 malfunctions), returns <code>true</code>, else <code>false</code>
 	*/
 	public boolean isMalfunctioning(){
@@ -193,13 +196,15 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	}
 	
 	/**
-	* @return <code>true</code> if this module is loging, <code>false</code> if not
+	* Tells if this module is logging
+	* @return <code>true</code> if this module is logging, <code>false</code> if not
 	*/
 	public boolean isLogging(){
 		return moduleLogging;
 	}
 	
 	/**
+	* Tells The ID of this module.  Should be the same as every other module in this BioSim instance
 	* @return The ID of this module.  Should be the same as every other module in this BioSim instance
 	*/
 	public int getID(){
@@ -215,6 +220,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	}
 	
 	/**
+	* Tells the Stochastic intentsity of this module (i.e., the indeterminism)
 	* @return The Stochastic intentsity of this module (i.e., the indeterminism)
 	*/
 	public StochasticIntensity getStochasticIntensity(){
@@ -242,6 +248,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	}
 	
 	/**
+	* Randomizes a number passed through it.
 	* @param pValue Filters using a gaussian function.
 	* @return the randomized result
 	*/
@@ -257,6 +264,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	}
 	
 	/**
+	* Randomizes a number passed through it.
 	* @param pValue Filters using a gaussian function.
 	* @return the randomized result
 	*/
@@ -272,6 +280,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	}
 	
 	/**
+	* Randomizes a number passed through it.
 	* @param pValue Filters using a gaussian function.
 	* @return the randomized result
 	*/
@@ -283,6 +292,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	}
 	
 	/**
+	* Randomizes a number passed through it.
 	* @param pValue Filters using a gaussian function.
 	* @return the randomized result
 	*/

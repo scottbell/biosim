@@ -9,13 +9,18 @@ import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
 /**
- * The Driver Server.  
+ * The Generic Server.  Provides basic functionality for BioSim servers
  *
  * @author    Scott Bell
  */
 
 public class GenericServer{
 	
+	/**
+	* Grabs ID parameter from an array of string
+	* @param myArgs an array of strings to parse for the ID server switch, "-id".  Used for setting ID of
+	* this instance of the server.  example, java myServer -id=2
+	*/
 	protected int getIDfromArgs(String[] myArgs){
 		int myID = 0;
 		if (myArgs.length > 1){
@@ -34,6 +39,11 @@ public class GenericServer{
 		return myID;
 	}
 	
+	/**
+	* Registers this server with the CORBA naming service
+	* @param pPOA the object to register
+	* @param servername the name that will be associated with this server in the naming service
+	*/
 	protected void registerServer(Servant pPOA, String serverName){
 		try{
 			NamingContextExt ncRef = OrbUtils.getNCRef();
@@ -54,20 +64,30 @@ public class GenericServer{
 		}
 	}
 	
+	/**
+	* Sleeps for a few seconds.  Used when we can't find the naming service and need to poll again after a few seconds.
+	*/
 	private void sleepAwhile(){
 		try{
 			Thread.currentThread().sleep(2000);
 		}
 		catch(InterruptedException e){}
 	}
-
+	
+	/**
+	* Registers this server with the CORBA naming service and starts the server
+	* @param pPOA the object to register
+	* @param servername the name that will be associated with this server in the naming service
+	*/
 	protected void registerServerAndRun(Servant pPOA, String serverName){
 		registerServer(pPOA,serverName);
 		runServer(serverName);
 	}
 	
-	
-
+	/**
+	* Starts the server by calling ORB.run()
+	* @param servername the name associated with this server (for debug purposes only)
+	*/
 	protected void runServer(String serverName){
 		try{
 			System.out.println(serverName+ "Server ready and waiting ...");
