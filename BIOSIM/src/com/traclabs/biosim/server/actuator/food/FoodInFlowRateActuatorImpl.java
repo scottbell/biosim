@@ -2,7 +2,7 @@ package com.traclabs.biosim.server.actuator.food;
 
 import com.traclabs.biosim.idl.actuator.food.FoodInFlowRateActuatorOperations;
 import com.traclabs.biosim.idl.framework.BioModule;
-import com.traclabs.biosim.idl.framework.FoodConsumer;
+import com.traclabs.biosim.idl.simulation.framework.FoodConsumer;
 import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
 
 public class FoodInFlowRateActuatorImpl extends GenericActuatorImpl implements

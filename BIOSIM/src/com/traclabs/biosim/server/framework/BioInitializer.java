@@ -145,82 +145,82 @@ import com.traclabs.biosim.idl.actuator.water.WaterInFlowRateActuatorPOATie;
 import com.traclabs.biosim.idl.actuator.water.WaterOutFlowRateActuator;
 import com.traclabs.biosim.idl.actuator.water.WaterOutFlowRateActuatorHelper;
 import com.traclabs.biosim.idl.actuator.water.WaterOutFlowRateActuatorPOATie;
-import com.traclabs.biosim.idl.framework.AirConsumer;
-import com.traclabs.biosim.idl.framework.AirConsumerHelper;
-import com.traclabs.biosim.idl.framework.AirProducer;
-import com.traclabs.biosim.idl.framework.AirProducerHelper;
+import com.traclabs.biosim.idl.simulation.framework.AirConsumer;
+import com.traclabs.biosim.idl.simulation.framework.AirConsumerHelper;
+import com.traclabs.biosim.idl.simulation.framework.AirProducer;
+import com.traclabs.biosim.idl.simulation.framework.AirProducerHelper;
 import com.traclabs.biosim.idl.framework.BioDriver;
 import com.traclabs.biosim.idl.framework.BioDriverHelper;
 import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.framework.BioModuleHelper;
-import com.traclabs.biosim.idl.framework.BiomassConsumer;
-import com.traclabs.biosim.idl.framework.BiomassConsumerHelper;
-import com.traclabs.biosim.idl.framework.BiomassProducer;
-import com.traclabs.biosim.idl.framework.BiomassProducerHelper;
-import com.traclabs.biosim.idl.framework.CO2AirConsumer;
-import com.traclabs.biosim.idl.framework.CO2AirConsumerHelper;
-import com.traclabs.biosim.idl.framework.CO2AirProducer;
-import com.traclabs.biosim.idl.framework.CO2AirProducerHelper;
-import com.traclabs.biosim.idl.framework.CO2Consumer;
-import com.traclabs.biosim.idl.framework.CO2ConsumerHelper;
-import com.traclabs.biosim.idl.framework.CO2Producer;
-import com.traclabs.biosim.idl.framework.CO2ProducerHelper;
-import com.traclabs.biosim.idl.framework.DirtyWaterConsumer;
-import com.traclabs.biosim.idl.framework.DirtyWaterConsumerHelper;
-import com.traclabs.biosim.idl.framework.DirtyWaterProducer;
-import com.traclabs.biosim.idl.framework.DirtyWaterProducerHelper;
-import com.traclabs.biosim.idl.framework.DryWasteConsumer;
-import com.traclabs.biosim.idl.framework.DryWasteConsumerHelper;
-import com.traclabs.biosim.idl.framework.DryWasteProducer;
-import com.traclabs.biosim.idl.framework.DryWasteProducerHelper;
-import com.traclabs.biosim.idl.framework.FoodConsumer;
-import com.traclabs.biosim.idl.framework.FoodConsumerHelper;
-import com.traclabs.biosim.idl.framework.FoodProducer;
-import com.traclabs.biosim.idl.framework.FoodProducerHelper;
-import com.traclabs.biosim.idl.framework.GreyWaterConsumer;
-import com.traclabs.biosim.idl.framework.GreyWaterConsumerHelper;
-import com.traclabs.biosim.idl.framework.GreyWaterProducer;
-import com.traclabs.biosim.idl.framework.GreyWaterProducerHelper;
-import com.traclabs.biosim.idl.framework.H2Consumer;
-import com.traclabs.biosim.idl.framework.H2ConsumerHelper;
-import com.traclabs.biosim.idl.framework.H2Producer;
-import com.traclabs.biosim.idl.framework.H2ProducerHelper;
-import com.traclabs.biosim.idl.framework.LightConsumer;
+import com.traclabs.biosim.idl.simulation.framework.BiomassConsumer;
+import com.traclabs.biosim.idl.simulation.framework.BiomassConsumerHelper;
+import com.traclabs.biosim.idl.simulation.framework.BiomassProducer;
+import com.traclabs.biosim.idl.simulation.framework.BiomassProducerHelper;
+import com.traclabs.biosim.idl.simulation.framework.CO2AirConsumer;
+import com.traclabs.biosim.idl.simulation.framework.CO2AirConsumerHelper;
+import com.traclabs.biosim.idl.simulation.framework.CO2AirProducer;
+import com.traclabs.biosim.idl.simulation.framework.CO2AirProducerHelper;
+import com.traclabs.biosim.idl.simulation.framework.CO2Consumer;
+import com.traclabs.biosim.idl.simulation.framework.CO2ConsumerHelper;
+import com.traclabs.biosim.idl.simulation.framework.CO2Producer;
+import com.traclabs.biosim.idl.simulation.framework.CO2ProducerHelper;
+import com.traclabs.biosim.idl.simulation.framework.DirtyWaterConsumer;
+import com.traclabs.biosim.idl.simulation.framework.DirtyWaterConsumerHelper;
+import com.traclabs.biosim.idl.simulation.framework.DirtyWaterProducer;
+import com.traclabs.biosim.idl.simulation.framework.DirtyWaterProducerHelper;
+import com.traclabs.biosim.idl.simulation.framework.DryWasteConsumer;
+import com.traclabs.biosim.idl.simulation.framework.DryWasteConsumerHelper;
+import com.traclabs.biosim.idl.simulation.framework.DryWasteProducer;
+import com.traclabs.biosim.idl.simulation.framework.DryWasteProducerHelper;
+import com.traclabs.biosim.idl.simulation.framework.FoodConsumer;
+import com.traclabs.biosim.idl.simulation.framework.FoodConsumerHelper;
+import com.traclabs.biosim.idl.simulation.framework.FoodProducer;
+import com.traclabs.biosim.idl.simulation.framework.FoodProducerHelper;
+import com.traclabs.biosim.idl.simulation.framework.GreyWaterConsumer;
+import com.traclabs.biosim.idl.simulation.framework.GreyWaterConsumerHelper;
+import com.traclabs.biosim.idl.simulation.framework.GreyWaterProducer;
+import com.traclabs.biosim.idl.simulation.framework.GreyWaterProducerHelper;
+import com.traclabs.biosim.idl.simulation.framework.H2Consumer;
+import com.traclabs.biosim.idl.simulation.framework.H2ConsumerHelper;
+import com.traclabs.biosim.idl.simulation.framework.H2Producer;
+import com.traclabs.biosim.idl.simulation.framework.H2ProducerHelper;
+import com.traclabs.biosim.idl.simulation.framework.LightConsumer;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
-import com.traclabs.biosim.idl.framework.NitrogenAirConsumer;
-import com.traclabs.biosim.idl.framework.NitrogenAirConsumerHelper;
-import com.traclabs.biosim.idl.framework.NitrogenAirProducer;
-import com.traclabs.biosim.idl.framework.NitrogenAirProducerHelper;
-import com.traclabs.biosim.idl.framework.NitrogenConsumer;
-import com.traclabs.biosim.idl.framework.NitrogenConsumerHelper;
-import com.traclabs.biosim.idl.framework.NitrogenProducer;
-import com.traclabs.biosim.idl.framework.NitrogenProducerHelper;
-import com.traclabs.biosim.idl.framework.O2AirConsumer;
-import com.traclabs.biosim.idl.framework.O2AirConsumerHelper;
-import com.traclabs.biosim.idl.framework.O2AirProducer;
-import com.traclabs.biosim.idl.framework.O2AirProducerHelper;
-import com.traclabs.biosim.idl.framework.O2Consumer;
-import com.traclabs.biosim.idl.framework.O2ConsumerHelper;
-import com.traclabs.biosim.idl.framework.O2Producer;
-import com.traclabs.biosim.idl.framework.O2ProducerHelper;
-import com.traclabs.biosim.idl.framework.PotableWaterConsumer;
-import com.traclabs.biosim.idl.framework.PotableWaterConsumerHelper;
-import com.traclabs.biosim.idl.framework.PotableWaterProducer;
-import com.traclabs.biosim.idl.framework.PotableWaterProducerHelper;
-import com.traclabs.biosim.idl.framework.PowerConsumer;
-import com.traclabs.biosim.idl.framework.PowerConsumerHelper;
-import com.traclabs.biosim.idl.framework.PowerProducer;
-import com.traclabs.biosim.idl.framework.PowerProducerHelper;
+import com.traclabs.biosim.idl.simulation.framework.NitrogenAirConsumer;
+import com.traclabs.biosim.idl.simulation.framework.NitrogenAirConsumerHelper;
+import com.traclabs.biosim.idl.simulation.framework.NitrogenAirProducer;
+import com.traclabs.biosim.idl.simulation.framework.NitrogenAirProducerHelper;
+import com.traclabs.biosim.idl.simulation.framework.NitrogenConsumer;
+import com.traclabs.biosim.idl.simulation.framework.NitrogenConsumerHelper;
+import com.traclabs.biosim.idl.simulation.framework.NitrogenProducer;
+import com.traclabs.biosim.idl.simulation.framework.NitrogenProducerHelper;
+import com.traclabs.biosim.idl.simulation.framework.O2AirConsumer;
+import com.traclabs.biosim.idl.simulation.framework.O2AirConsumerHelper;
+import com.traclabs.biosim.idl.simulation.framework.O2AirProducer;
+import com.traclabs.biosim.idl.simulation.framework.O2AirProducerHelper;
+import com.traclabs.biosim.idl.simulation.framework.O2Consumer;
+import com.traclabs.biosim.idl.simulation.framework.O2ConsumerHelper;
+import com.traclabs.biosim.idl.simulation.framework.O2Producer;
+import com.traclabs.biosim.idl.simulation.framework.O2ProducerHelper;
+import com.traclabs.biosim.idl.simulation.framework.PotableWaterConsumer;
+import com.traclabs.biosim.idl.simulation.framework.PotableWaterConsumerHelper;
+import com.traclabs.biosim.idl.simulation.framework.PotableWaterProducer;
+import com.traclabs.biosim.idl.simulation.framework.PotableWaterProducerHelper;
+import com.traclabs.biosim.idl.simulation.framework.PowerConsumer;
+import com.traclabs.biosim.idl.simulation.framework.PowerConsumerHelper;
+import com.traclabs.biosim.idl.simulation.framework.PowerProducer;
+import com.traclabs.biosim.idl.simulation.framework.PowerProducerHelper;
 import com.traclabs.biosim.idl.framework.StochasticIntensity;
-import com.traclabs.biosim.idl.framework.WaterAirConsumer;
-import com.traclabs.biosim.idl.framework.WaterAirConsumerHelper;
-import com.traclabs.biosim.idl.framework.WaterAirProducer;
-import com.traclabs.biosim.idl.framework.WaterAirProducerHelper;
-import com.traclabs.biosim.idl.framework.WaterConsumer;
-import com.traclabs.biosim.idl.framework.WaterConsumerHelper;
-import com.traclabs.biosim.idl.framework.WaterProducer;
-import com.traclabs.biosim.idl.framework.WaterProducerHelper;
+import com.traclabs.biosim.idl.simulation.framework.WaterAirConsumer;
+import com.traclabs.biosim.idl.simulation.framework.WaterAirConsumerHelper;
+import com.traclabs.biosim.idl.simulation.framework.WaterAirProducer;
+import com.traclabs.biosim.idl.simulation.framework.WaterAirProducerHelper;
+import com.traclabs.biosim.idl.simulation.framework.WaterConsumer;
+import com.traclabs.biosim.idl.simulation.framework.WaterConsumerHelper;
+import com.traclabs.biosim.idl.simulation.framework.WaterProducer;
+import com.traclabs.biosim.idl.simulation.framework.WaterProducerHelper;
 import com.traclabs.biosim.idl.sensor.air.CO2InFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.air.CO2InFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.air.CO2InFlowRateSensorPOATie;
@@ -716,13 +716,6 @@ public class BioInitializer {
 
     private Logger myLogger;
 
-    //Global Logging
-    private boolean areActuatorsLogging = false;
-
-    private boolean areSensorsLogging = false;
-
-    private boolean areModulesLogging = false;
-
     /** Default constructor. */
     public BioInitializer(int pID) {
         myID = pID;
@@ -940,16 +933,16 @@ public class BioInitializer {
         return newArray;
     }
 
-    private static boolean isCreatedLocally(Node node) {
+    public static boolean isCreatedLocally(Node node) {
         return node.getAttributes().getNamedItem("createLocally")
                 .getNodeValue().equals("true");
     }
 
-    private static String getModuleName(Node node) {
+    public static String getModuleName(Node node) {
         return node.getAttributes().getNamedItem("name").getNodeValue();
     }
 
-    private void printRemoteWarningMessage(String pName) {
+    public void printRemoteWarningMessage(String pName) {
         myLogger.warn("\nInstance of the module named " + pName
                 + " should be created remotely (if not already done)");
     }

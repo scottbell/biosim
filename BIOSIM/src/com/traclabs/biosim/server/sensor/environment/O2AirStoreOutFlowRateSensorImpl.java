@@ -1,8 +1,8 @@
 package com.traclabs.biosim.server.sensor.environment;
 
 import com.traclabs.biosim.idl.framework.BioModule;
-import com.traclabs.biosim.idl.framework.O2AirProducer;
 import com.traclabs.biosim.idl.sensor.environment.O2AirStoreOutFlowRateSensorOperations;
+import com.traclabs.biosim.idl.simulation.framework.O2AirProducer;
 import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
 public class O2AirStoreOutFlowRateSensorImpl extends GenericSensorImpl

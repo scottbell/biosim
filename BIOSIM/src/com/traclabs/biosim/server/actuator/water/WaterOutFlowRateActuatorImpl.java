@@ -2,7 +2,7 @@ package com.traclabs.biosim.server.actuator.water;
 
 import com.traclabs.biosim.idl.actuator.water.WaterOutFlowRateActuatorOperations;
 import com.traclabs.biosim.idl.framework.BioModule;
-import com.traclabs.biosim.idl.framework.WaterProducer;
+import com.traclabs.biosim.idl.simulation.framework.WaterProducer;
 import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
 
 public class WaterOutFlowRateActuatorImpl extends GenericActuatorImpl implements

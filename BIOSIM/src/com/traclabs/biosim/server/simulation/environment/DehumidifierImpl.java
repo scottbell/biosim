@@ -1,11 +1,11 @@
 package com.traclabs.biosim.server.simulation.environment;
 
-import com.traclabs.biosim.idl.framework.AirConsumerOperations;
-import com.traclabs.biosim.idl.framework.DirtyWaterProducerOperations;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.simulation.environment.DehumidifierOperations;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.idl.simulation.framework.AirConsumerOperations;
+import com.traclabs.biosim.idl.simulation.framework.DirtyWaterProducerOperations;
 import com.traclabs.biosim.idl.simulation.water.DirtyWaterStore;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 

@@ -1,8 +1,8 @@
 package com.traclabs.biosim.server.sensor.food;
 
 import com.traclabs.biosim.idl.framework.BioModule;
-import com.traclabs.biosim.idl.framework.BiomassConsumer;
 import com.traclabs.biosim.idl.sensor.food.BiomassInFlowRateSensorOperations;
+import com.traclabs.biosim.idl.simulation.framework.BiomassConsumer;
 import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
 public class BiomassInFlowRateSensorImpl extends GenericSensorImpl implements

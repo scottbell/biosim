@@ -1,8 +1,8 @@
 package com.traclabs.biosim.server.sensor.air;
 
 import com.traclabs.biosim.idl.framework.BioModule;
-import com.traclabs.biosim.idl.framework.H2Producer;
 import com.traclabs.biosim.idl.sensor.air.H2OutFlowRateSensorOperations;
+import com.traclabs.biosim.idl.simulation.framework.H2Producer;
 import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
 public class H2OutFlowRateSensorImpl extends GenericSensorImpl implements
