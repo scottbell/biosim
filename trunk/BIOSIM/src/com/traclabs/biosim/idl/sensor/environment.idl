@@ -7,7 +7,7 @@ module environment{
 	interface LightLevelSensor : EnvironmentSensor{};
 	interface O2AirLevelSensor : EnvironmentSensor{};
 	interface CO2AirLevelSensor : EnvironmentSensor{};
-	interface otherAirLevelSensor : EnvironmentSensor{};
+	interface OtherAirLevelSensor : EnvironmentSensor{};
 	
 	interface AirInFlowRateSensor : framework::GenericSensor{
 		void setInput(in simulation::environment::AirConsumer pConsumer, in long pIndex);
