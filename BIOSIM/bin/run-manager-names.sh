@@ -26,7 +26,8 @@ case $javaVersionString in
 	*)java_command="$java_command -client";echo "		-assuming Sun VM";;
 esac
 JACORB_HOME="$devRootDir/lib/jacorb"
-jacoNameIOR="-DORBInitRef.NameService=file:$devRootDir/generated/ns/ior.txt"
+tmpDir="$devRootDir/tmp"
+jacoNameIOR="-DORBInitRef.NameService=file:$tmpDir/ns/ior.txt"
 separator=":"
 machineType=`uname`
 winName="CYGWIN"
@@ -37,8 +38,6 @@ esac
 ####################
 # CLIENTS START	   #
 ####################
-genString="/generated"
-genDir=$devRootDir$genString
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME$separator$JACORB_HOME/avalon-framework.jar$separator$JACORB_HOME/logkit.jar"
 jacoInvocation="$java_command -classpath $jacoClasspath $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
 nameManager="org.jacorb.naming.namemanager.NameManager"

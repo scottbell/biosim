@@ -33,15 +33,14 @@ case $machineType in
         *)separator=":";echo "          -assuming Unix machine type";;
 esac
 JACORB_HOME="$devRootDir/lib/jacorb"
-genString="/generated"
-genDir=$devRootDir$genString
-if [ ! -e "$genDir" ]
+tmpDir="$devRootDir/tmp"
+if [ ! -e "$tmpDir" ]
 then
-        mkdir $genDir
-        echo "          -creating generated directory"
+        mkdir $tmpDir
+        echo "          -creating tmp directory"
 fi
 nsString="/ns"
-nsDir=$genDir$nsString
+nsDir=$tmpDir$nsString
 if [ ! -e "$nsDir" ]
 then
         mkdir $nsDir
