@@ -4,9 +4,44 @@ BIOSIM - Adavanced Life Support Simulation
 	copyright 2002
 **********************************************
 
-SETUP
-	Make sure you have JDK 1.4 installed.
-	Set your JAVA_HOME environment variable to point to where the JDK is installed
+I. SETUP
+	1) Make sure you have JDK 1.4 installed.
+		If it's not installed, go here: http://java.sun.com/j2se/1.4.1/download.html
+	2) Set your JAVA_HOME environment variable to point to where the JDK is installed.
+		Ex: JAVA_HOME=/usr/java/jsdk1.4 on unix systems
+		Ex: JAVA_HOME=c:\jsdk1.4 on windows systems
+	3) Set your BIOSIM_HOME environment variable.
+		Ex: BIOSIM_HOME=/home/joe/BIOSIM on unix systems
+		Ex: JAVA_HOME=c:\workbench\BIOSIM on windows systems
+	4) If you're on windows, make sure you have cygwin installed and it's bin directory is in your PATH.
+		If it's not installed, go here: http://www.cygwin.com/
+		It's bin directory is usually in c:\cygwin\bin, add this directory to your PATH.
+	5) You can optionally add BIOSIM_HOME's bin directory to your path.
+		Ex: $BIOSIM_HOME/bin on unix systems
+		Ex: %BIOSIM_HOME%/bin on windows
+		
+II. MAKING BIOSIM
+	1) Open a shell (or a command prompt in windows).
+	2) If you didn't opt to add the BIOSIM_HOME bin directory to your path, cd to the BIOSIM_HOME bin directory now.
+	3) Type "make-biosim" (or "./make-biosim" if . is not in your path) without the quotes.
+	4) If you want to make the API documentation, type "make-doc" (or "./make-doc" if . is not in your path) without the quotes.
+		This will create a lot of html API documentation in the doc directory.
+	You can also make each application separately using: "make-server all" and "make-client all"
+	
+III. RUNNING BIOSIM
+	Running the BIOSIM may be done 2 ways:
+	Make sure you're in the BIOSIM_HOME/bin directory if it's not in your path
+		a) Type "run-biosim" (or "/run-biosim" if . is not in your path) without the quotes.
+			This doesn't always work (on slower machines especially) as it's relying on sleep command timing (dumb, I know).
+			If it doesn't work, close and try to run again.  Everything's in memory and it might run a little quicker.
+			It also helps to close down other applications.
+		b) The other method requires you to start 3 different applications
+			1) Type "run-nameserver" (or "./run-nameserver" if . is not in your path) without the quotes.
+			2) Type "run-server" (or "./run-server" if . is not in your path) without the quotes.
+			3) Type "run-client" (or "./run-client" if . is not in your path) without the quotes.
 
+IV. PROBLEMS?
+	If you have any problems, please contact me at scott@traclabs.com and I'll try to help.
+		
 	
 
