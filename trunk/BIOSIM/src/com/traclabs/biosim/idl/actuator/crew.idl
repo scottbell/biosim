@@ -1,0 +1,7 @@
+module crew{
+        interface CrewActuator : framework::GenericActuator{
+                void setOutput(in simulation::crew::CrewGroup source);
+		simulation::crew::CrewGroup getOutput();
+	};
+	interface CrewActivityActuator : CrewActuator{};
+};

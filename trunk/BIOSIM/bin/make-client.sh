@@ -129,8 +129,20 @@ if [ "$userSelect" == "all" ]; then
 	$compilationInvocation $simStubDir/idl/sensor/environment/*.java
 	echo "			-compiling framework stubs"
 	$compilationInvocation $simStubDir/idl/sensor/framework/*.java
-	echo "			-compiling actuator skeletons/stubs"
-	echo "				-compiling framework skeletons/stubs"
+	echo "		-compiling actuator stubs"
+	echo "			-compiling air stubs"
+	$compilationInvocation $simStubDir/idl/actuator/air/*.java
+	echo "			-compiling water stubs"
+	$compilationInvocation $simStubDir/idl/actuator/water/*.java
+	echo "			-compiling power stubs"
+	$compilationInvocation $simStubDir/idl/actuator/power/*.java
+	echo "			-compiling crew stubs"
+	$compilationInvocation $simStubDir/idl/actuator/crew/*.java
+	echo "			-compiling food stubs"
+	$compilationInvocation $simStubDir/idl/actuator/food/*.java
+	echo "			-compiling environment stubs"
+	$compilationInvocation $simStubDir/idl/actuator/environment/*.java
+	echo "			-compiling framework stubs"
 	$compilationInvocation $simStubDir/idl/actuator/framework/*.java
 fi
 echo "	-compiling util"

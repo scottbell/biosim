@@ -1,0 +1,22 @@
+module power{
+	interface PowerPSActuator : framework::GenericActuator{
+                void setOutput(in simulation::power::PowerPS source);
+		simulation::power::PowerPS getOutput();
+        };
+	interface PowerStoreActuator : framework::GenericActuator{
+                void setOutput(in simulation::power::PowerStore source);
+		simulation::power::PowerStore getOutput();
+        };
+	interface PowerStoreLevelActuator : PowerStoreActuator{};
+	
+	interface PowerInFlowRateActuator : framework::GenericActuator{
+		void setOutput(in simulation::power::PowerConsumer pConsumer, in long pIndex);
+		simulation::power::PowerConsumer getOutput();
+		long getIndex();
+	};
+	interface PowerOutFlowRateActuator : framework::GenericActuator{
+		void setOutput(in simulation::power::PowerProducer pProducer, in long pIndex);
+		simulation::power::PowerProducer getOutput();
+		long getIndex();
+	};
+};

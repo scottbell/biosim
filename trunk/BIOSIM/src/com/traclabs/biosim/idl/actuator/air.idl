@@ -1,0 +1,36 @@
+module air{
+        interface O2StoreActuator : framework::GenericActuator{
+                void setOutput(in simulation::air::O2Store source);
+		simulation::air::O2Store getOutput();
+	};
+	interface CO2StoreActuator : framework::GenericActuator{
+                void setOutput(in simulation::air::CO2Store source);
+		simulation::air::CO2Store getOutput();
+	};
+	interface AirRSActuator : framework::GenericActuator{
+		void setOutput(in simulation::air::AirRS source);
+		simulation::air::AirRS getOutput();
+	};
+	interface O2StoreLevelActuator : O2StoreActuator{};
+        interface CO2StoreLevelActuator : CO2StoreActuator{};
+	interface O2InFlowRateActuator : framework::GenericActuator{
+		void setOutput(in simulation::air::O2Consumer pConsumer, in long pIndex);
+		simulation::air::O2Consumer getOutput();
+		long getIndex();
+	};
+	interface O2OutFlowRateActuator : framework::GenericActuator{
+		void setOutput(in simulation::air::O2Producer pProducer, in long pIndex);
+		simulation::air::O2Producer getOutput();
+		long getIndex();
+	};
+	interface CO2InFlowRateActuator : framework::GenericActuator{
+		void setOutput(in simulation::air::CO2Consumer pConsumer, in long pIndex);
+		simulation::air::CO2Consumer getOutput();
+		long getIndex();
+	};
+	interface CO2OutFlowRateActuator : framework::GenericActuator{
+		void setOutput(in simulation::air::CO2Producer pProducer, in long pIndex);
+		simulation::air::CO2Producer getOutput();
+		long getIndex();
+	};
+};
