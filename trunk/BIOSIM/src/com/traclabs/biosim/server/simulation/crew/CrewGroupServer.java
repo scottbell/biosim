@@ -22,9 +22,9 @@ public class CrewGroupServer {
 			// get object reference from the servant
 			org.omg.CORBA.Object ref =rootpoa.servant_to_reference(new CrewGroupPOATie(myCrewImpl));
 			// bind the Object Reference in Naming
-			NameComponent path[] = ncRef.to_name("Crew");
+			NameComponent path[] = ncRef.to_name("CrewGroup");
 			ncRef.rebind(path, ref);
-			System.out.println("Crew Server ready and waiting ...");
+			System.out.println("CrewGroup Server ready and waiting ...");
 			// wait for invocations from clients
 			orb.run();
 		}

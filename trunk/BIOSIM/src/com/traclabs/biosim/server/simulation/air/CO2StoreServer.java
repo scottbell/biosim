@@ -22,10 +22,10 @@ public class CO2StoreServer {
 			// get object reference from the servant
 			org.omg.CORBA.Object ref =rootpoa.servant_to_reference(new CO2StorePOATie(myCO2Impl));
 			// bind the Object Reference in Naming
-			NameComponent path[] = ncRef.to_name("CO2");
+			NameComponent path[] = ncRef.to_name("CO2Store");
 			ncRef.rebind(path, ref);
 
-			System.out.println("CO2 Server ready and waiting ...");
+			System.out.println("CO2Store Server ready and waiting ...");
 			// wait for invocations from clients
 			orb.run();
 		}
