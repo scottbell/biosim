@@ -44,9 +44,12 @@ resourceDir=$devRootDir$resourceString
 jacoClasspath="$JACORB_HOME/lib/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME/lib"
 jacoInvocation="$java_command -client -classpath $clientClassesDir$separator$jacoClasspath$separator$resourceDir $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
 echo "	-starting client"
+noGUI="-nogui"
+withGUI="-gui"
 case $userSelect in
-	*) echo "			 -starting $userSelect";$jacoInvocation $driverName;;
-	#*) echo "!!!! unkown client: $userSelect";echo "please choose from: [control]";;
+	$noGUI) echo "			 -starting $userSelect";$jacoInvocation $driverName $noGUI;;
+	$withGUI) echo "			 -starting $userSelect";$jacoInvocation $driverName $withGUI;;
+	*) echo "			 -starting default";$jacoInvocation $driverName;;
 esac
 echo "*done invoking clients"
 
