@@ -122,12 +122,7 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	* Attempts to collect enough biomass from the Biomass Store to run the Food Processor optimally for one tick.
 	*/
 	private void gatherBiomass(){
-		float gatheredBiomass = 0f;
-		for (int i = 0; (i < myBiomassStores.length) && (gatheredBiomass < biomassNeeded); i++){
-			float biomassToGather = Math.min(biomassNeeded, biomassFlowRates[i]); 
-			gatheredBiomass += myBiomassStores[i].take(biomassToGather);
-		}
-		currentBiomassConsumed = gatheredBiomass;
+		currentBiomassConsumed = getResourceFromStore(myBiomassStores, biomassFlowRates, biomassNeeded);
 		if (currentBiomassConsumed < biomassNeeded){
 			hasEnoughBiomass = false;
 		}
@@ -142,11 +137,7 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	private void createFood(){
 		if (hasEnoughPower){
 			currentFoodProduced = randomFilter(currentBiomassConsumed * 0.8f) * myProductionRate;
-			float distributedFoodLeft = currentFoodProduced;
-			for (int i = 0; (i < myFoodStores.length) && (distributedFoodLeft > 0); i++){
-				float foodToDistribute = Math.min(distributedFoodLeft, foodFlowRates[i]);
-				distributedFoodLeft -= myFoodStores[i].add(foodToDistribute);
-			}
+			float distributedFoodLeft = pushResourceToStore(myFoodStores, foodFlowRates, currentFoodProduced);
 		}
 	}
 
@@ -270,6 +261,10 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 		return myPowerStores;
 	}
 	
+	public float[] getPowerInputFlowrates(){
+		return powerFlowRates;
+	}
+	
 	public void setBiomassInputFlowrate(float kilograms, int index){
 		biomassFlowRates[index] = kilograms;
 	}
@@ -287,6 +282,10 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 		return myBiomassStores;
 	}
 	
+	public float[] getBiomassInputFlowrates(){
+		return biomassFlowRates;
+	}
+	
 	public void setFoodOutputFlowrate(float kilograms, int index){
 		foodFlowRates[index] = kilograms;
 	}
@@ -302,6 +301,10 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	
 	public FoodStore[] getFoodOutputs(){
 		return myFoodStores;
+	}
+	
+	public float[] getFoodOutputFlowrates(){
+		return foodFlowRates;
 	}
 
 	/**

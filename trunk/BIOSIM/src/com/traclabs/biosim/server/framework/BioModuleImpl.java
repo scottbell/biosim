@@ -224,6 +224,32 @@ public abstract class BioModuleImpl extends BioModulePOA{
 			return(mean+x*deviation);
 		}
 	}
+	
+	public static float getMaxResourceFromStore(Store[] pStores, float[] pFlowRates){
+		float gatheredResource = 0f;
+		for (int i = 0; (i < pStores.length) && (gatheredResource < pFlowRates[i]); i++){
+			gatheredResource += pStores[i].take(pFlowRates[i]);
+		}
+		return gatheredResource;
+	}
+	
+	public static float getResourceFromStore(Store[] pStores, float[] pFlowRates, float amountNeeded){
+		float gatheredResource = 0f;
+		for (int i = 0; (i < pStores.length) && (gatheredResource < amountNeeded); i++){
+			float resourceToGather = Math.min(amountNeeded, pFlowRates[i]); 
+			gatheredResource += pStores[i].take(resourceToGather);
+		}
+		return gatheredResource;
+	}
+	
+	public static float pushResourceToStore(Store[] pStores, float[] pFlowRates, float amountToPush){
+		float totalResourceDistributed = amountToPush;
+		for (int i = 0; (i < pStores.length) && (totalResourceDistributed > 0); i++){
+			float resourceToDistribute = Math.min(totalResourceDistributed, pFlowRates[i]);
+			totalResourceDistributed -= pStores[i].add(resourceToDistribute);
+		}
+		return (amountToPush - totalResourceDistributed);
+	}
 
 	/**
 	* Returns the name of the module, "Unamed" if not overriden

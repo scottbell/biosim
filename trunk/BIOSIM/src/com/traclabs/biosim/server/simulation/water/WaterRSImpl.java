@@ -377,6 +377,10 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations, Pow
 		return myPowerInputs;
 	}
 	
+	public float[] getPowerInputFlowrates(){
+		return powerFlowRates;
+	}
+	
 	public void setDirtyWaterInputFlowrate(float watts, int index){
 		dirtyWaterFlowRates[index] = watts;
 	}
@@ -392,6 +396,10 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations, Pow
 
 	public DirtyWaterStore[] getDirtyWaterInputs(){
 		return myDirtyWaterInputs;
+	}
+	
+	public float[] getDirtyWaterInputFlowrates(){
+		return dirtyWaterFlowRates;
 	}
 	
 	public void setGreyWaterInputFlowrate(float watts, int index){
@@ -411,6 +419,10 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations, Pow
 		return myGreyWaterInputs;
 	}
 	
+	public float[] getGreyWaterInputFlowrates(){
+		return greyWaterFlowRates;
+	}
+	
 	public void setPotableWaterOutputFlowrate(float watts, int index){
 		potableWaterFlowRates[index] = watts;
 	}
@@ -426,5 +438,9 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations, Pow
 
 	public PotableWaterStore[] getPotableWaterOutputs(){
 		return myPotableWaterOutputs;
+	}
+	
+	public float[] getPotableWaterOutputFlowrates(){
+		return potableWaterFlowRates;
 	}
 }

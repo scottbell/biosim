@@ -125,6 +125,7 @@ public class ShelfImpl extends ShelfPOA {
 			gatheredWater += myGreyWaterStores[i].take(greyWaterToGather);
 		}
 		currentGreyWaterConsumed = gatheredWater;
+		//currentGreyWaterConsumed = getResourceFromStore(myGreyWaterStores, myBiomassImpl.getGreyWaterInputFlowrates());
 		for (int i = 0; (i < myPotableWaterStores.length) && (gatheredWater < myCrop.getWaterNeeded()); i++){ 
 			float potableWaterToGather = Math.min(myBiomassImpl.getPotableWaterInputFlowrate(i), myCrop.getWaterNeeded());
 			gatheredWater += myPotableWaterStores[i].take(potableWaterToGather);

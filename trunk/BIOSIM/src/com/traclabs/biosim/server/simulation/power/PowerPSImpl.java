@@ -150,6 +150,10 @@ public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperat
 	public PowerStore[] getPowerOutputs(){
 		return myPowerStores;
 	}
+	
+	public float[] getPowerOutputFlowrates(){
+		return powerFlowRates;
+	}
 
 	public void setLightInput(SimEnvironment source){
 		myLightInput = source;

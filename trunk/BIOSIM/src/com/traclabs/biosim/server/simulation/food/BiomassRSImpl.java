@@ -279,6 +279,10 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations,
 		return myPowerStores;
 	}
 	
+	public float[] getPowerInputFlowrates(){
+		return powerFlowRates;
+	}
+	
 	public void setGreyWaterInputFlowrate(float liters, int index){
 		greyWaterFlowRates[index] = liters;
 	}
@@ -294,6 +298,10 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations,
 	
 	public GreyWaterStore[] getGreyWaterInputs(){
 		return myGreyWaterStores;
+	}
+	
+	public float[] getGreyWaterInputFlowrates(){
+		return greyWaterFlowRates;
 	}
 	
 	public void setPotableWaterInputFlowrate(float liters, int index){
@@ -313,6 +321,10 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations,
 		return myPotableWaterStores;
 	}
 	
+	public float[] getPotableWaterInputFlowrates(){
+		return potableWaterFlowRates;
+	}
+	
 	public void setBiomassOutputFlowrate(float kilograms, int index){
 		biomassFlowRates[index] = kilograms;
 	}
@@ -330,6 +342,10 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations,
 		return myBiomassStores;
 	}
 	
+	public float[] getBiomassOutputFlowrates(){
+		return biomassFlowRates;
+	}
+	
 	public void setAirInputFlowrate(float liters, int index){
 		airInFlowRates[index] = liters;
 	}
@@ -340,10 +356,15 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations,
 
 	public void setAirInputs(SimEnvironment[] sources, float[] flowRates){
 		myAirInputs = sources;
+		airInFlowRates = flowRates;
 	}
 
 	public SimEnvironment[] getAirInputs(){
 		return myAirInputs;
+	}
+	
+	public float[] getAirInputFlowrates(){
+		return airInFlowRates;
 	}
 
 	public void setAirOutputFlowrate(float liters, int index){
@@ -360,5 +381,9 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations,
 
 	public SimEnvironment[] getAirOutputs(){
 		return myAirOutputs;
+	}
+	
+	public float[] getAirOutputFlowrates(){
+		return airOutFlowRates;
 	}
 }

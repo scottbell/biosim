@@ -10,6 +10,7 @@ import biosim.idl.framework.*;
 import biosim.idl.util.log.*;
 import biosim.server.util.*;
 import java.util.*;
+import java.net.*;
 /**
  * The Crew Person Implementation.  Eats/drinks/excercises away resources according to a set schedule.
  *
@@ -93,6 +94,25 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		sex = pSex;
 		myCrewGroup = pCrewGroup;
 		mySchedule = new Schedule();
+		myCurrentActivity = mySchedule.getScheduledActivityByOrder(currentOrder);
+		airRetrieved = new Breath(0f, 0f, 0f);
+	}
+	
+	/**
+	* Constructor that creates a new crew person
+	* @param pName the name of the new crew person
+	* @param pAge the age of the new crew person
+	* @param pSex the sex of the new crew person
+	* @param pCrewGroup the crew that the new crew person belongs in
+	* @param pScheduleURL The URL of the schedule
+	*/
+	CrewPersonImpl(String pName, float pAge, float pWeight, Sex pSex, CrewGroupImpl pCrewGroup, URL pScheduleURL){
+		myName = pName;
+		age = pAge;
+		weight = pWeight;
+		sex = pSex;
+		myCrewGroup = pCrewGroup;
+		mySchedule = new Schedule(pScheduleURL);
 		myCurrentActivity = mySchedule.getScheduledActivityByOrder(currentOrder);
 		airRetrieved = new Breath(0f, 0f, 0f);
 	}
