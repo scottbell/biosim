@@ -59,8 +59,8 @@ public abstract class PlantImpl extends PlantPOA{
 	private static final float HEAT_TILL_DEAD = 48f;
 	private static final float HEAT_RECOVERY_RATE=0.05f;
 	private static final float DANGEROUS_HEAT_LEVEL = 300000f;
-	private static final float LIGHT_TILL_DEAD = 144f;
-	private static final float LIGHT_RECOVERY_RATE = 0.05f;
+	private static final float LIGHT_TILL_DEAD = 1000f;
+	private static final float LIGHT_RECOVERY_RATE = 0.005f;
 	private float totalO2GramsProduced = 0f;
 	private float totalCO2GramsConsumed = 0f;
 	private float totalCO2MolesConsumed = 0f;
