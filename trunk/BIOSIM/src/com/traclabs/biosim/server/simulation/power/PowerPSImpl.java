@@ -5,14 +5,16 @@ import biosim.server.util.*;
 import biosim.server.framework.*;
 
 public class PowerPSImpl extends BioModuleImpl implements PowerPSOperations {
-	private float currentPowerProduced = 0f;
+	private float currentPowerProduced = 350f;
 	private boolean hasCollectedReferences = false;
 	private PowerStore myPowerStore;
 
 	public void tick(){
-		currentPowerProduced = 700;
 		collectReferences();
 		myPowerStore.add(currentPowerProduced);
+	}
+	
+	public void reset(){
 	}
 	
 	private void collectReferences(){

@@ -30,4 +30,8 @@ public class ActivityImpl extends ActivityPOA {
 	public int getOrder(){
 		return order;
 	}
+	
+	public String toString(){
+		return myName;
+	}
 }

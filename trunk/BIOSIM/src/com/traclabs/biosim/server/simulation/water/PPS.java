@@ -1,7 +1,6 @@
 package biosim.server.water;
 
 public class PPS extends WaterRSSubSystem{
-	private static final float powerNeeded =168; 
 	private BWP myBWP;
 	private RO myRO;
 	private AES myAES;
@@ -9,6 +8,7 @@ public class PPS extends WaterRSSubSystem{
 	
 	public PPS(WaterRSImpl pWaterRSImpl){
 		super(pWaterRSImpl);
+		powerNeeded =168; 
 	}
 	
 	public float takeWater(){

@@ -52,10 +52,10 @@ public class FoodPanel extends JPanel implements BioSimulatorListener
 		biomassRSPanel = new JPanel();
 		biomassRSPanel.setLayout(new GridLayout(6,1));
 		biomassRSPanel.setBorder(BorderFactory.createTitledBorder("Biomass Recovery System"));
-		biomassRSStatusLabel =                       new JLabel("status:                         "+coallateStatus());
-		biomassRSBiomassProducedLabel =      new JLabel("biomass produced:      "+numFormat.format(myBiomassRS.getBiomassProduced())+" kg");
-		biomassRSCO2ConsumedLabel =          new JLabel("CO2 consumed:           "+numFormat.format(myBiomassRS.getCO2Consumed())+" L");
-		biomassRSO2ProducedLabel =             new JLabel("O2 produced:              "+numFormat.format(myBiomassRS.getO2Produced())+" L");
+		biomassRSStatusLabel =                       new JLabel("status:                           "+coallateStatus());
+		biomassRSBiomassProducedLabel =      new JLabel("biomass produced:       "+numFormat.format(myBiomassRS.getBiomassProduced())+" kg");
+		biomassRSCO2ConsumedLabel =          new JLabel("CO2 consumed:            "+numFormat.format(myBiomassRS.getCO2Consumed())+" L");
+		biomassRSO2ProducedLabel =             new JLabel("O2 produced:               "+numFormat.format(myBiomassRS.getO2Produced())+" L");
 		biomassRSGreyWaterConsumedLabel = new JLabel("grey water consumed:  "+numFormat.format(myBiomassRS.getGreyWaterConsumed())+" L");
 		biomassRSPowerLabel =                      new JLabel("power consumed:         "+numFormat.format(myBiomassRS.getPowerConsumed())+" W");
 		biomassRSPanel.add(biomassRSBiomassProducedLabel);
@@ -122,12 +122,17 @@ public class FoodPanel extends JPanel implements BioSimulatorListener
 	
 	private String coallateStatus(){
 		StringBuffer statusBuffer = new StringBuffer();
+		if (myBiomassRS.isDead()){
+			return "plants dead";
+		}
 		if (!myBiomassRS.hasPower())
 			statusBuffer.append("needs power, ");
 		if (!myBiomassRS.hasWater())
 			statusBuffer.append("needs water, ");
 		if (!myBiomassRS.hasCO2())
 			statusBuffer.append("needs CO2, ");
+		if (!myBiomassRS.isO2Poisoned())
+			statusBuffer.append("O2 levels high, ");
 		if (statusBuffer.length() < 1)
 			return "nominal";
 		else{
@@ -137,10 +142,10 @@ public class FoodPanel extends JPanel implements BioSimulatorListener
 	}
 
 	public void processTick(){
-		biomassRSBiomassProducedLabel.setText("biomass produced:          "+numFormat.format(myBiomassRS.getBiomassProduced())+" kg");
-		biomassRSStatusLabel.setText("status:                            "+coallateStatus());
-		biomassRSCO2ConsumedLabel.setText("CO2 consumed:               "+numFormat.format(myBiomassRS.getCO2Consumed())+" L");
-		biomassRSO2ProducedLabel.setText("O2 produced:                 "+numFormat.format(myBiomassRS.getO2Produced())+" L");
+		biomassRSBiomassProducedLabel.setText("biomass produced:           "+numFormat.format(myBiomassRS.getBiomassProduced())+" kg");
+		biomassRSStatusLabel.setText("status:                              "+coallateStatus());
+		biomassRSCO2ConsumedLabel.setText("CO2 consumed:                "+numFormat.format(myBiomassRS.getCO2Consumed())+" L");
+		biomassRSO2ProducedLabel.setText("O2 produced:                    "+numFormat.format(myBiomassRS.getO2Produced())+" L");
 		biomassRSGreyWaterConsumedLabel.setText("grey water consumed:      "+numFormat.format(myBiomassRS.getGreyWaterConsumed())+" L");
 		biomassRSPowerLabel.setText("power consumed:             "+numFormat.format(myBiomassRS.getPowerConsumed())+" W");
 		biomassStoreLevelLabel.setText("biomass level:    "+numFormat.format(myBiomassStore.getLevel())+" kg");

@@ -75,6 +75,11 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 	public void tick(){
 		processTick();
 	}
+	
+	public void reset(){
+		mySchedule.reset();
+		crewPeople = new Hashtable();
+	}
 
 	private void processTick(){
 		for (Enumeration e = crewPeople.elements(); e.hasMoreElements(); ){

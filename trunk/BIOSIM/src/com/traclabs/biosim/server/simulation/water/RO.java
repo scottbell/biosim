@@ -1,7 +1,6 @@
 package biosim.server.water;
 
 public class RO extends WaterRSSubSystem{
-	private static final float powerNeeded =100; 
 	private BWP myBWP;
 	private AES myAES;
 	private PPS myPPS;

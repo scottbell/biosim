@@ -151,23 +151,23 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			currentOrder = 1;
 	}
 
+	private void continueActivity(){
+		if (timeActivityPerformed >= myCurrentActivity.getTimeLength()){
+			advanceCurrentOrder();
+			myCurrentActivity = myCrewGroup.getScheduledActivityByOrder(currentOrder);
+			timeActivityPerformed = 0;
+		}
+	}
+
 	public void processTick(){
 		collectReferences();
 		//done with this timestep, advance 1 timestep
 		timeActivityPerformed++;
 		if (!hasDied){
-			if (timeActivityPerformed >= myCurrentActivity.getTimeLength()){
-				advanceCurrentOrder();
-				myCurrentActivity = myCrewGroup.getScheduledActivityByOrder(currentOrder);
-				timeActivityPerformed = 0;
-			}
-		}
-		consumeResources();
-		afflictCrew();
-		if (deathCheck()){
-			myCurrentActivity = myCrewGroup.getScheduledActivityByName("dead");
-			hasDied = true;
-			timeActivityPerformed = 0;
+			continueActivity();
+			consumeResources();
+			afflictCrew();
+			deathCheck();
 		}
 	}
 
@@ -237,9 +237,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	}
 
 	private void afflictCrew(){
-		//the dead need not be afflicted
-		if (hasDied)
-			return;
 		//afflict crew
 		if (foodConsumed < foodNeeded){
 			personStarving = true;
@@ -275,29 +272,27 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		}
 	}
 
-	private boolean deathCheck(){
-		//no need to die again!
-		if (hasDied)
-			return false;
+	private void deathCheck(){
 		//check for death
 		if (starvingTime > 504){
-			return true;
+			System.out.println(myName + " dead from starvation");
+			hasDied = true;
 		}
 		else if (thirstTime > 72){
-			return true;
+			System.out.println(myName + " dead from thirst");
+			hasDied = true;
 		}
 		else if (suffocateTime > 1){
-			return true;
+			System.out.println(myName + " dead from suffocation");
+			hasDied = true;
 		}
 		else if (poisonTime > 5){
-			return true;
+			System.out.println(myName + " dead from CO2 poisoning");
+			hasDied = true;
 		}
 		else{
-			return false;
+			hasDied = false;
 		}
-	}
-
-	private void consumeResources(){
 		if (hasDied){
 			O2Consumed= 0f;
 			CO2Produced = 0f;
@@ -305,8 +300,13 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			cleanWaterConsumed = 0f;
 			dirtyWaterProduced = 0f;
 			greyWaterProduced = 0f;
-			return;
+			myCurrentActivity = myCrewGroup.getScheduledActivityByName("dead");
+			hasDied = true;
+			timeActivityPerformed = 0;
 		}
+	}
+
+	private void consumeResources(){
 		int currentActivityIntensity = myCurrentActivity.getActivityIntensity();
 		O2Needed = calculateO2Needed(currentActivityIntensity);
 		cleanWaterNeeded = calculateCleanWaterNeeded(currentActivityIntensity);

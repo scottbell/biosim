@@ -2,8 +2,8 @@ package biosim.server.water;
 
 public abstract class WaterRSSubSystem{
 	protected float currentPower = 0;
-	protected static final float powerNeeded =168;
-	protected static final float waterNeeded = 0.2f;
+	protected float powerNeeded =100;
+	protected float waterNeeded = 0.25f;
 	protected WaterRSImpl myWaterRS;
 	protected boolean hasEnoughPower = false;
 	protected boolean hasEnoughWater = false;
@@ -11,6 +11,13 @@ public abstract class WaterRSSubSystem{
 	
 	public WaterRSSubSystem(WaterRSImpl pWaterRSImpl){
 		myWaterRS = pWaterRSImpl;
+	}
+	
+	public void reset(){
+		currentPower = 0;
+		hasEnoughPower = false;
+		hasEnoughWater = false;
+		waterLevel = 0;
 	}
 	
 	public boolean hasPower(){
