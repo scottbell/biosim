@@ -12,4 +12,3 @@ set logCLasspath=%BIOSIM_HOME%\lib\log4j\log4j.jar;%BIOSIM_HOME%\lib\log4j\commo
 set gefClasspath=%BIOSIM_HOME%\lib\gef\gef.jar
 set xmlClasspath=%BIOSIM_HOME%\lib\xerces\xercesImpl.jar;%BIOSIM_HOME%\lib\xerces\xml-apis.jar;%BIOSIM_HOME%\lib\xerces\xmlParserAPIs.jar
 java -classpath %buildDir%;%resourceDir%;%gefClasspath%;%logCLasspath%;%jacoClasspath%;%xmlClasspath% %machineTypeEnv% -D%jacoOrbClass% -D%jacoSingletonOrbClass% -D%jacoNameIOR% %mainClass% %1 %2
-pause
