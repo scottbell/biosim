@@ -494,19 +494,19 @@ public abstract class PlantImpl extends PlantPOA{
 		float oneOverPPf = 1f / thePPF;
 		float thePPFsquared = pow(thePPF, 2f);
 		float thePPFcubed = pow(thePPF, 3f);
-		System.out.println("PlantImpl: thePPF: "+thePPF);
-		System.out.println("PlantImpl: oneOverPPf: "+oneOverPPf);
-		System.out.println("PlantImpl: thePPFsquared: "+thePPFsquared);
-		System.out.println("PlantImpl: thePPFcubed: "+thePPFcubed);
+		//System.out.println("PlantImpl: thePPF: "+thePPF);
+		//System.out.println("PlantImpl: oneOverPPf: "+oneOverPPf);
+		//System.out.println("PlantImpl: thePPFsquared: "+thePPFsquared);
+		//System.out.println("PlantImpl: thePPFcubed: "+thePPFcubed);
 
 		float theCO2 = getAverageCO2MicroConcentration();
 		float oneOverCO2 = 1f / theCO2;
 		float theCO2squared = pow(theCO2, 2f);
 		float theCO2cubed = pow(theCO2, 3f);
-		System.out.println("PlantImpl: theCO2: "+theCO2);
-		System.out.println("PlantImpl: oneOverCO2: "+oneOverCO2);
-		System.out.println("PlantImpl: theCO2squared: "+theCO2squared);
-		System.out.println("PlantImpl: theCO2cubed: "+theCO2cubed);
+		//System.out.println("PlantImpl: theCO2: "+theCO2);
+		//System.out.println("PlantImpl: oneOverCO2: "+oneOverCO2);
+		//System.out.println("PlantImpl: theCO2squared: "+theCO2squared);
+		//System.out.println("PlantImpl: theCO2cubed: "+theCO2cubed);
 
 		float theCQYMax = canopyQYConstants[0] * oneOverPPf * oneOverCO2 +
 		                  canopyQYConstants[1] * oneOverPPf +
