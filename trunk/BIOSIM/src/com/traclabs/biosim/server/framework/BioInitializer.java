@@ -1,18 +1,9 @@
 package biosim.server.framework;
 
-import java.io.PrintWriter;
-
-import org.xml.sax.Attributes;
-import org.xml.sax.Parser;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXNotRecognizedException;
-import org.xml.sax.SAXNotSupportedException;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.XMLReaderFactory;
-import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.helpers.ParserAdapter;
-import org.xml.sax.helpers.ParserFactory;
+import java.io.*;
+import java.net.*;
+import org.xml.sax.*;
+import org.xml.sax.helpers.*;
 
 /**
  * A sample SAX2 counter. This sample program illustrates how to
@@ -72,10 +63,10 @@ public class BioInitializer extends DefaultHandler {
 	protected static final boolean DEFAULT_VALIDATION = false;
 
 	/** Default Schema validation support (false). */
-	protected static final boolean DEFAULT_SCHEMA_VALIDATION = false;
+	protected static final boolean DEFAULT_SCHEMA_VALIDATION = true;
 
 	/** Default Schema full checking support (false). */
-	protected static final boolean DEFAULT_SCHEMA_FULL_CHECKING = false;
+	protected static final boolean DEFAULT_SCHEMA_FULL_CHECKING = true;
 
 	/** Default dynamic validation support (false). */
 	protected static final boolean DEFAULT_DYNAMIC_VALIDATION = false;
@@ -285,6 +276,10 @@ public class BioInitializer extends DefaultHandler {
 
 	/** Main program entry point. */
 	public static void main(String argv[]) {
+		URL docUrl = ClassLoader.getSystemClassLoader().getResource("biosim/server/framework/DefaultInitialization.xml");
+		argv = new String[1];
+		argv[0] = docUrl.toString();
+		System.out.println(docUrl);
 		// is there anything to do?
 		if (argv.length == 0) {
 			printUsage();
@@ -510,7 +505,7 @@ public class BioInitializer extends DefaultHandler {
 	/** Prints the usage. */
 	private static void printUsage() {
 
-		System.err.println("usage: java sax.Counter (options) uri ...");
+		System.err.println("usage: java biosim.server.framework.BioInitializer (options) uri ...");
 		System.err.println();
 
 		System.err.println("options:");
