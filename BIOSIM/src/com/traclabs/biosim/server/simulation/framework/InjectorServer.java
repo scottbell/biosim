@@ -1,4 +1,4 @@
-package biosim.server.framework;
+package biosim.server.simulation.framework;
 
 import biosim.idl.simulation.framework.*;
 import biosim.server.framework.*;
