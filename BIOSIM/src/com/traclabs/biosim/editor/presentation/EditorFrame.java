@@ -1,18 +1,30 @@
 package com.traclabs.biosim.editor.presentation;
 
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.net.URL;
+import java.util.Locale;
 
+import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
-import javax.swing.WindowConstants;
 
-import org.tigris.gef.base.Cmd;
+import org.apache.log4j.Logger;
 import org.tigris.gef.base.CmdAdjustGrid;
 import org.tigris.gef.base.CmdAdjustGuide;
 import org.tigris.gef.base.CmdAdjustPageBreaks;
@@ -35,8 +47,13 @@ import org.tigris.gef.base.CmdUseRotate;
 import org.tigris.gef.base.Editor;
 import org.tigris.gef.base.Globals;
 import org.tigris.gef.base.Layer;
-import org.tigris.gef.graph.presentation.JGraphFrame;
+import org.tigris.gef.graph.presentation.JGraph;
+import org.tigris.gef.presentation.FigCircle;
+import org.tigris.gef.util.Localizer;
+import org.tigris.gef.util.ResourceLoader;
 
+import com.traclabs.biosim.client.framework.gui.BioFrame;
+import com.traclabs.biosim.editor.base.BiosimEditor;
 import com.traclabs.biosim.editor.base.CmdNewEditor;
 import com.traclabs.biosim.editor.base.CmdOpenEditor;
 import com.traclabs.biosim.editor.base.CmdSaveAsEditor;
@@ -45,82 +62,213 @@ import com.traclabs.biosim.editor.base.CmdTreeLayout;
 import com.traclabs.biosim.editor.base.CmdZoomTo;
 import com.traclabs.biosim.editor.base.EditorCmdCopy;
 import com.traclabs.biosim.editor.base.EditorCmdCut;
-import com.traclabs.biosim.editor.base.EditorCmdExit;
 import com.traclabs.biosim.editor.base.EditorCmdPaste;
 import com.traclabs.biosim.editor.base.EditorCmdSpawn;
 import com.traclabs.biosim.editor.base.EditorCmdZoom;
 import com.traclabs.biosim.editor.base.EditorDocument;
-import com.traclabs.biosim.editor.base.BiosimEditor;
-import com.traclabs.biosim.editor.ui.EditorPalette;
+import com.traclabs.biosim.editor.ui.AirToolBar;
+import com.traclabs.biosim.editor.ui.CrewToolBar;
+import com.traclabs.biosim.editor.ui.EnvironmentToolBar;
+import com.traclabs.biosim.editor.ui.FrameworkToolBar;
+import com.traclabs.biosim.editor.ui.PowerToolBar;
+import com.traclabs.biosim.editor.ui.WasteToolBar;
+import com.traclabs.biosim.editor.ui.WaterToolBar;
 
-public class EditorFrame extends JGraphFrame {
-    protected Cmd _exitCmd;
+public class EditorFrame extends BioFrame {
+    private Editor myEditor;
+    
+    private JMenuBar myMenuBar = new JMenuBar();
+    
+    /** The graph pane (shown in middle of window). */
+    private JGraph myGraph;
 
-    private static int _refCount = 0;
+    /** A statusbar (shown at bottom ow window). */
+    private JLabel myStatusbar = new JLabel(" ");
+    
+    private JPanel myGraphPanel;
 
-    private static EditorFrame _active;
+    private JTabbedPane myTabbedPane;
+
+    private Logger myLogger;
+
+    private JMenu myFileMenu;
+
+    private JMenu myNewMenu;
+
+    private JMenuItem myLoggingItem;
+
+    private JMenuItem myQuitItem;
+
+    private JMenu myHelpMenu;
+
+    private JMenuItem myAboutItem;
+
+    private AboutAction myAboutAction = new AboutAction("About");;
+
+    private QuitAction myQuitAction = new QuitAction("Quit");
+
+    private JComponent myAirToolBar;
+
+    private JComponent myCrewToolBar;
+
+    private JComponent myEnvironmentToolBar;
+
+    private JComponent myFrameworkToolBar;
+
+    private JComponent myPowerToolBar;
+
+    private JComponent myWasteToolBar;
+
+    private JComponent myWaterToolBar;
+
+    private JSplitPane mySplitPane;
 
     public EditorFrame() {
-        this("BiosimEditor - ", new BiosimEditor());
+        this("BiosimEditor", new BiosimEditor());
     }
 
     public EditorFrame(String title) {
         this(title, new BiosimEditor());
     }
 
-    public EditorFrame(EditorDocument doc) {
-        this(doc.getAppName(), new BiosimEditor(doc));
-    }
-
-    public EditorFrame(String title, BiosimEditor ed) {
-        super(title, ed);
-
-        _refCount++;
-        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent event) {
-                //dispose();
-                _exitCmd.doIt();
-            }
-
-            public void windowClosed(WindowEvent event) {
-                //System.exit(0);
-            }
-
-            public void windowActivated(WindowEvent e) {
-                // Switch the current editor to the active frame editor.
-                // This is required so that menu commands will be executed
-                // in the active frame window.
-                _active = EditorFrame.this;
-                Globals.curEditor(_graph.getEditor());
-            }
-
-            public void windowDeactivated(WindowEvent e) {
-                _active = null;
-            }
-        });
-
-        addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent e) {
-                if (_active == EditorFrame.this) {
-                    Globals.curEditor(_graph.getEditor());
-                }
-            }
-        });
-
-        setToolBar(new EditorPalette()); //needs-more-work
+    public EditorFrame(String title, BiosimEditor pEditor) {
+        super(title, false);
+        myEditor = pEditor;        
+        loadResources();
+        buildGui();
 
         // make the delete key remove elements from the underlying GraphModel
-        getGraph().bindKey(new CmdDeleteFromModel(), KeyEvent.VK_DELETE, 0);
+        //_graph.bindKey(new CmdDeleteFromModel(), KeyEvent.VK_DELETE, 0);
+    }
+    
+    public Editor getEditor(){
+        return myEditor;
+    }
+    
+    /**
+     *  
+     */
+    private void loadResources() {
+        Localizer.addResource("GefBase",
+                "org.tigris.gef.base.BaseResourceBundle");
+        Localizer.addResource("GefPres",
+                "org.tigris.gef.presentation.PresentationResourceBundle");
+        Localizer.addLocale(Locale.getDefault());
+        Localizer.switchCurrentLocale(Locale.getDefault());
+        ResourceLoader.addResourceExtension("png");
+        ResourceLoader.addResourceLocation("/org/tigris/gef/Images");
+    }
+    
+    /**
+     *  
+     */
+    private void buildGui() {
+        //init graph
+        createGraphPanel();
+
+        //init tabbed pane tool bar
+        createTabbedPane();
+
+        //do splitpane
+        mySplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, myTabbedPane,
+                myGraphPanel);
+        getContentPane().add(mySplitPane, BorderLayout.CENTER);
+        getContentPane().add(myStatusbar, BorderLayout.SOUTH);
+
+        //do menu bar
+        setUpMenus();
+        
+        addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                Globals.curEditor(myEditor);
+                }
+        });
+
+        pack();
+        setSize(700, 600);
+        setVisible(true);
+    }
+    
+    /**
+     *  
+     */
+    private void createGraphPanel() {
+        myGraph = new JGraph();
+        myGraph.setDrawingSize(0, 0);
+        myGraphPanel = new JPanel();
+        myGraphPanel.setLayout(new GridLayout(1, 1));
+        myGraphPanel.add(myGraph);
+        myGraph.getEditor().add(new FigCircle(0, 0, 50, 50));
     }
 
-    public static EditorFrame curFrame() {
-        return _active;
+    /** Returns an ImageIcon, or null if the path was invalid. */
+    private static ImageIcon createImageIcon(String path) {
+        URL imgURL = ClassLoader.getSystemClassLoader().getResource(path);
+        if (imgURL != null) {
+            return new ImageIcon(imgURL);
+        } else {
+            Logger.getLogger(BiosimEditor.class.toString()).error(
+                    "Couldn't find file for icon: " + path);
+            return null;
+        }
+    }
+    
+    /**
+     *  
+     */
+    private void createTabbedPane() {
+        myTabbedPane = new JTabbedPane();
+
+        myAirToolBar = new AirToolBar();
+        myTabbedPane.addTab("Air",
+                createImageIcon("com/traclabs/biosim/client/air/gui/air.png"),
+                myAirToolBar);
+        myCrewToolBar = new CrewToolBar();
+        myTabbedPane
+                .addTab(
+                        "Crew",
+                        createImageIcon("com/traclabs/biosim/client/crew/gui/crew.png"),
+                        myCrewToolBar);
+
+        myEnvironmentToolBar = new EnvironmentToolBar();
+        myTabbedPane
+                .addTab(
+                        "Environment",
+                        createImageIcon("com/traclabs/biosim/client/environment/gui/environment.png"),
+                        myEnvironmentToolBar);
+
+        myFrameworkToolBar = new FrameworkToolBar();
+        myTabbedPane
+                .addTab(
+                        "Framework",
+                        createImageIcon("com/traclabs/biosim/client/framework/gui/all.png"),
+                        myFrameworkToolBar);
+
+        myPowerToolBar = new PowerToolBar();
+        myTabbedPane
+                .addTab(
+                        "Power",
+                        createImageIcon("com/traclabs/biosim/client/power/gui/power.png"),
+                        myPowerToolBar);
+
+        myWasteToolBar = new WasteToolBar();
+        myTabbedPane
+                .addTab(
+                        "Waste",
+                        createImageIcon("com/traclabs/biosim/client/framework/gui/gear.png"),
+                        myWasteToolBar);
+
+        myWaterToolBar = new WaterToolBar();
+        myTabbedPane
+                .addTab(
+                        "Water",
+                        createImageIcon("com/traclabs/biosim/client/water/gui/water.png"),
+                        myWaterToolBar);
+                        
     }
 
     //override the setUpMenus() in superclass
-    protected void setUpMenus() {
+    private void setUpMenus() {
         createFileMenu();
         createEditMenu();
         createViewMenu();
@@ -133,7 +281,7 @@ public class EditorFrame extends JGraphFrame {
     private void createFileMenu() {
         JMenu file = new JMenu("File");
         file.setMnemonic('F');
-        _menubar.add(file);
+        myMenuBar.add(file);
 
         // Create the New menu item.
         JMenuItem newItem = file.add(new CmdNewEditor());
@@ -177,7 +325,7 @@ public class EditorFrame extends JGraphFrame {
         file.addSeparator();
 
         // Create the Exit menu item.
-        JMenuItem exitItem = file.add(_exitCmd = new EditorCmdExit(this));
+        JMenuItem exitItem = file.add(myQuitAction);
         KeyStroke altF4 = KeyStroke.getKeyStroke(KeyEvent.VK_F4,
                 KeyEvent.ALT_MASK);
         exitItem.setAccelerator(altF4);
@@ -186,7 +334,7 @@ public class EditorFrame extends JGraphFrame {
     private void createEditMenu() {
         JMenu edit = new JMenu("Edit");
         edit.setMnemonic('E');
-        _menubar.add(edit);
+        myMenuBar.add(edit);
 
         JMenu select = new JMenu("Select");
         edit.add(select);
@@ -251,7 +399,7 @@ public class EditorFrame extends JGraphFrame {
 
     private void createViewMenu() {
         JMenu view = new JMenu("View");
-        _menubar.add(view);
+        myMenuBar.add(view);
         view.setMnemonic('V');
 
         view.add(new EditorCmdSpawn());
@@ -283,7 +431,7 @@ public class EditorFrame extends JGraphFrame {
 
     private void createZoomMenu() {
         JMenu zoom = new JMenu("Zoom");
-        _menubar.add(zoom);
+        myMenuBar.add(zoom);
         zoom.setMnemonic('Z');
 
         JMenuItem zoomItem = zoom.add(new EditorCmdZoom(EditorCmdZoom.ZOOM_IN));
@@ -317,7 +465,7 @@ public class EditorFrame extends JGraphFrame {
 
     private void createReportMenu() {
         JMenu report = new JMenu("Report");
-        _menubar.add(report);
+        myMenuBar.add(report);
         report.setMnemonic('R');
         JMenuItem Printer = new JMenuItem("Print");
         Printer.setMnemonic('P');
@@ -337,7 +485,7 @@ public class EditorFrame extends JGraphFrame {
     private void createArrangeMenu() {
         JMenu arrange = new JMenu("Arrange");
         arrange.setMnemonic('A');
-        _menubar.add(arrange);
+        myMenuBar.add(arrange);
 
         JMenuItem groupItem = arrange.add(new CmdGroup());
         groupItem.setMnemonic('G');
@@ -428,7 +576,7 @@ public class EditorFrame extends JGraphFrame {
     private void createHelpMenu() {
         JMenu help = new JMenu("Help");
         help.setMnemonic('H');
-        _menubar.add(help);
+        myMenuBar.add(help);
 
         JMenuItem CheckNetwork = new JMenuItem("Check Network");
         CheckNetwork.setMnemonic('C');
@@ -445,29 +593,54 @@ public class EditorFrame extends JGraphFrame {
      * Close this editor frame.
      */
     public void exit() {
-        // Remove this editor from the document.
-        Editor ed = (BiosimEditor) getGraph().getEditor();
-
         // Remove the editor from the layer.
-        Layer layer = ed.getLayerManager().getActiveLayer();
-        layer.removeEditor(ed);
+        Layer layer = myEditor.getLayerManager().getActiveLayer();
+        layer.removeEditor(myEditor);
 
         // Remove the editor from the document.
-        ed.document(null);
+        myEditor.document(null);
 
         // Destroy the window.
         dispose();
-
-        // Quit the application when no windows are left.
-        _refCount--;
     }
     
     public Object clone() {
-        return new EditorFrame(getTitle(), (BiosimEditor) getGraph().getEditor()
-                .clone());
+        return new EditorFrame(getTitle(), (BiosimEditor)myEditor.clone());
     }
 
     public EditorDocument getDocument() {
-        return (EditorDocument) this.getGraph().getEditor().document();
+        return (EditorDocument) this.myEditor.document();
+    }
+    
+    /**
+     * Action that stops the simulation and exits (by way of the frameClosing
+     * method)
+     */
+    private class QuitAction extends AbstractAction {
+        public QuitAction(String name) {
+            super(name);
+        }
+
+        public void actionPerformed(ActionEvent ae) {
+            setCursor(Cursor
+                    .getPredefinedCursor(Cursor.WAIT_CURSOR));
+            frameClosing();
+            setCursor(Cursor.getDefaultCursor());
+        }
+    }
+
+    /**
+     * Action that brings up a dialog box about authors, company, etc.
+     */
+    private class AboutAction extends AbstractAction {
+        public AboutAction(String name) {
+            super(name);
+        }
+
+        public void actionPerformed(ActionEvent ae) {
+            JOptionPane.showMessageDialog(null, "BioSim Editor\nCopyright "
+                    + new Character('\u00A9')
+                    + " 2005, TRACLabs\nby Scott Bell and David Kortenkamp");
+        }
     }
 }
