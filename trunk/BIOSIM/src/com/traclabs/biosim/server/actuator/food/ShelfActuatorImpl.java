@@ -12,8 +12,8 @@ public abstract class ShelfActuatorImpl extends GenericActuatorImpl implements S
 		super(pID, pName);
 	}
 
-	public void setOutput(Shelf source){
-		myShelf = source;
+	public void setOutput(BiomassRS pBiomassRS, int shelfIndex){
+		myShelf = pBiomassRS.getShelf(shelfIndex);
 	}
 	
 	public Shelf getOutput(){

@@ -3253,6 +3253,36 @@ public class BioInitializer{
 			e.printStackTrace();
 		}
 	}
+	
+	private void createHarvestSensor(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating HarvestSensor with moduleName: "+moduleName);
+			HarvestSensorImpl myHarvestSensorImpl = new HarvestSensorImpl(myID, moduleName);
+			setupBioModule(myHarvestSensorImpl, node);
+			mySensors.add(OrbUtils.poaToCorbaObj(myHarvestSensorImpl));
+			BiosimServer.registerServer(new HarvestSensorPOATie(myHarvestSensorImpl), myHarvestSensorImpl.getModuleName(), myHarvestSensorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureHarvestSensor(Node node){
+		//System.out.println("Configuring HarvestSensor");
+		String moduleName = getModuleName(node);
+		try{
+			HarvestSensor myHarvestSensor = HarvestSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("input").getNodeValue();
+			int index = Integer.parseInt(node.getAttributes().getNamedItem("shelfIndex").getNodeValue());
+			myHarvestSensor.setInput(BiomassRSHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
 
 	private void crawlFoodSensors(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
@@ -3293,6 +3323,12 @@ public class BioInitializer{
 					createFoodStoreLevelSensor(child);
 				else
 					configureFoodStoreLevelSensor(child);
+			}
+			else if (childName.equals("HarvestSensor")){
+				if (firstPass)
+					createHarvestSensor(child);
+				else
+					configureHarvestSensor(child);
 			}
 			child = child.getNextSibling();
 		}
@@ -4830,6 +4866,66 @@ public class BioInitializer{
 			e.printStackTrace();
 		}
 	}
+	
+	private void createHarvestingActuator(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating HarvestingActuator with moduleName: "+moduleName);
+			HarvestingActuatorImpl myHarvestingActuatorImpl = new HarvestingActuatorImpl(myID, moduleName);
+			setupBioModule(myHarvestingActuatorImpl, node);
+			myActuators.add(OrbUtils.poaToCorbaObj(myHarvestingActuatorImpl));
+			BiosimServer.registerServer(new HarvestingActuatorPOATie(myHarvestingActuatorImpl), myHarvestingActuatorImpl.getModuleName(), myHarvestingActuatorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureHarvestingActuator(Node node){
+		//System.out.println("Configuring HarvestingActuator");
+		String moduleName = getModuleName(node);
+		try{
+			HarvestingActuator myHarvestingActuator = HarvestingActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
+			int index = Integer.parseInt(node.getAttributes().getNamedItem("shelfIndex").getNodeValue());
+			myHarvestingActuator.setOutput(BiomassRSHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
+	
+	private void createPlantingActuator(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating PlantingActuator with moduleName: "+moduleName);
+			PlantingActuatorImpl myPlantingActuatorImpl = new PlantingActuatorImpl(myID, moduleName);
+			setupBioModule(myPlantingActuatorImpl, node);
+			myActuators.add(OrbUtils.poaToCorbaObj(myPlantingActuatorImpl));
+			BiosimServer.registerServer(new PlantingActuatorPOATie(myPlantingActuatorImpl), myPlantingActuatorImpl.getModuleName(), myPlantingActuatorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configurePlantingActuator(Node node){
+		//System.out.println("Configuring PlantingActuator");
+		String moduleName = getModuleName(node);
+		try{
+			PlantingActuator myPlantingActuator = PlantingActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(moduleName));
+			String inputName = node.getAttributes().getNamedItem("output").getNodeValue();
+			int index = Integer.parseInt(node.getAttributes().getNamedItem("shelfIndex").getNodeValue());
+			myPlantingActuator.setOutput(BiomassRSHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(inputName)), index);
+		}
+		catch(org.omg.CORBA.UserException e){
+			e.printStackTrace();
+		}
+		catch (NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
 
 	private void crawlFoodActuators(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
@@ -4858,6 +4954,18 @@ public class BioInitializer{
 					createFoodOutFlowRateActuator(child);
 				else
 					configureFoodOutFlowRateActuator(child);
+			}
+			else if (childName.equals("HarvestingActuator")){
+				if (firstPass)
+					createHarvestingActuator(child);
+				else
+					configureHarvestingActuator(child);
+			}
+			else if (childName.equals("PlantingActuator")){
+				if (firstPass)
+					createPlantingActuator(child);
+				else
+					configurePlantingActuator(child);
 			}
 			child = child.getNextSibling();
 		}

@@ -702,6 +702,7 @@ module biosim{
                         module food{
                                 interface BiomassRS : framework::SimBioModule, framework::PowerConsumer, framework::PotableWaterConsumer, framework::GreyWaterConsumer, framework::BiomassProducer, framework::AirConsumer, framework::AirProducer, framework::DirtyWaterProducer{
                                         ShelfList getShelves();
+					Shelf getShelf(in long index);
                                         Shelf createNewShelf(in PlantType pType, in float pCropArea);
                                         void setAutoHarvestAndReplantEnabled(in boolean pHarvestEnabled);
                                         boolean autoHarvestAndReplantEnabled();
@@ -734,6 +735,7 @@ module biosim{
 
                                 interface Shelf{
                                         void harvest();
+                                        boolean isReadyForHavest();
                                         void replant(in PlantType pType, in float area);
 					float getCropAreaTotal();
 					float getCropAreaUsed();
@@ -1050,6 +1052,14 @@ module biosim{
                                         framework::FoodProducer getInput();
                                         long getIndex();
                                 };
+				
+                                interface ShelfSensor : framework::GenericSensor{
+                                        void setInput(in simulation::food::BiomassRS source, in long index);
+                                        simulation::food::Shelf getInput();
+				};
+				
+				interface HarvestSensor : ShelfSensor{
+				};
                         };
                         module power{
                                 interface PowerPSSensor : framework::GenericSensor{
@@ -1326,7 +1336,7 @@ module biosim{
                                         long getIndex();
                                 };
                                 interface ShelfActuator : framework::GenericActuator{
-                                        void setOutput(in simulation::food::Shelf source);
+                                        void setOutput(in simulation::food::BiomassRS source, in long index);
                                         simulation::food::Shelf getOutput();
                                 };
 				interface PlantingActuator : ShelfActuator{

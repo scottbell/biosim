@@ -124,6 +124,10 @@ public class ShelfImpl extends ShelfPOA {
 		myCrop.harvest();
 	}
 	
+	public boolean isReadyForHavest(){
+		return myCrop.readyForHarvest();
+	}
+	
 	private void tryHarvesting(){
 		if (myBiomassRSImpl.autoHarvestAndReplantEnabled()){
 			if (myCrop.readyForHarvest()){
