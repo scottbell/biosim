@@ -166,10 +166,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		simulationStarted = true;
 		ticksGoneBy = 0;
 		if (useDefaultInitialization){
-			System.out.println("BioDriverImpl: Initializing simulation...");
+			System.out.println("BioDriverImpl:"+myID+" Initializing simulation...");
 			initializeSimulation();
 		}
-		System.out.println("BioDriverImpl: Running simulation...");
+		System.out.println("BioDriverImpl:"+myID+" Running simulation...");
 		runSimulation();
 	}
 
@@ -261,7 +261,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 
 	public void setDriverPauseLength(int pDriverPauseLength){
 		if (pDriverPauseLength > 0)
-			System.out.println("BioDriverImpl: driver pause of "+pDriverPauseLength+" milliseconds");
+			System.out.println("BioDriverImpl:"+myID+" driver pause of "+pDriverPauseLength+" milliseconds");
 		driverPauseLength = pDriverPauseLength;
 	}
 
@@ -282,7 +282,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		return false;
 	}
 	
-	public synchronized int getTicks(){
+	public int getTicks(){
 		return ticksGoneBy;
 	}
 
@@ -299,7 +299,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	*/
 	public synchronized void pauseSimulation(){
 		simulationIsPaused = true;
-		System.out.println("BioDriverImpl: simulation paused");
+		System.out.println("BioDriverImpl:"+myID+" simulation paused");
 	}
 
 	/**
@@ -309,7 +309,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myTickThread = null;
 		notify();
 		simulationStarted = false;
-		System.out.println("BioDriverImpl: simulation ended");
+		System.out.println("BioDriverImpl:"+myID+" simulation ended");
 	}
 
 	/**
@@ -326,7 +326,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	*/
 	public synchronized void advanceOneTick(){
 		collectReferences();
-		System.out.println("BioDriverImpl: ticking simulation once");
+		System.out.println("BioDriverImpl:"+myID+" ticking simulation once");
 		tick();
 	}
 
@@ -336,17 +336,17 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	public synchronized void resumeSimulation(){
 		simulationIsPaused = false;
 		notify();
-		System.out.println("BioDriverImpl: simulation resumed");
+		System.out.println("BioDriverImpl:"+myID+" simulation resumed");
 	}
 
 	public synchronized void setLogging(boolean pLogSim){
 		collectReferences();
 		logging = pLogSim;
 		if (logging){
-			System.out.println("BioDriverImpl: Enabling logging");
+			System.out.println("BioDriverImpl:"+myID+" Enabling logging");
 		}
 		else{
-			System.out.println("BioDriverImpl: Disabling logging");
+			System.out.println("BioDriverImpl:"+myID+" Disabling logging");
 		}
 		for (Enumeration e = modules.elements(); e.hasMoreElements();){
 			BioModule currentBioModule = (BioModule)(e.nextElement());
@@ -365,44 +365,44 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	private void collectReferences(){
 		if (hasCollectedReferences)
 			return;
-		System.out.println("BioDriverImpl: Getting server references...");
+		System.out.println("BioDriverImpl:"+myID+" Getting server references...");
 		// resolve the Objects Reference in Naming
 		modules = new Hashtable();
-		System.out.println("BioDriverImpl: Collecting references to modules...");
+		System.out.println("BioDriverImpl:"+myID+" Collecting references to modules...");
 		try{
 			CrewGroup myCrew = CrewGroupHelper.narrow(OrbUtils.getNCRef().resolve_str(crewName));
 			modules.put(crewName , myCrew);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl: Couldn't locate "+crewName+", skipping...");
+			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+crewName+", skipping...");
 		}
 		try{
 			PowerPS myPowerPS = PowerPSHelper.narrow(OrbUtils.getNCRef().resolve_str(powerPSName));
 			modules.put(powerPSName , myPowerPS);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl: Couldn't locate "+powerPSName+", skipping...");
+			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+powerPSName+", skipping...");
 		}
 		try{
 			PowerStore myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(powerStoreName));
 			modules.put(powerStoreName , myPowerStore);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl: Couldn't locate "+powerStoreName+", skipping...");
+			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+powerStoreName+", skipping...");
 		}
 		try{
 			AirRS myAirRS = AirRSHelper.narrow(OrbUtils.getNCRef().resolve_str(airRSName));
 			modules.put(airRSName , myAirRS);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl: Couldn't locate "+airRSName+", skipping...");
+			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+airRSName+", skipping...");
 		}
 		try{
 			mySimEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str(simEnvironmentName));
 			modules.put(simEnvironmentName , mySimEnvironment);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl: Couldn't locate "+simEnvironmentName+", ending!");
+			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+simEnvironmentName+", ending!");
 			System.exit(0);
 		}
 		try{
@@ -410,76 +410,76 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 			modules.put(greyWaterStoreName , myGreyWaterStore);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl: Couldn't locate "+greyWaterStoreName+", skipping...");
+			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+greyWaterStoreName+", skipping...");
 		}
 		try{
 			PotableWaterStore myPotableWaterStore = PotableWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(potableWaterStoreName));
 			modules.put(potableWaterStoreName , myPotableWaterStore);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl: Couldn't locate "+potableWaterStoreName+", skipping...");
+			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+potableWaterStoreName+", skipping...");
 		}
 		try{
 			DirtyWaterStore myDirtyWaterStore = DirtyWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(dirtyWaterStoreName));
 			modules.put(dirtyWaterStoreName , myDirtyWaterStore);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl: Couldn't locate "+dirtyWaterStoreName+", skipping...");
+			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+dirtyWaterStoreName+", skipping...");
 		}
 		try{
 			FoodProcessor myFoodProcessor = FoodProcessorHelper.narrow(OrbUtils.getNCRef().resolve_str(foodProcessorName));
 			modules.put(foodProcessorName , myFoodProcessor);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl: Couldn't locate "+foodProcessorName+", skipping...");
+			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+foodProcessorName+", skipping...");
 		}
 		try{
 			FoodStore myFoodStore= FoodStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(foodStoreName));
 			modules.put(foodStoreName , myFoodStore);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl: Couldn't locate "+foodStoreName+", skipping...");
+			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+foodStoreName+", skipping...");
 		}
 		try{
 			CO2Store myCO2Store = CO2StoreHelper.narrow(OrbUtils.getNCRef().resolve_str(CO2StoreName));
 			modules.put(CO2StoreName , myCO2Store);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl: Couldn't locate "+CO2StoreName+", skipping...");
+			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+CO2StoreName+", skipping...");
 		}
 		try{
 			O2Store myO2Store = O2StoreHelper.narrow(OrbUtils.getNCRef().resolve_str(O2StoreName));
 			modules.put(O2StoreName , myO2Store);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl: Couldn't locate "+O2StoreName+", skipping...");
+			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+O2StoreName+", skipping...");
 		}
 		try{
 			BiomassRS myBiomassRS = BiomassRSHelper.narrow(OrbUtils.getNCRef().resolve_str(biomassRSName));
 			modules.put(biomassRSName , myBiomassRS);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl: Couldn't locate "+biomassRSName+", skipping...");
+			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+biomassRSName+", skipping...");
 		}
 		try{
 			BiomassStore myBiomassStore = BiomassStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(biomassStoreName));
 			modules.put(biomassStoreName, myBiomassStore);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl: Couldn't locate "+biomassStoreName+", skipping...");
+			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+biomassStoreName+", skipping...");
 		}
 		try{
 			WaterRS myWaterRS = WaterRSHelper.narrow(OrbUtils.getNCRef().resolve_str(waterRSName));
 			modules.put(waterRSName , myWaterRS);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl: Couldn't locate "+waterRSName+", skipping...");
+			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+waterRSName+", skipping...");
 		}
 		try{
 			myLogger = LoggerHelper.narrow(OrbUtils.getNCRef().resolve_str(loggerName));
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.err.println("BioDriverImpl: Couldn't locate "+loggerName+", skipping...");
+			System.err.println("BioDriverImpl:"+myID+" Couldn't locate "+loggerName+", skipping...");
 		}
 		hasCollectedReferences = true;
 	}
@@ -489,7 +489,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	* Typically this means resetting the various gas levels, crew people, water levels, etc.
 	*/
 	private void reset(){
-		System.out.println("BioDriverImpl: Resetting simulation");
+		System.out.println("BioDriverImpl:"+myID+" Resetting simulation");
 		for (Enumeration e = modules.elements(); e.hasMoreElements();){
 			BioModule currentBioModule = (BioModule)(e.nextElement());
 			currentBioModule.reset();
