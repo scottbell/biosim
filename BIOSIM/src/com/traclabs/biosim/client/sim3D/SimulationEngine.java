@@ -21,15 +21,19 @@ public class SimulationEngine
 {
 	private int myID;
 	private float rotY = 0;
+	private int tickCount = 0;
 
 	private TransformGroup objRotate;
 	private Transform3D rotate;
 	private View view;
 	private Transform3D mTransform = new Transform3D();
 	private Transform3D mRotation  = new Transform3D();
+	private Timer myTimer;
 
 
 	public SimulationEngine(int pID){
+		GetTickAction myGetTickAction = new GetTickAction("Refresh");
+		myTimer = new Timer(500, myGetTickAction);
 		myID = pID;
 		// create the virtual universe
 		VirtualUniverse universe = new VirtualUniverse();
@@ -87,15 +91,25 @@ public class SimulationEngine
 	}
 
 	public void runEngine(){
+		myTimer.start();
 		// main render loop
 		while(true)
 		{
 			// rotate around a bit
-			rotY += (0.003 * BioHolderInitializer.getBioHolder().theBioDriver.getTicks());
+			rotY += (0.003 * tickCount);
 			rotate.rotXYZ((float)Math.PI/4, rotY, (float)Math.PI/4);
 			objRotate.setTransform(rotate);
 			// render the whole scene
 			view.renderOnce();
+		}
+	}
+	
+	private class GetTickAction extends AbstractAction{
+		public GetTickAction(String name){
+			super(name);
+		}
+		public void actionPerformed(ActionEvent ae){
+			tickCount = BioHolderInitializer.getBioHolder().theBioDriver.getTicks();
 		}
 	}
 
@@ -104,6 +118,7 @@ public class SimulationEngine
 		private JTextField textField;
 		private JPanel panel;
 		private TickWindow window;
+		private int framecount = 0;
 
 		/**
 		 * This is the window for the frame counter and the exit button.
@@ -190,8 +205,8 @@ public class SimulationEngine
 		 * Method must be called by everytime a frame was rendered.
 		 */
 		public void nextFrame(){
-			textField.setText(BioHolderInitializer.getBioHolder().theBioDriver.getTicks() + "");
-			panel.revalidate();
+			textField.setText(tickCount + "");
+			tickCount = tickCount;
 		}
 	}
 
