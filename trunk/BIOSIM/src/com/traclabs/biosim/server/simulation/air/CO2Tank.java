@@ -54,13 +54,13 @@ public class CO2Tank extends AirRSSubSystem{
 		float acutallyAdded = 0f;
 		if ((amountRequested + level) > capacity){
 			//adding more than capacity
-			acutallyAdded = (capacity - level);
+			acutallyAdded = myAirRS.randomFilter(capacity - level);
 			level += acutallyAdded;
 			return  acutallyAdded;
 		}
 		else{
-			acutallyAdded = amountRequested;
-			level += amountRequested;
+			acutallyAdded = myAirRS.randomFilter(amountRequested);
+			level += acutallyAdded;
 			return acutallyAdded;
 		}
 	}
@@ -78,13 +78,13 @@ public class CO2Tank extends AirRSSubSystem{
 		float takenAmount;
 		//asking for more stuff than exists
 		if (amountRequested > level){
-			takenAmount = level;
+			takenAmount = myAirRS.randomFilter(level);
 			level = 0;
 		}
 		//stuff exists for request
 		else{
-			takenAmount = amountRequested;
-			level -= amountRequested; 
+			takenAmount = myAirRS.randomFilter(amountRequested);
+			level -= takenAmount; 
 		}
 		return takenAmount;
 	}

@@ -60,13 +60,13 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 		float acutallyAdded = 0f;
 		if ((amountRequested + level) > capacity){
 			//adding more than capacity
-			acutallyAdded = (capacity - level);
+			acutallyAdded = randomFilter(capacity - level);
 			level += acutallyAdded;
 			return  acutallyAdded;
 		}
 		else{
-			acutallyAdded = amountRequested;
-			level += amountRequested;
+			acutallyAdded = randomFilter(amountRequested);
+			level += acutallyAdded;
 			return acutallyAdded;
 		}
 	}
@@ -84,13 +84,13 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 		float takenAmount;
 		//asking for more stuff than exists
 		if (amountRequested > level){
-			takenAmount = level;
+			takenAmount = randomFilter(level);
 			level = 0;
 		}
 		//stuff exists for request
 		else{
-			takenAmount = amountRequested;
-			level -= amountRequested; 
+			takenAmount = randomFilter(amountRequested);
+			level -= takenAmount; 
 		}
 		return takenAmount;
 	}

@@ -9,15 +9,16 @@ public class Wheat extends Plant{
 	private static final int HARVEST_TIME=1992;  //hours to harvest
 	private static final float EDIBLE_KILOGRAMS = .0025f;  //edible kilograms per meter squared per hour
 
-	public Wheat(int pID){
-		super(pID);
+	public Wheat(int pID, BiomassRSImpl pBiomassImpl){
+		super(pID, pBiomassImpl);
 	}
 
-	public Wheat(int pID, float pTotalArea){
-		super(pID, pTotalArea);
+	public Wheat(int pID, float pTotalArea, BiomassRSImpl pBiomassImpl){
+		super(pID, pTotalArea, pBiomassImpl);
 	}
 
-	protected void calculateCO2Needed(){
+	protected float calculateCO2Needed(){
+		float theCO2Needed = 0f;;
 		double time = (myAge / 24.0);
 		if (time < 1)
 			time = 1;
@@ -34,31 +35,37 @@ public class Wheat extends Plant{
 			CO2Needed = 0f;
 		else{
 			Double CO2FlowRateObj = new Double((CO2FlowRate * totalArea) / (24.0f));
-			CO2Needed = CO2FlowRateObj.floatValue();
+			theCO2Needed = myBiomassImpl.randomFilter(CO2FlowRateObj.floatValue());
 		}
+		return theCO2Needed;
 	}
 	
-	protected void calculateWaterNeeded(){
+	protected float calculateWaterNeeded(){
+		float theWaterNeeded = 0f;
 		float biomassProducedForWater = EDIBLE_KILOGRAMS * totalArea;
-		waterNeeded =  new Double(0.10274 * biomassProducedForWater).floatValue();
+		waterNeeded =  myBiomassImpl.randomFilter(new Double(0.10274 * biomassProducedForWater).floatValue());
+		return theWaterNeeded;
 	}
 	
 	public String getPlantType(){
 		return "wheat";
 	}
 	
-	protected void calculatePowerNeeded(){
-		powerNeeded  = new Double(0.5 * totalArea).floatValue();
+	protected float calculatePowerNeeded(){
+		float thePowerNeeded  = myBiomassImpl.randomFilter(new Double(0.5 * totalArea).floatValue());
+		return thePowerNeeded;
 	}
 
-	protected void calculateProducedBiomass(){
+	protected float calculateProducedBiomass(){
+		float theBiomassProduced = 0f;;
 		if (myAge >= HARVEST_TIME){
 			//Harvest time
-			biomassProduced = EDIBLE_KILOGRAMS * myAge * totalArea;
+			biomassProduced = myBiomassImpl.randomFilter(EDIBLE_KILOGRAMS * myAge * totalArea);
 			myAge =0;
 		}
 		else
-			biomassProduced =  0f;
+			biomassProduced =  myBiomassImpl.randomFilter(0f);
+		return theBiomassProduced;
 	}
 
 }

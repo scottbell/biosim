@@ -20,6 +20,7 @@ public class ShelfImpl extends ShelfPOA {
 	private boolean hasCollectedReferences = false;
 	private boolean hasEnoughWater = false;
 	private boolean hasEnoughPower = false;
+	private BiomassRSImpl myBiomassImpl;
 	private PotableWaterStore myPotableWaterStore;
 	private GreyWaterStore myGreyWaterStore;
 	private PowerStore myPowerStore;
@@ -27,14 +28,16 @@ public class ShelfImpl extends ShelfPOA {
 	private boolean logInitialized = false;
 	private int myID = 0;
 	
-	public ShelfImpl(int pID){
-		myCrop = new Wheat(myID, totalArea);
+	public ShelfImpl(int pID, BiomassRSImpl pBiomassImpl){
+		myBiomassImpl = pBiomassImpl;
+		myCrop = new Wheat(myID, totalArea, pBiomassImpl);
 		myID = pID;
 	}
 	
-	public ShelfImpl(int pID, float pTotalArea){
+	public ShelfImpl(int pID, float pTotalArea, BiomassRSImpl pBiomassImpl){
+		myBiomassImpl = pBiomassImpl;
 		totalArea = pTotalArea;
-		myCrop = new Wheat(myID, totalArea);
+		myCrop = new Wheat(myID, totalArea, pBiomassImpl);
 		myID = pID;
 	}
 	

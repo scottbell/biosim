@@ -90,7 +90,7 @@ public abstract class WaterRSSubSystem{
 	* @param pWater the amount of water to add (in liters)
 	*/
 	public void addWater(float pWater){
-		waterLevel += pWater;
+		waterLevel += myWaterRS.randomFilter(pWater);
 		if (waterLevel < 0){
 			hasEnoughWater = false;
 		}

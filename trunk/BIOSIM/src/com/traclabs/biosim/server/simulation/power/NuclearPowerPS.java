@@ -12,7 +12,7 @@ public class NuclearPowerPS extends PowerPSImpl {
 	}
 	protected void calculatePowerProduced(){
 		//Constant steady stream of power
-		currentPowerProduced = 500f;
+		currentPowerProduced = randomFilter(500f);
 	}
 	
 }

@@ -56,7 +56,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		randomCoefficient = pValue;
 	}
 	
-	protected float randomFilter(float pValue){
+	public float randomFilter(float pValue){
 		myRandomGen = new Random();
 		if (randomCoefficient <= 0)
 			return pValue;
@@ -65,14 +65,28 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		float coefficient = randomBiggerCoef / RANDOM_PRECISION;
 		float addSubtractValue = coefficient * pValue;
 		int addSubtractDecider = myRandomGen.nextInt(2);
-		float newValue;
 		if (addSubtractDecider == 0)
 			return (pValue += addSubtractValue);
 		else
 			return (pValue -= addSubtractValue);
 	}
 	
-	protected boolean randomFilter(boolean pValue){
+	public double randomFilter(double pValue){
+		myRandomGen = new Random();
+		if (randomCoefficient <= 0)
+			return pValue;
+		int biggerCoef = (new Float(randomCoefficient * RANDOM_PRECISION)).intValue();
+		float randomBiggerCoef = (new Integer(myRandomGen.nextInt(biggerCoef))).floatValue();
+		float coefficient = randomBiggerCoef / RANDOM_PRECISION;
+		double addSubtractValue = coefficient * pValue;
+		int addSubtractDecider = myRandomGen.nextInt(2);
+		if (addSubtractDecider == 0)
+			return (pValue += addSubtractValue);
+		else
+			return (pValue -= addSubtractValue);
+	}
+	
+	public boolean randomFilter(boolean pValue){
 		myRandomGen = new Random();
 		if (randomCoefficient <= 0)
 			return pValue;
@@ -84,7 +98,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 			return pValue;
 	}
 	
-	protected int randomFilter(int pValue){
+	public int randomFilter(int pValue){
 		myRandomGen = new Random();
 		if (randomCoefficient <= 0)
 			return pValue;

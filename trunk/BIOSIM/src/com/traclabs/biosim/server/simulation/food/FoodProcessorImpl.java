@@ -135,7 +135,7 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	*/
 	private void createFood(){
 		if (hasEnoughPower){
-			currentFoodProduced = currentBiomassConsumed * 0.8f;
+			currentFoodProduced = randomFilter(currentBiomassConsumed * 0.8f);
 			myFoodStore.add(currentFoodProduced);
 		}
 	}

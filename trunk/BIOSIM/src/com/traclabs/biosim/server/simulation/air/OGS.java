@@ -49,7 +49,7 @@ public class OGS extends AirRSSubSystem{
 	}
 	
 	public float addH2O(float H2OtoAdd){
-		currentH2OConsumed = H2OtoAdd;
+		currentH2OConsumed = myAirRS.randomFilter(H2OtoAdd);
 		if (currentH2OConsumed < H2ONeeded)
 			enoughH2O = false;
 		else
@@ -58,9 +58,9 @@ public class OGS extends AirRSSubSystem{
 	}
 	
 	private void pushGasses(){
-		currentO2Produced = currentH2OConsumed * 0.70f;
-		mySimEnvironment.addO2(currentO2Produced);
-		currentH2Produced = currentH2OConsumed * 0.30f;
+		currentO2Produced = myAirRS.randomFilter(currentH2OConsumed * 0.70f);
+		mySimEnvironment.addO2(myAirRS.randomFilter(currentO2Produced));
+		currentH2Produced = myAirRS.randomFilter(currentH2OConsumed * 0.30f);
 	}
 	
 	public float takeH2(float H2toTake){

@@ -13,8 +13,8 @@ public class SolarPowerPS extends PowerPSImpl {
 	}
 	
 	protected void calculatePowerProduced(){
-		//Constant steady stream of power
-		currentPowerProduced = new Double(mySimEnvironment.getLightIntensity() *.05).floatValue();
+		//Varying stream of power
+		currentPowerProduced = randomFilter(new Double(mySimEnvironment.getLightIntensity() *.05).floatValue());
 	}
 	
 }
