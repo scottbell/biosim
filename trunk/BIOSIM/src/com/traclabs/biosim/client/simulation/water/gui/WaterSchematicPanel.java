@@ -18,14 +18,18 @@ public class WaterSchematicPanel extends TimedPanel
 	private ImageIcon dirtyWaterStoreIcon;
 	private ImageIcon greyWaterStoreIcon;
 	private ImageIcon horizontalPipeIcon;
+	private ImageIcon horizontalWaterPipeIcon;
 	private ImageIcon susbsytemIcon;
-	private ImageIcon rightLegDownPipeIcon;
-	private ImageIcon rightLegUpPipeIcon;
-	private ImageIcon leftLegDownPipeIcon;
-	private ImageIcon leftLegUpPipeIcon;
 	private ImageIcon verticalPipeIcon;
+	private ImageIcon verticalWaterPipeIcon;
 	private ImageIcon tDownPipeIcon;
+	private ImageIcon tDownWaterRightPipeIcon;
+	private ImageIcon tDownWaterLeftPipeIcon;
+	private ImageIcon tDownWaterFullPipeIcon;
 	private ImageIcon tUpPipeIcon;
+	private ImageIcon tUpWaterRightPipeIcon;
+	private ImageIcon tUpWaterLeftPipeIcon;
+	private ImageIcon tUpWaterFullPipeIcon;
 	private JButton AESButton;
 	private JButton BWPButton;
 	private JButton PPSButton;
@@ -214,6 +218,13 @@ public class WaterSchematicPanel extends TimedPanel
 	}
 	
 	public void refresh(){
+		if ((myWaterRS.getGreyWaterConsumed() > 0) && (myWaterRS.getDirtyWaterConsumed() > 0))
+			tDownPipeLabel1.setIcon(tDownWaterFullPipeIcon);
+		else if (myWaterRS.getGreyWaterConsumed() > 0)
+			tDownPipeLabel1.setIcon(tDownWaterLeftPipeIcon);
+		else if (myWaterRS.getDirtyWaterConsumed() > 0)
+			tDownPipeLabel1.setIcon(tDownWaterRightPipeIcon);
+		
 	}
 	
 	/**
@@ -225,24 +236,22 @@ public class WaterSchematicPanel extends TimedPanel
 			dirtyWaterStoreIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/dirty-watertank.jpg"));
 			greyWaterStoreIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/grey-watertank.jpg"));
 			horizontalPipeIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/horizontal-pipe.jpg"));
+			horizontalWaterPipeIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/horizontalWater-pipe.jpg"));
 			susbsytemIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/subsystem.jpg"));
 			verticalPipeIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/vertical-pipe.jpg"));
+			verticalWaterPipeIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/verticalWater-pipe.jpg"));
 			tUpPipeIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/tUp-pipe.jpg"));
+			tUpWaterRightPipeIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/tUpWaterRight-pipe.jpg"));
+			tUpWaterLeftPipeIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/tUpWaterLeft-pipe.jpg"));
+			tUpWaterFullPipeIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/tUpWaterFull-pipe.jpg"));
 			tDownPipeIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/tDown-pipe.jpg"));
+			tDownWaterRightPipeIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/tDownWaterRight-pipe.jpg"));
+			tDownWaterLeftPipeIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/tDownWaterLeft-pipe.jpg"));
+			tDownWaterFullPipeIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/water/gui/tDownWaterFull-pipe.jpg"));
 		}
 		catch (Exception e){
 			System.out.println("Couldn't find icon, skipping icon loading");
 			e.printStackTrace();
-			potableWaterStoreIcon = new ImageIcon();
-			dirtyWaterStoreIcon = new ImageIcon();
-			greyWaterStoreIcon = new ImageIcon();
-			horizontalPipeIcon = new ImageIcon();
-			susbsytemIcon = new ImageIcon();
-			rightLegDownPipeIcon = new ImageIcon();
-			rightLegUpPipeIcon = new ImageIcon();
-			leftLegDownPipeIcon = new ImageIcon();
-			leftLegUpPipeIcon = new ImageIcon();
-			verticalPipeIcon = new ImageIcon();
 		}
 	}
 	
