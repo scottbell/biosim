@@ -72,74 +72,65 @@ public class BiosimEditor {
         myGraph = new JGraph();
         myGraph.setDrawingSize(0, 0);
         myGraphPanel = new JPanel();
-        
-        //do Gridbag
-        GridBagLayout gridbag = new GridBagLayout();
-        GridBagConstraints constraints = new GridBagConstraints();
-        myGraphPanel.setLayout(gridbag);
-        constraints.gridwidth = GridBagConstraints.REMAINDER;
-        constraints.weightx = 1.0;
-        constraints.weighty = 1.0;
-        constraints.fill = GridBagConstraints.BOTH;
-        gridbag.setConstraints(myGraph, constraints);
+        myGraphPanel.setLayout(new GridLayout(1, 1));
         myGraphPanel.add(myGraph);
-        
         
         myGraphPanel.setBorder(BorderFactory
                 .createTitledBorder("Editing Pane"));
 
         //init tabbed pane tool bar
         myTabbedPane = new JTabbedPane();
-        myTabbedPane.setTabPlacement(JTabbedPane.TOP);
-        JComponent airPanel = makeTextPanel("Air Panel");
+        
+        JComponent airPanel = createModulePanel("Air Panel");
         myTabbedPane
                 .addTab(
                         "Air",
-                        createImageIcon("com/traclabs/biosim/client/water/gui/water.jpg"),
+                        createImageIcon("com/traclabs/biosim/client/air/gui/air.jpg"),
                         airPanel);
-        JComponent crewPanel = makeTextPanel("Crew Panel");
+        JComponent crewPanel = createModulePanel("Crew Panel");
         myTabbedPane
                 .addTab(
                         "Crew",
                         createImageIcon("com/traclabs/biosim/client/crew/gui/crew.jpg"),
                         crewPanel);
-        JComponent environmentPanel = makeTextPanel("Environment Panel");
+        JComponent environmentPanel = createModulePanel("Environment Panel");
         myTabbedPane
                 .addTab(
                         "Environment",
                         createImageIcon("com/traclabs/biosim/client/environment/gui/environment.jpg"),
                         environmentPanel);
-        JComponent frameworkPanel = makeTextPanel("Framework Panel");
+        JComponent frameworkPanel = createModulePanel("Framework Panel");
         myTabbedPane
                 .addTab(
                         "Framework",
                         createImageIcon("com/traclabs/biosim/client/framework/gui/all.jpg"),
                         frameworkPanel);
-        JComponent powerPanel = makeTextPanel("Power Panel");
+        JComponent powerPanel = createModulePanel("Power Panel");
         myTabbedPane
                 .addTab(
                         "Power",
                         createImageIcon("com/traclabs/biosim/client/power/gui/power.jpg"),
                         powerPanel);
-        JComponent wastePanel = makeTextPanel("Waste Panel");
+        JComponent wastePanel = createModulePanel("Waste Panel");
         myTabbedPane
                 .addTab(
                         "Waste",
                         createImageIcon("com/traclabs/biosim/client/framework/gui/gear.gif"),
                         wastePanel);
-        JComponent waterPanel = makeTextPanel("Water Panel");
+        JComponent waterPanel = createModulePanel("Water Panel");
         myTabbedPane
                 .addTab(
                         "Water",
                         createImageIcon("com/traclabs/biosim/client/water/gui/water.jpg"),
                         waterPanel);
         //myTabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+        
 
         myMainFrame = new BioFrame("BioSim Editor", false);
         
         //do Gridbag
-        gridbag = new GridBagLayout();
-        constraints = new GridBagConstraints();
+        GridBagLayout gridbag = new GridBagLayout();
+        GridBagConstraints constraints = new GridBagConstraints();
         myMainFrame.getContentPane().setLayout(gridbag);
 
         constraints.gridwidth = GridBagConstraints.RELATIVE;
@@ -175,7 +166,7 @@ public class BiosimEditor {
         myMainFrame.setVisible(true);
     }
 
-    private JComponent makeTextPanel(String text) {
+    private JComponent createModulePanel(String text) {
         JPanel panel = new JPanel(false);
         JLabel filler = new JLabel(text);
         filler.setHorizontalAlignment(JLabel.CENTER);
