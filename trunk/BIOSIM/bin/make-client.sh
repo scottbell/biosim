@@ -98,12 +98,14 @@ then
 	echo "				-compiling framework stubs"
 	$compilationInvocation $simStubDir/idl/framework/*.java
 fi
-echo "			-compiling control"
-$compilationInvocation $clientDir/control/*.java
-echo "				-compiling gui"
-$compilationInvocation $clientDir/control/gui/*.java
 echo "			-compiling util"
 $compilationInvocation $clientDir/util/*.java
+echo "			-compiling gui"
+$compilationInvocation $clientDir/gui/*.java
+echo "			-compiling control"
+$compilationInvocation $clientDir/control/*.java
+echo "				-compiling control.gui"
+$compilationInvocation $clientDir/control/gui/*.java
 echo "*done building biosim"
 
 
