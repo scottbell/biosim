@@ -5,6 +5,51 @@ import org.w3c.dom.*;
 import org.apache.xerces.parsers.*;
 import org.xml.sax.*;
 
+import biosim.idl.simulation.air.*;
+import biosim.idl.simulation.crew.*;
+import biosim.idl.simulation.food.*;
+import biosim.idl.simulation.water.*;
+import biosim.idl.simulation.power.*;
+import biosim.idl.simulation.environment.*;
+import biosim.idl.simulation.framework.*;
+import biosim.server.simulation.air.*;
+import biosim.server.simulation.crew.*;
+import biosim.server.simulation.food.*;
+import biosim.server.simulation.water.*;
+import biosim.server.simulation.power.*;
+import biosim.server.simulation.environment.*;
+import biosim.server.simulation.framework.*;
+import biosim.idl.sensor.air.*;
+import biosim.idl.sensor.food.*;
+import biosim.idl.sensor.water.*;
+import biosim.idl.sensor.power.*;
+import biosim.idl.sensor.crew.*;
+import biosim.idl.sensor.environment.*;
+import biosim.idl.sensor.framework.*;
+import biosim.server.sensor.air.*;
+import biosim.server.sensor.food.*;
+import biosim.server.sensor.water.*;
+import biosim.server.sensor.power.*;
+import biosim.server.sensor.crew.*;
+import biosim.server.sensor.environment.*;
+import biosim.server.sensor.framework.*;
+import biosim.idl.actuator.air.*;
+import biosim.idl.actuator.food.*;
+import biosim.idl.actuator.water.*;
+import biosim.idl.actuator.power.*;
+import biosim.idl.actuator.crew.*;
+import biosim.idl.actuator.environment.*;
+import biosim.idl.actuator.framework.*;
+import biosim.server.actuator.air.*;
+import biosim.server.actuator.food.*;
+import biosim.server.actuator.water.*;
+import biosim.server.actuator.power.*;
+import biosim.server.actuator.environment.*;
+import biosim.server.actuator.framework.*;
+import biosim.idl.util.log.*;
+import biosim.server.util.*;
+import biosim.server.util.log.*;
+
 /**
  * Reads BioSim configuration from XML file.
  *
@@ -31,8 +76,8 @@ public class BioInitializer{
 	/** Default Schema full checking support (false). */
 	private static final boolean DEFAULT_SCHEMA_FULL_CHECKING = true;
 
-	private static DOMParser myParser = null;
-	private static BioInitializer myInitializer = null;
+	private DOMParser myParser = null;
+	private int myID = 0;
 
 	/** Default constructor. */
 	private BioInitializer(){
@@ -49,32 +94,34 @@ public class BioInitializer{
 	}
 
 	//Globals
-	private static void crawlGlobals(Node node, boolean firstPass){
+	private void crawlGlobals(Node node, boolean firstPass){
 		System.out.println(node.getNodeName());
 	}
 
 	//Modules
-	private static void createAirRS(Node node){
+	private void createAirRS(Node node){
 		System.out.println("Creating AirRS");
+		AirRSImpl myAirRSImpl = new AirRSImpl(myID);
+		//registerServer(new AirRSPOATie(myAirRSImpl), myAirRSImpl.getModuleName());
 	}
 
-	private static void configureAirRS(Node node){
+	private void configureAirRS(Node node){
 		System.out.println("Configuring AirRS");
 	}
 
-	private static void createO2Store(Node node){
+	private void createO2Store(Node node){
 		System.out.println("Creating O2Store");
 	}
 
-	private static void createCO2Store(Node node){
+	private void createCO2Store(Node node){
 		System.out.println("Creating CO2Store");
 	}
 
-	private static void createH2Store(Node node){
+	private void createH2Store(Node node){
 		System.out.println("Creating H2Store");
 	}
 
-	private static void crawlAirModules(Node node, boolean firstPass){
+	private void crawlAirModules(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getNodeName();
@@ -104,15 +151,15 @@ public class BioInitializer{
 		}
 	}
 
-	private static void createCrewGroup(Node node){
+	private void createCrewGroup(Node node){
 		System.out.println("Creating CrewGroup");
 	}
 
-	private static void configureCrewGroup(Node node){
+	private void configureCrewGroup(Node node){
 		System.out.println("Configuring CrewGroup");
 	}
 
-	private static void crawlCrewModules(Node node, boolean firstPass){
+	private void crawlCrewModules(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getNodeName();
@@ -127,11 +174,11 @@ public class BioInitializer{
 		}
 	}
 
-	private static void createSimEnvironment(Node node){
+	private void createSimEnvironment(Node node){
 		System.out.println("Creating SimEnvironment");
 	}
 
-	private static void crawlEnvironmentModules(Node node, boolean firstPass){
+	private void crawlEnvironmentModules(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getNodeName();
@@ -143,23 +190,23 @@ public class BioInitializer{
 		}
 	}
 
-	private static void createActuator(Node node){
+	private void createActuator(Node node){
 		System.out.println("Creating Actuator");
 	}
 
-	private static void configureActuator(Node node){
+	private void configureActuator(Node node){
 		System.out.println("Configuring Actuator");
 	}
 
-	private static void createInjector(Node node){
+	private void createInjector(Node node){
 		System.out.println("Creating Injector");
 	}
 
-	private static void configureInjector(Node node){
+	private void configureInjector(Node node){
 		System.out.println("Configuring Injector");
 	}
 
-	private static void crawlFrameworkModules(Node node, boolean firstPass){
+	private void crawlFrameworkModules(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getNodeName();
@@ -179,26 +226,26 @@ public class BioInitializer{
 		}
 	}
 	
-	private static void createBiomassRS(Node node){
+	private void createBiomassRS(Node node){
 		System.out.println("Creating BiomassRS");
 	}
-	private static void configureBiomassRS(Node node){
+	private void configureBiomassRS(Node node){
 		System.out.println("Configuring BiomassRS");
 	}
-	private static void createFoodProcessor(Node node){
+	private void createFoodProcessor(Node node){
 		System.out.println("Creating FoodProcessor");
 	}
-	private static void configureFoodProcessor(Node node){
+	private void configureFoodProcessor(Node node){
 		System.out.println("Configuring FoodProcessor");
 	}
-	private static void createBiomassStore(Node node){
+	private void createBiomassStore(Node node){
 		System.out.println("Creating BiomassStore");
 	}
-	private static void createFoodStore(Node node){
+	private void createFoodStore(Node node){
 		System.out.println("Creating FoodStore");
 	}
 
-	private static void crawlFoodModules(Node node, boolean firstPass){
+	private void crawlFoodModules(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getNodeName();
@@ -226,19 +273,19 @@ public class BioInitializer{
 		}
 	}
 	
-	private static void createPowerPS(Node node){
+	private void createPowerPS(Node node){
 		System.out.println("Creating PowerPS");
 	}
 
-	private static void configurePowerPS(Node node){
+	private void configurePowerPS(Node node){
 		System.out.println("Configuring PowerPS");
 	}
 	
-	private static void createPowerStore(Node node){
+	private void createPowerStore(Node node){
 		System.out.println("Creating PowerStore");
 	}
 	
-	private static void crawlPowerModules(Node node, boolean firstPass){
+	private void crawlPowerModules(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getNodeName();
@@ -256,27 +303,27 @@ public class BioInitializer{
 		}
 	}
 	
-	private static void createWaterRS(Node node){
+	private void createWaterRS(Node node){
 		System.out.println("Creating WaterRS");
 	}
 
-	private static void configureWaterRS(Node node){
+	private void configureWaterRS(Node node){
 		System.out.println("Configuring WaterRS");
 	}
 	
-	private static void createPotableWaterStore(Node node){
+	private void createPotableWaterStore(Node node){
 		System.out.println("Creating PotableWaterStore");
 	}
 	
-	private static void createGreyWaterStore(Node node){
+	private void createGreyWaterStore(Node node){
 		System.out.println("Creating GreyWaterStore");
 	}
 	
-	private static void createDirtyWaterStore(Node node){
+	private void createDirtyWaterStore(Node node){
 		System.out.println("Creating DirtyWaterStore");
 	}
 	
-	private static void crawlWaterModules(Node node, boolean firstPass){
+	private void crawlWaterModules(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getNodeName();
@@ -303,64 +350,64 @@ public class BioInitializer{
 	}
 
 	//Sensors
-	private static void crawlAirSensors(Node node, boolean firstPass){
+	private void crawlAirSensors(Node node, boolean firstPass){
 		System.out.println(node.getNodeName());
 	}
 
-	private static void crawlCrewSensors(Node node, boolean firstPass){
+	private void crawlCrewSensors(Node node, boolean firstPass){
 		System.out.println(node.getNodeName());
 	}
 
-	private static void crawlEnvironmentSensors(Node node, boolean firstPass){
+	private void crawlEnvironmentSensors(Node node, boolean firstPass){
 		System.out.println(node.getNodeName());
 	}
 
-	private static void crawlFrameworkSensors(Node node, boolean firstPass){
+	private void crawlFrameworkSensors(Node node, boolean firstPass){
 		System.out.println(node.getNodeName());
 	}
 
-	private static void crawlFoodSensors(Node node, boolean firstPass){
+	private void crawlFoodSensors(Node node, boolean firstPass){
 		System.out.println(node.getNodeName());
 	}
 
-	private static void crawlPowerSensors(Node node, boolean firstPass){
+	private void crawlPowerSensors(Node node, boolean firstPass){
 		System.out.println(node.getNodeName());
 	}
 
-	private static void crawlWaterSensors(Node node, boolean firstPass){
+	private void crawlWaterSensors(Node node, boolean firstPass){
 		System.out.println(node.getNodeName());
 	}
 
 	//Actuators
-	private static void crawlAirActuators(Node node, boolean firstPass){
+	private void crawlAirActuators(Node node, boolean firstPass){
 		System.out.println(node.getNodeName());
 	}
 
-	private static void crawlCrewActuators(Node node, boolean firstPass){
+	private void crawlCrewActuators(Node node, boolean firstPass){
 		System.out.println(node.getNodeName());
 	}
 
-	private static void crawlEnvironmentActuators(Node node, boolean firstPass){
+	private void crawlEnvironmentActuators(Node node, boolean firstPass){
 		System.out.println(node.getNodeName());
 	}
 
-	private static void crawlFrameworkActuators(Node node, boolean firstPass){
+	private void crawlFrameworkActuators(Node node, boolean firstPass){
 		System.out.println(node.getNodeName());
 	}
 
-	private static void crawlFoodActuators(Node node, boolean firstPass){
+	private void crawlFoodActuators(Node node, boolean firstPass){
 		System.out.println(node.getNodeName());
 	}
 
-	private static void crawlPowerActuators(Node node, boolean firstPass){
+	private void crawlPowerActuators(Node node, boolean firstPass){
 		System.out.println(node.getNodeName());
 	}
 
-	private static void crawlWaterActuators(Node node, boolean firstPass){
+	private void crawlWaterActuators(Node node, boolean firstPass){
 		System.out.println(node.getNodeName());
 	}
 
-	private static void crawlModules(Node node, boolean firstPass){
+	private void crawlModules(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getNodeName();
@@ -396,7 +443,7 @@ public class BioInitializer{
 		}
 	}
 
-	private static void crawlSensors(Node node, boolean firstPass){
+	private void crawlSensors(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getNodeName();
@@ -432,7 +479,7 @@ public class BioInitializer{
 		}
 	}
 
-	private static void crawlActuators(Node node, boolean firstPass){
+	private void crawlActuators(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getNodeName();
@@ -468,7 +515,7 @@ public class BioInitializer{
 	}
 
 	/** Traverses the specified node, recursively. */
-	private static void crawlBiosim(Node node, boolean firstPass) {
+	private void crawlBiosim(Node node, boolean firstPass) {
 		// is there anything to do?
 		if (node == null)
 			return;
@@ -499,9 +546,7 @@ public class BioInitializer{
 
 	}
 
-	private static void parseFile(String fileToParse){
-		if (myInitializer == null)
-			myInitializer = new BioInitializer();
+	private void parseFile(String fileToParse){
 		try{
 			System.out.println("Starting to parse file: "+fileToParse);
 			myParser.parse(fileToParse);
@@ -524,8 +569,9 @@ public class BioInitializer{
 	/** Main program entry point. */
 	public static void main(String argv[]) {
 		URL documentUrl = ClassLoader.getSystemClassLoader().getResource("biosim/server/framework/DefaultInitialization.xml");
+		BioInitializer myInitializer = new BioInitializer();
 		String documentString = documentUrl.toString();
 		if (documentString.length() > 0)
-			BioInitializer.parseFile(documentString);
+			myInitializer.parseFile(documentString);
 	}
 }
