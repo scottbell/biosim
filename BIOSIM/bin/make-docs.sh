@@ -46,9 +46,10 @@ simString="biosim"
 simStubDir="$stubDir/$simString"
 sourceDir="$devRootDir/src"
 clientDir="$sourceDir/biosim/client"
+plotClasspath="$devRootDir/lib/jfreechart/jcommon.jar$separator$devRootDir/lib/jfreechart/junit.jar$separator$devRootDir/lib/jfreechart/jfreechart.jar"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME$separator$JACORB_HOME/idl.jar"
 docSourcepath="$sourceDir$separator$stubDir$separator$skeletonDir$"
-docClasspath="$clientClassesDir$separator$serverClassesDir$separator$jacoClasspath"
+docClasspath="$clientClassesDir$separator$serverClassesDir$separator$jacoClasspath$separator$plotClasspath"
 ####################
 #	DOC BUILD             #
 ####################
