@@ -392,8 +392,8 @@ public abstract class PlantImpl extends PlantPOA{
 		CQY = calculateCQY();
 		carbonUseEfficiency24 = getCarbonUseEfficiency24();
 		float dailyCarbonGain = calculateDailyCarbonGain();
-		if (myAge % 24 == 0)
-			System.out.println(getDaysOfGrowth()+"\t"+dailyCarbonGain);
+		//if (myAge % 24 == 0)
+		//	System.out.println(getDaysOfGrowth()+"\t"+dailyCarbonGain);
 		//totalCO2MolesConsumed += (dailyCarbonGain / 24f);
 		float cropGrowthRate = molecularWeightOfCarbon * (dailyCarbonGain / getBCF());
 		//System.out.println("PlantImpl: cropGrowthRate: "+cropGrowthRate);
