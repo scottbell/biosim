@@ -56,7 +56,7 @@ public class TestBiosim{
 			BioDriver myBioDriver = BioDriverHelper.narrow(myNamingContextExt.resolve_str("BioDriver0"));
 			System.out.println("Invoking method on BioDriver");
 			//Now let's call a method on BioDriver
-			myBioDriver.spawnSimulation();
+			myBioDriver.spawnSimulationAndRunTillDead();
 			System.out.println("Invoking another method on BioDriver");
 			//Now let's call another method on BioDriver, this time with a result
 			int numberOfTicks = myBioDriver.getTicks();

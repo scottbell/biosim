@@ -43,7 +43,7 @@ public class SimCommandLine
 		}
 		else if (userCommand.equals("start")){
 			if (!myDriver.isStarted())
-				myDriver.spawnSimulationTillDead();
+				myDriver.spawnSimulationAndRunTillDead();
 			else
 				System.out.println("simulation has already started");
 		}

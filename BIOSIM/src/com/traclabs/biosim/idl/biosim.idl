@@ -167,8 +167,9 @@ module biosim{
                                 boolean isPaused();
                                 boolean isStarted();
                                 void spawnSimulation();
-                                void spawnSimulationTillDead();
-                                void spawnSimulationTillN(in long nTicks);
+                                void spawnSimulationAndRun();
+                                void spawnSimulationAndRunTillDead();
+                                void spawnSimulationAndRunTillN(in long nTicks);
                                 void pauseSimulation();
                                 void endSimulation();
                                 boolean simulationHasStarted();
