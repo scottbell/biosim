@@ -40,7 +40,7 @@ case $machineType in
 	*)separator=":";echo "		-assuming Unix machine type";;
 esac
 ####################
-#		SERVER INIT		#
+#		SERVER INIT    #
 ####################
 echo "	-building server"
 echo "		-initializing server build"

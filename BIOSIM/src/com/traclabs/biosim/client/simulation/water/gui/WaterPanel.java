@@ -1,3 +1,10 @@
+/**
+ * This is the JPanel that displays information about the Water RS and the water stores.
+ * Each tick it polls each water related server for new information regarding these systems.
+ *
+ * @author    Scott Bell
+ */
+
 package biosim.client.water.gui;
 
 import biosim.client.framework.*;
@@ -10,6 +17,7 @@ import java.text.*;
 
 public class WaterPanel extends JPanel implements BioSimulatorListener
 {
+	//Various GUI componenets
 	private JPanel waterRSPanel;
 	private JPanel waterRSLevelPanel;
 	private JLabel waterRSPowerConsumedLabel;
@@ -22,23 +30,26 @@ public class WaterPanel extends JPanel implements BioSimulatorListener
 	private JLabel waterRSBWPStatusLabel;
 	private JLabel waterRSROStatusLabel;
 	private JLabel waterRSPPSStatusLabel;
-
 	private JPanel potableWaterStorePanel;
 	private JLabel potableWaterStoreLevelLabel;
-
 	private JPanel greyWaterStorePanel;
 	private JLabel greyWaterStoreLevelLabel;
-
 	private JPanel dirtyWaterStorePanel;
 	private JLabel dirtyWaterStoreLevelLabel;
-
+	//Servers required for data polling
 	private WaterRS myWaterRS;
 	private PotableWaterStore myPotableWaterStore;
 	private GreyWaterStore myGreyWaterStore;
 	private DirtyWaterStore myDirtyWaterStore;
+	//Used for registereing this panel (for knowing when a tick occurs)
 	private BioSimulator myBioSimulator;
+	//For formatting floats
 	private DecimalFormat numFormat;
 
+	/**
+	* Creates and registers this panel.
+	* @param pBioSimulator	The Biosimulator this Panel will register itself with.
+	*/
 	public WaterPanel(BioSimulator pBioSimulator){
 		myBioSimulator = pBioSimulator;
 		myWaterRS = (WaterRS)(myBioSimulator.getBioModule(BioSimulator.waterRSName));
@@ -48,7 +59,10 @@ public class WaterPanel extends JPanel implements BioSimulatorListener
 		buildGui();
 		myBioSimulator.registerListener(this);
 	}
-
+	
+	/**
+	* Contructs main GUI components, adds them to the panel.
+	*/
 	private void buildGui(){
 		numFormat = new DecimalFormat("#,##0.00;(#)");
 		GridBagLayout gridbag = new GridBagLayout();
@@ -92,7 +106,10 @@ public class WaterPanel extends JPanel implements BioSimulatorListener
 		gridbag.setConstraints(dirtyWaterStorePanel, c);
 		add(dirtyWaterStorePanel);
 	}
-
+	
+	/**
+	* Contructs WaterRS GUI components, adds them to the WaterRS panel.
+	*/
 	private void createWaterRSPanel(){
 	        waterRSPanel = new JPanel();
 	        waterRSPanel.setBorder(BorderFactory.createTitledBorder("Water Recovery System"));
@@ -120,6 +137,9 @@ public class WaterPanel extends JPanel implements BioSimulatorListener
 		waterRSPanel.add(waterRSLevelPanel);
 	}
 	
+	/**
+	* Contructs WaterRS water levels GUI components, adds them to the WaterRS level panel.
+	*/
 	private void createWaterRSLevelPanel(){
 		waterRSLevelPanel = new JPanel();
 		waterRSLevelPanel.setLayout(new GridLayout(5,1));
@@ -135,6 +155,9 @@ public class WaterPanel extends JPanel implements BioSimulatorListener
 		waterRSLevelPanel.add(waterRSPowerConsumedLabel);
 	}
 	
+	/**
+	* Contructs WaterRS status GUI components, adds them to the WaterRS status panel.
+	*/
 	private void createWaterRSStatusPanel(){
 		waterRSStatusPanel = new JPanel();
 		waterRSStatusPanel.setLayout(new GridLayout(4,1));
@@ -147,7 +170,10 @@ public class WaterPanel extends JPanel implements BioSimulatorListener
 		waterRSStatusPanel.add(waterRSAESStatusLabel);
 		waterRSStatusPanel.add(waterRSPPSStatusLabel);
 	}
-
+	
+	/**
+	* Contructs dirty water store GUI components, adds them to the dirty water store panel.
+	*/
 	private void createDirtyWaterStorePanel(){
 	        dirtyWaterStorePanel = new JPanel();
 	        dirtyWaterStorePanel.setLayout(new GridLayout(1,1));
@@ -155,7 +181,10 @@ public class WaterPanel extends JPanel implements BioSimulatorListener
 	        dirtyWaterStoreLevelLabel =    new JLabel("water level:    "+numFormat.format(myDirtyWaterStore.getLevel())+" L");
 	        dirtyWaterStorePanel.add(dirtyWaterStoreLevelLabel);
 	}
-
+	
+	/**
+	* Contructs grey water store GUI components, adds them to the grey water store panel.
+	*/
 	private void createGreyWaterStorePanel(){
 	        greyWaterStorePanel = new JPanel();
 	        greyWaterStorePanel.setLayout(new GridLayout(1,1));
@@ -163,7 +192,10 @@ public class WaterPanel extends JPanel implements BioSimulatorListener
 	        greyWaterStoreLevelLabel =    new JLabel("water level:    "+numFormat.format(myGreyWaterStore.getLevel())+" L");
 	        greyWaterStorePanel.add(greyWaterStoreLevelLabel);
 	}
-
+	
+	/**
+	* Contructs potable water store GUI components, adds them to the potable water store panel.
+	*/
 	private void createPotableWaterStorePanel(){
 	        potableWaterStorePanel = new JPanel();
 	        potableWaterStorePanel.setLayout(new GridLayout(1,1));
@@ -172,6 +204,10 @@ public class WaterPanel extends JPanel implements BioSimulatorListener
 	        potableWaterStorePanel.add(potableWaterStoreLevelLabel);
 	}
 	
+	/**
+	 * Checks the status of AES WaterRS subsystem and constructs a string describing it.
+	 * @return	A String representing the status of the AES
+	 */
 	private String coallateAESStatus(){
 		StringBuffer statusBuffer = new StringBuffer();
 		if (!myWaterRS.AESHasPower())
@@ -186,6 +222,10 @@ public class WaterPanel extends JPanel implements BioSimulatorListener
 		}
 	}
 	
+	/**
+	 * Checks the status of BWP WaterRS subsystem and constructs a string describing it.
+	 * @return	A String representing the status of the BWP
+	 */
 	private String coallateBWPStatus(){
 		StringBuffer statusBuffer = new StringBuffer();
 		if (!myWaterRS.BWPHasPower())
@@ -200,6 +240,10 @@ public class WaterPanel extends JPanel implements BioSimulatorListener
 		}
 	}
 	
+	/**
+	 * Checks the status of RO WaterRS subsystem and constructs a string describing it.
+	 * @return	A String representing the status of the BWP
+	 */
 	private String coallateROStatus(){
 		StringBuffer statusBuffer = new StringBuffer();
 		if (!myWaterRS.ROHasPower())
@@ -214,6 +258,10 @@ public class WaterPanel extends JPanel implements BioSimulatorListener
 		}
 	}
 	
+	/**
+	 * Checks the status of PPS WaterRS subsystem and constructs a string describing it.
+	 * @return	A String representing the status of the BWP
+	 */
 	private String coallatePPSStatus(){
 		StringBuffer statusBuffer = new StringBuffer();
 		if (!myWaterRS.PPSHasPower())
@@ -227,7 +275,10 @@ public class WaterPanel extends JPanel implements BioSimulatorListener
 			return statusBuffer.toString();
 		}
 	}
-
+	
+	/**
+	 * Updates every label on the panel with new data pulled from the servers.
+	 */
 	public void processTick(){
 		waterRSPotableWaterProducedLabel.setText("potable water produced:   "+numFormat.format(myWaterRS.getPotableWaterProduced())+" L");
 		waterRSGreyWaterProducedLabel.setText("grey water produced:        "+numFormat.format(myWaterRS.getGreyWaterProduced())+" L");

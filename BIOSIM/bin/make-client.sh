@@ -39,9 +39,9 @@ case $machineType in
 	*$winName*) separator=";";echo "		-machine type is $winName";;
 	*)separator=":";echo "		-assuming Unix machine type";;
 esac
-#######################
-#		CLIENT COMPILATION	#
-#######################
+####################
+#	CLIENT INIT             #
+####################
 echo "	-building client"
 echo "		-initializing client build"
 clientString="/client"
