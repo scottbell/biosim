@@ -132,7 +132,7 @@ public class GEFGridLayout implements GEFLayoutManager {
 
         for (int i = 0; i < nfigs; i++) {
             Fig fig = (Fig) children.get(i);
-            Dimension d = fig.getPreferedSize();
+            Dimension d = fig.getPreferredSize();
             if (w < d.width) {
                 w = d.width;
             }

@@ -133,7 +133,7 @@ public class GEFBoxLayout implements GEFLayoutManager {
             Enumeration e = children.elements();
             while (e.hasMoreElements()) {
                 Fig fig = (Fig) e.nextElement();
-                Dimension d = fig.getPreferedSize();
+                Dimension d = fig.getPreferredSize();
 
                 switch (_alignment) {
                 case TOP:
@@ -155,7 +155,7 @@ public class GEFBoxLayout implements GEFLayoutManager {
             Enumeration e = children.elements();
             while (e.hasMoreElements()) {
                 Fig fig = (Fig) e.nextElement();
-                Dimension d = fig.getPreferedSize();
+                Dimension d = fig.getPreferredSize();
 
                 switch (_alignment) {
                 case LEFT:
@@ -218,7 +218,7 @@ public class GEFBoxLayout implements GEFLayoutManager {
             Enumeration e = children.elements();
             while (e.hasMoreElements()) {
                 Fig fig = (Fig) e.nextElement();
-                Dimension d = fig.getPreferedSize();
+                Dimension d = fig.getPreferredSize();
                 dim.height = Math.max(dim.height, d.height);
                 dim.width += d.width;
             }
@@ -228,7 +228,7 @@ public class GEFBoxLayout implements GEFLayoutManager {
             Enumeration e = children.elements();
             while (e.hasMoreElements()) {
                 Fig fig = (Fig) e.nextElement();
-                Dimension d = fig.getPreferedSize();
+                Dimension d = fig.getPreferredSize();
                 dim.height += d.height;
                 dim.width = Math.max(dim.width, d.width);
             }

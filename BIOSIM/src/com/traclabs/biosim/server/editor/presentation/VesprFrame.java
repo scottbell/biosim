@@ -24,7 +24,7 @@ import org.tigris.gef.base.CmdAdjustGrid;
 import org.tigris.gef.base.CmdAdjustGuide;
 import org.tigris.gef.base.CmdAdjustPageBreaks;
 import org.tigris.gef.base.CmdAlign;
-import org.tigris.gef.base.CmdDispose;
+import org.tigris.gef.base.CmdDeleteFromModel;
 import org.tigris.gef.base.CmdDistribute;
 import org.tigris.gef.base.CmdGroup;
 import org.tigris.gef.base.CmdNudge;
@@ -119,7 +119,7 @@ public class VesprFrame extends JGraphFrame {
         setToolBar(new VesprPalette()); //needs-more-work
 
         // make the delete key remove elements from the underlying GraphModel
-        getGraph().bindKey(new CmdDispose(), KeyEvent.VK_DELETE, 0);
+        getGraph().bindKey(new CmdDeleteFromModel(), KeyEvent.VK_DELETE, 0);
     }
 
     public static VesprFrame curFrame() {
@@ -226,7 +226,7 @@ public class VesprFrame extends JGraphFrame {
         cutItem.setAccelerator(ctrlX);
 
         // Create the Delete menu item.
-        Action cmdDelete = new CmdDispose();
+        Action cmdDelete = new CmdDeleteFromModel();
         cmdDelete.putValue(Action.NAME, "Delete");
         JMenuItem deleteItem = edit.add(cmdDelete);
         KeyStroke delKey = KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0);

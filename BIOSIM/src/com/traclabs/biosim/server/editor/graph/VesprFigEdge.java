@@ -26,7 +26,7 @@ public class VesprFigEdge extends FigEdgeLine implements MouseListener {
         super();
 
         setDestArrowHead(new ArrowHeadTriangle());
-        mid = new VesprFigText(10, 30, 90, 20);
+        mid = new FigText(10, 30, 90, 20);
         mid.setText("");
         mid.setTextColor(Color.black);
         mid.setTextFilled(false);
@@ -50,8 +50,8 @@ public class VesprFigEdge extends FigEdgeLine implements MouseListener {
 
     /** Compute the shape of the line that presents an Edge. */
     public void computeRoute() {
-        Point srcPt = _sourcePortFig.center();
-        Point dstPt = _destPortFig.center();
+        Point srcPt = getSourcePortFig().center();
+        Point dstPt = getDestPortFig().center();
 
         srcPt = _sourceFigNode.connectionPoint(dstPt);
         dstPt = _destFigNode.connectionPoint(srcPt);

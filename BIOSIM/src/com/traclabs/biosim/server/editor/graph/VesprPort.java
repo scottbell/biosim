@@ -36,11 +36,11 @@ public class VesprPort extends NetPort implements Serializable {
      * all arcs connected to it.
      */
     public void dispose() {
-        ArrayList edgeClone = new ArrayList(_edges);
+        ArrayList edgeClone = new ArrayList(getEdges());
         int edgeCount = edgeClone.size();
         for (int edgeIndex = 0; edgeIndex < edgeCount; ++edgeIndex) {
             NetEdge e = (NetEdge) edgeClone.get(edgeIndex);
-            e.dispose();
+            e.deleteFromModel();
         }
 
         firePropertyChange("disposed", false, true);

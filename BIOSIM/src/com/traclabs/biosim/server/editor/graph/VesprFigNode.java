@@ -16,7 +16,7 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Vector;
+import java.util.List;
 
 import org.tigris.gef.graph.GraphModel;
 import org.tigris.gef.graph.GraphNodeHooks;
@@ -249,18 +249,18 @@ public abstract class VesprFigNode extends FigNode {
 
     /** When a VesprFigNode is deleted, all of its edges are deleted. */
     public void dispose() {
-        ArrayList edgeClone = new ArrayList(_figEdges);
+        ArrayList edgeClone = new ArrayList(getFigEdges());
         int edgeCount = edgeClone.size();
         for (int edgeIndex = 0; edgeIndex < edgeCount; ++edgeIndex) {
             Fig f = (Fig) edgeClone.get(edgeIndex);
-            f.dispose();
+            f.deleteFromModel();
         }
 
         Object own = getOwner();
         if (own instanceof GraphNodeHooks) {
-            ((GraphNodeHooks) own).dispose();
+            ((GraphNodeHooks) own).deleteFromModel();
         } else {
-            delete();
+            removeFromDiagram();
         }
     }
 
@@ -440,7 +440,7 @@ public abstract class VesprFigNode extends FigNode {
      * through another point will intersect the polygon.
      */
     public static Point connectionPoint(FigPoly poly, Point anotherPt) {
-        Vector corners = poly.getPointsVector();
+        List corners = poly.getPointsList();
         Point center = poly.center();
 
         // Move the point outside of the node.
@@ -456,7 +456,7 @@ public abstract class VesprFigNode extends FigNode {
         Point intersect = null;
         for (int i = 0; i < corners.size(); i++) {
             intersect = lineSegmentIntersect(center, tmp, (Point) corners
-                    .elementAt(i), (Point) corners.elementAt((i + 1)
+                    .get(i), (Point) corners.get((i + 1)
                     % corners.size()));
 
             if (intersect != null) {

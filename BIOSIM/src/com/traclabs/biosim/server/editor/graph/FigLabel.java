@@ -20,7 +20,7 @@ import org.tigris.gef.presentation.FigText;
  * 
  * @author Kevin Kusy
  */
-public class FigLabel extends VesprFigText {
+public class FigLabel extends FigText {
 
     /**
      * Constructs a new FigLabel with the given position, size, color, string,
