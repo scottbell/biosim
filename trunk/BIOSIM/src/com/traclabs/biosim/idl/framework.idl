@@ -59,9 +59,9 @@ module framework{
                 void setStochasticIntensity(in StochasticIntensity pIntensity);
                 void startMalfunction(in MalfunctionIntensity pIntensity, in MalfunctionLength pLength);
         };
-	interface Injector : BioModule, PowerConsumer, PotableWaterConsumer, GreyWaterConsumer, DirtyWaterConsumer, O2Consumer, CO2Consumer, AirConsumer, BiomassConsumer, FoodConsumer, O2AirConsumer, CO2AirConsumer, OtherAirConsumer, PowerProducer, PotableWaterProducer, GreyWaterProducer, DirtyWaterProducer, O2Producer, CO2Producer, AirProducer, BiomassProducer, FoodProducer, O2AirProducer, CO2AirProducer, OtherAirProducer{
+	interface Injector : BioModule, PowerConsumer, PotableWaterConsumer, GreyWaterConsumer, DirtyWaterConsumer, O2Consumer, CO2Consumer, AirConsumer, BiomassConsumer, FoodConsumer, O2AirConsumer, CO2AirConsumer, PowerProducer, PotableWaterProducer, GreyWaterProducer, DirtyWaterProducer, O2Producer, CO2Producer, AirProducer, BiomassProducer, FoodProducer, O2AirProducer, CO2AirProducer{
 	};
-	interface Accumulator : BioModule, PowerConsumer, PotableWaterConsumer, GreyWaterConsumer, DirtyWaterConsumer, O2Consumer, CO2Consumer, AirConsumer, BiomassConsumer, FoodConsumer, O2AirConsumer, CO2AirConsumer, OtherAirConsumer, PowerProducer, PotableWaterProducer, GreyWaterProducer, DirtyWaterProducer, O2Producer, CO2Producer, AirProducer, BiomassProducer, FoodProducer, O2AirProducer, CO2AirProducer, OtherAirProducer{
+	interface Accumulator : BioModule, PowerConsumer, PotableWaterConsumer, GreyWaterConsumer, DirtyWaterConsumer, O2Consumer, CO2Consumer, AirConsumer, BiomassConsumer, FoodConsumer, O2AirConsumer, CO2AirConsumer, PowerProducer, PotableWaterProducer, GreyWaterProducer, DirtyWaterProducer, O2Producer, CO2Producer, AirProducer, BiomassProducer, FoodProducer, O2AirProducer, CO2AirProducer{
 	};
         interface PowerConsumer{
                 void setPowerInputFlowrate(in float watts, in long index);
@@ -187,28 +187,16 @@ module framework{
                 void setCO2AirInputs(in environment::SimEnvironmentList source, in FloatList flowRates);
 		environment::SimEnvironmentList getCO2AirInputs();
         };
-	interface OtherAirConsumer{
-                void setOtherAirInputFlowrate(in float liters, in long index);
-                float getOtherAirInputFlowrate(in long index);
-                void setOtherAirInputs(in environment::SimEnvironmentList source, in FloatList flowRates);
-		environment::SimEnvironmentList getOtherAirInputs();
-        };
 	interface O2AirProducer{
                 void setO2AirOutputFlowrate(in float liters, in long index);
                 float getO2AirOutputFlowrate(in long index);
-                void setO2AirOutputs(in environment::SimEnvironmentList destination, in FloatList flowRates);
-		environment::SimEnvironmentList getO2AirOutputs();
+                void setO2AirOutputs(in air::O2StoreList destination, in FloatList flowRates);
+		air::O2StoreList getO2AirOutputs();
         };
 	interface CO2AirProducer{
                 void setCO2AirOutputFlowrate(in float liters, in long index);
                 float getCO2AirOutputFlowrate(in long index);
-                void setCO2AirOutputs(in environment::SimEnvironmentList destination, in FloatList flowRates);
-		environment::SimEnvironmentList getCO2AirOutputs();
-        };
-	interface OtherAirProducer{
-                void setOtherAirOutputFlowrate(in float liters, in long index);
-                float getOtherAirOutputFlowrate(in long index);
-                void setOtherAirOutputs(in environment::SimEnvironmentList destination, in FloatList flowRates);
-		environment::SimEnvironmentList getOtherAirOutputs();
+                void setCO2AirOutputs(in air::CO2StoreList destination, in FloatList flowRates);
+		air::CO2StoreList getCO2AirOutputs();
         };
 };
