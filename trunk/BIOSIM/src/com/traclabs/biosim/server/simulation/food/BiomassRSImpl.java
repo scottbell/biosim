@@ -115,12 +115,6 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 	}
 	
 	private void clearActualFlowRates(){
-		System.out.println(getModuleName()+": powerActualFlowRates: "+arrayToString(powerActualFlowRates));
-		System.out.println(getModuleName()+": biomassActualFlowRates: "+arrayToString(biomassActualFlowRates));
-		System.out.println(getModuleName()+": potableWaterActualFlowRates: "+arrayToString(potableWaterActualFlowRates));
-		System.out.println(getModuleName()+": greyWaterActualFlowRates: "+arrayToString(greyWaterActualFlowRates));
-		System.out.println(getModuleName()+": airInActualFlowRates: "+arrayToString(airInActualFlowRates));
-		System.out.println(getModuleName()+": airOutActualFlowRates: "+arrayToString(airOutActualFlowRates));
 		Arrays.fill(powerActualFlowRates, 0f);
 		Arrays.fill(biomassActualFlowRates, 0f);
 		Arrays.fill(potableWaterActualFlowRates, 0f);
