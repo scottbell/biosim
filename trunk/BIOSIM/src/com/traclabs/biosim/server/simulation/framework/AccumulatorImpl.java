@@ -185,6 +185,39 @@ public class AccumulatorImpl extends BioModuleImpl implements AccumulatorOperati
 		for (int i = 0; (i < myAirOutputs.length) && ((distributedAir.O2 + distributedAir.CO2 + distributedAir.other) > 0); i++){
 			distributedAir = myAirInputs[i].addBreath(distributedAir);
 		}
+		
+		float gatheredCO2Air = 0f;
+		for (int i = 0; i < myCO2AirInputs.length; i++){
+			gatheredCO2Air += myCO2AirInputs[i].takeCO2(CO2AirInFlowRates[i]);
+		}
+		float totalCO2Distributed = gatheredCO2Air;
+		for (int i = 0; (i < myCO2AirOutputs.length) && (totalCO2Distributed > 0); i++){
+			float CO2ToDistribute = Math.min(totalCO2Distributed, CO2AirOutFlowRates[i]);
+			totalCO2Distributed -= myCO2AirOutputs[i].addCO2(CO2ToDistribute);
+		}
+		float distributedCO2Air =  gatheredCO2Air - totalCO2Distributed;
+		
+		float gatheredO2Air = 0f;
+		for (int i = 0; i < myO2AirInputs.length; i++){
+			gatheredO2Air += myO2AirInputs[i].takeO2(O2AirInFlowRates[i]);
+		}
+		float totalO2Distributed = gatheredO2Air;
+		for (int i = 0; (i < myO2AirOutputs.length) && (totalO2Distributed > 0); i++){
+			float O2ToDistribute = Math.min(totalO2Distributed, O2AirOutFlowRates[i]);
+			totalO2Distributed -= myO2AirOutputs[i].addO2(O2ToDistribute);
+		}
+		float distributedO2Air =  gatheredO2Air - totalO2Distributed;
+		
+		float gatheredOtherAir = 0f;
+		for (int i = 0; i < myOtherAirInputs.length; i++){
+			gatheredOtherAir += myOtherAirInputs[i].takeOther(otherAirInFlowRates[i]);
+		}
+		float totalOtherDistributed = gatheredOtherAir;
+		for (int i = 0; (i < myOtherAirOutputs.length) && (totalOtherDistributed > 0); i++){
+			float otherToDistribute = Math.min(totalOtherDistributed, otherAirOutFlowRates[i]);
+			totalOtherDistributed -= myOtherAirOutputs[i].addOther(otherToDistribute);
+		}
+		float distributedOtherAir =  gatheredOtherAir - totalOtherDistributed;
 	}
 
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
