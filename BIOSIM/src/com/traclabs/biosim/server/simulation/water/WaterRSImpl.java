@@ -1,6 +1,6 @@
 /**
  * The Water Recovery System takes grey/dirty water and refines it to potable water for the crew members and grey water for the crops.
- * Data modeled after the paper:
+ * Class modeled after the paper:
  * "Intelligent Control of a Water Recovery System: Three Years in the Trenches" by Bonasso, Kortenkamp, and Thronesbery
  * @author    Scott Bell
  */
