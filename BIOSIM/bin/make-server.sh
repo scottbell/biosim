@@ -69,7 +69,7 @@ then
 fi
 relativeIDLDir="/src/biosim/idl/biosim.idl"
 fullIDLDir=$devRootDir$relativeIDLDir
-idlInvocation="$java_command -classpath $JACORB_HOME/lib/idl.jar org.jacorb.idl.parser"
+idlInvocation="$java_command -classpath $JACORB_HOME/idl.jar org.jacorb.idl.parser"
 if [ "$userSelect" == "all" ]
 then
 	echo "			-generating skeletons/stubs"
@@ -83,7 +83,7 @@ simString="biosim"
 simSkeletonDir="$skeletonDir/$simString"
 serverDir="$devRootDir/src/biosim/server"
 sourceDir="$devRootDir/src"
-jacoClasspath="$JACORB_HOME/lib/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME/lib"
+jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME"
 compilationInvocation="$javac_command -d $serverClassesDir -classpath $skeletonDir$separator$serverClassesDir$separator$sourceDir$separator$jacoClasspath"
 if [ "$userSelect" == "all" ]
 then

@@ -41,7 +41,7 @@ clientDir="$devRootDir/src/biosim/client"
 driverName="biosim.client.framework.TestDriver"
 resourceString="/resources"
 resourceDir=$devRootDir$resourceString
-jacoClasspath="$JACORB_HOME/lib/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME/lib"
+jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME"
 jacoInvocation="$java_command -client -classpath $clientClassesDir$separator$jacoClasspath$separator$resourceDir $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
 echo "	-starting client"
 noGUI="-nogui"
