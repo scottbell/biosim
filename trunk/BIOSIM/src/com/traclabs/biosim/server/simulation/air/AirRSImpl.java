@@ -16,30 +16,30 @@ import biosim.server.framework.*;
  * @author    Scott Bell
  */
 
-public class AirRSImpl extends BioModuleImpl implements AirRSOperations, PowerConsumerOperations, AirConsumerOperations, O2ProducerOperations, CO2ProducerOperations, AirProducerOperations{
+public class AirRSImpl extends BioModuleImpl implements AirRSOperations, PowerConsumerOperations, AirConsumerOperations, O2ProducerOperations, CO2ProducerOperations, AirProducerOperations, CO2ConsumerOperations{
 	private LogIndex myLogIndex;
 	private VCCR myVCCR;
-	private CO2Tank myCO2Tank;
 	private CRS myCRS;
 	private H2Tank myH2Tank;
 	private CH4Tank myCH4Tank;
 	private OGS myOGS;
 	private O2Store[] myO2Stores;
 	private PowerStore[] myPowerStores;
-	private CO2Store[] myCO2Stores;
+	private CO2Store[] myCO2InputStores;
+	private CO2Store[] myCO2OutputStores;
 	private SimEnvironment[] mySimEnvironmentInputs;
 	private SimEnvironment[] mySimEnvironmentOutputs;
 	private float myProductionRate;
 	private float[] powerFlowRates;
 	private float[] O2FlowRates;
-	private float[] CO2FlowRates;
+	private float[] CO2InputFlowRates;
+	private float[] CO2OutputFlowRates;
 	private float[] airInFlowRates;
 	private float[] airOutFlowRates;
 
 	public AirRSImpl(int pID){
 		super(pID);
 		myVCCR = new VCCR(this);
-		myCO2Tank = new CO2Tank(this);
 		myCRS = new CRS(this);
 		myH2Tank = new H2Tank(this);
 		myCH4Tank = new CH4Tank(this);
@@ -47,12 +47,14 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations, PowerCo
 
 		myO2Stores = new O2Store[0];
 		myPowerStores = new PowerStore[0];
-		myCO2Stores = new CO2Store[0];
+		myCO2InputStores = new CO2Store[0];
+		myCO2OutputStores = new CO2Store[0];
 		mySimEnvironmentInputs = new SimEnvironment[0];
 		mySimEnvironmentOutputs = new SimEnvironment[0];
 		powerFlowRates = new float[0];
 		O2FlowRates = new float[0];
-		CO2FlowRates = new float[0];
+		CO2InputFlowRates = new float[0];
+		CO2OutputFlowRates = new float[0];
 		airInFlowRates = new float[0];
 		airOutFlowRates = new float[0];
 	}
@@ -87,10 +89,6 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations, PowerCo
 
 	VCCR getVCCR(){
 		return myVCCR;
-	}
-
-	CO2Tank getCO2Tank(){
-		return myCO2Tank;
 	}
 
 	CRS getCRS(){
@@ -146,7 +144,6 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations, PowerCo
 	*/
 	public void tick(){
 		myVCCR.tick();
-		myCO2Tank.tick();
 		myCRS.tick();
 		myH2Tank.tick();
 		myCH4Tank.tick();
@@ -207,7 +204,6 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations, PowerCo
 	public void reset(){
 		super.reset();
 		myVCCR.reset();
-		myCO2Tank.reset();
 		myCRS.reset();
 		myH2Tank.reset();
 		myCH4Tank.reset();
@@ -318,19 +314,36 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations, PowerCo
 	}
 
 	public void setCO2OutputFlowrate(float liters, int index){
-		CO2FlowRates[index] = liters;
+		CO2OutputFlowRates[index] = liters;
 	}
 
 	public float getCO2OutputFlowrate(int index){
-		return CO2FlowRates[index];
+		return CO2OutputFlowRates[index];
 	}
 
 	public void setCO2Outputs(CO2Store[] sources, float[] flowRates){
-		myCO2Stores = sources;
-		CO2FlowRates = flowRates;
+		myCO2OutputStores = sources;
+		CO2OutputFlowRates = flowRates;
 	}
 
 	public CO2Store[] getCO2Outputs(){
-		return myCO2Stores;
+		return myCO2OutputStores;
+	}
+	
+	public void setCO2InputFlowrate(float liters, int index){
+		CO2InputFlowRates[index] = liters;
+	}
+
+	public float getCO2InputFlowrate(int index){
+		return CO2InputFlowRates[index];
+	}
+
+	public void setCO2Inputs(CO2Store[] sources, float[] flowRates){
+		myCO2InputStores = sources;
+		CO2InputFlowRates = flowRates;
+	}
+
+	public CO2Store[] getCO2Inputs(){
+		return myCO2InputStores;
 	}
 }

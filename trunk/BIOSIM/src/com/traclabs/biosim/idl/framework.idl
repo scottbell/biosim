@@ -92,7 +92,7 @@ module framework{
         interface CO2Consumer{
                 void setCO2InputFlowrate(in float liters, in long index);
                 float getCO2InputFlowrate(in long index);
-                void setCO2Inputs(in air::O2StoreList sources, in FloatList flowRates);
+                void setCO2Inputs(in air::CO2StoreList sources, in FloatList flowRates);
 		air::CO2StoreList getCO2Inputs();
         };
         interface AirConsumer{

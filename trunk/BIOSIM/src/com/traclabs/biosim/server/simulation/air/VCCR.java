@@ -15,7 +15,6 @@ public class VCCR extends AirRSSubSystem{
 	private Breath myBreath;
 	private SimEnvironment[] myAirInputs;
 	private SimEnvironment[] myAirOutputs;
-	private CO2Tank myCO2Tank;
 	private float litersAirNeeded = 4.0f;
 	private boolean enoughAir = false;
 	private float myProductionRate = 1f;
@@ -50,7 +49,6 @@ public class VCCR extends AirRSSubSystem{
 	*/
 	private void collectReferences(){
 		if (!hasCollectedReferences){
-			myCO2Tank = myAirRS.getCO2Tank();
 			myAirInputs = myAirRS.getAirInputs();
 			myAirOutputs = myAirRS.getAirOutputs();
 			myPowerStores = myAirRS.getPowerInputs();
@@ -65,6 +63,7 @@ public class VCCR extends AirRSSubSystem{
 		float gatheredCO2 = 0f;
 		float gatheredOther = 0f;
 		for (int i = 0; (i < myAirInputs.length) && (gatheredAir < airNeededFiltered); i++){
+			airNeededFiltered = Math.min(airNeededFiltered, myAirRS.getAirInputFlowrate(i));
 			Breath currentBreath = myAirInputs[i].takeVolume(airNeededFiltered);
 			gatheredAir += currentBreath.O2 + currentBreath.CO2 + currentBreath.other;
 			gatheredO2 += currentBreath.CO2;
@@ -81,14 +80,29 @@ public class VCCR extends AirRSSubSystem{
 	}
 
 	private void pushAir(){
-		float distributedCO2Left = myBreath.CO2 * myProductionRate;
 		float distributedO2Left = myBreath.O2 * myProductionRate;
 		float distributedOtherLeft = myBreath.other * myProductionRate;
 		for (int i = 0; (i < myAirOutputs.length) && ((distributedO2Left > 0) || (distributedOtherLeft > 0)); i++){
-			distributedO2Left -= myAirOutputs[i].addO2(distributedO2Left);
-			distributedOtherLeft -= myAirOutputs[i].addOther(distributedOtherLeft);
+			float litersToAdd = distributedO2Left + distributedOtherLeft;
+			if (litersToAdd <= myAirRS.getAirOutputFlowrate(i)){
+				distributedO2Left -= myAirOutputs[i].addO2(distributedO2Left);
+				distributedOtherLeft -= myAirOutputs[i].addOther(distributedOtherLeft);
+			}
+			else{
+				//Recalculate percentages based on smaller volume
+				float reducedO2ToPass = myAirRS.getAirOutputFlowrate(i) * (distributedO2Left / (distributedO2Left + distributedOtherLeft));
+				float reducedOtherToPass = myAirRS.getAirOutputFlowrate(i) * (distributedOtherLeft / (distributedO2Left + distributedOtherLeft));
+				distributedO2Left -= myAirOutputs[i].addO2(reducedO2ToPass);
+				distributedOtherLeft -= myAirOutputs[i].addOther(reducedOtherToPass);
+			}
+
 		}
-		myCO2Tank.addCO2(myBreath.CO2 * myProductionRate);
+		float distributedCO2Left = myBreath.CO2 * myProductionRate;
+		CO2Store[] myCO2Inputs = myAirRS.getCO2Outputs();
+		for (int i = 0; (i < myCO2Inputs.length) && (distributedCO2Left > 0); i++){
+			float CO2ToDistribute = Math.min(distributedCO2Left, myAirRS.getCO2OutputFlowrate(i));
+			distributedCO2Left -= myCO2Inputs[i].add(CO2ToDistribute);
+		}
 	}
 
 	public void reset(){

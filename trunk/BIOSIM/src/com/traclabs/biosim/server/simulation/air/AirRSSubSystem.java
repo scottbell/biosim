@@ -45,7 +45,8 @@ public abstract class AirRSSubSystem{
 	protected void gatherPower(){
 		float gatheredPower = 0f;
 		for (int i = 0; (i < myPowerStores.length) && (gatheredPower < powerNeeded); i++){
-			gatheredPower += myPowerStores[i].take(powerNeeded);
+			float powerToGather = Math.min(powerNeeded, myAirRS.getPowerInputFlowrate(i));
+			gatheredPower += myPowerStores[i].take(powerToGather);
 		}
 		currentPowerConsumed = gatheredPower;
 		if (currentPowerConsumed < powerNeeded){
