@@ -200,7 +200,7 @@ public abstract class PlantImpl extends PlantPOA{
 		float cropGrowthRate = molecularWeightOfCarbon * (dailyCarbonGain / getBCF());
 		//System.out.println("PlantImpl: cropGrowthRate: "+cropGrowthRate);
 		myCurrentDryBiomass += (cropGrowthRate / 1000 / 24f); //in kilograms
-		//System.out.println("PlantImpl: myCurrentDryBiomass: "+myCurrentDryBiomass);
+		System.out.println("PlantImpl: myCurrentDryBiomass: "+myCurrentDryBiomass);
 		myLastTotalWetBiomass = myCurrentTotalWetBiomass;
 		myLastEdibleWetBiomass = myCurrentEdibleWetBiomass;
 		myCurrentTotalWetBiomass = (myCurrentDryBiomass * getFreshFactor());
