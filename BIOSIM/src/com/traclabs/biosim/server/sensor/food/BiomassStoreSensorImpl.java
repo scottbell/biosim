@@ -34,4 +34,8 @@ public abstract class BiomassStoreSensorImpl extends GenericSensorImpl implement
 	public String getModuleName(){
 		return "BiomassStoreSensor"+getID();
 	}
+	
+	protected BioModule getInputModule(){
+		return (BioModule)(getInput());
+	}
 }

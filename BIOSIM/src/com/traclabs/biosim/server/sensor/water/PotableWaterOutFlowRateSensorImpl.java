@@ -38,6 +38,10 @@ public class PotableWaterOutFlowRateSensorImpl extends GenericSensorImpl impleme
 		return myProducer.getPotableWaterOutputMaxFlowRate(myIndex);
 	}
 	
+	protected BioModule getInputModule(){
+		return (BioModule)(myProducer);
+	}
+	
 	/**
 	* Returns the name of this module (PotableWaterOutFlowRateSensor)
 	* @return the name of the module

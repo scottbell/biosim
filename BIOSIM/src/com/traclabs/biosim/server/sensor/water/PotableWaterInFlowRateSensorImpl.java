@@ -34,6 +34,10 @@ public class PotableWaterInFlowRateSensorImpl extends GenericSensorImpl implemen
 		return myIndex;
 	}
 	
+	protected BioModule getInputModule(){
+		return (BioModule)(myConsumer);
+	}
+	
 	public float getMax(){
 		return myConsumer.getPotableWaterInputMaxFlowRate(myIndex);
 	}

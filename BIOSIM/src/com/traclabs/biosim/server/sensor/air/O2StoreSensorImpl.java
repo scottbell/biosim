@@ -34,4 +34,8 @@ public abstract class O2StoreSensorImpl extends GenericSensorImpl implements O2S
 	public String getModuleName(){
 		return "O2StoreSensor"+getID();
 	}
+	
+	protected BioModule getInputModule(){
+		return (BioModule)(getInput());
+	}
 }

@@ -35,6 +35,10 @@ public class AirOutFlowRateSensorImpl extends GenericSensorImpl implements AirOu
 		return myProducer;
 	}
 	
+	protected BioModule getInputModule(){
+		return (BioModule)(myProducer);
+	}
+	
 	public int getIndex(){
 		return myIndex;
 	}

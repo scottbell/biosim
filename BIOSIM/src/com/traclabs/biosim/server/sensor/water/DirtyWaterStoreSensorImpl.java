@@ -34,4 +34,8 @@ public abstract class DirtyWaterStoreSensorImpl extends GenericSensorImpl implem
 	public String getModuleName(){
 		return "DirtyWaterStoreSensor"+getID();
 	}
+	
+	protected BioModule getInputModule(){
+		return (BioModule)(getInput());
+	}
 }

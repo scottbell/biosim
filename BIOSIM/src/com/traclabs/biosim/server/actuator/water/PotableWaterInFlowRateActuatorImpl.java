@@ -26,7 +26,7 @@ public class PotableWaterInFlowRateActuatorImpl extends GenericActuatorImpl impl
 		myIndex = pIndex;
 	}
 	
-	protected BioModule getModuleOutput(){
+	protected BioModule getOutputModule(){
 		return (BioModule)(myConsumer);
 	}
 	

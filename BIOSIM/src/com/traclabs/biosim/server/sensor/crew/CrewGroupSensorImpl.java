@@ -30,4 +30,8 @@ public abstract class CrewGroupSensorImpl extends GenericSensorImpl implements C
 	public String getModuleName(){
 		return "CrewGroupSensor"+getID();
 	}
+	
+	protected BioModule getInputModule(){
+		return (BioModule)(getInput());
+	}
 }

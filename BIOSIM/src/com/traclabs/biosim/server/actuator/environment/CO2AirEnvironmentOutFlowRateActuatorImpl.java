@@ -27,7 +27,7 @@ public class CO2AirEnvironmentOutFlowRateActuatorImpl extends GenericActuatorImp
 		myIndex = pIndex;
 	}
 	
-	protected BioModule getModuleOutput(){
+	protected BioModule getOutputModule(){
 		return (BioModule)(myProducer);
 	}
 	

@@ -34,6 +34,10 @@ public class FoodInFlowRateSensorImpl extends GenericSensorImpl implements FoodI
 		return myConsumer;
 	}
 	
+	protected BioModule getInputModule(){
+		return (BioModule)(myConsumer);
+	}
+	
 	public int getIndex(){
 		return myIndex;
 	}

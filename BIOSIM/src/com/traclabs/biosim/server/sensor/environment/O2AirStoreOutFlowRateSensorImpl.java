@@ -35,6 +35,10 @@ public class O2AirStoreOutFlowRateSensorImpl extends GenericSensorImpl implement
 		return myProducer;
 	}
 	
+	protected BioModule getInputModule(){
+		return (BioModule)(myProducer);
+	}
+	
 	public int getIndex(){
 		return myIndex;
 	}
