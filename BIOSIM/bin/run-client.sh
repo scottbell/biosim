@@ -48,6 +48,7 @@ clientDir="$devRootDir/src/biosim/client"
 driverName="biosim.client.framework.BiosimMain"
 logviewerName="biosim.client.util.log.LogViewer"
 malfunctionName="biosim.client.framework.gui.MalfunctionPanel"
+stochasticName="biosim.client.framework.gui.StochasticPanel"
 resourceString="/resources"
 resourceDir=$devRootDir$resourceString
 plotClasspath="$devRootDir/lib/jfreechart/jcommon.jar$separator$devRootDir/lib/jfreechart/jfreechart.jar"
@@ -59,12 +60,14 @@ gui="gui"
 help="-?"
 logviewer="logviewer"
 malfunction="malfunction"
+stochastic="stochastic"
 case $userSelect in
 	$console) echo "			 -starting $userSelect";$jacoInvocation $driverName $console;;
 	$gui) echo "			 -starting $userSelect";$jacoInvocation $driverName $gui;;
 	$logviewer) echo "			 -starting $userSelect";$jacoInvocation $logviewerName;;
 	$malfunction) echo "			 -starting $userSelect";$jacoInvocation $malfunctionName;;
-	$help) echo "Usage: make-client.sh (-ga) [console, gui, logviewer]";;
+	$stochastic) echo "			 -starting $userSelect";$jacoInvocation $stochasticName;;
+	$help) echo "Usage: make-client.sh (-ga) [console, gui, logviewer, malfunction, stochastic]";;
 	*) echo "			 -starting default";$jacoInvocation $driverName;;
 esac
 echo "*done invoking clients"
