@@ -20,6 +20,7 @@ public class FoodStorePanel extends GraphPanel
 	private FoodStore myFoodStore;
 	private BiomassStore myBiomassStore;
 	private DefaultCategoryDataset myDataset;
+	private ValueAxis rangeAxis;
 
 	protected void createGraph(){
 		// create the chart...
@@ -37,7 +38,7 @@ public class FoodStorePanel extends GraphPanel
 		          );
 		// add the chart to a panel...
 		CategoryPlot myPlot = myChart.getCategoryPlot();
-		ValueAxis rangeAxis = myPlot.getRangeAxis();
+		rangeAxis = myPlot.getRangeAxis();
 		rangeAxis.setAutoRange(false);
 		rangeAxis.setRange(0.0, myFoodStore.getCapacity());
 		Renderer renderer = myPlot.getRenderer();
@@ -61,6 +62,11 @@ public class FoodStorePanel extends GraphPanel
 			myDataset.addValue(myFoodStore.getLevel(), series2, category);
 		}
 		else{
+			float capacity = Math.max(myBiomassStore.getCapacity(), myFoodStore.getCapacity());
+			if ((rangeAxis.getRange().getUpperBound() != capacity) && (capacity > 0)){
+				rangeAxis.setRange(0.0, capacity);
+				myChartPanel.repaint();
+			}
 			myDataset.setValue(new Float(myBiomassStore.getLevel()), "Biomass", "");
 			myDataset.setValue(new Float(myFoodStore.getLevel()), "Food", "");
 		}

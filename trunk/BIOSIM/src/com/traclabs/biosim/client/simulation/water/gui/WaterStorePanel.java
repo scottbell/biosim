@@ -21,6 +21,7 @@ public class WaterStorePanel extends GraphPanel
 	private GreyWaterStore myGreyWaterStore;
 	private DirtyWaterStore myDirtyWaterStore;
 	private DefaultCategoryDataset myDataset;
+	private ValueAxis rangeAxis;
 
 	protected void createGraph(){
 		// create the chart...
@@ -39,7 +40,7 @@ public class WaterStorePanel extends GraphPanel
 		          );
 		// add the chart to a panel...
 		CategoryPlot myPlot = myChart.getCategoryPlot();
-		ValueAxis rangeAxis = myPlot.getRangeAxis();
+		rangeAxis = myPlot.getRangeAxis();
 		rangeAxis.setAutoRange(false);
 		rangeAxis.setRange(0.0, myPotableWaterStore.getCapacity());
 		Renderer renderer = myPlot.getRenderer();
@@ -69,6 +70,12 @@ public class WaterStorePanel extends GraphPanel
 			myDataset.addValue(myDirtyWaterStoreLevel,series3, category);
 		}
 		else{
+			float greyDirtyMax = Math.max(myGreyWaterStore.getCapacity(), myDirtyWaterStore.getCapacity());
+			float capacity = Math.max(greyDirtyMax, myPotableWaterStore.getCapacity());
+			if ((rangeAxis.getRange().getUpperBound() != capacity) && (capacity > 0)){
+				rangeAxis.setRange(0.0, capacity);
+				myChartPanel.repaint();
+			}
 			myDataset.setValue(new Float(myPotableWaterStore.getLevel()), "Potable Water", "");
 			myDataset.setValue(new Float(myGreyWaterStore.getLevel()), "Grey Water", "");
 			myDataset.setValue(new Float(myDirtyWaterStore.getLevel()), "Dirty Water", "");
