@@ -535,9 +535,9 @@ public abstract class PlantImpl extends PlantPOA{
 		                  canopyQYConstants[24] * thePPFcubed  * theCO2cubed;
 		if (theCQYMax < 0){
 			theCQYMax = 0;
-			System.out.println("PlantImpl: CQYMax is negative!");
+			//System.out.println("PlantImpl: CQYMax is negative!");
 		}
-		System.out.println("PlantImpl: theCQYMax: "+theCQYMax);
+		//System.out.println("PlantImpl: theCQYMax: "+theCQYMax);
 		return theCQYMax;
 	}
 
