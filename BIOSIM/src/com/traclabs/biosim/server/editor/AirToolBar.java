@@ -1,3 +1,4 @@
+
 /*
  * Created on Jan 26, 2005
  */
@@ -8,6 +9,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import org.tigris.gef.base.CmdSetMode;
+import org.tigris.gef.base.ModeCreateEdge;
 import org.tigris.gef.base.ModeCreateFigCircle;
 import org.tigris.gef.base.ModeSelect;
 
@@ -31,7 +33,7 @@ public class AirToolBar extends EditorToolBar {
         add(new VCCRAction());
         add(new AirRSAction());
         addSeparator();
-        add(new ConduitAction());
+        add(new CmdSetMode(ModeCreateEdge.class, "Edge"));
     }
 
     private class H2StoreAction extends AbstractAction {
