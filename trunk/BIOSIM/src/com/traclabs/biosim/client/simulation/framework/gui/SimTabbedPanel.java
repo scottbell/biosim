@@ -69,7 +69,6 @@ public abstract class BioTabbedPanel extends JPanel
 
 	public Dimension getPreferredSize(){
 		Dimension theDimension = myTabbedPane.getSelectedComponent().getPreferredSize();
-		System.out.println("BioTabbedFrame: original size: "+theDimension);
 		double width = theDimension.getWidth();
 		double height = theDimension.getHeight();
 		if (width < MIN_TAB_WIDTH)
@@ -81,7 +80,6 @@ public abstract class BioTabbedPanel extends JPanel
 		else
 			height += ADDED_TAB_HEIGHT;
 		theDimension.setSize(width, height);
-		System.out.println("BioTabbedFrame: changed size to: "+theDimension);
 		return theDimension;
 	}
 
