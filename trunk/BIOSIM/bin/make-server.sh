@@ -11,14 +11,21 @@ then
 fi
 JACORB_HOME="$devRootDir/lib/jacorb"
 java_command=$JAVA_HOME/bin/java
-#assume javac is in the path
-javac_command=javac
-if [ -z "$JAVA_HOME" ]
-then
+jikesCommand="jikes"
+type $jikesCommand 2> /dev/null >/dev/null
+if [ $? != 0 ]; then
+	javac_command=javac
+	echo "		-using javac compiler (assuming it's in the parth)"
+else
+	javac_command=jikes
+	echo "		-using jikes compiler"
+fi
+if [ -z "$JAVA_HOME" ]; then
 	echo "		-JAVA_HOME not set, assuming java and javac are in path..."
 	java_command="java"
 	javac_command="javac"
 fi
+JRE_HOME="$JAVA_HOME/jre"
 genString="/generated"
 genDir=$devRootDir$genString
 if [ ! -e "$genDir" ]
