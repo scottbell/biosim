@@ -26,491 +26,324 @@ import com.traclabs.biosim.idl.simulation.food.Shelf;
 public class BioHolder {
     public BioDriver theBioDriver;
 
-    public Map theModulesMapped;
+    public Map theModulesMapped = new Hashtable();
 
     //Upper Categories
-    public List theModules;
+    public List theModules = new Vector();
 
-    public List theSimModules;
+    public List theSimModules = new Vector();
 
-    public List theSensors;
+    public List theSensors = new Vector();
 
-    public List theActuators;
+    public List theActuators = new Vector();
 
     //Specific Modules
     //Simulation
     //Air
-    public List theAirRSModules;
+    public List theAirRSModules = new Vector();
+    
+    public List theOGSModules = new Vector();
+    
+    public List theVCCRModules = new Vector();
 
-    public List theO2Stores;
+    public List theO2Stores = new Vector();
 
-    public List theCO2Stores;
+    public List theCO2Stores = new Vector();
 
-    public List theH2Stores;
+    public List theH2Stores = new Vector();
 
-    public List theNitrogenStores;
+    public List theNitrogenStores = new Vector();
 
     //Crew
-    public List theCrewGroups;
+    public List theCrewGroups = new Vector();
 
     //Environment
-    public List theSimEnvironments;
+    public List theSimEnvironments = new Vector();
 
-    public List theDehumidifiers;
+    public List theDehumidifiers = new Vector();
 
     //Food
-    public List theFoodProcessors;
+    public List theFoodProcessors = new Vector();
 
-    public List theBiomassRSModules;
+    public List theBiomassRSModules = new Vector();
 
-    public List theBiomassStores;
+    public List theBiomassStores = new Vector();
 
-    public List theFoodStores;
+    public List theFoodStores = new Vector();
 
     //Framework
-    public List theAccumulators;
+    public List theAccumulators = new Vector();
 
-    public List theInjectors;
+    public List theInjectors = new Vector();
 
     //Power
-    public List thePowerPSModules;
+    public List thePowerPSModules = new Vector();
 
-    public List thePowerStores;
+    public List thePowerStores = new Vector();
 
     //Waste
-    public List theIncinerators;
+    public List theIncinerators = new Vector();
 
-    public List theDryWasteStores;
+    public List theDryWasteStores = new Vector();
 
     //Water
-    public List theWaterRSModules;
+    public List theWaterRSModules = new Vector();
 
-    public List thePotableWaterStores;
+    public List thePotableWaterStores = new Vector();
 
-    public List theGreyWaterStores;
+    public List theGreyWaterStores = new Vector();
 
-    public List theDirtyWaterStores;
+    public List theDirtyWaterStores = new Vector();
 
     //Sensors
     //Air
-    public List theCO2InFlowRateSensors;
+    public List theCO2InFlowRateSensors = new Vector();
 
-    public List theCO2OutFlowRateSensors;
+    public List theCO2OutFlowRateSensors = new Vector();
 
-    public List theCO2StoreLevelSensors;
+    public List theCO2StoreLevelSensors = new Vector();
 
-    public List theO2InFlowRateSensors;
+    public List theO2InFlowRateSensors = new Vector();
 
-    public List theO2OutFlowRateSensors;
+    public List theO2OutFlowRateSensors = new Vector();
 
-    public List theO2StoreLevelSensors;
+    public List theO2StoreLevelSensors = new Vector();
 
-    public List theH2InFlowRateSensors;
+    public List theH2InFlowRateSensors = new Vector();
 
-    public List theH2OutFlowRateSensors;
+    public List theH2OutFlowRateSensors = new Vector();
 
-    public List theH2StoreLevelSensors;
+    public List theH2StoreLevelSensors = new Vector();
 
-    public List theNitrogenInFlowRateSensors;
+    public List theNitrogenInFlowRateSensors = new Vector();
 
-    public List theNitrogenOutFlowRateSensors;
+    public List theNitrogenOutFlowRateSensors = new Vector();
 
-    public List theNitrogenStoreLevelSensors;
+    public List theNitrogenStoreLevelSensors = new Vector();
 
     //Crew
-    public List theCrewGroupDeathSensors;
+    public List theCrewGroupDeathSensors = new Vector();
 
-    public List theCrewGroupProductivitySensors;
+    public List theCrewGroupProductivitySensors = new Vector();
 
-    public List theCrewGroupAnyDeadSensors;
+    public List theCrewGroupAnyDeadSensors = new Vector();
 
     //Environment
-    public List theAirInFlowRateSensors;
+    public List theAirInFlowRateSensors = new Vector();
 
-    public List theAirOutFlowRateSensors;
+    public List theAirOutFlowRateSensors = new Vector();
 
-    public List theCO2AirConcentrationSensors;
+    public List theCO2AirConcentrationSensors = new Vector();
 
-    public List theCO2AirPressureSensors;
+    public List theCO2AirPressureSensors = new Vector();
 
-    public List theCO2AirEnvironmentInFlowRateSensors;
+    public List theCO2AirEnvironmentInFlowRateSensors = new Vector();
 
-    public List theCO2AirEnvironmentOutFlowRateSensors;
+    public List theCO2AirEnvironmentOutFlowRateSensors = new Vector();
 
-    public List theCO2AirStoreInFlowRateSensors;
+    public List theCO2AirStoreInFlowRateSensors = new Vector();
 
-    public List theCO2AirStoreOutFlowRateSensors;
+    public List theCO2AirStoreOutFlowRateSensors = new Vector();
 
-    public List theO2AirConcentrationSensors;
+    public List theO2AirConcentrationSensors = new Vector();
 
-    public List theO2AirPressureSensors;
+    public List theO2AirPressureSensors = new Vector();
 
-    public List theO2AirEnvironmentInFlowRateSensors;
+    public List theO2AirEnvironmentInFlowRateSensors = new Vector();
 
-    public List theO2AirEnvironmentOutFlowRateSensors;
+    public List theO2AirEnvironmentOutFlowRateSensors = new Vector();
 
-    public List theO2AirStoreInFlowRateSensors;
+    public List theO2AirStoreInFlowRateSensors = new Vector();
 
-    public List theO2AirStoreOutFlowRateSensors;
+    public List theO2AirStoreOutFlowRateSensors = new Vector();
 
-    public List theNitrogenAirConcentrationSensors;
+    public List theNitrogenAirConcentrationSensors = new Vector();
 
-    public List theNitrogenAirPressureSensors;
+    public List theNitrogenAirPressureSensors = new Vector();
 
-    public List theNitrogenAirEnvironmentInFlowRateSensors;
+    public List theNitrogenAirEnvironmentInFlowRateSensors = new Vector();
 
-    public List theNitrogenAirEnvironmentOutFlowRateSensors;
+    public List theNitrogenAirEnvironmentOutFlowRateSensors = new Vector();
 
-    public List theNitrogenAirStoreInFlowRateSensors;
+    public List theNitrogenAirStoreInFlowRateSensors = new Vector();
 
-    public List theNitrogenAirStoreOutFlowRateSensors;
+    public List theNitrogenAirStoreOutFlowRateSensors = new Vector();
 
-    public List theWaterAirConcentrationSensors;
+    public List theWaterAirConcentrationSensors = new Vector();
 
-    public List theWaterAirPressureSensors;
+    public List theWaterAirPressureSensors = new Vector();
 
-    public List theWaterAirEnvironmentInFlowRateSensors;
+    public List theWaterAirEnvironmentInFlowRateSensors = new Vector();
 
-    public List theWaterAirEnvironmentOutFlowRateSensors;
+    public List theWaterAirEnvironmentOutFlowRateSensors = new Vector();
 
-    public List theWaterAirStoreInFlowRateSensors;
+    public List theWaterAirStoreInFlowRateSensors = new Vector();
 
-    public List theWaterAirStoreOutFlowRateSensors;
+    public List theWaterAirStoreOutFlowRateSensors = new Vector();
 
-    public List theOtherAirConcentrationSensors;
+    public List theOtherAirConcentrationSensors = new Vector();
 
-    public List theOtherAirPressureSensors;
+    public List theOtherAirPressureSensors = new Vector();
 
     //Food
-    public List theBiomassInFlowRateSensors;
+    public List theBiomassInFlowRateSensors = new Vector();
 
-    public List theBiomassOutFlowRateSensors;
+    public List theBiomassOutFlowRateSensors = new Vector();
 
-    public List theBiomassStoreLevelSensors;
+    public List theBiomassStoreLevelSensors = new Vector();
 
-    public List theFoodInFlowRateSensors;
+    public List theFoodInFlowRateSensors = new Vector();
 
-    public List theFoodOutFlowRateSensors;
+    public List theFoodOutFlowRateSensors = new Vector();
 
-    public List theFoodStoreLevelSensors;
+    public List theFoodStoreLevelSensors = new Vector();
 
-    public List theHarvestSensors;
+    public List theHarvestSensors = new Vector();
 
-    public List thePlantDeathSensors;
+    public List thePlantDeathSensors = new Vector();
 
-    public List theBiomassStoreWaterContentSensors;
+    public List theBiomassStoreWaterContentSensors = new Vector();
 
     //Framework
-    public List theStoreOverflowSensors;
+    public List theStoreOverflowSensors = new Vector();
 
-    public List theStoreLevelSensors;
+    public List theStoreLevelSensors = new Vector();
 
     //Power
-    public List thePowerInFlowRateSensors;
+    public List thePowerInFlowRateSensors = new Vector();
 
-    public List thePowerOutFlowRateSensors;
+    public List thePowerOutFlowRateSensors = new Vector();
 
-    public List thePowerStoreLevelSensors;
+    public List thePowerStoreLevelSensors = new Vector();
 
     //Waste
-    public List theDryWasteInFlowRateSensors;
+    public List theDryWasteInFlowRateSensors = new Vector();
 
-    public List theDryWasteOutFlowRateSensors;
+    public List theDryWasteOutFlowRateSensors = new Vector();
 
-    public List theDryWasteStoreLevelSensors;
+    public List theDryWasteStoreLevelSensors = new Vector();
 
     //Water
-    public List thePotableWaterInFlowRateSensors;
+    public List thePotableWaterInFlowRateSensors = new Vector();
 
-    public List thePotableWaterOutFlowRateSensors;
+    public List thePotableWaterOutFlowRateSensors = new Vector();
 
-    public List thePotableWaterStoreLevelSensors;
+    public List thePotableWaterStoreLevelSensors = new Vector();
 
-    public List theGreyWaterInFlowRateSensors;
+    public List theGreyWaterInFlowRateSensors = new Vector();
 
-    public List theGreyWaterOutFlowRateSensors;
+    public List theGreyWaterOutFlowRateSensors = new Vector();
 
-    public List theGreyWaterStoreLevelSensors;
+    public List theGreyWaterStoreLevelSensors = new Vector();
 
-    public List theDirtyWaterInFlowRateSensors;
+    public List theDirtyWaterInFlowRateSensors = new Vector();
 
-    public List theDirtyWaterOutFlowRateSensors;
+    public List theDirtyWaterOutFlowRateSensors = new Vector();
 
-    public List theDirtyWaterStoreLevelSensors;
+    public List theDirtyWaterStoreLevelSensors = new Vector();
 
-    public List theWaterInFlowRateSensors;
+    public List theWaterInFlowRateSensors = new Vector();
 
-    public List theWaterOutFlowRateSensors;
+    public List theWaterOutFlowRateSensors = new Vector();
 
-    public List theWaterStoreLevelSensors;
+    public List theWaterStoreLevelSensors = new Vector();
 
     //Actuators
     //Air
-    public List theCO2InFlowRateActuators;
+    public List theCO2InFlowRateActuators = new Vector();
 
-    public List theCO2OutFlowRateActuators;
+    public List theCO2OutFlowRateActuators = new Vector();
 
-    public List theO2InFlowRateActuators;
+    public List theO2InFlowRateActuators = new Vector();
 
-    public List theO2OutFlowRateActuators;
+    public List theO2OutFlowRateActuators = new Vector();
 
-    public List theH2InFlowRateActuators;
+    public List theH2InFlowRateActuators = new Vector();
 
-    public List theH2OutFlowRateActuators;
+    public List theH2OutFlowRateActuators = new Vector();
 
-    public List theNitrogenInFlowRateActuators;
+    public List theNitrogenInFlowRateActuators = new Vector();
 
-    public List theNitrogenOutFlowRateActuators;
+    public List theNitrogenOutFlowRateActuators = new Vector();
 
     //Environment
-    public List theAirInFlowRateActuators;
+    public List theAirInFlowRateActuators = new Vector();
 
-    public List theAirOutFlowRateActuators;
+    public List theAirOutFlowRateActuators = new Vector();
 
-    public List theCO2AirEnvironmentInFlowRateActuators;
+    public List theCO2AirEnvironmentInFlowRateActuators = new Vector();
 
-    public List theCO2AirEnvironmentOutFlowRateActuators;
+    public List theCO2AirEnvironmentOutFlowRateActuators = new Vector();
 
-    public List theCO2AirStoreInFlowRateActuators;
+    public List theCO2AirStoreInFlowRateActuators = new Vector();
 
-    public List theCO2AirStoreOutFlowRateActuators;
+    public List theCO2AirStoreOutFlowRateActuators = new Vector();
 
-    public List theO2AirEnvironmentInFlowRateActuators;
+    public List theO2AirEnvironmentInFlowRateActuators = new Vector();
 
-    public List theO2AirEnvironmentOutFlowRateActuators;
+    public List theO2AirEnvironmentOutFlowRateActuators = new Vector();
 
-    public List theO2AirStoreInFlowRateActuators;
+    public List theO2AirStoreInFlowRateActuators = new Vector();
 
-    public List theO2AirStoreOutFlowRateActuators;
+    public List theO2AirStoreOutFlowRateActuators = new Vector();
 
-    public List theNitrogenAirEnvironmentInFlowRateActuators;
+    public List theNitrogenAirEnvironmentInFlowRateActuators = new Vector();
 
-    public List theNitrogenAirEnvironmentOutFlowRateActuators;
+    public List theNitrogenAirEnvironmentOutFlowRateActuators = new Vector();
 
-    public List theNitrogenAirStoreInFlowRateActuators;
+    public List theNitrogenAirStoreInFlowRateActuators = new Vector();
 
-    public List theNitrogenAirStoreOutFlowRateActuators;
+    public List theNitrogenAirStoreOutFlowRateActuators = new Vector();
 
-    public List theWaterAirEnvironmentInFlowRateActuators;
+    public List theWaterAirEnvironmentInFlowRateActuators = new Vector();
 
-    public List theWaterAirEnvironmentOutFlowRateActuators;
+    public List theWaterAirEnvironmentOutFlowRateActuators = new Vector();
 
-    public List theWaterAirStoreInFlowRateActuators;
+    public List theWaterAirStoreInFlowRateActuators = new Vector();
 
-    public List theWaterAirStoreOutFlowRateActuators;
+    public List theWaterAirStoreOutFlowRateActuators = new Vector();
 
     //Food
-    public List theBiomassInFlowRateActuators;
+    public List theBiomassInFlowRateActuators = new Vector();
 
-    public List theBiomassOutFlowRateActuators;
+    public List theBiomassOutFlowRateActuators = new Vector();
 
-    public List theFoodInFlowRateActuators;
+    public List theFoodInFlowRateActuators = new Vector();
 
-    public List theFoodOutFlowRateActuators;
+    public List theFoodOutFlowRateActuators = new Vector();
 
-    public List thePlantingActuators;
+    public List thePlantingActuators = new Vector();
 
-    public List theHarvestingActuators;
+    public List theHarvestingActuators = new Vector();
 
     //Power
-    public List thePowerInFlowRateActuators;
+    public List thePowerInFlowRateActuators = new Vector();
 
-    public List thePowerOutFlowRateActuators;
+    public List thePowerOutFlowRateActuators = new Vector();
 
     //Waste
-    public List theDryWasteInFlowRateActuators;
+    public List theDryWasteInFlowRateActuators = new Vector();
 
-    public List theDryWasteOutFlowRateActuators;
+    public List theDryWasteOutFlowRateActuators = new Vector();
 
     //Water
-    public List thePotableWaterInFlowRateActuators;
+    public List thePotableWaterInFlowRateActuators = new Vector();
 
-    public List thePotableWaterOutFlowRateActuators;
+    public List thePotableWaterOutFlowRateActuators = new Vector();
 
-    public List theGreyWaterInFlowRateActuators;
+    public List theGreyWaterInFlowRateActuators = new Vector();
 
-    public List theGreyWaterOutFlowRateActuators;
+    public List theGreyWaterOutFlowRateActuators = new Vector();
 
-    public List theDirtyWaterInFlowRateActuators;
+    public List theDirtyWaterInFlowRateActuators = new Vector();
 
-    public List theDirtyWaterOutFlowRateActuators;
+    public List theDirtyWaterOutFlowRateActuators = new Vector();
 
-    public List theWaterInFlowRateActuators;
+    public List theWaterInFlowRateActuators = new Vector();
 
-    public List theWaterOutFlowRateActuators;
+    public List theWaterOutFlowRateActuators = new Vector();
 
     protected BioHolder() {
-        theModulesMapped = new Hashtable();
-        //Upper Categories
-        theModules = new Vector();
-        theSimModules = new Vector();
-        theSensors = new Vector();
-        theActuators = new Vector();
-
-        //Specific Modules
-        //Simulation
-        //Air
-        theAirRSModules = new Vector();
-        theO2Stores = new Vector();
-        theCO2Stores = new Vector();
-        theNitrogenStores = new Vector();
-        theH2Stores = new Vector();
-        //Crew
-        theCrewGroups = new Vector();
-        //Environment
-        theSimEnvironments = new Vector();
-        theDehumidifiers = new Vector();
-        //Food
-        theFoodProcessors = new Vector();
-        theBiomassRSModules = new Vector();
-        theBiomassStores = new Vector();
-        theFoodStores = new Vector();
-        //Framework
-        theAccumulators = new Vector();
-        theInjectors = new Vector();
-        //Power
-        thePowerPSModules = new Vector();
-        thePowerStores = new Vector();
-        //Waste
-        theIncinerators = new Vector();
-        theDryWasteStores = new Vector();
-        //Water
-        theWaterRSModules = new Vector();
-        thePotableWaterStores = new Vector();
-        theGreyWaterStores = new Vector();
-        theDirtyWaterStores = new Vector();
-        //Sensors
-        //Air
-        theCO2InFlowRateSensors = new Vector();
-        theCO2OutFlowRateSensors = new Vector();
-        theCO2StoreLevelSensors = new Vector();
-        theO2InFlowRateSensors = new Vector();
-        theO2OutFlowRateSensors = new Vector();
-        theO2StoreLevelSensors = new Vector();
-        theH2InFlowRateSensors = new Vector();
-        theH2OutFlowRateSensors = new Vector();
-        theH2StoreLevelSensors = new Vector();
-        theNitrogenInFlowRateSensors = new Vector();
-        theNitrogenOutFlowRateSensors = new Vector();
-        theNitrogenStoreLevelSensors = new Vector();
-        //Crew
-        theCrewGroupDeathSensors = new Vector();
-        theCrewGroupProductivitySensors = new Vector();
-        theCrewGroupAnyDeadSensors = new Vector();
-        //Environment
-        theAirInFlowRateSensors = new Vector();
-        theAirOutFlowRateSensors = new Vector();
-        theCO2AirConcentrationSensors = new Vector();
-        theCO2AirPressureSensors = new Vector();
-        theCO2AirEnvironmentInFlowRateSensors = new Vector();
-        theCO2AirEnvironmentOutFlowRateSensors = new Vector();
-        theCO2AirStoreInFlowRateSensors = new Vector();
-        theCO2AirStoreOutFlowRateSensors = new Vector();
-        theO2AirConcentrationSensors = new Vector();
-        theO2AirPressureSensors = new Vector();
-        theO2AirEnvironmentInFlowRateSensors = new Vector();
-        theO2AirEnvironmentOutFlowRateSensors = new Vector();
-        theO2AirStoreInFlowRateSensors = new Vector();
-        theO2AirStoreOutFlowRateSensors = new Vector();
-        theNitrogenAirConcentrationSensors = new Vector();
-        theNitrogenAirPressureSensors = new Vector();
-        theNitrogenAirEnvironmentInFlowRateSensors = new Vector();
-        theNitrogenAirEnvironmentOutFlowRateSensors = new Vector();
-        theNitrogenAirStoreInFlowRateSensors = new Vector();
-        theNitrogenAirStoreOutFlowRateSensors = new Vector();
-        theWaterAirConcentrationSensors = new Vector();
-        theWaterAirPressureSensors = new Vector();
-        theWaterAirEnvironmentInFlowRateSensors = new Vector();
-        theWaterAirEnvironmentOutFlowRateSensors = new Vector();
-        theWaterAirStoreInFlowRateSensors = new Vector();
-        theWaterAirStoreOutFlowRateSensors = new Vector();
-        theOtherAirConcentrationSensors = new Vector();
-        theOtherAirPressureSensors = new Vector();
-        //Food
-        theBiomassInFlowRateSensors = new Vector();
-        theBiomassOutFlowRateSensors = new Vector();
-        theBiomassStoreLevelSensors = new Vector();
-        theFoodInFlowRateSensors = new Vector();
-        theFoodOutFlowRateSensors = new Vector();
-        theFoodStoreLevelSensors = new Vector();
-        theHarvestSensors = new Vector();
-        thePlantDeathSensors = new Vector();
-        theBiomassStoreWaterContentSensors = new Vector();
-        //Framework
-        theStoreOverflowSensors = new Vector();
-        theStoreLevelSensors = new Vector();
-        //Power
-        thePowerInFlowRateSensors = new Vector();
-        thePowerOutFlowRateSensors = new Vector();
-        thePowerStoreLevelSensors = new Vector();
-        //Waste
-        theDryWasteInFlowRateSensors = new Vector();
-        theDryWasteOutFlowRateSensors = new Vector();
-        theDryWasteStoreLevelSensors = new Vector();
-        //Water
-        thePotableWaterInFlowRateSensors = new Vector();
-        thePotableWaterOutFlowRateSensors = new Vector();
-        thePotableWaterStoreLevelSensors = new Vector();
-        theGreyWaterInFlowRateSensors = new Vector();
-        theGreyWaterOutFlowRateSensors = new Vector();
-        theGreyWaterStoreLevelSensors = new Vector();
-        theDirtyWaterInFlowRateSensors = new Vector();
-        theDirtyWaterOutFlowRateSensors = new Vector();
-        theDirtyWaterStoreLevelSensors = new Vector();
-        theWaterInFlowRateSensors = new Vector();
-        theWaterOutFlowRateSensors = new Vector();
-        theWaterStoreLevelSensors = new Vector();
-        //Actuators
-        //Air
-        theCO2InFlowRateActuators = new Vector();
-        theCO2OutFlowRateActuators = new Vector();
-        theO2InFlowRateActuators = new Vector();
-        theO2OutFlowRateActuators = new Vector();
-        theH2InFlowRateActuators = new Vector();
-        theH2OutFlowRateActuators = new Vector();
-        theNitrogenInFlowRateActuators = new Vector();
-        theNitrogenOutFlowRateActuators = new Vector();
-        //Environment
-        theAirInFlowRateActuators = new Vector();
-        theAirOutFlowRateActuators = new Vector();
-        theCO2AirEnvironmentInFlowRateActuators = new Vector();
-        theCO2AirEnvironmentOutFlowRateActuators = new Vector();
-        theCO2AirStoreInFlowRateActuators = new Vector();
-        theCO2AirStoreOutFlowRateActuators = new Vector();
-        theO2AirEnvironmentInFlowRateActuators = new Vector();
-        theO2AirEnvironmentOutFlowRateActuators = new Vector();
-        theO2AirStoreInFlowRateActuators = new Vector();
-        theO2AirStoreOutFlowRateActuators = new Vector();
-        theNitrogenAirEnvironmentInFlowRateActuators = new Vector();
-        theNitrogenAirEnvironmentOutFlowRateActuators = new Vector();
-        theNitrogenAirStoreInFlowRateActuators = new Vector();
-        theNitrogenAirStoreOutFlowRateActuators = new Vector();
-        theWaterAirEnvironmentInFlowRateActuators = new Vector();
-        theWaterAirEnvironmentOutFlowRateActuators = new Vector();
-        theWaterAirStoreInFlowRateActuators = new Vector();
-        theWaterAirStoreOutFlowRateActuators = new Vector();
-        //Food
-        theBiomassInFlowRateActuators = new Vector();
-        theBiomassOutFlowRateActuators = new Vector();
-        theFoodInFlowRateActuators = new Vector();
-        theFoodOutFlowRateActuators = new Vector();
-        thePlantingActuators = new Vector();
-        theHarvestingActuators = new Vector();
-        //Power
-        thePowerInFlowRateActuators = new Vector();
-        thePowerOutFlowRateActuators = new Vector();
-        //Waste
-        theDryWasteInFlowRateActuators = new Vector();
-        theDryWasteOutFlowRateActuators = new Vector();
-        //Water
-        thePotableWaterInFlowRateActuators = new Vector();
-        thePotableWaterOutFlowRateActuators = new Vector();
-        theGreyWaterInFlowRateActuators = new Vector();
-        theGreyWaterOutFlowRateActuators = new Vector();
-        theDirtyWaterInFlowRateActuators = new Vector();
-        theDirtyWaterOutFlowRateActuators = new Vector();
-        theWaterInFlowRateActuators = new Vector();
-        theWaterOutFlowRateActuators = new Vector();
     }
 
     public GenericSensor getShelfSensorAttachedTo(List sensorList,
@@ -571,6 +404,8 @@ public class BioHolder {
         //Simulation
         //Air
         theSimModules.addAll(theAirRSModules);
+        theSimModules.addAll(theOGSModules);
+        theSimModules.addAll(theVCCRModules);
         theSimModules.addAll(theO2Stores);
         theSimModules.addAll(theCO2Stores);
         theSimModules.addAll(theNitrogenStores);
@@ -757,6 +592,8 @@ public class BioHolder {
         //Simulation
         //Air
         theAirRSModules.clear();
+        theOGSModules.clear();
+        theVCCRModules.clear();
         theO2Stores.clear();
         theCO2Stores.clear();
         theNitrogenStores.clear();

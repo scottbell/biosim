@@ -6,8 +6,8 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.jacorb.util.Environment;
 
-import com.traclabs.biosim.client.framework.control.HandController;
-import com.traclabs.biosim.client.framework.control.SimCommandLine;
+import com.traclabs.biosim.client.control.HandController;
+import com.traclabs.biosim.client.control.SimCommandLine;
 import com.traclabs.biosim.client.simulation.framework.gui.SimDesktop;
 import com.traclabs.biosim.client.unrealCom.UnrealCom;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
