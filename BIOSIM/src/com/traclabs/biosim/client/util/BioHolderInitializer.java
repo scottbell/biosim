@@ -170,7 +170,7 @@ public class BioHolderInitializer{
 	private static final boolean DEFAULT_SCHEMA_VALIDATION = true;
 	/** Default Schema full checking support (false). */
 	private static final boolean DEFAULT_SCHEMA_FULL_CHECKING = true;
-	private static String xmlLocation = "biosim/server/framework/DefaultInitialization.xml";
+	private static String xmlLocation = "com/traclabs/biosim/server/framework/DefaultInitialization.xml";
 	private static BioHolder myBioHolder = null;
 
 	private static DOMParser myParser = null;

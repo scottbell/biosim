@@ -15,7 +15,7 @@ public class BiosimDebug
 	private Thread myServerThread;
 	private Thread myClientThread;
 	private Thread waitThread;
-	private static final String XML_INIT_FILENAME="biosim/server/framework/DefaultInitialization.xml";
+	private static final String XML_INIT_FILENAME="com/traclabs/biosim/server/framework/DefaultInitialization.xml";
 	private static final int NAMESERVER_PORT = 16309;
 	private static final int SERVER_OA_PORT = 16310;
 	private Logger myLogger;	

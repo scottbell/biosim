@@ -817,9 +817,6 @@ public class BioInitializer{
 				myDriver.setPauseSimulation(node.getAttributes().getNamedItem("startPaused").getNodeValue().equals("true"));
 				myDriver.setRunTillCrewDeath(node.getAttributes().getNamedItem("runTillCrewDeath").getNodeValue().equals("true"));
 				myDriver.setRunTillPlantDeath(node.getAttributes().getNamedItem("runTillPlantDeath").getNodeValue().equals("true"));
-				areSensorsLogging = (node.getAttributes().getNamedItem("isSensorLoggingEnabled").getNodeValue().equals("true"));
-				areActuatorsLogging = (node.getAttributes().getNamedItem("isActuatorLoggingEnabled").getNodeValue().equals("true"));
-				areModulesLogging = (node.getAttributes().getNamedItem("isFullLoggingEnabled").getNodeValue().equals("true"));
 				int stutterLength = Integer.parseInt(node.getAttributes().getNamedItem("driverStutterLength").getNodeValue());
 				if (stutterLength >= 0)
 					myDriver.setDriverStutterLength(stutterLength);
