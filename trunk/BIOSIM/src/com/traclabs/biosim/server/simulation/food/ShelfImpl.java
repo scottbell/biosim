@@ -90,7 +90,11 @@ public class ShelfImpl extends ShelfPOA {
 	}
 	
 	private void lightPlants(){
-		myCrop.shine();
+		myCrop.shine(powerLevel);
+	}
+	
+	public void harvest(){
+		myCrop.harvest();
 	}
 
 	public void tick(){

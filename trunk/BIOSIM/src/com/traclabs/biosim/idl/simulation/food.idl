@@ -17,6 +17,8 @@ module food{
         interface FoodStore : framework::Store{};
 	
         interface Shelf{
+		void harvest();
+		void replant(in PlantType pType);
         };
 	
 	interface Plant{
