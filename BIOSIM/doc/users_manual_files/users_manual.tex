@@ -1,0 +1,707 @@
+\documentstyle{report}
+
+\input epsf
+
+%\nofiles
+
+\setlength{\textheight}{9.0in}
+\setlength{\textwidth}{6.5in}
+\setlength{\footheight}{0.0in}
+\setlength{\topmargin}{0.00in}
+\setlength{\headheight}{0.0in}
+\setlength{\headsep}{0.0in}
+\setlength{\oddsidemargin}{-0.0in}
+
+\makeindex
+
+\begin{document}
+
+\def\topfraction{1.0}        %maximum fraction of floats at the top of the page
+\def\bottomfraction{1.0}     %ditto, for the bottom of the page
+\def\textfraction{0}         %minimum fraction of text (--> 100% floats is okay)
+\def\floatpagefraction{1.0}  % if a page is full of floats, it'd better be FULL
+
+\newcommand{\insertfigure}[2]{\begin{center}
+                             \ \epsfxsize=#2 \epsfbox{#1.ps}
+                             \end{center}}
+
+%\newcommand{\insertfigure}[2]{\vspace{#2}}
+
+\title{BioSim: An Integrated Simulation of an Advanced Life Support System for Intelligent Control Research\\
+Users Manual}
+
+\author{Metrica Inc. and S\&K Technologies\\
+NASA Johnson Space Center/ER2\\
+Houston TX 77058\\
+http://www.traclabs.com/biosim}
+
+
+\date{\today}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+\listoffigures
+
+\newpage
+
+\chapter{Introduction}
+
+This document describes a simulation of an advanced life support
+system as envisioned for future human missions to Mars.  The purpose
+of this simulation is to provide a testbed for researchers studying
+advanced control of life support systems.  The simulation allows
+access to various control parameters of the system.  The simulation
+also allows for insertion of malfunctions and stochastic processes.  A
+logging facility and a graphical user interface are provided as
+services.  The simulation is written in Java and is distributed using
+the Common Object Request Broker Architecture (CORBA)\index{CORBA}.
+CORBA is also used to interface to the simulation.  The distributed
+nature of the simulation allows for multiple instances to be run in
+parallel, making it ideal for testing advanced control concepts such
+as genetic algorithms or reinforcement learning, which require
+multiple trials.  See \cite{kortenkamp_etal01} or
+\cite{schreckenghost_etal02} for a background on advanced life support
+control issues.  This document begins with a brief introduction to
+advanced life support systems.  Then it provides details on
+installing, running and interacting with the simulation.  The
+simulation is available from http://www.traclabs.com/biosim.
+
+\chapter{Background on advanced life support}
+
+
+An advanced life support system is one in which many resources are
+reused or regenerated.  Such systems will be necessary for long
+duration human missions, such as those to Mars, where resupply
+opportunities are limited.  Typically they have thin margins for mass,
+energy and buffers, which requires optimization and tight control.
+Also, advanced life support systems consist of many interconnected
+subsystems all of whom interact in both predictable and unpredictable
+ways (see Figure~\ref{fig:biosim}).  Autonomous control of these systems is
+desirable. This section gives enough background so that users of the
+simulation can understand the control issues.  For detailed
+documentation on advanced life support systems see \cite{tri99} or go
+to: http://advlifesupport.jsc.nasa.gov
+
+\begin{figure}
+\insertfigure{figure}{5.5in}
+\caption{The various modules that comprise the BIOSim integrated simulation.}
+\label{fig:biosim}
+\end{figure}
+
+
+\section{Modules}
+
+An advanced life support system consists of many interacting
+subsystems.  While each is self-contained, they rely on each other for
+various resources.  The simulation is built from a set of modules that
+each produce and consume different resources.
+
+\subsection{Crew}
+\label{sec:crew}
+
+The crew module is implemented using models described in
+\cite{goudarzi_ting99}.  The number, gender, age and weight of the
+crew are settable as input parameters -- in the default configuration
+there are four crew members, two male and two female.  The crew cycles
+through a set of activities (sleep, maintenance, recreation, etc.).
+As they do so they consume O2, food and water and produce CO2, dirty
+water and solid waste.  The amount of resources consumed and produced
+varies according to crew member attributes and their activities.  The
+crew’s activities can be adjusted by passing a new crew schedule to
+the crew module.  A default schedule can also be used.  The crew
+module is connected to a crew environment that contains an atmosphere
+that they breathe.  The initial size and gas composition (percentages
+of O2, CO2, H2O and inert gases) are input parameters and the default
+is $1.54893 x 10^6 liters$ (from \cite{tri99}) with an atmosphere
+equivalent to sea level air.  As the simulation progresses the mixture
+of gases in the atmosphere changes.
+
+\subsection{Water}
+\label{sec:water}
+
+The water recovery module consumes dirty water and produces potable
+and grey water (i.e., water that can be used for washing but not
+drinking).  The water recovery module consists of four subsystems that
+process the water.  The biological water processing (BWP) subsystem
+removes organic compounds.  Then the water passes to a reverse osmosis
+(RO) subsystem, which makes 85\% of the water passing through it grey.
+The 15\% of water remaining from the RO (called brine) is passed to the
+air evaporation subsystem (AES), which recovers the rest.  These two
+streams of grey water (from the RO and the AES) are passed through a
+post-processing subsystem (PPS) to create potable water.  An external
+controller can turn on or off various subsystems.  For example, all
+water can pass through the AES at a higher energy cost.  We based our
+water recovery module on a recently completed test at NASA Johnson
+Space Center \cite{bonasso_etal03}.
+
+
+\subsection{Air}
+\label{sec:air}
+
+The air component takes in exhalant CO2 and produces O2 as long as
+there is sufficient energy being provided to the system.  This
+component is modeled on various Air Revitalization System (ARS) work
+at NASA JSC \cite{malin_etal00}.  There are three interacting air
+subsystems: the Variable Configuration Carbon Dioxide Removal (VCCR)
+System in which CO2 is removed from the air stream; the Carbon Dioxide
+Reduction System (CRS), which also removes CO2 from the air stream
+using a different process and producing different gases than the VCCR;
+and the Oxygen Generation System (OGS) in which O2 is added to the air
+stream by breaking water down into hydrogen and oxygen.  It is
+important to note that both the removal of CO2 and the addition of O2
+are required for human survival.  It is also important to note that
+the biomass component (next subsection) also removes CO2 and adds O2.
+
+\subsection{Biomass}
+\label{sec:biomass}
+
+The biomass component is where crops are grown.  It produces both
+biomass, which can be turned into food, and O2 and consumes water,
+energy (light) and CO2.  This component is based on models given in
+\cite{jones_cavazzoni00}.  The system is modeled as shelves that contain
+plants, lights and water.  Shelves are planted and harvested and there
+is growth cycle for each shelf.  Currently, ten crops are modeled and
+can be planted in any ratio.
+
+\subsection{Food processing}
+\label{sec:food}
+
+Before biomass can be consumed by the crew it must be converted to
+food.  The food processing component takes biomass, energy and crew
+time and produces food and solid waste.  The crew needs to be involved
+in this process as it is labor intensive.  See Section~\ref{sec:crew}
+for more information on scheduling crew activities.
+
+\subsection{Waste}
+\label{sec:waste}
+
+The waste component consumes energy, O2 and solid waste and produces
+CO2.  It is modeled on an incinerator used in the Phase III test in
+1997 \cite{schreckenghost_etal02}.  Incineration can be scheduled.
+
+\subsection{Thermal control}
+\label{sec:thermal}
+
+The thermal control component regulates the air temperature in the
+habitat.  This component is not implemented for this simulation and it
+is assumed that external controllers are maintaining chamber
+temperature.
+
+\subsection{Energy}
+\label{sec:energy}
+
+The energy component supplies power to all of the other components
+that need it.  There are two choices for power in the simulation.  The
+first is nuclear power, which supplies a fixed amount throughout the
+lifetime of the simulation.  The second is solar power, which supplies
+a varying amount (day/night cycle) of power to each component.
+
+\chapter{Simulation properties}
+
+In addition to implementing the basic ALS components described above,
+the simulation has several other important properties.  This chapter
+looks at these properties and describes their impact on the
+simulation.
+
+\section{Success criteria}
+
+In order to compare different control approaches there should be
+objective criteria for a successful advanced life support system
+mission.  Several possibilities exist already in the simulation.  For
+example, the length of the mission before consumables are gone is a
+success criterion.  As is minimizing the starting levels of stores or
+minimizing the sizes of intermediary buffers.  However, many of these
+fail to get at the true success of a mission, the productivity of the
+crew in performing their science objectives.  Thus, the simulation
+includes an artificial productivity measure.  As the crew cycles
+through their activities (see Section~\ref{sec:crew}) the amount of
+time they spend doing science tasks is accumulated. This number is
+also multiplied by a factor that takes into account the amount of
+sleep, exercise, water, food and oxygen they are getting.  So each
+tick, for each crew member the productivity is given by the following
+equation:
+
+        [need to put the equation here]
+
+\section{Stochastic processes}
+
+Any sufficiently complex process, especially one with biological
+components, will not be deterministic.  That is, given the same
+starting conditions and inputs it will not produce the exact same
+outputs each time it is run.  A stochastic process is one in which
+chance or probability affect the outcome.  This simulation offers both
+deterministic and stochastic operations.  In the former case, running
+the simulation twice with the same inputs and initial conditions will
+produce the same results.  This may be useful for quantitatively
+comparing different control approaches against each other.  In the
+latter case, the user can control the amount of variability in the
+simulation (see Section 7.4).  This is modeled using a Gaussian
+distribution [[Scott fill this in more]].  This can be used to
+test a control system’s ability to deal with stochastic processes.
+
+\section{Malfunctions}
+
+The simulation also has the ability to accept malfunction requests
+(see Section 7.5).  These requests will change the operating regime of
+the simulation.  For example, by causing a crew member to be sick,
+energy supplies to drop, water to leak, plants to die, etc.  Different
+modules will have different sensitivities, for example once plants die
+they cannot recover, but if the water module is damaged and then
+repaired it will operate normally.  Of course, if levels of CO2, water
+or food reach preset critical levels the crew will abandon the mission
+and return home.
+
+\section{Crew activity scheduling}
+
+Crew members in an advanced life support system do not just consume
+and produce -- they do activities.  These may be science, maintenance,
+exercise, sleep, etc.  The following diagram shows the nominal daily
+routine for a crew member:
+
+[[Scott, little transition diagram here]]
+
+
+\chapter{Simulation implementation}
+
+All of the simulation components are written in Java to make the
+simulation portable.  Each component is its own CORBA server so that
+they can be distributed across computers for increased performance.
+We have tested the simulation on Windows, Unix and Macintosh
+computers.  A user interface allows for insight into the simulation.
+There is also a logging facility that will automatically save all
+simulation values to a file or a database.  We have Java and C++
+interfaces to the simulation.  
+
+\chapter{Installing the simulation}
+
+Download the Windows executable from: www.traclabs.com/biosim
+
+Go to Download and then download the Windows installer.  Remember
+where you put it.  Double-click on the Setup.exe icon, accept the
+agreement, choose the default installation, install it where you
+desire and then click ``Finish''.  BIOSim will start automatically.
+NOTE: If you do not have Java installed on your PC then the installer
+will direct you to the WWW page to download it (free).  Please e-mail
+Scott Bell (scott@traclabs.com) if you have trouble with Java.
+
+Source code is also available by request.  Source code can be
+installed on Linux, Windows or Macintosh computers.
+
+\begin{figure}
+\insertfigure{labelled_interface}{5.5in}
+\caption{BioSim’s graphical user interface.}
+\label{fig:empty_interface}
+\end{figure}
+
+\chapter{Running the simulation}
+
+When BIOSim starts you’ll see a blank interface as shown in
+Figure~\ref{fig:empty_interface}.  Holding your mouse over the buttons
+on the top reveals what they do.  As noted in the figure, the first
+three buttons control the simulation.  The next series of buttons will
+display various subsystem views. Some of the views, like the crew, do
+not contain anything until the simulation is started.  I like to open
+up the main subsystem views before starting the simulation.
+
+The open interface is shown in Figure~\ref{fig:full_interface}.  The
+view can be changed between text, chart and schematic by clicking on
+the tabs.  The simulation will run until resources (air, water, food,
+etc.) drop below critical levels.  Then the simulation will stop.
+Pressing the start button will restart the simulation from the
+beginning.  If you want to examine the interfaces closely press the
+``Pause'' button or go through the simulation one step at a time.
+
+\begin{figure}
+\insertfigure{open_interface}{5.5in}
+\caption{A full view of BioSim’s graphical user interface}
+\label{fig:full_interface}
+\end{figure}
+
+\chapter{Controlling the simulation}
+
+The previous section showed you how to run BioSim and monitor its
+internal state via a graphical user interface.  While interesting,
+this is not useful for control system research.  This section will
+show you how to connect an external control program to BioSim and
+change its underlying operation.  Note that this will not be an
+exhaustive list of all of the objects and methods in BioSim, but only
+the most important for new users.  Complete documentation of all
+objects and method calls is available at:
+http://www.traclabs.com/biosim/doc/api/index.html
+   
+\section{Initial conditions}
+
+BioSim is almost infinitely reconfigurable -- from the number of
+crew members to the size of the biomass production module.  The
+configuration of BioSim is controlled by an eXtensible Markup Language
+(XML) file that is read in during BioSim initialization.
+
+\subsection{XML file format}
+
+Explain XML file, how it’s used, how it’s read in. Capacities, levels,
+logging, etc.  Malfunctions, crew schedule, resupply, etc.  Attach an
+example XML file as an appendix.
+
+\subsection{Initializing BioSim}
+
+Talk about alternative initialization via an API.  Again, capacities, levels, logging, etc. can be set from here.
+
+\section{Running the simulation}
+
+A Java class called BioDriver contains the methods used to control the simulation.  
+
+Tick, reset, pausing, starting.  Put actual Java method calls here. 
+
+\section{Controlling the components via sensors and actuators}
+
+\subsection{Generic Sensors}
+
+Sensors are objects that connect to the underlying simulation.  Each
+module has its own set of sensor objects, but they all inherit the
+same method calls.  These method calls are:
+
+\begin{itemize}
+
+        \item getMax: Returns the maximum allowed value of the sensor
+        \item getMin: Returns the minimum allowed value of the sensor
+        \item getValue: Returns the current setting of the sensor
+\end{itemize}
+
+Several other generic methods related to sensor noise, malfunctions
+and logging are available:
+
+In addition, there will be some sensor-specific methods, which we will discuss with the appropriate sensor.
+
+\section{Generic Actuators}
+
+Actuators are objects that connect to the underlying simulation.  Each
+module has its own set of actuator objects, but they all inherit the
+same method calls.  These method calls are:
+
+\begin{itemize}
+
+        \item getMax: Returns the maximum allowed value of the actuator
+        \item getMin: Returns the minimum allowed value of the actuator
+        \item getValue: Returns the current value of the actuator       
+        \item setValue: Sets the actuator
+
+\end{itemize}
+
+
+Several other generic methods related to actuator noise, malfunctions
+and logging are available:
+
+In addition, there will be some actuator-specific methods, which we
+will discuss with the appropriate actuator.
+
+
+\subsection{Environments}
+
+Environments contain the air that crew and plants use.  There can be
+multiple environments in the simulation, but they are all controlled
+by the same sensors and actuators.
+
+\subsubsection{Sensors}
+
+The following sensors are available in the environment:
+
+\begin{enumerate}
+
+\item AirInFlowRateSensor: Flow rate in moles/tick of air into the environment
+\item AirOutFlowRateSensor: Flow rate in moles/tick of air out of the environment
+\item CO2AirConcentrationSensor: Amount in ??? of CO2 in the environment.
+\item CO2AirEnvironmentInFlowRateSensor: Flow rate in liters/tick of CO2 into the environment
+\item CO2AirEnvironmentOutFlowRateSensor: Flow rate in liters/tick of CO2 out of the environment
+\item CO2AirPressureSensor: Pressure in ??? of CO2 in the environment
+\item CO2AirStoreInFlowRateSensor: 
+\item CO2AirStoreOutFlowRateSensor: 
+\item NitrogenAirConcentrationSensor: Amount in ??? of Nitrogen in the environment
+\item NitrogenAirEnvironmentInFlowRateSensor:
+\item NitrogenAirEnvironmentOutFlowRateSensor:
+\item NitrogenAirPressureSensor:
+\item NitrogenAirStoreInFlowRateSensor:
+\item NitrogenAirStoreOutFlowRateSensor:
+\item O2AirConcentrationSensor: Amount in ??? of O2 in the environment.
+\item O2AirEnvironmentInFlowRateSensor: Flow rate in liters/tick of O2 into the environment
+\item O2AirEnvironmentOutFlowRateSensor: Flow rate in liters/tick of O2 out of the environment
+\item O2AirPressureSensor: Pressure in ??? of O2 in the environment
+\item O2AirStoreInFlowRateSensor: 
+\item O2AirStoreOutFlowRateSensor: 
+\item OtherAirConcentrationSensor:
+\item OtherAirPressureSensor:
+\item WaterAirConcentrationSensor: Amount in ??? of water (humidity) in the environment
+\item WaterAirEnvironmentInFlowRateSensor:
+\item WaterAirEnvironmentOutFlowRate:
+\item WaterAirPressureSensor:
+\item WaterAirStoreInFlowRateSensor:
+\item WaterAirStoreOutFlowRateSensor: 
+\end{enumerate}
+
+\subsubsection{Actuators}
+
+\begin{enumerate}
+
+\item AirInFlowRateActuator: Flow rate in moles/tick of air into the environment
+\item AirOutFlowRateActuator: Flow rate in moles/tick of air out of the environment
+\item CO2AirConcentrationActuator: Amount in ??? of CO2 in the environment.
+\item CO2AirEnvironmentInFlowRateActuator: Flow rate in liters/tick of CO2 into the environment
+\item CO2AirEnvironmentOutFlowRateActuator: Flow rate in liters/tick of CO2 out of the environment
+\item CO2AirPressureActuator: Pressure in ??? of CO2 in the environment
+\item CO2AirStoreInFlowRateActuator: 
+\item CO2AirStoreOutFlowRateActuator: 
+\item NitrogenAirConcentrationActuator: Amount in ??? of Nitrogen in the environment
+\item NitrogenAirEnvironmentInFlowRateActuator:
+\item NitrogenAirEnvironmentOutFlowRateActuator:
+\item NitrogenAirPressureActuator:
+\item NitrogenAirStoreInFlowRateActuator:
+\item NitrogenAirStoreOutFlowRateActuator:
+\item O2AirConcentrationActuator: Amount in ??? of O2 in the environment.
+\item O2AirEnvironmentInFlowRateActuator: Flow rate in liters/tick of O2 into the environment
+\item O2AirEnvironmentOutFlowRateActuator: Flow rate in liters/tick of O2 out of the environment
+\item O2AirPressureActuator: Pressure in ??? of O2 in the environment
+\item O2AirStoreInFlowRateActuator: 
+\item O2AirStoreOutFlowRateActuator: 
+\item OtherAirConcentrationActuator:
+\item OtherAirPressureActuator:
+\item WaterAirConcentrationActuator: Amount in ??? of water (humidity) in the environment
+\item WaterAirEnvironmentInFlowRateActuator:
+\item WaterAirEnvironmentOutFlowRate:
+\item WaterAirPressureActuator:
+\item WaterAirStoreInFlowRateActuator:
+\item WaterAirStoreOutFlowRateActuator: 
+
+\end{enumerate}
+
+\subsubsection{Malfunctions}
+
+State exactly what the malfunctions do.  How do the method calls work.
+What is the malfunction. What is the leak rate, etc. for each of the
+different malfunction classes.  Since method calls are probably
+identical may want to move this up to top and then use this section
+only for module-specific malfunction information.
+
+\subsection{Crew}
+
+\subsubsection{Sensors}
+
+\begin{enumerate}
+
+\item CrewGroupActivitySensor:  Returns activity level of crew (average?)
+\item CrewGroupAnyDeadSensor:
+\item CrewGroupDeathSensor:
+\item CrewGroupProductivitySensor:
+
+\end{enumerate}
+
+\subsubsection{Actuators}
+
+\begin{enumerate}
+
+\item CrewGroupActivityActuator:
+
+\end{enumerate}
+
+\subsubsection{Malfunctions}
+
+See environment above and supply malfunctions here.
+
+
+\subsection{Air}
+
+\subsubsection{Sensors}
+
+\begin{enumerate}
+
+\item CO2InFlowRateSensor:
+\item CO2OutFlowRateSensor:
+\item CO2StoreLevelSensor:
+\item H2InFlowRateSensor:
+\item H2OutFlowRateSensor:
+\item H2StoreLevelSensor:
+\item NitrogenInFlowRateSensor:
+\item NitrogenOutFlowRateSensor:
+\item NitrogenStoreLevelSensor:
+\item O2InFlowRateSensor:
+\item O2OutFlowRateSensor:
+\item O2StoreLevelSensor:
+
+\end{enumerate}
+
+\subsubsection{Actuators}
+
+\begin{enumerate}
+
+\item CO2InFlowRateSensor:
+\item CO2OutFlowRateSensor:
+\item H2InFlowRateSensor:
+\item H2OutFlowRateSensor:
+\item NitrogenInFlowRateSensor:
+\item NitrogenOutFlowRateSensor:
+\item O2InFlowRateSensor:
+\item O2OutFlowRateSensor:
+
+\end{enumerate}
+
+\subsubsection{Malfunctions}
+
+Same as others
+
+
+\subsection{Water}
+
+\subsubsection{Sensors}
+\begin{enumerate}
+
+\item DirtyWaterInFlowRateSensor:
+\item DirtyWaterOutFlowRateSensor:
+\item DirtyWaterStoreLevelSensor:
+\item GreyWaterInFlowRateSensor:
+\item GreyWaterOutFlowRateSensor:
+\item GreyWaterStoreLevelSensor:
+\item PotableWaterInFlowRateSensor:
+\item PotableWaterOutFlowRateSensor:
+\item PotableWaterStoreLevelSensor:
+\end{enumerate}
+
+\subsubsection{Actuators}
+
+\subsubsection{Malfunctions}
+
+
+\subsection{Biomass}
+
+\subsection{Solid Waste}
+
+\subsection{Energy}
+
+\section{Enabling stochastic processes}
+
+\section{Java controllers}
+
+Some specific instances of how Java can control the simulation
+
+\section{C++ controllers}
+
+Some specific instances of how C++ can control the simulation
+
+\section{Other controllers}
+
+Talk about CORBA support for other languages.
+
+\chapter{Control Examples}
+
+Include GA, Rice learners, Texas Tech learner.
+
+\chapter{Conclusions}
+
+\appendix 
+\chapter{Java Example}
+
+\begin{verbatim}
+
+
+\end{verbatim}
+
+
+Put parts of Rice handcontroller here
+
+\chapter{C++ Example}
+
+\begin{verbatim}
+
+#include "biosimC.h"
+#include <CosNamingC.h>
+
+static const char* CorbaServerName = "BioDriver0";
+int
+main(int argc,char *argv[])
+{
+  try {
+    // Initialize orb
+    CORBA::ORB_var orb = CORBA::ORB_init(argc,argv,"TestClient");
+
+    cerr << "initialized orb" << endl;
+
+    if (argc < 2) {
+      cerr << "Usage: " << argv[0]
+           << " IOR_string" << endl;
+      return 1;
+    }
+
+// Use the first argument to create the object reference,
+    // in real applications we use the naming service, but let's do
+    // the easy part first!
+
+    CORBA::Object_var obj =
+      orb->string_to_object (argv[1]); 
+
+    cout << "After resolve_initial_references" << endl;
+
+
+    /*   CORBA::Object_var obj =
+         orb->string_to_object (argv[1]); */
+ 
+    CosNaming::NamingContext_var inc = CosNaming::NamingContext::_narrow(obj);
+
+    cout << "After NameService narrow" << endl;
+
+    if(CORBA::is_nil(inc)) {
+      cerr << "Unable to narrow NameService." << endl;
+      throw 0;
+    }  // end if couldn't get root naming context
+    
+    CosNaming::Name name;
+    name.length(1);
+    name[0].id = CORBA::string_dup(CorbaServerName);
+    name[0].kind = CORBA::string_dup("");
+
+    CORBA::Object_var tmp = inc->resolve(name);
+
+    cout << "After resolve name" << endl;
+
+    if(CORBA::is_nil(tmp)) {
+      cerr << "Unable to resolve " << CorbaServerName << " from NameService" << endl;
+      throw 0;
+    }  // end if couldn't find object
+
+    cerr << "got object" << endl;
+
+    // Now downcast the object reference to the appropriate type
+
+    biosim::idl::framework::BioDriver_var biodriver = biosim::idl::framework::BioDriver::_narrow(tmp);
+
+
+    cerr << "narrowed" << endl;
+
+    // code here
+
+    biodriver->spawnSimulationTillDead();
+
+    cerr << "spawned" << endl;
+
+    orb->destroy ();
+  }
+  catch (CORBA::Exception &ex) {
+    std::cerr << "CORBA exception raised! " << std::endl;
+  }
+  return 0;
+}
+
+\end{verbatim}
+
+\bibliography{biosim}
+\bibliographystyle{plain}
+
+\begin{theindex}
+
+\input{users_manual.ind}
+
+\end{theindex}
+
+
+\end{document}
+
