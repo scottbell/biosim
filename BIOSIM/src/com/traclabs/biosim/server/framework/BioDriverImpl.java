@@ -331,14 +331,6 @@ public class BioDriverImpl extends BioDriverPOA{
 	}
 
 	/**
-	* Check whether simulation has begun.
-	* @return <code>true</code> if simulation has started, <code>false</code> if not
-	*/
-	public boolean simulationHasStarted(){
-		return simulationStarted;
-	}
-
-	/**
 	* Advances the simulation once tick.
 	* NOTICE: not pausing the simulation before using this method can be very risky.  Don't do it.
 	*/

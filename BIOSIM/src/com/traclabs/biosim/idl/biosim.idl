@@ -209,7 +209,6 @@ module biosim{
                                 void setRunTillN(in long pTicks);
                                 void setLoopSimulation(in boolean pLoop);
                                 void setPauseSimulation(in boolean pPause);
-                                boolean simulationHasStarted();
                                 void advanceOneTick();
                                 void setFullLogging(in boolean pLogSim);
                                 void setSensorLogging(in boolean pLogSim);
