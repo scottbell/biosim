@@ -20,7 +20,7 @@ import biosim.server.simulation.framework.*;
 
 public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations, PowerConsumerOperations, PotableWaterConsumerOperations, GreyWaterConsumerOperations, DirtyWaterConsumerOperations, O2ConsumerOperations, CO2ConsumerOperations, AirConsumerOperations, BiomassConsumerOperations, FoodConsumerOperations, PowerProducerOperations, PotableWaterProducerOperations, GreyWaterProducerOperations, DirtyWaterProducerOperations, O2ProducerOperations, CO2ProducerOperations, AirProducerOperations, BiomassProducerOperations, FoodProducerOperations, O2AirConsumerOperations, CO2AirConsumerOperations, O2AirProducerOperations, CO2AirProducerOperations{
 	private LogIndex myLogIndex;
-	
+
 	private PowerStore[] myPowerInputs;
 	private PowerStore[] myPowerOutputs;
 	private float[] powerOutMaxFlowRates;
@@ -101,7 +101,7 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 	private float[] CO2InActualFlowRates;
 	private float[] CO2OutDesiredFlowRates;
 	private float[] CO2InDesiredFlowRates;
-	
+
 	private CO2Store[] myCO2AirStoreInputs;
 	private CO2Store[] myCO2AirStoreOutputs;
 	private float[] CO2AirStoreOutMaxFlowRates;
@@ -110,7 +110,7 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 	private float[] CO2AirStoreInActualFlowRates;
 	private float[] CO2AirStoreOutDesiredFlowRates;
 	private float[] CO2AirStoreInDesiredFlowRates;
-	
+
 	private O2Store[] myO2AirStoreInputs;
 	private O2Store[] myO2AirStoreOutputs;
 	private float[] O2AirStoreOutMaxFlowRates;
@@ -119,7 +119,7 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 	private float[] O2AirStoreInActualFlowRates;
 	private float[] O2AirStoreOutDesiredFlowRates;
 	private float[] O2AirStoreInDesiredFlowRates;
-	
+
 	private SimEnvironment[] myCO2AirEnvironmentInputs;
 	private SimEnvironment[] myCO2AirEnvironmentOutputs;
 	private float[] CO2AirEnvironmentOutMaxFlowRates;
@@ -128,7 +128,7 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 	private float[] CO2AirEnvironmentInActualFlowRates;
 	private float[] CO2AirEnvironmentOutDesiredFlowRates;
 	private float[] CO2AirEnvironmentInDesiredFlowRates;
-	
+
 	private SimEnvironment[] myO2AirEnvironmentInputs;
 	private SimEnvironment[] myO2AirEnvironmentOutputs;
 	private float[] O2AirEnvironmentOutMaxFlowRates;
@@ -220,7 +220,7 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		CO2InActualFlowRates = new float[0];
 		CO2OutDesiredFlowRates = new float[0];
 		CO2InDesiredFlowRates = new float[0];
-		
+
 		myCO2AirStoreOutputs = new CO2Store[0];
 		myCO2AirStoreInputs = new CO2Store[0];
 		CO2AirStoreOutMaxFlowRates = new float[0];
@@ -229,7 +229,7 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		CO2AirStoreInActualFlowRates = new float[0];
 		CO2AirStoreOutDesiredFlowRates = new float[0];
 		CO2AirStoreInDesiredFlowRates = new float[0];
-		
+
 		myO2AirStoreOutputs = new O2Store[0];
 		myO2AirStoreInputs = new O2Store[0];
 		O2AirStoreOutMaxFlowRates = new float[0];
@@ -238,7 +238,7 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		O2AirStoreInActualFlowRates = new float[0];
 		O2AirStoreOutDesiredFlowRates = new float[0];
 		O2AirStoreInDesiredFlowRates = new float[0];
-		
+
 		myCO2AirEnvironmentOutputs = new SimEnvironment[0];
 		myCO2AirEnvironmentInputs = new SimEnvironment[0];
 		CO2AirEnvironmentOutMaxFlowRates = new float[0];
@@ -247,7 +247,7 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		CO2AirEnvironmentInActualFlowRates = new float[0];
 		CO2AirEnvironmentOutDesiredFlowRates = new float[0];
 		CO2AirEnvironmentInDesiredFlowRates = new float[0];
-		
+
 		myO2AirEnvironmentOutputs = new SimEnvironment[0];
 		myO2AirEnvironmentInputs = new SimEnvironment[0];
 		O2AirEnvironmentOutMaxFlowRates = new float[0];
@@ -266,69 +266,83 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		if (moduleLogging)
 			log();
 	}
-	
+
 	private void getAndPushResources(){
-		float powerGathered = getMostResourceFromStore(myPowerInputs, powerInMaxFlowRates, powerInDesiredFlowRates);
-		float powerPushed = pushResourceToStore(myPowerOutputs, powerOutMaxFlowRates, powerGathered);
-		
-		float greyWaterGathered = getMostResourceFromStore(myGreyWaterInputs, greyWaterInMaxFlowRates, greyWaterInDesiredFlowRates);
-		float greyWaterPushed = pushResourceToStore(myGreyWaterOutputs, greyWaterOutMaxFlowRates, greyWaterGathered);
-		
-		float potableWaterGathered = getMostResourceFromStore(myPotableWaterInputs, potableWaterInMaxFlowRates, potableWaterInDesiredFlowRates);
-		float potableWaterPushed = pushResourceToStore(myPotableWaterOutputs, potableWaterOutMaxFlowRates, potableWaterGathered);
-		
-		float dirtyWaterGathered = getMostResourceFromStore(myDirtyWaterInputs, dirtyWaterInMaxFlowRates, dirtyWaterInDesiredFlowRates);
-		float dirtyWaterPushed = pushResourceToStore(myDirtyWaterOutputs, dirtyWaterOutMaxFlowRates, dirtyWaterGathered);
-		
-		float biomassGathered = getMostResourceFromStore(myBiomassInputs, biomassInMaxFlowRates, biomassInDesiredFlowRates);
-		float biomassPushed = pushResourceToStore(myBiomassOutputs, biomassOutMaxFlowRates, biomassGathered);
-		
-		float foodGathered = getMostResourceFromStore(myFoodInputs, foodInMaxFlowRates, foodInDesiredFlowRates);
-		float foodPushed = pushResourceToStore(myFoodOutputs, foodOutMaxFlowRates, foodGathered);
-		
-		float O2Gathered = getMostResourceFromStore(myO2Inputs, O2InMaxFlowRates, O2InDesiredFlowRates);
-		float O2Pushed = pushResourceToStore(myO2Outputs, O2OutMaxFlowRates, O2Gathered);
-		
-		float CO2Gathered = getMostResourceFromStore(myCO2Inputs, CO2InMaxFlowRates, CO2InDesiredFlowRates);
-		float CO2Pushed = pushResourceToStore(myCO2Outputs, CO2OutMaxFlowRates, CO2Gathered);
-		
-		
+		float powerGathered = getMostResourceFromStore(myPowerInputs, powerInMaxFlowRates, powerInDesiredFlowRates, powerInActualFlowRates);
+		float powerPushed = pushResourceToStore(myPowerOutputs, powerOutMaxFlowRates, powerOutDesiredFlowRates, powerOutActualFlowRates, powerGathered);
+
+		float greyWaterGathered = getMostResourceFromStore(myGreyWaterInputs, greyWaterInMaxFlowRates, greyWaterInDesiredFlowRates, greyWaterInActualFlowRates);
+		float greyWaterPushed = pushResourceToStore(myGreyWaterOutputs, greyWaterOutMaxFlowRates, greyWaterOutDesiredFlowRates, greyWaterOutActualFlowRates, greyWaterGathered);
+
+		float potableWaterGathered = getMostResourceFromStore(myPotableWaterInputs, potableWaterInMaxFlowRates, potableWaterInDesiredFlowRates, potableWaterInActualFlowRates);
+		float potableWaterPushed = pushResourceToStore(myPotableWaterOutputs, potableWaterOutMaxFlowRates, potableWaterOutDesiredFlowRates, potableWaterOutActualFlowRates, potableWaterGathered);
+
+		float dirtyWaterGathered = getMostResourceFromStore(myDirtyWaterInputs, dirtyWaterInMaxFlowRates, dirtyWaterInDesiredFlowRates, dirtyWaterInActualFlowRates);
+		float dirtyWaterPushed = pushResourceToStore(myDirtyWaterOutputs, dirtyWaterOutMaxFlowRates, dirtyWaterOutDesiredFlowRates, dirtyWaterOutActualFlowRates, dirtyWaterGathered);
+
+		float biomassGathered = getMostResourceFromStore(myBiomassInputs, biomassInMaxFlowRates, biomassInDesiredFlowRates, biomassInActualFlowRates);
+		float biomassPushed = pushResourceToStore(myBiomassOutputs, biomassOutMaxFlowRates, biomassOutDesiredFlowRates, biomassOutActualFlowRates, biomassGathered);
+
+		float foodGathered = getMostResourceFromStore(myFoodInputs, foodInMaxFlowRates, foodInDesiredFlowRates, foodInActualFlowRates);
+		float foodPushed = pushResourceToStore(myFoodOutputs, foodOutMaxFlowRates, foodOutDesiredFlowRates, foodOutActualFlowRates, foodGathered);
+
+		float O2Gathered = getMostResourceFromStore(myO2Inputs, O2InMaxFlowRates, O2InDesiredFlowRates, O2InActualFlowRates);
+		float O2Pushed = pushResourceToStore(myO2Outputs, O2OutMaxFlowRates, O2OutDesiredFlowRates, O2OutActualFlowRates, O2Gathered);
+
+		float CO2Gathered = getMostResourceFromStore(myCO2Inputs, CO2InMaxFlowRates, CO2InDesiredFlowRates, CO2InActualFlowRates);
+		float CO2Pushed = pushResourceToStore(myCO2Outputs, CO2OutMaxFlowRates, CO2OutDesiredFlowRates, CO2OutActualFlowRates, CO2Gathered);
+
+
 		Breath gatheredAir = new Breath(0,0,0);
-		for (int i = 0; (i < myAirInputs.length) && ((gatheredAir.O2 + gatheredAir.CO2 + gatheredAir.other) < airInMaxFlowRates[i]); i++){
-			Breath currentBreath = myAirInputs[i].takeVolume(airInMaxFlowRates[i] - (gatheredAir.O2 + gatheredAir.CO2 + gatheredAir.other));
+		for (int i = 0; (i < myAirInputs.length); i++){
+			float amountToTake = Math.min(airInMaxFlowRates[i], airInDesiredFlowRates[i]);
+			Breath currentBreath = myAirInputs[i].takeVolume(amountToTake);
 			gatheredAir.O2 += currentBreath.O2;
 			gatheredAir.CO2 += currentBreath.CO2;
 			gatheredAir.other += currentBreath.other;
+			airInActualFlowRates[i] = currentBreath.O2 + currentBreath.CO2 + currentBreath.other;
 		}
-		
+
 		Breath distributedAir = new Breath(gatheredAir.O2, gatheredAir.CO2, gatheredAir.other);
 		for (int i = 0; (i < myAirOutputs.length) && ((distributedAir.O2 + distributedAir.CO2 + distributedAir.other) > 0); i++){
-			distributedAir = myAirInputs[i].addBreath(distributedAir);
+			Breath breathAdded = myAirInputs[i].addBreath(distributedAir);
+			distributedAir.O2 -= breathAdded.O2;
+			distributedAir.CO2 -= breathAdded.CO2;
+			distributedAir.other -= breathAdded.other;
+			airOutActualFlowRates[i] = breathAdded.O2 + breathAdded.CO2 + breathAdded.other;
 		}
-		
+
 		//Get CO2
-		float gatheredCO2Air = getMaxResourceFromStore(myCO2AirStoreInputs, CO2AirStoreInMaxFlowRates);
+		float gatheredCO2Air = getMostResourceFromStore(myCO2AirStoreInputs, CO2AirStoreInMaxFlowRates, CO2AirStoreInDesiredFlowRates, CO2AirStoreInActualFlowRates);
 		for (int i = 0; i < myCO2AirEnvironmentInputs.length; i++){
-			gatheredCO2Air += myCO2AirEnvironmentInputs[i].takeCO2(CO2AirEnvironmentInMaxFlowRates[i]);
+			float amountToTake = Math.min(CO2AirEnvironmentInMaxFlowRates[i], CO2AirEnvironmentInDesiredFlowRates[i]);
+			CO2AirEnvironmentInActualFlowRates[i] = myCO2AirEnvironmentInputs[i].takeCO2(amountToTake);
+			gatheredCO2Air += CO2AirEnvironmentInActualFlowRates[i];
 		}
 		//Push CO2
-		float CO2AirPushed = pushResourceToStore(myCO2AirStoreOutputs, CO2AirStoreOutMaxFlowRates, gatheredCO2Air);
+		float CO2AirPushed = pushResourceToStore(myCO2AirStoreOutputs, CO2AirStoreOutMaxFlowRates, CO2AirStoreOutDesiredFlowRates, CO2AirStoreOutActualFlowRates, gatheredCO2Air);
 		float CO2AirLeft = gatheredCO2Air - CO2AirPushed;
 		for (int i = 0; (i < myCO2AirEnvironmentOutputs.length) && (CO2AirLeft > 0); i++){
-			CO2AirLeft -= myCO2AirEnvironmentOutputs[i].addCO2(CO2AirEnvironmentOutMaxFlowRates[i]);
+			float amountToPush = Math.min(CO2AirEnvironmentOutMaxFlowRates[i], CO2AirEnvironmentOutDesiredFlowRates[i]);
+			CO2AirEnvironmentOutActualFlowRates[i] = myCO2AirEnvironmentOutputs[i].addCO2(amountToPush);
+			CO2AirLeft -= CO2AirEnvironmentOutActualFlowRates[i];
 		}
 		CO2AirPushed = gatheredCO2Air - CO2AirLeft;
-		
+
 		//Get O2
-		float gatheredO2Air = getMaxResourceFromStore(myO2AirStoreInputs, O2AirStoreInMaxFlowRates);
+		float gatheredO2Air = getMostResourceFromStore(myO2AirStoreInputs, O2AirStoreInMaxFlowRates, O2AirStoreInDesiredFlowRates, O2AirStoreInActualFlowRates);
 		for (int i = 0; i < myO2AirEnvironmentInputs.length; i++){
-			gatheredO2Air += myO2AirEnvironmentInputs[i].takeO2(O2AirEnvironmentInMaxFlowRates[i]);
+			float amountToTake = Math.min(O2AirEnvironmentInMaxFlowRates[i], O2AirEnvironmentInDesiredFlowRates[i]);
+			O2AirEnvironmentInActualFlowRates[i] = myO2AirEnvironmentInputs[i].takeO2(amountToTake);
+			gatheredO2Air += O2AirEnvironmentInActualFlowRates[i];
 		}
 		//Push O2
-		float O2AirPushed = pushResourceToStore(myO2AirStoreOutputs, O2AirStoreOutMaxFlowRates, gatheredO2Air);
+		float O2AirPushed = pushResourceToStore(myO2AirStoreOutputs, O2AirStoreOutMaxFlowRates, O2AirStoreOutDesiredFlowRates, O2AirStoreOutActualFlowRates, gatheredO2Air);
 		float O2AirLeft = gatheredO2Air - O2AirPushed;
 		for (int i = 0; (i < myO2AirEnvironmentOutputs.length) && (O2AirLeft > 0); i++){
-			O2AirLeft -= myO2AirEnvironmentOutputs[i].addO2(O2AirEnvironmentOutMaxFlowRates[i]);
+			float amountToPush = Math.min(O2AirEnvironmentOutMaxFlowRates[i], O2AirEnvironmentOutDesiredFlowRates[i]);
+			O2AirEnvironmentOutActualFlowRates[i] = myO2AirEnvironmentOutputs[i].addO2(amountToPush);
+			O2AirLeft -= O2AirEnvironmentOutActualFlowRates[i];
 		}
 		O2AirPushed = gatheredO2Air - O2AirLeft;
 	}
@@ -379,7 +393,7 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		public LogNode inIndex;
 		public LogNode outIndex;
 	}
-	
+
 	//Power Inputs
 	public void setPowerInputMaxFlowRate(float amount, int index){
 		powerInMaxFlowRates[index] = amount;
@@ -409,12 +423,12 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		myPowerInputs = sources;
 		powerInMaxFlowRates = maxFlowRates;
 		powerInDesiredFlowRates = desiredFlowRates;
-		powerInActualFlowRates = new float[powerInDesiredFlowRates.length]; 
+		powerInActualFlowRates = new float[powerInDesiredFlowRates.length];
 	}
 	public PowerStore[] getPowerInputs(){
 		return myPowerInputs;
 	}
-	
+
 	//Power Outputs
 	public void setPowerOutputMaxFlowRate(float amount, int index){
 		powerOutMaxFlowRates[index] = amount;
@@ -444,12 +458,12 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		myPowerOutputs = destinations;
 		powerOutMaxFlowRates = maxFlowRates;
 		powerOutDesiredFlowRates = desiredFlowRates;
-		powerOutActualFlowRates = new float[powerOutDesiredFlowRates.length]; 
+		powerOutActualFlowRates = new float[powerOutDesiredFlowRates.length];
 	}
 	public PowerStore[] getPowerOutputs(){
 		return myPowerOutputs;
 	}
-	
+
 	//Grey Water Inputs
 	public void setGreyWaterInputMaxFlowRate(float amount, int index){
 		greyWaterInMaxFlowRates[index] = amount;
@@ -479,12 +493,12 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		myGreyWaterInputs = sources;
 		greyWaterInMaxFlowRates = maxFlowRates;
 		greyWaterInDesiredFlowRates = desiredFlowRates;
-		greyWaterInActualFlowRates = new float[greyWaterInDesiredFlowRates.length]; 
+		greyWaterInActualFlowRates = new float[greyWaterInDesiredFlowRates.length];
 	}
 	public GreyWaterStore[] getGreyWaterInputs(){
 		return myGreyWaterInputs;
 	}
-	
+
 	//Grey Water Outputs
 	public void setGreyWaterOutputMaxFlowRate(float amount, int index){
 		greyWaterOutMaxFlowRates[index] = amount;
@@ -514,12 +528,12 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		myGreyWaterOutputs = destinations;
 		greyWaterOutMaxFlowRates = maxFlowRates;
 		greyWaterOutDesiredFlowRates = desiredFlowRates;
-		greyWaterOutActualFlowRates = new float[greyWaterOutDesiredFlowRates.length]; 
+		greyWaterOutActualFlowRates = new float[greyWaterOutDesiredFlowRates.length];
 	}
 	public GreyWaterStore[] getGreyWaterOutputs(){
 		return myGreyWaterOutputs;
 	}
-	
+
 	//Dirty Water Inputs
 	public void setDirtyWaterInputMaxFlowRate(float amount, int index){
 		dirtyWaterInMaxFlowRates[index] = amount;
@@ -549,12 +563,12 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		myDirtyWaterInputs = sources;
 		dirtyWaterInMaxFlowRates = maxFlowRates;
 		dirtyWaterInDesiredFlowRates = desiredFlowRates;
-		dirtyWaterInActualFlowRates = new float[dirtyWaterInDesiredFlowRates.length]; 
+		dirtyWaterInActualFlowRates = new float[dirtyWaterInDesiredFlowRates.length];
 	}
 	public DirtyWaterStore[] getDirtyWaterInputs(){
 		return myDirtyWaterInputs;
 	}
-	
+
 	//Dirty Water Outputs
 	public void setDirtyWaterOutputMaxFlowRate(float amount, int index){
 		dirtyWaterOutMaxFlowRates[index] = amount;
@@ -584,12 +598,12 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		myDirtyWaterOutputs = destinations;
 		dirtyWaterOutMaxFlowRates = maxFlowRates;
 		dirtyWaterOutDesiredFlowRates = desiredFlowRates;
-		dirtyWaterOutActualFlowRates = new float[dirtyWaterOutDesiredFlowRates.length]; 
+		dirtyWaterOutActualFlowRates = new float[dirtyWaterOutDesiredFlowRates.length];
 	}
 	public DirtyWaterStore[] getDirtyWaterOutputs(){
 		return myDirtyWaterOutputs;
 	}
-	
+
 	//Potable Water Inputs
 	public void setPotableWaterInputMaxFlowRate(float amount, int index){
 		potableWaterInMaxFlowRates[index] = amount;
@@ -619,12 +633,12 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		myPotableWaterInputs = sources;
 		potableWaterInMaxFlowRates = maxFlowRates;
 		potableWaterInDesiredFlowRates = desiredFlowRates;
-		potableWaterInActualFlowRates = new float[potableWaterInDesiredFlowRates.length]; 
+		potableWaterInActualFlowRates = new float[potableWaterInDesiredFlowRates.length];
 	}
 	public PotableWaterStore[] getPotableWaterInputs(){
 		return myPotableWaterInputs;
 	}
-	
+
 	//Potable Water Outputs
 	public void setPotableWaterOutputMaxFlowRate(float amount, int index){
 		potableWaterOutMaxFlowRates[index] = amount;
@@ -654,12 +668,12 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		myPotableWaterOutputs = destinations;
 		potableWaterOutMaxFlowRates = maxFlowRates;
 		potableWaterOutDesiredFlowRates = desiredFlowRates;
-		potableWaterOutActualFlowRates = new float[potableWaterOutDesiredFlowRates.length]; 
+		potableWaterOutActualFlowRates = new float[potableWaterOutDesiredFlowRates.length];
 	}
 	public PotableWaterStore[] getPotableWaterOutputs(){
 		return myPotableWaterOutputs;
 	}
-	
+
 	//Food Inputs
 	public void setFoodInputMaxFlowRate(float amount, int index){
 		foodInMaxFlowRates[index] = amount;
@@ -689,12 +703,12 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		myFoodInputs = sources;
 		foodInMaxFlowRates = maxFlowRates;
 		foodInDesiredFlowRates = desiredFlowRates;
-		foodInActualFlowRates = new float[foodInDesiredFlowRates.length]; 
+		foodInActualFlowRates = new float[foodInDesiredFlowRates.length];
 	}
 	public FoodStore[] getFoodInputs(){
 		return myFoodInputs;
 	}
-	
+
 	//Food Outputs
 	public void setFoodOutputMaxFlowRate(float amount, int index){
 		foodOutMaxFlowRates[index] = amount;
@@ -724,12 +738,12 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		myFoodOutputs = destinations;
 		foodOutMaxFlowRates = maxFlowRates;
 		foodOutDesiredFlowRates = desiredFlowRates;
-		foodOutActualFlowRates = new float[foodOutDesiredFlowRates.length]; 
+		foodOutActualFlowRates = new float[foodOutDesiredFlowRates.length];
 	}
 	public FoodStore[] getFoodOutputs(){
 		return myFoodOutputs;
 	}
-	
+
 	//Biomass Inputs
 	public void setBiomassInputMaxFlowRate(float amount, int index){
 		biomassInMaxFlowRates[index] = amount;
@@ -759,12 +773,12 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		myBiomassInputs = sources;
 		biomassInMaxFlowRates = maxFlowRates;
 		biomassInDesiredFlowRates = desiredFlowRates;
-		biomassInActualFlowRates = new float[biomassInDesiredFlowRates.length]; 
+		biomassInActualFlowRates = new float[biomassInDesiredFlowRates.length];
 	}
 	public BiomassStore[] getBiomassInputs(){
 		return myBiomassInputs;
 	}
-	
+
 	//Biomass Outputs
 	public void setBiomassOutputMaxFlowRate(float amount, int index){
 		biomassOutMaxFlowRates[index] = amount;
@@ -794,12 +808,12 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		myBiomassOutputs = destinations;
 		biomassOutMaxFlowRates = maxFlowRates;
 		biomassOutDesiredFlowRates = desiredFlowRates;
-		biomassOutActualFlowRates = new float[biomassOutDesiredFlowRates.length]; 
+		biomassOutActualFlowRates = new float[biomassOutDesiredFlowRates.length];
 	}
 	public BiomassStore[] getBiomassOutputs(){
 		return myBiomassOutputs;
 	}
-	
+
 	//Air Inputs
 	public void setAirInputMaxFlowRate(float amount, int index){
 		airInMaxFlowRates[index] = amount;
@@ -829,12 +843,12 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		myAirInputs = sources;
 		airInMaxFlowRates = maxFlowRates;
 		airInDesiredFlowRates = desiredFlowRates;
-		airInActualFlowRates = new float[airInDesiredFlowRates.length]; 
+		airInActualFlowRates = new float[airInDesiredFlowRates.length];
 	}
 	public SimEnvironment[] getAirInputs(){
 		return myAirInputs;
 	}
-	
+
 	//Air Outputs
 	public void setAirOutputMaxFlowRate(float amount, int index){
 		airOutMaxFlowRates[index] = amount;
@@ -864,12 +878,12 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		myAirOutputs = destinations;
 		airOutMaxFlowRates = maxFlowRates;
 		airOutDesiredFlowRates = desiredFlowRates;
-		airOutActualFlowRates = new float[airOutDesiredFlowRates.length]; 
+		airOutActualFlowRates = new float[airOutDesiredFlowRates.length];
 	}
 	public SimEnvironment[] getAirOutputs(){
 		return myAirOutputs;
 	}
-	
+
 	//O2 Inputs
 	public void setO2InputMaxFlowRate(float amount, int index){
 		O2InMaxFlowRates[index] = amount;
@@ -899,12 +913,12 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		myO2Inputs = sources;
 		O2InMaxFlowRates = maxFlowRates;
 		O2InDesiredFlowRates = desiredFlowRates;
-		O2InActualFlowRates = new float[O2InDesiredFlowRates.length]; 
+		O2InActualFlowRates = new float[O2InDesiredFlowRates.length];
 	}
 	public O2Store[] getO2Inputs(){
 		return myO2Inputs;
 	}
-	
+
 	//O2 Outputs
 	public void setO2OutputMaxFlowRate(float amount, int index){
 		O2OutMaxFlowRates[index] = amount;
@@ -934,12 +948,12 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		myO2Outputs = destinations;
 		O2OutMaxFlowRates = maxFlowRates;
 		O2OutDesiredFlowRates = desiredFlowRates;
-		O2OutActualFlowRates = new float[O2OutDesiredFlowRates.length]; 
+		O2OutActualFlowRates = new float[O2OutDesiredFlowRates.length];
 	}
 	public O2Store[] getO2Outputs(){
 		return myO2Outputs;
 	}
-	
+
 	//CO2 Inputs
 	public void setCO2InputMaxFlowRate(float amount, int index){
 		CO2InMaxFlowRates[index] = amount;
@@ -972,9 +986,9 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		myCO2Inputs = sources;
 		CO2InMaxFlowRates = maxFlowRates;
 		CO2InDesiredFlowRates = desiredFlowRates;
-		CO2InActualFlowRates = new float[CO2InDesiredFlowRates.length]; 
+		CO2InActualFlowRates = new float[CO2InDesiredFlowRates.length];
 	}
-	
+
 	//CO2 Outputs
 	public void setCO2OutputMaxFlowRate(float amount, int index){
 		CO2OutMaxFlowRates[index] = amount;
@@ -1004,12 +1018,12 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		myCO2Outputs = destinations;
 		CO2OutMaxFlowRates = maxFlowRates;
 		CO2OutDesiredFlowRates = desiredFlowRates;
-		CO2OutActualFlowRates = new float[CO2OutDesiredFlowRates.length]; 
+		CO2OutActualFlowRates = new float[CO2OutDesiredFlowRates.length];
 	}
 	public CO2Store[] getCO2Outputs(){
 		return myCO2Outputs;
 	}
-	
+
 	//CO2 Air Inputs
 	public void setCO2AirStoreInputMaxFlowRate(float amount, int index){
 		CO2AirStoreInMaxFlowRates[index] = amount;
@@ -1063,13 +1077,13 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		myCO2AirStoreInputs = sources;
 		CO2AirStoreInMaxFlowRates = maxFlowRates;
 		CO2AirStoreInDesiredFlowRates = desiredFlowRates;
-		CO2AirStoreInActualFlowRates = new float[CO2AirStoreInDesiredFlowRates.length]; 
+		CO2AirStoreInActualFlowRates = new float[CO2AirStoreInDesiredFlowRates.length];
 	}
 	public void setCO2AirEnvironmentInputs(SimEnvironment[] sources, float[] maxFlowRates, float[] desiredFlowRates){
 		myCO2AirEnvironmentInputs = sources;
 		CO2AirEnvironmentInMaxFlowRates = maxFlowRates;
 		CO2AirEnvironmentInDesiredFlowRates = desiredFlowRates;
-		CO2AirEnvironmentInActualFlowRates = new float[CO2AirEnvironmentInDesiredFlowRates.length]; 
+		CO2AirEnvironmentInActualFlowRates = new float[CO2AirEnvironmentInDesiredFlowRates.length];
 	}
 	public CO2Store[] getCO2AirStoreInputs(){
 		return myCO2AirStoreInputs;
@@ -1077,7 +1091,7 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 	public SimEnvironment[] getCO2AirEnvironmentInputs(){
 		return myCO2AirEnvironmentInputs;
 	}
-	
+
 	//CO2 Air Outputs
 	public void setCO2AirStoreOutputMaxFlowRate(float amount, int index){
 		CO2AirStoreOutMaxFlowRates[index] = amount;
@@ -1131,13 +1145,13 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		myCO2AirStoreOutputs = destinations;
 		CO2AirStoreOutMaxFlowRates = maxFlowRates;
 		CO2AirStoreOutDesiredFlowRates = desiredFlowRates;
-		CO2AirStoreOutActualFlowRates = new float[CO2AirStoreOutDesiredFlowRates.length]; 
+		CO2AirStoreOutActualFlowRates = new float[CO2AirStoreOutDesiredFlowRates.length];
 	}
 	public void setCO2AirEnvironmentOutputs(SimEnvironment[] destinations, float[] maxFlowRates, float[] desiredFlowRates){
 		myCO2AirEnvironmentOutputs = destinations;
 		CO2AirEnvironmentOutMaxFlowRates = maxFlowRates;
 		CO2AirEnvironmentOutDesiredFlowRates = desiredFlowRates;
-		CO2AirEnvironmentOutActualFlowRates = new float[CO2AirEnvironmentOutDesiredFlowRates.length]; 
+		CO2AirEnvironmentOutActualFlowRates = new float[CO2AirEnvironmentOutDesiredFlowRates.length];
 	}
 	public CO2Store[] getCO2AirStoreOutputs(){
 		return myCO2AirStoreOutputs;
@@ -1145,7 +1159,7 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 	public SimEnvironment[] getCO2AirEnvironmentOutputs(){
 		return myCO2AirEnvironmentOutputs;
 	}
-	
+
 	//O2 Air Input
 	public void setO2AirStoreInputMaxFlowRate(float amount, int index){
 		O2AirStoreInMaxFlowRates[index] = amount;
@@ -1199,13 +1213,13 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		myO2AirStoreInputs = sources;
 		O2AirStoreInMaxFlowRates = maxFlowRates;
 		O2AirStoreInDesiredFlowRates = desiredFlowRates;
-		O2AirStoreInActualFlowRates = new float[O2AirStoreInDesiredFlowRates.length]; 
+		O2AirStoreInActualFlowRates = new float[O2AirStoreInDesiredFlowRates.length];
 	}
 	public void setO2AirEnvironmentInputs(SimEnvironment[] sources, float[] maxFlowRates, float[] desiredFlowRates){
 		myO2AirEnvironmentInputs = sources;
 		O2AirEnvironmentInMaxFlowRates = maxFlowRates;
 		O2AirEnvironmentInDesiredFlowRates = desiredFlowRates;
-		O2AirEnvironmentInActualFlowRates = new float[O2AirEnvironmentInDesiredFlowRates.length]; 
+		O2AirEnvironmentInActualFlowRates = new float[O2AirEnvironmentInDesiredFlowRates.length];
 	}
 	public O2Store[] getO2AirStoreInputs(){
 		return myO2AirStoreInputs;
@@ -1213,7 +1227,7 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 	public SimEnvironment[] getO2AirEnvironmentInputs(){
 		return myO2AirEnvironmentInputs;
 	}
-	
+
 	//O2 Air Output
 	public void setO2AirStoreOutputMaxFlowRate(float amount, int index){
 		O2AirStoreOutMaxFlowRates[index] = amount;
@@ -1267,13 +1281,13 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		myO2AirStoreOutputs = destinations;
 		O2AirStoreOutMaxFlowRates = maxFlowRates;
 		O2AirStoreOutDesiredFlowRates = desiredFlowRates;
-		O2AirStoreOutActualFlowRates = new float[O2AirStoreOutDesiredFlowRates.length]; 
+		O2AirStoreOutActualFlowRates = new float[O2AirStoreOutDesiredFlowRates.length];
 	}
 	public void setO2AirEnvironmentOutputs(SimEnvironment[] destinations, float[] maxFlowRates, float[] desiredFlowRates){
 		myO2AirEnvironmentOutputs = destinations;
 		O2AirEnvironmentOutMaxFlowRates = maxFlowRates;
 		O2AirEnvironmentOutDesiredFlowRates = desiredFlowRates;
-		O2AirEnvironmentOutActualFlowRates = new float[O2AirEnvironmentOutDesiredFlowRates.length]; 
+		O2AirEnvironmentOutActualFlowRates = new float[O2AirEnvironmentOutDesiredFlowRates.length];
 	}
 	public O2Store[] getO2AirStoreOutputs(){
 		return myO2AirStoreOutputs;
@@ -1281,7 +1295,7 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 	public SimEnvironment[] getO2AirEnvironmentOutputs(){
 		return myO2AirEnvironmentOutputs;
 	}
-	
+
 	/**
 	* Returns the name of the module
 	* @return the name of this module

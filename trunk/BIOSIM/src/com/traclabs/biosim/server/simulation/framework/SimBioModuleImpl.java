@@ -25,11 +25,12 @@ public abstract class SimBioModuleImpl extends BioModuleImpl implements SimBioMo
 	* @param pActualFlowRates The actual flow rates from this module to the stores
 	* @return The total amount of resource grabbed from the stores
 	*/
-	public static float getMostResourceFromStore(Store[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates){
+	public static float getMostResourceFromStore(Store[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates, float[] pActualFlowRates){
 		float gatheredResource = 0f;
 		for (int i = 0; i < pStores.length; i++){
 			float amountToTake = Math.min(pMaxFlowRates[i], pDesiredFlowRates[i]);
-			gatheredResource += pStores[i].take(amountToTake);
+			pActualFlowRates[i] = pStores[i].take(amountToTake);
+			gatheredResource += pActualFlowRates[i];
 		}
 		return gatheredResource;
 	}
@@ -41,11 +42,13 @@ public abstract class SimBioModuleImpl extends BioModuleImpl implements SimBioMo
 	* @param amountNeeded The amount to gather from the stores
 	* @return The total amount of resource grabbed from the stores (equal to the amount needed if sucessful)
 	*/
-	public static float getResourceFromStore(Store[] pStores, float[] pMaxFlowRates, float amountNeeded){
+	public static float getResourceFromStore(Store[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates, float[] pActualFlowRates, float amountNeeded){
 		float gatheredResource = 0f;
 		for (int i = 0; (i < pStores.length) && (gatheredResource < amountNeeded); i++){
-			float resourceToGather = Math.min(amountNeeded, pMaxFlowRates[i]); 
-			gatheredResource += pStores[i].take(resourceToGather);
+			float resourceToGatherFirst = Math.min(amountNeeded, pMaxFlowRates[i]);
+			float resourceToGatherFinal = Math.min(resourceToGatherFirst, pDesiredFlowRates[i]);
+			pActualFlowRates[i] = pStores[i].take(resourceToGatherFinal);
+			gatheredResource += pActualFlowRates[i];
 		}
 		return gatheredResource;
 	}
@@ -57,13 +60,15 @@ public abstract class SimBioModuleImpl extends BioModuleImpl implements SimBioMo
 	* @param amountToPush The amount to push to the stores
 	* @return The total amount of resource pushed to the stores (equal to the amount to push if sucessful)
 	*/
-	public static float pushResourceToStore(Store[] pStores, float[] pMaxFlowRates, float amountToPush){
-		float totalResourceDistributed = amountToPush;
-		for (int i = 0; (i < pStores.length) && (totalResourceDistributed > 0); i++){
-			float resourceToDistribute = Math.min(totalResourceDistributed, pMaxFlowRates[i]);
-			totalResourceDistributed -= pStores[i].add(resourceToDistribute);
+	public static float pushResourceToStore(Store[] pStores, float[] pMaxFlowRates, float[] pDesiredFlowRates, float[] pActualFlowRates, float amountToPush){
+		float resourceDistributed = amountToPush;
+		for (int i = 0; (i < pStores.length) && (resourceDistributed > 0); i++){
+			float resourceToDistributeFirst = Math.min(resourceDistributed, pMaxFlowRates[i]);
+			float resourceToDistributeFinal = Math.min(resourceToDistributeFirst, pDesiredFlowRates[i]);
+			pActualFlowRates[i] = pStores[i].add(resourceToDistributeFinal);
+			resourceDistributed -= pActualFlowRates[i];
 		}
-		return (amountToPush - totalResourceDistributed);
+		return (amountToPush - resourceDistributed);
 	}
 
 	/**
