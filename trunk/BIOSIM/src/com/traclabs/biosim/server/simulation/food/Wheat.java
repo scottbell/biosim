@@ -71,7 +71,7 @@ public class Wheat extends Erectophile{
 	}
 
 	public float getFractionOfEdibleBiomass(){
-		if (myAge > 34)
+		if (myAge > getTimeAtCanopySenescence())
 			return 1f;
 		else
 			return 0f;
