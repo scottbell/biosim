@@ -1,0 +1,7 @@
+module crew{
+        interface CrewSensor : framework::GenericSensor{
+                void setInput(in simulation::crew::CrewGroup source);
+		simulation::crew::CrewGroup getInput();
+	}
+	interface CrewActivitySensor : CrewSensor{};
+};
