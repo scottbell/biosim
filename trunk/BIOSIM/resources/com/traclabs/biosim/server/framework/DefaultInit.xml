@@ -437,6 +437,47 @@
 				<input>PowerStore</input>
 			</PowerStoreLevelSensor>
 		</power>
+		<water>
+			<DirtyWaterInFlowRateSensor name="WaterRSDirtyWaterInFlowRateSensor">
+				<input>WaterRS</input>
+			</DirtyWaterInFlowRateSensor>
+			<DirtyWaterOutFlowRateSensor name="CrewGroupDirtyWaterOutFlowRateSensor">
+				<input>CrewGroup</input>
+			</DirtyWaterOutFlowRateSensor>
+			<DirtyWaterOutFlowRateSensor name="BiomassRSDirtyWaterOutFlowRateSensor">
+				<input>BiomassRS</input> 
+			</DirtyWaterOutFlowRateSensor>
+			<DirtyWaterStoreLevelSensor name="DirtyWaterStoreLevelSensor">
+				<input>DirtyWaterStore</input>
+			</DirtyWaterStoreLevelSensor>
+			<GreyWaterInFlowRateSensor name="WaterRSGreyWaterInFlowRateSensor">
+				<input>WaterRS</input>
+			</GreyWaterInFlowRateSensor>
+			<GreyWaterInFlowRateSensor name="BiomassRSGreyWaterInFlowRateSensor">
+				<input>BiomassRS</input>
+			</GreyWaterInFlowRateSensor>
+			<GreyWaterOutFlowRateSensor name="CrewGroupGreyWaterOutFlowRateSensor">
+				<input>CrewGroup</input>
+			</GreyWaterOutFlowRateSensor>
+			<GreyWaterOutFlowRateSensor name="BiomassRSGreyWaterOutFlowRateSensor">
+				<input>BiomassRS</input>
+			</GreyWaterOutFlowRateSensor>
+			<GreyWaterStoreLevelSensor name="GreyWaterStoreLevelSensor">
+				<input>GreyWaterStore</input>
+			</GreyWaterStoreLevelSensor>
+			<PotableWaterInFlowRateSensor name="AirRSPotableWaterInFlowRateSensor">
+				<input>AirRS</input>
+			</PotableWaterInFlowRateSensor>
+			<PotableWaterInFlowRateSensor name="CrewGroupPotableWaterInFlowRateSensor">
+				<input>CrewGroup</input>
+			</PotableWaterInFlowRateSensor>
+			<PotableWaterInFlowRateSensor name="BiomassRSPotableWaterInFlowRateSensor">
+				<input>BiomassRS</input>
+			</PotableWaterInFlowRateSensor>
+			<PotableWaterStoreLevelSensor name="PotableWaterStoreLevelSensor">
+				<input>PotableWaterStore</input>
+			</PotableWaterStoreLevelSensor>
+		</water>
 	</Sensors>
 	<Actuators>
 	</Actuators>
