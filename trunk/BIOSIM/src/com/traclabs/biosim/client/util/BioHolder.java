@@ -36,7 +36,7 @@ public class BioHolder
 	public final static String simEnvironmentName = "SimEnvironment";
 
 	//A hastable containing the server references
-	private static List modules;
+	private static Map modules;
 	private static BioDriver myBioDriver;
 	private static boolean hasCollectedReferences = false;
 	private static int myID = 0;
