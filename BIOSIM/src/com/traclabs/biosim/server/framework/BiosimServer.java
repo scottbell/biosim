@@ -168,7 +168,6 @@ public class BiosimServer extends GenericServer{
 				registerServer(new BiomassInFlowRateSensorPOATie(myBiomassInFlowRateSensorImpl), "FoodProcessor" + myBiomassInFlowRateSensorImpl.getModuleName());
 				registerServer(new FoodOutFlowRateSensorPOATie(myFoodOutFlowRateSensorImpl), "FoodProcessor" + myFoodOutFlowRateSensorImpl.getModuleName());
 			}
-
 			//BiomassRS
 			{
 				PowerInFlowRateSensorImpl myPowerInFlowRateSensorImpl = new PowerInFlowRateSensorImpl(id);
@@ -186,7 +185,6 @@ public class BiosimServer extends GenericServer{
 				registerServer(new PotableWaterInFlowRateSensorPOATie(myPotableWaterInFlowRateSensorImpl), "BiomassRS" + myPotableWaterInFlowRateSensorImpl.getModuleName());
 				registerServer(new GreyWaterInFlowRateSensorPOATie(myGreyWaterInFlowRateSensorImpl), "BiomassRS" + myGreyWaterInFlowRateSensorImpl.getModuleName());
 			}
-
 			//Stores
 			{
 				BiomassStoreLevelSensorImpl myBiomassStoreLevelSensorImpl = new BiomassStoreLevelSensorImpl(id);
@@ -211,7 +209,6 @@ public class BiosimServer extends GenericServer{
 				registerServer(new DirtyWaterInFlowRateSensorPOATie(myDirtyWaterInFlowRateSensorImpl), "WaterRS" + myDirtyWaterInFlowRateSensorImpl.getModuleName());
 				registerServer(new PotableWaterOutFlowRateSensorPOATie(myPotableWaterOutFlowRateSensorImpl), "WaterRS" + myPotableWaterOutFlowRateSensorImpl.getModuleName());
 			}
-
 			//Stores
 			{
 				PotableWaterStoreLevelSensorImpl myPotableWaterStoreLevelSensorImpl = new PotableWaterStoreLevelSensorImpl(id);
@@ -251,7 +248,6 @@ public class BiosimServer extends GenericServer{
 				registerServer(new O2AirStoreOutFlowRateSensorPOATie(myO2AirStoreOutFlowRateSensorImpl), "Accumulator" + myO2AirStoreOutFlowRateSensorImpl.getModuleName());
 				registerServer(new O2AirEnvironmentInFlowRateSensorPOATie(myO2AirEnvironmentInFlowRateSensorImpl), "Accumulator" + myO2AirEnvironmentInFlowRateSensorImpl.getModuleName());
 			}
-
 			//Injector
 			{
 				CO2AirEnvironmentOutFlowRateSensorImpl myCO2AirEnvironmentOutFlowRateSensorImpl = new CO2AirEnvironmentOutFlowRateSensorImpl(id);
