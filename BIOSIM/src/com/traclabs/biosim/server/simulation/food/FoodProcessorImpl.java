@@ -13,7 +13,7 @@ import java.util.*;
  * @author    Scott Bell
  */
 
-public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOperations {
+public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOperations, PowerConsumerOperations{
 	//During any given tick, this much power is needed for the food processor to run at all
 	private float powerNeeded = 100;
 	//During any given tick, this much biomass is needed for the food processor to run optimally
@@ -36,6 +36,7 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	private BiomassStore myBiomassStore;
 	private LogIndex myLogIndex;
 	private float myProductionRate = 1f;
+	private float powerFlowRate = 0f;
 	
 	public FoodProcessorImpl(int pID){
 		super(pID);
@@ -246,6 +247,17 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 			myLogIndex.currentFoodProducedIndex.setValue(""+currentFoodProduced);
 		}
 		sendLog(myLog);
+	}
+	
+	public void setPowerInputFlowrate(float watts){
+		powerFlowRate = watts;
+	}
+	
+	public float getPowerInputFlowrate(){
+		return powerFlowRate;
+	}
+	
+	public void setPowerInput(PowerStore source){
 	}
 
 	/**
