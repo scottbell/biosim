@@ -1,11 +1,19 @@
 package com.traclabs.biosim.server.util;
 
-public interface Engine {
-    public void open();
+import org.apache.log4j.Logger;
 
-    public void put(double[] inputVector);
+public abstract class Engine {
+    protected Logger myLogger;
+    
+    public Engine(){
+        
+    }
+    
+    public abstract void open();
 
-    public double[] get();
+    public abstract void put(double[] inputVector);
 
-    public void close();
+    public abstract double[] get();
+
+    public abstract void close();
 }

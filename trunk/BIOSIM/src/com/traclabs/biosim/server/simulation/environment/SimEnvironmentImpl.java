@@ -665,8 +665,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
      */
     public float addCO2Moles(float molesRequested) {
         if (Float.isNaN(molesRequested)) {
-            System.out.println(getModuleName()
-                    + ": warning, in addCO2Moles, attemped to add "
+            System.out.println("in addCO2Moles, attemped to add "
                     + molesRequested);
             return 0f;
         }
@@ -674,12 +673,6 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
             return 0f;
         float afterAdditionCO2 = 0f;
         float actuallyAddedCO2 = 0f;
-        /*
-         * if ((molesRequested + getTotalMoles()) > volume){ //adding more CO2
-         * than volume afterAddition = randomFilter(CO2Moles + (volume -
-         * getTotalMoles())); //add moles actuallyAdded = afterAddition -
-         * CO2Moles; CO2Moles = afterAddition; } else{
-         */
         afterAdditionCO2 = randomFilter(CO2Moles + molesRequested);
         actuallyAddedCO2 = afterAdditionCO2 - CO2Moles;
         CO2Moles = afterAdditionCO2;
@@ -699,8 +692,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
      */
     public float addO2Moles(float molesRequested) {
         if (Float.isNaN(molesRequested)) {
-            System.out.println(getModuleName()
-                    + ": warning, in addO2Moles, attemped to add "
+            System.out.println("in addO2Moles, attemped to add "
                     + molesRequested);
             return 0f;
         }
@@ -708,12 +700,6 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
             return 0f;
         float afterAdditionO2 = 0f;
         float actuallyAddedO2 = 0f;
-        /*
-         * if ((molesRequested + getTotalMoles()) > volume){ //adding more O2
-         * than volume afterAddition = randomFilter(O2Moles + (volume -
-         * getTotalMoles())); //add moles actuallyAdded = afterAddition -
-         * O2Moles; O2Moles = afterAddition; } else{
-         */
         afterAdditionO2 = randomFilter(O2Moles + molesRequested);
         actuallyAddedO2 = afterAdditionO2 - O2Moles;
         O2Moles = afterAdditionO2;
@@ -733,8 +719,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
      */
     public float addOtherMoles(float molesRequested) {
         if (Float.isNaN(molesRequested)) {
-            System.out.println(getModuleName()
-                    + ": warning, in addOtherMoles, attemped to add "
+            System.out.println("in addOtherMoles, attemped to add "
                     + molesRequested);
             return 0f;
         }
@@ -742,12 +727,6 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
             return 0f;
         float afterAdditionOther = 0f;
         float actuallyAddedOther = 0f;
-        /*
-         * if ((molesRequested + getTotalMoles()) > volume){ //adding more other
-         * than volume afterAddition = randomFilter(otherMoles + (volume -
-         * getTotalMoles())); //add moles actuallyAdded = afterAddition -
-         * otherMoles; otherMoles = afterAddition; } else{
-         */
         afterAdditionOther = randomFilter(otherMoles + molesRequested);
         actuallyAddedOther = afterAdditionOther - otherMoles;
         otherMoles = afterAdditionOther;
@@ -767,8 +746,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
      */
     public float addWaterMoles(float molesRequested) {
         if (Float.isNaN(molesRequested)) {
-            System.out.println(getModuleName()
-                    + ": warning, in addWaterMoles, attemped to add "
+            System.out.println("in addWaterMoles, attemped to add "
                     + molesRequested);
             return 0f;
         }
@@ -776,12 +754,6 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
             return 0f;
         float afterAdditionWater = 0f;
         float actuallyAddedWater = 0f;
-        /*
-         * if ((molesRequested + getTotalMoles()) > volume){ //adding more water
-         * than volume afterAddition = randomFilter(waterMoles + (volume -
-         * getTotalMoles())); //add moles actuallyAdded = afterAddition -
-         * waterMoles; waterMoles = afterAddition; } else{
-         */
         afterAdditionWater = randomFilter(waterMoles + molesRequested);
         actuallyAddedWater = afterAdditionWater - waterMoles;
         waterMoles = afterAdditionWater;
@@ -801,8 +773,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
      */
     public float addNitrogenMoles(float molesRequested) {
         if (Float.isNaN(molesRequested)) {
-            System.out.println(getModuleName()
-                    + ": warning, in addNitrogenMoles, attemped to add "
+            System.out.println("in addNitrogenMoles, attemped to add "
                     + molesRequested);
             return 0f;
         }
@@ -810,12 +781,6 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
             return 0f;
         float afterAdditionNitrogen = 0f;
         float actuallyAddedNitrogen = 0f;
-        /*
-         * if ((molesRequested + getTotalMoles()) > volume){ //adding more
-         * nitrogen than volume afterAddition = randomFilter(nitrogenMoles +
-         * (volume - getTotalMoles())); //add moles actuallyAdded =
-         * afterAddition - nitrogenMoles; nitrogenMoles = afterAddition; } else{
-         */
         afterAdditionNitrogen = randomFilter(nitrogenMoles + molesRequested);
         actuallyAddedNitrogen = afterAdditionNitrogen - nitrogenMoles;
         nitrogenMoles = afterAdditionNitrogen;
@@ -826,8 +791,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
     public float takeCO2Moles(float molesRequested) {
         //idiot check
         if (Float.isNaN(molesRequested)) {
-            System.out.println(getModuleName()
-                    + ": warning, in takeCO2Moles, attemped to remove "
+            System.out.println("in takeCO2Moles, attemped to remove "
                     + molesRequested);
             return 0f;
         }
@@ -852,8 +816,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
     public float takeO2Moles(float molesRequested) {
         //idiot check
         if (Float.isNaN(molesRequested)) {
-            System.out.println(getModuleName()
-                    + ": warning, in takeO2Moles, attemped to remove "
+            System.out.println("in takeO2Moles, attemped to remove "
                     + molesRequested);
             return 0f;
         }
@@ -878,8 +841,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
     public float takeOtherMoles(float molesRequested) {
         //idiot check
         if (Float.isNaN(molesRequested)) {
-            System.out.println(getModuleName()
-                    + ": warning, in takeOtherMoles, attemped to remove "
+           myLogger.warn("in takeOtherMoles, attemped to remove "
                     + molesRequested);
             return 0f;
         }
@@ -904,8 +866,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
     public float takeWaterMoles(float molesRequested) {
         //idiot check
         if (Float.isNaN(molesRequested)) {
-            System.out.println(getModuleName()
-                    + ": warning, in takeWaterMoles, attemped to remove "
+            myLogger.warn("in takeWaterMoles, attemped to remove "
                     + molesRequested);
             return 0f;
         }
@@ -930,8 +891,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
     public float takeNitrogenMoles(float molesRequested) {
         //idiot check
         if (Float.isNaN(molesRequested)) {
-            System.out.println(getModuleName()
-                    + ": warning, in takeNitrogenMoles, attemped to remove "
+            myLogger.warn("in takeNitrogenMoles, attemped to remove "
                     + molesRequested);
             return 0f;
         }
@@ -962,8 +922,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
     public Breath takeAirMoles(float molesRequested) {
         //idiot check
         if (Float.isNaN(molesRequested)) {
-            System.out.println(getModuleName()
-                    + ": warning, in takeAirMoles, attemped to remove "
+            myLogger.warn("in takeAirMoles, attemped to remove "
                     + molesRequested);
             return new Breath(0f, 0f, 0f, 0f, 0f);
         }
@@ -1107,57 +1066,28 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
         cachedWaterPressure = waterPressure;
         cachedNitrogenPressure = nitrogenPressure;
         calculateLightIntensity();
-        //System.out.println(getModuleName() + " ticked");
-        //printCachedEnvironment();
-    }
-
-    public void printCachedEnvironment() {
-        System.out.print("SimEnvironmentImpl (cached): cachedO2Moles\t"
-                + cachedO2Moles + "\t");
-        System.out.print("cachedCO2Moles\t" + cachedCO2Moles + "\t");
-        System.out.print("cachedOtherMoles\t" + cachedOtherMoles + "\t");
-        System.out.print("cachedWaterMoles\t" + cachedWaterMoles + "\t");
-        System.out.println("cachedNitrogenMoles\t" + cachedNitrogenMoles);
-    }
-
-    public void printEnvironment() {
-        System.out.print("SimEnvironmentImpl (instant): O2Moles\t" + O2Moles
-                + "\t");
-        System.out.print("CO2Moles\t" + CO2Moles + "\t");
-        System.out.print("otherMoles\t" + otherMoles + "\t");
-        System.out.print("waterMoles\t" + waterMoles + "\t");
-        System.out.println("nitrogenMoles\t" + nitrogenMoles);
     }
 
     public void log() {
-        /*
-         * LogNode O2MolesHead = myLog.addChild("O2_moles");
-         * myLogIndex.O2MolesIndex = O2MolesHead.addChild(""+O2Moles); LogNode
-         * CO2MolesHead = myLog.addChild("CO2_moles"); myLogIndex.CO2MolesIndex =
-         * CO2MolesHead.addChild(""+CO2Moles); LogNode otherMolesHead =
-         * myLog.addChild("other_moles"); myLogIndex.otherMolesIndex =
-         * otherMolesHead.addChild(""+otherMoles); LogNode waterMolesHead =
-         * myLog.addChild("water_moles"); myLogIndex.waterMolesIndex =
-         * waterMolesHead.addChild(""+waterMoles); LogNode nitrogenMolesHead =
-         * myLog.addChild("nitrogen_moles"); myLogIndex.nitrogenMolesIndex =
-         * nitrogenMolesHead.addChild(""+nitrogenMoles); LogNode O2PressureHead =
-         * myLog.addChild("O2_pressure"); myLogIndex.O2PressureIndex =
-         * O2PressureHead.addChild(""+O2Pressure); LogNode CO2PressureHead =
-         * myLog.addChild("CO2_pressure"); myLogIndex.CO2PressureIndex =
-         * CO2PressureHead.addChild(""+CO2Pressure); LogNode otherPressureHead =
-         * myLog.addChild("other_pressure"); myLogIndex.otherPressureIndex =
-         * otherPressureHead.addChild(""+otherPressure); LogNode
-         * waterPressureHead = myLog.addChild("water_pressure");
-         * myLogIndex.waterPressureIndex =
-         * waterPressureHead.addChild(""+waterPressure); LogNode
-         * nitrogenPressureHead = myLog.addChild("nitrogen_pressure");
-         * myLogIndex.nitrogenPressureIndex =
-         * nitrogenPressureHead.addChild(""+nitrogenPressure); LogNode
-         * volumeHead = myLog.addChild("volume"); myLogIndex.volumeIndex =
-         * volumeHead.addChild(""+volume); LogNode lightIntensityHead =
-         * myLog.addChild("light_intensity"); myLogIndex.lightIntensityIndex =
-         * lightIntensityHead.addChild(""+lightIntensity);
-         */
+        myLogger.debug("cachedO2Moles=" + cachedO2Moles);
+        myLogger.debug("cachedCO2Moles=" + cachedCO2Moles);
+        myLogger.debug("cachedOtherMoles=" + cachedOtherMoles);
+        myLogger.debug("cachedWaterMoles=" + cachedWaterMoles);
+        myLogger.debug("cachedNitrogenMoles=" + cachedNitrogenMoles);
+        
+        myLogger.debug("O2_moles="+O2Moles);
+        myLogger.debug("CO2_moles="+CO2Moles);
+        myLogger.debug("other_moles="+otherMoles);
+        myLogger.debug("water_moles="+waterMoles);
+        myLogger.debug("nitrogen_moles="+nitrogenMoles);
+        myLogger.debug("O2_pressure="+O2Pressure);
+        myLogger.debug("CO2_pressure="+CO2Pressure);
+        myLogger.debug("other_pressure="+otherPressure);
+        myLogger.debug("water_pressure="+waterPressure);
+        myLogger.debug("nitrogen_pressure="+nitrogenPressure);
+        myLogger.debug("volume="+volume);
+        myLogger.debug("light_intensity="+lightIntensity);
+         
     }
 
     private boolean cachedValueNeeded() {

@@ -1,5 +1,7 @@
 package com.traclabs.biosim.server.simulation.water;
 
+import org.apache.log4j.Logger;
+
 /**
  * The abstract class all the water subsystems derive from (the AES, BWP, PPS,
  * and RO).
@@ -40,6 +42,8 @@ public abstract class WaterRSSubSystem {
     boolean enabled = true;
 
     private boolean malfunctioning = false;
+    
+    private Logger myLogger;
 
     /**
      * Constructor that creates the subsystem
@@ -49,6 +53,7 @@ public abstract class WaterRSSubSystem {
      */
     public WaterRSSubSystem(WaterRSImpl pWaterRSImpl) {
         myWaterRS = pWaterRSImpl;
+        myLogger = Logger.getLogger(this.getClass());
     }
 
     /**
@@ -156,29 +161,18 @@ public abstract class WaterRSSubSystem {
             gatherPower();
         else
             currentPowerConsumed = 0f;
+        if (myLogger.isDebugEnabled())
+            log();
     }
 
     public void log() {
-        /*
-         * LogNode enabledHead = myHead.addChild("enabled");
-         * myLogIndex.enabledIndex = enabledHead.addChild(""+enabled); LogNode
-         * powerNeededHead = myHead.addChild("power_needed");
-         * myLogIndex.powerNeededIndex =
-         * powerNeededHead.addChild(""+powerNeeded); LogNode
-         * currentPowerConsumedHead = myHead.addChild("power_consumed");
-         * myLogIndex.currentPowerConsumedIndex =
-         * currentPowerConsumedHead.addChild(""+currentPowerConsumed); LogNode
-         * waterNeededHead = myHead.addChild("water_needed");
-         * myLogIndex.waterNeededIndex =
-         * waterNeededHead.addChild(""+waterNeeded); LogNode hasEnoughPowerHead =
-         * myHead.addChild("has_enough_power"); myLogIndex.hasEnoughPowerIndex =
-         * hasEnoughPowerHead.addChild(""+hasEnoughPower); LogNode
-         * hasEnoughWaterHead = myHead.addChild("has_enough_water");
-         * myLogIndex.hasEnoughWaterIndex =
-         * hasEnoughWaterHead.addChild(""+hasEnoughWater); LogNode
-         * waterLevelHead = myHead.addChild("water_level");
-         * myLogIndex.waterLevelIndex = waterLevelHead.addChild(""+waterLevel);
-         */
+        myLogger.debug("enabled="+enabled);
+        myLogger.debug("power_needed="+powerNeeded);
+        myLogger.debug("power_consumed="+currentPowerConsumed);
+        myLogger.debug("water_needed="+waterNeeded);
+        myLogger.debug("has_enough_power="+hasEnoughPower);
+        myLogger.debug("has_enough_water="+hasEnoughWater);
+        myLogger.debug("water_level="+waterLevel);
     }
 
 }

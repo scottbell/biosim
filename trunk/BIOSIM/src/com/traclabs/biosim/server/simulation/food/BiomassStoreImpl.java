@@ -120,8 +120,7 @@ public class BiomassStoreImpl extends StoreImpl implements
     public float addBioMatter(BioMatter pMatter) {
         if (pMatter.mass <= 0)
             return 0f;
-        //System.out.println(getModuleName()+": pMatter.mass trying to be added
-        // = "+pMatter.mass);
+        myLogger.debug("pMatter.mass trying to be added="+pMatter.mass);
         float acutallyAdded = 0f;
         if ((pMatter.mass + level) > capacity) {
             //adding more than capacity
@@ -135,15 +134,13 @@ public class BiomassStoreImpl extends StoreImpl implements
                             * fractionOfOriginal, pMatter.inedibleWaterContent
                             * fractionOfOriginal, pMatter.type);
             currentBiomassItems.add(newBioMatter);
-            //System.out.println(getModuleName()+": added = "+newBioMatter.mass
-            // +" with level @ "+level);
+            myLogger.debug("added = "+newBioMatter.mass +" with level @ "+level);
             return acutallyAdded;
         } else {
             acutallyAdded = randomFilter(pMatter.mass);
             level += acutallyAdded;
             currentBiomassItems.add(pMatter);
-            //System.out.println(getModuleName()+": added = "+pMatter.mass +"
-            // with level @ "+level);
+            myLogger.debug("added = "+pMatter.mass +"with level @ "+level);
             return acutallyAdded;
         }
     }
@@ -195,37 +192,6 @@ public class BiomassStoreImpl extends StoreImpl implements
         else
             return returnArray;
     }
-
-    //fix
-    /*
-     * public BioMatter takeBioMatterMassAndType(float pMass, PlantType pType){
-     * BioMatter matterToReturn = new BioMatter(0f, 0f, 0f, 0f, pType); List
-     * itemsToRemove = new Vector(); for (Iterator iter =
-     * currentBiomassItems.iterator(); iter.hasNext() && (matterToReturn.mass <=
-     * pMass);){ BioMatter currentBioMatter = (BioMatter)(iter.next()); if
-     * (currentBioMatter.type == pType){ float massStillNeeded = pMass -
-     * matterToReturn.mass; //we need to get more bio matter if
-     * (currentBioMatter.mass < massStillNeeded){ matterToReturn.mass +=
-     * currentBioMatter.mass; itemsToRemove.add(currentBioMatter); } //we have
-     * enough, let's cut up the biomass (if too much) else if
-     * (currentBioMatter.mass >= massStillNeeded){ float partialMassToReturn =
-     * massStillNeeded; currentBioMatter.mass -= partialMassToReturn;
-     * matterToReturn.mass += partialMassToReturn; if (currentBioMatter.mass <=
-     * 0) itemsToRemove.add(currentBioMatter); } } } //Remove items from List
-     * for (Iterator iter = itemsToRemove.iterator(); iter.hasNext();){
-     * currentBiomassItems.remove(iter.next()); } level -= matterToReturn.mass;
-     * return matterToReturn; }
-     * 
-     * //fix public BioMatter takeBioMatterType(PlantType pType){ BioMatter
-     * matterToReturn = new BioMatter(0f, pType); List itemsToRemove = new
-     * Vector(); for (Iterator iter = currentBiomassItems.iterator();
-     * iter.hasNext();){ BioMatter currentBioMatter = (BioMatter)(iter.next());
-     * if (currentBioMatter.type == pType){ matterToReturn.mass +=
-     * currentBioMatter.mass; itemsToRemove.add(currentBioMatter); } } //Remove
-     * items from List for (Iterator iter = itemsToRemove.iterator();
-     * iter.hasNext();){ currentBiomassItems.remove(iter.next()); } level -=
-     * matterToReturn.mass; return matterToReturn; }
-     */
 
     public void reset() {
         super.reset();

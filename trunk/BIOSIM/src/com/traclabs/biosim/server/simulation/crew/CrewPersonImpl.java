@@ -3,6 +3,8 @@ package com.traclabs.biosim.server.simulation.crew;
 import java.text.DecimalFormat;
 import java.util.Random;
 
+import org.apache.log4j.Logger;
+
 import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.framework.BioModuleHelper;
 import com.traclabs.biosim.idl.simulation.crew.Activity;
@@ -65,7 +67,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
     private float foodMassConsumed = 0f;
 
     //How much potable water this crew member consumed in the current tick
-    private float cleanWaterConsumed = 0f;
+    private float potableWaterConsumed = 0f;
 
     //How much dirty water this crew member produced in the current tick
     private float dirtyWaterProduced = 0f;
@@ -162,6 +164,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
     private static final float AWAKE_TILL_EXHAUSTION = 120f;
 
     private static final float SLEEP_RECOVERY_RATE = 12f;
+    
+    private Logger myLogger;
 
     /**
      * Constructor that creates a new crew person
@@ -184,6 +188,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
     CrewPersonImpl(String pName, float pAge, float pWeight, Sex pSex,
             int pArrivalTick, int pDepartureTick, CrewGroupImpl pCrewGroup,
             Schedule pSchedule) {
+        myLogger = Logger.getLogger(this.getClass());
         myName = pName;
         age = pAge;
         weight = pWeight;
@@ -235,7 +240,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
         CO2Produced = 0f;
         caloriesConsumed = 0f;
         foodMassConsumed = 0f;
-        cleanWaterConsumed = 0f;
+        potableWaterConsumed = 0f;
         dirtyWaterProduced = 0f;
         dryWasteProduced = 0f;
         greyWaterProduced = 0f;
@@ -320,7 +325,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
      *         the current tick
      */
     public float getPotableWaterConsumed() {
-        return cleanWaterConsumed;
+        return potableWaterConsumed;
     }
 
     /**
@@ -598,7 +603,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
                             moduleName));
             moduleToRepair.repair(id);
         } catch (org.omg.CORBA.UserException e) {
-            System.err.println("CrewPersonImp:" + myCrewGroup.getID()
+            myLogger.warn("CrewPersonImp:" + myCrewGroup.getID()
                     + ": Couldn't locate " + moduleName
                     + " to repair, skipping...");
         }
@@ -615,7 +620,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
                             moduleName));
             module.maitenance();
         } catch (org.omg.CORBA.UserException e) {
-            System.err.println("CrewPersonImp:" + myCrewGroup.getID()
+            myLogger.warn("CrewPersonImp:" + myCrewGroup.getID()
                     + ": Couldn't locate " + moduleName
                     + " to repair, skipping...");
         }
@@ -660,6 +665,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
                 recoverCrew();
             }
         }
+        if (myLogger.isDebugEnabled())
+            log();
     }
 
     /**
@@ -885,8 +892,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
             starving = true;
         else
             starving = false;
-        consumedWaterBuffer.take(potableWaterNeeded - cleanWaterConsumed);
-        if (potableWaterNeeded - cleanWaterConsumed > 0)
+        consumedWaterBuffer.take(potableWaterNeeded - potableWaterConsumed);
+        if (potableWaterNeeded - potableWaterConsumed > 0)
             thirsty = true;
         else
             thirsty = false;
@@ -938,45 +945,17 @@ public class CrewPersonImpl extends CrewPersonPOA {
                 .getCapacity() - sleepBuffer.getLevel())
                 / sleepBuffer.getCapacity());
 
-        //System.out.println(getName());
-        //System.out.println("\tcalorie taken="+(caloriesNeeded -
-        // caloriesConsumed)+", recovered "+CALORIE_RECOVERY_RATE *
-        // consumedCaloriesBuffer.getCapacity()+" calorie risk
-        // level="+(consumedCaloriesBuffer.getCapacity() -
-        // consumedCaloriesBuffer.getLevel()) /
-        // consumedCaloriesBuffer.getCapacity()+"
-        // (level="+consumedCaloriesBuffer.getLevel()+",
-        // capacity="+consumedCaloriesBuffer.getCapacity()+")");
-        //System.out.println("\twater taken="+(potableWaterNeeded -
-        // cleanWaterConsumed)+", recovered "+WATER_RECOVERY_RATE *
-        // consumedWaterBuffer.getCapacity()+" thirst risk
-        // level="+(consumedWaterBuffer.getCapacity() -
-        // consumedWaterBuffer.getLevel()) / consumedWaterBuffer.getCapacity()+"
-        // (level="+consumedWaterBuffer.getLevel()+",
-        // capacity="+consumedWaterBuffer.getCapacity()+")");
-        //System.out.println("\toxygen taken="+(O2Needed - O2Consumed)+",
-        // recovered "+OXYGEN_RECOVERY_RATE *
-        // consumedOxygenBuffer.getCapacity()+" O2 risk
-        // level="+(consumedOxygenBuffer.getCapacity() -
-        // consumedOxygenBuffer.getLevel()) /
-        // consumedOxygenBuffer.getCapacity()+"
-        // (level="+consumedOxygenBuffer.getLevel()+",
-        // capacity="+consumedOxygenBuffer.getCapacity()+")");
-        //System.out.println("\tCO2 taken="+(getCO2Ratio() -
-        // DANGEROUS_CO2_RATION)+", recovered "+CO2_RECOVERY_RATE *
-        // consumedCO2Buffer.getCapacity()+" CO2 risk
-        // level="+(consumedCO2Buffer.getCapacity() -
-        // consumedCO2Buffer.getLevel()) / consumedCO2Buffer.getCapacity()+"
-        // (level="+consumedCO2Buffer.getLevel()+",
-        // capacity="+consumedCO2Buffer.getCapacity()+")");
-        //System.out.println("\tsleep (level="+sleepBuffer.getLevel()+",
-        // capacity="+sleepBuffer.getCapacity()+")");
-        //System.out.println("\tCO2 ration ="+getCO2Ratio()+",
-        // DANGEROUS_CO2_RATION="+DANGEROUS_CO2_RATION);
+        myLogger.debug(getName());
+        myLogger.debug("\tcalorie taken="+(caloriesNeeded - caloriesConsumed)+", recovered "+CALORIE_RECOVERY_RATE * consumedCaloriesBuffer.getCapacity()+" calorie risk level="+(consumedCaloriesBuffer.getCapacity() - consumedCaloriesBuffer.getLevel()) / consumedCaloriesBuffer.getCapacity()+" (level="+consumedCaloriesBuffer.getLevel()+", capacity="+consumedCaloriesBuffer.getCapacity()+")");
+		myLogger.debug("\twater taken="+(potableWaterNeeded - potableWaterConsumed)+", recovered "+WATER_RECOVERY_RATE * consumedWaterBuffer.getCapacity()+" thirst risk level="+(consumedWaterBuffer.getCapacity() - consumedWaterBuffer.getLevel()) / consumedWaterBuffer.getCapacity()+" (level="+consumedWaterBuffer.getLevel()+", capacity="+consumedWaterBuffer.getCapacity()+")");
+		myLogger.debug("\toxygen taken="+(O2Needed - O2Consumed)+", recovered "+O2_RECOVERY_RATE * consumedOxygenBuffer.getCapacity()+" O2 risk level="+(consumedOxygenBuffer.getCapacity() - consumedOxygenBuffer.getLevel()) / consumedOxygenBuffer.getCapacity()+" (level="+consumedOxygenBuffer.getLevel()+", capacity="+consumedOxygenBuffer.getCapacity()+")");
+		myLogger.debug("\tCO2 taken="+(getCO2Ratio() - CO2_RATIO_HIGH)+", recovered "+CO2_RECOVERY_RATE * consumedCO2Buffer.getCapacity()+" CO2 risk level="+(consumedCO2Buffer.getCapacity() - consumedCO2Buffer.getLevel()) / consumedCO2Buffer.getCapacity()+" (level="+consumedCO2Buffer.getLevel()+", capacity="+consumedCO2Buffer.getCapacity()+")");
+		myLogger.debug("\tsleep (level="+sleepBuffer.getLevel()+", capacity="+sleepBuffer.getCapacity()+")");
+		myLogger.debug("\tCO2 ration ="+getCO2Ratio()+", DANGEROUS_CO2_RATION="+CO2_RATIO_HIGH);
 
         if (sleepRiskReturn > (randomNumber + 0.05f)) {
             sicken();
-            System.out.println(getName()
+            myLogger.info(getName()
                     + " has fallen ill from exhaustion (risk was "
                     + numFormat.format(sleepRiskReturn * 100) + "%) @ tick "
                     + myCrewGroup.getMyTicks());
@@ -984,20 +963,20 @@ public class CrewPersonImpl extends CrewPersonPOA {
 
         if (calorieRiskReturn > randomNumber) {
             hasDied = true;
-            System.out.println(getName()
+            myLogger.info(getName()
                     + " has died from starvation (risk was "
                     + numFormat.format(calorieRiskReturn * 100) + "%)");
         } else if (waterRiskReturn > randomNumber) {
             hasDied = true;
-            System.out.println(getName() + " has died from thirst (risk was "
+            myLogger.info(getName() + " has died from thirst (risk was "
                     + numFormat.format(waterRiskReturn * 100) + "%)");
         } else if (oxygenRiskReturn > randomNumber) {
             hasDied = true;
             SimEnvironment[] myAirInputs = myCrewGroup.getAirInputs();
-            System.out.println(getName()
+            myLogger.info(getName()
                     + " has died from lack of oxygen (risk was "
                     + numFormat.format(oxygenRiskReturn * 100) + "%)");
-            System.out.println(getName()
+            myLogger.info(getName()
                     + " Environmental conditions were: 02="
                     + myAirInputs[0].getO2Moles() + ", CO2="
                     + myAirInputs[0].getCO2Moles() + ", N="
@@ -1007,10 +986,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
         } else if (CO2RiskReturn > randomNumber) {
             hasDied = true;
             SimEnvironment[] myAirInputs = myCrewGroup.getAirInputs();
-            System.out.println(getName()
+            myLogger.info(getName()
                     + " has died from CO2 poisoning (risk was "
                     + numFormat.format(CO2RiskReturn * 100) + "%)");
-            System.out.println(getName()
+            myLogger.info(getName()
                     + " Environmental conditions were: 02="
                     + myAirInputs[0].getO2Moles() + ", CO2="
                     + myAirInputs[0].getCO2Moles() + ", N="
@@ -1023,7 +1002,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
             O2Consumed = 0f;
             CO2Produced = 0f;
             caloriesConsumed = 0f;
-            cleanWaterConsumed = 0f;
+            potableWaterConsumed = 0f;
             dirtyWaterProduced = 0f;
             greyWaterProduced = 0f;
             caloriesConsumed = 0f;
@@ -1080,7 +1059,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
         vaporProduced = calculateVaporProduced(potableWaterNeeded);
         //adjust tanks
         eatFood(caloriesNeeded);
-        cleanWaterConsumed = myCrewGroup.getFractionalResourceFromStore(
+        potableWaterConsumed = myCrewGroup.getFractionalResourceFromStore(
                 myCrewGroup.getPotableWaterInputs(), myCrewGroup
                         .getPotableWaterInputMaxFlowRates(), myCrewGroup
                         .getPotableWaterInputDesiredFlowRates(), myCrewGroup
@@ -1120,48 +1099,28 @@ public class CrewPersonImpl extends CrewPersonPOA {
             myAirOutputs[0].addWaterMoles(vaporProduced);
         }
     }
-    /*
-     * LogNode nameHead = myLogHead.addChild("name"); myLogIndex.nameIndex =
-     * nameHead.addChild(""+myName); LogNode currentActivityHead =
-     * myLogHead.addChild("current_activity"); myLogIndex.currentActivityIndex =
-     * currentActivityHead.addChild(""+myCurrentActivity.getName()); LogNode
-     * currentActivityOrderHead = myLogHead.addChild("current_activity_order");
-     * myLogIndex.currentActivityOrderIndex =
-     * currentActivityOrderHead.addChild(""+currentOrder); LogNode
-     * timeActivityPerformedHead = myLogHead.addChild("duration_of_activity");
-     * myLogIndex.timeActivityPerformedIndex =
-     * timeActivityPerformedHead.addChild(""+timeActivityPerformed); LogNode
-     * hasDiedHead = myLogHead.addChild("has_died"); myLogIndex.hasDiedIndex =
-     * hasDiedHead.addChild(""+hasDied); LogNode ageHead =
-     * myLogHead.addChild("age"); myLogIndex.ageIndex =
-     * ageHead.addChild(""+age); LogNode weightHead =
-     * myLogHead.addChild("weight"); myLogIndex.weightIndex =
-     * weightHead.addChild(""+weight); LogNode sexHead =
-     * myLogHead.addChild("sex"); if (sex == Sex.male) myLogIndex.sexIndex =
-     * sexHead.addChild("male"); else if (sex == Sex.female) myLogIndex.sexIndex =
-     * sexHead.addChild("female"); LogNode O2ConsumedHead =
-     * myLogHead.addChild("O2_consumed"); myLogIndex.O2ConsumedIndex =
-     * O2ConsumedHead.addChild(""+O2Consumed); LogNode CO2ProducedHead =
-     * myLogHead.addChild("CO2_produced"); myLogIndex.CO2ProducedIndex =
-     * CO2ProducedHead.addChild(""+CO2Produced); LogNode caloriesConsumedHead =
-     * myLogHead.addChild("food_consumed"); myLogIndex.caloriesConsumedIndex =
-     * caloriesConsumedHead.addChild(""+caloriesConsumed); LogNode
-     * cleanWaterConsumedHead = myLogHead.addChild("potable_water_consumed");
-     * myLogIndex.cleanWaterConsumedIndex =
-     * cleanWaterConsumedHead.addChild(""+cleanWaterConsumed); LogNode
-     * dirtyWaterProducedHead = myLogHead.addChild("dirty_water_produced");
-     * myLogIndex.dirtyWaterProducedIndex =
-     * dirtyWaterProducedHead.addChild(""+dirtyWaterProduced); LogNode
-     * greyWaterProducedHead = myLogHead.addChild("grey_water_produced");
-     * myLogIndex.greyWaterProducedIndex =
-     * greyWaterProducedHead.addChild(""+greyWaterProduced); LogNode
-     * O2NeededHead = myLogHead.addChild("O2_needed"); myLogIndex.O2NeededIndex =
-     * O2NeededHead.addChild(""+O2Needed); LogNode potableWaterNeededHead =
-     * myLogHead.addChild("potable_water_needed");
-     * myLogIndex.potableWaterNeededIndex =
-     * potableWaterNeededHead.addChild(""+potableWaterNeeded); LogNode
-     * caloriesNeededHead = myLogHead.addChild("food_needed");
-     * myLogIndex.caloriesNeededIndex =
-     * caloriesNeededHead.addChild(""+caloriesNeeded);
-     */
+    
+    public void log(){
+        myLogger.debug("name="+myName);
+        myLogger.debug("current_activity="+myCurrentActivity.getName());
+        myLogger.debug("current_activity_order="+currentOrder);
+        myLogger.debug("duration_of_activity="+timeActivityPerformed);
+        myLogger.debug("has_died="+hasDied);
+        myLogger.debug("age="+age);
+        myLogger.debug("weight"+weight);
+		if (sex == Sex.male)
+			myLogger.debug("sex=male");
+		else if (sex == Sex.female)
+			myLogger.debug("sex=female");
+        myLogger.debug("O2_consumed="+O2Consumed);
+        myLogger.debug("CO2_produced="+CO2Produced);
+        myLogger.debug("calories_consumed="+caloriesConsumed);
+        myLogger.debug("potable_water_consumed="+potableWaterConsumed);
+        myLogger.debug("dirty_water_produced="+dirtyWaterProduced);
+        myLogger.debug("grey_water_produced="+greyWaterProduced);
+        myLogger.debug("O2_needed="+O2Needed);
+        myLogger.debug("potable_water_needed="+potableWaterNeeded);
+        myLogger.debug("calories_needed="+caloriesNeeded);
+    }
+    
 }

@@ -376,13 +376,6 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
         return areTheyDead;
     }
 
-    public void log() {
-        /*
-         * LogNode newPersonLabel = myLog.addChild("crew_person");
-         * currentPerson.log(newPersonLabel);
-         */
-    }
-
     public int getCrewSize() {
         return crewPeople.size();
     }
