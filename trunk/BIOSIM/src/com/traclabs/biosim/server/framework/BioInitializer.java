@@ -201,9 +201,9 @@ public class BioInitializer{
 				myDriver.setRunTillDead(node.getAttributes().getNamedItem("runTillDead").getNodeValue().equals("true"));
 				myDriver.setFullLogging(node.getAttributes().getNamedItem("isFullLoggingEnabled").getNodeValue().equals("true"));
 				myDriver.setLogLastTick(node.getAttributes().getNamedItem("logLastTick").getNodeValue().equals("true"));
-				myDriver.setFullLogging(node.getAttributes().getNamedItem("isFullLoggingEnabled").getNodeValue().equals("true"));
 				myDriver.setSensorLogging(node.getAttributes().getNamedItem("isSensorLoggingEnabled").getNodeValue().equals("true"));
 				myDriver.setActuatorLogging(node.getAttributes().getNamedItem("isActuatorLoggingEnabled").getNodeValue().equals("true"));
+				myDriver.setFullLogging(node.getAttributes().getNamedItem("isFullLoggingEnabled").getNodeValue().equals("true"));
 				int stutterLength = Integer.parseInt(node.getAttributes().getNamedItem("driverStutterLength").getNodeValue());
 				if (stutterLength >= 0)
 					myDriver.setDriverStutterLength(stutterLength);
@@ -223,7 +223,7 @@ public class BioInitializer{
 				if (logHandlerString.equals("XML"))
 					myLogger.addLogHandlerType(LogHandlerType.XML);
 				else if (logHandlerString.equals("STANDARD_OUT"))
-					myLogger.addLogHandlerType(LogHandlerType.SCREEN);
+					myLogger.addLogHandlerType(LogHandler.SCREEN);
 			}
 			catch (Exception e){
 				e.printStackTrace();
