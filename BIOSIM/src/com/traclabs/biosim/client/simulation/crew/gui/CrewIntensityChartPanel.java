@@ -25,8 +25,7 @@ public class CrewIntensityChartPanel extends GraphPanel
 
 	protected void buildGui(){
 		myCrewGroup = (CrewGroup)(BioHolder.getBioModule(BioHolder.crewName));
-		myCrewPeople = myCrewGroup.getCrewPeople();
-		if (myCrewGroup.getCrewPeople().length == 0){
+		if (myCrewGroup.getCrewSize() == 0){
 			setLayout(new BorderLayout());
 			JPanel noCrewPanel = new JPanel();
 			noCrewPanel.setLayout(new BorderLayout());
@@ -50,6 +49,7 @@ public class CrewIntensityChartPanel extends GraphPanel
 
 	protected void createGraph(){
 		// create the chart...
+		myCrewPeople = myCrewGroup.getCrewPeople();
 		double[][] data = new double[myCrewPeople.length][1];
 		String[] theSeries = new String [myCrewPeople.length];
 		for (int i = 0; i < myCrewPeople.length; i ++){
@@ -82,13 +82,12 @@ public class CrewIntensityChartPanel extends GraphPanel
 
 	public void refresh() {
 		if (myChartPanel == null){
-			myCrewPeople = myCrewGroup.getCrewPeople();
-			if (myCrewPeople.length > 0){
+			int numberOfCrew = myCrewGroup.getCrewSize();
+			if (numberOfCrew > 0){
 				buildRealGui();
 			}
 		}
 		else{
-			myCrewPeople = myCrewGroup.getCrewPeople();
 			for (int i = 0; i < myCrewPeople.length; i ++){
 				myDataset.setValue(i, "", new Float(myCrewPeople[i].getCurrentActivity().getActivityIntensity()));
 			}
