@@ -328,6 +328,9 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	*/
 	public void tick(){
 		super.tick();
+		massConsumed = 0f;
+		currentFoodProduced = 0f;
+		currentPowerConsumed = 0f;
 		consumeResources();
 		createFood();
 	}
