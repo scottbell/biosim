@@ -103,11 +103,13 @@ public class SimDesktop extends BioFrame
 	private int openFrameCount = 0;
 	//Integers dictating how much the windows should be staggered.
 	private int xOffset = 30, yOffset = 30;
+	private int myID = 0;
 
 	/**
 	* Creates a BioSimulator, a panel hashtable, and creates the GUI
 	*/
-	public SimDesktop(){
+	public SimDesktop(int pID){
+		BioHolder.setID(myID);
 		myDriver = BioHolder.getBioDriver();
 		myFrames = new Hashtable();
 		buildGUI();
