@@ -143,7 +143,7 @@ public class SimEnvironmentImpl extends SimEnvironmentPOA {
 			O2Level -= takenO2;
 			CO2Level -= takenCO2;
 			otherLevel -= takenOther;
-			System.out.println(getModuleName()+": breath is O2("+takenO2+") CO2("+takenCO2+") other("+takenOther+")");
+			//System.out.println(getModuleName()+": breath is O2("+takenO2+") CO2("+takenCO2+") other("+takenOther+")");
 			return new Breath(takenO2, takenCO2, takenOther);
 		}
 	}
@@ -176,7 +176,6 @@ public class SimEnvironmentImpl extends SimEnvironmentPOA {
 
 	public void tick(){
 		ticks++;
-		System.out.println("---------------------------------------------------------------------------");
 		System.out.println("-----------------"+getModuleName() + ": advanced to timestep @ "+ticks+" -----------------");
 	}
 
