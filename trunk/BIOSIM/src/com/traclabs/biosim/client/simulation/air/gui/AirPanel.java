@@ -14,6 +14,6 @@ public class AirPanel extends BioTabbedPanel
 	protected void createPanels(){
 		myTextPanel = new AirTextPanel();
 		myChartPanel = new AirChartPanel();
-		mySchematicPanel = new BioTabPanel();
+		mySchematicPanel = new AirSchematicPanel();
 	}
 }
