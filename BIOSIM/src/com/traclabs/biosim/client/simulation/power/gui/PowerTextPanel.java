@@ -1,6 +1,7 @@
  package biosim.client.power.gui;
 
 import biosim.client.framework.*;
+import biosim.client.framework.gui.*;
 import biosim.idl.power.*;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -14,7 +15,7 @@ import java.text.*;
  * @author    Scott Bell
  */
 
-public class PowerTextPanel extends JPanel implements BioSimulatorListener
+public class PowerTextPanel extends BioTabPanel
 {
 	//Various GUI componenets
 	private JPanel powerPSPanel;
@@ -38,7 +39,6 @@ public class PowerTextPanel extends JPanel implements BioSimulatorListener
 		myPowerPS = (PowerPS)(myBioSimulator.getBioModule(BioSimulator.powerPSName));
 		myPowerStore = (PowerStore)(myBioSimulator.getBioModule(BioSimulator.powerStoreName));
 		buildGui();
-		myBioSimulator.registerListener(this);
 	}
 	
 	/**
