@@ -81,7 +81,9 @@ public class OrbUtils{
 			myRootPOA = POAHelper.narrow(myOrb.resolve_initial_references("RootPOA"));
 			myRootPOA.the_POAManager().activate();
 			NamingContextExt myRootContext = NamingContextExtHelper.narrow(myOrb.resolve_initial_references("NameService"));
-			myBiosimNamingContext = NamingContextExtHelper.narrow(myRootContext.resolve_str("biosim"));
+			NamingContextExt myComContext = NamingContextExtHelper.narrow(myRootContext.resolve_str("com"));
+			NamingContextExt myTraclabsContext = NamingContextExtHelper.narrow(myComContext.resolve_str("traclabs"));
+			myBiosimNamingContext = NamingContextExtHelper.narrow(myTraclabsContext.resolve_str("biosim"));
 			initializeOrbRunOnce = true;
 		}
 		catch (Exception e){
