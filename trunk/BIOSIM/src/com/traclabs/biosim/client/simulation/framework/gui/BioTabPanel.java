@@ -11,6 +11,12 @@ public class BioTabPanel extends JPanel
 	/**
 	 * Updates every label on the panel with new data pulled from the servers.
 	 */
-	public void processTick(){
+	public void processUpdate(){
+	}
+	
+	public void lostFocus(){
+	}
+	
+	public void gotFocus(){
 	}
 }

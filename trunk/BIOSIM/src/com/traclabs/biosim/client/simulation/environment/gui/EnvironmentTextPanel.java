@@ -86,7 +86,7 @@ public class EnvironmentTextPanel extends BioTabPanel
 	/**
 	 * Updates every label on the panel with new data pulled from the servers.
 	 */
-	public void processTick(){
+	public void processUpdate(){
 		long ticksExpired = mySimEnvironment.getTicks();
 		tickLabel.setText(ticksExpired + " hours ("+(ticksExpired/24)+" days)");
 		O2Label.setText("O2:     "+numFormat.format(mySimEnvironment.getO2Level()) +" L");
