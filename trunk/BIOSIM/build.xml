@@ -94,6 +94,7 @@
 				<pathelement location="${src}"/>
 				<pathelement location="${buildDir}"/>
 				<pathelement location="${jacorbDir}/jacorb.jar"/>
+				<pathelement location="${log4jDir}/log4j.jar"/>
 				<pathelement location="${xercesDir}/xercesImpl.jar"/>
 				<pathelement location="${xercesDir}/xml-apis.jar"/>
 				<pathelement location="${xercesDir}/xmlParserAPIs.jar"/>
@@ -181,7 +182,7 @@
 			<classpath>
 				<pathelement location="${buildDir}"/>
 				<pathelement location="${resourceDir}"/>
-				<pathelement location="${jacorbDir}/log4j.jar"/>
+				<pathelement location="${log4jDir}/log4j.jar"/>
 				<pathelement location="${jacorbDir}/jacorb.jar"/>
 				<pathelement location="${jacorbDir}/logkit.jar"/>
 				<pathelement location="${jacorbDir}/avalon-framework.jar"/>
@@ -293,6 +294,7 @@
 			<classpath>
 				<pathelement location="${buildDir}"/>
 				<pathelement location="${resourceDir}"/>
+				<pathelement location="${log4jDir}/log4j.jar"/>
 				<pathelement location="${jacorbDir}/jacorb.jar"/>
 				<pathelement location="${jacorbDir}/logkit.jar"/>
 				<pathelement location="${xercesDir}/xercesImpl.jar"/>
