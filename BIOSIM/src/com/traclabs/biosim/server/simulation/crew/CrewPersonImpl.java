@@ -204,16 +204,16 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	}
 
 	/**
-	* Returns the CO2 produced (in liters) by this crew member during the current tick
-	* @return the CO2 produced (in liters)  by this crew member during the current tick
+	* Returns the CO2 produced (in moles) by this crew member during the current tick
+	* @return the CO2 produced (in moles)  by this crew member during the current tick
 	*/
 	public float getCO2Produced(){
 		return CO2Produced;
 	}
 
 	/**
-	* Returns the O2 consumed (in liters) by this crew member during the current tick
-	* @return the O2 consumed (in liters) by this crew member during the current tick
+	* Returns the O2 consumed (in moles) by this crew member during the current tick
+	* @return the O2 consumed (in moles) by this crew member during the current tick
 	*/
 	public float getO2Consumed(){
 		return O2Consumed;

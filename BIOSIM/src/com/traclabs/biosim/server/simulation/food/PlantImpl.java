@@ -121,11 +121,17 @@ public abstract class PlantImpl extends PlantPOA{
 	private float calculateVaporPressureDeficit(){
 		float saturatedMoistureVaporPressure = calculateSaturatedMoistureVaporPressure();
 		float actualMoistureVaporPressure = calculateActualMoistureVaporPressure();
-		return saturatedMoistureVaporPressure - calculateActualMoistureVaporPressure();
+		System.out.println("PlantImpl: saturatedMoistureVaporPressure: "+saturatedMoistureVaporPressure);
+		System.out.println("PlantImpl: actualMoistureVaporPressure: "+actualMoistureVaporPressure);
+		float vaporPressureDeficit = saturatedMoistureVaporPressure - calculateActualMoistureVaporPressure();
+		if (vaporPressureDeficit < 0)
+			return 0f;
+		else
+			return vaporPressureDeficit;
 	}
 	
 	private float calculateSaturatedMoistureVaporPressure(){
-		float temperatureLight = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0].getTemperature();
+		float temperatureLight = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0].getTemperature() + 239f;
 		float exponent = (17.4f * temperatureLight) / (temperatureLight + 239f);
 		return 0.611f * exp(exponent);
 	}

@@ -64,9 +64,9 @@ public class AirTextPanel extends TimedPanel
 		airRSVCCRStatusLabel =             new JLabel("VCCR status:    "+coallateVCCRStatus());
 		airRSCRSStatusLabel =              new JLabel("CRS status:     "+coallateCRSStatus());
 		airRSOGSStatusLabel =              new JLabel("OGS status:     "+coallateOGSStatus());
-		airRSO2ProducedLabel =             new JLabel("O2 produced:    "+numFormat.format(myAirRS.getO2Produced())+" L");
-		airRSCO2ConsumedLabel =            new JLabel("CO2 consumed:   "+numFormat.format(myAirRS.getCO2Consumed())+" L");
-		airRSCO2ProducedLabel =            new JLabel("CO2 produced:   "+numFormat.format(myAirRS.getCO2Produced())+" L");
+		airRSO2ProducedLabel =             new JLabel("O2 produced:    "+numFormat.format(myAirRS.getO2Produced())+" moles");
+		airRSCO2ConsumedLabel =            new JLabel("CO2 consumed:   "+numFormat.format(myAirRS.getCO2Consumed())+" moles");
+		airRSCO2ProducedLabel =            new JLabel("CO2 produced:   "+numFormat.format(myAirRS.getCO2Produced())+" moles");
 		airRSPowerLabel =                  new JLabel("power consumed: "+numFormat.format(myAirRS.getPowerConsumed())+" W");
 		airRSPanel.add(airRSVCCRStatusLabel);
 		airRSPanel.add(airRSCRSStatusLabel);
@@ -79,13 +79,13 @@ public class AirTextPanel extends TimedPanel
 		O2StorePanel = new JPanel();
 		O2StorePanel.setLayout(new GridLayout(1,1));
 		O2StorePanel.setBorder(BorderFactory.createTitledBorder("O2 Store"));
-		O2StoreLevelLabel =    new JLabel("O2 level:    "+numFormat.format(myO2Store.getLevel())+" L");
+		O2StoreLevelLabel =    new JLabel("O2 level:    "+numFormat.format(myO2Store.getLevel())+" moles");
 		O2StorePanel.add(O2StoreLevelLabel);
 
 		CO2StorePanel = new JPanel();
 		CO2StorePanel.setLayout(new GridLayout(1,1));
 		CO2StorePanel.setBorder(BorderFactory.createTitledBorder("CO2 Store"));
-		CO2StoreLevelLabel =    new JLabel("CO2 level:  "+numFormat.format(myCO2Store.getLevel())+" L");
+		CO2StoreLevelLabel =    new JLabel("CO2 level:  "+numFormat.format(myCO2Store.getLevel())+" moles");
 		CO2StorePanel.add(CO2StoreLevelLabel);
 		c.fill = GridBagConstraints.BOTH;
 		c.gridheight = 1;
@@ -173,11 +173,11 @@ public class AirTextPanel extends TimedPanel
 		airRSVCCRStatusLabel.setText( "VCCR status:    "+coallateVCCRStatus());
 		airRSCRSStatusLabel.setText(  "CRS status:     "+coallateCRSStatus());
 		airRSOGSStatusLabel.setText(  "OGS status:     "+coallateOGSStatus());
-		airRSO2ProducedLabel.setText( "O2 produced:    "+numFormat.format(myAirRS.getO2Produced())+" L");
-		airRSCO2ConsumedLabel.setText("CO2 consumed:   "+numFormat.format(myAirRS.getCO2Consumed())+" L");
+		airRSO2ProducedLabel.setText( "O2 produced:    "+numFormat.format(myAirRS.getO2Produced())+" moles");
+		airRSCO2ConsumedLabel.setText("CO2 consumed:   "+numFormat.format(myAirRS.getCO2Consumed())+" moles");
 		airRSPowerLabel.setText(      "power consumed: "+numFormat.format(myAirRS.getPowerConsumed())+" W");
-		airRSCO2ProducedLabel.setText("CO2 produced:   "+numFormat.format(myAirRS.getCO2Produced())+" L");
-		CO2StoreLevelLabel.setText(   "CO2 level:      "+numFormat.format(myCO2Store.getLevel())+" L");
-		O2StoreLevelLabel.setText(    "O2 level:       "+numFormat.format(myO2Store.getLevel())+" L");
+		airRSCO2ProducedLabel.setText("CO2 produced:   "+numFormat.format(myAirRS.getCO2Produced())+" moles");
+		CO2StoreLevelLabel.setText(   "CO2 level:      "+numFormat.format(myCO2Store.getLevel())+" moles");
+		O2StoreLevelLabel.setText(    "O2 level:       "+numFormat.format(myO2Store.getLevel())+" moles");
 	}
 }

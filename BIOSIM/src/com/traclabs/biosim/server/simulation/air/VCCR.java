@@ -13,7 +13,7 @@ import biosim.server.util.*;
 
 public class VCCR extends AirRSSubSystem{
 	private Breath myBreath;
-	private float litersAirNeeded = 4.0f;
+	private float molesAirNeeded = 4.0f;
 	private boolean enoughAir = false;
 	private float myProductionRate = 1f;
 
@@ -43,7 +43,7 @@ public class VCCR extends AirRSSubSystem{
 	}
 
 	private void gatherAir(){
-		float airNeededFiltered = myAirRS.randomFilter(litersAirNeeded);
+		float airNeededFiltered = myAirRS.randomFilter(molesAirNeeded * myProductionRate);
 		float gatheredAir = 0f;
 		float gatheredO2 = 0f;
 		float gatheredCO2 = 0f;
@@ -68,11 +68,11 @@ public class VCCR extends AirRSSubSystem{
 	}
 
 	private void pushAir(){
-		float distributedO2Left = myBreath.O2 * myProductionRate;
-		float distributedOtherLeft = myBreath.other * myProductionRate;
+		float distributedO2Left = myBreath.O2;
+		float distributedOtherLeft = myBreath.other;
 		for (int i = 0; (i < myAirRS.getAirOutputs().length) && ((distributedO2Left > 0) || (distributedOtherLeft > 0)); i++){
-			float litersToAdd = distributedO2Left + distributedOtherLeft;
-			float resourceToDistributeFirst = Math.min(litersToAdd, myAirRS.getAirOutputMaxFlowRate(i));
+			float molesToAdd = distributedO2Left + distributedOtherLeft;
+			float resourceToDistributeFirst = Math.min(molesToAdd, myAirRS.getAirOutputMaxFlowRate(i));
 			float resourceToDistributeFinal = Math.min(resourceToDistributeFirst, myAirRS.getAirOutputDesiredFlowRate(i));
 			//Recalculate percentages based on smaller volume
 			float reducedO2ToPass = resourceToDistributeFinal * (distributedO2Left / (distributedO2Left + distributedOtherLeft));

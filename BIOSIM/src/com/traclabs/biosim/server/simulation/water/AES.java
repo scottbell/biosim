@@ -45,11 +45,18 @@ public class AES extends WaterRSSubSystem{
 				pushWater();
 			else{
 				currentPPSWaterProduced = 0f;
-				waterLevel = 0f;
+				//try to put back into dirtyWater Store.
+				waterLevel = myWaterRS.pushResourceToStore(myWaterRS.getDirtyWaterInputs(), myWaterRS.getDirtyWaterInputMaxFlowRates(), myWaterRS.getDirtyWaterInputDesiredFlowRates(), myWaterRS.getDirtyWaterInputActualFlowRates(), waterLevel);
+				//dump extra water
+			        waterLevel = 0f;
+			        
 			}
 		else{
 				currentPPSWaterProduced = 0f;
-				waterLevel = 0f;
+				//try to put back into dirtyWater Store.
+				waterLevel = myWaterRS.pushResourceToStore(myWaterRS.getDirtyWaterInputs(), myWaterRS.getDirtyWaterInputMaxFlowRates(), myWaterRS.getDirtyWaterInputDesiredFlowRates(), myWaterRS.getDirtyWaterInputActualFlowRates(), waterLevel);
+				//dump extra water
+			        waterLevel = 0f;
 		}
 	}
 
