@@ -9,11 +9,9 @@ public abstract class Engine {
     	myLogger = Logger.getLogger(this.getClass());
     }
 
-    public abstract void open();
+    public abstract void reset();
 
     public abstract void put(double[] inputVector);
 
     public abstract double[] get();
-
-    public abstract void close();
 }

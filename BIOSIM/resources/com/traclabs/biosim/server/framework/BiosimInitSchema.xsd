@@ -31,9 +31,9 @@
 	<xsd:complexType name="BioSimType">
 		<xsd:sequence>
 			<xsd:element name="Globals" type="GlobalsType"/>
-			<xsd:element name="SimBioModules" type="SimBioModulesType"/>
-			<xsd:element name="Sensors" type="SensorsType"/>
-			<xsd:element name="Actuators" type="ActuatorsType"/>
+			<xsd:element name="SimBioModules" type="SimBioModulesType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="Sensors" type="SensorsType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="Actuators" type="ActuatorsType" minOccurs="0" maxOccurs="1"/>
 		</xsd:sequence>     
 	</xsd:complexType>
 	
