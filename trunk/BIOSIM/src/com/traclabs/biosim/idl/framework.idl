@@ -34,10 +34,6 @@ module framework{
                 float getLevel();
                 float getCapacity();
         };
-	interface Injector : BioModule{
-	};
-	interface Accumulator : BioModule{
-	};
         interface BioDriver{
                 boolean isPaused();
                 boolean isStarted();
@@ -63,6 +59,10 @@ module framework{
                 void setStochasticIntensity(in StochasticIntensity pIntensity);
                 void startMalfunction(in MalfunctionIntensity pIntensity, in MalfunctionLength pLength);
         };
+	interface Injector : BioModule, PowerConsumer, PotableWaterConsumer, GreyWaterConsumer, DirtyWaterConsumer, O2Consumer, CO2Consumer, AirConsumer, BiomassConsumer, FoodConsumer, PowerProducer, PotableWaterProducer, GreyWaterProducer, DirtyWaterProducer, O2Producer, CO2Producer, AirProducer, BiomassProducer, FoodProducer, LightConsumer{
+	};
+	interface Accumulator : BioModule, PowerConsumer, PotableWaterConsumer, GreyWaterConsumer, DirtyWaterConsumer, O2Consumer, CO2Consumer, AirConsumer, BiomassConsumer, FoodConsumer, PowerProducer, PotableWaterProducer, GreyWaterProducer, DirtyWaterProducer, O2Producer, CO2Producer, AirProducer, BiomassProducer, FoodProducer, LightConsumer{
+	};
         interface PowerConsumer{
                 void setPowerInputFlowrate(in float watts, in long index);
                 float getPowerInputFlowrate(in long index);
