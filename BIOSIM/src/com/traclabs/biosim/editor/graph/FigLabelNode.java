@@ -11,7 +11,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * LabelVesprFigNode adds a label to display the text from a VesprNode.
+ * LabelEditorFigNode adds a label to display the text from a EditorNode.
  * 
  * @author kkusy
  */

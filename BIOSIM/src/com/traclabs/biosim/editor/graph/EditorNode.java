@@ -13,8 +13,8 @@ import org.tigris.gef.graph.presentation.NetNode;
 import org.tigris.gef.graph.presentation.NetPort;
 
 /**
- * An abstract subclass of NetNode for use in the VESPR application. All nodes
- * in the VESPR application will be subclasses of VesprNode
+ * An abstract subclass of NetNode for use in the Editor application. All nodes
+ * in the Editor application will be subclasses of EditorNode
  */
 public abstract class EditorNode extends NetNode implements Serializable {
     protected EditorPort _port;
@@ -131,13 +131,13 @@ public abstract class EditorNode extends NetNode implements Serializable {
         return edges;
     }
 
-    /** Returns the number of inputs into the VESPR node. */
+    /** Returns the number of inputs into the EDITOR node. */
     public int getSourceCount() {
         return getSourceNodes().size();
     }
 
-    /** Returns the number of outputs from the VESPR node. */
+    /** Returns the number of outputs from the EDITOR node. */
     public int getDestCount() {
         return getDestNodes().size();
     }
-} /* end class VesprNode */
+} /* end class EditorNode */

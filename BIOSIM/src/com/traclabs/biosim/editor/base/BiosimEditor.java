@@ -18,9 +18,9 @@ import com.traclabs.biosim.editor.graph.EditorFigNode;
 import com.traclabs.biosim.editor.graph.EditorGraphModel;
 
 /**
- * VesprEditor supports the nesting of graphs within nodes. VesprEditor simply
- * keeps track of the layer at the root of the tree. Each VesprFigNode has a
- * child layer (VesprLayer) associated with it that visually represents the
+ * EditorEditor supports the nesting of graphs within nodes. EditorEditor simply
+ * keeps track of the layer at the root of the tree. Each EditorFigNode has a
+ * child layer (EditorLayer) associated with it that visually represents the
  * nested contents of the node.
  */
 public class BiosimEditor extends Editor {
@@ -112,13 +112,13 @@ public class BiosimEditor extends Editor {
         }
     }
 
-    // public VesprEditor(GraphModel gm, Component awt_comp, Layer lay) {
+    // public EditorEditor(GraphModel gm, Component awt_comp, Layer lay) {
     // 	super(gm, awt_comp, lay);
-    // 	System.out.println("Creating Vespr Editor");
+    // 	System.out.println("Creating Editor Editor");
     // }
 
     /**
-     * Clone the receiving editor. Called from VesprCmdSpawn. Subclasses of
+     * Clone the receiving editor. Called from EditorCmdSpawn. Subclasses of
      * Editor should override this method.
      */
     public Object clone() {

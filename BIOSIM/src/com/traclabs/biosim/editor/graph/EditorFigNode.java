@@ -23,7 +23,7 @@ import org.tigris.gef.presentation.FigText;
 import com.traclabs.biosim.editor.base.EditorLayer;
 
 /**
- * VesprFigNode is the fig level representation of a VesprNode. Visually, it has
+ * EditorFigNode is the fig level representation of a EditorNode. Visually, it has
  * a drop shadow fig which can be hidden or shown for decoration, and a
  * background fig for subclasses to draw on. This fig has a single port for both
  * input and output connections. It also has a nested layer which displays its
@@ -239,7 +239,7 @@ public abstract class EditorFigNode extends FigNode {
         return _nestedLayer;
     }
 
-    /** When a VesprFigNode is deleted, all of its edges are deleted. */
+    /** When a EditorFigNode is deleted, all of its edges are deleted. */
     public void dispose() {
         ArrayList edgeClone = new ArrayList(getFigEdges());
         int edgeCount = edgeClone.size();
@@ -485,4 +485,4 @@ public abstract class EditorFigNode extends FigNode {
 
         return null;
     }
-} /* end class VesprFigNode */
+} /* end class EditorFigNode */

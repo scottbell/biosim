@@ -17,7 +17,7 @@ import com.traclabs.biosim.editor.presentation.EditorFrame;
 
 /**
  * Cmd to open a new editor on the same document as in the current editor. Works
- * by making a new VesprFrame with a clone of the current editor. The argument
+ * by making a new EditorFrame with a clone of the current editor. The argument
  * "dimension" may be set to th desired size of the new window.
  * 
  * @author Kevin Kusy
@@ -29,7 +29,7 @@ public class EditorCmdSpawn extends Cmd {
         super("SpawnEditor");
     }
 
-    // doIt must create a VesprFrame instead of a JGraphFrame.
+    // doIt must create a EditorFrame instead of a JGraphFrame.
     public void doIt() {
         BiosimEditor ce = (BiosimEditor) Globals.curEditor();
         EditorFrame frame = (EditorFrame) ce.findFrame();

@@ -30,4 +30,4 @@ public class EditorEdge extends NetEdge {
         return new EditorFigEdge();
     }
 
-} /* end class VesprEdge */
+} /* end class EditorEdge */

@@ -12,7 +12,7 @@ import org.tigris.gef.graph.presentation.NetList;
 import org.tigris.gef.graph.presentation.NetNode;
 
 /**
- * VesprGraphModel listens for when nodes and edges are disposed of and
+ * EditorGraphModel listens for when nodes and edges are disposed of and
  * automatically removes them from the graph model.
  * 
  * @author kkusy

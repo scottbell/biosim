@@ -14,7 +14,7 @@ import java.awt.Rectangle;
 import org.tigris.gef.presentation.FigText;
 
 /**
- * FigLabel represents a label for VesprFigNode objects. The label is centered
+ * FigLabel represents a label for EditorFigNode objects. The label is centered
  * both horizontally and vertically within its parent node. The label is also
  * editable.
  * 
