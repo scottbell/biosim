@@ -146,8 +146,13 @@ public class SimCommandLine
 	private void runTest(){
 		BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
 		BiomassRS myBiomassRS = (BiomassRS)myBioHolder.theBiomassRSModules.get(0);
-		GenericActuator currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.thePlantingActuators, myBiomassRS));
-		
+		PlantingActuator currentActuator = PlantingActuatorHelper.narrow((myBioHolder.getActuatorAttachedTo(myBioHolder.thePlantingActuators, myBiomassRS)));
+		Shelf currentShelf = currentActuator.getOutput();
+		System.out.println("Shelf was type: "+currentShelf.getCropType());
+		currentActuator.setPlantType(PlantType.RICE);
+		currentActuator.setValue(100);
+		currentActuator.tick();
+		System.out.println("Shelf now: "+currentActuator.getOutput().getCropType());
 	}
 }
 
