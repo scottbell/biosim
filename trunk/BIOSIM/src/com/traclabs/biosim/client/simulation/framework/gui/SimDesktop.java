@@ -167,13 +167,18 @@ public class SimDesktop extends BioFrame
 		myStartSimButton = myToolBar.add(myStartAction);
 		myStartSimButton.setToolTipText("Starts the simulation");
 		myStartSimButton.setText("");
+		myStartSimButton.setIcon(startIcon);
+		myStartSimButton.setEnabled(false);
 		myPauseSimButton = myToolBar.add(myPauseAction);
 		myPauseSimButton.setToolTipText("Pauses the simulation");
+		myPauseSimButton.setIcon(pauseIcon);
 		myPauseSimButton.setText("");
+		myPauseSimButton.setEnabled(false);
 		myAdvanceSimButton = myToolBar.add(myAdvanceAction);
 		myAdvanceSimButton.setToolTipText("Advances the simulation one timestep");
 		myAdvanceSimButton.setText("");
 		myAdvanceSimButton.setIcon(forwardIcon);
+		myAdvanceSimButton.setEnabled(false);
 		myToolbarSeparator = new JToolBar.Separator();
 		myToolBar.add(myToolbarSeparator);
 		myDisplayAllButton = myToolBar.add(myShowAllDisplayAction);
