@@ -26,12 +26,15 @@
 	<property name="distroLibDir" location="${lib}/distro/win"/>
 	<!-- set ga distro properties for this build --> 
 	<property name="gaDistroDir" location="${generated}/ga"/>
+	<!-- set javadoc properties for this build --> 
+	<property name="apiDir" location="doc/api"/>
+	
 
 	<target name="init">
 		<mkdir dir="${generated}"/>
 	</target>
   
-  	<target name="stubServer" depends="init" description="stub the IDL file for the server" >
+  	<target name="stubServer" depends="init" description="stub the IDL file for the server">
 		<mkdir dir="${serverStubs}"/>
 		<java classname="ParserHack">
 			<arg value="-d"/> 
@@ -51,7 +54,7 @@
 		</javac>
 	</target>
 
-	<target name="make-server" depends="stubServer" description="compile the server" >
+	<target name="make-server" depends="stubServer" description="compile the server">
 		<mkdir dir="${server}"/>
 		<mkdir dir="${serverClasses}"/>
 		<javac srcdir="${src}/biosim/server" destdir="${serverClasses}">
@@ -66,7 +69,7 @@
 		</javac>
 	</target>
 	
-	<target name="stubClient" depends="init" description="stub the IDL file for the client" >
+	<target name="stubClient" depends="init" description="stub the IDL file for the client">
 		<mkdir dir="${clientStubs}"/>
 		<java classname="ParserHack">
 			<arg value="-noskel"/> 
@@ -87,7 +90,7 @@
 		</javac>
 	</target>
   
-   	<target name="make-client" depends="stubClient" description="compile the client" >
+   	<target name="make-client" depends="stubClient" description="compile the client">
 		<mkdir dir="${client}"/>
 		<mkdir dir="${clientClasses}"/>
 		<javac srcdir="${src}/biosim/client" destdir="${clientClasses}">
@@ -104,7 +107,7 @@
 		</javac>
 	</target>
 	
-	<target name="make-distro" depends="make-server,make-client" description="creates windows distro" >
+	<target name="make-distro" depends="make-server,make-client" description="creates windows distro">
 		<mkdir dir="${distroDir}"/>
 		<mkdir dir="${distroDir}/tmp"/>
 		<unzip dest="${distroDir}/tmp">
@@ -135,7 +138,7 @@
 		<delete dir="${distroDir}/tmp"/>
 	</target>
 	
-	<target name="make-ga-distro" depends="make-server,make-client" description="creates ga distro" >
+	<target name="make-ga-distro" depends="make-server,make-client" description="creates ga distro">
 		<mkdir dir="${gaDistroDir}"/>
 		<jar destfile="${gaDistroDir}/biosim.jar">
 			<fileset dir="${serverClasses}"/>
@@ -143,7 +146,39 @@
 		</jar>
 	</target>
 	
-	<target name="run-nameserver" depends="init" description="runs the nameserver" >
+	<target name="make-docs" depends="make-server,make-client" description="creates BioSim API documentation">
+		<mkdir dir="${apiDir}"/>
+		<javadoc 
+			destdir="${apiDir}" 
+			breakiterator="true" 
+			packagenames="biosim.*" 
+			author="true"
+			version="true"
+			use="true"
+			windowtitle="BioSim API"
+			maxmemory="160m">
+			<sourcepath>
+				<pathelement location="${src}"/>
+				<pathelement location="${serverStubs}"/>
+				<pathelement location="${clientStubs}"/>
+			</sourcepath>
+			<classpath>
+				<pathelement location="${serverClasses}"/>
+				<pathelement location="${clientClasses}"/>
+				<pathelement location="${resourceDir}"/>
+				<pathelement location="${jacorbDir}/jacorb.jar"/>
+				<pathelement location="${jacorbDir}/logkit.jar"/>
+				<pathelement location="${jacorbDir}/avalon-framework.jar"/>
+				<pathelement location="${xercesDir}/xercesImpl.jar"/>
+				<pathelement location="${xercesDir}/xml-apis.jar"/>
+				<pathelement location="${xercesDir}/xmlParserAPIs.jar"/>
+				<pathelement location="${plotDir}/jcommon.jar"/>
+				<pathelement location="${plotDir}/jfreechart.jar"/>
+			</classpath>
+		</javadoc>
+	</target>
+	
+	<target name="run-nameserver" depends="init" description="runs the nameserver">
 		<mkdir dir="${nsDir}"/>
 		<java classname="org.jacorb.naming.NameServer">
 			<sysproperty key="org.omg.CORBA.ORBClass" value="org.jacorb.orb.ORB"/>
@@ -157,7 +192,7 @@
 		</java>
 	</target>
 	
-	<target name="run-server" description="runs the server" >
+	<target name="run-server" description="runs the server">
 		<java classname="biosim.server.framework.BiosimServer">
 			<sysproperty key="org.omg.CORBA.ORBClass" value="org.jacorb.orb.ORB"/>
 			<sysproperty key="org.omg.CORBA.ORBSingletonClass" value="org.jacorb.orb.ORBSingleton"/>
@@ -175,7 +210,7 @@
 		</java>
 	</target>
 	
-	<target name="run-client" description="runs the client" >
+	<target name="run-client" description="runs the client">
 		<java classname="biosim.client.framework.BiosimMain">
 			<sysproperty key="org.omg.CORBA.ORBClass" value="org.jacorb.orb.ORB"/>
 			<sysproperty key="org.omg.CORBA.ORBSingletonClass" value="org.jacorb.orb.ORBSingleton"/>
@@ -195,10 +230,10 @@
 		</java>
 	</target>
   
-  	<target name="all" depends="make-server,make-client" description="compile biosim" >
+  	<target name="all" depends="make-server,make-client" description="compile biosim">
 	</target>
 
-	<target name="clean" description="clean up" >
+	<target name="clean" description="clean up">
 		<delete dir="${generated}"/>
 	</target>
 </project>
