@@ -230,7 +230,7 @@
 		</java>
 	</target>
   
-  	<target name="all" depends="make-server,make-client" description="compile biosim">
+  	<target name="all" depends="make-docs" description="compile biosim">
 	</target>
 
 	<target name="clean" description="clean up">
