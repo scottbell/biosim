@@ -15,12 +15,13 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 	private CrewGroup myCrew;
 	private BioSimulator myBioSimulator;
 	private CrewPerson[] myCrewPeople;
-	private Vector crewPeopleGUI;
+	private Vector crewPersonGUIVector;
+	int i = 0;
 
 	public CrewPanel(BioSimulator pBioSimulator){
 		myBioSimulator = pBioSimulator;
 		myCrew = (CrewGroup)(myBioSimulator.getBioModule(BioSimulator.crewName));
-		crewPeopleGUI = new Vector();
+		crewPersonGUIVector = new Vector();
 		buildGui();
 		myBioSimulator.registerListener(this);
 	}
@@ -56,13 +57,15 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 			newPersonPanel.add(newPersonGUI.activityTotalDurationLabel);
 			newPersonGUI.activityIntensityLabel = new JLabel("	intensity: "+myCrewPeople[i].getCurrentActivity().getActivityIntensity());
 			newPersonPanel.add(newPersonGUI.activityIntensityLabel);
-			crewPeopleGUI.add(newPersonGUI);
+			crewPersonGUIVector.add(newPersonGUI);
 			add(newPersonPanel);
 		}
 	}
 
 	public void processTick(){
-		for (Enumeration e = crewPeopleGUI.elements(); e.hasMoreElements();){
+		i++;
+		System.out.println("ticking "+i);
+		for (Enumeration e = crewPersonGUIVector.elements(); e.hasMoreElements();){
 			CrewPersonGUI newPersonGUI = (CrewPersonGUI)(e.nextElement());
 			newPersonGUI.ageLabel.setText("age: "+newPersonGUI.crewPerson.getAge());
 			newPersonGUI.weightLabel.setText("weight: "+newPersonGUI.crewPerson.getWeight());

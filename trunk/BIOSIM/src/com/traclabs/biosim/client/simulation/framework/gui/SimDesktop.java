@@ -6,6 +6,8 @@ import biosim.client.environment.gui.*;
 import biosim.client.air.gui.*;
 import biosim.client.crew.gui.*;
 import biosim.client.food.gui.*;
+import biosim.client.power.gui.*;
+import biosim.client.water.gui.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
@@ -225,6 +227,7 @@ public class SimDesktop extends BaseJFrame
 			addInternalFrame("Crew",new CrewPanel(myBiosim));
 			addInternalFrame("Food",new FoodPanel(myBiosim));
 			addInternalFrame("Power",new PowerPanel(myBiosim));
+			addInternalFrame("Water",new WaterPanel(myBiosim));
 			myDesktop.setCursor(Cursor.getDefaultCursor());
 		}
 	}
