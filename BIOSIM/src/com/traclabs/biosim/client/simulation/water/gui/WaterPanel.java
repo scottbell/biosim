@@ -1,6 +1,7 @@
 package biosim.client.water.gui;
 
 import biosim.client.framework.*;
+import biosim.client.framework.gui.*;
 import javax.swing.*;
 import java.awt.*;
 /** 
@@ -9,31 +10,15 @@ import java.awt.*;
  * @author    Scott Bell
  */
 
-public class WaterPanel extends JPanel
+public class WaterPanel extends BioTabbedPanel
 {
-	private JTabbedPane myTabbedPane;
-	private JPanel myWaterTextPanel;
-	private JPanel myWaterChartPanel;
-	private BioSimulator myBioSimulator;
-	
-	/**
-	* Creates and registers this panel.
-	* @param pBioSimulator	The Biosimulator this Panel will register itself with.
-	*/
 	public WaterPanel(BioSimulator pBioSimulator){
-		myBioSimulator = pBioSimulator;
-		buildGui();
+		super(pBioSimulator);
 	}
 	
-	/**
-	* Contructs GUI components, adds them to the panel.
-	*/
-	private void buildGui(){
-		setLayout(new BorderLayout());
-		myTabbedPane = new JTabbedPane();
-		myWaterTextPanel = new WaterTextPanel(myBioSimulator);
-		myWaterChartPanel = new WaterChartPanel(myBioSimulator);
-		myTabbedPane.addTab("Text", myWaterTextPanel);
-		add(myTabbedPane, BorderLayout.CENTER);
+	protected void createPanels(){
+		myTextPanel = new WaterTextPanel(myBioSimulator);
+		myChartPanel = new WaterChartPanel(myBioSimulator);
+		mySchematicPanel = new JPanel();
 	}
 }
