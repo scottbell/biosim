@@ -66,7 +66,7 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 				sexString = "female";
 			newPersonGUI.sexLabel = new JLabel("sex: "+sexString);
 			newPersonPanel.add(newPersonGUI.sexLabel);
-			newPersonGUI.statusLabel = new JLabel("status: "+myCrewPeople[i].getStatus());
+			newPersonGUI.statusLabel = new JLabel("status: "+"empty");
 			newPersonPanel.add(newPersonGUI.statusLabel);
 			newPersonGUI.activityNameLabel = new JLabel("current activity: "+myCrewPeople[i].getCurrentActivity().getName());
 			newPersonPanel.add(newPersonGUI.activityNameLabel);
@@ -97,7 +97,7 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 			newPersonGUI.activityCurrentDurationLabel.setText("	performed for: "+crewPerson.getTimeActivityPerformed());
 			newPersonGUI.activityTotalDurationLabel.setText("	total duration: "+crewPerson.getCurrentActivity().getTimeLength());
 			newPersonGUI.activityIntensityLabel.setText("	intensity: "+crewPerson.getCurrentActivity().getActivityIntensity());
-			newPersonGUI.statusLabel.setText("status: "+crewPerson.getStatus());
+			newPersonGUI.statusLabel.setText("status: "+"empty");
 			String sexString;
 			if (crewPerson.getSex() == Sex.male)
 				sexString = "male";

@@ -58,7 +58,7 @@ public class BiomassRSImpl extends BiomassRSPOA {
 	
 	private void gatherPower(){
 		float powerNeeded = 100;
-		currentPowerConsumed = myPowerStore.takePower(powerNeeded);
+		currentPowerConsumed = myPowerStore.take(powerNeeded);
 		if (currentPowerConsumed < powerNeeded){
 			hasEnoughPower = false;
 		}
@@ -69,7 +69,7 @@ public class BiomassRSImpl extends BiomassRSPOA {
 	
 	private void gatherWater(){
 		float waterNeeded = 2;
-		currentGreyWaterConsumed = myGreyWaterStore.takeWater(waterNeeded);
+		currentGreyWaterConsumed = myGreyWaterStore.take(waterNeeded);
 		if (currentGreyWaterConsumed < waterNeeded){
 			hasEnoughWater = false;
 		}

@@ -16,8 +16,8 @@ public class PPS{
 		myWaterRS = pWaterRSImpl;
 	}
 	
-	public String getStatus(){
-		return status;
+	public boolean hasPower(){
+		return hasEnoughPower;
 	}
 	
 	public void addPower(float pPower){

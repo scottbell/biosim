@@ -138,10 +138,10 @@ public class WaterPanel extends JPanel implements BioSimulatorListener
 	private void createWaterRSStatusPanel(){
 		waterRSStatusPanel = new JPanel();
 		waterRSStatusPanel.setLayout(new GridLayout(4,1));
-	        waterRSBWPStatusLabel =new JLabel("BWP status: "+myWaterRS.getBWPStatus());
-	        waterRSROStatusLabel =  new JLabel("RO status:  "+myWaterRS.getROStatus());
-	        waterRSAESStatusLabel = new JLabel("AES status: "+myWaterRS.getAESStatus());
-	        waterRSPPSStatusLabel = new JLabel("PPS status: "+myWaterRS.getPPSStatus());
+	        waterRSBWPStatusLabel =new JLabel("BWP status: "+"empty");
+	        waterRSROStatusLabel =  new JLabel("RO status:  "+"empty");
+	        waterRSAESStatusLabel = new JLabel("AES status: "+"empty");
+	        waterRSPPSStatusLabel = new JLabel("PPS status: "+"empty");;
 		waterRSStatusPanel.add(waterRSBWPStatusLabel);
 		waterRSStatusPanel.add(waterRSROStatusLabel);
 		waterRSStatusPanel.add(waterRSAESStatusLabel);
@@ -152,7 +152,7 @@ public class WaterPanel extends JPanel implements BioSimulatorListener
 	        dirtyWaterStorePanel = new JPanel();
 	        dirtyWaterStorePanel.setLayout(new GridLayout(1,1));
 	        dirtyWaterStorePanel.setBorder(BorderFactory.createTitledBorder("Dirty Water Store"));
-	        dirtyWaterStoreLevelLabel =    new JLabel("water level:    "+numFormat.format(myDirtyWaterStore.getWaterLevel())+" L");
+	        dirtyWaterStoreLevelLabel =    new JLabel("water level:    "+numFormat.format(myDirtyWaterStore.getLevel())+" L");
 	        dirtyWaterStorePanel.add(dirtyWaterStoreLevelLabel);
 	}
 
@@ -160,7 +160,7 @@ public class WaterPanel extends JPanel implements BioSimulatorListener
 	        greyWaterStorePanel = new JPanel();
 	        greyWaterStorePanel.setLayout(new GridLayout(1,1));
 	        greyWaterStorePanel.setBorder(BorderFactory.createTitledBorder("Grey Water Store"));
-	        greyWaterStoreLevelLabel =    new JLabel("water level:    "+numFormat.format(myGreyWaterStore.getWaterLevel())+" L");
+	        greyWaterStoreLevelLabel =    new JLabel("water level:    "+numFormat.format(myGreyWaterStore.getLevel())+" L");
 	        greyWaterStorePanel.add(greyWaterStoreLevelLabel);
 	}
 
@@ -168,7 +168,7 @@ public class WaterPanel extends JPanel implements BioSimulatorListener
 	        potableWaterStorePanel = new JPanel();
 	        potableWaterStorePanel.setLayout(new GridLayout(1,1));
 	        potableWaterStorePanel.setBorder(BorderFactory.createTitledBorder("Potable Water Store"));
-	        potableWaterStoreLevelLabel =    new JLabel("water level:    "+numFormat.format(myPotableWaterStore.getWaterLevel())+" L");
+	        potableWaterStoreLevelLabel =    new JLabel("water level:    "+numFormat.format(myPotableWaterStore.getLevel())+" L");
 	        potableWaterStorePanel.add(potableWaterStoreLevelLabel);
 	}
 
@@ -178,12 +178,12 @@ public class WaterPanel extends JPanel implements BioSimulatorListener
 		waterRSDirtyWaterConsumedLabel.setText("dirty water consumed:      "+numFormat.format(myWaterRS.getDirtyWaterConsumed())+" L");
 		waterRSPowerConsumedLabel.setText("power consumed:             "+numFormat.format(myWaterRS.getPowerConsumed())+" W");
 		waterRSGreyWaterConsumedLabel.setText("grey water consumed:      "+numFormat.format(myWaterRS.getGreyWaterConsumed())+" L");
-		waterRSAESStatusLabel.setText("AES status: "+myWaterRS.getAESStatus());
-		waterRSBWPStatusLabel.setText("BWP status: "+myWaterRS.getBWPStatus());
-		waterRSROStatusLabel.setText("RO status:  "+myWaterRS.getROStatus());
-		waterRSPPSStatusLabel.setText("PPS status: "+myWaterRS.getPPSStatus());
-		potableWaterStoreLevelLabel.setText("water level:    "+numFormat.format(myPotableWaterStore.getWaterLevel())+" L");
-		greyWaterStoreLevelLabel.setText("water level:    "+numFormat.format(myGreyWaterStore.getWaterLevel())+" L");
-		dirtyWaterStoreLevelLabel.setText("water level:    "+numFormat.format(myDirtyWaterStore.getWaterLevel())+" L");
+		waterRSAESStatusLabel.setText("AES status: "+"empty");
+		waterRSBWPStatusLabel.setText("BWP status: "+"empty");
+		waterRSROStatusLabel.setText("RO status:  "+"empty");
+		waterRSPPSStatusLabel.setText("PPS status: "+"empty");
+		potableWaterStoreLevelLabel.setText("water level:    "+numFormat.format(myPotableWaterStore.getLevel())+" L");
+		greyWaterStoreLevelLabel.setText("water level:    "+numFormat.format(myGreyWaterStore.getLevel())+" L");
+		dirtyWaterStoreLevelLabel.setText("water level:    "+numFormat.format(myDirtyWaterStore.getLevel())+" L");
 	}
 }

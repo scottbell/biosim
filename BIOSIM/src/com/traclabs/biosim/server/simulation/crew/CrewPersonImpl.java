@@ -18,6 +18,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private int thirstTime = 0;
 	private int suffocateTime = 0;
 	private int poisonTime = 0;
+	private boolean personStarving = false;
+	private boolean personThirsty = false;
+	private boolean personSuffocating = false;
+	private boolean personPoisoned = false;
 	private SimEnvironment myCurrentEnvironment;
 	private FoodStore myFoodStore;
 	private PotableWaterStore myPotableWaterStore;
@@ -26,7 +30,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private float age = 30f;
 	private float weight = 170f;
 	private Sex sex = Sex.male;
-	private String status = "nominal";
 
 	public CrewPersonImpl(String pName, float pAge, float pWeight, Sex pSex, CrewGroupImpl pCrewGroup){
 		myCrewGroup = pCrewGroup;
@@ -44,6 +47,22 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	public float getAge(){
 		return age;
 	}
+	
+	public boolean isStarving(){
+		return personStarving;
+	}
+	
+	public boolean isPoisoned(){
+		return personPoisoned;
+	}
+	
+	public boolean isThirsty(){
+		return personThirsty;
+	}
+	
+	public boolean isSuffocating(){
+		return personSuffocating;
+	}
 
 	public float getWeight(){
 		return weight;
@@ -51,10 +70,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 
 	public Sex getSex(){
 		return sex;
-	}
-	
-	public String getStatus(){
-		return status;
 	}
 
 	public Activity getCurrentActivity(){
@@ -185,54 +200,66 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		float foodNeeded = calculateFoodNeeded(currentActivityIntensity);
 
 		//adjust tanks
-		float foodRetrieved = myFoodStore.takeFood(foodNeeded);
-		float waterRetrieved = myPotableWaterStore.takeWater(cleanWaterNeeded);
+		float foodRetrieved = myFoodStore.take(foodNeeded);
+		float waterRetrieved = myPotableWaterStore.take(cleanWaterNeeded);
 		Breath airRetrieved = myCurrentEnvironment.takeO2Breath(O2Needed);
 		float O2Retrieved = airRetrieved.O2;
-		myDirtyWaterStore.addWater(dirtyWaterOut);
-		myGreyWaterStore.addWater(greyWaterOut);
+		myDirtyWaterStore.add(dirtyWaterOut);
+		myGreyWaterStore.add(greyWaterOut);
 		myCurrentEnvironment.addCO2(CO2Out);
 		myCurrentEnvironment.addOther(airRetrieved.other);
 		float theCO2Ratio = getCO2Ratio(airRetrieved);
 		
 		//afflict crew
 		if (foodRetrieved < foodNeeded){
-			status = "starving";
+			personStarving = true;
 			starvingTime++;
 		}
+		else{
+			personStarving = false;
+			starvingTime = 0;
+		}
 		if (waterRetrieved < cleanWaterNeeded){
-			status = "thirsty";
+			personThirsty = true;
 			thirstTime++;
 		}
+		else{
+			personThirsty = false;
+			thirstTime--;
+		}
 		if (theCO2Ratio > 0.06){
-			status = "CO2 poisoned";
+			personPoisoned = true;
 			poisonTime++;
 		}
+		else{
+			personPoisoned = false;
+			poisonTime = 0;
+		}
 		if (O2Retrieved < O2Needed){
-			status = "suffocating";
+			personSuffocating = true;
 			suffocateTime++;
+		}
+		else{
+			personSuffocating = false;
+			suffocateTime = 0;
 		}
 		
 		//check for death
 		if (starvingTime > 504){
 			myCurrentActivity = myCrewGroup.getScheduledActivityByName("dead");
 			timeActivityPerformed = 0;
-			status = ("   starved to death");
 		}
 		else if (thirstTime > 72){
 			myCurrentActivity = myCrewGroup.getScheduledActivityByName("dead");
 			timeActivityPerformed = 0;
-			status = ("   died of thirst");
 		}
 		else if (suffocateTime > 1){
 			myCurrentActivity = myCrewGroup.getScheduledActivityByName("dead");
 			timeActivityPerformed = 0;
-			status = ("   suffocated");
 		}
 		else if (poisonTime > 5){
 			myCurrentActivity = myCrewGroup.getScheduledActivityByName("dead");
 			timeActivityPerformed = 0;
-			status = ("   died of CO2 poisioning");
 		}
 	}
 }

@@ -16,7 +16,7 @@ jikesCommand="jikes"
 type $jikesCommand 2> /dev/null >/dev/null
 if [ $? != 0 ]; then
 	javac_command=javac
-	echo "		-using javac compiler (assuming it's in the parth)"
+	echo "		-using javac compiler (assuming it's in the path)"
 else
 	javac_command=jikes
 	echo "		-using jikes compiler"

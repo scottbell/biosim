@@ -43,7 +43,7 @@ public class PowerPanel extends JPanel implements BioSimulatorListener
 		powerStorePanel = new JPanel();
 		powerStorePanel.setLayout(new GridLayout(1,1));
 		powerStorePanel.setBorder(BorderFactory.createTitledBorder("Power Store"));
-		powerStoreLevelLabel =    new JLabel("power level:    "+numFormat.format(myPowerStore.getPowerLevel())+" W");
+		powerStoreLevelLabel =    new JLabel("power level:    "+numFormat.format(myPowerStore.getLevel())+" W");
 		powerStorePanel.add(powerStoreLevelLabel);
 
 		c.fill = GridBagConstraints.BOTH;
@@ -65,6 +65,6 @@ public class PowerPanel extends JPanel implements BioSimulatorListener
 
 	public void processTick(){
 		powerPSPowerProducedLabel.setText("power produced:         "+numFormat.format(myPowerPS.getPowerProduced())+" W");
-		powerStoreLevelLabel.setText("power level:    "+numFormat.format(myPowerStore.getPowerLevel())+" W");
+		powerStoreLevelLabel.setText("power level:    "+numFormat.format(myPowerStore.getLevel())+" W");
 	}
 }
