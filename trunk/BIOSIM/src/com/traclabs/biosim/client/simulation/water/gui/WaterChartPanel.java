@@ -1,6 +1,7 @@
 package biosim.client.water.gui;
 
 import java.awt.*;
+import java.util.*;
 import javax.swing.*;
 import biosim.client.framework.*;
 import biosim.client.framework.gui.*;
@@ -13,7 +14,7 @@ import net.sourceforge.chart2d.*;
  *
  * @author    Scott Bell
  */
-public class WaterChartPanel extends BioTabPanel
+public class WaterChartPanel extends BioTabPanel implements Runnable
 {
 	//Used for registereing this panel (for knowing when a tick occurs)
 	private BioSimulator myBioSimulator;
@@ -29,7 +30,8 @@ public class WaterChartPanel extends BioTabPanel
 	private String[] labelsAxisLabels;
 	private LBChart2D chart2D;
 	//The thread to run the chart
-	private Thread myThread;
+	private Thread myChartUpdateThread;
+	private boolean chartNeedsUpdating = false;;
 
 	/**
 	 * Default constructor.
@@ -44,6 +46,9 @@ public class WaterChartPanel extends BioTabPanel
 		setLayout(new BorderLayout());
 		createGraph();
 		add(chart2D, BorderLayout.CENTER);
+		myChartUpdateThread = new Thread(this);
+		myChartUpdateThread.setPriority(Thread.MIN_PRIORITY);
+		myChartUpdateThread.start();
 	}
 
 	private Chart2D createGraph() {
@@ -120,6 +125,30 @@ public class WaterChartPanel extends BioTabPanel
 		return chart2D;
 	}
 
+	public void run(){
+		System.out.println("Updater Thread started");
+		while (true){
+			System.out.println("Checking to see if we need to update...");
+			Thread theCurrentThread = Thread.currentThread();
+			while (myChartUpdateThread == theCurrentThread) {
+				updateChart();
+				System.out.println("Updated chart");
+				chartNeedsUpdating = false;
+				System.out.println("set chartNeedsUpdating to false");
+				//Conditional below to speed up things
+				if ((!chartNeedsUpdating) && (myChartUpdateThread==theCurrentThread)){
+					try {
+						synchronized(this) {
+							while ((!chartNeedsUpdating) && (myChartUpdateThread==theCurrentThread)){
+								wait();
+							}
+						}
+					}
+					catch (InterruptedException e){}
+				}
+			}
+		}
+	}
 
 	private void updateChart(){
 		ticksGoneBy++;
@@ -143,13 +172,15 @@ public class WaterChartPanel extends BioTabPanel
 			myDataset.set(1,  ticksGoneBy, 0,  myGreyWaterStore.getLevel());
 			myDataset.set(2,  ticksGoneBy, 0,  myDirtyWaterStore.getLevel());
 		}
-		repaint();
+		chart2D.repaint();
 	}
 
 	/**
 	 * Updates every label on the panel with new data pulled from the servers.
 	 */
-	public void processTick(){
-		updateChart();
+	public synchronized void processTick(){
+		chartNeedsUpdating = true;
+		notify();
+		System.out.println("set chartNeedsUpdating to true");
 	}
 }
