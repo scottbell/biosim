@@ -1,6 +1,5 @@
 /*
  * Created on Oct 27, 2004
- *
  */
 package com.traclabs.biosim.server.util;
 
@@ -19,6 +18,12 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 /**
+ * This class servers to act as a fake Matlab server that the MatlabAceEngine can talk to
+ * until the real Matlab server comes online.  It has two sockets, one for PUT requests,
+ * and one for GET requests.  The PUT socket takes a list of doubles, the GET request sends
+ * a list of doubles.  To invoke this class, type run-backend-test.sh (located in the bin directory).
+ * usage: run-backend-test.sh [put server port] [get server port]
+ * 
  * @author Scott Bell
  */
 public class MatlabTestBackend {
@@ -65,7 +70,7 @@ public class MatlabTestBackend {
 			Logger
 					.getLogger(MatlabTestBackend.class)
 					.error(
-							"usage: java com.traclabs.biosim.server.util.MatlabTestBackend [put server port] [get server port]");
+							"usage: java -classpath [path to log4j.jar] com.traclabs.biosim.server.util.MatlabTestBackend [put server port] [get server port]");
 			return;
 		} else if (args.length == 2) {
 			try {

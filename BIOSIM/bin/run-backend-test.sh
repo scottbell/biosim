@@ -22,7 +22,7 @@ fi
 testClasspath="$devRootDir/lib/log4j/log4j.jar:$devRootDir/build"
 javaInvocation="$java_command -classpath $testClasspath"
 backendProgram="com.traclabs.biosim.server.util.MatlabTestBackend"
-$javaInvocation $backendProgram $1
+$javaInvocation $backendProgram $1 $2
 
 
 
