@@ -4,16 +4,16 @@ import biosim.server.sensor.framework.*;
 import biosim.idl.sensor.air.*;
 import biosim.idl.simulation.air.*;
 
-public class O2InFlowRateSensorImpl extends GenericSensorImpl implements O2InFlowRateSensorOperations{
-	private O2Consumer myConsumer;
+public class CO2InFlowRateSensorImpl extends GenericSensorImpl implements CO2InFlowRateSensorOperations{
+	private CO2Consumer myConsumer;
 	private int myIndex;
 	
-	public O2InFlowRateSensorImpl(int pID){
+	public CO2InFlowRateSensorImpl(int pID){
 		super(pID);
 	}
 
 	protected void gatherData(){
-		double preFilteredValue = getInput().getO2InputActualFlowRate(myIndex);
+		double preFilteredValue = getInput().getCO2InputActualFlowRate(myIndex);
 		myValue = randomFilter(preFilteredValue);
 	}
 	
@@ -21,12 +21,12 @@ public class O2InFlowRateSensorImpl extends GenericSensorImpl implements O2InFlo
 		//does nothing right now
 	}
 
-	public void setInput(O2Consumer pConsumer, int pIndex){
+	public void setInput(CO2Consumer pConsumer, int pIndex){
 		myConsumer = pConsumer;
 		myIndex = pIndex;
 	}
 	
-	public O2Consumer getInput(){
+	public CO2Consumer getInput(){
 		return myConsumer;
 	}
 	
