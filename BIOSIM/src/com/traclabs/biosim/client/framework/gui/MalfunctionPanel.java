@@ -13,7 +13,7 @@ import biosim.idl.framework.*;
  */
 public class MalfunctionPanel extends TimedPanel
 {
-	private Hashtable myMalfunctionVariables;
+	private Map myMalfunctionVariables;
 	private JList moduleList;
 	private JList currentMalfunctionList;
 	private JComboBox lengthComboBox;

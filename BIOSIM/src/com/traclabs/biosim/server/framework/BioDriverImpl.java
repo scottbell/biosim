@@ -12,9 +12,7 @@ import biosim.server.util.*;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.Enumeration;
+import java.util.*;
 
 
 /**
@@ -46,7 +44,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	private String simEnvironmentName;
 	private String loggerName;
 	//A hastable containing the server references
-	private Hashtable modules;
+	private Map modules;
 	//A reference to the naming service
 	private NamingContextExt ncRef;
 	//The thread to run the simulation
@@ -153,7 +151,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myTickThread = new Thread(this);
 		myTickThread.start();
 	}
-	
+
 	public void setInitialization(BioDriverInit pInitializationToUse){
 		initializationToUse = pInitializationToUse;
 	}
@@ -240,7 +238,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		myPowerStore.setCapacity(10000f);
 		myPowerStore.setLevel(10000f);
 	}
-	
+
 	/**
 	* Initializes the various servers with various optimal data
 	*/
@@ -325,7 +323,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	public int getDriverPauseLength(){
 		return driverPauseLength;
 	}
-	
+
 	public boolean isDone(){
 		if (runTillN){
 			if (ticksGoneBy >= nTicks){
@@ -342,7 +340,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		}
 		return false;
 	}
-	
+
 	public int getTicks(){
 		return ticksGoneBy;
 	}
@@ -409,23 +407,23 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		else{
 			System.out.println("BioDriverImpl:"+myID+" Disabling logging");
 		}
-		for (Enumeration e = modules.elements(); e.hasMoreElements();){
-			BioModule currentBioModule = (BioModule)(e.nextElement());
+		for (Iterator iter = modules.values().iterator(); iter.hasNext();){
+			BioModule currentBioModule = (BioModule)(iter.next());
 			currentBioModule.setLogging(pLogSim);
 		}
 		myLogger.setProcessingLogs(pLogSim);
 	}
-	
+
 	public void setStochasticIntensity(StochasticIntensity pValue){
-		for (Enumeration e = modules.elements(); e.hasMoreElements();){
-			BioModule currentBioModule = (BioModule)(e.nextElement());
+		for (Iterator iter = modules.values().iterator(); iter.hasNext();){
+			BioModule currentBioModule = (BioModule)(iter.next());
 			currentBioModule.setStochasticIntensity(pValue);
 		}
 	}
-	
+
 	public  void startMalfunction(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
-		for (Enumeration e = modules.elements(); e.hasMoreElements();){
-			BioModule currentBioModule = (BioModule)(e.nextElement());
+		for (Iterator iter = modules.values().iterator(); iter.hasNext();){
+			BioModule currentBioModule = (BioModule)(iter.next());
 			currentBioModule.startMalfunction(pIntensity, pLength);
 		}
 	}
@@ -566,8 +564,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	public void reset(){
 		collectReferences();
 		System.out.println("BioDriverImpl:"+myID+" Resetting simulation");
-		for (Enumeration e = modules.elements(); e.hasMoreElements();){
-			BioModule currentBioModule = (BioModule)(e.nextElement());
+		for (Iterator iter = modules.values().iterator(); iter.hasNext();){
+			BioModule currentBioModule = (BioModule)(iter.next());
 			currentBioModule.reset();
 		}
 	}
@@ -581,8 +579,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		//first tick SimEnvironment
 		mySimEnvironment.tick();
 		//Iterate through the rest of the modules and tick them
-		for (Enumeration e = modules.elements(); e.hasMoreElements();){
-			BioModule currentBioModule = (BioModule)(e.nextElement());
+		for (Iterator iter = modules.values().iterator(); iter.hasNext();){
+			BioModule currentBioModule = (BioModule)(iter.next());
 			if (!(currentBioModule.getModuleName().equals(simEnvironmentName))){
 				currentBioModule.tick();
 			}

@@ -31,12 +31,12 @@ public class SimDesktopManager extends DefaultDesktopManager{
 
 	private LinkedList getOpenFrames(){
 		LinkedList openFrames = new LinkedList();
-		Hashtable framesHashtable = desktop.getInternalFrames();
-		if (framesHashtable.size() == 0) {
+		Map framesMap = desktop.getInternalFrames();
+		if (framesMap.size() == 0) {
 			return openFrames;
 		}
-		for (Enumeration e = framesHashtable.elements(); e.hasMoreElements();){
-			JInternalFrame currentFrame = (JInternalFrame)(e.nextElement());
+		for (Iterator iter = framesMap.values().iterator(); iter.hasNext();){
+			JInternalFrame currentFrame = (JInternalFrame)(iter.next());
 			if (currentFrame.isVisible() && (!currentFrame.isClosed()))
 				openFrames.add(currentFrame);
 		}
@@ -69,10 +69,10 @@ public class SimDesktopManager extends DefaultDesktopManager{
 		int offsetY = 0;
 
 		JInternalFrame currentFrame;
-		Iterator it = openFrames.iterator();
+		Iterator iter = openFrames.iterator();
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols && (i * cols + j < framesCount); j++) {
-				currentFrame = (JInternalFrame)it.next();
+				currentFrame = (JInternalFrame)(iter.next());
 				normalizeFrame(currentFrame);
 				resizeFrame(currentFrame, offsetX, offsetY, width, height);
 				offsetX += width;
@@ -104,9 +104,9 @@ public class SimDesktopManager extends DefaultDesktopManager{
 		LinkedList openFrames = getOpenFrames();
 		if (openFrames.size() == 0)
 			return;
-		Iterator it = openFrames.iterator();
-		while (it.hasNext()) {
-			currentFrame = (JInternalFrame)it.next();
+		Iterator iter = openFrames.iterator();
+		for (iter = openFrames.iterator(); iter.hasNext();){
+			currentFrame = (JInternalFrame)(iter.next());
 			normalizeFrame(currentFrame);
 			currentBounds = getNextInternalFrameBounds();
 			resizeFrame(currentFrame, currentBounds.x, currentBounds.y, currentBounds.width, currentBounds.height);

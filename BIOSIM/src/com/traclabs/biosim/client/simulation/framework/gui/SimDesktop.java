@@ -107,7 +107,7 @@ public class SimDesktop extends BioFrame
 	private javax.swing.Timer myRefreshGuiTimer;
 	private final static int TIMER_DELAY=500;
 
-	private Hashtable myFrames;
+	private Map myFrames;
 	//Count of how many frames are opened.  Used to stagger windows
 	private int openFrameCount = 0;
 	//Integers dictating how much the windows should be staggered.
@@ -538,7 +538,7 @@ public class SimDesktop extends BioFrame
 		}
 	}
 
-	protected Hashtable getInternalFrames(){
+	protected Map getInternalFrames(){
 		return myFrames;
 	}
 
