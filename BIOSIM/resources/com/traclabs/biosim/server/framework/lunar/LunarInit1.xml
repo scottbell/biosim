@@ -30,13 +30,13 @@
 				<H2Producer maxFlowRates="100" desiredFlowRates="100" outputs="EVAH2Store"/>
 			</AirRS>
 			<OGS name="BaseOGS">
-				<powerConsumer maxFlowRates="2500" desiredFlowRates="2500" inputs="BasePowerStore"/>
+				<powerConsumer maxFlowRates="25000" desiredFlowRates="25000" inputs="BasePowerStore"/>
 				<potableWaterConsumer maxFlowRates="10000000" desiredFlowRates="10000000" inputs="CrewBasePotableWaterStore"/>
 				<O2Producer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="BaseO2Store"/>
 				<H2Producer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="BaseH2Store"/>
 			</OGS>
 			<VCCR name="BaseVCCR">
-				<powerConsumer maxFlowRates="1000" desiredFlowRates="1000" inputs="BasePowerStore"/>
+				<powerConsumer maxFlowRates="10000" desiredFlowRates="10000" inputs="BasePowerStore"/>
 				<airConsumer maxFlowRates="10000000" desiredFlowRates="10000000" inputs="BaseCrewEnvironment"/>
 				<airProducer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="BaseCrewEnvironment"/>
 				<CO2Producer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="BaseCO2Store"/>
@@ -152,22 +152,22 @@
 			</Injector>
 		</framework>
 		<power>
-			<PowerPS name="PowerPS" generationType="SOLAR" upperPowerGeneration="700000">
+			<PowerPS name="PowerPS" generationType="SOLAR" upperPowerGeneration="70000">
 				<malfunction occursAtTick="502" length="TEMPORARY_MALF" intensity="SEVERE_MALF"/>
 				<lightConsumer maxFlowRates="0" desiredFlowRates="0" inputs="BaseCrewEnvironment"/>
-				<powerProducer maxFlowRates="5000" desiredFlowRates="5000" outputs="BasePowerStore"/>
+				<powerProducer maxFlowRates="700000" desiredFlowRates="700000" outputs="BasePowerStore"/>
 			</PowerPS>
-			<PowerStore name="BasePowerStore" capacity="500000" level="500000"/>
+			<PowerStore name="BasePowerStore" capacity="50000" level="50000"/>
 			<PowerStore name="EVAPowerStore" capacity="1000" level="1000"/>
 		</power>
 		<water>
 			<WaterRS name="CrewWaterRS" implementation="LINEAR">
-				<powerConsumer maxFlowRates="3000" desiredFlowRates="3000" inputs="BasePowerStore"/>
-				<dirtyWaterConsumer maxFlowRates="10000000" desiredFlowRates="10000000" inputs="CrewBaseDirtyWaterStore"/>
-				<greyWaterConsumer maxFlowRates="10000000" desiredFlowRates="10000000" inputs="CrewBaseGreyWaterStore"/>
-				<potableWaterProducer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="CrewBasePotableWaterStore"/>
+				<powerConsumer maxFlowRates="30000" desiredFlowRates="30000" inputs="BasePowerStore"/>
+				<dirtyWaterConsumer maxFlowRates="1000000" desiredFlowRates="1000000" inputs="CrewBaseDirtyWaterStore"/>
+				<greyWaterConsumer maxFlowRates="1000000" desiredFlowRates="1000000" inputs="CrewBaseGreyWaterStore"/>
+				<potableWaterProducer maxFlowRates="1000000" desiredFlowRates="1000000" outputs="CrewBasePotableWaterStore"/>
 			</WaterRS>
-			<PotableWaterStore name="CrewBasePotableWaterStore" capacity="8000" level="8000"/>
+			<PotableWaterStore name="CrewBasePotableWaterStore" capacity="5000" level="5000"/>
 			<PotableWaterStore name="EVAPotableWaterStore" capacity="2" level="2"/>
 			<GreyWaterStore name="CrewBaseGreyWaterStore" capacity="4000" level="0"/>
 			<GreyWaterStore name="EVAGreyWaterStore" capacity="1" level="0"/>

@@ -80,6 +80,7 @@ public class OGSImpl extends SimBioModuleImpl implements OGSOperations,
     
     private void gatherPower() {
         currentPowerConsumed = myPowerConsumerDefinitionImpl.getMostResourceFromStore();
+        myLogger.debug("currentPowerConsumed = "+currentPowerConsumed);
     }
     
     public void tick(){
@@ -92,6 +93,7 @@ public class OGSImpl extends SimBioModuleImpl implements OGSOperations,
     private void gatherWater() {
         float waterToConsume = (currentPowerConsumed / 75f) * 0.04167f;
         currentH2OConsumed = myPotableWaterConsumerDefinitionImpl.getResourceFromStore(waterToConsume);
+        myLogger.debug("currentH2OConsumed = "+currentH2OConsumed);
     }
 
     private void pushGasses() {
@@ -106,7 +108,7 @@ public class OGSImpl extends SimBioModuleImpl implements OGSOperations,
         float O2ToDistrubute = randomFilter(currentO2Produced);
         float H2ToDistrubute = randomFilter(currentH2Produced);
         float distributedO2 = myO2ProducerDefinitionImpl.pushResourceToStore(O2ToDistrubute);
-        myLogger.debug("distributedO2 = "+distributedO2);
+        myLogger.debug("O2ToDistrubute = "+O2ToDistrubute);
         float distributedH2 = myH2ProducerDefinitionImpl.pushResourceToStore(H2ToDistrubute);
     }
 }

@@ -20,7 +20,6 @@ import com.traclabs.biosim.idl.actuator.framework.GenericActuator;
 import com.traclabs.biosim.idl.framework.BioDriver;
 import com.traclabs.biosim.idl.sensor.food.HarvestSensor;
 import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
-import com.traclabs.biosim.idl.sensor.framework.StoreOverflowSensor;
 import com.traclabs.biosim.idl.simulation.air.O2Store;
 import com.traclabs.biosim.idl.simulation.air.OGS;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
@@ -57,13 +56,6 @@ public class HandController {
     private final static String TAB = "\t";
 
     // hand controller stuff;
-    private int dirtyWater = 0;
-
-    private int greyWater = 0;
-
-    private int CO2 = 0;
-
-    private int potableWater = 0;
 
     private StateMap continuousState;
 
@@ -111,8 +103,8 @@ public class HandController {
 
     private static int PLANT_PERIOD_MULT = 10;
 
-    public static String[] stateNames = {"dirtywater",
-            "greywater", "potablewater", "oxygen"};
+    public static String[] stateNames = { "dirtywater", "greywater",
+            "potablewater", "oxygen" };
 
     public static String[] actuatorNames = { "OGSpotable", "waterRSdirty",
             "waterRSgrey" };
@@ -125,13 +117,39 @@ public class HandController {
 
     private Logger myLogger;
 
-    private boolean plantsExist;
+    private boolean plantsExist = false;
 
     private DecimalFormat numFormat;
-    
-    private static final Integer HIGH = new Integer(0);
-    private static final Integer LOW = new Integer(1);
-    private static final Integer NORMAL = new Integer(2);
+
+    public static final Integer HIGH = new Integer(0);
+
+    public static final Integer LOW = new Integer(1);
+
+    public static final Integer NORMAL = new Integer(2);
+
+    private GenericSensor myBiomassStoreLevelSensor;
+
+    private GenericSensor myFoodStoreLevelSensor;
+
+    private PlantingActuator plantingActuator;
+
+    private HarvestingActuator harvestActuator;
+
+    private GenericSensor plantingSensor;
+
+    private GenericSensor harvestSensor;
+
+    private GenericActuator foodProcessorPower;
+
+    private GenericActuator foodProcessorBiomass;
+
+    private GenericActuator myO2AirEnvironmentOutInjectorAcutator;
+
+    private GenericSensor myO2AirConcentrationSensor;
+
+    private Injector myInjector;
+
+    private GenericActuator myO2AirStoreInInjectorAcutator;
 
     public HandController() {
         myLogger = Logger.getLogger(this.getClass());
@@ -147,32 +165,47 @@ public class HandController {
         // ticks the sim one step at a time, observes the state, updates policy
         // and predictive model in
         // response to the current state and modifies actuators in response
-        int i;
-        float tmp2, oldvalue, newvalue;
-        GenericActuator currentActuator;
 
         if (myLogger.isDebugEnabled()) {
-            try { 
+            try {
                 outFile = new File("handcontroller-output.txt");
                 fw = new FileWriter(outFile);
             } catch (IOException e) {
             }
             pw = new PrintWriter(fw, true);
         }
+        collectReferences();
+
+        setThresholds();
+
+        // initialize everything to off
+        currentAction = new ActionMap();
+        
+        myBioDriver.startSimulation();
+
+        crewO2integral = 0f;
+        crewCO2integral = 0f;
+        crewH2Ointegral = 0f;
+        Runs++;
+
+        continuousState = new StateMap();
+        continuousState.updateState();
+        classifiedState = classifyState(continuousState);
+        currentAction.performAction(classifiedState);
+    }
+
+    private void collectReferences() {
         myBioHolder = BioHolderInitializer.getBioHolder();
         myBioDriver = myBioHolder.theBioDriver;
-        plantsExist = myBioHolder.theBiomassRSModules.size() > 0;
-        if (plantsExist) {
-            myBiomassRS = (BiomassRS) (myBioHolder.theBiomassRSModules.get(0));
-            myBiomassRS.setAutoHarvestAndReplantEnabled(true);
-            myFoodProcessor = (FoodProcessor) myBioHolder.theFoodProcessors
-                    .get(0);
-            myBiomassStore = (BiomassStore) myBioHolder.theBiomassStores.get(0);
-        }
+        //plantsExist = myBioHolder.theBiomassRSModules.size() > 0;
+        if (plantsExist) 
+            collectFoodReferences();
 
         myCrew = (CrewGroup) myBioHolder.theCrewGroups.get(0);
         myWaterRS = (WaterRS) myBioHolder.theWaterRSModules.get(0);
         myOGS = (OGS) myBioHolder.theOGSModules.get(0);
+
+        myInjector = (Injector) myBioHolder.theInjectors.get(1);
 
         myDirtyWaterStore = (DirtyWaterStore) myBioHolder.theDirtyWaterStores
                 .get(0);
@@ -187,64 +220,49 @@ public class HandController {
                 .get(0);
         myFoodStore = (FoodStore) myBioHolder.theFoodStores.get(0);
         myPowerStore = (PowerStore) myBioHolder.thePowerStores.get(0);
-        //supply power
-        /*currentActuator = (GenericActuator) (myBioHolder.getActuatorAttachedTo(
-                myBioHolder.thePowerInFlowRateActuators, myWaterRS));
-        currentActuator.setValue(500);
-        currentActuator = (GenericActuator) (myBioHolder.getActuatorAttachedTo(
-                myBioHolder.thePowerInFlowRateActuators, myOGS));
-        currentActuator.setValue(300);
-        */
-        //set values for other inputs and outputs
-        currentActuator = (GenericActuator) (myBioHolder.getActuatorAttachedTo(
-                myBioHolder.thePotableWaterOutFlowRateActuators, myWaterRS));
-        currentActuator.setValue(10);
-        currentActuator = (GenericActuator) (myBioHolder.getActuatorAttachedTo(
-                myBioHolder.theH2OutFlowRateActuators, myOGS));
-        currentActuator.setValue(10);
-        currentActuator = (GenericActuator) (myBioHolder.getActuatorAttachedTo(
-                myBioHolder.theO2OutFlowRateActuators, myOGS));
-        currentActuator.setValue(10);
-        if (plantsExist) {
-            currentActuator = (GenericActuator) (myBioHolder
-                    .getActuatorAttachedTo(
-                            myBioHolder.theBiomassInFlowRateActuators,
-                            myFoodProcessor));
-            currentActuator.setValue(0);
-            currentActuator = (GenericActuator) (myBioHolder
-                    .getActuatorAttachedTo(
-                            myBioHolder.theGreyWaterInFlowRateActuators,
-                            myBiomassRS));
-            currentActuator.setValue(2);
-        }
+        
+        myO2AirStoreInInjectorAcutator = (GenericActuator) (myBioHolder.getActuatorAttachedTo(
+                myBioHolder.theO2AirStoreInFlowRateActuators, myInjector));
+        
+        myO2AirEnvironmentOutInjectorAcutator = (GenericActuator) (myBioHolder
+                .getActuatorAttachedTo(
+                        myBioHolder.theO2AirEnvironmentOutFlowRateActuators,
+                        myInjector));
+        myO2AirConcentrationSensor = (GenericSensor) (myBioHolder.getSensorAttachedTo(
+                myBioHolder.theO2AirConcentrationSensors, myCrewEnvironment));
 
-        setThresholds();
+    }
 
-        // initialize everything to off
-        currentActuator.setValue(0);
-        currentActuator = (GenericActuator) (myBioHolder.getActuatorAttachedTo(
-                myBioHolder.thePotableWaterInFlowRateActuators, myOGS));
-        currentActuator.setValue(0);
-        currentActuator = (GenericActuator) (myBioHolder.getActuatorAttachedTo(
-                myBioHolder.theDirtyWaterInFlowRateActuators, myWaterRS));
-        currentActuator.setValue(0);
-        currentActuator = (GenericActuator) (myBioHolder.getActuatorAttachedTo(
-                myBioHolder.theGreyWaterInFlowRateActuators, myWaterRS));
-        currentActuator.setValue(0);
-
-        myBioDriver.startSimulation();
-
-        crewO2integral = 0f;
-        crewCO2integral = 0f;
-        crewH2Ointegral = 0f;
-        Runs++;
-
-        continuousState = new StateMap();
-        continuousState.updateState();
-        classifiedState = classifyState(continuousState);
-        currentAction = findActionMap(classifiedState);
-        setActuators(currentAction);
-
+    /**
+     * 
+     */
+    private void collectFoodReferences() {
+        myBiomassRS = (BiomassRS) (myBioHolder.theBiomassRSModules.get(0));
+        myBiomassRS.setAutoHarvestAndReplantEnabled(true);
+        myFoodProcessor = (FoodProcessor) myBioHolder.theFoodProcessors
+                .get(0);
+        myBiomassStore = (BiomassStore) myBioHolder.theBiomassStores.get(0);
+        
+        myFoodStoreLevelSensor = (GenericSensor) (myBioHolder
+                .getSensorAttachedTo(myBioHolder.theFoodStoreLevelSensors,
+                        myFoodStore));
+        myBiomassStoreLevelSensor = (GenericSensor) (myBioHolder
+                .getSensorAttachedTo(myBioHolder.theBiomassStoreLevelSensors,
+                        myBiomassStore));
+        foodProcessorPower = (GenericActuator) (myBioHolder
+                .getActuatorAttachedTo(myBioHolder.thePowerInFlowRateActuators,
+                        myFoodProcessor));
+        foodProcessorBiomass = (GenericActuator) (myBioHolder
+                .getActuatorAttachedTo(
+                        myBioHolder.theBiomassInFlowRateActuators,
+                        myFoodProcessor));
+        plantingActuator = PlantingActuatorHelper.narrow((myBioHolder
+                .getActuatorAttachedTo(myBioHolder.thePlantingActuators,
+                        myBiomassRS)));
+        harvestActuator = HarvestingActuatorHelper.narrow((myBioHolder
+                .getActuatorAttachedTo(myBioHolder.theHarvestingActuators,
+                        myBiomassRS)));
+        
     }
 
     public void runSim() {
@@ -262,8 +280,7 @@ public class HandController {
             currentAction.printMe();
             continuousState.updateState();
             classifiedState = classifyState(continuousState);
-            currentAction = findActionMap(classifiedState);
-            setActuators(currentAction);
+            currentAction.performAction(classifiedState);
             if (plantsExist) {
                 doFoodProcessor();
                 if (((myBioDriver.getTicks()) % (PLANT_PERIOD_MULT
@@ -320,7 +337,6 @@ public class HandController {
         Map state = new TreeMap();
 
         Map thisSet;
-        GenericSensor currentSensor;
         StringBuffer fileoutput;
 
         fileoutput = new StringBuffer(myBioDriver.getTicks());
@@ -340,129 +356,29 @@ public class HandController {
             else
                 state.put(stateNames[i], NORMAL);
         }
-
-        if (plantsExist) {
-            currentSensor = (GenericSensor) (myBioHolder.getSensorAttachedTo(
-                    myBioHolder.theBiomassStoreLevelSensors, myBiomassStore));
-            fileoutput.append(currentSensor.getValue());
-            fileoutput.append(TAB);
-        }
-
-        currentSensor = (GenericSensor) (myBioHolder.getSensorAttachedTo(
-                myBioHolder.theFoodStoreLevelSensors, myFoodStore));
-        fileoutput.append(currentSensor.getValue());
-        fileoutput.append(TAB);
-
-        currentSensor = (GenericSensor) (myBioHolder.getSensorAttachedTo(
-                myBioHolder.theO2AirConcentrationSensors, myCrewEnvironment));
-        myLogger.debug("Crew O2..." + currentSensor.getValue());
-        fileoutput.append(currentSensor.getValue());
-        fileoutput.append(TAB);
-
-        currentSensor = (GenericSensor) (myBioHolder.getSensorAttachedTo(
-                myBioHolder.theCO2AirConcentrationSensors, myCrewEnvironment));
-        myLogger.debug("Crew CO2..." + currentSensor.getValue());
-        fileoutput.append(currentSensor.getValue());
-        fileoutput.append(TAB);
-
-        currentSensor = (GenericSensor) (myBioHolder.getSensorAttachedTo(
-                myBioHolder.theWaterAirConcentrationSensors, myCrewEnvironment));
-        myLogger.debug("Crew Water Vapor..." + currentSensor.getValue());
-        fileoutput.append(currentSensor.getValue());
-        fileoutput.append(TAB);
-
-        currentSensor = (GenericSensor) (myBioHolder.getSensorAttachedTo(
-                myBioHolder.thePowerStoreLevelSensors, myPowerStore));
-        myLogger.debug("Power..." + currentSensor.getValue());
-
-        if (myLogger.isDebugEnabled())
-            pw.println(fileoutput);
-
         return state;
     }
 
-    public void setActuators(ActionMap currentAction) {
-
-        // sets actuator values according to the current policy
-
-        GenericActuator currentActuator;
-        int i;
-
-        String[] names = ActionMap.actuatorNames;
-
-        for (i = 0; i < names.length; i++) {
-            currentActuator = (GenericActuator) (ActionMap.actuators[i]);
-            currentActuator.setValue((float) currentAction
-                    .getActuatorValue(names[i]));
-            myLogger.debug("Setting " + names[i] + " to "
-                    + currentAction.getActuatorValue(names[i]));
-        }
-
-    }
-
     private void doInjectors() {
-
-        // a crude feedback controller for the accumulators and injectors
-        GenericSensor levelSensor, rateSensor;
-        GenericActuator currentActuator;
-        String printout;
-
         double delta, signal;
         double crewO2p, crewCO2p, crewH2Op;
         double crewO2i, crewCO2i, crewH2Oi;
         double crewO2, crewCO2, crewH2O;
-
-        Injector myInjector = (Injector) myBioHolder.theInjectors.get(1);
-
         double crewAirPressure = myCrewEnvironment.getTotalPressure();
         //crew O2 feedback control
         crewO2p = 100f;
         crewO2i = 5f;
-        levelSensor = (GenericSensor) (myBioHolder.getSensorAttachedTo(
-                myBioHolder.theO2AirConcentrationSensors, myCrewEnvironment));
-        crewO2 = levelSensor.getValue();
+        crewO2 = myO2AirConcentrationSensor.getValue();
         delta = (double) (levelToKeepO2At - crewO2);
         crewO2integral += delta;
         signal = (delta * crewO2p + crewO2i * crewO2integral) + 2;
-        /*
-        myLogger.info("levelToKeepO2At = "+levelToKeepO2At);
-        myLogger.info("crewO2 = "+crewO2);
-        myLogger.info("crewO2integral = "+crewO2integral);
-        myLogger.info("delta = "+delta);
-        myLogger.info("O2 tank ("
-                + numFormat.format(myO2Store.getCurrentLevel())
-                + ") flow to Crew environment: " + numFormat.format(signal));
-        */
-        currentActuator = (GenericActuator) (myBioHolder
-                .getActuatorAttachedTo(
-                        myBioHolder.theO2AirEnvironmentOutFlowRateActuators,
-                        myInjector));
-        if (currentActuator == null)
-            myLogger.error("currentActuator = null!!");
-        currentActuator.setValue((float) (signal));
-        currentActuator = (GenericActuator) (myBioHolder.getActuatorAttachedTo(
-                myBioHolder.theO2AirStoreInFlowRateActuators, myInjector));
-        currentActuator.setValue((float) (signal));
+        myO2AirEnvironmentOutInjectorAcutator.setValue((float) (signal));
+        myO2AirStoreInInjectorAcutator.setValue((float) (signal));
     }
 
     private void doFoodProcessor() {
-        GenericActuator foodProcessorPower, foodProcessorBiomass;
         float food, biomass;
         int turnon = 1;
-
-        GenericSensor myFoodStoreLevelSensor = (GenericSensor) (myBioHolder
-                .getSensorAttachedTo(myBioHolder.theFoodStoreLevelSensors,
-                        myFoodStore));
-        GenericSensor myBiomassStoreLevelSensor = (GenericSensor) (myBioHolder
-                .getSensorAttachedTo(myBioHolder.theBiomassStoreLevelSensors,
-                        myBiomassStore));
-        foodProcessorPower = (GenericActuator) (myBioHolder
-                .getActuatorAttachedTo(myBioHolder.thePowerInFlowRateActuators,
-                        myFoodProcessor));
-        foodProcessorBiomass = (GenericActuator) (myBioHolder
-                .getActuatorAttachedTo(
-                        myBioHolder.theBiomassInFlowRateActuators,
-                        myFoodProcessor));
         biomass = (float) myBiomassStoreLevelSensor.getValue();
         food = (float) myFoodStoreLevelSensor.getValue();
 
@@ -484,72 +400,21 @@ public class HandController {
 
     }
 
-    private ActionMap findActionMap(Map SimState) {
-        String printout = "";
-        ActionMap myAction;
-        int i;
-        if (SimState.get("potablewater") == LOW) {
-            dirtyWater = 1;
-        } else if (SimState.get("dirtywater") == HIGH
-                && SimState.get("potablewater") != HIGH) {
-            dirtyWater = 1;
-        } else {
-            dirtyWater = 0;
-        }
-        if (SimState.get("potablewater") == LOW
-                && SimState.get("greywater") != LOW) {
-            greyWater = 1;
-        } else if (SimState.get("greywater") == HIGH
-                && SimState.get("potablewater") != HIGH) {
-            greyWater = 1;
-        } else {
-            greyWater = 0;
-        }
-        if (SimState.get("oxygen") == LOW) {
-            potableWater = 1;
-        }
-        if (SimState.get("oxygen") == HIGH) {
-            potableWater = 0;
-        }
-
-        myLogger.debug("CRS: " + CO2 + " OGS: " + potableWater + " Dirty Water: "
-                + dirtyWater + " Grey Water: " + greyWater);
-        myAction = new ActionMap(new int[] { potableWater, dirtyWater, greyWater });
-        return myAction;
-
-    }
-
     private void doPlants() {
         float overflow, new_overflow;
         float cropacres;
-        GenericSensor harvestSensor;
-        GenericSensor currentSensor;
-        PlantingActuator currentActuator;
-        HarvestingActuator harvestActuator;
-        StoreOverflowSensor co2OverflowSensor, o2OverflowSensor;
-
-        currentActuator = PlantingActuatorHelper.narrow((myBioHolder
-                .getActuatorAttachedTo(myBioHolder.thePlantingActuators,
-                        myBiomassRS)));
-        harvestActuator = HarvestingActuatorHelper.narrow((myBioHolder
-                .getActuatorAttachedTo(myBioHolder.theHarvestingActuators,
-                        myBiomassRS)));
-        
-        o2OverflowSensor = (StoreOverflowSensor) myBioHolder
-                .getSensorAttachedTo(myBioHolder.theStoreOverflowSensors,
-                        myO2Store);
 
         int i;
         int num = myBioHolder.theHarvestSensors.size();
 
         for (i = 0; i < num; i++) {
-            currentSensor = (HarvestSensor) myBioHolder.theHarvestSensors
+            plantingSensor = (HarvestSensor) myBioHolder.theHarvestSensors
                     .get(i);
-            currentActuator = (PlantingActuator) myBioHolder.thePlantingActuators
+            plantingActuator = (PlantingActuator) myBioHolder.thePlantingActuators
                     .get(i);
 
-            if (currentSensor.getValue() == 1f) {
-                myLogger.debug(" Harvest Sensor " + currentSensor.getValue());
+            if (plantingSensor.getValue() == 1f) {
+                myLogger.debug(" Harvest Sensor " + plantingSensor.getValue());
                 myBiomassRS.getShelf(i).harvest();
                 cropacres = myBiomassRS.getShelf(i).getCropAreaTotal();
                 myLogger
@@ -558,9 +423,9 @@ public class HandController {
                                 + " m^2."
                                 + ((Shelf) myBiomassRS.getShelf(i))
                                         .getCropTypeString());
-                currentActuator.setPlantType(myBiomassRS.getShelf(i)
+                plantingActuator.setPlantType(myBiomassRS.getShelf(i)
                         .getCropType());
-                currentActuator.setValue(cropacres);
+                plantingActuator.setValue(cropacres);
             }
         }
     }
