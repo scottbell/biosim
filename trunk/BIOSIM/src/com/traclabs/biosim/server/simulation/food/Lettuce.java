@@ -49,7 +49,7 @@ public class Lettuce extends Planophile{
 	}
 	
 	protected float getConstantPPF(){
-		return 295f;
+		return initialPPFValue;
 	}
 	
 	protected float getCarbonUseEfficiency24(){

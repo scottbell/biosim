@@ -49,7 +49,7 @@ public class Tomato extends Planophile{
 	}
 	
 	protected float getConstantPPF(){
-		return 625f;
+		return initialPPFValue;
 	}
 	
 	protected float getCarbonUseEfficiency24(){
