@@ -51,6 +51,9 @@ module biosim{
                                 enum PlantType {WHEAT, DRY_BEAN, LETTUCE, PEANUT, RICE, SOYBEAN, SWEET_POTATO, TOMATO, WHITE_POTATO, UNKNOWN_PLANT};
                                 struct BioMatter{
                                         float mass;
+                                        float inedibleFraction;
+                                        float edibleWaterContent;
+                                        float inedibleWaterContent;
                                         PlantType type;
                                 };
                                 struct FoodMatter{
@@ -807,10 +810,10 @@ module biosim{
                                 };
 
                                 interface BiomassStore : framework::Store{
-                                        float addBioMatter(in float mass, in PlantType type);
+                                        float addBioMatter(in BioMatter pBioMatter);
                                         BioMatterList takeBioMatterMass(in float mass);
-                                        BioMatter takeBioMatterMassAndType(in float mass, in PlantType pType);
-                                        BioMatter takeBioMatterType(in PlantType pType);
+                                        //BioMatter takeBioMatterMassAndType(in float mass, in PlantType pType);
+                                        //BioMatter takeBioMatterType(in PlantType pType);
                                         float calculateWaterContentInStore();
                                 };
 

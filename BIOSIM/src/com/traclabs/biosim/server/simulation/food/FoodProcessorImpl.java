@@ -214,48 +214,12 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	}
 	
 	private float calculateInedibleWaterContent(BioMatter inMatter){
-		float totalWaterWithinInedibleBioMatter = 0f;
-		if (inMatter.type == PlantType.DRY_BEAN)
-			totalWaterWithinInedibleBioMatter = (inMatter.mass * (1 - DryBean.getFractionOfEdibleBiomass()) * DryBean.getInedibleFreshBasisWaterContent()) ;
-		else if (inMatter.type == PlantType.LETTUCE)
-			totalWaterWithinInedibleBioMatter = (inMatter.mass * (1 - Lettuce.getFractionOfEdibleBiomass()) * Lettuce.getInedibleFreshBasisWaterContent()) ;
-		else if (inMatter.type == PlantType.PEANUT)
-			totalWaterWithinInedibleBioMatter = (inMatter.mass * (1 - Peanut.getFractionOfEdibleBiomass()) * Peanut.getInedibleFreshBasisWaterContent()) ;
-		else if (inMatter.type == PlantType.RICE)
-			totalWaterWithinInedibleBioMatter = (inMatter.mass * (1 - Rice.getFractionOfEdibleBiomass()) * Rice.getInedibleFreshBasisWaterContent()) ;
-		else if (inMatter.type == PlantType.SOYBEAN)
-			totalWaterWithinInedibleBioMatter = (inMatter.mass * (1 - Soybean.getFractionOfEdibleBiomass()) * Soybean.getInedibleFreshBasisWaterContent()) ;
-		else if (inMatter.type == PlantType.SWEET_POTATO)
-			totalWaterWithinInedibleBioMatter = (inMatter.mass * (1 - SweetPotato.getFractionOfEdibleBiomass()) * SweetPotato.getInedibleFreshBasisWaterContent()) ;
-		else if (inMatter.type == PlantType.TOMATO)
-			totalWaterWithinInedibleBioMatter = (inMatter.mass * (1 - Tomato.getFractionOfEdibleBiomass()) * Tomato.getInedibleFreshBasisWaterContent()) ;
-		else if (inMatter.type == PlantType.WHEAT)
-			totalWaterWithinInedibleBioMatter = (inMatter.mass * (1 - Wheat.getFractionOfEdibleBiomass()) * Wheat.getInedibleFreshBasisWaterContent()) ;
-		else if (inMatter.type == PlantType.WHITE_POTATO)
-			totalWaterWithinInedibleBioMatter = (inMatter.mass * (1 - WhitePotato.getFractionOfEdibleBiomass()) * WhitePotato.getInedibleFreshBasisWaterContent()) ;
-		return randomFilter(totalWaterWithinInedibleBioMatter);
+		float totalWaterWithinInedibleBioMatter = inMatter.inedibleWaterContent;
+		return randomFilter(totalWaterWithinInedibleBioMatter) * myProductionRate;
 	}
 	
 	private FoodMatter transformBioMatter(BioMatter inMatter){
-		FoodMatter newFoodMatter = new FoodMatter(0f, inMatter.type);
-		if (newFoodMatter.type == PlantType.DRY_BEAN)
-			newFoodMatter.mass = inMatter.mass * DryBean.getFractionOfEdibleBiomass();
-		else if (newFoodMatter.type == PlantType.LETTUCE)
-			newFoodMatter.mass = inMatter.mass * Lettuce.getFractionOfEdibleBiomass();
-		else if (newFoodMatter.type == PlantType.PEANUT)
-			newFoodMatter.mass = inMatter.mass * Peanut.getFractionOfEdibleBiomass();
-		else if (newFoodMatter.type == PlantType.RICE)
-			newFoodMatter.mass = inMatter.mass * Rice.getFractionOfEdibleBiomass();
-		else if (newFoodMatter.type == PlantType.SOYBEAN)
-			newFoodMatter.mass = inMatter.mass * Soybean.getFractionOfEdibleBiomass();
-		else if (newFoodMatter.type == PlantType.SWEET_POTATO)
-			newFoodMatter.mass = inMatter.mass * SweetPotato.getFractionOfEdibleBiomass();
-		else if (newFoodMatter.type == PlantType.TOMATO)
-			newFoodMatter.mass = inMatter.mass * Tomato.getFractionOfEdibleBiomass();
-		else if (newFoodMatter.type == PlantType.WHEAT)
-			newFoodMatter.mass = inMatter.mass * Wheat.getFractionOfEdibleBiomass();
-		else if (newFoodMatter.type == PlantType.WHITE_POTATO)
-			newFoodMatter.mass = inMatter.mass * WhitePotato.getFractionOfEdibleBiomass();
+		FoodMatter newFoodMatter = new FoodMatter(1f - (inMatter.mass * inMatter.inedibleFraction), inMatter.type);
 		newFoodMatter.mass = randomFilter(newFoodMatter.mass) * myProductionRate;
 		return newFoodMatter;
 	}

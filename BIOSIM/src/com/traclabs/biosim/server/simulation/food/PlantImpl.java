@@ -32,6 +32,8 @@ public abstract class PlantImpl extends PlantPOA{
 	private int myNumberOfCO2ConcentrationReadings = 0;
 	//in dry weight
 	private float myCurrentTotalWaterInsideBiomass = 0f;
+	private float myCurrentWaterInsideInedibleBiomass = 0f;
+	private float myCurrentWaterInsideEdibleBiomass = 0f;
 	private float myCurrentTotalWetBiomass = 0f;
 	private float myCurrentEdibleWetBiomass = 0f;
 	private float myCurrentEdibleDryBiomass = 0f;
@@ -126,6 +128,8 @@ public abstract class PlantImpl extends PlantPOA{
 		myLastEdibleWetBiomass = 0f;
 		myCurrentEdibleDryBiomass = 0f;
 		myCurrentTotalWaterInsideBiomass = 0f;
+		myCurrentWaterInsideInedibleBiomass = 0f;
+		myCurrentWaterInsideEdibleBiomass = 0f;
 		myAverageWaterNeeded = 0f;
 		myTotalWaterNeeded = 0f;
 		myWaterNeeded = 0f;
@@ -179,10 +183,11 @@ public abstract class PlantImpl extends PlantPOA{
 		return (getDaysOfGrowth() >= getTimeAtCropMaturity());
 	}
 
-	public float harvest(){
-		float biomassToReturn = myCurrentTotalWetBiomass;
+	public BioMatter harvest(){
+		float inedibleFraction = 1f - (myCurrentEdibleWetBiomass / myCurrentTotalWetBiomass);
+		BioMatter newBioMatter = new BioMatter(myCurrentTotalWetBiomass, inedibleFraction, myCurrentWaterInsideEdibleBiomass, myCurrentWaterInsideInedibleBiomass, getPlantType());
 		reset();
-		return biomassToReturn;
+		return newBioMatter;
 	}
 
 	public void shine(float pPPF){
@@ -368,12 +373,12 @@ public abstract class PlantImpl extends PlantPOA{
 
 		if (getDaysOfGrowth() > getTimeAtOrganFormation())
 			myCurrentEdibleDryBiomass += (cropGrowthRate / 1000 / 24f * myShelfImpl.getCropAreaUsed() * getProtectedFractionOfEdibleBiomass());
-		float waterInsideEdibleBiomass = myCurrentEdibleDryBiomass * getProtectedEdibleFreshBasisWaterContent() / (1f - getProtectedEdibleFreshBasisWaterContent());
+		myCurrentWaterInsideEdibleBiomass = myCurrentEdibleDryBiomass * getProtectedEdibleFreshBasisWaterContent() / (1f - getProtectedEdibleFreshBasisWaterContent());
 
-		myCurrentEdibleWetBiomass = waterInsideEdibleBiomass + myCurrentEdibleDryBiomass;
+		myCurrentEdibleWetBiomass = myCurrentWaterInsideEdibleBiomass + myCurrentEdibleDryBiomass;
 		float myCurrentInedbileDryBiomass = myCurrentDryBiomass - myCurrentEdibleDryBiomass;
-		float waterInsideInEdibleBiomass = myCurrentInedbileDryBiomass * getProtectedInedibleFreshBasisWaterContent() / (1f - getProtectedInedibleFreshBasisWaterContent());
-		float myCurrentInedibleWetBiomass = waterInsideInEdibleBiomass + myCurrentInedbileDryBiomass;
+		myCurrentWaterInsideInedibleBiomass = myCurrentInedbileDryBiomass * getProtectedInedibleFreshBasisWaterContent() / (1f - getProtectedInedibleFreshBasisWaterContent());
+		float myCurrentInedibleWetBiomass = myCurrentWaterInsideInedibleBiomass + myCurrentInedbileDryBiomass;
 		myCurrentTotalWetBiomass = myCurrentInedibleWetBiomass + myCurrentEdibleWetBiomass;
 		//System.out.println("PlantImpl: myCurrentEdibleDryBiomass: "+myCurrentEdibleDryBiomass);
 
@@ -395,14 +400,14 @@ public abstract class PlantImpl extends PlantPOA{
 			//System.out.println("PlantImpl: myCurrentDryBiomass: "+myCurrentDryBiomass);
 			//System.out.println("PlantImpl: myCurrentEdibleDryBiomass: "+myCurrentEdibleDryBiomass);
 
-			waterInsideEdibleBiomass = myCurrentEdibleDryBiomass * getProtectedEdibleFreshBasisWaterContent() / (1f - getProtectedEdibleFreshBasisWaterContent());
-			myCurrentEdibleWetBiomass = waterInsideEdibleBiomass + myCurrentEdibleDryBiomass;
+			myCurrentWaterInsideEdibleBiomass = myCurrentEdibleDryBiomass * getProtectedEdibleFreshBasisWaterContent() / (1f - getProtectedEdibleFreshBasisWaterContent());
+			myCurrentEdibleWetBiomass = myCurrentWaterInsideEdibleBiomass + myCurrentEdibleDryBiomass;
 
-			waterInsideInEdibleBiomass = myCurrentInedbileDryBiomass * getProtectedInedibleFreshBasisWaterContent() / (1f - getProtectedInedibleFreshBasisWaterContent());
-			myCurrentInedibleWetBiomass = waterInsideInEdibleBiomass + myCurrentInedbileDryBiomass;
+			myCurrentWaterInsideInedibleBiomass = myCurrentInedbileDryBiomass * getProtectedInedibleFreshBasisWaterContent() / (1f - getProtectedInedibleFreshBasisWaterContent());
+			myCurrentInedibleWetBiomass = myCurrentWaterInsideInedibleBiomass + myCurrentInedbileDryBiomass;
 			myCurrentTotalWetBiomass = myCurrentInedibleWetBiomass + myCurrentEdibleWetBiomass;
 		}
-		myCurrentTotalWaterInsideBiomass = waterInsideEdibleBiomass+waterInsideInEdibleBiomass;
+		myCurrentTotalWaterInsideBiomass = myCurrentWaterInsideEdibleBiomass+myCurrentWaterInsideInedibleBiomass;
 
 		//Breathe Air
 		float molesOfCO2ToInhale = 0f;
