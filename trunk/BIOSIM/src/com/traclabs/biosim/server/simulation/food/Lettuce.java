@@ -16,12 +16,12 @@ public class Lettuce extends Planophile{
 		canopyClosureConstants[8] = .0000023127f;
 		canopyClosureConstants[10] = 1.8760f;
 
-		canopyQYConstants[6] = .04191f;
-		canopyQYConstants[7] = .000053852f;
-		canopyQYConstants[8] = -.000000021275f;
-		canopyQYConstants[11] = -.00001238f;
-		canopyQYConstants[17] = -.00000000001544f;
-		canopyQYConstants[18] = .000000000000006469f;
+		canopyQYConstants[6] = 0.044763f;
+		canopyQYConstants[7] = 0.00005163f;
+		canopyQYConstants[8] = -0.00000002075f;
+		canopyQYConstants[11] = -0.000011701f;
+		canopyQYConstants[17] = -0.000000000019731f;
+		canopyQYConstants[18] = 0.0000000000000089265f;
 	}
 
 	public PlantType getPlantType(){
