@@ -2,7 +2,6 @@ package biosim.client.framework;
 
 import biosim.client.simulation.framework.gui.*;
 import biosim.client.simulation.framework.*;
-import biosim.client.sim3D.*;
 import biosim.client.util.*;
 import biosim.client.framework.gui.*;
 import biosim.client.unrealCom.*;
