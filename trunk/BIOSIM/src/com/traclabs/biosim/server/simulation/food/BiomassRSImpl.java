@@ -9,13 +9,13 @@ import biosim.idl.air.*;
 import biosim.server.framework.*;
 
 public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations {
+	private float waterNeeded = 0.10f;
+	private float powerNeeded = 100;
 	private float currentPowerConsumed = 0f;
 	private float currentGreyWaterConsumed = 0f;
 	private float currentBiomassProduced = 0f;
 	private float currentCO2Consumed= 0f;
 	private float currentO2Produced = 0f;
-	private float waterNeeded = 0.10f;
-	private float powerNeeded = 100;
 	private int noPowerTime = 0;
 	private int noWaterTime = 0;
 	private int noCO2Time = 0;
