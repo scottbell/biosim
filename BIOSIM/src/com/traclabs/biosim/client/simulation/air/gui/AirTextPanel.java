@@ -20,13 +20,6 @@ public class AirTextPanel extends TimedPanel
 {
 	//Various GUI componenets
 	private JPanel airRSPanel;
-	private JLabel airRSVCCRStatusLabel;
-	private JLabel airRSCRSStatusLabel;
-	private JLabel airRSOGSStatusLabel;
-	private JLabel airRSPowerLabel;
-	private JLabel airRSCO2ConsumedLabel;
-	private JLabel airRSO2ProducedLabel;
-	private JLabel airRSCO2ProducedLabel;
 	private JPanel O2StorePanel;
 	private JLabel O2StoreLevelLabel;
 	private JPanel CO2StorePanel;
@@ -69,20 +62,6 @@ public class AirTextPanel extends TimedPanel
 		airRSPanel = new JPanel();
 		airRSPanel.setLayout(new GridLayout(7,1));
 		airRSPanel.setBorder(BorderFactory.createTitledBorder("Air Recovery System"));
-		airRSVCCRStatusLabel =             new JLabel("VCCR status:    "+coallateVCCRStatus());
-		airRSCRSStatusLabel =              new JLabel("CRS status:     "+coallateCRSStatus());
-		airRSOGSStatusLabel =              new JLabel("OGS status:     "+coallateOGSStatus());
-		airRSO2ProducedLabel =             new JLabel("O2 produced:    "+numFormat.format(myAirRS.getO2Produced())+" moles");
-		airRSCO2ConsumedLabel =            new JLabel("CO2 consumed:   "+numFormat.format(myAirRS.getCO2Consumed())+" moles");
-		airRSCO2ProducedLabel =            new JLabel("CO2 produced:   "+numFormat.format(myAirRS.getCO2Produced())+" moles");
-		airRSPowerLabel =                  new JLabel("power consumed: "+numFormat.format(myAirRS.getPowerConsumed())+" W");
-		airRSPanel.add(airRSVCCRStatusLabel);
-		airRSPanel.add(airRSCRSStatusLabel);
-		airRSPanel.add(airRSOGSStatusLabel);
-		airRSPanel.add(airRSO2ProducedLabel);
-		airRSPanel.add(airRSCO2ConsumedLabel);
-		airRSPanel.add(airRSCO2ProducedLabel);
-		airRSPanel.add(airRSPowerLabel);
 
 		O2StorePanel = new JPanel();
 		O2StorePanel.setLayout(new GridLayout(1,1));
@@ -144,66 +123,11 @@ public class AirTextPanel extends TimedPanel
 		gridbag.setConstraints(nitrogenStorePanel, c);
 		add(nitrogenStorePanel);
 	}
-
-	/**
-	 * Checks the status of VCCR AirRS subsystem and constructs a string describing it.
-	 * @return	A String representing the status of the VCCR
-	 */
-	private String coallateVCCRStatus(){
-		StringBuffer statusBuffer = new StringBuffer();
-		if (!myAirRS.VCCRHasPower())
-			statusBuffer.append("needs power, ");
-		if (statusBuffer.length() < 1)
-			return "nominal";
-		else{
-			statusBuffer.delete(statusBuffer.length() -2, statusBuffer.length());
-			return statusBuffer.toString();
-		}
-	}
-	
-	/**
-	 * Checks the status of CRS AirRS subsystem and constructs a string describing it.
-	 * @return	A String representing the status of the CRS
-	 */
-	private String coallateCRSStatus(){
-		StringBuffer statusBuffer = new StringBuffer();
-		if (!myAirRS.CRSHasPower())
-			statusBuffer.append("needs power, ");
-		if (statusBuffer.length() < 1)
-			return "nominal";
-		else{
-			statusBuffer.delete(statusBuffer.length() -2, statusBuffer.length());
-			return statusBuffer.toString();
-		}
-	}
-	
-	/**
-	 * Checks the status of OGS AirRS subsystem and constructs a string describing it.
-	 * @return	A String representing the status of the OGS
-	 */
-	private String coallateOGSStatus(){
-		StringBuffer statusBuffer = new StringBuffer();
-		if (!myAirRS.OGSHasPower())
-			statusBuffer.append("needs power");
-		if (statusBuffer.length() < 1)
-			return "nominal";
-		else{
-			statusBuffer.delete(statusBuffer.length() -2, statusBuffer.length());
-			return statusBuffer.toString();
-		}
-	}
 	
 	/**
 	 * Updates every label on the panel with new data pulled from the servers.
 	 */
 	public void refresh(){
-		airRSVCCRStatusLabel.setText( "VCCR status:    "+coallateVCCRStatus());
-		airRSCRSStatusLabel.setText(  "CRS status:     "+coallateCRSStatus());
-		airRSOGSStatusLabel.setText(  "OGS status:     "+coallateOGSStatus());
-		airRSO2ProducedLabel.setText( "O2 produced:    "+numFormat.format(myAirRS.getO2Produced())+" moles");
-		airRSCO2ConsumedLabel.setText("CO2 consumed:   "+numFormat.format(myAirRS.getCO2Consumed())+" moles");
-		airRSPowerLabel.setText(      "power consumed: "+numFormat.format(myAirRS.getPowerConsumed())+" W");
-		airRSCO2ProducedLabel.setText("CO2 produced:   "+numFormat.format(myAirRS.getCO2Produced())+" moles");
 		CO2StoreLevelLabel.setText(   "CO2 level:      "+numFormat.format(myCO2Store.getLevel())+" moles");
 		H2StoreLevelLabel.setText(   "H2 level:      "+numFormat.format(myH2Store.getLevel())+" moles");
 		nitrogenStoreLevelLabel.setText(   "Nitrogen level:      "+numFormat.format(myNitrogenStore.getLevel())+" moles");

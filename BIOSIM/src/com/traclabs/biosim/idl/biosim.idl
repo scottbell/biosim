@@ -780,13 +780,6 @@ module biosim{
                         };
                         module air{
                                 interface AirRS : framework::SimBioModule, framework::PowerConsumer, framework::H2Consumer, framework::H2Producer, framework::AirConsumer, framework::AirProducer, framework::CO2Producer, framework::O2Producer, framework::CO2Consumer, framework::PotableWaterConsumer, framework::PotableWaterProducer{
-                                        float getPowerConsumed();
-                                        float getCO2Consumed();
-                                        float getO2Produced();
-                                        float getCO2Produced();
-                                        boolean VCCRHasPower();
-                                        boolean CRSHasPower();
-                                        boolean OGSHasPower();
                                 };
                                 interface H2Store : framework::Store{
                                 };
