@@ -269,12 +269,14 @@ module com{
                                                 BioModuleList getModules();
                                                 BioModuleList getSensors();
                                                 BioModuleList getActuators();
+                                                BioModuleList getSimModules();
                                                 BioModuleList getActiveSimModules();
                                                 BioModuleList getPrioritySimModules();
                                                 BioModuleList getPassiveSimModules();
                                                 StringList getModuleNames();
                                                 StringList getSensorNames();
                                                 StringList getActuatorNames();
+                                                StringList getSimModuleNames();
                                                 StringList getActiveSimModuleNames();
                                                 StringList getPrioritySimModuleNames();
                                                 StringList getPassiveSimModuleNames();

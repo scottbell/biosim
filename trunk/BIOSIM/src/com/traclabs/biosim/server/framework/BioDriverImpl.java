@@ -59,7 +59,7 @@ public class BioDriverImpl extends BioDriverPOA {
     private BiomassRS[] plantsToWatch;
 
     private BioModule[] modules;
-
+    
     private BioModule[] activeSimModules;
 
     private BioModule[] passiveSimModules;
@@ -199,6 +199,17 @@ public class BioDriverImpl extends BioDriverPOA {
         return actuators;
     }
 
+    public BioModule[] getSimModules() {
+        BioModule[] simModules = new BioModule[activeSimModules.length + passiveSimModules.length + prioritySimModules.length];
+        for (int i = 0; i < activeSimModules.length; i++)
+            simModules[i] = activeSimModules[i];
+        for (int i = 0; i < passiveSimModules.length; i++)
+            simModules[i + activeSimModules.length] = passiveSimModules[i];
+        for (int i = 0; i < prioritySimModules.length; i++)
+            simModules[i + activeSimModules.length + prioritySimModules.length] = prioritySimModules[i];
+        return simModules;
+    }
+
     public String[] getModuleNames() {
         String[] moduleNameArray = new String[modules.length];
         for (int i = 0; i < moduleNameArray.length; i++)
@@ -238,6 +249,14 @@ public class BioDriverImpl extends BioDriverPOA {
         String[] simModuleNameArray = new String[prioritySimModules.length];
         for (int i = 0; i < simModuleNameArray.length; i++)
             simModuleNameArray[i] = prioritySimModules[i].getModuleName();
+        return simModuleNameArray;
+    }
+    
+    public String[] getSimModuleNames() {
+        BioModule[] simModules = getSimModules();
+        String[] simModuleNameArray = new String[simModules.length];
+        for (int i = 0; i < simModuleNameArray.length; i++)
+            simModuleNameArray[i] = simModules[i].getModuleName();
         return simModuleNameArray;
     }
 

@@ -4,9 +4,9 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
-import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -19,10 +19,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ChangeEvent;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.idl.framework.BioModule;
@@ -37,15 +37,13 @@ import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
 public class MalfunctionPanel extends TimedPanel {
     private Map myMalfunctionVariables;
 
-    private JList moduleList;
-
     private JList currentMalfunctionList;
 
     private JComboBox lengthComboBox;
 
     private JComboBox intensityComboBox;
 
-    private JPanel myModulePanel;
+    private ModulePanel myModulePanel;
 
     private JPanel myOperatorPanel;
 
@@ -65,15 +63,15 @@ public class MalfunctionPanel extends TimedPanel {
         buildGui();
         refresh();
     }
-
+    
     public void refresh() {
-        BioModule myModule = getSelectedModule();
-        if ((myModule == null) || (currentMalfunctionList == null))
+        BioModule selectedModule = myModulePanel.getSelectedModule();
+        if ((selectedModule == null) || (currentMalfunctionList == null))
             return;
         else {
             int lastMalfunctionIndex = currentMalfunctionList
                     .getSelectedIndex();
-            currentMalfunctionList.setListData(myModule.getMalfunctions());
+            currentMalfunctionList.setListData(selectedModule.getMalfunctions());
             if ((lastMalfunctionIndex != -1)
                     && (lastMalfunctionIndex < currentMalfunctionList
                             .getModel().getSize()))
@@ -111,29 +109,10 @@ public class MalfunctionPanel extends TimedPanel {
     }
 
     private void createModuleSelectPanel() {
-        GridBagLayout gridbag = new GridBagLayout();
-        GridBagConstraints c = new GridBagConstraints();
-        myModulePanel = new JPanel();
+        myModulePanel = new ModulePanel();
         myModulePanel.setBorder(BorderFactory
                 .createTitledBorder("Module Select"));
-        myModulePanel.setLayout(gridbag);
-        String[] myModuleNames = BioHolderInitializer.getBioHolder().theBioDriver
-                .getModuleNames();
-        Arrays.sort(myModuleNames);
-        moduleList = new JList(myModuleNames);
-        moduleList.addListSelectionListener(new ModuleListener());
-        moduleList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        moduleList.setSelectedIndex(0);
-        c.fill = GridBagConstraints.BOTH;
-        c.gridheight = 1;
-        c.weightx = 1.0;
-        c.weighty = 1.0;
-        c.gridx = 1;
-        c.gridy = 1;
-        c.gridwidth = 1;
-        JScrollPane scrollPane = new JScrollPane(moduleList);
-        gridbag.setConstraints(scrollPane, c);
-        myModulePanel.add(scrollPane);
+        myModulePanel.addModuleSelectionListener(new MalfunctionModuleListener());
     }
 
     private void createOperatorPanel() {
@@ -234,22 +213,27 @@ public class MalfunctionPanel extends TimedPanel {
     }
 
     public static void main(String[] args) {
-        BioFrame myFrame = new BioFrame("BioSIM Malfunctions Controller", false);
+        Properties logProps = new Properties();
+        logProps.setProperty("log4j.rootLogger", "INFO, rootAppender");
+        logProps.setProperty("log4j.appender.rootAppender",
+                "org.apache.log4j.ConsoleAppender");
+        logProps.setProperty("log4j.appender.rootAppender.layout",
+                "org.apache.log4j.PatternLayout");
+        logProps.setProperty(
+                "log4j.appender.rootAppender.layout.ConversionPattern",
+                "%5p [%c] - %m%n");
+        PropertyConfigurator.configure(logProps);
+        BioFrame myFrame = new BioFrame("BioSim Malfunctions Controller", false);
         MalfunctionPanel myMalfPanel = new MalfunctionPanel();
         myFrame.getContentPane().add(myMalfPanel);
-        myFrame.setSize(550, 350);
         myFrame.setVisible(true);
         myFrame.setIconImage(myMalfPanel.getIcon().getImage());
         myMalfPanel.setDelay(500);
+        myFrame.setSize(700, 450);
         myMalfPanel.visibilityChange(true);
     }
 
-    private BioModule getSelectedModule() {
-        String currentName = (String) (moduleList.getSelectedValue());
-        myLogger.debug("module selected = "+currentName);
-        return ((BioModule) (BioHolderInitializer.getBioHolder().theModulesMapped
-                .get(currentName)));
-    }
+    
 
     private MalfunctionIntensity getSelectedIntensity() {
         String intensityString = (String) (intensityComboBox.getSelectedItem());
@@ -279,7 +263,7 @@ public class MalfunctionPanel extends TimedPanel {
 
     private class FixAllMalfunctionAction extends AbstractAction {
         public void actionPerformed(ActionEvent ae) {
-            BioModule myModule = getSelectedModule();
+            BioModule myModule = myModulePanel.getSelectedModule();
             if (myModule == null)
                 return;
             else
@@ -291,7 +275,7 @@ public class MalfunctionPanel extends TimedPanel {
     private class FixMalfunctionAction extends AbstractAction {
         public void actionPerformed(ActionEvent ae) {
             Malfunction malfunctionSelected = getSelectedMalfunction();
-            BioModule myModule = getSelectedModule();
+            BioModule myModule = myModulePanel.getSelectedModule();
             if (malfunctionSelected == null || myModule == null)
                 return;
             else
@@ -303,7 +287,7 @@ public class MalfunctionPanel extends TimedPanel {
     private class ScheduleRepairMalfunctionAction extends AbstractAction {
         public void actionPerformed(ActionEvent ae) {
             Malfunction malfunctionSelected = getSelectedMalfunction();
-            BioModule myModule = getSelectedModule();
+            BioModule myModule = myModulePanel.getSelectedModule();
             if (malfunctionSelected == null || myModule == null)
                 return;
             else {
@@ -318,7 +302,7 @@ public class MalfunctionPanel extends TimedPanel {
 
     private class AddMalfunctionAction extends AbstractAction {
         public void actionPerformed(ActionEvent ae) {
-            BioModule myModule = getSelectedModule();
+            BioModule myModule = myModulePanel.getSelectedModule();
             MalfunctionIntensity myIntensity = getSelectedIntensity();
             MalfunctionLength myLength = getSelectedLength();
             myLogger.debug("myModule = "+myModule);
@@ -352,8 +336,8 @@ public class MalfunctionPanel extends TimedPanel {
         }
     }
 
-    private class ModuleListener implements ListSelectionListener {
-        public void valueChanged(ListSelectionEvent e) {
+    private class MalfunctionModuleListener implements ModuleSelectionListener {
+        public void stateChanged(ChangeEvent e) {
             refresh();
         }
     }
