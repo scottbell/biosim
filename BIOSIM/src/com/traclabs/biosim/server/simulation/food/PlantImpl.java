@@ -290,21 +290,21 @@ public abstract class PlantImpl extends PlantPOA{
 		myWaterNeeded = calculateWaterUptake();
 		myWaterLevel = myShelfImpl.takeWater(myWaterNeeded);
 		consumedWaterBuffer.add(myWaterLevel);
-		//System.out.println("PlantImpl: myWaterNeeded: "+myWaterNeeded);
+		System.out.println("PlantImpl: myWaterNeeded: "+myWaterNeeded);
 		//System.out.println("PlantImpl: myWaterLevel: "+myWaterLevel);
 		
 		//Breathe Air
 		float molesOfCO2ToInhale = dailyCarbonGain / 24f;
 		float molesOfCO2Inhaled = myShelfImpl.getBiomassRSImpl().getAirInputs()[0].takeCO2Moles(molesOfCO2ToInhale);
 		myShelfImpl.getBiomassRSImpl().addAirInputActualFlowRates(0,molesOfCO2Inhaled);
-		//System.out.println("PlantImpl: molesOfCO2ToInhale: "+molesOfCO2ToInhale);
+		System.out.println("PlantImpl: molesOfCO2ToInhale: "+molesOfCO2ToInhale);
 		//System.out.println("PlantImpl: molesOfCO2Inhaled: "+molesOfCO2Inhaled);
 		
 		//Exhale Air
 		float O2Produced = getOPF() * dailyCarbonGain * myShelfImpl.getCropAreaUsed() / 24f; //in mol of oxygen per hour
 		float O2Exhaled = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0].addO2Moles(O2Produced);
 		myShelfImpl.getBiomassRSImpl().addAirOutputActualFlowRates(0,O2Exhaled);
-		//System.out.println("PlantImpl: O2Produced: "+O2Produced);
+		System.out.println("PlantImpl: O2Produced: "+O2Produced);
 		//System.out.println("PlantImpl: O2Exhaled: "+O2Exhaled);
 
 		//Water Vapor Produced
