@@ -132,25 +132,25 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 	
 	private static float calculateWaterContentSingular(FoodMatter pFood){
 		PlantType theType = pFood.type;
-		float theMass = pFood.mass;
+		float litersOfWater = pFood.mass;
 		if (theType == PlantType.DRY_BEAN)
-			return theMass * DryBean.getEdibleFreshBasisWaterContent();
+			return litersOfWater * DryBean.getEdibleFreshBasisWaterContent();
 		else if (theType == PlantType.LETTUCE)
-			return theMass * Lettuce.getEdibleFreshBasisWaterContent();
+			return litersOfWater * Lettuce.getEdibleFreshBasisWaterContent();
 		else if (theType == PlantType.PEANUT)
-			return theMass * Peanut.getEdibleFreshBasisWaterContent();
+			return litersOfWater * Peanut.getEdibleFreshBasisWaterContent();
 		else if (theType == PlantType.SOYBEAN)
-			return theMass * Soybean.getEdibleFreshBasisWaterContent();
+			return litersOfWater * Soybean.getEdibleFreshBasisWaterContent();
 		else if (theType == PlantType.SWEET_POTATO)
-			return theMass * SweetPotato.getEdibleFreshBasisWaterContent();
+			return litersOfWater * SweetPotato.getEdibleFreshBasisWaterContent();
 		else if (theType == PlantType.TOMATO)
-			return theMass * Tomato.getEdibleFreshBasisWaterContent();
+			return litersOfWater * Tomato.getEdibleFreshBasisWaterContent();
 		else if (theType == PlantType.WHEAT)
-			return theMass * Wheat.getEdibleFreshBasisWaterContent();
+			return litersOfWater * Wheat.getEdibleFreshBasisWaterContent();
 		else if (theType == PlantType.WHITE_POTATO)
-			return theMass * WhitePotato.getEdibleFreshBasisWaterContent();
+			return litersOfWater * WhitePotato.getEdibleFreshBasisWaterContent();
 		else
-			return theMass * 0.5f;
+			return litersOfWater * 0.5f;
 	}
 	
 	public float calculateWaterContent(FoodMatter[] foodArray){

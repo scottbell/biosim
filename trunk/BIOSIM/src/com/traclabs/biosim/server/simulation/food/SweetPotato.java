@@ -29,7 +29,7 @@ public class SweetPotato extends Planophile{
 	}
 
 	protected float getConstantPPF(){
-		return 324.07f;
+		return 432.10f;
 	}
 	
 	protected float getCarbonUseEfficiency24(){
@@ -53,6 +53,10 @@ public class SweetPotato extends Planophile{
 	}
 
 	protected float getPhotoperiod(){
+		return 18f;
+	}
+	
+	protected float getNominalPhotoperiod(){
 		return 18f;
 	}
 

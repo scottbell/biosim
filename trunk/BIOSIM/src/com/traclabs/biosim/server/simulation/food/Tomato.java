@@ -29,7 +29,7 @@ public class Tomato extends Planophile{
 	}
 	
 	protected float getConstantPPF(){
-		return 312.5f;
+		return 416.67f;
 	}
 	
 	protected float getCarbonUseEfficiency24(){
@@ -53,6 +53,10 @@ public class Tomato extends Planophile{
 	}
 
 	protected float getPhotoperiod(){
+		return 12f;
+	}
+	
+	protected float getNominalPhotoperiod(){
 		return 12f;
 	}
 

@@ -36,7 +36,7 @@ public class Soybean extends Legume{
 	}
 
 	protected float getConstantPPF(){
-		return 324.07f;
+		return 462.96f;
 	}
 
 	protected float getBCF(){
@@ -52,6 +52,10 @@ public class Soybean extends Legume{
 	}
 
 	protected float getPhotoperiod(){
+		return 12f;
+	}
+	
+	protected float getNominalPhotoperiod(){
 		return 12f;
 	}
 	

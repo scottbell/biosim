@@ -9,6 +9,7 @@ import biosim.idl.simulation.food.*;
 public abstract class Legume extends Planophile{
 	protected abstract float getBCF();
 	protected abstract float getPhotoperiod();
+	protected abstract float getNominalPhotoperiod();
 	protected abstract float getN();
 	protected abstract float getTimeAtCanopySenescence();
 	protected abstract float getCQYMin();

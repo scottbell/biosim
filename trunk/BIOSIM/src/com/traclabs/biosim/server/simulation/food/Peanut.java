@@ -34,7 +34,7 @@ public class Peanut extends Legume{
 	}
 	
 	protected float getConstantPPF(){
-		return 312.5f;
+		return 625f;
 	}
 	
 	protected float getBCF(){
@@ -54,6 +54,10 @@ public class Peanut extends Legume{
 	}
 
 	protected float getPhotoperiod(){
+		return 12f;
+	}
+	
+	protected float getNominalPhotoperiod(){
 		return 12f;
 	}
 
