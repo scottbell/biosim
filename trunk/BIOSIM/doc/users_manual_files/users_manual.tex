@@ -72,7 +72,6 @@ simulation is available from http://www.traclabs.com/biosim.
 
 \chapter{Background on advanced life support}
 
-
 An advanced life support system is one in which many resources are
 reused or regenerated.  Such systems will be necessary for long
 duration human missions, such as those to Mars, where resupply
@@ -98,6 +97,22 @@ An advanced life support system consists of many interacting
 subsystems.  While each is self-contained, they rely on each other for
 various resources.  The simulation is built from a set of modules that
 each produce and consume different resources.
+
+\subsection{Environment}
+\label{sec:env}
+An environment\index{environment} contains air that is consumed by
+either people or crops.  Air\index{air} contains a mixture of gases --
+in our simulation these gases are oxygen (O2), carbon dioxide (CO2),
+nitrogen (N) and water vapor (H20).  The initial composition of the
+gases is set by the simulation init file (see
+Section~\ref{sec:init}).  As the simulation runs modules may consume
+air from the simulation and replace it with air of a different
+composition.  Thus, the composition of gases in the air changes over
+time and can be measured by environment sensors
+(Section~\ref{sec:env_sen}).  As with all modules, there can be
+multiple environments.  For example, it is common for crew members
+and crops to have different air compositions and that is the default
+in this simulation.   
 
 \subsection{Crew}
 \label{sec:crew}
@@ -203,12 +218,18 @@ a fixed amount throughout the lifetime of the simulation.  The second
 is solar\index{solar} power, which supplies a varying amount
 (day/night cycle) of power to each component.
 
+\subsection{Accumulators}
+\label{sec:accumulator}
+Scott -- not sure if we need this section.
+
+
 \chapter{Simulation properties}
 
-In addition to implementing the basic ALS components described above,
-the simulation has several other important properties.  This chapter
-looks at these properties and describes their impact on the
-simulation.
+The simulation implements the modules outlined in the previous
+section.  These are implemented in a producer/consumer relationship,
+which is described in the next subsection.  The simulation also
+provides additional functionality to help test and debug control
+programs.  
 
 \section{Producer/consumer model}
 
@@ -262,7 +283,7 @@ water to leak, plants to die, etc.  Different modules will have
 different sensitivities, for example once plants die they cannot
 recover, but if the water module is damaged and then repaired it will
 operate normally.  Of course, if levels of CO2, water or food reach
-preset critical levels the crew will abandon the mission and return
+hard-coded critical levels the crew will abandon the mission and return
 home.
 
 \section{Crew activity scheduling}
@@ -273,6 +294,9 @@ exercise, sleep, etc.  The following diagram shows the nominal daily
 routine for a crew member:
 
 [[Scott, little transition diagram here]]
+
+\section{Mass balance}
+What is this?  Why is it important?  How did we do it? 
 
 
 \chapter{Simulation implementation}
@@ -287,14 +311,21 @@ insight into the simulation.  There is also a logging\index{logging}
 facility that will automatically save all simulation values to a file
 or a database.  We have Java and C++\index{C++} interfaces to the simulation.
 
-Explain object oriented methodology and how that relates to BioSim.
+Explain object oriented methodology and how it relates to BioSim.
+Would a figure be good here showing the relationship between servers,
+clients, CORBA, etc.?
 
 \chapter{Installing the simulation}
+The simulation is written in Java and can run on most popular
+operating systems.  We provide both an executable for Windows and
+source code for any operating system.  This chapter deals with
+installing the code onto your computer. 
 
 \section{Installing an executable}
 
-An executable that will run under most Windows operating systems.  You
-can ownload the Windows executable from: {\tt www.traclabs.com/biosim}. 
+An executable that will run under most Windows operating systems is
+available.  You can ownload the Windows executable from: {\tt
+  www.traclabs.com/biosim}.
 
 At that site, go to Download and then download the Windows
 installer\index{installation}.  Remember where you put it.
@@ -313,6 +344,8 @@ simulation.
 \end{figure}
 
 \section{Installing source code}
+
+Scott -- I'll need your help here.
 
 \chapter{Running the simulation}
 
@@ -340,29 +373,59 @@ beginning.  If you want to examine the interfaces closely press the
 
 \chapter{Controlling the simulation}
 
-The previous section showed you how to run BioSim and monitor its
+The previous chapter showed you how to run BioSim and monitor its
 internal state via a graphical user interface.  While interesting,
-this is not useful for control system research.  This section will
+this is not useful for control system research.  This chapter will
 show you how to connect an external control program to BioSim and
 change its underlying operation.  Note that this will not be an
 exhaustive list of all of the objects and methods in BioSim, but only
 the most important for new users.  Complete documentation of all
 objects and method calls is available at:
 http://www.traclabs.com/biosim/doc/api/index.html
+
+\section{CORBA, Orbs and namesevers}
+
+External control programs connect to BioSim via CORBA\index{CORBA} --
+the Common Object Request Broker Architecture.  In order to connect to
+BioSim will you will need to install an Object Request Broker
+(ORB)\index{ORB} on your machine.  If you are using Java an Orb is
+built in.  When the BioSim server is started it registers with a
+nameserver\index{nameserver}, which tells client programs where to
+find it.  You will need to initialize the Orb and connect to the
+nameserver in your external control program before calling BioSim
+methods.  This users manual will not cover these details.  We refer
+you to any book on CORBA for your language or look at the sample
+programs in Appendix A and B.  The rest of this manual assumes that
+you are already connected to the Orb and to the nameserver.    
    
 \section{Initial conditions}
-
+\label{sec:init}
 BioSim is almost infinitely reconfigurable\index{recongifuration} --
-from the number of crew members to the size of the biomass production
-module.  The configuration of BioSim is controlled by an eXtensible
-Markup Language (XML) file that is read in during BioSim
-initialization.
+from the number of crew members to the size and number of the
+different modules.  The start-up configuration of BioSim is controlled
+by an eXtensible Markup Language (XML)\index{XML} file that is read in
+during BioSim initialization.  If you want to change BioSim's
+configuration you need to change the XML file.  The default XML file
+is located in:
+
+\begin{verbatim}
+   $BIOSIM_HOME/resources/biosim/server/framework/DefaultInitialization.xml
+\end{verbatim}
+
+\noindent where {\tt \$BIOSIM\_HOME} is the directory where you installed
+BioSim.
+
+You can copy this file, change it's name, modify it and then give its
+full path name as a parameter to BioSim on startup to use a different
+configuration.  The flag when you start BioSim is {\tt -xml} followed
+by the full path name of the XML file.  
 
 \subsection{XML file format}
 
 Explain XML\index{XML} file, how it’s used, how it’s read in. Capacities, levels,
 logging, etc.  Malfunctions, crew schedule, resupply, etc.  Attach an
-example XML file as an appendix.
+example XML file as an appendix.  Also talk about producer/consumer
+relationship again. 
 
 \subsection{Initializing BioSim}
 
@@ -429,9 +492,9 @@ all inherit the same method calls.  These method calls are:
 
 \begin{itemize}
 
-        \item getMax: Returns the maximum allowed value of the sensor
-        \item getMin: Returns the minimum allowed value of the sensor
-        \item getValue: Returns the current setting of the sensor
+        \item {\tt getMax:} Returns the maximum allowed value of the sensor
+        \item {\tt getMin:} Returns the minimum allowed value of the sensor
+        \item {\tt getValue}: Returns the current setting of the sensor
 \end{itemize}
 
 
@@ -450,10 +513,10 @@ same method calls.  These method calls are:
 
 \begin{itemize}
 
-        \item getMax: Returns the maximum allowed value of the actuator
-        \item getMin: Returns the minimum allowed value of the actuator
-        \item getValue: Returns the current value of the actuator       
-        \item setValue: Sets the actuator
+        \item {\tt getMax}: Returns the maximum allowed value of the actuator
+        \item {\tt getMin}: Returns the minimum allowed value of the actuator
+        \item {\tt getValue}: Returns the current value of the actuator       
+        \item {\tt setValue}: Sets the actuator
 
 \end{itemize}
 
@@ -473,73 +536,73 @@ and crops use.  There can be multiple environments in the simulation,
 but they are all controlled by the same sensors and actuators.
 
 \subsubsection{Sensors}
-
+\label{sec:env_sen}
 The following sensors are available in the environment:
 
 \begin{enumerate}
 
-\item AirInFlowRateSensor: Flow rate in moles/tick of air into the environment
-\item AirOutFlowRateSensor: Flow rate in moles/tick of air out of the environment
-\item CO2AirConcentrationSensor: Amount in ??? of CO2 in the environment.
-\item CO2AirEnvironmentInFlowRateSensor: Flow rate in liters/tick of CO2 into the environment
-\item CO2AirEnvironmentOutFlowRateSensor: Flow rate in liters/tick of CO2 out of the environment
-\item CO2AirPressureSensor: Pressure in ??? of CO2 in the environment
-\item CO2AirStoreInFlowRateSensor: 
-\item CO2AirStoreOutFlowRateSensor: 
-\item NitrogenAirConcentrationSensor: Amount in ??? of Nitrogen in the environment
-\item NitrogenAirEnvironmentInFlowRateSensor:
-\item NitrogenAirEnvironmentOutFlowRateSensor:
-\item NitrogenAirPressureSensor:
-\item NitrogenAirStoreInFlowRateSensor:
-\item NitrogenAirStoreOutFlowRateSensor:
-\item O2AirConcentrationSensor: Amount in ??? of O2 in the environment.
-\item O2AirEnvironmentInFlowRateSensor: Flow rate in liters/tick of O2 into the environment
-\item O2AirEnvironmentOutFlowRateSensor: Flow rate in liters/tick of O2 out of the environment
-\item O2AirPressureSensor: Pressure in ??? of O2 in the environment
-\item O2AirStoreInFlowRateSensor: 
-\item O2AirStoreOutFlowRateSensor: 
-\item OtherAirConcentrationSensor:
-\item OtherAirPressureSensor:
-\item WaterAirConcentrationSensor: Amount in ??? of water (humidity) in the environment
-\item WaterAirEnvironmentInFlowRateSensor:
-\item WaterAirEnvironmentOutFlowRate:
-\item WaterAirPressureSensor:
-\item WaterAirStoreInFlowRateSensor:
-\item WaterAirStoreOutFlowRateSensor: 
+\item {\tt AirInFlowRateSensor}: Flow rate in moles/tick of air into the environment
+\item {\tt AirOutFlowRateSensor}: Flow rate in moles/tick of air out of the environment
+\item {\tt CO2AirConcentrationSensor}: Amount in ??? of CO2 in the environment.
+\item {\tt CO2AirEnvironmentInFlowRateSensor}: Flow rate in liters/tick of CO2 into the environment
+\item {\tt CO2AirEnvironmentOutFlowRateSensor}: Flow rate in liters/tick of CO2 out of the environment
+\item {\tt CO2AirPressureSensor}: Pressure in ??? of CO2 in the environment
+\item {\tt CO2AirStoreInFlowRateSensor}: 
+\item {\tt CO2AirStoreOutFlowRateSensor}: 
+\item {\tt NitrogenAirConcentrationSensor}: Amount in ??? of Nitrogen in the environment
+\item {\tt NitrogenAirEnvironmentInFlowRateSensor}:
+\item {\tt NitrogenAirEnvironmentOutFlowRateSensor}:
+\item {\tt NitrogenAirPressureSensor}:
+\item {\tt NitrogenAirStoreInFlowRateSensor}:
+\item {\tt NitrogenAirStoreOutFlowRateSensor}:
+\item {\tt O2AirConcentrationSensor}: Amount in ??? of O2 in the environment.
+\item {\tt O2AirEnvironmentInFlowRateSensor}: Flow rate in liters/tick of O2 into the environment
+\item {\tt O2AirEnvironmentOutFlowRateSensor}: Flow rate in liters/tick of O2 out of the environment
+\item {\tt O2AirPressureSensor}: Pressure in ??? of O2 in the environment
+\item {\tt O2AirStoreInFlowRateSensor}: 
+\item {\tt O2AirStoreOutFlowRateSensor}: 
+\item {\tt OtherAirConcentrationSensor}:
+\item {\tt OtherAirPressureSensor}:
+\item {\tt WaterAirConcentrationSensor}: Amount in ??? of water (humidity) in the environment
+\item {\tt WaterAirEnvironmentInFlowRateSensor}:
+\item {\tt WaterAirEnvironmentOutFlowRateSensor}:
+\item {\tt WaterAirPressureSensor}:
+\item {\tt WaterAirStoreInFlowRateSensor}:
+\item {\tt WaterAirStoreOutFlowRateSensor}: 
 \end{enumerate}
 
 \subsubsection{Actuators}
 
 \begin{enumerate}
 
-\item AirInFlowRateActuator: Flow rate in moles/tick of air into the environment
-\item AirOutFlowRateActuator: Flow rate in moles/tick of air out of the environment
-\item CO2AirConcentrationActuator: Amount in ??? of CO2 in the environment.
-\item CO2AirEnvironmentInFlowRateActuator: Flow rate in liters/tick of CO2 into the environment
-\item CO2AirEnvironmentOutFlowRateActuator: Flow rate in liters/tick of CO2 out of the environment
-\item CO2AirPressureActuator: Pressure in ??? of CO2 in the environment
-\item CO2AirStoreInFlowRateActuator: 
-\item CO2AirStoreOutFlowRateActuator: 
-\item NitrogenAirConcentrationActuator: Amount in ??? of Nitrogen in the environment
-\item NitrogenAirEnvironmentInFlowRateActuator:
-\item NitrogenAirEnvironmentOutFlowRateActuator:
-\item NitrogenAirPressureActuator:
-\item NitrogenAirStoreInFlowRateActuator:
-\item NitrogenAirStoreOutFlowRateActuator:
-\item O2AirConcentrationActuator: Amount in ??? of O2 in the environment.
-\item O2AirEnvironmentInFlowRateActuator: Flow rate in liters/tick of O2 into the environment
-\item O2AirEnvironmentOutFlowRateActuator: Flow rate in liters/tick of O2 out of the environment
-\item O2AirPressureActuator: Pressure in ??? of O2 in the environment
-\item O2AirStoreInFlowRateActuator: 
-\item O2AirStoreOutFlowRateActuator: 
-\item OtherAirConcentrationActuator:
-\item OtherAirPressureActuator:
-\item WaterAirConcentrationActuator: Amount in ??? of water (humidity) in the environment
-\item WaterAirEnvironmentInFlowRateActuator:
-\item WaterAirEnvironmentOutFlowRate:
-\item WaterAirPressureActuator:
-\item WaterAirStoreInFlowRateActuator:
-\item WaterAirStoreOutFlowRateActuator: 
+\item {\tt AirInFlowRateActuator}: Flow rate in moles/tick of air into the environment
+\item {\tt AirOutFlowRateActuator}: Flow rate in moles/tick of air out of the environment
+\item {\tt CO2AirConcentrationActuator}: Amount in ??? of CO2 in the environment.
+\item {\tt CO2AirEnvironmentInFlowRateActuator}: Flow rate in liters/tick of CO2 into the environment
+\item {\tt CO2AirEnvironmentOutFlowRateActuator}: Flow rate in liters/tick of CO2 out of the environment
+\item {\tt CO2AirPressureActuator}: Pressure in ??? of CO2 in the environment
+\item {\tt CO2AirStoreInFlowRateActuator}: 
+\item {\tt CO2AirStoreOutFlowRateActuator}: 
+\item {\tt NitrogenAirConcentrationActuator}: Amount in ??? of Nitrogen in the environment
+\item {\tt NitrogenAirEnvironmentInFlowRateActuator}:
+\item {\tt NitrogenAirEnvironmentOutFlowRateActuator}:
+\item {\tt NitrogenAirPressureActuator}:
+\item {\tt NitrogenAirStoreInFlowRateActuator}:
+\item {\tt NitrogenAirStoreOutFlowRateActuator}:
+\item {\tt O2AirConcentrationActuator}: Amount in ??? of O2 in the environment.
+\item {\tt O2AirEnvironmentInFlowRateActuator}: Flow rate in liters/tick of O2 into the environment
+\item {\tt O2AirEnvironmentOutFlowRateActuator}: Flow rate in liters/tick of O2 out of the environment
+\item {\tt O2AirPressureActuator}: Pressure in ??? of O2 in the environment
+\item {\tt O2AirStoreInFlowRateActuator}: 
+\item {\tt O2AirStoreOutFlowRateActuator}: 
+\item {\tt OtherAirConcentrationActuator}:
+\item {\tt OtherAirPressureActuator}:
+\item {\tt WaterAirConcentrationActuator}: Amount in ??? of water (humidity) in the environment
+\item {\tt WaterAirEnvironmentInFlowRateActuator}:
+\item {\tt WaterAirEnvironmentOutFlowRateSensor}:
+\item {\tt WaterAirPressureActuator}:
+\item {\tt WaterAirStoreInFlowRateActuator}:
+\item {\tt WaterAirStoreOutFlowRateActuator}: 
 
 \end{enumerate}
 
@@ -557,10 +620,10 @@ only for module-specific malfunction information.
 
 \begin{enumerate}
 
-\item CrewGroupActivitySensor:  Returns activity level of crew (average?)
-\item CrewGroupAnyDeadSensor:
-\item CrewGroupDeathSensor:
-\item CrewGroupProductivitySensor:
+\item {\tt CrewGroupActivitySensor}:  Returns activity level of crew (average?)
+\item {\tt CrewGroupAnyDeadSensor}:
+\item {\tt CrewGroupDeathSensor}:
+\item {\tt CrewGroupProductivitySensor}:
 
 \end{enumerate}
 
@@ -568,7 +631,7 @@ only for module-specific malfunction information.
 
 \begin{enumerate}
 
-\item CrewGroupActivityActuator:
+\item {\tt CrewGroupActivityActuator}:
 
 \end{enumerate}
 
@@ -583,18 +646,18 @@ See environment above and supply malfunctions here.
 
 \begin{enumerate}
 
-\item CO2InFlowRateSensor:
-\item CO2OutFlowRateSensor:
-\item CO2StoreLevelSensor:
-\item H2InFlowRateSensor:
-\item H2OutFlowRateSensor:
-\item H2StoreLevelSensor:
-\item NitrogenInFlowRateSensor:
-\item NitrogenOutFlowRateSensor:
-\item NitrogenStoreLevelSensor:
-\item O2InFlowRateSensor:
-\item O2OutFlowRateSensor:
-\item O2StoreLevelSensor:
+\item {\tt CO2InFlowRateSensor}:
+\item {\tt CO2OutFlowRateSensor}:
+\item {\tt CO2StoreLevelSensor}:
+\item {\tt H2InFlowRateSensor}:
+\item {\tt H2OutFlowRateSensor}:
+\item {\tt H2StoreLevelSensor}:
+\item {\tt NitrogenInFlowRateSensor}:
+\item {\tt NitrogenOutFlowRateSensor}:
+\item {\tt NitrogenStoreLevelSensor}:
+\item {\tt O2InFlowRateSensor}:
+\item {\tt O2OutFlowRateSensor}:
+\item {\tt O2StoreLevelSensor}:
 
 \end{enumerate}
 
@@ -602,14 +665,14 @@ See environment above and supply malfunctions here.
 
 \begin{enumerate}
 
-\item CO2InFlowRateSensor:
-\item CO2OutFlowRateSensor:
-\item H2InFlowRateSensor:
-\item H2OutFlowRateSensor:
-\item NitrogenInFlowRateSensor:
-\item NitrogenOutFlowRateSensor:
-\item O2InFlowRateSensor:
-\item O2OutFlowRateSensor:
+\item {\tt CO2InFlowRateSensor}:
+\item {\tt CO2OutFlowRateSensor}:
+\item {\tt H2InFlowRateSensor}:
+\item {\tt H2OutFlowRateSensor}:
+\item {\tt NitrogenInFlowRateSensor}:
+\item {\tt NitrogenOutFlowRateSensor}:
+\item {\tt O2InFlowRateSensor}:
+\item {\tt O2OutFlowRateSensor}:
 
 \end{enumerate}
 
@@ -624,27 +687,27 @@ Same as others
 \subsubsection{Sensors}
 \begin{enumerate}
 
-\item DirtyWaterInFlowRateSensor:
-\item DirtyWaterOutFlowRateSensor:
-\item DirtyWaterStoreLevelSensor:
-\item GreyWaterInFlowRateSensor:
-\item GreyWaterOutFlowRateSensor:
-\item GreyWaterStoreLevelSensor:
-\item PotableWaterInFlowRateSensor:
-\item PotableWaterOutFlowRateSensor:
-\item PotableWaterStoreLevelSensor:
+\item {\tt DirtyWaterInFlowRateSensor}:
+\item {\tt DirtyWaterOutFlowRateSensor}:
+\item {\tt DirtyWaterStoreLevelSensor}:
+\item {\tt GreyWaterInFlowRateSensor}:
+\item {\tt GreyWaterOutFlowRateSensor}:
+\item {\tt GreyWaterStoreLevelSensor}:
+\item {\tt PotableWaterInFlowRateSensor}:
+\item {\tt PotableWaterOutFlowRateSensor}:
+\item {\tt PotableWaterStoreLevelSensor}:
 \end{enumerate}
 
 \subsubsection{Actuators}
 
 \begin{enumerate}
 
-\item DirtyWaterInFlowRateActuator:
-\item DirtyWaterOutFlowRateActuator:
-\item GreyWaterInFlowRateActuator:
-\item GreyWaterOutFlowRateActuator:
-\item PotableWaterInFlowRateActuator:
-\item PotableWaterOutFlowRateActuator:
+\item {\tt DirtyWaterInFlowRateActuator}:
+\item {\tt DirtyWaterOutFlowRateActuator}:
+\item {\tt GreyWaterInFlowRateActuator}:
+\item {\tt GreyWaterOutFlowRateActuator}:
+\item {\tt PotableWaterInFlowRateActuator}:
+\item {\tt PotableWaterOutFlowRateActuator}:
 \end{enumerate}
 
 \subsubsection{Malfunctions}
@@ -673,35 +736,30 @@ Same as others
 \subsubsection{Sensors}
 
 \begin{enumerate}
-\item PowerInFlowRateSensor:
-\item PowerOutFlowRateSensor:
-\item PowerStoreLevelSensor:
+\item {\tt PowerInFlowRateSensor}:
+\item {\tt PowerOutFlowRateSensor}:
+\item {\tt PowerStoreLevelSensor}:
 \end{enumerate}
 
 \subsubsection{Actuators}
 
 \begin{enumerate}
-\item PowerInFlowRateActuator:
-\item PowerOutFlowRateActuator:
+\item {\tt PowerInFlowRateActuator}:
+\item {\tt PowerOutFlowRateActuator}:
 \end{enumerate}
 
 \subsubsection{Malfunctions}
 
 \section{Enabling stochastic processes}
 
+\chapter{Writing a simple Java controller}
 
+A short tutorial on creating a BioSim, initializing it and then
+calling some sensors, actuators and ticks.  Assume JacOrb. 
 
-\section{Java controllers}
+\chapter{Writing a simple C++ controller}
 
-Some specific instances of how Java can control the simulation
-
-\section{C++ controllers}
-
-Some specific instances of how C++ can control the simulation
-
-\section{Other controllers}
-
-Talk about CORBA support for other languages.
+Same as above in C++.  Assume ACEOrb.  Assume Linux (?).
 
 \chapter{Control Examples}
 
@@ -714,11 +772,9 @@ Include GA, Rice learners, Texas Tech learner.
 
 \begin{verbatim}
 
+Put parts of Rice handcontroller here
 
 \end{verbatim}
-
-
-Put parts of Rice handcontroller here
 
 \chapter{C++ Example}
 
