@@ -875,6 +875,9 @@
 				<xsd:attribute name="initialWaterMoles" type="nonNegativeFloat" use="optional"/>
 				<xsd:attribute name="initialNitrogenMoles" type="nonNegativeFloat" use="optional"/>
 				<xsd:attribute name="leakRate" type="nonNegativeFloat" default="0"/>
+				<xsd:attribute name="dayLength" type="nonNegativeFloat" default="24"/>
+				<xsd:attribute name="hourOfDayStart" type="nonNegativeFloat" default="0"/>
+				<xsd:attribute name="maxLumens" type="nonNegativeFloat" default="50000"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
