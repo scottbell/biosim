@@ -28,7 +28,7 @@
 %\newcommand{\insertfigure}[2]{\vspace{#2}}
 
 \title{BioSim: An Integrated Simulation of an Advanced Life Support System for Intelligent Control Research\\
-Users Manual}
+Users Manual (draft)}
 
 \author{Metrica Inc. and S\&K Technologies\\
 NASA Johnson Space Center/ER2\\
@@ -314,6 +314,7 @@ following equation:
 
         [need to put the equation here]
 	[some relevant code, derive equation later]
+	\begin{verbatim}
 	private static final float WATER_TILL_DEAD = 8.1f;
 	private static final float WATER_RECOVERY_RATE=0.01f;
 	private static final float OXYGEN_TILL_DEAD = 3f;
@@ -341,7 +342,7 @@ following equation:
 	float leisurePercentFull = leisureBuffer.getLevel() / leisureBuffer.getCapacity();
 	float averagePercentFull = (caloriePercentFull + waterPercentFull + oxygenPercentFull + CO2PercentFull + sleepPercentFull + leisurePercentFull) / 6f;
 	myMissionProductivity += myCrewGroup.randomFilter(averagePercentFull);
-
+	\end{verbatim}
 \section{Stochastic processes}
 
 Any sufficiently complex process, especially one with biological
@@ -520,7 +521,7 @@ is located in:
    BIOSIM/resources/biosim/server/framework/DefaultInitialization.xml
 \end{verbatim}
 
-\noindent where {\tt \BIOSIM} is the directory where you installed
+\noindent where {\tt BIOSIM} is the directory where you installed
 BioSim.
 
 You can copy this file, change it's name, modify it and then give its
