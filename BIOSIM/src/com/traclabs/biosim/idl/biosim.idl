@@ -45,7 +45,7 @@ module biosim{
                                 interface FoodStore;
                                 interface Shelf;
                                 interface Plant;
-                                enum PlantType {WHEAT, DRY_BEAN, LETTUCE, PEANUT, RICE, SOYBEAN, SWEET_POTATO, TOMATO, WHITE_POTATO};
+                                enum PlantType {WHEAT, DRY_BEAN, LETTUCE, PEANUT, RICE, SOYBEAN, SWEET_POTATO, TOMATO, WHITE_POTATO, UNKNOWN_PLANT};
                                 struct BioMatter{
                                         float mass;
                                         PlantType type;

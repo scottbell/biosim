@@ -17,6 +17,18 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 		super(pID);
 		currentBiomassItems = new Vector();
 	}
+	
+	public float add(float pMass){
+		return addBioMatter(pMass, PlantType.UNKNOWN_PLANT);
+	}
+	
+	public float take(float pMass){
+		BioMatter[] massArray = takeBioMatterMass(pMass);
+		float matterToReturn = 0f;
+		for (int i = 0; i < massArray.length; i++)
+			matterToReturn += massArray[i].mass;
+		return matterToReturn;
+	}
 
 	public float addBioMatter(float pMass, PlantType pType){
 		float acutallyAdded = 0f;
