@@ -311,8 +311,8 @@ public class HandController {
         float signal = (delta * crewO2p + crewO2i * crewO2integral) + 2;
         float valueToSet = Math.min(myO2AirStoreInInjectorMax, signal);
         myLogger.debug("setting O2 injector to " + valueToSet);
-        myO2AirStoreInInjectorAcutator.setValue(valueToSet);
         valueToSet = Math.min(myO2AirStoreInInjectorMax, signal);
+        myO2AirStoreInInjectorAcutator.setValue(valueToSet);
         myO2AirEnvironmentOutInjectorAcutator.setValue(valueToSet);
     }
 
@@ -327,8 +327,8 @@ public class HandController {
         float signal = (delta * crewCO2p + crewCO2i * crewCO2integral) + 2;
         float valueToSet = Math.min(myCO2AirStoreInInjectorMax, signal);
         myLogger.debug("setting CO2 injector to " + valueToSet);
-        myCO2AirStoreInInjectorAcutator.setValue(valueToSet);
         valueToSet = Math.min(myCO2AirStoreInInjectorMax, signal);
+        myCO2AirStoreInInjectorAcutator.setValue(valueToSet);
         myCO2AirEnvironmentOutInjectorAcutator.setValue(valueToSet);
     }
 
