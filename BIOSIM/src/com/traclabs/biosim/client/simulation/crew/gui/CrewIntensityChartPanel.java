@@ -36,7 +36,6 @@ public class CrewIntensityChartPanel extends GraphPanel
 		else{
 			buildRealGui();
 		}
-		
 	}
 	
 	private void buildRealGui(){
@@ -95,3 +94,5 @@ public class CrewIntensityChartPanel extends GraphPanel
 		}
 	}
 }
+
+
