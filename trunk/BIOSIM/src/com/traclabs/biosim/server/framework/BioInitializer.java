@@ -5,7 +5,6 @@ import java.util.*;
 import org.w3c.dom.*;
 import org.apache.xerces.parsers.*;
 import org.xml.sax.*;
-
 import biosim.idl.simulation.air.*;
 import biosim.idl.simulation.crew.*;
 import biosim.idl.simulation.food.*;
