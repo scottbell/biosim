@@ -1009,6 +1009,12 @@ public class BioHolderInitializer{
 	private static void fetchFoodOutFlowRateActuator(Node node){
 		myBioHolder.theFoodOutFlowRateActuators.add(FoodOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
+	private static void fetchPlantingActuator(Node node){
+		myBioHolder.thePlantingActuators.add(PlantingActuatorHelper.narrow(grabModule(getModuleName(node))));
+	}
+	private static void fetchHarvestingActuator(Node node){
+		myBioHolder.theHarvestingActuators.add(HarvestingActuatorHelper.narrow(grabModule(getModuleName(node))));
+	}
 	private static void crawlFoodActuators(Node node){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -1021,6 +1027,10 @@ public class BioHolderInitializer{
 				fetchFoodInFlowRateActuator(child);
 			else if (childName.equals("FoodOutFlowRateActuator"))
 				fetchFoodOutFlowRateActuator(child);
+			else if (childName.equals("PlantingActuator"))
+				fetchPlantingActuator(child);
+			else if (childName.equals("HarvestingActuator"))
+				fetchHarvestingActuator(child);
 			child = child.getNextSibling();
 		}
 	}

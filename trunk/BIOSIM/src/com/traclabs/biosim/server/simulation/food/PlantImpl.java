@@ -50,7 +50,7 @@ public abstract class PlantImpl extends PlantPOA{
 	private static final float WATER_RECOVERY_RATE=2f;
 	private static final float CO2_TILL_DEAD = 24f;
 	private static final float CO2_RECOVERY_RATE=0.001f;
-	private static final float CO2_RATIO_NEEDED=0.03f;
+	private static final float CO2_RATIO_NEEDED=0.00035f;
 	private static final float HEAT_TILL_DEAD = 48f;
 	private static final float HEAT_RECOVERY_RATE=0.1f;
 	private static final float DANGEROUS_HEAT_LEVEL = 3000f;
@@ -115,7 +115,6 @@ public abstract class PlantImpl extends PlantPOA{
 	}
 
 	public void tick(){
-		//System.out.println("PlantImpl: **************Begin plant tick***********");
 		myAge++;
 		if (!hasDied){
 			calculateAverageCO2Concentration();
@@ -125,7 +124,6 @@ public abstract class PlantImpl extends PlantPOA{
 			healthCheck();
 			recoverPlants();
 		}
-		//System.out.println("PlantImpl: **************End plant tick***********");
 		
 	}
 	
@@ -178,19 +176,19 @@ public abstract class PlantImpl extends PlantPOA{
 		
 		if (CO2RiskReturn > randomNumber){
 			hasDied = true;
-			System.out.println("Plants have died from CO2 (risk was "+numFormat.format(CO2RiskReturn * 100)+"%)");
+			//System.out.println("Plants have died from CO2 (risk was "+(CO2RiskReturn * 100)+"%)");
 		}
 		else if (waterRiskReturn > randomNumber){
 			hasDied = true;
-			System.out.println("Plants have died from lack of water (risk was "+numFormat.format(waterRiskReturn * 100)+"%)");
+			//System.out.println("Plants have died from lack of water (risk was "+(waterRiskReturn * 100)+"%)");
 		}
 		else if (heatRiskReturn > randomNumber){
 			hasDied = true;
-			System.out.println("Plants have died from lack of heat (risk was "+numFormat.format(heatRiskReturn * 100)+"%)");
+			//System.out.println("Plants have died from lack of heat (risk was "+(heatRiskReturn * 100)+"%)");
 		}
 		else if (lightRiskReturn > randomNumber){
 			hasDied = true;
-			System.out.println("Plants have died from lack of light (risk was "+numFormat.format(lightRiskReturn * 100)+"%)");
+			//System.out.println("Plants have died from lack of light (risk was "+(lightRiskReturn * 100)+"%)");
 		}
 		//if died, kill
 		if (hasDied){
@@ -290,21 +288,21 @@ public abstract class PlantImpl extends PlantPOA{
 		myWaterNeeded = calculateWaterUptake();
 		myWaterLevel = myShelfImpl.takeWater(myWaterNeeded);
 		consumedWaterBuffer.add(myWaterLevel);
-		System.out.println("PlantImpl: myWaterNeeded: "+myWaterNeeded);
+		//System.out.println("PlantImpl: myWaterNeeded: "+myWaterNeeded);
 		//System.out.println("PlantImpl: myWaterLevel: "+myWaterLevel);
 		
 		//Breathe Air
 		float molesOfCO2ToInhale = dailyCarbonGain / 24f;
 		float molesOfCO2Inhaled = myShelfImpl.getBiomassRSImpl().getAirInputs()[0].takeCO2Moles(molesOfCO2ToInhale);
 		myShelfImpl.getBiomassRSImpl().addAirInputActualFlowRates(0,molesOfCO2Inhaled);
-		System.out.println("PlantImpl: molesOfCO2ToInhale: "+molesOfCO2ToInhale);
+		//System.out.println("PlantImpl: molesOfCO2ToInhale: "+molesOfCO2ToInhale);
 		//System.out.println("PlantImpl: molesOfCO2Inhaled: "+molesOfCO2Inhaled);
 		
 		//Exhale Air
 		float O2Produced = getOPF() * dailyCarbonGain * myShelfImpl.getCropAreaUsed() / 24f; //in mol of oxygen per hour
 		float O2Exhaled = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0].addO2Moles(O2Produced);
 		myShelfImpl.getBiomassRSImpl().addAirOutputActualFlowRates(0,O2Exhaled);
-		System.out.println("PlantImpl: O2Produced: "+O2Produced);
+		//System.out.println("PlantImpl: O2Produced: "+O2Produced);
 		//System.out.println("PlantImpl: O2Exhaled: "+O2Exhaled);
 
 		//Water Vapor Produced
@@ -334,12 +332,12 @@ public abstract class PlantImpl extends PlantPOA{
 		float photoperiod = getPhotoperiod();
 		float PPFFractionAbsorbed = calculatePPFFractionAbsorbed();
 		float PPF = getAveragePPF();
-		System.out.println("PlantImpl: photoperiod: "+photoperiod);
-		System.out.println("PlantImpl: carbonUseEfficiency24: "+carbonUseEfficiency24);
-		System.out.println("PlantImpl: PPFFractionAbsorbed: "+PPFFractionAbsorbed);
-		System.out.println("PlantImpl: CQY: "+CQY);
-		System.out.println("PlantImpl: PPF: "+PPF);
-		return (0.0036f * photoperiod * carbonUseEfficiency24 * myShelfImpl.getCropAreaUsed() * PPFFractionAbsorbed * CQY * PPF);
+		//System.out.println("PlantImpl: photoperiod: "+photoperiod);
+		//System.out.println("PlantImpl: carbonUseEfficiency24: "+carbonUseEfficiency24);
+		//System.out.println("PlantImpl: PPFFractionAbsorbed: "+PPFFractionAbsorbed);
+		//System.out.println("PlantImpl: CQY: "+CQY);
+		//System.out.println("PlantImpl: PPF: "+PPF);
+		return (0.0036f * photoperiod * carbonUseEfficiency24 * myShelfImpl.getCropAreaUsed() * PPFFractionAbsorbed * CQY * PPF * 24);
 	}
 
 	private float calculateWaterUptake(){
@@ -412,6 +410,7 @@ public abstract class PlantImpl extends PlantPOA{
 			airMoles = pow(1f, -30f);
 		//System.out.println("PlantImpl: CO2Moles: "+CO2Moles);
 		//System.out.println("PlantImpl: airMoles: "+airMoles);
+		//System.out.println("PlantImpl: CO2 Concentration: "+(CO2Moles / airMoles) * 100 +"%");
 		myTotalCO2Concentration += (CO2Moles / airMoles);
 		myNumberOfCO2ConcentrationReadings ++;
 		myAverageCO2Concentration = myTotalCO2Concentration / myNumberOfCO2ConcentrationReadings;
@@ -419,10 +418,9 @@ public abstract class PlantImpl extends PlantPOA{
 
 	//returns the age in days
 	protected float getDaysOfGrowth(){
-		Float myAgeInFloat = new Float(myAge);
-		float daysOfGrowth = myAgeInFloat.floatValue() / 24f;
-		//System.out.println("PlantImpl: myAgeInFloat: "+myAgeInFloat.floatValue());
+		float daysOfGrowth = (float)myAge / 24f;
 		//System.out.println("PlantImpl: daysOfGrowth: "+daysOfGrowth);
+		//System.out.println("PlantImpl: myAge: "+myAge);
 		return daysOfGrowth;
 	}
 
@@ -494,7 +492,7 @@ public abstract class PlantImpl extends PlantPOA{
 		//System.out.println("PlantImpl: thePPFsquared: "+thePPFsquared);
 		//System.out.println("PlantImpl: thePPFcubed: "+thePPFcubed);
 
-		float theCO2 = getAverageCO2Concentration();
+		float theCO2 = getAverageCO2MicroConcentration();
 		float oneOverCO2 = 1f / theCO2;
 		float theCO2squared = pow(theCO2, 2f);
 		float theCO2cubed = pow(theCO2, 3f);

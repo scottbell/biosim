@@ -1587,6 +1587,10 @@ public class BioInitializer{
 	private static int getFlowRateIndex(Node pNode){
 		return Integer.parseInt(pNode.getAttributes().getNamedItem("index").getNodeValue());
 	}
+	
+	private static int getShelfIndex(Node pNode){
+		return Integer.parseInt(pNode.getAttributes().getNamedItem("shelfIndex").getNodeValue());
+	}
 
 	//Air
 	private void createCO2InFlowRateSensor(Node node){
@@ -3992,6 +3996,42 @@ public class BioInitializer{
 		myFoodOutFlowRateActuator.setOutput(FoodProducerHelper.narrow(grabModule(getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myFoodOutFlowRateActuator);
 	}
+	
+	private void createPlantingActuator(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating PlantingActuator with moduleName: "+moduleName);
+			PlantingActuatorImpl myPlantingActuatorImpl = new PlantingActuatorImpl(myID, moduleName);
+			setupBioModule(myPlantingActuatorImpl, node);
+			BiosimServer.registerServer(new PlantingActuatorPOATie(myPlantingActuatorImpl), myPlantingActuatorImpl.getModuleName(), myPlantingActuatorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configurePlantingActuator(Node node){
+		PlantingActuator myPlantingActuator = PlantingActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myPlantingActuator.setOutput(BiomassRSHelper.narrow(grabModule(getOutputName(node))), getShelfIndex(node));
+		myActuators.add(myPlantingActuator);
+	}
+	
+	private void createHarvestingActuator(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating HarvestingActuator with moduleName: "+moduleName);
+			HarvestingActuatorImpl myHarvestingActuatorImpl = new HarvestingActuatorImpl(myID, moduleName);
+			setupBioModule(myHarvestingActuatorImpl, node);
+			BiosimServer.registerServer(new HarvestingActuatorPOATie(myHarvestingActuatorImpl), myHarvestingActuatorImpl.getModuleName(), myHarvestingActuatorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureHarvestingActuator(Node node){
+		HarvestingActuator myHarvestingActuator = HarvestingActuatorHelper.narrow(grabModule(getModuleName(node)));
+		myHarvestingActuator.setOutput(BiomassRSHelper.narrow(grabModule(getOutputName(node))), getShelfIndex(node));
+		myActuators.add(myHarvestingActuator);
+	}
 
 	private void crawlFoodActuators(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
@@ -4020,6 +4060,18 @@ public class BioInitializer{
 					createFoodOutFlowRateActuator(child);
 				else
 					configureFoodOutFlowRateActuator(child);
+			}
+			else if (childName.equals("HarvestingActuator")){
+				if (firstPass)
+					createHarvestingActuator(child);
+				else
+					configureHarvestingActuator(child);
+			}
+			else if (childName.equals("PlantingActuator")){
+				if (firstPass)
+					createPlantingActuator(child);
+				else
+					configurePlantingActuator(child);
 			}
 			child = child.getNextSibling();
 		}

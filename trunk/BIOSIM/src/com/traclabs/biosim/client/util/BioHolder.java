@@ -162,6 +162,8 @@ public class BioHolder{
 	public List theBiomassOutFlowRateActuators;
 	public List theFoodInFlowRateActuators;
 	public List theFoodOutFlowRateActuators;
+	public List thePlantingActuators;
+	public List theHarvestingActuators;
 	//Power
 	public List thePowerInFlowRateActuators;
 	public List thePowerOutFlowRateActuators;
@@ -325,6 +327,8 @@ public class BioHolder{
 		theBiomassOutFlowRateActuators = new Vector();
 		theFoodInFlowRateActuators = new Vector();
 		theFoodOutFlowRateActuators = new Vector();
+		thePlantingActuators = new Vector();
+		theHarvestingActuators = new Vector();
 		//Power
 		thePowerInFlowRateActuators = new Vector();
 		thePowerOutFlowRateActuators = new Vector();
@@ -352,7 +356,10 @@ public class BioHolder{
 	public GenericActuator getActuatorAttachedTo(List actuatorList, BioModule moduleWatched){
 		for (Iterator iter = actuatorList.iterator(); iter.hasNext();){
 			Object obj = iter.next();
+			System.out.println("BioHolder: here1");
 			GenericActuator currentActuator = (GenericActuator)(obj);
+			System.out.println("BioHolder: obj: "+obj);
+			System.out.println("BioHolder: currentActuator.getOutputModule()"+currentActuator.getOutputModule());
 			if (currentActuator.getOutputModule()._is_equivalent(moduleWatched))
 				return currentActuator;
 		}
@@ -506,6 +513,8 @@ public class BioHolder{
 		theActuators.addAll(theBiomassOutFlowRateActuators);
 		theActuators.addAll(theFoodInFlowRateActuators);
 		theActuators.addAll(theFoodOutFlowRateActuators);
+		theActuators.addAll(thePlantingActuators);
+		theActuators.addAll(theHarvestingActuators);
 		//Power
 		theActuators.addAll(thePowerInFlowRateActuators);
 		theActuators.addAll(thePowerOutFlowRateActuators);
@@ -674,6 +683,8 @@ public class BioHolder{
 		theBiomassOutFlowRateActuators.clear();
 		theFoodInFlowRateActuators.clear();
 		theFoodOutFlowRateActuators.clear();
+		thePlantingActuators.clear();
+		theHarvestingActuators.clear();
 		//Power
 		thePowerInFlowRateActuators.clear();
 		thePowerOutFlowRateActuators.clear();

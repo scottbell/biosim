@@ -44,7 +44,11 @@ public class ShelfImpl extends ShelfPOA {
 		powerLevel = 0f;
 		replant(initialType);
 	}
-
+	
+	public PlantType getCropType(){
+		return myCrop.getPlantType();
+	}
+	
 	public BiomassRS getBiomassRS(){
 		return BiomassRSHelper.narrow(OrbUtils.poaToCorbaObj(myBiomassRSImpl));
 	}
@@ -134,8 +138,8 @@ public class ShelfImpl extends ShelfPOA {
 			if (myCrop.readyForHarvest()){
 				float biomassProduced = myCrop.harvest();
 				float biomassAdded = pushFractionalResourceToBiomassStore(myBiomassRSImpl.getBiomassOutputs(), myBiomassRSImpl.getBiomassOutputMaxFlowRates(), myBiomassRSImpl.getBiomassOutputDesiredFlowRates(), myBiomassRSImpl.getBiomassOutputActualFlowRates(), biomassProduced, myBiomassRSImpl.getNumberOfShelves(), myCrop.getPlantType());
+				myCrop.reset();
 			}
-			myCrop.reset();
 		}
 	}
 

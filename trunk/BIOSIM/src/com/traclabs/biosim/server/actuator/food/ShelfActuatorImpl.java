@@ -21,6 +21,6 @@ public abstract class ShelfActuatorImpl extends GenericActuatorImpl implements S
 	}
 	
 	public BioModule getOutputModule(){
-		return myShelf.getBiomassRS();
+		return BioModuleHelper.narrow(myShelf.getBiomassRS());
 	}
 }
