@@ -11,7 +11,6 @@ import biosim.idl.simulation.environment.SimEnvironment;
 import biosim.idl.simulation.food.BioMatter;
 import biosim.idl.simulation.food.PlantPOA;
 import biosim.idl.simulation.food.PlantType;
-import biosim.idl.util.log.LogNode;
 import biosim.server.simulation.framework.SimpleBuffer;
 /**
  * Plant
@@ -22,7 +21,6 @@ public abstract class PlantImpl extends PlantPOA{
 	private DecimalFormat numFormat;
 	private Random myRandomGen;
 	protected int myAge = 0;
-	private LogIndex myLogIndex;
 	private boolean logInitialized = false;
 	private boolean hasDied = false;
 	private boolean canopyClosed = false;
@@ -742,24 +740,7 @@ public abstract class PlantImpl extends PlantPOA{
 			return 0f;
 	}
 
-	public void log(LogNode myLogHead){
-		//If not initialized, fill in the log
-		if (!logInitialized){
-			myLogIndex = new LogIndex();
-			LogNode typeHead = myLogHead.addChild("plant_type");
-			myLogIndex.typeIndex = typeHead.addChild("");
-			logInitialized = true;
-		}
-		else{
-			myLogIndex.typeIndex.setValue(""+getPlantType());
-		}
-	}
-
-	/**
-	* For fast reference to the log tree
-	*/
-	private class LogIndex{
-		public LogNode typeIndex;
+	public void log(){
 	}
 
 }

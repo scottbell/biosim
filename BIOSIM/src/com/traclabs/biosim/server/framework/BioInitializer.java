@@ -511,9 +511,6 @@ import biosim.idl.simulation.water.WaterRSHelper;
 import biosim.idl.simulation.water.WaterRSPOATie;
 import biosim.idl.simulation.water.WaterStore;
 import biosim.idl.simulation.water.WaterStoreHelper;
-import biosim.idl.util.log.LogHandlerType;
-import biosim.idl.util.log.Logger;
-import biosim.idl.util.log.LoggerHelper;
 import biosim.server.actuator.air.CO2InFlowRateActuatorImpl;
 import biosim.server.actuator.air.CO2OutFlowRateActuatorImpl;
 import biosim.server.actuator.air.H2InFlowRateActuatorImpl;
@@ -788,11 +785,6 @@ public class BioInitializer{
 			myDriver.setPassiveSimModules(passiveSimModulesArray);
 			myDriver.setPrioritySimModules(prioritySimModulesArray);
 			
-			//Logging
-			myDriver.setFullLogging(areModulesLogging);
-			myDriver.setSensorLogging(areSensorsLogging);
-			myDriver.setActuatorLogging(areActuatorsLogging);
-			
 			System.out.println("done");
 			System.out.flush();
 		}
@@ -819,13 +811,10 @@ public class BioInitializer{
 		}
 		if (firstPass){
 			try{
-				Logger myLogger = LoggerHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str("Logger"));
-				myDriver.setLogger(myLogger);
 				myDriver.setRunTillN(Integer.parseInt(node.getAttributes().getNamedItem("runTillN").getNodeValue()));
 				myDriver.setPauseSimulation(node.getAttributes().getNamedItem("startPaused").getNodeValue().equals("true"));
 				myDriver.setRunTillCrewDeath(node.getAttributes().getNamedItem("runTillCrewDeath").getNodeValue().equals("true"));
 				myDriver.setRunTillPlantDeath(node.getAttributes().getNamedItem("runTillPlantDeath").getNodeValue().equals("true"));
-				myDriver.setLogLastTick(node.getAttributes().getNamedItem("logLastTick").getNodeValue().equals("true"));
 				areSensorsLogging = (node.getAttributes().getNamedItem("isSensorLoggingEnabled").getNodeValue().equals("true"));
 				areActuatorsLogging = (node.getAttributes().getNamedItem("isActuatorLoggingEnabled").getNodeValue().equals("true"));
 				areModulesLogging = (node.getAttributes().getNamedItem("isFullLoggingEnabled").getNodeValue().equals("true"));
@@ -843,12 +832,6 @@ public class BioInitializer{
 					myDriver.setStochasticIntensity(StochasticIntensity.LOW_STOCH);
 				else
 					myDriver.setStochasticIntensity(StochasticIntensity.NONE_STOCH);
-				
-				String logHandlerString = node.getAttributes().getNamedItem("logHandler").getNodeValue();
-				if (logHandlerString.equals("XML"))
-					myLogger.addLogHandlerType(LogHandlerType.XML);
-				else if (logHandlerString.equals("STANDARD_OUT"))
-					myLogger.addLogHandlerType(LogHandlerType.SCREEN);
 			}
 			catch (Exception e){
 				e.printStackTrace();

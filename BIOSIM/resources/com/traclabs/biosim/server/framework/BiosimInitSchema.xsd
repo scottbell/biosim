@@ -41,11 +41,6 @@
 		<xsd:attribute name="runTillPlantDeath" type="xsd:boolean" default="false"/>
 		<xsd:attribute name="crewsToWatch" type="stringList" use="optional"/>
 		<xsd:attribute name="plantsToWatch" type="stringList" use="optional"/>
-		<xsd:attribute name="isFullLoggingEnabled" type="xsd:boolean" default="false"/>
-		<xsd:attribute name="isSensorLoggingEnabled" type="xsd:boolean" default="false"/>    
-		<xsd:attribute name="isActuatorLoggingEnabled" type="xsd:boolean" default="false"/>      
-		<xsd:attribute name="logHandler" type="LogHandlerType" default="STANDARD_OUT"/>  
-		<xsd:attribute name="logLastTick" type="xsd:boolean" default="false"/>
 		<xsd:attribute name="driverStutterLength" type="xsd:integer" default="-1"/>     
 		<xsd:attribute name="isLooping" type="xsd:boolean" default="false"/>
 		<xsd:attribute name="stochasticIntensity" type="StochasticIntensityType" default="NONE_STOCH"/>
@@ -57,14 +52,6 @@
 			<xsd:enumeration value="MEDIUM_STOCH"/>
 			<xsd:enumeration value="LOW_STOCH"/>
 			<xsd:enumeration value="NONE_STOCH"/>
-		</xsd:restriction>
-	</xsd:simpleType>
-	
-	<xsd:simpleType name="LogHandlerType">
-		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="XML"/>
-			<xsd:enumeration value="STANDARD_OUT"/>
-			<xsd:enumeration value="NONE"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 	

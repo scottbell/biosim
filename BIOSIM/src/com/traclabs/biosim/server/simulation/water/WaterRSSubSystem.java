@@ -1,6 +1,5 @@
 package biosim.server.simulation.water;
 
-import biosim.idl.util.log.LogNode;
 /**
  * The abstract class all the water subsystems derive from (the AES, BWP, PPS, and RO).
  *
@@ -24,7 +23,6 @@ public abstract class WaterRSSubSystem{
 	//Amount of water in this subsystem at the current tick
 	float waterLevel = 0;
 	private boolean logInitialized = false;
-	private LogIndex myLogIndex;
 	boolean enabled = true;
 	private boolean malfunctioning = false;
 
@@ -131,10 +129,8 @@ public abstract class WaterRSSubSystem{
 			currentPowerConsumed = 0f;
 	}
 
-	public void log(LogNode myHead){
-		//If not initialized, fill in the log
-		if (!logInitialized){
-			myLogIndex = new LogIndex();
+	public void log(){
+			/*
 			LogNode enabledHead = myHead.addChild("enabled");
 			myLogIndex.enabledIndex = enabledHead.addChild(""+enabled);
 			LogNode powerNeededHead = myHead.addChild("power_needed");
@@ -149,29 +145,7 @@ public abstract class WaterRSSubSystem{
 			myLogIndex.hasEnoughWaterIndex = hasEnoughWaterHead.addChild(""+hasEnoughWater);
 			LogNode waterLevelHead = myHead.addChild("water_level");
 			myLogIndex.waterLevelIndex = waterLevelHead.addChild(""+waterLevel);
-			logInitialized = true;
-		}
-		else{
-			myLogIndex.enabledIndex.setValue(""+enabled);
-			myLogIndex.powerNeededIndex.setValue(""+powerNeeded);
-			myLogIndex.currentPowerConsumedIndex.setValue(""+currentPowerConsumed);
-			myLogIndex.waterNeededIndex.setValue(""+waterNeeded);
-			myLogIndex.hasEnoughPowerIndex.setValue(""+hasEnoughPower);
-			myLogIndex.hasEnoughWaterIndex.setValue(""+hasEnoughWater);
-			myLogIndex.waterLevelIndex.setValue(""+waterLevel);
-		}
+			*/
 	}
 
-	/**
-	* For fast reference to the log tree
-	*/
-	private class LogIndex{
-		public LogNode enabledIndex;
-		public LogNode powerNeededIndex;
-		public LogNode currentPowerConsumedIndex;
-		public LogNode waterNeededIndex;
-		public LogNode hasEnoughPowerIndex;
-		public LogNode hasEnoughWaterIndex;
-		public LogNode waterLevelIndex;
-	}
 }

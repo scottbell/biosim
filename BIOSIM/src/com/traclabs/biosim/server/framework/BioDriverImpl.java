@@ -8,7 +8,6 @@ import biosim.idl.framework.StochasticIntensity;
 import biosim.idl.simulation.crew.CrewGroup;
 import biosim.idl.simulation.food.BiomassRS;
 import biosim.idl.simulation.food.Shelf;
-import biosim.idl.util.log.Logger;
 
 /*
  *
@@ -31,17 +30,14 @@ public class BioDriverImpl extends BioDriverPOA{
 	//Tells whether simulation runs until plant death
 	private boolean runTillPlantDeath = false;
 	//Tells whether simulation runs till a fixed number of ticks
-	private boolean runTillN = false;
 	//If <runTillN == true, this is the number of ticks to run for.
-	//The logger module
-	private Logger myLogger;
+	private boolean runTillN = false;
 	//How long BioDriver should pause between ticks
 	private int driverStutterLength = 0;
 	//The ID of this instance of BioSim
 	private int myID = 0;
 	//If we loop after end conditions of a simulation run have been met (crew death or n-ticks)
 	private boolean looping = false;
-	private boolean logLastTick = false;
 	private CrewGroup[] crewsToWatch;
 	private BiomassRS[] plantsToWatch;
 	private BioModule[] modules;
@@ -243,10 +239,6 @@ public class BioDriverImpl extends BioDriverPOA{
 			notify();
 	}
 
-	public void setLogger(Logger pLogger){
-		myLogger = pLogger;
-	}
-
 	/**
 	* Sets how long BioDriver should pause between full simulation ticks (e.g., tick all modules, wait, tick all modules, wait, etc.)
 	* @param pDriverStutterLength the length (in milliseconds) for the driver to pause between ticks
@@ -330,7 +322,6 @@ public class BioDriverImpl extends BioDriverPOA{
 		myTickThread = null;
 		notify();
 		simulationStarted = false;
-		myLogger.endLog();
 		System.out.println("BioDriverImpl"+myID+": simulation ended on tick "+ticksGoneBy);
 	}
 
@@ -344,64 +335,6 @@ public class BioDriverImpl extends BioDriverPOA{
 		tick();
 	}
 
-	/**
-	* Forces log
-	*/
-	public synchronized void forceLog(){
-		if (myLogger != null)
-			myLogger.setProcessingLogs(true);
-		for (int i = 0; i < modules.length; i++){
-			BioModule currentBioModule = (BioModule)(modules[i]);
-			currentBioModule.log();
-		}
-	}
-
-	/**
-	* Whether to log the last tick
-	* @param pLogLastTick Whether to log the last tick
-	*/
-	public synchronized void setLogLastTick(boolean pLogLastTick){
-		logLastTick = pLogLastTick;
-	}
-
-	/**
-	* Iterates through the modules setting their logs
-	* @param pLogSim Whether or not modules should log.
-	*/
-	public synchronized void setFullLogging(boolean pLogSim){
-		for (int i = 0; i < modules.length; i++){
-			BioModule currentBioModule = (BioModule)(modules[i]);
-			currentBioModule.setLogging(pLogSim);
-		}
-		if ((myLogger != null) && pLogSim)
-			myLogger.setProcessingLogs(true);
-	}
-
-	/**
-	* Iterates through the sensors setting their logs
-	* @param pLogSim Whether or not sensors should log.
-	*/
-	public synchronized void setSensorLogging(boolean pLogSim){
-		for (int i = 0; i < sensors.length; i++){
-			BioModule currentBioModule = (BioModule)(sensors[i]);
-			currentBioModule.setLogging(pLogSim);
-		}
-		if ((myLogger != null) && pLogSim)
-			myLogger.setProcessingLogs(true);
-	}
-
-	/**
-	* Iterates through the actuators setting their logs
-	* @param pLogSim Whether or not actuators should log.
-	*/
-	public synchronized void setActuatorLogging(boolean pLogSim){
-		for (int i = 0; i < actuators.length; i++){
-			BioModule currentBioModule = (BioModule)(actuators[i]);
-			currentBioModule.setLogging(pLogSim);
-		}
-		if ((myLogger != null) && pLogSim)
-			myLogger.setProcessingLogs(true);
-	}
 
 	/**
 	* Tells the amount of stochastic intensity the modules will undergo.
@@ -472,11 +405,6 @@ public class BioDriverImpl extends BioDriverPOA{
 			tick();
 			if (isDone()){
 				endSimulation();
-				if (logLastTick){
-					forceLog();
-					myLogger.forceWriteLog();
-					myLogger.endLog();
-				}
 				if (looping)
 					startSimulation();
 			}

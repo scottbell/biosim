@@ -20,7 +20,6 @@ import biosim.idl.simulation.food.FoodStore;
 import biosim.idl.simulation.power.PowerStore;
 import biosim.idl.simulation.waste.DryWasteStore;
 import biosim.idl.simulation.water.WaterStore;
-import biosim.idl.util.log.LogNode;
 import biosim.server.simulation.framework.SimBioModuleImpl;
 /**
  * The Food Processor takes biomass (plants matter) and refines it to food for the crew members.
@@ -46,7 +45,6 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	//The food produced (in kilograms) by the Food Processor at the current tick
 	private float currentFoodProduced = 0f;
 	//References to the servers the Food Processor takes/puts resources (like power, biomass, etc)
-	private LogIndex myLogIndex;
 	private float myProductionRate = 1f;
 	private FoodStore[] myFoodStores;
 	private DryWasteStore[] myDryWasteStores;
@@ -528,16 +526,4 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 		return myWaterStores;
 	}
 
-	/**
-	* For fast reference to the log tree
-	*/
-	private class LogIndex{
-		public LogNode powerNeededIndex;
-		public LogNode hasEnoughPowerIndex;
-		public LogNode biomassNeededIndex;
-		public LogNode hasEnoughBiomassIndex;
-		public LogNode massConsumedIndex;
-		public LogNode currentPowerConsumedIndex;
-		public LogNode currentFoodProducedIndex;
-	}
 }

@@ -15,7 +15,6 @@ import biosim.idl.simulation.air.O2Store;
 import biosim.idl.simulation.power.PowerStore;
 import biosim.idl.simulation.waste.DryWasteStore;
 import biosim.idl.simulation.waste.IncineratorOperations;
-import biosim.idl.util.log.LogNode;
 import biosim.server.simulation.framework.SimBioModuleImpl;
 /**
  * The Incinerator takes dryWaste (plants matter) and refines it to food for the crew members.
@@ -47,7 +46,6 @@ public class IncineratorImpl extends SimBioModuleImpl implements IncineratorOper
 	//The CO2 produced (in moles) by the Incinerator at the current tick
 	private float currentCO2Produced = 0f;
 	//References to the servers the Incinerator takes/puts resources (like power, dryWaste, etc)
-	private LogIndex myLogIndex;
 	private float myProductionRate = 1f;
 	private PowerStore[] myPowerStores;
 	private DryWasteStore[] myDryWasteStores;
@@ -417,17 +415,5 @@ public class IncineratorImpl extends SimBioModuleImpl implements IncineratorOper
 	}
 	public CO2Store[] getCO2Outputs(){
 		return myCO2Stores;
-	}
-
-	/**
-	* For fast reference to the log tree
-	*/
-	private class LogIndex{
-		public LogNode powerNeededIndex;
-		public LogNode hasEnoughPowerIndex;
-		public LogNode dryWasteNeededIndex;
-		public LogNode hasEnoughDryWasteIndex;
-		public LogNode currentDryWasteConsumedIndex;
-		public LogNode currentPowerConsumedIndex;
 	}
 }

@@ -8,7 +8,6 @@ import biosim.idl.simulation.food.Plant;
 import biosim.idl.simulation.food.PlantHelper;
 import biosim.idl.simulation.food.PlantType;
 import biosim.idl.simulation.food.ShelfPOA;
-import biosim.idl.util.log.LogNode;
 import biosim.server.simulation.framework.SimBioModuleImpl;
 import biosim.server.util.OrbUtils;
 
@@ -22,7 +21,6 @@ public class ShelfImpl extends ShelfPOA {
 	private PlantType initialType;
 	private float cropAreaTotal = 0f;
 	private float cropAreaUsed = 0f;
-	private LogIndex myLogIndex;
 	private boolean logInitialized = false;
 	private BiomassRSImpl myBiomassRSImpl;
 	private float waterLevel = 0f;
@@ -230,23 +228,7 @@ public class ShelfImpl extends ShelfPOA {
 		waterNeeded = cropAreaUsed * waterNeededPerMeterSquared;
 	}
 	
-	public void log(LogNode myLogHead){
-		//If not initialized, fill in the log
-		if (!logInitialized){
-			myLogIndex = new LogIndex();
-			myLogIndex.plantHead = myLogHead.addChild("plant");
-			myCrop.log(myLogIndex.plantHead);
-			logInitialized = true;
-		}
-		else{
-			myCrop.log(myLogIndex.plantHead);
-		}
-	}
-
-	/**
-	* For fast reference to the log tree
-	*/
-	private class LogIndex{
-		public LogNode plantHead;
+	public void log(){
+			myCrop.log();
 	}
 }

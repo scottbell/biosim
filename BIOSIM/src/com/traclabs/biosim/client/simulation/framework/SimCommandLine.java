@@ -75,24 +75,6 @@ public class SimCommandLine
 			else
 				System.out.println("simulation has already started");
 		}
-		else if (userCommand.equals("startFullLog")){
-			myDriver.setFullLogging(true);
-		}
-		else if (userCommand.equals("stopFullLog")){
-			myDriver.setFullLogging(false);
-		}
-		else if (userCommand.equals("startSensorLog")){
-			myDriver.setSensorLogging(true);
-		}
-		else if (userCommand.equals("stopSensorLog")){
-			myDriver.setSensorLogging(false);
-		}
-		else if (userCommand.equals("startActuatorLog")){
-			myDriver.setActuatorLogging(true);
-		}
-		else if (userCommand.equals("stopActuatorLog")){
-			myDriver.setActuatorLogging(false);
-		}
 		else if (userCommand.equals("pause")){
 			if (!myDriver.isPaused())
 				myDriver.setPauseSimulation(true);
@@ -139,7 +121,7 @@ public class SimCommandLine
 			System.out.println(statusBuffer.toString());
 		}
 		else if (userCommand.equals("?") || userCommand.equals("help")){
-			System.out.println("commands: start, stop, pause, resume, status, quit, tick, startFullLog, stopFullLog, startSensorLog, stopSensorLog, startActuatorLog, stopActuatorLog, help");
+			System.out.println("commands: start, stop, pause, resume, status, quit, tick, help");
 		}
 		else{
 			System.out.println("unrecognized command: "+userCommand);

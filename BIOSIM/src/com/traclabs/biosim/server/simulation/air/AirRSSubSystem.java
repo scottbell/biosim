@@ -1,6 +1,5 @@
 package biosim.server.simulation.air;
 
-import biosim.idl.util.log.LogNode;
 /**
  * The abstract class all the air subsystems derive from (the VCCR, CRS, OGS, ...)
  *
@@ -16,7 +15,6 @@ public abstract class AirRSSubSystem{
 	//Flag to determine whether the air subsystem has received enough power for this tick
 	protected boolean hasEnoughPower = false;
 	private boolean logInitialized = false;
-	private LogIndex myLogIndex;
 
 	public AirRSSubSystem(AirRSImpl pAirRSImpl){
 		myAirRS = pAirRSImpl;
@@ -51,23 +49,11 @@ public abstract class AirRSSubSystem{
 		gatherPower();
 	}
 
-	public void log(LogNode myHead){
-		//If not initialized, fill in the log
-		if (!logInitialized){
-			myLogIndex = new LogIndex();
+	public void log(){
+		/*
 			LogNode powerNeededHead = myHead.addChild("Power Needed");
 			myLogIndex.powerNeededIndex = powerNeededHead.addChild(""+powerNeeded);
-			logInitialized = true;
-		}
-		else{
-			myLogIndex.powerNeededIndex.setValue(""+powerNeeded);
-		}
+			*/
 	}
 
-	/**
-	* For fast reference to the log tree
-	*/
-	private class LogIndex{
-		public LogNode powerNeededIndex;
-	}
 }
