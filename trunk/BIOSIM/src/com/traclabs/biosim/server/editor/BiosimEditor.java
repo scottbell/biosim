@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Locale;
+import java.util.Properties;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,10 +17,10 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.border.EtchedBorder;
 
+import org.apache.log4j.PropertyConfigurator;
 import org.tigris.gef.base.CmdExit;
 import org.tigris.gef.base.Globals;
 import org.tigris.gef.base.ModeSelect;
-import org.tigris.gef.demo.SamplePalette;
 import org.tigris.gef.event.ModeChangeEvent;
 import org.tigris.gef.event.ModeChangeListener;
 import org.tigris.gef.graph.presentation.JGraph;
@@ -56,6 +57,7 @@ public class BiosimEditor extends JFrame implements IStatusBar, Cloneable,
      * DefaultGraphModel.
      */
     public BiosimEditor(String title) {
+        initializeLogger();
         myGraph = new JGraph();
         Localizer.addResource("GefBase",
                 "org.tigris.gef.base.BaseResourceBundle");
@@ -74,7 +76,7 @@ public class BiosimEditor extends JFrame implements IStatusBar, Cloneable,
                 System.exit(0);
             }
         });
-        myToolbar = new SamplePalette();
+        myToolbar = new EditorToolBar("No Name");
         Container content = getContentPane();
         setUpMenus();
         content.setLayout(new BorderLayout());
@@ -91,6 +93,23 @@ public class BiosimEditor extends JFrame implements IStatusBar, Cloneable,
 
         setBounds(10, 10, 300, 200);
         setVisible(true);
+    }
+
+    /**
+     * 
+     */
+    private void initializeLogger() {
+        Properties logProps = new Properties();
+        logProps.setProperty("log4j.rootLogger", "INFO, rootAppender");
+        logProps.setProperty("log4j.appender.rootAppender",
+                "org.apache.log4j.ConsoleAppender");
+        logProps.setProperty("log4j.appender.rootAppender.layout",
+                "org.apache.log4j.PatternLayout");
+        logProps.setProperty(
+                "log4j.appender.rootAppender.layout.ConversionPattern",
+                "%5p [%c] - %m%n");
+        PropertyConfigurator.configure(logProps);
+        
     }
 
     public static void main(String args[]) {

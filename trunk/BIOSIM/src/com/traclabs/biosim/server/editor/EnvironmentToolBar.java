@@ -18,7 +18,7 @@ public class EnvironmentToolBar extends EditorToolBar {
     private JButton myConduitButton;
 
     public EnvironmentToolBar(BiosimEditor pEditor) {
-        super("Environment", pEditor);
+        super("Environment");
         myEnvironmentButton = new JButton("Environment");
         myDehumidifierButton = new JButton("Dehumidifier");
         myConduitButton = new JButton("Conduit");
