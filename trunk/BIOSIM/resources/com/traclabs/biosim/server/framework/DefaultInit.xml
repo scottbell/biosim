@@ -336,6 +336,67 @@
 				<input>H2Store</input>
 			</H2StoreLevelSensor>
 		</air>
+		<crew>
+			<CrewGroupDeathSensor name="CrewGroupDeathSensor">
+				<input>CrewGroup</input>
+			</CrewGroupDeathSensor>
+		</crew>
+		<environment>
+			<AirInFlowRateSensor name="AirRSAirInFlowRateSensor">
+				<input>AirRS</input>
+			</AirInFlowRateSensor>
+			<AirOutFlowRateSensor name="AirRSAirOutFlowRateSensor">
+				<input>AirRS</input>
+			</AirOutFlowRateSensor>
+			<CO2AirConcentrationSensor name="CrewEnvironmentCO2AirConcentrationSensor">
+				<input>CrewEnvironment</input>
+			</CO2AirConcentrationSensor>
+			<CO2AirConcentrationSensor name="PlantEnvironmentCO2AirConcentrationSensor">
+				<input>PlantEnvironment</input>
+			</CO2AirConcentrationSensor>
+			<CO2AirPressureSensor name="CrewEnvironmentCO2AirPressureSensor">
+				<input>CrewEnvironment</input>
+			</CO2AirPressureSensor>
+			<CO2AirPressureSensor name="PlantEnvironmentCO2AirPressureSensor">
+				<input>PlantEnvironment</input>
+			</CO2AirPressureSensor>
+			<O2AirConcentrationSensor name="CrewEnvironmentO2AirConcentrationSensor">
+				<input>CrewEnvironment</input>
+			</O2AirConcentrationSensor>
+			<O2AirConcentrationSensor name="PlantEnvironmentO2AirConcentrationSensor">
+				<input>PlantEnvironment</input>
+			</O2AirConcentrationSensor>
+			<O2AirPressureSensor name="CrewEnvironmentO2AirPressureSensor">
+				<input>CrewEnvironment</input>
+			</O2AirPressureSensor>
+			<O2AirPressureSensor name="PlantEnvironmentO2AirPressureSensor">
+				<input>PlantEnvironment</input>
+			</O2AirPressureSensor>
+			<OtherAirConcentrationSensor name="CrewEnvironmentOtherAirConcentrationSensor">
+				<input>CrewEnvironment</input>
+			</OtherAirConcentrationSensor>
+			<OtherAirConcentrationSensor name="PlantEnvironmentOtherAirConcentrationSensor">
+				<input>PlantEnvironment</input>
+			</OtherAirConcentrationSensor>
+			<OtherAirPressureSensor name="CrewEnvironmentOtherAirPressureSensor">
+				<input>CrewEnvironment</input>
+			</OtherAirPressureSensor>
+			<OtherAirPressureSensor name="PlantEnvironmentOtherAirPressureSensor">
+				<input>PlantEnvironment</input>
+			</OtherAirPressureSensor>
+			<WaterAirConcentrationSensor name="CrewEnvironmentWaterAirConcentrationSensor">
+				<input>CrewEnvironment</input>
+			</WaterAirConcentrationSensor>
+			<WaterAirConcentrationSensor name="PlantEnvironmentWaterAirConcentrationSensor">
+				<input>PlantEnvironment</input>
+			</WaterAirConcentrationSensor>
+			<WaterAirPressureSensor name="CrewEnvironmentWaterAirPressureSensor">
+				<input>CrewEnvironment</input>
+			</WaterAirPressureSensor>
+			<WaterAirPressureSensor name="PlantEnvironmentWaterAirPressureSensor">
+				<input>PlantEnvironment</input>
+			</WaterAirPressureSensor>
+		</environment>
 		<power>
 			<PowerInFlowRateSensor name="AirRSPowerInFlowRateSensor">
 				<input>AirRS</input>
