@@ -192,6 +192,7 @@ public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations 
 	* Resets the schedule and deletes all the crew persons
 	*/
 	public void reset(){
+		super.reset();
 		mySchedule.reset();
 		crewPeople = new Hashtable();
 	}

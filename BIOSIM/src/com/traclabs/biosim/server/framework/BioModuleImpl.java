@@ -39,7 +39,11 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	}
 	
 	public void fixAllMalfunctions(){
-		myMalfunctions.clear();
+		for (Enumeration e = myMalfunctions.elements(); e.hasMoreElements(); ){
+			Malfunction currentMalfunction = (Malfunction)(e.nextElement());
+			if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF)	
+				myMalfunctions.remove(new Integer(currentMalfunction.getID()));
+		}
 	}
 	
 	public String[] getMalfunctionNames(){
@@ -92,6 +96,10 @@ public abstract class BioModuleImpl extends BioModulePOA{
 
 	public boolean isMalfunctioning(){
 		return (myMalfunctions.size() > 0);
+	}
+	
+	public void reset(){
+		myMalfunctions.clear();
 	}
 
 	/**

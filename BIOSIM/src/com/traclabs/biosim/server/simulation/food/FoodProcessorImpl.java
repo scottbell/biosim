@@ -45,6 +45,7 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	* Resets production/consumption levels
 	*/
 	public void reset(){
+		super.reset();
 		currentBiomassConsumed = 0f;
 		currentPowerConsumed = 0f;
 		currentFoodProduced = 0f;

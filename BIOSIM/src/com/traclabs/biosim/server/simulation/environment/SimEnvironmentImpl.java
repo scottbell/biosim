@@ -145,6 +145,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	* @param litersRequested the new volume of the environment (in liters)
 	*/
 	public void setCapacity(float litersRequested){
+		super.reset();
 		capacity = litersRequested;
 		resetLevels();
 	}
