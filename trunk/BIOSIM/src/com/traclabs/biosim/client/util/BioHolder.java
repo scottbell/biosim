@@ -41,6 +41,7 @@ public class BioHolder
 	public final static String CO2StoreName = "CO2Store";
 	public final static String H2StoreName = "H2Store";
 	public final static String O2StoreName = "O2Store";
+	public final static String nitrogenStoreName = "NitrogenStore";
 	public final static String biomassRSName = "BiomassRS";
 	public final static String biomassStoreName = "BiomassStore";
 	public final static String foodProcessorName = "FoodProcessor";
@@ -69,9 +70,11 @@ public class BioHolder
 	public final static String myO2StoreLevelSensorName = "O2StoreLevelSensor";
 	public final static String myCO2StoreLevelSensorName = "CO2StoreLevelSensor";
 	public final static String myH2StoreLevelSensorName = "H2StoreLevelSensor";
+	public final static String myNitrogenStoreLevelSensorName = "NitrogenStoreLevelSensor";
 	public final static String myO2StoreOverflowSensorName = "O2StoreOverflowSensor";
 	public final static String myCO2StoreOverflowSensorName = "CO2StoreOverflowSensor";
 	public final static String myH2StoreOverflowSensorName = "H2StoreOverflowSensor";
+	public final static String myNitrogenStoreOverflowSensorName = "NitrogenStoreOverflowSensor";
 	//Crew
 	public final static String myCrewGroupDeathSensorName = "CrewGroupDeathSensor";
 	public final static String myCrewGroupPotableWaterInFlowRateSensorName = "CrewGroupPotableWaterInFlowRateSensor";
@@ -89,19 +92,23 @@ public class BioHolder
 	public final static String myCrewEnvironmentCO2AirConcentrationSensorName = "CrewEnvironmentCO2AirConcentrationSensor";
 	public final static String myCrewEnvironmentO2AirConcentrationSensorName = "CrewEnvironmentO2AirConcentrationSensor";
 	public final static String myCrewEnvironmentWaterAirConcentrationSensorName = "CrewEnvironmentWaterAirConcentrationSensor";
+	public final static String myCrewEnvironmentNitrogenAirConcentrationSensorName = "CrewEnvironmentNitrogenAirConcentrationSensor";
 	public final static String myCrewEnvironmentOtherAirPressureSensorName = "CrewEnvironmentOtherAirPressureSensor";
 	public final static String myCrewEnvironmentCO2AirPressureSensorName = "CrewEnvironmentCO2AirPressureSensor";
 	public final static String myCrewEnvironmentO2AirPressureSensorName = "CrewEnvironmentO2AirPressureSensor";
 	public final static String myCrewEnvironmentWaterAirPressureSensorName = "CrewEnvironmentWaterAirPressureSensor";
+	public final static String myCrewEnvironmentNitrogenAirPressureSensorName = "CrewEnvironmentNitrogenAirPressureSensor";
 	//Plant
 	public final static String myPlantEnvironmentOtherAirConcentrationSensorName = "PlantEnvironmentOtherAirConcentrationSensor";
 	public final static String myPlantEnvironmentCO2AirConcentrationSensorName = "PlantEnvironmentCO2AirConcentrationSensor";
 	public final static String myPlantEnvironmentO2AirConcentrationSensorName = "PlantEnvironmentO2AirConcentrationSensor";
 	public final static String myPlantEnvironmentWaterAirConcentrationSensorName = "PlantEnvironmentWaterAirConcentrationSensor";
+	public final static String myPlantEnvironmentNitrogenAirConcentrationSensorName = "PlantEnvironmentNitrogenAirConcentrationSensor";
 	public final static String myPlantEnvironmentOtherAirPressureSensorName = "PlantEnvironmentOtherAirPressureSensor";
 	public final static String myPlantEnvironmentCO2AirPressureSensorName = "PlantEnvironmentCO2AirPressureSensor";
 	public final static String myPlantEnvironmentO2AirPressureSensorName = "PlantEnvironmentO2AirPressureSensor";
 	public final static String myPlantEnvironmentWaterAirPressureSensorName = "PlantEnvironmentWaterAirPressureSensor";
+	public final static String myPlantEnvironmentNitrogenAirPressureSensorName = "PlantEnvironmentNitrogenAirPressureSensor";
 	//Water
 	//WaterRS
 	public final static String myWaterRSDirtyWaterInFlowRateSensorName = "WaterRSDirtyWaterInFlowRateSensor";
@@ -134,14 +141,22 @@ public class BioHolder
 	//Framework
 	//Accumulator
 	public final static String myAccumulatorCO2AirEnvironmentInFlowRateSensorName = "AccumulatorCO2AirEnvironmentInFlowRateSensor";
-	public final static String myAccumulatorO2AirEnvironmentInFlowRateSensorName = "AccumulatorO2AirEnvironmentInFlowRateSensor";
 	public final static String myAccumulatorCO2AirStoreOutFlowRateSensorName = "AccumulatorCO2AirStoreOutFlowRateSensor";
+	public final static String myAccumulatorO2AirEnvironmentInFlowRateSensorName = "AccumulatorO2AirEnvironmentInFlowRateSensor";
 	public final static String myAccumulatorO2AirStoreOutFlowRateSensorName = "AccumulatorO2AirStoreOutFlowRateSensor";
+	public final static String myAccumulatorCrewWaterAirEnvironmentInFlowRateSensorName = "AccumulatorCrewWaterAirEnvironmentInFlowRateSensor";
+	public final static String myAccumulatorPlantWaterAirEnvironmentInFlowRateSensorName = "AccumulatorPlantWaterAirEnvironmentInFlowRateSensor";
+	public final static String myAccumulatorCrewWaterAirStoreOutFlowRateSensorName = "AccumulatorCrewWaterAirStoreOutFlowRateSensor";
+	public final static String myAccumulatorPlantWaterAirStoreOutFlowRateSensorName = "AccumulatorPlantWaterAirStoreOutFlowRateSensor";
 	//Injector
 	public final static String myInjectorCO2AirStoreInFlowRateSensorName = "InjectorCO2AirStoreInFlowRateSensor";
 	public final static String myInjectorO2AirStoreInFlowRateSensorName = "InjectorO2AirStoreInFlowRateSensor";
 	public final static String myInjectorCO2AirEnvironmentOutFlowRateSensorName = "InjectorCO2AirEnvironmentOutFlowRateSensor";
 	public final static String myInjectorO2AirEnvironmentOutFlowRateSensorName = "InjectorO2AirEnvironmentOutFlowRateSensor";
+	public final static String myInjectorCrewNitrogenAirEnvironmentOutFlowRateSensorName = "InjectorCrewNitrogenAirEnvironmentOutFlowRateSensor";
+	public final static String myInjectorPlantNitrogenAirEnvironmentOutFlowRateSensorName = "InjectorPlantNitrogenAirEnvironmentOutFlowRateSensor";
+	public final static String myInjectorCrewNitrogenAirStoreInFlowRateSensorName = "InjectorCrewNitrogenAirStoreInFlowRateSensor";
+	public final static String myInjectorPlantNitrogenAirStoreInFlowRateSensorName = "InjectorPlantNitrogenAirStoreInFlowRateSensor";
 	//Actuator
 	//Air
 	//AirRs
@@ -184,11 +199,19 @@ public class BioHolder
 	public final static String myAccumulatorO2AirEnvironmentInFlowRateActuatorName = "AccumulatorO2AirEnvironmentInFlowRateActuator";
 	public final static String myAccumulatorCO2AirStoreOutFlowRateActuatorName = "AccumulatorCO2AirStoreOutFlowRateActuator";
 	public final static String myAccumulatorO2AirStoreOutFlowRateActuatorName = "AccumulatorO2AirStoreOutFlowRateActuator";
+	public final static String myAccumulatorCrewWaterAirEnvironmentInFlowRateActuatorName = "AccumulatorCrewWaterAirEnvironmentInFlowRateActuator";
+	public final static String myAccumulatorPlantWaterAirEnvironmentInFlowRateActuatorName = "AccumulatorPlantWaterAirEnvironmentInFlowRateActuator";
+	public final static String myAccumulatorCrewWaterAirStoreOutFlowRateActuatorName = "AccumulatorCrewWaterAirStoreOutFlowRateActuator";
+	public final static String myAccumulatorPlantWaterAirStoreOutFlowRateActuatorName = "AccumulatorPlantWaterAirStoreOutFlowRateActuator";
 	//Injector
 	public final static String myInjectorCO2AirStoreInFlowRateActuatorName = "InjectorCO2AirStoreInFlowRateActuator";
 	public final static String myInjectorO2AirStoreInFlowRateActuatorName = "InjectorO2AirStoreInFlowRateActuator";
 	public final static String myInjectorCO2AirEnvironmentOutFlowRateActuatorName = "InjectorCO2AirEnvironmentOutFlowRateActuator";
 	public final static String myInjectorO2AirEnvironmentOutFlowRateActuatorName = "InjectorO2AirEnvironmentOutFlowRateActuator";
+	public final static String myInjectorCrewNitrogenAirEnvironmentOutFlowRateActuatorName = "InjectorCrewNitrogenAirEnvironmentOutFlowRateActuator";
+	public final static String myInjectorPlantNitrogenAirEnvironmentOutFlowRateActuatorName = "InjectorPlantNitrogenAirEnvironmentOutFlowRateActuator";
+	public final static String myInjectorCrewNitrogenAirStoreInFlowRateActuatorName = "InjectorCrewNitrogenAirStoreInFlowRateActuator";
+	public final static String myInjectorPlantNitrogenAirStoreInFlowRateActuatorName = "InjectorPlantNitrogenAirStoreInFlowRateActuator";
 
 	//A hastable containing the server references
 	private static Map modules;
@@ -286,6 +309,8 @@ public class BioHolder
 			modules.put(H2StoreName , myH2Store);
 			O2Store myO2Store = O2StoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(O2StoreName));
 			modules.put(O2StoreName , myO2Store);
+			NitrogenStore myNitrogenStore = NitrogenStoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(nitrogenStoreName));
+			modules.put(nitrogenStoreName , myNitrogenStore);
 			BiomassRS myBiomassRS = BiomassRSHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(biomassRSName));
 			modules.put(biomassRSName , myBiomassRS);
 			BiomassStore myBiomassStore = BiomassStoreHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(biomassStoreName));
@@ -340,6 +365,9 @@ public class BioHolder
 					H2StoreLevelSensor myH2StoreLevelSensor = H2StoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myH2StoreLevelSensorName));
 					modules.put(myH2StoreLevelSensorName , myH2StoreLevelSensor);
 					sensors.put(myH2StoreLevelSensorName , myH2StoreLevelSensor);
+					NitrogenStoreLevelSensor myNitrogenStoreLevelSensor = NitrogenStoreLevelSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myNitrogenStoreLevelSensorName));
+					modules.put(myNitrogenStoreLevelSensorName , myNitrogenStoreLevelSensor);
+					sensors.put(myNitrogenStoreLevelSensorName , myNitrogenStoreLevelSensor);
 					
 					StoreOverflowSensor myO2StoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myO2StoreOverflowSensorName));
 					modules.put(myO2StoreOverflowSensorName , myO2StoreOverflowSensor);
@@ -350,6 +378,9 @@ public class BioHolder
 					StoreOverflowSensor myH2StoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myH2StoreOverflowSensorName));
 					modules.put(myH2StoreOverflowSensorName , myH2StoreOverflowSensor);
 					sensors.put(myH2StoreOverflowSensorName , myH2StoreOverflowSensor);
+					StoreOverflowSensor myNitrogenStoreOverflowSensor = StoreOverflowSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myNitrogenStoreOverflowSensorName));
+					modules.put(myNitrogenStoreOverflowSensorName , myNitrogenStoreOverflowSensor);
+					sensors.put(myNitrogenStoreOverflowSensorName , myNitrogenStoreOverflowSensor);
 				}
 			}
 			//Power
@@ -405,6 +436,9 @@ public class BioHolder
 					WaterAirConcentrationSensor myCrewEnvironmentWaterAirConcentrationSensor = WaterAirConcentrationSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewEnvironmentWaterAirConcentrationSensorName));
 					modules.put(myCrewEnvironmentWaterAirConcentrationSensorName , myCrewEnvironmentWaterAirConcentrationSensor);
 					sensors.put(myCrewEnvironmentWaterAirConcentrationSensorName , myCrewEnvironmentWaterAirConcentrationSensor);
+					NitrogenAirConcentrationSensor myCrewEnvironmentNitrogenAirConcentrationSensor = NitrogenAirConcentrationSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewEnvironmentNitrogenAirConcentrationSensorName));
+					modules.put(myCrewEnvironmentNitrogenAirConcentrationSensorName , myCrewEnvironmentNitrogenAirConcentrationSensor);
+					sensors.put(myCrewEnvironmentNitrogenAirConcentrationSensorName , myCrewEnvironmentNitrogenAirConcentrationSensor);
 					OtherAirPressureSensor myCrewEnvironmentOtherAirPressureSensor = OtherAirPressureSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewEnvironmentOtherAirPressureSensorName));
 					modules.put(myCrewEnvironmentOtherAirPressureSensorName , myCrewEnvironmentOtherAirPressureSensor);
 					sensors.put(myCrewEnvironmentOtherAirPressureSensorName , myCrewEnvironmentOtherAirPressureSensor);
@@ -417,6 +451,9 @@ public class BioHolder
 					WaterAirPressureSensor myCrewEnvironmentWaterAirPressureSensor = WaterAirPressureSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewEnvironmentWaterAirPressureSensorName));
 					modules.put(myCrewEnvironmentWaterAirPressureSensorName , myCrewEnvironmentWaterAirPressureSensor);
 					sensors.put(myCrewEnvironmentWaterAirPressureSensorName , myCrewEnvironmentWaterAirPressureSensor);
+					NitrogenAirPressureSensor myCrewEnvironmentNitrogenAirPressureSensor = NitrogenAirPressureSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myCrewEnvironmentNitrogenAirPressureSensorName));
+					modules.put(myCrewEnvironmentNitrogenAirPressureSensorName , myCrewEnvironmentNitrogenAirPressureSensor);
+					sensors.put(myCrewEnvironmentNitrogenAirPressureSensorName , myCrewEnvironmentNitrogenAirPressureSensor);
 				}
 				//Plant
 				{
@@ -432,6 +469,9 @@ public class BioHolder
 					WaterAirConcentrationSensor myPlantEnvironmentWaterAirConcentrationSensor = WaterAirConcentrationSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myPlantEnvironmentWaterAirConcentrationSensorName));
 					modules.put(myPlantEnvironmentWaterAirConcentrationSensorName , myPlantEnvironmentWaterAirConcentrationSensor);
 					sensors.put(myPlantEnvironmentWaterAirConcentrationSensorName , myPlantEnvironmentWaterAirConcentrationSensor);
+					NitrogenAirConcentrationSensor myPlantEnvironmentNitrogenAirConcentrationSensor = NitrogenAirConcentrationSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myPlantEnvironmentNitrogenAirConcentrationSensorName));
+					modules.put(myPlantEnvironmentNitrogenAirConcentrationSensorName , myPlantEnvironmentNitrogenAirConcentrationSensor);
+					sensors.put(myPlantEnvironmentNitrogenAirConcentrationSensorName , myPlantEnvironmentNitrogenAirConcentrationSensor);
 					OtherAirPressureSensor myPlantEnvironmentOtherAirPressureSensor = OtherAirPressureSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myPlantEnvironmentOtherAirPressureSensorName));
 					modules.put(myPlantEnvironmentOtherAirPressureSensorName , myPlantEnvironmentOtherAirPressureSensor);
 					sensors.put(myPlantEnvironmentOtherAirPressureSensorName , myPlantEnvironmentOtherAirPressureSensor);
@@ -444,6 +484,9 @@ public class BioHolder
 					WaterAirPressureSensor myPlantEnvironmentWaterAirPressureSensor = WaterAirPressureSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myPlantEnvironmentWaterAirPressureSensorName));
 					modules.put(myPlantEnvironmentWaterAirPressureSensorName , myPlantEnvironmentWaterAirPressureSensor);
 					sensors.put(myPlantEnvironmentWaterAirPressureSensorName , myPlantEnvironmentWaterAirPressureSensor);
+					NitrogenAirPressureSensor myPlantEnvironmentNitrogenAirPressureSensor = NitrogenAirPressureSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myPlantEnvironmentNitrogenAirPressureSensorName));
+					modules.put(myPlantEnvironmentNitrogenAirPressureSensorName , myPlantEnvironmentNitrogenAirPressureSensor);
+					sensors.put(myPlantEnvironmentNitrogenAirPressureSensorName , myPlantEnvironmentNitrogenAirPressureSensor);
 				}
 			}
 			//Water
@@ -551,6 +594,19 @@ public class BioHolder
 					O2AirStoreOutFlowRateSensor myAccumulatorO2AirStoreOutFlowRateSensor = O2AirStoreOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAccumulatorO2AirStoreOutFlowRateSensorName));
 					modules.put(myAccumulatorO2AirStoreOutFlowRateSensorName , myAccumulatorO2AirStoreOutFlowRateSensor);
 					sensors.put(myAccumulatorO2AirStoreOutFlowRateSensorName , myAccumulatorO2AirStoreOutFlowRateSensor);
+					
+					WaterAirEnvironmentInFlowRateSensor myAccumulatorCrewWaterAirEnvironmentInFlowRateSensor = WaterAirEnvironmentInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAccumulatorCrewWaterAirEnvironmentInFlowRateSensorName));
+					modules.put(myAccumulatorCrewWaterAirEnvironmentInFlowRateSensorName , myAccumulatorCrewWaterAirEnvironmentInFlowRateSensor);
+					sensors.put(myAccumulatorCrewWaterAirEnvironmentInFlowRateSensorName , myAccumulatorCrewWaterAirEnvironmentInFlowRateSensor);
+					WaterAirEnvironmentInFlowRateSensor myAccumulatorPlantWaterAirEnvironmentInFlowRateSensor = WaterAirEnvironmentInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAccumulatorPlantWaterAirEnvironmentInFlowRateSensorName));
+					modules.put(myAccumulatorPlantWaterAirEnvironmentInFlowRateSensorName , myAccumulatorPlantWaterAirEnvironmentInFlowRateSensor);
+					sensors.put(myAccumulatorPlantWaterAirEnvironmentInFlowRateSensorName , myAccumulatorPlantWaterAirEnvironmentInFlowRateSensor);
+					WaterAirStoreOutFlowRateSensor myAccumulatorCrewWaterAirStoreOutFlowRateSensor = WaterAirStoreOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAccumulatorCrewWaterAirStoreOutFlowRateSensorName));
+					modules.put(myAccumulatorCrewWaterAirStoreOutFlowRateSensorName , myAccumulatorCrewWaterAirStoreOutFlowRateSensor);
+					sensors.put(myAccumulatorCrewWaterAirStoreOutFlowRateSensorName , myAccumulatorCrewWaterAirStoreOutFlowRateSensor);
+					WaterAirStoreOutFlowRateSensor myAccumulatorPlantWaterAirStoreOutFlowRateSensor = WaterAirStoreOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAccumulatorPlantWaterAirStoreOutFlowRateSensorName));
+					modules.put(myAccumulatorPlantWaterAirStoreOutFlowRateSensorName , myAccumulatorPlantWaterAirStoreOutFlowRateSensor);
+					sensors.put(myAccumulatorPlantWaterAirStoreOutFlowRateSensorName , myAccumulatorPlantWaterAirStoreOutFlowRateSensor);
 				}
 				//Injector
 				{
@@ -566,6 +622,19 @@ public class BioHolder
 					O2AirEnvironmentOutFlowRateSensor myInjectorO2AirEnvironmentOutFlowRateSensor = O2AirEnvironmentOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myInjectorO2AirEnvironmentOutFlowRateSensorName));
 					modules.put(myInjectorO2AirEnvironmentOutFlowRateSensorName , myInjectorO2AirEnvironmentOutFlowRateSensor);
 					sensors.put(myInjectorO2AirEnvironmentOutFlowRateSensorName , myInjectorO2AirEnvironmentOutFlowRateSensor);
+					
+					NitrogenAirEnvironmentOutFlowRateSensor myInjectorCrewNitrogenAirEnvironmentOutFlowRateSensor = NitrogenAirEnvironmentOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myInjectorCrewNitrogenAirEnvironmentOutFlowRateSensorName));
+					modules.put(myInjectorCrewNitrogenAirEnvironmentOutFlowRateSensorName , myInjectorCrewNitrogenAirEnvironmentOutFlowRateSensor);
+					sensors.put(myInjectorCrewNitrogenAirEnvironmentOutFlowRateSensorName , myInjectorCrewNitrogenAirEnvironmentOutFlowRateSensor);
+					NitrogenAirEnvironmentOutFlowRateSensor myInjectorPlantNitrogenAirEnvironmentOutFlowRateSensor = NitrogenAirEnvironmentOutFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myInjectorPlantNitrogenAirEnvironmentOutFlowRateSensorName));
+					modules.put(myInjectorPlantNitrogenAirEnvironmentOutFlowRateSensorName , myInjectorPlantNitrogenAirEnvironmentOutFlowRateSensor);
+					sensors.put(myInjectorPlantNitrogenAirEnvironmentOutFlowRateSensorName , myInjectorPlantNitrogenAirEnvironmentOutFlowRateSensor);
+					NitrogenAirStoreInFlowRateSensor myInjectorCrewNitrogenAirStoreInFlowRateSensor = NitrogenAirStoreInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myInjectorCrewNitrogenAirStoreInFlowRateSensorName));
+					modules.put(myInjectorCrewNitrogenAirStoreInFlowRateSensorName , myInjectorCrewNitrogenAirStoreInFlowRateSensor);
+					sensors.put(myInjectorCrewNitrogenAirStoreInFlowRateSensorName , myInjectorCrewNitrogenAirStoreInFlowRateSensor);
+					NitrogenAirStoreInFlowRateSensor myInjectorPlantNitrogenAirStoreInFlowRateSensor = NitrogenAirStoreInFlowRateSensorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myInjectorPlantNitrogenAirStoreInFlowRateSensorName));
+					modules.put(myInjectorPlantNitrogenAirStoreInFlowRateSensorName , myInjectorPlantNitrogenAirStoreInFlowRateSensor);
+					sensors.put(myInjectorPlantNitrogenAirStoreInFlowRateSensorName , myInjectorPlantNitrogenAirStoreInFlowRateSensor);
 				}
 			}
 			System.out.println("BioHolder: Collecting actuator references to modules...");
@@ -693,6 +762,20 @@ public class BioHolder
 					O2AirStoreOutFlowRateActuator myAccumulatorO2AirStoreOutFlowRateActuator = O2AirStoreOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAccumulatorO2AirStoreOutFlowRateActuatorName));
 					modules.put(myAccumulatorO2AirStoreOutFlowRateActuatorName , myAccumulatorO2AirStoreOutFlowRateActuator);
 					actuators.put(myAccumulatorO2AirStoreOutFlowRateActuatorName , myAccumulatorO2AirStoreOutFlowRateActuator);
+					
+					WaterAirEnvironmentInFlowRateActuator myAccumulatorCrewWaterAirEnvironmentInFlowRateActuator = WaterAirEnvironmentInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAccumulatorCrewWaterAirEnvironmentInFlowRateActuatorName));
+					modules.put(myAccumulatorCrewWaterAirEnvironmentInFlowRateActuatorName , myAccumulatorCrewWaterAirEnvironmentInFlowRateActuator);
+					actuators.put(myAccumulatorCrewWaterAirEnvironmentInFlowRateActuatorName , myAccumulatorCrewWaterAirEnvironmentInFlowRateActuator);
+					WaterAirEnvironmentInFlowRateActuator myAccumulatorPlantWaterAirEnvironmentInFlowRateActuator = WaterAirEnvironmentInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAccumulatorPlantWaterAirEnvironmentInFlowRateActuatorName));
+					modules.put(myAccumulatorPlantWaterAirEnvironmentInFlowRateActuatorName , myAccumulatorPlantWaterAirEnvironmentInFlowRateActuator);
+					actuators.put(myAccumulatorPlantWaterAirEnvironmentInFlowRateActuatorName , myAccumulatorPlantWaterAirEnvironmentInFlowRateActuator);
+					WaterAirStoreOutFlowRateActuator myAccumulatorCrewWaterAirStoreOutFlowRateActuator = WaterAirStoreOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAccumulatorCrewWaterAirStoreOutFlowRateActuatorName));
+					modules.put(myAccumulatorCrewWaterAirStoreOutFlowRateActuatorName , myAccumulatorCrewWaterAirStoreOutFlowRateActuator);
+					actuators.put(myAccumulatorCrewWaterAirStoreOutFlowRateActuatorName , myAccumulatorCrewWaterAirStoreOutFlowRateActuator);
+					WaterAirStoreOutFlowRateActuator myAccumulatorPlantWaterAirStoreOutFlowRateActuator = WaterAirStoreOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myAccumulatorPlantWaterAirStoreOutFlowRateActuatorName));
+					modules.put(myAccumulatorPlantWaterAirStoreOutFlowRateActuatorName , myAccumulatorPlantWaterAirStoreOutFlowRateActuator);
+					actuators.put(myAccumulatorPlantWaterAirStoreOutFlowRateActuatorName , myAccumulatorPlantWaterAirStoreOutFlowRateActuator);
+				
 				}
 				//Injector
 				{
@@ -708,6 +791,19 @@ public class BioHolder
 					O2AirEnvironmentOutFlowRateActuator myInjectorO2AirEnvironmentOutFlowRateActuator = O2AirEnvironmentOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myInjectorO2AirEnvironmentOutFlowRateActuatorName));
 					modules.put(myInjectorO2AirEnvironmentOutFlowRateActuatorName , myInjectorO2AirEnvironmentOutFlowRateActuator);
 					actuators.put(myInjectorO2AirEnvironmentOutFlowRateActuatorName , myInjectorO2AirEnvironmentOutFlowRateActuator);
+				
+					NitrogenAirEnvironmentOutFlowRateActuator myInjectorCrewNitrogenAirEnvironmentOutFlowRateActuator = NitrogenAirEnvironmentOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myInjectorCrewNitrogenAirEnvironmentOutFlowRateActuatorName));
+					modules.put(myInjectorCrewNitrogenAirEnvironmentOutFlowRateActuatorName , myInjectorCrewNitrogenAirEnvironmentOutFlowRateActuator);
+					actuators.put(myInjectorCrewNitrogenAirEnvironmentOutFlowRateActuatorName , myInjectorCrewNitrogenAirEnvironmentOutFlowRateActuator);
+					NitrogenAirEnvironmentOutFlowRateActuator myInjectorPlantNitrogenAirEnvironmentOutFlowRateActuator = NitrogenAirEnvironmentOutFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myInjectorPlantNitrogenAirEnvironmentOutFlowRateActuatorName));
+					modules.put(myInjectorPlantNitrogenAirEnvironmentOutFlowRateActuatorName , myInjectorPlantNitrogenAirEnvironmentOutFlowRateActuator);
+					actuators.put(myInjectorPlantNitrogenAirEnvironmentOutFlowRateActuatorName , myInjectorPlantNitrogenAirEnvironmentOutFlowRateActuator);
+					NitrogenAirStoreInFlowRateActuator myInjectorCrewNitrogenAirStoreInFlowRateActuator = NitrogenAirStoreInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myInjectorCrewNitrogenAirStoreInFlowRateActuatorName));
+					modules.put(myInjectorCrewNitrogenAirStoreInFlowRateActuatorName , myInjectorCrewNitrogenAirStoreInFlowRateActuator);
+					actuators.put(myInjectorCrewNitrogenAirStoreInFlowRateActuatorName , myInjectorCrewNitrogenAirStoreInFlowRateActuator);
+					NitrogenAirStoreInFlowRateActuator myInjectorPlantNitrogenAirStoreInFlowRateActuator = NitrogenAirStoreInFlowRateActuatorHelper.narrow(OrbUtils.getNamingContext(myID).resolve_str(myInjectorPlantNitrogenAirStoreInFlowRateActuatorName));
+					modules.put(myInjectorPlantNitrogenAirStoreInFlowRateActuatorName , myInjectorPlantNitrogenAirStoreInFlowRateActuator);
+					actuators.put(myInjectorPlantNitrogenAirStoreInFlowRateActuatorName , myInjectorPlantNitrogenAirStoreInFlowRateActuator);
 				}
 			}
 			System.out.println("BioHolder: Collecting framework references to modules...");

@@ -454,21 +454,32 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		nitrogenAirPushed = gatheredNitrogenAir - nitrogenAirLeft;
 		
 		//Get water from stores/environment
-		float gatheredWaterAir = getMostResourceFromStore(myWaterAirStoreInputs, waterAirStoreInMaxFlowRates, waterAirStoreInDesiredFlowRates, waterAirStoreInActualFlowRates);
+		float gatheredWaterAirMoles = getMostResourceFromStore(myWaterAirStoreInputs, waterAirStoreInMaxFlowRates, waterAirStoreInDesiredFlowRates, waterAirStoreInActualFlowRates);
 		for (int i = 0; i < myWaterAirEnvironmentInputs.length; i++){
 			float amountToTake = Math.min(waterAirEnvironmentInMaxFlowRates[i], waterAirEnvironmentInDesiredFlowRates[i]);
 			waterAirEnvironmentInActualFlowRates[i] = myWaterAirEnvironmentInputs[i].takeWaterMoles(amountToTake);
-			gatheredWaterAir += waterAirEnvironmentInActualFlowRates[i];
+			gatheredWaterAirMoles += waterAirEnvironmentInActualFlowRates[i];
 		}
+		//Convert to liters (for water store)
+		float gatheredWaterAirLiters = waterMolesToLiters(gatheredWaterAirMoles);
 		//Push water to stores/environment
-		float waterAirPushed = pushResourceToStore(myWaterAirStoreOutputs, waterAirStoreOutMaxFlowRates, waterAirStoreOutDesiredFlowRates, waterAirStoreOutActualFlowRates, gatheredWaterAir);
-		float waterAirLeft = gatheredWaterAir - waterAirPushed;
+		float waterAirPushedLiters = pushResourceToStore(myWaterAirStoreOutputs, waterAirStoreOutMaxFlowRates, waterAirStoreOutDesiredFlowRates, waterAirStoreOutActualFlowRates, gatheredWaterAirMoles);
+		
+		float waterAirLeft = gatheredWaterAirMoles - waterLitersToMoles(waterAirPushedLiters);
 		for (int i = 0; (i < myWaterAirEnvironmentOutputs.length) && (waterAirLeft > 0); i++){
 			float amountToPush = Math.min(waterAirEnvironmentOutMaxFlowRates[i], waterAirEnvironmentOutDesiredFlowRates[i]);
 			waterAirEnvironmentOutActualFlowRates[i] = myWaterAirEnvironmentOutputs[i].addWaterMoles(amountToPush);
 			waterAirLeft -= waterAirEnvironmentOutActualFlowRates[i];
 		}
-		waterAirPushed = gatheredWaterAir - waterAirLeft;
+		float waterAirPushedMoles = gatheredWaterAirMoles - waterAirLeft;
+	}
+	
+	private static float waterLitersToMoles(float pLiters){
+		return (pLiters * 1000f) / 18.01524f; // 1000g/liter, 18.01524g/mole
+	}
+	
+	private static float waterMolesToLiters(float pMoles){
+		return (pMoles * 18.01524f) / 1000f; // 1000g/liter, 18.01524g/mole
 	}
 
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
