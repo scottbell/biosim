@@ -288,7 +288,8 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements FoodProcessor
 	*/
 	private void consumeResources(){
 		gatherPower();
-		gatherBiomass();
+		if (hasEnoughPower)
+			gatherBiomass();
 	}
 	
 	private void setProductionRate(float pProductionRate){
