@@ -61,7 +61,7 @@ public class ActionMap{
 			maxrate = ((GenericActuator)actuators[i]).getMax();
 			temp = r.nextBoolean();
 //			System.out.println(temp); 
-			if (temp) myMap.put(actuatorNames[i], new Float(20));
+			if (temp) myMap.put(actuatorNames[i], new Float(10));
 			else myMap.put(actuatorNames[i], new Float(0));
 		}
 		isbest = false; 
@@ -88,7 +88,7 @@ public class ActionMap{
 		myMap = new TreeMap();
 		for (i = 0;i<actuatorNames.length;i++) {
 			maxrate = ((GenericActuator)actuators[i]).getMax();
-			if (onoffs[i] > 0.5) myMap.put(actuatorNames[i], new Float(20));
+			if (onoffs[i] > 0.5) myMap.put(actuatorNames[i], new Float(10));
 			else myMap.put(actuatorNames[i], new Float(0));
 		}
 
