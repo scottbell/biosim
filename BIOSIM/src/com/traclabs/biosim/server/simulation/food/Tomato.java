@@ -2,12 +2,12 @@ package biosim.server.simulation.food;
 
 import biosim.idl.simulation.food.*;
 /**
- * DryBean
+ * Tomato
  * @author    Scott Bell
  */
 
-public class DryBean extends Legume{
-	public DryBean(ShelfImpl pShelfImpl){
+public class Tomato extends Planophile{
+	public Tomato(ShelfImpl pShelfImpl){
 		super(pShelfImpl);
 		canopyClosureConstants[0] = 290410f;
 		canopyClosureConstants[1] = 1559.4f;
@@ -32,6 +32,10 @@ public class DryBean extends Legume{
 		float cropArea = myShelfImpl.getCropArea();
 		float constantPPF = 115f; //in moles per meters squared days
 		return (constantPPF * cropArea) / 24;
+	}
+	
+	protected float getCarbonUseEfficiency24(){
+		return 0.0f;
 	}
 
 	protected float getBCF(){

@@ -2,30 +2,30 @@ package biosim.server.simulation.food;
 
 import biosim.idl.simulation.food.*;
 /**
- * DryBean
+ * Rice
  * @author    Scott Bell
  */
 
-public class DryBean extends Legume{
-	public DryBean(ShelfImpl pShelfImpl){
+public class Rice extends Erectophile{
+	public Rice(ShelfImpl pShelfImpl){
 		super(pShelfImpl);
-		canopyClosureConstants[0] = 290410f;
-		canopyClosureConstants[1] = 1559.4f;
-		canopyClosureConstants[6] = 15.840f;
-		canopyClosureConstants[10] = .0061120f;
-		canopyClosureConstants[17] = -0.0000000037409f;
-		canopyClosureConstants[24] = .00000000000000000096484f;
+		canopyClosureConstants[0] = 95488f;;
+		canopyClosureConstants[1] = 1068.6f;
+		canopyClosureConstants[6] = 15.977f;
+		canopyClosureConstants[10] = 0.3419f;
+		canopyClosureConstants[11] = 0.00019733f;
+		canopyClosureConstants[15] = -0.00019076f;
 
-		canopyQYConstants[6] = .04191f;
-		canopyQYConstants[7] = .000053852f;
-		canopyQYConstants[8] = -.000000021275f;
-		canopyQYConstants[11] = -.00001238f;
-		canopyQYConstants[17] = -.00000000001544f;
-		canopyQYConstants[18] = .000000000000006469f;
+		canopyQYConstants[6] = 0.044793f;
+		canopyQYConstants[7] = 0.000051583f;
+		canopyQYConstants[8] = -0.000000020724f;
+		canopyQYConstants[11] = -0.0000051946f;
+		canopyQYConstants[17] = -0.0000000000049303f;
+		canopyQYConstants[18] = 0.0000000000000022255f;
 	}
 
 	public PlantType getPlantType(){
-		return PlantType.DRY_BEAN;
+		return PlantType.WHEAT;
 	}
 
 	public float getPPFNeeded(){
@@ -33,18 +33,15 @@ public class DryBean extends Legume{
 		float constantPPF = 115f; //in moles per meters squared days
 		return (constantPPF * cropArea) / 24;
 	}
+	
+	protected float getCarbonUseEfficiency24(){
+		return 0.64f;
+	}
 
 	protected float getBCF(){
 		return 0.44f;
 	}
-	
-	protected float getCUEMax(){
-		return 0.65f;
-	}
-	
-	protected float getCUEMin(){
-		return 0.50f;
-	}
+
 
 	protected float getPhotoperiod(){
 		return 20f;

@@ -2,12 +2,12 @@ package biosim.server.simulation.food;
 
 import biosim.idl.simulation.food.*;
 /**
- * DryBean
+ * Soybean
  * @author    Scott Bell
  */
 
-public class DryBean extends Legume{
-	public DryBean(ShelfImpl pShelfImpl){
+public class Soybean extends Legume{
+	public Soybean(ShelfImpl pShelfImpl){
 		super(pShelfImpl);
 		canopyClosureConstants[0] = 290410f;
 		canopyClosureConstants[1] = 1559.4f;
