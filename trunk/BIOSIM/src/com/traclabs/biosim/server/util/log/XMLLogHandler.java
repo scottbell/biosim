@@ -104,12 +104,14 @@ public class XMLLogHandler implements LogHandler{
 			myHandler.characters(tagName.toCharArray(),0,tagName.length());
 		}
 		else{
+			System.out.println("Starting "+tagName);
 			myHandler.startElement("","",tagName,emptyAtts);
 			LogNode[] childrenNodes = currentNode.getChildren();
 			for (int i = 0; i < childrenNodes.length; i++){
 				printXMLTree(childrenNodes[i]);
 			}
 			myHandler.endElement("","",tagName);
+			System.out.println("Ending "+tagName);
 		}
 	}
 }
