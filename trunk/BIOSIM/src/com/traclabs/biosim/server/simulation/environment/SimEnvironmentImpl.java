@@ -2,6 +2,7 @@ package biosim.server.environment;
 
 import biosim.idl.environment.*;
 import biosim.idl.air.*;
+import biosim.idl.util.*;
 import biosim.server.framework.*;
 /**
  * The SimEnvironment acts as the environment in which the crew breathes from and as the keeper of time.
@@ -20,6 +21,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	private float capacity = 100f;
 	//The number of ticks the simulation has gone through
 	private int ticks;
+	private LogIndex myLogIndex;
 	
 	/**
 	* Creates a SimEnvironment (with a capacity of 100 liters) and resets the gas levels to correct percantages of sea level air
@@ -278,6 +280,8 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	*/
 	public void tick(){
 		ticks++;
+		if (moduleLogging)
+			log();
 	}
 	
 	/**
@@ -286,5 +290,38 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	*/
 	public String getModuleName(){
 		return "SimEnvironment";
+	}
+	
+	public void log(){
+		//If not initialized, fill in the log
+		if (!logInitialized){
+			myLogIndex = new LogIndex();
+			LogNode O2LevelHead = myLog.getHead().addChild("O2 Level");
+			myLogIndex.O2LevelIndex = O2LevelHead.addChild(""+O2Level);
+			LogNode CO2LevelHead = myLog.getHead().addChild("CO2 Level");
+			myLogIndex.CO2LevelIndex = CO2LevelHead.addChild(""+CO2Level);
+			LogNode otherLevelHead = myLog.getHead().addChild("other Level");
+			myLogIndex.otherLevelIndex = otherLevelHead.addChild(""+otherLevel);
+			LogNode capacityHead = myLog.getHead().addChild("other Level");
+			myLogIndex.capacityIndex = capacityHead.addChild(""+capacity);
+			logInitialized = true;
+		}
+		else{
+			myLogIndex.O2LevelIndex.setValue(""+O2Level);
+			myLogIndex.CO2LevelIndex.setValue(""+CO2Level);
+			myLogIndex.otherLevelIndex.setValue(""+otherLevel);
+			myLogIndex.capacityIndex.setValue(""+capacity);
+		}
+		sendLog(myLog);
+	}
+	
+	/**
+	* For fast reference to the log tree
+	*/
+	private class LogIndex{
+		public LogNode O2LevelIndex;
+		public LogNode CO2LevelIndex;
+		public LogNode otherLevelIndex;
+		public LogNode capacityIndex;
 	}
 }

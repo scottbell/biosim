@@ -6,6 +6,7 @@ import biosim.idl.water.*;
 import biosim.idl.power.*;
 import biosim.server.util.*;
 import biosim.idl.air.*;
+import biosim.idl.util.*;
 import biosim.server.framework.*;
 /**
  * The Biomass RS is essentially responsible for growing plants.  The plant matter (biomass) is fed into the food processor to create food
@@ -49,12 +50,15 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	private boolean O2Poisoned = false;
 	//Flag to determine if the plants in the Biomass RS are dead
 	private boolean plantsDead = false;
+	private Breath airRetrieved;
+	private float CO2Needed;
 	//References to the servers the Biomass RS takes/puts resources (like air, water, etc)
 	private SimEnvironment myEnvironment;
 	private GreyWaterStore myGreyWaterStore;
 	private PowerStore myPowerStore;
 	private BiomassStore myBiomassStore;
-	
+	private LogIndex myLogIndex;
+
 	/**
 	* Resets production/consumption levels and death/affliction flags
 	*/
@@ -74,7 +78,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 		O2Poisoned = false;
 		plantsDead = false;
 	}
-	
+
 	/**
 	* Returns the power consumed (in watts) by the Biomass RS during the current tick
 	* @return the power consumed (in watts) by the Biomass RS during the current tick
@@ -82,7 +86,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	public float getPowerConsumed(){
 		return currentPowerConsumed;
 	}
-	
+
 	/**
 	* Returns the CO2 consumed (in liters) by the plants member during the current tick
 	* @return the CO2 consumed (in liters) by the plants member during the current tick
@@ -90,7 +94,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	public float getCO2Consumed(){
 		return currentCO2Consumed;
 	}
-	
+
 	/**
 	* Returns the O2 produced (in liters) by the plants member during the current tick
 	* @return the O2 produced (in liters) by the plants member during the current tick
@@ -98,7 +102,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	public float getO2Produced(){
 		return currentO2Produced;
 	}
-	
+
 	/**
 	* Returns the grey water consumed (in liters) by the plants member during the current tick
 	* @return the grey water consumed (in liters) by the plants member during the current tick
@@ -106,7 +110,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	public float getGreyWaterConsumed(){
 		return currentGreyWaterConsumed;
 	}
-	
+
 	/**
 	* Returns the biomass produced (in kilograms) by the plants member during the current tick
 	* @return the biomass produced (in kilograms) by the plants member during the current tick
@@ -114,7 +118,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	public float getBiomassProduced(){
 		return currentBiomassProduced;
 	}
-	
+
 	/**
 	* Collects references to servers needed for putting/getting resources.
 	*/
@@ -132,7 +136,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 			e.printStackTrace(System.out);
 		}
 	}
-	
+
 	/**
 	* Attempts to collect enough power from the Power PS to run the Biomass RS for one tick.
 	*/
@@ -147,7 +151,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 			noPowerTime = 0;
 		}
 	}
-	
+
 	/**
 	* Attempts to collect enough water from the Grey Water Store for the plants for one tick.
 	*/
@@ -161,7 +165,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 			plantsHaveEnoughWater = true;
 		noWaterTime = 0;
 	}
-	
+
 	/**
 	* Calculate the O2 ratio in the breath of air inhaled by the plants.
 	* Used to see if plants has inhaled lethal amount of O2
@@ -172,7 +176,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 		Double ratio = new Double(aBreath.O2 / (aBreath.O2 + aBreath.CO2 + aBreath.other));
 		return ratio.floatValue();
 	}
-	
+
 	/**
 	* Calculate the O2 needed for the current tick.
 	* @return O2 needed in ticks
@@ -181,7 +185,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 		Double result = new Double(40.5);
 		return result.floatValue();
 	}
-	
+
 	/**
 	* Calculate the O2 produced given the CO2 consumed for the current tick.
 	* @param CO2Consumed the CO2 consumed (in liters) during this tick
@@ -191,15 +195,15 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 		Double result = new Double(CO2Consumed * 0.86);
 		return result.floatValue();
 	}
-	
+
 	/**
 	* The "inhalation" and "exhalation" of the plants for one tick.
 	* The plants inhale a needed amount of CO2 (along with O2 and other gasses).
 	* and exhale fraction of the CO2 inhaled, a multiple of the O2 inhaled, and the same amount of other gasses inhaled.
 	*/
 	private void gatherAir(){
-		float CO2Needed = calculateCO2Needed();
-		Breath airRetrieved = myEnvironment.takeCO2Breath(CO2Needed);
+		CO2Needed = calculateCO2Needed();
+		airRetrieved = myEnvironment.takeCO2Breath(CO2Needed);
 		currentCO2Consumed = airRetrieved.CO2;
 		if (currentCO2Consumed < CO2Needed){
 			plantsHaveEnoughCO2 = false;
@@ -209,7 +213,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 			plantsHaveEnoughCO2 = true;
 			noCO2Time = 0;
 		}
-		if (getO2Ratio(airRetrieved) < .10){
+		if (getO2Ratio(airRetrieved) < .80){
 			O2Poisoned = false;
 			tooMuchO2Time++;
 		}
@@ -221,7 +225,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 		myEnvironment.addO2(currentO2Produced);
 		myEnvironment.addOther(airRetrieved.other);
 	}
-	
+
 	/**
 	* Checks whether plants are dead or not
 	* @return <code>true</code> if the plants are dead, <code>false</code> if not.
@@ -229,7 +233,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	public boolean isDead(){
 		return plantsDead;
 	}
-	
+
 	/**
 	* Checks whether plants have enough CO2 or not
 	* @return <code>true</code> if the plants have enough CO2, <code>false</code> if not.
@@ -237,7 +241,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	public boolean hasCO2(){
 		return plantsHaveEnoughCO2;
 	}
-	
+
 	/**
 	* Checks whether plants have enough water or not
 	* @return <code>true</code> if the plants have enough water, <code>false</code> if not.
@@ -245,7 +249,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	public boolean hasWater(){
 		return plantsHaveEnoughWater;
 	}
-	
+
 	/**
 	* Checks whether Biomass RS has enough power or not
 	* @return <code>true</code> if the Biomass RS has enough power, <code>false</code> if not.
@@ -253,7 +257,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	public boolean hasPower(){
 		return systemHasEnoughPower;
 	}
-	
+
 	/**
 	* Checks whether the plants are O2 poisoned or not
 	* @return <code>true</code> if the plants are O2 poisoned, <code>false</code> if not.
@@ -261,7 +265,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 	public boolean isO2Poisoned(){
 		return O2Poisoned;
 	}
-	
+
 	/**
 	* If the plants have received light (from power), water, little O2, and enough CO2, they provide some biomass to
 	* put into the store.
@@ -272,7 +276,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 			myBiomassStore.add(currentBiomassProduced);
 		}
 	}
-	
+
 	/**
 	* Attempts to consume resource for the Biomass RS.
 	* inhales/drinks, then exhales
@@ -285,7 +289,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 		//gather air for system
 		gatherAir();
 	}
-	
+
 	/**
 	* Checks to see if plants have been lethally damaged (i.e., haven't received a resource for too many ticks)
 	*/
@@ -306,7 +310,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 			currentO2Produced = 0f;
 		}
 	}
-	
+
 	/**
 	* When ticked, the Biomass RS does the following
 	* on the condition that the plants aren't dead it.
@@ -324,13 +328,102 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 			createBiomass();
 			deathCheck();
 		}
+		if (moduleLogging)
+			log();
 	}
-	
+
 	/**
 	* Returns the name of this module (BiomassRS)
 	* @return the name of the module
 	*/
 	public String getModuleName(){
 		return "BiomassRS";
+	}
+
+	public void log(){
+		//If not initialized, fill in the log
+		if (!logInitialized){
+			myLogIndex = new LogIndex();
+			LogNode waterNeededHead = myLog.getHead().addChild("Water Needed");
+			myLogIndex.waterNeededIndex = waterNeededHead.addChild(""+waterNeeded);
+			LogNode powerNeededHead = myLog.getHead().addChild("Power Needed");
+			myLogIndex.powerNeededIndex = powerNeededHead.addChild(""+powerNeeded);
+			LogNode CO2NeededHead = myLog.getHead().addChild("CO2 Needed");
+			myLogIndex.CO2NeededIndex = CO2NeededHead.addChild(""+CO2Needed);
+			LogNode currentGreyWaterConsumedHead = myLog.getHead().addChild("Grey Water Consumed");
+			myLogIndex.currentGreyWaterConsumedIndex = currentGreyWaterConsumedHead.addChild(""+currentGreyWaterConsumed);
+			LogNode currentBiomassProducedHead = myLog.getHead().addChild("Biomass Produced");
+			myLogIndex.currentBiomassProducedIndex = currentBiomassProducedHead.addChild(""+currentBiomassProduced);
+			LogNode currentCO2ConsumedHead = myLog.getHead().addChild("CO2 Consumed");
+			myLogIndex.currentCO2ConsumedIndex = currentCO2ConsumedHead.addChild(""+currentCO2Consumed);
+			LogNode currentO2ProducedHead = myLog.getHead().addChild("O2 Produced");
+			myLogIndex.currentO2ProducedIndex = currentO2ProducedHead.addChild(""+currentO2Produced);
+			LogNode noPowerTimeHead = myLog.getHead().addChild("No Power Time");
+			myLogIndex.noPowerTimeIndex = noPowerTimeHead.addChild(""+noPowerTime);
+			LogNode noWaterTimeHead = myLog.getHead().addChild("No Water Time");
+			myLogIndex.noWaterTimeIndex = noWaterTimeHead.addChild(""+noWaterTime);
+			LogNode noCO2TimeHead = myLog.getHead().addChild("No CO2 Time");
+			myLogIndex.noCO2TimeIndex = noCO2TimeHead.addChild(""+noCO2Time);
+			LogNode tooMuchO2TimeHead = myLog.getHead().addChild("Too much O2 Time");
+			myLogIndex.tooMuchO2TimeIndex = tooMuchO2TimeHead.addChild(""+tooMuchO2Time);
+			LogNode systemHasEnoughPowerHead = myLog.getHead().addChild("System has enough power");
+			myLogIndex.systemHasEnoughPowerIndex = systemHasEnoughPowerHead.addChild(""+systemHasEnoughPower);
+			LogNode plantsHaveEnoughWaterHead = myLog.getHead().addChild("Plants have enough water");
+			myLogIndex.plantsHaveEnoughWaterIndex = plantsHaveEnoughWaterHead.addChild(""+plantsHaveEnoughWater);
+			LogNode plantsHaveEnoughCO2Head = myLog.getHead().addChild("Plants have enough CO2");
+			myLogIndex.plantsHaveEnoughCO2Index = plantsHaveEnoughCO2Head.addChild(""+plantsHaveEnoughCO2);
+			LogNode O2PoisonedHead = myLog.getHead().addChild("O2 Poisoned");
+			myLogIndex.O2PoisonedIndex = O2PoisonedHead.addChild(""+O2Poisoned);
+			LogNode plantsDeadHead = myLog.getHead().addChild("Plants Dead");
+			myLogIndex.plantsDeadIndex = plantsDeadHead.addChild(""+plantsDead);
+			LogNode airRetrievedHead = myLog.getHead().addChild("Air Retrieved (O2 # CO2 # other)");
+			myLogIndex.airRetrievedIndex = airRetrievedHead.addChild(airRetrieved.O2 + " # " +airRetrieved.CO2 +" # " +airRetrieved.other);
+			
+			logInitialized = true;
+		}
+		else{
+			myLogIndex.waterNeededIndex.setValue(""+waterNeeded);
+			myLogIndex.powerNeededIndex.setValue(""+powerNeeded);
+			myLogIndex.CO2NeededIndex.setValue(""+CO2Needed);
+			myLogIndex.currentGreyWaterConsumedIndex.setValue(""+currentGreyWaterConsumed);
+			myLogIndex.currentBiomassProducedIndex.setValue(""+currentBiomassProduced);
+			myLogIndex.currentCO2ConsumedIndex.setValue(""+currentCO2Consumed);
+			myLogIndex.currentO2ProducedIndex.setValue(""+currentO2Produced);
+			myLogIndex.noPowerTimeIndex.setValue(""+noPowerTime);
+			myLogIndex.noWaterTimeIndex.setValue(""+noWaterTime);
+			myLogIndex.noCO2TimeIndex.setValue(""+noCO2Time);
+			myLogIndex.tooMuchO2TimeIndex.setValue(""+tooMuchO2Time);
+			myLogIndex.systemHasEnoughPowerIndex.setValue(""+systemHasEnoughPower);
+			myLogIndex.plantsHaveEnoughWaterIndex.setValue(""+plantsHaveEnoughWater);
+			myLogIndex.plantsHaveEnoughCO2Index.setValue(""+plantsHaveEnoughCO2);
+			myLogIndex.O2PoisonedIndex.setValue(""+O2Poisoned);
+			myLogIndex.plantsDeadIndex.setValue(""+plantsDead);
+			myLogIndex.airRetrievedIndex.setValue(airRetrieved.O2 + " # " +airRetrieved.CO2 +" # " +airRetrieved.other);
+		}
+		sendLog(myLog);
+	}
+
+	/**
+	* For fast reference to the log tree
+	*/
+	private class LogIndex{
+		public LogNode waterNeededIndex;
+		public LogNode airRetrievedIndex;
+		public LogNode powerNeededIndex;
+		public LogNode CO2NeededIndex;
+		public LogNode currentPowerConsumedIndex;
+		public LogNode currentGreyWaterConsumedIndex;
+		public LogNode currentBiomassProducedIndex;
+		public LogNode currentCO2ConsumedIndex;
+		public LogNode currentO2ProducedIndex;
+		public LogNode noPowerTimeIndex;
+		public LogNode noWaterTimeIndex;
+		public LogNode noCO2TimeIndex;
+		public LogNode tooMuchO2TimeIndex;
+		public LogNode systemHasEnoughPowerIndex;
+		public LogNode plantsHaveEnoughWaterIndex;
+		public LogNode plantsHaveEnoughCO2Index;
+		public LogNode O2PoisonedIndex;
+		public LogNode plantsDeadIndex;
 	}
 }
