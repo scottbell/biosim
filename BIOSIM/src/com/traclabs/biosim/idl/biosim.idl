@@ -26,6 +26,7 @@ module biosim{
                                 interface AirRS;
                                 interface O2Store;
                                 interface CO2Store;
+                                interface H2Store;
                                 struct Breath{
                                         float O2;
                                         float CO2;
@@ -34,6 +35,7 @@ module biosim{
                                 };
                                 typedef sequence <O2Store> O2StoreList;
                                 typedef sequence <CO2Store> CO2StoreList;
+                                typedef sequence <H2Store> H2StoreList;
                         };
                         module food{
                                 interface Shelf;
@@ -110,6 +112,8 @@ module biosim{
                         interface DirtyWaterProducer;
                         interface AirConsumer;
                         interface AirProducer;
+                        interface H2Consumer;
+                        interface H2Producer;
                         interface O2AirConsumer;
                         interface O2AirProducer;
                         interface CO2AirConsumer;
@@ -400,15 +404,6 @@ module biosim{
                                 void setO2Inputs(in simulation::air::O2StoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                 simulation::air::O2StoreList getO2Inputs();
                         };
-                        interface CO2Consumer : Consumer{
-                                void setCO2InputMaxFlowRate(in float liters, in long index);
-                                float getCO2InputMaxFlowRate(in long index);
-                                void setCO2InputDesiredFlowRate(in float liters, in long index);
-                                float getCO2InputDesiredFlowRate(in long index);
-                                float getCO2InputActualFlowRate(in long index);
-                                void setCO2Inputs(in simulation::air::CO2StoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                simulation::air::CO2StoreList getCO2Inputs();
-                        };
                         interface O2Producer : Producer{
                                 void setO2OutputMaxFlowRate(in float liters, in long index);
                                 float getO2OutputMaxFlowRate(in long index);
@@ -417,6 +412,33 @@ module biosim{
                                 float getO2OutputActualFlowRate(in long index);
                                 void setO2Outputs(in simulation::air::O2StoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                 simulation::air::O2StoreList getO2Outputs();
+                        }; 
+			interface H2Consumer : Consumer{
+                                void setH2InputMaxFlowRate(in float liters, in long index);
+                                float getH2InputMaxFlowRate(in long index);
+                                void setH2InputDesiredFlowRate(in float liters, in long index);
+                                float getH2InputDesiredFlowRate(in long index);
+                                float getH2InputActualFlowRate(in long index);
+                                void setH2Inputs(in simulation::air::H2StoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                simulation::air::H2StoreList getH2Inputs();
+                        };
+                        interface H2Producer : Producer{
+                                void setH2OutputMaxFlowRate(in float liters, in long index);
+                                float getH2OutputMaxFlowRate(in long index);
+                                void setH2OutputDesiredFlowRate(in float liters, in long index);
+                                float getH2OutputDesiredFlowRate(in long index);
+                                float getH2OutputActualFlowRate(in long index);
+                                void setH2Outputs(in simulation::air::H2StoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                simulation::air::H2StoreList getH2Outputs();
+                        };
+                        interface CO2Consumer : Consumer{
+                                void setCO2InputMaxFlowRate(in float liters, in long index);
+                                float getCO2InputMaxFlowRate(in long index);
+                                void setCO2InputDesiredFlowRate(in float liters, in long index);
+                                float getCO2InputDesiredFlowRate(in long index);
+                                float getCO2InputActualFlowRate(in long index);
+                                void setCO2Inputs(in simulation::air::CO2StoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                simulation::air::CO2StoreList getCO2Inputs();
                         };
                         interface CO2Producer : Producer{
                                 void setCO2OutputMaxFlowRate(in float liters, in long index);
@@ -611,7 +633,7 @@ module biosim{
                                 };
                         };
                         module air{
-                                interface AirRS : framework::SimBioModule, framework::PowerConsumer, framework::AirConsumer, framework::AirProducer, framework::CO2Producer, framework::O2Producer, framework::CO2Consumer, framework::PotableWaterConsumer, framework::PotableWaterProducer{
+                                interface AirRS : framework::SimBioModule, framework::PowerConsumer, framework::H2Consumer, framework::H2Producer, framework::AirConsumer, framework::AirProducer, framework::CO2Producer, framework::O2Producer, framework::CO2Consumer, framework::PotableWaterConsumer, framework::PotableWaterProducer{
                                         float getPowerConsumed();
                                         float getCO2Consumed();
                                         float getO2Produced();
@@ -619,6 +641,8 @@ module biosim{
                                         boolean VCCRHasPower();
                                         boolean CRSHasPower();
                                         boolean OGSHasPower();
+                                };
+                                interface H2Store : framework::Store{
                                 };
                                 interface O2Store : framework::Store{
                                 };
@@ -675,11 +699,16 @@ module biosim{
                                         void setInput(in simulation::air::CO2Store source);
                                         simulation::air::CO2Store getInput();
                                 };
+                                interface H2StoreSensor : framework::GenericSensor{
+                                        void setInput(in simulation::air::H2Store source);
+                                        simulation::air::H2Store getInput();
+                                };
                                 interface AirRSSensor : framework::GenericSensor{
                                         void setInput(in simulation::air::AirRS source);
                                         simulation::air::AirRS getInput();
                                 };
                                 interface O2StoreLevelSensor : O2StoreSensor{};
+                                interface H2StoreLevelSensor : H2StoreSensor{};
                                 interface CO2StoreLevelSensor : CO2StoreSensor{};
                                 interface O2InFlowRateSensor : framework::GenericSensor{
                                         void setInput(in framework::O2Consumer pConsumer, in long pIndex);
@@ -699,6 +728,16 @@ module biosim{
                                 interface CO2OutFlowRateSensor : framework::GenericSensor{
                                         void setInput(in framework::CO2Producer pProducer, in long pIndex);
                                         framework::CO2Producer getInput();
+                                        long getIndex();
+                                };
+                                interface H2InFlowRateSensor : framework::GenericSensor{
+                                        void setInput(in framework::H2Consumer pConsumer, in long pIndex);
+                                        framework::H2Consumer getInput();
+                                        long getIndex();
+                                };
+                                interface H2OutFlowRateSensor : framework::GenericSensor{
+                                        void setInput(in framework::H2Producer pProducer, in long pIndex);
+                                        framework::H2Producer getInput();
                                         long getIndex();
                                 };
                         };
@@ -929,6 +968,16 @@ module biosim{
                                 interface CO2OutFlowRateActuator : framework::GenericActuator{
                                         void setOutput(in framework::CO2Producer pProducer, in long pIndex);
                                         framework::CO2Producer getOutput();
+                                        long getIndex();
+                                };
+                                interface H2InFlowRateActuator : framework::GenericActuator{
+                                        void setOutput(in framework::H2Consumer pConsumer, in long pIndex);
+                                        framework::H2Consumer getOutput();
+                                        long getIndex();
+                                };
+                                interface H2OutFlowRateActuator : framework::GenericActuator{
+                                        void setOutput(in framework::H2Producer pProducer, in long pIndex);
+                                        framework::H2Producer getOutput();
                                         long getIndex();
                                 };                                
 				interface AirRSActuator : framework::GenericActuator{

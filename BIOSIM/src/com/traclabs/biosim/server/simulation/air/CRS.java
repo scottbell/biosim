@@ -26,8 +26,9 @@ public class CRS extends AirRSSubSystem{
 	private void gatherGasses(){
 		float gatheredCO2 = 0f;
 		float filteredCO2Needed = myAirRS.randomFilter(CO2Needed);
+		float filteredH2Needed = myAirRS.randomFilter(H2Needed);
 		currentCO2Consumed = myAirRS.getResourceFromStore(myAirRS.getCO2Inputs(), myAirRS.getCO2InputMaxFlowRates(), myAirRS.getCO2InputDesiredFlowRates(), myAirRS.getCO2InputActualFlowRates(), filteredCO2Needed);
-		currentH2Consumed = myAirRS.getOGS().takeH2(myAirRS.randomFilter(H2Needed));
+		currentH2Consumed = myAirRS.getResourceFromStore(myAirRS.getH2Inputs(), myAirRS.getH2InputMaxFlowRates(), myAirRS.getH2InputDesiredFlowRates(), myAirRS.getH2InputActualFlowRates(), filteredH2Needed);
 	}
 
 	private void pushGasses(){
