@@ -1,5 +1,5 @@
 module environment{
-	interface EnvironmentSensor{
+	interface EnvironmentSensor : framework::GenericSensor{
 		void setInput(in simulation::environment::SimEnvironment source);
 		simulation::environment::SimEnvironment getInput();
 	};
@@ -8,4 +8,19 @@ module environment{
 	interface O2AirLevelSensor : EnvironmentSensor{};
 	interface CO2AirLevelSensor : EnvironmentSensor{};
 	interface otherAirLevelSensor : EnvironmentSensor{};
+	interface AirFlowRateSensor : framework::GenericSensor{
+		void setInput(in simulation::environment::AirProducer source, in simulation::environment::AirConsumer destination);
+		simulation::environment::AirProducer getSource();
+		simulation::environment::AirConsumer getDestination();
+	};
+	interface O2AirFlowRateSensor : framework::GenericSensor{
+		void setInput(in simulation::environment::O2AirProducer source, in simulation::environment::O2AirConsumer destination);
+		simulation::environment::O2AirProducer getSource();
+		simulation::environment::O2AirConsumer getDestination();
+	};
+	interface CO2AirFlowRateSensor : framework::GenericSensor{
+		void setInput(in simulation::environment::CO2AirProducer source, in simulation::environment::CO2AirConsumer destination);
+		simulation::environment::CO2AirProducer getSource();
+		simulation::environment::CO2AirConsumer getDestination();
+	};
 };

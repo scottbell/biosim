@@ -1,12 +1,26 @@
 module air{
-        interface O2StoreSensor{
+        interface O2StoreSensor : framework::GenericSensor{
                 void setInput(in simulation::air::O2Store source);
 		simulation::air::O2Store getInput();
 	};
-	interface CO2StoreSensor{
+	interface CO2StoreSensor : framework::GenericSensor{
                 void setInput(in simulation::air::CO2Store source);
 		simulation::air::CO2Store getInput();
 	};
+	interface AirRSSensor : framework::GenericSensor{
+		void setInput(in simulation::air::AirRS source);
+		simulation::air::AirRS getInput();
+	};
 	interface O2StoreLevelSensor : O2StoreSensor{};
         interface CO2StoreLevelSensor : CO2StoreSensor{};
+	interface O2FlowRateSensor : framework::GenericSensor{
+		void setInput(in simulation::air::O2Producer source, in simulation::air::O2Consumer destination);
+		simulation::air::O2Producer getSource();
+		simulation::air::O2Consumer getDestination();
+	};
+	interface CO2FlowRateSensor : framework::GenericSensor{
+		void setInput(in simulation::air::CO2Producer source, in simulation::air::CO2Consumer destination);
+		simulation::air::CO2Producer getSource();
+		simulation::air::CO2Consumer getDestination();
+	};
 };

@@ -11,7 +11,6 @@ public abstract class GenericSensorImpl extends BioModuleImpl implements Generic
 	}
 	
 	protected abstract void gatherData();
-	protected abstract void processData();
 	protected abstract void notifyListeners();
 	
 	public double getValue(){
@@ -20,7 +19,6 @@ public abstract class GenericSensorImpl extends BioModuleImpl implements Generic
 	
 	public void tick(){
 		gatherData();
-		processData();
 		notifyListeners();
 	}
 }
