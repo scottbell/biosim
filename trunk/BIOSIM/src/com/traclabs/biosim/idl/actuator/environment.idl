@@ -3,11 +3,11 @@ module environment{
 		void setOutput(in simulation::environment::SimEnvironment source);
 		simulation::environment::SimEnvironment getOutput();
 	};
-        interface AirLevelActuator : EnvironmentActuator{};
+        interface AirMolesActuator : EnvironmentActuator{};
 	interface LightLevelActuator : EnvironmentActuator{};
-	interface O2AirLevelActuator : EnvironmentActuator{};
-	interface CO2AirLevelActuator : EnvironmentActuator{};
-	interface OtherAirLevelActuator : EnvironmentActuator{};
+	interface O2AirMolesActuator : EnvironmentActuator{};
+	interface CO2AirMolesActuator : EnvironmentActuator{};
+	interface OtherAirMolesActuator : EnvironmentActuator{};
 	
 	interface AirInFlowRateActuator : framework::GenericActuator{
 		void setOutput(in simulation::environment::AirConsumer pConsumer, in long pIndex);

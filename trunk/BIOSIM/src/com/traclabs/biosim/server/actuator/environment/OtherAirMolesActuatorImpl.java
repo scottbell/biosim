@@ -4,24 +4,24 @@ import biosim.server.actuator.framework.*;
 import biosim.idl.actuator.environment.*;
 import biosim.idl.simulation.environment.*;
 
-public class OtherAirLevelActuatorImpl extends EnvironmentActuatorImpl implements OtherAirLevelActuatorOperations{
-	public OtherAirLevelActuatorImpl(int pID){
+public class OtherAirMolesActuatorImpl extends EnvironmentActuatorImpl implements OtherAirMolesActuatorOperations{
+	public OtherAirMolesActuatorImpl(int pID){
 		super(pID);
 	}
 
 	protected void processData(){
 		float myFilteredValue = randomFilter(myValue);
-		getOutput().setOtherLevel(myFilteredValue);
+		getOutput().setOtherMoles(myFilteredValue);
 	}
 	
 	protected void notifyListeners(){
 	}
 	
 	/**
-	* Returns the name of this module (OtherAirLevelActuator)
+	* Returns the name of this module (OtherAirMolesActuator)
 	* @return the name of the module
 	*/
 	public String getModuleName(){
-		return "OtherAirLevelActuator"+getID();
+		return "OtherAirMolesActuator"+getID();
 	}
 }

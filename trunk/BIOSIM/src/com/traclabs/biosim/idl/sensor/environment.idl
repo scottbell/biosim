@@ -3,11 +3,11 @@ module environment{
 		void setInput(in simulation::environment::SimEnvironment source);
 		simulation::environment::SimEnvironment getInput();
 	};
-        interface AirLevelSensor : EnvironmentSensor{};
+        interface AirMolesSensor : EnvironmentSensor{};
 	interface LightLevelSensor : EnvironmentSensor{};
-	interface O2AirLevelSensor : EnvironmentSensor{};
-	interface CO2AirLevelSensor : EnvironmentSensor{};
-	interface OtherAirLevelSensor : EnvironmentSensor{};
+	interface O2AirMolesSensor : EnvironmentSensor{};
+	interface CO2AirMolesSensor : EnvironmentSensor{};
+	interface OtherAirMolesSensor : EnvironmentSensor{};
 	
 	interface AirInFlowRateSensor : framework::GenericSensor{
 		void setInput(in simulation::environment::AirConsumer pConsumer, in long pIndex);
