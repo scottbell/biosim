@@ -244,6 +244,18 @@ public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperatio
 			currentPerson.reset();
 		}
 	}
+	
+	/**
+	* Gets the productivity of the crew
+	*/
+	public float getProductivity(){
+		float productivity = 0f;
+		for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();){
+			CrewPersonImpl currentPerson = (CrewPersonImpl)(iter.next());
+			productivity += currentPerson.getProductivity();
+		}
+		return productivity;
+	}
 
 	public boolean isDead(){
 		if (crewPeople.size() < 1)

@@ -755,7 +755,6 @@
 					<xsd:element name="dirtyWaterProducer" type="DirtyWaterProducerType"/>
 					<xsd:element name="greyWaterProducer" type="GreyWaterProducerType"/>
 					<xsd:element name="airProducer" type="AirProducerType"/>
-					<xsd:element name="waterAirProducer" type="WaterAirProducerType" minOccurs="0" maxOccurs="1"/>
 					<xsd:element name="crewPerson" type="CrewPersonType" minOccurs="0" maxOccurs="unbounded"/>
 					</xsd:sequence>
 			</xsd:extension>

@@ -58,10 +58,12 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private float potableWaterNeeded = 0f;
 	//How much food this crew member needs to consume in one tick
 	private float caloriesNeeded = 0f;
+	//How much water (in moles) is produced in one tick
+	private float vaporProduced = 0f;
 	//Whether this crew member is sick or not.  If the crew member is sick, puts them into sleep like state.
 	private boolean sick = false;
 	//A mission productivity measure, used when "mission" is specified in the schedule.  Not implemented correctly yet.
-	private int myMissionProductivity = 0;
+	private float myMissionProductivity = 0;
 	//The schedule used for this crew memeber
 	private Schedule mySchedule;
 	//The crew group associated with this crew member
@@ -84,7 +86,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private static final float DANGEROUS_CO2_RATION = 0.06f;
 	private static final float CO2_TILL_DEAD = 10f;
 	private static final float CO2_RECOVERY_RATE=0.001f;
-	
+
 	/**
 	* Constructor that creates a new crew person
 	* @param pName the name of the new crew person
@@ -92,17 +94,17 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* @param pSex the sex of the new crew person
 	* @param pCrewGroup the crew that the new crew person belongs in
 	*/
-	CrewPersonImpl(String pName, float pAge, float pWeight, Sex pSex, CrewGroupImpl pCrewGroup){		
+	CrewPersonImpl(String pName, float pAge, float pWeight, Sex pSex, CrewGroupImpl pCrewGroup){
 		this(pName, pAge, pWeight, pSex, pCrewGroup, new Schedule());
 	}
-	
+
 	CrewPersonImpl(String pName, float pAge, float pWeight, Sex pSex, CrewGroupImpl pCrewGroup, Schedule pSchedule){
 		myName = pName;
 		age = pAge;
 		weight = pWeight;
 		sex = pSex;
 		myCrewGroup = pCrewGroup;
-		mySchedule = pSchedule;		
+		mySchedule = pSchedule;
 		consumedWaterBuffer = new SimpleBuffer(WATER_TILL_DEAD, WATER_TILL_DEAD);
 		consumedOxygenBuffer = new SimpleBuffer(OXYGEN_TILL_DEAD, OXYGEN_TILL_DEAD);
 		consumedCaloriesBuffer = new SimpleBuffer(CALORIE_TILL_DEAD, CALORIE_TILL_DEAD);
@@ -111,7 +113,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		numFormat = new DecimalFormat("#,##0.0;(#)");
 		myCurrentActivity = mySchedule.getScheduledActivityByOrder(currentOrder);
 	}
-	
+
 	/**
 	* Resets the state of this crew member
 	*/
@@ -120,7 +122,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		consumedOxygenBuffer.reset();
 		consumedCaloriesBuffer.reset();
 		consumedCO2Buffer.reset();
-		myMissionProductivity = 0;
+		myMissionProductivity = 0f;
 		currentOrder = 0;
 		myCurrentActivity = mySchedule.getScheduledActivityByOrder(currentOrder);
 		timeActivityPerformed = 0;
@@ -135,6 +137,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		O2Needed = 0f;
 		potableWaterNeeded = 0f;
 		caloriesNeeded = 0f;
+		vaporProduced = 0f;
 	}
 
 	/**
@@ -256,11 +259,11 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	public Sex getSex(){
 		return sex;
 	}
-	
+
 	public void setSchedule(Schedule pSchedule){
 		mySchedule = pSchedule;
 	}
-	
+
 	/**
 	* Makes this crew member sick (sleep like)
 	*/
@@ -321,7 +324,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		return (myName + " now performing activity " +myCurrentActivity.getName() +
 		        " for " + timeActivityPerformed + " of "+myCurrentActivity .getTimeLength() +" hours");
 	}
-	
+
 	public boolean isSick(){
 		return sick;
 	}
@@ -341,7 +344,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			timeActivityPerformed = 0;
 		}
 	}
-	
+
 	/**
 	* Looks at current activity to see if it's "meaningful"
 	* i.e., the activity affects other modules.
@@ -360,15 +363,31 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			repairModule(repairActivity.getModuleNameToRepair(), repairActivity.getMalfunctionIDToRepair());
 		}
 	}
-	
+
 	/**
 	* productivity measure, used for metrics.  the longer the crew does this, the better evaluation (not implemented yet)
 	* invoked when crew person performs "mission" activity
 	*/
 	private void addProductivity(){
-		myMissionProductivity++;
+		float caloriePercentFull = consumedCaloriesBuffer.getLevel() / consumedCaloriesBuffer.getCapacity();
+		float waterPercentFull = consumedWaterBuffer.getLevel() / consumedWaterBuffer.getCapacity();
+		float oxygenPercentFull = consumedOxygenBuffer.getLevel() / consumedOxygenBuffer.getCapacity();
+		float CO2PercentFull = consumedCO2Buffer.getLevel() / consumedCO2Buffer.getCapacity();
+		
+		float averagePercentFull = (caloriePercentFull + waterPercentFull + oxygenPercentFull + CO2PercentFull) / 4f;
+		if (averagePercentFull < 1f)
+			averagePercentFull * 0.5f;
+		System.out.println("averagePercentFull = "+averagePercentFull);
+		myMissionProductivity += averagePercentFull;
 	}
 	
+	/**
+	* Returns mission productivity.
+	*/
+	public float getProductivity(){
+		return myMissionProductivity;
+	}
+
 	/**
 	* attempts to fix a module.  may have to be called several time depending on the severity of the malfunction
 	* invoked when crew person performs "repair" activity
@@ -382,7 +401,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			System.err.println("CrewPersonImp:"+myCrewGroup.getID()+": Couldn't locate "+moduleName+" to repair, skipping...");
 		}
 	}
-	
+
 	/**
 	* prevents other modules from breaking down (not implemented yet)
 	* invoked when crew person performs "maitenance" activity
@@ -428,7 +447,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		float resultInMoles = (resultInLiters) / (idealGasConstant * 298); //moles per hour
 		return myCrewGroup.randomFilter(resultInMoles); //Liters/hour
 	}
-	
+
 	private float pow(float a, float b){
 		return (new Double(Math.pow(a,b))).floatValue();
 	}
@@ -436,12 +455,11 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	/**
 	* Calculate the current CO2 produced by the crew memeber given the O2 consumed for the current tick.
 	* Algorithm derived from "Top Level Modeling of Crew Component of ALSS" by Goudrazi and Ting
-	* @param O2Consumed the O2 consumed (in liters) during this tick
-	* @return CO2 produced in liters
+	* @param O2Consumed the O2 consumed (in moles) during this tick
+	* @return CO2 produced in moles
 	*/
 	private float calculateCO2Produced(float O2Consumed){
-		float result = O2Consumed * 0.86f;
-		return result;
+		return O2Consumed * 0.86f;
 	}
 
 	/**
@@ -451,18 +469,17 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	* @return O2 produced in liters
 	*/
 	private float calculateO2Produced(float O2Consumed){
-		Double result = new Double(O2Consumed * 0.14);
-		return myCrewGroup.randomFilter(result.floatValue());
+		return myCrewGroup.randomFilter(O2Consumed * 0.14f);
 	}
-	
+
 	public void insertActivityInSchedule(Activity pActivity, int pOrder){
-		mySchedule.insertActivityInSchedule(pActivity, pOrder);	
+		mySchedule.insertActivityInSchedule(pActivity, pOrder);
 	}
-	
+
 	public void insertActivityInScheduleNow(Activity pActivity){
-		mySchedule.insertActivityInSchedule(pActivity, currentOrder + 1);	
+		mySchedule.insertActivityInSchedule(pActivity, currentOrder + 1);
 	}
-	
+
 	public int getOrderOfScheduledActivity(String activityName){
 		return mySchedule.getOrderOfScheduledActivity(activityName);
 	}
@@ -496,22 +513,29 @@ public class CrewPersonImpl extends CrewPersonPOA {
 
 	/**
 	* Calculate the dirty water produced given the potable water consumed for the current tick.
-	* @param cleanWaterConsumed the potable water consumed (in liters) during this tick
+	* @param potableWaterConsumed the potable water consumed (in liters) during this tick
 	* @return dirty water produced in liters
 	*/
-	private float calculateDirtyWaterProduced(float cleanWaterConsumed){
-		Double result = new Double(cleanWaterConsumed * 0.3625);
-		return myCrewGroup.randomFilter(result.floatValue());
+	private float calculateDirtyWaterProduced(float potableWaterConsumed){
+		return myCrewGroup.randomFilter(potableWaterConsumed * 0.3625f);
 	}
 
 	/**
 	* Calculate the grey water produced given the potable water consumed for the current tick.
-	* @param cleanWaterConsumed the potable water consumed (in liters) during this tick
+	* @param potableWaterConsumed the potable water consumed (in liters) during this tick
 	* @return grey water produced in liters
 	*/
-	private float calculateGreyWaterProduced(float cleanWaterConsumed){
-		Double result = new Double(cleanWaterConsumed * 0.6375);
-		return myCrewGroup.randomFilter(result.floatValue());
+	private float calculateGreyWaterProduced(float potableWaterConsumed){
+		return myCrewGroup.randomFilter(potableWaterConsumed * 0.5375f);
+	}
+
+	/**
+	* Calculate the current vapor produced by the crew memeber given the O2 consumed for the current tick.
+	* @param potableWaterConsumed the potable water consumed (in liters) during this tick
+	* @return vapor produced in moles
+	*/
+	private float calculateVaporProduced(float potableWaterConsumed){
+		return waterLitersToMoles(potableWaterConsumed * 0.1f);
 	}
 
 	/**
@@ -544,7 +568,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 				return (myAirInputs[0].getCO2Moles() / myAirInputs[0].getTotalMoles());
 		}
 	}
-	
+
 	private void recoverCrew(){
 		consumedCaloriesBuffer.add(CALORIE_RECOVERY_RATE * consumedCaloriesBuffer.getCapacity());
 		consumedWaterBuffer.add(WATER_RECOVERY_RATE * consumedWaterBuffer.getCapacity());
@@ -562,11 +586,11 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		if (getCO2Ratio() > DANGEROUS_CO2_RATION)
 			consumedCO2Buffer.take(getCO2Ratio() - DANGEROUS_CO2_RATION);
 	}
-	
+
 	private float abs(float a){
 		return (new Double(Math.abs(a))).floatValue();
 	}
-	
+
 	private float deathProbability(float x){
 		if (x >= 1f)
 			return 1f;
@@ -586,14 +610,14 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		float waterRiskReturn = deathProbability((consumedWaterBuffer.getCapacity() - consumedWaterBuffer.getLevel()) / consumedWaterBuffer.getCapacity());
 		float oxygenRiskReturn = deathProbability((consumedOxygenBuffer.getCapacity() - consumedOxygenBuffer.getLevel()) / consumedOxygenBuffer.getCapacity());
 		float CO2RiskReturn = deathProbability((consumedCO2Buffer.getCapacity() - consumedCO2Buffer.getLevel()) / consumedCO2Buffer.getCapacity());
-		
+
 		//System.out.println(getName());
 		//System.out.println("\tcalorie taken="+(caloriesNeeded - caloriesConsumed)+", recovered "+CALORIE_RECOVERY_RATE * consumedCaloriesBuffer.getCapacity()+" calorie risk level="+(consumedCaloriesBuffer.getCapacity() - consumedCaloriesBuffer.getLevel()) / consumedCaloriesBuffer.getCapacity()+" (level="+consumedCaloriesBuffer.getLevel()+", capacity="+consumedCaloriesBuffer.getCapacity()+")");
 		//System.out.println("\twater taken="+(potableWaterNeeded - cleanWaterConsumed)+", recovered "+WATER_RECOVERY_RATE * consumedWaterBuffer.getCapacity()+" thirst risk level="+(consumedWaterBuffer.getCapacity() - consumedWaterBuffer.getLevel()) / consumedWaterBuffer.getCapacity()+" (level="+consumedWaterBuffer.getLevel()+", capacity="+consumedWaterBuffer.getCapacity()+")");
 		//System.out.println("\toxygen taken="+(O2Needed - O2Consumed)+", recovered "+OXYGEN_RECOVERY_RATE * consumedOxygenBuffer.getCapacity()+" O2 risk level="+(consumedOxygenBuffer.getCapacity() - consumedOxygenBuffer.getLevel()) / consumedOxygenBuffer.getCapacity()+" (level="+consumedOxygenBuffer.getLevel()+", capacity="+consumedOxygenBuffer.getCapacity()+")");
 		//System.out.println("\tCO2 taken="+(getCO2Ratio() - DANGEROUS_CO2_RATION)+", recovered "+CO2_RECOVERY_RATE * consumedCO2Buffer.getCapacity()+" CO2 risk level="+(consumedCO2Buffer.getCapacity() - consumedCO2Buffer.getLevel()) / consumedCO2Buffer.getCapacity()+" (level="+consumedCO2Buffer.getLevel()+", capacity="+consumedCO2Buffer.getCapacity()+")");
 		//System.out.println("\tCO2 ration ="+getCO2Ratio()+", DANGEROUS_CO2_RATION="+DANGEROUS_CO2_RATION);
-		
+
 		if (calorieRiskReturn > randomNumber){
 			hasDied = true;
 			System.out.println(getName()+" has died from starvation (risk was "+numFormat.format(calorieRiskReturn * 100)+"%)");
@@ -623,7 +647,11 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			timeActivityPerformed = 0;
 		}
 	}
-	
+
+	private static float waterLitersToMoles(float pLiters){
+		return (pLiters * 1000f) / 18.01524f; // 1000g/liter, 18.01524g/mole
+	}
+
 	private void eatFood(float pFoodNeeded){
 		FoodMatter[] foodConsumed = myCrewGroup.getCaloriesFromStore(myCrewGroup.getFoodInputs(), myCrewGroup.getFoodInputMaxFlowRates(), myCrewGroup.getFoodInputDesiredFlowRates(), myCrewGroup.getFoodInputActualFlowRates(), caloriesNeeded);
 		if ((foodConsumed.length == 0) || (myCrewGroup.getFoodInputs().length == 0))
@@ -645,12 +673,13 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		dirtyWaterProduced = calculateDirtyWaterProduced(potableWaterNeeded);
 		greyWaterProduced = calculateGreyWaterProduced(potableWaterNeeded);
 		CO2Produced = calculateCO2Produced(O2Needed);
+		vaporProduced = calculateVaporProduced(potableWaterNeeded);
 		//adjust tanks
 		eatFood(caloriesNeeded);
 		cleanWaterConsumed = myCrewGroup.getFractionalResourceFromStore(myCrewGroup.getPotableWaterInputs(), myCrewGroup.getPotableWaterInputMaxFlowRates(), myCrewGroup.getPotableWaterInputDesiredFlowRates(), myCrewGroup.getPotableWaterInputActualFlowRates(), potableWaterNeeded, 1f / myCrewGroup.getCrewSize());
 		float distributedDirtyWater = myCrewGroup.pushFractionalResourceToStore(myCrewGroup.getDirtyWaterOutputs(), myCrewGroup.getDirtyWaterOutputMaxFlowRates(), myCrewGroup.getDirtyWaterOutputDesiredFlowRates(), myCrewGroup.getDirtyWaterOutputActualFlowRates(), dirtyWaterProduced, 1f / myCrewGroup.getCrewSize());
 		float distributedGreyWater = myCrewGroup.pushFractionalResourceToStore(myCrewGroup.getGreyWaterOutputs(), myCrewGroup.getGreyWaterOutputMaxFlowRates(), myCrewGroup.getGreyWaterOutputDesiredFlowRates(), myCrewGroup.getGreyWaterOutputActualFlowRates(), greyWaterProduced, 1f / myCrewGroup.getCrewSize());
-		
+
 		SimEnvironment[] myAirInputs = myCrewGroup.getAirInputs();
 		SimEnvironment[] myAirOutputs = myCrewGroup.getAirOutputs();
 		if (myAirInputs.length < 1){
@@ -661,6 +690,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		}
 		if (myAirOutputs.length > 0){
 			myAirOutputs[0].addCO2Moles(CO2Produced);
+			myAirOutputs[0].addWaterMoles(vaporProduced);
 		}
 	}
 
