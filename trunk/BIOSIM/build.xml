@@ -11,6 +11,7 @@
 	<property name="serverStubs" location="${server}/stubs"/>
 	<property name="lib" location="lib"/>
 	<property name="jacorbDir" location="${lib}/jacorb"/>
+	<property name="xercesDir" location="${lib}/xerces"/>
 
 	<target name="init">
 		<mkdir dir="${generated}"/>
@@ -18,17 +19,18 @@
   
   	<target name="stubServer" depends="init" description="stub the IDL file" >
 		<mkdir dir="${serverStubs}"/>
-		<java classname="org.jacorb.idl.parser">
+		<java classname="ParserHack">
 			<arg value="-d"/> 
 			<arg file="${serverStubs}"/>
 			<arg file="${src}/biosim/idl/biosim.idl"/>
 			<classpath>
+				<pathelement location="${jacorbDir}"/>
 				<pathelement location="${jacorbDir}/idl.jar"/>
 				<pathelement location="${jacorbDir}/logkit.jar"/>
 			</classpath>
 		</java>
 		<mkdir dir="${serverClasses}"/>
-		<javac srcdir="${serverStubs}" destdir="${serverClasses}">
+		<javac srcdir="${serverStubs}" destdir="${serverClasses}" compiler="jikes">
 			<classpath>
 				<pathelement location="${jacorbDir}/jacorb.jar"/>
 			</classpath>
@@ -38,7 +40,15 @@
 	<target name="server" depends="stubServer" description="compile the server" >
 		<mkdir dir="${server}"/>
 		<mkdir dir="${serverClasses}"/>
-		<javac srcdir="${src}" destdir="${generated}"/>
+		<javac srcdir="${src}" destdir="${generated}" compiler="jikes">
+			<classpath>
+				<pathelement location="${serverClasses}"/>
+				<pathelement location="${jacorbDir}/jacorb.jar"/>
+				<pathelement location="${xercesDir}/xercesImpl.jar"/>
+				<pathelement location="${xercesDir}/xml-apis.jar"/>
+				<pathelement location="${xercesDir}/xmlParserAPIs.jar"/>
+			</classpath>
+		</javac>
 	</target>
   
    	<target name="client" description="compile the client" >
