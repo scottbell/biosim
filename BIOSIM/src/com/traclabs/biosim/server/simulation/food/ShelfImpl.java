@@ -19,11 +19,13 @@ public class ShelfImpl extends ShelfPOA {
 	private BiomassRSImpl myBiomassImpl;
 	float waterLevel = 0f;
 	float powerLevel = 0f;
+	float powerNeeded = 0f;
 
 	public ShelfImpl(BiomassRSImpl pBiomassImpl, PlantType pType){
 		myBiomassImpl = pBiomassImpl;
 		if (pType == PlantType.WHEAT)
 			myCrop = new Wheat(this);
+		powerNeeded = calculatePowerNeeded();
 	}
 
 	public Plant getPlant(){
@@ -34,6 +36,10 @@ public class ShelfImpl extends ShelfPOA {
 		waterLevel = 0f;
 		powerLevel = 0f;
 		myCrop.reset();
+	}
+	
+	private float calculatePowerNeeded(){
+		return myCrop.getPPFNeeded() / (getLampEfficiency() * getPSEfficiency()); 
 	}
 
 	private void gatherWater(){
@@ -59,7 +65,7 @@ public class ShelfImpl extends ShelfPOA {
 	
 	private void gatherPower(){
 		float gatheredPower = 0f;
-		for (int i = 0; (i < myBiomassImpl.getPowerInputs().length) && (gatheredPower < myCrop.getWaterNeeded()); i++){
+		for (int i = 0; (i < myBiomassImpl.getPowerInputs().length) && (gatheredPower < myCrop.getPPFNeeded()); i++){
 			float resourceToGatherFirst = Math.min(myCrop.getWaterNeeded(), myBiomassImpl.getPowerInputMaxFlowRate(i) / myBiomassImpl.getNumberOfShelves());
 			float resourceToGatherFinal = Math.min(resourceToGatherFirst, myBiomassImpl.getPowerInputDesiredFlowRate(i) / myBiomassImpl.getNumberOfShelves());
 			float currentWaterGathered = myBiomassImpl.getPowerInputs()[i].take(resourceToGatherFinal);
@@ -90,7 +96,16 @@ public class ShelfImpl extends ShelfPOA {
 	}
 	
 	private void lightPlants(){
-		myCrop.shine(powerLevel);
+		float thePPF = powerLevel * getLampEfficiency() * getPSEfficiency();
+		myCrop.shine(thePPF);
+	}
+	
+	private float getLampEfficiency(){
+		return 261f; //for high pressure sodium bulbs
+	}
+	
+	private float getPSEfficiency(){
+		return 4.68f; //for high pressure sodium bulbs
 	}
 	
 	public void harvest(){
