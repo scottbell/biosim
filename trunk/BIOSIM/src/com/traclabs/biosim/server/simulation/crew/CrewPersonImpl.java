@@ -9,7 +9,7 @@ import biosim.server.util.*;
 
 public class CrewPersonImpl extends CrewPersonPOA {
 	private String myName = "No Name";
-	private ActivityImpl myCurrentActivity;
+	private Activity myCurrentActivity;
 	private CrewGroupImpl myCrewGroup;
 	private boolean hasCollectedReferences = false;
 	private int currentOrder = 0;
@@ -26,6 +26,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private float age = 30f;
 	private float weight = 170f;
 	private Sex sex = Sex.male;
+	private String status = "normal";
 
 	public CrewPersonImpl(String pName, float pAge, float pWeight, Sex pSex, CrewGroupImpl pCrewGroup){
 		myCrewGroup = pCrewGroup;
@@ -33,8 +34,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		age = pAge;
 		weight = pWeight;
 		sex = pSex;
-		myCurrentActivity = myCrewGroup.getRawActivityByOrder(currentOrder);
-		System.out.println("CrewPerson: "+myName+" is "+myCurrentActivity.getName());
+		myCurrentActivity = myCrewGroup.getScheduledActivityByOrder(currentOrder);
 	}
 
 	public String getName(){
@@ -52,13 +52,21 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	public Sex getSex(){
 		return sex;
 	}
-
-	public org.omg.CORBA.Object getCurrentActivity(){
-		return (OrbUtils.poaToCorbaObj(myCurrentActivity));
+	
+	public String getStatus(){
+		return status;
 	}
 
-	public void setCurrentActivity(org.omg.CORBA.Object pActivity){
-		myCurrentActivity = (ActivityImpl)(OrbUtils.corbaObjToPoa(pActivity));
+	public Activity getCurrentActivity(){
+		return myCurrentActivity;
+	}
+
+	public void setCurrentActivity(Activity pActivity){
+		myCurrentActivity = pActivity;
+	}
+	
+	public int getTimeActivityPerformed(){
+		return timeActivityPerformed;
 	}
 
 	public String toString(){
@@ -95,35 +103,34 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		if (!(myCurrentActivity.getName().equals("dead"))){
 			if (timeActivityPerformed >= myCurrentActivity.getTimeLength()){
 				advanceCurrentOrder();
-				myCurrentActivity = myCrewGroup.getRawActivityByOrder(currentOrder);
+				myCurrentActivity = myCrewGroup.getScheduledActivityByOrder(currentOrder);
 				timeActivityPerformed = 0;
 			}
 			consumeResources();
 			deathCheck();
 		}
-		System.out.println("CrewPerson: "+toString());
 	}
 
 	private void deathCheck(){
 		if (starvingTime > 504){
-			myCurrentActivity = myCrewGroup.getRawActivityByName("dead");
+			myCurrentActivity = myCrewGroup.getScheduledActivityByName("dead");
 			timeActivityPerformed = 0;
-			System.out.println("CrewPerson: "+myName+" has starved to death!");
+			status = "starved to death";
 		}
 		if (thirstTime > 72){
-			myCurrentActivity = myCrewGroup.getRawActivityByName("dead");
+			myCurrentActivity = myCrewGroup.getScheduledActivityByName("dead");
 			timeActivityPerformed = 0;
-			System.out.println("CrewPerson: "+myName+" has died of thirst!");
+			status = "died of thirst";
 		}
 		if (suffocateTime > 1){
-			myCurrentActivity = myCrewGroup.getRawActivityByName("dead");
+			myCurrentActivity = myCrewGroup.getScheduledActivityByName("dead");
 			timeActivityPerformed = 0;
-			System.out.println("CrewPerson: "+myName+" has suffocated!!");
+			status = "suffocated";
 		}
 		if (poisonTime > 5){
-			myCurrentActivity = myCrewGroup.getRawActivityByName("dead");
+			myCurrentActivity = myCrewGroup.getScheduledActivityByName("dead");
 			timeActivityPerformed = 0;
-			System.out.println("CrewPerson: "+myName+" has died of CO2 poisioning!!");
+			status = "died of CO2 poisioning";
 		}
 	}
 
@@ -214,19 +221,19 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		//afflict crew
 
 		if (foodRetrieved < foodNeeded){
-			System.out.println("CrewPerson: "+myName +" needed "+foodNeeded+" kgs of food, got only "+foodRetrieved +" kgs");
+			status = "needed "+foodNeeded+" kgs of food, got only "+foodRetrieved +" kgs";
 			starvingTime++;
 		}
 		if (waterRetrieved < cleanWaterNeeded){
-			System.out.println("CrewPerson: "+myName +" needed "+cleanWaterNeeded+" liters of waters, got only "+waterRetrieved +" liters");
+			status = "needed "+cleanWaterNeeded+" liters of waters, got only "+waterRetrieved +" liters";
 			thirstTime++;
 		}
-		if (O2Retrieved < O2Needed){System.out.println(
-			        "CrewPerson: "+myName +" needed "+O2Needed+" liters of O2, got only "+O2Retrieved +" liters");
+		if (O2Retrieved < O2Needed){
+			status = "needed "+O2Needed+" liters of O2, got only "+O2Retrieved +" liters";
 			suffocateTime++;
 		}
 		if (theCO2Ratio > 0.06){
-			System.out.println("CrewPerson: "+myName +" needed a ratio of "+0.06+" liters of CO2, got "+theCO2Ratio);
+			status = "needed a ratio of "+0.06+" liters of CO2, got "+theCO2Ratio;
 			poisonTime++;
 		}
 	}

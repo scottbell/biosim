@@ -4,6 +4,7 @@ import biosim.client.framework.*;
 import biosim.client.gui.*;
 import biosim.client.environment.gui.*;
 import biosim.client.air.gui.*;
+import biosim.client.crew.gui.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
@@ -111,7 +112,10 @@ public class SimDesktop extends BaseJFrame
 		getContentPane().add(myDesktop, BorderLayout.CENTER);
 	}
 
-	private void addInternalFrame(JInternalFrame newFrame){
+	private void addInternalFrame(String title, JPanel newPanel){
+		JInternalFrame newFrame = new JInternalFrame(title, true, true, true, true);
+		newFrame.getContentPane().add(newPanel, BorderLayout.CENTER);
+		newFrame.pack();
 		myDesktop.add(newFrame);
 		openFrameCount = myDesktop.getAllFrames().length;
 		newFrame.setLocation(xOffset * openFrameCount, yOffset * openFrameCount);
@@ -209,28 +213,15 @@ public class SimDesktop extends BaseJFrame
 		}
 	}
 	
-	private void displayEnvironment(){
-		JInternalFrame environmentFrame = new JInternalFrame("Environment", true, true, true, true);
-		environmentFrame.getContentPane().add(new EnvironmentPanel(myBiosim), BorderLayout.CENTER);
-		environmentFrame.pack();
-		addInternalFrame(environmentFrame);
-	}
-	
-	private void displayAir(){
-		JInternalFrame airFrame = new JInternalFrame("Air", true, true, true, true);
-		airFrame.getContentPane().add(new AirPanel(myBiosim), BorderLayout.CENTER);
-		airFrame.pack();
-		addInternalFrame(airFrame);
-	}
-	
 	private class ShowAllDisplaysAction extends AbstractAction{
 		public ShowAllDisplaysAction(String name){
 			super(name);
 		}
 		public void actionPerformed(ActionEvent ae){
 			myDesktop.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			displayEnvironment();
-			displayAir();
+			addInternalFrame("Air",new AirPanel(myBiosim));
+			addInternalFrame("Environment",new EnvironmentPanel(myBiosim));
+			addInternalFrame("Crew",new CrewPanel(myBiosim));
 			myDesktop.setCursor(Cursor.getDefaultCursor());
 		}
 	}
