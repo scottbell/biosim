@@ -20,7 +20,7 @@ public class ShelfImpl extends ShelfPOA {
 	private boolean logInitialized = false;
 	private BiomassRSImpl myBiomassRSImpl;
 	private float waterLevel = 0f;
-	private static final float waterNeededPerMeterSquared = 0.2f; //grab up to 2 liters per meters squared of crops per hour(WAG)
+	private static final float waterNeededPerMeterSquared = 50f; //grab up to 50 liters per meters squared of crops per hour(WAG)
 	private float waterNeeded = 0f;
 	private float powerLevel = 0f;
 	private float powerPerLamp = 400f;

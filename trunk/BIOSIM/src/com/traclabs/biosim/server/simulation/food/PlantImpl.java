@@ -52,7 +52,7 @@ public abstract class PlantImpl extends PlantPOA{
 	private SimpleBuffer consumedLightBuffer;
 	protected float[] canopyClosureConstants;
 	protected float[] canopyQYConstants;
-	private static final float WATER_TILL_DEAD = 700f;
+	private static final float WATER_TILL_DEAD = 200f;
 	private static final float WATER_RECOVERY_RATE = 0.005f;
 	private static final float CO2_LOW_TILL_DEAD = 24f;
 	private static final float CO2_LOW_RECOVERY_RATE = 0.05f;
@@ -183,15 +183,16 @@ public abstract class PlantImpl extends PlantPOA{
 	}
 
 	/**
-	* If not all the resources required were consumed, we damage the crew member.
+	* If not all the resources required were consumed, we damage the plant
 	*/
 	private void afflictPlants(){
 		//System.out.println("PlantImpl: before: water buffer at "+consumedWaterBuffer.getLevel()+" of "+consumedWaterBuffer.getCapacity());
 		//System.out.println("PlantImpl: before: light buffer at "+consumedLightBuffer.getLevel()+" of "+consumedLightBuffer.getCapacity());
+			
 		consumedWaterBuffer.setCapacity(myAverageWaterNeeded * WATER_TILL_DEAD);
 		consumedLightBuffer.setCapacity(getPPFNeeded() * LIGHT_TILL_DEAD);
 		
-		//System.out.println("PlantImpl: after asked for "+myWaterNeeded+" and got "+myWaterLevel+", water buffer at "+consumedWaterBuffer.getLevel()+" of "+consumedWaterBuffer.getCapacity()+" and going to take "+(myWaterNeeded - myWaterLevel));
+		//System.out.println("PlantImpl: after asked for "+myWaterNeeded+" and got "+myWaterLevel+", water buffer at "+consumedWaterBuffer.getLevel()+" of "+consumedWaterBuffer.getCapacity()+" and going to take "+(myWaterNeeded - myWaterLevel) +" from death buffer");
 		//System.out.println("PlantImpl: after asked for "+getPPFNeeded()+" and got "+myAveragePPF+", light buffer at "+consumedLightBuffer.getLevel()+" of "+consumedLightBuffer.getCapacity()+" and going to take "+(getPPFNeeded() - myAveragePPF));
 		
 		consumedWaterBuffer.take(myWaterNeeded - myWaterLevel);
@@ -226,7 +227,7 @@ public abstract class PlantImpl extends PlantPOA{
 		}
 		else if (waterRiskReturn > randomNumber){
 			hasDied = true;
-			System.out.println("PlantImpl: Plants have died from lack of water at "+getDaysOfGrowth()+" days (risk was "+(waterRiskReturn * 100)+"%)");
+			System.out.println("PlantImpl: Plants ("+getPlantTypeString()+") have died from lack of water at "+getDaysOfGrowth()+" days (risk was "+(waterRiskReturn * 100)+"%)");
 		}
 		else if (heatRiskReturn > randomNumber){
 			hasDied = true;
@@ -402,7 +403,7 @@ public abstract class PlantImpl extends PlantPOA{
 			litersOfWaterProduced = calculateDailyCanopyTranspirationRate() / 24f * myShelfImpl.getCropAreaUsed();
 		totalWaterLitersTranspired += litersOfWaterProduced;
 		//System.out.println("PlantImpl: totalWaterLitersTranspired: "+totalWaterLitersTranspired);
-		consumedWaterBuffer.take(litersOfWaterProduced);
+		//consumedWaterBuffer.take(litersOfWaterProduced);
 		//1/1000 liters per milliter, 1 gram per millilters, 8.016 grams per mole
 		float molesOfWaterProduced = waterLitersToMoles(litersOfWaterProduced);
 		float molesOfWaterAdded = myShelfImpl.getBiomassRSImpl().getAirOutputs()[0].addWaterMoles(molesOfWaterProduced);
