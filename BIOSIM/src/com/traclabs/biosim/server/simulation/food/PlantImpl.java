@@ -89,12 +89,12 @@ public abstract class PlantImpl extends PlantPOA{
 		calculateAverageCO2Concentration();
 		calculateAverageCO2MicroConcentration();
 		growBiomass();
-		checkForHarvest();
 		//System.out.println("PlantImpl: **************End plant tick***********");
 		
 	}
 	
-	private void checkForHarvest(){
+	public boolean readyForHarvest(){
+		return (getDaysOfGrowth() >= getTimeTillCanopySenescence());
 	}
 
 	public float harvest(){
