@@ -7,7 +7,7 @@ import biosim.idl.simulation.framework.*;
 import biosim.idl.framework.*;
 import java.util.*;
 import biosim.server.util.*;
-import biosim.server.framework.*;
+import biosim.server.simulation.framework.*;
 /**
  * The Power Production System creates power from a generator (say a solar panel) and stores it in the power store.
  * This provides power to all the biomodules in the system.
@@ -15,7 +15,7 @@ import biosim.server.framework.*;
  * @author    Scott Bell
  */
 
-public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperations, PowerProducerOperations, LightConsumerOperations {
+public abstract class PowerPSImpl extends SimBioModuleImpl implements PowerPSOperations, PowerProducerOperations, LightConsumerOperations {
 	//The power produced (in watts) by the Power PS at the current tick
 	float currentPowerProduced = 0f;
 	//Flag switched when the Power PS has collected references to other servers it need

@@ -6,7 +6,7 @@ import biosim.idl.util.log.*;
 import biosim.idl.simulation.framework.*;
 import biosim.idl.framework.*;
 import biosim.idl.framework.*;
-import biosim.server.framework.*;
+import biosim.server.simulation.framework.*;
 import java.util.*;
 /**
  * The SimEnvironment acts as the environment in which the crew breathes from and as the keeper of time.
@@ -14,7 +14,7 @@ import java.util.*;
  * @author    Scott Bell
  */
 
-public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentOperations {
+public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironmentOperations {
 	//The current amount of O2 in the environment (in liters)
 	private float O2Level = 0f;
 	//The current amount of CO2 in the environment (in liters)

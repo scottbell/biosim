@@ -8,9 +8,9 @@ module framework{
                 float getCapacity();
         };
 	interface SimBioModule : framework::BioModule{};
-	interface Injector : framework::BioModule, PowerConsumer, PotableWaterConsumer, GreyWaterConsumer, DirtyWaterConsumer, O2Consumer, CO2Consumer, AirConsumer, BiomassConsumer, FoodConsumer, O2AirConsumer, CO2AirConsumer, PowerProducer, PotableWaterProducer, GreyWaterProducer, DirtyWaterProducer, O2Producer, CO2Producer, AirProducer, BiomassProducer, FoodProducer, O2AirProducer, CO2AirProducer{
+	interface Injector : framework::SimBioModule, PowerConsumer, PotableWaterConsumer, GreyWaterConsumer, DirtyWaterConsumer, O2Consumer, CO2Consumer, AirConsumer, BiomassConsumer, FoodConsumer, O2AirConsumer, CO2AirConsumer, PowerProducer, PotableWaterProducer, GreyWaterProducer, DirtyWaterProducer, O2Producer, CO2Producer, AirProducer, BiomassProducer, FoodProducer, O2AirProducer, CO2AirProducer{
 	};
-	interface Accumulator : framework::BioModule, PowerConsumer, PotableWaterConsumer, GreyWaterConsumer, DirtyWaterConsumer, O2Consumer, CO2Consumer, AirConsumer, BiomassConsumer, FoodConsumer, O2AirConsumer, CO2AirConsumer, PowerProducer, PotableWaterProducer, GreyWaterProducer, DirtyWaterProducer, O2Producer, CO2Producer, AirProducer, BiomassProducer, FoodProducer, O2AirProducer, CO2AirProducer{
+	interface Accumulator : framework::SimBioModule, PowerConsumer, PotableWaterConsumer, GreyWaterConsumer, DirtyWaterConsumer, O2Consumer, CO2Consumer, AirConsumer, BiomassConsumer, FoodConsumer, O2AirConsumer, CO2AirConsumer, PowerProducer, PotableWaterProducer, GreyWaterProducer, DirtyWaterProducer, O2Producer, CO2Producer, AirProducer, BiomassProducer, FoodProducer, O2AirProducer, CO2AirProducer{
 	};
         interface PowerConsumer{
                 void setPowerInputFlowrate(in float watts, in long index);

@@ -8,7 +8,7 @@ import biosim.idl.simulation.power.*;
 import biosim.idl.util.log.*;
 import java.util.*;
 import biosim.server.util.*;
-import biosim.server.framework.*;
+import biosim.server.simulation.framework.*;
 
 /**
  * The Air Revitalization System Implementation.  Takes in Air (O2, CO2, other) from the environment and
@@ -17,7 +17,7 @@ import biosim.server.framework.*;
  * @author    Scott Bell
  */
 
-public class AirRSImpl extends BioModuleImpl implements AirRSOperations, PowerConsumerOperations, AirConsumerOperations, O2ProducerOperations, CO2ProducerOperations, AirProducerOperations, CO2ConsumerOperations{
+public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, PowerConsumerOperations, AirConsumerOperations, O2ProducerOperations, CO2ProducerOperations, AirProducerOperations, CO2ConsumerOperations{
 	private LogIndex myLogIndex;
 	private VCCR myVCCR;
 	private CRS myCRS;

@@ -1,5 +1,5 @@
 module food{
-        interface BiomassRS : framework::BioModule, framework::PowerConsumer, framework::PotableWaterConsumer, framework::GreyWaterConsumer, framework::BiomassProducer, framework::AirConsumer, framework::AirProducer{
+        interface BiomassRS : framework::SimBioModule, framework::PowerConsumer, framework::PotableWaterConsumer, framework::GreyWaterConsumer, framework::BiomassProducer, framework::AirConsumer, framework::AirProducer{
                 ShelfList getShelves();
                 float getTotalPotableWaterConsumed();
                 float getTotalGreyWaterConsumed();
@@ -13,7 +13,7 @@ module food{
 
         interface BiomassStore : framework::Store{};
 
-        interface FoodProcessor : framework::BioModule, framework::PowerConsumer, framework::BiomassConsumer, framework::FoodProducer{
+        interface FoodProcessor : framework::SimBioModule, framework::PowerConsumer, framework::BiomassConsumer, framework::FoodProducer{
                 float getBiomassConsumed();
                 float getPowerConsumed();
                 float getFoodProduced();

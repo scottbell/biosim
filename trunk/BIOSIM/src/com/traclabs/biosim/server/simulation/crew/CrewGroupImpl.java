@@ -10,7 +10,7 @@ import biosim.idl.simulation.air.*;
 import biosim.idl.simulation.water.*;
 import biosim.idl.simulation.food.*;
 import biosim.idl.simulation.environment.*;
-import biosim.server.framework.*;
+import biosim.server.simulation.framework.*;
 import biosim.idl.simulation.framework.*;
 import biosim.idl.framework.*;
 /**
@@ -19,7 +19,7 @@ import biosim.idl.framework.*;
  * @author    Scott Bell
  */
 
-public class CrewGroupImpl extends BioModuleImpl implements CrewGroupOperations, AirConsumerOperations, PotableWaterConsumerOperations, FoodConsumerOperations, AirProducerOperations, GreyWaterProducerOperations, DirtyWaterProducerOperations {
+public class CrewGroupImpl extends SimBioModuleImpl implements CrewGroupOperations, AirConsumerOperations, PotableWaterConsumerOperations, FoodConsumerOperations, AirProducerOperations, GreyWaterProducerOperations, DirtyWaterProducerOperations {
 	//The crew persons that make up the crew.
 	//They are the ones consuming air/food/water and producing air/water/waste as they perform activities
 	private Map crewPeople;
