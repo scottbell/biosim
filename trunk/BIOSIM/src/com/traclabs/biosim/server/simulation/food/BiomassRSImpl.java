@@ -91,6 +91,12 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 		}
 		return theShelfArray;
 	}
+	
+	public Shelf createNewShelf(PlantType pType){
+		ShelfImpl newShelfImpl = new ShelfImpl(this, pType);
+		myShelves.add(newShelfImpl);
+		return ShelfHelper.narrow(OrbUtils.poaToCorbaObj(newShelfImpl));
+	}
 
 	/**
 	* Resets production/consumption levels and death/affliction flags

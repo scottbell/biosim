@@ -12,20 +12,21 @@ import java.util.*;
  */
 
 public class ShelfImpl extends ShelfPOA {
-	private Plant myCrop;
+	private PlantImpl myCrop;
 	private float totalArea = 8.24f;
 	private LogIndex myLogIndex;
 	private boolean logInitialized = false;
 	private BiomassRSImpl myBiomassImpl;
 	
-	public ShelfImpl(BiomassRSImpl pBiomassImpl){
+	public ShelfImpl(BiomassRSImpl pBiomassImpl, PlantType pType){
 		myBiomassImpl = pBiomassImpl;
+		if (pType == PlantType.WHEAT)
+			myCrop = new Wheat(this);
 	}
 	
 	public Plant getPlant(){
-		return myCrop;
+		return PlantHelper.narrow(OrbUtils.poaToCorbaObj(myCrop));
 	}
-	
 	
 	public void reset(){
 		 myCrop.reset();
@@ -33,6 +34,11 @@ public class ShelfImpl extends ShelfPOA {
 	
 	public void tick(){
 		myCrop.tick();
+	}
+	
+	public void replant(PlantType pType){
+		if (pType == PlantType.WHEAT)
+			myCrop = new Wheat(this);
 	}
 	
 	public void log(LogNode myLogHead){

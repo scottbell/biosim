@@ -1,6 +1,7 @@
 module food{
         interface BiomassRS : framework::SimBioModule, power::PowerConsumer, water::PotableWaterConsumer, water::GreyWaterConsumer, BiomassProducer, environment::AirConsumer, environment::AirProducer{
                 ShelfList getShelves();
+		Shelf createNewShelf(in PlantType pType);
         };
 
         interface BiomassStore : framework::Store{};
