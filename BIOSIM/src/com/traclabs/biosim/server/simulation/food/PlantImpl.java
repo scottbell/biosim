@@ -30,6 +30,7 @@ public abstract class PlantImpl extends PlantPOA{
 	private float myTotalCO2Concentration = 0f;
 	private int myNumberOfCO2ConcentrationReadings = 0;
 	//in dry weight
+	private float myCurrentTotalWaterInsideBiomass = 0f; 
 	private float myCurrentTotalWetBiomass = 0f;
 	private float myCurrentEdibleWetBiomass = 0f;
 	private float myCurrentEdibleDryBiomass = 0f;
@@ -110,6 +111,7 @@ public abstract class PlantImpl extends PlantPOA{
 		myLastTotalWetBiomass = 0f;
 		myLastEdibleWetBiomass = 0f;
 		myCurrentEdibleDryBiomass = 0f;
+		myCurrentTotalWaterInsideBiomass = 0f;
 		myAverageWaterNeeded = 0f;
 		myTotalWaterNeeded = 0f;
 		myWaterNeeded = 0f;
@@ -306,6 +308,8 @@ public abstract class PlantImpl extends PlantPOA{
 	}
 
 	private void growBiomass(){
+		float waterFraction = 0f;
+		float litersOfWaterProduced = 0f;
 		myLastTotalWetBiomass = myCurrentTotalWetBiomass;
 		myLastEdibleWetBiomass = myCurrentEdibleWetBiomass;
 
@@ -331,7 +335,6 @@ public abstract class PlantImpl extends PlantPOA{
 		float waterInsideInEdibleBiomass = myCurrentInedbileDryBiomass * getProtectedInedibleFreshBasisWaterContent() / (1f - getProtectedInedibleFreshBasisWaterContent());
 		float myCurrentInedibleWetBiomass = waterInsideInEdibleBiomass + myCurrentInedbileDryBiomass;
 		myCurrentTotalWetBiomass = myCurrentInedibleWetBiomass + myCurrentEdibleWetBiomass;
-
 		//System.out.println("PlantImpl: myCurrentEdibleDryBiomass: "+myCurrentEdibleDryBiomass);
 
 		//Water In
@@ -340,9 +343,33 @@ public abstract class PlantImpl extends PlantPOA{
 		consumedWaterBuffer.add(myWaterLevel);
 		//System.out.println("PlantImpl: myWaterNeeded: "+myWaterNeeded);
 		//System.out.println("PlantImpl: myWaterLevel: "+myWaterLevel);
+		if (myWaterNeeded == 0)  
+			waterFraction = 1f; 
+		else 
+			waterFraction = myWaterLevel / myWaterNeeded;
+		
+		if (waterFraction < 1f) { 
+			myCurrentDryBiomass -= (float)(1f-waterFraction)*(cropGrowthRate / 1000 / 24f * myShelfImpl.getCropAreaUsed());
+			if (getDaysOfGrowth() > getTimeAtOrganFormation())
+				myCurrentEdibleDryBiomass -= (float)(1f - waterFraction) * (cropGrowthRate / 1000 / 24f * myShelfImpl.getCropAreaUsed() * getProtectedFractionOfEdibleBiomass());
+//			System.out.println("PlantImpl: myCurrentDryBiomass: "+myCurrentDryBiomass);
+//			System.out.println("PlantImpl: myCurrentEdibleDryBiomass: "+myCurrentEdibleDryBiomass);
+
+			waterInsideEdibleBiomass = myCurrentEdibleDryBiomass * getProtectedEdibleFreshBasisWaterContent() / (1f - getProtectedEdibleFreshBasisWaterContent());
+			myCurrentEdibleWetBiomass = waterInsideEdibleBiomass + myCurrentEdibleDryBiomass;
+		
+			waterInsideInEdibleBiomass = myCurrentInedbileDryBiomass * getProtectedInedibleFreshBasisWaterContent() / (1f - getProtectedInedibleFreshBasisWaterContent());
+			myCurrentInedibleWetBiomass = waterInsideInEdibleBiomass + myCurrentInedbileDryBiomass;
+			myCurrentTotalWetBiomass = myCurrentInedibleWetBiomass + myCurrentEdibleWetBiomass;
+		}
+		myCurrentTotalWaterInsideBiomass = waterInsideEdibleBiomass+waterInsideInEdibleBiomass; 
 
 		//Breathe Air
-		float molesOfCO2ToInhale = dailyCarbonGain * myShelfImpl.getCropAreaUsed() / 24f;
+		float molesOfCO2ToInhale = 0f;
+		if (waterFraction < 1f) 
+			molesOfCO2ToInhale = (float)waterFraction*dailyCarbonGain * myShelfImpl.getCropAreaUsed() / 24f;
+		else 
+			molesOfCO2ToInhale = dailyCarbonGain * myShelfImpl.getCropAreaUsed() / 24f;
 		float molesOfCO2Inhaled = myShelfImpl.getBiomassRSImpl().getAirInputs()[0].takeCO2Moles(molesOfCO2ToInhale);
 		totalCO2GramsConsumed += molesOfCO2Inhaled * 44f;
 		//System.out.println("PlantImpl: totalCO2GramsConsumed: "+totalCO2GramsConsumed);
@@ -351,7 +378,11 @@ public abstract class PlantImpl extends PlantPOA{
 		//System.out.println("PlantImpl: molesOfCO2Inhaled: "+molesOfCO2Inhaled);
 
 		//Exhale Air
-		float dailyO2MolesProduced = getOPF() * dailyCarbonGain * myShelfImpl.getCropAreaUsed();
+		float dailyO2MolesProduced = 0f;
+		if (waterFraction < 1f) 
+			dailyO2MolesProduced = (float)waterFraction*getOPF() * dailyCarbonGain * myShelfImpl.getCropAreaUsed();
+		else 
+			dailyO2MolesProduced = getOPF() * dailyCarbonGain * myShelfImpl.getCropAreaUsed();
 		float dailyO2GramsProduced = dailyO2MolesProduced * 32f;
 		//System.out.println("PlantImpl: dailyO2MolesProduced: "+dailyO2MolesProduced);
 		//System.out.println("PlantImpl: dailyO2GramsProduced: "+dailyO2GramsProduced);
@@ -364,7 +395,10 @@ public abstract class PlantImpl extends PlantPOA{
 		//System.out.println("PlantImpl: O2Exhaled: "+O2Exhaled);
 
 		//Water Vapor Produced
-		float litersOfWaterProduced = calculateDailyCanopyTranspirationRate() / 24f * myShelfImpl.getCropAreaUsed();
+		if (waterFraction < 1f)
+			litersOfWaterProduced = (float)waterFraction*calculateDailyCanopyTranspirationRate() / 24f * myShelfImpl.getCropAreaUsed();
+		else 
+			litersOfWaterProduced = calculateDailyCanopyTranspirationRate() / 24f * myShelfImpl.getCropAreaUsed();
 		totalWaterLitersTranspired += litersOfWaterProduced;
 		//System.out.println("PlantImpl: totalWaterLitersTranspired: "+totalWaterLitersTranspired);
 		consumedWaterBuffer.take(litersOfWaterProduced);
