@@ -844,7 +844,6 @@ The following sensors are available in the environment:
 \end{enumerate}
 
 \subsubsection{Malfunctions}
-
 State exactly what the malfunctions do.  How do the method calls work.
 What is the malfunction. What is the leak rate, etc. for each of the
 different malfunction classes.  Since method calls are probably
@@ -883,18 +882,18 @@ only for module-specific malfunction information.
 
 \begin{enumerate}
 
-\item {\tt CO2InFlowRateSensor}:
-\item {\tt CO2OutFlowRateSensor}:
-\item {\tt CO2StoreLevelSensor}:
-\item {\tt H2InFlowRateSensor}:
-\item {\tt H2OutFlowRateSensor}:
-\item {\tt H2StoreLevelSensor}:
-\item {\tt NitrogenInFlowRateSensor}:
-\item {\tt NitrogenOutFlowRateSensor}:
-\item {\tt NitrogenStoreLevelSensor}:
-\item {\tt O2InFlowRateSensor}:
-\item {\tt O2OutFlowRateSensor}:
-\item {\tt O2StoreLevelSensor}:
+\item {\tt CO2InFlowRateSensor}: Reports the CO2 flow rate (in moles) into a module
+\item {\tt CO2OutFlowRateSensor}: Reports the CO2 flow rate (in moles) out of a module
+\item {\tt CO2StoreLevelSensor}: How much CO2 (in moles) is contained in this store.
+\item {\tt H2InFlowRateSensor}: Reports the H2 flow rate (in moles) into a module
+\item {\tt H2OutFlowRateSensor}: Reports the H2 flow rate (in moles) out of a module
+\item {\tt H2StoreLevelSensor}: How much   (in moles) is contained in this store.
+\item {\tt NitrogenInFlowRateSensor}: Reports the nitrogen flow rate (in moles) into a module
+\item {\tt NitrogenOutFlowRateSensor}: Reports the nitrogen flow rate (in moles) out of a module
+\item {\tt NitrogenStoreLevelSensor}: How much nitrogen (in moles) is contained in this store.
+\item {\tt O2InFlowRateSensor}: Reports the O2 flow rate (in moles) into a module
+\item {\tt O2OutFlowRateSensor}: Reports the O2 flow rate (in moles) out of a module
+\item {\tt O2StoreLevelSensor}: How much O2 (in moles) is contained in this store.
 
 \end{enumerate}
 
@@ -902,14 +901,14 @@ only for module-specific malfunction information.
 
 \begin{enumerate}
 
-\item {\tt CO2InFlowRateSensor}:
-\item {\tt CO2OutFlowRateSensor}:
-\item {\tt H2InFlowRateSensor}:
-\item {\tt H2OutFlowRateSensor}:
-\item {\tt NitrogenInFlowRateSensor}:
-\item {\tt NitrogenOutFlowRateSensor}:
-\item {\tt O2InFlowRateSensor}:
-\item {\tt O2OutFlowRateSensor}:
+\item {\tt CO2InFlowRateAcutator}: Changes how much CO2 (in moles) goes into the module
+\item {\tt CO2OutFlowRateAcutator}: Changes how much CO2 (in moles) goes out of the module
+\item {\tt H2InFlowRateAcutator}: Changes how much H2 (in moles) goes into the module
+\item {\tt H2OutFlowRateAcutator}: Changes how much H2 (in moles) goes out of the module
+\item {\tt NitrogenInFlowRateAcutator}: Changes how much nitrogen (in moles) goes into the module
+\item {\tt NitrogenOutFlowRateAcutator}: Changes how much nitrogen (in moles) goes out of the module
+\item {\tt O2InFlowRateAcutator}: Changes how much O2 (in moles) goes into the module
+\item {\tt O2OutFlowRateAcutator}: Changes how much O2 (in moles) goes out of the module
 
 \end{enumerate}
 
@@ -924,27 +923,27 @@ Same as others
 \subsubsection{Sensors}
 \begin{enumerate}
 
-\item {\tt DirtyWaterInFlowRateSensor}:
-\item {\tt DirtyWaterOutFlowRateSensor}:
-\item {\tt DirtyWaterStoreLevelSensor}:
-\item {\tt GreyWaterInFlowRateSensor}:
-\item {\tt GreyWaterOutFlowRateSensor}:
-\item {\tt GreyWaterStoreLevelSensor}:
-\item {\tt PotableWaterInFlowRateSensor}:
-\item {\tt PotableWaterOutFlowRateSensor}:
-\item {\tt PotableWaterStoreLevelSensor}:
+\item {\tt DirtyWaterInFlowRateSensor}: Reports the dirty water flow rate (in liters) into a module
+\item {\tt DirtyWaterOutFlowRateSensor}: Reports the dirty water flow rate (in liters) out of a module
+\item {\tt DirtyWaterStoreLevelSensor}: How much dirty water (in liters) is contained in this store.
+\item {\tt GreyWaterInFlowRateSensor}: Reports the grey water flow rate (in liters) into a module
+\item {\tt GreyWaterOutFlowRateSensor}: Reports the grey water flow rate (in liters) out of a module
+\item {\tt GreyWaterStoreLevelSensor}: How much grey water (in liters) is contained in this store.
+\item {\tt PotableWaterInFlowRateSensor}: Reports the potable water flow rate (in liters) into a module
+\item {\tt PotableWaterOutFlowRateSensor}: Reports the potable water flow rate (in liters) out of a module
+\item {\tt PotableWaterStoreLevelSensor}: How much potable water (in liters) is contained in this store.
 \end{enumerate}
 
 \subsubsection{Actuators}
 
 \begin{enumerate}
 
-\item {\tt DirtyWaterInFlowRateActuator}:
-\item {\tt DirtyWaterOutFlowRateActuator}:
-\item {\tt GreyWaterInFlowRateActuator}:
-\item {\tt GreyWaterOutFlowRateActuator}:
-\item {\tt PotableWaterInFlowRateActuator}:
-\item {\tt PotableWaterOutFlowRateActuator}:
+\item {\tt DirtyWaterInFlowRateActuator}: Changes how much dirty water (in liters) goes out of the module
+\item {\tt DirtyWaterOutFlowRateActuator}: Changes how much dirty water (in liters) goes into the module
+\item {\tt GreyWaterInFlowRateActuator}: Changes how much grey water (in liters) goes out of the module
+\item {\tt GreyWaterOutFlowRateActuator}: Changes how much grey water (in liters) goes into the module
+\item {\tt PotableWaterInFlowRateActuator}: Changes how much potable water (in liters) goes out of the module
+\item {\tt PotableWaterOutFlowRateActuator}: Changes how much potable water (in liters) goes into the module
 \end{enumerate}
 
 \subsubsection{Malfunctions}
@@ -973,16 +972,16 @@ Same as others
 \subsubsection{Sensors}
 
 \begin{enumerate}
-\item {\tt PowerInFlowRateSensor}:
-\item {\tt PowerOutFlowRateSensor}:
-\item {\tt PowerStoreLevelSensor}:
+\item {\tt PowerInFlowRateSensor}: Changes how much power (in watts) goes into the module
+\item {\tt PowerOutFlowRateSensor}: Changes how much power (in watts) goes out of the module
+\item {\tt PowerStoreLevelSensor}: How much power (in watts) is contained in this store.
 \end{enumerate}
 
 \subsubsection{Actuators}
 
 \begin{enumerate}
-\item {\tt PowerInFlowRateActuator}:
-\item {\tt PowerOutFlowRateActuator}:
+\item {\tt PowerInFlowRateActuator}: Changes how much power (in watts) goes into the module
+\item {\tt PowerOutFlowRateActuator}: Changes how much power (in watts) goes out of the module
 \end{enumerate}
 
 \subsubsection{Malfunctions}
@@ -993,6 +992,7 @@ Same as others
 
 A short tutorial on creating a BioSim, initializing it and then
 calling some sensors, actuators and ticks.  Assume JacOrb. 
+See BIOSIM/doc/TestBiosim.java
 
 \chapter{Writing a simple C++ controller}
 
