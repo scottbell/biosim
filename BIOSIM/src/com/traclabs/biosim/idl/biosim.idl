@@ -98,6 +98,13 @@ module biosim{
                                 CrewPerson getCrewPerson(in string name);
                                 CrewPerson createCrewPerson(in string name, in float age, in float weight, in Sex pSex);
                                 CrewPersonList getCrewPeople();
+				long getCrewSize();
+				float getGreyWaterProduced();
+				float getDirtyWaterProduced();
+				float getPotableWaterConsumed();
+				float getFoodConsumed();
+				float getCO2Produced();
+				float getO2Consumed();
                         };
                 };
 

@@ -94,9 +94,9 @@ public class WaterStorePanel extends JPanel
 		TextTitle myTextTitle = (TextTitle)(myChart.getTitle(0));
 		myTextTitle.setFont(myTextTitle.getFont().deriveFont(12.0f));
 		myChartPanel = new ChartPanel(myChart);
-		myChartPanel.setMinimumDrawHeight(200);
-		myChartPanel.setMinimumDrawWidth(230);
-		myChartPanel.setPreferredSize(new Dimension(50, 50));
+		myChartPanel.setMinimumDrawHeight(250);
+		myChartPanel.setMinimumDrawWidth(250);
+		myChartPanel.setPreferredSize(new Dimension(200, 200));
 	}
 
 	public void refresh() {
