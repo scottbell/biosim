@@ -30,7 +30,7 @@ public class Tomato extends Planophile{
 
 	public float getPPFNeeded(){
 		float cropArea = myShelfImpl.getCropArea();
-		float constantPPF = 115f; //in moles per meters squared days
+		float constantPPF = 27f; //in moles per meters squared days
 		return (constantPPF * cropArea) / 24;
 	}
 	
@@ -39,7 +39,7 @@ public class Tomato extends Planophile{
 	}
 
 	protected float getBCF(){
-		return 0.44f;
+		return 0.42f;
 	}
 	
 	protected float getCUEMax(){

@@ -21,6 +21,7 @@ public class EnvironmentTextPanel extends TimedPanel
 	private JPanel tickPanel;
 	private JLabel O2Label;
 	private JLabel CO2Label;
+	private JLabel waterLabel;
 	private JLabel otherLabel;
 	private JPanel airPanel;
 	//Server required for data polling
@@ -65,13 +66,15 @@ public class EnvironmentTextPanel extends TimedPanel
 		tickPanel.add(tickLabel, BorderLayout.CENTER);
 
 		airPanel = new JPanel();
-		airPanel.setLayout(new GridLayout(3,1));
+		airPanel.setLayout(new GridLayout(4,1));
 		airPanel.setBorder(BorderFactory.createTitledBorder("Air"));
 		O2Label =    new JLabel("O2:     "+numFormat.format(mySimEnvironment.getO2Moles()) +" moles");
 		CO2Label =  new JLabel("CO2:   "+numFormat.format(mySimEnvironment.getCO2Moles()) + " moles");
+		waterLabel =  new JLabel("water:   "+numFormat.format(mySimEnvironment.getWaterMoles()) + " moles");
 		otherLabel = new JLabel("other:  "+numFormat.format(mySimEnvironment.getOtherMoles()) + " moles");
 		airPanel.add(O2Label);
 		airPanel.add(CO2Label);
+		airPanel.add(waterLabel);
 		airPanel.add(otherLabel);
 
 		c.fill = GridBagConstraints.BOTH;
@@ -97,6 +100,7 @@ public class EnvironmentTextPanel extends TimedPanel
 		tickLabel.setText(ticksExpired + " hours ("+(ticksExpired/24)+" days)");
 		O2Label.setText("O2:     "+numFormat.format(mySimEnvironment.getO2Moles()) +" moles");
 		CO2Label.setText("CO2:   "+numFormat.format(mySimEnvironment.getCO2Moles()) + " moles");
+		waterLabel.setText("water:   "+numFormat.format(mySimEnvironment.getWaterMoles()) + " moles");
 		otherLabel.setText("other:  "+numFormat.format(mySimEnvironment.getOtherMoles()) + " moles");
 	}
 }

@@ -23,6 +23,7 @@ public class EnvironmentPieChartPanel extends GraphPanel
 	private DefaultPieDataset myDataset;
 	private String O2Category = "O2";
 	private String CO2Category = "CO2";
+	private String waterCategory = "H20";
 	private String otherCategory = "Other";
 	private String vacuumCategory = "Vacuum";
 	private boolean isVacuum = false;
@@ -50,7 +51,7 @@ public class EnvironmentPieChartPanel extends GraphPanel
 		myChartPanel.setMinimumDrawWidth(250);
 		myChartPanel.setPreferredSize(new Dimension(250, 250));
 	}
-	
+
 	protected void initializeDataSources(String dataSourceName){
 		mySimEnvironment = (SimEnvironment)(BioHolder.getBioModule(dataSourceName));
 	}
@@ -59,7 +60,7 @@ public class EnvironmentPieChartPanel extends GraphPanel
 		if (myDataset == null){
 			myDataset = new DefaultPieDataset();
 		}
-		else if ((mySimEnvironment.getO2Moles() <= 0) && (mySimEnvironment.getCO2Moles() <= 0) && (mySimEnvironment.getOtherMoles() <= 0)){
+		else if ((mySimEnvironment.getO2Moles() <= 0) && (mySimEnvironment.getCO2Moles() <= 0) && (mySimEnvironment.getOtherMoles() <= 0) && (mySimEnvironment.getWaterMoles() <= 0)){
 			//It isn't in a vacuum, set it up
 			if (!isVacuum){
 				myDataset = new DefaultPieDataset();
@@ -76,11 +77,13 @@ public class EnvironmentPieChartPanel extends GraphPanel
 				myPlot.setDataset(myDataset);
 				myPlot.setPaint(0, Color.BLUE);
 				myPlot.setPaint(1, Color.GREEN);
-				myPlot.setPaint(2, Color.RED);
+				myPlot.setPaint(2, Color.CYAN);
+				myPlot.setPaint(3, Color.RED);
 				isVacuum = false;
 			}
 			myDataset.setValue(O2Category, new Float(mySimEnvironment.getO2Moles()));
 			myDataset.setValue(CO2Category, new Float(mySimEnvironment.getCO2Moles()));
+			myDataset.setValue(waterCategory, new Float(mySimEnvironment.getWaterMoles()));
 			myDataset.setValue(otherCategory, new Float(mySimEnvironment.getOtherMoles()));
 		}
 	}
@@ -88,7 +91,7 @@ public class EnvironmentPieChartPanel extends GraphPanel
 	private void initDataset(){
 		if (mySimEnvironment == null)
 			System.err.println("EnvironmentPieChartPanel: mySimEnvironment is null!");
-		if ((mySimEnvironment.getO2Moles() <= 0) && (mySimEnvironment.getCO2Moles() <= 0) && (mySimEnvironment.getOtherMoles() <= 0)){
+		if ((mySimEnvironment.getO2Moles() <= 0) && (mySimEnvironment.getCO2Moles() <= 0) && (mySimEnvironment.getOtherMoles() <= 0) && (mySimEnvironment.getWaterMoles() <= 0)){
 			myDataset.setValue(vacuumCategory, new Float(1f));
 			myPlot.setPaint(0, Color.DARK_GRAY);
 			isVacuum = true;
@@ -96,7 +99,8 @@ public class EnvironmentPieChartPanel extends GraphPanel
 		else{
 			myPlot.setPaint(0, Color.BLUE);
 			myPlot.setPaint(1, Color.GREEN);
-			myPlot.setPaint(2, Color.RED);
+			myPlot.setPaint(2, Color.CYAN);
+			myPlot.setPaint(3, Color.RED);
 			isVacuum = false;
 		}
 	}

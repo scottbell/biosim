@@ -14,16 +14,11 @@ import biosim.server.util.*;
 public class VCCR extends AirRSSubSystem{
 	private Breath myBreath;
 	private float molesAirNeeded = 4.0f;
-	private boolean enoughAir = false;
 	private float myProductionRate = 1f;
 
 	public VCCR(AirRSImpl pAirRSImpl){
 		super(pAirRSImpl);
 		myBreath = new Breath(0f, 0f, 0f, 0f);
-	}
-
-	public boolean hasEnoughAir(){
-		return enoughAir;
 	}
 
 	public float getAirProduced(){
@@ -64,10 +59,6 @@ public class VCCR extends AirRSSubSystem{
 		myBreath.CO2 = gatheredCO2;
 		myBreath.other = gatheredOther;
 		myBreath.water = gatheredWater;
-		if ((gatheredAir +.1) < airNeededFiltered)
-			enoughAir = false;
-		else
-			enoughAir = true;
 	}
 
 	private void pushAir(){
@@ -79,9 +70,9 @@ public class VCCR extends AirRSSubSystem{
 			float resourceToDistributeFirst = Math.min(molesToAdd, myAirRS.getAirOutputMaxFlowRate(i));
 			float resourceToDistributeFinal = Math.min(resourceToDistributeFirst, myAirRS.getAirOutputDesiredFlowRate(i));
 			//Recalculate percentages based on smaller volume
-			float reducedO2ToPass = resourceToDistributeFinal * (distributedO2Left / (distributedO2Left + distributedOtherLeft));
-			float reducedOtherToPass = resourceToDistributeFinal * (distributedOtherLeft / (distributedO2Left + distributedOtherLeft));
-			float reducedWaterToPass = resourceToDistributeFinal * (distributedWaterLeft / (distributedO2Left + distributedWaterLeft));
+			float reducedO2ToPass = resourceToDistributeFinal * (distributedO2Left / (distributedO2Left + distributedOtherLeft + distributedWaterLeft));
+			float reducedOtherToPass = resourceToDistributeFinal * (distributedOtherLeft / (distributedO2Left + distributedOtherLeft + distributedWaterLeft));
+			float reducedWaterToPass = resourceToDistributeFinal * (distributedWaterLeft / (distributedO2Left + distributedOtherLeft + distributedWaterLeft));
 			distributedO2Left -= myAirRS.getAirOutputs()[i].addO2Moles(reducedO2ToPass);
 			distributedOtherLeft -= myAirRS.getAirOutputs()[i].addOtherMoles(reducedOtherToPass);
 			distributedWaterLeft -= myAirRS.getAirOutputs()[i].addWaterMoles(reducedWaterToPass);
@@ -95,7 +86,6 @@ public class VCCR extends AirRSSubSystem{
 		myBreath = new Breath(0f, 0f, 0f, 0f);
 		currentPowerConsumed = 0;
 		hasEnoughPower = false;
-		enoughAir = false;
 	}
 
 	public void tick(){

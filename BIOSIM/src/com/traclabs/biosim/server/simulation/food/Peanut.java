@@ -35,12 +35,12 @@ public class Peanut extends Legume{
 
 	public float getPPFNeeded(){
 		float cropArea = myShelfImpl.getCropArea();
-		float constantPPF = 115f; //in moles per meters squared days
+		float constantPPF = 27f; //in moles per meters squared days
 		return (constantPPF * cropArea) / 24;
 	}
 
 	protected float getBCF(){
-		return 0.44f;
+		return 0.50f;
 	}
 	
 	protected float getCUEMax(){

@@ -12,8 +12,7 @@ import biosim.server.util.*;
  */
 
 public class OGS extends AirRSSubSystem{
-	private float H2ONeeded = 1.0f;
-	private boolean enoughH2O = false;
+	private float waterNeeded = 1.0f;
 	private float currentH2OConsumed = 0;
 	private float currentO2Produced = 0;
 	private float currentH2Produced = 0;
@@ -23,26 +22,18 @@ public class OGS extends AirRSSubSystem{
 		super(pAirRSImpl);
 	}
 
-	public boolean hasEnoughH2O(){
-		return enoughH2O;
-	}
 
 	public float getO2Produced(){
 		return currentO2Produced;
 	}
-
-	public float addH2O(float H2OtoAdd){
-		currentH2OConsumed = myAirRS.randomFilter(H2OtoAdd);
-		if (currentH2OConsumed < H2ONeeded)
-			enoughH2O = false;
-		else
-			enoughH2O = true;
-		return H2OtoAdd;
+	
+	private void gatherWater(){
+		currentH2OConsumed = myAirRS.getResourceFromStore(myAirRS.getPotableWaterInputs(), myAirRS.getPotableWaterInputMaxFlowRates(), myAirRS.getPotableWaterInputDesiredFlowRates(), myAirRS.getPotableWaterInputActualFlowRates(), waterNeeded);
 	}
 
 	private void pushGasses(){
-		currentO2Produced = myAirRS.randomFilter(currentH2OConsumed * 0.70f) * myProductionRate;
-		currentH2Produced = myAirRS.randomFilter(currentH2OConsumed * 0.30f) * myProductionRate;
+		currentO2Produced = myAirRS.randomFilter(currentH2OConsumed * 0.66666f) * myProductionRate;
+		currentH2Produced = myAirRS.randomFilter(currentH2OConsumed * 0.33333f) * myProductionRate;
 		float distributedO2 = myAirRS.randomFilter(currentO2Produced);
 		float distributedO2Left = myAirRS.pushResourceToStore(myAirRS.getO2Outputs(), myAirRS.getO2OutputMaxFlowRates(), myAirRS.getO2OutputDesiredFlowRates(), myAirRS.getO2OutputActualFlowRates(), distributedO2);
 	}
@@ -65,7 +56,6 @@ public class OGS extends AirRSSubSystem{
 	public void reset(){
 		currentPowerConsumed = 0;
 		hasEnoughPower = false;
-		enoughH2O = false;
 		currentH2OConsumed = 0;
 		currentO2Produced = 0;
 	}
@@ -73,6 +63,7 @@ public class OGS extends AirRSSubSystem{
 	public void tick(){
 		gatherPower();
 		if (hasEnoughPower){
+			gatherWater();
 			pushGasses();
 		}
 	}

@@ -118,8 +118,6 @@ public class AirTextPanel extends TimedPanel
 		StringBuffer statusBuffer = new StringBuffer();
 		if (!myAirRS.VCCRHasPower())
 			statusBuffer.append("needs power, ");
-		if (!myAirRS.VCCRHasEnoughAir())
-			statusBuffer.append("needs air, ");
 		if (statusBuffer.length() < 1)
 			return "nominal";
 		else{
@@ -136,10 +134,6 @@ public class AirTextPanel extends TimedPanel
 		StringBuffer statusBuffer = new StringBuffer();
 		if (!myAirRS.CRSHasPower())
 			statusBuffer.append("needs power, ");
-		if (!myAirRS.CRSHasEnoughCO2())
-			statusBuffer.append("needs CO2, ");
-		if (!myAirRS.CRSHasEnoughH2())
-				statusBuffer.append("needs H2, ");
 		if (statusBuffer.length() < 1)
 			return "nominal";
 		else{
@@ -155,9 +149,7 @@ public class AirTextPanel extends TimedPanel
 	private String coallateOGSStatus(){
 		StringBuffer statusBuffer = new StringBuffer();
 		if (!myAirRS.OGSHasPower())
-			statusBuffer.append("needs power, ");
-		if (!myAirRS.OGSHasEnoughH2O())
-			statusBuffer.append("needs H2O, ");
+			statusBuffer.append("needs power");
 		if (statusBuffer.length() < 1)
 			return "nominal";
 		else{

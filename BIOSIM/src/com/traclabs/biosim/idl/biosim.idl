@@ -548,11 +548,9 @@ module biosim{
                                         float takeO2Moles(in float moles);
                                         float takeOtherMoles(in float moles);
                                         float takeWaterMoles(in float moles);
+					air::Breath addBreath(in air::Breath pBreath);
                                         float getTemperature();
-                                        air::Breath addBreath(in air::Breath pBreath);
                                         float getLightIntensity();
-                                        air::Breath takeO2Breath(in float moles);
-                                        air::Breath takeCO2Breath(in float moles);
                                         air::Breath takeAirMoles(in float moles);
                                         long getTicks();
                                         void setTotalMoles(in float moles);
@@ -602,18 +600,14 @@ module biosim{
                                 };
                         };
                         module air{
-                                interface AirRS : framework::SimBioModule, framework::PowerConsumer, framework::AirConsumer, framework::AirProducer, framework::CO2Producer, framework::O2Producer, framework::CO2Consumer{
+                                interface AirRS : framework::SimBioModule, framework::PowerConsumer, framework::AirConsumer, framework::AirProducer, framework::CO2Producer, framework::O2Producer, framework::CO2Consumer, framework::PotableWaterConsumer, framework::PotableWaterProducer{
                                         float getPowerConsumed();
                                         float getCO2Consumed();
                                         float getO2Produced();
                                         float getCO2Produced();
                                         boolean VCCRHasPower();
-                                        boolean VCCRHasEnoughAir();
                                         boolean CRSHasPower();
-                                        boolean CRSHasEnoughCO2();
-                                        boolean CRSHasEnoughH2();
                                         boolean OGSHasPower();
-                                        boolean OGSHasEnoughH2O();
                                 };
                                 interface O2Store : framework::Store{
                                 };
