@@ -7,7 +7,7 @@ package com.traclabs.biosim.server.simulation.air;
  * @author Scott Bell
  */
 
-public class OGS extends AirRSSubSystem {
+public class OGSSubsystem extends AirRSSubSystem {
     private final static float waterNeeded = 1.5f;
 
     private float currentH2OConsumed = 0;
@@ -18,7 +18,7 @@ public class OGS extends AirRSSubSystem {
 
     private float myProductionRate = 1f;
 
-    public OGS(AirRSImpl pAirRSImpl) {
+    public OGSSubsystem(AirRSImpl pAirRSImpl) {
         super(pAirRSImpl);
     }
 
