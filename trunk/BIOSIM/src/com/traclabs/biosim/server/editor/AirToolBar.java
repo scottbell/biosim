@@ -14,7 +14,7 @@ import org.tigris.gef.base.CmdCreateNode;
  */
 public class AirToolBar extends EditorToolBar {
 
-    public AirToolBar() {
+    public AirToolBar(BiosimEditor pEditor) {
         super("Air");
 
         add(new CmdCreateNode(H2StoreFig.class, true, null, "H2Store"));
