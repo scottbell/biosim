@@ -1434,6 +1434,13 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	
+	<xsd:complexType name="BiomassStoreWaterContentSensor">  
+		<xsd:complexContent>
+			<xsd:extension base="SensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType
+	
 	<xsd:complexType name="HarvestSensorType">  
 		<xsd:complexContent>
 			<xsd:extension base="ShelfSensorType">

@@ -811,6 +811,7 @@ module biosim{
                                         BioMatterList takeBioMatterMass(in float mass);
                                         BioMatter takeBioMatterMassAndType(in float mass, in PlantType pType);
                                         BioMatter takeBioMatterType(in PlantType pType);
+                                        float calculateWaterContentInStore();
                                 };
 
                                 interface Shelf{
@@ -1095,6 +1096,9 @@ module biosim{
                                         void setInput(in simulation::food::FoodStore source);
                                         simulation::food::FoodStore getInput();
                                 };
+				
+				interface BiomassStoreWaterContentSensor : BiomassStoreSensor{};
+				
                                 interface FoodStoreLevelSensor : FoodStoreSensor{};
 
                                 interface BiomassRSSensor : framework::GenericSensor{

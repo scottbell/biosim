@@ -277,7 +277,7 @@
 			<PlantDeathSensor name="Shelf6PlantDeathSensor" shelfIndex="6" input="BiomassRS"/>
 			<PlantDeathSensor name="Shelf7PlantDeathSensor" shelfIndex="7" input="BiomassRS"/>
 			<PlantDeathSensor name="Shelf8PlantDeathSensor" shelfIndex="8" input="BiomassRS"/>
-
+			<BiomassStoreWaterContentSensor name="BiomassStoreWaterContentSensor" input="BiomassStore"/>
 		</food>
 		<framework>
 			<StoreOverflowSensor name="PowerStoreOverflowSensor" input="PowerStore"/>

@@ -172,6 +172,7 @@ public class BioHolder{
 	public List theFoodOutFlowRateActuators;
 	public List thePlantingActuators;
 	public List theHarvestingActuators;
+	public List theBiomassStoreWaterContentSensors;
 	//Power
 	public List thePowerInFlowRateActuators;
 	public List thePowerOutFlowRateActuators;
@@ -284,6 +285,7 @@ public class BioHolder{
 		theFoodStoreLevelSensors = new Vector();
 		theHarvestSensors = new Vector();
 		thePlantDeathSensors = new Vector();
+		theBiomassStoreWaterContentSensors = new Vector();
 		//Framework
 		theStoreOverflowSensors = new Vector();
 		theStoreLevelSensors = new Vector();
@@ -499,6 +501,7 @@ public class BioHolder{
 		theSensors.addAll(theFoodStoreLevelSensors);
 		theSensors.addAll(theHarvestSensors);
 		theSensors.addAll(thePlantDeathSensors);
+		theSensors.addAll(theBiomassStoreWaterContentSensors);
 		//Framework
 		theSensors.addAll(theStoreOverflowSensors);
 		theSensors.addAll(theStoreLevelSensors);
@@ -676,6 +679,7 @@ public class BioHolder{
 		theFoodStoreLevelSensors.clear();
 		theHarvestSensors.clear();
 		thePlantDeathSensors.clear();
+		theBiomassStoreWaterContentSensors.clear();
 		//Framework
 		theStoreOverflowSensors.clear();
 		theStoreLevelSensors.clear();

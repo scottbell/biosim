@@ -2886,6 +2886,24 @@ public class BioInitializer{
 			printRemoteWarningMessage(moduleName);
 	}
 
+	private void configureBiomassStoreWaterContentSensor(Node node){
+		BiomassStoreWaterContentSensor myBiomassStoreWaterContentSensor = BiomassStoreWaterContentSensorHelper.narrow(grabModule(getModuleName(node)));
+		myBiomassStoreWaterContentSensor.setInput(BiomassStoreHelper.narrow(grabModule(getInputName(node))));
+		mySensors.add(myBiomassStoreWaterContentSensor);
+	}
+	
+	private void createBiomassStoreWaterContentSensor(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating BiomassStoreWaterContentSensor with moduleName: "+moduleName);
+			BiomassStoreWaterContentSensorImpl myBiomassStoreWaterContentSensorImpl = new BiomassStoreWaterContentSensorImpl(myID, moduleName);
+			setupBioModule(myBiomassStoreWaterContentSensorImpl, node);
+			BiosimServer.registerServer(new BiomassStoreWaterContentSensorPOATie(myBiomassStoreWaterContentSensorImpl), myBiomassStoreWaterContentSensorImpl.getModuleName(), myBiomassStoreWaterContentSensorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
 	private void configureFoodStoreLevelSensor(Node node){
 		FoodStoreLevelSensor myFoodStoreLevelSensor = FoodStoreLevelSensorHelper.narrow(grabModule(getModuleName(node)));
 		myFoodStoreLevelSensor.setInput(FoodStoreHelper.narrow(grabModule(getInputName(node))));
@@ -2957,6 +2975,12 @@ public class BioInitializer{
 					createBiomassStoreLevelSensor(child);
 				else
 					configureBiomassStoreLevelSensor(child);
+			}
+			else if (childName.equals("BiomassStoreWaterContentSensor")){
+				if (firstPass)
+					createBiomassStoreWaterContentSensor(child);
+				else
+					configureBiomassStoreWaterContentSensor(child);
 			}
 			else if (childName.equals("FoodInFlowRateSensor")){
 				if (firstPass)
