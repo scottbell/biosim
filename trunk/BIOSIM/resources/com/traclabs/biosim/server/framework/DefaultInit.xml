@@ -129,12 +129,9 @@
 		<air>
 			<CO2InFlowRateSensor name="AirRSCO2InFlowRateSensor" index="0" input="AirRS"/>
 			<CO2OutFlowRateSensor name="AirRSCO2OutFlowRateSensor" index="0" input="AirRS"/>
-			<CO2StoreLevelSensor name="CO2StoreLevelSensor" input="CO2Store"/>
 			<O2OutFlowRateSensor name="AirRSO2OutFlowRateSensor" index="0" input="AirRS"/>
-			<O2StoreLevelSensor name="O2StoreLevelSensor" input="O2Store"/>
 			<H2InFlowRateSensor name="AirRSH2InFlowRateSensor" index="0" input="AirRS"/>
 			<H2OutFlowRateSensor name="AirRSH2OutFlowRateSensor" index="0" input="AirRS"/>
-			<H2StoreLevelSensor name="H2StoreLevelSensor" input="H2Store"/>
 		</air>
 		<crew>
 			<CrewGroupDeathSensor name="CrewGroupDeathSensor" input="CrewGroup"/>
@@ -162,12 +159,28 @@
 		<food>
 			<BiomassInFlowRateSensor name="FoodProcessorBiomassInFlowRateSensor" index="0" input="FoodProcessor"/>
 			<BiomassOutFlowRateSensor name="BiomassRSBiomassOutFlowRateSensor" index="0" input="BiomassRS"/>
-			<BiomassStoreLevelSensor name="BiomassStoreLevelSensor" input="BiomassStore"/>
 			<FoodInFlowRateSensor name="CrewGroupFoodInFlowRateSensor" index="0" input="CrewGroup"/>
 			<FoodOutFlowRateSensor name="FoodProcessorFoodOutFlowRateSensor" index="0" input="FoodProcessor"/>
-			<FoodStoreLevelSensor name="FoodStoreLevelSensor" input="FoodStore"/>
 		</food>
 		<framework>
+			<StoreLevelSensor name="PowerStoreLevelSensor" input="PowerStore"/>
+			<StoreLevelSensor name="FoodStoreLevelSensor" input="FoodStore"/>
+			<StoreLevelSensor name="H2StoreLevelSensor" input="H2Store"/>
+			<StoreLevelSensor name="CO2StoreLevelSensor" input="CO2Store"/>
+			<StoreLevelSensor name="O2StoreLevelSensor" input="O2Store"/>
+			<StoreLevelSensor name="BiomassStoreLevelSensor" input="BiomassStore"/>
+			<StoreLevelSensor name="PotableWaterStoreLevelSensor" input="PotableWaterStore"/>
+			<StoreLevelSensor name="GreyWaterStoreLevelSensor" input="GreyWaterStore"/>
+			<StoreLevelSensor name="DirtyWaterStoreLevelSensor" input="DirtyWaterStore"/>
+			<StoreOverflowSensor name="PowerStoreOverflowSensor" input="PowerStore"/>
+			<StoreOverflowSensor name="FoodStoreOverflowSensor" input="FoodStore"/>
+			<StoreOverflowSensor name="H2StoreOverflowSensor" input="H2Store"/>
+			<StoreOverflowSensor name="CO2StoreOverflowSensor" input="CO2Store"/>
+			<StoreOverflowSensor name="O2StoreOverflowSensor" input="O2Store"/>
+			<StoreOverflowSensor name="BiomassStoreOverflowSensor" input="BiomassStore"/>
+			<StoreOverflowSensor name="PotableWaterStoreOverflowSensor" input="PotableWaterStore"/>
+			<StoreOverflowSensor name="GreyWaterStoreOverflowSensor" input="GreyWaterStore"/>
+			<StoreOverflowSensor name="DirtyWaterStoreOverflowSensor" input="DirtyWaterStore"/>
 		</framework>
 		<power>
 			<PowerInFlowRateSensor name="AirRSPowerInFlowRateSensor" index="0" input="AirRS"/>
@@ -175,21 +188,17 @@
 			<PowerInFlowRateSensor name="BiomassRSPowerInFlowRateSensor" index="0" input="BiomassRS"/>
 			<PowerInFlowRateSensor name="WaterRSPowerInFlowRateSensor" index="0" input="BiomassRS"/>
 			<PowerOutFlowRateSensor name="PowerPSPowerOutFlowRateSensor" index="0" input="PowerPS"/>
-			<PowerStoreLevelSensor name="PowerStoreLevelSensor" input="PowerStore"/>
 		</power>
 		<water>
 			<DirtyWaterInFlowRateSensor name="WaterRSDirtyWaterInFlowRateSensor" index="0" input="WaterRS"/>
 			<DirtyWaterOutFlowRateSensor name="CrewGroupDirtyWaterOutFlowRateSensor" index="0" input="CrewGroup"/>
 			<DirtyWaterOutFlowRateSensor name="BiomassRSDirtyWaterOutFlowRateSensor" index="0" input="BiomassRS"/>
-			<DirtyWaterStoreLevelSensor name="DirtyWaterStoreLevelSensor" input="DirtyWaterStore"/>
 			<GreyWaterInFlowRateSensor name="WaterRSGreyWaterInFlowRateSensor" index="0" input="WaterRS"/>
 			<GreyWaterInFlowRateSensor name="BiomassRSGreyWaterInFlowRateSensor" index="0" input="BiomassRS"/>
 			<GreyWaterOutFlowRateSensor name="CrewGroupGreyWaterOutFlowRateSensor" index="0" input="CrewGroup"/>
-			<GreyWaterStoreLevelSensor name="GreyWaterStoreLevelSensor" input="GreyWaterStore"/>
-			<PotableWaterInFlowRateSensor name="AirRSPotableWaterInFlowRateSensor" index="0" input="AirRS"/>
 			<PotableWaterInFlowRateSensor name="CrewGroupPotableWaterInFlowRateSensor" index="0" input="CrewGroup"/>
 			<PotableWaterInFlowRateSensor name="BiomassRSPotableWaterInFlowRateSensor" index="0" input="BiomassRS"/>
-			<PotableWaterStoreLevelSensor name="PotableWaterStoreLevelSensor" input="PotableWaterStore"/>
+			<PotableWaterInFlowRateSensor name="AirRSPotableWaterInFlowRateSensor" index="0" input="AirRS"/>
 		</water>
 	</Sensors>
 	<Actuators>
