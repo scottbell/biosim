@@ -6,6 +6,24 @@ import ALSS.*;
 public class O2StoreImpl extends O2StorePOA {
 	private float O2level;
 	private float O2capacity;
+	
+	public O2StoreImpl(){
+		O2level = 0.0;
+		O2capacity = 10.0;
+	}
+	
+	public O2StoreImpl (float initialO2level, float  initialO2capacity){
+		O2level = initialO2level;
+		O2capacity = initialO2capacity;
+	}
+
+	void setO2Capacity(float liters){
+		O2capacity = liters;
+	}
+	
+	void setO2level(float liters){
+		O2level = liters;
+	}
 
 	float addO2(float liters){
 		if ((liters + O2level) > O2capacity){

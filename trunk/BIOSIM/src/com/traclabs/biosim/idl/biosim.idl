@@ -42,12 +42,16 @@ module ALSS{
 
 	//Object representing the Air Store
 	interface O2Store : BioModule{
+		void setO2Capacity(in float liters);
+		void setO2Level(in float liters);
 		float addO2(in float liters);
 		float takeO2(in float liters);
 		float getO2Level();
 	};
 
 	interface CO2Store : BioModule{
+		void setCO2Capacity(in float liters);
+		void setCO2Level(in float liters);
 		float addCO2(in float liters);
 		float takeCO2(in float liters);
 		float getCO2Level();
@@ -67,6 +71,10 @@ module ALSS{
 	};
 	
 	interface SimEnvironment : BioModule{
+		void setCO2Capacity(in float liters);
+		void setCO2Level(in float liters);
+		void setO2Capacity(in float liters);
+		void setO2Level(in float liters);
 		float getO2Level();
 		float getCO2Level();
 		float addCO2(in float liters);

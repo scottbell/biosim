@@ -40,15 +40,12 @@ public class BioSimulator implements Runnable
 	}
 
 	public void run(){
-		tick();
-		//Play with crew object
+		DirtyWaterStore myDirtyWater = (DirtyWaterStore)(getBioModule("DirtyWaterStore"));
+		myDirtyWater.addWater(1.0);
+		System.out.println("Dirty water levels at: "+myDirtyWater.getWaterLevels());
 		Crew myCrew = (Crew)(getBioModule("Crew"));
-		if (myCrew == null){
-			System.out.println("Couldn't find crew to test....");
-		}
-		else{
-			myCrew.createCrewPerson("Bob Roberts");
-		}
+		myCrew.createCrewPerson("Bob Roberts");
+		
 		for (int i = 0; i < 10; i ++){
 			tick();
 		}

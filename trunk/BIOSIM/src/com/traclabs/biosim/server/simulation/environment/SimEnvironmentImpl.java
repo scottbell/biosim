@@ -8,6 +8,36 @@ public class SimEnvironmentImpl extends SimEnvironmentPOA {
 	private float O2capacity;
 	private float CO2level;
 	private float CO2capacity;
+	
+	public SimEnvironmentImpl(){
+		CO2level = 0.0;
+		CO2capacity = 10.0;
+		O2level = 0.0;
+		O2capacity = 10.0;
+	}
+	
+	public SimEnvironmentImpl (float initialCO2level, float initialO2level, float  initialCO2capacity, initialO2capacity){
+		CO2level = initialCO2level;
+		O2level = initialO2level;
+		CO2capacity = initialCO2capacity;
+		O2capacity = initialO2capacity;
+	}
+
+	void setO2Capacity(float liters){
+		O2capacity = liters;
+	}
+	
+	void setCO2Capacity(float liters){
+		CO2capacity = liters;
+	}
+	
+	void setCO2level(float liters){
+		CO2level = liters;
+	}
+	
+	void setO2level(float liters){
+		O2level = liters;
+	}
 
 	float addO2(float liters){
 		if ((liters + O2level) > O2capacity){
