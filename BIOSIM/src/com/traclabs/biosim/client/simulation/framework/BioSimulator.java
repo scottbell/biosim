@@ -8,7 +8,7 @@ import java.util.*;
 
 public class BioSimulator
 {
-	//Module Names
+ //Module Names
 	private final static String crewName = "Crew";
 	private final static  String energyPSName = "EnergyPS";
 	private final static  String energyStoreName = "EnergyStore";
@@ -18,7 +18,7 @@ public class BioSimulator
 	private final static  String biomassStoreName = "BiomassStore";
 	private final static  String waterRSName = "WaterRS";
 	private final static  String waterStoreName = "WaterStore";
-	
+
 	private Hashtable modules;
 	private NamingContextExt ncRef;
 
@@ -30,8 +30,11 @@ public class BioSimulator
 	public static void main(String args[])
 	{
 		BioSimulator biosim = new BioSimulator();
-		biosim.tick();
-
+		biosim.runSimulation();
+	}
+	
+	public void runSimulation(){
+		tick();
 		//Play with crew object
 		Crew myCrew = (Crew)(biosim.getBioModule("Crew"));
 		if (myCrew == null){
@@ -49,6 +52,9 @@ public class BioSimulator
 			currentActivity = myCrewPerson.getCurrentActivity();
 			System.out.println("Current state for "+myCrewPerson.getName()+" is "+currentActivity.name+ " for "+currentActivity.timeLength+" hours");
 			*/
+		}
+		for (int i = 0; i < 10; i ++){
+			tick();
 		}
 	}
 	

@@ -76,6 +76,8 @@ echo "			-compiling stubs"
 $compilationInvocation $simStubDir/*.java
 echo "			-compiling control"
 $compilationInvocation $clientDir/control/*.java
+echo "			-compiling gui"
+$compilationInvocation $clientDir/gui/*.java
 echo "*done building biosim"
 
 
