@@ -13,7 +13,7 @@ import biosim.server.util.*;
 
 public class CRS extends AirRSSubSystem{
 	private final static float CO2Needed = 10f;
-	private final static float H2Needed = 40f;
+	private final static float H2Needed = CO2Needed * 4f;
 	private float currentCO2Consumed = 0;
 	private float currentH2Consumed = 0;
 	private float currentH2OProduced = 0;
@@ -36,6 +36,7 @@ public class CRS extends AirRSSubSystem{
 			currentCH4Produced = myAirRS.randomFilter(0f);
 		}
 		else{
+			// CO2 + 4H2 --> CH4 + 2H20
 			float waterMolesProduced = (0.5f * currentH2Consumed) + (.727f * currentCO2Consumed);
 			float waterLitersProduced = (waterMolesProduced * 18.01524f) / 1000f; //1000g/liter, 18.01524g/mole
 			float methaneMolesProduced = (0.5f * currentH2Consumed) + (.273f * currentCO2Consumed);
