@@ -69,17 +69,7 @@ public class OrbUtils{
 			ncRef = NamingContextExtHelper.narrow(objRef);
 			runOnce = true;
 		}
-		catch (org.omg.CORBA.ORBPackage.InvalidName e){
-			System.out.println("OrbUtils: nameserver not found, polling again");
-			sleepAwhile();
-			initialize();
-		}
-		catch(org.omg.PortableServer.POAManagerPackage.AdapterInactive e){
-			System.out.println("OrbUtils: nameserver not found, polling again");
-			sleepAwhile();
-			initialize();
-		}
-		catch (org.omg.CORBA.UserException e){
+		catch (Exception e){
 			System.out.println("OrbUtils: nameserver not found, polling again");
 			sleepAwhile();
 			initialize();
