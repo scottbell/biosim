@@ -57,6 +57,10 @@ public class ShelfImpl extends ShelfPOA {
 		powerLevel = 0f;
 		myCrop.reset();
 	}
+	
+	public BiomassRS getBiomassRS(){
+		return BiomassRSHelper.narrow(OrbUtils.poaToCorbaObj(myBiomassRSImpl));
+	}
 
 	public BiomassRSImpl getBiomassRSImpl(){
 		return myBiomassRSImpl;
@@ -96,7 +100,7 @@ public class ShelfImpl extends ShelfPOA {
 	private void flushPower(){
 		powerLevel = 0f;
 	}
-
+	
 	public float takeWater(float pLiters){
 		if (waterLevel < pLiters){
 			float waterTaken = waterLevel;
