@@ -129,9 +129,9 @@ public class BioSimulator implements Runnable
 			initializeSimulation();
 		}
 		System.out.println("BioSimulator: Running simulation...");
-		runSimulation();
 		myTimer.restart();
 		System.out.println("Started timer");
+		runSimulation();
 	}
 	
 	/**
