@@ -131,7 +131,19 @@ public class BioInitializer{
 		String name = getName(node);
 		if (isCreatedLocally(node)){
 			System.out.println("Creating O2Store with name: "+name);
+			float level = 0f;
+			float capacity = 0f;
+			try{
+				level = Float.parseFloat(node.getAttributes().getNamedItem("level").getNodeValue());
+				capacity = Float.parseFloat(node.getAttributes().getNamedItem("capacity").getNodeValue());
+			}
+			catch (NumberFormatException e){
+				System.out.println("Had problems parsing a float...");
+				e.printStackTrace();
+			}
 			O2StoreImpl myO2StoreImpl = new O2StoreImpl(myID, name);
+			myO2StoreImpl.setLevel(level);
+			myO2StoreImpl.setCapacity(capacity);
 			BiosimServer.registerServer(new O2StorePOATie(myO2StoreImpl), myO2StoreImpl.getModuleName(), myO2StoreImpl.getID());
 		}
 		else
@@ -142,19 +154,42 @@ public class BioInitializer{
 		String name = getName(node);
 		if (isCreatedLocally(node)){
 			System.out.println("Creating CO2Store with name: "+name);
+			float level = 0f;
+			float capacity = 0f;
+			try{
+				level = Float.parseFloat(node.getAttributes().getNamedItem("level").getNodeValue());
+				capacity = Float.parseFloat(node.getAttributes().getNamedItem("capacity").getNodeValue());
+			}
+			catch (NumberFormatException e){
+				System.out.println("Had problems parsing a float...");
+				e.printStackTrace();
+			}
 			CO2StoreImpl myCO2StoreImpl = new CO2StoreImpl(myID, name);
+			myCO2StoreImpl.setLevel(level);
+			myCO2StoreImpl.setCapacity(capacity);
 			BiosimServer.registerServer(new CO2StorePOATie(myCO2StoreImpl), myCO2StoreImpl.getModuleName(), myCO2StoreImpl.getID());
 		}
 		else
 			printRemoteWarningMessage(name);
-
 	}
 
 	private void createH2Store(Node node){
 		String name = getName(node);
 		if (isCreatedLocally(node)){
 			System.out.println("Creating H2Store with name: "+name);
+			float level = 0f;
+			float capacity = 0f;
+			try{
+				level = Float.parseFloat(node.getAttributes().getNamedItem("level").getNodeValue());
+				capacity = Float.parseFloat(node.getAttributes().getNamedItem("capacity").getNodeValue());
+			}
+			catch (NumberFormatException e){
+				System.out.println("Had problems parsing a float...");
+				e.printStackTrace();
+			}
 			H2StoreImpl myH2StoreImpl = new H2StoreImpl(myID, name);
+			myH2StoreImpl.setLevel(level);
+			myH2StoreImpl.setCapacity(capacity);
 			BiosimServer.registerServer(new H2StorePOATie(myH2StoreImpl), myH2StoreImpl.getModuleName(), myH2StoreImpl.getID());
 		}
 		else
@@ -197,6 +232,7 @@ public class BioInitializer{
 			System.out.println("Creating CrewGroup with name: "+name);
 			CrewGroupImpl myCrewGroupImpl = new CrewGroupImpl(myID, name);
 			BiosimServer.registerServer(new CrewGroupPOATie(myCrewGroupImpl), myCrewGroupImpl.getModuleName(), myCrewGroupImpl.getID());
+			 
 		}
 		else
 			printRemoteWarningMessage(name);
@@ -276,16 +312,30 @@ public class BioInitializer{
 		}
 	}
 
-	private void createActuator(Node node){
-		System.out.println("Creating Actuator");
+	private void createAccumulator(Node node){
+		String name = getName(node);
+		if (isCreatedLocally(node)){
+			System.out.println("Creating Accumulator with name: "+name);
+			AccumulatorImpl myAccumulatorImpl = new AccumulatorImpl(myID, name);
+			BiosimServer.registerServer(new AccumulatorPOATie(myAccumulatorImpl), myAccumulatorImpl.getModuleName(), myAccumulatorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(name);
 	}
 
-	private void configureActuator(Node node){
-		System.out.println("Configuring Actuator");
+	private void configureAccumulator(Node node){
+		System.out.println("Configuring Accumulator");
 	}
 
 	private void createInjector(Node node){
-		System.out.println("Creating Injector");
+		String name = getName(node);
+		if (isCreatedLocally(node)){
+			System.out.println("Creating Injector with name: "+name);
+			InjectorImpl myInjectorImpl = new InjectorImpl(myID, name);
+			BiosimServer.registerServer(new InjectorPOATie(myInjectorImpl), myInjectorImpl.getModuleName(), myInjectorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(name);
 	}
 
 	private void configureInjector(Node node){
@@ -298,9 +348,9 @@ public class BioInitializer{
 			String childName = child.getNodeName();
 			if (childName.equals("Actuator")){
 				if (firstPass)
-					createActuator(child);
+					createAccumulator(child);
 				else
-					configureActuator(child);
+					configureAccumulator(child);
 			}
 			else if (childName.equals("Injector")){
 				if (firstPass)
@@ -313,22 +363,79 @@ public class BioInitializer{
 	}
 
 	private void createBiomassRS(Node node){
-		System.out.println("Creating BiomassRS");
+		String name = getName(node);
+		if (isCreatedLocally(node)){
+			System.out.println("Creating BiomassRS with name: "+name);
+			BiomassRSImpl myBiomassRSImpl = new BiomassRSImpl(myID, name);
+			BiosimServer.registerServer(new BiomassRSPOATie(myBiomassRSImpl), myBiomassRSImpl.getModuleName(), myBiomassRSImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(name);
 	}
+	
 	private void configureBiomassRS(Node node){
 		System.out.println("Configuring BiomassRS");
 	}
+	
 	private void createFoodProcessor(Node node){
-		System.out.println("Creating FoodProcessor");
+		String name = getName(node);
+		if (isCreatedLocally(node)){
+			System.out.println("Creating FoodProcessor with name: "+name);
+			FoodProcessorImpl myFoodProcessorImpl = new FoodProcessorImpl(myID, name);
+			BiosimServer.registerServer(new FoodProcessorPOATie(myFoodProcessorImpl), myFoodProcessorImpl.getModuleName(), myFoodProcessorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(name);
 	}
+	
 	private void configureFoodProcessor(Node node){
 		System.out.println("Configuring FoodProcessor");
 	}
+	
 	private void createBiomassStore(Node node){
-		System.out.println("Creating BiomassStore");
+		String name = getName(node);
+		if (isCreatedLocally(node)){
+			System.out.println("Creating BiomassStore with name: "+name);
+			float level = 0f;
+			float capacity = 0f;
+			try{
+				level = Float.parseFloat(node.getAttributes().getNamedItem("level").getNodeValue());
+				capacity = Float.parseFloat(node.getAttributes().getNamedItem("capacity").getNodeValue());
+			}
+			catch (NumberFormatException e){
+				System.out.println("Had problems parsing a float...");
+				e.printStackTrace();
+			}
+			BiomassStoreImpl myBiomassStoreImpl = new BiomassStoreImpl(myID, name);
+			myBiomassStoreImpl.setLevel(level);
+			myBiomassStoreImpl.setCapacity(capacity);
+			BiosimServer.registerServer(new BiomassStorePOATie(myBiomassStoreImpl), myBiomassStoreImpl.getModuleName(), myBiomassStoreImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(name);
 	}
+	
 	private void createFoodStore(Node node){
-		System.out.println("Creating FoodStore");
+		String name = getName(node);
+		if (isCreatedLocally(node)){
+			System.out.println("Creating FoodStore with name: "+name);
+			float level = 0f;
+			float capacity = 0f;
+			try{
+				level = Float.parseFloat(node.getAttributes().getNamedItem("level").getNodeValue());
+				capacity = Float.parseFloat(node.getAttributes().getNamedItem("capacity").getNodeValue());
+			}
+			catch (NumberFormatException e){
+				System.out.println("Had problems parsing a float...");
+				e.printStackTrace();
+			}
+			FoodStoreImpl myFoodStoreImpl = new FoodStoreImpl(myID, name);
+			myFoodStoreImpl.setLevel(level);
+			myFoodStoreImpl.setCapacity(capacity);
+			BiosimServer.registerServer(new FoodStorePOATie(myFoodStoreImpl), myFoodStoreImpl.getModuleName(), myFoodStoreImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(name);
 	}
 
 	private void crawlFoodModules(Node node, boolean firstPass){
@@ -360,7 +467,18 @@ public class BioInitializer{
 	}
 
 	private void createPowerPS(Node node){
-		System.out.println("Creating PowerPS");
+		String name = getName(node);
+		if (isCreatedLocally(node)){
+			System.out.println("Creating PowerPS with name: "+name);
+			PowerPSImpl myPowerPSImpl = null;
+			if (node.getAttributes().getNamedItem("generation").getNodeValue().equals("SOLAR"))
+				myPowerPSImpl = new SolarPowerPS(myID, name);
+			else
+				myPowerPSImpl = new NuclearPowerPS(myID, name);
+			BiosimServer.registerServer(new PowerPSPOATie(myPowerPSImpl), myPowerPSImpl.getModuleName(), myPowerPSImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(name);
 	}
 
 	private void configurePowerPS(Node node){
@@ -368,7 +486,26 @@ public class BioInitializer{
 	}
 
 	private void createPowerStore(Node node){
-		System.out.println("Creating PowerStore");
+		String name = getName(node);
+		if (isCreatedLocally(node)){
+			System.out.println("Creating PowerStore with name: "+name);
+			float level = 0f;
+			float capacity = 0f;
+			try{
+				level = Float.parseFloat(node.getAttributes().getNamedItem("level").getNodeValue());
+				capacity = Float.parseFloat(node.getAttributes().getNamedItem("capacity").getNodeValue());
+			}
+			catch (NumberFormatException e){
+				System.out.println("Had problems parsing a float...");
+				e.printStackTrace();
+			}
+			PowerStoreImpl myPowerStoreImpl = new PowerStoreImpl(myID, name);
+			myPowerStoreImpl.setLevel(level);
+			myPowerStoreImpl.setCapacity(capacity);
+			BiosimServer.registerServer(new PowerStorePOATie(myPowerStoreImpl), myPowerStoreImpl.getModuleName(), myPowerStoreImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(name);
 	}
 
 	private void crawlPowerModules(Node node, boolean firstPass){
@@ -390,7 +527,14 @@ public class BioInitializer{
 	}
 
 	private void createWaterRS(Node node){
-		System.out.println("Creating WaterRS");
+		String name = getName(node);
+		if (isCreatedLocally(node)){
+			System.out.println("Creating WaterRS with name: "+name);
+			WaterRSImpl myWaterRSImpl = new WaterRSImpl(myID, name);
+			BiosimServer.registerServer(new WaterRSPOATie(myWaterRSImpl), myWaterRSImpl.getModuleName(), myWaterRSImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(name);
 	}
 
 	private void configureWaterRS(Node node){
@@ -398,15 +542,72 @@ public class BioInitializer{
 	}
 
 	private void createPotableWaterStore(Node node){
-		System.out.println("Creating PotableWaterStore");
-	}
-
-	private void createGreyWaterStore(Node node){
-		System.out.println("Creating GreyWaterStore");
+		String name = getName(node);
+		if (isCreatedLocally(node)){
+			System.out.println("Creating PotableWaterStore with name: "+name);
+			float level = 0f;
+			float capacity = 0f;
+			try{
+				level = Float.parseFloat(node.getAttributes().getNamedItem("level").getNodeValue());
+				capacity = Float.parseFloat(node.getAttributes().getNamedItem("capacity").getNodeValue());
+			}
+			catch (NumberFormatException e){
+				System.out.println("Had problems parsing a float...");
+				e.printStackTrace();
+			}
+			PotableWaterStoreImpl myPotableWaterStoreImpl = new PotableWaterStoreImpl(myID, name);
+			myPotableWaterStoreImpl.setLevel(level);
+			myPotableWaterStoreImpl.setCapacity(capacity);
+			BiosimServer.registerServer(new PotableWaterStorePOATie(myPotableWaterStoreImpl), myPotableWaterStoreImpl.getModuleName(), myPotableWaterStoreImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(name);
 	}
 
 	private void createDirtyWaterStore(Node node){
-		System.out.println("Creating DirtyWaterStore");
+		String name = getName(node);
+		if (isCreatedLocally(node)){
+			System.out.println("Creating DirtyWaterStore with name: "+name);
+			float level = 0f;
+			float capacity = 0f;
+			try{
+				level = Float.parseFloat(node.getAttributes().getNamedItem("level").getNodeValue());
+				capacity = Float.parseFloat(node.getAttributes().getNamedItem("capacity").getNodeValue());
+			}
+			catch (NumberFormatException e){
+				System.out.println("Had problems parsing a float...");
+				e.printStackTrace();
+			}
+			DirtyWaterStoreImpl myDirtyWaterStoreImpl = new DirtyWaterStoreImpl(myID, name);
+			myDirtyWaterStoreImpl.setLevel(level);
+			myDirtyWaterStoreImpl.setCapacity(capacity);
+			BiosimServer.registerServer(new DirtyWaterStorePOATie(myDirtyWaterStoreImpl), myDirtyWaterStoreImpl.getModuleName(), myDirtyWaterStoreImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(name);
+	}
+
+	private void createGreyWaterStore(Node node){
+		String name = getName(node);
+		if (isCreatedLocally(node)){
+			System.out.println("Creating GreyWaterStore with name: "+name);
+			float level = 0f;
+			float capacity = 0f;
+			try{
+				level = Float.parseFloat(node.getAttributes().getNamedItem("level").getNodeValue());
+				capacity = Float.parseFloat(node.getAttributes().getNamedItem("capacity").getNodeValue());
+			}
+			catch (NumberFormatException e){
+				System.out.println("Had problems parsing a float...");
+				e.printStackTrace();
+			}
+			GreyWaterStoreImpl myGreyWaterStoreImpl = new GreyWaterStoreImpl(myID, name);
+			myGreyWaterStoreImpl.setLevel(level);
+			myGreyWaterStoreImpl.setCapacity(capacity);
+			BiosimServer.registerServer(new GreyWaterStorePOATie(myGreyWaterStoreImpl), myGreyWaterStoreImpl.getModuleName(), myGreyWaterStoreImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(name);
 	}
 
 	private void crawlWaterModules(Node node, boolean firstPass){

@@ -572,6 +572,9 @@
 	</xsd:complexType>
 	
 	<xsd:complexType name="CrewPersonType">
+		<xsd:sequence>
+			<xsd:element name="schedule" type="ScheduleType" minOccurs="1" maxOccurs="1"/>
+		</xsd:sequence>
 		<xsd:attribute name="name" type="xsd:string" use="required"/>
 		<xsd:attribute name="age" type="nonNegativeFloat" use="required"/>
 		<xsd:attribute name="weight" type="nonNegativeFloat" use="required"/>
@@ -639,7 +642,6 @@
 					<xsd:element name="dirtyWaterProducer" type="DirtyWaterProducerType"/>
 					<xsd:element name="greyWaterProducer" type="GreyWaterProducerType"/>
 					<xsd:element name="airProducer" type="AirProducerType"/>
-					<xsd:element name="schedule" type="ScheduleType"/>
 					<xsd:element name="crewPerson" type="CrewPersonType" minOccurs="0" maxOccurs="unbounded"/>
 				</xsd:sequence>
 			</xsd:extension>
