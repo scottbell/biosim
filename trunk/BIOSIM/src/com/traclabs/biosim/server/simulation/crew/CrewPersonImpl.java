@@ -215,6 +215,9 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	public Sex getSex(){
 		return sex;
 	}
+	
+	public void sicken(){
+	}
 
 	/**
 	* Returns the crew member's current activity
