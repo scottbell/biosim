@@ -77,7 +77,8 @@ case $userSelect in
 	greyWaterStore) echo "			 -starting $userSelect";$jacoInvocation $greyWaterStoreName;;
 	simEnvironment) echo "			 -starting $userSelect";$jacoInvocation $simEnvironmentName;;
 	all) echo "			-starting $userSelect";$jacoInvocation $frameworkName;;
-	*) echo "!!!! unknown server: $userSelect";echo "please choose from: [all, greyWaterStore, potableWaterStore, dirtyWaterStore, powerStore, powerPS, simEnvironment, foodStoreName, foodProcessor, airRS, o2StoreName, co2StoreName, biomassRS, biomassStore, crew, waterRS]";;
+	"-?") echo "choose from: [all, greyWaterStore, potableWaterStore, dirtyWaterStore, powerStore, powerPS, simEnvironment, foodStoreName, foodProcessor, airRS, o2StoreName, co2StoreName, biomassRS, biomassStore, crew, waterRS]";;
+	*) echo "			-assuming all";$jacoInvocation $frameworkName;;
 esac
 echo "*done invoking servers"
 
