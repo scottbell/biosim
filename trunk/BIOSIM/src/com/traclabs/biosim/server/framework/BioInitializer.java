@@ -6,25 +6,9 @@ import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 
 /**
- * A sample SAX2 counter. This sample program illustrates how to
- * register a SAX2 ContentHandler and receive the callbacks in
- * order to print information about the document. The output of
- * this program shows the time and count of elements, attributes,
- * ignorable whitespaces, and characters appearing in the document.
- * <p>
- * This class is useful as a "poor-man's" performance tester to
- * compare the speed and accuracy of various SAX parsers. However,
- * it is important to note that the first parse time of a parser
- * will include both VM class load time and parser initialization
- * that would not be present in subsequent parses with the same
- * file.
- * <p>
- * <strong>Note:</strong> The results produced by this program
- * should never be accepted as true performance measurements.
+ * Reads BioSim configuration from XML file.
  *
- * @author Andy Clark, IBM
- *
- * @version $Id$
+ * @author Scott Bell
  */
 public class BioInitializer extends DefaultHandler {
 	/** Namespaces feature id (http://xml.org/sax/features/namespaces). */
@@ -177,6 +161,9 @@ public class BioInitializer extends DefaultHandler {
 	                         Attributes attrs) throws SAXException {
 
 		fElements++;
+		System.out.println("raw is :"+raw);
+		System.out.println("local is :"+local);
+		System.out.println("uri is :"+uri);
 		fTagCharacters++; // open angle bracket
 		fTagCharacters += raw.length();
 		if (attrs != null) {
@@ -198,7 +185,6 @@ public class BioInitializer extends DefaultHandler {
 	/** Characters. */
 	public void characters(char ch[], int start, int length)
 	throws SAXException {
-
 		fCharacters += length;
 
 	} // characters(char[],int,int);
