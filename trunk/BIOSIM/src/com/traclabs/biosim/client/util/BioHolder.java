@@ -501,15 +501,6 @@ public class BioHolder
 					modules.put(myAirRSCO2OutFlowRateActuatorName , myAirRSCO2OutFlowRateActuator);
 					actuators.put(myAirRSCO2OutFlowRateActuatorName , myAirRSCO2OutFlowRateActuator);
 				}
-				//Stores
-				{
-					O2StoreLevelActuator myO2StoreLevelActuator = O2StoreLevelActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myO2StoreLevelActuatorName+myID));
-					modules.put(myO2StoreLevelActuatorName , myO2StoreLevelActuator);
-					actuators.put(myO2StoreLevelActuatorName , myO2StoreLevelActuator);
-					CO2StoreLevelActuator myCO2StoreLevelActuator = CO2StoreLevelActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCO2StoreLevelActuatorName+myID));
-					modules.put(myCO2StoreLevelActuatorName , myCO2StoreLevelActuator);
-					actuators.put(myCO2StoreLevelActuatorName , myCO2StoreLevelActuator);
-				}
 			}
 			//Power
 			{
@@ -518,39 +509,6 @@ public class BioHolder
 					PowerOutFlowRateActuator myPowerPSPowerOutFlowRateActuator = PowerOutFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPowerPSPowerOutFlowRateActuatorName+myID));
 					modules.put(myPowerPSPowerOutFlowRateActuatorName , myPowerPSPowerOutFlowRateActuator);
 					actuators.put(myPowerPSPowerOutFlowRateActuatorName , myPowerPSPowerOutFlowRateActuator);
-				}
-				//Stores
-				{
-					PowerStoreLevelActuator myPowerStoreLevelActuator = PowerStoreLevelActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPowerStoreLevelActuatorName+myID));
-					modules.put(myPowerStoreLevelActuatorName , myPowerStoreLevelActuator);
-					actuators.put(myPowerStoreLevelActuatorName , myPowerStoreLevelActuator);
-				}
-			}
-			//Environment
-			{
-				//Crew
-				{
-					OtherAirMolesActuator myCrewEnvironmentOtherAirMolesActuator = OtherAirMolesActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentOtherAirMolesActuatorName+myID));
-					modules.put(myCrewEnvironmentOtherAirMolesActuatorName , myCrewEnvironmentOtherAirMolesActuator);
-					actuators.put(myCrewEnvironmentOtherAirMolesActuatorName , myCrewEnvironmentOtherAirMolesActuator);
-					O2AirMolesActuator myCrewEnvironmentO2AirMolesActuator = O2AirMolesActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentO2AirMolesActuatorName+myID));
-					modules.put(myCrewEnvironmentO2AirMolesActuatorName , myCrewEnvironmentO2AirMolesActuator);
-					actuators.put(myCrewEnvironmentO2AirMolesActuatorName , myCrewEnvironmentO2AirMolesActuator);
-					CO2AirMolesActuator myCrewEnvironmentCO2AirMolesActuator = CO2AirMolesActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myCrewEnvironmentCO2AirMolesActuatorName+myID));
-					modules.put(myCrewEnvironmentCO2AirMolesActuatorName , myCrewEnvironmentCO2AirMolesActuator);
-					actuators.put(myCrewEnvironmentCO2AirMolesActuatorName , myCrewEnvironmentCO2AirMolesActuator);
-				}
-				//Plant
-				{
-					OtherAirMolesActuator myPlantEnvironmentOtherAirMolesActuator = OtherAirMolesActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentOtherAirMolesActuatorName+myID));
-					modules.put(myPlantEnvironmentOtherAirMolesActuatorName , myPlantEnvironmentOtherAirMolesActuator);
-					actuators.put(myPlantEnvironmentOtherAirMolesActuatorName , myPlantEnvironmentOtherAirMolesActuator);
-					O2AirMolesActuator myPlantEnvironmentO2AirMolesActuator = O2AirMolesActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentO2AirMolesActuatorName+myID));
-					modules.put(myPlantEnvironmentO2AirMolesActuatorName , myPlantEnvironmentO2AirMolesActuator);
-					actuators.put(myPlantEnvironmentO2AirMolesActuatorName , myPlantEnvironmentO2AirMolesActuator);
-					CO2AirMolesActuator myPlantEnvironmentCO2AirMolesActuator = CO2AirMolesActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPlantEnvironmentCO2AirMolesActuatorName+myID));
-					modules.put(myPlantEnvironmentCO2AirMolesActuatorName , myPlantEnvironmentCO2AirMolesActuator);
-					actuators.put(myPlantEnvironmentCO2AirMolesActuatorName , myPlantEnvironmentCO2AirMolesActuator);
 				}
 			}
 			//Water
@@ -569,18 +527,6 @@ public class BioHolder
 					PotableWaterOutFlowRateActuator myWaterRSPotableWaterOutFlowRateActuator = PotableWaterOutFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myWaterRSPotableWaterOutFlowRateActuatorName+myID));
 					modules.put(myWaterRSPotableWaterOutFlowRateActuatorName , myWaterRSPotableWaterOutFlowRateActuator);
 					actuators.put(myWaterRSPotableWaterOutFlowRateActuatorName , myWaterRSPotableWaterOutFlowRateActuator);
-				}
-				//Stores
-				{
-					PotableWaterStoreLevelActuator myPotableWaterStoreLevelActuator = PotableWaterStoreLevelActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myPotableWaterStoreLevelActuatorName+myID));
-					modules.put(myPotableWaterStoreLevelActuatorName , myPotableWaterStoreLevelActuator);
-					actuators.put(myPotableWaterStoreLevelActuatorName , myPotableWaterStoreLevelActuator);
-					GreyWaterStoreLevelActuator myGreyWaterStoreLevelActuator = GreyWaterStoreLevelActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myGreyWaterStoreLevelActuatorName+myID));
-					modules.put(myGreyWaterStoreLevelActuatorName , myGreyWaterStoreLevelActuator);
-					actuators.put(myGreyWaterStoreLevelActuatorName , myGreyWaterStoreLevelActuator);
-					DirtyWaterStoreLevelActuator myDirtyWaterStoreLevelActuator = DirtyWaterStoreLevelActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myDirtyWaterStoreLevelActuatorName+myID));
-					modules.put(myDirtyWaterStoreLevelActuatorName , myDirtyWaterStoreLevelActuator);
-					actuators.put(myDirtyWaterStoreLevelActuatorName , myDirtyWaterStoreLevelActuator);
 				}
 			}
 			//Food
@@ -617,15 +563,6 @@ public class BioHolder
 					FoodOutFlowRateActuator myFoodProcessorFoodOutFlowRateActuator = FoodOutFlowRateActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myFoodProcessorFoodOutFlowRateActuatorName+myID));
 					modules.put(myFoodProcessorFoodOutFlowRateActuatorName , myFoodProcessorFoodOutFlowRateActuator);
 					actuators.put(myFoodProcessorFoodOutFlowRateActuatorName , myFoodProcessorFoodOutFlowRateActuator);
-				}
-				//Stores
-				{
-					BiomassStoreLevelActuator myBiomassStoreLevelActuator = BiomassStoreLevelActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myBiomassStoreLevelActuatorName+myID));
-					modules.put(myBiomassStoreLevelActuatorName , myBiomassStoreLevelActuator);
-					actuators.put(myBiomassStoreLevelActuatorName , myBiomassStoreLevelActuator);
-					FoodStoreLevelActuator myFoodStoreLevelActuator = FoodStoreLevelActuatorHelper.narrow(OrbUtils.getNCRef().resolve_str(myFoodStoreLevelActuatorName+myID));
-					modules.put(myFoodStoreLevelActuatorName , myFoodStoreLevelActuator);
-					actuators.put(myFoodStoreLevelActuatorName , myFoodStoreLevelActuator);
 				}
 			}
 			//Framework

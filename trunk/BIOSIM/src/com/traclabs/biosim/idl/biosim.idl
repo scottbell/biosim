@@ -898,20 +898,6 @@ module biosim{
                                 };
                         };
                         module air{
-                                interface O2StoreActuator : framework::GenericActuator{
-                                        void setOutput(in simulation::air::O2Store source);
-                                        simulation::air::O2Store getOutput();
-                                };
-                                interface CO2StoreActuator : framework::GenericActuator{
-                                        void setOutput(in simulation::air::CO2Store source);
-                                        simulation::air::CO2Store getOutput();
-                                };
-                                interface AirRSActuator : framework::GenericActuator{
-                                        void setOutput(in simulation::air::AirRS source);
-                                        simulation::air::AirRS getOutput();
-                                };
-                                interface O2StoreLevelActuator : O2StoreActuator{};
-                                interface CO2StoreLevelActuator : CO2StoreActuator{};
                                 interface O2InFlowRateActuator : framework::GenericActuator{
                                         void setOutput(in framework::O2Consumer pConsumer, in long pIndex);
                                         framework::O2Consumer getOutput();
@@ -940,17 +926,12 @@ module biosim{
                                 };
                                 interface CrewGroupActivityActuator : CrewGroupActuator{};
                         };
+			
                         module environment{
                                 interface EnvironmentActuator : framework::GenericActuator{
                                         void setOutput(in simulation::environment::SimEnvironment source);
                                         simulation::environment::SimEnvironment getOutput();
                                 };
-                                interface AirMolesActuator : EnvironmentActuator{};
-                                interface LightLevelActuator : EnvironmentActuator{};
-                                interface O2AirMolesActuator : EnvironmentActuator{};
-                                interface CO2AirMolesActuator : EnvironmentActuator{};
-                                interface OtherAirMolesActuator : EnvironmentActuator{};
-
                                 interface AirInFlowRateActuator : framework::GenericActuator{
                                         void setOutput(in framework::AirConsumer pConsumer, in long pIndex);
                                         framework::AirConsumer getOutput();
@@ -1006,17 +987,6 @@ module biosim{
 
                         };
                         module food{
-                                interface BiomassStoreActuator : framework::GenericActuator{
-                                        void setOutput(in simulation::food::BiomassStore source);
-                                        simulation::food::BiomassStore getOutput();
-                                };
-                                interface BiomassStoreLevelActuator : BiomassStoreActuator{};
-                                interface FoodStoreActuator : framework::GenericActuator{
-                                        void setOutput(in simulation::food::FoodStore source);
-                                        simulation::food::FoodStore getOutput();
-                                };
-                                interface FoodStoreLevelActuator : FoodStoreActuator{};
-
                                 interface BiomassRSActuator : framework::GenericActuator{
                                         void setOutput(in simulation::food::BiomassRS source);
                                         simulation::food::BiomassRS getOutput();
@@ -1054,11 +1024,6 @@ module biosim{
                                         void setOutput(in simulation::power::PowerPS source);
                                         simulation::power::PowerPS getOutput();
                                 };
-                                interface PowerStoreActuator : framework::GenericActuator{
-                                        void setOutput(in simulation::power::PowerStore source);
-                                        simulation::power::PowerStore getOutput();
-                                };
-                                interface PowerStoreLevelActuator : PowerStoreActuator{};
 
                                 interface PowerInFlowRateActuator : framework::GenericActuator{
                                         void setOutput(in framework::PowerConsumer pConsumer, in long pIndex);
@@ -1076,22 +1041,6 @@ module biosim{
                                         void setOutput(in simulation::water::WaterRS source);
                                         simulation::water::WaterRS getOutput();
                                 };
-                                interface PotableWaterStoreActuator : framework::GenericActuator{
-                                        void setOutput(in simulation::water::PotableWaterStore source);
-                                        simulation::water::PotableWaterStore getOutput();
-                                };
-                                interface GreyWaterStoreActuator : framework::GenericActuator{
-                                        void setOutput(in simulation::water::GreyWaterStore source);
-                                        simulation::water::GreyWaterStore getOutput();
-                                };
-                                interface DirtyWaterStoreActuator : framework::GenericActuator{
-                                        void setOutput(in simulation::water::DirtyWaterStore source);
-                                        simulation::water::DirtyWaterStore getOutput();
-                                };
-                                interface PotableWaterStoreLevelActuator : PotableWaterStoreActuator{};
-                                interface GreyWaterStoreLevelActuator : GreyWaterStoreActuator{};
-                                interface DirtyWaterStoreLevelActuator : DirtyWaterStoreActuator{};
-
                                 interface PotableWaterInFlowRateActuator : framework::GenericActuator{
                                         void setOutput(in framework::PotableWaterConsumer pConsumer, in long pIndex);
                                         framework::PotableWaterConsumer getOutput();

@@ -315,13 +315,6 @@ public class BiosimServer extends GenericServer{
 				registerServer(new CO2InFlowRateActuatorPOATie(myCO2InFlowRateActuatorImpl), "AirRS" + myCO2InFlowRateActuatorImpl.getModuleName());
 				registerServer(new CO2OutFlowRateActuatorPOATie(myCO2OutFlowRateActuatorImpl), "AirRS" + myCO2OutFlowRateActuatorImpl.getModuleName());
 			}
-			//Stores
-			{
-				O2StoreLevelActuatorImpl myO2StoreLevelActuatorImpl = new O2StoreLevelActuatorImpl(id);
-				CO2StoreLevelActuatorImpl myCO2StoreLevelActuatorImpl = new CO2StoreLevelActuatorImpl(id);
-				registerServer(new O2StoreLevelActuatorPOATie(myO2StoreLevelActuatorImpl), myO2StoreLevelActuatorImpl.getModuleName());
-				registerServer(new CO2StoreLevelActuatorPOATie(myCO2StoreLevelActuatorImpl), myCO2StoreLevelActuatorImpl.getModuleName());
-			}
 		}
 
 		//Power Actuators
@@ -330,11 +323,6 @@ public class BiosimServer extends GenericServer{
 			{
 				PowerOutFlowRateActuatorImpl myPowerOutFlowRateActuatorImpl = new PowerOutFlowRateActuatorImpl(id);
 				registerServer(new PowerOutFlowRateActuatorPOATie(myPowerOutFlowRateActuatorImpl), "PowerPS" + myPowerOutFlowRateActuatorImpl.getModuleName());
-			}
-			//Stores
-			{
-				PowerStoreLevelActuatorImpl myPowerStoreLevelActuatorImpl = new PowerStoreLevelActuatorImpl(id);
-				registerServer(new PowerStoreLevelActuatorPOATie(myPowerStoreLevelActuatorImpl), myPowerStoreLevelActuatorImpl.getModuleName());
 			}
 		}
 
@@ -366,13 +354,6 @@ public class BiosimServer extends GenericServer{
 				registerServer(new PotableWaterInFlowRateActuatorPOATie(myPotableWaterInFlowRateActuatorImpl), "BiomassRS" + myPotableWaterInFlowRateActuatorImpl.getModuleName());
 				registerServer(new GreyWaterInFlowRateActuatorPOATie(myGreyWaterInFlowRateActuatorImpl), "BiomassRS" + myGreyWaterInFlowRateActuatorImpl.getModuleName());
 			}
-			//Stores
-			{
-				BiomassStoreLevelActuatorImpl myBiomassStoreLevelActuatorImpl = new BiomassStoreLevelActuatorImpl(id);
-				FoodStoreLevelActuatorImpl myFoodStoreLevelActuatorImpl = new FoodStoreLevelActuatorImpl(id);
-				registerServer(new BiomassStoreLevelActuatorPOATie(myBiomassStoreLevelActuatorImpl), myBiomassStoreLevelActuatorImpl.getModuleName());
-				registerServer(new FoodStoreLevelActuatorPOATie(myFoodStoreLevelActuatorImpl), myFoodStoreLevelActuatorImpl.getModuleName());
-			}
 		}
 
 		//
@@ -390,40 +371,6 @@ public class BiosimServer extends GenericServer{
 				registerServer(new DirtyWaterInFlowRateActuatorPOATie(myDirtyWaterInFlowRateActuatorImpl), "WaterRS" + myDirtyWaterInFlowRateActuatorImpl.getModuleName());
 				registerServer(new PotableWaterOutFlowRateActuatorPOATie(myPotableWaterOutFlowRateActuatorImpl), "WaterRS" + myPotableWaterOutFlowRateActuatorImpl.getModuleName());
 			}
-			//Stores
-			{
-				PotableWaterStoreLevelActuatorImpl myPotableWaterStoreLevelActuatorImpl = new PotableWaterStoreLevelActuatorImpl(id);
-				GreyWaterStoreLevelActuatorImpl myGreyWaterStoreLevelActuatorImpl = new GreyWaterStoreLevelActuatorImpl(id);
-				DirtyWaterStoreLevelActuatorImpl myDirtyWaterStoreLevelActuatorImpl = new DirtyWaterStoreLevelActuatorImpl(id);
-				registerServer(new PotableWaterStoreLevelActuatorPOATie(myPotableWaterStoreLevelActuatorImpl), myPotableWaterStoreLevelActuatorImpl.getModuleName());
-				registerServer(new GreyWaterStoreLevelActuatorPOATie(myGreyWaterStoreLevelActuatorImpl), myGreyWaterStoreLevelActuatorImpl.getModuleName());
-				registerServer(new DirtyWaterStoreLevelActuatorPOATie(myDirtyWaterStoreLevelActuatorImpl), myDirtyWaterStoreLevelActuatorImpl.getModuleName());
-			}
-		}
-
-		//
-		//Environment Actuators
-		//
-		{
-			//CrewEnvironment
-			{
-				O2AirMolesActuatorImpl myO2AirMolesActuatorImpl = new O2AirMolesActuatorImpl(id);
-				CO2AirMolesActuatorImpl myCO2AirMolesActuatorImpl = new CO2AirMolesActuatorImpl(id);
-				OtherAirMolesActuatorImpl myOtherAirMolesActuatorImpl = new OtherAirMolesActuatorImpl(id);
-				registerServer(new O2AirMolesActuatorPOATie(myO2AirMolesActuatorImpl), "CrewEnvironment" + myO2AirMolesActuatorImpl.getModuleName());
-				registerServer(new CO2AirMolesActuatorPOATie(myCO2AirMolesActuatorImpl), "CrewEnvironment" + myCO2AirMolesActuatorImpl.getModuleName());
-				registerServer(new OtherAirMolesActuatorPOATie(myOtherAirMolesActuatorImpl), "CrewEnvironment" + myOtherAirMolesActuatorImpl.getModuleName());
-			}
-			//Plant Evnironment
-			{
-				O2AirMolesActuatorImpl myO2AirMolesActuatorImpl = new O2AirMolesActuatorImpl(id);
-				CO2AirMolesActuatorImpl myCO2AirMolesActuatorImpl = new CO2AirMolesActuatorImpl(id);
-				OtherAirMolesActuatorImpl myOtherAirMolesActuatorImpl = new OtherAirMolesActuatorImpl(id);
-				registerServer(new O2AirMolesActuatorPOATie(myO2AirMolesActuatorImpl), "PlantEnvironment" + myO2AirMolesActuatorImpl.getModuleName());
-				registerServer(new CO2AirMolesActuatorPOATie(myCO2AirMolesActuatorImpl), "PlantEnvironment" + myCO2AirMolesActuatorImpl.getModuleName());
-				registerServer(new OtherAirMolesActuatorPOATie(myOtherAirMolesActuatorImpl), "PlantEnvironment" + myOtherAirMolesActuatorImpl.getModuleName());
-			}
-
 		}
 
 		//
