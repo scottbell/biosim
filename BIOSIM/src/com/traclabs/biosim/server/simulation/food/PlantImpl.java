@@ -45,7 +45,7 @@ public abstract class PlantImpl extends PlantPOA{
 	private SimpleBuffer consumedCO2HighBuffer;
 	private SimpleBuffer consumedHeatBuffer;
 	private SimpleBuffer consumedLightBuffer;
-	private static final float WATER_TILL_DEAD = 336f;
+	private static final float WATER_TILL_DEAD = 150f;
 	private static final float WATER_RECOVERY_RATE = 2f;
 	private static final float CO2_LOW_TILL_DEAD = 24f;
 	private static final float CO2_LOW_RECOVERY_RATE = 25f;
@@ -176,8 +176,8 @@ public abstract class PlantImpl extends PlantPOA{
 	* If not all the resources required were consumed, we damage the crew member.
 	*/
 	private void afflictPlants(){
-		consumedWaterBuffer.take(myWaterNeeded - myWaterLevel);
-		consumedLightBuffer.take(myAveragePPF - getPPFNeeded());
+		consumedWaterBuffer.take((myWaterNeeded - myWaterLevel) / myShelfImpl.getCropAreaUsed());
+		consumedLightBuffer.take(myAveragePPF - getPPFNeeded() / myShelfImpl.getCropAreaUsed());
 		if (myAveragePPF > DANGEROUS_HEAT_LEVEL)
 			consumedHeatBuffer.take(myAveragePPF - DANGEROUS_HEAT_LEVEL);
 		if (myAverageCO2Concentration < CO2_RATIO_LOW)
