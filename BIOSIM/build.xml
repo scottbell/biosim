@@ -1,4 +1,4 @@
-<project name="BioSim" default="all" basedir=".">
+<project name="BioSim" default="compile" basedir=".">
 	<description>
         	Build file for BioSim
 	</description>
@@ -6,38 +6,44 @@
 	<property name="build.compiler"  value="jikes"/>
   	<property name="src" location="src"/>
   	<property name="doc" location="doc"/>
-	<property name="generated" location="generated"/>
-	<property name="classes" location="${generated}/classes"/>
+	<property name="buildDir" location="build"/>
+	<property name="classes" location="${buildDir}/classes"/>
 	<property name="lib" location="lib"/>
 	<property name="jacorbDir" location="${lib}/jacorb"/>
 	<property name="xercesDir" location="${lib}/xerces"/>
-	<property name="nsDir" location="${generated}/ns"/>
+	<property name="nsDir" location="${buildDir}/ns"/>
 	<property name="resourceDir" location="resources"/>
 	<!-- set server properties for this build --> 
-	<property name="server" location="${generated}/server"/>
+	<property name="server" location="${buildDir}/server"/>
 	<property name="serverClasses" location="${server}/classes"/>
 	<property name="serverStubs" location="${server}/stubs"/>
 	<!-- set client properties for this build --> 
-	<property name="client" location="${generated}/client"/>
+	<property name="client" location="${buildDir}/client"/>
 	<property name="clientClasses" location="${client}/classes"/>
 	<property name="clientStubs" location="${client}/stubs"/>
 	<property name="plotDir" location="${lib}/jfreechart"/>
 	<!-- set distro properties for this build -->
-	<property name="distroDir" location="${generated}/distro"/>
-	<property name="distroLibDir" location="${lib}/distro/win"/>
+	<property name="distroDir" location="distro"/>
 	<!-- set ga distro properties for this build --> 
-	<property name="gaDistroDir" location="${generated}/ga"/>
+	<property name="gaDistroDir" location="${distroDir}/ga"/>
+	<!-- set win distro properties for this build --> 
+	<property name="winDistroDir" location="${distroDir}/win"/>
+	<property name="winDistroLibDir" location="${lib}/distro/win"/>
 	<!-- set javadoc properties for this build --> 
 	<property name="apiDir" location="${doc}/api"/>
 	<!-- set users manual properties for this build --> 
 	<property name="manualDir" location="${doc}/users_manual_files"/>
 	
 
-	<target name="init">
-		<mkdir dir="${generated}"/>
+	<target name="init-build">
+		<mkdir dir="${buildDir}"/>
+	</target>
+	
+	<target name="init-distro">
+		<mkdir dir="${distroDir}"/>
 	</target>
   
-  	<target name="stubServer" depends="init" description="stub the IDL file for the server">
+  	<target name="stubServer" depends="init-build" description="stub the IDL file for the server">
 		<mkdir dir="${serverStubs}"/>
 		<java classname="ParserHack">
 			<arg value="-d"/> 
@@ -57,7 +63,7 @@
 		</javac>
 	</target>
 
-	<target name="make-server" depends="stubServer" description="compile the server">
+	<target name="build-server" depends="stubServer" description="compile the server">
 		<mkdir dir="${server}"/>
 		<mkdir dir="${serverClasses}"/>
 		<javac srcdir="${src}/biosim/server" destdir="${serverClasses}">
@@ -72,7 +78,7 @@
 		</javac>
 	</target>
 	
-	<target name="stubClient" depends="init" description="stub the IDL file for the client">
+	<target name="stubClient" depends="init-build" description="stub the IDL file for the client">
 		<mkdir dir="${clientStubs}"/>
 		<java classname="ParserHack">
 			<arg value="-noskel"/> 
@@ -93,7 +99,7 @@
 		</javac>
 	</target>
   
-   	<target name="make-client" depends="stubClient" description="compile the client">
+   	<target name="build-client" depends="stubClient" description="compile the client">
 		<mkdir dir="${client}"/>
 		<mkdir dir="${clientClasses}"/>
 		<javac srcdir="${src}/biosim/client" destdir="${clientClasses}">
@@ -110,10 +116,10 @@
 		</javac>
 	</target>
 	
-	<target name="make-distro" depends="make-server,make-client" description="creates windows distro">
-		<mkdir dir="${distroDir}"/>
-		<mkdir dir="${distroDir}/tmp"/>
-		<unzip dest="${distroDir}/tmp">
+	<target name="build-win-distro" depends="build-server,build-client, init-distro" description="creates windows distro">
+		<mkdir dir="${winDistroDir}"/>
+		<mkdir dir="${winDistroDir}/tmp"/>
+		<unzip dest="${winDistroDir}/tmp">
 			<fileset file="${jacorbDir}/jacorb.jar"/>
 			<fileset file="${jacorbDir}/logkit.jar"/>
 			<fileset file="${jacorbDir}/avalon-framework.jar"/>
@@ -123,7 +129,7 @@
 			<fileset file="${plotDir}/jcommon.jar"/>
 			<fileset file="${plotDir}/jfreechart.jar"/>
 		</unzip>
-		<jar destfile="${distroDir}/biosim.jar">
+		<jar destfile="${winDistroDir}/biosim.jar">
 			<fileset dir="${serverClasses}"/>
 			<fileset dir="${clientClasses}"/>
 			<fileset dir="${resourceDir}"/>
@@ -133,15 +139,15 @@
 			</fileset>
 			<fileset file="${jacorbDir}/jacorb.properties"/>
 		</jar>
-		<copy todir="${distroDir}">
-			<fileset dir="${distroLibDir}">
+		<copy todir="${winDistroDir}">
+			<fileset dir="${winDistroLibDir}">
 				<exclude name="CVS"/>
 			</fileset>
 		</copy>
-		<delete dir="${distroDir}/tmp"/>
+		<delete dir="${winDistroDir}/tmp"/>
 	</target>
 	
-	<target name="make-ga-distro" depends="make-server,make-client" description="creates ga distro">
+	<target name="build-ga-distro" depends="build-server,build-client,init-distro" description="creates ga distro">
 		<mkdir dir="${gaDistroDir}"/>
 		<jar destfile="${gaDistroDir}/biosim.jar">
 			<fileset dir="${serverClasses}"/>
@@ -149,7 +155,7 @@
 		</jar>
 	</target>
 	
-	<target name="make-docs" depends="make-server,make-client" description="creates BioSim API documentation">
+	<target name="build-api-docs" depends="build-server,build-client" description="creates BioSim API documentation">
 		<mkdir dir="${apiDir}"/>
 		<javadoc 
 			destdir="${apiDir}" 
@@ -181,12 +187,12 @@
 		</javadoc>
 	</target>
 	
-	<target name="make-manual" description="creates the user's manual">
+	<target name="build-manual" description="creates the user's manual">
 		<touch file="${manualDir}/users_manual.ind"/>
 		<exec executable="latex" dir="${manualDir}">
 			<arg line="${manualDir}/users_manual.tex"/>
 		</exec>
-		<exec executable="makeindex" dir="${manualDir}">
+		<exec executable="buildindex" dir="${manualDir}">
 			<arg line="${manualDir}/users_manual.idx"/>
 		</exec>
 		<exec executable="bibtex" dir="${manualDir}">
@@ -200,12 +206,12 @@
 			<arg line="${manualDir}/users_manual.ps"/>
 			<arg line="${manualDir}/users_manual.dvi"/>
 		</exec>
-		<exec executable="ps2pdf" dir="${manualDir}">
-			<arg line="users_manual.ps"/>
+		<exec executable="ps2pdf" dir="${doc}">
+			<arg line="${manualDir}/users_manual.ps"/>
 		</exec>
 	</target>
 	
-	<target name="run-nameserver" depends="init" description="runs the nameserver">
+	<target name="run-nameserver" depends="init-build" description="runs the nameserver">
 		<mkdir dir="${nsDir}"/>
 		<java classname="org.jacorb.naming.NameServer">
 			<sysproperty key="org.omg.CORBA.ORBClass" value="org.jacorb.orb.ORB"/>
@@ -270,10 +276,13 @@
 		</java>
 	</target>
   
-  	<target name="all" depends="make-docs" description="compile biosim">
+  	<target name="all" depends="build-docs, build-manual, build-ga-distro, build-distro" description="compile biosim, create docs">
+	</target>
+	
+	<target name="build" depends="build-server,build-client" description="compile biosim">
 	</target>
 
 	<target name="clean" description="clean up">
-		<delete dir="${generated}"/>
+		<delete dir="${buildDir}"/>
 	</target>
 </project>
