@@ -675,8 +675,8 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 
 		//Put some air in the crew cabin
 		SimEnvironment myCrewEnvironment = SimEnvironmentHelper.narrow(getBioModule(myCrewEnvironmentName));
-		//float environmentCapacity = 1.54893f * pow(10, 6);
-		float environmentCapacity = 1.54893f * pow(10, 10);
+		float environmentCapacity = 1.54893f * pow(10, 6);
+		//float environmentCapacity = 1.54893f * pow(10, 10);
 		myCrewEnvironment.setInitialVolumeAtSeaLevel(environmentCapacity);
 
 		//Put some air in the plant cabin
