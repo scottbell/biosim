@@ -18,8 +18,8 @@
 				<CO2Producer maxFlowRates="100" desiredFlowRates="100" outputs="CO2Store"/>
 				<H2Producer maxFlowRates="100" desiredFlowRates="100" outputs="H2Store"/>
 			</AirRS>
-			<O2Store name="O2Store" capacity="2000" level="1000"/>
-			<CO2Store name="CO2Store" capacity="2000" level="1000"/>
+			<O2Store name="O2Store" capacity="2000" level="500"/>
+			<CO2Store name="CO2Store" capacity="2000" level="500"/>
 			<H2Store name="H2Store" capacity="10000" level="9000"/>
 			<NitrogenStore name="NitrogenStore" capacity="5000" level="4000"/>
 		</air>
@@ -95,14 +95,15 @@
 				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="DirtyWaterStore"/>
 			</FoodProcessor>
 			<BiomassRS name="BiomassRS">
-				<shelf cropArea="20" cropType="WHEAT"/>
+				<shelf cropArea="5" cropType="WHEAT"/>
 				<shelf cropArea="5" cropType="WHITE_POTATO"/>
-				<shelf cropArea="20" cropType="RICE"/>
-				<shelf cropArea="10" cropType="TOMATO"/>
-				<shelf cropArea="10" cropType="SOYBEAN"/>
-				<shelf cropArea="10" cropType="DRY_BEAN"/>
-				<shelf cropArea="10" cropType="LETTUCE"/>
+				<shelf cropArea="5" cropType="RICE"/>
+				<shelf cropArea="5" cropType="TOMATO"/>
+				<shelf cropArea="5" cropType="SOYBEAN"/>
+				<shelf cropArea="5" cropType="DRY_BEAN"/>
+				<shelf cropArea="5" cropType="LETTUCE"/>
 				<shelf cropArea="5" cropType="SWEET_POTATO"/>
+				<shelf cropArea="5" cropType="PEANUT"/>
 				<powerConsumer maxFlowRates="400" desiredFlowRates="400" inputs="PowerStore"/>
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="GreyWaterStore"/>
@@ -120,7 +121,7 @@
 					<environmentInputs maxFlowRates="14063 14063" desiredFlowRates="10 10" inputs="PlantEnvironment CrewEnvironment"/>
 				</waterAirConsumer>
 				<waterAirProducer>
-					<storeOutputs  maxFlowRates="100" desiredFlowRates="10" outputs="PotableWaterStore"/>
+					<storeOutputs  maxFlowRates="1000" desiredFlowRates="10" outputs="PotableWaterStore"/>
 				</waterAirProducer>
 				<O2AirConsumer>
 					<environmentInputs maxFlowRates="14063" desiredFlowRates="10" inputs="PlantEnvironment"/>
@@ -161,7 +162,7 @@
 				<lightConsumer maxFlowRates="0" desiredFlowRates="0" inputs="CrewEnvironment"/>
 				<powerProducer maxFlowRates="10000" desiredFlowRates="10000" outputs="PowerStore"/>
 			</PowerPS>
-			<PowerStore name="PowerStore" capacity="10000" level="10000"/>
+			<PowerStore name="PowerStore" capacity="30000" level="10000"/>
 		</power>
 		<water>
 			<WaterRS name="WaterRS">
@@ -170,9 +171,9 @@
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="10" inputs="GreyWaterStore"/>
 				<potableWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="PotableWaterStore"/>
 			</WaterRS>
-			<PotableWaterStore name="PotableWaterStore" capacity="1000" level="1000"/>
-			<GreyWaterStore name="GreyWaterStore" capacity="1000" level="1000"/>
-			<DirtyWaterStore name="DirtyWaterStore" capacity="1000" level="500"/>
+			<PotableWaterStore name="PotableWaterStore" capacity="1000" level="500"/>
+			<GreyWaterStore name="GreyWaterStore" capacity="500" level="500"/>
+			<DirtyWaterStore name="DirtyWaterStore" capacity="500" level="250"/>
 		</water>
 		<waste>
 			<Incinerator name="Incinerator">
@@ -264,6 +265,7 @@
 			<HarvestSensor name="Shelf5HarvestSensor" shelfIndex="5" input="BiomassRS"/>
 			<HarvestSensor name="Shelf6HarvestSensor" shelfIndex="6" input="BiomassRS"/>
 			<HarvestSensor name="Shelf7HarvestSensor" shelfIndex="7" input="BiomassRS"/>
+			<HarvestSensor name="Shelf8HarvestSensor" shelfIndex="8" input="BiomassRS"/>
 			<PlantDeathSensor name="Shelf0PlantDeathSensor" shelfIndex="0" input="BiomassRS"/>
 			<PlantDeathSensor name="Shelf1PlantDeathSensor" shelfIndex="1" input="BiomassRS"/>
 			<PlantDeathSensor name="Shelf2PlantDeathSensor" shelfIndex="2" input="BiomassRS"/>
@@ -272,6 +274,8 @@
 			<PlantDeathSensor name="Shelf5PlantDeathSensor" shelfIndex="5" input="BiomassRS"/>
 			<PlantDeathSensor name="Shelf6PlantDeathSensor" shelfIndex="6" input="BiomassRS"/>
 			<PlantDeathSensor name="Shelf7PlantDeathSensor" shelfIndex="7" input="BiomassRS"/>
+			<PlantDeathSensor name="Shelf8PlantDeathSensor" shelfIndex="8" input="BiomassRS"/>
+
 		</food>
 		<framework>
 			<StoreOverflowSensor name="PowerStoreOverflowSensor" input="PowerStore"/>
@@ -362,6 +366,7 @@
 			<HarvestingActuator name="Shelf5HarvestingActuator" shelfIndex="5" output="BiomassRS"/>
 			<HarvestingActuator name="Shelf6HarvestingActuator" shelfIndex="6" output="BiomassRS"/>
 			<HarvestingActuator name="Shelf7HarvestingActuator" shelfIndex="7" output="BiomassRS"/>
+			<HarvestingActuator name="Shelf8HarvestingActuator" shelfIndex="7" output="BiomassRS"/>
 			<PlantingActuator name="Shelf0PlantingActuator" shelfIndex="0" output="BiomassRS"/>
 			<PlantingActuator name="Shelf1PlantingActuator" shelfIndex="1" output="BiomassRS"/>
 			<PlantingActuator name="Shelf2PlantingActuator" shelfIndex="2" output="BiomassRS"/>
@@ -370,6 +375,7 @@
 			<PlantingActuator name="Shelf5PlantingActuator" shelfIndex="5" output="BiomassRS"/>
 			<PlantingActuator name="Shelf6PlantingActuator" shelfIndex="6" output="BiomassRS"/>
 			<PlantingActuator name="Shelf7PlantingActuator" shelfIndex="7" output="BiomassRS"/>
+			<PlantingActuator name="Shelf8PlantingActuator" shelfIndex="7" output="BiomassRS"/>
 		</food>
 		<power>
 			<PowerInFlowRateActuator name="AirRSPowerInFlowRateActuator" index="0" output="AirRS"/>
