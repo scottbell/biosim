@@ -156,7 +156,7 @@ public class BiomassRSImpl extends BioModuleImpl implements BiomassRSOperations 
 			shelfLogs = new Vector();
 			for (int i = 0; i < myShelves.size(); i++){
 				ShelfImpl currentShelf = (ShelfImpl)(myShelves.get(i));
-				LogNode newShelfHead= myLog.addChild("Shelf "+i);
+				LogNode newShelfHead= myLog.addChild("Shelf");
 				shelfLogs.add(newShelfHead);
 				currentShelf.log(newShelfHead);
 			}

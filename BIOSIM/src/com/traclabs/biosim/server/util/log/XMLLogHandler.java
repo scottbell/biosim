@@ -106,7 +106,6 @@ public class XMLLogHandler implements LogHandler{
 			if (tagName.startsWith("tick")){
 				StringTokenizer st = new StringTokenizer(tagName);
 				String tickTagName = st.nextToken();
-				System.out.println("First token: "+tickTagName);
 				AttributesImpl tickAtts = new AttributesImpl();
 				tickAtts.addAttribute("","","number","CDATA", st.nextToken());
 				myHandler.startElement("","",tickTagName,tickAtts);
