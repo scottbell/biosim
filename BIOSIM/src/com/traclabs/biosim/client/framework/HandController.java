@@ -71,10 +71,10 @@ public class HandController{
  
 
 	// hand controller stuff;
-	int water = 1;
-	int gwater =1; 
-	int CO2 = 1;
-	int potable = 1;
+	int water = 0;
+	int gwater =0; 
+	int CO2 = 0;
+	int potable = 0;
 
 
 	StateMap ContinuousState; 
@@ -160,7 +160,7 @@ public class HandController{
 		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theO2OutFlowRateActuators, myAirRS));
 		currentActuator.setValue(10);
 		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theBiomassInFlowRateActuators, myFoodProcessor));
-		currentActuator.setValue(20);
+		currentActuator.setValue(100);
 		
 		// initialize everything to off
 		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theCO2InFlowRateActuators, myAirRS));
@@ -176,10 +176,10 @@ public class HandController{
 		
 
 		System.out.println("starting run...");
-		crewO2integral = 7f;
-		crewCO2integral = 1f;
-		plantO2integral = -1f;
-		plantCO2integral = 0.5f;
+		crewO2integral = 0f;
+		crewCO2integral = 0f;
+		plantO2integral = 0f;
+		plantCO2integral = 0f;
 		Runs ++;
 
 		
@@ -227,16 +227,16 @@ public class HandController{
 		// sets up the threshold map variable
 		int i;
 		Map subMap;
-		int DirtyWaterLowLevel = 100;
-		int DirtyWaterHighLevel = 400;
-		int GreyWaterLowLevel = 100;
-		int GreyWaterHighLevel = 400;
-		int PotableWaterLowLevel = 100;
-		int PotableWaterHighLevel = 400;
-		int O2StoreLowLevel = 200;
-		int O2StoreHighLevel = 800;
+		int DirtyWaterLowLevel = 200;
+		int DirtyWaterHighLevel = 800;
+		int GreyWaterLowLevel = 200;
+		int GreyWaterHighLevel = 800;
+		int PotableWaterLowLevel = 200;
+		int PotableWaterHighLevel = 800;
+		int O2StoreLowLevel = 400;
+		int O2StoreHighLevel = 1600;
 		int CO2StoreLowLevel = 200;
-		int CO2StoreHighLevel = 800;
+		int CO2StoreHighLevel = 950;
 		int H2StoreLowLevel = 1000;
 		int H2StoreHighLevel = 8000;
 
@@ -415,8 +415,8 @@ public class HandController{
 		currentActuator.setValue((float)(signal));
 
 		//plant O2 feedback control
-		plantO2p = -200f;
-		plantO2i = -0.2f;
+		plantO2p = -300f;
+		plantO2i = -2f;
 		levelSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theO2AirConcentrationSensors, myPlantEnvironment));
 		plantO2 = levelSensor.getValue();
 		delta = (float)(PlantO2Level - plantO2);
@@ -429,14 +429,14 @@ public class HandController{
 		currentActuator.setValue((float)(signal));
 
 		//plant CO2 feedback control
-		plantCO2p = 200f;
-		plantCO2i = 0.2f;
+		plantCO2p = 10000f;
+		plantCO2i = 5f;
 		levelSensor = (GenericSensor)(myBioHolder.getSensorAttachedTo(myBioHolder.theCO2AirConcentrationSensors, myPlantEnvironment));
 		plantCO2 = levelSensor.getValue();
 		delta = (float)(PlantCO2Level - plantCO2);
 		plantCO2integral += delta;
 		signal = delta*plantCO2p + plantCO2i*plantCO2integral;
-//		System.out.println("CO2 flow from tank to Plant environment: "+signal);
+		//System.out.println("CO2 flow from tank to Plant environment: "+signal);
 		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theCO2AirEnvironmentOutFlowRateActuators, myInjector));
 		currentActuator.setValue((float)(signal));
 		currentActuator = (GenericActuator)(myBioHolder.getActuatorAttachedTo(myBioHolder.theCO2AirStoreInFlowRateActuators, myInjector));
@@ -470,7 +470,7 @@ public class HandController{
 
 		
 		if (biomass == 0) turnon = false;
-		else if (food >= 2000) turnon = false;
+		else if (food >= 1800) turnon = false;
 		else turnon = true;
 
 		System.out.println("Food: "+food+" Biomass "+biomass+ "     Food Processor Power: "+turnon);
@@ -483,18 +483,25 @@ public class HandController{
 
 	private ActionMap handController(Map SimState) {
 		ActionMap myAction;
-		if (SimState.get("dirtywater") == "low" || SimState.get("potablewater") == "high") {
-			water = 0;
-		}
-		if (SimState.get("potablewater") == "low" || SimState.get("dirtywater") == "high") {
+		if (SimState.get("potablewater") == "low") {
 			water = 1;
 		}
-		if (SimState.get("greywater") == "low" || SimState.get("potablewater") == "high") {
-			gwater = 0;
+		else if (SimState.get("dirtywater") == "high" && SimState.get("potablewater") != "high") {
+			water = 1;
 		}
-		if (SimState.get("potablewater") == "low" || SimState.get("greywater") == "high") {
+		else { 
+			water = 0;
+		}
+		if (SimState.get("potablewater") == "low" && SimState.get("greywater") != "low") {
 			gwater = 1;
 		}
+		else if (SimState.get("greywater") == "high" && SimState.get("potablewater") != "high") {
+			gwater = 1;
+		}
+		else { 
+			gwater = 0;
+		}
+		
 		if (SimState.get("carbondioxide") == "low") {
 			CO2 = 0;
 		}
@@ -515,7 +522,7 @@ public class HandController{
 			CO2 = 1;
 		}
 		
-//		System.out.println("CRS: "+CO2+" OGS: "+potable+" Dirty Water: "+water+" Grey Water: "+gwater);
+		System.out.println("CRS: "+CO2+" OGS: "+potable+" Dirty Water: "+water+" Grey Water: "+gwater);
 		myAction = new ActionMap(new int[] {CO2, potable, water, gwater});
 		return myAction;
 
@@ -538,9 +545,11 @@ public class HandController{
 		
 		
 		for (i=0;i<num;i++) { 
-			currentSensor = (GenericSensor)myBioHolder.getShelfSensorAttachedTo(myBioHolder.theHarvestSensors, myBiomassRS, i); 
-			currentActuator = (PlantingActuator)myBioHolder.getShelfActuatorAttachedTo(myBioHolder.thePlantingActuators, myBiomassRS, i); 
-
+//			currentSensor = (GenericSensor)myBioHolder.getShelfSensorAttachedTo(myBioHolder.theHarvestSensors, myBiomassRS, i); 
+//			currentActuator = (PlantingActuator)myBioHolder.getShelfActuatorAttachedTo(myBioHolder.thePlantingActuators, myBiomassRS, i);
+ 			currentSensor = (HarvestSensor)myBioHolder.theHarvestSensors.get(i); 
+			currentActuator = (PlantingActuator)myBioHolder.thePlantingActuators.get(i); 
+			
 			if (currentSensor.getValue() == 1f) { 
 				System.out.println(" Harvest Sensor "+currentSensor.getValue());
 				myBiomassRS.getShelf(i).harvest(); 
@@ -548,6 +557,7 @@ public class HandController{
 	//			System.out.println("Planting "+cropacres+" m^2."+((Shelf)myBiomassRS.getShelf(i)).getTypeString()); 
 				currentActuator.setPlantType(myBiomassRS.getShelf(i).getCropType());
 				currentActuator.setValue(cropacres);	
+				plantCO2integral = 0;
 			}
 		}
 	}
