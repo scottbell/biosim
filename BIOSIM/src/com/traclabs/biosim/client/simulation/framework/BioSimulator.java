@@ -46,9 +46,59 @@ public class BioSimulator implements Runnable
 	public void run(){
 		initializeORB();
 		collectReferences();
+		initializeSimulation();
+		runSimulation(100);
+	}
+	
+	private void initializeSimulation(){
+		//Make some crew members
 		CrewGroup myCrew = (CrewGroup)(getBioModule(crewName));
-		CrewPerson myCrewPerson = CrewPersonHelper.narrow(myCrew.createCrewPerson("Bob Roberts"));
-		for (int i = 0; i < 1000; i ++){
+		CrewPerson myCrewPerson1 = CrewPersonHelper.narrow(myCrew.createCrewPerson("Bob Roberts"));
+		CrewPerson myCrewPerson2 = CrewPersonHelper.narrow(myCrew.createCrewPerson("Steve Stevens"));
+		CrewPerson myCrewPerson3 = CrewPersonHelper.narrow(myCrew.createCrewPerson("Bill Williams"));
+		
+		//Fill the clean water stores to the brim (20 liters), and all stores' capacities
+		DirtyWaterStore myDirtyWaterStore = (DirtyWaterStore)(getBioModule(dirtyWaterStoreName));
+		PotableWaterStore myPotableWaterStore = (PotableWaterStore)(getBioModule(potableWaterStoreName));
+		GreyWaterStore myGreyWaterStore = (GreyWaterStore)(getBioModule(greyWaterStoreName));
+		myDirtyWaterStore.setWaterCapacity(20f);
+		myPotableWaterStore.setWaterCapacity(20f);
+		myGreyWaterStore.setWaterCapacity(20f);
+		myPotableWaterStore.setWaterLevel(20f);
+		myGreyWaterStore.setWaterLevel(0f);
+		myDirtyWaterStore.setWaterLevel(0f);
+		
+		//Fill the air tanks
+		CO2Store myCO2Store = (CO2Store)(getBioModule(co2StoreName));
+		O2Store myO2Store = (O2Store)(getBioModule(o2StoreName));
+		myCO2Store.setCO2Capacity(30f);
+		myO2Store.setO2Capacity(30f);
+		myCO2Store.setCO2Level(30f);
+		myO2Store.setO2Level(30f);
+		
+		//Put some air in the cabin
+		SimEnvironment mySimEnvironment = (SimEnvironment)(getBioModule(simEnvironmentName));
+		mySimEnvironment.setCO2Capacity(10f);
+		mySimEnvironment.setO2Capacity(10f);
+		mySimEnvironment.setCO2Level(10f);
+		mySimEnvironment.setO2Level(10f);
+		
+		//Add some crops and food
+		BiomassStore myBiomassStore = (BiomassStore)(getBioModule(biomassStoreName));
+		FoodStore myFoodStore = (FoodStore)(getBioModule(foodStoreName));
+		myBiomassStore.setBiomassCapacity(100f);
+		myFoodStore.setFoodCapacity(50f);
+		myBiomassStore.setBiomassLevel(100f);
+		myFoodStore.setFoodLevel(50f);
+		
+		//Add some juice
+		PowerStore myPowerStore = (PowerStore)(getBioModule(powerStoreName));
+		myPowerStore.setPowerCapacity(300f);
+		myPowerStore.setPowerLevel(300f);
+	}
+	
+	private void runSimulation(int numTicks){
+		for (int i = 0; i < numTicks; i ++){
 			tick();
 		}
 	}
