@@ -41,8 +41,8 @@ public class CrewAirChartPanel extends GraphPanel
 		Renderer renderer = myPlot.getRenderer();
 		renderer.setSeriesPaint(0, Color.BLUE);
 		renderer.setSeriesPaint(1, Color.GREEN);
-		//TextTitle myTextTitle = (TextTitle)(myChart.getTitle(0));
-		//myTextTitle.setFont(myTextTitle.getFont().deriveFont(12.0f));
+		TextTitle myTextTitle = (TextTitle)(myChart.getTitle());
+		myTextTitle.setFont(myTextTitle.getFont().deriveFont(13.0f));
 		myChartPanel = new ChartPanel(myChart);
 		myChartPanel.setMinimumDrawHeight(250);
 		myChartPanel.setMinimumDrawWidth(250);

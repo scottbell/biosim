@@ -35,8 +35,8 @@ public class EnvironmentPieChartPanel extends GraphPanel
 		myPlot = (Pie3DPlot)(myChart.getPlot());
 		myPlot.setDepthFactor(0.1d);
 		initDataset();
-		//TextTitle myTextTitle = (TextTitle)(myChart.getTitle(0));
-		//myTextTitle.setFont(myTextTitle.getFont().deriveFont(12.0f));
+		TextTitle myTextTitle = (TextTitle)(myChart.getTitle());
+		myTextTitle.setFont(myTextTitle.getFont().deriveFont(13.0f));
 		myChartPanel = new ChartPanel(myChart);
 		myChartPanel.setMinimumDrawHeight(250);
 		myChartPanel.setMinimumDrawWidth(250);

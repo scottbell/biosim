@@ -40,8 +40,8 @@ public class CrewFoodChartPanel extends GraphPanel
 		rangeAxis.setRange(0.0, .5);
 		Renderer renderer = myPlot.getRenderer();
 		renderer.setSeriesPaint(0, new Color(10,204,102));
-		//TextTitle myTextTitle = (TextTitle)(myChart.getTitle(0));
-		//myTextTitle.setFont(myTextTitle.getFont().deriveFont(12.0f));
+		TextTitle myTextTitle = (TextTitle)(myChart.getTitle());
+		myTextTitle.setFont(myTextTitle.getFont().deriveFont(13.0f));
 		myChartPanel = new ChartPanel(myChart);
 		myChartPanel.setMinimumDrawHeight(250);
 		myChartPanel.setMinimumDrawWidth(250);

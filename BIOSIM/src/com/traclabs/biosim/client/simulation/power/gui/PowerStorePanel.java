@@ -42,8 +42,8 @@ public class PowerStorePanel extends GraphPanel
 		rangeAxis.setRange(0.0, myPowerStore.getCapacity());
 		Renderer renderer = myPlot.getRenderer();
 		renderer.setSeriesPaint(0, Color.ORANGE);
-		//TextTitle myTextTitle = (TextTitle)(myChart.getTitle(0));
-		//myTextTitle.setFont(myTextTitle.getFont().deriveFont(12.0f));
+		TextTitle myTextTitle = (TextTitle)(myChart.getTitle());
+		myTextTitle.setFont(myTextTitle.getFont().deriveFont(13.0f));
 		myChartPanel = new ChartPanel(myChart);
 		myChartPanel.setMinimumDrawHeight(200);
 		myChartPanel.setMinimumDrawWidth(230);
