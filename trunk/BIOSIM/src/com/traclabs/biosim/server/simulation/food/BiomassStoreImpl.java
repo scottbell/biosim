@@ -63,15 +63,16 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 		float collectedMass = 0f;
 		for (Iterator iter = currentBiomassItems.iterator(); iter.hasNext() &&  (collectedMass <= pMass);){
 			BioMatter currentBioMatter = (BioMatter)(iter.next());
+			float massStillNeeded = pMass - collectedMass;
 			//we need to get more bio matter
-			if (currentBioMatter.mass < (pMass - collectedMass)){
+			if (currentBioMatter.mass < massStillNeeded){
 				itemsToReturn.add(currentBioMatter);
 				itemsToRemove.add(currentBioMatter);
 				collectedMass += currentBioMatter.mass;
 			}
 			//we have enough, let's cut up the biomass (if too much)
-			else if (currentBioMatter.mass >= (pMass - collectedMass)){
-				BioMatter partialReturnedBioMatter = new BioMatter(pMass - collectedMass, currentBioMatter.type);
+			else if (currentBioMatter.mass >= massStillNeeded){
+				BioMatter partialReturnedBioMatter = new BioMatter(massStillNeeded, currentBioMatter.type);
 				currentBioMatter.mass -= partialReturnedBioMatter.mass;
 				itemsToReturn.add(partialReturnedBioMatter);
 				if (currentBioMatter.mass <= 0)
@@ -99,14 +100,15 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 		for (Iterator iter = currentBiomassItems.iterator(); iter.hasNext() &&  (matterToReturn.mass <= pMass);){
 			BioMatter currentBioMatter = (BioMatter)(iter.next());
 			if (currentBioMatter.type == pType){
+				float massStillNeeded = pMass - matterToReturn.mass;
 				//we need to get more bio matter
-				if (currentBioMatter.mass < (pMass - matterToReturn.mass)){
+				if (currentBioMatter.mass < massStillNeeded){
 					matterToReturn.mass += currentBioMatter.mass;
 					itemsToRemove.add(currentBioMatter);
 				}
 				//we have enough, let's cut up the biomass (if too much)
-				else if (currentBioMatter.mass >= (pMass - matterToReturn.mass)){
-					float partialMassToReturn = (pMass - matterToReturn.mass);
+				else if (currentBioMatter.mass >= massStillNeeded){
+					float partialMassToReturn = massStillNeeded;
 					currentBioMatter.mass -= partialMassToReturn;
 					matterToReturn.mass += partialMassToReturn;
 					if (currentBioMatter.mass <= 0)

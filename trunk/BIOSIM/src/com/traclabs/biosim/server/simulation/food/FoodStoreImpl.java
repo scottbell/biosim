@@ -71,20 +71,63 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 		float collectedMass = 0f;
 		for (Iterator iter = currentFoodItems.iterator(); iter.hasNext() &&  (collectedMass <= pMass);){
 			FoodMatter currentFoodMatter = (FoodMatter)(iter.next());
+			float massStillNeeded = pMass - collectedMass;
 			//we need to get more bio matter
-			if (currentFoodMatter.mass < (pMass - collectedMass)){
+			if (currentFoodMatter.mass < massStillNeeded){
 				itemsToReturn.add(currentFoodMatter);
 				itemsToRemove.add(currentFoodMatter);
 				collectedMass += currentFoodMatter.mass;
 			}
 			//we have enough, let's cut up the biomass (if too much)
-			else if (currentFoodMatter.mass >= (pMass - collectedMass)){
-				FoodMatter partialReturnedFoodMatter = new FoodMatter(pMass - collectedMass, currentFoodMatter.type);
+			else if (currentFoodMatter.mass >= massStillNeeded){
+				FoodMatter partialReturnedFoodMatter = new FoodMatter(massStillNeeded, currentFoodMatter.type);
 				currentFoodMatter.mass -= partialReturnedFoodMatter.mass;
 				itemsToReturn.add(partialReturnedFoodMatter);
 				if (currentFoodMatter.mass <= 0)
 					itemsToRemove.add(currentFoodMatter);
 				collectedMass += partialReturnedFoodMatter.mass;
+			}
+		}
+		//Remove items from List
+		for (Iterator iter = itemsToRemove.iterator(); iter.hasNext();){
+			currentFoodItems.remove(iter.next());
+		}
+		level -= collectedMass;
+		//return the array
+		FoodMatter[] returnArrayType = new FoodMatter[0];
+		return (FoodMatter[])(itemsToReturn.toArray(returnArrayType));
+	}
+	
+	private float calculateCalories(FoodMatter pFood){
+		return 0f;
+	}
+	
+	public FoodMatter[] takeFoodMatterCalories(float pCalories){
+		List itemsToReturn = new Vector();
+		List itemsToRemove = new Vector();
+		float collectedCalories = 0f;
+		float collectedMass = 0f;
+		for (Iterator iter = currentFoodItems.iterator(); iter.hasNext() &&  (collectedCalories <= pCalories);){
+			FoodMatter currentFoodMatter = (FoodMatter)(iter.next());
+			float currentCalories = calculateCalories(currentFoodMatter);
+			float caloriesStillNeeded = pCalories - collectedCalories;
+			//we need to get more bio matter
+			if (currentCalories < caloriesStillNeeded){
+				itemsToReturn.add(currentFoodMatter);
+				itemsToRemove.add(currentFoodMatter);
+				collectedCalories += currentCalories;
+				collectedMass += currentFoodMatter.mass;
+			}
+			//we have enough, let's cut up the biomass (if too much)
+			else if (currentCalories >= caloriesStillNeeded){
+				float fractionOfMassToReturn = caloriesStillNeeded / pCalories;
+				FoodMatter partialReturnedFoodMatter = new FoodMatter(currentFoodMatter.mass * fractionOfMassToReturn, currentFoodMatter.type);
+				currentFoodMatter.mass -= partialReturnedFoodMatter.mass;
+				itemsToReturn.add(partialReturnedFoodMatter);
+				if (currentFoodMatter.mass <= 0)
+					itemsToRemove.add(currentFoodMatter);
+				collectedMass += partialReturnedFoodMatter.mass;
+				collectedCalories = pCalories;
 			}
 		}
 		//Remove items from List
@@ -103,14 +146,15 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations{
 		for (Iterator iter = currentFoodItems.iterator(); iter.hasNext() &&  (matterToReturn.mass <= pMass);){
 			FoodMatter currentFoodMatter = (FoodMatter)(iter.next());
 			if (currentFoodMatter.type == pType){
+				float massStillNeeded = pMass - matterToReturn.mass;
 				//we need to get more bio matter
-				if (currentFoodMatter.mass < (pMass - matterToReturn.mass)){
+				if (currentFoodMatter.mass < massStillNeeded){
 					matterToReturn.mass += currentFoodMatter.mass;
 					itemsToRemove.add(currentFoodMatter);
 				}
 				//we have enough, let's cut up the biomass (if too much)
-				else if (currentFoodMatter.mass >= (pMass - matterToReturn.mass)){
-					float partialMassToReturn = (pMass - matterToReturn.mass);
+				else if (currentFoodMatter.mass >= massStillNeeded){
+					float partialMassToReturn = massStillNeeded;
 					currentFoodMatter.mass -= partialMassToReturn;
 					matterToReturn.mass += partialMassToReturn;
 					if (currentFoodMatter.mass <= 0)
