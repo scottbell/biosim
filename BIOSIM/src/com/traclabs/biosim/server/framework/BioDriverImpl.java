@@ -349,6 +349,7 @@ public class BioDriverImpl extends BioDriverPOA{
 	*/
 	public void reset(){
 		System.out.println("BioDriverImpl:"+myID+" Resetting simulation");
+		ticksGoneBy = 0;
 		for (int i = 0; i < modules.length; i++){
 			BioModule currentBioModule = (BioModule)(modules[i]);
 			currentBioModule.reset();

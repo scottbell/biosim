@@ -22,7 +22,6 @@ public class Schedule{
 	*/
 	public Schedule(){
 		createDefaultActivites();
-		reset();
 	}
 	
 	private void createDefaultActivites(){
@@ -35,6 +34,10 @@ public class Schedule{
 			myBornActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(bornActivityImpl));
 			myDeadActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(deadActivityImpl));
 			mySickActivity = ActivityHelper.narrow(OrbUtils.poaToCorbaObj(sickActivityImpl));
+			allActivities.put("born", myBornActivity);
+			orderedSchedule.add(0, myBornActivity);
+			allActivities.put("dead", myDeadActivity);
+			allActivities.put("sick", mySickActivity);
 		}
 	}
 	
@@ -72,16 +75,16 @@ public class Schedule{
 		return orderedSchedule.size();
 	}
 	
+	public void insertActivityInSchedule(Activity pActivity){
+		if (!allActivities.containsKey(pActivity.getName()))
+			allActivities.put(pActivity.getName(), pActivity);
+		orderedSchedule.add(pActivity);
+	}
+	
 	public void insertActivityInSchedule(Activity pActivity, int pOrder){
 		if (!allActivities.containsKey(pActivity.getName()))
 			allActivities.put(pActivity.getName(), pActivity);
 		orderedSchedule.add(pOrder, pActivity);
-	}
-
-	/**
-	* Reloads the schedule from the file and parses it again.
-	*/
-	public void reset(){
 	}
 
 }

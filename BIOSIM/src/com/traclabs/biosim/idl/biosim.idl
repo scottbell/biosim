@@ -541,7 +541,6 @@ module biosim{
                                         CrewPerson createCrewPerson(in string name, in float age, in float weight, in Sex pSex);
                                         CrewPersonList getCrewPeople();
                                         void scheduleRepair(in string moduleName, in long long malfunctionID, in long timeLength);
-                                        void setSchedule(in ScheduleType pType);
 					long getCrewSize();
                                         float getGreyWaterProduced();
                                         float getDirtyWaterProduced();
