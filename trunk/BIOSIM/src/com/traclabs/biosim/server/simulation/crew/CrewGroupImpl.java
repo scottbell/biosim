@@ -20,7 +20,7 @@ public class CrewGroupImpl extends CrewGroupPOA {
 		mySchedule = new Schedule(pScheduleFile);
 		crewPeople = new Hashtable();
 	}
-	
+
 	public String getModuleName(){
 		return "CrewGroup";
 	}
@@ -50,17 +50,20 @@ public class CrewGroupImpl extends CrewGroupPOA {
 			return null;
 		}
 	}
-	
+
 	public org.omg.CORBA.Object getCrewPerson(String crewPersonName){
 		CrewPersonImpl foundPerson = (CrewPersonImpl)(crewPeople.get(crewPersonName));
 		return (BioSimUtilsImpl.poaToCorbaObj(foundPerson));
 	}
 
 	public void tick(){
-		processState();
-		System.out.println("CrewGroup has been ticked!");
+		processTick();
 	}
-	
-	private void processState(){
+
+	private void processTick(){
+		for (Enumeration e = crewPeople.elements(); e.hasMoreElements(); ){
+			CrewPersonImpl tempPerson = (CrewPersonImpl)(e.nextElement());
+			tempPerson.processTick();
+		}
 	}
 }

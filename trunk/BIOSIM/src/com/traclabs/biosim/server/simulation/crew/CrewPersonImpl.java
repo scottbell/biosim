@@ -24,7 +24,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	}
 
 	public String toString(){
-		return (myName + " performing activity " +myCurrentActivity.getName() + 
-				" for " + myCurrentActivity .getTimeLength() + " hours");
+		return (myName + " performing activity " +myCurrentActivity.getName() +
+		        " for " + myCurrentActivity .getTimeLength() + " hours");
+	}
+
+	public void processTick(){
 	}
 }
