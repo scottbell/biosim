@@ -1,4 +1,4 @@
-package biosim.server.sensor.framework;
+package biosim.server.sensor.air;
 
 import biosim.server.framework.*;
 import biosim.idl.sensor.framework.*;
