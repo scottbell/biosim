@@ -55,6 +55,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	private boolean simulationIsPaused = false;
 	//Flag to see whether the BioDriverImpl is started at all
 	private boolean simulationStarted = false;
+	private boolean createdCrew = false;
 	//Flag to see if user wants to use default intialization (i.e., fill tanks with x amount gas, generate crew memebers, etc)
 	private BioDriverInit initializationToUse = BioDriverInit.DEFAULT_INIT;
 	private boolean runTillDead = false;
@@ -185,20 +186,17 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		//Make some crew members
 		CrewGroup myCrew = (CrewGroup)(getBioModule(crewName));
 		myCrew.setStochasticIntensity(StochasticIntensity.MEDIUM_STOCH);
-		CrewPerson myCrewPerson1 = myCrew.createCrewPerson("Bob Roberts", 43, 170, Sex.male);
-		CrewPerson myCrewPerson2 = myCrew.createCrewPerson("Stephanie Stevens", 25, 125, Sex.female);
-		CrewPerson myCrewPerson3 = myCrew.createCrewPerson("Bill Williams", 30, 165, Sex.male);
-		CrewPerson myCrewPerson4 = myCrew.createCrewPerson("Janet Janey", 22, 130, Sex.female);
-		//CrewPerson myCrewPerson5 = myCrew.createCrewPerson("Sarah Sanchez", 44, 135, Sex.female);
-		//CrewPerson myCrewPerson6 = myCrew.createCrewPerson("Marvin Metsky", 33, 145, Sex.male);
-
+		if (!createdCrew){
+			CrewPerson myCrewPerson1 = myCrew.createCrewPerson("Bob Roberts", 43, 170, Sex.male);
+			CrewPerson myCrewPerson2 = myCrew.createCrewPerson("Stephanie Stevens", 25, 125, Sex.female);
+			CrewPerson myCrewPerson3 = myCrew.createCrewPerson("Bill Williams", 30, 165, Sex.male);
+			CrewPerson myCrewPerson4 = myCrew.createCrewPerson("Janet Janey", 22, 130, Sex.female);
+			createdCrew = true;
+		}
 		//stagger actvities
-		myCrewPerson1.setCurrentActivity(myCrewPerson1.getScheduledActivityByOrder(0));
-		myCrewPerson2.setCurrentActivity(myCrewPerson2.getScheduledActivityByOrder(1));
-		myCrewPerson3.setCurrentActivity(myCrewPerson3.getScheduledActivityByOrder(2));
-		myCrewPerson4.setCurrentActivity(myCrewPerson4.getScheduledActivityByOrder(3));
-		//myCrewPerson5.setCurrentActivity(myCrew.getScheduledActivityByOrder(4));
-		//myCrewPerson6.setCurrentActivity(myCrew.getScheduledActivityByOrder(5));
+		CrewPerson[] myCrewPeople = myCrew.getCrewPeople();
+		for (int i = 0; i < myCrewPeople.length; i++)
+			myCrewPeople[i].setCurrentActivity(myCrewPeople[i].getScheduledActivityByOrder(i));
 
 		//Fill the clean water stores to the brim (20 liters), and all stores' capacities
 		DirtyWaterStore myDirtyWaterStore = (DirtyWaterStore)(getBioModule(dirtyWaterStoreName));
@@ -252,7 +250,10 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 
 		//Make some crew members
 		CrewGroup myCrew = (CrewGroup)(getBioModule(crewName));
-		CrewPerson myCrewPerson1 = myCrew.createCrewPerson("Alice Optimal", 50, 80, Sex.female);
+		if (!createdCrew){
+			CrewPerson myCrewPerson1 = myCrew.createCrewPerson("Alice Optimal", 50, 80, Sex.female);
+			createdCrew = true;
+		}
 
 		//Fill the clean water stores to the brim (20 liters), and all stores' capacities
 		DirtyWaterStore myDirtyWaterStore = (DirtyWaterStore)(getBioModule(dirtyWaterStoreName));

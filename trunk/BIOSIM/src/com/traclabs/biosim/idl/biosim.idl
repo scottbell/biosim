@@ -129,7 +129,7 @@ module biosim{
                                 float getFoodConsumed();
                                 float getCO2Produced();
                                 float getO2Consumed();
-				Activity getScheduledActivityByName(in string name);
+				Activity getActivityByName(in string name);
                                 Activity getScheduledActivityByOrder(in long order);
                         };
                         interface CrewGroup : framework::BioModule{

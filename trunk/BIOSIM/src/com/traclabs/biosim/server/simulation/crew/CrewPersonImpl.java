@@ -78,7 +78,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 	private int myMissionProductivity = 0;
 	private Schedule mySchedule;
 	private CrewGroupImpl myCrewGroup;
-	
+
 	public final static String powerPSName = "PowerPS";
 	public final static String powerStoreName = "PowerStore";
 	public final static String airRSName = "AirRS";
@@ -111,6 +111,34 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		myCrewGroup = pCrewGroup;
 		mySchedule = new Schedule();
 		myCurrentActivity = mySchedule.getScheduledActivityByOrder(currentOrder);
+	}
+
+	protected void reset(){
+		airRetrieved = new Breath(0f, 0f, 0f);
+		mySchedule = new Schedule();
+		myMissionProductivity = 0;
+		currentOrder = 0;
+		myCurrentActivity = mySchedule.getScheduledActivityByOrder(currentOrder);
+		timeActivityPerformed = 0;
+		starvingTime = 0;
+		thirstTime = 0;
+		suffocateTime = 0;
+		poisonTime = 0;
+		isSick = false;
+		personStarving = false;
+		personThirsty = false;
+		personSuffocating = false;
+		personPoisoned = false;
+		hasDied = false;
+		O2Consumed= 0f;
+		CO2Produced = 0f;
+		foodConsumed = 0f;
+		cleanWaterConsumed = 0f;
+		dirtyWaterProduced = 0f;
+		greyWaterProduced = 0f;
+		O2Needed = 0f;
+		cleanWaterNeeded = 0f;
+		foodNeeded = 0f;
 	}
 
 	/**
@@ -254,13 +282,13 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		myCurrentActivity = pActivity;
 		currentOrder = mySchedule.getOrderOfScheduledActivity(myCurrentActivity.getName());
 	}
-	
+
 	/**
 	* Returns a scheduled activity by name (like "sleeping")
 	* @param name the name of the activity to fetch
 	* @return the activity in the schedule asked for by name
 	*/
-	public Activity getScheduledActivityByName(String name){
+	public Activity getActivityByName(String name){
 		return mySchedule.getActivityByName(name);
 	}
 
@@ -302,7 +330,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			if (myModules == null)
 				myModules = new Hashtable();
 			int myID = myCrewGroup.getID();
-			System.out.println("BioHolder: Collecting references to myModules...");
 			PowerPS myPowerPS = PowerPSHelper.narrow(OrbUtils.getNCRef().resolve_str(powerPSName+myID));
 			myModules.put(powerPSName , myPowerPS);
 			PowerStore myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str(powerStoreName+myID));
@@ -359,7 +386,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			timeActivityPerformed = 0;
 		}
 	}
-	
+
 	private void checkForMeaningfulActivity(){
 		if (myCurrentActivity.getName().equals("Mission")){
 			addProductivity();
@@ -379,16 +406,16 @@ public class CrewPersonImpl extends CrewPersonPOA {
 			}
 		}
 	}
-	
+
 	private void addProductivity(){
 	}
-	
+
 	private void repairModule(String moduleName){
 	}
-	
+
 	private void maitenanceModule(String moduleName){
 	}
-	
+
 	private BioModule getBioModule(String moduleName){
 		return null;
 	}
