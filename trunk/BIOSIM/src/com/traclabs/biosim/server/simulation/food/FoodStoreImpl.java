@@ -27,11 +27,9 @@ public class FoodStoreImpl extends FoodStorePOA {
 
 	float addFood(float kilograms){
 		if ((kilograms +foodLevel) > foodCapacity){
+			float returnValue = (foodCapacity - foodLevel);
 			foodLevel = foodCapacity;
-			if (kilograms >=  foodCapacity)
-				return 0;
-			else
-				return (foodCapacity - foodLevel);
+			return returnValue;
 		}
 		else{
 			foodLevel = foodLevel + kilograms;

@@ -27,11 +27,9 @@ public class PowerStoreImpl extends PowerStorePOA {
 
 	float addPower(float watts){
 		if ((watts +powerLevel) > powerCapacity){
+			float returnValue = (powerCapacity - powerLevel);
 			powerLevel = powerCapacity;
-			if (watts >=  powerCapacity)
-				return 0;
-			else
-				return (powerCapacity - powerLevel);
+			return returnValue;
 		}
 		else{
 			powerLevel = powerLevel + watts;

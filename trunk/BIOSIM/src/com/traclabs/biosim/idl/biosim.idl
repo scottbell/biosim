@@ -19,7 +19,7 @@ module ALSS{
 
 	//Object representing the crew
 	interface Crew : BioModule{
-		Activity getScheduledActivityByName(in string name);
+		Object getScheduledActivityByName(in string name);
 		Activity getScheduledActivityByOrder(in long order);
 		CrewPerson getCrewPerson(in string name);
 		CrewPerson createCrewPerson(in string name);

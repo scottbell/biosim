@@ -27,11 +27,9 @@ public class DirtyWaterStoreImpl extends DirtyWaterStorePOA {
 
 	float addWater(float liters){
 		if ((liters +dirtyWaterLevel) > dirtyWaterCapacity){
+			float returnValue = (dirtyWaterCapacity - dirtyWaterLevel);
 			dirtyWaterLevel = dirtyWaterCapacity;
-			if (liters >=  dirtyWaterCapacity)
-				return 0;
-			else
-				return (dirtyWaterCapacity - dirtyWaterLevel);
+			return returnValue;
 		}
 		else{
 			dirtyWaterLevel = dirtyWaterLevel + liters;

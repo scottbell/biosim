@@ -27,11 +27,9 @@ public class PotableWaterStoreImpl extends PotableWaterStorePOA {
 
 	float addWater(float liters){
 		if ((liters +potableWaterLevel) > potableWaterCapacity){
+			float returnValue = (potableWaterCapacity - potableWaterLevel);
 			potableWaterLevel = potableWaterCapacity;
-			if (liters >=  potableWaterCapacity)
-				return 0;
-			else
-				return (potableWaterCapacity - potableWaterLevel);
+			return returnValue;
 		}
 		else{
 			potableWaterLevel = potableWaterLevel + liters;

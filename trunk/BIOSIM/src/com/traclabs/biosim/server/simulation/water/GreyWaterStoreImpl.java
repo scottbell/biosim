@@ -27,11 +27,9 @@ public class GreyWaterStoreImpl extends GreyWaterStorePOA {
 
 	float addWater(float liters){
 		if ((liters +greyWaterLevel) > greyWaterCapacity){
+			float returnValue = (greyWaterCapacity - greyWaterLevel);
 			greyWaterLevel = greyWaterCapacity;
-			if (liters >=  greyWaterCapacity)
-				return 0;
-			else
-				return (greyWaterCapacity - greyWaterLevel);
+			return returnValue;
 		}
 		else{
 			greyWaterLevel = greyWaterLevel + liters;

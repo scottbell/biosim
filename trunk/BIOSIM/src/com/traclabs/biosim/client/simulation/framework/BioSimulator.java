@@ -45,10 +45,13 @@ public class BioSimulator implements Runnable
 		float actuallyAdded = myDirtyWater.addWater(2f);
 		System.out.println("Actually added "+actuallyAdded+" liters of dirty water");
 		System.out.println("Dirty water levels at: "+myDirtyWater.getWaterLevel());
+		System.out.println("Trying to add "+12f+" liters of dirty water");
+		actuallyAdded = myDirtyWater.addWater(12f);
+		System.out.println("Actually added "+actuallyAdded+" liters of dirty water");
+		System.out.println("Dirty water levels at: "+myDirtyWater.getWaterLevel());
 		Crew myCrew = (Crew)(getBioModule("Crew"));
-		Activity sleeping = myCrew.getScheduledActivityByName("sleeping");
-
-		
+		Activity sleeping = ActivityHelper.narrow(myCrew.getScheduledActivityByName("sleeping"));
+		System.out.println("This activity is: "+sleeping.getName()+" for "+sleeping.getTimeLength());
 		for (int i = 0; i < 10; i ++){
 			tick();
 		}
