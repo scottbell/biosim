@@ -297,7 +297,7 @@ public abstract class PlantImpl extends PlantPOA{
 		//System.out.println("PlantImpl: myCurrentEdibleDryBiomass: "+myCurrentEdibleDryBiomass);
 
 		//Water In
-		myWaterNeeded = calculateWaterUptake() * myShelfImpl.getCropAreaUsed() / 24f;
+		myWaterNeeded = calculateWaterUptake() / 24f;
 		myWaterLevel = myShelfImpl.takeWater(myWaterNeeded);
 		consumedWaterBuffer.add(myWaterLevel);
 		//System.out.println("PlantImpl: myWaterNeeded: "+myWaterNeeded);
@@ -348,7 +348,6 @@ public abstract class PlantImpl extends PlantPOA{
 	}
 
 	//in g/meters^2*day
-	//in g/meters^2*hour
 	private float calculateDailyCarbonGain(){
 		float photoperiod = getPhotoperiod();
 		float PPFFractionAbsorbed = calculatePPFFractionAbsorbed();
@@ -360,9 +359,10 @@ public abstract class PlantImpl extends PlantPOA{
 		//System.out.println("PlantImpl: PPF: "+PPF);
 		return (0.0036f * photoperiod * carbonUseEfficiency24 * PPFFractionAbsorbed * CQY * PPF);
 	}
-
+	
+	//in liters/day
 	private float calculateWaterUptake(){
-		float dailyCanopyTranspirationRate = calculateDailyCanopyTranspirationRate();
+		float dailyCanopyTranspirationRate = calculateDailyCanopyTranspirationRate() * myShelfImpl.getCropAreaUsed();
 		float wetIncoporatedWaterUptake = calculateWetIncoporatedWaterUptake();
 		float dryIncoporatedWaterUptake = calculateDryIncoporatedWaterUptake(dailyCanopyTranspirationRate, wetIncoporatedWaterUptake);
 		//System.out.println("PlantImpl: dailyCanopyTranspirationRate: "+dailyCanopyTranspirationRate);
