@@ -21,6 +21,7 @@ public class MalfunctionPanel extends TimedPanel
 	private JPanel myModulePanel;
 	private JPanel myOperatorPanel;
 	private JPanel myCurrentMalfunctionsPanel;
+	private ImageIcon myIcon;
 	/**
 	 * Default constructor.
 	 */
@@ -161,6 +162,26 @@ public class MalfunctionPanel extends TimedPanel
 		myCurrentMalfunctionsPanel.add(fixAllMalfunctionButton);
 
 	}
+	
+	/**
+	* Attempts to load the icons from the resource directory.
+	*/
+	private void loadIcons(){
+		if (myIcon != null)
+			return;
+		try{
+			myIcon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("biosim/client/framework/gui/gear.gif"));
+		}
+		catch (Exception e){
+			System.err.println("Couldn't find icon ("+e+"), skipping");
+			e.printStackTrace();
+		}
+	}
+	
+	public ImageIcon getIcon(){
+		loadIcons();
+		return myIcon;
+	}
 
 	public static void main(String[] args){
 		BioFrame myFrame = new BioFrame("BioSIM Malfunctions Controller", false);
@@ -168,6 +189,7 @@ public class MalfunctionPanel extends TimedPanel
 		myFrame.getContentPane().add(myMalfPanel);
 		myFrame.setSize(550,350);
 		myFrame.setVisible(true);
+		myFrame.setIconImage(myMalfPanel.getIcon().getImage());
 		myMalfPanel.setDelay(500);
 		myMalfPanel.visibilityChange(true);
 	}
