@@ -259,8 +259,7 @@
 			</FoodStore>
 		</food>
 		<power>
-			<PowerPS name="PowerPS">
-				<generation>SOLAR</generation>
+			<PowerPS name="PowerPS" generation="SOLAR">
 				<powerProducer>
 					<maxFlowRates>100</maxFlowRates>
 					<desiredFlowRates>100</desiredFlowRates>

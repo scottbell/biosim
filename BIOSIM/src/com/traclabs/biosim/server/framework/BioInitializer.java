@@ -161,9 +161,6 @@ public class BioInitializer extends DefaultHandler {
 	                         Attributes attrs) throws SAXException {
 
 		fElements++;
-		System.out.println("raw is :"+raw);
-		System.out.println("local is :"+local);
-		System.out.println("uri is :"+uri);
 		fTagCharacters++; // open angle bracket
 		fTagCharacters += raw.length();
 		if (attrs != null) {
