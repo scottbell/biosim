@@ -348,6 +348,8 @@ public class BioHolder {
 
     public GenericSensor getShelfSensorAttachedTo(List sensorList,
             BioModule moduleWatched, int shelfIndex) {
+        if (moduleWatched == null)
+            Logger.getLogger(BioHolder.class.toString()).error("Your module is null!");
         for (Iterator iter = sensorList.iterator(); iter.hasNext();) {
             ShelfSensor currentSensor = (ShelfSensor) (iter.next());
             if (currentSensor.getInputModule()._is_equivalent(moduleWatched)) {
@@ -364,6 +366,8 @@ public class BioHolder {
 
     public GenericActuator getShelfActuatorAttachedTo(List sensorList,
             BioModule moduleWatched, int shelfIndex) {
+        if (moduleWatched == null)
+            Logger.getLogger(BioHolder.class.toString()).error("Your module is null!");
         for (Iterator iter = sensorList.iterator(); iter.hasNext();) {
             ShelfActuator currentActuator = (ShelfActuator) (iter.next());
             if (currentActuator.getOutputModule()._is_equivalent(moduleWatched)) {
@@ -380,6 +384,8 @@ public class BioHolder {
 
     public GenericSensor getSensorAttachedTo(List sensorList,
             BioModule moduleWatched) {
+        if (moduleWatched == null)
+            Logger.getLogger(BioHolder.class.toString()).error("Your module is null!");
         for (Iterator iter = sensorList.iterator(); iter.hasNext();) {
             GenericSensor currentSensor = (GenericSensor) (iter.next());
             if (currentSensor.getInputModule()._is_equivalent(moduleWatched))
@@ -390,11 +396,16 @@ public class BioHolder {
 
     public GenericActuator getActuatorAttachedTo(List actuatorList,
             BioModule moduleWatched) {
+        if (moduleWatched == null)
+            Logger.getLogger(BioHolder.class.toString()).error("Your module is null!");
         for (Iterator iter = actuatorList.iterator(); iter.hasNext();) {
             GenericActuator currentActuator = (GenericActuator) (iter.next());
+            String debugString = currentActuator.getModuleName() + " is attached to "+currentActuator.getOutputModule().getModuleName();
+            Logger.getLogger(BioHolder.class.toString()).debug(debugString);
             if (currentActuator.getOutputModule()._is_equivalent(moduleWatched))
                 return currentActuator;
         }
+        Logger.getLogger(BioHolder.class.toString()).error("Couldn't find any acutator attached to "+moduleWatched.getModuleName());
         return null;
     }
 

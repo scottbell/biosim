@@ -319,11 +319,13 @@ public class BioHolderInitializer {
                 Logger.getLogger(BioHolderInitializer.class).error(
                         "BioHolder: Couldn't find module " + moduleName
                                 + ", polling again...");
+                e.printStackTrace();
                 OrbUtils.sleepAwhile();
             } catch (Exception e) {
                 Logger.getLogger(BioHolderInitializer.class).error(
                         "BioHolder: Had problems contacting nameserver with module "
                                 + moduleName + ", polling again...");
+                e.printStackTrace();
                 OrbUtils.resetInit();
                 OrbUtils.sleepAwhile();
             }

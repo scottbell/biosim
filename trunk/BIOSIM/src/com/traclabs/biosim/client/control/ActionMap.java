@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.idl.actuator.framework.GenericActuator;
-import com.traclabs.biosim.idl.simulation.air.AirRS;
 import com.traclabs.biosim.idl.simulation.air.OGS;
 import com.traclabs.biosim.idl.simulation.water.WaterRS;
 
@@ -23,7 +22,7 @@ public class ActionMap {
 
     public static GenericActuator[] actuators;
 
-    public static String[] actuatorNames = { "airRSCO2", "OGSPotableWater",
+    public static String[] actuatorNames = { "OGSPotableWater",
             "waterRSdirty", "waterRSgrey" };
 
     private BioHolder myBioHolder;
@@ -42,16 +41,13 @@ public class ActionMap {
         myBioHolder = BioHolderInitializer.getBioHolder();
 
         WaterRS myWaterRS = (WaterRS) myBioHolder.theWaterRSModules.get(0);
-        AirRS myAirRS = (AirRS) myBioHolder.theAirRSModules.get(0);
         OGS myOGS = (OGS) myBioHolder.theOGSModules.get(0);
-        actuators = new GenericActuator[4];
+        actuators = new GenericActuator[3];
         actuators[0] = myBioHolder.getActuatorAttachedTo(
-                myBioHolder.theCO2InFlowRateActuators, myAirRS);
+                myBioHolder.thePotableWaterInFlowRateActuators, myOGS);
         actuators[1] = myBioHolder.getActuatorAttachedTo(
-                myBioHolder.thePotableWaterInFlowRateActuators, myAirRS);
-        actuators[2] = myBioHolder.getActuatorAttachedTo(
                 myBioHolder.theDirtyWaterInFlowRateActuators, myWaterRS);
-        actuators[3] = myBioHolder.getActuatorAttachedTo(
+        actuators[2] = myBioHolder.getActuatorAttachedTo(
                 myBioHolder.theGreyWaterInFlowRateActuators, myWaterRS);
 
         for (i = 0; i < actuatorNames.length; i++) {
@@ -79,15 +75,13 @@ public class ActionMap {
         myBioHolder = BioHolderInitializer.getBioHolder();
 
         WaterRS myWaterRS = (WaterRS) myBioHolder.theWaterRSModules.get(0);
-        AirRS myAirRS = (AirRS) myBioHolder.theAirRSModules.get(0);
+        OGS myOGS = (OGS) myBioHolder.theOGSModules.get(0);
         actuators = new GenericActuator[4];
         actuators[0] = myBioHolder.getActuatorAttachedTo(
-                myBioHolder.theCO2InFlowRateActuators, myAirRS);
+                myBioHolder.thePotableWaterInFlowRateActuators, myOGS);
         actuators[1] = myBioHolder.getActuatorAttachedTo(
-                myBioHolder.thePotableWaterInFlowRateActuators, myAirRS);
-        actuators[2] = myBioHolder.getActuatorAttachedTo(
                 myBioHolder.theDirtyWaterInFlowRateActuators, myWaterRS);
-        actuators[3] = myBioHolder.getActuatorAttachedTo(
+        actuators[2] = myBioHolder.getActuatorAttachedTo(
                 myBioHolder.theGreyWaterInFlowRateActuators, myWaterRS);
 
         myMap = new TreeMap();
