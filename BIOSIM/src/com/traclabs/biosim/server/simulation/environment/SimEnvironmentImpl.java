@@ -3,7 +3,9 @@ package biosim.server.environment;
 import biosim.idl.environment.*;
 import biosim.idl.air.*;
 import biosim.idl.util.log.*;
+import biosim.idl.framework.*;
 import biosim.server.framework.*;
+import java.util.*;
 /**
  * The SimEnvironment acts as the environment in which the crew breathes from and as the keeper of time.
  *
@@ -261,6 +263,44 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 		}
 	}
 	
+	private void performMalfunctions(){
+		for (Enumeration e = myMalfunctions.elements(); e.hasMoreElements();){
+			Malfunction currentMalfunction = (Malfunction)(e.nextElement());
+			if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF){
+				float leakRate = 0f;
+				if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
+					leakRate = .20f;
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
+					leakRate = .10f;
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
+					leakRate = .05f;
+				O2Level -= (O2Level * leakRate);
+				CO2Level -= (CO2Level * leakRate);
+				otherLevel -= (otherLevel * leakRate);
+			}
+			else if (currentMalfunction.getLength() == MalfunctionLength.PERMANENT_MALF){
+				if (capacity < 0){
+					O2Level = 0;
+					CO2Level = 0;
+					otherLevel = 0;
+					return;
+				}
+				float O2percentage = O2Level / capacity;
+				float CO2percentage = CO2Level / capacity;
+				float otherPercentage = otherLevel / capacity;
+				if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
+					capacity = 0f;
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
+					capacity *= 0.5;
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
+					capacity *= .25f;
+				O2Level = O2percentage * capacity;
+				CO2Level = CO2percentage * capacity;
+				otherLevel = otherPercentage * capacity;
+			}
+		}
+	}
+	
 	/**
 	* Attemps to return a breath of air given a needed amount of CO2 (in liters)
 	* @param litersCO2Requested the amount of CO2 (in liters) wanted in this breath
@@ -304,6 +344,8 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 		if (moduleLogging)
 			log();
 		ticks++;
+		if (isMalfunctioning())
+			performMalfunctions();
 	}
 	
 	/**
