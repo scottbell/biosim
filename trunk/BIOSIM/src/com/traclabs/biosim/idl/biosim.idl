@@ -169,7 +169,6 @@ module biosim{
                         interface BioDriver{
                                 boolean isPaused();
                                 boolean isStarted();
-				void configureSimulation();
                                 void spawnSimulation();
                                 void spawnSimulationAndRun();
                                 void spawnSimulationAndRunTillDead();
@@ -193,7 +192,6 @@ module biosim{
                                 void reset();
                                 boolean isLooping();
                                 void setLooping(in boolean pLoop);
-                                void setInitialization(in BioDriverInit myInit);
                                 void setStochasticIntensity(in StochasticIntensity pIntensity);
                                 void startMalfunction(in MalfunctionIntensity pIntensity, in MalfunctionLength pLength);
                         };
