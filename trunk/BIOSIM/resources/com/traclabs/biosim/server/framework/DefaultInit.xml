@@ -14,10 +14,7 @@
 	</Globals>
 	<SimModules>
 		<air>
-			<AirRS>
-				<name>AirRS</name>
-				<isLoggingEnabled>false</isLoggingEnabled>
-				<isBreakdownEnabled>false</isBreakdownEnabled>
+			<AirRS name="AirRS">
 				<powerConsumer>
 					<maxFlowRates>100</maxFlowRates>
 					<desiredFlowRates>100</desiredFlowRates>
@@ -69,33 +66,21 @@
 					<output>H2Store</output>
 				</H2Producer>
 			</AirRS>
-			<O2Store>
-				<name>O2Store</name>
-				<isLoggingEnabled>false</isLoggingEnabled>
-				<isBreakdownEnabled>false</isBreakdownEnabled>
+			<O2Store name="O2Store">
 				<capacity>500</capacity>
 				<level>100</level>
 			</O2Store>
-			<CO2Store>
-				<name>CO2Store</name>
-				<isLoggingEnabled>false</isLoggingEnabled>
-				<isBreakdownEnabled>false</isBreakdownEnabled>
+			<CO2Store name="CO2Store">
 				<capacity>500</capacity>
 				<level>100</level>
 			</CO2Store>
-			<H2Store>
-				<name>H2Store</name>
-				<isLoggingEnabled>false</isLoggingEnabled>
-				<isBreakdownEnabled>false</isBreakdownEnabled>
+			<H2Store name="H2Store">
 				<capacity>500</capacity>
 				<level>100</level>
 			</H2Store>
 		</air>
 		<crew>
-			<CrewGroup>
-				<name>CrewGroup</name>
-				<isLoggingEnabled>false</isLoggingEnabled>
-				<isBreakdownEnabled>false</isBreakdownEnabled>
+			<CrewGroup name="CrewGroup">
 				<potableWaterConsumer>
 					<maxFlowRates>100</maxFlowRates>
 					<desiredFlowRates>100</desiredFlowRates>
@@ -200,24 +185,15 @@
 			</CrewGroup>
 		</crew>
 		<environment>
-			<SimEnvironment>
-				<name>CrewEnvironment</name>
-				<isLoggingEnabled>false</isLoggingEnabled>
-				<isBreakdownEnabled>false</isBreakdownEnabled>
+			<SimEnvironment name="CrewEnvironment">
 				<initialVolume>1548930</initialVolume>
 			</SimEnvironment>
-			<SimEnvironment>
-				<name>PlantEnvironment</name>
-				<isLoggingEnabled>false</isLoggingEnabled>
-				<isBreakdownEnabled>false</isBreakdownEnabled>
+			<SimEnvironment name="PlantEnvironment">
 				<initialVolume>1548930</initialVolume>
 			</SimEnvironment>
 		</environment>                    
 		<food>
-			<FoodProcessor>
-				<name>FoodProcessor</name>
-				<isLoggingEnabled>false</isLoggingEnabled>
-				<isBreakdownEnabled>false</isBreakdownEnabled>
+			<FoodProcessor name="FoodProcessor">
 				<powerConsumer>
 					<maxFlowRates>100</maxFlowRates>
 					<desiredFlowRates>100</desiredFlowRates>
@@ -234,10 +210,7 @@
 					<output>FoodStore</output>
 				</foodProducer>
 			</FoodProcessor>
-			<BiomassRS>
-				<name>BiomassRS</name>
-				<isLoggingEnabled>false</isLoggingEnabled>
-				<isBreakdownEnabled>false</isBreakdownEnabled>
+			<BiomassRS name="BiomassRS">
 				<cropArea>100</cropArea>
 				<cropType>WHEAT</cropType>
 				<powerConsumer>
@@ -276,26 +249,17 @@
 					<output>PlantEnvironment</output>
 				</airProducer>
 			</BiomassRS>
-			<BiomassStore>
-				<name>BiomassStore</name>
-				<isLoggingEnabled>false</isLoggingEnabled>
-				<isBreakdownEnabled>false</isBreakdownEnabled>
+			<BiomassStore name="BiomassStore">
 				<capacity>500</capacity>
 				<level>100</level>
 			</BiomassStore>
-			<FoodStore>
-				<name>FoodStore</name>
-				<isLoggingEnabled>false</isLoggingEnabled>
-				<isBreakdownEnabled>false</isBreakdownEnabled>
+			<FoodStore name="FoodStore">
 				<capacity>500</capacity>
 				<level>100</level>
 			</FoodStore>
 		</food>
 		<power>
-			<PowerPS>
-				<name>PowerPS</name>
-				<isLoggingEnabled>false</isLoggingEnabled>
-				<isBreakdownEnabled>false</isBreakdownEnabled>
+			<PowerPS name="PowerPS">
 				<generation>SOLAR</generation>
 				<powerProducer>
 					<maxFlowRates>100</maxFlowRates>
@@ -303,19 +267,13 @@
 					<output>PowerStore</output>
 				</powerProducer>
 			</PowerPS>
-			<PowerStore>
-				<name>PowerStore</name>
-				<isLoggingEnabled>false</isLoggingEnabled>
-				<isBreakdownEnabled>false</isBreakdownEnabled>
+			<PowerStore name="PowerStore">
 				<capacity>500</capacity>
 				<level>100</level>
 			</PowerStore>
 		</power>
 		<water>
-			<WaterRS>
-				<name>WaterRS</name>
-				<isLoggingEnabled>false</isLoggingEnabled>
-				<isBreakdownEnabled>false</isBreakdownEnabled>
+			<WaterRS name="WaterRS">
 				<powerConsumer>
 					<maxFlowRates>100</maxFlowRates>
 					<desiredFlowRates>100</desiredFlowRates>
@@ -337,30 +295,38 @@
 					<output>PotableWaterStore</output>
 				</potableWaterProducer>
 			</WaterRS>
-			<PotableWaterStore>
-				<name>PotableWaterStore</name>
-				<isLoggingEnabled>false</isLoggingEnabled>
-				<isBreakdownEnabled>false</isBreakdownEnabled>
+			<PotableWaterStore name="PotableWaterStore">
 				<capacity>500</capacity>
 				<level>100</level>
 			</PotableWaterStore>
-			<GreyWaterStore>
-				<name>GreyWaterStore</name>
-				<isLoggingEnabled>false</isLoggingEnabled>
-				<isBreakdownEnabled>false</isBreakdownEnabled>
+			<GreyWaterStore name="GreyWaterStore">
 				<capacity>500</capacity>
 				<level>100</level>
 			</GreyWaterStore>
-			<DirtyWaterStore>
-				<name>DirtyWaterStore</name>
-				<isLoggingEnabled>false</isLoggingEnabled>
-				<isBreakdownEnabled>false</isBreakdownEnabled>
+			<DirtyWaterStore name="DirtyWaterStore">
 				<capacity>500</capacity>
 				<level>100</level>
 			</DirtyWaterStore>
 		</water>
 	</SimModules>
 	<Sensors>
+		<power>
+			<PowerInFlowRateSensor name="AirRSPowerInFlowRateSensor">
+				<input>AirRS</input>
+			</PowerInFlowRateSensor>
+			<PowerInFlowRateSensor name="FoodProcessorPowerInFlowRateSensor">
+				<input>FoodProcessor</input>
+			</PowerInFlowRateSensor>
+			<PowerInFlowRateSensor name="BiomassRSPowerInFlowRateSensor">
+				<input>BiomassRS</input>
+			</PowerInFlowRateSensor>
+			<PowerInFlowRateSensor name="WaterRSPowerInFlowRateSensor">
+				<input>BiomassRS</input>
+			</PowerInFlowRateSensor>
+			<PowerOutFlowRateSensor name="PowerPSPowerOutFlowRateSensor">
+				<input>PowerPS</input>
+			</PowerOutFlowRateSensor>
+		</power>
 	</Sensors>
 	<Actuators>
 	</Actuators>
