@@ -530,9 +530,9 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		else if (initializationToUse == BioDriverInit.FLOWS_ONLY_INIT){
 			System.out.println("BioDriverImpl:"+myID+" Initializing flows only simulation...");
 		}
-		configureFlows();
-		configureSensors();
-		configureActuators();
+		configureModuleFlows();
+		configureSensorsInputs();
+		configureActuatorsOutputs();
 		System.out.println("BioDriverImpl:"+myID+" Running simulation...");
 		runSimulation();
 	}
@@ -609,7 +609,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 	/**
 	* Configures the simulation.  By default, 2 environments are used along with one module of everything else.
 	*/
-	private void configureFlows(){
+	private void configureModuleFlows(){
 		BiomassStore myBiomassStore = BiomassStoreHelper.narrow(getBioModule(myBiomassStoreName));
 		PowerStore myPowerStore = PowerStoreHelper.narrow(getBioModule(myPowerStoreName));
 		FoodStore myFoodStore = FoodStoreHelper.narrow(getBioModule(myFoodStoreName));
@@ -806,7 +806,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		}
 	}
 
-	private void configureSensors(){
+	private void configureSensorsInputs(){
 		//
 		//Air
 		//
@@ -987,7 +987,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		}
 	}
 	
-	private void configureActuators(){
+	private void configureActuatorsOutputs(){
 		//
 		//Air
 		//
