@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="lib/jfreechart/jcommon.jar"/>
 	<classpathentry kind="lib" path="lib/jfreechart/jfreechart.jar"/>
 	<classpathentry kind="lib" path="lib/jacorb/jacorb.jar"/>
+	<classpathentry kind="lib" path="lib/log4j/log4j.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
