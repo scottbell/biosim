@@ -55,7 +55,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	private float initialOtherPressure = 0f;
 	private float initialWaterPressure = 0f;
 	private float initialNitrogenPressure = 0f;
-	private final float temperature = 23f;
+	private final static float temperature = 23f;
 	private final static float idealGasConstant = 8.314f; // J K ^-1 mol -1 (assumes units in moles, kevlin, and kPascals)
 	//The total volume of the environment (all the open space)
 	private float volume = 0f;
@@ -852,7 +852,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); ){
 			Malfunction currentMalfunction = (Malfunction)(iter.next());
 			if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF){
-				float leakRate = 0f;
+				leakRate = 0f;
 				if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
 					leakRate = .20f;
 				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
