@@ -91,7 +91,7 @@ public class GenericServer {
      *            server. example, java myServer -xml=/home/bob/init.xml
      */
     protected static String getXMLfromArgs(String[] myArgs) {
-        String myName = "com/traclabs/biosim/server/framework/DefaultInitialization.xml";
+        String myName = "com/traclabs/biosim/server/framework/DefaultInit.xml";
         for (int i = 0; i < myArgs.length; i++) {
             if (myArgs[i].startsWith("-xml=")) {
                 StringTokenizer st = new StringTokenizer(myArgs[i], "=");
