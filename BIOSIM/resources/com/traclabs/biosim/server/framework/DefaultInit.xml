@@ -92,7 +92,7 @@
 				<biomassConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BiomassStore"/>
 				<foodProducer maxFlowRates="200" desiredFlowRates="200" outputs="FoodStore"/>
 				<dryWasteProducer maxFlowRates="100" desiredFlowRates="100" outputs="DryWasteStore"/>
-				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="DirtyWaterStore"/>
+				<waterProducer maxFlowRates="100 100" desiredFlowRates="100 100" outputs="DirtyWaterStore GreyWaterStore"/>
 			</FoodProcessor>
 			<BiomassRS name="BiomassRS">
 				<shelf cropArea="5" cropType="WHEAT"/>
@@ -305,7 +305,6 @@
 			<DirtyWaterInFlowRateSensor name="WaterRSDirtyWaterInFlowRateSensor" index="0" input="WaterRS"/>
 			<DirtyWaterOutFlowRateSensor name="CrewGroupDirtyWaterOutFlowRateSensor" index="0" input="CrewGroup"/>
 			<DirtyWaterOutFlowRateSensor name="BiomassRSDirtyWaterOutFlowRateSensor" index="0" input="BiomassRS"/>
-			<DirtyWaterOutFlowRateSensor name="FoodProcessorDirtyWaterOutFlowRateSensor" index="0" input="FoodProcessor"/>
 			<DirtyWaterStoreLevelSensor name="DirtyWaterStoreLevelSensor" input="DirtyWaterStore"/>
 			<GreyWaterInFlowRateSensor name="WaterRSGreyWaterInFlowRateSensor" index="0" input="WaterRS"/>
 			<GreyWaterInFlowRateSensor name="BiomassRSGreyWaterInFlowRateSensor" index="0" input="BiomassRS"/>
@@ -317,6 +316,8 @@
 			<PotableWaterOutFlowRateSensor name="AirRSPotableWaterOutFlowRateSensor" index="0" input="AirRS"/>
 			<PotableWaterOutFlowRateSensor name="WaterRSPotableWaterOutFlowRateSensor" index="0" input="WaterRS"/>
 			<PotableWaterStoreLevelSensor name="PotableWaterStoreLevelSensor" input="PotableWaterStore"/>
+			<WaterOutFlowRateSensor name="FoodProcessorDirtyWaterOutFlowRateSensor" index="0" input="FoodProcessor"/>
+			<WaterOutFlowRateSensor name="FoodProcessorGreyWaterOutFlowRateSensor" index="1" input="FoodProcessor"/>
 		</water>
 		<waste>
 			<DryWasteInFlowRateSensor name="IncineratorDryWasteInFlowRateSensor" index="0" input="Incinerator"/>
@@ -391,7 +392,6 @@
 			<DirtyWaterInFlowRateActuator name="WaterRSDirtyWaterInFlowRateActuator" index="0" output="WaterRS"/>
 			<DirtyWaterOutFlowRateActuator name="CrewGroupDirtyWaterOutFlowRateActuator" index="0" output="CrewGroup"/>
 			<DirtyWaterOutFlowRateActuator name="BiomassRSDirtyWaterOutFlowRateActuator" index="0" output="BiomassRS"/>
-			<DirtyWaterOutFlowRateActuator name="FoodProcessorDirtyWaterOutFlowRateActuator" index="0" output="FoodProcessor"/>
 			<GreyWaterInFlowRateActuator name="WaterRSGreyWaterInFlowRateActuator" index="0" output="WaterRS"/>
 			<GreyWaterInFlowRateActuator name="BiomassRSGreyWaterInFlowRateActuator" index="0" output="BiomassRS"/>
 			<GreyWaterOutFlowRateActuator name="CrewGroupGreyWaterOutFlowRateActuator" index="0" output="CrewGroup"/>
@@ -400,6 +400,8 @@
 			<PotableWaterInFlowRateActuator name="BiomassRSPotableWaterInFlowRateActuator" index="0" output="BiomassRS"/>
 			<PotableWaterOutFlowRateActuator name="AirRSPotableWaterOutFlowRateActuator" index="0" output="AirRS"/>
 			<PotableWaterOutFlowRateActuator name="WaterRSPotableWaterOutFlowRateActuator" index="0" output="WaterRS"/>
+			<WaterOutFlowRateActuator name="FoodProcessorDirtyWaterOutFlowRateActuator" index="0" output="FoodProcessor"/>
+			<WaterOutFlowRateActuator name="FoodProcessorGreyWaterOutFlowRateActuator" index="1" output="FoodProcessor"/>
 		</water>
 		<waste>
 			<DryWasteInFlowRateActuator name="IncineratorDryWasteInFlowRateActuator" index="0" output="Incinerator"/>

@@ -256,6 +256,9 @@
 						<xsd:element name="PotableWaterInFlowRateSensor" type="PotableWaterInFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
 						<xsd:element name="PotableWaterOutFlowRateSensor" type="PotableWaterOutFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
 						<xsd:element name="PotableWaterStoreLevelSensor" type="PotableWaterStoreLevelSensorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="WaterInFlowRateSensor" type="WaterInFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="WaterOutFlowRateSensor" type="WaterOutFlowRateSensorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="WaterStoreLevelSensor" type="WaterStoreLevelSensorType" minOccurs="0" maxOccurs="unbounded"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -346,6 +349,8 @@
 						<xsd:element name="GreyWaterOutFlowRateActuator" type="GreyWaterOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
 						<xsd:element name="PotableWaterInFlowRateActuator" type="PotableWaterInFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
 						<xsd:element name="PotableWaterOutFlowRateActuator" type="PotableWaterOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="WaterInFlowRateActuator" type="WaterInFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="WaterOutFlowRateActuator" type="WaterOutFlowRateActuatorType" minOccurs="0" maxOccurs="unbounded"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -404,6 +409,13 @@
 	</xsd:complexType>
 	
 	<xsd:complexType name="DirtyWaterConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ConsumerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="WaterConsumerType">  
 		<xsd:complexContent>
 			<xsd:extension base="ConsumerType">
 			</xsd:extension>
@@ -523,6 +535,13 @@
 	</xsd:complexType>
 	
 	<xsd:complexType name="DirtyWaterProducerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ProducerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="WaterProducerType">  
 		<xsd:complexContent>
 			<xsd:extension base="ProducerType">
 			</xsd:extension>
@@ -668,6 +687,13 @@
 	</xsd:complexType>
 	
 	<xsd:complexType name="DirtyWaterStoreType">  
+		<xsd:complexContent>
+			<xsd:extension base="Store">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="WaterStoreType">  
 		<xsd:complexContent>
 			<xsd:extension base="Store">
 			</xsd:extension>
@@ -895,7 +921,7 @@
 					<xsd:element name="biomassConsumer" type="BiomassConsumerType"/>
 					<xsd:element name="foodProducer" type="FoodProducerType"/>
 					<xsd:element name="dryWasteProducer" type="DryWasteProducerType"/>
-					<xsd:element name="dirtyWaterProducer" type="DirtyWaterProducerType"/>
+					<xsd:element name="waterProducer" type="WaterProducerType"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -1481,6 +1507,27 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	
+	<xsd:complexType name="WaterInFlowRateSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="WaterOutFlowRateSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="WaterStoreLevelSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="SensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
 	<xsd:complexType name="GreyWaterInFlowRateSensorType">  
 		<xsd:complexContent>
 			<xsd:extension base="FlowRateSensorType">
@@ -1821,6 +1868,20 @@
 	</xsd:complexType>
 	
 	<xsd:complexType name="DirtyWaterOutFlowRateActuatorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="WaterInFlowRateActuatorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="WaterOutFlowRateActuatorType">  
 		<xsd:complexContent>
 			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>
