@@ -34,6 +34,10 @@ public class BiomassOutFlowRateActuatorImpl extends GenericActuatorImpl implemen
 		return myIndex;
 	}
 	
+	public float getMax(){
+		return myProducer.getBiomassOutputMaxFlowRate(myIndex);
+	}
+	
 	/**
 	* Returns the name of this module (BiomassOutFlowRateActuator)
 	* @return the name of the module

@@ -31,6 +31,10 @@ public class O2AirEnvironmentOutFlowRateActuatorImpl extends GenericActuatorImpl
 		return myProducer;
 	}
 	
+	public float getMax(){
+		return myProducer.getO2AirEnvironmentOutputMaxFlowRate(myIndex);
+	}
+	
 	public int getIndex(){
 		return myIndex;
 	}

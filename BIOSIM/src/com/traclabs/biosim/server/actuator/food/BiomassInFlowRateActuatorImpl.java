@@ -34,6 +34,10 @@ public class BiomassInFlowRateActuatorImpl extends GenericActuatorImpl implement
 		return myIndex;
 	}
 	
+	public float getMax(){
+		return myConsumer.getBiomassInputMaxFlowRate(myIndex);
+	}
+	
 	/**
 	* Returns the name of this module (BiomassInFlowRateActuator)
 	* @return the name of the module

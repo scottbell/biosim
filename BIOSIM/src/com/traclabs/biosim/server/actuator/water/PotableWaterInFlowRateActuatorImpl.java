@@ -34,6 +34,10 @@ public class PotableWaterInFlowRateActuatorImpl extends GenericActuatorImpl impl
 		return myIndex;
 	}
 	
+	public float getMax(){
+		return myConsumer.getPotableWaterInputMaxFlowRate(myIndex);
+	}
+	
 	/**
 	* Returns the name of this module (PotableWaterInFlowRateActuator)
 	* @return the name of the module

@@ -35,6 +35,10 @@ public class CO2AirEnvironmentInFlowRateActuatorImpl extends GenericActuatorImpl
 		return myIndex;
 	}
 	
+	public float getMax(){
+		return myConsumer.getCO2AirEnvironmentInputMaxFlowRate(myIndex);
+	}
+	
 	/**
 	* Returns the name of this module (CO2AirEnvironmentInFlowRateActuator)
 	* @return the name of the module

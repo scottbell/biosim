@@ -27,6 +27,10 @@ public class CO2AirEnvironmentOutFlowRateActuatorImpl extends GenericActuatorImp
 		myIndex = pIndex;
 	}
 	
+	public float getMax(){
+		return myProducer.getCO2AirEnvironmentOutputMaxFlowRate(myIndex);
+	}
+	
 	public CO2AirProducer getOutput(){
 		return myProducer;
 	}

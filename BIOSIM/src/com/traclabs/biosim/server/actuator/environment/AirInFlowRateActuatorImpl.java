@@ -35,6 +35,10 @@ public class AirInFlowRateActuatorImpl extends GenericActuatorImpl implements Ai
 		return myIndex;
 	}
 	
+	public float getMax(){
+		return myConsumer.getAirInputMaxFlowRate(myIndex);
+	}
+	
 	/**
 	* Returns the name of this module (AirInFlowRateActuator)
 	* @return the name of the module

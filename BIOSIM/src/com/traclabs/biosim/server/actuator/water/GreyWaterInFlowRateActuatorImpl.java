@@ -34,6 +34,10 @@ public class GreyWaterInFlowRateActuatorImpl extends GenericActuatorImpl impleme
 		return myIndex;
 	}
 	
+	public float getMax(){
+		return myConsumer.getGreyWaterInputMaxFlowRate(myIndex);
+	}
+	
 	/**
 	* Returns the name of this module (GreyWaterInFlowRateActuator)
 	* @return the name of the module

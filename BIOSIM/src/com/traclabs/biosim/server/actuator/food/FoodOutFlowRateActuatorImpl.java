@@ -34,6 +34,10 @@ public class FoodOutFlowRateActuatorImpl extends GenericActuatorImpl implements 
 		return myIndex;
 	}
 	
+	public float getMax(){
+		return myProducer.getFoodOutputMaxFlowRate(myIndex);
+	}
+	
 	/**
 	* Returns the name of this module (FoodOutFlowRateActuator)
 	* @return the name of the module
