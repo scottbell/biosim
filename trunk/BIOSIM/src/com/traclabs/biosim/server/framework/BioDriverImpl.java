@@ -709,7 +709,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		initializationToUse = pInitializationToUse;
 	}
 
-	private void configureSimulation(){
+	public void configureSimulation(){
 		ticksGoneBy = 0;
 		if (initializationToUse == BioDriverInit.DEFAULT_INIT){
 			System.out.println("BioDriverImpl:"+myID+" Initializing default simulation...");

@@ -3,6 +3,9 @@ package biosim.client.simulation.framework;
 import biosim.idl.framework.*;
 import biosim.client.util.*;
 import java.io.*;
+
+import biosim.idl.sensor.water.*;
+
 /**
  * A simple driver that creates a SimDesktop, sets the size and visibility, then lets it run.
  *
@@ -145,6 +148,9 @@ public class SimCommandLine
 	}
 	
 	private void runTest(){
+		BioHolder.getBioDriver().configureSimulation();
+		PotableWaterStoreLevelSensor myPotableWaterStoreLevelSensor = (PotableWaterStoreLevelSensor)(BioHolder.getBioModule(BioHolder.myPotableWaterStoreLevelSensorName));
+		System.out.println("getMax returns: "+myPotableWaterStoreLevelSensor.getMax());
 	}
 }
 
