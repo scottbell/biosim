@@ -1,6 +1,14 @@
 package biosim.client.control;
 
-import ALSS.*;
+import biosim.idl.air.*;
+import biosim.idl.crew.*;
+import biosim.idl.environment.*;
+import biosim.idl.food.*;
+import biosim.idl.power.*;
+import biosim.idl.util.*;
+import biosim.idl.water.*;
+import biosim.idl.framework.*;
+import biosim.client.control.gui.*;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
@@ -9,7 +17,7 @@ import java.util.*;
 public class BioSimulator implements Runnable
 {
  //Module Names
-	private final static String crewName = "Crew";
+	private final static  String crewName = "CrewGroup";
 	private final static  String powerPSName = "PowerPS";
 	private final static  String powerStoreName = "PowerStore";
 	private final static  String airRSName = "AirRS";
@@ -49,7 +57,7 @@ public class BioSimulator implements Runnable
 		actuallyAdded = myDirtyWater.addWater(12f);
 		System.out.println("Actually added "+actuallyAdded+" liters of dirty water");
 		System.out.println("Dirty water levels at: "+myDirtyWater.getWaterLevel());
-		Crew myCrew = (Crew)(getBioModule("Crew"));
+		CrewGroup myCrew = (CrewGroup)(getBioModule(crewName));
 		Activity sleeping = ActivityHelper.narrow(myCrew.getScheduledActivityByName("sleeping"));
 		System.out.println("This activity is: "+sleeping.getName()+" for "+sleeping.getTimeLength());
 		for (int i = 0; i < 10; i ++){
@@ -84,11 +92,11 @@ public class BioSimulator implements Runnable
 		modules = new Hashtable();
 		System.out.println("Collecting references to modules...");
 		try{
-			Crew myCrew = CrewHelper.narrow(ncRef.resolve_str(crewName));
+			CrewGroup myCrew = CrewGroupHelper.narrow(ncRef.resolve_str(crewName));
 			modules.put(crewName , myCrew);
 		}
 		catch (org.omg.CORBA.UserException e){
-			System.out.println("Couldn't locate Crew, skipping...");
+			System.out.println("Couldn't locate CrewGroup, skipping...");
 		}
 		try{
 			PowerPS myPowerPS = PowerPSHelper.narrow(ncRef.resolve_str(powerPSName));

@@ -1,7 +1,7 @@
 package biosim.server.air;
 
 // The package containing our stubs.
-import ALSS.*;
+import biosim.idl.air.*;
 
 public class O2StoreImpl extends O2StorePOA {
 	private float O2Level;

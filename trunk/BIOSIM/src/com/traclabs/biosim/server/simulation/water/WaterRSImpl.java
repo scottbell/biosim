@@ -1,7 +1,6 @@
 package biosim.server.water;
 
-// The package containing our stubs.
-import ALSS.*;
+import biosim.idl.water.*;
 
 public class WaterRSImpl extends WaterRSPOA {
 	private float currentPotableWaterProduced = 0f;

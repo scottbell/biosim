@@ -1,6 +1,6 @@
 package biosim.server.water;
 
-import ALSS.*;
+import biosim.idl.water.*;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;

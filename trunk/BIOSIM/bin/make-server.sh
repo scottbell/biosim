@@ -18,7 +18,6 @@ then
 	java_command="java"
 	javac_command="javac"
 fi
-echo "java version is $javaVersion"
 genString="/generated"
 genDir=$devRootDir$genString
 if [ ! -e "$genDir" ]
@@ -59,7 +58,7 @@ then
 	mkdir $serverClassesDir
 	echo "			-creating classes directory"
 fi
-relativeIDLDir="/src/biosim/idl/ALSS.idl"
+relativeIDLDir="/src/biosim/idl/biosim.idl"
 fullIDLDir=$devRootDir$relativeIDLDir
 echo "			-generating skeletons"
 idlInvocation="$java_command -classpath $JACORB_HOME/lib/idl.jar org.jacorb.idl.parser"
@@ -68,29 +67,45 @@ $idlInvocation  -nostub -d $skeletonDir $fullIDLDir
 #		SERVER COMPILATION	#
 #######################
 echo "		-compiling server";
-simString="ALSS"
+simString="biosim"
 simSkeletonDir="$skeletonDir/$simString"
 serverDir="$devRootDir/src/biosim/server"
 sourceDir="$devRootDir/src"
 jacoClasspath="$JACORB_HOME/lib/jacorb.jar$separator$JRE_HOME/lib/rt.jar$separator$JACORB_HOME/lib"
 compilationInvocation="$javac_command -d $serverClassesDir -classpath $skeletonDir$separator$serverClassesDir$separator$sourceDir$separator$jacoClasspath"
 echo "			-compiling skeletons"
-$compilationInvocation $simSkeletonDir/*.java
-echo "			-compiling air"
+echo "				-compiling air skeletons"
+$compilationInvocation $simSkeletonDir/idl/air/*.java
+echo "				-compiling water skeletons"
+$compilationInvocation $simSkeletonDir/idl/water/*.java
+echo "				-compiling power skeletons"
+$compilationInvocation $simSkeletonDir/idl/power/*.java
+echo "				-compiling crew skeletons"
+$compilationInvocation $simSkeletonDir/idl/crew/*.java
+echo "				-compiling food skeletons"
+$compilationInvocation $simSkeletonDir/idl/food/*.java
+echo "				-compiling environment skeletons"
+$compilationInvocation $simSkeletonDir/idl/environment/*.java
+echo "				-compiling framework skeletons"
+$compilationInvocation $simSkeletonDir/idl/framework/*.java
+echo "				-compiling util skeletons"
+$compilationInvocation $simSkeletonDir/idl/util/*.java
+echo "			-compiling implementations"
+echo "				-compiling air implementation"
 $compilationInvocation $serverDir/air/*.java
-echo "			-compiling water"
+echo "				-compiling water implementation"
 $compilationInvocation $serverDir/water/*.java
-echo "			-compiling power"
+echo "				-compiling power implementation"
 $compilationInvocation $serverDir/power/*.java
-echo "			-compiling crew"
+echo "				-compiling crew implementation"
 $compilationInvocation $serverDir/crew/*.java
-echo "			-compiling food"
+echo "				-compiling food implementation"
 $compilationInvocation $serverDir/food/*.java
-echo "			-compiling environment"
+echo "				-compiling environment implementation"
 $compilationInvocation $serverDir/environment/*.java
-echo "			-compiling framework"
+echo "				-compiling framework implementation"
 $compilationInvocation $serverDir/framework/*.java
-echo "			-compiling util"
+echo "				-compiling util implementation"
 $compilationInvocation $serverDir/util/*.java
 echo "*done building biosim"
 

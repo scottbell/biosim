@@ -1,6 +1,11 @@
 package biosim.server.framework;
 
-import ALSS.*;
+import biosim.idl.air.*;
+import biosim.idl.crew.*;
+import biosim.idl.food.*;
+import biosim.idl.water.*;
+import biosim.idl.power.*;
+import biosim.idl.environment.*;
 import biosim.server.air.*;
 import biosim.server.crew.*;
 import biosim.server.food.*;
@@ -31,7 +36,7 @@ public static void main(String args[]) {
 		 AirRSImpl myAirRSImpl = new AirRSImpl();
 		 CO2StoreImpl myCO2StoreImpl = new CO2StoreImpl();
 		 O2StoreImpl myO2StoreImpl = new O2StoreImpl();
-		 CrewImpl myCrewImpl = new CrewImpl();
+		 CrewGroupImpl myCrewImpl = new CrewGroupImpl();
 		 BiomassRSImpl myBiomassRSImpl = new BiomassRSImpl();
 		 BiomassStoreImpl myBiomassStoreImpl = new BiomassStoreImpl();
 		 FoodProcessorImpl myFoodProcessorImpl = new FoodProcessorImpl();

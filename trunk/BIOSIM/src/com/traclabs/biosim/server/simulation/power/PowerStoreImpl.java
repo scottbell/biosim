@@ -1,7 +1,6 @@
 package biosim.server.power;
 
-// The package containing our stubs.
-import ALSS.*;
+import biosim.idl.power.*;
 
 public class PowerStoreImpl extends PowerStorePOA {
 	private float powerLevel;

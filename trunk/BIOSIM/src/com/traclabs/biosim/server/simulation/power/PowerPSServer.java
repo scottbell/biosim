@@ -1,6 +1,6 @@
 package biosim.server.power;
 
-import ALSS.*;
+import biosim.idl.power.*;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;

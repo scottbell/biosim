@@ -1,6 +1,6 @@
 package biosim.client.control;
 
-import biosim.client.gui.*;
+import biosim.client.control.gui.*;
 import javax.swing.*;
 
 public class TestDriver

@@ -4,8 +4,9 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 import biosim.server.util.*;
+import biosim.idl.crew.*;
 
-public class CrewGroupImpl extends ALSS.CrewPOA {
+public class CrewGroupImpl extends CrewGroupPOA {
 	private Schedule mySchedule;
 	private Hashtable crewPeople;
 
@@ -24,37 +25,35 @@ public class CrewGroupImpl extends ALSS.CrewPOA {
 		return "CrewGroup";
 	}
 
-	public CrewPersonImpl createCrewPerson(String name){
+	public org.omg.CORBA.Object createCrewPerson(String name){
 		CrewPersonImpl newCrewPerson = new CrewPersonImpl(name);
 		crewPeople.put(name, newCrewPerson);
-		return newCrewPerson;
+		return (BioSimUtilsImpl.poaToCorbaObj(newCrewPerson));
 	}
 
 	public org.omg.CORBA.Object getScheduledActivityByName(String name){
 		ActivityImpl foundActivity = mySchedule.getActivityByName(name);
 		if (foundActivity != null)
-			return (ALSSUtils.poaToCorbaObj(foundActivity));
+			return (BioSimUtilsImpl.poaToCorbaObj(foundActivity));
 		else{
 			System.out.println("Couldn't find Activity by that name!");
 			return null;
 		}
 	}
 
-	public ActivityImpl getScheduledActivityByOrder(int order){
-		return null;
-		/*
-		ALSS.Activity foundActivity = mySchedule.getActivityByOrder(order);
+	public org.omg.CORBA.Object getScheduledActivityByOrder(int order){
+		ActivityImpl foundActivity = mySchedule.getActivityByOrder(order);
 		if (foundActivity != null)
-			return foundActivity;
+			return (BioSimUtilsImpl.poaToCorbaObj(foundActivity));
 		else{
 			System.out.println("Couldn't find Activity by that order!");
 			return null;
 		}
-		*/
 	}
 	
-	public CrewPersonImpl getCrewPerson(String crewPersonName){
-		return (CrewPersonImpl)(crewPeople.get(crewPersonName));
+	public org.omg.CORBA.Object getCrewPerson(String crewPersonName){
+		CrewPersonImpl foundPerson = (CrewPersonImpl)(crewPeople.get(crewPersonName));
+		return (BioSimUtilsImpl.poaToCorbaObj(foundPerson));
 	}
 
 	public void tick(){
