@@ -146,7 +146,7 @@
 			</FoodProcessor>
 			<BiomassRS name="BaseBiomassRS">
 				<shelf cropArea="20" cropType="LETTUCE"/>
-				<shelf cropArea="20" cropType="TOMATO"/>
+				<shelf cropArea="1.5" cropType="TOMATO"/>
 				<powerConsumer maxFlowRates="400" desiredFlowRates="400" inputs="BasePowerStore"/>
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="CrewBasePotableWaterStore"/>
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="CrewBaseGreyWaterStore"/>
