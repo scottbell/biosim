@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
-import java.util.StringTokenizer;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
@@ -53,9 +52,7 @@ public class GenericServer {
         for (int i = 0; i < myArgs.length; i++) {
             if (myArgs[i].startsWith("-id=")) {
                 try {
-                    StringTokenizer st = new StringTokenizer(myArgs[i], "=");
-                    st.nextToken();
-                    myID = Integer.parseInt(st.nextToken());
+                    myID = Integer.parseInt(myArgs[i].split("=")[1]);
                 } catch (Exception e) {
                     Logger.getLogger(GenericServer.class).warn(
                             "Problem parsing arguments on arg " + myArgs[i]);
@@ -77,11 +74,8 @@ public class GenericServer {
     protected static String getNamefromArgs(String[] myArgs) {
         String myName = "NoName";
         for (int i = 0; i < myArgs.length; i++) {
-            if (myArgs[i].startsWith("-name=")) {
-                StringTokenizer st = new StringTokenizer(myArgs[i], "=");
-                st.nextToken();
-                myName = st.nextToken();
-            }
+            if (myArgs[i].startsWith("-name=")) 
+                myName = myArgs[i].split("=")[1];
         }
         return myName;
     }
@@ -95,15 +89,12 @@ public class GenericServer {
      *            server. example, java myServer -xml=/home/bob/init.xml
      */
     protected static String getXMLfromArgs(String[] myArgs) {
-        String myName = "com/traclabs/biosim/server/framework/DefaultInit.xml";
+        String xmlLocation = "com/traclabs/biosim/server/framework/DefaultInit.xml";
         for (int i = 0; i < myArgs.length; i++) {
-            if (myArgs[i].startsWith("-xml=")) {
-                StringTokenizer st = new StringTokenizer(myArgs[i], "=");
-                st.nextToken();
-                myName = st.nextToken();
-            }
+            if (myArgs[i].startsWith("-xml=")) 
+                xmlLocation = myArgs[i].split("=")[1];
         }
-        return myName;
+        return xmlLocation;
     }
 
     /**

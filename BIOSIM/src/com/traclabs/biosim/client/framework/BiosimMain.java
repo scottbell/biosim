@@ -1,7 +1,6 @@
 package com.traclabs.biosim.client.framework;
 
 import java.util.Properties;
-import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -75,9 +74,7 @@ public class BiosimMain {
                         .toString(CLIENT_OA_PORT));
             } else if (myArgs[i].equals("-xml=")) {
                 try {
-                    StringTokenizer st = new StringTokenizer(myArgs[i], "=");
-                    st.nextToken();
-                    BioHolderInitializer.setFile(st.nextToken());
+                    BioHolderInitializer.setFile(myArgs[i].split("=")[1]);
                 } catch (Exception e) {
                     myLogger.error("Problem parsing arguments on arg "
                             + myArgs[i]);
@@ -85,9 +82,7 @@ public class BiosimMain {
                 }
             } else if (myArgs[i].startsWith("-id=")) {
                 try {
-                    StringTokenizer st = new StringTokenizer(myArgs[i], "=");
-                    st.nextToken();
-                    myID = Integer.parseInt(st.nextToken());
+                    myID = Integer.parseInt(myArgs[i].split("=")[1]);
                 } catch (Exception e) {
                     myLogger.error("Problem parsing arguments on arg "
                             + myArgs[i]);
@@ -95,10 +90,8 @@ public class BiosimMain {
                 }
             } else if (myArgs[i].startsWith("-utServer=")) {
                 try {
-                    StringTokenizer st = new StringTokenizer(myArgs[i], "=");
-                    st.nextToken();
                     unrealServerGiven = true;
-                    unrealServer = st.nextToken();
+                    unrealServer = myArgs[i].split("=")[1];
                 } catch (Exception e) {
                     myLogger.warn("Problem parsing arguments on arg "
                             + myArgs[i]);

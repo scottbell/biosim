@@ -1,7 +1,6 @@
 package com.traclabs.biosim.server.simulation.framework;
 
 import java.util.List;
-import java.util.StringTokenizer;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
@@ -261,12 +260,12 @@ public class SimulationInitializer {
             return new float[0];
         String arrayString = node.getAttributes().getNamedItem("maxFlowRates")
                 .getNodeValue();
-        StringTokenizer tokenizer = new StringTokenizer(arrayString);
-        float[] maxFlowRates = new float[tokenizer.countTokens()];
+        String[] tokens = arrayString.split("\\s");
+        float[] maxFlowRates = new float[tokens.length];
 
-        for (int i = 0; tokenizer.hasMoreTokens(); i++) {
+        for (int i = 0; i < tokens.length; i++) {
             try {
-                maxFlowRates[i] = Float.parseFloat(tokenizer.nextToken());
+                maxFlowRates[i] = Float.parseFloat(tokens[i]);
             } catch (NumberFormatException e) {
 
                 e.printStackTrace();
@@ -280,12 +279,12 @@ public class SimulationInitializer {
             return new float[0];
         String arrayString = node.getAttributes().getNamedItem(
                 "desiredFlowRates").getNodeValue();
-        StringTokenizer tokenizer = new StringTokenizer(arrayString);
-        float[] desiredFlowRates = new float[tokenizer.countTokens()];
+        String[] tokens = arrayString.split("\\s");
+        float[] desiredFlowRates = new float[tokens.length];
 
-        for (int i = 0; tokenizer.hasMoreTokens(); i++) {
+        for (int i = 0; i < tokens.length; i++) {
             try {
-                desiredFlowRates[i] = Float.parseFloat(tokenizer.nextToken());
+                desiredFlowRates[i] = Float.parseFloat(tokens[i]);
             } catch (NumberFormatException e) {
 
                 e.printStackTrace();
@@ -698,12 +697,12 @@ public class SimulationInitializer {
             return new BioModule[0];
         String arrayString = node.getAttributes().getNamedItem("inputs")
                 .getNodeValue();
-        StringTokenizer tokenizer = new StringTokenizer(arrayString);
-        BioModule[] inputs = new BioModule[tokenizer.countTokens()];
-        for (int i = 0; tokenizer.hasMoreTokens(); i++) {
+        String[] inputNames = arrayString.split("\\s");
+        BioModule[] inputs = new BioModule[inputNames.length];
+        for (int i = 0; i < inputs.length; i++) {
             try {
                 inputs[i] = BioModuleHelper.narrow(OrbUtils.getNamingContext(
-                        myID).resolve_str(tokenizer.nextToken()));
+                        myID).resolve_str(inputNames[i]));
                 myLogger.debug("Fetched " + inputs[i].getModuleName());
             } catch (org.omg.CORBA.UserException e) {
                 e.printStackTrace();
@@ -717,12 +716,12 @@ public class SimulationInitializer {
             return new BioModule[0];
         String arrayString = node.getAttributes().getNamedItem("outputs")
                 .getNodeValue();
-        StringTokenizer tokenizer = new StringTokenizer(arrayString);
-        BioModule[] outputs = new BioModule[tokenizer.countTokens()];
-        for (int i = 0; tokenizer.hasMoreTokens(); i++) {
+        String[] outputNames = arrayString.split("\\s");
+        BioModule[] outputs = new BioModule[outputNames.length];
+        for (int i = 0; i < outputs.length; i++) {
             try {
                 outputs[i] = BioModuleHelper.narrow(OrbUtils.getNamingContext(
-                        myID).resolve_str(tokenizer.nextToken()));
+                        myID).resolve_str(outputNames[i]));
                 myLogger.debug("Fetched " + outputs[i].getModuleName());
             } catch (org.omg.CORBA.UserException e) {
                 e.printStackTrace();

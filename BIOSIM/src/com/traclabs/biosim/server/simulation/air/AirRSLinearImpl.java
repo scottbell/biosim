@@ -464,8 +464,9 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations
         return potableWaterInMaxFlowRates;
     }
 
-    public void setPotableWaterInputDesiredFlowRate(float watts, int index) {
-        potableWaterInDesiredFlowRates[index] = watts;
+    public void setPotableWaterInputDesiredFlowRate(float liters, int index) {
+        myLogger.debug(getModuleName()+": setting potableWaterInDesiredFlowRates["+index+"] to "+liters);
+        potableWaterInDesiredFlowRates[index] = liters;
     }
 
     public float getPotableWaterInputDesiredFlowRate(int index) {
