@@ -16,6 +16,7 @@ import biosim.client.simulation.crew.gui.*;
 import biosim.client.simulation.food.gui.*;
 import biosim.client.simulation.power.gui.*;
 import biosim.client.simulation.water.gui.*;
+import biosim.client.sensor.framework.gui.*;
 import biosim.idl.framework.*;
 import javax.swing.*;
 import java.awt.event.*;
@@ -66,6 +67,7 @@ public class SimDesktop extends BioFrame
 	private JMenuItem myShowCrewDisplayItem;
 	private JMenuItem myShowMalfunctionDisplayItem;
 	private JMenuItem myShowStochasticDisplayItem;
+	private JMenuItem myShowSensorViewerItem;
 	private JMenuItem myTileItem;
 	private JMenuItem myStackItem;
 	
@@ -83,6 +85,7 @@ public class SimDesktop extends BioFrame
 	private Action myShowPowerDisplayAction;
 	private Action myShowMalfunctionDisplayAction;
 	private Action myShowStochasticDisplayAction;
+	private Action myShowSensorViewerAction;
 	private Action myLoggingAction;
 	private Action myQuitAction;
 	private Action myRefreshGuiAction;
@@ -150,6 +153,7 @@ public class SimDesktop extends BioFrame
 		myShowPowerDisplayAction = new ShowPowerDisplayAction("Show Power");
 		myShowMalfunctionDisplayAction = new ShowMalfunctionDisplayAction("Show Malfunction Controller");
 		myShowStochasticDisplayAction = new ShowStochasticDisplayAction("Show Stochastic Controller");
+		myShowSensorViewerAction = new ShowSensorViewerAction("Show Sensor Viewer");
 		myLoggingAction = new LoggingAction("Enable Logging");
 		myTileAction = new TileAction("Tile");
 		myStackAction = new StackAction("Stack");
@@ -176,6 +180,8 @@ public class SimDesktop extends BioFrame
 		myShowMalfunctionDisplayItem = myNewMenu.add(myShowMalfunctionDisplayAction);
 		myShowMalfunctionDisplayItem.setMnemonic(KeyEvent.VK_M);
 		myShowStochasticDisplayItem = myNewMenu.add(myShowStochasticDisplayAction);
+		myShowStochasticDisplayItem.setMnemonic(KeyEvent.VK_I);
+		myShowSensorViewerItem = myNewMenu.add(myShowSensorViewerAction);
 		myShowStochasticDisplayItem.setMnemonic(KeyEvent.VK_I);
 		myFileMenu.add(myNewMenu);
 		myLoggingItem = myFileMenu.add(myLoggingAction);
@@ -556,6 +562,16 @@ public class SimDesktop extends BioFrame
 			newFrame.setSize(500,350);
 		}
 	}
+	
+	/**
+	*  Displays the Sensor Viewer panel with an internal frame inside this desktop.
+	*/
+	private void displaySensorViewer(){
+			BioFrame sensorFrame = new BioFrame("Sensor Viewer", false);
+			sensorFrame.getContentPane().add((new SensorViewer()).getScrollPane());
+			sensorFrame.pack();
+			sensorFrame.setVisible(true);
+	}
 
 	protected Map getInternalFrames(){
 		return myFrames;
@@ -702,6 +718,20 @@ public class SimDesktop extends BioFrame
 		public void actionPerformed(ActionEvent ae){
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			displayStochastic();
+			setCursor(Cursor.getDefaultCursor());
+		}
+	}
+	
+	/**
+	* Action that displays the malfunction panel in an internal frame on the desktop.
+	*/
+	private class ShowSensorViewerAction extends AbstractAction{
+		public ShowSensorViewerAction(String name){
+			super(name);
+		}
+		public void actionPerformed(ActionEvent ae){
+			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			displaySensorViewer();
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}
