@@ -197,20 +197,31 @@ public class InjectorImpl extends BioModuleImpl implements InjectorOperations, P
 			distributedAir = myAirInputs[i].addBreath(distributedAir);
 		}
 		
-		/*
-		float gatheredCO2Air = 0f;
-		for (int i = 0; i < myCO2AirInputs.length; i++){
-			gatheredCO2Air += myCO2AirInputs[i].takeCO2(CO2AirInFlowRates[i]);
+		//Get CO2
+		float gatheredCO2Air = getMaxResourceFromStore(myCO2AirStoreInputs, CO2AirStoreInFlowRates);
+		for (int i = 0; i < myCO2AirEnvironmentInputs.length; i++){
+			gatheredCO2Air += myCO2AirEnvironmentInputs[i].takeCO2(CO2AirEnvironmentInFlowRates[i]);
 		}
-		float CO2AirPushed = pushResourceToStore(myCO2AirOutputs, CO2AirOutFlowRates, gatheredCO2Air);
+		//Push CO2
+		float CO2AirPushed = pushResourceToStore(myCO2AirStoreOutputs, CO2AirStoreOutFlowRates, gatheredCO2Air);
+		float CO2AirLeft = gatheredCO2Air - CO2AirPushed;
+		for (int i = 0; (i < myCO2AirEnvironmentOutputs.length) && (CO2AirLeft > 0); i++){
+			CO2AirLeft -= myCO2AirEnvironmentOutputs[i].addCO2(CO2AirEnvironmentOutFlowRates[i]);
+		}
+		CO2AirPushed = gatheredCO2Air - CO2AirLeft;
 		
-		float gatheredO2Air = 0f;
-		for (int i = 0; i < myO2AirInputs.length; i++){
-			gatheredO2Air += myO2AirInputs[i].takeO2(O2AirInFlowRates[i]);
+		//Get O2
+		float gatheredO2Air = getMaxResourceFromStore(myO2AirStoreInputs, O2AirStoreInFlowRates);
+		for (int i = 0; i < myO2AirEnvironmentInputs.length; i++){
+			gatheredO2Air += myO2AirEnvironmentInputs[i].takeO2(O2AirEnvironmentInFlowRates[i]);
 		}
-		float totalO2Distributed = gatheredO2Air;
-		float O2AirPushed = pushResourceToStore(myO2AirOutputs, O2AirOutFlowRates, gatheredO2Air);
-		*/
+		//Push O2
+		float O2AirPushed = pushResourceToStore(myO2AirStoreOutputs, O2AirStoreOutFlowRates, gatheredO2Air);
+		float O2AirLeft = gatheredO2Air - O2AirPushed;
+		for (int i = 0; (i < myO2AirEnvironmentOutputs.length) && (O2AirLeft > 0); i++){
+			O2AirLeft -= myO2AirEnvironmentOutputs[i].addO2(O2AirEnvironmentOutFlowRates[i]);
+		}
+		O2AirPushed = gatheredO2Air - O2AirLeft;
 	}
 
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
