@@ -150,9 +150,9 @@ public class CrewTextPanel extends TimedPanel
 	 * Enumerates through all the crew memebers this panel knows about and updates their labels by pulling from the crew server.
 	 */
 	public void refresh(){
-		if (crewPersonGUIList.size() == 0){
-			myCrewPeople = myCrew.getCrewPeople();
-			if (myCrewPeople.length > 0){
+		int crewSize = myCrew.getCrewSize();
+		if ((crewPersonGUIList.size() != crewSize)){
+			if (crewSize > 0){
 				rebuildGui();
 			}
 		}
