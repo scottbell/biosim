@@ -56,7 +56,7 @@ public class CRS extends AirRSSubSystem{
 	}
 
 	public void tick(){
-		gatherPower();
+		super.tick();
 		if (hasEnoughPower){
 			gatherGasses();
 			pushGasses();

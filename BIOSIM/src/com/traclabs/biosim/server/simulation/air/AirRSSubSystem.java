@@ -57,7 +57,9 @@ public abstract class AirRSSubSystem{
 		}
 	}
 
-	public abstract void tick();
+	public void tick(){
+		gatherPower();
+	}
 
 	public void log(LogNode myHead){
 		//If not initialized, fill in the log

@@ -98,7 +98,7 @@ public class VCCR extends AirRSSubSystem{
 	}
 
 	public void tick(){
-		gatherPower();
+		super.tick();
 		if (hasEnoughPower){
 			gatherAir();
 			pushAir();
