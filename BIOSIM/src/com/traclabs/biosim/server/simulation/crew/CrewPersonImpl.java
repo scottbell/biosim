@@ -110,6 +110,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
     private boolean suffocating = false;
 
     private boolean poisoned = false;
+    
+    private boolean fireRisked = false;
 
     //A mission productivity measure, used when "mission" is specified in the
     // schedule. Not implemented correctly yet.
@@ -136,7 +138,9 @@ public class CrewPersonImpl extends CrewPersonPOA {
 
     private SimpleBuffer consumedWaterBuffer;
 
-    private SimpleBuffer consumedOxygenBuffer;
+    private SimpleBuffer consumedLowOxygenBuffer;
+    
+    private SimpleBuffer highOxygenBuffer;
 
     private SimpleBuffer consumedCaloriesBuffer;
 
@@ -154,17 +158,23 @@ public class CrewPersonImpl extends CrewPersonPOA {
 
     private static final float CALORIE_RECOVERY_RATE = 0.0001f;
 
-    private static final float CO2_RATIO_HIGH = 0.06f;
+    private static final float CO2_HIGH_RATIO = 0.06f;
 
-    private static final float CO2_TILL_DEAD = 4f;
+    private static final float CO2_HIGH_TILL_DEAD = 4f;
 
-    private static final float CO2_RECOVERY_RATE = 0.005f;
+    private static final float CO2_HIGH_RECOVERY_RATE = 0.005f;
 
-    private static final float O2_RATIO_LOW = 0.1f;
+    private static final float O2_HIGH_RATIO = 0.5f;
 
-    private static final float O2_TILL_DEAD = 2f;
+    private static final float O2_HIGH_TILL_DEAD = 8f;
 
-    private static final float O2_RECOVERY_RATE = 0.01f;
+    private static final float O2_HIGH_RECOVERY_RATE = 0.01f;
+
+    private static final float O2_LOW_RATIO = 0.1f;
+
+    private static final float O2_LOW_TILL_DEAD = 2f;
+
+    private static final float O2_LOW_RECOVERY_RATE = 0.01f;
 
     private static final float LEISURE_TILL_BURNOUT = 168f;
 
@@ -212,10 +222,12 @@ public class CrewPersonImpl extends CrewPersonPOA {
         consumedWaterBuffer = new SimpleBuffer(WATER_TILL_DEAD, WATER_TILL_DEAD);
         consumedCaloriesBuffer = new SimpleBuffer(CALORIE_TILL_DEAD,
                 CALORIE_TILL_DEAD);
-        consumedCO2Buffer = new SimpleBuffer(CO2_TILL_DEAD * CO2_RATIO_HIGH,
-                CO2_TILL_DEAD * CO2_RATIO_HIGH);
-        consumedOxygenBuffer = new SimpleBuffer(O2_TILL_DEAD * O2_RATIO_LOW,
-                O2_TILL_DEAD * O2_RATIO_LOW);
+        consumedCO2Buffer = new SimpleBuffer(CO2_HIGH_TILL_DEAD * CO2_HIGH_RATIO,
+                CO2_HIGH_TILL_DEAD * CO2_HIGH_RATIO);
+        consumedLowOxygenBuffer = new SimpleBuffer(O2_LOW_TILL_DEAD * O2_LOW_RATIO,
+                O2_HIGH_TILL_DEAD * O2_HIGH_RATIO);
+        highOxygenBuffer = new SimpleBuffer(O2_HIGH_TILL_DEAD * O2_HIGH_RATIO,
+                O2_HIGH_TILL_DEAD * O2_HIGH_RATIO);
         sleepBuffer = new SimpleBuffer(AWAKE_TILL_EXHAUSTION,
                 AWAKE_TILL_EXHAUSTION);
         leisureBuffer = new SimpleBuffer(LEISURE_TILL_BURNOUT,
@@ -231,7 +243,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
      */
     public void reset() {
         consumedWaterBuffer.reset();
-        consumedOxygenBuffer.reset();
+        consumedLowOxygenBuffer.reset();
+        highOxygenBuffer.reset();
         consumedCaloriesBuffer.reset();
         consumedCO2Buffer.reset();
         sleepBuffer.reset();
@@ -248,6 +261,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
         starving = false;
         suffocating = false;
         poisoned = false;
+        fireRisked = false;
         O2Consumed = 0f;
         CO2Produced = 0f;
         caloriesConsumed = 0f;
@@ -411,6 +425,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
      */
     public boolean isSuffocating() {
         return suffocating;
+    }
+    
+    public boolean hasFireRisk() {
+        return fireRisked;
     }
 
     /**
@@ -634,9 +652,9 @@ public class CrewPersonImpl extends CrewPersonPOA {
         float waterPercentFull = sigmoidLikeProbability(consumedWaterBuffer
                 .getLevel()
                 / consumedWaterBuffer.getCapacity());
-        float oxygenPercentFull = sigmoidLikeProbability(consumedOxygenBuffer
+        float oxygenPercentFull = sigmoidLikeProbability(consumedLowOxygenBuffer
                 .getLevel()
-                / consumedOxygenBuffer.getCapacity());
+                / consumedLowOxygenBuffer.getCapacity());
         float CO2PercentFull = sigmoidLikeProbability(consumedCO2Buffer
                 .getLevel()
                 / consumedCO2Buffer.getCapacity());
@@ -941,9 +959,9 @@ public class CrewPersonImpl extends CrewPersonPOA {
                 * consumedCaloriesBuffer.getCapacity());
         consumedWaterBuffer.add(WATER_RECOVERY_RATE
                 * consumedWaterBuffer.getCapacity());
-        consumedOxygenBuffer.add(O2_RECOVERY_RATE
-                * consumedOxygenBuffer.getCapacity());
-        consumedCO2Buffer.add(CO2_RECOVERY_RATE
+        consumedLowOxygenBuffer.add(O2_LOW_RECOVERY_RATE
+                * consumedLowOxygenBuffer.getCapacity());
+        consumedCO2Buffer.add(CO2_HIGH_RECOVERY_RATE
                 * consumedCO2Buffer.getCapacity());
     }
 
@@ -964,13 +982,17 @@ public class CrewPersonImpl extends CrewPersonPOA {
             thirsty = true;
         else
             thirsty = false;
-        if (getO2Ratio() < O2_RATIO_LOW) {
-            consumedOxygenBuffer.take(O2_RATIO_LOW - getO2Ratio());
+        if (getO2Ratio() < O2_LOW_RATIO) {
+            consumedLowOxygenBuffer.take(O2_LOW_RATIO - getO2Ratio());
             suffocating = true;
         } else
             suffocating = false;
-        if (getCO2Ratio() > CO2_RATIO_HIGH) {
-            consumedCO2Buffer.take(getCO2Ratio() - CO2_RATIO_HIGH);
+        if (getO2Ratio() > O2_HIGH_RATIO) {
+                highOxygenBuffer.take(getO2Ratio() - O2_HIGH_RATIO);
+                fireRisked = true;
+        } else
+        if (getCO2Ratio() > CO2_HIGH_RATIO) {
+            consumedCO2Buffer.take(getCO2Ratio() - CO2_HIGH_RATIO);
             poisoned = true;
         } else
             poisoned = false;
@@ -1002,9 +1024,12 @@ public class CrewPersonImpl extends CrewPersonPOA {
         float waterRiskReturn = sigmoidLikeProbability((consumedWaterBuffer
                 .getCapacity() - consumedWaterBuffer.getLevel())
                 / consumedWaterBuffer.getCapacity());
-        float oxygenRiskReturn = sigmoidLikeProbability((consumedOxygenBuffer
-                .getCapacity() - consumedOxygenBuffer.getLevel())
-                / consumedOxygenBuffer.getCapacity());
+        float oxygenLowRiskReturn = sigmoidLikeProbability((consumedLowOxygenBuffer
+                .getCapacity() - consumedLowOxygenBuffer.getLevel())
+                / consumedLowOxygenBuffer.getCapacity());
+        float oxygenHighRiskReturn = sigmoidLikeProbability((highOxygenBuffer
+                .getCapacity() - highOxygenBuffer.getLevel())
+                / highOxygenBuffer.getCapacity());
         float CO2RiskReturn = sigmoidLikeProbability((consumedCO2Buffer
                 .getCapacity() - consumedCO2Buffer.getLevel())
                 / consumedCO2Buffer.getCapacity());
@@ -1038,17 +1063,17 @@ public class CrewPersonImpl extends CrewPersonPOA {
         myLogger.debug("\toxygen taken="
                 + (O2Needed - O2Consumed)
                 + ", recovered "
-                + O2_RECOVERY_RATE
-                * consumedOxygenBuffer.getCapacity()
+                + O2_LOW_RECOVERY_RATE
+                * consumedLowOxygenBuffer.getCapacity()
                 + " O2 risk level="
-                + (consumedOxygenBuffer.getCapacity() - consumedOxygenBuffer
-                        .getLevel()) / consumedOxygenBuffer.getCapacity()
-                + " (level=" + consumedOxygenBuffer.getLevel() + ", capacity="
-                + consumedOxygenBuffer.getCapacity() + ")");
+                + (consumedLowOxygenBuffer.getCapacity() - consumedLowOxygenBuffer
+                        .getLevel()) / consumedLowOxygenBuffer.getCapacity()
+                + " (level=" + consumedLowOxygenBuffer.getLevel() + ", capacity="
+                + consumedLowOxygenBuffer.getCapacity() + ")");
         myLogger.debug("\tCO2 taken="
-                + (getCO2Ratio() - CO2_RATIO_HIGH)
+                + (getCO2Ratio() - CO2_HIGH_RATIO)
                 + ", recovered "
-                + CO2_RECOVERY_RATE
+                + CO2_HIGH_RECOVERY_RATE
                 * consumedCO2Buffer.getCapacity()
                 + " CO2 risk level="
                 + (consumedCO2Buffer.getCapacity() - consumedCO2Buffer
@@ -1058,7 +1083,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
         myLogger.debug("\tsleep (level=" + sleepBuffer.getLevel()
                 + ", capacity=" + sleepBuffer.getCapacity() + ")");
         myLogger.debug("\tCO2 ration =" + getCO2Ratio()
-                + ", DANGEROUS_CO2_RATION=" + CO2_RATIO_HIGH);
+                + ", DANGEROUS_CO2_RATION=" + CO2_HIGH_RATIO);
 
         if (sleepRiskReturn > (randomNumber + 0.05f)) {
             sicken();
@@ -1078,19 +1103,32 @@ public class CrewPersonImpl extends CrewPersonPOA {
             myLogger.info(getName() + " has died from thirst on tick "
                     + myCurrentCrewGroup.getMyTicks() + " (risk was "
                     + numFormat.format(waterRiskReturn * 100) + "%)");
-        } else if (oxygenRiskReturn > randomNumber) {
+        } else if (oxygenLowRiskReturn > randomNumber) {
             hasDied = true;
             SimEnvironment[] myAirInputs = myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments();
             myLogger.info(getName() + " has died from lack of oxygen on tick "
                     + myCurrentCrewGroup.getMyTicks() + " (risk was "
-                    + numFormat.format(oxygenRiskReturn * 100) + "%)");
+                    + numFormat.format(oxygenLowRiskReturn * 100) + "%)");
             myLogger.info(getName() + " Environmental conditions were: 02="
                     + myAirInputs[0].getO2Moles() + ", CO2="
                     + myAirInputs[0].getCO2Moles() + ", N="
                     + myAirInputs[0].getNitrogenMoles() + ", water="
                     + myAirInputs[0].getWaterMoles() + ", other="
                     + myAirInputs[0].getOtherMoles());
-        } else if (CO2RiskReturn > randomNumber) {
+        } else if (oxygenHighRiskReturn > randomNumber) {
+            hasDied = true;
+            SimEnvironment[] myAirInputs = myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments();
+            myLogger.info(getName() + " has died from oxygen flammability on tick "
+                    + myCurrentCrewGroup.getMyTicks() + " (risk was "
+                    + numFormat.format(oxygenHighRiskReturn * 100) + "%)");
+            myLogger.info(getName() + " Environmental conditions were: 02="
+                    + myAirInputs[0].getO2Moles() + ", CO2="
+                    + myAirInputs[0].getCO2Moles() + ", N="
+                    + myAirInputs[0].getNitrogenMoles() + ", water="
+                    + myAirInputs[0].getWaterMoles() + ", other="
+                    + myAirInputs[0].getOtherMoles());
+        }
+        else if (CO2RiskReturn > randomNumber) {
             hasDied = true;
             SimEnvironment[] myAirInputs = myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments();
             myLogger.info(getName() + " has died from CO2 poisoning on tick "
