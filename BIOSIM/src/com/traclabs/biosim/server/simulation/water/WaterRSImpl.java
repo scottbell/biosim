@@ -145,7 +145,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	}
 
 	private void distributePotableWater(){
-		currentPotableWaterProduced = myPPS.takePotableWater();
+		currentPotableWaterProduced = myPPS.takeWater();
 		myPotableWaterStore.add(currentPotableWaterProduced);
 	}
 

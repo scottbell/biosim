@@ -171,6 +171,22 @@ public class WaterPanel extends JPanel implements BioSimulatorListener
 	        potableWaterStoreLevelLabel =    new JLabel("water level:    "+numFormat.format(myPotableWaterStore.getLevel())+" L");
 	        potableWaterStorePanel.add(potableWaterStoreLevelLabel);
 	}
+	
+	private String coallateAESStatus(){
+		return null;
+	}
+	
+	private String coallateBWPStatus(){
+		return null;
+	}
+	
+	private String coallateROStatus(){
+		return null;
+	}
+	
+	private String coallatePPSStatus(){
+		return null;
+	}
 
 	public void processTick(){
 		waterRSPotableWaterProducedLabel.setText("potable water produced:   "+numFormat.format(myWaterRS.getPotableWaterProduced())+" L");

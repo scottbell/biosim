@@ -8,6 +8,7 @@ import javax.swing.border.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.util.*;
+import java.text.*;
 
 public class CrewPanel extends JPanel implements BioSimulatorListener
 {
@@ -66,7 +67,7 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 				sexString = "female";
 			newPersonGUI.sexLabel = new JLabel("sex: "+sexString);
 			newPersonPanel.add(newPersonGUI.sexLabel);
-			newPersonGUI.statusLabel = new JLabel("status: "+"empty");
+			newPersonGUI.statusLabel = new JLabel("status: "+coallateStatus(myCrewPeople[i]));
 			newPersonPanel.add(newPersonGUI.statusLabel);
 			newPersonGUI.activityNameLabel = new JLabel("current activity: "+myCrewPeople[i].getCurrentActivity().getName());
 			newPersonPanel.add(newPersonGUI.activityNameLabel);
@@ -79,6 +80,30 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 			crewPersonGUIVector.add(newPersonGUI);
 			add(newPersonPanel);
 		}
+	}
+	
+	private String coallateStatus(CrewPerson pCrewPerson){
+		Vector statusVector = new Vector();
+		StringBuffer statusBuffer = new StringBuffer();
+		if (pCrewPerson.isDead())
+			return "dead";
+		if (pCrewPerson.isStarving())
+			statusVector.add("starving");
+		else if (pCrewPerson.isPoisoned())
+			statusVector.add("CO2 poisoned");
+		else if (pCrewPerson.isThirsty())
+			statusVector.add("thirsty");
+		else if (pCrewPerson.isSuffocating())
+			statusVector.add("suffocating");
+		if (statusVector.size() < 1)
+			return "nominal";
+		for (Enumeration e = statusVector.elements(); e.hasMoreElements();){
+			String currentStatus = (String)(e.nextElement());
+			statusBuffer.append(currentStatus);
+			if (e.hasMoreElements())
+				statusBuffer.append(", ");
+		}
+		return statusBuffer.toString();
 	}
 
 	public void processTick(){
@@ -97,7 +122,7 @@ public class CrewPanel extends JPanel implements BioSimulatorListener
 			newPersonGUI.activityCurrentDurationLabel.setText("	performed for: "+crewPerson.getTimeActivityPerformed());
 			newPersonGUI.activityTotalDurationLabel.setText("	total duration: "+crewPerson.getCurrentActivity().getTimeLength());
 			newPersonGUI.activityIntensityLabel.setText("	intensity: "+crewPerson.getCurrentActivity().getActivityIntensity());
-			newPersonGUI.statusLabel.setText("status: "+"empty");
+			newPersonGUI.statusLabel.setText("status: "+coallateStatus(crewPerson));
 			String sexString;
 			if (crewPerson.getSex() == Sex.male)
 				sexString = "male";
