@@ -83,8 +83,25 @@ public class SimCommandLine
 			else
 				System.out.println("simulation needs to be paused frist");
 		}
+		else if (userCommand.equals("status")){
+			StringBuffer statusBuffer = new StringBuffer("simulation is: ");
+			if (myDriver.isStarted())
+				statusBuffer.append("running, ");
+			else
+				statusBuffer.append("stopped, ");
+			if (myDriver.isPaused())
+				statusBuffer.append("paused, ");
+			else
+				statusBuffer.append("not-paused, ");
+			if (myDriver.isLogging())
+				statusBuffer.append("logging, ");
+			else
+				statusBuffer.append("not-logging, ");
+			statusBuffer.delete(statusBuffer.length() -2, statusBuffer.length());
+			System.out.println(statusBuffer.toString());
+		}
 		else if (userCommand.equals("?") || userCommand.equals("help")){
-			System.out.println("commands: start, stop, pause, resume, quit, startLog, stopLog, help");
+			System.out.println("commands: start, stop, pause, resume, status, quit, startLog, stopLog, help");
 		}
 		else{
 			System.out.println("unrecognized command: "+userCommand);

@@ -413,10 +413,14 @@ public abstract class PlantImpl extends PlantPOA{
 			float CQYMin = getCQYMin();
 			float daysOfGrowth = getDaysOfGrowth();
 			float timeTillCropMaturity = getTimeTillCropMaturity();
+			float calculatedCQY = CQYMax - ((CQYMax - CQYMin) * ((daysOfGrowth - timeTillCanopySenescence)) / (timeTillCropMaturity - timeTillCanopySenescence));
 			System.out.println("PlantImpl: CQYMin: "+CQYMin);
 			System.out.println("PlantImpl: daysOfGrowth: "+daysOfGrowth);
 			System.out.println("PlantImpl: timeTillCropMaturity: "+timeTillCropMaturity);
-			return CQYMax - (CQYMax - CQYMin) * ((daysOfGrowth - timeTillCanopySenescence)) / (timeTillCropMaturity - timeTillCanopySenescence);
+			if (calculatedCQY < 0f)
+				return 0f;
+			else
+				return calculatedCQY;
 		}
 	}
 
