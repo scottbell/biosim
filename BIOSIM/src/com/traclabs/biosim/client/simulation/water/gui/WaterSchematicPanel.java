@@ -2,6 +2,7 @@ package biosim.client.water.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.text.*;
 import javax.swing.*;
 import biosim.idl.water.*;
 import biosim.client.framework.gui.*;
@@ -51,6 +52,8 @@ public class WaterSchematicPanel extends TimedPanel
 	private PotableWaterStore myPotableWaterStore;
 	private GreyWaterStore myGreyWaterStore;
 	private DirtyWaterStore myDirtyWaterStore;
+	//For formatting floats
+	private DecimalFormat numFormat;
 
 	/**
 	 * Default constructor.
@@ -65,6 +68,7 @@ public class WaterSchematicPanel extends TimedPanel
 
 
 	private void buildGui(){
+		numFormat = new DecimalFormat("#,##0.00;(#)");
 		loadIcons();
 		mainPanel = new JPanel();
 		AESButton = new JButton(new AESAction("AES (nominal)"));
@@ -225,6 +229,11 @@ public class WaterSchematicPanel extends TimedPanel
 	}
 
 	public void refresh(){
+		potableWaterButton.setToolTipText(numFormat.format(myPotableWaterStore.getLevel())+" L");
+		dirtyWaterButton.setToolTipText(numFormat.format(myDirtyWaterStore.getLevel())+" L");
+		greyWaterButton.setToolTipText(numFormat.format(myGreyWaterStore.getLevel())+" L");
+		
+		tDownPipeLabel1.setToolTipText(numFormat.format(myWaterRS.getGreyWaterConsumed() + myWaterRS.getDirtyWaterConsumed())+" L");
 		if ((myWaterRS.getGreyWaterConsumed() > 0) && (myWaterRS.getDirtyWaterConsumed() > 0))
 			tDownPipeLabel1.setIcon(tDownWaterFullPipeIcon);
 		else if (myWaterRS.getGreyWaterConsumed() > 0)
@@ -234,7 +243,8 @@ public class WaterSchematicPanel extends TimedPanel
 		else{
 			tDownPipeLabel1.setIcon(tDownPipeIcon);
 		}
-
+		
+		tDownPipeLabel2.setToolTipText(numFormat.format(myWaterRS.getBWPtoROWater() + myWaterRS.getBWPtoAESWater())+" L");
 		if ((myWaterRS.getBWPtoROWater() > 0) && (myWaterRS.getBWPtoAESWater() > 0))
 			tUpPipeLabel.setIcon(tUpWaterFullPipeIcon);
 		else if (myWaterRS.getBWPtoROWater() > 0)
@@ -244,12 +254,14 @@ public class WaterSchematicPanel extends TimedPanel
 		else{
 			tUpPipeLabel.setIcon(tUpPipeIcon);
 		}
-
+		
+		verticalPipeLabel2.setToolTipText(numFormat.format(myWaterRS.getROtoAESWater())+" L");
 		if (myWaterRS.getROtoAESWater() > 0)
 			horizontalPipeLabel.setIcon(horizontalWaterPipeIcon);
 		else
 			horizontalPipeLabel.setIcon(horizontalPipeIcon);
-
+		
+		tDownPipeLabel2.setToolTipText(numFormat.format(myWaterRS.getROtoPPSWater() + myWaterRS.getAEStoPPSWater())+" L");
 		if ((myWaterRS.getROtoPPSWater() > 0) && (myWaterRS.getAEStoPPSWater() > 0))
 			tDownPipeLabel2.setIcon(tDownWaterFullPipeIcon);
 		else if (myWaterRS.getROtoPPSWater() > 0)
@@ -259,7 +271,8 @@ public class WaterSchematicPanel extends TimedPanel
 		else{
 			tDownPipeLabel2.setIcon(tDownPipeIcon);
 		}
-
+		
+		verticalPipeLabel2.setToolTipText(numFormat.format(myWaterRS.getPotableWaterProduced())+" L");
 		if (myWaterRS.getPotableWaterProduced() > 0)
 			verticalPipeLabel2.setIcon(verticalWaterPipeIcon);
 		else
@@ -268,35 +281,75 @@ public class WaterSchematicPanel extends TimedPanel
 		if (!myWaterRS.AESIsEnabled()){
 			AESButton.setText("AES");
 			AESButton.setIcon(susbsytemDisabledIcon);
+			AESButton.setToolTipText("Disabled");
 		}
 		else if (!myWaterRS.AESHasPower()){
 			AESButton.setText("AES");
 			AESButton.setIcon(susbsytemProblemIcon);
+			AESButton.setToolTipText("Needs Power");
 		}
 		else if (!myWaterRS.AESHasWater()){
 			AESButton.setText("AES");
 			AESButton.setIcon(susbsytemProblemIcon);
+			AESButton.setToolTipText("Needs Water");
 		}
 		else if (myWaterRS.AESIsEnabled()){
 			AESButton.setText("AES");
 			AESButton.setIcon(susbsytemOkIcon);
+			AESButton.setToolTipText("Nominal");
 		}
 
 		if (!myWaterRS.ROIsEnabled()){
 			ROButton.setText("RO");
 			ROButton.setIcon(susbsytemDisabledIcon);
+			ROButton.setToolTipText("Disabled");
 		}
 		else if (!myWaterRS.ROHasPower()){
 			ROButton.setText("RO");
 			ROButton.setIcon(susbsytemProblemIcon);
+			ROButton.setToolTipText("Needs Power");
 		}
 		else if (!myWaterRS.ROHasWater()){
 			ROButton.setText("RO");
 			ROButton.setIcon(susbsytemProblemIcon);
+			ROButton.setToolTipText("Needs Water");
 		}
 		else if (myWaterRS.ROIsEnabled()){
 			ROButton.setText("RO");
 			ROButton.setIcon(susbsytemOkIcon);
+			ROButton.setToolTipText("Nominal");
+		}
+		
+		if (!myWaterRS.BWPHasPower()){
+			BWPButton.setText("BWP");
+			BWPButton.setIcon(susbsytemProblemIcon);
+			BWPButton.setToolTipText("Needs Power");
+		}
+		else if (!myWaterRS.BWPHasWater()){
+			BWPButton.setText("BWP");
+			BWPButton.setIcon(susbsytemProblemIcon);
+			BWPButton.setToolTipText("Needs Water");
+		}
+		else{
+			BWPButton.setText("BWP");
+			BWPButton.setIcon(susbsytemOkIcon);
+			BWPButton.setToolTipText("Nominal");
+		}
+		
+		if (!myWaterRS.PPSHasPower()){
+			PPSButton.setText("PPS");
+			PPSButton.setIcon(susbsytemProblemIcon);
+			PPSButton.setToolTipText("Needs Power");
+		}
+		else if (!myWaterRS.PPSHasWater()){
+			PPSButton.setText("PPS");
+			PPSButton.setIcon(susbsytemProblemIcon);
+			PPSButton.setToolTipText("Needs Water");
+		}
+		else{
+			PPSButton.setText("PPS");
+			PPSButton.setIcon(susbsytemOkIcon);
+			PPSButton.setToolTipText("Nominal");
 		}
 	}
 
