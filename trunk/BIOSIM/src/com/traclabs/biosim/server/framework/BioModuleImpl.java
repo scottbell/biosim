@@ -140,14 +140,22 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		if (randomCoefficient <= 0)
 			return pValue;
 		double deviation = randomCoefficient * pValue;
-		return (new Double(gaussian(pValue, deviation))).floatValue();
+		double result = gaussian(pValue, deviation);
+		if (result < 0)
+			return 0;
+		else
+			return (new Double(result)).floatValue();
 	}
 
 	public double randomFilter(double pValue){
 		if (randomCoefficient <= 0)
 			return pValue;
 		double deviation = randomCoefficient * pValue;
-		return gaussian(pValue, deviation);
+		double result = gaussian(pValue, deviation);
+		if (result < 0)
+			return 0;
+		else
+			return result;
 	}
 
 	public boolean randomFilter(boolean pValue){
@@ -161,7 +169,11 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		if (randomCoefficient <= 0)
 			return pValue;
 		double deviation = randomCoefficient * pValue;
-		return (new Double(gaussian(pValue, deviation))).intValue();
+		double result = gaussian(pValue, deviation);
+		if (result < 0)
+			return 0;
+		else
+			return (new Double(result)).intValue();
 	}
 
 	protected void sendLog(LogNodeImpl logToProcess){
