@@ -45,76 +45,76 @@ import com.traclabs.biosim.idl.simulation.water.WaterRS;
 public class HandController {
 
     //feedback loop sttuff
-    double CrewO2Level = 0.20f;
+    private double CrewO2Level = 0.20f;
 
-    double CrewCO2Level = 0.0012f;
+    private double CrewCO2Level = 0.0012f;
 
-    double CrewH2OLevel = 0.01f;
+    private double CrewH2OLevel = 0.01f;
 
-    double desiredAirPressure = 101f;
+    private double desiredAirPressure = 101f;
 
-    double crewO2integral, crewCO2integral, crewH2Ointegral;
+    private double crewO2integral, crewCO2integral, crewH2Ointegral;
 
     private final static String TAB = "\t";
 
     // hand controller stuff;
-    int water = 0;
+    private  int water = 0;
 
-    int gwater = 0;
+    private int gwater = 0;
 
-    int CO2 = 0;
+    private int CO2 = 0;
 
-    int potable = 0;
+    private int potable = 0;
 
-    StateMap continuousState;
+    private StateMap continuousState;
 
-    ActionMap currentAction;
+    private ActionMap currentAction;
 
-    Map classifiedState;
+    private Map classifiedState;
 
-    static int Runs = 0;
+    private static int Runs = 0;
 
-    static Map ThresholdMap = new TreeMap();
+    private static Map thresholdMap = new TreeMap();
 
-    static BioDriver myBioDriver;
+    private static BioDriver myBioDriver;
 
-    static BioHolder myBioHolder;
+    private static BioHolder myBioHolder;
 
-    BiomassRS myBiomassRS;
+    private BiomassRS myBiomassRS;
 
-    FoodProcessor myFoodProcessor;
+    private FoodProcessor myFoodProcessor;
 
-    FoodStore myFoodStore;
+    private FoodStore myFoodStore;
 
-    BiomassStore myBiomassStore;
+    private BiomassStore myBiomassStore;
 
-    OGS myOGS;
+    private OGS myOGS;
 
-    WaterRS myWaterRS;
+    private WaterRS myWaterRS;
 
-    CrewGroup myCrew;
+    private CrewGroup myCrew;
 
-    SimEnvironment myCrewEnvironment;
+    private SimEnvironment myCrewEnvironment;
 
-    DirtyWaterStore myDirtyWaterStore;
+    private DirtyWaterStore myDirtyWaterStore;
 
-    GreyWaterStore myGreyWaterStore;
+    private GreyWaterStore myGreyWaterStore;
 
-    PotableWaterStore myPotableWaterStore;
+    private PotableWaterStore myPotableWaterStore;
 
-    PowerStore myPowerStore;
+    private PowerStore myPowerStore;
 
-    O2Store myO2Store;
+    private  O2Store myO2Store;
 
-    CO2Store myCO2Store;
+    private CO2Store myCO2Store;
 
-    H2Store myH2Store;
+    private H2Store myH2Store;
 
-    static int ATMOSPHERIC_PERIOD = 2;
+    private static int ATMOSPHERIC_PERIOD = 2;
 
-    static int CORE_PERIOD_MULT = 5;
+    private static int CORE_PERIOD_MULT = 5;
 
-    static int PLANT_PERIOD_MULT = 10;
+    private static int PLANT_PERIOD_MULT = 10;
 
     public static String[] stateNames = { "carbondioxide", "dirtywater",
             "greywater", "hydrogen", "oxygen", "potablewater" };
@@ -122,11 +122,11 @@ public class HandController {
     public static String[] actuatorNames = { "OGSpotable", "waterRSdirty",
             "waterRSgrey" };
 
-    File outFile = new File("/dev/null");
+    private File outFile = new File("/dev/null");
 
-    FileWriter fw;
+    private FileWriter fw;
 
-    PrintWriter pw;
+    private PrintWriter pw;
 
     private Logger myLogger;
 
@@ -271,59 +271,59 @@ public class HandController {
             }
         }
         //advancing the sim n ticks
-        for (int i = 0; i < ATMOSPHERIC_PERIOD; i++)
+        for (int i = 0; (i < ATMOSPHERIC_PERIOD) && (!myBioDriver.isDone()); i++)
             myBioDriver.advanceOneTick();
         doInjectors();
 
     }
 
-    public static void setThresholds() {
+    public void setThresholds() {
 
         // sets up the threshold map variable
         int i;
         Map subMap;
-        int DirtyWaterLowLevel = 100;
-        int DirtyWaterHighLevel = 400;
-        int GreyWaterLowLevel = 100;
-        int GreyWaterHighLevel = 400;
-        int PotableWaterLowLevel = 100;
-        int PotableWaterHighLevel = 400;
-        int O2StoreLowLevel = 200;
-        int O2StoreHighLevel = 800;
-        int CO2StoreLowLevel = 200;
-        int CO2StoreHighLevel = 800;
-        int H2StoreLowLevel = 1000;
-        int H2StoreHighLevel = 9000;
+        int dirtyWaterHighLevel = (int)myDirtyWaterStore.getCurrentCapacity();
+        int dirtyWaterLowLevel = dirtyWaterHighLevel / 4;
+        int greyWaterHighLevel = (int)myGreyWaterStore.getCurrentCapacity();
+        int greyWaterLowLevel = greyWaterHighLevel / 4;
+        int potableWaterHighLevel = (int)myPotableWaterStore.getCurrentCapacity();
+        int potableWaterLowLevel = potableWaterHighLevel / 4;
+        int O2StoreHighLevel = (int)myO2Store.getCurrentCapacity();
+        int O2StoreLowLevel = O2StoreHighLevel / 4;
+        int CO2StoreHighLevel = (int)myCO2Store.getCurrentCapacity();
+        int CO2StoreLowLevel = CO2StoreHighLevel / 4;
+        int H2StoreHighLevel = (int)myH2Store.getCurrentCapacity();
+        int H2StoreLowLevel = H2StoreHighLevel / 10;
 
         subMap = new TreeMap();
-        subMap.put("low", new Integer(DirtyWaterLowLevel));
-        subMap.put("high", new Integer(DirtyWaterHighLevel));
-        ThresholdMap.put("dirtywater", subMap);
+        subMap.put("low", new Integer(dirtyWaterLowLevel));
+        subMap.put("high", new Integer(dirtyWaterHighLevel));
+        thresholdMap.put("dirtywater", subMap);
 
         subMap = new TreeMap();
-        subMap.put("low", new Integer(GreyWaterLowLevel));
-        subMap.put("high", new Integer(GreyWaterHighLevel));
-        ThresholdMap.put("greywater", subMap);
+        subMap.put("low", new Integer(greyWaterLowLevel));
+        subMap.put("high", new Integer(greyWaterHighLevel));
+        thresholdMap.put("greywater", subMap);
 
         subMap = new TreeMap();
-        subMap.put("low", new Integer(PotableWaterLowLevel));
-        subMap.put("high", new Integer(PotableWaterHighLevel));
-        ThresholdMap.put("potablewater", subMap);
+        subMap.put("low", new Integer(potableWaterLowLevel));
+        subMap.put("high", new Integer(potableWaterHighLevel));
+        thresholdMap.put("potablewater", subMap);
 
         subMap = new TreeMap();
         subMap.put("low", new Integer(O2StoreLowLevel));
         subMap.put("high", new Integer(O2StoreHighLevel));
-        ThresholdMap.put("oxygen", subMap);
+        thresholdMap.put("oxygen", subMap);
 
         subMap = new TreeMap();
         subMap.put("low", new Integer(CO2StoreLowLevel));
         subMap.put("high", new Integer(CO2StoreHighLevel));
-        ThresholdMap.put("carbondioxide", subMap);
+        thresholdMap.put("carbondioxide", subMap);
 
         subMap = new TreeMap();
         subMap.put("low", new Integer(H2StoreLowLevel));
         subMap.put("high", new Integer(H2StoreHighLevel));
-        ThresholdMap.put("hydrogen", subMap);
+        thresholdMap.put("hydrogen", subMap);
 
     }
 
@@ -342,7 +342,7 @@ public class HandController {
 
         for (i = 0; i < stateNames.length; i++) {
 
-            thisSet = (Map) ThresholdMap.get(stateNames[i]);
+            thisSet = (Map) thresholdMap.get(stateNames[i]);
             fileoutput.append(instate.getStateValue(stateNames[i]));
             fileoutput.append(TAB);
             if (instate.getStateValue(stateNames[i]) < ((Integer) thisSet
