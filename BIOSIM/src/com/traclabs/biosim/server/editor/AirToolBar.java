@@ -14,8 +14,8 @@ import org.tigris.gef.base.CmdCreateNode;
  */
 public class AirToolBar extends EditorToolBar {
 
-    public AirToolBar(BiosimEditor pEditor) {
-        super("Air", pEditor);
+    public AirToolBar() {
+        super("Air");
 
         add(new CmdCreateNode(H2StoreFig.class, true, null, "H2Store"));
         add(new NitrogenStoreAction());
@@ -37,7 +37,6 @@ public class AirToolBar extends EditorToolBar {
         }
 
         public void actionPerformed(ActionEvent e) {
-            notfifyEditor(H2StoreFig.getFactoryInstance());
         }
     }
 

@@ -24,7 +24,7 @@ public class WaterToolBar extends EditorToolBar {
     private JButton myConduitButton;
 
     public WaterToolBar(BiosimEditor pEditor) {
-        super("Water", pEditor);
+        super("Water");
         myWaterRSButton = new JButton("Water RS");
         myPotableWaterStoreButton = new JButton("Potable Water Store");
         myGreyWaterStoreButton = new JButton("Grey Water Store");

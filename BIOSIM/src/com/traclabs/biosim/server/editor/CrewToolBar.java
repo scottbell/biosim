@@ -16,7 +16,7 @@ public class CrewToolBar extends EditorToolBar {
     private JButton myConduitButton;
 
     public CrewToolBar(BiosimEditor pEditor) {
-        super("Crew", pEditor);
+        super("Crew");
         myCrewButton = new JButton("Crew");
         myConduitButton = new JButton("Conduit");
 
