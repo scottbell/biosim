@@ -33,6 +33,7 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	private int myTicks = 0;
 	//Whether this Store has collected a reference to the BioDriver or not.
 	private boolean hasCollectedReferences = false;
+	private boolean pipe = false;
 
 	/**
 	* Creates a Store with an initial level and capacity of 0
@@ -47,11 +48,29 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	* Creates a Store with an initial level and capacity user specified
 	* @param initialLevel the initial level of the store
 	* @param initialCapacity the initial capacity of the store
+	* @param pPipe whether this store should act like a pipe.  dynamic capcity == level == whatever is added THIS tick (0 if nothing added, flowrate should dictate pipe size, infinite otherwise)
 	*/
-	public StoreImpl (int pID, float initialLevel, float  initialCapacity){
+	public StoreImpl (int pID, float initialLevel, float initialCapacity, boolean pPipe){
 		super(pID);
+		pipe = pPipe;
 		level = oldLevel = initialLevel;
 		capacity = preMalfunctionCapacity = oldCapacity = initialCapacity;
+	}
+	
+	/**
+	* If this store acts like a pipe.  dynamic capcity == level == whatever is added THIS tick (0 if nothing added, flowrate should dictate pipe size, infinite otherwise)
+	* @return pPipe whether this store acts like a pipe.
+	*/
+	public boolean isPipe(){
+		return pipe;
+	}
+	
+	/**
+	* Sets this store to act like a pipe.  dynamic capcity == level == whatever is added THIS tick (0 if nothing added, flowrate should dictate pipe size, infinite otherwise)
+	* @param pPipe whether this store should act like a pipe.
+	*/
+	public void setPipe(boolean pPipe){
+		pipe = pPipe;
 	}
 
 	/**
@@ -73,6 +92,10 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	public void tick(){
 		oldLevel = level;
 		oldCapacity = capacity;
+		if (pipe){
+			level = 0f;
+			capacity = 0f;
+		}
 		myTicks++;
 		if (isMalfunctioning())
 			performMalfunctions();
@@ -162,6 +185,8 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	* @return the amount actually added to the store
 	*/
 	public float add(float amountRequested){
+		if (pipe)
+			capacity += amountRequested;
 		float acutallyAdded = 0f;
 		if ((amountRequested + level) > capacity){
 			//adding more than capacity
@@ -182,6 +207,8 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	* @return the amount actually retrieved
 	*/
 	public float take(float amountRequested){
+		if (pipe)
+			capacity -= amountRequested;
 		//idiot check
 		if (amountRequested < 0){
 			return 0f;
