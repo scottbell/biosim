@@ -792,6 +792,14 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 	
+	<!-- Special WaterRS specific declarations -->
+	<xsd:simpleType name="WaterRSImplementationType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="MATLAB"/>
+			<xsd:enumeration value="BIOSIM"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
 	<!-- SimModule declarations -->
 	
 	<xsd:complexType name="AirRSType">  
@@ -895,7 +903,7 @@
 					<xsd:element name="greyWaterConsumer" type="GreyWaterConsumerType"/>
 					<xsd:element name="potableWaterProducer" type="PotableWaterProducerType"/>
 				</xsd:sequence>
-				<xsd:attribute name="implementation" type="WaterRSImplementationType" default="biosim"/>
+				<xsd:attribute name="implementation" type="WaterRSImplementationType" default="BIOSIM"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>

@@ -156,7 +156,7 @@
 			<PowerStore name="PowerStore" capacity="10000" level="10000"/>
 		</power>
 		<water>
-			<WaterRS name="WaterRSMatlab" implementation="matlab">
+			<WaterRS name="WaterRS" implementation="MATLAB">
 				<powerConsumer maxFlowRates="500" desiredFlowRates="500" inputs="PowerStore"/>
 				<dirtyWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="DirtyWaterStore"/>
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="GreyWaterStore"/>
