@@ -143,6 +143,7 @@ public class BioInitializer {
                 myDriver = BioDriverHelper.narrow(OrbUtils.getNamingContext(
                         myID).resolve_str("BioDriver"));
             } catch (Exception e) {
+                myLogger.error(e.getMessage());
                 e.printStackTrace();
             }
             //Fold Actuators, SimModules, and Sensors into modules

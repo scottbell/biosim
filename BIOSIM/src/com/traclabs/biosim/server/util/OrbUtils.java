@@ -128,14 +128,20 @@ public class OrbUtils {
             e.printStackTrace();
         }
     }
+    
+    private static void initialize(){
+        while (!initializeLoop()){
+            sleepAwhile();
+        }
+    }
 
     /**
      * Done only once, this method initializes the ORB, resolves the root POA,
      * and grabs the naming context.
      */
-    private static void initialize() {
+    private static boolean initializeLoop() {
         if (initializeOrbRunOnce)
-            return;
+            return true;
         try {
             //Done
             
@@ -168,9 +174,7 @@ public class OrbUtils {
         } catch (Exception e) {
             Logger.getLogger(OrbUtils.class).info(
                     "OrbUtils: nameserver not found, polling again: " + e);
-            sleepAwhile();
-            initialize();
-            return;
+            return false;
         }
 
         //Attempt to create biosim context, if already there, don't bother
@@ -198,6 +202,7 @@ public class OrbUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return true;
     }
 
     /**
