@@ -19,14 +19,14 @@
 	<SimBioModules>
 		<air>
 			<AirRS name="BaseAirRS" implementation="LINEAR">
-				<powerConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BasePowerStore"/>
+				<powerConsumer maxFlowRates="300" desiredFlowRates="300" inputs="BasePowerStore"/>
 				<potableWaterConsumer maxFlowRates="10" desiredFlowRates="10" inputs="BasePotableWaterStore"/>
-				<airConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BaseCrewEnvironment"/>
+				<airConsumer maxFlowRates="300" desiredFlowRates="300" inputs="BaseCrewEnvironment"/>
 				<CO2Consumer maxFlowRates="100" desiredFlowRates="100" inputs="BaseCO2Store"/>
 				<H2Consumer maxFlowRates="400" desiredFlowRates="400" inputs="BaseH2Store"/>
 				<potableWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="BasePotableWaterStore"/>
 				<O2Producer maxFlowRates="100" desiredFlowRates="100" outputs="BaseO2Store"/>
-				<airProducer maxFlowRates="100" desiredFlowRates="100" outputs="BaseCrewEnvironment"/>
+				<airProducer maxFlowRates="300" desiredFlowRates="300" outputs="BaseCrewEnvironment"/>
 				<CO2Producer maxFlowRates="100" desiredFlowRates="100" outputs="BaseCO2Store"/>
 				<H2Producer maxFlowRates="100" desiredFlowRates="100" outputs="BaseH2Store"/>
 			</AirRS>
