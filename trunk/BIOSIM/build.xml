@@ -10,6 +10,8 @@
 	<property name="lib" location="lib"/>
 	<property name="jacorbDir" location="${lib}/jacorb"/>
 	<property name="xercesDir" location="${lib}/xerces"/>
+	<property name="nsDir" location="${generated}/ns"/>
+	<property name="resourceDir" location="resources"/>
 	<!-- set server properties for this build --> 
 	<property name="server" location="${generated}/server"/>
 	<property name="serverClasses" location="${server}/classes"/>
@@ -44,7 +46,7 @@
 		</javac>
 	</target>
 
-	<target name="server" depends="stubServer" description="compile the server" >
+	<target name="make-server" depends="stubServer" description="compile the server" >
 		<mkdir dir="${server}"/>
 		<mkdir dir="${serverClasses}"/>
 		<javac srcdir="${src}/biosim/server" destdir="${serverClasses}">
@@ -80,7 +82,7 @@
 		</javac>
 	</target>
   
-   	<target name="client" depends="stubClient" description="compile the client" >
+   	<target name="make-client" depends="stubClient" description="compile the client" >
 		<mkdir dir="${client}"/>
 		<mkdir dir="${clientClasses}"/>
 		<javac srcdir="${src}/biosim/client" destdir="${clientClasses}">
@@ -97,24 +99,59 @@
 		</javac>
 	</target>
 	
-	<target name="run-client" description="runs the client" >
-		<mkdir dir="${client}"/>
-		<mkdir dir="${clientClasses}"/>
-		<javac srcdir="${src}/biosim/client" destdir="${clientClasses}">
+	<target name="run-nameserver" depends="init" description="runs the nameserver" >
+		<mkdir dir="${nsDir}"/>
+		<java classname="org.jacorb.naming.NameServer">
+			<sysproperty key="org.omg.CORBA.ORBClass" value="org.jacorb.orb.ORB"/>
+			<sysproperty key="org.omg.CORBA.ORBSingletonClass" value="org.jacorb.orb.ORBSingleton"/>
+			<arg value="${nsDir}/ior.txt"/>
 			<classpath>
-				<pathelement location="${src}"/>
-				<pathelement location="${clientClasses}"/>
 				<pathelement location="${jacorbDir}/jacorb.jar"/>
+				<pathelement location="${jacorbDir}/logkit.jar"/>
+				<pathelement location="${jacorbDir}/avalon-framework.jar"/>
+			</classpath>
+		</java>
+	</target>
+	
+	<target name="run-server" description="runs the server" >
+		<java classname="biosim.server.framework.BiosimServer">
+			<sysproperty key="org.omg.CORBA.ORBClass" value="org.jacorb.orb.ORB"/>
+			<sysproperty key="org.omg.CORBA.ORBSingletonClass" value="org.jacorb.orb.ORBSingleton"/>
+			<sysproperty key="ORBInitRef.NameService" value="file:${nsDir}/ior.txt"/>
+			<classpath>
+				<pathelement location="${serverClasses}"/>
+				<pathelement location="${resourceDir}"/>
+				<pathelement location="${jacorbDir}/jacorb.jar"/>
+				<pathelement location="${jacorbDir}/logkit.jar"/>
+				<pathelement location="${jacorbDir}/avalon-framework.jar"/>
 				<pathelement location="${xercesDir}/xercesImpl.jar"/>
+				<pathelement location="${xercesDir}/xml-apis.jar"/>
+				<pathelement location="${xercesDir}/xmlParserAPIs.jar"/>
+			</classpath>
+		</java>
+	</target>
+	
+	<target name="run-client" description="runs the client" >
+		<java classname="biosim.client.framework.BiosimMain">
+			<sysproperty key="org.omg.CORBA.ORBClass" value="org.jacorb.orb.ORB"/>
+			<sysproperty key="org.omg.CORBA.ORBSingletonClass" value="org.jacorb.orb.ORBSingleton"/>
+			<sysproperty key="ORBInitRef.NameService" value="file:${nsDir}/ior.txt"/>
+			<classpath>
+				<pathelement location="${clientClasses}"/>
+				<pathelement location="${resourceDir}"/>
+				<pathelement location="${jacorbDir}/jacorb.jar"/>
+				<pathelement location="${jacorbDir}/logkit.jar"/>
+				<pathelement location="${xercesDir}/xercesImpl.jar"/>
+				<pathelement location="${jacorbDir}/avalon-framework.jar"/>
 				<pathelement location="${xercesDir}/xml-apis.jar"/>
 				<pathelement location="${xercesDir}/xmlParserAPIs.jar"/>
 				<pathelement location="${plotDir}/jcommon.jar"/>
 				<pathelement location="${plotDir}/jfreechart.jar"/>
 			</classpath>
-		</javac>
+		</java>
 	</target>
   
-  	<target name="all" depends="server,client" description="compile biosim" >
+  	<target name="all" depends="make-server,make-client" description="compile biosim" >
 	</target>
 
 	<target name="clean" description="clean up" >
