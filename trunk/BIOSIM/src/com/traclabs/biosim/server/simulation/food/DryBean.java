@@ -22,6 +22,9 @@ public class DryBean extends Legume{
 		canopyQYConstants[11] = -0.00001238f;
 		canopyQYConstants[17] = -0.00000000001544f;
 		canopyQYConstants[18] = 0.000000000000006469f;
+		
+		
+		myCanopyClosurePPFValues = new Vector(1200);
 	}
 
 	public PlantType getPlantType(){
