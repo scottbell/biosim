@@ -8,6 +8,7 @@ package biosim.client.framework.gui;
 
 import biosim.client.framework.*;
 import biosim.client.framework.gui.*;
+import biosim.client.util.*;
 import biosim.client.environment.gui.*;
 import biosim.client.air.gui.*;
 import biosim.client.crew.gui.*;
@@ -511,6 +512,14 @@ public class SimDesktop extends BioFrame
 			displayFood();
 			displayPower();
 			displayWater();
+			if (ae.getModifiers() == (ActionEvent.CTRL_MASK + 16)){
+				biosim.client.util.Fnorder myFnord = new Fnorder();
+				String message = myFnord.getFnord();
+				ImageIcon fnordIcon = new ImageIcon(ClassLoader.getSystemResource("biosim/client/framework/gui/pyramid.gif"));
+				JOptionPane fnordPane = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, fnordIcon);
+				JDialog dialog = fnordPane.createDialog(null, "Your message from the Illuminati");
+				dialog.show();
+			}
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}
