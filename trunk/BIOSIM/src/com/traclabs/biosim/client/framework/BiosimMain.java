@@ -29,6 +29,8 @@ public class BiosimMain
 		boolean wantsToRunGUI = false;
 		boolean wantsToRunController = false;
 		boolean wantsToRunUnreal = false;
+		boolean bServerGiven = false;
+		String unrealServer = "";
 		for (int i = 0; i < myArgs.length; i++){
 			if (myArgs[i].equals("gui")){
 				wantsToRunGUI = true;
@@ -64,6 +66,18 @@ public class BiosimMain
 					e.printStackTrace();
 				}
 			}
+			else if(myArgs[i].startsWith("-utServer=")) {
+				try{
+					StringTokenizer st = new StringTokenizer(myArgs[i],"=");
+					st.nextToken();
+					bServerGiven = true;
+					unrealServer = st.nextToken();
+				}
+				catch (Exception e){
+					System.err.println("Problem parsing arguments on arg "+myArgs[i]);
+					e.printStackTrace();
+				}
+			}
 		}
 		if (wantsToRunCommandLine)
 			runCommandLine(myID);
@@ -71,8 +85,13 @@ public class BiosimMain
 			runGUI(myID);
 		else if (wantsToRunController)
 			runHandController(myID);
-		else if (wantsToRunUnreal)
-			runUnreal(myID);
+		else if (wantsToRunUnreal) {
+			if(bServerGiven) {
+				runUnreal2(myID,unrealServer);
+			} else {
+				runUnreal(myID);
+			}
+		}
 		else{
 			System.out.println("Using default, starting GUI with server ID="+myID);
 			runGUI(myID);
@@ -110,6 +129,19 @@ public class BiosimMain
 		BioHolderInitializer.setID(myID);
 		
 		UnrealCom myUnrealCom = new UnrealCom();
+		
+		myUnrealCom.initUnrealComm();
+		
+	}
+	
+	/**
+	 * Runs the UnrealCom interface to communicate with UnrealTournament 2004
+	 * @param unServer The name of the unreal Server to connect to.
+	 */
+	public void runUnreal2(int myID, String unServer){
+		BioHolderInitializer.setID(myID);
+		
+		UnrealCom myUnrealCom = new UnrealCom(unServer);
 		
 		myUnrealCom.initUnrealComm();
 		
