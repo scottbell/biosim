@@ -1566,7 +1566,6 @@ public class BioInitializer {
 
     private void setupBioModule(BioModuleImpl pModule, Node node) {
         pModule.setEnableBreakdown(getEnableBreakDown(node));
-        pModule.setLogging(getLogging(node));
         pModule.setStochasticIntensity(getStochasticIntensity(node));
         Node child = node.getFirstChild();
         while (child != null) {

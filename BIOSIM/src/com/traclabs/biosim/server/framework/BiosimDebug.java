@@ -38,14 +38,11 @@ public class BiosimDebug {
     public static void main(String args[]) {
         
         Properties logProps = new Properties();
-        logProps.setProperty("log4j.rootLogger", "info, stdout");
+        logProps.setProperty("log4j.logger."+BiosimDebug.class, "DEBUG, stdout");
         logProps.setProperty("log4j.appender.stdout", "org.apache.log4j.ConsoleAppender");
         logProps.setProperty("log4j.appender.stdout.layout", "org.apache.log4j.PatternLayout");
-        logProps.setProperty("log4j.appender.stdout.layout.ConversionPattern", "%5p [%t] (%F:%L) - %m%n");
+        logProps.setProperty("log4j.appender.stdout.layout.ConversionPattern", "%5p [%c] - %m%n");
         PropertyConfigurator.configure(logProps);
-        
-//        BasicConfigurator.configure();
-        
         BiosimDebug myBiosimStandalone = new BiosimDebug();
         myBiosimStandalone.beginSimulation();
     }
