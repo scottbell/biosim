@@ -93,9 +93,9 @@ public class FoodProcessorImpl extends BioModuleImpl implements FoodProcessorOpe
 	private void collectReferences(){
 		try{
 			if (!hasCollectedReferences){
-				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"));
-				myFoodStore = FoodStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("FoodStore"));
-				myBiomassStore = BiomassStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("BiomassStore"));
+				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"+getID()));
+				myFoodStore = FoodStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("FoodStore"+getID()));
+				myBiomassStore = BiomassStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("BiomassStore"+getID()));
 				hasCollectedReferences = true;
 			}
 		}

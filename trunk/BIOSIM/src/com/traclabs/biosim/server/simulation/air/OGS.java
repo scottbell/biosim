@@ -38,8 +38,8 @@ public class OGS extends AirRSSubSystem{
 		if (!hasCollectedReferences){
 			try{
 				myCRS = myAirRS.getCRS();
-				mySimEnvironment =SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str("SimEnvironment"));
-				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"));
+				mySimEnvironment =SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str("SimEnvironment"+myAirRS.getID()));
+				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"+myAirRS.getID()));
 				hasCollectedReferences = true;
 			}
 			catch (org.omg.CORBA.UserException e){

@@ -43,8 +43,8 @@ public class PPS extends WaterRSSubSystem{
 	private void collectReferences(){
 		if (!hasCollectedReferences){
 			try{
-				myPotableWaterStore = PotableWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PotableWaterStore"));
-				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"));
+				myPotableWaterStore = PotableWaterStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PotableWaterStore"+myWaterRS.getID()));
+				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"+myWaterRS.getID()));
 				hasCollectedReferences = true;
 			}
 			catch (org.omg.CORBA.UserException e){

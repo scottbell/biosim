@@ -54,8 +54,8 @@ public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperat
 	protected void collectReferences(){
 		try{
 			if (!hasCollectedReferences){
-				mySimEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str("SimEnvironment"));
-				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"));
+				mySimEnvironment = SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str("SimEnvironment"+getID()));
+				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"+getID()));
 				hasCollectedReferences = true;
 			}
 		}
