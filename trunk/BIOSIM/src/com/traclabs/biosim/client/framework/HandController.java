@@ -65,15 +65,13 @@ public class HandController{
 	int O2StoreHighLevel = 800; 
 	int CO2StoreLowLevel = 300; 
 	int CO2StoreHighLevel = 800;  
-	
-	double lastcrewO2, lastcrewCO2, lastplantO2, lastplantCO2;
-	
-
 		
 	double CrewO2Level = .20; 
 	double CrewCO2Level = 0.005; 
 	double PlantO2Level =  .1; 
-	double PlantCO2Level = .3; 
+	double PlantCO2Level = .3;
+	double crewO2integral, crewCO2integral, plantO2integral, plantCO2integral;
+ 
 	
 	File OutFile = new File("output.txt"); 
 	FileWriter fw; 
@@ -85,11 +83,9 @@ public class HandController{
 	BioDriver myBioDriver; 
 
 	public static void main(String[] args){
-		
-		 
+ 
 		HandController myController = new HandController();
 		myController.runSim();
-		
 	}
 
 	public void runSim(){
@@ -104,10 +100,10 @@ public class HandController{
 		CrewGroup myCrew = (CrewGroup)BioHolder.getBioModule(BioHolder.crewName);
 
 		System.out.println("starting run...");
-		lastcrewO2 = 0; 
-		lastcrewCO2 = 0;
-		lastplantO2 = 0;
-		lastplantCO2 = 0; 
+		crewO2integral = 0; 
+		crewCO2integral = 0;
+		plantO2integral = 0;
+		plantCO2integral = 0; 
 		while (!myCrew.isDead()) { 
 			// advance 10 ticks 
 			for (i=0;i<10; i++) myBioDriver.advanceOneTick();
@@ -121,9 +117,6 @@ public class HandController{
 		System.out.println("crew dead at "+myBioDriver.getTicks()+" ticks");  
 		try {fw.close();} catch (IOException e) {} 
 	}
-
-
-
 
 
 	public void setSimState() { 
@@ -320,9 +313,7 @@ public class HandController{
 			currentActuator.setValue(100); 
 			currentActuator = (GenericActuator)(BioHolder.getBioModule(BioHolder.myFoodProcessorBiomassInFlowRateActuatorName));
 			currentActuator.setValue(10);  
-
 		} 
-		
 		if (SimState.get("food") == "high" && SimState.get("biomass") == "low") { 
 	
 		currentActuator = (GenericActuator)(BioHolder.getBioModule(BioHolder.myFoodProcessorPowerInFlowRateActuatorName));
@@ -332,34 +323,22 @@ public class HandController{
 		}
 	
 		if (SimState.get("oxygen") == "low") { 
-
 			currentActuator = (GenericActuator)(BioHolder.getBioModule(BioHolder.myAirRSPowerInFlowRateActuatorName));
 	
 
 		currentActuator.setValue(300); 
 	
-		
-	
 		currentActuator = (GenericActuator)(BioHolder.getBioModule(BioHolder.myAirRSPotableWaterInFlowRateActuatorName));
 	
 		currentActuator.setValue(0.5f);
-			
 		} 
 		if (SimState.get("oxygen") == "high" ) { 
-	
-		
-	
-		
 	
 		currentActuator = (GenericActuator)(BioHolder.getBioModule(BioHolder.myAirRSPotableWaterInFlowRateActuatorName));
 	
 		currentActuator.setValue(0);
 	
-		
-	
 	}
-	
-	
 	
 	if (SimState.get("carbondioxide") == "high") { 
 			currentActuator = (GenericActuator)(BioHolder.getBioModule(BioHolder.myAirRSAirInFlowRateActuatorName));
@@ -387,66 +366,69 @@ public class HandController{
 	// a crude feedback controller for the accumulators and injectors 
 		GenericSensor levelSensor, rateSensor;  
 		GenericActuator currentActuator; 
-		double rate;
 		
-		double delta; 
+		double delta, signal; 
 		double crewO2p, crewCO2p, plantO2p, plantCO2p; 
-		double crewO2d, crewCO2d, plantO2d, plantCO2d; 
+		double crewO2i, crewCO2i, plantO2i, plantCO2i; 
 		double crewO2, crewCO2, plantO2, plantCO2; 
 
 		 		
 
 		//crew O2 feedback control 
 		crewO2p = 300; 
-		crewO2d = 0.60;
+		crewO2i = 10;
 		levelSensor = (GenericSensor)(BioHolder.getBioModule(BioHolder.myCrewEnvironmentO2AirConcentrationSensorName));
 		crewO2 = levelSensor.getValue(); 
 		delta = (double)(CrewO2Level - crewO2);  
-		rate = delta-lastcrewO2; 
-		lastcrewO2 = delta; 
+		crewO2integral += delta;
+		signal = delta*crewO2p + crewO2i*crewO2integral; 
+		System.out.println("O2 flow from tank to Crew environment: "+signal); 
 		currentActuator = (GenericActuator)(BioHolder.getBioModule(BioHolder.myInjectorO2AirEnvironmentOutFlowRateActuatorName));
-		currentActuator.setValue((float)(delta*crewO2p)); 
+		currentActuator.setValue((float)(signal)); 
 		currentActuator = (GenericActuator)(BioHolder.getBioModule(BioHolder.myInjectorO2AirStoreInFlowRateActuatorName));
-		currentActuator.setValue((float)(delta*crewO2p)); 
+		currentActuator.setValue((float)(signal)); 
 		
 		//crew CO2 feedback control 
 		crewCO2p = -300; 
-		crewCO2d = 0.5;
+		crewCO2i = 10;
 		levelSensor = (GenericSensor)(BioHolder.getBioModule(BioHolder.myCrewEnvironmentCO2AirConcentrationSensorName));
 		crewCO2 = levelSensor.getValue();
 		delta = (double)(CrewCO2Level - crewCO2);  
-		rate = delta-lastcrewCO2; 
-		lastcrewCO2 = delta; 
+		crewCO2integral += delta;
+		signal = delta*crewCO2p + crewCO2i*crewCO2integral; 
+		System.out.println("CO2 flow from Crew environment to tank: "+signal); 
 		currentActuator = (GenericActuator)(BioHolder.getBioModule(BioHolder.myAccumulatorCO2AirEnvironmentInFlowRateActuatorName));
-		currentActuator.setValue((float)(delta*crewCO2p)); 
+		currentActuator.setValue((float)(signal)); 
 		currentActuator = (GenericActuator)(BioHolder.getBioModule(BioHolder.myAccumulatorCO2AirStoreOutFlowRateActuatorName));
-		currentActuator.setValue((float)(delta*crewCO2p)); 
+		currentActuator.setValue((float)(signal)); 
 		
 		//plant O2 feedback control 
-		plantO2p = -500; 
-		plantO2d = 0.5;
+		plantO2p = -300; 
+		plantO2i = 10;
 		levelSensor = (GenericSensor)(BioHolder.getBioModule(BioHolder.myPlantEnvironmentO2AirConcentrationSensorName));
 		plantO2 = levelSensor.getValue(); 
 		delta = (double)(PlantO2Level - plantO2); 
-		rate = lastplantO2-delta; 
-		lastplantO2 = delta;  
+		plantO2integral += delta;
+		signal = delta*plantO2p + plantO2i*plantO2integral; 
+		System.out.println("O2 flow from Plant environment to tank: "+signal); 
 		currentActuator = (GenericActuator)(BioHolder.getBioModule(BioHolder.myAccumulatorO2AirEnvironmentInFlowRateActuatorName));
-		currentActuator.setValue((float)(delta*plantO2p)); 
+		currentActuator.setValue((float)(signal)); 
 		currentActuator = (GenericActuator)(BioHolder.getBioModule(BioHolder.myAccumulatorO2AirStoreOutFlowRateActuatorName));
-		currentActuator.setValue((float)(delta*plantO2p)); 
+		currentActuator.setValue((float)(signal)); 
 		
 		//plant CO2 feedback control 
 		plantCO2p = 500; 
-		plantCO2d = 0.8;
+		plantCO2i = 10;
 		levelSensor = (GenericSensor)(BioHolder.getBioModule(BioHolder.myPlantEnvironmentCO2AirConcentrationSensorName));
 		plantCO2 = levelSensor.getValue(); 
 		delta = (double)(PlantCO2Level - plantCO2); 
-		rate = lastplantCO2-delta; 
-		lastplantCO2 = delta;  
+		plantCO2integral += delta;
+		signal = delta*plantCO2p + plantCO2i*plantCO2integral; 
+		System.out.println("CO2 flow from tank to Plant environment: "+signal); 
 		currentActuator = (GenericActuator)(BioHolder.getBioModule(BioHolder.myInjectorCO2AirEnvironmentOutFlowRateActuatorName));
-		currentActuator.setValue((float)(delta*plantCO2p)); 
+		currentActuator.setValue((float)(signal)); 
 		currentActuator = (GenericActuator)(BioHolder.getBioModule(BioHolder.myInjectorCO2AirStoreInFlowRateActuatorName));
-		currentActuator.setValue((float)(delta*plantCO2p)); 
+		currentActuator.setValue((float)(signal)); 
 
 		
 	} 
