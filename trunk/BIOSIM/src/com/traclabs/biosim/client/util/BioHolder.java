@@ -49,6 +49,12 @@ public class BioHolder
 		collectReferences();
 		return (BioModule)(modules.get(type));
 	}
+	
+	public static BioModule[] getBioModules(){
+		collectReferences();
+		BioModule[] arrayModules = new BioModule[modules.size()];
+		return (BioModule[])(modules.values().toArray(arrayModules));
+	}
 
 	public static BioDriver getBioDriver(){
 		collectReferences();
