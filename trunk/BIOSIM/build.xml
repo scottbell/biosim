@@ -30,7 +30,7 @@
 	<property name="winDistroDir" location="${distroDir}/win"/>
 	<property name="winDistroLibDir" location="${lib}/distro/win"/>
 	<!-- set javadoc properties for this build --> 
-	<property name="apiDir" location="${doc}/api"/>
+	<property name="javadocDir" location="${doc}/javadoc"/>
 	<!-- set users manual properties for this build --> 
 	<property name="manualDir" location="${doc}/users_manual_files"/>
 	
@@ -156,9 +156,9 @@
 	</target>
 	
 	<target name="javadocs" depends="build-server,build-client" description="creates BioSim API documentation">
-		<mkdir dir="${apiDir}"/>
+		<mkdir dir="${javadocDir}"/>
 		<javadoc 
-			destdir="${apiDir}" 
+			destdir="${javadocDir}" 
 			breakiterator="true" 
 			packagenames="biosim.*" 
 			author="true"
@@ -290,6 +290,6 @@
 
 	<target name="clean" description="clean up">
 		<delete dir="${buildDir}"/>
-		<delete dir="${distDir}"/>
+		<delete dir="${distroDir}"/>
 	</target>
 </project>
