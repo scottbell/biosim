@@ -15,18 +15,9 @@
 				<CO2Producer maxFlowRates="100" desiredFlowRates="100" output="CO2Store"/>
 				<H2Producer maxFlowRates="100" desiredFlowRates="100" output="H2Store"/>
 			</AirRS>
-			<O2Store name="O2Store">
-				<capacity>500</capacity>
-				<level>100</level>
-			</O2Store>
-			<CO2Store name="CO2Store">
-				<capacity>500</capacity>
-				<level>100</level>
-			</CO2Store>
-			<H2Store name="H2Store">
-				<capacity>500</capacity>
-				<level>100</level>
-			</H2Store>
+			<O2Store name="O2Store" capacity="500" level="100"/>
+			<CO2Store name="CO2Store" capacity="500" level="100"/>
+			<H2Store name="H2Store" capacity="500" level="100"/>
 		</air>
 		<crew>
 			<CrewGroup name="CrewGroup">
@@ -37,85 +28,25 @@
 				<greyWaterProducer maxFlowRates="100" desiredFlowRates="100" output="GreyWaterStore"/>
 				<airProducer maxFlowRates="100" desiredFlowRates="100" output="CrewEnvironment"/>
 				<schedule>
-					<activity>
-						<name>sleeping</name>
-						<length>8</length>
-						<intensity>1</intensity>
-					</activity>
-					<activity>
-						<name>hygiene</name>
-						<length>1</length>
-						<intensity>2</intensity>
-					</activity>
-					<activity>
-						<name>exercise</name>
-						<length>1</length>
-						<intensity>5</intensity>
-					</activity>
-					<activity>
-						<name>eating</name>
-						<length>1</length>
-						<intensity>2</intensity>
-					</activity>
-					<activity>
-						<name>recreation</name>
-						<length>2</length>
-						<intensity>3</intensity>
-					</activity>
-					<activity>
-						<name>mission</name>
-						<length>2</length>
-						<intensity>2</intensity>
-					</activity>
-					<activity>
-						<name>health</name>
-						<length>1</length>
-						<intensity>4</intensity>
-					</activity>
-					<activity>
-						<name>maintenance</name>
-						<length>1</length>
-						<intensity>3</intensity>
-					</activity>
-					<activity>
-						<name>mission</name>
-						<length>7</length>
-						<intensity>3</intensity>
-					</activity>
+					<activity name="sleeping" length="8" intensity="1"/>
+					<activity name="hygiene" length="1" intensity="2"/>
+					<activity name="exercise" length="1" intensity="5"/>
+					<activity name="eating" length="1" intensity="2"/>
+					<activity name="recreation" length="2" intensity="3"/>
+					<activity name="mission" length="2" intensity="2"/>
+					<activity name="health" length="1" intensity="4"/>
+					<activity name="maintenance" length="1" intensity="3"/>
+					<activity name="mission" length="7" intensity="3"/>
 				</schedule>			
-				<crewPerson>
-					<name>Bob Roberts</name>
-					<age>43</age>
-					<weight>170</weight>
-					<sex>MALE</sex>
-				</crewPerson>
-				<crewPerson>
-					<name>Stephanie Stevens</name>
-					<age>25</age>
-					<weight>125</weight>
-					<sex>FEMALE</sex>
-				</crewPerson>
-				<crewPerson>
-					<name>Bill Williams</name>
-					<age>30</age>
-					<weight>165</weight>
-					<sex>MALE</sex>
-				</crewPerson>
-				<crewPerson>
-					<name>Janet Janey</name>
-					<age>22</age>
-					<weight>130</weight>
-					<sex>FEMALE</sex>
-				</crewPerson>
+				<crewPerson name="Bob Roberts" age="43" weight="170" sex="MALE"/>
+				<crewPerson name="Stephanie Stevens" age="25" weight="125" sex="FEMALE"/>
+				<crewPerson name="Bill Williams" age="30" weight="165" sex="MALE"/>
+				<crewPerson name="Janet Janey" age="22" weight="130" sex="FEMALE"/>
 			</CrewGroup>
 		</crew>
 		<environment>
-			<SimEnvironment name="CrewEnvironment">
-				<initialVolume>1548930</initialVolume>
-			</SimEnvironment>
-			<SimEnvironment name="PlantEnvironment">
-				<initialVolume>1548930</initialVolume>
-			</SimEnvironment>
+			<SimEnvironment name="CrewEnvironment" initialVolume="1548930"/>
+			<SimEnvironment name="PlantEnvironment" initialVolume="1548930"/>
 		</environment>                    
 		<food>
 			<FoodProcessor name="FoodProcessor">
@@ -123,9 +54,7 @@
 				<biomassConsumer maxFlowRates="100" desiredFlowRates="100" input="BiomassStore"/>
 				<foodProducer maxFlowRates="100" desiredFlowRates="100" output="FoodStore"/>
 			</FoodProcessor>
-			<BiomassRS name="BiomassRS">
-				<cropArea>100</cropArea>
-				<cropType>WHEAT</cropType>
+			<BiomassRS name="BiomassRS" cropArea="100" cropType="WHEAT">
 				<powerConsumer maxFlowRates="100" desiredFlowRates="100" input="PowerStore"/>
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" input="PotableWaterStore"/>
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="100" input="GreyWaterStore"/>
@@ -134,23 +63,14 @@
 				<biomassProducer maxFlowRates="100" desiredFlowRates="100" output="BiomassStore"/>
 				<airProducer maxFlowRates="100" desiredFlowRates="100" output="PlantEnvironment"/>
 			</BiomassRS>
-			<BiomassStore name="BiomassStore">
-				<capacity>500</capacity>
-				<level>100</level>
-			</BiomassStore>
-			<FoodStore name="FoodStore">
-				<capacity>500</capacity>
-				<level>100</level>
-			</FoodStore>
+			<BiomassStore name="BiomassStore" capacity="500" level="100"/>
+			<FoodStore name="FoodStore" capacity="500" level="100"/>
 		</food>
 		<power>
 			<PowerPS name="PowerPS" generation="SOLAR">
 				<powerProducer maxFlowRates="100" desiredFlowRates="100" output="PowerStore"/>
 			</PowerPS>
-			<PowerStore name="PowerStore">
-				<capacity>500</capacity>
-				<level>100</level>
-			</PowerStore>
+			<PowerStore name="PowerStore" capacity="500" level="100"/>
 		</power>
 		<water>
 			<WaterRS name="WaterRS">
@@ -159,18 +79,9 @@
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="100" input="GreyWaterStore"/>
 				<potableWaterProducer maxFlowRates="100" desiredFlowRates="100" output="PotableWaterStore"/>
 			</WaterRS>
-			<PotableWaterStore name="PotableWaterStore">
-				<capacity>500</capacity>
-				<level>100</level>
-			</PotableWaterStore>
-			<GreyWaterStore name="GreyWaterStore">
-				<capacity>500</capacity>
-				<level>100</level>
-			</GreyWaterStore>
-			<DirtyWaterStore name="DirtyWaterStore">
-				<capacity>500</capacity>
-				<level>100</level>
-			</DirtyWaterStore>
+			<PotableWaterStore name="PotableWaterStore" capacity="500" level="100"/>
+			<GreyWaterStore name="GreyWaterStore" capacity="500" level="100"/>
+			<DirtyWaterStore name="DirtyWaterStore" capacity="500" level="100"/>
 		</water>
 	</SimModules>
 	<Sensors>
