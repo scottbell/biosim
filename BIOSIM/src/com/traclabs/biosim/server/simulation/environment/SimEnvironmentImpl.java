@@ -1116,7 +1116,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
         return permanentLeakRate;
     }
     /**
-     * @param permanentLeakRate The permanentLeakRate to set.
+     * @param pLeakRate The permanentLeakRate to set.
      */
     public void setLeakRate(float pLeakRate) {
         permanentLeakRate = pLeakRate;
