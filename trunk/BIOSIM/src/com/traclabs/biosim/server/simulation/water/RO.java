@@ -21,15 +21,15 @@ public class RO extends WaterRSSubSystem{
 	public RO(WaterRSImpl pWaterRSImpl){
 		super(pWaterRSImpl);
 	}
-	
+
 	public float getAESWaterProduced(){
 		return currentAESWaterProduced;
 	}
-	
+
 	public float getPPSWaterProduced(){
 		return currentPPSWaterProduced;
 	}
-	
+
 	/**
 	* Flushes the water from this subsystem to the AES
 	*/
@@ -57,17 +57,22 @@ public class RO extends WaterRSSubSystem{
 			if (hasEnoughPower){
 				pushWater();
 			}
-			//dump water
 			else{
-			        waterLevel = 0f;
-			        currentAESWaterProduced = 0f;
+				//try to put back into dirtyWater Store.
+				waterLevel = myWaterRS.pushResourceToStore(myWaterRS.getDirtyWaterInputs(), myWaterRS.getDirtyWaterInputMaxFlowRates(), myWaterRS.getDirtyWaterInputDesiredFlowRates(), myWaterRS.getDirtyWaterInputActualFlowRates(), waterLevel);
+				//dump extra water
+				waterLevel = 0f;
+				currentAESWaterProduced = 0f;
 				currentPPSWaterProduced = 0f;
 			}
 		}
 		else{
-		    waterLevel = 0f;
-		    currentAESWaterProduced = 0f;
-		    currentPPSWaterProduced = 0f;
+			//try to put back into dirtyWater Store.
+			waterLevel = myWaterRS.pushResourceToStore(myWaterRS.getDirtyWaterInputs(), myWaterRS.getDirtyWaterInputMaxFlowRates(), myWaterRS.getDirtyWaterInputDesiredFlowRates(), myWaterRS.getDirtyWaterInputActualFlowRates(), waterLevel);
+			//dump extra water
+			waterLevel = 0f;
+			currentAESWaterProduced = 0f;
+			currentPPSWaterProduced = 0f;
 		}
 	}
 

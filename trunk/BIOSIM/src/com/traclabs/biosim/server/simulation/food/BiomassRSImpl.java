@@ -326,8 +326,8 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 	}
 	
 	//Air Inputs
-	public void setAirInputMaxFlowRate(float liters, int index){
-		airInMaxFlowRates[index] = liters;
+	public void setAirInputMaxFlowRate(float moles, int index){
+		airInMaxFlowRates[index] = moles;
 	}
 	public float getAirInputMaxFlowRate(int index){
 		return airInMaxFlowRates[index];
@@ -335,8 +335,8 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 	public float[] getAirInputMaxFlowRates(){
 		return airInMaxFlowRates;
 	}
-	public void setAirInputDesiredFlowRate(float liters, int index){
-		airInDesiredFlowRates[index] = liters;
+	public void setAirInputDesiredFlowRate(float moles, int index){
+		airInDesiredFlowRates[index] = moles;
 	}
 	public float getAirInputDesiredFlowRate(int index){
 		return airInDesiredFlowRates[index];
@@ -364,8 +364,8 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 	}
 	
 	//Air Outputs
-	public void setAirOutputMaxFlowRate(float liters, int index){
-		airOutMaxFlowRates[index] = liters;
+	public void setAirOutputMaxFlowRate(float moles, int index){
+		airOutMaxFlowRates[index] = moles;
 	}
 	public float getAirOutputMaxFlowRate(int index){
 		return airOutMaxFlowRates[index];
@@ -373,8 +373,8 @@ public class BiomassRSImpl extends SimBioModuleImpl implements BiomassRSOperatio
 	public float[] getAirOutputMaxFlowRates(){
 		return airOutMaxFlowRates;
 	}
-	public void setAirOutputDesiredFlowRate(float liters, int index){
-		airOutDesiredFlowRates[index] = liters;
+	public void setAirOutputDesiredFlowRate(float moles, int index){
+		airOutDesiredFlowRates[index] = moles;
 	}
 	public float getAirOutputDesiredFlowRate(int index){
 		return airOutDesiredFlowRates[index];

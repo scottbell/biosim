@@ -104,9 +104,9 @@ public class CrewTextPanel extends TimedPanel
 				newPersonPanel.add(newPersonGUI.potableWaterConsumedLabel);
 				newPersonGUI.foodConsumedLabel = new JLabel("food consumed: "+numFormat.format(myCrewPeople[i].getFoodConsumed())+" kg");
 				newPersonPanel.add(newPersonGUI.foodConsumedLabel);
-				newPersonGUI.CO2ProducedLabel = new JLabel("CO2 produced: "+numFormat.format(myCrewPeople[i].getCO2Produced())+" L");
+				newPersonGUI.CO2ProducedLabel = new JLabel("CO2 produced: "+numFormat.format(myCrewPeople[i].getCO2Produced())+" moles");
 				newPersonPanel.add(newPersonGUI.CO2ProducedLabel);
-				newPersonGUI.O2ConsumedLabel = new JLabel("O2 consumed: "+numFormat.format(myCrewPeople[i].getO2Consumed())+" L");
+				newPersonGUI.O2ConsumedLabel = new JLabel("O2 consumed: "+numFormat.format(myCrewPeople[i].getO2Consumed())+" moles");
 				newPersonPanel.add(newPersonGUI.O2ConsumedLabel);
 				newPersonGUI.activityNameLabel = new JLabel("current activity: "+myCrewPeople[i].getCurrentActivity().getName());
 				newPersonPanel.add(newPersonGUI.activityNameLabel);
@@ -173,8 +173,8 @@ public class CrewTextPanel extends TimedPanel
 			newPersonGUI.greyWaterProducedLabel.setText("grey water produced: "+numFormat.format(crewPerson.getGreyWaterProduced())+" L");
 			newPersonGUI.potableWaterConsumedLabel.setText("potable water consumed: "+numFormat.format(crewPerson.getPotableWaterConsumed())+" L");
 			newPersonGUI.foodConsumedLabel.setText("food consumed: "+numFormat.format(crewPerson.getFoodConsumed())+" kg");
-			newPersonGUI.CO2ProducedLabel.setText("CO2 produced: "+numFormat.format(crewPerson.getCO2Produced())+" L");
-			newPersonGUI.O2ConsumedLabel.setText("O2 consumed: "+numFormat.format(crewPerson.getO2Consumed())+" L");
+			newPersonGUI.CO2ProducedLabel.setText("CO2 produced: "+numFormat.format(crewPerson.getCO2Produced())+" moles");
+			newPersonGUI.O2ConsumedLabel.setText("O2 consumed: "+numFormat.format(crewPerson.getO2Consumed())+" moles");
 			newPersonGUI.activityNameLabel.setText("current activity: "+crewPerson.getCurrentActivity().getName());
 			String sexString;
 			if (crewPerson.getSex() == Sex.male)

@@ -14,7 +14,7 @@ public abstract class WaterRSSubSystem{
 	//During any given tick, this much power (in watts) is needed for a water subsystem (default)
 	float powerNeeded =100;
 	//During any given tick, this much water (in liters) is needed for a water subsystem (default)
-	//Pete says WRS consumes/produces 16 mL/s -> 576 L/H
+	//Pete says WRS consumes/produces 16 mL/s -> 57.6 L/H
 	float waterNeeded = 57.6f;
 	//Reference to the WaterRS to get other watersubsystems
 	WaterRSImpl myWaterRS;
