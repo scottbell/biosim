@@ -15,11 +15,8 @@ import biosim.idl.framework.MalfunctionLength;
 import biosim.idl.framework.StochasticIntensity;
 import biosim.idl.framework.TechSpecificInfo;
 import biosim.idl.framework.TechSpecificInfoHelper;
-import biosim.idl.util.log.LogNodeHelper;
 import biosim.idl.util.log.Logger;
-import biosim.idl.util.log.LoggerHelper;
 import biosim.server.util.OrbUtils;
-import biosim.server.util.log.LogNodeImpl;
 /**
  * The BioModule Implementation.  Every Module should derive from this as to allow ticking and logging.
  *
@@ -33,8 +30,6 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	protected boolean logInitialized = false;
 	//Whether this module is logging or not
 	protected boolean moduleLogging = false;
-	//The root log node for this module.  Below this are name/value pairs of data
-	protected LogNodeImpl myLog;
 	//The logger that this module sends it's log node to
 	private Logger myLogger;
 	//Whether this module has collected a reference to logger server
@@ -68,7 +63,6 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		myScheduledMalfunctions = new Vector();
 		myName = pName;
 		myID = pID;
-		myLog = new LogNodeImpl(getModuleName());
 		myTechSpecificInfo = TechSpecificInfoHelper.narrow(OrbUtils.poaToCorbaObj(new EmptyTechInfoImpl()));
 	}
 	
@@ -420,23 +414,6 @@ public abstract class BioModuleImpl extends BioModulePOA{
 			return 0;
 		else
 			return (int)result;
-	}
-	
-	/**
-	* Sends a log node to the Logger server
-	* @param logToProcess the log node to process (i.e., send to the Logger server)
-	*/
-	protected void sendLog(LogNodeImpl logToProcess){
-		if (!collectedLogger){
-			try{
-				myLogger = LoggerHelper.narrow(OrbUtils.getNamingContext(getID()).resolve_str("Logger"));
-				collectedLogger = true;
-			}
-			catch (org.omg.CORBA.UserException e){
-				e.printStackTrace(System.out);
-			}
-		}
-		myLogger.processLog(LogNodeHelper.narrow(OrbUtils.poaToCorbaObj(logToProcess)));
 	}
 	
 	/**

@@ -255,19 +255,13 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations, Powe
 	}
 
 	public void log(){
-		//If not initialized, fill in the log
-		if (!logInitialized){
-			myLogIndex = new LogIndex();
+			/*
 			LogNode CO2NeededHead = myLog.addChild("CO2 Needed");
 			LogNode currentO2ProducedHead = myLog.addChild("O2 Produced");
 			LogNode currentCO2ProducedHead = myLog.addChild("CO2 Produced");
 			LogNode currentCO2ConsumedHead = myLog.addChild("CO2 Consumed");
 			LogNode currentPowerConsumedHead = myLog.addChild("Power Consumed");
-			logInitialized = true;
-		}
-		else{
-		}
-		sendLog(myLog);
+			*/
 	}
 
 	/**

@@ -43,18 +43,10 @@ public abstract class GenericSensorImpl extends BioModuleImpl implements Generic
 	public abstract BioModule getInputModule();
 	
 	public void log(){
+		/*
 		//If not initialized, fill in the log
-		if (!logInitialized){
 			LogNode inputNodeHead = myLog.addChild("input");
-			inputNode = inputNodeHead.addChild(""+getInputModule().getModuleName());
-			LogNode valueNodeHead = myLog.addChild("value");
 			valueNode = valueNodeHead.addChild(""+getValue());
-			logInitialized = true;
-		}
-		else{
-			inputNode.setValue(""+getInputModule().getModuleName());
-			valueNode.setValue(""+getValue());
-		}
-		sendLog(myLog);
+		*/
 	}
 }

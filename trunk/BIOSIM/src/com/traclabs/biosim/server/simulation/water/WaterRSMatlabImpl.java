@@ -104,17 +104,6 @@ public class WaterRSMatlabImpl extends SimBioModuleImpl implements WaterRSOperat
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
 		return "NoName";
 	}
-	
-	public void log(){
-		//If not initialized, fill in the log
-		if (!logInitialized){
-			myLogIndex = new LogIndex();
-			logInitialized = true;
-		}
-		else{
-		}
-		sendLog(myLog);
-	}
 
 	/**
 	* For fast reference to the log tree

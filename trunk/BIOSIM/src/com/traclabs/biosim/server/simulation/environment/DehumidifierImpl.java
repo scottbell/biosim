@@ -118,20 +118,6 @@ public class DehumidifierImpl extends SimBioModuleImpl implements DehumidifierOp
 	}
 
 	public void log(){
-		//If not initialized, fill in the log
-		if (!logInitialized){
-			myLogIndex = new LogIndex();
-			LogNode intHead = myLog.addChild("in");
-			//myLogIndex.levelIndex = levelHead.addChild((""+in));
-			LogNode outHead = myLog.addChild("out");
-			//myLogIndex.capacityIndex = capacityHead.addChild((""+out));
-			logInitialized = true;
-		}
-		else{
-			//myLogIndex.intHead.setValue(""+in);
-			//myLogIndex.outHead.setValue(""+out);
-		}
-		sendLog(myLog);
 	}
 
 	/**

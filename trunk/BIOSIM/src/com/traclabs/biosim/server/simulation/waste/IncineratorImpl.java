@@ -264,9 +264,7 @@ public class IncineratorImpl extends SimBioModuleImpl implements IncineratorOper
 	}
 	
 	public void log(){
-		//If not initialized, fill in the log
-		if (!logInitialized){
-			myLogIndex = new LogIndex();
+		/*
 			LogNode powerNeededHead = myLog.addChild("power_needed");
 			myLogIndex.powerNeededIndex = powerNeededHead.addChild(""+powerNeeded);
 			LogNode hasEnoughPowerHead = myLog.addChild("has_enough_power");
@@ -277,16 +275,7 @@ public class IncineratorImpl extends SimBioModuleImpl implements IncineratorOper
 			myLogIndex.currentDryWasteConsumedIndex = currentDryWasteConsumedHead.addChild(""+currentDryWasteConsumed);
 			LogNode currentPowerConsumedHead = myLog.addChild("current_power_consumed");
 			myLogIndex.currentPowerConsumedIndex = currentPowerConsumedHead.addChild(""+currentPowerConsumed);
-			logInitialized = true;
-		}
-		else{
-			myLogIndex.powerNeededIndex.setValue(""+powerNeeded);
-			myLogIndex.hasEnoughPowerIndex.setValue(""+hasEnoughPower);
-			myLogIndex.dryWasteNeededIndex.setValue(""+dryWasteNeeded);
-			myLogIndex.currentDryWasteConsumedIndex.setValue(""+currentDryWasteConsumed);
-			myLogIndex.currentPowerConsumedIndex.setValue(""+currentPowerConsumed);
-		}
-		sendLog(myLog);
+		*/
 	}
 	
 	//Power Input

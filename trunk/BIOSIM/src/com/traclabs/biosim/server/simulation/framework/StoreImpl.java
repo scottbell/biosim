@@ -312,23 +312,14 @@ public abstract class StoreImpl extends SimBioModuleImpl implements StoreOperati
 	* Logs this store and sends it to the Logger to be processed
 	*/
 	public void log(){
-		//If not initialized, fill in the log
-		if (!logInitialized){
-			myLogIndex = new LogIndex();
+		/*
 			LogNode levelHead = myLog.addChild("level");
 			myLogIndex.levelIndex = levelHead.addChild((""+level));
 			LogNode capacityHead = myLog.addChild("capacity");
 			myLogIndex.capacityIndex = capacityHead.addChild((""+capacity));
 			LogNode overflowHead = myLog.addChild("overflow");
 			myLogIndex.overflowIndex = overflowHead.addChild((""+overflow));
-			logInitialized = true;
-		}
-		else{
-			myLogIndex.capacityIndex.setValue(""+capacity);
-			myLogIndex.levelIndex.setValue(""+level);
-			myLogIndex.overflowIndex.setValue(""+overflow);
-		}
-		sendLog(myLog);
+			*/
 	}
 
 	/**
