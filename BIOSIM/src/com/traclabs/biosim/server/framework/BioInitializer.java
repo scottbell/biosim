@@ -8,7 +8,6 @@ package biosim.server.framework;
 
 public class BioInitializer
 {
-	BioDriverImpl myBioDriverImpl;
 	
 	public static void main(String args[]){
 	}
