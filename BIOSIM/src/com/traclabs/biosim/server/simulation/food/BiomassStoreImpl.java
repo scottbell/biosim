@@ -19,10 +19,12 @@ import com.traclabs.biosim.server.simulation.framework.StoreImpl;
 public class BiomassStoreImpl extends StoreImpl implements
         BiomassStoreOperations {
     List currentBiomassItems;
+    BioMatter myOriginalMatter;
 
     public BiomassStoreImpl(int pID, String pName) {
         super(pID, pName);
         currentBiomassItems = new Vector();
+        myOriginalMatter = new BioMatter(0, 0, 0, 0, PlantType.UNKNOWN_PLANT);
     }
 
     public float add(float pMass) {
@@ -38,6 +40,7 @@ public class BiomassStoreImpl extends StoreImpl implements
             BioMatter newBioMatter = new BioMatter(metricAmount, 0, 0, 0,
                     PlantType.UNKNOWN_PLANT);
             currentBiomassItems.add(newBioMatter);
+            myOriginalMatter = newBioMatter;
         }
     }
     
@@ -46,6 +49,7 @@ public class BiomassStoreImpl extends StoreImpl implements
         currentBiomassItems.clear();
         if (pMatter.mass > 0) {
             currentBiomassItems.add(pMatter);
+            myOriginalMatter = pMatter;
         }
     }
 
@@ -206,8 +210,7 @@ public class BiomassStoreImpl extends StoreImpl implements
         super.reset();
         currentBiomassItems.clear();
         if (level > 0)
-            currentBiomassItems.add(new BioMatter(level, 0, 0, 0,
-                    PlantType.UNKNOWN_PLANT));
+            currentBiomassItems.add(myOriginalMatter);
     }
 
 }

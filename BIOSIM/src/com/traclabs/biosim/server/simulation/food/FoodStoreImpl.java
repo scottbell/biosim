@@ -18,10 +18,12 @@ import com.traclabs.biosim.server.simulation.framework.StoreImpl;
 
 public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
     List currentFoodItems;
+    FoodMatter myOriginalMatter;
 
     public FoodStoreImpl(int pID, String pName) {
         super(pID, pName);
         currentFoodItems = new Vector();
+        myOriginalMatter = new FoodMatter(0, 0, PlantType.UNKNOWN_PLANT);
     }
 
     public float add(float pMass) {
@@ -37,6 +39,7 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
             FoodMatter newFoodMatter = new FoodMatter(metricAmount, 0,
                     PlantType.UNKNOWN_PLANT);
             currentFoodItems.add(newFoodMatter);
+            myOriginalMatter = newFoodMatter;
         }
     }
     
@@ -45,6 +48,7 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
         currentFoodItems.clear();
         if (pMatter.mass > 0) {
             currentFoodItems.add(pMatter);
+            myOriginalMatter = pMatter;
         }
     }
 
@@ -278,7 +282,6 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
         super.reset();
         currentFoodItems.clear();
         if (level > 0)
-            currentFoodItems.add(new FoodMatter(level, 0,
-                    PlantType.UNKNOWN_PLANT));
+            currentFoodItems.add(myOriginalMatter);
     }
 }
