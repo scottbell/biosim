@@ -589,6 +589,11 @@
 	</xsd:simpleType>
 	
 	<!-- Special BiomassRS specific declarations -->
+	<xsd:complexType name="ShelfType">
+		<xsd:attribute name="cropType" type="CropType" use="required"/>
+		<xsd:attribute name="cropArea" type="nonNegativeFloat" use="required"/>
+	</xsd:complexType>
+	
 	<xsd:simpleType name="CropType">
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="DRY_BEAN"/>
@@ -664,6 +669,7 @@
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
 				<xsd:sequence>
+					<xsd:element name="shelf" type="ShelfType" minOccurs="1" maxOccurs="unbounded"/>
 					<xsd:element name="powerConsumer" type="PowerConsumerType"/>
 					<xsd:element name="potableWaterConsumer" type="PotableWaterConsumerType"/>
 					<xsd:element name="greyWaterConsumer" type="GreyWaterConsumerType"/>
@@ -672,8 +678,6 @@
 					<xsd:element name="biomassProducer" type="BiomassProducerType"/>
 					<xsd:element name="airProducer" type="AirProducerType"/>
 				</xsd:sequence>
-				<xsd:attribute name="cropArea" type="nonNegativeFloat" use="required"/>
-				<xsd:attribute name="cropType" type="CropType" use="required"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
