@@ -11,13 +11,13 @@ import biosim.server.framework.*;
  * @author    Scott Bell
  */
 
-public class PowerPSImpl extends BioModuleImpl implements PowerPSOperations {
+public abstract class PowerPSImpl extends BioModuleImpl implements PowerPSOperations {
 	//The power produced (in watts) by the Power PS at the current tick
-	private float currentPowerProduced = 6720f;
+	protected float currentPowerProduced = 6720f;
 	//Flag switched when the Power PS has collected references to other servers it need
 	private boolean hasCollectedReferences = false;
 	//References to the PowerStore the Power PS takes/puts power into
-	private PowerStore myPowerStore;
+	protected PowerStore myPowerStore;
 	private LogIndex myLogIndex;
 	
 	/**
@@ -41,7 +41,7 @@ public class PowerPSImpl extends BioModuleImpl implements PowerPSOperations {
 	/**
 	* Collects reference to PowerStore needed for putting/getting power.
 	*/
-	private void collectReferences(){
+	protected void collectReferences(){
 		try{
 			if (!hasCollectedReferences){
 				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"));
@@ -69,7 +69,7 @@ public class PowerPSImpl extends BioModuleImpl implements PowerPSOperations {
 		return "PowerPS";
 	}
 	
-	private void log(){
+	protected void log(){
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();
