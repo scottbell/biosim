@@ -18,7 +18,7 @@ import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
 
-public class FrameworkServer {
+public class BioModuleServer {
 
 public static void main(String args[]) {
 	try{
@@ -96,7 +96,7 @@ public static void main(String args[]) {
 		 ncRef.rebind(path, ref);
 
 		 
-		 System.out.println("Framework Server ready and waiting ...");
+		 System.out.println("BioModule Server ready and waiting ...");
 		 // wait for invocations from clients
 		 orb.run();
 	}
@@ -104,7 +104,7 @@ public static void main(String args[]) {
 		System.err.println("ERROR: " + e);
 		e.printStackTrace(System.out);
 	}
-	System.out.println("Framework Server Exiting ...");
+	System.out.println("BioModule Server Exiting ...");
 	}
 }
 
