@@ -183,7 +183,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		reset();
 		//Make some crew members
 		CrewGroup myCrew = (CrewGroup)(getBioModule(crewName));
-		myCrew.setStochasticIntensity(StochasticIntensity.MEDIUM);
+		myCrew.setStochasticIntensity(StochasticIntensity.MEDIUM_STOCH);
 		CrewPerson myCrewPerson1 = myCrew.createCrewPerson("Bob Roberts", 43, 170, Sex.male);
 		CrewPerson myCrewPerson2 = myCrew.createCrewPerson("Stephanie Stevens", 25, 125, Sex.female);
 		CrewPerson myCrewPerson3 = myCrew.createCrewPerson("Bill Williams", 30, 165, Sex.male);
@@ -227,7 +227,7 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		BiomassStore myBiomassStore = (BiomassStore)(getBioModule(biomassStoreName));
 		FoodStore myFoodStore = (FoodStore)(getBioModule(foodStoreName));
 		BiomassRS myBiomassRS = (BiomassRS)(getBioModule(biomassRSName));
-		myBiomassRS.setStochasticIntensity(StochasticIntensity.MEDIUM);
+		myBiomassRS.setStochasticIntensity(StochasticIntensity.MEDIUM_STOCH);
 		myBiomassStore.setCapacity(100f);
 		myFoodStore.setCapacity(500f);
 		myBiomassStore.setLevel(0f);

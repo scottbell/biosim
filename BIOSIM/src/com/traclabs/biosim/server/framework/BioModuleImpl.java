@@ -19,7 +19,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	private Logger myLogger;
 	private boolean collectedLogger = false;
 	private float randomCoefficient = 0f;
-	protected StochasticIntensity myStochasticIntensity = StochasticIntensity.NONE;
+	protected StochasticIntensity myStochasticIntensity = StochasticIntensity.NONE_STOCH;
 	private int myID = 0;
 	private static final int RANDOM_PRECISION = 1000;
 
@@ -34,6 +34,16 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	public void tick(){
 		if (moduleLogging)
 			log();
+	}
+	
+	public void startMalfunction(MalfunctionIntensity pIntensity, MalfunctionLength pLength){
+	}
+	
+	public void endMalfunction(){
+	}
+	
+	public boolean isMalfunctioning(){
+		return false;
 	}
 
 	/**
@@ -60,13 +70,13 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	
 	public void setStochasticIntensity(StochasticIntensity pValue){
 		myStochasticIntensity = pValue;
-		if (pValue == StochasticIntensity.NONE)
+		if (pValue == StochasticIntensity.NONE_STOCH)
 			randomCoefficient = 0f;
-		else if (pValue == StochasticIntensity.LOW)
+		else if (pValue == StochasticIntensity.LOW_STOCH)
 			randomCoefficient = .03f;
-		else if (pValue == StochasticIntensity.MEDIUM)
+		else if (pValue == StochasticIntensity.MEDIUM_STOCH)
 			randomCoefficient = .06f;
-		else if (pValue == StochasticIntensity.HIGH)
+		else if (pValue == StochasticIntensity.HIGH_STOCH)
 			randomCoefficient = .09f;
 	}
 	
