@@ -92,8 +92,8 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	* @param initialOtherMoles the initial volume of the other gasses (in moles) in the environment
 	* @param initialVolume the initial volume of the environment in liters
 	*/
-	public SimEnvironmentImpl (float pInitialCO2Moles, float pInitialO2Moles, float pInitialOtherMoles, float pInitialWaterMoles
-				float pInitialCO2Pressure, float pInitialO2Pressure, float pInitialOtherPressure, float pInitialWaterPressure
+	public SimEnvironmentImpl (float pInitialCO2Moles, float pInitialO2Moles, float pInitialOtherMoles, float pInitialWaterMoles,
+				float pInitialCO2Pressure, float pInitialO2Pressure, float pInitialOtherPressure, float pInitialWaterPressure,
 				float pInitialVolume, String pName, int pID)
 	{
 		super(pID);
@@ -260,6 +260,14 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 	public float getTotalMoles(){
 		return CO2Moles + O2Moles + waterMoles + otherMoles;
 	}
+	
+	/**
+	* Retrieves the the total level of gas in the environment (in kPA)
+	* @return retrieves the the total level of gas in the environment (in kPA)
+	*/
+	public float getTotalPressure(){
+		return CO2Pressure + O2Pressure + waterPressure + otherPressure;
+	}
 
 	/**
 	* Sets every gas level (O2, CO2, other) to one value
@@ -269,7 +277,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		O2Pressure = O2Pressure * molesRequested / O2Moles;
 		CO2Pressure = CO2Pressure * molesRequested / CO2Moles;
 		otherPressure = otherPressure * molesRequested / otherMoles;
-		waterPressure = WaterPressure * molesRequested / waterMoles;
+		waterPressure = waterPressure * molesRequested / waterMoles;
 		
 		CO2Moles = molesRequested;
 		O2Moles = molesRequested;

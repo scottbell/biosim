@@ -583,11 +583,11 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 		//for dave, make bigger
 		environmentCapacity *= 10;
 		Double environmentCapacityObj = new Double(environmentCapacity);
-		myCrewEnvironment.setCapacity(environmentCapacityObj.floatValue());
+		myCrewEnvironment.setVolume(environmentCapacityObj.floatValue());
 
 		//Put some air in the plant cabin
 		SimEnvironment myPlantEnvironment = SimEnvironmentHelper.narrow(getBioModule(myPlantEnvironmentName));
-		myPlantEnvironment.setCapacity(environmentCapacityObj.floatValue());
+		myPlantEnvironment.setVolume(environmentCapacityObj.floatValue());
 
 		//Add some crops and food
 		BiomassStore myBiomassStore = BiomassStoreHelper.narrow(getBioModule(myBiomassStoreName));
@@ -1202,9 +1202,9 @@ public class BioDriverImpl extends BioDriverPOA implements Runnable
 
 		//Put some air in the cabin
 		SimEnvironment myCrewEnvironment = SimEnvironmentHelper.narrow(getBioModule(myCrewEnvironmentName));
-		myCrewEnvironment.setCapacity(10000000f);
+		myCrewEnvironment.setVolume(10000000f);
 		SimEnvironment myPlantEnvironment = SimEnvironmentHelper.narrow(getBioModule(myPlantEnvironmentName));
-		myPlantEnvironment.setCapacity(10000000f);
+		myPlantEnvironment.setVolume(10000000f);
 
 		//Add some crops and food
 		BiomassStore myBiomassStore = BiomassStoreHelper.narrow(getBioModule(myBiomassStoreName));
