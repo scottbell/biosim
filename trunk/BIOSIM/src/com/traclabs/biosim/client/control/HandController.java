@@ -123,7 +123,7 @@ public class HandController {
     public static String[] actuatorNames = { "OGSpotable", "waterRSdirty",
             "waterRSgrey" };
 
-    private File outFile = new File("handcontroller-output.txt");
+    private File outFile;
 
     private FileWriter fw;
 
@@ -158,7 +158,8 @@ public class HandController {
         GenericActuator currentActuator;
 
         if (myLogger.isDebugEnabled()) {
-            try {
+            try { 
+                outFile = new File("handcontroller-output.txt");
                 fw = new FileWriter(outFile);
             } catch (IOException e) {
             }
@@ -540,7 +541,6 @@ public class HandController {
         }
         if (SimState.get("oxygen") == LOW) {
             potableWater = 1;
-
         }
         if (SimState.get("oxygen") == HIGH) {
             potableWater = 0;
