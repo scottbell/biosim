@@ -3,12 +3,17 @@
  * BioSim simulation and then sends that data through a socket to the appropriate
  * UnrealScript NetTrigger call.
  *
- * WaterMonitor will communicate with the JavaGateway using the following text cmd:
+ * WaterMonitor will communicate with the JavaGateway using the following text cmd(s):
  *
- *		netWRS <eventName> <potableWaterAmount> <greyWaterAmount> <dirtyWaterAmount>
+ *		netWRS <potableWaterAmount> <greyWaterAmount> <dirtyWaterAmount> <potableWaterCapacity> <greyWaterCapacity> <dirtyWaterCapacity>
  *
- * This text string will trigger the appropriate netTrigger and activate <eventName>
- * with the given water amounts.
+ * This text string will trigger any/all UnrealScript netWRSTrigger, giving it the new WRS info.
+ * This can be used for environments with a single WRS system or multiple, connected WRS systems.
+ *
+ *		netWRS <triggerTag> <potableWaterAmount> <greyWaterAmount> <dirtyWaterAmount> <potableWaterCapacity> <greyWaterCapacity> <dirtyWaterCapacity>
+ *
+ * This text string will trigger the UnrealScript netWRSTrigger with the given triggerTag, giving it the new WRS info.
+ * The triggerTag allows for multiple, unconnected WRS systems in a given environment.
  *
  * @author: Travis R. Fischer
  */
@@ -61,13 +66,11 @@ public class WaterMonitor extends Thread {
 	/**
 	 * Constructor to create a new WaterMonitor object.
 	 * @param unrealSocket - open socket to the BioSim3D server JavaGateway
-	 * @param eventName - used to communicate with the BioSim3D server based on pre-established BioSim3D Protocol
 	 * @param bioHolder - BioHolder used to get the simulation's water information.
 	 */
-	WaterMonitor(Socket unrealSocket, String eventName, BioHolder bioHolder) {
+	WaterMonitor(Socket unrealSocket, BioHolder bioHolder) {
 		
 		mySocket = unrealSocket;
-		cmdPrefix.concat(eventName);		
 		myBioHolder = bioHolder;
 		
 		try {
@@ -85,12 +88,44 @@ public class WaterMonitor extends Thread {
 		myDirtyWaterStore = (DirtyWaterStore)myBioHolder.theDirtyWaterStores.get(0);
 	}
 	
+	/**
+	 * Constructor to create a new WaterMonitor object.
+	 * @param unrealSocket - open socket to the BioSim3D server JavaGateway
+	 * @param bioHolder - BioHolder used to get the simulation's water information.
+	 * @param matchTag - String used to only trigger certain NetWRSTriggers if more than one exist in a level.
+	 */
+	WaterMonitor(Socket unrealSocket, BioHolder bioHolder, String matchTag) {
+		System.out.println("matchTag: "+matchTag);
+		mySocket = unrealSocket;
+		cmdPrefix = cmdPrefix.concat(matchTag);	
+		cmdPrefix = cmdPrefix.concat(" ");			
+		myBioHolder = bioHolder;
+		
+		try {
+		
+			unrealStream = new PrintWriter(mySocket.getOutputStream(),true);
+
+		} catch(IOException e) {
+		
+			System.err.println("WaterMonitor: Failed to establish socket I/O.");
+			System.exit(1);
+		}
+		
+		myPotableWaterStore = (PotableWaterStore)myBioHolder.thePotableWaterStores.get(0);
+		myGreyWaterStore = (GreyWaterStore)myBioHolder.theGreyWaterStores.get(0);
+		myDirtyWaterStore = (DirtyWaterStore)myBioHolder.theDirtyWaterStores.get(0);
+	}
+	
+	
 	 
 	public void run() {
 		
 		float potableLevel;
 		float dirtyLevel;
 		float greyLevel;
+		float potableCap;
+		float dirtyCap;
+		float greyCap;
 		
 		System.out.println("Starting WaterMonitor thread");
 		
@@ -99,10 +134,13 @@ public class WaterMonitor extends Thread {
 			potableLevel = myPotableWaterStore.getLevel();
 			greyLevel = myGreyWaterStore.getLevel();
 			dirtyLevel = myDirtyWaterStore.getLevel();
+			potableCap = myPotableWaterStore.getCapacity();
+			greyCap = myGreyWaterStore.getCapacity();
+			dirtyCap = myGreyWaterStore.getCapacity();
 			
-			unrealStream.println(cmdPrefix+potableLevel+" "+greyLevel+" "+dirtyLevel);
+			unrealStream.println(cmdPrefix+potableLevel+" "+greyLevel+" "+dirtyLevel+" "+potableCap+" "+greyCap+" "+dirtyCap);
 			try {
-				sleep(1000);
+				sleep(2000);
 			} catch(InterruptedException e) { }
 		}
 	}
