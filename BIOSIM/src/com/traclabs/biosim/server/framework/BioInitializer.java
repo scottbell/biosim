@@ -587,7 +587,7 @@ public class BioInitializer{
 			BiosimServer.registerServer(new CrewGroupPOATie(myCrewGroupImpl), myCrewGroupImpl.getModuleName(), myCrewGroupImpl.getID());
 			Node child = node.getFirstChild();
 			while (child != null) {
-				if (child.getNodeName().equals("CrewPerson"))
+				if (child.getNodeName().equals("crewPerson"))
 					createCrewPerson(child, myCrewGroupImpl);
 				child = child.getNextSibling();
 			}
