@@ -107,30 +107,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 				timeActivityPerformed = 0;
 			}
 			consumeResources();
-			deathCheck();
-		}
-	}
-
-	private void deathCheck(){
-		if (starvingTime > 504){
-			myCurrentActivity = myCrewGroup.getScheduledActivityByName("dead");
-			timeActivityPerformed = 0;
-			status = "starved to death";
-		}
-		if (thirstTime > 72){
-			myCurrentActivity = myCrewGroup.getScheduledActivityByName("dead");
-			timeActivityPerformed = 0;
-			status = "died of thirst";
-		}
-		if (suffocateTime > 1){
-			myCurrentActivity = myCrewGroup.getScheduledActivityByName("dead");
-			timeActivityPerformed = 0;
-			status = "suffocated";
-		}
-		if (poisonTime > 5){
-			myCurrentActivity = myCrewGroup.getScheduledActivityByName("dead");
-			timeActivityPerformed = 0;
-			status = "died of CO2 poisioning";
 		}
 	}
 
@@ -219,22 +195,46 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		myCurrentEnvironment.addOther(airRetrieved.other);
 		float theCO2Ratio = getCO2Ratio(airRetrieved);
 		//afflict crew
-
+		
+		StringBuffer statusBuffer = new StringBuffer();
 		if (foodRetrieved < foodNeeded){
-			status = "needed "+foodNeeded+" kgs of food, got only "+foodRetrieved +" kgs";
+			statusBuffer.append("   needed "+foodNeeded+" kgs of food, got only "+foodRetrieved +" kgs");
 			starvingTime++;
 		}
 		if (waterRetrieved < cleanWaterNeeded){
-			status = "needed "+cleanWaterNeeded+" liters of waters, got only "+waterRetrieved +" liters";
+			statusBuffer.append("   needed "+cleanWaterNeeded+" liters of waters, got only "+waterRetrieved +" liters");
 			thirstTime++;
 		}
 		if (O2Retrieved < O2Needed){
-			status = "needed "+O2Needed+" liters of O2, got only "+O2Retrieved +" liters";
+			statusBuffer.append("   needed "+O2Needed+" liters of O2, got only "+O2Retrieved +" liters");
 			suffocateTime++;
 		}
 		if (theCO2Ratio > 0.06){
-			status = "needed a ratio of "+0.06+" liters of CO2, got "+theCO2Ratio;
+			statusBuffer.append("   needed a ratio of "+0.06+" liters of CO2, got "+theCO2Ratio);
 			poisonTime++;
 		}
+		
+		if (starvingTime > 504){
+			myCurrentActivity = myCrewGroup.getScheduledActivityByName("dead");
+			timeActivityPerformed = 0;
+			statusBuffer = new StringBuffer("   starved to death");
+		}
+		if (thirstTime > 72){
+			myCurrentActivity = myCrewGroup.getScheduledActivityByName("dead");
+			timeActivityPerformed = 0;
+			statusBuffer = new StringBuffer("   died of thirst");
+		}
+		if (suffocateTime > 1){
+			myCurrentActivity = myCrewGroup.getScheduledActivityByName("dead");
+			timeActivityPerformed = 0;
+			statusBuffer = new StringBuffer("   suffocated");
+		}
+		if (poisonTime > 5){
+			myCurrentActivity = myCrewGroup.getScheduledActivityByName("dead");
+			timeActivityPerformed = 0;
+			statusBuffer = new StringBuffer("   died of CO2 poisioning");
+		}
+		if (statusBuffer.length() > 0)
+			status = statusBuffer.toString();
 	}
 }

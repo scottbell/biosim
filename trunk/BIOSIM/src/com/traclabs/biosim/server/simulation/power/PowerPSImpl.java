@@ -9,9 +9,9 @@ public class PowerPSImpl extends PowerPSPOA {
 	private PowerStore myPowerStore;
 
 	public void tick(){
-		currentPowerProduced = 100f;
+		currentPowerProduced = 350;
 		collectReferences();
-		myPowerStore.addPower(100f);
+		myPowerStore.addPower(currentPowerProduced);
 	}
 	
 	private void collectReferences(){
