@@ -152,7 +152,7 @@ public class SimCommandLine
 		currentActuator.setPlantType(PlantType.RICE);
 		currentActuator.setValue(100);
 		
-		HarvestSensor currentSensor = HarvestSensorHelper.narrow((myBioHolder.getSensorAttachedTo(myBioHolder.theHarvestSensors, myBiomassRS)));
+		HarvestSensor currentSensor = HarvestSensorHelper.narrow((myBioHolder.getShelfSensorAttachedTo(myBioHolder.theHarvestSensors, myBiomassRS, 0)));
 		//replant 100 meters squared of rice
 		System.out.println("Value of sensor is: "+currentSensor.getValue());
 	}
