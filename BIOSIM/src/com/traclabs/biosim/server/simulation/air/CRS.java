@@ -27,34 +27,29 @@ public class CRS extends AirRSSubSystem{
 	public CRS(AirRSImpl pAirRSImpl){
 		super(pAirRSImpl);
 	}
-	
+
 	public boolean hasEnoughCO2(){
 		return enoughCO2;
 	}
-	
+
 	public boolean hasEnoughH2(){
 		return enoughH2;
 	}
-	
+
 	/**
 	* Collects references to subsystems needed for putting/getting resources
 	*/
 	private void collectReferences(){
 		if (!hasCollectedReferences){
-			try{
-				myCO2Tank = myAirRS.getCO2Tank();
-				myH2Tank = myAirRS.getH2Tank();
-				myCH4Tank = myAirRS.getCH4Tank();
-				myOGS = myAirRS.getOGS();
-				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"+myAirRS.getID()));
-				hasCollectedReferences = true;
-			}
-			catch (org.omg.CORBA.UserException e){
-				e.printStackTrace(System.out);
-			}
+			myCO2Tank = myAirRS.getCO2Tank();
+			myH2Tank = myAirRS.getH2Tank();
+			myCH4Tank = myAirRS.getCH4Tank();
+			myOGS = myAirRS.getOGS();
+			myPowerStores = myAirRS.getPowerInputs();
+			hasCollectedReferences = true;
 		}
 	}
-	
+
 	private void gatherGasses(){
 		currentCO2Consumed = myCO2Tank.takeCO2(myAirRS.randomFilter(CO2Needed));
 		currentH2Consumed = myOGS.takeH2(myAirRS.randomFilter(H2Needed));
@@ -74,14 +69,14 @@ public class CRS extends AirRSSubSystem{
 		else
 			enoughH2 = true;
 	}
-	
+
 	private void pushGasses(){
 		currentH2OProduced = myAirRS.randomFilter(new Double((currentH2Consumed + currentCO2Consumed) * .80).floatValue());
 		myOGS.addH2O(currentH2OProduced);
 		currentCH4Produced = myAirRS.randomFilter(new Double((currentH2Consumed + currentCO2Consumed) * .20).floatValue());
 		myCH4Tank.addCH4(currentCH4Produced);
 	}
-	
+
 	public void reset(){
 		currentPowerConsumed = 0;
 		hasEnoughPower = false;
@@ -92,7 +87,7 @@ public class CRS extends AirRSSubSystem{
 		currentH2OProduced = 0;
 		currentCH4Produced = 0;
 	}
-	
+
 	public void tick(){
 		collectReferences();
 		gatherPower();

@@ -50,8 +50,8 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations, PowerCo
 		return myVCCR.hasPower();
 	}
 	
-	public boolean VCCRHasEnoughCO2(){
-		return myVCCR.hasEnoughCO2();
+	public boolean VCCRHasEnoughAir(){
+		return myVCCR.hasEnoughAir();
 	}
 	
 	public boolean CRSHasPower(){
@@ -119,7 +119,7 @@ public class AirRSImpl extends BioModuleImpl implements AirRSOperations, PowerCo
 	* @return the O2 produced (in liters) at the current tick
 	*/
 	public float getO2Produced(){
-		return myVCCR.getO2Produced() + myOGS.getO2Produced();
+		return myOGS.getO2Produced();
 	}
 	
 	/**

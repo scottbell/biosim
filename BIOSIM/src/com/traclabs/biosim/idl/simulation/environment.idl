@@ -14,6 +14,7 @@ module environment{
                 float getLightIntensity();
                 air::Breath takeO2Breath(in float liters);
                 air::Breath takeCO2Breath(in float liters);
+                air::Breath takeVolume(in float liters);
                 long getTicks();
                 void setTotalLevel(in float liters);
         };

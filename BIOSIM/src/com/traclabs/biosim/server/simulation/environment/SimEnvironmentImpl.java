@@ -259,7 +259,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	*/
 	public Breath takeO2Breath(float litersO2Requested){
 		//idiot check
-		if (litersO2Requested < 0){
+		if (litersO2Requested <= 0){
 			return new Breath(0,0,0);
 		}
 		//asking for more gas than exists
@@ -281,6 +281,32 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 			otherLevel -= takenOther;
 			return new Breath(takenO2, takenCO2, takenOther);
 		}
+	}
+	
+	public Breath takeVolume(float litersRequested){
+		//idiot check
+		if (litersRequested <= 0){
+			return new Breath(0,0,0);
+		}
+		//asking for more gas than exists
+		if (litersRequested >= capacity){
+			float takenCO2 = randomFilter(CO2Level);
+			float takenO2 = randomFilter(O2Level);
+			float takenOther = randomFilter(otherLevel);
+			setTotalLevel(0);
+			return new Breath(takenO2, takenCO2, takenOther);
+		}
+		//gas exists for request
+		else{
+			float takenCO2 = randomFilter((CO2Level / capacity) * litersRequested);
+			float takenO2 = randomFilter((O2Level / capacity) * litersRequested);
+			float takenOther = randomFilter((otherLevel / capacity) * litersRequested);
+			O2Level -= takenO2;
+			CO2Level -= takenCO2;
+			otherLevel -= takenOther;
+			return new Breath(takenO2, takenCO2, takenOther);
+		}
+		
 	}
 	
 	private void performMalfunctions(){
@@ -336,7 +362,7 @@ public class SimEnvironmentImpl extends BioModuleImpl implements SimEnvironmentO
 	*/
 	public Breath takeCO2Breath(float litersCO2Requested){
 		//idiot check
-		if (litersCO2Requested < 0){
+		if (litersCO2Requested <= 0){
 			return new Breath(0,0,0);
 		}
 		//asking for more gas than exists

@@ -13,83 +13,90 @@ import biosim.server.util.*;
 
 public class VCCR extends AirRSSubSystem{
 	private Breath myBreath;
-	private SimEnvironment mySimEnvironment;
+	private SimEnvironment[] myAirInputs;
+	private SimEnvironment[] myAirOutputs;
 	private CO2Tank myCO2Tank;
-	private float CO2Needed = 1.0f;
-	private boolean enoughCO2 = false;
-	private float currentCO2Consumed = 0;
-	private float currentO2Consumed = 0;
-	private float currentO2Produced = 0;
+	private float litersAirNeeded = 4.0f;
+	private boolean enoughAir = false;
 	private float myProductionRate = 1f;
 
 	public VCCR(AirRSImpl pAirRSImpl){
 		super(pAirRSImpl);
 	}
-	
-	public boolean hasEnoughCO2(){
-		return enoughCO2;
+
+	public boolean hasEnoughAir(){
+		return enoughAir;
 	}
-	
-	public float getO2Produced(){
-		return currentO2Produced;
+
+	public float getAirProduced(){
+		return (myBreath.CO2 + myBreath.O2 + myBreath.other);
 	}
-	
+
 	public float getCO2Consumed(){
-		return currentCO2Consumed;
+		return myBreath.CO2;
 	}
-	
+
 	public void setProductionRate(float percentage){
 		myProductionRate = percentage;
 	}
-	
+
 	public float getProductionRate(){
 		return myProductionRate;
 	}
-	
+
 	/**
 	* Collects references to subsystems needed for putting/getting resources
 	*/
 	private void collectReferences(){
 		if (!hasCollectedReferences){
-			try{
-				myCO2Tank = myAirRS.getCO2Tank();
-				mySimEnvironment =SimEnvironmentHelper.narrow(OrbUtils.getNCRef().resolve_str("SimEnvironment"+myAirRS.getID()));
-				myPowerStore = PowerStoreHelper.narrow(OrbUtils.getNCRef().resolve_str("PowerStore"+myAirRS.getID()));
-				hasCollectedReferences = true;
-			}
-			catch (org.omg.CORBA.UserException e){
-				e.printStackTrace(System.out);
-			}
+			myCO2Tank = myAirRS.getCO2Tank();
+			myAirInputs = myAirRS.getAirInputs();
+			myAirOutputs = myAirRS.getAirOutputs();
+			myPowerStores = myAirRS.getPowerInputs();
+			hasCollectedReferences = true;
 		}
 	}
-	
+
 	private void gatherAir(){
-		myBreath = mySimEnvironment.takeCO2Breath(myAirRS.randomFilter(CO2Needed));
-		currentCO2Consumed = myBreath.CO2;
-		currentO2Consumed = myBreath.O2;
-		if (CO2Needed < currentCO2Consumed)
-			enoughCO2 = false;
+		float airNeededFiltered = myAirRS.randomFilter(litersAirNeeded);
+		float gatheredAir = 0f;
+		float gatheredO2 = 0f;
+		float gatheredCO2 = 0f;
+		float gatheredOther = 0f;
+		for (int i = 0; (i < myAirInputs.length) && (gatheredAir >= airNeededFiltered); i++){
+			Breath currentBreath = myAirInputs[i].takeVolume(airNeededFiltered);
+			gatheredAir += currentBreath.O2 + currentBreath.CO2 + currentBreath.other;
+			gatheredO2 += currentBreath.CO2;
+			gatheredCO2 += currentBreath.O2;
+			gatheredOther += currentBreath.other;
+		}
+		myBreath.O2 =  gatheredO2;
+		myBreath.CO2 = gatheredCO2;
+		myBreath.other = gatheredOther;
+		if (gatheredAir < airNeededFiltered)
+			enoughAir = false;
 		else
-			enoughCO2 = true;
+			enoughAir = true;
 	}
-	
+
 	private void pushAir(){
-		currentO2Produced = myBreath.O2 * myProductionRate;
-		mySimEnvironment.addOther(myBreath.other * myProductionRate);
-		mySimEnvironment.addO2(currentO2Produced);
-		myCO2Tank.addCO2(myBreath.CO2 * myProductionRate);
+		float distributedCO2Left = myBreath.CO2 * myProductionRate;
+		float distributedO2Left = myBreath.O2 * myProductionRate;
+		float distributedOtherLeft = myBreath.other * myProductionRate;
+		for (int i = 0; (i < myAirOutputs.length) && ((distributedO2Left <= 0) || (distributedOtherLeft <= 0)); i++){
+			distributedO2Left -= myAirOutputs[i].addO2(distributedO2Left);
+			distributedOtherLeft -= myAirOutputs[i].addOther(distributedOtherLeft);
+		}
+		myCO2Tank.addCO2(myBreath.CO2);
 	}
-	
+
 	public void reset(){
 		myBreath = new Breath(0,0,0);
 		currentPowerConsumed = 0;
 		hasEnoughPower = false;
-		enoughCO2 = false;
-		currentO2Consumed = 0f;
-		currentCO2Consumed = 0f;
-		currentO2Produced = 0f;
+		enoughAir = false;
 	}
-	
+
 	public void tick(){
 		collectReferences();
 		gatherPower();
