@@ -16,6 +16,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	protected LogNodeImpl myLog;
 	private Logger myLogger;
 	private boolean collectedLogger = false;
+	private float stochasticCoefficient = 0f;
 	private int myID = 0;
 
 	public BioModuleImpl(int pID){
@@ -46,6 +47,10 @@ public abstract class BioModuleImpl extends BioModulePOA{
 	
 	public int getID(){
 		return myID;
+	}
+	
+	public void setStochasticCoefficient(float pValue){
+		stochasticCoefficient = pValue;
 	}
 
 	protected void sendLog(LogNodeImpl logToProcess){
