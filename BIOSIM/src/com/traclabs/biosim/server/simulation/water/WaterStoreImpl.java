@@ -7,4 +7,8 @@ public class WaterStoreImpl extends WaterStorePOA {
 	public void tick(){
 		System.out.println("WaterStore has been ticked!");
 	}
+	
+	public String getModuleName(){
+		return "WaterStore";
+	}
 }

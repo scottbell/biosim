@@ -31,6 +31,16 @@ public class BioSimulator
 	{
 		BioSimulator biosim = new BioSimulator();
 		biosim.tick();
+		
+		//Play with crew object
+		Crew myCrew = (Crew)(biosim.getBioModule("Crew"));
+		System.out.println("Current crew state is: "+myCrew.getStateName());
+		myCrew.setState(CrewState.EATING);
+		System.out.println("Current crew state is: "+myCrew.getStateName());
+	}
+	
+	public BioModule getBioModule(String type){
+		return (BioModule)(modules.get(type));
 	}
 	
 	private void initializeORB(){
