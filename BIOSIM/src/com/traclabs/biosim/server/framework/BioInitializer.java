@@ -578,7 +578,7 @@ public class BioInitializer{
 				BioModule[] environmentModules = getInputs(environmentNode);
 				BioModule[] storeModules = getInputs(storeNode);
 				SimEnvironment[] environmentInputs = new SimEnvironment[environmentModules.length];
-				PotableWaterStore[] storeInputs = new PotableWaterStore[storeModules.length];
+				WaterStore[] storeInputs = new WaterStore[storeModules.length];
 				for (int i = 0; i < environmentModules.length; i++)
 					environmentInputs[i] = SimEnvironmentHelper.narrow(environmentModules[i]);
 				for (int i = 0; i < storeModules.length; i++)
@@ -734,11 +734,11 @@ public class BioInitializer{
 				BioModule[] environmentModules = getOutputs(environmentNode);
 				BioModule[] storeModules = getOutputs(storeNode);
 				SimEnvironment[] environmentOutputs = new SimEnvironment[environmentModules.length];
-				PotableWaterStore[] storeOutputs = new PotableWaterStore[storeModules.length];
+				WaterStore[] storeOutputs = new WaterStore[storeModules.length];
 				for (int i = 0; i < environmentModules.length; i++)
 					environmentOutputs[i] = SimEnvironmentHelper.narrow(environmentModules[i]);
 				for (int i = 0; i < storeModules.length; i++)
-					storeOutputs[i] = PotableWaterStoreHelper.narrow(storeModules[i]);
+					storeOutputs[i] = WaterStoreHelper.narrow(storeModules[i]);
 				myWaterAirProducer.setWaterAirEnvironmentOutputs(environmentOutputs, getMaxFlowRates(environmentNode), getDesiredFlowRates(environmentNode));
 				myWaterAirProducer.setWaterAirStoreOutputs(storeOutputs, getMaxFlowRates(storeNode), getDesiredFlowRates(storeNode));
 			}

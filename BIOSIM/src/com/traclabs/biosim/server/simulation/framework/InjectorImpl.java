@@ -148,8 +148,8 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 	private float[] nitrogenAirStoreOutDesiredFlowRates;
 	private float[] nitrogenAirStoreInDesiredFlowRates;
 	
-	private PotableWaterStore[] myWaterAirStoreInputs;
-	private PotableWaterStore[] myWaterAirStoreOutputs;
+	private WaterStore[] myWaterAirStoreInputs;
+	private WaterStore[] myWaterAirStoreOutputs;
 	private float[] waterAirStoreOutMaxFlowRates;
 	private float[] waterAirStoreInMaxFlowRates;
 	private float[] waterAirStoreOutActualFlowRates;
@@ -348,8 +348,8 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		nitrogenAirEnvironmentOutDesiredFlowRates = new float[0];
 		nitrogenAirEnvironmentInDesiredFlowRates = new float[0];
 		
-		myWaterAirStoreOutputs = new PotableWaterStore[0];
-		myWaterAirStoreInputs = new PotableWaterStore[0];
+		myWaterAirStoreOutputs = new WaterStore[0];
+		myWaterAirStoreInputs = new WaterStore[0];
 		waterAirStoreOutMaxFlowRates = new float[0];
 		waterAirStoreInMaxFlowRates = new float[0];
 		waterAirStoreOutActualFlowRates = new float[0];
@@ -1783,7 +1783,7 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 	public float[] getWaterAirEnvironmentInputActualFlowRates(){
 		return waterAirEnvironmentInActualFlowRates;
 	}
-	public void setWaterAirStoreInputs(PotableWaterStore[] sources, float[] maxFlowRates, float[] desiredFlowRates){
+	public void setWaterAirStoreInputs(WaterStore[] sources, float[] maxFlowRates, float[] desiredFlowRates){
 		myWaterAirStoreInputs = sources;
 		waterAirStoreInMaxFlowRates = maxFlowRates;
 		waterAirStoreInDesiredFlowRates = desiredFlowRates;
@@ -1795,7 +1795,7 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		waterAirEnvironmentInDesiredFlowRates = desiredFlowRates;
 		waterAirEnvironmentInActualFlowRates = new float[waterAirEnvironmentInDesiredFlowRates.length];
 	}
-	public PotableWaterStore[] getWaterAirStoreInputs(){
+	public WaterStore[] getWaterAirStoreInputs(){
 		return myWaterAirStoreInputs;
 	}
 	public SimEnvironment[] getWaterAirEnvironmentInputs(){
@@ -1851,7 +1851,7 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 	public float[] getWaterAirEnvironmentOutputActualFlowRates(){
 		return waterAirEnvironmentOutActualFlowRates;
 	}
-	public void setWaterAirStoreOutputs(PotableWaterStore[] destinations, float[] maxFlowRates, float[] desiredFlowRates){
+	public void setWaterAirStoreOutputs(WaterStore[] destinations, float[] maxFlowRates, float[] desiredFlowRates){
 		myWaterAirStoreOutputs = destinations;
 		waterAirStoreOutMaxFlowRates = maxFlowRates;
 		waterAirStoreOutDesiredFlowRates = desiredFlowRates;
@@ -1863,7 +1863,7 @@ public class InjectorImpl extends SimBioModuleImpl implements InjectorOperations
 		waterAirEnvironmentOutDesiredFlowRates = desiredFlowRates;
 		waterAirEnvironmentOutActualFlowRates = new float[waterAirEnvironmentOutDesiredFlowRates.length];
 	}
-	public PotableWaterStore[] getWaterAirStoreOutputs(){
+	public WaterStore[] getWaterAirStoreOutputs(){
 		return myWaterAirStoreOutputs;
 	}
 	public SimEnvironment[] getWaterAirEnvironmentOutputs(){
