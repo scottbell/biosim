@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='../BiosimInitSchema.xsd'>
-	<Globals crewsToWatch="BaseCrewGroup EVACrewGroup" plantsToWatch="BaseBiomassRS" runTillN="2160" runTillCrewDeath="true" runTillPlantDeath="true">
+	<Globals crewsToWatch="BaseCrewGroup EVACrewGroup" plantsToWatch="BaseBiomassRS" runTillN="2160" runTillCrewDeath="true" runTillPlantDeath="false">
 		<comment>
 			The idea mission initialization for BioSim (scenario 1) 
 			Has the following properties:
@@ -209,5 +209,100 @@
 			<DryWasteStore name="EVADryWasteStore" capacity="2" level="0"/>
 		</waste>
 	</SimBioModules>
+	
+	<Sensors>
+		<air>
+			<CO2OutFlowRateSensor name="BaseVCCRO2OutFlowRateSensor" index="0" input="BaseVCCR"/>
+			<O2OutFlowRateSensor name="BaseOGSO2OutFlowRateSensor" index="0" input="BaseOGS"/>
+			<O2StoreLevelSensor name="BaseO2StoreLevelSensor" input="BaseO2Store"/>
+			<O2StoreLevelSensor name="BaseCO2StoreLevelSensor" input="BaseCO2Store"/>
+			<O2StoreLevelSensor name="BaseH2StoreLevelSensor" input="BaseH2Store"/>
+			<O2StoreLevelSensor name="BaseNitrogenStoreLevelSensor" input="BaseNitrogenStore"/>
+			<H2OutFlowRateSensor name="BaseOGSH2OutFlowRateSensor" index="0" input="BaseOGS"/>
+		</air>
+		<crew>
+			<CrewGroupAnyDeadSensor name="CrewGroupAnyDeadSensor" input="BaseCrewGroup"/>
+		</crew>
+		<environment>
+			<AirInFlowRateSensor name="BaseVCCRAirInFlowRateSensor" index="0" input="BaseVCCR"/>
+			<AirOutFlowRateSensor name="BaseVCCRAirOutFlowRateSensor" index="0" input="BaseVCCR"/>
+			<CO2AirConcentrationSensor name="BaseCrewEnvironmentCO2AirConcentrationSensor" input="BaseCrewEnvironment"/>
+			<CO2AirConcentrationSensor name="BasePlantEnvironmentCO2AirConcentrationSensor" input="BasePlantEnvironment"/>
+			<CO2AirPressureSensor name="BaseCrewEnvironmentCO2AirPressureSensor" input="BaseCrewEnvironment"/>
+			<CO2AirPressureSensor name="BasePlantEnvironmentCO2AirPressureSensor" input="BasePlantEnvironment"/>
+			<O2AirConcentrationSensor name="BaseCrewEnvironmentO2AirConcentrationSensor" input="BaseCrewEnvironment"/>
+			<O2AirConcentrationSensor name="BasePlantEnvironmentO2AirConcentrationSensor" input="BasePlantEnvironment"/>
+			<O2AirPressureSensor name="BaseCrewEnvironmentO2AirPressureSensor" input="BaseCrewEnvironment"/>
+			<O2AirPressureSensor name="BasePlantEnvironmentO2AirPressureSensor" input="BasePlantEnvironment"/>
+			<NitrogenAirConcentrationSensor name="BaseCrewEnvironmentNitrogenAirConcentrationSensor" input="BaseCrewEnvironment"/>
+			<NitrogenAirConcentrationSensor name="BasePlantEnvironmentNitrogenAirConcentrationSensor" input="BasePlantEnvironment"/>
+			<NitrogenAirPressureSensor name="BaseCrewEnvironmentNitrogenAirPressureSensor" input="BaseCrewEnvironment"/>
+			<NitrogenAirPressureSensor name="BasePlantEnvironmentNitrogenAirPressureSensor" input="BasePlantEnvironment"/>
+			<WaterAirConcentrationSensor name="BaseCrewEnvironmentWaterAirConcentrationSensor" input="BaseCrewEnvironment"/>
+			<WaterAirConcentrationSensor name="BasePlantEnvironmentWaterAirConcentrationSensor" input="BasePlantEnvironment"/>
+			<WaterAirPressureSensor name="BaseCrewEnvironmentWaterAirPressureSensor" input="BaseCrewEnvironment"/>
+			<WaterAirPressureSensor name="BasePlantEnvironmentWaterAirPressureSensor" input="BasePlantEnvironment"/>
+			<OtherAirConcentrationSensor name="BaseCrewEnvironmentOtherAirConcentrationSensor" input="BaseCrewEnvironment"/>
+			<OtherAirConcentrationSensor name="BasePlantEnvironmentOtherAirConcentrationSensor" input="BasePlantEnvironment"/>
+			<OtherAirPressureSensor name="BaseCrewEnvironmentOtherAirPressureSensor" input="BaseCrewEnvironment"/>
+			<OtherAirPressureSensor name="BasePlantEnvironmentOtherAirPressureSensor" input="BasePlantEnvironment"/>
+		</environment>
+		<food>
+			<BiomassInFlowRateSensor name="BaseFoodProcessorBiomassInFlowRateSensor" index="0" input="BaseFoodProcessor"/>
+			<BiomassOutFlowRateSensor name="BaseBiomassRSBiomassOutFlowRateSensor" index="0" input="BaseBiomassRS"/>
+			<BiomassStoreLevelSensor name="BaseBiomassStoreLevelSensor" input="BaseBiomassStore"/>
+			<FoodInFlowRateSensor name="BaseCrewGroupFoodInFlowRateSensor" index="0" input="BaseCrewGroup"/>
+			<FoodOutFlowRateSensor name="BaseFoodProcessorFoodOutFlowRateSensor" index="0" input="BaseFoodProcessor"/>
+			<FoodStoreLevelSensor name="BaseFoodStoreLevelSensor" input="BaseFoodStore"/>
+			<HarvestSensor name="BaseShelf0HarvestSensor" shelfIndex="0" input="BaseBiomassRS"/>
+			<HarvestSensor name="BaseShelf1HarvestSensor" shelfIndex="1" input="BaseBiomassRS"/>
+			<PlantDeathSensor name="BaseShelf0PlantDeathSensor" shelfIndex="0" input="BaseBiomassRS"/>
+			<PlantDeathSensor name="BaseShelf1PlantDeathSensor" shelfIndex="1" input="BaseBiomassRS"/>
+		</food>
+		<framework>
+			<StoreOverflowSensor name="BasePowerStoreOverflowSensor" input="BasePowerStore"/>
+			<StoreOverflowSensor name="BaseFoodStoreOverflowSensor" input="BaseFoodStore"/>
+			<StoreOverflowSensor name="BaseH2StoreOverflowSensor" input="BaseH2Store"/>
+			<StoreOverflowSensor name="BaseCO2StoreOverflowSensor" input="BaseCO2Store"/>
+			<StoreOverflowSensor name="BaseO2StoreOverflowSensor" input="BaseO2Store"/>
+			<StoreOverflowSensor name="BaseNitrogenStoreOverflowSensor" input="BaseNitrogenStore"/>
+			<StoreOverflowSensor name="BaseBiomassStoreOverflowSensor" input="BaseBiomassStore"/>
+			<StoreOverflowSensor name="BasePotableWaterStoreOverflowSensor" input="BasePotableWaterStore"/>
+			<StoreOverflowSensor name="BaseGreyWaterStoreOverflowSensor" input="BaseGreyWaterStore"/>
+			<StoreOverflowSensor name="BaseDirtyWaterStoreOverflowSensor" input="BaseDirtyWaterStore"/>
+			<StoreOverflowSensor name="BaseDryWasteStoreOverflowSensor" input="BaseDryWasteStore"/>
+		</framework>
+		<power>
+			<PowerInFlowRateSensor name="BaseOGSPowerInFlowRateSensor" index="0" input="BaseOGS"/>
+			<PowerInFlowRateSensor name="BaseVCCRPowerInFlowRateSensor" index="0" input="BaseVCCR"/>
+			<PowerInFlowRateSensor name="BaseFoodProcessorPowerInFlowRateSensor" index="0" input="BaseFoodProcessor"/>
+			<PowerInFlowRateSensor name="BaseBiomassRSPowerInFlowRateSensor" index="0" input="BaseBiomassRS"/>
+			<PowerInFlowRateSensor name="BaseWaterRSPowerInFlowRateSensor" index="0" input="BaseBiomassRS"/>
+			<PowerOutFlowRateSensor name="BasePowerPSPowerOutFlowRateSensor" index="0" input="BasePowerPS"/>
+			<PowerStoreLevelSensor name="BasePowerStoreLevelSensor" input="BasePowerStore"/>
+		</power>
+		<water>
+			<DirtyWaterInFlowRateSensor name="BaseWaterRSDirtyWaterInFlowRateSensor" index="0" input="BaseWaterRS"/>
+			<DirtyWaterOutFlowRateSensor name="BaseCrewGroupDirtyWaterOutFlowRateSensor" index="0" input="BaseCrewGroup"/>
+			<DirtyWaterOutFlowRateSensor name="BaseBiomassRSDirtyWaterOutFlowRateSensor" index="0" input="BaseBiomassRS"/>
+			<DirtyWaterStoreLevelSensor name="BaseDirtyWaterStoreLevelSensor" input="BaseDirtyWaterStore"/>
+			<GreyWaterInFlowRateSensor name="BaseWaterRSGreyWaterInFlowRateSensor" index="0" input="BaseWaterRS"/>
+			<GreyWaterInFlowRateSensor name="BaseBiomassRSGreyWaterInFlowRateSensor" index="0" input="BaseBiomassRS"/>
+			<GreyWaterOutFlowRateSensor name="BaseCrewGroupGreyWaterOutFlowRateSensor" index="0" input="BaseCrewGroup"/>
+			<GreyWaterStoreLevelSensor name="BaseGreyWaterStoreLevelSensor" input="BaseGreyWaterStore"/>
+			<PotableWaterInFlowRateSensor name="BaseOGSPotableWaterInFlowRateSensor" index="0" input="BaseOGS"/>
+			<PotableWaterInFlowRateSensor name="BaseCrewGroupPotableWaterInFlowRateSensor" index="0" input="BaseCrewGroup"/>
+			<PotableWaterInFlowRateSensor name="BaseBiomassRSPotableWaterInFlowRateSensor" index="0" input="BaseBiomassRS"/>
+			<PotableWaterOutFlowRateSensor name="BaseWaterRSPotableWaterOutFlowRateSensor" index="0" input="BaseWaterRS"/>
+			<PotableWaterStoreLevelSensor name="BasePotableWaterStoreLevelSensor" input="BasePotableWaterStore"/>
+			<WaterOutFlowRateSensor name="BaseFoodProcessorDirtyWaterOutFlowRateSensor" index="0" input="BaseFoodProcessor"/>
+			<WaterOutFlowRateSensor name="BaseFoodProcessorGreyWaterOutFlowRateSensor" index="1" input="BaseFoodProcessor"/>
+		</water>
+		<waste>
+			<DryWasteOutFlowRateSensor name="BaseCrewGroupDryWasteOutFlowRateSensor" index="0" input="BaseCrewGroup"/>
+			<DryWasteOutFlowRateSensor name="BaseFoodProcessorDryWasteOutFlowRateSensor" index="0" input="FBaseoodProcessor"/>
+			<DryWasteStoreLevelSensor name="BaseDryWasteStoreLevelSensor" input="BaseDryWasteStore"/>
+		</waste>
+	</Sensors>
 </biosim>
 
