@@ -130,7 +130,7 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 	}
 
 	private void gatherPower(){
-		float powerNeeded = 468;
+		float powerNeeded = myPPS.getPowerNeeded() + myRO.getPowerNeeded() + myBWP.getPowerNeeded() + myAES.getPowerNeeded();
 		currentPowerConsumed = myPowerStore.take(powerNeeded);
 		if (currentPowerConsumed < powerNeeded){
 			myPPS.addPower(0);
@@ -139,10 +139,10 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 			myAES.addPower(0);
 		}
 		else{
-			myPPS.addPower(168);
-			myRO.addPower(100);
-			myBWP.addPower(100);
-			myAES.addPower(100);
+			myPPS.addPower(myPPS.getPowerNeeded());
+			myRO.addPower(myRO.getPowerNeeded());
+			myBWP.addPower(myBWP.getPowerNeeded());
+			myAES.addPower(myAES.getPowerNeeded());
 		}
 	}
 

@@ -230,7 +230,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 		}
 		else{
 			personThirsty = false;
-			thirstTime--;
+			thirstTime = 0;
 		}
 		if (theCO2Ratio > 0.06){
 			personPoisoned = true;
