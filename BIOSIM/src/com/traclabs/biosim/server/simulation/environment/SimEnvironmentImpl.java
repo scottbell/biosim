@@ -99,7 +99,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
 
     private float initialVolume = 0f;
 
-    private float leakRate = 0.0f;
+    private float permanentLeakRate = 0.0f;
 
     //The light intensity outside
     private float lightIntensity = 0f;
@@ -217,7 +217,6 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
      */
     public void reset() {
         super.reset();
-        leakRate = 0.0f;
         lightIntensity = 0f;
         volume = initialVolume;
         O2Moles = cachedO2Moles = initialO2Moles;
@@ -966,36 +965,34 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
                     otherMolesTaken, nitrogenMolesTaken);
         }
     }
+    
+    private void performLeak(float pLeakRate){
+        float leakedO2Moles = O2Moles - (O2Moles * pLeakRate);
+        float leakedCO2Moles = CO2Moles - (CO2Moles * pLeakRate);
+        float leakedOtherMoles = otherMoles - (otherMoles * pLeakRate);
+        float leakedWaterMoles = waterMoles - (waterMoles * pLeakRate);
+        float leakedNitrogenMoles = nitrogenMoles
+                - (nitrogenMoles * pLeakRate);
+        O2Moles = leakedO2Moles;
+        CO2Moles = leakedCO2Moles;
+        otherMoles = leakedOtherMoles;
+        waterMoles = leakedWaterMoles;
+        nitrogenMoles = leakedNitrogenMoles;
+    }
 
     protected void performMalfunctions() {
+        float malfunctionLeakRate = 0f;
         for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext();) {
             Malfunction currentMalfunction = (Malfunction) (iter.next());
             if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF) {
-                leakRate = 0f;
+                malfunctionLeakRate = 0f;
                 if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
-                    leakRate = .20f;
+                    malfunctionLeakRate = .20f;
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
-                    leakRate = .10f;
+                    malfunctionLeakRate = .10f;
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
-                    leakRate = .05f;
-                float leakedO2Moles = O2Moles - (O2Moles * leakRate);
-                float leakedCO2Moles = CO2Moles - (CO2Moles * leakRate);
-                float leakedOtherMoles = otherMoles - (otherMoles * leakRate);
-                float leakedWaterMoles = waterMoles - (waterMoles * leakRate);
-                float leakedNitrogenMoles = nitrogenMoles
-                        - (nitrogenMoles * leakRate);
-                O2Pressure = O2Pressure * leakedO2Moles / O2Moles;
-                CO2Pressure = CO2Pressure * leakedCO2Moles / CO2Moles;
-                otherPressure = otherPressure * leakedOtherMoles / otherMoles;
-                waterPressure = waterPressure * leakedWaterMoles / waterMoles;
-                nitrogenPressure = nitrogenPressure * leakedNitrogenMoles
-                        / nitrogenMoles;
-
-                O2Moles = leakedO2Moles;
-                CO2Moles = leakedCO2Moles;
-                otherMoles = leakedOtherMoles;
-                waterMoles = leakedWaterMoles;
-                nitrogenMoles = leakedNitrogenMoles;
+                    malfunctionLeakRate = .05f;
+                performLeak(malfunctionLeakRate);
             } else if ((currentMalfunction.getLength() == MalfunctionLength.PERMANENT_MALF)
                     && (!currentMalfunction.hasPerformed())) {
                 float O2percentage;
@@ -1054,6 +1051,7 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
      */
     public void tick() {
         super.tick();
+        performLeak(permanentLeakRate);
         adjustPressure();
         cachedO2Moles = O2Moles;
         cachedCO2Moles = CO2Moles;
@@ -1112,5 +1110,17 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements
                 e.printStackTrace();
             }
         }
+    }
+    /**
+     * @return Returns the permanentLeakRate.
+     */
+    public float getLeakRate() {
+        return permanentLeakRate;
+    }
+    /**
+     * @param permanentLeakRate The permanentLeakRate to set.
+     */
+    public void setLeakRate(float pLeakRate) {
+        permanentLeakRate = pLeakRate;
     }
 }

@@ -1831,11 +1831,13 @@ public class BioInitializer {
             float otherMoles = 0f;
             float nitrogenMoles = 0f;
             float volume = 0f;
+            float leakRate = 0f;
             Node CO2MolesNode = null;
             Node O2MolesNode = null;
             Node waterMolesNode = null;
             Node otherMolesNode = null;
             Node nitrogenMolesNode = null;
+            Node leakRateNode = null;
             try {
                 volume = Float.parseFloat(node.getAttributes().getNamedItem(
                         "initialVolume").getNodeValue());
@@ -1849,6 +1851,8 @@ public class BioInitializer {
                         "initialOtherMoles");
                 otherMolesNode = node.getAttributes().getNamedItem(
                         "initialNitrogenMoles");
+                leakRateNode = node.getAttributes().getNamedItem(
+                		"leakRate");
                 if (CO2MolesNode != null)
                     CO2Moles = Float.parseFloat(CO2MolesNode.getNodeValue());
                 if (O2MolesNode != null)
@@ -1861,6 +1865,9 @@ public class BioInitializer {
                             .parseFloat(otherMolesNode.getNodeValue());
                 if (nitrogenMolesNode != null)
                     nitrogenMoles = Float.parseFloat(nitrogenMolesNode
+                            .getNodeValue());
+                if (leakRateNode != null)
+                    leakRate = Float.parseFloat(leakRateNode
                             .getNodeValue());
             } catch (NumberFormatException e) {
 
@@ -1875,6 +1882,7 @@ public class BioInitializer {
             else
                 mySimEnvironmentImpl = new SimEnvironmentImpl(myID, volume,
                         moduleName);
+            mySimEnvironmentImpl.setLeakRate(leakRate);
             setupBioModule(mySimEnvironmentImpl, node);
             BiosimServer.registerServer(new SimEnvironmentPOATie(
                     mySimEnvironmentImpl),

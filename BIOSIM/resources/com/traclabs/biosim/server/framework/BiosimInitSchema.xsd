@@ -874,6 +874,7 @@
 				<xsd:attribute name="initialOtherMoles" type="nonNegativeFloat" use="optional"/>
 				<xsd:attribute name="initialWaterMoles" type="nonNegativeFloat" use="optional"/>
 				<xsd:attribute name="initialNitrogenMoles" type="nonNegativeFloat" use="optional"/>
+				<xsd:attribute name="leakRate" type="nonNegativeFloat" default="0"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
