@@ -5,5 +5,6 @@ set jacoSingletonOrbClass=org.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSing
 set iorOutput=%BIOSIM_HOME%\tmp\ns\ior.txt
 set resourceDir=%BIOSIM_HOME%\resources
 set jacoClasspath=%BIOSIM_HOME%\lib\jacorb\jacorb.jar;%BIOSIM_HOME%\lib\jacorb;%BIOSIM_HOME%\lib\jacorb\avalon-framework.jar;%BIOSIM_HOME%\lib\jacorb\logkit.jar
+mkdir %BIOSIM_HOME%\tmp\ns
 java -classpath %jacoClasspath% -D%jacoOrbClass% -D%jacoSingletonOrbClass% %mainClass% %iorOutput%
 pause
