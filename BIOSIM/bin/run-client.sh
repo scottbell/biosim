@@ -51,7 +51,7 @@ clientClassesString="/classes"
 clientClassesDir=$clientGenDir$clientClassesString
 stubsClassesDir="$clientGenDir/stubs"
 clientDir="$devRootDir/src/biosim/client"
-driverName="biosim.client.framework.BiosimMain"
+mainName="biosim.client.framework.BiosimMain"
 logviewerName="biosim.client.util.log.LogViewer"
 malfunctionName="biosim.client.framework.gui.MalfunctionPanel"
 stochasticName="biosim.client.framework.gui.StochasticPanel"
@@ -73,19 +73,20 @@ stochastic="stochastic"
 controller="controller"
 sim3D="3D"
 sensor="sensor"
+echo "$jacoInvocation $mainName $console"
 case $userSelect in
-	$console) echo "			 -starting $userSelect";$jacoInvocation $driverName $console;;
-	$controller) echo "			 -starting $userSelect";$jacoInvocation $driverName $controller;;
-	$gui) echo "			 -starting $userSelect";$jacoInvocation $driverName $gui;;
+	$console) echo "			 -starting $userSelect";$jacoInvocation $mainName $console;;
+	$controller) echo "			 -starting $userSelect";$jacoInvocation $mainName $controller;;
+	$gui) echo "			 -starting $userSelect";$jacoInvocation $mainName $gui;;
 	$logviewer) echo "			 -starting $userSelect";$jacoInvocation $logviewerName;;
 	$malfunction) echo "			 -starting $userSelect";$jacoInvocation $malfunctionName;;
 	$stochastic) echo "			 -starting $userSelect";$jacoInvocation $stochasticName;;
 	$sensor) echo "			 -starting $userSelect";$jacoInvocation $sensorName;;
-	$sim3D) echo "			 -starting $userSelect";$jacoInvocation $driverName $sim3D;;
+	$sim3D) echo "			 -starting $userSelect";$jacoInvocation $mainName $sim3D;;
 	$help) echo "Usage: run-client.sh (-ga) [console, gui, logviewer, malfunction, stochastic, controller, 3D]";;
-	"-id"*) echo "			-assuming all (id user specified)";$jacoInvocation $driverName $1;;
-	"-xml"*) echo "			-assuming all (xml init user specified)";$jacoInvocation $driverName $1 $2;;
-	*) echo "			 -starting default";$jacoInvocation $driverName;;
+	"-id"*) echo "			-assuming all (id user specified)";$jacoInvocation $mainName $1;;
+	"-xml"*) echo "			-assuming all (xml init user specified)";$jacoInvocation $mainName $1 $2;;
+	*) echo "			 -starting default";$jacoInvocation $mainName;;
 esac
 echo "*done invoking clients"
 
