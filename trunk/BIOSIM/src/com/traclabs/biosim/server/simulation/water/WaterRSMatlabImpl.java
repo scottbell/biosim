@@ -319,27 +319,4 @@ public class WaterRSMatlabImpl extends SimBioModuleImpl implements
     public PotableWaterStore[] getPotableWaterOutputs() {
         return myPotableWaterOutputs;
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.traclabs.biosim.idl.simulation.water.WaterRSOperations#setOperationMode(com.traclabs.biosim.idl.simulation.water.WaterRSOperationMode)
-     */
-    public void setOperationMode(WaterRSOperationMode pMode) {
-        myMode = pMode;
-        if (myMode == WaterRSOperationMode.FULL) {
-
-        }
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.traclabs.biosim.idl.simulation.water.WaterRSOperations#getOpertationMode()
-     */
-    public WaterRSOperationMode getOpertationMode() {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }

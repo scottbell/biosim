@@ -1,13 +1,9 @@
 package com.traclabs.biosim.server.simulation.air;
 
-import java.util.Arrays;
-import java.util.Iterator;
-
-import com.traclabs.biosim.idl.framework.Malfunction;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
-import com.traclabs.biosim.idl.simulation.air.AirRSOperationMode;
 import com.traclabs.biosim.idl.simulation.air.AirRSOperations;
+import com.traclabs.biosim.idl.simulation.air.Breath;
 import com.traclabs.biosim.idl.simulation.air.CO2Store;
 import com.traclabs.biosim.idl.simulation.air.H2Store;
 import com.traclabs.biosim.idl.simulation.air.O2Store;
@@ -39,14 +35,6 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations
         PotableWaterProducerOperations, AirConsumerOperations,
         O2ProducerOperations, AirProducerOperations, CO2ProducerOperations,
         CO2ConsumerOperations, H2ProducerOperations, H2ConsumerOperations {
-    private VCCR myVCCR;
-
-    private CRS myCRS;
-
-    private CH4Tank myCH4Tank;
-
-    private OGS myOGS;
-
     private O2Store[] myO2Stores;
 
     private PowerStore[] myPowerStores;
@@ -126,22 +114,32 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations
     private float[] airOutActualFlowRates;
 
     private float[] airOutDesiredFlowRates;
-
-    private static final int NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER = 3;
-
-    private float myProductionRate = 1f;
     
-    private AirRSSubSystem[] mySubsystems;
+    private Breath myCurrentBreath = new Breath(0f, 0f, 0f, 0f, 0f);
+    
+    private float currentPowerConsumed = 0f;
 
-    private AirRSOperationMode myMode;
+    private float currentCO2Produced = 0f;
+
+    private float currentCO2Consumed;
+
+    private float currentH2Consumed;
+
+    private float currentH2OProduced;
+
+    private float currentCH4Produced;
+    
+    private float CH4Produced = 0f;
+
+    private float currentH2OConsumed;
+
+    private float currentO2Produced;
+
+    private float currentH2Produced;
 
     public AirRSLinearImpl(int pID, String pName) {
         super(pID, pName);
-        myVCCR = new VCCR(this);
-        myCRS = new CRS(this);
-        myCH4Tank = new CH4Tank(this);
-        myOGS = new OGS(this);
-
+       
         myO2Stores = new O2Store[0];
         myPowerStores = new PowerStore[0];
         myCO2InputStores = new CO2Store[0];
@@ -178,79 +176,8 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations
         airOutMaxFlowRates = new float[0];
         airOutActualFlowRates = new float[0];
         airOutDesiredFlowRates = new float[0];
-        
-        mySubsystems = new AirRSSubSystem[4];
-        mySubsystems[0] = myVCCR;
-        mySubsystems[1] = myCRS;
-        mySubsystems[2] = myOGS;
-        mySubsystems[3] = myCH4Tank;
     }
 
-    public boolean VCCRHasPower() {
-        return myVCCR.hasPower();
-    }
-
-    public boolean CRSHasPower() {
-        return myCRS.hasPower();
-    }
-
-    public boolean OGSHasPower() {
-        return myOGS.hasPower();
-    }
-
-    VCCR getVCCR() {
-        return myVCCR;
-    }
-
-    CRS getCRS() {
-        return myCRS;
-    }
-
-    CH4Tank getCH4Tank() {
-        return myCH4Tank;
-    }
-
-    OGS getOGS() {
-        return myOGS;
-    }
-
-    /**
-     * Returns the power consumption (in watts) of the AirRS at the current
-     * tick.
-     * 
-     * @return the power consumed (in watts) at the current tick
-     */
-    public float getPowerConsumed() {
-        return myVCCR.getPowerConsumed() + myOGS.getPowerConsumed()
-                + myCRS.getPowerConsumed();
-    }
-
-    /**
-     * Returns the CO2 consumption (in moles) of the AirRS at the current tick.
-     * 
-     * @return the CO2 consumed at the current tick
-     */
-    public float getCO2Consumed() {
-        return myVCCR.getCO2Consumed();
-    }
-
-    /**
-     * Returns the O2 produced (in moles) of the AirRS at the current tick.
-     * 
-     * @return the O2 produced (in moles) at the current tick
-     */
-    public float getO2Produced() {
-        return myOGS.getO2Produced();
-    }
-
-    /**
-     * Returns the CO2 produced (in moles) of the AirRS at the current tick.
-     * 
-     * @return the CO2 produced (in moles) at the current tick
-     */
-    public float getCO2Produced() {
-        return myVCCR.getCO2Produced();
-    }
 
     /**
      * Processes a tick by collecting referernces (if needed), resources, and
@@ -258,77 +185,155 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations
      */
     public void tick() {
         super.tick();
-        Arrays.fill(powerActualFlowRates, 0f);
-        enableSubsystemsBasedOnPower();
-        for (int i = 0; i < mySubsystems.length; i++)
-            mySubsystems[i].tick();
+        myLogger.debug("tick");
+        gatherAir();
+        pushAir();
+        gatherH2andCO2();
+        pushWaterAndMethane();
+        gatherWater();
+        pushOxygen();
     }
     
-    /**
-     * @param sumOfDesiredFlowRates
-     * @param powerNeeded
-     */
-    private void enableSubsystemsBasedOnPower() {
-        float sumOfDesiredFlowRates = 0f;
-        for (int i = 0; i < powerDesiredFlowRates.length; i++)
-            sumOfDesiredFlowRates += powerDesiredFlowRates[i];
-        
-        float totalPowerNeeded = 0;
-        for (int i = 0; i < mySubsystems.length; i++)
-            totalPowerNeeded += mySubsystems[i].getBasePowerNeeded();
-        
-        if (sumOfDesiredFlowRates >= totalPowerNeeded)
-            setOperationMode(AirRSOperationMode.FULL);
-        else if (sumOfDesiredFlowRates >= (totalPowerNeeded - myOGS.getBasePowerNeeded()))
-                setOperationMode(AirRSOperationMode.MOST);
-        else if (sumOfDesiredFlowRates >= (totalPowerNeeded - myOGS.getBasePowerNeeded() - myCRS.getBasePowerNeeded()))
-            setOperationMode(AirRSOperationMode.LESS);
-        else
-            setOperationMode(AirRSOperationMode.OFF);
+    private void gatherAir() {
+        float gatheredAir = 0f;
+        float gatheredO2 = 0f;
+        float gatheredCO2 = 0f;
+        float gatheredOther = 0f;
+        float gatheredWater = 0f;
+        float gatheredNitrogen = 0f;
+        float airNeeded = currentPowerConsumed;
+        for (int i = 0; (i < getAirInputs().length)
+                && (gatheredAir < airNeeded); i++) {
+            float resourceToGatherFirst = Math.min(airNeeded, getAirInputMaxFlowRate(i));
+            float resourceToGatherFinal = Math.min(resourceToGatherFirst,
+                    getAirInputDesiredFlowRate(i));
+            Breath currentBreath = getAirInputs()[i]
+                    .takeAirMoles(resourceToGatherFinal);
+            gatheredAir += currentBreath.O2 + currentBreath.CO2
+                    + currentBreath.other + currentBreath.water
+                    + currentBreath.nitrogen;
+            setAirInputActualFlowRate(gatheredAir, i);
+            gatheredO2 += currentBreath.O2;
+            gatheredCO2 += currentBreath.CO2;
+            gatheredOther += currentBreath.other;
+            gatheredWater += currentBreath.water;
+            gatheredNitrogen += currentBreath.nitrogen;
+        }
+        myCurrentBreath.O2 = gatheredO2;
+        myCurrentBreath.CO2 = gatheredCO2;
+        myCurrentBreath.other = gatheredOther;
+        myCurrentBreath.water = gatheredWater;
+        myCurrentBreath.nitrogen = gatheredNitrogen;
     }
 
-    public void setProductionRate(float percentage) {
-        myVCCR.setProductionRate(percentage);
-        myOGS.setProductionRate(percentage);
+    private void pushAir() {
+        float distributedO2Left = myCurrentBreath.O2;
+        float distributedOtherLeft = myCurrentBreath.other;
+        float distributedWaterLeft = myCurrentBreath.water;
+        float distributedNitrogenLeft = myCurrentBreath.nitrogen;
+        for (int i = 0; (i < getAirOutputs().length)
+                && ((distributedO2Left > 0) || (distributedOtherLeft > 0)
+                        || (distributedWaterLeft > 0) || (distributedNitrogenLeft > 0)); i++) {
+            float totalToDistribute = distributedO2Left + distributedOtherLeft
+                    + distributedWaterLeft + distributedNitrogenLeft;
+            float resourceToDistributeFirst = Math.min(totalToDistribute,
+                    getAirOutputMaxFlowRate(i));
+            float resourceToDistributeFinal = Math.min(
+                    resourceToDistributeFirst, getAirOutputDesiredFlowRate(i));
+            //Recalculate percentages based on smaller volume
+            float reducedO2ToPass = resourceToDistributeFinal
+                    * (distributedO2Left / totalToDistribute);
+            float reducedOtherToPass = resourceToDistributeFinal
+                    * (distributedOtherLeft / totalToDistribute);
+            float reducedWaterToPass = resourceToDistributeFinal
+                    * (distributedWaterLeft / totalToDistribute);
+            float reducedNitrogenToPass = resourceToDistributeFinal
+                    * (distributedNitrogenLeft / totalToDistribute);
+            float O2Added = getAirOutputs()[i]
+                    .addO2Moles(reducedO2ToPass);
+            float otherAdded = getAirOutputs()[i]
+                    .addOtherMoles(reducedOtherToPass);
+            float waterAdded = getAirOutputs()[i]
+                    .addWaterMoles(reducedWaterToPass);
+            float nitrogenAdded = getAirOutputs()[i]
+                    .addNitrogenMoles(reducedNitrogenToPass);
+            distributedO2Left -= O2Added;
+            distributedOtherLeft -= otherAdded;
+            distributedWaterLeft -= waterAdded;
+            distributedNitrogenLeft -= nitrogenAdded;
+            setAirOutputActualFlowRate(reducedO2ToPass
+                    + reducedOtherToPass + reducedWaterToPass
+                    + reducedNitrogenToPass, i);
+        }
+        currentCO2Produced = myCurrentBreath.CO2;
+        float distributedCO2Left = SimBioModuleImpl.pushResourceToStore(getCO2Outputs(), getCO2OutputMaxFlowRates(), getCO2OutputDesiredFlowRates(), getCO2OutputActualFlowRates(), currentCO2Produced = 0f);
+    }
+    
+    private void gatherH2andCO2() {
+        float CO2Needed = currentPowerConsumed;
+        float H2Needed = CO2Needed * 4f;
+        float filteredCO2Needed = randomFilter(CO2Needed);
+        float filteredH2Needed = randomFilter(H2Needed);
+        currentCO2Consumed = SimBioModuleImpl.getResourceFromStore(getCO2Inputs(), getCO2InputMaxFlowRates(), getCO2InputDesiredFlowRates(), getCO2InputActualFlowRates(), filteredCO2Needed);
+        currentH2Consumed = SimBioModuleImpl.getResourceFromStore(getH2Inputs(), getH2InputMaxFlowRates(), getH2InputDesiredFlowRates(), getH2InputActualFlowRates(), filteredH2Needed);
     }
 
+    private void pushWaterAndMethane() {
+        if ((currentH2Consumed <= 0) || (currentCO2Consumed <= 0)) {
+            currentH2OProduced = 0f;
+            currentCH4Produced = 0f;
+            SimBioModuleImpl.pushResourceToStore(getH2Inputs(), getH2InputMaxFlowRates(), getH2InputDesiredFlowRates(), getH2InputActualFlowRates(), currentH2Consumed);
+            SimBioModuleImpl.pushResourceToStore(getCO2Inputs(),
+                    getCO2InputMaxFlowRates(), getCO2InputDesiredFlowRates(), getCO2InputActualFlowRates(), currentCO2Consumed);
+        } else {
+            // CO2 + 4H2 --> CH4 + 2H20
+            float limitingReactant = Math.min(currentH2Consumed / 4f,
+                    currentCO2Consumed);
+            if (limitingReactant == currentH2Consumed)
+                SimBioModuleImpl.pushResourceToStore(getCO2Inputs(),
+                        getCO2InputMaxFlowRates(), getCO2InputDesiredFlowRates(), getCO2InputActualFlowRates(),
+                        currentCO2Consumed - limitingReactant);
+            else
+                SimBioModuleImpl.pushResourceToStore(getH2Inputs(),
+                        getH2InputMaxFlowRates(), getH2InputDesiredFlowRates(), getH2InputActualFlowRates(), currentH2Consumed
+                                - 4f * limitingReactant);
+            float waterMolesProduced = 2f * limitingReactant;
+            float waterLitersProduced = (waterMolesProduced * 18.01524f) / 1000f; //1000g/liter,
+            // 18.01524g/mole
+            float methaneMolesProduced = limitingReactant;
+            currentH2OProduced = randomFilter(waterLitersProduced);
+            currentCH4Produced = randomFilter(methaneMolesProduced);
+        }
+        float distributedWaterLeft = SimBioModuleImpl.pushResourceToStore(
+                getPotableWaterOutputs(), getPotableWaterOutputMaxFlowRates(), getPotableWaterOutputDesiredFlowRates(), getPotableWaterOutputActualFlowRates(),
+                currentH2OProduced);
+        CH4Produced += currentCH4Produced;
+    }
+    
+    private void gatherWater() {
+        float waterNeeded = currentPowerConsumed;
+        currentH2OConsumed = SimBioModuleImpl.getResourceFromStore(getPotableWaterInputs(), getPotableWaterInputMaxFlowRates(), getPotableWaterInputDesiredFlowRates(), getPotableWaterInputActualFlowRates(), waterNeeded);
+    }
+
+    private void pushOxygen() {
+        //2H20 --> 2H2 + O2
+        float molesOfWater = (currentH2OConsumed * 1000f) / 18.01524f; //1000g/liter,
+        // 18.01524g/mole
+        float molesOfReactant = molesOfWater / 2f;
+        currentO2Produced = randomFilter(molesOfReactant);
+        currentH2Produced = randomFilter(molesOfReactant * 2f);
+        float O2ToDistrubute = randomFilter(currentO2Produced);
+        float H2ToDistrubute = randomFilter(currentH2Produced);
+        float distributedO2 = SimBioModuleImpl.pushResourceToStore(getO2Outputs(), getO2OutputMaxFlowRates(), getO2OutputDesiredFlowRates(), getO2OutputActualFlowRates(), O2ToDistrubute);
+        float distributedH2 = SimBioModuleImpl.pushResourceToStore(getH2Outputs(), getH2OutputMaxFlowRates(), getH2OutputDesiredFlowRates(), getH2OutputActualFlowRates(), H2ToDistrubute);
+    }
+    
     protected String getMalfunctionName(MalfunctionIntensity pIntensity,
             MalfunctionLength pLength) {
-        StringBuffer returnBuffer = new StringBuffer();
-        if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
-            returnBuffer.append("Severe ");
-        else if (pIntensity == MalfunctionIntensity.MEDIUM_MALF)
-            returnBuffer.append("Medium ");
-        else if (pIntensity == MalfunctionIntensity.LOW_MALF)
-            returnBuffer.append("Low ");
-        if (pLength == MalfunctionLength.TEMPORARY_MALF)
-            returnBuffer.append("Production Rate Decrease (Temporary)");
-        else if (pLength == MalfunctionLength.PERMANENT_MALF)
-            returnBuffer.append("Production Rate Decrease (Permanent)");
-        return returnBuffer.toString();
+        return "None";
     }
 
     protected void performMalfunctions() {
-        float productionRate = 1f;
-        for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext();) {
-            Malfunction currentMalfunction = (Malfunction) (iter.next());
-            if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF) {
-                if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
-                    productionRate *= 0.50;
-                else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
-                    productionRate *= 0.25;
-                else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
-                    productionRate *= 0.10;
-            } else if (currentMalfunction.getLength() == MalfunctionLength.PERMANENT_MALF) {
-                if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
-                    productionRate *= 0.50;
-                else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
-                    productionRate *= 0.25;
-                else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
-                    productionRate *= 0.10;
-            }
-        }
-        setProductionRate(productionRate);
     }
 
     /**
@@ -336,12 +341,7 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations
      */
     public void reset() {
         super.reset();
-        for (int i = 0; i < mySubsystems.length; i++)
-            mySubsystems[i].reset();
-    }
-
-    int getSubsystemsConsumingPower() {
-        return NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER;
+        CH4Produced = 0f;
     }
 
     //Power Inputs
@@ -832,43 +832,5 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements AirRSOperations
 
     void setH2InputActualFlowRate(float moles, int index) {
         H2InputActualFlowRates[index] = moles;
-    }
-
-    /**
-     * Sets the current AirRS operation 
-     * modes:
-     * FULL - AirRS operates at full capacity (and power) 
-     * MOST - turns off OGS
-     * LESS - turns off OGS, CRS
-     * OFF  - turns everything off
-     */
-    public void setOperationMode(AirRSOperationMode pMode) {
-        myMode = pMode;
-        if (myMode == AirRSOperationMode.FULL) {
-            myVCCR.setEnabled(true);
-            myCRS.setEnabled(true);
-            myOGS.setEnabled(true);
-        } else if (myMode == AirRSOperationMode.MOST) {
-            myVCCR.setEnabled(true);
-            myCRS.setEnabled(true);
-            myOGS.setEnabled(false);
-        } else if (myMode == AirRSOperationMode.LESS) {
-            myVCCR.setEnabled(true);
-            myCRS.setEnabled(false);
-            myOGS.setEnabled(false);
-        } else if (myMode == AirRSOperationMode.OFF) {
-            myVCCR.setEnabled(false);
-            myCRS.setEnabled(false);
-            myOGS.setEnabled(false);
-        } else {
-            myLogger.warn("unknown state for AirRS: " + myMode);
-        }
-    }
-
-    /**
-     * gets the current AirRS Operation mode
-     */
-    public AirRSOperationMode getOpertationMode() {
-        return myMode;
     }
 }
