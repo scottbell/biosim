@@ -72,11 +72,13 @@ public class GenericServer{
 		}
 		catch (org.omg.CORBA.UserException e){
 			System.err.println(pServerName+" had problems registering with nameservice, trying again..");
+			e.printStackTrace();
 			OrbUtils.sleepAwhile();
 			registerServer(pPOA, pServerName, pID);
 		}
 		catch (Exception e) {
 			System.err.println(pServerName+" had problems registering with nameservice, trying again..");
+			e.printStackTrace();
 			OrbUtils.sleepAwhile();
 			OrbUtils.resetInit();
 			registerServer(pPOA, pServerName, pID);

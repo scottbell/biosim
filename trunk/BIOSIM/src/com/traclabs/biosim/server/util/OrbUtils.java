@@ -57,7 +57,9 @@ public class OrbUtils{
 		try{
 			idContext = NamingContextExtHelper.narrow(myBiosimNamingContext.resolve_str(""+pID));
 		}
-		catch (Exception e){}
+		catch (Exception e){
+			e.printStackTrace();
+		}
 		return idContext;
 	}
 	
@@ -96,8 +98,7 @@ public class OrbUtils{
 			// get reference to rootpoa & activate the POAManager
 			myRootPOA = POAHelper.narrow(myOrb.resolve_initial_references("RootPOA"));
 			myRootPOA.the_POAManager().activate();
-			org.omg.CORBA.Object objRef = myOrb.resolve_initial_references("NameService");
-			myRootContext = NamingContextExtHelper.narrow(objRef);
+			myRootContext = NamingContextExtHelper.narrow(myOrb.resolve_initial_references("NameService"));
 			initializeOrbRunOnce = true;
 		}
 		catch (Exception e){
@@ -110,9 +111,12 @@ public class OrbUtils{
 			//Attempt to create biosim context, if already there, don't bother
 			NameComponent biosimComponent = new NameComponent("biosim", "");
 			NameComponent[] biosimComponentArray = {biosimComponent};
-			myBiosimNamingContext = (NamingContextExt)(myRootContext.bind_new_context(biosimComponentArray));
+			myRootContext.bind_new_context(biosimComponentArray);
+			myBiosimNamingContext = NamingContextExtHelper.narrow(myRootContext.resolve_str("biosim"));
 		}
-		catch (Exception e){}
+		catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	/**
