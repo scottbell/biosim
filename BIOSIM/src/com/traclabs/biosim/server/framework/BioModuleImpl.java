@@ -48,7 +48,7 @@ public abstract class BioModuleImpl extends BioModulePOA{
 		myMalfunctions = new Hashtable();
 		myLog = new LogNodeImpl(getModuleName());
 		myID = pID;
-		myName = pName + "-" + myID;
+		myName = pName;
 	}
 	
 	/**

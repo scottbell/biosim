@@ -115,7 +115,6 @@ public class OrbUtils{
 		}
 		catch (Exception e){
 			System.out.println("OrbUtils: nameserver not found, polling again");
-			e.printStackTrace();
 			sleepAwhile();
 			initialize();
 			return;

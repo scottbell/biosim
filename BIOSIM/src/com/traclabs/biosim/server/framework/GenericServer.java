@@ -76,13 +76,6 @@ public class GenericServer{
 			OrbUtils.sleepAwhile();
 			registerServer(pPOA, pServerName, pID);
 		}
-		catch (Exception e) {
-			System.err.println(pServerName+" had problems registering with nameservice, trying again..");
-			e.printStackTrace();
-			OrbUtils.sleepAwhile();
-			OrbUtils.resetInit();
-			registerServer(pPOA, pServerName, pID);
-		}
 	}
 	
 	/**
@@ -117,7 +110,7 @@ public class GenericServer{
 	protected void runServer(String serverName){
 		try{
 			notfiyListeners();
-			System.out.println(serverName+ " server ready and waiting ...");
+			System.out.println(serverName+" ready and waiting");
 			// wait for invocations from clients
 			OrbUtils.getORB().run();
 		}
@@ -125,7 +118,7 @@ public class GenericServer{
 			System.err.println(serverName+" ERROR: " + e);
 			e.printStackTrace(System.out);
 		}
-		System.out.println(serverName+" server Exiting ...");
+		System.out.println(serverName+" exiting");
 	}
 }
 
