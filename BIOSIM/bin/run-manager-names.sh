@@ -34,7 +34,7 @@ esac
 ####################
 genString="/generated"
 genDir=$devRootDir$genString
-jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME"
+jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME$separator$JACORB_HOME/avalon-framework.jar$separator$JACORB_HOME/logkit.jar"
 jacoInvocation="$java_command -classpath $jacoClasspath $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
 nameManager="org.jacorb.naming.namemanager.NameManager"
 echo "	-starting biosim name manager"

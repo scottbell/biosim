@@ -2817,6 +2817,28 @@ public class BioInitializer{
 		}
 		catch (NumberFormatException e){e.printStackTrace();}
 	}
+	
+	private void createPlantDeathSensor(Node node){
+		String moduleName = getModuleName(node);
+		if (isCreatedLocally(node)){
+			//System.out.println("Creating PlantDeathSensor with moduleName: "+moduleName);
+			PlantDeathSensorImpl myPlantDeathSensorImpl = new PlantDeathSensorImpl(myID, moduleName);
+			setupBioModule(myPlantDeathSensorImpl, node);
+			BiosimServer.registerServer(new PlantDeathSensorPOATie(myPlantDeathSensorImpl), myPlantDeathSensorImpl.getModuleName(), myPlantDeathSensorImpl.getID());
+		}
+		else
+			printRemoteWarningMessage(moduleName);
+	}
+
+	private void configurePlantDeathSensor(Node node){
+		try{
+			int index = Integer.parseInt(node.getAttributes().getNamedItem("shelfIndex").getNodeValue());
+			PlantDeathSensor myPlantDeathSensor = PlantDeathSensorHelper.narrow(grabModule(getModuleName(node)));
+			myPlantDeathSensor.setInput(BiomassRSHelper.narrow(grabModule(getInputName(node))), index);
+			mySensors.add(myPlantDeathSensor);
+		}
+		catch (NumberFormatException e){e.printStackTrace();}
+	}
 
 	private void crawlFoodSensors(Node node, boolean firstPass){
 		Node child = node.getFirstChild();
@@ -2863,6 +2885,12 @@ public class BioInitializer{
 					createHarvestSensor(child);
 				else
 					configureHarvestSensor(child);
+			}
+			else if (childName.equals("PlantDeathSensor")){
+				if (firstPass)
+					createPlantDeathSensor(child);
+				else
+					configurePlantDeathSensor(child);
 			}
 			child = child.getNextSibling();
 		}
