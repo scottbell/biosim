@@ -109,7 +109,7 @@ public class BiosimEditor extends BioFrame implements IStatusBar {
                 "org.tigris.gef.presentation.PresentationResourceBundle");
         Localizer.addLocale(Locale.getDefault());
         Localizer.switchCurrentLocale(Locale.getDefault());
-        ResourceLoader.addResourceExtension("gif");
+        ResourceLoader.addResourceExtension("png");
         ResourceLoader.addResourceLocation("/org/tigris/gef/Images");
     }
 
@@ -188,49 +188,49 @@ public class BiosimEditor extends BioFrame implements IStatusBar {
 
         myAirToolBar = new AirToolBar(this);
         myTabbedPane.addTab("Air",
-                createImageIcon("com/traclabs/biosim/client/air/gui/air.jpg"),
+                createImageIcon("com/traclabs/biosim/client/air/gui/air.png"),
                 myAirToolBar);
 
         myCrewToolBar = new CrewToolBar(this);
         myTabbedPane
                 .addTab(
                         "Crew",
-                        createImageIcon("com/traclabs/biosim/client/crew/gui/crew.jpg"),
+                        createImageIcon("com/traclabs/biosim/client/crew/gui/crew.png"),
                         myCrewToolBar);
 
         myEnvironmentToolBar = new EnvironmentToolBar(this);
         myTabbedPane
                 .addTab(
                         "Environment",
-                        createImageIcon("com/traclabs/biosim/client/environment/gui/environment.jpg"),
+                        createImageIcon("com/traclabs/biosim/client/environment/gui/environment.png"),
                         myEnvironmentToolBar);
 
         myFrameworkToolBar = new FrameworkToolBar(this);
         myTabbedPane
                 .addTab(
                         "Framework",
-                        createImageIcon("com/traclabs/biosim/client/framework/gui/all.jpg"),
+                        createImageIcon("com/traclabs/biosim/client/framework/gui/all.png"),
                         myFrameworkToolBar);
 
         myPowerToolBar = new PowerToolBar(this);
         myTabbedPane
                 .addTab(
                         "Power",
-                        createImageIcon("com/traclabs/biosim/client/power/gui/power.jpg"),
+                        createImageIcon("com/traclabs/biosim/client/power/gui/power.png"),
                         myPowerToolBar);
 
         myWasteToolBar = new WasteToolBar(this);
         myTabbedPane
                 .addTab(
                         "Waste",
-                        createImageIcon("com/traclabs/biosim/client/framework/gui/gear.gif"),
+                        createImageIcon("com/traclabs/biosim/client/framework/gui/gear.png"),
                         myWasteToolBar);
 
         myWaterToolBar = new WaterToolBar(this);
         myTabbedPane
                 .addTab(
                         "Water",
-                        createImageIcon("com/traclabs/biosim/client/water/gui/water.jpg"),
+                        createImageIcon("com/traclabs/biosim/client/water/gui/water.png"),
                         myWaterToolBar);
     }
 
