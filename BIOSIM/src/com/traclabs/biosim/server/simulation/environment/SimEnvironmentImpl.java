@@ -75,10 +75,10 @@ public class SimEnvironmentImpl extends SimBioModuleImpl implements SimEnvironme
 		super(pID);
 		myName = pName;
 		volume = initialVolume;
-		O2Moles = cachedO2Moles = initialO2Moles = calculateMoles(0.20f); 
-		otherMoles = cachedOtherMoles = initialOtherMoles = calculateMoles(0.77f);
-		waterMoles = cachedWaterMoles = initialWaterMoles = calculateMoles(0.02f);
-		CO2Moles = cachedCO2Moles = initialCO2Moles = calculateMoles(0.01f);
+		O2Moles = cachedO2Moles = initialO2Moles = calculateMoles(2.0f); 
+		otherMoles = cachedOtherMoles = initialOtherMoles = calculateMoles(7.7f);
+		waterMoles = cachedWaterMoles = initialWaterMoles = calculateMoles(0.2f);
+		CO2Moles = cachedCO2Moles = initialCO2Moles = calculateMoles(0.1f);
 		O2Pressure = cachedO2Pressure = initialO2Pressure = calculatePressure(O2Moles);
 		CO2Pressure = cachedCO2Pressure = initialCO2Pressure = calculatePressure(CO2Moles);
 		otherPressure = cachedOtherPressure = initialOtherPressure = calculatePressure(otherMoles);
