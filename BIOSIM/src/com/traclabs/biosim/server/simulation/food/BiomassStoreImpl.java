@@ -43,7 +43,9 @@ public class BiomassStoreImpl extends StoreImpl implements BiomassStoreOperation
 		}
 		else{
 			acutallyAdded = randomFilter(pMass);
-			level += acutallyAdded;
+			currentLevel += acutallyAdded;
+			BioMatter newBiomatter = new BioMatter(acutallyAdded, pType);
+			currentBiomassItems.add(newBiomatter);
 			return acutallyAdded;
 		}
 	}

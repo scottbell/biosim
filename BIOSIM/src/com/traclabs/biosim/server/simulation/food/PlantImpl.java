@@ -25,6 +25,7 @@ public abstract class PlantImpl extends PlantPOA{
 	//in dry weight
 	private float myCurrentTotalWetBiomass = 0f;
 	private float myCurrentEdibleWetBiomass = 0f;
+	private float myCurrentDryBiomass = 0f;
 	private float myLastTotalWetBiomass = 0f;
 	private float myLastEdibleWetBiomass = 0f;
 	private float myWaterNeeded = 0f;
@@ -70,6 +71,7 @@ public abstract class PlantImpl extends PlantPOA{
 		myCurrentTotalWetBiomass = 0f;
 		myLastTotalWetBiomass = 0f;
 		carbonUseEfficiency24 = 0f;
+		myCurrentDryBiomass = 0f;
 		myAge = 0;
 		CQY = 0f;
 	}
@@ -94,6 +96,7 @@ public abstract class PlantImpl extends PlantPOA{
 		myNumberOfPPFReadings = 0;
 		myWaterNeeded = 0f;
 		myWaterLevel = 0f;
+		myCurrentDryBiomass = 0f;
 		myAge = 0;
 		return biomassToReturn;
 	}
@@ -117,7 +120,8 @@ public abstract class PlantImpl extends PlantPOA{
 	
 	private float calculateVaporPressureDeficit(){
 		float saturatedMoistureVaporPressure = calculateSaturatedMoistureVaporPressure();
-		return saturatedMoistureVaporPressure - calculateActualMoistureVaporPressure(saturatedMoistureVaporPressure);
+		float actualMoistureVaporPressure = calculateActualMoistureVaporPressure();
+		return saturatedMoistureVaporPressure - calculateActualMoistureVaporPressure();
 	}
 	
 	private float calculateSaturatedMoistureVaporPressure(){
@@ -126,8 +130,8 @@ public abstract class PlantImpl extends PlantPOA{
 		return 0.611f * exp(exponent);
 	}
 	
-	private float calculateActualMoistureVaporPressure(float pSaturatedMoistureVaporPressure){
-		return pSaturatedMoistureVaporPressure - myShelfImpl.getBiomassRSImpl().getAirInputs()[0].getWaterMoles();
+	private float calculateActualMoistureVaporPressure(){
+		return myShelfImpl.getBiomassRSImpl().getAirInputs()[0].getWaterPressure();
 	}
 	
 	protected float calculateNetCanopyPhotosynthesis(){
@@ -167,12 +171,12 @@ public abstract class PlantImpl extends PlantPOA{
 		System.out.println("PlantImpl: dailyCarbonGain: "+dailyCarbonGain);
 		float cropGrowthRate = molecularWeightOfCarbon * (dailyCarbonGain / getBCF());
 		System.out.println("PlantImpl: cropGrowthRate: "+cropGrowthRate);
-		float myCurrentDryBiomass = cropGrowthRate * 1000 * myShelfImpl.getCropArea(); //in kilograms
+		myCurrentDryBiomass += (cropGrowthRate / 1000); //in kilograms
 		System.out.println("PlantImpl: myCurrentDryBiomass: "+myCurrentDryBiomass);
 		myLastTotalWetBiomass = myCurrentTotalWetBiomass;
 		myLastEdibleWetBiomass = myCurrentEdibleWetBiomass;
-		myCurrentEdibleWetBiomass += getFractionOfEdibleBiomass() * myCurrentTotalWetBiomass;
-		myCurrentTotalWetBiomass += (myCurrentDryBiomass * getFreshFactor());
+		myCurrentTotalWetBiomass = (myCurrentDryBiomass * getFreshFactor());
+		myCurrentEdibleWetBiomass = getFractionOfEdibleBiomass() * myCurrentTotalWetBiomass;
 		System.out.println("PlantImpl: myCurrentTotalWetBiomass: "+myCurrentTotalWetBiomass);
 		System.out.println("PlantImpl: myCurrentEdibleWetBiomass: "+myCurrentEdibleWetBiomass);
 		
@@ -216,7 +220,7 @@ public abstract class PlantImpl extends PlantPOA{
 		System.out.println("PlantImpl: PPFFractionAbsorbed: "+PPFFractionAbsorbed);
 		System.out.println("PlantImpl: CQY: "+CQY);
 		System.out.println("PlantImpl: PPF: "+PPF);
-		return 0.0036f * photoperiod * carbonUseEfficiency24 * PPFFractionAbsorbed * CQY * PPF * 24;
+		return (0.0036f * photoperiod * carbonUseEfficiency24 * myShelfImpl.getCropArea() * PPFFractionAbsorbed * CQY * PPF) / 24;
 	}
 	
 	private float calculateWaterUptake(){
@@ -226,7 +230,7 @@ public abstract class PlantImpl extends PlantPOA{
 		System.out.println("PlantImpl: dailyCanopyTranspirationRate: "+dailyCanopyTranspirationRate);
 		System.out.println("PlantImpl: wetIncoporatedWaterUptake: "+wetIncoporatedWaterUptake);
 		System.out.println("PlantImpl: dryIncoporatedWaterUptake: "+dryIncoporatedWaterUptake);
-		return dailyCanopyTranspirationRate + wetIncoporatedWaterUptake + dryIncoporatedWaterUptake;
+		return ((dailyCanopyTranspirationRate + wetIncoporatedWaterUptake + dryIncoporatedWaterUptake) * myShelfImpl.getCropArea()) / 24;
 	}
 	
 	private float calculateWetIncoporatedWaterUptake(){
