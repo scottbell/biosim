@@ -5,7 +5,6 @@ import java.util.*;
 import org.w3c.dom.*;
 import org.apache.xerces.parsers.*;
 import org.xml.sax.*;
-
 import biosim.idl.simulation.air.*;
 import biosim.idl.simulation.crew.*;
 import biosim.idl.simulation.food.*;
@@ -111,9 +110,9 @@ public class BioHolder{
 	public List myNitrogenOutFlowRateSensors;
 	public List myNitrogenStoreLevelSensors;
 	//Crew
-	public List myCrewDeathSensors;
-	public List myCrewProductivitySensors;
-	public List myCrewAnyDeadSensors;
+	public List myCrewGroupDeathSensors;
+	public List myCrewGroupProductivitySensors;
+	public List myCrewGroupAnyDeadSensors;
 	//Environment
 	public List myAirInFlowRateSensors;
 	public List myAirOutFlowRateSensors;
@@ -151,6 +150,9 @@ public class BioHolder{
 	public List myFoodOutFlowRateSensors;
 	public List myFoodStoreLevelSensors;
 	public List myHarvestSensors;
+	//Framework
+	public List myStoreOverflowSensors;
+	public List myStoreLevelSensors;
 	//Power
 	public List myPowerInFlowRateSensors;
 	public List myPowerOutFlowRateSensors;
@@ -171,51 +173,51 @@ public class BioHolder{
 	public List myDirtyWaterStoreLevelSensors;
 	//Actuators
 	//Air
-	public List myCO2InFlowRateAcutators;
-	public List myCO2OutFlowRateAcutators;
-	public List myO2InFlowRateAcutators;
-	public List myO2OutFlowRateAcutators;
-	public List myH2InFlowRateAcutators;
-	public List myH2OutFlowRateAcutators;
-	public List myNitrogenInFlowRateAcutators;
-	public List myNitrogenOutFlowRateAcutators;
+	public List myCO2InFlowRateActuators;
+	public List myCO2OutFlowRateActuators;
+	public List myO2InFlowRateActuators;
+	public List myO2OutFlowRateActuators;
+	public List myH2InFlowRateActuators;
+	public List myH2OutFlowRateActuators;
+	public List myNitrogenInFlowRateActuators;
+	public List myNitrogenOutFlowRateActuators;
 	//Environment
-	public List myAirInFlowRateAcutators;
-	public List myAirOutFlowRateAcutators;
-	public List myCO2AirEnvironmentInFlowRateAcutators;
-	public List myCO2AirEnvironmentOutFlowRateAcutators;
-	public List myCO2AirStoreInFlowRateAcutators;
-	public List myCO2AirStoreOutFlowRateAcutators;
-	public List myO2AirEnvironmentInFlowRateAcutators;
-	public List myO2AirEnvironmentOutFlowRateAcutators;
-	public List myO2AirStoreInFlowRateAcutators;
-	public List myO2AirStoreOutFlowRateAcutators;
-	public List myNitrogenAirEnvironmentInFlowRateAcutators;
-	public List myNitrogenAirEnvironmentOutFlowRateAcutators;
-	public List myNitrogenAirStoreInFlowRateAcutators;
-	public List myNitrogenAirStoreOutFlowRateAcutators;
-	public List myWaterAirEnvironmentInFlowRateAcutators;
-	public List myWaterAirEnvironmentOutFlowRateAcutators;
-	public List myWaterAirStoreInFlowRateAcutators;
-	public List myWaterAirStoreOutFlowRateAcutators;
+	public List myAirInFlowRateActuators;
+	public List myAirOutFlowRateActuators;
+	public List myCO2AirEnvironmentInFlowRateActuators;
+	public List myCO2AirEnvironmentOutFlowRateActuators;
+	public List myCO2AirStoreInFlowRateActuators;
+	public List myCO2AirStoreOutFlowRateActuators;
+	public List myO2AirEnvironmentInFlowRateActuators;
+	public List myO2AirEnvironmentOutFlowRateActuators;
+	public List myO2AirStoreInFlowRateActuators;
+	public List myO2AirStoreOutFlowRateActuators;
+	public List myNitrogenAirEnvironmentInFlowRateActuators;
+	public List myNitrogenAirEnvironmentOutFlowRateActuators;
+	public List myNitrogenAirStoreInFlowRateActuators;
+	public List myNitrogenAirStoreOutFlowRateActuators;
+	public List myWaterAirEnvironmentInFlowRateActuators;
+	public List myWaterAirEnvironmentOutFlowRateActuators;
+	public List myWaterAirStoreInFlowRateActuators;
+	public List myWaterAirStoreOutFlowRateActuators;
 	//Food
-	public List myBiomassInFlowRateAcutators;
-	public List myBiomassOutFlowRateAcutators;
-	public List myFoodInFlowRateAcutators;
-	public List myFoodOutFlowRateAcutators;
+	public List myBiomassInFlowRateActuators;
+	public List myBiomassOutFlowRateActuators;
+	public List myFoodInFlowRateActuators;
+	public List myFoodOutFlowRateActuators;
 	//Power
-	public List myPowerInFlowRateAcutators;
-	public List myPowerOutFlowRateAcutators;
+	public List myPowerInFlowRateActuators;
+	public List myPowerOutFlowRateActuators;
 	//Waste
-	public List myDryWasteInFlowRateAcutators;
-	public List myDryWasteOutFlowRateAcutators;
+	public List myDryWasteInFlowRateActuators;
+	public List myDryWasteOutFlowRateActuators;
 	//Water
-	public List myPotableWaterInFlowRateAcutators;
-	public List myPotableWaterOutFlowRateAcutators;
-	public List myGreyWaterInFlowRateAcutators;
-	public List myGreyWaterOutFlowRateAcutators;
-	public List myDirtyWaterInFlowRateAcutators;
-	public List myDirtyWaterOutFlowRateAcutators;
+	public List myPotableWaterInFlowRateActuators;
+	public List myPotableWaterOutFlowRateActuators;
+	public List myGreyWaterInFlowRateActuators;
+	public List myGreyWaterOutFlowRateActuators;
+	public List myDirtyWaterInFlowRateActuators;
+	public List myDirtyWaterOutFlowRateActuators;
 
 	/** Default constructor. */
 	public BioHolder(int pID){
@@ -273,9 +275,9 @@ public class BioHolder{
 		myNitrogenOutFlowRateSensors = new Vector();
 		myNitrogenStoreLevelSensors = new Vector();
 		//Crew
-		myCrewDeathSensors = new Vector();
-		myCrewProductivitySensors = new Vector();
-		myCrewAnyDeadSensors = new Vector();
+		myCrewGroupDeathSensors = new Vector();
+		myCrewGroupProductivitySensors = new Vector();
+		myCrewGroupAnyDeadSensors = new Vector();
 		//Environment
 		myAirInFlowRateSensors = new Vector();
 		myAirOutFlowRateSensors = new Vector();
@@ -313,6 +315,9 @@ public class BioHolder{
 		myFoodOutFlowRateSensors = new Vector();
 		myFoodStoreLevelSensors = new Vector();
 		myHarvestSensors = new Vector();
+		//Framework
+		myStoreOverflowSensors = new Vector();
+		myStoreLevelSensors = new Vector();
 		//Power
 		myPowerInFlowRateSensors = new Vector();
 		myPowerOutFlowRateSensors = new Vector();
@@ -333,51 +338,51 @@ public class BioHolder{
 		myDirtyWaterStoreLevelSensors = new Vector();
 		//Actuators
 		//Air
-		myCO2InFlowRateAcutators = new Vector();
-		myCO2OutFlowRateAcutators = new Vector();
-		myO2InFlowRateAcutators = new Vector();
-		myO2OutFlowRateAcutators = new Vector();
-		myH2InFlowRateAcutators = new Vector();
-		myH2OutFlowRateAcutators = new Vector();
-		myNitrogenInFlowRateAcutators = new Vector();
-		myNitrogenOutFlowRateAcutators = new Vector();
+		myCO2InFlowRateActuators = new Vector();
+		myCO2OutFlowRateActuators = new Vector();
+		myO2InFlowRateActuators = new Vector();
+		myO2OutFlowRateActuators = new Vector();
+		myH2InFlowRateActuators = new Vector();
+		myH2OutFlowRateActuators = new Vector();
+		myNitrogenInFlowRateActuators = new Vector();
+		myNitrogenOutFlowRateActuators = new Vector();
 		//Environment
-		myAirInFlowRateAcutators = new Vector();
-		myAirOutFlowRateAcutators = new Vector();
-		myCO2AirEnvironmentInFlowRateAcutators = new Vector();
-		myCO2AirEnvironmentOutFlowRateAcutators = new Vector();
-		myCO2AirStoreInFlowRateAcutators = new Vector();
-		myCO2AirStoreOutFlowRateAcutators = new Vector();
-		myO2AirEnvironmentInFlowRateAcutators = new Vector();
-		myO2AirEnvironmentOutFlowRateAcutators = new Vector();
-		myO2AirStoreInFlowRateAcutators = new Vector();
-		myO2AirStoreOutFlowRateAcutators = new Vector();
-		myNitrogenAirEnvironmentInFlowRateAcutators = new Vector();
-		myNitrogenAirEnvironmentOutFlowRateAcutators = new Vector();
-		myNitrogenAirStoreInFlowRateAcutators = new Vector();
-		myNitrogenAirStoreOutFlowRateAcutators = new Vector();
-		myWaterAirEnvironmentInFlowRateAcutators = new Vector();
-		myWaterAirEnvironmentOutFlowRateAcutators = new Vector();
-		myWaterAirStoreInFlowRateAcutators = new Vector();
-		myWaterAirStoreOutFlowRateAcutators = new Vector();
+		myAirInFlowRateActuators = new Vector();
+		myAirOutFlowRateActuators = new Vector();
+		myCO2AirEnvironmentInFlowRateActuators = new Vector();
+		myCO2AirEnvironmentOutFlowRateActuators = new Vector();
+		myCO2AirStoreInFlowRateActuators = new Vector();
+		myCO2AirStoreOutFlowRateActuators = new Vector();
+		myO2AirEnvironmentInFlowRateActuators = new Vector();
+		myO2AirEnvironmentOutFlowRateActuators = new Vector();
+		myO2AirStoreInFlowRateActuators = new Vector();
+		myO2AirStoreOutFlowRateActuators = new Vector();
+		myNitrogenAirEnvironmentInFlowRateActuators = new Vector();
+		myNitrogenAirEnvironmentOutFlowRateActuators = new Vector();
+		myNitrogenAirStoreInFlowRateActuators = new Vector();
+		myNitrogenAirStoreOutFlowRateActuators = new Vector();
+		myWaterAirEnvironmentInFlowRateActuators = new Vector();
+		myWaterAirEnvironmentOutFlowRateActuators = new Vector();
+		myWaterAirStoreInFlowRateActuators = new Vector();
+		myWaterAirStoreOutFlowRateActuators = new Vector();
 		//Food
-		myBiomassInFlowRateAcutators = new Vector();
-		myBiomassOutFlowRateAcutators = new Vector();
-		myFoodInFlowRateAcutators = new Vector();
-		myFoodOutFlowRateAcutators = new Vector();
+		myBiomassInFlowRateActuators = new Vector();
+		myBiomassOutFlowRateActuators = new Vector();
+		myFoodInFlowRateActuators = new Vector();
+		myFoodOutFlowRateActuators = new Vector();
 		//Power
-		myPowerInFlowRateAcutators = new Vector();
-		myPowerOutFlowRateAcutators = new Vector();
+		myPowerInFlowRateActuators = new Vector();
+		myPowerOutFlowRateActuators = new Vector();
 		//Waste
-		myDryWasteInFlowRateAcutators = new Vector();
-		myDryWasteOutFlowRateAcutators = new Vector();
+		myDryWasteInFlowRateActuators = new Vector();
+		myDryWasteOutFlowRateActuators = new Vector();
 		//Water
-		myPotableWaterInFlowRateAcutators = new Vector();
-		myPotableWaterOutFlowRateAcutators = new Vector();
-		myGreyWaterInFlowRateAcutators = new Vector();
-		myGreyWaterOutFlowRateAcutators = new Vector();
-		myDirtyWaterInFlowRateAcutators = new Vector();
-		myDirtyWaterOutFlowRateAcutators = new Vector();
+		myPotableWaterInFlowRateActuators = new Vector();
+		myPotableWaterOutFlowRateActuators = new Vector();
+		myGreyWaterInFlowRateActuators = new Vector();
+		myGreyWaterOutFlowRateActuators = new Vector();
+		myDirtyWaterInFlowRateActuators = new Vector();
+		myDirtyWaterOutFlowRateActuators = new Vector();
 
 		try {
 			myParser = new DOMParser();
@@ -468,30 +473,22 @@ public class BioHolder{
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getNodeName();
-			if (childName.equals("air")){
+			if (childName.equals("air"))
 				crawlAirModules(child);
-			}
-			else if (childName.equals("crew")){
+			else if (childName.equals("crew"))
 				crawlCrewModules(child);
-			}
-			else if (childName.equals("environment")){
+			else if (childName.equals("environment"))
 				crawlEnvironmentModules(child);
-			}
-			else if (childName.equals("food")){
+			else if (childName.equals("food"))
 				crawlFoodModules(child);
-			}
-			else if (childName.equals("framework")){
+			else if (childName.equals("framework"))
 				crawlFrameworkModules(child);
-			}
-			else if (childName.equals("power")){
+			else if (childName.equals("power"))
 				crawlPowerModules(child);
-			}
-			else if (childName.equals("water")){
+			else if (childName.equals("water"))
 				crawlWaterModules(child);
-			}
-			else if (childName.equals("waste")){
+			else if (childName.equals("waste"))
 				crawlWasteModules(child);
-			}
 			child = child.getNextSibling();
 		}
 	}
@@ -499,148 +496,114 @@ public class BioHolder{
 	private void fetchAirRS(Node node){
 		myAirRSModules.add(AirRSHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchO2Store(Node node){
 		myO2Stores.add(O2StoreHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchCO2Store(Node node){
 		myCO2Stores.add(CO2StoreHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchH2Store(Node node){
 		myH2Stores.add(H2StoreHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchNitrogenStore(Node node){
 		myNitrogenStores.add(NitrogenStoreHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void crawlAirModules(Node node){
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getNodeName();
-			if (childName.equals("AirRS")){
+			if (childName.equals("AirRS"))
 				fetchAirRS(child);
-
-			}
-			else if (childName.equals("O2Store")){
+			else if (childName.equals("O2Store"))
 				fetchO2Store(child);
-
-			}
-			else if (childName.equals("CO2Store")){
+			else if (childName.equals("CO2Store"))
 				fetchCO2Store(child);
-
-			}
-			else if (childName.equals("H2Store")){
+			else if (childName.equals("H2Store"))
 				fetchH2Store(child);
-
-			}
-			else if (childName.equals("NitrogenStore")){
+			else if (childName.equals("NitrogenStore"))
 				fetchNitrogenStore(child);
-
-			}
 			child = child.getNextSibling();
 		}
 	}
 
 	private void fetchCrewGroup(Node node){
-		String moduleName = getModuleName(node);
+		myCrewGroups.add(CrewGroupHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void crawlCrewModules(Node node){
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getNodeName();
-			if (childName.equals("CrewGroup")){
+			if (childName.equals("CrewGroup"))
 				fetchCrewGroup(child);
-			}
 			child = child.getNextSibling();
 		}
 	}
 
 	private void fetchSimEnvironment(Node node){
-		String moduleName = getModuleName(node);
+		mySimEnvironments.add(SimEnvironmentHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void crawlEnvironmentModules(Node node){
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getNodeName();
-			if (childName.equals("SimEnvironment")){
+			if (childName.equals("SimEnvironment"))
 				fetchSimEnvironment(child);
-			}
 			child = child.getNextSibling();
 		}
 	}
 
 	private void fetchAccumulator(Node node){
-		String moduleName = getModuleName(node);
+		myAccumulators.add(AccumulatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchInjector(Node node){
-		String moduleName = getModuleName(node);
+		myInjectors.add(InjectorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
-
 	private void crawlFrameworkModules(Node node){
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getNodeName();
-			if (childName.equals("Accumulator")){
+			if (childName.equals("Accumulator"))
 				fetchAccumulator(child);
-			}
-			else if (childName.equals("Injector")){
+			else if (childName.equals("Injector"))
 				fetchInjector(child);
-			}
 			child = child.getNextSibling();
 		}
 	}
 
 	private void fetchBiomassRS(Node node){
-		String moduleName = getModuleName(node);
+		myBiomassRSModules.add(BiomassRSHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchFoodProcessor(Node node){
-		String moduleName = getModuleName(node);
+		myFoodProcessors.add(FoodProcessorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchBiomassStore(Node node){
-		String moduleName = getModuleName(node);
+		myBiomassStores.add(BiomassStoreHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchFoodStore(Node node){
-		String moduleName = getModuleName(node);
+		myFoodStores.add(FoodStoreHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void crawlFoodModules(Node node){
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getNodeName();
-			if (childName.equals("BiomassRS")){
+			if (childName.equals("BiomassRS"))
 				fetchBiomassRS(child);
-			}
-			else if (childName.equals("FoodProcessor")){
+			else if (childName.equals("FoodProcessor"))
 				fetchFoodProcessor(child);
-			}
-			else if (childName.equals("BiomassStore")){
+			else if (childName.equals("BiomassStore"))
 				fetchBiomassStore(child);
-			}
-			else if (childName.equals("FoodStore")){
+			else if (childName.equals("FoodStore"))
 				fetchFoodStore(child);
-			}
 			child = child.getNextSibling();
 		}
 	}
 
 	private void fetchPowerPS(Node node){
-		String moduleName = getModuleName(node);
+		myPowerPSModules.add(PowerPSHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchPowerStore(Node node){
-		String moduleName = getModuleName(node);
+		myPowerStores.add(PowerStoreHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void crawlPowerModules(Node node){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -654,21 +617,17 @@ public class BioHolder{
 	}
 
 	private void fetchWaterRS(Node node){
-		String moduleName = getModuleName(node);
+		myWaterRSModules.add(WaterRSHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchPotableWaterStore(Node node){
-		String moduleName = getModuleName(node);
+		myPotableWaterStores.add(PotableWaterStoreHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchDirtyWaterStore(Node node){
-		String moduleName = getModuleName(node);
+		myDirtyWaterStores.add(DirtyWaterStoreHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchGreyWaterStore(Node node){
-		String moduleName = getModuleName(node);
+		myGreyWaterStores.add(DirtyWaterStoreHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void crawlWaterModules(Node node){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -686,11 +645,10 @@ public class BioHolder{
 	}
 
 	private void fetchIncinerator(Node node){
-		String moduleName = getModuleName(node);
+		myIncinerators.add(IncineratorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchDryWasteStore(Node node){
-		String moduleName = getModuleName(node);
+		myDryWasteStores.add(DryWasteStoreHelper.narrow(grabModule(getModuleName(node))));
 	}
 
 	private void crawlWasteModules(Node node){
@@ -710,91 +668,63 @@ public class BioHolder{
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getNodeName();
-			if (childName.equals("air")){
+			if (childName.equals("air"))
 				crawlAirSensors(child);
-			}
-			else if (childName.equals("crew")){
+			else if (childName.equals("crew"))
 				crawlCrewSensors(child);
-
-			}
-			else if (childName.equals("environment")){
+			else if (childName.equals("environment"))
 				crawlEnvironmentSensors(child);
-
-			}
-			else if (childName.equals("food")){
+			else if (childName.equals("food"))
 				crawlFoodSensors(child);
-
-			}
-			else if (childName.equals("framework")){
+			else if (childName.equals("framework"))
 				crawlFrameworkSensors(child);
-
-			}
-			else if (childName.equals("power")){
+			else if (childName.equals("power"))
 				crawlPowerSensors(child);
-
-			}
-			else if (childName.equals("water")){
+			else if (childName.equals("water"))
 				crawlWaterSensors(child);
-
-			}
-			else if (childName.equals("waste")){
+			else if (childName.equals("waste"))
 				crawlWasteSensors(child);
-
-			}
 			child = child.getNextSibling();
 		}
 	}
 
 	//Air
 	private void fetchCO2InFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
-
+		myCO2InFlowRateSensors.add(CO2InFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchCO2OutFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myCO2OutFlowRateSensors.add(CO2OutFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchCO2StoreLevelSensor(Node node){
-		String moduleName = getModuleName(node);
+		myCO2StoreLevelSensors.add(CO2StoreLevelSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchO2InFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myO2InFlowRateSensors.add(O2InFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchO2OutFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myO2OutFlowRateSensors.add(O2OutFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchO2StoreLevelSensor(Node node){
-		String moduleName = getModuleName(node);
+		myO2StoreLevelSensors.add(O2StoreLevelSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchH2InFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myH2InFlowRateSensors.add(H2InFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchH2OutFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myH2OutFlowRateSensors.add(H2OutFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchH2StoreLevelSensor(Node node){
-		String moduleName = getModuleName(node);
+		myH2StoreLevelSensors.add(H2StoreLevelSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchNitrogenInFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myNitrogenInFlowRateSensors.add(NitrogenInFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchNitrogenOutFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myNitrogenOutFlowRateSensors.add(NitrogenOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchNitrogenStoreLevelSensor(Node node){
-		String moduleName = getModuleName(node);
+		myNitrogenStoreLevelSensors.add(NitrogenStoreLevelSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void crawlAirSensors(Node node){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -829,17 +759,14 @@ public class BioHolder{
 
 	//Crew
 	private void fetchCrewGroupDeathSensor(Node node){
-		String moduleName = getModuleName(node);
+		myCrewGroupDeathSensors.add(CrewGroupDeathSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchCrewGroupAnyDeadSensor(Node node){
-		String moduleName = getModuleName(node);
+		myCrewGroupAnyDeadSensors.add(CrewGroupAnyDeadSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchCrewGroupProductivitySensor(Node node){
-		String moduleName = getModuleName(node);
+		myCrewGroupProductivitySensors.add(CrewGroupProductivitySensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void crawlCrewSensors(Node node){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -856,117 +783,89 @@ public class BioHolder{
 
 	//Environment
 	private void fetchAirInFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myAirInFlowRateSensors.add(AirInFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchAirOutFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myAirOutFlowRateSensors.add(AirOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchCO2AirConcentrationSensor(Node node){
-		String moduleName = getModuleName(node);
+		myCO2AirConcentrationSensors.add(CO2AirConcentrationSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchCO2AirPressureSensor(Node node){
-		String moduleName = getModuleName(node);
+		myCO2AirPressureSensors.add(CO2AirPressureSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchCO2AirEnvironmentInFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myCO2AirEnvironmentInFlowRateSensors.add(CO2AirEnvironmentInFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchCO2AirEnvironmentOutFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myCO2AirEnvironmentOutFlowRateSensors.add(CO2AirEnvironmentOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchCO2AirStoreInFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myCO2AirStoreInFlowRateSensors.add(CO2AirStoreInFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchCO2AirStoreOutFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myCO2AirStoreOutFlowRateSensors.add(CO2AirStoreOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchO2AirConcentrationSensor(Node node){
-		String moduleName = getModuleName(node);
+		myO2AirConcentrationSensors.add(O2AirConcentrationSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchO2AirPressureSensor(Node node){
-		String moduleName = getModuleName(node);
+		myO2AirPressureSensors.add(O2AirPressureSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchO2AirEnvironmentInFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myO2AirEnvironmentInFlowRateSensors.add(O2AirEnvironmentInFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchO2AirEnvironmentOutFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myO2AirEnvironmentOutFlowRateSensors.add(O2AirEnvironmentOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchO2AirStoreInFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myO2AirStoreInFlowRateSensors.add(O2AirStoreInFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchO2AirStoreOutFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myO2AirStoreOutFlowRateSensors.add(O2AirStoreOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchOtherAirConcentrationSensor(Node node){
-		String moduleName = getModuleName(node);
+		myOtherAirConcentrationSensors.add(OtherAirConcentrationSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchOtherAirPressureSensor(Node node){
-		String moduleName = getModuleName(node);
+		myOtherAirPressureSensors.add(OtherAirPressureSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchWaterAirConcentrationSensor(Node node){
-		String moduleName = getModuleName(node);
+		myWaterAirConcentrationSensors.add(WaterAirConcentrationSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchWaterAirPressureSensor(Node node){
-		String moduleName = getModuleName(node);
+		myWaterAirPressureSensors.add(WaterAirPressureSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchWaterAirEnvironmentInFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myWaterAirEnvironmentInFlowRateSensors.add(WaterAirEnvironmentInFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchWaterAirEnvironmentOutFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myWaterAirEnvironmentOutFlowRateSensors.add(WaterAirEnvironmentOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchWaterAirStoreInFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myWaterAirStoreInFlowRateSensors.add(WaterAirStoreInFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchWaterAirStoreOutFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myWaterAirStoreOutFlowRateSensors.add(WaterAirStoreOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchNitrogenAirConcentrationSensor(Node node){
-		String moduleName = getModuleName(node);
+		myNitrogenAirConcentrationSensors.add(NitrogenAirConcentrationSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchNitrogenAirPressureSensor(Node node){
-		String moduleName = getModuleName(node);
+		myNitrogenAirPressureSensors.add(NitrogenAirPressureSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchNitrogenAirEnvironmentInFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myNitrogenAirEnvironmentInFlowRateSensors.add(NitrogenAirEnvironmentInFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchNitrogenAirEnvironmentOutFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myNitrogenAirEnvironmentOutFlowRateSensors.add(NitrogenAirEnvironmentOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchNitrogenAirStoreInFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myNitrogenAirStoreInFlowRateSensors.add(NitrogenAirStoreInFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchNitrogenAirStoreOutFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myNitrogenAirStoreOutFlowRateSensors.add(NitrogenAirStoreOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void crawlEnvironmentSensors(Node node){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -1033,33 +932,26 @@ public class BioHolder{
 
 	//Food
 	private void fetchBiomassInFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myBiomassInFlowRateSensors.add(BiomassInFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchBiomassOutFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myBiomassOutFlowRateSensors.add(BiomassOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchBiomassStoreLevelSensor(Node node){
-		String moduleName = getModuleName(node);
+		myBiomassStoreLevelSensors.add(BiomassStoreLevelSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchFoodInFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myFoodInFlowRateSensors.add(FoodInFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchFoodOutFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myFoodOutFlowRateSensors.add(FoodOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchFoodStoreLevelSensor(Node node){
-		String moduleName = getModuleName(node);
+		myFoodStoreLevelSensors.add(FoodStoreLevelSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchHarvestSensor(Node node){
-		String moduleName = getModuleName(node);
+		myHarvestSensors.add(HarvestSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void crawlFoodSensors(Node node){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -1084,13 +976,11 @@ public class BioHolder{
 
 	//Framework
 	private void fetchStoreLevelSensor(Node node){
-		String moduleName = getModuleName(node);
+		myStoreLevelSensors.add(StoreLevelSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchStoreOverflowSensor(Node node){
-		String moduleName = getModuleName(node);
+		myStoreOverflowSensors.add(StoreOverflowSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void crawlFrameworkSensors(Node node){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -1105,17 +995,14 @@ public class BioHolder{
 
 	//Power
 	private void fetchPowerInFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myPowerInFlowRateSensors.add(PowerInFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchPowerOutFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myPowerOutFlowRateSensors.add(PowerOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchPowerStoreLevelSensor(Node node){
-		String moduleName = getModuleName(node);
+		myPowerStoreLevelSensors.add(PowerStoreLevelSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void crawlPowerSensors(Node node){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -1132,41 +1019,32 @@ public class BioHolder{
 
 	//Water
 	private void fetchPotableWaterInFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myPotableWaterInFlowRateSensors.add(PotableWaterInFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchPotableWaterOutFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myPotableWaterOutFlowRateSensors.add(PotableWaterOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchPotableWaterStoreLevelSensor(Node node){
-		String moduleName = getModuleName(node);
+		myPotableWaterStoreLevelSensors.add(PotableWaterStoreLevelSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchGreyWaterInFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myGreyWaterInFlowRateSensors.add(GreyWaterInFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchGreyWaterOutFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myGreyWaterOutFlowRateSensors.add(GreyWaterOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchGreyWaterStoreLevelSensor(Node node){
-		String moduleName = getModuleName(node);
+		myGreyWaterStoreLevelSensors.add(GreyWaterStoreLevelSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchDirtyWaterInFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myDirtyWaterInFlowRateSensors.add(DirtyWaterInFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchDirtyWaterOutFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myDirtyWaterOutFlowRateSensors.add(DirtyWaterOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchDirtyWaterStoreLevelSensor(Node node){
-		String moduleName = getModuleName(node);
+		myDirtyWaterStoreLevelSensors.add(DirtyWaterStoreLevelSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void crawlWaterSensors(Node node){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -1195,15 +1073,15 @@ public class BioHolder{
 
 	//Waste
 	private void fetchDryWasteInFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myDryWasteInFlowRateSensors.add(DryWasteInFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
 
 	private void fetchDryWasteOutFlowRateSensor(Node node){
-		String moduleName = getModuleName(node);
+		myDryWasteOutFlowRateSensors.add(DryWasteOutFlowRateSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
 
 	private void fetchDryWasteStoreLevelSensor(Node node){
-		String moduleName = getModuleName(node);
+		myDryWasteStoreLevelSensors.add(DryWasteStoreLevelSensorHelper.narrow(grabModule(getModuleName(node))));
 	}
 
 	private void crawlWasteSensors(Node node){
@@ -1221,32 +1099,57 @@ public class BioHolder{
 	}
 
 	//Actuators
-
+	private void crawlActuators(Node node){
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getNodeName();
+			if (childName.equals("air")){
+				crawlAirActuators(child);
+			}
+			else if (childName.equals("environment")){
+				crawlEnvironmentActuators(child);
+			}
+			else if (childName.equals("food")){
+				crawlFoodActuators(child);
+			}
+			else if (childName.equals("power")){
+				crawlPowerActuators(child);
+			}
+			else if (childName.equals("water")){
+				crawlWaterActuators(child);
+			}
+			else if (childName.equals("waste")){
+				crawlWasteActuators(child);
+			}
+			child = child.getNextSibling();
+		}
+	}
+	
 	//Air
 	private void fetchCO2InFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myCO2InFlowRateActuators.add(CO2InFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchCO2OutFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myCO2OutFlowRateActuators.add(CO2OutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchO2InFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myO2InFlowRateActuators.add(O2InFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchO2OutFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myO2OutFlowRateActuators.add(O2OutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchH2InFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myH2InFlowRateActuators.add(H2InFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchH2OutFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myH2OutFlowRateActuators.add(H2OutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
+	private void fetchNitrogenInFlowRateActuator(Node node){
+		myNitrogenInFlowRateActuators.add(NitrogenInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
+	}
+	private void fetchNitrogenOutFlowRateActuator(Node node){
+		myNitrogenOutFlowRateActuators.add(NitrogenOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
+	}
 	private void crawlAirActuators(Node node){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -1263,87 +1166,69 @@ public class BioHolder{
 				fetchH2InFlowRateActuator(child);
 			else if (childName.equals("H2OutFlowRateActuator"))
 				fetchH2OutFlowRateActuator(child);
+			else if (childName.equals("NitrogenInFlowRateActuator"))
+				fetchNitrogenInFlowRateActuator(child);
+			else if (childName.equals("NitrogenOutFlowRateActuator"))
+				fetchNitrogenOutFlowRateActuator(child);
 			child = child.getNextSibling();
 		}
 	}
 
-	private void crawlCrewActuators(Node node){
-		//None implemented Yet
-	}
-
 	//Environment
 	private void fetchAirInFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myAirInFlowRateActuators.add(AirInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchAirOutFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myAirOutFlowRateActuators.add(AirOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchCO2AirEnvironmentInFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myCO2AirEnvironmentInFlowRateActuators.add(CO2AirEnvironmentInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchCO2AirEnvironmentOutFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myCO2AirEnvironmentOutFlowRateActuators.add(CO2AirEnvironmentOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchCO2AirStoreInFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myCO2AirStoreInFlowRateActuators.add(CO2AirStoreInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchCO2AirStoreOutFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myCO2AirStoreOutFlowRateActuators.add(CO2AirStoreOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchO2AirEnvironmentInFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myO2AirEnvironmentInFlowRateActuators.add(O2AirEnvironmentInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchO2AirEnvironmentOutFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myO2AirEnvironmentOutFlowRateActuators.add(O2AirEnvironmentOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchO2AirStoreInFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myO2AirStoreInFlowRateActuators.add(O2AirStoreInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchO2AirStoreOutFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myO2AirStoreOutFlowRateActuators.add(O2AirStoreOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchWaterAirEnvironmentInFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myWaterAirEnvironmentInFlowRateActuators.add(WaterAirEnvironmentInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchWaterAirEnvironmentOutFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myWaterAirEnvironmentOutFlowRateActuators.add(WaterAirEnvironmentOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchWaterAirStoreInFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myWaterAirStoreInFlowRateActuators.add(WaterAirStoreInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchWaterAirStoreOutFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myWaterAirStoreOutFlowRateActuators.add(WaterAirStoreOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchNitrogenAirEnvironmentInFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myNitrogenAirEnvironmentInFlowRateActuators.add(NitrogenAirEnvironmentInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchNitrogenAirEnvironmentOutFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myNitrogenAirEnvironmentOutFlowRateActuators.add(NitrogenAirEnvironmentOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchNitrogenAirStoreInFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myNitrogenAirStoreInFlowRateActuators.add(NitrogenAirStoreInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchNitrogenAirStoreOutFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myNitrogenAirStoreOutFlowRateActuators.add(NitrogenAirStoreOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void crawlEnvironmentActuators(Node node){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -1368,14 +1253,14 @@ public class BioHolder{
 				fetchO2AirStoreInFlowRateActuator(child);
 			else if (childName.equals("O2AirStoreOutFlowRateActuator"))
 				fetchO2AirStoreOutFlowRateActuator(child);
-			else if (childName.equals("WaterAirEnvironmentInFlowRateActuator"))
-				fetchWaterAirEnvironmentInFlowRateActuator(child);
-			else if (childName.equals("WaterAirEnvironmentOutFlowRateActuator"))
-				fetchWaterAirEnvironmentOutFlowRateActuator(child);
 			else if (childName.equals("WaterAirStoreInFlowRateActuator"))
 				fetchWaterAirStoreInFlowRateActuator(child);
 			else if (childName.equals("WaterAirStoreOutFlowRateActuator"))
 				fetchWaterAirStoreOutFlowRateActuator(child);
+			else if (childName.equals("WaterAirEnvironmentInFlowRateActuator"))
+				fetchWaterAirEnvironmentInFlowRateActuator(child);
+			else if (childName.equals("WaterAirEnvironmentOutFlowRateActuator"))
+				fetchWaterAirEnvironmentOutFlowRateActuator(child);
 			else if (childName.equals("NitrogenAirEnvironmentInFlowRateActuator"))
 				fetchNitrogenAirEnvironmentInFlowRateActuator(child);
 			else if (childName.equals("NitrogenAirEnvironmentOutFlowRateActuator"))
@@ -1390,58 +1275,40 @@ public class BioHolder{
 
 	//Food
 	private void fetchBiomassInFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myBiomassInFlowRateActuators.add(BiomassInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchBiomassOutFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myBiomassOutFlowRateActuators.add(BiomassOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchFoodInFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myFoodInFlowRateActuators.add(FoodInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchFoodOutFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myFoodOutFlowRateActuators.add(FoodOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
-	private void fetchHarvestingActuator(Node node){
-		String moduleName = getModuleName(node);
-	}
-
-	private void fetchPlantingActuator(Node node){
-		String moduleName = getModuleName(node);
-	}
-
 	private void crawlFoodActuators(Node node){
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getNodeName();
 			if (childName.equals("BiomassInFlowRateActuator"))
 				fetchBiomassInFlowRateActuator(child);
-			else if (childName.equals("BiomassOutFlowRateActuator"))
+			if (childName.equals("BiomassOutFlowRateActuator"))
 				fetchBiomassOutFlowRateActuator(child);
 			else if (childName.equals("FoodInFlowRateActuator"))
 				fetchFoodInFlowRateActuator(child);
 			else if (childName.equals("FoodOutFlowRateActuator"))
 				fetchFoodOutFlowRateActuator(child);
-			else if (childName.equals("HarvestingActuator"))
-				fetchHarvestingActuator(child);
-			else if (childName.equals("PlantingActuator"))
-				fetchPlantingActuator(child);
 			child = child.getNextSibling();
 		}
 	}
-
+	
 	//Power
 	private void fetchPowerInFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myPowerInFlowRateActuators.add(PowerInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchPowerOutFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myPowerOutFlowRateActuators.add(PowerOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void crawlPowerActuators(Node node){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -1456,31 +1323,23 @@ public class BioHolder{
 
 	//Water
 	private void fetchPotableWaterInFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myPotableWaterInFlowRateActuators.add(PotableWaterInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchPotableWaterOutFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myPotableWaterOutFlowRateActuators.add(PotableWaterOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
-
 	private void fetchGreyWaterInFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myGreyWaterInFlowRateActuators.add(GreyWaterInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
-
 	private void fetchGreyWaterOutFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myGreyWaterOutFlowRateActuators.add(GreyWaterOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchDirtyWaterInFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myDirtyWaterInFlowRateActuators.add(DirtyWaterInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchDirtyWaterOutFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myDirtyWaterOutFlowRateActuators.add(DirtyWaterOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void crawlWaterActuators(Node node){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -1503,13 +1362,11 @@ public class BioHolder{
 
 	//Waste
 	private void fetchDryWasteInFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myDryWasteInFlowRateActuators.add(DryWasteInFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void fetchDryWasteOutFlowRateActuator(Node node){
-		String moduleName = getModuleName(node);
+		myDryWasteOutFlowRateActuators.add(DryWasteOutFlowRateActuatorHelper.narrow(grabModule(getModuleName(node))));
 	}
-
 	private void crawlWasteActuators(Node node){
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -1518,41 +1375,6 @@ public class BioHolder{
 				fetchDryWasteInFlowRateActuator(child);
 			else if (childName.equals("DryWasteOutFlowRateActuator"))
 				fetchDryWasteOutFlowRateActuator(child);
-			child = child.getNextSibling();
-		}
-	}
-
-	private void crawlActuators(Node node){
-		Node child = node.getFirstChild();
-		while (child != null) {
-			String childName = child.getNodeName();
-			if (childName.equals("air")){
-				crawlAirActuators(child);
-			}
-			else if (childName.equals("crew")){
-				crawlCrewActuators(child);
-
-			}
-			else if (childName.equals("environment")){
-				crawlEnvironmentActuators(child);
-
-			}
-			else if (childName.equals("food")){
-				crawlFoodActuators(child);
-
-			}
-			else if (childName.equals("power")){
-				crawlPowerActuators(child);
-
-			}
-			else if (childName.equals("water")){
-				crawlWaterActuators(child);
-
-			}
-			else if (childName.equals("waste")){
-				crawlWasteActuators(child);
-
-			}
 			child = child.getNextSibling();
 		}
 	}
