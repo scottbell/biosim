@@ -63,12 +63,12 @@ jacoInvocation="$java_command -server -classpath $serverClassesDir$separator$res
 echo "	-starting servers"
 case $userSelect in
 	airRS) echo "			 -starting $userSelect";$jacoInvocation $airRSName;;
-	co2StoreName) echo "			 -starting $userSelect";$jacoInvocation $co2StoreName;;
-	o2StoreName) echo "			 -starting $userSelect";$jacoInvocation $o2StoreName;;
+	co2Store) echo "			 -starting $userSelect";$jacoInvocation $co2StoreName;;
+	o2Store) echo "			 -starting $userSelect";$jacoInvocation $o2StoreName;;
 	biomassRS) echo "			 -starting $userSelect";$jacoInvocation $biomassRSName;;
 	biomassStore) echo "			 -starting $userSelect";$jacoInvocation $biomassStoreName;;
 	foodProcessor) echo "			 -starting $userSelect";$jacoInvocation $foodProcessorName;;
-	foodStoreName) echo "			 -starting $userSelect";$jacoInvocation $foodStoreName;;
+	foodStore) echo "			 -starting $userSelect";$jacoInvocation $foodStoreName;;
 	powerPS) echo "			 -starting $userSelect";$jacoInvocation $powerPSName;;
 	powerStore) echo "			 -starting $userSelect";$jacoInvocation $powerStoreName;;
 	crew) echo "			 -starting $userSelect";$jacoInvocation $crewName;;
