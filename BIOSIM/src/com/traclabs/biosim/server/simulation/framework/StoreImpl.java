@@ -120,9 +120,9 @@ public abstract class StoreImpl extends BioModuleImpl implements StoreOperations
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();
-			LogNode levelHead = myLog.getHead().addChild("level");
+			LogNode levelHead = myLog.addChild("level");
 			myLogIndex.levelIndex = levelHead.addChild((""+level));
-			LogNode capacityHead = myLog.getHead().addChild("capacity");
+			LogNode capacityHead = myLog.addChild("capacity");
 			myLogIndex.capacityIndex = capacityHead.addChild((""+capacity));
 			logInitialized = true;
 		}

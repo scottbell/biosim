@@ -7,5 +7,5 @@ import biosim.idl.util.*;
  */
 
 public abstract class LogHandler {
-	public abstract void writeLog(Log logToWrite);
+	public abstract void writeLog(LogNode logToWrite);
 }

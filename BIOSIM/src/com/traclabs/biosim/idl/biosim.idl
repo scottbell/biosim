@@ -35,15 +35,11 @@ module biosim{
                 };
 
                 module util{
-                        interface Log;
                         interface Logger;
                         interface LogNode;
                         enum LogHandlerType {SCREEN,XML,FLAT,DB};
-                        interface Log{
-                                LogNode getHead();
-                        };
                         interface Logger{
-                                void processLog(in Log thingToLog);
+                                void processLog(in LogNode thingToLog);
                                 LogHandlerType getLogHandlerType();
                                 void setLogHandlerType(in LogHandlerType pLogType);
                                 void setProcessingLogs(in boolean pAllowLogging);
@@ -51,6 +47,7 @@ module biosim{
                         };
                         typedef sequence <LogNode> LogNodeList;
                         interface LogNode{
+				LogNode getHead();
                                 string getValue();
                                 void setValue(in string newValue);
                                 LogNode addChild (in string pChildName);

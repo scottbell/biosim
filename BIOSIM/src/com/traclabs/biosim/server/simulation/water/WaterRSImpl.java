@@ -245,23 +245,23 @@ public class WaterRSImpl extends BioModuleImpl implements WaterRSOperations {
 		//If not initialized, fill in the log
 		if (!logInitialized){
 			myLogIndex = new LogIndex();
-			LogNode currentPotableWaterProducedHead = myLog.getHead().addChild("Potable Water Produced");
+			LogNode currentPotableWaterProducedHead = myLog.addChild("Potable Water Produced");
 			myLogIndex.currentPotableWaterProducedIndex = currentPotableWaterProducedHead.addChild(""+getPotableWaterProduced());
-			LogNode currentGreyWaterProducedHead = myLog.getHead().addChild("Grey Water Produced");
+			LogNode currentGreyWaterProducedHead = myLog.addChild("Grey Water Produced");
 			myLogIndex.currentGreyWaterProducedIndex = currentGreyWaterProducedHead.addChild(""+getGreyWaterProduced());
-			LogNode currentPowerConsumedHead = myLog.getHead().addChild("Power Consumed");
+			LogNode currentPowerConsumedHead = myLog.addChild("Power Consumed");
 			myLogIndex.currentPowerConsumedIndex = currentPowerConsumedHead.addChild(""+getPowerConsumed());
-			LogNode currentDirtyWaterConsumedHead = myLog.getHead().addChild("Dirty Water Consumed");
+			LogNode currentDirtyWaterConsumedHead = myLog.addChild("Dirty Water Consumed");
 			myLogIndex.currentDirtyWaterConsumedIndex = currentDirtyWaterConsumedHead.addChild(""+getDirtyWaterConsumed());
-			LogNode currentGreyWaterConsumedHead = myLog.getHead().addChild("Grey Water Consumed");
+			LogNode currentGreyWaterConsumedHead = myLog.addChild("Grey Water Consumed");
 			myLogIndex.currentGreyWaterConsumedIndex = currentGreyWaterConsumedHead.addChild(""+getGreyWaterConsumed());
-			myLogIndex.AESIndex = myLog.getHead().addChild("AES");
+			myLogIndex.AESIndex = myLog.addChild("AES");
 			myAES.log(myLogIndex.AESIndex);
-			myLogIndex.BWPIndex = myLog.getHead().addChild("BWP");
+			myLogIndex.BWPIndex = myLog.addChild("BWP");
 			myBWP.log(myLogIndex.BWPIndex);
-			myLogIndex.ROIndex = myLog.getHead().addChild("RO");
+			myLogIndex.ROIndex = myLog.addChild("RO");
 			myRO.log(myLogIndex.ROIndex);
-			myLogIndex.PPSIndex = myLog.getHead().addChild("PPS");
+			myLogIndex.PPSIndex = myLog.addChild("PPS");
 			myPPS.log(myLogIndex.PPSIndex);
 			logInitialized = true;
 		}
