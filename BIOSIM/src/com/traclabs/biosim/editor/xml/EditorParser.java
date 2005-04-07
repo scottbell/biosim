@@ -22,7 +22,6 @@ import com.traclabs.biosim.editor.base.EditorLayer;
 import com.traclabs.biosim.editor.graph.DecisionNode;
 import com.traclabs.biosim.editor.graph.GoToNode;
 import com.traclabs.biosim.editor.graph.OptionalNode;
-import com.traclabs.biosim.editor.graph.RequiredNode;
 import com.traclabs.biosim.editor.graph.TerminatorNode;
 import com.traclabs.biosim.editor.graph.EditorFigEdge;
 import com.traclabs.biosim.editor.graph.EditorFigNode;
@@ -81,31 +80,6 @@ public class EditorParser extends DefaultHandler implements DocumentReader {
         int height = (strHeight == null) ? 0 : Integer.parseInt(strHeight);
 
         node.setHandleBox(x, y, width, height);
-    }
-
-    protected void handleRequired(Attributes attrs) {
-        // Create and initialize a RequiredNode
-        RequiredNode node = new RequiredNode();
-        node.initialize(null); // Currently we are not using the args to
-                               // initialize.
-
-        String uniqueId = attrs.getValue("Id");
-        if (uniqueId != null) {
-            // Add the node to the list of known nodes, under its Unique Name.
-            _netNodeList.put(uniqueId, node);
-            //System.out.println("Hash code of " + uniqueId + " is " +
-            // uniqueId.hashCode());
-        }
-
-        // Get the FigNode used to present this Node in the new Diagram
-        // Then add the Fig to the Layer and the Node to the GraphModel
-        _figNode = (EditorFigNode) node.makePresentation(_layer);
-        _layer.add(_figNode);
-        _graphModel.addNode(node);
-
-        String text = attrs.getValue("text");
-        _figNode.setText(text);
-        handleAttributes(attrs, _figNode);
     }
 
     protected void handleOptional(Attributes attrs) {
@@ -269,14 +243,6 @@ public class EditorParser extends DefaultHandler implements DocumentReader {
         //System.out.println("Entering Start Element with " + qName);
         if (qName.equals("EDITOR")) {
             handleEditor(attrs);
-        } else if (qName.equals("Required")) {
-            handleRequired(attrs);
-        } else if (qName.equals("Optional")) {
-            handleOptional(attrs);
-        } else if (qName.equals("Terminator")) {
-            handleTerminator(attrs);
-        } else if (qName.equals("Goto")) {
-            handleGoto(attrs);
         } else if (qName.equals("Decision")) {
             handleDecision(attrs);
         } else if (qName.equals("Edge")) {

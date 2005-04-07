@@ -22,8 +22,7 @@ public class BiosimEditorMain {
         ResourceLoader.addResourceExtension("gif");
         ResourceLoader.addResourceExtension("png");
         ResourceLoader.addResourceLocation("/org/tigris/gef/Images");
-        ResourceLoader
-                .addResourceLocation("/com/traclabs/biosim/editor");
+        //ResourceLoader.addResourceLocation("/com/traclabs/biosim/editor");
 
         // Create and display the main window.
         EditorFrame frame = new EditorFrame("Biosim Editor");
