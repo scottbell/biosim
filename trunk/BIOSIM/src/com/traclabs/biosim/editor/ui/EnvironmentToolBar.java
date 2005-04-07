@@ -15,17 +15,13 @@ public class EnvironmentToolBar extends EditorToolBar {
 
     private JButton myDehumidifierButton;
 
-    private JButton myConduitButton;
-
     public EnvironmentToolBar() {
         super("Environment");
         myEnvironmentButton = new JButton("Environment");
         myDehumidifierButton = new JButton("Dehumidifier");
-        myConduitButton = new JButton("Conduit");
 
-        add(myEnvironmentButton);
         add(myDehumidifierButton);
         addSeparator();
-        add(myConduitButton);
+        add(myEnvironmentButton);
     }
 }

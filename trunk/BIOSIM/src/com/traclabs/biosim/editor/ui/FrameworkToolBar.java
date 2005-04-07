@@ -14,21 +14,14 @@ import javax.swing.JButton;
  */
 public class FrameworkToolBar extends EditorToolBar {
     private JButton myAccumulatorButton;
-
     private JButton myInjectorButton;
-
-    private JButton myConduitButton;
 
     public FrameworkToolBar() {
         super("Framework");
         myAccumulatorButton = new JButton("Accumulator");
         myInjectorButton = new JButton("Injector");
 
-        myConduitButton = new JButton("Conduit");
-
         add(myAccumulatorButton);
         add(myInjectorButton);
-        addSeparator();
-        add(myConduitButton);
     }
 }

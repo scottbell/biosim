@@ -3,6 +3,8 @@ package com.traclabs.biosim.editor;
 import java.util.Locale;
 import java.util.Properties;
 
+import javax.swing.ImageIcon;
+
 import org.apache.log4j.PropertyConfigurator;
 import org.tigris.gef.util.Localizer;
 import org.tigris.gef.util.ResourceLoader;
@@ -24,8 +26,17 @@ public class BiosimEditorMain {
         ResourceLoader.addResourceLocation("/org/tigris/gef/Images");
         //ResourceLoader.addResourceLocation("/com/traclabs/biosim/editor");
 
+        ImageIcon biosimIcon = new ImageIcon(
+                ClassLoader
+                        .getSystemClassLoader()
+                        .getResource(
+                                "com/traclabs/biosim/client/framework/gui/biosim.png"));
+
         // Create and display the main window.
         EditorFrame frame = new EditorFrame("Biosim Editor");
+        frame.setIconImage(biosimIcon.getImage());
+        frame.setSize(830, 600);
+        frame.setVisible(true);
     }
     
     public static void main(String args[]) {
