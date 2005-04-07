@@ -13,15 +13,10 @@ import javax.swing.JButton;
 public class CrewToolBar extends EditorToolBar {
     private JButton myCrewButton;
 
-    private JButton myConduitButton;
-
     public CrewToolBar() {
         super("Crew");
         myCrewButton = new JButton("Crew");
-        myConduitButton = new JButton("Conduit");
 
         add(myCrewButton);
-        addSeparator();
-        add(myConduitButton);
     }
 }

@@ -1,6 +1,7 @@
 package com.traclabs.biosim.editor.presentation;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -68,6 +69,7 @@ import com.traclabs.biosim.editor.base.EditorDocument;
 import com.traclabs.biosim.editor.ui.AirToolBar;
 import com.traclabs.biosim.editor.ui.CrewToolBar;
 import com.traclabs.biosim.editor.ui.EnvironmentToolBar;
+import com.traclabs.biosim.editor.ui.FoodToolBar;
 import com.traclabs.biosim.editor.ui.FrameworkToolBar;
 import com.traclabs.biosim.editor.ui.MainToolBar;
 import com.traclabs.biosim.editor.ui.PowerToolBar;
@@ -129,6 +131,8 @@ public class EditorFrame extends BioFrame {
 
     private JPanel myMainToolBarPanel;
 
+    private Component myFoodToolBar;
+
     public EditorFrame() {
         this("BiosimEditor", new BiosimEditor());
     }
@@ -183,8 +187,6 @@ public class EditorFrame extends BioFrame {
         setJMenuBar(myMenuBar);
         
         pack();
-        setSize(900, 600);
-        setVisible(true);
     }
     
     /**
@@ -256,6 +258,13 @@ public class EditorFrame extends BioFrame {
                         "Environment",
                         createImageIcon("com/traclabs/biosim/client/environment/gui/environment.png"),
                         myEnvironmentToolBar);
+
+        myFoodToolBar = new FoodToolBar();
+        myModuleTabbedToolBarPane
+                .addTab(
+                        "Food",
+                        createImageIcon("com/traclabs/biosim/client/food/gui/food.png"),
+                        myFoodToolBar);
 
         myFrameworkToolBar = new FrameworkToolBar();
         myModuleTabbedToolBarPane

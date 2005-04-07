@@ -13,9 +13,10 @@ public class AirToolBar extends EditorToolBar {
 
     public AirToolBar() {
         super("Air");
+        add(new CmdCreateNode(OGSNode.class, "EditorBase", "OGS"));
+        addSeparator();
         add(new CmdCreateNode(NitrogenStoreNode.class, "EditorBase", "NitrogenStore"));
         add(new CmdCreateNode(O2StoreNode.class, "EditorBase", "O2Store"));
-        add(new CmdCreateNode(OGSNode.class, "EditorBase", "OGS"));
         addSeparator();
         //add(new OGSAction());
         /*add(new CH4StoreAction());
