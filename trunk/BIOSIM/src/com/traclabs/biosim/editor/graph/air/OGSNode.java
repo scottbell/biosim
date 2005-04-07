@@ -5,13 +5,14 @@ import org.tigris.gef.presentation.FigNode;
 
 import com.traclabs.biosim.editor.graph.EditorNode;
 
-public class NitrogenStoreNode extends EditorNode{
-    public NitrogenStoreNode() {
-        setText("NitrogenStore");
+
+public class OGSNode extends EditorNode{
+    public OGSNode() {
+        setText("OGS");
     }
 
     public FigNode makePresentation(Layer lay) {
-        FigNitrogenStoreNode node = new FigNitrogenStoreNode();
+        FigOGSNode node = new FigOGSNode();
         node.setOwner(this);
         return node;
     }
