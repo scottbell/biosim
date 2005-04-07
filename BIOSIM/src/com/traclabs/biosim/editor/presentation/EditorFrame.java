@@ -1,15 +1,16 @@
 package com.traclabs.biosim.editor.presentation;
 
+import java.awt.BorderLayout;
 import java.awt.Cursor;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.net.URL;
+import java.util.Locale;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -20,10 +21,8 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
-import javax.swing.WindowConstants;
 
 import org.apache.log4j.Logger;
-import org.tigris.gef.base.Cmd;
 import org.tigris.gef.base.CmdAdjustGrid;
 import org.tigris.gef.base.CmdAdjustGuide;
 import org.tigris.gef.base.CmdAdjustPageBreaks;
@@ -47,8 +46,11 @@ import org.tigris.gef.base.Editor;
 import org.tigris.gef.base.Globals;
 import org.tigris.gef.base.Layer;
 import org.tigris.gef.graph.presentation.JGraph;
-import org.tigris.gef.graph.presentation.JGraphFrame;
+import org.tigris.gef.presentation.FigCircle;
+import org.tigris.gef.util.Localizer;
+import org.tigris.gef.util.ResourceLoader;
 
+import com.traclabs.biosim.client.framework.gui.BioFrame;
 import com.traclabs.biosim.editor.base.BiosimEditor;
 import com.traclabs.biosim.editor.base.CmdNewEditor;
 import com.traclabs.biosim.editor.base.CmdOpenEditor;
@@ -62,12 +64,18 @@ import com.traclabs.biosim.editor.base.EditorCmdPaste;
 import com.traclabs.biosim.editor.base.EditorCmdSpawn;
 import com.traclabs.biosim.editor.base.EditorCmdZoom;
 import com.traclabs.biosim.editor.base.EditorDocument;
-import com.traclabs.biosim.editor.ui.EditorPalette;
+import com.traclabs.biosim.editor.ui.AirToolBar;
+import com.traclabs.biosim.editor.ui.CrewToolBar;
+import com.traclabs.biosim.editor.ui.EnvironmentToolBar;
+import com.traclabs.biosim.editor.ui.FrameworkToolBar;
+import com.traclabs.biosim.editor.ui.PowerToolBar;
+import com.traclabs.biosim.editor.ui.WasteToolBar;
+import com.traclabs.biosim.editor.ui.WaterToolBar;
 
-public class EditorFrame extends JGraphFrame {
+public class EditorFrame extends BioFrame {
     private Editor myEditor;
     
-    private JMenuBar myMenuBar;
+    private JMenuBar myMenuBar = new JMenuBar();
     
     /** The graph pane (shown in middle of window). */
     private JGraph myGraph;
@@ -81,9 +89,21 @@ public class EditorFrame extends JGraphFrame {
 
     private Logger myLogger;
 
-    private AboutAction myAboutAction;
+    private JMenu myFileMenu;
 
-    private QuitAction myQuitAction;
+    private JMenu myNewMenu;
+
+    private JMenuItem myLoggingItem;
+
+    private JMenuItem myQuitItem;
+
+    private JMenu myHelpMenu;
+
+    private JMenuItem myAboutItem;
+
+    private AboutAction myAboutAction = new AboutAction("About");;
+
+    private QuitAction myQuitAction = new QuitAction("Quit");
 
     private JComponent myAirToolBar;
 
@@ -100,81 +120,146 @@ public class EditorFrame extends JGraphFrame {
     private JComponent myWaterToolBar;
 
     private JSplitPane mySplitPane;
-    
-    protected Cmd _exitCmd;
-
-    private static int _refCount = 0;
-
-    private static EditorFrame _active;
 
     public EditorFrame() {
-        this("BiosimEditor - ", new BiosimEditor());
+        this("BiosimEditor", new BiosimEditor());
     }
 
     public EditorFrame(String title) {
         this(title, new BiosimEditor());
     }
 
-    public EditorFrame(EditorDocument doc) {
-        this(doc.getAppName(), new BiosimEditor(doc));
-    }
-
-    public EditorFrame(String title, BiosimEditor ed) {
-        super(title, ed);
-
-        _refCount++;
-        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent event) {
-                //dispose();
-                _exitCmd.doIt();
-            }
-
-            public void windowClosed(WindowEvent event) {
-                //System.exit(0);
-            }
-
-            public void windowActivated(WindowEvent e) {
-                // Switch the current editor to the active frame editor.
-                // This is required so that menu commands will be executed
-                // in the active frame window.
-                _active = EditorFrame.this;
-                Globals.curEditor(_graph.getEditor());
-            }
-
-            public void windowDeactivated(WindowEvent e) {
-                _active = null;
-            }
-        });
-
-        addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent e) {
-                if (_active == EditorFrame.this) {
-                    Globals.curEditor(_graph.getEditor());
-                }
-            }
-        });
-
-        setToolBar(new EditorPalette()); //needs-more-work
-
+    public EditorFrame(String title, BiosimEditor pEditor) {
+        super(title);
+        myEditor = pEditor;  
+        loadResources();
+        buildGui();
+        Globals.curEditor(myEditor);
         // make the delete key remove elements from the underlying GraphModel
-        getGraph().bindKey(new CmdDeleteFromModel(), KeyEvent.VK_DELETE, 0);
+        myGraph.bindKey(new CmdDeleteFromModel(), KeyEvent.VK_DELETE, 0);
     }
     
     public Editor getEditor(){
         return myEditor;
     }
+    
+    /**
+     *  
+     */
+    private void loadResources() {
+        Localizer.addResource("GefBase",
+                "org.tigris.gef.base.BaseResourceBundle");
+        Localizer.addResource("GefPres",
+                "org.tigris.gef.presentation.PresentationResourceBundle");
+        Localizer.addLocale(Locale.getDefault());
+        Localizer.switchCurrentLocale(Locale.getDefault());
+        ResourceLoader.addResourceExtension("png");
+        ResourceLoader.addResourceLocation("/org/tigris/gef/Images");
+    }
+    
+    /**
+     *  
+     */
+    private void buildGui() {
+        //init graph
+        createGraphPanel();
 
-    public static EditorFrame curFrame() {
-        return _active;
+        //init tabbed pane tool bar
+        createTabbedPane();
+        
+        //do splitpane
+        mySplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, myTabbedPane, myGraphPanel);
+        getContentPane().add(mySplitPane, BorderLayout.CENTER);
+        getContentPane().add(myStatusbar, BorderLayout.SOUTH);
+
+        //do menu bar
+        createMenuBar();
+        
+        pack();
+        setSize(700, 600);
+        setVisible(true);
+    }
+    
+    /**
+     *  
+     */
+    private void createGraphPanel() {
+        myGraph = new JGraph(myEditor);
+        myGraph.setDrawingSize(0, 0);
+        myGraphPanel = new JPanel();
+        myGraphPanel.setLayout(new GridLayout(1, 1));
+        myGraphPanel.add(myGraph);
+        myGraph.getEditor().add(new FigCircle(0, 0, 50, 50));
+    }
+
+    /** Returns an ImageIcon, or null if the path was invalid. */
+    private static ImageIcon createImageIcon(String path) {
+        URL imgURL = ClassLoader.getSystemClassLoader().getResource(path);
+        if (imgURL != null) {
+            return new ImageIcon(imgURL);
+        } else {
+            Logger.getLogger(BiosimEditor.class.toString()).error(
+                    "Couldn't find file for icon: " + path);
+            return null;
+        }
+    }
+    
+    /**
+     *  
+     */
+    private void createTabbedPane() {
+        myTabbedPane = new JTabbedPane();
+
+        myAirToolBar = new AirToolBar();
+        myTabbedPane.addTab("Air",
+                createImageIcon("com/traclabs/biosim/client/air/gui/air.png"),
+                myAirToolBar);
+        myCrewToolBar = new CrewToolBar();
+        myTabbedPane
+                .addTab(
+                        "Crew",
+                        createImageIcon("com/traclabs/biosim/client/crew/gui/crew.png"),
+                        myCrewToolBar);
+
+        myEnvironmentToolBar = new EnvironmentToolBar();
+        myTabbedPane
+                .addTab(
+                        "Environment",
+                        createImageIcon("com/traclabs/biosim/client/environment/gui/environment.png"),
+                        myEnvironmentToolBar);
+
+        myFrameworkToolBar = new FrameworkToolBar();
+        myTabbedPane
+                .addTab(
+                        "Framework",
+                        createImageIcon("com/traclabs/biosim/client/framework/gui/all.png"),
+                        myFrameworkToolBar);
+
+        myPowerToolBar = new PowerToolBar();
+        myTabbedPane
+                .addTab(
+                        "Power",
+                        createImageIcon("com/traclabs/biosim/client/power/gui/power.png"),
+                        myPowerToolBar);
+
+        myWasteToolBar = new WasteToolBar();
+        myTabbedPane
+                .addTab(
+                        "Waste",
+                        createImageIcon("com/traclabs/biosim/client/framework/gui/gear.png"),
+                        myWasteToolBar);
+
+        myWaterToolBar = new WaterToolBar();
+        myTabbedPane
+                .addTab(
+                        "Water",
+                        createImageIcon("com/traclabs/biosim/client/water/gui/water.png"),
+                        myWaterToolBar);
+                        
     }
 
     //override the setUpMenus() in superclass
-    protected void setUpMenus() {
-        myMenuBar = new JMenuBar();
-        myQuitAction = new QuitAction("Quit");
-        myAboutAction = new AboutAction("About");
+    private void createMenuBar() {
         createFileMenu();
         createEditMenu();
         createViewMenu();
@@ -494,7 +579,7 @@ public class EditorFrame extends JGraphFrame {
         About.setEnabled(false);
         help.add(About);
     }
-    
+
     /**
      * Close this editor frame.
      */
@@ -530,7 +615,7 @@ public class EditorFrame extends JGraphFrame {
         public void actionPerformed(ActionEvent ae) {
             setCursor(Cursor
                     .getPredefinedCursor(Cursor.WAIT_CURSOR));
-            //frameClosing();
+            frameClosing();
             setCursor(Cursor.getDefaultCursor());
         }
     }
