@@ -27,8 +27,6 @@ public class BiosimEditorMain {
 
         // Create and display the main window.
         EditorFrame frame = new EditorFrame("Biosim Editor");
-        frame.setSize(640, 480);
-        frame.setVisible(true);
     }
     
     public static void main(String args[]) {

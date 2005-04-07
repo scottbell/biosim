@@ -5,11 +5,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import org.tigris.gef.base.CmdCreateNode;
-import org.tigris.gef.base.CmdSetMode;
-import org.tigris.gef.base.ModeBroom;
-import org.tigris.gef.base.ModeSelect;
 
-import com.traclabs.biosim.editor.base.ModeZoom;
 import com.traclabs.biosim.editor.graph.DecisionNode;
 import com.traclabs.biosim.editor.graph.GoToNode;
 import com.traclabs.biosim.editor.graph.OptionalNode;
@@ -23,10 +19,6 @@ public class AirToolBar extends EditorToolBar {
 
     public AirToolBar() {
         super("Air");
-        add(new CmdSetMode(ModeSelect.class, "Select"));
-        add(new CmdSetMode(ModeBroom.class, "Broom"));
-        add(new CmdSetMode(ModeZoom.class, "Zoom"));addSeparator();
-
         add(new CmdCreateNode(RequiredNode.class, "EditorBase", "RequiredNode"));
         add(new CmdCreateNode(OptionalNode.class, "EditorBase", "OptionalNode"));
         add(new CmdCreateNode(DecisionNode.class, "EditorBase", "DecisionNode"));
