@@ -10,6 +10,7 @@ import java.util.Locale;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -20,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 
 import org.apache.log4j.Logger;
@@ -46,7 +48,6 @@ import org.tigris.gef.base.Editor;
 import org.tigris.gef.base.Globals;
 import org.tigris.gef.base.Layer;
 import org.tigris.gef.graph.presentation.JGraph;
-import org.tigris.gef.presentation.FigCircle;
 import org.tigris.gef.util.Localizer;
 import org.tigris.gef.util.ResourceLoader;
 
@@ -68,6 +69,7 @@ import com.traclabs.biosim.editor.ui.AirToolBar;
 import com.traclabs.biosim.editor.ui.CrewToolBar;
 import com.traclabs.biosim.editor.ui.EnvironmentToolBar;
 import com.traclabs.biosim.editor.ui.FrameworkToolBar;
+import com.traclabs.biosim.editor.ui.MainToolBar;
 import com.traclabs.biosim.editor.ui.PowerToolBar;
 import com.traclabs.biosim.editor.ui.WasteToolBar;
 import com.traclabs.biosim.editor.ui.WaterToolBar;
@@ -85,7 +87,7 @@ public class EditorFrame extends BioFrame {
     
     private JPanel myGraphPanel;
 
-    private JTabbedPane myTabbedPane;
+    private JTabbedPane myModuleTabbedToolBarPane;
 
     private Logger myLogger;
 
@@ -120,6 +122,12 @@ public class EditorFrame extends BioFrame {
     private JComponent myWaterToolBar;
 
     private JSplitPane mySplitPane;
+
+    private JPanel myToolBarPanel;
+
+    private JToolBar myMainToolBar;
+
+    private JPanel myMainToolBarPanel;
 
     public EditorFrame() {
         this("BiosimEditor", new BiosimEditor());
@@ -161,35 +169,56 @@ public class EditorFrame extends BioFrame {
      *  
      */
     private void buildGui() {
-        //init graph
         createGraphPanel();
-
-        //init tabbed pane tool bar
-        createTabbedPane();
+        
+        createToolBarPanel();
         
         //do splitpane
-        mySplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, myTabbedPane, myGraphPanel);
+        mySplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, myToolBarPanel, myGraphPanel);
         getContentPane().add(mySplitPane, BorderLayout.CENTER);
         getContentPane().add(myStatusbar, BorderLayout.SOUTH);
 
         //do menu bar
         createMenuBar();
+        setJMenuBar(myMenuBar);
         
         pack();
-        setSize(700, 600);
+        setSize(900, 600);
         setVisible(true);
     }
     
     /**
+     * 
+     */
+    private void createToolBarPanel() {
+        createMainToolBarPanel();
+        createModuleTabbedToolBarPane();
+        myToolBarPanel = new JPanel();
+        myToolBarPanel.setLayout(new BorderLayout());
+        myToolBarPanel.add(myMainToolBarPanel, BorderLayout.WEST);
+        myToolBarPanel.add(myModuleTabbedToolBarPane, BorderLayout.CENTER);
+    }
+
+    /**
+     * 
+     */
+    private void createMainToolBarPanel() {
+        myMainToolBar = new MainToolBar();
+        myMainToolBarPanel = new JPanel();
+        myMainToolBarPanel.setBorder(BorderFactory.createTitledBorder("Common"));
+        myMainToolBarPanel.add(myMainToolBar);
+    }
+
+    /**
      *  
      */
     private void createGraphPanel() {
+        //need to add ScrollPane
         myGraph = new JGraph(myEditor);
-        myGraph.setDrawingSize(0, 0);
+        //myGraph.setDrawingSize(0, 0);
         myGraphPanel = new JPanel();
         myGraphPanel.setLayout(new GridLayout(1, 1));
         myGraphPanel.add(myGraph);
-        myGraph.getEditor().add(new FigCircle(0, 0, 50, 50));
     }
 
     /** Returns an ImageIcon, or null if the path was invalid. */
@@ -207,50 +236,50 @@ public class EditorFrame extends BioFrame {
     /**
      *  
      */
-    private void createTabbedPane() {
-        myTabbedPane = new JTabbedPane();
+    private void createModuleTabbedToolBarPane() {
+        myModuleTabbedToolBarPane = new JTabbedPane();
 
         myAirToolBar = new AirToolBar();
-        myTabbedPane.addTab("Air",
+        myModuleTabbedToolBarPane.addTab("Air",
                 createImageIcon("com/traclabs/biosim/client/air/gui/air.png"),
                 myAirToolBar);
         myCrewToolBar = new CrewToolBar();
-        myTabbedPane
+        myModuleTabbedToolBarPane
                 .addTab(
                         "Crew",
                         createImageIcon("com/traclabs/biosim/client/crew/gui/crew.png"),
                         myCrewToolBar);
 
         myEnvironmentToolBar = new EnvironmentToolBar();
-        myTabbedPane
+        myModuleTabbedToolBarPane
                 .addTab(
                         "Environment",
                         createImageIcon("com/traclabs/biosim/client/environment/gui/environment.png"),
                         myEnvironmentToolBar);
 
         myFrameworkToolBar = new FrameworkToolBar();
-        myTabbedPane
+        myModuleTabbedToolBarPane
                 .addTab(
                         "Framework",
                         createImageIcon("com/traclabs/biosim/client/framework/gui/all.png"),
                         myFrameworkToolBar);
 
         myPowerToolBar = new PowerToolBar();
-        myTabbedPane
+        myModuleTabbedToolBarPane
                 .addTab(
                         "Power",
                         createImageIcon("com/traclabs/biosim/client/power/gui/power.png"),
                         myPowerToolBar);
 
         myWasteToolBar = new WasteToolBar();
-        myTabbedPane
+        myModuleTabbedToolBarPane
                 .addTab(
                         "Waste",
                         createImageIcon("com/traclabs/biosim/client/framework/gui/gear.png"),
                         myWasteToolBar);
 
         myWaterToolBar = new WaterToolBar();
-        myTabbedPane
+        myModuleTabbedToolBarPane
                 .addTab(
                         "Water",
                         createImageIcon("com/traclabs/biosim/client/water/gui/water.png"),
