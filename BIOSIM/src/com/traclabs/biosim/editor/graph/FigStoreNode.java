@@ -1,13 +1,5 @@
-/*
- * Copyright © 2004 S&K Technologies, Inc, 56 Old Hwy 93, St Ignatius, MT 98865
- * All rights reserved. U.S. Government Rights - Commercial software. Government
- * users are subject to S&K Technologies, Inc, standard license agreement and
- * applicable provisions of the FAR and its supplements. Use is subject to
- * license terms.
- */
 package com.traclabs.biosim.editor.graph;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.util.StringTokenizer;
@@ -15,35 +7,21 @@ import java.util.StringTokenizer;
 import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigCircle;
 
-public class FigGoToNode extends FigLabelNode {
+public abstract class FigStoreNode extends FigLabelNode {
 
-    public FigGoToNode() {
+    public FigStoreNode() {
         super();
-
-        setFillColor(Color.CYAN);
-        setLineColor(Color.BLUE);
         setShowShadow(false);
     }
 
     protected Fig createBgFig() {
-        return new FigCircle(0, 0, 75, 50, Color.blue, Color.cyan);
-    }
-
-    public String getTag() {
-        return "Goto";
+        return new FigCircle(0, 0, 75, 50);
     }
 
     public String getPrivateData() {
         return null; //"text=\"" + _label.getText() + "\"";
     }
 
-    public void setOwner(Object own) {
-        super.setOwner(own);
-        if (!(own instanceof GoToNode))
-            return;
-        GoToNode node = (GoToNode) own;
-        // _label.setText(""+ node.getName());
-    }
 
     public void setPrivateData(String data) {
         StringTokenizer tokenizer = new StringTokenizer(data, "=\"' ");

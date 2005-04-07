@@ -7,10 +7,12 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
+import org.tigris.gef.base.Layer;
 import org.tigris.gef.graph.MutableGraphModel;
 import org.tigris.gef.graph.presentation.NetEdge;
 import org.tigris.gef.graph.presentation.NetNode;
 import org.tigris.gef.graph.presentation.NetPort;
+import org.tigris.gef.presentation.FigNode;
 
 /**
  * An abstract subclass of NetNode for use in the Editor application. All nodes
@@ -41,10 +43,6 @@ public abstract class EditorNode extends NetNode implements Serializable {
         //center.printEdges();
         _number = _NextNumber++;
 
-    }
-
-    protected MutableGraphModel createNestedGraphModel() {
-        return null;
     }
 
     static int _NextNumber = 1;
@@ -139,5 +137,12 @@ public abstract class EditorNode extends NetNode implements Serializable {
     /** Returns the number of outputs from the EDITOR node. */
     public int getDestCount() {
         return getDestNodes().size();
+    }
+    
+
+    public abstract FigNode makePresentation(Layer lay);
+
+    protected MutableGraphModel createNestedGraphModel() {
+        return new EditorGraphModel();
     }
 } /* end class EditorNode */
