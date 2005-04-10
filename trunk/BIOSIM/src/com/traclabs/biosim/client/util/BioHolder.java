@@ -46,6 +46,8 @@ public class BioHolder {
 
     public List theVCCRModules = new Vector();
 
+    public List theCRSModules = new Vector();
+
     public List theO2Stores = new Vector();
 
     public List theCO2Stores = new Vector();
@@ -432,6 +434,7 @@ public class BioHolder {
         theSimModules.addAll(theAirRSModules);
         theSimModules.addAll(theOGSModules);
         theSimModules.addAll(theVCCRModules);
+        theSimModules.addAll(theCRSModules);
         theSimModules.addAll(theO2Stores);
         theSimModules.addAll(theCO2Stores);
         theSimModules.addAll(theNitrogenStores);
@@ -622,6 +625,7 @@ public class BioHolder {
         theAirRSModules.clear();
         theOGSModules.clear();
         theVCCRModules.clear();
+        theCRSModules.clear();
         theO2Stores.clear();
         theCO2Stores.clear();
         theNitrogenStores.clear();

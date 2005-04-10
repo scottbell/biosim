@@ -127,6 +127,7 @@ import com.traclabs.biosim.idl.sensor.water.WaterOutFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.water.WaterStoreLevelSensorHelper;
 import com.traclabs.biosim.idl.simulation.air.AirRSHelper;
 import com.traclabs.biosim.idl.simulation.air.CO2StoreHelper;
+import com.traclabs.biosim.idl.simulation.air.CRSHelper;
 import com.traclabs.biosim.idl.simulation.air.H2StoreHelper;
 import com.traclabs.biosim.idl.simulation.air.NitrogenStoreHelper;
 import com.traclabs.biosim.idl.simulation.air.O2StoreHelper;
@@ -385,6 +386,11 @@ public class BioHolderInitializer {
         myBioHolder.theVCCRModules.add(VCCRHelper
                 .narrow(grabModule(getModuleName(node))));
     }
+    
+    private static void fetchCRS(Node node) {
+        myBioHolder.theCRSModules.add(CRSHelper
+                .narrow(grabModule(getModuleName(node))));
+    }
 
     private static void fetchO2Store(Node node) {
         myBioHolder.theO2Stores.add(O2StoreHelper
@@ -416,6 +422,8 @@ public class BioHolderInitializer {
                 fetchOGS(child);
             else if (childName.equals("VCCR"))
                 fetchVCCR(child);
+            else if (childName.equals("CRS"))
+                fetchCRS(child);
             else if (childName.equals("O2Store"))
                 fetchO2Store(child);
             else if (childName.equals("CO2Store"))
