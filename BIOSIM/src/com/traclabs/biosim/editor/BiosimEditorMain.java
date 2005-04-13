@@ -18,7 +18,7 @@ public class BiosimEditorMain {
                 "org.tigris.gef.base.BaseResourceBundle");
         Localizer.addResource("GefPres",
                 "org.tigris.gef.presentation.PresentationResourceBundle");
-        Localizer.addResource("EditorBase","com.traclabs.biosim.editor.base.BaseResourceBundle");
+        //Localizer.addResource("EditorBase","com.traclabs.biosim.editor.base.BaseResourceBundle");
         Localizer.addLocale(Locale.getDefault());
         Localizer.switchCurrentLocale(Locale.getDefault());
         ResourceLoader.addResourceExtension("gif");
