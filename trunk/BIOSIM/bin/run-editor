@@ -7,7 +7,6 @@ devRootDir=$BIOSIM_HOME
 jacoOrbClass="-Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB"
 jacoSingletonOrbClass="-Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton"
 biosimHome="-DBIOSIM_HOME=$BIOSIM_HOME"
-#openGLEnabled="-Dsun.java2d.opengl=True"
 currentDir=`pwd`
 if [ -z "$devRootDir" ]
 then
@@ -52,7 +51,7 @@ nojitOption="-Djava.compiler=none"
 case $userSelect in
 	"-nojit") echo "		-starting with no JIT";jacoInvocation="$jacoInvocation $nojitOption";userSelect=$2;;
 esac
-echo "	-starting servers"
+echo "	-starting editor"
 case $userSelect in
 	all) echo "			-starting $userSelect";$jacoInvocation $editorName $1 $2 $3;;
 	"-id"*) echo "			-assuming all (id user specified)";$jacoInvocation $editorName $1 $2 $3;;

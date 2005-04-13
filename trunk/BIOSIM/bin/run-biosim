@@ -1,9 +1,18 @@
 #!/bin/bash
 
+devRootDir=$BIOSIM_HOME
+currentDir=`pwd`
+if [ -z "$devRootDir" ]
+then
+	cd ..
+	devRootDir=`pwd`
+	cd $currentDir
+	echo "		-assuming BIOSIM_HOME is $devRootDir"
+fi
 echo "*running biosim"
-run-nameserver &
-run-server &
-run-client
+$devRootDir/bin/run-nameserver &
+$devRootDir/bin/run-server &
+$devRootDir/bin/run-client
 echo "*done running biosim"
 
 
