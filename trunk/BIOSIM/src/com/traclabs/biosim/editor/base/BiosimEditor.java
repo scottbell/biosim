@@ -6,7 +6,7 @@ import org.tigris.gef.base.Editor;
 import org.tigris.gef.base.ModeDragScroll;
 import org.tigris.gef.base.ModeSelect;
 
-import com.traclabs.biosim.editor.graph.EditorFigNode;
+import com.traclabs.biosim.editor.graph.ModuleFigNode;
 import com.traclabs.biosim.editor.graph.EditorGraphModel;
 
 /**
@@ -85,7 +85,7 @@ public class BiosimEditor extends Editor {
 
     public void showParent() {
         EditorLayer layer = (EditorLayer) getLayerManager().getActiveLayer();
-        EditorFigNode figNode = layer.getParent();
+        ModuleFigNode figNode = layer.getParent();
         // Check for root.
         if (figNode != null) {
             layer = (EditorLayer) figNode.getLayer();
@@ -95,7 +95,7 @@ public class BiosimEditor extends Editor {
         }
     }
 
-    public void expandNode(EditorFigNode figNode) {
+    public void expandNode(ModuleFigNode figNode) {
         if (figNode != null && figNode.getNestedLayer() != null) {
             EditorLayer layer = (EditorLayer) figNode.getNestedLayer();
             getLayerManager().replaceActiveLayer(layer);

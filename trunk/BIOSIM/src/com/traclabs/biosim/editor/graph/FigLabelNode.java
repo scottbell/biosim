@@ -15,7 +15,7 @@ import java.beans.PropertyChangeListener;
  * 
  * @author kkusy
  */
-public abstract class FigLabelNode extends EditorFigNode {
+public abstract class FigLabelNode extends ModuleFigNode {
     protected FigLabel _label;
 
     public FigLabelNode() {
@@ -85,7 +85,7 @@ public abstract class FigLabelNode extends EditorFigNode {
         setHandleBox(x, y, w, h);
         endTrans();
 
-        EditorNode own = (EditorNode) getOwner();
+        ModuleNode own = (ModuleNode) getOwner();
         own.setText(_label.getText());
     }
 
@@ -123,7 +123,7 @@ public abstract class FigLabelNode extends EditorFigNode {
     }
 
     public void update() {
-        EditorNode node = (EditorNode) getOwner();
+        ModuleNode node = (ModuleNode) getOwner();
         if (!_label.getText().equals(node.getText())) {
             _label.setText(node.getText());
             doLayout();

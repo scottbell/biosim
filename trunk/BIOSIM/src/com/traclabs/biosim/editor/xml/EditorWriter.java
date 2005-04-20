@@ -16,7 +16,7 @@ import com.traclabs.biosim.editor.base.EditorDocument;
 import com.traclabs.biosim.editor.base.BiosimEditor;
 import com.traclabs.biosim.editor.base.EditorLayer;
 import com.traclabs.biosim.editor.graph.EditorFigEdge;
-import com.traclabs.biosim.editor.graph.EditorFigNode;
+import com.traclabs.biosim.editor.graph.ModuleFigNode;
 
 /**
  * Writes a Editor Document to a file.
@@ -62,15 +62,15 @@ public class EditorWriter implements DocumentWriter {
 
     /* Save a list of figs. */
     protected void saveFigs(java.util.List figs, Writer out, int indent) {
-        EditorFigNode vf;
+        ModuleFigNode vf;
         try {
             // For each Editor Fig, write the information
             Iterator i = figs.iterator();
             /* In the first loop, print out all the EditorFigNodes */
             while (i.hasNext()) {
                 Fig f = (Fig) i.next();
-                if (f instanceof EditorFigNode) {
-                    vf = (EditorFigNode) f;
+                if (f instanceof ModuleFigNode) {
+                    vf = (ModuleFigNode) f;
                     saveFigNode(vf, out, indent);
                 } else {
                 }
@@ -96,7 +96,7 @@ public class EditorWriter implements DocumentWriter {
     }
 
     /** Saves a fig node. */
-    protected void saveFigNode(EditorFigNode vf, Writer out, int indent)
+    protected void saveFigNode(ModuleFigNode vf, Writer out, int indent)
             throws IOException {
         out.write(tab(indent) + "<" + vf.getTag() + "\n");
         out.write(tab(indent + 1) + "Id=\""

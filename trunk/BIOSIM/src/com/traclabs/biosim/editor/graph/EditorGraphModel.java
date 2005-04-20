@@ -31,7 +31,7 @@ public class EditorGraphModel extends DefaultGraphModel {
     }
 
     public boolean canAddNode(Object obj) {
-        return (obj instanceof EditorNode);
+        return (obj instanceof ModuleNode);
     }
 
     /** Add the given edge to the graph, if valid. */
@@ -74,7 +74,7 @@ public class EditorGraphModel extends DefaultGraphModel {
         Collection nodes = getNodes(null);
         Iterator i = nodes.iterator();
         while (i.hasNext()) {
-            EditorNode node = (EditorNode) i.next();
+            ModuleNode node = (ModuleNode) i.next();
             if (node.getSourceCount() == 0) {
                 roots.add(node);
             }

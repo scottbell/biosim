@@ -14,11 +14,13 @@ import org.tigris.gef.graph.presentation.NetNode;
 import org.tigris.gef.graph.presentation.NetPort;
 import org.tigris.gef.presentation.FigNode;
 
+import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
+
 /**
  * An abstract subclass of NetNode for use in the Editor application. All nodes
- * in the Editor application will be subclasses of EditorNode
+ * in the Editor application will be subclasses of ModuleNode
  */
-public abstract class EditorNode extends NetNode implements Serializable {
+public abstract class ModuleNode extends NetNode implements Serializable {
     protected EditorPort _port;
 
     protected int _number;
@@ -28,10 +30,14 @@ public abstract class EditorNode extends NetNode implements Serializable {
     protected int _id;
 
     protected MutableGraphModel _nestedModel;
+    
 
-    public EditorNode() {
+    public ModuleNode() {
         _nestedModel = createNestedGraphModel();
     }
+    
+    public abstract SimBioModuleImpl getSimBioModuleImpl();
+    
 
     /**
      * Initialize a new node from the given default node and application
