@@ -4,7 +4,6 @@ import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 
 import org.tigris.gef.base.Editor;
-import org.tigris.gef.base.ModeCreateEdge;
 import org.tigris.gef.base.ModeManager;
 import org.tigris.gef.presentation.Fig;
 
@@ -27,7 +26,7 @@ public class EditorModeManager extends ModeManager {
                     Object startPort = ((EditorFigNode) underMouse).getPort();
 
                     if (startPort != null) {
-                        ModeCreateEdge createArc = new ModeCreateEdge(editor);
+                        EditorModeCreateEdge createArc = new EditorModeCreateEdge(editor);
 
                         push(createArc);
                         createArc.mousePressed(me);
