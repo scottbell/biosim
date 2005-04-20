@@ -20,8 +20,8 @@ import com.traclabs.biosim.editor.base.BiosimEditor;
 import com.traclabs.biosim.editor.base.EditorDocument;
 import com.traclabs.biosim.editor.base.EditorLayer;
 import com.traclabs.biosim.editor.graph.EditorFigEdge;
-import com.traclabs.biosim.editor.graph.EditorFigNode;
-import com.traclabs.biosim.editor.graph.EditorNode;
+import com.traclabs.biosim.editor.graph.ModuleFigNode;
+import com.traclabs.biosim.editor.graph.ModuleNode;
 import com.traclabs.biosim.editor.graph.EditorPort;
 
 public class EditorParser extends DefaultHandler implements DocumentReader {
@@ -42,7 +42,7 @@ public class EditorParser extends DefaultHandler implements DocumentReader {
 
     protected MutableGraphModel _graphModel;
 
-    protected EditorFigNode _figNode;
+    protected ModuleFigNode _figNode;
 
     protected FigEdge _figEdge;
 
@@ -64,7 +64,7 @@ public class EditorParser extends DefaultHandler implements DocumentReader {
     /*
      * Set the display attributes that are common to the Editor nodes.
      */
-    protected void handleAttributes(Attributes attrs, EditorFigNode node) {
+    protected void handleAttributes(Attributes attrs, ModuleFigNode node) {
         // Get the known attributes from the AttributeList
         String strX = attrs.getValue("x");
         int x = (strX == null) ? 0 : Integer.parseInt(strX);
@@ -87,17 +87,17 @@ public class EditorParser extends DefaultHandler implements DocumentReader {
             return null;
         }
 
-        EditorNode fromNode = (EditorNode) _netNodeList.get(fromName);
-        EditorNode toNode = (EditorNode) _netNodeList.get(toName);
+        ModuleNode fromNode = (ModuleNode) _netNodeList.get(fromName);
+        ModuleNode toNode = (ModuleNode) _netNodeList.get(toName);
 
         if (fromNode == null || toNode == null) {
             System.out.println("In handleEdge, Nodes are null");
             return null;
         }
 
-        EditorFigNode fromFigNode = (EditorFigNode) _layer
+        ModuleFigNode fromFigNode = (ModuleFigNode) _layer
                 .presentationFor(fromNode);
-        EditorFigNode toFigNode = (EditorFigNode) _layer.presentationFor(toNode);
+        ModuleFigNode toFigNode = (ModuleFigNode) _layer.presentationFor(toNode);
 
         if (fromFigNode == null || toFigNode == null) {
             System.out.println("In handleEdge, FigNodes are null");
@@ -128,7 +128,7 @@ public class EditorParser extends DefaultHandler implements DocumentReader {
     protected void handleGraph(Attributes attrs) {
         //Find the owner node.
         _layer = _figNode.getNestedLayer();
-        EditorNode netNode = (EditorNode) _figNode.getOwner();
+        ModuleNode netNode = (ModuleNode) _figNode.getOwner();
         _graphModel = netNode.getNestedModel();
 
         _layerStack.push(_layer);

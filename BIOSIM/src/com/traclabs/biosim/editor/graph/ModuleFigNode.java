@@ -31,7 +31,7 @@ import com.traclabs.biosim.editor.base.EditorLayer;
  * 
  * @author kkusy
  */
-public abstract class EditorFigNode extends FigNode {
+public abstract class ModuleFigNode extends FigNode {
     protected Fig _port;
 
     protected Fig _bgFig;
@@ -46,7 +46,7 @@ public abstract class EditorFigNode extends FigNode {
 
     protected EditorLayer _nestedLayer;
 
-    public EditorFigNode() {
+    public ModuleFigNode() {
         super();
         // Add the port on bottom.
         _port = new FigCircle(37, 25, 0, 0, Color.cyan, Color.cyan);
@@ -145,7 +145,7 @@ public abstract class EditorFigNode extends FigNode {
     }
 
     public Object getPort() {
-        EditorNode node = (EditorNode) getOwner();
+        ModuleNode node = (ModuleNode) getOwner();
         return node.getPort();
     }
 
@@ -162,12 +162,12 @@ public abstract class EditorFigNode extends FigNode {
     }
 
     public void setOwner(Object own) {
-        if (!(own instanceof EditorNode))
+        if (!(own instanceof ModuleNode))
             return;
 
         super.setOwner(own);
 
-        EditorNode node = (EditorNode) own;
+        ModuleNode node = (ModuleNode) own;
         bindPort(node.getPort(), _port);
 
         // Tie the nested layer to its GraphModel.
@@ -308,7 +308,7 @@ public abstract class EditorFigNode extends FigNode {
      * Return the text string displayed for this node
      */
     public String getText() {
-        EditorNode own = (EditorNode) getOwner();
+        ModuleNode own = (ModuleNode) getOwner();
         if (own != null) {
             return own.getText();
         }
@@ -316,7 +316,7 @@ public abstract class EditorFigNode extends FigNode {
     }
 
     public void setText(String text) {
-        EditorNode own = (EditorNode) getOwner();
+        ModuleNode own = (ModuleNode) getOwner();
         if (own != null) {
             own.setText(text);
         }
