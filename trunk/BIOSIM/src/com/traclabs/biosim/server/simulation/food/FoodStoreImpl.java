@@ -53,9 +53,17 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
         super.setInitialLevel(pMatter.mass);
         currentFoodItems.clear();
         if (pMatter.mass > 0) {
+            myOriginalMatter = cloneMatter(pMatter);
             currentFoodItems.add(pMatter);
-            myOriginalMatter = pMatter;
         }
+    }
+
+    /**
+     * @param matter
+     * @return
+     */
+    private static FoodMatter cloneMatter(FoodMatter matter) {
+        return new FoodMatter(matter.mass, matter.waterContent, matter.type);
     }
 
     public float take(float pMass) {
@@ -288,6 +296,6 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
         super.reset();
         currentFoodItems.clear();
         if (currentLevel > 0)
-            currentFoodItems.add(myOriginalMatter);
+            currentFoodItems.add(cloneMatter(myOriginalMatter));
     }
 }
