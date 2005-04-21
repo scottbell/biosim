@@ -225,6 +225,7 @@ public class HandController {
         myLogger.info("Controller starting run");
         while (!myBioDriver.isDone())
             stepSim();
+        myLogger.info("Controller ended on tick "+myBioDriver.getTicks());
     }
 
     public void stepSim() {
