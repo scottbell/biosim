@@ -6,14 +6,24 @@ import java.util.Properties;
 import javax.swing.ImageIcon;
 
 import org.apache.log4j.PropertyConfigurator;
+import org.jacorb.naming.NameServer;
+import org.jacorb.util.Environment;
 import org.tigris.gef.util.Localizer;
 import org.tigris.gef.util.ResourceLoader;
 
 import com.traclabs.biosim.editor.presentation.EditorFrame;
 
 public class BiosimEditorMain {
+
+    private static final int NAMESERVER_PORT = 16309;
+
+    private static final int SERVER_OA_PORT = 16310;
+    
+    private Thread myNamingServiceThread;
     
     protected BiosimEditorMain() {
+        myNamingServiceThread = new Thread(new NamingServiceThread());
+        myNamingServiceThread.start();
         Localizer.addResource("GefBase",
                 "org.tigris.gef.base.BaseResourceBundle");
         Localizer.addResource("GefPres",
@@ -33,6 +43,9 @@ public class BiosimEditorMain {
                                 "com/traclabs/biosim/client/framework/gui/biosim.png"));
 
         // Create and display the main window.
+        Environment.setProperty("OAPort", Integer.toString(SERVER_OA_PORT));
+        Environment.setProperty("ORBInitRef.NameService",
+                "corbaloc::localhost:" + NAMESERVER_PORT + "/NameService");
         EditorFrame frame = new EditorFrame("Biosim Editor");
         frame.setIconImage(biosimIcon.getImage());
         frame.setSize(830, 600);
@@ -51,5 +64,12 @@ public class BiosimEditorMain {
                 "%5p [%c] - %m%n");
         PropertyConfigurator.configure(logProps);
         BiosimEditorMain app = new BiosimEditorMain();
+    }
+    
+    private class NamingServiceThread implements Runnable {
+        public void run() {
+            String[] portArgs = { "-p", Integer.toString(NAMESERVER_PORT) };
+            NameServer.main(portArgs);
+        }
     }
 }
