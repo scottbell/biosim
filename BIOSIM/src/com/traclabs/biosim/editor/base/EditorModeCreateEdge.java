@@ -42,7 +42,6 @@ public class EditorModeCreateEdge extends ModeCreate {
 
     /** The FigNode on the NetNode that owns the start port */
     private FigNode _sourceFigNode;
-
     /** The new NetEdge that is being created */
     private Object _newEdge;
 

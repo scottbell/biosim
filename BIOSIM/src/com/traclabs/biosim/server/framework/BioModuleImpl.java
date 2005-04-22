@@ -16,7 +16,6 @@ import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.framework.StochasticIntensity;
 import com.traclabs.biosim.idl.framework.TechSpecificInfo;
-import com.traclabs.biosim.idl.framework.TechSpecificInfoHelper;
 import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
@@ -79,8 +78,6 @@ public abstract class BioModuleImpl extends BioModulePOA {
         myScheduledMalfunctions = new Vector();
         myName = pName;
         myID = pID;
-        myTechSpecificInfo = TechSpecificInfoHelper.narrow(OrbUtils
-                .poaToCorbaObj(new EmptyTechInfoImpl()));
     }
 
     /**
