@@ -15,6 +15,7 @@ import org.tigris.gef.presentation.FigLine;
 import org.tigris.gef.presentation.FigNode;
 
 import com.traclabs.biosim.editor.graph.ModuleFigNode;
+import com.traclabs.biosim.editor.graph.ModuleNode;
 
 /**
  * A Mode to interpret user input while creating an edge. Basically mouse down
@@ -147,8 +148,10 @@ public class EditorModeCreateEdge extends ModeCreate {
             MutableGraphModel mgm = (MutableGraphModel) gm;
             
             FigNode destFigNode = (FigNode) destFig;
-            if (_sourceFigNode instanceof ModuleFigNode){
-                if (((ModuleFigNode)_sourceFigNode).edgeExists(destFigNode)){
+            if ((_sourceFigNode instanceof ModuleFigNode) && (destFigNode instanceof ModuleFigNode)){
+                ModuleNode sourceNode = (ModuleNode)_sourceFigNode.getOwner();
+                ModuleNode destNode = (ModuleNode)destFig.getOwner();
+                if (sourceNode.edgeExists(destNode)){
                     myLogger.info("Edge exists! Not creating node");
                     _sourceFigNode.damage();
                     ce.damageAll();
