@@ -64,7 +64,7 @@ public class BiomassConsumerDefinitionImpl extends
             BioMatter[] matterArray = (BioMatter[]) (iter.next());
             System.arraycopy(matterArray, 0, fullMatterTaken, lastPosition,
                     matterArray.length);
-            lastPosition = matterArray.length;
+            lastPosition += matterArray.length;
         }
         return fullMatterTaken;
     }
