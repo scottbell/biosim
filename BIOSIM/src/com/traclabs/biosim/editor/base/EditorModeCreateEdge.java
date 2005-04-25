@@ -151,8 +151,8 @@ public class EditorModeCreateEdge extends ModeCreate {
             if ((_sourceFigNode instanceof ModuleFigNode) && (destFigNode instanceof ModuleFigNode)){
                 ModuleNode sourceNode = (ModuleNode)_sourceFigNode.getOwner();
                 ModuleNode destNode = (ModuleNode)destFig.getOwner();
-                if (sourceNode.edgeExists(destNode)){
-                    myLogger.info("Edge exists! Not creating node");
+                if (!ModuleNode.meetsConstraintsForEdge(sourceNode, destNode)){
+                    myLogger.debug("Doesn't meet contraints for connection");
                     _sourceFigNode.damage();
                     ce.damageAll();
                     _newItem = null;
