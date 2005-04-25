@@ -41,7 +41,7 @@ public class FoodConsumerDefinitionImpl extends StoreFlowRateControllableImpl
     public static FoodMatter[] getCaloriesFromStore(
             FoodConsumerDefinition pConsumer, float amountNeeded) {
         float gatheredResource = 0f;
-        List gatheredBioMatterArrays = new Vector();
+        List gatheredFoodMatterArrays = new Vector();
         int sizeOfMatter = 0;
         for (int i = 0; (i < pConsumer.getStores().length)
                 && (gatheredResource < amountNeeded); i++) {
@@ -53,17 +53,17 @@ public class FoodConsumerDefinitionImpl extends StoreFlowRateControllableImpl
             FoodMatter[] takenMatter = currentFoodStore.takeFoodMatterCalories(
                     amountNeeded, limitingMassFactor);
             sizeOfMatter += takenMatter.length;
-            gatheredBioMatterArrays.add(takenMatter);
+            gatheredFoodMatterArrays.add(takenMatter);
             pConsumer.getActualFlowRates()[i] += calculateSizeOfFoodMatter(takenMatter);
             gatheredResource += FoodStoreImpl.calculateCalories(takenMatter);
         }
         FoodMatter[] fullMatterTaken = new FoodMatter[sizeOfMatter];
         int lastPosition = 0;
-        for (Iterator iter = gatheredBioMatterArrays.iterator(); iter.hasNext();) {
+        for (Iterator iter = gatheredFoodMatterArrays.iterator(); iter.hasNext();) {
             FoodMatter[] matterArray = (FoodMatter[]) (iter.next());
             System.arraycopy(matterArray, 0, fullMatterTaken, lastPosition,
                     matterArray.length);
-            lastPosition = matterArray.length;
+            lastPosition += matterArray.length;
         }
         return fullMatterTaken;
     }

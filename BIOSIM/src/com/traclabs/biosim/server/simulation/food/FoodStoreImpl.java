@@ -198,31 +198,41 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
             float currentCalories = calculateCaloriesSingular(currentFoodMatter);
             float caloriesStillNeeded = pCalories - collectedCalories;
 
-            //Too many calories and too big, need to pair down to flowrate,
-            // then pair down to needed calories
+            //Too many calories or too big, need to pare down to flowrate
+            // or pare down to needed calories
             if (((currentCalories > caloriesStillNeeded) || (collectedMass + currentFoodMatter.mass) > limitingMass)) {
-                //pair it to mass
-                float flowRateMass = limitingMass - collectedMass;
-                float flowrateFractionOfOriginal = flowRateMass
-                        / currentFoodMatter.mass;
 
-                FoodMatter pairedToFlowrateFoodMatter = new FoodMatter(
-                        limitingMass - collectedMass,
-                        currentFoodMatter.waterContent
-                                * flowrateFractionOfOriginal,
-                        currentFoodMatter.type);
-                float pairedToFlowrateCalories = calculateCaloriesSingular(pairedToFlowrateFoodMatter);
-                //pair it to calories
-                float fractionOfMassToKeep = (pairedToFlowrateCalories - caloriesStillNeeded)
-                        / pairedToFlowrateCalories;
-                float pairedToCaloriesMassToKeep = pairedToFlowrateFoodMatter.mass
-                        * fractionOfMassToKeep;
-                float massToReturn = pairedToFlowrateFoodMatter.mass
-                        - pairedToCaloriesMassToKeep;
+                float paredToFlowrateCalories = currentCalories;
+                FoodMatter paredToFlowrateFoodMatter = cloneMatter(currentFoodMatter);
+
+                //pare it to mass if necessary
+                if (currentCalories > caloriesStillNeeded) {
+                    float flowRateMass = limitingMass - collectedMass;
+                    float flowrateFractionOfOriginal = flowRateMass
+                            / currentFoodMatter.mass;
+
+                    paredToFlowrateFoodMatter = new FoodMatter(limitingMass
+                            - collectedMass, currentFoodMatter.waterContent
+                            * flowrateFractionOfOriginal,
+                            currentFoodMatter.type);
+                    paredToFlowrateCalories = calculateCaloriesSingular(paredToFlowrateFoodMatter);
+                }
+                
+                float paredToCaloriesMassToKeep = paredToFlowrateFoodMatter.mass;
+                //pare it to calories if necessary
+                if (currentCalories > caloriesStillNeeded){
+                    float fractionOfMassToKeepForCalories = (paredToFlowrateCalories - caloriesStillNeeded)
+                        / paredToFlowrateCalories;
+                    paredToCaloriesMassToKeep = paredToFlowrateFoodMatter.mass
+                        * fractionOfMassToKeepForCalories;
+                }
+                
+                float massToReturn = paredToFlowrateFoodMatter.mass
+                        - paredToCaloriesMassToKeep;
                 float caloriesFractionOfOriginal = massToReturn
-                        / pairedToFlowrateFoodMatter.mass;
+                        / paredToFlowrateFoodMatter.mass;
                 float waterToReturn = caloriesFractionOfOriginal
-                        * pairedToFlowrateFoodMatter.waterContent;
+                        * paredToFlowrateFoodMatter.waterContent;
 
                 currentFoodMatter.mass = currentFoodMatter.mass - massToReturn;
                 currentFoodMatter.waterContent = currentFoodMatter.waterContent
@@ -242,17 +252,17 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
                 float flowRateMass = limitingMass - collectedMass;
                 float flowrateFractionOfOriginal = flowRateMass
                         / currentFoodMatter.mass;
-                FoodMatter pairedToFlowrateFoodMatter = new FoodMatter(
+                FoodMatter paredToFlowrateFoodMatter = new FoodMatter(
                         limitingMass - collectedMass,
                         currentFoodMatter.waterContent
                                 * flowrateFractionOfOriginal,
                         currentFoodMatter.type);
-                currentFoodMatter.mass -= pairedToFlowrateFoodMatter.mass;
-                itemsToReturn.add(pairedToFlowrateFoodMatter);
+                currentFoodMatter.mass -= paredToFlowrateFoodMatter.mass;
+                itemsToReturn.add(paredToFlowrateFoodMatter);
                 if (currentFoodMatter.mass <= 0)
                     itemsToRemove.add(currentFoodMatter);
-                collectedMass += pairedToFlowrateFoodMatter.mass;
-                collectedCalories = calculateCaloriesSingular(pairedToFlowrateFoodMatter);
+                collectedMass += paredToFlowrateFoodMatter.mass;
+                collectedCalories = calculateCaloriesSingular(paredToFlowrateFoodMatter);
             }
             //Too many calories and small. Pair down to calories
             else if (((collectedMass + currentFoodMatter.mass) <= limitingMass)
