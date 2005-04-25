@@ -1,7 +1,6 @@
 package com.traclabs.biosim.editor.base;
 
 import java.awt.event.MouseEvent;
-import java.util.Iterator;
 
 import org.apache.log4j.Logger;
 import org.tigris.gef.base.Editor;
@@ -15,8 +14,7 @@ import org.tigris.gef.presentation.FigEdge;
 import org.tigris.gef.presentation.FigLine;
 import org.tigris.gef.presentation.FigNode;
 
-import com.traclabs.biosim.editor.graph.ModuleNode;
-import com.traclabs.biosim.editor.graph.air.FigO2StoreNode;
+import com.traclabs.biosim.editor.graph.ModuleFigNode;
 
 /**
  * A Mode to interpret user input while creating an edge. Basically mouse down
@@ -136,21 +134,29 @@ public class EditorModeCreateEdge extends ModeCreate {
 
         int x = me.getX(), y = me.getY();
         Editor ce = Globals.curEditor();
-        Fig f = ce.hit(x, y);
-        if (f == null) {
-            f = ce.hit(x - 16, y - 16, 32, 32);
+        Fig destFig = ce.hit(x, y);
+        if (destFig == null) {
+            destFig = ce.hit(x - 16, y - 16, 32, 32);
         }
         GraphModel gm = ce.getGraphModel();
         if (!(gm instanceof MutableGraphModel)) {
-            f = null;
+            destFig = null;
         }
 
-        if (f instanceof FigNode) {
+        if (destFig instanceof FigNode) {
             MutableGraphModel mgm = (MutableGraphModel) gm;
             
-            FigNode destFigNode = (FigNode) f;
-            if (edgeExists(_sourceFigNode, destFigNode)) {
-                myLogger.info("Edge exists! Not creating node");
+            FigNode destFigNode = (FigNode) destFig;
+            if (_sourceFigNode instanceof ModuleFigNode){
+                if (((ModuleFigNode)_sourceFigNode).edgeExists(destFigNode)){
+                    myLogger.info("Edge exists! Not creating node");
+                    _sourceFigNode.damage();
+                    ce.damageAll();
+                    _newItem = null;
+                    done();
+                    me.consume();
+                    return;
+                }
             }
             // If its a FigNode, then check within the
             // FigNode to see if a port exists
@@ -195,27 +201,6 @@ public class EditorModeCreateEdge extends ModeCreate {
         _newItem = null;
         done();
         me.consume();
-    }
-
-    /**
-     * @param figNode
-     * @param destFigNode
-     * @return
-     */
-    private boolean edgeExists(FigNode sourceFigNode, FigNode destFigNode) {
-        if (sourceFigNode instanceof FigO2StoreNode){
-            myLogger.info("our source is an O2 Store");
-            ModuleNode aNode = (ModuleNode)sourceFigNode.getOwner();
-            aNode.getClass();
-        }
-        for (Iterator iter = sourceFigNode.getFigEdges().iterator(); iter
-                .hasNext();) {
-            FigEdge currentEdge = (FigEdge) iter.next();
-            if ((currentEdge.getSourceFigNode().equals(sourceFigNode))
-                    && (currentEdge.getDestFigNode().equals(destFigNode)))
-                return true;
-        }
-        return false;
     }
 
     /**

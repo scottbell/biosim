@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.tigris.gef.graph.GraphModel;
 import org.tigris.gef.graph.GraphNodeHooks;
 import org.tigris.gef.presentation.Fig;
@@ -21,6 +22,7 @@ import org.tigris.gef.presentation.FigRect;
 import org.tigris.gef.presentation.FigText;
 
 import com.traclabs.biosim.editor.base.EditorLayer;
+import com.traclabs.biosim.editor.graph.air.FigO2StoreNode;
 
 /**
  * EditorFigNode is the fig level representation of a EditorNode. Visually, it has
@@ -484,5 +486,26 @@ public abstract class ModuleFigNode extends FigNode {
         }
 
         return null;
+    }
+    
+    /**
+     * @param figNode
+     * @param destFigNode
+     * @return
+     */
+    public boolean edgeExists(FigNode destFigNode) {
+        if (this instanceof FigO2StoreNode){
+            Logger.getLogger(ModuleFigNode.class).info("our source is an O2 Store");
+            ModuleNode aNode = (ModuleNode)getOwner();
+            aNode.getClass();
+        }
+        for (Iterator iter = getFigEdges().iterator(); iter
+                .hasNext();) {
+            FigEdge currentEdge = (FigEdge) iter.next();
+            if ((currentEdge.getSourceFigNode().equals(this))
+                    && (currentEdge.getDestFigNode().equals(destFigNode)))
+                return true;
+        }
+        return false;
     }
 } /* end class EditorFigNode */
