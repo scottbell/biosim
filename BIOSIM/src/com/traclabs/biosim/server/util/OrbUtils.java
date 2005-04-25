@@ -173,7 +173,10 @@ public class OrbUtils {
         } catch (org.omg.CosNaming.NamingContextPackage.AlreadyBound e) {
         } catch (Exception e) {
             Logger.getLogger(OrbUtils.class).info(
-                    "OrbUtils: nameserver not found, polling again: " + e);
+                    "nameserver not found, polling again: " + e);
+            myOrb = null;
+            myRootPOA = null;
+            myRootContext = null;
             return false;
         }
 
@@ -188,7 +191,8 @@ public class OrbUtils {
             traclabsContext.bind_new_context(biosimComponentArray);
         } catch (org.omg.CosNaming.NamingContextPackage.AlreadyBound e) {
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(OrbUtils.class).info(
+                    "had trouble creating biosim context: " + e);
         }
 
         try {
@@ -200,7 +204,8 @@ public class OrbUtils {
                     .narrow(traclabsContext.resolve_str("biosim"));
             initializeOrbRunOnce = true;
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(OrbUtils.class).info(
+                    "had trouble retrieving biosim context: " + e);
         }
         return true;
     }

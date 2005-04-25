@@ -2,6 +2,7 @@ package com.traclabs.biosim.client.util;
 
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
@@ -137,7 +138,11 @@ public class OrbUtils {
                     .narrow(traclabsContext.resolve_str("biosim"));
             initializeOrbRunOnce = true;
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(OrbUtils.class).info(
+                    "nameserver not found, polling again: " + e);
+            myOrb = null;
+            myRootPOA = null;
+            myRootContext = null;
         }
         return true;
     }
