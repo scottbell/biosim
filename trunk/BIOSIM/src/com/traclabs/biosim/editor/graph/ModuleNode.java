@@ -7,7 +7,6 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.tigris.gef.base.Layer;
 import org.tigris.gef.graph.MutableGraphModel;
 import org.tigris.gef.graph.presentation.NetEdge;
@@ -15,7 +14,6 @@ import org.tigris.gef.graph.presentation.NetNode;
 import org.tigris.gef.graph.presentation.NetPort;
 import org.tigris.gef.presentation.FigNode;
 
-import com.traclabs.biosim.editor.graph.air.O2StoreNode;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 
 /**
@@ -160,9 +158,6 @@ public abstract class ModuleNode extends NetNode implements Serializable {
      * @return
      */
     public boolean edgeExists(ModuleNode destNode) {
-        if (this instanceof O2StoreNode){
-            Logger.getLogger(ModuleNode.class).info("our source is an O2 Store");
-        }
         NetPort sourcePort = (NetPort)getPort();
         NetPort destPort = (NetPort)destNode.getPort();
         for (Iterator iter = sourcePort.getEdges().iterator(); iter.hasNext();){
@@ -171,5 +166,31 @@ public abstract class ModuleNode extends NetNode implements Serializable {
                 return true;
         }
         return false;
+    }
+
+    /**
+     * @param sourceNode
+     * @param destNode
+     * @return
+     */
+    public static boolean meetsConstraintsForEdge(ModuleNode sourceNode, ModuleNode destNode) {
+        //only allow 2 edges (one each way) for each module
+        if (sourceNode.edgeExists(destNode))
+            return false;
+        //check to see if consumption/production is allowed
+        if (sourceNode instanceof PassiveNode){
+            PassiveNode sourcePassiveNode = (PassiveNode)sourceNode;
+            if (!sourcePassiveNode.allowsConsumptionFromActiveNode(destNode))
+                return false;
+        }
+        else if (destNode instanceof PassiveNode){
+            PassiveNode destActiveNode = (PassiveNode)destNode;
+            if (!destActiveNode.allowsProductionFromActiveNode(sourceNode))
+                return false;
+        }
+        //Connecting two active nodes?
+        else
+            return false;
+        return true;
     }
 } /* end class EditorNode */
