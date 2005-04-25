@@ -7,6 +7,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.tigris.gef.base.Layer;
 import org.tigris.gef.graph.MutableGraphModel;
 import org.tigris.gef.graph.presentation.NetEdge;
@@ -14,6 +15,7 @@ import org.tigris.gef.graph.presentation.NetNode;
 import org.tigris.gef.graph.presentation.NetPort;
 import org.tigris.gef.presentation.FigNode;
 
+import com.traclabs.biosim.editor.graph.air.O2StoreNode;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 
 /**
@@ -150,5 +152,24 @@ public abstract class ModuleNode extends NetNode implements Serializable {
 
     protected MutableGraphModel createNestedGraphModel() {
         return new EditorGraphModel();
+    }
+    
+    /**
+     * @param figNode
+     * @param destFigNode
+     * @return
+     */
+    public boolean edgeExists(ModuleNode destNode) {
+        if (this instanceof O2StoreNode){
+            Logger.getLogger(ModuleNode.class).info("our source is an O2 Store");
+        }
+        NetPort sourcePort = (NetPort)getPort();
+        NetPort destPort = (NetPort)destNode.getPort();
+        for (Iterator iter = sourcePort.getEdges().iterator(); iter.hasNext();){
+            NetEdge currentEdge = (NetEdge) iter.next();
+            if (currentEdge.getDestPort().equals(destPort))
+                return true;
+        }
+        return false;
     }
 } /* end class EditorNode */
