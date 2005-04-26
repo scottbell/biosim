@@ -37,7 +37,7 @@ public abstract class ModuleNode extends NetNode implements Serializable {
     }
     
     public abstract SimBioModuleImpl getSimBioModuleImpl();
-    
+   
 
     /**
      * Initialize a new node from the given default node and application

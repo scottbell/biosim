@@ -2,7 +2,7 @@ package com.traclabs.biosim.editor.graph;
 
 import java.util.StringTokenizer;
 
-public abstract class FigActiveModuleNode extends FigLabelNode {
+public abstract class FigActiveModuleNode extends ModuleFigLabelNode {
 
     public FigActiveModuleNode() {
         super();

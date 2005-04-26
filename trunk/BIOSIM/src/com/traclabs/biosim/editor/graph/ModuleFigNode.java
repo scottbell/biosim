@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.tigris.gef.graph.GraphModel;
 import org.tigris.gef.graph.GraphNodeHooks;
 import org.tigris.gef.presentation.Fig;
@@ -45,9 +46,12 @@ public abstract class ModuleFigNode extends FigNode {
     protected Color _shadowColor = Color.GRAY;
 
     protected EditorLayer _nestedLayer;
+    
+    private Logger myLogger;
 
     public ModuleFigNode() {
         super();
+        myLogger = Logger.getLogger(ModuleFigNode.class);
         // Add the port on bottom.
         _port = new FigCircle(37, 25, 0, 0, Color.cyan, Color.cyan);
         addFig(_port);
@@ -60,6 +64,11 @@ public abstract class ModuleFigNode extends FigNode {
 
         addFigs();
         doLayout();
+    }
+    
+    public void mouseClicked(java.awt.event.MouseEvent me) {
+        if (me.getClickCount() > 2)
+            myLogger.info("Double clicked on a module fig");
     }
 
     protected Fig createBgFig() {

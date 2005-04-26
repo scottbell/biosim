@@ -37,18 +37,5 @@ public class EditorModeManager extends ModeManager {
                 }
             }
         }
-        if (!top().canExit() && ie.getID() == MouseEvent.MOUSE_PRESSED) {
-            MouseEvent me = (MouseEvent) ie;
-            if (me.getClickCount() == 2) {
-                int x = me.getX(), y = me.getY();
-                Fig underMouse = editor.hit(x, y);
-                if (underMouse instanceof ModuleFigNode) {
-                    myLogger.info("Double clicked on a module fig");
-                    ((ModuleFigNode)underMouse).showProperties(editor.findFrame());
-                    EditorCmdShowProperties showProps = new EditorCmdShowProperties();
-                    return;
-                }
-            }
-        }
     }
 }
