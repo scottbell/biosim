@@ -122,6 +122,7 @@
 				<pathelement location="${xercesDir}/xercesImpl.jar" />
 				<pathelement location="${xercesDir}/xml-apis.jar" />
 				<pathelement location="${gefDir}/gef.jar" />
+				<pathelement location="${jacorbDir}/jacorb.jar" />
 			</classpath>
 		</javac>
 	</target>
