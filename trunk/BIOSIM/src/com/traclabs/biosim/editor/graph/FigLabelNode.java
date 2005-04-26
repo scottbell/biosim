@@ -66,7 +66,7 @@ public abstract class FigLabelNode extends ModuleFigNode {
     }
 
     public void mouseClicked(java.awt.event.MouseEvent me) {
-        _label.mouseClicked(me);
+       // _label.mouseClicked(me);
     }
 
     /**
