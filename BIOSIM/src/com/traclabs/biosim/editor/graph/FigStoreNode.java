@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigCircle;
 
-public abstract class FigStoreNode extends FigLabelNode {
+public abstract class FigStoreNode extends ModuleFigLabelNode {
 
     public FigStoreNode() {
         super();

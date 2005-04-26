@@ -15,10 +15,10 @@ import java.beans.PropertyChangeListener;
  * 
  * @author kkusy
  */
-public abstract class FigLabelNode extends ModuleFigNode {
+public abstract class ModuleFigLabelNode extends ModuleFigNode {
     protected FigLabel _label;
 
-    public FigLabelNode() {
+    public ModuleFigLabelNode() {
         super();
     }
 
@@ -65,9 +65,7 @@ public abstract class FigLabelNode extends ModuleFigNode {
         return _label.getText();
     }
 
-    public void mouseClicked(java.awt.event.MouseEvent me) {
-       // _label.mouseClicked(me);
-    }
+    
 
     /**
      * Resizes the node so that it is large enough to accomodate the size of the
