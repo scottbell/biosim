@@ -10,8 +10,8 @@ import com.traclabs.biosim.editor.graph.ModuleFigNode;
 import com.traclabs.biosim.editor.graph.EditorGraphModel;
 
 /**
- * EditorEditor supports the nesting of graphs within nodes. EditorEditor simply
- * keeps track of the layer at the root of the tree. Each EditorFigNode has a
+ * BiosimEditor supports the nesting of graphs within nodes. BiosimEditor simply
+ * keeps track of the layer at the root of the tree. Each ModuleFigNode has a
  * child layer (EditorLayer) associated with it that visually represents the
  * nested contents of the node.
  */

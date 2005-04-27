@@ -1,17 +1,42 @@
 package com.traclabs.biosim.editor.graph;
 
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.Point;
 import java.util.StringTokenizer;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigCircle;
 
 public abstract class FigStoreNode extends ModuleFigLabelNode {
 
+    JFrame myStoreEditFrame;
+
     public FigStoreNode() {
         super();
         setShowShadow(false);
+        myStoreEditFrame = createStoreEditFrame();
+    }
+
+    /**
+     * 
+     */
+    private JFrame createStoreEditFrame() {
+        JFrame newEditFrame = new JFrame();
+        newEditFrame.setLayout(new GridLayout(3,3));
+        newEditFrame.add(new JLabel("Name"));
+        newEditFrame.add(new JTextField(getText()));
+        newEditFrame.add(new JLabel("Capacity"));
+        newEditFrame.add(new JTextField("0"));
+        newEditFrame.add(new JLabel("Level"));
+        newEditFrame.add(new JTextField("0"));
+        newEditFrame.setTitle(getText() + " Properties");
+        newEditFrame.pack();
+        return newEditFrame;
     }
 
     protected Fig createBgFig() {
@@ -53,5 +78,12 @@ public abstract class FigStoreNode extends ModuleFigLabelNode {
         int w = Math.max((int) (2 * a) + 6, 75);
         int h = Math.max((int) (2 * b) + 6, 50);
         return new Dimension(w, h);
+    }
+    
+    /* (non-Javadoc)
+     * @see com.traclabs.biosim.editor.graph.ModuleFigNode#getPropertyEditor()
+     */
+    protected JFrame getPropertyEditor() {
+        return myStoreEditFrame;
     }
 } /* end class FigGoToNode */
