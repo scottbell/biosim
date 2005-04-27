@@ -65,11 +65,6 @@ public abstract class ModuleFigNode extends FigNode {
         addFigs();
         doLayout();
     }
-    
-    public void mouseClicked(java.awt.event.MouseEvent me) {
-        if (me.getClickCount() > 2)
-            myLogger.info("Double clicked on a module fig");
-    }
 
     protected Fig createBgFig() {
         Fig fig = new FigRect(0, 0, 1, 1, getLineColor(), getFillColor());
@@ -310,9 +305,6 @@ public abstract class ModuleFigNode extends FigNode {
     public void update() {
     }
 
-    public void showProperties(Frame frame) {
-    }
-
     /**
      * Return the text string displayed for this node
      */
@@ -494,7 +486,21 @@ public abstract class ModuleFigNode extends FigNode {
 
         return null;
     }
+
+    /**
+     * @param frame
+     */
+    public void showProperties(Frame frame) {
+        // TODO Auto-generated method stub
+        
+        
+    }
+
+    public void mouseClicked(java.awt.event.MouseEvent me) {
+        // TODO
+        if (me.getClickCount() == 2){
+            myLogger.info("Double clicked on a module fig");
+        }
+    }
     
-    
-    
-} /* end class EditorFigNode */
+}
