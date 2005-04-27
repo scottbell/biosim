@@ -35,7 +35,7 @@ public class EditorCmdShowProperties extends Cmd {
         if (figs.size() == 1) {
             Fig fig = (Fig) figs.firstElement();
             if (fig instanceof ModuleFigNode) {
-                ((ModuleFigNode) fig).showProperties(editor.findFrame());
+                //((ModuleFigNode) fig).showProperties(editor.findFrame());
             }
         }
     }

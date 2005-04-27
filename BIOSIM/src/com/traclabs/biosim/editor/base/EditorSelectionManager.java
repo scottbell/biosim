@@ -27,11 +27,6 @@ public class EditorSelectionManager extends SelectionManager {
         myLogger = Logger.getLogger(EditorSelectionManager.class);
     }
     
-    public void mouseClicked(java.awt.event.MouseEvent me) {
-        if (me.getClickCount() == 2)
-            myLogger.debug("Double clicked on something");
-    }
-
     public void drag(int dx, int dy) {
         // Adjust dx and dy to keep the figs within bounds.
         JComponent drawingPanel = _editor.getJComponent();

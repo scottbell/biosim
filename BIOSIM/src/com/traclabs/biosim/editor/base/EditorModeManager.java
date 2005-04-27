@@ -29,7 +29,6 @@ public class EditorModeManager extends ModeManager {
                     if (startPort != null) {
                         EditorModeCreateEdge createArc = new EditorModeCreateEdge(
                                 editor);
-
                         push(createArc);
                         createArc.mousePressed(me);
                         return;
@@ -37,6 +36,5 @@ public class EditorModeManager extends ModeManager {
                 }
             }
         }
-
     }
 }
