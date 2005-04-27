@@ -1,7 +1,6 @@
 package com.traclabs.biosim.editor.graph;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -10,7 +9,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.JPopupMenu;
+import javax.swing.JFrame;
 
 import org.apache.log4j.Logger;
 import org.tigris.gef.graph.GraphModel;
@@ -26,7 +25,7 @@ import org.tigris.gef.presentation.FigText;
 import com.traclabs.biosim.editor.base.EditorLayer;
 
 /**
- * EditorFigNode is the fig level representation of a EditorNode. Visually, it has
+ * Fig level representation of a EditorNode. Visually, it has
  * a drop shadow fig which can be hidden or shown for decoration, and a
  * background fig for subclasses to draw on. This fig has a single port for both
  * input and output connections. It also has a nested layer which displays its
@@ -489,19 +488,22 @@ public abstract class ModuleFigNode extends FigNode {
         return null;
     }
     
-    public void editProperties(Component pComponent, int x, int y){
-        JPopupMenu menu = new JPopupMenu();
-        menu.add("Bob");
-        menu.add("Test");
-        menu.show(pComponent, x, y);
+    public void editProperties(int x, int y){
+        JFrame myPropertyEditor = getPropertyEditor();
+        myPropertyEditor.setLocation(x, y);
+        myPropertyEditor.setVisible(true);
     }
+
+    /**
+     * @return
+     */
+    protected abstract JFrame getPropertyEditor();
 
     public void mouseClicked(java.awt.event.MouseEvent me) {
         // TODO
         if (me.getClickCount() == 2){
             me.consume();
-            myLogger.info("Double clicked on "+getText());
-            editProperties(me.getComponent(), me.getX(), me.getY());
+            editProperties(me.getX(), me.getY());
         }
     }
     
