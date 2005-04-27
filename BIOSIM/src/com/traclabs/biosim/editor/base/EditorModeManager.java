@@ -37,5 +37,6 @@ public class EditorModeManager extends ModeManager {
                 }
             }
         }
+
     }
 }
