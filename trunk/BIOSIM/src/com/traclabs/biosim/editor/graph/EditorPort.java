@@ -16,7 +16,7 @@ public class EditorPort extends NetPort implements Serializable {
     }
 
     protected Class defaultEdgeClass(NetPort otherPort) {
-        return EditorEdge.class;
+        return ModuleEdge.class;
     }
 
     public void printEdges() {

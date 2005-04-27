@@ -167,11 +167,7 @@ public class EditorModeCreateEdge extends ModeCreate {
 
             if (foundPort != null && mgm.canConnect(startPort, foundPort)) {
                 Fig destPortFig = destFigNode.getPortFig(foundPort);
-                Class edgeClass = (Class) getArg("edgeClass");
-                if (edgeClass != null)
-                    _newEdge = mgm.connect(startPort, foundPort, edgeClass);
-                else
-                    _newEdge = mgm.connect(startPort, foundPort);
+                _newEdge = mgm.connect(startPort, foundPort);
 
                 // Calling connect() will add the edge to the GraphModel and
                 // any LayerPersectives on that GraphModel will get a

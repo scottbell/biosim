@@ -27,7 +27,7 @@ public class EditorGraphModel extends DefaultGraphModel {
     }
 
     public boolean canAddEdge(Object obj) {
-        return (obj instanceof EditorEdge);
+        return (obj instanceof ModuleEdge);
     }
 
     public boolean canAddNode(Object obj) {
