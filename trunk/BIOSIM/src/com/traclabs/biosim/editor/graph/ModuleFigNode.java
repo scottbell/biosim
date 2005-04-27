@@ -1,14 +1,16 @@
 package com.traclabs.biosim.editor.graph;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.swing.JPopupMenu;
 
 import org.apache.log4j.Logger;
 import org.tigris.gef.graph.GraphModel;
@@ -486,20 +488,20 @@ public abstract class ModuleFigNode extends FigNode {
 
         return null;
     }
-
-    /**
-     * @param frame
-     */
-    public void showProperties(Frame frame) {
-        // TODO Auto-generated method stub
-        
-        
+    
+    public void editProperties(Component pComponent, int x, int y){
+        JPopupMenu menu = new JPopupMenu();
+        menu.add("Bob");
+        menu.add("Test");
+        menu.show(pComponent, x, y);
     }
 
     public void mouseClicked(java.awt.event.MouseEvent me) {
         // TODO
         if (me.getClickCount() == 2){
-            myLogger.info("Double clicked on a module fig");
+            me.consume();
+            myLogger.info("Double clicked on "+getText());
+            editProperties(me.getComponent(), me.getX(), me.getY());
         }
     }
     
