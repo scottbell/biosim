@@ -12,6 +12,7 @@ import org.tigris.gef.util.Localizer;
 import org.tigris.gef.util.ResourceLoader;
 
 import com.traclabs.biosim.editor.presentation.EditorFrame;
+import com.traclabs.biosim.server.util.OrbUtils;
 
 public class BiosimEditorMain {
 
@@ -24,6 +25,7 @@ public class BiosimEditorMain {
     protected BiosimEditorMain() {
         myNamingServiceThread = new Thread(new NamingServiceThread());
         myNamingServiceThread.start();
+        OrbUtils.sleepAwhile();
         Localizer.addResource("GefBase",
                 "org.tigris.gef.base.BaseResourceBundle");
         Localizer.addResource("GefPres",

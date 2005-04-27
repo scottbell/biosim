@@ -13,30 +13,29 @@ import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigCircle;
 
 public abstract class FigStoreNode extends ModuleFigLabelNode {
-
-    JFrame myStoreEditFrame;
+    private JFrame myEditFrame;
 
     public FigStoreNode() {
         super();
         setShowShadow(false);
-        myStoreEditFrame = createStoreEditFrame();
     }
 
     /**
      * 
      */
-    private JFrame createStoreEditFrame() {
-        JFrame newEditFrame = new JFrame();
-        newEditFrame.setLayout(new GridLayout(3,3));
-        newEditFrame.add(new JLabel("Name"));
-        newEditFrame.add(new JTextField(getText()));
-        newEditFrame.add(new JLabel("Capacity"));
-        newEditFrame.add(new JTextField("0"));
-        newEditFrame.add(new JLabel("Level"));
-        newEditFrame.add(new JTextField("0"));
-        newEditFrame.setTitle(getText() + " Properties");
-        newEditFrame.pack();
-        return newEditFrame;
+    private void createStoreEditFrame() {
+        if (myEditFrame != null)
+            return;
+        myEditFrame = new JFrame();
+        myEditFrame.setLayout(new GridLayout(3,3));
+        myEditFrame.add(new JLabel("Name"));
+        myEditFrame.add(new JTextField(getText()));
+        myEditFrame.add(new JLabel("Capacity"));
+        myEditFrame.add(new JTextField("0"));
+        myEditFrame.add(new JLabel("Level"));
+        myEditFrame.add(new JTextField("0"));
+        myEditFrame.setTitle(getText() + " Properties");
+        myEditFrame.pack();
     }
 
     protected Fig createBgFig() {
@@ -84,6 +83,7 @@ public abstract class FigStoreNode extends ModuleFigLabelNode {
      * @see com.traclabs.biosim.editor.graph.ModuleFigNode#getPropertyEditor()
      */
     protected JFrame getPropertyEditor() {
-        return myStoreEditFrame;
+        createStoreEditFrame();
+        return myEditFrame;
     }
 } /* end class FigGoToNode */

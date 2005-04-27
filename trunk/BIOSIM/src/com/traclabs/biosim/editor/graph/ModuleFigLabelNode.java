@@ -41,7 +41,7 @@ public abstract class ModuleFigLabelNode extends ModuleFigNode {
     protected void addFigs() {
         // Add the label on top.
         _label = new FigLabel(38, 25, 0, 0);
-        _label.setText(getTag());
+        _label.setText("Nothing");
         _label.addPropertyChangeListener(new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 if (evt.getSource() == _label
@@ -82,9 +82,6 @@ public abstract class ModuleFigLabelNode extends ModuleFigNode {
 
         setHandleBox(x, y, w, h);
         endTrans();
-
-        ModuleNode own = (ModuleNode) getOwner();
-        own.setText(_label.getText());
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
@@ -122,8 +119,8 @@ public abstract class ModuleFigLabelNode extends ModuleFigNode {
 
     public void update() {
         ModuleNode node = (ModuleNode) getOwner();
-        if (!_label.getText().equals(node.getText())) {
-            _label.setText(node.getText());
+        if (!_label.getText().equals(node.getSimBioModuleImpl().getModuleName())) {
+            _label.setText(node.getSimBioModuleImpl().getModuleName());
             doLayout();
         }
     }

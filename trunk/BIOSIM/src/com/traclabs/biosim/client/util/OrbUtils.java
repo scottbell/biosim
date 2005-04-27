@@ -143,6 +143,7 @@ public class OrbUtils {
             myOrb = null;
             myRootPOA = null;
             myRootContext = null;
+            return false;
         }
         return true;
     }
