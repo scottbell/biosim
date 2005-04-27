@@ -11,11 +11,4 @@ public class FigNitrogenStoreNode extends FigStoreNode {
         setFillColor(Color.RED);
         setLineColor(Color.BLACK);
     }
-
-    public String getTag() {
-        return "NitrogenStore";
-    }
-
-    
-
 }

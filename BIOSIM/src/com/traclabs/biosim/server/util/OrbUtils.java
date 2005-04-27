@@ -216,7 +216,7 @@ public class OrbUtils {
      */
     public static void sleepAwhile() {
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
         }
     }

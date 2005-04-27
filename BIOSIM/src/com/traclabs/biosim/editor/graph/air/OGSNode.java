@@ -9,10 +9,11 @@ import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 
 
 public class OGSNode extends ActiveNode{
+    private static int nameID = 0;
+    
     private OGSImpl myOGSImpl;
     public OGSNode() {
-        myOGSImpl = new OGSImpl(0, "Unamed");
-        setText("OGS");
+        myOGSImpl = new OGSImpl(0, "OGS" + nameID++);
     }
 
     public FigNode makePresentation(Layer lay) {

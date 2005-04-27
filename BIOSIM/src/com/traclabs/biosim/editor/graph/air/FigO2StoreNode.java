@@ -12,8 +12,4 @@ public class FigO2StoreNode extends FigStoreNode {
         setLineColor(Color.WHITE);
     }
 
-    public String getTag() {
-        return "O2Store";
-    }
-
 }

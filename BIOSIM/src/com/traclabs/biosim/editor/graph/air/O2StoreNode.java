@@ -12,13 +12,13 @@ import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 
 public class O2StoreNode extends PassiveNode{
     private O2StoreImpl myO2StoreImpl;
+    private static int nameID = 0;
     
     private final static Class[] myProducersAllowed = {O2ProducerOperations.class};
     private final static Class[] myConsumersAllowed = {O2ConsumerOperations.class};
     
     public O2StoreNode() {
-        myO2StoreImpl = new O2StoreImpl(0, "Unamed");
-        setText("O2Store");
+        myO2StoreImpl = new O2StoreImpl(0, "O2Store"+nameID++);
     }
 
     public FigNode makePresentation(Layer lay) {

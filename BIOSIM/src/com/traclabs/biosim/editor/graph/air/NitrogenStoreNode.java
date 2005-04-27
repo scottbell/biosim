@@ -11,13 +11,13 @@ import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 
 public class NitrogenStoreNode extends PassiveNode{
     private NitrogenStoreImpl myNitrogenStoreImpl;
+    private static int nameID = 0;
     
     private final static Class[] myProducersAllowed = {NitrogenProducerOperations.class};
     private final static Class[] myConsumersAllowed = {NitrogenConsumerOperations.class};
     
     public NitrogenStoreNode() {
-        myNitrogenStoreImpl = new NitrogenStoreImpl(0, "Unamed");
-        setText("NitrogenStore");
+        myNitrogenStoreImpl = new NitrogenStoreImpl(0, "NitrogenStore"+nameID++);
     }
 
     public FigNode makePresentation(Layer lay) {

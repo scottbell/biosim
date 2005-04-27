@@ -23,12 +23,6 @@ import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 public abstract class ModuleNode extends NetNode implements Serializable {
     protected EditorPort _port;
 
-    protected int _number;
-
-    protected String _text = new String();
-
-    protected int _id;
-
     protected MutableGraphModel _nestedModel;
     
 
@@ -47,32 +41,11 @@ public abstract class ModuleNode extends NetNode implements Serializable {
     public void initialize(Hashtable args) {
         addPort(_port = new EditorPort(this));
         //center.printEdges();
-        _number = _NextNumber++;
 
-    }
-
-    static int _NextNumber = 1;
-
-    public void setText(String text) {
-        String oldText = _text;
-        _text = text;
-        this.firePropertyChange("text", oldText, _text);
-    }
-
-    public String getText() {
-        return _text;
     }
 
     public Object getPort() {
         return _port;
-    }
-
-    public String getId() {
-        return "" + _number;
-    }
-
-    public int getNumber() {
-        return _number;
     }
 
     public MutableGraphModel getNestedModel() {
@@ -192,5 +165,9 @@ public abstract class ModuleNode extends NetNode implements Serializable {
         else
             return false;
         return true;
+    }
+    
+    public String getId(){
+        return getSimBioModuleImpl().getModuleName();
     }
 } /* end class EditorNode */
