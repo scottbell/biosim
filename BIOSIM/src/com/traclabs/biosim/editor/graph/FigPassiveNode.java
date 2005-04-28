@@ -9,10 +9,10 @@ import javax.swing.JFrame;
 import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigCircle;
 
-public abstract class FigStoreNode extends ModuleFigLabelNode {
+public abstract class FigPassiveNode extends ModuleFigLabelNode {
     private JFrame myEditFrame;
 
-    public FigStoreNode() {
+    public FigPassiveNode() {
         super();
         setShowShadow(false);
     }
@@ -65,7 +65,7 @@ public abstract class FigStoreNode extends ModuleFigLabelNode {
     protected JFrame getPropertyEditor() {
         if (myEditFrame != null)
             return myEditFrame;
-        myEditFrame = new StorePropertiesFrame(this);
+        myEditFrame = new PassivePropertiesFrame(this);
         myEditFrame.pack();
         return myEditFrame;
     }

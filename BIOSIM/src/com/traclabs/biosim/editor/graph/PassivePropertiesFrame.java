@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 import com.traclabs.biosim.server.simulation.framework.StoreImpl;
 
 
-class StorePropertiesFrame extends JFrame {
+class PassivePropertiesFrame extends JFrame {
     private JTextField myNameField;
 
     private JFormattedTextField myCapacityField;
@@ -29,9 +29,9 @@ class StorePropertiesFrame extends JFrame {
 
     private StoreImpl myStoreImpl;
     
-    private FigStoreNode myFigStoreNode;
+    private FigPassiveNode myFigStoreNode;
 
-    public StorePropertiesFrame(FigStoreNode pNode) {
+    public PassivePropertiesFrame(FigPassiveNode pNode) {
         myFigStoreNode = pNode;
         ModuleNode owner = (ModuleNode) pNode.getOwner();
         myStoreImpl = (StoreImpl) owner.getSimBioModuleImpl();
