@@ -7,9 +7,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import com.traclabs.biosim.editor.graph.FigActiveModuleNode;
+import com.traclabs.biosim.editor.graph.FigActiveNode;
 
-public class FigOGSNode extends FigActiveModuleNode {
+public class FigOGSNode extends FigActiveNode {
     private JFrame myEditFrame;
     
     public FigOGSNode() {
