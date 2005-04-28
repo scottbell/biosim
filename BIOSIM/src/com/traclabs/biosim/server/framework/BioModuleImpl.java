@@ -511,4 +511,13 @@ public abstract class BioModuleImpl extends BioModulePOA {
     public String getModuleName() {
         return myName;
     }
+    
+    /**
+     * Sets the name of the module
+     * 
+     * @return the name of this module
+     */
+    public void setModuleName(String pName) {
+        myName =  pName;
+    }
 }
