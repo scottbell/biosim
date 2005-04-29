@@ -9,16 +9,16 @@ import java.util.List;
 public abstract class ActiveNode extends ModuleNode {
 
     /**
-     * @param destNode
+     * @param sourceNode
      * @return
      */
-    public boolean isConsumingForPassiveNode(ModuleNode destNode) {
-        if (destNode instanceof PassiveNode){
-            PassiveNode passiveDestNode = (PassiveNode)destNode;
-            List currentNodesConnected = getDestNodes();
+    public boolean isConsumingFromPassiveNode(ModuleNode sourceNode) {
+        if (sourceNode instanceof PassiveNode){
+            PassiveNode passiveDestNode = (PassiveNode)sourceNode;
+            List currentNodesConnected = getSourceNodes();
             for (Iterator iter = currentNodesConnected.iterator(); iter.hasNext();){
                 ModuleNode currentNode = (ModuleNode) iter.next();
-                if (currentNode.equals(destNode))
+                if (currentNode.getClass().equals(sourceNode.getClass()))
                     return true;
             }
         }
@@ -29,13 +29,13 @@ public abstract class ActiveNode extends ModuleNode {
      * @param sourceNode
      * @return
      */
-    public boolean isProducingForPassiveNode(ModuleNode sourceNode) {
-        if (sourceNode instanceof PassiveNode){
-            PassiveNode passiveDestNode = (PassiveNode)sourceNode;
-            List currentNodesConnected = getSourceNodes();
+    public boolean isProducingForPassiveNode(ModuleNode destNode) {
+        if (destNode instanceof PassiveNode){
+            PassiveNode passiveDestNode = (PassiveNode)destNode;
+            List currentNodesConnected = getDestNodes();
             for (Iterator iter = currentNodesConnected.iterator(); iter.hasNext();){
                 ModuleNode currentNode = (ModuleNode) iter.next();
-                if (currentNode.equals(sourceNode))
+                if (currentNode.getClass().equals(destNode.getClass()))
                     return true;
             }
         }

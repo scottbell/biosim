@@ -10,12 +10,9 @@ import org.tigris.gef.presentation.FigEdge;
 
 import com.traclabs.biosim.idl.actuator.framework.GenericActuator;
 import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
-import com.traclabs.biosim.idl.simulation.framework.Store;
 import com.traclabs.biosim.idl.simulation.framework.StoreFlowRateControllableOperations;
-import com.traclabs.biosim.idl.simulation.framework.StoreHelper;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 import com.traclabs.biosim.server.simulation.framework.StoreImpl;
-import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
  */
@@ -57,15 +54,15 @@ public class ModuleEdge extends NetEdge {
      */
     public void initializeFlowrates(){
         getOperations();
-        getStoreImpl();
-        if (myOperations.getStores().length == 0){
-            myStoreImpl = (StoreImpl)myStoreImpl;
-            Object theObject = OrbUtils.poaToCorbaObj(myStoreImpl);
-            Store theStore = (Store)myStoreImpl;
-            Store[] storeArray = {(StoreHelper.narrow(OrbUtils.poaToCorbaObj(myStoreImpl)))};
-            myOperations.setStores(storeArray);
+        if (myOperations.getMaxFlowRates().length == 0){
+            float[] maxFlowrates = {0f};
+            float[] desiredFlowrates = {0f};
+            float[] actualFlowrates = {0f};
+            myOperations.setMaxFlowRates(maxFlowrates);
+            myOperations.setDesiredFlowRates(desiredFlowrates);
+            myOperations.setActualFlowRates(actualFlowrates);
         }
-        else if (myOperations.getStores().length < myIndex + 1){
+        else if (myOperations.getMaxFlowRates().length < myIndex + 1){
             myLogger.info("doesn't support more than 1 edge right now");
         }
     }
