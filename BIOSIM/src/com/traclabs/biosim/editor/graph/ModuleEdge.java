@@ -25,7 +25,7 @@ public class ModuleEdge extends NetEdge {
     }
 
     public FigEdge makePresentation(Layer lay) {
-        return new EditorFigEdge();
+        return new ModuleFigEdge();
     }
 
 } /* end class EditorEdge */
