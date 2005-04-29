@@ -12,6 +12,10 @@ public abstract class EnvironmentFlowRateControllableImpl extends
         SingleFlowRateControllableImpl implements
         EnvironmentFlowRateControllableOperations {
     private SimEnvironment[] mySimEnvironments;
+    
+    public EnvironmentFlowRateControllableImpl(){
+        mySimEnvironments = new SimEnvironment[0];
+    }
 
     public SimEnvironment[] getEnvironments() {
         return mySimEnvironments;

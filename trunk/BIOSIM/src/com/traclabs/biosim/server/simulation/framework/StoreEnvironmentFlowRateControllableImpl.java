@@ -29,6 +29,8 @@ public abstract class StoreEnvironmentFlowRateControllableImpl implements
     private float[] myEnvironmentDesiredFlowRates;
 
     public StoreEnvironmentFlowRateControllableImpl() {
+        myStores = new Store[0];
+        mySimEnvironment = new SimEnvironment[0];
         myStoreMaxFlowRates = new float[0];
         myStoreMaxFlowRates = new float[0];
         myStoreDesiredFlowRates = new float[0];

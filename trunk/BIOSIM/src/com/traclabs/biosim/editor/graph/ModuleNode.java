@@ -157,8 +157,20 @@ public abstract class ModuleNode extends NetNode implements Serializable {
                 return false;
         }
         else if (destNode instanceof PassiveNode){
-            PassiveNode destActiveNode = (PassiveNode)destNode;
-            if (!destActiveNode.allowsProductionFromActiveNode(sourceNode))
+            PassiveNode destPassiveNode = (PassiveNode)destNode;
+            if (!destPassiveNode.allowsProductionFromActiveNode(sourceNode))
+                return false;
+        }
+        
+        //check to see if active node already has an edge for this (allow in future revisions)
+        if (sourceNode instanceof ActiveNode){
+            ActiveNode sourceActiveNode = (ActiveNode)sourceNode;
+            if (sourceActiveNode.isConsumingForPassiveNode(destNode))
+                return false;
+        }
+        else if (destNode instanceof ActiveNode){
+            ActiveNode destActiveNode = (ActiveNode)destNode;
+            if (!destActiveNode.isProducingForPassiveNode(sourceNode))
                 return false;
         }
         //Connecting two active nodes?

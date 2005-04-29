@@ -12,6 +12,10 @@ public abstract class StoreFlowRateControllableImpl extends
         SingleFlowRateControllableImpl implements
         StoreFlowRateControllableOperations {
     private Store[] myStores;
+    
+    public StoreFlowRateControllableImpl(){
+        myStores = new Store[0];
+    }
 
     public Store[] getStores() {
         return myStores;

@@ -555,7 +555,7 @@ module com{
                                                 interface DryWasteProducerDefinition : StoreFlowRateControllable{
                                                         void setDryWasteOutputs(in simulation::waste::DryWasteStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                                 };
-                                                interface Store : framework::BioModule{
+                                                interface Store : framework::SimBioModule{
                                                         void setInitialCapacity(in float metricAmount);
                                                         void setCurrentCapacity(in float metricAmount);
                                                         void setInitialLevel(in float metricAmount);
