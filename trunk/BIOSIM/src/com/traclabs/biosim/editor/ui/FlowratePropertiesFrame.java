@@ -2,7 +2,7 @@
  * Created on Apr 28, 2005
  *
  */
-package com.traclabs.biosim.editor.graph;
+package com.traclabs.biosim.editor.ui;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -16,7 +16,10 @@ import javax.swing.JLabel;
 
 import org.apache.log4j.Logger;
 
+import com.traclabs.biosim.editor.graph.ModuleEdge;
+import com.traclabs.biosim.editor.graph.ModuleFigEdge;
 import com.traclabs.biosim.idl.simulation.framework.StoreFlowRateControllableOperations;
+import com.traclabs.biosim.server.simulation.framework.StoreImpl;
 
 
 public class FlowratePropertiesFrame extends JFrame {
@@ -26,7 +29,9 @@ public class FlowratePropertiesFrame extends JFrame {
     
     private JButton myOKButton;
 
-    private StoreFlowRateControllableOperations myStoreFlowRateControllableOperations;
+    private StoreFlowRateControllableOperations myOperations;
+    
+    private StoreImpl myStoreImpl;
     
     private ModuleFigEdge myModuleFigEdge;
 
@@ -36,14 +41,16 @@ public class FlowratePropertiesFrame extends JFrame {
     private JFormattedTextField myDesiredField;
     private JLabel myDesiredLabel;
 
-    public FlowratePropertiesFrame(ModuleFigEdge pEdge, StoreFlowRateControllableOperations pOpertations) {
+    public FlowratePropertiesFrame(ModuleFigEdge pEdge, StoreFlowRateControllableOperations pOpertations, StoreImpl pStoreImpl) {
+        myIndex = ((ModuleEdge)pEdge.getOwner()).getIndex();
         myLogger = Logger.getLogger(FlowratePropertiesFrame.class);
         myModuleFigEdge = pEdge;
-        myStoreFlowRateControllableOperations = pOpertations;
+        myOperations = pOpertations;
+        myStoreImpl = pStoreImpl;
         myMaxField = new JFormattedTextField(NumberFormat.getNumberInstance());
-        myMaxField.setValue(new Float(myStoreFlowRateControllableOperations.getMaxFlowRate(myIndex)));
+        myMaxField.setValue(new Float(myOperations.getMaxFlowRate(myIndex)));
         myDesiredField = new JFormattedTextField(NumberFormat.getNumberInstance());
-        myDesiredField.setValue(new Float(myStoreFlowRateControllableOperations.getDesiredFlowRate(myIndex)));
+        myDesiredField.setValue(new Float(myOperations.getDesiredFlowRate(myIndex)));
         myOKButton = new JButton(new OKAction());
         
         generateConsumerAndProducerFields();
@@ -57,6 +64,7 @@ public class FlowratePropertiesFrame extends JFrame {
         setTitle("Flowrate Properties");
     }
     
+
     /**
      * 
      */
@@ -75,8 +83,8 @@ public class FlowratePropertiesFrame extends JFrame {
         public void actionPerformed(ActionEvent ae) {
             float max = ((Number)myMaxField.getValue()).floatValue();
             float desired = ((Number)myDesiredField.getValue()).floatValue();
-            myStoreFlowRateControllableOperations.setMaxFlowRate(max, myIndex);
-            myStoreFlowRateControllableOperations.setDesiredFlowRate(desired, myIndex);
+            myOperations.setMaxFlowRate(max, myIndex);
+            myOperations.setDesiredFlowRate(desired, myIndex);
             dispose();
         }
     }

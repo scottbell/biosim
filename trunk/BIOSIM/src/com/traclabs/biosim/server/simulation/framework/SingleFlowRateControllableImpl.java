@@ -52,15 +52,15 @@ public abstract class SingleFlowRateControllableImpl extends
         return myActualFlowRates;
     }
 
-    protected void setMaxFlowRates(float[] pMaxFlowRates) {
+    public void setMaxFlowRates(float[] pMaxFlowRates) {
         myMaxFlowRates = pMaxFlowRates;
     }
 
-    protected void setDesiredFlowRates(float[] pDesiredFlowRates) {
+    public void setDesiredFlowRates(float[] pDesiredFlowRates) {
         myDesiredFlowRates = pDesiredFlowRates;
     }
 
-    protected void setActualFlowRates(float[] pActualFlowRates) {
+    public void setActualFlowRates(float[] pActualFlowRates) {
         myActualFlowRates = pActualFlowRates;
     }
 }

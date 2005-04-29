@@ -410,10 +410,14 @@ module com{
                                                         FloatList getMaxFlowRates();
                                                         FloatList getDesiredFlowRates();
                                                         FloatList getActualFlowRates();
+                                                        void setMaxFlowRates(in FloatList flowrates);
+                                                        void setDesiredFlowRates(in FloatList flowrates);
+                                                        void setActualFlowRates(in FloatList flowrates);
                                                 };
                                                 
                                                 interface StoreFlowRateControllable : SingleFlowRateControllable{
                                                         simulation::framework::StoreList getStores();
+                                                        void setStores(in simulation::framework::StoreList pStores);
                                                 };
                                                 interface EnvironmentFlowRateControllable : SingleFlowRateControllable{
                                                         simulation::environment::SimEnvironmentList getEnvironments();

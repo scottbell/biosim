@@ -2,7 +2,7 @@
  * Created on Apr 28, 2005
  *
  */
-package com.traclabs.biosim.editor.graph;
+package com.traclabs.biosim.editor.ui;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -15,10 +15,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import com.traclabs.biosim.editor.graph.FigPassiveNode;
+import com.traclabs.biosim.editor.graph.ModuleNode;
 import com.traclabs.biosim.server.simulation.framework.StoreImpl;
 
 
-class PassivePropertiesFrame extends JFrame {
+public class PassivePropertiesFrame extends JFrame {
     private JTextField myNameField;
 
     private JFormattedTextField myCapacityField;
