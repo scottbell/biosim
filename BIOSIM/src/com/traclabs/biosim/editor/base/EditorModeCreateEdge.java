@@ -181,6 +181,7 @@ public class EditorModeCreateEdge extends ModeCreate {
                         //number of edges including the one just made
                         int numberOfEdges = sourceNode.countEdges(destNode);
                         newModuleEdge.setIndex(numberOfEdges - 1);
+                        newModuleEdge.initializeFlowrates();
                     }
                 }
 

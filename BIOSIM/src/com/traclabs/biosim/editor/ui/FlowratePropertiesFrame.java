@@ -52,8 +52,6 @@ public class FlowratePropertiesFrame extends JFrame {
         myDesiredField = new JFormattedTextField(NumberFormat.getNumberInstance());
         myDesiredField.setValue(new Float(myOperations.getDesiredFlowRate(myIndex)));
         myOKButton = new JButton(new OKAction());
-        
-        generateConsumerAndProducerFields();
 
         setLayout(new GridLayout(4, 3));
         add(new JLabel("Maximum"));
@@ -63,15 +61,8 @@ public class FlowratePropertiesFrame extends JFrame {
         add(myOKButton);
         setTitle("Flowrate Properties");
     }
-    
 
-    /**
-     * 
-     */
-    private void generateConsumerAndProducerFields() {
-    }
 
-    
     /**
      * Action that auto-arranges internal menus
      */
