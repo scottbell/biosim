@@ -15,7 +15,7 @@ import org.tigris.gef.presentation.FigEdge;
 import com.traclabs.biosim.editor.base.EditorDocument;
 import com.traclabs.biosim.editor.base.BiosimEditor;
 import com.traclabs.biosim.editor.base.EditorLayer;
-import com.traclabs.biosim.editor.graph.EditorFigEdge;
+import com.traclabs.biosim.editor.graph.ModuleFigEdge;
 import com.traclabs.biosim.editor.graph.ModuleFigNode;
 
 /**
@@ -84,9 +84,9 @@ public class EditorWriter implements DocumentWriter {
             i = figs.iterator();
             while (i.hasNext()) {
                 Fig f = (Fig) i.next();
-                if (f instanceof EditorFigEdge) {
+                if (f instanceof ModuleFigEdge) {
                     //System.out.println("Edge Fig found");
-                    EditorFigEdge fe = (EditorFigEdge) f;
+                    ModuleFigEdge fe = (ModuleFigEdge) f;
                     saveFigEdge(fe, out, indent);
                 }
             }
@@ -117,7 +117,7 @@ public class EditorWriter implements DocumentWriter {
     }
 
     /* Saves a fig edge. */
-    protected void saveFigEdge(EditorFigEdge fe, Writer out, int indent)
+    protected void saveFigEdge(ModuleFigEdge fe, Writer out, int indent)
             throws IOException {
         out.write(tab(indent) + "<Edge\n");
         if (fe.getText().length() != 0) {
@@ -194,7 +194,7 @@ public class EditorWriter implements DocumentWriter {
             Selection sel = (Selection) theElements.nextElement();
             Fig fig = sel.getContent();
 
-            if (fig instanceof EditorFigEdge) {
+            if (fig instanceof ModuleFigEdge) {
                 // Only include edges where both source and destination
                 // nodes are selected.
                 FigEdge edge = (FigEdge) fig;

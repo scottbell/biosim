@@ -19,7 +19,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import com.traclabs.biosim.editor.base.BiosimEditor;
 import com.traclabs.biosim.editor.base.EditorDocument;
 import com.traclabs.biosim.editor.base.EditorLayer;
-import com.traclabs.biosim.editor.graph.EditorFigEdge;
+import com.traclabs.biosim.editor.graph.ModuleFigEdge;
 import com.traclabs.biosim.editor.graph.ModuleFigNode;
 import com.traclabs.biosim.editor.graph.ModuleNode;
 import com.traclabs.biosim.editor.graph.EditorPort;
@@ -119,8 +119,8 @@ public class EditorParser extends DefaultHandler implements DocumentReader {
         fe.setDestFigNode(toFigNode);
 
         String text = attrs.getValue("text");
-        if (text != null && fe instanceof EditorFigEdge) {
-            ((EditorFigEdge) fe).setText(text);
+        if (text != null && fe instanceof ModuleFigEdge) {
+            ((ModuleFigEdge) fe).setText(text);
         }
         return fe;
     }
