@@ -4,7 +4,10 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
+import org.apache.log4j.Logger;
 import org.tigris.gef.base.PathConvPercent;
 import org.tigris.gef.presentation.ArrowHeadTriangle;
 import org.tigris.gef.presentation.FigEdgeLine;
@@ -20,12 +23,14 @@ public class ModuleFigEdge extends FigEdgeLine implements MouseListener {
     
     private FlowratePropertiesFrame myFlowratePropertiesFrame;
     
-    private final static String getString = "get";
-    private final static String consumerDefinitonString = "ConsumerDefiniton";
-    private final static String producerDefinitonString = "ProducerDefiniton";
+    private final static String GET_STRING = "get";
+    private final static String DEFINITION_STRING = "Definition";
+    
+    private Logger myLogger;
 
     public ModuleFigEdge() {
         super();
+        myLogger = Logger.getLogger(ModuleFigEdge.class);
         setDestArrowHead(new ArrowHeadTriangle());
         mid = new FigText(10, 30, 90, 20);
         mid.setText("");
@@ -86,7 +91,11 @@ public class ModuleFigEdge extends FigEdgeLine implements MouseListener {
             Class[] theProducersAllowed = thePassiveNode.getProducersAllowed();
             for (int i = 0; i < theProducersAllowed.length; i++){
                 if (theProducersAllowed[i].isInstance(theSimBioModuleImpl)){
-                    return (StoreFlowRateControllableOperations)(theProducersAllowed[i].cast(theSimBioModuleImpl));
+                    //do tricky string manipulation to get correct definition
+                    Method definitionMethod = getOperationsMethod(theProducersAllowed[i]);
+                    StoreFlowRateControllableOperations theOperations = invokeMethod(theSimBioModuleImpl, definitionMethod);
+                     
+                    return theOperations;
                 }
             }
         }
@@ -99,12 +108,54 @@ public class ModuleFigEdge extends FigEdgeLine implements MouseListener {
                 if (theConsumersAllowed[i].isInstance(theSimBioModuleImpl)){
                     //do tricky string manipulation to get correct definition
                     ConsumerOperations theOperations = (ConsumerOperations)(theConsumersAllowed[i].cast(theSimBioModuleImpl));
+                    String className = theConsumersAllowed[i].toString();
+                    String methodName = className.substring(className.lastIndexOf("Operations"));
                     //return (StoreFlowRateControllableOperations));
                     return null;
                 }
             }
         }
         return null;
+    }
+
+    /**
+     * @param theSimBioModuleImpl
+     * @param definitionMethod
+     * @return
+     */
+    private StoreFlowRateControllableOperations invokeMethod(SimBioModuleImpl theSimBioModuleImpl, Method definitionMethod) {
+        StoreFlowRateControllableOperations theStoreFlowRateControllableOperations = null;
+        try{
+            theStoreFlowRateControllableOperations = (StoreFlowRateControllableOperations)(definitionMethod.invoke(theSimBioModuleImpl, null));
+        }
+        catch (IllegalAccessException e){
+            myLogger.error("This shouldn't of happened, problem invoking method");
+            e.printStackTrace();
+        }
+        catch (InvocationTargetException e){
+            myLogger.error("This shouldn't of happened, problem invoking method");
+            e.printStackTrace();
+        }
+        return theStoreFlowRateControllableOperations;
+    }
+
+    /**
+     * @param class1
+     * @return
+     */
+    private Method getOperationsMethod(Class producerOrConsumerClass) {
+        String className = producerOrConsumerClass.getSimpleName();
+        String producerType = className.substring(0, className.lastIndexOf("Operations"));
+        String methodName = GET_STRING + producerType + DEFINITION_STRING;
+        Method definitionMethod = null;
+        try{
+            definitionMethod = producerOrConsumerClass.getMethod(methodName, null);
+        }
+        catch (NoSuchMethodException e){
+            myLogger.error("This shouldn't of happened, problem getting method");
+            e.printStackTrace();
+        }
+        return definitionMethod;
     }
 
     public void mouseClicked(MouseEvent me) {

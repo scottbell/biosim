@@ -21,8 +21,6 @@ public class CmdNewEditor extends Cmd {
     }
 
     public void doIt() {
-        // TODO: Prompt to save changes if this is the only editor
-        // open on this document and the document has been modified.
 
         BiosimEditor ce = (BiosimEditor) Globals.curEditor();
 

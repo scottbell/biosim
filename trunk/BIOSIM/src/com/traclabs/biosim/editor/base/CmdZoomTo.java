@@ -48,7 +48,6 @@ public class CmdZoomTo extends Cmd {
     }
 
     public void undoIt() {
-        // TODO Auto-generated method stub
 
     }
 
