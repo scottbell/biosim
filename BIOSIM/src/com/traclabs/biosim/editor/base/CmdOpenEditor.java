@@ -37,9 +37,6 @@ public class CmdOpenEditor extends Cmd {
                 // open on the document and the document has been modified.
 
                 if (_cmdSave.promptSave((BiosimEditor) ce)) {
-                    // TODO: Check if a document for this file is already open
-                    // in
-                    // an editor and use this document else read the file.
                     doc.openDocument(file);
                     ce.document(doc);
                 }
