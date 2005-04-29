@@ -161,6 +161,9 @@ public abstract class ModuleNode extends NetNode implements Serializable {
             if (!destPassiveNode.allowsProductionFromActiveNode(sourceNode))
                 return false;
         }
+        //connecting two active nodes?
+        else
+            return false;
         
         //check to see if active node already has an edge for this (allow in future revisions)
         if (sourceNode instanceof ActiveNode){
@@ -170,7 +173,7 @@ public abstract class ModuleNode extends NetNode implements Serializable {
         }
         else if (destNode instanceof ActiveNode){
             ActiveNode destActiveNode = (ActiveNode)destNode;
-            if (!destActiveNode.isConsumingFromPassiveNode(sourceNode))
+            if (destActiveNode.isConsumingFromPassiveNode(sourceNode))
                 return false;
         }
         //Connecting two active nodes?

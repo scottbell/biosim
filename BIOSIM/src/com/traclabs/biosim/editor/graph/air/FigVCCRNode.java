@@ -4,12 +4,12 @@ import java.awt.Color;
 
 import com.traclabs.biosim.editor.graph.FigActiveNode;
 
-public class FigOGSNode extends FigActiveNode {
+public class FigVCCRNode extends FigActiveNode {
     
-    public FigOGSNode() {
+    public FigVCCRNode() {
         super();
-        setFillColor(Color.BLUE);
-        setLineColor(Color.WHITE);
+        setFillColor(Color.GRAY);
+        setLineColor(Color.GREEN);
     }
 
 }
