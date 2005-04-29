@@ -170,4 +170,20 @@ public abstract class ModuleNode extends NetNode implements Serializable {
     public String getId(){
         return getSimBioModuleImpl().getModuleName();
     }
+
+    /**
+     * @param destNode
+     * @return
+     */
+    public int countEdges(ModuleNode destNode) {
+        int edges = 0;
+        NetPort sourcePort = (NetPort)getPort();
+        NetPort destPort = (NetPort)destNode.getPort();
+        for (Iterator iter = sourcePort.getEdges().iterator(); iter.hasNext();){
+            NetEdge currentEdge = (NetEdge) iter.next();
+            if (currentEdge.getDestPort().equals(destPort))
+                edges++;
+        }
+        return edges;
+    }
 } /* end class EditorNode */
