@@ -496,7 +496,6 @@ public abstract class ModuleFigNode extends FigNode {
     protected abstract JFrame getPropertyEditor();
 
     public void mouseClicked(java.awt.event.MouseEvent me) {
-        // TODO
         if (me.getClickCount() == 2){
             me.consume();
             editProperties(me.getX(), me.getY());
