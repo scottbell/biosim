@@ -6,6 +6,10 @@ package com.traclabs.biosim.editor.ui;
 
 import javax.swing.JButton;
 
+import org.tigris.gef.base.CmdCreateNode;
+
+import com.traclabs.biosim.editor.graph.crew.CrewGroupNode;
+
 /**
  * @author scott
  * 
@@ -15,8 +19,6 @@ public class CrewToolBar extends EditorToolBar {
 
     public CrewToolBar() {
         super("Crew");
-        myCrewButton = new JButton("Crew");
-
-        add(myCrewButton);
+        add(new CmdCreateNode(CrewGroupNode.class, "EditorBase", "CrewGroup"));
     }
 }
