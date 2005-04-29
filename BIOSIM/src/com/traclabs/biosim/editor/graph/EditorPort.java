@@ -10,7 +10,6 @@ import org.tigris.gef.graph.presentation.NetPort;
 
 public class EditorPort extends NetPort implements Serializable {
 
-    /** Construct a new DecisionNodePort as a port of the given NetNode. */
     public EditorPort(NetNode parent) {
         super(parent);
     }

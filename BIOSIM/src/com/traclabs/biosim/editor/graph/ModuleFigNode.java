@@ -485,7 +485,7 @@ public abstract class ModuleFigNode extends FigNode {
     }
     
     public void editProperties(int x, int y){
-        JFrame myPropertyEditor = getPropertyEditor();
+        JFrame myPropertyEditor = getPropertiesEditor();
         myPropertyEditor.setLocation(x, y);
         myPropertyEditor.setVisible(true);
     }
@@ -493,7 +493,7 @@ public abstract class ModuleFigNode extends FigNode {
     /**
      * @return
      */
-    protected abstract JFrame getPropertyEditor();
+    protected abstract JFrame getPropertiesEditor();
 
     public void mouseClicked(java.awt.event.MouseEvent me) {
         if (me.getClickCount() == 2){

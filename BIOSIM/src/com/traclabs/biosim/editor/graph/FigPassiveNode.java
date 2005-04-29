@@ -62,7 +62,7 @@ public abstract class FigPassiveNode extends ModuleFigLabelNode {
      * 
      * @see com.traclabs.biosim.editor.graph.ModuleFigNode#getPropertyEditor()
      */
-    protected JFrame getPropertyEditor() {
+    protected JFrame getPropertiesEditor() {
         if (myEditFrame != null)
             return myEditFrame;
         myEditFrame = new PassivePropertiesFrame(this);

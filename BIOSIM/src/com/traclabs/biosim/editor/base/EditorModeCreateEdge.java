@@ -14,6 +14,7 @@ import org.tigris.gef.presentation.FigEdge;
 import org.tigris.gef.presentation.FigLine;
 import org.tigris.gef.presentation.FigNode;
 
+import com.traclabs.biosim.editor.graph.ModuleEdge;
 import com.traclabs.biosim.editor.graph.ModuleFigNode;
 import com.traclabs.biosim.editor.graph.ModuleNode;
 
@@ -41,6 +42,7 @@ public class EditorModeCreateEdge extends ModeCreate {
 
     /** The FigNode on the NetNode that owns the start port */
     private FigNode _sourceFigNode;
+
     /** The new NetEdge that is being created */
     private Object _newEdge;
 
@@ -146,12 +148,13 @@ public class EditorModeCreateEdge extends ModeCreate {
 
         if (destFig instanceof FigNode) {
             MutableGraphModel mgm = (MutableGraphModel) gm;
-            
+
             FigNode destFigNode = (FigNode) destFig;
-            if ((_sourceFigNode instanceof ModuleFigNode) && (destFigNode instanceof ModuleFigNode)){
-                ModuleNode sourceNode = (ModuleNode)_sourceFigNode.getOwner();
-                ModuleNode destNode = (ModuleNode)destFig.getOwner();
-                if (!ModuleNode.meetsConstraintsForEdge(sourceNode, destNode)){
+            if ((_sourceFigNode instanceof ModuleFigNode)
+                    && (destFigNode instanceof ModuleFigNode)) {
+                ModuleNode sourceNode = (ModuleNode) _sourceFigNode.getOwner();
+                ModuleNode destNode = (ModuleNode) destFig.getOwner();
+                if (!ModuleNode.meetsConstraintsForEdge(sourceNode, destNode)) {
                     myLogger.debug("Doesn't meet contraints for connection");
                     _sourceFigNode.damage();
                     ce.damageAll();
@@ -168,6 +171,16 @@ public class EditorModeCreateEdge extends ModeCreate {
             if (foundPort != null && mgm.canConnect(startPort, foundPort)) {
                 Fig destPortFig = destFigNode.getPortFig(foundPort);
                 _newEdge = mgm.connect(startPort, foundPort);
+                if (_newEdge instanceof ModuleEdge) {
+                    if ((_sourceFigNode instanceof ModuleFigNode)
+                            && (destFigNode instanceof ModuleFigNode)) {
+                        ModuleNode sourceNode = (ModuleNode) _sourceFigNode
+                                .getOwner();
+                        ModuleNode destNode = (ModuleNode) destFig.getOwner();
+                        ModuleEdge newModuleEdge = (ModuleEdge) _newEdge;
+                        newModuleEdge.setIndex(sourceNode.countEdges(destNode));
+                    }
+                }
 
                 // Calling connect() will add the edge to the GraphModel and
                 // any LayerPersectives on that GraphModel will get a

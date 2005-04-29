@@ -15,6 +15,7 @@ import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
 public class ModuleEdge extends NetEdge {
     private GenericActuator actuator;
     private GenericSensor sensor;
+    private int myIndex;
     
     /** Construct a new SampleEdge. */
     public ModuleEdge() {
@@ -22,6 +23,14 @@ public class ModuleEdge extends NetEdge {
 
     public String getId() {
         return toString();
+    }
+    
+    public void setIndex(int pIndex){
+        myIndex = pIndex;
+    }
+    
+    public int getIndex(){
+        return myIndex;
     }
 
     public FigEdge makePresentation(Layer lay) {
