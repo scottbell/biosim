@@ -7,50 +7,83 @@ package com.traclabs.biosim.editor.graph;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.text.NumberFormat;
+import java.util.List;
+import java.util.Vector;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.traclabs.biosim.server.simulation.framework.StoreImpl;
+import org.apache.log4j.Logger;
+
+import com.traclabs.biosim.idl.simulation.framework.PowerConsumerOperations;
+import com.traclabs.biosim.idl.simulation.framework.StoreFlowRateControllableOperations;
+import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 
 
 class ActivePropertiesFrame extends JFrame {
+    private Logger myLogger;
+    
     private JTextField myNameField;
-
-    private JFormattedTextField myCapacityField;
-
-    private JFormattedTextField myLevelField;
+    
+    private List consumerAndProducerLabels = new Vector();
+    
+    private List consumerAndProducerFields = new Vector();
     
     private JButton myOKButton;
 
-    private StoreImpl myStoreImpl;
+    private SimBioModuleImpl mySimBioModuleImpl;
     
-    private FigPassiveNode myFigStoreNode;
+    private FigActiveNode myFigActiveNode;
+    
+    private static final String maximumLabel= new String(" maximum");
+    private static final String desiredLabel= new String(" desired");
 
-    public ActivePropertiesFrame(FigPassiveNode pNode) {
-        myFigStoreNode = pNode;
+    public ActivePropertiesFrame(FigActiveNode pNode) {
+        myLogger = Logger.getLogger(ActivePropertiesFrame.class);
+        myFigActiveNode = pNode;
         ModuleNode owner = (ModuleNode) pNode.getOwner();
-        myStoreImpl = (StoreImpl) owner.getSimBioModuleImpl();
-        myNameField = new JTextField(myStoreImpl.getModuleName());
-        myCapacityField = new JFormattedTextField(NumberFormat.getNumberInstance());
-        myCapacityField.setValue(new Float(myStoreImpl.getInitialCapacity()));
-        myLevelField = new JFormattedTextField(NumberFormat.getNumberInstance());
-        myLevelField.setValue(new Float(myStoreImpl.getInitialLevel()));
+        mySimBioModuleImpl = (SimBioModuleImpl) owner.getSimBioModuleImpl();
+        myNameField = new JTextField(mySimBioModuleImpl.getModuleName());
         myOKButton = new JButton(new OKAction());
+        
+        generateConsumerAndProducerFields();
 
-        setLayout(new GridLayout(4, 3));
+        setLayout(new GridLayout(2, 2));
         add(new JLabel("Name"));
         add(myNameField);
-        add(new JLabel("Capacity"));
-        add(myCapacityField);
-        add(new JLabel("Level"));
-        add(myLevelField);
         add(myOKButton);
         setTitle(pNode.getText() + " Properties");
+    }
+    
+    /**
+     * 
+     */
+    private void generateConsumerAndProducerFields() {
+        if (mySimBioModuleImpl instanceof PowerConsumerOperations){
+            generateLabelAndTextPair("Power Consumer", ((PowerConsumerOperations)mySimBioModuleImpl).getPowerConsumerDefinition());
+        }
+    }
+
+    /**
+     * @param string
+     * @param powerConsumerDefinition
+     */
+    private void generateLabelAndTextPair(String labelName, StoreFlowRateControllableOperations powerConsumerDefinition) {
+        consumerAndProducerLabels.add(new JLabel(labelName + maximumLabel));
+        consumerAndProducerLabels.add(new JLabel(labelName + desiredLabel));
+        
+        JFormattedTextField newMaximumField = new JFormattedTextField(NumberFormat.getNumberInstance());
+        newMaximumField.setValue(new Float(powerConsumerDefinition.getMaxFlowRate(0)));
+        consumerAndProducerFields.add(newMaximumField);
+    }
+
+    public JPanel getModuleSpecificPanel(){
+        return new JPanel();
     }
     
     /**
@@ -62,12 +95,8 @@ class ActivePropertiesFrame extends JFrame {
         }
 
         public void actionPerformed(ActionEvent ae) {
-            myStoreImpl.setModuleName(myNameField.getText());
-            float capacity = ((Number)myCapacityField.getValue()).floatValue();
-            float level = ((Number)myCapacityField.getValue()).floatValue();
-            myStoreImpl.setInitialCapacity(capacity);
-            myStoreImpl.setInitialLevel(level);
-            myFigStoreNode.update();
+            mySimBioModuleImpl.setModuleName(myNameField.getText());
+            myFigActiveNode.update();
             dispose();
         }
     }
