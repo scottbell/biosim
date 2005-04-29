@@ -14,9 +14,11 @@ import org.tigris.gef.presentation.FigEdgeLine;
 import org.tigris.gef.presentation.FigLine;
 import org.tigris.gef.presentation.FigText;
 
+import com.traclabs.biosim.editor.ui.FlowratePropertiesFrame;
 import com.traclabs.biosim.idl.simulation.framework.ConsumerOperations;
 import com.traclabs.biosim.idl.simulation.framework.StoreFlowRateControllableOperations;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
+import com.traclabs.biosim.server.simulation.framework.StoreImpl;
 
 public class ModuleFigEdge extends FigEdgeLine implements MouseListener {
     private FigText mid;
@@ -70,11 +72,29 @@ public class ModuleFigEdge extends FigEdgeLine implements MouseListener {
     
     public void editProperties(int x, int y){
         if (myFlowratePropertiesFrame == null){
-            myFlowratePropertiesFrame = new FlowratePropertiesFrame(this, getOperations());
+            myFlowratePropertiesFrame = new FlowratePropertiesFrame(this, getOperations(), getStoreImpl());
             myFlowratePropertiesFrame.pack();
         }
         myFlowratePropertiesFrame.setLocation(x, y);
         myFlowratePropertiesFrame.setVisible(true);
+    }
+    
+    /**
+     * @return
+     */
+    private StoreImpl getStoreImpl(){
+        EditorPort sourcePort = (EditorPort)getSourcePortFig().getOwner();
+        EditorPort destPort = (EditorPort)getDestPortFig().getOwner();
+        if (sourcePort.getParent() instanceof PassiveNode){
+            StoreImpl theStoreImpl = (StoreImpl)((PassiveNode)sourcePort.getParent()).getSimBioModuleImpl();
+            return theStoreImpl;
+        }
+        else if (destPort.getParent() instanceof PassiveNode){
+            StoreImpl theStoreImpl = (StoreImpl)((PassiveNode)destPort.getParent()).getSimBioModuleImpl();
+            return theStoreImpl;
+        }
+        else
+            return null;
     }
 
     /**

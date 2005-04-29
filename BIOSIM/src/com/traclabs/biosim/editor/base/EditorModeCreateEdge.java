@@ -178,7 +178,9 @@ public class EditorModeCreateEdge extends ModeCreate {
                                 .getOwner();
                         ModuleNode destNode = (ModuleNode) destFig.getOwner();
                         ModuleEdge newModuleEdge = (ModuleEdge) _newEdge;
-                        newModuleEdge.setIndex(sourceNode.countEdges(destNode));
+                        //number of edges including the one just made
+                        int numberOfEdges = sourceNode.countEdges(destNode);
+                        newModuleEdge.setIndex(numberOfEdges - 1);
                     }
                 }
 

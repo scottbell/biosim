@@ -17,7 +17,7 @@ public abstract class StoreFlowRateControllableImpl extends
         return myStores;
     }
 
-    protected void setStores(Store[] pStores) {
+    public void setStores(Store[] pStores) {
         myStores = pStores;
         float[] emptyActualFlowRates = new float[pStores.length];
         setActualFlowRates(emptyActualFlowRates);

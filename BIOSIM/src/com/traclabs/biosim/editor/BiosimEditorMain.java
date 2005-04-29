@@ -16,9 +16,9 @@ import com.traclabs.biosim.server.util.OrbUtils;
 
 public class BiosimEditorMain {
 
-    private static final int NAMESERVER_PORT = 16309;
+    private int nameserverPort = 16309;
 
-    private static final int SERVER_OA_PORT = 16310;
+    private int serverOAPort = 16310;
     
     private Thread myNamingServiceThread;
     
@@ -45,9 +45,9 @@ public class BiosimEditorMain {
                                 "com/traclabs/biosim/client/framework/gui/biosim.png"));
 
         // Create and display the main window.
-        Environment.setProperty("OAPort", Integer.toString(SERVER_OA_PORT));
+        Environment.setProperty("OAPort", Integer.toString(serverOAPort));
         Environment.setProperty("ORBInitRef.NameService",
-                "corbaloc::localhost:" + NAMESERVER_PORT + "/NameService");
+                "corbaloc::localhost:" + nameserverPort + "/NameService");
         EditorFrame frame = new EditorFrame("Biosim Editor");
         frame.setIconImage(biosimIcon.getImage());
         frame.setSize(830, 600);
@@ -70,7 +70,7 @@ public class BiosimEditorMain {
     
     private class NamingServiceThread implements Runnable {
         public void run() {
-            String[] portArgs = { "-p", Integer.toString(NAMESERVER_PORT) };
+            String[] portArgs = { "-p", Integer.toString(nameserverPort)};
             NameServer.main(portArgs);
         }
     }
