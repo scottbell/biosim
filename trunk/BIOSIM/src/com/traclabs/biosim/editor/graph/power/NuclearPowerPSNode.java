@@ -6,19 +6,19 @@ import org.tigris.gef.presentation.FigNode;
 import com.traclabs.biosim.editor.graph.ActiveNode;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 import com.traclabs.biosim.server.simulation.power.PowerPSImpl;
-import com.traclabs.biosim.server.simulation.power.SolarPowerPS;
+import com.traclabs.biosim.server.simulation.power.NuclearPowerPS;
 
 
-public class PowerPSNode extends ActiveNode{
+public class NuclearPowerPSNode extends ActiveNode{
     private static int nameID = 0;
     
     private PowerPSImpl myPowerPSImpl;
-    public PowerPSNode() {
-        myPowerPSImpl = new SolarPowerPS(0, "PowerPS" + nameID++);
+    public NuclearPowerPSNode() {
+        myPowerPSImpl = new NuclearPowerPS(0, "NuclearPowerPS" + nameID++);
     }
 
     public FigNode makePresentation(Layer lay) {
-        FigPowerPSNode node = new FigPowerPSNode();
+        FigNuclearPowerPSNode node = new FigNuclearPowerPSNode();
         node.setOwner(this);
         return node;
     }

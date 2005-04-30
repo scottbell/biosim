@@ -9,7 +9,7 @@ public class FigOGSNode extends FigActiveNode {
     public FigOGSNode() {
         super();
         setFillColor(Color.BLUE);
-        setLineColor(Color.WHITE);
+        setLineColor(Color.BLACK);
     }
 
 }

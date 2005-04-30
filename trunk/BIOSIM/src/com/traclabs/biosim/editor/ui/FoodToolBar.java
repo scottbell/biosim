@@ -4,7 +4,12 @@
  */
 package com.traclabs.biosim.editor.ui;
 
-import javax.swing.JButton;
+import org.tigris.gef.base.CmdCreateNode;
+
+import com.traclabs.biosim.editor.graph.food.BiomassRSNode;
+import com.traclabs.biosim.editor.graph.food.BiomassStoreNode;
+import com.traclabs.biosim.editor.graph.food.FoodProcessorNode;
+import com.traclabs.biosim.editor.graph.food.FoodStoreNode;
 
 /**
  * @author scott
@@ -13,10 +18,11 @@ import javax.swing.JButton;
 public class FoodToolBar extends EditorToolBar {
     public FoodToolBar() {
         super("Food");
-        add(new JButton("BiomassRS"));
-        add(new JButton("FoodProcessor"));
+        add(new CmdCreateNode(BiomassRSNode.class, "EditorBase", "BiomassRS"));
+        add(new CmdCreateNode(FoodProcessorNode.class, "EditorBase", "FoodProcessor"));
         addSeparator();
-        add(new JButton("BiomassStore"));
-        add(new JButton("FoodStore"));
+        add(new CmdCreateNode(BiomassStoreNode.class, "EditorBase", "BiomassStore"));
+        add(new CmdCreateNode(FoodStoreNode.class, "EditorBase", "FoodStore"));
+        
     }
 }
