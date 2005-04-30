@@ -4,11 +4,11 @@ import java.awt.Color;
 
 import com.traclabs.biosim.editor.graph.FigActiveNode;
 
-public class FigPowerPSNode extends FigActiveNode {
+public class FigNuclearPowerPSNode extends FigActiveNode {
     
-    public FigPowerPSNode() {
+    public FigNuclearPowerPSNode() {
         super();
-        setFillColor(Color.RED);
+        setFillColor(Color.YELLOW);
         setLineColor(Color.BLACK);
     }
 

@@ -6,6 +6,13 @@ package com.traclabs.biosim.editor.ui;
 
 import javax.swing.JButton;
 
+import org.tigris.gef.base.CmdCreateNode;
+
+import com.traclabs.biosim.editor.graph.water.DirtyWaterStoreNode;
+import com.traclabs.biosim.editor.graph.water.GreyWaterStoreNode;
+import com.traclabs.biosim.editor.graph.water.PotableWaterStoreNode;
+import com.traclabs.biosim.editor.graph.water.WaterRSNode;
+
 /**
  * @author scott
  * 
@@ -21,16 +28,11 @@ public class WaterToolBar extends EditorToolBar {
 
     public WaterToolBar() {
         super("Water");
-        myWaterRSButton = new JButton("Water RS");
-        myPotableWaterStoreButton = new JButton("Potable Water Store");
-        myGreyWaterStoreButton = new JButton("Grey Water Store");
-        myDirtyWaterStoreButton = new JButton("Dirty Water Store");
-
-        add(myWaterRSButton);
+        add(new CmdCreateNode(WaterRSNode.class, "EditorBase", "WaterRS"));
         addSeparator();
-        add(myPotableWaterStoreButton);
-        add(myGreyWaterStoreButton);
-        add(myDirtyWaterStoreButton);
+        add(new CmdCreateNode(PotableWaterStoreNode.class, "EditorBase", "PotableWaterStore"));
+        add(new CmdCreateNode(GreyWaterStoreNode.class, "EditorBase", "GreyWater"));
+        add(new CmdCreateNode(DirtyWaterStoreNode.class, "EditorBase", "DirtyWater"));
     }
 
 }
