@@ -11,14 +11,14 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * LabelEditorFigNode adds a label to display the text from a EditorNode.
+ * Adds a label to display the text from a FigModuleNode.
  * 
  * @author kkusy
  */
-public abstract class ModuleFigLabelNode extends ModuleFigNode {
+public abstract class FigModuleLabelNode extends FigModuleNode {
     protected FigLabel _label;
 
-    public ModuleFigLabelNode() {
+    public FigModuleLabelNode() {
         super();
     }
 

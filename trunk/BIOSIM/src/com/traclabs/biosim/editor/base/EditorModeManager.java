@@ -8,7 +8,7 @@ import org.tigris.gef.base.Editor;
 import org.tigris.gef.base.ModeManager;
 import org.tigris.gef.presentation.Fig;
 
-import com.traclabs.biosim.editor.graph.ModuleFigNode;
+import com.traclabs.biosim.editor.graph.FigModuleNode;
 
 public class EditorModeManager extends ModeManager {
 
@@ -24,8 +24,8 @@ public class EditorModeManager extends ModeManager {
             if ((me.getModifiers() & InputEvent.BUTTON3_MASK) == InputEvent.BUTTON3_MASK) {
                 int x = me.getX(), y = me.getY();
                 Fig underMouse = editor.hit(x, y);
-                if (underMouse instanceof ModuleFigNode) {
-                    Object startPort = ((ModuleFigNode) underMouse).getPort();
+                if (underMouse instanceof FigModuleNode) {
+                    Object startPort = ((FigModuleNode) underMouse).getPort();
                     if (startPort != null) {
                         EditorModeCreateEdge createArc = new EditorModeCreateEdge(
                                 editor);

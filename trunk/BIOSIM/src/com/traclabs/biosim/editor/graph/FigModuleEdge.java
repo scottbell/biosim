@@ -14,7 +14,7 @@ import org.tigris.gef.presentation.FigText;
 
 import com.traclabs.biosim.editor.ui.FlowratePropertiesFrame;
 
-public class ModuleFigEdge extends FigEdgeLine implements MouseListener {
+public class FigModuleEdge extends FigEdgeLine implements MouseListener {
     private FigText mid;
     
     private FlowratePropertiesFrame myFlowratePropertiesFrame;
@@ -24,9 +24,9 @@ public class ModuleFigEdge extends FigEdgeLine implements MouseListener {
     
     private Logger myLogger;
 
-    public ModuleFigEdge() {
+    public FigModuleEdge() {
         super();
-        myLogger = Logger.getLogger(ModuleFigEdge.class);
+        myLogger = Logger.getLogger(FigModuleEdge.class);
         setDestArrowHead(new ArrowHeadTriangle());
         mid = new FigText(10, 30, 90, 20);
         mid.setText("");

@@ -22,7 +22,7 @@ import java.util.Vector;
 import org.tigris.gef.base.Layer;
 import org.tigris.gef.presentation.Fig;
 
-import com.traclabs.biosim.editor.graph.ModuleFigNode;
+import com.traclabs.biosim.editor.graph.FigModuleNode;
 import com.traclabs.biosim.editor.graph.EditorGraphModel;
 import com.traclabs.biosim.editor.xml.DocumentReader;
 import com.traclabs.biosim.editor.xml.DocumentWriter;
@@ -139,8 +139,8 @@ public class EditorDocument {
      * root layer which cannot be deleted.
      */
     void deleted(Fig f) {
-        if (f instanceof ModuleFigNode) {
-            ModuleFigNode node = (ModuleFigNode) f;
+        if (f instanceof FigModuleNode) {
+            FigModuleNode node = (FigModuleNode) f;
             Enumeration eds = _editors.elements();
             while (eds.hasMoreElements()) {
                 BiosimEditor ed = (BiosimEditor) eds.nextElement();

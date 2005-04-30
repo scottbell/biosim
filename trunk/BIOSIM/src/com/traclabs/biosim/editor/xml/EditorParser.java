@@ -19,8 +19,8 @@ import org.xml.sax.helpers.DefaultHandler;
 import com.traclabs.biosim.editor.base.BiosimEditor;
 import com.traclabs.biosim.editor.base.EditorDocument;
 import com.traclabs.biosim.editor.base.EditorLayer;
-import com.traclabs.biosim.editor.graph.ModuleFigEdge;
-import com.traclabs.biosim.editor.graph.ModuleFigNode;
+import com.traclabs.biosim.editor.graph.FigModuleEdge;
+import com.traclabs.biosim.editor.graph.FigModuleNode;
 import com.traclabs.biosim.editor.graph.ModuleNode;
 import com.traclabs.biosim.editor.graph.EditorPort;
 
@@ -42,7 +42,7 @@ public class EditorParser extends DefaultHandler implements DocumentReader {
 
     protected MutableGraphModel _graphModel;
 
-    protected ModuleFigNode _figNode;
+    protected FigModuleNode _figNode;
 
     protected FigEdge _figEdge;
 
@@ -64,7 +64,7 @@ public class EditorParser extends DefaultHandler implements DocumentReader {
     /*
      * Set the display attributes that are common to the Editor nodes.
      */
-    protected void handleAttributes(Attributes attrs, ModuleFigNode node) {
+    protected void handleAttributes(Attributes attrs, FigModuleNode node) {
         // Get the known attributes from the AttributeList
         String strX = attrs.getValue("x");
         int x = (strX == null) ? 0 : Integer.parseInt(strX);
@@ -95,9 +95,9 @@ public class EditorParser extends DefaultHandler implements DocumentReader {
             return null;
         }
 
-        ModuleFigNode fromFigNode = (ModuleFigNode) _layer
+        FigModuleNode fromFigNode = (FigModuleNode) _layer
                 .presentationFor(fromNode);
-        ModuleFigNode toFigNode = (ModuleFigNode) _layer.presentationFor(toNode);
+        FigModuleNode toFigNode = (FigModuleNode) _layer.presentationFor(toNode);
 
         if (fromFigNode == null || toFigNode == null) {
             System.out.println("In handleEdge, FigNodes are null");
@@ -119,8 +119,8 @@ public class EditorParser extends DefaultHandler implements DocumentReader {
         fe.setDestFigNode(toFigNode);
 
         String text = attrs.getValue("text");
-        if (text != null && fe instanceof ModuleFigEdge) {
-            ((ModuleFigEdge) fe).setText(text);
+        if (text != null && fe instanceof FigModuleEdge) {
+            ((FigModuleEdge) fe).setText(text);
         }
         return fe;
     }

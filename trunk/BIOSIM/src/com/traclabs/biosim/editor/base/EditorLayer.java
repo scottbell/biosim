@@ -18,13 +18,13 @@ import org.tigris.gef.base.LayerPerspective;
 import org.tigris.gef.graph.GraphEvent;
 import org.tigris.gef.presentation.Fig;
 
-import com.traclabs.biosim.editor.graph.ModuleFigNode;
+import com.traclabs.biosim.editor.graph.FigModuleNode;
 import com.traclabs.biosim.editor.graph.EditorGraphModel;
 
 public class EditorLayer extends LayerPerspective {
-    ModuleFigNode _parent = null;
+    FigModuleNode _parent = null;
 
-    public EditorLayer(String name, EditorGraphModel gm, ModuleFigNode parent) {
+    public EditorLayer(String name, EditorGraphModel gm, FigModuleNode parent) {
         super(name, gm);
         _parent = parent;
     }
@@ -41,11 +41,11 @@ public class EditorLayer extends LayerPerspective {
         this(name, new EditorGraphModel());
     }
 
-    public ModuleFigNode getParent() {
+    public FigModuleNode getParent() {
         return _parent;
     }
 
-    void setParentLayer(ModuleFigNode parent) {
+    void setParentLayer(FigModuleNode parent) {
         _parent = parent;
     }
 
@@ -116,8 +116,8 @@ public class EditorLayer extends LayerPerspective {
     /**
      * Determines if this diagram is a descendant of the specified fig node
      */
-    public boolean isDescendantDiagram(ModuleFigNode node) {
-        ModuleFigNode parent = _parent;
+    public boolean isDescendantDiagram(FigModuleNode node) {
+        FigModuleNode parent = _parent;
         while (parent != null) {
             if (parent == node) {
                 return true;
@@ -169,8 +169,8 @@ public class EditorLayer extends LayerPerspective {
         Iterator i = contents.iterator();
         while (i.hasNext()) {
             Fig f = (Fig) i.next();
-            if (f instanceof ModuleFigNode) {
-                ModuleFigNode node = (ModuleFigNode) f;
+            if (f instanceof FigModuleNode) {
+                FigModuleNode node = (FigModuleNode) f;
                 if (node.getInputCount() == 0) {
                     result.add(node);
                 }
