@@ -10,7 +10,7 @@ import org.tigris.gef.base.Editor;
 import org.tigris.gef.base.Globals;
 import org.tigris.gef.presentation.Fig;
 
-import com.traclabs.biosim.editor.graph.ModuleFigNode;
+import com.traclabs.biosim.editor.graph.FigModuleNode;
 
 /**
  * Show the properties for the selected fig.
@@ -34,7 +34,7 @@ public class EditorCmdShowProperties extends Cmd {
         Vector figs = editor.getSelectionManager().getFigs();
         if (figs.size() == 1) {
             Fig fig = (Fig) figs.firstElement();
-            if (fig instanceof ModuleFigNode) {
+            if (fig instanceof FigModuleNode) {
                 //((ModuleFigNode) fig).showProperties(editor.findFrame());
             }
         }

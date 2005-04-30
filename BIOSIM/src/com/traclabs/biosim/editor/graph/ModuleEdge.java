@@ -46,7 +46,7 @@ public class ModuleEdge extends NetEdge {
     }
 
     public FigEdge makePresentation(Layer lay) {
-        return new ModuleFigEdge();
+        return new FigModuleEdge();
     }
     
     /**

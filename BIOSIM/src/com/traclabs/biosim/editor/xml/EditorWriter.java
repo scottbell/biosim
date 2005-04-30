@@ -15,8 +15,8 @@ import org.tigris.gef.presentation.FigEdge;
 import com.traclabs.biosim.editor.base.EditorDocument;
 import com.traclabs.biosim.editor.base.BiosimEditor;
 import com.traclabs.biosim.editor.base.EditorLayer;
-import com.traclabs.biosim.editor.graph.ModuleFigEdge;
-import com.traclabs.biosim.editor.graph.ModuleFigNode;
+import com.traclabs.biosim.editor.graph.FigModuleEdge;
+import com.traclabs.biosim.editor.graph.FigModuleNode;
 
 /**
  * Writes a Editor Document to a file.
@@ -62,15 +62,15 @@ public class EditorWriter implements DocumentWriter {
 
     /* Save a list of figs. */
     protected void saveFigs(java.util.List figs, Writer out, int indent) {
-        ModuleFigNode vf;
+        FigModuleNode vf;
         try {
             // For each Editor Fig, write the information
             Iterator i = figs.iterator();
             /* In the first loop, print out all the EditorFigNodes */
             while (i.hasNext()) {
                 Fig f = (Fig) i.next();
-                if (f instanceof ModuleFigNode) {
-                    vf = (ModuleFigNode) f;
+                if (f instanceof FigModuleNode) {
+                    vf = (FigModuleNode) f;
                     saveFigNode(vf, out, indent);
                 } else {
                 }
@@ -84,9 +84,9 @@ public class EditorWriter implements DocumentWriter {
             i = figs.iterator();
             while (i.hasNext()) {
                 Fig f = (Fig) i.next();
-                if (f instanceof ModuleFigEdge) {
+                if (f instanceof FigModuleEdge) {
                     //System.out.println("Edge Fig found");
-                    ModuleFigEdge fe = (ModuleFigEdge) f;
+                    FigModuleEdge fe = (FigModuleEdge) f;
                     saveFigEdge(fe, out, indent);
                 }
             }
@@ -96,7 +96,7 @@ public class EditorWriter implements DocumentWriter {
     }
 
     /** Saves a fig node. */
-    protected void saveFigNode(ModuleFigNode vf, Writer out, int indent)
+    protected void saveFigNode(FigModuleNode vf, Writer out, int indent)
             throws IOException {
         out.write(tab(indent) + "<" + vf.getTag() + "\n");
         out.write(tab(indent + 1) + "Id=\""
@@ -117,7 +117,7 @@ public class EditorWriter implements DocumentWriter {
     }
 
     /* Saves a fig edge. */
-    protected void saveFigEdge(ModuleFigEdge fe, Writer out, int indent)
+    protected void saveFigEdge(FigModuleEdge fe, Writer out, int indent)
             throws IOException {
         out.write(tab(indent) + "<Edge\n");
         if (fe.getText().length() != 0) {
@@ -194,7 +194,7 @@ public class EditorWriter implements DocumentWriter {
             Selection sel = (Selection) theElements.nextElement();
             Fig fig = sel.getContent();
 
-            if (fig instanceof ModuleFigEdge) {
+            if (fig instanceof FigModuleEdge) {
                 // Only include edges where both source and destination
                 // nodes are selected.
                 FigEdge edge = (FigEdge) fig;

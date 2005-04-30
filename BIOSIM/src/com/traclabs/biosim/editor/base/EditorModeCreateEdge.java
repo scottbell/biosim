@@ -15,7 +15,7 @@ import org.tigris.gef.presentation.FigLine;
 import org.tigris.gef.presentation.FigNode;
 
 import com.traclabs.biosim.editor.graph.ModuleEdge;
-import com.traclabs.biosim.editor.graph.ModuleFigNode;
+import com.traclabs.biosim.editor.graph.FigModuleNode;
 import com.traclabs.biosim.editor.graph.ModuleNode;
 
 /**
@@ -150,8 +150,8 @@ public class EditorModeCreateEdge extends ModeCreate {
             MutableGraphModel mgm = (MutableGraphModel) gm;
 
             FigNode destFigNode = (FigNode) destFig;
-            if ((_sourceFigNode instanceof ModuleFigNode)
-                    && (destFigNode instanceof ModuleFigNode)) {
+            if ((_sourceFigNode instanceof FigModuleNode)
+                    && (destFigNode instanceof FigModuleNode)) {
                 ModuleNode sourceNode = (ModuleNode) _sourceFigNode.getOwner();
                 ModuleNode destNode = (ModuleNode) destFig.getOwner();
                 if (!ModuleNode.meetsConstraintsForEdge(sourceNode, destNode)) {
@@ -172,8 +172,8 @@ public class EditorModeCreateEdge extends ModeCreate {
                 Fig destPortFig = destFigNode.getPortFig(foundPort);
                 _newEdge = mgm.connect(startPort, foundPort);
                 if (_newEdge instanceof ModuleEdge) {
-                    if ((_sourceFigNode instanceof ModuleFigNode)
-                            && (destFigNode instanceof ModuleFigNode)) {
+                    if ((_sourceFigNode instanceof FigModuleNode)
+                            && (destFigNode instanceof FigModuleNode)) {
                         ModuleNode sourceNode = (ModuleNode) _sourceFigNode
                                 .getOwner();
                         ModuleNode destNode = (ModuleNode) destFig.getOwner();

@@ -33,7 +33,7 @@ import com.traclabs.biosim.editor.base.EditorLayer;
  * 
  * @author kkusy
  */
-public abstract class ModuleFigNode extends FigNode {
+public abstract class FigModuleNode extends FigNode {
     protected Fig _port;
 
     protected Fig _bgFig;
@@ -50,9 +50,9 @@ public abstract class ModuleFigNode extends FigNode {
     
     private Logger myLogger;
 
-    public ModuleFigNode() {
+    public FigModuleNode() {
         super();
-        myLogger = Logger.getLogger(ModuleFigNode.class);
+        myLogger = Logger.getLogger(FigModuleNode.class);
         // Add the port on bottom.
         _port = new FigCircle(37, 25, 0, 0, Color.cyan, Color.cyan);
         addFig(_port);

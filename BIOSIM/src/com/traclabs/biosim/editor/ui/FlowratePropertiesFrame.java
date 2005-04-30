@@ -17,7 +17,7 @@ import javax.swing.JLabel;
 import org.apache.log4j.Logger;
 
 import com.traclabs.biosim.editor.graph.ModuleEdge;
-import com.traclabs.biosim.editor.graph.ModuleFigEdge;
+import com.traclabs.biosim.editor.graph.FigModuleEdge;
 import com.traclabs.biosim.idl.simulation.framework.StoreFlowRateControllableOperations;
 import com.traclabs.biosim.server.simulation.framework.StoreImpl;
 
@@ -33,7 +33,7 @@ public class FlowratePropertiesFrame extends JFrame {
     
     private StoreImpl myStoreImpl;
     
-    private ModuleFigEdge myModuleFigEdge;
+    private FigModuleEdge myModuleFigEdge;
 
     private JFormattedTextField myMaxField;
     private JLabel myMaxLabel;
@@ -41,7 +41,7 @@ public class FlowratePropertiesFrame extends JFrame {
     private JFormattedTextField myDesiredField;
     private JLabel myDesiredLabel;
 
-    public FlowratePropertiesFrame(ModuleFigEdge pEdge, StoreFlowRateControllableOperations pOpertations, StoreImpl pStoreImpl) {
+    public FlowratePropertiesFrame(FigModuleEdge pEdge, StoreFlowRateControllableOperations pOpertations, StoreImpl pStoreImpl) {
         myIndex = ((ModuleEdge)pEdge.getOwner()).getIndex();
         myLogger = Logger.getLogger(FlowratePropertiesFrame.class);
         myModuleFigEdge = pEdge;
