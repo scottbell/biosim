@@ -45,8 +45,8 @@ public class FigLabel extends FigText {
         super.calcBounds();
 
         // calculate x, y to center in the parent node.
-        if (getGroup() != null && getGroup() instanceof ModuleFigLabelNode) {
-            ModuleFigNode node = (ModuleFigNode) getGroup();
+        if (getGroup() != null && getGroup() instanceof FigModuleLabelNode) {
+            FigModuleNode node = (FigModuleNode) getGroup();
             Rectangle rect = node.getHandleBox();
             int x = (int) rect.getX();
             int y = (int) rect.getY();

@@ -11,7 +11,7 @@ import org.tigris.gef.presentation.FigCircle;
 
 import com.traclabs.biosim.editor.ui.PassivePropertiesFrame;
 
-public abstract class FigPassiveNode extends ModuleFigLabelNode {
+public abstract class FigPassiveNode extends FigModuleLabelNode {
     private JFrame myEditFrame;
 
     public FigPassiveNode() {
