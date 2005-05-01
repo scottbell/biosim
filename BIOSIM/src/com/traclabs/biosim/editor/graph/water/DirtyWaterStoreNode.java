@@ -6,6 +6,8 @@ import org.tigris.gef.presentation.FigNode;
 import com.traclabs.biosim.editor.graph.PassiveNode;
 import com.traclabs.biosim.idl.simulation.framework.DirtyWaterConsumerOperations;
 import com.traclabs.biosim.idl.simulation.framework.DirtyWaterProducerOperations;
+import com.traclabs.biosim.idl.simulation.framework.WaterConsumerOperations;
+import com.traclabs.biosim.idl.simulation.framework.WaterProducerOperations;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 import com.traclabs.biosim.server.simulation.water.DirtyWaterStoreImpl;
 
@@ -14,8 +16,8 @@ public class DirtyWaterStoreNode extends PassiveNode{
     private DirtyWaterStoreImpl myDirtyWaterStoreImpl;
     private static int nameID = 0;
     
-    private final static Class[] myProducersAllowed = {DirtyWaterProducerOperations.class};
-    private final static Class[] myConsumersAllowed = {DirtyWaterConsumerOperations.class};
+    private final static Class[] myProducersAllowed = {WaterProducerOperations.class, DirtyWaterProducerOperations.class};
+    private final static Class[] myConsumersAllowed = {WaterConsumerOperations.class, DirtyWaterConsumerOperations.class};
     
     public DirtyWaterStoreNode() {
         myDirtyWaterStoreImpl = new DirtyWaterStoreImpl(0, "DirtyWaterStore"+nameID++);
