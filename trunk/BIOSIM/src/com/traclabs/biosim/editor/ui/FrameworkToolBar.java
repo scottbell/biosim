@@ -6,6 +6,11 @@ package com.traclabs.biosim.editor.ui;
 
 import javax.swing.JButton;
 
+import org.tigris.gef.base.CmdCreateNode;
+
+import com.traclabs.biosim.editor.graph.framework.AccumulatorNode;
+import com.traclabs.biosim.editor.graph.framework.InjectorNode;
+
 /**
  * @author scott
  * 
@@ -16,10 +21,7 @@ public class FrameworkToolBar extends EditorToolBar {
 
     public FrameworkToolBar() {
         super("Framework");
-        myAccumulatorButton = new JButton("Accumulator");
-        myInjectorButton = new JButton("Injector");
-
-        add(myAccumulatorButton);
-        add(myInjectorButton);
+        add(new CmdCreateNode(AccumulatorNode.class, "EditorBase", "Accumulator"));
+        add(new CmdCreateNode(InjectorNode.class, "EditorBase", "Injector"));
     }
 }

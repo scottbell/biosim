@@ -6,6 +6,11 @@ package com.traclabs.biosim.editor.ui;
 
 import javax.swing.JButton;
 
+import org.tigris.gef.base.CmdCreateNode;
+
+import com.traclabs.biosim.editor.graph.waste.DryWasteStoreNode;
+import com.traclabs.biosim.editor.graph.waste.IncineratorNode;
+
 /**
  * @author scott
  * 
@@ -17,12 +22,9 @@ public class WasteToolBar extends EditorToolBar {
 
     public WasteToolBar() {
         super("Waste");
-        myIncineratorButton = new JButton("Incinerator");
-        myDryWasteStoreButton = new JButton("Dry Waste Store");
-
-        add(myIncineratorButton);
+        add(new CmdCreateNode(IncineratorNode.class, "EditorBase", "Incinerator"));
         addSeparator();
-        add(myDryWasteStoreButton);
+        add(new CmdCreateNode(DryWasteStoreNode.class, "EditorBase", "DryWasteStore"));
     }
 
 }

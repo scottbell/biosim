@@ -16,22 +16,19 @@ import javax.swing.JLabel;
 
 import org.apache.log4j.Logger;
 
-import com.traclabs.biosim.editor.graph.ModuleEdge;
 import com.traclabs.biosim.editor.graph.FigModuleEdge;
-import com.traclabs.biosim.idl.simulation.framework.StoreFlowRateControllableOperations;
-import com.traclabs.biosim.server.simulation.framework.StoreImpl;
+import com.traclabs.biosim.editor.graph.ModuleEdge;
+import com.traclabs.biosim.idl.simulation.framework.SingleFlowRateControllable;
 
 
-public class FlowratePropertiesFrame extends JFrame {
+public abstract class FlowratePropertiesFrame extends JFrame {
     private Logger myLogger;
     
     private int myIndex = 0;
     
     private JButton myOKButton;
 
-    private StoreFlowRateControllableOperations myOperations;
-    
-    private StoreImpl myStoreImpl;
+    private SingleFlowRateControllable myOperations;
     
     private FigModuleEdge myModuleFigEdge;
 
@@ -41,12 +38,11 @@ public class FlowratePropertiesFrame extends JFrame {
     private JFormattedTextField myDesiredField;
     private JLabel myDesiredLabel;
 
-    public FlowratePropertiesFrame(FigModuleEdge pEdge, StoreFlowRateControllableOperations pOpertations, StoreImpl pStoreImpl) {
+    public FlowratePropertiesFrame(FigModuleEdge pEdge, SingleFlowRateControllable pOpertations) {
         myIndex = ((ModuleEdge)pEdge.getOwner()).getIndex();
         myLogger = Logger.getLogger(FlowratePropertiesFrame.class);
         myModuleFigEdge = pEdge;
         myOperations = pOpertations;
-        myStoreImpl = pStoreImpl;
         myMaxField = new JFormattedTextField(NumberFormat.getNumberInstance());
         myMaxField.setValue(new Float(myOperations.getMaxFlowRate(myIndex)));
         myDesiredField = new JFormattedTextField(NumberFormat.getNumberInstance());

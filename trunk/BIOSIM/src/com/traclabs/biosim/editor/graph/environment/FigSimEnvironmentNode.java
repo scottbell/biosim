@@ -8,8 +8,8 @@ public class FigSimEnvironmentNode extends FigPassiveNode {
 
     public FigSimEnvironmentNode() {
         super();
-        setFillColor(Color.GREEN);
-        setLineColor(Color.WHITE);
+        setFillColor(Color.WHITE);
+        setLineColor(Color.MAGENTA);
     }
 
 }

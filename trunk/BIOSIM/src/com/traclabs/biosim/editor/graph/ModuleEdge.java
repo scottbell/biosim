@@ -10,7 +10,8 @@ import org.tigris.gef.presentation.FigEdge;
 
 import com.traclabs.biosim.idl.actuator.framework.GenericActuator;
 import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
-import com.traclabs.biosim.idl.simulation.framework.StoreFlowRateControllableOperations;
+import com.traclabs.biosim.idl.simulation.framework.SingleFlowRateControllable;
+import com.traclabs.biosim.server.simulation.environment.SimEnvironmentImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 import com.traclabs.biosim.server.simulation.framework.StoreImpl;
 
@@ -26,7 +27,8 @@ public class ModuleEdge extends NetEdge {
     private int myIndex;
     private Logger myLogger;
     private StoreImpl myStoreImpl;
-    private StoreFlowRateControllableOperations myOperations;
+    private SimEnvironmentImpl mySimEnvironmentImpl;
+    private SingleFlowRateControllable myOperations;
     
     /** Construct a new SampleEdge. */
     public ModuleEdge() {
@@ -86,11 +88,31 @@ public class ModuleEdge extends NetEdge {
         else
             return null;
     }
+    
+    /**
+     * @return
+     */
+    public SimEnvironmentImpl getSimEnvironmentImpl(){
+        if (mySimEnvironmentImpl != null)
+            return mySimEnvironmentImpl;
+        EditorPort sourcePort = (EditorPort)getSourcePort();
+        EditorPort destPort = (EditorPort)getDestPort();
+        if (sourcePort.getParent() instanceof PassiveNode){
+        	mySimEnvironmentImpl = (SimEnvironmentImpl)((PassiveNode)sourcePort.getParent()).getSimBioModuleImpl();
+            return mySimEnvironmentImpl;
+        }
+        else if (destPort.getParent() instanceof PassiveNode){
+        	mySimEnvironmentImpl = (SimEnvironmentImpl)((PassiveNode)destPort.getParent()).getSimBioModuleImpl();
+            return mySimEnvironmentImpl;
+        }
+        else
+            return null;
+    }
 
     /**
      * @return
      */
-    public StoreFlowRateControllableOperations getOperations() {
+    public SingleFlowRateControllable getOperations() {
         if (myOperations != null)
             return myOperations;
         EditorPort sourcePort = (EditorPort)getSourcePort();
@@ -131,10 +153,10 @@ public class ModuleEdge extends NetEdge {
      * @param definitionMethod
      * @return
      */
-    private StoreFlowRateControllableOperations invokeMethod(SimBioModuleImpl theSimBioModuleImpl, Method definitionMethod) {
-        StoreFlowRateControllableOperations theStoreFlowRateControllableOperations = null;
+    private SingleFlowRateControllable invokeMethod(SimBioModuleImpl theSimBioModuleImpl, Method definitionMethod) {
+    	SingleFlowRateControllable theFlowRateControllableOperations = null;
         try{
-            theStoreFlowRateControllableOperations = (StoreFlowRateControllableOperations)(definitionMethod.invoke(theSimBioModuleImpl, null));
+            theFlowRateControllableOperations = (SingleFlowRateControllable)(definitionMethod.invoke(theSimBioModuleImpl, null));
         }
         catch (IllegalAccessException e){
             myLogger.error("This shouldn't of happened, problem invoking method");
@@ -144,7 +166,7 @@ public class ModuleEdge extends NetEdge {
             myLogger.error("This shouldn't of happened, problem invoking method");
             e.printStackTrace();
         }
-        return theStoreFlowRateControllableOperations;
+        return theFlowRateControllableOperations;
     }
 
     /**
