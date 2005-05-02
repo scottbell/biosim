@@ -13,6 +13,9 @@ import org.tigris.gef.presentation.FigLine;
 import org.tigris.gef.presentation.FigText;
 
 import com.traclabs.biosim.editor.ui.FlowratePropertiesFrame;
+import com.traclabs.biosim.editor.ui.SimEnvironmentFlowratePropertiesFrame;
+import com.traclabs.biosim.editor.ui.StoreFlowratePropertiesFrame;
+import com.traclabs.biosim.idl.simulation.framework.StoreFlowRateControllableOperations;
 
 public class FigModuleEdge extends FigEdgeLine implements MouseListener {
     private FigText mid;
@@ -67,7 +70,10 @@ public class FigModuleEdge extends FigEdgeLine implements MouseListener {
     public void editProperties(int x, int y){
         if (myFlowratePropertiesFrame == null){
             ModuleEdge theEdge = (ModuleEdge)getOwner();
-            myFlowratePropertiesFrame = new FlowratePropertiesFrame(this, theEdge.getOperations(), theEdge.getStoreImpl());
+            if (theEdge.getOperations() instanceof StoreFlowRateControllableOperations)
+            	myFlowratePropertiesFrame = new StoreFlowratePropertiesFrame(this, theEdge.getOperations(), theEdge.getStoreImpl());
+            else
+            	myFlowratePropertiesFrame = new SimEnvironmentFlowratePropertiesFrame(this, theEdge.getOperations(), theEdge.getSimEnvironmentImpl());
             myFlowratePropertiesFrame.pack();
         }
         myFlowratePropertiesFrame.setLocation(x, y);
