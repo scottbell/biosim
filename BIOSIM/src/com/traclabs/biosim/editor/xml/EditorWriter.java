@@ -12,11 +12,14 @@ import org.tigris.gef.base.Selection;
 import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigEdge;
 
-import com.traclabs.biosim.editor.base.EditorDocument;
 import com.traclabs.biosim.editor.base.BiosimEditor;
+import com.traclabs.biosim.editor.base.EditorDocument;
 import com.traclabs.biosim.editor.base.EditorLayer;
 import com.traclabs.biosim.editor.graph.FigModuleEdge;
 import com.traclabs.biosim.editor.graph.FigModuleNode;
+import com.traclabs.biosim.editor.graph.ModuleEdge;
+import com.traclabs.biosim.editor.graph.ModuleNode;
+import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 
 /**
  * Writes a Editor Document to a file.
@@ -98,10 +101,9 @@ public class EditorWriter implements DocumentWriter {
     /** Saves a fig node. */
     protected void saveFigNode(FigModuleNode vf, Writer out, int indent)
             throws IOException {
-        out.write(tab(indent) + "<" + vf.getTag() + "\n");
-        out.write(tab(indent + 1) + "Id=\""
-                + Integer.toString(vf.hashCode(), 16) + "\"\n");
-        //out.write(t.tab(indent+1) + "text=\"" + vf.getText() + "\"\n");
+    	ModuleNode currentNode = (ModuleNode)vf.getOwner();
+    	SimBioModuleImpl currentModule = currentNode.getSimBioModuleImpl();
+        out.write(tab(indent) + "<" + currentModule.getModuleName() + "\n");
         saveTextAttr(vf.getText(), out, indent + 1);
         Rectangle rect = vf.getHandleBox();
         out.write(tab(indent + 1) + "x=\"" + (int) rect.getX() + "\"\n");
@@ -113,22 +115,23 @@ public class EditorWriter implements DocumentWriter {
                 + "\"\n");
         out.write(tab(indent) + ">\n");
         saveGraph(vf.getNestedLayer(), out, indent + 1);
-        out.write(tab(indent) + "</" + vf.getTag() + ">\n");
+        out.write(tab(indent) + "</" + currentModule.getModuleName() + ">\n");
     }
 
     /* Saves a fig edge. */
     protected void saveFigEdge(FigModuleEdge fe, Writer out, int indent)
             throws IOException {
+    	ModuleEdge myEdge = (ModuleEdge)fe.getOwner();
+    	ModuleNode sourceNode = (ModuleNode)myEdge.getSourcePort().getParent();
+    	ModuleNode destNode = (ModuleNode)myEdge.getDestPort().getParent();
         out.write(tab(indent) + "<Edge\n");
-        if (fe.getText().length() != 0) {
-            saveTextAttr(fe.getText(), out, indent + 1);
-        }
+        saveTextAttr(myEdge.getName(), out, indent + 1);
         out.write(tab(indent + 1) + "FromNode=\""
-                + Integer.toString(fe.getSourceFigNode().hashCode(), 16)
+                + sourceNode.getSimBioModuleImpl().getModuleName()
                 + "\"\n");
         out
                 .write(tab(indent + 1) + "ToNode=\""
-                        + Integer.toString(fe.getDestFigNode().hashCode(), 16)
+                        + destNode.getSimBioModuleImpl().getModuleName()
                         + "\"\n");
         out.write(tab(indent) + "/>\n");
     }

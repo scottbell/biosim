@@ -22,9 +22,6 @@ public class FigModuleEdge extends FigEdgeLine implements MouseListener {
     
     private FlowratePropertiesFrame myFlowratePropertiesFrame;
     
-    private final static String GET_STRING = "get";
-    private final static String DEFINITION_STRING = "Definition";
-    
     private Logger myLogger;
 
     public FigModuleEdge() {
@@ -53,8 +50,6 @@ public class FigModuleEdge extends FigEdgeLine implements MouseListener {
         mid.setText(text);
     }
     
-    
-
     /** Compute the shape of the line that presents an Edge. */
     public void computeRoute() {
         Point srcPt = getSourcePortFig().center();
