@@ -21,6 +21,8 @@ import com.traclabs.biosim.server.simulation.framework.StoreImpl;
 public class ModuleEdge extends NetEdge {
     private final static String GET_STRING = "get";
     private final static String DEFINITION_STRING = "Definition";
+    private final static String FLOWRATE_STRING = " flowrate";
+    private String myName;
     
     private GenericActuator actuator;
     private GenericSensor sensor;
@@ -33,10 +35,15 @@ public class ModuleEdge extends NetEdge {
     /** Construct a new SampleEdge. */
     public ModuleEdge() {
         myLogger = Logger.getLogger(ModuleEdge.class);
+        myName = "Unnamed";
     } 
 
     public String getId() {
         return toString();
+    }
+    
+    public String getName() {
+        return myName;
     }
     
     public void setIndex(int pIndex){
@@ -176,6 +183,7 @@ public class ModuleEdge extends NetEdge {
     private Method getOperationsMethod(Class producerOrConsumerClass) {
         String className = producerOrConsumerClass.getSimpleName();
         String producerType = className.substring(0, className.lastIndexOf("Operations"));
+        myName = producerType + FLOWRATE_STRING;
         String methodName = GET_STRING + producerType + DEFINITION_STRING;
         Method definitionMethod = null;
         try{
