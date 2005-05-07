@@ -777,6 +777,21 @@ public class SimDesktop extends BioFrame {
 
         public void actionPerformed(ActionEvent ae) {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            if (ae.getModifiers() == (ActionEvent.CTRL_MASK + 16)) {
+                com.traclabs.biosim.client.util.Fnorder myFnord = new Fnorder();
+                String message = myFnord.getFnord();
+                ImageIcon fnordIcon = new ImageIcon(
+                        ClassLoader
+                                .getSystemResource("com/traclabs/biosim/client/framework/gui/pyramid.png"));
+                JOptionPane fnordPane = new JOptionPane(message,
+                        JOptionPane.INFORMATION_MESSAGE,
+                        JOptionPane.DEFAULT_OPTION, fnordIcon);
+                JDialog dialog = fnordPane.createDialog(null,
+                        "Your message from the Illuminati");
+                dialog.setVisible(true);
+                setCursor(Cursor.getDefaultCursor());
+                return;
+            }
             displayAir();
             displayEnvironment();
             displayCrew();
@@ -785,19 +800,6 @@ public class SimDesktop extends BioFrame {
             displayWater();
             displayMalfunction();
             displayStochastic();
-            if (ae.getModifiers() == (ActionEvent.CTRL_MASK + 16)) {
-                com.traclabs.biosim.client.util.Fnorder myFnord = new Fnorder();
-                String message = myFnord.getFnord();
-                ImageIcon fnordIcon = new ImageIcon(
-                        ClassLoader
-                                .getSystemResource("biosim/client/framework/gui/pyramid.png"));
-                JOptionPane fnordPane = new JOptionPane(message,
-                        JOptionPane.INFORMATION_MESSAGE,
-                        JOptionPane.DEFAULT_OPTION, fnordIcon);
-                JDialog dialog = fnordPane.createDialog(null,
-                        "Your message from the Illuminati");
-                dialog.setVisible(true);
-            }
             setCursor(Cursor.getDefaultCursor());
         }
     }
