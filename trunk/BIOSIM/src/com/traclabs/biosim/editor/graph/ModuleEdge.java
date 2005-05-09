@@ -31,6 +31,7 @@ public class ModuleEdge extends NetEdge {
     private StoreImpl myStoreImpl;
     private SimEnvironmentImpl mySimEnvironmentImpl;
     private SingleFlowRateControllable myOperations;
+    private boolean amProducerEdge = false;
     
     /** Construct a new SampleEdge. */
     public ModuleEdge() {
@@ -85,10 +86,12 @@ public class ModuleEdge extends NetEdge {
         EditorPort sourcePort = (EditorPort)getSourcePort();
         EditorPort destPort = (EditorPort)getDestPort();
         if (sourcePort.getParent() instanceof PassiveNode){
+            //we're consuming
             myStoreImpl = (StoreImpl)((PassiveNode)sourcePort.getParent()).getSimBioModuleImpl();
             return myStoreImpl;
         }
         else if (destPort.getParent() instanceof PassiveNode){
+            //we're producing
             myStoreImpl = (StoreImpl)((PassiveNode)destPort.getParent()).getSimBioModuleImpl();
             return myStoreImpl;
         }
@@ -126,6 +129,7 @@ public class ModuleEdge extends NetEdge {
         EditorPort destPort = (EditorPort)getDestPort();
         if (sourcePort.getParent() instanceof ActiveNode){
             //we're producing
+            amProducerEdge = true;
             SimBioModuleImpl theSimBioModuleImpl = ((ActiveNode)sourcePort.getParent()).getSimBioModuleImpl();
             PassiveNode thePassiveNode = (PassiveNode)(destPort.getParent());
             Class[] theProducersAllowed = thePassiveNode.getProducersAllowed();
@@ -140,6 +144,7 @@ public class ModuleEdge extends NetEdge {
         }
         else if (destPort.getParent() instanceof ActiveNode){
             //we're consuming
+            amProducerEdge = false;
             SimBioModuleImpl theSimBioModuleImpl = ((ActiveNode)destPort.getParent()).getSimBioModuleImpl();
             PassiveNode thePassiveNode = (PassiveNode)(sourcePort.getParent());
             Class[] theConsumersAllowed = thePassiveNode.getConsumersAllowed();
@@ -196,4 +201,10 @@ public class ModuleEdge extends NetEdge {
         return definitionMethod;
     }
 
+    /**
+     * @return Returns whether edge is a producer.
+     */
+    public boolean isProducerEdge() {
+        return amProducerEdge;
+    }
 } /* end class EditorEdge */
