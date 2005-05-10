@@ -55,7 +55,8 @@ public abstract class FlowratePropertiesFrame extends JFrame {
         add(new JLabel("Desired"));
         add(myDesiredField);
         add(myOKButton);
-        setTitle("Flowrate Properties");
+        ModuleEdge theEdge = (ModuleEdge)myModuleFigEdge.getOwner();
+        setTitle(theEdge.getName() + " Properties");
     }
 
 
