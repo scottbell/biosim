@@ -21,8 +21,8 @@ import com.traclabs.biosim.server.simulation.framework.StoreImpl;
 public class ModuleEdge extends NetEdge {
     private final static String GET_STRING = "get";
     private final static String DEFINITION_STRING = "Definition";
-    private final static String FLOWRATE_STRING = " flowrate";
-    private String myName;
+    private final static String FLOWRATE_STRING = " Flowrate";
+    private String myName = "Unnamed";
     
     private GenericActuator actuator;
     private GenericSensor sensor;
@@ -32,6 +32,8 @@ public class ModuleEdge extends NetEdge {
     private SimEnvironmentImpl mySimEnvironmentImpl;
     private SingleFlowRateControllable myOperations;
     private boolean amProducerEdge = false;
+    private String sensorClassName;
+    private String actuatorClassName;
     
     /** Construct a new SampleEdge. */
     public ModuleEdge() {
@@ -136,6 +138,7 @@ public class ModuleEdge extends NetEdge {
             for (int i = 0; i < theProducersAllowed.length; i++){
                 if (theProducersAllowed[i].isInstance(theSimBioModuleImpl)){
                     //do tricky string manipulation to get correct definition
+                    computeSenorAndActutorNames(theProducersAllowed[i]);
                     Method definitionMethod = getOperationsMethod(theProducersAllowed[i]);
                     myOperations = invokeMethod(theSimBioModuleImpl, definitionMethod);
                     return myOperations;
@@ -151,6 +154,7 @@ public class ModuleEdge extends NetEdge {
             for (int i = 0; i < theConsumersAllowed.length; i++){
                 if (theConsumersAllowed[i].isInstance(theSimBioModuleImpl)){
                     //do tricky string manipulation to get correct definition
+                    computeSenorAndActutorNames(theConsumersAllowed[i]);
                     Method definitionMethod = getOperationsMethod(theConsumersAllowed[i]);
                     myOperations = invokeMethod(theSimBioModuleImpl, definitionMethod);
                     return myOperations;
@@ -158,6 +162,24 @@ public class ModuleEdge extends NetEdge {
             }
         }
         return null;
+    }
+
+    /**
+     * @param class1
+     */
+    private void computeSenorAndActutorNames(Class producerOrConsumerClass) {
+        String className = producerOrConsumerClass.getSimpleName();
+        String producerOrConsumerType = className.substring(0, className.lastIndexOf("Operations"));
+        if (producerOrConsumerType.contains("Producer")){
+            String resourceType = producerOrConsumerType.substring(0, producerOrConsumerType.lastIndexOf("Producer"));
+            sensorClassName = resourceType + "OutFlowRateSensorImpl";
+            actuatorClassName = resourceType + "OutFlowRateActuatorImpl";
+        }
+        else{
+            String resourceType = producerOrConsumerType.substring(0, producerOrConsumerType.lastIndexOf("Consumer"));
+            sensorClassName = resourceType + "InFlowRateSensorImpl";
+            actuatorClassName = resourceType + "InFlowRateActuatorImpl";
+        }
     }
 
     /**
@@ -187,9 +209,9 @@ public class ModuleEdge extends NetEdge {
      */
     private Method getOperationsMethod(Class producerOrConsumerClass) {
         String className = producerOrConsumerClass.getSimpleName();
-        String producerType = className.substring(0, className.lastIndexOf("Operations"));
-        myName = producerType + FLOWRATE_STRING;
-        String methodName = GET_STRING + producerType + DEFINITION_STRING;
+        String producerOrConsumerType = className.substring(0, className.lastIndexOf("Operations"));
+        myName = producerOrConsumerType + FLOWRATE_STRING;
+        String methodName = GET_STRING + producerOrConsumerType + DEFINITION_STRING;
         Method definitionMethod = null;
         try{
             definitionMethod = producerOrConsumerClass.getMethod(methodName, null);
@@ -206,5 +228,37 @@ public class ModuleEdge extends NetEdge {
      */
     public boolean isProducerEdge() {
         return amProducerEdge;
+    }
+
+    /**
+     * 
+     */
+    public void addSensor() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**
+     * 
+     */
+    public void removeSensor() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**
+     * 
+     */
+    public void addActuator() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**
+     * 
+     */
+    public void removeActuator() {
+        // TODO Auto-generated method stub
+        
     }
 } /* end class EditorEdge */
