@@ -266,7 +266,7 @@ public class ModuleEdge extends NetEdge {
         }
         String sensorClassString = mySensorClass.getName();
         String idlSensorName = sensorClassString.substring(0, sensorClassString.indexOf("Impl"));
-        Object[] constructorParameters = {myActiveModule.getModuleName() + idlSensorName, new Integer(0)};
+        Object[] constructorParameters = {new Integer(0), myActiveModule.getModuleName() + idlSensorName};
         try {
             mySensorImpl = (GenericSensorImpl)(sensorConstructor.newInstance(constructorParameters));
         } catch (IllegalArgumentException e1) {
@@ -305,7 +305,7 @@ public class ModuleEdge extends NetEdge {
         }
         String actuatorClassString = myActuatorClass.getName();
         String idlActuatorName = actuatorClassString.substring(0, actuatorClassString.indexOf("Impl"));
-        Object[] constructorParameters = {myActiveModule.getModuleName() + idlActuatorName, new Integer(0)};
+        Object[] constructorParameters = {new Integer(0), myActiveModule.getModuleName() + idlActuatorName};
         try {
             myActuatorImpl = (GenericActuatorImpl)(actuatorConstructor.newInstance(constructorParameters));
         } catch (IllegalArgumentException e1) {
