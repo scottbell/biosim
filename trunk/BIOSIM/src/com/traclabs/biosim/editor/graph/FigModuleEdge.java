@@ -26,13 +26,11 @@ public class FigModuleEdge extends FigEdgeLine implements MouseListener {
     
     private static String SENSED = "sensed";
     private static String ACTUATED = "actuated";
-    private static String SENSED_AND_ACTUATED = "sensed/actuated";
+    private static String SENSED_AND_ACTUATED = "sensed and actuated";
 
     private boolean myFlowSensed;
 
     private boolean myFlowActuated;
-    
-    private ModuleEdge myModuleEdge;
 
     public FigModuleEdge() {
         super();
@@ -46,7 +44,6 @@ public class FigModuleEdge extends FigEdgeLine implements MouseListener {
         myTextDescription.setFilled(false); 	 
         myTextDescription.setLineWidth(0); 	 
         addPathItem(myTextDescription, new PathConvPercent(this, 50, 10));
-        myModuleEdge = (ModuleEdge)getOwner();
     }
 
     public void setBetweenNearestPoints(boolean un) {
@@ -81,10 +78,11 @@ public class FigModuleEdge extends FigEdgeLine implements MouseListener {
         if (myFlowSensed == pFlowSensed)
             return;
         myFlowSensed = pFlowSensed;
+        ModuleEdge theModuleEdge = (ModuleEdge)getOwner();
         if (myFlowSensed)
-            myModuleEdge.addSensor();
+            theModuleEdge.addSensor();
         else
-            myModuleEdge.removeSensor();
+            theModuleEdge.removeSensor();
         computeDescription();
     } 	 
 
@@ -92,10 +90,11 @@ public class FigModuleEdge extends FigEdgeLine implements MouseListener {
         if (myFlowActuated == pFlowActuated)
             return;
         myFlowActuated = pFlowActuated;
+        ModuleEdge theModuleEdge = (ModuleEdge)getOwner();
         if (myFlowActuated)
-            myModuleEdge.addActuator();
+            theModuleEdge.addActuator();
         else
-            myModuleEdge.removeActuator();
+            theModuleEdge.removeActuator();
         computeDescription();
     }
  	 
@@ -115,10 +114,11 @@ public class FigModuleEdge extends FigEdgeLine implements MouseListener {
     
     public void editProperties(int x, int y){
         if (myFlowratePropertiesFrame == null){
-            if (myModuleEdge.getOperations() instanceof StoreFlowRateControllableOperations)
-            	myFlowratePropertiesFrame = new StoreFlowratePropertiesFrame(this, myModuleEdge.getOperations(), myModuleEdge.getStoreImpl());
+            ModuleEdge theModuleEdge = (ModuleEdge)getOwner();
+            if (theModuleEdge.getOperations() instanceof StoreFlowRateControllableOperations)
+            	myFlowratePropertiesFrame = new StoreFlowratePropertiesFrame(this, theModuleEdge.getOperations(), theModuleEdge.getStoreImpl());
             else
-            	myFlowratePropertiesFrame = new SimEnvironmentFlowratePropertiesFrame(this, myModuleEdge.getOperations(), myModuleEdge.getSimEnvironmentImpl());
+            	myFlowratePropertiesFrame = new SimEnvironmentFlowratePropertiesFrame(this, theModuleEdge.getOperations(), theModuleEdge.getSimEnvironmentImpl());
             myFlowratePropertiesFrame.pack();
         }
         myFlowratePropertiesFrame.setLocation(x, y);

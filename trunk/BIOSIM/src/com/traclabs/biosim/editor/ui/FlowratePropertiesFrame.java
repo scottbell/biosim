@@ -56,7 +56,7 @@ public abstract class FlowratePropertiesFrame extends JFrame {
         
         myOKButton = new JButton(new OKAction());
 
-        setLayout(new GridLayout(4, 5));
+        setLayout(new GridLayout(5, 2));
         add(new JLabel("Maximum"));
         add(myMaxField);
         add(new JLabel("Desired"));
