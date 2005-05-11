@@ -1,5 +1,6 @@
 package com.traclabs.biosim.editor.graph;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -8,9 +9,9 @@ import org.tigris.gef.base.Layer;
 import org.tigris.gef.graph.presentation.NetEdge;
 import org.tigris.gef.presentation.FigEdge;
 
-import com.traclabs.biosim.idl.actuator.framework.GenericActuator;
-import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
 import com.traclabs.biosim.idl.simulation.framework.SingleFlowRateControllable;
+import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
+import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 import com.traclabs.biosim.server.simulation.environment.SimEnvironmentImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 import com.traclabs.biosim.server.simulation.framework.StoreImpl;
@@ -24,16 +25,17 @@ public class ModuleEdge extends NetEdge {
     private final static String FLOWRATE_STRING = " Flowrate";
     private String myName = "Unnamed";
     
-    private GenericActuator actuator;
-    private GenericSensor sensor;
+    private GenericActuatorImpl myActuatorImpl;
+    private GenericSensorImpl mySensorImpl;
     private int myIndex;
     private Logger myLogger;
+    private SimBioModuleImpl myActiveModule;
     private StoreImpl myStoreImpl;
     private SimEnvironmentImpl mySimEnvironmentImpl;
     private SingleFlowRateControllable myOperations;
     private boolean amProducerEdge = false;
-    private String sensorClassName;
-    private String actuatorClassName;
+    private Class mySensorClass;
+    private Class myActuatorClass;
     
     /** Construct a new SampleEdge. */
     public ModuleEdge() {
@@ -132,15 +134,15 @@ public class ModuleEdge extends NetEdge {
         if (sourcePort.getParent() instanceof ActiveNode){
             //we're producing
             amProducerEdge = true;
-            SimBioModuleImpl theSimBioModuleImpl = ((ActiveNode)sourcePort.getParent()).getSimBioModuleImpl();
+            myActiveModule = ((ActiveNode)sourcePort.getParent()).getSimBioModuleImpl();
             PassiveNode thePassiveNode = (PassiveNode)(destPort.getParent());
             Class[] theProducersAllowed = thePassiveNode.getProducersAllowed();
             for (int i = 0; i < theProducersAllowed.length; i++){
-                if (theProducersAllowed[i].isInstance(theSimBioModuleImpl)){
+                if (theProducersAllowed[i].isInstance(myActiveModule)){
                     //do tricky string manipulation to get correct definition
                     computeSenorAndActutorNames(theProducersAllowed[i]);
                     Method definitionMethod = getOperationsMethod(theProducersAllowed[i]);
-                    myOperations = invokeMethod(theSimBioModuleImpl, definitionMethod);
+                    myOperations = invokeMethod(myActiveModule, definitionMethod);
                     return myOperations;
                 }
             }
@@ -148,15 +150,15 @@ public class ModuleEdge extends NetEdge {
         else if (destPort.getParent() instanceof ActiveNode){
             //we're consuming
             amProducerEdge = false;
-            SimBioModuleImpl theSimBioModuleImpl = ((ActiveNode)destPort.getParent()).getSimBioModuleImpl();
+            myActiveModule = ((ActiveNode)destPort.getParent()).getSimBioModuleImpl();
             PassiveNode thePassiveNode = (PassiveNode)(sourcePort.getParent());
             Class[] theConsumersAllowed = thePassiveNode.getConsumersAllowed();
             for (int i = 0; i < theConsumersAllowed.length; i++){
-                if (theConsumersAllowed[i].isInstance(theSimBioModuleImpl)){
+                if (theConsumersAllowed[i].isInstance(myActiveModule)){
                     //do tricky string manipulation to get correct definition
                     computeSenorAndActutorNames(theConsumersAllowed[i]);
                     Method definitionMethod = getOperationsMethod(theConsumersAllowed[i]);
-                    myOperations = invokeMethod(theSimBioModuleImpl, definitionMethod);
+                    myOperations = invokeMethod(myActiveModule, definitionMethod);
                     return myOperations;
                 }
             }
@@ -170,6 +172,8 @@ public class ModuleEdge extends NetEdge {
     private void computeSenorAndActutorNames(Class producerOrConsumerClass) {
         String className = producerOrConsumerClass.getSimpleName();
         String producerOrConsumerType = className.substring(0, className.lastIndexOf("Operations"));
+        String sensorClassName = "";
+        String actuatorClassName = "";
         if (producerOrConsumerType.contains("Producer")){
             String resourceType = producerOrConsumerType.substring(0, producerOrConsumerType.lastIndexOf("Producer"));
             sensorClassName = resourceType + "OutFlowRateSensorImpl";
@@ -179,6 +183,13 @@ public class ModuleEdge extends NetEdge {
             String resourceType = producerOrConsumerType.substring(0, producerOrConsumerType.lastIndexOf("Consumer"));
             sensorClassName = resourceType + "InFlowRateSensorImpl";
             actuatorClassName = resourceType + "InFlowRateActuatorImpl";
+        }
+        try {
+            mySensorClass =  Class.forName(sensorClassName);
+            myActuatorClass = Class.forName(actuatorClassName);
+        }
+        catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
@@ -234,15 +245,38 @@ public class ModuleEdge extends NetEdge {
      * 
      */
     public void addSensor() {
-        // TODO Auto-generated method stub
-        
+        Class[] constructorParameterTypes = {int.class, String.class};
+        Constructor sensorConstructor = null;
+        try {
+            sensorConstructor = mySensorClass.getConstructor(constructorParameterTypes);
+        } catch (SecurityException e) {
+            e.printStackTrace();
+            return;
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+            return;
+        }
+        String sensorClassString = mySensorClass.getName();
+        String idlSensorName = sensorClassString.substring(0, sensorClassString.indexOf("Impl"));
+        Object[] constructorParameters = {myActiveModule.getModuleName() + idlSensorName, new Integer(0)};
+        try {
+            mySensorImpl = (GenericSensorImpl)(sensorConstructor.newInstance(constructorParameters));
+        } catch (IllegalArgumentException e1) {
+            e1.printStackTrace();
+        } catch (InstantiationException e1) {
+            e1.printStackTrace();
+        } catch (IllegalAccessException e1) {
+            e1.printStackTrace();
+        } catch (InvocationTargetException e1) {
+            e1.printStackTrace();
+        }
     }
 
     /**
      * 
      */
     public void removeSensor() {
-        // TODO Auto-generated method stub
+        mySensorImpl = null;
         
     }
 
@@ -250,15 +284,38 @@ public class ModuleEdge extends NetEdge {
      * 
      */
     public void addActuator() {
-        // TODO Auto-generated method stub
-        
+        Class[] constructorParameterTypes = {int.class, String.class};
+        Constructor actuatorConstructor = null;
+        try {
+            actuatorConstructor = myActuatorClass.getConstructor(constructorParameterTypes);
+        } catch (SecurityException e) {
+            e.printStackTrace();
+            return;
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+            return;
+        }
+        String actuatorClassString = myActuatorClass.getName();
+        String idlActuatorName = actuatorClassString.substring(0, actuatorClassString.indexOf("Impl"));
+        Object[] constructorParameters = {myActiveModule.getModuleName() + idlActuatorName, new Integer(0)};
+        try {
+            myActuatorImpl = (GenericActuatorImpl)(actuatorConstructor.newInstance(constructorParameters));
+        } catch (IllegalArgumentException e1) {
+            e1.printStackTrace();
+        } catch (InstantiationException e1) {
+            e1.printStackTrace();
+        } catch (IllegalAccessException e1) {
+            e1.printStackTrace();
+        } catch (InvocationTargetException e1) {
+            e1.printStackTrace();
+        }
     }
 
     /**
      * 
      */
     public void removeActuator() {
-        // TODO Auto-generated method stub
+        myActuatorImpl = null;
         
     }
 } /* end class EditorEdge */
