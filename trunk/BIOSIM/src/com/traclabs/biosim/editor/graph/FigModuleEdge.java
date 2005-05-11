@@ -26,7 +26,7 @@ public class FigModuleEdge extends FigEdgeLine implements MouseListener {
     
     private static String SENSED = "sensed";
     private static String ACTUATED = "actuated";
-    private static String SENSED_AND_ACTUATED = "sensed and actuated";
+    private static String SENSED_AND_ACTUATED = "sensed & actuated";
 
     private boolean myFlowSensed;
 
@@ -110,6 +110,7 @@ public class FigModuleEdge extends FigEdgeLine implements MouseListener {
             myTextDescription.setText(ACTUATED);
         else
             myTextDescription.setText("");
+        damage();
     }
     
     public void editProperties(int x, int y){
