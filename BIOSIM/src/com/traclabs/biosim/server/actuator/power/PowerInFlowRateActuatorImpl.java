@@ -2,7 +2,7 @@ package com.traclabs.biosim.server.actuator.power;
 
 import com.traclabs.biosim.idl.actuator.power.PowerInFlowRateActuatorOperations;
 import com.traclabs.biosim.idl.framework.BioModule;
-import com.traclabs.biosim.idl.simulation.framework.PowerConsumer;
+import com.traclabs.biosim.idl.simulation.power.PowerConsumer;
 import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
 
 public class PowerInFlowRateActuatorImpl extends GenericActuatorImpl implements

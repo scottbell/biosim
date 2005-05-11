@@ -6,20 +6,19 @@ import java.util.Iterator;
 import com.traclabs.biosim.idl.framework.Malfunction;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
-import com.traclabs.biosim.idl.simulation.framework.CO2ProducerDefinition;
-import com.traclabs.biosim.idl.simulation.framework.CO2ProducerOperations;
-import com.traclabs.biosim.idl.simulation.framework.DryWasteConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.framework.DryWasteConsumerOperations;
-import com.traclabs.biosim.idl.simulation.framework.O2ConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.framework.O2ConsumerOperations;
-import com.traclabs.biosim.idl.simulation.framework.PowerConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.framework.PowerConsumerOperations;
+import com.traclabs.biosim.idl.simulation.air.CO2ProducerDefinition;
+import com.traclabs.biosim.idl.simulation.air.CO2ProducerOperations;
+import com.traclabs.biosim.idl.simulation.air.O2ConsumerDefinition;
+import com.traclabs.biosim.idl.simulation.air.O2ConsumerOperations;
+import com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition;
+import com.traclabs.biosim.idl.simulation.power.PowerConsumerOperations;
+import com.traclabs.biosim.idl.simulation.waste.DryWasteConsumerDefinition;
+import com.traclabs.biosim.idl.simulation.waste.DryWasteConsumerOperations;
 import com.traclabs.biosim.idl.simulation.waste.IncineratorOperations;
-import com.traclabs.biosim.server.simulation.framework.CO2ProducerDefinitionImpl;
-import com.traclabs.biosim.server.simulation.framework.DryWasteConsumerDefinitionImpl;
-import com.traclabs.biosim.server.simulation.framework.O2ConsumerDefinitionImpl;
-import com.traclabs.biosim.server.simulation.framework.PowerConsumerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.air.CO2ProducerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.air.O2ConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
+import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinitionImpl;
 
 /**
  * The Incinerator takes dryWaste (plants matter) and refines it to food for the

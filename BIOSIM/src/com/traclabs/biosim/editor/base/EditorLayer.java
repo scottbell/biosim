@@ -18,8 +18,8 @@ import org.tigris.gef.base.LayerPerspective;
 import org.tigris.gef.graph.GraphEvent;
 import org.tigris.gef.presentation.Fig;
 
-import com.traclabs.biosim.editor.graph.FigModuleNode;
 import com.traclabs.biosim.editor.graph.EditorGraphModel;
+import com.traclabs.biosim.editor.graph.FigModuleNode;
 
 public class EditorLayer extends LayerPerspective {
     FigModuleNode _parent = null;

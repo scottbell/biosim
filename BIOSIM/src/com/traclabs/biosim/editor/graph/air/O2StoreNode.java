@@ -4,8 +4,8 @@ import org.tigris.gef.base.Layer;
 import org.tigris.gef.presentation.FigNode;
 
 import com.traclabs.biosim.editor.graph.PassiveNode;
-import com.traclabs.biosim.idl.simulation.framework.O2ConsumerOperations;
-import com.traclabs.biosim.idl.simulation.framework.O2ProducerOperations;
+import com.traclabs.biosim.idl.simulation.air.O2ConsumerOperations;
+import com.traclabs.biosim.idl.simulation.air.O2ProducerOperations;
 import com.traclabs.biosim.server.simulation.air.O2StoreImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 

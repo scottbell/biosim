@@ -14,8 +14,8 @@ import org.tigris.gef.presentation.FigEdge;
 import org.tigris.gef.presentation.FigLine;
 import org.tigris.gef.presentation.FigNode;
 
-import com.traclabs.biosim.editor.graph.ModuleEdge;
 import com.traclabs.biosim.editor.graph.FigModuleNode;
+import com.traclabs.biosim.editor.graph.ModuleEdge;
 import com.traclabs.biosim.editor.graph.ModuleNode;
 
 /**

@@ -24,9 +24,9 @@ import org.tigris.gef.graph.presentation.NetPort;
 import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigNode;
 
+import com.traclabs.biosim.editor.graph.EditorPort;
 import com.traclabs.biosim.editor.graph.FigModuleNode;
 import com.traclabs.biosim.editor.graph.ModuleNode;
-import com.traclabs.biosim.editor.graph.EditorPort;
 
 /**
  * Rearrange the selected node and all nodes that it leads to. Arrange them into

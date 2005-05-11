@@ -6,24 +6,22 @@ import com.traclabs.biosim.idl.framework.Malfunction;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.simulation.food.BioMatter;
+import com.traclabs.biosim.idl.simulation.food.BiomassConsumerDefinition;
+import com.traclabs.biosim.idl.simulation.food.BiomassConsumerOperations;
 import com.traclabs.biosim.idl.simulation.food.FoodMatter;
 import com.traclabs.biosim.idl.simulation.food.FoodProcessorOperations;
-import com.traclabs.biosim.idl.simulation.framework.BiomassConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.framework.BiomassConsumerOperations;
-import com.traclabs.biosim.idl.simulation.framework.DryWasteProducerDefinition;
-import com.traclabs.biosim.idl.simulation.framework.DryWasteProducerOperations;
-import com.traclabs.biosim.idl.simulation.framework.FoodProducerDefinition;
-import com.traclabs.biosim.idl.simulation.framework.FoodProducerOperations;
-import com.traclabs.biosim.idl.simulation.framework.PowerConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.framework.PowerConsumerOperations;
-import com.traclabs.biosim.idl.simulation.framework.WaterProducerDefinition;
-import com.traclabs.biosim.idl.simulation.framework.WaterProducerOperations;
-import com.traclabs.biosim.server.simulation.framework.BiomassConsumerDefinitionImpl;
-import com.traclabs.biosim.server.simulation.framework.DryWasteProducerDefinitionImpl;
-import com.traclabs.biosim.server.simulation.framework.FoodProducerDefinitionImpl;
-import com.traclabs.biosim.server.simulation.framework.PowerConsumerDefinitionImpl;
+import com.traclabs.biosim.idl.simulation.food.FoodProducerDefinition;
+import com.traclabs.biosim.idl.simulation.food.FoodProducerOperations;
+import com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition;
+import com.traclabs.biosim.idl.simulation.power.PowerConsumerOperations;
+import com.traclabs.biosim.idl.simulation.waste.DryWasteProducerDefinition;
+import com.traclabs.biosim.idl.simulation.waste.DryWasteProducerOperations;
+import com.traclabs.biosim.idl.simulation.water.WaterProducerDefinition;
+import com.traclabs.biosim.idl.simulation.water.WaterProducerOperations;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
-import com.traclabs.biosim.server.simulation.framework.WaterProducerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.waste.DryWasteProducerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.water.WaterProducerDefinitionImpl;
 
 /**
  * The Food Processor takes biomass (plants matter) and refines it to food for

@@ -2,23 +2,20 @@ package com.traclabs.biosim.server.simulation.air;
 
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
+import com.traclabs.biosim.idl.simulation.air.CO2ConsumerDefinition;
+import com.traclabs.biosim.idl.simulation.air.CO2ConsumerOperations;
 import com.traclabs.biosim.idl.simulation.air.CRSOperations;
-import com.traclabs.biosim.idl.simulation.framework.CO2ConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.framework.CO2ConsumerOperations;
-import com.traclabs.biosim.idl.simulation.framework.H2ConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.framework.H2ConsumerOperations;
-import com.traclabs.biosim.idl.simulation.framework.O2ProducerDefinition;
-import com.traclabs.biosim.idl.simulation.framework.O2ProducerOperations;
-import com.traclabs.biosim.idl.simulation.framework.PotableWaterProducerDefinition;
-import com.traclabs.biosim.idl.simulation.framework.PotableWaterProducerOperations;
-import com.traclabs.biosim.idl.simulation.framework.PowerConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.framework.PowerConsumerOperations;
-import com.traclabs.biosim.server.simulation.framework.CO2ConsumerDefinitionImpl;
-import com.traclabs.biosim.server.simulation.framework.H2ConsumerDefinitionImpl;
-import com.traclabs.biosim.server.simulation.framework.O2ProducerDefinitionImpl;
-import com.traclabs.biosim.server.simulation.framework.PotableWaterProducerDefinitionImpl;
-import com.traclabs.biosim.server.simulation.framework.PowerConsumerDefinitionImpl;
+import com.traclabs.biosim.idl.simulation.air.H2ConsumerDefinition;
+import com.traclabs.biosim.idl.simulation.air.H2ConsumerOperations;
+import com.traclabs.biosim.idl.simulation.air.O2ProducerDefinition;
+import com.traclabs.biosim.idl.simulation.air.O2ProducerOperations;
+import com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition;
+import com.traclabs.biosim.idl.simulation.power.PowerConsumerOperations;
+import com.traclabs.biosim.idl.simulation.water.PotableWaterProducerDefinition;
+import com.traclabs.biosim.idl.simulation.water.PotableWaterProducerOperations;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
+import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.water.PotableWaterProducerDefinitionImpl;
 
 /**
  * The Air Revitalization System Implementation. Takes in Air (O2, CO2, other)

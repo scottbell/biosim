@@ -2,7 +2,7 @@ package com.traclabs.biosim.server.sensor.water;
 
 import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.sensor.water.GreyWaterOutFlowRateSensorOperations;
-import com.traclabs.biosim.idl.simulation.framework.GreyWaterProducer;
+import com.traclabs.biosim.idl.simulation.water.GreyWaterProducer;
 import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
 public class GreyWaterOutFlowRateSensorImpl extends GenericSensorImpl implements

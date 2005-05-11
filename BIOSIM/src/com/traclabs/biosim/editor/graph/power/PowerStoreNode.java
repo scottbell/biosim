@@ -4,10 +4,10 @@ import org.tigris.gef.base.Layer;
 import org.tigris.gef.presentation.FigNode;
 
 import com.traclabs.biosim.editor.graph.PassiveNode;
-import com.traclabs.biosim.idl.simulation.framework.PowerConsumerOperations;
-import com.traclabs.biosim.idl.simulation.framework.PowerProducerOperations;
-import com.traclabs.biosim.server.simulation.power.PowerStoreImpl;
+import com.traclabs.biosim.idl.simulation.power.PowerConsumerOperations;
+import com.traclabs.biosim.idl.simulation.power.PowerProducerOperations;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
+import com.traclabs.biosim.server.simulation.power.PowerStoreImpl;
 
 
 public class PowerStoreNode extends PassiveNode{

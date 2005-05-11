@@ -14,8 +14,8 @@ package com.traclabs.biosim.editor.xml;
 
 import java.io.Writer;
 
-import com.traclabs.biosim.editor.base.EditorDocument;
 import com.traclabs.biosim.editor.base.BiosimEditor;
+import com.traclabs.biosim.editor.base.EditorDocument;
 
 /**
  * @author kkusy

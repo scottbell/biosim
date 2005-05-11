@@ -5,8 +5,8 @@ import org.tigris.gef.presentation.FigNode;
 
 import com.traclabs.biosim.editor.graph.ActiveNode;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
-import com.traclabs.biosim.server.simulation.power.PowerPSImpl;
 import com.traclabs.biosim.server.simulation.power.NuclearPowerPS;
+import com.traclabs.biosim.server.simulation.power.PowerPSImpl;
 
 
 public class NuclearPowerPSNode extends ActiveNode{

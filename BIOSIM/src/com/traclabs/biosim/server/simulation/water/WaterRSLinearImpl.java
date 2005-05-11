@@ -2,20 +2,17 @@ package com.traclabs.biosim.server.simulation.water;
 
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
-import com.traclabs.biosim.idl.simulation.framework.DirtyWaterConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.framework.DirtyWaterConsumerOperations;
-import com.traclabs.biosim.idl.simulation.framework.GreyWaterConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.framework.GreyWaterConsumerOperations;
-import com.traclabs.biosim.idl.simulation.framework.PotableWaterProducerDefinition;
-import com.traclabs.biosim.idl.simulation.framework.PotableWaterProducerOperations;
-import com.traclabs.biosim.idl.simulation.framework.PowerConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.framework.PowerConsumerOperations;
+import com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition;
+import com.traclabs.biosim.idl.simulation.power.PowerConsumerOperations;
+import com.traclabs.biosim.idl.simulation.water.DirtyWaterConsumerDefinition;
+import com.traclabs.biosim.idl.simulation.water.DirtyWaterConsumerOperations;
+import com.traclabs.biosim.idl.simulation.water.GreyWaterConsumerDefinition;
+import com.traclabs.biosim.idl.simulation.water.GreyWaterConsumerOperations;
+import com.traclabs.biosim.idl.simulation.water.PotableWaterProducerDefinition;
+import com.traclabs.biosim.idl.simulation.water.PotableWaterProducerOperations;
 import com.traclabs.biosim.idl.simulation.water.WaterRSOperations;
-import com.traclabs.biosim.server.simulation.framework.DirtyWaterConsumerDefinitionImpl;
-import com.traclabs.biosim.server.simulation.framework.GreyWaterConsumerDefinitionImpl;
-import com.traclabs.biosim.server.simulation.framework.PotableWaterProducerDefinitionImpl;
-import com.traclabs.biosim.server.simulation.framework.PowerConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
+import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinitionImpl;
 
 //import java.lang.*;
 

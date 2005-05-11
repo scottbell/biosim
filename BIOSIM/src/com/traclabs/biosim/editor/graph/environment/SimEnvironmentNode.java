@@ -4,16 +4,16 @@ import org.tigris.gef.base.Layer;
 import org.tigris.gef.presentation.FigNode;
 
 import com.traclabs.biosim.editor.graph.PassiveNode;
-import com.traclabs.biosim.idl.simulation.framework.AirConsumerOperations;
-import com.traclabs.biosim.idl.simulation.framework.AirProducerOperations;
-import com.traclabs.biosim.idl.simulation.framework.CO2AirConsumerOperations;
-import com.traclabs.biosim.idl.simulation.framework.CO2AirProducerOperations;
-import com.traclabs.biosim.idl.simulation.framework.NitrogenAirConsumerOperations;
-import com.traclabs.biosim.idl.simulation.framework.NitrogenAirProducerOperations;
-import com.traclabs.biosim.idl.simulation.framework.O2AirConsumerOperations;
-import com.traclabs.biosim.idl.simulation.framework.O2AirProducerOperations;
-import com.traclabs.biosim.idl.simulation.framework.WaterAirConsumerOperations;
-import com.traclabs.biosim.idl.simulation.framework.WaterAirProducerOperations;
+import com.traclabs.biosim.idl.simulation.environment.AirConsumerOperations;
+import com.traclabs.biosim.idl.simulation.environment.AirProducerOperations;
+import com.traclabs.biosim.idl.simulation.environment.CO2AirConsumerOperations;
+import com.traclabs.biosim.idl.simulation.environment.CO2AirProducerOperations;
+import com.traclabs.biosim.idl.simulation.environment.NitrogenAirConsumerOperations;
+import com.traclabs.biosim.idl.simulation.environment.NitrogenAirProducerOperations;
+import com.traclabs.biosim.idl.simulation.environment.O2AirConsumerOperations;
+import com.traclabs.biosim.idl.simulation.environment.O2AirProducerOperations;
+import com.traclabs.biosim.idl.simulation.environment.WaterAirConsumerOperations;
+import com.traclabs.biosim.idl.simulation.environment.WaterAirProducerOperations;
 import com.traclabs.biosim.server.simulation.environment.SimEnvironmentImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 

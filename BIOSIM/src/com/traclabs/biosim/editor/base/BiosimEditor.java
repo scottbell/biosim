@@ -6,8 +6,8 @@ import org.tigris.gef.base.Editor;
 import org.tigris.gef.base.ModeDragScroll;
 import org.tigris.gef.base.ModeSelect;
 
-import com.traclabs.biosim.editor.graph.FigModuleNode;
 import com.traclabs.biosim.editor.graph.EditorGraphModel;
+import com.traclabs.biosim.editor.graph.FigModuleNode;
 
 /**
  * BiosimEditor supports the nesting of graphs within nodes. BiosimEditor simply

@@ -4,8 +4,8 @@ import org.tigris.gef.base.Layer;
 import org.tigris.gef.presentation.FigNode;
 
 import com.traclabs.biosim.editor.graph.PassiveNode;
-import com.traclabs.biosim.idl.simulation.framework.DryWasteConsumerOperations;
-import com.traclabs.biosim.idl.simulation.framework.DryWasteProducerOperations;
+import com.traclabs.biosim.idl.simulation.waste.DryWasteConsumerOperations;
+import com.traclabs.biosim.idl.simulation.waste.DryWasteProducerOperations;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 import com.traclabs.biosim.server.simulation.waste.DryWasteStoreImpl;
 
