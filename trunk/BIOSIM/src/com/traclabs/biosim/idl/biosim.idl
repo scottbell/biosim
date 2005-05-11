@@ -10,6 +10,10 @@ module com{
                                                 interface PowerPS;
                                                 interface PowerStore;
                                                 typedef sequence <PowerStore> PowerStoreList;
+                                                interface PowerConsumer;
+                                                interface PowerProducer;
+                                                interface PowerConsumerDefinition;
+                                                interface PowerProducerDefinition;
                                         };
                                         module crew{
                                                 interface Activity;
@@ -44,6 +48,22 @@ module com{
                                                 typedef sequence <CO2Store> CO2StoreList;
                                                 typedef sequence <NitrogenStore> NitrogenStoreList;
                                                 typedef sequence <H2Store> H2StoreList;
+                                                interface O2Producer;
+                                                interface O2Consumer;
+                                                interface CO2Producer;
+                                                interface CO2Consumer;
+                                                interface NitrogenProducer;
+                                                interface NitrogenConsumer;
+                                                interface H2Consumer;
+                                                interface H2Producer;
+                                                interface H2ConsumerDefinition;
+                                                interface H2ProducerDefinition;
+                                                interface O2ProducerDefinition;
+                                                interface O2ConsumerDefinition;
+                                                interface CO2ProducerDefinition;
+                                                interface CO2ConsumerDefinition;
+                                                interface NitrogenProducerDefinition;
+                                                interface NitrogenConsumerDefinition;
                                         };
                                         module food{
                                                 interface Shelf;
@@ -71,11 +91,43 @@ module com{
                                                 typedef sequence <BioMatter> BioMatterList;
                                                 typedef sequence <FoodMatter> FoodMatterList;
                                                 typedef sequence <BiomassRS> BiomassRSList;
+                                                interface BiomassConsumer;
+                                                interface FoodConsumer;
+                                                interface BiomassProducer;
+                                                interface FoodProducer;
+                                                interface BiomassConsumerDefinition;
+                                                interface FoodConsumerDefinition;
+                                                interface BiomassProducerDefinition;
+                                                interface FoodProducerDefinition;
                                         };
                                         module environment{
                                                 interface SimEnvironment;
                                                 typedef sequence <SimEnvironment> SimEnvironmentList;
                                                 interface Dehumidifier;
+                                                interface AirConsumerDefinition;
+                                                interface AirProducerDefinition;
+                                                interface NitrogenAirConsumerDefinition;
+                                                interface NitrogenAirProducerDefinition;
+                                                interface WaterAirConsumerDefinition;
+                                                interface WaterAirProducerDefinition;
+                                                interface O2AirConsumerDefinition;
+                                                interface O2AirProducerDefinition;
+                                                interface CO2AirConsumerDefinition;
+                                                interface CO2AirProducerDefinition;
+                                                interface LightConsumerDefinition;
+                                                interface AirConsumer;
+                                                interface AirProducer;
+                                                interface NitrogenAirConsumer;
+                                                interface NitrogenAirProducer;
+                                                interface WaterAirConsumer;
+                                                interface WaterAirProducer;
+                                                interface O2AirConsumer;
+                                                interface O2AirProducer;
+                                                interface CO2AirConsumer;
+                                                interface CO2AirProducer;
+                                                interface LightConsumer;
+                                                interface EnvironmentFlowRateControllable;
+                                                interface StoreEnvironmentFlowRateControllable;
                                         };
                                         module mission{
                                                 interface MissionModule;
@@ -94,11 +146,31 @@ module com{
                                                 typedef sequence <PotableWaterStore> PotableWaterStoreList;
                                                 typedef sequence <GreyWaterStore> GreyWaterStoreList;
                                                 typedef sequence <DirtyWaterStore> DirtyWaterStoreList;
+                                                interface PotableWaterConsumer;
+                                                interface PotableWaterProducer;
+                                                interface GreyWaterConsumer;
+                                                interface GreyWaterProducer;
+                                                interface DirtyWaterConsumer;
+                                                interface DirtyWaterProducer;
+                                                interface WaterConsumer;
+                                                interface WaterProducer;
+                                                interface PotableWaterConsumerDefinition;
+                                                interface PotableWaterProducerDefinition;
+                                                interface GreyWaterConsumerDefinition;
+                                                interface GreyWaterProducerDefinition;
+                                                interface DirtyWaterConsumerDefinition;
+                                                interface DirtyWaterProducerDefinition;
+                                                interface WaterConsumerDefinition;
+                                                interface WaterProducerDefinition;
                                         };
                                         module waste{
                                                 interface Incinerator;
                                                 interface DryWasteStore;
                                                 typedef sequence <DryWasteStore> DryWasteStoreList;
+                                                interface DryWasteConsumer;
+                                                interface DryWasteProducer;
+                                                interface DryWasteConsumerDefinition;
+                                                interface DryWasteProducerDefinition;
                                         };
                                         module framework{
                                                 interface SimBioModule;
@@ -109,80 +181,7 @@ module com{
                                                 //Producers & Consumers
                                                 interface Consumer;
                                                 interface Producer;
-                                                interface PowerConsumer;
-                                                interface PowerProducer;
-                                                interface PotableWaterConsumer;
-                                                interface PotableWaterProducer;
-                                                interface GreyWaterConsumer;
-                                                interface GreyWaterProducer;
-                                                interface DirtyWaterConsumer;
-                                                interface DirtyWaterProducer;
-                                                interface WaterConsumer;
-                                                interface WaterProducer;
-                                                interface AirConsumer;
-                                                interface AirProducer;
-                                                interface H2Consumer;
-                                                interface H2Producer;
-                                                interface NitrogenAirConsumer;
-                                                interface NitrogenAirProducer;
-                                                interface WaterAirConsumer;
-                                                interface WaterAirProducer;
-                                                interface O2AirConsumer;
-                                                interface O2AirProducer;
-                                                interface CO2AirConsumer;
-                                                interface CO2AirProducer;
-                                                interface O2Producer;
-                                                interface O2Consumer;
-                                                interface CO2Producer;
-                                                interface CO2Consumer;
-                                                interface NitrogenProducer;
-                                                interface NitrogenConsumer;
-                                                interface LightConsumer;
-                                                interface BiomassConsumer;
-                                                interface FoodConsumer;
-                                                interface BiomassProducer;
-                                                interface FoodProducer;
-                                                interface DryWasteConsumer;
-                                                interface DryWasteProducer;
-                                                //Producers & Consumers Definitions
                                                 interface StoreFlowRateControllable;
-                                                interface EnvironmentFlowRateControllable;
-                                                interface StoreEnvironmentFlowRateControllable;
-                                                interface PowerConsumerDefinition;
-                                                interface PowerProducerDefinition;
-                                                interface PotableWaterConsumerDefinition;
-                                                interface PotableWaterProducerDefinition;
-                                                interface GreyWaterConsumerDefinition;
-                                                interface GreyWaterProducerDefinition;
-                                                interface DirtyWaterConsumerDefinition;
-                                                interface DirtyWaterProducerDefinition;
-                                                interface WaterConsumerDefinition;
-                                                interface WaterProducerDefinition;
-                                                interface AirConsumerDefinition;
-                                                interface AirProducerDefinition;
-                                                interface H2ConsumerDefinition;
-                                                interface H2ProducerDefinition;
-                                                interface NitrogenAirConsumerDefinition;
-                                                interface NitrogenAirProducerDefinition;
-                                                interface WaterAirConsumerDefinition;
-                                                interface WaterAirProducerDefinition;
-                                                interface O2AirConsumerDefinition;
-                                                interface O2AirProducerDefinition;
-                                                interface CO2AirConsumerDefinition;
-                                                interface CO2AirProducerDefinition;
-                                                interface O2ProducerDefinition;
-                                                interface O2ConsumerDefinition;
-                                                interface CO2ProducerDefinition;
-                                                interface CO2ConsumerDefinition;
-                                                interface NitrogenProducerDefinition;
-                                                interface NitrogenConsumerDefinition;
-                                                interface LightConsumerDefinition;
-                                                interface BiomassConsumerDefinition;
-                                                interface FoodConsumerDefinition;
-                                                interface BiomassProducerDefinition;
-                                                interface FoodProducerDefinition;
-                                                interface DryWasteConsumerDefinition;
-                                                interface DryWasteProducerDefinition;
                                         };
                                 };
                                 module framework{
@@ -294,112 +293,6 @@ module com{
                                         module framework{
                                                 interface Consumer : framework::BioModule{};
                                                 interface Producer : framework::BioModule{};
-                                                interface PowerConsumer : Consumer{
-                                                        PowerConsumerDefinition getPowerConsumerDefinition();
-                                                };
-                                                interface PowerProducer : Producer{
-                                                        PowerProducerDefinition getPowerProducerDefinition();
-                                                };
-                                                interface PotableWaterConsumer : Consumer{
-                                                        PotableWaterConsumerDefinition getPotableWaterConsumerDefinition();
-                                                };
-                                                interface GreyWaterConsumer : Consumer{
-                                                        GreyWaterConsumerDefinition getGreyWaterConsumerDefinition();
-                                                };
-                                                interface DirtyWaterConsumer : Consumer{
-                                                        DirtyWaterConsumerDefinition getDirtyWaterConsumerDefinition();
-                                                };
-                                                interface WaterConsumer : Consumer{
-                                                        WaterConsumerDefinition getWaterConsumerDefinition();
-                                                };
-                                                interface PotableWaterProducer : Producer{
-                                                        PotableWaterProducerDefinition getPotableWaterProducerDefinition();
-                                                };
-                                                interface GreyWaterProducer : Producer{
-                                                        GreyWaterProducerDefinition getGreyWaterProducerDefinition();
-                                                };
-                                                interface DirtyWaterProducer : Producer{
-                                                        DirtyWaterProducerDefinition getDirtyWaterProducerDefinition();
-                                                };
-                                                interface WaterProducer : Producer{
-                                                        WaterProducerDefinition getWaterProducerDefinition();
-                                                };
-                                                interface AirConsumer : Consumer{
-                                                        AirConsumerDefinition getAirConsumerDefinition();
-                                                };
-                                                interface LightConsumer : Consumer{
-                                                        LightConsumerDefinition getLightConsumerDefinition();
-                                                };
-                                                interface O2AirConsumer : Consumer{
-                                                        O2AirConsumerDefinition getO2AirConsumerDefinition();
-                                                };
-                                                interface CO2AirConsumer : Consumer{
-                                                        CO2AirConsumerDefinition getCO2AirConsumerDefinition();
-                                                };
-                                                interface NitrogenAirConsumer : Consumer{
-                                                        NitrogenAirConsumerDefinition getNitrogenAirConsumerDefinition();
-                                                };
-                                                interface WaterAirConsumer : Consumer{
-                                                        WaterAirConsumerDefinition getWaterAirConsumerDefinition();
-                                                };
-                                                interface AirProducer : Producer{
-                                                        AirProducerDefinition getAirProducerDefinition();
-                                                };
-                                                interface O2AirProducer : Producer{
-                                                        O2AirProducerDefinition getO2AirProducerDefinition();
-                                                };
-                                                interface CO2AirProducer : Producer{
-                                                        CO2AirProducerDefinition getCO2AirProducerDefinition();
-                                                };
-                                                interface WaterAirProducer : Producer{
-                                                        WaterAirProducerDefinition getWaterAirProducerDefinition();
-                                                };
-                                                interface NitrogenAirProducer : Producer{
-                                                        NitrogenAirProducerDefinition getNitrogenAirProducerDefinition();
-                                                };
-                                                interface BiomassConsumer : Consumer{
-                                                        BiomassConsumerDefinition getBiomassConsumerDefinition();
-                                                };
-
-                                                interface FoodConsumer : Consumer{
-                                                        FoodConsumerDefinition getFoodConsumerDefinition();
-                                                };
-                                                interface BiomassProducer : Producer{
-                                                        BiomassProducerDefinition getBiomassProducerDefinition();
-                                                };
-                                                interface FoodProducer : Producer{
-                                                        FoodProducerDefinition getFoodProducerDefinition();
-                                                };
-                                                interface O2Consumer : Consumer{
-                                                        O2ConsumerDefinition getO2ConsumerDefinition();
-                                                };
-                                                interface O2Producer : Producer{
-                                                        O2ProducerDefinition getO2ProducerDefinition();
-                                                };
-                                                interface H2Consumer : Consumer{
-                                                        H2ConsumerDefinition getH2ConsumerDefinition();
-                                                };
-                                                interface H2Producer : Producer{
-                                                        H2ProducerDefinition getH2ProducerDefinition();
-                                                };
-                                                interface CO2Consumer : Consumer{
-                                                        CO2ConsumerDefinition getCO2ConsumerDefinition();
-                                                };
-                                                interface CO2Producer : Producer{
-                                                        CO2ProducerDefinition getCO2ProducerDefinition();
-                                                };
-                                                interface NitrogenConsumer : Consumer{
-                                                        NitrogenConsumerDefinition getNitrogenConsumerDefinition();
-                                                };
-                                                interface NitrogenProducer : Producer{
-                                                        NitrogenProducerDefinition getNitrogenProducerDefinition();
-                                                };
-                                                interface DryWasteConsumer : Consumer{
-                                                        DryWasteConsumerDefinition getDryWasteConsumerDefinition();
-                                                };
-                                                interface DryWasteProducer : Producer{
-                                                        DryWasteProducerDefinition getDryWasteProducerDefinition();
-                                                };
                                                 
                                                 interface SingleFlowRateControllable{
                                                         void setMaxFlowRate(in float value, in long index);
@@ -419,142 +312,7 @@ module com{
                                                         simulation::framework::StoreList getStores();
                                                         void setStores(in simulation::framework::StoreList pStores);
                                                 };
-                                                interface EnvironmentFlowRateControllable : SingleFlowRateControllable{
-                                                        simulation::environment::SimEnvironmentList getEnvironments();
-                                                };
-                                                interface StoreEnvironmentFlowRateControllable{
-                                                        void setStoreMaxFlowRate(in float value, in long index);
-                                                        void setEnvironmentMaxFlowRate(in float value, in long index);
-                                                        float getStoreMaxFlowRate(in long index);
-                                                        float getEnvironmentMaxFlowRate(in long index);
-                                                        void setStoreDesiredFlowRate(in float value, in long index);
-                                                        void setEnvironmentDesiredFlowRate(in float value, in long index);
-                                                        float getStoreDesiredFlowRate(in long index);
-                                                        float getEnvironmentDesiredFlowRate(in long index);
-                                                        float getStoreActualFlowRate(in long index);
-                                                        float getEnvironmentActualFlowRate(in long index);
-                                                        simulation::framework::StoreList getStores();
-                                                        simulation::environment::SimEnvironmentList getEnvironments();
-                                                        FloatList getStoreMaxFlowRates();
-                                                        FloatList getEnvironmentMaxFlowRates();
-                                                        FloatList getStoreDesiredFlowRates();
-                                                        FloatList getEnvironmentDesiredFlowRates();
-                                                        FloatList getStoreActualFlowRates();
-                                                        FloatList getEnvironmentActualFlowRates();
-                                                };
-                                                interface PowerConsumerDefinition : StoreFlowRateControllable{
-                                                        void setPowerInputs(in simulation::power::PowerStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates); 
-                                                };
-                                                interface PowerProducerDefinition : StoreFlowRateControllable{
-                                                        void setPowerOutputs(in simulation::power::PowerStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface PotableWaterConsumerDefinition : StoreFlowRateControllable{
-                                                        void setPotableWaterInputs(in simulation::water::PotableWaterStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface GreyWaterConsumerDefinition : StoreFlowRateControllable{
-                                                        void setGreyWaterInputs(in simulation::water::GreyWaterStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface DirtyWaterConsumerDefinition : StoreFlowRateControllable{
-                                                        void setDirtyWaterInputs(in simulation::water::DirtyWaterStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface WaterConsumerDefinition : StoreFlowRateControllable{
-                                                        void setWaterInputs(in simulation::water::WaterStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface PotableWaterProducerDefinition : StoreFlowRateControllable{
-                                                        void setPotableWaterOutputs(in simulation::water::PotableWaterStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface GreyWaterProducerDefinition : StoreFlowRateControllable{
-                                                        void setGreyWaterOutputs(in simulation::water::GreyWaterStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface DirtyWaterProducerDefinition : StoreFlowRateControllable{
-                                                        void setDirtyWaterOutputs(in simulation::water::DirtyWaterStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface WaterProducerDefinition : StoreFlowRateControllable{
-                                                        void setWaterOutputs(in simulation::water::WaterStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface AirConsumerDefinition : EnvironmentFlowRateControllable{
-                                                        void setAirInputs(in simulation::environment::SimEnvironmentList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface LightConsumerDefinition : EnvironmentFlowRateControllable{
-                                                        void setLightInput(in simulation::environment::SimEnvironment source);
-                                                };
-                                                interface O2AirConsumerDefinition : StoreEnvironmentFlowRateControllable{
-                                                        void setO2AirEnvironmentInputs(in simulation::environment::SimEnvironmentList source, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                        void setO2AirStoreInputs(in simulation::air::O2StoreList source, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface CO2AirConsumerDefinition : StoreEnvironmentFlowRateControllable{
-                                                        void setCO2AirEnvironmentInputs(in simulation::environment::SimEnvironmentList source, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                        void setCO2AirStoreInputs(in simulation::air::CO2StoreList source, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface NitrogenAirConsumerDefinition : StoreEnvironmentFlowRateControllable{
-                                                        void setNitrogenAirEnvironmentInputs(in simulation::environment::SimEnvironmentList source, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                        void setNitrogenAirStoreInputs(in simulation::air::NitrogenStoreList source, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface WaterAirConsumerDefinition : StoreEnvironmentFlowRateControllable{
-                                                        void setWaterAirEnvironmentInputs(in simulation::environment::SimEnvironmentList source, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                        void setWaterAirStoreInputs(in simulation::water::WaterStoreList source, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface AirProducerDefinition : EnvironmentFlowRateControllable{
-                                                        void setAirOutputs(in simulation::environment::SimEnvironmentList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface O2AirProducerDefinition : StoreEnvironmentFlowRateControllable{
-                                                        void setO2AirEnvironmentOutputs(in simulation::environment::SimEnvironmentList destination, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                        void setO2AirStoreOutputs(in simulation::air::O2StoreList destination, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface CO2AirProducerDefinition : StoreEnvironmentFlowRateControllable{
-                                                        void setCO2AirEnvironmentOutputs(in simulation::environment::SimEnvironmentList destination, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                        void setCO2AirStoreOutputs(in simulation::air::CO2StoreList destination, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface WaterAirProducerDefinition : StoreEnvironmentFlowRateControllable{
-                                                        void setWaterAirEnvironmentOutputs(in simulation::environment::SimEnvironmentList destination, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                        void setWaterAirStoreOutputs(in simulation::water::WaterStoreList destination, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface NitrogenAirProducerDefinition : StoreEnvironmentFlowRateControllable{
-                                                        void setNitrogenAirEnvironmentOutputs(in simulation::environment::SimEnvironmentList destination, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                        void setNitrogenAirStoreOutputs(in simulation::air::NitrogenStoreList destination, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface BiomassConsumerDefinition : StoreFlowRateControllable{
-                                                        void setBiomassInputs(in simulation::food::BiomassStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface FoodConsumerDefinition : StoreFlowRateControllable{
-                                                        void setFoodInputs(in simulation::food::FoodStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface BiomassProducerDefinition : StoreFlowRateControllable{
-                                                        void setBiomassOutputs(in simulation::food::BiomassStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface FoodProducerDefinition : StoreFlowRateControllable{
-                                                        void setFoodOutputs(in simulation::food::FoodStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface O2ConsumerDefinition : StoreFlowRateControllable{
-                                                        void setO2Inputs(in simulation::air::O2StoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface O2ProducerDefinition : StoreFlowRateControllable{
-                                                        void setO2Outputs(in simulation::air::O2StoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface H2ConsumerDefinition : StoreFlowRateControllable{
-                                                        void setH2Inputs(in simulation::air::H2StoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface H2ProducerDefinition : StoreFlowRateControllable{
-                                                        void setH2Outputs(in simulation::air::H2StoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface CO2ConsumerDefinition : StoreFlowRateControllable{
-                                                        void setCO2Inputs(in simulation::air::CO2StoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface CO2ProducerDefinition : StoreFlowRateControllable{
-                                                        void setCO2Outputs(in simulation::air::CO2StoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface NitrogenConsumerDefinition : StoreFlowRateControllable{
-                                                        void setNitrogenInputs(in simulation::air::NitrogenStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface NitrogenProducerDefinition : StoreFlowRateControllable{
-                                                        void setNitrogenOutputs(in simulation::air::NitrogenStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface DryWasteConsumerDefinition : StoreFlowRateControllable{
-                                                        void setDryWasteInputs(in simulation::waste::DryWasteStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
-                                                interface DryWasteProducerDefinition : StoreFlowRateControllable{
-                                                        void setDryWasteOutputs(in simulation::waste::DryWasteStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
-                                                };
+                                                
                                                 interface Store : framework::SimBioModule{
                                                         void setInitialCapacity(in float metricAmount);
                                                         void setCurrentCapacity(in float metricAmount);
@@ -562,17 +320,17 @@ module com{
                                                         void setCurrentLevel(in float metricAmount);
                                                         float add(in float metricAmount);
                                                         float take(in float metricAmount);
-                                                        float getInitialLevel();
-                                                        float getInitialCapacity();
+                                                        float getInitialLevel();                                                                                         
+                                                        float getInitialCapacity();                                                              
                                                         float getCurrentLevel();
                                                         float getCurrentCapacity();
                                                         float getOverflow();
-                                                        boolean isPipe();
+                                                        boolean isPipe();                                                     
                                                         void setPipe(in boolean pPipe);
                                                 };
                                                 interface SimBioModule : framework::BioModule{};
-                                                interface Accumulator : framework::SimBioModule, framework::PowerConsumer, framework::PotableWaterConsumer, framework::GreyWaterConsumer, framework::DirtyWaterConsumer, framework::WaterConsumer, framework::O2Consumer, framework::CO2Consumer, framework::NitrogenConsumer, framework::AirConsumer, framework::BiomassConsumer, framework::FoodConsumer, framework::O2AirConsumer, framework::CO2AirConsumer, framework::NitrogenAirConsumer, framework::DryWasteConsumer, framework::WaterAirConsumer, framework::PowerProducer, framework::PotableWaterProducer, framework::GreyWaterProducer, framework::DirtyWaterProducer, framework::O2Producer, framework::CO2Producer, framework::NitrogenProducer, framework::AirProducer, framework::BiomassProducer, framework::FoodProducer, framework::O2AirProducer, framework::CO2AirProducer, framework::NitrogenAirProducer, framework::WaterAirProducer, framework::DryWasteProducer{};
-                                                interface Injector : framework::SimBioModule, framework::PowerConsumer, framework::PotableWaterConsumer, framework::GreyWaterConsumer, framework::DirtyWaterConsumer, framework::WaterConsumer, framework::O2Consumer, framework::CO2Consumer, framework::NitrogenConsumer, framework::AirConsumer, framework::BiomassConsumer, framework::FoodConsumer, framework::O2AirConsumer, framework::CO2AirConsumer, framework::NitrogenAirConsumer, framework::DryWasteConsumer, framework::WaterAirConsumer, framework::PowerProducer, framework::PotableWaterProducer, framework::GreyWaterProducer, framework::DirtyWaterProducer, framework::O2Producer, framework::CO2Producer, framework::NitrogenProducer, framework::AirProducer, framework::BiomassProducer, framework::FoodProducer, framework::O2AirProducer, framework::CO2AirProducer, framework::NitrogenAirProducer, framework::WaterAirProducer, framework::DryWasteProducer{};
+                                                interface Accumulator : framework::SimBioModule, power::PowerConsumer, water::PotableWaterConsumer, water::GreyWaterConsumer, water::DirtyWaterConsumer, water::WaterConsumer, air::O2Consumer, air::CO2Consumer, air::NitrogenConsumer, environment::AirConsumer, food::BiomassConsumer, food::FoodConsumer, environment::O2AirConsumer, environment::CO2AirConsumer, environment::NitrogenAirConsumer, waste::DryWasteConsumer, environment::WaterAirConsumer, power::PowerProducer, water::PotableWaterProducer, water::GreyWaterProducer, water::DirtyWaterProducer, air::O2Producer, air::CO2Producer, air::NitrogenProducer, environment::AirProducer, food::BiomassProducer, food::FoodProducer, environment::O2AirProducer, environment::CO2AirProducer, environment::NitrogenAirProducer, environment::WaterAirProducer, waste::DryWasteProducer{};
+                                                interface Injector : framework::SimBioModule, power::PowerConsumer, water::PotableWaterConsumer, water::GreyWaterConsumer, water::DirtyWaterConsumer, water::WaterConsumer, air::O2Consumer, air::CO2Consumer, air::NitrogenConsumer, environment::AirConsumer, food::BiomassConsumer, food::FoodConsumer, environment::O2AirConsumer, environment::CO2AirConsumer, environment::NitrogenAirConsumer, waste::DryWasteConsumer, environment::WaterAirConsumer, power::PowerProducer, water::PotableWaterProducer, water::GreyWaterProducer, water::DirtyWaterProducer, air::O2Producer, air::CO2Producer, air::NitrogenProducer, environment::AirProducer, food::BiomassProducer, food::FoodProducer, environment::O2AirProducer, environment::CO2AirProducer, environment::NitrogenAirProducer, environment::WaterAirProducer, waste::DryWasteProducer{};
                                         };
                                         module crew{
                                                 interface Activity{
@@ -626,7 +384,7 @@ module com{
                                                         void tick();
                                                         void reset();
                                                 };
-                                                interface CrewGroup : framework::SimBioModule, framework::AirConsumer, framework::PotableWaterConsumer, framework::FoodConsumer, framework::AirProducer, framework::GreyWaterProducer, framework::DirtyWaterProducer, framework::DryWasteProducer{
+                                                interface CrewGroup : framework::SimBioModule, environment::AirConsumer, water::PotableWaterConsumer, food::FoodConsumer, environment::AirProducer, water::GreyWaterProducer, water::DirtyWaterProducer, waste::DryWasteProducer{
                                                         CrewPerson getCrewPerson(in string name);
                                                         CrewPerson createCrewPerson(in string name, in float age, in float weight, in Sex pSex, in long arrivalTick, in long departureTick, in CrewGroup pCrewGroup);
                                                         CrewPersonList getCrewPeople();
@@ -647,7 +405,7 @@ module com{
                                         };
 
                                         module environment{
-                                                interface Dehumidifier : framework::SimBioModule, framework::AirConsumer, framework::DirtyWaterProducer{
+                                                interface Dehumidifier : framework::SimBioModule, environment::AirConsumer, water::DirtyWaterProducer{
                                                 };
 
                                                 interface SimEnvironment : framework::SimBioModule{
@@ -710,9 +468,106 @@ module com{
                                                         float getDangerousOxygenThreshold();
                                                         void setDangerousOxygenThreshold(in float pDangerousOxygenThreshold);
                                                 };
+                                                interface AirConsumer : framework::Consumer{
+                                                        AirConsumerDefinition getAirConsumerDefinition();
+                                                };
+                                                interface LightConsumer : framework::Consumer{
+                                                        LightConsumerDefinition getLightConsumerDefinition();
+                                                };
+                                                interface O2AirConsumer : framework::Consumer{
+                                                        O2AirConsumerDefinition getO2AirConsumerDefinition();
+                                                };
+                                                interface CO2AirConsumer : framework::Consumer{
+                                                        CO2AirConsumerDefinition getCO2AirConsumerDefinition();
+                                                };
+                                                interface NitrogenAirConsumer : framework::Consumer{
+                                                        NitrogenAirConsumerDefinition getNitrogenAirConsumerDefinition();
+                                                };
+                                                interface WaterAirConsumer : framework::Consumer{
+                                                        WaterAirConsumerDefinition getWaterAirConsumerDefinition();
+                                                };
+                                                interface AirProducer : framework::Producer{
+                                                        AirProducerDefinition getAirProducerDefinition();
+                                                };
+                                                interface O2AirProducer : framework::Producer{
+                                                        O2AirProducerDefinition getO2AirProducerDefinition();
+                                                };
+                                                interface CO2AirProducer : framework::Producer{
+                                                        CO2AirProducerDefinition getCO2AirProducerDefinition();
+                                                };
+                                                interface WaterAirProducer : framework::Producer{
+                                                        WaterAirProducerDefinition getWaterAirProducerDefinition();
+                                                };
+                                                interface NitrogenAirProducer : framework::Producer{
+                                                        NitrogenAirProducerDefinition getNitrogenAirProducerDefinition();
+                                                };
+                                                interface EnvironmentFlowRateControllable : framework::SingleFlowRateControllable{
+                                                        simulation::environment::SimEnvironmentList getEnvironments();
+                                                };
+                                                interface StoreEnvironmentFlowRateControllable{
+                                                        void setStoreMaxFlowRate(in float value, in long index);
+                                                        void setEnvironmentMaxFlowRate(in float value, in long index);
+                                                        float getStoreMaxFlowRate(in long index);
+                                                        float getEnvironmentMaxFlowRate(in long index);
+                                                        void setStoreDesiredFlowRate(in float value, in long index);
+                                                        void setEnvironmentDesiredFlowRate(in float value, in long index);
+                                                        float getStoreDesiredFlowRate(in long index);
+                                                        float getEnvironmentDesiredFlowRate(in long index);
+                                                        float getStoreActualFlowRate(in long index);
+                                                        float getEnvironmentActualFlowRate(in long index);
+                                                        simulation::framework::StoreList getStores();
+                                                        simulation::environment::SimEnvironmentList getEnvironments();
+                                                        FloatList getStoreMaxFlowRates();
+                                                        FloatList getEnvironmentMaxFlowRates();
+                                                        FloatList getStoreDesiredFlowRates();
+                                                        FloatList getEnvironmentDesiredFlowRates();
+                                                        FloatList getStoreActualFlowRates();
+                                                        FloatList getEnvironmentActualFlowRates();
+                                                };
+                                                interface AirConsumerDefinition : EnvironmentFlowRateControllable{
+                                                        void setAirInputs(in simulation::environment::SimEnvironmentList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface LightConsumerDefinition : EnvironmentFlowRateControllable{
+                                                        void setLightInput(in simulation::environment::SimEnvironment source);
+                                                };
+                                                interface O2AirConsumerDefinition : StoreEnvironmentFlowRateControllable{
+                                                        void setO2AirEnvironmentInputs(in simulation::environment::SimEnvironmentList source, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                        void setO2AirStoreInputs(in simulation::air::O2StoreList source, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface CO2AirConsumerDefinition : StoreEnvironmentFlowRateControllable{
+                                                        void setCO2AirEnvironmentInputs(in simulation::environment::SimEnvironmentList source, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                        void setCO2AirStoreInputs(in simulation::air::CO2StoreList source, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface NitrogenAirConsumerDefinition : StoreEnvironmentFlowRateControllable{
+                                                        void setNitrogenAirEnvironmentInputs(in simulation::environment::SimEnvironmentList source, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                        void setNitrogenAirStoreInputs(in simulation::air::NitrogenStoreList source, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface WaterAirConsumerDefinition : StoreEnvironmentFlowRateControllable{
+                                                        void setWaterAirEnvironmentInputs(in simulation::environment::SimEnvironmentList source, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                        void setWaterAirStoreInputs(in simulation::water::WaterStoreList source, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface AirProducerDefinition : EnvironmentFlowRateControllable{
+                                                        void setAirOutputs(in simulation::environment::SimEnvironmentList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface O2AirProducerDefinition : StoreEnvironmentFlowRateControllable{
+                                                        void setO2AirEnvironmentOutputs(in simulation::environment::SimEnvironmentList destination, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                        void setO2AirStoreOutputs(in simulation::air::O2StoreList destination, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface CO2AirProducerDefinition : StoreEnvironmentFlowRateControllable{
+                                                        void setCO2AirEnvironmentOutputs(in simulation::environment::SimEnvironmentList destination, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                        void setCO2AirStoreOutputs(in simulation::air::CO2StoreList destination, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface WaterAirProducerDefinition : StoreEnvironmentFlowRateControllable{
+                                                        void setWaterAirEnvironmentOutputs(in simulation::environment::SimEnvironmentList destination, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                        void setWaterAirStoreOutputs(in simulation::water::WaterStoreList destination, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface NitrogenAirProducerDefinition : StoreEnvironmentFlowRateControllable{
+                                                        void setNitrogenAirEnvironmentOutputs(in simulation::environment::SimEnvironmentList destination, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                        void setNitrogenAirStoreOutputs(in simulation::air::NitrogenStoreList destination, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
                                         };
                                         module food{
-                                                interface BiomassRS : framework::SimBioModule, framework::PowerConsumer, framework::PotableWaterConsumer, framework::GreyWaterConsumer, framework::BiomassProducer, framework::AirConsumer, framework::AirProducer, framework::DirtyWaterProducer{
+                                                interface BiomassRS : framework::SimBioModule, power::PowerConsumer, water::PotableWaterConsumer, water::GreyWaterConsumer, food::BiomassProducer, environment::AirConsumer, environment::AirProducer, water::DirtyWaterProducer{
                                                         ShelfList getShelves();
                                                         Shelf getShelf(in long index);
                                                         Shelf createNewShelf(in PlantType pType, in float pCropArea, in long pStartTick);
@@ -721,7 +576,7 @@ module com{
                                                         boolean autoHarvestAndReplantEnabled();
                                                 };
 
-                                                interface FoodProcessor : framework::SimBioModule, framework::PowerConsumer, framework::BiomassConsumer, framework::FoodProducer, framework::DryWasteProducer, framework::WaterProducer{
+                                                interface FoodProcessor : framework::SimBioModule, power::PowerConsumer, food::BiomassConsumer, food::FoodProducer, waste::DryWasteProducer, water::WaterProducer{
                                                         float getBiomassConsumed();
                                                         float getPowerConsumed();
                                                         float getFoodProduced();
@@ -759,21 +614,47 @@ module com{
 
                                                 interface Plant{
                                                 };
+                                                
+                                                interface BiomassConsumer : framework::Consumer{
+                                                        BiomassConsumerDefinition getBiomassConsumerDefinition();
+                                                };
+
+                                                interface FoodConsumer : framework::Consumer{
+                                                        FoodConsumerDefinition getFoodConsumerDefinition();
+                                                };
+                                                interface BiomassProducer : framework::Producer{
+                                                        BiomassProducerDefinition getBiomassProducerDefinition();
+                                                };
+                                                interface FoodProducer : framework::Producer{
+                                                        FoodProducerDefinition getFoodProducerDefinition();
+                                                };
+                                                interface BiomassConsumerDefinition : framework::StoreFlowRateControllable{
+                                                        void setBiomassInputs(in simulation::food::BiomassStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface FoodConsumerDefinition : framework::StoreFlowRateControllable{
+                                                        void setFoodInputs(in simulation::food::FoodStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface BiomassProducerDefinition : framework::StoreFlowRateControllable{
+                                                        void setBiomassOutputs(in simulation::food::BiomassStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface FoodProducerDefinition : framework::StoreFlowRateControllable{
+                                                        void setFoodOutputs(in simulation::food::FoodStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
 
                                         };
                                         module mission{
                                                 interface MissionModule : framework::SimBioModule{
                                                         float getMissionProductivity();
                                                 };
-                                                interface EVAMission : MissionModule, framework::PowerConsumer, framework::AirConsumer{
+                                                interface EVAMission : MissionModule, power::PowerConsumer, environment::AirConsumer{
                                                 };
-                                                interface AnimalMission : MissionModule, framework::PowerConsumer, framework::AirConsumer, framework::PotableWaterConsumer{
+                                                interface AnimalMission : MissionModule, power::PowerConsumer, environment::AirConsumer, water::PotableWaterConsumer{
                                                 };
-                                                interface PlantMission : MissionModule, framework::PowerConsumer, framework::AirConsumer, framework::PotableWaterConsumer{
+                                                interface PlantMission : MissionModule, power::PowerConsumer, environment::AirConsumer, water::PotableWaterConsumer{
                                                 };
                                         };
                                         module power{
-                                                interface PowerPS : framework::SimBioModule, framework::PowerProducer, framework::LightConsumer{
+                                                interface PowerPS : framework::SimBioModule, power::PowerProducer, environment::LightConsumer{
                                                         float getPowerProduced();
                                                         float getCurrentUpperPowerGeneration();
                                                         void setCurrentUpperPowerGeneration(in float pUpperPowerGenerationInWatts);
@@ -782,17 +663,29 @@ module com{
                                                 };
                                                 interface PowerStore : framework::Store{
                                                 };
+                                                interface PowerConsumer : framework::Consumer{
+                                                        PowerConsumerDefinition getPowerConsumerDefinition();
+                                                };
+                                                interface PowerProducer : framework::Producer{
+                                                        PowerProducerDefinition getPowerProducerDefinition();
+                                                };
+                                                interface PowerConsumerDefinition : framework::StoreFlowRateControllable{
+                                                        void setPowerInputs(in simulation::power::PowerStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates); 
+                                                };
+                                                interface PowerProducerDefinition : framework::StoreFlowRateControllable{
+                                                        void setPowerOutputs(in simulation::power::PowerStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
                                         };
                                         module air{
-                                                interface AirRS : framework::SimBioModule, framework::PowerConsumer, framework::H2Consumer, framework::H2Producer, framework::AirConsumer, framework::AirProducer, framework::CO2Producer, framework::O2Producer, framework::CO2Consumer, framework::PotableWaterConsumer, framework::PotableWaterProducer{
+                                                interface AirRS : framework::SimBioModule, power::PowerConsumer, air::H2Consumer, air::H2Producer, environment::AirConsumer, environment::AirProducer, air::CO2Producer, air::O2Producer, air::CO2Consumer, water::PotableWaterConsumer, water::PotableWaterProducer{
                                                         //void setOperationMode(in AirRSOperationMode pMode);
                                                         //AirRSOperationMode getOpertationMode();
                                                 };
-                                                interface OGS : framework::SimBioModule, framework::PowerConsumer, framework::H2Producer, framework::O2Producer, framework::PotableWaterConsumer{
+                                                interface OGS : framework::SimBioModule, power::PowerConsumer, air::H2Producer, air::O2Producer, water::PotableWaterConsumer{
                                                 };
-                                                interface VCCR : framework::SimBioModule, framework::PowerConsumer, framework::AirConsumer, framework::AirProducer, framework::CO2Producer{
+                                                interface VCCR : framework::SimBioModule, power::PowerConsumer, environment::AirConsumer, environment::AirProducer, air::CO2Producer{
                                                 };
-                                                interface CRS : framework::SimBioModule, framework::PowerConsumer, framework::H2Consumer, framework::CO2Consumer, framework::PotableWaterProducer{
+                                                interface CRS : framework::SimBioModule, power::PowerConsumer, air::H2Consumer, air::CO2Consumer, water::PotableWaterProducer{
                                                 };
                                                 interface H2Store : framework::Store{
                                                 };
@@ -802,9 +695,57 @@ module com{
                                                 };
                                                 interface NitrogenStore : framework::Store{
                                                 };
+                                                interface O2Consumer : framework::Consumer{
+                                                        O2ConsumerDefinition getO2ConsumerDefinition();
+                                                };
+                                                interface O2Producer : framework::Producer{
+                                                        O2ProducerDefinition getO2ProducerDefinition();
+                                                };
+                                                interface H2Consumer : framework::Consumer{
+                                                        H2ConsumerDefinition getH2ConsumerDefinition();
+                                                };
+                                                interface H2Producer : framework::Producer{
+                                                        H2ProducerDefinition getH2ProducerDefinition();
+                                                };
+                                                interface CO2Consumer : framework::Consumer{
+                                                        CO2ConsumerDefinition getCO2ConsumerDefinition();
+                                                };
+                                                interface CO2Producer : framework::Producer{
+                                                        CO2ProducerDefinition getCO2ProducerDefinition();
+                                                };
+                                                interface NitrogenConsumer : framework::Consumer{
+                                                        NitrogenConsumerDefinition getNitrogenConsumerDefinition();
+                                                };
+                                                interface NitrogenProducer : framework::Producer{
+                                                        NitrogenProducerDefinition getNitrogenProducerDefinition();
+                                                };
+                                                interface O2ConsumerDefinition : framework::StoreFlowRateControllable{
+                                                        void setO2Inputs(in simulation::air::O2StoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface O2ProducerDefinition : framework::StoreFlowRateControllable{
+                                                        void setO2Outputs(in simulation::air::O2StoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface H2ConsumerDefinition : framework::StoreFlowRateControllable{
+                                                        void setH2Inputs(in simulation::air::H2StoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface H2ProducerDefinition : framework::StoreFlowRateControllable{
+                                                        void setH2Outputs(in simulation::air::H2StoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface CO2ConsumerDefinition : framework::StoreFlowRateControllable{
+                                                        void setCO2Inputs(in simulation::air::CO2StoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface CO2ProducerDefinition : framework::StoreFlowRateControllable{
+                                                        void setCO2Outputs(in simulation::air::CO2StoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface NitrogenConsumerDefinition : framework::StoreFlowRateControllable{
+                                                        void setNitrogenInputs(in simulation::air::NitrogenStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface NitrogenProducerDefinition : framework::StoreFlowRateControllable{
+                                                        void setNitrogenOutputs(in simulation::air::NitrogenStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
                                         };
                                         module water{
-                                                interface WaterRS : framework::SimBioModule, framework::PowerConsumer, framework::GreyWaterConsumer, framework::DirtyWaterConsumer, framework::PotableWaterProducer{
+                                                interface WaterRS : framework::SimBioModule, power::PowerConsumer, water::GreyWaterConsumer, water::DirtyWaterConsumer, water::PotableWaterProducer{
                                                         //void setOperationMode(in WaterRSOperationMode pMode);
                                                         //WaterRSOperationMode getOpertationMode();
                                                 };
@@ -816,11 +757,71 @@ module com{
                                                 };
                                                 interface DirtyWaterStore : WaterStore{
                                                 };
+                                                interface PotableWaterConsumer : framework::Consumer{
+                                                        PotableWaterConsumerDefinition getPotableWaterConsumerDefinition();
+                                                };
+                                                interface GreyWaterConsumer : framework::Consumer{
+                                                        GreyWaterConsumerDefinition getGreyWaterConsumerDefinition();
+                                                };
+                                                interface DirtyWaterConsumer : framework::Consumer{
+                                                        DirtyWaterConsumerDefinition getDirtyWaterConsumerDefinition();
+                                                };
+                                                interface WaterConsumer : framework::Consumer{
+                                                        WaterConsumerDefinition getWaterConsumerDefinition();
+                                                };
+                                                interface PotableWaterProducer : framework::Producer{
+                                                        PotableWaterProducerDefinition getPotableWaterProducerDefinition();
+                                                };
+                                                interface GreyWaterProducer : framework::Producer{
+                                                        GreyWaterProducerDefinition getGreyWaterProducerDefinition();
+                                                };
+                                                interface DirtyWaterProducer : framework::Producer{
+                                                        DirtyWaterProducerDefinition getDirtyWaterProducerDefinition();
+                                                };
+                                                interface WaterProducer : framework::Producer{
+                                                        WaterProducerDefinition getWaterProducerDefinition();
+                                                };
+                                                interface PotableWaterConsumerDefinition : framework::StoreFlowRateControllable{
+                                                        void setPotableWaterInputs(in simulation::water::PotableWaterStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface GreyWaterConsumerDefinition : framework::StoreFlowRateControllable{
+                                                        void setGreyWaterInputs(in simulation::water::GreyWaterStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface DirtyWaterConsumerDefinition : framework::StoreFlowRateControllable{
+                                                        void setDirtyWaterInputs(in simulation::water::DirtyWaterStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface WaterConsumerDefinition : framework::StoreFlowRateControllable{
+                                                        void setWaterInputs(in simulation::water::WaterStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface PotableWaterProducerDefinition : framework::StoreFlowRateControllable{
+                                                        void setPotableWaterOutputs(in simulation::water::PotableWaterStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface GreyWaterProducerDefinition : framework::StoreFlowRateControllable{
+                                                        void setGreyWaterOutputs(in simulation::water::GreyWaterStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface DirtyWaterProducerDefinition : framework::StoreFlowRateControllable{
+                                                        void setDirtyWaterOutputs(in simulation::water::DirtyWaterStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface WaterProducerDefinition : framework::StoreFlowRateControllable{
+                                                        void setWaterOutputs(in simulation::water::WaterStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
                                         };
                                         module waste{
-                                                interface Incinerator : framework::SimBioModule, framework::PowerConsumer, framework::DryWasteConsumer, framework::O2Consumer, framework::CO2Producer{
+                                                interface Incinerator : framework::SimBioModule, power::PowerConsumer, waste::DryWasteConsumer, air::O2Consumer, air::CO2Producer{
                                                 };
                                                 interface DryWasteStore : framework::Store{
+                                                };
+                                                interface DryWasteConsumer : framework::Consumer{
+                                                        DryWasteConsumerDefinition getDryWasteConsumerDefinition();
+                                                };
+                                                interface DryWasteProducer : framework::Producer{
+                                                        DryWasteProducerDefinition getDryWasteProducerDefinition();
+                                                };
+                                                interface DryWasteConsumerDefinition : framework::StoreFlowRateControllable{
+                                                        void setDryWasteInputs(in simulation::waste::DryWasteStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface DryWasteProducerDefinition : framework::StoreFlowRateControllable{
+                                                        void setDryWasteOutputs(in simulation::waste::DryWasteStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                                 };
                                         };
                                 };
@@ -865,43 +866,43 @@ module com{
                                                 interface NitrogenStoreLevelSensor : NitrogenStoreSensor{};
                                                 interface CO2StoreLevelSensor : CO2StoreSensor{};
                                                 interface O2InFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::O2Consumer pConsumer, in long pIndex);
-                                                        simulation::framework::O2Consumer getInput();
+                                                        void setInput(in simulation::air::O2Consumer pConsumer, in long pIndex);
+                                                        simulation::air::O2Consumer getInput();
                                                         long getIndex();
                                                 };
                                                 interface O2OutFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::O2Producer pProducer, in long pIndex);
-                                                        simulation::framework::O2Producer getInput();
+                                                        void setInput(in simulation::air::O2Producer pProducer, in long pIndex);
+                                                        simulation::air::O2Producer getInput();
                                                         long getIndex();
                                                 };
                                                 interface CO2InFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::CO2Consumer pConsumer, in long pIndex);
-                                                        simulation::framework::CO2Consumer getInput();
+                                                        void setInput(in simulation::air::CO2Consumer pConsumer, in long pIndex);
+                                                        simulation::air::CO2Consumer getInput();
                                                         long getIndex();
                                                 };
                                                 interface CO2OutFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::CO2Producer pProducer, in long pIndex);
-                                                        simulation::framework::CO2Producer getInput();
+                                                        void setInput(in simulation::air::CO2Producer pProducer, in long pIndex);
+                                                        simulation::air::CO2Producer getInput();
                                                         long getIndex();
                                                 };
                                                 interface H2InFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::H2Consumer pConsumer, in long pIndex);
-                                                        simulation::framework::H2Consumer getInput();
+                                                        void setInput(in simulation::air::H2Consumer pConsumer, in long pIndex);
+                                                        simulation::air::H2Consumer getInput();
                                                         long getIndex();
                                                 };
                                                 interface H2OutFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::H2Producer pProducer, in long pIndex);
-                                                        simulation::framework::H2Producer getInput();
+                                                        void setInput(in simulation::air::H2Producer pProducer, in long pIndex);
+                                                        simulation::air::H2Producer getInput();
                                                         long getIndex();
                                                 };
                                                 interface NitrogenInFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::NitrogenConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::NitrogenConsumer getInput();
+                                                        void setInput(in simulation::air::NitrogenConsumer pConsumer, in long pIndex);
+                                                        simulation::air::NitrogenConsumer getInput();
                                                         long getIndex();
                                                 };
                                                 interface NitrogenOutFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::NitrogenProducer pProducer, in long pIndex);
-                                                        simulation::framework::NitrogenProducer getInput();
+                                                        void setInput(in simulation::air::NitrogenProducer pProducer, in long pIndex);
+                                                        simulation::air::NitrogenProducer getInput();
                                                         long getIndex();
                                                 };
                                         };
@@ -933,98 +934,98 @@ module com{
                                                 interface NitrogenAirPressureSensor : EnvironmentSensor{};
 
                                                 interface AirInFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::AirConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::AirConsumer getInput();
+                                                        void setInput(in simulation::environment::AirConsumer pConsumer, in long pIndex);
+                                                        simulation::environment::AirConsumer getInput();
                                                         long getIndex();
                                                 };
                                                 interface AirOutFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::AirProducer pProducer, in long pIndex);
-                                                        simulation::framework::AirProducer getInput();
+                                                        void setInput(in simulation::environment::AirProducer pProducer, in long pIndex);
+                                                        simulation::environment::AirProducer getInput();
                                                         long getIndex();
                                                 };
 
                                                 interface O2AirStoreInFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::O2AirConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::O2AirConsumer getInput();
+                                                        void setInput(in simulation::environment::O2AirConsumer pConsumer, in long pIndex);
+                                                        simulation::environment::O2AirConsumer getInput();
                                                         long getIndex();
                                                 };
                                                 interface O2AirStoreOutFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::O2AirProducer pProducer, in long pIndex);
-                                                        simulation::framework::O2AirProducer getInput();
+                                                        void setInput(in simulation::environment::O2AirProducer pProducer, in long pIndex);
+                                                        simulation::environment::O2AirProducer getInput();
                                                         long getIndex();
                                                 };
                                                 interface O2AirEnvironmentInFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::O2AirConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::O2AirConsumer getInput();
+                                                        void setInput(in simulation::environment::O2AirConsumer pConsumer, in long pIndex);
+                                                        simulation::environment::O2AirConsumer getInput();
                                                         long getIndex();
                                                 };
                                                 interface O2AirEnvironmentOutFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::O2AirProducer pProducer, in long pIndex);
-                                                        simulation::framework::O2AirProducer getInput();
+                                                        void setInput(in simulation::environment::O2AirProducer pProducer, in long pIndex);
+                                                        simulation::environment::O2AirProducer getInput();
                                                         long getIndex();
                                                 };
 
                                                 interface CO2AirStoreInFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::CO2AirConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::CO2AirConsumer getInput();
+                                                        void setInput(in simulation::environment::CO2AirConsumer pConsumer, in long pIndex);
+                                                        simulation::environment::CO2AirConsumer getInput();
                                                         long getIndex();
                                                 };
                                                 interface CO2AirStoreOutFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::CO2AirProducer pProducer, in long pIndex);
-                                                        simulation::framework::CO2AirProducer getInput();
+                                                        void setInput(in simulation::environment::CO2AirProducer pProducer, in long pIndex);
+                                                        simulation::environment::CO2AirProducer getInput();
                                                         long getIndex();
                                                 };
                                                 interface CO2AirEnvironmentInFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::CO2AirConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::CO2AirConsumer getInput();
+                                                        void setInput(in simulation::environment::CO2AirConsumer pConsumer, in long pIndex);
+                                                        simulation::environment::CO2AirConsumer getInput();
                                                         long getIndex();
                                                 };
                                                 interface CO2AirEnvironmentOutFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::CO2AirProducer pProducer, in long pIndex);
-                                                        simulation::framework::CO2AirProducer getInput();
+                                                        void setInput(in simulation::environment::CO2AirProducer pProducer, in long pIndex);
+                                                        simulation::environment::CO2AirProducer getInput();
                                                         long getIndex();
                                                 };
 
 
                                                 interface NitrogenAirStoreInFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::NitrogenAirConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::NitrogenAirConsumer getInput();
+                                                        void setInput(in simulation::environment::NitrogenAirConsumer pConsumer, in long pIndex);
+                                                        simulation::environment::NitrogenAirConsumer getInput();
                                                         long getIndex();
                                                 };
                                                 interface NitrogenAirStoreOutFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::NitrogenAirProducer pProducer, in long pIndex);
-                                                        simulation::framework::NitrogenAirProducer getInput();
+                                                        void setInput(in simulation::environment::NitrogenAirProducer pProducer, in long pIndex);
+                                                        simulation::environment::NitrogenAirProducer getInput();
                                                         long getIndex();
                                                 };
                                                 interface NitrogenAirEnvironmentInFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::NitrogenAirConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::NitrogenAirConsumer getInput();
+                                                        void setInput(in simulation::environment::NitrogenAirConsumer pConsumer, in long pIndex);
+                                                        simulation::environment::NitrogenAirConsumer getInput();
                                                         long getIndex();
                                                 };
                                                 interface NitrogenAirEnvironmentOutFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::NitrogenAirProducer pProducer, in long pIndex);
-                                                        simulation::framework::NitrogenAirProducer getInput();
+                                                        void setInput(in simulation::environment::NitrogenAirProducer pProducer, in long pIndex);
+                                                        simulation::environment::NitrogenAirProducer getInput();
                                                         long getIndex();
                                                 };
 
                                                 interface WaterAirStoreInFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::WaterAirConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::WaterAirConsumer getInput();
+                                                        void setInput(in simulation::environment::WaterAirConsumer pConsumer, in long pIndex);
+                                                        simulation::environment::WaterAirConsumer getInput();
                                                         long getIndex();
                                                 };
                                                 interface WaterAirStoreOutFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::WaterAirProducer pProducer, in long pIndex);
-                                                        simulation::framework::WaterAirProducer getInput();
+                                                        void setInput(in simulation::environment::WaterAirProducer pProducer, in long pIndex);
+                                                        simulation::environment::WaterAirProducer getInput();
                                                         long getIndex();
                                                 };
                                                 interface WaterAirEnvironmentInFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::WaterAirConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::WaterAirConsumer getInput();
+                                                        void setInput(in simulation::environment::WaterAirConsumer pConsumer, in long pIndex);
+                                                        simulation::environment::WaterAirConsumer getInput();
                                                         long getIndex();
                                                 };
                                                 interface WaterAirEnvironmentOutFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::WaterAirProducer pProducer, in long pIndex);
-                                                        simulation::framework::WaterAirProducer getInput();
+                                                        void setInput(in simulation::environment::WaterAirProducer pProducer, in long pIndex);
+                                                        simulation::environment::WaterAirProducer getInput();
                                                         long getIndex();
                                                 };
 
@@ -1055,24 +1056,24 @@ module com{
                                                 };
 
                                                 interface BiomassInFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::BiomassConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::BiomassConsumer getInput();
+                                                        void setInput(in simulation::food::BiomassConsumer pConsumer, in long pIndex);
+                                                        simulation::food::BiomassConsumer getInput();
                                                         long getIndex();
                                                 };
                                                 interface BiomassOutFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::BiomassProducer pProducer, in long pIndex);
-                                                        simulation::framework::BiomassProducer getInput();
+                                                        void setInput(in simulation::food::BiomassProducer pProducer, in long pIndex);
+                                                        simulation::food::BiomassProducer getInput();
                                                         long getIndex();
                                                 };
 
                                                 interface FoodInFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::FoodConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::FoodConsumer getInput();
+                                                        void setInput(in simulation::food::FoodConsumer pConsumer, in long pIndex);
+                                                        simulation::food::FoodConsumer getInput();
                                                         long getIndex();
                                                 };
                                                 interface FoodOutFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::FoodProducer pProducer, in long pIndex);
-                                                        simulation::framework::FoodProducer getInput();
+                                                        void setInput(in simulation::food::FoodProducer pProducer, in long pIndex);
+                                                        simulation::food::FoodProducer getInput();
                                                         long getIndex();
                                                 };
 
@@ -1100,13 +1101,13 @@ module com{
                                                 interface PowerStoreLevelSensor : PowerStoreSensor{};
 
                                                 interface PowerInFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::PowerConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::PowerConsumer getInput();
+                                                        void setInput(in simulation::power::PowerConsumer pConsumer, in long pIndex);
+                                                        simulation::power::PowerConsumer getInput();
                                                         long getIndex();
                                                 };
                                                 interface PowerOutFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::PowerProducer pProducer, in long pIndex);
-                                                        simulation::framework::PowerProducer getInput();
+                                                        void setInput(in simulation::power::PowerProducer pProducer, in long pIndex);
+                                                        simulation::power::PowerProducer getInput();
                                                         long getIndex();
                                                 };
                                         };
@@ -1118,13 +1119,13 @@ module com{
                                                 interface DryWasteStoreLevelSensor : DryWasteStoreSensor{};
 
                                                 interface DryWasteInFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::DryWasteConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::DryWasteConsumer getInput();
+                                                        void setInput(in simulation::waste::DryWasteConsumer pConsumer, in long pIndex);
+                                                        simulation::waste::DryWasteConsumer getInput();
                                                         long getIndex();
                                                 };
                                                 interface DryWasteOutFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::DryWasteProducer pProducer, in long pIndex);
-                                                        simulation::framework::DryWasteProducer getInput();
+                                                        void setInput(in simulation::waste::DryWasteProducer pProducer, in long pIndex);
+                                                        simulation::waste::DryWasteProducer getInput();
                                                         long getIndex();
                                                 };
                                         };
@@ -1140,13 +1141,13 @@ module com{
                                                 interface PotableWaterStoreLevelSensor : PotableWaterStoreSensor{};
 
                                                 interface PotableWaterInFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::PotableWaterConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::PotableWaterConsumer getInput();
+                                                        void setInput(in simulation::water::PotableWaterConsumer pConsumer, in long pIndex);
+                                                        simulation::water::PotableWaterConsumer getInput();
                                                         long getIndex();
                                                 };
                                                 interface PotableWaterOutFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::PotableWaterProducer pProducer, in long pIndex);
-                                                        simulation::framework::PotableWaterProducer getInput();
+                                                        void setInput(in simulation::water::PotableWaterProducer pProducer, in long pIndex);
+                                                        simulation::water::PotableWaterProducer getInput();
                                                         long getIndex();
                                                 };
 
@@ -1156,13 +1157,13 @@ module com{
                                                 };
                                                 interface GreyWaterStoreLevelSensor : GreyWaterStoreSensor{};
                                                 interface GreyWaterInFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::GreyWaterConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::GreyWaterConsumer getInput();
+                                                        void setInput(in simulation::water::GreyWaterConsumer pConsumer, in long pIndex);
+                                                        simulation::water::GreyWaterConsumer getInput();
                                                         long getIndex();
                                                 };
                                                 interface GreyWaterOutFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::GreyWaterProducer pProducer, in long pIndex);
-                                                        simulation::framework::GreyWaterProducer getInput();
+                                                        void setInput(in simulation::water::GreyWaterProducer pProducer, in long pIndex);
+                                                        simulation::water::GreyWaterProducer getInput();
                                                         long getIndex();
                                                 };
 
@@ -1172,13 +1173,13 @@ module com{
                                                 };
                                                 interface DirtyWaterStoreLevelSensor : DirtyWaterStoreSensor{};
                                                 interface DirtyWaterInFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::DirtyWaterConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::DirtyWaterConsumer getInput();
+                                                        void setInput(in simulation::water::DirtyWaterConsumer pConsumer, in long pIndex);
+                                                        simulation::water::DirtyWaterConsumer getInput();
                                                         long getIndex();
                                                 };
                                                 interface DirtyWaterOutFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::DirtyWaterProducer pProducer, in long pIndex);
-                                                        simulation::framework::DirtyWaterProducer getInput();
+                                                        void setInput(in simulation::water::DirtyWaterProducer pProducer, in long pIndex);
+                                                        simulation::water::DirtyWaterProducer getInput();
                                                         long getIndex();
                                                 };
 
@@ -1188,13 +1189,13 @@ module com{
                                                 };
                                                 interface WaterStoreLevelSensor : WaterStoreSensor{};
                                                 interface WaterInFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::WaterConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::WaterConsumer getInput();
+                                                        void setInput(in simulation::water::WaterConsumer pConsumer, in long pIndex);
+                                                        simulation::water::WaterConsumer getInput();
                                                         long getIndex();
                                                 };
                                                 interface WaterOutFlowRateSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::framework::WaterProducer pProducer, in long pIndex);
-                                                        simulation::framework::WaterProducer getInput();
+                                                        void setInput(in simulation::water::WaterProducer pProducer, in long pIndex);
+                                                        simulation::water::WaterProducer getInput();
                                                         long getIndex();
                                                 };
                                         };
@@ -1211,43 +1212,43 @@ module com{
                                         };
                                         module air{
                                                 interface O2InFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::O2Consumer pConsumer, in long pIndex);
-                                                        simulation::framework::O2Consumer getOutput();
+                                                        void setOutput(in simulation::air::O2Consumer pConsumer, in long pIndex);
+                                                        simulation::air::O2Consumer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface O2OutFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::O2Producer pProducer, in long pIndex);
-                                                        simulation::framework::O2Producer getOutput();
+                                                        void setOutput(in simulation::air::O2Producer pProducer, in long pIndex);
+                                                        simulation::air::O2Producer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface CO2InFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::CO2Consumer pConsumer, in long pIndex);
-                                                        simulation::framework::CO2Consumer getOutput();
+                                                        void setOutput(in simulation::air::CO2Consumer pConsumer, in long pIndex);
+                                                        simulation::air::CO2Consumer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface CO2OutFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::CO2Producer pProducer, in long pIndex);
-                                                        simulation::framework::CO2Producer getOutput();
+                                                        void setOutput(in simulation::air::CO2Producer pProducer, in long pIndex);
+                                                        simulation::air::CO2Producer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface H2InFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::H2Consumer pConsumer, in long pIndex);
-                                                        simulation::framework::H2Consumer getOutput();
+                                                        void setOutput(in simulation::air::H2Consumer pConsumer, in long pIndex);
+                                                        simulation::air::H2Consumer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface H2OutFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::H2Producer pProducer, in long pIndex);
-                                                        simulation::framework::H2Producer getOutput();
+                                                        void setOutput(in simulation::air::H2Producer pProducer, in long pIndex);
+                                                        simulation::air::H2Producer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface NitrogenInFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::NitrogenConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::NitrogenConsumer getOutput();
+                                                        void setOutput(in simulation::air::NitrogenConsumer pConsumer, in long pIndex);
+                                                        simulation::air::NitrogenConsumer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface NitrogenOutFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::NitrogenProducer pProducer, in long pIndex);
-                                                        simulation::framework::NitrogenProducer getOutput();
+                                                        void setOutput(in simulation::air::NitrogenProducer pProducer, in long pIndex);
+                                                        simulation::air::NitrogenProducer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface AirRSActuator : framework::GenericActuator{
@@ -1269,97 +1270,97 @@ module com{
                                                         simulation::environment::SimEnvironment getOutput();
                                                 };
                                                 interface AirInFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::AirConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::AirConsumer getOutput();
+                                                        void setOutput(in simulation::environment::AirConsumer pConsumer, in long pIndex);
+                                                        simulation::environment::AirConsumer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface AirOutFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::AirProducer pProducer, in long pIndex);
-                                                        simulation::framework::AirProducer getOutput();
+                                                        void setOutput(in simulation::environment::AirProducer pProducer, in long pIndex);
+                                                        simulation::environment::AirProducer getOutput();
                                                         long getIndex();
                                                 };
 
                                                 interface O2AirStoreInFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::O2AirConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::O2AirConsumer getOutput();
+                                                        void setOutput(in simulation::environment::O2AirConsumer pConsumer, in long pIndex);
+                                                        simulation::environment::O2AirConsumer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface O2AirStoreOutFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::O2AirProducer pProducer, in long pIndex);
-                                                        simulation::framework::O2AirProducer getOutput();
+                                                        void setOutput(in simulation::environment::O2AirProducer pProducer, in long pIndex);
+                                                        simulation::environment::O2AirProducer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface O2AirEnvironmentInFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::O2AirConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::O2AirConsumer getOutput();
+                                                        void setOutput(in simulation::environment::O2AirConsumer pConsumer, in long pIndex);
+                                                        simulation::environment::O2AirConsumer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface O2AirEnvironmentOutFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::O2AirProducer pProducer, in long pIndex);
-                                                        simulation::framework::O2AirProducer getOutput();
+                                                        void setOutput(in simulation::environment::O2AirProducer pProducer, in long pIndex);
+                                                        simulation::environment::O2AirProducer getOutput();
                                                         long getIndex();
                                                 };
 
                                                 interface CO2AirStoreInFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::CO2AirConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::CO2AirConsumer getOutput();
+                                                        void setOutput(in simulation::environment::CO2AirConsumer pConsumer, in long pIndex);
+                                                        simulation::environment::CO2AirConsumer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface CO2AirStoreOutFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::CO2AirProducer pProducer, in long pIndex);
-                                                        simulation::framework::CO2AirProducer getOutput();
+                                                        void setOutput(in simulation::environment::CO2AirProducer pProducer, in long pIndex);
+                                                        simulation::environment::CO2AirProducer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface CO2AirEnvironmentInFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::CO2AirConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::CO2AirConsumer getOutput();
+                                                        void setOutput(in simulation::environment::CO2AirConsumer pConsumer, in long pIndex);
+                                                        simulation::environment::CO2AirConsumer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface CO2AirEnvironmentOutFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::CO2AirProducer pProducer, in long pIndex);
-                                                        simulation::framework::CO2AirProducer getOutput();
+                                                        void setOutput(in simulation::environment::CO2AirProducer pProducer, in long pIndex);
+                                                        simulation::environment::CO2AirProducer getOutput();
                                                         long getIndex();
                                                 };
 
                                                 interface NitrogenAirStoreInFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::NitrogenAirConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::NitrogenAirConsumer getOutput();
+                                                        void setOutput(in simulation::environment::NitrogenAirConsumer pConsumer, in long pIndex);
+                                                        simulation::environment::NitrogenAirConsumer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface NitrogenAirStoreOutFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::NitrogenAirProducer pProducer, in long pIndex);
-                                                        simulation::framework::NitrogenAirProducer getOutput();
+                                                        void setOutput(in simulation::environment::NitrogenAirProducer pProducer, in long pIndex);
+                                                        simulation::environment::NitrogenAirProducer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface NitrogenAirEnvironmentInFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::NitrogenAirConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::NitrogenAirConsumer getOutput();
+                                                        void setOutput(in simulation::environment::NitrogenAirConsumer pConsumer, in long pIndex);
+                                                        simulation::environment::NitrogenAirConsumer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface NitrogenAirEnvironmentOutFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::NitrogenAirProducer pProducer, in long pIndex);
-                                                        simulation::framework::NitrogenAirProducer getOutput();
+                                                        void setOutput(in simulation::environment::NitrogenAirProducer pProducer, in long pIndex);
+                                                        simulation::environment::NitrogenAirProducer getOutput();
                                                         long getIndex();
                                                 };
 
                                                 interface WaterAirStoreInFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::WaterAirConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::WaterAirConsumer getOutput();
+                                                        void setOutput(in simulation::environment::WaterAirConsumer pConsumer, in long pIndex);
+                                                        simulation::environment::WaterAirConsumer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface WaterAirStoreOutFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::WaterAirProducer pProducer, in long pIndex);
-                                                        simulation::framework::WaterAirProducer getOutput();
+                                                        void setOutput(in simulation::environment::WaterAirProducer pProducer, in long pIndex);
+                                                        simulation::environment::WaterAirProducer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface WaterAirEnvironmentInFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::WaterAirConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::WaterAirConsumer getOutput();
+                                                        void setOutput(in simulation::environment::WaterAirConsumer pConsumer, in long pIndex);
+                                                        simulation::environment::WaterAirConsumer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface WaterAirEnvironmentOutFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::WaterAirProducer pProducer, in long pIndex);
-                                                        simulation::framework::WaterAirProducer getOutput();
+                                                        void setOutput(in simulation::environment::WaterAirProducer pProducer, in long pIndex);
+                                                        simulation::environment::WaterAirProducer getOutput();
                                                         long getIndex();
                                                 };
 
@@ -1379,24 +1380,24 @@ module com{
                                                 };
 
                                                 interface BiomassInFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::BiomassConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::BiomassConsumer getOutput();
+                                                        void setOutput(in simulation::food::BiomassConsumer pConsumer, in long pIndex);
+                                                        simulation::food::BiomassConsumer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface BiomassOutFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::BiomassProducer pProducer, in long pIndex);
-                                                        simulation::framework::BiomassProducer getOutput();
+                                                        void setOutput(in simulation::food::BiomassProducer pProducer, in long pIndex);
+                                                        simulation::food::BiomassProducer getOutput();
                                                         long getIndex();
                                                 };
 
                                                 interface FoodInFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::FoodConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::FoodConsumer getOutput();
+                                                        void setOutput(in simulation::food::FoodConsumer pConsumer, in long pIndex);
+                                                        simulation::food::FoodConsumer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface FoodOutFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::FoodProducer pProducer, in long pIndex);
-                                                        simulation::framework::FoodProducer getOutput();
+                                                        void setOutput(in simulation::food::FoodProducer pProducer, in long pIndex);
+                                                        simulation::food::FoodProducer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface PlantingActuator : ShelfActuator{
@@ -1412,25 +1413,25 @@ module com{
                                                 };
 
                                                 interface PowerInFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::PowerConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::PowerConsumer getOutput();
+                                                        void setOutput(in simulation::power::PowerConsumer pConsumer, in long pIndex);
+                                                        simulation::power::PowerConsumer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface PowerOutFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::PowerProducer pProducer, in long pIndex);
-                                                        simulation::framework::PowerProducer getOutput();
+                                                        void setOutput(in simulation::power::PowerProducer pProducer, in long pIndex);
+                                                        simulation::power::PowerProducer getOutput();
                                                         long getIndex();
                                                 };
                                         };
                                         module waste{
                                                 interface DryWasteInFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::DryWasteConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::DryWasteConsumer getOutput();
+                                                        void setOutput(in simulation::waste::DryWasteConsumer pConsumer, in long pIndex);
+                                                        simulation::waste::DryWasteConsumer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface DryWasteOutFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::DryWasteProducer pProducer, in long pIndex);
-                                                        simulation::framework::DryWasteProducer getOutput();
+                                                        void setOutput(in simulation::waste::DryWasteProducer pProducer, in long pIndex);
+                                                        simulation::waste::DryWasteProducer getOutput();
                                                         long getIndex();
                                                 };
                                         };
@@ -1440,46 +1441,46 @@ module com{
                                                         simulation::water::WaterRS getOutput();
                                                 };
                                                 interface PotableWaterInFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::PotableWaterConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::PotableWaterConsumer getOutput();
+                                                        void setOutput(in simulation::water::PotableWaterConsumer pConsumer, in long pIndex);
+                                                        simulation::water::PotableWaterConsumer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface PotableWaterOutFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::PotableWaterProducer pProducer, in long pIndex);
-                                                        simulation::framework::PotableWaterProducer getOutput();
+                                                        void setOutput(in simulation::water::PotableWaterProducer pProducer, in long pIndex);
+                                                        simulation::water::PotableWaterProducer getOutput();
                                                         long getIndex();
                                                 };
 
                                                 interface GreyWaterInFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::GreyWaterConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::GreyWaterConsumer getOutput();
+                                                        void setOutput(in simulation::water::GreyWaterConsumer pConsumer, in long pIndex);
+                                                        simulation::water::GreyWaterConsumer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface GreyWaterOutFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::GreyWaterProducer pProducer, in long pIndex);
-                                                        simulation::framework::GreyWaterProducer getOutput();
+                                                        void setOutput(in simulation::water::GreyWaterProducer pProducer, in long pIndex);
+                                                        simulation::water::GreyWaterProducer getOutput();
                                                         long getIndex();
                                                 };
 
                                                 interface DirtyWaterInFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::DirtyWaterConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::DirtyWaterConsumer getOutput();
+                                                        void setOutput(in simulation::water::DirtyWaterConsumer pConsumer, in long pIndex);
+                                                        simulation::water::DirtyWaterConsumer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface DirtyWaterOutFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::DirtyWaterProducer pProducer, in long pIndex);
-                                                        simulation::framework::DirtyWaterProducer getOutput();
+                                                        void setOutput(in simulation::water::DirtyWaterProducer pProducer, in long pIndex);
+                                                        simulation::water::DirtyWaterProducer getOutput();
                                                         long getIndex();
                                                 };
 
                                                 interface WaterInFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::WaterConsumer pConsumer, in long pIndex);
-                                                        simulation::framework::WaterConsumer getOutput();
+                                                        void setOutput(in simulation::water::WaterConsumer pConsumer, in long pIndex);
+                                                        simulation::water::WaterConsumer getOutput();
                                                         long getIndex();
                                                 };
                                                 interface WaterOutFlowRateActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::framework::WaterProducer pProducer, in long pIndex);
-                                                        simulation::framework::WaterProducer getOutput();
+                                                        void setOutput(in simulation::water::WaterProducer pProducer, in long pIndex);
+                                                        simulation::water::WaterProducer getOutput();
                                                         long getIndex();
                                                 };
                                         };

@@ -22,8 +22,8 @@ import java.util.Vector;
 import org.tigris.gef.base.Layer;
 import org.tigris.gef.presentation.Fig;
 
-import com.traclabs.biosim.editor.graph.FigModuleNode;
 import com.traclabs.biosim.editor.graph.EditorGraphModel;
+import com.traclabs.biosim.editor.graph.FigModuleNode;
 import com.traclabs.biosim.editor.xml.DocumentReader;
 import com.traclabs.biosim.editor.xml.DocumentWriter;
 import com.traclabs.biosim.editor.xml.EditorParser;

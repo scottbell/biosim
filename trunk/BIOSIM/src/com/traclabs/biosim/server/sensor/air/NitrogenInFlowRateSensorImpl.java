@@ -2,7 +2,7 @@ package com.traclabs.biosim.server.sensor.air;
 
 import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.sensor.air.NitrogenInFlowRateSensorOperations;
-import com.traclabs.biosim.idl.simulation.framework.NitrogenConsumer;
+import com.traclabs.biosim.idl.simulation.air.NitrogenConsumer;
 import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
 public class NitrogenInFlowRateSensorImpl extends GenericSensorImpl implements

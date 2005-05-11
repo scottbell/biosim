@@ -5,13 +5,12 @@ import java.util.Iterator;
 import com.traclabs.biosim.idl.framework.Malfunction;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
-import com.traclabs.biosim.idl.simulation.framework.LightConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.framework.LightConsumerOperations;
-import com.traclabs.biosim.idl.simulation.framework.PowerProducerDefinition;
-import com.traclabs.biosim.idl.simulation.framework.PowerProducerOperations;
+import com.traclabs.biosim.idl.simulation.environment.LightConsumerDefinition;
+import com.traclabs.biosim.idl.simulation.environment.LightConsumerOperations;
 import com.traclabs.biosim.idl.simulation.power.PowerPSOperations;
-import com.traclabs.biosim.server.simulation.framework.LightConsumerDefinitionImpl;
-import com.traclabs.biosim.server.simulation.framework.PowerProducerDefinitionImpl;
+import com.traclabs.biosim.idl.simulation.power.PowerProducerDefinition;
+import com.traclabs.biosim.idl.simulation.power.PowerProducerOperations;
+import com.traclabs.biosim.server.simulation.environment.LightConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 
 /**

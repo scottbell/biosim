@@ -4,8 +4,8 @@ import org.tigris.gef.base.Layer;
 import org.tigris.gef.presentation.FigNode;
 
 import com.traclabs.biosim.editor.graph.PassiveNode;
-import com.traclabs.biosim.idl.simulation.framework.BiomassConsumerOperations;
-import com.traclabs.biosim.idl.simulation.framework.BiomassProducerOperations;
+import com.traclabs.biosim.idl.simulation.food.BiomassConsumerOperations;
+import com.traclabs.biosim.idl.simulation.food.BiomassProducerOperations;
 import com.traclabs.biosim.server.simulation.food.BiomassStoreImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 

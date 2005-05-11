@@ -2,7 +2,7 @@ package com.traclabs.biosim.server.sensor.environment;
 
 import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.sensor.environment.WaterAirEnvironmentInFlowRateSensorOperations;
-import com.traclabs.biosim.idl.simulation.framework.WaterAirConsumer;
+import com.traclabs.biosim.idl.simulation.environment.WaterAirConsumer;
 import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
 public class WaterAirEnvironmentInFlowRateSensorImpl extends GenericSensorImpl

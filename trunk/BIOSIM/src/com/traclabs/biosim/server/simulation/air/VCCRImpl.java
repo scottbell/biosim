@@ -1,20 +1,19 @@
 package com.traclabs.biosim.server.simulation.air;
 
 import com.traclabs.biosim.idl.simulation.air.Breath;
+import com.traclabs.biosim.idl.simulation.air.CO2ProducerDefinition;
+import com.traclabs.biosim.idl.simulation.air.CO2ProducerOperations;
 import com.traclabs.biosim.idl.simulation.air.VCCROperations;
-import com.traclabs.biosim.idl.simulation.framework.AirConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.framework.AirConsumerOperations;
-import com.traclabs.biosim.idl.simulation.framework.AirProducerDefinition;
-import com.traclabs.biosim.idl.simulation.framework.AirProducerOperations;
-import com.traclabs.biosim.idl.simulation.framework.CO2ProducerDefinition;
-import com.traclabs.biosim.idl.simulation.framework.CO2ProducerOperations;
-import com.traclabs.biosim.idl.simulation.framework.PowerConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.framework.PowerConsumerOperations;
-import com.traclabs.biosim.server.simulation.framework.AirConsumerDefinitionImpl;
-import com.traclabs.biosim.server.simulation.framework.AirProducerDefinitionImpl;
-import com.traclabs.biosim.server.simulation.framework.CO2ProducerDefinitionImpl;
-import com.traclabs.biosim.server.simulation.framework.PowerConsumerDefinitionImpl;
+import com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinition;
+import com.traclabs.biosim.idl.simulation.environment.AirConsumerOperations;
+import com.traclabs.biosim.idl.simulation.environment.AirProducerDefinition;
+import com.traclabs.biosim.idl.simulation.environment.AirProducerOperations;
+import com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition;
+import com.traclabs.biosim.idl.simulation.power.PowerConsumerOperations;
+import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.environment.AirProducerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
+import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinitionImpl;
 
 /**
  * The Air Revitalization System Implementation. Takes in Air (O2, CO2, other)

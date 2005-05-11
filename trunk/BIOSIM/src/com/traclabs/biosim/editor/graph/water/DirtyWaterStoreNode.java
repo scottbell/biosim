@@ -4,10 +4,10 @@ import org.tigris.gef.base.Layer;
 import org.tigris.gef.presentation.FigNode;
 
 import com.traclabs.biosim.editor.graph.PassiveNode;
-import com.traclabs.biosim.idl.simulation.framework.DirtyWaterConsumerOperations;
-import com.traclabs.biosim.idl.simulation.framework.DirtyWaterProducerOperations;
-import com.traclabs.biosim.idl.simulation.framework.WaterConsumerOperations;
-import com.traclabs.biosim.idl.simulation.framework.WaterProducerOperations;
+import com.traclabs.biosim.idl.simulation.water.DirtyWaterConsumerOperations;
+import com.traclabs.biosim.idl.simulation.water.DirtyWaterProducerOperations;
+import com.traclabs.biosim.idl.simulation.water.WaterConsumerOperations;
+import com.traclabs.biosim.idl.simulation.water.WaterProducerOperations;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 import com.traclabs.biosim.server.simulation.water.DirtyWaterStoreImpl;
 

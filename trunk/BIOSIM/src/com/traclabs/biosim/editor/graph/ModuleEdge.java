@@ -174,6 +174,10 @@ public class ModuleEdge extends NetEdge {
         String producerOrConsumerType = className.substring(0, className.lastIndexOf("Operations"));
         String sensorClassName = "";
         String actuatorClassName = "";
+        
+        //construct package names
+        
+        //contruct class names
         if (producerOrConsumerType.contains("Producer")){
             String resourceType = producerOrConsumerType.substring(0, producerOrConsumerType.lastIndexOf("Producer"));
             sensorClassName = resourceType + "OutFlowRateSensorImpl";

@@ -2,7 +2,7 @@ package com.traclabs.biosim.server.actuator.environment;
 
 import com.traclabs.biosim.idl.actuator.environment.NitrogenAirStoreInFlowRateActuatorOperations;
 import com.traclabs.biosim.idl.framework.BioModule;
-import com.traclabs.biosim.idl.simulation.framework.NitrogenAirConsumer;
+import com.traclabs.biosim.idl.simulation.environment.NitrogenAirConsumer;
 import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
 
 public class NitrogenAirStoreInFlowRateActuatorImpl extends GenericActuatorImpl

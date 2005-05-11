@@ -2,7 +2,7 @@ package com.traclabs.biosim.server.actuator.environment;
 
 import com.traclabs.biosim.idl.actuator.environment.AirInFlowRateActuatorOperations;
 import com.traclabs.biosim.idl.framework.BioModule;
-import com.traclabs.biosim.idl.simulation.framework.AirConsumer;
+import com.traclabs.biosim.idl.simulation.environment.AirConsumer;
 import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
 
 public class AirInFlowRateActuatorImpl extends GenericActuatorImpl implements
