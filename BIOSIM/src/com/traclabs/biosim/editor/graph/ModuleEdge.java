@@ -176,17 +176,21 @@ public class ModuleEdge extends NetEdge {
         String actuatorClassName = "";
         
         //construct package names
+        String consumerOrProducerPackageName = producerOrConsumerClass.getPackage().getName();
+        String packageResourceName = consumerOrProducerPackageName.substring("com.traclabs.biosim.idl.simulation.".length());
+        String sensorPackageName = "com.traclabs.biosim.server.sensor." + packageResourceName;
+        String actuatorPackageName = "com.traclabs.biosim.server.actuator." + packageResourceName;
         
         //contruct class names
         if (producerOrConsumerType.contains("Producer")){
-            String resourceType = producerOrConsumerType.substring(0, producerOrConsumerType.lastIndexOf("Producer"));
-            sensorClassName = resourceType + "OutFlowRateSensorImpl";
-            actuatorClassName = resourceType + "OutFlowRateActuatorImpl";
+            String classResourceName = producerOrConsumerType.substring(0, producerOrConsumerType.lastIndexOf("Producer"));
+            sensorClassName = sensorPackageName + "." + classResourceName + "OutFlowRateSensorImpl";
+            actuatorClassName = actuatorPackageName + "." + classResourceName + "OutFlowRateActuatorImpl";
         }
         else{
-            String resourceType = producerOrConsumerType.substring(0, producerOrConsumerType.lastIndexOf("Consumer"));
-            sensorClassName = resourceType + "InFlowRateSensorImpl";
-            actuatorClassName = resourceType + "InFlowRateActuatorImpl";
+            String classResourceName = producerOrConsumerType.substring(0, producerOrConsumerType.lastIndexOf("Consumer"));
+            sensorClassName = sensorPackageName + "." + classResourceName + "InFlowRateSensorImpl";
+            actuatorClassName = actuatorPackageName + "." + classResourceName + "InFlowRateActuatorImpl";
         }
         try {
             mySensorClass =  Class.forName(sensorClassName);
