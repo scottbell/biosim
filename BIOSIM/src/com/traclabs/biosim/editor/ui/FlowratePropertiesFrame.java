@@ -10,6 +10,7 @@ import java.text.NumberFormat;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -33,10 +34,12 @@ public abstract class FlowratePropertiesFrame extends JFrame {
     private FigModuleEdge myModuleFigEdge;
 
     private JFormattedTextField myMaxField;
-    private JLabel myMaxLabel;
 
     private JFormattedTextField myDesiredField;
-    private JLabel myDesiredLabel;
+    
+    private JCheckBox mySensorCheckBox;
+    
+    private JCheckBox myActuatorCheckBox;
 
     public FlowratePropertiesFrame(FigModuleEdge pEdge, SingleFlowRateControllable pOpertations) {
         myIndex = ((ModuleEdge)pEdge.getOwner()).getIndex();
@@ -47,13 +50,21 @@ public abstract class FlowratePropertiesFrame extends JFrame {
         myMaxField.setValue(new Float(myOperations.getMaxFlowRate(myIndex)));
         myDesiredField = new JFormattedTextField(NumberFormat.getNumberInstance());
         myDesiredField.setValue(new Float(myOperations.getDesiredFlowRate(myIndex)));
+        
+        mySensorCheckBox = new JCheckBox();
+        myActuatorCheckBox = new JCheckBox();
+        
         myOKButton = new JButton(new OKAction());
 
-        setLayout(new GridLayout(4, 3));
+        setLayout(new GridLayout(4, 5));
         add(new JLabel("Maximum"));
         add(myMaxField);
         add(new JLabel("Desired"));
         add(myDesiredField);
+        add(new JLabel("Sensed"));
+        add(mySensorCheckBox);
+        add(new JLabel("Actuated"));
+        add(myActuatorCheckBox);
         add(myOKButton);
         ModuleEdge theEdge = (ModuleEdge)myModuleFigEdge.getOwner();
         setTitle(theEdge.getName() + " Properties");
@@ -73,6 +84,9 @@ public abstract class FlowratePropertiesFrame extends JFrame {
             float desired = ((Number)myDesiredField.getValue()).floatValue();
             myOperations.setMaxFlowRate(max, myIndex);
             myOperations.setDesiredFlowRate(desired, myIndex);
+            myModuleFigEdge.setIsSensed(mySensorCheckBox.isSelected());
+            myModuleFigEdge.setIsActuated(myActuatorCheckBox.isSelected());
+            
             dispose();
         }
     }
