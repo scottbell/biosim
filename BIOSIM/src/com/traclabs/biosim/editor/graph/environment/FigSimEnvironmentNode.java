@@ -5,7 +5,7 @@ import java.awt.Color;
 import javax.swing.JFrame;
 
 import com.traclabs.biosim.editor.graph.FigPassiveNode;
-import com.traclabs.biosim.editor.ui.EnvironmentPropertiesFrame;
+import com.traclabs.biosim.editor.ui.SimEnvironmentPropertiesFrame;
 
 public class FigSimEnvironmentNode extends FigPassiveNode {
     private JFrame myEditFrame;
@@ -19,7 +19,7 @@ public class FigSimEnvironmentNode extends FigPassiveNode {
     protected JFrame getPropertiesEditor() {
         if (myEditFrame != null)
             return myEditFrame;
-        myEditFrame = new EnvironmentPropertiesFrame(this);
+        myEditFrame = new SimEnvironmentPropertiesFrame(this);
         myEditFrame.pack();
         return myEditFrame;
     }

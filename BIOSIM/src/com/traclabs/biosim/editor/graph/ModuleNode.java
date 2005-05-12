@@ -201,4 +201,6 @@ public abstract class ModuleNode extends NetNode implements Serializable {
         }
         return edges;
     }
+    
+    
 } /* end class EditorNode */

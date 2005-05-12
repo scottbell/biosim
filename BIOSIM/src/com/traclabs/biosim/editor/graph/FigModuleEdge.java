@@ -40,6 +40,7 @@ public class FigModuleEdge extends FigEdgeLine implements MouseListener {
         myTextDescription = new FigText(10, 30, 90, 20);  	 
         myTextDescription.setText(""); 	 
         myTextDescription.setTextColor(Color.black); 	 
+        myTextDescription.setFontFamily("Helvetica");
         myTextDescription.setTextFilled(false); 	 
         myTextDescription.setFilled(false); 	 
         myTextDescription.setLineWidth(0); 	 
@@ -144,5 +145,10 @@ public class FigModuleEdge extends FigEdgeLine implements MouseListener {
     }
 
     public void mouseExited(MouseEvent me) {
+    }
+    
+    public String toString(){
+        ModuleEdge owner = (ModuleEdge)getOwner();
+        return owner.getName();
     }
 }
