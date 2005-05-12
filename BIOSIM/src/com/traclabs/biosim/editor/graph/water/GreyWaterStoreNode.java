@@ -3,7 +3,7 @@ package com.traclabs.biosim.editor.graph.water;
 import org.tigris.gef.base.Layer;
 import org.tigris.gef.presentation.FigNode;
 
-import com.traclabs.biosim.editor.graph.PassiveNode;
+import com.traclabs.biosim.editor.graph.StoreNode;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterConsumerOperations;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterProducerOperations;
 import com.traclabs.biosim.idl.simulation.water.WaterConsumerOperations;
@@ -12,7 +12,7 @@ import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 import com.traclabs.biosim.server.simulation.water.GreyWaterStoreImpl;
 
 
-public class GreyWaterStoreNode extends PassiveNode{
+public class GreyWaterStoreNode extends StoreNode{
     private GreyWaterStoreImpl myGreyWaterStoreImpl;
     private static int nameID = 0;
     

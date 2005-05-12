@@ -2,9 +2,9 @@ package com.traclabs.biosim.editor.graph.water;
 
 import java.awt.Color;
 
-import com.traclabs.biosim.editor.graph.FigPassiveNode;
+import com.traclabs.biosim.editor.graph.FigStoreNode;
 
-public class FigDirtyWaterStoreNode extends FigPassiveNode {
+public class FigDirtyWaterStoreNode extends FigStoreNode {
 
     public FigDirtyWaterStoreNode() {
         super();

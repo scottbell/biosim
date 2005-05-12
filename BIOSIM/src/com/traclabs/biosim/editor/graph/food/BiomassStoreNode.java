@@ -3,14 +3,14 @@ package com.traclabs.biosim.editor.graph.food;
 import org.tigris.gef.base.Layer;
 import org.tigris.gef.presentation.FigNode;
 
-import com.traclabs.biosim.editor.graph.PassiveNode;
+import com.traclabs.biosim.editor.graph.StoreNode;
 import com.traclabs.biosim.idl.simulation.food.BiomassConsumerOperations;
 import com.traclabs.biosim.idl.simulation.food.BiomassProducerOperations;
 import com.traclabs.biosim.server.simulation.food.BiomassStoreImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 
 
-public class BiomassStoreNode extends PassiveNode{
+public class BiomassStoreNode extends StoreNode{
     private BiomassStoreImpl myBiomassStoreImpl;
     private static int nameID = 0;
     

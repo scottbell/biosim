@@ -3,14 +3,14 @@ package com.traclabs.biosim.editor.graph.waste;
 import org.tigris.gef.base.Layer;
 import org.tigris.gef.presentation.FigNode;
 
-import com.traclabs.biosim.editor.graph.PassiveNode;
+import com.traclabs.biosim.editor.graph.StoreNode;
 import com.traclabs.biosim.idl.simulation.waste.DryWasteConsumerOperations;
 import com.traclabs.biosim.idl.simulation.waste.DryWasteProducerOperations;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 import com.traclabs.biosim.server.simulation.waste.DryWasteStoreImpl;
 
 
-public class DryWasteStoreNode extends PassiveNode{
+public class DryWasteStoreNode extends StoreNode{
     private DryWasteStoreImpl myDryWasteStoreImpl;
     private static int nameID = 0;
     

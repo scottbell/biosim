@@ -2,9 +2,9 @@ package com.traclabs.biosim.editor.graph.air;
 
 import java.awt.Color;
 
-import com.traclabs.biosim.editor.graph.FigPassiveNode;
+import com.traclabs.biosim.editor.graph.FigStoreNode;
 
-public class FigNitrogenStoreNode extends FigPassiveNode {
+public class FigNitrogenStoreNode extends FigStoreNode {
 
     public FigNitrogenStoreNode() {
         super();
