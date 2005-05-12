@@ -2,7 +2,6 @@ package com.traclabs.biosim.editor.graph;
 
 import java.awt.Dimension;
 import java.awt.Point;
-import java.util.StringTokenizer;
 
 import javax.swing.JFrame;
 
@@ -21,30 +20,12 @@ public abstract class FigPassiveNode extends FigModuleLabelNode {
         return new FigCircle(0, 0, 75, 50);
     }
 
-    public String getPrivateData() {
-        return null; //"text=\"" + _label.getText() + "\"";
-    }
-
-    public void setPrivateData(String data) {
-        StringTokenizer tokenizer = new StringTokenizer(data, "=\"' ");
-
-        while (tokenizer.hasMoreTokens()) {
-            String tok = tokenizer.nextToken();
-            if (tok.equals("text")) {
-                String s = tokenizer.nextToken();
-                _label.setText(s);
-            } else {
-                /* Unknown value */
-            }
-        }
-    }
-
     public Point connectionPoint(Point anotherPt) {
         return connectionPoint((FigCircle) _bgFig, anotherPt);
     }
 
     public Dimension getMinimumSize() {
-        Dimension dim = _label.getSize();
+        Dimension dim = myNameLabel.getSize();
 
         double x = dim.getWidth() / 2.0;
         double y = dim.getHeight() / 2.0;
@@ -55,5 +36,5 @@ public abstract class FigPassiveNode extends FigModuleLabelNode {
         int w = Math.max((int) (2 * a) + 6, 75);
         int h = Math.max((int) (2 * b) + 6, 50);
         return new Dimension(w, h);
-    }
+    }  
 } /* end class FigGoToNode */

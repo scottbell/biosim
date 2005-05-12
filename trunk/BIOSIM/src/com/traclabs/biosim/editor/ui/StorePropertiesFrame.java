@@ -10,12 +10,12 @@ import java.text.NumberFormat;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import com.traclabs.biosim.editor.graph.FigPassiveNode;
 import com.traclabs.biosim.editor.graph.FigStoreNode;
 import com.traclabs.biosim.editor.graph.ModuleNode;
 import com.traclabs.biosim.server.simulation.framework.StoreImpl;
@@ -23,7 +23,6 @@ import com.traclabs.biosim.server.simulation.framework.StoreImpl;
 /**
  * @author scott
  *
- * TODO
  */
 public class StorePropertiesFrame extends JFrame {
     private JTextField myNameField;
@@ -32,11 +31,13 @@ public class StorePropertiesFrame extends JFrame {
 
     private JFormattedTextField myLevelField;
     
+    private JCheckBox mySensorCheckBox;
+    
     private JButton myOKButton;
 
     private StoreImpl myStoreImpl;
     
-    private FigPassiveNode myFigStoreNode;
+    private FigStoreNode myFigStoreNode;
 
     public StorePropertiesFrame(FigStoreNode pNode) {
         myFigStoreNode = pNode;
@@ -47,15 +48,18 @@ public class StorePropertiesFrame extends JFrame {
         myCapacityField.setValue(new Float(myStoreImpl.getInitialCapacity()));
         myLevelField = new JFormattedTextField(NumberFormat.getNumberInstance());
         myLevelField.setValue(new Float(myStoreImpl.getInitialLevel()));
+        mySensorCheckBox = new JCheckBox();
         myOKButton = new JButton(new OKAction());
 
-        setLayout(new GridLayout(4, 3));
+        setLayout(new GridLayout(5, 2));
         add(new JLabel("Name"));
         add(myNameField);
         add(new JLabel("Capacity"));
         add(myCapacityField);
         add(new JLabel("Level"));
         add(myLevelField);
+        add(new JLabel("Sensed"));
+        add(mySensorCheckBox);
         add(myOKButton);
         setTitle(pNode.getText() + " Properties");
     }
@@ -74,6 +78,7 @@ public class StorePropertiesFrame extends JFrame {
             float level = ((Number)myCapacityField.getValue()).floatValue();
             myStoreImpl.setInitialCapacity(capacity);
             myStoreImpl.setInitialLevel(level);
+            myFigStoreNode.setIsSensed(mySensorCheckBox.isSelected());
             myFigStoreNode.damage();
             dispose();
         }

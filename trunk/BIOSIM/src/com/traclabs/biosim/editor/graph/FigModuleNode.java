@@ -502,4 +502,9 @@ public abstract class FigModuleNode extends FigNode {
         }
     }
     
+    public String toString(){
+        ModuleNode owner = (ModuleNode)getOwner();
+        return owner.getSimBioModuleImpl().getClass().getSimpleName();
+    }
+    
 }

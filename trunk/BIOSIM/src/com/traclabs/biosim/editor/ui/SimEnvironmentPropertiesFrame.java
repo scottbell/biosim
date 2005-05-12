@@ -18,44 +18,38 @@ import javax.swing.JTextField;
 import com.traclabs.biosim.editor.graph.FigPassiveNode;
 import com.traclabs.biosim.editor.graph.ModuleNode;
 import com.traclabs.biosim.editor.graph.environment.FigSimEnvironmentNode;
-import com.traclabs.biosim.server.simulation.framework.StoreImpl;
+import com.traclabs.biosim.server.simulation.environment.SimEnvironmentImpl;
 
 /**
  * @author scott
  *
  */
-public class EnvironmentPropertiesFrame extends JFrame {
+public class SimEnvironmentPropertiesFrame extends JFrame {
 
     private JTextField myNameField;
 
-    private JFormattedTextField myCapacityField;
-
-    private JFormattedTextField myLevelField;
+    private JFormattedTextField myVolumeField;
     
     private JButton myOKButton;
 
-    private StoreImpl myStoreImpl;
+    private SimEnvironmentImpl mySimEnvironmentImpl;
     
     private FigPassiveNode myFigStoreNode;
 
-    public EnvironmentPropertiesFrame(FigSimEnvironmentNode pNode) {
+    public SimEnvironmentPropertiesFrame(FigSimEnvironmentNode pNode) {
         myFigStoreNode = pNode;
         ModuleNode owner = (ModuleNode) pNode.getOwner();
-        myStoreImpl = (StoreImpl) owner.getSimBioModuleImpl();
-        myNameField = new JTextField(myStoreImpl.getModuleName());
-        myCapacityField = new JFormattedTextField(NumberFormat.getNumberInstance());
-        myCapacityField.setValue(new Float(myStoreImpl.getInitialCapacity()));
-        myLevelField = new JFormattedTextField(NumberFormat.getNumberInstance());
-        myLevelField.setValue(new Float(myStoreImpl.getInitialLevel()));
+        mySimEnvironmentImpl = (SimEnvironmentImpl) owner.getSimBioModuleImpl();
+        myNameField = new JTextField(mySimEnvironmentImpl.getModuleName());
+        myVolumeField = new JFormattedTextField(NumberFormat.getNumberInstance());
+        myVolumeField.setValue(new Float(mySimEnvironmentImpl.getInitialVolume()));
         myOKButton = new JButton(new OKAction());
 
-        setLayout(new GridLayout(4, 3));
+        setLayout(new GridLayout(3, 2));
         add(new JLabel("Name"));
         add(myNameField);
-        add(new JLabel("Capacity"));
-        add(myCapacityField);
-        add(new JLabel("Level"));
-        add(myLevelField);
+        add(new JLabel("Volume"));
+        add(myVolumeField);
         add(myOKButton);
         setTitle(pNode.getText() + " Properties");
     }
@@ -69,11 +63,10 @@ public class EnvironmentPropertiesFrame extends JFrame {
         }
 
         public void actionPerformed(ActionEvent ae) {
-            myStoreImpl.setModuleName(myNameField.getText());
-            float capacity = ((Number)myCapacityField.getValue()).floatValue();
-            float level = ((Number)myCapacityField.getValue()).floatValue();
-            myStoreImpl.setInitialCapacity(capacity);
-            myStoreImpl.setInitialLevel(level);
+            mySimEnvironmentImpl.setModuleName(myNameField.getText());
+            float volume = ((Number)myVolumeField.getValue()).floatValue();
+            float level = ((Number)myVolumeField.getValue()).floatValue();
+            mySimEnvironmentImpl.setInitialVolumeAtSeaLevel(volume);
             myFigStoreNode.damage();
             dispose();
         }

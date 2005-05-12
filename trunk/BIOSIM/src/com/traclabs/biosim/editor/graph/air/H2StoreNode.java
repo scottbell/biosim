@@ -3,13 +3,13 @@ package com.traclabs.biosim.editor.graph.air;
 import org.tigris.gef.base.Layer;
 import org.tigris.gef.presentation.FigNode;
 
-import com.traclabs.biosim.editor.graph.PassiveNode;
+import com.traclabs.biosim.editor.graph.StoreNode;
 import com.traclabs.biosim.idl.simulation.air.H2ConsumerOperations;
 import com.traclabs.biosim.idl.simulation.air.H2ProducerOperations;
 import com.traclabs.biosim.server.simulation.air.H2StoreImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 
-public class H2StoreNode extends PassiveNode{
+public class H2StoreNode extends StoreNode{
     private H2StoreImpl myH2StoreImpl;
     private static int nameID = 0;
     

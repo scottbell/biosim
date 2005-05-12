@@ -34,7 +34,7 @@ public class FigLabel extends FigText {
      * Constructs a new FigText with the given position, size, and attributes.
      */
     public FigLabel(int x, int y, int w, int h) {
-        this(x, y, w, h, Color.blue, "TimesRoman", 12);
+        this(x, y, w, h, Color.blue, "Helvetica", 12);
     }
 
     /**
