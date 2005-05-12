@@ -9,8 +9,6 @@ import javax.swing.JFrame;
 import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigCircle;
 
-import com.traclabs.biosim.editor.ui.PassivePropertiesFrame;
-
 public abstract class FigPassiveNode extends FigModuleLabelNode {
     private JFrame myEditFrame;
 
@@ -57,18 +55,5 @@ public abstract class FigPassiveNode extends FigModuleLabelNode {
         int w = Math.max((int) (2 * a) + 6, 75);
         int h = Math.max((int) (2 * b) + 6, 50);
         return new Dimension(w, h);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.traclabs.biosim.editor.graph.ModuleFigNode#getPropertyEditor()
-     */
-    protected JFrame getPropertiesEditor() {
-        if (myEditFrame != null)
-            return myEditFrame;
-        myEditFrame = new PassivePropertiesFrame(this);
-        myEditFrame.pack();
-        return myEditFrame;
     }
 } /* end class FigGoToNode */
