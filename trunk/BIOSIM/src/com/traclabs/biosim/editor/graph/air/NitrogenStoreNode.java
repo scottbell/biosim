@@ -3,13 +3,13 @@ package com.traclabs.biosim.editor.graph.air;
 import org.tigris.gef.base.Layer;
 import org.tigris.gef.presentation.FigNode;
 
-import com.traclabs.biosim.editor.graph.PassiveNode;
+import com.traclabs.biosim.editor.graph.StoreNode;
 import com.traclabs.biosim.idl.simulation.air.NitrogenConsumerOperations;
 import com.traclabs.biosim.idl.simulation.air.NitrogenProducerOperations;
 import com.traclabs.biosim.server.simulation.air.NitrogenStoreImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 
-public class NitrogenStoreNode extends PassiveNode{
+public class NitrogenStoreNode extends StoreNode{
     private NitrogenStoreImpl myNitrogenStoreImpl;
     private static int nameID = 0;
     

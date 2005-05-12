@@ -3,14 +3,14 @@ package com.traclabs.biosim.editor.graph.power;
 import org.tigris.gef.base.Layer;
 import org.tigris.gef.presentation.FigNode;
 
-import com.traclabs.biosim.editor.graph.PassiveNode;
+import com.traclabs.biosim.editor.graph.StoreNode;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.idl.simulation.power.PowerProducerOperations;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 import com.traclabs.biosim.server.simulation.power.PowerStoreImpl;
 
 
-public class PowerStoreNode extends PassiveNode{
+public class PowerStoreNode extends StoreNode{
     private PowerStoreImpl myPowerStoreImpl;
     private static int nameID = 0;
     

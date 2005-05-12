@@ -2,9 +2,9 @@ package com.traclabs.biosim.editor.graph.food;
 
 import java.awt.Color;
 
-import com.traclabs.biosim.editor.graph.FigPassiveNode;
+import com.traclabs.biosim.editor.graph.FigStoreNode;
 
-public class FigBiomassStoreNode extends FigPassiveNode {
+public class FigBiomassStoreNode extends FigStoreNode {
 
     public FigBiomassStoreNode() {
         super();

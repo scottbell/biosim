@@ -3,14 +3,14 @@ package com.traclabs.biosim.editor.graph.air;
 import org.tigris.gef.base.Layer;
 import org.tigris.gef.presentation.FigNode;
 
-import com.traclabs.biosim.editor.graph.PassiveNode;
+import com.traclabs.biosim.editor.graph.StoreNode;
 import com.traclabs.biosim.idl.simulation.air.O2ConsumerOperations;
 import com.traclabs.biosim.idl.simulation.air.O2ProducerOperations;
 import com.traclabs.biosim.server.simulation.air.O2StoreImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 
 
-public class O2StoreNode extends PassiveNode{
+public class O2StoreNode extends StoreNode{
     private O2StoreImpl myO2StoreImpl;
     private static int nameID = 0;
     

@@ -1,5 +1,5 @@
 @echo off
-@echo starting biosim server
+@echo starting biosim editor
 set mainClass=com.traclabs.biosim.editor.BiosimEditorMain
 set buildDir=%BIOSIM_HOME%\build
 set jacoOrbClass=org.omg.CORBA.ORBClass=org.jacorb.orb.ORB
