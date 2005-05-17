@@ -17,7 +17,7 @@ public abstract class FigStoreNode extends FigPassiveNode {
     }
 
     /**
-     * @param b
+     * @param pStoreSensed
      */
     public void setIsSensed(boolean pStoreSensed) {
         if (myStoreSensed == pStoreSensed)
