@@ -2,8 +2,6 @@ package com.traclabs.biosim.server.framework;
 
 import java.net.URL;
 
-import org.apache.log4j.Logger;
-
 /**
  * The Biosim Server. Creates an instance of each module (AirRS, FoodProcessor,
  * WaterRS, etc..) and binds them to the nameserver.
