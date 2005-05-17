@@ -2,6 +2,8 @@ package com.traclabs.biosim.server.framework;
 
 import java.net.URL;
 
+import org.apache.log4j.Logger;
+
 /**
  * The Biosim Server. Creates an instance of each module (AirRS, FoodProcessor,
  * WaterRS, etc..) and binds them to the nameserver.
@@ -36,11 +38,23 @@ public class BiosimServer extends GenericServer {
      * @param args
      *            first element can be an ID to assign to this instance
      */
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         int id = GenericServer.getIDfromArgs(args);
         String xmlLocation = GenericServer.getXMLfromArgs(args);
-        BiosimServer server = new BiosimServer(id, 0, xmlLocation);
+        int stutterLength = 0;
+        if (getDemoFromArgs(args)){
+            stutterLength = 300;
+        }
+        BiosimServer server = new BiosimServer(id, stutterLength, xmlLocation);
         server.runServer("BiosimServer (id=" + id + ")");
+    }
+
+    protected static boolean getDemoFromArgs(String[] myArgs) {
+        for (int i = 0; i < myArgs.length; i++) {
+            if (myArgs[i].equals("-demo"))
+                return true;
+        }
+        return false;
     }
 }
 
