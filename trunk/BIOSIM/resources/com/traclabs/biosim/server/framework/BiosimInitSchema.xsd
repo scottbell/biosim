@@ -82,6 +82,7 @@
 							<xsd:element name="CO2Store" type="CO2StoreType"/>
 							<xsd:element name="H2Store" type="H2StoreType"/>
 							<xsd:element name="NitrogenStore" type="NitrogenStoreType"/>
+							<xsd:element name="MethaneStore" type="NitrogenStoreType"/>
 						</xsd:choice>
 					</xsd:sequence>
 				</xsd:complexType>
@@ -189,6 +190,8 @@
 							<xsd:element name="NitrogenInFlowRateSensor" type="NitrogenInFlowRateSensorType"/>
 							<xsd:element name="NitrogenOutFlowRateSensor" type="NitrogenOutFlowRateSensorType"/>
 							<xsd:element name="NitrogenStoreLevelSensor" type="NitrogenStoreLevelSensorType"/>
+							<xsd:element name="MethaneOutFlowRateSensor" type="MethaneOutFlowRateSensorType"/>
+							<xsd:element name="MethaneStoreLevelSensor" type="MethaneStoreLevelSensorType"/>
 						</xsd:choice>
 					</xsd:sequence>
 				</xsd:complexType>
@@ -326,6 +329,8 @@
 							<xsd:element name="H2OutFlowRateActuator" type="H2OutFlowRateActuatorType"/>
 							<xsd:element name="NitrogenInFlowRateActuator" type="NitrogenInFlowRateActuatorType"/>
 							<xsd:element name="NitrogenOutFlowRateActuator" type="NitrogenOutFlowRateActuatorType"/>
+							<xsd:element name="MethaneInFlowRateActuator" type="MethaneInFlowRateActuatorType"/>
+							<xsd:element name="MethaneOutFlowRateActuator" type="MethaneOutFlowRateActuatorType"/>
 						</xsd:choice>				
 					</xsd:sequence>
 				</xsd:complexType>
@@ -507,6 +512,13 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	
+	<xsd:complexType name="MethaneConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ConsumerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
 	<xsd:complexType name="LightConsumerType">  
 		<xsd:complexContent>
 			<xsd:extension base="ConsumerType">
@@ -627,6 +639,13 @@
 	</xsd:complexType>
 	
 	<xsd:complexType name="NitrogenProducerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ProducerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="MethaneProducerType">  
 		<xsd:complexContent>
 			<xsd:extension base="ProducerType">
 			</xsd:extension>
@@ -779,6 +798,13 @@
 	</xsd:complexType>
 	
 	<xsd:complexType name="NitrogenStoreType">  
+		<xsd:complexContent>
+			<xsd:extension base="Store">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="MethaneStoreType">  
 		<xsd:complexContent>
 			<xsd:extension base="Store">
 			</xsd:extension>
@@ -939,6 +965,7 @@
 					<xsd:element name="airProducer" type="AirProducerType"/>
 					<xsd:element name="CO2Producer" type="CO2ProducerType"/>
 					<xsd:element name="H2Producer" type="H2ProducerType"/>
+					<xsd:element name="methaneProducer" type="MethaneProducerType"/>
 				</xsd:sequence>
 				<!--<xsd:attribute name="operationMode" type="AirRSOperationMode" default="FULL"/> -->
 				<xsd:attribute name="implementation" type="AirRSImplementationType" default="NORMAL"/>
@@ -967,6 +994,7 @@
 					<xsd:element name="CO2Consumer" type="CO2ConsumerType"/>
 					<xsd:element name="H2Consumer" type="H2ConsumerType"/>
 					<xsd:element name="potableWaterProducer" type="PotableWaterProducerType"/>
+					<xsd:element name="methaneWaterProducer" type="MethaneProducerType"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -1284,6 +1312,27 @@
 	</xsd:complexType>
 	
 	<xsd:complexType name="NitrogenStoreLevelSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="SensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="MethaneInFlowRateSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="MethaneOutFlowRateSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="MethaneStoreLevelSensorType">  
 		<xsd:complexContent>
 			<xsd:extension base="SensorType">
 			</xsd:extension>
@@ -1814,6 +1863,20 @@
 	</xsd:complexType>
 	
 	<xsd:complexType name="NitrogenOutFlowRateActuatorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="MethaneInFlowRateActuatorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="MethaneOutFlowRateActuatorType">  
 		<xsd:complexContent>
 			<xsd:extension base="FlowRateActuatorType">
 			</xsd:extension>

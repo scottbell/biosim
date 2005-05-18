@@ -24,6 +24,11 @@ import com.traclabs.biosim.idl.simulation.air.H2Producer;
 import com.traclabs.biosim.idl.simulation.air.H2Store;
 import com.traclabs.biosim.idl.simulation.air.H2StoreHelper;
 import com.traclabs.biosim.idl.simulation.air.H2StorePOATie;
+import com.traclabs.biosim.idl.simulation.air.MethaneConsumer;
+import com.traclabs.biosim.idl.simulation.air.MethaneProducer;
+import com.traclabs.biosim.idl.simulation.air.MethaneStore;
+import com.traclabs.biosim.idl.simulation.air.MethaneStoreHelper;
+import com.traclabs.biosim.idl.simulation.air.MethaneStorePOATie;
 import com.traclabs.biosim.idl.simulation.air.NitrogenConsumer;
 import com.traclabs.biosim.idl.simulation.air.NitrogenProducer;
 import com.traclabs.biosim.idl.simulation.air.NitrogenStore;
@@ -138,6 +143,7 @@ import com.traclabs.biosim.server.simulation.air.AirRSLinearImpl;
 import com.traclabs.biosim.server.simulation.air.CO2StoreImpl;
 import com.traclabs.biosim.server.simulation.air.CRSImpl;
 import com.traclabs.biosim.server.simulation.air.H2StoreImpl;
+import com.traclabs.biosim.server.simulation.air.MethaneStoreImpl;
 import com.traclabs.biosim.server.simulation.air.NitrogenStoreImpl;
 import com.traclabs.biosim.server.simulation.air.O2StoreImpl;
 import com.traclabs.biosim.server.simulation.air.OGSImpl;
@@ -379,6 +385,15 @@ public class SimulationInitializer {
                 myNitrogenConsumer.getNitrogenConsumerDefinition()
                         .setNitrogenInputs(inputs, getMaxFlowRates(child),
                                 getDesiredFlowRates(child));
+            } else if (childName.equals("methaneConsumer")) {
+                MethaneConsumer myMethaneConsumer = (MethaneConsumer) (pModule);
+                BioModule[] modules = getInputs(child);
+                MethaneStore[] inputs = new MethaneStore[modules.length];
+                for (int i = 0; i < modules.length; i++)
+                    inputs[i] = MethaneStoreHelper.narrow(modules[i]);
+                myMethaneConsumer.getMethaneConsumerDefinition()
+                        .setMethaneInputs(inputs, getMaxFlowRates(child),
+                                getDesiredFlowRates(child));
             } else if (childName.equals("O2Consumer")) {
                 O2Consumer myO2Consumer = (O2Consumer) (pModule);
                 BioModule[] modules = getInputs(child);
@@ -586,6 +601,15 @@ public class SimulationInitializer {
                     outputs[i] = NitrogenStoreHelper.narrow(modules[i]);
                 myNitrogenProducer.getNitrogenProducerDefinition()
                         .setNitrogenOutputs(outputs, getMaxFlowRates(child),
+                                getDesiredFlowRates(child));
+            } else if (childName.equals("methaneProducer")) {
+                MethaneProducer myMethaneProducer = (MethaneProducer) (pModule);
+                BioModule[] modules = getOutputs(child);
+                MethaneStore[] outputs = new MethaneStore[modules.length];
+                for (int i = 0; i < modules.length; i++)
+                    outputs[i] = MethaneStoreHelper.narrow(modules[i]);
+                myMethaneProducer.getMethaneProducerDefinition()
+                        .setMethaneOutputs(outputs, getMaxFlowRates(child),
                                 getDesiredFlowRates(child));
             } else if (childName.equals("O2Producer")) {
                 O2Producer myO2Producer = (O2Producer) (pModule);
@@ -955,6 +979,19 @@ public class SimulationInitializer {
         } else
             BioInitializer.printRemoteWarningMessage(moduleName);
     }
+    
+    private void createMethaneStore(Node node) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
+            MethaneStoreImpl myMethaneStoreImpl = new MethaneStoreImpl(myID,
+                    moduleName);
+            setupStore(myMethaneStoreImpl, node);
+            BiosimServer.registerServer(new MethaneStorePOATie(
+                    myMethaneStoreImpl), myMethaneStoreImpl.getModuleName(),
+                    myMethaneStoreImpl.getID());
+        } else
+            BioInitializer.printRemoteWarningMessage(moduleName);
+    }
 
     private void crawlAirModules(Node node, boolean firstPass) {
         Node child = node.getFirstChild();
@@ -1009,6 +1046,14 @@ public class SimulationInitializer {
                     createNitrogenStore(child);
                 else
                     myPassiveSimModules.add(NitrogenStoreHelper
+                            .narrow(BioInitializer.grabModule(myID,
+                                    BioInitializer.getModuleName(child))));
+
+            } else if (childName.equals("MethaneStore")) {
+                if (firstPass)
+                    createMethaneStore(child);
+                else
+                    myPassiveSimModules.add(MethaneStoreHelper
                             .narrow(BioInitializer.grabModule(myID,
                                     BioInitializer.getModuleName(child))));
 

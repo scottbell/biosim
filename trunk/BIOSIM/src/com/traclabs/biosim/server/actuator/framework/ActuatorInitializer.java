@@ -18,6 +18,12 @@ import com.traclabs.biosim.idl.actuator.air.H2InFlowRateActuatorPOATie;
 import com.traclabs.biosim.idl.actuator.air.H2OutFlowRateActuator;
 import com.traclabs.biosim.idl.actuator.air.H2OutFlowRateActuatorHelper;
 import com.traclabs.biosim.idl.actuator.air.H2OutFlowRateActuatorPOATie;
+import com.traclabs.biosim.idl.actuator.air.MethaneInFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.air.MethaneInFlowRateActuatorHelper;
+import com.traclabs.biosim.idl.actuator.air.MethaneInFlowRateActuatorPOATie;
+import com.traclabs.biosim.idl.actuator.air.MethaneOutFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.air.MethaneOutFlowRateActuatorHelper;
+import com.traclabs.biosim.idl.actuator.air.MethaneOutFlowRateActuatorPOATie;
 import com.traclabs.biosim.idl.actuator.air.NitrogenInFlowRateActuator;
 import com.traclabs.biosim.idl.actuator.air.NitrogenInFlowRateActuatorHelper;
 import com.traclabs.biosim.idl.actuator.air.NitrogenInFlowRateActuatorPOATie;
@@ -142,6 +148,8 @@ import com.traclabs.biosim.idl.simulation.air.CO2ConsumerHelper;
 import com.traclabs.biosim.idl.simulation.air.CO2ProducerHelper;
 import com.traclabs.biosim.idl.simulation.air.H2ConsumerHelper;
 import com.traclabs.biosim.idl.simulation.air.H2ProducerHelper;
+import com.traclabs.biosim.idl.simulation.air.MethaneConsumerHelper;
+import com.traclabs.biosim.idl.simulation.air.MethaneProducerHelper;
 import com.traclabs.biosim.idl.simulation.air.NitrogenConsumerHelper;
 import com.traclabs.biosim.idl.simulation.air.NitrogenProducerHelper;
 import com.traclabs.biosim.idl.simulation.air.O2ConsumerHelper;
@@ -177,6 +185,8 @@ import com.traclabs.biosim.server.actuator.air.CO2InFlowRateActuatorImpl;
 import com.traclabs.biosim.server.actuator.air.CO2OutFlowRateActuatorImpl;
 import com.traclabs.biosim.server.actuator.air.H2InFlowRateActuatorImpl;
 import com.traclabs.biosim.server.actuator.air.H2OutFlowRateActuatorImpl;
+import com.traclabs.biosim.server.actuator.air.MethaneInFlowRateActuatorImpl;
+import com.traclabs.biosim.server.actuator.air.MethaneOutFlowRateActuatorImpl;
 import com.traclabs.biosim.server.actuator.air.NitrogenInFlowRateActuatorImpl;
 import com.traclabs.biosim.server.actuator.air.NitrogenOutFlowRateActuatorImpl;
 import com.traclabs.biosim.server.actuator.air.O2InFlowRateActuatorImpl;
@@ -460,6 +470,62 @@ public class ActuatorInitializer {
                 getFlowRateIndex(node));
         myActuators.add(myNitrogenOutFlowRateActuator);
     }
+    
+    private void createMethaneInFlowRateActuator(Node node) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
+            myLogger
+                    .debug("Creating MethaneInFlowRateActuator with moduleName: "
+                            + moduleName);
+            MethaneInFlowRateActuatorImpl myMethaneInFlowRateActuatorImpl = new MethaneInFlowRateActuatorImpl(
+                    myID, moduleName);
+            BioInitializer.setupBioModule(myMethaneInFlowRateActuatorImpl,
+                    node);
+            BiosimServer.registerServer(new MethaneInFlowRateActuatorPOATie(
+                    myMethaneInFlowRateActuatorImpl),
+                    myMethaneInFlowRateActuatorImpl.getModuleName(),
+                    myMethaneInFlowRateActuatorImpl.getID());
+        } else
+            BioInitializer.printRemoteWarningMessage(moduleName);
+    }
+
+    private void configureMethaneInFlowRateActuator(Node node) {
+        MethaneInFlowRateActuator myMethaneInFlowRateActuator = MethaneInFlowRateActuatorHelper
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myMethaneInFlowRateActuator.setOutput(MethaneConsumerHelper
+                .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
+                getFlowRateIndex(node));
+        myActuators.add(myMethaneInFlowRateActuator);
+    }
+
+    private void createMethaneOutFlowRateActuator(Node node) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
+            myLogger
+                    .debug("Creating MethaneOutFlowRateActuator with moduleName: "
+                            + moduleName);
+            MethaneOutFlowRateActuatorImpl myMethaneOutFlowRateActuatorImpl = new MethaneOutFlowRateActuatorImpl(
+                    myID, moduleName);
+            BioInitializer.setupBioModule(myMethaneOutFlowRateActuatorImpl,
+                    node);
+            BiosimServer.registerServer(new MethaneOutFlowRateActuatorPOATie(
+                    myMethaneOutFlowRateActuatorImpl),
+                    myMethaneOutFlowRateActuatorImpl.getModuleName(),
+                    myMethaneOutFlowRateActuatorImpl.getID());
+        } else
+            BioInitializer.printRemoteWarningMessage(moduleName);
+    }
+
+    private void configureMethaneOutFlowRateActuator(Node node) {
+        MethaneOutFlowRateActuator myMethaneOutFlowRateActuator = MethaneOutFlowRateActuatorHelper
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myMethaneOutFlowRateActuator.setOutput(MethaneProducerHelper
+                .narrow(BioInitializer.grabModule(myID, getOutputName(node))),
+                getFlowRateIndex(node));
+        myActuators.add(myMethaneOutFlowRateActuator);
+    }
 
     private void crawlAirActuators(Node node, boolean firstPass) {
         Node child = node.getFirstChild();
@@ -505,6 +571,16 @@ public class ActuatorInitializer {
                     createNitrogenOutFlowRateActuator(child);
                 else
                     configureNitrogenOutFlowRateActuator(child);
+            } else if (childName.equals("MethaneInFlowRateActuator")) {
+                if (firstPass)
+                    createMethaneInFlowRateActuator(child);
+                else
+                    configureMethaneInFlowRateActuator(child);
+            } else if (childName.equals("MethaneOutFlowRateActuator")) {
+                if (firstPass)
+                    createMethaneOutFlowRateActuator(child);
+                else
+                    configureMethaneOutFlowRateActuator(child);
             }
             child = child.getNextSibling();
         }
