@@ -24,6 +24,12 @@ import com.traclabs.biosim.idl.sensor.air.H2OutFlowRateSensorPOATie;
 import com.traclabs.biosim.idl.sensor.air.H2StoreLevelSensor;
 import com.traclabs.biosim.idl.sensor.air.H2StoreLevelSensorHelper;
 import com.traclabs.biosim.idl.sensor.air.H2StoreLevelSensorPOATie;
+import com.traclabs.biosim.idl.sensor.air.MethaneInFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.air.MethaneInFlowRateSensorHelper;
+import com.traclabs.biosim.idl.sensor.air.MethaneInFlowRateSensorPOATie;
+import com.traclabs.biosim.idl.sensor.air.MethaneOutFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.air.MethaneOutFlowRateSensorHelper;
+import com.traclabs.biosim.idl.sensor.air.MethaneOutFlowRateSensorPOATie;
 import com.traclabs.biosim.idl.sensor.air.NitrogenInFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.air.NitrogenInFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.air.NitrogenInFlowRateSensorPOATie;
@@ -228,6 +234,8 @@ import com.traclabs.biosim.idl.simulation.air.CO2StoreHelper;
 import com.traclabs.biosim.idl.simulation.air.H2ConsumerHelper;
 import com.traclabs.biosim.idl.simulation.air.H2ProducerHelper;
 import com.traclabs.biosim.idl.simulation.air.H2StoreHelper;
+import com.traclabs.biosim.idl.simulation.air.MethaneConsumerHelper;
+import com.traclabs.biosim.idl.simulation.air.MethaneProducerHelper;
 import com.traclabs.biosim.idl.simulation.air.NitrogenConsumerHelper;
 import com.traclabs.biosim.idl.simulation.air.NitrogenProducerHelper;
 import com.traclabs.biosim.idl.simulation.air.NitrogenStoreHelper;
@@ -280,6 +288,8 @@ import com.traclabs.biosim.server.sensor.air.CO2StoreLevelSensorImpl;
 import com.traclabs.biosim.server.sensor.air.H2InFlowRateSensorImpl;
 import com.traclabs.biosim.server.sensor.air.H2OutFlowRateSensorImpl;
 import com.traclabs.biosim.server.sensor.air.H2StoreLevelSensorImpl;
+import com.traclabs.biosim.server.sensor.air.MethaneInFlowRateSensorImpl;
+import com.traclabs.biosim.server.sensor.air.MethaneOutFlowRateSensorImpl;
 import com.traclabs.biosim.server.sensor.air.NitrogenInFlowRateSensorImpl;
 import com.traclabs.biosim.server.sensor.air.NitrogenOutFlowRateSensorImpl;
 import com.traclabs.biosim.server.sensor.air.NitrogenStoreLevelSensorImpl;
@@ -709,6 +719,61 @@ public class SensorInitializer {
                 .narrow(BioInitializer.grabModule(myID, getInputName(node))));
         mySensors.add(myNitrogenStoreLevelSensor);
     }
+    
+    private void createMethaneInFlowRateSensor(Node node) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
+            myLogger
+                    .debug("Creating MethaneInFlowRateSensor with moduleName: "
+                            + moduleName);
+            MethaneInFlowRateSensorImpl myMethaneInFlowRateSensorImpl = new MethaneInFlowRateSensorImpl(
+                    myID, moduleName);
+            BioInitializer.setupBioModule(myMethaneInFlowRateSensorImpl, node);
+            BiosimServer.registerServer(new MethaneInFlowRateSensorPOATie(
+                    myMethaneInFlowRateSensorImpl),
+                    myMethaneInFlowRateSensorImpl.getModuleName(),
+                    myMethaneInFlowRateSensorImpl.getID());
+        } else
+            BioInitializer.printRemoteWarningMessage(moduleName);
+    }
+
+    private void configureMethaneInFlowRateSensor(Node node) {
+        MethaneInFlowRateSensor myMethaneInFlowRateSensor = MethaneInFlowRateSensorHelper
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myMethaneInFlowRateSensor.setInput(MethaneConsumerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
+        mySensors.add(myMethaneInFlowRateSensor);
+    }
+
+    private void createMethaneOutFlowRateSensor(Node node) {
+        String moduleName = BioInitializer.getModuleName(node);
+        if (BioInitializer.isCreatedLocally(node)) {
+            myLogger
+                    .debug("Creating MethaneOutFlowRateSensor with moduleName: "
+                            + moduleName);
+            MethaneOutFlowRateSensorImpl myMethaneOutFlowRateSensorImpl = new MethaneOutFlowRateSensorImpl(
+                    myID, moduleName);
+            BioInitializer
+                    .setupBioModule(myMethaneOutFlowRateSensorImpl, node);
+            BiosimServer.registerServer(new MethaneOutFlowRateSensorPOATie(
+                    myMethaneOutFlowRateSensorImpl),
+                    myMethaneOutFlowRateSensorImpl.getModuleName(),
+                    myMethaneOutFlowRateSensorImpl.getID());
+        } else
+            BioInitializer.printRemoteWarningMessage(moduleName);
+    }
+
+    private void configureMethaneOutFlowRateSensor(Node node) {
+        MethaneOutFlowRateSensor myMethaneOutFlowRateSensor = MethaneOutFlowRateSensorHelper
+                .narrow(BioInitializer.grabModule(myID, BioInitializer
+                        .getModuleName(node)));
+        myMethaneOutFlowRateSensor.setInput(MethaneProducerHelper
+                .narrow(BioInitializer.grabModule(myID, getInputName(node))),
+                getFlowRateIndex(node));
+        mySensors.add(myMethaneOutFlowRateSensor);
+    }
 
     private void crawlAirSensors(Node node, boolean firstPass) {
         Node child = node.getFirstChild();
@@ -774,7 +839,17 @@ public class SensorInitializer {
                     createNitrogenStoreLevelSensor(child);
                 else
                     configureNitrogenStoreLevelSensor(child);
-            }
+            } else if (childName.equals("MethaneInFlowRateSensor")) {
+                if (firstPass)
+                    createMethaneInFlowRateSensor(child);
+                else
+                    configureMethaneInFlowRateSensor(child);
+            } else if (childName.equals("MethaneOutFlowRateSensor")) {
+                if (firstPass)
+                    createMethaneOutFlowRateSensor(child);
+                else
+                    configureMethaneOutFlowRateSensor(child);
+            } 
             child = child.getNextSibling();
         }
     }
