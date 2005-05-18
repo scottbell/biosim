@@ -4,6 +4,8 @@ import org.tigris.gef.base.Layer;
 import org.tigris.gef.presentation.FigNode;
 
 import com.traclabs.biosim.editor.graph.StoreNode;
+import com.traclabs.biosim.idl.simulation.environment.WaterAirConsumerOperations;
+import com.traclabs.biosim.idl.simulation.environment.WaterAirProducerOperations;
 import com.traclabs.biosim.idl.simulation.water.PotableWaterConsumerOperations;
 import com.traclabs.biosim.idl.simulation.water.PotableWaterProducerOperations;
 import com.traclabs.biosim.idl.simulation.water.WaterConsumerOperations;
@@ -16,8 +18,8 @@ public class PotableWaterStoreNode extends StoreNode{
     private PotableWaterStoreImpl myPotableWaterStoreImpl;
     private static int nameID = 0;
     
-    private final static Class[] myProducersAllowed = {WaterProducerOperations.class, PotableWaterProducerOperations.class};
-    private final static Class[] myConsumersAllowed = {WaterConsumerOperations.class, PotableWaterConsumerOperations.class};
+    private final static Class[] myProducersAllowed = {WaterProducerOperations.class, PotableWaterProducerOperations.class, WaterAirProducerOperations.class};
+    private final static Class[] myConsumersAllowed = {WaterConsumerOperations.class, PotableWaterConsumerOperations.class, WaterAirConsumerOperations.class};
     
     public PotableWaterStoreNode() {
         myPotableWaterStoreImpl = new PotableWaterStoreImpl(0, "PotableWaterStore"+nameID++);

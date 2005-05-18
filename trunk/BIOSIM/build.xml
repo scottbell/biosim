@@ -69,6 +69,9 @@
 				<pathelement location="${jacorbDir}/logkit.jar" />
 			</classpath>
 		</java>
+	</target>
+	
+	<target name="compile-stubs" depends="init-build,init-tmp" description="compiles the IDL stubs">
 		<echo message="Compiling stubs" />
 		<javac srcdir="${stubsDir}" destdir="${buildDir}" fork="yes" memoryMaximumSize="128m" nowarn="yes">
 			<classpath>
@@ -76,8 +79,11 @@
 			</classpath>
 		</javac>
 	</target>
+	
+	<target name="stub-and-compile-idl" depends="stub-idl,compile-stubs" description="stub the IDL file">
+	</target>
 
-	<target name="build-server" depends="stub-idl, build-client" description="compile the server">
+	<target name="build-server" depends="stub-and-compile-idl, build-client" description="compile the server">
 		<echo message="Compling the server" />
 		<javac srcdir="${src}/com/traclabs/biosim/server" destdir="${buildDir}" nowarn="yes" failonerror="yes">
 			<classpath>
@@ -94,7 +100,7 @@
 		</javac>
 	</target>
 
-	<target name="build-client" depends="stub-idl" description="compile the client">
+	<target name="build-client" depends="stub-and-compile-idl" description="compile the client">
 		<echo message="Compling the client" />
 		<javac srcdir="${src}/com/traclabs/biosim/client" destdir="${buildDir}" nowarn="yes" failonerror="yes">
 			<classpath>
@@ -111,7 +117,7 @@
 		</javac>
 	</target>
 
-	<target name="build-editor" description="builds editor">
+	<target name="build-editor" depends="build-server" description="builds editor">
 		<echo message="Compling the editor" />
 		<javac srcdir="${src}/com/traclabs/biosim/editor" destdir="${buildDir}" nowarn="yes" failonerror="yes">
 			<classpath>
@@ -127,7 +133,7 @@
 		</javac>
 	</target>
 
-	<target name="build-win-dist" depends="build-server,build-client, init-dist, init-tmp" description="creates windows dist">
+	<target name="build-win-dist" depends="build-server,build-client,init-dist, init-tmp" description="creates windows dist">
 		<mkdir dir="${winDistDir}" />
 		<mkdir dir="${winDistTmpDir}" />
 		<echo message="Unpacking libraries" />
@@ -360,11 +366,11 @@
 	<target name="clean" description="clean up">
 		<delete dir="${buildDir}" />
 		<delete dir="${stubsDir}" />
+		<delete dir="${tmpDir}" />
 	</target>
 
-	<target name="clean-all" depends="clean" description="clean up everything (docs, tmp, dists)">
+	<target name="clean-all" depends="clean" description="clean up everything (docs, dists)">
 		<delete dir="${distDir}" />
-		<delete dir="${tmpDir}" />
 		<delete dir="${javadocDir}" />
 	</target>
 

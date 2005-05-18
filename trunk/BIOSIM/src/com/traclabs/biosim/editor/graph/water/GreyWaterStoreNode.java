@@ -4,6 +4,8 @@ import org.tigris.gef.base.Layer;
 import org.tigris.gef.presentation.FigNode;
 
 import com.traclabs.biosim.editor.graph.StoreNode;
+import com.traclabs.biosim.idl.simulation.environment.WaterAirConsumerOperations;
+import com.traclabs.biosim.idl.simulation.environment.WaterAirProducerOperations;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterConsumerOperations;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterProducerOperations;
 import com.traclabs.biosim.idl.simulation.water.WaterConsumerOperations;
@@ -16,8 +18,8 @@ public class GreyWaterStoreNode extends StoreNode{
     private GreyWaterStoreImpl myGreyWaterStoreImpl;
     private static int nameID = 0;
     
-    private final static Class[] myProducersAllowed = {WaterProducerOperations.class, GreyWaterProducerOperations.class};
-    private final static Class[] myConsumersAllowed = {WaterConsumerOperations.class, GreyWaterConsumerOperations.class};
+    private final static Class[] myProducersAllowed = {WaterProducerOperations.class, GreyWaterProducerOperations.class, WaterAirProducerOperations.class};
+    private final static Class[] myConsumersAllowed = {WaterConsumerOperations.class, GreyWaterConsumerOperations.class, WaterAirConsumerOperations.class};
     
     public GreyWaterStoreNode() {
         myGreyWaterStoreImpl = new GreyWaterStoreImpl(0, "GreyWaterStore"+nameID++);

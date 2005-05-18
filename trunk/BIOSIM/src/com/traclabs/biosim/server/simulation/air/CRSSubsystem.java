@@ -71,7 +71,9 @@ public class CRSSubsystem extends AirRSSubSystem {
         float distributedWaterLeft = myAirRS
                 .getPotableWaterProducerDefinitionImpl().pushResourceToStore(
                         currentH2OProduced);
-        myAirRS.getCH4Tank().addCH4(currentCH4Produced);
+        float distributedMethaneLeft = myAirRS
+                        .getMethaneProducerDefinitionImpl().pushResourceToStore(
+                                currentCH4Produced);
     }
 
     public void reset() {

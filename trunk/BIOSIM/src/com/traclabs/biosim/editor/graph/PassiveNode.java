@@ -1,49 +1,53 @@
 package com.traclabs.biosim.editor.graph;
 
-
+import java.util.Collection;
+import java.util.LinkedList;
 
 public abstract class PassiveNode extends ModuleNode {
     /**
      * @param destNode
      * @return
      */
-    public boolean allowsProductionFromActiveNode(ModuleNode destNode) {
-        if (destNode instanceof ActiveNode){
-            ActiveNode activeDestNode = (ActiveNode)destNode;
-            Class[] producersAllowed = getProducersAllowed();
-            for (int i = 0; i < producersAllowed.length; i++){
-                if (producersAllowed[i].isInstance(activeDestNode.getSimBioModuleImpl()))
-                    return true;
+    public Class[] getClassesMatchingProductionFromActiveNode(
+            ActiveNode destNode) {
+        Collection producersMatching = new LinkedList();
+        Class[] producersAllowed = getProducersAllowed();
+        for (int i = 0; i < producersAllowed.length; i++) {
+            if (producersAllowed[i].isInstance(destNode
+                    .getSimBioModuleImpl())) {
+                producersMatching.add(producersAllowed[i]);
             }
         }
-        return false;
+        Class[] classArray = (Class[])(producersMatching.toArray(new Class[0]));
+        return classArray;
     }
-    
+
     /**
      * @param sourceNode
      * @return
      */
-    public boolean allowsConsumptionFromActiveNode(ModuleNode sourceNode) {
-        if (sourceNode instanceof ActiveNode){
-            ActiveNode activeSourceNode = (ActiveNode)sourceNode;
-            Class[] consumersAllowed = getConsumersAllowed();
-            for (int i = 0; i < consumersAllowed.length; i++){
-                if (consumersAllowed[i].isInstance(activeSourceNode.getSimBioModuleImpl()))
-                    return true;
+    public Class[] getClassesMatchingConsumptionFromActiveNode(
+            ActiveNode sourceNode) {
+        Collection consumersMatching = new LinkedList();
+        Class[] consumersAllowed = getConsumersAllowed();
+        for (int i = 0; i < consumersAllowed.length; i++) {
+            if (consumersAllowed[i].isInstance(sourceNode
+                    .getSimBioModuleImpl())) {
+                consumersMatching.add(consumersAllowed[i]);
             }
         }
-        return false;
+        Class[] classArray = (Class[])(consumersMatching.toArray(new Class[0]));
+        return classArray;
     }
 
     /**
      * @return
      */
     public abstract Class[] getProducersAllowed();
-    
+
     /**
      * @return
      */
     public abstract Class[] getConsumersAllowed();
 
-    
 }

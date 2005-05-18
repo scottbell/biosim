@@ -7,6 +7,8 @@ import com.traclabs.biosim.idl.simulation.air.CO2ConsumerOperations;
 import com.traclabs.biosim.idl.simulation.air.CRSOperations;
 import com.traclabs.biosim.idl.simulation.air.H2ConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.air.H2ConsumerOperations;
+import com.traclabs.biosim.idl.simulation.air.MethaneProducerDefinition;
+import com.traclabs.biosim.idl.simulation.air.MethaneProducerOperations;
 import com.traclabs.biosim.idl.simulation.air.O2ProducerDefinition;
 import com.traclabs.biosim.idl.simulation.air.O2ProducerOperations;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition;
@@ -27,7 +29,7 @@ import com.traclabs.biosim.server.simulation.water.PotableWaterProducerDefinitio
 
 public class CRSImpl extends SimBioModuleImpl implements CRSOperations,
         PowerConsumerOperations, PotableWaterProducerOperations,
-        O2ProducerOperations, CO2ConsumerOperations, H2ConsumerOperations {
+        O2ProducerOperations, CO2ConsumerOperations, H2ConsumerOperations, MethaneProducerOperations {
     //Consumers, Producers
     private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
 
@@ -39,6 +41,8 @@ public class CRSImpl extends SimBioModuleImpl implements CRSOperations,
 
     private H2ConsumerDefinitionImpl myH2ConsumerDefinitionImpl;
 
+    private MethaneProducerDefinitionImpl myMethaneProducerDefinitionImpl;
+
     private float currentPowerConsumed = 0f;
 
     private float currentCO2Consumed;
@@ -48,8 +52,6 @@ public class CRSImpl extends SimBioModuleImpl implements CRSOperations,
     private float currentH2OProduced;
 
     private float currentCH4Produced;
-
-    private float CH4Produced = 0f;
 
     private float currentO2Produced;
 
@@ -63,6 +65,7 @@ public class CRSImpl extends SimBioModuleImpl implements CRSOperations,
         myO2ProducerDefinitionImpl = new O2ProducerDefinitionImpl();
         myCO2ConsumerDefinitionImpl = new CO2ConsumerDefinitionImpl();
         myH2ConsumerDefinitionImpl = new H2ConsumerDefinitionImpl();
+        myMethaneProducerDefinitionImpl = new MethaneProducerDefinitionImpl();
     }
 
     public PowerConsumerDefinition getPowerConsumerDefinition() {
@@ -83,6 +86,10 @@ public class CRSImpl extends SimBioModuleImpl implements CRSOperations,
 
     public H2ConsumerDefinition getH2ConsumerDefinition() {
         return myH2ConsumerDefinitionImpl.getCorbaObject();
+    }
+
+    public MethaneProducerDefinition getMethaneProducerDefinition() {
+        return myMethaneProducerDefinitionImpl.getCorbaObject();
     }
 
     private void gatherPower() {
@@ -139,7 +146,8 @@ public class CRSImpl extends SimBioModuleImpl implements CRSOperations,
         }
         float distributedWaterLeft = myPotableWaterProducerDefinitionImpl
                 .pushResourceToStore(currentH2OProduced);
-        CH4Produced += currentCH4Produced;
+        float distributedMethaneLeft = myMethaneProducerDefinitionImpl
+                .pushResourceToStore(currentH2OProduced);
     }
 
     protected String getMalfunctionName(MalfunctionIntensity pIntensity,
@@ -155,7 +163,6 @@ public class CRSImpl extends SimBioModuleImpl implements CRSOperations,
      */
     public void reset() {
         super.reset();
-        CH4Produced = 0f;
     }
 
 }
