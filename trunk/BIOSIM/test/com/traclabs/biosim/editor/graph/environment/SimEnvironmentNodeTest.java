@@ -15,7 +15,8 @@ import junit.framework.TestCase;
 public class SimEnvironmentNodeTest extends TestCase {
     private SimEnvironmentNode mySimEnvironmentNode;
     
-    protected void setUp() { 
+    protected void setUp() throws Exception {
+        super.setUp();
         mySimEnvironmentNode = new SimEnvironmentNode();
     } 
 
@@ -23,7 +24,8 @@ public class SimEnvironmentNodeTest extends TestCase {
          assertTrue(mySimEnvironmentNode.getSimBioModuleImpl() instanceof SimEnvironmentImpl);
     }
     
-    protected void tearDown() { 
+    protected void tearDown() throws Exception { 
+        super.tearDown();
         mySimEnvironmentNode = null; 
    }
 
