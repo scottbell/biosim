@@ -6,6 +6,8 @@ import org.tigris.gef.presentation.FigNode;
 import com.traclabs.biosim.editor.graph.StoreNode;
 import com.traclabs.biosim.idl.simulation.air.O2ConsumerOperations;
 import com.traclabs.biosim.idl.simulation.air.O2ProducerOperations;
+import com.traclabs.biosim.idl.simulation.environment.O2AirConsumerOperations;
+import com.traclabs.biosim.idl.simulation.environment.O2AirProducerOperations;
 import com.traclabs.biosim.server.simulation.air.O2StoreImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 
@@ -14,8 +16,8 @@ public class O2StoreNode extends StoreNode{
     private O2StoreImpl myO2StoreImpl;
     private static int nameID = 0;
     
-    private final static Class[] myProducersAllowed = {O2ProducerOperations.class};
-    private final static Class[] myConsumersAllowed = {O2ConsumerOperations.class};
+    private final static Class[] myProducersAllowed = {O2ProducerOperations.class, O2AirProducerOperations.class};
+    private final static Class[] myConsumersAllowed = {O2ConsumerOperations.class, O2AirConsumerOperations.class};
     
     public O2StoreNode() {
         myO2StoreImpl = new O2StoreImpl(0, "O2Store"+nameID++);

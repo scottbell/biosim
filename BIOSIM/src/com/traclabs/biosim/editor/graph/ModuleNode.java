@@ -146,40 +146,41 @@ public abstract class ModuleNode extends NetNode implements Serializable {
      * @param destNode
      * @return
      */
-    public static boolean meetsConstraintsForEdge(ModuleNode sourceNode, ModuleNode destNode) {
+    public static Class[] getClassesMeetingConstraintsForEdge(ModuleNode sourceNode, ModuleNode destNode) {
         //only allow 2 edges (one each way) for each module
         if (sourceNode.edgeExists(destNode))
-            return false;
-        //check to see if consumption/production is allowed
-        if (sourceNode instanceof PassiveNode){
-            PassiveNode sourcePassiveNode = (PassiveNode)sourceNode;
-            if (!sourcePassiveNode.allowsConsumptionFromActiveNode(destNode))
-                return false;
-        }
-        else if (destNode instanceof PassiveNode){
-            PassiveNode destPassiveNode = (PassiveNode)destNode;
-            if (!destPassiveNode.allowsProductionFromActiveNode(sourceNode))
-                return false;
-        }
-        //connecting two active nodes?
-        else
-            return false;
+            return new Class[0];
         
         //check to see if active node already has an edge for this (allow in future revisions)
         if (sourceNode instanceof ActiveNode){
+            if (!(destNode instanceof PassiveNode))
+                return new Class[0];
             ActiveNode sourceActiveNode = (ActiveNode)sourceNode;
-            if (sourceActiveNode.isProducingForPassiveNode(destNode))
-                return false;
+            if (sourceActiveNode.isProducingForNode((PassiveNode)destNode))
+                return new Class[0];
         }
         else if (destNode instanceof ActiveNode){
+            if (!(sourceNode instanceof PassiveNode))
+                return new Class[0];
             ActiveNode destActiveNode = (ActiveNode)destNode;
-            if (destActiveNode.isConsumingFromPassiveNode(sourceNode))
-                return false;
+            if (destActiveNode.isConsumingFromNode((PassiveNode)sourceNode))
+                return new Class[0];
         }
-        //Connecting two active nodes?
+        //connecting two active nodes?
         else
-            return false;
-        return true;
+            return new Class[0]; 
+        
+        //check to see if consumption/production is allowed
+        if (sourceNode instanceof PassiveNode){
+            PassiveNode sourcePassiveNode = (PassiveNode)sourceNode;
+            return sourcePassiveNode.getClassesMatchingConsumptionFromActiveNode((ActiveNode)destNode);
+        }
+        else if (destNode instanceof PassiveNode){
+            PassiveNode destPassiveNode = (PassiveNode)destNode;
+            return destPassiveNode.getClassesMatchingProductionFromActiveNode((ActiveNode)sourceNode);
+        }
+        
+        return new Class[0];
     }
     
     public String getId(){

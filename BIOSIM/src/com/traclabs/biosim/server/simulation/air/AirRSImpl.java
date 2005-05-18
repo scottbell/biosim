@@ -16,6 +16,8 @@ import com.traclabs.biosim.idl.simulation.air.H2ConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.air.H2ConsumerOperations;
 import com.traclabs.biosim.idl.simulation.air.H2ProducerDefinition;
 import com.traclabs.biosim.idl.simulation.air.H2ProducerOperations;
+import com.traclabs.biosim.idl.simulation.air.MethaneProducerDefinition;
+import com.traclabs.biosim.idl.simulation.air.MethaneProducerOperations;
 import com.traclabs.biosim.idl.simulation.air.O2ProducerDefinition;
 import com.traclabs.biosim.idl.simulation.air.O2ProducerOperations;
 import com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinition;
@@ -47,12 +49,10 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations,
         PowerConsumerOperations, PotableWaterConsumerOperations,
         PotableWaterProducerOperations, AirConsumerOperations,
         O2ProducerOperations, AirProducerOperations, CO2ProducerOperations,
-        CO2ConsumerOperations, H2ProducerOperations, H2ConsumerOperations {
+        CO2ConsumerOperations, H2ProducerOperations, H2ConsumerOperations, MethaneProducerOperations {
     private VCCRSubsystem myVCCR;
 
     private CRSSubsystem myCRS;
-
-    private CH4Tank myCH4Tank;
 
     private OGSSubsystem myOGS;
 
@@ -83,20 +83,20 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations,
 
     private H2ConsumerDefinitionImpl myH2ConsumerDefinitionImpl;
 
+    private MethaneProducerDefinitionImpl myMethaneProducerDefinitionImpl;
+
     private AirRSOperationMode myMode;
 
     public AirRSImpl(int pID, String pName) {
         super(pID, pName);
         myVCCR = new VCCRSubsystem(this);
         myCRS = new CRSSubsystem(this);
-        myCH4Tank = new CH4Tank(this);
         myOGS = new OGSSubsystem(this);
 
-        mySubsystems = new AirRSSubSystem[4];
+        mySubsystems = new AirRSSubSystem[3];
         mySubsystems[0] = myVCCR;
         mySubsystems[1] = myCRS;
         mySubsystems[2] = myOGS;
-        mySubsystems[3] = myCH4Tank;
 
         myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl();
         myPotableWaterConsumerDefinitionImpl = new PotableWaterConsumerDefinitionImpl();
@@ -108,6 +108,7 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations,
         myCO2ProducerDefinitionImpl = new CO2ProducerDefinitionImpl();
         myH2ProducerDefinitionImpl = new H2ProducerDefinitionImpl();
         myH2ConsumerDefinitionImpl = new H2ConsumerDefinitionImpl();
+        myMethaneProducerDefinitionImpl = new MethaneProducerDefinitionImpl();
     }
 
     public PowerConsumerDefinition getPowerConsumerDefinition() {
@@ -150,6 +151,10 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations,
         return myH2ConsumerDefinitionImpl.getCorbaObject();
     }
 
+    public MethaneProducerDefinition getMethaneProducerDefinition() {
+        return myMethaneProducerDefinitionImpl.getCorbaObject();
+    }
+
     public boolean VCCRHasPower() {
         return myVCCR.hasPower();
     }
@@ -168,10 +173,6 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations,
 
     CRSSubsystem getCRS() {
         return myCRS;
-    }
-
-    CH4Tank getCH4Tank() {
-        return myCH4Tank;
     }
 
     OGSSubsystem getOGS() {
@@ -417,18 +418,9 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations,
     }
 
     /**
-     * @param myAirProducerDefinitionImpl
-     *            The myAirProducerDefinitionImpl to set.
+     * @return Returns the myMethaneProducerDefinitionImpl.
      */
-    protected void setMyAirProducerDefinitionImpl(
-            AirProducerDefinitionImpl myAirProducerDefinitionImpl) {
-        this.myAirProducerDefinitionImpl = myAirProducerDefinitionImpl;
-    }
-
-    /**
-     * @return Returns the myAirConsumerDefinitionImpl.
-     */
-    protected AirConsumerDefinitionImpl getMyAirConsumerDefinitionImpl() {
-        return myAirConsumerDefinitionImpl;
+    protected MethaneProducerDefinitionImpl getMethaneProducerDefinitionImpl() {
+        return myMethaneProducerDefinitionImpl;
     }
 }

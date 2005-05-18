@@ -157,7 +157,8 @@ public class EditorModeCreateEdge extends ModeCreate {
             if (foundPort != null && mgm.canConnect(startPort, foundPort)) {
                 ModuleNode sourceNode = (ModuleNode) _sourceFigNode.getOwner();
                 ModuleNode destNode = (ModuleNode) destFig.getOwner();
-                if (ModuleNode.meetsConstraintsForEdge(sourceNode, destNode)) {
+                Class[] classesMeetingContraint = ModuleNode.getClassesMeetingConstraintsForEdge(sourceNode, destNode);
+                if (classesMeetingContraint.length > 0) {
                     _newEdge = mgm.connect(startPort, foundPort);
                     ModuleEdge newModuleEdge = (ModuleEdge) _newEdge;
                     //number of edges including the one just made

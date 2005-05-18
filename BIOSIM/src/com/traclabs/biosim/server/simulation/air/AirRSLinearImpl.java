@@ -12,6 +12,8 @@ import com.traclabs.biosim.idl.simulation.air.H2ConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.air.H2ConsumerOperations;
 import com.traclabs.biosim.idl.simulation.air.H2ProducerDefinition;
 import com.traclabs.biosim.idl.simulation.air.H2ProducerOperations;
+import com.traclabs.biosim.idl.simulation.air.MethaneProducerDefinition;
+import com.traclabs.biosim.idl.simulation.air.MethaneProducerOperations;
 import com.traclabs.biosim.idl.simulation.air.O2ProducerDefinition;
 import com.traclabs.biosim.idl.simulation.air.O2ProducerOperations;
 import com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinition;
@@ -44,7 +46,7 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements
         PotableWaterConsumerOperations, PotableWaterProducerOperations,
         AirConsumerOperations, O2ProducerOperations, AirProducerOperations,
         CO2ProducerOperations, CO2ConsumerOperations, H2ProducerOperations,
-        H2ConsumerOperations {
+        H2ConsumerOperations, MethaneProducerOperations {
 
     //Consumers, Producers
     private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
@@ -66,6 +68,8 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements
     private H2ProducerDefinitionImpl myH2ProducerDefinitionImpl;
 
     private H2ConsumerDefinitionImpl myH2ConsumerDefinitionImpl;
+
+    private MethaneProducerDefinitionImpl myMethaneProducerDefinitionImpl;
 
     private Breath myCurrentBreath = new Breath(0f, 0f, 0f, 0f, 0f);
 
@@ -104,6 +108,7 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements
         myCO2ProducerDefinitionImpl = new CO2ProducerDefinitionImpl();
         myH2ProducerDefinitionImpl = new H2ProducerDefinitionImpl();
         myH2ConsumerDefinitionImpl = new H2ConsumerDefinitionImpl();
+        myMethaneProducerDefinitionImpl = new MethaneProducerDefinitionImpl();
     }
 
     public PowerConsumerDefinition getPowerConsumerDefinition() {
@@ -144,6 +149,10 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements
 
     public H2ConsumerDefinition getH2ConsumerDefinition() {
         return myH2ConsumerDefinitionImpl.getCorbaObject();
+    }
+
+    public MethaneProducerDefinition getMethaneProducerDefinition() {
+        return myMethaneProducerDefinitionImpl.getCorbaObject();
     }
 
     private void gatherPower() {
@@ -228,6 +237,8 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements
         }
         float distributedWaterLeft = myPotableWaterProducerDefinitionImpl
                 .pushResourceToStore(currentH2OProduced);
+        float distributedMethaneLeft = myMethaneProducerDefinitionImpl
+        .pushResourceToStore(currentCH4Produced);
         CH4Produced += currentCH4Produced;
     }
 

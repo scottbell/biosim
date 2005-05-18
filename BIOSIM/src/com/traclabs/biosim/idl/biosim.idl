@@ -37,6 +37,7 @@ module com{
                                                 interface CO2Store;
                                                 interface H2Store;
                                                 interface NitrogenStore;
+                                                interface MethaneStore;
                                                 struct Breath{
                                                         float O2;
                                                         float CO2;
@@ -48,6 +49,7 @@ module com{
                                                 typedef sequence <CO2Store> CO2StoreList;
                                                 typedef sequence <NitrogenStore> NitrogenStoreList;
                                                 typedef sequence <H2Store> H2StoreList;
+                                                typedef sequence <MethaneStore> MethaneStoreList;
                                                 interface O2Producer;
                                                 interface O2Consumer;
                                                 interface CO2Producer;
@@ -56,6 +58,8 @@ module com{
                                                 interface NitrogenConsumer;
                                                 interface H2Consumer;
                                                 interface H2Producer;
+                                                interface MethaneConsumer;
+                                                interface MethaneProducer;
                                                 interface H2ConsumerDefinition;
                                                 interface H2ProducerDefinition;
                                                 interface O2ProducerDefinition;
@@ -64,6 +68,8 @@ module com{
                                                 interface CO2ConsumerDefinition;
                                                 interface NitrogenProducerDefinition;
                                                 interface NitrogenConsumerDefinition;
+                                                interface MethaneProducerDefinition;
+                                                interface MethaneConsumerDefinition;
                                         };
                                         module food{
                                                 interface Shelf;
@@ -677,7 +683,7 @@ module com{
                                                 };
                                         };
                                         module air{
-                                                interface AirRS : framework::SimBioModule, power::PowerConsumer, air::H2Consumer, air::H2Producer, environment::AirConsumer, environment::AirProducer, air::CO2Producer, air::O2Producer, air::CO2Consumer, water::PotableWaterConsumer, water::PotableWaterProducer{
+                                                interface AirRS : framework::SimBioModule, power::PowerConsumer, air::H2Consumer, air::H2Producer, environment::AirConsumer, environment::AirProducer, air::CO2Producer, air::O2Producer, air::CO2Consumer, air::MethaneProducer, water::PotableWaterConsumer, water::PotableWaterProducer{
                                                         //void setOperationMode(in AirRSOperationMode pMode);
                                                         //AirRSOperationMode getOpertationMode();
                                                 };
@@ -685,7 +691,7 @@ module com{
                                                 };
                                                 interface VCCR : framework::SimBioModule, power::PowerConsumer, environment::AirConsumer, environment::AirProducer, air::CO2Producer{
                                                 };
-                                                interface CRS : framework::SimBioModule, power::PowerConsumer, air::H2Consumer, air::CO2Consumer, water::PotableWaterProducer{
+                                                interface CRS : framework::SimBioModule, power::PowerConsumer, air::H2Consumer, air::CO2Consumer, air::MethaneProducer, water::PotableWaterProducer{
                                                 };
                                                 interface H2Store : framework::Store{
                                                 };
@@ -694,6 +700,8 @@ module com{
                                                 interface CO2Store : framework::Store{
                                                 };
                                                 interface NitrogenStore : framework::Store{
+                                                };
+                                                interface MethaneStore : framework::Store{
                                                 };
                                                 interface O2Consumer : framework::Consumer{
                                                         O2ConsumerDefinition getO2ConsumerDefinition();
@@ -719,6 +727,12 @@ module com{
                                                 interface NitrogenProducer : framework::Producer{
                                                         NitrogenProducerDefinition getNitrogenProducerDefinition();
                                                 };
+                                                interface MethaneConsumer : framework::Consumer{
+                                                        MethaneConsumerDefinition getMethaneConsumerDefinition();
+                                                };
+                                                interface MethaneProducer : framework::Producer{
+                                                        MethaneProducerDefinition getMethaneProducerDefinition();
+                                                };
                                                 interface O2ConsumerDefinition : framework::StoreFlowRateControllable{
                                                         void setO2Inputs(in simulation::air::O2StoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                                 };
@@ -742,6 +756,12 @@ module com{
                                                 };
                                                 interface NitrogenProducerDefinition : framework::StoreFlowRateControllable{
                                                         void setNitrogenOutputs(in simulation::air::NitrogenStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface MethaneConsumerDefinition : framework::StoreFlowRateControllable{
+                                                        void setMethaneInputs(in simulation::air::MethaneStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                                interface MethaneProducerDefinition : framework::StoreFlowRateControllable{
+                                                        void setMethaneOutputs(in simulation::air::MethaneStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                                 };
                                         };
                                         module water{
@@ -903,6 +923,16 @@ module com{
                                                 interface NitrogenOutFlowRateSensor : framework::GenericSensor{
                                                         void setInput(in simulation::air::NitrogenProducer pProducer, in long pIndex);
                                                         simulation::air::NitrogenProducer getInput();
+                                                        long getIndex();
+                                                };
+                                                interface MethaneInFlowRateSensor : framework::GenericSensor{
+                                                        void setInput(in simulation::air::MethaneConsumer pConsumer, in long pIndex);
+                                                        simulation::air::MethaneConsumer getInput();
+                                                        long getIndex();
+                                                };
+                                                interface MethaneOutFlowRateSensor : framework::GenericSensor{
+                                                        void setInput(in simulation::air::MethaneProducer pProducer, in long pIndex);
+                                                        simulation::air::MethaneProducer getInput();
                                                         long getIndex();
                                                 };
                                         };
@@ -1241,6 +1271,10 @@ module com{
                                                         simulation::air::H2Producer getOutput();
                                                         long getIndex();
                                                 };
+                                                interface AirRSActuator : framework::GenericActuator{
+                                                        void setOutput(in simulation::air::AirRS source);
+                                                        simulation::air::AirRS getOutput();
+                                                };
                                                 interface NitrogenInFlowRateActuator : framework::GenericActuator{
                                                         void setOutput(in simulation::air::NitrogenConsumer pConsumer, in long pIndex);
                                                         simulation::air::NitrogenConsumer getOutput();
@@ -1251,9 +1285,15 @@ module com{
                                                         simulation::air::NitrogenProducer getOutput();
                                                         long getIndex();
                                                 };
-                                                interface AirRSActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::air::AirRS source);
-                                                        simulation::air::AirRS getOutput();
+                                                interface MethaneInFlowRateActuator : framework::GenericActuator{
+                                                        void setOutput(in simulation::air::MethaneConsumer pConsumer, in long pIndex);
+                                                        simulation::air::MethaneConsumer getOutput();
+                                                        long getIndex();
+                                                };
+                                                interface MethaneOutFlowRateActuator : framework::GenericActuator{
+                                                        void setOutput(in simulation::air::MethaneProducer pProducer, in long pIndex);
+                                                        simulation::air::MethaneProducer getOutput();
+                                                        long getIndex();
                                                 };
                                         };
                                         module crew{
