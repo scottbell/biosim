@@ -14,7 +14,6 @@ import org.tigris.gef.presentation.FigEdge;
 import org.tigris.gef.presentation.FigLine;
 import org.tigris.gef.presentation.FigNode;
 
-import com.traclabs.biosim.editor.graph.FigModuleNode;
 import com.traclabs.biosim.editor.graph.ModuleEdge;
 import com.traclabs.biosim.editor.graph.ModuleNode;
 
@@ -148,67 +147,48 @@ public class EditorModeCreateEdge extends ModeCreate {
 
         if (destFig instanceof FigNode) {
             MutableGraphModel mgm = (MutableGraphModel) gm;
-
             FigNode destFigNode = (FigNode) destFig;
-            if ((_sourceFigNode instanceof FigModuleNode)
-                    && (destFigNode instanceof FigModuleNode)) {
-                ModuleNode sourceNode = (ModuleNode) _sourceFigNode.getOwner();
-                ModuleNode destNode = (ModuleNode) destFig.getOwner();
-                if (!ModuleNode.meetsConstraintsForEdge(sourceNode, destNode)) {
-                    myLogger.debug("Doesn't meet contraints for connection");
-                    _sourceFigNode.damage();
-                    ce.damageAll();
-                    _newItem = null;
-                    done();
-                    me.consume();
-                    return;
-                }
-            }
+
             // If its a FigNode, then check within the
             // FigNode to see if a port exists
             Object foundPort = destFigNode.deepHitPort(x, y);
+            Fig destPortFig = destFigNode.getPortFig(foundPort);
 
             if (foundPort != null && mgm.canConnect(startPort, foundPort)) {
-                Fig destPortFig = destFigNode.getPortFig(foundPort);
-                _newEdge = mgm.connect(startPort, foundPort);
-                if (_newEdge instanceof ModuleEdge) {
-                    if ((_sourceFigNode instanceof FigModuleNode)
-                            && (destFigNode instanceof FigModuleNode)) {
-                        ModuleNode sourceNode = (ModuleNode) _sourceFigNode
-                                .getOwner();
-                        ModuleNode destNode = (ModuleNode) destFig.getOwner();
-                        ModuleEdge newModuleEdge = (ModuleEdge) _newEdge;
-                        //number of edges including the one just made
-                        int numberOfEdges = sourceNode.countEdges(destNode);
-                        newModuleEdge.setIndex(numberOfEdges - 1);
-                        newModuleEdge.initializeFlowrates();
-                    }
+                ModuleNode sourceNode = (ModuleNode) _sourceFigNode.getOwner();
+                ModuleNode destNode = (ModuleNode) destFig.getOwner();
+                if (!ModuleNode.meetsConstraintsForEdge(sourceNode, destNode)) {
+                    _newEdge = mgm.connect(startPort, foundPort);
+                    ModuleEdge newModuleEdge = (ModuleEdge) _newEdge;
+                    //number of edges including the one just made
+                    int numberOfEdges = sourceNode.countEdges(destNode);
+                    newModuleEdge.setIndex(numberOfEdges - 1);
+                    newModuleEdge.initializeFlowrates();
                 }
+            }
 
-                // Calling connect() will add the edge to the GraphModel and
-                // any LayerPersectives on that GraphModel will get a
-                // edgeAdded event and will add an appropriate FigEdge
-                // (determined by the GraphEdgeRenderer).
+            // Calling connect() will add the edge to the GraphModel and
+            // any LayerPersectives on that GraphModel will get a
+            // edgeAdded event and will add an appropriate FigEdge
+            // (determined by the GraphEdgeRenderer).
 
-                if (null != _newEdge) {
-                    ce.damageAll();
-                    _sourceFigNode.damage();
-                    destFigNode.damage();
-                    _newItem = null;
+            if (_newEdge != null) {
+                ce.damageAll();
+                _sourceFigNode.damage();
+                destFigNode.damage();
+                _newItem = null;
 
-                    Layer layer = ce.getLayerManager().getActiveLayer();
-
-                    FigEdge fe = (FigEdge) layer.presentationFor(_newEdge);
-                    fe.setSourcePortFig(_startPortFig);
-                    fe.setSourceFigNode(_sourceFigNode);
-                    fe.setDestPortFig(destPortFig);
-                    fe.setDestFigNode(destFigNode);
-                    if (fe != null)
-                        ce.getSelectionManager().select(fe);
-                    done();
-                    me.consume();
-                    return;
-                }
+                Layer layer = ce.getLayerManager().getActiveLayer();
+                FigEdge fe = (FigEdge) layer.presentationFor(_newEdge);
+                fe.setSourcePortFig(_startPortFig);
+                fe.setSourceFigNode(_sourceFigNode);
+                fe.setDestPortFig(destPortFig);
+                fe.setDestFigNode(destFigNode);
+                if (fe != null)
+                    ce.getSelectionManager().select(fe);
+                done();
+                me.consume();
+                return;
             }
         }
         _sourceFigNode.damage();
