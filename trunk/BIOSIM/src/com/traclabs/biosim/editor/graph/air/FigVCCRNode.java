@@ -8,7 +8,7 @@ public class FigVCCRNode extends FigActiveNode {
     
     public FigVCCRNode() {
         super();
-        setFillColor(Color.GRAY);
+        setFillColor(Color.WHITE);
         setLineColor(Color.GREEN);
     }
 

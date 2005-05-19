@@ -8,8 +8,8 @@ public class FigAccumulatorNode extends FigActiveNode {
     
     public FigAccumulatorNode() {
         super();
-        setFillColor(Color.YELLOW);
-        setLineColor(Color.BLACK);
+        setFillColor(Color.GRAY);
+        setLineColor(Color.RED);
     }
 
 }

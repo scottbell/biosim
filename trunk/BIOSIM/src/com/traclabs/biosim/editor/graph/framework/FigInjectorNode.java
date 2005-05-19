@@ -8,8 +8,8 @@ public class FigInjectorNode extends FigActiveNode {
     
     public FigInjectorNode() {
         super();
-        setFillColor(Color.YELLOW);
-        setLineColor(Color.RED);
+        setFillColor(Color.GRAY);
+        setLineColor(Color.BLUE);
     }
 
 }

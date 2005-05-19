@@ -8,7 +8,7 @@ public class FigCrewGroupNode extends FigActiveNode {
     
     public FigCrewGroupNode() {
         super();
-        setFillColor(Color.RED);
+        setFillColor(Color.WHITE);
         setLineColor(Color.BLACK);
     }
 

@@ -5,6 +5,7 @@ import org.tigris.gef.base.CmdCreateNode;
 import com.traclabs.biosim.editor.graph.air.CO2StoreNode;
 import com.traclabs.biosim.editor.graph.air.CRSNode;
 import com.traclabs.biosim.editor.graph.air.H2StoreNode;
+import com.traclabs.biosim.editor.graph.air.MethaneStoreNode;
 import com.traclabs.biosim.editor.graph.air.NitrogenStoreNode;
 import com.traclabs.biosim.editor.graph.air.O2StoreNode;
 import com.traclabs.biosim.editor.graph.air.OGSNode;
@@ -25,16 +26,7 @@ public class AirToolBar extends EditorToolBar {
         add(new CmdCreateNode(CO2StoreNode.class, "EditorBase", "CO2Store"));
         add(new CmdCreateNode(H2StoreNode.class, "EditorBase", "H2Store"));
         add(new CmdCreateNode(NitrogenStoreNode.class, "EditorBase", "NitrogenStore"));
+        add(new CmdCreateNode(MethaneStoreNode.class, "EditorBase", "MethaneStore"));
         addSeparator();
-        //add(new OGSAction());
-        /*add(new CH4StoreAction());
-        add(new O2StoreAction());
-        add(new CO2StoreAction());
-        addSeparator();
-        add(new CRSAction());
-        add(new OGSAction());
-        add(new VCCRAction());
-        add(new AirRSAction());
-        */
     }
 }

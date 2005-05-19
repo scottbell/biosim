@@ -4,12 +4,11 @@ import java.awt.Color;
 
 import com.traclabs.biosim.editor.graph.FigStoreNode;
 
-public class FigO2StoreNode extends FigStoreNode {
+public class FigMethaneStoreNode extends FigStoreNode {
 
-    public FigO2StoreNode() {
+    public FigMethaneStoreNode() {
         super();
-        setFillColor(Color.CYAN);
+        setFillColor(Color.MAGENTA);
         setLineColor(Color.BLACK);
     }
-
 }
