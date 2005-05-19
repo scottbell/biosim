@@ -9,6 +9,6 @@ public class FigCO2StoreNode extends FigStoreNode {
     public FigCO2StoreNode() {
         super();
         setFillColor(Color.GREEN);
-        setLineColor(Color.BLACK);
+        setLineColor(Color.YELLOW);
     }
 }

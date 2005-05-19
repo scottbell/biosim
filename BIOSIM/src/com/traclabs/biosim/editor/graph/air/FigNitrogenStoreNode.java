@@ -9,6 +9,6 @@ public class FigNitrogenStoreNode extends FigStoreNode {
     public FigNitrogenStoreNode() {
         super();
         setFillColor(Color.RED);
-        setLineColor(Color.BLACK);
+        setLineColor(Color.WHITE);
     }
 }
