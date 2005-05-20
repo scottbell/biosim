@@ -2,6 +2,9 @@ package com.traclabs.biosim.editor.base;
 
 import java.awt.event.MouseEvent;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import org.apache.log4j.Logger;
 import org.tigris.gef.base.Editor;
 import org.tigris.gef.base.Globals;
@@ -157,14 +160,27 @@ public class EditorModeCreateEdge extends ModeCreate {
             if (foundPort != null && mgm.canConnect(startPort, foundPort)) {
                 ModuleNode sourceNode = (ModuleNode) _sourceFigNode.getOwner();
                 ModuleNode destNode = (ModuleNode) destFig.getOwner();
-                Class[] classesMeetingContraint = ModuleNode.getClassesMeetingConstraintsForEdge(sourceNode, destNode);
-                if (classesMeetingContraint.length > 0) {
+                Class[] classesMeetingContraints = ModuleNode.getClassesMeetingConstraintsForEdge(sourceNode, destNode);
+                if (classesMeetingContraints.length > 0) {
+                    Class selectedClass;
+                    if (classesMeetingContraints.length > 1)
+                        selectedClass = getUserClassChoice(classesMeetingContraints);
+                    else
+                        selectedClass = classesMeetingContraints[0];
+                    if (selectedClass == null){
+                        _sourceFigNode.damage();
+                        ce.damageAll();
+                        _newItem = null;
+                        done();
+                        me.consume();
+                        return;
+                    }
                     _newEdge = mgm.connect(startPort, foundPort);
                     ModuleEdge newModuleEdge = (ModuleEdge) _newEdge;
                     //number of edges including the one just made
                     int numberOfEdges = sourceNode.countEdges(destNode);
                     newModuleEdge.setIndex(numberOfEdges - 1);
-                    newModuleEdge.initializeFlowrates();
+                    newModuleEdge.initializeFlowrates(selectedClass);
                 }
             }
 
@@ -197,6 +213,21 @@ public class EditorModeCreateEdge extends ModeCreate {
         _newItem = null;
         done();
         me.consume();
+    }
+
+    /**
+     * @return
+     */
+    private Class getUserClassChoice(Class[] classesMeetingContraints) {
+        Class classSelected = (Class)JOptionPane.showInputDialog(
+                            new JFrame(),
+                            "Select a flowrate to use",
+                            "Flowrate Selection",
+                            JOptionPane.QUESTION_MESSAGE,
+                            null,
+                            classesMeetingContraints,
+                            classesMeetingContraints[0]);
+        return classSelected;
     }
 
     /**

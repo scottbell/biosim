@@ -66,8 +66,8 @@ public class ModuleEdge extends NetEdge {
     /**
      * 
      */
-    public void initializeFlowrates(){
-        getOperations();
+    public void initializeFlowrates(Class selectedConsumerOrProducerClass){
+        myOperations = initializeOperations(selectedConsumerOrProducerClass);
         if (myOperations.getMaxFlowRates().length == 0){
             float[] maxFlowrates = {0f};
             float[] desiredFlowrates = {0f};
@@ -122,30 +122,27 @@ public class ModuleEdge extends NetEdge {
         else
             return null;
     }
+    
+    public SingleFlowRateControllable getOperations(){
+        return myOperations;
+    }
 
     /**
      * @return
      */
-    public SingleFlowRateControllable getOperations() {
-        if (myOperations != null)
-            return myOperations;
+    private SingleFlowRateControllable initializeOperations(Class selectedConsumerOrProducerClass) {
+        SingleFlowRateControllable initializedOperations = null;
         EditorPort sourcePort = (EditorPort)getSourcePort();
         EditorPort destPort = (EditorPort)getDestPort();
         if (sourcePort.getParent() instanceof ActiveNode){
             //we're producing
             amProducerEdge = true;
             myActiveModule = ((ActiveNode)sourcePort.getParent()).getSimBioModuleImpl();
-            PassiveNode thePassiveNode = (PassiveNode)(destPort.getParent());
-            Class[] theProducersAllowed = thePassiveNode.getProducersAllowed();
-            for (int i = 0; i < theProducersAllowed.length; i++){
-                if (theProducersAllowed[i].isInstance(myActiveModule)){
-                    //do tricky string manipulation to get correct definition
-                    computeSenorAndActutorNames(theProducersAllowed[i]);
-                    Method definitionMethod = getOperationsMethod(theProducersAllowed[i]);
-                    myOperations = invokeMethod(myActiveModule, definitionMethod);
-                    return myOperations;
-                }
-            }
+            //do tricky string manipulation to get correct definition
+            computeSenorAndActutorNames(selectedConsumerOrProducerClass);
+            Method definitionMethod = getOperationsMethod(selectedConsumerOrProducerClass);
+            initializedOperations = invokeMethod(myActiveModule, definitionMethod);
+            return initializedOperations;
         }
         else if (destPort.getParent() instanceof ActiveNode){
             //we're consuming
@@ -153,17 +150,12 @@ public class ModuleEdge extends NetEdge {
             myActiveModule = ((ActiveNode)destPort.getParent()).getSimBioModuleImpl();
             PassiveNode thePassiveNode = (PassiveNode)(sourcePort.getParent());
             Class[] theConsumersAllowed = thePassiveNode.getConsumersAllowed();
-            for (int i = 0; i < theConsumersAllowed.length; i++){
-                if (theConsumersAllowed[i].isInstance(myActiveModule)){
-                    //do tricky string manipulation to get correct definition
-                    computeSenorAndActutorNames(theConsumersAllowed[i]);
-                    Method definitionMethod = getOperationsMethod(theConsumersAllowed[i]);
-                    myOperations = invokeMethod(myActiveModule, definitionMethod);
-                    return myOperations;
-                }
-            }
+            computeSenorAndActutorNames(selectedConsumerOrProducerClass);
+            Method definitionMethod = getOperationsMethod(selectedConsumerOrProducerClass);
+            initializedOperations = invokeMethod(myActiveModule, definitionMethod);
+            return initializedOperations;
         }
-        return null;
+        return initializedOperations;
     }
 
     /**
