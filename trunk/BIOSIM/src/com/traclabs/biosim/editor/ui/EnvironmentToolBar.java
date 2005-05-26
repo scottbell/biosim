@@ -6,8 +6,7 @@ package com.traclabs.biosim.editor.ui;
 
 import javax.swing.JButton;
 
-import org.tigris.gef.base.CmdCreateNode;
-
+import com.traclabs.biosim.editor.base.CmdCreateModuleNode;
 import com.traclabs.biosim.editor.graph.environment.SimEnvironmentNode;
 
 /**
@@ -21,6 +20,6 @@ public class EnvironmentToolBar extends EditorToolBar {
 
     public EnvironmentToolBar() {
         super("Environment");
-        add(new CmdCreateNode(SimEnvironmentNode.class, "EditorBase", "SimEnvironment"));
+        add(new CmdCreateModuleNode(SimEnvironmentNode.class, "EditorBase", "SimEnvironment"));
     }
 }

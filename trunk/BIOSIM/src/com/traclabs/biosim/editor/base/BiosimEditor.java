@@ -2,11 +2,13 @@ package com.traclabs.biosim.editor.base;
 
 import java.awt.event.MouseEvent;
 
+import javax.swing.JFrame;
+
 import org.tigris.gef.base.Editor;
 import org.tigris.gef.base.ModeDragScroll;
 import org.tigris.gef.base.ModeSelect;
+import org.tigris.gef.graph.presentation.DefaultGraphNodeRenderer;
 
-import com.traclabs.biosim.editor.graph.EditorGraphModel;
 import com.traclabs.biosim.editor.graph.FigModuleNode;
 
 /**
@@ -17,12 +19,10 @@ import com.traclabs.biosim.editor.graph.FigModuleNode;
  */
 public class BiosimEditor extends Editor {
 
+    private JFrame myFrame;
+
     public BiosimEditor() {
         this(new EditorLayer("Root"));
-    }
-
-    public BiosimEditor(EditorGraphModel gm) {
-        this(new EditorLayer("Root", gm));
     }
 
     public BiosimEditor(EditorLayer lay) {
@@ -40,13 +40,7 @@ public class BiosimEditor extends Editor {
 
         pushMode(new ModeSelect(this));
         pushMode(new ModeDragScroll(this));
-    }
-
-    protected BiosimEditor(BiosimEditor ed) {
-        this((EditorDocument) ed.document());
-
-        getLayerManager().replaceActiveLayer(
-                ed.getLayerManager().getActiveLayer());
+        setGraphNodeRenderer(new DefaultGraphNodeRenderer());
     }
 
     public void document(Object d) {
@@ -127,4 +121,16 @@ public class BiosimEditor extends Editor {
             _modeManager.mouseExited(me);
         }
     }
+
+    /**
+     * @param pFrame
+     */
+    public void setFrame(JFrame pFrame) {
+        myFrame = pFrame;
+    }
+    
+    public JFrame getFrame() {
+        return myFrame;
+    }
+
 }

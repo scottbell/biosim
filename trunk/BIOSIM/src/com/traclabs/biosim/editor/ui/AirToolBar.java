@@ -1,7 +1,6 @@
 package com.traclabs.biosim.editor.ui;
 
-import org.tigris.gef.base.CmdCreateNode;
-
+import com.traclabs.biosim.editor.base.CmdCreateModuleNode;
 import com.traclabs.biosim.editor.graph.air.CO2StoreNode;
 import com.traclabs.biosim.editor.graph.air.CRSNode;
 import com.traclabs.biosim.editor.graph.air.H2StoreNode;
@@ -18,15 +17,15 @@ public class AirToolBar extends EditorToolBar {
 
     public AirToolBar() {
         super("Air");
-        add(new CmdCreateNode(OGSNode.class, "EditorBase", "OGS"));
-        add(new CmdCreateNode(VCCRNode.class, "EditorBase", "VCCR"));
-        add(new CmdCreateNode(CRSNode.class, "EditorBase", "CRS"));
+        add(new CmdCreateModuleNode(OGSNode.class, "EditorBase", "OGS"));
+        add(new CmdCreateModuleNode(VCCRNode.class, "EditorBase", "VCCR"));
+        add(new CmdCreateModuleNode(CRSNode.class, "EditorBase", "CRS"));
         addSeparator();
-        add(new CmdCreateNode(O2StoreNode.class, "EditorBase", "O2Store"));
-        add(new CmdCreateNode(CO2StoreNode.class, "EditorBase", "CO2Store"));
-        add(new CmdCreateNode(H2StoreNode.class, "EditorBase", "H2Store"));
-        add(new CmdCreateNode(NitrogenStoreNode.class, "EditorBase", "NitrogenStore"));
-        add(new CmdCreateNode(MethaneStoreNode.class, "EditorBase", "MethaneStore"));
+        add(new CmdCreateModuleNode(O2StoreNode.class, "EditorBase", "O2Store"));
+        add(new CmdCreateModuleNode(CO2StoreNode.class, "EditorBase", "CO2Store"));
+        add(new CmdCreateModuleNode(H2StoreNode.class, "EditorBase", "H2Store"));
+        add(new CmdCreateModuleNode(NitrogenStoreNode.class, "EditorBase", "NitrogenStore"));
+        add(new CmdCreateModuleNode(MethaneStoreNode.class, "EditorBase", "MethaneStore"));
         addSeparator();
     }
 }

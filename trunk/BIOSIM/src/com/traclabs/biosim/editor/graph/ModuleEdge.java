@@ -9,6 +9,8 @@ import org.tigris.gef.base.Layer;
 import org.tigris.gef.graph.presentation.NetEdge;
 import org.tigris.gef.presentation.FigEdge;
 
+import com.traclabs.biosim.editor.graph.environment.SimEnvironmentNode;
+import com.traclabs.biosim.idl.simulation.environment.StoreEnvironmentProducerOperations;
 import com.traclabs.biosim.idl.simulation.framework.SingleFlowRateControllable;
 import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
 import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
@@ -20,9 +22,6 @@ import com.traclabs.biosim.server.simulation.framework.StoreImpl;
  */
 
 public class ModuleEdge extends NetEdge {
-    private final static String GET_STRING = "get";
-    private final static String DEFINITION_STRING = "Definition";
-    private final static String FLOWRATE_STRING = " Flowrate";
     private String myName = "Unnamed";
     
     private GenericActuatorImpl myActuatorImpl;
@@ -89,12 +88,12 @@ public class ModuleEdge extends NetEdge {
             return myStoreImpl;
         EditorPort sourcePort = (EditorPort)getSourcePort();
         EditorPort destPort = (EditorPort)getDestPort();
-        if (sourcePort.getParent() instanceof PassiveNode){
+        if (sourcePort.getParent() instanceof StoreNode){
             //we're consuming
             myStoreImpl = (StoreImpl)((PassiveNode)sourcePort.getParent()).getSimBioModuleImpl();
             return myStoreImpl;
         }
-        else if (destPort.getParent() instanceof PassiveNode){
+        else if (destPort.getParent() instanceof StoreNode){
             //we're producing
             myStoreImpl = (StoreImpl)((PassiveNode)destPort.getParent()).getSimBioModuleImpl();
             return myStoreImpl;
@@ -111,11 +110,11 @@ public class ModuleEdge extends NetEdge {
             return mySimEnvironmentImpl;
         EditorPort sourcePort = (EditorPort)getSourcePort();
         EditorPort destPort = (EditorPort)getDestPort();
-        if (sourcePort.getParent() instanceof PassiveNode){
+        if (sourcePort.getParent() instanceof SimEnvironmentNode){
         	mySimEnvironmentImpl = (SimEnvironmentImpl)((PassiveNode)sourcePort.getParent()).getSimBioModuleImpl();
             return mySimEnvironmentImpl;
         }
-        else if (destPort.getParent() instanceof PassiveNode){
+        else if (destPort.getParent() instanceof SimEnvironmentNode){
         	mySimEnvironmentImpl = (SimEnvironmentImpl)((PassiveNode)destPort.getParent()).getSimBioModuleImpl();
             return mySimEnvironmentImpl;
         }
@@ -173,16 +172,25 @@ public class ModuleEdge extends NetEdge {
         String sensorPackageName = "com.traclabs.biosim.server.sensor." + packageResourceName;
         String actuatorPackageName = "com.traclabs.biosim.server.actuator." + packageResourceName;
         
+        String modifier = "";
+        if (StoreEnvironmentProducerOperations.class.isAssignableFrom(producerOrConsumerClass)){
+            if (getSimEnvironmentImpl() != null)
+                modifier = "Environment";
+            else
+                modifier = "Store";
+        }
+        
         //contruct class names
         if (producerOrConsumerType.contains("Producer")){
             String classResourceName = producerOrConsumerType.substring(0, producerOrConsumerType.lastIndexOf("Producer"));
-            sensorClassName = sensorPackageName + "." + classResourceName + "OutFlowRateSensorImpl";
-            actuatorClassName = actuatorPackageName + "." + classResourceName + "OutFlowRateActuatorImpl";
+            
+            sensorClassName = sensorPackageName + "." + classResourceName + modifier + "OutFlowRateSensorImpl";
+            actuatorClassName = actuatorPackageName + "." + classResourceName + modifier + "OutFlowRateActuatorImpl";
         }
         else{
             String classResourceName = producerOrConsumerType.substring(0, producerOrConsumerType.lastIndexOf("Consumer"));
-            sensorClassName = sensorPackageName + "." + classResourceName + "InFlowRateSensorImpl";
-            actuatorClassName = actuatorPackageName + "." + classResourceName + "InFlowRateActuatorImpl";
+            sensorClassName = sensorPackageName + "." + classResourceName + modifier + "InFlowRateSensorImpl";
+            actuatorClassName = actuatorPackageName + "." + classResourceName + modifier + "InFlowRateActuatorImpl";
         }
         try {
             mySensorClass =  Class.forName(sensorClassName);
@@ -221,8 +229,15 @@ public class ModuleEdge extends NetEdge {
     private Method getOperationsMethod(Class producerOrConsumerClass) {
         String className = producerOrConsumerClass.getSimpleName();
         String producerOrConsumerType = className.substring(0, className.lastIndexOf("Operations"));
-        myName = producerOrConsumerType + FLOWRATE_STRING;
-        String methodName = GET_STRING + producerOrConsumerType + DEFINITION_STRING;
+        String modifier = "";
+        if (StoreEnvironmentProducerOperations.class.isAssignableFrom(producerOrConsumerClass)){
+            if (getSimEnvironmentImpl() != null)
+                modifier = "Environment";
+            else
+                modifier = "Store";
+        }
+        myName = producerOrConsumerType + " Flowrate";
+        String methodName = "get" + producerOrConsumerType + "Definition";
         Method definitionMethod = null;
         try{
             definitionMethod = producerOrConsumerClass.getMethod(methodName, null);
