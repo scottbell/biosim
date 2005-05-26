@@ -6,8 +6,7 @@ package com.traclabs.biosim.editor.ui;
 
 import javax.swing.JButton;
 
-import org.tigris.gef.base.CmdCreateNode;
-
+import com.traclabs.biosim.editor.base.CmdCreateModuleNode;
 import com.traclabs.biosim.editor.graph.power.NuclearPowerPSNode;
 import com.traclabs.biosim.editor.graph.power.PowerStoreNode;
 import com.traclabs.biosim.editor.graph.power.SolarPowerPSNode;
@@ -23,9 +22,9 @@ public class PowerToolBar extends EditorToolBar {
 
     public PowerToolBar() {
         super("Power");
-        add(new CmdCreateNode(SolarPowerPSNode.class, "EditorBase", "SolarPowerPS"));
-        add(new CmdCreateNode(NuclearPowerPSNode.class, "EditorBase", "NuclearPowerPS"));
+        add(new CmdCreateModuleNode(SolarPowerPSNode.class, "EditorBase", "SolarPowerPS"));
+        add(new CmdCreateModuleNode(NuclearPowerPSNode.class, "EditorBase", "NuclearPowerPS"));
         addSeparator();
-        add(new CmdCreateNode(PowerStoreNode.class, "EditorBase", "PowerStore"));
+        add(new CmdCreateModuleNode(PowerStoreNode.class, "EditorBase", "PowerStore"));
     }
 }

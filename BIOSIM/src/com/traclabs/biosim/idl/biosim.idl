@@ -411,6 +411,12 @@ module com{
                                         };
 
                                         module environment{
+                                        		
+                                                interface EnvironmentConsumer : framework::Consumer{};
+                                                interface EnvironmentProducer : framework::Producer{};
+                                                interface StoreEnvironmentConsumer : framework::Consumer{};
+                                                interface StoreEnvironmentProducer : framework::Producer{};
+                                                
                                                 interface Dehumidifier : framework::SimBioModule, environment::AirConsumer, water::DirtyWaterProducer{
                                                 };
 
@@ -474,37 +480,37 @@ module com{
                                                         float getDangerousOxygenThreshold();
                                                         void setDangerousOxygenThreshold(in float pDangerousOxygenThreshold);
                                                 };
-                                                interface AirConsumer : framework::Consumer{
+                                                interface AirConsumer : environment::EnvironmentConsumer{
                                                         AirConsumerDefinition getAirConsumerDefinition();
                                                 };
-                                                interface LightConsumer : framework::Consumer{
+                                                interface LightConsumer : environment::EnvironmentConsumer{
                                                         LightConsumerDefinition getLightConsumerDefinition();
                                                 };
-                                                interface O2AirConsumer : framework::Consumer{
+                                                interface O2AirConsumer : environment::StoreEnvironmentConsumer{
                                                         O2AirConsumerDefinition getO2AirConsumerDefinition();
                                                 };
-                                                interface CO2AirConsumer : framework::Consumer{
+                                                interface CO2AirConsumer : environment::StoreEnvironmentConsumer{
                                                         CO2AirConsumerDefinition getCO2AirConsumerDefinition();
                                                 };
-                                                interface NitrogenAirConsumer : framework::Consumer{
+                                                interface NitrogenAirConsumer : environment::StoreEnvironmentConsumer{
                                                         NitrogenAirConsumerDefinition getNitrogenAirConsumerDefinition();
                                                 };
-                                                interface WaterAirConsumer : framework::Consumer{
+                                                interface WaterAirConsumer : environment::StoreEnvironmentConsumer{
                                                         WaterAirConsumerDefinition getWaterAirConsumerDefinition();
                                                 };
-                                                interface AirProducer : framework::Producer{
+                                                interface AirProducer : environment::EnvironmentProducer{
                                                         AirProducerDefinition getAirProducerDefinition();
                                                 };
-                                                interface O2AirProducer : framework::Producer{
+                                                interface O2AirProducer : environment::StoreEnvironmentProducer{
                                                         O2AirProducerDefinition getO2AirProducerDefinition();
                                                 };
-                                                interface CO2AirProducer : framework::Producer{
+                                                interface CO2AirProducer : environment::StoreEnvironmentProducer{
                                                         CO2AirProducerDefinition getCO2AirProducerDefinition();
                                                 };
-                                                interface WaterAirProducer : framework::Producer{
+                                                interface WaterAirProducer : environment::StoreEnvironmentProducer{
                                                         WaterAirProducerDefinition getWaterAirProducerDefinition();
                                                 };
-                                                interface NitrogenAirProducer : framework::Producer{
+                                                interface NitrogenAirProducer : environment::StoreEnvironmentProducer{
                                                         NitrogenAirProducerDefinition getNitrogenAirProducerDefinition();
                                                 };
                                                 interface EnvironmentFlowRateControllable : framework::SingleFlowRateControllable{

@@ -163,8 +163,10 @@ public class EditorModeCreateEdge extends ModeCreate {
                 Class[] classesMeetingContraints = ModuleNode.getClassesMeetingConstraintsForEdge(sourceNode, destNode);
                 if (classesMeetingContraints.length > 0) {
                     Class selectedClass;
-                    if (classesMeetingContraints.length > 1)
-                        selectedClass = getUserClassChoice(classesMeetingContraints);
+                    if (classesMeetingContraints.length > 1){
+                        selectedClass = classesMeetingContraints[0];
+                        //selectedClass = getUserClassChoice(classesMeetingContraints);
+                    }
                     else
                         selectedClass = classesMeetingContraints[0];
                     if (selectedClass == null){

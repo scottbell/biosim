@@ -77,7 +77,7 @@ import com.traclabs.biosim.editor.ui.WasteToolBar;
 import com.traclabs.biosim.editor.ui.WaterToolBar;
 
 public class EditorFrame extends BioFrame {
-    private Editor myEditor;
+    private BiosimEditor myEditor;
     
     private JMenuBar myMenuBar = new JMenuBar();
     
@@ -133,17 +133,14 @@ public class EditorFrame extends BioFrame {
 
     private Component myFoodToolBar;
 
-    public EditorFrame() {
-        this("BiosimEditor", new BiosimEditor());
-    }
-
     public EditorFrame(String title) {
         this(title, new BiosimEditor());
     }
 
     public EditorFrame(String title, BiosimEditor pEditor) {
         super(title);
-        myEditor = pEditor;  
+        myEditor = pEditor;
+        myEditor.setFrame(this);
         loadResources();
         buildGui();
         Globals.curEditor(myEditor);
@@ -634,7 +631,9 @@ public class EditorFrame extends BioFrame {
     }
     
     public Object clone() {
-        return new EditorFrame(getTitle(), (BiosimEditor)myEditor.clone());
+        BiosimEditor newEditor = (BiosimEditor)myEditor.clone();
+        EditorFrame newFrame = new EditorFrame(getTitle(), newEditor);
+        return newFrame;
     }
 
     public EditorDocument getDocument() {
