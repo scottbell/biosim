@@ -10,12 +10,9 @@ package com.traclabs.biosim.editor.base;
 
 import java.awt.Frame;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.Reader;
-import java.io.Writer;
 import java.util.Enumeration;
 import java.util.Vector;
 
@@ -25,7 +22,6 @@ import org.tigris.gef.presentation.Fig;
 import com.traclabs.biosim.editor.graph.EditorGraphModel;
 import com.traclabs.biosim.editor.graph.FigModuleNode;
 import com.traclabs.biosim.editor.xml.DocumentReader;
-import com.traclabs.biosim.editor.xml.DocumentWriter;
 import com.traclabs.biosim.editor.xml.EditorParser;
 import com.traclabs.biosim.editor.xml.EditorWriter;
 
@@ -57,7 +53,7 @@ public class EditorDocument {
     DocumentReader _reader;
 
     /** Writer for this document. */
-    DocumentWriter _writer;
+    EditorWriter _writer;
 
     public EditorDocument() {
         this(new EditorLayer("Root"));
@@ -167,8 +163,8 @@ public class EditorDocument {
         return EditorParser.SINGLETON;
     }
 
-    public DocumentWriter createWriter() {
-        return EditorWriter.SINGLETON;
+    public EditorWriter createWriter() {
+        return EditorWriter.getWriter();
     }
 
     /**
@@ -180,14 +176,12 @@ public class EditorDocument {
         setModified(false);
     }
 
-    protected void onSaveDocument(File file) throws Exception {
-        Writer out = new BufferedWriter(new FileWriter(file));
-        _writer.saveDocument(out, this);
+    protected void onSaveDocument(File file){
+        _writer.saveDocument(file, this);
     }
 
-    void copySelections(File file, BiosimEditor editor) throws Exception {
-        Writer out = new BufferedWriter(new FileWriter(file));
-        _writer.copySelections(out, editor);
+    void copySelections(File file, BiosimEditor editor){
+        _writer.copySelections(file, editor);
     }
 
     void openDocument(File file) throws Exception {
