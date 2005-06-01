@@ -1,10 +1,8 @@
 package com.traclabs.biosim.editor.xml;
 
-import java.awt.Rectangle;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -248,7 +246,6 @@ public class EditorWriter {
      * 
      */
     private static void pruneTopNodes(Node topLevelNode) {
-        //Simulation Nodes
         NodeList childNodes = topLevelNode.getChildNodes();
         for (int i = 0; i < childNodes.getLength(); i++){
             Node currentNode = childNodes.item(i);
@@ -260,29 +257,27 @@ public class EditorWriter {
     }
 
     private void writeXML() {
+        saveFigs(myEditorDocument.getRoot().getContents());
+        
+        //do pruning
         pruneTopNodes(mySimBioModulesNode);
         pruneTopNodes(mySensorNode);
         pruneTopNodes(myActuatorNode);
         pruneTopNodes(myBiosimNode);
     }
 
-    private void saveGraph(EditorLayer lay, Writer out)
+    private void saveGraph(EditorLayer lay)
             throws IOException {
-        if (lay == null) {
+        if (lay == null)
             return;
-        }
         // Do not save empty leaf layers.
-        if (lay.getContents().size() == 0) {
+        if (lay.getContents().size() == 0)
             return;
-        }
-
-        out.write("<Graph>\n");
-        saveFigs(lay.getContents(), out);
-        out.write("</Graph>\n");
+        saveFigs(lay.getContents());
     }
 
     /* Save a list of figs. */
-    private void saveFigs(java.util.List figs, Writer out) {
+    private void saveFigs(java.util.List figs) {
         FigModuleNode vf;
         try {
             // For each Editor Fig, write the information
@@ -292,7 +287,7 @@ public class EditorWriter {
                 Fig f = (Fig) i.next();
                 if (f instanceof FigModuleNode) {
                     vf = (FigModuleNode) f;
-                    saveFigNode(vf, out);
+                    saveFigNode(vf);
                 } else {
                 }
             }
@@ -309,7 +304,7 @@ public class EditorWriter {
                     Logger.getLogger(EditorWriter.class)
                             .debug("Edge Fig found");
                     FigModuleEdge fe = (FigModuleEdge) f;
-                    saveFigEdge(fe, out);
+                    saveFigEdge(fe);
                 }
             }
         } catch (IOException ioe) {
@@ -318,32 +313,19 @@ public class EditorWriter {
     }
 
     /** Saves a fig node. */
-    private void saveFigNode(FigModuleNode vf, Writer out)
+    private void saveFigNode(FigModuleNode vf)
             throws IOException {
         ModuleNode currentNode = (ModuleNode) vf.getOwner();
         SimBioModuleImpl currentModule = currentNode.getSimBioModuleImpl();
-        out.write(" <" + currentModule.getModuleName() + "\n");
-        Rectangle rect = vf.getHandleBox();
-        out.write("x=\"" + (int) rect.getX() + "\"\n");
-        out.write("y=\"" + (int) rect.getY() + "\"\n");
-        out.write("width=\"" + (int) rect.getWidth() + "\"\n");
-        out.write("height=\"" + (int) rect.getHeight() + "\"\n");
-        out.write(">\n");
-        saveGraph(vf.getNestedLayer(), out);
-        out.write(" </" + currentModule.getModuleName() + ">\n");
+        
+        saveGraph(vf.getNestedLayer());
     }
 
     /* Saves a fig edge. */
-    private void saveFigEdge(FigModuleEdge fe, Writer out)
+    private void saveFigEdge(FigModuleEdge fe)
             throws IOException {
         ModuleEdge myEdge = (ModuleEdge) fe.getOwner();
         ModuleNode sourceNode = (ModuleNode) myEdge.getSourcePort().getParent();
         ModuleNode destNode = (ModuleNode) myEdge.getDestPort().getParent();
-        out.write("<Edge\n");
-        out.write("FromNode=\""
-                + sourceNode.getSimBioModuleImpl().getModuleName() + "\"\n");
-        out.write("ToNode=\"" + destNode.getSimBioModuleImpl().getModuleName()
-                + "\"\n");
-        out.write("/>\n");
     }
 }
