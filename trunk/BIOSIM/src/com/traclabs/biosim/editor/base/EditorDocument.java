@@ -67,7 +67,6 @@ public class EditorDocument {
     public EditorDocument(EditorLayer root) {
         setRoot(root);
         _reader = createReader();
-        _writer = createWriter();
     }
 
     public EditorDocument(EditorGraphModel model) {
@@ -163,10 +162,6 @@ public class EditorDocument {
         return EditorParser.SINGLETON;
     }
 
-    public EditorWriter createWriter() {
-        return EditorWriter.getWriter();
-    }
-
     /**
      * Saves the document to the specified file starting at the root diagram.
      */
@@ -177,7 +172,7 @@ public class EditorDocument {
     }
 
     protected void onSaveDocument(File file){
-        _writer.saveDocument(file, this);
+        EditorWriter.saveDocument(file, this);
     }
 
     void copySelections(File file, BiosimEditor editor){
