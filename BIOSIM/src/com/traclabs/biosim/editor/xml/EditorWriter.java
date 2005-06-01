@@ -4,21 +4,30 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Vector;
 
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.sax.SAXTransformerFactory;
-import javax.xml.transform.sax.TransformerHandler;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.tigris.gef.base.Selection;
 import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigEdge;
-import org.xml.sax.SAXException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.xml.sax.helpers.AttributesImpl;
 
 import com.traclabs.biosim.editor.base.BiosimEditor;
@@ -33,241 +42,244 @@ import com.traclabs.biosim.editor.graph.FigModuleNode;
  * @author scott
  */
 public class EditorWriter {
-    private static EditorWriter mySingleton;
+	//Empty attributes
+	private static final AttributesImpl emptyAtts = new AttributesImpl();
 
-    //The File handle of where we're going to put the XML output
-    private File myOutputFile;
+	//The writer that takes the XML stream and outputs it to a file
+	private static FileWriter myFileWriter;
 
-    //Used to transform SAX into a file output stream
-    private TransformerHandler myHandler;
+	private static Transformer myTransformer;
 
-    //Empty attributes used to tack onto LogNodes (none of them have
-    // attributes)
-    private AttributesImpl emptyAtts;
+	private static Document myDocument;
 
-    //Whether XML file has been created, tags initialized, etc
-    private boolean initialized = false;
+	private static Node myRootNode;
 
-    //The writer that takes the XML stream and outputs it to a file
-    private FileWriter myFileWriter;
+	private EditorWriter() {
+	}
 
-    private EditorWriter() {
-    }
+	/**
+	 * Initializes the XML output process. Sets the encoding methods, begins
+	 * root tags, opens file, etc.
+	 * 
+	 * @param document
+	 * @param file
+	 * @throws ParserConfigurationException
+	 */
+	private static void initializeXML(EditorDocument document)
+			throws IOException, TransformerConfigurationException,
+			ParserConfigurationException {
+		//initialize factory
+		TransformerFactory transformerFactory = TransformerFactory
+				.newInstance();
+		transformerFactory.setAttribute("indent-number", new Integer(4));
+		myTransformer = transformerFactory.newTransformer();
+		myTransformer.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
+		myTransformer.setOutputProperty(OutputKeys.METHOD, "xml");
+		myTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		myDocument = builder.newDocument();
 
-    /**
-     * Initializes the XML output process. Sets the encoding methods, begins
-     * root tags, opens file, etc.
-     * 
-     * @param document
-     * @param file
-     */
-    private void initializeXML(File file, EditorDocument document)
-            throws IOException, TransformerConfigurationException, SAXException {
-        // PrintWriter from a Servlet
-        emptyAtts = new AttributesImpl();
-        myFileWriter = new FileWriter(myOutputFile);
-        StreamResult streamResult = new StreamResult(myFileWriter);
-        SAXTransformerFactory tf = (SAXTransformerFactory) SAXTransformerFactory
-                .newInstance();
-        myHandler = tf.newTransformerHandler();
-        Transformer serializer = myHandler.getTransformer();
-        serializer.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
-        serializer.setOutputProperty(OutputKeys.METHOD, "xml");
-        serializer.setOutputProperty(OutputKeys.INDENT, "yes");
-        myHandler.setResult(streamResult);
-        myHandler.startDocument();
-        myHandler.startElement("", "", "biosim", emptyAtts);
-        initialized = true;
-    }
+		//create root element
+		Element rootElement = (Element) myDocument.createElement("biosim");
+		rootElement.setAttribute("xmlns:xsi",
+				XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI);
+		rootElement.setAttribute("xsi:noNamespaceSchemaLocation",
+				"BiosimInitSchema.xsd");
+		myDocument.appendChild(rootElement);
+		myRootNode = (Node) rootElement;
+		
+		//create comment section
+		Node authorElement = myDocument.createElement("author");
+		myRootNode.appendChild(authorElement);
+		String date = DateFormat.getDateTimeInstance().format(new Date());
+		Node authorText =  myDocument.createTextNode("Generated by BioSim Editor " + date);
+		authorElement.appendChild(authorText);
+	}
 
-    /**
-     * Ends root tag and flushs output
-     * 
-     * @param document
-     * @param file
-     */
-    private void endXML(File file, EditorDocument document)
-            throws SAXException, IOException {
-        myHandler.endElement("", "", "biosim");
-        myHandler.endDocument();
-        myFileWriter.flush();
-    }
+	/**
+	 * Ends root tag and flushs output
+	 * 
+	 * @param document
+	 * @param file
+	 * @throws TransformerException
+	 */
+	private static void endXML(File file, EditorDocument document)
+			throws IOException, TransformerException {
+		myFileWriter = new FileWriter(file);
+		myTransformer.transform(new DOMSource(myDocument), new StreamResult(
+				myFileWriter));
+		myFileWriter.flush();
+		myFileWriter.close();
+	}
 
-    private void writeXML(File file, EditorDocument document)
-            throws SAXException {
+	private static void writeXML(EditorDocument document) {
 
-    }
+	}
 
-    /**
-     * @return
-     */
-    public static EditorWriter getWriter() {
-        if (mySingleton != null)
-            return mySingleton;
-        mySingleton = new EditorWriter();
-        return mySingleton;
+	/**
+	 * @param file
+	 * @param document
+	 */
+	public static void saveDocument(File file, EditorDocument document) {
+		try {
+			initializeXML(document);
+			writeXML(document);
+			endXML(file, document);
+		} catch (TransformerConfigurationException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
 
-    }
+	}
 
-    /**
-     * @param file
-     * @param document
-     */
-    public synchronized void saveDocument(File file, EditorDocument document) {
-        try {
-            initializeXML(file, document);
-            writeXML(file, document);
-            endXML(file, document);
-        } catch (TransformerConfigurationException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        }
+	/**
+	 * @param file
+	 * @param editor
+	 */
+	public void copySelections(File file, BiosimEditor editor) {
+	}
 
-    }
+	private static void saveGraph(EditorLayer lay, Writer out)
+			throws IOException {
+		if (lay == null) {
+			return;
+		}
+		// Do not save empty leaf layers.
+		if (lay.getContents().size() == 0) {
+			return;
+		}
 
-    /**
-     * @param file
-     * @param editor
-     */
-    public void copySelections(File file, BiosimEditor editor) {
-    }
+		//out.write(tab(indent) + "<Graph>\n");
+		//saveFigs(lay.getContents(), out, indent + 1);
+		//out.write(tab(indent) + "</Graph>\n");
+	}
 
-    private static void saveGraph(EditorLayer lay, Writer out)
-            throws IOException {
-        if (lay == null) {
-            return;
-        }
-        // Do not save empty leaf layers.
-        if (lay.getContents().size() == 0) {
-            return;
-        }
+	/* Save a list of figs. */
+	private static void saveFigs(java.util.List figs, Writer out) {
+		FigModuleNode vf;
+		try {
+			// For each Editor Fig, write the information
+			Iterator i = figs.iterator();
+			/* In the first loop, print out all the EditorFigNodes */
+			while (i.hasNext()) {
+				Fig f = (Fig) i.next();
+				if (f instanceof FigModuleNode) {
+					vf = (FigModuleNode) f;
+					saveFigNode(vf, out);
+				} else {
+				}
+			}
 
-        //out.write(tab(indent) + "<Graph>\n");
-        //saveFigs(lay.getContents(), out, indent + 1);
-        //out.write(tab(indent) + "</Graph>\n");
-    }
+			/**
+			 * In the second loop, print out all the Edges. Note that an Edge
+			 * must appear after the nodes that it connects; this is the
+			 * simplest way to guarantee that.
+			 */
+			i = figs.iterator();
+			while (i.hasNext()) {
+				Fig f = (Fig) i.next();
+				if (f instanceof FigModuleEdge) {
+					//System.out.println("Edge Fig found");
+					FigModuleEdge fe = (FigModuleEdge) f;
+					saveFigEdge(fe, out);
+				}
+			}
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+	}
 
-    /* Save a list of figs. */
-    private static void saveFigs(java.util.List figs, Writer out) {
-        FigModuleNode vf;
-        try {
-            // For each Editor Fig, write the information
-            Iterator i = figs.iterator();
-            /* In the first loop, print out all the EditorFigNodes */
-            while (i.hasNext()) {
-                Fig f = (Fig) i.next();
-                if (f instanceof FigModuleNode) {
-                    vf = (FigModuleNode) f;
-                    saveFigNode(vf, out);
-                } else {
-                }
-            }
+	/** Saves a fig node. */
+	private static void saveFigNode(FigModuleNode vf, Writer out)
+			throws IOException {
+		/*
+		 * ModuleNode currentNode = (ModuleNode) vf.getOwner(); SimBioModuleImpl
+		 * currentModule = currentNode.getSimBioModuleImpl();
+		 * out.write(tab(indent) + " <" + currentModule.getModuleName() + "\n");
+		 * saveTextAttr(vf.getText(), out, indent + 1); Rectangle rect =
+		 * vf.getHandleBox(); out.write(tab(indent + 1) + "x=\"" + (int)
+		 * rect.getX() + "\"\n"); out.write(tab(indent + 1) + "y=\"" + (int)
+		 * rect.getY() + "\"\n"); out .write(tab(indent + 1) + "width=\"" +
+		 * (int) rect.getWidth() + "\"\n"); out.write(tab(indent + 1) +
+		 * "height=\"" + (int) rect.getHeight() + "\"\n"); out.write(tab(indent) +
+		 * ">\n"); saveGraph(vf.getNestedLayer(), out, indent + 1);
+		 * out.write(tab(indent) + " </" + currentModule.getModuleName() +
+		 * ">\n");
+		 */
+	}
 
-            /**
-             * In the second loop, print out all the Edges. Note that an Edge
-             * must appear after the nodes that it connects; this is the
-             * simplest way to guarantee that.
-             */
-            i = figs.iterator();
-            while (i.hasNext()) {
-                Fig f = (Fig) i.next();
-                if (f instanceof FigModuleEdge) {
-                    //System.out.println("Edge Fig found");
-                    FigModuleEdge fe = (FigModuleEdge) f;
-                    saveFigEdge(fe, out);
-                }
-            }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-    }
+	/* Saves a fig edge. */
+	private static void saveFigEdge(FigModuleEdge fe, Writer out)
+			throws IOException {
+		/*
+		 * ModuleEdge myEdge = (ModuleEdge) fe.getOwner(); ModuleNode sourceNode =
+		 * (ModuleNode) myEdge.getSourcePort().getParent(); ModuleNode destNode =
+		 * (ModuleNode) myEdge.getDestPort().getParent(); out.write(tab(indent) + "
+		 * <Edge\n"); saveTextAttr(myEdge.getName(), out, indent + 1);
+		 * out.write(tab(indent + 1) + "FromNode=\"" +
+		 * sourceNode.getSimBioModuleImpl().getModuleName() + "\"\n");
+		 * out.write(tab(indent + 1) + "ToNode=\"" +
+		 * destNode.getSimBioModuleImpl().getModuleName() + "\"\n");
+		 * out.write(tab(indent) + "/>\n");
+		 */
+	}
 
-    /** Saves a fig node. */
-    private static void saveFigNode(FigModuleNode vf, Writer out) throws IOException {
-        /*
-         * ModuleNode currentNode = (ModuleNode) vf.getOwner(); SimBioModuleImpl
-         * currentModule = currentNode.getSimBioModuleImpl();
-         * out.write(tab(indent) + " <" + currentModule.getModuleName() + "\n");
-         * saveTextAttr(vf.getText(), out, indent + 1); Rectangle rect =
-         * vf.getHandleBox(); out.write(tab(indent + 1) + "x=\"" + (int)
-         * rect.getX() + "\"\n"); out.write(tab(indent + 1) + "y=\"" + (int)
-         * rect.getY() + "\"\n"); out .write(tab(indent + 1) + "width=\"" +
-         * (int) rect.getWidth() + "\"\n"); out.write(tab(indent + 1) +
-         * "height=\"" + (int) rect.getHeight() + "\"\n"); out.write(tab(indent) +
-         * ">\n"); saveGraph(vf.getNestedLayer(), out, indent + 1);
-         * out.write(tab(indent) + " </" + currentModule.getModuleName() +
-         * ">\n");
-         */
-    }
+	/**
+	 * Saves the text attribute of a node or an edge. Newlines were being lost
+	 * in multiline labels. Newline characters written directly to the XML file
+	 * were converted to whitespace by the XML parser when the file was read
+	 * back in. The XML parser also interpreted the escape sequence \n as two
+	 * separate characters. Substituting the special HTML character codes seem
+	 * to work.
+	 */
+	private static void saveTextAttr(String label, Writer out)
+			throws IOException {
+		/*
+		 * out.write(tab(indent) + "text=\""); StringTokenizer lines = new
+		 * StringTokenizer(label, "\n\r", true); while (lines.hasMoreTokens()) {
+		 * String curLine = lines.nextToken(); if (curLine.equals("\n")) {
+		 * out.write("&#10;"); } else if (curLine.equals("\r")) {
+		 * out.write("&#13;"); } else { out.write(curLine); } }
+		 * out.write("\"\n");
+		 */
+	}
 
-    /* Saves a fig edge. */
-    private static void saveFigEdge(FigModuleEdge fe, Writer out) throws IOException {
-        /*
-         * ModuleEdge myEdge = (ModuleEdge) fe.getOwner(); ModuleNode sourceNode =
-         * (ModuleNode) myEdge.getSourcePort().getParent(); ModuleNode destNode =
-         * (ModuleNode) myEdge.getDestPort().getParent(); out.write(tab(indent) + "
-         * <Edge\n"); saveTextAttr(myEdge.getName(), out, indent + 1);
-         * out.write(tab(indent + 1) + "FromNode=\"" +
-         * sourceNode.getSimBioModuleImpl().getModuleName() + "\"\n");
-         * out.write(tab(indent + 1) + "ToNode=\"" +
-         * destNode.getSimBioModuleImpl().getModuleName() + "\"\n");
-         * out.write(tab(indent) + "/>\n");
-         */
-    }
+	/**
+	 * Find the selected figs in the editor filtering out the edges that do not
+	 * have both source and destination nodes selected.
+	 */
+	private static Vector getSelectedFigs(BiosimEditor ed) {
+		Vector selections = ed.getSelectionManager().selections();
 
-    /**
-     * Saves the text attribute of a node or an edge. Newlines were being lost
-     * in multiline labels. Newline characters written directly to the XML file
-     * were converted to whitespace by the XML parser when the file was read
-     * back in. The XML parser also interpreted the escape sequence \n as two
-     * separate characters. Substituting the special HTML character codes seem
-     * to work.
-     */
-    private static void saveTextAttr(String label, Writer out)
-            throws IOException {
-        /*
-         * out.write(tab(indent) + "text=\""); StringTokenizer lines = new
-         * StringTokenizer(label, "\n\r", true); while (lines.hasMoreTokens()) {
-         * String curLine = lines.nextToken(); if (curLine.equals("\n")) {
-         * out.write("&#10;"); } else if (curLine.equals("\r")) {
-         * out.write("&#13;"); } else { out.write(curLine); } }
-         * out.write("\"\n");
-         */
-    }
+		// Create a list of figs to be copied.
+		Vector figs = new Vector();
+		Enumeration theElements = selections.elements();
+		while (theElements.hasMoreElements()) {
+			Selection sel = (Selection) theElements.nextElement();
+			Fig fig = sel.getContent();
 
-    /**
-     * Find the selected figs in the editor filtering out the edges that do not
-     * have both source and destination nodes selected.
-     */
-    private static Vector getSelectedFigs(BiosimEditor ed) {
-        Vector selections = ed.getSelectionManager().selections();
+			if (fig instanceof FigModuleEdge) {
+				// Only include edges where both source and destination
+				// nodes are selected.
+				FigEdge edge = (FigEdge) fig;
+				Fig src = edge.getSourceFigNode();
+				Fig dest = edge.getDestFigNode();
 
-        // Create a list of figs to be copied.
-        Vector figs = new Vector();
-        Enumeration theElements = selections.elements();
-        while (theElements.hasMoreElements()) {
-            Selection sel = (Selection) theElements.nextElement();
-            Fig fig = sel.getContent();
-
-            if (fig instanceof FigModuleEdge) {
-                // Only include edges where both source and destination
-                // nodes are selected.
-                FigEdge edge = (FigEdge) fig;
-                Fig src = edge.getSourceFigNode();
-                Fig dest = edge.getDestFigNode();
-
-                if (ed.getSelectionManager().containsFig(src)
-                        && ed.getSelectionManager().containsFig(dest)) {
-                    figs.add(fig);
-                }
-            } else {
-                // Add all nodes
-                figs.add(fig);
-            }
-        }
-        return figs;
-    }
+				if (ed.getSelectionManager().containsFig(src)
+						&& ed.getSelectionManager().containsFig(dest)) {
+					figs.add(fig);
+				}
+			} else {
+				// Add all nodes
+				figs.add(fig);
+			}
+		}
+		return figs;
+	}
 }
