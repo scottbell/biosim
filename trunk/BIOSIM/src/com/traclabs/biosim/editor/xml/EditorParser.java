@@ -23,7 +23,7 @@ import com.traclabs.biosim.editor.graph.EditorPort;
 import com.traclabs.biosim.editor.graph.FigModuleNode;
 import com.traclabs.biosim.editor.graph.ModuleNode;
 
-public class EditorParser extends DefaultHandler implements DocumentReader {
+public class EditorParser extends DefaultHandler{
 
     ////////////////////////////////////////////////////////////////
     // static variables

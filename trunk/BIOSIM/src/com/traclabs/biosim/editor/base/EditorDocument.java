@@ -21,7 +21,6 @@ import org.tigris.gef.presentation.Fig;
 
 import com.traclabs.biosim.editor.graph.EditorGraphModel;
 import com.traclabs.biosim.editor.graph.FigModuleNode;
-import com.traclabs.biosim.editor.xml.DocumentReader;
 import com.traclabs.biosim.editor.xml.EditorParser;
 import com.traclabs.biosim.editor.xml.EditorWriter;
 
@@ -45,12 +44,14 @@ public class EditorDocument {
 
     /** The filename for the document set when it is opened or saved */
     protected Vector _editors = new Vector();
+    
+    private EditorWriter myEditorWriter;
 
     /** The url for the document set when it is opened or saved */
     File _file;
 
     /** Reader for this document. */
-    DocumentReader _reader;
+    EditorParser _reader;
 
     /** Writer for this document. */
     EditorWriter _writer;
@@ -67,6 +68,7 @@ public class EditorDocument {
     public EditorDocument(EditorLayer root) {
         setRoot(root);
         _reader = createReader();
+        myEditorWriter = new EditorWriter(this);
     }
 
     public EditorDocument(EditorGraphModel model) {
@@ -120,12 +122,12 @@ public class EditorDocument {
         return _editors;
     }
 
-    void addEditor(BiosimEditor e) {
+    public void addEditor(BiosimEditor e) {
         _editors.remove(e);
         _editors.add(e);
     }
 
-    void removeEditor(BiosimEditor e) {
+    public void removeEditor(BiosimEditor e) {
         _editors.remove(e);
     }
 
@@ -133,7 +135,7 @@ public class EditorDocument {
      * Any editor showing a child diagram for this Fig will be switched to the
      * root layer which cannot be deleted.
      */
-    void deleted(Fig f) {
+    public void deleted(Fig f) {
         if (f instanceof FigModuleNode) {
             FigModuleNode node = (FigModuleNode) f;
             Enumeration eds = _editors.elements();
@@ -158,28 +160,28 @@ public class EditorDocument {
         return "Biosim Editor";
     }
 
-    public DocumentReader createReader() {
+    public EditorParser createReader() {
         return EditorParser.SINGLETON;
     }
 
     /**
      * Saves the document to the specified file starting at the root diagram.
      */
-    void saveDocument(File file) throws Exception {
+    public void saveDocument(File file) throws Exception {
         onSaveDocument(file);
         setFile(file); // assign the filename
         setModified(false);
     }
 
     protected void onSaveDocument(File file){
-        EditorWriter.saveDocument(file, this);
+        myEditorWriter.saveDocument(file);
     }
 
-    void copySelections(File file, BiosimEditor editor){
+    public void copySelections(File file, BiosimEditor editor){
         _writer.copySelections(file, editor);
     }
 
-    void openDocument(File file) throws Exception {
+    public void openDocument(File file) throws Exception {
         onOpenDocument(file);
         setFile(file);
         setModified(false);
@@ -190,7 +192,7 @@ public class EditorDocument {
         _reader.openDocument(in, this);
     }
 
-    void pasteSelections(File file, BiosimEditor editor) throws Exception {
+    public void pasteSelections(File file, BiosimEditor editor) throws Exception {
         Reader in = new BufferedReader(new FileReader(file));
         _reader.pasteSelections(in, editor);
     }
