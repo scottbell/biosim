@@ -43,4 +43,12 @@ public class MethaneStoreNode extends StoreNode{
     public Class[] getConsumersAllowed() {
         return myConsumersAllowed;
     }
+
+    /* (non-Javadoc)
+     * @see com.traclabs.biosim.editor.graph.ModuleNode#getModuleType()
+     */
+    public String getModuleType() {
+        // TODO Auto-generated method stub
+        return "MethaneStore";
+    }
 }

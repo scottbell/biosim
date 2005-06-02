@@ -26,4 +26,11 @@ public class NuclearPowerPSNode extends ActiveNode{
     public SimBioModuleImpl getSimBioModuleImpl(){
         return myPowerPSImpl;
     }
+
+    /* (non-Javadoc)
+     * @see com.traclabs.biosim.editor.graph.ModuleNode#getModuleType()
+     */
+    public String getModuleType() {
+        return "PowerPS";
+    }
 }

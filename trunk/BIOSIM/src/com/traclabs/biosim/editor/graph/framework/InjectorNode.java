@@ -25,4 +25,11 @@ public class InjectorNode extends ActiveNode{
     public SimBioModuleImpl getSimBioModuleImpl(){
         return myInjectorImpl;
     }
+
+    /* (non-Javadoc)
+     * @see com.traclabs.biosim.editor.graph.ModuleNode#getModuleType()
+     */
+    public String getModuleType() {
+        return "Injector";
+    }
 }

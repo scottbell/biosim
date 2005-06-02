@@ -25,4 +25,11 @@ public class CrewGroupNode extends ActiveNode{
     public SimBioModuleImpl getSimBioModuleImpl(){
         return myCrewGroupImpl;
     }
+
+    /* (non-Javadoc)
+     * @see com.traclabs.biosim.editor.graph.ModuleNode#getModuleType()
+     */
+    public String getModuleType() {
+        return "CrewGroup";
+    }
 }

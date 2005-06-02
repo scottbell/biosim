@@ -25,4 +25,11 @@ public class WaterRSNode extends ActiveNode{
     public SimBioModuleImpl getSimBioModuleImpl(){
         return myWaterRSImpl;
     }
+
+    /* (non-Javadoc)
+     * @see com.traclabs.biosim.editor.graph.ModuleNode#getModuleType()
+     */
+    public String getModuleType() {
+        return "WaterRS";
+    }
 }

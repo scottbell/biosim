@@ -29,7 +29,6 @@ import org.xml.sax.helpers.AttributesImpl;
 
 import com.traclabs.biosim.editor.base.BiosimEditor;
 import com.traclabs.biosim.editor.base.EditorDocument;
-import com.traclabs.biosim.editor.base.EditorLayer;
 import com.traclabs.biosim.editor.graph.FigModuleEdge;
 import com.traclabs.biosim.editor.graph.FigModuleNode;
 import com.traclabs.biosim.editor.graph.ModuleEdge;
@@ -266,16 +265,6 @@ public class EditorWriter {
         pruneTopNodes(myBiosimNode);
     }
 
-    private void saveGraph(EditorLayer lay)
-            throws IOException {
-        if (lay == null)
-            return;
-        // Do not save empty leaf layers.
-        if (lay.getContents().size() == 0)
-            return;
-        saveFigs(lay.getContents());
-    }
-
     /* Save a list of figs. */
     private void saveFigs(java.util.List figs) {
         FigModuleNode vf;
@@ -317,8 +306,38 @@ public class EditorWriter {
             throws IOException {
         ModuleNode currentNode = (ModuleNode) vf.getOwner();
         SimBioModuleImpl currentModule = currentNode.getSimBioModuleImpl();
+        Class currentClass = currentModule.getClass();
+        String packageName = currentClass.getPackage().toString();
+        String[] individualPackages = packageName.split("\\.");
+        String resourcePackageName = individualPackages[individualPackages.length - 1];
+        String corbaName = currentNode.getModuleType();
+        Element newNode = (Element)(myXMLDocument.createElement(corbaName));
+        newNode.setAttribute("name", currentModule.getModuleName());
         
-        saveGraph(vf.getNestedLayer());
+        if (resourcePackageName.equals("air")){
+            mySimAirNode.appendChild(newNode);
+        }
+        else if (resourcePackageName.equals("crew")){
+            mySimCrewNode.appendChild(newNode);
+        }
+        else if (resourcePackageName.equals("environment")){
+            mySimEnvironmentNode.appendChild(newNode);
+        }
+        else if (resourcePackageName.equals("food")){
+            mySimFoodNode.appendChild(newNode);
+        }
+        else if (resourcePackageName.equals("framework")){
+            mySimFrameworkNode.appendChild(newNode);
+        }
+        else if (resourcePackageName.equals("power")){
+            mySimPowerNode.appendChild(newNode);
+        }
+        else if (resourcePackageName.equals("waste")){
+            mySimWasteNode.appendChild(newNode);
+        }
+        else if (resourcePackageName.equals("water")){
+            mySimWaterNode.appendChild(newNode);
+        }
     }
 
     /* Saves a fig edge. */
