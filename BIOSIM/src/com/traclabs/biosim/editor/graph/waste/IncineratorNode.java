@@ -25,4 +25,11 @@ public class IncineratorNode extends ActiveNode{
     public SimBioModuleImpl getSimBioModuleImpl(){
         return myIncineratorImpl;
     }
+
+    /* (non-Javadoc)
+     * @see com.traclabs.biosim.editor.graph.ModuleNode#getModuleType()
+     */
+    public String getModuleType() {
+        return "Incinerator";
+    }
 }

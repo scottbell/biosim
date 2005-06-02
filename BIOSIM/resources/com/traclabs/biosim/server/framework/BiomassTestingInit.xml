@@ -7,7 +7,7 @@
 	<SimBioModules>
 		<environment>
 			<SimEnvironment name="PlantEnvironment" initialVolume="100000000000000"/>
-		</environment>                    
+		</environment>
 		<food>
 			<BiomassRS name="BiomassRS" autoHarvestAndReplant="false">
 				<shelf cropArea="1" cropType="SOYBEAN"/>

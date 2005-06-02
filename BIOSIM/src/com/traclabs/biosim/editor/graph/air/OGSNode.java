@@ -25,4 +25,11 @@ public class OGSNode extends ActiveNode{
     public SimBioModuleImpl getSimBioModuleImpl(){
         return myOGSImpl;
     }
+
+    /* (non-Javadoc)
+     * @see com.traclabs.biosim.editor.graph.ModuleNode#getModuleType()
+     */
+    public String getModuleType() {
+        return "OGS";
+    }
 }

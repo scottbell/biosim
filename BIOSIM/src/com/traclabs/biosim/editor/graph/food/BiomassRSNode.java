@@ -25,4 +25,12 @@ public class BiomassRSNode extends ActiveNode{
     public SimBioModuleImpl getSimBioModuleImpl(){
         return myBiomassRSImpl;
     }
+
+    /* (non-Javadoc)
+     * @see com.traclabs.biosim.editor.graph.ModuleNode#getModuleType()
+     */
+    public String getModuleType() {
+        // TODO Auto-generated method stub
+        return "BiomassRS";
+    }
 }

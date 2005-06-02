@@ -25,4 +25,11 @@ public class FoodProcessorNode extends ActiveNode{
     public SimBioModuleImpl getSimBioModuleImpl(){
         return myFoodProcessorImpl;
     }
+
+    /* (non-Javadoc)
+     * @see com.traclabs.biosim.editor.graph.ModuleNode#getModuleType()
+     */
+    public String getModuleType() {
+        return "FoodProcessor";
+    }
 }

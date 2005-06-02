@@ -25,4 +25,11 @@ public class AccumulatorNode extends ActiveNode{
     public SimBioModuleImpl getSimBioModuleImpl(){
         return myAccumulatorImpl;
     }
+
+    /* (non-Javadoc)
+     * @see com.traclabs.biosim.editor.graph.ModuleNode#getModuleType()
+     */
+    public String getModuleType() {
+        return "Accumulator";
+    }
 }

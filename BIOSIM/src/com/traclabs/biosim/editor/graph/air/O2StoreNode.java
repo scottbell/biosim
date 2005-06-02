@@ -46,4 +46,11 @@ public class O2StoreNode extends StoreNode{
     public Class[] getConsumersAllowed() {
         return myConsumersAllowed;
     }
+
+    /* (non-Javadoc)
+     * @see com.traclabs.biosim.editor.graph.ModuleNode#getModuleType()
+     */
+    public String getModuleType() {
+        return "O2Store";
+    }
 }
