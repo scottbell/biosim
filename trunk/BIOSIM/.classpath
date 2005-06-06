@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="stubs"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/xerces/xercesImpl.jar"/>
+	<classpathentry sourcepath="/net/home/scott/workspace/xerces/src" kind="lib" path="lib/xerces/xercesImpl.jar"/>
 	<classpathentry kind="lib" path="lib/jfreechart/jcommon.jar"/>
 	<classpathentry kind="lib" path="lib/jfreechart/jfreechart.jar"/>
 	<classpathentry sourcepath="/usr/local/corba/JacORB/JacORB_2_1/src" kind="lib" path="lib/jacorb/jacorb.jar"/>
