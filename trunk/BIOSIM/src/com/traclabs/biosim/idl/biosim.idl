@@ -180,6 +180,7 @@ module com{
                                         };
                                         module framework{
                                                 interface SimBioModule;
+                                                interface PassiveModule;
                                                 interface Injector;
                                                 interface Accumulator;
                                                 interface Store;
@@ -319,7 +320,7 @@ module com{
                                                         void setStores(in simulation::framework::StoreList pStores);
                                                 };
                                                 
-                                                interface Store : framework::SimBioModule{
+                                                interface Store : PassiveModule{
                                                         void setInitialCapacity(in float metricAmount);
                                                         void setCurrentCapacity(in float metricAmount);
                                                         void setInitialLevel(in float metricAmount);
@@ -335,6 +336,7 @@ module com{
                                                         void setPipe(in boolean pPipe);
                                                 };
                                                 interface SimBioModule : framework::BioModule{};
+                                                interface PassiveModule : SimBioModule{};
                                                 interface Accumulator : framework::SimBioModule, power::PowerConsumer, water::PotableWaterConsumer, water::GreyWaterConsumer, water::DirtyWaterConsumer, water::WaterConsumer, air::O2Consumer, air::CO2Consumer, air::NitrogenConsumer, environment::AirConsumer, food::BiomassConsumer, food::FoodConsumer, environment::O2AirConsumer, environment::CO2AirConsumer, environment::NitrogenAirConsumer, waste::DryWasteConsumer, environment::WaterAirConsumer, power::PowerProducer, water::PotableWaterProducer, water::GreyWaterProducer, water::DirtyWaterProducer, air::O2Producer, air::CO2Producer, air::NitrogenProducer, environment::AirProducer, food::BiomassProducer, food::FoodProducer, environment::O2AirProducer, environment::CO2AirProducer, environment::NitrogenAirProducer, environment::WaterAirProducer, waste::DryWasteProducer{};
                                                 interface Injector : framework::SimBioModule, power::PowerConsumer, water::PotableWaterConsumer, water::GreyWaterConsumer, water::DirtyWaterConsumer, water::WaterConsumer, air::O2Consumer, air::CO2Consumer, air::NitrogenConsumer, environment::AirConsumer, food::BiomassConsumer, food::FoodConsumer, environment::O2AirConsumer, environment::CO2AirConsumer, environment::NitrogenAirConsumer, waste::DryWasteConsumer, environment::WaterAirConsumer, power::PowerProducer, water::PotableWaterProducer, water::GreyWaterProducer, water::DirtyWaterProducer, air::O2Producer, air::CO2Producer, air::NitrogenProducer, environment::AirProducer, food::BiomassProducer, food::FoodProducer, environment::O2AirProducer, environment::CO2AirProducer, environment::NitrogenAirProducer, environment::WaterAirProducer, waste::DryWasteProducer{};
                                         };
@@ -420,7 +422,7 @@ module com{
                                                 interface Dehumidifier : framework::SimBioModule, environment::AirConsumer, water::DirtyWaterProducer{
                                                 };
 
-                                                interface SimEnvironment : framework::SimBioModule{
+                                                interface SimEnvironment : framework::PassiveModule{
                                                         void setCO2Moles(in float moles);
                                                         void setO2Moles(in float moles);
                                                         void setOtherMoles(in float moles);

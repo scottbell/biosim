@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -19,7 +20,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.log4j.Logger;
 import org.tigris.gef.presentation.Fig;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -29,11 +29,13 @@ import org.xml.sax.helpers.AttributesImpl;
 
 import com.traclabs.biosim.editor.base.BiosimEditor;
 import com.traclabs.biosim.editor.base.EditorDocument;
-import com.traclabs.biosim.editor.graph.FigModuleEdge;
 import com.traclabs.biosim.editor.graph.FigModuleNode;
 import com.traclabs.biosim.editor.graph.ModuleEdge;
 import com.traclabs.biosim.editor.graph.ModuleNode;
+import com.traclabs.biosim.idl.simulation.framework.SingleFlowRateControllable;
+import com.traclabs.biosim.server.simulation.framework.PassiveModuleImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
+import com.traclabs.biosim.server.simulation.framework.StoreImpl;
 
 /**
  * Writes a Editor Document to a file.
@@ -280,22 +282,6 @@ public class EditorWriter {
                 } else {
                 }
             }
-
-            /**
-             * In the second loop, print out all the Edges. Note that an Edge
-             * must appear after the nodes that it connects; this is the
-             * simplest way to guarantee that.
-             */
-            i = figs.iterator();
-            while (i.hasNext()) {
-                Fig f = (Fig) i.next();
-                if (f instanceof FigModuleEdge) {
-                    Logger.getLogger(EditorWriter.class)
-                            .debug("Edge Fig found");
-                    FigModuleEdge fe = (FigModuleEdge) f;
-                    saveFigEdge(fe);
-                }
-            }
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
@@ -304,47 +290,90 @@ public class EditorWriter {
     /** Saves a fig node. */
     private void saveFigNode(FigModuleNode vf)
             throws IOException {
-        ModuleNode currentNode = (ModuleNode) vf.getOwner();
-        SimBioModuleImpl currentModule = currentNode.getSimBioModuleImpl();
+        ModuleNode currentModuleNode = (ModuleNode) vf.getOwner();
+        SimBioModuleImpl currentModule = currentModuleNode.getSimBioModuleImpl();
         Class currentClass = currentModule.getClass();
         String packageName = currentClass.getPackage().toString();
         String[] individualPackages = packageName.split("\\.");
         String resourcePackageName = individualPackages[individualPackages.length - 1];
-        String corbaName = currentNode.getModuleType();
-        Element newNode = (Element)(myXMLDocument.createElement(corbaName));
-        newNode.setAttribute("name", currentModule.getModuleName());
+        String corbaName = currentModuleNode.getModuleType();
+        Element newElementNode = (Element)(myXMLDocument.createElement(corbaName));
+        newElementNode.setAttribute("name", currentModule.getModuleName());
+        if (!(currentModule instanceof PassiveModuleImpl))
+            configureModuleFlowRates(currentModuleNode, newElementNode);
+        else if (currentModule instanceof StoreImpl)
+            configureStoreModule((StoreImpl)currentModule, newElementNode);
         
         if (resourcePackageName.equals("air")){
-            mySimAirNode.appendChild(newNode);
+            mySimAirNode.appendChild(newElementNode);
         }
         else if (resourcePackageName.equals("crew")){
-            mySimCrewNode.appendChild(newNode);
+            mySimCrewNode.appendChild(newElementNode);
         }
         else if (resourcePackageName.equals("environment")){
-            mySimEnvironmentNode.appendChild(newNode);
+            mySimEnvironmentNode.appendChild(newElementNode);
         }
         else if (resourcePackageName.equals("food")){
-            mySimFoodNode.appendChild(newNode);
+            mySimFoodNode.appendChild(newElementNode);
         }
         else if (resourcePackageName.equals("framework")){
-            mySimFrameworkNode.appendChild(newNode);
+            mySimFrameworkNode.appendChild(newElementNode);
         }
         else if (resourcePackageName.equals("power")){
-            mySimPowerNode.appendChild(newNode);
+            mySimPowerNode.appendChild(newElementNode);
         }
         else if (resourcePackageName.equals("waste")){
-            mySimWasteNode.appendChild(newNode);
+            mySimWasteNode.appendChild(newElementNode);
         }
         else if (resourcePackageName.equals("water")){
-            mySimWaterNode.appendChild(newNode);
+            mySimWaterNode.appendChild(newElementNode);
         }
     }
 
-    /* Saves a fig edge. */
-    private void saveFigEdge(FigModuleEdge fe)
-            throws IOException {
-        ModuleEdge myEdge = (ModuleEdge) fe.getOwner();
-        ModuleNode sourceNode = (ModuleNode) myEdge.getSourcePort().getParent();
-        ModuleNode destNode = (ModuleNode) myEdge.getDestPort().getParent();
+    /**
+     * @param impl
+     * @param newElementNode
+     */
+    private void configureStoreModule(StoreImpl store, Element newElementNode) {
+        newElementNode.setAttribute("capacity", Float.toString(store.getInitialCapacity()));
+        newElementNode.setAttribute("level", Float.toString(store.getInitialLevel()));
+        
+    }
+
+    /**
+     * @param currentNode
+     */
+    private void configureModuleFlowRates(ModuleNode currentNode, Node currentElementNode) {
+        List consumerEdges = currentNode.getInBoundEdges();
+        List producerEdges = currentNode.getOutBoundEdges();
+        
+        setConsumersOrProducerFlowRates(consumerEdges, currentNode, currentElementNode, "inputs");
+        setConsumersOrProducerFlowRates(producerEdges, currentNode, currentElementNode, "outputs");
+    }
+
+    /**
+     * @param edges
+     * @param currentNode
+     * @param currentElementNode
+     * @param string
+     */
+    private void setConsumersOrProducerFlowRates(List edges, ModuleNode currentNode, Node currentElementNode, String storeFieldName) {
+        for (Iterator iter = edges.iterator(); iter.hasNext();){
+            ModuleEdge currentEdge = (ModuleEdge)iter.next();
+            String currentFlowRateType = currentEdge.getFlowRateType();
+            Element newFlowRateElement = (Element)(myXMLDocument.createElement(currentFlowRateType));
+            createFlowRateAttributes(currentEdge.getOperations(), newFlowRateElement);
+            newFlowRateElement.setAttribute(storeFieldName, currentEdge.getPassiveModuleImpl().getModuleName());
+            currentElementNode.appendChild(newFlowRateElement);
+        }
+    }
+
+    /**
+     * @param operations
+     * @param newConsumerElement
+     */
+    private void createFlowRateAttributes(SingleFlowRateControllable operations, Element newConsumerElement) {
+        newConsumerElement.setAttribute("maxFlowRates", Float.toString(operations.getMaxFlowRate(0)));
+        newConsumerElement.setAttribute("desiredFlowRates", Float.toString(operations.getDesiredFlowRate(0)));   
     }
 }
