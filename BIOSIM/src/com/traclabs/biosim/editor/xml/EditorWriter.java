@@ -346,7 +346,7 @@ public class EditorWriter {
     private void configureModuleFlowRates(ModuleNode currentNode, Node currentElementNode) {
         List consumerEdges = currentNode.getInBoundEdges();
         List producerEdges = currentNode.getOutBoundEdges();
-        
+
         setConsumersOrProducerFlowRates(consumerEdges, currentNode, currentElementNode, "inputs");
         setConsumersOrProducerFlowRates(producerEdges, currentNode, currentElementNode, "outputs");
     }
