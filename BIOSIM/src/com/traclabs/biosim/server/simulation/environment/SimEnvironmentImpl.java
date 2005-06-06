@@ -9,7 +9,7 @@ import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.simulation.air.Breath;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironmentOperations;
-import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
+import com.traclabs.biosim.server.simulation.framework.PassiveModuleImpl;
 import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
@@ -19,7 +19,7 @@ import com.traclabs.biosim.server.util.OrbUtils;
  * @author Scott Bell
  */
 
-public class SimEnvironmentImpl extends SimBioModuleImpl implements
+public class SimEnvironmentImpl extends PassiveModuleImpl implements
         SimEnvironmentOperations {
     //The current amount of O2 in the environment (in moles)
     private float O2Moles = 0f;

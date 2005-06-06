@@ -21,6 +21,7 @@
 		<air>
 			<AirRS name="EVAAirRS" implementation="LINEAR">
 				<powerConsumer maxFlowRates="300" desiredFlowRates="300" inputs="EVAPowerStore"/>
+				<methaneProducer maxFlowRates="100" desiredFlowRates="100" outputs="EVAMethaneStore"/>
 				<potableWaterConsumer maxFlowRates="10" desiredFlowRates="10" inputs="EVAPotableWaterStore"/>
 				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="EVACrewEnvironment"/>
 				<CO2Consumer maxFlowRates="10" desiredFlowRates="10" inputs="EVACO2Store"/>
@@ -30,7 +31,6 @@
 				<airProducer maxFlowRates="100" desiredFlowRates="100" outputs="EVACrewEnvironment"/>
 				<CO2Producer maxFlowRates="100" desiredFlowRates="100" outputs="EVACO2Store"/>
 				<H2Producer maxFlowRates="100" desiredFlowRates="100" outputs="EVAH2Store"/>
-				<methaneProducer maxFlowRates="100" desiredFlowRates="100" outputs="EVAMethaneStore"/>
 			</AirRS>
 			<OGS name="BaseOGS">
 				<powerConsumer maxFlowRates="2500" desiredFlowRates="2500" inputs="BasePowerStore"/>

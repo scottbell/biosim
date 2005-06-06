@@ -20,7 +20,7 @@ import com.traclabs.biosim.server.util.OrbUtils;
  * @author Scott Bell
  */
 
-public abstract class StoreImpl extends SimBioModuleImpl implements
+public abstract class StoreImpl extends PassiveModuleImpl implements
         StoreOperations {
     //The currentLevel of whatever this store is holding (at t)
     protected float currentLevel = 0f;

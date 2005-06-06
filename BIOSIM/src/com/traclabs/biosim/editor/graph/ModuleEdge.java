@@ -15,6 +15,7 @@ import com.traclabs.biosim.idl.simulation.framework.SingleFlowRateControllable;
 import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
 import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 import com.traclabs.biosim.server.simulation.environment.SimEnvironmentImpl;
+import com.traclabs.biosim.server.simulation.framework.PassiveModuleImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 import com.traclabs.biosim.server.simulation.framework.StoreImpl;
 
@@ -35,6 +36,8 @@ public class ModuleEdge extends NetEdge {
     private boolean amProducerEdge = false;
     private Class mySensorClass;
     private Class myActuatorClass;
+
+    private String myFlowRateType;
     
     /** Construct a new SampleEdge. */
     public ModuleEdge() {
@@ -60,6 +63,13 @@ public class ModuleEdge extends NetEdge {
 
     public FigEdge makePresentation(Layer lay) {
         return new FigModuleEdge();
+    }
+    
+    public PassiveModuleImpl getPassiveModuleImpl() {
+        if (getStoreImpl() != null)
+            return getStoreImpl();
+        else
+            return getSimEnvironmentImpl();
     }
     
     /**
@@ -125,12 +135,17 @@ public class ModuleEdge extends NetEdge {
     public SingleFlowRateControllable getOperations(){
         return myOperations;
     }
+    
+    public String getFlowRateType(){
+        return myFlowRateType;
+    }
 
     /**
      * @return
      */
     private SingleFlowRateControllable initializeOperations(Class selectedConsumerOrProducerClass) {
         SingleFlowRateControllable initializedOperations = null;
+        myFlowRateType = calculateFlowRateType(selectedConsumerOrProducerClass);
         EditorPort sourcePort = (EditorPort)getSourcePort();
         EditorPort destPort = (EditorPort)getDestPort();
         if (sourcePort.getParent() instanceof ActiveNode){
@@ -155,6 +170,19 @@ public class ModuleEdge extends NetEdge {
             return initializedOperations;
         }
         return initializedOperations;
+    }
+
+    /**
+     * @param selectedConsumerOrProducerClass
+     */
+    private String calculateFlowRateType(Class selectedConsumerOrProducerClass) {
+        String className = selectedConsumerOrProducerClass.getSimpleName();
+        String producerOrConsumerType = className.substring(0, className.lastIndexOf("Operations"));
+        if (producerOrConsumerType.startsWith("O2") || producerOrConsumerType.startsWith("CO2")
+            || producerOrConsumerType.startsWith("H2"))
+            return producerOrConsumerType;
+        char firstLetterLowered = Character.toLowerCase(producerOrConsumerType.charAt(0));
+        return firstLetterLowered + producerOrConsumerType.substring(1);
     }
 
     /**
