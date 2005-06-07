@@ -33,6 +33,9 @@ import com.traclabs.biosim.editor.graph.FigModuleNode;
 import com.traclabs.biosim.editor.graph.ModuleEdge;
 import com.traclabs.biosim.editor.graph.ModuleNode;
 import com.traclabs.biosim.idl.simulation.framework.SingleFlowRateControllable;
+import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
+import com.traclabs.biosim.server.framework.BioModuleImpl;
+import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 import com.traclabs.biosim.server.simulation.framework.PassiveModuleImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 import com.traclabs.biosim.server.simulation.framework.StoreImpl;
@@ -292,42 +295,23 @@ public class EditorWriter {
             throws IOException {
         ModuleNode currentModuleNode = (ModuleNode) vf.getOwner();
         SimBioModuleImpl currentModule = currentModuleNode.getSimBioModuleImpl();
+        String corbaName = currentModuleNode.getModuleType();
+        Element newModuleElement = (Element)(myXMLDocument.createElement(corbaName));
+        newModuleElement.setAttribute("name", currentModule.getModuleName());
+        if (!(currentModule instanceof PassiveModuleImpl))
+            configureModuleFlowRates(currentModuleNode, newModuleElement);
+        else if (currentModule instanceof StoreImpl)
+            configureStoreModule((StoreImpl)currentModule, newModuleElement);
+        //find where to put in SimBioModules Node
+        appendSimBioModule(getResourcePackageName(currentModule), newModuleElement);
+    }
+    
+    private static String getResourcePackageName(BioModuleImpl currentModule){
         Class currentClass = currentModule.getClass();
         String packageName = currentClass.getPackage().toString();
         String[] individualPackages = packageName.split("\\.");
         String resourcePackageName = individualPackages[individualPackages.length - 1];
-        String corbaName = currentModuleNode.getModuleType();
-        Element newElementNode = (Element)(myXMLDocument.createElement(corbaName));
-        newElementNode.setAttribute("name", currentModule.getModuleName());
-        if (!(currentModule instanceof PassiveModuleImpl))
-            configureModuleFlowRates(currentModuleNode, newElementNode);
-        else if (currentModule instanceof StoreImpl)
-            configureStoreModule((StoreImpl)currentModule, newElementNode);
-        
-        if (resourcePackageName.equals("air")){
-            mySimAirNode.appendChild(newElementNode);
-        }
-        else if (resourcePackageName.equals("crew")){
-            mySimCrewNode.appendChild(newElementNode);
-        }
-        else if (resourcePackageName.equals("environment")){
-            mySimEnvironmentNode.appendChild(newElementNode);
-        }
-        else if (resourcePackageName.equals("food")){
-            mySimFoodNode.appendChild(newElementNode);
-        }
-        else if (resourcePackageName.equals("framework")){
-            mySimFrameworkNode.appendChild(newElementNode);
-        }
-        else if (resourcePackageName.equals("power")){
-            mySimPowerNode.appendChild(newElementNode);
-        }
-        else if (resourcePackageName.equals("waste")){
-            mySimWasteNode.appendChild(newElementNode);
-        }
-        else if (resourcePackageName.equals("water")){
-            mySimWaterNode.appendChild(newElementNode);
-        }
+        return resourcePackageName;
     }
 
     /**
@@ -342,6 +326,7 @@ public class EditorWriter {
 
     /**
      * @param currentNode
+     * @param resourcePackageName
      */
     private void configureModuleFlowRates(ModuleNode currentNode, Node currentElementNode) {
         List consumerEdges = currentNode.getInBoundEdges();
@@ -355,17 +340,137 @@ public class EditorWriter {
      * @param edges
      * @param currentNode
      * @param currentElementNode
+     * @param resourcePackageName
      * @param string
      */
     private void setConsumersOrProducerFlowRates(List edges, ModuleNode currentNode, Node currentElementNode, String storeFieldName) {
         for (Iterator iter = edges.iterator(); iter.hasNext();){
             ModuleEdge currentEdge = (ModuleEdge)iter.next();
+            if (currentEdge.isSensed())
+                createSensorElement(currentEdge);
+            if (currentEdge.isActuated())
+                createAcutatorElement(currentEdge);
             String currentFlowRateType = currentEdge.getFlowRateType();
             Element newFlowRateElement = (Element)(myXMLDocument.createElement(currentFlowRateType));
             createFlowRateAttributes(currentEdge.getOperations(), newFlowRateElement);
             newFlowRateElement.setAttribute(storeFieldName, currentEdge.getPassiveModuleImpl().getModuleName());
             currentElementNode.appendChild(newFlowRateElement);
         }
+    }
+
+    /**
+     * @param currentEdge
+     * @param resourcePackageName
+     * 
+     */
+    private void createAcutatorElement(ModuleEdge currentEdge) {
+        GenericActuatorImpl currentActuatorImpl = currentEdge.getActuatorImpl();
+        Element newActuatorElement = (Element)(myXMLDocument.createElement(getCorbaName(currentActuatorImpl)));
+        newActuatorElement.setAttribute("name", currentActuatorImpl.getModuleName());
+        newActuatorElement.setAttribute("output", currentEdge.getActiveModule().getModuleName());
+        newActuatorElement.setAttribute("index", "0");
+        appendActuator(getResourcePackageName(currentActuatorImpl), newActuatorElement);
+    }
+
+    /**
+     * @param currentEdge
+     * @param resourcePackageName
+     * 
+     */
+    private void createSensorElement(ModuleEdge currentEdge) {
+        GenericSensorImpl currentSensorImpl = currentEdge.getSensorImpl();
+        Element newSensorElement = (Element)(myXMLDocument.createElement(getCorbaName(currentSensorImpl)));
+        newSensorElement.setAttribute("name", currentSensorImpl.getModuleName());
+        newSensorElement.setAttribute("input", currentEdge.getActiveModule().getModuleName());
+        newSensorElement.setAttribute("index", "0");
+        appendSensor(getResourcePackageName(currentSensorImpl), newSensorElement);
+    }
+    
+    private void appendSensor(String resourcePackageName, Node sensorNode){
+        if (resourcePackageName.equals("air")){
+            mySensorAirNode.appendChild(sensorNode);
+        }
+        else if (resourcePackageName.equals("crew")){
+            mySensorCrewNode.appendChild(sensorNode);
+        }
+        else if (resourcePackageName.equals("environment")){
+            mySensorEnvironmentNode.appendChild(sensorNode);
+        }
+        else if (resourcePackageName.equals("food")){
+            mySensorFoodNode.appendChild(sensorNode);
+        }
+        else if (resourcePackageName.equals("framework")){
+            mySensorFrameworkNode.appendChild(sensorNode);
+        }
+        else if (resourcePackageName.equals("power")){
+            mySensorPowerNode.appendChild(sensorNode);
+        }
+        else if (resourcePackageName.equals("waste")){
+            mySensorWasteNode.appendChild(sensorNode);
+        }
+        else if (resourcePackageName.equals("water")){
+            mySensorWaterNode.appendChild(sensorNode);
+        }
+    }
+    
+    private void appendActuator(String resourcePackageName, Node actuatorNode){
+        if (resourcePackageName.equals("air")){
+            myActuatorAirNode.appendChild(actuatorNode);
+        }
+        else if (resourcePackageName.equals("crew")){
+            myActuatorCrewNode.appendChild(actuatorNode);
+        }
+        else if (resourcePackageName.equals("environment")){
+            myActuatorEnvironmentNode.appendChild(actuatorNode);
+        }
+        else if (resourcePackageName.equals("food")){
+            myActuatorFoodNode.appendChild(actuatorNode);
+        }
+        else if (resourcePackageName.equals("framework")){
+            myActuatorFrameworkNode.appendChild(actuatorNode);
+        }
+        else if (resourcePackageName.equals("power")){
+            myActuatorPowerNode.appendChild(actuatorNode);
+        }
+        else if (resourcePackageName.equals("waste")){
+            myActuatorWasteNode.appendChild(actuatorNode);
+        }
+        else if (resourcePackageName.equals("water")){
+            myActuatorWaterNode.appendChild(actuatorNode);
+        }
+    }
+    
+    private void appendSimBioModule(String resourcePackageName, Node moduleNode){
+        if (resourcePackageName.equals("air")){
+            mySimAirNode.appendChild(moduleNode);
+        }
+        else if (resourcePackageName.equals("crew")){
+            mySimCrewNode.appendChild(moduleNode);
+        }
+        else if (resourcePackageName.equals("environment")){
+            mySimEnvironmentNode.appendChild(moduleNode);
+        }
+        else if (resourcePackageName.equals("food")){
+            mySimFoodNode.appendChild(moduleNode);
+        }
+        else if (resourcePackageName.equals("framework")){
+            mySimFrameworkNode.appendChild(moduleNode);
+        }
+        else if (resourcePackageName.equals("power")){
+            mySimPowerNode.appendChild(moduleNode);
+        }
+        else if (resourcePackageName.equals("waste")){
+            mySimWasteNode.appendChild(moduleNode);
+        }
+        else if (resourcePackageName.equals("water")){
+            mySimWaterNode.appendChild(moduleNode);
+        }
+    }
+    
+    private static String getCorbaName(BioModuleImpl pModule){
+        String implName = pModule.getClass().getSimpleName();
+        String corbaName = implName.substring(0, implName.indexOf("Impl"));
+        return corbaName;
     }
 
     /**
