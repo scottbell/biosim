@@ -8,8 +8,8 @@ public class FigCRSNode extends FigActiveNode {
     
     public FigCRSNode() {
         super();
-        setFillColor(Color.getColor("FFFFCC"));
-        setLineColor(Color.BLUE);
+        setFillColor(Color.WHITE);
+        setLineColor(Color.PINK);
     }
 
 }

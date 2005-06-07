@@ -299,7 +299,7 @@ public class ModuleEdge extends NetEdge {
             e.printStackTrace();
             return;
         }
-        String sensorClassString = mySensorClass.getName();
+        String sensorClassString = mySensorClass.getSimpleName();
         String idlSensorName = sensorClassString.substring(0, sensorClassString.indexOf("Impl"));
         Object[] constructorParameters = {new Integer(0), myActiveModule.getModuleName() + idlSensorName};
         try {
@@ -320,7 +320,14 @@ public class ModuleEdge extends NetEdge {
      */
     public void removeSensor() {
         mySensorImpl = null;
-        
+    }
+    
+    public boolean isSensed(){
+        return (mySensorImpl != null);
+    }
+    
+    public GenericSensorImpl getSensorImpl(){
+        return mySensorImpl;
     }
 
     /**
@@ -338,7 +345,7 @@ public class ModuleEdge extends NetEdge {
             e.printStackTrace();
             return;
         }
-        String actuatorClassString = myActuatorClass.getName();
+        String actuatorClassString = myActuatorClass.getSimpleName();
         String idlActuatorName = actuatorClassString.substring(0, actuatorClassString.indexOf("Impl"));
         Object[] constructorParameters = {new Integer(0), myActiveModule.getModuleName() + idlActuatorName};
         try {
@@ -359,6 +366,20 @@ public class ModuleEdge extends NetEdge {
      */
     public void removeActuator() {
         myActuatorImpl = null;
-        
+    }
+    
+    public boolean isActuated(){
+        return (myActuatorImpl != null);
+    }
+    
+    public GenericActuatorImpl getActuatorImpl(){
+        return myActuatorImpl;
+    }
+
+    /**
+     * @return
+     */
+    public SimBioModuleImpl getActiveModule() {
+        return myActiveModule;
     }
 } /* end class EditorEdge */
