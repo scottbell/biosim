@@ -188,7 +188,7 @@ public class EditorWriter {
         mySimWasteNode = myXMLDocument.createElement("waste");
         mySimBioModulesNode.appendChild(mySimWasteNode);
         mySimWaterNode = myXMLDocument.createElement("water");
-        mySimBioModulesNode.appendChild(mySimWasteNode);
+        mySimBioModulesNode.appendChild(mySimWaterNode);
         myBiosimNode.appendChild(mySimBioModulesNode);
         
         mySensorNode = myXMLDocument.createElement("Sensors");
@@ -207,7 +207,7 @@ public class EditorWriter {
         mySensorWasteNode = myXMLDocument.createElement("waste");
         mySensorNode.appendChild(mySensorWasteNode);
         mySensorWaterNode = myXMLDocument.createElement("water");
-        mySensorNode.appendChild(mySensorWasteNode);
+        mySensorNode.appendChild(mySensorWaterNode);
         myBiosimNode.appendChild(mySensorNode);
         
         myActuatorNode = myXMLDocument.createElement("Actuators");
@@ -226,7 +226,7 @@ public class EditorWriter {
         myActuatorWasteNode = myXMLDocument.createElement("waste");
         myActuatorNode.appendChild(myActuatorWasteNode);
         myActuatorWaterNode = myXMLDocument.createElement("water");
-        myActuatorNode.appendChild(myActuatorWasteNode);
+        myActuatorNode.appendChild(myActuatorWaterNode);
         myBiosimNode.appendChild(myActuatorNode);
     }
 
