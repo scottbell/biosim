@@ -32,6 +32,7 @@ import com.traclabs.biosim.editor.base.EditorDocument;
 import com.traclabs.biosim.editor.graph.FigModuleNode;
 import com.traclabs.biosim.editor.graph.ModuleEdge;
 import com.traclabs.biosim.editor.graph.ModuleNode;
+import com.traclabs.biosim.editor.graph.StoreNode;
 import com.traclabs.biosim.idl.simulation.framework.SingleFlowRateControllable;
 import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
 import com.traclabs.biosim.server.framework.BioModuleImpl;
@@ -182,7 +183,7 @@ public class EditorWriter {
         mySimFoodNode = myXMLDocument.createElement("food");
         mySimBioModulesNode.appendChild(mySimFoodNode);
         mySimFrameworkNode = myXMLDocument.createElement("framework");
-        mySimBioModulesNode.appendChild(mySimFoodNode);
+        mySimBioModulesNode.appendChild(mySimFrameworkNode);
         mySimPowerNode = myXMLDocument.createElement("power");
         mySimBioModulesNode.appendChild(mySimPowerNode);
         mySimWasteNode = myXMLDocument.createElement("waste");
@@ -201,7 +202,7 @@ public class EditorWriter {
         mySensorFoodNode = myXMLDocument.createElement("food");
         mySensorNode.appendChild(mySensorFoodNode);
         mySensorFrameworkNode = myXMLDocument.createElement("framework");
-        mySensorNode.appendChild(mySensorFoodNode);
+        mySensorNode.appendChild(mySensorFrameworkNode);
         mySensorPowerNode = myXMLDocument.createElement("power");
         mySensorNode.appendChild(mySensorPowerNode);
         mySensorWasteNode = myXMLDocument.createElement("waste");
@@ -220,7 +221,7 @@ public class EditorWriter {
         myActuatorFoodNode = myXMLDocument.createElement("food");
         myActuatorNode.appendChild(myActuatorFoodNode);
         myActuatorFrameworkNode = myXMLDocument.createElement("framework");
-        myActuatorNode.appendChild(myActuatorFoodNode);
+        myActuatorNode.appendChild(myActuatorFrameworkNode);
         myActuatorPowerNode = myXMLDocument.createElement("power");
         myActuatorNode.appendChild(myActuatorPowerNode);
         myActuatorWasteNode = myXMLDocument.createElement("waste");
@@ -301,7 +302,7 @@ public class EditorWriter {
         if (!(currentModule instanceof PassiveModuleImpl))
             configureModuleFlowRates(currentModuleNode, newModuleElement);
         else if (currentModule instanceof StoreImpl)
-            configureStoreModule((StoreImpl)currentModule, newModuleElement);
+            configureStoreModule((StoreImpl)currentModule, newModuleElement, (StoreNode)currentModuleNode);
         //find where to put in SimBioModules Node
         appendSimBioModule(getResourcePackageName(currentModule), newModuleElement);
     }
@@ -317,11 +318,13 @@ public class EditorWriter {
     /**
      * @param impl
      * @param newElementNode
+     * @param node
      */
-    private void configureStoreModule(StoreImpl store, Element newElementNode) {
+    private void configureStoreModule(StoreImpl store, Element newElementNode, StoreNode storeNode) {
         newElementNode.setAttribute("capacity", Float.toString(store.getInitialCapacity()));
         newElementNode.setAttribute("level", Float.toString(store.getInitialLevel()));
-        
+        if (storeNode.isSensed())
+            createSensorElement(storeNode.getSensorImpl(), store);
     }
 
     /**
@@ -347,9 +350,9 @@ public class EditorWriter {
         for (Iterator iter = edges.iterator(); iter.hasNext();){
             ModuleEdge currentEdge = (ModuleEdge)iter.next();
             if (currentEdge.isSensed())
-                createSensorElement(currentEdge);
+                createSensorElement(currentEdge.getSensorImpl(), currentEdge.getActiveModule());
             if (currentEdge.isActuated())
-                createAcutatorElement(currentEdge);
+                createActuatorElement(currentEdge.getActuatorImpl(), currentEdge.getActiveModule());
             String currentFlowRateType = currentEdge.getFlowRateType();
             Element newFlowRateElement = (Element)(myXMLDocument.createElement(currentFlowRateType));
             createFlowRateAttributes(currentEdge.getOperations(), newFlowRateElement);
@@ -363,13 +366,12 @@ public class EditorWriter {
      * @param resourcePackageName
      * 
      */
-    private void createAcutatorElement(ModuleEdge currentEdge) {
-        GenericActuatorImpl currentActuatorImpl = currentEdge.getActuatorImpl();
-        Element newActuatorElement = (Element)(myXMLDocument.createElement(getCorbaName(currentActuatorImpl)));
-        newActuatorElement.setAttribute("name", currentActuatorImpl.getModuleName());
-        newActuatorElement.setAttribute("output", currentEdge.getActiveModule().getModuleName());
+    private void createActuatorElement(GenericActuatorImpl actuatorToAdd, SimBioModuleImpl moduleToWatch) {
+        Element newActuatorElement = (Element)(myXMLDocument.createElement(getCorbaName(actuatorToAdd)));
+        newActuatorElement.setAttribute("name", actuatorToAdd.getModuleName());
+        newActuatorElement.setAttribute("input", moduleToWatch.getModuleName());
         newActuatorElement.setAttribute("index", "0");
-        appendActuator(getResourcePackageName(currentActuatorImpl), newActuatorElement);
+        appendActuator(getResourcePackageName(actuatorToAdd), newActuatorElement);
     }
 
     /**
@@ -377,13 +379,12 @@ public class EditorWriter {
      * @param resourcePackageName
      * 
      */
-    private void createSensorElement(ModuleEdge currentEdge) {
-        GenericSensorImpl currentSensorImpl = currentEdge.getSensorImpl();
-        Element newSensorElement = (Element)(myXMLDocument.createElement(getCorbaName(currentSensorImpl)));
-        newSensorElement.setAttribute("name", currentSensorImpl.getModuleName());
-        newSensorElement.setAttribute("input", currentEdge.getActiveModule().getModuleName());
+    private void createSensorElement(GenericSensorImpl sensorToAdd, SimBioModuleImpl moduleToWatch) {
+        Element newSensorElement = (Element)(myXMLDocument.createElement(getCorbaName(sensorToAdd)));
+        newSensorElement.setAttribute("name", sensorToAdd.getModuleName());
+        newSensorElement.setAttribute("input", moduleToWatch.getModuleName());
         newSensorElement.setAttribute("index", "0");
-        appendSensor(getResourcePackageName(currentSensorImpl), newSensorElement);
+        appendSensor(getResourcePackageName(sensorToAdd), newSensorElement);
     }
     
     private void appendSensor(String resourcePackageName, Node sensorNode){
