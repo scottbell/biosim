@@ -19,4 +19,12 @@ public abstract class StoreNode extends PassiveNode {
     public void removeSensor() {
         myLevelSensor = null;
     }
+    
+    public boolean isSensed(){
+        return (myLevelSensor != null);
+    }
+    
+    public StoreLevelSensorImpl getSensorImpl(){
+        return myLevelSensor;
+    }
 }
