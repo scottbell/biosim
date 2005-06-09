@@ -11,5 +11,12 @@ package com.traclabs.biosim.server.simulation.food.photosynthesis;
  * TODO
  */
 public class Ferredoxin {
+    FNR myFNR;
+    /**
+     * 
+     */
+    public void reduce() {
+        myFNR.formFerredoxinFNRComplex();
+    }
 
 }

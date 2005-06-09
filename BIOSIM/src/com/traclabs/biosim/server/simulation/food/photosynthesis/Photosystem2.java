@@ -11,5 +11,11 @@ package com.traclabs.biosim.server.simulation.food.photosynthesis;
  * TODO
  */
 public class Photosystem2 {
+    private Plastoquinone myPlastoquinone;
 
+    private void hydrolyze(){
+        // TODO get water, split it
+        myPlastoquinone.reduce();
+        
+    }
 }

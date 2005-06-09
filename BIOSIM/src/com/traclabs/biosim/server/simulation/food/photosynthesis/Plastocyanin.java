@@ -11,5 +11,14 @@ package com.traclabs.biosim.server.simulation.food.photosynthesis;
  * TODO
  */
 public class Plastocyanin {
+    private Photosystem1 myPhotosystem1;
+    /**
+     * 
+     */
+    public void reduce() {
+        myPhotosystem1.reduce();
+        
+    }
+
 
 }
