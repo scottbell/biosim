@@ -12,4 +12,12 @@ package com.traclabs.biosim.server.simulation.food.photosynthesis;
  */
 public class FNR {
 
+    /**
+     * 
+     */
+    public void formFerredoxinFNRComplex() {
+        // TODO createNADPH
+        
+    }
+
 }

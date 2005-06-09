@@ -11,5 +11,13 @@ package com.traclabs.biosim.server.simulation.food.photosynthesis;
  * TODO
  */
 public class Photosystem1 {
+    private Ferredoxin myFerredoxin;
+    /**
+     * 
+     */
+    public void reduce() {
+        // TODO wait for more light
+        myFerredoxin.reduce();
+    }
 
 }
