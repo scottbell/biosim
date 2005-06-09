@@ -11,5 +11,10 @@ package com.traclabs.biosim.server.simulation.food.photosynthesis;
  * TODO
  */
 public class Stroma {
+    private float myProtonConcentration;
+    private float myNADPConcentration;
+    private float myADPConcentration;
+    private float myPhosphateConcentration;
+    private float myATPConcentration;
 
 }
