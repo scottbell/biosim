@@ -8,6 +8,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.Properties;
+
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 /**
  * 
@@ -112,6 +116,10 @@ public class MatlabAceEngine extends Engine {
     public void put(double[] inputVector) {
         initialize();
         myLogger.debug("put method");
+        if (myPutSocketTextWriter == null){
+            myLogger.error("socket wasn't initialized");
+            return;
+        }
         try {
             myLogger.debug("sending PUT request: ");
             myPutSocketTextWriter.write(PUT_REQUEST + "\n");
@@ -133,6 +141,10 @@ public class MatlabAceEngine extends Engine {
     public double[] get() {
         initialize();
         myLogger.debug("get method");
+        if (myPutSocketTextWriter == null){
+            myLogger.error("socket wasn't initialized");
+            return null;
+        }
         double[] receivedDoubleVector = null;
         try {
             myLogger.debug("sending GET request: ");
@@ -171,5 +183,35 @@ public class MatlabAceEngine extends Engine {
             myLogger
                     .error("Had problems closing socket to " + DEFAULT_HOSTNAME);
         }
+    }
+    
+    public static void main(String args[]){
+        //Logger stuff
+        Logger theLogger = Logger.getLogger(MatlabAceEngine.class + ".main()");
+        Properties logProps = new Properties();
+        logProps.setProperty("log4j.rootLogger", "DEBUG, rootAppender");
+        logProps.setProperty("log4j.appender.rootAppender",
+                "org.apache.log4j.ConsoleAppender");
+        logProps.setProperty("log4j.appender.rootAppender.layout",
+                "org.apache.log4j.PatternLayout");
+        logProps.setProperty(
+                "log4j.appender.rootAppender.layout.ConversionPattern",
+                "%5p [%c] - %m%n");
+        PropertyConfigurator.configure(logProps);
+        
+        Engine anEngine = new MatlabAceEngine();
+        theLogger.debug("start tick");
+        theLogger.info("attempting to send some doubles");
+        double[] testPutDoubleArray = { 7.5d, 3.4d, 0d, Math.PI };
+        anEngine.put(testPutDoubleArray);
+        theLogger.info("attempting to receive some doubles");
+        double[] testGetDoubleArray = anEngine.get();
+        if (testGetDoubleArray == null) {
+            theLogger.info("double array returned was null");
+        } else {
+            for (int i = 0; i < testGetDoubleArray.length; i++)
+                theLogger.info("got back [" + i + "]=" + testGetDoubleArray[i]);
+        }
+        theLogger.debug("end tick");
     }
 }
