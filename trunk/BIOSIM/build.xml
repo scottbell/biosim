@@ -210,6 +210,8 @@
 				<pathelement location="${xercesDir}/xmlParserAPIs.jar" />
 				<pathelement location="${plotDir}/jcommon.jar" />
 				<pathelement location="${plotDir}/jfreechart.jar" />
+				<pathelement location="${gefDir}/gef.jar" />
+				<pathelement location="${log4jDir}/commons-logging.jar" />
 			</classpath>
 		</javadoc>
 	</target>

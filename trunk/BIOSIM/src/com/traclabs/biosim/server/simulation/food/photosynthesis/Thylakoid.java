@@ -18,5 +18,6 @@ public class Thylakoid {
     private Plastocyanin myPlastocyanin;
     private Ferredoxin myFerredoxin;
     private FNR myFNR;
+    private ATPSynthase myATPSynthase;
     private Lumen myLumen;
 }

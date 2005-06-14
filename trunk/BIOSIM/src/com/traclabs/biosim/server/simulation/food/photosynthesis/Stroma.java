@@ -10,11 +10,49 @@ package com.traclabs.biosim.server.simulation.food.photosynthesis;
  *
  * TODO
  */
-public class Stroma {
-    private float myProtonConcentration;
-    private float myNADPConcentration;
-    private float myADPConcentration;
-    private float myPhosphateConcentration;
-    private float myATPConcentration;
+public class Stroma extends PassiveEnzyme{
+    private Chemical myProtons;
+    private Chemical myNADPs;
+    private Chemical myADPs;
+    private Chemical myPhosphates;
+    private Chemical myATPs;
+    
+    public void tick(){
+        myProtons.update();
+        myNADPs.update();
+        myADPs.update();
+        myPhosphates.update();
+        myATPs.update();
+    }
 
+    /**
+     * @return Returns the myADPs.
+     */
+    public Chemical getADPs() {
+        return myADPs;
+    }
+    /**
+     * @return Returns the myATPs.
+     */
+    public Chemical getATPs() {
+        return myATPs;
+    }
+    /**
+     * @return Returns the myNADPs.
+     */
+    public Chemical getNADPs() {
+        return myNADPs;
+    }
+    /**
+     * @return Returns the myPhosphates.
+     */
+    public Chemical getPhosphates() {
+        return myPhosphates;
+    }
+    /**
+     * @return Returns the myProtons.
+     */
+    public Chemical getProtons() {
+        return myProtons;
+    }
 }

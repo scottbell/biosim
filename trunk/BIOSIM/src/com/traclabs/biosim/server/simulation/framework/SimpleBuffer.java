@@ -16,9 +16,6 @@ public class SimpleBuffer {
     //What this store has leaked (at t)
     protected float overflow = 0f;
 
-    //Whether this Store has collected a reference to the BioDriver or not.
-    private boolean hasCollectedReferences = false;
-
     protected float initialLevel = 0f;
 
     protected float initialCapacity = 0f;

@@ -10,13 +10,21 @@ package com.traclabs.biosim.server.simulation.food.photosynthesis;
  *
  * TODO
  */
-public class FNR {
+public class FNR extends ActiveEnzyme{
 
     /**
      * 
      */
     public void formFerredoxinFNRComplex() {
         // TODO createNADPH
+        
+    }
+
+    /* (non-Javadoc)
+     * @see com.traclabs.biosim.server.simulation.food.photosynthesis.Enzyme#tick()
+     */
+    public void tick() {
+        // TODO Auto-generated method stub
         
     }
 
