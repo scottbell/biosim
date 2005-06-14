@@ -13,5 +13,12 @@ package com.traclabs.biosim.server.simulation.food.photosynthesis;
 public class Chloroplast {
     private Stroma myStroma;
     private Thylakoid myThylakoid;
+    /**
+     * @return
+     */
+    public float getOrangeLight() {
+        // TODO Auto-generated method stub
+        return 1;
+    }
 
 }

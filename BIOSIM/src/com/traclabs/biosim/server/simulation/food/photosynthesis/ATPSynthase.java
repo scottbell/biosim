@@ -1,5 +1,5 @@
 /*
- * Created on Jun 8, 2005
+ * Created on Jun 14, 2005
  *
  * TODO
  */
@@ -10,14 +10,8 @@ package com.traclabs.biosim.server.simulation.food.photosynthesis;
  *
  * TODO
  */
-public class Ferredoxin extends PassiveEnzyme{
-    FNR myFNR;
-    /**
-     * 
-     */
-    public void reduce() {
-        myFNR.formFerredoxinFNRComplex();
-    }
+public class ATPSynthase extends ActiveEnzyme {
+
     /* (non-Javadoc)
      * @see com.traclabs.biosim.server.simulation.food.photosynthesis.Enzyme#tick()
      */

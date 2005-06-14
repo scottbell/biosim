@@ -11,11 +11,19 @@ package com.traclabs.biosim.server.simulation.food.photosynthesis;
  * TODO
  */
 public class Lumen {
-    
-    private float myWaterConcentrationCached;
-    private float myHydrogenConcentrationCached;
+    private Chemical myWaterMolecules = new Chemical(Float.MAX_VALUE / 2f);
+    private Chemical myProtons = new Chemical(Float.MAX_VALUE / 2f);
 
-    private float myWaterConcentrationCurrent;
-    private float myHydrogenConcentrationCurrent;
-
+    /**
+     * @return Returns the protons.
+     */
+    public Chemical getProtons() {
+        return myProtons;
+    }
+    /**
+     * @return Returns the water molecules.
+     */
+    public Chemical getWaterMolecules() {
+        return myWaterMolecules;
+    }
 }

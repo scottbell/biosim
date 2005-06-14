@@ -10,7 +10,7 @@ package com.traclabs.biosim.server.simulation.food.photosynthesis;
  *
  * TODO
  */
-public class Plastoquinone {
+public class Plastoquinone extends PassiveEnzyme{
     private CytochromeB6F myCytochromeB6F;
     /**
      * 
@@ -18,6 +18,13 @@ public class Plastoquinone {
     public void reduce() {
         // TODO move protons into lumen
         myCytochromeB6F.reduce();
+    }
+    /* (non-Javadoc)
+     * @see com.traclabs.biosim.server.simulation.food.photosynthesis.Enzyme#tick()
+     */
+    public void tick() {
+        // TODO Auto-generated method stub
+        
     }
 
 }
