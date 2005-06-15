@@ -1,4 +1,4 @@
-package com.traclabs.biosim.client.simulation.power.gui;
+package com.traclabs.biosim.client.simulation.power;
 
 import java.awt.BorderLayout;
 

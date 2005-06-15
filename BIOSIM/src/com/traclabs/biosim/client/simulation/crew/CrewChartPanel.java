@@ -1,4 +1,4 @@
-package com.traclabs.biosim.client.simulation.crew.gui;
+package com.traclabs.biosim.client.simulation.crew;
 
 import java.awt.GridLayout;
 

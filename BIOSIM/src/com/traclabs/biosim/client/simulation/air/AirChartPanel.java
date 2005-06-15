@@ -1,4 +1,4 @@
-package com.traclabs.biosim.client.simulation.air.gui;
+package com.traclabs.biosim.client.simulation.air;
 
 import java.awt.BorderLayout;
 
