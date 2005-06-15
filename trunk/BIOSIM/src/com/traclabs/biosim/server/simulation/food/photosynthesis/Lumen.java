@@ -10,7 +10,7 @@ package com.traclabs.biosim.server.simulation.food.photosynthesis;
  *
  * TODO
  */
-public class Lumen {
+public class Lumen extends PassiveEnzyme{
     private Chemical myWaterMolecules = new Chemical(Float.MAX_VALUE / 2f);
     private Chemical myProtons = new Chemical(0);
     private Chemical myOxygen = new Chemical(0);
@@ -32,5 +32,11 @@ public class Lumen {
      */
     public Chemical getOxygen() {
         return myOxygen;
+    }
+    
+    public void tick(){
+        myProtons.update();
+        myWaterMolecules.update();
+        myOxygen.update();
     }
 }

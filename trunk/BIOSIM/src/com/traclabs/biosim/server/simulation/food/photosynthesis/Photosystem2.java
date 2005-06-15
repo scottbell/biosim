@@ -17,6 +17,13 @@ public class Photosystem2 extends ActiveEnzyme{
     private static final float PROTONS_NEEDED = 2;
     private Lumen myLumen;
     private Stroma myStroma;
+    
+    public Photosystem2(Plastoquinone pPlastoquinone, Chloroplast pChloroplast, Lumen pLumen, Stroma pStroma){
+        myPlastoquinone = pPlastoquinone;
+        myChloroplast = pChloroplast;
+        myLumen = pLumen;
+        myStroma = pStroma;
+    }
 
     private void hydrolyze(){
         float waterMoleculesTaken = myLumen.getWaterMolecules().take(WATER_MOLECULES_NEEDED);
