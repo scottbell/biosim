@@ -24,7 +24,11 @@ public class CytochromeB6F extends ActiveEnzyme{
     }
     
     public void tick() {
-        if (electrons < 1)
+        if (electrons >= 2){
+            attemptToReducePlastocyanin();
+            attemptToReducePlastoquinone();
+        }
+        if (electrons >= 1)
             attemptToReducePlastocyanin();
         else
             attemptToOxidizePlastoquinone();
@@ -37,7 +41,6 @@ public class CytochromeB6F extends ActiveEnzyme{
         if (!myPlastocyanin.hasElectron()){
             myPlastocyanin.reduce();
             electrons--;
-            //TODO - Should we do a attemptToReducePlastoquinone reaction here if we have another electron?
         }
     }
 

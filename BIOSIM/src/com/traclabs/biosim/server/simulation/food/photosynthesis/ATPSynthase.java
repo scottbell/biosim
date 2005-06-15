@@ -50,7 +50,7 @@ public class ATPSynthase extends ActiveEnzyme {
      * Do the protons aid in ATP formation?
      */
     private void pumpProtons() {
-        myLumen.getProtons().take(PROTON_NUMBERS_NEEDED);
+        myLumen.getProtons().take(myLumen.getProtons().getQuantity());
     }
 
     /**
@@ -58,7 +58,7 @@ public class ATPSynthase extends ActiveEnzyme {
      */
     private boolean protonThresholdMet() {
         float randomNumber = myRandomGen.nextFloat();
-        float protonThreshold = sigmoidLikeProbability((PROTON_NUMBERS_NEEDED - myLumen.getProtons().getQuantity()) / PROTON_NUMBERS_NEEDED);
+        float protonThreshold = sigmoidLikeProbability(myLumen.getProtons().getQuantity() / PROTON_NUMBERS_NEEDED);
         return (protonThreshold > randomNumber);
     }
     

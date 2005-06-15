@@ -52,7 +52,7 @@ public class Chemical {
     }
     
     public String toString(){
-        return getClass().getSimpleName() + ": "+quantityCurrent;
+        return Float.toString(quantityCurrent);
     }
 
 }

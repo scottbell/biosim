@@ -6,6 +6,7 @@ package com.traclabs.biosim.server.simulation.food.photosynthesis;
 
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 /**
@@ -13,15 +14,18 @@ import org.apache.log4j.PropertyConfigurator;
  *  
  */
 public class Chloroplast {
-    private ActiveEnzyme[] myActiveEnzymes = new ActiveEnzyme[6];
+    private ActiveEnzyme[] myActiveEnzymes = new ActiveEnzyme[5];
 
     private PassiveEnzyme[] myPassiveEnzymes = new PassiveEnzyme[5];
 
     private Stroma myStroma;
 
     private Thylakoid myThylakoid;
+    
+    private Logger myLogger;
 
     public Chloroplast() {
+        myLogger = Logger.getLogger(Chloroplast.class);
         myStroma = new Stroma();
         myThylakoid = new Thylakoid(this, myStroma);
 
@@ -32,10 +36,10 @@ public class Chloroplast {
         myPassiveEnzymes[4] = myThylakoid.getMembrane().getFerredoxin();
 
         myActiveEnzymes[0] = myThylakoid.getMembrane().getPhotosystem2();
-        myActiveEnzymes[0] = myThylakoid.getMembrane().getCytochromeB6F();
-        myActiveEnzymes[0] = myThylakoid.getMembrane().getPhotosystem1();
-        myActiveEnzymes[0] = myThylakoid.getMembrane().getFNR();
-        myActiveEnzymes[0] = myThylakoid.getMembrane().getATPSynthase();
+        myActiveEnzymes[1] = myThylakoid.getMembrane().getCytochromeB6F();
+        myActiveEnzymes[2] = myThylakoid.getMembrane().getPhotosystem1();
+        myActiveEnzymes[3] = myThylakoid.getMembrane().getFNR();
+        myActiveEnzymes[4] = myThylakoid.getMembrane().getATPSynthase();
 
     }
 
@@ -92,8 +96,10 @@ public class Chloroplast {
                 "log4j.appender.rootAppender.layout.ConversionPattern",
                 "%5p [%c] - %m%n");
         PropertyConfigurator.configure(logProps);
+        Logger theLogger = Logger.getLogger(Chloroplast.class + ".main()");
         Chloroplast newChloroplast = new Chloroplast();
         while (true) {
+            theLogger.debug("********TICK********");
             newChloroplast.tick();
         }
     }

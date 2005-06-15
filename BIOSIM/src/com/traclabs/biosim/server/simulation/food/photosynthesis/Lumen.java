@@ -39,8 +39,9 @@ public class Lumen extends PassiveEnzyme{
         myProtons.update();
         myWaterMolecules.update();
         myOxygen.update();
-        myLogger.debug(myProtons);
-        myLogger.debug(myWaterMolecules);
-        myLogger.debug(myOxygen);
+        
+        myLogger.debug("Protons: " + myProtons);
+        myLogger.debug("H20: " + myWaterMolecules);
+        myLogger.debug("O2: " + myOxygen);
     }
 }

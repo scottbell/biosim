@@ -61,7 +61,7 @@ public class Photosystem1 extends ActiveEnzyme{
     private void attemptToEnergize() {
         //need 700 nm for optimal absorption
         float lightEnergy = myChloroplast.getRedLight();
-        if (lightEnergy > LIGHT_ENERGY_NEEDED)
+        if (lightEnergy >= LIGHT_ENERGY_NEEDED)
             attempToOxidizePlastocyanin();
     }
 
