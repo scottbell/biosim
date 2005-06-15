@@ -1,4 +1,4 @@
-package com.traclabs.biosim.client.simulation.water.gui;
+package com.traclabs.biosim.client.simulation.water;
 
 import java.awt.Color;
 import java.awt.Dimension;

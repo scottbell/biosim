@@ -1,4 +1,4 @@
-package com.traclabs.biosim.client.simulation.power.gui;
+package com.traclabs.biosim.client.simulation.power;
 
 import com.traclabs.biosim.client.framework.gui.TimedPanel;
 

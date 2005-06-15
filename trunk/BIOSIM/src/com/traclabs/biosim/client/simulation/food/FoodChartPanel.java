@@ -1,4 +1,4 @@
-package com.traclabs.biosim.client.simulation.food.gui;
+package com.traclabs.biosim.client.simulation.food;
 
 import java.awt.BorderLayout;
 

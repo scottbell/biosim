@@ -1,6 +1,6 @@
-package com.traclabs.biosim.client.simulation.water.gui;
+package com.traclabs.biosim.client.simulation.water;
 
-import com.traclabs.biosim.client.simulation.framework.gui.SimTabbedPanel;
+import com.traclabs.biosim.client.simulation.framework.SimTabbedPanel;
 
 /**
  * This is the JPanel that displays information about the Water

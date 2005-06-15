@@ -1,4 +1,4 @@
-package com.traclabs.biosim.client.simulation.crew.gui;
+package com.traclabs.biosim.client.simulation.crew;
 
 import com.traclabs.biosim.client.framework.gui.TimedPanel;
 

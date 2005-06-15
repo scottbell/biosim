@@ -1,4 +1,4 @@
-package com.traclabs.biosim.client.simulation.crew.gui;
+package com.traclabs.biosim.client.simulation.crew;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.traclabs.biosim.client.framework.gui.TimedPanel;
-import com.traclabs.biosim.client.simulation.framework.gui.SimDesktopFrame;
+import com.traclabs.biosim.client.simulation.framework.SimDesktopFrame;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
 import com.traclabs.biosim.idl.simulation.crew.CrewPerson;

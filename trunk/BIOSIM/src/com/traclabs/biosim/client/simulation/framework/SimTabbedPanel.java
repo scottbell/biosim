@@ -1,4 +1,4 @@
-package com.traclabs.biosim.client.simulation.framework.gui;
+package com.traclabs.biosim.client.simulation.framework;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
