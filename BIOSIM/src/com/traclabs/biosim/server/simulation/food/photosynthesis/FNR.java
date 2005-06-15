@@ -12,10 +12,15 @@ package com.traclabs.biosim.server.simulation.food.photosynthesis;
  */
 public class FNR extends ActiveEnzyme{
     private Ferredoxin myFerredoxin;
+    private Stroma myStroma;
     private boolean complexHasFormed = false;
     private static final float PROTONS_NEEDED = 1;
     private static final float NADP_NEEDED = 1;
-    private Stroma myStroma;
+    
+    public FNR(Ferredoxin pFerredoxin, Stroma pStroma){
+        myFerredoxin = pFerredoxin;
+        myStroma = pStroma;
+    }
 
     /* (non-Javadoc)
      * @see com.traclabs.biosim.server.simulation.food.photosynthesis.Enzyme#tick()

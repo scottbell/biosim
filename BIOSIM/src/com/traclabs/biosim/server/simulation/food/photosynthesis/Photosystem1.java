@@ -17,6 +17,12 @@ public class Photosystem1 extends ActiveEnzyme{
     private Ferredoxin myFerredoxin;
     private Plastocyanin myPlastocyanin;
     
+    public Photosystem1(Chloroplast pChloroplast, Ferredoxin pFerredoxin, Plastocyanin pPlastocyanin){
+        myChloroplast = pChloroplast;
+        myFerredoxin = pFerredoxin;
+        myPlastocyanin = pPlastocyanin;
+    }
+    
     
     public void tick() {
         if (energized)

@@ -16,6 +16,13 @@ public class CytochromeB6F extends ActiveEnzyme{
     private static final float PROTONS_NEEDED = 2;
     private float electrons = 0f;
     
+    public CytochromeB6F(Plastoquinone pPlastoquinone, Plastocyanin pPlastocyanin, Lumen pLumen, Stroma pStroma){
+        myPlastoquinone = pPlastoquinone;
+        myPlastocyanin = pPlastocyanin;
+        myLumen = pLumen;
+        myStroma = pStroma;
+    }
+    
     public void tick() {
         if (electrons < 1)
             attemptToReducePlastocyanin();

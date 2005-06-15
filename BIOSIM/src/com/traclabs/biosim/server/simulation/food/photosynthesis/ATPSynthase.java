@@ -19,7 +19,9 @@ public class ATPSynthase extends ActiveEnzyme {
     private Stroma myStroma;
     private Random myRandomGen;
     
-    public ATPSynthase(){
+    public ATPSynthase(Lumen pLumen, Stroma pStroma){
+        myLumen = pLumen;
+        myStroma = pStroma;
         myRandomGen = new Random();
     }
 
