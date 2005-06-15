@@ -29,7 +29,6 @@ public class Membrane {
         myFNR = new FNR(myFerredoxin, pStroma);
         myCytochromeB6F = new CytochromeB6F(myPlastoquinone, myPlastocyanin, pLumen, pStroma);
         myATPSynthase = new ATPSynthase(pLumen, pStroma);
-        
     }
 
     /**

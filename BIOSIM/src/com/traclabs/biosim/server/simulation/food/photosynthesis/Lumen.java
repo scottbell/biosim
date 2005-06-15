@@ -5,6 +5,7 @@
  */
 package com.traclabs.biosim.server.simulation.food.photosynthesis;
 
+
 /**
  * @author scott
  *
@@ -38,5 +39,8 @@ public class Lumen extends PassiveEnzyme{
         myProtons.update();
         myWaterMolecules.update();
         myOxygen.update();
+        myLogger.debug(myProtons);
+        myLogger.debug(myWaterMolecules);
+        myLogger.debug(myOxygen);
     }
 }
