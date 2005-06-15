@@ -12,7 +12,7 @@ package com.traclabs.biosim.server.simulation.food.photosynthesis;
  * TODO
  */
 public class Stroma extends PassiveEnzyme{
-    private Chemical myProtons = new Chemical(10);
+    private Chemical myProtons = new Chemical(40);
     private Chemical myNADPs = new Chemical(Float.MAX_VALUE / 2);
     private Chemical myADPs = new Chemical(Float.MAX_VALUE / 2);
     private Chemical myPhosphates = new Chemical(Float.MAX_VALUE / 2);
@@ -25,12 +25,14 @@ public class Stroma extends PassiveEnzyme{
         myADPs.update();
         myPhosphates.update();
         myATPs.update();
+        myNADPHs.update();
         
-        myLogger.debug(myProtons);
-        myLogger.debug(myNADPs);
-        myLogger.debug(myADPs);
-        myLogger.debug(myPhosphates);
-        myLogger.debug(myATPs);
+        myLogger.debug("Protons: " + myProtons);
+        myLogger.debug("NADPs: " + myNADPs);
+        myLogger.debug("ADPs: " + myADPs);
+        myLogger.debug("Phosphates:" + myPhosphates);
+        myLogger.debug("ATPs: " + myATPs);
+        myLogger.debug("NADPHs: " + myNADPHs);
     }
 
     /**

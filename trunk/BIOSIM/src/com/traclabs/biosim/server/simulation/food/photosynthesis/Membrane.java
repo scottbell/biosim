@@ -25,7 +25,7 @@ public class Membrane {
         myPlastocyanin = new Plastocyanin();
         myFerredoxin = new Ferredoxin();
         myPhotosystem1 = new Photosystem1(pChloroplast, myFerredoxin, myPlastocyanin);
-        myPhotosystem2 = new Photosystem2(myPlastoquinone, null, pLumen, pStroma);
+        myPhotosystem2 = new Photosystem2(myPlastoquinone, pChloroplast, pLumen, pStroma);
         myFNR = new FNR(myFerredoxin, pStroma);
         myCytochromeB6F = new CytochromeB6F(myPlastoquinone, myPlastocyanin, pLumen, pStroma);
         myATPSynthase = new ATPSynthase(pLumen, pStroma);
