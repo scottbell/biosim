@@ -1,32 +1,50 @@
 /*
  * Created on Jun 8, 2005
  *
- * TODO
  */
 package com.traclabs.biosim.server.simulation.food.photosynthesis;
 
 /**
  * @author scott
  *
- * TODO
  */
 public class Photosystem2 extends ActiveEnzyme{
     private boolean energized = false;
     private Plastoquinone myPlastoquinone;
     private Chloroplast myChloroplast;
     private static final float LIGHT_ENERGY_NEEDED = 1;
+    private static final float WATER_MOLECULES_NEEDED = 2;
+    private static final float PROTONS_NEEDED = 2;
+    private Lumen myLumen;
+    private Stroma myStroma;
 
     private void hydrolyze(){
-        // TODO get water, split it
-        
-        
+        float waterMoleculesTaken = myLumen.getWaterMolecules().take(WATER_MOLECULES_NEEDED);
+        if (waterMoleculesTaken == WATER_MOLECULES_NEEDED){
+            myLumen.getProtons().add(WATER_MOLECULES_NEEDED * 2);
+            myLumen.getOxygen().add(WATER_MOLECULES_NEEDED / 2);
+            energized = true;
+        }
     }
     
     public void tick(){
         if (energized)
-            myPlastoquinone.reduce();
+            attempToReducePlastoquinone();
         else
             attemptToEnergize();
+    }
+
+    /**
+     * 
+     */
+    private void attempToReducePlastoquinone() {
+        if (!myPlastoquinone.hasProtons()){
+            float protonsTaken = myStroma.getProtons().take(PROTONS_NEEDED);
+            if (protonsTaken == PROTONS_NEEDED){
+                myPlastoquinone.addProtonsAndElectron();
+                energized = false;
+            }
+        }
     }
 
     /**

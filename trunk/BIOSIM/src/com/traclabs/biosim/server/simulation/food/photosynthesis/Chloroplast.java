@@ -20,5 +20,12 @@ public class Chloroplast {
         // TODO Auto-generated method stub
         return 1;
     }
+    /**
+     * @return
+     */
+    public float getRedLight() {
+        // TODO Auto-generated method stub
+        return 1;
+    }
 
 }

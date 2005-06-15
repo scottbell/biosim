@@ -24,10 +24,9 @@ public class Chemical {
             return 0f;
         }
         float takenAmount;
-        //asking for more stuff than exists
+        //asking for more stuff than exists, reaction can't happen
         if (amountRequested > quantityCurrent) {
-            takenAmount = quantityCurrent;
-            quantityCurrent = 0f;
+            return 0f;
         }
         //stuff exists for request
         else {

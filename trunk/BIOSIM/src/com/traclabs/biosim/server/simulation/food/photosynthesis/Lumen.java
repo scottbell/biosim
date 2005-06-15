@@ -13,6 +13,7 @@ package com.traclabs.biosim.server.simulation.food.photosynthesis;
 public class Lumen {
     private Chemical myWaterMolecules = new Chemical(Float.MAX_VALUE / 2f);
     private Chemical myProtons = new Chemical(Float.MAX_VALUE / 2f);
+    private Chemical myOxygen = new Chemical(0);
 
     /**
      * @return Returns the protons.
@@ -25,5 +26,11 @@ public class Lumen {
      */
     public Chemical getWaterMolecules() {
         return myWaterMolecules;
+    }
+    /**
+     * @return Returns the myOxygen.
+     */
+    public Chemical getOxygen() {
+        return myOxygen;
     }
 }
