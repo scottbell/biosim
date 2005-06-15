@@ -104,4 +104,16 @@ public class Chloroplast {
         }
     }
 
+    /**
+     * @return Returns the Stroma.
+     */
+    public Stroma getStroma() {
+        return myStroma;
+    }
+    /**
+     * @return Returns the Thylakoid.
+     */
+    public Thylakoid getThylakoid() {
+        return myThylakoid;
+    }
 }
