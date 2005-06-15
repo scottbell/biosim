@@ -44,4 +44,11 @@ public class Chemical {
         quantityCached = quantityCurrent; 
     }
 
+    /**
+     * @return
+     */
+    public float getQuantity() {
+        return quantityCached;
+    }
+
 }
