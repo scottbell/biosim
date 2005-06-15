@@ -5,6 +5,7 @@
  */
 package com.traclabs.biosim.server.simulation.food.photosynthesis;
 
+
 /**
  * @author scott
  *
@@ -24,6 +25,12 @@ public class Stroma extends PassiveEnzyme{
         myADPs.update();
         myPhosphates.update();
         myATPs.update();
+        
+        myLogger.debug(myProtons);
+        myLogger.debug(myNADPs);
+        myLogger.debug(myADPs);
+        myLogger.debug(myPhosphates);
+        myLogger.debug(myATPs);
     }
 
     /**

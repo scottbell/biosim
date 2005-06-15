@@ -50,5 +50,9 @@ public class Chemical {
     public float getQuantity() {
         return quantityCached;
     }
+    
+    public String toString(){
+        return getClass().getSimpleName() + ": "+quantityCurrent;
+    }
 
 }
