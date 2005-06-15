@@ -50,7 +50,9 @@ public class ATPSynthase extends ActiveEnzyme {
      * Do the protons aid in ATP formation?
      */
     private void pumpProtons() {
-        myLumen.getProtons().take(myLumen.getProtons().getQuantity());
+        float protonsToTake = myLumen.getProtons().getQuantity();
+        myLumen.getProtons().take(protonsToTake);
+        myStroma.getProtons().add(protonsToTake);
     }
 
     /**
