@@ -10,20 +10,5 @@ package com.traclabs.biosim.server.simulation.food.photosynthesis;
  *
  * TODO
  */
-public class Ferredoxin extends PassiveEnzyme{
-    FNR myFNR;
-    /**
-     * 
-     */
-    public void reduce() {
-        myFNR.formFerredoxinFNRComplex();
-    }
-    /* (non-Javadoc)
-     * @see com.traclabs.biosim.server.simulation.food.photosynthesis.Enzyme#tick()
-     */
-    public void tick() {
-        // TODO Auto-generated method stub
-        
-    }
-
+public class Ferredoxin extends ElectronCarryingEnzyme {
 }

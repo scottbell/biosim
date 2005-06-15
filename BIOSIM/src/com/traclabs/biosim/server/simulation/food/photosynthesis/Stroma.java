@@ -16,6 +16,7 @@ public class Stroma extends PassiveEnzyme{
     private Chemical myADPs;
     private Chemical myPhosphates;
     private Chemical myATPs;
+    private Chemical myNADPHs;
     
     public void tick(){
         myProtons.update();
@@ -54,5 +55,11 @@ public class Stroma extends PassiveEnzyme{
      */
     public Chemical getProtons() {
         return myProtons;
+    }
+    /**
+     * @return Returns the myNADPHs.
+     */
+    public Chemical getNADPHs() {
+        return myNADPHs;
     }
 }

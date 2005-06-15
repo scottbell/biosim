@@ -1,30 +1,61 @@
 /*
  * Created on Jun 8, 2005
  *
- * TODO
  */
 package com.traclabs.biosim.server.simulation.food.photosynthesis;
 
 /**
  * @author scott
  *
- * TODO
  */
 public class CytochromeB6F extends ActiveEnzyme{
+    private Plastoquinone myPlastoquinone;
     private Plastocyanin myPlastocyanin;
+    private Lumen myLumen;
+    private Stroma myStroma;
+    private static final float PROTONS_NEEDED = 2;
+    private float electrons = 0f;
+    
+    public void tick() {
+        if (electrons < 1)
+            attemptToReducePlastocyanin();
+        else
+            attemptToOxidizePlastoquinone();
+    }
+
     /**
      * 
      */
-    public void reduce() {
-        myPlastocyanin.reduce();
-        
+    private void attemptToReducePlastocyanin() {
+        if (!myPlastocyanin.hasElectron()){
+            myPlastocyanin.reduce();
+            electrons--;
+            //TODO - Should we do a attemptToReducePlastoquinone reaction here if we have another electron?
+        }
     }
-    /* (non-Javadoc)
-     * @see com.traclabs.biosim.server.simulation.food.photosynthesis.Enzyme#tick()
+
+    /**
+     * 
      */
-    public void tick() {
-        // TODO Auto-generated method stub
-        
+    private void attemptToOxidizePlastoquinone() {
+        if (myPlastoquinone.hasProtons()){
+            myPlastoquinone.removeElectronAndProtons();
+            myLumen.getProtons().add(PROTONS_NEEDED);
+            electrons = PROTONS_NEEDED;
+        }
+    }
+    
+    /**
+     * back reaction
+     */
+    private void attemptToReducePlastoquinone() {
+        if (!myPlastoquinone.hasProtons()){
+            float protonsTaken = myStroma.getProtons().take(PROTONS_NEEDED);
+            if (protonsTaken == PROTONS_NEEDED){
+                myPlastoquinone.addProtonsAndElectron();
+                electrons--;
+            }
+        }
     }
 
 }
