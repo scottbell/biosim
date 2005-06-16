@@ -2,12 +2,16 @@ package com.traclabs.biosim.client.framework;
 
 import java.util.Properties;
 
+import javax.swing.ImageIcon;
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.jacorb.util.Environment;
 
 import com.traclabs.biosim.client.control.HandController;
 import com.traclabs.biosim.client.control.SimCommandLine;
+import com.traclabs.biosim.client.framework.gui.BioFrame;
+import com.traclabs.biosim.client.simulation.food.photosynthesis.PhotosynthesisPanel;
 import com.traclabs.biosim.client.simulation.framework.SimDesktop;
 import com.traclabs.biosim.client.unrealCom.UnrealCom;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
@@ -63,6 +67,7 @@ public class BiosimMain {
         boolean wantsToRunGUI = false;
         boolean wantsToRunController = false;
         boolean wantsToRunUnreal = false;
+        boolean wantsToPhotosynthesis = false;
         boolean unrealServerGiven = false;
         String unrealServer = "";
         for (int i = 0; i < myArgs.length; i++) {
@@ -74,6 +79,8 @@ public class BiosimMain {
                 wantsToRunController = true;
             } else if (myArgs[i].equals("unreal")) {
                 wantsToRunUnreal = true;
+            } else if (myArgs[i].equals("photosynthesis")) {
+                wantsToPhotosynthesis = true;
             } else if (myArgs[i].equals("-debug")) {
                 Environment.setProperty("ORBInitRef.NameService",
                         "corbaloc::localhost:" + NAMESERVER_PORT
@@ -118,6 +125,8 @@ public class BiosimMain {
             runCommandLine(myID);
         else if (wantsToRunGUI)
             runGUI();
+        else if (wantsToPhotosynthesis)
+            runPhotosynthesis();
         else if (wantsToRunController)
             runHandController();
         else if (wantsToRunUnreal) {
@@ -171,6 +180,19 @@ public class BiosimMain {
     public void runUnreal2(String unServer) {
         UnrealCom myUnrealCom = new UnrealCom(unServer);
         myUnrealCom.initUnrealComm();
+    }
+    
+    /**
+     * Runs the Photosynthesis GUI
+     */
+    public void runPhotosynthesis() {
+        BioFrame myFrame = new BioFrame("Photosynthesis Model", false);
+        myFrame.getContentPane().add(new PhotosynthesisPanel());
+        myFrame.pack();
+        myFrame.setSize(800, 600);
+        ImageIcon biosimIcon = new ImageIcon(ClassLoader.getSystemResource("com/traclabs/biosim/client/framework/biosim.png"));
+        myFrame.setIconImage(biosimIcon.getImage());
+        myFrame.setVisible(true);
     }
 }
 
