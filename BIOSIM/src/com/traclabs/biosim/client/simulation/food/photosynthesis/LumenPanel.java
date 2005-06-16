@@ -20,7 +20,7 @@ import com.traclabs.biosim.server.simulation.food.photosynthesis.Lumen;
 
 public class LumenPanel extends JPanel {
     private int ticks = 0;
-    
+
     private JPanel myDataPanel;
 
     private JLabel[] myDataLabels;
@@ -36,9 +36,9 @@ public class LumenPanel extends JPanel {
     private XYSeries myWaterSeries = new XYSeries("H20");
 
     private XYSeries myOxygenSeries = new XYSeries("O2");
-    
+
     private XYSeriesCollection myData;
-    
+
     private Lumen myLumen;
 
     public LumenPanel(Lumen pLumen) {
@@ -54,7 +54,7 @@ public class LumenPanel extends JPanel {
         myData = new XYSeriesCollection(myProtonsSeries);
         myData.addSeries(myWaterSeries);
         myData.addSeries(myOxygenSeries);
-        
+
         myChart = ChartFactory.createLineXYChart("Lumen Conditions",
                 "Simulation Iterations", "Quantity", myData, true, true, false);
 
@@ -68,9 +68,9 @@ public class LumenPanel extends JPanel {
         myPlot.getRangeAxis().setStandardTickUnits(
                 NumberAxis.createIntegerTickUnits());
         myChartPanel = new ChartPanel(myChart);
-        myChartPanel.setMinimumDrawHeight(700);
-        myChartPanel.setMinimumDrawWidth(540);
-        myChartPanel.setPreferredSize(new java.awt.Dimension(640, 480));
+        myChartPanel.setMinimumDrawHeight(640);
+        myChartPanel.setMinimumDrawWidth(480);
+        myChartPanel.setPreferredSize(new java.awt.Dimension(300, 200));
         myChart.setBackgroundPaint(myChartPanel.getBackground());
         setLayout(new BorderLayout());
         add(myChartPanel, BorderLayout.CENTER);

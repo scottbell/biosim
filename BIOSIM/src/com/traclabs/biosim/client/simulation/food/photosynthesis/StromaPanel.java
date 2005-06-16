@@ -20,7 +20,7 @@ import com.traclabs.biosim.server.simulation.food.photosynthesis.Stroma;
 
 public class StromaPanel extends JPanel {
     private int ticks = 0;
-    
+
     private JPanel myDataPanel;
 
     private JLabel[] myDataLabels;
@@ -42,9 +42,9 @@ public class StromaPanel extends JPanel {
     private XYSeries myATPSeries = new XYSeries("ATPs");
 
     private XYSeries myNADPHSeries = new XYSeries("NADPHs");
-    
+
     private XYSeriesCollection myData;
-    
+
     private Stroma myStroma;
 
     public StromaPanel(Stroma pStroma) {
@@ -63,7 +63,7 @@ public class StromaPanel extends JPanel {
         myData.addSeries(myPhosphateSeries);
         myData.addSeries(myATPSeries);
         myData.addSeries(myNADPHSeries);
-        
+
         myChart = ChartFactory.createLineXYChart("Stroma Conditions",
                 "Simulation Iterations", "Quantity", myData, true, true, false);
 
@@ -80,9 +80,9 @@ public class StromaPanel extends JPanel {
         myPlot.getRangeAxis().setStandardTickUnits(
                 NumberAxis.createIntegerTickUnits());
         myChartPanel = new ChartPanel(myChart);
-        myChartPanel.setMinimumDrawHeight(700);
-        myChartPanel.setMinimumDrawWidth(540);
-        myChartPanel.setPreferredSize(new java.awt.Dimension(640, 480));
+        myChartPanel.setMinimumDrawHeight(640);
+        myChartPanel.setMinimumDrawWidth(480);
+        myChartPanel.setPreferredSize(new java.awt.Dimension(300, 200));
         myChart.setBackgroundPaint(myChartPanel.getBackground());
         setLayout(new BorderLayout());
         add(myChartPanel, BorderLayout.CENTER);
