@@ -54,11 +54,17 @@ public class FNR extends ActiveEnzyme{
     /**
      * 
      */
-    public void attemptToFormFerredoxinFNRComplex() {
+    private void attemptToFormFerredoxinFNRComplex() {
         if (myFerredoxin.hasElectron()){
             myFerredoxin.oxidize();
             complexHasFormed = true;
         }
     }
 
+    /**
+     * @return Returns the complexHasFormed.
+     */
+    public boolean hasComplexHasFormed() {
+        return complexHasFormed;
+    }
 }
