@@ -54,5 +54,9 @@ public class Chemical {
     public String toString(){
         return Float.toString(quantityCurrent);
     }
+    
+    public void setQuantity(float pQuantity){
+        quantityCached = quantityCurrent = pQuantity;
+    }
 
 }

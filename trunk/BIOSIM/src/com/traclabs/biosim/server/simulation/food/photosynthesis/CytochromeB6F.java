@@ -13,8 +13,8 @@ public class CytochromeB6F extends ActiveEnzyme{
     private Plastocyanin myPlastocyanin;
     private Lumen myLumen;
     private Stroma myStroma;
-    private static final float PROTONS_NEEDED = 2;
-    private float electrons = 0f;
+    private static final int PROTONS_NEEDED = 2;
+    private int electrons = 0;
     
     public CytochromeB6F(Plastoquinone pPlastoquinone, Plastocyanin pPlastocyanin, Lumen pLumen, Stroma pStroma){
         myPlastoquinone = pPlastoquinone;
@@ -68,4 +68,10 @@ public class CytochromeB6F extends ActiveEnzyme{
         }
     }
 
+    /**
+     * @return Returns the electrons.
+     */
+    public int getNumberOfElectrons() {
+        return electrons;
+    }
 }

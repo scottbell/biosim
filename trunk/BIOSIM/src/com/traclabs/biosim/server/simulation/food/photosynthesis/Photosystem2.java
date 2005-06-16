@@ -63,4 +63,10 @@ public class Photosystem2 extends ActiveEnzyme{
         if (lightEnergy >= LIGHT_ENERGY_NEEDED)
             hydrolyze();
     }
+    /**
+     * @return Returns the energized.
+     */
+    public boolean isEnergized() {
+        return energized;
+    }
 }
