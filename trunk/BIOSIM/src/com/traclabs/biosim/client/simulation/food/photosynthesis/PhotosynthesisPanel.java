@@ -24,6 +24,8 @@ public class PhotosynthesisPanel extends JPanel {
     private JPanel myButtonPanel = new JPanel();
 
     private JButton myTickButton;
+
+    private JButton myPlayPauseButton;
     
     private Chloroplast myChloroplast = new Chloroplast();
     
@@ -31,15 +33,26 @@ public class PhotosynthesisPanel extends JPanel {
     
     private LumenPanel myLumenPanel;
 
+    //Icons
+    private ImageIcon myPlayIcon;
+
+    private ImageIcon myPauseIcon;
+
+    private ImageIcon myTickIcon;
+
     public PhotosynthesisPanel() {
         setLayout(new BorderLayout());
         buildGUI();
     }
 
     private void buildGUI() {
+        loadIcons();
         //Actions
         myTickButton = new JButton(new TickButtonAction());
-        myTickButton.setText("Tick");
+        myTickButton.setIcon(myTickIcon);
+        myPlayPauseButton = new JButton(new PlayPauseButtonAction());
+        myPlayPauseButton.setIcon(myPlayIcon);
+        myButtonPanel.add(myPlayPauseButton);
         myButtonPanel.add(myTickButton);
         myButtonPanel.setBorder(BorderFactory.createTitledBorder("Actions"));
         myStromaPanel = new StromaPanel(myChloroplast.getStroma());
@@ -67,17 +80,53 @@ public class PhotosynthesisPanel extends JPanel {
         myFrame.pack();
         myFrame.setVisible(true);
     }
+    
+    private void loadIcons(){
+        myTickIcon = new ImageIcon(
+                ClassLoader
+                        .getSystemClassLoader()
+                        .getResource(
+                                "com/traclabs/biosim/client/framework/forward.png"));
+        myPlayIcon = new ImageIcon(
+                ClassLoader
+                        .getSystemClassLoader()
+                        .getResource(
+                                "com/traclabs/biosim/client/framework/play.png"));
+        
+        myPauseIcon = new ImageIcon(
+                ClassLoader
+                        .getSystemClassLoader()
+                        .getResource(
+                                "com/traclabs/biosim/client/framework/pause.png"));
+    }
 
     private void refresh() {
         myStromaPanel.refresh();
         myLumenPanel.refresh();
     }
-
-    private class TickButtonAction extends AbstractAction {
+    
+    private class PlayPauseButtonAction extends AbstractAction {
         public void actionPerformed(ActionEvent ae) {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            myChloroplast.tick();
-            refresh();
+            /*
+            if (){
+                //Pause the sim
+            }
+            else{
+                //Play the sim
+                
+            }
+            */
+            setCursor(Cursor.getDefaultCursor());
+        }
+    }
+
+    private class TickButtonAction extends AbstractAction {
+        private TickAction myTickAction = new TickAction();
+        
+        public void actionPerformed(ActionEvent ae) {
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            myTickAction.actionPerformed(ae);
             if (ae.getModifiers() == (ActionEvent.CTRL_MASK + 16)) {
                 Fnorder myFnord = new Fnorder();
                 String message = myFnord.getFnord();
