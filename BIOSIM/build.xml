@@ -83,7 +83,7 @@
 	<target name="stub-and-compile-idl" depends="stub-idl,compile-stubs" description="stub the IDL file">
 	</target>
 
-	<target name="build-server" depends="stub-and-compile-idl, build-client" description="compile the server">
+	<target name="build-server" depends="stub-and-compile-idl" description="compile the server">
 		<echo message="Compling the server" />
 		<javac srcdir="${src}/com/traclabs/biosim/server" destdir="${buildDir}" nowarn="yes" failonerror="yes">
 			<classpath>
