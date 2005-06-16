@@ -975,8 +975,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
         sleepBuffer.take(1);
         leisureBuffer.take(1);
         consumedCaloriesBuffer.take(caloriesNeeded - caloriesConsumed);
-        if (caloriesNeeded - caloriesConsumed > 0)
+        if (caloriesNeeded - caloriesConsumed > 100){
+            myLogger.debug("starving: caloriesNeeded="+caloriesNeeded+ " caloriesConsumed="+caloriesConsumed+" deficit=" +(caloriesNeeded - caloriesConsumed));
             starving = true;
+        }
         else
             starving = false;
         consumedWaterBuffer.take(potableWaterNeeded - potableWaterConsumed);
