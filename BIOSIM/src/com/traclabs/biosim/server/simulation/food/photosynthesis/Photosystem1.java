@@ -65,4 +65,10 @@ public class Photosystem1 extends ActiveEnzyme{
             attempToOxidizePlastocyanin();
     }
 
+    /**
+     * @return Returns the energized.
+     */
+    public boolean isEnergized() {
+        return energized;
+    }
 }

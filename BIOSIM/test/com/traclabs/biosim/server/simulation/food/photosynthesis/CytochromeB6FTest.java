@@ -1,7 +1,6 @@
 /*
  * Created on Jun 16, 2005
  *
- * TODO
  */
 package com.traclabs.biosim.server.simulation.food.photosynthesis;
 
@@ -10,10 +9,9 @@ import junit.framework.TestCase;
 /**
  * @author scott
  * 
- * TODO
  */
 public class CytochromeB6FTest extends TestCase {
-    private final static int ITERATIONS_TO_RUN = 100;
+    private final static int ITERATIONS_TO_RUN = 107;
 
     private CytochromeB6F myCytochromeB6F;
 
