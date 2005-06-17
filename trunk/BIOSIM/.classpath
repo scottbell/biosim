@@ -17,5 +17,6 @@
 	<classpathentry kind="lib" path="lib/xerces/xml-apis.jar"/>
 	<classpathentry kind="lib" path="lib/xerces/xmlParserAPIs.jar"/>
 	<classpathentry kind="lib" path="lib/jacorb/idl.jar"/>
+	<classpathentry kind="lib" path="resources"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

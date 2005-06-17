@@ -11,7 +11,7 @@ import junit.framework.TestCase;
  *
  */
 public class ATPSynthaseTest extends TestCase {
-    private final static int ITERATIONS_TO_RUN = 203;
+    private final static int ITERATIONS_TO_RUN = 8203;
     
     private ATPSynthase myATPSynthase;
 
@@ -65,6 +65,8 @@ public class ATPSynthaseTest extends TestCase {
         assertEquals(stromaADPLevel, initialStromaADPLevel - stromaATPLevel, 0);
         assertEquals(stromaPhosphateLevel, initialStromaPhosphateLevel - stromaATPLevel, 0);
         assertEquals(ITERATIONS_TO_RUN, stromaProtonLevel + lumenProtonLevel, 0);
+        
+        assertEquals(ITERATIONS_TO_RUN / stromaATPLevel, 20, 3);
     }
 
 }
