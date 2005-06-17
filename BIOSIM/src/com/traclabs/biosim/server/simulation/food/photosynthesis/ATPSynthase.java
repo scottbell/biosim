@@ -11,8 +11,8 @@ import java.util.Random;
  *
  */
 public class ATPSynthase extends ActiveEnzyme {
-    private final static float PROTON_NUMBERS_NEEDED = 20;
-    private final static float PROTON_SLOPE = 4f;
+    private final static float PROTON_NEEDED = 25;
+    private final static float PROTON_SLOPE = 2f;
     private final static float ADP_NEEDED = 1f;
     private final static float PHOSPHATE_NEEDED = 1f;
     private Lumen myLumen;
@@ -60,7 +60,7 @@ public class ATPSynthase extends ActiveEnzyme {
      */
     private boolean protonThresholdMet() {
         float randomNumber = myRandomGen.nextFloat();
-        float protonThreshold = sigmoidLikeProbability(myLumen.getProtons().getQuantity() / PROTON_NUMBERS_NEEDED);
+        float protonThreshold = sigmoidLikeProbability(myLumen.getProtons().getQuantity() / PROTON_NEEDED);
         return (protonThreshold > randomNumber);
     }
     

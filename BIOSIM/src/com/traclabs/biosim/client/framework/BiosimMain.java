@@ -190,7 +190,7 @@ public class BiosimMain {
         myFrame.getContentPane().add(new PhotosynthesisPanel());
         myFrame.pack();
         myFrame.setSize(800, 600);
-        ImageIcon biosimIcon = new ImageIcon(ClassLoader.getSystemResource("com/traclabs/biosim/client/framework/biosim.png"));
+        ImageIcon biosimIcon = new ImageIcon(ClassLoader.getSystemResource("com/traclabs/biosim/client/food/food.png"));
         myFrame.setIconImage(biosimIcon.getImage());
         myFrame.setVisible(true);
     }
