@@ -11,10 +11,11 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.XYItemRenderer;
-import org.jfree.data.XYSeries;
-import org.jfree.data.XYSeriesCollection;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 import com.traclabs.biosim.server.simulation.food.photosynthesis.Stroma;
 
@@ -64,8 +65,8 @@ public class StromaPanel extends JPanel {
         myData.addSeries(myATPSeries);
         myData.addSeries(myNADPHSeries);
 
-        myChart = ChartFactory.createLineXYChart("Stroma Conditions",
-                "Simulation Iterations", "Quantity", myData, true, true, false);
+        myChart = ChartFactory.createXYLineChart("Stroma Conditions",
+                "Simulation Iterations", "Quantity", myData, PlotOrientation.VERTICAL, true, true, false);
 
         XYPlot myPlot = myChart.getXYPlot();
         XYItemRenderer renderer = myPlot.getRenderer();
@@ -80,9 +81,6 @@ public class StromaPanel extends JPanel {
         myPlot.getRangeAxis().setStandardTickUnits(
                 NumberAxis.createIntegerTickUnits());
         myChartPanel = new ChartPanel(myChart);
-        myChartPanel.setMinimumDrawHeight(640);
-        myChartPanel.setMinimumDrawWidth(480);
-        myChartPanel.setPreferredSize(new java.awt.Dimension(300, 200));
         myChart.setBackgroundPaint(myChartPanel.getBackground());
         setLayout(new BorderLayout());
         add(myChartPanel, BorderLayout.CENTER);
@@ -95,7 +93,7 @@ public class StromaPanel extends JPanel {
         myPhosphateSeries.add(ticks, myStroma.getPhosphates().getQuantity());
         myATPSeries.add(ticks, myStroma.getATPs().getQuantity());
         myNADPHSeries.add(ticks, myStroma.getNADPHs().getQuantity());
-        myChart.getPlot().setDataset(myData);
+        myChart.getXYPlot().setDataset(myData);
         ticks++;
     }
 }
