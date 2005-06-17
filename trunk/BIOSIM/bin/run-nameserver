@@ -46,6 +46,7 @@ then
         mkdir $nsDir
         echo "          -creating ns directory"
 fi
+iorLocation="-Djacorb.naming.ior_filename=$nsDir/ior.txt"
 echo "  -invoking nameserver"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME/avalon-framework.jar$separator$JACORB_HOME/logkit.jar$separator$JACORB_HOME"
-$java_command -classpath $jacoClasspath $jacoOrbClass $jacoSingletonOrbClass $nameServer $nsDir/ior.txt
+$java_command -classpath $jacoClasspath $jacoOrbClass $jacoSingletonOrbClass $iorLocation $nameServer

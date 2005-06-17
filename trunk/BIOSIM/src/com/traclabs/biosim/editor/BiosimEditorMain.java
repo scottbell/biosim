@@ -6,8 +6,9 @@ import java.util.Properties;
 import javax.swing.ImageIcon;
 
 import org.apache.log4j.PropertyConfigurator;
+import org.jacorb.config.Configuration;
 import org.jacorb.naming.NameServer;
-import org.jacorb.util.Environment;
+import org.jacorb.orb.ORB;
 import org.tigris.gef.util.Localizer;
 import org.tigris.gef.util.ResourceLoader;
 
@@ -42,16 +43,25 @@ public class BiosimEditorMain {
                 ClassLoader
                         .getSystemClassLoader()
                         .getResource(
-                                "com/traclabs/biosim/client/framework/gui/biosim.png"));
+                                "com/traclabs/biosim/client/framework/biosim.png"));
 
         // Create and display the main window.
+        /*
         Environment.setProperty("OAPort", Integer.toString(serverOAPort));
         Environment.setProperty("ORBInitRef.NameService",
                 "corbaloc::localhost:" + nameserverPort + "/NameService");
+            */    
+        ORB jacorbOrb = (ORB)OrbUtils.getORB();
+        Configuration theConfiguration = jacorbOrb.getConfiguration();
+        theConfiguration.setAttribute("OAPort", Integer.toString(serverOAPort));
+        theConfiguration.setAttribute("ORBInitRef.NameService", "corbaloc::localhost:" + nameserverPort + "/NameService");
+        //How do we get this OAPort to the ORB??
+        
         EditorFrame frame = new EditorFrame("Biosim Editor");
         frame.setIconImage(biosimIcon.getImage());
         frame.setSize(830, 600);
         frame.setVisible(true);
+        
     }
     
     public static void main(String args[]) {
@@ -70,7 +80,7 @@ public class BiosimEditorMain {
     
     private class NamingServiceThread implements Runnable {
         public void run() {
-            String[] portArgs = { "-p", Integer.toString(nameserverPort)};
+            String[] portArgs = {"-DOAPort="+Integer.toString(nameserverPort)};
             NameServer.main(portArgs);
         }
     }
