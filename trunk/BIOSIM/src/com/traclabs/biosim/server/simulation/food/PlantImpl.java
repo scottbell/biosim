@@ -14,6 +14,7 @@ import com.traclabs.biosim.idl.simulation.food.BioMatter;
 import com.traclabs.biosim.idl.simulation.food.PlantPOA;
 import com.traclabs.biosim.idl.simulation.food.PlantType;
 import com.traclabs.biosim.server.simulation.framework.SimpleBuffer;
+import com.traclabs.biosim.server.util.MathUtils;
 
 /**
  * Plant
@@ -362,19 +363,19 @@ public abstract class PlantImpl extends PlantPOA {
     private void healthCheck() {
         //check for death
         float randomNumber = myRandomGen.nextFloat();
-        float CO2RiskLowReturn = sigmoidLikeProbability((consumedCO2LowBuffer
+        float CO2RiskLowReturn = MathUtils.sigmoidLikeProbability((consumedCO2LowBuffer
                 .getCapacity() - consumedCO2LowBuffer.getLevel())
                 / consumedCO2LowBuffer.getCapacity());
-        float CO2RiskHighReturn = sigmoidLikeProbability((consumedCO2HighBuffer
+        float CO2RiskHighReturn = MathUtils.sigmoidLikeProbability((consumedCO2HighBuffer
                 .getCapacity() - consumedCO2HighBuffer.getLevel())
                 / consumedCO2HighBuffer.getCapacity());
-        float waterRiskReturn = sigmoidLikeProbability((consumedWaterBuffer
+        float waterRiskReturn = MathUtils.sigmoidLikeProbability((consumedWaterBuffer
                 .getCapacity() - consumedWaterBuffer.getLevel())
                 / consumedWaterBuffer.getCapacity());
-        float heatRiskReturn = sigmoidLikeProbability((consumedHeatBuffer
+        float heatRiskReturn = MathUtils.sigmoidLikeProbability((consumedHeatBuffer
                 .getCapacity() - consumedHeatBuffer.getLevel())
                 / consumedHeatBuffer.getCapacity());
-        float lightRiskReturn = sigmoidLikeProbability((consumedLightBuffer
+        float lightRiskReturn = MathUtils.sigmoidLikeProbability((consumedLightBuffer
                 .getCapacity() - consumedLightBuffer.getLevel())
                 / consumedLightBuffer.getCapacity());
 
@@ -453,7 +454,7 @@ public abstract class PlantImpl extends PlantPOA {
         float exponent = (17.4f * temperatureLight) / (temperatureLight + 239f);
         myLogger.debug("temperatureLight: " + temperatureLight);
         myLogger.debug("exponent: " + exponent);
-        return 0.611f * exp(exponent);
+        return 0.611f * MathUtils.exp(exponent);
     }
 
     private float calculateActualMoistureVaporPressure() {
@@ -731,13 +732,13 @@ public abstract class PlantImpl extends PlantPOA {
         //Convert current CO2 levels to micromoles of CO2 / moles of air
         SimEnvironment myEnvironment = myShelfImpl.getBiomassRSImpl()
                 .getAirConsumerDefinition().getEnvironments()[0];
-        float CO2Moles = myEnvironment.getCO2Moles() * pow(10, 6); //in micro
+        float CO2Moles = myEnvironment.getCO2Moles() * MathUtils.pow(10, 6); //in micro
         // moles
         float airMoles = myEnvironment.getTotalMoles(); //in moles
         if (CO2Moles <= 0)
-            CO2Moles = pow(1f, -30f);
+            CO2Moles = MathUtils.pow(1f, -30f);
         else if (airMoles <= 0)
-            airMoles = pow(1f, -30f);
+            airMoles = MathUtils.pow(1f, -30f);
         myLogger.debug("CO2Moles: " + CO2Moles);
         myLogger.debug("airMoles: " + airMoles);
         float currentCO2Concentration = (CO2Moles / airMoles);
@@ -792,14 +793,14 @@ public abstract class PlantImpl extends PlantPOA {
         float thePPF = getAverageForList(myCanopyClosurePPFValues, myAveragePPF)
                 * getPhotoperiod() / getNominalPhotoperiod();
         float oneOverPPf = 1f / thePPF;
-        float thePPFsquared = pow(thePPF, 2f);
-        float thePPFcubed = pow(thePPF, 3f);
+        float thePPFsquared = MathUtils.pow(thePPF, 2f);
+        float thePPFcubed = MathUtils.pow(thePPF, 3f);
 
         float theCO2 = getAverageForList(myCanopyClosureCO2Values,
                 myAverageCO2Concentration);
         float oneOverCO2 = 1f / theCO2;
-        float theCO2squared = pow(theCO2, 2f);
-        float theCO2cubed = pow(theCO2, 3f);
+        float theCO2squared = MathUtils.pow(theCO2, 2f);
+        float theCO2cubed = MathUtils.pow(theCO2, 3f);
 
         float tA = canopyClosureConstants[0] * oneOverPPf * oneOverCO2
                 + canopyClosureConstants[1] * oneOverPPf
@@ -854,7 +855,7 @@ public abstract class PlantImpl extends PlantPOA {
             return 0f;
         float daDt = PPFFractionAbsorbedMax
                 * getN()
-                * pow((getDaysOfGrowth() / myTimeTillCanopyClosure),
+                * MathUtils.pow((getDaysOfGrowth() / myTimeTillCanopyClosure),
                         getN() - 1f) * (1f / myTimeTillCanopyClosure);
         myLogger.debug("daDt: " + daDt);
         return daDt;
@@ -863,8 +864,8 @@ public abstract class PlantImpl extends PlantPOA {
     private float calculateCQYMax() {
         float thePPF = getAveragePPF();
         float oneOverPPf = 1f / thePPF;
-        float thePPFsquared = pow(thePPF, 2f);
-        float thePPFcubed = pow(thePPF, 3f);
+        float thePPFsquared = MathUtils.pow(thePPF, 2f);
+        float thePPFcubed = MathUtils.pow(thePPF, 3f);
         myLogger.debug("thePPF: " + thePPF);
         myLogger.debug("oneOverPPf: " + oneOverPPf);
         myLogger.debug("thePPFsquared: " + thePPFsquared);
@@ -872,8 +873,8 @@ public abstract class PlantImpl extends PlantPOA {
 
         float theCO2 = getAverageCO2Concentration();
         float oneOverCO2 = 1f / theCO2;
-        float theCO2squared = pow(theCO2, 2f);
-        float theCO2cubed = pow(theCO2, 3f);
+        float theCO2squared = MathUtils.pow(theCO2, 2f);
+        float theCO2cubed = MathUtils.pow(theCO2, 3f);
         myLogger.debug("theCO2: " + theCO2);
         myLogger.debug("oneOverCO2: " + oneOverCO2);
         myLogger.debug("theCO2squared: " + theCO2squared);
@@ -933,27 +934,6 @@ public abstract class PlantImpl extends PlantPOA {
 
     private float getAveragePPF() {
         return myAveragePPF;
-    }
-
-    protected float pow(float a, float b) {
-        return (new Double(Math.pow(a, b))).floatValue();
-    }
-
-    protected float exp(float a) {
-        return (new Double(Math.exp(a))).floatValue();
-    }
-
-    private float abs(float a) {
-        return (new Double(Math.abs(a))).floatValue();
-    }
-
-    private float sigmoidLikeProbability(float x) {
-        if (x >= 1f)
-            return 1f;
-        else if ((x < 1f) && (x > 0f))
-            return 0.3f * x * (1f - abs(x - 2f) / 2f);
-        else
-            return 0f;
     }
 
     /**

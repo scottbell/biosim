@@ -6,13 +6,14 @@ package com.traclabs.biosim.server.simulation.food.photosynthesis;
 
 import java.util.Random;
 
+import com.traclabs.biosim.server.util.MathUtils;
+
 /**
  * @author scott
  *
  */
 public class ATPSynthase extends ActiveEnzyme {
-    private final static float PROTON_NEEDED = 25;
-    private final static float PROTON_SLOPE = 2f;
+    private final static float PROTON_NEEDED = 20;
     private final static float ADP_NEEDED = 1f;
     private final static float PHOSPHATE_NEEDED = 1f;
     private Lumen myLumen;
@@ -60,17 +61,8 @@ public class ATPSynthase extends ActiveEnzyme {
      */
     private boolean protonThresholdMet() {
         float randomNumber = myRandomGen.nextFloat();
-        float protonThreshold = sigmoidLikeProbability(myLumen.getProtons().getQuantity() / PROTON_NEEDED);
+        float protonThreshold = MathUtils.calculateSCurve(myLumen.getProtons().getQuantity(), PROTON_NEEDED);
         return (protonThreshold > randomNumber);
-    }
-    
-    private static float sigmoidLikeProbability(float x) {
-        if (x >= 1f)
-            return 1f;
-        else if ((x < 1f) && (x > 0f))
-            return 0.3f * x * (1f - Math.abs(x - 2f) / 2f);
-        else
-            return 0f;
     }
 
 }
