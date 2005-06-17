@@ -7,9 +7,9 @@ import org.apache.log4j.Logger;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.TextTitle;
-import org.jfree.chart.plot.Pie3DPlot;
-import org.jfree.data.DefaultPieDataset;
+import org.jfree.chart.plot.PiePlot3D;
+import org.jfree.chart.title.TextTitle;
+import org.jfree.data.general.DefaultPieDataset;
 
 import com.traclabs.biosim.client.framework.gui.GraphPanel;
 import com.traclabs.biosim.client.util.BioHolder;
@@ -24,7 +24,7 @@ import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 public class EnvironmentPieChartPanel extends GraphPanel {
     private SimEnvironment mySimEnvironment;
 
-    private Pie3DPlot myPlot;
+    private PiePlot3D myPlot;
 
     private JFreeChart myChart;
 
@@ -59,10 +59,13 @@ public class EnvironmentPieChartPanel extends GraphPanel {
             titleText = "Crew Environment";
         else if (mySimEnvironment.getModuleName().startsWith("Plant"))
             titleText = "Plant Environment";
-        myChart = ChartFactory.createPie3DChart(titleText, myDataset, true,
+        myChart = ChartFactory.createPieChart3D(titleText, myDataset, true,
                 true, false);
-        myPlot = (Pie3DPlot) (myChart.getPlot());
+        myPlot = (PiePlot3D) (myChart.getPlot());
         myPlot.setDepthFactor(0.1d);
+        myPlot.setLabelLinksVisible(false);
+        myPlot.setForegroundAlpha(0.3f);
+        myPlot.setLabelGenerator(null);
         initDataset();
         TextTitle myTextTitle = (TextTitle) (myChart.getTitle());
         myTextTitle.setFont(myTextTitle.getFont().deriveFont(13.0f));
@@ -95,19 +98,19 @@ public class EnvironmentPieChartPanel extends GraphPanel {
                 myDataset = new DefaultPieDataset();
                 myPlot.setDataset(myDataset);
                 myDataset.setValue(vacuumCategory, new Float(1f));
-                myPlot.setPaint(0, Color.DARK_GRAY);
+                myPlot.setSectionPaint(0, Color.DARK_GRAY);
                 isVacuum = true;
             }
         } else {
-            //It in a vacuum, set it up for normal use
+            //In a vacuum, set it up for normal use
             if (isVacuum) {
                 myDataset = new DefaultPieDataset();
                 myPlot.setDataset(myDataset);
-                myPlot.setPaint(0, Color.BLUE);
-                myPlot.setPaint(1, Color.GREEN);
-                myPlot.setPaint(2, Color.CYAN);
-                myPlot.setPaint(3, Color.YELLOW);
-                myPlot.setPaint(4, Color.RED);
+                myPlot.setSectionPaint(0, Color.BLUE);
+                myPlot.setSectionPaint(1, Color.GREEN);
+                myPlot.setSectionPaint(2, Color.CYAN);
+                myPlot.setSectionPaint(3, Color.YELLOW);
+                myPlot.setSectionPaint(4, Color.RED);
                 isVacuum = false;
             }
             myDataset.setValue(O2Category, new Float(mySimEnvironment
@@ -133,14 +136,14 @@ public class EnvironmentPieChartPanel extends GraphPanel {
                 && (mySimEnvironment.getOtherMoles() <= 0)
                 && (mySimEnvironment.getWaterMoles() <= 0)) {
             myDataset.setValue(vacuumCategory, new Float(1f));
-            myPlot.setPaint(0, Color.DARK_GRAY);
+            myPlot.setSectionPaint(0, Color.DARK_GRAY);
             isVacuum = true;
         } else {
-            myPlot.setPaint(0, Color.BLUE);
-            myPlot.setPaint(1, Color.GREEN);
-            myPlot.setPaint(2, Color.CYAN);
-            myPlot.setPaint(3, Color.YELLOW);
-            myPlot.setPaint(4, Color.RED);
+            myPlot.setSectionPaint(0, Color.BLUE);
+            myPlot.setSectionPaint(1, Color.GREEN);
+            myPlot.setSectionPaint(2, Color.CYAN);
+            myPlot.setSectionPaint(3, Color.YELLOW);
+            myPlot.setSectionPaint(4, Color.RED);
             isVacuum = false;
         }
     }
