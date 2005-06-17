@@ -22,6 +22,7 @@ import com.traclabs.biosim.server.simulation.food.FoodConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.food.FoodStoreImpl;
 import com.traclabs.biosim.server.simulation.framework.SimpleBuffer;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllableImpl;
+import com.traclabs.biosim.server.util.MathUtils;
 import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
@@ -646,16 +647,16 @@ public class CrewPersonImpl extends CrewPersonPOA {
      * performs "mission" activity
      */
     private void addProductivity() {
-        float caloriePercentFull = sigmoidLikeProbability(consumedCaloriesBuffer
+        float caloriePercentFull = MathUtils.sigmoidLikeProbability(consumedCaloriesBuffer
                 .getLevel()
                 / consumedCaloriesBuffer.getCapacity());
-        float waterPercentFull = sigmoidLikeProbability(consumedWaterBuffer
+        float waterPercentFull = MathUtils.sigmoidLikeProbability(consumedWaterBuffer
                 .getLevel()
                 / consumedWaterBuffer.getCapacity());
-        float oxygenPercentFull = sigmoidLikeProbability(consumedLowOxygenBuffer
+        float oxygenPercentFull = MathUtils.sigmoidLikeProbability(consumedLowOxygenBuffer
                 .getLevel()
                 / consumedLowOxygenBuffer.getCapacity());
-        float CO2PercentFull = sigmoidLikeProbability(consumedCO2Buffer
+        float CO2PercentFull = MathUtils.sigmoidLikeProbability(consumedCO2Buffer
                 .getLevel()
                 / consumedCO2Buffer.getCapacity());
         float sleepPercentFull = sleepBuffer.getLevel()
@@ -1005,18 +1006,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
             poisoned = false;
     }
 
-    private float abs(float a) {
-        return (new Double(Math.abs(a))).floatValue();
-    }
-
-    private float sigmoidLikeProbability(float x) {
-        if (x >= 1f)
-            return 1f;
-        else if ((x < 1f) && (x > 0f))
-            return 0.3f * x * (1f - abs(x - 2f) / 2f);
-        else
-            return 0f;
-    }
+    
 
     /**
      * Checks to see if crew memeber has been lethally damaged (i.e., hasn't
@@ -1025,22 +1015,22 @@ public class CrewPersonImpl extends CrewPersonPOA {
     private void healthCheck() {
         //check for death
         float randomNumber = myRandomGen.nextFloat();
-        float calorieRiskReturn = sigmoidLikeProbability((consumedCaloriesBuffer
+        float calorieRiskReturn = MathUtils.sigmoidLikeProbability((consumedCaloriesBuffer
                 .getCapacity() - consumedCaloriesBuffer.getLevel())
                 / consumedCaloriesBuffer.getCapacity());
-        float waterRiskReturn = sigmoidLikeProbability((consumedWaterBuffer
+        float waterRiskReturn = MathUtils.sigmoidLikeProbability((consumedWaterBuffer
                 .getCapacity() - consumedWaterBuffer.getLevel())
                 / consumedWaterBuffer.getCapacity());
-        float oxygenLowRiskReturn = sigmoidLikeProbability((consumedLowOxygenBuffer
+        float oxygenLowRiskReturn = MathUtils.sigmoidLikeProbability((consumedLowOxygenBuffer
                 .getCapacity() - consumedLowOxygenBuffer.getLevel())
                 / consumedLowOxygenBuffer.getCapacity());
-        float oxygenHighRiskReturn = sigmoidLikeProbability((highOxygenBuffer
+        float oxygenHighRiskReturn = MathUtils.sigmoidLikeProbability((highOxygenBuffer
                 .getCapacity() - highOxygenBuffer.getLevel())
                 / highOxygenBuffer.getCapacity());
-        float CO2RiskReturn = sigmoidLikeProbability((consumedCO2Buffer
+        float CO2RiskReturn = MathUtils.sigmoidLikeProbability((consumedCO2Buffer
                 .getCapacity() - consumedCO2Buffer.getLevel())
                 / consumedCO2Buffer.getCapacity());
-        float sleepRiskReturn = sigmoidLikeProbability((sleepBuffer
+        float sleepRiskReturn = MathUtils.sigmoidLikeProbability((sleepBuffer
                 .getCapacity() - sleepBuffer.getLevel())
                 / sleepBuffer.getCapacity());
         myLogger.debug(getName());
