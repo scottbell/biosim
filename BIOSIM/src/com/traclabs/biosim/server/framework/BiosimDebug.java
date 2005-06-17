@@ -4,8 +4,11 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+import org.jacorb.config.Configuration;
 import org.jacorb.naming.NameServer;
-import org.jacorb.util.Environment;
+import org.jacorb.orb.ORB;
+
+import com.traclabs.biosim.server.util.OrbUtils;
 
 /**
  * A standalone BioSim instance (server, nameserver, client in one) for
@@ -59,9 +62,15 @@ public class BiosimDebug {
             Thread.sleep(5000);
         } catch (Exception e) {
         }
+        ORB jacorbOrb = (ORB)OrbUtils.getORB();
+        Configuration theConfiguration = jacorbOrb.getConfiguration();
+        theConfiguration.setAttribute("OAPort", Integer.toString(SERVER_OA_PORT));
+        theConfiguration.setAttribute("ORBInitRef.NameService", "corbaloc::localhost:" + NAMESERVER_PORT + "/NameService");
+        /*
         Environment.setProperty("OAPort", Integer.toString(SERVER_OA_PORT));
         Environment.setProperty("ORBInitRef.NameService",
                 "corbaloc::localhost:" + NAMESERVER_PORT + "/NameService");
+                */
         myLogger.info("Server awake...");
         BiosimServer myBiosimServer = new BiosimServer(id, 0, xmlLocation);
         myBiosimServer.runServer("BiosimServer (id=0)");

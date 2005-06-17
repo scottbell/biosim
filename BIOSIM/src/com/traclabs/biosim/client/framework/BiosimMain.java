@@ -6,7 +6,6 @@ import javax.swing.ImageIcon;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-import org.jacorb.util.Environment;
 
 import com.traclabs.biosim.client.control.HandController;
 import com.traclabs.biosim.client.control.SimCommandLine;
@@ -82,11 +81,13 @@ public class BiosimMain {
             } else if (myArgs[i].equals("photosynthesis")) {
                 wantsToPhotosynthesis = true;
             } else if (myArgs[i].equals("-debug")) {
+                /*
                 Environment.setProperty("ORBInitRef.NameService",
                         "corbaloc::localhost:" + NAMESERVER_PORT
                                 + "/NameService");
                 Environment.setProperty("OAPort", Integer
                         .toString(CLIENT_OA_PORT));
+                        */
             } else if (myArgs[i].startsWith("-xml=")) {
                 try {
                     xmlFile = myArgs[i].split("=")[1];
