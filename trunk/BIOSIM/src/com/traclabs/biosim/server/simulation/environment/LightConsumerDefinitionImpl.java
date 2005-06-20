@@ -5,7 +5,7 @@ import com.traclabs.biosim.idl.simulation.environment.LightConsumerDefinitionHel
 import com.traclabs.biosim.idl.simulation.environment.LightConsumerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.environment.LightConsumerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
-import com.traclabs.biosim.server.util.OrbUtils;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * @author Scott Bell

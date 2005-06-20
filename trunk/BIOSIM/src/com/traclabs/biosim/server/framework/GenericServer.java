@@ -4,14 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Properties;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.omg.PortableServer.Servant;
 
-import com.traclabs.biosim.server.util.OrbUtils;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * The Generic Server. Provides basic functionality for BioSim servers
@@ -25,18 +23,8 @@ public class GenericServer {
     protected Logger myLogger;
 
     public GenericServer() {
+        OrbUtils.initializeLog();
         myLogger = Logger.getLogger(this.getClass());
-        Properties logProps = new Properties();
-        logProps.setProperty("log4j.rootLogger", "INFO, rootAppender");
-        logProps.setProperty("log4j.appender.rootAppender",
-                "org.apache.log4j.ConsoleAppender");
-        logProps.setProperty("log4j.appender.rootAppender.layout",
-                "org.apache.log4j.PatternLayout");
-        logProps.setProperty(
-                "log4j.appender.rootAppender.layout.ConversionPattern",
-                "%5p [%c] - %m%n");
-        PropertyConfigurator.configure(logProps);
-
     }
 
     /**

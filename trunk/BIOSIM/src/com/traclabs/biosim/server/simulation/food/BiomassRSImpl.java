@@ -32,7 +32,7 @@ import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.water.DirtyWaterProducerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.water.GreyWaterConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.water.PotableWaterConsumerDefinitionImpl;
-import com.traclabs.biosim.server.util.OrbUtils;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * The Biomass RS is essentially responsible for growing plants. The Biomass RS

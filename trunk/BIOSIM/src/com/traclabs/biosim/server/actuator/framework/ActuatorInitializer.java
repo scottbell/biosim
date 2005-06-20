@@ -229,7 +229,7 @@ import com.traclabs.biosim.server.actuator.water.WaterInFlowRateActuatorImpl;
 import com.traclabs.biosim.server.actuator.water.WaterOutFlowRateActuatorImpl;
 import com.traclabs.biosim.server.framework.BioInitializer;
 import com.traclabs.biosim.server.framework.BiosimServer;
-import com.traclabs.biosim.server.util.OrbUtils;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * Reads BioSim configuration from XML file.

@@ -8,10 +8,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.util.Properties;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
+
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * 
@@ -187,18 +187,8 @@ public class MatlabAceEngine extends Engine {
     
     public static void main(String args[]){
         //Logger stuff
-        Logger theLogger = Logger.getLogger(MatlabAceEngine.class + ".main()");
-        Properties logProps = new Properties();
-        logProps.setProperty("log4j.rootLogger", "DEBUG, rootAppender");
-        logProps.setProperty("log4j.appender.rootAppender",
-                "org.apache.log4j.ConsoleAppender");
-        logProps.setProperty("log4j.appender.rootAppender.layout",
-                "org.apache.log4j.PatternLayout");
-        logProps.setProperty(
-                "log4j.appender.rootAppender.layout.ConversionPattern",
-                "%5p [%c] - %m%n");
-        PropertyConfigurator.configure(logProps);
-        
+        OrbUtils.initializeLog();
+        Logger theLogger = Logger.getLogger(MatlabAceEngine.class);
         Engine anEngine = new MatlabAceEngine();
         theLogger.debug("start tick");
         theLogger.info("attempting to send some doubles");

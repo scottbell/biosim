@@ -5,7 +5,7 @@ import com.traclabs.biosim.idl.simulation.environment.AirProducerDefinitionHelpe
 import com.traclabs.biosim.idl.simulation.environment.AirProducerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.environment.AirProducerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
-import com.traclabs.biosim.server.util.OrbUtils;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * @author Scott Bell

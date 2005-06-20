@@ -12,10 +12,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Properties;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
+
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * This class servers to act as a fake Matlab server that the MatlabAceEngine
@@ -60,17 +60,7 @@ public class MatlabTestBackend {
     }
 
     public static void main(String args[]) {
-        Properties logProps = new Properties();
-        logProps.setProperty("log4j.appender.matlabAppender",
-                "org.apache.log4j.ConsoleAppender");
-        logProps.setProperty("log4j.appender.matlabAppender.layout",
-                "org.apache.log4j.PatternLayout");
-        logProps.setProperty(
-                "log4j.appender.matlabAppender.layout.ConversionPattern",
-                "%5p [%c] - %m%n");
-        logProps.setProperty("log4j.logger." + MatlabTestBackend.class,
-                "DEBUG, matlabAppender");
-        PropertyConfigurator.configure(logProps);
+        OrbUtils.initializeLog();
 
         int getServerPort = MatlabAceEngine.DEFAULT_GET_PORT;
         int putServerPort = MatlabAceEngine.DEFAULT_PUT_PORT;

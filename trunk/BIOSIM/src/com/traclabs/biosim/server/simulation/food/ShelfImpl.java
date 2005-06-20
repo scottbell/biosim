@@ -9,7 +9,7 @@ import com.traclabs.biosim.idl.simulation.food.Plant;
 import com.traclabs.biosim.idl.simulation.food.PlantHelper;
 import com.traclabs.biosim.idl.simulation.food.PlantType;
 import com.traclabs.biosim.idl.simulation.food.ShelfPOA;
-import com.traclabs.biosim.server.util.OrbUtils;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * Tray contains Plants

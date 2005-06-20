@@ -16,7 +16,7 @@ import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinitionImpl;
 import com.traclabs.biosim.server.util.Engine;
 import com.traclabs.biosim.server.util.MatlabAceEngine;
-import com.traclabs.biosim.server.util.OrbUtils;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * This class acts as a surrogate for the underlying Matlab WaterRS model and

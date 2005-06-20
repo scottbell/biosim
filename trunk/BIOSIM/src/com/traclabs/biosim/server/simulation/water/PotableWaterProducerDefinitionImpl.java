@@ -6,7 +6,7 @@ import com.traclabs.biosim.idl.simulation.water.PotableWaterProducerDefinitionOp
 import com.traclabs.biosim.idl.simulation.water.PotableWaterProducerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.water.PotableWaterStore;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllableImpl;
-import com.traclabs.biosim.server.util.OrbUtils;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * @author Scott Bell

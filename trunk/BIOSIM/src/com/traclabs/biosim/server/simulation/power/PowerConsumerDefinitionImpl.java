@@ -6,7 +6,7 @@ import com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinitionOperation
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.power.PowerStore;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllableImpl;
-import com.traclabs.biosim.server.util.OrbUtils;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * @author Scott Bell

@@ -23,7 +23,7 @@ import com.traclabs.biosim.server.simulation.food.FoodStoreImpl;
 import com.traclabs.biosim.server.simulation.framework.SimpleBuffer;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllableImpl;
 import com.traclabs.biosim.server.util.MathUtils;
-import com.traclabs.biosim.server.util.OrbUtils;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * The Crew Person Implementation. Eats/drinks/excercises away resources

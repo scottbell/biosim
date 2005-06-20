@@ -6,7 +6,7 @@ import com.traclabs.biosim.idl.simulation.air.O2ConsumerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.air.O2ConsumerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.air.O2Store;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllableImpl;
-import com.traclabs.biosim.server.util.OrbUtils;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * @author Scott Bell

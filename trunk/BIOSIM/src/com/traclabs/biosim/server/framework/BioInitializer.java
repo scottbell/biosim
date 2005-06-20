@@ -26,7 +26,7 @@ import com.traclabs.biosim.idl.simulation.food.BiomassRSHelper;
 import com.traclabs.biosim.server.actuator.framework.ActuatorInitializer;
 import com.traclabs.biosim.server.sensor.framework.SensorInitializer;
 import com.traclabs.biosim.server.simulation.framework.SimulationInitializer;
-import com.traclabs.biosim.server.util.OrbUtils;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * Reads BioSim configuration from XML file.

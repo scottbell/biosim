@@ -4,10 +4,9 @@
  */
 package com.traclabs.biosim.server.simulation.food.photosynthesis;
 
-import java.util.Properties;
-
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
+
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * @author scott
@@ -86,16 +85,7 @@ public class Chloroplast {
     }
 
     public static void main(String args[]) {
-        Properties logProps = new Properties();
-        logProps.setProperty("log4j.rootLogger", "DEBUG, rootAppender");
-        logProps.setProperty("log4j.appender.rootAppender",
-                "org.apache.log4j.ConsoleAppender");
-        logProps.setProperty("log4j.appender.rootAppender.layout",
-                "org.apache.log4j.PatternLayout");
-        logProps.setProperty(
-                "log4j.appender.rootAppender.layout.ConversionPattern",
-                "%5p [%c] - %m%n");
-        PropertyConfigurator.configure(logProps);
+        OrbUtils.initializeLog();
         Logger theLogger = Logger.getLogger(Chloroplast.class + ".main()");
         Chloroplast newChloroplast = new Chloroplast();
         while (true) {

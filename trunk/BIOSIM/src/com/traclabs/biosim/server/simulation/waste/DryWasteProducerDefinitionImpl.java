@@ -6,7 +6,7 @@ import com.traclabs.biosim.idl.simulation.waste.DryWasteProducerDefinitionOperat
 import com.traclabs.biosim.idl.simulation.waste.DryWasteProducerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.waste.DryWasteStore;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllableImpl;
-import com.traclabs.biosim.server.util.OrbUtils;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * @author Scott Bell

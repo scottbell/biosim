@@ -1,11 +1,8 @@
 package com.traclabs.biosim.client.framework;
 
-import java.util.Properties;
-
 import javax.swing.ImageIcon;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
 import com.traclabs.biosim.client.control.HandController;
 import com.traclabs.biosim.client.control.SimCommandLine;
@@ -14,6 +11,7 @@ import com.traclabs.biosim.client.simulation.food.photosynthesis.PhotosynthesisP
 import com.traclabs.biosim.client.simulation.framework.SimDesktop;
 import com.traclabs.biosim.client.unrealCom.UnrealCom;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * @author Scott Bell
@@ -21,29 +19,10 @@ import com.traclabs.biosim.client.util.BioHolderInitializer;
 
 public class BiosimMain {
 
-    private static final int NAMESERVER_PORT = 16309;
-
-    private static final int CLIENT_OA_PORT = 16311;
-
     private Logger myLogger;
 
     public BiosimMain() {
-        Properties logProps = new Properties();
-        logProps.setProperty("log4j.rootLogger", "INFO, rootAppender");
-        logProps.setProperty("log4j.appender.rootAppender",
-                "org.apache.log4j.ConsoleAppender");
-        logProps.setProperty("log4j.appender.rootAppender.layout",
-                "org.apache.log4j.PatternLayout");
-        logProps.setProperty(
-                "log4j.appender.rootAppender.layout.ConversionPattern",
-                "%5p [%c] - %m%n");
-        /*
-         * logProps.setProperty(
-         * "log4j.logger.com.traclabs.biosim.client.control.HandController",
-         * "DEBUG");
-         */
-        PropertyConfigurator.configure(logProps);
-        myLogger = Logger.getLogger(this.getClass());
+        OrbUtils.initializeLog();
     }
 
     /**
@@ -81,13 +60,7 @@ public class BiosimMain {
             } else if (myArgs[i].equals("photosynthesis")) {
                 wantsToPhotosynthesis = true;
             } else if (myArgs[i].equals("-debug")) {
-                /*
-                Environment.setProperty("ORBInitRef.NameService",
-                        "corbaloc::localhost:" + NAMESERVER_PORT
-                                + "/NameService");
-                Environment.setProperty("OAPort", Integer
-                        .toString(CLIENT_OA_PORT));
-                        */
+                OrbUtils.initializeClientForDebug();
             } else if (myArgs[i].startsWith("-xml=")) {
                 try {
                     xmlFile = myArgs[i].split("=")[1];

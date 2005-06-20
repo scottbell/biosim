@@ -150,6 +150,7 @@ import com.traclabs.biosim.idl.simulation.water.DirtyWaterStoreHelper;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterStoreHelper;
 import com.traclabs.biosim.idl.simulation.water.PotableWaterStoreHelper;
 import com.traclabs.biosim.idl.simulation.water.WaterRSHelper;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * Reads BioSim configuration from XML file.
