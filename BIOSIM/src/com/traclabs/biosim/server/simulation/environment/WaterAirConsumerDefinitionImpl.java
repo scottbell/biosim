@@ -6,7 +6,7 @@ import com.traclabs.biosim.idl.simulation.environment.WaterAirConsumerDefinition
 import com.traclabs.biosim.idl.simulation.environment.WaterAirConsumerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.environment.WaterAirConsumerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.water.WaterStore;
-import com.traclabs.biosim.server.util.OrbUtils;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * @author Scott Bell

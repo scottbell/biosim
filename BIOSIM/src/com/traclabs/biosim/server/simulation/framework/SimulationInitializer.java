@@ -171,7 +171,7 @@ import com.traclabs.biosim.server.simulation.water.PotableWaterStoreImpl;
 import com.traclabs.biosim.server.simulation.water.WaterRSImpl;
 import com.traclabs.biosim.server.simulation.water.WaterRSLinearImpl;
 import com.traclabs.biosim.server.simulation.water.WaterRSMatlabImpl;
-import com.traclabs.biosim.server.util.OrbUtils;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * Reads BioSim configuration from XML file.

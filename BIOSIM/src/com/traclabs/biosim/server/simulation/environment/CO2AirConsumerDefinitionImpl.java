@@ -6,7 +6,7 @@ import com.traclabs.biosim.idl.simulation.environment.CO2AirConsumerDefinitionHe
 import com.traclabs.biosim.idl.simulation.environment.CO2AirConsumerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.environment.CO2AirConsumerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
-import com.traclabs.biosim.server.util.OrbUtils;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * @author Scott Bell

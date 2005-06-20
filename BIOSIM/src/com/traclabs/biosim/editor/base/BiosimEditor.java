@@ -97,12 +97,6 @@ public class BiosimEditor extends Editor {
             damageAll();
         }
     }
-
-    // public EditorEditor(GraphModel gm, Component awt_comp, Layer lay) {
-    // 	super(gm, awt_comp, lay);
-    // 	System.out.println("Creating Editor Editor");
-    // }
-
     /**
      * Clone the receiving editor. Called from EditorCmdSpawn. Subclasses of
      * Editor should override this method.

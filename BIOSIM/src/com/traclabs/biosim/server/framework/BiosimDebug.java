@@ -1,14 +1,8 @@
 package com.traclabs.biosim.server.framework;
 
-import java.util.Properties;
-
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
-import org.jacorb.config.Configuration;
-import org.jacorb.naming.NameServer;
-import org.jacorb.orb.ORB;
 
-import com.traclabs.biosim.server.util.OrbUtils;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * A standalone BioSim instance (server, nameserver, client in one) for
@@ -18,37 +12,14 @@ import com.traclabs.biosim.server.util.OrbUtils;
  */
 
 public class BiosimDebug {
-    private Thread myNamingServiceThread;
-
-    private Thread myServerThread;
-
-    private Thread myClientThread;
-
-    private Thread waitThread;
-
-    private static final int NAMESERVER_PORT = 16309;
-
-    private static final int SERVER_OA_PORT = 16310;
-
     private Logger myLogger;
 
     public BiosimDebug() {
         myLogger = Logger.getLogger(BiosimDebug.class.toString());
-        myNamingServiceThread = new Thread(new NamingServiceThread());
     }
 
     public static void main(String args[]) {
-        Properties logProps = new Properties();
-        logProps.setProperty("log4j.appender.biosimDebugAppender",
-                "org.apache.log4j.ConsoleAppender");
-        logProps.setProperty("log4j.appender.biosimDebugAppender.layout",
-                "org.apache.log4j.PatternLayout");
-        logProps.setProperty(
-                "log4j.appender.biosimDebugAppender.layout.ConversionPattern",
-                "%5p [%c] - %m%n");
-        logProps.setProperty("log4j.logger." + BiosimDebug.class,
-                "DEBUG, biosimDebugAppender");
-        PropertyConfigurator.configure(logProps);
+        OrbUtils.initializeLog();
         BiosimDebug myBiosimStandalone = new BiosimDebug();
         int id = GenericServer.getIDfromArgs(args);
         String xmlLocation = GenericServer.getXMLfromArgs(args);
@@ -56,30 +27,17 @@ public class BiosimDebug {
     }
 
     public void beginSimulation(int id, String xmlLocation) {
-        myNamingServiceThread.start();
+        OrbUtils.startDebugNameServer();
         try {
             myLogger.info("Sleeping until nameserver comes online...");
             Thread.sleep(5000);
         } catch (Exception e) {
         }
-        ORB jacorbOrb = (ORB)OrbUtils.getORB();
-        Configuration theConfiguration = jacorbOrb.getConfiguration();
-        theConfiguration.setAttribute("OAPort", Integer.toString(SERVER_OA_PORT));
-        theConfiguration.setAttribute("ORBInitRef.NameService", "corbaloc::localhost:" + NAMESERVER_PORT + "/NameService");
-        /*
-        Environment.setProperty("OAPort", Integer.toString(SERVER_OA_PORT));
-        Environment.setProperty("ORBInitRef.NameService",
-                "corbaloc::localhost:" + NAMESERVER_PORT + "/NameService");
-                */
+        
+        OrbUtils.initializeServerForDebug();
+        
         myLogger.info("Server awake...");
         BiosimServer myBiosimServer = new BiosimServer(id, 0, xmlLocation);
         myBiosimServer.runServer("BiosimServer (id=0)");
-    }
-
-    private class NamingServiceThread implements Runnable {
-        public void run() {
-            String[] portArgs = { "-p", Integer.toString(NAMESERVER_PORT) };
-            NameServer.main(portArgs);
-        }
     }
 }

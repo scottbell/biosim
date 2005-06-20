@@ -42,7 +42,7 @@ import com.traclabs.biosim.server.simulation.waste.DryWasteProducerDefinitionImp
 import com.traclabs.biosim.server.simulation.water.DirtyWaterProducerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.water.GreyWaterProducerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.water.PotableWaterConsumerDefinitionImpl;
-import com.traclabs.biosim.server.util.OrbUtils;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * The Crew Implementation. Holds multiple crew persons and their schedule.

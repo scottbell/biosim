@@ -6,7 +6,6 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.util.Hashtable;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -22,7 +21,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ChangeEvent;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.idl.framework.BioModule;
@@ -30,6 +28,7 @@ import com.traclabs.biosim.idl.framework.Malfunction;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * @author Scott Bell
@@ -215,16 +214,7 @@ public class MalfunctionPanel extends TimedPanel {
     }
 
     public static void main(String[] args) {
-        Properties logProps = new Properties();
-        logProps.setProperty("log4j.rootLogger", "INFO, rootAppender");
-        logProps.setProperty("log4j.appender.rootAppender",
-                "org.apache.log4j.ConsoleAppender");
-        logProps.setProperty("log4j.appender.rootAppender.layout",
-                "org.apache.log4j.PatternLayout");
-        logProps.setProperty(
-                "log4j.appender.rootAppender.layout.ConversionPattern",
-                "%5p [%c] - %m%n");
-        PropertyConfigurator.configure(logProps);
+        OrbUtils.initializeLog();
         BioFrame myFrame = new BioFrame("BioSim Malfunctions Controller", false);
         MalfunctionPanel myMalfPanel = new MalfunctionPanel();
         myFrame.getContentPane().add(myMalfPanel);

@@ -10,7 +10,7 @@ import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.simulation.air.Breath;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironmentOperations;
 import com.traclabs.biosim.server.simulation.framework.PassiveModuleImpl;
-import com.traclabs.biosim.server.util.OrbUtils;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * The SimEnvironment acts as the environment in which the crew breathes from

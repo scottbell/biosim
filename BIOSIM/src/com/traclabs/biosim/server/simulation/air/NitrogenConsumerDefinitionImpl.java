@@ -6,7 +6,7 @@ import com.traclabs.biosim.idl.simulation.air.NitrogenConsumerDefinitionOperatio
 import com.traclabs.biosim.idl.simulation.air.NitrogenConsumerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.air.NitrogenStore;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllableImpl;
-import com.traclabs.biosim.server.util.OrbUtils;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * @author Scott Bell

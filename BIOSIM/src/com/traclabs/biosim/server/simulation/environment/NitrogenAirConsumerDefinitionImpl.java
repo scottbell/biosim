@@ -6,7 +6,7 @@ import com.traclabs.biosim.idl.simulation.environment.NitrogenAirConsumerDefinit
 import com.traclabs.biosim.idl.simulation.environment.NitrogenAirConsumerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.environment.NitrogenAirConsumerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
-import com.traclabs.biosim.server.util.OrbUtils;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * @author Scott Bell

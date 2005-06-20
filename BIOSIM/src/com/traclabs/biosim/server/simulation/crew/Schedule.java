@@ -8,7 +8,7 @@ import java.util.Vector;
 
 import com.traclabs.biosim.idl.simulation.crew.Activity;
 import com.traclabs.biosim.idl.simulation.crew.ActivityHelper;
-import com.traclabs.biosim.server.util.OrbUtils;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * The Schedule dictates what each crew member shall do at what time, for how

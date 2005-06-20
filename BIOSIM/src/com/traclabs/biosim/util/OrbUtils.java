@@ -1,8 +1,10 @@
-package com.traclabs.biosim.server.util;
+package com.traclabs.biosim.util;
 
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+import org.jacorb.naming.NameServer;
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContext;
@@ -36,6 +38,12 @@ public class OrbUtils {
     private static NamingContextExt myRootContext = null;
 
     private static Properties myORBProperties;
+    
+    private static final int DEBUG_NAMESERVER_PORT = 16309;
+    
+    private static final int DEBUG_SERVER_OA_PORT = 16310;
+
+    private static final int DEBUG_CLIENT_OA_PORT = 16311;
 
     /**
      * Shouldn't be called (everything static!)
@@ -273,5 +281,46 @@ public class OrbUtils {
      */
     public static void setMyORBProperties(Properties pORBProperties) {
         myORBProperties = pORBProperties;
+    }
+    
+    public static void initializeServerForDebug(){
+        initializeForDebug(DEBUG_SERVER_OA_PORT);
+    }
+    
+    public static void initializeClientForDebug(){
+        initializeForDebug(DEBUG_CLIENT_OA_PORT);
+    }
+    
+    public static void initializeForDebug(int OAPort){
+        Properties newORBProperties = new Properties();
+        newORBProperties.setProperty("OAPort", Integer.toString(OAPort));
+        newORBProperties.setProperty("ORBInitRef.NameService", "corbaloc::localhost:" + DEBUG_NAMESERVER_PORT + "/NameService");
+        setMyORBProperties(newORBProperties);
+        resetInit();
+    }
+    
+    public static void startDebugNameServer(){
+        Thread myNamingServiceThread = new Thread(new NamingServiceThread());
+        myNamingServiceThread.start();
+    }
+    
+    public static void initializeLog(){
+        Properties logProps = new Properties();
+        logProps.setProperty("log4j.rootLogger", "INFO, rootAppender");
+        logProps.setProperty("log4j.appender.rootAppender",
+                "org.apache.log4j.ConsoleAppender");
+        logProps.setProperty("log4j.appender.rootAppender.layout",
+                "org.apache.log4j.PatternLayout");
+        logProps.setProperty(
+                "log4j.appender.rootAppender.layout.ConversionPattern",
+                "%5p [%c] - %m%n");
+        PropertyConfigurator.configure(logProps);
+    }
+    
+    private static class NamingServiceThread implements Runnable {
+        public void run() {
+            String[] portArgs = {"-DOAPort="+Integer.toString(DEBUG_NAMESERVER_PORT)};
+            NameServer.main(portArgs);
+        }
     }
 }

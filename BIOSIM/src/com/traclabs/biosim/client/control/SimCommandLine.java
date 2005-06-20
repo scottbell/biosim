@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import com.traclabs.biosim.client.util.BioHolderInitializer;
-import com.traclabs.biosim.client.util.OrbUtils;
 import com.traclabs.biosim.idl.framework.BioDriver;
 import com.traclabs.biosim.idl.framework.BioDriverHelper;
 import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
 import com.traclabs.biosim.idl.sensor.framework.GenericSensorHelper;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * Runs a CLI interface to the simulation.

@@ -6,7 +6,7 @@ import com.traclabs.biosim.idl.simulation.air.MethaneConsumerDefinitionOperation
 import com.traclabs.biosim.idl.simulation.air.MethaneConsumerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.air.MethaneStore;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllableImpl;
-import com.traclabs.biosim.server.util.OrbUtils;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * @author Scott Bell

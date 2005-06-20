@@ -4,7 +4,6 @@ import java.awt.Cursor;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
-import java.util.Properties;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -15,11 +14,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import org.apache.log4j.PropertyConfigurator;
-
 import com.traclabs.biosim.client.framework.gui.BioFrame;
 import com.traclabs.biosim.client.util.Fnorder;
 import com.traclabs.biosim.server.simulation.food.photosynthesis.Chloroplast;
+import com.traclabs.biosim.util.OrbUtils;
 
 public class PhotosynthesisPanel extends JPanel {
 
@@ -102,16 +100,7 @@ public class PhotosynthesisPanel extends JPanel {
     }
 
     public static void main(String[] args) {
-        Properties logProps = new Properties();
-        logProps.setProperty("log4j.rootLogger", "DEBUG, rootAppender");
-        logProps.setProperty("log4j.appender.rootAppender",
-                "org.apache.log4j.ConsoleAppender");
-        logProps.setProperty("log4j.appender.rootAppender.layout",
-                "org.apache.log4j.PatternLayout");
-        logProps.setProperty(
-                "log4j.appender.rootAppender.layout.ConversionPattern",
-                "%5p [%c] - %m%n");
-        PropertyConfigurator.configure(logProps);
+        OrbUtils.initializeLog();
         BioFrame myFrame = new BioFrame("Photosynthesis Model", false);
         myFrame.getContentPane().add(new PhotosynthesisPanel());
         myFrame.pack();

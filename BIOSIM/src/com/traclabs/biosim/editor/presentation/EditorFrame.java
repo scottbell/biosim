@@ -240,55 +240,55 @@ public class EditorFrame extends BioFrame {
 
         myAirToolBar = new AirToolBar();
         myModuleTabbedToolBarPane.addTab("Air",
-                createImageIcon("com/traclabs/biosim/client/air/gui/air.png"),
+                createImageIcon("com/traclabs/biosim/client/air/air.png"),
                 myAirToolBar);
         myCrewToolBar = new CrewToolBar();
         myModuleTabbedToolBarPane
                 .addTab(
                         "Crew",
-                        createImageIcon("com/traclabs/biosim/client/crew/gui/crew.png"),
+                        createImageIcon("com/traclabs/biosim/client/crew/crew.png"),
                         myCrewToolBar);
 
         myEnvironmentToolBar = new EnvironmentToolBar();
         myModuleTabbedToolBarPane
                 .addTab(
                         "Environment",
-                        createImageIcon("com/traclabs/biosim/client/environment/gui/environment.png"),
+                        createImageIcon("com/traclabs/biosim/client/environment/environment.png"),
                         myEnvironmentToolBar);
 
         myFoodToolBar = new FoodToolBar();
         myModuleTabbedToolBarPane
                 .addTab(
                         "Food",
-                        createImageIcon("com/traclabs/biosim/client/food/gui/food.png"),
+                        createImageIcon("com/traclabs/biosim/client/food/food.png"),
                         myFoodToolBar);
 
         myFrameworkToolBar = new FrameworkToolBar();
         myModuleTabbedToolBarPane
                 .addTab(
                         "Framework",
-                        createImageIcon("com/traclabs/biosim/client/framework/gui/all.png"),
+                        createImageIcon("com/traclabs/biosim/client/framework/all.png"),
                         myFrameworkToolBar);
 
         myPowerToolBar = new PowerToolBar();
         myModuleTabbedToolBarPane
                 .addTab(
                         "Power",
-                        createImageIcon("com/traclabs/biosim/client/power/gui/power.png"),
+                        createImageIcon("com/traclabs/biosim/client/power/power.png"),
                         myPowerToolBar);
 
         myWasteToolBar = new WasteToolBar();
         myModuleTabbedToolBarPane
                 .addTab(
                         "Waste",
-                        createImageIcon("com/traclabs/biosim/client/framework/gui/gear.png"),
+                        createImageIcon("com/traclabs/biosim/client/framework/gear.png"),
                         myWasteToolBar);
 
         myWaterToolBar = new WaterToolBar();
         myModuleTabbedToolBarPane
                 .addTab(
                         "Water",
-                        createImageIcon("com/traclabs/biosim/client/water/gui/water.png"),
+                        createImageIcon("com/traclabs/biosim/client/water/water.png"),
                         myWaterToolBar);
                         
     }

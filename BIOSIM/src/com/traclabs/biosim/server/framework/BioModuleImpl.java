@@ -16,7 +16,7 @@ import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.framework.StochasticIntensity;
 import com.traclabs.biosim.idl.framework.TechSpecificInfo;
-import com.traclabs.biosim.server.util.OrbUtils;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * The BioModule Implementation. Every Module should derive from this as to
