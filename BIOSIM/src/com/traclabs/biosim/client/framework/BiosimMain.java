@@ -23,6 +23,7 @@ public class BiosimMain {
 
     public BiosimMain() {
         OrbUtils.initializeLog();
+        myLogger = Logger.getLogger(BiosimMain.class);
     }
 
     /**
