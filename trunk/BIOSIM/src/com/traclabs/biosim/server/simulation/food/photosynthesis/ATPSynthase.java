@@ -61,7 +61,7 @@ public class ATPSynthase extends ActiveEnzyme {
      */
     private boolean protonThresholdMet() {
         float randomNumber = myRandomGen.nextFloat();
-        float protonThreshold = MathUtils.calculateSCurve(myLumen.getProtons().getQuantity(), PROTON_NEEDED);
+        float protonThreshold = MathUtils.calculateSCurve(myLumen.getProtons().getQuantity(), PROTON_NEEDED * 2);
         return (protonThreshold > randomNumber);
     }
 
