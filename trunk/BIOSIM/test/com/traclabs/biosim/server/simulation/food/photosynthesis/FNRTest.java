@@ -45,6 +45,9 @@ public class FNRTest extends TestCase {
         myStroma.getProtons().setQuantity(ITERATIONS_TO_RUN * 2);
         myStroma.getNADPs().setQuantity(ITERATIONS_TO_RUN * 2);
         myStroma.getNADPHs().setQuantity(0);
+        
+        float initialStromaProtonLevel = myStroma.getProtons().getQuantity() + myStroma.getNADPHs().getQuantity();
+        
         for (int i = 0; i < ITERATIONS_TO_RUN; i++) {
             //act like PS1 and reduce FDX
             myFerredoxin.reduce();
@@ -76,6 +79,9 @@ public class FNRTest extends TestCase {
             assertEquals(myStroma.getNADPs().getQuantity(), stromaNAPDLevel - 1, 0);
             assertEquals(myStroma.getNADPHs().getQuantity(), stromaNAPDHLevel + 1, 0);
         }
+        
+        float finalStromaProtonLevel = myStroma.getProtons().getQuantity() + myStroma.getNADPHs().getQuantity();
+        assertEquals(initialStromaProtonLevel, finalStromaProtonLevel, 0);
     }
 
 }

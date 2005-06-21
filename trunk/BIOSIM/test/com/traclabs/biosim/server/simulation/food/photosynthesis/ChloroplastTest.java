@@ -1,7 +1,6 @@
 /*
  * Created on Jun 20, 2005
  *
- * TODO
  */
 package com.traclabs.biosim.server.simulation.food.photosynthesis;
 
@@ -10,10 +9,9 @@ import junit.framework.TestCase;
 /**
  * @author scott
  *
- * TODO
  */
 public class ChloroplastTest extends TestCase {
-    private final static int ITERATIONS_TO_RUN = 3000;
+    private final static int ITERATIONS_TO_RUN = 2;
     private Chloroplast myChloroplast;
 
     /*
@@ -35,11 +33,21 @@ public class ChloroplastTest extends TestCase {
     public void testTick() {
         Stroma theStroma = myChloroplast.getStroma();
         Lumen theLumen = myChloroplast.getThylakoid().getLumen();
-        float initialNumberOfProtons = 2 * theLumen.getWaterMolecules().getQuantity() + theStroma.getNADPHs().getQuantity() + theStroma.getProtons().getQuantity() + theLumen.getProtons().getQuantity();
+        float initialLumenProtons = theLumen.getProtons().getQuantity();
+        float initialLumenWaterMolecules = theLumen.getWaterMolecules().getQuantity();
+        float initialStromaProtons = theStroma.getProtons().getQuantity();
+        float initialStromaNADPHs = theStroma.getNADPHs().getQuantity();
+        float initialNumberOfProtons = initialLumenProtons + initialStromaProtons + initialStromaNADPHs + (2 * initialLumenWaterMolecules);
+        
         for (int i = 0; i < ITERATIONS_TO_RUN; i++){
             myChloroplast.tick();
         }
-        float finalNumberOfProtons = 2 * theLumen.getWaterMolecules().getQuantity() + theStroma.getNADPHs().getQuantity() + theStroma.getProtons().getQuantity() + theLumen.getProtons().getQuantity();
+        float finalLumenProtons = theLumen.getProtons().getQuantity();
+        float finalLumenWaterMolecules = theLumen.getWaterMolecules().getQuantity();
+        float finalStromaProtons = theStroma.getProtons().getQuantity();
+        float finalStromaNADPHs = theStroma.getNADPHs().getQuantity();
+        float finalNumberOfProtons = finalLumenProtons + finalStromaProtons + finalStromaNADPHs + (2 * finalLumenWaterMolecules);
+        
         assertEquals(initialNumberOfProtons, finalNumberOfProtons, 0);
     }
 

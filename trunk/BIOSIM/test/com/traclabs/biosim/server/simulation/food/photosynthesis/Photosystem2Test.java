@@ -1,7 +1,6 @@
 /*
  * Created on Jun 16, 2005
  *
- * TODO
  */
 package com.traclabs.biosim.server.simulation.food.photosynthesis;
 
@@ -10,10 +9,9 @@ import junit.framework.TestCase;
 /**
  * @author scott
  * 
- * TODO
  */
 public class Photosystem2Test extends TestCase {
-    private final static int ITERATIONS_TO_RUN = 117;
+    private final static int ITERATIONS_TO_RUN = 1892;
 
     private Photosystem2 myPhotosystem2;
 
@@ -55,6 +53,12 @@ public class Photosystem2Test extends TestCase {
         myLumen.getProtons().setQuantity(0);
         myLumen.getOxygen().setQuantity(0);
         myStroma.getProtons().setQuantity(ITERATIONS_TO_RUN * 3);
+        
+        float initialStromaProtons = myStroma.getProtons().getQuantity();
+        float initialLumenProtons = myLumen.getProtons().getQuantity();
+        float initialWaterMolecules = myLumen.getWaterMolecules().getQuantity();
+        float initialProtons = initialStromaProtons + initialLumenProtons + (initialWaterMolecules * 2f);
+        
         for (int i = 0; i < ITERATIONS_TO_RUN; i++) {
             assertEquals(myPhotosystem2.isEnergized(), false);
             assertEquals(myPlastoquinone.hasProtons(), false);
@@ -92,7 +96,15 @@ public class Photosystem2Test extends TestCase {
 
             //act like Cytochrome and remove protons
             myPlastoquinone.removeElectronAndProtons();
+            myLumen.getProtons().add(2);
             myPlastoquinone.tick();
+            myLumen.tick();
         }
+        
+        float finalStromaProtons = myStroma.getProtons().getQuantity();
+        float finalLumenProtons = myLumen.getProtons().getQuantity();
+        float finalWaterMolecules = myLumen.getWaterMolecules().getQuantity();
+        float finalProtons = finalStromaProtons + finalLumenProtons + (finalWaterMolecules * 2f);
+        assertEquals(initialProtons, finalProtons, 0);
     }
 }
