@@ -1,7 +1,6 @@
 /*
  * Created on Jun 8, 2005
  *
- * TODO
  */
 package com.traclabs.biosim.server.simulation.food.photosynthesis;
 
@@ -9,7 +8,6 @@ package com.traclabs.biosim.server.simulation.food.photosynthesis;
 /**
  * @author scott
  *
- * TODO
  */
 public class Stroma extends PassiveEnzyme{
     private Chemical myProtons = new Chemical(40);
@@ -26,13 +24,6 @@ public class Stroma extends PassiveEnzyme{
         myPhosphates.update();
         myATPs.update();
         myNADPHs.update();
-        
-        myLogger.debug("Protons: " + myProtons);
-        myLogger.debug("NADPs: " + myNADPs);
-        myLogger.debug("ADPs: " + myADPs);
-        myLogger.debug("Phosphates:" + myPhosphates);
-        myLogger.debug("ATPs: " + myATPs);
-        myLogger.debug("NADPHs: " + myNADPHs);
     }
 
     /**

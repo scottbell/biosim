@@ -45,8 +45,13 @@ public class ATPSynthaseTest extends TestCase {
         myStroma.getPhosphates().setQuantity(ITERATIONS_TO_RUN * 2);
         myStroma.getATPs().setQuantity(0);
         myStroma.getProtons().setQuantity(0);
+        float initialStromaProtonLevel = myStroma.getProtons().getQuantity();
+        float initialLumenProtonLevel = myLumen.getProtons().getQuantity();
         float initialStromaPhosphateLevel = myStroma.getPhosphates().getQuantity();
         float initialStromaADPLevel = myStroma.getADPs().getQuantity();
+        float initialProtonsToAdd = ITERATIONS_TO_RUN;
+        float initialProtons = initialStromaProtonLevel + initialLumenProtonLevel + initialProtonsToAdd;
+        
         for (int i = 0; i < ITERATIONS_TO_RUN; i++) {
             myATPSynthase.tick();
             myStroma.tick();
@@ -56,17 +61,19 @@ public class ATPSynthaseTest extends TestCase {
             assertEquals(i, stromaProtonLevel + lumenProtonLevel, 0);
             myLumen.getProtons().setQuantity(myLumen.getProtons().getQuantity() + 1);
         }
-        float stromaPhosphateLevel = myStroma.getPhosphates().getQuantity();
-        float stromaADPLevel = myStroma.getADPs().getQuantity();
-        float stromaATPLevel = myStroma.getATPs().getQuantity();
-        float lumenProtonLevel = myLumen.getProtons().getQuantity();
-        float stromaProtonLevel = myStroma.getProtons().getQuantity();
+        float finalStromaPhosphateLevel = myStroma.getPhosphates().getQuantity();
+        float finalStromaADPLevel = myStroma.getADPs().getQuantity();
+        float finalStromaATPLevel = myStroma.getATPs().getQuantity();
+        float finalLumenProtonLevel = myLumen.getProtons().getQuantity();
+        float finalStromaProtonLevel = myStroma.getProtons().getQuantity();
+        float finalProtonLevel = finalLumenProtonLevel + finalStromaProtonLevel;
         
-        assertEquals(stromaADPLevel, initialStromaADPLevel - stromaATPLevel, 0);
-        assertEquals(stromaPhosphateLevel, initialStromaPhosphateLevel - stromaATPLevel, 0);
-        assertEquals(ITERATIONS_TO_RUN, stromaProtonLevel + lumenProtonLevel, 0);
+        assertEquals(finalStromaADPLevel, initialStromaADPLevel - finalStromaATPLevel, 0);
+        assertEquals(finalStromaPhosphateLevel, initialStromaPhosphateLevel - finalStromaATPLevel, 0);
+        assertEquals(ITERATIONS_TO_RUN, finalStromaProtonLevel + finalLumenProtonLevel, 0);
         
-        assertEquals(ITERATIONS_TO_RUN / stromaATPLevel, 20, 3);
+        assertEquals(ITERATIONS_TO_RUN / finalStromaATPLevel, 20, 3);
+        assertEquals(initialProtons, finalProtonLevel, 0);
     }
 
 }

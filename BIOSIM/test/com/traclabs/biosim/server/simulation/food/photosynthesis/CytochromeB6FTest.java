@@ -11,7 +11,7 @@ import junit.framework.TestCase;
  * 
  */
 public class CytochromeB6FTest extends TestCase {
-    private final static int ITERATIONS_TO_RUN = 107;
+    private final static int ITERATIONS_TO_RUN = 1107;
 
     private CytochromeB6F myCytochromeB6F;
 
@@ -51,6 +51,12 @@ public class CytochromeB6FTest extends TestCase {
     public void testTick() {
         myStroma.getProtons().setQuantity(ITERATIONS_TO_RUN * 3);
         myLumen.getProtons().setQuantity(0);
+        
+        float initialLumenProtons = myLumen.getProtons().getQuantity();
+        float initialStromaProtons = myStroma.getProtons().getQuantity();
+        float initialProtonsToAdd = ITERATIONS_TO_RUN * 2;
+        float initialProtons = initialLumenProtons + initialStromaProtons + initialProtonsToAdd;
+        
         for (int i = 0; i < ITERATIONS_TO_RUN; i++) {
             //act like PS2 and ready PQ with protons and electrons
             myPlastoquinone.addProtonsAndElectron();
@@ -91,6 +97,13 @@ public class CytochromeB6FTest extends TestCase {
             myPlastocyanin.oxidize();
             myPlastocyanin.tick();
         }
+        
+        float finalLumenProtons = myLumen.getProtons().getQuantity();
+        float finalStromaProtons = myStroma.getProtons().getQuantity();
+        float finalProtons = finalLumenProtons + finalStromaProtons;
+        
+        assertEquals(finalLumenProtons, finalLumenProtons, 0);
+       
         
     }
 
