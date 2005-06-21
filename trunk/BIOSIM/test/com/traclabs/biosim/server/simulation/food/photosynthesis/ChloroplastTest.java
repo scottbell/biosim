@@ -11,7 +11,7 @@ import junit.framework.TestCase;
  *
  */
 public class ChloroplastTest extends TestCase {
-    private final static int ITERATIONS_TO_RUN = 2;
+    private final static int ITERATIONS_TO_RUN = 10000000;
     private Chloroplast myChloroplast;
 
     /*

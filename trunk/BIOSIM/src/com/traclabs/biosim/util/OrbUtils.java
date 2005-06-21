@@ -228,6 +228,17 @@ public class OrbUtils {
         } catch (InterruptedException e) {
         }
     }
+    
+    /**
+     * Sleeps for a few seconds. Used when we can't find the naming service and
+     * need to poll again after a few seconds.
+     */
+    public static void sleepAwhile(int pMilliseconds) {
+        try {
+            Thread.sleep(pMilliseconds);
+        } catch (InterruptedException e) {
+        }
+    }
 
     /**
      * This method take a POA servant object and transforms it into a CORBA
