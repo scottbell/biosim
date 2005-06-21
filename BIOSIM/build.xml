@@ -83,7 +83,7 @@
 	<target name="stub-and-compile-idl" depends="stub-idl,compile-stubs" description="stub the IDL file">
 	</target>
 
-	<target name="build-server" depends="stub-and-compile-idl" description="compile the server">
+	<target name="build-server" depends="stub-and-compile-idl,build-util" description="compile the server">
 		<echo message="Compling the server" />
 		<javac srcdir="${src}/com/traclabs/biosim/server" destdir="${buildDir}" nowarn="yes" failonerror="yes">
 			<classpath>
@@ -100,6 +100,42 @@
 			</classpath>
 		</javac>
 	</target>
+	
+	<target name="build-framework" depends="build-server" description="compile the framework">
+			<echo message="Compling the framework" />
+			<javac srcdir="${src}/com/traclabs/biosim/framework" destdir="${buildDir}" nowarn="yes" failonerror="yes">
+				<classpath>
+					<pathelement location="${src}" />
+					<pathelement location="${buildDir}" />
+					<pathelement location="${log4jDir}/log4j.jar" />
+					<pathelement location="${log4jDir}/commons-logging.jar" />
+					<pathelement location="${jacorbDir}/jacorb.jar" />
+					<pathelement location="${jacorbDir}/avalon-framework.jar" />
+					<pathelement location="${xercesDir}/xercesImpl.jar" />
+					<pathelement location="${xercesDir}/xml-apis.jar" />
+					<pathelement location="${xercesDir}/xmlParserAPIs.jar" />
+					<pathelement location="${gefDir}/gef.jar" />
+				</classpath>
+			</javac>
+	</target>
+	
+	<target name="build-util" depends="" description="compile the util">
+				<echo message="Compling the util" />
+				<javac srcdir="${src}/com/traclabs/biosim/util" destdir="${buildDir}" nowarn="yes" failonerror="yes">
+					<classpath>
+						<pathelement location="${src}" />
+						<pathelement location="${buildDir}" />
+						<pathelement location="${log4jDir}/log4j.jar" />
+						<pathelement location="${log4jDir}/commons-logging.jar" />
+						<pathelement location="${jacorbDir}/jacorb.jar" />
+						<pathelement location="${jacorbDir}/avalon-framework.jar" />
+						<pathelement location="${xercesDir}/xercesImpl.jar" />
+						<pathelement location="${xercesDir}/xml-apis.jar" />
+						<pathelement location="${xercesDir}/xmlParserAPIs.jar" />
+						<pathelement location="${gefDir}/gef.jar" />
+					</classpath>
+				</javac>
+			</target>
 
 	<target name="build-client" depends="stub-and-compile-idl" description="compile the client">
 		<echo message="Compling the client" />
@@ -136,7 +172,7 @@
 		</javac>
 	</target>
 
-	<target name="build-win-dist" depends="build-server,build-client,init-dist, init-tmp" description="creates windows dist">
+	<target name="build-win-dist" depends="build-server,build-client,build-framework,init-dist,init-tmp" description="creates windows dist">
 		<mkdir dir="${winDistDir}" />
 		<mkdir dir="${winDistTmpDir}" />
 		<echo message="Unpacking libraries" />
@@ -353,7 +389,7 @@
 	<target name="build-all" depends="docs, build-manual, build-ga-dist, build-win-dist, build-editor" description="compile biosim, create docs">
 	</target>
 
-	<target name="build" depends="build-server,build-client, build-editor" description="builds biosim">
+	<target name="build" depends="build-server,build-client,build-editor" description="builds biosim">
 	</target>
 
 	<target name="all" depends="clean-all,build-all" description="cleans then builds everything">
