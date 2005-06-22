@@ -31,6 +31,10 @@
 	<property name="winDistDir" location="${distDir}/win" />
 	<property name="winDistLibDir" location="${lib}/dist/win" />
 	<property name="winDistTmpDir" location="${tmpDir}/win" />
+	<!-- set jnlp dist properties for this build -->
+	<property name="jnlpDistDir" location="${distDir}/jnlp" />
+	<property name="jnlpDistLibDir" location="${lib}/dist/jnlp" />
+	<property name="jnlpDistTmpDir" location="${tmpDir}/jnlp" />
 	<!-- set javadoc properties for this build -->
 	<property name="javadocDir" location="${doc}/javadoc" />
 	<!-- set users manual properties for this build -->
@@ -414,5 +418,31 @@
 		<delete dir="${distDir}" />
 		<delete dir="${javadocDir}" />
 	</target>
-
+	
+	<target name="build-jnlp-dist" depends="build-server,build-client,build-framework,init-dist,init-tmp" description="creates windows dist">
+			<mkdir dir="${jnlpDistDir}" />
+			<mkdir dir="${jnlpDistTmpDir}" />
+			<echo message="Unpacking libraries" />
+			<unzip dest="${jnlpDistTmpDir}">
+				<fileset file="${log4jDir}/log4j.jar" />
+				<fileset file="${jacorbDir}/jacorb.jar" />
+				<fileset file="${jacorbDir}/logkit.jar" />
+				<fileset file="${jacorbDir}/avalon-framework.jar" />
+				<fileset file="${xercesDir}/xercesImpl.jar" />
+				<fileset file="${xercesDir}/xml-apis.jar" />
+				<fileset file="${xercesDir}/xmlParserAPIs.jar" />
+				<fileset file="${plotDir}/jcommon.jar" />
+				<fileset file="${plotDir}/jfreechart.jar" />
+			</unzip>
+			<echo message="Create biosim jar" />
+			<jar destfile="${jnlpDistDir}/biosim.jar">
+				<fileset dir="${buildDir}" />
+				<fileset dir="${resourceDir}" />
+				<fileset dir="${jnlpDistTmpDir}">
+					<exclude name="META-INF" />
+					<exclude name="license-INF" />
+				</fileset>
+			</jar>
+		<signjar jar="${jnlpDistDir}/biosim.jar" alias="myself" keystore="${jnlpDistLibDir}/biosimKeystore" storepass="traclabs"/>
+		</target>
 </project>
