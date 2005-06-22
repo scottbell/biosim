@@ -197,9 +197,7 @@ public class MalfunctionPanel extends TimedPanel {
         if (myIcon != null)
             return;
         try {
-            myIcon = new ImageIcon(
-                    ClassLoader
-                            .getSystemClassLoader()
+            myIcon = new ImageIcon(MalfunctionPanel.class.getClassLoader()
                             .getResource(
                                     "com/traclabs/biosim/client/framework/gui/gear.gif"));
         } catch (Exception e) {

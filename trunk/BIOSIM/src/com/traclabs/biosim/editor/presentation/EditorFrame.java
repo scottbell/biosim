@@ -222,7 +222,7 @@ public class EditorFrame extends BioFrame {
 
     /** Returns an ImageIcon, or null if the path was invalid. */
     private static ImageIcon createImageIcon(String path) {
-        URL imgURL = ClassLoader.getSystemClassLoader().getResource(path);
+        URL imgURL = EditorFrame.class.getClassLoader().getResource(path);
         if (imgURL != null) {
             return new ImageIcon(imgURL);
         } else {

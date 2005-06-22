@@ -286,7 +286,7 @@ public class BioHolderInitializer {
     private static void parseFile() {
         myBioHolder.theBioDriver = BioDriverHelper
                 .narrow(grabModule("BioDriver"));
-        URL documentUrl = ClassLoader.getSystemClassLoader().getResource(
+        URL documentUrl = BioHolderInitializer.class.getClassLoader().getResource(
                 xmlLocation);
         Logger.getLogger(BioHolderInitializer.class).debug(
                 "parsing xml file: " + xmlLocation);

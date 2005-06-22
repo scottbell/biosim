@@ -39,7 +39,7 @@ public class BiosimStandalone {
     private JProgressBar myProgressBar;
 
     public static void main(String args[]) {
-        
+
         BiosimStandalone myBiosimStandalone = new BiosimStandalone();
         myBiosimStandalone.beginSimulation();
     }
@@ -51,13 +51,20 @@ public class BiosimStandalone {
         myProgressBar.setIndeterminate(true);
         myFrame = new JFrame("BioSim Loader");
         myFrame.getContentPane().setLayout(new BorderLayout());
-        ImageIcon marsIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
-                .getResource("com/traclabs/biosim/framework/mars.png"));
+        ImageIcon marsIcon = new ImageIcon(BiosimStandalone.class
+                .getClassLoader().getResource(
+                        "com/traclabs/biosim/framework/mars.png"));
+        ImageIcon biosimIcon = new ImageIcon(BiosimStandalone.class
+                .getClassLoader().getResource(
+                        "com/traclabs/biosim/client/framework/biosim.png"));
+
         JLabel waitLabel = new JLabel(
                 "BioSim: Advanced Life Support Simulation", marsIcon,
                 SwingConstants.CENTER);
-        myFrame.setUndecorated(true);
-        myFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        myFrame.setIconImage(biosimIcon.getImage());
+        myFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        WindowCloseListener myWindowCloseListener = new WindowCloseListener();
+        myFrame.addWindowListener(myWindowCloseListener);
         myFrame.getContentPane().add(waitLabel, BorderLayout.CENTER);
         myFrame.getContentPane().add(myProgressBar, BorderLayout.SOUTH);
         Dimension winsize = myFrame.getSize(), screensize = Toolkit
@@ -101,6 +108,15 @@ public class BiosimStandalone {
         public void actionPerformed(ActionEvent ae) {
             myFrame.getContentPane().setCursor(Cursor.getDefaultCursor());
             myFrame.dispose();
+        }
+    }
+    
+    /**
+     * The Window Close listener for this Frame
+     */
+    private class WindowCloseListener extends java.awt.event.WindowAdapter {
+        public void windowClosing(java.awt.event.WindowEvent event) {
+            System.exit(0);
         }
     }
 }

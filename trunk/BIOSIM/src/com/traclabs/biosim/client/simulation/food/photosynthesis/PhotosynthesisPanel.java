@@ -105,26 +105,23 @@ public class PhotosynthesisPanel extends JPanel {
         myFrame.getContentPane().add(new PhotosynthesisPanel());
         myFrame.pack();
         myFrame.setSize(800, 600);
-        ImageIcon biosimIcon = new ImageIcon(ClassLoader.getSystemResource("com/traclabs/biosim/client/food/food.png"));
+        ImageIcon biosimIcon = new ImageIcon(PhotosynthesisPanel.class.getClassLoader().getResource("com/traclabs/biosim/client/food/food.png"));
         myFrame.setIconImage(biosimIcon.getImage());
         myFrame.setVisible(true);
     }
     
     private void loadIcons(){
         myTickIcon = new ImageIcon(
-                ClassLoader
-                        .getSystemClassLoader()
+                PhotosynthesisPanel.class.getClassLoader()
                         .getResource(
                                 "com/traclabs/biosim/client/framework/forward.png"));
         myPlayIcon = new ImageIcon(
-                ClassLoader
-                        .getSystemClassLoader()
+                PhotosynthesisPanel.class.getClassLoader()
                         .getResource(
                                 "com/traclabs/biosim/client/framework/play.png"));
         
         myPauseIcon = new ImageIcon(
-                ClassLoader
-                        .getSystemClassLoader()
+                PhotosynthesisPanel.class.getClassLoader()
                         .getResource(
                                 "com/traclabs/biosim/client/framework/pause.png"));
     }
@@ -164,8 +161,7 @@ public class PhotosynthesisPanel extends JPanel {
             if (ae.getModifiers() == (ActionEvent.CTRL_MASK + 16)) {
                 Fnorder myFnord = new Fnorder();
                 String message = myFnord.getFnord();
-                ImageIcon fnordIcon = new ImageIcon(ClassLoader
-                        .getSystemResource("com/traclabs/biosim/client/framework/pyramid.png"));
+                ImageIcon fnordIcon = new ImageIcon(PhotosynthesisPanel.class.getClassLoader().getResource("com/traclabs/biosim/client/framework/pyramid.png"));
                 JOptionPane fnordPane = new JOptionPane(message,
                         JOptionPane.INFORMATION_MESSAGE,
                         JOptionPane.DEFAULT_OPTION, fnordIcon);

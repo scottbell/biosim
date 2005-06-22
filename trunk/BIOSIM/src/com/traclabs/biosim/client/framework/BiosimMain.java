@@ -11,6 +11,7 @@ import com.traclabs.biosim.client.simulation.food.photosynthesis.PhotosynthesisP
 import com.traclabs.biosim.client.simulation.framework.SimDesktop;
 import com.traclabs.biosim.client.unrealCom.UnrealCom;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.server.framework.BiosimServer;
 import com.traclabs.biosim.util.OrbUtils;
 
 /**
@@ -165,7 +166,7 @@ public class BiosimMain {
         myFrame.getContentPane().add(new PhotosynthesisPanel());
         myFrame.pack();
         myFrame.setSize(800, 600);
-        ImageIcon biosimIcon = new ImageIcon(ClassLoader.getSystemResource("com/traclabs/biosim/client/food/food.png"));
+        ImageIcon biosimIcon = new ImageIcon(BiosimMain.class.getClassLoader().getResource("com/traclabs/biosim/client/food/food.png"));
         myFrame.setIconImage(biosimIcon.getImage());
         myFrame.setVisible(true);
     }
