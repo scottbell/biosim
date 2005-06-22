@@ -37,13 +37,15 @@ public class OrbUtils {
 
     private static NamingContextExt myRootContext = null;
 
-    private static Properties myORBProperties;
+    private static Properties myCustomORBProperties;
     
     private static final int DEBUG_NAMESERVER_PORT = 16309;
     
     private static final int DEBUG_SERVER_OA_PORT = 16310;
 
     private static final int DEBUG_CLIENT_OA_PORT = 16311;
+
+    private static final String ORB_CLASS = "org.jacorb.orb.ORB";
 
     /**
      * Shouldn't be called (everything static!)
@@ -155,8 +157,12 @@ public class OrbUtils {
 
             String[] nullArgs = null;
             // create and initialize the ORB
-            if (myOrb == null)
-                myOrb = ORB.init(nullArgs, myORBProperties);
+            if (myOrb == null){
+                Properties orbProperties = new Properties();
+                orbProperties.putAll(myCustomORBProperties);
+                orbProperties.put("org.omg.CORBA.ORBClass", ORB_CLASS);
+                myOrb = ORB.init(nullArgs, orbProperties);
+            }
 
             // get reference to rootpoa & activate the POAManager
 
@@ -291,7 +297,7 @@ public class OrbUtils {
      *            The myORBProperties to set.
      */
     public static void setMyORBProperties(Properties pORBProperties) {
-        myORBProperties = pORBProperties;
+        myCustomORBProperties = pORBProperties;
     }
     
     public static void initializeServerForDebug(){
@@ -330,8 +336,10 @@ public class OrbUtils {
     
     private static class NamingServiceThread implements Runnable {
         public void run() {
-            String[] portArgs = {"-DOAPort="+Integer.toString(DEBUG_NAMESERVER_PORT)};
-            NameServer.main(portArgs);
+            String portArg = "-DOAPort=" + Integer.toString(DEBUG_NAMESERVER_PORT);
+            String ORBArg = "-Dorg.omg.CORBA.ORBClass=" + ORB_CLASS;
+            String[] nameServerArgs = {portArg, ORBArg};
+            NameServer.main(nameServerArgs);
         }
     }
 }

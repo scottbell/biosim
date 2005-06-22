@@ -39,6 +39,7 @@ public class BiosimStandalone {
     private JProgressBar myProgressBar;
 
     public static void main(String args[]) {
+        
         BiosimStandalone myBiosimStandalone = new BiosimStandalone();
         myBiosimStandalone.beginSimulation();
     }
