@@ -51,7 +51,7 @@ public class BiosimStandalone {
         myFrame = new JFrame("BioSim Loader");
         myFrame.getContentPane().setLayout(new BorderLayout());
         ImageIcon marsIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
-                .getResource("com/traclabs/biosim/framework/mars.png"));
+                .getResource("mars.png"));
         JLabel waitLabel = new JLabel(
                 "BioSim: Advanced Life Support Simulation", marsIcon,
                 SwingConstants.CENTER);
