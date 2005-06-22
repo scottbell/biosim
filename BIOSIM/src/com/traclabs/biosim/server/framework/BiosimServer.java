@@ -12,7 +12,7 @@ import java.net.URL;
 public class BiosimServer extends GenericServer {
 
     public BiosimServer(int id, int stutterLength, String xmlLocation) {
-        URL documentUrl = ClassLoader.getSystemClassLoader().getResource(
+        URL documentUrl = BiosimServer.class.getClassLoader().getResource(
                 xmlLocation);
         if (documentUrl == null) {
             myLogger.error("Couldn't find init xml file: " + xmlLocation);

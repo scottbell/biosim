@@ -26,9 +26,7 @@ public class BiosimEditorMain {
         ResourceLoader.addResourceExtension("png");
         ResourceLoader.addResourceLocation("/org/tigris/gef/Images");
 
-        ImageIcon biosimIcon = new ImageIcon(
-                ClassLoader
-                        .getSystemClassLoader()
+        ImageIcon biosimIcon = new ImageIcon(BiosimEditorMain.class.getClassLoader()
                         .getResource(
                                 "com/traclabs/biosim/client/framework/biosim.png"));
 

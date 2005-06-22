@@ -390,66 +390,48 @@ public class SimDesktop extends BioFrame {
      */
     private void loadIcons() {
         try {
-            waterIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
+            waterIcon = new ImageIcon(SimDesktop.class.getClassLoader()
                     .getResource(
                             "com/traclabs/biosim/client/water/water.png"));
             foodIcon = new ImageIcon(
-                    ClassLoader.getSystemClassLoader().getResource(
+                    SimDesktop.class.getClassLoader().getResource(
                             "com/traclabs/biosim/client/food/food.png"));
-            powerIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
+            powerIcon = new ImageIcon(SimDesktop.class.getClassLoader()
                     .getResource(
                             "com/traclabs/biosim/client/power/power.png"));
             crewIcon = new ImageIcon(
-                    ClassLoader.getSystemClassLoader().getResource(
+                    SimDesktop.class.getClassLoader().getResource(
                             "com/traclabs/biosim/client/crew/crew.png"));
-            environmentIcon = new ImageIcon(
-                    ClassLoader
-                            .getSystemClassLoader()
+            environmentIcon = new ImageIcon(SimDesktop.class.getClassLoader()
                             .getResource(
                                     "com/traclabs/biosim/client/environment/environment.png"));
-            airIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
+            airIcon = new ImageIcon(SimDesktop.class.getClassLoader()
                     .getResource("com/traclabs/biosim/client/air/air.png"));
-            allIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
+            allIcon = new ImageIcon(SimDesktop.class.getClassLoader()
                     .getResource(
                             "com/traclabs/biosim/client/framework/all.png"));
-            startIcon = new ImageIcon(
-                    ClassLoader
-                            .getSystemClassLoader()
+            startIcon = new ImageIcon(SimDesktop.class.getClassLoader()
                             .getResource(
                                     "com/traclabs/biosim/client/framework/start.png"));
-            playIcon = new ImageIcon(
-                    ClassLoader
-                            .getSystemClassLoader()
+            playIcon = new ImageIcon(SimDesktop.class.getClassLoader()
                             .getResource(
                                     "com/traclabs/biosim/client/framework/play.png"));
-            stopIcon = new ImageIcon(
-                    ClassLoader
-                            .getSystemClassLoader()
+            stopIcon = new ImageIcon(SimDesktop.class.getClassLoader()
                             .getResource(
                                     "com/traclabs/biosim/client/framework/stop.png"));
-            pauseIcon = new ImageIcon(
-                    ClassLoader
-                            .getSystemClassLoader()
+            pauseIcon = new ImageIcon(SimDesktop.class.getClassLoader()
                             .getResource(
                                     "com/traclabs/biosim/client/framework/pause.png"));
-            forwardIcon = new ImageIcon(
-                    ClassLoader
-                            .getSystemClassLoader()
+            forwardIcon = new ImageIcon(SimDesktop.class.getClassLoader()
                             .getResource(
                                     "com/traclabs/biosim/client/framework/forward.png"));
-            biosimIcon = new ImageIcon(
-                    ClassLoader
-                            .getSystemClassLoader()
+            biosimIcon = new ImageIcon(SimDesktop.class.getClassLoader()
                             .getResource(
                                     "com/traclabs/biosim/client/framework/biosim.png"));
-            malfunctionIcon = new ImageIcon(
-                    ClassLoader
-                            .getSystemClassLoader()
+            malfunctionIcon = new ImageIcon(SimDesktop.class.getClassLoader()
                             .getResource(
                                     "com/traclabs/biosim/client/framework/gear.png"));
-            stochasticIcon = new ImageIcon(
-                    ClassLoader
-                            .getSystemClassLoader()
+            stochasticIcon = new ImageIcon(SimDesktop.class.getClassLoader()
                             .getResource(
                                     "com/traclabs/biosim/client/framework/dice.png"));
         } catch (Exception e) {
@@ -529,9 +511,6 @@ public class SimDesktop extends BioFrame {
      * exiting.
      */
     protected void frameExiting() {
-        /*
-         * if (myDriver.simulationHasStarted()) myDriver.endSimulation();
-         */
     }
 
     /**
@@ -780,9 +759,7 @@ public class SimDesktop extends BioFrame {
             if (ae.getModifiers() == (ActionEvent.CTRL_MASK + 16)) {
                 com.traclabs.biosim.client.util.Fnorder myFnord = new Fnorder();
                 String message = myFnord.getFnord();
-                ImageIcon fnordIcon = new ImageIcon(
-                        ClassLoader
-                                .getSystemResource("com/traclabs/biosim/client/framework/pyramid.png"));
+                ImageIcon fnordIcon = new ImageIcon(SimDesktop.class.getClassLoader().getResource("com/traclabs/biosim/client/framework/pyramid.png"));
                 JOptionPane fnordPane = new JOptionPane(message,
                         JOptionPane.INFORMATION_MESSAGE,
                         JOptionPane.DEFAULT_OPTION, fnordIcon);

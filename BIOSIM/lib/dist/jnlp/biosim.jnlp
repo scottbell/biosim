@@ -11,6 +11,8 @@
     <homepage href="http://www.traclabs.com/biosim"/>
     <description kind="short">A dynamic life support simulation.</description>
     <description>A dynamic life support simulation.</description>
+	<icon href="biosim.gif"/>
+	<offline-allowed/>
   </information>
   <security>
     <all-permissions/>

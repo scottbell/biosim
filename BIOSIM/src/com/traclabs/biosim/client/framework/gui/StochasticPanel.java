@@ -122,7 +122,7 @@ public class StochasticPanel extends TimedPanel {
         if (myIcon != null)
             return;
         try {
-            myIcon = new ImageIcon(ClassLoader.getSystemClassLoader()
+            myIcon = new ImageIcon(StochasticPanel.class.getClassLoader()
                     .getResource("biosim/client/framework/gui/dice.jpg"));
         } catch (Exception e) {
             myLogger.debug("Couldn't find icon (" + e + "), skipping");
