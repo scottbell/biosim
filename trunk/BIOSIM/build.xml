@@ -412,10 +412,10 @@
 		<delete dir="${buildDir}" />
 		<delete dir="${stubsDir}" />
 		<delete dir="${tmpDir}" />
+		<delete dir="${distDir}" />
 	</target>
 
 	<target name="clean-all" depends="clean" description="clean up everything (docs, dists)">
-		<delete dir="${distDir}" />
 		<delete dir="${javadocDir}" />
 	</target>
 	
@@ -435,7 +435,7 @@
 				<fileset file="${plotDir}/jfreechart.jar" />
 			</unzip>
 			<echo message="Create biosim jar" />
-			<jar destfile="${jnlpDistDir}/biosim.jar">
+			<jar destfile="${jnlpDistDir}/biosim.jar" manifest="${jnlpDistLibDir}/MANIFEST.MF">
 				<fileset dir="${buildDir}" />
 				<fileset dir="${resourceDir}" />
 				<fileset dir="${jnlpDistTmpDir}">
@@ -443,6 +443,6 @@
 					<exclude name="license-INF" />
 				</fileset>
 			</jar>
-		<signjar jar="${jnlpDistDir}/biosim.jar" alias="myself" keystore="${jnlpDistLibDir}/biosimKeystore" storepass="traclabs"/>
+		<!-- <signjar jar="${jnlpDistDir}/biosim.jar" alias="myself" keystore="${jnlpDistLibDir}/biosimKeystore" storepass="traclabs"/> -->
 		</target>
 </project>
