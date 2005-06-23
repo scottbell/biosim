@@ -115,8 +115,8 @@ public class ModulePanel extends JPanel {
         if (myTabbedPane.getSelectedIndex() == 3)
             currentName = (String) (myAllModulesList.getSelectedValue());
         myLogger.debug("module selected = " + currentName);
-        return ((BioModule) (BioHolderInitializer.getBioHolder().theModulesMapped
-                .get(currentName)));
+        return (BioHolderInitializer.getBioHolder().theModulesMapped
+                .get(currentName));
     }
 
     private void notifyListeners() {

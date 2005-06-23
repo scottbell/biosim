@@ -11,6 +11,7 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.tigris.gef.base.Editor;
 import org.tigris.gef.base.Layer;
@@ -162,8 +163,8 @@ public class EditorLayer extends LayerPerspective {
     /**
      * Returns all fig nodes that do not have input connections.
      */
-    public java.util.List findInputs() {
-        java.util.List result = new ArrayList();
+    public List findInputs() {
+        List<FigModuleNode> result = new ArrayList<FigModuleNode>();
         Collection contents = getContents(null);
 
         Iterator i = contents.iterator();

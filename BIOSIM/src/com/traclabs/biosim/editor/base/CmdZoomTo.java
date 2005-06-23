@@ -32,7 +32,7 @@ public class CmdZoomTo extends Cmd {
     }
 
     public void doIt() {
-        Editor ed = (Editor) Globals.curEditor();
+        Editor ed = Globals.curEditor();
         if (ed == null)
             return;
 

@@ -53,9 +53,9 @@ esac
 echo "	-starting servers"
 case $userSelect in
 	"-?") echo -e "]\nOptions include -id=(int) -xml=(string) -name=(string)\r\nExample: run-server.sh -id=3 -xml=/home/scott/init.xml";;
-	"-id"*) echo "			-assuming all (id user specified)";$jacoInvocation $frameworkName $1 $2 $3;;
-	"-xml"*) echo "			-assuming all (xml init user specified)";$jacoInvocation $frameworkName $1 $2 $3;;
-	*) echo "			-assuming all";$jacoInvocation $frameworkName $1 $2 $3;;
+	"-id"*) echo "			-server start (id user specified)";$jacoInvocation $frameworkName $1 $2 $3;;
+	"-xml"*) echo "			-server start (xml init user specified)";$jacoInvocation $frameworkName $1 $2 $3;;
+	*) echo "			-server start";$jacoInvocation $frameworkName $1 $2 $3;;
 esac
 echo "*done invoking servers"
 

@@ -36,7 +36,7 @@ public class CmdOpenEditor extends Cmd {
                 // Prompt to save changes if this is the only editor
                 // open on the document and the document has been modified.
 
-                if (_cmdSave.promptSave((BiosimEditor) ce)) {
+                if (_cmdSave.promptSave(ce)) {
                     doc.openDocument(file);
                     ce.document(doc);
                 }

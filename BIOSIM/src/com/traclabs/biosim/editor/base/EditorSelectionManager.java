@@ -13,18 +13,14 @@ import java.util.Vector;
 
 import javax.swing.JComponent;
 
-import org.apache.log4j.Logger;
 import org.tigris.gef.base.Selection;
 import org.tigris.gef.base.SelectionManager;
 import org.tigris.gef.presentation.Handle;
 
 public class EditorSelectionManager extends SelectionManager {
-    
-    private Logger myLogger;
 
     public EditorSelectionManager(BiosimEditor editor) {
         super(editor);
-        myLogger = Logger.getLogger(EditorSelectionManager.class);
     }
     
     public void drag(int dx, int dy) {

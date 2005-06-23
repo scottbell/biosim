@@ -27,11 +27,11 @@ public class EditorPort extends NetPort implements Serializable {
      * Remove this port from the underlying connected graph model and dispose
      * all arcs connected to it.
      */
-    public void dispose() {
+	public void dispose() {
         ArrayList edgeClone = new ArrayList(getEdges());
         int edgeCount = edgeClone.size();
         for (int edgeIndex = 0; edgeIndex < edgeCount; ++edgeIndex) {
-            NetEdge e = (NetEdge) edgeClone.get(edgeIndex);
+            NetEdge e = (NetEdge)(edgeClone.get(edgeIndex));
             e.deleteFromModel();
         }
 

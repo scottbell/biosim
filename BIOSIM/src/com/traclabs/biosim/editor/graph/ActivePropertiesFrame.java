@@ -14,13 +14,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.apache.log4j.Logger;
-
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 
 
 class ActivePropertiesFrame extends JFrame {
-    private Logger myLogger;
     
     private JTextField myNameField;
     
@@ -31,10 +28,9 @@ class ActivePropertiesFrame extends JFrame {
     private FigActiveNode myFigActiveNode;
 
     public ActivePropertiesFrame(FigActiveNode pNode) {
-        myLogger = Logger.getLogger(ActivePropertiesFrame.class);
         myFigActiveNode = pNode;
         ModuleNode owner = (ModuleNode) pNode.getOwner();
-        mySimBioModuleImpl = (SimBioModuleImpl) owner.getSimBioModuleImpl();
+        mySimBioModuleImpl = owner.getSimBioModuleImpl();
         myNameField = new JTextField(mySimBioModuleImpl.getModuleName());
         myOKButton = new JButton(new OKAction());
 

@@ -25,7 +25,6 @@ public class EditorCmdExit extends Cmd {
     public void doIt() {
         if (_frame != null) {
             BiosimEditor ed = (BiosimEditor) _frame.getEditor();
-            EditorDocument doc = (EditorDocument) ed.document();
             if (_cmd.promptSave(ed)) {
                 _frame.exit();
             }
