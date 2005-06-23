@@ -31,6 +31,10 @@ public class Photosystem2 extends ActiveEnzyme{
             myLumen.getProtons().add(WATER_MOLECULES_NEEDED * 2);
             myLumen.getOxygen().add(WATER_MOLECULES_NEEDED / 2);
             energized = true;
+            myLogger.debug("hydrolyzed!");
+        }
+        else{
+            myLumen.getWaterMolecules().add(waterMoleculesTaken);
         }
     }
     
@@ -50,6 +54,10 @@ public class Photosystem2 extends ActiveEnzyme{
             if (protonsTaken == PROTONS_NEEDED){
                 myPlastoquinone.addProtonsAndElectron();
                 energized = false;
+                myLogger.debug("reduced plastoquinone!");
+            }
+            else{
+                myStroma.getProtons().add(protonsTaken);
             }
         }
     }

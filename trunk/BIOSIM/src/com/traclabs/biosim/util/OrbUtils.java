@@ -321,9 +321,12 @@ public class OrbUtils {
         myNamingServiceThread.start();
     }
     
-    public static void initializeLog(){
+    public static void initializeLog(boolean pDebug){
         Properties logProps = new Properties();
-        logProps.setProperty("log4j.rootLogger", "INFO, rootAppender");
+        if (pDebug)
+            logProps.setProperty("log4j.rootLogger", "DEBUG, rootAppender");
+        else
+            logProps.setProperty("log4j.rootLogger", "INFO, rootAppender");
         logProps.setProperty("log4j.appender.rootAppender",
                 "org.apache.log4j.ConsoleAppender");
         logProps.setProperty("log4j.appender.rootAppender.layout",
@@ -332,6 +335,10 @@ public class OrbUtils {
                 "log4j.appender.rootAppender.layout.ConversionPattern",
                 "%5p [%c] - %m%n");
         PropertyConfigurator.configure(logProps);
+    }
+    
+    public static void initializeLog(){
+        initializeLog(false);
     }
     
     private static class NamingServiceThread implements Runnable {

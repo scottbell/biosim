@@ -46,7 +46,7 @@ public class PhotosynthesisPanel extends JPanel {
 
     private ImageIcon myTickIcon;
     
-    private final static int TICK_DELAY = 600;
+    private final static int TICK_DELAY = 200;
 
     public PhotosynthesisPanel() {
         buildGUI();

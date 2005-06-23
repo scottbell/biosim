@@ -6,19 +6,26 @@ package com.traclabs.biosim.server.simulation.food.photosynthesis;
 
 import junit.framework.TestCase;
 
+import org.apache.log4j.Logger;
+
+import com.traclabs.biosim.util.OrbUtils;
+
 /**
  * @author scott
  *
  */
 public class ChloroplastTest extends TestCase {
-    private final static int ITERATIONS_TO_RUN = 10000000;
+    private final static int ITERATIONS_TO_RUN = 104;
     private Chloroplast myChloroplast;
+    private Logger myLogger;
 
     /*
      * @see TestCase#setUp()
      */
     protected void setUp() throws Exception {
+        OrbUtils.initializeLog(true);
         super.setUp();
+        myLogger = Logger.getLogger(ChloroplastTest.class);
         myChloroplast = new Chloroplast();
     }
 
@@ -31,24 +38,38 @@ public class ChloroplastTest extends TestCase {
     }
 
     public void testTick() {
-        Stroma theStroma = myChloroplast.getStroma();
-        Lumen theLumen = myChloroplast.getThylakoid().getLumen();
-        float initialLumenProtons = theLumen.getProtons().getQuantity();
-        float initialLumenWaterMolecules = theLumen.getWaterMolecules().getQuantity();
-        float initialStromaProtons = theStroma.getProtons().getQuantity();
-        float initialStromaNADPHs = theStroma.getNADPHs().getQuantity();
-        float initialNumberOfProtons = initialLumenProtons + initialStromaProtons + initialStromaNADPHs + (2 * initialLumenWaterMolecules);
+        float initialNumberOfProtons = countProtons();
         
         for (int i = 0; i < ITERATIONS_TO_RUN; i++){
             myChloroplast.tick();
+            float currentNumberOfProtons = countProtons();
+            assertEquals(initialNumberOfProtons, currentNumberOfProtons, 0);
         }
-        float finalLumenProtons = theLumen.getProtons().getQuantity();
-        float finalLumenWaterMolecules = theLumen.getWaterMolecules().getQuantity();
-        float finalStromaProtons = theStroma.getProtons().getQuantity();
-        float finalStromaNADPHs = theStroma.getNADPHs().getQuantity();
-        float finalNumberOfProtons = finalLumenProtons + finalStromaProtons + finalStromaNADPHs + (2 * finalLumenWaterMolecules);
+        float finalNumberOfProtons = countProtons();
         
         assertEquals(initialNumberOfProtons, finalNumberOfProtons, 0);
+    }
+    
+    private float countProtons(){
+        Stroma theStroma = myChloroplast.getStroma();
+        Lumen theLumen = myChloroplast.getThylakoid().getLumen();
+        Plastoquinone thePlastoquinone = myChloroplast.getThylakoid().getMembrane().getPlastoquinone();
+        float lumenProtons = theLumen.getProtons().getQuantity();
+        float lumenWaterMolecules = theLumen.getWaterMolecules().getQuantity();
+        float stromaProtons = theStroma.getProtons().getQuantity();
+        float stromaNADPHs = theStroma.getNADPHs().getQuantity();
+        float plastoquinoneProtons = 0f;
+        if (thePlastoquinone.hasProtons())
+            plastoquinoneProtons = 2;
+        float totalProtons = plastoquinoneProtons + lumenProtons + stromaProtons + stromaNADPHs + (2 * lumenWaterMolecules);
+        myLogger.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        myLogger.debug("lumenProtons = "+lumenProtons);
+        myLogger.debug("lumenWaterMolecules = "+lumenWaterMolecules);
+        myLogger.debug("stromaProtons = "+stromaProtons);
+        myLogger.debug("stromaNADPHs = "+stromaNADPHs);
+        myLogger.debug("plastoquinoneProtons = "+plastoquinoneProtons);
+        myLogger.debug("totalProtons = "+totalProtons);
+        return totalProtons;
     }
 
 }
