@@ -2,9 +2,7 @@ package com.traclabs.biosim.client.simulation.food.photosynthesis;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.text.DecimalFormat;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.jfree.chart.ChartFactory;
@@ -22,15 +20,9 @@ import com.traclabs.biosim.server.simulation.food.photosynthesis.Stroma;
 public class StromaPanel extends JPanel {
     private int ticks = 0;
 
-    private JPanel myDataPanel;
-
-    private JLabel[] myDataLabels;
-
     private ChartPanel myChartPanel;
 
     private JFreeChart myChart;
-
-    private DecimalFormat numFormat;
 
     private XYSeries myProtonsSeries = new XYSeries("Protons");
 
@@ -50,14 +42,12 @@ public class StromaPanel extends JPanel {
 
     public StromaPanel(Stroma pStroma) {
         myStroma = pStroma;
-        numFormat = new DecimalFormat("#,##0.00;(#)");
         buildFullGUI();
     }
 
     private void buildFullGUI() {
         //Chart Panel
         setLayout(new BorderLayout());
-        XYSeries series = new XYSeries("Stroma Conditions");
         myData = new XYSeriesCollection(myProtonsSeries);
         myData.addSeries(myNADPSeries);
         myData.addSeries(myADPSeries);

@@ -20,9 +20,9 @@ public class EnvironmentDualTextPanel extends UpdatablePanel {
     public EnvironmentDualTextPanel() {
         setLayout(new GridLayout(1, 2));
         BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
-        SimEnvironment myCrewEnvironment = (SimEnvironment) (myBioHolder.theSimEnvironments
+        SimEnvironment myCrewEnvironment = (myBioHolder.theSimEnvironments
                 .get(0));
-        SimEnvironment myPlantEnvironment = (SimEnvironment) (myBioHolder.theSimEnvironments
+        SimEnvironment myPlantEnvironment = (myBioHolder.theSimEnvironments
                 .get(1));
         myCrewEnvironmentTextPanel = new EnvironmentTextPanel(myCrewEnvironment);
         myPlantEnvironmentTextPanel = new EnvironmentTextPanel(

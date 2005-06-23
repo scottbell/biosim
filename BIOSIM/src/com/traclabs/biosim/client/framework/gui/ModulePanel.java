@@ -42,10 +42,10 @@ public class ModulePanel extends JPanel {
 
     private Logger myLogger;
 
-    private List myListeners;
+    private List<ModuleSelectionListener> myListeners;
 
     public ModulePanel() {
-        myListeners = new Vector();
+        myListeners = new Vector<ModuleSelectionListener>();
         myLogger = Logger.getLogger(ModulePanel.class);
 
         String[] myAllModuleNames = BioHolderInitializer.getBioHolder().theBioDriver

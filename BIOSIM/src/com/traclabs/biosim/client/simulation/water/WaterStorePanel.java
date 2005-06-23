@@ -39,11 +39,11 @@ public class WaterStorePanel extends GraphPanel {
     protected void createGraph() {
         // create the chart...
         BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
-        myPotableWaterStore = (PotableWaterStore) (myBioHolder.thePotableWaterStores
+        myPotableWaterStore = (myBioHolder.thePotableWaterStores
                 .get(0));
-        myDirtyWaterStore = (DirtyWaterStore) (myBioHolder.theDirtyWaterStores
+        myDirtyWaterStore = (myBioHolder.theDirtyWaterStores
                 .get(0));
-        myGreyWaterStore = (GreyWaterStore) (myBioHolder.theGreyWaterStores
+        myGreyWaterStore = (myBioHolder.theGreyWaterStores
                 .get(0));
         refresh();
         JFreeChart myChart = ChartFactory.createBarChart3D(
@@ -62,7 +62,7 @@ public class WaterStorePanel extends GraphPanel {
         renderer.setSeriesPaint(0, Color.BLUE);
         renderer.setSeriesPaint(1, Color.GRAY);
         renderer.setSeriesPaint(2, Color.YELLOW);
-        TextTitle myTextTitle = (TextTitle) (myChart.getTitle());
+        TextTitle myTextTitle = (myChart.getTitle());
         myTextTitle.setFont(myTextTitle.getFont().deriveFont(13.0f));
         myChartPanel = new ChartPanel(myChart);
         myChartPanel.setMinimumDrawHeight(300);

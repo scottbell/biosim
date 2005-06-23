@@ -94,12 +94,12 @@ public class EnvironAirMonitor extends Thread {
 
         if (isCrewEnv) {
             cmdPrefix = cmdPrefix.concat("Crew ");
-            mySimEnvironment = (SimEnvironment) (myBioHolder.theSimEnvironments
+            mySimEnvironment = (myBioHolder.theSimEnvironments
                     .get(0));
 
         } else {
             cmdPrefix = cmdPrefix.concat("BioMass ");
-            mySimEnvironment = (SimEnvironment) (myBioHolder.theSimEnvironments
+            mySimEnvironment = (myBioHolder.theSimEnvironments
                     .get(1));
         }
 
@@ -124,12 +124,12 @@ public class EnvironAirMonitor extends Thread {
 
         if (isCrewEnv) {
             cmdPrefix = cmdPrefix.concat("Crew ");
-            mySimEnvironment = (SimEnvironment) (myBioHolder.theSimEnvironments
+            mySimEnvironment = (myBioHolder.theSimEnvironments
                     .get(0));
 
         } else {
             cmdPrefix = cmdPrefix.concat("BioMass ");
-            mySimEnvironment = (SimEnvironment) (myBioHolder.theSimEnvironments
+            mySimEnvironment = (myBioHolder.theSimEnvironments
                     .get(1));
         }
 

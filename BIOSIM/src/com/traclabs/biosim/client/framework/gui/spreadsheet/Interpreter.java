@@ -46,11 +46,11 @@ class Interpreter {
     class InterpreterEvent extends Throwable {
         public InterpreterEvent() {
             super();
-        };
+        }
 
         public InterpreterEvent(String s) {
             super(s);
-        };
+        }
     }
 
     /**
@@ -59,23 +59,23 @@ class Interpreter {
     class SyntaxError extends InterpreterEvent {
         public SyntaxError() {
             super();
-        };
+        }
 
         public SyntaxError(String s) {
             super(s);
-        };
+        }
     }
 
     class SyntagmaMismatch extends InterpreterEvent {
         public SyntagmaMismatch() {
             super();
-        };
+        }
     }
 
     class EndFormula extends InterpreterEvent {
         public EndFormula() {
             super();
-        };
+        }
     }
 
     class EmptyReference extends InterpreterEvent {
@@ -170,7 +170,7 @@ class Interpreter {
             }
 
             if (_noEmptyRef)
-                cell.value = (Object) value.toString();
+                cell.value = value.toString();
             else
                 cell.value = null;
 
@@ -301,8 +301,7 @@ class Interpreter {
             _depth--;
             if (_noEmptyRef)
                 return new Float(res);
-            else
-                return null;
+            return null;
 
         }
 
@@ -311,9 +310,7 @@ class Interpreter {
             myLogger.debug("Looking for a TERM");
 
             try {
-                String parenthesis = (String) accept(OPENPAR);
                 value = (Float) accept(FORMULA);
-                parenthesis = (String) accept(CLOSEPAR);
             } catch (SyntagmaMismatch evt) {
                 _depth--;
                 try {
@@ -479,7 +476,7 @@ class Interpreter {
      * Read a single word on the left of the unevaluated part of the formula and
      * stores it into _leaf
      */
-    private void readLeaf() throws SyntagmaMismatch, EndFormula {
+    private void readLeaf() throws EndFormula {
 
         if (_formula.length() == 0)
             throw new EndFormula();

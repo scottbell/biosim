@@ -36,8 +36,8 @@ public class FoodStorePanel extends GraphPanel {
     protected void createGraph() {
         // create the chart...
         BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
-        myBiomassStore = (BiomassStore) (myBioHolder.theBiomassStores.get(0));
-        myFoodStore = (FoodStore) (myBioHolder.theFoodStores.get(0));
+        myBiomassStore = (myBioHolder.theBiomassStores.get(0));
+        myFoodStore = (myBioHolder.theFoodStores.get(0));
         refresh();
         JFreeChart myChart = ChartFactory.createBarChart3D("Food Store Levels", // chart
                 // title
@@ -54,7 +54,7 @@ public class FoodStorePanel extends GraphPanel {
         CategoryItemRenderer renderer = myPlot.getRenderer();
         renderer.setSeriesPaint(0, new Color(51, 153, 51));
         renderer.setSeriesPaint(1, new Color(204, 204, 0));
-        TextTitle myTextTitle = (TextTitle) (myChart.getTitle());
+        TextTitle myTextTitle = (myChart.getTitle());
         myTextTitle.setFont(myTextTitle.getFont().deriveFont(13.0f));
         myChartPanel = new ChartPanel(myChart);
         myChartPanel.setMinimumDrawHeight(300);

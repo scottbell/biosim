@@ -42,11 +42,6 @@ class SpreadSheetModel extends AbstractTableModel {
         interpreter = new Interpreter(this);
     }
 
-    private void clean() {
-        _nbRow = _nbColumn = 0;
-        cells = null;
-    }
-
     public int getRowCount() {
         return _nbRow;
     }

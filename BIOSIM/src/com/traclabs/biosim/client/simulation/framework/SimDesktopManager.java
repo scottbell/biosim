@@ -39,7 +39,7 @@ public class SimDesktopManager extends DefaultDesktopManager {
     }
 
     private LinkedList getOpenFrames() {
-        LinkedList openFrames = new LinkedList();
+        LinkedList<JInternalFrame> openFrames = new LinkedList<JInternalFrame>();
         Map framesMap = desktop.getInternalFrames();
         if (framesMap.size() == 0) {
             return openFrames;

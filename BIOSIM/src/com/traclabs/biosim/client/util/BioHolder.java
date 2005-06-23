@@ -12,11 +12,108 @@ import com.traclabs.biosim.idl.actuator.food.ShelfActuator;
 import com.traclabs.biosim.idl.actuator.framework.GenericActuator;
 import com.traclabs.biosim.idl.framework.BioDriver;
 import com.traclabs.biosim.idl.framework.BioModule;
+import com.traclabs.biosim.idl.sensor.air.CO2InFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.air.CO2OutFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.air.CO2StoreLevelSensor;
+import com.traclabs.biosim.idl.sensor.air.H2InFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.air.H2OutFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.air.H2StoreLevelSensor;
+import com.traclabs.biosim.idl.sensor.air.NitrogenInFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.air.NitrogenOutFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.air.NitrogenStoreLevelSensor;
+import com.traclabs.biosim.idl.sensor.air.O2InFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.air.O2OutFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.air.O2StoreLevelSensor;
+import com.traclabs.biosim.idl.sensor.crew.CrewGroupAnyDeadSensor;
+import com.traclabs.biosim.idl.sensor.crew.CrewGroupDeathSensor;
+import com.traclabs.biosim.idl.sensor.crew.CrewGroupProductivitySensor;
+import com.traclabs.biosim.idl.sensor.environment.AirInFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.environment.AirOutFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.environment.CO2AirConcentrationSensor;
+import com.traclabs.biosim.idl.sensor.environment.CO2AirEnvironmentInFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.environment.CO2AirEnvironmentOutFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.environment.CO2AirPressureSensor;
+import com.traclabs.biosim.idl.sensor.environment.CO2AirStoreInFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.environment.CO2AirStoreOutFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.environment.NitrogenAirConcentrationSensor;
+import com.traclabs.biosim.idl.sensor.environment.NitrogenAirEnvironmentInFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.environment.NitrogenAirEnvironmentOutFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.environment.NitrogenAirPressureSensor;
+import com.traclabs.biosim.idl.sensor.environment.NitrogenAirStoreInFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.environment.NitrogenAirStoreOutFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.environment.O2AirConcentrationSensor;
+import com.traclabs.biosim.idl.sensor.environment.O2AirEnvironmentInFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.environment.O2AirEnvironmentOutFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.environment.O2AirPressureSensor;
+import com.traclabs.biosim.idl.sensor.environment.O2AirStoreInFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.environment.O2AirStoreOutFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.environment.OtherAirConcentrationSensor;
+import com.traclabs.biosim.idl.sensor.environment.OtherAirPressureSensor;
+import com.traclabs.biosim.idl.sensor.environment.WaterAirConcentrationSensor;
+import com.traclabs.biosim.idl.sensor.environment.WaterAirEnvironmentInFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.environment.WaterAirEnvironmentOutFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.environment.WaterAirPressureSensor;
+import com.traclabs.biosim.idl.sensor.environment.WaterAirStoreInFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.environment.WaterAirStoreOutFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.food.BiomassInFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.food.BiomassOutFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.food.BiomassStoreLevelSensor;
+import com.traclabs.biosim.idl.sensor.food.BiomassStoreWaterContentSensor;
+import com.traclabs.biosim.idl.sensor.food.FoodInFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.food.FoodOutFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.food.FoodStoreLevelSensor;
+import com.traclabs.biosim.idl.sensor.food.HarvestSensor;
+import com.traclabs.biosim.idl.sensor.food.PlantDeathSensor;
 import com.traclabs.biosim.idl.sensor.food.ShelfSensor;
 import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
+import com.traclabs.biosim.idl.sensor.framework.StoreLevelSensor;
+import com.traclabs.biosim.idl.sensor.framework.StoreOverflowSensor;
+import com.traclabs.biosim.idl.sensor.power.PowerInFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.power.PowerOutFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.power.PowerStoreLevelSensor;
+import com.traclabs.biosim.idl.sensor.waste.DryWasteInFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.waste.DryWasteOutFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.waste.DryWasteStoreLevelSensor;
+import com.traclabs.biosim.idl.sensor.water.DirtyWaterInFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.water.DirtyWaterOutFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.water.DirtyWaterStoreLevelSensor;
+import com.traclabs.biosim.idl.sensor.water.GreyWaterInFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.water.GreyWaterOutFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.water.GreyWaterStoreLevelSensor;
+import com.traclabs.biosim.idl.sensor.water.PotableWaterInFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.water.PotableWaterOutFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.water.PotableWaterStoreLevelSensor;
+import com.traclabs.biosim.idl.sensor.water.WaterInFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.water.WaterOutFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.water.WaterStoreLevelSensor;
+import com.traclabs.biosim.idl.simulation.air.AirRS;
+import com.traclabs.biosim.idl.simulation.air.CO2Store;
+import com.traclabs.biosim.idl.simulation.air.CRS;
+import com.traclabs.biosim.idl.simulation.air.H2Store;
+import com.traclabs.biosim.idl.simulation.air.NitrogenStore;
+import com.traclabs.biosim.idl.simulation.air.O2Store;
+import com.traclabs.biosim.idl.simulation.air.OGS;
+import com.traclabs.biosim.idl.simulation.air.VCCR;
+import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
+import com.traclabs.biosim.idl.simulation.environment.Dehumidifier;
+import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.idl.simulation.food.BiomassRS;
 import com.traclabs.biosim.idl.simulation.food.BiomassRSHelper;
+import com.traclabs.biosim.idl.simulation.food.BiomassStore;
+import com.traclabs.biosim.idl.simulation.food.FoodProcessor;
+import com.traclabs.biosim.idl.simulation.food.FoodStore;
 import com.traclabs.biosim.idl.simulation.food.Shelf;
+import com.traclabs.biosim.idl.simulation.framework.Accumulator;
+import com.traclabs.biosim.idl.simulation.framework.Injector;
+import com.traclabs.biosim.idl.simulation.framework.SimBioModule;
+import com.traclabs.biosim.idl.simulation.power.PowerPS;
+import com.traclabs.biosim.idl.simulation.power.PowerStore;
+import com.traclabs.biosim.idl.simulation.waste.DryWasteStore;
+import com.traclabs.biosim.idl.simulation.waste.Incinerator;
+import com.traclabs.biosim.idl.simulation.water.DirtyWaterStore;
+import com.traclabs.biosim.idl.simulation.water.GreyWaterStore;
+import com.traclabs.biosim.idl.simulation.water.PotableWaterStore;
+import com.traclabs.biosim.idl.simulation.water.WaterRS;
 
 /**
  * Holds references to the servers
@@ -29,226 +126,226 @@ public class BioHolder {
     public Map theModulesMapped = new Hashtable();
 
     //Upper Categories
-    public List theModules = new Vector();
+    public List<BioModule> theModules = new Vector<BioModule>();
 
-    public List theSimModules = new Vector();
+    public List<SimBioModule> theSimModules = new Vector<SimBioModule>();
 
-    public List theSensors = new Vector();
+    public List<GenericSensor> theSensors = new Vector<GenericSensor>();
 
-    public List theActuators = new Vector();
+    public List<GenericActuator> theActuators = new Vector<GenericActuator>();
 
     //Specific Modules
     //Simulation
     //Air
-    public List theAirRSModules = new Vector();
+    public List<AirRS> theAirRSModules = new Vector<AirRS>();
 
-    public List theOGSModules = new Vector();
+    public List<OGS> theOGSModules = new Vector<OGS>();
 
-    public List theVCCRModules = new Vector();
+    public List<VCCR> theVCCRModules = new Vector<VCCR>();
 
-    public List theCRSModules = new Vector();
+    public List<CRS> theCRSModules = new Vector<CRS>();
 
-    public List theO2Stores = new Vector();
+    public List<O2Store> theO2Stores = new Vector<O2Store>();
 
-    public List theCO2Stores = new Vector();
+    public List<CO2Store> theCO2Stores = new Vector<CO2Store>();
 
-    public List theH2Stores = new Vector();
+    public List<H2Store> theH2Stores = new Vector<H2Store>();
 
-    public List theNitrogenStores = new Vector();
+    public List<NitrogenStore> theNitrogenStores = new Vector<NitrogenStore>();
 
     //Crew
-    public List theCrewGroups = new Vector();
+    public List<CrewGroup> theCrewGroups = new Vector<CrewGroup>();
 
     //Environment
-    public List theSimEnvironments = new Vector();
+    public List<SimEnvironment> theSimEnvironments = new Vector<SimEnvironment>();
 
-    public List theDehumidifiers = new Vector();
+    public List<Dehumidifier> theDehumidifiers = new Vector<Dehumidifier>();
 
     //Food
-    public List theFoodProcessors = new Vector();
+    public List<FoodProcessor> theFoodProcessors = new Vector<FoodProcessor>();
 
-    public List theBiomassRSModules = new Vector();
+    public List<BiomassRS> theBiomassRSModules = new Vector<BiomassRS>();
 
-    public List theBiomassStores = new Vector();
+    public List<BiomassStore> theBiomassStores = new Vector<BiomassStore>();
 
-    public List theFoodStores = new Vector();
+    public List<FoodStore> theFoodStores = new Vector<FoodStore>();
 
     //Framework
-    public List theAccumulators = new Vector();
+    public List<Accumulator> theAccumulators = new Vector<Accumulator>();
 
-    public List theInjectors = new Vector();
+    public List<Injector> theInjectors = new Vector<Injector>();
 
     //Power
-    public List thePowerPSModules = new Vector();
+    public List<PowerPS> thePowerPSModules = new Vector<PowerPS>();
 
-    public List thePowerStores = new Vector();
+    public List<PowerStore> thePowerStores = new Vector<PowerStore>();
 
     //Waste
-    public List theIncinerators = new Vector();
+    public List<Incinerator> theIncinerators = new Vector<Incinerator>();
 
-    public List theDryWasteStores = new Vector();
+    public List<DryWasteStore> theDryWasteStores = new Vector<DryWasteStore>();
 
     //Water
-    public List theWaterRSModules = new Vector();
+    public List<WaterRS> theWaterRSModules = new Vector<WaterRS>();
 
-    public List thePotableWaterStores = new Vector();
+    public List<PotableWaterStore> thePotableWaterStores = new Vector<PotableWaterStore>();
 
-    public List theGreyWaterStores = new Vector();
+    public List<GreyWaterStore> theGreyWaterStores = new Vector<GreyWaterStore>();
 
-    public List theDirtyWaterStores = new Vector();
+    public List<DirtyWaterStore> theDirtyWaterStores = new Vector<DirtyWaterStore>();
 
     //Sensors
     //Air
-    public List theCO2InFlowRateSensors = new Vector();
+    public List<CO2InFlowRateSensor> theCO2InFlowRateSensors = new Vector<CO2InFlowRateSensor>();
 
-    public List theCO2OutFlowRateSensors = new Vector();
+    public List<CO2OutFlowRateSensor> theCO2OutFlowRateSensors = new Vector<CO2OutFlowRateSensor>();
 
-    public List theCO2StoreLevelSensors = new Vector();
+    public List<CO2StoreLevelSensor> theCO2StoreLevelSensors = new Vector<CO2StoreLevelSensor>();
 
-    public List theO2InFlowRateSensors = new Vector();
+    public List<O2InFlowRateSensor> theO2InFlowRateSensors = new Vector<O2InFlowRateSensor>();
 
-    public List theO2OutFlowRateSensors = new Vector();
+    public List<O2OutFlowRateSensor> theO2OutFlowRateSensors = new Vector<O2OutFlowRateSensor>();
 
-    public List theO2StoreLevelSensors = new Vector();
+    public List<O2StoreLevelSensor> theO2StoreLevelSensors = new Vector<O2StoreLevelSensor>();
 
-    public List theH2InFlowRateSensors = new Vector();
+    public List<H2InFlowRateSensor> theH2InFlowRateSensors = new Vector<H2InFlowRateSensor>();
 
-    public List theH2OutFlowRateSensors = new Vector();
+    public List<H2OutFlowRateSensor> theH2OutFlowRateSensors = new Vector<H2OutFlowRateSensor>();
 
-    public List theH2StoreLevelSensors = new Vector();
+    public List<H2StoreLevelSensor> theH2StoreLevelSensors = new Vector<H2StoreLevelSensor>();
 
-    public List theNitrogenInFlowRateSensors = new Vector();
+    public List<NitrogenInFlowRateSensor> theNitrogenInFlowRateSensors = new Vector<NitrogenInFlowRateSensor>();
 
-    public List theNitrogenOutFlowRateSensors = new Vector();
+    public List<NitrogenOutFlowRateSensor> theNitrogenOutFlowRateSensors = new Vector<NitrogenOutFlowRateSensor>();
 
-    public List theNitrogenStoreLevelSensors = new Vector();
+    public List<NitrogenStoreLevelSensor> theNitrogenStoreLevelSensors = new Vector<NitrogenStoreLevelSensor>();
 
     //Crew
-    public List theCrewGroupDeathSensors = new Vector();
+    public List<CrewGroupDeathSensor> theCrewGroupDeathSensors = new Vector<CrewGroupDeathSensor>();
 
-    public List theCrewGroupProductivitySensors = new Vector();
+    public List<CrewGroupProductivitySensor> theCrewGroupProductivitySensors = new Vector<CrewGroupProductivitySensor>();
 
-    public List theCrewGroupAnyDeadSensors = new Vector();
+    public List<CrewGroupAnyDeadSensor> theCrewGroupAnyDeadSensors = new Vector<CrewGroupAnyDeadSensor>();
 
     //Environment
-    public List theAirInFlowRateSensors = new Vector();
+    public List<AirInFlowRateSensor> theAirInFlowRateSensors = new Vector<AirInFlowRateSensor>();
 
-    public List theAirOutFlowRateSensors = new Vector();
+    public List<AirOutFlowRateSensor> theAirOutFlowRateSensors = new Vector<AirOutFlowRateSensor>();
 
-    public List theCO2AirConcentrationSensors = new Vector();
+    public List<CO2AirConcentrationSensor> theCO2AirConcentrationSensors = new Vector<CO2AirConcentrationSensor>();
 
-    public List theCO2AirPressureSensors = new Vector();
+    public List<CO2AirPressureSensor> theCO2AirPressureSensors = new Vector<CO2AirPressureSensor>();
 
-    public List theCO2AirEnvironmentInFlowRateSensors = new Vector();
+    public List<CO2AirEnvironmentInFlowRateSensor> theCO2AirEnvironmentInFlowRateSensors = new Vector<CO2AirEnvironmentInFlowRateSensor>();
 
-    public List theCO2AirEnvironmentOutFlowRateSensors = new Vector();
+    public List<CO2AirEnvironmentOutFlowRateSensor> theCO2AirEnvironmentOutFlowRateSensors = new Vector<CO2AirEnvironmentOutFlowRateSensor>();
 
-    public List theCO2AirStoreInFlowRateSensors = new Vector();
+    public List<CO2AirStoreInFlowRateSensor> theCO2AirStoreInFlowRateSensors = new Vector<CO2AirStoreInFlowRateSensor>();
 
-    public List theCO2AirStoreOutFlowRateSensors = new Vector();
+    public List<CO2AirStoreOutFlowRateSensor> theCO2AirStoreOutFlowRateSensors = new Vector<CO2AirStoreOutFlowRateSensor>();
 
-    public List theO2AirConcentrationSensors = new Vector();
+    public List<O2AirConcentrationSensor> theO2AirConcentrationSensors = new Vector<O2AirConcentrationSensor>();
 
-    public List theO2AirPressureSensors = new Vector();
+    public List<O2AirPressureSensor> theO2AirPressureSensors = new Vector<O2AirPressureSensor>();
 
-    public List theO2AirEnvironmentInFlowRateSensors = new Vector();
+    public List<O2AirEnvironmentInFlowRateSensor> theO2AirEnvironmentInFlowRateSensors = new Vector<O2AirEnvironmentInFlowRateSensor>();
 
-    public List theO2AirEnvironmentOutFlowRateSensors = new Vector();
+    public List<O2AirEnvironmentOutFlowRateSensor> theO2AirEnvironmentOutFlowRateSensors = new Vector<O2AirEnvironmentOutFlowRateSensor>();
 
-    public List theO2AirStoreInFlowRateSensors = new Vector();
+    public List<O2AirStoreInFlowRateSensor> theO2AirStoreInFlowRateSensors = new Vector<O2AirStoreInFlowRateSensor>();
 
-    public List theO2AirStoreOutFlowRateSensors = new Vector();
+    public List<O2AirStoreOutFlowRateSensor> theO2AirStoreOutFlowRateSensors = new Vector<O2AirStoreOutFlowRateSensor>();
 
-    public List theNitrogenAirConcentrationSensors = new Vector();
+    public List<NitrogenAirConcentrationSensor> theNitrogenAirConcentrationSensors = new Vector<NitrogenAirConcentrationSensor>();
 
-    public List theNitrogenAirPressureSensors = new Vector();
+    public List<NitrogenAirPressureSensor> theNitrogenAirPressureSensors = new Vector<NitrogenAirPressureSensor>();
 
-    public List theNitrogenAirEnvironmentInFlowRateSensors = new Vector();
+    public List<NitrogenAirEnvironmentInFlowRateSensor> theNitrogenAirEnvironmentInFlowRateSensors = new Vector<NitrogenAirEnvironmentInFlowRateSensor>();
 
-    public List theNitrogenAirEnvironmentOutFlowRateSensors = new Vector();
+    public List<NitrogenAirEnvironmentOutFlowRateSensor> theNitrogenAirEnvironmentOutFlowRateSensors = new Vector<NitrogenAirEnvironmentOutFlowRateSensor>();
 
-    public List theNitrogenAirStoreInFlowRateSensors = new Vector();
+    public List<NitrogenAirStoreInFlowRateSensor> theNitrogenAirStoreInFlowRateSensors = new Vector<NitrogenAirStoreInFlowRateSensor>();
 
-    public List theNitrogenAirStoreOutFlowRateSensors = new Vector();
+    public List<NitrogenAirStoreOutFlowRateSensor> theNitrogenAirStoreOutFlowRateSensors = new Vector<NitrogenAirStoreOutFlowRateSensor>();
 
-    public List theWaterAirConcentrationSensors = new Vector();
+    public List<WaterAirConcentrationSensor> theWaterAirConcentrationSensors = new Vector<WaterAirConcentrationSensor>();
 
-    public List theWaterAirPressureSensors = new Vector();
+    public List<WaterAirPressureSensor> theWaterAirPressureSensors = new Vector<WaterAirPressureSensor>();
 
-    public List theWaterAirEnvironmentInFlowRateSensors = new Vector();
+    public List<WaterAirEnvironmentInFlowRateSensor> theWaterAirEnvironmentInFlowRateSensors = new Vector<WaterAirEnvironmentInFlowRateSensor>();
 
-    public List theWaterAirEnvironmentOutFlowRateSensors = new Vector();
+    public List<WaterAirEnvironmentOutFlowRateSensor> theWaterAirEnvironmentOutFlowRateSensors = new Vector<WaterAirEnvironmentOutFlowRateSensor>();
 
-    public List theWaterAirStoreInFlowRateSensors = new Vector();
+    public List<WaterAirStoreInFlowRateSensor> theWaterAirStoreInFlowRateSensors = new Vector<WaterAirStoreInFlowRateSensor>();
 
-    public List theWaterAirStoreOutFlowRateSensors = new Vector();
+    public List<WaterAirStoreOutFlowRateSensor> theWaterAirStoreOutFlowRateSensors = new Vector<WaterAirStoreOutFlowRateSensor>();
 
-    public List theOtherAirConcentrationSensors = new Vector();
+    public List<OtherAirConcentrationSensor> theOtherAirConcentrationSensors = new Vector<OtherAirConcentrationSensor>();
 
-    public List theOtherAirPressureSensors = new Vector();
+    public List<OtherAirPressureSensor> theOtherAirPressureSensors = new Vector<OtherAirPressureSensor>();
 
     //Food
-    public List theBiomassInFlowRateSensors = new Vector();
+    public List<BiomassInFlowRateSensor> theBiomassInFlowRateSensors = new Vector<BiomassInFlowRateSensor>();
 
-    public List theBiomassOutFlowRateSensors = new Vector();
+    public List<BiomassOutFlowRateSensor> theBiomassOutFlowRateSensors = new Vector<BiomassOutFlowRateSensor>();
 
-    public List theBiomassStoreLevelSensors = new Vector();
+    public List<BiomassStoreLevelSensor> theBiomassStoreLevelSensors = new Vector<BiomassStoreLevelSensor>();
 
-    public List theFoodInFlowRateSensors = new Vector();
+    public List<FoodInFlowRateSensor> theFoodInFlowRateSensors = new Vector<FoodInFlowRateSensor>();
 
-    public List theFoodOutFlowRateSensors = new Vector();
+    public List<FoodOutFlowRateSensor> theFoodOutFlowRateSensors = new Vector<FoodOutFlowRateSensor>();
 
-    public List theFoodStoreLevelSensors = new Vector();
+    public List<FoodStoreLevelSensor> theFoodStoreLevelSensors = new Vector<FoodStoreLevelSensor>();
 
-    public List theHarvestSensors = new Vector();
+    public List<HarvestSensor> theHarvestSensors = new Vector<HarvestSensor>();
 
-    public List thePlantDeathSensors = new Vector();
+    public List<PlantDeathSensor> thePlantDeathSensors = new Vector<PlantDeathSensor>();
 
-    public List theBiomassStoreWaterContentSensors = new Vector();
+    public List<BiomassStoreWaterContentSensor> theBiomassStoreWaterContentSensors = new Vector<BiomassStoreWaterContentSensor>();
 
     //Framework
-    public List theStoreOverflowSensors = new Vector();
+    public List<StoreOverflowSensor> theStoreOverflowSensors = new Vector<StoreOverflowSensor>();
 
-    public List theStoreLevelSensors = new Vector();
+    public List<StoreLevelSensor> theStoreLevelSensors = new Vector<StoreLevelSensor>();
 
     //Power
-    public List thePowerInFlowRateSensors = new Vector();
+    public List<PowerInFlowRateSensor> thePowerInFlowRateSensors = new Vector<PowerInFlowRateSensor>();
 
-    public List thePowerOutFlowRateSensors = new Vector();
+    public List<PowerOutFlowRateSensor> thePowerOutFlowRateSensors = new Vector<PowerOutFlowRateSensor>();
 
-    public List thePowerStoreLevelSensors = new Vector();
+    public List<PowerStoreLevelSensor> thePowerStoreLevelSensors = new Vector<PowerStoreLevelSensor>();
 
     //Waste
-    public List theDryWasteInFlowRateSensors = new Vector();
+    public List<DryWasteInFlowRateSensor> theDryWasteInFlowRateSensors = new Vector<DryWasteInFlowRateSensor>();
 
-    public List theDryWasteOutFlowRateSensors = new Vector();
+    public List<DryWasteOutFlowRateSensor> theDryWasteOutFlowRateSensors = new Vector<DryWasteOutFlowRateSensor>();
 
-    public List theDryWasteStoreLevelSensors = new Vector();
+    public List<DryWasteStoreLevelSensor> theDryWasteStoreLevelSensors = new Vector<DryWasteStoreLevelSensor>();
 
     //Water
-    public List thePotableWaterInFlowRateSensors = new Vector();
+    public List<PotableWaterInFlowRateSensor> thePotableWaterInFlowRateSensors = new Vector<PotableWaterInFlowRateSensor>();
 
-    public List thePotableWaterOutFlowRateSensors = new Vector();
+    public List<PotableWaterOutFlowRateSensor> thePotableWaterOutFlowRateSensors = new Vector<PotableWaterOutFlowRateSensor>();
 
-    public List thePotableWaterStoreLevelSensors = new Vector();
+    public List<PotableWaterStoreLevelSensor> thePotableWaterStoreLevelSensors = new Vector<PotableWaterStoreLevelSensor>();
 
-    public List theGreyWaterInFlowRateSensors = new Vector();
+    public List<GreyWaterInFlowRateSensor> theGreyWaterInFlowRateSensors = new Vector<GreyWaterInFlowRateSensor>();
 
-    public List theGreyWaterOutFlowRateSensors = new Vector();
+    public List<GreyWaterOutFlowRateSensor> theGreyWaterOutFlowRateSensors = new Vector<GreyWaterOutFlowRateSensor>();
 
-    public List theGreyWaterStoreLevelSensors = new Vector();
+    public List<GreyWaterStoreLevelSensor> theGreyWaterStoreLevelSensors = new Vector<GreyWaterStoreLevelSensor>();
 
-    public List theDirtyWaterInFlowRateSensors = new Vector();
+    public List<DirtyWaterInFlowRateSensor> theDirtyWaterInFlowRateSensors = new Vector<DirtyWaterInFlowRateSensor>();
 
-    public List theDirtyWaterOutFlowRateSensors = new Vector();
+    public List<DirtyWaterOutFlowRateSensor> theDirtyWaterOutFlowRateSensors = new Vector<DirtyWaterOutFlowRateSensor>();
 
-    public List theDirtyWaterStoreLevelSensors = new Vector();
+    public List<DirtyWaterStoreLevelSensor> theDirtyWaterStoreLevelSensors = new Vector<DirtyWaterStoreLevelSensor>();
 
-    public List theWaterInFlowRateSensors = new Vector();
+    public List<WaterInFlowRateSensor> theWaterInFlowRateSensors = new Vector<WaterInFlowRateSensor>();
 
-    public List theWaterOutFlowRateSensors = new Vector();
+    public List<WaterOutFlowRateSensor> theWaterOutFlowRateSensors = new Vector<WaterOutFlowRateSensor>();
 
-    public List theWaterStoreLevelSensors = new Vector();
+    public List<WaterStoreLevelSensor> theWaterStoreLevelSensors = new Vector<WaterStoreLevelSensor>();
 
     //Actuators
     //Air

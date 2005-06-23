@@ -14,13 +14,13 @@ import org.jfree.chart.ChartPanel;
  * @author Scott Bell
  */
 public abstract class GraphPanel extends TimedPanel {
-    private JButton refreshButton;
 
     private JButton trackingButton;
 
     protected ChartPanel myChartPanel;
 
-    private TrackingAction myTrackingAction;
+    @SuppressWarnings("unused")
+	private TrackingAction myTrackingAction;
 
     /**
      * Default constructor.
@@ -53,14 +53,15 @@ public abstract class GraphPanel extends TimedPanel {
 
     protected abstract void createGraph();
 
-    protected void initializeDataSources(String dataSourceName) {
+    protected void initializeDataSources(@SuppressWarnings("unused") String dataSourceName) {
     }
 
     /**
      * Action that displays the power panel in an internal frame on the desktop.
      */
     private class TrackingAction extends AbstractAction {
-        public void actionPerformed(ActionEvent ae) {
+
+		public void actionPerformed(ActionEvent ae) {
             boolean newState = !(isTracking());
             setTracking(newState);
             if (isTracking()) {

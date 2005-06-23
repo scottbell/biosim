@@ -62,10 +62,10 @@ public class AirTextPanel extends TimedPanel {
      */
     public AirTextPanel() {
         BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
-        myO2Store = (O2Store) (myBioHolder.theO2Stores.get(0));
-        myCO2Store = (CO2Store) (myBioHolder.theCO2Stores.get(0));
-        myH2Store = (H2Store) (myBioHolder.theH2Stores.get(0));
-        myNitrogenStore = (NitrogenStore) (myBioHolder.theNitrogenStores.get(0));
+        myO2Store = (myBioHolder.theO2Stores.get(0));
+        myCO2Store = (myBioHolder.theCO2Stores.get(0));
+        myH2Store = (myBioHolder.theH2Stores.get(0));
+        myNitrogenStore = (myBioHolder.theNitrogenStores.get(0));
         buildGui();
     }
 

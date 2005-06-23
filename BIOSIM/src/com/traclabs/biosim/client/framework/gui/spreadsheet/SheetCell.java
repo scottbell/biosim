@@ -29,9 +29,9 @@ class SheetCell {
 
     int state;
 
-    Vector listeners;
+    Vector<SheetCell> listeners;
 
-    Vector listenees;
+    Vector<SheetCell> listenees;
 
     Color background;
 
@@ -50,8 +50,8 @@ class SheetCell {
         value = null;
         formula = null;
         state = UNDEFINED;
-        listeners = new Vector();
-        listenees = new Vector();
+        listeners = new Vector<SheetCell>();
+        listenees = new Vector<SheetCell>();
         background = Color.white;
         foreground = Color.black;
     }
@@ -69,7 +69,7 @@ class SheetCell {
         // clear the links to the listeners. They will be
         // resseted during interpretation
         for (int ii = 0; ii < listenees.size(); ii++) {
-            SheetCell c = (SheetCell) listenees.get(ii);
+            SheetCell c = listenees.get(ii);
             c.listeners.remove(this);
         }
         listenees.clear();
@@ -81,7 +81,7 @@ class SheetCell {
 
     void updateListeners() {
         for (int ii = 0; ii < listeners.size(); ii++) {
-            SheetCell cell = (SheetCell) listeners.get(ii);
+            SheetCell cell = listeners.get(ii);
             SpreadSheetModel.interpreter.interpret(cell, UPDATE_EVENT);
             myLogger.debug("Listener updated.");
             cell.updateListeners();

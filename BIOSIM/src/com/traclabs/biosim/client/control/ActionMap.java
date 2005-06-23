@@ -25,40 +25,22 @@ public class ActionMap {
 
     private GenericActuator myOGSPowerInFlowRateActuator;
 
-    private float myOGSPotableWaterInFlowRateMax;
-
-    private float myOGSPowerInFlowRateMax;
-
     private GenericActuator myWaterRSDirtyWaterInFlowRateActuator;
 
     private GenericActuator myWaterRSGreyWaterInFlowRateActuator;
 
     private GenericActuator myWaterRSPowerInFlowRateActuator;
 
-    private float myWaterRSDirtyWaterInFlowRateMax;
-
-    private float myWaterRSGreyWaterInFlowRateMax;
-
-    private float myWaterRSPowerInFlowRateMax;
-
     public ActionMap() {
         collectReferences();
         myLogger = Logger.getLogger(this.getClass());
-        myOGSPotableWaterInFlowRateMax = myOGSPotableWaterInFlowRateActuator
-                .getMax();
-        myOGSPowerInFlowRateMax = myOGSPowerInFlowRateActuator.getMax();
-        myWaterRSDirtyWaterInFlowRateMax = myWaterRSDirtyWaterInFlowRateActuator
-                .getMax();
-        myWaterRSGreyWaterInFlowRateMax = myWaterRSGreyWaterInFlowRateActuator
-                .getMax();
-        myWaterRSPowerInFlowRateMax = myWaterRSPowerInFlowRateActuator.getMax();
     }
 
     private void collectReferences() {
         myBioHolder = BioHolderInitializer.getBioHolder();
 
-        WaterRS myWaterRS = (WaterRS) myBioHolder.theWaterRSModules.get(0);
-        OGS myOGS = (OGS) myBioHolder.theOGSModules.get(0);
+        WaterRS myWaterRS = myBioHolder.theWaterRSModules.get(0);
+        OGS myOGS = myBioHolder.theOGSModules.get(0);
 
         myOGSPotableWaterInFlowRateActuator = myBioHolder
                 .getActuatorAttachedTo(
@@ -144,48 +126,5 @@ public class ActionMap {
         else
             myWaterRSGreyWaterInFlowRateActuator
                     .setValue(myWaterRSGreyWaterInFlowRateActuator.getMin());
-    }
-
-    /**
-     * @param myOGSPotableWaterInFlowRateMax
-     *            The myOGSPotableWaterInFlowRateMax to set.
-     */
-    public void setOGSPotableWaterInFlowRateMax(
-            float pOGSPotableWaterInFlowRateMax) {
-        myOGSPotableWaterInFlowRateMax = pOGSPotableWaterInFlowRateMax;
-    }
-
-    /**
-     * @param myOGSPowerInFlowRateMax
-     *            The myOGSPowerInFlowRateMax to set.
-     */
-    public void setOGSPowerInFlowRateMax(float pOGSPowerInFlowRateMax) {
-        myOGSPowerInFlowRateMax = pOGSPowerInFlowRateMax;
-    }
-
-    /**
-     * @param myWaterRSDirtyWaterInFlowRateMax
-     *            The myWaterRSDirtyWaterInFlowRateMax to set.
-     */
-    public void setWaterRSDirtyWaterInFlowRateMax(
-            float pWaterRSDirtyWaterInFlowRateMax) {
-        myWaterRSDirtyWaterInFlowRateMax = pWaterRSDirtyWaterInFlowRateMax;
-    }
-
-    /**
-     * @param myWaterRSGreyWaterInFlowRateMax
-     *            The myWaterRSGreyWaterInFlowRateMax to set.
-     */
-    public void setWaterRSGreyWaterInFlowRateMax(
-            float pWaterRSGreyWaterInFlowRateMax) {
-        myWaterRSGreyWaterInFlowRateMax = pWaterRSGreyWaterInFlowRateMax;
-    }
-
-    /**
-     * @param myWaterRSPowerInFlowRateMax
-     *            The myWaterRSPowerInFlowRateMax to set.
-     */
-    public void setWaterRSPowerInFlowRateMax(float pWaterRSPowerInFlowRateMax) {
-        myWaterRSPowerInFlowRateMax = pWaterRSPowerInFlowRateMax;
     }
 }
