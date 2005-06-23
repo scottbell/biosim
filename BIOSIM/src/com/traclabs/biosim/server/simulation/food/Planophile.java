@@ -66,8 +66,7 @@ public abstract class Planophile extends PlantImpl {
                 * (netCanopyPhotosynthesis / getAverageCO2Concentration());
         if (canopyStomatalConductance <= 0)
             return Float.MIN_VALUE;
-        else
-            return canopyStomatalConductance;
+		return canopyStomatalConductance;
     }
 
     protected float calculateAtmosphericAeroDynamicConductance() {

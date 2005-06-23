@@ -128,10 +128,9 @@ public class ShelfImpl extends ShelfPOA {
             float waterTaken = waterLevel;
             waterLevel = 0;
             return waterTaken;
-        } else {
-            waterLevel -= pLiters;
-            return pLiters;
         }
+		waterLevel -= pLiters;
+		return pLiters;
     }
 
     private void lightPlants() {

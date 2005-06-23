@@ -100,12 +100,11 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
                     pMatter.waterContent * fractionOfOriginal, pMatter.type);
             currentFoodItems.add(newFoodMatter);
             return acutallyAdded;
-        } else {
-            acutallyAdded = randomFilter(pMatter.mass);
-            currentLevel += acutallyAdded;
-            currentFoodItems.add(pMatter);
-            return acutallyAdded;
         }
+		acutallyAdded = randomFilter(pMatter.mass);
+		currentLevel += acutallyAdded;
+		currentFoodItems.add(pMatter);
+		return acutallyAdded;
     }
 
     public FoodMatter[] takeFoodMatterMass(float pMass) {

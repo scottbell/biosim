@@ -155,14 +155,13 @@ public class BiomassStoreImpl extends StoreImpl implements
             myLogger.debug("added = " + newBioMatter.mass
                     + " with currentLevel @ " + currentLevel);
             return acutallyAdded;
-        } else {
-            acutallyAdded = randomFilter(pMatter.mass);
-            currentLevel += acutallyAdded;
-            currentBiomassItems.add(pMatter);
-            myLogger.debug("added = " + pMatter.mass + "with currentLevel @ "
-                    + currentLevel);
-            return acutallyAdded;
         }
+		acutallyAdded = randomFilter(pMatter.mass);
+		currentLevel += acutallyAdded;
+		currentBiomassItems.add(pMatter);
+		myLogger.debug("added = " + pMatter.mass + "with currentLevel @ "
+		        + currentLevel);
+		return acutallyAdded;
     }
 
     public BioMatter[] takeBioMatterMass(float pMass) {
@@ -209,8 +208,7 @@ public class BiomassStoreImpl extends StoreImpl implements
                 .toArray(emptyArray));
         if (returnArray == null)
             return emptyArray;
-        else
-            return returnArray;
+		return returnArray;
     }
 
     public void reset() {

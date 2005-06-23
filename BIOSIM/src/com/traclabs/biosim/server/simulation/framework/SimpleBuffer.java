@@ -94,11 +94,10 @@ public class SimpleBuffer {
             level += acutallyAdded;
             overflow += (amountRequested - acutallyAdded);
             return acutallyAdded;
-        } else {
-            acutallyAdded = amountRequested;
-            level += acutallyAdded;
-            return acutallyAdded;
         }
+		acutallyAdded = amountRequested;
+		level += acutallyAdded;
+		return acutallyAdded;
     }
 
     /**

@@ -23,10 +23,9 @@ public class SolarPowerPS extends PowerPSImpl {
                     * (lightInput.getLightIntensity() / lightInput
                             .getMaxLumens());
             return randomFilter(powerGenerated);
-        } else {
-            myLogger.error("SolarPowerPS: no light input!");
-            return randomFilter(0);
         }
+		myLogger.error("SolarPowerPS: no light input!");
+		return randomFilter(0);
     }
 
 }

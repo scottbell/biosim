@@ -254,11 +254,10 @@ public abstract class StoreImpl extends PassiveModuleImpl implements
             currentLevel += acutallyAdded;
             overflow += (amountRequested - acutallyAdded);
             return acutallyAdded;
-        } else {
-            acutallyAdded = randomFilter(amountRequested);
-            currentLevel += acutallyAdded;
-            return acutallyAdded;
         }
+		acutallyAdded = randomFilter(amountRequested);
+		currentLevel += acutallyAdded;
+		return acutallyAdded;
     }
 
     /**
@@ -303,8 +302,7 @@ public abstract class StoreImpl extends PassiveModuleImpl implements
     public float getCurrentLevel() {
         if (cachedValueNeeded())
             return cachedLevel;
-        else
-            return currentLevel;
+		return currentLevel;
     }
 
     /**
@@ -315,8 +313,7 @@ public abstract class StoreImpl extends PassiveModuleImpl implements
     public float getOverflow() {
         if (cachedValueNeeded())
             return cachedOverflow;
-        else
-            return overflow;
+		return overflow;
     }
 
     /**
@@ -327,8 +324,7 @@ public abstract class StoreImpl extends PassiveModuleImpl implements
     public float getCurrentCapacity() {
         if (cachedValueNeeded())
             return cachedCapacity;
-        else
-            return currentCapacity;
+		return currentCapacity;
     }
 
     /**
