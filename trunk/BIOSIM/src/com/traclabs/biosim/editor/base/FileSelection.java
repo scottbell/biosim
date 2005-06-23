@@ -59,7 +59,6 @@ public class FileSelection implements Transferable, ClipboardOwner {
             throws UnsupportedFlavorException {
         if (parFlavor.equals(fileFlavor))
             return (file);
-        else
-            throw new UnsupportedFlavorException(fileFlavor);
+        throw new UnsupportedFlavorException(fileFlavor);
     }
 }

@@ -262,10 +262,6 @@ public class Fnorder {
         return java.lang.Math.abs(myRandom.nextInt() % (MAX));
     }
 
-    private String p_intro() {
-        return intros[random(intros.length - 1)];
-    }
-
     private String chop(String s) {
         StringBuffer sb = new StringBuffer(s);
         sb.setLength(sb.length() - 1);

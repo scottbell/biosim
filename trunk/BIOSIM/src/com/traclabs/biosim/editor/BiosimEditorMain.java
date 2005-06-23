@@ -41,6 +41,5 @@ public class BiosimEditorMain {
     
     public static void main(String args[]) {
         OrbUtils.initializeLog();
-        BiosimEditorMain app = new BiosimEditorMain();
     }
 }

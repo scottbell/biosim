@@ -159,7 +159,8 @@ public class OrbUtils {
             // create and initialize the ORB
             if (myOrb == null){
                 Properties orbProperties = new Properties();
-                orbProperties.putAll(myCustomORBProperties);
+                if (myCustomORBProperties != null)
+                	orbProperties.putAll(myCustomORBProperties);
                 orbProperties.put("org.omg.CORBA.ORBClass", ORB_CLASS);
                 myOrb = ORB.init(nullArgs, orbProperties);
             }

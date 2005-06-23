@@ -70,7 +70,7 @@ public class EditorGraphModel extends DefaultGraphModel {
      * Returns all nodes that do not have input connections.
      */
     public ArrayList findInputs() {
-        ArrayList roots = new ArrayList();
+        ArrayList<ModuleNode> roots = new ArrayList<ModuleNode>();
         Collection nodes = getNodes(null);
         Iterator i = nodes.iterator();
         while (i.hasNext()) {

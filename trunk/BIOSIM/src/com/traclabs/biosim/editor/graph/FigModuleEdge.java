@@ -5,7 +5,6 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import org.apache.log4j.Logger;
 import org.tigris.gef.base.PathConvPercent;
 import org.tigris.gef.presentation.ArrowHeadTriangle;
 import org.tigris.gef.presentation.FigEdgeLine;
@@ -20,8 +19,6 @@ import com.traclabs.biosim.idl.simulation.framework.StoreFlowRateControllableOpe
 public class FigModuleEdge extends FigEdgeLine implements MouseListener {
     private FlowratePropertiesFrame myFlowratePropertiesFrame;
     
-    private Logger myLogger;
-    
     private FigText myTextDescription;
     
     private static String SENSED = "sensed";
@@ -34,7 +31,6 @@ public class FigModuleEdge extends FigEdgeLine implements MouseListener {
 
     public FigModuleEdge() {
         super();
-        myLogger = Logger.getLogger(FigModuleEdge.class);
         setDestArrowHead(new ArrowHeadTriangle());
         _useNearest = true;
         myTextDescription = new FigText(10, 30, 90, 20);  	 

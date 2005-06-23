@@ -43,7 +43,7 @@ public class EditorDocument {
     protected boolean _modifiedFlag = false;
 
     /** The filename for the document set when it is opened or saved */
-    protected Vector _editors = new Vector();
+    protected Vector<BiosimEditor> _editors = new Vector<BiosimEditor>();
     
     private EditorWriter myEditorWriter;
 

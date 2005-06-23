@@ -50,7 +50,7 @@ public class ModeZoom extends FigModifyingModeImpl {
     }
 
     public void mouseClicked(MouseEvent me) {
-        Editor editor = Globals.curEditor();
+        Editor currentEditor = Globals.curEditor();
 
         if (me.isMetaDown()) {
             // Right mouse button.
@@ -60,19 +60,19 @@ public class ModeZoom extends FigModifyingModeImpl {
             _zoomInCmd.doIt();
         }
 
-        int x = (int) (me.getX() * editor.getScale());
-        int y = (int) (me.getY() * editor.getScale());
+        int x = (int) (me.getX() * currentEditor.getScale());
+        int y = (int) (me.getY() * currentEditor.getScale());
         final Rectangle r = new Rectangle(x, y, 1, 1);
         r
-                .grow((int) (100 * editor.getScale()), (int) (100 * editor
+                .grow((int) (100 * currentEditor.getScale()), (int) (100 * currentEditor
                         .getScale()));
 
-        editor.getJComponent().scrollRectToVisible(new Rectangle(0, 0, 1, 1));
+        currentEditor.getJComponent().scrollRectToVisible(new Rectangle(0, 0, 1, 1));
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                Editor editor = Globals.curEditor();
-                JComponent c = editor.getJComponent();
+                Editor theEditor = Globals.curEditor();
+                JComponent c = theEditor.getJComponent();
                 c.scrollRectToVisible(r);
             }
         });

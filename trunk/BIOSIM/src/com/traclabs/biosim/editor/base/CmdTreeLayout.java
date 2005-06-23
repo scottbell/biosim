@@ -59,7 +59,6 @@ public class CmdTreeLayout extends Cmd {
             Selection s = (Selection) sel.nextElement();
             Fig f = s.getContent();
             if (f instanceof FigModuleNode) {
-                ModuleNode source = (ModuleNode) f.getOwner();
                 Rectangle rect = getBoundingBox((FigModuleNode) f);
 
                 arrangeRoot((FigModuleNode) f, rect);
@@ -103,7 +102,6 @@ public class CmdTreeLayout extends Cmd {
         Enumeration e = edges.elements();
         while (e.hasMoreElements()) {
             NetEdge edge = (NetEdge) e.nextElement();
-            NetPort edgeSrc = (NetPort) edge.getSourcePort();
             FigModuleNode editorDestFig = getDestination(edge, fig.getLayer());
             // Arrange the child.
             Rectangle thisChildRect = arrange(editorDestFig, childRect);
@@ -138,7 +136,6 @@ public class CmdTreeLayout extends Cmd {
         Enumeration e = edges.elements();
         while (e.hasMoreElements()) {
             NetEdge edge = (NetEdge) e.nextElement();
-            NetPort edgeSrc = (NetPort) edge.getSourcePort();
             FigModuleNode editorDestFig = getDestination(edge, fig.getLayer());
             Rectangle thisChildRect = arrange(editorDestFig, childRect);
 
@@ -188,13 +185,13 @@ public class CmdTreeLayout extends Cmd {
      */
     private Vector getOutboundEdges(FigModuleNode fig) {
         ModuleNode source = (ModuleNode) fig.getOwner();
-        Vector outboundEdges = new Vector();
+        Vector<NetEdge> outboundEdges = new Vector<NetEdge>();
         EditorPort port = (EditorPort) source.getPort();
         Vector edges = port.getEdges();
         Enumeration e = edges.elements();
         while (e.hasMoreElements()) {
             NetEdge edge = (NetEdge) e.nextElement();
-            NetPort edgeSrc = (NetPort) edge.getSourcePort();
+            NetPort edgeSrc = edge.getSourcePort();
             if (port == edgeSrc) {
                 /*
                  * This edge must lead from the selected node away
@@ -216,14 +213,13 @@ public class CmdTreeLayout extends Cmd {
 
         // Child Boxes will be a Vector of Rectangles, each large
         // enough to hold one of the children of Fig.
-        Vector childBoxes = new Vector();
+        Vector<Rectangle> childBoxes = new Vector<Rectangle>();
 
         Rectangle rect = fig.getBounds();
         Vector edges = getOutboundEdges(fig);
         Enumeration e = edges.elements();
         while (e.hasMoreElements()) {
             NetEdge edge = (NetEdge) e.nextElement();
-            NetPort edgeSrc = (NetPort) edge.getSourcePort();
             FigModuleNode editorDestFig = getDestination(edge, fig.getLayer());
             childBoxes.add(getBoundingBox(editorDestFig));
         }
@@ -254,7 +250,7 @@ public class CmdTreeLayout extends Cmd {
         while (e.hasMoreElements()) {
             Rectangle childRect = (Rectangle) e.nextElement();
             if (childWidth == 0) {
-                childWidth = (int) childRect.width;
+                childWidth = childRect.width;
             } else {
                 childWidth += childRect.width + HorizontalSep;
             }

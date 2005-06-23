@@ -8,8 +8,52 @@ import java.util.Vector;
 
 import org.apache.log4j.Logger;
 
+import com.traclabs.biosim.idl.actuator.air.CO2InFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.air.CO2OutFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.air.H2InFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.air.H2OutFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.air.NitrogenInFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.air.NitrogenOutFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.air.O2InFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.air.O2OutFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.environment.AirInFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.environment.AirOutFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.environment.CO2AirEnvironmentInFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.environment.CO2AirEnvironmentOutFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.environment.CO2AirStoreInFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.environment.CO2AirStoreOutFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.environment.NitrogenAirEnvironmentInFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.environment.NitrogenAirEnvironmentOutFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.environment.NitrogenAirStoreInFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.environment.NitrogenAirStoreOutFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.environment.O2AirEnvironmentInFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.environment.O2AirEnvironmentOutFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.environment.O2AirStoreInFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.environment.O2AirStoreOutFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.environment.WaterAirEnvironmentInFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.environment.WaterAirEnvironmentOutFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.environment.WaterAirStoreInFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.environment.WaterAirStoreOutFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.food.BiomassInFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.food.BiomassOutFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.food.FoodInFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.food.FoodOutFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.food.HarvestingActuator;
+import com.traclabs.biosim.idl.actuator.food.PlantingActuator;
 import com.traclabs.biosim.idl.actuator.food.ShelfActuator;
 import com.traclabs.biosim.idl.actuator.framework.GenericActuator;
+import com.traclabs.biosim.idl.actuator.power.PowerInFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.power.PowerOutFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.waste.DryWasteInFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.waste.DryWasteOutFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.water.DirtyWaterInFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.water.DirtyWaterOutFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.water.GreyWaterInFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.water.GreyWaterOutFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.water.PotableWaterInFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.water.PotableWaterOutFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.water.WaterInFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.water.WaterOutFlowRateActuator;
 import com.traclabs.biosim.idl.framework.BioDriver;
 import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.sensor.air.CO2InFlowRateSensor;
@@ -123,7 +167,7 @@ import com.traclabs.biosim.idl.simulation.water.WaterRS;
 public class BioHolder {
     public BioDriver theBioDriver;
 
-    public Map theModulesMapped = new Hashtable();
+    public Map<String, BioModule> theModulesMapped = new Hashtable<String, BioModule>();
 
     //Upper Categories
     public List<BioModule> theModules = new Vector<BioModule>();
@@ -349,98 +393,98 @@ public class BioHolder {
 
     //Actuators
     //Air
-    public List theCO2InFlowRateActuators = new Vector();
+    public List<CO2InFlowRateActuator> theCO2InFlowRateActuators = new Vector<CO2InFlowRateActuator>();
 
-    public List theCO2OutFlowRateActuators = new Vector();
+    public List<CO2OutFlowRateActuator> theCO2OutFlowRateActuators = new Vector<CO2OutFlowRateActuator>();
 
-    public List theO2InFlowRateActuators = new Vector();
+    public List<O2InFlowRateActuator> theO2InFlowRateActuators = new Vector<O2InFlowRateActuator>();
 
-    public List theO2OutFlowRateActuators = new Vector();
+    public List<O2OutFlowRateActuator> theO2OutFlowRateActuators = new Vector<O2OutFlowRateActuator>();
 
-    public List theH2InFlowRateActuators = new Vector();
+    public List<H2InFlowRateActuator> theH2InFlowRateActuators = new Vector<H2InFlowRateActuator>();
 
-    public List theH2OutFlowRateActuators = new Vector();
+    public List<H2OutFlowRateActuator> theH2OutFlowRateActuators = new Vector<H2OutFlowRateActuator>();
 
-    public List theNitrogenInFlowRateActuators = new Vector();
+    public List<NitrogenInFlowRateActuator> theNitrogenInFlowRateActuators = new Vector<NitrogenInFlowRateActuator>();
 
-    public List theNitrogenOutFlowRateActuators = new Vector();
+    public List<NitrogenOutFlowRateActuator> theNitrogenOutFlowRateActuators = new Vector<NitrogenOutFlowRateActuator>();
 
     //Environment
-    public List theAirInFlowRateActuators = new Vector();
+    public List<AirInFlowRateActuator> theAirInFlowRateActuators = new Vector<AirInFlowRateActuator>();
 
-    public List theAirOutFlowRateActuators = new Vector();
+    public List<AirOutFlowRateActuator> theAirOutFlowRateActuators = new Vector<AirOutFlowRateActuator>();
 
-    public List theCO2AirEnvironmentInFlowRateActuators = new Vector();
+    public List<CO2AirEnvironmentInFlowRateActuator> theCO2AirEnvironmentInFlowRateActuators = new Vector<CO2AirEnvironmentInFlowRateActuator>();
 
-    public List theCO2AirEnvironmentOutFlowRateActuators = new Vector();
+    public List<CO2AirEnvironmentOutFlowRateActuator> theCO2AirEnvironmentOutFlowRateActuators = new Vector<CO2AirEnvironmentOutFlowRateActuator>();
 
-    public List theCO2AirStoreInFlowRateActuators = new Vector();
+    public List<CO2AirStoreInFlowRateActuator> theCO2AirStoreInFlowRateActuators = new Vector<CO2AirStoreInFlowRateActuator>();
 
-    public List theCO2AirStoreOutFlowRateActuators = new Vector();
+    public List<CO2AirStoreOutFlowRateActuator> theCO2AirStoreOutFlowRateActuators = new Vector<CO2AirStoreOutFlowRateActuator>();
 
-    public List theO2AirEnvironmentInFlowRateActuators = new Vector();
+    public List<O2AirEnvironmentInFlowRateActuator> theO2AirEnvironmentInFlowRateActuators = new Vector<O2AirEnvironmentInFlowRateActuator>();
 
-    public List theO2AirEnvironmentOutFlowRateActuators = new Vector();
+    public List<O2AirEnvironmentOutFlowRateActuator> theO2AirEnvironmentOutFlowRateActuators = new Vector<O2AirEnvironmentOutFlowRateActuator>();
 
-    public List theO2AirStoreInFlowRateActuators = new Vector();
+    public List<O2AirStoreInFlowRateActuator> theO2AirStoreInFlowRateActuators = new Vector<O2AirStoreInFlowRateActuator>();
 
-    public List theO2AirStoreOutFlowRateActuators = new Vector();
+    public List<O2AirStoreOutFlowRateActuator> theO2AirStoreOutFlowRateActuators = new Vector<O2AirStoreOutFlowRateActuator>();
 
-    public List theNitrogenAirEnvironmentInFlowRateActuators = new Vector();
+    public List<NitrogenAirEnvironmentInFlowRateActuator> theNitrogenAirEnvironmentInFlowRateActuators = new Vector<NitrogenAirEnvironmentInFlowRateActuator>();
 
-    public List theNitrogenAirEnvironmentOutFlowRateActuators = new Vector();
+    public List<NitrogenAirEnvironmentOutFlowRateActuator> theNitrogenAirEnvironmentOutFlowRateActuators = new Vector<NitrogenAirEnvironmentOutFlowRateActuator>();
 
-    public List theNitrogenAirStoreInFlowRateActuators = new Vector();
+    public List<NitrogenAirStoreInFlowRateActuator> theNitrogenAirStoreInFlowRateActuators = new Vector<NitrogenAirStoreInFlowRateActuator>();
 
-    public List theNitrogenAirStoreOutFlowRateActuators = new Vector();
+    public List<NitrogenAirStoreOutFlowRateActuator> theNitrogenAirStoreOutFlowRateActuators = new Vector<NitrogenAirStoreOutFlowRateActuator>();
 
-    public List theWaterAirEnvironmentInFlowRateActuators = new Vector();
+    public List<WaterAirEnvironmentInFlowRateActuator> theWaterAirEnvironmentInFlowRateActuators = new Vector<WaterAirEnvironmentInFlowRateActuator>();
 
-    public List theWaterAirEnvironmentOutFlowRateActuators = new Vector();
+    public List<WaterAirEnvironmentOutFlowRateActuator> theWaterAirEnvironmentOutFlowRateActuators = new Vector<WaterAirEnvironmentOutFlowRateActuator>();
 
-    public List theWaterAirStoreInFlowRateActuators = new Vector();
+    public List<WaterAirStoreInFlowRateActuator> theWaterAirStoreInFlowRateActuators = new Vector<WaterAirStoreInFlowRateActuator>();
 
-    public List theWaterAirStoreOutFlowRateActuators = new Vector();
+    public List<WaterAirStoreOutFlowRateActuator> theWaterAirStoreOutFlowRateActuators = new Vector<WaterAirStoreOutFlowRateActuator>();
 
     //Food
-    public List theBiomassInFlowRateActuators = new Vector();
+    public List<BiomassInFlowRateActuator> theBiomassInFlowRateActuators = new Vector<BiomassInFlowRateActuator>();
 
-    public List theBiomassOutFlowRateActuators = new Vector();
+    public List<BiomassOutFlowRateActuator> theBiomassOutFlowRateActuators = new Vector<BiomassOutFlowRateActuator>();
 
-    public List theFoodInFlowRateActuators = new Vector();
+    public List<FoodInFlowRateActuator> theFoodInFlowRateActuators = new Vector<FoodInFlowRateActuator>();
 
-    public List theFoodOutFlowRateActuators = new Vector();
+    public List<FoodOutFlowRateActuator> theFoodOutFlowRateActuators = new Vector<FoodOutFlowRateActuator>();
+    
+    public List<PlantingActuator> thePlantingActuators = new Vector<PlantingActuator>();
 
-    public List thePlantingActuators = new Vector();
-
-    public List theHarvestingActuators = new Vector();
+    public List<HarvestingActuator> theHarvestingActuators = new Vector<HarvestingActuator>();
 
     //Power
-    public List thePowerInFlowRateActuators = new Vector();
+    public List<PowerInFlowRateActuator> thePowerInFlowRateActuators = new Vector<PowerInFlowRateActuator>();
 
-    public List thePowerOutFlowRateActuators = new Vector();
+    public List<PowerOutFlowRateActuator> thePowerOutFlowRateActuators = new Vector<PowerOutFlowRateActuator>();
 
     //Waste
-    public List theDryWasteInFlowRateActuators = new Vector();
+    public List<DryWasteInFlowRateActuator> theDryWasteInFlowRateActuators = new Vector<DryWasteInFlowRateActuator>();
 
-    public List theDryWasteOutFlowRateActuators = new Vector();
+    public List<DryWasteOutFlowRateActuator> theDryWasteOutFlowRateActuators = new Vector<DryWasteOutFlowRateActuator>();
 
     //Water
-    public List thePotableWaterInFlowRateActuators = new Vector();
+    public List<PotableWaterInFlowRateActuator> thePotableWaterInFlowRateActuators = new Vector<PotableWaterInFlowRateActuator>();
 
-    public List thePotableWaterOutFlowRateActuators = new Vector();
+    public List<PotableWaterOutFlowRateActuator> thePotableWaterOutFlowRateActuators = new Vector<PotableWaterOutFlowRateActuator>();
 
-    public List theGreyWaterInFlowRateActuators = new Vector();
+    public List<GreyWaterInFlowRateActuator> theGreyWaterInFlowRateActuators = new Vector<GreyWaterInFlowRateActuator>();
 
-    public List theGreyWaterOutFlowRateActuators = new Vector();
+    public List<GreyWaterOutFlowRateActuator> theGreyWaterOutFlowRateActuators = new Vector<GreyWaterOutFlowRateActuator>();
 
-    public List theDirtyWaterInFlowRateActuators = new Vector();
+    public List<DirtyWaterInFlowRateActuator> theDirtyWaterInFlowRateActuators = new Vector<DirtyWaterInFlowRateActuator>();
 
-    public List theDirtyWaterOutFlowRateActuators = new Vector();
+    public List<DirtyWaterOutFlowRateActuator> theDirtyWaterOutFlowRateActuators = new Vector<DirtyWaterOutFlowRateActuator>();
 
-    public List theWaterInFlowRateActuators = new Vector();
+    public List<WaterInFlowRateActuator> theWaterInFlowRateActuators = new Vector<WaterInFlowRateActuator>();
 
-    public List theWaterOutFlowRateActuators = new Vector();
+    public List<WaterOutFlowRateActuator> theWaterOutFlowRateActuators = new Vector<WaterOutFlowRateActuator>();
 
     protected BioHolder() {
     }

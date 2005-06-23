@@ -10,7 +10,6 @@ public abstract class ActiveNode extends ModuleNode {
      * @return
      */
     public boolean isConsumingFromNode(PassiveNode sourceNode) {
-        PassiveNode passiveDestNode = (PassiveNode) sourceNode;
         List currentNodesConnected = getSourceNodes();
         for (Iterator iter = currentNodesConnected.iterator(); iter.hasNext();) {
             ModuleNode currentNode = (ModuleNode) iter.next();
@@ -25,7 +24,6 @@ public abstract class ActiveNode extends ModuleNode {
      * @return
      */
     public boolean isProducingForNode(PassiveNode destNode) {
-        PassiveNode passiveDestNode = (PassiveNode) destNode;
         List currentNodesConnected = getDestNodes();
         for (Iterator iter = currentNodesConnected.iterator(); iter.hasNext();) {
             ModuleNode currentNode = (ModuleNode) iter.next();

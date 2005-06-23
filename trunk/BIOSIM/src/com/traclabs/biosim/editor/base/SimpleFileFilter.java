@@ -61,6 +61,6 @@ public class SimpleFileFilter extends FileFilter {
     }
 
     public String[] getExtensions() {
-        return (String[]) extensions.clone();
+        return extensions.clone();
     }
 }

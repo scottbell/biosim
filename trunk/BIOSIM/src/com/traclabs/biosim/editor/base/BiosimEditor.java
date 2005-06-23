@@ -91,7 +91,7 @@ public class BiosimEditor extends Editor {
 
     public void expandNode(FigModuleNode figNode) {
         if (figNode != null && figNode.getNestedLayer() != null) {
-            EditorLayer layer = (EditorLayer) figNode.getNestedLayer();
+            EditorLayer layer = figNode.getNestedLayer();
             getLayerManager().replaceActiveLayer(layer);
             getSelectionManager().deselectAll();
             damageAll();
