@@ -1086,19 +1086,17 @@ public class SimulationInitializer {
                         evaCrewGroupName);
                 return EVAActivityHelper.narrow(ActivityHelper.narrow(OrbUtils
                         .poaToCorbaObj(newEVAActivityImpl)));
-            } else {
-                myLogger
-                        .error("Activity not of expected type even though it was explicitly declared! (can only be EVA type right now)");
-                myLogger.error("type was: " + activityTypeNode.getNodeValue()
-                        + ", should be: EVAActivityType");
-                return null;
             }
-        } else {
-            ActivityImpl newActivityImpl = new ActivityImpl(name, length,
-                    intensity);
-            return ActivityHelper.narrow(OrbUtils
-                    .poaToCorbaObj(newActivityImpl));
+			myLogger
+			        .error("Activity not of expected type even though it was explicitly declared! (can only be EVA type right now)");
+			myLogger.error("type was: " + activityTypeNode.getNodeValue()
+			        + ", should be: EVAActivityType");
+			return null;
         }
+		ActivityImpl newActivityImpl = new ActivityImpl(name, length,
+		        intensity);
+		return ActivityHelper.narrow(OrbUtils
+		        .poaToCorbaObj(newActivityImpl));
     }
 
     private Schedule createSchedule(Node node, CrewGroupImpl crew) {

@@ -104,8 +104,8 @@ public class DehumidifierImpl extends SimBioModuleImpl implements
                     / (1 - OPTIMAL_MOISTURE_CONCENTRATION);
             return currentWaterMolesInEnvironment
                     - waterMolesAtOptimalConcentration;
-        } else
-            return 0f;
+        }
+		return 0f;
     }
 
     private static float waterMolesToLiters(float pMoles) {

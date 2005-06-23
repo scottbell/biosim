@@ -264,8 +264,7 @@ public class MatlabTestBackend {
         String response = myPutSocketTextReader.readLine();
         if (response == null)
             return false;
-        else
-            return response.equals(MatlabAceEngine.CLIENT_HELLO);
+		return response.equals(MatlabAceEngine.CLIENT_HELLO);
     }
 
     /**
@@ -278,8 +277,7 @@ public class MatlabTestBackend {
         String response = myGetSocketTextReader.readLine();
         if (response == null)
             return false;
-        else
-            return response.equals(MatlabAceEngine.CLIENT_HELLO);
+		return response.equals(MatlabAceEngine.CLIENT_HELLO);
     }
 
 }

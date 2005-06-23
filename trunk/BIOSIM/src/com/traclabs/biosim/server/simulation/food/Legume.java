@@ -59,23 +59,21 @@ public abstract class Legume extends Planophile {
                 + timeTillCanopySenescence);
         if (getDaysOfGrowth() < getTimeAtCanopySenescence()) {
             return CUEMax;
-        } else {
-            float CUEMin = getCUEMin();
-            float daysOfGrowth = getDaysOfGrowth();
-            float timeTillCropMaturity = getTimeAtCropMaturity();
-            float calculatedCUE24 = CUEMax
-                    - ((CUEMax - CUEMin)
-                            * ((daysOfGrowth - timeTillCanopySenescence)) / (timeTillCropMaturity - timeTillCanopySenescence));
-            myLogger.debug("Legume: CUEMin: " + CUEMin);
-            myLogger.debug("Legume: daysOfGrowth: " + daysOfGrowth);
-            myLogger.debug("Legume: timeTillCropMaturity: "
-                    + timeTillCropMaturity);
-            myLogger.debug("Legume: calculatedCUE24: " + calculatedCUE24);
-            if (calculatedCUE24 < 0f)
-                return 0f;
-            else
-                return calculatedCUE24;
         }
+		float CUEMin = getCUEMin();
+		float daysOfGrowth = getDaysOfGrowth();
+		float timeTillCropMaturity = getTimeAtCropMaturity();
+		float calculatedCUE24 = CUEMax
+		        - ((CUEMax - CUEMin)
+		                * ((daysOfGrowth - timeTillCanopySenescence)) / (timeTillCropMaturity - timeTillCanopySenescence));
+		myLogger.debug("Legume: CUEMin: " + CUEMin);
+		myLogger.debug("Legume: daysOfGrowth: " + daysOfGrowth);
+		myLogger.debug("Legume: timeTillCropMaturity: "
+		        + timeTillCropMaturity);
+		myLogger.debug("Legume: calculatedCUE24: " + calculatedCUE24);
+		if (calculatedCUE24 < 0f)
+		    return 0f;
+		return calculatedCUE24;
     }
 
 }

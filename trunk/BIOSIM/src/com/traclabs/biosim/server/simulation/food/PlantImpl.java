@@ -425,8 +425,7 @@ public abstract class PlantImpl extends PlantPOA {
         myLogger.debug("vaporPressureDeficit:" + vaporPressureDeficit);
         if (vaporPressureDeficit < 0)
             return 0f;
-        else
-            return vaporPressureDeficit;
+		return vaporPressureDeficit;
     }
 
     private float calculateSaturatedMoistureVaporPressure() {
@@ -889,21 +888,19 @@ public abstract class PlantImpl extends PlantPOA {
         myLogger.debug("timeTillCanopySenescence:" + timeTillCanopySenescence);
         if (getDaysOfGrowth() < getTimeAtCanopySenescence()) {
             return CQYMax;
-        } else {
-            float CQYMin = getCQYMin();
-            float daysOfGrowth = getDaysOfGrowth();
-            float timeTillCropMaturity = getTimeAtCropMaturity();
-            float calculatedCQY = CQYMax
-                    - ((CQYMax - CQYMin)
-                            * (daysOfGrowth - timeTillCanopySenescence) / (timeTillCropMaturity - timeTillCanopySenescence));
-            myLogger.debug("CQYMin: " + CQYMin);
-            myLogger.debug("daysOfGrowth: " + daysOfGrowth);
-            myLogger.debug("timeTillCropMaturity: " + timeTillCropMaturity);
-            if (calculatedCQY < 0f)
-                return 0f;
-            else
-                return calculatedCQY;
         }
+		float CQYMin = getCQYMin();
+		float daysOfGrowth = getDaysOfGrowth();
+		float timeTillCropMaturity = getTimeAtCropMaturity();
+		float calculatedCQY = CQYMax
+		        - ((CQYMax - CQYMin)
+		                * (daysOfGrowth - timeTillCanopySenescence) / (timeTillCropMaturity - timeTillCanopySenescence));
+		myLogger.debug("CQYMin: " + CQYMin);
+		myLogger.debug("daysOfGrowth: " + daysOfGrowth);
+		myLogger.debug("timeTillCropMaturity: " + timeTillCropMaturity);
+		if (calculatedCQY < 0f)
+		    return 0f;
+		return calculatedCQY;
     }
 
     private float getAveragePPF() {

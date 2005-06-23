@@ -28,11 +28,8 @@ public class Chemical {
         if (amountRequested > quantityCurrent) {
             return 0f;
         }
-        //stuff exists for request
-        else {
-            takenAmount = amountRequested;
-            quantityCurrent -= takenAmount;
-        }
+		takenAmount = amountRequested;
+		quantityCurrent -= takenAmount;
         return takenAmount;
     }
     

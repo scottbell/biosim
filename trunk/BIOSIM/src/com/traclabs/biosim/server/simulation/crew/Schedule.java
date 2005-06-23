@@ -97,8 +97,7 @@ public class Schedule {
         Object foundActivity = allActivities.get(activityName);
         if (foundActivity != null)
             return orderedSchedule.indexOf(foundActivity);
-        else
-            return -1;
+		return -1;
     }
 
     /**

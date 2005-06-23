@@ -589,8 +589,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
     public float getO2Moles() {
         if (cachedValueNeeded())
             return cachedO2Moles;
-        else
-            return O2Moles;
+		return O2Moles;
     }
 
     /**
@@ -601,8 +600,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
     public float getCO2Moles() {
         if (cachedValueNeeded())
             return cachedCO2Moles;
-        else
-            return CO2Moles;
+		return CO2Moles;
     }
 
     /**
@@ -613,8 +611,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
     public float getWaterMoles() {
         if (cachedValueNeeded())
             return cachedWaterMoles;
-        else
-            return waterMoles;
+		return waterMoles;
     }
 
     /**
@@ -625,8 +622,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
     public float getNitrogenMoles() {
         if (cachedValueNeeded())
             return cachedNitrogenMoles;
-        else
-            return nitrogenMoles;
+		return nitrogenMoles;
     }
 
     /**
@@ -637,8 +633,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
     public float getOtherPressure() {
         if (cachedValueNeeded())
             return cachedOtherPressure;
-        else
-            return otherPressure;
+		return otherPressure;
     }
 
     /**
@@ -649,8 +644,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
     public float getWaterPressure() {
         if (cachedValueNeeded())
             return cachedWaterPressure;
-        else
-            return waterPressure;
+		return waterPressure;
     }
 
     /**
@@ -661,8 +655,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
     public float getO2Pressure() {
         if (cachedValueNeeded())
             return cachedO2Pressure;
-        else
-            return O2Pressure;
+		return O2Pressure;
     }
 
     /**
@@ -673,8 +666,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
     public float getCO2Pressure() {
         if (cachedValueNeeded())
             return cachedCO2Pressure;
-        else
-            return CO2Pressure;
+		return CO2Pressure;
     }
 
     /**
@@ -685,8 +677,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
     public float getNitrogenPressure() {
         if (cachedValueNeeded())
             return cachedNitrogenPressure;
-        else
-            return nitrogenPressure;
+		return nitrogenPressure;
     }
 
     /**
@@ -964,32 +955,28 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
             return new Breath(afterRemovalO2, afterRemovalCO2,
                     afterRemovalWater, afterRemovalOther, afterRemovalNitrogen);
         }
-        //gas exists for request
-        //MESSED UP!
-        else {
-            float afterRemovalCO2 = randomFilter(CO2Moles
-                    - ((CO2Moles / getTotalMoles()) * molesRequested));
-            float afterRemovalO2 = randomFilter(O2Moles
-                    - ((O2Moles / getTotalMoles()) * molesRequested));
-            float afterRemovalOther = randomFilter(otherMoles
-                    - ((otherMoles / getTotalMoles()) * molesRequested));
-            float afterRemovalWater = randomFilter(waterMoles
-                    - ((waterMoles / getTotalMoles()) * molesRequested));
-            float afterRemovalNitrogen = randomFilter(nitrogenMoles
-                    - ((nitrogenMoles / getTotalMoles()) * molesRequested));
-            float O2MolesTaken = O2Moles - afterRemovalO2;
-            float CO2MolesTaken = CO2Moles - afterRemovalCO2;
-            float otherMolesTaken = otherMoles - afterRemovalOther;
-            float waterMolesTaken = waterMoles - afterRemovalWater;
-            float nitrogenMolesTaken = nitrogenMoles - afterRemovalNitrogen;
-            O2Moles = afterRemovalO2;
-            CO2Moles = afterRemovalCO2;
-            otherMoles = afterRemovalOther;
-            waterMoles = afterRemovalWater;
-            nitrogenMoles = afterRemovalNitrogen;
-            return new Breath(O2MolesTaken, CO2MolesTaken, waterMolesTaken,
-                    otherMolesTaken, nitrogenMolesTaken);
-        }
+		float afterRemovalCO2 = randomFilter(CO2Moles
+		        - ((CO2Moles / getTotalMoles()) * molesRequested));
+		float afterRemovalO2 = randomFilter(O2Moles
+		        - ((O2Moles / getTotalMoles()) * molesRequested));
+		float afterRemovalOther = randomFilter(otherMoles
+		        - ((otherMoles / getTotalMoles()) * molesRequested));
+		float afterRemovalWater = randomFilter(waterMoles
+		        - ((waterMoles / getTotalMoles()) * molesRequested));
+		float afterRemovalNitrogen = randomFilter(nitrogenMoles
+		        - ((nitrogenMoles / getTotalMoles()) * molesRequested));
+		float O2MolesTaken = O2Moles - afterRemovalO2;
+		float CO2MolesTaken = CO2Moles - afterRemovalCO2;
+		float otherMolesTaken = otherMoles - afterRemovalOther;
+		float waterMolesTaken = waterMoles - afterRemovalWater;
+		float nitrogenMolesTaken = nitrogenMoles - afterRemovalNitrogen;
+		O2Moles = afterRemovalO2;
+		CO2Moles = afterRemovalCO2;
+		otherMoles = afterRemovalOther;
+		waterMoles = afterRemovalWater;
+		nitrogenMoles = afterRemovalNitrogen;
+		return new Breath(O2MolesTaken, CO2MolesTaken, waterMolesTaken,
+		        otherMolesTaken, nitrogenMolesTaken);
     }
 
     private void performLeak(float pLeakRate) {
