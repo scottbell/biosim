@@ -38,9 +38,16 @@ public class FNR extends ActiveEnzyme{
     private void attemptToFormNADPH() {
         float protonsTaken = myStroma.getProtons().take(PROTONS_NEEDED);
         float NADPTaken = myStroma.getNADPs().take(NADP_NEEDED);
+        myLogger.debug("attempting to form NADPH!");
         if ((protonsTaken == PROTONS_NEEDED) && (NADPTaken == NADP_NEEDED)){
             myStroma.getNADPHs().add(NADPTaken);
             debindComplex();
+            myLogger.debug("formed NADPH!");
+        }
+        else{
+            myLogger.debug("only got "+protonsTaken+" protons and "+NADPTaken+" NAPDs");
+            myStroma.getProtons().add(protonsTaken);
+            myStroma.getNADPs().add(NADPTaken);
         }
     }
     
@@ -58,6 +65,7 @@ public class FNR extends ActiveEnzyme{
         if (myFerredoxin.hasElectron()){
             myFerredoxin.oxidize();
             complexHasFormed = true;
+            myLogger.debug("formed FNRComplex!");
         }
     }
 

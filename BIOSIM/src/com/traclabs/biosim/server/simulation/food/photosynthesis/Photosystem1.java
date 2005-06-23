@@ -39,6 +39,7 @@ public class Photosystem1 extends ActiveEnzyme{
         if (!myFerredoxin.hasElectron()){
             myFerredoxin.reduce();
             energized = false;
+            myLogger.debug("reduced ferredoxin!");
         }
         
     }
@@ -51,6 +52,7 @@ public class Photosystem1 extends ActiveEnzyme{
         if (myPlastocyanin.hasElectron()){
             myPlastocyanin.oxidize();
             energized = true;
+            myLogger.debug("oxidized plastocyanin!");
         }
     }
 

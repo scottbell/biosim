@@ -44,6 +44,11 @@ public class ATPSynthase extends ActiveEnzyme {
         float phosphateTaken = myStroma.getPhosphates().take(PHOSPHATE_NEEDED);
         if ((ADPTaken == ADP_NEEDED) && (phosphateTaken == PHOSPHATE_NEEDED)){
             myStroma.getATPs().add(ADPTaken);
+            myLogger.info("synthesized ATP!");
+        }
+        else{
+            myStroma.getADPs().add(ADPTaken);
+            myStroma.getPhosphates().add(phosphateTaken);
         }
     }
 
@@ -54,6 +59,7 @@ public class ATPSynthase extends ActiveEnzyme {
         float protonsToTake = myLumen.getProtons().getQuantity();
         myLumen.getProtons().take(protonsToTake);
         myStroma.getProtons().add(protonsToTake);
+        myLogger.info("pumped "+ protonsToTake+ " protons!");
     }
 
     /**

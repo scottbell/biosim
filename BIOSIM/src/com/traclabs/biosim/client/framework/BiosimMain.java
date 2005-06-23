@@ -11,7 +11,6 @@ import com.traclabs.biosim.client.simulation.food.photosynthesis.PhotosynthesisP
 import com.traclabs.biosim.client.simulation.framework.SimDesktop;
 import com.traclabs.biosim.client.unrealCom.UnrealCom;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
-import com.traclabs.biosim.server.framework.BiosimServer;
 import com.traclabs.biosim.util.OrbUtils;
 
 /**
