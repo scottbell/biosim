@@ -8,6 +8,7 @@ package com.traclabs.biosim.client.simulation.framework;
 
 import java.awt.BorderLayout;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.WindowConstants;
@@ -20,7 +21,7 @@ public class SimDesktopFrame extends javax.swing.JInternalFrame {
     //A reference to the desktop this frame is added to.
     SimDesktop myDesktop;
 
-    java.util.List bioPanels;
+    List<UpdatablePanel> bioPanels;
 
     /**
      * Creates frame's GUI with minimizable, resizable, maxizable, and closeable
@@ -29,7 +30,7 @@ public class SimDesktopFrame extends javax.swing.JInternalFrame {
     public SimDesktopFrame(String pTitle, SimDesktop pDesktop) {
         super(pTitle, true, true, true, true);
         myDesktop = pDesktop;
-        bioPanels = new Vector();
+        bioPanels = new Vector<UpdatablePanel>();
         buildGui();
     }
 

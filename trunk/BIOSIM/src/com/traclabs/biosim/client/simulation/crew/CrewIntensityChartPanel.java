@@ -33,7 +33,7 @@ public class CrewIntensityChartPanel extends GraphPanel {
     private CrewGroup myCrewGroup;
 
     protected void buildGui() {
-        myCrewGroup = (CrewGroup) (BioHolderInitializer.getBioHolder().theCrewGroups
+        myCrewGroup = (BioHolderInitializer.getBioHolder().theCrewGroups
                 .get(0));
         if (myCrewGroup.getCrewSize() == 0) {
             setLayout(new BorderLayout());
@@ -75,7 +75,7 @@ public class CrewIntensityChartPanel extends GraphPanel {
         ValueAxis rangeAxis = myPlot.getRangeAxis();
         rangeAxis.setAutoRange(false);
         rangeAxis.setRange(0.0, 5.0);
-        TextTitle myTextTitle = (TextTitle) (myChart.getTitle());
+        TextTitle myTextTitle = (myChart.getTitle());
         myTextTitle.setFont(myTextTitle.getFont().deriveFont(13.0f));
         myChartPanel = new ChartPanel(myChart);
         myChartPanel.setMinimumDrawHeight(250);

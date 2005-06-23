@@ -1,10 +1,5 @@
 package com.traclabs.biosim.client.control;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.DecimalFormat;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -16,15 +11,11 @@ import com.traclabs.biosim.idl.actuator.framework.GenericActuator;
 import com.traclabs.biosim.idl.framework.BioDriver;
 import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
 import com.traclabs.biosim.idl.simulation.air.O2Store;
-import com.traclabs.biosim.idl.simulation.air.OGS;
-import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.idl.simulation.framework.Injector;
-import com.traclabs.biosim.idl.simulation.power.PowerStore;
 import com.traclabs.biosim.idl.simulation.water.DirtyWaterStore;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterStore;
 import com.traclabs.biosim.idl.simulation.water.PotableWaterStore;
-import com.traclabs.biosim.idl.simulation.water.WaterRS;
 
 /**
  * @author Theresa Klein
@@ -36,8 +27,6 @@ public class HandController {
     private float levelToKeepO2At = 0.20f;
 
     private float levelToKeepCO2At = 0.00111f;
-
-    private float desiredAirPressure = 101f;
 
     private float crewO2integral = 0f;
 
@@ -53,17 +42,11 @@ public class HandController {
 
     private Map classifiedState;
 
-    private Map thresholdMap = new TreeMap();
+    private Map<String, Map> thresholdMap = new TreeMap<String, Map>();
 
     private BioDriver myBioDriver;
 
     private BioHolder myBioHolder;
-
-    private OGS myOGS;
-
-    private WaterRS myWaterRS;
-
-    private CrewGroup myCrew;
 
     private SimEnvironment myCrewEnvironment;
 
@@ -72,8 +55,6 @@ public class HandController {
     private GreyWaterStore myGreyWaterStore;
 
     private PotableWaterStore myPotableWaterStore;
-
-    private PowerStore myPowerStore;
 
     private O2Store myO2Store;
 
@@ -87,15 +68,7 @@ public class HandController {
     public static String[] actuatorNames = { "OGSpotable", "waterRSdirty",
             "waterRSgrey" };
 
-    private File outFile;
-
-    private FileWriter fw;
-
-    private PrintWriter pw;
-
     private Logger myLogger;
-
-    private DecimalFormat numFormat;
 
     public static final Integer HIGH = new Integer(0);
 
@@ -121,35 +94,18 @@ public class HandController {
 
     private float myO2AirStoreInInjectorMax;
 
-    private float myO2AirEnvironmentOutInjectorMax;
-
     private float myCO2AirStoreInInjectorMax;
-
-    private float myCO2AirEnvironmentOutInjectorMax;
 
     public HandController() {
         myLogger = Logger.getLogger(this.getClass());
-        numFormat = new DecimalFormat("#,##0.0;(#)");
-        if (myLogger.isDebugEnabled()) {
-            try {
-                outFile = new File("handcontroller-output.txt");
-                fw = new FileWriter(outFile);
-            } catch (IOException e) {
-            }
-            pw = new PrintWriter(fw, true);
-        }
         collectReferences();
         setThresholds();
         continuousState = new StateMap();
         myActionMap = new ActionMap();
 
-        myO2AirEnvironmentOutInjectorMax = myO2AirEnvironmentOutInjectorAcutator
-                .getMax();
         myO2AirStoreInInjectorMax = myO2AirStoreInInjectorAcutator.getMax();
 
         if (myCO2Injector != null) {
-            myCO2AirEnvironmentOutInjectorMax = myCO2AirEnvironmentOutInjectorAcutator
-                    .getMax();
             myCO2AirStoreInInjectorMax = myCO2AirStoreInInjectorAcutator
                     .getMax();
         }
@@ -164,55 +120,50 @@ public class HandController {
         myBioHolder = BioHolderInitializer.getBioHolder();
         myBioDriver = myBioHolder.theBioDriver;
 
-        myCrew = (CrewGroup) myBioHolder.theCrewGroups.get(0);
-        myWaterRS = (WaterRS) myBioHolder.theWaterRSModules.get(0);
-        myOGS = (OGS) myBioHolder.theOGSModules.get(0);
-
-        myO2Injector = (Injector) myBioHolder.theInjectors.get(1);
+        myO2Injector = myBioHolder.theInjectors.get(1);
 
         if (myBioHolder.theInjectors.size() >= 3) {
-            myCO2Injector = (Injector) myBioHolder.theInjectors.get(2);
+            myCO2Injector = myBioHolder.theInjectors.get(2);
         }
 
-        myDirtyWaterStore = (DirtyWaterStore) myBioHolder.theDirtyWaterStores
+        myDirtyWaterStore = myBioHolder.theDirtyWaterStores
                 .get(0);
-        myPotableWaterStore = (PotableWaterStore) myBioHolder.thePotableWaterStores
+        myPotableWaterStore = myBioHolder.thePotableWaterStores
                 .get(0);
-        myGreyWaterStore = (GreyWaterStore) myBioHolder.theGreyWaterStores
+        myGreyWaterStore = myBioHolder.theGreyWaterStores
                 .get(0);
 
-        myO2Store = (O2Store) myBioHolder.theO2Stores.get(0);
+        myO2Store = myBioHolder.theO2Stores.get(0);
 
-        myCrewEnvironment = (SimEnvironment) myBioHolder.theSimEnvironments
+        myCrewEnvironment = myBioHolder.theSimEnvironments
                 .get(0);
-        myPowerStore = (PowerStore) myBioHolder.thePowerStores.get(0);
 
-        myO2AirStoreInInjectorAcutator = (GenericActuator) (myBioHolder
+        myO2AirStoreInInjectorAcutator = (myBioHolder
                 .getActuatorAttachedTo(
                         myBioHolder.theO2AirStoreInFlowRateActuators,
                         myO2Injector));
 
-        myO2AirEnvironmentOutInjectorAcutator = (GenericActuator) (myBioHolder
+        myO2AirEnvironmentOutInjectorAcutator = (myBioHolder
                 .getActuatorAttachedTo(
                         myBioHolder.theO2AirEnvironmentOutFlowRateActuators,
                         myO2Injector));
 
-        myO2AirConcentrationSensor = (GenericSensor) (myBioHolder
+        myO2AirConcentrationSensor = (myBioHolder
                 .getSensorAttachedTo(myBioHolder.theO2AirConcentrationSensors,
                         myCrewEnvironment));
 
         if (myCO2Injector != null) {
-            myCO2AirStoreInInjectorAcutator = (GenericActuator) (myBioHolder
+            myCO2AirStoreInInjectorAcutator = (myBioHolder
                     .getActuatorAttachedTo(
                             myBioHolder.theCO2AirStoreInFlowRateActuators,
                             myCO2Injector));
 
-            myCO2AirEnvironmentOutInjectorAcutator = (GenericActuator) (myBioHolder
+            myCO2AirEnvironmentOutInjectorAcutator = (myBioHolder
                     .getActuatorAttachedTo(
                             myBioHolder.theCO2AirEnvironmentOutFlowRateActuators,
                             myCO2Injector));
 
-            myCO2AirConcentrationSensor = (GenericSensor) (myBioHolder
+            myCO2AirConcentrationSensor = (myBioHolder
                     .getSensorAttachedTo(
                             myBioHolder.theCO2AirConcentrationSensors,
                             myCrewEnvironment));
@@ -254,29 +205,29 @@ public class HandController {
         int O2StoreHighLevel = (int) myO2Store.getCurrentCapacity();
         int O2StoreLowLevel = O2StoreHighLevel / 3;
 
-        Map dirtyWaterSubMap = new TreeMap();
+        Map<Integer, Integer> dirtyWaterSubMap = new TreeMap<Integer, Integer>();
         dirtyWaterSubMap.put(LOW, new Integer(dirtyWaterLowLevel));
         dirtyWaterSubMap.put(HIGH, new Integer(dirtyWaterHighLevel));
         thresholdMap.put("dirtywater", dirtyWaterSubMap);
 
-        Map greyWaterSubMap = new TreeMap();
+        Map<Integer, Integer> greyWaterSubMap = new TreeMap<Integer, Integer>();
         greyWaterSubMap.put(LOW, new Integer(greyWaterLowLevel));
         greyWaterSubMap.put(HIGH, new Integer(greyWaterHighLevel));
         thresholdMap.put("greywater", greyWaterSubMap);
 
-        Map oxygenSubMap = new TreeMap();
+        Map<Integer, Integer> oxygenSubMap = new TreeMap<Integer, Integer>();
         oxygenSubMap.put(LOW, new Integer(O2StoreLowLevel));
         oxygenSubMap.put(HIGH, new Integer(O2StoreHighLevel));
         thresholdMap.put("oxygen", oxygenSubMap);
 
-        Map potableWaterSubMap = new TreeMap();
+        Map<Integer, Integer> potableWaterSubMap = new TreeMap<Integer, Integer>();
         potableWaterSubMap.put(LOW, new Integer(potableWaterLowLevel));
         potableWaterSubMap.put(HIGH, new Integer(potableWaterHighLevel));
         thresholdMap.put("potablewater", potableWaterSubMap);
     }
 
     public Map classifyState(StateMap instate) {
-        Map state = new TreeMap();
+        Map<String, Integer> state = new TreeMap<String, Integer>();
 
         Map thisSet;
         StringBuffer fileoutput;
@@ -286,7 +237,7 @@ public class HandController {
 
         for (int i = 0; i < stateNames.length; i++) {
 
-            thisSet = (Map) thresholdMap.get(stateNames[i]);
+            thisSet = thresholdMap.get(stateNames[i]);
             fileoutput.append(instate.getStateValue(stateNames[i]));
             fileoutput.append(TAB);
             if (instate.getStateValue(stateNames[i]) < ((Integer) thisSet
@@ -302,7 +253,6 @@ public class HandController {
     }
 
     private void doO2Injector() {
-        float crewAirPressure = myCrewEnvironment.getTotalPressure();
         //crew O2 feedback control
         float crewO2p = 100f;
         float crewO2i = 5f;
@@ -318,7 +268,6 @@ public class HandController {
     }
 
     private void doCO2Injector() {
-        float crewAirPressure = myCrewEnvironment.getTotalPressure();
         //crew O2 feedback control
         float crewCO2p = 100f;
         float crewCO2i = 5f;
@@ -334,15 +283,6 @@ public class HandController {
     }
 
     /**
-     * @param pO2AirEnvironmentOutInjectorMax
-     *            The myO2AirEnvironmentOutInjectorMax to set.
-     */
-    public void setO2AirEnvironmentOutInjectorMax(
-            float pO2AirEnvironmentOutInjectorMax) {
-        myO2AirEnvironmentOutInjectorMax = pO2AirEnvironmentOutInjectorMax;
-    }
-
-    /**
      * @param pO2AirStoreInInjectorMax
      *            The myO2AirStoreInInjectorMax to set.
      */
@@ -351,66 +291,11 @@ public class HandController {
     }
 
     /**
-     * @param pO2AirEnvironmentOutInjectorMax
-     *            The myO2AirEnvironmentOutInjectorMax to set.
-     */
-    public void setCO2AirEnvironmentOutInjectorMax(
-            float pCO2AirEnvironmentOutInjectorMax) {
-        myCO2AirEnvironmentOutInjectorMax = pCO2AirEnvironmentOutInjectorMax;
-    }
-
-    /**
      * @param pO2AirStoreInInjectorMax
      *            The myO2AirStoreInInjectorMax to set.
      */
     public void setCO2AirStoreInInjectorMax(float pCO2AirStoreInInjectorMax) {
         myCO2AirStoreInInjectorMax = pCO2AirStoreInInjectorMax;
-    }
-
-    /**
-     * @param myOGSPotableWaterInFlowRateMax
-     *            The myOGSPotableWaterInFlowRateMax to set.
-     */
-    public void setOGSPotableWaterInFlowRateMax(
-            float pOGSPotableWaterInFlowRateMax) {
-        myActionMap
-                .setOGSPotableWaterInFlowRateMax(pOGSPotableWaterInFlowRateMax);
-    }
-
-    /**
-     * @param myOGSPowerInFlowRateMax
-     *            The myOGSPowerInFlowRateMax to set.
-     */
-    public void setOGSPowerInFlowRateMax(float pOGSPowerInFlowRateMax) {
-        myActionMap.setOGSPowerInFlowRateMax(pOGSPowerInFlowRateMax);
-    }
-
-    /**
-     * @param myWaterRSDirtyWaterInFlowRateMax
-     *            The myWaterRSDirtyWaterInFlowRateMax to set.
-     */
-    public void setWaterRSDirtyWaterInFlowRateMax(
-            float pWaterRSDirtyWaterInFlowRateMax) {
-        myActionMap
-                .setWaterRSDirtyWaterInFlowRateMax(pWaterRSDirtyWaterInFlowRateMax);
-    }
-
-    /**
-     * @param myWaterRSGreyWaterInFlowRateMax
-     *            The myWaterRSGreyWaterInFlowRateMax to set.
-     */
-    public void setWaterRSGreyWaterInFlowRateMax(
-            float pWaterRSGreyWaterInFlowRateMax) {
-        myActionMap
-                .setWaterRSGreyWaterInFlowRateMax(pWaterRSGreyWaterInFlowRateMax);
-    }
-
-    /**
-     * @param myWaterRSPowerInFlowRateMax
-     *            The myWaterRSPowerInFlowRateMax to set.
-     */
-    public void setWaterRSPowerInFlowRateMax(float pWaterRSPowerInFlowRateMax) {
-        myActionMap.setWaterRSPowerInFlowRateMax(pWaterRSPowerInFlowRateMax);
     }
 
 }

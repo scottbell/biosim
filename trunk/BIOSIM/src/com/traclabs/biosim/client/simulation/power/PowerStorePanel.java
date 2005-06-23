@@ -33,7 +33,7 @@ public class PowerStorePanel extends GraphPanel {
 
     protected void createGraph() {
         // create the chart...
-        myPowerStore = (PowerStore) (BioHolderInitializer.getBioHolder().thePowerStores
+        myPowerStore = (BioHolderInitializer.getBioHolder().thePowerStores
                 .get(0));
         refresh();
         myChart = ChartFactory.createBarChart3D("Power Store Level", // chart
@@ -50,7 +50,7 @@ public class PowerStorePanel extends GraphPanel {
         rangeAxis.setRange(0.0, myPowerStore.getCurrentCapacity());
         CategoryItemRenderer renderer = myPlot.getRenderer();
         renderer.setSeriesPaint(0, Color.ORANGE);
-        TextTitle myTextTitle = (TextTitle) (myChart.getTitle());
+        TextTitle myTextTitle = (myChart.getTitle());
         myTextTitle.setFont(myTextTitle.getFont().deriveFont(13.0f));
         myChartPanel = new ChartPanel(myChart);
         myChartPanel.setMinimumDrawHeight(200);
@@ -60,7 +60,6 @@ public class PowerStorePanel extends GraphPanel {
 
     public void refresh() {
         if (myDataset == null) {
-            double[][] data = { {} };
             myDataset = new DefaultCategoryDataset();
             myDataset.addValue(myPowerStore.getCurrentLevel(), "Power Store",
                     "");

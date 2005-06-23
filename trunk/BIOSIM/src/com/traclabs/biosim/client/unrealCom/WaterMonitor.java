@@ -107,11 +107,11 @@ public class WaterMonitor extends Thread {
             System.exit(1);
         }
 
-        myPotableWaterStore = (PotableWaterStore) myBioHolder.thePotableWaterStores
+        myPotableWaterStore = myBioHolder.thePotableWaterStores
                 .get(0);
-        myGreyWaterStore = (GreyWaterStore) myBioHolder.theGreyWaterStores
+        myGreyWaterStore = myBioHolder.theGreyWaterStores
                 .get(0);
-        myDirtyWaterStore = (DirtyWaterStore) myBioHolder.theDirtyWaterStores
+        myDirtyWaterStore = myBioHolder.theDirtyWaterStores
                 .get(0);
     }
 
@@ -143,11 +143,11 @@ public class WaterMonitor extends Thread {
             System.exit(1);
         }
 
-        myPotableWaterStore = (PotableWaterStore) myBioHolder.thePotableWaterStores
+        myPotableWaterStore = myBioHolder.thePotableWaterStores
                 .get(0);
-        myGreyWaterStore = (GreyWaterStore) myBioHolder.theGreyWaterStores
+        myGreyWaterStore = myBioHolder.theGreyWaterStores
                 .get(0);
-        myDirtyWaterStore = (DirtyWaterStore) myBioHolder.theDirtyWaterStores
+        myDirtyWaterStore = myBioHolder.theDirtyWaterStores
                 .get(0);
     }
 

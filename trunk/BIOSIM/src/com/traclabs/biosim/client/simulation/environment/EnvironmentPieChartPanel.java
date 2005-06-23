@@ -67,7 +67,7 @@ public class EnvironmentPieChartPanel extends GraphPanel {
         myPlot.setForegroundAlpha(0.3f);
         myPlot.setLabelGenerator(null);
         initDataset();
-        TextTitle myTextTitle = (TextTitle) (myChart.getTitle());
+        TextTitle myTextTitle = (myChart.getTitle());
         myTextTitle.setFont(myTextTitle.getFont().deriveFont(13.0f));
         myChartPanel = new ChartPanel(myChart);
         myChartPanel.setMinimumDrawHeight(250);
@@ -78,10 +78,10 @@ public class EnvironmentPieChartPanel extends GraphPanel {
     protected void initializeDataSources(String dataSourceName) {
         BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
         if (dataSourceName.startsWith("Crew"))
-            mySimEnvironment = (SimEnvironment) (myBioHolder.theSimEnvironments
+            mySimEnvironment = (myBioHolder.theSimEnvironments
                     .get(0));
         else if (dataSourceName.startsWith("Plant"))
-            mySimEnvironment = (SimEnvironment) (myBioHolder.theSimEnvironments
+            mySimEnvironment = (myBioHolder.theSimEnvironments
                     .get(1));
     }
 

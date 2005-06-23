@@ -23,10 +23,6 @@ class CellMenu extends JPopupMenu implements ActionListener {
 
     static private final String _BACKGROUND = "Background";
 
-    static private final String _FONT = "Font";
-
-    static private final String _EDITABLE = "Editable";
-
     //private SheetCell _targetCells[];
     private Object _targetCells[];
 

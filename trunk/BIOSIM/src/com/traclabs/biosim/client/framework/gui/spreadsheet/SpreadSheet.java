@@ -23,8 +23,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -45,8 +43,6 @@ import org.apache.log4j.Logger;
 public class SpreadSheet extends JTable {
 
     private JScrollPane _scp;
-
-    private CellMenu _popupMenu;
 
     private SpreadSheetModel _model;
 
@@ -69,8 +65,6 @@ public class SpreadSheet extends JTable {
 
     // Cells selected.
     private Object[] _selection;
-
-    private Logger myLogger;
 
     /**
      * Start the spreadsheet into a JFrame.
@@ -370,23 +364,17 @@ public class SpreadSheet extends JTable {
      */
     public class CellRenderer extends JLabel implements TableCellRenderer {
 
-        private LineBorder _selectBorder;
-
-        private EmptyBorder _emptyBorder;
-
         private Dimension _dim;
 
         public CellRenderer() {
             super();
-            _emptyBorder = new EmptyBorder(1, 2, 1, 2);
-            _selectBorder = new LineBorder(Color.red);
             this.setOpaque(true);
             setHorizontalAlignment(SwingConstants.CENTER);
             _dim = new Dimension();
             _dim.height = 22;
             _dim.width = 100;
             this.setSize(_dim);
-        };
+        }
 
         /**
          * 

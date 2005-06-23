@@ -29,7 +29,7 @@ public class CrewFoodChartPanel extends GraphPanel {
 
     protected void createGraph() {
         // create the chart...
-        myCrewGroup = (CrewGroup) (BioHolderInitializer.getBioHolder().theCrewGroups
+        myCrewGroup = (BioHolderInitializer.getBioHolder().theCrewGroups
                 .get(0));
         refresh();
         JFreeChart myChart = ChartFactory.createBarChart3D("Food Consumption", // chart
@@ -46,7 +46,7 @@ public class CrewFoodChartPanel extends GraphPanel {
         rangeAxis.setRange(0.0, .5);
         CategoryItemRenderer renderer = myPlot.getRenderer();
         renderer.setSeriesPaint(0, new Color(10, 204, 102));
-        TextTitle myTextTitle = (TextTitle) (myChart.getTitle());
+        TextTitle myTextTitle = (myChart.getTitle());
         myTextTitle.setFont(myTextTitle.getFont().deriveFont(13.0f));
         myChartPanel = new ChartPanel(myChart);
         myChartPanel.setMinimumDrawHeight(250);

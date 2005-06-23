@@ -2,9 +2,7 @@ package com.traclabs.biosim.client.simulation.food.photosynthesis;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.text.DecimalFormat;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.jfree.chart.ChartFactory;
@@ -22,15 +20,9 @@ import com.traclabs.biosim.server.simulation.food.photosynthesis.Lumen;
 public class LumenPanel extends JPanel {
     private int ticks = 0;
 
-    private JPanel myDataPanel;
-
-    private JLabel[] myDataLabels;
-
     private ChartPanel myChartPanel;
 
     private JFreeChart myChart;
-
-    private DecimalFormat numFormat;
 
     private XYSeries myProtonsSeries = new XYSeries("Protons");
 
@@ -44,14 +36,12 @@ public class LumenPanel extends JPanel {
 
     public LumenPanel(Lumen pLumen) {
         myLumen = pLumen;
-        numFormat = new DecimalFormat("#,##0.00;(#)");
         buildFullGUI();
     }
 
     private void buildFullGUI() {
         //Chart Panel
         setLayout(new BorderLayout());
-        XYSeries series = new XYSeries("Lumen Conditions");
         myData = new XYSeriesCollection(myProtonsSeries);
         myData.addSeries(myWaterSeries);
         myData.addSeries(myOxygenSeries);

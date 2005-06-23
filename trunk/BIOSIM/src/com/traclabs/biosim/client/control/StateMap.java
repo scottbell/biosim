@@ -14,7 +14,7 @@ import com.traclabs.biosim.idl.simulation.water.GreyWaterStore;
 import com.traclabs.biosim.idl.simulation.water.PotableWaterStore;
 
 public class StateMap {
-    private Map myMap;
+    private Map<String, Float> myMap;
 
     private BioHolder myBioHolder;
 
@@ -37,28 +37,28 @@ public class StateMap {
 
     public StateMap() {
         myLogger = Logger.getLogger(this.getClass());
-        myMap = new TreeMap();
+        myMap = new TreeMap<String, Float>();
         myBioHolder = BioHolderInitializer.getBioHolder();
         myLogger.debug(BioHolderInitializer.getID() + "");
 
-        myDirtyWaterStore = (DirtyWaterStore) myBioHolder.theDirtyWaterStores
+        myDirtyWaterStore = myBioHolder.theDirtyWaterStores
                 .get(0);
-        myPotableWaterStore = (PotableWaterStore) myBioHolder.thePotableWaterStores
+        myPotableWaterStore = myBioHolder.thePotableWaterStores
                 .get(0);
-        myGreyWaterStore = (GreyWaterStore) myBioHolder.theGreyWaterStores
+        myGreyWaterStore = myBioHolder.theGreyWaterStores
                 .get(0);
 
-        myO2Store = (O2Store) myBioHolder.theO2Stores.get(0);
+        myO2Store = myBioHolder.theO2Stores.get(0);
 
         stateSources = new GenericSensor[4];
-        stateSources[0] = (GenericSensor) myBioHolder.getSensorAttachedTo(
+        stateSources[0] = myBioHolder.getSensorAttachedTo(
                 myBioHolder.theDirtyWaterStoreLevelSensors, myDirtyWaterStore);
-        stateSources[1] = (GenericSensor) myBioHolder.getSensorAttachedTo(
+        stateSources[1] = myBioHolder.getSensorAttachedTo(
                 myBioHolder.theGreyWaterStoreLevelSensors, myGreyWaterStore);
-        stateSources[2] = (GenericSensor) myBioHolder.getSensorAttachedTo(
+        stateSources[2] = myBioHolder.getSensorAttachedTo(
                 myBioHolder.thePotableWaterStoreLevelSensors,
                 myPotableWaterStore);
-        stateSources[3] = (GenericSensor) myBioHolder.getSensorAttachedTo(
+        stateSources[3] = myBioHolder.getSensorAttachedTo(
                 myBioHolder.theO2StoreLevelSensors, myO2Store);
 
         capacities = new float[4];
@@ -73,14 +73,14 @@ public class StateMap {
         GenericSensor currentSensor;
 
         for (int i = 0; i < stateSources.length; i++) {
-            currentSensor = (GenericSensor) (stateSources[i]);
+            currentSensor = (stateSources[i]);
             myMap.put(stateNames[i], new Float(currentSensor.getValue()));
         }
 
     }
 
     public float getStateValue(String name) {
-        return ((Float) myMap.get(name)).floatValue();
+        return myMap.get(name).floatValue();
     }
 
 }

@@ -15,7 +15,6 @@ import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.idl.simulation.water.DirtyWaterStore;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterStore;
 import com.traclabs.biosim.idl.simulation.water.PotableWaterStore;
-import com.traclabs.biosim.idl.simulation.water.WaterRS;
 
 /**
  * This is the JPanel that displays information about the Water RS and the water
@@ -31,25 +30,7 @@ public class WaterTextPanel extends TimedPanel {
 
     private JPanel waterRSLevelPanel;
 
-    private JLabel waterRSPowerConsumedLabel;
-
-    private JLabel waterRSDirtyWaterConsumedLabel;
-
-    private JLabel waterRSGreyWaterProducedLabel;
-
-    private JLabel waterRSPotableWaterProducedLabel;
-
-    private JLabel waterRSGreyWaterConsumedLabel;
-
     private JPanel waterRSStatusPanel;
-
-    private JLabel waterRSAESStatusLabel;
-
-    private JLabel waterRSBWPStatusLabel;
-
-    private JLabel waterRSROStatusLabel;
-
-    private JLabel waterRSPPSStatusLabel;
 
     private JPanel potableWaterStorePanel;
 
@@ -62,9 +43,6 @@ public class WaterTextPanel extends TimedPanel {
     private JPanel dirtyWaterStorePanel;
 
     private JLabel dirtyWaterStoreLevelLabel;
-
-    //Servers required for data polling
-    private WaterRS myWaterRS;
 
     private PotableWaterStore myPotableWaterStore;
 
@@ -80,12 +58,11 @@ public class WaterTextPanel extends TimedPanel {
      */
     public WaterTextPanel() {
         BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
-        myWaterRS = (WaterRS) (myBioHolder.theWaterRSModules.get(0));
-        myPotableWaterStore = (PotableWaterStore) (myBioHolder.thePotableWaterStores
+        myPotableWaterStore = (myBioHolder.thePotableWaterStores
                 .get(0));
-        myDirtyWaterStore = (DirtyWaterStore) (myBioHolder.theDirtyWaterStores
+        myDirtyWaterStore = (myBioHolder.theDirtyWaterStores
                 .get(0));
-        myGreyWaterStore = (GreyWaterStore) (myBioHolder.theGreyWaterStores
+        myGreyWaterStore = (myBioHolder.theGreyWaterStores
                 .get(0));
         buildGui();
     }

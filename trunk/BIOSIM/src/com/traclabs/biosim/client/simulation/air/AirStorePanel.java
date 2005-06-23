@@ -42,10 +42,10 @@ public class AirStorePanel extends GraphPanel {
     protected void createGraph() {
         // create the chart...
         BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
-        myO2Store = (O2Store) (myBioHolder.theO2Stores.get(0));
-        myCO2Store = (CO2Store) (myBioHolder.theCO2Stores.get(0));
-        myH2Store = (H2Store) (myBioHolder.theH2Stores.get(0));
-        myNitrogenStore = (NitrogenStore) (myBioHolder.theNitrogenStores.get(0));
+        myO2Store = (myBioHolder.theO2Stores.get(0));
+        myCO2Store = (myBioHolder.theCO2Stores.get(0));
+        myH2Store = (myBioHolder.theH2Stores.get(0));
+        myNitrogenStore = (myBioHolder.theNitrogenStores.get(0));
         refresh();
         JFreeChart myChart = ChartFactory.createBarChart3D("Gas Store Levels", // chart
                 // title
@@ -65,7 +65,7 @@ public class AirStorePanel extends GraphPanel {
         renderer.setSeriesPaint(1, Color.GREEN);
         renderer.setSeriesPaint(2, Color.ORANGE);
         renderer.setSeriesPaint(3, Color.RED);
-        TextTitle myTextTitle = (TextTitle) (myChart.getTitle());
+        TextTitle myTextTitle = myChart.getTitle();
         myTextTitle.setFont(myTextTitle.getFont().deriveFont(13.0f));
         myChartPanel = new ChartPanel(myChart);
         myChartPanel.setMinimumDrawHeight(250);

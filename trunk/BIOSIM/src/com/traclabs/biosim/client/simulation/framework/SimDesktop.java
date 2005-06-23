@@ -92,8 +92,6 @@ public class SimDesktop extends BioFrame {
 
     private JMenu myHelpMenu;
 
-    private JMenuItem myAboutItem;
-
     private JMenu myControlMenu;
 
     private JMenu myWindowMenu;
@@ -123,12 +121,6 @@ public class SimDesktop extends BioFrame {
     private JMenuItem myShowMalfunctionDisplayItem;
 
     private JMenuItem myShowStochasticDisplayItem;
-
-    private JMenuItem myShowSensorViewerItem;
-
-    private JMenuItem myTileItem;
-
-    private JMenuItem myStackItem;
 
     //Various actions attributed to Buttons/MenuItems
     private Action myStartAction;
@@ -206,7 +198,7 @@ public class SimDesktop extends BioFrame {
 
     private final static int TIMER_DELAY = 500;
 
-    private Map myFrames;
+    private Map<String,SimDesktopFrame> myFrames;
 
     //Count of how many frames are opened. Used to stagger windows
     private int openFrameCount = 0;
@@ -223,7 +215,7 @@ public class SimDesktop extends BioFrame {
         myLogger = Logger.getLogger(this.getClass());
         myDriver = BioHolderInitializer.getBioHolder().theBioDriver;
         myDriver.setPauseSimulation(false);
-        myFrames = new Hashtable();
+        myFrames = new Hashtable<String,SimDesktopFrame>();
         buildGUI();
     }
 
@@ -286,7 +278,7 @@ public class SimDesktop extends BioFrame {
         myShowStochasticDisplayItem = myNewMenu
                 .add(myShowStochasticDisplayAction);
         myShowStochasticDisplayItem.setMnemonic(KeyEvent.VK_I);
-        myShowSensorViewerItem = myNewMenu.add(myShowSensorViewerAction);
+        myNewMenu.add(myShowSensorViewerAction);
         myShowStochasticDisplayItem.setMnemonic(KeyEvent.VK_I);
         myFileMenu.add(myNewMenu);
         myLoggingItem = myFileMenu.add(myLoggingAction);
@@ -302,10 +294,10 @@ public class SimDesktop extends BioFrame {
         myPauseSimItem.setMnemonic(KeyEvent.VK_U);
         myLoopSimItem = myControlMenu.add(myLoopAction);
         myWindowMenu = new JMenu("Window");
-        myStackItem = myWindowMenu.add(myStackAction);
-        myTileItem = myWindowMenu.add(myTileAction);
+        myWindowMenu.add(myStackAction);
+        myWindowMenu.add(myTileAction);
         myHelpMenu = new JMenu("Help");
-        myAboutItem = myHelpMenu.add(myAboutAction);
+        myHelpMenu.add(myAboutAction);
         myMenuBar.add(myFileMenu);
         myMenuBar.add(myControlMenu);
         myMenuBar.add(myWindowMenu);
@@ -469,7 +461,7 @@ public class SimDesktop extends BioFrame {
     }
 
     private boolean tryExisitingInternalFrame(String title) {
-        SimDesktopFrame existingFrame = (SimDesktopFrame) (myFrames.get(title));
+        SimDesktopFrame existingFrame = (myFrames.get(title));
         if (existingFrame != null) {
             existingFrame.pack();
             existingFrame.moveToFront();

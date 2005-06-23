@@ -29,7 +29,7 @@ public class CrewWaterChartPanel extends GraphPanel {
 
     protected void createGraph() {
         // create the chart...
-        myCrewGroup = (CrewGroup) (BioHolderInitializer.getBioHolder().theCrewGroups
+        myCrewGroup = (BioHolderInitializer.getBioHolder().theCrewGroups
                 .get(0));
         refresh();
         JFreeChart myChart = ChartFactory.createBarChart3D(
@@ -48,7 +48,7 @@ public class CrewWaterChartPanel extends GraphPanel {
         renderer.setSeriesPaint(0, Color.BLUE);
         renderer.setSeriesPaint(1, Color.GRAY);
         renderer.setSeriesPaint(2, Color.YELLOW);
-        TextTitle myTextTitle = (TextTitle) (myChart.getTitle());
+        TextTitle myTextTitle = (myChart.getTitle());
         myTextTitle.setFont(myTextTitle.getFont().deriveFont(13.0f));
         myChartPanel = new ChartPanel(myChart);
         myChartPanel.setMinimumDrawHeight(250);

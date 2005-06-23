@@ -433,6 +433,8 @@
 				<fileset file="${xercesDir}/xmlParserAPIs.jar" />
 				<fileset file="${plotDir}/jcommon.jar" />
 				<fileset file="${plotDir}/jfreechart.jar" />
+				<fileset file="${gefDir}/gef.jar" />
+				<fileset file="${log4jDir}/commons-logging.jar" />
 			</unzip>
 			<echo message="Create biosim jar" />
 			<jar destfile="${jnlpDistDir}/biosim.jar" manifest="${jnlpDistLibDir}/MANIFEST.MF">
