@@ -97,7 +97,7 @@ public class WaterRSLinearImpl extends SimBioModuleImpl implements
      * Water Store
      */
     private void pushWater() {
-        float distributedWaterLeft = myPotableWaterProducerDefinitionImpl
+        myPotableWaterProducerDefinitionImpl
                 .pushResourceToStore(currentWaterConsumed);
     }
 
@@ -118,12 +118,6 @@ public class WaterRSLinearImpl extends SimBioModuleImpl implements
     protected String getMalfunctionName(MalfunctionIntensity pIntensity,
             MalfunctionLength pLength) {
         return "NoName";
-    }
-
-    /**
-     * For fast reference to the log tree
-     */
-    private class LogIndex {
     }
 
 }

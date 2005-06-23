@@ -177,12 +177,6 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements
     }
 
     private void gatherAir() {
-        float gatheredAir = 0f;
-        float gatheredO2 = 0f;
-        float gatheredCO2 = 0f;
-        float gatheredOther = 0f;
-        float gatheredWater = 0f;
-        float gatheredNitrogen = 0f;
         float airNeeded = currentPowerConsumed * LINEAR_MULTIPLICATIVE_FACTOR;
         myCurrentBreath = myAirConsumerDefinitionImpl
                 .getAirFromEnvironment(airNeeded);
@@ -192,10 +186,10 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements
         Breath breathToDistribute = new Breath(myCurrentBreath.O2, 0f,
                 myCurrentBreath.water, myCurrentBreath.other,
                 myCurrentBreath.nitrogen);
-        Breath breathDistributed = myAirProducerDefinitionImpl
+        myAirProducerDefinitionImpl
                 .pushAirToEnvironments(breathToDistribute);
         currentCO2Produced = myCurrentBreath.CO2;
-        float distributedCO2Left = myCO2ProducerDefinitionImpl
+        myCO2ProducerDefinitionImpl
                 .pushResourceToStore(currentCO2Produced);
     }
 
@@ -235,9 +229,9 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements
             currentH2OProduced = randomFilter(waterLitersProduced);
             currentCH4Produced = randomFilter(methaneMolesProduced);
         }
-        float distributedWaterLeft = myPotableWaterProducerDefinitionImpl
+        myPotableWaterProducerDefinitionImpl
                 .pushResourceToStore(currentH2OProduced);
-        float distributedMethaneLeft = myMethaneProducerDefinitionImpl
+        myMethaneProducerDefinitionImpl
         .pushResourceToStore(currentCH4Produced);
         CH4Produced += currentCH4Produced;
     }
@@ -257,9 +251,9 @@ public class AirRSLinearImpl extends SimBioModuleImpl implements
         currentH2Produced = randomFilter(molesOfReactant * 2f);
         float O2ToDistrubute = randomFilter(currentO2Produced);
         float H2ToDistrubute = randomFilter(currentH2Produced);
-        float distributedO2 = myO2ProducerDefinitionImpl
+        myO2ProducerDefinitionImpl
                 .pushResourceToStore(O2ToDistrubute);
-        float distributedH2 = myH2ProducerDefinitionImpl
+        myH2ProducerDefinitionImpl
                 .pushResourceToStore(H2ToDistrubute);
     }
 

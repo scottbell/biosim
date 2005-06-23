@@ -177,10 +177,6 @@ public class EditorDocument {
         myEditorWriter.saveDocument(file);
     }
 
-    public void copySelections(File file, BiosimEditor editor){
-        _writer.copySelections(file, editor);
-    }
-
     public void openDocument(File file) throws Exception {
         onOpenDocument(file);
         setFile(file);

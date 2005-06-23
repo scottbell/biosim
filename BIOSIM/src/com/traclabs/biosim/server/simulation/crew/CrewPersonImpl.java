@@ -39,10 +39,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
     //The current activity this crew member is performing
     private Activity myCurrentActivity;
 
-    //Flag to determine if the server references have been collected for
-    // putting/taking resources
-    private boolean hasCollectedReferences = false;
-
     //The current activity order this crew member is on
     private int currentOrder = 0;
 
@@ -132,8 +128,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
 
     //Used to format floats
     private DecimalFormat numFormat;
-
-    private boolean logInitialized = false;
 
     private Random myRandomGen;
 
@@ -792,21 +786,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
      *            the O2 consumed (in moles) during this tick
      * @return CO2 produced in moles
      */
-    private float calculateCO2Produced(float O2Consumed) {
-        return O2Consumed * 0.86f;
-    }
-
-    /**
-     * Calculate the current O2 produced by the crew memeber given the O2
-     * consumed for the current tick. Algorithm derived from "Top Level Modeling
-     * of Crew Component of ALSS" by Goudrazi and Ting
-     * 
-     * @param O2Consumed
-     *            the O2 consumed (in liters) during this tick
-     * @return O2 produced in liters
-     */
-    private float calculateO2Produced(float O2Consumed) {
-        return myBaseCrewGroupImpl.randomFilter(O2Consumed * 0.14f);
+    private float calculateCO2Produced(float pO2Consumed) {
+        return pO2Consumed * 0.86f;
     }
 
     public void insertActivityInSchedule(Activity pActivity, int pOrder) {
@@ -858,8 +839,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
      *            the potable water consumed (in liters) during this tick
      * @return dirty water produced in liters
      */
-    private float calculateDirtyWaterProduced(float potableWaterConsumed) {
-        return myBaseCrewGroupImpl.randomFilter(potableWaterConsumed * 0.3625f);
+    private float calculateDirtyWaterProduced(float pPotableWaterConsumed) {
+        return myBaseCrewGroupImpl.randomFilter(pPotableWaterConsumed * 0.3625f);
     }
 
     /**
@@ -882,8 +863,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
      *            the potable water consumed (in liters) during this tick
      * @return grey water produced in liters
      */
-    private float calculateGreyWaterProduced(float potableWaterConsumed) {
-        return myBaseCrewGroupImpl.randomFilter(potableWaterConsumed * 0.5375f);
+    private float calculateGreyWaterProduced(float pPotableWaterConsumed) {
+        return myBaseCrewGroupImpl.randomFilter(pPotableWaterConsumed * 0.5375f);
     }
 
     /**
@@ -894,8 +875,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
      *            the potable water consumed (in liters) during this tick
      * @return vapor produced in moles
      */
-    private float calculateVaporProduced(float potableWaterConsumed) {
-        return waterLitersToMoles(potableWaterConsumed * 0.1f);
+    private float calculateVaporProduced(float pPotableWaterConsumed) {
+        return waterLitersToMoles(pPotableWaterConsumed * 0.1f);
     }
 
     /**
@@ -909,8 +890,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
     private float calculateCleanWaterNeeded(int currentActivityIntensity) {
         if (currentActivityIntensity > 0)
             return myBaseCrewGroupImpl.randomFilter(0.1667f);
-        else
-            return myBaseCrewGroupImpl.randomFilter(0f);
+		return myBaseCrewGroupImpl.randomFilter(0f);
     }
 
     /**
@@ -926,13 +906,11 @@ public class CrewPersonImpl extends CrewPersonPOA {
                 .getAirConsumerDefinition().getEnvironments();
         if (myAirInputs.length < 1) {
             return 0f;
-        } else {
-            if (myAirInputs[0].getTotalMoles() <= 0)
-                return 0f;
-            else
-                return (myAirInputs[0].getCO2Moles() / myAirInputs[0]
-                        .getTotalMoles());
         }
+		if (myAirInputs[0].getTotalMoles() <= 0)
+		    return 0f;
+		return (myAirInputs[0].getCO2Moles() / myAirInputs[0]
+		        .getTotalMoles());
     }
 
     /**
@@ -948,13 +926,11 @@ public class CrewPersonImpl extends CrewPersonPOA {
                 .getAirConsumerDefinition().getEnvironments();
         if (myAirInputs.length < 1) {
             return 0f;
-        } else {
-            if (myAirInputs[0].getTotalMoles() <= 0)
-                return 0f;
-            else
-                return (myAirInputs[0].getO2Moles() / myAirInputs[0]
-                        .getTotalMoles());
         }
+		if (myAirInputs[0].getTotalMoles() <= 0)
+		    return 0f;
+		return (myAirInputs[0].getO2Moles() / myAirInputs[0]
+		        .getTotalMoles());
     }
 
     private void recoverCrew() {
@@ -1172,7 +1148,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
         return (pLiters * 1000f) / 18.01524f; // 1000g/liter, 18.01524g/mole
     }
 
-    private void eatFood(float pFoodNeeded) {
+    private void eatFood() {
         FoodMatter[] foodConsumed = FoodConsumerDefinitionImpl
                 .getCaloriesFromStore(myCurrentCrewGroup
                         .getFoodConsumerDefinition(), caloriesNeeded);
@@ -1212,21 +1188,21 @@ public class CrewPersonImpl extends CrewPersonPOA {
         CO2Produced = calculateCO2Produced(O2Needed);
         vaporProduced = calculateVaporProduced(potableWaterNeeded);
         //adjust tanks
-        eatFood(caloriesNeeded);
+        eatFood();
         potableWaterConsumed = StoreFlowRateControllableImpl
                 .getFractionalResourceFromStore(myCurrentCrewGroup
                         .getPotableWaterConsumerDefinition(),
                         potableWaterNeeded, 1f / myCurrentCrewGroup
                                 .getCrewSize());
-        float distributedDirtyWater = StoreFlowRateControllableImpl
+        StoreFlowRateControllableImpl
                 .getFractionalResourceFromStore(myCurrentCrewGroup
                         .getDirtyWaterProducerDefinition(), dirtyWaterProduced,
                         1f / myCurrentCrewGroup.getCrewSize());
-        float distributedGreyWater = StoreFlowRateControllableImpl
+        StoreFlowRateControllableImpl
                 .getFractionalResourceFromStore(myCurrentCrewGroup
                         .getGreyWaterProducerDefinition(), greyWaterProduced,
                         1f / myCurrentCrewGroup.getCrewSize());
-        float distributedDryWaste = StoreFlowRateControllableImpl
+        StoreFlowRateControllableImpl
                 .getFractionalResourceFromStore(myCurrentCrewGroup
                         .getDryWasteProducerDefinition(), dryWasteProduced,
                         1f / myCurrentCrewGroup.getCrewSize());

@@ -53,10 +53,6 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements
     // to run optimally
     private float biomassNeeded = 200f;
 
-    //Flag switched when the Food Processor has collected references to other
-    // servers it need
-    private boolean hasCollectedReferences = false;
-
     //Flag to determine if the Food Processor has enough power to function
     private boolean hasEnoughPower = false;
 
@@ -259,13 +255,13 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements
                 currentWaterProduced += calculateInedibleWaterContent(biomatterConsumed[i]);
             }
             currentFoodProduced = calculateSizeOfFoodMatter(foodMatterArray);
-            float distributedFoodLeft = myFoodProducerDefinitionImpl
+            myFoodProducerDefinitionImpl
                     .pushFoodToStore(foodMatterArray);
             float currentDryWasteProduced = currentFoodProduced
                     - calculateSizeOfBioMatter(biomatterConsumed);
-            float distributedDryWasteLeft = myDryWasteProducerDefinitionImpl
+            myDryWasteProducerDefinitionImpl
                     .pushResourceToStore(currentDryWasteProduced);
-            float distributedWaterLeft = myWaterProducerDefinitionImpl
+            myWaterProducerDefinitionImpl
                     .pushResourceToStore(currentWaterProduced);
         }
     }

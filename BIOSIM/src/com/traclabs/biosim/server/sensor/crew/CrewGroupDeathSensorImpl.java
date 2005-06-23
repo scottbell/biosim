@@ -25,6 +25,6 @@ public class CrewGroupDeathSensorImpl extends CrewGroupSensorImpl implements
     }
 
     public BioModule getInputModule() {
-        return (BioModule) (getInput());
+        return getInput();
     }
 }

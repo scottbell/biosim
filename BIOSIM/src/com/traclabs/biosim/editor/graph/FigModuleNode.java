@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.JFrame;
 
@@ -242,7 +243,7 @@ public abstract class FigModuleNode extends FigNode {
 
     /** When a EditorFigNode is deleted, all of its edges are deleted. */
     public void dispose() {
-        ArrayList edgeClone = new ArrayList(getFigEdges());
+        List edgeClone = getFigEdges();
         int edgeCount = edgeClone.size();
         for (int edgeIndex = 0; edgeIndex < edgeCount; ++edgeIndex) {
             Fig f = (Fig) edgeClone.get(edgeIndex);
@@ -317,9 +318,9 @@ public abstract class FigModuleNode extends FigNode {
     }
 
     /** Returns all source nodes for this node. */
-    public java.util.List getSourceFigNodes() {
-        java.util.List edges = getInBoundEdges();
-        java.util.List nodes = new ArrayList(edges.size());
+    public List getSourceFigNodes() {
+    	List edges = getInBoundEdges();
+    	List<Fig> nodes = new Vector<Fig>(edges.size());
 
         Iterator i = edges.iterator();
         while (i.hasNext()) {
@@ -331,9 +332,9 @@ public abstract class FigModuleNode extends FigNode {
     }
 
     /** Returns all destination nodes for this node. */
-    public java.util.List getDestFigNodes() {
-        java.util.List edges = getOutBoundEdges();
-        java.util.List nodes = new ArrayList(edges.size());
+    public List getDestFigNodes() {
+        List edges = getOutBoundEdges();
+        List<Fig> nodes = new Vector<Fig>(edges.size());
 
         Iterator i = edges.iterator();
         while (i.hasNext()) {
@@ -345,8 +346,8 @@ public abstract class FigModuleNode extends FigNode {
     }
 
     /** Returns the inbound edges. */
-    public java.util.List getInBoundEdges() {
-        java.util.List in = new ArrayList();
+    public List getInBoundEdges() {
+        List<FigEdge> in = new ArrayList<FigEdge>();
         Collection edges = getFigEdges(null);
         Iterator i = edges.iterator();
 
@@ -361,8 +362,8 @@ public abstract class FigModuleNode extends FigNode {
     }
 
     /** Returns the inbound edges. */
-    public java.util.List getOutBoundEdges() {
-        ArrayList out = new ArrayList();
+    public List getOutBoundEdges() {
+        ArrayList<FigEdge> out = new ArrayList<FigEdge>();
         Collection edges = getFigEdges(null);
         Iterator i = edges.iterator();
 
@@ -406,19 +407,15 @@ public abstract class FigModuleNode extends FigNode {
                 return center;
             }
 
-        } else {
-            double m = (double) dy / dx;
-            double a2 = a * a;
-            double b2 = b * b;
-            double x = Math.sqrt((a2 * b2) / (b2 + a2 * m * m));
-
-            Point res = new Point();
-            if (dx >= 0) {
-                return new Point((int) (center.x + x), (int) (center.y + m * x));
-            } else {
-                return new Point((int) (center.x - x), (int) (center.y - m * x));
-            }
         }
+		double m = (double) dy / dx;
+		double a2 = a * a;
+		double b2 = b * b;
+		double x = Math.sqrt((a2 * b2) / (b2 + a2 * m * m));
+		if (dx >= 0) {
+		    return new Point((int) (center.x + x), (int) (center.y + m * x));
+		}
+		return new Point((int) (center.x - x), (int) (center.y - m * x));
     }
 
     /**

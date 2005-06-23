@@ -2,13 +2,10 @@ package com.traclabs.biosim.server.simulation.framework;
 
 import java.util.Iterator;
 
-import com.traclabs.biosim.idl.framework.BioDriver;
-import com.traclabs.biosim.idl.framework.BioDriverHelper;
 import com.traclabs.biosim.idl.framework.Malfunction;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.simulation.framework.StoreOperations;
-import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * The basic Store Implementation. Allows for basic store functionality (like
@@ -40,16 +37,6 @@ public abstract class StoreImpl extends PassiveModuleImpl implements
     //What this store has leaked (at t)
     protected float overflow = 0f;
 
-    //What the currentCapacity was before the permanent malfunction
-    private float preMalfunctionCapacity = 0.0f;
-
-    //Used for finding what the current tick is (to see if we're behind or
-    // ahead)
-    private BioDriver myDriver;
-
-    //Whether this Store has collected a reference to the BioDriver or not.
-    private boolean hasCollectedReferences = false;
-
     private boolean pipe = false;
 
     protected float initialLevel = 0f;
@@ -71,7 +58,7 @@ public abstract class StoreImpl extends PassiveModuleImpl implements
     public StoreImpl(int pID, String pName) {
         super(pID, pName);
         currentLevel = cachedLevel = initialLevel = 0f;
-        currentCapacity = preMalfunctionCapacity = cachedCapacity = initialCapacity = 10f;
+        currentCapacity = cachedCapacity = initialCapacity = 10f;
     }
 
     /**
@@ -97,7 +84,7 @@ public abstract class StoreImpl extends PassiveModuleImpl implements
         super(pID, pName);
         pipe = pPipe;
         currentLevel = cachedLevel = initialLevel = pInitialLevel;
-        currentCapacity = preMalfunctionCapacity = cachedCapacity = initialCapacity = pInitialCapacity;
+        currentCapacity = cachedCapacity = initialCapacity = pInitialCapacity;
     }
 
     /**
@@ -140,7 +127,7 @@ public abstract class StoreImpl extends PassiveModuleImpl implements
      *            the new volume of the store
      */
     public void setCurrentCapacity(float metricAmount) {
-        currentCapacity = preMalfunctionCapacity = cachedCapacity = metricAmount;
+        currentCapacity = cachedCapacity = metricAmount;
     }
 
     /**
@@ -172,23 +159,6 @@ public abstract class StoreImpl extends PassiveModuleImpl implements
         if (pipe) {
             currentLevel = 0f;
             currentCapacity = 0f;
-        }
-    }
-
-    /**
-     * Collects references to BioDriver for getting current tick
-     */
-    private void collectReferences() {
-        if (!hasCollectedReferences) {
-            try {
-                myDriver = BioDriverHelper.narrow(OrbUtils.getNamingContext(
-                        getID()).resolve_str("BioDriver"));
-                hasCollectedReferences = true;
-
-            } catch (org.omg.CORBA.UserException e) {
-                myLogger.error("StoreImpl: Couldn't find BioDriver!!");
-                e.printStackTrace();
-            }
         }
     }
 
@@ -367,7 +337,7 @@ public abstract class StoreImpl extends PassiveModuleImpl implements
     public void reset() {
         super.reset();
         currentLevel = cachedLevel = initialLevel;
-        currentCapacity = preMalfunctionCapacity = cachedCapacity = initialCapacity;
+        currentCapacity = cachedCapacity = initialCapacity;
         overflow = cachedOverflow = 0f;
     }
 

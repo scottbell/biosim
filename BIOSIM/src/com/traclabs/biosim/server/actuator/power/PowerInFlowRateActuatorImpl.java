@@ -31,7 +31,7 @@ public class PowerInFlowRateActuatorImpl extends GenericActuatorImpl implements
     }
 
     public BioModule getOutputModule() {
-        return (BioModule) (myConsumer);
+        return myConsumer;
     }
 
     public PowerConsumer getOutput() {

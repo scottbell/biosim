@@ -36,7 +36,7 @@ public class WaterAirEnvironmentInFlowRateActuatorImpl extends
     }
 
     public BioModule getOutputModule() {
-        return (BioModule) (myConsumer);
+        return myConsumer;
     }
 
     public int getIndex() {

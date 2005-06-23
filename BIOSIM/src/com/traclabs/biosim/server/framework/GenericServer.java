@@ -18,7 +18,7 @@ import com.traclabs.biosim.util.OrbUtils;
  */
 
 public class GenericServer {
-    private List readyListeners;
+    private List<ActionListener> readyListeners;
 
     protected Logger myLogger;
 
@@ -133,7 +133,7 @@ public class GenericServer {
 
     public void addReadyListener(ActionListener newListener) {
         if (readyListeners == null)
-            readyListeners = new Vector();
+            readyListeners = new Vector<ActionListener>();
         readyListeners.add(newListener);
     }
 

@@ -15,16 +15,12 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import org.apache.log4j.Logger;
-
 import com.traclabs.biosim.editor.graph.FigModuleEdge;
 import com.traclabs.biosim.editor.graph.ModuleEdge;
 import com.traclabs.biosim.idl.simulation.framework.SingleFlowRateControllable;
 
 
 public abstract class FlowratePropertiesFrame extends JFrame {
-    private Logger myLogger;
-    
     private int myIndex = 0;
     
     private JButton myOKButton;
@@ -43,7 +39,6 @@ public abstract class FlowratePropertiesFrame extends JFrame {
 
     public FlowratePropertiesFrame(FigModuleEdge pEdge, SingleFlowRateControllable pOpertations) {
         myIndex = ((ModuleEdge)pEdge.getOwner()).getIndex();
-        myLogger = Logger.getLogger(FlowratePropertiesFrame.class);
         myModuleFigEdge = pEdge;
         myOperations = pOpertations;
         myMaxField = new JFormattedTextField(NumberFormat.getNumberInstance());

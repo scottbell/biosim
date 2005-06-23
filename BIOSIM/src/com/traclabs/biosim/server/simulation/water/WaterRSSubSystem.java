@@ -39,8 +39,6 @@ public abstract class WaterRSSubSystem {
     //Amount of water in this subsystem at the current tick
     float waterLevel = 0;
 
-    private boolean logInitialized = false;
-
     boolean enabled = true;
 
     private boolean malfunctioning = false;

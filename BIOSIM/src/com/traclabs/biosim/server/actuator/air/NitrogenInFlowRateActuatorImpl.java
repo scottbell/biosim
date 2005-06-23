@@ -31,7 +31,7 @@ public class NitrogenInFlowRateActuatorImpl extends GenericActuatorImpl
     }
 
     public BioModule getOutputModule() {
-        return (BioModule) (myConsumer);
+        return myConsumer;
     }
 
     public NitrogenConsumer getOutput() {

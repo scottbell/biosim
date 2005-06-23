@@ -114,9 +114,9 @@ public class FigModuleEdge extends FigEdgeLine implements MouseListener {
         if (myFlowratePropertiesFrame == null){
             ModuleEdge theModuleEdge = (ModuleEdge)getOwner();
             if (theModuleEdge.getOperations() instanceof StoreFlowRateControllableOperations)
-            	myFlowratePropertiesFrame = new StoreFlowratePropertiesFrame(this, theModuleEdge.getOperations(), theModuleEdge.getStoreImpl());
+            	myFlowratePropertiesFrame = new StoreFlowratePropertiesFrame(this, theModuleEdge.getOperations());
             else
-            	myFlowratePropertiesFrame = new SimEnvironmentFlowratePropertiesFrame(this, theModuleEdge.getOperations(), theModuleEdge.getSimEnvironmentImpl());
+            	myFlowratePropertiesFrame = new SimEnvironmentFlowratePropertiesFrame(this, theModuleEdge.getOperations());
             myFlowratePropertiesFrame.pack();
         }
         myFlowratePropertiesFrame.setLocation(x, y);

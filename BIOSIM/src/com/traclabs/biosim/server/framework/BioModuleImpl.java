@@ -44,11 +44,11 @@ public abstract class BioModuleImpl extends BioModulePOA {
 
     //The Malfunctions in a Map (key is a Long representing the Malfunction ID,
     // value is the Malfunction Object)
-    protected Map myMalfunctions;
+    protected Map<Long, Malfunction> myMalfunctions;
 
     //The Malfunctions in a Map (key is a Long representing the Malfunction ID,
     // value is the Malfunction Object)
-    protected List myScheduledMalfunctions;
+    protected List<MalfunctionImpl> myScheduledMalfunctions;
 
     private boolean canBreakdown = false;
 
@@ -74,8 +74,8 @@ public abstract class BioModuleImpl extends BioModulePOA {
     protected BioModuleImpl(int pID, String pName) {
         myLogger = Logger.getLogger(this.getClass());
         myRandomGen = new Random();
-        myMalfunctions = new Hashtable();
-        myScheduledMalfunctions = new Vector();
+        myMalfunctions = new Hashtable<Long, Malfunction>();
+        myScheduledMalfunctions = new Vector<MalfunctionImpl>();
         myName = pName;
         myID = pID;
     }
@@ -144,10 +144,6 @@ public abstract class BioModuleImpl extends BioModulePOA {
             return 0f;
     }
 
-    private float exp(float a) {
-        return (new Double(Math.exp(a))).floatValue();
-    }
-
     /**
      * Fixes all malfunctions. Permanent malfunctions are unfixable.
      */
@@ -193,7 +189,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
      */
     public Malfunction[] getMalfunctions() {
         Malfunction[] arrayMalfunctions = new Malfunction[myMalfunctions.size()];
-        return (Malfunction[]) (myMalfunctions.values()
+        return (myMalfunctions.values()
                 .toArray(arrayMalfunctions));
     }
 
@@ -206,7 +202,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
      *            the ID of the malfunction to repair
      */
     public void doSomeRepairWork(long malfunctionID) {
-        Malfunction currentMalfunction = (Malfunction) (myMalfunctions
+        Malfunction currentMalfunction = (myMalfunctions
                 .get(new Long(malfunctionID)));
         if (currentMalfunction == null)
             return;
@@ -301,7 +297,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
      *            the ID of the malfunction to remove
      */
     public void fixMalfunction(long pID) {
-        Malfunction theMalfunction = (Malfunction) (myMalfunctions
+        Malfunction theMalfunction = (myMalfunctions
                 .get(new Long(pID)));
         if (theMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF)
             myMalfunctions.remove(new Long(pID));
@@ -420,8 +416,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
         double result = gaussian(pValue, deviation);
         if (result < 0)
             return 0;
-        else
-            return (float) result;
+		return (float) result;
     }
 
     /**
@@ -438,8 +433,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
         double result = gaussian(pValue, deviation);
         if (result < 0)
             return 0;
-        else
-            return result;
+		return result;
     }
 
     /**
@@ -452,7 +446,6 @@ public abstract class BioModuleImpl extends BioModulePOA {
     public boolean randomFilter(boolean pValue) {
         if (randomCoefficient <= 0)
             return pValue;
-        double deviation = randomCoefficient;
         return (gaussian(1, randomCoefficient) > 1);
     }
 
@@ -470,8 +463,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
         double result = gaussian(pValue, deviation);
         if (result < 0)
             return 0;
-        else
-            return (int) result;
+		return (int) result;
     }
 
     /**
@@ -496,11 +488,10 @@ public abstract class BioModuleImpl extends BioModulePOA {
             r = Math.sqrt((-2.0 * Math.log(r)) / r);
             t = v2 * r;
             return (mean + v1 * r * deviation);
-        } else {
-            x = t;
-            t = 0.0;
-            return (mean + x * deviation);
         }
+		x = t;
+		t = 0.0;
+		return (mean + x * deviation);
     }
 
     /**

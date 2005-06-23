@@ -25,9 +25,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.helpers.AttributesImpl;
 
-import com.traclabs.biosim.editor.base.BiosimEditor;
 import com.traclabs.biosim.editor.base.EditorDocument;
 import com.traclabs.biosim.editor.graph.FigModuleNode;
 import com.traclabs.biosim.editor.graph.ModuleEdge;
@@ -47,9 +45,6 @@ import com.traclabs.biosim.server.simulation.framework.StoreImpl;
  * @author scott
  */
 public class EditorWriter {
-    //Empty attributes
-    private  final AttributesImpl emptyAtts = new AttributesImpl();
-
     //The writer that takes the XML stream and outputs it to a file
     private FileWriter myFileWriter;
 
@@ -121,14 +116,6 @@ public class EditorWriter {
             e.printStackTrace();
         }
     }
-
-    /**
-     * @param file
-     * @param editor
-     */
-    public void copySelections(File file, BiosimEditor editor) {
-    }
-
     /**
      * Initializes the XML output process. Sets the encoding methods, begins
      * root tags, opens file, etc.
@@ -138,7 +125,7 @@ public class EditorWriter {
      * @throws ParserConfigurationException
      */
     private void initializeXML()
-            throws IOException, TransformerConfigurationException,
+            throws TransformerConfigurationException,
             ParserConfigurationException {
         //initialize factory
         TransformerFactory transformerFactory = TransformerFactory
@@ -153,13 +140,13 @@ public class EditorWriter {
         myXMLDocument = builder.newDocument();
 
         //create root element
-        Element biosimElement = (Element) myXMLDocument.createElement("biosim");
+        Element biosimElement = myXMLDocument.createElement("biosim");
         biosimElement.setAttribute("xmlns:xsi",
                 XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI);
         biosimElement.setAttribute("xsi:noNamespaceSchemaLocation",
                 "BiosimInitSchema.xsd");
         myXMLDocument.appendChild(biosimElement);
-        myBiosimNode = (Node) biosimElement;
+        myBiosimNode = biosimElement;
         
         //create globals
         Node globalElement = myXMLDocument.createElement("Globals");
@@ -274,30 +261,25 @@ public class EditorWriter {
     /* Save a list of figs. */
     private void saveFigs(java.util.List figs) {
         FigModuleNode vf;
-        try {
-            // For each Editor Fig, write the information
-            Iterator i = figs.iterator();
-            // In the first loop, print out all the EditorFigNodes
-            while (i.hasNext()) {
-                Fig f = (Fig) i.next();
-                if (f instanceof FigModuleNode) {
-                    vf = (FigModuleNode) f;
-                    saveFigNode(vf);
-                } else {
-                }
-            }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
+        // For each Editor Fig, write the information
+		Iterator i = figs.iterator();
+		// In the first loop, print out all the EditorFigNodes
+		while (i.hasNext()) {
+		    Fig f = (Fig) i.next();
+		    if (f instanceof FigModuleNode) {
+		        vf = (FigModuleNode) f;
+		        saveFigNode(vf);
+		    } else {
+		    }
+		}
     }
 
     /** Saves a fig node. */
-    private void saveFigNode(FigModuleNode vf)
-            throws IOException {
+    private void saveFigNode(FigModuleNode vf) {
         ModuleNode currentModuleNode = (ModuleNode) vf.getOwner();
         SimBioModuleImpl currentModule = currentModuleNode.getSimBioModuleImpl();
         String corbaName = currentModuleNode.getModuleType();
-        Element newModuleElement = (Element)(myXMLDocument.createElement(corbaName));
+        Element newModuleElement = (myXMLDocument.createElement(corbaName));
         newModuleElement.setAttribute("name", currentModule.getModuleName());
         if (!(currentModule instanceof PassiveModuleImpl))
             configureModuleFlowRates(currentModuleNode, newModuleElement);
@@ -335,18 +317,17 @@ public class EditorWriter {
         List consumerEdges = currentNode.getInBoundEdges();
         List producerEdges = currentNode.getOutBoundEdges();
 
-        setConsumersOrProducerFlowRates(consumerEdges, currentNode, currentElementNode, "inputs");
-        setConsumersOrProducerFlowRates(producerEdges, currentNode, currentElementNode, "outputs");
+        setConsumersOrProducerFlowRates(consumerEdges, currentElementNode, "inputs");
+        setConsumersOrProducerFlowRates(producerEdges, currentElementNode, "outputs");
     }
 
     /**
      * @param edges
-     * @param currentNode
      * @param currentElementNode
      * @param resourcePackageName
      * @param string
      */
-    private void setConsumersOrProducerFlowRates(List edges, ModuleNode currentNode, Node currentElementNode, String storeFieldName) {
+    private void setConsumersOrProducerFlowRates(List edges, Node currentElementNode, String storeFieldName) {
         for (Iterator iter = edges.iterator(); iter.hasNext();){
             ModuleEdge currentEdge = (ModuleEdge)iter.next();
             if (currentEdge.isSensed())
@@ -354,7 +335,7 @@ public class EditorWriter {
             if (currentEdge.isActuated())
                 createActuatorElement(currentEdge.getActuatorImpl(), currentEdge.getActiveModule());
             String currentFlowRateType = currentEdge.getFlowRateType();
-            Element newFlowRateElement = (Element)(myXMLDocument.createElement(currentFlowRateType));
+            Element newFlowRateElement = (myXMLDocument.createElement(currentFlowRateType));
             createFlowRateAttributes(currentEdge.getOperations(), newFlowRateElement);
             newFlowRateElement.setAttribute(storeFieldName, currentEdge.getPassiveModuleImpl().getModuleName());
             currentElementNode.appendChild(newFlowRateElement);
@@ -367,7 +348,7 @@ public class EditorWriter {
      * 
      */
     private void createActuatorElement(GenericActuatorImpl actuatorToAdd, SimBioModuleImpl moduleToWatch) {
-        Element newActuatorElement = (Element)(myXMLDocument.createElement(getCorbaName(actuatorToAdd)));
+        Element newActuatorElement = (myXMLDocument.createElement(getCorbaName(actuatorToAdd)));
         newActuatorElement.setAttribute("name", actuatorToAdd.getModuleName());
         newActuatorElement.setAttribute("input", moduleToWatch.getModuleName());
         newActuatorElement.setAttribute("index", "0");
@@ -380,7 +361,7 @@ public class EditorWriter {
      * 
      */
     private void createSensorElement(GenericSensorImpl sensorToAdd, SimBioModuleImpl moduleToWatch) {
-        Element newSensorElement = (Element)(myXMLDocument.createElement(getCorbaName(sensorToAdd)));
+        Element newSensorElement = (myXMLDocument.createElement(getCorbaName(sensorToAdd)));
         newSensorElement.setAttribute("name", sensorToAdd.getModuleName());
         newSensorElement.setAttribute("input", moduleToWatch.getModuleName());
         newSensorElement.setAttribute("index", "0");

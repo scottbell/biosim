@@ -31,7 +31,7 @@ public class MethaneOutFlowRateActuatorImpl extends GenericActuatorImpl
     }
 
     public BioModule getOutputModule() {
-        return (BioModule) (myProducer);
+        return myProducer;
     }
 
     public MethaneProducer getOutput() {

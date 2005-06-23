@@ -30,6 +30,6 @@ public abstract class NitrogenStoreSensorImpl extends GenericSensorImpl
     }
 
     public BioModule getInputModule() {
-        return (BioModule) (getInput());
+        return getInput();
     }
 }

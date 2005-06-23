@@ -109,10 +109,10 @@ public class OGSImpl extends SimBioModuleImpl implements OGSOperations,
                 * myProductionRate;
         float O2ToDistrubute = randomFilter(currentO2Produced);
         float H2ToDistrubute = randomFilter(currentH2Produced);
-        float distributedO2 = myO2ProducerDefinitionImpl
+        myO2ProducerDefinitionImpl
                 .pushResourceToStore(O2ToDistrubute);
         myLogger.debug("O2ToDistrubute = " + O2ToDistrubute);
-        float distributedH2 = myH2ProducerDefinitionImpl
+        myH2ProducerDefinitionImpl
                 .pushResourceToStore(H2ToDistrubute);
     }
 }

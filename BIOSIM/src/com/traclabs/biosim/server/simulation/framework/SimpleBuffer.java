@@ -109,7 +109,6 @@ public class SimpleBuffer {
      * @return the amount actually retrieved
      */
     public float take(float amountRequested) {
-        float oldLevel = level;
         //idiot check
         if (amountRequested <= 0f) {
             return 0f;

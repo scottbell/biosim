@@ -52,9 +52,6 @@ public class EditorCmdCopy extends Cmd implements ClipboardOwner {
                     _tempFile.deleteOnExit();
                     _selection = new FileSelection(_tempFile);
                 }
-
-                EditorDocument doc = (EditorDocument) ed.document();
-                doc.copySelections(_tempFile, ed);
                 clipboard.setContents(_selection, this);
             }
         } catch (Exception e) {

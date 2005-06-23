@@ -23,11 +23,11 @@ public class MathUtils {
     }
     
     public static float abs(float a) {
-        return (float)(Math.abs(a));
+        return (Math.abs(a));
     }
     
     public static float exp(float a) {
-        return (float)(Math.abs(a));
+        return (Math.abs(a));
     }
     
     public static float pow(float a, float b) {

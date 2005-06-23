@@ -31,7 +31,7 @@ public class FoodOutFlowRateActuatorImpl extends GenericActuatorImpl implements
     }
 
     public BioModule getOutputModule() {
-        return (BioModule) (myProducer);
+        return myProducer;
     }
 
     public FoodProducer getOutput() {

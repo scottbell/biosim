@@ -168,6 +168,7 @@ import com.traclabs.biosim.idl.sensor.food.HarvestSensorPOATie;
 import com.traclabs.biosim.idl.sensor.food.PlantDeathSensor;
 import com.traclabs.biosim.idl.sensor.food.PlantDeathSensorHelper;
 import com.traclabs.biosim.idl.sensor.food.PlantDeathSensorPOATie;
+import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
 import com.traclabs.biosim.idl.sensor.framework.StoreLevelSensor;
 import com.traclabs.biosim.idl.sensor.framework.StoreLevelSensorHelper;
 import com.traclabs.biosim.idl.sensor.framework.StoreLevelSensorPOATie;
@@ -363,14 +364,14 @@ import com.traclabs.biosim.server.sensor.water.WaterStoreLevelSensorImpl;
 public class SensorInitializer {
     private int myID = 0;
 
-    private List mySensors;
+    private List<GenericSensor> mySensors;
 
     private Logger myLogger;
 
     /** Default constructor. */
     public SensorInitializer(int pID) {
         myID = pID;
-        mySensors = new Vector();
+        mySensors = new Vector<GenericSensor>();
         myLogger = Logger.getLogger(this.getClass());
     }
 
@@ -415,11 +416,6 @@ public class SensorInitializer {
     private static int getFlowRateIndex(Node pNode) {
         return Integer.parseInt(pNode.getAttributes().getNamedItem("index")
                 .getNodeValue());
-    }
-
-    private static int getShelfIndex(Node pNode) {
-        return Integer.parseInt(pNode.getAttributes()
-                .getNamedItem("shelfIndex").getNodeValue());
     }
 
     //Air
@@ -2839,7 +2835,7 @@ public class SensorInitializer {
     /**
      * @return Returns the mySensors.
      */
-    public List getSensors() {
+    public List<GenericSensor> getSensors() {
         return mySensors;
     }
 }

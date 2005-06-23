@@ -22,6 +22,6 @@ public class CrewGroupProductivitySensorImpl extends CrewGroupSensorImpl
     }
 
     public BioModule getInputModule() {
-        return (BioModule) (getInput());
+        return getInput();
     }
 }

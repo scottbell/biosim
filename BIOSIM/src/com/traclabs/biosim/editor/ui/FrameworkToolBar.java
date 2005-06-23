@@ -4,8 +4,6 @@
  */
 package com.traclabs.biosim.editor.ui;
 
-import javax.swing.JButton;
-
 import com.traclabs.biosim.editor.base.CmdCreateModuleNode;
 import com.traclabs.biosim.editor.graph.framework.AccumulatorNode;
 import com.traclabs.biosim.editor.graph.framework.InjectorNode;
@@ -15,9 +13,6 @@ import com.traclabs.biosim.editor.graph.framework.InjectorNode;
  * 
  */
 public class FrameworkToolBar extends EditorToolBar {
-    private JButton myAccumulatorButton;
-    private JButton myInjectorButton;
-
     public FrameworkToolBar() {
         super("Framework");
         add(new CmdCreateModuleNode(AccumulatorNode.class, "EditorBase", "Accumulator"));

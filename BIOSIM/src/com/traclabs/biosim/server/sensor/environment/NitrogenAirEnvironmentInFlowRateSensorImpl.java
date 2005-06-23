@@ -41,7 +41,7 @@ public class NitrogenAirEnvironmentInFlowRateSensorImpl extends
     }
 
     public BioModule getInputModule() {
-        return (BioModule) (myConsumer);
+        return myConsumer;
     }
 
     public int getIndex() {

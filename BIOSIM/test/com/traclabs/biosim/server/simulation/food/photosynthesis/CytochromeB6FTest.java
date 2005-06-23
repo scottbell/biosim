@@ -102,7 +102,7 @@ public class CytochromeB6FTest extends TestCase {
         float finalStromaProtons = myStroma.getProtons().getQuantity();
         float finalProtons = finalLumenProtons + finalStromaProtons;
         
-        assertEquals(finalLumenProtons, finalLumenProtons, 0);
+        assertEquals(initialProtons, finalProtons, 0);
        
         
     }

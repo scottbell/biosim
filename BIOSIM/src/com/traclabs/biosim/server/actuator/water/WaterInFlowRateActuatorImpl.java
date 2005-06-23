@@ -31,7 +31,7 @@ public class WaterInFlowRateActuatorImpl extends GenericActuatorImpl implements
     }
 
     public BioModule getOutputModule() {
-        return (BioModule) (myConsumer);
+        return myConsumer;
     }
 
     public WaterConsumer getOutput() {

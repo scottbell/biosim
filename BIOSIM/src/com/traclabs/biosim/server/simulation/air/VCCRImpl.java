@@ -97,12 +97,6 @@ public class VCCRImpl extends SimBioModuleImpl implements VCCROperations,
     }
 
     private void gatherAir() {
-        float gatheredAir = 0f;
-        float gatheredO2 = 0f;
-        float gatheredCO2 = 0f;
-        float gatheredOther = 0f;
-        float gatheredWater = 0f;
-        float gatheredNitrogen = 0f;
         //25.625 watts -> 1.2125 moles of Air
         float molesAirNeeded = (currentPowerConsumed / 25.625f) * 1.2125f;
         myBreath = myAirConsumerDefinitionImpl
@@ -112,10 +106,10 @@ public class VCCRImpl extends SimBioModuleImpl implements VCCROperations,
     private void pushAir() {
         Breath breathToDistribute = new Breath(myBreath.O2, 0f, myBreath.water,
                 myBreath.other, myBreath.nitrogen);
-        Breath breathDistributed = myAirProducerDefinitionImpl
+        myAirProducerDefinitionImpl
                 .pushAirToEnvironments(breathToDistribute);
         currentCO2Produced = myBreath.CO2;
-        float distributedCO2Left = myCO2ProducerDefinitionImpl
+        myCO2ProducerDefinitionImpl
                 .pushResourceToStore(currentCO2Produced);
         myLogger.debug("currentCO2Produced = " + currentCO2Produced);
     }

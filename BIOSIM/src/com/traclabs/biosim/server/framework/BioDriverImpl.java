@@ -422,7 +422,7 @@ public class BioDriverImpl extends BioDriverPOA {
      */
     public void setStochasticIntensity(StochasticIntensity pValue) {
         for (int i = 0; i < modules.length; i++) {
-            BioModule currentBioModule = (BioModule) (modules[i]);
+            BioModule currentBioModule = (modules[i]);
             currentBioModule.setStochasticIntensity(pValue);
         }
     }
@@ -450,7 +450,7 @@ public class BioDriverImpl extends BioDriverPOA {
     public void startMalfunction(MalfunctionIntensity pIntensity,
             MalfunctionLength pLength) {
         for (int i = 0; i < modules.length; i++) {
-            BioModule currentBioModule = (BioModule) (modules[i]);
+            BioModule currentBioModule = (modules[i]);
             currentBioModule.startMalfunction(pIntensity, pLength);
         }
     }
@@ -464,7 +464,7 @@ public class BioDriverImpl extends BioDriverPOA {
         myLogger.info("BioDriverImpl" + myID + ": Resetting simulation");
         ticksGoneBy = 0;
         for (int i = 0; i < modules.length; i++) {
-            BioModule currentBioModule = (BioModule) (modules[i]);
+            BioModule currentBioModule = (modules[i]);
             currentBioModule.reset();
         }
     }
@@ -514,27 +514,27 @@ public class BioDriverImpl extends BioDriverPOA {
         myLogger.debug("BioDriveImpl: begin Tick");
         //Iterate through the actuators and tick them
         for (int i = 0; i < actuators.length; i++) {
-            BioModule currentBioModule = (BioModule) (actuators[i]);
+            BioModule currentBioModule = (actuators[i]);
             currentBioModule.tick();
         }
         //Iterate through the active sim modules and tick them
         for (int i = 0; i < activeSimModules.length; i++) {
-            BioModule currentBioModule = (BioModule) (activeSimModules[i]);
+            BioModule currentBioModule = (activeSimModules[i]);
             currentBioModule.tick();
         }
         //Iterate through the passive sim modules and tick them
         for (int i = 0; i < passiveSimModules.length; i++) {
-            BioModule currentBioModule = (BioModule) (passiveSimModules[i]);
+            BioModule currentBioModule = (passiveSimModules[i]);
             currentBioModule.tick();
         }
         //Iterate through the priority sim modules and tick them
         for (int i = 0; i < prioritySimModules.length; i++) {
-            BioModule currentBioModule = (BioModule) (prioritySimModules[i]);
+            BioModule currentBioModule = (prioritySimModules[i]);
             currentBioModule.tick();
         }
         //Iterate through the sensors and tick them
         for (int i = 0; i < sensors.length; i++) {
-            BioModule currentBioModule = (BioModule) (sensors[i]);
+            BioModule currentBioModule = (sensors[i]);
             currentBioModule.tick();
         }
         ticksGoneBy++;

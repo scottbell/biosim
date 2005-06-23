@@ -60,10 +60,10 @@ public class VCCRSubsystem extends AirRSSubSystem {
     private void pushAir() {
         Breath breathToDistribute = new Breath(myBreath.O2, 0f, myBreath.water,
                 myBreath.other, myBreath.nitrogen);
-        Breath breathDistributed = myAirRS.getAirProducerDefinitionImpl()
+        myAirRS.getAirProducerDefinitionImpl()
                 .pushAirToEnvironments(breathToDistribute);
         currentCO2Produced = myBreath.CO2;
-        float distributedCO2Left = myAirRS.getCO2ProducerDefinitionImpl()
+        myAirRS.getCO2ProducerDefinitionImpl()
                 .pushResourceToStore(currentCO2Produced);
     }
 

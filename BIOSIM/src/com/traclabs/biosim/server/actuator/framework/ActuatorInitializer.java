@@ -108,6 +108,7 @@ import com.traclabs.biosim.idl.actuator.food.HarvestingActuatorPOATie;
 import com.traclabs.biosim.idl.actuator.food.PlantingActuator;
 import com.traclabs.biosim.idl.actuator.food.PlantingActuatorHelper;
 import com.traclabs.biosim.idl.actuator.food.PlantingActuatorPOATie;
+import com.traclabs.biosim.idl.actuator.framework.GenericActuator;
 import com.traclabs.biosim.idl.actuator.power.PowerInFlowRateActuator;
 import com.traclabs.biosim.idl.actuator.power.PowerInFlowRateActuatorHelper;
 import com.traclabs.biosim.idl.actuator.power.PowerInFlowRateActuatorPOATie;
@@ -229,7 +230,6 @@ import com.traclabs.biosim.server.actuator.water.WaterInFlowRateActuatorImpl;
 import com.traclabs.biosim.server.actuator.water.WaterOutFlowRateActuatorImpl;
 import com.traclabs.biosim.server.framework.BioInitializer;
 import com.traclabs.biosim.server.framework.BiosimServer;
-import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * Reads BioSim configuration from XML file.
@@ -239,14 +239,14 @@ import com.traclabs.biosim.util.OrbUtils;
 public class ActuatorInitializer {
     private int myID = 0;
 
-    private List myActuators;
+    private List<GenericActuator> myActuators;
 
     private Logger myLogger;
 
     /** Default constructor. */
     public ActuatorInitializer(int pID) {
         myID = pID;
-        myActuators = new Vector();
+        myActuators = new Vector<GenericActuator>();
         myLogger = Logger.getLogger(this.getClass());
     }
 
@@ -997,9 +997,6 @@ public class ActuatorInitializer {
                     myID, moduleName);
             BioInitializer.setupBioModule(
                     myNitrogenAirEnvironmentInFlowRateActuatorImpl, node);
-            myActuators
-                    .add(OrbUtils
-                            .poaToCorbaObj(myNitrogenAirEnvironmentInFlowRateActuatorImpl));
             BiosimServer.registerServer(
                     new NitrogenAirEnvironmentInFlowRateActuatorPOATie(
                             myNitrogenAirEnvironmentInFlowRateActuatorImpl),
@@ -1548,8 +1545,6 @@ public class ActuatorInitializer {
                     myID, moduleName);
             BioInitializer.setupBioModule(myGreyWaterInFlowRateActuatorImpl,
                     node);
-            myActuators.add(OrbUtils
-                    .poaToCorbaObj(myGreyWaterInFlowRateActuatorImpl));
             BiosimServer.registerServer(new GreyWaterInFlowRateActuatorPOATie(
                     myGreyWaterInFlowRateActuatorImpl),
                     myGreyWaterInFlowRateActuatorImpl.getModuleName(),
@@ -1860,7 +1855,7 @@ public class ActuatorInitializer {
     /**
      * @return Returns the myActuators.
      */
-    public List getActuators() {
+    public List<GenericActuator> getActuators() {
         return myActuators;
     }
 }

@@ -18,7 +18,6 @@ import com.traclabs.biosim.idl.simulation.crew.CrewPersonHelper;
 import com.traclabs.biosim.idl.simulation.crew.RepairActivity;
 import com.traclabs.biosim.idl.simulation.crew.RepairActivityHelper;
 import com.traclabs.biosim.idl.simulation.crew.RepairActivityPOATie;
-import com.traclabs.biosim.idl.simulation.crew.ScheduleType;
 import com.traclabs.biosim.idl.simulation.crew.Sex;
 import com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.environment.AirConsumerOperations;
@@ -74,24 +73,24 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     //The crew persons that make up the crew.
     //They are the ones consuming air/food/water and producing air/water/waste
     // as they perform activities
-    private Map crewPeople;
+    private Map<String, CrewPerson> crewPeople;
 
     private float healthyPercentage = 1f;
 
     private Random myRandom;
 
-    private List crewScheduledForRemoval;
+    private List<String> crewScheduledForRemoval;
 
-    private List crewScheduledForAddition;
+    private List<CrewPerson> crewScheduledForAddition;
 
     /**
      * Default constructor. Uses a default schedule.
      */
     public CrewGroupImpl(int pID, String pName) {
         super(pID, pName);
-        crewScheduledForRemoval = new Vector();
-        crewScheduledForAddition = new Vector();
-        crewPeople = new Hashtable();
+        crewScheduledForRemoval = new Vector<String>();
+        crewScheduledForAddition = new Vector<CrewPerson>();
+        crewPeople = new Hashtable<String, CrewPerson>();
         myRandom = new Random();
 
         myFoodConsumerDefinitionImpl = new FoodConsumerDefinitionImpl();
@@ -193,7 +192,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
         randomCrewPerson.insertActivityInScheduleNow(newRepairActivity);
     }
 
-    public void setSchedule(ScheduleType pSchedule) {
+    public void resetSchedule() {
         for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();) {
             CrewPerson currentPerson = (CrewPerson) (iter.next());
             currentPerson.reset();
@@ -208,7 +207,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
      * @return the crew person asked for
      */
     public CrewPerson getCrewPerson(String crewPersonName) {
-        CrewPerson foundPerson = (CrewPerson) (crewPeople.get(crewPersonName));
+        CrewPerson foundPerson = (crewPeople.get(crewPersonName));
         return foundPerson;
     }
 

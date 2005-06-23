@@ -2,7 +2,6 @@ package com.traclabs.biosim.server.simulation.mission;
 
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
-import com.traclabs.biosim.idl.simulation.air.Breath;
 import com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.environment.AirConsumerOperations;
 import com.traclabs.biosim.idl.simulation.mission.AnimalMissionOperations;
@@ -56,11 +55,11 @@ public class AnimalMissionImpl extends MissionModuleImpl implements
     }
 
     private void getAndPushResources() {
-        float powerGathered = myPowerConsumerDefinitionImpl
+        myPowerConsumerDefinitionImpl
                 .getMostResourceFromStore();
-        float potableWaterGathered = myPotableWaterConsumerDefinitionImpl
+        myPotableWaterConsumerDefinitionImpl
                 .getMostResourceFromStore();
-        Breath gatheredAir = myAirConsumerDefinitionImpl
+        myAirConsumerDefinitionImpl
                 .getMostAirFromEnvironment();
     }
 

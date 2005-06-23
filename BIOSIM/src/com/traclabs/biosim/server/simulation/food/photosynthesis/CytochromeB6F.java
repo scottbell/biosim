@@ -61,7 +61,8 @@ public class CytochromeB6F extends ActiveEnzyme{
     /**
      * back reaction
      */
-    private void attemptToReducePlastoquinone() {
+    @SuppressWarnings("unused")
+	private void attemptToReducePlastoquinone() {
         if (!myPlastoquinone.hasProtons()){
             float protonsTaken = myStroma.getProtons().take(PROTONS_NEEDED);
             if (protonsTaken == PROTONS_NEEDED){

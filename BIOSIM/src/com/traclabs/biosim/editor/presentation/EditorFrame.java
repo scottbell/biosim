@@ -18,7 +18,6 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
@@ -90,22 +89,6 @@ public class EditorFrame extends BioFrame {
     private JPanel myGraphPanel;
 
     private JTabbedPane myModuleTabbedToolBarPane;
-
-    private Logger myLogger;
-
-    private JMenu myFileMenu;
-
-    private JMenu myNewMenu;
-
-    private JMenuItem myLoggingItem;
-
-    private JMenuItem myQuitItem;
-
-    private JMenu myHelpMenu;
-
-    private JMenuItem myAboutItem;
-
-    private AboutAction myAboutAction = new AboutAction("About");;
 
     private QuitAction myQuitAction = new QuitAction("Quit");
 
@@ -225,11 +208,10 @@ public class EditorFrame extends BioFrame {
         URL imgURL = EditorFrame.class.getClassLoader().getResource(path);
         if (imgURL != null) {
             return new ImageIcon(imgURL);
-        } else {
-            Logger.getLogger(BiosimEditor.class.toString()).error(
-                    "Couldn't find file for icon: " + path);
-            return null;
         }
+		Logger.getLogger(BiosimEditor.class.toString()).error(
+		        "Couldn't find file for icon: " + path);
+		return null;
     }
     
     /**
@@ -345,7 +327,7 @@ public class EditorFrame extends BioFrame {
         printItem.setAccelerator(ctrlP);
 
         // Create the Preferences menu item.
-        JMenuItem prefsItem = file.add(new CmdOpenWindow(
+        file.add(new CmdOpenWindow(
                 "org.tigris.gef.base.PrefsEditor", "Preferences..."));
 
         file.addSeparator();
@@ -654,21 +636,6 @@ public class EditorFrame extends BioFrame {
                     .getPredefinedCursor(Cursor.WAIT_CURSOR));
             frameClosing();
             setCursor(Cursor.getDefaultCursor());
-        }
-    }
-
-    /**
-     * Action that brings up a dialog box about authors, company, etc.
-     */
-    private class AboutAction extends AbstractAction {
-        public AboutAction(String name) {
-            super(name);
-        }
-
-        public void actionPerformed(ActionEvent ae) {
-            JOptionPane.showMessageDialog(null, "BioSim Editor\nCopyright "
-                    + new Character('\u00A9')
-                    + " 2005, TRACLabs\nby Scott Bell and David Kortenkamp");
         }
     }
 }

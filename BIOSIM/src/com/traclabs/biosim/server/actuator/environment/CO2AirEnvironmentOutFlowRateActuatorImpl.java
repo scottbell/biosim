@@ -32,7 +32,7 @@ public class CO2AirEnvironmentOutFlowRateActuatorImpl extends
     }
 
     public BioModule getOutputModule() {
-        return (BioModule) (myProducer);
+        return myProducer;
     }
 
     public float getMax() {

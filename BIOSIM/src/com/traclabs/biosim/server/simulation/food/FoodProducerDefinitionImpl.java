@@ -40,10 +40,13 @@ public class FoodProducerDefinitionImpl extends StoreFlowRateControllableImpl
         FoodMatter[] copyOfMatter = new FoodMatter[foodToPush.length];
         System.arraycopy(foodToPush, 0, copyOfMatter, 0, foodToPush.length);
         for (int i = 0; (i < getStores().length) && (resourceDistributed > 0); i++) {
+        	//TODO need to respect flowrates here
+        	/*
             float resourceToDistributeFirst = Math.min(resourceDistributed,
                     getMaxFlowRate(i));
             float resourceToDistributeFinal = Math.min(
                     resourceToDistributeFirst, getDesiredFlowRate(i));
+            */
             FoodStore currentFoodStore = FoodStoreHelper.narrow(getStores()[i]);
             getActualFlowRates()[i] = currentFoodStore
                     .addFoodMatterArray(copyOfMatter);

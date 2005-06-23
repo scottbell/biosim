@@ -26,6 +26,6 @@ public abstract class ShelfActuatorImpl extends GenericActuatorImpl implements
     }
 
     public BioModule getOutputModule() {
-        return (BioModule) (myModule);
+        return (myModule);
     }
 }

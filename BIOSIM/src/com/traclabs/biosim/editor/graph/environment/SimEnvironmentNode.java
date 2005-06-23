@@ -28,10 +28,15 @@ public class SimEnvironmentNode extends PassiveNode{
     private SimEnvironmentImpl mySimEnvironmentImpl;
     private static int nameID = 0;
 
-    private EnvironmentSensorImpl myO2AirPressureSensorImpl;
+    @SuppressWarnings("unused")
+	private EnvironmentSensorImpl myO2AirPressureSensorImpl;
+    @SuppressWarnings("unused")
     private EnvironmentSensorImpl myCO2AirPressureSensorImpl;
+    @SuppressWarnings("unused")
     private EnvironmentSensorImpl myNitrogenAirPressureSensorImpl;
+    @SuppressWarnings("unused")
     private EnvironmentSensorImpl myOtherAirPressureSensorImpl;
+    @SuppressWarnings("unused")
     private EnvironmentSensorImpl myWaterAirPressureSensorImpl;
     
     private final static Class[] myProducersAllowed = {AirProducerOperations.class, CO2AirProducerOperations.class, O2AirProducerOperations.class, NitrogenAirProducerOperations.class, WaterAirProducerOperations.class};
@@ -81,8 +86,7 @@ public class SimEnvironmentNode extends PassiveNode{
         myCO2AirPressureSensorImpl =  null;
         myNitrogenAirPressureSensorImpl = null;
         myOtherAirPressureSensorImpl =  null;
-        myWaterAirPressureSensorImpl= null;;
-    
+        myWaterAirPressureSensorImpl= null;
     }
 
     /* (non-Javadoc)

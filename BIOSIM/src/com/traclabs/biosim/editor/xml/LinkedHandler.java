@@ -55,7 +55,7 @@ public class LinkedHandler extends DefaultHandler {
         return _previous;
     }
 
-    public void gotoPrevious() throws SAXException {
+    public void gotoPrevious() {
         exit();
         if (_reader != null && _previous != null) {
             _reader.setContentHandler(_previous);
@@ -64,7 +64,7 @@ public class LinkedHandler extends DefaultHandler {
     }
 
     // Transfers control to the next handler.
-    public void gotoNext(LinkedHandler next) throws SAXException {
+    public void gotoNext(LinkedHandler next) {
         if (_reader != null) {
             next.setPrevious(this);
             next.setReader(_reader);
@@ -82,10 +82,10 @@ public class LinkedHandler extends DefaultHandler {
         next.startElement(uri, local, qName, attrs);
     }
 
-    protected void enter() throws SAXException {
+    protected void enter() {
     }
 
-    protected void exit() throws SAXException {
+    protected void exit() {
     }
 
     /** Warning. */

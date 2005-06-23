@@ -58,8 +58,6 @@ public class AirRSImpl extends SimBioModuleImpl implements AirRSOperations,
 
     private static final int NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER = 3;
 
-    private float myProductionRate = 1f;
-
     private AirRSSubSystem[] mySubsystems;
 
     //Consumers, Producers
