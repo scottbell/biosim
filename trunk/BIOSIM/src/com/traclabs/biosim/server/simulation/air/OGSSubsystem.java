@@ -49,9 +49,9 @@ public class OGSSubsystem extends AirRSSubSystem {
                 * myProductionRate;
         float O2ToDistrubute = myAirRS.randomFilter(currentO2Produced);
         float H2ToDistrubute = myAirRS.randomFilter(currentH2Produced);
-        float distributedO2 = myAirRS.getO2ProducerDefinitionImpl()
+        myAirRS.getO2ProducerDefinitionImpl()
                 .pushResourceToStore(O2ToDistrubute);
-        float distributedH2 = myAirRS.getH2ProducerDefinitionImpl()
+        myAirRS.getH2ProducerDefinitionImpl()
                 .pushResourceToStore(H2ToDistrubute);
     }
 

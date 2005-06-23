@@ -21,10 +21,7 @@ public class Chloroplast {
 
     private Thylakoid myThylakoid;
     
-    private Logger myLogger;
-
     public Chloroplast() {
-        myLogger = Logger.getLogger(Chloroplast.class);
         myStroma = new Stroma();
         myThylakoid = new Thylakoid(this, myStroma);
 

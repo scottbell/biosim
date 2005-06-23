@@ -22,6 +22,6 @@ public abstract class AirRSSensorImpl extends GenericSensorImpl implements
     }
 
     public BioModule getInputModule() {
-        return (BioModule) (getInput());
+        return getInput();
     }
 }

@@ -1,6 +1,5 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -25,13 +24,9 @@ import com.traclabs.biosim.server.util.MathUtils;
 public abstract class PlantImpl extends PlantPOA {
     protected Logger myLogger;
 
-    private DecimalFormat numFormat;
-
     private Random myRandomGen;
 
     protected int myAge = 0;
-
-    private boolean logInitialized = false;
 
     private boolean hasDied = false;
 
@@ -54,9 +49,6 @@ public abstract class PlantImpl extends PlantPOA {
     private float myTotalCO2Concentration = 0f;
 
     private int myNumberOfCO2ConcentrationReadings = 0;
-
-    //in dry weight
-    private float myCurrentTotalWaterInsideBiomass = 0f;
 
     private float myCurrentWaterInsideInedibleBiomass = 0f;
 
@@ -108,9 +100,9 @@ public abstract class PlantImpl extends PlantPOA {
 
     private float myPPFFractionAbsorbed = 0f;
 
-    private List myCanopyClosurePPFValues;
+    private List<Float> myCanopyClosurePPFValues;
 
-    private List myCanopyClosureCO2Values;
+    private List<Float>  myCanopyClosureCO2Values;
 
     private static final float WATER_TILL_DEAD = 200f;
 
@@ -163,10 +155,9 @@ public abstract class PlantImpl extends PlantPOA {
         consumedHeatBuffer = new SimpleBuffer(HEAT_TILL_DEAD
                 * DANGEROUS_HEAT_LEVEL, HEAT_TILL_DEAD * DANGEROUS_HEAT_LEVEL);
         myRandomGen = new Random();
-        numFormat = new DecimalFormat("#,##0.0;(#)");
 
-        myCanopyClosurePPFValues = new Vector(getTAInitialValue());
-        myCanopyClosureCO2Values = new Vector(getTAInitialValue());
+        myCanopyClosurePPFValues = new Vector<Float>(getTAInitialValue());
+        myCanopyClosureCO2Values = new Vector<Float>(getTAInitialValue());
     }
 
     protected abstract float getBCF();
@@ -222,7 +213,6 @@ public abstract class PlantImpl extends PlantPOA {
         myLastTotalWetBiomass = 0f;
         myLastEdibleWetBiomass = 0f;
         myCurrentEdibleDryBiomass = 0f;
-        myCurrentTotalWaterInsideBiomass = 0f;
         myCurrentWaterInsideInedibleBiomass = 0f;
         myCurrentWaterInsideEdibleBiomass = 0f;
         myAverageWaterNeeded = 0f;
@@ -294,16 +284,8 @@ public abstract class PlantImpl extends PlantPOA {
         myNumberOfPPFReadings++;
         myAveragePPF = myTotalPPF / myNumberOfPPFReadings;
         if (!canopyClosed)
-            addToCanopyClosureList(pPPF, myCanopyClosurePPFValues);
+        	myCanopyClosurePPFValues.add(pPPF);
         myLogger.debug("pPPF: " + pPPF);
-    }
-
-    /**
-     * adds a float to the list(for PPF and CO2 values used in the tA
-     * calculation),
-     */
-    private void addToCanopyClosureList(float pValueToInsert, List pList) {
-        pList.add(new Float(pValueToInsert));
     }
 
     private void recoverPlants() {
@@ -563,11 +545,11 @@ public abstract class PlantImpl extends PlantPOA {
             waterFraction = myWaterLevel / myWaterNeeded;
 
         if (waterFraction < 1f) {
-            myCurrentDryBiomass -= (float) (1f - waterFraction)
+            myCurrentDryBiomass -= (1f - waterFraction)
                     * (cropGrowthRate / 1000 / 24f * myShelfImpl
                             .getCropAreaUsed());
             if (getDaysOfGrowth() > getTimeAtOrganFormation())
-                myCurrentEdibleDryBiomass -= (float) (1f - waterFraction)
+                myCurrentEdibleDryBiomass -= (1f - waterFraction)
                         * (cropGrowthRate / 1000 / 24f
                                 * myShelfImpl.getCropAreaUsed() * getProtectedFractionOfEdibleBiomass());
             myLogger.debug("myCurrentDryBiomass:" + myCurrentDryBiomass);
@@ -588,13 +570,10 @@ public abstract class PlantImpl extends PlantPOA {
             myCurrentTotalWetBiomass = myCurrentInedibleWetBiomass
                     + myCurrentEdibleWetBiomass;
         }
-        myCurrentTotalWaterInsideBiomass = myCurrentWaterInsideEdibleBiomass
-                + myCurrentWaterInsideInedibleBiomass;
-
         //Breathe Air
         float molesOfCO2ToInhale = 0f;
         if (waterFraction < 1f)
-            molesOfCO2ToInhale = (float) waterFraction * dailyCarbonGain
+            molesOfCO2ToInhale = waterFraction * dailyCarbonGain
                     * myShelfImpl.getCropAreaUsed() / 24f;
         else
             molesOfCO2ToInhale = dailyCarbonGain
@@ -611,7 +590,7 @@ public abstract class PlantImpl extends PlantPOA {
         //Exhale Air
         float dailyO2MolesProduced = 0f;
         if (waterFraction < 1f)
-            dailyO2MolesProduced = (float) waterFraction * getOPF()
+            dailyO2MolesProduced = waterFraction * getOPF()
                     * dailyCarbonGain * myShelfImpl.getCropAreaUsed();
         else
             dailyO2MolesProduced = getOPF() * dailyCarbonGain
@@ -632,7 +611,7 @@ public abstract class PlantImpl extends PlantPOA {
 
         //Water Vapor Produced
         if (waterFraction < 1f)
-            litersOfWaterProduced = (float) waterFraction
+            litersOfWaterProduced = waterFraction
                     * calculateDailyCanopyTranspirationRate() / 24f
                     * myShelfImpl.getCropAreaUsed();
         else
@@ -660,10 +639,6 @@ public abstract class PlantImpl extends PlantPOA {
 
     private static float waterLitersToMoles(float pLiters) {
         return (pLiters * 998.23f) / 18.01524f; // 998.23g/liter, 18.01524g/mole
-    }
-
-    private static float waterMolesToLiters(float pMoles) {
-        return (pMoles * 18.01524f) / 998.23f; // 998.23g/liter, 18.01524g/mole
     }
 
     //in g/meters^2*day
@@ -743,8 +718,7 @@ public abstract class PlantImpl extends PlantPOA {
         myLogger.debug("airMoles: " + airMoles);
         float currentCO2Concentration = (CO2Moles / airMoles);
         if (!canopyClosed)
-            addToCanopyClosureList(currentCO2Concentration,
-                    myCanopyClosureCO2Values);
+        	myCanopyClosureCO2Values.add(currentCO2Concentration);
         myLogger.debug("CO2_Concentration: " + currentCO2Concentration);
         myTotalCO2Concentration += currentCO2Concentration;
         myNumberOfCO2ConcentrationReadings++;
@@ -756,7 +730,7 @@ public abstract class PlantImpl extends PlantPOA {
 
     //returns the age in days
     protected float getDaysOfGrowth() {
-        float daysOfGrowth = (float) myAge / 24f;
+        float daysOfGrowth = myAge / 24f;
         myLogger.debug("daysOfGrowth: " + daysOfGrowth);
         myLogger.debug("myAge: " + myAge);
         return daysOfGrowth;
@@ -832,7 +806,7 @@ public abstract class PlantImpl extends PlantPOA {
         }
         //round the number according to Jim
         long tALong = Math.round(tA);
-        tA = (float) tALong;
+        tA = tALong;
         myLogger.debug("tA: " + tA);
         return tA;
     }

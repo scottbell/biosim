@@ -118,10 +118,4 @@ public class WaterRSMatlabImpl extends SimBioModuleImpl implements
             MalfunctionLength pLength) {
         return "NoName";
     }
-
-    /**
-     * For fast reference to the log tree
-     */
-    private class LogIndex {
-    }
 }

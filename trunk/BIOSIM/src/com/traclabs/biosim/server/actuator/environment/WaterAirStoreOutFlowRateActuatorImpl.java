@@ -31,7 +31,7 @@ public class WaterAirStoreOutFlowRateActuatorImpl extends GenericActuatorImpl
     }
 
     public BioModule getOutputModule() {
-        return (BioModule) (myProducer);
+        return myProducer;
     }
 
     public float getMax() {

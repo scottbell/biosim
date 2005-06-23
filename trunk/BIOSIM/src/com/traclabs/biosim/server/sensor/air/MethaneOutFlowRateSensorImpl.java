@@ -40,7 +40,7 @@ public class MethaneOutFlowRateSensorImpl extends GenericSensorImpl implements
     }
 
     public BioModule getInputModule() {
-        return (BioModule) (myProducer);
+        return myProducer;
     }
 
     public int getIndex() {

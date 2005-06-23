@@ -55,7 +55,7 @@ public abstract class ModuleNode extends NetNode implements Serializable {
 
     /** Returns all source nodes for this node. */
     public List getSourceNodes() {
-        List nodes = new ArrayList();
+        List<NetNode> nodes = new ArrayList<NetNode>();
         List edges = getInBoundEdges();
 
         Iterator i = edges.iterator();
@@ -70,7 +70,7 @@ public abstract class ModuleNode extends NetNode implements Serializable {
     /** Returns all destination nodes for this node. */
     public List getDestNodes() {
         List edges = getOutBoundEdges();
-        List nodes = new ArrayList();
+        List<NetNode> nodes = new ArrayList<NetNode>();
 
         Iterator i = edges.iterator();
         while (i.hasNext()) {
@@ -83,7 +83,7 @@ public abstract class ModuleNode extends NetNode implements Serializable {
 
     /** Returns all in bound edges for this node. */
     public List getInBoundEdges() {
-        ArrayList edges = new ArrayList();
+        ArrayList<NetEdge> edges = new ArrayList<NetEdge>();
         NetPort destPort = (NetPort) getPort();
         Enumeration theElements = destPort.getEdges().elements();
         while (theElements.hasMoreElements()) {
@@ -97,7 +97,7 @@ public abstract class ModuleNode extends NetNode implements Serializable {
 
     /** Returns out bound edges for this node. */
     public List getOutBoundEdges() {
-        ArrayList edges = new ArrayList();
+        ArrayList<NetEdge> edges = new ArrayList<NetEdge>();
         NetPort srcPort = (NetPort) getPort();
         Enumeration theElements = srcPort.getEdges().elements();
         while (theElements.hasMoreElements()) {

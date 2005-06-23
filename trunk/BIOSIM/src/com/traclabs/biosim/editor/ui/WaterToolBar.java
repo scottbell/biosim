@@ -4,8 +4,6 @@
  */
 package com.traclabs.biosim.editor.ui;
 
-import javax.swing.JButton;
-
 import com.traclabs.biosim.editor.base.CmdCreateModuleNode;
 import com.traclabs.biosim.editor.graph.water.DirtyWaterStoreNode;
 import com.traclabs.biosim.editor.graph.water.GreyWaterStoreNode;
@@ -17,14 +15,6 @@ import com.traclabs.biosim.editor.graph.water.WaterRSNode;
  * 
  */
 public class WaterToolBar extends EditorToolBar {
-    private JButton myWaterRSButton;
-
-    private JButton myPotableWaterStoreButton;
-
-    private JButton myGreyWaterStoreButton;
-
-    private JButton myDirtyWaterStoreButton;
-
     public WaterToolBar() {
         super("Water");
         add(new CmdCreateModuleNode(WaterRSNode.class, "EditorBase", "WaterRS"));

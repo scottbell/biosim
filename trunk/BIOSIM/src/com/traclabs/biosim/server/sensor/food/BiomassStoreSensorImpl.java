@@ -30,6 +30,6 @@ public abstract class BiomassStoreSensorImpl extends GenericSensorImpl
     }
 
     public BioModule getInputModule() {
-        return (BioModule) (getInput());
+        return getInput();
     }
 }

@@ -41,7 +41,7 @@ public class FoodConsumerDefinitionImpl extends StoreFlowRateControllableImpl
     public static FoodMatter[] getCaloriesFromStore(
             FoodConsumerDefinition pConsumer, float amountNeeded) {
         float gatheredResource = 0f;
-        List gatheredFoodMatterArrays = new Vector();
+        List<FoodMatter[]> gatheredFoodMatterArrays = new Vector<FoodMatter[]>();
         int sizeOfMatter = 0;
         for (int i = 0; (i < pConsumer.getStores().length)
                 && (gatheredResource < amountNeeded); i++) {

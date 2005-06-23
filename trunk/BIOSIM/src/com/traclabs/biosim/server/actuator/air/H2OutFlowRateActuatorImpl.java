@@ -31,7 +31,7 @@ public class H2OutFlowRateActuatorImpl extends GenericActuatorImpl implements
     }
 
     public BioModule getOutputModule() {
-        return (BioModule) (myProducer);
+        return myProducer;
     }
 
     public H2Producer getOutput() {

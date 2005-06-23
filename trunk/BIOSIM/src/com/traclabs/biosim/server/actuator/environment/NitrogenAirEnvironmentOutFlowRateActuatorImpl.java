@@ -32,7 +32,7 @@ public class NitrogenAirEnvironmentOutFlowRateActuatorImpl extends
     }
 
     public BioModule getOutputModule() {
-        return (BioModule) (myProducer);
+        return myProducer;
     }
 
     public float getMax() {

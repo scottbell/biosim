@@ -2,15 +2,12 @@ package com.traclabs.biosim.server.simulation.environment;
 
 import java.util.Iterator;
 
-import com.traclabs.biosim.idl.framework.BioDriver;
-import com.traclabs.biosim.idl.framework.BioDriverHelper;
 import com.traclabs.biosim.idl.framework.Malfunction;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.simulation.air.Breath;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironmentOperations;
 import com.traclabs.biosim.server.simulation.framework.PassiveModuleImpl;
-import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * The SimEnvironment acts as the environment in which the crew breathes from
@@ -111,15 +108,6 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
 
     private float dayLength = 24f;
 
-    private String myName;
-
-    //Used for finding what the current tick is (to see if we're behind or
-    // ahead)
-    private BioDriver myDriver;
-
-    //Whether this Store has collected a reference to the BioDriver or not.
-    private boolean hasCollectedReferences = false;
-
     private float myAirLockVolume = 3.7f;
 
     private float myDangerousOxygenThreshold = 1f;
@@ -145,7 +133,6 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
      */
     public SimEnvironmentImpl(int pID, float pInitialVolume, String pName) {
         super(pID, pName);
-        myName = pName;
         currentVolume = initialVolume = pInitialVolume;
         O2Pressure = cachedO2Pressure = initialO2Pressure = 20.0f;
         CO2Pressure = cachedCO2Pressure = initialCO2Pressure = 0.111f;
@@ -190,7 +177,6 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
             float pInitialNitrogenMoles, float pInitialVolume, String pName,
             int pID) {
         super(pID, pName);
-        myName = pName;
         CO2Moles = cachedCO2Moles = initialCO2Moles = pInitialCO2Moles;
         O2Moles = cachedO2Moles = initialO2Moles = pInitialO2Moles;
         otherMoles = cachedOtherMoles = initialOtherMoles = pInitialOtherMoles;
@@ -208,8 +194,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
         if (currentVolume > 0)
             return (pNumberOfMoles * idealGasConstant * (temperature + 273f))
                     / currentVolume;
-        else
-            return 0;
+		return 0;
     }
 
     private float calculateMoles(float pPressure) {
@@ -217,8 +202,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
         if (kelvinTemperature > 0)
             return (pPressure * currentVolume)
                     / (kelvinTemperature * idealGasConstant);
-        else
-            return 0;
+		return 0;
     }
 
     /**
@@ -253,9 +237,8 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
         if (cachedValueNeeded())
             return cachedCO2Pressure + cachedO2Pressure + cachedWaterPressure
                     + cachedOtherPressure + cachedNitrogenPressure;
-        else
-            return CO2Pressure + O2Pressure + waterPressure + otherPressure
-                    + nitrogenPressure;
+		return CO2Pressure + O2Pressure + waterPressure + otherPressure
+		        + nitrogenPressure;
     }
 
     //constant for right now (function of temperature);
@@ -516,8 +499,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
         if (cachedValueNeeded())
             return cachedO2Moles + cachedCO2Moles + cachedWaterMoles
                     + cachedOtherMoles + cachedNitrogenMoles;
-        else
-            return O2Moles + CO2Moles + waterMoles + otherMoles + nitrogenMoles;
+		return O2Moles + CO2Moles + waterMoles + otherMoles + nitrogenMoles;
     }
 
     /**
@@ -529,9 +511,8 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
         if (cachedValueNeeded())
             return cachedCO2Pressure + cachedO2Pressure + cachedWaterPressure
                     + cachedOtherPressure + cachedNitrogenPressure;
-        else
-            return CO2Pressure + O2Pressure + waterPressure + otherPressure
-                    + nitrogenPressure;
+		return CO2Pressure + O2Pressure + waterPressure + otherPressure
+		        + nitrogenPressure;
 
     }
 
@@ -597,8 +578,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
     public float getOtherMoles() {
         if (cachedValueNeeded())
             return cachedOtherMoles;
-        else
-            return otherMoles;
+		return otherMoles;
     }
 
     /**
@@ -1136,23 +1116,6 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
         //collectReferences();
         //return (getMyTicks() < myDriver.getTicks());
         return true;
-    }
-
-    /**
-     * Collects references to BioDriver for getting current tick
-     */
-    private void collectReferences() {
-        if (!hasCollectedReferences) {
-            try {
-                myDriver = BioDriverHelper.narrow(OrbUtils.getNamingContext(
-                        getID()).resolve_str("BioDriver"));
-                hasCollectedReferences = true;
-
-            } catch (org.omg.CORBA.UserException e) {
-                myLogger.error(getModuleName() + ": Couldn't find BioDriver!!");
-                e.printStackTrace();
-            }
-        }
     }
 
     /**

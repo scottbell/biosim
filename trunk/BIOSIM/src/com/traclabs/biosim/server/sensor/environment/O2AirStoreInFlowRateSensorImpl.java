@@ -40,7 +40,7 @@ public class O2AirStoreInFlowRateSensorImpl extends GenericSensorImpl implements
     }
 
     public BioModule getInputModule() {
-        return (BioModule) (myConsumer);
+        return myConsumer;
     }
 
     public int getIndex() {

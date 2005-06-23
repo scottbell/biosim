@@ -26,6 +26,6 @@ public abstract class BiomassRSSensorImpl extends GenericSensorImpl implements
     }
 
     public BioModule getInputModule() {
-        return (BioModule) (getInput());
+        return getInput();
     }
 }

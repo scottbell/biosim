@@ -18,13 +18,13 @@ import com.traclabs.biosim.server.simulation.framework.StoreImpl;
 
 public class BiomassStoreImpl extends StoreImpl implements
         BiomassStoreOperations {
-    List currentBiomassItems;
+    List<BioMatter> currentBiomassItems;
 
     BioMatter myOriginalMatter;
 
     public BiomassStoreImpl(int pID, String pName) {
         super(pID, pName);
-        currentBiomassItems = new Vector();
+        currentBiomassItems = new Vector<BioMatter>();
         myOriginalMatter = new BioMatter(0, 0, 0, 0, PlantType.UNKNOWN_PLANT);
     }
 
@@ -168,8 +168,8 @@ public class BiomassStoreImpl extends StoreImpl implements
     public BioMatter[] takeBioMatterMass(float pMass) {
         if (pMass <= 0)
             return new BioMatter[0];
-        List itemsToReturn = new Vector();
-        List itemsToRemove = new Vector();
+        List<BioMatter> itemsToReturn = new Vector<BioMatter>();
+        List<BioMatter> itemsToRemove = new Vector<BioMatter>();
         float collectedMass = 0f;
         for (Iterator iter = currentBiomassItems.iterator(); iter.hasNext()
                 && (collectedMass <= pMass);) {
@@ -205,7 +205,7 @@ public class BiomassStoreImpl extends StoreImpl implements
         currentLevel -= collectedMass;
         //return the array
         BioMatter[] emptyArray = new BioMatter[0];
-        BioMatter[] returnArray = (BioMatter[]) (itemsToReturn
+        BioMatter[] returnArray = (itemsToReturn
                 .toArray(emptyArray));
         if (returnArray == null)
             return emptyArray;

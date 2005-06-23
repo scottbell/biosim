@@ -108,10 +108,6 @@ public class DehumidifierImpl extends SimBioModuleImpl implements
             return 0f;
     }
 
-    private static float waterLitersToMoles(float pLiters) {
-        return (pLiters * 1000f) / 18.01524f; // 1000g/liter, 18.01524g/mole
-    }
-
     private static float waterMolesToLiters(float pMoles) {
         return (pMoles * 18.01524f) / 1000f; // 1000g/liter, 18.01524g/mole
     }

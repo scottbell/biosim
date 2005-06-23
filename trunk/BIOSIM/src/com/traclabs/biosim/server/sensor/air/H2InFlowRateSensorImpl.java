@@ -39,7 +39,7 @@ public class H2InFlowRateSensorImpl extends GenericSensorImpl implements
     }
 
     public BioModule getInputModule() {
-        return (BioModule) (myConsumer);
+        return myConsumer;
     }
 
     public int getIndex() {

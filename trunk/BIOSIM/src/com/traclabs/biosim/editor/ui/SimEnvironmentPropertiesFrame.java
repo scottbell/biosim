@@ -69,7 +69,6 @@ public class SimEnvironmentPropertiesFrame extends JFrame {
         public void actionPerformed(ActionEvent ae) {
             mySimEnvironmentImpl.setModuleName(myNameField.getText());
             float volume = ((Number)myVolumeField.getValue()).floatValue();
-            float level = ((Number)myVolumeField.getValue()).floatValue();
             mySimEnvironmentImpl.setInitialVolumeAtSeaLevel(volume);
             myFigEnvironmentNode.setIsSensed(mySensorCheckBox.isSelected());
             myFigEnvironmentNode.damage();

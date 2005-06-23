@@ -30,6 +30,6 @@ public abstract class PotableWaterStoreSensorImpl extends GenericSensorImpl
     }
 
     public BioModule getInputModule() {
-        return (BioModule) (getInput());
+        return getInput();
     }
 }

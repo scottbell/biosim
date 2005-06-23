@@ -36,7 +36,7 @@ public class WaterAirStoreInFlowRateActuatorImpl extends GenericActuatorImpl
     }
 
     public BioModule getOutputModule() {
-        return (BioModule) (myConsumer);
+        return myConsumer;
     }
 
     public WaterAirConsumer getOutput() {

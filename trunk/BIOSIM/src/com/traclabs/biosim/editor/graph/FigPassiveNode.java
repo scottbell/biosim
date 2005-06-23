@@ -3,15 +3,11 @@ package com.traclabs.biosim.editor.graph;
 import java.awt.Dimension;
 import java.awt.Point;
 
-import javax.swing.JFrame;
-
 import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigCircle;
 
 public abstract class FigPassiveNode extends FigModuleLabelNode {
-    private JFrame myEditFrame;
-
-    public FigPassiveNode() {
+   public FigPassiveNode() {
         super();
         setShowShadow(false);
     }

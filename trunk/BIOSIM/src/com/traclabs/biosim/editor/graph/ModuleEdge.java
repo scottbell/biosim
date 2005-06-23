@@ -68,8 +68,7 @@ public class ModuleEdge extends NetEdge {
     public PassiveModuleImpl getPassiveModuleImpl() {
         if (getStoreImpl() != null)
             return getStoreImpl();
-        else
-            return getSimEnvironmentImpl();
+		return getSimEnvironmentImpl();
     }
     
     /**
@@ -162,8 +161,6 @@ public class ModuleEdge extends NetEdge {
             //we're consuming
             amProducerEdge = false;
             myActiveModule = ((ActiveNode)destPort.getParent()).getSimBioModuleImpl();
-            PassiveNode thePassiveNode = (PassiveNode)(sourcePort.getParent());
-            Class[] theConsumersAllowed = thePassiveNode.getConsumersAllowed();
             computeSenorAndActutorNames(selectedConsumerOrProducerClass);
             Method definitionMethod = getOperationsMethod(selectedConsumerOrProducerClass);
             initializedOperations = invokeMethod(myActiveModule, definitionMethod);
@@ -237,7 +234,7 @@ public class ModuleEdge extends NetEdge {
     private SingleFlowRateControllable invokeMethod(SimBioModuleImpl theSimBioModuleImpl, Method definitionMethod) {
     	SingleFlowRateControllable theFlowRateControllableOperations = null;
         try{
-            theFlowRateControllableOperations = (SingleFlowRateControllable)(definitionMethod.invoke(theSimBioModuleImpl, null));
+            theFlowRateControllableOperations = (SingleFlowRateControllable)(definitionMethod.invoke(theSimBioModuleImpl, new Object()));
         }
         catch (IllegalAccessException e){
             myLogger.error("This shouldn't of happened, problem invoking method");
@@ -257,13 +254,6 @@ public class ModuleEdge extends NetEdge {
     private Method getOperationsMethod(Class producerOrConsumerClass) {
         String className = producerOrConsumerClass.getSimpleName();
         String producerOrConsumerType = className.substring(0, className.lastIndexOf("Operations"));
-        String modifier = "";
-        if (StoreEnvironmentProducerOperations.class.isAssignableFrom(producerOrConsumerClass)){
-            if (getSimEnvironmentImpl() != null)
-                modifier = "Environment";
-            else
-                modifier = "Store";
-        }
         myName = producerOrConsumerType + " Flowrate";
         String methodName = "get" + producerOrConsumerType + "Definition";
         Method definitionMethod = null;

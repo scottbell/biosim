@@ -1,7 +1,7 @@
 package com.traclabs.biosim.editor.graph;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import org.tigris.gef.graph.presentation.NetEdge;
@@ -28,7 +28,7 @@ public class EditorPort extends NetPort implements Serializable {
      * all arcs connected to it.
      */
 	public void dispose() {
-        ArrayList edgeClone = new ArrayList(getEdges());
+        List edgeClone = getEdges();
         int edgeCount = edgeClone.size();
         for (int edgeIndex = 0; edgeIndex < edgeCount; ++edgeIndex) {
             NetEdge e = (NetEdge)(edgeClone.get(edgeIndex));

@@ -30,6 +30,6 @@ public abstract class ShelfSensorImpl extends GenericSensorImpl implements
     }
 
     public BioModule getInputModule() {
-        return (BioModule) (myBiomassRS);
+        return (myBiomassRS);
     }
 }

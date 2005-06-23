@@ -20,10 +20,10 @@ import com.traclabs.biosim.util.OrbUtils;
 
 public class Schedule {
     //Each activity hashed by their names
-    private Map allActivities;
+    private Map<String, Activity> allActivities;
 
     //Each activity ordered (scheduled if you will)
-    private List orderedSchedule;
+    private List<Activity> orderedSchedule;
 
     private Activity myBornActivity;
 
@@ -41,8 +41,8 @@ public class Schedule {
     }
 
     private void createDefaultActivites() {
-        allActivities = new Hashtable();
-        orderedSchedule = new Vector();
+        allActivities = new Hashtable<String, Activity>();
+        orderedSchedule = new Vector<Activity>();
         ActivityImpl bornActivityImpl = new ActivityImpl("born", 0, 0);
         ActivityImpl deadActivityImpl = new ActivityImpl("dead", 0, 0);
         ActivityImpl absentActivityImpl = new ActivityImpl("absent", 0, 0);
@@ -70,7 +70,7 @@ public class Schedule {
      * @return the activity sought
      */
     public Activity getActivityByName(String activityName) {
-        return (Activity) allActivities.get(activityName);
+        return allActivities.get(activityName);
     }
 
     public String toString() {
@@ -109,7 +109,7 @@ public class Schedule {
      * @return the activity sought
      */
     public Activity getScheduledActivityByOrder(int order) {
-        return (Activity) (orderedSchedule.get(order));
+        return (orderedSchedule.get(order));
     }
 
     /**

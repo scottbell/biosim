@@ -31,7 +31,7 @@ public class GreyWaterOutFlowRateActuatorImpl extends GenericActuatorImpl
     }
 
     public BioModule getOutputModule() {
-        return (BioModule) (myProducer);
+        return myProducer;
     }
 
     public GreyWaterProducer getOutput() {

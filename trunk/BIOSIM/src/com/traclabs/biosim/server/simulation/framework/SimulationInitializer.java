@@ -94,6 +94,7 @@ import com.traclabs.biosim.idl.simulation.framework.AccumulatorPOATie;
 import com.traclabs.biosim.idl.simulation.framework.Injector;
 import com.traclabs.biosim.idl.simulation.framework.InjectorHelper;
 import com.traclabs.biosim.idl.simulation.framework.InjectorPOATie;
+import com.traclabs.biosim.idl.simulation.framework.PassiveModule;
 import com.traclabs.biosim.idl.simulation.framework.SimBioModule;
 import com.traclabs.biosim.idl.simulation.mission.EVAMission;
 import com.traclabs.biosim.idl.simulation.mission.EVAMissionHelper;
@@ -181,11 +182,11 @@ import com.traclabs.biosim.util.OrbUtils;
 public class SimulationInitializer {
     private int myID = 0;
 
-    private List myActiveSimModules;
+    private List<SimBioModule> myActiveSimModules;
 
-    private List myPassiveSimModules;
+    private List<PassiveModule> myPassiveSimModules;
 
-    private List myPrioritySimModules;
+    private List<SimBioModule> myPrioritySimModules;
 
     private Logger myLogger;
 
@@ -193,9 +194,9 @@ public class SimulationInitializer {
     public SimulationInitializer(int pID) {
         myID = pID;
         myLogger = Logger.getLogger(this.getClass());
-        myPassiveSimModules = new Vector();
-        myActiveSimModules = new Vector();
-        myPrioritySimModules = new Vector();
+        myPassiveSimModules = new Vector<PassiveModule>();
+        myActiveSimModules = new Vector<SimBioModule>();
+        myPrioritySimModules = new Vector<SimBioModule>();
     }
 
     public void crawlSimModules(Node node, boolean firstPass) {
@@ -1865,21 +1866,21 @@ public class SimulationInitializer {
     /**
      * @return Returns the myActiveSimModules.
      */
-    public List getActiveSimModules() {
+    public List<SimBioModule> getActiveSimModules() {
         return myActiveSimModules;
     }
 
     /**
      * @return Returns the myPassiveSimModules.
      */
-    public List getPassiveSimModules() {
+    public List<PassiveModule> getPassiveSimModules() {
         return myPassiveSimModules;
     }
 
     /**
      * @return Returns the myPrioritySimModules.
      */
-    public List getPrioritySimModules() {
+    public List<SimBioModule> getPrioritySimModules() {
         return myPrioritySimModules;
     }
 }

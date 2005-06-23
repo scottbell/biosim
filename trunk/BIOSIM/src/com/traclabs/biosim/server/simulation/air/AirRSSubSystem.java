@@ -26,8 +26,6 @@ public abstract class AirRSSubSystem {
     // this tick
     protected boolean hasEnoughPower = false;
 
-    private boolean logInitialized = false;
-
     boolean enabled = true;
 
     protected Logger myLogger;
@@ -49,10 +47,11 @@ public abstract class AirRSSubSystem {
     }
 
     public void setEnabled(boolean pEnabled) {
-        if (enabled)
+        if (pEnabled)
             currentPowerNeeded = 0;
         else
             currentPowerNeeded = basePowerNeeded;
+        enabled = pEnabled;
     }
 
     /**

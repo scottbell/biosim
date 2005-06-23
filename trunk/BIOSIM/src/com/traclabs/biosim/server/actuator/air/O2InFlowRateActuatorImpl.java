@@ -31,7 +31,7 @@ public class O2InFlowRateActuatorImpl extends GenericActuatorImpl implements
     }
 
     public BioModule getOutputModule() {
-        return (BioModule) (myConsumer);
+        return myConsumer;
     }
 
     public O2Consumer getOutput() {

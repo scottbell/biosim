@@ -51,10 +51,6 @@ public class IncineratorImpl extends SimBioModuleImpl implements
     // optimally
     private float O2Needed = 10f;
 
-    //Flag switched when the Incinerator has collected references to other
-    // servers it need
-    private boolean hasCollectedReferences = false;
-
     //Flag to determine if the Incinerator has enough power to function
     private boolean hasEnoughPower = false;
 
@@ -249,7 +245,7 @@ public class IncineratorImpl extends SimBioModuleImpl implements
 
     private void createCO2() {
         currentCO2Produced = currentO2Consumed * myProductionRate;
-        float distributedCO2Left = myCO2ProducerDefinitionImpl
+        myCO2ProducerDefinitionImpl
                 .pushResourceToStore(currentCO2Produced);
     }
 

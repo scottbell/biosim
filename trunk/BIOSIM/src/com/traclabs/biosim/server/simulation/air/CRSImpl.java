@@ -53,8 +53,6 @@ public class CRSImpl extends SimBioModuleImpl implements CRSOperations,
 
     private float currentCH4Produced;
 
-    private float currentO2Produced;
-
     //multiply times power to determine how much air/H2/water we're consuming
     private static final float LINEAR_MULTIPLICATIVE_FACTOR = 100;
 
@@ -144,10 +142,10 @@ public class CRSImpl extends SimBioModuleImpl implements CRSOperations,
             currentH2OProduced = randomFilter(waterLitersProduced);
             currentCH4Produced = randomFilter(methaneMolesProduced);
         }
-        float distributedWaterLeft = myPotableWaterProducerDefinitionImpl
+        myPotableWaterProducerDefinitionImpl
                 .pushResourceToStore(currentH2OProduced);
-        float distributedMethaneLeft = myMethaneProducerDefinitionImpl
-                .pushResourceToStore(currentH2OProduced);
+        myMethaneProducerDefinitionImpl
+                .pushResourceToStore(currentCH4Produced);
     }
 
     protected String getMalfunctionName(MalfunctionIntensity pIntensity,

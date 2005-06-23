@@ -42,7 +42,7 @@ public class BiomassConsumerDefinitionImpl extends
 
     public BioMatter[] getBioMassFromStore(float amountNeeded) {
         float gatheredResource = 0f;
-        List gatheredBioMatterArrays = new Vector();
+        List<BioMatter[]> gatheredBioMatterArrays = new Vector<BioMatter[]>();
         int sizeOfMatterArray = 0;
         for (int i = 0; (i < getStores().length)
                 && (gatheredResource < amountNeeded); i++) {

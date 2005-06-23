@@ -29,17 +29,14 @@ public class BiosimEditorMain {
         ImageIcon biosimIcon = new ImageIcon(BiosimEditorMain.class.getClassLoader()
                         .getResource(
                                 "com/traclabs/biosim/client/framework/biosim.png"));
-
-        
-        
         EditorFrame frame = new EditorFrame("Biosim Editor");
         frame.setIconImage(biosimIcon.getImage());
         frame.setSize(830, 600);
         frame.setVisible(true);
-        
     }
     
     public static void main(String args[]) {
         OrbUtils.initializeLog();
+    	@SuppressWarnings("unused") BiosimEditorMain theBiosimEditorMain = new BiosimEditorMain();
     }
 }

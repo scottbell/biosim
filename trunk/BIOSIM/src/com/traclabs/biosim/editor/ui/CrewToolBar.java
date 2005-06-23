@@ -4,8 +4,6 @@
  */
 package com.traclabs.biosim.editor.ui;
 
-import javax.swing.JButton;
-
 import com.traclabs.biosim.editor.base.CmdCreateModuleNode;
 import com.traclabs.biosim.editor.graph.crew.CrewGroupNode;
 
@@ -14,8 +12,6 @@ import com.traclabs.biosim.editor.graph.crew.CrewGroupNode;
  * 
  */
 public class CrewToolBar extends EditorToolBar {
-    private JButton myCrewButton;
-
     public CrewToolBar() {
         super("Crew");
         add(new CmdCreateModuleNode(CrewGroupNode.class, "EditorBase", "CrewGroup"));

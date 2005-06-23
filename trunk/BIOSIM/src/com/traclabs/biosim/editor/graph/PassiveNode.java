@@ -10,7 +10,7 @@ public abstract class PassiveNode extends ModuleNode {
      */
     public Class[] getClassesMatchingProductionFromActiveNode(
             ActiveNode destNode) {
-        Collection producersMatching = new LinkedList();
+        Collection<Class> producersMatching = new LinkedList<Class>();
         Class[] producersAllowed = getProducersAllowed();
         for (int i = 0; i < producersAllowed.length; i++) {
             if (producersAllowed[i].isInstance(destNode
@@ -18,7 +18,7 @@ public abstract class PassiveNode extends ModuleNode {
                 producersMatching.add(producersAllowed[i]);
             }
         }
-        Class[] classArray = (Class[])(producersMatching.toArray(new Class[0]));
+        Class[] classArray = (producersMatching.toArray(new Class[0]));
         return classArray;
     }
 
@@ -28,7 +28,7 @@ public abstract class PassiveNode extends ModuleNode {
      */
     public Class[] getClassesMatchingConsumptionFromActiveNode(
             ActiveNode sourceNode) {
-        Collection consumersMatching = new LinkedList();
+        Collection<Class> consumersMatching = new LinkedList<Class>();
         Class[] consumersAllowed = getConsumersAllowed();
         for (int i = 0; i < consumersAllowed.length; i++) {
             if (consumersAllowed[i].isInstance(sourceNode
@@ -36,7 +36,7 @@ public abstract class PassiveNode extends ModuleNode {
                 consumersMatching.add(consumersAllowed[i]);
             }
         }
-        Class[] classArray = (Class[])(consumersMatching.toArray(new Class[0]));
+        Class[] classArray = (consumersMatching.toArray(new Class[0]));
         return classArray;
     }
 

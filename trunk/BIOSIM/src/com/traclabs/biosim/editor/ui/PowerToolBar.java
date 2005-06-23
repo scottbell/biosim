@@ -4,8 +4,6 @@
  */
 package com.traclabs.biosim.editor.ui;
 
-import javax.swing.JButton;
-
 import com.traclabs.biosim.editor.base.CmdCreateModuleNode;
 import com.traclabs.biosim.editor.graph.power.NuclearPowerPSNode;
 import com.traclabs.biosim.editor.graph.power.PowerStoreNode;
@@ -16,10 +14,6 @@ import com.traclabs.biosim.editor.graph.power.SolarPowerPSNode;
  * 
  */
 public class PowerToolBar extends EditorToolBar {
-    private JButton myPowerPSButton;
-
-    private JButton myPowerStoreButton;
-
     public PowerToolBar() {
         super("Power");
         add(new CmdCreateModuleNode(SolarPowerPSNode.class, "EditorBase", "SolarPowerPS"));

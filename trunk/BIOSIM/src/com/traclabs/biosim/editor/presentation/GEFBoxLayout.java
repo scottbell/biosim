@@ -59,14 +59,6 @@ public class GEFBoxLayout implements GEFLayoutManager {
 
     /**
      * Constructor that specifies which axis should be used to arrange the
-     * components and how much spacing should be between the components.
-     */
-    public GEFBoxLayout(int axis, int gap) {
-        this(axis, 0, axis == Y_AXIS ? LEFT : TOP);
-    }
-
-    /**
-     * Constructor that specifies which axis should be used to arrange the
      * components.
      * 
      * @param axis
@@ -122,7 +114,6 @@ public class GEFBoxLayout implements GEFLayoutManager {
     public void layoutContainer(FigPanel parent) {
         Insets insets = parent.getInsets();
         Vector children = parent.getContents();
-        int nfigs = children.size();
         int left = parent.getX() + insets.left;
         int top = parent.getY() + insets.top;
         int bottom = parent.getY() + parent.getHeight() - insets.bottom;

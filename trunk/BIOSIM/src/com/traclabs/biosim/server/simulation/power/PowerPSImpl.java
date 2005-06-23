@@ -26,10 +26,6 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements
     //The power produced (in watts) by the Power PS at the current tick
     float currentPowerProduced = 0f;
 
-    //Flag switched when the Power PS has collected references to other servers
-    // it need
-    private boolean hasCollectedReferences = false;
-
     private float currentUpperPowerGeneration = 500f;
 
     private float initialUpperPowerGeneration = 500f;
@@ -61,7 +57,7 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements
     public void tick() {
         currentPowerProduced = calculatePowerProduced();
         super.tick();
-        float distributedPowerLeft = myPowerProducerDefinitionImpl
+        myPowerProducerDefinitionImpl
                 .pushResourceToStore(currentPowerProduced);
     }
 

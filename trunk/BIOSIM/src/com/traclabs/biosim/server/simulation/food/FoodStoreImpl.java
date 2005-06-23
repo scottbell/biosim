@@ -17,13 +17,13 @@ import com.traclabs.biosim.server.simulation.framework.StoreImpl;
  */
 
 public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
-    List currentFoodItems;
+    List<FoodMatter> currentFoodItems;
 
     FoodMatter myOriginalMatter;
 
     public FoodStoreImpl(int pID, String pName) {
         super(pID, pName);
-        currentFoodItems = new Vector();
+        currentFoodItems = new Vector<FoodMatter>();
         myOriginalMatter = new FoodMatter(0, 0, PlantType.UNKNOWN_PLANT);
     }
 
@@ -109,8 +109,8 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
     }
 
     public FoodMatter[] takeFoodMatterMass(float pMass) {
-        List itemsToReturn = new Vector();
-        List itemsToRemove = new Vector();
+        List<FoodMatter> itemsToReturn = new Vector<FoodMatter>();
+        List<FoodMatter> itemsToRemove = new Vector<FoodMatter>();
         float collectedMass = 0f;
         for (Iterator iter = currentFoodItems.iterator(); iter.hasNext()
                 && (collectedMass <= pMass);) {
@@ -143,7 +143,7 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
         currentLevel -= collectedMass;
         //return the array
         FoodMatter[] returnArrayType = new FoodMatter[0];
-        return (FoodMatter[]) (itemsToReturn.toArray(returnArrayType));
+        return (itemsToReturn.toArray(returnArrayType));
     }
 
     private static float calculateCaloriesSingular(FoodMatter pFood) {
@@ -187,8 +187,8 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
 
     public FoodMatter[] takeFoodMatterCalories(float pCalories,
             float limitingMass) {
-        List itemsToReturn = new Vector();
-        List itemsToRemove = new Vector();
+        List<FoodMatter> itemsToReturn = new Vector<FoodMatter>();
+        List<FoodMatter> itemsToRemove = new Vector<FoodMatter>();
         float collectedCalories = 0f;
         float collectedMass = 0f;
         for (Iterator iter = currentFoodItems.iterator(); iter.hasNext()
@@ -298,7 +298,7 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
         currentLevel -= collectedMass;
         //return the array
         FoodMatter[] returnArray = new FoodMatter[0];
-        returnArray = (FoodMatter[]) (itemsToReturn.toArray(returnArray));
+        returnArray = (itemsToReturn.toArray(returnArray));
         return returnArray;
     }
 

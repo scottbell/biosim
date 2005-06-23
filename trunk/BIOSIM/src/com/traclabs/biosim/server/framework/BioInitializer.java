@@ -69,7 +69,7 @@ public class BioInitializer {
 
     private int myID = 0;
 
-    private List myModules;
+    private List<BioModule> myModules;
 
     private Logger myLogger;
 
@@ -85,7 +85,7 @@ public class BioInitializer {
         mySimulationInitializer = new SimulationInitializer(myID);
         mySensorInitializer = new SensorInitializer(myID);
         myActuatorInitializer = new ActuatorInitializer(myID);
-        myModules = new Vector();
+        myModules = new Vector<BioModule>();
         myLogger = Logger.getLogger(this.getClass());
 
         try {
@@ -359,8 +359,7 @@ public class BioInitializer {
                 .getNodeValue();
         if (lengthString.equals("TEMPORARY_MALF"))
             return MalfunctionLength.TEMPORARY_MALF;
-        else
-            return MalfunctionLength.PERMANENT_MALF;
+		return MalfunctionLength.PERMANENT_MALF;
     }
 
     private static int getMalfunctionTick(Node pNode) {

@@ -7,7 +7,6 @@ import org.apache.log4j.PropertyConfigurator;
 import org.jacorb.naming.NameServer;
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NameComponent;
-import org.omg.CosNaming.NamingContext;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
 import org.omg.PortableServer.POA;
@@ -129,8 +128,7 @@ public class OrbUtils {
             //Attempt to create id context, if already there, don't bother
             NameComponent idComponent = new NameComponent(pID + "", "");
             NameComponent[] idComponents = { idComponent };
-            NamingContext IDContext = myBiosimNamingContext
-                    .bind_new_context(idComponents);
+            myBiosimNamingContext.bind_new_context(idComponents);
         } catch (org.omg.CosNaming.NamingContextPackage.AlreadyBound e) {
         } catch (Exception e) {
             Logger.getLogger(OrbUtils.class).info(

@@ -50,7 +50,7 @@ public class BiomassRSImpl extends SimBioModuleImpl implements
         AirConsumerOperations, AirProducerOperations,
         GreyWaterConsumerOperations, BiomassProducerOperations,
         DirtyWaterProducerOperations {
-    private List myShelves;
+    private List<ShelfImpl> myShelves;
 
     private boolean autoHarvestAndReplant = true;
 
@@ -71,7 +71,7 @@ public class BiomassRSImpl extends SimBioModuleImpl implements
 
     public BiomassRSImpl(int pID, String pName) {
         super(pID, pName);
-        myShelves = new Vector();
+        myShelves = new Vector<ShelfImpl>();
 
         myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl();
         myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl();
@@ -152,7 +152,7 @@ public class BiomassRSImpl extends SimBioModuleImpl implements
     }
 
     public Shelf getShelf(int index) {
-        ShelfImpl theShelf = (ShelfImpl) (myShelves.get(index));
+        ShelfImpl theShelf = (myShelves.get(index));
         return ShelfHelper.narrow(OrbUtils.poaToCorbaObj(theShelf));
     }
 
@@ -195,15 +195,6 @@ public class BiomassRSImpl extends SimBioModuleImpl implements
         Arrays.fill(getDirtyWaterProducerDefinition().getActualFlowRates(), 0f);
         Arrays.fill(getAirConsumerDefinition().getActualFlowRates(), 0f);
         Arrays.fill(getAirProducerDefinition().getActualFlowRates(), 0f);
-    }
-
-    private String arrayToString(float[] pArray) {
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("[");
-        for (int i = 0; i < pArray.length; i++)
-            buffer.append(pArray[i] + ", ");
-        buffer.append("]");
-        return buffer.toString();
     }
 
     public void addAirInputActualFlowRates(int index, float value) {

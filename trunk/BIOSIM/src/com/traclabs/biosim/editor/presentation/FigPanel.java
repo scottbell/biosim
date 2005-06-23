@@ -95,7 +95,8 @@ public class FigPanel extends FigGroup {
      * Adds a fig to this container at index with the specified layout
      * constraints.
      */
-    public void addFig(Fig fig, Object constraints, int index) {
+	@SuppressWarnings("unchecked")
+	public void addFig(Fig fig, Object constraints, int index) {
         super.addFig(fig);
         _contents.add(index, fig);
         _layoutManager.addLayoutFig(fig, constraints);

@@ -33,9 +33,9 @@ public class EditorParser extends DefaultHandler{
     // We will reuse the Layer of the existing Editor, and attach a new Graph
     // Model
     // to it.
-    protected Stack _layerStack = new Stack();
+    protected Stack<EditorLayer> _layerStack = new Stack<EditorLayer>();
 
-    protected Stack _graphModelStack = new Stack();
+    protected Stack<MutableGraphModel> _graphModelStack = new Stack<MutableGraphModel>();
 
     protected EditorLayer _layer;
 
@@ -54,10 +54,6 @@ public class EditorParser extends DefaultHandler{
     protected EditorParser() {
         // Note: we currently use a single instance to parse many files.
         // _netNodeList = new Hashtable();
-    }
-                                         
-    protected void handleEditor(Attributes attrs) {
-        //System.out.println("Handling EDITOR tag");
     }
 
     /*
@@ -119,7 +115,7 @@ public class EditorParser extends DefaultHandler{
         return fe;
     }
 
-    protected void handleGraph(Attributes attrs) {
+    protected void handleGraph() {
         //Find the owner node.
         _layer = _figNode.getNestedLayer();
         ModuleNode netNode = (ModuleNode) _figNode.getOwner();
@@ -136,12 +132,11 @@ public class EditorParser extends DefaultHandler{
             Attributes attrs) throws SAXException {
         //System.out.println("Entering Start Element with " + qName);
         if (qName.equals("EDITOR")) {
-            handleEditor(attrs);
         //else if (qName.equals("NitrogenNode"){}
         } else if (qName.equals("Edge")) {
             handleEdge(attrs);
         } else if (qName.equals("Graph")) {
-            handleGraph(attrs);
+            handleGraph();
         } else {
             /* super.startElement(elementName, attrList); */
             System.err.println("Unknown tag " + qName + " encountered");
@@ -156,7 +151,7 @@ public class EditorParser extends DefaultHandler{
             _layerStack.pop();
             _layer.repaintParent();
             _graphModel = (DefaultGraphModel) _graphModelStack.peek();
-            _layer = (EditorLayer) _layerStack.peek();
+            _layer = _layerStack.peek();
         }
     }
 
@@ -176,9 +171,9 @@ public class EditorParser extends DefaultHandler{
         _layer = layer;
         _graphModel = (MutableGraphModel) _layer.getGraphModel();
         _netNodeList = new Hashtable();
-        _graphModelStack = new Stack();
+        _graphModelStack = new Stack<MutableGraphModel>();
         _graphModelStack.push(_graphModel);
-        _layerStack = new Stack();
+        _layerStack = new Stack<EditorLayer>();
         _layerStack.push(_layer);
 
         SAXParserFactory factory = SAXParserFactory.newInstance();

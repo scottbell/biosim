@@ -31,7 +31,7 @@ public class DryWasteOutFlowRateActuatorImpl extends GenericActuatorImpl
     }
 
     public BioModule getOutputModule() {
-        return (BioModule) (myProducer);
+        return myProducer;
     }
 
     public DryWasteProducer getOutput() {

@@ -22,13 +22,9 @@ public class ShelfImpl extends ShelfPOA {
 
     private PlantImpl myCrop;
 
-    private PlantType initialType;
-
     private float cropAreaTotal = 0f;
 
     private float cropAreaUsed = 0f;
-
-    private boolean logInitialized = false;
 
     private BiomassRSImpl myBiomassRSImpl;
 
@@ -57,7 +53,6 @@ public class ShelfImpl extends ShelfPOA {
         myStartTick = pStartTick;
         cropAreaTotal = pCropAreaTotal;
         myBiomassRSImpl = pBiomassImpl;
-        initialType = pType;
         replant(pType, cropAreaTotal);
         waterNeeded = cropAreaUsed * waterNeededPerMeterSquared;
     }
@@ -128,10 +123,6 @@ public class ShelfImpl extends ShelfPOA {
                         1f / myBiomassRSImpl.getNumberOfShelves());
     }
 
-    private void flushPower() {
-        powerLevel = 0f;
-    }
-
     public float takeWater(float pLiters) {
         if (waterLevel < pLiters) {
             float waterTaken = waterLevel;
@@ -141,10 +132,6 @@ public class ShelfImpl extends ShelfPOA {
             waterLevel -= pLiters;
             return pLiters;
         }
-    }
-
-    private float pow(float a, float b) {
-        return (new Double(Math.pow(a, b))).floatValue();
     }
 
     private void lightPlants() {
@@ -195,7 +182,7 @@ public class ShelfImpl extends ShelfPOA {
                 BioMatter biomassProduced = myCrop.harvest();
                 myLogger.info("ShelfImpl: Harvested " + biomassProduced.mass
                         + "kg of " + myCrop.getPlantTypeString());
-                float biomassAdded = myBiomassRSImpl
+                myBiomassRSImpl
                         .getBiomassProducerDefinitionImpl()
                         .pushFractionalResourceToBiomassStore(biomassProduced,
                                 1f / myBiomassRSImpl.getNumberOfShelves());
