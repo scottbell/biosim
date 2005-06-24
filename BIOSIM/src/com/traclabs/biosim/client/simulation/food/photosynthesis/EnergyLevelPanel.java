@@ -23,22 +23,22 @@ import com.traclabs.biosim.server.simulation.food.photosynthesis.Membrane;
 import com.traclabs.biosim.server.simulation.food.photosynthesis.Photosystem1;
 import com.traclabs.biosim.server.simulation.food.photosynthesis.Photosystem2;
 
-public class ActivityPanel extends JPanel {
+public class EnergyLevelPanel extends JPanel {
     private int ticks = 0;
 
     private ChartPanel myChartPanel;
 
     private JFreeChart myChart;
 
-    private XYSeries myPS2Series = new XYSeries("PS2 Activity Level");
+    private XYSeries myPS2Series = new XYSeries("PS2 Energy Level");
 
-    private XYSeries myCyB6FSeries = new XYSeries("CyB6F Activity Level");
+    private XYSeries myCyB6FSeries = new XYSeries("CyB6F Energy Level");
 
-    private XYSeries myPS1Series = new XYSeries("PS1 Activity Level");
+    private XYSeries myPS1Series = new XYSeries("PS1 Energy Level");
     
-    private XYSeries myFNRSeries = new XYSeries("FNR Activity Level");
+    private XYSeries myFNRSeries = new XYSeries("FNR Energy Level");
     
-    private XYSeries myATPSynthaseSeries = new XYSeries("ATP Synthase Activity Level");
+    private XYSeries myATPSynthaseSeries = new XYSeries("ATP Synthase Energy Level");
     
     private Color[] myColors = {Color.CYAN, Color.RED, Color.GREEN, Color.BLUE, Color.MAGENTA};
     
@@ -77,7 +77,7 @@ public class ActivityPanel extends JPanel {
     private FNR myFNR;
     private ATPSynthase myATPSynthase;
 
-    public ActivityPanel(Membrane pMembrane) {
+    public EnergyLevelPanel(Membrane pMembrane) {
         myMembrane = pMembrane;
         myPhotosystem2 = myMembrane.getPhotosystem2();
         myCytochromeB6F = myMembrane.getCytochromeB6F();
@@ -91,7 +91,7 @@ public class ActivityPanel extends JPanel {
         //Chart Panel
         NumberAxis xAxis = new NumberAxis("Ticks");
         xAxis.setAutoRangeIncludesZero(false);
-        NumberAxis yAxis = new NumberAxis("Activity");
+        NumberAxis yAxis = new NumberAxis("Energy");
         setLayout(new BorderLayout());
         
         CombinedDomainXYPlot combinedPlot = new CombinedDomainXYPlot(xAxis);
@@ -111,7 +111,7 @@ public class ActivityPanel extends JPanel {
         	currentPlot.getRangeAxis().setRange(0, 1.1);
         	combinedPlot.add(currentPlot);
 		}
-        myChart = new JFreeChart("Enzyme Activity Level", JFreeChart.DEFAULT_TITLE_FONT, combinedPlot, true);
+        myChart = new JFreeChart("Enzyme Energy Level", JFreeChart.DEFAULT_TITLE_FONT, combinedPlot, true);
         myChartPanel = new ChartPanel(myChart);
         myChart.setBackgroundPaint(myChartPanel.getBackground());
         setLayout(new BorderLayout());

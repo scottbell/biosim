@@ -37,7 +37,7 @@ public class PhotosynthesisPanel extends JPanel {
     
     private LumenPanel myLumenPanel;
     
-    private ActivityPanel myActivityPanel;
+    private EnergyLevelPanel myActivityPanel;
     
     private JPanel myGraphPanel;
 
@@ -72,7 +72,7 @@ public class PhotosynthesisPanel extends JPanel {
         myStromaPanel.setBorder(BorderFactory.createTitledBorder("Stroma"));
         myLumenPanel = new LumenPanel(myChloroplast.getThylakoid().getLumen());
         myLumenPanel.setBorder(BorderFactory.createTitledBorder("Lumen"));
-        myActivityPanel = new ActivityPanel(myChloroplast.getThylakoid().getMembrane());
+        myActivityPanel = new EnergyLevelPanel(myChloroplast.getThylakoid().getMembrane());
         myActivityPanel.setBorder(BorderFactory.createTitledBorder("Activity"));
         
         myGraphPanel = new JPanel();
