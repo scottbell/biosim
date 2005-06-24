@@ -56,7 +56,7 @@ public class StromaPanel extends JPanel {
         myData.addSeries(myNADPHSeries);
 
         myChart = ChartFactory.createXYLineChart("Stroma Conditions",
-                "Simulation Iterations", "Quantity", myData, PlotOrientation.VERTICAL, true, true, false);
+                "Ticks", "Quantity", myData, PlotOrientation.VERTICAL, true, true, false);
 
         XYPlot myPlot = myChart.getXYPlot();
         XYItemRenderer renderer = myPlot.getRenderer();
