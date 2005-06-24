@@ -5,13 +5,14 @@ import java.awt.Color;
 
 import javax.swing.JPanel;
 
-import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.CombinedDomainXYPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -38,8 +39,35 @@ public class ActivityPanel extends JPanel {
     private XYSeries myFNRSeries = new XYSeries("FNR Activity Level");
     
     private XYSeries myATPSynthaseSeries = new XYSeries("ATP Synthase Activity Level");
+    
+    private Color[] myColors = {Color.CYAN, Color.RED, Color.GREEN, Color.BLUE, Color.MAGENTA};
+    
+    private XYSeries[] mySeries = {myPS2Series, myCyB6FSeries, myPS1Series, myFNRSeries, myATPSynthaseSeries};
 
-    private XYSeriesCollection myData;
+    private XYSeriesCollection myPS2Data = new XYSeriesCollection(myPS2Series);
+    
+    private XYSeriesCollection myCyB6FData = new XYSeriesCollection(myCyB6FSeries);
+    
+    private XYSeriesCollection myPS1Data = new XYSeriesCollection(myPS1Series);
+    
+    private XYSeriesCollection myFNRData = new XYSeriesCollection(myFNRSeries);
+    
+    private XYSeriesCollection myATPSynthaseData = new XYSeriesCollection(myATPSynthaseSeries);
+    
+    private XYSeriesCollection[] myData = {myPS2Data, myCyB6FData, myPS1Data, myFNRData, myATPSynthaseData};
+    
+    private XYPlot myPS2Plot;
+
+    private XYPlot myCyB6FPlot;
+
+    private XYPlot myPS1Plot;
+    
+    private XYPlot myFNRPlot;
+    
+    private XYPlot myATPPlot;
+    
+    private XYPlot[] myPlots = {myPS2Plot, myCyB6FPlot, myPS1Plot, myFNRPlot, myATPPlot};
+
 
     private Membrane myMembrane;
     
@@ -61,28 +89,29 @@ public class ActivityPanel extends JPanel {
 
     private void buildFullGUI() {
         //Chart Panel
+        NumberAxis xAxis = new NumberAxis("Ticks");
+        xAxis.setAutoRangeIncludesZero(false);
+        NumberAxis yAxis = new NumberAxis("Activity");
         setLayout(new BorderLayout());
-        myData = new XYSeriesCollection();
-        myData.addSeries(myPS2Series);
-        myData.addSeries(myCyB6FSeries);
-        myData.addSeries(myPS1Series);
-        myData.addSeries(myFNRSeries);
-        myData.addSeries(myATPSynthaseSeries);
-
-        myChart = ChartFactory.createXYLineChart("Enzyme Activity Level",
-                "Simulation Iterations", "Activity Level", myData, PlotOrientation.VERTICAL, true, true, false);
-
-        XYPlot myPlot = myChart.getXYPlot();
-        XYItemRenderer renderer = myPlot.getRenderer();
-        renderer.setSeriesPaint(0, Color.RED);
-        renderer.setSeriesPaint(1, Color.GREEN);
-        renderer.setSeriesPaint(2, Color.BLUE);
-        renderer.setSeriesPaint(2, Color.ORANGE);
-        renderer.setSeriesPaint(2, Color.MAGENTA);
-        myPlot.getDomainAxis().setStandardTickUnits(
+        
+        CombinedDomainXYPlot combinedPlot = new CombinedDomainXYPlot(xAxis);
+        combinedPlot.getDomainAxis().setStandardTickUnits(
                 NumberAxis.createIntegerTickUnits());
-        myPlot.getRangeAxis().setStandardTickUnits(
-                NumberAxis.createIntegerTickUnits());
+       
+        
+        for (int i = 0; i < mySeries.length; i++){
+        	XYPlot currentPlot = myPlots[i];
+            XYItemRenderer renderer = new XYLineAndShapeRenderer(true, false);
+            renderer.setSeriesPaint(0, myColors[i]);
+        	currentPlot = new XYPlot(myData[i], xAxis, yAxis, renderer);
+        	currentPlot.setOrientation(PlotOrientation.VERTICAL);
+        	currentPlot.getRangeAxis().setStandardTickUnits(
+                    NumberAxis.createIntegerTickUnits());
+        	currentPlot.getRangeAxis().setAutoRange(false);
+        	currentPlot.getRangeAxis().setRange(0, 1.1);
+        	combinedPlot.add(currentPlot);
+		}
+        myChart = new JFreeChart("Enzyme Activity Level", JFreeChart.DEFAULT_TITLE_FONT, combinedPlot, true);
         myChartPanel = new ChartPanel(myChart);
         myChart.setBackgroundPaint(myChartPanel.getBackground());
         setLayout(new BorderLayout());
@@ -94,8 +123,10 @@ public class ActivityPanel extends JPanel {
     		myPS2Series.add(ticks, 1);
     	else
     		myPS2Series.add(ticks, 0);
-    	
-    	myCyB6FSeries.add(ticks, myCytochromeB6F.getNumberOfElectrons());
+    	if (myCytochromeB6F.getNumberOfElectrons() > 0)
+    		myCyB6FSeries.add(ticks, 1);
+    	else
+    		myCyB6FSeries.add(ticks, 0);
     	
     	if (myPhotosystem1.isEnergized())
     		myPS1Series.add(ticks, 1);
@@ -112,7 +143,6 @@ public class ActivityPanel extends JPanel {
     	else
     		myATPSynthaseSeries.add(ticks, 0);
     	
-        myChart.getXYPlot().setDataset(myData);
         ticks++;
     }
 }

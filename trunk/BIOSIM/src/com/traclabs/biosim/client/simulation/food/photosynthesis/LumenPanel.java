@@ -47,7 +47,7 @@ public class LumenPanel extends JPanel {
         myData.addSeries(myOxygenSeries);
 
         myChart = ChartFactory.createXYLineChart("Lumen Conditions",
-                "Simulation Iterations", "Quantity", myData, PlotOrientation.VERTICAL, true, true, false);
+                "Ticks", "Quantity", myData, PlotOrientation.VERTICAL, true, true, false);
 
         XYPlot myPlot = myChart.getXYPlot();
         XYItemRenderer renderer = myPlot.getRenderer();
