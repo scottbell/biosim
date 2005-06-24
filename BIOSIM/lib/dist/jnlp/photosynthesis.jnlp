@@ -1,16 +1,16 @@
 <?xml version="1.0" ?>
-<!-- JNLP File for BioSim Editor -->
+<!-- JNLP File for photosynthesis model -->
 
 <!-- If you're seeing this in your web browser, you probably need to
      download and install the Sun JRE from http://java.sun.com/getjava -->
 
-<jnlp spec="1.0+" codebase="http://www.traclabs.com/biosim/jnlp" href="biosim-editor.jnlp">
+<jnlp spec="1.0+" codebase="http://www.traclabs.com/biosim/jnlp" href="photosynthesis.jnlp">
   <information>
-    <title>BioSim Editor</title>
+    <title>Photosynthesis Model</title>
     <vendor>TRACLabs and NASA Johnson Space Center</vendor>
     <homepage href="http://www.traclabs.com/biosim"/>
-    <description kind="short">A graphical editor for configuring BioSim.</description>
-    <description>A graphical editor for configuring BioSim.</description>
+    <description kind="short">A high fidelity photosynthesis model.</description>
+    <description>A  high fidelity photosynthesis model included in BioSim.</description>
 	<icon href="biosim.gif"/>
 	<offline-allowed/>
   </information>
@@ -24,5 +24,5 @@
 		<property name="org.omg.CORBA.ORBSingletonClass" 
 			value="org.jacorb.orb.ORBSingleton"/>
 	</resources>
-  <application-desc main-class="com.traclabs.biosim.editor.BiosimEditorMain"/>
+  <application-desc main-class="com.traclabs.biosim.client.simulation.food.photosynthesis.PhotosynthesisPanel"/>
 </jnlp>
