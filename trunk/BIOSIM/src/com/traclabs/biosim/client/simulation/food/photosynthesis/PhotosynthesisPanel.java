@@ -1,8 +1,8 @@
 package com.traclabs.biosim.client.simulation.food.photosynthesis;
 
+import java.awt.BorderLayout;
 import java.awt.Cursor;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
@@ -36,6 +36,10 @@ public class PhotosynthesisPanel extends JPanel {
     private StromaPanel myStromaPanel;
     
     private LumenPanel myLumenPanel;
+    
+    private ActivityPanel myActivityPanel;
+    
+    private JPanel myGraphPanel;
 
     private Timer myTickTimer;
 
@@ -68,35 +72,18 @@ public class PhotosynthesisPanel extends JPanel {
         myStromaPanel.setBorder(BorderFactory.createTitledBorder("Stroma"));
         myLumenPanel = new LumenPanel(myChloroplast.getThylakoid().getLumen());
         myLumenPanel.setBorder(BorderFactory.createTitledBorder("Lumen"));
+        myActivityPanel = new ActivityPanel(myChloroplast.getThylakoid().getMembrane());
+        myActivityPanel.setBorder(BorderFactory.createTitledBorder("Activity"));
         
-        //gridbag stuff
-        GridBagLayout gridbag = new GridBagLayout();
-        GridBagConstraints c = new GridBagConstraints();
-        setLayout(gridbag);
+        myGraphPanel = new JPanel();
+        myGraphPanel.setLayout(new GridLayout(1,3));
+        myGraphPanel.add(myStromaPanel);
+        myGraphPanel.add(myLumenPanel);
+        myGraphPanel.add(myActivityPanel);
         
-        c.fill = GridBagConstraints.BOTH;
-        c.gridheight = 1;
-        c.weightx = 0.1;
-        c.weighty = 0.1;
-        c.gridwidth = GridBagConstraints.REMAINDER;
-        gridbag.setConstraints(myButtonPanel, c);
-        add(myButtonPanel);
-        
-        c.fill = GridBagConstraints.BOTH;
-        c.gridheight = 2;
-        c.weightx = 1;
-        c.weighty = 1;
-        c.gridwidth = GridBagConstraints.RELATIVE;
-        gridbag.setConstraints(myStromaPanel, c);
-        add(myStromaPanel);
-
-        c.fill = GridBagConstraints.BOTH;
-        c.gridheight = 1;
-        c.weightx = 1;
-        c.weighty = 1;
-        c.gridwidth = GridBagConstraints.REMAINDER;
-        gridbag.setConstraints(myLumenPanel, c);
-        add(myLumenPanel);
+        setLayout(new BorderLayout());
+        add(myButtonPanel, BorderLayout.NORTH);
+        add(myGraphPanel, BorderLayout.CENTER);
     }
 
     public static void main(String[] args) {
@@ -129,6 +116,7 @@ public class PhotosynthesisPanel extends JPanel {
     private void refresh() {
         myStromaPanel.refresh();
         myLumenPanel.refresh();
+        myActivityPanel.refresh();
     }
     
     private class PlayPauseButtonAction extends AbstractAction {

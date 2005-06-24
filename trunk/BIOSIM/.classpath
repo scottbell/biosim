@@ -5,7 +5,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry sourcepath="/net/home/scott/workspace/xerces/src" kind="lib" path="lib/xerces/xercesImpl.jar"/>
 	<classpathentry kind="lib" path="lib/jfreechart/jcommon.jar"/>
-	<classpathentry kind="lib" path="lib/jfreechart/jfreechart.jar"/>
+	<classpathentry sourcepath="/net/home/scott/workspace/jfreechart/source" kind="lib" path="lib/jfreechart/jfreechart.jar"/>
 	<classpathentry sourcepath="/usr/local/corba/JacORB/JacORB_2_1/src" kind="lib" path="lib/jacorb/jacorb.jar"/>
 	<classpathentry sourcepath="C:/workbench/jakarta-log4j-1.2.8/src/java" kind="lib" path="lib/log4j/log4j.jar"/>
 	<classpathentry kind="lib" path="lib/junit/junit.jar"/>
