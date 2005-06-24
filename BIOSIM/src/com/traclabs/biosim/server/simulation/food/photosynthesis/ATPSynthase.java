@@ -13,6 +13,7 @@ import com.traclabs.biosim.server.util.MathUtils;
  *
  */
 public class ATPSynthase extends ActiveEnzyme {
+	private boolean energized = false;
     private final static float PROTON_NEEDED = 20;
     private final static float ADP_NEEDED = 1f;
     private final static float PHOSPHATE_NEEDED = 1f;
@@ -30,21 +31,31 @@ public class ATPSynthase extends ActiveEnzyme {
      * @see com.traclabs.biosim.server.simulation.food.photosynthesis.Enzyme#tick()
      */
     public void tick() {
-        if (protonThresholdMet()){
-            pumpProtons();
-            synthesizeATP();
-        }
+    	if (energized)
+            attemptToSynthesizeATP();
+    	else
+    		attemptToPumpProtons();
     }
 
-    /**
+    private void attemptToPumpProtons() {
+        if (protonThresholdMet()){
+            pumpProtons();
+            energized = true;
+        }
+        else
+        	energized = false;
+	}
+
+	/**
      * 
      */
-    private void synthesizeATP() {
+    private void attemptToSynthesizeATP() {
         float ADPTaken = myStroma.getADPs().take(ADP_NEEDED);
         float phosphateTaken = myStroma.getPhosphates().take(PHOSPHATE_NEEDED);
         if ((ADPTaken == ADP_NEEDED) && (phosphateTaken == PHOSPHATE_NEEDED)){
             myStroma.getATPs().add(ADPTaken);
-            myLogger.info("synthesized ATP!");
+            myLogger.debug("synthesized ATP!");
+        	energized = false;
         }
         else{
             myStroma.getADPs().add(ADPTaken);
@@ -59,16 +70,23 @@ public class ATPSynthase extends ActiveEnzyme {
         float protonsToTake = myLumen.getProtons().getQuantity();
         myLumen.getProtons().take(protonsToTake);
         myStroma.getProtons().add(protonsToTake);
-        myLogger.info("pumped "+ protonsToTake+ " protons!");
+        myLogger.debug("pumped "+ protonsToTake+ " protons!");
     }
 
     /**
      * @return
      */
     private boolean protonThresholdMet() {
+    	float protons = myLumen.getProtons().getQuantity();
+    	if (protons <= 0)
+    		return false;
         float randomNumber = myRandomGen.nextFloat();
-        float protonThreshold = MathUtils.calculateSCurve(myLumen.getProtons().getQuantity(), PROTON_NEEDED * 2);
+        float protonThreshold = MathUtils.calculateSCurve(protons, PROTON_NEEDED * 2f);
         return (protonThreshold > randomNumber);
     }
+
+	public boolean isEnergized() {
+		return energized;
+	}
 
 }

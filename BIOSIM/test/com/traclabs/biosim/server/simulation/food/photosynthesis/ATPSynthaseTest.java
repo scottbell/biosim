@@ -6,6 +6,8 @@ package com.traclabs.biosim.server.simulation.food.photosynthesis;
 
 import junit.framework.TestCase;
 
+import com.traclabs.biosim.util.OrbUtils;
+
 /**
  * @author scott
  *
@@ -24,6 +26,7 @@ public class ATPSynthaseTest extends TestCase {
      */
     protected void setUp() throws Exception {
         super.setUp();
+        OrbUtils.initializeLog();
         myStroma = new Stroma();
         myLumen = new Lumen();
         myATPSynthase = new ATPSynthase(myLumen, myStroma);
@@ -74,6 +77,20 @@ public class ATPSynthaseTest extends TestCase {
         
         assertEquals(ITERATIONS_TO_RUN / finalStromaATPLevel, 20, 3);
         assertEquals(initialProtons, finalProtonLevel, 0);
+        
+        //make sure when there aren't any protons in lumen, no ATP is generated
+        myLumen.getProtons().setQuantity(0);
+        myStroma.getADPs().setQuantity(ITERATIONS_TO_RUN * 2);
+        myStroma.getPhosphates().setQuantity(ITERATIONS_TO_RUN * 2);
+        myStroma.getATPs().setQuantity(0);
+        myStroma.getProtons().setQuantity(0);
+        for (int i = 0; i < ITERATIONS_TO_RUN; i++) {
+            myATPSynthase.tick();
+            myStroma.tick();
+            myLumen.tick();
+            float atpLevel = myStroma.getATPs().getQuantity();
+            assertEquals(0, atpLevel, 0);
+        }
     }
 
 }

@@ -23,8 +23,8 @@ public class ChloroplastTest extends TestCase {
      * @see TestCase#setUp()
      */
     protected void setUp() throws Exception {
-        OrbUtils.initializeLog(true);
         super.setUp();
+        OrbUtils.initializeLog();
         myLogger = Logger.getLogger(ChloroplastTest.class);
         myChloroplast = new Chloroplast();
     }
