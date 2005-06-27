@@ -21,8 +21,7 @@
 		<j2se version="1.5+" href="http://java.sun.com/products/autodl/j2se"/>
 		<jar href="biosim.jar"/>
 		<property name="org.omg.CORBA.ORBClass" value="org.jacorb.orb.ORB"/>
-		<property name="org.omg.CORBA.ORBSingletonClass" 
-			value="org.jacorb.orb.ORBSingleton"/>
+		<property name="org.omg.CORBA.ORBSingletonClass" value="org.jacorb.orb.ORBSingleton"/>
 	</resources>
   <application-desc main-class="com.traclabs.biosim.framework.BiosimStandalone"/>
 </jnlp>
