@@ -1,6 +1,9 @@
 package com.traclabs.biosim.server.framework;
 
-import java.net.URL;
+import org.apache.log4j.Logger;
+
+import com.traclabs.biosim.util.OrbUtils;
+
 
 /**
  * The Biosim Server. Creates an instance of each module (AirRS, FoodProcessor,
@@ -10,11 +13,11 @@ import java.net.URL;
  */
 
 public class BiosimServer extends GenericServer {
+	private static final String DEFAULT_XML_LOCATION = "com/traclabs/biosim/server/framework/DefaultInit.xml";
 
     public BiosimServer(int id, int stutterLength, String xmlLocation) {
-        URL documentUrl = BiosimServer.class.getClassLoader().getResource(
-                xmlLocation);
-        if (documentUrl == null) {
+        String rawFileLocation = resolveXMLLocation(xmlLocation);
+        if (rawFileLocation == null) {
             myLogger.error("Couldn't find init xml file: " + xmlLocation);
             return;
         }
@@ -22,23 +25,25 @@ public class BiosimServer extends GenericServer {
         newBioDriverImpl.setDriverStutterLength(stutterLength);
         registerServer(newBioDriverImpl, newBioDriverImpl.getName(),
         		newBioDriverImpl.getID());
-        myLogger.info("Loading init file: " + documentUrl);
+        myLogger.info("Loading init file: " + rawFileLocation);
         BioInitializer myInitializer = new BioInitializer(id);
-        String documentString = documentUrl.toString();
-        if (documentString.length() > 0)
-            myInitializer.parseFile(documentString);
-            
+        myInitializer.parseFile(rawFileLocation);
     }
 
-    /**
+	/**
      * Instantiates the server and binds it to the name server.
      * 
      * @param args
      *            first element can be an ID to assign to this instance
      */
     public static void main(String[] args) {
+    	OrbUtils.initializeLog(false);
         int id = GenericServer.getIDfromArgs(args);
         String xmlLocation = GenericServer.getXMLfromArgs(args);
+        if (xmlLocation == null){
+        	Logger.getLogger(BiosimServer.class).info("using default XML");
+        	xmlLocation = DEFAULT_XML_LOCATION;
+        }
         int stutterLength = 0;
         if (getDemoFromArgs(args)){
             stutterLength = 300;
