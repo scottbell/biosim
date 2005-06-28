@@ -18,22 +18,6 @@ import com.traclabs.biosim.idl.actuator.air.O2InFlowRateActuator;
 import com.traclabs.biosim.idl.actuator.air.O2OutFlowRateActuator;
 import com.traclabs.biosim.idl.actuator.environment.AirInFlowRateActuator;
 import com.traclabs.biosim.idl.actuator.environment.AirOutFlowRateActuator;
-import com.traclabs.biosim.idl.actuator.environment.CO2AirEnvironmentInFlowRateActuator;
-import com.traclabs.biosim.idl.actuator.environment.CO2AirEnvironmentOutFlowRateActuator;
-import com.traclabs.biosim.idl.actuator.environment.CO2AirStoreInFlowRateActuator;
-import com.traclabs.biosim.idl.actuator.environment.CO2AirStoreOutFlowRateActuator;
-import com.traclabs.biosim.idl.actuator.environment.NitrogenAirEnvironmentInFlowRateActuator;
-import com.traclabs.biosim.idl.actuator.environment.NitrogenAirEnvironmentOutFlowRateActuator;
-import com.traclabs.biosim.idl.actuator.environment.NitrogenAirStoreInFlowRateActuator;
-import com.traclabs.biosim.idl.actuator.environment.NitrogenAirStoreOutFlowRateActuator;
-import com.traclabs.biosim.idl.actuator.environment.O2AirEnvironmentInFlowRateActuator;
-import com.traclabs.biosim.idl.actuator.environment.O2AirEnvironmentOutFlowRateActuator;
-import com.traclabs.biosim.idl.actuator.environment.O2AirStoreInFlowRateActuator;
-import com.traclabs.biosim.idl.actuator.environment.O2AirStoreOutFlowRateActuator;
-import com.traclabs.biosim.idl.actuator.environment.WaterAirEnvironmentInFlowRateActuator;
-import com.traclabs.biosim.idl.actuator.environment.WaterAirEnvironmentOutFlowRateActuator;
-import com.traclabs.biosim.idl.actuator.environment.WaterAirStoreInFlowRateActuator;
-import com.traclabs.biosim.idl.actuator.environment.WaterAirStoreOutFlowRateActuator;
 import com.traclabs.biosim.idl.actuator.food.BiomassInFlowRateActuator;
 import com.traclabs.biosim.idl.actuator.food.BiomassOutFlowRateActuator;
 import com.traclabs.biosim.idl.actuator.food.FoodInFlowRateActuator;
@@ -58,54 +42,24 @@ import com.traclabs.biosim.idl.framework.BioDriver;
 import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.sensor.air.CO2InFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.air.CO2OutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.air.CO2StoreLevelSensor;
 import com.traclabs.biosim.idl.sensor.air.H2InFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.air.H2OutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.air.H2StoreLevelSensor;
 import com.traclabs.biosim.idl.sensor.air.NitrogenInFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.air.NitrogenOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.air.NitrogenStoreLevelSensor;
 import com.traclabs.biosim.idl.sensor.air.O2InFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.air.O2OutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.air.O2StoreLevelSensor;
 import com.traclabs.biosim.idl.sensor.crew.CrewGroupAnyDeadSensor;
 import com.traclabs.biosim.idl.sensor.crew.CrewGroupDeathSensor;
 import com.traclabs.biosim.idl.sensor.crew.CrewGroupProductivitySensor;
 import com.traclabs.biosim.idl.sensor.environment.AirInFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.environment.AirOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.environment.CO2AirConcentrationSensor;
-import com.traclabs.biosim.idl.sensor.environment.CO2AirEnvironmentInFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.environment.CO2AirEnvironmentOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.environment.CO2AirPressureSensor;
-import com.traclabs.biosim.idl.sensor.environment.CO2AirStoreInFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.environment.CO2AirStoreOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.environment.NitrogenAirConcentrationSensor;
-import com.traclabs.biosim.idl.sensor.environment.NitrogenAirEnvironmentInFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.environment.NitrogenAirEnvironmentOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.environment.NitrogenAirPressureSensor;
-import com.traclabs.biosim.idl.sensor.environment.NitrogenAirStoreInFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.environment.NitrogenAirStoreOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.environment.O2AirConcentrationSensor;
-import com.traclabs.biosim.idl.sensor.environment.O2AirEnvironmentInFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.environment.O2AirEnvironmentOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.environment.O2AirPressureSensor;
-import com.traclabs.biosim.idl.sensor.environment.O2AirStoreInFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.environment.O2AirStoreOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.environment.OtherAirConcentrationSensor;
-import com.traclabs.biosim.idl.sensor.environment.OtherAirPressureSensor;
-import com.traclabs.biosim.idl.sensor.environment.WaterAirConcentrationSensor;
-import com.traclabs.biosim.idl.sensor.environment.WaterAirEnvironmentInFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.environment.WaterAirEnvironmentOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.environment.WaterAirPressureSensor;
-import com.traclabs.biosim.idl.sensor.environment.WaterAirStoreInFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.environment.WaterAirStoreOutFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.environment.EnvironmentConcentrationSensor;
+import com.traclabs.biosim.idl.sensor.environment.EnvironmentPressureSensor;
 import com.traclabs.biosim.idl.sensor.food.BiomassInFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.food.BiomassOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.food.BiomassStoreLevelSensor;
 import com.traclabs.biosim.idl.sensor.food.BiomassStoreWaterContentSensor;
 import com.traclabs.biosim.idl.sensor.food.FoodInFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.food.FoodOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.food.FoodStoreLevelSensor;
 import com.traclabs.biosim.idl.sensor.food.HarvestSensor;
 import com.traclabs.biosim.idl.sensor.food.PlantDeathSensor;
 import com.traclabs.biosim.idl.sensor.food.ShelfSensor;
@@ -114,22 +68,16 @@ import com.traclabs.biosim.idl.sensor.framework.StoreLevelSensor;
 import com.traclabs.biosim.idl.sensor.framework.StoreOverflowSensor;
 import com.traclabs.biosim.idl.sensor.power.PowerInFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.power.PowerOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.power.PowerStoreLevelSensor;
 import com.traclabs.biosim.idl.sensor.waste.DryWasteInFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.waste.DryWasteOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.waste.DryWasteStoreLevelSensor;
 import com.traclabs.biosim.idl.sensor.water.DirtyWaterInFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.water.DirtyWaterOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.water.DirtyWaterStoreLevelSensor;
 import com.traclabs.biosim.idl.sensor.water.GreyWaterInFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.water.GreyWaterOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.water.GreyWaterStoreLevelSensor;
 import com.traclabs.biosim.idl.sensor.water.PotableWaterInFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.water.PotableWaterOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.water.PotableWaterStoreLevelSensor;
 import com.traclabs.biosim.idl.sensor.water.WaterInFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.water.WaterOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.water.WaterStoreLevelSensor;
 import com.traclabs.biosim.idl.simulation.air.AirRS;
 import com.traclabs.biosim.idl.simulation.air.CO2Store;
 import com.traclabs.biosim.idl.simulation.air.CRS;
@@ -244,25 +192,17 @@ public class BioHolder {
 
     public List<CO2OutFlowRateSensor> theCO2OutFlowRateSensors = new Vector<CO2OutFlowRateSensor>();
 
-    public List<CO2StoreLevelSensor> theCO2StoreLevelSensors = new Vector<CO2StoreLevelSensor>();
-
     public List<O2InFlowRateSensor> theO2InFlowRateSensors = new Vector<O2InFlowRateSensor>();
 
     public List<O2OutFlowRateSensor> theO2OutFlowRateSensors = new Vector<O2OutFlowRateSensor>();
-
-    public List<O2StoreLevelSensor> theO2StoreLevelSensors = new Vector<O2StoreLevelSensor>();
 
     public List<H2InFlowRateSensor> theH2InFlowRateSensors = new Vector<H2InFlowRateSensor>();
 
     public List<H2OutFlowRateSensor> theH2OutFlowRateSensors = new Vector<H2OutFlowRateSensor>();
 
-    public List<H2StoreLevelSensor> theH2StoreLevelSensors = new Vector<H2StoreLevelSensor>();
-
     public List<NitrogenInFlowRateSensor> theNitrogenInFlowRateSensors = new Vector<NitrogenInFlowRateSensor>();
 
     public List<NitrogenOutFlowRateSensor> theNitrogenOutFlowRateSensors = new Vector<NitrogenOutFlowRateSensor>();
-
-    public List<NitrogenStoreLevelSensor> theNitrogenStoreLevelSensors = new Vector<NitrogenStoreLevelSensor>();
 
     //Crew
     public List<CrewGroupDeathSensor> theCrewGroupDeathSensors = new Vector<CrewGroupDeathSensor>();
@@ -276,70 +216,18 @@ public class BioHolder {
 
     public List<AirOutFlowRateSensor> theAirOutFlowRateSensors = new Vector<AirOutFlowRateSensor>();
 
-    public List<CO2AirConcentrationSensor> theCO2AirConcentrationSensors = new Vector<CO2AirConcentrationSensor>();
+    public List<EnvironmentPressureSensor> theEnvironmentPressureSensors = new Vector<EnvironmentPressureSensor>();
 
-    public List<CO2AirPressureSensor> theCO2AirPressureSensors = new Vector<CO2AirPressureSensor>();
-
-    public List<CO2AirEnvironmentInFlowRateSensor> theCO2AirEnvironmentInFlowRateSensors = new Vector<CO2AirEnvironmentInFlowRateSensor>();
-
-    public List<CO2AirEnvironmentOutFlowRateSensor> theCO2AirEnvironmentOutFlowRateSensors = new Vector<CO2AirEnvironmentOutFlowRateSensor>();
-
-    public List<CO2AirStoreInFlowRateSensor> theCO2AirStoreInFlowRateSensors = new Vector<CO2AirStoreInFlowRateSensor>();
-
-    public List<CO2AirStoreOutFlowRateSensor> theCO2AirStoreOutFlowRateSensors = new Vector<CO2AirStoreOutFlowRateSensor>();
-
-    public List<O2AirConcentrationSensor> theO2AirConcentrationSensors = new Vector<O2AirConcentrationSensor>();
-
-    public List<O2AirPressureSensor> theO2AirPressureSensors = new Vector<O2AirPressureSensor>();
-
-    public List<O2AirEnvironmentInFlowRateSensor> theO2AirEnvironmentInFlowRateSensors = new Vector<O2AirEnvironmentInFlowRateSensor>();
-
-    public List<O2AirEnvironmentOutFlowRateSensor> theO2AirEnvironmentOutFlowRateSensors = new Vector<O2AirEnvironmentOutFlowRateSensor>();
-
-    public List<O2AirStoreInFlowRateSensor> theO2AirStoreInFlowRateSensors = new Vector<O2AirStoreInFlowRateSensor>();
-
-    public List<O2AirStoreOutFlowRateSensor> theO2AirStoreOutFlowRateSensors = new Vector<O2AirStoreOutFlowRateSensor>();
-
-    public List<NitrogenAirConcentrationSensor> theNitrogenAirConcentrationSensors = new Vector<NitrogenAirConcentrationSensor>();
-
-    public List<NitrogenAirPressureSensor> theNitrogenAirPressureSensors = new Vector<NitrogenAirPressureSensor>();
-
-    public List<NitrogenAirEnvironmentInFlowRateSensor> theNitrogenAirEnvironmentInFlowRateSensors = new Vector<NitrogenAirEnvironmentInFlowRateSensor>();
-
-    public List<NitrogenAirEnvironmentOutFlowRateSensor> theNitrogenAirEnvironmentOutFlowRateSensors = new Vector<NitrogenAirEnvironmentOutFlowRateSensor>();
-
-    public List<NitrogenAirStoreInFlowRateSensor> theNitrogenAirStoreInFlowRateSensors = new Vector<NitrogenAirStoreInFlowRateSensor>();
-
-    public List<NitrogenAirStoreOutFlowRateSensor> theNitrogenAirStoreOutFlowRateSensors = new Vector<NitrogenAirStoreOutFlowRateSensor>();
-
-    public List<WaterAirConcentrationSensor> theWaterAirConcentrationSensors = new Vector<WaterAirConcentrationSensor>();
-
-    public List<WaterAirPressureSensor> theWaterAirPressureSensors = new Vector<WaterAirPressureSensor>();
-
-    public List<WaterAirEnvironmentInFlowRateSensor> theWaterAirEnvironmentInFlowRateSensors = new Vector<WaterAirEnvironmentInFlowRateSensor>();
-
-    public List<WaterAirEnvironmentOutFlowRateSensor> theWaterAirEnvironmentOutFlowRateSensors = new Vector<WaterAirEnvironmentOutFlowRateSensor>();
-
-    public List<WaterAirStoreInFlowRateSensor> theWaterAirStoreInFlowRateSensors = new Vector<WaterAirStoreInFlowRateSensor>();
-
-    public List<WaterAirStoreOutFlowRateSensor> theWaterAirStoreOutFlowRateSensors = new Vector<WaterAirStoreOutFlowRateSensor>();
-
-    public List<OtherAirConcentrationSensor> theOtherAirConcentrationSensors = new Vector<OtherAirConcentrationSensor>();
-
-    public List<OtherAirPressureSensor> theOtherAirPressureSensors = new Vector<OtherAirPressureSensor>();
+    public List<EnvironmentConcentrationSensor> theEnvironmentConcentrationSensors = new Vector<EnvironmentConcentrationSensor>();
 
     //Food
     public List<BiomassInFlowRateSensor> theBiomassInFlowRateSensors = new Vector<BiomassInFlowRateSensor>();
 
     public List<BiomassOutFlowRateSensor> theBiomassOutFlowRateSensors = new Vector<BiomassOutFlowRateSensor>();
 
-    public List<BiomassStoreLevelSensor> theBiomassStoreLevelSensors = new Vector<BiomassStoreLevelSensor>();
-
     public List<FoodInFlowRateSensor> theFoodInFlowRateSensors = new Vector<FoodInFlowRateSensor>();
 
     public List<FoodOutFlowRateSensor> theFoodOutFlowRateSensors = new Vector<FoodOutFlowRateSensor>();
-
-    public List<FoodStoreLevelSensor> theFoodStoreLevelSensors = new Vector<FoodStoreLevelSensor>();
 
     public List<HarvestSensor> theHarvestSensors = new Vector<HarvestSensor>();
 
@@ -357,39 +245,27 @@ public class BioHolder {
 
     public List<PowerOutFlowRateSensor> thePowerOutFlowRateSensors = new Vector<PowerOutFlowRateSensor>();
 
-    public List<PowerStoreLevelSensor> thePowerStoreLevelSensors = new Vector<PowerStoreLevelSensor>();
-
     //Waste
     public List<DryWasteInFlowRateSensor> theDryWasteInFlowRateSensors = new Vector<DryWasteInFlowRateSensor>();
 
     public List<DryWasteOutFlowRateSensor> theDryWasteOutFlowRateSensors = new Vector<DryWasteOutFlowRateSensor>();
-
-    public List<DryWasteStoreLevelSensor> theDryWasteStoreLevelSensors = new Vector<DryWasteStoreLevelSensor>();
 
     //Water
     public List<PotableWaterInFlowRateSensor> thePotableWaterInFlowRateSensors = new Vector<PotableWaterInFlowRateSensor>();
 
     public List<PotableWaterOutFlowRateSensor> thePotableWaterOutFlowRateSensors = new Vector<PotableWaterOutFlowRateSensor>();
 
-    public List<PotableWaterStoreLevelSensor> thePotableWaterStoreLevelSensors = new Vector<PotableWaterStoreLevelSensor>();
-
     public List<GreyWaterInFlowRateSensor> theGreyWaterInFlowRateSensors = new Vector<GreyWaterInFlowRateSensor>();
 
     public List<GreyWaterOutFlowRateSensor> theGreyWaterOutFlowRateSensors = new Vector<GreyWaterOutFlowRateSensor>();
-
-    public List<GreyWaterStoreLevelSensor> theGreyWaterStoreLevelSensors = new Vector<GreyWaterStoreLevelSensor>();
 
     public List<DirtyWaterInFlowRateSensor> theDirtyWaterInFlowRateSensors = new Vector<DirtyWaterInFlowRateSensor>();
 
     public List<DirtyWaterOutFlowRateSensor> theDirtyWaterOutFlowRateSensors = new Vector<DirtyWaterOutFlowRateSensor>();
 
-    public List<DirtyWaterStoreLevelSensor> theDirtyWaterStoreLevelSensors = new Vector<DirtyWaterStoreLevelSensor>();
-
     public List<WaterInFlowRateSensor> theWaterInFlowRateSensors = new Vector<WaterInFlowRateSensor>();
 
     public List<WaterOutFlowRateSensor> theWaterOutFlowRateSensors = new Vector<WaterOutFlowRateSensor>();
-
-    public List<WaterStoreLevelSensor> theWaterStoreLevelSensors = new Vector<WaterStoreLevelSensor>();
 
     //Actuators
     //Air
@@ -413,38 +289,6 @@ public class BioHolder {
     public List<AirInFlowRateActuator> theAirInFlowRateActuators = new Vector<AirInFlowRateActuator>();
 
     public List<AirOutFlowRateActuator> theAirOutFlowRateActuators = new Vector<AirOutFlowRateActuator>();
-
-    public List<CO2AirEnvironmentInFlowRateActuator> theCO2AirEnvironmentInFlowRateActuators = new Vector<CO2AirEnvironmentInFlowRateActuator>();
-
-    public List<CO2AirEnvironmentOutFlowRateActuator> theCO2AirEnvironmentOutFlowRateActuators = new Vector<CO2AirEnvironmentOutFlowRateActuator>();
-
-    public List<CO2AirStoreInFlowRateActuator> theCO2AirStoreInFlowRateActuators = new Vector<CO2AirStoreInFlowRateActuator>();
-
-    public List<CO2AirStoreOutFlowRateActuator> theCO2AirStoreOutFlowRateActuators = new Vector<CO2AirStoreOutFlowRateActuator>();
-
-    public List<O2AirEnvironmentInFlowRateActuator> theO2AirEnvironmentInFlowRateActuators = new Vector<O2AirEnvironmentInFlowRateActuator>();
-
-    public List<O2AirEnvironmentOutFlowRateActuator> theO2AirEnvironmentOutFlowRateActuators = new Vector<O2AirEnvironmentOutFlowRateActuator>();
-
-    public List<O2AirStoreInFlowRateActuator> theO2AirStoreInFlowRateActuators = new Vector<O2AirStoreInFlowRateActuator>();
-
-    public List<O2AirStoreOutFlowRateActuator> theO2AirStoreOutFlowRateActuators = new Vector<O2AirStoreOutFlowRateActuator>();
-
-    public List<NitrogenAirEnvironmentInFlowRateActuator> theNitrogenAirEnvironmentInFlowRateActuators = new Vector<NitrogenAirEnvironmentInFlowRateActuator>();
-
-    public List<NitrogenAirEnvironmentOutFlowRateActuator> theNitrogenAirEnvironmentOutFlowRateActuators = new Vector<NitrogenAirEnvironmentOutFlowRateActuator>();
-
-    public List<NitrogenAirStoreInFlowRateActuator> theNitrogenAirStoreInFlowRateActuators = new Vector<NitrogenAirStoreInFlowRateActuator>();
-
-    public List<NitrogenAirStoreOutFlowRateActuator> theNitrogenAirStoreOutFlowRateActuators = new Vector<NitrogenAirStoreOutFlowRateActuator>();
-
-    public List<WaterAirEnvironmentInFlowRateActuator> theWaterAirEnvironmentInFlowRateActuators = new Vector<WaterAirEnvironmentInFlowRateActuator>();
-
-    public List<WaterAirEnvironmentOutFlowRateActuator> theWaterAirEnvironmentOutFlowRateActuators = new Vector<WaterAirEnvironmentOutFlowRateActuator>();
-
-    public List<WaterAirStoreInFlowRateActuator> theWaterAirStoreInFlowRateActuators = new Vector<WaterAirStoreInFlowRateActuator>();
-
-    public List<WaterAirStoreOutFlowRateActuator> theWaterAirStoreOutFlowRateActuators = new Vector<WaterAirStoreOutFlowRateActuator>();
 
     //Food
     public List<BiomassInFlowRateActuator> theBiomassInFlowRateActuators = new Vector<BiomassInFlowRateActuator>();
@@ -608,16 +452,12 @@ public class BioHolder {
         //Air
         theSensors.addAll(theCO2InFlowRateSensors);
         theSensors.addAll(theCO2OutFlowRateSensors);
-        theSensors.addAll(theCO2StoreLevelSensors);
         theSensors.addAll(theO2InFlowRateSensors);
         theSensors.addAll(theO2OutFlowRateSensors);
-        theSensors.addAll(theO2StoreLevelSensors);
         theSensors.addAll(theH2InFlowRateSensors);
         theSensors.addAll(theH2OutFlowRateSensors);
-        theSensors.addAll(theH2StoreLevelSensors);
         theSensors.addAll(theNitrogenInFlowRateSensors);
         theSensors.addAll(theNitrogenOutFlowRateSensors);
-        theSensors.addAll(theNitrogenStoreLevelSensors);
         //Crew
         theSensors.addAll(theCrewGroupDeathSensors);
         theSensors.addAll(theCrewGroupProductivitySensors);
@@ -625,39 +465,13 @@ public class BioHolder {
         //Environment
         theSensors.addAll(theAirInFlowRateSensors);
         theSensors.addAll(theAirOutFlowRateSensors);
-        theSensors.addAll(theCO2AirConcentrationSensors);
-        theSensors.addAll(theCO2AirPressureSensors);
-        theSensors.addAll(theCO2AirEnvironmentInFlowRateSensors);
-        theSensors.addAll(theCO2AirEnvironmentOutFlowRateSensors);
-        theSensors.addAll(theCO2AirStoreInFlowRateSensors);
-        theSensors.addAll(theCO2AirStoreOutFlowRateSensors);
-        theSensors.addAll(theO2AirConcentrationSensors);
-        theSensors.addAll(theO2AirPressureSensors);
-        theSensors.addAll(theO2AirEnvironmentInFlowRateSensors);
-        theSensors.addAll(theO2AirEnvironmentOutFlowRateSensors);
-        theSensors.addAll(theO2AirStoreInFlowRateSensors);
-        theSensors.addAll(theO2AirStoreOutFlowRateSensors);
-        theSensors.addAll(theNitrogenAirConcentrationSensors);
-        theSensors.addAll(theNitrogenAirPressureSensors);
-        theSensors.addAll(theNitrogenAirEnvironmentInFlowRateSensors);
-        theSensors.addAll(theNitrogenAirEnvironmentOutFlowRateSensors);
-        theSensors.addAll(theNitrogenAirStoreInFlowRateSensors);
-        theSensors.addAll(theNitrogenAirStoreOutFlowRateSensors);
-        theSensors.addAll(theWaterAirConcentrationSensors);
-        theSensors.addAll(theWaterAirPressureSensors);
-        theSensors.addAll(theWaterAirEnvironmentInFlowRateSensors);
-        theSensors.addAll(theWaterAirEnvironmentOutFlowRateSensors);
-        theSensors.addAll(theWaterAirStoreInFlowRateSensors);
-        theSensors.addAll(theWaterAirStoreOutFlowRateSensors);
-        theSensors.addAll(theOtherAirConcentrationSensors);
-        theSensors.addAll(theOtherAirPressureSensors);
+        theSensors.addAll(theEnvironmentPressureSensors);
+        theSensors.addAll(theEnvironmentConcentrationSensors);
         //Food
         theSensors.addAll(theBiomassInFlowRateSensors);
         theSensors.addAll(theBiomassOutFlowRateSensors);
-        theSensors.addAll(theBiomassStoreLevelSensors);
         theSensors.addAll(theFoodInFlowRateSensors);
         theSensors.addAll(theFoodOutFlowRateSensors);
-        theSensors.addAll(theFoodStoreLevelSensors);
         theSensors.addAll(theHarvestSensors);
         theSensors.addAll(thePlantDeathSensors);
         theSensors.addAll(theBiomassStoreWaterContentSensors);
@@ -667,24 +481,18 @@ public class BioHolder {
         //Power
         theSensors.addAll(thePowerInFlowRateSensors);
         theSensors.addAll(thePowerOutFlowRateSensors);
-        theSensors.addAll(thePowerStoreLevelSensors);
         //Waste
         theSensors.addAll(theDryWasteInFlowRateSensors);
         theSensors.addAll(theDryWasteOutFlowRateSensors);
-        theSensors.addAll(theDryWasteStoreLevelSensors);
         //Water
         theSensors.addAll(thePotableWaterInFlowRateSensors);
         theSensors.addAll(thePotableWaterOutFlowRateSensors);
-        theSensors.addAll(thePotableWaterStoreLevelSensors);
         theSensors.addAll(theGreyWaterInFlowRateSensors);
         theSensors.addAll(theGreyWaterOutFlowRateSensors);
-        theSensors.addAll(theGreyWaterStoreLevelSensors);
         theSensors.addAll(theDirtyWaterInFlowRateSensors);
         theSensors.addAll(theDirtyWaterOutFlowRateSensors);
-        theSensors.addAll(theDirtyWaterStoreLevelSensors);
         theSensors.addAll(theWaterInFlowRateSensors);
         theSensors.addAll(theWaterOutFlowRateSensors);
-        theSensors.addAll(theWaterStoreLevelSensors);
         //Actuators
         //Air
         theActuators.addAll(theCO2InFlowRateActuators);
@@ -698,22 +506,6 @@ public class BioHolder {
         //Environment
         theActuators.addAll(theAirInFlowRateActuators);
         theActuators.addAll(theAirOutFlowRateActuators);
-        theActuators.addAll(theCO2AirEnvironmentInFlowRateActuators);
-        theActuators.addAll(theCO2AirEnvironmentOutFlowRateActuators);
-        theActuators.addAll(theCO2AirStoreInFlowRateActuators);
-        theActuators.addAll(theCO2AirStoreOutFlowRateActuators);
-        theActuators.addAll(theO2AirEnvironmentInFlowRateActuators);
-        theActuators.addAll(theO2AirEnvironmentOutFlowRateActuators);
-        theActuators.addAll(theO2AirStoreInFlowRateActuators);
-        theActuators.addAll(theO2AirStoreOutFlowRateActuators);
-        theActuators.addAll(theNitrogenAirEnvironmentInFlowRateActuators);
-        theActuators.addAll(theNitrogenAirEnvironmentOutFlowRateActuators);
-        theActuators.addAll(theNitrogenAirStoreInFlowRateActuators);
-        theActuators.addAll(theNitrogenAirStoreOutFlowRateActuators);
-        theActuators.addAll(theWaterAirEnvironmentInFlowRateActuators);
-        theActuators.addAll(theWaterAirEnvironmentOutFlowRateActuators);
-        theActuators.addAll(theWaterAirStoreInFlowRateActuators);
-        theActuators.addAll(theWaterAirStoreOutFlowRateActuators);
         //Food
         theActuators.addAll(theBiomassInFlowRateActuators);
         theActuators.addAll(theBiomassOutFlowRateActuators);
@@ -799,16 +591,12 @@ public class BioHolder {
         //Air
         theCO2InFlowRateSensors.clear();
         theCO2OutFlowRateSensors.clear();
-        theCO2StoreLevelSensors.clear();
         theO2InFlowRateSensors.clear();
         theO2OutFlowRateSensors.clear();
-        theO2StoreLevelSensors.clear();
         theH2InFlowRateSensors.clear();
         theH2OutFlowRateSensors.clear();
-        theH2StoreLevelSensors.clear();
         theNitrogenInFlowRateSensors.clear();
         theNitrogenOutFlowRateSensors.clear();
-        theNitrogenStoreLevelSensors.clear();
         //Crew
         theCrewGroupDeathSensors.clear();
         theCrewGroupProductivitySensors.clear();
@@ -816,39 +604,13 @@ public class BioHolder {
         //Environment
         theAirInFlowRateSensors.clear();
         theAirOutFlowRateSensors.clear();
-        theCO2AirConcentrationSensors.clear();
-        theCO2AirPressureSensors.clear();
-        theCO2AirEnvironmentInFlowRateSensors.clear();
-        theCO2AirEnvironmentOutFlowRateSensors.clear();
-        theCO2AirStoreInFlowRateSensors.clear();
-        theCO2AirStoreOutFlowRateSensors.clear();
-        theO2AirConcentrationSensors.clear();
-        theO2AirPressureSensors.clear();
-        theO2AirEnvironmentInFlowRateSensors.clear();
-        theO2AirEnvironmentOutFlowRateSensors.clear();
-        theO2AirStoreInFlowRateSensors.clear();
-        theO2AirStoreOutFlowRateSensors.clear();
-        theNitrogenAirConcentrationSensors.clear();
-        theNitrogenAirPressureSensors.clear();
-        theNitrogenAirEnvironmentInFlowRateSensors.clear();
-        theNitrogenAirEnvironmentOutFlowRateSensors.clear();
-        theNitrogenAirStoreInFlowRateSensors.clear();
-        theNitrogenAirStoreOutFlowRateSensors.clear();
-        theWaterAirConcentrationSensors.clear();
-        theWaterAirPressureSensors.clear();
-        theWaterAirEnvironmentInFlowRateSensors.clear();
-        theWaterAirEnvironmentOutFlowRateSensors.clear();
-        theWaterAirStoreInFlowRateSensors.clear();
-        theWaterAirStoreOutFlowRateSensors.clear();
-        theOtherAirConcentrationSensors.clear();
-        theOtherAirPressureSensors.clear();
+        theEnvironmentPressureSensors.clear();
+        theEnvironmentConcentrationSensors.clear();
         //Food
         theBiomassInFlowRateSensors.clear();
         theBiomassOutFlowRateSensors.clear();
-        theBiomassStoreLevelSensors.clear();
         theFoodInFlowRateSensors.clear();
         theFoodOutFlowRateSensors.clear();
-        theFoodStoreLevelSensors.clear();
         theHarvestSensors.clear();
         thePlantDeathSensors.clear();
         theBiomassStoreWaterContentSensors.clear();
@@ -858,24 +620,18 @@ public class BioHolder {
         //Power
         thePowerInFlowRateSensors.clear();
         thePowerOutFlowRateSensors.clear();
-        thePowerStoreLevelSensors.clear();
         //Waste
         theDryWasteInFlowRateSensors.clear();
         theDryWasteOutFlowRateSensors.clear();
-        theDryWasteStoreLevelSensors.clear();
         //Water
         thePotableWaterInFlowRateSensors.clear();
         thePotableWaterOutFlowRateSensors.clear();
-        thePotableWaterStoreLevelSensors.clear();
         theGreyWaterInFlowRateSensors.clear();
         theGreyWaterOutFlowRateSensors.clear();
-        theGreyWaterStoreLevelSensors.clear();
         theDirtyWaterInFlowRateSensors.clear();
         theDirtyWaterOutFlowRateSensors.clear();
-        theDirtyWaterStoreLevelSensors.clear();
         theWaterInFlowRateSensors.clear();
         theWaterOutFlowRateSensors.clear();
-        theWaterStoreLevelSensors.clear();
         //Actuators
         //Air
         theCO2InFlowRateActuators.clear();
@@ -889,22 +645,6 @@ public class BioHolder {
         //Environment
         theAirInFlowRateActuators.clear();
         theAirOutFlowRateActuators.clear();
-        theCO2AirEnvironmentInFlowRateActuators.clear();
-        theCO2AirEnvironmentOutFlowRateActuators.clear();
-        theCO2AirStoreInFlowRateActuators.clear();
-        theCO2AirStoreOutFlowRateActuators.clear();
-        theO2AirEnvironmentInFlowRateActuators.clear();
-        theO2AirEnvironmentOutFlowRateActuators.clear();
-        theO2AirStoreInFlowRateActuators.clear();
-        theO2AirStoreOutFlowRateActuators.clear();
-        theNitrogenAirEnvironmentInFlowRateActuators.clear();
-        theNitrogenAirEnvironmentOutFlowRateActuators.clear();
-        theNitrogenAirStoreInFlowRateActuators.clear();
-        theNitrogenAirStoreOutFlowRateActuators.clear();
-        theWaterAirEnvironmentInFlowRateActuators.clear();
-        theWaterAirEnvironmentOutFlowRateActuators.clear();
-        theWaterAirStoreInFlowRateActuators.clear();
-        theWaterAirStoreOutFlowRateActuators.clear();
         //Food
         theBiomassInFlowRateActuators.clear();
         theBiomassOutFlowRateActuators.clear();

@@ -85,16 +85,16 @@ public class EnvironmentTextPanel extends TimedPanel {
         airPanel.setLayout(new GridLayout(5, 1));
         airPanel.setBorder(BorderFactory.createTitledBorder("Air"));
         O2Label = new JLabel("O2:     "
-                + numFormat.format(mySimEnvironment.getO2Moles()) + " moles");
+                + numFormat.format(mySimEnvironment.getO2Store().getCurrentLevel()) + " moles");
         CO2Label = new JLabel("CO2:   "
-                + numFormat.format(mySimEnvironment.getCO2Moles()) + " moles");
+                + numFormat.format(mySimEnvironment.getCO2Store().getCurrentLevel()) + " moles");
         nitrogenLabel = new JLabel("N:   "
-                + numFormat.format(mySimEnvironment.getNitrogenMoles())
+                + numFormat.format(mySimEnvironment.getNitrogenStore().getCurrentLevel())
                 + " moles");
         waterLabel = new JLabel("water:   "
-                + numFormat.format(mySimEnvironment.getWaterMoles()) + " moles");
+                + numFormat.format(mySimEnvironment.getWaterStore().getCurrentLevel()) + " moles");
         otherLabel = new JLabel("other:  "
-                + numFormat.format(mySimEnvironment.getOtherMoles()) + " moles");
+                + numFormat.format(mySimEnvironment.getOtherStore().getCurrentLevel()) + " moles");
         airPanel.add(O2Label);
         airPanel.add(CO2Label);
         airPanel.add(nitrogenLabel);
@@ -125,19 +125,19 @@ public class EnvironmentTextPanel extends TimedPanel {
         tickLabel.setText(ticksExpired + " hours (" + (ticksExpired / 24)
                 + " days)");
         O2Label.setText("O2:     "
-                + numFormat.format(mySimEnvironment.getO2Moles()) + " moles");
+                + numFormat.format(mySimEnvironment.getO2Store().getCurrentLevel()) + " moles");
         CO2Label.setText("CO2:   "
-                + numFormat.format(mySimEnvironment.getCO2Moles()) + " moles");
+                + numFormat.format(mySimEnvironment.getCO2Store().getCurrentLevel()) + " moles");
         nitrogenLabel.setText("N:   "
-                + numFormat.format(mySimEnvironment.getNitrogenMoles())
+                + numFormat.format(mySimEnvironment.getNitrogenStore().getCurrentLevel())
                 + " moles");
         waterLabel
                 .setText("water:   "
-                        + numFormat.format(mySimEnvironment.getWaterMoles())
+                        + numFormat.format(mySimEnvironment.getWaterStore().getCurrentLevel())
                         + " moles");
         otherLabel
                 .setText("other:  "
-                        + numFormat.format(mySimEnvironment.getOtherMoles())
+                        + numFormat.format(mySimEnvironment.getOtherStore().getCurrentLevel())
                         + " moles");
     }
 }

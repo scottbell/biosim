@@ -6,8 +6,11 @@ import com.traclabs.biosim.idl.framework.Malfunction;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.simulation.air.Breath;
+import com.traclabs.biosim.idl.simulation.environment.EnvironmentStore;
+import com.traclabs.biosim.idl.simulation.environment.EnvironmentStoreHelper;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironmentOperations;
 import com.traclabs.biosim.server.simulation.framework.PassiveModuleImpl;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * The SimEnvironment acts as the environment in which the crew breathes from
@@ -18,79 +21,20 @@ import com.traclabs.biosim.server.simulation.framework.PassiveModuleImpl;
 
 public class SimEnvironmentImpl extends PassiveModuleImpl implements
         SimEnvironmentOperations {
-    //The current amount of O2 in the environment (in moles)
-    private float O2Moles = 0f;
-
-    private float O2Pressure = 0f;
-
-    //The current amount of CO2 in the environment (in moles)
-    private float CO2Moles = 0f;
-
-    private float CO2Pressure = 0f;
-
-    //The current amount of other gasses in the environment (in moles)
-    private float otherMoles = 0f;
-
-    private float otherPressure = 0f;
-
-    //The current amount of water gas in the environment (in moles)
-    private float waterMoles = 0f;
-
-    private float waterPressure = 0f;
-
-    //The current amount of nitrogen gas in the environment (in moles)
-    private float nitrogenMoles = 0f;
-
-    private float nitrogenPressure = 0f;
-
-    //cached levels
-    private float cachedO2Moles = 0f;
-
-    private float cachedCO2Moles = 0f;
-
-    private float cachedOtherMoles = 0f;
-
-    private float cachedWaterMoles = 0f;
-
-    private float cachedNitrogenMoles = 0f;
-
-    private float cachedO2Pressure = 0f;
-
-    private float cachedCO2Pressure = 0f;
-
-    private float cachedOtherPressure = 0f;
-
-    private float cachedWaterPressure = 0f;
-
-    private float cachedNitrogenPressure = 0f;
-
-    private float initialO2Moles = 0f;
-
-    private float initialCO2Moles = 0f;
-
-    private float initialOtherMoles = 0f;
-
-    private float initialWaterMoles = 0f;
-
-    private float initialNitrogenMoles = 0f;
-
-    private float initialO2Pressure = 0f;
-
-    private float initialCO2Pressure = 0f;
-
-    private float initialOtherPressure = 0f;
-
-    private float initialWaterPressure = 0f;
-
-    private float initialNitrogenPressure = 0f;
-
+	
+	private EnvironmentStoreImpl myO2Store = new EnvironmentStoreImpl(this);
+	
+	private EnvironmentStoreImpl myCO2Store = new EnvironmentStoreImpl(this);
+	
+	private EnvironmentStoreImpl myNitrogenStore = new EnvironmentStoreImpl(this);
+	
+	private EnvironmentStoreImpl myOtherStore = new EnvironmentStoreImpl(this);
+	
+	private EnvironmentStoreImpl myWaterStore = new EnvironmentStoreImpl(this);
+	
+	private EnvironmentStoreImpl[] myEnvironmentStores = {myO2Store, myCO2Store, myNitrogenStore, myOtherStore, myWaterStore};
+	
     private final static float temperature = 23f;
-
-    private final static float idealGasConstant = 8.314f; // J K ^-1 mol -1
-
-    // (assumes units in
-    // moles, kevlin, and
-    // kPascals)
 
     //The total currentVolume of the environment (all the open space)
     private float currentVolume = 0f;
@@ -133,95 +77,23 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
      */
     public SimEnvironmentImpl(int pID, float pInitialVolume, String pName) {
         super(pID, pName);
-        currentVolume = initialVolume = pInitialVolume;
-        O2Pressure = cachedO2Pressure = initialO2Pressure = 20.0f;
-        CO2Pressure = cachedCO2Pressure = initialCO2Pressure = 0.111f;
-        otherPressure = cachedOtherPressure = initialOtherPressure = 1.0f;
-        nitrogenPressure = cachedNitrogenPressure = initialNitrogenPressure = 78.96f;
-        waterPressure = cachedWaterPressure = initialWaterPressure = 1.0f;
-        O2Moles = cachedO2Moles = initialO2Moles = calculateMoles(O2Pressure);
-        otherMoles = cachedOtherMoles = initialOtherMoles = calculateMoles(otherPressure);
-        nitrogenMoles = cachedNitrogenMoles = initialNitrogenMoles = calculateMoles(nitrogenPressure);
-        waterMoles = cachedWaterMoles = initialWaterMoles = calculateMoles(waterPressure);
-        CO2Moles = cachedCO2Moles = initialCO2Moles = calculateMoles(CO2Pressure);
+        setInitialVolumeAtSeaLevel(pInitialVolume);
     }
 
-    /**
-     * Creates a SimEnvironment with a set initial currentVolume and gas levels
-     * to correct percantages of sea level air
-     * 
-     * @param pInitialCO2Moles
-     *            the initial currentVolume of the CO2 (in moles) in the
-     *            environment
-     * @param pInitialO2Moles
-     *            the initial currentVolume of the O2 (in moles) in the
-     *            environment
-     * @param pInitialOtherMoles
-     *            the initial currentVolume of the other gasses (in moles) in
-     *            the environment
-     * @param pInitialWaterMoles
-     *            the initial currentVolume of water (in moles) in the
-     *            environment
-     * @param pInitialNitrogenMoles
-     *            the initial currentVolume of nitrogen (in moles) in the
-     *            environment
-     * @param pInitialVolume
-     *            the initial currentVolume of the environment in liters
-     * @param pName
-     *            the name of this environment
-     * @param pID
-     *            the ID of the server
-     */
-    public SimEnvironmentImpl(float pInitialCO2Moles, float pInitialO2Moles,
-            float pInitialOtherMoles, float pInitialWaterMoles,
-            float pInitialNitrogenMoles, float pInitialVolume, String pName,
-            int pID) {
-        super(pID, pName);
-        CO2Moles = cachedCO2Moles = initialCO2Moles = pInitialCO2Moles;
-        O2Moles = cachedO2Moles = initialO2Moles = pInitialO2Moles;
-        otherMoles = cachedOtherMoles = initialOtherMoles = pInitialOtherMoles;
-        waterMoles = cachedWaterMoles = initialWaterMoles = pInitialWaterMoles;
-        nitrogenMoles = cachedNitrogenMoles = initialNitrogenMoles = pInitialNitrogenMoles;
-        currentVolume = initialVolume = pInitialVolume;
-        O2Pressure = cachedO2Pressure = initialO2Pressure = calculatePressure(O2Moles);
-        CO2Pressure = cachedCO2Pressure = initialCO2Pressure = calculatePressure(CO2Moles);
-        otherPressure = cachedOtherPressure = initialOtherPressure = calculatePressure(otherMoles);
-        waterPressure = cachedWaterPressure = initialWaterPressure = calculatePressure(waterMoles);
-        nitrogenPressure = cachedNitrogenPressure = initialNitrogenPressure = calculatePressure(nitrogenMoles);
-    }
+    public SimEnvironmentImpl(float O2Moles, float CO2Moles, float otherMoles, float waterMoles, float nitrogenMoles, float pVolume, String pName, int pID) {
+    	super(pID, pName);
+    	setInitialVolume(O2Moles, CO2Moles, otherMoles, waterMoles, nitrogenMoles, pVolume);
+	}
 
-    private float calculatePressure(float pNumberOfMoles) {
-        if (currentVolume > 0)
-            return (pNumberOfMoles * idealGasConstant * (temperature + 273f))
-                    / currentVolume;
-		return 0;
-    }
-
-    private float calculateMoles(float pPressure) {
-        float kelvinTemperature = temperature + 273f;
-        if (kelvinTemperature > 0)
-            return (pPressure * currentVolume)
-                    / (kelvinTemperature * idealGasConstant);
-		return 0;
-    }
-
-    /**
+	/**
      * Resets gas levels to correct percantages of sea level air
      */
     public void reset() {
         super.reset();
         lightIntensity = 0f;
         currentVolume = initialVolume;
-        O2Moles = cachedO2Moles = initialO2Moles;
-        otherMoles = cachedOtherMoles = initialOtherMoles;
-        CO2Moles = cachedCO2Moles = initialCO2Moles;
-        waterMoles = cachedWaterMoles = initialWaterMoles;
-        nitrogenMoles = cachedNitrogenMoles = initialNitrogenMoles;
-        O2Pressure = cachedO2Pressure = initialO2Pressure;
-        CO2Pressure = cachedCO2Pressure = initialCO2Pressure;
-        otherPressure = cachedOtherPressure = initialOtherPressure;
-        waterPressure = cachedWaterPressure = initialWaterPressure;
-        nitrogenPressure = cachedNitrogenPressure = initialNitrogenPressure;
+        for (EnvironmentStoreImpl store : myEnvironmentStores)
+        	store.reset();
     }
 
     /**
@@ -231,14 +103,6 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
      */
     public float getLightIntensity() {
         return lightIntensity;
-    }
-
-    public float getAirPressure() {
-        if (cachedValueNeeded())
-            return cachedCO2Pressure + cachedO2Pressure + cachedWaterPressure
-                    + cachedOtherPressure + cachedNitrogenPressure;
-		return CO2Pressure + O2Pressure + waterPressure + otherPressure
-		        + nitrogenPressure;
     }
 
     //constant for right now (function of temperature);
@@ -252,7 +116,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
             return 0f;
         float exponent = (17.4f * getTemperature()) / kelvinTemperature;
         float saturatedVaporPressure = .611f * exp(exponent);
-        return getWaterPressure() / saturatedVaporPressure;
+        return myWaterStore.getPressure() / saturatedVaporPressure;
     }
 
     //returns temperature in celsius
@@ -281,173 +145,6 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
     }
 
     /**
-     * Sets the CO2 level in the air to a set amount
-     * 
-     * @param molesRequested
-     *            the amount of CO2 (in moles) to be in the air
-     */
-    public void setCO2Moles(float molesRequested) {
-        CO2Moles = molesRequested;
-        adjustPressure();
-    }
-
-    /**
-     * Sets the O2 level in the air to a set amount
-     * 
-     * @param molesRequested
-     *            the amount of O2 (in moles) to be in the air
-     */
-    public void setO2Moles(float molesRequested) {
-        O2Moles = molesRequested;
-        adjustPressure();
-    }
-
-    /**
-     * Sets the water gasses level in the air to a set amount
-     * 
-     * @param molesRequested
-     *            the amount of water gasses (in moles) to be in the air
-     */
-    public void setWaterMoles(float molesRequested) {
-        waterMoles = molesRequested;
-        adjustPressure();
-    }
-
-    /**
-     * Sets the other gasses level in the air to a set amount
-     * 
-     * @param molesRequested
-     *            the amount of other gasses (in moles) to be in the air
-     */
-    public void setOtherMoles(float molesRequested) {
-        otherMoles = molesRequested;
-        adjustPressure();
-    }
-
-    /**
-     * Sets the nitrogen gasses level in the air to a set amount
-     * 
-     * @param molesRequested
-     *            the amount of nitrogen gasses (in moles) to be in the air
-     */
-    public void setNitrogenMoles(float molesRequested) {
-        nitrogenMoles = molesRequested;
-        adjustPressure();
-    }
-
-    /**
-     * Sets the CO2 level in the air to a set amount
-     * 
-     * @param pressureRequested
-     *            the amount of CO2 (in kilo Pascals) to be in the air
-     */
-    public void setCO2Pressure(float pressureRequested) {
-        CO2Pressure = pressureRequested;
-        adjustMoles();
-    }
-
-    /**
-     * Sets the O2 level in the air to a set amount
-     * 
-     * @param pressureRequested
-     *            the amount of O2 (in kilo Pascals) to be in the air
-     */
-    public void setO2Pressure(float pressureRequested) {
-        O2Pressure = pressureRequested;
-        adjustMoles();
-    }
-
-    /**
-     * Sets the water gasses level in the air to a set amount
-     * 
-     * @param pressureRequested
-     *            the amount of water gasses (in kilo Pascals) to be in the air
-     */
-    public void setWaterPressure(float pressureRequested) {
-        waterPressure = pressureRequested;
-        adjustMoles();
-    }
-
-    /**
-     * Sets the other gasses level in the air to a set amount
-     * 
-     * @param pressureRequested
-     *            the amount of other gasses (in kilo Pascals) to be in the air
-     */
-    public void setOtherPressure(float pressureRequested) {
-        otherPressure = pressureRequested;
-        adjustMoles();
-    }
-
-    /**
-     * Sets the nitrogen gasses level in the air to a set amount
-     * 
-     * @param pressureRequested
-     *            the amount of nitrogen gasses (in kilo Pascals) to be in the
-     *            air
-     */
-    public void setNitrogenPressure(float pressureRequested) {
-        nitrogenPressure = pressureRequested;
-        adjustMoles();
-    }
-
-    /**
-     * Sets the current volume of the environment (how much gas it can hold)
-     */
-    public void setCurrentVolume(float pCO2Moles, float pO2Moles,
-            float pOtherMoles, float pWaterMoles, float pNitrogenMoles,
-            float pVolume) {
-        CO2Moles = cachedCO2Moles = pCO2Moles;
-        O2Moles = cachedO2Moles = pO2Moles;
-        otherMoles = cachedOtherMoles = pOtherMoles;
-        waterMoles = cachedWaterMoles = pWaterMoles;
-        nitrogenMoles = cachedNitrogenMoles = pNitrogenMoles;
-        currentVolume = pVolume;
-        O2Pressure = cachedO2Pressure = calculatePressure(O2Moles);
-        CO2Pressure = cachedCO2Pressure = calculatePressure(CO2Moles);
-        otherPressure = cachedOtherPressure = calculatePressure(otherMoles);
-        waterPressure = cachedWaterPressure = calculatePressure(waterMoles);
-        nitrogenPressure = cachedNitrogenPressure = calculatePressure(nitrogenMoles);
-    }
-
-    /**
-     * Sets the volume of the environment (how much gas it can hold)
-     * 
-     * @param pInitialCO2Moles
-     *            the initial currentVolume of the CO2 (in moles) in the
-     *            environment
-     * @param pInitialO2Moles
-     *            the initial currentVolume of the O2 (in moles) in the
-     *            environment
-     * @param pInitialOtherMoles
-     *            the initial currentVolume of the other gasses (in moles) in
-     *            the environment
-     * @param pInitialNitrogenMoles
-     *            the initial currentVolume of nitrogen (in moles) in the
-     *            environment
-     * @param pInitialWaterMoles
-     *            the initial currentVolume of nitrogen (in moles) in the
-     *            environment
-     * @param pInitialVolume
-     *            the initial currentVolume of the environment in liters
-     */
-    public void setInitialVolume(float pInitialCO2Moles, float pInitialO2Moles,
-            float pInitialOtherMoles, float pInitialWaterMoles,
-            float pInitialNitrogenMoles, float pInitialVolume) {
-        CO2Moles = cachedCO2Moles = initialCO2Moles = pInitialCO2Moles;
-        O2Moles = cachedO2Moles = initialO2Moles = pInitialO2Moles;
-        otherMoles = cachedOtherMoles = initialOtherMoles = pInitialOtherMoles;
-        waterMoles = cachedWaterMoles = initialWaterMoles = pInitialWaterMoles;
-        nitrogenMoles = cachedNitrogenMoles = initialNitrogenMoles = pInitialNitrogenMoles;
-        currentVolume = initialVolume = pInitialVolume;
-        O2Pressure = cachedO2Pressure = initialO2Pressure = calculatePressure(O2Moles);
-        CO2Pressure = cachedCO2Pressure = initialCO2Pressure = calculatePressure(CO2Moles);
-        otherPressure = cachedOtherPressure = initialOtherPressure = calculatePressure(otherMoles);
-        waterPressure = cachedWaterPressure = initialWaterPressure = calculatePressure(waterMoles);
-        nitrogenPressure = cachedNitrogenPressure = initialNitrogenPressure = calculatePressure(nitrogenMoles);
-    }
-
-    /**
      * Sets the volume of the environment (how much gas it can hold) w/ gas
      * mixture at earth sea level
      * 
@@ -456,64 +153,11 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
      */
     public void setInitialVolumeAtSeaLevel(float pInitialVolume) {
         currentVolume = initialVolume = pInitialVolume;
-        O2Pressure = cachedO2Pressure = initialO2Pressure = 2.0f;
-        otherPressure = cachedOtherPressure = initialOtherPressure = 0.1f;
-        CO2Pressure = cachedCO2Pressure = initialCO2Pressure = 0.2f;
-        waterPressure = cachedWaterPressure = initialWaterPressure = 0.1f;
-        nitrogenPressure = cachedNitrogenPressure = initialNitrogenPressure = 7.6f;
-        O2Moles = cachedO2Moles = initialO2Moles = calculateMoles(O2Pressure);
-        otherMoles = cachedOtherMoles = initialOtherMoles = calculateMoles(otherPressure);
-        waterMoles = cachedWaterMoles = initialWaterMoles = calculateMoles(waterPressure);
-        nitrogenMoles = cachedNitrogenMoles = initialNitrogenMoles = calculateMoles(nitrogenPressure);
-        CO2Moles = cachedCO2Moles = initialCO2Moles = calculateMoles(CO2Pressure);
-    }
-
-    /**
-     * Sets the volume of the environment (how much gas it can hold) w/ gas
-     * mixture at earth sea level
-     * 
-     * @param pVolume
-     *            the new currentVolume of the environment (in liters)
-     */
-    public void setCurrentVolumeAtSeaLevel(float pVolume) {
-        currentVolume = pVolume;
-        O2Pressure = cachedO2Pressure = 2.0f;
-        otherPressure = cachedOtherPressure = 0.1f;
-        CO2Pressure = cachedCO2Pressure = 0.2f;
-        waterPressure = cachedWaterPressure = 0.1f;
-        nitrogenPressure = cachedNitrogenPressure = 7.6f;
-        O2Moles = cachedO2Moles = calculateMoles(O2Pressure);
-        otherMoles = cachedOtherMoles = calculateMoles(otherPressure);
-        waterMoles = cachedWaterMoles = calculateMoles(waterPressure);
-        nitrogenMoles = cachedNitrogenMoles = calculateMoles(nitrogenPressure);
-        CO2Moles = cachedCO2Moles = calculateMoles(CO2Pressure);
-    }
-
-    /**
-     * Retrieves the the total level of gas in the environment (in moles)
-     * 
-     * @return retrieves the the total level of gas in the environment (in
-     *         moles)
-     */
-    public float getTotalMoles() {
-        if (cachedValueNeeded())
-            return cachedO2Moles + cachedCO2Moles + cachedWaterMoles
-                    + cachedOtherMoles + cachedNitrogenMoles;
-		return O2Moles + CO2Moles + waterMoles + otherMoles + nitrogenMoles;
-    }
-
-    /**
-     * Retrieves the the total level of gas in the environment (in kPA)
-     * 
-     * @return retrieves the the total level of gas in the environment (in kPA)
-     */
-    public float getTotalPressure() {
-        if (cachedValueNeeded())
-            return cachedCO2Pressure + cachedO2Pressure + cachedWaterPressure
-                    + cachedOtherPressure + cachedNitrogenPressure;
-		return CO2Pressure + O2Pressure + waterPressure + otherPressure
-		        + nitrogenPressure;
-
+        myO2Store.setInitialLevel(0.2f);
+        myOtherStore.setInitialLevel(0.01f);
+        myCO2Store.setInitialLevel(0.02f);
+        myWaterStore.setInitialLevel(0.01f);
+        myNitrogenStore.setInitialLevel(0.76f);
     }
 
     public float getInitialVolume() {
@@ -524,415 +168,10 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
         return currentVolume;
     }
 
-    /**
-     * Sets every gas level (O2, CO2, other) to one value
-     * 
-     * @param molesRequested
-     *            the amount (in moles) to set all the gas levels to
-     */
-    public void setTotalMoles(float molesRequested) {
-        CO2Moles = molesRequested;
-        O2Moles = molesRequested;
-        otherMoles = molesRequested;
-        waterMoles = molesRequested;
-        nitrogenMoles = molesRequested;
-        adjustPressure();
-    }
-
-    /**
-     * Sets every gas level (O2, CO2, other) to one value
-     * 
-     * @param pressureRequested
-     *            the amount (in pressure) to set all the gas levels to
-     */
-    public void setTotalPressure(float pressureRequested) {
-        CO2Pressure = pressureRequested;
-        O2Pressure = pressureRequested;
-        otherPressure = pressureRequested;
-        waterPressure = pressureRequested;
-        nitrogenPressure = pressureRequested;
-        adjustMoles();
-    }
-
-    private void adjustMoles() {
-        CO2Moles = calculateMoles(CO2Pressure);
-        O2Moles = calculateMoles(O2Pressure);
-        otherMoles = calculateMoles(otherPressure);
-        waterMoles = calculateMoles(waterPressure);
-        nitrogenMoles = calculateMoles(nitrogenPressure);
-    }
-
-    private void adjustPressure() {
-        CO2Pressure = calculatePressure(CO2Moles);
-        O2Pressure = calculatePressure(O2Moles);
-        otherPressure = calculatePressure(otherMoles);
-        waterPressure = calculatePressure(waterMoles);
-        nitrogenPressure = calculatePressure(nitrogenMoles);
-    }
-
-    /**
-     * Retrieves the other gasses level (in moles)
-     * 
-     * @return the other gasses level (in moles)
-     */
-    public float getOtherMoles() {
-        if (cachedValueNeeded())
-            return cachedOtherMoles;
-		return otherMoles;
-    }
-
-    /**
-     * Retrieves the O2 level (in moles)
-     * 
-     * @return the O2 level (in moles)
-     */
-    public float getO2Moles() {
-        if (cachedValueNeeded())
-            return cachedO2Moles;
-		return O2Moles;
-    }
-
-    /**
-     * Retrieves the CO2 level (in moles)
-     * 
-     * @return the CO2 level (in moles)
-     */
-    public float getCO2Moles() {
-        if (cachedValueNeeded())
-            return cachedCO2Moles;
-		return CO2Moles;
-    }
-
-    /**
-     * Retrieves the water gas level (in moles)
-     * 
-     * @return the water gas level (in moles)
-     */
-    public float getWaterMoles() {
-        if (cachedValueNeeded())
-            return cachedWaterMoles;
-		return waterMoles;
-    }
-
-    /**
-     * Retrieves the Nitrogen gas level (in moles)
-     * 
-     * @return the Nitrogen gas level (in moles)
-     */
-    public float getNitrogenMoles() {
-        if (cachedValueNeeded())
-            return cachedNitrogenMoles;
-		return nitrogenMoles;
-    }
-
-    /**
-     * Retrieves the other gasses level (in kPA)
-     * 
-     * @return the other gasses level (in kPA)
-     */
-    public float getOtherPressure() {
-        if (cachedValueNeeded())
-            return cachedOtherPressure;
-		return otherPressure;
-    }
-
-    /**
-     * Retrieves the water gasses level (in kPA)
-     * 
-     * @return the water gasses level (in kPA)
-     */
-    public float getWaterPressure() {
-        if (cachedValueNeeded())
-            return cachedWaterPressure;
-		return waterPressure;
-    }
-
-    /**
-     * Retrieves the O2 level (in kPA)
-     * 
-     * @return the O2 level (in kPA)
-     */
-    public float getO2Pressure() {
-        if (cachedValueNeeded())
-            return cachedO2Pressure;
-		return O2Pressure;
-    }
-
-    /**
-     * Retrieves the CO2 level (in kPA)
-     * 
-     * @return the CO2 level (in kPA)
-     */
-    public float getCO2Pressure() {
-        if (cachedValueNeeded())
-            return cachedCO2Pressure;
-		return CO2Pressure;
-    }
-
-    /**
-     * Retrieves the Nitrogen level (in kPA)
-     * 
-     * @return the Nitrogen level (in kPA)
-     */
-    public float getNitrogenPressure() {
-        if (cachedValueNeeded())
-            return cachedNitrogenPressure;
-		return nitrogenPressure;
-    }
-
-    /**
-     * Attempts to add CO2 gas to the environment. If the total gas level is
-     * near currentVolume, it will only up to currentVolume
-     * 
-     * @param molesRequested
-     *            the amount of CO2 gasses (in moles) wanted to add to the
-     *            environment
-     * @return the amount of CO2 gasses (in moles) actually added to the
-     *         environment
-     */
-    public float addCO2Moles(float molesRequested) {
-        if (Float.isNaN(molesRequested)) {
-            myLogger.warn("in addCO2Moles, attemped to add " + molesRequested);
-            return 0f;
-        }
-        if (molesRequested <= 0)
-            return 0f;
-        float afterAdditionCO2 = randomFilter(CO2Moles + molesRequested);
-        float actuallyAddedCO2 = afterAdditionCO2 - CO2Moles;
-        CO2Moles = afterAdditionCO2;
-
-        return actuallyAddedCO2;
-    }
-
-    /**
-     * Attempts to add O2 gas to the environment. If the total gas level is near
-     * currentVolume, it will only up to currentVolume
-     * 
-     * @param molesRequested
-     *            the amount of O2 gasses (in moles) wanted to add to the
-     *            environment
-     * @return the amount of O2 gasses (in moles) actually added to the
-     *         environment
-     */
-    public float addO2Moles(float molesRequested) {
-        if (Float.isNaN(molesRequested)) {
-            myLogger.warn("in addO2Moles, attemped to add " + molesRequested);
-            return 0f;
-        }
-        if (molesRequested <= 0)
-            return 0f;
-        float afterAdditionO2 = randomFilter(O2Moles + molesRequested);
-        float actuallyAddedO2 = afterAdditionO2 - O2Moles;
-        O2Moles = afterAdditionO2;
-
-        return actuallyAddedO2;
-    }
-
-    /**
-     * Attempts to add other gas to the environment. If the total gas level is
-     * near currentVolume, it will only up to currentVolume
-     * 
-     * @param molesRequested
-     *            the amount of other gasses (in moles) wanted to add to the
-     *            environment
-     * @return the amount of other gasses (in moles) actually added to the
-     *         environment
-     */
-    public float addOtherMoles(float molesRequested) {
-        if (Float.isNaN(molesRequested)) {
-            myLogger
-                    .warn("in addOtherMoles, attemped to add " + molesRequested);
-            return 0f;
-        }
-        if (molesRequested <= 0)
-            return 0f;
-        float afterAdditionOther = randomFilter(otherMoles + molesRequested);
-        float actuallyAddedOther = afterAdditionOther - otherMoles;
-        otherMoles = afterAdditionOther;
-
-        return actuallyAddedOther;
-    }
-
-    /**
-     * Attempts to add water gas to the environment. If the total gas level is
-     * near currentVolume, it will only up to currentVolume
-     * 
-     * @param molesRequested
-     *            the amount of water gasses (in moles) wanted to add to the
-     *            environment
-     * @return the amount of water gasses (in moles) actually added to the
-     *         environment
-     */
-    public float addWaterMoles(float molesRequested) {
-        if (Float.isNaN(molesRequested)) {
-            myLogger
-                    .warn("in addWaterMoles, attemped to add " + molesRequested);
-            return 0f;
-        }
-        if (molesRequested <= 0)
-            return 0f;
-        float afterAdditionWater = randomFilter(waterMoles + molesRequested);
-        float actuallyAddedWater = afterAdditionWater - waterMoles;
-        waterMoles = afterAdditionWater;
-
-        return actuallyAddedWater;
-    }
-
-    /**
-     * Attempts to add nitrogen gas to the environment. If the total gas level
-     * is near currentVolume, it will only up to currentVolume
-     * 
-     * @param molesRequested
-     *            the amount of nitrogen gasses (in moles) wanted to add to the
-     *            environment
-     * @return the amount of nitrogen gasses (in moles) actually added to the
-     *         environment
-     */
-    public float addNitrogenMoles(float molesRequested) {
-        if (Float.isNaN(molesRequested)) {
-            myLogger.warn("in addNitrogenMoles, attemped to add "
-                    + molesRequested);
-            return 0f;
-        }
-        if (molesRequested <= 0)
-            return 0f;
-        float afterAdditionNitrogen = randomFilter(nitrogenMoles
-                + molesRequested);
-        float actuallyAddedNitrogen = afterAdditionNitrogen - nitrogenMoles;
-        nitrogenMoles = afterAdditionNitrogen;
-
-        return actuallyAddedNitrogen;
-    }
-
-    public float takeCO2Moles(float molesRequested) {
-        //idiot check
-        if (Float.isNaN(molesRequested)) {
-            myLogger.warn("in takeCO2Moles, attemped to remove "
-                    + molesRequested);
-            return 0f;
-        }
-        if (molesRequested <= 0)
-            return 0f;
-        float actuallyTaken;
-        //asking for more stuff than exists
-        if (molesRequested > CO2Moles) {
-            actuallyTaken = randomFilter(CO2Moles);
-            CO2Moles = 0;
-            CO2Pressure = 0;
-        }
-        //stuff exists for request
-        else {
-            actuallyTaken = randomFilter(molesRequested);
-            //take moles
-            CO2Moles -= actuallyTaken;
-        }
-        return actuallyTaken;
-    }
-
-    public float takeO2Moles(float molesRequested) {
-        //idiot check
-        if (Float.isNaN(molesRequested)) {
-            myLogger.warn("in takeO2Moles, attemped to remove "
-                    + molesRequested);
-            return 0f;
-        }
-        if (molesRequested <= 0)
-            return 0f;
-        float actuallyTaken;
-        //asking for more stuff than exists
-        if (molesRequested > O2Moles) {
-            actuallyTaken = randomFilter(O2Moles);
-            O2Moles = 0;
-            O2Pressure = 0;
-        }
-        //stuff exists for request
-        else {
-            actuallyTaken = randomFilter(molesRequested);
-            //take moles
-            O2Moles -= actuallyTaken;
-        }
-        return actuallyTaken;
-    }
-
-    public float takeOtherMoles(float molesRequested) {
-        //idiot check
-        if (Float.isNaN(molesRequested)) {
-            myLogger.warn("in takeOtherMoles, attemped to remove "
-                    + molesRequested);
-            return 0f;
-        }
-        if (molesRequested <= 0)
-            return 0f;
-        float actuallyTaken;
-        //asking for more stuff than exists
-        if (molesRequested > otherMoles) {
-            actuallyTaken = randomFilter(otherMoles);
-            otherMoles = 0;
-            otherPressure = 0;
-        }
-        //stuff exists for request
-        else {
-            actuallyTaken = randomFilter(molesRequested);
-            //take moles
-            otherMoles -= actuallyTaken;
-        }
-        return actuallyTaken;
-    }
-
-    public float takeWaterMoles(float molesRequested) {
-        //idiot check
-        if (Float.isNaN(molesRequested)) {
-            myLogger.warn("in takeWaterMoles, attemped to remove "
-                    + molesRequested);
-            return 0f;
-        }
-        if (molesRequested <= 0)
-            return 0f;
-        float actuallyTaken;
-        //asking for more stuff than exists
-        if (molesRequested > waterMoles) {
-            actuallyTaken = randomFilter(waterMoles);
-            waterMoles = 0;
-            waterPressure = 0;
-        }
-        //stuff exists for request
-        else {
-            actuallyTaken = randomFilter(molesRequested);
-            //take moles
-            waterMoles -= actuallyTaken;
-        }
-        return actuallyTaken;
-    }
-
-    public float takeNitrogenMoles(float molesRequested) {
-        //idiot check
-        if (Float.isNaN(molesRequested)) {
-            myLogger.warn("in takeNitrogenMoles, attemped to remove "
-                    + molesRequested);
-            return 0f;
-        }
-        if (molesRequested <= 0)
-            return 0f;
-        float actuallyTaken;
-        //asking for more stuff than exists
-        if (molesRequested > nitrogenMoles) {
-            actuallyTaken = randomFilter(nitrogenMoles);
-            nitrogenMoles = 0;
-            nitrogenPressure = 0;
-        }
-        //stuff exists for request
-        else {
-            actuallyTaken = randomFilter(molesRequested);
-            //take moles
-            nitrogenMoles -= actuallyTaken;
-        }
-        return actuallyTaken;
-    }
-
     public Breath addBreath(Breath pBreath) {
-        return new Breath(addO2Moles(pBreath.O2), addCO2Moles(pBreath.CO2),
-                addWaterMoles(pBreath.water), addOtherMoles(pBreath.other),
-                addWaterMoles(pBreath.water));
+        return new Breath(myO2Store.add(pBreath.O2), myCO2Store.add(pBreath.CO2),
+        		myWaterStore.add(pBreath.water), myOtherStore.add(pBreath.other),
+        		myNitrogenStore.add(pBreath.nitrogen));
     }
 
     public Breath takeAirMoles(float molesRequested) {
@@ -945,6 +184,11 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
         if (molesRequested <= 0)
             return new Breath(0f, 0f, 0f, 0f, 0f);
         //asking for more gas than exists
+        float CO2Moles = myCO2Store.getCurrentLevel();
+        float O2Moles = myO2Store.getCurrentLevel();
+        float otherMoles = myOtherStore.getCurrentLevel();
+        float waterMoles = myWaterStore.getCurrentLevel();
+        float nitrogenMoles = myNitrogenStore.getCurrentLevel();
         if (molesRequested >= getTotalMoles()) {
             float afterRemovalCO2 = randomFilter(CO2Moles);
             float afterRemovalO2 = randomFilter(O2Moles);
@@ -970,26 +214,18 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
 		float otherMolesTaken = otherMoles - afterRemovalOther;
 		float waterMolesTaken = waterMoles - afterRemovalWater;
 		float nitrogenMolesTaken = nitrogenMoles - afterRemovalNitrogen;
-		O2Moles = afterRemovalO2;
-		CO2Moles = afterRemovalCO2;
-		otherMoles = afterRemovalOther;
-		waterMoles = afterRemovalWater;
-		nitrogenMoles = afterRemovalNitrogen;
+		myO2Store.setCurrentLevel(afterRemovalO2);
+		myCO2Store.setCurrentLevel(afterRemovalCO2);
+		myOtherStore.setCurrentLevel(afterRemovalOther);
+		myWaterStore.setCurrentLevel(afterRemovalWater);
+		myNitrogenStore.setCurrentLevel(afterRemovalNitrogen);
 		return new Breath(O2MolesTaken, CO2MolesTaken, waterMolesTaken,
 		        otherMolesTaken, nitrogenMolesTaken);
     }
 
     private void performLeak(float pLeakRate) {
-        float leakedO2Moles = O2Moles - (O2Moles * pLeakRate);
-        float leakedCO2Moles = CO2Moles - (CO2Moles * pLeakRate);
-        float leakedOtherMoles = otherMoles - (otherMoles * pLeakRate);
-        float leakedWaterMoles = waterMoles - (waterMoles * pLeakRate);
-        float leakedNitrogenMoles = nitrogenMoles - (nitrogenMoles * pLeakRate);
-        O2Moles = leakedO2Moles;
-        CO2Moles = leakedCO2Moles;
-        otherMoles = leakedOtherMoles;
-        waterMoles = leakedWaterMoles;
-        nitrogenMoles = leakedNitrogenMoles;
+        for (EnvironmentStoreImpl store : myEnvironmentStores)
+        	store.performLeak(pLeakRate);
     }
 
     protected void performMalfunctions() {
@@ -1007,46 +243,28 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
                 performLeak(malfunctionLeakRate);
             } else if ((currentMalfunction.getLength() == MalfunctionLength.PERMANENT_MALF)
                     && (!currentMalfunction.hasPerformed())) {
-                float O2percentage;
-                float CO2percentage;
-                float otherPercentage;
-                float waterPercentage;
-                float nitrogenPercentage;
                 if (currentVolume <= 0) {
-                    O2Moles = 0;
-                    CO2Moles = 0;
-                    otherMoles = 0;
-                    waterMoles = 0;
-                    nitrogenMoles = 0;
-                    O2Pressure = 0;
-                    CO2Pressure = 0;
-                    otherPressure = 0;
-                    waterPressure = 0;
-                    nitrogenPressure = 0;
-                    O2percentage = 0;
-                    CO2percentage = 0;
-                    otherPercentage = 0;
-                    waterPercentage = 0;
-                    nitrogenPercentage = 0;
+                    for (EnvironmentStoreImpl store : myEnvironmentStores)
+                    	store.setCurrentLevel(0);
                     currentMalfunction.setPerformed(true);
                     return;
                 }
-                O2percentage = O2Moles / getTotalMoles();
-                CO2percentage = CO2Moles / getTotalMoles();
-                otherPercentage = otherMoles / getTotalMoles();
-                waterPercentage = waterMoles / getTotalMoles();
-                nitrogenPercentage = nitrogenMoles / getTotalMoles();
+                float O2percentage = myO2Store.getCurrentLevel() / getTotalMoles();
+                float CO2percentage = myCO2Store.getCurrentLevel()  / getTotalMoles();
+                float otherPercentage = myOtherStore.getCurrentLevel()  / getTotalMoles();
+                float waterPercentage = myWaterStore.getCurrentLevel()  / getTotalMoles();
+                float nitrogenPercentage = myNitrogenStore.getCurrentLevel()  / getTotalMoles();
                 if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
                     currentVolume = 0f;
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
                     currentVolume *= 0.5;
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
                     currentVolume *= .25f;
-                O2Moles = O2percentage * currentVolume;
-                CO2Moles = CO2percentage * currentVolume;
-                otherMoles = otherPercentage * currentVolume;
-                waterMoles = waterPercentage * currentVolume;
-                nitrogenMoles = nitrogenPercentage * currentVolume;
+                myO2Store.setCurrentLevel(O2percentage * currentVolume);
+                myCO2Store.setCurrentLevel(CO2percentage * currentVolume);
+                myOtherStore.setCurrentLevel(otherPercentage * currentVolume);
+                myWaterStore.setCurrentLevel(waterPercentage * currentVolume);
+                myNitrogenStore.setCurrentLevel(nitrogenPercentage * currentVolume);
                 currentMalfunction.setPerformed(true);
             }
         }
@@ -1063,46 +281,14 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
     public void tick() {
         super.tick();
         performLeak(permanentLeakRate);
-        adjustPressure();
-        cachedO2Moles = O2Moles;
-        cachedCO2Moles = CO2Moles;
-        cachedOtherMoles = otherMoles;
-        cachedWaterMoles = waterMoles;
-        cachedNitrogenMoles = nitrogenMoles;
-        cachedO2Pressure = O2Pressure;
-        cachedCO2Pressure = CO2Pressure;
-        cachedOtherPressure = otherPressure;
-        cachedWaterPressure = waterPressure;
-        cachedNitrogenPressure = nitrogenPressure;
         calculateLightIntensity();
+        for (EnvironmentStoreImpl store : myEnvironmentStores)
+        	store.tick();
     }
 
     public void log() {
-        myLogger.debug("cachedO2Moles=" + cachedO2Moles);
-        myLogger.debug("cachedCO2Moles=" + cachedCO2Moles);
-        myLogger.debug("cachedOtherMoles=" + cachedOtherMoles);
-        myLogger.debug("cachedWaterMoles=" + cachedWaterMoles);
-        myLogger.debug("cachedNitrogenMoles=" + cachedNitrogenMoles);
-
-        myLogger.debug("O2_moles=" + O2Moles);
-        myLogger.debug("CO2_moles=" + CO2Moles);
-        myLogger.debug("other_moles=" + otherMoles);
-        myLogger.debug("water_moles=" + waterMoles);
-        myLogger.debug("nitrogen_moles=" + nitrogenMoles);
-        myLogger.debug("O2_pressure=" + O2Pressure);
-        myLogger.debug("CO2_pressure=" + CO2Pressure);
-        myLogger.debug("other_pressure=" + otherPressure);
-        myLogger.debug("water_pressure=" + waterPressure);
-        myLogger.debug("nitrogen_pressure=" + nitrogenPressure);
-        myLogger.debug("currentVolume=" + currentVolume);
-        myLogger.debug("light_intensity=" + lightIntensity);
-
-    }
-
-    private boolean cachedValueNeeded() {
-        //collectReferences();
-        //return (getMyTicks() < myDriver.getTicks());
-        return true;
+        for (EnvironmentStoreImpl store : myEnvironmentStores)
+        	store.log();
     }
 
     /**
@@ -1175,11 +361,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
             return;
         float airlockPercentageAdjusted = airlockPercentageToRemove
                 * (myAirLockVolume / currentVolume);
-        O2Moles -= (O2Moles * airlockPercentageAdjusted);
-        CO2Moles -= (CO2Moles * airlockPercentageAdjusted);
-        otherMoles -= (otherMoles * airlockPercentageAdjusted);
-        waterMoles -= (waterMoles * airlockPercentageAdjusted);
-        nitrogenMoles -= (nitrogenMoles * airlockPercentageAdjusted);
+        performLeak(airlockPercentageAdjusted);
     }
 
     /*
@@ -1213,5 +395,70 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
      */
     public void setDangerousOxygenThreshold(float pDangerousOxygenThreshold) {
         myDangerousOxygenThreshold = pDangerousOxygenThreshold;
+    }
+
+	public EnvironmentStore getO2Store() {
+		return EnvironmentStoreHelper.narrow(OrbUtils.poaToCorbaObj(myO2Store));
+	}
+
+	public EnvironmentStore getCO2Store() {
+		return EnvironmentStoreHelper.narrow(OrbUtils.poaToCorbaObj(myCO2Store));
+	}
+
+	public EnvironmentStore getOtherStore() {
+		return EnvironmentStoreHelper.narrow(OrbUtils.poaToCorbaObj(myOtherStore));
+	}
+
+	public EnvironmentStore getWaterStore() {
+		return EnvironmentStoreHelper.narrow(OrbUtils.poaToCorbaObj(myWaterStore));
+	}
+
+	public EnvironmentStore getNitrogenStore() {
+		return EnvironmentStoreHelper.narrow(OrbUtils.poaToCorbaObj(myNitrogenStore));
+	}
+
+	public void setInitialVolume(float pInitialO2Moles, float pInitialCO2Moles, float pInitialOtherMoles, float pInitialWaterMoles, float pInitialNitrogenMoles, float pInitialVolume) {
+    	currentVolume = initialVolume = pInitialVolume;
+    	myO2Store.setInitialLevel(pInitialO2Moles);
+    	myCO2Store.setInitialLevel(pInitialCO2Moles);
+    	myOtherStore.setInitialLevel(pInitialOtherMoles);
+    	myWaterStore.setInitialLevel(pInitialWaterMoles);
+    	myNitrogenStore.setInitialLevel(pInitialNitrogenMoles);
+	}
+	
+	/**
+     * Retrieves the the total level of gas in the environment (in moles)
+     * 
+     * @return retrieves the the total level of gas in the environment (in
+     *         moles)
+     */
+    public float getTotalMoles() {
+    	float totalMoles = 0f;
+        for (EnvironmentStoreImpl store : myEnvironmentStores)
+        	totalMoles += store.getCurrentLevel();
+        return totalMoles;
+    }
+    
+    /**
+     * Retrieves the the total level of gas in the environment (in moles)
+     * 
+     * @return retrieves the the total level of gas in the environment (in
+     *         moles)
+     */
+    private void setTotalMoles(float pLevel) {
+        for (EnvironmentStoreImpl store : myEnvironmentStores)
+        	store.setCurrentLevel(pLevel);
+    }
+
+    /**
+     * Retrieves the the total level of gas in the environment (in kPA)
+     * 
+     * @return retrieves the the total level of gas in the environment (in kPA)
+     */
+    public float getTotalPressure() {
+    	float totalPressure = 0f;
+        for (EnvironmentStoreImpl store : myEnvironmentStores)
+        	totalPressure += store.getPressure();
+        return totalPressure;
     }
 }

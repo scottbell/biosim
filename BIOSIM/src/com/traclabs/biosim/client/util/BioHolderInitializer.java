@@ -19,22 +19,6 @@ import com.traclabs.biosim.idl.actuator.air.O2InFlowRateActuatorHelper;
 import com.traclabs.biosim.idl.actuator.air.O2OutFlowRateActuatorHelper;
 import com.traclabs.biosim.idl.actuator.environment.AirInFlowRateActuatorHelper;
 import com.traclabs.biosim.idl.actuator.environment.AirOutFlowRateActuatorHelper;
-import com.traclabs.biosim.idl.actuator.environment.CO2AirEnvironmentInFlowRateActuatorHelper;
-import com.traclabs.biosim.idl.actuator.environment.CO2AirEnvironmentOutFlowRateActuatorHelper;
-import com.traclabs.biosim.idl.actuator.environment.CO2AirStoreInFlowRateActuatorHelper;
-import com.traclabs.biosim.idl.actuator.environment.CO2AirStoreOutFlowRateActuatorHelper;
-import com.traclabs.biosim.idl.actuator.environment.NitrogenAirEnvironmentInFlowRateActuatorHelper;
-import com.traclabs.biosim.idl.actuator.environment.NitrogenAirEnvironmentOutFlowRateActuatorHelper;
-import com.traclabs.biosim.idl.actuator.environment.NitrogenAirStoreInFlowRateActuatorHelper;
-import com.traclabs.biosim.idl.actuator.environment.NitrogenAirStoreOutFlowRateActuatorHelper;
-import com.traclabs.biosim.idl.actuator.environment.O2AirEnvironmentInFlowRateActuatorHelper;
-import com.traclabs.biosim.idl.actuator.environment.O2AirEnvironmentOutFlowRateActuatorHelper;
-import com.traclabs.biosim.idl.actuator.environment.O2AirStoreInFlowRateActuatorHelper;
-import com.traclabs.biosim.idl.actuator.environment.O2AirStoreOutFlowRateActuatorHelper;
-import com.traclabs.biosim.idl.actuator.environment.WaterAirEnvironmentInFlowRateActuatorHelper;
-import com.traclabs.biosim.idl.actuator.environment.WaterAirEnvironmentOutFlowRateActuatorHelper;
-import com.traclabs.biosim.idl.actuator.environment.WaterAirStoreInFlowRateActuatorHelper;
-import com.traclabs.biosim.idl.actuator.environment.WaterAirStoreOutFlowRateActuatorHelper;
 import com.traclabs.biosim.idl.actuator.food.BiomassInFlowRateActuatorHelper;
 import com.traclabs.biosim.idl.actuator.food.BiomassOutFlowRateActuatorHelper;
 import com.traclabs.biosim.idl.actuator.food.FoodInFlowRateActuatorHelper;
@@ -56,76 +40,38 @@ import com.traclabs.biosim.idl.actuator.water.WaterOutFlowRateActuatorHelper;
 import com.traclabs.biosim.idl.framework.BioDriverHelper;
 import com.traclabs.biosim.idl.sensor.air.CO2InFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.air.CO2OutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.air.CO2StoreLevelSensorHelper;
 import com.traclabs.biosim.idl.sensor.air.H2InFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.air.H2OutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.air.H2StoreLevelSensorHelper;
 import com.traclabs.biosim.idl.sensor.air.NitrogenInFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.air.NitrogenOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.air.NitrogenStoreLevelSensorHelper;
 import com.traclabs.biosim.idl.sensor.air.O2InFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.air.O2OutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.air.O2StoreLevelSensorHelper;
 import com.traclabs.biosim.idl.sensor.crew.CrewGroupAnyDeadSensorHelper;
 import com.traclabs.biosim.idl.sensor.crew.CrewGroupDeathSensorHelper;
 import com.traclabs.biosim.idl.sensor.crew.CrewGroupProductivitySensorHelper;
 import com.traclabs.biosim.idl.sensor.environment.AirInFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.environment.AirOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.CO2AirConcentrationSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.CO2AirEnvironmentInFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.CO2AirEnvironmentOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.CO2AirPressureSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.CO2AirStoreInFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.CO2AirStoreOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.NitrogenAirConcentrationSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.NitrogenAirEnvironmentInFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.NitrogenAirEnvironmentOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.NitrogenAirPressureSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.NitrogenAirStoreInFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.NitrogenAirStoreOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.O2AirConcentrationSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.O2AirEnvironmentInFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.O2AirEnvironmentOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.O2AirPressureSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.O2AirStoreInFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.O2AirStoreOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.OtherAirConcentrationSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.OtherAirPressureSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.WaterAirConcentrationSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.WaterAirEnvironmentInFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.WaterAirEnvironmentOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.WaterAirPressureSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.WaterAirStoreInFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.WaterAirStoreOutFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.food.BiomassInFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.food.BiomassOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.food.BiomassStoreLevelSensorHelper;
 import com.traclabs.biosim.idl.sensor.food.BiomassStoreWaterContentSensorHelper;
 import com.traclabs.biosim.idl.sensor.food.FoodInFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.food.FoodOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.food.FoodStoreLevelSensorHelper;
 import com.traclabs.biosim.idl.sensor.food.HarvestSensorHelper;
 import com.traclabs.biosim.idl.sensor.food.PlantDeathSensorHelper;
 import com.traclabs.biosim.idl.sensor.framework.StoreLevelSensorHelper;
 import com.traclabs.biosim.idl.sensor.framework.StoreOverflowSensorHelper;
 import com.traclabs.biosim.idl.sensor.power.PowerInFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.power.PowerOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.power.PowerStoreLevelSensorHelper;
 import com.traclabs.biosim.idl.sensor.waste.DryWasteInFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.waste.DryWasteOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.waste.DryWasteStoreLevelSensorHelper;
 import com.traclabs.biosim.idl.sensor.water.DirtyWaterInFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.water.DirtyWaterOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.water.DirtyWaterStoreLevelSensorHelper;
 import com.traclabs.biosim.idl.sensor.water.GreyWaterInFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.water.GreyWaterOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.water.GreyWaterStoreLevelSensorHelper;
 import com.traclabs.biosim.idl.sensor.water.PotableWaterInFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.water.PotableWaterOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.water.PotableWaterStoreLevelSensorHelper;
 import com.traclabs.biosim.idl.sensor.water.WaterInFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.water.WaterOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.water.WaterStoreLevelSensorHelper;
 import com.traclabs.biosim.idl.simulation.air.AirRSHelper;
 import com.traclabs.biosim.idl.simulation.air.CO2StoreHelper;
 import com.traclabs.biosim.idl.simulation.air.CRSHelper;
@@ -662,11 +608,6 @@ public class BioHolderInitializer {
                 .narrow(grabModule(getModuleName(node))));
     }
 
-    private static void fetchCO2StoreLevelSensor(Node node) {
-        myBioHolder.theCO2StoreLevelSensors.add(CO2StoreLevelSensorHelper
-                .narrow(grabModule(getModuleName(node))));
-    }
-
     private static void fetchO2InFlowRateSensor(Node node) {
         myBioHolder.theO2InFlowRateSensors.add(O2InFlowRateSensorHelper
                 .narrow(grabModule(getModuleName(node))));
@@ -677,11 +618,6 @@ public class BioHolderInitializer {
                 .narrow(grabModule(getModuleName(node))));
     }
 
-    private static void fetchO2StoreLevelSensor(Node node) {
-        myBioHolder.theO2StoreLevelSensors.add(O2StoreLevelSensorHelper
-                .narrow(grabModule(getModuleName(node))));
-    }
-
     private static void fetchH2InFlowRateSensor(Node node) {
         myBioHolder.theH2InFlowRateSensors.add(H2InFlowRateSensorHelper
                 .narrow(grabModule(getModuleName(node))));
@@ -689,11 +625,6 @@ public class BioHolderInitializer {
 
     private static void fetchH2OutFlowRateSensor(Node node) {
         myBioHolder.theH2OutFlowRateSensors.add(H2OutFlowRateSensorHelper
-                .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchH2StoreLevelSensor(Node node) {
-        myBioHolder.theH2StoreLevelSensors.add(H2StoreLevelSensorHelper
                 .narrow(grabModule(getModuleName(node))));
     }
 
@@ -709,12 +640,6 @@ public class BioHolderInitializer {
                         .narrow(grabModule(getModuleName(node))));
     }
 
-    private static void fetchNitrogenStoreLevelSensor(Node node) {
-        myBioHolder.theNitrogenStoreLevelSensors
-                .add(NitrogenStoreLevelSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
     private static void crawlAirSensors(Node node) {
         Node child = node.getFirstChild();
         while (child != null) {
@@ -723,26 +648,18 @@ public class BioHolderInitializer {
                 fetchCO2InFlowRateSensor(child);
             else if (childName.equals("CO2OutFlowRateSensor"))
                 fetchCO2OutFlowRateSensor(child);
-            else if (childName.equals("CO2StoreLevelSensor"))
-                fetchCO2StoreLevelSensor(child);
             else if (childName.equals("O2InFlowRateSensor"))
                 fetchO2InFlowRateSensor(child);
             else if (childName.equals("O2OutFlowRateSensor"))
                 fetchO2OutFlowRateSensor(child);
-            else if (childName.equals("O2StoreLevelSensor"))
-                fetchO2StoreLevelSensor(child);
             else if (childName.equals("H2InFlowRateSensor"))
                 fetchH2InFlowRateSensor(child);
             else if (childName.equals("H2OutFlowRateSensor"))
                 fetchH2OutFlowRateSensor(child);
-            else if (childName.equals("H2StoreLevelSensor"))
-                fetchH2StoreLevelSensor(child);
             else if (childName.equals("NitrogenInFlowRateSensor"))
                 fetchNitrogenInFlowRateSensor(child);
             else if (childName.equals("NitrogenOutFlowRateSensor"))
                 fetchNitrogenOutFlowRateSensor(child);
-            else if (childName.equals("NitrogenStoreLevelSensor"))
-                fetchNitrogenStoreLevelSensor(child);
             child = child.getNextSibling();
         }
     }
@@ -789,157 +706,15 @@ public class BioHolderInitializer {
                 .narrow(grabModule(getModuleName(node))));
     }
 
-    private static void fetchCO2AirConcentrationSensor(Node node) {
-        myBioHolder.theCO2AirConcentrationSensors
-                .add(CO2AirConcentrationSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
+    private static void fetchEnvironmentPressureSensor(Node child) {
+		// TODO Auto-generated method stub
+		
+	}
 
-    private static void fetchCO2AirPressureSensor(Node node) {
-        myBioHolder.theCO2AirPressureSensors.add(CO2AirPressureSensorHelper
-                .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchCO2AirEnvironmentInFlowRateSensor(Node node) {
-        myBioHolder.theCO2AirEnvironmentInFlowRateSensors
-                .add(CO2AirEnvironmentInFlowRateSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchCO2AirEnvironmentOutFlowRateSensor(Node node) {
-        myBioHolder.theCO2AirEnvironmentOutFlowRateSensors
-                .add(CO2AirEnvironmentOutFlowRateSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchCO2AirStoreInFlowRateSensor(Node node) {
-        myBioHolder.theCO2AirStoreInFlowRateSensors
-                .add(CO2AirStoreInFlowRateSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchCO2AirStoreOutFlowRateSensor(Node node) {
-        myBioHolder.theCO2AirStoreOutFlowRateSensors
-                .add(CO2AirStoreOutFlowRateSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchO2AirConcentrationSensor(Node node) {
-        myBioHolder.theO2AirConcentrationSensors
-                .add(O2AirConcentrationSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchO2AirPressureSensor(Node node) {
-        myBioHolder.theO2AirPressureSensors.add(O2AirPressureSensorHelper
-                .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchO2AirEnvironmentInFlowRateSensor(Node node) {
-        myBioHolder.theO2AirEnvironmentInFlowRateSensors
-                .add(O2AirEnvironmentInFlowRateSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchO2AirEnvironmentOutFlowRateSensor(Node node) {
-        myBioHolder.theO2AirEnvironmentOutFlowRateSensors
-                .add(O2AirEnvironmentOutFlowRateSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchO2AirStoreInFlowRateSensor(Node node) {
-        myBioHolder.theO2AirStoreInFlowRateSensors
-                .add(O2AirStoreInFlowRateSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchO2AirStoreOutFlowRateSensor(Node node) {
-        myBioHolder.theO2AirStoreOutFlowRateSensors
-                .add(O2AirStoreOutFlowRateSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchOtherAirConcentrationSensor(Node node) {
-        myBioHolder.theOtherAirConcentrationSensors
-                .add(OtherAirConcentrationSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchOtherAirPressureSensor(Node node) {
-        myBioHolder.theOtherAirPressureSensors.add(OtherAirPressureSensorHelper
-                .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchWaterAirConcentrationSensor(Node node) {
-        myBioHolder.theWaterAirConcentrationSensors
-                .add(WaterAirConcentrationSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchWaterAirPressureSensor(Node node) {
-        myBioHolder.theWaterAirPressureSensors.add(WaterAirPressureSensorHelper
-                .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchWaterAirEnvironmentInFlowRateSensor(Node node) {
-        myBioHolder.theWaterAirEnvironmentInFlowRateSensors
-                .add(WaterAirEnvironmentInFlowRateSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchWaterAirEnvironmentOutFlowRateSensor(Node node) {
-        myBioHolder.theWaterAirEnvironmentOutFlowRateSensors
-                .add(WaterAirEnvironmentOutFlowRateSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchWaterAirStoreInFlowRateSensor(Node node) {
-        myBioHolder.theWaterAirStoreInFlowRateSensors
-                .add(WaterAirStoreInFlowRateSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchWaterAirStoreOutFlowRateSensor(Node node) {
-        myBioHolder.theWaterAirStoreOutFlowRateSensors
-                .add(WaterAirStoreOutFlowRateSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchNitrogenAirConcentrationSensor(Node node) {
-        myBioHolder.theNitrogenAirConcentrationSensors
-                .add(NitrogenAirConcentrationSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchNitrogenAirPressureSensor(Node node) {
-        myBioHolder.theNitrogenAirPressureSensors
-                .add(NitrogenAirPressureSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchNitrogenAirEnvironmentInFlowRateSensor(Node node) {
-        myBioHolder.theNitrogenAirEnvironmentInFlowRateSensors
-                .add(NitrogenAirEnvironmentInFlowRateSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchNitrogenAirEnvironmentOutFlowRateSensor(Node node) {
-        myBioHolder.theNitrogenAirEnvironmentOutFlowRateSensors
-                .add(NitrogenAirEnvironmentOutFlowRateSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchNitrogenAirStoreInFlowRateSensor(Node node) {
-        myBioHolder.theNitrogenAirStoreInFlowRateSensors
-                .add(NitrogenAirStoreInFlowRateSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchNitrogenAirStoreOutFlowRateSensor(Node node) {
-        myBioHolder.theNitrogenAirStoreOutFlowRateSensors
-                .add(NitrogenAirStoreOutFlowRateSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
+	private static void fetchEnvironmentConcentrationSensor(Node child) {
+		// TODO Auto-generated method stub
+		
+	}
 
     private static void crawlEnvironmentSensors(Node node) {
         Node child = node.getFirstChild();
@@ -949,64 +724,15 @@ public class BioHolderInitializer {
                 fetchAirInFlowRateSensor(child);
             else if (childName.equals("AirOutFlowRateSensor"))
                 fetchAirOutFlowRateSensor(child);
-            else if (childName.equals("CO2AirConcentrationSensor"))
-                fetchCO2AirConcentrationSensor(child);
-            else if (childName.equals("CO2AirEnvironmentInFlowRateSensor"))
-                fetchCO2AirEnvironmentInFlowRateSensor(child);
-            else if (childName.equals("CO2AirEnvironmentOutFlowRateSensor"))
-                fetchCO2AirEnvironmentOutFlowRateSensor(child);
-            else if (childName.equals("CO2AirPressureSensor"))
-                fetchCO2AirPressureSensor(child);
-            else if (childName.equals("CO2AirStoreInFlowRateSensor"))
-                fetchCO2AirStoreInFlowRateSensor(child);
-            else if (childName.equals("CO2AirStoreOutFlowRateSensor"))
-                fetchCO2AirStoreOutFlowRateSensor(child);
-            else if (childName.equals("O2AirConcentrationSensor"))
-                fetchO2AirConcentrationSensor(child);
-            else if (childName.equals("O2AirEnvironmentInFlowRateSensor"))
-                fetchO2AirEnvironmentInFlowRateSensor(child);
-            else if (childName.equals("O2AirEnvironmentOutFlowRateSensor"))
-                fetchO2AirEnvironmentOutFlowRateSensor(child);
-            else if (childName.equals("O2AirPressureSensor"))
-                fetchO2AirPressureSensor(child);
-            else if (childName.equals("O2AirStoreInFlowRateSensor"))
-                fetchO2AirStoreInFlowRateSensor(child);
-            else if (childName.equals("O2AirStoreOutFlowRateSensor"))
-                fetchO2AirStoreOutFlowRateSensor(child);
-            else if (childName.equals("OtherAirConcentrationSensor"))
-                fetchOtherAirConcentrationSensor(child);
-            else if (childName.equals("OtherAirPressureSensor"))
-                fetchOtherAirPressureSensor(child);
-            else if (childName.equals("WaterAirConcentrationSensor"))
-                fetchWaterAirConcentrationSensor(child);
-            else if (childName.equals("WaterAirPressureSensor"))
-                fetchWaterAirPressureSensor(child);
-            else if (childName.equals("WaterAirStoreInFlowRateSensor"))
-                fetchWaterAirStoreInFlowRateSensor(child);
-            else if (childName.equals("WaterAirStoreOutFlowRateSensor"))
-                fetchWaterAirStoreOutFlowRateSensor(child);
-            else if (childName.equals("WaterAirEnvironmentInFlowRateSensor"))
-                fetchWaterAirEnvironmentInFlowRateSensor(child);
-            else if (childName.equals("WaterAirEnvironmentOutFlowRateSensor"))
-                fetchWaterAirEnvironmentOutFlowRateSensor(child);
-            else if (childName.equals("NitrogenAirConcentrationSensor"))
-                fetchNitrogenAirConcentrationSensor(child);
-            else if (childName.equals("NitrogenAirEnvironmentInFlowRateSensor"))
-                fetchNitrogenAirEnvironmentInFlowRateSensor(child);
-            else if (childName
-                    .equals("NitrogenAirEnvironmentOutFlowRateSensor"))
-                fetchNitrogenAirEnvironmentOutFlowRateSensor(child);
-            else if (childName.equals("NitrogenAirPressureSensor"))
-                fetchNitrogenAirPressureSensor(child);
-            else if (childName.equals("NitrogenAirStoreInFlowRateSensor"))
-                fetchNitrogenAirStoreInFlowRateSensor(child);
-            else if (childName.equals("NitrogenAirStoreOutFlowRateSensor"))
-                fetchNitrogenAirStoreOutFlowRateSensor(child);
+            else if (childName.equals("EnvironmentConcentrationSensor"))
+                fetchEnvironmentConcentrationSensor(child);
+            else if (childName.equals("EnvironmentPressureSensor"))
+            	fetchEnvironmentPressureSensor(child);
             child = child.getNextSibling();
         }
     }
 
-    //Food
+	//Food
     private static void fetchBiomassInFlowRateSensor(Node node) {
         myBioHolder.theBiomassInFlowRateSensors
                 .add(BiomassInFlowRateSensorHelper
@@ -1016,12 +742,6 @@ public class BioHolderInitializer {
     private static void fetchBiomassOutFlowRateSensor(Node node) {
         myBioHolder.theBiomassOutFlowRateSensors
                 .add(BiomassOutFlowRateSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchBiomassStoreLevelSensor(Node node) {
-        myBioHolder.theBiomassStoreLevelSensors
-                .add(BiomassStoreLevelSensorHelper
                         .narrow(grabModule(getModuleName(node))));
     }
 
@@ -1038,11 +758,6 @@ public class BioHolderInitializer {
 
     private static void fetchFoodOutFlowRateSensor(Node node) {
         myBioHolder.theFoodOutFlowRateSensors.add(FoodOutFlowRateSensorHelper
-                .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchFoodStoreLevelSensor(Node node) {
-        myBioHolder.theFoodStoreLevelSensors.add(FoodStoreLevelSensorHelper
                 .narrow(grabModule(getModuleName(node))));
     }
 
@@ -1064,16 +779,12 @@ public class BioHolderInitializer {
                 fetchBiomassInFlowRateSensor(child);
             if (childName.equals("BiomassOutFlowRateSensor"))
                 fetchBiomassOutFlowRateSensor(child);
-            else if (childName.equals("BiomassStoreLevelSensor"))
-                fetchBiomassStoreLevelSensor(child);
             else if (childName.equals("BiomassStoreWaterContentSensor"))
                 fetchBiomassStoreWaterContentSensor(child);
             else if (childName.equals("FoodInFlowRateSensor"))
                 fetchFoodInFlowRateSensor(child);
             else if (childName.equals("FoodOutFlowRateSensor"))
                 fetchFoodOutFlowRateSensor(child);
-            else if (childName.equals("FoodStoreLevelSensor"))
-                fetchFoodStoreLevelSensor(child);
             else if (childName.equals("HarvestSensor"))
                 fetchHarvestSensor(child);
             else if (childName.equals("PlantDeathSensor"))
@@ -1115,12 +826,6 @@ public class BioHolderInitializer {
         myBioHolder.thePowerOutFlowRateSensors.add(PowerOutFlowRateSensorHelper
                 .narrow(grabModule(getModuleName(node))));
     }
-
-    private static void fetchPowerStoreLevelSensor(Node node) {
-        myBioHolder.thePowerStoreLevelSensors.add(PowerStoreLevelSensorHelper
-                .narrow(grabModule(getModuleName(node))));
-    }
-
     private static void crawlPowerSensors(Node node) {
         Node child = node.getFirstChild();
         while (child != null) {
@@ -1129,8 +834,6 @@ public class BioHolderInitializer {
                 fetchPowerInFlowRateSensor(child);
             else if (childName.equals("PowerOutFlowRateSensor"))
                 fetchPowerOutFlowRateSensor(child);
-            else if (childName.equals("PowerStoreLevelSensor"))
-                fetchPowerStoreLevelSensor(child);
             child = child.getNextSibling();
         }
     }
@@ -1148,12 +851,6 @@ public class BioHolderInitializer {
                         .narrow(grabModule(getModuleName(node))));
     }
 
-    private static void fetchPotableWaterStoreLevelSensor(Node node) {
-        myBioHolder.thePotableWaterStoreLevelSensors
-                .add(PotableWaterStoreLevelSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
     private static void fetchGreyWaterInFlowRateSensor(Node node) {
         myBioHolder.theGreyWaterInFlowRateSensors
                 .add(GreyWaterInFlowRateSensorHelper
@@ -1163,12 +860,6 @@ public class BioHolderInitializer {
     private static void fetchGreyWaterOutFlowRateSensor(Node node) {
         myBioHolder.theGreyWaterOutFlowRateSensors
                 .add(GreyWaterOutFlowRateSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchGreyWaterStoreLevelSensor(Node node) {
-        myBioHolder.theGreyWaterStoreLevelSensors
-                .add(GreyWaterStoreLevelSensorHelper
                         .narrow(grabModule(getModuleName(node))));
     }
 
@@ -1184,12 +875,6 @@ public class BioHolderInitializer {
                         .narrow(grabModule(getModuleName(node))));
     }
 
-    private static void fetchDirtyWaterStoreLevelSensor(Node node) {
-        myBioHolder.theDirtyWaterStoreLevelSensors
-                .add(DirtyWaterStoreLevelSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
     private static void fetchWaterInFlowRateSensor(Node node) {
         myBioHolder.theWaterInFlowRateSensors.add(WaterInFlowRateSensorHelper
                 .narrow(grabModule(getModuleName(node))));
@@ -1197,11 +882,6 @@ public class BioHolderInitializer {
 
     private static void fetchWaterOutFlowRateSensor(Node node) {
         myBioHolder.theWaterOutFlowRateSensors.add(WaterOutFlowRateSensorHelper
-                .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchWaterStoreLevelSensor(Node node) {
-        myBioHolder.theWaterStoreLevelSensors.add(WaterStoreLevelSensorHelper
                 .narrow(grabModule(getModuleName(node))));
     }
 
@@ -1213,26 +893,18 @@ public class BioHolderInitializer {
                 fetchPotableWaterInFlowRateSensor(child);
             else if (childName.equals("PotableWaterOutFlowRateSensor"))
                 fetchPotableWaterOutFlowRateSensor(child);
-            else if (childName.equals("PotableWaterStoreLevelSensor"))
-                fetchPotableWaterStoreLevelSensor(child);
             else if (childName.equals("GreyWaterInFlowRateSensor"))
                 fetchGreyWaterInFlowRateSensor(child);
             else if (childName.equals("GreyWaterOutFlowRateSensor"))
                 fetchGreyWaterOutFlowRateSensor(child);
-            else if (childName.equals("GreyWaterStoreLevelSensor"))
-                fetchGreyWaterStoreLevelSensor(child);
             else if (childName.equals("DirtyWaterInFlowRateSensor"))
                 fetchDirtyWaterInFlowRateSensor(child);
             else if (childName.equals("DirtyWaterOutFlowRateSensor"))
                 fetchDirtyWaterOutFlowRateSensor(child);
-            else if (childName.equals("DirtyWaterStoreLevelSensor"))
-                fetchDirtyWaterStoreLevelSensor(child);
             else if (childName.equals("WaterInFlowRateSensor"))
                 fetchWaterInFlowRateSensor(child);
             else if (childName.equals("WaterOutFlowRateSensor"))
                 fetchWaterOutFlowRateSensor(child);
-            else if (childName.equals("WaterStoreLevelSensor"))
-                fetchWaterStoreLevelSensor(child);
             child = child.getNextSibling();
         }
     }
@@ -1250,12 +922,6 @@ public class BioHolderInitializer {
                         .narrow(grabModule(getModuleName(node))));
     }
 
-    private static void fetchDryWasteStoreLevelSensor(Node node) {
-        myBioHolder.theDryWasteStoreLevelSensors
-                .add(DryWasteStoreLevelSensorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
     private static void crawlWasteSensors(Node node) {
         Node child = node.getFirstChild();
         while (child != null) {
@@ -1264,8 +930,6 @@ public class BioHolderInitializer {
                 fetchDryWasteInFlowRateSensor(child);
             else if (childName.equals("DryWasteOutFlowRateSensor"))
                 fetchDryWasteOutFlowRateSensor(child);
-            else if (childName.equals("DryWasteStoreLevelSensor"))
-                fetchDryWasteStoreLevelSensor(child);
             child = child.getNextSibling();
         }
     }
@@ -1370,102 +1034,6 @@ public class BioHolderInitializer {
                 .narrow(grabModule(getModuleName(node))));
     }
 
-    private static void fetchCO2AirEnvironmentInFlowRateActuator(Node node) {
-        myBioHolder.theCO2AirEnvironmentInFlowRateActuators
-                .add(CO2AirEnvironmentInFlowRateActuatorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchCO2AirEnvironmentOutFlowRateActuator(Node node) {
-        myBioHolder.theCO2AirEnvironmentOutFlowRateActuators
-                .add(CO2AirEnvironmentOutFlowRateActuatorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchCO2AirStoreInFlowRateActuator(Node node) {
-        myBioHolder.theCO2AirStoreInFlowRateActuators
-                .add(CO2AirStoreInFlowRateActuatorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchCO2AirStoreOutFlowRateActuator(Node node) {
-        myBioHolder.theCO2AirStoreOutFlowRateActuators
-                .add(CO2AirStoreOutFlowRateActuatorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchO2AirEnvironmentInFlowRateActuator(Node node) {
-        myBioHolder.theO2AirEnvironmentInFlowRateActuators
-                .add(O2AirEnvironmentInFlowRateActuatorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchO2AirEnvironmentOutFlowRateActuator(Node node) {
-        myBioHolder.theO2AirEnvironmentOutFlowRateActuators
-                .add(O2AirEnvironmentOutFlowRateActuatorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchO2AirStoreInFlowRateActuator(Node node) {
-        myBioHolder.theO2AirStoreInFlowRateActuators
-                .add(O2AirStoreInFlowRateActuatorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchO2AirStoreOutFlowRateActuator(Node node) {
-        myBioHolder.theO2AirStoreOutFlowRateActuators
-                .add(O2AirStoreOutFlowRateActuatorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchWaterAirEnvironmentInFlowRateActuator(Node node) {
-        myBioHolder.theWaterAirEnvironmentInFlowRateActuators
-                .add(WaterAirEnvironmentInFlowRateActuatorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchWaterAirEnvironmentOutFlowRateActuator(Node node) {
-        myBioHolder.theWaterAirEnvironmentOutFlowRateActuators
-                .add(WaterAirEnvironmentOutFlowRateActuatorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchWaterAirStoreInFlowRateActuator(Node node) {
-        myBioHolder.theWaterAirStoreInFlowRateActuators
-                .add(WaterAirStoreInFlowRateActuatorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchWaterAirStoreOutFlowRateActuator(Node node) {
-        myBioHolder.theWaterAirStoreOutFlowRateActuators
-                .add(WaterAirStoreOutFlowRateActuatorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchNitrogenAirEnvironmentInFlowRateActuator(Node node) {
-        myBioHolder.theNitrogenAirEnvironmentInFlowRateActuators
-                .add(NitrogenAirEnvironmentInFlowRateActuatorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchNitrogenAirEnvironmentOutFlowRateActuator(Node node) {
-        myBioHolder.theNitrogenAirEnvironmentOutFlowRateActuators
-                .add(NitrogenAirEnvironmentOutFlowRateActuatorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchNitrogenAirStoreInFlowRateActuator(Node node) {
-        myBioHolder.theNitrogenAirStoreInFlowRateActuators
-                .add(NitrogenAirStoreInFlowRateActuatorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
-    private static void fetchNitrogenAirStoreOutFlowRateActuator(Node node) {
-        myBioHolder.theNitrogenAirStoreOutFlowRateActuators
-                .add(NitrogenAirStoreOutFlowRateActuatorHelper
-                        .narrow(grabModule(getModuleName(node))));
-    }
-
     private static void crawlEnvironmentActuators(Node node) {
         Node child = node.getFirstChild();
         while (child != null) {
@@ -1474,40 +1042,6 @@ public class BioHolderInitializer {
                 fetchAirInFlowRateActuator(child);
             else if (childName.equals("AirOutFlowRateActuator"))
                 fetchAirOutFlowRateActuator(child);
-            else if (childName.equals("CO2AirEnvironmentInFlowRateActuator"))
-                fetchCO2AirEnvironmentInFlowRateActuator(child);
-            else if (childName.equals("CO2AirEnvironmentOutFlowRateActuator"))
-                fetchCO2AirEnvironmentOutFlowRateActuator(child);
-            else if (childName.equals("CO2AirStoreInFlowRateActuator"))
-                fetchCO2AirStoreInFlowRateActuator(child);
-            else if (childName.equals("CO2AirStoreOutFlowRateActuator"))
-                fetchCO2AirStoreOutFlowRateActuator(child);
-            else if (childName.equals("O2AirEnvironmentInFlowRateActuator"))
-                fetchO2AirEnvironmentInFlowRateActuator(child);
-            else if (childName.equals("O2AirEnvironmentOutFlowRateActuator"))
-                fetchO2AirEnvironmentOutFlowRateActuator(child);
-            else if (childName.equals("O2AirStoreInFlowRateActuator"))
-                fetchO2AirStoreInFlowRateActuator(child);
-            else if (childName.equals("O2AirStoreOutFlowRateActuator"))
-                fetchO2AirStoreOutFlowRateActuator(child);
-            else if (childName.equals("WaterAirStoreInFlowRateActuator"))
-                fetchWaterAirStoreInFlowRateActuator(child);
-            else if (childName.equals("WaterAirStoreOutFlowRateActuator"))
-                fetchWaterAirStoreOutFlowRateActuator(child);
-            else if (childName.equals("WaterAirEnvironmentInFlowRateActuator"))
-                fetchWaterAirEnvironmentInFlowRateActuator(child);
-            else if (childName.equals("WaterAirEnvironmentOutFlowRateActuator"))
-                fetchWaterAirEnvironmentOutFlowRateActuator(child);
-            else if (childName
-                    .equals("NitrogenAirEnvironmentInFlowRateActuator"))
-                fetchNitrogenAirEnvironmentInFlowRateActuator(child);
-            else if (childName
-                    .equals("NitrogenAirEnvironmentOutFlowRateActuator"))
-                fetchNitrogenAirEnvironmentOutFlowRateActuator(child);
-            else if (childName.equals("NitrogenAirStoreInFlowRateActuator"))
-                fetchNitrogenAirStoreInFlowRateActuator(child);
-            else if (childName.equals("NitrogenAirStoreOutFlowRateActuator"))
-                fetchNitrogenAirStoreOutFlowRateActuator(child);
             child = child.getNextSibling();
         }
     }

@@ -52,14 +52,14 @@ public class StateMap {
 
         stateSources = new GenericSensor[4];
         stateSources[0] = myBioHolder.getSensorAttachedTo(
-                myBioHolder.theDirtyWaterStoreLevelSensors, myDirtyWaterStore);
+                myBioHolder.theStoreLevelSensors, myDirtyWaterStore);
         stateSources[1] = myBioHolder.getSensorAttachedTo(
-                myBioHolder.theGreyWaterStoreLevelSensors, myGreyWaterStore);
+                myBioHolder.theStoreLevelSensors, myGreyWaterStore);
         stateSources[2] = myBioHolder.getSensorAttachedTo(
-                myBioHolder.thePotableWaterStoreLevelSensors,
+                myBioHolder.theStoreLevelSensors,
                 myPotableWaterStore);
         stateSources[3] = myBioHolder.getSensorAttachedTo(
-                myBioHolder.theO2StoreLevelSensors, myO2Store);
+                myBioHolder.theStoreLevelSensors, myO2Store);
 
         capacities = new float[4];
         capacities[0] = myDirtyWaterStore.getCurrentCapacity();

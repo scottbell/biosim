@@ -52,7 +52,7 @@ public class DehumidifierImpl extends SimBioModuleImpl implements
     private void dehumidifyEnvironments() {
         if (myLogger.isDebugEnabled()) {
             float currentWaterMolesInEnvironment = myAirConsumerDefinitionImpl
-                    .getEnvironments()[0].getWaterMoles();
+                    .getEnvironments()[0].getWaterStore().getCurrentLevel();
             float totalMolesInEnvironment = myAirConsumerDefinitionImpl
                     .getEnvironments()[0].getTotalMoles();
             //myAirInputs[0].printCachedEnvironment();
@@ -71,8 +71,7 @@ public class DehumidifierImpl extends SimBioModuleImpl implements
                 float resourceToGatherFinal = Math.min(resourceToGatherFirst,
                         myAirConsumerDefinitionImpl.getDesiredFlowRate(i));
                 myAirConsumerDefinitionImpl.getActualFlowRates()[i] = myAirConsumerDefinitionImpl
-                        .getEnvironments()[i]
-                        .takeWaterMoles(resourceToGatherFinal);
+                        .getEnvironments()[i].getWaterStore().take(resourceToGatherFinal);
                 myLogger.debug("Going to remove " + resourceToGatherFinal
                         + " moles of water");
                 molesOfWaterGathered += myAirConsumerDefinitionImpl
@@ -84,7 +83,7 @@ public class DehumidifierImpl extends SimBioModuleImpl implements
 
         if (myLogger.isDebugEnabled()) {
             float currentWaterMolesInEnvironment = myAirConsumerDefinitionImpl
-                    .getEnvironments()[0].getWaterMoles();
+                    .getEnvironments()[0].getWaterStore().getCurrentLevel();
             float totalMolesInEnvironment = myAirConsumerDefinitionImpl
                     .getEnvironments()[0].getTotalMoles();
             myLogger.debug("After: Pushed " + waterPushedToStore
@@ -97,7 +96,7 @@ public class DehumidifierImpl extends SimBioModuleImpl implements
 
     private static float calculateMolesNeededToRemove(
             SimEnvironment pEnvironment) {
-        float currentWaterMolesInEnvironment = pEnvironment.getWaterMoles();
+        float currentWaterMolesInEnvironment = pEnvironment.getWaterStore().getCurrentLevel();
         float totalMolesInEnvironment = pEnvironment.getTotalMoles();
         if ((currentWaterMolesInEnvironment / totalMolesInEnvironment) > OPTIMAL_MOISTURE_CONCENTRATION) {
             float waterMolesAtOptimalConcentration = ((totalMolesInEnvironment - currentWaterMolesInEnvironment) * OPTIMAL_MOISTURE_CONCENTRATION)

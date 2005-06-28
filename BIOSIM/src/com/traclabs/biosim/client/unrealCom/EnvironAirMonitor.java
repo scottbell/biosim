@@ -151,11 +151,11 @@ public class EnvironAirMonitor extends Thread {
 
         while (true) {
 
-            co2Level = mySimEnvironment.getCO2Moles();
-            o2Level = mySimEnvironment.getO2Moles();
-            nLevel = mySimEnvironment.getNitrogenMoles();
-            h2oLevel = mySimEnvironment.getWaterMoles();
-            otherLevel = mySimEnvironment.getOtherMoles();
+            co2Level = mySimEnvironment.getCO2Store().getCurrentLevel();
+            o2Level = mySimEnvironment.getO2Store().getCurrentLevel();
+            nLevel = mySimEnvironment.getNitrogenStore().getCurrentLevel();
+            h2oLevel = mySimEnvironment.getWaterStore().getCurrentLevel();
+            otherLevel = mySimEnvironment.getOtherStore().getCurrentLevel();
             totalLevel = mySimEnvironment.getTotalMoles();
 
             unrealStream.println(cmdPrefix + o2Level + " " + co2Level + " "

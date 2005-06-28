@@ -54,21 +54,13 @@ import com.traclabs.biosim.idl.simulation.crew.EVAActivityHelper;
 import com.traclabs.biosim.idl.simulation.crew.Sex;
 import com.traclabs.biosim.idl.simulation.environment.AirConsumer;
 import com.traclabs.biosim.idl.simulation.environment.AirProducer;
-import com.traclabs.biosim.idl.simulation.environment.CO2AirConsumer;
-import com.traclabs.biosim.idl.simulation.environment.CO2AirProducer;
 import com.traclabs.biosim.idl.simulation.environment.Dehumidifier;
 import com.traclabs.biosim.idl.simulation.environment.DehumidifierHelper;
 import com.traclabs.biosim.idl.simulation.environment.DehumidifierPOATie;
 import com.traclabs.biosim.idl.simulation.environment.LightConsumer;
-import com.traclabs.biosim.idl.simulation.environment.NitrogenAirConsumer;
-import com.traclabs.biosim.idl.simulation.environment.NitrogenAirProducer;
-import com.traclabs.biosim.idl.simulation.environment.O2AirConsumer;
-import com.traclabs.biosim.idl.simulation.environment.O2AirProducer;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironmentHelper;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironmentPOATie;
-import com.traclabs.biosim.idl.simulation.environment.WaterAirConsumer;
-import com.traclabs.biosim.idl.simulation.environment.WaterAirProducer;
 import com.traclabs.biosim.idl.simulation.food.BioMatter;
 import com.traclabs.biosim.idl.simulation.food.BiomassConsumer;
 import com.traclabs.biosim.idl.simulation.food.BiomassProducer;
@@ -96,9 +88,6 @@ import com.traclabs.biosim.idl.simulation.framework.InjectorHelper;
 import com.traclabs.biosim.idl.simulation.framework.InjectorPOATie;
 import com.traclabs.biosim.idl.simulation.framework.PassiveModule;
 import com.traclabs.biosim.idl.simulation.framework.SimBioModule;
-import com.traclabs.biosim.idl.simulation.mission.EVAMission;
-import com.traclabs.biosim.idl.simulation.mission.EVAMissionHelper;
-import com.traclabs.biosim.idl.simulation.mission.EVAMissionPOATie;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumer;
 import com.traclabs.biosim.idl.simulation.power.PowerPS;
 import com.traclabs.biosim.idl.simulation.power.PowerPSHelper;
@@ -159,7 +148,6 @@ import com.traclabs.biosim.server.simulation.food.BiomassRSImpl;
 import com.traclabs.biosim.server.simulation.food.BiomassStoreImpl;
 import com.traclabs.biosim.server.simulation.food.FoodProcessorImpl;
 import com.traclabs.biosim.server.simulation.food.FoodStoreImpl;
-import com.traclabs.biosim.server.simulation.mission.EVAMissionImpl;
 import com.traclabs.biosim.server.simulation.power.NuclearPowerPS;
 import com.traclabs.biosim.server.simulation.power.PowerPSImpl;
 import com.traclabs.biosim.server.simulation.power.PowerStoreImpl;
@@ -219,8 +207,6 @@ public class SimulationInitializer {
                 crawlWaterModules(child, firstPass);
             } else if (childName.equals("waste")) {
                 crawlWasteModules(child, firstPass);
-            } else if (childName.equals("mission")) {
-                crawlMissionModules(child, firstPass);
             }
             child = child.getNextSibling();
         }
@@ -446,92 +432,6 @@ public class SimulationInitializer {
                 myFoodConsumer.getFoodConsumerDefinition().setFoodInputs(
                         inputs, getMaxFlowRates(child),
                         getDesiredFlowRates(child));
-            } else if (childName.equals("O2AirConsumer")) {
-                O2AirConsumer myO2AirConsumer = (O2AirConsumer) (pModule);
-                Node environmentNode = getEnvironmentNode(child);
-                Node storeNode = getStoreNode(child);
-                BioModule[] environmentModules = getInputs(environmentNode);
-                BioModule[] storeModules = getInputs(storeNode);
-                SimEnvironment[] environmentInputs = new SimEnvironment[environmentModules.length];
-                O2Store[] storeInputs = new O2Store[storeModules.length];
-                for (int i = 0; i < environmentModules.length; i++)
-                    environmentInputs[i] = SimEnvironmentHelper
-                            .narrow(environmentModules[i]);
-                for (int i = 0; i < storeModules.length; i++)
-                    storeInputs[i] = O2StoreHelper.narrow(storeModules[i]);
-                myO2AirConsumer.getO2AirConsumerDefinition()
-                        .setO2AirEnvironmentInputs(environmentInputs,
-                                getMaxFlowRates(environmentNode),
-                                getDesiredFlowRates(environmentNode));
-                myO2AirConsumer.getO2AirConsumerDefinition()
-                        .setO2AirStoreInputs(storeInputs,
-                                getMaxFlowRates(storeNode),
-                                getDesiredFlowRates(storeNode));
-            } else if (childName.equals("CO2AirConsumer")) {
-                CO2AirConsumer myCO2AirConsumer = (CO2AirConsumer) (pModule);
-                Node environmentNode = getEnvironmentNode(child);
-                Node storeNode = getStoreNode(child);
-                BioModule[] environmentModules = getInputs(environmentNode);
-                BioModule[] storeModules = getInputs(storeNode);
-                SimEnvironment[] environmentInputs = new SimEnvironment[environmentModules.length];
-                CO2Store[] storeInputs = new CO2Store[storeModules.length];
-                for (int i = 0; i < environmentModules.length; i++)
-                    environmentInputs[i] = SimEnvironmentHelper
-                            .narrow(environmentModules[i]);
-                for (int i = 0; i < storeModules.length; i++)
-                    storeInputs[i] = CO2StoreHelper.narrow(storeModules[i]);
-                myCO2AirConsumer.getCO2AirConsumerDefinition()
-                        .setCO2AirEnvironmentInputs(environmentInputs,
-                                getMaxFlowRates(environmentNode),
-                                getDesiredFlowRates(environmentNode));
-                myCO2AirConsumer.getCO2AirConsumerDefinition()
-                        .setCO2AirStoreInputs(storeInputs,
-                                getMaxFlowRates(storeNode),
-                                getDesiredFlowRates(storeNode));
-            } else if (childName.equals("nitrogenAirConsumer")) {
-                NitrogenAirConsumer myNitrogenAirConsumer = (NitrogenAirConsumer) (pModule);
-                Node environmentNode = getEnvironmentNode(child);
-                Node storeNode = getStoreNode(child);
-                BioModule[] environmentModules = getInputs(environmentNode);
-                BioModule[] storeModules = getInputs(storeNode);
-                SimEnvironment[] environmentInputs = new SimEnvironment[environmentModules.length];
-                NitrogenStore[] storeInputs = new NitrogenStore[storeModules.length];
-                for (int i = 0; i < environmentModules.length; i++)
-                    environmentInputs[i] = SimEnvironmentHelper
-                            .narrow(environmentModules[i]);
-                for (int i = 0; i < storeModules.length; i++)
-                    storeInputs[i] = NitrogenStoreHelper
-                            .narrow(storeModules[i]);
-                myNitrogenAirConsumer.getNitrogenAirConsumerDefinition()
-                        .setNitrogenAirEnvironmentInputs(environmentInputs,
-                                getMaxFlowRates(environmentNode),
-                                getDesiredFlowRates(environmentNode));
-                myNitrogenAirConsumer.getNitrogenAirConsumerDefinition()
-                        .setNitrogenAirStoreInputs(storeInputs,
-                                getMaxFlowRates(storeNode),
-                                getDesiredFlowRates(storeNode));
-            } else if (childName.equals("waterAirConsumer")) {
-                WaterAirConsumer myWaterAirConsumer = (WaterAirConsumer) (pModule);
-                Node environmentNode = getEnvironmentNode(child);
-                Node storeNode = getStoreNode(child);
-                BioModule[] environmentModules = getInputs(environmentNode);
-                BioModule[] storeModules = getInputs(storeNode);
-                SimEnvironment[] environmentInputs = new SimEnvironment[environmentModules.length];
-                WaterStore[] storeInputs = new WaterStore[storeModules.length];
-                for (int i = 0; i < environmentModules.length; i++)
-                    environmentInputs[i] = SimEnvironmentHelper
-                            .narrow(environmentModules[i]);
-                for (int i = 0; i < storeModules.length; i++)
-                    storeInputs[i] = PotableWaterStoreHelper
-                            .narrow(storeModules[i]);
-                myWaterAirConsumer.getWaterAirConsumerDefinition()
-                        .setWaterAirEnvironmentInputs(environmentInputs,
-                                getMaxFlowRates(environmentNode),
-                                getDesiredFlowRates(environmentNode));
-                myWaterAirConsumer.getWaterAirConsumerDefinition()
-                        .setWaterAirStoreInputs(storeInputs,
-                                getMaxFlowRates(storeNode),
-                                getDesiredFlowRates(storeNode));
             } else if (childName.equals("powerProducer")) {
                 PowerProducer myPowerProducer = (PowerProducer) (pModule);
                 BioModule[] modules = getOutputs(child);
@@ -655,91 +555,6 @@ public class SimulationInitializer {
                 myFoodProducer.getFoodProducerDefinition().setFoodOutputs(
                         outputs, getMaxFlowRates(child),
                         getDesiredFlowRates(child));
-            } else if (childName.equals("O2AirProducer")) {
-                O2AirProducer myO2AirProducer = (O2AirProducer) (pModule);
-                Node environmentNode = getEnvironmentNode(child);
-                Node storeNode = getStoreNode(child);
-                BioModule[] environmentModules = getOutputs(environmentNode);
-                BioModule[] storeModules = getOutputs(storeNode);
-                SimEnvironment[] environmentOutputs = new SimEnvironment[environmentModules.length];
-                O2Store[] storeOutputs = new O2Store[storeModules.length];
-                for (int i = 0; i < environmentModules.length; i++)
-                    environmentOutputs[i] = SimEnvironmentHelper
-                            .narrow(environmentModules[i]);
-                for (int i = 0; i < storeModules.length; i++)
-                    storeOutputs[i] = O2StoreHelper.narrow(storeModules[i]);
-                myO2AirProducer.getO2AirProducerDefinition()
-                        .setO2AirEnvironmentOutputs(environmentOutputs,
-                                getMaxFlowRates(environmentNode),
-                                getDesiredFlowRates(environmentNode));
-                myO2AirProducer.getO2AirProducerDefinition()
-                        .setO2AirStoreOutputs(storeOutputs,
-                                getMaxFlowRates(storeNode),
-                                getDesiredFlowRates(storeNode));
-            } else if (childName.equals("CO2AirProducer")) {
-                CO2AirProducer myCO2AirProducer = (CO2AirProducer) (pModule);
-                Node environmentNode = getEnvironmentNode(child);
-                Node storeNode = getStoreNode(child);
-                BioModule[] environmentModules = getOutputs(environmentNode);
-                BioModule[] storeModules = getOutputs(storeNode);
-                SimEnvironment[] environmentOutputs = new SimEnvironment[environmentModules.length];
-                CO2Store[] storeOutputs = new CO2Store[storeModules.length];
-                for (int i = 0; i < environmentModules.length; i++)
-                    environmentOutputs[i] = SimEnvironmentHelper
-                            .narrow(environmentModules[i]);
-                for (int i = 0; i < storeModules.length; i++)
-                    storeOutputs[i] = CO2StoreHelper.narrow(storeModules[i]);
-                myCO2AirProducer.getCO2AirProducerDefinition()
-                        .setCO2AirEnvironmentOutputs(environmentOutputs,
-                                getMaxFlowRates(environmentNode),
-                                getDesiredFlowRates(environmentNode));
-                myCO2AirProducer.getCO2AirProducerDefinition()
-                        .setCO2AirStoreOutputs(storeOutputs,
-                                getMaxFlowRates(storeNode),
-                                getDesiredFlowRates(storeNode));
-            } else if (childName.equals("nitrogenAirProducer")) {
-                NitrogenAirProducer myNitrogenAirProducer = (NitrogenAirProducer) (pModule);
-                Node environmentNode = getEnvironmentNode(child);
-                Node storeNode = getStoreNode(child);
-                BioModule[] environmentModules = getOutputs(environmentNode);
-                BioModule[] storeModules = getOutputs(storeNode);
-                SimEnvironment[] environmentOutputs = new SimEnvironment[environmentModules.length];
-                NitrogenStore[] storeOutputs = new NitrogenStore[storeModules.length];
-                for (int i = 0; i < environmentModules.length; i++)
-                    environmentOutputs[i] = SimEnvironmentHelper
-                            .narrow(environmentModules[i]);
-                for (int i = 0; i < storeModules.length; i++)
-                    storeOutputs[i] = NitrogenStoreHelper
-                            .narrow(storeModules[i]);
-                myNitrogenAirProducer.getNitrogenAirProducerDefinition()
-                        .setNitrogenAirEnvironmentOutputs(environmentOutputs,
-                                getMaxFlowRates(environmentNode),
-                                getDesiredFlowRates(environmentNode));
-                myNitrogenAirProducer.getNitrogenAirProducerDefinition()
-                        .setNitrogenAirStoreOutputs(storeOutputs,
-                                getMaxFlowRates(storeNode),
-                                getDesiredFlowRates(storeNode));
-            } else if (childName.equals("waterAirProducer")) {
-                WaterAirProducer myWaterAirProducer = (WaterAirProducer) (pModule);
-                Node environmentNode = getEnvironmentNode(child);
-                Node storeNode = getStoreNode(child);
-                BioModule[] environmentModules = getOutputs(environmentNode);
-                BioModule[] storeModules = getOutputs(storeNode);
-                SimEnvironment[] environmentOutputs = new SimEnvironment[environmentModules.length];
-                WaterStore[] storeOutputs = new WaterStore[storeModules.length];
-                for (int i = 0; i < environmentModules.length; i++)
-                    environmentOutputs[i] = SimEnvironmentHelper
-                            .narrow(environmentModules[i]);
-                for (int i = 0; i < storeModules.length; i++)
-                    storeOutputs[i] = WaterStoreHelper.narrow(storeModules[i]);
-                myWaterAirProducer.getWaterAirProducerDefinition()
-                        .setWaterAirEnvironmentOutputs(environmentOutputs,
-                                getMaxFlowRates(environmentNode),
-                                getDesiredFlowRates(environmentNode));
-                myWaterAirProducer.getWaterAirProducerDefinition()
-                        .setWaterAirStoreOutputs(storeOutputs,
-                                getMaxFlowRates(storeNode),
-                                getDesiredFlowRates(storeNode));
             }
             child = child.getNextSibling();
         }
@@ -1821,41 +1636,6 @@ public class SimulationInitializer {
                     myPassiveSimModules.add(DryWasteStoreHelper
                             .narrow(BioInitializer.grabModule(myID,
                                     BioInitializer.getModuleName(child))));
-            }
-            child = child.getNextSibling();
-        }
-    }
-
-    private void createEVAMission(Node node) {
-        String moduleName = BioInitializer.getModuleName(node);
-        if (BioInitializer.isCreatedLocally(node)) {
-            myLogger
-                    .debug("Creating EVAMission with moduleName: " + moduleName);
-            EVAMissionImpl myEVAMissionImpl = new EVAMissionImpl(myID,
-                    moduleName);
-            BioInitializer.setupBioModule(myEVAMissionImpl, node);
-            BiosimServer.registerServer(new EVAMissionPOATie(myEVAMissionImpl),
-                    myEVAMissionImpl.getModuleName(), myEVAMissionImpl.getID());
-        } else
-            BioInitializer.printRemoteWarningMessage(moduleName);
-    }
-
-    private void configureEVAMission(Node node) {
-        EVAMission myEVAMission = EVAMissionHelper.narrow(BioInitializer
-                .grabModule(myID, BioInitializer.getModuleName(node)));
-        configureSimBioModule(myEVAMission, node);
-        myActiveSimModules.add(myEVAMission);
-    }
-
-    private void crawlMissionModules(Node node, boolean firstPass) {
-        Node child = node.getFirstChild();
-        while (child != null) {
-            String childName = child.getNodeName();
-            if (childName.equals("EVAMission")) {
-                if (firstPass)
-                    createEVAMission(child);
-                else
-                    configureEVAMission(child);
             }
             child = child.getNextSibling();
         }
