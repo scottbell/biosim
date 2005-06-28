@@ -149,14 +149,14 @@ public abstract class EnvironmentFlowRateControllableImpl extends
                     * (distributedWaterLeft / totalToDistribute);
             float reducedNitrogenToPass = resourceToDistributeFinal
                     * (distributedNitrogenLeft / totalToDistribute);
-            float O2Added = getEnvironments()[i].addO2Moles(reducedO2ToPass);
-            float CO2Added = getEnvironments()[i].addCO2Moles(reducedCO2ToPass);
+            float O2Added = getEnvironments()[i].getO2Store().add(reducedO2ToPass);
+            float CO2Added = getEnvironments()[i].getCO2Store().add(reducedCO2ToPass);
             float otherAdded = getEnvironments()[i]
-                    .addOtherMoles(reducedOtherToPass);
+                    .getOtherStore().add(reducedOtherToPass);
             float waterAdded = getEnvironments()[i]
-                    .addWaterMoles(reducedWaterToPass);
+                    .getWaterStore().add(reducedWaterToPass);
             float nitrogenAdded = getEnvironments()[i]
-                    .addNitrogenMoles(reducedNitrogenToPass);
+                    .getNitrogenStore().add(reducedNitrogenToPass);
             distributedO2Left -= O2Added;
             distributedCO2Left -= CO2Added;
             distributedOtherLeft -= otherAdded;

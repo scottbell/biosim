@@ -23,22 +23,6 @@ import com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.environment.AirConsumerOperations;
 import com.traclabs.biosim.idl.simulation.environment.AirProducerDefinition;
 import com.traclabs.biosim.idl.simulation.environment.AirProducerOperations;
-import com.traclabs.biosim.idl.simulation.environment.CO2AirConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.environment.CO2AirConsumerOperations;
-import com.traclabs.biosim.idl.simulation.environment.CO2AirProducerDefinition;
-import com.traclabs.biosim.idl.simulation.environment.CO2AirProducerOperations;
-import com.traclabs.biosim.idl.simulation.environment.NitrogenAirConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.environment.NitrogenAirConsumerOperations;
-import com.traclabs.biosim.idl.simulation.environment.NitrogenAirProducerDefinition;
-import com.traclabs.biosim.idl.simulation.environment.NitrogenAirProducerOperations;
-import com.traclabs.biosim.idl.simulation.environment.O2AirConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.environment.O2AirConsumerOperations;
-import com.traclabs.biosim.idl.simulation.environment.O2AirProducerDefinition;
-import com.traclabs.biosim.idl.simulation.environment.O2AirProducerOperations;
-import com.traclabs.biosim.idl.simulation.environment.WaterAirConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.environment.WaterAirConsumerOperations;
-import com.traclabs.biosim.idl.simulation.environment.WaterAirProducerDefinition;
-import com.traclabs.biosim.idl.simulation.environment.WaterAirProducerOperations;
 import com.traclabs.biosim.idl.simulation.food.BiomassConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.food.BiomassConsumerOperations;
 import com.traclabs.biosim.idl.simulation.food.BiomassProducerDefinition;
@@ -82,14 +66,6 @@ import com.traclabs.biosim.server.simulation.air.O2ConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.air.O2ProducerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.environment.AirProducerDefinitionImpl;
-import com.traclabs.biosim.server.simulation.environment.CO2AirConsumerDefinitionImpl;
-import com.traclabs.biosim.server.simulation.environment.CO2AirProducerDefinitionImpl;
-import com.traclabs.biosim.server.simulation.environment.NitrogenAirConsumerDefinitionImpl;
-import com.traclabs.biosim.server.simulation.environment.NitrogenAirProducerDefinitionImpl;
-import com.traclabs.biosim.server.simulation.environment.O2AirConsumerDefinitionImpl;
-import com.traclabs.biosim.server.simulation.environment.O2AirProducerDefinitionImpl;
-import com.traclabs.biosim.server.simulation.environment.WaterAirConsumerDefinitionImpl;
-import com.traclabs.biosim.server.simulation.environment.WaterAirProducerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.food.BiomassConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.food.BiomassProducerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.food.FoodConsumerDefinitionImpl;
@@ -122,16 +98,12 @@ public class AccumulatorImpl extends SimBioModuleImpl implements
 		WaterConsumerOperations, DirtyWaterConsumerOperations,
 		O2ConsumerOperations, CO2ConsumerOperations, AirConsumerOperations,
 		BiomassConsumerOperations, FoodConsumerOperations,
-		CO2AirConsumerOperations, O2AirConsumerOperations,
-		WaterAirConsumerOperations, NitrogenAirConsumerOperations,
 		DryWasteConsumerOperations, H2ConsumerOperations,
 		NitrogenConsumerOperations, PowerProducerOperations,
 		PotableWaterProducerOperations, GreyWaterProducerOperations,
 		WaterProducerOperations, DirtyWaterProducerOperations,
 		O2ProducerOperations, CO2ProducerOperations, AirProducerOperations,
 		BiomassProducerOperations, FoodProducerOperations,
-		CO2AirProducerOperations, O2AirProducerOperations,
-		WaterAirProducerOperations, NitrogenAirProducerOperations,
 		DryWasteProducerOperations, H2ProducerOperations,
 		NitrogenProducerOperations {
 
@@ -157,15 +129,7 @@ public class AccumulatorImpl extends SimBioModuleImpl implements
 	private BiomassConsumerDefinitionImpl myBiomassConsumerDefinitionImpl;
 
 	private FoodConsumerDefinitionImpl myFoodConsumerDefinitionImpl;
-
-	private O2AirConsumerDefinitionImpl myO2AirConsumerDefinitionImpl;
-
-	private CO2AirConsumerDefinitionImpl myCO2AirConsumerDefinitionImpl;
-
-	private NitrogenAirConsumerDefinitionImpl myNitrogenAirConsumerDefinitionImpl;
-
-	private WaterAirConsumerDefinitionImpl myWaterAirConsumerDefinitionImpl;
-
+	
 	private DryWasteConsumerDefinitionImpl myDryWasteConsumerDefinitionImpl;
 
 	private WaterConsumerDefinitionImpl myWaterConsumerDefinitionImpl;
@@ -191,15 +155,7 @@ public class AccumulatorImpl extends SimBioModuleImpl implements
 	private BiomassProducerDefinitionImpl myBiomassProducerDefinitionImpl;
 
 	private FoodProducerDefinitionImpl myFoodProducerDefinitionImpl;
-
-	private O2AirProducerDefinitionImpl myO2AirProducerDefinitionImpl;
-
-	private CO2AirProducerDefinitionImpl myCO2AirProducerDefinitionImpl;
-
-	private NitrogenAirProducerDefinitionImpl myNitrogenAirProducerDefinitionImpl;
-
-	private WaterAirProducerDefinitionImpl myWaterAirProducerDefinitionImpl;
-
+	
 	private DryWasteProducerDefinitionImpl myDryWasteProducerDefinitionImpl;
 
 	private WaterProducerDefinitionImpl myWaterProducerDefinitionImpl;
@@ -217,10 +173,6 @@ public class AccumulatorImpl extends SimBioModuleImpl implements
 		myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl();
 		myBiomassConsumerDefinitionImpl = new BiomassConsumerDefinitionImpl();
 		myFoodConsumerDefinitionImpl = new FoodConsumerDefinitionImpl();
-		myO2AirConsumerDefinitionImpl = new O2AirConsumerDefinitionImpl();
-		myCO2AirConsumerDefinitionImpl = new CO2AirConsumerDefinitionImpl();
-		myNitrogenAirConsumerDefinitionImpl = new NitrogenAirConsumerDefinitionImpl();
-		myWaterAirConsumerDefinitionImpl = new WaterAirConsumerDefinitionImpl();
 		myDryWasteConsumerDefinitionImpl = new DryWasteConsumerDefinitionImpl();
 		myWaterConsumerDefinitionImpl = new WaterConsumerDefinitionImpl();
 
@@ -235,10 +187,6 @@ public class AccumulatorImpl extends SimBioModuleImpl implements
 		myAirProducerDefinitionImpl = new AirProducerDefinitionImpl();
 		myBiomassProducerDefinitionImpl = new BiomassProducerDefinitionImpl();
 		myFoodProducerDefinitionImpl = new FoodProducerDefinitionImpl();
-		myO2AirProducerDefinitionImpl = new O2AirProducerDefinitionImpl();
-		myCO2AirProducerDefinitionImpl = new CO2AirProducerDefinitionImpl();
-		myNitrogenAirProducerDefinitionImpl = new NitrogenAirProducerDefinitionImpl();
-		myWaterAirProducerDefinitionImpl = new WaterAirProducerDefinitionImpl();
 		myDryWasteProducerDefinitionImpl = new DryWasteProducerDefinitionImpl();
 		myWaterProducerDefinitionImpl = new WaterProducerDefinitionImpl();
 	}
@@ -300,60 +248,6 @@ public class AccumulatorImpl extends SimBioModuleImpl implements
 				.getMostAirFromEnvironment();
 
 		myAirProducerDefinitionImpl.pushAirToEnvironments(gatheredAir);
-
-		// Get CO2 from stores/environment
-		float gatheredCO2Air = myCO2AirConsumerDefinitionImpl
-				.getMostResourceFromStore();
-		gatheredCO2Air += myCO2AirConsumerDefinitionImpl
-				.getMostCO2FromEnvironment();
-		// Push CO2 to stores/environment
-		float CO2AirPushed = myCO2AirProducerDefinitionImpl
-				.pushResourceToStore(gatheredCO2Air);
-		float CO2AirLeft = gatheredCO2Air - CO2AirPushed;
-		CO2AirLeft += myCO2AirProducerDefinitionImpl
-				.pushCO2ToEnvironment(CO2AirLeft);
-		CO2AirPushed = gatheredCO2Air - CO2AirLeft;
-
-		// Get O2 from stores/environment
-		float gatheredO2Air = myO2AirConsumerDefinitionImpl
-				.getMostResourceFromStore();
-		gatheredO2Air += myO2AirConsumerDefinitionImpl
-				.getMostO2FromEnvironment();
-		// Push O2 to stores/environment
-		float O2AirPushed = myO2AirProducerDefinitionImpl
-				.pushResourceToStore(gatheredO2Air);
-		float O2AirLeft = gatheredO2Air - O2AirPushed;
-		O2AirLeft += myO2AirProducerDefinitionImpl
-				.pushO2ToEnvironment(O2AirLeft);
-		O2AirPushed = gatheredO2Air - O2AirLeft;
-
-		// Get Nitrogen from stores/environment
-		float gatheredNitrogenAir = myNitrogenAirConsumerDefinitionImpl
-				.getMostResourceFromStore();
-		gatheredNitrogenAir += myNitrogenAirConsumerDefinitionImpl
-				.getMostNitrogenFromEnvironment();
-		// Push Nitrogen to stores/environment
-		float nitrogenAirPushed = myNitrogenAirProducerDefinitionImpl
-				.pushResourceToStore(gatheredNitrogenAir);
-		float nitrogenAirLeft = gatheredNitrogenAir - nitrogenAirPushed;
-		nitrogenAirLeft -= myNitrogenAirProducerDefinitionImpl
-				.pushNitrogenToEnvironment(nitrogenAirLeft);
-		nitrogenAirPushed = gatheredNitrogenAir - nitrogenAirLeft;
-
-		// Get Water from stores/environment
-		float gatheredWaterAirLiters = myWaterAirConsumerDefinitionImpl
-				.getMostResourceFromStore();
-		gatheredWaterAirLiters += waterMolesToLiters(myWaterAirConsumerDefinitionImpl
-				.getMostWaterFromEnvironment());
-
-		// Push water to stores/environment
-		float waterAirPushedLiters = myWaterAirProducerDefinitionImpl
-				.pushResourceToStore(gatheredWaterAirLiters);
-
-		float waterAirMolesLeft = waterLitersToMoles(gatheredWaterAirLiters
-				- waterAirPushedLiters);
-		waterAirMolesLeft -= myWaterAirProducerDefinitionImpl
-				.pushWaterToEnvironment(waterAirMolesLeft);
 	}
 
 	private static float waterLitersToMoles(float pLiters) {
@@ -431,24 +325,8 @@ public class AccumulatorImpl extends SimBioModuleImpl implements
 		return myFoodConsumerDefinitionImpl.getCorbaObject();
 	}
 
-	public O2AirConsumerDefinition getO2AirConsumerDefinition() {
-		return myO2AirConsumerDefinitionImpl.getCorbaObject();
-	}
-
-	public CO2AirConsumerDefinition getCO2AirConsumerDefinition() {
-		return myCO2AirConsumerDefinitionImpl.getCorbaObject();
-	}
-
-	public NitrogenAirConsumerDefinition getNitrogenAirConsumerDefinition() {
-		return myNitrogenAirConsumerDefinitionImpl.getCorbaObject();
-	}
-
 	public DryWasteConsumerDefinition getDryWasteConsumerDefinition() {
 		return myDryWasteConsumerDefinitionImpl.getCorbaObject();
-	}
-
-	public WaterAirConsumerDefinition getWaterAirConsumerDefinition() {
-		return myWaterAirConsumerDefinitionImpl.getCorbaObject();
 	}
 
 	public H2ConsumerDefinition getH2ConsumerDefinition() {
@@ -500,24 +378,8 @@ public class AccumulatorImpl extends SimBioModuleImpl implements
 		return myFoodProducerDefinitionImpl.getCorbaObject();
 	}
 
-	public O2AirProducerDefinition getO2AirProducerDefinition() {
-		return myO2AirProducerDefinitionImpl.getCorbaObject();
-	}
-
-	public CO2AirProducerDefinition getCO2AirProducerDefinition() {
-		return myCO2AirProducerDefinitionImpl.getCorbaObject();
-	}
-
-	public NitrogenAirProducerDefinition getNitrogenAirProducerDefinition() {
-		return myNitrogenAirProducerDefinitionImpl.getCorbaObject();
-	}
-
 	public DryWasteProducerDefinition getDryWasteProducerDefinition() {
 		return myDryWasteProducerDefinitionImpl.getCorbaObject();
-	}
-
-	public WaterAirProducerDefinition getWaterAirProducerDefinition() {
-		return myWaterAirProducerDefinitionImpl.getCorbaObject();
 	}
 
 	public H2ProducerDefinition getH2ProducerDefinition() {

@@ -440,7 +440,7 @@ public abstract class PlantImpl extends PlantPOA {
 
     private float calculateActualMoistureVaporPressure() {
         return myShelfImpl.getBiomassRSImpl().getAirProducerDefinition()
-                .getEnvironments()[0].getWaterPressure();
+                .getEnvironments()[0].getWaterStore().getPressure();
     }
 
     protected float calculateNetCanopyPhotosynthesis() {
@@ -579,7 +579,7 @@ public abstract class PlantImpl extends PlantPOA {
                     * myShelfImpl.getCropAreaUsed() / 24f;
         float molesOfCO2Inhaled = myShelfImpl.getBiomassRSImpl()
                 .getAirProducerDefinition().getEnvironments()[0]
-                .takeCO2Moles(molesOfCO2ToInhale);
+                .getCO2Store().take(molesOfCO2ToInhale);
         totalCO2GramsConsumed += molesOfCO2Inhaled * 44f;
         myLogger.debug("totalCO2GramsConsumed:" + totalCO2GramsConsumed);
         myShelfImpl.getBiomassRSImpl().addAirInputActualFlowRates(0,
@@ -603,7 +603,7 @@ public abstract class PlantImpl extends PlantPOA {
         // hour
         float O2Exhaled = myShelfImpl.getBiomassRSImpl()
                 .getAirProducerDefinition().getEnvironments()[0]
-                .addO2Moles(O2Produced);
+                .getO2Store().add(O2Produced);
         myShelfImpl.getBiomassRSImpl()
                 .addAirOutputActualFlowRates(0, O2Exhaled);
         myLogger.debug("O2Produced: " + O2Produced);
@@ -625,7 +625,7 @@ public abstract class PlantImpl extends PlantPOA {
         float molesOfWaterProduced = waterLitersToMoles(litersOfWaterProduced);
         float molesOfWaterAdded = myShelfImpl.getBiomassRSImpl()
                 .getAirProducerDefinition().getEnvironments()[0]
-                .addWaterMoles(molesOfWaterProduced);
+                .getWaterStore().add(molesOfWaterProduced);
         myShelfImpl.getBiomassRSImpl().addAirOutputActualFlowRates(0,
                 molesOfWaterAdded);
         myLogger.debug("litersOfWaterProduced:" + litersOfWaterProduced);
@@ -706,7 +706,7 @@ public abstract class PlantImpl extends PlantPOA {
         //Convert current CO2 levels to micromoles of CO2 / moles of air
         SimEnvironment myEnvironment = myShelfImpl.getBiomassRSImpl()
                 .getAirConsumerDefinition().getEnvironments()[0];
-        float CO2Moles = myEnvironment.getCO2Moles() * MathUtils.pow(10, 6); //in micro
+        float CO2Moles = myEnvironment.getCO2Store().getCurrentLevel() * MathUtils.pow(10, 6); //in micro
         // moles
         float airMoles = myEnvironment.getTotalMoles(); //in moles
         if (CO2Moles <= 0)

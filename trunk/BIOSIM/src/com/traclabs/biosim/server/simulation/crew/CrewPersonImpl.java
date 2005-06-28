@@ -909,7 +909,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
         }
 		if (myAirInputs[0].getTotalMoles() <= 0)
 		    return 0f;
-		return (myAirInputs[0].getCO2Moles() / myAirInputs[0]
+		return (myAirInputs[0].getCO2Store().getCurrentLevel() / myAirInputs[0]
 		        .getTotalMoles());
     }
 
@@ -929,7 +929,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
         }
 		if (myAirInputs[0].getTotalMoles() <= 0)
 		    return 0f;
-		return (myAirInputs[0].getO2Moles() / myAirInputs[0]
+		return (myAirInputs[0].getO2Store().getCurrentLevel() / myAirInputs[0]
 		        .getTotalMoles());
     }
 
@@ -1096,12 +1096,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
             myLogger.info(getName() + " has died from lack of oxygen on tick "
                     + myCurrentCrewGroup.getMyTicks() + " (risk was "
                     + numFormat.format(oxygenLowRiskReturn * 100) + "%)");
-            myLogger.info(getName() + " Environmental conditions were: 02="
-                    + myAirInputs[0].getO2Moles() + ", CO2="
-                    + myAirInputs[0].getCO2Moles() + ", N="
-                    + myAirInputs[0].getNitrogenMoles() + ", water="
-                    + myAirInputs[0].getWaterMoles() + ", other="
-                    + myAirInputs[0].getOtherMoles());
+            logEnvironmentConditions();
         } else if (oxygenHighRiskReturn > randomNumber) {
             hasDied = true;
             SimEnvironment[] myAirInputs = myCurrentCrewGroup
@@ -1110,12 +1105,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
                     + " has died from oxygen flammability on tick "
                     + myCurrentCrewGroup.getMyTicks() + " (risk was "
                     + numFormat.format(oxygenHighRiskReturn * 100) + "%)");
-            myLogger.info(getName() + " Environmental conditions were: 02="
-                    + myAirInputs[0].getO2Moles() + ", CO2="
-                    + myAirInputs[0].getCO2Moles() + ", N="
-                    + myAirInputs[0].getNitrogenMoles() + ", water="
-                    + myAirInputs[0].getWaterMoles() + ", other="
-                    + myAirInputs[0].getOtherMoles());
+            logEnvironmentConditions();
         } else if (CO2RiskReturn > randomNumber) {
             hasDied = true;
             SimEnvironment[] myAirInputs = myCurrentCrewGroup
@@ -1123,12 +1113,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
             myLogger.info(getName() + " has died from CO2 poisoning on tick "
                     + myCurrentCrewGroup.getMyTicks() + " (risk was "
                     + numFormat.format(CO2RiskReturn * 100) + "%)");
-            myLogger.info(getName() + " Environmental conditions were: 02="
-                    + myAirInputs[0].getO2Moles() + ", CO2="
-                    + myAirInputs[0].getCO2Moles() + ", N="
-                    + myAirInputs[0].getNitrogenMoles() + ", water="
-                    + myAirInputs[0].getWaterMoles() + ", other="
-                    + myAirInputs[0].getOtherMoles());
+            
         }
         //if died, kill
         if (hasDied) {
@@ -1142,6 +1127,17 @@ public class CrewPersonImpl extends CrewPersonPOA {
             myCurrentActivity = mySchedule.getActivityByName("dead");
             timeActivityPerformed = 0;
         }
+    }
+    
+    private void logEnvironmentConditions(){
+        SimEnvironment[] myAirInputs = myCurrentCrewGroup
+        .getAirConsumerDefinition().getEnvironments();
+    	myLogger.info(getName() + " Environmental conditions were: 02="
+    	+ myAirInputs[0].getO2Store().getCurrentLevel() + ", CO2="
+        + myAirInputs[0].getCO2Store().getCurrentLevel() + ", N="
+        + myAirInputs[0].getNitrogenStore().getCurrentLevel() + ", water="
+        + myAirInputs[0].getWaterStore().getCurrentLevel() + ", other="
+        + myAirInputs[0].getOtherStore().getCurrentLevel());
     }
 
     private static float waterLitersToMoles(float pLiters) {
@@ -1214,11 +1210,11 @@ public class CrewPersonImpl extends CrewPersonPOA {
         if (myAirInputs.length < 1) {
             O2Consumed = 0f;
         } else {
-            O2Consumed = myAirInputs[0].takeO2Moles(O2Needed);
+            O2Consumed = myAirInputs[0].getO2Store().take(O2Needed);
         }
         if (myAirOutputs.length > 0) {
-            myAirOutputs[0].addCO2Moles(CO2Produced);
-            myAirOutputs[0].addWaterMoles(vaporProduced);
+            myAirOutputs[0].getCO2Store().add(CO2Produced);
+            myAirOutputs[0].getWaterStore().add(vaporProduced);
         }
     }
 

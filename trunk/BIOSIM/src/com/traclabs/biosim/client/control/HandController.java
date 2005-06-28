@@ -84,7 +84,7 @@ public class HandController {
 
     private Injector myCO2Injector;
 
-    private GenericActuator myO2AirStoreInInjectorAcutator;
+    private GenericActuator myO2InInjectorAcutator;
 
     private GenericActuator myO2AirEnvironmentOutInjectorAcutator;
 
@@ -103,7 +103,7 @@ public class HandController {
         continuousState = new StateMap();
         myActionMap = new ActionMap();
 
-        myO2AirStoreInInjectorMax = myO2AirStoreInInjectorAcutator.getMax();
+        myO2AirStoreInInjectorMax = myO2InInjectorAcutator.getMax();
 
         if (myCO2Injector != null) {
             myCO2AirStoreInInjectorMax = myCO2AirStoreInInjectorAcutator
@@ -138,35 +138,35 @@ public class HandController {
         myCrewEnvironment = myBioHolder.theSimEnvironments
                 .get(0);
 
-        myO2AirStoreInInjectorAcutator = (myBioHolder
+        myO2InInjectorAcutator = (myBioHolder
                 .getActuatorAttachedTo(
-                        myBioHolder.theO2AirStoreInFlowRateActuators,
+                        myBioHolder.theO2InFlowRateActuators,
                         myO2Injector));
 
         myO2AirEnvironmentOutInjectorAcutator = (myBioHolder
                 .getActuatorAttachedTo(
-                        myBioHolder.theO2AirEnvironmentOutFlowRateActuators,
+                        myBioHolder.theO2OutFlowRateActuators,
                         myO2Injector));
 
         myO2AirConcentrationSensor = (myBioHolder
-                .getSensorAttachedTo(myBioHolder.theO2AirConcentrationSensors,
-                        myCrewEnvironment));
+                .getSensorAttachedTo(myBioHolder.theEnvironmentConcentrationSensors,
+                        myCrewEnvironment.getO2Store()));
 
         if (myCO2Injector != null) {
             myCO2AirStoreInInjectorAcutator = (myBioHolder
                     .getActuatorAttachedTo(
-                            myBioHolder.theCO2AirStoreInFlowRateActuators,
+                            myBioHolder.theCO2InFlowRateActuators,
                             myCO2Injector));
 
             myCO2AirEnvironmentOutInjectorAcutator = (myBioHolder
                     .getActuatorAttachedTo(
-                            myBioHolder.theCO2AirEnvironmentOutFlowRateActuators,
+                            myBioHolder.theCO2OutFlowRateActuators,
                             myCO2Injector));
 
             myCO2AirConcentrationSensor = (myBioHolder
                     .getSensorAttachedTo(
-                            myBioHolder.theCO2AirConcentrationSensors,
-                            myCrewEnvironment));
+                            myBioHolder.theEnvironmentConcentrationSensors,
+                            myCrewEnvironment.getCO2Store()));
         }
     }
 
@@ -263,7 +263,7 @@ public class HandController {
         float valueToSet = Math.min(myO2AirStoreInInjectorMax, signal);
         myLogger.debug("setting O2 injector to " + valueToSet);
         valueToSet = Math.min(myO2AirStoreInInjectorMax, signal);
-        myO2AirStoreInInjectorAcutator.setValue(valueToSet);
+        myO2InInjectorAcutator.setValue(valueToSet);
         myO2AirEnvironmentOutInjectorAcutator.setValue(valueToSet);
     }
 
