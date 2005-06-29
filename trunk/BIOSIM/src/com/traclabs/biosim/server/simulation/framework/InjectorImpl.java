@@ -2,7 +2,6 @@ package com.traclabs.biosim.server.simulation.framework;
 
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
-import com.traclabs.biosim.idl.simulation.air.Breath;
 import com.traclabs.biosim.idl.simulation.air.CO2ConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.air.CO2ConsumerOperations;
 import com.traclabs.biosim.idl.simulation.air.CO2ProducerDefinition;
@@ -244,10 +243,6 @@ public class InjectorImpl extends SimBioModuleImpl implements
 				.getMostResourceFromStore();
 		myH2ProducerDefinitionImpl.pushResourceToStore(H2Gathered);
 
-		Breath gatheredAir = myAirConsumerDefinitionImpl
-				.getMostAirFromEnvironment();
-
-		myAirProducerDefinitionImpl.pushAirToEnvironments(gatheredAir);
 	}
 
 	private static float waterLitersToMoles(float pLiters) {

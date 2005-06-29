@@ -19,19 +19,6 @@
 	</Globals>
 	<SimBioModules>
 		<air>
-			<AirRS name="EVAAirRS" implementation="LINEAR">
-				<powerConsumer maxFlowRates="300" desiredFlowRates="300" inputs="EVAPowerStore"/>
-				<methaneProducer maxFlowRates="100" desiredFlowRates="100" outputs="EVAMethaneStore"/>
-				<potableWaterConsumer maxFlowRates="10" desiredFlowRates="10" inputs="EVAPotableWaterStore"/>
-				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="EVACrewEnvironment"/>
-				<CO2Consumer maxFlowRates="10" desiredFlowRates="10" inputs="EVACO2Store"/>
-				<H2Consumer maxFlowRates="40" desiredFlowRates="40" inputs="EVAH2Store"/>
-				<potableWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="EVAPotableWaterStore"/>
-				<O2Producer maxFlowRates="100" desiredFlowRates="100" outputs="EVAO2Store"/>
-				<airProducer maxFlowRates="100" desiredFlowRates="100" outputs="EVACrewEnvironment"/>
-				<CO2Producer maxFlowRates="100" desiredFlowRates="100" outputs="EVACO2Store"/>
-				<H2Producer maxFlowRates="100" desiredFlowRates="100" outputs="EVAH2Store"/>
-			</AirRS>
 			<OGS name="BaseOGS">
 				<powerConsumer maxFlowRates="2500" desiredFlowRates="2500" inputs="BasePowerStore"/>
 				<potableWaterConsumer maxFlowRates="10000000" desiredFlowRates="10000000" inputs="CrewBasePotableWaterStore"/>
@@ -47,7 +34,7 @@
 			<O2Store name="BaseO2Store" capacity="2000" level="2000">
 				<malfunction occursAtTick="200" length="PERMANENT_MALF" intensity="MEDIUM_MALF"/>
 			</O2Store>
-			<O2Store name="EVAO2Store" capacity="800" level="800" resupplyAmount="800" resupplyFrequency="24"/>
+			<O2Store name="EVAO2Store" capacity="800" level="800" resupplyAmount="800" resupplyFrequency="1"/>
 			<CO2Store name="BaseCO2Store" capacity="0" level="0"/>
 			<CO2Store name="EVACO2Store" capacity="10" level="10"/>
 			<H2Store name="BaseH2Store" capacity="1000" level="1000"/>
