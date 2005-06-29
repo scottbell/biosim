@@ -7,7 +7,7 @@ public class EnvironmentStoreImpl extends StoreImpl implements EnvironmentStoreO
 
     private final static float idealGasConstant = 8.314f; // J K ^-1 mol -1
 
-    private SimEnvironmentImpl mySimEnvironmentImpl;
+    protected SimEnvironmentImpl mySimEnvironmentImpl;
 
 	public EnvironmentStoreImpl(SimEnvironmentImpl pSimEnvironmentImpl) {
 		super(0, "Unnamed", 0, Float.MAX_VALUE, false);

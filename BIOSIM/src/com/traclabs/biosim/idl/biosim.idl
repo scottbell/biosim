@@ -38,13 +38,6 @@ module com{
                                                 interface H2Store;
                                                 interface NitrogenStore;
                                                 interface MethaneStore;
-                                                struct Breath{
-                                                        float O2;
-                                                        float CO2;
-                                                        float water;
-                                                        float other;
-                                                        float nitrogen;
-                                                };
                                                 typedef sequence <O2Store> O2StoreList;
                                                 typedef sequence <CO2Store> CO2StoreList;
                                                 typedef sequence <NitrogenStore> NitrogenStoreList;
@@ -418,8 +411,6 @@ module com{
                                                         float getRelativeHumidity();
                                                         float getWaterDensity();
                                                         float getTotalMoles();
-                                                        air::Breath addBreath(in air::Breath pBreath);
-                                                        air::Breath takeAirMoles(in float moles);
                                                         float getTemperature();
                                                         float getLightIntensity();
                                                         float getLeakRate();

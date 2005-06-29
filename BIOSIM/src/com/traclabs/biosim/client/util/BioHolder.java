@@ -53,8 +53,8 @@ import com.traclabs.biosim.idl.sensor.crew.CrewGroupDeathSensor;
 import com.traclabs.biosim.idl.sensor.crew.CrewGroupProductivitySensor;
 import com.traclabs.biosim.idl.sensor.environment.AirInFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.environment.AirOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.environment.EnvironmentConcentrationSensor;
-import com.traclabs.biosim.idl.sensor.environment.EnvironmentPressureSensor;
+import com.traclabs.biosim.idl.sensor.environment.GasConcentrationSensor;
+import com.traclabs.biosim.idl.sensor.environment.GasPressureSensor;
 import com.traclabs.biosim.idl.sensor.food.BiomassInFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.food.BiomassOutFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.food.BiomassStoreWaterContentSensor;
@@ -216,9 +216,9 @@ public class BioHolder {
 
     public List<AirOutFlowRateSensor> theAirOutFlowRateSensors = new Vector<AirOutFlowRateSensor>();
 
-    public List<EnvironmentPressureSensor> theGasPressureSensors = new Vector<EnvironmentPressureSensor>();
+    public List<GasPressureSensor> theGasPressureSensors = new Vector<GasPressureSensor>();
 
-    public List<EnvironmentConcentrationSensor> theGasConcentrationSensors = new Vector<EnvironmentConcentrationSensor>();
+    public List<GasConcentrationSensor> theGasConcentrationSensors = new Vector<GasConcentrationSensor>();
 
     //Food
     public List<BiomassInFlowRateSensor> theBiomassInFlowRateSensors = new Vector<BiomassInFlowRateSensor>();

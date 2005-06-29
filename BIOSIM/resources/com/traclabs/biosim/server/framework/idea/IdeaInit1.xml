@@ -18,19 +18,6 @@
 	</Globals>
 	<SimBioModules>
 		<air>
-			<AirRS name="EVAAirRS" implementation="LINEAR">
-				<powerConsumer maxFlowRates="100" desiredFlowRates="100" inputs="EVAPowerStore"/>
-				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="EVAPotableWaterStore"/>
-				<airConsumer maxFlowRates="100" desiredFlowRates="100" inputs="EVACrewEnvironment"/>
-				<CO2Consumer maxFlowRates="100" desiredFlowRates="100" inputs="EVACO2Store"/>
-				<H2Consumer maxFlowRates="400" desiredFlowRates="400" inputs="EVAH2Store"/>
-				<potableWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="EVAPotableWaterStore"/>
-				<O2Producer maxFlowRates="100" desiredFlowRates="100" outputs="EVAO2Store"/>
-				<airProducer maxFlowRates="100" desiredFlowRates="100" outputs="EVACrewEnvironment"/>
-				<CO2Producer maxFlowRates="100" desiredFlowRates="100" outputs="EVACO2Store"/>
-				<H2Producer maxFlowRates="100" desiredFlowRates="100" outputs="EVAH2Store"/>
-				<methaneProducer maxFlowRates="100" desiredFlowRates="100" outputs="EVAMethaneStore"/>
-			</AirRS>
 			<OGS name="BaseOGS">
 				<powerConsumer maxFlowRates="2500" desiredFlowRates="2500" inputs="BasePowerStore"/>
 				<potableWaterConsumer maxFlowRates="10000000" desiredFlowRates="10000000" inputs="BasePotableWaterStore"/>
@@ -44,7 +31,7 @@
 				<CO2Producer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="BaseCO2Store"/>
 			</VCCR>
 			<O2Store name="BaseO2Store" capacity="2000" level="2000"/>
-			<O2Store name="EVAO2Store" capacity="800" level="800" resupplyAmount="800" resupplyFrequency="24"/>
+			<O2Store name="EVAO2Store" capacity="800" level="800" resupplyAmount="800" resupplyFrequency="1"/>
 			<CO2Store name="BaseCO2Store" capacity="2000" level="2000"/>
 			<CO2Store name="EVACO2Store" capacity="10" level="10"/>
 			<H2Store name="BaseH2Store" capacity="1000" level="1000"/>

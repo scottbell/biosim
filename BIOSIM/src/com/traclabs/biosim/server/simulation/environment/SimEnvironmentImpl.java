@@ -5,7 +5,6 @@ import java.util.Iterator;
 import com.traclabs.biosim.idl.framework.Malfunction;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
-import com.traclabs.biosim.idl.simulation.air.Breath;
 import com.traclabs.biosim.idl.simulation.environment.EnvironmentCO2Store;
 import com.traclabs.biosim.idl.simulation.environment.EnvironmentCO2StorePOATie;
 import com.traclabs.biosim.idl.simulation.environment.EnvironmentNitrogenStore;
@@ -215,61 +214,6 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
         return currentVolume;
     }
 
-    public Breath addBreath(Breath pBreath) {
-        return new Breath(myO2StoreImpl.add(pBreath.O2), myCO2StoreImpl.add(pBreath.CO2),
-        		myVaporStoreImpl.add(pBreath.water), myOtherStoreImpl.add(pBreath.other),
-        		myNitrogenStoreImpl.add(pBreath.nitrogen));
-    }
-
-    public Breath takeAirMoles(float molesRequested) {
-        //idiot check
-        if (Float.isNaN(molesRequested)) {
-            myLogger.warn("in takeAirMoles, attemped to remove "
-                    + molesRequested);
-            return new Breath(0f, 0f, 0f, 0f, 0f);
-        }
-        if (molesRequested <= 0)
-            return new Breath(0f, 0f, 0f, 0f, 0f);
-        //asking for more gas than exists
-        float CO2Moles = myCO2StoreImpl.getCurrentLevel();
-        float O2Moles = myO2StoreImpl.getCurrentLevel();
-        float otherMoles = myOtherStoreImpl.getCurrentLevel();
-        float waterMoles = myVaporStoreImpl.getCurrentLevel();
-        float nitrogenMoles = myNitrogenStoreImpl.getCurrentLevel();
-        if (molesRequested >= getTotalMoles()) {
-            float afterRemovalCO2 = randomFilter(CO2Moles);
-            float afterRemovalO2 = randomFilter(O2Moles);
-            float afterRemovalOther = randomFilter(otherMoles);
-            float afterRemovalWater = randomFilter(waterMoles);
-            float afterRemovalNitrogen = randomFilter(nitrogenMoles);
-            setTotalMoles(0);
-            return new Breath(afterRemovalO2, afterRemovalCO2,
-                    afterRemovalWater, afterRemovalOther, afterRemovalNitrogen);
-        }
-		float afterRemovalCO2 = randomFilter(CO2Moles
-		        - ((CO2Moles / getTotalMoles()) * molesRequested));
-		float afterRemovalO2 = randomFilter(O2Moles
-		        - ((O2Moles / getTotalMoles()) * molesRequested));
-		float afterRemovalOther = randomFilter(otherMoles
-		        - ((otherMoles / getTotalMoles()) * molesRequested));
-		float afterRemovalWater = randomFilter(waterMoles
-		        - ((waterMoles / getTotalMoles()) * molesRequested));
-		float afterRemovalNitrogen = randomFilter(nitrogenMoles
-		        - ((nitrogenMoles / getTotalMoles()) * molesRequested));
-		float O2MolesTaken = O2Moles - afterRemovalO2;
-		float CO2MolesTaken = CO2Moles - afterRemovalCO2;
-		float otherMolesTaken = otherMoles - afterRemovalOther;
-		float waterMolesTaken = waterMoles - afterRemovalWater;
-		float nitrogenMolesTaken = nitrogenMoles - afterRemovalNitrogen;
-		myO2StoreImpl.setCurrentLevel(afterRemovalO2);
-		myCO2StoreImpl.setCurrentLevel(afterRemovalCO2);
-		myOtherStoreImpl.setCurrentLevel(afterRemovalOther);
-		myVaporStoreImpl.setCurrentLevel(afterRemovalWater);
-		myNitrogenStoreImpl.setCurrentLevel(afterRemovalNitrogen);
-		return new Breath(O2MolesTaken, CO2MolesTaken, waterMolesTaken,
-		        otherMolesTaken, nitrogenMolesTaken);
-    }
-
     private void performLeak(float pLeakRate) {
         for (EnvironmentStoreImpl store : myEnvironmentStores)
         	store.performLeak(pLeakRate);
@@ -327,8 +271,6 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
      */
     public void tick() {
         super.tick();
-        if ((getMyTicks() >= 145) && getModuleName().equals("BaseCrewEnvironment"))
-        	myLogger.warn("We'll figure this out");
         performLeak(permanentLeakRate);
         calculateLightIntensity();
         for (EnvironmentStoreImpl store : myEnvironmentStores)

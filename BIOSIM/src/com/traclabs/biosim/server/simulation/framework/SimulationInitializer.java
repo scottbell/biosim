@@ -8,9 +8,6 @@ import org.w3c.dom.Node;
 
 import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.framework.BioModuleHelper;
-import com.traclabs.biosim.idl.simulation.air.AirRS;
-import com.traclabs.biosim.idl.simulation.air.AirRSHelper;
-import com.traclabs.biosim.idl.simulation.air.AirRSPOATie;
 import com.traclabs.biosim.idl.simulation.air.CO2Consumer;
 import com.traclabs.biosim.idl.simulation.air.CO2Producer;
 import com.traclabs.biosim.idl.simulation.air.CO2Store;
@@ -128,8 +125,6 @@ import com.traclabs.biosim.idl.simulation.water.WaterStore;
 import com.traclabs.biosim.idl.simulation.water.WaterStoreHelper;
 import com.traclabs.biosim.server.framework.BioInitializer;
 import com.traclabs.biosim.server.framework.BiosimServer;
-import com.traclabs.biosim.server.simulation.air.AirRSImpl;
-import com.traclabs.biosim.server.simulation.air.AirRSLinearImpl;
 import com.traclabs.biosim.server.simulation.air.CO2StoreImpl;
 import com.traclabs.biosim.server.simulation.air.CRSImpl;
 import com.traclabs.biosim.server.simulation.air.H2StoreImpl;
@@ -661,50 +656,7 @@ public class SimulationInitializer {
                 getStoreResupplyAmount(pNode));
         BioInitializer.setupBioModule(pStore, pNode);
     }
-
-    private void createAirRS(Node node) {
-        String moduleName = BioInitializer.getModuleName(node);
-        if (BioInitializer.isCreatedLocally(node)) {
-            myLogger.debug("Creating AirRS with moduleName: " + moduleName);
-            String implementationString = node.getAttributes().getNamedItem(
-                    "implementation").getNodeValue();
-            if (implementationString.equals("LINEAR")) {
-                myLogger.debug("created linear WaterRS...");
-                AirRSLinearImpl myAirRSImpl = new AirRSLinearImpl(myID,
-                        moduleName);
-                BioInitializer.setupBioModule(myAirRSImpl, node);
-                BiosimServer.registerServer(new AirRSPOATie(myAirRSImpl),
-                        myAirRSImpl.getModuleName(), myAirRSImpl.getID());
-            } else {
-                AirRSImpl myAirRSImpl = new AirRSImpl(myID, moduleName);
-                BioInitializer.setupBioModule(myAirRSImpl, node);
-                BiosimServer.registerServer(new AirRSPOATie(myAirRSImpl),
-                        myAirRSImpl.getModuleName(), myAirRSImpl.getID());
-            }
-        } else
-            BioInitializer.printRemoteWarningMessage(moduleName);
-    }
-
-    private void configureAirRS(Node node) {
-        AirRS myAirRS = AirRSHelper.narrow(BioInitializer.grabModule(myID,
-                BioInitializer.getModuleName(node)));
-        configureSimBioModule(myAirRS, node);
-        /*
-         * String operationModeString = node.getAttributes().getNamedItem(
-         * "operationMode").getNodeValue(); if
-         * (operationModeString.equals("FULL"))
-         * myAirRS.setOperationMode(AirRSOperationMode.FULL); else if
-         * (operationModeString.equals("MOST"))
-         * myAirRS.setOperationMode(AirRSOperationMode.MOST); else if
-         * (operationModeString.equals("LESS"))
-         * myAirRS.setOperationMode(AirRSOperationMode.LESS); else if
-         * (operationModeString.equals("OFF"))
-         * myAirRS.setOperationMode(AirRSOperationMode.OFF); else
-         * myLogger.error("AirRSOperationMode not found!");
-         */
-        myActiveSimModules.add(myAirRS);
-    }
-
+    
     /**
      * @param child
      */
@@ -849,13 +801,7 @@ public class SimulationInitializer {
         Node child = node.getFirstChild();
         while (child != null) {
             String childName = child.getNodeName();
-            if (childName.equals("AirRS")) {
-                if (firstPass)
-                    createAirRS(child);
-                else
-                    configureAirRS(child);
-
-            } else if (childName.equals("OGS")) {
+            if (childName.equals("OGS")) {
                 if (firstPass)
                     createOGS(child);
                 else

@@ -1,6 +1,5 @@
 package com.traclabs.biosim.server.simulation.air;
 
-import com.traclabs.biosim.idl.simulation.air.Breath;
 import com.traclabs.biosim.idl.simulation.air.CO2ProducerDefinition;
 import com.traclabs.biosim.idl.simulation.air.CO2ProducerOperations;
 import com.traclabs.biosim.idl.simulation.air.VCCROperations;
@@ -8,6 +7,7 @@ import com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.environment.AirConsumerOperations;
 import com.traclabs.biosim.idl.simulation.environment.AirProducerDefinition;
 import com.traclabs.biosim.idl.simulation.environment.AirProducerOperations;
+import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinitionImpl;
@@ -36,15 +36,14 @@ public class VCCRImpl extends SimBioModuleImpl implements VCCROperations,
 
     private CO2ProducerDefinitionImpl myCO2ProducerDefinitionImpl;
 
-    private Breath myBreath;
-
     private float currentCO2Produced = 0f;
 
     private float currentPowerConsumed = 0;
+    
+    private float gatheredCO2 = 0;
 
     public VCCRImpl(int pID, String pName) {
         super(pID, pName);
-        myBreath = new Breath(0f, 0f, 0f, 0f, 0f);
         myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl();
         myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl();
         myAirProducerDefinitionImpl = new AirProducerDefinitionImpl();
@@ -74,8 +73,8 @@ public class VCCRImpl extends SimBioModuleImpl implements VCCROperations,
     public void tick() {
         super.tick();
         gatherPower();
-        gatherAir();
-        pushAir();
+        gatherCO2();
+        pushCO2();
     }
 
     /**
@@ -91,24 +90,22 @@ public class VCCRImpl extends SimBioModuleImpl implements VCCROperations,
      */
     public void reset() {
         super.reset();
-        myBreath = new Breath(0f, 0f, 0f, 0f, 0f);
         currentPowerConsumed = 0;
         currentCO2Produced = 0f;
     }
 
-    private void gatherAir() {
+    private void gatherCO2() {
         //25.625 watts -> 1.2125 moles of Air
         float molesAirNeeded = (currentPowerConsumed / 25.625f) * 1.2125f;
-        myBreath = myAirConsumerDefinitionImpl
-                .getAirFromEnvironment(molesAirNeeded);
+        SimEnvironment theEnvironment = myAirConsumerDefinitionImpl.getEnvironments()[0];
+        float theCO2Percentage = theEnvironment.getCO2Store().getCurrentLevel() / theEnvironment.getTotalMoles();
+        //gather CO2
+        gatheredCO2 = theEnvironment.getCO2Store().take(theCO2Percentage * theCO2Percentage);
     }
 
-    private void pushAir() {
-        Breath breathToDistribute = new Breath(myBreath.O2, 0f, myBreath.water,
-                myBreath.other, myBreath.nitrogen);
-        myAirProducerDefinitionImpl
-                .pushAirToEnvironments(breathToDistribute);
-        currentCO2Produced = myBreath.CO2;
+    private void pushCO2() {
+        //distrbute CO2
+        currentCO2Produced = gatheredCO2;
         myCO2ProducerDefinitionImpl
                 .pushResourceToStore(currentCO2Produced);
         myLogger.debug("currentCO2Produced = " + currentCO2Produced);

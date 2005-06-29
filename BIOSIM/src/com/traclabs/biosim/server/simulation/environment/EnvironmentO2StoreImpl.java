@@ -7,5 +7,4 @@ public class EnvironmentO2StoreImpl extends EnvironmentStoreImpl implements Envi
 	public EnvironmentO2StoreImpl(SimEnvironmentImpl pSimEnvironmentImpl) {
 		super(pSimEnvironmentImpl);
 	}
-
 }
