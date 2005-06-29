@@ -149,7 +149,7 @@ public class HandController {
                         myO2Injector));
 
         myO2AirConcentrationSensor = (myBioHolder
-                .getSensorAttachedTo(myBioHolder.theEnvironmentConcentrationSensors,
+                .getSensorAttachedTo(myBioHolder.theGasConcentrationSensors,
                         myCrewEnvironment.getO2Store()));
 
         if (myCO2Injector != null) {
@@ -165,7 +165,7 @@ public class HandController {
 
             myCO2AirConcentrationSensor = (myBioHolder
                     .getSensorAttachedTo(
-                            myBioHolder.theEnvironmentConcentrationSensors,
+                            myBioHolder.theGasConcentrationSensors,
                             myCrewEnvironment.getCO2Store()));
         }
     }

@@ -216,9 +216,9 @@ public class BioHolder {
 
     public List<AirOutFlowRateSensor> theAirOutFlowRateSensors = new Vector<AirOutFlowRateSensor>();
 
-    public List<EnvironmentPressureSensor> theEnvironmentPressureSensors = new Vector<EnvironmentPressureSensor>();
+    public List<EnvironmentPressureSensor> theGasPressureSensors = new Vector<EnvironmentPressureSensor>();
 
-    public List<EnvironmentConcentrationSensor> theEnvironmentConcentrationSensors = new Vector<EnvironmentConcentrationSensor>();
+    public List<EnvironmentConcentrationSensor> theGasConcentrationSensors = new Vector<EnvironmentConcentrationSensor>();
 
     //Food
     public List<BiomassInFlowRateSensor> theBiomassInFlowRateSensors = new Vector<BiomassInFlowRateSensor>();
@@ -465,8 +465,8 @@ public class BioHolder {
         //Environment
         theSensors.addAll(theAirInFlowRateSensors);
         theSensors.addAll(theAirOutFlowRateSensors);
-        theSensors.addAll(theEnvironmentPressureSensors);
-        theSensors.addAll(theEnvironmentConcentrationSensors);
+        theSensors.addAll(theGasPressureSensors);
+        theSensors.addAll(theGasConcentrationSensors);
         //Food
         theSensors.addAll(theBiomassInFlowRateSensors);
         theSensors.addAll(theBiomassOutFlowRateSensors);
@@ -604,8 +604,8 @@ public class BioHolder {
         //Environment
         theAirInFlowRateSensors.clear();
         theAirOutFlowRateSensors.clear();
-        theEnvironmentPressureSensors.clear();
-        theEnvironmentConcentrationSensors.clear();
+        theGasPressureSensors.clear();
+        theGasConcentrationSensors.clear();
         //Food
         theBiomassInFlowRateSensors.clear();
         theBiomassOutFlowRateSensors.clear();

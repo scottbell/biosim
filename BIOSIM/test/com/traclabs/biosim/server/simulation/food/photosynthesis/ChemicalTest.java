@@ -17,7 +17,7 @@ public class ChemicalTest extends TestCase {
         Chemical testChemical = new Chemical(10);
         assertEquals(testChemical.getQuantity(), 10f, 0);
         testChemical.take(3);
-        testChemical.update();
+        testChemical.tick();
         assertEquals(testChemical.getQuantity(), 7f, 0);
     }
 
@@ -25,7 +25,7 @@ public class ChemicalTest extends TestCase {
         Chemical testChemical = new Chemical(10);
         assertEquals(testChemical.getQuantity(), 10f, 0);
         testChemical.add(2);
-        testChemical.update();
+        testChemical.tick();
         assertEquals(testChemical.getQuantity(), 12f, 0);
     }
 
@@ -34,7 +34,7 @@ public class ChemicalTest extends TestCase {
         assertEquals(testChemical.getQuantity(), 10f, 0);
         testChemical.take(5);
         assertEquals(testChemical.getQuantity(), 10f, 0);
-        testChemical.update();
+        testChemical.tick();
         assertEquals(testChemical.getQuantity(), 5f, 0);
     }
 

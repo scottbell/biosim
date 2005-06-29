@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JToolBar;
 import javax.swing.Timer;
 
 import com.traclabs.biosim.client.framework.gui.BioFrame;
@@ -21,7 +22,11 @@ import com.traclabs.biosim.util.OrbUtils;
 
 public class PhotosynthesisPanel extends JPanel {
 
-    private JPanel myButtonPanel = new JPanel();
+    private JToolBar myButtonBar = new JToolBar();
+
+    private JButton myResetButton;
+    
+    private final static String myResetToolTipText = "Reset the simulation.";
 
     private JButton myTickButton;
     
@@ -44,6 +49,8 @@ public class PhotosynthesisPanel extends JPanel {
     private Timer myTickTimer;
 
     //Icons
+    private ImageIcon myResetIcon;
+    
     private ImageIcon myPlayIcon;
 
     private ImageIcon myPauseIcon;
@@ -58,6 +65,9 @@ public class PhotosynthesisPanel extends JPanel {
 
     private void buildGUI() {
         loadIcons();
+        myResetButton = new JButton(new ResetButtonAction());
+        myResetButton.setIcon(myResetIcon);
+        myResetButton.setToolTipText(myPlayToolTipText);
         myTickTimer = new Timer(TICK_DELAY, new TickAction());
         myTickButton = new JButton(new TickButtonAction());
         myTickButton.setIcon(myTickIcon);
@@ -65,9 +75,9 @@ public class PhotosynthesisPanel extends JPanel {
         myPlayPauseButton = new JButton(new PlayPauseButtonAction());
         myPlayPauseButton.setIcon(myPlayIcon);
         myPlayPauseButton.setToolTipText(myPlayToolTipText);
-        myButtonPanel.add(myPlayPauseButton);
-        myButtonPanel.add(myTickButton);
-        myButtonPanel.setBorder(BorderFactory.createTitledBorder("Actions"));
+        myButtonBar.add(myResetButton);
+        myButtonBar.add(myPlayPauseButton);
+        myButtonBar.add(myTickButton);
         myStromaPanel = new StromaPanel(myChloroplast.getStroma());
         myStromaPanel.setBorder(BorderFactory.createTitledBorder("Stroma"));
         myLumenPanel = new LumenPanel(myChloroplast.getThylakoid().getLumen());
@@ -82,7 +92,7 @@ public class PhotosynthesisPanel extends JPanel {
         myGraphPanel.add(myActivityPanel);
         
         setLayout(new BorderLayout());
-        add(myButtonPanel, BorderLayout.NORTH);
+        add(myButtonBar, BorderLayout.NORTH);
         add(myGraphPanel, BorderLayout.CENTER);
     }
 
@@ -98,6 +108,11 @@ public class PhotosynthesisPanel extends JPanel {
     }
     
     private void loadIcons(){
+    	myResetIcon = new ImageIcon(
+            PhotosynthesisPanel.class.getClassLoader()
+            .getResource(
+                    "com/traclabs/biosim/client/framework/start.png"));
+
         myTickIcon = new ImageIcon(
                 PhotosynthesisPanel.class.getClassLoader()
                         .getResource(
@@ -157,6 +172,17 @@ public class PhotosynthesisPanel extends JPanel {
                         "Your message from the Illuminati");
                 dialog.setVisible(true);
             }
+            getTopLevelAncestor().setCursor(Cursor.getDefaultCursor());
+        }
+    }
+    
+    private class ResetButtonAction extends AbstractAction {
+        public void actionPerformed(ActionEvent ae) {
+            getTopLevelAncestor().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            myChloroplast.reset();
+            myStromaPanel.reset();
+            myLumenPanel.reset();
+            myActivityPanel.reset();
             getTopLevelAncestor().setCursor(Cursor.getDefaultCursor());
         }
     }

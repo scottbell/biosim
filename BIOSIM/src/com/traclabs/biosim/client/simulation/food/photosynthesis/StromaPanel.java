@@ -2,6 +2,7 @@ package com.traclabs.biosim.client.simulation.food.photosynthesis;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.util.Iterator;
 
 import javax.swing.JPanel;
 
@@ -86,4 +87,11 @@ public class StromaPanel extends JPanel {
         myChart.getXYPlot().setDataset(myData);
         ticks++;
     }
+
+	public void reset() {
+		for (Iterator iter = myData.getSeries().iterator(); iter.hasNext();){
+			XYSeries series = (XYSeries)(iter.next());
+			series.clear();
+		}
+	}
 }

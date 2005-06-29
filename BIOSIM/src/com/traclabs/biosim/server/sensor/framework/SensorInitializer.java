@@ -709,22 +709,22 @@ public class SensorInitializer {
         mySensors.add(myAirOutFlowRateSensor);
     }
 
-    private void createEnvironmentConcentrationSensor(Node child) {
+    private void createGasConcentrationSensor(Node child) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	private void configureEnvironmentConcentrationSensor(Node child) {
+	private void configureGasConcentrationSensor(Node child) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	private void createEnvironmentPressureSensor(Node child) {
+	private void createGasPressureSensor(Node child) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	private void configureEnvironmentPressureSensor(Node child) {
+	private void configureGasPressureSensor(Node child) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -743,16 +743,16 @@ public class SensorInitializer {
                     createAirOutFlowRateSensor(child);
                 else
                     configureAirOutFlowRateSensor(child);
-            } else if (childName.equals("EnvironmentPressureSensor")) {
+            } else if (childName.equals("GasPressureSensor")) {
                 if (firstPass)
-                    createEnvironmentPressureSensor(child);
+                    createGasPressureSensor(child);
                 else
-                    configureEnvironmentPressureSensor(child);
-            } else if (childName.equals("EnvironmentConcentrationSensor")) {
+                    configureGasPressureSensor(child);
+            } else if (childName.equals("GasConcentrationSensor")) {
                 if (firstPass)
-                	createEnvironmentConcentrationSensor(child);
+                	createGasConcentrationSensor(child);
                 else
-                	configureEnvironmentConcentrationSensor(child);
+                	configureGasConcentrationSensor(child);
             }
             child = child.getNextSibling();
         }

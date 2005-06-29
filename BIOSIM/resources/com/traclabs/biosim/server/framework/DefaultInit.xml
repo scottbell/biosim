@@ -163,28 +163,16 @@
 		</food>
 		<framework>
 			<Accumulator name="BasePlantAccumulator">
-				<O2AirConsumer>
-					<environmentInputs desiredFlowRates="100000000" maxFlowRates="100000000" inputs="BasePlantEnvironment"/>
-				</O2AirConsumer>
-				<O2AirProducer>
-					<storeOutputs desiredFlowRates="100000000" maxFlowRates="100000000" outputs="BaseO2Store"/>
-				</O2AirProducer>
+				<O2Consumer desiredFlowRates="100000000" maxFlowRates="100000000" inputs="BasePlantEnvironment"/>
+				<O2Producer desiredFlowRates="100000000" maxFlowRates="100000000" outputs="BaseO2Store"/>
 			</Accumulator>
 			<Injector name="EVAInjector">
-				<O2AirConsumer>
-					<storeInputs desiredFlowRates="30" maxFlowRates="30" inputs="EVAO2Store"/>
-				</O2AirConsumer>
-				<O2AirProducer>
-					<environmentOutputs desiredFlowRates="30" maxFlowRates="30" outputs="EVACrewEnvironment"/>
-				</O2AirProducer>
+				<O2Consumer desiredFlowRates="30" maxFlowRates="30" inputs="EVAO2Store"/>
+				<O2Producer desiredFlowRates="30" maxFlowRates="30" outputs="EVACrewEnvironment"/>
 			</Injector>
 			<Injector name="BaseInjector">
-				<O2AirConsumer>
-					<storeInputs desiredFlowRates="30" maxFlowRates="30" inputs="BaseO2Store"/>
-				</O2AirConsumer>
-				<O2AirProducer>
-					<environmentOutputs desiredFlowRates="30" maxFlowRates="30" outputs="BaseCrewEnvironment"/>
-				</O2AirProducer>
+				<O2Consumer desiredFlowRates="30" maxFlowRates="30" inputs="BaseO2Store"/>
+				<O2Producer  desiredFlowRates="30" maxFlowRates="30" outputs="BaseCrewEnvironment"/>
 			</Injector>
 		</framework>
 		<power>
@@ -226,44 +214,38 @@
 	</SimBioModules>
 	
 	<Sensors>
-		<air>
-			<CO2StoreLevelSensor input="BaseCO2Store" name="BaseCO2StoreLevelSensor"/>
-			<O2StoreLevelSensor input="BaseO2Store" name="BaseO2StoreLevelSensor"/>
-			<H2StoreLevelSensor input="BaseH2Store" name="BaseH2StoreLevelSensor"/>
-		</air>
 		<environment>
-			<CO2AirConcentrationSensor input="BaseCrewEnvironment" name="BaseCrewEnvironmentCO2AirConcentrationSensor"/>
-			<O2AirConcentrationSensor input="BaseCrewEnvironment" name="BaseCrewEnvironmentO2AirConcentrationSensor"/>
-			<WaterAirConcentrationSensor input="BaseCrewEnvironment" name="BaseCrewEnvironmentWaterAirConcentrationSensor"/>
+			<GasConcentrationSensor gasType="CO2" input="BaseCrewEnvironment" name="BaseCrewEnvironmentCO2ConcentrationSensor"/>
+			<GasConcentrationSensor gasType="O2" input="BaseCrewEnvironment" name="BaseCrewEnvironmentO2ConcentrationSensor"/>
+			<GasConcentrationSensor gasType="VAPOR" input="BaseCrewEnvironment" name="BaseCrewEnvironmentVaporConcentrationSensor"/>
 		</environment>
 		<food>
 			<BiomassInFlowRateSensor index="0" input="FoodProcessor" name="FoodProcessorBiomassInFlowRateSensor"/>
-			<BiomassStoreLevelSensor input="BaseBiomassStore" name="BaseBiomassStoreLevelSensor"/>
-			<FoodStoreLevelSensor input="BaseFoodStore" name="BaseFoodStoreLevelSensor"/>
 		</food>
 		<framework>
+			<StoreLevelSensor input="BaseCO2Store" name="BaseCO2StoreLevelSensor"/>
+			<StoreLevelSensor input="BaseO2Store" name="BaseO2StoreLevelSensor"/>
+			<StoreLevelSensor input="BaseH2Store" name="BaseH2StoreLevelSensor"/>
+			<StoreLevelSensor input="BaseBiomassStore" name="BaseBiomassStoreLevelSensor"/>
+			<StoreLevelSensor input="BaseFoodStore" name="BaseFoodStoreLevelSensor"/>
+			<StoreLevelSensor input="BasePowerStore" name="BasePowerStoreLevelSensor"/>
+			<StoreLevelSensor input="CrewBaseDirtyWaterStore" name="CrewBaseDirtyWaterStoreLevelSensor"/>
+			<StoreLevelSensor input="CrewBaseGreyWaterStore" name="CrewBaseGreyWaterStoreLevelSensor"/>
+			<StoreLevelSensor input="CrewBasePotableWaterStore" name="CrewBasePotableWaterStoreLevelSensor"/>
 			<StoreOverflowSensor input="BaseO2Store" name="BaseO2StoreOverflowSensor"/>
 			<StoreOverflowSensor input="BaseCO2Store" name="BaseCO2StoreOverflowSensor"/>
 		</framework>
 		<power>
 			<PowerInFlowRateSensor index="0" input="FoodProcessor" name="FoodProcessorPowerInFlowRateSensor"/>
-			<PowerStoreLevelSensor input="BasePowerStore" name="BasePowerStoreLevelSensor"/>
 		</power>
-		<water>
-			<DirtyWaterStoreLevelSensor input="CrewBaseDirtyWaterStore" name="CrewBaseDirtyWaterStoreLevelSensor"/>
-			<GreyWaterStoreLevelSensor input="CrewBaseGreyWaterStore" name="CrewBaseGreyWaterStoreLevelSensor"/>
-			<PotableWaterStoreLevelSensor input="CrewBasePotableWaterStore" name="CrewBasePotableWaterStoreLevelSensor"/>
-		</water>
 	</Sensors>
 	<Actuators>
 		<air>
 			<O2OutFlowRateActuator index="0" output="BaseOGS" name="BaseOGSO2OutFlowRateActuator"/>
 			<H2OutFlowRateActuator index="0" output="BaseOGS" name="BaseOGSH2OutFlowRateActuator"/>
+			<O2OutFlowRateActuator index="0" output="BaseInjector" name="BaseInjectorO2OutFlowRateActuator"/>
+			<O2InFlowRateActuator index="0" output="BaseInjector" name="BaseInjectorO2InFlowRateActuator"/>
 		</air>
-		<environment>
-			<O2AirEnvironmentOutFlowRateActuator index="0" output="BaseInjector" name="BaseInjectorO2AirEnvironmentOutFlowRateActuator"/>
-			<O2AirStoreInFlowRateActuator index="0" output="BaseInjector" name="BaseInjectorO2AirStoreInFlowRateActuator"/>
-		</environment>
 		<food>
 			<BiomassInFlowRateActuator index="0" output="FoodProcessor" name="FoodProcessorBiomassInFlowRateActuator"/>
 			<HarvestingActuator output="BaseBiomassRS" name="BaseBiomassRSHarvestingActuator" shelfIndex="0"/>

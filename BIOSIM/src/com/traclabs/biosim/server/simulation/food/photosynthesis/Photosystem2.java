@@ -77,4 +77,9 @@ public class Photosystem2 extends ActiveEnzyme{
     public boolean isEnergized() {
         return energized;
     }
+
+	@Override
+	public void reset() {
+		energized = false;
+	}
 }

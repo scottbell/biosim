@@ -154,7 +154,7 @@ public class EnvironAirMonitor extends Thread {
             co2Level = mySimEnvironment.getCO2Store().getCurrentLevel();
             o2Level = mySimEnvironment.getO2Store().getCurrentLevel();
             nLevel = mySimEnvironment.getNitrogenStore().getCurrentLevel();
-            h2oLevel = mySimEnvironment.getWaterStore().getCurrentLevel();
+            h2oLevel = mySimEnvironment.getVaporStore().getCurrentLevel();
             otherLevel = mySimEnvironment.getOtherStore().getCurrentLevel();
             totalLevel = mySimEnvironment.getTotalMoles();
 

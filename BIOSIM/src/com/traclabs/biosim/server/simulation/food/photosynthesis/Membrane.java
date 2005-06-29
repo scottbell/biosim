@@ -19,6 +19,7 @@ public class Membrane {
     private Ferredoxin myFerredoxin;
     private FNR myFNR;
     private ATPSynthase myATPSynthase;
+    private Enzyme[] myEnzymes;
     
     public Membrane(Chloroplast pChloroplast, Lumen pLumen, Stroma pStroma){
         myPlastoquinone = new Plastoquinone();
@@ -29,6 +30,16 @@ public class Membrane {
         myFNR = new FNR(myFerredoxin, pStroma);
         myCytochromeB6F = new CytochromeB6F(myPlastoquinone, myPlastocyanin, pLumen, pStroma);
         myATPSynthase = new ATPSynthase(pLumen, pStroma);
+        
+        myEnzymes = new Enzyme[8];
+        myEnzymes[0] = myPlastoquinone;
+        myEnzymes[1] = myPlastocyanin;
+        myEnzymes[2] = myFerredoxin;
+        myEnzymes[3] = myPhotosystem1;
+        myEnzymes[4] = myPhotosystem2;
+        myEnzymes[5] = myFNR;
+        myEnzymes[6] = myCytochromeB6F;
+        myEnzymes[7] = myATPSynthase;
     }
 
     /**
@@ -86,4 +97,9 @@ public class Membrane {
     public ATPSynthase getATPSynthase() {
         return myATPSynthase;
     }
+
+	public void reset() {
+		for (Enzyme enzyme : myEnzymes)
+			enzyme.reset();
+	}
 }

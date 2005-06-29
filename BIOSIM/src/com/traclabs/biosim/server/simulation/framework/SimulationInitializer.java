@@ -367,8 +367,14 @@ public class SimulationInitializer {
                 NitrogenConsumer myNitrogenConsumer = (NitrogenConsumer) (pModule);
                 BioModule[] modules = getInputs(child);
                 NitrogenStore[] inputs = new NitrogenStore[modules.length];
-                for (int i = 0; i < modules.length; i++)
-                    inputs[i] = NitrogenStoreHelper.narrow(modules[i]);
+                for (int i = 0; i < modules.length; i++){
+                	if (modules[i]._is_a(SimEnvironmentHelper.id())){
+                		SimEnvironment currentEnvironment = SimEnvironmentHelper.narrow(modules[i]);
+                		inputs[i] = currentEnvironment.getNitrogenStore();
+                	}
+        		else
+        			inputs[i] = NitrogenStoreHelper.narrow(modules[i]);
+                }
                 myNitrogenConsumer.getNitrogenConsumerDefinition()
                         .setNitrogenInputs(inputs, getMaxFlowRates(child),
                                 getDesiredFlowRates(child));
@@ -385,16 +391,28 @@ public class SimulationInitializer {
                 O2Consumer myO2Consumer = (O2Consumer) (pModule);
                 BioModule[] modules = getInputs(child);
                 O2Store[] inputs = new O2Store[modules.length];
-                for (int i = 0; i < modules.length; i++)
-                    inputs[i] = O2StoreHelper.narrow(modules[i]);
+                for (int i = 0; i < modules.length; i++){
+            		if (modules[i]._is_a(SimEnvironmentHelper.id())){
+            			SimEnvironment currentEnvironment = SimEnvironmentHelper.narrow(modules[i]);
+                		inputs[i] = currentEnvironment.getO2Store();
+                	}
+            		else
+            			inputs[i] = O2StoreHelper.narrow(modules[i]);
+                }
                 myO2Consumer.getO2ConsumerDefinition().setO2Inputs(inputs,
                         getMaxFlowRates(child), getDesiredFlowRates(child));
             } else if (childName.equals("CO2Consumer")) {
                 CO2Consumer myCO2Consumer = (CO2Consumer) (pModule);
                 BioModule[] modules = getInputs(child);
                 CO2Store[] inputs = new CO2Store[modules.length];
-                for (int i = 0; i < modules.length; i++)
-                    inputs[i] = CO2StoreHelper.narrow(modules[i]);
+                for (int i = 0; i < modules.length; i++){
+            		if (modules[i]._is_a(SimEnvironmentHelper.id())){
+            			SimEnvironment currentEnvironment = SimEnvironmentHelper.narrow(modules[i]);
+                		inputs[i] = currentEnvironment.getCO2Store();
+                	}
+            		else
+            			inputs[i] = CO2StoreHelper.narrow(modules[i]);
+                }
                 myCO2Consumer.getCO2ConsumerDefinition().setCO2Inputs(inputs,
                         getMaxFlowRates(child), getDesiredFlowRates(child));
             } else if (childName.equals("lightConsumer")) {
@@ -498,8 +516,14 @@ public class SimulationInitializer {
                 NitrogenProducer myNitrogenProducer = (NitrogenProducer) (pModule);
                 BioModule[] modules = getOutputs(child);
                 NitrogenStore[] outputs = new NitrogenStore[modules.length];
-                for (int i = 0; i < modules.length; i++)
-                    outputs[i] = NitrogenStoreHelper.narrow(modules[i]);
+                for (int i = 0; i < modules.length; i++){
+            		if (modules[i]._is_a(SimEnvironmentHelper.id())){
+            			SimEnvironment currentEnvironment = SimEnvironmentHelper.narrow(modules[i]);
+            			outputs[i] = currentEnvironment.getNitrogenStore();
+                	}
+            		else
+            			outputs[i] = NitrogenStoreHelper.narrow(modules[i]);
+                }
                 myNitrogenProducer.getNitrogenProducerDefinition()
                         .setNitrogenOutputs(outputs, getMaxFlowRates(child),
                                 getDesiredFlowRates(child));
@@ -516,16 +540,28 @@ public class SimulationInitializer {
                 O2Producer myO2Producer = (O2Producer) (pModule);
                 BioModule[] modules = getOutputs(child);
                 O2Store[] outputs = new O2Store[modules.length];
-                for (int i = 0; i < modules.length; i++)
-                    outputs[i] = O2StoreHelper.narrow(modules[i]);
+                for (int i = 0; i < modules.length; i++){
+            		if (modules[i]._is_a(SimEnvironmentHelper.id())){
+            			SimEnvironment currentEnvironment = SimEnvironmentHelper.narrow(modules[i]);
+            			outputs[i] = currentEnvironment.getO2Store();
+                	}
+            		else
+            			outputs[i] = O2StoreHelper.narrow(modules[i]);
+                }
                 myO2Producer.getO2ProducerDefinition().setO2Outputs(outputs,
                         getMaxFlowRates(child), getDesiredFlowRates(child));
             } else if (childName.equals("CO2Producer")) {
                 CO2Producer myCO2Producer = (CO2Producer) (pModule);
                 BioModule[] modules = getOutputs(child);
                 CO2Store[] outputs = new CO2Store[modules.length];
-                for (int i = 0; i < modules.length; i++)
-                    outputs[i] = CO2StoreHelper.narrow(modules[i]);
+                for (int i = 0; i < modules.length; i++){
+            		if (modules[i]._is_a(SimEnvironmentHelper.id())){
+            			SimEnvironment currentEnvironment = SimEnvironmentHelper.narrow(modules[i]);
+            			outputs[i] = currentEnvironment.getCO2Store();
+                	}
+            		else
+            			outputs[i] = CO2StoreHelper.narrow(modules[i]);
+                }
                 myCO2Producer.getCO2ProducerDefinition().setCO2Outputs(outputs,
                         getMaxFlowRates(child), getDesiredFlowRates(child));
             } else if (childName.equals("biomassProducer")) {

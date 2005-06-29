@@ -154,7 +154,7 @@ public abstract class EnvironmentFlowRateControllableImpl extends
             float otherAdded = getEnvironments()[i]
                     .getOtherStore().add(reducedOtherToPass);
             float waterAdded = getEnvironments()[i]
-                    .getWaterStore().add(reducedWaterToPass);
+                    .getVaporStore().add(reducedWaterToPass);
             float nitrogenAdded = getEnvironments()[i]
                     .getNitrogenStore().add(reducedNitrogenToPass);
             distributedO2Left -= O2Added;

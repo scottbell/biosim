@@ -18,4 +18,5 @@ public abstract class Enzyme {
         myLogger = Logger.getLogger(getClass());
     }
     public abstract void tick();
+	public abstract void reset();
 }

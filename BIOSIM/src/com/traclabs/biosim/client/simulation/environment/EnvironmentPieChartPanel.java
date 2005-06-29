@@ -54,11 +54,7 @@ public class EnvironmentPieChartPanel extends GraphPanel {
     protected void createGraph() {
         // create the chart...
         refresh();
-        String titleText = "Environment";
-        if (mySimEnvironment.getModuleName().startsWith("Crew"))
-            titleText = "Crew Environment";
-        else if (mySimEnvironment.getModuleName().startsWith("Plant"))
-            titleText = "Plant Environment";
+        String titleText = mySimEnvironment.getModuleName();
         myChart = ChartFactory.createPieChart3D(titleText, myDataset, true,
                 true, false);
         myPlot = (PiePlot3D) (myChart.getPlot());
@@ -92,7 +88,7 @@ public class EnvironmentPieChartPanel extends GraphPanel {
                 && (mySimEnvironment.getCO2Store().getCurrentLevel() <= 0)
                 && (mySimEnvironment.getNitrogenStore().getCurrentLevel() <= 0)
                 && (mySimEnvironment.getOtherStore().getCurrentLevel() <= 0)
-                && (mySimEnvironment.getWaterStore().getCurrentLevel() <= 0)) {
+                && (mySimEnvironment.getVaporStore().getCurrentLevel() <= 0)) {
             //It isn't in a vacuum, set it up
             if (!isVacuum) {
                 myDataset = new DefaultPieDataset();
@@ -115,7 +111,7 @@ public class EnvironmentPieChartPanel extends GraphPanel {
             }
             myDataset.setValue(O2Category, new Float(mySimEnvironment.getO2Store().getCurrentLevel()));
             myDataset.setValue(CO2Category, new Float(mySimEnvironment.getCO2Store().getCurrentLevel()));
-            myDataset.setValue(waterCategory, new Float(mySimEnvironment.getWaterStore().getCurrentLevel()));
+            myDataset.setValue(waterCategory, new Float(mySimEnvironment.getVaporStore().getCurrentLevel()));
             myDataset.setValue(otherCategory, new Float(mySimEnvironment.getOtherStore().getCurrentLevel()));
             myDataset.setValue(nitrogenCategory, new Float(mySimEnvironment.getNitrogenStore().getCurrentLevel()));
         }
@@ -129,7 +125,7 @@ public class EnvironmentPieChartPanel extends GraphPanel {
                 && (mySimEnvironment.getCO2Store().getCurrentLevel() <= 0)
                 && (mySimEnvironment.getNitrogenStore().getCurrentLevel() <= 0)
                 && (mySimEnvironment.getOtherStore().getCurrentLevel() <= 0)
-                && (mySimEnvironment.getWaterStore().getCurrentLevel() <= 0)) {
+                && (mySimEnvironment.getVaporStore().getCurrentLevel() <= 0)) {
             myDataset.setValue(vacuumCategory, new Float(1f));
             myPlot.setSectionPaint(0, Color.DARK_GRAY);
             isVacuum = true;

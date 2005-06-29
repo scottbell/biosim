@@ -1136,7 +1136,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
     	+ myAirInputs[0].getO2Store().getCurrentLevel() + ", CO2="
         + myAirInputs[0].getCO2Store().getCurrentLevel() + ", N="
         + myAirInputs[0].getNitrogenStore().getCurrentLevel() + ", water="
-        + myAirInputs[0].getWaterStore().getCurrentLevel() + ", other="
+        + myAirInputs[0].getVaporStore().getCurrentLevel() + ", other="
         + myAirInputs[0].getOtherStore().getCurrentLevel());
     }
 
@@ -1214,7 +1214,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
         }
         if (myAirOutputs.length > 0) {
             myAirOutputs[0].getCO2Store().add(CO2Produced);
-            myAirOutputs[0].getWaterStore().add(vaporProduced);
+            myAirOutputs[0].getVaporStore().add(vaporProduced);
         }
     }
 

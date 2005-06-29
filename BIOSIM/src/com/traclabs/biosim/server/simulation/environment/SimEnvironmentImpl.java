@@ -6,8 +6,16 @@ import com.traclabs.biosim.idl.framework.Malfunction;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.simulation.air.Breath;
-import com.traclabs.biosim.idl.simulation.environment.EnvironmentStore;
-import com.traclabs.biosim.idl.simulation.environment.EnvironmentStoreHelper;
+import com.traclabs.biosim.idl.simulation.environment.EnvironmentCO2Store;
+import com.traclabs.biosim.idl.simulation.environment.EnvironmentCO2StorePOATie;
+import com.traclabs.biosim.idl.simulation.environment.EnvironmentNitrogenStore;
+import com.traclabs.biosim.idl.simulation.environment.EnvironmentNitrogenStorePOATie;
+import com.traclabs.biosim.idl.simulation.environment.EnvironmentO2Store;
+import com.traclabs.biosim.idl.simulation.environment.EnvironmentO2StorePOATie;
+import com.traclabs.biosim.idl.simulation.environment.EnvironmentOtherStore;
+import com.traclabs.biosim.idl.simulation.environment.EnvironmentOtherStorePOATie;
+import com.traclabs.biosim.idl.simulation.environment.EnvironmentVaporStore;
+import com.traclabs.biosim.idl.simulation.environment.EnvironmentVaporStorePOATie;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironmentOperations;
 import com.traclabs.biosim.server.simulation.framework.PassiveModuleImpl;
 import com.traclabs.biosim.util.OrbUtils;
@@ -22,19 +30,31 @@ import com.traclabs.biosim.util.OrbUtils;
 public class SimEnvironmentImpl extends PassiveModuleImpl implements
         SimEnvironmentOperations {
 	
-	private EnvironmentStoreImpl myO2Store = new EnvironmentStoreImpl(this);
+	private EnvironmentO2StoreImpl myO2StoreImpl = new EnvironmentO2StoreImpl(this);
 	
-	private EnvironmentStoreImpl myCO2Store = new EnvironmentStoreImpl(this);
+	private EnvironmentCO2StoreImpl myCO2StoreImpl = new EnvironmentCO2StoreImpl(this);
 	
-	private EnvironmentStoreImpl myNitrogenStore = new EnvironmentStoreImpl(this);
+	private EnvironmentNitrogenStoreImpl myNitrogenStoreImpl = new EnvironmentNitrogenStoreImpl(this);
 	
-	private EnvironmentStoreImpl myOtherStore = new EnvironmentStoreImpl(this);
+	private EnvironmentOtherStoreImpl myOtherStoreImpl = new EnvironmentOtherStoreImpl(this);
 	
-	private EnvironmentStoreImpl myWaterStore = new EnvironmentStoreImpl(this);
+	private EnvironmentVaporStoreImpl myVaporStoreImpl = new EnvironmentVaporStoreImpl(this);
 	
-	private EnvironmentStoreImpl[] myEnvironmentStores = {myO2Store, myCO2Store, myNitrogenStore, myOtherStore, myWaterStore};
+	private EnvironmentStoreImpl[] myEnvironmentStores = {myO2StoreImpl, myCO2StoreImpl, myNitrogenStoreImpl, myOtherStoreImpl, myVaporStoreImpl};
 	
-    private final static float temperature = 23f;
+	private EnvironmentO2Store myO2Store;
+	
+	private EnvironmentCO2Store myCO2Store;
+	
+	private EnvironmentNitrogenStore myNitrogenStore;
+	
+	private EnvironmentOtherStore myOtherStore;
+	
+	private EnvironmentVaporStore myVaporStore;
+    
+	private final static float temperature = 23f;
+	
+    private final static float idealGasConstant = 8.314f; // J K ^-1 mol -1
 
     //The total currentVolume of the environment (all the open space)
     private float currentVolume = 0f;
@@ -77,12 +97,31 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
      */
     public SimEnvironmentImpl(int pID, float pInitialVolume, String pName) {
         super(pID, pName);
+        createPOAObjects();
         setInitialVolumeAtSeaLevel(pInitialVolume);
     }
 
-    public SimEnvironmentImpl(float O2Moles, float CO2Moles, float otherMoles, float waterMoles, float nitrogenMoles, float pVolume, String pName, int pID) {
+	public SimEnvironmentImpl(float O2Moles, float CO2Moles, float otherMoles, float waterMoles, float nitrogenMoles, float pVolume, String pName, int pID) {
     	super(pID, pName);
+        createPOAObjects();
     	setInitialVolume(O2Moles, CO2Moles, otherMoles, waterMoles, nitrogenMoles, pVolume);
+	}
+
+    private void createPOAObjects() {
+    	EnvironmentO2StorePOATie O2Tie = new EnvironmentO2StorePOATie(myO2StoreImpl);
+    	myO2Store = O2Tie._this(OrbUtils.getORB());
+    	
+    	EnvironmentCO2StorePOATie CO2Tie = new EnvironmentCO2StorePOATie(myCO2StoreImpl);
+    	myCO2Store = CO2Tie._this(OrbUtils.getORB());
+    	
+    	EnvironmentNitrogenStorePOATie nitrogenTie = new EnvironmentNitrogenStorePOATie(myNitrogenStoreImpl);
+    	myNitrogenStore = nitrogenTie._this(OrbUtils.getORB());
+    	
+    	EnvironmentVaporStorePOATie vaporTie = new EnvironmentVaporStorePOATie(myVaporStoreImpl);
+    	myVaporStore = vaporTie._this(OrbUtils.getORB());
+    	
+    	EnvironmentOtherStorePOATie otherTie = new EnvironmentOtherStorePOATie(myOtherStoreImpl);
+    	myOtherStore = otherTie._this(OrbUtils.getORB());
 	}
 
 	/**
@@ -116,7 +155,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
             return 0f;
         float exponent = (17.4f * getTemperature()) / kelvinTemperature;
         float saturatedVaporPressure = .611f * exp(exponent);
-        return myWaterStore.getPressure() / saturatedVaporPressure;
+        return myVaporStoreImpl.getPressure() / saturatedVaporPressure;
     }
 
     //returns temperature in celsius
@@ -153,11 +192,19 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
      */
     public void setInitialVolumeAtSeaLevel(float pInitialVolume) {
         currentVolume = initialVolume = pInitialVolume;
-        myO2Store.setInitialLevel(0.2f);
-        myOtherStore.setInitialLevel(0.01f);
-        myCO2Store.setInitialLevel(0.02f);
-        myWaterStore.setInitialLevel(0.01f);
-        myNitrogenStore.setInitialLevel(0.76f);
+        myO2StoreImpl.setInitialLevel(calculateMoles(20.0f));
+        myCO2StoreImpl.setInitialLevel(calculateMoles(0.111f));
+        myOtherStoreImpl.setInitialLevel(calculateMoles(1.0f));
+        myVaporStoreImpl.setInitialLevel(calculateMoles(1.0f));
+        myNitrogenStoreImpl.setInitialLevel(calculateMoles(78.96f));
+    }
+    
+    private float calculateMoles(float pPressure) {
+        float kelvinTemperature = temperature + 273f;
+        if (kelvinTemperature > 0)
+            return (pPressure * currentVolume)
+                    / (kelvinTemperature * idealGasConstant);
+		return 0;
     }
 
     public float getInitialVolume() {
@@ -169,9 +216,9 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
     }
 
     public Breath addBreath(Breath pBreath) {
-        return new Breath(myO2Store.add(pBreath.O2), myCO2Store.add(pBreath.CO2),
-        		myWaterStore.add(pBreath.water), myOtherStore.add(pBreath.other),
-        		myNitrogenStore.add(pBreath.nitrogen));
+        return new Breath(myO2StoreImpl.add(pBreath.O2), myCO2StoreImpl.add(pBreath.CO2),
+        		myVaporStoreImpl.add(pBreath.water), myOtherStoreImpl.add(pBreath.other),
+        		myNitrogenStoreImpl.add(pBreath.nitrogen));
     }
 
     public Breath takeAirMoles(float molesRequested) {
@@ -184,11 +231,11 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
         if (molesRequested <= 0)
             return new Breath(0f, 0f, 0f, 0f, 0f);
         //asking for more gas than exists
-        float CO2Moles = myCO2Store.getCurrentLevel();
-        float O2Moles = myO2Store.getCurrentLevel();
-        float otherMoles = myOtherStore.getCurrentLevel();
-        float waterMoles = myWaterStore.getCurrentLevel();
-        float nitrogenMoles = myNitrogenStore.getCurrentLevel();
+        float CO2Moles = myCO2StoreImpl.getCurrentLevel();
+        float O2Moles = myO2StoreImpl.getCurrentLevel();
+        float otherMoles = myOtherStoreImpl.getCurrentLevel();
+        float waterMoles = myVaporStoreImpl.getCurrentLevel();
+        float nitrogenMoles = myNitrogenStoreImpl.getCurrentLevel();
         if (molesRequested >= getTotalMoles()) {
             float afterRemovalCO2 = randomFilter(CO2Moles);
             float afterRemovalO2 = randomFilter(O2Moles);
@@ -214,11 +261,11 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
 		float otherMolesTaken = otherMoles - afterRemovalOther;
 		float waterMolesTaken = waterMoles - afterRemovalWater;
 		float nitrogenMolesTaken = nitrogenMoles - afterRemovalNitrogen;
-		myO2Store.setCurrentLevel(afterRemovalO2);
-		myCO2Store.setCurrentLevel(afterRemovalCO2);
-		myOtherStore.setCurrentLevel(afterRemovalOther);
-		myWaterStore.setCurrentLevel(afterRemovalWater);
-		myNitrogenStore.setCurrentLevel(afterRemovalNitrogen);
+		myO2StoreImpl.setCurrentLevel(afterRemovalO2);
+		myCO2StoreImpl.setCurrentLevel(afterRemovalCO2);
+		myOtherStoreImpl.setCurrentLevel(afterRemovalOther);
+		myVaporStoreImpl.setCurrentLevel(afterRemovalWater);
+		myNitrogenStoreImpl.setCurrentLevel(afterRemovalNitrogen);
 		return new Breath(O2MolesTaken, CO2MolesTaken, waterMolesTaken,
 		        otherMolesTaken, nitrogenMolesTaken);
     }
@@ -249,22 +296,22 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
                     currentMalfunction.setPerformed(true);
                     return;
                 }
-                float O2percentage = myO2Store.getCurrentLevel() / getTotalMoles();
-                float CO2percentage = myCO2Store.getCurrentLevel()  / getTotalMoles();
-                float otherPercentage = myOtherStore.getCurrentLevel()  / getTotalMoles();
-                float waterPercentage = myWaterStore.getCurrentLevel()  / getTotalMoles();
-                float nitrogenPercentage = myNitrogenStore.getCurrentLevel()  / getTotalMoles();
+                float O2percentage = myO2StoreImpl.getCurrentLevel() / getTotalMoles();
+                float CO2percentage = myCO2StoreImpl.getCurrentLevel()  / getTotalMoles();
+                float otherPercentage = myOtherStoreImpl.getCurrentLevel()  / getTotalMoles();
+                float waterPercentage = myVaporStoreImpl.getCurrentLevel()  / getTotalMoles();
+                float nitrogenPercentage = myNitrogenStoreImpl.getCurrentLevel()  / getTotalMoles();
                 if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
                     currentVolume = 0f;
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
                     currentVolume *= 0.5;
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
                     currentVolume *= .25f;
-                myO2Store.setCurrentLevel(O2percentage * currentVolume);
-                myCO2Store.setCurrentLevel(CO2percentage * currentVolume);
-                myOtherStore.setCurrentLevel(otherPercentage * currentVolume);
-                myWaterStore.setCurrentLevel(waterPercentage * currentVolume);
-                myNitrogenStore.setCurrentLevel(nitrogenPercentage * currentVolume);
+                myO2StoreImpl.setCurrentLevel(O2percentage * currentVolume);
+                myCO2StoreImpl.setCurrentLevel(CO2percentage * currentVolume);
+                myOtherStoreImpl.setCurrentLevel(otherPercentage * currentVolume);
+                myVaporStoreImpl.setCurrentLevel(waterPercentage * currentVolume);
+                myNitrogenStoreImpl.setCurrentLevel(nitrogenPercentage * currentVolume);
                 currentMalfunction.setPerformed(true);
             }
         }
@@ -280,6 +327,8 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
      */
     public void tick() {
         super.tick();
+        if ((getMyTicks() >= 145) && getModuleName().equals("BaseCrewEnvironment"))
+        	myLogger.warn("We'll figure this out");
         performLeak(permanentLeakRate);
         calculateLightIntensity();
         for (EnvironmentStoreImpl store : myEnvironmentStores)
@@ -397,33 +446,33 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
         myDangerousOxygenThreshold = pDangerousOxygenThreshold;
     }
 
-	public EnvironmentStore getO2Store() {
-		return EnvironmentStoreHelper.narrow(OrbUtils.poaToCorbaObj(myO2Store));
+	public EnvironmentO2Store getO2Store() {
+		return myO2Store;
 	}
 
-	public EnvironmentStore getCO2Store() {
-		return EnvironmentStoreHelper.narrow(OrbUtils.poaToCorbaObj(myCO2Store));
+	public EnvironmentCO2Store getCO2Store() {
+		return myCO2Store;
 	}
 
-	public EnvironmentStore getOtherStore() {
-		return EnvironmentStoreHelper.narrow(OrbUtils.poaToCorbaObj(myOtherStore));
+	public EnvironmentOtherStore getOtherStore() {
+		return myOtherStore;
 	}
 
-	public EnvironmentStore getWaterStore() {
-		return EnvironmentStoreHelper.narrow(OrbUtils.poaToCorbaObj(myWaterStore));
+	public EnvironmentVaporStore getVaporStore() {
+		return myVaporStore;
 	}
 
-	public EnvironmentStore getNitrogenStore() {
-		return EnvironmentStoreHelper.narrow(OrbUtils.poaToCorbaObj(myNitrogenStore));
+	public EnvironmentNitrogenStore getNitrogenStore() {
+		return myNitrogenStore;
 	}
 
 	public void setInitialVolume(float pInitialO2Moles, float pInitialCO2Moles, float pInitialOtherMoles, float pInitialWaterMoles, float pInitialNitrogenMoles, float pInitialVolume) {
     	currentVolume = initialVolume = pInitialVolume;
-    	myO2Store.setInitialLevel(pInitialO2Moles);
-    	myCO2Store.setInitialLevel(pInitialCO2Moles);
-    	myOtherStore.setInitialLevel(pInitialOtherMoles);
-    	myWaterStore.setInitialLevel(pInitialWaterMoles);
-    	myNitrogenStore.setInitialLevel(pInitialNitrogenMoles);
+    	myO2StoreImpl.setInitialLevel(pInitialO2Moles);
+    	myCO2StoreImpl.setInitialLevel(pInitialCO2Moles);
+    	myOtherStoreImpl.setInitialLevel(pInitialOtherMoles);
+    	myVaporStoreImpl.setInitialLevel(pInitialWaterMoles);
+    	myNitrogenStoreImpl.setInitialLevel(pInitialNitrogenMoles);
 	}
 	
 	/**

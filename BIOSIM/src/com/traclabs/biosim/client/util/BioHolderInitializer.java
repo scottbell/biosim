@@ -706,12 +706,12 @@ public class BioHolderInitializer {
                 .narrow(grabModule(getModuleName(node))));
     }
 
-    private static void fetchEnvironmentPressureSensor(Node child) {
+    private static void fetchGasPressureSensor(Node child) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	private static void fetchEnvironmentConcentrationSensor(Node child) {
+	private static void fetchGasConcentrationSensor(Node child) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -724,10 +724,10 @@ public class BioHolderInitializer {
                 fetchAirInFlowRateSensor(child);
             else if (childName.equals("AirOutFlowRateSensor"))
                 fetchAirOutFlowRateSensor(child);
-            else if (childName.equals("EnvironmentConcentrationSensor"))
-                fetchEnvironmentConcentrationSensor(child);
-            else if (childName.equals("EnvironmentPressureSensor"))
-            	fetchEnvironmentPressureSensor(child);
+            else if (childName.equals("GasConcentrationSensor"))
+                fetchGasConcentrationSensor(child);
+            else if (childName.equals("GasPressureSensor"))
+            	fetchGasPressureSensor(child);
             child = child.getNextSibling();
         }
     }

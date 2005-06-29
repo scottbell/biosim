@@ -75,4 +75,8 @@ public class FNR extends ActiveEnzyme{
     public boolean hasComplexHasFormed() {
         return complexHasFormed;
     }
+
+	public void reset() {
+		complexHasFormed = false;
+	}
 }

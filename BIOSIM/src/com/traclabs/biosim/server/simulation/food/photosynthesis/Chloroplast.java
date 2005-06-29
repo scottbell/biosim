@@ -103,4 +103,9 @@ public class Chloroplast {
     public Thylakoid getThylakoid() {
         return myThylakoid;
     }
+
+	public void reset() {
+	    myStroma.reset();
+	    myThylakoid.reset();
+	}
 }
