@@ -234,13 +234,17 @@ public class ModuleEdge extends NetEdge {
     private SingleFlowRateControllable invokeMethod(SimBioModuleImpl theSimBioModuleImpl, Method definitionMethod) {
     	SingleFlowRateControllable theFlowRateControllableOperations = null;
         try{
-            theFlowRateControllableOperations = (SingleFlowRateControllable)(definitionMethod.invoke(theSimBioModuleImpl, new Object()));
+            theFlowRateControllableOperations = (SingleFlowRateControllable)(definitionMethod.invoke(theSimBioModuleImpl, null));
         }
         catch (IllegalAccessException e){
             myLogger.error("This shouldn't of happened, problem invoking method");
             e.printStackTrace();
         }
         catch (InvocationTargetException e){
+            myLogger.error("This shouldn't of happened, problem invoking method");
+            e.printStackTrace();
+        }
+        catch (java.lang.IllegalArgumentException e){
             myLogger.error("This shouldn't of happened, problem invoking method");
             e.printStackTrace();
         }
