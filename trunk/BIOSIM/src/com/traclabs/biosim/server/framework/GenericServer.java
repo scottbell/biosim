@@ -72,6 +72,8 @@ public class GenericServer {
 
 
     protected static String resolveXMLLocation(String xmlLocation) {
+    	if (xmlLocation == null)
+    		return null;
     	//first see if we can find it in the classpath
         URL foundURL = BiosimServer.class.getClassLoader().getResource(xmlLocation);
         if (foundURL != null){

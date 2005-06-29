@@ -82,4 +82,8 @@ public class CytochromeB6F extends ActiveEnzyme{
     public int getNumberOfElectrons() {
         return electrons;
     }
+
+	public void reset() {
+		electrons = 0;
+	}
 }

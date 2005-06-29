@@ -40,4 +40,8 @@ public class ElectronCarryingEnzyme extends PassiveEnzyme {
         hasElectronCurrent = false;
         
     }
+
+	public void reset() {
+		hasElectronCached = hasElectronCurrent = false;
+	}
 }

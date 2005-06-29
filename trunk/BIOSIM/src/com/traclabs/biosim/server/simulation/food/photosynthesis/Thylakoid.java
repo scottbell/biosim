@@ -32,4 +32,9 @@ public class Thylakoid {
     public Membrane getMembrane() {
         return myMembrane;
     }
+
+	public void reset() {
+		myLumen.reset();
+		myMembrane.reset();
+	}
 }

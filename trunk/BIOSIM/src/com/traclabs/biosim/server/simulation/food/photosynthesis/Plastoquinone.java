@@ -34,4 +34,9 @@ public class Plastoquinone extends PassiveEnzyme{
         return hasProtonsCached;
     }
 
+	@Override
+	public void reset() {
+		hasProtonsCurrent = hasProtonsCached = false;
+	}
+
 }

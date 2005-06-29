@@ -18,8 +18,9 @@ public class BiosimServer extends GenericServer {
     public BiosimServer(int id, int stutterLength, String xmlLocation) {
         String rawFileLocation = resolveXMLLocation(xmlLocation);
         if (rawFileLocation == null) {
-            myLogger.error("Couldn't find init xml file: " + xmlLocation);
-            return;
+            myLogger.warn("Couldn't find init xml file: " + xmlLocation);
+            myLogger.warn("Using default: "+DEFAULT_XML_LOCATION);
+            rawFileLocation = resolveXMLLocation(DEFAULT_XML_LOCATION);
         }
         BioDriverImpl newBioDriverImpl = new BioDriverImpl(id);
         newBioDriverImpl.setDriverStutterLength(stutterLength);

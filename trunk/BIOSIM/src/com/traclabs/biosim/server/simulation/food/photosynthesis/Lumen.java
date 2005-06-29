@@ -15,6 +15,7 @@ public class Lumen extends PassiveEnzyme{
     private Chemical myWaterMolecules = new Chemical(30);
     private Chemical myProtons = new Chemical(0);
     private Chemical myOxygen = new Chemical(0);
+    private Chemical[] myChemicals = {myWaterMolecules, myProtons, myOxygen};
 
     /**
      * @return Returns the protons.
@@ -36,8 +37,12 @@ public class Lumen extends PassiveEnzyme{
     }
     
     public void tick(){
-        myProtons.update();
-        myWaterMolecules.update();
-        myOxygen.update();
+        for (Chemical chemical : myChemicals) 
+        	chemical.tick();
     }
+	public void reset() {
+        for (Chemical chemical : myChemicals) 
+        	chemical.reset();
+		
+	}
 }

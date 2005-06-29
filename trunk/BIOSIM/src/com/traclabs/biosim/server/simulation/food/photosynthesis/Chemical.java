@@ -8,14 +8,14 @@ package com.traclabs.biosim.server.simulation.food.photosynthesis;
 /**
  * @author scott
  *
- * TODO
  */
 public class Chemical {
-    private float quantityCurrent;
-    private float quantityCached;
+    private float myQuantityCurrent;
+    private float myQuantityCached;
+    private float myInitialQuantity;
     
-    public Chemical(float initialQuantity){
-        quantityCurrent = quantityCached = initialQuantity;
+    public Chemical(float pInitialQuantity){
+    	myInitialQuantity = myQuantityCurrent = myQuantityCached = pInitialQuantity;
     }
     
     public float take(float amountRequested){
@@ -25,35 +25,36 @@ public class Chemical {
         }
         float takenAmount;
         //asking for more stuff than exists, reaction can't happen
-        if (amountRequested > quantityCurrent) {
+        if (amountRequested > myQuantityCurrent) {
             return 0f;
         }
 		takenAmount = amountRequested;
-		quantityCurrent -= takenAmount;
+		myQuantityCurrent -= takenAmount;
         return takenAmount;
     }
     
     public void add(float amountRequested) {
-        quantityCurrent += amountRequested;
+        myQuantityCurrent += amountRequested;
     }
     
-    public void update(){
-        quantityCached = quantityCurrent; 
+    public void tick(){
+        myQuantityCached = myQuantityCurrent; 
     }
 
-    /**
-     * @return
-     */
     public float getQuantity() {
-        return quantityCached;
+        return myQuantityCached;
     }
     
     public String toString(){
-        return Float.toString(quantityCurrent);
+        return Float.toString(myQuantityCurrent);
     }
     
     public void setQuantity(float pQuantity){
-        quantityCached = quantityCurrent = pQuantity;
+        myQuantityCached = myQuantityCurrent = pQuantity;
     }
+
+	public void reset() {
+		myQuantityCurrent = myQuantityCached = myInitialQuantity;
+	}
 
 }

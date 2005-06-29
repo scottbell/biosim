@@ -89,4 +89,8 @@ public class ATPSynthase extends ActiveEnzyme {
 		return energized;
 	}
 
+	public void reset() {
+		energized = false;
+	}
+
 }

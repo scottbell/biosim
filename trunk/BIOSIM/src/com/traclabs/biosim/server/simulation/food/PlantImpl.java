@@ -440,7 +440,7 @@ public abstract class PlantImpl extends PlantPOA {
 
     private float calculateActualMoistureVaporPressure() {
         return myShelfImpl.getBiomassRSImpl().getAirProducerDefinition()
-                .getEnvironments()[0].getWaterStore().getPressure();
+                .getEnvironments()[0].getVaporStore().getPressure();
     }
 
     protected float calculateNetCanopyPhotosynthesis() {
@@ -625,7 +625,7 @@ public abstract class PlantImpl extends PlantPOA {
         float molesOfWaterProduced = waterLitersToMoles(litersOfWaterProduced);
         float molesOfWaterAdded = myShelfImpl.getBiomassRSImpl()
                 .getAirProducerDefinition().getEnvironments()[0]
-                .getWaterStore().add(molesOfWaterProduced);
+                .getVaporStore().add(molesOfWaterProduced);
         myShelfImpl.getBiomassRSImpl().addAirOutputActualFlowRates(0,
                 molesOfWaterAdded);
         myLogger.debug("litersOfWaterProduced:" + litersOfWaterProduced);

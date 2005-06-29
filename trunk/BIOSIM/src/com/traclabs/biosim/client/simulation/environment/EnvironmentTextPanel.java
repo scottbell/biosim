@@ -62,11 +62,7 @@ public class EnvironmentTextPanel extends TimedPanel {
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
         setLayout(gridbag);
-        JLabel moduleLabel = new JLabel("Environment");
-        if (mySimEnvironment.getModuleName().startsWith("Crew"))
-            moduleLabel.setText("Crew Environment");
-        else if (mySimEnvironment.getModuleName().startsWith("Plant"))
-            moduleLabel.setText("Plant Environment");
+        JLabel moduleLabel = new JLabel(mySimEnvironment.getModuleName());
         JPanel modulePanel = new JPanel();
         modulePanel.setLayout(new BorderLayout());
         modulePanel.setBorder(BorderFactory.createTitledBorder("Module"));
@@ -92,7 +88,7 @@ public class EnvironmentTextPanel extends TimedPanel {
                 + numFormat.format(mySimEnvironment.getNitrogenStore().getCurrentLevel())
                 + " moles");
         waterLabel = new JLabel("water:   "
-                + numFormat.format(mySimEnvironment.getWaterStore().getCurrentLevel()) + " moles");
+                + numFormat.format(mySimEnvironment.getVaporStore().getCurrentLevel()) + " moles");
         otherLabel = new JLabel("other:  "
                 + numFormat.format(mySimEnvironment.getOtherStore().getCurrentLevel()) + " moles");
         airPanel.add(O2Label);
@@ -133,7 +129,7 @@ public class EnvironmentTextPanel extends TimedPanel {
                 + " moles");
         waterLabel
                 .setText("water:   "
-                        + numFormat.format(mySimEnvironment.getWaterStore().getCurrentLevel())
+                        + numFormat.format(mySimEnvironment.getVaporStore().getCurrentLevel())
                         + " moles");
         otherLabel
                 .setText("other:  "

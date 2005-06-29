@@ -40,10 +40,10 @@ public class EnergyLevelPanel extends JPanel {
     
     private XYSeries myATPSynthaseSeries = new XYSeries("ATP Synthase Energy Level");
     
-    private Color[] myColors = {Color.CYAN, Color.RED, Color.GREEN, Color.BLUE, Color.MAGENTA};
-    
     private XYSeries[] mySeries = {myPS2Series, myCyB6FSeries, myPS1Series, myFNRSeries, myATPSynthaseSeries};
 
+    private Color[] myColors = {Color.CYAN, Color.RED, Color.GREEN, Color.BLUE, Color.MAGENTA};
+    
     private XYSeriesCollection myPS2Data = new XYSeriesCollection(myPS2Series);
     
     private XYSeriesCollection myCyB6FData = new XYSeriesCollection(myCyB6FSeries);
@@ -145,4 +145,9 @@ public class EnergyLevelPanel extends JPanel {
     	
         ticks++;
     }
+
+	public void reset() {
+		for (XYSeries series : mySeries)
+			series.clear();
+	}
 }

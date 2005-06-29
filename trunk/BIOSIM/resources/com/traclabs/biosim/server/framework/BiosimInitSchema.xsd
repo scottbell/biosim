@@ -199,8 +199,8 @@
 						<xsd:choice minOccurs="0" maxOccurs="unbounded">
 							<xsd:element name="AirInFlowRateSensor" type="AirInFlowRateSensorType"/>
 							<xsd:element name="AirOutFlowRateSensor" type="AirOutFlowRateSensorType"/>
-							<xsd:element name="EnvironmentPressureSensor" type="EnvironmentPressureSensorType"/>
-							<xsd:element name="EnvironmentConcentrationSensor" type="EnvironmentConcentrationSensorType"/>
+							<xsd:element name="GasPressureSensor" type="GasPressureSensorType"/>
+							<xsd:element name="GasConcentrationSensor" type="GasConcentrationSensorType"/>
 						</xsd:choice>				
 					</xsd:sequence>
 				</xsd:complexType>
@@ -1147,6 +1147,16 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	
+	<xsd:simpleType name="GasType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="O2"/>
+			<xsd:enumeration value="CO2"/>
+			<xsd:enumeration value="NITROGEN"/>
+			<xsd:enumeration value="VAPOR"/>
+			<xsd:enumeration value="OTHER"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
 	<!-- Air sensor declarations -->
 	<xsd:complexType name="CO2InFlowRateSensorType">  
 		<xsd:complexContent>
@@ -1255,16 +1265,18 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	
-	<xsd:complexType name="EnvironmentConcentrationSensorType">  
+	<xsd:complexType name="GasConcentrationSensorType">  
 		<xsd:complexContent>
 			<xsd:extension base="SensorType">
+				<xsd:attribute name="gasType" type="GasType" use="required"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
-	<xsd:complexType name="EnvironmentPressureSensorType">  
+	<xsd:complexType name="GasPressureSensorType">  
 		<xsd:complexContent>
 			<xsd:extension base="FlowRateSensorType">
+				<xsd:attribute name="gasType" type="GasType" use="required"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>

@@ -117,7 +117,11 @@ module com{
                                                 interface AirProducer;
                                                 interface LightConsumer;
                                                 interface EnvironmentFlowRateControllable;
-                                                interface EnvironmentStore;
+                                                interface EnvironmentO2Store;
+                                                interface EnvironmentCO2Store;
+                                                interface EnvironmentNitrogenStore;
+                                                interface EnvironmentVaporStore;
+                                                interface EnvironmentOtherStore;
                                         };
                                         module water{
                                                 enum WaterRSOperationMode {FULL, OFF, GREY_WATER_ONLY, PARTIAL};
@@ -401,11 +405,11 @@ module com{
                                                 };
 
                                                 interface SimEnvironment : framework::PassiveModule{
-                                                		EnvironmentStore getO2Store();
-                                                		EnvironmentStore getCO2Store();
-                                                		EnvironmentStore getOtherStore();
-                                                		EnvironmentStore getWaterStore();
-                                                		EnvironmentStore getNitrogenStore();
+                                                		EnvironmentO2Store getO2Store();
+                                                		EnvironmentCO2Store getCO2Store();
+                                                		EnvironmentOtherStore getOtherStore();
+                                                		EnvironmentVaporStore getVaporStore();
+                                                		EnvironmentNitrogenStore getNitrogenStore();
                                                         void setInitialVolume(in float pInitialCO2Moles, in float pInitialO2Moles, in float pInitialOtherMoles, in float pInitialWaterMoles, in float pInitialNitrogenMoles, in float pInitialVolume);
                                                         void setInitialVolumeAtSeaLevel(in float pInitialVolume);
                                                         float getInitialVolume();
@@ -432,9 +436,20 @@ module com{
                                                         void setDangerousOxygenThreshold(in float pDangerousOxygenThreshold);
                                                 };
                                                 
-                                                interface EnvironmentStore : framework::Store{
+                                                interface EnvironmentStore : framework::Store {
                                                 		float getPressure();
                                                 };
+                                                
+                                                interface EnvironmentO2Store : air::O2Store, EnvironmentStore{};
+                                                
+                                                interface EnvironmentCO2Store : air::CO2Store, EnvironmentStore{};
+                                                
+                                                interface EnvironmentNitrogenStore : air::NitrogenStore, EnvironmentStore{};
+                                                
+                                                interface EnvironmentVaporStore : EnvironmentStore{};
+                                                
+                                                interface EnvironmentOtherStore : EnvironmentStore{};
+                                                
                                                 interface AirConsumer : environment::EnvironmentConsumer{
                                                         AirConsumerDefinition getAirConsumerDefinition();
                                                 };
@@ -801,11 +816,11 @@ module com{
                                                         void setInput(in simulation::environment::SimEnvironment source);
                                                         simulation::environment::SimEnvironment getInput();
                                                 };
-                                                interface EnvironmentPressureSensor : framework::GenericSensor{
+                                                interface GasPressureSensor : framework::GenericSensor{
                                                         void setInput(in simulation::environment::EnvironmentStore source);
                                                         simulation::environment::EnvironmentStore getInput();
                                                 };
-                                                interface EnvironmentConcentrationSensor : framework::GenericSensor{
+                                                interface GasConcentrationSensor : framework::GenericSensor{
                                                         void setInput(in simulation::environment::SimEnvironment environment, in simulation::environment::EnvironmentStore gas);
                                                         simulation::environment::SimEnvironment getEnvironment();
                                                         simulation::environment::EnvironmentStore getGas();
