@@ -2,8 +2,6 @@ package com.traclabs.biosim.framework;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -67,11 +65,8 @@ public class BiosimStandalone {
         myFrame.addWindowListener(myWindowCloseListener);
         myFrame.getContentPane().add(waitLabel, BorderLayout.CENTER);
         myFrame.getContentPane().add(myProgressBar, BorderLayout.SOUTH);
-        Dimension winsize = myFrame.getSize(), screensize = Toolkit
-                .getDefaultToolkit().getScreenSize();
         myFrame.pack();
-        myFrame.setLocation((screensize.width - winsize.width - 320) / 2,
-                (screensize.height - winsize.height - 200) / 2);
+        myFrame.setLocationRelativeTo(null); 
         myReadyListener = new ReadyListener();
     }
 
