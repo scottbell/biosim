@@ -2,6 +2,8 @@ package com.traclabs.biosim.editor.graph;
 
 import javax.swing.JFrame;
 
+import com.traclabs.biosim.editor.ui.ActivePropertiesFrame;
+
 
 public abstract class FigActiveNode extends FigModuleLabelNode {
     private JFrame myEditFrame;

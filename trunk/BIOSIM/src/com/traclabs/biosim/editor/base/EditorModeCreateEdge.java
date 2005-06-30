@@ -216,18 +216,44 @@ public class EditorModeCreateEdge extends ModeCreate {
      * @return
      */
     private Class getUserClassChoice(Class[] classesMeetingContraints) {
-        Class classSelected = (Class)JOptionPane.showInputDialog(
+    	String[] userFriendlyResourceStrings = generateUserFriendlyResources(classesMeetingContraints);
+    	String resourceStringSelected = (String)JOptionPane.showInputDialog(
                             new JFrame(),
                             "Select a flowrate to use",
                             "Flowrate Selection",
                             JOptionPane.QUESTION_MESSAGE,
                             null,
-                            classesMeetingContraints,
-                            classesMeetingContraints[0]);
+                            userFriendlyResourceStrings,
+                            userFriendlyResourceStrings[0]);
+    	
+    	int selectedIndex = getIndexOfString(userFriendlyResourceStrings, resourceStringSelected);
+    	Class classSelected = classesMeetingContraints[selectedIndex];
         return classSelected;
     }
 
-    /**
+    private int getIndexOfString(String[] userFriendlyResourceStrings, String resourceStringSelected) {
+		for (int i = 0; i < userFriendlyResourceStrings.length; i++){
+			if (userFriendlyResourceStrings[i].equals(resourceStringSelected))
+					return i;
+		}
+		return -1;
+	}
+
+	private String[] generateUserFriendlyResources(Class[] classesMeetingContraints) {
+		String[] userFriendlyArray = new String[classesMeetingContraints.length];
+    	for (int i = 0; i < userFriendlyArray.length; i++){
+    		String classString = classesMeetingContraints[i].getSimpleName();
+    		String withoutOperations = classString.substring(0, classString.indexOf("Operations"));
+    		int indexToAddSpace =  withoutOperations.indexOf("Consumer");
+    		if (indexToAddSpace == -1)
+    			indexToAddSpace = withoutOperations.indexOf("Producer");
+    		String nicelySpaced = withoutOperations.substring(0, indexToAddSpace) + " " + withoutOperations.substring(indexToAddSpace);
+    		userFriendlyArray[i] = nicelySpaced;
+    	}
+		return userFriendlyArray;
+	}
+
+	/**
      * Get the NetPort where the arc is painted from
      * 
      * @return Returns the startPort.

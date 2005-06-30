@@ -258,7 +258,7 @@ public class ModuleEdge extends NetEdge {
     private Method getOperationsMethod(Class producerOrConsumerClass) {
         String className = producerOrConsumerClass.getSimpleName();
         String producerOrConsumerType = className.substring(0, className.lastIndexOf("Operations"));
-        myName = producerOrConsumerType + " Flowrate";
+        myName = generateUserFriendlyResource(producerOrConsumerType) + " Flowrate";
         String methodName = "get" + producerOrConsumerType + "Definition";
         Method definitionMethod = null;
         try{
@@ -270,6 +270,15 @@ public class ModuleEdge extends NetEdge {
         }
         return definitionMethod;
     }
+    
+	private String generateUserFriendlyResource(String resourceName) {
+		int indexToAddSpace = resourceName.indexOf("Consumer");
+		if (indexToAddSpace == -1)
+			indexToAddSpace = resourceName.indexOf("Producer");
+		String nicelySpaced = resourceName.substring(0, indexToAddSpace) + " "
+				+ resourceName.substring(indexToAddSpace);
+		return nicelySpaced;
+	}
 
     /**
      * @return Returns whether edge is a producer.
