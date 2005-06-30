@@ -2,6 +2,9 @@ package com.traclabs.biosim.editor.base;
 
 import java.awt.event.MouseEvent;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import org.tigris.gef.base.Editor;
 import org.tigris.gef.base.Globals;
 import org.tigris.gef.base.Layer;
@@ -157,7 +160,7 @@ public class EditorModeCreateEdge extends ModeCreate {
                     Class selectedClass;
                     if (classesMeetingContraints.length > 1){
                         selectedClass = classesMeetingContraints[0];
-                        //selectedClass = getUserClassChoice(classesMeetingContraints);
+                        selectedClass = getUserClassChoice(classesMeetingContraints);
                     }
                     else
                         selectedClass = classesMeetingContraints[0];
@@ -207,6 +210,21 @@ public class EditorModeCreateEdge extends ModeCreate {
         _newItem = null;
         done();
         me.consume();
+    }
+    
+    /**
+     * @return
+     */
+    private Class getUserClassChoice(Class[] classesMeetingContraints) {
+        Class classSelected = (Class)JOptionPane.showInputDialog(
+                            new JFrame(),
+                            "Select a flowrate to use",
+                            "Flowrate Selection",
+                            JOptionPane.QUESTION_MESSAGE,
+                            null,
+                            classesMeetingContraints,
+                            classesMeetingContraints[0]);
+        return classSelected;
     }
 
     /**
