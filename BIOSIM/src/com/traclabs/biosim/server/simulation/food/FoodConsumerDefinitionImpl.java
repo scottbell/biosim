@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Vector;
 
 import com.traclabs.biosim.idl.simulation.food.FoodConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.food.FoodConsumerDefinitionHelper;
 import com.traclabs.biosim.idl.simulation.food.FoodConsumerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.food.FoodConsumerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.food.FoodMatter;
@@ -23,8 +22,9 @@ public class FoodConsumerDefinitionImpl extends StoreFlowRateControllableImpl
     private FoodConsumerDefinition myFoodConsumerDefinition;
 
     public FoodConsumerDefinitionImpl() {
-        myFoodConsumerDefinition = FoodConsumerDefinitionHelper.narrow(OrbUtils
-                .poaToCorbaObj(new FoodConsumerDefinitionPOATie(this)));
+    	FoodConsumerDefinitionPOATie tie = new FoodConsumerDefinitionPOATie(this);
+    	myFoodConsumerDefinition = tie._this(OrbUtils.getORB());
+    	
     }
 
     public FoodConsumerDefinition getCorbaObject() {

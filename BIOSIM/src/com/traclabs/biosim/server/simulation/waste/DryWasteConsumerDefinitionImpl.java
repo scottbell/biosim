@@ -1,7 +1,6 @@
 package com.traclabs.biosim.server.simulation.waste;
 
 import com.traclabs.biosim.idl.simulation.waste.DryWasteConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.waste.DryWasteConsumerDefinitionHelper;
 import com.traclabs.biosim.idl.simulation.waste.DryWasteConsumerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.waste.DryWasteConsumerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.waste.DryWasteStore;
@@ -18,10 +17,9 @@ public class DryWasteConsumerDefinitionImpl extends
     private DryWasteConsumerDefinition myDryWasteConsumerDefinition;
 
     public DryWasteConsumerDefinitionImpl() {
-        myDryWasteConsumerDefinition = DryWasteConsumerDefinitionHelper
-                .narrow(OrbUtils
-                        .poaToCorbaObj(new DryWasteConsumerDefinitionPOATie(
-                                this)));
+
+    	DryWasteConsumerDefinitionPOATie tie = new DryWasteConsumerDefinitionPOATie(this);
+    	myDryWasteConsumerDefinition = tie._this(OrbUtils.getORB());
     }
 
     public DryWasteConsumerDefinition getCorbaObject() {

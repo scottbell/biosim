@@ -1,7 +1,6 @@
 package com.traclabs.biosim.server.simulation.air;
 
 import com.traclabs.biosim.idl.simulation.air.MethaneConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.air.MethaneConsumerDefinitionHelper;
 import com.traclabs.biosim.idl.simulation.air.MethaneConsumerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.air.MethaneConsumerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.air.MethaneStore;
@@ -18,10 +17,9 @@ public class MethaneConsumerDefinitionImpl extends
     private MethaneConsumerDefinition myMethaneConsumerDefinition;
 
     public MethaneConsumerDefinitionImpl() {
-        myMethaneConsumerDefinition = MethaneConsumerDefinitionHelper
-                .narrow(OrbUtils
-                        .poaToCorbaObj(new MethaneConsumerDefinitionPOATie(
-                                this)));
+
+    	MethaneConsumerDefinitionPOATie tie = new MethaneConsumerDefinitionPOATie(this);
+    	myMethaneConsumerDefinition = tie._this(OrbUtils.getORB());
     }
 
     public MethaneConsumerDefinition getCorbaObject() {

@@ -1,7 +1,6 @@
 package com.traclabs.biosim.server.simulation.air;
 
 import com.traclabs.biosim.idl.simulation.air.NitrogenConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.air.NitrogenConsumerDefinitionHelper;
 import com.traclabs.biosim.idl.simulation.air.NitrogenConsumerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.air.NitrogenConsumerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.air.NitrogenStore;
@@ -18,10 +17,9 @@ public class NitrogenConsumerDefinitionImpl extends
     private NitrogenConsumerDefinition myNitrogenConsumerDefinition;
 
     public NitrogenConsumerDefinitionImpl() {
-        myNitrogenConsumerDefinition = NitrogenConsumerDefinitionHelper
-                .narrow(OrbUtils
-                        .poaToCorbaObj(new NitrogenConsumerDefinitionPOATie(
-                                this)));
+
+    	NitrogenConsumerDefinitionPOATie tie = new NitrogenConsumerDefinitionPOATie(this);
+    	myNitrogenConsumerDefinition = tie._this(OrbUtils.getORB());
     }
 
     public NitrogenConsumerDefinition getCorbaObject() {

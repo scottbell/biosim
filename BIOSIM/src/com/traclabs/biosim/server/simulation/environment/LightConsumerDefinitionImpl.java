@@ -1,7 +1,6 @@
 package com.traclabs.biosim.server.simulation.environment;
 
 import com.traclabs.biosim.idl.simulation.environment.LightConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.environment.LightConsumerDefinitionHelper;
 import com.traclabs.biosim.idl.simulation.environment.LightConsumerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.environment.LightConsumerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
@@ -17,9 +16,8 @@ public class LightConsumerDefinitionImpl extends
     private LightConsumerDefinition myLightConsumerDefinition;
 
     public LightConsumerDefinitionImpl() {
-        myLightConsumerDefinition = LightConsumerDefinitionHelper
-                .narrow(OrbUtils
-                        .poaToCorbaObj(new LightConsumerDefinitionPOATie(this)));
+    	LightConsumerDefinitionPOATie tie = new LightConsumerDefinitionPOATie(this);
+    	myLightConsumerDefinition = tie._this(OrbUtils.getORB());
     }
 
     public LightConsumerDefinition getCorbaObject() {

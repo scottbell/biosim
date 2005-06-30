@@ -2,7 +2,6 @@ package com.traclabs.biosim.server.simulation.food;
 
 import com.traclabs.biosim.idl.simulation.food.BioMatter;
 import com.traclabs.biosim.idl.simulation.food.BiomassProducerDefinition;
-import com.traclabs.biosim.idl.simulation.food.BiomassProducerDefinitionHelper;
 import com.traclabs.biosim.idl.simulation.food.BiomassProducerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.food.BiomassProducerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.food.BiomassStore;
@@ -20,9 +19,8 @@ public class BiomassProducerDefinitionImpl extends
     private BiomassProducerDefinition myBiomassProducerDefinition;
 
     public BiomassProducerDefinitionImpl() {
-        myBiomassProducerDefinition = BiomassProducerDefinitionHelper
-                .narrow(OrbUtils
-                        .poaToCorbaObj(new BiomassProducerDefinitionPOATie(this)));
+    	BiomassProducerDefinitionPOATie tie = new BiomassProducerDefinitionPOATie(this);
+    	myBiomassProducerDefinition = tie._this(OrbUtils.getORB());
     }
 
     public BiomassProducerDefinition getCorbaObject() {

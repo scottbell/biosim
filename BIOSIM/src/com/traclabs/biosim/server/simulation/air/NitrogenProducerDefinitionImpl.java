@@ -1,7 +1,6 @@
 package com.traclabs.biosim.server.simulation.air;
 
 import com.traclabs.biosim.idl.simulation.air.NitrogenProducerDefinition;
-import com.traclabs.biosim.idl.simulation.air.NitrogenProducerDefinitionHelper;
 import com.traclabs.biosim.idl.simulation.air.NitrogenProducerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.air.NitrogenProducerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.air.NitrogenStore;
@@ -18,10 +17,9 @@ public class NitrogenProducerDefinitionImpl extends
     private NitrogenProducerDefinition myNitrogenProducerDefinition;
 
     public NitrogenProducerDefinitionImpl() {
-        myNitrogenProducerDefinition = NitrogenProducerDefinitionHelper
-                .narrow(OrbUtils
-                        .poaToCorbaObj(new NitrogenProducerDefinitionPOATie(
-                                this)));
+
+    	NitrogenProducerDefinitionPOATie tie = new NitrogenProducerDefinitionPOATie(this);
+    	myNitrogenProducerDefinition = tie._this(OrbUtils.getORB());
     }
 
     public NitrogenProducerDefinition getCorbaObject() {

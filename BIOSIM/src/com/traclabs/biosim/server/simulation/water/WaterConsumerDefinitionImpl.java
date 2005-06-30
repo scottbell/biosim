@@ -1,7 +1,6 @@
 package com.traclabs.biosim.server.simulation.water;
 
 import com.traclabs.biosim.idl.simulation.water.WaterConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.water.WaterConsumerDefinitionHelper;
 import com.traclabs.biosim.idl.simulation.water.WaterConsumerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.water.WaterConsumerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.water.WaterStore;
@@ -17,9 +16,9 @@ public class WaterConsumerDefinitionImpl extends StoreFlowRateControllableImpl
     private WaterConsumerDefinition myWaterConsumerDefinition;
 
     public WaterConsumerDefinitionImpl() {
-        myWaterConsumerDefinition = WaterConsumerDefinitionHelper
-                .narrow(OrbUtils
-                        .poaToCorbaObj(new WaterConsumerDefinitionPOATie(this)));
+
+    	WaterConsumerDefinitionPOATie tie = new WaterConsumerDefinitionPOATie(this);
+    	myWaterConsumerDefinition = tie._this(OrbUtils.getORB());
     }
 
     public WaterConsumerDefinition getCorbaObject() {

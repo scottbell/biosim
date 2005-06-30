@@ -1,7 +1,6 @@
 package com.traclabs.biosim.server.simulation.air;
 
 import com.traclabs.biosim.idl.simulation.air.MethaneProducerDefinition;
-import com.traclabs.biosim.idl.simulation.air.MethaneProducerDefinitionHelper;
 import com.traclabs.biosim.idl.simulation.air.MethaneProducerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.air.MethaneProducerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.air.MethaneStore;
@@ -18,10 +17,9 @@ public class MethaneProducerDefinitionImpl extends
     private MethaneProducerDefinition myMethaneProducerDefinition;
 
     public MethaneProducerDefinitionImpl() {
-        myMethaneProducerDefinition = MethaneProducerDefinitionHelper
-                .narrow(OrbUtils
-                        .poaToCorbaObj(new MethaneProducerDefinitionPOATie(
-                                this)));
+
+    	MethaneProducerDefinitionPOATie tie = new MethaneProducerDefinitionPOATie(this);
+    	myMethaneProducerDefinition = tie._this(OrbUtils.getORB());
     }
 
     public MethaneProducerDefinition getCorbaObject() {

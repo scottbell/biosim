@@ -1,7 +1,6 @@
 package com.traclabs.biosim.server.simulation.air;
 
 import com.traclabs.biosim.idl.simulation.air.CO2ProducerDefinition;
-import com.traclabs.biosim.idl.simulation.air.CO2ProducerDefinitionHelper;
 import com.traclabs.biosim.idl.simulation.air.CO2ProducerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.air.CO2ProducerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.air.CO2Store;
@@ -17,8 +16,8 @@ public class CO2ProducerDefinitionImpl extends StoreFlowRateControllableImpl
     private CO2ProducerDefinition myCO2ProducerDefinition;
 
     public CO2ProducerDefinitionImpl() {
-        myCO2ProducerDefinition = CO2ProducerDefinitionHelper.narrow(OrbUtils
-                .poaToCorbaObj(new CO2ProducerDefinitionPOATie(this)));
+    	CO2ProducerDefinitionPOATie tie = new CO2ProducerDefinitionPOATie(this);
+    	myCO2ProducerDefinition = tie._this(OrbUtils.getORB());
     }
 
     public CO2ProducerDefinition getCorbaObject() {

@@ -1,7 +1,6 @@
 package com.traclabs.biosim.server.simulation.power;
 
 import com.traclabs.biosim.idl.simulation.power.PowerProducerDefinition;
-import com.traclabs.biosim.idl.simulation.power.PowerProducerDefinitionHelper;
 import com.traclabs.biosim.idl.simulation.power.PowerProducerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.power.PowerProducerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.power.PowerStore;
@@ -17,9 +16,8 @@ public class PowerProducerDefinitionImpl extends StoreFlowRateControllableImpl
     private PowerProducerDefinition myPowerProducerDefinition;
 
     public PowerProducerDefinitionImpl() {
-        myPowerProducerDefinition = PowerProducerDefinitionHelper
-                .narrow(OrbUtils
-                        .poaToCorbaObj(new PowerProducerDefinitionPOATie(this)));
+    	PowerProducerDefinitionPOATie tie = new PowerProducerDefinitionPOATie(this);
+    	myPowerProducerDefinition = tie._this(OrbUtils.getORB());
     }
 
     public PowerProducerDefinition getCorbaObject() {

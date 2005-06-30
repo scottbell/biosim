@@ -1,7 +1,6 @@
 package com.traclabs.biosim.server.simulation.environment;
 
 import com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinitionHelper;
 import com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
@@ -17,8 +16,9 @@ public class AirConsumerDefinitionImpl extends
     private AirConsumerDefinition myAirConsumerDefinition;
 
     public AirConsumerDefinitionImpl() {
-        myAirConsumerDefinition = AirConsumerDefinitionHelper.narrow(OrbUtils
-                .poaToCorbaObj(new AirConsumerDefinitionPOATie(this)));
+
+    	AirConsumerDefinitionPOATie tie = new AirConsumerDefinitionPOATie(this);
+    	myAirConsumerDefinition = tie._this(OrbUtils.getORB());
     }
 
     public AirConsumerDefinition getCorbaObject() {
