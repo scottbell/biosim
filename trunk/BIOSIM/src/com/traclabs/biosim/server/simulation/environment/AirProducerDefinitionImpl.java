@@ -1,7 +1,6 @@
 package com.traclabs.biosim.server.simulation.environment;
 
 import com.traclabs.biosim.idl.simulation.environment.AirProducerDefinition;
-import com.traclabs.biosim.idl.simulation.environment.AirProducerDefinitionHelper;
 import com.traclabs.biosim.idl.simulation.environment.AirProducerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.environment.AirProducerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
@@ -17,8 +16,9 @@ public class AirProducerDefinitionImpl extends
     private AirProducerDefinition myAirProducerDefinition;
 
     public AirProducerDefinitionImpl() {
-        myAirProducerDefinition = AirProducerDefinitionHelper.narrow(OrbUtils
-                .poaToCorbaObj(new AirProducerDefinitionPOATie(this)));
+
+    	AirProducerDefinitionPOATie tie = new AirProducerDefinitionPOATie(this);
+    	myAirProducerDefinition = tie._this(OrbUtils.getORB());
     }
 
     public AirProducerDefinition getCorbaObject() {

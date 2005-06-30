@@ -4,9 +4,9 @@
  */
 package com.traclabs.biosim.editor.graph.environment;
 
-import com.traclabs.biosim.server.simulation.environment.SimEnvironmentImpl;
-
 import junit.framework.TestCase;
+
+import com.traclabs.biosim.server.simulation.environment.SimEnvironmentImpl;
 
 /**
  * @author scott

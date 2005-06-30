@@ -1,7 +1,6 @@
 package com.traclabs.biosim.server.simulation.water;
 
 import com.traclabs.biosim.idl.simulation.water.GreyWaterConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.water.GreyWaterConsumerDefinitionHelper;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterConsumerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterConsumerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterStore;
@@ -18,10 +17,9 @@ public class GreyWaterConsumerDefinitionImpl extends
     private GreyWaterConsumerDefinition myGreyWaterConsumerDefinition;
 
     public GreyWaterConsumerDefinitionImpl() {
-        myGreyWaterConsumerDefinition = GreyWaterConsumerDefinitionHelper
-                .narrow(OrbUtils
-                        .poaToCorbaObj(new GreyWaterConsumerDefinitionPOATie(
-                                this)));
+
+    	GreyWaterConsumerDefinitionPOATie tie = new GreyWaterConsumerDefinitionPOATie(this);
+    	myGreyWaterConsumerDefinition = tie._this(OrbUtils.getORB());
     }
 
     public GreyWaterConsumerDefinition getCorbaObject() {

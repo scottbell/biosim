@@ -6,7 +6,6 @@ import java.util.Vector;
 
 import com.traclabs.biosim.idl.simulation.food.BioMatter;
 import com.traclabs.biosim.idl.simulation.food.BiomassConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.food.BiomassConsumerDefinitionHelper;
 import com.traclabs.biosim.idl.simulation.food.BiomassConsumerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.food.BiomassConsumerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.food.BiomassStore;
@@ -24,9 +23,9 @@ public class BiomassConsumerDefinitionImpl extends
     private BiomassConsumerDefinition myBiomassConsumerDefinition;
 
     public BiomassConsumerDefinitionImpl() {
-        myBiomassConsumerDefinition = BiomassConsumerDefinitionHelper
-                .narrow(OrbUtils
-                        .poaToCorbaObj(new BiomassConsumerDefinitionPOATie(this)));
+
+    	BiomassConsumerDefinitionPOATie tie = new BiomassConsumerDefinitionPOATie(this);
+    	myBiomassConsumerDefinition = tie._this(OrbUtils.getORB());
     }
 
     public BiomassConsumerDefinition getCorbaObject() {

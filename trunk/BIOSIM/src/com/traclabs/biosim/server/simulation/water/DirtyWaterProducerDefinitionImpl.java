@@ -1,7 +1,6 @@
 package com.traclabs.biosim.server.simulation.water;
 
 import com.traclabs.biosim.idl.simulation.water.DirtyWaterProducerDefinition;
-import com.traclabs.biosim.idl.simulation.water.DirtyWaterProducerDefinitionHelper;
 import com.traclabs.biosim.idl.simulation.water.DirtyWaterProducerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.water.DirtyWaterProducerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.water.DirtyWaterStore;
@@ -18,10 +17,9 @@ public class DirtyWaterProducerDefinitionImpl extends
     private DirtyWaterProducerDefinition myDirtyWaterProducerDefinition;
 
     public DirtyWaterProducerDefinitionImpl() {
-        myDirtyWaterProducerDefinition = DirtyWaterProducerDefinitionHelper
-                .narrow(OrbUtils
-                        .poaToCorbaObj(new DirtyWaterProducerDefinitionPOATie(
-                                this)));
+
+    	DirtyWaterProducerDefinitionPOATie tie = new DirtyWaterProducerDefinitionPOATie(this);
+    	myDirtyWaterProducerDefinition = tie._this(OrbUtils.getORB());
     }
 
     public DirtyWaterProducerDefinition getCorbaObject() {

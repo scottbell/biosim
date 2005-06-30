@@ -1,7 +1,6 @@
 package com.traclabs.biosim.server.simulation.air;
 
 import com.traclabs.biosim.idl.simulation.air.O2ConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.air.O2ConsumerDefinitionHelper;
 import com.traclabs.biosim.idl.simulation.air.O2ConsumerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.air.O2ConsumerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.air.O2Store;
@@ -17,8 +16,9 @@ public class O2ConsumerDefinitionImpl extends StoreFlowRateControllableImpl
     private O2ConsumerDefinition myO2ConsumerDefinition;
 
     public O2ConsumerDefinitionImpl() {
-        myO2ConsumerDefinition = O2ConsumerDefinitionHelper.narrow(OrbUtils
-                .poaToCorbaObj(new O2ConsumerDefinitionPOATie(this)));
+
+    	O2ConsumerDefinitionPOATie tie = new O2ConsumerDefinitionPOATie(this);
+    	myO2ConsumerDefinition = tie._this(OrbUtils.getORB());
     }
 
     public O2ConsumerDefinition getCorbaObject() {

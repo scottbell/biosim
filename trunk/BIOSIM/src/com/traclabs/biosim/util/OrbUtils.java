@@ -58,7 +58,7 @@ public class OrbUtils {
      * @return the ORB
      */
     public static ORB getORB() {
-        initialize();
+    	initializeOrb();
         return myOrb;
     }
 
@@ -142,6 +142,18 @@ public class OrbUtils {
             sleepAwhile();
         }
     }
+    
+    private static void initializeOrb(){
+        String[] nullArgs = null;
+        // create and initialize the ORB
+        if (myOrb == null){
+            Properties orbProperties = new Properties();
+            if (myCustomORBProperties != null)
+            	orbProperties.putAll(myCustomORBProperties);
+            orbProperties.put("org.omg.CORBA.ORBClass", ORB_CLASS);
+            myOrb = ORB.init(nullArgs, orbProperties);
+        }
+    }
 
     /**
      * Done only once, this method initializes the ORB, resolves the root POA,
@@ -151,18 +163,7 @@ public class OrbUtils {
         if (initializeOrbRunOnce)
             return true;
         try {
-            //Done
-
-            String[] nullArgs = null;
-            // create and initialize the ORB
-            if (myOrb == null){
-                Properties orbProperties = new Properties();
-                if (myCustomORBProperties != null)
-                	orbProperties.putAll(myCustomORBProperties);
-                orbProperties.put("org.omg.CORBA.ORBClass", ORB_CLASS);
-                myOrb = ORB.init(nullArgs, orbProperties);
-            }
-
+        	initializeOrb();
             // get reference to rootpoa & activate the POAManager
 
             if (myRootPOA == null) {
@@ -187,6 +188,7 @@ public class OrbUtils {
         } catch (Exception e) {
             Logger.getLogger(OrbUtils.class).info(
                     "nameserver not found, polling again: " + e);
+            e.printStackTrace();
             myOrb = null;
             myRootPOA = null;
             myRootContext = null;

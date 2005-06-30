@@ -11,7 +11,7 @@ import junit.framework.TestCase;
  * 
  */
 public class CytochromeB6FTest extends TestCase {
-    private final static int ITERATIONS_TO_RUN = 1107;
+    private final static int ITERATIONS_TO_RUN = 1;
 
     private CytochromeB6F myCytochromeB6F;
 
@@ -86,7 +86,7 @@ public class CytochromeB6FTest extends TestCase {
             myPlastoquinone.tick();
             myPlastocyanin.tick();
 
-            assertEquals(myCytochromeB6F.getNumberOfElectrons(), 0);
+            assertEquals(myCytochromeB6F.getNumberOfElectrons(), 1);
             assertEquals(myPlastoquinone.hasProtons(), true);
             assertEquals(lumenProtonLevel, myStroma.getProtons()
                     .getQuantity(), stromaProtonLevel + 2);
@@ -96,6 +96,7 @@ public class CytochromeB6FTest extends TestCase {
             //act like PS1 and oxidize PC
             myPlastocyanin.oxidize();
             myPlastocyanin.tick();
+            
         }
         
         float finalLumenProtons = myLumen.getProtons().getQuantity();

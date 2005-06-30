@@ -13,9 +13,6 @@ import com.traclabs.biosim.util.OrbUtils;
 public class BiosimEditorMain {
     
     protected BiosimEditorMain() {
-        OrbUtils.startDebugNameServer();
-        OrbUtils.sleepAwhile();
-        OrbUtils.initializeServerForDebug();
         Localizer.addResource("GefBase",
                 "org.tigris.gef.base.BaseResourceBundle");
         Localizer.addResource("GefPres",
