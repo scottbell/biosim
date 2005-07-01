@@ -25,6 +25,12 @@
 				<O2Producer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="BaseO2Store"/>
 				<H2Producer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="BaseH2Store"/>
 			</OGS>
+			<OGS moduleName="BaseOGS">
+				<powerConsumer maxFlowRates="2500" desiredFlowRates="2500" inputs="BasePowerStore"/>
+				<potableWaterConsumer maxFlowRates="10000000" desiredFlowRates="10000000" inputs="CrewBasePotableWaterStore"/>
+				<O2Producer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="BaseO2Store"/>
+				<H2Producer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="BaseH2Store"/>
+			</OGS>
 			<VCCR moduleName="BaseVCCR">
 				<powerConsumer maxFlowRates="100000" desiredFlowRates="100000" inputs="BasePowerStore"/>
 				<airConsumer maxFlowRates="10000000" desiredFlowRates="10000000" inputs="BaseCrewEnvironment"/>

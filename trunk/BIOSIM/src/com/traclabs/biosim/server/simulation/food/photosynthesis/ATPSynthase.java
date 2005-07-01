@@ -14,9 +14,9 @@ import com.traclabs.biosim.server.util.MathUtils;
  */
 public class ATPSynthase extends ActiveEnzyme {
 	private boolean energized = false;
-    private final static float PROTON_NEEDED = 20;
-    private final static float ADP_NEEDED = 1f;
-    private final static float PHOSPHATE_NEEDED = 1f;
+    private final static float PROTON_NEEDED_BASE = 20;
+    private final static float ADP_NEEDED_BASE = 1f;
+    private final static float PHOSPHATE_NEEDED_BASE = 1f;
     private Lumen myLumen;
     private Stroma myStroma;
     private Random myRandomGen;
@@ -50,9 +50,9 @@ public class ATPSynthase extends ActiveEnzyme {
      * 
      */
     private void attemptToSynthesizeATP() {
-        float ADPTaken = myStroma.getADPs().take(ADP_NEEDED);
-        float phosphateTaken = myStroma.getPhosphates().take(PHOSPHATE_NEEDED);
-        if ((ADPTaken == ADP_NEEDED) && (phosphateTaken == PHOSPHATE_NEEDED)){
+        float ADPTaken = myStroma.getADPs().take(ADP_NEEDED_BASE);
+        float phosphateTaken = myStroma.getPhosphates().take(PHOSPHATE_NEEDED_BASE);
+        if ((ADPTaken == ADP_NEEDED_BASE) && (phosphateTaken == PHOSPHATE_NEEDED_BASE)){
             myStroma.getATPs().add(ADPTaken);
             myLogger.debug("synthesized ATP!");
         	energized = false;
@@ -81,7 +81,7 @@ public class ATPSynthase extends ActiveEnzyme {
     	if (protons <= 0)
     		return false;
         float randomNumber = myRandomGen.nextFloat();
-        float protonThreshold = MathUtils.calculateSCurve(protons, PROTON_NEEDED * 2f);
+        float protonThreshold = MathUtils.calculateSCurve(protons, PROTON_NEEDED_BASE * 2f);
         return (protonThreshold > randomNumber);
     }
 
