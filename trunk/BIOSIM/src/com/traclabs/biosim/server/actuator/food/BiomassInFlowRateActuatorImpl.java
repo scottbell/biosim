@@ -21,9 +21,7 @@ public class BiomassInFlowRateActuatorImpl extends GenericActuatorImpl
                 myFilteredValue, myIndex);
     }
 
-    protected void notifyListeners() {
-        //does nothing right now
-    }
+
 
     public void setOutput(BiomassConsumer pConsumer, int pIndex) {
         myConsumer = pConsumer;

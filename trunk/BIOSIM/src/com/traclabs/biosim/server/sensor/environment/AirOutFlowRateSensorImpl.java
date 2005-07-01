@@ -21,9 +21,7 @@ public class AirOutFlowRateSensorImpl extends GenericSensorImpl implements
         myValue = randomFilter(preFilteredValue);
     }
 
-    protected void notifyListeners() {
-        //does nothing right now
-    }
+
 
     public void setInput(AirProducer pProducer, int pIndex) {
         myProducer = pProducer;

@@ -6,10 +6,10 @@
 	</Globals>
 	<SimBioModules>
 		<environment>
-			<SimEnvironment name="PlantEnvironment" initialVolume="100000000000000"/>
+			<SimEnvironment moduleName="PlantEnvironment" initialVolume="100000000000000"/>
 		</environment>
 		<food>
-			<BiomassRS name="BiomassRS" autoHarvestAndReplant="false">
+			<BiomassRS moduleName="BiomassRS" autoHarvestAndReplant="false">
 				<shelf cropArea="1" cropType="SOYBEAN"/>
 				<powerConsumer maxFlowRates="400" desiredFlowRates="400" inputs="PowerStore"/>
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
@@ -19,15 +19,15 @@
 				<biomassProducer maxFlowRates="100" desiredFlowRates="100" outputs="BiomassStore"/>
 				<airProducer maxFlowRates="0" desiredFlowRates="0" outputs="PlantEnvironment"/>
 			</BiomassRS>
-			<BiomassStore name="BiomassStore" capacity="500" level="300"/>
+			<BiomassStore moduleName="BiomassStore" capacity="500" level="300"/>
 		</food>
 		<power>
-			<PowerStore name="PowerStore" capacity="100000000000" level="100000000000"/>
+			<PowerStore moduleName="PowerStore" capacity="100000000000" level="100000000000"/>
 		</power>
 		<water>
-			<PotableWaterStore name="PotableWaterStore" capacity="500000000000" level="500000000000"/>
-			<GreyWaterStore name="GreyWaterStore" capacity="500000000000" level="0"/>
-			<DirtyWaterStore name="DirtyWaterStore" capacity="500000000000" level="0"/>
+			<PotableWaterStore moduleName="PotableWaterStore" capacity="500000000000" level="500000000000"/>
+			<GreyWaterStore moduleName="GreyWaterStore" capacity="500000000000" level="0"/>
+			<DirtyWaterStore moduleName="DirtyWaterStore" capacity="500000000000" level="0"/>
 		</water>
 	</SimBioModules>
 	<Sensors>

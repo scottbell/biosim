@@ -21,9 +21,7 @@ public class NitrogenOutFlowRateActuatorImpl extends GenericActuatorImpl
                 myFilteredValue, myIndex);
     }
 
-    protected void notifyListeners() {
-        //does nothing right now
-    }
+
 
     public void setOutput(NitrogenProducer pProducer, int pIndex) {
         myProducer = pProducer;

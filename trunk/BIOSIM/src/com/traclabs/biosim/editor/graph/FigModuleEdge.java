@@ -47,10 +47,10 @@ public class FigModuleEdge extends FigEdgeLine implements MouseListener {
     }
     
     /** Compute the shape of the line that presents an Edge. */
-    public void computeRoute() {
+	public void computeRoute() {
         ModuleEdge theEdge = (ModuleEdge)getOwner();
-        Point sourcePoint = getSourcePortFig().center();
-        Point destPoint = getDestPortFig().center();
+        Point sourcePoint = getSourcePortFig().getCenter();
+        Point destPoint = getDestPortFig().getCenter();
         if (!theEdge.isProducerEdge()){
             sourcePoint.x += 100;
             sourcePoint.y += 100;

@@ -21,9 +21,7 @@ public class BiomassInFlowRateSensorImpl extends GenericSensorImpl implements
         myValue = randomFilter(preFilteredValue);
     }
 
-    protected void notifyListeners() {
-        //does nothing right now
-    }
+
 
     public void setInput(BiomassConsumer pConsumer, int pIndex) {
         myConsumer = pConsumer;

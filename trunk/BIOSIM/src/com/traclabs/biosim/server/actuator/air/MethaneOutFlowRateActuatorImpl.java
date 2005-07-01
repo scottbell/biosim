@@ -21,9 +21,7 @@ public class MethaneOutFlowRateActuatorImpl extends GenericActuatorImpl
                 myFilteredValue, myIndex);
     }
 
-    protected void notifyListeners() {
-        //does nothing right now
-    }
+
 
     public void setOutput(MethaneProducer pProducer, int pIndex) {
         myProducer = pProducer;

@@ -389,8 +389,8 @@ public abstract class FigModuleNode extends FigNode {
      * Finds the point where the line extending out from the center of a circle
      * through another point will intersect the circle.
      */
-    protected static Point connectionPoint(FigCircle circle, Point anotherPt) {
-        Point center = circle.center();
+	protected static Point connectionPoint(FigCircle circle, Point anotherPt) {
+        Point center = circle.getCenter();
         double a = 0.5 * circle.getWidth();
         double b = 0.5 * circle.getHeight();
         int dx = anotherPt.x - center.x;
@@ -422,7 +422,8 @@ public abstract class FigModuleNode extends FigNode {
      * Finds the point where the line extending out from the center of a polygon
      * through another point will intersect the polygon.
      */
-    public static Point connectionPoint(FigPoly poly, Point anotherPt) {
+    @SuppressWarnings("deprecation")
+	public static Point connectionPoint(FigPoly poly, Point anotherPt) {
         List corners = poly.getPointsList();
         Point center = poly.center();
 

@@ -13,10 +13,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.tigris.gef.base.Editor;
 import org.tigris.gef.base.Layer;
 import org.tigris.gef.base.LayerPerspective;
-import org.tigris.gef.graph.GraphEvent;
 import org.tigris.gef.presentation.Fig;
 
 import com.traclabs.biosim.editor.graph.EditorGraphModel;
@@ -48,70 +46,6 @@ public class EditorLayer extends LayerPerspective {
 
     void setParentLayer(FigModuleNode parent) {
         _parent = parent;
-    }
-
-    public void nodeAdded(GraphEvent e) {
-        super.nodeAdded(e);
-        modifyDocument();
-    }
-
-    public void edgeAdded(GraphEvent e) {
-        super.edgeAdded(e);
-        modifyDocument();
-    }
-
-    public void nodeRemoved(GraphEvent e) {
-        super.nodeRemoved(e);
-        modifyDocument();
-    }
-
-    public void edgeRemoved(GraphEvent e) {
-        super.edgeRemoved(e);
-        modifyDocument();
-    }
-
-    public void graphChanged(GraphEvent e) {
-        super.graphChanged(e);
-        modifyDocument();
-    }
-
-    /*
-     * deleted was overridden to fix the bug in the "Delete from Diagram"
-     * command. The Figs were properly deleted from the layer but the Net
-     * objects were being left in the GraphModel.
-     */
-    public void deleted(Fig f) {
-        // Notify the associated EDITOR document that a fig has been
-        // deleted. Any editor showing a child diagram for this fig
-        // should switch to the root.
-        // Assumes one layer can be displayed in several editors but
-        // all of these editors share the same document.
-        if (_editors != null) {
-            Editor ed = (Editor) _editors.get(0);
-            if (ed != null) {
-                Object doc = ed.document();
-                if (doc != null && doc instanceof EditorDocument) {
-                    ((EditorDocument) doc).deleted(f);
-                }
-            }
-        }
-
-        super.deleted(f);
-    }
-
-    /**
-     * Modify all documents associated with this layer.
-     */
-    public void modifyDocument() {
-        Iterator i = _editors.iterator();
-        while (i.hasNext()) {
-            Editor ed = (Editor) i.next();
-            if (ed instanceof BiosimEditor) {
-                BiosimEditor ved = (BiosimEditor) ed;
-                EditorDocument doc = (EditorDocument) ved.document();
-                doc.setModified(true);
-            }
-        }
     }
 
     /**

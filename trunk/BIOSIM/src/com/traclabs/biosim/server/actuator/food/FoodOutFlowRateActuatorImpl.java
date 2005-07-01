@@ -21,9 +21,7 @@ public class FoodOutFlowRateActuatorImpl extends GenericActuatorImpl implements
                 myFilteredValue, myIndex);
     }
 
-    protected void notifyListeners() {
-        //does nothing right now
-    }
+
 
     public void setOutput(FoodProducer pProducer, int pIndex) {
         myProducer = pProducer;

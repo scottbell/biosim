@@ -13,9 +13,7 @@ public class HarvestingActuatorImpl extends ShelfActuatorImpl implements
         myShelf.harvest();
     }
 
-    protected void notifyListeners() {
-        //does nothing right now
-    }
+
 
     public float getMax() {
         return 1f;

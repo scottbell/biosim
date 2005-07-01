@@ -21,9 +21,7 @@ public class PowerOutFlowRateActuatorImpl extends GenericActuatorImpl implements
                 myFilteredValue, myIndex);
     }
 
-    protected void notifyListeners() {
-        //does nothing right now
-    }
+
 
     public void setOutput(PowerProducer pProducer, int pIndex) {
         myProducer = pProducer;

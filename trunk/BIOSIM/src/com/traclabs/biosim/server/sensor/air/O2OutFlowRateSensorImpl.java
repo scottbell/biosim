@@ -21,9 +21,7 @@ public class O2OutFlowRateSensorImpl extends GenericSensorImpl implements
         myValue = randomFilter(preFilteredValue);
     }
 
-    protected void notifyListeners() {
-        //does nothing right now
-    }
+
 
     public void setInput(O2Producer pProducer, int pIndex) {
         myProducer = pProducer;

@@ -21,9 +21,7 @@ public class DirtyWaterInFlowRateActuatorImpl extends GenericActuatorImpl
                 myFilteredValue, myIndex);
     }
 
-    protected void notifyListeners() {
-        //does nothing right now
-    }
+
 
     public void setOutput(DirtyWaterConsumer pConsumer, int pIndex) {
         myConsumer = pConsumer;

@@ -21,10 +21,6 @@ public class AirInFlowRateSensorImpl extends GenericSensorImpl implements
         myValue = randomFilter(preFilteredValue);
     }
 
-    protected void notifyListeners() {
-        //does nothing right now
-    }
-
     public float getMax() {
         return myConsumer.getAirConsumerDefinition().getMaxFlowRate(myIndex);
     }

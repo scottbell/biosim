@@ -21,9 +21,7 @@ public class H2OutFlowRateActuatorImpl extends GenericActuatorImpl implements
                 myFilteredValue, myIndex);
     }
 
-    protected void notifyListeners() {
-        //does nothing right now
-    }
+
 
     public void setOutput(H2Producer pProducer, int pIndex) {
         myProducer = pProducer;
