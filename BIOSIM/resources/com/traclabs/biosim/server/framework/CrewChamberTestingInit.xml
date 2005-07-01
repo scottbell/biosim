@@ -6,7 +6,7 @@
 	</Globals>
 	<SimBioModules>
 		<crew>
-			<CrewGroup name="CrewGroup">
+			<CrewGroup moduleName="CrewGroup">
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
 				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="SimEnvironment"/>
 				<foodConsumer maxFlowRates="100" desiredFlowRates="100" inputs="FoodStore"/>
@@ -29,10 +29,10 @@
 			</CrewGroup>
 		</crew>
 		<environment>
-			<SimEnvironment name="SimEnvironment" initialVolume="300000"/>
+			<SimEnvironment moduleName="SimEnvironment" initialVolume="300000"/>
 		</environment>                    
 		<food>
-			<BiomassRS name="BiomassRS" autoHarvestAndReplant="true">
+			<BiomassRS moduleName="BiomassRS" autoHarvestAndReplant="true">
 				<shelf cropArea="1200" cropType="WHEAT"/>
 				<powerConsumer maxFlowRates="400" desiredFlowRates="400" inputs="PowerStore"/>
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
@@ -42,19 +42,19 @@
 				<biomassProducer maxFlowRates="100" desiredFlowRates="100" outputs="BiomassStore"/>
 				<airProducer maxFlowRates="0" desiredFlowRates="0" outputs="SimEnvironment"/>
 			</BiomassRS>
-			<BiomassStore name="BiomassStore" capacity="500" level="300"/>
-			<FoodStore name="FoodStore" capacity="100000000000" level="100000000000"/>
+			<BiomassStore moduleName="BiomassStore" capacity="500" level="300"/>
+			<FoodStore moduleName="FoodStore" capacity="100000000000" level="100000000000"/>
 		</food>
 		<power>
-			<PowerStore name="PowerStore" capacity="100000000000" level="100000000000"/>
+			<PowerStore moduleName="PowerStore" capacity="100000000000" level="100000000000"/>
 		</power>
 		<water>
-			<PotableWaterStore name="PotableWaterStore" capacity="0" level="0"/>
-			<GreyWaterStore name="GreyWaterStore" capacity="0" level="0"/>
-			<DirtyWaterStore name="DirtyWaterStore" capacity="0" level="0"/>
+			<PotableWaterStore moduleName="PotableWaterStore" capacity="0" level="0"/>
+			<GreyWaterStore moduleName="GreyWaterStore" capacity="0" level="0"/>
+			<DirtyWaterStore moduleName="DirtyWaterStore" capacity="0" level="0"/>
 		</water>
 		<waste>
-			<DryWasteStore name="DryWasteStore" capacity="500" level="0"/>
+			<DryWasteStore moduleName="DryWasteStore" capacity="500" level="0"/>
 		</waste>
 	</SimBioModules>
 	<Sensors>

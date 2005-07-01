@@ -21,9 +21,7 @@ public class H2OutFlowRateSensorImpl extends GenericSensorImpl implements
         myValue = randomFilter(preFilteredValue);
     }
 
-    protected void notifyListeners() {
-        //does nothing right now
-    }
+
 
     public void setInput(H2Producer pProducer, int pIndex) {
         myProducer = pProducer;

@@ -21,9 +21,7 @@ public class MethaneOutFlowRateSensorImpl extends GenericSensorImpl implements
         myValue = randomFilter(preFilteredValue);
     }
 
-    protected void notifyListeners() {
-        //does nothing right now
-    }
+
 
     public void setInput(MethaneProducer pProducer, int pIndex) {
         myProducer = pProducer;

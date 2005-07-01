@@ -21,9 +21,7 @@ public class AirInFlowRateActuatorImpl extends GenericActuatorImpl implements
                 myFilteredValue, myIndex);
     }
 
-    protected void notifyListeners() {
-        //does nothing right now
-    }
+
 
     public void setOutput(AirConsumer pConsumer, int pIndex) {
         myConsumer = pConsumer;

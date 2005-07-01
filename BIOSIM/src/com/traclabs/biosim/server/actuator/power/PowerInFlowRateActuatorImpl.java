@@ -21,9 +21,7 @@ public class PowerInFlowRateActuatorImpl extends GenericActuatorImpl implements
                 myFilteredValue, myIndex);
     }
 
-    protected void notifyListeners() {
-        //does nothing right now
-    }
+
 
     public void setOutput(PowerConsumer pConsumer, int pIndex) {
         myConsumer = pConsumer;

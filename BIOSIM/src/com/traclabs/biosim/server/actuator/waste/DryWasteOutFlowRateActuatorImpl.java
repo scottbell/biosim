@@ -21,9 +21,7 @@ public class DryWasteOutFlowRateActuatorImpl extends GenericActuatorImpl
                 myFilteredValue, myIndex);
     }
 
-    protected void notifyListeners() {
-        //does nothing right now
-    }
+
 
     public void setOutput(DryWasteProducer pProducer, int pIndex) {
         myProducer = pProducer;

@@ -3,23 +3,23 @@
 	<Globals>
 		<comment>initialization for Matlab test</comment>
 		<author>Scott Bell</author>
-		<log4jProperty name="log4j.logger.com.traclabs.biosim.server.simulation.water" value="DEBUG"/>
-		<log4jProperty name="log4j.logger.com.traclabs.biosim.server.util.MatlabAceEngine" value="DEBUG"/>
+		<log4jProperty moduleName="log4j.logger.com.traclabs.biosim.server.simulation.water" value="DEBUG"/>
+		<log4jProperty moduleName="log4j.logger.com.traclabs.biosim.server.util.MatlabAceEngine" value="DEBUG"/>
 	</Globals>
 	<SimBioModules>
 		<power>
-			<PowerStore name="PowerStore" capacity="1000000" level="1000000"/>
+			<PowerStore moduleName="PowerStore" capacity="1000000" level="1000000"/>
 		</power>
 		<water>
-			<WaterRS name="WaterRS" implementation="MATLAB">
+			<WaterRS moduleName="WaterRS" implementation="MATLAB">
 				<powerConsumer maxFlowRates="500" desiredFlowRates="500" inputs="PowerStore"/>
 				<dirtyWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="DirtyWaterStore"/>
 				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="GreyWaterStore"/>
 				<potableWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="PotableWaterStore"/>
 			</WaterRS>
-			<PotableWaterStore name="PotableWaterStore" capacity="50000" level="0"/>
-			<GreyWaterStore name="GreyWaterStore" capacity="50000" level="5000"/>
-			<DirtyWaterStore name="DirtyWaterStore" capacity="50000" level="2500"/>
+			<PotableWaterStore moduleName="PotableWaterStore" capacity="50000" level="0"/>
+			<GreyWaterStore moduleName="GreyWaterStore" capacity="50000" level="5000"/>
+			<DirtyWaterStore moduleName="DirtyWaterStore" capacity="50000" level="2500"/>
 		</water>
 	</SimBioModules>
 </biosim>

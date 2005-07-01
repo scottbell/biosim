@@ -21,9 +21,7 @@ public class GreyWaterInFlowRateSensorImpl extends GenericSensorImpl implements
         myValue = randomFilter(preFilteredValue);
     }
 
-    protected void notifyListeners() {
-        //does nothing right now
-    }
+
 
     public void setInput(GreyWaterConsumer pConsumer, int pIndex) {
         myConsumer = pConsumer;

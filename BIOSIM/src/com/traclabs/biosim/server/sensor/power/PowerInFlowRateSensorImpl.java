@@ -21,9 +21,7 @@ public class PowerInFlowRateSensorImpl extends GenericSensorImpl implements
         myValue = randomFilter(preFilteredValue);
     }
 
-    protected void notifyListeners() {
-        //does nothing right now
-    }
+
 
     public void setInput(PowerConsumer pConsumer, int pIndex) {
         myConsumer = pConsumer;

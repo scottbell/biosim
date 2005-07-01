@@ -21,9 +21,7 @@ public class DryWasteInFlowRateSensorImpl extends GenericSensorImpl implements
         myValue = randomFilter(preFilteredValue);
     }
 
-    protected void notifyListeners() {
-        //does nothing right now
-    }
+
 
     public void setInput(DryWasteConsumer pConsumer, int pIndex) {
         myConsumer = pConsumer;

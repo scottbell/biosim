@@ -17,9 +17,7 @@ public class PlantingActuatorImpl extends ShelfActuatorImpl implements
         myShelf.replant(myType, myFilteredValue);
     }
 
-    protected void notifyListeners() {
-        //does nothing right now
-    }
+
 
     public float getMax() {
         return myShelf.getCropAreaTotal();

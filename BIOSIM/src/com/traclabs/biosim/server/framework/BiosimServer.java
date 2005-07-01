@@ -27,7 +27,7 @@ public class BiosimServer extends GenericServer {
         registerServer(newBioDriverImpl, newBioDriverImpl.getName(),
         		newBioDriverImpl.getID());
         myLogger.info("Loading init file: " + rawFileLocation);
-        BioInitializer myInitializer = new BioInitializer(id);
+        BiosimInitializer myInitializer = new BiosimInitializer(id);
         myInitializer.parseFile(rawFileLocation);
     }
 

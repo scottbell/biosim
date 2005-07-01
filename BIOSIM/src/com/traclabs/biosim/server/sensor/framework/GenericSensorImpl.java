@@ -14,7 +14,8 @@ public abstract class GenericSensorImpl extends BioModuleImpl implements
 
     protected abstract void gatherData();
 
-    protected abstract void notifyListeners();
+    protected void notifyListeners(){
+    }
 
     public float getValue() {
         return myValue;

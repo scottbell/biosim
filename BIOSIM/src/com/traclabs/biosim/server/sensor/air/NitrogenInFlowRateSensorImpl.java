@@ -21,9 +21,7 @@ public class NitrogenInFlowRateSensorImpl extends GenericSensorImpl implements
         myValue = randomFilter(preFilteredValue);
     }
 
-    protected void notifyListeners() {
-        //does nothing right now
-    }
+
 
     public void setInput(NitrogenConsumer pConsumer, int pIndex) {
         myConsumer = pConsumer;

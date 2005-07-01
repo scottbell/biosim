@@ -26,7 +26,12 @@
 	</xsd:simpleType>
 	
 	<!-- Top level element declaration -->	
-	<xsd:element name="biosim" type="BioSimType"/>
+	<xsd:element name="biosim" type="BioSimType">
+		<xsd:unique name="nameIsKey">
+			<xsd:selector xpath=".//*"/>
+			<xsd:field xpath="@moduleName"/>
+		</xsd:unique>
+	</xsd:element>
 	
 	<xsd:complexType name="BioSimType">
 		<xsd:sequence>
@@ -604,12 +609,13 @@
 		<xsd:attribute name="occursAtTick" type="xsd:nonNegativeInteger" use="required"/>
 	</xsd:complexType>
 	
+	
 	<!-- Module declarations -->
 	<xsd:complexType name="BioModuleType">
 		<xsd:sequence>
 			<xsd:element name="malfunction" type="MalfunctionType" minOccurs="0" maxOccurs="1"/>
 		</xsd:sequence>
-		<xsd:attribute name="name" type="xsd:string" use="required"/>
+		<xsd:attribute name="moduleName" type="xsd:string" use="required"/>
 		<xsd:attribute name="isLoggingEnabled" type="xsd:boolean" default="false"/>
 		<xsd:attribute name="isBreakdownEnabled" type="xsd:boolean" default="false"/>
 		<xsd:attribute name="setStochasticIntensity" type="StochasticIntensityType" default="NONE_STOCH"/>
@@ -1251,7 +1257,7 @@
 	
 	<xsd:complexType name="GasPressureSensorType">  
 		<xsd:complexContent>
-			<xsd:extension base="FlowRateSensorType">
+			<xsd:extension base="SensorType">
 				<xsd:attribute name="gasType" type="GasType" use="required"/>
 			</xsd:extension>
 		</xsd:complexContent>

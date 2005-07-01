@@ -33,7 +33,7 @@ import com.traclabs.biosim.util.OrbUtils;
  * 
  * @author Scott Bell
  */
-public class BioInitializer {
+public class BiosimInitializer {
     /** Namespaces feature id (http://xml.org/sax/features/moduleNamespaces). */
     private static final String NAMESPACES_FEATURE_ID = "http://xml.org/sax/features/namespaces";
 
@@ -80,7 +80,7 @@ public class BioInitializer {
     private ActuatorInitializer myActuatorInitializer;
 
     /** Default constructor. */
-    public BioInitializer(int pID) {
+    public BiosimInitializer(int pID) {
         myID = pID;
         mySimulationInitializer = new SimulationInitializer(myID);
         mySensorInitializer = new SensorInitializer(myID);
@@ -305,7 +305,7 @@ public class BioInitializer {
     }
 
     public static String getModuleName(Node node) {
-        return node.getAttributes().getNamedItem("name").getNodeValue();
+        return node.getAttributes().getNamedItem("moduleName").getNodeValue();
     }
 
     public static org.omg.CORBA.Object grabModule(int pID, String moduleName) {
@@ -315,12 +315,12 @@ public class BioInitializer {
                 moduleToReturn = OrbUtils.getNamingContext(pID).resolve_str(
                         moduleName);
             } catch (org.omg.CORBA.UserException e) {
-                Logger.getLogger(BioInitializer.class).error(
+                Logger.getLogger(BiosimInitializer.class).error(
                         "Couldn't find module " + moduleName
                                 + ", polling again...");
                 OrbUtils.sleepAwhile();
             } catch (Exception e) {
-                Logger.getLogger(BioInitializer.class).error(
+                Logger.getLogger(BiosimInitializer.class).error(
                         "Had problems contacting nameserver with module "
                                 + moduleName + ", polling again...");
                 OrbUtils.resetInit();
@@ -331,7 +331,7 @@ public class BioInitializer {
     }
 
     public static void printRemoteWarningMessage(String pName) {
-        Logger.getLogger(BioInitializer.class).warn(
+        Logger.getLogger(BiosimInitializer.class).warn(
                 "\nInstance of the module named " + pName
                         + " should be created remotely (if not already done)");
     }

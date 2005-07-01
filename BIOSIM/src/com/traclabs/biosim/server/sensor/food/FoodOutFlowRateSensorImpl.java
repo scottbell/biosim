@@ -21,9 +21,7 @@ public class FoodOutFlowRateSensorImpl extends GenericSensorImpl implements
         myValue = randomFilter(preFilteredValue);
     }
 
-    protected void notifyListeners() {
-        //does nothing right now
-    }
+
 
     public void setInput(FoodProducer pProducer, int pIndex) {
         myProducer = pProducer;

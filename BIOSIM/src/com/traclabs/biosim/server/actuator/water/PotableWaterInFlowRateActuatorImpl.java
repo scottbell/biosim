@@ -21,9 +21,7 @@ public class PotableWaterInFlowRateActuatorImpl extends GenericActuatorImpl
                 myFilteredValue, myIndex);
     }
 
-    protected void notifyListeners() {
-        //does nothing right now
-    }
+
 
     public void setOutput(PotableWaterConsumer pConsumer, int pIndex) {
         myConsumer = pConsumer;

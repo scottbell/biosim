@@ -21,9 +21,7 @@ public class CO2InFlowRateActuatorImpl extends GenericActuatorImpl implements
                 myFilteredValue, myIndex);
     }
 
-    protected void notifyListeners() {
-        //does nothing right now
-    }
+
 
     public void setOutput(CO2Consumer pConsumer, int pIndex) {
         myConsumer = pConsumer;

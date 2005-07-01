@@ -66,12 +66,12 @@ public abstract class FigModuleLabelNode extends FigModuleNode {
      * Resizes the node so that it is large enough to accomodate the size of the
      * label.
      */
-    public void endEditing() {
+	public void endEditing() {
         Dimension size = getPreferedSize(); // Minimum size of handle box.
         int w = (int) size.getWidth() + 400;
         int h = (int) size.getHeight() + 400;
 
-        Point center = myNameLabel.center();
+        Point center = myNameLabel.getCenter();
         int x = center.x - w / 2;
         int y = center.y - h / 2;
 
@@ -101,7 +101,8 @@ public abstract class FigModuleLabelNode extends FigModuleNode {
         setTextLineColor(myDescriptionLabel, col);
     }
 
-    public void setBounds(int x, int y, int w, int h) {
+    @SuppressWarnings("deprecation")
+	public void setBounds(int x, int y, int w, int h) {
         Rectangle rect = new Rectangle(x, y, w - _shadowOffset, h
                 - _shadowOffset);
         Point center = new Point((int) (rect.getX() + rect.getWidth() / 2),

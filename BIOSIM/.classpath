@@ -9,7 +9,7 @@
 	<classpathentry sourcepath="/usr/local/corba/JacORB/JacORB_2_1/src" kind="lib" path="lib/jacorb/jacorb.jar"/>
 	<classpathentry sourcepath="C:/workbench/jakarta-log4j-1.2.8/src/java" kind="lib" path="lib/log4j/log4j.jar"/>
 	<classpathentry kind="lib" path="lib/junit/junit.jar"/>
-	<classpathentry sourcepath="/net/home/scott/workspace/gef/src" kind="lib" path="lib/gef/gef.jar"/>
+	<classpathentry sourcepath="/net/home/scott/workspace/gef" kind="lib" path="lib/gef/gef.jar"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="lib" path="lib/log4j/commons-logging.jar"/>
 	<classpathentry kind="lib" path="lib/jacorb/avalon-framework.jar"/>

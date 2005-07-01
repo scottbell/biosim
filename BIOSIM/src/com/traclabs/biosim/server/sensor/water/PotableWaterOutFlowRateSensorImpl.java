@@ -21,9 +21,7 @@ public class PotableWaterOutFlowRateSensorImpl extends GenericSensorImpl
         myValue = randomFilter(preFilteredValue);
     }
 
-    protected void notifyListeners() {
-        //does nothing right now
-    }
+
 
     public void setInput(PotableWaterProducer pProducer, int pIndex) {
         myProducer = pProducer;

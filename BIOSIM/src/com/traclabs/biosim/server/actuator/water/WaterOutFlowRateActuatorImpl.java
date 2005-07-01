@@ -21,9 +21,7 @@ public class WaterOutFlowRateActuatorImpl extends GenericActuatorImpl implements
                 myFilteredValue, myIndex);
     }
 
-    protected void notifyListeners() {
-        //does nothing right now
-    }
+
 
     public void setOutput(WaterProducer pProducer, int pIndex) {
         myProducer = pProducer;
