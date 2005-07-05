@@ -14,7 +14,6 @@ import org.apache.log4j.Logger;
  */
 public abstract class Enzyme {
 	private float myQuantity = 1f;
-	
     protected Logger myLogger;
     public Enzyme(){
         myLogger = Logger.getLogger(getClass());
@@ -29,4 +28,5 @@ public abstract class Enzyme {
 	public float getQuantity(){
 		return myQuantity;
 	}
+	
 }

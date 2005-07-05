@@ -18,4 +18,8 @@ public abstract class ActiveEnzyme extends Enzyme {
 	public float getRate(){
 		return myRate;
 	}
+
+	protected float adjustForRateAndConcentration(float chemicalRatio) {
+		return getRate() * getQuantity() * chemicalRatio;
+	}
 }
