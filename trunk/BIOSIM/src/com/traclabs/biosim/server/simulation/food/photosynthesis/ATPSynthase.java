@@ -50,9 +50,9 @@ public class ATPSynthase extends ActiveEnzyme {
      * 
      */
     private void attemptToSynthesizeATP() {
-        float ADPTaken = myStroma.getADPs().take(ADP_NEEDED_BASE);
-        float phosphateTaken = myStroma.getPhosphates().take(PHOSPHATE_NEEDED_BASE);
-        if ((ADPTaken == ADP_NEEDED_BASE) && (phosphateTaken == PHOSPHATE_NEEDED_BASE)){
+        float ADPTaken = myStroma.getADPs().take(getADPsNeeded());
+        float phosphateTaken = myStroma.getPhosphates().take(getPhosphatesNeeded());
+        if ((ADPTaken == getADPsNeeded()) && (phosphateTaken == getPhosphatesNeeded())){
             myStroma.getATPs().add(ADPTaken);
             myLogger.debug("synthesized ATP!");
         	energized = false;
@@ -77,11 +77,13 @@ public class ATPSynthase extends ActiveEnzyme {
      * @return
      */
     private boolean protonThresholdMet() {
-    	float protons = myLumen.getProtons().getQuantity();
-    	if (protons <= 0)
+    	float protonsFromLumen = myLumen.getProtons().getQuantity();
+    	float protonsFromStroma = myStroma.getProtons().getQuantity();
+    	float protonDifference = protonsFromLumen - protonsFromStroma;
+    	if (protonDifference <= 0)
     		return false;
         float randomNumber = myRandomGen.nextFloat();
-        float protonThreshold = MathUtils.calculateSCurve(protons, PROTON_NEEDED_BASE * 2f);
+        float protonThreshold = MathUtils.calculateSCurve(protonDifference, getProtonsNeeded() * 2f);
         return (protonThreshold > randomNumber);
     }
 
@@ -92,5 +94,16 @@ public class ATPSynthase extends ActiveEnzyme {
 	public void reset() {
 		energized = false;
 	}
-
+	
+	private float getProtonsNeeded(){
+		return adjustForRateAndConcentration(PROTON_NEEDED_BASE);
+	}
+	
+	private float getADPsNeeded(){
+		return adjustForRateAndConcentration(ADP_NEEDED_BASE);
+	}
+	
+	private float getPhosphatesNeeded(){
+		return adjustForRateAndConcentration(PHOSPHATE_NEEDED_BASE);
+	}
 }

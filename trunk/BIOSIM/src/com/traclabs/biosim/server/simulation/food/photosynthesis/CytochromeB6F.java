@@ -13,7 +13,7 @@ public class CytochromeB6F extends ActiveEnzyme{
     private Plastocyanin myPlastocyanin;
     private Lumen myLumen;
     private Stroma myStroma;
-    private static final int PROTONS_NEEDED = 2;
+    private static final int PROTONS_NEEDED_BASE = 2;
     private int electrons = 0;
     
     public CytochromeB6F(Plastoquinone pPlastoquinone, Plastocyanin pPlastocyanin, Lumen pLumen, Stroma pStroma){
@@ -52,8 +52,8 @@ public class CytochromeB6F extends ActiveEnzyme{
     private void attemptToOxidizePlastoquinone() {
         if (myPlastoquinone.hasProtons()){
             myPlastoquinone.removeElectronAndProtons();
-            myLumen.getProtons().add(PROTONS_NEEDED);
-            electrons = PROTONS_NEEDED;
+            myLumen.getProtons().add(PROTONS_NEEDED_BASE);
+            electrons = PROTONS_NEEDED_BASE;
             myLogger.debug("oxidized plastoquinone!");
         }
     }
@@ -64,8 +64,8 @@ public class CytochromeB6F extends ActiveEnzyme{
     @SuppressWarnings("unused")
 	private void attemptToReducePlastoquinone() {
         if (!myPlastoquinone.hasProtons()){
-            float protonsTaken = myStroma.getProtons().take(PROTONS_NEEDED);
-            if (protonsTaken == PROTONS_NEEDED){
+            float protonsTaken = myStroma.getProtons().take(PROTONS_NEEDED_BASE);
+            if (protonsTaken == PROTONS_NEEDED_BASE){
                 myPlastoquinone.addProtonsAndElectron();
                 electrons--;
                 myLogger.debug("reduced plastoquinone!");
@@ -85,5 +85,9 @@ public class CytochromeB6F extends ActiveEnzyme{
 
 	public void reset() {
 		electrons = 0;
+	}
+	
+	private float getProtonsNeeded(){
+		return adjustForRateAndConcentration(PROTONS_NEEDED_BASE);
 	}
 }
