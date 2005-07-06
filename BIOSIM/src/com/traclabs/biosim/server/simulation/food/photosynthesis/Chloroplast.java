@@ -40,19 +40,20 @@ public class Chloroplast {
     }
 
     /**
+     * @param f 
      * @return
      */
-    public float getOrangeLight() {
+    public float getOrangeLight(float photonsNeeded) {
         // TODO Auto-generated method stub
-        return 1;
+        return photonsNeeded;
     }
 
     /**
      * @return
      */
-    public float getRedLight() {
+    public float getRedLight(float photonsNeeded) {
         // TODO Auto-generated method stub
-        return 1;
+        return photonsNeeded;
     }
 
     public void tick() {

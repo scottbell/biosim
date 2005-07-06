@@ -6,15 +6,19 @@ package com.traclabs.biosim.server.simulation.food.photosynthesis;
 
 /**
  * @author scott
- *
+ * 
  */
 public class Photosystem2 extends ActiveEnzyme{
+	private static final float myHydrolysisRate = 1f;
+	private static final float myPQReductionRate = 1f;
+	
     private float myQuantityEnergized = 0f;
     private Plastoquinone myPlastoquinone;
     private Chloroplast myChloroplast;
     private static final float LIGHT_ENERGY_RATIO_NEEDED = 1;
     private static final float WATER_MOLECULE_RATIO_NEEDED = 2;
     private static final float PROTON_RATIO_NEEDED = 2;
+    private static final float PQ_RATIO_NEEDED = 1;
     private Lumen myLumen;
     private Stroma myStroma;
     
@@ -25,57 +29,49 @@ public class Photosystem2 extends ActiveEnzyme{
         myStroma = pStroma;
     }
 
-    private void hydrolyze(){
-        float waterMoleculesTaken = myLumen.getWaterMolecules().take(WATER_MOLECULE_RATIO_NEEDED);
-        if (waterMoleculesTaken == WATER_MOLECULE_RATIO_NEEDED){
-            myLumen.getProtons().add(WATER_MOLECULE_RATIO_NEEDED * 2);
-            myLumen.getOxygen().add(WATER_MOLECULE_RATIO_NEEDED / 2);
-            energized = true;
-            myLogger.debug("hydrolyzed!");
-        }
-        else{
-            myLumen.getWaterMolecules().add(waterMoleculesTaken);
-        }
-    }
     
     public void tick(){
-        if (myQuantityEnergized > 0f)
-            attempToReducePlastoquinone();
-        attemptToEnergize();
+        hydrolize();
+        reducePlastoquinone();
     }
 
     /**
-     * 
-     */
-    private void attempToReducePlastoquinone() {
-    	float protonsInStroma = myStroma.getProtons().getQuantity();
-    	float plastoquinoneWithProtons = myPlastoquinone.getNumberWithProtons();
-        if (plastoquinoneWithProtons > 0)
-        	float protonsTaken = myStroma.getProtons().take(getProtonsNeeded());
-            myPlastoquinone.addProtonsAndElectron();
-            energized = false;
-            myLogger.debug("reduced plastoquinone!");
-        }
+	 * 
+	 */
+    private void reducePlastoquinone() {
+    	float doubleProtonsAvailable = myStroma.getProtons().getQuantity() / PROTON_RATIO_NEEDED;
+    	float plastoquinoneWithProtonsAvailable = myPlastoquinone.getNumberWithProtons() / PQ_RATIO_NEEDED;
+        float ps2sToOxidize = myQuantityEnergized * myPQReductionRate;
+        
+        float pqsAbleToReduceFirst = Math.min(doubleProtonsAvailable, plastoquinoneWithProtonsAvailable);
+        float pqsAbleToReduceFinal = Math.min(pqsAbleToReduceFirst, ps2sToOxidize);
+    	float protonsTaken = myStroma.getProtons().take(pqsAbleToReduceFinal * PROTON_RATIO_NEEDED);
+        myPlastoquinone.addProtonsAndElectron(pqsAbleToReduceFinal);
+        myQuantityEnergized -= pqsAbleToReduceFinal;
+        myLogger.debug("reduced "+ pqsAbleToReduceFinal +" plastoquinone");
     }
 
     /**
-     * 
-     */
-    private void attemptToEnergize() {
-        //need 680 nm for optimal absorption
-        float lightEnergy = myChloroplast.getOrangeLight();
-        if (lightEnergy >= LIGHT_ENERGY_RATIO_NEEDED)
-            hydrolyze();
+	 * 
+	 */
+    private void hydrolize() {
+    	float ps2sToEnergize = (getQuantity() * myHydrolysisRate) - myQuantityEnergized;
+        // need 680 nm for optimal absorption
+        float lightEnergyAvailable = myChloroplast.getOrangeLight(ps2sToEnergize * LIGHT_ENERGY_RATIO_NEEDED);
+    	float doubleWaterMoleculesAvailable = myLumen.getWaterMolecules().getQuantity() / WATER_MOLECULE_RATIO_NEEDED;
+        float ps2sAbleToEnergizeFirst = Math.min(ps2sToEnergize, doubleWaterMoleculesAvailable);
+        float ps2sAbleToEnergizeFinal = Math.min(ps2sAbleToEnergizeFirst, lightEnergyAvailable);
+        float waterMoleculesToTake = ps2sAbleToEnergizeFinal * WATER_MOLECULE_RATIO_NEEDED;
+        myLumen.getWaterMolecules().take(waterMoleculesToTake);
+        myLumen.getProtons().add(waterMoleculesToTake * 2);
+        myLumen.getOxygen().add(waterMoleculesToTake / 2);
+        myQuantityEnergized += ps2sAbleToEnergizeFinal;
+        myLogger.debug("hydrolyzed "+myQuantityEnergized+" photosystem2s" );
     }
-    /**
-     * @return Returns the energized.
-     */
-    public boolean isEnergized() {
-        return energized;
-    }
+    
 
 	@Override
 	public void reset() {
-		energized = false;
+		myQuantityEnergized = 0f;
 	}
 }
