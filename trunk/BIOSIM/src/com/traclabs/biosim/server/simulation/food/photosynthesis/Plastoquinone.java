@@ -9,34 +9,32 @@ package com.traclabs.biosim.server.simulation.food.photosynthesis;
  *
  */
 public class Plastoquinone extends PassiveEnzyme{
-    private boolean hasProtonsCached = false;
-    private boolean hasProtonsCurrent = false;
+    private float myQuantityWithProtonsCurrent = getQuantity();
     
-    public void addProtonsAndElectron(){
-        hasProtonsCurrent = true;
+    public void addProtonsAndElectron(float quantityOfPQToAffect){
+    	myQuantityWithProtonsCurrent += quantityOfPQToAffect;
     }
     
-    public void removeElectronAndProtons(){
-        hasProtonsCurrent = false;
+    public void removeElectronAndProtons(float quantityOfPQToAffect){
+    	myQuantityWithProtonsCurrent -= quantityOfPQToAffect;
     }
     
     /* (non-Javadoc)
      * @see com.traclabs.biosim.server.simulation.food.photosynthesis.Enzyme#tick()
      */
     public void tick() {
-        hasProtonsCached = hasProtonsCurrent;
-        
     }
+    
     /**
      * @return
      */
-    public boolean hasProtons() {
-        return hasProtonsCached;
+    public float getNumberWithProtons() {
+        return myQuantityWithProtonsCurrent;
     }
 
 	@Override
 	public void reset() {
-		hasProtonsCurrent = hasProtonsCached = false;
+		myQuantityWithProtonsCurrent = getQuantity();
 	}
 
 }
