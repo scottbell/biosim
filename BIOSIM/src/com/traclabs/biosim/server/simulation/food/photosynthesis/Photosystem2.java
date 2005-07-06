@@ -9,12 +9,12 @@ package com.traclabs.biosim.server.simulation.food.photosynthesis;
  *
  */
 public class Photosystem2 extends ActiveEnzyme{
-    private boolean energized = false;
+    private float myQuantityEnergized = 0f;
     private Plastoquinone myPlastoquinone;
     private Chloroplast myChloroplast;
-    private static final float LIGHT_ENERGY_NEEDED = 1;
-    private static final float WATER_MOLECULES_NEEDED = 2;
-    private static final float PROTONS_NEEDED = 2;
+    private static final float LIGHT_ENERGY_RATIO_NEEDED = 1;
+    private static final float WATER_MOLECULE_RATIO_NEEDED = 2;
+    private static final float PROTON_RATIO_NEEDED = 2;
     private Lumen myLumen;
     private Stroma myStroma;
     
@@ -26,10 +26,10 @@ public class Photosystem2 extends ActiveEnzyme{
     }
 
     private void hydrolyze(){
-        float waterMoleculesTaken = myLumen.getWaterMolecules().take(WATER_MOLECULES_NEEDED);
-        if (waterMoleculesTaken == WATER_MOLECULES_NEEDED){
-            myLumen.getProtons().add(WATER_MOLECULES_NEEDED * 2);
-            myLumen.getOxygen().add(WATER_MOLECULES_NEEDED / 2);
+        float waterMoleculesTaken = myLumen.getWaterMolecules().take(WATER_MOLECULE_RATIO_NEEDED);
+        if (waterMoleculesTaken == WATER_MOLECULE_RATIO_NEEDED){
+            myLumen.getProtons().add(WATER_MOLECULE_RATIO_NEEDED * 2);
+            myLumen.getOxygen().add(WATER_MOLECULE_RATIO_NEEDED / 2);
             energized = true;
             myLogger.debug("hydrolyzed!");
         }
@@ -39,26 +39,22 @@ public class Photosystem2 extends ActiveEnzyme{
     }
     
     public void tick(){
-        if (energized)
+        if (myQuantityEnergized > 0f)
             attempToReducePlastoquinone();
-        else
-            attemptToEnergize();
+        attemptToEnergize();
     }
 
     /**
      * 
      */
     private void attempToReducePlastoquinone() {
-        if (!myPlastoquinone.hasProtons()){
-            float protonsTaken = myStroma.getProtons().take(PROTONS_NEEDED);
-            if (protonsTaken == PROTONS_NEEDED){
-                myPlastoquinone.addProtonsAndElectron();
-                energized = false;
-                myLogger.debug("reduced plastoquinone!");
-            }
-            else{
-                myStroma.getProtons().add(protonsTaken);
-            }
+    	float protonsInStroma = myStroma.getProtons().getQuantity();
+    	float plastoquinoneWithProtons = myPlastoquinone.getNumberWithProtons();
+        if (plastoquinoneWithProtons > 0)
+        	float protonsTaken = myStroma.getProtons().take(getProtonsNeeded());
+            myPlastoquinone.addProtonsAndElectron();
+            energized = false;
+            myLogger.debug("reduced plastoquinone!");
         }
     }
 
@@ -68,7 +64,7 @@ public class Photosystem2 extends ActiveEnzyme{
     private void attemptToEnergize() {
         //need 680 nm for optimal absorption
         float lightEnergy = myChloroplast.getOrangeLight();
-        if (lightEnergy >= LIGHT_ENERGY_NEEDED)
+        if (lightEnergy >= LIGHT_ENERGY_RATIO_NEEDED)
             hydrolyze();
     }
     /**
