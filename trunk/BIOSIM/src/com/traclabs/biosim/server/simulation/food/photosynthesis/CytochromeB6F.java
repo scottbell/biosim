@@ -24,21 +24,15 @@ public class CytochromeB6F extends ActiveEnzyme{
     }
     
     public void tick() {
-        if (electrons >= 2){
-            attemptToReducePlastocyanin();
-            //attemptToReducePlastoquinone();
-        }
-        else if (electrons >= 1){
-            attemptToReducePlastocyanin();
-        }
-        else
-            attemptToOxidizePlastoquinone();
+        reducePlastocyanin();
+        reducePlastoquinone();
+        oxidizePlastoquinone();
     }
 
     /**
      * 
      */
-    private void attemptToReducePlastocyanin() {
+    private void reducePlastocyanin() {
         if (!myPlastocyanin.hasElectron()){
             myPlastocyanin.reduce();
             electrons--;
@@ -49,7 +43,7 @@ public class CytochromeB6F extends ActiveEnzyme{
     /**
      * 
      */
-    private void attemptToOxidizePlastoquinone() {
+    private void oxidizePlastoquinone() {
         if (myPlastoquinone.hasProtons()){
             myPlastoquinone.removeElectronAndProtons();
             myLumen.getProtons().add(PROTONS_NEEDED_BASE);
@@ -61,8 +55,7 @@ public class CytochromeB6F extends ActiveEnzyme{
     /**
      * back reaction
      */
-    @SuppressWarnings("unused")
-	private void attemptToReducePlastoquinone() {
+	private void reducePlastoquinone() {
         if (!myPlastoquinone.hasProtons()){
             float protonsTaken = myStroma.getProtons().take(PROTONS_NEEDED_BASE);
             if (protonsTaken == PROTONS_NEEDED_BASE){
@@ -87,7 +80,4 @@ public class CytochromeB6F extends ActiveEnzyme{
 		electrons = 0;
 	}
 	
-	private float getProtonsNeeded(){
-		return adjustForRateAndConcentration(PROTONS_NEEDED_BASE);
-	}
 }
