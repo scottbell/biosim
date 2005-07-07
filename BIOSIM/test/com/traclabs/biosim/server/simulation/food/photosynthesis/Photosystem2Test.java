@@ -60,45 +60,6 @@ public class Photosystem2Test extends TestCase {
         float initialProtons = initialStromaProtons + initialLumenProtons + (initialWaterMolecules * 2f);
         
         for (int i = 0; i < ITERATIONS_TO_RUN; i++) {
-            assertEquals(myPhotosystem2.isEnergized(), false);
-            assertEquals(myPlastoquinone.hasProtons(), false);
-
-            float lumenWaterLevel = myLumen.getWaterMolecules().getQuantity();
-            float lumenProtonLevel = myLumen.getProtons().getQuantity();
-            float lumenOxygenLevel = myLumen.getOxygen().getQuantity();
-            float stromaProtonLevel = myStroma.getProtons().getQuantity();
-
-            myPhotosystem2.tick();
-            myStroma.tick();
-            myLumen.tick();
-            myChloroplast.tick();
-            myPlastoquinone.tick();
-
-            assertEquals(myPhotosystem2.isEnergized(), true);
-            assertEquals(myPlastoquinone.hasProtons(), false);
-            assertEquals(myLumen.getWaterMolecules().getQuantity(),
-                    lumenWaterLevel - 2, 0);
-            assertEquals(myLumen.getProtons().getQuantity(),
-                    lumenProtonLevel + 4, 0);
-            assertEquals(myLumen.getOxygen().getQuantity(),
-                    lumenOxygenLevel + 1, 0);
-            assertEquals(stromaProtonLevel, myStroma.getProtons()
-                    .getQuantity(), 0);
-
-            myChloroplast.tick();
-            myPhotosystem2.tick();
-            myStroma.tick();
-            myLumen.tick();
-            myPlastoquinone.tick();
-
-            assertEquals(myPhotosystem2.isEnergized(), false);
-            assertEquals(myPlastoquinone.hasProtons(), true);
-
-            //act like Cytochrome and remove protons
-            myPlastoquinone.removeElectronAndProtons();
-            myLumen.getProtons().add(2);
-            myPlastoquinone.tick();
-            myLumen.tick();
         }
         
         float finalStromaProtons = myStroma.getProtons().getQuantity();

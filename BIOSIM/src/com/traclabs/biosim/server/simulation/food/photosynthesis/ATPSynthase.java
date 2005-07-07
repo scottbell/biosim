@@ -50,6 +50,7 @@ public class ATPSynthase extends ActiveEnzyme {
      * 
      */
     private void attemptToSynthesizeATP() {
+    	/*
         float ADPTaken = myStroma.getADPs().take(getADPsNeeded());
         float phosphateTaken = myStroma.getPhosphates().take(getPhosphatesNeeded());
         if ((ADPTaken == getADPsNeeded()) && (phosphateTaken == getPhosphatesNeeded())){
@@ -61,6 +62,7 @@ public class ATPSynthase extends ActiveEnzyme {
             myStroma.getADPs().add(ADPTaken);
             myStroma.getPhosphates().add(phosphateTaken);
         }
+        */
     }
 
     /**
@@ -83,7 +85,7 @@ public class ATPSynthase extends ActiveEnzyme {
     	if (protonDifference <= 0)
     		return false;
         float randomNumber = myRandomGen.nextFloat();
-        float protonThreshold = MathUtils.calculateSCurve(protonDifference, getProtonsNeeded() * 2f);
+        float protonThreshold = MathUtils.calculateSCurve(protonDifference, PROTON_NEEDED_BASE * 2f);
         return (protonThreshold > randomNumber);
     }
 
@@ -95,15 +97,4 @@ public class ATPSynthase extends ActiveEnzyme {
 		energized = false;
 	}
 	
-	private float getProtonsNeeded(){
-		return adjustForRateAndConcentration(PROTON_NEEDED_BASE);
-	}
-	
-	private float getADPsNeeded(){
-		return adjustForRateAndConcentration(ADP_NEEDED_BASE);
-	}
-	
-	private float getPhosphatesNeeded(){
-		return adjustForRateAndConcentration(PHOSPHATE_NEEDED_BASE);
-	}
 }

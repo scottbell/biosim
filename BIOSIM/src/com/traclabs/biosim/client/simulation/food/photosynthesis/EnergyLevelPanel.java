@@ -119,9 +119,9 @@ public class EnergyLevelPanel extends JPanel {
     }
 
     public void refresh() {
-    	if (myPhotosystem2.isEnergized())
-    		myPS2Series.add(ticks, 1);
-    	else
+    	//if (myPhotosystem2.isEnergized())
+    	//	myPS2Series.add(ticks, 1);
+    	
     		myPS2Series.add(ticks, 0);
     	if (myCytochromeB6F.getNumberOfElectrons() > 0)
     		myCyB6FSeries.add(ticks, 1);
