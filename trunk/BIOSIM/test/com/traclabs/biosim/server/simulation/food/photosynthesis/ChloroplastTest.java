@@ -58,9 +58,7 @@ public class ChloroplastTest extends TestCase {
         float lumenWaterMolecules = theLumen.getWaterMolecules().getQuantity();
         float stromaProtons = theStroma.getProtons().getQuantity();
         float stromaNADPHs = theStroma.getNADPHs().getQuantity();
-        float plastoquinoneProtons = 0f;
-        if (thePlastoquinone.hasProtons())
-            plastoquinoneProtons = 2;
+        float plastoquinoneProtons = thePlastoquinone.getNumberWithProtons();
         float totalProtons = plastoquinoneProtons + lumenProtons + stromaProtons + stromaNADPHs + (2 * lumenWaterMolecules);
         myLogger.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         myLogger.debug("lumenProtons = "+lumenProtons);

@@ -44,18 +44,21 @@ public class CytochromeB6F extends ActiveEnzyme{
      * 
      */
     private void oxidizePlastoquinone() {
+    	/*
         if (myPlastoquinone.hasProtons()){
             myPlastoquinone.removeElectronAndProtons();
             myLumen.getProtons().add(PROTONS_NEEDED_BASE);
             electrons = PROTONS_NEEDED_BASE;
             myLogger.debug("oxidized plastoquinone!");
         }
+        */
     }
     
     /**
      * back reaction
      */
 	private void reducePlastoquinone() {
+		/*
         if (!myPlastoquinone.hasProtons()){
             float protonsTaken = myStroma.getProtons().take(PROTONS_NEEDED_BASE);
             if (protonsTaken == PROTONS_NEEDED_BASE){
@@ -67,6 +70,7 @@ public class CytochromeB6F extends ActiveEnzyme{
                 myStroma.getProtons().add(protonsTaken);
             }
         }
+        */
     }
 
     /**

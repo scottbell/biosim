@@ -58,44 +58,6 @@ public class CytochromeB6FTest extends TestCase {
         float initialProtons = initialLumenProtons + initialStromaProtons + initialProtonsToAdd;
         
         for (int i = 0; i < ITERATIONS_TO_RUN; i++) {
-            //act like PS2 and ready PQ with protons and electrons
-            myPlastoquinone.addProtonsAndElectron();
-            myPlastoquinone.tick();
-            
-            assertEquals(myCytochromeB6F.getNumberOfElectrons(), 0);
-            assertEquals(myPlastoquinone.hasProtons(), true);
-            float lumenProtonLevel = myLumen.getProtons().getQuantity();
-            float stromaProtonLevel = myStroma.getProtons().getQuantity();
-
-            myCytochromeB6F.tick();
-            myStroma.tick();
-            myLumen.tick();
-            myPlastoquinone.tick();
-            myPlastocyanin.tick();
-
-            assertEquals(myCytochromeB6F.getNumberOfElectrons(), 2);
-            assertEquals(myPlastoquinone.hasProtons(), false);
-            assertEquals(lumenProtonLevel, myStroma.getProtons()
-                    .getQuantity(), stromaProtonLevel + 2);
-            assertEquals(stromaProtonLevel, myStroma.getProtons()
-                    .getQuantity(), stromaProtonLevel);
-
-            myCytochromeB6F.tick();
-            myStroma.tick();
-            myLumen.tick();
-            myPlastoquinone.tick();
-            myPlastocyanin.tick();
-
-            assertEquals(myCytochromeB6F.getNumberOfElectrons(), 1);
-            assertEquals(myPlastoquinone.hasProtons(), true);
-            assertEquals(lumenProtonLevel, myStroma.getProtons()
-                    .getQuantity(), stromaProtonLevel + 2);
-            assertEquals(stromaProtonLevel, myStroma.getProtons()
-                    .getQuantity(), stromaProtonLevel - 2);
-
-            //act like PS1 and oxidize PC
-            myPlastocyanin.oxidize();
-            myPlastocyanin.tick();
             
         }
         
