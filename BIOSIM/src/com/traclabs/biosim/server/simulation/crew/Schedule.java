@@ -32,11 +32,14 @@ public class Schedule {
     private Activity mySickActivity;
 
     private Activity myAbsentActivity;
+    
+    private CrewGroupImpl myCrewGroupImpl;
 
     /**
      * Constructor that creates a new default schedule.
      */
-    public Schedule() {
+    public Schedule(CrewGroupImpl pCrewGroupImpl) {
+    	myCrewGroupImpl = pCrewGroupImpl;
         createDefaultActivites();
     }
 
@@ -46,7 +49,7 @@ public class Schedule {
         ActivityImpl bornActivityImpl = new ActivityImpl("born", 0, 0);
         ActivityImpl deadActivityImpl = new ActivityImpl("dead", 0, 0);
         ActivityImpl absentActivityImpl = new ActivityImpl("absent", 0, 0);
-        ActivityImpl sickActivityImpl = new ActivityImpl("sick", 12, 1);
+        ActivityImpl sickActivityImpl = new ActivityImpl("sick", (int)(43200f / myCrewGroupImpl.getTickInterval()), 1);
         myBornActivity = ActivityHelper.narrow(OrbUtils
                 .poaToCorbaObj(bornActivityImpl));
         myDeadActivity = ActivityHelper.narrow(OrbUtils

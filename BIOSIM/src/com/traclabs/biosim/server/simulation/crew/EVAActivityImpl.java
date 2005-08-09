@@ -53,7 +53,7 @@ public class EVAActivityImpl extends EVAActivityPOA {
     }
 
     /**
-     * Returns how long this activity will be performed
+     * Returns how long this activity will be performed (in ticks)
      * 
      * @return How long this activity will be performed
      */

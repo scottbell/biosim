@@ -279,6 +279,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
                     healthyPercentage *= 0.10;
             }
+            currentMalfunction.setPerformed(true);
         }
 
         int peopleAsleep = (new Float((1 - healthyPercentage)

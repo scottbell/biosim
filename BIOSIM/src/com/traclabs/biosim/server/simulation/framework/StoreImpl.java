@@ -197,11 +197,11 @@ public abstract class StoreImpl extends PassiveModuleImpl implements
             if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF) {
                 float leakRate = 0f;
                 if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
-                    leakRate = .20f;
+                    leakRate = 0.00005555555555555556f * getTickInterval();
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
-                    leakRate = .10f;
+                    leakRate = 0.00002777777777777778f * getTickInterval();
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
-                    leakRate = .05f;
+                    leakRate = 0.00001388888888888889f * getTickInterval();
                 currentLevel -= (currentLevel * leakRate);
                 currentMalfunction.setPerformed(true);
             } else if ((currentMalfunction.getLength() == MalfunctionLength.PERMANENT_MALF)
