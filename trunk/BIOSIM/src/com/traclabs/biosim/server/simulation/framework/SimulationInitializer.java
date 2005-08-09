@@ -896,12 +896,12 @@ public class SimulationInitializer {
 		        .poaToCorbaObj(newActivityImpl));
     }
 
-    private Schedule createSchedule(Node node, CrewGroupImpl crew) {
-        Schedule newSchedule = new Schedule();
+    private Schedule createSchedule(Node node, CrewGroupImpl crewGroupImpl) {
+        Schedule newSchedule = new Schedule(crewGroupImpl);
         Node child = node.getFirstChild();
         while (child != null) {
             if (child.getNodeName().equals("activity")) {
-                Activity newActivity = createActivity(child, crew);
+                Activity newActivity = createActivity(child, crewGroupImpl);
                 newSchedule.insertActivityInSchedule(newActivity);
             }
             child = child.getNextSibling();

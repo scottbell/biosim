@@ -105,7 +105,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
     }
 
     private void checkBreakdownRisk() {
-        breakdownFactor += 0.01f;
+        breakdownFactor += (0.00002777777777777778f * getTickInterval());
         float breakdownReturn = breakdownFunction(breakdownFactor);
         float randomNumber = myRandomGen.nextFloat();
         if (breakdownReturn <= randomNumber)
@@ -208,7 +208,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
                 .get(new Long(malfunctionID)));
         if (currentMalfunction == null)
             return;
-        currentMalfunction.doSomeRepairWork();
+        currentMalfunction.doSomeRepairWork(getTickInterval());
         if (currentMalfunction.doneEnoughRepairWork())
             fixMalfunction(currentMalfunction.getID());
     }
@@ -354,7 +354,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
      * IMPLEMENTED YET
      */
     public void maitenance() {
-        breakdownFactor -= 0.2f;
+        breakdownFactor -= (5.555555555555556e-05f * getTickInterval());
         if (breakdownFactor < 0f)
             breakdownFactor = 0f;
     }

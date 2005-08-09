@@ -199,7 +199,7 @@ module com{
                                                 boolean hasPerformed();
                                                 void setPerformed(in boolean pPerformed);
                                                 MalfunctionLength getLength();
-                                                void doSomeRepairWork();
+                                                void doSomeRepairWork(in float pTime);
                                                 boolean doneEnoughRepairWork();
                                         };
                                         interface BioModule{
@@ -371,6 +371,7 @@ module com{
                                                         long getDepartureTick();
                                                         void tick();
                                                         void reset();
+                                                        CrewGroup getCurrentCrewGroup();
                                                 };
                                                 interface CrewGroup : framework::SimBioModule, environment::AirConsumer, water::PotableWaterConsumer, food::FoodConsumer, environment::AirProducer, water::GreyWaterProducer, water::DirtyWaterProducer, waste::DryWasteProducer{
                                                         CrewPerson getCrewPerson(in string name);

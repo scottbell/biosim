@@ -54,7 +54,7 @@ public class CRSImpl extends SimBioModuleImpl implements CRSOperations,
     private float currentCH4Produced;
 
     //multiply times power to determine how much air/H2/water we're consuming
-    private static final float LINEAR_MULTIPLICATIVE_FACTOR = 100;
+    private static final float LINEAR_MULTIPLICATIVE_FACTOR = 0.02777777777777778f;
 
     public CRSImpl(int pID, String pName) {
         super(pID, pName);
@@ -107,7 +107,7 @@ public class CRSImpl extends SimBioModuleImpl implements CRSOperations,
     }
 
     private void gatherH2andCO2() {
-        float CO2Needed = currentPowerConsumed * LINEAR_MULTIPLICATIVE_FACTOR;
+        float CO2Needed = currentPowerConsumed * LINEAR_MULTIPLICATIVE_FACTOR * getTickInterval();
         float H2Needed = CO2Needed * 4f;
         float filteredCO2Needed = randomFilter(CO2Needed);
         float filteredH2Needed = randomFilter(H2Needed);
