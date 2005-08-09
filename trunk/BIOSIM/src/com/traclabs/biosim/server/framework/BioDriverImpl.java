@@ -70,6 +70,8 @@ public class BioDriverImpl extends BioDriverPOA {
 
     private BioModule[] actuators;
 
+	private float myTickLength = 360f;
+
     /**
      * Constructs the BioDriver
      * 
@@ -538,6 +540,21 @@ public class BioDriverImpl extends BioDriverPOA {
             currentBioModule.tick();
         }
         ticksGoneBy++;
+    }
+    
+    /**
+     * @return tick length, in seconds
+     * 
+     */
+    public float getTickLength(){
+    	return myTickLength ;
+    }
+
+    /**
+     * @param pTickLength in seconds
+     */
+    public void setTickLength(float pTickLength){
+    	myTickLength = pTickLength;
     }
 
     private class Ticker implements Runnable {
