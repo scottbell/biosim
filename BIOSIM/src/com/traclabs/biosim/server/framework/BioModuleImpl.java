@@ -56,6 +56,8 @@ public abstract class BioModuleImpl extends BioModulePOA {
 
     //What I think the current tick is.
     private int myTicks = 0;
+    
+    private float myTickInterval = 360f;
 
     protected TechSpecificInfo myTechSpecificInfo;
 
@@ -510,5 +512,13 @@ public abstract class BioModuleImpl extends BioModulePOA {
      */
     public void setModuleName(String pName) {
         myName =  pName;
+    }
+    
+    public float getTickInterval(){
+    	return myTickInterval;
+    }
+    
+    public void setTickInterval(float pInterval){
+    	myTickInterval = pInterval;
     }
 }

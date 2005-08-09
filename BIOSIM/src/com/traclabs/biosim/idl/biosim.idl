@@ -225,6 +225,9 @@ module com{
                                                 boolean breakdownIsEnabled();
                                                 long getMyTicks();
                                                 long getID();
+                                                void setTickInterval(in float pInterval);
+                                                float getTickInterval();
+                                                
                                         };
                                         interface BioDriver{
                                                 boolean isPaused();
@@ -269,6 +272,8 @@ module com{
                                                 void setLooping(in boolean pLoop);
                                                 void setStochasticIntensity(in StochasticIntensity pIntensity);
                                                 void startMalfunction(in MalfunctionIntensity pIntensity, in MalfunctionLength pLength);
+                                        		void setTickLength(in float tickLength);
+                                        		float getTickLength();
                                         };
                                 };
                                 module simulation{
