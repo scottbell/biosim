@@ -27,7 +27,6 @@ case $javaVersionString in
 esac
 JACORB_HOME="$devRootDir/lib/jacorb"
 tmpDir="$devRootDir/tmp"
-jacoNameIOR="-DORBInitRef.NameService=file:$tmpDir/ns/ior.txt"
 separator=":"
 machineType=`uname`
 winName="CYGWIN"
@@ -38,11 +37,18 @@ esac
 ####################
 # CLIENTS START	   #
 ####################
+userSelect=$1
+debug="-debug"
+regularVMArgs="-DORBInitRef.NameService=file:$tmpDir/ns/ior.txt"
+debugVMArgs="-DORBInitRef.NameService=corbaloc::localhost:16309/NameService"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME$separator$JACORB_HOME/avalon-framework.jar$separator$JACORB_HOME/logkit.jar"
-jacoInvocation="$java_command -classpath $jacoClasspath $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
+jacoInvocation="$java_command -classpath $jacoClasspath $jacoOrbClass $jacoSingletonOrbClass"
 nameManager="org.jacorb.naming.namemanager.NameManager"
 echo "	-starting biosim name manager"
-$jacoInvocation $nameManager
+case $userSelect in
+	$debug) echo "			 -starting debug";$jacoInvocation $debugVMArgs $nameManager;;
+	*) $jacoInvocation $regularVMArgs $nameManager;;
+esac
 echo "*done invoking biosim name manager"
 
 

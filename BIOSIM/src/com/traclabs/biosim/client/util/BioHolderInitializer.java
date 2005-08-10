@@ -51,6 +51,8 @@ import com.traclabs.biosim.idl.sensor.crew.CrewGroupDeathSensorHelper;
 import com.traclabs.biosim.idl.sensor.crew.CrewGroupProductivitySensorHelper;
 import com.traclabs.biosim.idl.sensor.environment.AirInFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.environment.AirOutFlowRateSensorHelper;
+import com.traclabs.biosim.idl.sensor.environment.GasConcentrationSensorHelper;
+import com.traclabs.biosim.idl.sensor.environment.GasPressureSensorHelper;
 import com.traclabs.biosim.idl.sensor.food.BiomassInFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.food.BiomassOutFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.food.BiomassStoreWaterContentSensorHelper;
@@ -305,7 +307,7 @@ public class BioHolderInitializer {
     }
 
     private static String getModuleName(Node node) {
-        return node.getAttributes().getNamedItem("name").getNodeValue();
+        return node.getAttributes().getNamedItem("moduleName").getNodeValue();
     }
 
     //Modules
@@ -344,6 +346,7 @@ public class BioHolderInitializer {
     }
     
     private static void fetchVCCR(Node node) {
+        Logger.getLogger(BioHolderInitializer.class).debug("module named "+getModuleName(node));
         myBioHolder.theVCCRModules.add(VCCRHelper
                 .narrow(grabModule(getModuleName(node))));
     }
@@ -377,6 +380,7 @@ public class BioHolderInitializer {
         Node child = node.getFirstChild();
         while (child != null) {
             String childName = child.getNodeName();
+            Logger.getLogger(BioHolderInitializer.class).debug("parsing "+childName);
             if (childName.equals("AirRS"))
                 fetchAirRS(child);
             else if (childName.equals("OGS"))
@@ -707,12 +711,14 @@ public class BioHolderInitializer {
     }
 
     private static void fetchGasPressureSensor(Node child) {
-		// TODO Auto-generated method stub
+        myBioHolder.theGasPressureSensors.add(GasPressureSensorHelper
+                .narrow(grabModule(getModuleName(child))));
 		
 	}
 
 	private static void fetchGasConcentrationSensor(Node child) {
-		// TODO Auto-generated method stub
+        myBioHolder.theGasConcentrationSensors.add(GasConcentrationSensorHelper
+                .narrow(grabModule(getModuleName(child))));
 		
 	}
 

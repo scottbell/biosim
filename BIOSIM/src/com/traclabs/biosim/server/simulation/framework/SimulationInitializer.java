@@ -734,6 +734,7 @@ public class SimulationInitializer {
         OGS myOGS = OGSHelper.narrow(BiosimInitializer.grabModule(myID,
                 BiosimInitializer.getModuleName(node)));
         configureSimBioModule(myOGS, node);
+        myLogger.debug("Configuring OGS");
         myActiveSimModules.add(myOGS);
 
     }
