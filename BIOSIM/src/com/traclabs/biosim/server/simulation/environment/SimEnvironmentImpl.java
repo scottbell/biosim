@@ -226,11 +226,11 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
             if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF) {
                 malfunctionLeakRate = 0f;
                 if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
-                    malfunctionLeakRate = .20f;
+                    malfunctionLeakRate = .20f * getTickInterval();
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
-                    malfunctionLeakRate = .10f;
+                    malfunctionLeakRate = .10f * getTickInterval();
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
-                    malfunctionLeakRate = .05f;
+                    malfunctionLeakRate = .05f * getTickInterval();
                 performLeak(malfunctionLeakRate);
             } else if ((currentMalfunction.getLength() == MalfunctionLength.PERMANENT_MALF)
                     && (!currentMalfunction.hasPerformed())) {
@@ -263,7 +263,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
 
     private void calculateLightIntensity() {
         lightIntensity = (float) (maxLumens * Math.pow(Math.sin(Math.PI
-                / dayLength * (getMyTicks() - hourOfDayStart)), 2f));
+                / dayLength * (getMyTicks() * getTickInterval() - hourOfDayStart)), 2f));
     }
 
     /**

@@ -661,7 +661,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
         float averagePercentFull = (caloriePercentFull + waterPercentFull
                 + oxygenPercentFull + CO2PercentFull + sleepPercentFull + leisurePercentFull) / 6f;
         myMissionProductivity += myBaseCrewGroupImpl
-                .randomFilter(averagePercentFull);
+                .randomFilter(averagePercentFull * getCurrentCrewGroup().getTickInterval());
     }
 
     /**
@@ -770,11 +770,11 @@ public class CrewPersonImpl extends CrewPersonPOA {
         float resultInMoles = (resultInLiters) / (idealGasConstant * 298); //moles
         // per
         // hour
-        return myBaseCrewGroupImpl.randomFilter(resultInMoles); //Liters/hour
+        return myBaseCrewGroupImpl.randomFilter(resultInMoles * getCurrentCrewGroup().getTickInterval()); //Liters/tick
     }
 
     private float pow(float a, float b) {
-        return (new Double(Math.pow(a, b))).floatValue();
+        return (float)(Math.pow(a, b));
     }
 
     /**
@@ -827,6 +827,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
             joulesNeeded = (106f * weight) + (6067f * activityCoefficient);
         //make it for one hour
         joulesNeeded /= 24f;
+        //make it for the tick interval
+        joulesNeeded *= getCurrentCrewGroup().getTickInterval();
         caloriesNeeded = joulesNeeded / 4.2f;
         return myBaseCrewGroupImpl.randomFilter(caloriesNeeded);
     }
@@ -889,7 +891,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
      */
     private float calculateCleanWaterNeeded(int currentActivityIntensity) {
         if (currentActivityIntensity > 0)
-            return myBaseCrewGroupImpl.randomFilter(0.1667f);
+            return myBaseCrewGroupImpl.randomFilter(0.1667f * getCurrentCrewGroup().getTickInterval());
 		return myBaseCrewGroupImpl.randomFilter(0f);
     }
 
@@ -934,14 +936,15 @@ public class CrewPersonImpl extends CrewPersonPOA {
     }
 
     private void recoverCrew() {
+    	float tickInterval = getCurrentCrewGroup().getTickInterval();
         consumedCaloriesBuffer.add(CALORIE_RECOVERY_RATE
-                * consumedCaloriesBuffer.getCapacity());
+                * consumedCaloriesBuffer.getCapacity() * tickInterval);
         consumedWaterBuffer.add(WATER_RECOVERY_RATE
-                * consumedWaterBuffer.getCapacity());
+                * consumedWaterBuffer.getCapacity() * tickInterval);
         consumedLowOxygenBuffer.add(O2_LOW_RECOVERY_RATE
-                * consumedLowOxygenBuffer.getCapacity());
+                * consumedLowOxygenBuffer.getCapacity() * tickInterval);
         consumedCO2Buffer.add(CO2_HIGH_RECOVERY_RATE
-                * consumedCO2Buffer.getCapacity());
+                * consumedCO2Buffer.getCapacity() * tickInterval);
     }
 
     /**
@@ -949,8 +952,9 @@ public class CrewPersonImpl extends CrewPersonPOA {
      * member.
      */
     private void afflictCrew() {
-        sleepBuffer.take(1);
-        leisureBuffer.take(1);
+    	float tickInterval = getCurrentCrewGroup().getTickInterval();
+        sleepBuffer.take(1 * tickInterval);
+        leisureBuffer.take(1 * tickInterval);
         consumedCaloriesBuffer.take(caloriesNeeded - caloriesConsumed);
         if (caloriesNeeded - caloriesConsumed > 100){
             myLogger.debug("starving: caloriesNeeded="+caloriesNeeded+ " caloriesConsumed="+caloriesConsumed+" deficit=" +(caloriesNeeded - caloriesConsumed));
@@ -964,7 +968,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
         else
             thirsty = false;
         if (getO2Ratio() < O2_LOW_RATIO) {
-            consumedLowOxygenBuffer.take(O2_LOW_RATIO - getO2Ratio());
+            consumedLowOxygenBuffer.take((O2_LOW_RATIO - getO2Ratio()) * tickInterval);
             suffocating = true;
         } else
             suffocating = false;
@@ -973,10 +977,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
                 .getAirConsumerDefinition().getEnvironments()[0]
                 .getDangerousOxygenThreshold();
         if (getO2Ratio() > dangerousOxygenThreshold) {
-            highOxygenBuffer.take(getO2Ratio() - dangerousOxygenThreshold);
+            highOxygenBuffer.take((getO2Ratio() - dangerousOxygenThreshold) * tickInterval);
             fireRisked = true;
         } else if (getCO2Ratio() > CO2_HIGH_RATIO) {
-            consumedCO2Buffer.take(getCO2Ratio() - CO2_HIGH_RATIO);
+            consumedCO2Buffer.take((getCO2Ratio() - CO2_HIGH_RATIO) * tickInterval);
             poisoned = true;
         } else
             poisoned = false;

@@ -39,17 +39,17 @@ public class IncineratorImpl extends SimBioModuleImpl implements
 
     private CO2ProducerDefinitionImpl myCO2ProducerDefinitionImpl;
 
-    //During any given tick, this much power is needed for the food processor
+    //During any given tick, this much power is needed for the incinerator
     // to run at all
-    private float powerNeeded = 100;
+    private static final float POWER_NEEDED_BASE = 100;
 
     //During any given tick, this much dry waste is needed for the incinerator
     // to run optimally
-    private float dryWasteNeeded = 10f;
+    private static final float DRY_WASTE_NEEDED_BASE = 10f;
 
     //During any given tick, this much O2 is needed for the incinerator to run
     // optimally
-    private float O2Needed = 10f;
+    private static final float O2_NEEDED_BASE = 10f;
 
     //Flag to determine if the Incinerator has enough power to function
     private boolean hasEnoughPower = false;
@@ -192,6 +192,7 @@ public class IncineratorImpl extends SimBioModuleImpl implements
      * for one tick.
      */
     private void gatherPower() {
+    	float powerNeeded = POWER_NEEDED_BASE * getTickInterval();
         currentPowerConsumed = myPowerConsumerDefinitionImpl
                 .getResourceFromStore(powerNeeded);
         if (currentPowerConsumed < powerNeeded)
@@ -205,6 +206,7 @@ public class IncineratorImpl extends SimBioModuleImpl implements
      * Incinerator optimally for one tick.
      */
     private void gatherDryWaste() {
+    	float dryWasteNeeded = DRY_WASTE_NEEDED_BASE * getTickInterval();
         currentDryWasteConsumed = myDryWasteConsumerDefinitionImpl
                 .getResourceFromStore(dryWasteNeeded);
         if (currentDryWasteConsumed < dryWasteNeeded)
@@ -218,9 +220,10 @@ public class IncineratorImpl extends SimBioModuleImpl implements
      * optimally for one tick.
      */
     private void gatherO2() {
+    	float o2Needed = O2_NEEDED_BASE * getTickInterval();
         currentO2Consumed = myO2ConsumerDefinitionImpl
-                .getResourceFromStore(O2Needed);
-        if (currentO2Consumed < O2Needed)
+                .getResourceFromStore(o2Needed);
+        if (currentO2Consumed < o2Needed)
             hasEnoughO2 = false;
         else
             hasEnoughO2 = true;
@@ -304,9 +307,9 @@ public class IncineratorImpl extends SimBioModuleImpl implements
     }
 
     public void log() {
-        myLogger.debug("power_needed=" + powerNeeded);
+        myLogger.debug("power_needed=" + POWER_NEEDED_BASE);
         myLogger.debug("has_enough_power=" + hasEnoughPower);
-        myLogger.debug("dryWaste_needed=" + dryWasteNeeded);
+        myLogger.debug("dryWaste_needed=" + DRY_WASTE_NEEDED_BASE);
         myLogger.debug("current_dryWaste_consumed=" + currentDryWasteConsumed);
         myLogger.debug("current_power_consumed=" + currentPowerConsumed);
     }

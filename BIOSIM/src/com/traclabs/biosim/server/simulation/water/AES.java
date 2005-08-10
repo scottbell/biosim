@@ -8,6 +8,7 @@ package com.traclabs.biosim.server.simulation.water;
  */
 
 public class AES extends WaterRSSubSystem {
+    
     private float currentPPSWaterProduced = 0f;
 
     /**
@@ -18,7 +19,7 @@ public class AES extends WaterRSSubSystem {
      */
     public AES(WaterRSImpl pWaterRSImpl) {
         super(pWaterRSImpl);
-        currentPowerNeeded = basePowerNeeded = 168;
+        basePowerNeeded = currentPowerNeeded = 168;
     }
 
     public float getPPSWaterProduced() {
