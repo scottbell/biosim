@@ -121,9 +121,9 @@ public class MalfunctionImpl extends MalfunctionPOA {
      * Repairs this module once. Must be called several times depending on the
      * severity of the malfunction to fix the malfunction.
      */
-    public void doSomeRepairWork(float pTime) {
+    public void doSomeRepairWork() {
         if (myLength == MalfunctionLength.TEMPORARY_MALF)
-            repairTime += pTime;
+            repairTime ++;
     }
 
     /**

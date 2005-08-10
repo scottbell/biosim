@@ -551,7 +551,7 @@ public class BioDriverImpl extends BioDriverPOA {
     }
 
     /**
-     * @param pTickLength in seconds
+     * @param pTickLength in hours
      */
     public void setTickLength(float pTickLength){
     	myTickLength = pTickLength;

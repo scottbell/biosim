@@ -57,7 +57,8 @@ public abstract class BioModuleImpl extends BioModulePOA {
     //What I think the current tick is.
     private int myTicks = 0;
     
-    private float myTickInterval = 360f;
+    //in hours (can be a fraction of an hour)
+    private float myTickInterval = 1f;
 
     protected TechSpecificInfo myTechSpecificInfo;
 
@@ -105,7 +106,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
     }
 
     private void checkBreakdownRisk() {
-        breakdownFactor += (0.00002777777777777778f * getTickInterval());
+        breakdownFactor += 0.01f * getTickInterval();
         float breakdownReturn = breakdownFunction(breakdownFactor);
         float randomNumber = myRandomGen.nextFloat();
         if (breakdownReturn <= randomNumber)
@@ -208,7 +209,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
                 .get(new Long(malfunctionID)));
         if (currentMalfunction == null)
             return;
-        currentMalfunction.doSomeRepairWork(getTickInterval());
+        currentMalfunction.doSomeRepairWork();
         if (currentMalfunction.doneEnoughRepairWork())
             fixMalfunction(currentMalfunction.getID());
     }
@@ -354,7 +355,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
      * IMPLEMENTED YET
      */
     public void maitenance() {
-        breakdownFactor -= (5.555555555555556e-05f * getTickInterval());
+        breakdownFactor -= 0.2f * getTickInterval();
         if (breakdownFactor < 0f)
             breakdownFactor = 0f;
     }
