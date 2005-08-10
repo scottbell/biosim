@@ -93,11 +93,11 @@ public class MalfunctionImpl extends MalfunctionPOA {
         myLength = pLength;
         if (myLength == MalfunctionLength.TEMPORARY_MALF)
             if (myIntensity == MalfunctionIntensity.LOW_MALF)
-                maxRepairTime = 3600;
+                maxRepairTime = 1;
             else if (myIntensity == MalfunctionIntensity.MEDIUM_MALF)
-                maxRepairTime = 7200;
+                maxRepairTime = 2;
         if (myIntensity == MalfunctionIntensity.SEVERE_MALF)
-            maxRepairTime = 14400;
+            maxRepairTime = 4;
     }
 
     /**
@@ -123,7 +123,7 @@ public class MalfunctionImpl extends MalfunctionPOA {
      */
     public void doSomeRepairWork() {
         if (myLength == MalfunctionLength.TEMPORARY_MALF)
-            repairTime ++;
+            repairTime++;
     }
 
     /**

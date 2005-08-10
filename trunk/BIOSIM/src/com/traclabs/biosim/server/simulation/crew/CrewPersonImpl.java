@@ -147,35 +147,35 @@ public class CrewPersonImpl extends CrewPersonPOA {
 
     private static final float WATER_TILL_DEAD = 5.3f;
 
-    private static final float WATER_RECOVERY_RATE = 2.777777777777778e-06f;
+    private static final float WATER_RECOVERY_RATE = 0.01f;
 
     private static final float CALORIE_TILL_DEAD = 180000f;
 
-    private static final float CALORIE_RECOVERY_RATE = 2.777777777777778e-08f;
+    private static final float CALORIE_RECOVERY_RATE = 0.0001f;
 
     private static final float CO2_HIGH_RATIO = 0.06f;
 
     private static final float CO2_HIGH_TILL_DEAD = 4f;
 
-    private static final float CO2_HIGH_RECOVERY_RATE = 1.388888888888889e-06f;
+    private static final float CO2_HIGH_RECOVERY_RATE = 0.005f;
 
     private static final float O2_HIGH_TILL_DEAD = 24f;
 
-    private static final float O2_HIGH_RECOVERY_RATE = 2.777777777777778e-06f;
+    private static final float O2_HIGH_RECOVERY_RATE = 0.01f;
 
     private static final float O2_LOW_RATIO = 0.1f;
 
     private static final float O2_LOW_TILL_DEAD = 2f;
 
-    private static final float O2_LOW_RECOVERY_RATE = 2.777777777777778e-06f;
+    private static final float O2_LOW_RECOVERY_RATE = 0.01f;
 
     private static final float LEISURE_TILL_BURNOUT = 168f;
 
-    private static final float LEISURE_RECOVERY_RATE = 0.025f;
+    private static final float LEISURE_RECOVERY_RATE = 90f;
 
     private static final float AWAKE_TILL_EXHAUSTION = 120f;
 
-    private static final float SLEEP_RECOVERY_RATE = 0.003333333333333333f;
+    private static final float SLEEP_RECOVERY_RATE = 12f;
 
     private Logger myLogger;
 
@@ -526,7 +526,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
     public String toString() {
         return (myName + " now performing activity "
                 + myCurrentActivity.getName() + " for " + timeActivityPerformed
-                + " of " + myCurrentActivity.getTimeLength() + " ticks");
+                + " of " + myCurrentActivity.getTimeLength() + " hours");
     }
 
     public boolean isSick() {
@@ -764,9 +764,12 @@ public class CrewPersonImpl extends CrewPersonPOA {
         float heartRate = (currentActivityIntensity * 30f) + 15f;
         float a = 0.223804f;
         float b = 5.64f * pow(10f, -7f);
-        float resultInLiters = a + (b * pow(heartRate, 3f) * 60f); //liters per second
+        float resultInLiters = a + (b * pow(heartRate, 3f) * 60f); //liters per
+        // hour
         float idealGasConstant = 0.08206f;
-        float resultInMoles = (resultInLiters) / (idealGasConstant * 298); //moles per second
+        float resultInMoles = (resultInLiters) / (idealGasConstant * 298); //moles
+        // per
+        // hour
         return myBaseCrewGroupImpl.randomFilter(resultInMoles); //Liters/hour
     }
 
