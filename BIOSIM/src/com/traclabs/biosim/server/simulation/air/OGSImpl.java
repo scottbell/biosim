@@ -93,7 +93,7 @@ public class OGSImpl extends SimBioModuleImpl implements OGSOperations,
     }
 
     private void gatherWater() {
-        float waterToConsume = (currentPowerConsumed / 75f) * 0.000011575f * getTickInterval();
+        float waterToConsume = (currentPowerConsumed / 75f) * 0.04167f * getTickInterval();
         currentH2OConsumed = myPotableWaterConsumerDefinitionImpl
                 .getResourceFromStore(waterToConsume);
         myLogger.debug("currentH2OConsumed = " + currentH2OConsumed);

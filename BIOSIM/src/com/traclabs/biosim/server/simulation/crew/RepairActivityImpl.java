@@ -16,7 +16,7 @@ public class RepairActivityImpl extends ActivityImpl implements
 
     public RepairActivityImpl(String pModuleNameToRepair, long pMalfunctionID,
             int pTimeLength) {
-        super("repair", pTimeLength, 3);
+        super("repair", pTimeLength, pTimeLength);
         myMalfunctionID = pMalfunctionID;
         myModuleNameToRepair = pModuleNameToRepair;
     }
