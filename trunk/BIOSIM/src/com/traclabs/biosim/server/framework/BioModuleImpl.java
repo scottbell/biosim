@@ -255,7 +255,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
             MalfunctionLength pLength) {
         String malfunctionName = getMalfunctionName(pIntensity, pLength);
         MalfunctionImpl newMalfunctionImpl = new MalfunctionImpl(
-                malfunctionName, pIntensity, pLength);
+                malfunctionName, pIntensity, pLength, getTickInterval());
         Malfunction newMalfunction = MalfunctionHelper.narrow(OrbUtils
                 .poaToCorbaObj(newMalfunctionImpl));
         myMalfunctions.put((new Long(newMalfunction.getID())), newMalfunction);
@@ -287,7 +287,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
             MalfunctionLength pLength, int tickToOccur) {
         String malfunctionName = getMalfunctionName(pIntensity, pLength);
         MalfunctionImpl newMalfunctionImpl = new MalfunctionImpl(
-                malfunctionName, pIntensity, pLength);
+                malfunctionName, pIntensity, pLength, getTickInterval());
         newMalfunctionImpl.setTickToMalfunction(tickToOccur);
         myScheduledMalfunctions.add(newMalfunctionImpl);
     }

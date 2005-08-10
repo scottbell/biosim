@@ -53,7 +53,7 @@ public class MalfunctionImpl extends MalfunctionPOA {
     private int repairTime = 0;
 
     //How many times it takes to repair this module
-    private int maxRepairTime = 1;
+    private float maxRepairTime = 1;
 
     //When this malfunction should occur
     private int tickToMalfunction = 0;
@@ -83,7 +83,7 @@ public class MalfunctionImpl extends MalfunctionPOA {
      *            permanent malfunctions
      */
     public MalfunctionImpl(String pName, MalfunctionIntensity pIntensity,
-            MalfunctionLength pLength) {
+            MalfunctionLength pLength, float tickInterval) {
         if (lastID > java.lang.Long.MAX_VALUE)
             lastID = 0;
         lastID++;
@@ -93,11 +93,11 @@ public class MalfunctionImpl extends MalfunctionPOA {
         myLength = pLength;
         if (myLength == MalfunctionLength.TEMPORARY_MALF)
             if (myIntensity == MalfunctionIntensity.LOW_MALF)
-                maxRepairTime = 1;
+                maxRepairTime = 1f * tickInterval;
             else if (myIntensity == MalfunctionIntensity.MEDIUM_MALF)
-                maxRepairTime = 2;
+                maxRepairTime = 2f * tickInterval;
         if (myIntensity == MalfunctionIntensity.SEVERE_MALF)
-            maxRepairTime = 4;
+            maxRepairTime = 4f * tickInterval;
     }
 
     /**

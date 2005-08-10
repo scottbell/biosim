@@ -12,34 +12,34 @@ import org.apache.log4j.Logger;
 public abstract class WaterRSSubSystem {
     //The power consumed (in watts) by this water subsystem at this tick
     // (default)
-    float currentPowerConsumed = 0;
+    protected float currentPowerConsumed = 0;
 
     //During any given tick, this much power (in watts) is needed for a water
     // subsystem (default)
-    float basePowerNeeded = 100;
+    protected float basePowerNeeded = 100;
 
-    float currentPowerNeeded;
+    protected float currentPowerNeeded;
 
     //During any given tick, this much water (in liters) is needed for a water
     // subsystem (default)
     //Pete says WRS consumes/produces 16 mL/s -> 57.6 L/H
-    float waterNeeded = 57.6f;
+    protected float waterNeeded = 57.6f;
 
     //Reference to the WaterRS to get other watersubsystems
-    WaterRSImpl myWaterRS;
+    protected WaterRSImpl myWaterRS;
 
     //Flag to determine whether the water subsystem has received enough power
     // for this tick
-    boolean hasEnoughPower = false;
+    protected boolean hasEnoughPower = false;
 
     //Flag to determine whether the water subsystem has received enough water
     // for this tick
-    boolean hasEnoughWater = false;
+    protected boolean hasEnoughWater = false;
 
     //Amount of water in this subsystem at the current tick
-    float waterLevel = 0;
+    protected float waterLevel = 0;
 
-    boolean enabled = true;
+    protected boolean enabled = true;
 
     private boolean malfunctioning = false;
 
@@ -54,7 +54,7 @@ public abstract class WaterRSSubSystem {
     public WaterRSSubSystem(WaterRSImpl pWaterRSImpl) {
         myWaterRS = pWaterRSImpl;
         myLogger = Logger.getLogger(this.getClass());
-        currentPowerNeeded = basePowerNeeded;
+        currentPowerNeeded = basePowerNeeded * myWaterRS.getTickInterval();
     }
 
     /**
@@ -93,7 +93,7 @@ public abstract class WaterRSSubSystem {
         if (enabled)
             currentPowerNeeded = 0;
         else
-            currentPowerNeeded = basePowerNeeded;
+            currentPowerNeeded = basePowerNeeded * myWaterRS.getTickInterval();
     }
 
     public void setMalfunctioning(boolean pMalfunctioning) {
