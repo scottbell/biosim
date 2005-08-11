@@ -1190,20 +1190,20 @@ public class CrewPersonImpl extends CrewPersonPOA {
         //adjust tanks
         eatFood();
         potableWaterConsumed = StoreFlowRateControllableImpl
-                .getFractionalResourceFromStore(myCurrentCrewGroup
+                .getFractionalResourceFromStores(myCurrentCrewGroup
                         .getPotableWaterConsumerDefinition(),
                         potableWaterNeeded, 1f / myCurrentCrewGroup
                                 .getCrewSize());
         StoreFlowRateControllableImpl
-                .getFractionalResourceFromStore(myCurrentCrewGroup
+                .getFractionalResourceFromStores(myCurrentCrewGroup
                         .getDirtyWaterProducerDefinition(), dirtyWaterProduced,
                         1f / myCurrentCrewGroup.getCrewSize());
         StoreFlowRateControllableImpl
-                .getFractionalResourceFromStore(myCurrentCrewGroup
+                .getFractionalResourceFromStores(myCurrentCrewGroup
                         .getGreyWaterProducerDefinition(), greyWaterProduced,
                         1f / myCurrentCrewGroup.getCrewSize());
         StoreFlowRateControllableImpl
-                .getFractionalResourceFromStore(myCurrentCrewGroup
+                .getFractionalResourceFromStores(myCurrentCrewGroup
                         .getDryWasteProducerDefinition(), dryWasteProduced,
                         1f / myCurrentCrewGroup.getCrewSize());
 

@@ -79,7 +79,7 @@ public class DehumidifierImpl extends SimBioModuleImpl implements
             }
         }
         float waterPushedToStore = myDirtyWaterProducerDefinitionImpl
-                .pushResourceToStore(waterMolesToLiters(molesOfWaterGathered));
+                .pushResourceToStores(waterMolesToLiters(molesOfWaterGathered));
 
         if (myLogger.isDebugEnabled()) {
             float currentWaterMolesInEnvironment = myAirConsumerDefinitionImpl

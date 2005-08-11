@@ -29,7 +29,7 @@ public class PPS extends WaterRSSubSystem {
         potableWaterProduced = waterLevel;
         waterLevel = 0;
         myWaterRS
-                .getPotableWaterProducerDefinitionImpl().pushResourceToStore(
+                .getPotableWaterProducerDefinitionImpl().pushResourceToStores(
                         potableWaterProduced);
     }
 

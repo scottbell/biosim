@@ -68,10 +68,10 @@ public class BWP extends WaterRSSubSystem {
         }
         waterNeeded *= myWaterRS.getTickInterval();
         currentDirtyWaterConsumed = myWaterRS
-                .getDirtyWaterConsumerDefinitionImpl().getResourceFromStore(
+                .getDirtyWaterConsumerDefinitionImpl().getResourceFromStores(
                         waterNeeded);
         currentGreyWaterConsumed = myWaterRS
-                .getGreyWaterConsumerDefinitionImpl().getResourceFromStore(
+                .getGreyWaterConsumerDefinitionImpl().getResourceFromStores(
                         waterNeeded - currentDirtyWaterConsumed);
         float gatheredWater = currentDirtyWaterConsumed
                 + currentGreyWaterConsumed;
@@ -98,7 +98,7 @@ public class BWP extends WaterRSSubSystem {
         } else {
             //dump water back to dirty water store
             waterLevel = myWaterRS.getDirtyWaterConsumerDefinitionImpl()
-                    .pushResourceToStore(waterLevel);
+                    .pushResourceToStores(waterLevel);
             //dump rest
             waterLevel = 0f;
             currentAESWaterProduced = 0f;

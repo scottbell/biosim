@@ -30,7 +30,7 @@ import com.traclabs.biosim.idl.simulation.food.FoodConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.food.FoodConsumerOperations;
 import com.traclabs.biosim.idl.simulation.food.FoodProducerDefinition;
 import com.traclabs.biosim.idl.simulation.food.FoodProducerOperations;
-import com.traclabs.biosim.idl.simulation.framework.InjectorOperations;
+import com.traclabs.biosim.idl.simulation.framework.AccumulatorOperations;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.idl.simulation.power.PowerProducerDefinition;
@@ -91,8 +91,8 @@ import com.traclabs.biosim.server.simulation.water.WaterProducerDefinitionImpl;
  * @author Scott Bell
  */
 
-public class InjectorImpl extends SimBioModuleImpl implements
-		InjectorOperations, PowerConsumerOperations,
+public class InfluentValveImpl extends SimBioModuleImpl implements
+		AccumulatorOperations, PowerConsumerOperations,
 		PotableWaterConsumerOperations, GreyWaterConsumerOperations,
 		WaterConsumerOperations, DirtyWaterConsumerOperations,
 		O2ConsumerOperations, CO2ConsumerOperations, AirConsumerOperations,
@@ -158,8 +158,11 @@ public class InjectorImpl extends SimBioModuleImpl implements
 	private DryWasteProducerDefinitionImpl myDryWasteProducerDefinitionImpl;
 
 	private WaterProducerDefinitionImpl myWaterProducerDefinitionImpl;
+	
+	//Flowing from first or second store?
+	private int myIndexOfInfluentStore = 0;
 
-	public InjectorImpl(int pID, String pName) {
+	public InfluentValveImpl(int pID, String pName) {
 		super(pID, pName);
 		myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl();
 		myPotableWaterConsumerDefinitionImpl = new PotableWaterConsumerDefinitionImpl();
@@ -194,55 +197,62 @@ public class InjectorImpl extends SimBioModuleImpl implements
 		super.tick();
 		getAndPushResources();
 	}
+	
+	public void setIndexOfInfluentStore(int pIndexOfInfluentStore){
+		myIndexOfInfluentStore = pIndexOfInfluentStore;
+	}
+	
+	public int getIndexOfInfluentStore(){
+		return myIndexOfInfluentStore;
+	}
 
 	private void getAndPushResources() {
 		float powerGathered = myPowerConsumerDefinitionImpl
-				.getMostResourceFromStores();
+				.getMostResourceFromStore(myIndexOfInfluentStore);
 		myPowerProducerDefinitionImpl.pushResourceToStores(powerGathered);
 
 		float potableWaterGathered = myPotableWaterConsumerDefinitionImpl
-				.getMostResourceFromStores();
+				.getMostResourceFromStore(myIndexOfInfluentStore);
 		myPotableWaterProducerDefinitionImpl
 				.pushResourceToStores(potableWaterGathered);
 
 		float greyWaterGathered = myGreyWaterConsumerDefinitionImpl
-				.getMostResourceFromStores();
+				.getMostResourceFromStore(myIndexOfInfluentStore);
 		myGreyWaterProducerDefinitionImpl
 				.pushResourceToStores(greyWaterGathered);
 
 		float dirtyWaterGathered = myDirtyWaterConsumerDefinitionImpl
-				.getMostResourceFromStores();
+				.getMostResourceFromStore(myIndexOfInfluentStore);
 		myDirtyWaterProducerDefinitionImpl
 				.pushResourceToStores(dirtyWaterGathered);
 
 		float biomassGathered = myBiomassConsumerDefinitionImpl
-				.getMostResourceFromStores();
+				.getMostResourceFromStore(myIndexOfInfluentStore);
 		myBiomassProducerDefinitionImpl.pushResourceToStores(biomassGathered);
 
 		float foodGathered = myFoodConsumerDefinitionImpl
-				.getMostResourceFromStores();
+				.getMostResourceFromStore(myIndexOfInfluentStore);
 		myFoodProducerDefinitionImpl.pushResourceToStores(foodGathered);
 
 		float dryWasteGathered = myDryWasteConsumerDefinitionImpl
-				.getMostResourceFromStores();
+				.getMostResourceFromStore(myIndexOfInfluentStore);
 		myDryWasteProducerDefinitionImpl.pushResourceToStores(dryWasteGathered);
 
 		float O2Gathered = myO2ConsumerDefinitionImpl
-				.getMostResourceFromStores();
+				.getMostResourceFromStore(myIndexOfInfluentStore);
 		myO2ProducerDefinitionImpl.pushResourceToStores(O2Gathered);
 
 		float CO2Gathered = myCO2ConsumerDefinitionImpl
-				.getMostResourceFromStores();
+				.getMostResourceFromStore(myIndexOfInfluentStore);
 		myCO2ProducerDefinitionImpl.pushResourceToStores(CO2Gathered);
 
 		float nitrogenGathered = myNitrogenConsumerDefinitionImpl
-				.getMostResourceFromStores();
+				.getMostResourceFromStore(myIndexOfInfluentStore);
 		myNitrogenProducerDefinitionImpl.pushResourceToStores(nitrogenGathered);
 
 		float H2Gathered = myH2ConsumerDefinitionImpl
-				.getMostResourceFromStores();
+				.getMostResourceFromStore(myIndexOfInfluentStore);
 		myH2ProducerDefinitionImpl.pushResourceToStores(H2Gathered);
-
 	}
 
 	private static float waterLitersToMoles(float pLiters) {

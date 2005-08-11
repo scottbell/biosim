@@ -58,7 +58,7 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements
         currentPowerProduced = calculatePowerProduced();
         super.tick();
         myPowerProducerDefinitionImpl
-                .pushResourceToStore(currentPowerProduced);
+                .pushResourceToStores(currentPowerProduced);
     }
 
     protected String getMalfunctionName(MalfunctionIntensity pIntensity,

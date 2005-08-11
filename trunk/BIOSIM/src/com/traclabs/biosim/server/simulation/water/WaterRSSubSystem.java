@@ -122,7 +122,7 @@ public abstract class WaterRSSubSystem {
     protected void gatherPower() {
         float gatheredPower = 0f;
         gatheredPower = myWaterRS.getPowerConsumerDefinitionImpl()
-                .getFractionalResourceFromStore(currentPowerNeeded,
+                .getFractionalResourceFromStores(currentPowerNeeded,
                         1f / myWaterRS.getSubsystemsConsumingPower());
         currentPowerConsumed = gatheredPower;
         if (currentPowerConsumed < currentPowerNeeded) {

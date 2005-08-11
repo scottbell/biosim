@@ -82,7 +82,7 @@ public class VCCRImpl extends SimBioModuleImpl implements VCCROperations,
      */
     private void gatherPower() {
         currentPowerConsumed = myPowerConsumerDefinitionImpl
-                .getMostResourceFromStore();
+                .getMostResourceFromStores();
     }
 
     /**
@@ -107,7 +107,7 @@ public class VCCRImpl extends SimBioModuleImpl implements VCCROperations,
         //distrbute CO2
         currentCO2Produced = gatheredCO2;
         myCO2ProducerDefinitionImpl
-                .pushResourceToStore(currentCO2Produced);
+                .pushResourceToStores(currentCO2Produced);
         myLogger.debug("currentCO2Produced = " + currentCO2Produced);
     }
 }
