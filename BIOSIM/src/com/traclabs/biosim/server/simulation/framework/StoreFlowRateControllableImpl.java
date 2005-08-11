@@ -28,11 +28,11 @@ public abstract class StoreFlowRateControllableImpl extends
     }
 
     /**
-     * Grabs as much resources as it can (i.e., the maxFlowRate) from a store.
+     * Grabs as much resources as it can (i.e., the maxFlowRate) from stores.
      * 
      * @return The total amount of resource grabbed from the stores
      */
-    public float getMostResourceFromStore() {
+    public float getMostResourceFromStores() {
         if (getStores() == null)
             return 0f;
         float gatheredResource = 0f;
@@ -44,6 +44,23 @@ public abstract class StoreFlowRateControllableImpl extends
         }
         return gatheredResource;
     }
+    
+    /**
+     * Grabs as much resources as it can (i.e., the maxFlowRate) from a store.
+     * 
+     * @param indexOfStore
+     *            The store to get from
+     * @return The total amount of resource grabbed from a stores
+     */
+    public float getMostResourceFromStore(int indexOfStore) {
+        if (getStores() == null)
+            return 0f;
+        float gatheredResource = 0f;
+        float amountToTake = Math.min(getMaxFlowRate(indexOfStore), getDesiredFlowRate(indexOfStore));
+        getActualFlowRates()[indexOfStore] = getStores()[indexOfStore].take(amountToTake);
+        gatheredResource += getActualFlowRate(indexOfStore);
+        return gatheredResource;
+    }
 
     /**
      * Attempts to grab a specified amount from a collection of stores
@@ -53,7 +70,7 @@ public abstract class StoreFlowRateControllableImpl extends
      * @return The total amount of resource grabbed from the stores (equal to
      *         the amount needed if sucessful)
      */
-    public float getResourceFromStore(float amountNeeded) {
+    public float getResourceFromStores(float amountNeeded) {
         if (getStores() == null)
             return 0f;
         float gatheredResource = 0f;
@@ -80,7 +97,7 @@ public abstract class StoreFlowRateControllableImpl extends
      * @return The total amount of resource grabbed from the stores (equal to
      *         the amount needed if sucessful)
      */
-    public float getFractionalResourceFromStore(float amountNeeded,
+    public float getFractionalResourceFromStores(float amountNeeded,
             float fraction) {
         if (getStores() == null)
             return 0f;
@@ -110,7 +127,7 @@ public abstract class StoreFlowRateControllableImpl extends
      * @return The total amount of resource grabbed from the stores (equal to
      *         the amount needed if sucessful)
      */
-    public static float getFractionalResourceFromStore(
+    public static float getFractionalResourceFromStores(
             StoreFlowRateControllable pDefinition, float amountNeeded,
             float fraction) {
         if (pDefinition.getStores() == null)
@@ -143,7 +160,7 @@ public abstract class StoreFlowRateControllableImpl extends
      * @return The total amount of resource pushed to the stores (equal to the
      *         amount to push if sucessful)
      */
-    public static float pushFractionalResourceToStore(
+    public static float pushFractionalResourceToStores(
             StoreFlowRateControllable pDefinition, float amountToPush,
             float fraction) {
         if (pDefinition.getStores() == null)
@@ -173,7 +190,7 @@ public abstract class StoreFlowRateControllableImpl extends
      * @return The total amount of resource pushed to the stores (equal to the
      *         amount to push if sucessful)
      */
-    public float pushResourceToStore(float amountToPush) {
+    public float pushResourceToStores(float amountToPush) {
         if (getStores() == null)
             return 0f;
         float resourceRemaining = amountToPush;
@@ -199,7 +216,7 @@ public abstract class StoreFlowRateControllableImpl extends
      * @return The total amount of resource pushed to the stores (equal to the
      *         amount to push if sucessful)
      */
-    public float pushFractionalResourceToStore(float amountToPush,
+    public float pushFractionalResourceToStores(float amountToPush,
             float fraction) {
         if (getStores() == null)
             return 0f;
@@ -214,6 +231,27 @@ public abstract class StoreFlowRateControllableImpl extends
             getActualFlowRates()[i] += given;
             resourceRemaining -= given;
         }
+        return (amountToPush - resourceRemaining);
+    }
+    
+    /**
+     * Attempts to push a specified amount to a store
+     * 
+     * @param amountToPush
+     *            The amount to push to the stores
+     * @param indexOfStore
+     *            The store to push to
+     * @return The total amount of resource pushed to the store (equal to the
+     *         amount to push if sucessful)
+     */
+    public float pushResourceToStore(float amountToPush, int indexOfStore) {
+        if (getStores() == null)
+            return 0f;
+        float resourceRemaining = amountToPush;
+        float resourceToDistributeFirst = Math.min(resourceRemaining, getMaxFlowRate(indexOfStore));
+        float resourceToDistributeFinal = Math.min(resourceToDistributeFirst, getDesiredFlowRate(indexOfStore));
+        getActualFlowRates()[indexOfStore] = getStores()[indexOfStore].add(resourceToDistributeFinal);
+        resourceRemaining -= getActualFlowRate(indexOfStore);
         return (amountToPush - resourceRemaining);
     }
 }

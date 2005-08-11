@@ -106,11 +106,11 @@ public class ShelfImpl extends ShelfPOA {
         }
         float gatheredGreyWater = myBiomassRSImpl
                 .getGreyWaterConsumerDefinitionImpl()
-                .getFractionalResourceFromStore(extraWaterNeeded,
+                .getFractionalResourceFromStores(extraWaterNeeded,
                         1f / myBiomassRSImpl.getNumberOfShelves());
         float gatheredPotableWater = myBiomassRSImpl
                 .getPotableWaterConsumerDefinitionImpl()
-                .getFractionalResourceFromStore(
+                .getFractionalResourceFromStores(
                         extraWaterNeeded - gatheredGreyWater,
                         1f / myBiomassRSImpl.getNumberOfShelves());
         waterLevel += gatheredGreyWater + gatheredPotableWater;
@@ -119,7 +119,7 @@ public class ShelfImpl extends ShelfPOA {
     private void gatherPower() {
         float powerNeeded = POWER_PER_SQUARE_METER * getCropAreaUsed();
         powerLevel = myBiomassRSImpl.getPowerConsumerDefinitionImpl()
-                .getFractionalResourceFromStore(powerNeeded,
+                .getFractionalResourceFromStores(powerNeeded,
                         1f / myBiomassRSImpl.getNumberOfShelves());
     }
 

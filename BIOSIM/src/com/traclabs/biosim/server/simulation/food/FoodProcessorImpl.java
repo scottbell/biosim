@@ -177,7 +177,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements
      */
     private void gatherPower() {
         currentPowerConsumed = myPowerConsumerDefinitionImpl
-                .getResourceFromStore(powerNeeded);
+                .getResourceFromStores(powerNeeded);
         if (currentPowerConsumed < powerNeeded) {
             hasEnoughPower = false;
         } else {
@@ -260,9 +260,9 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements
             float currentDryWasteProduced = currentFoodProduced
                     - calculateSizeOfBioMatter(biomatterConsumed);
             myDryWasteProducerDefinitionImpl
-                    .pushResourceToStore(currentDryWasteProduced);
+                    .pushResourceToStores(currentDryWasteProduced);
             myWaterProducerDefinitionImpl
-                    .pushResourceToStore(currentWaterProduced);
+                    .pushResourceToStores(currentWaterProduced);
         }
     }
 

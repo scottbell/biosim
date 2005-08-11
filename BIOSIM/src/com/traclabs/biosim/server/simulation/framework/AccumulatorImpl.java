@@ -197,51 +197,51 @@ public class AccumulatorImpl extends SimBioModuleImpl implements
 
 	private void getAndPushResources() {
 		float powerGathered = myPowerConsumerDefinitionImpl
-				.getMostResourceFromStore();
-		myPowerProducerDefinitionImpl.pushResourceToStore(powerGathered);
+				.getMostResourceFromStores();
+		myPowerProducerDefinitionImpl.pushResourceToStores(powerGathered);
 
 		float potableWaterGathered = myPotableWaterConsumerDefinitionImpl
-				.getMostResourceFromStore();
+				.getMostResourceFromStores();
 		myPotableWaterProducerDefinitionImpl
-				.pushResourceToStore(potableWaterGathered);
+				.pushResourceToStores(potableWaterGathered);
 
 		float greyWaterGathered = myGreyWaterConsumerDefinitionImpl
-				.getMostResourceFromStore();
+				.getMostResourceFromStores();
 		myGreyWaterProducerDefinitionImpl
-				.pushResourceToStore(greyWaterGathered);
+				.pushResourceToStores(greyWaterGathered);
 
 		float dirtyWaterGathered = myDirtyWaterConsumerDefinitionImpl
-				.getMostResourceFromStore();
+				.getMostResourceFromStores();
 		myDirtyWaterProducerDefinitionImpl
-				.pushResourceToStore(dirtyWaterGathered);
+				.pushResourceToStores(dirtyWaterGathered);
 
 		float biomassGathered = myBiomassConsumerDefinitionImpl
-				.getMostResourceFromStore();
-		myBiomassProducerDefinitionImpl.pushResourceToStore(biomassGathered);
+				.getMostResourceFromStores();
+		myBiomassProducerDefinitionImpl.pushResourceToStores(biomassGathered);
 
 		float foodGathered = myFoodConsumerDefinitionImpl
-				.getMostResourceFromStore();
-		myFoodProducerDefinitionImpl.pushResourceToStore(foodGathered);
+				.getMostResourceFromStores();
+		myFoodProducerDefinitionImpl.pushResourceToStores(foodGathered);
 
 		float dryWasteGathered = myDryWasteConsumerDefinitionImpl
-				.getMostResourceFromStore();
-		myDryWasteProducerDefinitionImpl.pushResourceToStore(dryWasteGathered);
+				.getMostResourceFromStores();
+		myDryWasteProducerDefinitionImpl.pushResourceToStores(dryWasteGathered);
 
 		float O2Gathered = myO2ConsumerDefinitionImpl
-				.getMostResourceFromStore();
-		myO2ProducerDefinitionImpl.pushResourceToStore(O2Gathered);
+				.getMostResourceFromStores();
+		myO2ProducerDefinitionImpl.pushResourceToStores(O2Gathered);
 
 		float CO2Gathered = myCO2ConsumerDefinitionImpl
-				.getMostResourceFromStore();
-		myCO2ProducerDefinitionImpl.pushResourceToStore(CO2Gathered);
+				.getMostResourceFromStores();
+		myCO2ProducerDefinitionImpl.pushResourceToStores(CO2Gathered);
 
 		float nitrogenGathered = myNitrogenConsumerDefinitionImpl
-				.getMostResourceFromStore();
-		myNitrogenProducerDefinitionImpl.pushResourceToStore(nitrogenGathered);
+				.getMostResourceFromStores();
+		myNitrogenProducerDefinitionImpl.pushResourceToStores(nitrogenGathered);
 
 		float H2Gathered = myH2ConsumerDefinitionImpl
-				.getMostResourceFromStore();
-		myH2ProducerDefinitionImpl.pushResourceToStore(H2Gathered);
+				.getMostResourceFromStores();
+		myH2ProducerDefinitionImpl.pushResourceToStores(H2Gathered);
 	}
 
 	private static float waterLitersToMoles(float pLiters) {

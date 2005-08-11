@@ -194,7 +194,7 @@ public class IncineratorImpl extends SimBioModuleImpl implements
     private void gatherPower() {
     	float powerNeeded = POWER_NEEDED_BASE * getTickInterval();
         currentPowerConsumed = myPowerConsumerDefinitionImpl
-                .getResourceFromStore(powerNeeded);
+                .getResourceFromStores(powerNeeded);
         if (currentPowerConsumed < powerNeeded)
             hasEnoughPower = false;
         else
@@ -208,7 +208,7 @@ public class IncineratorImpl extends SimBioModuleImpl implements
     private void gatherDryWaste() {
     	float dryWasteNeeded = DRY_WASTE_NEEDED_BASE * getTickInterval();
         currentDryWasteConsumed = myDryWasteConsumerDefinitionImpl
-                .getResourceFromStore(dryWasteNeeded);
+                .getResourceFromStores(dryWasteNeeded);
         if (currentDryWasteConsumed < dryWasteNeeded)
             hasEnoughDryWaste = false;
         else
@@ -222,7 +222,7 @@ public class IncineratorImpl extends SimBioModuleImpl implements
     private void gatherO2() {
     	float o2Needed = O2_NEEDED_BASE * getTickInterval();
         currentO2Consumed = myO2ConsumerDefinitionImpl
-                .getResourceFromStore(o2Needed);
+                .getResourceFromStores(o2Needed);
         if (currentO2Consumed < o2Needed)
             hasEnoughO2 = false;
         else
@@ -249,7 +249,7 @@ public class IncineratorImpl extends SimBioModuleImpl implements
     private void createCO2() {
         currentCO2Produced = currentO2Consumed * myProductionRate;
         myCO2ProducerDefinitionImpl
-                .pushResourceToStore(currentCO2Produced);
+                .pushResourceToStores(currentCO2Produced);
     }
 
     private void setProductionRate(float pProductionRate) {

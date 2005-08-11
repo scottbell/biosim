@@ -44,7 +44,7 @@ public class AES extends WaterRSSubSystem {
         //otherwise, push it to the grey water tank
         else {
             waterLevel = myWaterRS.getGreyWaterConsumerDefinitionImpl()
-                    .pushResourceToStore(waterLevel);
+                    .pushResourceToStores(waterLevel);
         }
     }
 
@@ -67,7 +67,7 @@ public class AES extends WaterRSSubSystem {
             currentPPSWaterProduced = 0f;
             //try to put back into dirtyWater Store.
             waterLevel = myWaterRS.getDirtyWaterConsumerDefinitionImpl()
-                    .pushResourceToStore(waterLevel);
+                    .pushResourceToStores(waterLevel);
         }
     }
 

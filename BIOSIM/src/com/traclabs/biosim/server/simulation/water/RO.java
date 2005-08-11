@@ -60,7 +60,7 @@ public class RO extends WaterRSSubSystem {
         //if not, send it to grey water tank
         else {
             waterLevel = myWaterRS.getGreyWaterConsumerDefinitionImpl()
-                    .pushResourceToStore(waterLevel);
+                    .pushResourceToStores(waterLevel);
         }
     }
 
@@ -76,7 +76,7 @@ public class RO extends WaterRSSubSystem {
             } else {
                 //try to put back into dirtyWater Store.
                 waterLevel = myWaterRS.getDirtyWaterConsumerDefinitionImpl()
-                        .pushResourceToStore(waterLevel);
+                        .pushResourceToStores(waterLevel);
                 //dump extra water
                 waterLevel = 0f;
                 currentAESWaterProduced = 0f;
@@ -85,7 +85,7 @@ public class RO extends WaterRSSubSystem {
         } else {
             //try to put back into dirtyWater Store.
             waterLevel = myWaterRS.getDirtyWaterConsumerDefinitionImpl()
-                    .pushResourceToStore(waterLevel);
+                    .pushResourceToStores(waterLevel);
             //dump extra water
             waterLevel = 0f;
             currentAESWaterProduced = 0f;

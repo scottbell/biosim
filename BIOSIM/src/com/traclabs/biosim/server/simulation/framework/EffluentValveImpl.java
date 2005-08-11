@@ -30,7 +30,7 @@ import com.traclabs.biosim.idl.simulation.food.FoodConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.food.FoodConsumerOperations;
 import com.traclabs.biosim.idl.simulation.food.FoodProducerDefinition;
 import com.traclabs.biosim.idl.simulation.food.FoodProducerOperations;
-import com.traclabs.biosim.idl.simulation.framework.InjectorOperations;
+import com.traclabs.biosim.idl.simulation.framework.AccumulatorOperations;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.idl.simulation.power.PowerProducerDefinition;
@@ -91,8 +91,8 @@ import com.traclabs.biosim.server.simulation.water.WaterProducerDefinitionImpl;
  * @author Scott Bell
  */
 
-public class InjectorImpl extends SimBioModuleImpl implements
-		InjectorOperations, PowerConsumerOperations,
+public class EffluentValveImpl extends SimBioModuleImpl implements
+		AccumulatorOperations, PowerConsumerOperations,
 		PotableWaterConsumerOperations, GreyWaterConsumerOperations,
 		WaterConsumerOperations, DirtyWaterConsumerOperations,
 		O2ConsumerOperations, CO2ConsumerOperations, AirConsumerOperations,
@@ -128,7 +128,7 @@ public class InjectorImpl extends SimBioModuleImpl implements
 	private BiomassConsumerDefinitionImpl myBiomassConsumerDefinitionImpl;
 
 	private FoodConsumerDefinitionImpl myFoodConsumerDefinitionImpl;
-	
+
 	private DryWasteConsumerDefinitionImpl myDryWasteConsumerDefinitionImpl;
 
 	private WaterConsumerDefinitionImpl myWaterConsumerDefinitionImpl;
@@ -154,12 +154,15 @@ public class InjectorImpl extends SimBioModuleImpl implements
 	private BiomassProducerDefinitionImpl myBiomassProducerDefinitionImpl;
 
 	private FoodProducerDefinitionImpl myFoodProducerDefinitionImpl;
-	
+
 	private DryWasteProducerDefinitionImpl myDryWasteProducerDefinitionImpl;
 
 	private WaterProducerDefinitionImpl myWaterProducerDefinitionImpl;
 
-	public InjectorImpl(int pID, String pName) {
+	// Flowing from first or second store?
+	private int myIndexOfEffluentStore = 0;
+
+	public EffluentValveImpl(int pID, String pName) {
 		super(pID, pName);
 		myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl();
 		myPotableWaterConsumerDefinitionImpl = new PotableWaterConsumerDefinitionImpl();
@@ -195,54 +198,61 @@ public class InjectorImpl extends SimBioModuleImpl implements
 		getAndPushResources();
 	}
 
+	public void setIndexOfEffluentStore(int pIndexOfEffluentStore) {
+		myIndexOfEffluentStore = pIndexOfEffluentStore;
+	}
+
+	public int getIndexOfEffluentStore() {
+		return myIndexOfEffluentStore;
+	}
+
 	private void getAndPushResources() {
 		float powerGathered = myPowerConsumerDefinitionImpl
 				.getMostResourceFromStores();
-		myPowerProducerDefinitionImpl.pushResourceToStores(powerGathered);
+		myPowerProducerDefinitionImpl.pushResourceToStore(powerGathered, myIndexOfEffluentStore);
 
 		float potableWaterGathered = myPotableWaterConsumerDefinitionImpl
 				.getMostResourceFromStores();
 		myPotableWaterProducerDefinitionImpl
-				.pushResourceToStores(potableWaterGathered);
+				.pushResourceToStore(potableWaterGathered, myIndexOfEffluentStore);
 
 		float greyWaterGathered = myGreyWaterConsumerDefinitionImpl
 				.getMostResourceFromStores();
 		myGreyWaterProducerDefinitionImpl
-				.pushResourceToStores(greyWaterGathered);
+				.pushResourceToStore(greyWaterGathered, myIndexOfEffluentStore);
 
 		float dirtyWaterGathered = myDirtyWaterConsumerDefinitionImpl
 				.getMostResourceFromStores();
 		myDirtyWaterProducerDefinitionImpl
-				.pushResourceToStores(dirtyWaterGathered);
+				.pushResourceToStore(dirtyWaterGathered, myIndexOfEffluentStore);
 
 		float biomassGathered = myBiomassConsumerDefinitionImpl
 				.getMostResourceFromStores();
-		myBiomassProducerDefinitionImpl.pushResourceToStores(biomassGathered);
+		myBiomassProducerDefinitionImpl.pushResourceToStore(biomassGathered, myIndexOfEffluentStore);
 
 		float foodGathered = myFoodConsumerDefinitionImpl
 				.getMostResourceFromStores();
-		myFoodProducerDefinitionImpl.pushResourceToStores(foodGathered);
+		myFoodProducerDefinitionImpl.pushResourceToStore(foodGathered, myIndexOfEffluentStore);
 
 		float dryWasteGathered = myDryWasteConsumerDefinitionImpl
 				.getMostResourceFromStores();
-		myDryWasteProducerDefinitionImpl.pushResourceToStores(dryWasteGathered);
+		myDryWasteProducerDefinitionImpl.pushResourceToStore(dryWasteGathered, myIndexOfEffluentStore);
 
 		float O2Gathered = myO2ConsumerDefinitionImpl
 				.getMostResourceFromStores();
-		myO2ProducerDefinitionImpl.pushResourceToStores(O2Gathered);
+		myO2ProducerDefinitionImpl.pushResourceToStore(O2Gathered, myIndexOfEffluentStore);
 
 		float CO2Gathered = myCO2ConsumerDefinitionImpl
 				.getMostResourceFromStores();
-		myCO2ProducerDefinitionImpl.pushResourceToStores(CO2Gathered);
+		myCO2ProducerDefinitionImpl.pushResourceToStore(CO2Gathered, myIndexOfEffluentStore);
 
 		float nitrogenGathered = myNitrogenConsumerDefinitionImpl
 				.getMostResourceFromStores();
-		myNitrogenProducerDefinitionImpl.pushResourceToStores(nitrogenGathered);
+		myNitrogenProducerDefinitionImpl.pushResourceToStore(nitrogenGathered, myIndexOfEffluentStore);
 
 		float H2Gathered = myH2ConsumerDefinitionImpl
 				.getMostResourceFromStores();
-		myH2ProducerDefinitionImpl.pushResourceToStores(H2Gathered);
-
+		myH2ProducerDefinitionImpl.pushResourceToStore(H2Gathered, myIndexOfEffluentStore);
 	}
 
 	private static float waterLitersToMoles(float pLiters) {

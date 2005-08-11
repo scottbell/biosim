@@ -78,16 +78,16 @@ public class WaterRSLinearImpl extends SimBioModuleImpl implements
 
     private void gatherPower() {
         currentPowerConsumed = myPowerConsumerDefinitionImpl
-                .getMostResourceFromStore();
+                .getMostResourceFromStores();
     }
 
     private void gatherWater() {
         //1540 Watts -> 4.26 liters of water
         float waterNeeded = (currentPowerConsumed / 1540f) * 4.26f * getTickInterval();
         float currentDirtyWaterConsumed = myDirtyWaterConsumerDefinitionImpl
-                .getResourceFromStore(waterNeeded);
+                .getResourceFromStores(waterNeeded);
         float currentGreyWaterConsumed = myGreyWaterConsumerDefinitionImpl
-                .getResourceFromStore(waterNeeded - currentDirtyWaterConsumed);
+                .getResourceFromStores(waterNeeded - currentDirtyWaterConsumed);
         currentWaterConsumed = currentDirtyWaterConsumed
                 + currentGreyWaterConsumed;
     }
@@ -98,7 +98,7 @@ public class WaterRSLinearImpl extends SimBioModuleImpl implements
      */
     private void pushWater() {
         myPotableWaterProducerDefinitionImpl
-                .pushResourceToStore(currentWaterConsumed);
+                .pushResourceToStores(currentWaterConsumed);
     }
 
     /**
