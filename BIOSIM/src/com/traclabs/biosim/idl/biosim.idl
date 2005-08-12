@@ -755,6 +755,16 @@ module com{
                                                 };
                                                 interface StoreLevelSensor : StoreSensor{};
                                                 interface StoreOverflowSensor : StoreSensor{};
+                                                interface InfluentValveSensor : framework::GenericSensor{
+                                                        void setInput(in simulation::framework::InfluentValve source);
+                                                        simulation::framework::InfluentValve getInput();
+                                                };
+                                                interface InfluentValveStateSensor : InfluentValveSensor{};
+                                                interface EffluentValveSensor : framework::GenericSensor{
+                                                        void setInput(in simulation::framework::EffluentValve source);
+                                                        simulation::framework::EffluentValve getInput();
+                                                };
+                                                interface EffluentValveStateSensor : EffluentValveSensor{};
                                         };
                                         module air{
                                                 interface O2InFlowRateSensor : framework::GenericSensor{
@@ -960,6 +970,14 @@ module com{
                                                         float getMax();
                                                         float getMin();
                                                         framework::BioModule getOutputModule();
+                                                };
+                                                interface InfluentValveActuator : framework::GenericActuator{
+                                                        void setOutput(in simulation::framework::InfluentValve pInfluentValve);
+                                                        simulation::framework::InfluentValve getOutput();
+                                                };
+                                                interface EffluentValveActuator : framework::GenericActuator{
+                                                        void setOutput(in simulation::framework::EffluentValve pEffluentValve);
+                                                        simulation::framework::EffluentValve getOutput();
                                                 };
                                         };
                                         module air{

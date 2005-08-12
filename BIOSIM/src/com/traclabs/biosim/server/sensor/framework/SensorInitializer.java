@@ -78,7 +78,13 @@ import com.traclabs.biosim.idl.sensor.food.HarvestSensorPOATie;
 import com.traclabs.biosim.idl.sensor.food.PlantDeathSensor;
 import com.traclabs.biosim.idl.sensor.food.PlantDeathSensorHelper;
 import com.traclabs.biosim.idl.sensor.food.PlantDeathSensorPOATie;
+import com.traclabs.biosim.idl.sensor.framework.EffluentValveStateSensor;
+import com.traclabs.biosim.idl.sensor.framework.EffluentValveStateSensorHelper;
+import com.traclabs.biosim.idl.sensor.framework.EffluentValveStateSensorPOATie;
 import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
+import com.traclabs.biosim.idl.sensor.framework.InfluentValveStateSensor;
+import com.traclabs.biosim.idl.sensor.framework.InfluentValveStateSensorHelper;
+import com.traclabs.biosim.idl.sensor.framework.InfluentValveStateSensorPOATie;
 import com.traclabs.biosim.idl.sensor.framework.StoreLevelSensor;
 import com.traclabs.biosim.idl.sensor.framework.StoreLevelSensorHelper;
 import com.traclabs.biosim.idl.sensor.framework.StoreLevelSensorPOATie;
@@ -143,6 +149,8 @@ import com.traclabs.biosim.idl.simulation.food.BiomassRSHelper;
 import com.traclabs.biosim.idl.simulation.food.BiomassStoreHelper;
 import com.traclabs.biosim.idl.simulation.food.FoodConsumerHelper;
 import com.traclabs.biosim.idl.simulation.food.FoodProducerHelper;
+import com.traclabs.biosim.idl.simulation.framework.EffluentValveHelper;
+import com.traclabs.biosim.idl.simulation.framework.InfluentValveHelper;
 import com.traclabs.biosim.idl.simulation.framework.StoreHelper;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerHelper;
 import com.traclabs.biosim.idl.simulation.power.PowerProducerHelper;
@@ -1117,6 +1125,54 @@ public class SensorInitializer {
 				.grabModule(myID, getInputName(node))));
 		mySensors.add(myStoreOverflowSensor);
 	}
+	
+	private void createInfluentValveStateSensor(Node node) {
+		String moduleName = BiosimInitializer.getModuleName(node);
+		if (BiosimInitializer.isCreatedLocally(node)) {
+			myLogger.debug("Creating InfluentValveStateSensor with moduleName: "
+					+ moduleName);
+			InfluentValveStateSensorImpl myInfluentValveStateSensorImpl = new InfluentValveStateSensorImpl(
+					myID, moduleName);
+			BiosimInitializer.setupBioModule(myInfluentValveStateSensorImpl, node);
+			BiosimServer.registerServer(new InfluentValveStateSensorPOATie(
+					myInfluentValveStateSensorImpl), myInfluentValveStateSensorImpl
+					.getModuleName(), myInfluentValveStateSensorImpl.getID());
+		} else
+			BiosimInitializer.printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureInfluentValveStateSensor(Node node) {
+		InfluentValveStateSensor myInfluentValveStateSensor = InfluentValveStateSensorHelper
+				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+						.getModuleName(node)));
+		myInfluentValveStateSensor.setInput(InfluentValveHelper.narrow(BiosimInitializer
+				.grabModule(myID, getInputName(node))));
+		mySensors.add(myInfluentValveStateSensor);
+	}
+	
+	private void createEffluentValveStateSensor(Node node) {
+		String moduleName = BiosimInitializer.getModuleName(node);
+		if (BiosimInitializer.isCreatedLocally(node)) {
+			myLogger.debug("Creating EffluentValveStateSensor with moduleName: "
+					+ moduleName);
+			EffluentValveStateSensorImpl myEffluentValveStateSensorImpl = new EffluentValveStateSensorImpl(
+					myID, moduleName);
+			BiosimInitializer.setupBioModule(myEffluentValveStateSensorImpl, node);
+			BiosimServer.registerServer(new EffluentValveStateSensorPOATie(
+					myEffluentValveStateSensorImpl), myEffluentValveStateSensorImpl
+					.getModuleName(), myEffluentValveStateSensorImpl.getID());
+		} else
+			BiosimInitializer.printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureEffluentValveStateSensor(Node node) {
+		EffluentValveStateSensor myEffluentValveStateSensor = EffluentValveStateSensorHelper
+				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+						.getModuleName(node)));
+		myEffluentValveStateSensor.setInput(EffluentValveHelper.narrow(BiosimInitializer
+				.grabModule(myID, getInputName(node))));
+		mySensors.add(myEffluentValveStateSensor);
+	}
 
 	private void crawlFrameworkSensors(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
@@ -1132,6 +1188,16 @@ public class SensorInitializer {
 					createStoreOverflowSensor(child);
 				else
 					configureStoreOverflowSensor(child);
+			} else if (childName.equals("InfluentValveStateSensor")) {
+				if (firstPass)
+					createInfluentValveStateSensor(child);
+				else
+					configureInfluentValveStateSensor(child);
+			} else if (childName.equals("EffluentValveStateSensor")) {
+				if (firstPass)
+					createEffluentValveStateSensor(child);
+				else
+					configureEffluentValveStateSensor(child);
 			}
 			child = child.getNextSibling();
 		}
