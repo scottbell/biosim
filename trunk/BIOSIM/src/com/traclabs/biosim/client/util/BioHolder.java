@@ -25,7 +25,9 @@ import com.traclabs.biosim.idl.actuator.food.FoodOutFlowRateActuator;
 import com.traclabs.biosim.idl.actuator.food.HarvestingActuator;
 import com.traclabs.biosim.idl.actuator.food.PlantingActuator;
 import com.traclabs.biosim.idl.actuator.food.ShelfActuator;
+import com.traclabs.biosim.idl.actuator.framework.EffluentValveActuator;
 import com.traclabs.biosim.idl.actuator.framework.GenericActuator;
+import com.traclabs.biosim.idl.actuator.framework.InfluentValveActuator;
 import com.traclabs.biosim.idl.actuator.power.PowerInFlowRateActuator;
 import com.traclabs.biosim.idl.actuator.power.PowerOutFlowRateActuator;
 import com.traclabs.biosim.idl.actuator.waste.DryWasteInFlowRateActuator;
@@ -63,7 +65,9 @@ import com.traclabs.biosim.idl.sensor.food.FoodOutFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.food.HarvestSensor;
 import com.traclabs.biosim.idl.sensor.food.PlantDeathSensor;
 import com.traclabs.biosim.idl.sensor.food.ShelfSensor;
+import com.traclabs.biosim.idl.sensor.framework.EffluentValveStateSensor;
 import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
+import com.traclabs.biosim.idl.sensor.framework.InfluentValveStateSensor;
 import com.traclabs.biosim.idl.sensor.framework.StoreLevelSensor;
 import com.traclabs.biosim.idl.sensor.framework.StoreOverflowSensor;
 import com.traclabs.biosim.idl.sensor.power.PowerInFlowRateSensor;
@@ -245,6 +249,10 @@ public class BioHolder {
     public List<StoreOverflowSensor> theStoreOverflowSensors = new Vector<StoreOverflowSensor>();
 
     public List<StoreLevelSensor> theStoreLevelSensors = new Vector<StoreLevelSensor>();
+    
+    public List<InfluentValveStateSensor> theInfluentValveStateSensors = new Vector<InfluentValveStateSensor>();
+    
+    public List<EffluentValveStateSensor> theEffluentValveStateSensors = new Vector<EffluentValveStateSensor>();
 
     //Power
     public List<PowerInFlowRateSensor> thePowerInFlowRateSensors = new Vector<PowerInFlowRateSensor>();
@@ -308,7 +316,12 @@ public class BioHolder {
     public List<PlantingActuator> thePlantingActuators = new Vector<PlantingActuator>();
 
     public List<HarvestingActuator> theHarvestingActuators = new Vector<HarvestingActuator>();
+    
+    //Framework
+    public List<InfluentValveActuator> theInfluentValveActuators = new Vector<InfluentValveActuator>();
 
+    public List<EffluentValveActuator> theEffluentValveActuators = new Vector<EffluentValveActuator>();
+    
     //Power
     public List<PowerInFlowRateActuator> thePowerInFlowRateActuators = new Vector<PowerInFlowRateActuator>();
 
@@ -486,6 +499,8 @@ public class BioHolder {
         //Framework
         theSensors.addAll(theStoreOverflowSensors);
         theSensors.addAll(theStoreLevelSensors);
+        theSensors.addAll(theInfluentValveStateSensors);
+        theSensors.addAll(theEffluentValveStateSensors);
         //Power
         theSensors.addAll(thePowerInFlowRateSensors);
         theSensors.addAll(thePowerOutFlowRateSensors);
@@ -514,6 +529,9 @@ public class BioHolder {
         //Environment
         theActuators.addAll(theAirInFlowRateActuators);
         theActuators.addAll(theAirOutFlowRateActuators);
+        //Framework
+        theActuators.addAll(theInfluentValveActuators);
+        theActuators.addAll(theEffluentValveActuators);
         //Food
         theActuators.addAll(theBiomassInFlowRateActuators);
         theActuators.addAll(theBiomassOutFlowRateActuators);
@@ -627,6 +645,8 @@ public class BioHolder {
         //Framework
         theStoreOverflowSensors.clear();
         theStoreLevelSensors.clear();
+        theInfluentValveStateSensors.clear();
+        theEffluentValveStateSensors.clear();
         //Power
         thePowerInFlowRateSensors.clear();
         thePowerOutFlowRateSensors.clear();
@@ -662,6 +682,9 @@ public class BioHolder {
         theFoodOutFlowRateActuators.clear();
         thePlantingActuators.clear();
         theHarvestingActuators.clear();
+        //Framwork
+        theInfluentValveActuators.clear();
+        theEffluentValveActuators.clear();
         //Power
         thePowerInFlowRateActuators.clear();
         thePowerOutFlowRateActuators.clear();

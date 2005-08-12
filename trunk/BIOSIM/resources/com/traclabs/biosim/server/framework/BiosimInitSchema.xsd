@@ -57,7 +57,7 @@
 		<xsd:attribute name="driverStutterLength" type="xsd:integer" default="-1"/>     
 		<xsd:attribute name="isLooping" type="xsd:boolean" default="false"/>
 		<xsd:attribute name="stochasticIntensity" type="StochasticIntensityType" default="NONE_STOCH"/>
-		<xsd:attribute name="tickLength" type="xsd:nonNegativeFloat" default="1"/>
+		<xsd:attribute name="tickLength" type="nonNegativeFloat" default="1"/>
 	</xsd:complexType>
 	
 	<xsd:complexType name="log4jPropertyType">
@@ -233,6 +233,8 @@
 						<xsd:choice minOccurs="0" maxOccurs="unbounded">
 							<xsd:element name="StoreLevelSensor" type="StoreLevelSensorType"/>
 							<xsd:element name="StoreOverflowSensor" type="StoreLevelSensorType"/>
+							<xsd:element name="InfluentValveStateSensor" type="InfluentValveStateSensorType"/>
+							<xsd:element name="EffluentValveStateSensor" type="EffluentValveStateSensorType"/>
 						</xsd:choice>				
 					</xsd:sequence>
 				</xsd:complexType>
@@ -358,6 +360,16 @@
 						<xsd:choice minOccurs="0" maxOccurs="unbounded">
 							<xsd:element name="DryWasteInFlowRateActuator" type="DryWasteInFlowRateActuatorType"/>
 							<xsd:element name="DryWasteOutFlowRateActuator" type="DryWasteOutFlowRateActuatorType"/>
+						</xsd:choice>				
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="framework" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element name="InfluentValveActuator" type="InfluentValveActuatorType"/>
+							<xsd:element name="EffluentValveActuator" type="EffluentValveActuatorType"/>
 						</xsd:choice>				
 					</xsd:sequence>
 				</xsd:complexType>
@@ -1403,6 +1415,20 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	
+	<xsd:complexType name="InfluentValveStateSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="SensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="EffluentValveStateSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="SensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
 	<!-- Food sensor declarations -->
 	<xsd:complexType name="PowerInFlowRateSensorType">  
 		<xsd:complexContent>
@@ -1727,6 +1753,21 @@
 	<xsd:complexType name="DryWasteOutFlowRateActuatorType">  
 		<xsd:complexContent>
 			<xsd:extension base="FlowRateActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<!-- Framework actuator declarations -->
+	<xsd:complexType name="InfluentValveActuatorType">  
+		<xsd:complexContent>
+			<xsd:extension base="ActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="EffluentValveActuatorType">  
+		<xsd:complexContent>
+			<xsd:extension base="ActuatorType">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>

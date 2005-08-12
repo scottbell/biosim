@@ -25,6 +25,8 @@ import com.traclabs.biosim.idl.actuator.food.FoodInFlowRateActuatorHelper;
 import com.traclabs.biosim.idl.actuator.food.FoodOutFlowRateActuatorHelper;
 import com.traclabs.biosim.idl.actuator.food.HarvestingActuatorHelper;
 import com.traclabs.biosim.idl.actuator.food.PlantingActuatorHelper;
+import com.traclabs.biosim.idl.actuator.framework.EffluentValveActuatorHelper;
+import com.traclabs.biosim.idl.actuator.framework.InfluentValveActuatorHelper;
 import com.traclabs.biosim.idl.actuator.power.PowerInFlowRateActuatorHelper;
 import com.traclabs.biosim.idl.actuator.power.PowerOutFlowRateActuatorHelper;
 import com.traclabs.biosim.idl.actuator.waste.DryWasteInFlowRateActuatorHelper;
@@ -60,6 +62,8 @@ import com.traclabs.biosim.idl.sensor.food.FoodInFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.food.FoodOutFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.food.HarvestSensorHelper;
 import com.traclabs.biosim.idl.sensor.food.PlantDeathSensorHelper;
+import com.traclabs.biosim.idl.sensor.framework.EffluentValveStateSensorHelper;
+import com.traclabs.biosim.idl.sensor.framework.InfluentValveStateSensorHelper;
 import com.traclabs.biosim.idl.sensor.framework.StoreLevelSensorHelper;
 import com.traclabs.biosim.idl.sensor.framework.StoreOverflowSensorHelper;
 import com.traclabs.biosim.idl.sensor.power.PowerInFlowRateSensorHelper;
@@ -826,6 +830,16 @@ public class BioHolderInitializer {
                 .narrow(grabModule(getModuleName(node))));
     }
 
+    private static void fetchInfluentValveStateSensor(Node node) {
+        myBioHolder.theInfluentValveStateSensors.add(InfluentValveStateSensorHelper
+                .narrow(grabModule(getModuleName(node))));
+    }
+
+    private static void fetchEffluentValveStateSensor(Node node) {
+        myBioHolder.theEffluentValveStateSensors.add(EffluentValveStateSensorHelper
+                .narrow(grabModule(getModuleName(node))));
+    }
+
     private static void crawlFrameworkSensors(Node node) {
         Node child = node.getFirstChild();
         while (child != null) {
@@ -834,6 +848,10 @@ public class BioHolderInitializer {
                 fetchStoreLevelSensor(child);
             else if (childName.equals("StoreOverflowSensor"))
                 fetchStoreOverflowSensor(child);
+            else if (childName.equals("InfluentValveStateSensor"))
+                fetchInfluentValveStateSensor(child);
+            else if (childName.equals("EfffluentValveStateSensor"))
+                fetchEffluentValveStateSensor(child);
             child = child.getNextSibling();
         }
     }
@@ -967,6 +985,8 @@ public class BioHolderInitializer {
                 crawlEnvironmentActuators(child);
             } else if (childName.equals("food")) {
                 crawlFoodActuators(child);
+            } else if (childName.equals("framework")) {
+                crawlFrameworkActuators(child);
             } else if (childName.equals("power")) {
                 crawlPowerActuators(child);
             } else if (childName.equals("water")) {
@@ -1064,6 +1084,30 @@ public class BioHolderInitializer {
                 fetchAirInFlowRateActuator(child);
             else if (childName.equals("AirOutFlowRateActuator"))
                 fetchAirOutFlowRateActuator(child);
+            child = child.getNextSibling();
+        }
+    }
+    
+    //Framework
+    private static void fetchInfluentValveActuator(Node node) {
+        myBioHolder.theInfluentValveActuators
+                .add(InfluentValveActuatorHelper
+                        .narrow(grabModule(getModuleName(node))));
+    }
+    private static void fetchEffluentValveActuator(Node node) {
+        myBioHolder.theEffluentValveActuators
+                .add(EffluentValveActuatorHelper
+                        .narrow(grabModule(getModuleName(node))));
+    }
+    
+    private static void crawlFrameworkActuators(Node node) {
+        Node child = node.getFirstChild();
+        while (child != null) {
+            String childName = child.getNodeName();
+            if (childName.equals("InfluentValveActuator"))
+                fetchInfluentValveActuator(child);
+            else if (childName.equals("EffluentValveActuator"))
+                fetchEffluentValveActuator(child);
             child = child.getNextSibling();
         }
     }
