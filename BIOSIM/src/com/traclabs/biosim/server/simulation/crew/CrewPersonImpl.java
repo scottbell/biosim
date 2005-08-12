@@ -767,10 +767,11 @@ public class CrewPersonImpl extends CrewPersonPOA {
         float resultInLiters = a + (b * pow(heartRate, 3f) * 60f); //liters per
         // hour
         float idealGasConstant = 0.08206f;
-        float resultInMoles = (resultInLiters) / (idealGasConstant * 298); //moles
-        // per
-        // hour
-        return myBaseCrewGroupImpl.randomFilter(resultInMoles * getCurrentCrewGroup().getTickInterval()); //Liters/tick
+        float resultInMoles = (resultInLiters) / (idealGasConstant * 298); //moles per hour
+        float adjustForTickLength = resultInMoles * getCurrentCrewGroup().getTickInterval();
+        myLogger.info("resultInMoles "+resultInMoles);
+        myLogger.info("adjustForTickLength "+adjustForTickLength);
+        return myBaseCrewGroupImpl.randomFilter(adjustForTickLength); //Liters/tick
     }
 
     private float pow(float a, float b) {
@@ -967,6 +968,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
             thirsty = true;
         else
             thirsty = false;
+    	myLogger.debug("getO2Ratio() = "+getO2Ratio());
         if (getO2Ratio() < O2_LOW_RATIO) {
             consumedLowOxygenBuffer.take((O2_LOW_RATIO - getO2Ratio()) * tickInterval);
             suffocating = true;
