@@ -465,10 +465,10 @@ public class BioDriverImpl extends BioDriverPOA {
     public void reset() {
         myLogger.info("BioDriverImpl" + myID + ": Resetting simulation");
         ticksGoneBy = 0;
-        for (int i = 0; i < modules.length; i++) {
-            BioModule currentBioModule = (modules[i]);
+        for (BioModule currentBioModule : modules) {
             currentBioModule.reset();
-        }
+            currentBioModule.setTickInterval(getTickLength());
+		}
     }
 
     /**
@@ -515,30 +515,21 @@ public class BioDriverImpl extends BioDriverPOA {
         }
         myLogger.debug("BioDriveImpl: begin Tick");
         //Iterate through the actuators and tick them
-        for (int i = 0; i < actuators.length; i++) {
-            BioModule currentBioModule = (actuators[i]);
+        for (BioModule currentBioModule : actuators)
             currentBioModule.tick();
-        }
         //Iterate through the active sim modules and tick them
-        for (int i = 0; i < activeSimModules.length; i++) {
-            BioModule currentBioModule = (activeSimModules[i]);
+        for (BioModule currentBioModule : activeSimModules){
             currentBioModule.tick();
         }
         //Iterate through the passive sim modules and tick them
-        for (int i = 0; i < passiveSimModules.length; i++) {
-            BioModule currentBioModule = (passiveSimModules[i]);
+        for (BioModule currentBioModule : passiveSimModules)
             currentBioModule.tick();
-        }
         //Iterate through the priority sim modules and tick them
-        for (int i = 0; i < prioritySimModules.length; i++) {
-            BioModule currentBioModule = (prioritySimModules[i]);
+        for (BioModule currentBioModule : prioritySimModules)
             currentBioModule.tick();
-        }
         //Iterate through the sensors and tick them
-        for (int i = 0; i < sensors.length; i++) {
-            BioModule currentBioModule = (sensors[i]);
+        for (BioModule currentBioModule : sensors)
             currentBioModule.tick();
-        }
         ticksGoneBy++;
     }
     

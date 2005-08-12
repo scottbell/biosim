@@ -1,6 +1,9 @@
 package com.traclabs.biosim.client.simulation.environment;
 
+import com.traclabs.biosim.client.framework.gui.UpdatablePanel;
 import com.traclabs.biosim.client.simulation.framework.SimTabbedPanel;
+import com.traclabs.biosim.client.util.BioHolder;
+import com.traclabs.biosim.client.util.BioHolderInitializer;
 
 /**
  * This is the JPanel that displays information about the Environment
@@ -10,8 +13,19 @@ import com.traclabs.biosim.client.simulation.framework.SimTabbedPanel;
 
 public class EnvironmentPanel extends SimTabbedPanel {
     protected void createPanels() {
-        myTextPanel = new EnvironmentDualTextPanel();
-        myChartPanel = new EnvironmentChartPanel();
+        BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
+    	if (myBioHolder.theSimEnvironments.size() == 1){
+    		myTextPanel = new EnvironmentSingleTextPanel();
+            myChartPanel = new EnvironmentSingleChartPanel();
+    	}
+    	else if (myBioHolder.theSimEnvironments.size() == 2){
+    		myTextPanel = new EnvironmentDualTextPanel();
+            myChartPanel = new EnvironmentDualChartPanel();
+    	}
+    	else{
+    		myTextPanel = new UpdatablePanel();
+    		myChartPanel = new UpdatablePanel();
+    	}
         mySchematicPanel = new EnvironmentSchematicPanel();
     }
 }

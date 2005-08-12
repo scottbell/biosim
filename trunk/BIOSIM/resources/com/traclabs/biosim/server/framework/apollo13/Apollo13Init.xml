@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='../BiosimInitSchema.xsd'>
-	<Globals crewsToWatch="BaseCrewGroup" runTillCrewDeath="true" tickLength="0.01666666666666667">
+	<Globals crewsToWatch="Crew" runTillCrewDeath="true" tickLength="0.01666666666666667">
 		<comment>
 			This is the Apollo 13 initialization.
 			It is on a minute time step with the following modules:
@@ -38,20 +38,23 @@
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
 				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="DirtyWaterStore"/>
 				<greyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="GreyWaterStore"/>
-				<dryWasteProducer maxFlowRates="100" desiredFlowRates="100" outputs="WasteStore"/>
+				<dryWasteProducer maxFlowRates="100" desiredFlowRates="100" outputs="DryWasteStore"/>
 				<crewPerson name="James Lovell" age="42" weight="70" sex="MALE">
 					<schedule>
-						<activity name="mission" length="9" intensity="2"/>
+						<activity name="mission" length="16" intensity="2"/>
+						<activity name="sleep" length="8" intensity="2"/>
 					</schedule>
 				</crewPerson>
-				<crewPerson name="John Swigert" age="38" weight="71" sex="FEMALE">
+				<crewPerson name="John Swigert" age="38" weight="71" sex="MALE">
 					<schedule>
-						<activity name="mission" length="9" intensity="2"/>
+						<activity name="mission" length="16" intensity="2"/>
+						<activity name="sleep" length="8" intensity="2"/>
 					</schedule>
 				</crewPerson>
 				<crewPerson name="Fred Haise" age="36" weight="72" sex="MALE">
 					<schedule>
-						<activity name="mission" length="9" intensity="2"/>
+						<activity name="mission" length="16" intensity="2"/>
+						<activity name="sleep" length="8" intensity="2"/>
 					</schedule>
 				</crewPerson>
 			</CrewGroup>

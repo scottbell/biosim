@@ -227,8 +227,8 @@ module com{
                                                 boolean breakdownIsEnabled();
                                                 long getMyTicks();
                                                 long getID();
-                                                void setTickInterval(in float pInterval);
-                                                float getTickInterval();
+                                                void setTickLength(in float pInterval);
+                                                float getTickLength();
                                                 
                                         };
                                         interface BioDriver{

@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='../BiosimInitSchema.xsd'>
-	<Globals crewsToWatch="BaseCrewGroup" runTillCrewDeath="true" tickLength="0.01666666666666667">
+	<Globals crewsToWatch="Crew" runTillCrewDeath="true" tickLength="0.01666666666666667">
 		<comment>
-			This is the nominal (no malfuction) Apollo 13 initialization.
+			This is the nominal Apollo 13 initialization.
 			It is on a minute time step with the following modules:
 				A 3 person crew.
 				2 oxygen tanks (main and reservoir)
@@ -14,7 +14,8 @@
 	</Globals>
 	<SimBioModules>
 		<air>
-			<O2Store moduleName="MainO2Store" capacity="2000000" level="2000000"/>
+			<O2Store moduleName="MainO2Store" capacity="2000000" level="2000000">
+			</O2Store>
 			<CO2Store moduleName="DumpedCO2" capacity="2000000" level="0"/>
 			<O2Store moduleName="ResevoirO2Store" capacity="2000000" level="2000000"/>
 			<VCCR moduleName="VCCR">
@@ -35,7 +36,7 @@
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
 				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="DirtyWaterStore"/>
 				<greyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="GreyWaterStore"/>
-				<dryWasteProducer maxFlowRates="100" desiredFlowRates="100" outputs="WasteStore"/>
+				<dryWasteProducer maxFlowRates="100" desiredFlowRates="100" outputs="DryWasteStore"/>
 				<crewPerson name="James Lovell" age="42" weight="70" sex="MALE">
 					<schedule>
 						<activity name="mission" length="9" intensity="2"/>
