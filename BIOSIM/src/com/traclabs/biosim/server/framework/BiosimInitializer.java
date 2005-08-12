@@ -196,6 +196,11 @@ public class BiosimInitializer {
         }
         if (firstPass) {
             try {
+                //set the tickLength
+                float tickLength = Float.parseFloat(node.getAttributes()
+                        .getNamedItem("tickLength").getNodeValue());
+                myDriver.setTickLength(tickLength);
+                
                 myDriver.setRunTillN(Integer.parseInt(node.getAttributes()
                         .getNamedItem("runTillN").getNodeValue()));
                 myDriver.setPauseSimulation(node.getAttributes().getNamedItem(
@@ -244,7 +249,9 @@ public class BiosimInitializer {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else {
+        } 
+        //second pass
+        else {
             //Give BioDriver crew to watch for (if we're doing run till dead)
             Node crewsToWatchNode = node.getAttributes().getNamedItem(
                     "crewsToWatch");

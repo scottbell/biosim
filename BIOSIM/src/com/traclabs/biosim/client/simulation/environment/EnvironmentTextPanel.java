@@ -24,6 +24,8 @@ import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 public class EnvironmentTextPanel extends TimedPanel {
     //Various GUI componenets
     private JLabel tickLabel;
+    
+    private JLabel tickLengthLabel;
 
     private JPanel tickPanel;
 
@@ -70,12 +72,15 @@ public class EnvironmentTextPanel extends TimedPanel {
 
         long ticksExpired = BioHolderInitializer.getBioHolder().theBioDriver
                 .getTicks();
-        tickLabel = new JLabel(ticksExpired + " hours (" + (ticksExpired / 24)
-                + " days)");
+        float tickLength = BioHolderInitializer.getBioHolder().theBioDriver.getTickLength();
+        tickLabel = new JLabel(ticksExpired + " ticks (" + numFormat.format(ticksExpired * tickLength)
+                + " hours, "+ numFormat.format(ticksExpired * tickLength / 24) +" days)");
+        tickLengthLabel = new JLabel("tick length: "+tickLength+" hours");
         tickPanel = new JPanel();
-        tickPanel.setLayout(new BorderLayout());
+        tickPanel.setLayout(new GridLayout(2,1));
         tickPanel.setBorder(BorderFactory.createTitledBorder("Time"));
-        tickPanel.add(tickLabel, BorderLayout.CENTER);
+        tickPanel.add(tickLabel);
+        tickPanel.add(tickLengthLabel);
 
         airPanel = new JPanel();
         airPanel.setLayout(new GridLayout(5, 1));
@@ -118,8 +123,10 @@ public class EnvironmentTextPanel extends TimedPanel {
     public void refresh() {
         long ticksExpired = BioHolderInitializer.getBioHolder().theBioDriver
                 .getTicks();
-        tickLabel.setText(ticksExpired + " hours (" + (ticksExpired / 24)
-                + " days)");
+        float tickLength = BioHolderInitializer.getBioHolder().theBioDriver.getTickLength();
+        tickLabel.setText(ticksExpired + " ticks (" + numFormat.format(ticksExpired * tickLength)
+                + " hours, "+numFormat.format(ticksExpired * tickLength / 24f) +" days)");
+        tickLengthLabel.setText("tick length: "+tickLength+" hours");
         O2Label.setText("O2:     "
                 + numFormat.format(mySimEnvironment.getO2Store().getCurrentLevel()) + " moles");
         CO2Label.setText("CO2:   "

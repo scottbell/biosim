@@ -55,6 +55,8 @@ public abstract class StoreFlowRateControllableImpl extends
     public float getMostResourceFromStore(int indexOfStore) {
         if (getStores() == null)
             return 0f;
+        if (getStores().length <= indexOfStore)
+        	return 0f;
         float gatheredResource = 0f;
         float amountToTake = Math.min(getMaxFlowRate(indexOfStore), getDesiredFlowRate(indexOfStore));
         getActualFlowRates()[indexOfStore] = getStores()[indexOfStore].take(amountToTake);
@@ -247,6 +249,8 @@ public abstract class StoreFlowRateControllableImpl extends
     public float pushResourceToStore(float amountToPush, int indexOfStore) {
         if (getStores() == null)
             return 0f;
+        if (getStores().length <= indexOfStore)
+        	return 0f;
         float resourceRemaining = amountToPush;
         float resourceToDistributeFirst = Math.min(resourceRemaining, getMaxFlowRate(indexOfStore));
         float resourceToDistributeFinal = Math.min(resourceToDistributeFirst, getDesiredFlowRate(indexOfStore));

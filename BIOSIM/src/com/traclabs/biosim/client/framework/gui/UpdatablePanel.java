@@ -6,9 +6,13 @@ import javax.swing.JPanel;
  * 
  * @author Scott Bell
  */
-public abstract class UpdatablePanel extends JPanel {
-    public abstract void refresh();
+public class UpdatablePanel extends JPanel {
+    public void refresh(){
+    	
+    }
 
-    public abstract void visibilityChange(boolean nowVisible);
+    public void visibilityChange(boolean nowVisible){
+    	
+    }
 
 }

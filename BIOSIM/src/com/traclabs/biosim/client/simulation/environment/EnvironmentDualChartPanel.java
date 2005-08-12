@@ -9,12 +9,12 @@ import com.traclabs.biosim.client.framework.gui.UpdatablePanel;
  * 
  * @author Scott Bell
  */
-public class EnvironmentChartPanel extends UpdatablePanel {
+public class EnvironmentDualChartPanel extends UpdatablePanel {
     private UpdatablePanel myCrewEnvironmentPieChartPanel;
 
     private UpdatablePanel myPlantEnvironmentPieChartPanel;
 
-    public EnvironmentChartPanel() {
+    public EnvironmentDualChartPanel() {
         setLayout(new BorderLayout());
         myCrewEnvironmentPieChartPanel = new EnvironmentPieChartPanel("Crew");
         myPlantEnvironmentPieChartPanel = new EnvironmentPieChartPanel("Plant");
