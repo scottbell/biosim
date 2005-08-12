@@ -90,6 +90,8 @@ import com.traclabs.biosim.idl.simulation.food.BiomassStoreHelper;
 import com.traclabs.biosim.idl.simulation.food.FoodProcessorHelper;
 import com.traclabs.biosim.idl.simulation.food.FoodStoreHelper;
 import com.traclabs.biosim.idl.simulation.framework.AccumulatorHelper;
+import com.traclabs.biosim.idl.simulation.framework.EffluentValveHelper;
+import com.traclabs.biosim.idl.simulation.framework.InfluentValveHelper;
 import com.traclabs.biosim.idl.simulation.framework.InjectorHelper;
 import com.traclabs.biosim.idl.simulation.power.PowerPSHelper;
 import com.traclabs.biosim.idl.simulation.power.PowerStoreHelper;
@@ -448,6 +450,16 @@ public class BioHolderInitializer {
                 .narrow(grabModule(getModuleName(node))));
     }
 
+    private static void fetchInfluentValve(Node node) {
+        myBioHolder.theInfluentValves.add(InfluentValveHelper
+                .narrow(grabModule(getModuleName(node))));
+    }
+
+    private static void fetchEffluentValve(Node node) {
+        myBioHolder.theEffluentValves.add(EffluentValveHelper
+                .narrow(grabModule(getModuleName(node))));
+    }
+
     private static void crawlFrameworkModules(Node node) {
         Node child = node.getFirstChild();
         while (child != null) {
@@ -456,6 +468,10 @@ public class BioHolderInitializer {
                 fetchAccumulator(child);
             else if (childName.equals("Injector"))
                 fetchInjector(child);
+            else if (childName.equals("InfluentValve"))
+                fetchInfluentValve(child);
+            else if (childName.equals("EffluentValve"))
+                fetchEffluentValve(child);
             child = child.getNextSibling();
         }
     }

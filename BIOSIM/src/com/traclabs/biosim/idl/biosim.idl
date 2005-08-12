@@ -158,6 +158,8 @@ module com{
                                                 interface PassiveModule;
                                                 interface Injector;
                                                 interface Accumulator;
+                                                interface InfluentValve;
+                                                interface EffluentValve;
                                                 interface Store;
                                                 typedef sequence <Store> StoreList;
                                                 //Producers & Consumers
@@ -319,6 +321,14 @@ module com{
                                                 interface PassiveModule : SimBioModule{};
                                                 interface Accumulator : framework::SimBioModule, power::PowerConsumer, water::PotableWaterConsumer, water::GreyWaterConsumer, water::DirtyWaterConsumer, water::WaterConsumer, air::O2Consumer, air::CO2Consumer, air::NitrogenConsumer, environment::AirConsumer, food::BiomassConsumer, food::FoodConsumer, waste::DryWasteConsumer, power::PowerProducer, water::PotableWaterProducer, water::GreyWaterProducer, water::DirtyWaterProducer, air::O2Producer, air::CO2Producer, air::NitrogenProducer, environment::AirProducer, food::BiomassProducer, food::FoodProducer, waste::DryWasteProducer{};
                                                 interface Injector : framework::SimBioModule, power::PowerConsumer, water::PotableWaterConsumer, water::GreyWaterConsumer, water::DirtyWaterConsumer, water::WaterConsumer, air::O2Consumer, air::CO2Consumer, air::NitrogenConsumer, environment::AirConsumer, food::BiomassConsumer, food::FoodConsumer, waste::DryWasteConsumer, power::PowerProducer, water::PotableWaterProducer, water::GreyWaterProducer, water::DirtyWaterProducer, air::O2Producer, air::CO2Producer, air::NitrogenProducer, environment::AirProducer, food::BiomassProducer, food::FoodProducer, waste::DryWasteProducer{};
+                                                interface InfluentValve : framework::SimBioModule, power::PowerConsumer, water::PotableWaterConsumer, water::GreyWaterConsumer, water::DirtyWaterConsumer, water::WaterConsumer, air::O2Consumer, air::CO2Consumer, air::NitrogenConsumer, environment::AirConsumer, food::BiomassConsumer, food::FoodConsumer, waste::DryWasteConsumer, power::PowerProducer, water::PotableWaterProducer, water::GreyWaterProducer, water::DirtyWaterProducer, air::O2Producer, air::CO2Producer, air::NitrogenProducer, environment::AirProducer, food::BiomassProducer, food::FoodProducer, waste::DryWasteProducer{
+                                                		void setIndexOfInfluentStore(in long pIndexOfEffluentStore);
+                                                		long getIndexOfInfluentStore();
+                                                };
+                                                interface EffluentValve : framework::SimBioModule, power::PowerConsumer, water::PotableWaterConsumer, water::GreyWaterConsumer, water::DirtyWaterConsumer, water::WaterConsumer, air::O2Consumer, air::CO2Consumer, air::NitrogenConsumer, environment::AirConsumer, food::BiomassConsumer, food::FoodConsumer, waste::DryWasteConsumer, power::PowerProducer, water::PotableWaterProducer, water::GreyWaterProducer, water::DirtyWaterProducer, air::O2Producer, air::CO2Producer, air::NitrogenProducer, environment::AirProducer, food::BiomassProducer, food::FoodProducer, waste::DryWasteProducer{
+                                                		void setIndexOfEffluentStore(in long pIndexOfEffluentStore);
+                                                		long getIndexOfEffluentStore();
+                                                };
                                         };
                                         module crew{
                                                 interface Activity{
