@@ -80,6 +80,12 @@ import com.traclabs.biosim.idl.simulation.food.PlantType;
 import com.traclabs.biosim.idl.simulation.framework.Accumulator;
 import com.traclabs.biosim.idl.simulation.framework.AccumulatorHelper;
 import com.traclabs.biosim.idl.simulation.framework.AccumulatorPOATie;
+import com.traclabs.biosim.idl.simulation.framework.EffluentValve;
+import com.traclabs.biosim.idl.simulation.framework.EffluentValveHelper;
+import com.traclabs.biosim.idl.simulation.framework.EffluentValvePOATie;
+import com.traclabs.biosim.idl.simulation.framework.InfluentValve;
+import com.traclabs.biosim.idl.simulation.framework.InfluentValveHelper;
+import com.traclabs.biosim.idl.simulation.framework.InfluentValvePOATie;
 import com.traclabs.biosim.idl.simulation.framework.Injector;
 import com.traclabs.biosim.idl.simulation.framework.InjectorHelper;
 import com.traclabs.biosim.idl.simulation.framework.InjectorPOATie;
@@ -1170,6 +1176,44 @@ public class SimulationInitializer {
         configureSimBioModule(myInjector, node);
         myActiveSimModules.add(myInjector);
     }
+    
+    private void createInfluentValve(Node node) {
+        String moduleName = BiosimInitializer.getModuleName(node);
+        if (BiosimInitializer.isCreatedLocally(node)) {
+            myLogger.debug("Creating InfluentValve with moduleName: " + moduleName);
+            InfluentValveImpl myInfluentValveImpl = new InfluentValveImpl(myID, moduleName);
+            BiosimInitializer.setupBioModule(myInfluentValveImpl, node);
+            BiosimServer.registerServer(new InfluentValvePOATie(myInfluentValveImpl),
+                    myInfluentValveImpl.getModuleName(), myInfluentValveImpl.getID());
+        } else
+            BiosimInitializer.printRemoteWarningMessage(moduleName);
+    }
+
+    private void configureInfluentValve(Node node) {
+        InfluentValve myInfluentValve = InfluentValveHelper.narrow(BiosimInitializer.grabModule(
+                myID, BiosimInitializer.getModuleName(node)));
+        configureSimBioModule(myInfluentValve, node);
+        myActiveSimModules.add(myInfluentValve);
+    }
+    
+    private void createEffluentValve(Node node) {
+        String moduleName = BiosimInitializer.getModuleName(node);
+        if (BiosimInitializer.isCreatedLocally(node)) {
+            myLogger.debug("Creating EffluentValve with moduleName: " + moduleName);
+            EffluentValveImpl myEffluentValveImpl = new EffluentValveImpl(myID, moduleName);
+            BiosimInitializer.setupBioModule(myEffluentValveImpl, node);
+            BiosimServer.registerServer(new EffluentValvePOATie(myEffluentValveImpl),
+                    myEffluentValveImpl.getModuleName(), myEffluentValveImpl.getID());
+        } else
+            BiosimInitializer.printRemoteWarningMessage(moduleName);
+    }
+
+    private void configureEffluentValve(Node node) {
+        EffluentValve myEffluentValve = EffluentValveHelper.narrow(BiosimInitializer.grabModule(
+                myID, BiosimInitializer.getModuleName(node)));
+        configureSimBioModule(myEffluentValve, node);
+        myActiveSimModules.add(myEffluentValve);
+    }
 
     private void crawlFrameworkModules(Node node, boolean firstPass) {
         Node child = node.getFirstChild();
@@ -1185,6 +1229,16 @@ public class SimulationInitializer {
                     createInjector(child);
                 else
                     configureInjector(child);
+            } else if (childName.equals("InfluentValve")) {
+                if (firstPass)
+                    createInfluentValve(child);
+                else
+                    configureInfluentValve(child);
+            } else if (childName.equals("EffluentValve")) {
+                if (firstPass)
+                    createEffluentValve(child);
+                else
+                    configureEffluentValve(child);
             }
             child = child.getNextSibling();
         }

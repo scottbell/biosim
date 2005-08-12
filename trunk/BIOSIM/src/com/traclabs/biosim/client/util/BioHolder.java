@@ -96,6 +96,8 @@ import com.traclabs.biosim.idl.simulation.food.FoodProcessor;
 import com.traclabs.biosim.idl.simulation.food.FoodStore;
 import com.traclabs.biosim.idl.simulation.food.Shelf;
 import com.traclabs.biosim.idl.simulation.framework.Accumulator;
+import com.traclabs.biosim.idl.simulation.framework.EffluentValve;
+import com.traclabs.biosim.idl.simulation.framework.InfluentValve;
 import com.traclabs.biosim.idl.simulation.framework.Injector;
 import com.traclabs.biosim.idl.simulation.framework.SimBioModule;
 import com.traclabs.biosim.idl.simulation.power.PowerPS;
@@ -166,6 +168,10 @@ public class BioHolder {
     public List<Accumulator> theAccumulators = new Vector<Accumulator>();
 
     public List<Injector> theInjectors = new Vector<Injector>();
+
+    public List<InfluentValve> theInfluentValves = new Vector<InfluentValve>();
+    
+    public List<EffluentValve> theEffluentValves = new Vector<EffluentValve>();
 
     //Power
     public List<PowerPS> thePowerPSModules = new Vector<PowerPS>();
@@ -437,6 +443,8 @@ public class BioHolder {
         //Framework
         theSimModules.addAll(theAccumulators);
         theSimModules.addAll(theInjectors);
+        theSimModules.addAll(theInfluentValves);
+        theSimModules.addAll(theEffluentValves);
         //Power
         theSimModules.addAll(thePowerPSModules);
         theSimModules.addAll(thePowerStores);
@@ -576,6 +584,8 @@ public class BioHolder {
         //Framework
         theAccumulators.clear();
         theInjectors.clear();
+        theInfluentValves.clear();
+        theEffluentValves.clear();
         //Power
         thePowerPSModules.clear();
         thePowerStores.clear();

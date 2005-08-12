@@ -30,7 +30,7 @@ import com.traclabs.biosim.idl.simulation.food.FoodConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.food.FoodConsumerOperations;
 import com.traclabs.biosim.idl.simulation.food.FoodProducerDefinition;
 import com.traclabs.biosim.idl.simulation.food.FoodProducerOperations;
-import com.traclabs.biosim.idl.simulation.framework.AccumulatorOperations;
+import com.traclabs.biosim.idl.simulation.framework.InfluentValveOperations;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.idl.simulation.power.PowerProducerDefinition;
@@ -92,7 +92,7 @@ import com.traclabs.biosim.server.simulation.water.WaterProducerDefinitionImpl;
  */
 
 public class InfluentValveImpl extends SimBioModuleImpl implements
-		AccumulatorOperations, PowerConsumerOperations,
+		InfluentValveOperations, PowerConsumerOperations,
 		PotableWaterConsumerOperations, GreyWaterConsumerOperations,
 		WaterConsumerOperations, DirtyWaterConsumerOperations,
 		O2ConsumerOperations, CO2ConsumerOperations, AirConsumerOperations,
