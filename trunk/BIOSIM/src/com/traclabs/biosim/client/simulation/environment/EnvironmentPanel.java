@@ -18,7 +18,7 @@ public class EnvironmentPanel extends SimTabbedPanel {
     		myTextPanel = new EnvironmentSingleTextPanel();
             myChartPanel = new EnvironmentSingleChartPanel();
     	}
-    	else if (myBioHolder.theSimEnvironments.size() == 2){
+    	else if (myBioHolder.theSimEnvironments.size() >= 2){
     		myTextPanel = new EnvironmentDualTextPanel();
             myChartPanel = new EnvironmentDualChartPanel();
     	}

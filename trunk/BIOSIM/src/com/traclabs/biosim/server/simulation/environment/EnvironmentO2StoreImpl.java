@@ -7,4 +7,10 @@ public class EnvironmentO2StoreImpl extends EnvironmentStoreImpl implements Envi
 	public EnvironmentO2StoreImpl(SimEnvironmentImpl pSimEnvironmentImpl) {
 		super(pSimEnvironmentImpl);
 	}
+	
+	public float take(float amountRequested) {
+		float result = super.take(amountRequested);
+		myLogger.debug("taking "+amountRequested + " current level ="+getNonCachedLevel());
+        return result;
+    }
 }

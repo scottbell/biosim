@@ -366,4 +366,8 @@ public abstract class StoreImpl extends PassiveModuleImpl implements
     public float getInitialLevel() {
         return initialLevel;
     }
+    
+    protected float getNonCachedLevel(){
+    	return currentLevel;
+    }
 }
