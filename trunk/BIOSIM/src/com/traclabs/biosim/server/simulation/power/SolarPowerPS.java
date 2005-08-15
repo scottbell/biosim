@@ -19,7 +19,7 @@ public class SolarPowerPS extends PowerPSImpl {
                 .getEnvironments()[0];
         //Varying stream of power
         if (lightInput != null) {
-            float powerGenerated = getTickInterval() * getCurrentUpperPowerGeneration()
+            float powerGenerated = getTickLength() * getCurrentUpperPowerGeneration()
                     * (lightInput.getLightIntensity() / lightInput
                             .getMaxLumens());
             return randomFilter(powerGenerated);

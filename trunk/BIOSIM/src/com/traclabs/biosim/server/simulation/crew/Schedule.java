@@ -49,7 +49,7 @@ public class Schedule {
         ActivityImpl bornActivityImpl = new ActivityImpl("born", 0, 0);
         ActivityImpl deadActivityImpl = new ActivityImpl("dead", 0, 0);
         ActivityImpl absentActivityImpl = new ActivityImpl("absent", 0, 0);
-        ActivityImpl sickActivityImpl = new ActivityImpl("sick", (int)(Math.ceil(12 / myCrewGroupImpl.getTickInterval())), 1);
+        ActivityImpl sickActivityImpl = new ActivityImpl("sick", (int)(Math.ceil(12 / myCrewGroupImpl.getTickLength())), 1);
         myBornActivity = ActivityHelper.narrow(OrbUtils
                 .poaToCorbaObj(bornActivityImpl));
         myDeadActivity = ActivityHelper.narrow(OrbUtils

@@ -66,7 +66,7 @@ public class BWP extends WaterRSSubSystem {
         } else {
             waterNeeded = NORMAL_WATER_NEEDED;
         }
-        waterNeeded *= myWaterRS.getTickInterval();
+        waterNeeded *= myWaterRS.getTickLength();
         currentDirtyWaterConsumed = myWaterRS
                 .getDirtyWaterConsumerDefinitionImpl().getResourceFromStores(
                         waterNeeded);

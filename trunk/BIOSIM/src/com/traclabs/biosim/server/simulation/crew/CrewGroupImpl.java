@@ -13,6 +13,7 @@ import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroupOperations;
+import com.traclabs.biosim.idl.simulation.crew.CrewGroupPOATie;
 import com.traclabs.biosim.idl.simulation.crew.CrewPerson;
 import com.traclabs.biosim.idl.simulation.crew.CrewPersonHelper;
 import com.traclabs.biosim.idl.simulation.crew.RepairActivity;
@@ -144,18 +145,14 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
      * @return the crew person just created
      */
     public CrewPerson createCrewPerson(String pName, float pAge, float pWeight,
-            Sex pSex, int pArrivalTick, int pDepartureTick, CrewGroup crewGroup) {
-        CrewPersonImpl newCrewPersonImpl = new CrewPersonImpl(pName, pAge,
-                pWeight, pSex, pArrivalTick, pDepartureTick, this, crewGroup);
-        CrewPerson newCrewPerson = CrewPersonHelper.narrow((OrbUtils
-                .poaToCorbaObj(newCrewPersonImpl)));
-        crewPeople.put(pName, newCrewPerson);
-        return newCrewPerson;
+            Sex pSex, int pArrivalTick, int pDepartureTick) {
+        return createCrewPerson(pName, pAge, pWeight, pSex, pArrivalTick, pDepartureTick);
     }
 
     public CrewPerson createCrewPerson(String pName, float pAge, float pWeight,
-            Sex pSex, int pArrivalTick, int pDepartureTick, Schedule pSchedule,
-            CrewGroup crewGroup) {
+            Sex pSex, int pArrivalTick, int pDepartureTick, Schedule pSchedule) {
+    	CrewGroupPOATie tie = new CrewGroupPOATie(this);
+    	CrewGroup crewGroup = tie._this(OrbUtils.getORB());
         CrewPersonImpl newCrewPersonImpl = new CrewPersonImpl(pName, pAge,
                 pWeight, pSex, pArrivalTick, pDepartureTick, this, crewGroup,
                 pSchedule);
@@ -163,6 +160,10 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
                 .poaToCorbaObj(newCrewPersonImpl)));
         crewPeople.put(pName, newCrewPerson);
         return newCrewPerson;
+    }
+    
+    public CrewPerson createCrewPerson() {
+        return createCrewPerson("UnnamedAstronaut"+ (getCrewSize() + 1), 30f, 75f, Sex.male, 0, Integer.MAX_VALUE);
     }
 
     /**

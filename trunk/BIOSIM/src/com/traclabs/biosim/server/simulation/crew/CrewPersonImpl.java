@@ -661,7 +661,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
         float averagePercentFull = (caloriePercentFull + waterPercentFull
                 + oxygenPercentFull + CO2PercentFull + sleepPercentFull + leisurePercentFull) / 6f;
         myMissionProductivity += myBaseCrewGroupImpl
-                .randomFilter(averagePercentFull * getCurrentCrewGroup().getTickInterval());
+                .randomFilter(averagePercentFull * getCurrentCrewGroup().getTickLength());
     }
 
     /**
@@ -768,7 +768,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
         // hour
         float idealGasConstant = 0.08206f;
         float resultInMoles = (resultInLiters) / (idealGasConstant * 298); //moles per hour
-        float adjustForTickLength = resultInMoles * getCurrentCrewGroup().getTickInterval();
+        float adjustForTickLength = resultInMoles * getCurrentCrewGroup().getTickLength();
         myLogger.info("resultInMoles "+resultInMoles);
         myLogger.info("adjustForTickLength "+adjustForTickLength);
         return myBaseCrewGroupImpl.randomFilter(adjustForTickLength); //Liters/tick
@@ -829,7 +829,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
         //make it for one hour
         joulesNeeded /= 24f;
         //make it for the tick interval
-        joulesNeeded *= getCurrentCrewGroup().getTickInterval();
+        joulesNeeded *= getCurrentCrewGroup().getTickLength();
         caloriesNeeded = joulesNeeded / 4.2f;
         return myBaseCrewGroupImpl.randomFilter(caloriesNeeded);
     }
@@ -892,7 +892,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
      */
     private float calculateCleanWaterNeeded(int currentActivityIntensity) {
         if (currentActivityIntensity > 0)
-            return myBaseCrewGroupImpl.randomFilter(0.1667f * getCurrentCrewGroup().getTickInterval());
+            return myBaseCrewGroupImpl.randomFilter(0.1667f * getCurrentCrewGroup().getTickLength());
 		return myBaseCrewGroupImpl.randomFilter(0f);
     }
 
@@ -937,7 +937,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
     }
 
     private void recoverCrew() {
-    	float tickInterval = getCurrentCrewGroup().getTickInterval();
+    	float tickInterval = getCurrentCrewGroup().getTickLength();
         consumedCaloriesBuffer.add(CALORIE_RECOVERY_RATE
                 * consumedCaloriesBuffer.getCapacity() * tickInterval);
         consumedWaterBuffer.add(WATER_RECOVERY_RATE
@@ -953,7 +953,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
      * member.
      */
     private void afflictCrew() {
-    	float tickInterval = getCurrentCrewGroup().getTickInterval();
+    	float tickInterval = getCurrentCrewGroup().getTickLength();
         sleepBuffer.take(1 * tickInterval);
         leisureBuffer.take(1 * tickInterval);
         consumedCaloriesBuffer.take(caloriesNeeded - caloriesConsumed);

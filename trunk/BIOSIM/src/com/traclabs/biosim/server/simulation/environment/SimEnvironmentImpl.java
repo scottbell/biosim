@@ -106,7 +106,11 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
     	setInitialVolume(O2Moles, CO2Moles, otherMoles, waterMoles, nitrogenMoles, pVolume);
 	}
 
-    private void createPOAObjects() {
+    public SimEnvironmentImpl() {
+    	this(0, 100000, "Unnamed Environment");
+	}
+
+	private void createPOAObjects() {
     	EnvironmentO2StorePOATie O2Tie = new EnvironmentO2StorePOATie(myO2StoreImpl);
     	myO2Store = O2Tie._this(OrbUtils.getORB());
     	
@@ -226,11 +230,11 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
             if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF) {
                 malfunctionLeakRate = 0f;
                 if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
-                    malfunctionLeakRate = .20f * getTickInterval();
+                    malfunctionLeakRate = .20f * getTickLength();
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
-                    malfunctionLeakRate = .10f * getTickInterval();
+                    malfunctionLeakRate = .10f * getTickLength();
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
-                    malfunctionLeakRate = .05f * getTickInterval();
+                    malfunctionLeakRate = .05f * getTickLength();
                 performLeak(malfunctionLeakRate);
             } else if ((currentMalfunction.getLength() == MalfunctionLength.PERMANENT_MALF)
                     && (!currentMalfunction.hasPerformed())) {
@@ -263,7 +267,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
 
     private void calculateLightIntensity() {
         lightIntensity = (float) (maxLumens * Math.pow(Math.sin(Math.PI
-                / dayLength * (getMyTicks() * getTickInterval() - hourOfDayStart)), 2f));
+                / dayLength * (getMyTicks() * getTickLength() - hourOfDayStart)), 2f));
     }
 
     /**

@@ -14,4 +14,8 @@ public class DryWasteStoreImpl extends StoreImpl implements
     public DryWasteStoreImpl(int pID, String pName) {
         super(pID, pName);
     }
+
+	public DryWasteStoreImpl() {
+		this(0, "Unnamed Dry Waste Store");
+	}
 }
