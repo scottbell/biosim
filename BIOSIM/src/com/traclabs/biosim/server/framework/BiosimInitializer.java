@@ -1,5 +1,6 @@
 package com.traclabs.biosim.server.framework;
 
+import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -51,7 +52,10 @@ public class BiosimInitializer {
      * (http://apache.org/xml/features/validation/schema-full-checking).
      */
     private static final String SCHEMA_FULL_CHECKING_FEATURE_ID = "http://apache.org/xml/features/validation/schema-full-checking";
-
+    
+    private static final String SCHEMA_LOCATION_LABEL = "http://apache.org/xml/properties/schema/external-noNamespaceSchemaLocation";
+    private static final String SCHEMA_LOCATION_VALUE = "com/traclabs/biosim/server/framework/BiosimInitSchema.xsd";
+    
     // default settings
     /** Default moduleNamespaces support (true). */
     private static final boolean DEFAULT_NAMESPACES = true;
@@ -96,6 +100,12 @@ public class BiosimInitializer {
                     DEFAULT_SCHEMA_FULL_CHECKING);
             myParser.setFeature(VALIDATION_FEATURE_ID, DEFAULT_VALIDATION);
             myParser.setFeature(NAMESPACES_FEATURE_ID, DEFAULT_NAMESPACES);
+            URL foundURL = BiosimInitializer.class.getClassLoader().getResource(SCHEMA_LOCATION_VALUE);
+            if (foundURL != null){
+            	String urlString = foundURL.toString();
+            	if (urlString.length() > 0)
+                    myParser.setProperty(SCHEMA_LOCATION_LABEL, urlString);
+            }
         } catch (SAXException e) {
             myLogger.error("warning: Parser does not support feature ("
                     + NAMESPACES_FEATURE_ID + ")");
