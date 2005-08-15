@@ -4,6 +4,8 @@
  */
 package com.traclabs.biosim.server.simulation.food.photosynthesis;
 
+import com.traclabs.biosim.util.OrbUtils;
+
 import junit.framework.TestCase;
 
 /**
@@ -26,6 +28,7 @@ public class Photosystem1Test extends TestCase {
      */
     protected void setUp() throws Exception {
         super.setUp();
+        OrbUtils.initializeLog();
         myPlastocyanin = new Plastocyanin();
         myChloroplast = new Chloroplast();
         myFerredoxin = new Ferredoxin();

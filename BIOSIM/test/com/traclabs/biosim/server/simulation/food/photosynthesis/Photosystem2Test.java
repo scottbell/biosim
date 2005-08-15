@@ -11,7 +11,7 @@ import junit.framework.TestCase;
  * 
  */
 public class Photosystem2Test extends TestCase {
-    private final static int ITERATIONS_TO_RUN = 1892;
+    private final static int ITERATIONS_TO_RUN = 102;
 
     private Photosystem2 myPhotosystem2;
 
