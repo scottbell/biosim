@@ -15,4 +15,8 @@ public class DirtyWaterStoreImpl extends StoreImpl implements
     public DirtyWaterStoreImpl(int pID, String pName) {
         super(pID, pName);
     }
+
+	public DirtyWaterStoreImpl() {
+		this(0, "Unnamed DirtyWaterStore");
+	}
 }

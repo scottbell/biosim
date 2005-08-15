@@ -87,7 +87,11 @@ public class StoreImpl extends PassiveModuleImpl implements
         currentCapacity = cachedCapacity = initialCapacity = pInitialCapacity;
     }
 
-    /**
+    public StoreImpl() {
+		this(0, "Unnamed Store");
+	}
+
+	/**
      * If this store acts like a pipe. dynamic capcity == currentLevel ==
      * whatever is added THIS tick (0 if nothing added, maxFlowRate should
      * dictate pipe size, infinite otherwise)
@@ -199,11 +203,11 @@ public class StoreImpl extends PassiveModuleImpl implements
             if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF) {
                 float leakRate = 0f;
                 if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
-                    leakRate = .20f * getTickInterval();
+                    leakRate = .20f * getTickLength();
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
-                	leakRate = .10f * getTickInterval();
+                	leakRate = .10f * getTickLength();
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
-                	leakRate = .05f * getTickInterval();
+                	leakRate = .05f * getTickLength();
                 currentLevel -= (currentLevel * leakRate);
                 currentMalfunction.setPerformed(true);
             } else if ((currentMalfunction.getLength() == MalfunctionLength.PERMANENT_MALF)

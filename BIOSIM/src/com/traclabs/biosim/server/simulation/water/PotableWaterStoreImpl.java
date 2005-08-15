@@ -15,4 +15,8 @@ public class PotableWaterStoreImpl extends StoreImpl implements
     public PotableWaterStoreImpl(int pID, String pName) {
         super(pID, pName);
     }
+
+	public PotableWaterStoreImpl() {
+		this(0, "Unnamed PotableWaterStore");
+	}
 }

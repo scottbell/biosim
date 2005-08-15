@@ -107,7 +107,7 @@ public class CRSImpl extends SimBioModuleImpl implements CRSOperations,
     }
 
     private void gatherH2andCO2() {
-        float CO2Needed = currentPowerConsumed * LINEAR_MULTIPLICATIVE_FACTOR * getTickInterval();
+        float CO2Needed = currentPowerConsumed * LINEAR_MULTIPLICATIVE_FACTOR * getTickLength();
         float H2Needed = CO2Needed * 4f;
         float filteredCO2Needed = randomFilter(CO2Needed);
         float filteredH2Needed = randomFilter(H2Needed);

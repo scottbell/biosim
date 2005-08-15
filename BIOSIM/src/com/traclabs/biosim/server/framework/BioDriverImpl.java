@@ -467,7 +467,7 @@ public class BioDriverImpl extends BioDriverPOA {
         ticksGoneBy = 0;
         for (BioModule currentBioModule : modules) {
             currentBioModule.reset();
-            currentBioModule.setTickInterval(getTickLength());
+            currentBioModule.setTickLength(getTickLength());
 		}
     }
 

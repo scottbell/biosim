@@ -192,7 +192,7 @@ public class IncineratorImpl extends SimBioModuleImpl implements
      * for one tick.
      */
     private void gatherPower() {
-    	float powerNeeded = POWER_NEEDED_BASE * getTickInterval();
+    	float powerNeeded = POWER_NEEDED_BASE * getTickLength();
         currentPowerConsumed = myPowerConsumerDefinitionImpl
                 .getResourceFromStores(powerNeeded);
         if (currentPowerConsumed < powerNeeded)
@@ -206,7 +206,7 @@ public class IncineratorImpl extends SimBioModuleImpl implements
      * Incinerator optimally for one tick.
      */
     private void gatherDryWaste() {
-    	float dryWasteNeeded = DRY_WASTE_NEEDED_BASE * getTickInterval();
+    	float dryWasteNeeded = DRY_WASTE_NEEDED_BASE * getTickLength();
         currentDryWasteConsumed = myDryWasteConsumerDefinitionImpl
                 .getResourceFromStores(dryWasteNeeded);
         if (currentDryWasteConsumed < dryWasteNeeded)
@@ -220,7 +220,7 @@ public class IncineratorImpl extends SimBioModuleImpl implements
      * optimally for one tick.
      */
     private void gatherO2() {
-    	float o2Needed = O2_NEEDED_BASE * getTickInterval();
+    	float o2Needed = O2_NEEDED_BASE * getTickLength();
         currentO2Consumed = myO2ConsumerDefinitionImpl
                 .getResourceFromStores(o2Needed);
         if (currentO2Consumed < o2Needed)

@@ -953,7 +953,7 @@ public class SimulationInitializer {
             e.printStackTrace();
         }
         pCrewGroupImpl.createCrewPerson(name, age, weight, sex, arrivalDate,
-                departureDate, schedule, pCrewGroup);
+                departureDate, schedule);
     }
 
     private void createCrewGroup(Node node) {

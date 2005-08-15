@@ -27,7 +27,11 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
         myOriginalMatter = new FoodMatter(0, 0, PlantType.UNKNOWN_PLANT);
     }
 
-    public float add(float pMass) {
+    public FoodStoreImpl() {
+		this(0, "Unnamed Food Store");
+	}
+
+	public float add(float pMass) {
         FoodMatter newFoodMatter = new FoodMatter(pMass, 0,
                 PlantType.UNKNOWN_PLANT);
         return addFoodMatterMass(newFoodMatter);

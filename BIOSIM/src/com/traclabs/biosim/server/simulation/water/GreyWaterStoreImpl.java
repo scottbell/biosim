@@ -16,4 +16,8 @@ public class GreyWaterStoreImpl extends StoreImpl implements
     public GreyWaterStoreImpl(int pID, String pName) {
         super(pID, pName);
     }
+
+	public GreyWaterStoreImpl() {
+		this(0, "Unnamed GreyWaterStore");
+	}
 }

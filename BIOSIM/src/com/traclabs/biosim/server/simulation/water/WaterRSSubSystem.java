@@ -54,7 +54,7 @@ public abstract class WaterRSSubSystem {
     public WaterRSSubSystem(WaterRSImpl pWaterRSImpl) {
         myWaterRS = pWaterRSImpl;
         myLogger = Logger.getLogger(this.getClass());
-        currentPowerNeeded = basePowerNeeded * myWaterRS.getTickInterval();
+        currentPowerNeeded = basePowerNeeded * myWaterRS.getTickLength();
     }
 
     /**
@@ -93,7 +93,7 @@ public abstract class WaterRSSubSystem {
         if (enabled)
             currentPowerNeeded = 0;
         else
-            currentPowerNeeded = basePowerNeeded * myWaterRS.getTickInterval();
+            currentPowerNeeded = basePowerNeeded * myWaterRS.getTickLength();
     }
 
     public void setMalfunctioning(boolean pMalfunctioning) {

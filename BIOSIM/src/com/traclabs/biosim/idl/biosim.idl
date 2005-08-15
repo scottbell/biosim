@@ -385,7 +385,7 @@ module com{
                                                 };
                                                 interface CrewGroup : framework::SimBioModule, environment::AirConsumer, water::PotableWaterConsumer, food::FoodConsumer, environment::AirProducer, water::GreyWaterProducer, water::DirtyWaterProducer, waste::DryWasteProducer{
                                                         CrewPerson getCrewPerson(in string name);
-                                                        CrewPerson createCrewPerson(in string name, in float age, in float weight, in Sex pSex, in long arrivalTick, in long departureTick, in CrewGroup pCrewGroup);
+                                                        CrewPerson createCrewPerson(in string name, in float age, in float weight, in Sex pSex, in long arrivalTick, in long departureTick);
                                                         CrewPersonList getCrewPeople();
                                                         void scheduleRepair(in string moduleName, in long long malfunctionID, in long timeLength);
                                                         long getCrewSize();

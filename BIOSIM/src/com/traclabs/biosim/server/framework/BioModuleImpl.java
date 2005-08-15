@@ -63,6 +63,25 @@ public abstract class BioModuleImpl extends BioModulePOA {
     protected TechSpecificInfo myTechSpecificInfo;
 
     protected Logger myLogger;
+    
+    /**
+     * Constructor to create a BioModule, should only be called by those
+     * deriving from BioModule.
+     * 
+     * @param pID
+     *            The unique ID for this module (all the modules this module
+     *            communicates with should have the same ID)
+     * @param pName
+     *            The name of the module
+     */
+    protected BioModuleImpl() {
+        myLogger = Logger.getLogger(this.getClass());
+        myRandomGen = new Random();
+        myMalfunctions = new Hashtable<Long, Malfunction>();
+        myScheduledMalfunctions = new Vector<MalfunctionImpl>();
+        myName = "Unnamed "+getClass() + " ";
+        myID = 0;
+    }
 
     /**
      * Constructor to create a BioModule, should only be called by those
@@ -106,7 +125,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
     }
 
     private void checkBreakdownRisk() {
-        breakdownFactor += 0.01f * getTickInterval();
+        breakdownFactor += 0.01f * getTickLength();
         float breakdownReturn = breakdownFunction(breakdownFactor);
         float randomNumber = myRandomGen.nextFloat();
         if (breakdownReturn <= randomNumber)
@@ -255,7 +274,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
             MalfunctionLength pLength) {
         String malfunctionName = getMalfunctionName(pIntensity, pLength);
         MalfunctionImpl newMalfunctionImpl = new MalfunctionImpl(
-                malfunctionName, pIntensity, pLength, getTickInterval());
+                malfunctionName, pIntensity, pLength, getTickLength());
         Malfunction newMalfunction = MalfunctionHelper.narrow(OrbUtils
                 .poaToCorbaObj(newMalfunctionImpl));
         myMalfunctions.put((new Long(newMalfunction.getID())), newMalfunction);
@@ -287,7 +306,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
             MalfunctionLength pLength, int tickToOccur) {
         String malfunctionName = getMalfunctionName(pIntensity, pLength);
         MalfunctionImpl newMalfunctionImpl = new MalfunctionImpl(
-                malfunctionName, pIntensity, pLength, getTickInterval());
+                malfunctionName, pIntensity, pLength, getTickLength());
         newMalfunctionImpl.setTickToMalfunction(tickToOccur);
         myScheduledMalfunctions.add(newMalfunctionImpl);
     }
@@ -355,7 +374,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
      * IMPLEMENTED YET
      */
     public void maitenance() {
-        breakdownFactor -= 0.2f * getTickInterval();
+        breakdownFactor -= 0.2f * getTickLength();
         if (breakdownFactor < 0f)
             breakdownFactor = 0f;
     }
@@ -515,11 +534,11 @@ public abstract class BioModuleImpl extends BioModulePOA {
         myName =  pName;
     }
     
-    public float getTickInterval(){
+    public float getTickLength(){
     	return myTickInterval;
     }
     
-    public void setTickInterval(float pInterval){
+    public void setTickLength(float pInterval){
     	myTickInterval = pInterval;
     }
 }
