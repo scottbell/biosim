@@ -17,7 +17,7 @@ import com.traclabs.biosim.idl.simulation.framework.StoreOperations;
  * @author Scott Bell
  */
 
-public abstract class StoreImpl extends PassiveModuleImpl implements
+public class StoreImpl extends PassiveModuleImpl implements
         StoreOperations {
     //The currentLevel of whatever this store is holding (at t)
     protected float currentLevel = 0f;
@@ -117,7 +117,9 @@ public abstract class StoreImpl extends PassiveModuleImpl implements
 
     public void setInitialCapacity(float metricAmount) {
         initialCapacity = metricAmount;
-        setCurrentLevel(metricAmount);
+        setCurrentCapacity(metricAmount);
+        if (currentLevel > initialCapacity)
+        	setInitialLevel(initialCapacity);
     }
 
     /**
