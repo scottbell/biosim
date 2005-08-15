@@ -3,8 +3,6 @@
 	<Globals>
 		<comment>initialization for Matlab test</comment>
 		<author>Scott Bell</author>
-		<log4jProperty moduleName="log4j.logger.com.traclabs.biosim.server.simulation.water" value="DEBUG"/>
-		<log4jProperty moduleName="log4j.logger.com.traclabs.biosim.server.util.MatlabAceEngine" value="DEBUG"/>
 	</Globals>
 	<SimBioModules>
 		<power>

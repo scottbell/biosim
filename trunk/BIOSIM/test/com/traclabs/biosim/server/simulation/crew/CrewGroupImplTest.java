@@ -7,7 +7,7 @@ public class CrewGroupImplTest extends TestCase {
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		
+		myCrewGroup = new CrewGroupImpl(0, "TestCrewGroup");
 	}
 
 	protected void tearDown() throws Exception {
