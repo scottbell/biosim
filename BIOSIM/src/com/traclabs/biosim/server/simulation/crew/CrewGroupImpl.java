@@ -83,10 +83,14 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     private List<String> crewScheduledForRemoval;
 
     private List<CrewPerson> crewScheduledForAddition;
-
+    
     /**
      * Default constructor. Uses a default schedule.
      */
+    public CrewGroupImpl() {
+    	this(0, "Unnamed CrewGroup");
+    }
+
     public CrewGroupImpl(int pID, String pName) {
         super(pID, pName);
         crewScheduledForRemoval = new Vector<String>();
