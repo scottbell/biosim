@@ -2,6 +2,7 @@ package com.traclabs.biosim.server.simulation.crew;
 
 import junit.framework.TestCase;
 
+import com.traclabs.biosim.idl.simulation.crew.ActivityHelper;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroupPOATie;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
@@ -40,9 +41,12 @@ public class CrewGroupImplTest extends TestCase {
 
 	protected void setUp() throws Exception {
 		super.setUp();
+		OrbUtils.startDebugNameServer();
+		OrbUtils.initializeServerForDebug();
 		CrewGroupImpl crewGroupImpl = new CrewGroupImpl();
 		for (int i = 0; i < 4; i++)
-			crewGroupImpl.createCrewPerson();
+			crewGroupImpl.createCrewPerson(createGenericSchedule(crewGroupImpl));
+		
 		myCrewGroup = (new CrewGroupPOATie(crewGroupImpl))._this(OrbUtils.getORB());
 		//initialize stores
 		mySimEnvironment = (new SimEnvironmentPOATie(new SimEnvironmentImpl()))._this(OrbUtils.getORB());
@@ -54,7 +58,10 @@ public class CrewGroupImplTest extends TestCase {
 		
 		myCrewGroup.getAirConsumerDefinition().setAirInputs(new SimEnvironment[] {mySimEnvironment}, new float[] {1000f}, new float[] {1000f});
 		myCrewGroup.getPotableWaterConsumerDefinition().setPotableWaterInputs(new PotableWaterStore[] {myPotableWaterStore}, new float[] {1000f}, new float[] {1000f});
-		
+		myCrewGroup.getFoodConsumerDefinition().setFoodInputs(new FoodStore[] {myFoodStore}, new float[] {1000f}, new float[] {1000f});
+		myCrewGroup.getGreyWaterProducerDefinition().setGreyWaterOutputs(new GreyWaterStore[] {myGreyWaterStore}, new float[] {1000f}, new float[] {1000f});
+		myCrewGroup.getDirtyWaterProducerDefinition().setDirtyWaterOutputs(new DirtyWaterStore[] {myDirtyWaterStore}, new float[] {1000f}, new float[] {1000f});
+		myCrewGroup.getDryWasteProducerDefinition().setDryWasteOutputs(new DryWasteStore[] {myDryWasteStore}, new float[] {1000f}, new float[] {1000f});
 	}
 
 	protected void tearDown() throws Exception {
@@ -65,7 +72,17 @@ public class CrewGroupImplTest extends TestCase {
 	 * Test method for 'com.traclabs.biosim.server.simulation.crew.CrewGroup.tick()'
 	 */
 	public void testTick() {
-		
+		myCrewGroup.tick();
 	}
+	
+
+    public Schedule createGenericSchedule(CrewGroupImpl myCrewGroupImpl){
+    	Schedule theSchedule = new Schedule(myCrewGroupImpl);
+        ActivityImpl missionActivityImpl = new ActivityImpl("mission", 15, 3);
+        ActivityImpl sleepActivityImpl = new ActivityImpl("sleep",8, 1);
+        theSchedule.insertActivityInSchedule(ActivityHelper.narrow(OrbUtils.poaToCorbaObj(missionActivityImpl)));
+        theSchedule.insertActivityInSchedule(ActivityHelper.narrow(OrbUtils.poaToCorbaObj(sleepActivityImpl)));
+        return theSchedule;
+    }
 
 }

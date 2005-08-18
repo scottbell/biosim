@@ -45,6 +45,8 @@ public class OrbUtils {
     private static final int DEBUG_CLIENT_OA_PORT = 16311;
 
     private static final String ORB_CLASS = "org.jacorb.orb.ORB";
+    
+    private static Thread myNamingServiceThread;
 
     /**
      * Shouldn't be called (everything static!)
@@ -318,7 +320,9 @@ public class OrbUtils {
     }
     
     public static void startDebugNameServer(){
-        Thread myNamingServiceThread = new Thread(new NamingServiceThread());
+    	if (myNamingServiceThread != null)
+    		return;
+        myNamingServiceThread = new Thread(new NamingServiceThread());
         myNamingServiceThread.start();
     }
     

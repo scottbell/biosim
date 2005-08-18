@@ -769,8 +769,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
         float idealGasConstant = 0.08206f;
         float resultInMoles = (resultInLiters) / (idealGasConstant * 298); //moles per hour
         float adjustForTickLength = resultInMoles * getCurrentCrewGroup().getTickLength();
-        myLogger.info("resultInMoles "+resultInMoles);
-        myLogger.info("adjustForTickLength "+adjustForTickLength);
+        myLogger.debug("resultInMoles "+resultInMoles);
+        myLogger.debug("adjustForTickLength "+adjustForTickLength);
         return myBaseCrewGroupImpl.randomFilter(adjustForTickLength); //Liters/tick
     }
 
