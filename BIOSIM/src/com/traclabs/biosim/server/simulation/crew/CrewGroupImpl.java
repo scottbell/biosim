@@ -150,7 +150,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
      */
     public CrewPerson createCrewPerson(String pName, float pAge, float pWeight,
             Sex pSex, int pArrivalTick, int pDepartureTick) {
-        return createCrewPerson(pName, pAge, pWeight, pSex, pArrivalTick, pDepartureTick);
+        return createCrewPerson(pName, pAge, pWeight, pSex, pArrivalTick, pDepartureTick, new Schedule(this));
     }
 
     public CrewPerson createCrewPerson(String pName, float pAge, float pWeight,
@@ -168,6 +168,10 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     
     public CrewPerson createCrewPerson() {
         return createCrewPerson("UnnamedAstronaut"+ (getCrewSize() + 1), 30f, 75f, Sex.male, 0, Integer.MAX_VALUE);
+    }
+    
+    public CrewPerson createCrewPerson(Schedule pSchedule) {
+        return createCrewPerson("UnnamedAstronaut"+ (getCrewSize() + 1), 30f, 75f, Sex.male, 0, Integer.MAX_VALUE, pSchedule);
     }
 
     /**

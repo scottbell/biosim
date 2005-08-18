@@ -134,5 +134,6 @@ public class Schedule {
             allActivities.put(pActivity.getName(), pActivity);
         orderedSchedule.add(pOrder, pActivity);
     }
+    
 
 }
