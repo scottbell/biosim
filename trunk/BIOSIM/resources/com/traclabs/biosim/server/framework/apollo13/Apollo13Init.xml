@@ -1,14 +1,15 @@
 <?xml version="1.0"?>
 <biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='../BiosimInitSchema.xsd'>
-	<Globals crewsToWatch="Crew" runTillCrewDeath="true" tickLength="0.008333333333333333">
+	<Globals crewsToWatch="Crew" runTillCrewDeath="true" tickLength="0.008333333333333333" runTillN="60">
 		<comment>
 			This is the Apollo 13 initialization.
-			It is on a 30 second time step with the following modules:
+			It is on a 30 second time step and runs for 30 minutes.
+			It has the following modules:
 				A 3 person crew.
 				2 oxygen tanks (main and reservoir)
 				An cabin for the crew.
 				A valve alternating oxygen flow to the crew.
-			A malfunction happens at ? minutes into the mission
+			A malfunction happens at 5 minutes into the mission
 		</comment>
 		<author>Scott Bell</author>
 		<!-- <log4jProperty moduleName="log4j.logger.com.traclabs.biosim.server.sensor" value="DEBUG"/> !-->
@@ -16,7 +17,7 @@
 	<SimBioModules>
 		<air>
 			<O2Store moduleName="MainO2Store" capacity="2000000" level="2000000">
-				<malfunction occursAtTick="20" length="PERMANENT_MALF" intensity="SEVERE_MALF"/>
+				<malfunction occursAtTick="10" length="PERMANENT_MALF" intensity="SEVERE_MALF"/>
 			</O2Store>
 			<CO2Store moduleName="DumpedCO2" capacity="2000000" level="0"/>
 			<O2Store moduleName="ResevoirO2Store" capacity="2000000" level="2000000"/>
