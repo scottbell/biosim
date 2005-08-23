@@ -275,10 +275,10 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
      */
     public void tick() {
         super.tick();
-        performLeak(permanentLeakRate);
-        calculateLightIntensity();
         for (EnvironmentStoreImpl store : myEnvironmentStores)
         	store.tick();
+        performLeak(permanentLeakRate);
+        calculateLightIntensity();
     }
 
     public void log() {

@@ -5,7 +5,7 @@ import com.traclabs.biosim.idl.simulation.environment.EnvironmentVaporStoreOpera
 public class EnvironmentVaporStoreImpl extends EnvironmentStoreImpl implements EnvironmentVaporStoreOperations{
 
 	public EnvironmentVaporStoreImpl(SimEnvironmentImpl pSimEnvironmentImpl) {
-		super(pSimEnvironmentImpl);
+		super(pSimEnvironmentImpl, "Vapor");
 	}
 
 }

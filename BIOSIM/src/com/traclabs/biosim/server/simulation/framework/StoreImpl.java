@@ -350,7 +350,7 @@ public class StoreImpl extends PassiveModuleImpl implements
     }
 
     /**
-     * Logs this store and sends it to the Logger to be processed
+     * Logs this store
      */
     public void log() {
         myLogger.debug(getModuleName() + ":\tcurrentLevel=" + currentLevel);

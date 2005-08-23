@@ -5,7 +5,7 @@ import com.traclabs.biosim.idl.simulation.environment.EnvironmentNitrogenStoreOp
 public class EnvironmentNitrogenStoreImpl extends EnvironmentStoreImpl implements EnvironmentNitrogenStoreOperations{
 
 	public EnvironmentNitrogenStoreImpl(SimEnvironmentImpl pSimEnvironmentImpl) {
-		super(pSimEnvironmentImpl);
+		super(pSimEnvironmentImpl, "Nitrogen");
 	}
 
 }

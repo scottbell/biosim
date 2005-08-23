@@ -9,8 +9,8 @@ public class EnvironmentStoreImpl extends StoreImpl implements EnvironmentStoreO
 
     protected SimEnvironmentImpl mySimEnvironmentImpl;
 
-	public EnvironmentStoreImpl(SimEnvironmentImpl pSimEnvironmentImpl) {
-		super(0, "Unnamed", 0, Float.MAX_VALUE, false);
+	public EnvironmentStoreImpl(SimEnvironmentImpl pSimEnvironmentImpl, String storeName) {
+		super(0, pSimEnvironmentImpl.getModuleName()+storeName, 0, Float.MAX_VALUE, false);
 		mySimEnvironmentImpl = pSimEnvironmentImpl;
 	}
 
