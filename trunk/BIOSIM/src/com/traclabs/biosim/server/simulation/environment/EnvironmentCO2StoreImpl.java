@@ -5,7 +5,7 @@ import com.traclabs.biosim.idl.simulation.environment.EnvironmentCO2StoreOperati
 public class EnvironmentCO2StoreImpl extends EnvironmentStoreImpl implements EnvironmentCO2StoreOperations{
 
 	public EnvironmentCO2StoreImpl(SimEnvironmentImpl pSimEnvironmentImpl) {
-		super(pSimEnvironmentImpl);
+		super(pSimEnvironmentImpl, "CO2");
 	}
 
 }

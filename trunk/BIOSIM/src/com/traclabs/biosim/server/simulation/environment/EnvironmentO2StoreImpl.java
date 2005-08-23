@@ -5,7 +5,7 @@ import com.traclabs.biosim.idl.simulation.environment.EnvironmentO2StoreOperatio
 public class EnvironmentO2StoreImpl extends EnvironmentStoreImpl implements EnvironmentO2StoreOperations{
 
 	public EnvironmentO2StoreImpl(SimEnvironmentImpl pSimEnvironmentImpl) {
-		super(pSimEnvironmentImpl);
+		super(pSimEnvironmentImpl, "O2");
 	}
 	
 	public float take(float amountRequested) {
@@ -13,4 +13,14 @@ public class EnvironmentO2StoreImpl extends EnvironmentStoreImpl implements Envi
 		myLogger.debug("taking "+amountRequested + " current level ="+getNonCachedLevel());
         return result;
     }
+	
+	public float add(float amountRequested) {
+		float result = super.add(amountRequested);
+		myLogger.debug("adding "+amountRequested + " current level ="+getNonCachedLevel());
+        return result;
+    }
+	
+	public void tick(){
+		super.tick();
+	}
 }

@@ -12,7 +12,7 @@
 			A malfunction happens at 5 minutes into the mission
 		</comment>
 		<author>Scott Bell</author>
-		<!-- <log4jProperty moduleName="log4j.logger.com.traclabs.biosim.server.sensor" value="DEBUG"/> !-->
+		<log4jProperty name="log4j.logger.com.traclabs.biosim.server.simulation.environment" value="DEBUG"/>
 	</Globals>
 	<SimBioModules>
 		<air>
@@ -33,8 +33,8 @@
 		</power>
 		<crew>
 			<CrewGroup moduleName="Crew">
-				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="CrewEnvironment"/>
-				<airProducer maxFlowRates="0" desiredFlowRates="0" outputs="CrewEnvironment"/>
+				<airConsumer maxFlowRates="10000" desiredFlowRates="10000" inputs="CrewEnvironment"/>
+				<airProducer maxFlowRates="10000" desiredFlowRates="10000" outputs="CrewEnvironment"/>
 				<foodConsumer maxFlowRates="100" desiredFlowRates="100" inputs="FoodStore"/>
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
 				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="DirtyWaterStore"/>
@@ -61,15 +61,17 @@
 			</CrewGroup>
 		</crew>
 		<environment>
-			<SimEnvironment moduleName="CrewEnvironment" initialVolume="2000"/>
+			<SimEnvironment moduleName="CrewEnvironment" initialVolume="4.12927844707175"/>
 		</environment>                    
 		<food>
 			<FoodStore moduleName="FoodStore" capacity="2000" level="2000"/>
 		</food>
 		<framework>
 			<InfluentValve moduleName="O2InfluentValve">
+				<!--
 				<O2Consumer desiredFlowRates="4.965811217920672e-05" maxFlowRates="4.965811217920672e-05" inputs="MainO2Store ResevoirO2Store"/>
 				<O2Producer desiredFlowRates="4.965811217920672e-05" maxFlowRates="4.965811217920672e-05" outputs="CrewEnvironment"/>
+				-->
 			</InfluentValve>
 		</framework>
 		<water>

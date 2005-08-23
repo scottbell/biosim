@@ -5,7 +5,7 @@ import com.traclabs.biosim.idl.simulation.environment.EnvironmentOtherStoreOpera
 public class EnvironmentOtherStoreImpl extends EnvironmentStoreImpl implements EnvironmentOtherStoreOperations{
 
 	public EnvironmentOtherStoreImpl(SimEnvironmentImpl pSimEnvironmentImpl) {
-		super(pSimEnvironmentImpl);
+		super(pSimEnvironmentImpl, "Other");
 	}
 
 }
