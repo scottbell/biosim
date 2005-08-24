@@ -12,7 +12,7 @@
 			A malfunction happens at 5 minutes into the mission
 		</comment>
 		<author>Scott Bell</author>
-		<log4jProperty name="log4j.logger.com.traclabs.biosim.server.simulation.environment" value="DEBUG"/>
+		<!-- <log4jProperty name="log4j.logger.com.traclabs.biosim.server.simulation.crew" value="DEBUG"/> -->
 	</Globals>
 	<SimBioModules>
 		<air>
@@ -42,45 +42,47 @@
 				<dryWasteProducer maxFlowRates="100" desiredFlowRates="100" outputs="DryWasteStore"/>
 				<crewPerson name="James Lovell" age="42" weight="70" sex="MALE">
 					<schedule>
-						<activity name="mission" length="16" intensity="2"/>
-						<activity name="sleep" length="8" intensity="2"/>
+						<activity name="mission" length="16" intensity="3"/>
+						<activity name="sleep" length="8" intensity="1"/>
 					</schedule>
 				</crewPerson>
 				<crewPerson name="John Swigert" age="38" weight="71" sex="MALE">
 					<schedule>
-						<activity name="mission" length="16" intensity="2"/>
-						<activity name="sleep" length="8" intensity="2"/>
+						<activity name="mission" length="16" intensity="3"/>
+						<activity name="sleep" length="8" intensity="1"/>
 					</schedule>
 				</crewPerson>
 				<crewPerson name="Fred Haise" age="36" weight="72" sex="MALE">
 					<schedule>
-						<activity name="mission" length="16" intensity="2"/>
-						<activity name="sleep" length="8" intensity="2"/>
+						<activity name="mission" length="16" intensity="3"/>
+						<activity name="sleep" length="8" intensity="1"/>
 					</schedule>
 				</crewPerson>
 			</CrewGroup>
 		</crew>
 		<environment>
-			<SimEnvironment moduleName="CrewEnvironment" initialVolume="4.12927844707175"/>
+			<SimEnvironment moduleName="CrewEnvironment" initialVolume="12.9725108"/>
+			<Dehumidifier moduleName="Dehumidifier">
+				<airConsumer desiredFlowRates="100" maxFlowRates="100" inputs="CrewEnvironment"/>
+				<dirtyWaterProducer desiredFlowRates="100" maxFlowRates="100" outputs="DirtyWaterStore"/>
+			</Dehumidifier>
 		</environment>                    
 		<food>
 			<FoodStore moduleName="FoodStore" capacity="2000" level="2000"/>
 		</food>
 		<framework>
 			<InfluentValve moduleName="O2InfluentValve">
-				<!--
-				<O2Consumer desiredFlowRates="4.965811217920672e-05" maxFlowRates="4.965811217920672e-05" inputs="MainO2Store ResevoirO2Store"/>
-				<O2Producer desiredFlowRates="4.965811217920672e-05" maxFlowRates="4.965811217920672e-05" outputs="CrewEnvironment"/>
-				-->
+				<O2Consumer desiredFlowRates="5.46875e-05" maxFlowRates="5.46875e-05" inputs="MainO2Store ResevoirO2Store"/>
+				<O2Producer desiredFlowRates="5.46875e-05" maxFlowRates="5.46875e-05" outputs="CrewEnvironment"/>
 			</InfluentValve>
 		</framework>
 		<water>
-			<PotableWaterStore moduleName="PotableWaterStore" capacity="800000" level="500000"/>
-			<GreyWaterStore moduleName="GreyWaterStore" capacity="4000" level="0"/>
-			<DirtyWaterStore moduleName="DirtyWaterStore" capacity="5000" level="0"/>
+			<PotableWaterStore moduleName="PotableWaterStore" capacity="100" level="100"/>
+			<GreyWaterStore moduleName="GreyWaterStore" capacity="100" level="0"/>
+			<DirtyWaterStore moduleName="DirtyWaterStore" capacity="100" level="0"/>
 		</water>
 		<waste>
-			<DryWasteStore moduleName="DryWasteStore" capacity="500" level="0"/>
+			<DryWasteStore moduleName="DryWasteStore" capacity="100" level="0"/>
 		</waste>
 	</SimBioModules>
 	<Sensors>

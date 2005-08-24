@@ -764,10 +764,11 @@ public class CrewPersonImpl extends CrewPersonPOA {
         float heartRate = (currentActivityIntensity * 30f) + 15f;
         float a = 0.223804f;
         float b = 5.64f * pow(10f, -7f);
-        float resultInLiters = a + (b * pow(heartRate, 3f) * 60f); //liters per
-        // hour
-        float idealGasConstant = 0.08206f;
-        float resultInMoles = (resultInLiters) / (idealGasConstant * 298); //moles per hour
+        float resultInLiters = a + (b * pow(heartRate, 3f) * 60f); //liters per hour
+        myLogger.debug("resultInLiters "+resultInLiters);
+        float idealGasConstant = 8.314f; //8.314 J K-1 mol-1
+        float pressureOfGas = myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments()[0].getO2Store().getPressure();
+        float resultInMoles = (resultInLiters * pressureOfGas) / (idealGasConstant * 298) / 100f; //moles per hour
         float adjustForTickLength = resultInMoles * getCurrentCrewGroup().getTickLength();
         myLogger.debug("resultInMoles "+resultInMoles);
         myLogger.debug("adjustForTickLength "+adjustForTickLength);
@@ -879,7 +880,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
      * @return vapor produced in moles
      */
     private float calculateVaporProduced(float pPotableWaterConsumed) {
-        return waterLitersToMoles(pPotableWaterConsumed * 0.1f);
+        return waterLitersToMoles(pPotableWaterConsumed * 0.175f);
     }
 
     /**
@@ -979,7 +980,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
                 .getAirConsumerDefinition().getEnvironments()[0]
                 .getDangerousOxygenThreshold();
         if (getO2Ratio() > dangerousOxygenThreshold) {
-            highOxygenBuffer.take((getO2Ratio() - dangerousOxygenThreshold) * tickInterval);
+        	highOxygenBuffer.take((getO2Ratio() - dangerousOxygenThreshold) * tickInterval);
             fireRisked = true;
         } else if (getCO2Ratio() > CO2_HIGH_RATIO) {
             consumedCO2Buffer.take((getCO2Ratio() - CO2_HIGH_RATIO) * tickInterval);
@@ -997,6 +998,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
     private void healthCheck() {
         //check for death
         float randomNumber = myRandomGen.nextFloat();
+        myLogger.debug("random number this tick is "+randomNumber);
         float calorieRiskReturn = MathUtils.sigmoidLikeProbability((consumedCaloriesBuffer
                 .getCapacity() - consumedCaloriesBuffer.getLevel())
                 / consumedCaloriesBuffer.getCapacity());
@@ -1023,9 +1025,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
                         + CALORIE_RECOVERY_RATE
                         * consumedCaloriesBuffer.getCapacity()
                         + " calorie risk level="
-                        + (consumedCaloriesBuffer.getCapacity() - consumedCaloriesBuffer
-                                .getLevel())
-                        / consumedCaloriesBuffer.getCapacity() + " (level="
+                        + calorieRiskReturn + " (level="
                         + consumedCaloriesBuffer.getLevel() + ", capacity="
                         + consumedCaloriesBuffer.getCapacity() + ")");
         myLogger.debug("\twater taken="
@@ -1034,8 +1034,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
                 + WATER_RECOVERY_RATE
                 * consumedWaterBuffer.getCapacity()
                 + " thirst risk level="
-                + (consumedWaterBuffer.getCapacity() - consumedWaterBuffer
-                        .getLevel()) / consumedWaterBuffer.getCapacity()
+                + waterRiskReturn
                 + " (level=" + consumedWaterBuffer.getLevel() + ", capacity="
                 + consumedWaterBuffer.getCapacity() + ")");
         myLogger
@@ -1045,11 +1044,12 @@ public class CrewPersonImpl extends CrewPersonPOA {
                         + O2_LOW_RECOVERY_RATE
                         * consumedLowOxygenBuffer.getCapacity()
                         + " low O2 risk level="
-                        + (consumedLowOxygenBuffer.getCapacity() - consumedLowOxygenBuffer
-                                .getLevel())
-                        / consumedLowOxygenBuffer.getCapacity() + " (level="
+                        + oxygenLowRiskReturn+ " (level="
                         + consumedLowOxygenBuffer.getLevel() + ", capacity="
                         + consumedLowOxygenBuffer.getCapacity() + ")");
+        float dangerousOxygenThreshold = myCurrentCrewGroup
+        .getAirConsumerDefinition().getEnvironments()[0]
+        .getDangerousOxygenThreshold();
         myLogger
                 .debug("\thigh oxygen taken="
                         + (O2Needed - O2Consumed)
@@ -1057,19 +1057,16 @@ public class CrewPersonImpl extends CrewPersonPOA {
                         + O2_HIGH_RECOVERY_RATE
                         * highOxygenBuffer.getCapacity()
                         + " high O2 risk level="
-                        + (consumedLowOxygenBuffer.getCapacity() - consumedLowOxygenBuffer
-                                .getLevel())
-                        / consumedLowOxygenBuffer.getCapacity() + " (level="
-                        + consumedLowOxygenBuffer.getLevel() + ", capacity="
-                        + consumedLowOxygenBuffer.getCapacity() + ")");
+                        + oxygenHighRiskReturn + " (level="
+                        + highOxygenBuffer.getLevel() + ", capacity="
+                        + highOxygenBuffer.getCapacity() + ")");
         myLogger.debug("\tCO2 taken="
                 + (getCO2Ratio() - CO2_HIGH_RATIO)
                 + ", recovered "
                 + CO2_HIGH_RECOVERY_RATE
                 * consumedCO2Buffer.getCapacity()
                 + " CO2 risk level="
-                + (consumedCO2Buffer.getCapacity() - consumedCO2Buffer
-                        .getLevel()) / consumedCO2Buffer.getCapacity()
+                + CO2RiskReturn
                 + " (level=" + consumedCO2Buffer.getLevel() + ", capacity="
                 + consumedCO2Buffer.getCapacity() + ")");
         myLogger.debug("\tsleep (level=" + sleepBuffer.getLevel()
@@ -1245,6 +1242,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
         myLogger.debug("O2_needed=" + O2Needed);
         myLogger.debug("potable_water_needed=" + potableWaterNeeded);
         myLogger.debug("calories_needed=" + caloriesNeeded);
+        myLogger.debug("vapor_produced=" + vaporProduced);
+        logEnvironmentConditions();
     }
 
 	public CrewGroup getCurrentCrewGroup() {
