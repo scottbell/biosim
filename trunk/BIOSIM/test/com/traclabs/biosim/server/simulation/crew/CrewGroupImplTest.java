@@ -44,7 +44,7 @@ public class CrewGroupImplTest extends TestCase {
 		OrbUtils.startDebugNameServer();
 		OrbUtils.initializeServerForDebug();
 		CrewGroupImpl crewGroupImpl = new CrewGroupImpl();
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 1; i++)
 			crewGroupImpl.createCrewPerson(createGenericSchedule(crewGroupImpl));
 		
 		myCrewGroup = (new CrewGroupPOATie(crewGroupImpl))._this(OrbUtils.getORB());
@@ -62,6 +62,8 @@ public class CrewGroupImplTest extends TestCase {
 		myCrewGroup.getGreyWaterProducerDefinition().setGreyWaterOutputs(new GreyWaterStore[] {myGreyWaterStore}, new float[] {1000f}, new float[] {1000f});
 		myCrewGroup.getDirtyWaterProducerDefinition().setDirtyWaterOutputs(new DirtyWaterStore[] {myDirtyWaterStore}, new float[] {1000f}, new float[] {1000f});
 		myCrewGroup.getDryWasteProducerDefinition().setDryWasteOutputs(new DryWasteStore[] {myDryWasteStore}, new float[] {1000f}, new float[] {1000f});
+	
+		myCrewGroup.setTickLength(1);
 	}
 
 	protected void tearDown() throws Exception {
@@ -72,7 +74,13 @@ public class CrewGroupImplTest extends TestCase {
 	 * Test method for 'com.traclabs.biosim.server.simulation.crew.CrewGroup.tick()'
 	 */
 	public void testTick() {
-		myCrewGroup.tick();
+		float averageMolesOfO2NeededInDay = 0.055f;
+		float molesOfOxygenConsumed = 0f;
+		for (int i = 0; i < 24; i++){
+			myCrewGroup.tick();
+			molesOfOxygenConsumed += myCrewGroup.getCrewPeople()[0].getO2Consumed();
+		}
+		assertEquals(averageMolesOfO2NeededInDay, molesOfOxygenConsumed, 0.02f);
 	}
 	
 

@@ -1,8 +1,5 @@
 package com.traclabs.biosim.client.util;
 
-import java.io.File;
-import java.net.URL;
-
 import org.apache.log4j.Logger;
 import org.apache.xerces.parsers.DOMParser;
 import org.w3c.dom.Document;
@@ -238,29 +235,11 @@ public class BioHolderInitializer {
         }
 
     }
-	
-	private static String resolveXMLLocation(String xmlLocation) {
-    	//first see if we can find it in the classpath
-        URL foundURL = BioHolderInitializer.class.getClassLoader().getResource(xmlLocation);
-        if (foundURL != null){
-        	String urlString = foundURL.toString();
-        	if (urlString.length() > 0)
-        		return urlString;
-        }
-        //next look for it as a raw file
-        File xmlFile = new File(xmlLocation);
-        if (xmlFile.exists())
-        	return xmlFile.toString();
-        //give up
-        Logger.getLogger(BioHolderInitializer.class).error(
-                "Couldn't find init xml file: " + xmlLocation);
-        return null;
-	}
 
     private static void parseFile() {
         myBioHolder.theBioDriver = BioDriverHelper
                 .narrow(grabModule("BioDriver"));
-        String documentString = resolveXMLLocation(xmlLocation);
+        String documentString = OrbUtils.resolveXMLLocation(xmlLocation);
         if (documentString.length() > 0) {
             try {
                 Logger.getLogger(BioHolderInitializer.class).info(

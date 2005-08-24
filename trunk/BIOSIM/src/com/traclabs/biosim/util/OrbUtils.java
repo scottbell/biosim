@@ -1,5 +1,7 @@
 package com.traclabs.biosim.util;
 
+import java.io.File;
+import java.net.URL;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
@@ -14,6 +16,8 @@ import org.omg.PortableServer.POAHelper;
 
 import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.framework.BioModuleHelper;
+import com.traclabs.biosim.server.framework.BiosimServer;
+import com.traclabs.biosim.server.framework.GenericServer;
 
 /**
  * The OrbUtils class provides basic CORBA utilities to server components
@@ -353,5 +357,35 @@ public class OrbUtils {
             String[] nameServerArgs = {portArg, ORBArg};
             NameServer.main(nameServerArgs);
         }
+    }
+    
+    public static String resolveXMLLocation(String xmlLocation) {
+    	if (xmlLocation == null)
+    		return null;
+    	//first see if we can find it in the classpath
+    	String fullFileLocation = findXmlInClasspath(xmlLocation);
+    	if (fullFileLocation != null)
+    		return fullFileLocation;
+        //next look for it as a raw file
+        File xmlFile = new File(xmlLocation);
+        if (xmlFile.exists())
+        	return xmlFile.toString();
+        //maybe it's in the classpath, but user forgot default location
+    	fullFileLocation = findXmlInClasspath("com/traclabs/biosim/server/framework/" + xmlLocation);
+    	if (fullFileLocation != null)
+    		return fullFileLocation;
+        //give up
+        return null;
+	}
+    
+    private static String findXmlInClasspath(String xmlLocation){
+    	Logger.getLogger(GenericServer.class).debug("Looking for "+xmlLocation+" in classpath");
+        URL foundURL = BiosimServer.class.getClassLoader().getResource(xmlLocation);
+        if (foundURL != null){
+        	String urlString = foundURL.toString();
+        	if (urlString.length() > 0)
+        		return urlString;
+        }
+        return null;
     }
 }

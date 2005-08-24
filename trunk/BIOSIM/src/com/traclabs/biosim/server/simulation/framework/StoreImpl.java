@@ -57,8 +57,8 @@ public class StoreImpl extends PassiveModuleImpl implements
      */
     public StoreImpl(int pID, String pName) {
         super(pID, pName);
-        currentLevel = cachedLevel = initialLevel = 0f;
-        currentCapacity = cachedCapacity = initialCapacity = 10f;
+        currentLevel = cachedLevel = initialLevel = 100f;
+        currentCapacity = cachedCapacity = initialCapacity = 100f;
     }
 
     /**

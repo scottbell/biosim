@@ -29,7 +29,7 @@ public class SimEnvironmentImplTest extends TestCase {
 	 */
 	public void testTick() {
 		float o2Moles = mySimEnvironmentImpl.getO2Store().getCurrentLevel();
-		myLogger.info("o2Moles = "+o2Moles);
+		myLogger.debug("o2Moles = "+o2Moles);
 		mySimEnvironmentImpl.tick();
 		assertEquals(o2Moles, mySimEnvironmentImpl.getO2Store().getCurrentLevel());
 		mySimEnvironmentImpl.getO2Store().take(o2Moles * 0.1f);

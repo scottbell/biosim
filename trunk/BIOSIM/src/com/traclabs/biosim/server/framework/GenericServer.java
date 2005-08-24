@@ -2,8 +2,6 @@ package com.traclabs.biosim.server.framework;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -70,24 +68,6 @@ public class GenericServer {
         return myName;
     }
 
-
-    protected static String resolveXMLLocation(String xmlLocation) {
-    	if (xmlLocation == null)
-    		return null;
-    	//first see if we can find it in the classpath
-        URL foundURL = BiosimServer.class.getClassLoader().getResource(xmlLocation);
-        if (foundURL != null){
-        	String urlString = foundURL.toString();
-        	if (urlString.length() > 0)
-        		return urlString;
-        }
-        //next look for it as a raw file
-        File xmlFile = new File(xmlLocation);
-        if (xmlFile.exists())
-        	return xmlFile.toString();
-        //give up
-        return null;
-	}
     /**
      * Grabs xml parameter from an array of string
      * 
