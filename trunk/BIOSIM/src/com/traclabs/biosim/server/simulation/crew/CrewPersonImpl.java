@@ -764,11 +764,12 @@ public class CrewPersonImpl extends CrewPersonPOA {
         float heartRate = (currentActivityIntensity * 30f) + 15f;
         float a = 0.223804f;
         float b = 5.64f * pow(10f, -7f);
-        float resultInLiters = a + (b * pow(heartRate, 3f) * 60f); //liters per hour
+        float kludgeFactor = 5f; // added to give sensible results
+        float resultInLiters = (a + (b * pow(heartRate, 3f) * 60f)) * kludgeFactor; //liters per hour, 5
         myLogger.debug("resultInLiters "+resultInLiters);
         float idealGasConstant = 8.314f; //8.314 J K-1 mol-1
         float pressureOfGas = myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments()[0].getO2Store().getPressure();
-        float resultInMoles = (resultInLiters * pressureOfGas) / (idealGasConstant * 298) / 100f; //moles per hour
+        float resultInMoles = (resultInLiters * pressureOfGas) / (idealGasConstant * 298); //moles per hour
         float adjustForTickLength = resultInMoles * getCurrentCrewGroup().getTickLength();
         myLogger.debug("resultInMoles "+resultInMoles);
         myLogger.debug("adjustForTickLength "+adjustForTickLength);
