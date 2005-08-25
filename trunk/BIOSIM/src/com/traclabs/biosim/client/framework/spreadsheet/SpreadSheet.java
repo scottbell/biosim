@@ -104,16 +104,6 @@ public class SpreadSheet extends JTable {
         String[] colNames1 = { "bob", "steve", "toby" };
         String[] rowNames2 = { "red", "green" };
         SpreadSheet sp = new SpreadSheet(colNames1, rowNames2);
-
-        /**
-         * SheetCell[][] cells = new SheetCell[3][2]; cells[0][0] = new
-         * SheetCell(0 , 0, "1", null); cells[1][0] = new SheetCell(0 , 1, "2",
-         * null); cells[2][0] = new SheetCell(0 , 2, "3", null); cells[0][1] =
-         * new SheetCell(1 , 0, "1", "=A1"); cells[1][1] = new SheetCell(1 , 1,
-         * "3", "=A1+A2"); cells[2][1] = new SheetCell(1 , 2, "6", "=A1+A2+A3");
-         * SpreadSheet sp = new SpreadSheet(cells);
-         */
-
         frame.getContentPane().add(sp.getScrollPane());
         frame.pack();
         frame.setVisible(true);
@@ -238,7 +228,7 @@ public class SpreadSheet extends JTable {
          * Since I'm not using any LayoutManager, a call to setPreferredSize().
          */
         JPanel pnl = new JPanel((LayoutManager) null);
-        Dimension dim = new Dimension(metrics.stringWidth("9999999999999")
+        Dimension dim = new Dimension(metrics.stringWidth(getLongestString(rowNames))
                 + insets.right + insets.left, rowHeight * _numRow);
         pnl.setPreferredSize(dim);
 
@@ -278,7 +268,16 @@ public class SpreadSheet extends JTable {
         resizeAndRepaint();
     }
 
-    /**
+    private static String getLongestString(String[] rowNames) {
+    	String longestString = "";
+		for (String currentString : rowNames) {
+			if (currentString.length() > longestString.length())
+				longestString = currentString;
+		}
+		return longestString;
+	}
+
+	/**
      * Invoked when a cell edition starts. This method overrides and calls that
      * of its super class.
      * 

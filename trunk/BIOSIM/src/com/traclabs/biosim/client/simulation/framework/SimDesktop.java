@@ -33,6 +33,7 @@ import com.traclabs.biosim.client.framework.BioFrame;
 import com.traclabs.biosim.client.framework.MalfunctionPanel;
 import com.traclabs.biosim.client.framework.StochasticPanel;
 import com.traclabs.biosim.client.framework.UpdatablePanel;
+import com.traclabs.biosim.client.sensor.framework.SensorViewer;
 import com.traclabs.biosim.client.simulation.air.AirPanel;
 import com.traclabs.biosim.client.simulation.crew.CrewPanel;
 import com.traclabs.biosim.client.simulation.environment.EnvironmentPanel;
@@ -722,11 +723,10 @@ public class SimDesktop extends BioFrame {
      * desktop.
      */
     private void displaySensorViewer() {
-        BioFrame sensorFrame = new BioFrame("Sensor Viewer", false);
-        //sensorFrame.getContentPane().add((new
-        // SensorViewer()).getScrollPane());
-        sensorFrame.pack();
-        sensorFrame.setVisible(true);
+        if (!tryExisitingInternalFrame("Sensor Viewer")) {
+            SimDesktopFrame newFrame = addInternalFrame("Sensor Viewer", new SensorViewer());
+            newFrame.pack();
+        }
     }
 
     protected Map getInternalFrames() {

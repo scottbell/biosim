@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 
 import com.traclabs.biosim.client.control.HandController;
 import com.traclabs.biosim.client.control.SimCommandLine;
+import com.traclabs.biosim.client.sensor.framework.SensorViewer;
 import com.traclabs.biosim.client.simulation.food.photosynthesis.PhotosynthesisPanel;
 import com.traclabs.biosim.client.simulation.framework.SimDesktop;
 import com.traclabs.biosim.client.unrealCom.UnrealCom;
@@ -46,6 +47,7 @@ public class BiosimMain {
         boolean wantsToRunController = false;
         boolean wantsToRunUnreal = false;
         boolean wantsToPhotosynthesis = false;
+        boolean wantsToRunSensorViewer = false;
         boolean unrealServerGiven = false;
         String unrealServer = "";
         for (int i = 0; i < myArgs.length; i++) {
@@ -59,6 +61,8 @@ public class BiosimMain {
                 wantsToRunUnreal = true;
             } else if (myArgs[i].equals("photosynthesis")) {
                 wantsToPhotosynthesis = true;
+            } else if (myArgs[i].equals("sensor")) {
+            	wantsToRunSensorViewer = true;
             } else if (myArgs[i].equals("-debug")) {
                 OrbUtils.initializeClientForDebug();
             } else if (myArgs[i].startsWith("-xml=")) {
@@ -103,6 +107,8 @@ public class BiosimMain {
             runPhotosynthesis();
         else if (wantsToRunController)
             runHandController();
+        else if (wantsToRunSensorViewer)
+            runSensorViewer();
         else if (wantsToRunUnreal) {
             if (unrealServerGiven) {
                 runUnreal2(unrealServer);
@@ -122,6 +128,13 @@ public class BiosimMain {
         SimDesktop newDesktop = new SimDesktop();
         newDesktop.setSize(1024, 768);
         newDesktop.setVisible(true);
+    }
+    
+    /**
+     * Runs the sensor viewer
+     */
+    private void runSensorViewer() {
+    	SensorViewer.main(new String[]{}); 
     }
 
     /**
