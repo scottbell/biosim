@@ -16,11 +16,11 @@
 	</Globals>
 	<SimBioModules>
 		<air>
-			<O2Store moduleName="MainO2Store" capacity="2000000" level="2000000">
+			<O2Store moduleName="MainO2Store" capacity="2000" level="2000">
 				<malfunction occursAtTick="10" length="PERMANENT_MALF" intensity="SEVERE_MALF"/>
 			</O2Store>
-			<CO2Store moduleName="DumpedCO2" capacity="2000000" level="0"/>
-			<O2Store moduleName="ResevoirO2Store" capacity="2000000" level="2000000"/>
+			<CO2Store moduleName="DumpedCO2" capacity="2000" level="0"/>
+			<O2Store moduleName="ResevoirO2Store" capacity="2000" level="2000"/>
 			<VCCR moduleName="VCCR">
 				<airConsumer desiredFlowRates="100" maxFlowRates="100" inputs="CrewEnvironment"/>	
 				<airProducer desiredFlowRates="100" maxFlowRates="100" outputs="CrewEnvironment"/>
@@ -86,6 +86,9 @@
 		</waste>
 	</SimBioModules>
 	<Sensors>
+		<air>
+			<O2OutFlowRateSensor index="0" input="O2InfluentValve" moduleName="O2InfluentValveOutputSensor"/>
+		</air>
 		<environment>
 			<GasConcentrationSensor gasType="CO2" input="CrewEnvironment" moduleName="BaseCrewEnvironmentCO2ConcentrationSensor"/>
 			<GasConcentrationSensor gasType="O2" input="CrewEnvironment" moduleName="BaseCrewEnvironmentO2ConcentrationSensor"/>

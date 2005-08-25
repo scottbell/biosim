@@ -12,7 +12,7 @@ import javax.swing.Timer;
 public abstract class TimedPanel extends UpdatablePanel {
     protected RefreshAction myRefreshAction;
 
-    private Timer refreshTimer;
+    private Timer myRefreshTimer;
 
     private final static int DEFAULT_TIMER_DELAY = 500;
 
@@ -23,7 +23,7 @@ public abstract class TimedPanel extends UpdatablePanel {
      */
     public TimedPanel() {
         myRefreshAction = new RefreshAction("Refresh");
-        refreshTimer = new Timer(DEFAULT_TIMER_DELAY, myRefreshAction);
+        myRefreshTimer = new Timer(DEFAULT_TIMER_DELAY, myRefreshAction);
     }
 
     public boolean isTracking() {
@@ -31,11 +31,11 @@ public abstract class TimedPanel extends UpdatablePanel {
     }
 
     public void setDelay(int pDelay) {
-        refreshTimer.setDelay(pDelay);
+        myRefreshTimer.setDelay(pDelay);
     }
 
     public int getDelay() {
-        return refreshTimer.getDelay();
+        return myRefreshTimer.getDelay();
     }
 
     public void setTracking(boolean pTrackingWanted) {
@@ -43,18 +43,18 @@ public abstract class TimedPanel extends UpdatablePanel {
             return;
         tracking = pTrackingWanted;
         if (tracking)
-            refreshTimer.start();
+            myRefreshTimer.start();
         else
-            refreshTimer.stop();
+            myRefreshTimer.stop();
     }
 
     public abstract void refresh();
 
     public void visibilityChange(boolean nowVisible) {
         if (nowVisible && tracking) {
-            refreshTimer.start();
+            myRefreshTimer.start();
         } else {
-            refreshTimer.stop();
+            myRefreshTimer.stop();
         }
     }
 
