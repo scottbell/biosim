@@ -237,6 +237,7 @@ public class InfluentValveImpl extends SimBioModuleImpl implements
 
 		float O2Gathered = myO2ConsumerDefinitionImpl
 				.getMostResourceFromStore(myIndexOfInfluentStore);
+		myLogger.debug("O2Gathered = "+O2Gathered);
 		myO2ProducerDefinitionImpl.pushResourceToStores(O2Gathered);
 
 		float CO2Gathered = myCO2ConsumerDefinitionImpl

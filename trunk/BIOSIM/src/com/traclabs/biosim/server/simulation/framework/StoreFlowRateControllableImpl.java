@@ -1,5 +1,7 @@
 package com.traclabs.biosim.server.simulation.framework;
 
+import java.util.Arrays;
+
 import com.traclabs.biosim.idl.simulation.framework.Store;
 import com.traclabs.biosim.idl.simulation.framework.StoreFlowRateControllable;
 import com.traclabs.biosim.idl.simulation.framework.StoreFlowRateControllableOperations;
@@ -75,6 +77,10 @@ public abstract class StoreFlowRateControllableImpl extends
     public float getResourceFromStores(float amountNeeded) {
         if (getStores() == null)
             return 0f;
+        if (amountNeeded <= 0){
+        	Arrays.fill(getActualFlowRates(), 0f);
+        	return 0f;
+        }
         float gatheredResource = 0f;
         for (int i = 0; (i < getStores().length)
                 && (gatheredResource < amountNeeded); i++) {
@@ -103,6 +109,10 @@ public abstract class StoreFlowRateControllableImpl extends
             float fraction) {
         if (getStores() == null)
             return 0f;
+        if (amountNeeded <= 0){
+        	Arrays.fill(getActualFlowRates(), 0f);
+        	return 0f;
+        }
         float gatheredResource = 0f;
         for (int i = 0; (i < getStores().length)
                 && (gatheredResource < amountNeeded); i++) {
@@ -134,6 +144,10 @@ public abstract class StoreFlowRateControllableImpl extends
             float fraction) {
         if (pDefinition.getStores() == null)
             return 0f;
+        if (amountNeeded <= 0){
+        	Arrays.fill(pDefinition.getActualFlowRates(), 0f);
+        	return 0f;
+        }
         float gatheredResource = 0f;
         for (int i = 0; (i < pDefinition.getStores().length)
                 && (gatheredResource < amountNeeded); i++) {
@@ -167,6 +181,10 @@ public abstract class StoreFlowRateControllableImpl extends
             float fraction) {
         if (pDefinition.getStores() == null)
             return 0f;
+        if (amountToPush <= 0){
+        	Arrays.fill(pDefinition.getActualFlowRates(), 0f);
+        	return 0f;
+        }
         float resourceRemaining = amountToPush;
         for (int i = 0; (i < pDefinition.getStores().length)
                 && (resourceRemaining > 0); i++) {
@@ -195,6 +213,10 @@ public abstract class StoreFlowRateControllableImpl extends
     public float pushResourceToStores(float amountToPush) {
         if (getStores() == null)
             return 0f;
+        if (amountToPush <= 0){
+        	Arrays.fill(getActualFlowRates(), 0f);
+        	return 0f;
+        }
         float resourceRemaining = amountToPush;
         for (int i = 0; (i < getStores().length) && (resourceRemaining > 0); i++) {
             float resourceToDistributeFirst = Math.min(resourceRemaining,
@@ -222,6 +244,10 @@ public abstract class StoreFlowRateControllableImpl extends
             float fraction) {
         if (getStores() == null)
             return 0f;
+        if (amountToPush <= 0){
+        	Arrays.fill(getActualFlowRates(), 0f);
+        	return 0f;
+        }
         float resourceRemaining = amountToPush;
         for (int i = 0; (i < getStores().length) && (resourceRemaining > 0); i++) {
             float resourceToDistributeFirst = Math.min(resourceRemaining,
@@ -251,6 +277,10 @@ public abstract class StoreFlowRateControllableImpl extends
             return 0f;
         if (getStores().length <= indexOfStore)
         	return 0f;
+        if (amountToPush <= 0){
+        	Arrays.fill(getActualFlowRates(), 0f);
+        	return 0f;
+        }
         float resourceRemaining = amountToPush;
         float resourceToDistributeFirst = Math.min(resourceRemaining, getMaxFlowRate(indexOfStore));
         float resourceToDistributeFinal = Math.min(resourceToDistributeFirst, getDesiredFlowRate(indexOfStore));
