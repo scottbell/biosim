@@ -15,7 +15,7 @@ import javax.swing.WindowConstants;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 
-import com.traclabs.biosim.client.framework.gui.UpdatablePanel;
+import com.traclabs.biosim.client.framework.UpdatablePanel;
 
 public class SimDesktopFrame extends javax.swing.JInternalFrame {
     //A reference to the desktop this frame is added to.

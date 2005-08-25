@@ -11,7 +11,7 @@ import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.general.DefaultPieDataset;
 
-import com.traclabs.biosim.client.framework.gui.GraphPanel;
+import com.traclabs.biosim.client.framework.GraphPanel;
 import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;

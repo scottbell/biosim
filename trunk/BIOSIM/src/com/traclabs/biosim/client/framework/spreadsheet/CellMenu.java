@@ -1,4 +1,4 @@
-package com.traclabs.biosim.client.framework.gui.spreadsheet;
+package com.traclabs.biosim.client.framework.spreadsheet;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;

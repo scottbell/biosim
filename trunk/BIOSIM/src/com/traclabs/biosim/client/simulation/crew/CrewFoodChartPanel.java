@@ -13,7 +13,7 @@ import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import com.traclabs.biosim.client.framework.gui.GraphPanel;
+import com.traclabs.biosim.client.framework.GraphPanel;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
 

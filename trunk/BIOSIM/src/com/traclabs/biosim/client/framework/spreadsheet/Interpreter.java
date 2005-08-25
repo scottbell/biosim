@@ -1,4 +1,4 @@
-package com.traclabs.biosim.client.framework.gui.spreadsheet;
+package com.traclabs.biosim.client.framework.spreadsheet;
 
 import org.apache.log4j.Logger;
 

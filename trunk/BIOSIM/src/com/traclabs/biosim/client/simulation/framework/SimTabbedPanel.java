@@ -8,7 +8,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import com.traclabs.biosim.client.framework.gui.UpdatablePanel;
+import com.traclabs.biosim.client.framework.UpdatablePanel;
 
 /**
  * This is the JPanel that displays information about the a bio module

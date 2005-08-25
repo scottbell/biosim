@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 
 import com.traclabs.biosim.client.control.HandController;
 import com.traclabs.biosim.client.control.SimCommandLine;
-import com.traclabs.biosim.client.framework.gui.BioFrame;
 import com.traclabs.biosim.client.simulation.food.photosynthesis.PhotosynthesisPanel;
 import com.traclabs.biosim.client.simulation.framework.SimDesktop;
 import com.traclabs.biosim.client.unrealCom.UnrealCom;

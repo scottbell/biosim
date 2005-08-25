@@ -2,7 +2,7 @@ package com.traclabs.biosim.client.simulation.environment;
 
 import java.awt.GridLayout;
 
-import com.traclabs.biosim.client.framework.gui.UpdatablePanel;
+import com.traclabs.biosim.client.framework.UpdatablePanel;
 import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;

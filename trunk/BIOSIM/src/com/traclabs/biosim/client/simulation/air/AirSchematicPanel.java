@@ -1,6 +1,6 @@
 package com.traclabs.biosim.client.simulation.air;
 
-import com.traclabs.biosim.client.framework.gui.TimedPanel;
+import com.traclabs.biosim.client.framework.TimedPanel;
 
 /**
  * This is the JPanel that displays a schematic
