@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 
 import com.traclabs.biosim.client.control.HandController;
 import com.traclabs.biosim.client.control.SimCommandLine;
-import com.traclabs.biosim.client.framework.apollo13.Apollo13LoggingClient;
+import com.traclabs.biosim.client.framework.apollo13.Apollo13Viewer;
 import com.traclabs.biosim.client.sensor.framework.SensorViewer;
 import com.traclabs.biosim.client.simulation.food.photosynthesis.PhotosynthesisPanel;
 import com.traclabs.biosim.client.simulation.framework.SimDesktop;
@@ -49,7 +49,7 @@ public class BiosimMain {
         boolean wantsToRunUnreal = false;
         boolean wantsToPhotosynthesis = false;
         boolean wantsToRunSensorViewer = false;
-        boolean wantsToRunApollo13LoggingClient = false;
+        boolean wantsToRunApollo13Viewer = false;
         boolean unrealServerGiven = false;
         String unrealServer = "";
         for (int i = 0; i < myArgs.length; i++) {
@@ -66,7 +66,7 @@ public class BiosimMain {
             } else if (myArgs[i].equals("sensor")) {
             	wantsToRunSensorViewer = true;
             } else if (myArgs[i].equals("apollo")) {
-            	wantsToRunApollo13LoggingClient = true;
+            	wantsToRunApollo13Viewer = true;
             } else if (myArgs[i].equals("-debug")) {
                 OrbUtils.initializeClientForDebug();
             } else if (myArgs[i].startsWith("-xml=")) {
@@ -113,8 +113,8 @@ public class BiosimMain {
             runHandController();
         else if (wantsToRunSensorViewer)
             runSensorViewer();
-        else if (wantsToRunApollo13LoggingClient)
-            runApollo13LoggingClient();
+        else if (wantsToRunApollo13Viewer)
+            runApollo13Viewer();
         else if (wantsToRunUnreal) {
             if (unrealServerGiven) {
                 runUnreal2(unrealServer);
@@ -191,8 +191,8 @@ public class BiosimMain {
     /**
      * Runs the sensor viewer
      */
-    private void runApollo13LoggingClient() {
-    	Apollo13LoggingClient.main(new String[]{}); 
+    private void runApollo13Viewer() {
+    	Apollo13Viewer.main(new String[]{}); 
     }
 }
 

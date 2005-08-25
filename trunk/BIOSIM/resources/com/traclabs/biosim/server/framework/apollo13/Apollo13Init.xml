@@ -22,14 +22,14 @@
 			<CO2Store moduleName="DumpedCO2" capacity="2000" level="0"/>
 			<O2Store moduleName="ResevoirO2Store" capacity="2000" level="2000"/>
 			<VCCR moduleName="VCCR">
-				<airConsumer desiredFlowRates="100" maxFlowRates="100" inputs="CrewEnvironment"/>	
-				<airProducer desiredFlowRates="100" maxFlowRates="100" outputs="CrewEnvironment"/>
-				<CO2Producer desiredFlowRates="100" maxFlowRates="100" outputs="DumpedCO2"/>
-				<powerConsumer desiredFlowRates="100" maxFlowRates="100" inputs="FuelCells"/>
+				<airConsumer desiredFlowRates="1000" maxFlowRates="1000" inputs="CrewEnvironment"/>	
+				<airProducer desiredFlowRates="1000" maxFlowRates="1000" outputs="CrewEnvironment"/>
+				<CO2Producer desiredFlowRates="1000" maxFlowRates="1000" outputs="DumpedCO2"/>
+				<powerConsumer desiredFlowRates="1000" maxFlowRates="1000" inputs="FuelCells"/>
 			</VCCR>
 		</air>
 		<power>
-			<PowerStore level="20000" capacity="20000" moduleName="FuelCells"/>
+			<PowerStore level="200000" capacity="200000" moduleName="FuelCells"/>
 		</power>
 		<crew>
 			<CrewGroup moduleName="Crew">
@@ -90,10 +90,8 @@
 			<O2OutFlowRateSensor index="0" input="O2InfluentValve" moduleName="O2InfluentValveOutputSensor"/>
 		</air>
 		<environment>
-			<GasConcentrationSensor gasType="CO2" input="CrewEnvironment" moduleName="BaseCrewEnvironmentCO2ConcentrationSensor"/>
 			<GasConcentrationSensor gasType="O2" input="CrewEnvironment" moduleName="BaseCrewEnvironmentO2ConcentrationSensor"/>
-			<GasConcentrationSensor gasType="VAPOR" input="CrewEnvironment" moduleName="BaseCrewEnvironmentVaporConcentrationSensor"/>
-			<GasPressureSensor gasType="VAPOR" input="CrewEnvironment" moduleName="BaseCrewEnvironmentVaporPressureSensor"/>
+			<GasConcentrationSensor gasType="CO2" input="CrewEnvironment" moduleName="BaseCrewEnvironmentCO2ConcentrationSensor"/>
 		</environment>
 		<framework>
 			<StoreLevelSensor input="MainO2Store" moduleName="MainO2StoreLevelSensor"/>
