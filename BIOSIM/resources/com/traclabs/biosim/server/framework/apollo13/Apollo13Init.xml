@@ -42,19 +42,19 @@
 				<dryWasteProducer maxFlowRates="100" desiredFlowRates="100" outputs="DryWasteStore"/>
 				<crewPerson name="James Lovell" age="42" weight="70" sex="MALE">
 					<schedule>
-						<activity name="mission" length="16" intensity="3"/>
+						<activity name="mission" length="16" intensity="2"/>
 						<activity name="sleep" length="8" intensity="1"/>
 					</schedule>
 				</crewPerson>
 				<crewPerson name="John Swigert" age="38" weight="71" sex="MALE">
 					<schedule>
-						<activity name="mission" length="16" intensity="3"/>
+						<activity name="mission" length="16" intensity="2"/>
 						<activity name="sleep" length="8" intensity="1"/>
 					</schedule>
 				</crewPerson>
 				<crewPerson name="Fred Haise" age="36" weight="72" sex="MALE">
 					<schedule>
-						<activity name="mission" length="16" intensity="3"/>
+						<activity name="mission" length="16" intensity="2"/>
 						<activity name="sleep" length="8" intensity="1"/>
 					</schedule>
 				</crewPerson>
@@ -72,8 +72,8 @@
 		</food>
 		<framework>
 			<InfluentValve moduleName="O2InfluentValve">
-				<O2Consumer desiredFlowRates="5.46875e-05" maxFlowRates="5.46875e-05" inputs="MainO2Store ResevoirO2Store"/>
-				<O2Producer desiredFlowRates="5.46875e-05" maxFlowRates="5.46875e-05" outputs="CrewEnvironment"/>
+				<O2Consumer desiredFlowRates="0.0248" maxFlowRates="0.0248" inputs="MainO2Store ResevoirO2Store"/>
+				<O2Producer desiredFlowRates="0.0248" maxFlowRates="0.0248" outputs="CrewEnvironment"/>
 			</InfluentValve>
 		</framework>
 		<water>

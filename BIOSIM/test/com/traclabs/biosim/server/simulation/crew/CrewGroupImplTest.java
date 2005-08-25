@@ -74,13 +74,13 @@ public class CrewGroupImplTest extends TestCase {
 	 * Test method for 'com.traclabs.biosim.server.simulation.crew.CrewGroup.tick()'
 	 */
 	public void testTick() {
-		float averageMolesOfO2NeededInDay = 0.055f;
+		float averageMolesOfO2NeededInDay = 24.664f;
 		float molesOfOxygenConsumed = 0f;
 		for (int i = 0; i < 24; i++){
 			myCrewGroup.tick();
 			molesOfOxygenConsumed += myCrewGroup.getCrewPeople()[0].getO2Consumed();
 		}
-		assertEquals(averageMolesOfO2NeededInDay, molesOfOxygenConsumed, 0.02f);
+		assertEquals(averageMolesOfO2NeededInDay, molesOfOxygenConsumed, 5f);
 	}
 	
 
