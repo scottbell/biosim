@@ -1,4 +1,4 @@
-package com.traclabs.biosim.client.framework.gui;
+package com.traclabs.biosim.client.framework;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;

@@ -1,6 +1,6 @@
 package com.traclabs.biosim.client.simulation.environment;
 
-import com.traclabs.biosim.client.framework.gui.UpdatablePanel;
+import com.traclabs.biosim.client.framework.UpdatablePanel;
 import com.traclabs.biosim.client.simulation.framework.SimTabbedPanel;
 import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;

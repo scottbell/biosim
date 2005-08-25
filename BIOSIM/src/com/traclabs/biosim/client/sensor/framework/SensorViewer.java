@@ -1,4 +1,4 @@
-package com.traclabs.biosim.client.sensor.framework.gui;
+package com.traclabs.biosim.client.sensor.framework;
 
 /**
  * @author Scott Bell

@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.Timer;
 
-import com.traclabs.biosim.client.framework.gui.BioFrame;
+import com.traclabs.biosim.client.framework.BioFrame;
 import com.traclabs.biosim.client.util.Fnorder;
 import com.traclabs.biosim.server.simulation.food.photosynthesis.Chloroplast;
 import com.traclabs.biosim.util.OrbUtils;

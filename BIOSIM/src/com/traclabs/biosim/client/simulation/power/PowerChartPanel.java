@@ -2,7 +2,7 @@ package com.traclabs.biosim.client.simulation.power;
 
 import java.awt.BorderLayout;
 
-import com.traclabs.biosim.client.framework.gui.UpdatablePanel;
+import com.traclabs.biosim.client.framework.UpdatablePanel;
 
 /**
  * This is the JPanel that displays a chart about the Power

@@ -29,16 +29,16 @@ import javax.swing.JToolBar;
 
 import org.apache.log4j.Logger;
 
-import com.traclabs.biosim.client.framework.gui.BioFrame;
-import com.traclabs.biosim.client.framework.gui.MalfunctionPanel;
-import com.traclabs.biosim.client.framework.gui.StochasticPanel;
-import com.traclabs.biosim.client.framework.gui.UpdatablePanel;
+import com.traclabs.biosim.client.framework.BioFrame;
+import com.traclabs.biosim.client.framework.MalfunctionPanel;
+import com.traclabs.biosim.client.framework.StochasticPanel;
+import com.traclabs.biosim.client.framework.UpdatablePanel;
 import com.traclabs.biosim.client.simulation.air.AirPanel;
 import com.traclabs.biosim.client.simulation.crew.CrewPanel;
 import com.traclabs.biosim.client.simulation.environment.EnvironmentPanel;
 import com.traclabs.biosim.client.simulation.food.FoodPanel;
-import com.traclabs.biosim.client.simulation.water.WaterPanel;
 import com.traclabs.biosim.client.simulation.power.PowerPanel;
+import com.traclabs.biosim.client.simulation.water.WaterPanel;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.client.util.Fnorder;
 import com.traclabs.biosim.idl.framework.BioDriver;

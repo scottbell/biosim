@@ -51,7 +51,7 @@ import org.tigris.gef.graph.presentation.JGraph;
 import org.tigris.gef.util.Localizer;
 import org.tigris.gef.util.ResourceLoader;
 
-import com.traclabs.biosim.client.framework.gui.BioFrame;
+import com.traclabs.biosim.client.framework.BioFrame;
 import com.traclabs.biosim.editor.base.BiosimEditor;
 import com.traclabs.biosim.editor.base.CmdNewEditor;
 import com.traclabs.biosim.editor.base.CmdOpenEditor;

@@ -2,7 +2,7 @@ package com.traclabs.biosim.client.simulation.crew;
 
 import java.awt.GridLayout;
 
-import com.traclabs.biosim.client.framework.gui.UpdatablePanel;
+import com.traclabs.biosim.client.framework.UpdatablePanel;
 
 /**
  * This is the JPanel that displays a chart about the Air

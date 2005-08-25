@@ -83,10 +83,7 @@ import com.traclabs.biosim.server.simulation.water.WaterConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.water.WaterProducerDefinitionImpl;
 
 /**
- * The basic Accumulator Implementation. Can be configured to take any modules
- * as input, and any modules as output. It takes as much as it can (max taken
- * set by maxFlowRates) from one module and pushes it into another module.
- * Functionally equivalent to an Accumulator at this point.
+ * An influent valve.  Takes from 1 store (chosen by the index) and dumps to n stores.
  * 
  * @author Scott Bell
  */
