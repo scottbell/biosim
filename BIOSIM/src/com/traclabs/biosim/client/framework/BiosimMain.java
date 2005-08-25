@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 
 import com.traclabs.biosim.client.control.HandController;
 import com.traclabs.biosim.client.control.SimCommandLine;
+import com.traclabs.biosim.client.framework.apollo13.Apollo13LoggingClient;
 import com.traclabs.biosim.client.sensor.framework.SensorViewer;
 import com.traclabs.biosim.client.simulation.food.photosynthesis.PhotosynthesisPanel;
 import com.traclabs.biosim.client.simulation.framework.SimDesktop;
@@ -48,6 +49,7 @@ public class BiosimMain {
         boolean wantsToRunUnreal = false;
         boolean wantsToPhotosynthesis = false;
         boolean wantsToRunSensorViewer = false;
+        boolean wantsToRunApollo13LoggingClient = false;
         boolean unrealServerGiven = false;
         String unrealServer = "";
         for (int i = 0; i < myArgs.length; i++) {
@@ -63,6 +65,8 @@ public class BiosimMain {
                 wantsToPhotosynthesis = true;
             } else if (myArgs[i].equals("sensor")) {
             	wantsToRunSensorViewer = true;
+            } else if (myArgs[i].equals("apollo")) {
+            	wantsToRunApollo13LoggingClient = true;
             } else if (myArgs[i].equals("-debug")) {
                 OrbUtils.initializeClientForDebug();
             } else if (myArgs[i].startsWith("-xml=")) {
@@ -109,6 +113,8 @@ public class BiosimMain {
             runHandController();
         else if (wantsToRunSensorViewer)
             runSensorViewer();
+        else if (wantsToRunApollo13LoggingClient)
+            runApollo13LoggingClient();
         else if (wantsToRunUnreal) {
             if (unrealServerGiven) {
                 runUnreal2(unrealServer);
@@ -145,7 +151,7 @@ public class BiosimMain {
         newCommandLine.runCommandLine();
     }
 
-    public void runHandController() {
+    private void runHandController() {
         HandController myController = new HandController();
         myController.runSim();
     }
@@ -153,7 +159,7 @@ public class BiosimMain {
     /**
      * Runs the UnrealCom interface to communicate with UnrealTournament 2004
      */
-    public void runUnreal() {
+    private void runUnreal() {
         UnrealCom myUnrealCom = new UnrealCom();
         myUnrealCom.initUnrealComm();
     }
@@ -164,7 +170,7 @@ public class BiosimMain {
      * @param unServer
      *            The name of the unreal Server to connect to.
      */
-    public void runUnreal2(String unServer) {
+    private void runUnreal2(String unServer) {
         UnrealCom myUnrealCom = new UnrealCom(unServer);
         myUnrealCom.initUnrealComm();
     }
@@ -172,7 +178,7 @@ public class BiosimMain {
     /**
      * Runs the Photosynthesis GUI
      */
-    public void runPhotosynthesis() {
+    private void runPhotosynthesis() {
         BioFrame myFrame = new BioFrame("Photosynthesis Model", false);
         myFrame.getContentPane().add(new PhotosynthesisPanel());
         myFrame.pack();
@@ -180,6 +186,13 @@ public class BiosimMain {
         ImageIcon biosimIcon = new ImageIcon(BiosimMain.class.getClassLoader().getResource("com/traclabs/biosim/client/food/food.png"));
         myFrame.setIconImage(biosimIcon.getImage());
         myFrame.setVisible(true);
+    }
+    
+    /**
+     * Runs the sensor viewer
+     */
+    private void runApollo13LoggingClient() {
+    	Apollo13LoggingClient.main(new String[]{}); 
     }
 }
 
