@@ -194,4 +194,9 @@ public class MalfunctionImpl extends MalfunctionPOA {
     public MalfunctionLength getLength() {
         return myLength;
     }
+    
+    public void reset(){
+    	performed = false;
+    	repairTime = 0;
+    }
 }
