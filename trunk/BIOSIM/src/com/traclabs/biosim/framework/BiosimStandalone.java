@@ -1,6 +1,7 @@
 package com.traclabs.biosim.framework;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,35 +31,39 @@ public class BiosimStandalone {
 
     private ReadyListener myReadyListener;
 
-    private static final String XML_INIT_FILENAME = "com/traclabs/biosim/server/framework/DefaultInit.xml";
-
     private JFrame myFrame;
 
     private JProgressBar myProgressBar;
+    
+    private String myXmlFilename;
+    
+    private int myDriverPause;
 
     public static void main(String args[]) {
-
-        BiosimStandalone myBiosimStandalone = new BiosimStandalone();
+        ImageIcon marsIcon = new ImageIcon(BiosimStandalone.class
+                .getClassLoader().getResource(
+                        "com/traclabs/biosim/framework/mars.png"));
+        BiosimStandalone myBiosimStandalone = new BiosimStandalone(marsIcon, "BioSim: Advanced Life Support Simulation", "com/traclabs/biosim/server/framework/DefaultInit.xml", 500);
         myBiosimStandalone.beginSimulation();
     }
-
-    public BiosimStandalone() {
+    
+    public BiosimStandalone(ImageIcon splashIcon, String splashText, String xmlFilename, int driverPause){
+    	myDriverPause = driverPause;
+    	myXmlFilename = xmlFilename;
         myServerThread = new Thread(new ServerThread());
         myClientThread = new Thread(new ClientThread());
         myProgressBar = new JProgressBar();
         myProgressBar.setIndeterminate(true);
         myFrame = new JFrame("BioSim Loader");
         myFrame.getContentPane().setLayout(new BorderLayout());
-        ImageIcon marsIcon = new ImageIcon(BiosimStandalone.class
-                .getClassLoader().getResource(
-                        "com/traclabs/biosim/framework/mars.png"));
         ImageIcon biosimIcon = new ImageIcon(BiosimStandalone.class
                 .getClassLoader().getResource(
                         "com/traclabs/biosim/client/framework/biosim.png"));
 
         JLabel waitLabel = new JLabel(
-                "BioSim: Advanced Life Support Simulation", marsIcon,
+        		splashText, splashIcon,
                 SwingConstants.CENTER);
+        waitLabel.setForeground(Color.WHITE);
         myFrame.setIconImage(biosimIcon.getImage());
         myFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         WindowCloseListener myWindowCloseListener = new WindowCloseListener();
@@ -67,6 +72,7 @@ public class BiosimStandalone {
         myFrame.getContentPane().add(myProgressBar, BorderLayout.SOUTH);
         myFrame.pack();
         myFrame.setLocationRelativeTo(null); 
+        myFrame.getContentPane().setBackground(Color.BLACK);
         myReadyListener = new ReadyListener();
     }
 
@@ -82,11 +88,16 @@ public class BiosimStandalone {
         OrbUtils.initializeClientForDebug();
         myClientThread.start();
     }
+    
+    protected void runClient(){
+        String[] emptyArgs = new String[0];
+        BiosimMain.main(emptyArgs);
+    }
 
     private class ServerThread implements Runnable {
-        public void run() {
-            BiosimServer myBiosimServer = new BiosimServer(0, 500,
-                    XML_INIT_FILENAME);
+		public void run() {
+            BiosimServer myBiosimServer = new BiosimServer(0, myDriverPause,
+                    myXmlFilename);
             myBiosimServer.addReadyListener(myReadyListener);
             myBiosimServer.runServer("BiosimServer (id=0)");
         }
@@ -94,8 +105,7 @@ public class BiosimStandalone {
 
     private class ClientThread implements Runnable {
         public void run() {
-            String[] emptyArgs = new String[0];
-            BiosimMain.main(emptyArgs);
+        	runClient();
         }
     }
 
@@ -114,4 +124,8 @@ public class BiosimStandalone {
             System.exit(0);
         }
     }
+
+	public String getXmlFilename() {
+		return myXmlFilename;
+	}
 }
