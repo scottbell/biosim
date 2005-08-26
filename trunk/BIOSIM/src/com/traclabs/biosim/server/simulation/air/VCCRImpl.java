@@ -100,7 +100,7 @@ public class VCCRImpl extends SimBioModuleImpl implements VCCROperations,
         SimEnvironment theEnvironment = myAirConsumerDefinitionImpl.getEnvironments()[0];
         float theCO2Percentage = theEnvironment.getCO2Store().getCurrentLevel() / theEnvironment.getTotalMoles();
         //gather CO2
-        gatheredCO2 = theEnvironment.getCO2Store().take(theCO2Percentage * theCO2Percentage);
+        gatheredCO2 = theEnvironment.getCO2Store().take(theCO2Percentage * molesAirNeeded);
     }
 
     private void pushCO2() {

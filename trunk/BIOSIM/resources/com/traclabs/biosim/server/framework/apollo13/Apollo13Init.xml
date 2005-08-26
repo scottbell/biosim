@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='../BiosimInitSchema.xsd'>
-	<Globals crewsToWatch="Crew" runTillCrewDeath="true" tickLength="0.008333333333333333" runTillN="60">
+	<Globals crewsToWatch="Crew" runTillCrewDeath="true" tickLength="0.008333333333333333" runTillN="61">
 		<comment>
 			This is the Apollo 13 initialization.
 			It is on a 30 second time step and runs for 30 minutes.
@@ -19,7 +19,7 @@
 			<O2Store moduleName="MainO2Store" capacity="2000" level="2000">
 				<malfunction occursAtTick="10" length="PERMANENT_MALF" intensity="SEVERE_MALF"/>
 			</O2Store>
-			<CO2Store moduleName="DumpedCO2" capacity="2000" level="0"/>
+			<CO2Store moduleName="DumpedCO2" capacity="20000" level="0"/>
 			<O2Store moduleName="ResevoirO2Store" capacity="2000" level="2000"/>
 			<VCCR moduleName="VCCR">
 				<airConsumer desiredFlowRates="1000" maxFlowRates="1000" inputs="CrewEnvironment"/>	
@@ -63,8 +63,8 @@
 		<environment>
 			<SimEnvironment moduleName="CrewEnvironment" initialVolume="12.9725108"/>
 			<Dehumidifier moduleName="Dehumidifier">
-				<airConsumer desiredFlowRates="100" maxFlowRates="100" inputs="CrewEnvironment"/>
-				<dirtyWaterProducer desiredFlowRates="100" maxFlowRates="100" outputs="DirtyWaterStore"/>
+				<airConsumer desiredFlowRates="10000" maxFlowRates="10000" inputs="CrewEnvironment"/>
+				<dirtyWaterProducer desiredFlowRates="10000" maxFlowRates="10000" outputs="DirtyWaterStore"/>
 			</Dehumidifier>
 		</environment>                    
 		<food>
