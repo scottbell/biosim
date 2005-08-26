@@ -1,7 +1,6 @@
 package com.traclabs.biosim.server.framework;
 
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -42,12 +41,8 @@ public abstract class BioModuleImpl extends BioModulePOA {
     //The name of this module (should be the same in the nameserver)
     private String myName = "NoName";
 
-    //The Malfunctions in a Map (key is a Long representing the Malfunction ID,
-    // value is the Malfunction Object)
     protected Map<Long, Malfunction> myMalfunctions;
 
-    //The Malfunctions in a Map (key is a Long representing the Malfunction ID,
-    // value is the Malfunction Object)
     protected List<MalfunctionImpl> myScheduledMalfunctions;
 
     private boolean canBreakdown = false;
@@ -75,12 +70,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
      *            The name of the module
      */
     protected BioModuleImpl() {
-        myLogger = Logger.getLogger(this.getClass());
-        myRandomGen = new Random();
-        myMalfunctions = new Hashtable<Long, Malfunction>();
-        myScheduledMalfunctions = new Vector<MalfunctionImpl>();
-        myName = "Unnamed "+getClass() + " ";
-        myID = 0;
+        this(0, "Unnamed");
     }
 
     /**
@@ -134,11 +124,10 @@ public abstract class BioModuleImpl extends BioModulePOA {
     }
 
     private void checkForScheduledMalfunctions() {
-        for (Iterator iter = myScheduledMalfunctions.iterator(); iter.hasNext();) {
-            MalfunctionImpl currentMalfunction = (MalfunctionImpl) (iter.next());
+    	for (MalfunctionImpl currentMalfunction : myScheduledMalfunctions) {
             if (currentMalfunction.getTickToMalfunction() == getMyTicks())
                 startMalfunction(currentMalfunction);
-        }
+		}
     }
 
     protected void performMalfunctions() {
@@ -170,11 +159,10 @@ public abstract class BioModuleImpl extends BioModulePOA {
      * Fixes all malfunctions. Permanent malfunctions are unfixable.
      */
     public void fixAllMalfunctions() {
-        for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext();) {
-            Malfunction currentMalfunction = (Malfunction) (iter.next());
+    	for (Malfunction currentMalfunction : myMalfunctions.values()) {
             if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF)
                 myMalfunctions.remove(new Long(currentMalfunction.getID()));
-        }
+		}
     }
 
     /**
@@ -182,10 +170,8 @@ public abstract class BioModuleImpl extends BioModulePOA {
      * malfunctions removed)
      */
     public void clearAllMalfunctions() {
-        for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext();) {
-            Malfunction currentMalfunction = (Malfunction) (iter.next());
+    	for (Malfunction currentMalfunction : myMalfunctions.values())
             myMalfunctions.remove(new Long(currentMalfunction.getID()));
-        }
     }
 
     /**
@@ -197,10 +183,10 @@ public abstract class BioModuleImpl extends BioModulePOA {
     public String[] getMalfunctionNames() {
         String[] malfunctionNames = new String[myMalfunctions.size()];
         int i = 0;
-        for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); i++) {
-            Malfunction currentMalfunction = (Malfunction) (iter.next());
+    	for (Malfunction currentMalfunction : myMalfunctions.values()){
             malfunctionNames[i] = currentMalfunction.getName();
-        }
+            i++;
+    	}
         return malfunctionNames;
     }
 
@@ -354,6 +340,8 @@ public abstract class BioModuleImpl extends BioModulePOA {
         breakdownFactor = 0f;
         myTicks = 0;
         myMalfunctions.clear();
+    	for (MalfunctionImpl currentMalfunction : myScheduledMalfunctions)
+    		currentMalfunction.reset();
     }
 
     /**
