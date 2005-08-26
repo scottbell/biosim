@@ -139,7 +139,7 @@
 						<pathelement location="${gefDir}/gef.jar" />
 					</classpath>
 				</javac>
-			</target>
+	</target>
 
 	<target name="build-client" depends="stub-and-compile-idl" description="compile the client">
 		<echo message="Compling the client" />

@@ -16,8 +16,6 @@ import org.omg.PortableServer.POAHelper;
 
 import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.framework.BioModuleHelper;
-import com.traclabs.biosim.server.framework.BiosimServer;
-import com.traclabs.biosim.server.framework.GenericServer;
 
 /**
  * The OrbUtils class provides basic CORBA utilities to server components
@@ -379,8 +377,8 @@ public class OrbUtils {
 	}
     
     private static String findXmlInClasspath(String xmlLocation){
-    	Logger.getLogger(GenericServer.class).debug("Looking for "+xmlLocation+" in classpath");
-        URL foundURL = BiosimServer.class.getClassLoader().getResource(xmlLocation);
+    	Logger.getLogger(OrbUtils.class).debug("Looking for "+xmlLocation+" in classpath");
+        URL foundURL = OrbUtils.class.getClassLoader().getResource(xmlLocation);
         if (foundURL != null){
         	String urlString = foundURL.toString();
         	if (urlString.length() > 0)
