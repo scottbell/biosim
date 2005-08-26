@@ -77,7 +77,7 @@ public class Apollo13Viewer extends SimulationPanel {
 		add(myGraphPanel, BorderLayout.CENTER);
 		myLogString = new StringBuilder();
 		myLogString
-				.append("timetag,O2 flow rate,Valve command,Valve state,O2 concentration in cabin,CO2 concentration in cabin,O2 tank pressure,O2 usage over timestep");
+				.append("timetag,O2 flow rate,Valve command,Valve state,O2 concentration in cabin,CO2 concentration in cabin,O2 tank pressure,O2 usage over timestep\n");
 
 		myMenuBar = new JMenuBar();
 		myFileMenu = new JMenu("File");
