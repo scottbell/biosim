@@ -1,9 +1,11 @@
 package com.traclabs.biosim.client.simulation.framework;
 
+import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -41,7 +43,11 @@ public abstract class SimulationPanel extends JPanel {
 
     private ImageIcon myTickIcon;
     
-    private final static int TICK_DELAY = 200;
+    private Action myRefreshAction;
+    
+    private Action myPlayPauseButtonAction;
+    
+    private final static int REFRESH_DELAY = 200;
 
     public SimulationPanel() {
         buildGUI();
@@ -56,16 +62,37 @@ public abstract class SimulationPanel extends JPanel {
         myResetButton = new JButton(new ResetButtonAction());
         myResetButton.setIcon(myResetIcon);
         myResetButton.setToolTipText(myPlayToolTipText);
-        myTickTimer = new Timer(TICK_DELAY, new TickAction());
+        myRefreshAction = new RefreshAction();
+        myTickTimer = new Timer(REFRESH_DELAY, myRefreshAction);
         myTickButton = new JButton(new TickButtonAction());
         myTickButton.setIcon(myTickIcon);
         myTickButton.setToolTipText(myTickToolTipText);
-        myPlayPauseButton = new JButton(new PlayPauseButtonAction());
+        myPlayPauseButtonAction = new PlayPauseButtonAction();
+        myPlayPauseButton = new JButton(myPlayPauseButtonAction);
         myPlayPauseButton.setIcon(myPlayIcon);
         myPlayPauseButton.setToolTipText(myPlayToolTipText);
         myButtonBar.add(myResetButton);
         myButtonBar.add(myPlayPauseButton);
         myButtonBar.add(myTickButton);
+        setLayout(new BorderLayout());
+        add(myButtonBar, BorderLayout.NORTH);
+    }
+    
+    protected void stopRefresh(){
+    	if (myTickTimer.isRunning()){
+            //pause the sim
+            myTickTimer.stop();
+            myPlayPauseButton.setIcon(myPlayIcon);
+            myPlayPauseButton.setToolTipText(myPlayToolTipText);
+            myTickButton.setEnabled(true);
+        }
+        else{
+            //start sim
+            myTickTimer.start();
+            myPlayPauseButton.setIcon(myPauseIcon);
+            myPlayPauseButton.setToolTipText(myPauseToolTipText);
+            myTickButton.setEnabled(false);
+        }
     }
     
     private void loadIcons(){
@@ -92,30 +119,15 @@ public abstract class SimulationPanel extends JPanel {
     private class PlayPauseButtonAction extends AbstractAction {
         public void actionPerformed(ActionEvent ae) {
             getTopLevelAncestor().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            if (myTickTimer.isRunning()){
-                //pause the sim
-                myTickTimer.stop();
-                myPlayPauseButton.setIcon(myPlayIcon);
-                myPlayPauseButton.setToolTipText(myPlayToolTipText);
-                myTickButton.setEnabled(true);
-            }
-            else{
-                //start sim
-                myTickTimer.start();
-                myPlayPauseButton.setIcon(myPauseIcon);
-                myPlayPauseButton.setToolTipText(myPauseToolTipText);
-                myTickButton.setEnabled(false);
-            }
+            stopRefresh();
             getTopLevelAncestor().setCursor(Cursor.getDefaultCursor());
         }
     }
 
     private class TickButtonAction extends AbstractAction {
-        private TickAction myTickAction = new TickAction();
-        
         public void actionPerformed(ActionEvent ae) {
             getTopLevelAncestor().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            myTickAction.actionPerformed(ae);
+            myRefreshAction.actionPerformed(ae);
             if (ae.getModifiers() == (ActionEvent.CTRL_MASK + 16)) {
                 Fnorder myFnord = new Fnorder();
                 String message = myFnord.getFnord();
@@ -139,7 +151,7 @@ public abstract class SimulationPanel extends JPanel {
         }
     }
 
-    private class TickAction extends AbstractAction {
+    private class RefreshAction extends AbstractAction {
         public void actionPerformed(ActionEvent ae) {
             refresh();
         }

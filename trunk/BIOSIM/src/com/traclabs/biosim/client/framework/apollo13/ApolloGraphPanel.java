@@ -23,43 +23,73 @@ public class ApolloGraphPanel extends JPanel {
 
     private JFreeChart myChart;
 
-    private XYSeries myPS2Series = new XYSeries("O2 Out Flowrate");
+    private XYSeries myO2OutFlowSeries = new XYSeries("O2 Out Flowrate");
 
-    private XYSeries myCyB6FSeries = new XYSeries("CyB6F Energy Level");
+    private XYSeries myO2ValveCommandSeries = new XYSeries("O2 Valve Command");
 
-    private XYSeries myPS1Series = new XYSeries("PS1 Energy Level");
+    private XYSeries myO2ValveStateSeries = new XYSeries("O2 Valve State");
     
-    private XYSeries myFNRSeries = new XYSeries("FNR Energy Level");
+    private XYSeries myO2GasConcetrationSeries = new XYSeries("O2 Gas Concetration");
     
-    private XYSeries myATPSynthaseSeries = new XYSeries("ATP Synthase Energy Level");
+    private XYSeries myCO2GasConcetrationSeries = new XYSeries("CO2 Gas Concetration");
     
-    private XYSeries[] mySeries = {myPS2Series, myCyB6FSeries, myPS1Series, myFNRSeries, myATPSynthaseSeries};
+    private XYSeries myO2StoreLevelSeries = new XYSeries("O2 Store Level");
+    
+    private XYSeries myO2UsageSeries = new XYSeries("O2 Usage");
+    
+    private XYSeries[] mySeries = {myO2OutFlowSeries, myO2ValveCommandSeries, myO2ValveStateSeries, myO2GasConcetrationSeries, myCO2GasConcetrationSeries, myO2StoreLevelSeries, myO2UsageSeries};
 
-    private Color[] myColors = {Color.CYAN, Color.RED, Color.GREEN, Color.BLUE, Color.MAGENTA};
+    private Color[] myColors = {Color.CYAN, Color.RED, Color.PINK, Color.BLUE, Color.GREEN, Color.MAGENTA, Color.ORANGE};
     
-    private XYSeriesCollection myPS2Data = new XYSeriesCollection(myPS2Series);
+    private XYSeriesCollection myO2OutFlowData = new XYSeriesCollection(myO2OutFlowSeries);
     
-    private XYSeriesCollection myCyB6FData = new XYSeriesCollection(myCyB6FSeries);
+    private XYSeriesCollection myO2ValveCommandData = new XYSeriesCollection(myO2ValveCommandSeries);
     
-    private XYSeriesCollection myPS1Data = new XYSeriesCollection(myPS1Series);
+    private XYSeriesCollection myO2ValveStateData = new XYSeriesCollection(myO2ValveStateSeries);
     
-    private XYSeriesCollection myFNRData = new XYSeriesCollection(myFNRSeries);
+    private XYSeriesCollection myO2GasConcetrationData = new XYSeriesCollection(myO2GasConcetrationSeries);
+   
+    private XYSeriesCollection myCO2GasConcetrationData = new XYSeriesCollection(myCO2GasConcetrationSeries);
     
-    private XYSeriesCollection myATPSynthaseData = new XYSeriesCollection(myATPSynthaseSeries);
-    
-    private XYSeriesCollection[] myData = {myPS2Data, myCyB6FData, myPS1Data, myFNRData, myATPSynthaseData};
-    
-    private XYPlot myPS2Plot;
+    private XYSeriesCollection myO2StoreLevelData = new XYSeriesCollection(myO2StoreLevelSeries);
 
-    private XYPlot myCyB6FPlot;
+    private XYSeriesCollection myO2UsageData = new XYSeriesCollection(myO2UsageSeries);
+    
+    private XYSeriesCollection[] myData = {myO2OutFlowData, myO2ValveCommandData, myO2ValveStateData, myO2GasConcetrationData, myCO2GasConcetrationData, myO2StoreLevelData, myO2UsageData};
+    
+    private XYPlot myO2OutFlowPlot;
 
-    private XYPlot myPS1Plot;
+    private XYPlot myO2ValveCommandPlot;
+
+    private XYPlot myO2ValveStatePlot;
     
-    private XYPlot myFNRPlot;
+    private XYPlot myO2GasConcetrationPlot;
     
-    private XYPlot myATPPlot;
+    private XYPlot myCO2GasConcetrationPlot;
     
-    private XYPlot[] myPlots = {myPS2Plot, myCyB6FPlot, myPS1Plot, myFNRPlot, myATPPlot};
+    private XYPlot myO2StoreLevelPlot;
+    
+    private XYPlot myO2UsagePlot;
+    
+    private XYPlot[] myPlots = {myO2OutFlowPlot, myO2ValveCommandPlot, myO2ValveStatePlot, myO2GasConcetrationPlot, myCO2GasConcetrationPlot, myO2StoreLevelPlot, myO2UsagePlot};
+    
+    private NumberAxis myO2OutFlowYAxis = new NumberAxis("Lbs");
+    
+    private NumberAxis myO2ValveCommandYAxis = new NumberAxis("Level");
+    
+    private NumberAxis myO2ValveStateYAxis = new NumberAxis("Level");
+    
+    private NumberAxis myO2GasConcetrationAxis = new NumberAxis("%");
+    
+    private NumberAxis myCO2GasConcetrationAxis = new NumberAxis("%");
+    
+    private NumberAxis myO2StoreLevelAxis = new NumberAxis("Lbs");
+    
+    private NumberAxis myO2UsageAxis = new NumberAxis("Lbs");
+    
+    private NumberAxis[] myYAxes = {myO2OutFlowYAxis, myO2ValveCommandYAxis, myO2ValveStateYAxis, myO2GasConcetrationAxis, myCO2GasConcetrationAxis, myO2StoreLevelAxis, myO2UsageAxis};
+    
+    
     
     private BioHolder myBioHolder;
 
@@ -72,60 +102,38 @@ public class ApolloGraphPanel extends JPanel {
         //Chart Panel
         NumberAxis xAxis = new NumberAxis("Ticks");
         xAxis.setAutoRangeIncludesZero(false);
-        NumberAxis yAxis = new NumberAxis("Energy");
         setLayout(new BorderLayout());
         
         CombinedDomainXYPlot combinedPlot = new CombinedDomainXYPlot(xAxis);
         combinedPlot.getDomainAxis().setStandardTickUnits(
                 NumberAxis.createIntegerTickUnits());
-       
-        
         for (int i = 0; i < mySeries.length; i++){
         	XYPlot currentPlot = myPlots[i];
             XYItemRenderer renderer = new XYLineAndShapeRenderer(true, false);
             renderer.setSeriesPaint(0, myColors[i]);
-        	currentPlot = new XYPlot(myData[i], xAxis, yAxis, renderer);
+        	currentPlot = new XYPlot(myData[i], xAxis, myYAxes[i], renderer);
         	currentPlot.setOrientation(PlotOrientation.VERTICAL);
-        	currentPlot.getRangeAxis().setStandardTickUnits(
-                    NumberAxis.createIntegerTickUnits());
-        	currentPlot.getRangeAxis().setAutoRange(false);
-        	currentPlot.getRangeAxis().setRange(0, 1.1);
         	combinedPlot.add(currentPlot);
 		}
-        myChart = new JFreeChart("Enzyme Energy Level", JFreeChart.DEFAULT_TITLE_FONT, combinedPlot, true);
+        myChart = new JFreeChart("Apollo 13 Conditions", JFreeChart.DEFAULT_TITLE_FONT, combinedPlot, true);
         myChartPanel = new ChartPanel(myChart);
         myChart.setBackgroundPaint(myChartPanel.getBackground());
         setLayout(new BorderLayout());
         add(myChartPanel, BorderLayout.CENTER);
     }
 
-    public void refresh() {
-    	int ticks = myBioHolder.theBioDriver.getTicks();
-    	/*
-    	if (myCytochromeB6F.getNumberOfElectrons() > 0)
-    		myCyB6FSeries.add(ticks, 1);
-    	else
-    		myCyB6FSeries.add(ticks, 0);
-    	
-    	if (myPhotosystem1.isEnergized())
-    		myPS1Series.add(ticks, 1);
-    	else
-    		myPS1Series.add(ticks, 0);
-    	
-    	if (myFNR.hasComplexHasFormed())
-    		myFNRSeries.add(ticks, 1);
-    	else
-    		myFNRSeries.add(ticks, 0);
-    	
-    	if (myATPSynthase.isEnergized())
-    		myATPSynthaseSeries.add(ticks, 1);
-    	else
-    		myATPSynthaseSeries.add(ticks, 0);
-    	*/
-    }
-
 	public void reset() {
 		for (XYSeries series : mySeries)
 			series.clear();
+	}
+
+	public void refresh(int pTicks, float pO2FlowRate, float pValveCommand, float pValveState, float pO2Concentration, float pCO2Concentration, float pO2StoreLevel, float pUsage) {
+		myO2OutFlowSeries.add(pTicks, pO2FlowRate);
+		myO2ValveCommandSeries.add(pTicks, pValveCommand);
+		myO2ValveStateSeries.add(pTicks, pValveState);
+		myO2GasConcetrationSeries.add(pTicks, pO2Concentration);
+		myCO2GasConcetrationSeries.add(pTicks, pCO2Concentration);
+		myO2StoreLevelSeries.add(pTicks, pO2StoreLevel);
+		myO2UsageSeries.add(pTicks, pUsage);
 	}
 }
