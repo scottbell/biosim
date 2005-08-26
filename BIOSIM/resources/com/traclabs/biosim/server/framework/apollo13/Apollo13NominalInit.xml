@@ -1,37 +1,39 @@
 <?xml version="1.0"?>
 <biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='../BiosimInitSchema.xsd'>
-	<Globals crewsToWatch="Crew" runTillCrewDeath="true" tickLength="0.01666666666666667">
+	<Globals crewsToWatch="Crew" runTillCrewDeath="true" tickLength="0.008333333333333333" runTillN="61">
 		<comment>
-			This is the nominal Apollo 13 initialization.
-			It is on a minute time step with the following modules:
+			This is the Apollo 13 initialization.
+			It is on a 30 second time step and runs for 30 minutes.
+			It has the following modules:
 				A 3 person crew.
 				2 oxygen tanks (main and reservoir)
 				An cabin for the crew.
 				A valve alternating oxygen flow to the crew.
+			A malfunction happens at 5 minutes into the mission
 		</comment>
 		<author>Scott Bell</author>
-		<!-- <log4jProperty moduleName="log4j.logger.com.traclabs.biosim.server.sensor" value="DEBUG"/> !-->
+		<!-- <log4jProperty name="log4j.logger.com.traclabs.biosim.server.simulation.crew" value="DEBUG"/> -->
 	</Globals>
 	<SimBioModules>
 		<air>
-			<O2Store moduleName="MainO2Store" capacity="2000000" level="2000000">
+			<O2Store moduleName="MainO2Store" capacity="2000" level="2000">
 			</O2Store>
-			<CO2Store moduleName="DumpedCO2" capacity="2000000" level="0"/>
-			<O2Store moduleName="ResevoirO2Store" capacity="2000000" level="2000000"/>
+			<CO2Store moduleName="DumpedCO2" capacity="20000" level="0"/>
+			<O2Store moduleName="ResevoirO2Store" capacity="2000" level="2000"/>
 			<VCCR moduleName="VCCR">
-				<airConsumer desiredFlowRates="100" maxFlowRates="100" inputs="CrewEnvironment"/>	
-				<airProducer desiredFlowRates="100" maxFlowRates="100" outputs="CrewEnvironment"/>
-				<CO2Producer desiredFlowRates="100" maxFlowRates="100" outputs="DumpedCO2"/>
-				<powerConsumer desiredFlowRates="100" maxFlowRates="100" inputs="FuelCells"/>
+				<airConsumer desiredFlowRates="1000" maxFlowRates="1000" inputs="CrewEnvironment"/>	
+				<airProducer desiredFlowRates="1000" maxFlowRates="1000" outputs="CrewEnvironment"/>
+				<CO2Producer desiredFlowRates="1000" maxFlowRates="1000" outputs="DumpedCO2"/>
+				<powerConsumer desiredFlowRates="1000" maxFlowRates="1000" inputs="FuelCells"/>
 			</VCCR>
 		</air>
 		<power>
-			<PowerStore level="20000" capacity="20000" moduleName="FuelCells"/>
+			<PowerStore level="200000" capacity="200000" moduleName="FuelCells"/>
 		</power>
 		<crew>
 			<CrewGroup moduleName="Crew">
-				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="CrewEnvironment"/>
-				<airProducer maxFlowRates="0" desiredFlowRates="0" outputs="CrewEnvironment"/>
+				<airConsumer maxFlowRates="10000" desiredFlowRates="10000" inputs="CrewEnvironment"/>
+				<airProducer maxFlowRates="10000" desiredFlowRates="10000" outputs="CrewEnvironment"/>
 				<foodConsumer maxFlowRates="100" desiredFlowRates="100" inputs="FoodStore"/>
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
 				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="DirtyWaterStore"/>
@@ -39,48 +41,56 @@
 				<dryWasteProducer maxFlowRates="100" desiredFlowRates="100" outputs="DryWasteStore"/>
 				<crewPerson name="James Lovell" age="42" weight="70" sex="MALE">
 					<schedule>
-						<activity name="mission" length="9" intensity="2"/>
+						<activity name="mission" length="16" intensity="2"/>
+						<activity name="sleep" length="8" intensity="1"/>
 					</schedule>
 				</crewPerson>
-				<crewPerson name="John Swigert" age="38" weight="71" sex="FEMALE">
+				<crewPerson name="John Swigert" age="38" weight="71" sex="MALE">
 					<schedule>
-						<activity name="mission" length="9" intensity="2"/>
+						<activity name="mission" length="16" intensity="2"/>
+						<activity name="sleep" length="8" intensity="1"/>
 					</schedule>
 				</crewPerson>
 				<crewPerson name="Fred Haise" age="36" weight="72" sex="MALE">
 					<schedule>
-						<activity name="mission" length="9" intensity="2"/>
+						<activity name="mission" length="16" intensity="2"/>
+						<activity name="sleep" length="8" intensity="1"/>
 					</schedule>
 				</crewPerson>
 			</CrewGroup>
 		</crew>
 		<environment>
-			<SimEnvironment moduleName="CrewEnvironment" initialVolume="20000000"/>
+			<SimEnvironment moduleName="CrewEnvironment" initialVolume="12.9725108"/>
+			<Dehumidifier moduleName="Dehumidifier">
+				<airConsumer desiredFlowRates="10000" maxFlowRates="10000" inputs="CrewEnvironment"/>
+				<dirtyWaterProducer desiredFlowRates="10000" maxFlowRates="10000" outputs="DirtyWaterStore"/>
+			</Dehumidifier>
 		</environment>                    
 		<food>
 			<FoodStore moduleName="FoodStore" capacity="2000" level="2000"/>
 		</food>
 		<framework>
 			<InfluentValve moduleName="O2InfluentValve">
-				<O2Consumer desiredFlowRates="4.965811217920672e-05" maxFlowRates="4.965811217920672e-05" inputs="MainO2Store ResevoirO2Store"/>
-				<O2Producer desiredFlowRates="4.965811217920672e-05" maxFlowRates="4.965811217920672e-05" outputs="CrewEnvironment"/>
+				<O2Consumer desiredFlowRates="0.0248" maxFlowRates="0.0248" inputs="MainO2Store ResevoirO2Store"/>
+				<O2Producer desiredFlowRates="0.0248" maxFlowRates="0.0248" outputs="CrewEnvironment"/>
 			</InfluentValve>
 		</framework>
 		<water>
-			<PotableWaterStore moduleName="PotableWaterStore" capacity="800000" level="500000"/>
-			<GreyWaterStore moduleName="GreyWaterStore" capacity="4000" level="0"/>
-			<DirtyWaterStore moduleName="DirtyWaterStore" capacity="5000" level="0"/>
+			<PotableWaterStore moduleName="PotableWaterStore" capacity="100" level="100"/>
+			<GreyWaterStore moduleName="GreyWaterStore" capacity="100" level="0"/>
+			<DirtyWaterStore moduleName="DirtyWaterStore" capacity="100" level="0"/>
 		</water>
 		<waste>
-			<DryWasteStore moduleName="DryWasteStore" capacity="500" level="0"/>
+			<DryWasteStore moduleName="DryWasteStore" capacity="100" level="0"/>
 		</waste>
 	</SimBioModules>
 	<Sensors>
+		<air>
+			<O2OutFlowRateSensor index="0" input="O2InfluentValve" moduleName="O2InfluentValveOutputSensor"/>
+		</air>
 		<environment>
-			<GasConcentrationSensor gasType="CO2" input="CrewEnvironment" moduleName="BaseCrewEnvironmentCO2ConcentrationSensor"/>
 			<GasConcentrationSensor gasType="O2" input="CrewEnvironment" moduleName="BaseCrewEnvironmentO2ConcentrationSensor"/>
-			<GasConcentrationSensor gasType="VAPOR" input="CrewEnvironment" moduleName="BaseCrewEnvironmentVaporConcentrationSensor"/>
-			<GasPressureSensor gasType="VAPOR" input="CrewEnvironment" moduleName="BaseCrewEnvironmentVaporPressureSensor"/>
+			<GasConcentrationSensor gasType="CO2" input="CrewEnvironment" moduleName="BaseCrewEnvironmentCO2ConcentrationSensor"/>
 		</environment>
 		<framework>
 			<StoreLevelSensor input="MainO2Store" moduleName="MainO2StoreLevelSensor"/>
