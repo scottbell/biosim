@@ -22,9 +22,9 @@ public class EnvironmentStoreImpl extends StoreImpl implements EnvironmentStoreO
 
     private float calculatePressure(float pNumberOfMoles) {
     	float currentVolume = mySimEnvironmentImpl.getCurrentVolume();
-    	float temperature = mySimEnvironmentImpl.getTemperature();
+    	float temperature = mySimEnvironmentImpl.getTemperatureInKelvin();
         if (currentVolume > 0)
-            return (pNumberOfMoles * idealGasConstant * (temperature + 273f))
+            return (pNumberOfMoles * idealGasConstant * temperature)
                     / currentVolume;
 		return 0;
     }

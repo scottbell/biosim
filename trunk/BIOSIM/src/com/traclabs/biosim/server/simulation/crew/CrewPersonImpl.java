@@ -221,8 +221,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
                 * O2_LOW_RATIO, O2_LOW_TILL_DEAD * O2_LOW_RATIO);
         highOxygenBuffer = new SimpleBuffer(O2_HIGH_TILL_DEAD * 1,
                 O2_HIGH_TILL_DEAD * 1);
-        sleepBuffer = new SimpleBuffer(AWAKE_TILL_EXHAUSTION,
-                AWAKE_TILL_EXHAUSTION);
+        sleepBuffer = new SimpleBuffer(AWAKE_TILL_EXHAUSTION * myBaseCrewGroupImpl.getTickLength(),
+                AWAKE_TILL_EXHAUSTION * myBaseCrewGroupImpl.getTickLength());
         leisureBuffer = new SimpleBuffer(LEISURE_TILL_BURNOUT,
                 LEISURE_TILL_BURNOUT);
         myRandomGen = new Random();
@@ -764,16 +764,16 @@ public class CrewPersonImpl extends CrewPersonPOA {
         float heartRate = (currentActivityIntensity * 30f) + 15f;
         float a = 0.223804f;
         float b = 5.64f * pow(10f, -7f);
-        float kludgeFactor = 5f; // added to give sensible results
-        float resultInLiters = (a + (b * pow(heartRate, 3f) * 60f)) * kludgeFactor; //liters per hour, 5
+        float resultInLiters = (a + (b * pow(heartRate, 3f) * 60f)); //liters per hour, 5
         myLogger.debug("resultInLiters "+resultInLiters);
-        float idealGasConstant = 8.314f; //8.314 J K-1 mol-1
-        float pressureOfGas = myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments()[0].getO2Store().getPressure();
-        float resultInMoles = (resultInLiters * pressureOfGas) / (idealGasConstant * 298); //moles per hour
+        //equation assumes STP
+        float moleOfAirPerLiterAtSTP = 22.4f;
+        float resultInMoles = resultInLiters / moleOfAirPerLiterAtSTP ; //moles per hour
         float adjustForTickLength = resultInMoles * getCurrentCrewGroup().getTickLength();
         myLogger.debug("resultInMoles "+resultInMoles);
         myLogger.debug("adjustForTickLength "+adjustForTickLength);
-        return myBaseCrewGroupImpl.randomFilter(adjustForTickLength); //Liters/tick
+        myLogger.debug("adjustForTickLength "+adjustForTickLength);
+        return myBaseCrewGroupImpl.randomFilter(adjustForTickLength); 
     }
 
     private float pow(float a, float b) {
@@ -790,7 +790,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
      * @return CO2 produced in moles
      */
     private float calculateCO2Produced(float pO2Consumed) {
-        return pO2Consumed * 0.86f;
+    	float CO2Produced = pO2Consumed * 0.86f;
+    	myLogger.debug("O2Consumed = "+O2Consumed);
+    	myLogger.debug("CO2Produced = "+CO2Produced);
+        return CO2Produced;
     }
 
     public void insertActivityInSchedule(Activity pActivity, int pOrder) {
