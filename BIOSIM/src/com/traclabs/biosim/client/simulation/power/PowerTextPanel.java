@@ -24,82 +24,87 @@ import com.traclabs.biosim.idl.simulation.power.PowerStore;
  */
 
 public class PowerTextPanel extends TimedPanel {
-    //Various GUI componenets
-    private JPanel powerPSPanel;
+	// Various GUI componenets
+	private JPanel powerPSPanel;
 
-    private JLabel powerPSPowerProducedLabel;
+	private JLabel powerPSPowerProducedLabel;
 
-    private JPanel powerStorePanel;
+	private JPanel powerStorePanel;
 
-    private JLabel powerStoreLevelLabel;
+	private JLabel powerStoreLevelLabel;
 
-    //Servers required for data polling
-    private PowerPS myPowerPS;
+	// Servers required for data polling
+	private PowerPS myPowerPS;
 
-    private PowerStore myPowerStore;
+	private PowerStore myPowerStore;
 
-    //For formatting floats
-    private DecimalFormat numFormat;
+	// For formatting floats
+	private DecimalFormat numFormat;
 
-    /**
-     * Creates and registers this panel.
-     */
-    public PowerTextPanel() {
-        BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
-        myPowerPS = (myBioHolder.thePowerPSModules.get(0));
-        myPowerStore = (myBioHolder.thePowerStores.get(0));
-        buildGui();
-    }
+	/**
+	 * Creates and registers this panel.
+	 */
+	public PowerTextPanel() {
+		BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
+		if (myBioHolder.thePowerPSModules.size() > 0)
+			myPowerPS = (myBioHolder.thePowerPSModules.get(0));
+		myPowerStore = (myBioHolder.thePowerStores.get(0));
+		buildGui();
+	}
 
-    /**
-     * Contructs GUI components, adds them to the panel.
-     */
-    private void buildGui() {
-        numFormat = new DecimalFormat("#,##0.00;(#)");
-        GridBagLayout gridbag = new GridBagLayout();
-        GridBagConstraints c = new GridBagConstraints();
-        setLayout(gridbag);
+	/**
+	 * Contructs GUI components, adds them to the panel.
+	 */
+	private void buildGui() {
+		numFormat = new DecimalFormat("#,##0.00;(#)");
+		GridBagLayout gridbag = new GridBagLayout();
+		GridBagConstraints c = new GridBagConstraints();
+		setLayout(gridbag);
 
-        powerPSPanel = new JPanel();
-        powerPSPanel.setLayout(new GridLayout(1, 1));
-        powerPSPanel.setBorder(BorderFactory
-                .createTitledBorder("Power Production System"));
-        powerPSPowerProducedLabel = new JLabel("power produced:         "
-                + numFormat.format(myPowerPS.getPowerProduced()) + " W");
-        powerPSPanel.add(powerPSPowerProducedLabel);
+		powerPSPanel = new JPanel();
+		if (myPowerPS != null) {
+			powerPSPanel.setLayout(new GridLayout(1, 1));
+			powerPSPanel.setBorder(BorderFactory
+					.createTitledBorder("Power Production System"));
+			powerPSPowerProducedLabel = new JLabel("power produced:         "
+					+ numFormat.format(myPowerPS.getPowerProduced()) + " W");
+			powerPSPanel.add(powerPSPowerProducedLabel);
+		}
 
-        powerStorePanel = new JPanel();
-        powerStorePanel.setLayout(new GridLayout(1, 1));
-        powerStorePanel.setBorder(BorderFactory
-                .createTitledBorder("Power Store"));
-        powerStoreLevelLabel = new JLabel("power level:    "
-                + numFormat.format(myPowerStore.getCurrentLevel()) + " W");
-        powerStorePanel.add(powerStoreLevelLabel);
+		powerStorePanel = new JPanel();
+		powerStorePanel.setLayout(new GridLayout(1, 1));
+		powerStorePanel.setBorder(BorderFactory
+				.createTitledBorder("Power Store"));
+		powerStoreLevelLabel = new JLabel("power level:    "
+				+ numFormat.format(myPowerStore.getCurrentLevel()) + " W");
+		powerStorePanel.add(powerStoreLevelLabel);
 
-        c.fill = GridBagConstraints.BOTH;
-        c.gridheight = 1;
-        c.weightx = 1.0;
-        c.gridwidth = GridBagConstraints.REMAINDER;
-        c.weighty = 1.0;
-        gridbag.setConstraints(powerPSPanel, c);
-        add(powerPSPanel);
+		c.fill = GridBagConstraints.BOTH;
+		c.gridheight = 1;
+		c.weightx = 1.0;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		c.weighty = 1.0;
+		gridbag.setConstraints(powerPSPanel, c);
+		add(powerPSPanel);
 
-        c.fill = GridBagConstraints.BOTH;
-        c.gridheight = 1;
-        c.weightx = 1.0;
-        c.gridwidth = GridBagConstraints.REMAINDER;
-        c.weighty = 1.0;
-        gridbag.setConstraints(powerStorePanel, c);
-        add(powerStorePanel);
-    }
+		c.fill = GridBagConstraints.BOTH;
+		c.gridheight = 1;
+		c.weightx = 1.0;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		c.weighty = 1.0;
+		gridbag.setConstraints(powerStorePanel, c);
+		add(powerStorePanel);
+	}
 
-    /**
-     * Updates every label on the panel with new data pulled from the servers.
-     */
-    public void refresh() {
-        powerPSPowerProducedLabel.setText("power produced:         "
-                + numFormat.format(myPowerPS.getPowerProduced()) + " W");
-        powerStoreLevelLabel.setText("power level:    "
-                + numFormat.format(myPowerStore.getCurrentLevel()) + " W");
-    }
+	/**
+	 * Updates every label on the panel with new data pulled from the servers.
+	 */
+	public void refresh() {
+		if (myPowerPS != null) {
+			powerPSPowerProducedLabel.setText("power produced:         "
+					+ numFormat.format(myPowerPS.getPowerProduced()) + " W");
+		}
+		powerStoreLevelLabel.setText("power level:    "
+				+ numFormat.format(myPowerStore.getCurrentLevel()) + " W");
+	}
 }

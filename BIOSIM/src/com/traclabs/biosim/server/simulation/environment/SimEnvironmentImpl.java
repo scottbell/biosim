@@ -153,10 +153,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
     }
 
     public float getRelativeHumidity() {
-        float kelvinTemperature = getTemperature() + 239f;
-        if (kelvinTemperature <= 0)
-            return 0f;
-        float exponent = (17.4f * getTemperature()) / kelvinTemperature;
+        float exponent = (17.4f * getTemperature()) / getTemperatureInKelvin();
         float saturatedVaporPressure = .611f * exp(exponent);
         return myVaporStoreImpl.getPressure() / saturatedVaporPressure;
     }
@@ -164,6 +161,15 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
     //returns temperature in celsius
     public float getTemperature() {
         return temperature;
+    }
+    
+    //returns temperature in kelvin
+    public float getTemperatureInKelvin() {
+        float kelvinTemperature = getTemperature() + 273.15f;
+        if (kelvinTemperature <= 0)
+            return 0f;
+        else
+        	return kelvinTemperature;
     }
 
     private float exp(float a) {
@@ -194,20 +200,13 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
      *            the new currentVolume of the environment (in liters)
      */
     public void setInitialVolumeAtSeaLevel(float pInitialVolume) {
+    	float moleOfAirPerCubicMeter = 44.64f;
         currentVolume = initialVolume = pInitialVolume;
-        myO2StoreImpl.setInitialLevel(calculateMoles(20.0f));
-        myCO2StoreImpl.setInitialLevel(calculateMoles(0.111f));
-        myOtherStoreImpl.setInitialLevel(calculateMoles(1.0f));
-        myVaporStoreImpl.setInitialLevel(calculateMoles(1.0f));
-        myNitrogenStoreImpl.setInitialLevel(calculateMoles(78.96f));
-    }
-    
-    private float calculateMoles(float pPressure) {
-        float kelvinTemperature = temperature + 273f;
-        if (kelvinTemperature > 0)
-            return (pPressure * currentVolume)
-                    / (kelvinTemperature * idealGasConstant);
-		return 0;
+        myO2StoreImpl.setInitialLevel(currentVolume *  moleOfAirPerCubicMeter * 0.20f);
+        myCO2StoreImpl.setInitialLevel(currentVolume *  moleOfAirPerCubicMeter * 0.00111f);
+        myOtherStoreImpl.setInitialLevel(currentVolume *  moleOfAirPerCubicMeter * 0.01f);
+        myVaporStoreImpl.setInitialLevel(currentVolume *  moleOfAirPerCubicMeter * 0.01f);
+        myNitrogenStoreImpl.setInitialLevel(currentVolume *  moleOfAirPerCubicMeter * 0.7896f);
     }
 
     public float getInitialVolume() {

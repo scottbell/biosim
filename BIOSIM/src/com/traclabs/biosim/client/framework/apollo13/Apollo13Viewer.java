@@ -30,19 +30,21 @@ public class Apollo13Viewer extends SimulationPanel {
 
 	private BioHolder myBioHolder;
 
-	private float myO2Usage = 0f;
+	private float myO2FlowPerHour;
 
 	private ApolloGraphPanel myGraphPanel;
 
 	private StringBuilder myLogString;
 
-	private float myO2FlowRate;
+	private float myO2UsageOverTimestep;
 
 	private float myValveCommand;
 
 	private float myValveState;
 
 	private int myTicks;
+
+	private int myTimeInSeconds;
 
 	private float myO2Concentration;
 
@@ -69,15 +71,12 @@ public class Apollo13Viewer extends SimulationPanel {
 	public Apollo13Viewer() {
 		myLogger = Logger.getLogger(this.getClass());
 		myBioHolder = BioHolderInitializer.getBioHolder();
-		myBioHolder.theBioDriver.reset();
-		myBioHolder.theBioDriver.setPauseSimulation(true);
-		myBioHolder.theBioDriver.startSimulation();
 		myGraphPanel = new ApolloGraphPanel();
 		myGraphPanel.setBorder(BorderFactory.createTitledBorder("Data"));
 		add(myGraphPanel, BorderLayout.CENTER);
 		myLogString = new StringBuilder();
 		myLogString
-				.append("timetag,O2 flow rate,Valve command,Valve state,O2 concentration in cabin,CO2 concentration in cabin,O2 tank pressure,O2 usage over timestep\n");
+				.append("tickTag (ticks),timeTag (s),O2 flow rate (lbs),Valve command,Valve state,O2 concentration in cabin (%),CO2 concentration in cabin (%),O2 in tank(lbs),O2 usage (lbs/h)\n");
 
 		myMenuBar = new JMenuBar();
 		myFileMenu = new JMenu("File");
@@ -97,6 +96,7 @@ public class Apollo13Viewer extends SimulationPanel {
 
 		myFileChooser = new JFileChooser();
 		myFileChooser.setApproveButtonText("Save");
+		reset();
 	}
 
 	protected synchronized void refresh() {
@@ -104,9 +104,9 @@ public class Apollo13Viewer extends SimulationPanel {
 			collectData();
 			log();
 			myBioHolder.theBioDriver.advanceOneTick();
-			myGraphPanel.refresh(myTicks, myO2FlowRate, myValveCommand,
+			myGraphPanel.refresh(myTicks, myO2UsageOverTimestep, myValveCommand,
 					myValveState, myO2Concentration, myCO2Concentration,
-					myO2StoreLevel, myO2Usage);
+					myO2StoreLevel, myO2FlowPerHour);
 		} else
 			stopRefresh();
 
@@ -114,8 +114,8 @@ public class Apollo13Viewer extends SimulationPanel {
 
 	private void collectData() {
 		myTicks = myBioHolder.theBioDriver.getTicks();
-		myO2FlowRate = convertO2MolesToPounds(myBioHolder.theO2OutFlowRateSensors
-				.get(0).getValue());
+		myTimeInSeconds = (int)(myTicks * myBioHolder.theBioDriver.getTickLength() * 3600);
+		myO2UsageOverTimestep = convertO2MolesToPounds(myBioHolder.theO2OutFlowRateSensors.get(0).getValue());
 		myValveCommand = processValveCommand(myBioHolder.theInfluentValveActuators
 				.get(0).getValue());
 		myValveState = processValveState(myBioHolder.theInfluentValveStateSensors
@@ -126,18 +126,22 @@ public class Apollo13Viewer extends SimulationPanel {
 				.getValue();
 		myO2StoreLevel = convertO2MolesToPounds(myBioHolder.theStoreLevelSensors
 				.get(0).getValue());
-		myO2Usage += myO2FlowRate;
+		myO2FlowPerHour = convertO2MolesToPounds(myBioHolder.theO2OutFlowRateSensors
+					.get(0).getValue()) / myBioHolder.theBioDriver.getTickLength();
 	}
 
 	protected void reset() {
-		myBioHolder.theBioDriver.reset();
+		myBioHolder.theBioDriver.setPauseSimulation(true);
+		myBioHolder.theBioDriver.startSimulation();
 		myGraphPanel.reset();
 	}
 
 	private void log() {
 		myLogString.append(myTicks);
 		myLogString.append(",");
-		myLogString.append(myO2FlowRate);
+		myLogString.append(myTimeInSeconds);
+		myLogString.append(",");
+		myLogString.append(myO2UsageOverTimestep);
 		myLogString.append(",");
 		myLogString.append(myValveCommand);
 		myLogString.append(",");
@@ -149,7 +153,7 @@ public class Apollo13Viewer extends SimulationPanel {
 		myLogString.append(",");
 		myLogString.append(myO2StoreLevel);
 		myLogString.append(",");
-		myLogString.append(myO2Usage);
+		myLogString.append(myO2FlowPerHour);
 		myLogString.append("\n");
 	}
 

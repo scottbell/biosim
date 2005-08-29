@@ -23,7 +23,7 @@ public class ApolloGraphPanel extends JPanel {
 
     private JFreeChart myChart;
 
-    private XYSeries myO2OutFlowSeries = new XYSeries("O2 Out Flowrate");
+    private XYSeries myO2OutFlowSeries = new XYSeries("O2 Usage");
 
     private XYSeries myO2ValveCommandSeries = new XYSeries("O2 Valve Command");
 
@@ -33,9 +33,9 @@ public class ApolloGraphPanel extends JPanel {
     
     private XYSeries myCO2GasConcetrationSeries = new XYSeries("CO2 Gas Concetration");
     
-    private XYSeries myO2StoreLevelSeries = new XYSeries("O2 Store Level");
+    private XYSeries myO2StoreLevelSeries = new XYSeries("O2 Flow");
     
-    private XYSeries myO2UsageSeries = new XYSeries("O2 Usage");
+    private XYSeries myO2UsageSeries = new XYSeries("O2 Flowrate");
     
     private XYSeries[] mySeries = {myO2OutFlowSeries, myO2ValveCommandSeries, myO2ValveStateSeries, myO2GasConcetrationSeries, myCO2GasConcetrationSeries, myO2StoreLevelSeries, myO2UsageSeries};
 
@@ -85,7 +85,7 @@ public class ApolloGraphPanel extends JPanel {
     
     private NumberAxis myO2StoreLevelAxis = new NumberAxis("Lbs");
     
-    private NumberAxis myO2UsageAxis = new NumberAxis("Lbs");
+    private NumberAxis myO2UsageAxis = new NumberAxis("Lbs/Hr");
     
     private NumberAxis[] myYAxes = {myO2OutFlowYAxis, myO2ValveCommandYAxis, myO2ValveStateYAxis, myO2GasConcetrationAxis, myCO2GasConcetrationAxis, myO2StoreLevelAxis, myO2UsageAxis};
     

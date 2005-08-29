@@ -22,14 +22,14 @@
 			<CO2Store moduleName="DumpedCO2" capacity="20000" level="0"/>
 			<O2Store moduleName="ResevoirO2Store" capacity="2000" level="2000"/>
 			<VCCR moduleName="VCCR">
-				<airConsumer desiredFlowRates="1000" maxFlowRates="1000" inputs="CrewEnvironment"/>	
-				<airProducer desiredFlowRates="1000" maxFlowRates="1000" outputs="CrewEnvironment"/>
-				<CO2Producer desiredFlowRates="1000" maxFlowRates="1000" outputs="DumpedCO2"/>
-				<powerConsumer desiredFlowRates="1000" maxFlowRates="1000" inputs="FuelCells"/>
+				<airConsumer desiredFlowRates="10000" maxFlowRates="10000" inputs="CrewEnvironment"/>	
+				<airProducer desiredFlowRates="100" maxFlowRates="100" outputs="CrewEnvironment"/>
+				<CO2Producer desiredFlowRates="100" maxFlowRates="100" outputs="DumpedCO2"/>
+				<powerConsumer desiredFlowRates="70000" maxFlowRates="70000" inputs="FuelCells"/>
 			</VCCR>
 		</air>
 		<power>
-			<PowerStore level="200000" capacity="200000" moduleName="FuelCells"/>
+			<PowerStore level="10000000" capacity="10000000" moduleName="FuelCells"/>
 		</power>
 		<crew>
 			<CrewGroup moduleName="Crew">
