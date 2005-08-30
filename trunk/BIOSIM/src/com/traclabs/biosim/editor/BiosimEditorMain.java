@@ -34,6 +34,6 @@ public class BiosimEditorMain {
     
     public static void main(String args[]) {
         OrbUtils.initializeLog();
-    	@SuppressWarnings("unused") BiosimEditorMain theBiosimEditorMain = new BiosimEditorMain();
+    	BiosimEditorMain theBiosimEditorMain = new BiosimEditorMain();
     }
 }

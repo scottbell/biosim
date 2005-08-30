@@ -70,10 +70,7 @@ public class CrewGroupImplTest extends TestCase {
 		super.tearDown();
 	}
 
-	/*
-	 * Test method for 'com.traclabs.biosim.server.simulation.crew.CrewGroup.tick()'
-	 */
-	public void testTick() {
+	public void testO2Consumption() {
 		float averageMolesOfO2NeededInDay = 24.664f;
 		float molesOfOxygenConsumed = 0f;
 		for (int i = 0; i < 24; i++){
