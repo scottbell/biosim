@@ -145,6 +145,10 @@ public class SimpleBuffer {
     public float getOverflow() {
         return overflow;
     }
+    
+    public float getAmountMissing(){
+    	return capacity - level;
+    }
 
     /**
      * Retrieves the capacity of the store
