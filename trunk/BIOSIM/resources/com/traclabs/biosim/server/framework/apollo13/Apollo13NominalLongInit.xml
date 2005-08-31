@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='../BiosimInitSchema.xsd'>
-	<Globals crewsToWatch="Crew" runTillCrewDeath="true" tickLength="0.008333333333333333" runTillN="61">
+	<Globals crewsToWatch="Crew" runTillCrewDeath="true" tickLength="0.008333333333333333" runTillN="5760">
 		<comment>
 			This is the Apollo 13 initialization.
 			It is on a 30 second time step and runs for 30 minutes.
@@ -27,7 +27,7 @@
 			</VCCR>
 		</air>
 		<power>
-			<PowerStore level="10000000" capacity="10000000" moduleName="FuelCells"/>
+			<PowerStore level="10000000000" capacity="10000000000" moduleName="FuelCells"/>
 		</power>
 		<crew>
 			<CrewGroup moduleName="Crew">

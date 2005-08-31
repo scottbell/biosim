@@ -11,6 +11,7 @@ import java.io.IOException;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -52,15 +53,21 @@ public class Apollo13Viewer extends SimulationPanel {
 
 	private float myO2StoreLevel;
 
+	private boolean loggingOnly = false;
+
 	private JMenuBar myMenuBar;
 
 	private JMenu myFileMenu;
+
+	private JMenu myEditMenu;
 
 	private JMenu myNewMenu;
 
 	private JMenuItem mySaveItem;
 
 	private JMenuItem myQuitItem;
+
+	private JMenuItem myLogOnlyItem;
 
 	private JMenu myHelpMenu;
 
@@ -80,18 +87,22 @@ public class Apollo13Viewer extends SimulationPanel {
 
 		myMenuBar = new JMenuBar();
 		myFileMenu = new JMenu("File");
+		myEditMenu = new JMenu("File");
 		myHelpMenu = new JMenu("Help");
 		myFileMenu.setMnemonic(KeyEvent.VK_F);
+		myEditMenu.setMnemonic(KeyEvent.VK_E);
 		mySaveItem = myFileMenu.add(new SaveAction());
 		mySaveItem.setText("Save");
 		myQuitItem = myFileMenu.add(new QuitAction());
 		myQuitItem.setText("Quit");
-		myFileMenu.add(mySaveItem);
-		myFileMenu.add(myQuitItem);
 		myAboutItem = myHelpMenu.add(new AboutAction());
 		myAboutItem.setText("About");
+		myLogOnlyItem = new JCheckBoxMenuItem(new LogOnlyAction());
+		myLogOnlyItem.setText("Log Only");
+		myEditMenu.add(myLogOnlyItem);
 		myQuitItem.setMnemonic(KeyEvent.VK_Q);
 		myMenuBar.add(myFileMenu);
+		myMenuBar.add(myEditMenu);
 		myMenuBar.add(myHelpMenu);
 
 		myFileChooser = new JFileChooser();
@@ -104,18 +115,23 @@ public class Apollo13Viewer extends SimulationPanel {
 			collectData();
 			log();
 			myBioHolder.theBioDriver.advanceOneTick();
-			myGraphPanel.refresh(myTicks, myO2UsageOverTimestep, myValveCommand,
-					myValveState, myO2Concentration, myCO2Concentration,
-					myO2StoreLevel, myO2FlowPerHour);
-		} else
+			if (!loggingOnly)
+				myGraphPanel.refresh(myTicks, myO2UsageOverTimestep,
+						myValveCommand, myValveState, myO2Concentration,
+						myCO2Concentration, myO2StoreLevel, myO2FlowPerHour);
+		} else{
 			stopRefresh();
+			JOptionPane.showMessageDialog(Apollo13Viewer.this, "Simulation has completed. Save the results if you like.");
+		}
 
 	}
 
 	private void collectData() {
 		myTicks = myBioHolder.theBioDriver.getTicks();
-		myTimeInSeconds = (int)(myTicks * myBioHolder.theBioDriver.getTickLength() * 3600);
-		myO2UsageOverTimestep = convertO2MolesToPounds(myBioHolder.theO2OutFlowRateSensors.get(0).getValue());
+		myTimeInSeconds = (int) (myTicks
+				* myBioHolder.theBioDriver.getTickLength() * 3600);
+		myO2UsageOverTimestep = convertO2MolesToPounds(myBioHolder.theO2OutFlowRateSensors
+				.get(0).getValue());
 		myValveCommand = processValveCommand(myBioHolder.theInfluentValveActuators
 				.get(0).getValue());
 		myValveState = processValveState(myBioHolder.theInfluentValveStateSensors
@@ -127,7 +143,8 @@ public class Apollo13Viewer extends SimulationPanel {
 		myO2StoreLevel = convertO2MolesToPounds(myBioHolder.theStoreLevelSensors
 				.get(0).getValue());
 		myO2FlowPerHour = convertO2MolesToPounds(myBioHolder.theO2OutFlowRateSensors
-					.get(0).getValue()) / myBioHolder.theBioDriver.getTickLength();
+				.get(0).getValue())
+				/ myBioHolder.theBioDriver.getTickLength();
 	}
 
 	protected void reset() {
@@ -241,6 +258,15 @@ public class Apollo13Viewer extends SimulationPanel {
 			JOptionPane.showMessageDialog(Apollo13Viewer.this,
 					"Apollo 13 Simulation\nCopyright "
 							+ new Character('\u00A9') + " 2005, TRACLabs\n");
+		}
+	}
+
+	/**
+	 * Doesn't update graphs. When done, displays dialog box.
+	 */
+	private class LogOnlyAction extends AbstractAction {
+		public void actionPerformed(ActionEvent ae) {
+			loggingOnly = !loggingOnly;
 		}
 	}
 }
