@@ -21,6 +21,10 @@ public class BiomassStoreImpl extends StoreImpl implements
     List<BioMatter> currentBiomassItems;
 
     BioMatter myOriginalMatter;
+    
+    public BiomassStoreImpl(){
+    	this(0, "Unnamed BiomassStoreImpl");
+    }
 
     public BiomassStoreImpl(int pID, String pName) {
         super(pID, pName);

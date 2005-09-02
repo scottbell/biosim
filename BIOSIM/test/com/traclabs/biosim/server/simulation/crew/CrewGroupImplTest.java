@@ -2,6 +2,7 @@ package com.traclabs.biosim.server.simulation.crew;
 
 import junit.framework.TestCase;
 
+import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.simulation.crew.ActivityHelper;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroupPOATie;
@@ -38,9 +39,11 @@ public class CrewGroupImplTest extends TestCase {
 	private DirtyWaterStore myDirtyWaterStore;
 	private DryWasteStore myDryWasteStore;
 	
-
+	private BioModule[] myModules;
+	
 	protected void setUp() throws Exception {
 		super.setUp();
+		OrbUtils.initializeLog();
 		OrbUtils.startDebugNameServer();
 		OrbUtils.initializeServerForDebug();
 		CrewGroupImpl crewGroupImpl = new CrewGroupImpl();
@@ -51,6 +54,8 @@ public class CrewGroupImplTest extends TestCase {
 		//initialize stores
 		mySimEnvironment = (new SimEnvironmentPOATie(new SimEnvironmentImpl()))._this(OrbUtils.getORB());
 		myPotableWaterStore = (new PotableWaterStorePOATie(new PotableWaterStoreImpl()))._this(OrbUtils.getORB());
+		myPotableWaterStore.setInitialCapacity(10000f);
+		myPotableWaterStore.setInitialLevel(10000f);
 		myFoodStore = (new FoodStorePOATie(new FoodStoreImpl()))._this(OrbUtils.getORB());
 		myGreyWaterStore = (new GreyWaterStorePOATie(new GreyWaterStoreImpl()))._this(OrbUtils.getORB());
 		myDirtyWaterStore = (new DirtyWaterStorePOATie(new DirtyWaterStoreImpl()))._this(OrbUtils.getORB());
@@ -62,25 +67,101 @@ public class CrewGroupImplTest extends TestCase {
 		myCrewGroup.getGreyWaterProducerDefinition().setGreyWaterOutputs(new GreyWaterStore[] {myGreyWaterStore}, new float[] {1000f}, new float[] {1000f});
 		myCrewGroup.getDirtyWaterProducerDefinition().setDirtyWaterOutputs(new DirtyWaterStore[] {myDirtyWaterStore}, new float[] {1000f}, new float[] {1000f});
 		myCrewGroup.getDryWasteProducerDefinition().setDryWasteOutputs(new DryWasteStore[] {myDryWasteStore}, new float[] {1000f}, new float[] {1000f});
-	
-		myCrewGroup.setTickLength(1);
+		
+		myModules = new BioModule[7];
+		myModules[0] = myCrewGroup;
+		myModules[1] = mySimEnvironment;
+		myModules[2] = myPotableWaterStore;
+		myModules[3] = myFoodStore;
+		myModules[4] = myGreyWaterStore;
+		myModules[5] = myDirtyWaterStore;
+		myModules[6] = myDryWasteStore;
+		
+		for (BioModule currentModule : myModules)
+			currentModule.setTickLength(1);
 	}
 
 	protected void tearDown() throws Exception {
 		super.tearDown();
+		for (BioModule currentModule : myModules)
+			currentModule = null;
+		myModules = null;
+	}
+	
+	private void reset(){
+		for (BioModule currentModule : myModules)
+			currentModule.reset();
 	}
 
 	public void testO2Consumption() {
-		float averageMolesOfO2NeededInDay = 24.664f;
+		reset();
+		float averageMolesOfO2NeededInDay = 29f;
 		float molesOfOxygenConsumed = 0f;
 		for (int i = 0; i < 24; i++){
 			myCrewGroup.tick();
 			molesOfOxygenConsumed += myCrewGroup.getCrewPeople()[0].getO2Consumed();
 		}
-		assertEquals(averageMolesOfO2NeededInDay, molesOfOxygenConsumed, 5f);
+		assertEquals(averageMolesOfO2NeededInDay, molesOfOxygenConsumed, 1f);
 	}
 	
-
+	public void testLowO2Death(){
+		float oldInitialLevel = mySimEnvironment.getO2Store().getInitialLevel();
+		mySimEnvironment.getO2Store().setInitialLevel(0f);
+		float ticksWithoutOxygenAverage = 4f;
+		assertEquals(ticksWithoutOxygenAverage, getAverageTillDead(100), 2);
+		mySimEnvironment.getO2Store().setInitialLevel(oldInitialLevel);
+	}
+	
+	public void testWaterDeath(){
+		float oldInitialLevel = myPotableWaterStore.getInitialLevel();
+		myPotableWaterStore.setInitialLevel(0f);
+		float ticksWithoutWaterAverage = 40f;
+		assertEquals(ticksWithoutWaterAverage, getAverageTillDead(40), 4);
+		myPotableWaterStore.setInitialLevel(oldInitialLevel);
+	}
+	
+	public void testFoodDeath(){
+		float oldInitialLevel = myFoodStore.getInitialLevel();
+		myFoodStore.setInitialLevel(0f);
+		float ticksWithoutFoodAverage = 800f;
+		assertEquals(ticksWithoutFoodAverage, getAverageTillDead(20), 50);
+		myFoodStore.setInitialLevel(oldInitialLevel);
+	}
+	
+	public void testHighCO2Death(){
+		float oldInitialLevel = mySimEnvironment.getCO2Store().getInitialLevel();
+		mySimEnvironment.getCO2Store().setInitialLevel(100000000000000000f);
+		float ticksWhileCO2HighAverage = 2f;
+		assertEquals(ticksWhileCO2HighAverage, getAverageTillDead(20), 2);
+		mySimEnvironment.getO2Store().setInitialLevel(oldInitialLevel);
+	}
+	
+	public void testHighO2Death(){
+		float oldInitialLevel = mySimEnvironment.getO2Store().getInitialLevel();
+		mySimEnvironment.getO2Store().setInitialLevel(100000000000000000f);
+		float ticksWhileFlammibleAverage = 800f;
+		assertEquals(ticksWhileFlammibleAverage, getAverageTillDead(20), 50);
+		mySimEnvironment.getO2Store().setInitialLevel(oldInitialLevel);
+	}
+	
+	private float getAverageTillDead(int trialsToRun){
+		if (trialsToRun <= 0)
+			return 0f;
+		float totalTicksTillDead = 0;
+		for (int i = 0; i < trialsToRun; i++){
+			totalTicksTillDead += ticksUntilDead();
+		}
+		return totalTicksTillDead / trialsToRun;
+	}
+	
+	private int ticksUntilDead(){
+		reset();
+		int totalTicks;
+		for (totalTicks = 0; !myCrewGroup.isDead(); totalTicks++)
+			myCrewGroup.tick();
+		return totalTicks;
+	}
+	
     public Schedule createGenericSchedule(CrewGroupImpl myCrewGroupImpl){
     	Schedule theSchedule = new Schedule(myCrewGroupImpl);
         ActivityImpl missionActivityImpl = new ActivityImpl("mission", 15, 3);

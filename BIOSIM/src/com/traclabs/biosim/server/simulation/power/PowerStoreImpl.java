@@ -11,7 +11,11 @@ import com.traclabs.biosim.server.simulation.framework.StoreImpl;
  */
 
 public class PowerStoreImpl extends StoreImpl implements PowerStoreOperations {
-    public PowerStoreImpl(int pID, String pName) {
+    public PowerStoreImpl(){
+    	this(0, "Unnamed PowerStoreImpl");
+    }
+	
+	public PowerStoreImpl(int pID, String pName) {
         super(pID, pName);
     }
 }
