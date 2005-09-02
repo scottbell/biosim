@@ -68,6 +68,10 @@ public class BiomassRSImpl extends SimBioModuleImpl implements
     private AirProducerDefinitionImpl myAirProducerDefinitionImpl;
 
     private BiomassProducerDefinitionImpl myBiomassProducerDefinitionImpl;
+    
+    public BiomassRSImpl(){
+    	this(0, "Unnamed BiomassRSImpl");
+    }
 
     public BiomassRSImpl(int pID, String pName) {
         super(pID, pName);
@@ -216,6 +220,13 @@ public class BiomassRSImpl extends SimBioModuleImpl implements
     }
 
     public void log() {
+    }
+    
+    public boolean isAnyPlantDead(){
+    	for (Shelf currentShelf : getShelves())
+			if (currentShelf.isDead())
+				return true;
+    	return false;
     }
 
     /**

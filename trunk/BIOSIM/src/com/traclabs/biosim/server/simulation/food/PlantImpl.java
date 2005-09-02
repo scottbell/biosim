@@ -110,7 +110,7 @@ public abstract class PlantImpl extends PlantPOA {
 
     private static final float CO2_LOW_TILL_DEAD = 24f;
 
-    private static final float CO2_LOW_RECOVERY_RATE = 0.05f;
+    private static final float CO2_LOW_RECOVERY_RATE = 0.005f;
 
     private static final float CO2_RATIO_LOW = 500f;
 
@@ -291,6 +291,7 @@ public abstract class PlantImpl extends PlantPOA {
     private void recoverPlants() {
         consumedWaterBuffer.add(WATER_RECOVERY_RATE
                 * consumedWaterBuffer.getCapacity());
+        myLogger.debug("recovery low CO2 by: "+ (CO2_LOW_RECOVERY_RATE * consumedCO2LowBuffer.getCapacity()));
         consumedCO2LowBuffer.add(CO2_LOW_RECOVERY_RATE
                 * consumedCO2LowBuffer.getCapacity());
         consumedCO2HighBuffer.add(CO2_HIGH_RECOVERY_RATE
@@ -330,9 +331,13 @@ public abstract class PlantImpl extends PlantPOA {
         consumedLightBuffer.take(getPPFNeeded() - myAveragePPF);
         if (myAveragePPF > DANGEROUS_HEAT_LEVEL)
             consumedHeatBuffer.take(myAveragePPF - DANGEROUS_HEAT_LEVEL);
-        if (myAverageCO2Concentration < CO2_RATIO_LOW)
+        if (myAverageCO2Concentration < CO2_RATIO_LOW){
             consumedCO2LowBuffer
                     .take(CO2_RATIO_LOW - myAverageCO2Concentration);
+            myLogger.debug("myAverageCO2Concentration = "+myAverageCO2Concentration);
+            myLogger.debug("taken from low CO2 store = " + (CO2_RATIO_LOW - myAverageCO2Concentration));
+            myLogger.debug("consumedCO2LowBuffer.getLevel() = " + consumedCO2LowBuffer.getLevel());
+        }
         if (myAverageCO2Concentration > CO2_RATIO_HIGH)
             consumedCO2HighBuffer.take(myAverageCO2Concentration
                     - CO2_RATIO_HIGH);
@@ -345,22 +350,14 @@ public abstract class PlantImpl extends PlantPOA {
     private void healthCheck() {
         //check for death
         float randomNumber = myRandomGen.nextFloat();
-        float CO2RiskLowReturn = MathUtils.sigmoidLikeProbability((consumedCO2LowBuffer
-                .getCapacity() - consumedCO2LowBuffer.getLevel())
-                / consumedCO2LowBuffer.getCapacity());
-        float CO2RiskHighReturn = MathUtils.sigmoidLikeProbability((consumedCO2HighBuffer
-                .getCapacity() - consumedCO2HighBuffer.getLevel())
-                / consumedCO2HighBuffer.getCapacity());
-        float waterRiskReturn = MathUtils.sigmoidLikeProbability((consumedWaterBuffer
-                .getCapacity() - consumedWaterBuffer.getLevel())
-                / consumedWaterBuffer.getCapacity());
-        float heatRiskReturn = MathUtils.sigmoidLikeProbability((consumedHeatBuffer
-                .getCapacity() - consumedHeatBuffer.getLevel())
-                / consumedHeatBuffer.getCapacity());
-        float lightRiskReturn = MathUtils.sigmoidLikeProbability((consumedLightBuffer
-                .getCapacity() - consumedLightBuffer.getLevel())
-                / consumedLightBuffer.getCapacity());
-
+        float CO2RiskLowReturn = MathUtils.calculateSCurve(consumedCO2LowBuffer.getAmountMissing(), consumedCO2LowBuffer.getCapacity());
+        float CO2RiskHighReturn = MathUtils.calculateSCurve(consumedCO2HighBuffer.getAmountMissing(), consumedCO2HighBuffer.getCapacity());
+        float waterRiskReturn = MathUtils.calculateSCurve(consumedWaterBuffer.getAmountMissing(), consumedWaterBuffer.getCapacity());
+        float heatRiskReturn = MathUtils.calculateSCurve(consumedHeatBuffer.getAmountMissing(), consumedHeatBuffer.getCapacity());
+        float lightRiskReturn = MathUtils.calculateSCurve(consumedLightBuffer.getAmountMissing(), consumedLightBuffer.getCapacity());
+        myLogger.debug("consumedCO2LowBuffer.getAmountMissing() = "+consumedCO2LowBuffer.getAmountMissing());
+        myLogger.debug("consumedCO2LowBuffer.getCapacity() = "+consumedCO2LowBuffer.getCapacity());
+        myLogger.debug("CO2RiskLowReturn = "+CO2RiskLowReturn);
         if (CO2RiskLowReturn > randomNumber) {
             hasDied = true;
             myLogger.info(getPlantTypeString()

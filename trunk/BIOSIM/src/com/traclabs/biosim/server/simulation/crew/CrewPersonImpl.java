@@ -173,7 +173,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 
     private static final float LEISURE_RECOVERY_RATE = 90f;
 
-    private static final float AWAKE_TILL_EXHAUSTION = 120f;
+    private static final float AWAKE_TILL_EXHAUSTION = 120;
 
     private static final float SLEEP_RECOVERY_RATE = 12f;
 
@@ -641,18 +641,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
      * performs "mission" activity
      */
     private void addProductivity() {
-        float caloriePercentFull = MathUtils.sigmoidLikeProbability(consumedCaloriesBuffer
-                .getLevel()
-                / consumedCaloriesBuffer.getCapacity());
-        float waterPercentFull = MathUtils.sigmoidLikeProbability(consumedWaterBuffer
-                .getLevel()
-                / consumedWaterBuffer.getCapacity());
-        float oxygenPercentFull = MathUtils.sigmoidLikeProbability(consumedLowOxygenBuffer
-                .getLevel()
-                / consumedLowOxygenBuffer.getCapacity());
-        float CO2PercentFull = MathUtils.sigmoidLikeProbability(consumedCO2Buffer
-                .getLevel()
-                / consumedCO2Buffer.getCapacity());
+        float caloriePercentFull = MathUtils.calculateSCurve(consumedCaloriesBuffer.getAmountMissing(), consumedCaloriesBuffer.getCapacity());
+        float waterPercentFull = MathUtils.calculateSCurve(consumedWaterBuffer.getAmountMissing(), consumedWaterBuffer.getCapacity());
+        float oxygenPercentFull = MathUtils.calculateSCurve(consumedLowOxygenBuffer.getAmountMissing(), consumedLowOxygenBuffer.getCapacity());
+        float CO2PercentFull = MathUtils.calculateSCurve(consumedCO2Buffer.getAmountMissing(), consumedCO2Buffer.getCapacity());
         float sleepPercentFull = sleepBuffer.getLevel()
                 / sleepBuffer.getCapacity();
         float leisurePercentFull = leisureBuffer.getLevel()
@@ -1003,24 +995,12 @@ public class CrewPersonImpl extends CrewPersonPOA {
         //check for death
         float randomNumber = myRandomGen.nextFloat();
         myLogger.debug("random number this tick is "+randomNumber);
-        float calorieRiskReturn = MathUtils.sigmoidLikeProbability((consumedCaloriesBuffer
-                .getCapacity() - consumedCaloriesBuffer.getLevel())
-                / consumedCaloriesBuffer.getCapacity());
-        float waterRiskReturn = MathUtils.sigmoidLikeProbability((consumedWaterBuffer
-                .getCapacity() - consumedWaterBuffer.getLevel())
-                / consumedWaterBuffer.getCapacity());
-        float oxygenLowRiskReturn = MathUtils.sigmoidLikeProbability((consumedLowOxygenBuffer
-                .getCapacity() - consumedLowOxygenBuffer.getLevel())
-                / consumedLowOxygenBuffer.getCapacity());
-        float oxygenHighRiskReturn = MathUtils.sigmoidLikeProbability((highOxygenBuffer
-                .getCapacity() - highOxygenBuffer.getLevel())
-                / highOxygenBuffer.getCapacity());
-        float CO2RiskReturn = MathUtils.sigmoidLikeProbability((consumedCO2Buffer
-                .getCapacity() - consumedCO2Buffer.getLevel())
-                / consumedCO2Buffer.getCapacity());
-        float sleepRiskReturn = MathUtils.sigmoidLikeProbability((sleepBuffer
-                .getCapacity() - sleepBuffer.getLevel())
-                / sleepBuffer.getCapacity());
+        float calorieRiskReturn = MathUtils.calculateSCurve(consumedCaloriesBuffer.getAmountMissing(), consumedCaloriesBuffer.getCapacity());
+        float waterRiskReturn = MathUtils.calculateSCurve(consumedWaterBuffer.getAmountMissing(), consumedWaterBuffer.getCapacity());
+        float oxygenLowRiskReturn = MathUtils.calculateSCurve(consumedLowOxygenBuffer.getAmountMissing(), consumedLowOxygenBuffer.getCapacity());
+        float oxygenHighRiskReturn = MathUtils.calculateSCurve(highOxygenBuffer.getAmountMissing(), highOxygenBuffer.getCapacity());
+        float CO2RiskReturn = MathUtils.calculateSCurve(consumedCO2Buffer.getAmountMissing(), consumedCO2Buffer.getCapacity());
+        float sleepRiskReturn = MathUtils.calculateSCurve(sleepBuffer.getAmountMissing(), sleepBuffer.getCapacity());
         myLogger.debug(getName());
         myLogger
                 .debug("\tcalorie taken="

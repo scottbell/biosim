@@ -487,6 +487,7 @@ module com{
                                                         void clearShelves();
                                                         void setAutoHarvestAndReplantEnabled(in boolean pHarvestEnabled);
                                                         boolean autoHarvestAndReplantEnabled();
+                                                        boolean isAnyPlantDead();
                                                 };
 
                                                 interface FoodProcessor : framework::SimBioModule, power::PowerConsumer, food::BiomassConsumer, food::FoodProducer, waste::DryWasteProducer, water::WaterProducer{
