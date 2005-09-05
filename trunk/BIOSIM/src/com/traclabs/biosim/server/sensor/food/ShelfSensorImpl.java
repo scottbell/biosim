@@ -2,7 +2,7 @@ package com.traclabs.biosim.server.sensor.food;
 
 import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.sensor.food.ShelfSensorOperations;
-import com.traclabs.biosim.idl.simulation.food.BiomassRS;
+import com.traclabs.biosim.idl.simulation.food.BiomassPS;
 import com.traclabs.biosim.idl.simulation.food.Shelf;
 import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
@@ -10,7 +10,7 @@ public abstract class ShelfSensorImpl extends GenericSensorImpl implements
         ShelfSensorOperations {
     protected Shelf myShelf;
 
-    private BiomassRS myBiomassRS;
+    private BiomassPS myBiomassPS;
 
     public ShelfSensorImpl(int pID, String pName) {
         super(pID, pName);
@@ -20,9 +20,9 @@ public abstract class ShelfSensorImpl extends GenericSensorImpl implements
 
     protected abstract void notifyListeners();
 
-    public void setInput(BiomassRS pBiomassRS, int shelfIndex) {
-        myShelf = pBiomassRS.getShelf(shelfIndex);
-        myBiomassRS = pBiomassRS;
+    public void setInput(BiomassPS pBiomassPS, int shelfIndex) {
+        myShelf = pBiomassPS.getShelf(shelfIndex);
+        myBiomassPS = pBiomassPS;
     }
 
     public Shelf getInput() {
@@ -30,6 +30,6 @@ public abstract class ShelfSensorImpl extends GenericSensorImpl implements
     }
 
     public BioModule getInputModule() {
-        return (myBiomassRS);
+        return (myBiomassPS);
     }
 }

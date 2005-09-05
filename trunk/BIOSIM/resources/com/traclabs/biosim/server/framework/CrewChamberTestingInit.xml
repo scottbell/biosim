@@ -32,7 +32,7 @@
 			<SimEnvironment moduleName="SimEnvironment" initialVolume="300000"/>
 		</environment>                    
 		<food>
-			<BiomassRS moduleName="BiomassRS" autoHarvestAndReplant="true">
+			<BiomassPS moduleName="BiomassPS" autoHarvestAndReplant="true">
 				<shelf cropArea="1200" cropType="WHEAT"/>
 				<powerConsumer maxFlowRates="400" desiredFlowRates="400" inputs="PowerStore"/>
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
@@ -41,7 +41,7 @@
 				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="DirtyWaterStore"/>
 				<biomassProducer maxFlowRates="100" desiredFlowRates="100" outputs="BiomassStore"/>
 				<airProducer maxFlowRates="0" desiredFlowRates="0" outputs="SimEnvironment"/>
-			</BiomassRS>
+			</BiomassPS>
 			<BiomassStore moduleName="BiomassStore" capacity="500" level="300"/>
 			<FoodStore moduleName="FoodStore" capacity="100000000000" level="100000000000"/>
 		</food>

@@ -4,26 +4,26 @@ import org.tigris.gef.base.Layer;
 import org.tigris.gef.presentation.FigNode;
 
 import com.traclabs.biosim.editor.graph.ActiveNode;
-import com.traclabs.biosim.server.simulation.food.BiomassRSImpl;
+import com.traclabs.biosim.server.simulation.food.BiomassPSImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 
 
-public class BiomassRSNode extends ActiveNode{
+public class BiomassPSNode extends ActiveNode{
     private static int nameID = 0;
     
-    private BiomassRSImpl myBiomassRSImpl;
-    public BiomassRSNode() {
-        myBiomassRSImpl = new BiomassRSImpl(0, "BiomassRS" + nameID++);
+    private BiomassPSImpl myBiomassPSImpl;
+    public BiomassPSNode() {
+        myBiomassPSImpl = new BiomassPSImpl(0, "BiomassPS" + nameID++);
     }
 
     public FigNode makePresentation(Layer lay) {
-        FigBiomassRSNode node = new FigBiomassRSNode();
+        FigBiomassPSNode node = new FigBiomassPSNode();
         node.setOwner(this);
         return node;
     }
     
     public SimBioModuleImpl getSimBioModuleImpl(){
-        return myBiomassRSImpl;
+        return myBiomassPSImpl;
     }
 
     /* (non-Javadoc)
@@ -31,6 +31,6 @@ public class BiomassRSNode extends ActiveNode{
      */
     public String getModuleType() {
         // TODO Auto-generated method stub
-        return "BiomassRS";
+        return "BiomassPS";
     }
 }

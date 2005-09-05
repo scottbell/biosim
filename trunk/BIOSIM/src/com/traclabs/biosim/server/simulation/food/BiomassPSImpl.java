@@ -12,9 +12,9 @@ import com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.environment.AirConsumerOperations;
 import com.traclabs.biosim.idl.simulation.environment.AirProducerDefinition;
 import com.traclabs.biosim.idl.simulation.environment.AirProducerOperations;
+import com.traclabs.biosim.idl.simulation.food.BiomassPSOperations;
 import com.traclabs.biosim.idl.simulation.food.BiomassProducerDefinition;
 import com.traclabs.biosim.idl.simulation.food.BiomassProducerOperations;
-import com.traclabs.biosim.idl.simulation.food.BiomassRSOperations;
 import com.traclabs.biosim.idl.simulation.food.PlantType;
 import com.traclabs.biosim.idl.simulation.food.Shelf;
 import com.traclabs.biosim.idl.simulation.food.ShelfHelper;
@@ -45,8 +45,8 @@ import com.traclabs.biosim.util.OrbUtils;
  * @author Scott Bell
  */
 
-public class BiomassRSImpl extends SimBioModuleImpl implements
-        BiomassRSOperations, PotableWaterConsumerOperations,
+public class BiomassPSImpl extends SimBioModuleImpl implements
+        BiomassPSOperations, PotableWaterConsumerOperations,
         AirConsumerOperations, AirProducerOperations,
         GreyWaterConsumerOperations, BiomassProducerOperations,
         DirtyWaterProducerOperations {
@@ -69,11 +69,11 @@ public class BiomassRSImpl extends SimBioModuleImpl implements
 
     private BiomassProducerDefinitionImpl myBiomassProducerDefinitionImpl;
     
-    public BiomassRSImpl(){
-    	this(0, "Unnamed BiomassRSImpl");
+    public BiomassPSImpl(){
+    	this(0, "Unnamed BiomassPSImpl");
     }
 
-    public BiomassRSImpl(int pID, String pName) {
+    public BiomassPSImpl(int pID, String pName) {
         super(pID, pName);
         myShelves = new Vector<ShelfImpl>();
 

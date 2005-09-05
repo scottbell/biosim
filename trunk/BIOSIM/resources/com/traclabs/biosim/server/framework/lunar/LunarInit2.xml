@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='../BiosimInitSchema.xsd'>
-	<Globals crewsToWatch="BaseCrewGroup EVACrewGroup" plantsToWatch="BaseBiomassRS" runTillN="2160" runTillCrewDeath="true" runTillPlantDeath="true">
+	<Globals crewsToWatch="BaseCrewGroup EVACrewGroup" plantsToWatch="BaseBiomassPS" runTillN="2160" runTillCrewDeath="true" runTillPlantDeath="true">
 		<comment>
 			The lunar mission initialization for BioSim (scenario 2) 
 			Has the following properties:
@@ -128,7 +128,7 @@
 				<dryWasteProducer maxFlowRates="100" desiredFlowRates="100" outputs="BaseDryWasteStore"/>
 				<waterProducer maxFlowRates="100 100" desiredFlowRates="100 100" outputs="CrewBaseDirtyWaterStore CrewBaseGreyWaterStore"/>
 			</FoodProcessor>
-			<BiomassRS moduleName="BaseBiomassRS">
+			<BiomassPS moduleName="BaseBiomassPS">
 				<shelf cropArea="20" cropType="LETTUCE"/>
 				<shelf cropArea="1.5" cropType="TOMATO"/>
 				<powerConsumer maxFlowRates="400" desiredFlowRates="400" inputs="BasePowerStore"/>
@@ -138,7 +138,7 @@
 				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="CrewBaseDirtyWaterStore"/>
 				<biomassProducer maxFlowRates="100" desiredFlowRates="100" outputs="BaseBiomassStore"/>
 				<airProducer maxFlowRates="0" desiredFlowRates="0" outputs="BaseCrewEnvironment"/>
-			</BiomassRS>
+			</BiomassPS>
 			<BiomassStore moduleName="BaseBiomassStore" capacity="1000" level="1000"/>
 			<FoodStore moduleName="BaseFoodStore" capacity="2000" level="2000"/>
 			<FoodStore moduleName="EVAFoodStore" capacity="0" level="0"/>
@@ -213,8 +213,8 @@
 		</air>
 		<food>
 			<BiomassInFlowRateActuator index="0" output="FoodProcessor" moduleName="FoodProcessorBiomassInFlowRateActuator"/>
-			<HarvestingActuator output="BaseBiomassRS" moduleName="BaseBiomassRSHarvestingActuator" shelfIndex="0"/>
-			<PlantingActuator output="BaseBiomassRS" moduleName="BaseBiomassRSPlantingActuator" shelfIndex="0"/>
+			<HarvestingActuator output="BaseBiomassPS" moduleName="BaseBiomassPSHarvestingActuator" shelfIndex="0"/>
+			<PlantingActuator output="BaseBiomassPS" moduleName="BaseBiomassPSPlantingActuator" shelfIndex="0"/>
 		</food>
 		<power>
 			<PowerInFlowRateActuator index="0" output="FoodProcessor" moduleName="FoodProcessorPowerInFlowRateActuator"/>
@@ -223,7 +223,7 @@
 		</power>
 		<water>
 			<DirtyWaterInFlowRateActuator index="0" output="CrewWaterRS" moduleName="CrewWaterRSDirtyWaterInFlowRateActuator"/>
-			<GreyWaterInFlowRateActuator index="0" output="BaseBiomassRS" moduleName="BaseBiomassRSGreyWaterInFlowRateActuator"/>
+			<GreyWaterInFlowRateActuator index="0" output="BaseBiomassPS" moduleName="BaseBiomassPSGreyWaterInFlowRateActuator"/>
 			<GreyWaterInFlowRateActuator index="0" output="CrewWaterRS" moduleName="CrewWaterRSGreyWaterInFlowRateActuator"/>
 			<PotableWaterInFlowRateActuator index="0" output="BaseOGS" moduleName="BaseOGSPotableWaterInFlowRateActuator"/>
 			<PotableWaterOutFlowRateActuator index="0" output="CrewWaterRS" moduleName="BaseOGSPotableWaterOutFlowRateActuator"/>

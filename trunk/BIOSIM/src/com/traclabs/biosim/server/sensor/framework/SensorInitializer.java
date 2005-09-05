@@ -144,8 +144,8 @@ import com.traclabs.biosim.idl.simulation.environment.EnvironmentStore;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironmentHelper;
 import com.traclabs.biosim.idl.simulation.food.BiomassConsumerHelper;
+import com.traclabs.biosim.idl.simulation.food.BiomassPSHelper;
 import com.traclabs.biosim.idl.simulation.food.BiomassProducerHelper;
-import com.traclabs.biosim.idl.simulation.food.BiomassRSHelper;
 import com.traclabs.biosim.idl.simulation.food.BiomassStoreHelper;
 import com.traclabs.biosim.idl.simulation.food.FoodConsumerHelper;
 import com.traclabs.biosim.idl.simulation.food.FoodProducerHelper;
@@ -994,7 +994,7 @@ public class SensorInitializer {
 			HarvestSensor myHarvestSensor = HarvestSensorHelper
 					.narrow(BiosimInitializer.grabModule(myID,
 							BiosimInitializer.getModuleName(node)));
-			myHarvestSensor.setInput(BiomassRSHelper.narrow(BiosimInitializer
+			myHarvestSensor.setInput(BiomassPSHelper.narrow(BiosimInitializer
 					.grabModule(myID, getInputName(node))), index);
 			mySensors.add(myHarvestSensor);
 		} catch (NumberFormatException e) {
@@ -1024,7 +1024,7 @@ public class SensorInitializer {
 			PlantDeathSensor myPlantDeathSensor = PlantDeathSensorHelper
 					.narrow(BiosimInitializer.grabModule(myID,
 							BiosimInitializer.getModuleName(node)));
-			myPlantDeathSensor.setInput(BiomassRSHelper
+			myPlantDeathSensor.setInput(BiomassPSHelper
 					.narrow(BiosimInitializer.grabModule(myID,
 							getInputName(node))), index);
 			mySensors.add(myPlantDeathSensor);

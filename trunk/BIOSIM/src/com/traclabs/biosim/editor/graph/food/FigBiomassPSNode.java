@@ -4,9 +4,9 @@ import java.awt.Color;
 
 import com.traclabs.biosim.editor.graph.FigActiveNode;
 
-public class FigBiomassRSNode extends FigActiveNode {
+public class FigBiomassPSNode extends FigActiveNode {
     
-    public FigBiomassRSNode() {
+    public FigBiomassPSNode() {
         super();
         setFillColor(Color.GREEN);
         setLineColor(Color.BLACK);

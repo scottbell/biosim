@@ -4,9 +4,9 @@
  */
 package com.traclabs.biosim.server.simulation.food.photosynthesis;
 
-import com.traclabs.biosim.util.OrbUtils;
-
 import junit.framework.TestCase;
+
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * @author scott

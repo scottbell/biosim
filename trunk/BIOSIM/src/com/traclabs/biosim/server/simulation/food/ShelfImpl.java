@@ -3,8 +3,8 @@ package com.traclabs.biosim.server.simulation.food;
 import org.apache.log4j.Logger;
 
 import com.traclabs.biosim.idl.simulation.food.BioMatter;
-import com.traclabs.biosim.idl.simulation.food.BiomassRS;
-import com.traclabs.biosim.idl.simulation.food.BiomassRSHelper;
+import com.traclabs.biosim.idl.simulation.food.BiomassPS;
+import com.traclabs.biosim.idl.simulation.food.BiomassPSHelper;
 import com.traclabs.biosim.idl.simulation.food.Plant;
 import com.traclabs.biosim.idl.simulation.food.PlantHelper;
 import com.traclabs.biosim.idl.simulation.food.PlantType;
@@ -26,7 +26,7 @@ public class ShelfImpl extends ShelfPOA {
 
     private float cropAreaUsed = 0f;
 
-    private BiomassRSImpl myBiomassRSImpl;
+    private BiomassPSImpl myBiomassPSImpl;
 
     private float waterLevel = 0f;
 
@@ -43,16 +43,16 @@ public class ShelfImpl extends ShelfPOA {
     private int myStartTick;
 
     public ShelfImpl(PlantType pType, float pCropAreaTotal,
-            BiomassRSImpl pBiomassImpl) {
+            BiomassPSImpl pBiomassImpl) {
         this(pType, pCropAreaTotal, pBiomassImpl, 0);
     }
 
     public ShelfImpl(PlantType pType, float pCropAreaTotal,
-            BiomassRSImpl pBiomassImpl, int pStartTick) {
+            BiomassPSImpl pBiomassImpl, int pStartTick) {
         myLogger = Logger.getLogger(this.getClass());
         myStartTick = pStartTick;
         cropAreaTotal = pCropAreaTotal;
-        myBiomassRSImpl = pBiomassImpl;
+        myBiomassPSImpl = pBiomassImpl;
         replant(pType, cropAreaTotal);
         waterNeeded = cropAreaUsed * waterNeededPerMeterSquared;
     }
@@ -79,12 +79,12 @@ public class ShelfImpl extends ShelfPOA {
         return myCrop.getPlantTypeString();
     }
 
-    public BiomassRS getBiomassRS() {
-        return BiomassRSHelper.narrow(OrbUtils.poaToCorbaObj(myBiomassRSImpl));
+    public BiomassPS getBiomassPS() {
+        return BiomassPSHelper.narrow(OrbUtils.poaToCorbaObj(myBiomassPSImpl));
     }
 
-    public BiomassRSImpl getBiomassRSImpl() {
-        return myBiomassRSImpl;
+    public BiomassPSImpl getBiomassPSImpl() {
+        return myBiomassPSImpl;
     }
 
     public float getCropAreaTotal() {
@@ -104,23 +104,23 @@ public class ShelfImpl extends ShelfPOA {
         if (extraWaterNeeded < 0) {
             extraWaterNeeded = 0;
         }
-        float gatheredGreyWater = myBiomassRSImpl
+        float gatheredGreyWater = myBiomassPSImpl
                 .getGreyWaterConsumerDefinitionImpl()
                 .getFractionalResourceFromStores(extraWaterNeeded,
-                        1f / myBiomassRSImpl.getNumberOfShelves());
-        float gatheredPotableWater = myBiomassRSImpl
+                        1f / myBiomassPSImpl.getNumberOfShelves());
+        float gatheredPotableWater = myBiomassPSImpl
                 .getPotableWaterConsumerDefinitionImpl()
                 .getFractionalResourceFromStores(
                         extraWaterNeeded - gatheredGreyWater,
-                        1f / myBiomassRSImpl.getNumberOfShelves());
+                        1f / myBiomassPSImpl.getNumberOfShelves());
         waterLevel += gatheredGreyWater + gatheredPotableWater;
     }
 
     private void gatherPower() {
         float powerNeeded = POWER_PER_SQUARE_METER * getCropAreaUsed();
-        powerLevel = myBiomassRSImpl.getPowerConsumerDefinitionImpl()
+        powerLevel = myBiomassPSImpl.getPowerConsumerDefinitionImpl()
                 .getFractionalResourceFromStores(powerNeeded,
-                        1f / myBiomassRSImpl.getNumberOfShelves());
+                        1f / myBiomassPSImpl.getNumberOfShelves());
     }
 
     public float takeWater(float pLiters) {
@@ -158,9 +158,9 @@ public class ShelfImpl extends ShelfPOA {
 
     public void harvest() {
         BioMatter biomassProduced = myCrop.harvest();
-        myBiomassRSImpl.getBiomassProducerDefinitionImpl()
+        myBiomassPSImpl.getBiomassProducerDefinitionImpl()
                 .pushFractionalResourceToBiomassStore(biomassProduced,
-                        1f / myBiomassRSImpl.getNumberOfShelves());
+                        1f / myBiomassPSImpl.getNumberOfShelves());
     }
 
     public boolean isReadyForHavest() {
@@ -176,22 +176,22 @@ public class ShelfImpl extends ShelfPOA {
     }
 
     private void tryHarvesting() {
-        if (myBiomassRSImpl.autoHarvestAndReplantEnabled()) {
+        if (myBiomassPSImpl.autoHarvestAndReplantEnabled()) {
             if (myCrop.readyForHarvest() || myCrop.isDead()) {
                 BioMatter biomassProduced = myCrop.harvest();
                 myLogger.info("ShelfImpl: Harvested " + biomassProduced.mass
                         + "kg of " + myCrop.getPlantTypeString());
-                myBiomassRSImpl
+                myBiomassPSImpl
                         .getBiomassProducerDefinitionImpl()
                         .pushFractionalResourceToBiomassStore(biomassProduced,
-                                1f / myBiomassRSImpl.getNumberOfShelves());
+                                1f / myBiomassPSImpl.getNumberOfShelves());
                 myCrop.reset();
             }
         }
     }
 
     public void tick() {
-        if (cropAreaUsed > 0 && (myBiomassRSImpl.getMyTicks() >= myStartTick)) {
+        if (cropAreaUsed > 0 && (myBiomassPSImpl.getMyTicks() >= myStartTick)) {
             tryHarvesting();
             gatherPower();
             gatherWater();

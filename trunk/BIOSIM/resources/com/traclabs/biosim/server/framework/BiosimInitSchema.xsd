@@ -116,7 +116,7 @@
 					<xsd:sequence>
 						<xsd:choice minOccurs="0" maxOccurs="unbounded">
 							<xsd:element name="FoodProcessor" type="FoodProcessorType"/>
-							<xsd:element name="BiomassRS" type="BiomassRSType"/>
+							<xsd:element name="BiomassPS" type="BiomassPSType"/>
 							<xsd:element name="BiomassStore" type="BiomassStoreType"/>
 							<xsd:element name="FoodStore" type="FoodStoreType"/>
 						</xsd:choice>
@@ -804,7 +804,7 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 	
-	<!-- Special BiomassRS specific declarations -->
+	<!-- Special BiomassPS specific declarations -->
 	<xsd:complexType name="ShelfType">
 		<xsd:attribute name="cropType" type="CropType" use="required"/>
 		<xsd:attribute name="cropArea" type="nonNegativeFloat" use="required"/>
@@ -950,7 +950,7 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	
-	<xsd:complexType name="BiomassRSType">  
+	<xsd:complexType name="BiomassPSType">  
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
 				<xsd:sequence>

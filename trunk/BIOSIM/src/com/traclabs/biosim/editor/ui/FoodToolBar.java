@@ -5,7 +5,7 @@
 package com.traclabs.biosim.editor.ui;
 
 import com.traclabs.biosim.editor.base.CmdCreateModuleNode;
-import com.traclabs.biosim.editor.graph.food.BiomassRSNode;
+import com.traclabs.biosim.editor.graph.food.BiomassPSNode;
 import com.traclabs.biosim.editor.graph.food.BiomassStoreNode;
 import com.traclabs.biosim.editor.graph.food.FoodProcessorNode;
 import com.traclabs.biosim.editor.graph.food.FoodStoreNode;
@@ -17,7 +17,7 @@ import com.traclabs.biosim.editor.graph.food.FoodStoreNode;
 public class FoodToolBar extends EditorToolBar {
     public FoodToolBar() {
         super("Food");
-        add(new CmdCreateModuleNode(BiomassRSNode.class, "EditorBase", "BiomassRS"));
+        add(new CmdCreateModuleNode(BiomassPSNode.class, "EditorBase", "BiomassPS"));
         add(new CmdCreateModuleNode(FoodProcessorNode.class, "EditorBase", "FoodProcessor"));
         addSeparator();
         add(new CmdCreateModuleNode(BiomassStoreNode.class, "EditorBase", "BiomassStore"));

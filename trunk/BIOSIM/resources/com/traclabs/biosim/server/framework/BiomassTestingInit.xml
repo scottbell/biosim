@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='BiosimInitSchema.xsd'>
-	<Globals runTillCrewDeath="false" runTillPlantDeath="true" plantsToWatch="BiomassRS" runTillN="2064" startPaused="false">
+	<Globals runTillCrewDeath="false" runTillPlantDeath="true" plantsToWatch="BiomassPS" runTillN="2064" startPaused="false">
 		<comment>The default initialization for BioSim</comment>
 		<author>Scott Bell</author>
 	</Globals>
@@ -9,7 +9,7 @@
 			<SimEnvironment moduleName="PlantEnvironment" initialVolume="100000000000000"/>
 		</environment>
 		<food>
-			<BiomassRS moduleName="BiomassRS" autoHarvestAndReplant="false">
+			<BiomassPS moduleName="BiomassPS" autoHarvestAndReplant="false">
 				<shelf cropArea="1" cropType="SOYBEAN"/>
 				<powerConsumer maxFlowRates="400" desiredFlowRates="400" inputs="PowerStore"/>
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
@@ -18,7 +18,7 @@
 				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="DirtyWaterStore"/>
 				<biomassProducer maxFlowRates="100" desiredFlowRates="100" outputs="BiomassStore"/>
 				<airProducer maxFlowRates="0" desiredFlowRates="0" outputs="PlantEnvironment"/>
-			</BiomassRS>
+			</BiomassPS>
 			<BiomassStore moduleName="BiomassStore" capacity="500" level="300"/>
 		</food>
 		<power>
