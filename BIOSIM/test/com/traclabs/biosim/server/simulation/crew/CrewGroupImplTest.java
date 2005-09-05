@@ -95,7 +95,7 @@ public class CrewGroupImplTest extends TestCase {
 
 	public void testO2Consumption() {
 		reset();
-		float averageMolesOfO2NeededInDay = 29f;
+		float averageMolesOfO2NeededInDay = 29f * myCrewGroup.getTickLength();
 		float molesOfOxygenConsumed = 0f;
 		for (int i = 0; i < 24; i++){
 			myCrewGroup.tick();
@@ -107,7 +107,7 @@ public class CrewGroupImplTest extends TestCase {
 	public void testLowO2Death(){
 		float oldInitialLevel = mySimEnvironment.getO2Store().getInitialLevel();
 		mySimEnvironment.getO2Store().setInitialLevel(0f);
-		float ticksWithoutOxygenAverage = 4f;
+		float ticksWithoutOxygenAverage = 4f * myCrewGroup.getTickLength();
 		assertEquals(ticksWithoutOxygenAverage, getAverageTillDead(100), 2);
 		mySimEnvironment.getO2Store().setInitialLevel(oldInitialLevel);
 	}
@@ -115,7 +115,7 @@ public class CrewGroupImplTest extends TestCase {
 	public void testWaterDeath(){
 		float oldInitialLevel = myPotableWaterStore.getInitialLevel();
 		myPotableWaterStore.setInitialLevel(0f);
-		float ticksWithoutWaterAverage = 40f;
+		float ticksWithoutWaterAverage = 40f * myCrewGroup.getTickLength();
 		assertEquals(ticksWithoutWaterAverage, getAverageTillDead(40), 4);
 		myPotableWaterStore.setInitialLevel(oldInitialLevel);
 	}
@@ -123,7 +123,7 @@ public class CrewGroupImplTest extends TestCase {
 	public void testFoodDeath(){
 		float oldInitialLevel = myFoodStore.getInitialLevel();
 		myFoodStore.setInitialLevel(0f);
-		float ticksWithoutFoodAverage = 800f;
+		float ticksWithoutFoodAverage = 800f * myCrewGroup.getTickLength();
 		assertEquals(ticksWithoutFoodAverage, getAverageTillDead(20), 50);
 		myFoodStore.setInitialLevel(oldInitialLevel);
 	}
@@ -131,7 +131,7 @@ public class CrewGroupImplTest extends TestCase {
 	public void testHighCO2Death(){
 		float oldInitialLevel = mySimEnvironment.getCO2Store().getInitialLevel();
 		mySimEnvironment.getCO2Store().setInitialLevel(100000000000000000f);
-		float ticksWhileCO2HighAverage = 2f;
+		float ticksWhileCO2HighAverage = 2f * myCrewGroup.getTickLength();
 		assertEquals(ticksWhileCO2HighAverage, getAverageTillDead(20), 2);
 		mySimEnvironment.getO2Store().setInitialLevel(oldInitialLevel);
 	}
@@ -139,7 +139,7 @@ public class CrewGroupImplTest extends TestCase {
 	public void testHighO2Death(){
 		float oldInitialLevel = mySimEnvironment.getO2Store().getInitialLevel();
 		mySimEnvironment.getO2Store().setInitialLevel(100000000000000000f);
-		float ticksWhileFlammibleAverage = 800f;
+		float ticksWhileFlammibleAverage = 800f * myCrewGroup.getTickLength();
 		assertEquals(ticksWhileFlammibleAverage, getAverageTillDead(20), 50);
 		mySimEnvironment.getO2Store().setInitialLevel(oldInitialLevel);
 	}

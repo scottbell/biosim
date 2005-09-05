@@ -90,7 +90,7 @@ public class PlantImplTest extends TestCase {
 	public void testHighCO2Death(){
 		float oldInitialLevel = mySimEnvironment.getCO2Store().getInitialLevel();
 		mySimEnvironment.getCO2Store().setInitialLevel(100000000000000000f);
-		float ticksWithHighCO2 = 4f;
+		float ticksWithHighCO2 = 4f * myBiomassRS.getTickLength();
 		assertEquals(ticksWithHighCO2, getAverageTillDead(100), 1.5);
 		mySimEnvironment.getCO2Store().setInitialLevel(oldInitialLevel);
 	}
@@ -98,7 +98,7 @@ public class PlantImplTest extends TestCase {
 	public void testLowCO2Death(){
 		float oldInitialLevel = mySimEnvironment.getCO2Store().getInitialLevel();
 		mySimEnvironment.getCO2Store().setInitialLevel(0f);
-		float ticksWithLowCO2 = 27f;
+		float ticksWithLowCO2 = 27f * myBiomassRS.getTickLength();
 		assertEquals(ticksWithLowCO2, getAverageTillDead(100), 2);
 		mySimEnvironment.getCO2Store().setInitialLevel(oldInitialLevel);
 	}
@@ -106,7 +106,7 @@ public class PlantImplTest extends TestCase {
 	public void testLowWaterDeath(){
 		float oldInitialLevel = myPotableWaterStore.getInitialLevel();
 		myPotableWaterStore.setInitialLevel(0f);
-		float ticksWithLowWater = 412f;
+		float ticksWithLowWater = 412f * myBiomassRS.getTickLength();
 		assertEquals(ticksWithLowWater, getAverageTillDead(20), 2);
 		myPotableWaterStore.setInitialLevel(oldInitialLevel);
 	}
@@ -114,8 +114,8 @@ public class PlantImplTest extends TestCase {
 	public void testLowPowerDeath(){
 		float oldInitialLevel = myPowerStore.getInitialLevel();
 		myPowerStore.setInitialLevel(0f);
-		float ticksWithLowPower = 408f;
-		assertEquals(ticksWithLowPower, getAverageTillDead(20), 10);
+		float ticksWithLowPower = 408f * myBiomassRS.getTickLength();
+		assertEquals(ticksWithLowPower, getAverageTillDead(20), 20);
 		myPowerStore.setInitialLevel(oldInitialLevel);
 	}
 	
