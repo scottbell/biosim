@@ -22,8 +22,8 @@ import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.framework.StochasticIntensity;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroupHelper;
-import com.traclabs.biosim.idl.simulation.food.BiomassRS;
-import com.traclabs.biosim.idl.simulation.food.BiomassRSHelper;
+import com.traclabs.biosim.idl.simulation.food.BiomassPS;
+import com.traclabs.biosim.idl.simulation.food.BiomassPSHelper;
 import com.traclabs.biosim.server.actuator.framework.ActuatorInitializer;
 import com.traclabs.biosim.server.sensor.framework.SensorInitializer;
 import com.traclabs.biosim.server.simulation.framework.SimulationInitializer;
@@ -289,19 +289,19 @@ public class BiosimInitializer {
             if (plantsToWatchNode != null) {
                 String plantsToWatchString = plantsToWatchNode.getNodeValue();
                 String[] plantsToWatchArray = plantsToWatchString.split("\\s");
-                BiomassRS[] biomassRSs = new BiomassRS[plantsToWatchArray.length];
-                for (int i = 0; i < biomassRSs.length; i++) {
+                BiomassPS[] biomassPSs = new BiomassPS[plantsToWatchArray.length];
+                for (int i = 0; i < biomassPSs.length; i++) {
                     try {
-                        biomassRSs[i] = BiomassRSHelper.narrow(OrbUtils
+                        biomassPSs[i] = BiomassPSHelper.narrow(OrbUtils
                                 .getNamingContext(myID).resolve_str(
                                         plantsToWatchArray[i]));
                         myLogger.debug("Fetched "
-                                + biomassRSs[i].getModuleName());
+                                + biomassPSs[i].getModuleName());
                     } catch (org.omg.CORBA.UserException e) {
                         e.printStackTrace();
                     }
                 }
-                myDriver.setPlantsToWatch(biomassRSs);
+                myDriver.setPlantsToWatch(biomassPSs);
             }
         }
     }

@@ -66,7 +66,7 @@ module com{
                                         };
                                         module food{
                                                 interface Shelf;
-                                                interface BiomassRS;
+                                                interface BiomassPS;
                                                 interface BiomassStore;
                                                 interface FoodProcessor;
                                                 interface FoodStore;
@@ -89,7 +89,7 @@ module com{
                                                 typedef sequence <FoodStore> FoodStoreList;
                                                 typedef sequence <BioMatter> BioMatterList;
                                                 typedef sequence <FoodMatter> FoodMatterList;
-                                                typedef sequence <BiomassRS> BiomassRSList;
+                                                typedef sequence <BiomassPS> BiomassPSList;
                                                 interface BiomassConsumer;
                                                 interface FoodConsumer;
                                                 interface BiomassProducer;
@@ -239,7 +239,7 @@ module com{
                                                 void setRunTillCrewDeath(in boolean pRunTillDead);
                                                 void setRunTillPlantDeath(in boolean pRunTillDead);
                                                 void setCrewsToWatch(in simulation::crew::CrewGroupList pCrews);
-                                                void setPlantsToWatch(in simulation::food::BiomassRSList pBiomass);
+                                                void setPlantsToWatch(in simulation::food::BiomassPSList pBiomass);
                                                 void setRunTillN(in long pTicks);
                                                 void setLoopSimulation(in boolean pLoop);
                                                 void setPauseSimulation(in boolean pPause);
@@ -480,7 +480,7 @@ module com{
                                                 };
                                         };
                                         module food{
-                                                interface BiomassRS : framework::SimBioModule, power::PowerConsumer, water::PotableWaterConsumer, water::GreyWaterConsumer, food::BiomassProducer, environment::AirConsumer, environment::AirProducer, water::DirtyWaterProducer{
+                                                interface BiomassPS : framework::SimBioModule, power::PowerConsumer, water::PotableWaterConsumer, water::GreyWaterConsumer, food::BiomassProducer, environment::AirConsumer, environment::AirProducer, water::DirtyWaterProducer{
                                                         ShelfList getShelves();
                                                         Shelf getShelf(in long index);
                                                         Shelf createNewShelf(in PlantType pType, in float pCropArea, in long pStartTick);
@@ -522,7 +522,7 @@ module com{
                                                         void replant(in PlantType pType, in float area);
                                                         float getCropAreaTotal();
                                                         float getCropAreaUsed();
-                                                        BiomassRS getBiomassRS();
+                                                        BiomassPS getBiomassPS();
                                                         void setStartTick(in long tick);
                                                 };
 
@@ -886,7 +886,7 @@ module com{
                                                 };
 
                                                 interface ShelfSensor : framework::GenericSensor{
-                                                        void setInput(in simulation::food::BiomassRS source, in long index);
+                                                        void setInput(in simulation::food::BiomassPS source, in long index);
                                                         simulation::food::Shelf getInput();
                                                 };
 
@@ -1062,12 +1062,12 @@ module com{
                                                 };
                                         };
                                         module food{
-                                                interface BiomassRSActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::food::BiomassRS source);
-                                                        simulation::food::BiomassRS getOutput();
+                                                interface BiomassPSActuator : framework::GenericActuator{
+                                                        void setOutput(in simulation::food::BiomassPS source);
+                                                        simulation::food::BiomassPS getOutput();
                                                 };
                                                 interface ShelfActuator : framework::GenericActuator{
-                                                        void setOutput(in simulation::food::BiomassRS source, in long index);
+                                                        void setOutput(in simulation::food::BiomassPS source, in long index);
                                                         simulation::food::Shelf getOutput();
                                                 };
                                                 interface FoodProcessorActuator : framework::GenericActuator{

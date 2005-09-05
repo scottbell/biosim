@@ -8,7 +8,7 @@ import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.framework.StochasticIntensity;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
-import com.traclabs.biosim.idl.simulation.food.BiomassRS;
+import com.traclabs.biosim.idl.simulation.food.BiomassPS;
 
 /*
  * 
@@ -55,7 +55,7 @@ public class BioDriverImpl extends BioDriverPOA {
 
 	private CrewGroup[] crewsToWatch;
 
-	private BiomassRS[] plantsToWatch;
+	private BiomassPS[] plantsToWatch;
 
 	private BioModule[] modules;
 
@@ -87,7 +87,7 @@ public class BioDriverImpl extends BioDriverPOA {
 		sensors = new BioModule[0];
 		actuators = new BioModule[0];
 		crewsToWatch = new CrewGroup[0];
-		plantsToWatch = new BiomassRS[0];
+		plantsToWatch = new BiomassPS[0];
 		myLogger = Logger.getLogger(this.getClass());
 	}
 
@@ -266,7 +266,7 @@ public class BioDriverImpl extends BioDriverPOA {
 		crewsToWatch = pCrewGroups;
 	}
 
-	public void setPlantsToWatch(BiomassRS[] pPlants) {
+	public void setPlantsToWatch(BiomassPS[] pPlants) {
 		plantsToWatch = pPlants;
 	}
 

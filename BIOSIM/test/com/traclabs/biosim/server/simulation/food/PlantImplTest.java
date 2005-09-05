@@ -5,8 +5,8 @@ import junit.framework.TestCase;
 import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironmentPOATie;
-import com.traclabs.biosim.idl.simulation.food.BiomassRS;
-import com.traclabs.biosim.idl.simulation.food.BiomassRSPOATie;
+import com.traclabs.biosim.idl.simulation.food.BiomassPS;
+import com.traclabs.biosim.idl.simulation.food.BiomassPSPOATie;
 import com.traclabs.biosim.idl.simulation.food.BiomassStore;
 import com.traclabs.biosim.idl.simulation.food.BiomassStorePOATie;
 import com.traclabs.biosim.idl.simulation.food.PlantType;
@@ -26,7 +26,7 @@ import com.traclabs.biosim.server.simulation.water.PotableWaterStoreImpl;
 import com.traclabs.biosim.util.OrbUtils;
 
 public class PlantImplTest extends TestCase {
-	private BiomassRS myBiomassRS;
+	private BiomassPS myBiomassPS;
 	
 	//consumers
 	private SimEnvironment mySimEnvironment;
@@ -38,17 +38,17 @@ public class PlantImplTest extends TestCase {
 	private DirtyWaterStore myDirtyWaterStore;
 	private BiomassStore myBiomassStore;
 	
-	private BioModule[] myModules = {myBiomassRS, mySimEnvironment, myPotableWaterStore, myBiomassStore, myGreyWaterStore, myDirtyWaterStore, myPowerStore};
+	private BioModule[] myModules = {myBiomassPS, mySimEnvironment, myPotableWaterStore, myBiomassStore, myGreyWaterStore, myDirtyWaterStore, myPowerStore};
 	
 	protected void setUp() throws Exception {
 		super.setUp();
 		OrbUtils.initializeLog();
 		OrbUtils.startDebugNameServer();
 		OrbUtils.initializeServerForDebug();
-		BiomassRSImpl biomassRSImpl = new BiomassRSImpl();
+		BiomassPSImpl biomassRSImpl = new BiomassPSImpl();
 		
-		myBiomassRS = (new BiomassRSPOATie(biomassRSImpl))._this(OrbUtils.getORB());
-		myBiomassRS.createNewShelf(PlantType.WHEAT, 15, 0);
+		myBiomassPS = (new BiomassPSPOATie(biomassRSImpl))._this(OrbUtils.getORB());
+		myBiomassPS.createNewShelf(PlantType.WHEAT, 15, 0);
 		//initialize stores
 		mySimEnvironment = (new SimEnvironmentPOATie(new SimEnvironmentImpl()))._this(OrbUtils.getORB());
 		myPotableWaterStore = (new PotableWaterStorePOATie(new PotableWaterStoreImpl()))._this(OrbUtils.getORB());
@@ -62,16 +62,16 @@ public class PlantImplTest extends TestCase {
 		myPowerStore.setInitialLevel(1000000000f);
 		
 		
-		myBiomassRS.getAirConsumerDefinition().setAirInputs(new SimEnvironment[] {mySimEnvironment}, new float[] {1000f}, new float[] {1000f});
-		myBiomassRS.getAirProducerDefinition().setAirOutputs(new SimEnvironment[] {mySimEnvironment}, new float[] {1000f}, new float[] {1000f});
+		myBiomassPS.getAirConsumerDefinition().setAirInputs(new SimEnvironment[] {mySimEnvironment}, new float[] {1000f}, new float[] {1000f});
+		myBiomassPS.getAirProducerDefinition().setAirOutputs(new SimEnvironment[] {mySimEnvironment}, new float[] {1000f}, new float[] {1000f});
 
-		myBiomassRS.getPotableWaterConsumerDefinition().setPotableWaterInputs(new PotableWaterStore[] {myPotableWaterStore}, new float[] {1000f}, new float[] {1000f});
-		myBiomassRS.getBiomassProducerDefinition().setBiomassOutputs(new BiomassStore[] {myBiomassStore}, new float[] {1000f}, new float[] {1000f});
-		myBiomassRS.getDirtyWaterProducerDefinition().setDirtyWaterOutputs(new DirtyWaterStore[] {myDirtyWaterStore}, new float[] {1000f}, new float[] {1000f});
-		myBiomassRS.getPowerConsumerDefinition().setPowerInputs(new PowerStore[] {myPowerStore}, new float[] {1000f}, new float[] {1000f});
+		myBiomassPS.getPotableWaterConsumerDefinition().setPotableWaterInputs(new PotableWaterStore[] {myPotableWaterStore}, new float[] {1000f}, new float[] {1000f});
+		myBiomassPS.getBiomassProducerDefinition().setBiomassOutputs(new BiomassStore[] {myBiomassStore}, new float[] {1000f}, new float[] {1000f});
+		myBiomassPS.getDirtyWaterProducerDefinition().setDirtyWaterOutputs(new DirtyWaterStore[] {myDirtyWaterStore}, new float[] {1000f}, new float[] {1000f});
+		myBiomassPS.getPowerConsumerDefinition().setPowerInputs(new PowerStore[] {myPowerStore}, new float[] {1000f}, new float[] {1000f});
 		
 		myModules = new BioModule[7];
-		myModules[0] = myBiomassRS;
+		myModules[0] = myBiomassPS;
 		myModules[1] = mySimEnvironment;
 		myModules[2] = myPotableWaterStore;
 		myModules[3] = myGreyWaterStore;
@@ -90,7 +90,7 @@ public class PlantImplTest extends TestCase {
 	public void testHighCO2Death(){
 		float oldInitialLevel = mySimEnvironment.getCO2Store().getInitialLevel();
 		mySimEnvironment.getCO2Store().setInitialLevel(100000000000000000f);
-		float ticksWithHighCO2 = 4f * myBiomassRS.getTickLength();
+		float ticksWithHighCO2 = 4f * myBiomassPS.getTickLength();
 		assertEquals(ticksWithHighCO2, getAverageTillDead(100), 1.5);
 		mySimEnvironment.getCO2Store().setInitialLevel(oldInitialLevel);
 	}
@@ -98,7 +98,7 @@ public class PlantImplTest extends TestCase {
 	public void testLowCO2Death(){
 		float oldInitialLevel = mySimEnvironment.getCO2Store().getInitialLevel();
 		mySimEnvironment.getCO2Store().setInitialLevel(0f);
-		float ticksWithLowCO2 = 27f * myBiomassRS.getTickLength();
+		float ticksWithLowCO2 = 27f * myBiomassPS.getTickLength();
 		assertEquals(ticksWithLowCO2, getAverageTillDead(100), 2);
 		mySimEnvironment.getCO2Store().setInitialLevel(oldInitialLevel);
 	}
@@ -106,7 +106,7 @@ public class PlantImplTest extends TestCase {
 	public void testLowWaterDeath(){
 		float oldInitialLevel = myPotableWaterStore.getInitialLevel();
 		myPotableWaterStore.setInitialLevel(0f);
-		float ticksWithLowWater = 412f * myBiomassRS.getTickLength();
+		float ticksWithLowWater = 412f * myBiomassPS.getTickLength();
 		assertEquals(ticksWithLowWater, getAverageTillDead(20), 2);
 		myPotableWaterStore.setInitialLevel(oldInitialLevel);
 	}
@@ -114,7 +114,7 @@ public class PlantImplTest extends TestCase {
 	public void testLowPowerDeath(){
 		float oldInitialLevel = myPowerStore.getInitialLevel();
 		myPowerStore.setInitialLevel(0f);
-		float ticksWithLowPower = 408f * myBiomassRS.getTickLength();
+		float ticksWithLowPower = 408f * myBiomassPS.getTickLength();
 		assertEquals(ticksWithLowPower, getAverageTillDead(20), 20);
 		myPowerStore.setInitialLevel(oldInitialLevel);
 	}
@@ -132,8 +132,8 @@ public class PlantImplTest extends TestCase {
 	private int ticksUntilDead(){
 		reset();
 		int totalTicks;
-		for (totalTicks = 0; !myBiomassRS.isAnyPlantDead(); totalTicks++){
-			myBiomassRS.tick();
+		for (totalTicks = 0; !myBiomassPS.isAnyPlantDead(); totalTicks++){
+			myBiomassPS.tick();
 		}
 		return totalTicks;
 	}

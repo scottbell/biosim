@@ -26,7 +26,7 @@ import com.traclabs.biosim.idl.simulation.food.FoodStore;
 
 public class FoodTextPanel extends TimedPanel {
 	// Various GUI componenets
-	private JPanel biomassRSPanel;
+	private JPanel biomassPSPanel;
 
 	private JPanel biomassStorePanel;
 
@@ -76,9 +76,9 @@ public class FoodTextPanel extends TimedPanel {
 		GridBagConstraints c = new GridBagConstraints();
 		setLayout(gridbag);
 
-		biomassRSPanel = new JPanel();
-		biomassRSPanel.setBorder(BorderFactory
-				.createTitledBorder("Biomass Recovery System"));
+		biomassPSPanel = new JPanel();
+		biomassPSPanel.setBorder(BorderFactory
+				.createTitledBorder("Biomass Production System"));
 
 		biomassStorePanel = new JPanel();
 		biomassStorePanel.setLayout(new GridLayout(1, 1));
@@ -119,9 +119,9 @@ public class FoodTextPanel extends TimedPanel {
 		c.weightx = 1.0;
 		c.gridwidth = GridBagConstraints.REMAINDER;
 		c.weighty = 1.0;
-		gridbag.setConstraints(biomassRSPanel, c);
+		gridbag.setConstraints(biomassPSPanel, c);
 
-		add(biomassRSPanel);
+		add(biomassPSPanel);
 
 		c.fill = GridBagConstraints.BOTH;
 		c.gridheight = 1;

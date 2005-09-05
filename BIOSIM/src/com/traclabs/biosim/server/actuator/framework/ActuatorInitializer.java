@@ -116,8 +116,8 @@ import com.traclabs.biosim.idl.simulation.air.O2ProducerHelper;
 import com.traclabs.biosim.idl.simulation.environment.AirConsumerHelper;
 import com.traclabs.biosim.idl.simulation.environment.AirProducerHelper;
 import com.traclabs.biosim.idl.simulation.food.BiomassConsumerHelper;
+import com.traclabs.biosim.idl.simulation.food.BiomassPSHelper;
 import com.traclabs.biosim.idl.simulation.food.BiomassProducerHelper;
-import com.traclabs.biosim.idl.simulation.food.BiomassRSHelper;
 import com.traclabs.biosim.idl.simulation.food.FoodConsumerHelper;
 import com.traclabs.biosim.idl.simulation.food.FoodProducerHelper;
 import com.traclabs.biosim.idl.simulation.framework.EffluentValveHelper;
@@ -723,7 +723,7 @@ public class ActuatorInitializer {
 		PlantingActuator myPlantingActuator = PlantingActuatorHelper
 				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
 						.getModuleName(node)));
-		myPlantingActuator.setOutput(BiomassRSHelper.narrow(BiosimInitializer
+		myPlantingActuator.setOutput(BiomassPSHelper.narrow(BiosimInitializer
 				.grabModule(myID, getOutputName(node))), getShelfIndex(node));
 		myActuators.add(myPlantingActuator);
 	}
@@ -747,7 +747,7 @@ public class ActuatorInitializer {
 		HarvestingActuator myHarvestingActuator = HarvestingActuatorHelper
 				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
 						.getModuleName(node)));
-		myHarvestingActuator.setOutput(BiomassRSHelper.narrow(BiosimInitializer
+		myHarvestingActuator.setOutput(BiomassPSHelper.narrow(BiosimInitializer
 				.grabModule(myID, getOutputName(node))), getShelfIndex(node));
 		myActuators.add(myHarvestingActuator);
 	}

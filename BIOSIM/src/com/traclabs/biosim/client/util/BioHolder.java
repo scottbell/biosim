@@ -93,8 +93,8 @@ import com.traclabs.biosim.idl.simulation.air.VCCR;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
 import com.traclabs.biosim.idl.simulation.environment.Dehumidifier;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
-import com.traclabs.biosim.idl.simulation.food.BiomassRS;
-import com.traclabs.biosim.idl.simulation.food.BiomassRSHelper;
+import com.traclabs.biosim.idl.simulation.food.BiomassPS;
+import com.traclabs.biosim.idl.simulation.food.BiomassPSHelper;
 import com.traclabs.biosim.idl.simulation.food.BiomassStore;
 import com.traclabs.biosim.idl.simulation.food.FoodProcessor;
 import com.traclabs.biosim.idl.simulation.food.FoodStore;
@@ -162,7 +162,7 @@ public class BioHolder {
     //Food
     public List<FoodProcessor> theFoodProcessors = new Vector<FoodProcessor>();
 
-    public List<BiomassRS> theBiomassRSModules = new Vector<BiomassRS>();
+    public List<BiomassPS> theBiomassPSModules = new Vector<BiomassPS>();
 
     public List<BiomassStore> theBiomassStores = new Vector<BiomassStore>();
 
@@ -359,9 +359,9 @@ public class BioHolder {
         for (Iterator iter = sensorList.iterator(); iter.hasNext();) {
             ShelfSensor currentSensor = (ShelfSensor) (iter.next());
             if (currentSensor.getInputModule()._is_equivalent(moduleWatched)) {
-                BiomassRS currentBiomassRS = BiomassRSHelper
+                BiomassPS currentBiomassPS = BiomassPSHelper
                         .narrow(currentSensor.getInputModule());
-                Shelf[] shelfArray = currentBiomassRS.getShelves();
+                Shelf[] shelfArray = currentBiomassPS.getShelves();
                 if (currentSensor.getInput()._is_equivalent(
                         shelfArray[shelfIndex]))
                     return currentSensor;
@@ -381,9 +381,9 @@ public class BioHolder {
         for (Iterator iter = sensorList.iterator(); iter.hasNext();) {
             ShelfActuator currentActuator = (ShelfActuator) (iter.next());
             if (currentActuator.getOutputModule()._is_equivalent(moduleWatched)) {
-                BiomassRS currentBiomassRS = BiomassRSHelper
+                BiomassPS currentBiomassPS = BiomassPSHelper
                         .narrow(currentActuator.getOutputModule());
-                Shelf[] shelfArray = currentBiomassRS.getShelves();
+                Shelf[] shelfArray = currentBiomassPS.getShelves();
                 if (currentActuator.getOutput()._is_equivalent(
                         shelfArray[shelfIndex]))
                     return currentActuator;
@@ -450,7 +450,7 @@ public class BioHolder {
         theSimModules.addAll(theDehumidifiers);
         //Food
         theSimModules.addAll(theFoodProcessors);
-        theSimModules.addAll(theBiomassRSModules);
+        theSimModules.addAll(theBiomassPSModules);
         theSimModules.addAll(theBiomassStores);
         theSimModules.addAll(theFoodStores);
         //Framework
@@ -596,7 +596,7 @@ public class BioHolder {
         theDehumidifiers.clear();
         //Food
         theFoodProcessors.clear();
-        theBiomassRSModules.clear();
+        theBiomassPSModules.clear();
         theBiomassStores.clear();
         theFoodStores.clear();
         //Framework

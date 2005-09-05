@@ -1,8 +1,8 @@
 package com.traclabs.biosim.server.simulation.framework;
 
-import com.traclabs.biosim.util.OrbUtils;
-
 import junit.framework.TestCase;
+
+import com.traclabs.biosim.util.OrbUtils;
 
 public class StoreImplTest extends TestCase {
 	private StoreImpl myStoreImpl;

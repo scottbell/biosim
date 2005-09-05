@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='../BiosimInitSchema.xsd'>
-	<Globals crewsToWatch="BaseCrewGroup EVACrewGroup" plantsToWatch="BaseBiomassRS" runTillN="2160" runTillCrewDeath="true" runTillPlantDeath="true">
+	<Globals crewsToWatch="BaseCrewGroup EVACrewGroup" plantsToWatch="BaseBiomassPS" runTillN="2160" runTillCrewDeath="true" runTillPlantDeath="true">
 		<comment>
 			The lunar mission initialization for BioSim (scenario 3)
 			Has the following properties:
@@ -128,7 +128,7 @@
 				<dryWasteProducer maxFlowRates="100" desiredFlowRates="100" outputs="BaseDryWasteStore"/>
 				<waterProducer maxFlowRates="100 100" desiredFlowRates="100 100" outputs="PlantBaseDirtyWaterStore PlantBaseGreyWaterStore"/>
 			</FoodProcessor>
-			<BiomassRS moduleName="BaseBiomassRS">
+			<BiomassPS moduleName="BaseBiomassPS">
 				<shelf cropArea="20" cropType="LETTUCE"/>
 				<shelf cropArea="20" cropType="TOMATO"/>
 				<powerConsumer maxFlowRates="400" desiredFlowRates="400" inputs="BasePowerStore"/>
@@ -138,7 +138,7 @@
 				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="PlantBaseDirtyWaterStore"/>
 				<biomassProducer maxFlowRates="100" desiredFlowRates="100" outputs="BaseBiomassStore"/>
 				<airProducer maxFlowRates="0" desiredFlowRates="0" outputs="BaseCrewEnvironment"/>
-			</BiomassRS>
+			</BiomassPS>
 			<BiomassStore moduleName="BaseBiomassStore" capacity="1000" level="300"/>
 			<FoodStore moduleName="BaseFoodStore" capacity="2000" level="2000"/>
 			<FoodStore moduleName="EVAFoodStore" capacity="0" level="0"/>

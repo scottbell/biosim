@@ -60,10 +60,10 @@ import com.traclabs.biosim.idl.simulation.environment.SimEnvironmentHelper;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironmentPOATie;
 import com.traclabs.biosim.idl.simulation.food.BioMatter;
 import com.traclabs.biosim.idl.simulation.food.BiomassConsumer;
+import com.traclabs.biosim.idl.simulation.food.BiomassPS;
+import com.traclabs.biosim.idl.simulation.food.BiomassPSHelper;
+import com.traclabs.biosim.idl.simulation.food.BiomassPSPOATie;
 import com.traclabs.biosim.idl.simulation.food.BiomassProducer;
-import com.traclabs.biosim.idl.simulation.food.BiomassRS;
-import com.traclabs.biosim.idl.simulation.food.BiomassRSHelper;
-import com.traclabs.biosim.idl.simulation.food.BiomassRSPOATie;
 import com.traclabs.biosim.idl.simulation.food.BiomassStore;
 import com.traclabs.biosim.idl.simulation.food.BiomassStoreHelper;
 import com.traclabs.biosim.idl.simulation.food.BiomassStorePOATie;
@@ -145,7 +145,7 @@ import com.traclabs.biosim.server.simulation.crew.EVAActivityImpl;
 import com.traclabs.biosim.server.simulation.crew.Schedule;
 import com.traclabs.biosim.server.simulation.environment.DehumidifierImpl;
 import com.traclabs.biosim.server.simulation.environment.SimEnvironmentImpl;
-import com.traclabs.biosim.server.simulation.food.BiomassRSImpl;
+import com.traclabs.biosim.server.simulation.food.BiomassPSImpl;
 import com.traclabs.biosim.server.simulation.food.BiomassStoreImpl;
 import com.traclabs.biosim.server.simulation.food.FoodProcessorImpl;
 import com.traclabs.biosim.server.simulation.food.FoodStoreImpl;
@@ -1291,34 +1291,34 @@ public class SimulationInitializer {
         return startDay;
     }
 
-    private void createBiomassRS(Node node) {
+    private void createBiomassPS(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         if (BiosimInitializer.isCreatedLocally(node)) {
-            myLogger.debug("Creating BiomassRS with moduleName: " + moduleName);
-            BiomassRSImpl myBiomassRSImpl = new BiomassRSImpl(myID, moduleName);
+            myLogger.debug("Creating BiomassPS with moduleName: " + moduleName);
+            BiomassPSImpl myBiomassPSImpl = new BiomassPSImpl(myID, moduleName);
             boolean autoHarvestAndReplant = node.getAttributes().getNamedItem(
                     "autoHarvestAndReplant").getNodeValue().equals("true");
-            myBiomassRSImpl
+            myBiomassPSImpl
                     .setAutoHarvestAndReplantEnabled(autoHarvestAndReplant);
-            BiosimInitializer.setupBioModule(myBiomassRSImpl, node);
+            BiosimInitializer.setupBioModule(myBiomassPSImpl, node);
             Node child = node.getFirstChild();
             while (child != null) {
                 if (child.getNodeName().equals("shelf"))
-                    myBiomassRSImpl.createNewShelf(getCropType(child),
+                    myBiomassPSImpl.createNewShelf(getCropType(child),
                             getCropArea(child), getCropStartDay(child));
                 child = child.getNextSibling();
             }
-            BiosimServer.registerServer(new BiomassRSPOATie(myBiomassRSImpl),
-                    myBiomassRSImpl.getModuleName(), myBiomassRSImpl.getID());
+            BiosimServer.registerServer(new BiomassPSPOATie(myBiomassPSImpl),
+                    myBiomassPSImpl.getModuleName(), myBiomassPSImpl.getID());
         } else
             BiosimInitializer.printRemoteWarningMessage(moduleName);
     }
 
-    private void configureBiomassRS(Node node) {
-        BiomassRS myBiomassRS = BiomassRSHelper.narrow(BiosimInitializer
+    private void configureBiomassPS(Node node) {
+        BiomassPS myBiomassPS = BiomassPSHelper.narrow(BiosimInitializer
                 .grabModule(myID, BiosimInitializer.getModuleName(node)));
-        configureSimBioModule(myBiomassRS, node);
-        myActiveSimModules.add(myBiomassRS);
+        configureSimBioModule(myBiomassPS, node);
+        myActiveSimModules.add(myBiomassPS);
     }
 
     private void createFoodProcessor(Node node) {
@@ -1398,11 +1398,11 @@ public class SimulationInitializer {
         Node child = node.getFirstChild();
         while (child != null) {
             String childName = child.getNodeName();
-            if (childName.equals("BiomassRS")) {
+            if (childName.equals("BiomassPS")) {
                 if (firstPass)
-                    createBiomassRS(child);
+                    createBiomassPS(child);
                 else
-                    configureBiomassRS(child);
+                    configureBiomassPS(child);
             } else if (childName.equals("FoodProcessor")) {
                 if (firstPass)
                     createFoodProcessor(child);

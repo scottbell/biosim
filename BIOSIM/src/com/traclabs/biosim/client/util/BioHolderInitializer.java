@@ -86,7 +86,7 @@ import com.traclabs.biosim.idl.simulation.air.VCCRHelper;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroupHelper;
 import com.traclabs.biosim.idl.simulation.environment.DehumidifierHelper;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironmentHelper;
-import com.traclabs.biosim.idl.simulation.food.BiomassRSHelper;
+import com.traclabs.biosim.idl.simulation.food.BiomassPSHelper;
 import com.traclabs.biosim.idl.simulation.food.BiomassStoreHelper;
 import com.traclabs.biosim.idl.simulation.food.FoodProcessorHelper;
 import com.traclabs.biosim.idl.simulation.food.FoodStoreHelper;
@@ -459,8 +459,8 @@ public class BioHolderInitializer {
         }
     }
 
-    private static void fetchBiomassRS(Node node) {
-        myBioHolder.theBiomassRSModules.add(BiomassRSHelper
+    private static void fetchBiomassPS(Node node) {
+        myBioHolder.theBiomassPSModules.add(BiomassPSHelper
                 .narrow(grabModule(getModuleName(node))));
     }
 
@@ -483,8 +483,8 @@ public class BioHolderInitializer {
         Node child = node.getFirstChild();
         while (child != null) {
             String childName = child.getNodeName();
-            if (childName.equals("BiomassRS"))
-                fetchBiomassRS(child);
+            if (childName.equals("BiomassPS"))
+                fetchBiomassPS(child);
             else if (childName.equals("FoodProcessor"))
                 fetchFoodProcessor(child);
             else if (childName.equals("BiomassStore"))
