@@ -11,6 +11,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.apache.log4j.Logger;
+
 import com.traclabs.biosim.client.framework.TimedPanel;
 import com.traclabs.biosim.client.simulation.framework.SimDesktopFrame;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
@@ -26,7 +28,7 @@ import com.traclabs.biosim.idl.simulation.crew.Sex;
  */
 
 public class CrewTextPanel extends TimedPanel {
-
+	private Logger myLogger;
 	// Panel and Label displayed when no crew member are found on the server
 	private JPanel noCrewPanel;
 
@@ -48,6 +50,7 @@ public class CrewTextPanel extends TimedPanel {
 	 * Creates and registers this panel.
 	 */
 	public CrewTextPanel() {
+		myLogger = Logger.getLogger(this.getClass());
 		numFormat = new DecimalFormat("#,##0.00;(#)");
 		myCrewGroup = (BioHolderInitializer.getBioHolder().theCrewGroups
 				.get(0));
@@ -242,8 +245,10 @@ public class CrewTextPanel extends TimedPanel {
 									.getPotableWaterConsumed()) + " L");
 			newPersonGUI.foodConsumedLabel.setText("food consumed: "
 					+ numFormat.format(crewPerson.getFoodConsumed()) + " kCal");
+
 			newPersonGUI.CO2ProducedLabel.setText("CO2 produced: "
 					+ numFormat.format(crewPerson.getCO2Produced()) + " moles");
+			myLogger.debug("crewPerson.getCO2Produced() = "+crewPerson.getCO2Produced());
 			newPersonGUI.O2ConsumedLabel.setText("O2 consumed: "
 					+ numFormat.format(crewPerson.getO2Consumed()) + " moles");
 			newPersonGUI.activityNameLabel.setText("current activity: "

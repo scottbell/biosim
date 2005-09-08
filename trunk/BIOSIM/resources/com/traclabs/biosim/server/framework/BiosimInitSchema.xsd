@@ -54,7 +54,7 @@
 		<xsd:attribute name="runTillPlantDeath" type="xsd:boolean" default="false"/>
 		<xsd:attribute name="crewsToWatch" type="stringList" use="optional"/>
 		<xsd:attribute name="plantsToWatch" type="stringList" use="optional"/>
-		<xsd:attribute name="driverStutterLength" type="xsd:integer" default="-1"/>     
+		<xsd:attribute name="driverStutterLength" type="xsd:integer" default="0"/>     
 		<xsd:attribute name="isLooping" type="xsd:boolean" default="false"/>
 		<xsd:attribute name="stochasticIntensity" type="StochasticIntensityType" default="NONE_STOCH"/>
 		<xsd:attribute name="tickLength" type="nonNegativeFloat" default="1"/>

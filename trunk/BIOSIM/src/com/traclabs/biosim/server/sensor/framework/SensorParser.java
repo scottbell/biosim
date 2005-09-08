@@ -208,7 +208,7 @@ import com.traclabs.biosim.server.sensor.water.WaterOutFlowRateSensorImpl;
  * 
  * @author Scott Bell
  */
-public class SensorInitializer extends SensorParser{
+public abstract class SensorParser {
 	private int myID = 0;
 
 	private List<GenericSensor> mySensors;
@@ -216,8 +216,7 @@ public class SensorInitializer extends SensorParser{
 	private Logger myLogger;
 
 	/** Default constructor. */
-	public SensorInitializer(int pID) {
-		super(pID);
+	public SensorParser(int pID) {
 		myID = pID;
 		mySensors = new Vector<GenericSensor>();
 		myLogger = Logger.getLogger(this.getClass());
