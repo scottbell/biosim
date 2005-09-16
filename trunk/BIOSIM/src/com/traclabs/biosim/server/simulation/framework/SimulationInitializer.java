@@ -168,7 +168,7 @@ import com.traclabs.biosim.util.OrbUtils;
  * 
  * @author Scott Bell
  */
-public class SimulationInitializer extends SimulationParser{
+public class SimulationInitializer {
     private int myID = 0;
 
     private List<SimBioModule> myActiveSimModules;
@@ -181,7 +181,6 @@ public class SimulationInitializer extends SimulationParser{
 
     /** Default constructor. */
     public SimulationInitializer(int pID) {
-    	super(pID);
         myID = pID;
         myLogger = Logger.getLogger(this.getClass());
         myPassiveSimModules = new Vector<PassiveModule>();
