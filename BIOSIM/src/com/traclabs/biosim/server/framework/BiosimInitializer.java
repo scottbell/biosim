@@ -1,5 +1,6 @@
 package com.traclabs.biosim.server.framework;
 
+import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -7,7 +8,10 @@ import java.util.Vector;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+import org.apache.xerces.parsers.DOMParser;
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
 
 import com.traclabs.biosim.idl.framework.BioDriver;
 import com.traclabs.biosim.idl.framework.BioDriverHelper;
@@ -18,12 +22,11 @@ import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.framework.StochasticIntensity;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroupHelper;
+import com.traclabs.biosim.idl.simulation.food.BiomassPS;
+import com.traclabs.biosim.idl.simulation.food.BiomassPSHelper;
 import com.traclabs.biosim.server.actuator.framework.ActuatorInitializer;
-import com.traclabs.biosim.server.actuator.framework.ActuatorParser;
 import com.traclabs.biosim.server.sensor.framework.SensorInitializer;
-import com.traclabs.biosim.server.sensor.framework.SensorParser;
 import com.traclabs.biosim.server.simulation.framework.SimulationInitializer;
-import com.traclabs.biosim.server.simulation.framework.SimulationParser;
 import com.traclabs.biosim.util.OrbUtils;
 
 /**
@@ -31,30 +34,128 @@ import com.traclabs.biosim.util.OrbUtils;
  * 
  * @author Scott Bell
  */
-public class BiosimInitializer extends BiosimParser{
-	private BioDriver myBioDriver;
-	private Logger myLogger;
+public class BiosimInitializer {
+    /** Namespaces feature id (http://xml.org/sax/features/moduleNamespaces). */
+    private static final String NAMESPACES_FEATURE_ID = "http://xml.org/sax/features/namespaces";
 
-	private SimulationInitializer mySimulationInitializer;
-	private SensorInitializer mySensorInitializer;
-	private ActuatorInitializer myActuatorInitializer;
+    /** Validation feature id (http://xml.org/sax/features/validation). */
+    private static final String VALIDATION_FEATURE_ID = "http://xml.org/sax/features/validation";
+
+    /**
+     * Schema validation feature id
+     * (http://apache.org/xml/features/validation/schema).
+     */
+    private static final String SCHEMA_VALIDATION_FEATURE_ID = "http://apache.org/xml/features/validation/schema";
+
+    /**
+     * Schema full checking feature id
+     * (http://apache.org/xml/features/validation/schema-full-checking).
+     */
+    private static final String SCHEMA_FULL_CHECKING_FEATURE_ID = "http://apache.org/xml/features/validation/schema-full-checking";
+    
+    private static final String SCHEMA_LOCATION_LABEL = "http://apache.org/xml/properties/schema/external-noNamespaceSchemaLocation";
+    private static final String SCHEMA_LOCATION_VALUE = "com/traclabs/biosim/server/framework/BiosimInitSchema.xsd";
+    
+    // default settings
+    /** Default moduleNamespaces support (true). */
+    private static final boolean DEFAULT_NAMESPACES = true;
+
+    /** Default validation support (false). */
+    private static final boolean DEFAULT_VALIDATION = true;
+
+    /** Default Schema validation support (false). */
+    private static final boolean DEFAULT_SCHEMA_VALIDATION = true;
+
+    /** Default Schema full checking support (false). */
+    private static final boolean DEFAULT_SCHEMA_FULL_CHECKING = true;
+
+    private DOMParser myParser = null;
+
+    private int myID = 0;
 
     private List<BioModule> myModules;
 
+    private Logger myLogger;
+
+    private SimulationInitializer mySimulationInitializer;
+
+    private SensorInitializer mySensorInitializer;
+
+    private ActuatorInitializer myActuatorInitializer;
+
     /** Default constructor. */
     public BiosimInitializer(int pID) {
-        super(pID);
-        myLogger = Logger.getLogger(this.getClass());
+        myID = pID;
+        mySimulationInitializer = new SimulationInitializer(myID);
+        mySensorInitializer = new SensorInitializer(myID);
+        myActuatorInitializer = new ActuatorInitializer(myID);
         myModules = new Vector<BioModule>();
-        
-        mySimulationInitializer = new SimulationInitializer(pID);
-        mySensorInitializer = new SensorInitializer(pID);
-        myActuatorInitializer = new ActuatorInitializer(pID);
+        myLogger = Logger.getLogger(this.getClass());
+
+        try {
+            myParser = new DOMParser();
+            myParser.setFeature(SCHEMA_VALIDATION_FEATURE_ID,
+                    DEFAULT_SCHEMA_VALIDATION);
+            myParser.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID,
+                    DEFAULT_SCHEMA_FULL_CHECKING);
+            myParser.setFeature(VALIDATION_FEATURE_ID, DEFAULT_VALIDATION);
+            myParser.setFeature(NAMESPACES_FEATURE_ID, DEFAULT_NAMESPACES);
+            URL foundURL = BiosimInitializer.class.getClassLoader().getResource(SCHEMA_LOCATION_VALUE);
+            if (foundURL != null){
+            	String urlString = foundURL.toString();
+            	if (urlString.length() > 0)
+                    myParser.setProperty(SCHEMA_LOCATION_LABEL, urlString);
+            }
+        } catch (SAXException e) {
+            myLogger.error("warning: Parser does not support feature ("
+                    + NAMESPACES_FEATURE_ID + ")");
+        }
     }
-    
+
+    /** Traverses the specified node, recursively. */
+    private void crawlBiosim(Node node, boolean firstPass) {
+        // is there anything to do?
+        if (node == null)
+            return;
+        String nodeName = node.getNodeName();
+        if (nodeName.equals("Globals")) {
+            crawlGlobals(node, firstPass);
+            return;
+        } else if (nodeName.equals("SimBioModules")) {
+            mySimulationInitializer.crawlSimModules(node, firstPass);
+            return;
+        } else if (nodeName.equals("Sensors")) {
+            mySensorInitializer.crawlSensors(node, firstPass);
+            return;
+        } else if (nodeName.equals("Actuators")) {
+            myActuatorInitializer.crawlActuators(node, firstPass);
+            return;
+        } else {
+            Node child = node.getFirstChild();
+            while (child != null) {
+                crawlBiosim(child, firstPass);
+                child = child.getNextSibling();
+            }
+        }
+
+    }
+
     public void parseFile(String fileToParse) {
-    	super.parseFile(fileToParse);
-            
+        try {
+            myLogger.info("Initializing...");
+            myParser.parse(fileToParse);
+            Document document = myParser.getDocument();
+            crawlBiosim(document, true);
+            crawlBiosim(document, false);
+
+            BioDriver myDriver = null;
+            try {
+                myDriver = BioDriverHelper.narrow(OrbUtils.getNamingContext(
+                        myID).resolve_str("BioDriver"));
+            } catch (Exception e) {
+                myLogger.error(e.getMessage());
+                e.printStackTrace();
+            }
             //Fold Actuators, SimModules, and Sensors into modules
             myModules.addAll(mySensorInitializer.getSensors());
             myModules.addAll(mySimulationInitializer.getPassiveSimModules());
@@ -74,85 +175,145 @@ public class BiosimInitializer extends BiosimParser{
                     .getActiveSimModules());
             BioModule[] prioritySimModulesArray = convertList(mySimulationInitializer
                     .getPrioritySimModules());
-            handleModules(moduleArray, sensorArray, actuatorArray, activeSimModulesArray, passiveSimModulesArray, prioritySimModulesArray);
+            myDriver.setModules(moduleArray);
+            myDriver.setSensors(sensorArray);
+            myDriver.setActuators(actuatorArray);
+            myDriver.setActiveSimModules(activeSimModulesArray);
+            myDriver.setPassiveSimModules(passiveSimModulesArray);
+            myDriver.setPrioritySimModules(prioritySimModulesArray);
+
             myLogger.info("done");
-            
-        
-    }
-    
-    protected void handleStochasticIntensity(StochasticIntensity stochasticIntensity) {
-    	getBioDriver().setStochasticIntensity(stochasticIntensity);
-    }
-
-    protected void handleRunTillPlantDeath(boolean b) {
-    	getBioDriver().setRunTillPlantDeath(b);
-	}
-
-    protected void handleRunTillCrewDeath(boolean b) {
-    	getBioDriver().setRunTillCrewDeath(b);
-	}
-
-    protected void handleCrewsToWatch(String[] crewsToWatchArray) {
-    	CrewGroup[] crewGroups = new CrewGroup[crewsToWatchArray.length];
-    	for (int i = 0; i < crewGroups.length; i++) {
-            try {
-                crewGroups[i] = CrewGroupHelper.narrow(OrbUtils
-                        .getNamingContext(getID()).resolve_str(
-                                crewsToWatchArray[i]));
-                myLogger.debug("Fetched "
-                        + crewGroups[i].getModuleName());
-            } catch (org.omg.CORBA.UserException e) {
+        } catch (Exception e) {
+            myLogger.error("error: Parse error occurred - " + e.getMessage());
+            Exception se = e;
+            if (e instanceof SAXException)
+                se = ((SAXException) e).getException();
+            if (se != null)
+                se.printStackTrace();
+            else
                 e.printStackTrace();
+        }
+    }
+
+    //Globals
+    private void crawlGlobals(Node node, boolean firstPass) {
+        BioDriver myDriver = null;
+        try {
+            myDriver = BioDriverHelper.narrow(OrbUtils.getNamingContext(myID)
+                    .resolve_str("BioDriver"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (firstPass) {
+            try {
+                //set the tickLength
+                float tickLength = Float.parseFloat(node.getAttributes()
+                        .getNamedItem("tickLength").getNodeValue());
+                myDriver.setTickLength(tickLength);
+                
+                myDriver.setRunTillN(Integer.parseInt(node.getAttributes()
+                        .getNamedItem("runTillN").getNodeValue()));
+                myDriver.setPauseSimulation(node.getAttributes().getNamedItem(
+                        "startPaused").getNodeValue().equals("true"));
+                myDriver.setRunTillCrewDeath(node.getAttributes().getNamedItem(
+                        "runTillCrewDeath").getNodeValue().equals("true"));
+                myDriver.setRunTillPlantDeath(node.getAttributes()
+                        .getNamedItem("runTillPlantDeath").getNodeValue()
+                        .equals("true"));
+                int stutterLength = Integer.parseInt(node.getAttributes()
+                        .getNamedItem("driverStutterLength").getNodeValue());
+                if (stutterLength >= 0)
+                    myDriver.setDriverStutterLength(stutterLength);
+                myDriver.setLooping(node.getAttributes().getNamedItem(
+                        "isLooping").getNodeValue().equals("true"));
+
+                String stochasticString = node.getAttributes().getNamedItem(
+                        "stochasticIntensity").getNodeValue();
+                if (stochasticString.equals("HIGH_STOCH"))
+                    myDriver
+                            .setStochasticIntensity(StochasticIntensity.HIGH_STOCH);
+                else if (stochasticString.equals("MEDIUM_STOCH"))
+                    myDriver
+                            .setStochasticIntensity(StochasticIntensity.MEDIUM_STOCH);
+                else if (stochasticString.equals("LOW_STOCH"))
+                    myDriver
+                            .setStochasticIntensity(StochasticIntensity.LOW_STOCH);
+                else
+                    myDriver
+                            .setStochasticIntensity(StochasticIntensity.NONE_STOCH);
+
+                Properties logProperties = new Properties();
+                Node child = node.getFirstChild();
+                while (child != null) {
+                    String childName = child.getNodeName();
+                    if (childName.equals("log4jProperty")) {
+                        String nameProperty = child.getAttributes()
+                                .getNamedItem("name").getNodeValue();
+                        String valueProperty = child.getAttributes()
+                                .getNamedItem("value").getNodeValue();
+                        logProperties.setProperty(nameProperty, valueProperty);
+                    }
+                    child = child.getNextSibling();
+                }
+                PropertyConfigurator.configure(logProperties);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } 
+        //second pass
+        else {
+            //Give BioDriver crew to watch for (if we're doing run till dead)
+            Node crewsToWatchNode = node.getAttributes().getNamedItem(
+                    "crewsToWatch");
+            if (crewsToWatchNode != null) {
+                String crewsToWatchString = crewsToWatchNode.getNodeValue();
+                String[] crewsToWatchArray = crewsToWatchString.split("\\s");
+                CrewGroup[] crewGroups = new CrewGroup[crewsToWatchArray.length];
+                for (int i = 0; i < crewGroups.length; i++) {
+                    try {
+                        crewGroups[i] = CrewGroupHelper.narrow(OrbUtils
+                                .getNamingContext(myID).resolve_str(
+                                        crewsToWatchArray[i]));
+                        myLogger.debug("Fetched "
+                                + crewGroups[i].getModuleName());
+                    } catch (org.omg.CORBA.UserException e) {
+                        e.printStackTrace();
+                    }
+                }
+                myDriver.setCrewsToWatch(crewGroups);
+            }
+
+            //Give BioDriver plant to watch for (if we're doing run till dead)
+            Node plantsToWatchNode = node.getAttributes().getNamedItem(
+                    "plantsToWatch");
+            if (plantsToWatchNode != null) {
+                String plantsToWatchString = plantsToWatchNode.getNodeValue();
+                String[] plantsToWatchArray = plantsToWatchString.split("\\s");
+                BiomassPS[] biomassPSs = new BiomassPS[plantsToWatchArray.length];
+                for (int i = 0; i < biomassPSs.length; i++) {
+                    try {
+                        biomassPSs[i] = BiomassPSHelper.narrow(OrbUtils
+                                .getNamingContext(myID).resolve_str(
+                                        plantsToWatchArray[i]));
+                        myLogger.debug("Fetched "
+                                + biomassPSs[i].getModuleName());
+                    } catch (org.omg.CORBA.UserException e) {
+                        e.printStackTrace();
+                    }
+                }
+                myDriver.setPlantsToWatch(biomassPSs);
             }
         }
-    	getBioDriver().setCrewsToWatch(crewGroups);
-	}
-
-    protected void handleLogProperty(Properties logProperties) {
-    	PropertyConfigurator.configure(logProperties);
-	}
-
-    protected void handleIsLopping(boolean looping) {
-    	getBioDriver().setLooping(looping);
     }
 
-    protected void handlePauseSimulation(boolean pause) {
-    	getBioDriver().setPauseSimulation(pause);
-	}
-
-    protected void handleRunTillN(int ticks) {
-    	getBioDriver().setRunTillN(ticks);
-	}
-
-    protected void handleTickLength(float tickLength) {
-    	getBioDriver().setTickLength(tickLength);
-	}
-    
-    protected void handleDriverStutterLength(int stutterLength) {
-    	getBioDriver().setDriverStutterLength(stutterLength);
-	}
-
-    protected void handleModules(BioModule[] moduleArray, BioModule[] sensorArray, BioModule[] actuatorArray, BioModule[] activeSimModulesArray, BioModule[] passiveSimModulesArray, BioModule[] prioritySimModulesArray) {
-    	BioDriver driver = getBioDriver();
-    	driver.setModules(moduleArray);
-    	driver.setSensors(sensorArray);
-    	driver.setActuators(actuatorArray);
-    	driver.setActiveSimModules(activeSimModulesArray);
-    	driver.setPassiveSimModules(passiveSimModulesArray);
-    	driver.setPrioritySimModules(prioritySimModulesArray);
-    }
-    
-    private BioDriver getBioDriver(){
-    	if (myBioDriver == null){
-            try {
-            	myBioDriver = BioDriverHelper.narrow(OrbUtils.getNamingContext(
-                        getID()).resolve_str("BioDriver"));
-            } catch (Exception e) {
-                myLogger.error(e.getMessage());
-                e.printStackTrace();
-            }
-    	}
-    	return myBioDriver;
+    private static BioModule[] convertList(List pBioModules) {
+        BioModule[] newArray = new BioModule[pBioModules.size()];
+        int i = 0;
+        for (Iterator iter = pBioModules.iterator(); iter.hasNext(); i++) {
+            newArray[i] = BioModuleHelper.narrow((org.omg.CORBA.Object) (iter
+                    .next()));
+        }
+        return newArray;
     }
 
     public static boolean isCreatedLocally(Node node) {
@@ -253,30 +414,4 @@ public class BiosimInitializer extends BiosimParser{
             child = child.getNextSibling();
         }
     }
-    
-
-	private static BioModule[] convertList(List pBioModules) {
-        BioModule[] newArray = new BioModule[pBioModules.size()];
-        int i = 0;
-        for (Iterator iter = pBioModules.iterator(); iter.hasNext(); i++) {
-            newArray[i] = BioModuleHelper.narrow((org.omg.CORBA.Object) (iter
-                    .next()));
-        }
-        return newArray;
-    }
-
-	@Override
-	protected SimulationParser getSimulationParser() {
-		return mySimulationInitializer;
-	}
-
-	@Override
-	protected SensorParser getSensorParser() {
-		return mySensorInitializer;
-	}
-
-	@Override
-	protected ActuatorParser getActuatorParser() {
-		return myActuatorInitializer;
-	}
 }

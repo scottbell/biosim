@@ -172,7 +172,7 @@ import com.traclabs.biosim.server.framework.BiosimServer;
  * 
  * @author Scott Bell
  */
-public class ActuatorInitializer extends ActuatorParser{
+public class ActuatorInitializer {
 	private int myID = 0;
 
 	private List<GenericActuator> myActuators;
@@ -181,7 +181,6 @@ public class ActuatorInitializer extends ActuatorParser{
 
 	/** Default constructor. */
 	public ActuatorInitializer(int pID) {
-		super(pID);
 		myID = pID;
 		myActuators = new Vector<GenericActuator>();
 		myLogger = Logger.getLogger(this.getClass());
