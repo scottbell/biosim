@@ -1,4 +1,6 @@
-package com.traclabs.biosim.server.simulation.water;
+package com.traclabs.biosim.server.simulation.water.aws;
+
+import com.traclabs.biosim.server.simulation.water.WaterRSImpl;
 
 /**
  * The RO is the second stage of water purification. It takes water from the

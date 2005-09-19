@@ -18,6 +18,11 @@ import com.traclabs.biosim.idl.simulation.water.WaterRSOperationMode;
 import com.traclabs.biosim.idl.simulation.water.WaterRSOperations;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.water.aws.AES;
+import com.traclabs.biosim.server.simulation.water.aws.BWP;
+import com.traclabs.biosim.server.simulation.water.aws.PPS;
+import com.traclabs.biosim.server.simulation.water.aws.RO;
+import com.traclabs.biosim.server.simulation.water.aws.WaterRSSubSystem;
 
 /**
  * The Water Recovery System takes grey/dirty water and refines it to potable
@@ -106,7 +111,7 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
      * 
      * @return the RO subsystem
      */
-    RO getRO() {
+    public RO getRO() {
         return myRO;
     }
 
@@ -115,7 +120,7 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
      * 
      * @return the AES subsystem
      */
-    AES getAES() {
+    public AES getAES() {
         return myAES;
     }
 
@@ -124,7 +129,7 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
      * 
      * @return the PPS subsystem
      */
-    PPS getPPS() {
+    public PPS getPPS() {
         return myPPS;
     }
 
@@ -133,7 +138,7 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
      * 
      * @return the BWP subsystem
      */
-    BWP getBWP() {
+    public BWP getBWP() {
         return myBWP;
     }
 
@@ -282,7 +287,7 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
         myLogger.debug("grey_water_consumed=" + getGreyWaterConsumed());
     }
 
-    int getSubsystemsConsumingPower() {
+    public int getSubsystemsConsumingPower() {
         return NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER;
     }
 
@@ -328,28 +333,28 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
     /**
      * @return Returns the myDirtyWaterConsumerDefinitionImpl.
      */
-    protected DirtyWaterConsumerDefinitionImpl getDirtyWaterConsumerDefinitionImpl() {
+    public DirtyWaterConsumerDefinitionImpl getDirtyWaterConsumerDefinitionImpl() {
         return myDirtyWaterConsumerDefinitionImpl;
     }
 
     /**
      * @return Returns the myGreyWaterConsumerDefinitionImpl.
      */
-    protected GreyWaterConsumerDefinitionImpl getGreyWaterConsumerDefinitionImpl() {
+    public GreyWaterConsumerDefinitionImpl getGreyWaterConsumerDefinitionImpl() {
         return myGreyWaterConsumerDefinitionImpl;
     }
 
     /**
      * @return Returns the myPotableWaterProducerDefinitionImpl.
      */
-    protected PotableWaterProducerDefinitionImpl getPotableWaterProducerDefinitionImpl() {
+    public PotableWaterProducerDefinitionImpl getPotableWaterProducerDefinitionImpl() {
         return myPotableWaterProducerDefinitionImpl;
     }
 
     /**
      * @return Returns the myPowerConsumerDefinitionImpl.
      */
-    protected PowerConsumerDefinitionImpl getPowerConsumerDefinitionImpl() {
+    public PowerConsumerDefinitionImpl getPowerConsumerDefinitionImpl() {
         return myPowerConsumerDefinitionImpl;
     }
 }

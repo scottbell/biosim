@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='../BiosimInitSchema.xsd'>
+	<Globals crewsToWatch="Crew" runTillCrewDeath="true" tickLength="1" runTillN="1000">
+		<comment>
+			This is the CEV power initialization.
+			It is on a 30 second time step and runs for 30 minutes.
+			It has the following modules:
+				A 3 person crew.
+				2 oxygen tanks (main and reservoir)
+				An cabin for the crew.
+				A valve alternating oxygen flow to the crew.
+			A malfunction happens at 5 minutes into the mission
+		</comment>
+		<author>Scott Bell</author>
+		<!-- <log4jProperty name="log4j.logger.com.traclabs.biosim.server.simulation.crew" value="DEBUG"/> -->
+	</Globals>
+	<SimBioModules>
+		<air>
+			<O2Store moduleName="O2Store" capacity="2000" level="2000"/>
+			<CO2Store moduleName="DumpedCO2" capacity="20000" level="0"/>
+			<VCCR moduleName="VCCR">
+				<airConsumer desiredFlowRates="10000" maxFlowRates="10000" inputs="CrewEnvironment"/>	
+				<airProducer desiredFlowRates="100" maxFlowRates="100" outputs="CrewEnvironment"/>
+				<CO2Producer desiredFlowRates="100" maxFlowRates="100" outputs="DumpedCO2"/>
+				<powerConsumer desiredFlowRates="70000" maxFlowRates="70000" inputs="FuelCells"/>
+			</VCCR>
+		</air><power>
+            <PowerPS moduleName="FuelCell 1">
+                <powerProducer desiredFlowRates="0.0" maxFlowRates="0.0" outputs="PowerStore0"/>
+            </PowerPS>
+            <PowerPS moduleName="FuelCell 2">
+            	<powerProducer desiredFlowRates="0.0" maxFlowRates="0.0" outputs="PowerStore1"/>
+           	</PowerPS>
+            <PowerPS moduleName="FuelCell 3">
+                <powerProducer desiredFlowRates="0.0" maxFlowRates="0.0" outputs="PowerStore2"/>
+            </PowerPS>
+            <PowerStore capacity="100.0" level="100.0" moduleName="PowerStore0"/>
+            <PowerStore capacity="100.0" level="100.0" moduleName="PowerStore1"/>
+            <PowerStore capacity="100.0" level="100.0" moduleName="PowerStore2"/>
+        </power>
+		<crew>
+			<CrewGroup moduleName="Crew">
+				<airConsumer maxFlowRates="10000" desiredFlowRates="10000" inputs="CrewEnvironment"/>
+				<airProducer maxFlowRates="10000" desiredFlowRates="10000" outputs="CrewEnvironment"/>
+				<foodConsumer maxFlowRates="100" desiredFlowRates="100" inputs="FoodStore"/>
+				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
+				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="DirtyWaterStore"/>
+				<greyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="GreyWaterStore"/>
+				<dryWasteProducer maxFlowRates="100" desiredFlowRates="100" outputs="DryWasteStore"/>
+				<crewPerson name="Stephanie Stevens" age="42" weight="60" sex="FEMALE">
+					<schedule>
+						<activity name="mission" length="16" intensity="2"/>
+						<activity name="sleep" length="8" intensity="1"/>
+					</schedule>
+				</crewPerson>
+				<crewPerson name="Janet Janey" age="38" weight="52" sex="FEMALE">
+					<schedule>
+						<activity name="mission" length="16" intensity="2"/>
+						<activity name="sleep" length="8" intensity="1"/>
+					</schedule>
+				</crewPerson>
+				<crewPerson name="Bill Williams" age="36" weight="72" sex="MALE">
+					<schedule>
+						<activity name="mission" length="16" intensity="2"/>
+						<activity name="sleep" length="8" intensity="1"/>
+					</schedule>
+				</crewPerson>
+			</CrewGroup>
+		</crew>
+		<environment>
+			<SimEnvironment moduleName="CrewEnvironment" initialVolume="12.9725108"/>
+			<Dehumidifier moduleName="Dehumidifier">
+				<airConsumer desiredFlowRates="10000" maxFlowRates="10000" inputs="CrewEnvironment"/>
+				<dirtyWaterProducer desiredFlowRates="10000" maxFlowRates="10000" outputs="DirtyWaterStore"/>
+			</Dehumidifier>
+		</environment>                    
+		<food>
+			<FoodStore moduleName="FoodStore" capacity="2000" level="2000"/>
+		</food>
+		<framework>
+			<Injector moduleName="O2Injector">
+				<O2Consumer desiredFlowRates="0.0248" maxFlowRates="0.0248" inputs="O2Store"/>
+				<O2Producer desiredFlowRates="0.0248" maxFlowRates="0.0248" outputs="CrewEnvironment"/>
+			</Injector>
+		</framework>
+		<water>
+			<PotableWaterStore moduleName="PotableWaterStore" capacity="100" level="100"/>
+			<GreyWaterStore moduleName="GreyWaterStore" capacity="100" level="0"/>
+			<DirtyWaterStore moduleName="DirtyWaterStore" capacity="100" level="0"/>
+		</water>
+		<waste>
+			<DryWasteStore moduleName="DryWasteStore" capacity="100" level="0"/>
+		</waste>
+	</SimBioModules>
+</biosim>
+

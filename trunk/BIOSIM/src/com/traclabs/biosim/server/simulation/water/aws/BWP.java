@@ -1,4 +1,6 @@
-package com.traclabs.biosim.server.simulation.water;
+package com.traclabs.biosim.server.simulation.water.aws;
+
+import com.traclabs.biosim.server.simulation.water.WaterRSImpl;
 
 /**
  * The Biological Waste Processor is the first stage of water purification. It
