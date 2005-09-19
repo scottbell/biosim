@@ -280,7 +280,7 @@ public class EditorWriter {
         SimBioModuleImpl currentModule = currentModuleNode.getSimBioModuleImpl();
         String corbaName = currentModuleNode.getModuleType();
         Element newModuleElement = (myXMLDocument.createElement(corbaName));
-        newModuleElement.setAttribute("name", currentModule.getModuleName());
+        newModuleElement.setAttribute("moduleName", currentModule.getModuleName());
         if (!(currentModule instanceof PassiveModuleImpl))
             configureModuleFlowRates(currentModuleNode, newModuleElement);
         else if (currentModule instanceof StoreImpl)
