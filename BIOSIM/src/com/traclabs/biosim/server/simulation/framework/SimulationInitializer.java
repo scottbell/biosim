@@ -139,6 +139,7 @@ import com.traclabs.biosim.server.simulation.air.NitrogenStoreImpl;
 import com.traclabs.biosim.server.simulation.air.O2StoreImpl;
 import com.traclabs.biosim.server.simulation.air.OGSImpl;
 import com.traclabs.biosim.server.simulation.air.VCCRImpl;
+import com.traclabs.biosim.server.simulation.air.VCCRLinearImpl;
 import com.traclabs.biosim.server.simulation.crew.ActivityImpl;
 import com.traclabs.biosim.server.simulation.crew.CrewGroupImpl;
 import com.traclabs.biosim.server.simulation.crew.EVAActivityImpl;
@@ -670,10 +671,21 @@ public class SimulationInitializer {
         String moduleName = BiosimInitializer.getModuleName(node);
         if (BiosimInitializer.isCreatedLocally(node)) {
             myLogger.debug("Creating VCCR with moduleName: " + moduleName);
-            VCCRImpl myVCCRImpl = new VCCRImpl(myID, moduleName);
-            BiosimInitializer.setupBioModule(myVCCRImpl, node);
-            BiosimServer.registerServer(new VCCRPOATie(myVCCRImpl), myVCCRImpl
-                    .getModuleName(), myVCCRImpl.getID());
+            String implementationString = node.getAttributes().getNamedItem(
+            "implementation").getNodeValue();
+            if (implementationString.equals("LINEAR")) {
+                myLogger.debug("created linear WaterRS...");
+                VCCRLinearImpl myVCCRImpl = new VCCRLinearImpl(myID,
+                        moduleName);
+                BiosimInitializer.setupBioModule(myVCCRImpl, node);
+                BiosimServer.registerServer(new VCCRPOATie(myVCCRImpl),
+                		myVCCRImpl.getModuleName(), myVCCRImpl.getID());
+            } else {
+                VCCRImpl myVCCRImpl = new VCCRImpl(myID, moduleName);
+                BiosimInitializer.setupBioModule(myVCCRImpl, node);
+                BiosimServer.registerServer(new VCCRPOATie(myVCCRImpl),
+                		myVCCRImpl.getModuleName(), myVCCRImpl.getID());
+            }
         } else
             BiosimInitializer.printRemoteWarningMessage(moduleName);
 

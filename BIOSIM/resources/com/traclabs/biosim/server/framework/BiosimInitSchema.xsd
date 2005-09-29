@@ -763,6 +763,13 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 	
+	<!-- Special VCCR specific declarations -->
+	<xsd:simpleType name="VCCRImplementationType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="NORMAL"/>
+			<xsd:enumeration value="LINEAR"/>
+		</xsd:restriction>
+	</xsd:simpleType>
 	
 	<!-- Special CrewGroup specific declarations -->
 	<xsd:complexType name="ScheduleType">
@@ -895,6 +902,7 @@
 						<xsd:element name="CO2Producer" type="CO2ProducerType"/>
 					</xsd:choice>
 				</xsd:sequence>
+				<xsd:attribute name="implementation" type="VCCRImplementationType" default="LINEAR"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -1015,7 +1023,7 @@
 					</xsd:choice>
 				</xsd:sequence>
 				<!--<xsd:attribute name="operationMode" type="WaterRSOperationMode" default="FULL"/> !-->
-				<xsd:attribute name="implementation" type="WaterRSImplementationType" default="NORMAL"/>
+				<xsd:attribute name="implementation" type="WaterRSImplementationType" default="LINEAR"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>

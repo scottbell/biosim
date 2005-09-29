@@ -10,8 +10,6 @@ import com.traclabs.biosim.idl.simulation.environment.AirProducerOperations;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerOperations;
-import com.traclabs.biosim.server.simulation.air.vccr.CO2Bed;
-import com.traclabs.biosim.server.simulation.air.vccr.Desiccant;
 import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.environment.AirProducerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
@@ -23,7 +21,7 @@ import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinitionImpl;
  * @author Scott Bell
  */
 
-public class VCCRImpl extends SimBioModuleImpl implements VCCROperations,
+public class VCCRLinearImpl extends SimBioModuleImpl implements VCCROperations,
         PowerConsumerOperations, AirConsumerOperations, AirProducerOperations,
         CO2ProducerOperations {
 
@@ -41,13 +39,8 @@ public class VCCRImpl extends SimBioModuleImpl implements VCCROperations,
     private float currentPowerConsumed = 0;
     
     private float gatheredCO2 = 0;
-    
-    private Desiccant myDesciccant1 = new Desiccant();
-    private Desiccant myDesciccant2 = new Desiccant();
-    private CO2Bed myCO2Bed1 = new CO2Bed();
-    private CO2Bed myCO2Bed2 = new CO2Bed();
 
-    public VCCRImpl(int pID, String pName) {
+    public VCCRLinearImpl(int pID, String pName) {
         super(pID, pName);
         myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl();
         myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl();
