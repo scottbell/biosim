@@ -15,7 +15,7 @@
 				- 2 malfunctions
 		</comment>
 		<author>Scott Bell</author>
-		<log4jProperty name="log4j.logger.com.traclabs.biosim.server.sensor" value="DEBUG"/>
+		<!-- <log4jProperty name="log4j.logger.com.traclabs.biosim.server.sensor" value="DEBUG"/> -->
 	</Globals>
 	<SimBioModules>
 		<air>
