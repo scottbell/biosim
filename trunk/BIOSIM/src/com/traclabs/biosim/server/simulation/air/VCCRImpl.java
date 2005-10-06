@@ -12,6 +12,7 @@ import com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.server.simulation.air.vccr.CO2Bed;
 import com.traclabs.biosim.server.simulation.air.vccr.Desiccant;
+import com.traclabs.biosim.server.simulation.air.vccr.HeatExchanger;
 import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.environment.AirProducerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
@@ -46,6 +47,7 @@ public class VCCRImpl extends SimBioModuleImpl implements VCCROperations,
     private Desiccant myDesciccant2 = new Desiccant();
     private CO2Bed myCO2Bed1 = new CO2Bed();
     private CO2Bed myCO2Bed2 = new CO2Bed();
+    private HeatExchanger myHeatExchanger = new HeatExchanger();
 
     public VCCRImpl(int pID, String pName) {
         super(pID, pName);
@@ -80,9 +82,15 @@ public class VCCRImpl extends SimBioModuleImpl implements VCCROperations,
         gatherPower();
         gatherCO2();
         pushCO2();
+        pushAir();
     }
 
-    /**
+    private void pushAir() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
      * Adds power for this tick
      */
     private void gatherPower() {
