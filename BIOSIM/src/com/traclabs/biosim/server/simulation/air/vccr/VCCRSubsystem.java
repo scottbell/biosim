@@ -18,6 +18,13 @@ public class VCCRSubsystem {
 	
 	private float currentPressure = initialPressure;
 	
+	private float initialTemperature = 30f;
+
+	private float currentTemperature = initialTemperature;
+	
+	private float volume = 1f;
+	
+	
 	public void attach(VCCRSubsystem attachment) {
 		mySubsystemAttachments.add(attachment);
 	}
