@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='../BiosimInitSchema.xsd'>
-	<Globals crewsToWatch="Crew" runTillCrewDeath="true" tickLength="0.008333333333333333" runTillN="61">
+<biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='../../BiosimInitSchema.xsd'>
+	<Globals crewsToWatch="Crew" runTillCrewDeath="true" tickLength="2.77777777777e-05" runTillN="162000">
 		<comment>
 			This is the Apollo 13 initialization.
-			It is on a 30 second time step and runs for 30 minutes.
+			It is on a 10 Hz time step and runs for 16200 seconds.
 			It has the following modules:
 				A 3 person crew.
 				2 oxygen tanks (main and reservoir)
@@ -19,15 +19,15 @@
 			<O2Store moduleName="MainO2Store" capacity="2000" level="2000"/>
 			<CO2Store moduleName="DumpedCO2" capacity="20000" level="0"/>
 			<O2Store moduleName="ResevoirO2Store" capacity="2000" level="2000"/>
-			<VCCR moduleName="VCCR">
+			<VCCR moduleName="VCCR" implementation="LINEAR">
 				<airConsumer desiredFlowRates="10000" maxFlowRates="10000" inputs="CrewEnvironment"/>	
-				<airProducer desiredFlowRates="100" maxFlowRates="100" outputs="CrewEnvironment"/>
-				<CO2Producer desiredFlowRates="100" maxFlowRates="100" outputs="DumpedCO2"/>
+				<airProducer desiredFlowRates="10000" maxFlowRates="10000" outputs="CrewEnvironment"/>
+				<CO2Producer desiredFlowRates="10000" maxFlowRates="10000" outputs="DumpedCO2"/>
 				<powerConsumer desiredFlowRates="70000" maxFlowRates="70000" inputs="FuelCells"/>
 			</VCCR>
 		</air>
 		<power>
-			<PowerStore level="10000000" capacity="10000000" moduleName="FuelCells"/>
+			<PowerStore level="10000000000000" capacity="10000000000000" moduleName="FuelCells"/>
 		</power>
 		<crew>
 			<CrewGroup moduleName="Crew">
@@ -70,8 +70,8 @@
 		</food>
 		<framework>
 			<InfluentValve moduleName="O2InfluentValve">
-				<O2Consumer desiredFlowRates="0.0248" maxFlowRates="0.0248" inputs="MainO2Store ResevoirO2Store"/>
-				<O2Producer desiredFlowRates="0.0248" maxFlowRates="0.0248" outputs="CrewEnvironment"/>
+				<O2Consumer desiredFlowRates="8.2666666666e-05" maxFlowRates="8.2666666666e-05" inputs="MainO2Store ResevoirO2Store"/>
+				<O2Producer desiredFlowRates="8.2666666666e-05" maxFlowRates="8.2666666666e-05" outputs="CrewEnvironment"/>
 			</InfluentValve>
 		</framework>
 		<water>

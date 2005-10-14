@@ -59,7 +59,7 @@ public class Apollo13Viewer extends SimulationPanel {
 
 	private JMenu myFileMenu;
 
-	private JMenu myEditMenu;
+	private JMenu myOptionsMenu;
 
 	private JMenu myNewMenu;
 
@@ -87,10 +87,10 @@ public class Apollo13Viewer extends SimulationPanel {
 
 		myMenuBar = new JMenuBar();
 		myFileMenu = new JMenu("File");
-		myEditMenu = new JMenu("File");
+		myOptionsMenu = new JMenu("Options");
 		myHelpMenu = new JMenu("Help");
 		myFileMenu.setMnemonic(KeyEvent.VK_F);
-		myEditMenu.setMnemonic(KeyEvent.VK_E);
+		myOptionsMenu.setMnemonic(KeyEvent.VK_E);
 		mySaveItem = myFileMenu.add(new SaveAction());
 		mySaveItem.setText("Save");
 		myQuitItem = myFileMenu.add(new QuitAction());
@@ -99,10 +99,10 @@ public class Apollo13Viewer extends SimulationPanel {
 		myAboutItem.setText("About");
 		myLogOnlyItem = new JCheckBoxMenuItem(new LogOnlyAction());
 		myLogOnlyItem.setText("Log Only");
-		myEditMenu.add(myLogOnlyItem);
+		myOptionsMenu.add(myLogOnlyItem);
 		myQuitItem.setMnemonic(KeyEvent.VK_Q);
 		myMenuBar.add(myFileMenu);
-		myMenuBar.add(myEditMenu);
+		myMenuBar.add(myOptionsMenu);
 		myMenuBar.add(myHelpMenu);
 
 		myFileChooser = new JFileChooser();
