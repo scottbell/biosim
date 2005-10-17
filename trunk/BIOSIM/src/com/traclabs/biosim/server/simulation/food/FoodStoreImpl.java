@@ -209,7 +209,7 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
                 FoodMatter paredToFlowrateFoodMatter = cloneMatter(currentFoodMatter);
 
                 //pare it to mass if necessary
-                if (currentCalories > caloriesStillNeeded) {
+                if (currentFoodMatter.mass > limitingMass) {
                     float flowRateMass = limitingMass - collectedMass;
                     float flowrateFractionOfOriginal = flowRateMass
                             / currentFoodMatter.mass;
@@ -223,10 +223,10 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
                 
                 float paredToCaloriesMassToKeep = paredToFlowrateFoodMatter.mass;
                 //pare it to calories if necessary
-                if (currentCalories > caloriesStillNeeded){
+                if (paredToFlowrateCalories > caloriesStillNeeded){
                     float fractionOfMassToKeepForCalories = (paredToFlowrateCalories - caloriesStillNeeded)
                         / paredToFlowrateCalories;
-                    paredToCaloriesMassToKeep = paredToFlowrateFoodMatter.mass
+                    paredToCaloriesMassToKeep = currentFoodMatter.mass
                         * fractionOfMassToKeepForCalories;
                 }
                 
