@@ -25,7 +25,7 @@
 				<airConsumer desiredFlowRates="10000" maxFlowRates="10000" inputs="CrewEnvironment"/>	
 				<airProducer desiredFlowRates="10000" maxFlowRates="10000" outputs="CrewEnvironment"/>
 				<CO2Producer desiredFlowRates="10000" maxFlowRates="10000" outputs="DumpedCO2"/>
-				<powerConsumer desiredFlowRates="70000" maxFlowRates="70000" inputs="FuelCells"/>
+				<powerConsumer desiredFlowRates="80000" maxFlowRates="80000" inputs="FuelCells"/>
 			</VCCR>
 		</air>
 		<power>
@@ -42,20 +42,20 @@
 				<dryWasteProducer maxFlowRates="100" desiredFlowRates="100" outputs="DryWasteStore"/>
 				<crewPerson name="James Lovell" age="42" weight="70" sex="MALE">
 					<schedule>
-						<activity name="mission" length="16" intensity="2"/>
-						<activity name="sleep" length="8" intensity="1"/>
+						<activity name="mission1" length="100" intensity="3"/>
+						<activity name="mission2" length="50" intensity="2"/>
 					</schedule>
 				</crewPerson>
 				<crewPerson name="John Swigert" age="38" weight="71" sex="MALE">
 					<schedule>
-						<activity name="mission" length="16" intensity="2"/>
-						<activity name="sleep" length="8" intensity="1"/>
+						<activity name="mission1" length="75" intensity="3"/>
+						<activity name="mission2" length="20" intensity="2"/>
 					</schedule>
 				</crewPerson>
 				<crewPerson name="Fred Haise" age="36" weight="72" sex="MALE">
 					<schedule>
-						<activity name="mission" length="16" intensity="2"/>
-						<activity name="sleep" length="8" intensity="1"/>
+						<activity name="mission2" length="400" intensity="2"/>
+						<activity name="mission1" length="3000" intensity="3"/>
 					</schedule>
 				</crewPerson>
 			</CrewGroup>
@@ -68,7 +68,7 @@
 			</Dehumidifier>
 		</environment>                    
 		<food>
-			<FoodStore moduleName="FoodStore" capacity="2000" level="2000"/>
+			<FoodStore moduleName="FoodStore" capacity="0.01" level="0.01" resupplyAmount="0.01" resupplyFrequency="1"/>
 		</food>
 		<framework>
 			<InfluentValve moduleName="O2InfluentValve">

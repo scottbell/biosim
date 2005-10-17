@@ -19,7 +19,7 @@
 	</Globals>
 	<SimBioModules>
 		<air>
-			<VCCR moduleName="BaseVCCR">
+			<VCCR moduleName="BaseVCCR" implementation="LINEAR">
 				<powerConsumer maxFlowRates="100000" desiredFlowRates="100000" inputs="BasePowerStore"/>
 				<airConsumer maxFlowRates="10000000" desiredFlowRates="10000000" inputs="BaseCrewEnvironment"/>
 				<airProducer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="BaseCrewEnvironment"/>
