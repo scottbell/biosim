@@ -45,7 +45,7 @@ public class Apollo13Viewer extends SimulationPanel {
 
 	private int myTicks;
 
-	private int myTimeInSeconds;
+	private float myTimeInSeconds;
 
 	private float myO2Concentration;
 
@@ -128,8 +128,8 @@ public class Apollo13Viewer extends SimulationPanel {
 
 	private void collectData() {
 		myTicks = myBioHolder.theBioDriver.getTicks();
-		myTimeInSeconds = (int) (myTicks
-				* myBioHolder.theBioDriver.getTickLength() * 3600);
+		myTimeInSeconds = (myTicks
+				* myBioHolder.theBioDriver.getTickLength() * 3600f);
 		myO2UsageOverTimestep = convertO2MolesToPounds(myBioHolder.theO2OutFlowRateSensors
 				.get(0).getValue());
 		myValveCommand = processValveCommand(myBioHolder.theInfluentValveActuators
