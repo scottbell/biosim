@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Vector;
 
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.xerces.parsers.DOMParser;
@@ -18,6 +17,7 @@ import com.traclabs.biosim.idl.framework.BioDriver;
 import com.traclabs.biosim.idl.framework.BioDriverHelper;
 import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.framework.BioModuleHelper;
+import com.traclabs.biosim.idl.framework.LogLevel;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.framework.StochasticIntensity;
@@ -402,29 +402,29 @@ public class BiosimInitializer {
             return MalfunctionIntensity.LOW_MALF;
     }
     
-    private static Level getLogLevel(Node pNode) {
+    public static LogLevel getLogLevel(Node pNode) {
         String logString = pNode.getAttributes()
                 .getNamedItem("logLevel").getNodeValue();
         if (logString.equals("OFF"))
-            return Level.OFF;
+            return LogLevel.OFF;
         else if (logString.equals("INFO"))
-            return Level.INFO;
+            return LogLevel.INFO;
         else if (logString.equals("DEBUG"))
-            return Level.DEBUG;
+            return LogLevel.DEBUG;
         else if (logString.equals("ERROR"))
-            return Level.ERROR;
+            return LogLevel.ERROR;
         else if (logString.equals("WARN"))
-            return Level.WARN;
+            return LogLevel.WARN;
         else if (logString.equals("FATAL"))
-            return Level.FATAL;
+            return LogLevel.FATAL;
         else if (logString.equals("ALL"))
-            return Level.ALL;
+            return LogLevel.ALL;
         else
             return null;
     }
 
     public static void setupBioModule(BioModuleImpl pModule, Node node) {
-        Level logLevel = getLogLevel(node);
+    	LogLevel logLevel = getLogLevel(node);
         if (logLevel != null)
         	pModule.setLogLevel(logLevel);
     	pModule.setEnableBreakdown(getEnableBreakDown(node));

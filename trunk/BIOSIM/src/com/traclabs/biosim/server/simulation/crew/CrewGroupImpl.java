@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Vector;
 
+import com.traclabs.biosim.idl.framework.LogLevel;
 import com.traclabs.biosim.idl.framework.Malfunction;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
@@ -202,10 +203,15 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     }
 
     public void resetSchedule() {
-        for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();) {
-            CrewPerson currentPerson = (CrewPerson) (iter.next());
-            currentPerson.reset();
-        }
+    	for (CrewPerson currentPerson : crewPeople.values())
+    		currentPerson.reset();
+    }
+    
+    public void setLogLevel(LogLevel pLevel){
+    	super.setLogLevel(pLevel);
+    	for (CrewPerson currentPerson : crewPeople.values()){
+    		currentPerson.setLogLevel(pLevel);
+    	}
     }
 
     /**
@@ -250,30 +256,22 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     public void tick() {
         super.tick();
         clearActualFlowRates();
-        for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();) {
-            CrewPerson tempPerson = (CrewPerson) (iter.next());
-            tempPerson.tick();
-        }
+    	for (CrewPerson currentPerson : crewPeople.values())
+    		currentPerson.tick();
         //Add those scheduled
-        for (Iterator iter = crewScheduledForAddition.iterator(); iter
-                .hasNext();) {
-            CrewPerson crewPersonToAdd = (CrewPerson) (iter.next());
+    	for (CrewPerson crewPersonToAdd : crewScheduledForAddition)
             crewPeople.put(crewPersonToAdd.getName(), crewPersonToAdd);
-        }
         crewScheduledForAddition.clear();
         //Remove those scheduled
-        for (Iterator iter = crewScheduledForRemoval.iterator(); iter.hasNext();) {
-            String crewPersonNameToRemove = (String) (iter.next());
+    	for (String crewPersonNameToRemove : crewScheduledForRemoval)
             crewPeople.remove(crewPersonNameToRemove);
-        }
         crewScheduledForRemoval.clear();
     }
 
     protected void performMalfunctions() {
         healthyPercentage = 1f;
-        for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext();) {
-            Malfunction currentMalfunction = (Malfunction) (iter.next());
-            if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF) {
+    	for (Malfunction currentMalfunction : myMalfunctions.values()){
+    		if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF) {
                 if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
                     healthyPercentage *= 0.50;
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
@@ -306,10 +304,8 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
      */
     public void reset() {
         super.reset();
-        for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();) {
-            CrewPerson currentPerson = (CrewPerson) (iter.next());
-            currentPerson.reset();
-        }
+    	for (CrewPerson currentPerson : crewPeople.values())
+    		currentPerson.reset();
     }
 
     /**
@@ -317,19 +313,16 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
      */
     public float getProductivity() {
         float productivity = 0f;
-        for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();) {
-            CrewPerson currentPerson = (CrewPerson) (iter.next());
-            productivity += currentPerson.getProductivity();
-        }
+    	for (CrewPerson currentPerson : crewPeople.values())
+    		productivity += currentPerson.getProductivity();
         return productivity;
     }
 
     public boolean anyDead() {
         if (crewPeople.size() < 1)
             return false;
-        for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();) {
-            CrewPerson currentPerson = (CrewPerson) (iter.next());
-            if (currentPerson.isDead())
+    	for (CrewPerson currentPerson : crewPeople.values()){
+    		if (currentPerson.isDead())
                 return true;
         }
         return false;
@@ -339,10 +332,9 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
         if (crewPeople.size() < 1)
             return false;
         boolean areTheyDead = true;
-        for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();) {
-            CrewPerson currentPerson = (CrewPerson) (iter.next());
+
+    	for (CrewPerson currentPerson : crewPeople.values())
             areTheyDead = areTheyDead && currentPerson.isDead();
-        }
         return areTheyDead;
     }
 
@@ -352,56 +344,44 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
 
     public float getGreyWaterProduced() {
         float totalGreyWaterProduced = 0f;
-        for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();) {
-            CrewPerson currentPerson = (CrewPerson) (iter.next());
+    	for (CrewPerson currentPerson : crewPeople.values())
             totalGreyWaterProduced += currentPerson.getGreyWaterProduced();
-        }
         return totalGreyWaterProduced;
     }
 
     public float getDirtyWaterProduced() {
         float totalDirtyWaterProduced = 0f;
-        for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();) {
-            CrewPerson currentPerson = (CrewPerson) (iter.next());
+    	for (CrewPerson currentPerson : crewPeople.values())
             totalDirtyWaterProduced += currentPerson.getDirtyWaterProduced();
-        }
         return totalDirtyWaterProduced;
     }
 
     public float getPotableWaterConsumed() {
         float totalPotableWaterConsumed = 0f;
-        for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();) {
-            CrewPerson currentPerson = (CrewPerson) (iter.next());
+    	for (CrewPerson currentPerson : crewPeople.values())
             totalPotableWaterConsumed += currentPerson
                     .getPotableWaterConsumed();
-        }
         return totalPotableWaterConsumed;
     }
 
     public float getFoodConsumed() {
         float totalFoodConsumed = 0f;
-        for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();) {
-            CrewPerson currentPerson = (CrewPerson) (iter.next());
+    	for (CrewPerson currentPerson : crewPeople.values())
             totalFoodConsumed += currentPerson.getFoodConsumed();
-        }
         return totalFoodConsumed;
     }
 
     public float getCO2Produced() {
         float totalCO2Produced = 0f;
-        for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();) {
-            CrewPerson currentPerson = (CrewPerson) (iter.next());
+    	for (CrewPerson currentPerson : crewPeople.values())
             totalCO2Produced += currentPerson.getCO2Produced();
-        }
         return totalCO2Produced;
     }
 
     public float getO2Consumed() {
         float totalO2Consumed = 0f;
-        for (Iterator iter = crewPeople.values().iterator(); iter.hasNext();) {
-            CrewPerson currentPerson = (CrewPerson) (iter.next());
+    	for (CrewPerson currentPerson : crewPeople.values())
             totalO2Consumed += currentPerson.getO2Consumed();
-        }
         return totalO2Consumed;
     }
 

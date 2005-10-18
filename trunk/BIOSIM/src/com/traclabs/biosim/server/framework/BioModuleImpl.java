@@ -10,6 +10,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import com.traclabs.biosim.idl.framework.BioModulePOA;
+import com.traclabs.biosim.idl.framework.LogLevel;
 import com.traclabs.biosim.idl.framework.Malfunction;
 import com.traclabs.biosim.idl.framework.MalfunctionHelper;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
@@ -376,8 +377,21 @@ public abstract class BioModuleImpl extends BioModulePOA {
         return canBreakdown;
     }
     
-    public void setLogLevel(Level pLevel){
-    	myLogger.setLevel(pLevel);
+    public void setLogLevel(LogLevel pLevel){
+    	if (pLevel == LogLevel.OFF)
+    		myLogger.setLevel(Level.OFF);
+    	else if (pLevel == LogLevel.INFO)
+    		myLogger.setLevel(Level.INFO);
+    	else if (pLevel == LogLevel.DEBUG)
+    		myLogger.setLevel(Level.DEBUG);
+    	else if (pLevel == LogLevel.ERROR)
+    		myLogger.setLevel(Level.ERROR);
+    	else if (pLevel == LogLevel.WARN)
+    		myLogger.setLevel(Level.WARN);
+    	else if (pLevel == LogLevel.FATAL)
+    		myLogger.setLevel(Level.FATAL);
+    	else if (pLevel == LogLevel.ALL)
+    		myLogger.setLevel(Level.ALL);
     }
 
     /**
