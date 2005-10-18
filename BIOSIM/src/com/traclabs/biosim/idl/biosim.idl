@@ -172,6 +172,7 @@ module com{
                                         enum StochasticIntensity {HIGH_STOCH, MEDIUM_STOCH, LOW_STOCH, NONE_STOCH};
                                         enum MalfunctionIntensity {SEVERE_MALF, MEDIUM_MALF, LOW_MALF};
                                         enum MalfunctionLength {TEMPORARY_MALF, PERMANENT_MALF};
+                                        enum LogLevel {OFF, INFO, DEBUG, WARN, ERROR, FATAL, ALL};
                                         interface Malfunction;
                                         interface TechSpecificInfo;
                                         typedef sequence <Malfunction> MalfunctionList;
@@ -229,6 +230,7 @@ module com{
                                                 long getID();
                                                 void setTickLength(in float pInterval);
                                                 float getTickLength();
+                                                void setLogLevel(in LogLevel pLogLevel);
                                                 
                                         };
                                         interface BioDriver{
@@ -382,6 +384,7 @@ module com{
                                                         void tick();
                                                         void reset();
                                                         CrewGroup getCurrentCrewGroup();
+                                                		void setLogLevel(in framework::LogLevel pLogLevel);
                                                 };
                                                 interface CrewGroup : framework::SimBioModule, environment::AirConsumer, water::PotableWaterConsumer, food::FoodConsumer, environment::AirProducer, water::GreyWaterProducer, water::DirtyWaterProducer, waste::DryWasteProducer{
                                                         CrewPerson getCrewPerson(in string name);

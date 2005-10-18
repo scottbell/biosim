@@ -3,10 +3,12 @@ package com.traclabs.biosim.server.simulation.crew;
 import java.text.DecimalFormat;
 import java.util.Random;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.framework.BioModuleHelper;
+import com.traclabs.biosim.idl.framework.LogLevel;
 import com.traclabs.biosim.idl.simulation.crew.Activity;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroupHelper;
@@ -202,7 +204,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
             int pArrivalTick, int pDepartureTick,
             CrewGroupImpl pBaseCrewGroupImpl, CrewGroup pCurrentCrewGroup,
             Schedule pSchedule) {
-        myLogger = Logger.getLogger(this.getClass());
+        myLogger = Logger.getLogger(this.getClass() +"."+pName);
         myName = pName;
         age = pAge;
         weight = pWeight;
@@ -267,6 +269,23 @@ public class CrewPersonImpl extends CrewPersonPOA {
         potableWaterNeeded = 0f;
         caloriesNeeded = 0f;
         vaporProduced = 0f;
+    }
+    
+    public void setLogLevel(LogLevel pLevel){
+    	if (pLevel == LogLevel.OFF)
+    		myLogger.setLevel(Level.OFF);
+    	else if (pLevel == LogLevel.INFO)
+    		myLogger.setLevel(Level.INFO);
+    	else if (pLevel == LogLevel.DEBUG)
+    		myLogger.setLevel(Level.DEBUG);
+    	else if (pLevel == LogLevel.ERROR)
+    		myLogger.setLevel(Level.ERROR);
+    	else if (pLevel == LogLevel.WARN)
+    		myLogger.setLevel(Level.WARN);
+    	else if (pLevel == LogLevel.FATAL)
+    		myLogger.setLevel(Level.FATAL);
+    	else if (pLevel == LogLevel.ALL)
+    		myLogger.setLevel(Level.ALL);
     }
 
     public void setArrivalTick(int pArrivalTick) {

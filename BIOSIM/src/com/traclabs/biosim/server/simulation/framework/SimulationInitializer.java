@@ -966,6 +966,7 @@ public class SimulationInitializer {
         }
         pCrewGroupImpl.createCrewPerson(name, age, weight, sex, arrivalDate,
                 departureDate, schedule);
+        pCrewGroupImpl.getCrewPerson(name).setLogLevel(BiosimInitializer.getLogLevel(node));
     }
 
     private void createCrewGroup(Node node) {
