@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Vector;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import com.traclabs.biosim.idl.framework.BioModulePOA;
@@ -84,7 +85,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
      *            The name of the module
      */
     protected BioModuleImpl(int pID, String pName) {
-        myLogger = Logger.getLogger(this.getClass());
+        myLogger = Logger.getLogger(this.getClass()+"."+pName);
         myRandomGen = new Random();
         myMalfunctions = new Hashtable<Long, Malfunction>();
         myScheduledMalfunctions = new Vector<MalfunctionImpl>();
@@ -373,6 +374,10 @@ public abstract class BioModuleImpl extends BioModulePOA {
 
     public boolean breakdownIsEnabled() {
         return canBreakdown;
+    }
+    
+    public void setLogLevel(Level pLevel){
+    	myLogger.setLevel(pLevel);
     }
 
     /**
