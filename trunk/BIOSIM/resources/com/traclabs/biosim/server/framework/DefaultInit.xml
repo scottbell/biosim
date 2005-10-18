@@ -19,7 +19,7 @@
 	</Globals>
 	<SimBioModules>
 		<air>
-			<VCCR moduleName="BaseVCCR" implementation="LINEAR">
+			<VCCR moduleName="BaseVCCR" implementation="LINEAR" logLevel="DEBUG">
 				<powerConsumer maxFlowRates="100000" desiredFlowRates="100000" inputs="BasePowerStore"/>
 				<airConsumer maxFlowRates="10000000" desiredFlowRates="10000000" inputs="BaseCrewEnvironment"/>
 				<airProducer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="BaseCrewEnvironment"/>
@@ -44,7 +44,7 @@
 			<MethaneStore moduleName="EVAMethaneStore" capacity="10" level="10"/>
 		</air>
 		<crew>
-			<CrewGroup moduleName="BaseCrewGroup" logLevel="DEBUG">
+			<CrewGroup moduleName="BaseCrewGroup">
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="CrewBasePotableWaterStore"/>
 				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="BaseCrewEnvironment"/>
 				<foodConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BaseFoodStore"/>
