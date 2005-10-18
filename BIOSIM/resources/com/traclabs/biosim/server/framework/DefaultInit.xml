@@ -44,7 +44,7 @@
 			<MethaneStore moduleName="EVAMethaneStore" capacity="10" level="10"/>
 		</air>
 		<crew>
-			<CrewGroup moduleName="BaseCrewGroup">
+			<CrewGroup moduleName="BaseCrewGroup" logLevel="DEBUG">
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="CrewBasePotableWaterStore"/>
 				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="BaseCrewEnvironment"/>
 				<foodConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BaseFoodStore"/>

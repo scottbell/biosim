@@ -226,12 +226,11 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
                 if (paredToFlowrateCalories > caloriesStillNeeded){
                     float fractionOfMassToKeepForCalories = (paredToFlowrateCalories - caloriesStillNeeded)
                         / paredToFlowrateCalories;
-                    paredToCaloriesMassToKeep = currentFoodMatter.mass
+                    paredToCaloriesMassToKeep = paredToFlowrateFoodMatter.mass
                         * fractionOfMassToKeepForCalories;
                 }
                 
-                float massToReturn = paredToFlowrateFoodMatter.mass
-                        - paredToCaloriesMassToKeep;
+                float massToReturn = paredToFlowrateFoodMatter.mass - paredToCaloriesMassToKeep;
                 float caloriesFractionOfOriginal = massToReturn
                         / paredToFlowrateFoodMatter.mass;
                 float waterToReturn = caloriesFractionOfOriginal

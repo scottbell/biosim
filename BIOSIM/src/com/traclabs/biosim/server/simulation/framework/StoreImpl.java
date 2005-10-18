@@ -353,10 +353,9 @@ public class StoreImpl extends PassiveModuleImpl implements
      * Logs this store
      */
     public void log() {
-        myLogger.debug(getModuleName() + ":\tcurrentLevel=" + currentLevel);
-        myLogger.debug(getModuleName() + ":\tcurrentCapacity="
-                + currentCapacity);
-        myLogger.debug(getModuleName() + ":\toverflow=" + overflow);
+        myLogger.debug("currentLevel=" + currentLevel);
+        myLogger.debug("currentCapacity="+ currentCapacity);
+        myLogger.debug("overflow=" + overflow);
     }
 
     /**

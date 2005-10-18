@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Vector;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.xerces.parsers.DOMParser;
@@ -385,7 +386,6 @@ public class BiosimInitializer {
             occursAtTick = Integer.parseInt(pNode.getAttributes().getNamedItem(
                     "occursAtTick").getNodeValue());
         } catch (NumberFormatException e) {
-
             e.printStackTrace();
         }
         return occursAtTick;
@@ -401,9 +401,33 @@ public class BiosimInitializer {
         else
             return MalfunctionIntensity.LOW_MALF;
     }
+    
+    private static Level getLogLevel(Node pNode) {
+        String logString = pNode.getAttributes()
+                .getNamedItem("logLevel").getNodeValue();
+        if (logString.equals("OFF"))
+            return Level.OFF;
+        else if (logString.equals("INFO"))
+            return Level.INFO;
+        else if (logString.equals("DEBUG"))
+            return Level.DEBUG;
+        else if (logString.equals("ERROR"))
+            return Level.ERROR;
+        else if (logString.equals("WARN"))
+            return Level.WARN;
+        else if (logString.equals("FATAL"))
+            return Level.FATAL;
+        else if (logString.equals("ALL"))
+            return Level.ALL;
+        else
+            return null;
+    }
 
     public static void setupBioModule(BioModuleImpl pModule, Node node) {
-        pModule.setEnableBreakdown(getEnableBreakDown(node));
+        Level logLevel = getLogLevel(node);
+        if (logLevel != null)
+        	pModule.setLogLevel(logLevel);
+    	pModule.setEnableBreakdown(getEnableBreakDown(node));
         pModule.setStochasticIntensity(getStochasticIntensity(node));
         Node child = node.getFirstChild();
         while (child != null) {

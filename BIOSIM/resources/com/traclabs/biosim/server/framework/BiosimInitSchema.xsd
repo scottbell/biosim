@@ -624,6 +624,18 @@
 		<xsd:attribute name="occursAtTick" type="xsd:nonNegativeInteger" use="required"/>
 	</xsd:complexType>
 	
+	<xsd:simpleType name="LogLevelType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="OFF"/>
+			<xsd:enumeration value="INFO"/>
+			<xsd:enumeration value="DEBUG"/>
+			<xsd:enumeration value="ERROR"/>
+			<xsd:enumeration value="WARN"/>
+			<xsd:enumeration value="FATAL"/>
+			<xsd:enumeration value="ALL"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
 	
 	<!-- Module declarations -->
 	<xsd:complexType name="BioModuleType">
@@ -635,6 +647,7 @@
 		<xsd:attribute name="isBreakdownEnabled" type="xsd:boolean" default="false"/>
 		<xsd:attribute name="setStochasticIntensity" type="StochasticIntensityType" default="NONE_STOCH"/>
 		<xsd:attribute name="createLocally" type="xsd:boolean" default="true"/>
+		<xsd:attribute name="logLevel" type="LogLevelType" default="INFO"/>
 	</xsd:complexType>
 	
 	<!-- Store declarations -->
