@@ -119,17 +119,24 @@ public class Apollo13Viewer extends SimulationPanel {
 				myGraphPanel.refresh(myTicks, myO2UsageOverTimestep,
 						myValveCommand, myValveState, myO2Concentration,
 						myCO2Concentration, myO2StoreLevel, myO2FlowPerHour);
-		} else{
+		} else {
 			stopRefresh();
-			JOptionPane.showMessageDialog(Apollo13Viewer.this, "Simulation has completed. Save the results if you like.");
+			try {
+				File tempFile = File.createTempFile("apollo13-", ".csv");
+				saveLog(tempFile);
+				JOptionPane.showMessageDialog(Apollo13Viewer.this,
+				"Simulation has completed. Results temporarily saved to:\n"+tempFile.getCanonicalPath());
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(Apollo13Viewer.this,
+				"Simulation has completed. Save the results if you like.");
+			}
 		}
 
 	}
 
 	private void collectData() {
 		myTicks = myBioHolder.theBioDriver.getTicks();
-		myTimeInSeconds = (myTicks
-				* myBioHolder.theBioDriver.getTickLength() * 3600f);
+		myTimeInSeconds = (myTicks * myBioHolder.theBioDriver.getTickLength() * 3600f);
 		myO2UsageOverTimestep = convertO2MolesToPounds(myBioHolder.theO2OutFlowRateSensors
 				.get(0).getValue());
 		myValveCommand = processValveCommand(myBioHolder.theInfluentValveActuators
@@ -218,6 +225,18 @@ public class Apollo13Viewer extends SimulationPanel {
 		return o2InPounds;
 	}
 
+	private void saveLog(File pFile) {
+		try {
+			FileWriter theFileWriter = new FileWriter(pFile);
+			theFileWriter.write(myLogString.toString());
+			theFileWriter.close();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Couldn't save file",
+					"IO Error", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * Action that saves data to csv file
 	 */
@@ -227,15 +246,7 @@ public class Apollo13Viewer extends SimulationPanel {
 			int returnVal = myFileChooser.showSaveDialog(Apollo13Viewer.this);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				File file = myFileChooser.getSelectedFile();
-				try {
-					FileWriter theFileWriter = new FileWriter(file);
-					theFileWriter.write(myLogString.toString());
-					theFileWriter.close();
-				} catch (IOException e) {
-					JOptionPane.showMessageDialog(null, "Couldn't save file",
-							"IO Error", JOptionPane.ERROR_MESSAGE);
-					e.printStackTrace();
-				}
+				saveLog(file);
 			}
 			setCursor(Cursor.getDefaultCursor());
 		}
