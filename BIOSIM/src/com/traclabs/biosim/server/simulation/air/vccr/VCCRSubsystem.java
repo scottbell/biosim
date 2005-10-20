@@ -58,7 +58,7 @@ public class VCCRSubsystem {
 	}
 
 	private static float calculatePressure(Store store) {
-		//TODO calculate pressure from boyle's law
+		//TODO
 		return 100;
 	}
 
