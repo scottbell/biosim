@@ -221,10 +221,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
                 * CO2_HIGH_RATIO, CO2_HIGH_TILL_DEAD * CO2_HIGH_RATIO);
         consumedLowOxygenBuffer = new SimpleBuffer(O2_LOW_TILL_DEAD
                 * O2_LOW_RATIO, O2_LOW_TILL_DEAD * O2_LOW_RATIO);
-        highOxygenBuffer = new SimpleBuffer(O2_HIGH_TILL_DEAD * 1,
-                O2_HIGH_TILL_DEAD * 1);
-        sleepBuffer = new SimpleBuffer(AWAKE_TILL_EXHAUSTION * myBaseCrewGroupImpl.getTickLength(),
-                AWAKE_TILL_EXHAUSTION * myBaseCrewGroupImpl.getTickLength());
+        highOxygenBuffer = new SimpleBuffer(O2_HIGH_TILL_DEAD,
+                O2_HIGH_TILL_DEAD);
+        sleepBuffer = new SimpleBuffer(AWAKE_TILL_EXHAUSTION,
+                AWAKE_TILL_EXHAUSTION);
         leisureBuffer = new SimpleBuffer(LEISURE_TILL_BURNOUT,
                 LEISURE_TILL_BURNOUT);
         myRandomGen = new Random();
@@ -1063,6 +1063,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
                         + oxygenHighRiskReturn + " (level="
                         + highOxygenBuffer.getLevel() + ", capacity="
                         + highOxygenBuffer.getCapacity() + ")");
+        
         myLogger.debug("\tCO2 taken="
                 + (getCO2Ratio() - CO2_HIGH_RATIO)
                 + ", recovered "
@@ -1072,6 +1073,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
                 + CO2RiskReturn
                 + " (level=" + consumedCO2Buffer.getLevel() + ", capacity="
                 + consumedCO2Buffer.getCapacity() + ")");
+        myLogger.debug("\tsleep (level=" + sleepBuffer.getLevel()
+                + ", capacity=" + sleepBuffer.getCapacity() + ")");
+        myLogger.debug("\tCO2 ration =" + getCO2Ratio()
+                + ", DANGEROUS_CO2_RATION=" + CO2_HIGH_RATIO);
         myLogger.debug("\tsleep (level=" + sleepBuffer.getLevel()
                 + ", capacity=" + sleepBuffer.getCapacity() + ")");
         myLogger.debug("\tCO2 ration =" + getCO2Ratio()
