@@ -674,7 +674,7 @@ public class SimulationInitializer {
             String implementationString = node.getAttributes().getNamedItem(
             "implementation").getNodeValue();
             if (implementationString.equals("LINEAR")) {
-                myLogger.debug("created linear WaterRS...");
+                myLogger.debug("created linear VCCR...");
                 VCCRLinearImpl myVCCRImpl = new VCCRLinearImpl(myID,
                         moduleName);
                 BiosimInitializer.setupBioModule(myVCCRImpl, node);

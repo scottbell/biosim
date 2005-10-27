@@ -115,7 +115,7 @@ public class PlantImplTest extends TestCase {
 		float oldInitialLevel = myPowerStore.getInitialLevel();
 		myPowerStore.setInitialLevel(0f);
 		float ticksWithLowPower = 408f * myBiomassPS.getTickLength();
-		assertEquals(ticksWithLowPower, getAverageTillDead(20), 20);
+		assertEquals(ticksWithLowPower, getAverageTillDead(20), 50);
 		myPowerStore.setInitialLevel(oldInitialLevel);
 	}
 	

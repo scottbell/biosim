@@ -591,9 +591,9 @@ public class CrewPersonImpl extends CrewPersonPOA {
             addProductivity();
         } else if (myCurrentActivity.getName().startsWith("sleep")
                 || myCurrentActivity.getName().startsWith("sick")) {
-            sleepBuffer.add(SLEEP_RECOVERY_RATE);
+            sleepBuffer.add(SLEEP_RECOVERY_RATE * myBaseCrewGroupImpl.getTickLength());
         } else if (myCurrentActivity.getName().equals("leisure")) {
-            leisureBuffer.add(LEISURE_RECOVERY_RATE);
+            leisureBuffer.add(LEISURE_RECOVERY_RATE * myBaseCrewGroupImpl.getTickLength());
         } else if (myCurrentActivity instanceof RepairActivity) {
             RepairActivity repairActivity = (RepairActivity) (myCurrentActivity);
             repairModule(repairActivity.getModuleNameToRepair(), repairActivity
@@ -1230,6 +1230,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
         myLogger.debug("current_activity_order=" + currentOrder);
         myLogger.debug("duration_of_activity=" + timeActivityPerformed);
         myLogger.debug("has_died=" + hasDied);
+        myLogger.debug("sick=" + sick);
         myLogger.debug("age=" + age);
         myLogger.debug("weight" + weight);
         if (sex == Sex.male)
