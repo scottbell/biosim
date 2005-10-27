@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='../../BiosimInitSchema.xsd'>
-	<Globals crewsToWatch="Crew" runTillCrewDeath="true" tickLength="2.77777777777e-05" runTillN="162000">
+	<Globals crewsToWatch="Crew" runTillCrewDeath="true" tickLength="2.77777777777e-04" runTillN="162000">
 		<comment>
 			This is the Apollo 13 initialization.
 			It is on a 30 second time step and runs for 16200 seconds.

@@ -651,6 +651,7 @@
 	</xsd:complexType>
 	
 	<!-- Store declarations -->
+	
 	<xsd:complexType name="Store">  
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
@@ -769,17 +770,10 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 	
-	<xsd:simpleType name="AirRSImplementationType">
-		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="NORMAL"/>
-			<xsd:enumeration value="LINEAR"/>
-		</xsd:restriction>
-	</xsd:simpleType>
-	
 	<!-- Special VCCR specific declarations -->
 	<xsd:simpleType name="VCCRImplementationType">
 		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="NORMAL"/>
+			<xsd:enumeration value="DETAILED"/>
 			<xsd:enumeration value="LINEAR"/>
 		</xsd:restriction>
 	</xsd:simpleType>
