@@ -2,6 +2,7 @@ package com.traclabs.biosim.server.simulation.environment;
 
 import java.util.Iterator;
 
+import com.traclabs.biosim.idl.framework.LogLevel;
 import com.traclabs.biosim.idl.framework.Malfunction;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
@@ -220,6 +221,12 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
     private void performLeak(float pLeakRate) {
         for (EnvironmentStoreImpl store : myEnvironmentStores)
         	store.performLeak(pLeakRate);
+    }
+    
+    public void setLogLevel(LogLevel pLevel){
+    	super.setLogLevel(pLevel);
+        for (EnvironmentStoreImpl store : myEnvironmentStores)
+        	store.setLogLevel(pLevel);
     }
 
     protected void performMalfunctions() {
