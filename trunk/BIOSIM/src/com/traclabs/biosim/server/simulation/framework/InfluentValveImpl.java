@@ -1,5 +1,6 @@
 package com.traclabs.biosim.server.simulation.framework;
 
+import com.traclabs.biosim.idl.framework.Malfunction;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.simulation.air.CO2ConsumerDefinition;
@@ -158,6 +159,9 @@ public class InfluentValveImpl extends SimBioModuleImpl implements
 	
 	//Flowing from first or second store?
 	private int myIndexOfInfluentStore = 0;
+	
+	//For apollo13 malfunction
+	private float myO2MalfunctionDecrement = 0f;
 
 	public InfluentValveImpl(int pID, String pName) {
 		super(pID, pName);
@@ -277,11 +281,10 @@ public class InfluentValveImpl extends SimBioModuleImpl implements
 		return returnBuffer.toString();
 	}
 
-	protected void performMalfunctions() {
-	}
-
 	public void reset() {
 		super.reset();
+		myO2MalfunctionDecrement = 0;
+		myIndexOfInfluentStore = 0;
 	}
 
 	public void log() {
@@ -392,4 +395,29 @@ public class InfluentValveImpl extends SimBioModuleImpl implements
 	public WaterProducerDefinition getWaterProducerDefinition() {
 		return myWaterProducerDefinitionImpl.getCorbaObject();
 	}
+	
+    /**
+     * Actually performs the malfunctions. Reduces levels/currentCapacity
+     */
+    protected void performMalfunctions() {
+    	for (Malfunction currentMalfunction : myMalfunctions.values()) {
+    		if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF) {
+                //decrease O2 flowrate to 0 over 7649 ticks
+    			if (!currentMalfunction.hasPerformed()){
+    					myO2MalfunctionDecrement = myO2ConsumerDefinitionImpl.getMaxFlowRate(0) / 7649f;
+    					currentMalfunction.setPerformed(true);
+    			}
+
+				if (myO2ConsumerDefinitionImpl.getMaxFlowRate(0) > 0){
+					float newAmount = myO2ConsumerDefinitionImpl.getMaxFlowRate(0) - myO2MalfunctionDecrement;
+					if (newAmount < 0)
+						newAmount = 0;
+					myO2ConsumerDefinitionImpl.setMaxFlowRate(newAmount, 0);
+				}
+            } else if ((currentMalfunction.getLength() == MalfunctionLength.PERMANENT_MALF)
+                    && (!currentMalfunction.hasPerformed())) {
+    			currentMalfunction.setPerformed(true);
+            }
+        }
+    }
 }

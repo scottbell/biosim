@@ -21,11 +21,9 @@ public abstract class SimulationPanel extends JPanel {
     private JToolBar myButtonBar = new JToolBar();
 
     private JButton myResetButton;
-    
     private final static String myResetToolTipText = "Reset the simulation.";
 
     private JButton myTickButton;
-    
     private final static String myTickToolTipText = "Advance the simulation one tick";
 
     private JButton myPlayPauseButton;
@@ -156,4 +154,8 @@ public abstract class SimulationPanel extends JPanel {
             refresh();
         }
     }
+
+	protected JToolBar getButtonBar() {
+		return myButtonBar;
+	}
 }
