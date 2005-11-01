@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='../../BiosimInitSchema.xsd'>
-	<Globals crewsToWatch="Crew" runTillCrewDeath="true" tickLength="2.77777777777e-04" runTillN="162000">
+	<Globals crewsToWatch="Crew" runTillCrewDeath="true" tickLength="2.77777777777e-04" runTillN="16200">
 		<comment>
 			This is the Apollo 13 initialization.
-			It is on a 30 second time step and runs for 16200 seconds.
+			It is on a 1Hz time step and runs for 16200 seconds.
 			It has the following modules:
 				A 3 person crew.
 				2 oxygen tanks (main and reservoir)
@@ -16,9 +16,7 @@
 	</Globals>
 	<SimBioModules>
 		<air>
-			<O2Store moduleName="MainO2Store" capacity="2000" level="2000">
-				<malfunction occursAtTick="73420" length="PERMANENT_MALF" intensity="SEVERE_MALF"/>
-			</O2Store>
+			<O2Store moduleName="MainO2Store" capacity="2000" level="2000"/>
 			<CO2Store moduleName="DumpedCO2" capacity="20000" level="0"/>
 			<O2Store moduleName="ResevoirO2Store" capacity="2000" level="2000"/>
 			<VCCR moduleName="VCCR" implementation="LINEAR">
@@ -72,8 +70,9 @@
 		</food>
 		<framework>
 			<InfluentValve moduleName="O2InfluentValve">
-				<O2Consumer desiredFlowRates="8.2666666666e-05" maxFlowRates="8.2666666666e-05" inputs="MainO2Store ResevoirO2Store"/>
-				<O2Producer desiredFlowRates="8.2666666666e-05" maxFlowRates="8.2666666666e-05" outputs="CrewEnvironment"/>
+				<malfunction occursAtTick="7200" length="TEMPORARY_MALF" intensity="SEVERE_MALF"/>
+				<O2Consumer desiredFlowRates="8.2666666666e-04" maxFlowRates="8.2666666666e-04" inputs="MainO2Store ResevoirO2Store"/>
+				<O2Producer desiredFlowRates="8.2666666666e-04" maxFlowRates="8.2666666666e-04" outputs="CrewEnvironment"/>
 			</InfluentValve>
 		</framework>
 		<water>

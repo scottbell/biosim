@@ -11,6 +11,7 @@ import java.io.IOException;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
@@ -67,13 +68,25 @@ public class Apollo13Viewer extends SimulationPanel {
 
 	private JMenuItem myQuitItem;
 
-	private JMenuItem myLogOnlyItem;
+	private JCheckBoxMenuItem myLogOnlyItem;
 
 	private JMenu myHelpMenu;
 
 	private JMenuItem myAboutItem;
 
 	private JFileChooser myFileChooser;
+
+	private int myMalfunctionState;
+	
+    private JButton myLogOnlyButton;
+
+	private ImageIcon myGraphingIcon;
+
+	private ImageIcon myNotGraphingIcon;
+	
+    private final static String myGraphingToolTipText = "Stop graphing the simulation (logging only)";
+    private final static String myNotGraphingToolTipText = "Start graphing the simulation";
+    
 
 	public Apollo13Viewer() {
 		myLogger = Logger.getLogger(this.getClass());
@@ -82,8 +95,7 @@ public class Apollo13Viewer extends SimulationPanel {
 		myGraphPanel.setBorder(BorderFactory.createTitledBorder("Data"));
 		add(myGraphPanel, BorderLayout.CENTER);
 		myLogString = new StringBuilder();
-		myLogString
-				.append("tickTag (ticks),timeTag (s),O2 flow rate (lbs),Valve command,Valve state,O2 concentration in cabin (%),CO2 concentration in cabin (%),O2 in tank(lbs),O2 usage (lbs/h)\n");
+		createHeader();
 
 		myMenuBar = new JMenuBar();
 		myFileMenu = new JMenu("File");
@@ -99,15 +111,47 @@ public class Apollo13Viewer extends SimulationPanel {
 		myAboutItem.setText("About");
 		myLogOnlyItem = new JCheckBoxMenuItem(new LogOnlyAction());
 		myLogOnlyItem.setText("Log Only");
+		myLogOnlyItem = new JCheckBoxMenuItem(new LogOnlyAction());
+		myLogOnlyItem.setText("Log Only");
 		myOptionsMenu.add(myLogOnlyItem);
 		myQuitItem.setMnemonic(KeyEvent.VK_Q);
 		myMenuBar.add(myFileMenu);
 		myMenuBar.add(myOptionsMenu);
 		myMenuBar.add(myHelpMenu);
 
+		loadIcons();
+		myLogOnlyButton = new JButton(new LogOnlyAction());
+		myLogOnlyButton.setToolTipText(myGraphingToolTipText);
+		myLogOnlyButton.setIcon(myGraphingIcon);
+		getButtonBar().add(myLogOnlyButton);
+
 		myFileChooser = new JFileChooser();
 		myFileChooser.setApproveButtonText("Save");
 		reset();
+	}
+	
+	private void loadIcons(){
+    	myGraphingIcon = new ImageIcon(
+    			SimulationPanel.class.getClassLoader()
+            .getResource(
+                    "com/traclabs/biosim/client/framework/zoom-out.png"));
+    	myNotGraphingIcon = new ImageIcon(
+    			SimulationPanel.class.getClassLoader()
+            .getResource(
+                    "com/traclabs/biosim/client/framework/zoom-in.png"));
+    }
+
+	private void createHeader() {
+		myLogString.append("TIME,CF1001F,SF1003Q,CF0035R,SF1004Q,FAULT1,FAULT2,FAULT3\n");
+		myLogString
+				.append("Description,Isolation Valve Command ECS O2,Atmosphere concentration ECS O2,Flowrate ECS O2,Atmosphere concentration ECS CO2,Fault Insertion Variable,Fault Insertion Variable,Fault Insertion Variable\n");
+		myLogString.append("SYS_CMMD/L1DA,SYS_CMMD,L1DA,L1DA,L1DA,USER,USER,USER\n");
+		myLogString.append("Units,BINARY,CONCEN,FLOW_LB,CONCEN,,,\n");
+		myLogString.append("Vehicle,Apollo,Apollo,Apollo,Apollo,NULL,NULL,NULL\n");
+		myLogString.append("System,CM,CM,CM,CM,NULL,NULL,NULL\n");
+		myLogString.append("Subsystem,ECLS,ECLS,ECLS,ECLS,NULL,NULL,NULL\n");
+		myLogString
+				.append("Component,oxygen,oxygen,oxygen,carbon dioxide,NULL,NULL,NULL\n");
 	}
 
 	protected synchronized void refresh() {
@@ -125,10 +169,12 @@ public class Apollo13Viewer extends SimulationPanel {
 				File tempFile = File.createTempFile("apollo13-", ".csv");
 				saveLog(tempFile);
 				JOptionPane.showMessageDialog(Apollo13Viewer.this,
-				"Simulation has completed. Results temporarily saved to:\n"+tempFile.getCanonicalPath());
+						"Simulation has completed. Results temporarily saved to:\n"
+								+ tempFile.getCanonicalPath());
 			} catch (IOException e) {
-				JOptionPane.showMessageDialog(Apollo13Viewer.this,
-				"Simulation has completed. Save the results if you like.");
+				JOptionPane
+						.showMessageDialog(Apollo13Viewer.this,
+								"Simulation has completed. Save the results if you like.");
 			}
 		}
 
@@ -152,6 +198,7 @@ public class Apollo13Viewer extends SimulationPanel {
 		myO2FlowPerHour = convertO2MolesToPounds(myBioHolder.theO2OutFlowRateSensors
 				.get(0).getValue())
 				/ myBioHolder.theBioDriver.getTickLength();
+		myMalfunctionState = processMalfunctionState(myBioHolder.theInfluentValves.get(0).isMalfunctioning());
 	}
 
 	protected void reset() {
@@ -161,23 +208,21 @@ public class Apollo13Viewer extends SimulationPanel {
 	}
 
 	private void log() {
-		myLogString.append(myTicks);
-		myLogString.append(",");
 		myLogString.append(myTimeInSeconds);
 		myLogString.append(",");
-		myLogString.append(myO2UsageOverTimestep);
-		myLogString.append(",");
 		myLogString.append(myValveCommand);
-		myLogString.append(",");
-		myLogString.append(myValveState);
 		myLogString.append(",");
 		myLogString.append(myO2Concentration);
 		myLogString.append(",");
 		myLogString.append(myCO2Concentration);
 		myLogString.append(",");
-		myLogString.append(myO2StoreLevel);
-		myLogString.append(",");
 		myLogString.append(myO2FlowPerHour);
+		myLogString.append(",");
+		myLogString.append(myMalfunctionState);
+		myLogString.append(",");
+		myLogString.append(0);
+		myLogString.append(",");
+		myLogString.append(0);
 		myLogString.append("\n");
 	}
 
@@ -195,6 +240,14 @@ public class Apollo13Viewer extends SimulationPanel {
 			return 1;
 		if (valveActuatorValue == 1)
 			return 2;
+		else
+			return 0;
+	}
+	
+
+	private int processMalfunctionState(boolean isMalfunctioning) {
+		if (isMalfunctioning)
+			return 1;
 		else
 			return 0;
 	}
@@ -278,6 +331,16 @@ public class Apollo13Viewer extends SimulationPanel {
 	private class LogOnlyAction extends AbstractAction {
 		public void actionPerformed(ActionEvent ae) {
 			loggingOnly = !loggingOnly;
+			if (loggingOnly){
+				myLogOnlyItem.setSelected(true);
+				myLogOnlyButton.setToolTipText(myNotGraphingToolTipText);
+				myLogOnlyButton.setIcon(myNotGraphingIcon);
+			}
+			else{
+				myLogOnlyItem.setSelected(false);
+				myLogOnlyButton.setToolTipText(myGraphingToolTipText);
+				myLogOnlyButton.setIcon(myGraphingIcon);
+			}
 		}
 	}
 }
