@@ -214,9 +214,9 @@ public class Apollo13Viewer extends SimulationPanel {
 		myLogString.append(",");
 		myLogString.append(myO2Concentration);
 		myLogString.append(",");
-		myLogString.append(myCO2Concentration);
-		myLogString.append(",");
 		myLogString.append(myO2FlowPerHour);
+		myLogString.append(",");
+		myLogString.append(myCO2Concentration);
 		myLogString.append(",");
 		myLogString.append(myMalfunctionState);
 		myLogString.append(",");
