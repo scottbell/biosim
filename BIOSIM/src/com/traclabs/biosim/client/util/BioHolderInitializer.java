@@ -189,6 +189,8 @@ public class BioHolderInitializer {
         if ((myID == pID) && (xmlLocation.equals(pFilename)))
             return;
         myID = pID;
+        Logger.getLogger(BioHolderInitializer.class).info("setting id to "+myID);
+        Logger.getLogger(BioHolderInitializer.class).info("setting xml file to "+pFilename);
         xmlLocation = pFilename;
         initialized = false;
         initialize();
@@ -198,6 +200,7 @@ public class BioHolderInitializer {
         if (myID == pID)
             return;
         myID = pID;
+        Logger.getLogger(BioHolderInitializer.class).info("setting id to "+myID);
         initialized = false;
         initialize();
     }

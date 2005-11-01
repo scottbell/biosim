@@ -72,8 +72,6 @@ public class BiosimMain {
             } else if (myArgs[i].startsWith("-xml=")) {
                 try {
                     xmlFile = myArgs[i].split("=")[1];
-                    myLogger.info("Using xml=" + xmlFile);
-                    BioHolderInitializer.setFile(xmlFile);
                 } catch (Exception e) {
                     myLogger.error("Problem parsing arguments on arg "
                             + myArgs[i]);
@@ -98,6 +96,7 @@ public class BiosimMain {
                 }
             }
         }
+        myLogger.info("myID = "+myID);
         if (xmlFile != null)
             BioHolderInitializer.setFileAndID(myID, xmlFile);
         else
