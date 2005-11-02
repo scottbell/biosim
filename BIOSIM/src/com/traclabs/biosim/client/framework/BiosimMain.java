@@ -96,7 +96,6 @@ public class BiosimMain {
                 }
             }
         }
-        myLogger.info("myID = "+myID);
         if (xmlFile != null)
             BioHolderInitializer.setFileAndID(myID, xmlFile);
         else
