@@ -64,9 +64,6 @@ case $userSelect in
 	$sensor) echo "			 -starting $userSelect";$jacoInvocation $sensorName;;
 	$test) echo "			 -starting $userSelect";$jacoInvocation $testName $1 $2 $3 $4;;
 	$help) echo "Usage: run-client.sh (-ga) (-debug) [console, gui, malfunction, stochastic, controller, unreal]";;
-	"-id"*) echo "			-starting $userSelect (id user specified)";$jacoInvocation $mainName $1 $2 $3 $4;;
-	"-xml"*) echo "			-starting $userSelect (xml init user specified)";$jacoInvocation $mainName $1 $2 $3 $4;;
-	"-debug"*) echo "			-starting $userSelect (debug init user specified)";$jacoInvocation $mainName $1 $2 $3 $4;;
 	*) echo "			 -starting $userSelect";$jacoInvocation $mainName $1 $2 $3 $4;;
 esac
 echo "*done invoking clients"
