@@ -234,7 +234,7 @@ public class ModuleEdge extends NetEdge {
     private SingleFlowRateControllable invokeMethod(SimBioModuleImpl theSimBioModuleImpl, Method definitionMethod) {
     	SingleFlowRateControllable theFlowRateControllableOperations = null;
         try{
-            theFlowRateControllableOperations = (SingleFlowRateControllable)(definitionMethod.invoke(theSimBioModuleImpl, null));
+            theFlowRateControllableOperations = (SingleFlowRateControllable)(definitionMethod.invoke(theSimBioModuleImpl, new Object[0]));
         }
         catch (IllegalAccessException e){
             myLogger.error("This shouldn't of happened, problem invoking method");
@@ -262,7 +262,7 @@ public class ModuleEdge extends NetEdge {
         String methodName = "get" + producerOrConsumerType + "Definition";
         Method definitionMethod = null;
         try{
-            definitionMethod = producerOrConsumerClass.getMethod(methodName, null);
+            definitionMethod = producerOrConsumerClass.getMethod(methodName, new Class[0]);
         }
         catch (NoSuchMethodException e){
             myLogger.error("This shouldn't of happened, problem getting method");
