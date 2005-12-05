@@ -43,9 +43,9 @@ machineTypeEnv="-DMACHINE_TYPE=$machineType"
 ####################
 buildDir="$devRootDir/build"
 mainName="com.traclabs.biosim.client.framework.BiosimMain"
-malfunctionName="com.traclabs.biosim.client.framework.gui.MalfunctionPanel"
-stochasticName="com.traclabs.biosim.client.framework.gui.StochasticPanel"
-sensorName="com.traclabs.biosim.client.sensor.framework.gui.SensorViewer"
+malfunctionName="com.traclabs.biosim.client.framework.MalfunctionPanel"
+stochasticName="com.traclabs.biosim.client.framework.StochasticPanel"
+sensorName="com.traclabs.biosim.client.sensor.framework.SensorViewer"
 testName="TestBiosim"
 resourceDir="$devRootDir/resources"
 plotClasspath="$devRootDir/lib/jfreechart/jcommon.jar$separator$devRootDir/lib/jfreechart/jfreechart.jar"
@@ -58,11 +58,11 @@ help="-?"
 logviewer="logviewer"
 malfunction="malfunction"
 stochastic="stochastic"
+sensor="sensor"
 case $userSelect in
 	$malfunction) echo "			 -starting $userSelect";$jacoInvocation $malfunctionName $1 $2 $3 $4;;
 	$stochastic) echo "			 -starting $userSelect";$jacoInvocation $stochasticName $1 $2 $3 $4;;
 	$sensor) echo "			 -starting $userSelect";$jacoInvocation $sensorName;;
-	$test) echo "			 -starting $userSelect";$jacoInvocation $testName $1 $2 $3 $4;;
 	$help) echo "Usage: run-client.sh (-ga) (-debug) [console, gui, malfunction, stochastic, controller, unreal]";;
 	*) echo "			 -starting $userSelect";$jacoInvocation $mainName $1 $2 $3 $4;;
 esac
