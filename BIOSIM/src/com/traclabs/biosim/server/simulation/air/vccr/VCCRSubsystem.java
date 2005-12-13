@@ -22,6 +22,19 @@ public class VCCRSubsystem {
 
 	private float currentTemperature = initialTemperature;
 	
+	private float initialMoles = 0f;
+	
+	private float currentMoles = initialMoles;
+	
+	//in meters cubed
+	private float myVolume = 10f;
+	
+	//fluid density of dry air
+	private static final float FLUID_DENSITY = 1.29f;
+	private static final float DISCHARGE_COEFFICIENT = 0.98f;
+	private static final float PIPE_CROSS_SECTIONAL_AREA = 0.1f; //in meters
+	private static final float EFFLUENT_CROSS_SECTIONAL_AREA = 0.5f; // in meters
+	
 	private float volume = 1f;
 	
 	
@@ -64,34 +77,62 @@ public class VCCRSubsystem {
 
 	private static void equalizePressure(StoreFlowRateControllableImpl storeAttachment, VCCRSubsystem subsystem) {
 		float storePressure = calculatePressure(storeAttachment.getStores()[0]);
-		float gasDifference = Math.abs(subsystem.getPressure() - storePressure);
-		//put gas into store
+		float pressureDifference = Math.abs(subsystem.getPressure() - storePressure);
+		float massFlowrate = calculateMassFlowRate(pressureDifference);
+		float moleFlowrate = calculateMoleFlowrate(massFlowrate);
+		//add gas to store, take from subsystem
 		if (subsystem.getPressure() > storePressure){
-			//TODO
+			//TODO add to store
+			subsystem.takeMoles(moleFlowrate);
 		}
-		//take gas from store
+		//take gas from store, add to subsystem
 		else{
-			//TODO
+			//TODO take from store
+			subsystem.addMoles(moleFlowrate);
 		}
 	}
 
 	private static void equalizePressure(EnvironmentFlowRateControllableImpl environmentFlowRate, VCCRSubsystem subsystem) {
-		float gasDifference = Math.abs(subsystem.getPressure() - environmentFlowRate.getEnvironments()[0].getTotalPressure());
-		//put gas into environment
-		if (subsystem.getPressure() > environmentFlowRate.getEnvironments()[0].getTotalPressure()){
-			//TODO
+		float environmentPressure = environmentFlowRate.getEnvironments()[0].getTotalPressure();
+		float pressureDifference = Math.abs(subsystem.getPressure() - environmentPressure);
+		float massFlowrate = calculateMassFlowRate(pressureDifference);
+		float moleFlowrate = calculateMoleFlowrate(massFlowrate);
+		//add gas into environment, take from subsystem
+		if (subsystem.getPressure() > environmentPressure){
+			//TODO add to environment
+			subsystem.takeMoles(moleFlowrate);
 		}
-		//take gas from environment
-		else{
-			//TODO
+		//add gas to subsystem, take from environment
+		else {
+			//TODO take from environment
+			subsystem.addMoles(moleFlowrate);
 		}
 	}
 
 	private static void equalizePressure(VCCRSubsystem subsystem1, VCCRSubsystem subsystem2) {
-		//TODO right now just average them, in the future, should be slow rate increase
-		float average = (subsystem1.getPressure() + subsystem2.getPressure()) / 2f;
-		subsystem1.setPressure(average);
-		subsystem2.setPressure(average);
+		float pressureDifference = Math.abs(subsystem1.getPressure() - subsystem2.getPressure());
+		float massFlowrate = calculateMassFlowRate(pressureDifference);
+		float moleFlowrate = calculateMoleFlowrate(massFlowrate);
+		//add gas into subsystem2, take from subsystem 1
+		if (subsystem1.getPressure() > subsystem2.getPressure()){
+			subsystem1.takeMoles(moleFlowrate);
+			subsystem2.addMoles(moleFlowrate);
+		}
+		//add gas into subsystem1, take from subsystem 2
+		else{
+			subsystem2.takeMoles(moleFlowrate);
+			subsystem1.addMoles(moleFlowrate);
+		}
+	}
+
+	private void addMoles(float moleFlowrate) {
+		currentMoles -= moleFlowrate;
+		if (currentMoles < 0)
+			currentMoles = 0;
+	}
+
+	private void takeMoles(float moleFlowrate) {
+		currentMoles += moleFlowrate;
 	}
 
 	private void setPressure(float newPressure) {
@@ -100,6 +141,22 @@ public class VCCRSubsystem {
 
 	public void reset(){
 		currentPressure = initialPressure;
+	}
+	
+	private static float calculateMassFlowRate(float pressureDifference){
+		//taken from http://www.efunda.com/formulae/fluids/venturi_flowmeter.cfm
+		//basically Bernoulli's equation
+		double firstTerm = DISCHARGE_COEFFICIENT * Math.sqrt((2 * pressureDifference) / FLUID_DENSITY);
+		double secondTerm = EFFLUENT_CROSS_SECTIONAL_AREA / Math.sqrt(Math.pow((EFFLUENT_CROSS_SECTIONAL_AREA / PIPE_CROSS_SECTIONAL_AREA), 2) - 1);
+		double volumetricFlowrate = firstTerm * secondTerm;
+		double massFlowrate = volumetricFlowrate * FLUID_DENSITY;
+		return (float)massFlowrate * 3600f;
+	}
+	
+
+
+	private static float calculateMoleFlowrate(float massFlowrate) {
+		return 0;
 	}
 
 }
