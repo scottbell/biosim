@@ -22,9 +22,7 @@ public class VCCRSubsystem {
 
 	private float currentTemperature = initialTemperature;
 	
-	private float initialMoles = 0f;
-	
-	private float currentMoles = initialMoles;
+	private GasMoles myAirMoles;
 	
 	//in meters cubed
 	private float myVolume = 10f;
@@ -79,16 +77,15 @@ public class VCCRSubsystem {
 		float storePressure = calculatePressure(storeAttachment.getStores()[0]);
 		float pressureDifference = Math.abs(subsystem.getPressure() - storePressure);
 		float massFlowrate = calculateMassFlowRate(pressureDifference);
-		float moleFlowrate = calculateMoleFlowrate(massFlowrate);
 		//add gas to store, take from subsystem
 		if (subsystem.getPressure() > storePressure){
 			//TODO add to store
-			subsystem.takeMoles(moleFlowrate);
+			subsystem.take(Air);
 		}
 		//take gas from store, add to subsystem
 		else{
 			//TODO take from store
-			subsystem.addMoles(moleFlowrate);
+			subsystem.add(moleFlowrate);
 		}
 	}
 
