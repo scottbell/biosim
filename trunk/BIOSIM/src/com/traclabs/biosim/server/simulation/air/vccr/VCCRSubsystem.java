@@ -80,12 +80,12 @@ public class VCCRSubsystem {
 		//add gas to store, take from subsystem
 		if (subsystem.getPressure() > storePressure){
 			//TODO add to store
-			subsystem.take(Air);
+			//subsystem.take(Air);
 		}
 		//take gas from store, add to subsystem
 		else{
 			//TODO take from store
-			subsystem.add(moleFlowrate);
+			//subsystem.add(moleFlowrate);
 		}
 	}
 
@@ -97,12 +97,12 @@ public class VCCRSubsystem {
 		//add gas into environment, take from subsystem
 		if (subsystem.getPressure() > environmentPressure){
 			//TODO add to environment
-			subsystem.takeMoles(moleFlowrate);
+			//subsystem.takeMoles(moleFlowrate);
 		}
 		//add gas to subsystem, take from environment
 		else {
 			//TODO take from environment
-			subsystem.addMoles(moleFlowrate);
+			//subsystem.addMoles(moleFlowrate);
 		}
 	}
 
@@ -112,24 +112,20 @@ public class VCCRSubsystem {
 		float moleFlowrate = calculateMoleFlowrate(massFlowrate);
 		//add gas into subsystem2, take from subsystem 1
 		if (subsystem1.getPressure() > subsystem2.getPressure()){
-			subsystem1.takeMoles(moleFlowrate);
-			subsystem2.addMoles(moleFlowrate);
+			//subsystem1.takeMoles(moleFlowrate);
+			//subsystem2.addMoles(moleFlowrate);
 		}
 		//add gas into subsystem1, take from subsystem 2
 		else{
-			subsystem2.takeMoles(moleFlowrate);
-			subsystem1.addMoles(moleFlowrate);
+			//subsystem2.takeMoles(moleFlowrate);
+			//subsystem1.addMoles(moleFlowrate);
 		}
 	}
 
-	private void addMoles(float moleFlowrate) {
-		currentMoles -= moleFlowrate;
-		if (currentMoles < 0)
-			currentMoles = 0;
+	private void add(float moleFlowrate) {
 	}
 
-	private void takeMoles(float moleFlowrate) {
-		currentMoles += moleFlowrate;
+	private void take(float moleFlowrate) {
 	}
 
 	private void setPressure(float newPressure) {
