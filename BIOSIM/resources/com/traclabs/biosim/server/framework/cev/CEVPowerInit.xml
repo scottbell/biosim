@@ -3,13 +3,11 @@
 	<Globals crewsToWatch="Crew" runTillCrewDeath="true" tickLength="1" runTillN="1000">
 		<comment>
 			This is the CEV power initialization.
-			It is on a 30 second time step and runs for 30 minutes.
 			It has the following modules:
-				A 3 person crew.
-				2 oxygen tanks (main and reservoir)
-				An cabin for the crew.
-				A valve alternating oxygen flow to the crew.
-			A malfunction happens at 5 minutes into the mission
+				A 6 person crew.
+				1 oxygen tank
+				1 VCCR
+				A cabin for the crew.
 		</comment>
 		<author>Scott Bell</author>
 		<!-- <log4jProperty name="log4j.logger.com.traclabs.biosim.server.simulation.crew" value="DEBUG"/> -->
@@ -18,13 +16,14 @@
 		<air>
 			<O2Store moduleName="O2Store" capacity="2000" level="2000"/>
 			<CO2Store moduleName="DumpedCO2" capacity="20000" level="0"/>
-			<VCCR moduleName="VCCR">
+			<VCCR moduleName="VCCR" implementation="LINEAR">
 				<airConsumer desiredFlowRates="10000" maxFlowRates="10000" inputs="CrewEnvironment"/>	
 				<airProducer desiredFlowRates="100" maxFlowRates="100" outputs="CrewEnvironment"/>
 				<CO2Producer desiredFlowRates="100" maxFlowRates="100" outputs="DumpedCO2"/>
 				<powerConsumer desiredFlowRates="70000" maxFlowRates="70000" inputs="FuelCells"/>
 			</VCCR>
-		</air><power>
+		</air>
+		<power>
             <PowerPS moduleName="FuelCell 1">
                 <powerProducer desiredFlowRates="0.0" maxFlowRates="0.0" outputs="PowerStore0"/>
             </PowerPS>
@@ -65,6 +64,24 @@
 						<activity name="sleep" length="8" intensity="1"/>
 					</schedule>
 				</crewPerson>
+				<crewPerson name="Fred Fredrickson" age="32" weight="70" sex="MALE">
+					<schedule>
+						<activity name="mission" length="16" intensity="2"/>
+						<activity name="sleep" length="8" intensity="1"/>
+					</schedule>
+				</crewPerson>
+				<crewPerson name="Leslie Leslon" age="34" weight="55" sex="FEMALE">
+					<schedule>
+						<activity name="mission" length="16" intensity="2"/>
+						<activity name="sleep" length="8" intensity="1"/>
+					</schedule>
+				</crewPerson>
+				<crewPerson name="Bob Roberts" age="40" weight="75" sex="MALE">
+					<schedule>
+						<activity name="mission" length="16" intensity="2"/>
+						<activity name="sleep" length="8" intensity="1"/>
+					</schedule>
+				</crewPerson>
 			</CrewGroup>
 		</crew>
 		<environment>
@@ -85,7 +102,7 @@
 		</framework>
 		<water>
 			<PotableWaterStore moduleName="PotableWaterStore" capacity="100" level="100"/>
-			<GreyWaterStore moduleName="GreyWaterStore" capacity="100" level="0"/>
+			<GreyWaterStore moduleName="GreyWaterStore" capacity="0" level="0"/>
 			<DirtyWaterStore moduleName="DirtyWaterStore" capacity="100" level="0"/>
 		</water>
 		<waste>
