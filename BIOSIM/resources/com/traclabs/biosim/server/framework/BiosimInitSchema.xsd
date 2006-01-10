@@ -12,6 +12,10 @@
 		<xsd:list itemType="xsd:string"/>
 	</xsd:simpleType>
 	
+	<xsd:simpleType name="booleanList">
+		<xsd:list itemType="xsd:boolean"/>
+	</xsd:simpleType>
+	
 	<xsd:simpleType name="nonNegativeFloat">
 		<xsd:restriction base="xsd:float">
 			<xsd:minInclusive value="0"/>
@@ -129,6 +133,8 @@
 						<xsd:choice minOccurs="0" maxOccurs="unbounded">
 							<xsd:element name="PowerPS" type="PowerPSType"/>
 							<xsd:element name="PowerStore" type="PowerStoreType"/>
+							<xsd:element name="GenericPowerConsumer" type="GenericPowerConsumerType"/>
+							<xsd:element name="RPCM" type="RPCMType"/>
 						</xsd:choice>
 					</xsd:sequence>
 				</xsd:complexType>
@@ -1019,6 +1025,33 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	
+	
+	<xsd:complexType name="GenericPowerConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:sequence>
+					<xsd:choice minOccurs="1" maxOccurs="1">
+						<xsd:element name="powerConsumer" type="PowerConsumerType"/>
+					</xsd:choice>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="RPCMType">  
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:sequence>
+					<xsd:choice minOccurs="2" maxOccurs="2">
+						<xsd:element name="powerConsumer" type="PowerConsumerType"/>
+						<xsd:element name="powerProducer" type="PowerProducerType"/>
+					</xsd:choice>
+				</xsd:sequence>
+				<xsd:attribute name="switchValues" type="booleanList" use="optional"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
 	<xsd:complexType name="WaterRSType">  
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
@@ -1030,7 +1063,6 @@
 						<xsd:element name="potableWaterProducer" type="PotableWaterProducerType"/>
 					</xsd:choice>
 				</xsd:sequence>
-				<!--<xsd:attribute name="operationMode" type="WaterRSOperationMode" default="FULL"/> !-->
 				<xsd:attribute name="implementation" type="WaterRSImplementationType" default="LINEAR"/>
 			</xsd:extension>
 		</xsd:complexContent>

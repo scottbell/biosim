@@ -574,7 +574,7 @@ module com{
                                                 		boolean isOverTripped();
                                                 		boolean isUnderTripped();
                                                 		BooleanList getSwitchStatuses();
-                                                		void setSwtichStatuses(in BooleanList switchStatuses);
+                                                		void setSwitches(in BooleanList switchStatuses);
                                                 };
                                                 interface PowerStore : framework::Store{
                                                 };

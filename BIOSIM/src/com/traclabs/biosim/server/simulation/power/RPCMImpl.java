@@ -22,9 +22,10 @@ public class RPCMImpl extends SimBioModuleImpl implements RPCMOperations,
     private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
 
 	
-	protected RPCMImpl(int pID, String pName) {
+	public RPCMImpl(int pID, String pName) {
 		super(pID, pName);
-		// TODO Auto-generated constructor stub
+        myPowerProducerDefinitionImpl = new PowerProducerDefinitionImpl();
+        myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl();
 	}
 
 	public boolean isOverTripped() {
@@ -42,7 +43,7 @@ public class RPCMImpl extends SimBioModuleImpl implements RPCMOperations,
 		return null;
 	}
 
-	public void setSwtichStatuses(boolean[] switchStatuses) {
+	public void setSwitches(boolean[] switchStatuses) {
 		// TODO Auto-generated method stub
 
 	}

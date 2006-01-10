@@ -33,6 +33,13 @@
             <PowerPS moduleName="FuelCell 3">
                 <powerProducer desiredFlowRates="0.0" maxFlowRates="0.0" outputs="PowerStore2"/>
             </PowerPS>
+			<GenericPowerConsumer moduleName="Cabin Lights">
+				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="PowerStore0"/>
+			</GenericPowerConsumer>
+			<RPCM moduleName="RPCM 1">
+				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="PowerStore0"/>
+				<powerProducer desiredFlowRates="10" maxFlowRates="10" outputs="PowerStore0"/>
+			</RPCM>
             <PowerStore capacity="100.0" level="100.0" moduleName="PowerStore0"/>
             <PowerStore capacity="100.0" level="100.0" moduleName="PowerStore1"/>
             <PowerStore capacity="100.0" level="100.0" moduleName="PowerStore2"/>
