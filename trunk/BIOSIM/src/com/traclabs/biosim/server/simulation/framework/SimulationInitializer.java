@@ -91,6 +91,9 @@ import com.traclabs.biosim.idl.simulation.framework.InjectorHelper;
 import com.traclabs.biosim.idl.simulation.framework.InjectorPOATie;
 import com.traclabs.biosim.idl.simulation.framework.PassiveModule;
 import com.traclabs.biosim.idl.simulation.framework.SimBioModule;
+import com.traclabs.biosim.idl.simulation.power.GenericPowerConsumer;
+import com.traclabs.biosim.idl.simulation.power.GenericPowerConsumerHelper;
+import com.traclabs.biosim.idl.simulation.power.GenericPowerConsumerPOATie;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumer;
 import com.traclabs.biosim.idl.simulation.power.PowerPS;
 import com.traclabs.biosim.idl.simulation.power.PowerPSHelper;
@@ -99,6 +102,9 @@ import com.traclabs.biosim.idl.simulation.power.PowerProducer;
 import com.traclabs.biosim.idl.simulation.power.PowerStore;
 import com.traclabs.biosim.idl.simulation.power.PowerStoreHelper;
 import com.traclabs.biosim.idl.simulation.power.PowerStorePOATie;
+import com.traclabs.biosim.idl.simulation.power.RPCM;
+import com.traclabs.biosim.idl.simulation.power.RPCMHelper;
+import com.traclabs.biosim.idl.simulation.power.RPCMPOATie;
 import com.traclabs.biosim.idl.simulation.waste.DryWasteConsumer;
 import com.traclabs.biosim.idl.simulation.waste.DryWasteProducer;
 import com.traclabs.biosim.idl.simulation.waste.DryWasteStore;
@@ -150,9 +156,11 @@ import com.traclabs.biosim.server.simulation.food.BiomassPSImpl;
 import com.traclabs.biosim.server.simulation.food.BiomassStoreImpl;
 import com.traclabs.biosim.server.simulation.food.FoodProcessorImpl;
 import com.traclabs.biosim.server.simulation.food.FoodStoreImpl;
+import com.traclabs.biosim.server.simulation.power.GenericPowerConsumerImpl;
 import com.traclabs.biosim.server.simulation.power.NuclearPowerPS;
 import com.traclabs.biosim.server.simulation.power.PowerPSImpl;
 import com.traclabs.biosim.server.simulation.power.PowerStoreImpl;
+import com.traclabs.biosim.server.simulation.power.RPCMImpl;
 import com.traclabs.biosim.server.simulation.power.SolarPowerPS;
 import com.traclabs.biosim.server.simulation.waste.DryWasteStoreImpl;
 import com.traclabs.biosim.server.simulation.waste.IncineratorImpl;
@@ -212,6 +220,24 @@ public class SimulationInitializer {
             }
             child = child.getNextSibling();
         }
+    }
+    
+    private static boolean[] getSwitchValues(Node node) {
+        if (node == null)
+            return new boolean[0];
+        String arrayString = node.getAttributes().getNamedItem("switchValues")
+                .getNodeValue();
+        String[] tokens = arrayString.split("\\s");
+        boolean[] switchValues = new boolean[tokens.length];
+
+        for (int i = 0; i < tokens.length; i++) {
+            try {
+            	switchValues[i] = Boolean.parseBoolean(tokens[i]);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+        return switchValues;
     }
 
     private static float getStoreLevel(Node node) {
@@ -1466,6 +1492,47 @@ public class SimulationInitializer {
         configureSimBioModule(myPowerPS, node);
         myActiveSimModules.add(myPowerPS);
     }
+    
+    private void createGenericPowerConsumer(Node node) {
+        String moduleName = BiosimInitializer.getModuleName(node);
+        if (BiosimInitializer.isCreatedLocally(node)) {
+            myLogger.debug("Creating Generic Power Consumer with moduleName: " + moduleName);
+            GenericPowerConsumerImpl myGenericPowerConsumerImpl = null;
+            myGenericPowerConsumerImpl = new GenericPowerConsumerImpl(myID, moduleName);
+            BiosimInitializer.setupBioModule(myGenericPowerConsumerImpl, node);
+            BiosimServer.registerServer(new GenericPowerConsumerPOATie(myGenericPowerConsumerImpl),
+            		myGenericPowerConsumerImpl.getModuleName(), myGenericPowerConsumerImpl.getID());
+        } else
+            BiosimInitializer.printRemoteWarningMessage(moduleName);
+    }
+
+    private void configureGenericPowerConsumer(Node node) {
+    	GenericPowerConsumer myGenericPowerConsumer = GenericPowerConsumerHelper.narrow(BiosimInitializer.grabModule(
+                myID, BiosimInitializer.getModuleName(node)));
+        configureSimBioModule(myGenericPowerConsumer, node);
+        myActiveSimModules.add(myGenericPowerConsumer);
+    }
+    
+    private void createRPCM(Node node) {
+        String moduleName = BiosimInitializer.getModuleName(node);
+        if (BiosimInitializer.isCreatedLocally(node)) {
+            myLogger.debug("Creating RPCM with moduleName: " + moduleName);
+            RPCMImpl myRPCMImpl = null;
+            myRPCMImpl = new RPCMImpl(myID, moduleName);
+            myRPCMImpl.setSwitches(getSwitchValues(node));
+            BiosimInitializer.setupBioModule(myRPCMImpl, node);
+            BiosimServer.registerServer(new RPCMPOATie(myRPCMImpl),
+            		myRPCMImpl.getModuleName(), myRPCMImpl.getID());
+        } else
+            BiosimInitializer.printRemoteWarningMessage(moduleName);
+    }
+
+    private void configureRPCM(Node node) {
+    	RPCM myRPCM = RPCMHelper.narrow(BiosimInitializer.grabModule(
+                myID, BiosimInitializer.getModuleName(node)));
+        configureSimBioModule(myRPCM, node);
+        myActiveSimModules.add(myRPCM);
+    }
 
     private void createPowerStore(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
@@ -1490,7 +1557,20 @@ public class SimulationInitializer {
                     createPowerPS(child);
                 else
                     configurePowerPS(child);
-            } else if (childName.equals("PowerStore")) {
+            }
+            else if (childName.equals("GenericPowerConsumer")) {
+                if (firstPass)
+                	createGenericPowerConsumer(child);
+                else
+                    configureGenericPowerConsumer(child);
+            } 
+            else if (childName.equals("RPCM")) {
+                if (firstPass)
+                	createRPCM(child);
+                else
+                    configureRPCM(child);
+            }
+            else if (childName.equals("PowerStore")) {
                 if (firstPass)
                     createPowerStore(child);
                 else
