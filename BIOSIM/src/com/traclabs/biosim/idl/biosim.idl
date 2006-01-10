@@ -5,6 +5,7 @@ module com{
                         module idl{
                                 typedef sequence <string> StringList;
                                 typedef sequence <float> FloatList;
+                                typedef sequence <boolean> BooleanList;
                                 module simulation{
                                         module power{
                                                 interface PowerPS;
@@ -566,6 +567,14 @@ module com{
                                                         void setCurrentUpperPowerGeneration(in float pUpperPowerGenerationInWatts);
                                                         float getInitialUpperPowerGeneration();
                                                         void setInitialUpperPowerGeneration(in float pUpperPowerGenerationInWatts);
+                                                };
+                                                interface GenericPowerConsumer : framework::SimBioModule, power::PowerConsumer{
+                                                };
+                                                interface RPCM : framework::SimBioModule, power::PowerConsumer, power::PowerProducer{
+                                                		boolean isOverTripped();
+                                                		boolean isUnderTripped();
+                                                		BooleanList getSwitchStatuses();
+                                                		void setSwtichStatuses(in BooleanList switchStatuses);
                                                 };
                                                 interface PowerStore : framework::Store{
                                                 };
