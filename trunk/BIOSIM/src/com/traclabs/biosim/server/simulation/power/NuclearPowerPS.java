@@ -11,7 +11,7 @@ public class NuclearPowerPS extends PowerPSImpl {
         super(pID, pName);
     }
 
-    float calculatePowerProduced() {
+    protected float calculatePowerProduced() {
         //Constant steady stream of power
         return randomFilter(getTickLength() * getCurrentUpperPowerGeneration());
     }

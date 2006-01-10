@@ -14,7 +14,7 @@ public class SolarPowerPS extends PowerPSImpl {
         super(pID, pName);
     }
 
-    float calculatePowerProduced() {
+    protected float calculatePowerProduced() {
         SimEnvironment lightInput = getLightConsumerDefinition()
                 .getEnvironments()[0];
         //Varying stream of power

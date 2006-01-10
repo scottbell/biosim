@@ -100,7 +100,7 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements
         currentPowerProduced *= productionRate;
     }
 
-    abstract float calculatePowerProduced();
+    protected abstract float calculatePowerProduced();
 
     /**
      * Reset does nothing right now
