@@ -20,23 +20,23 @@
 				<airConsumer desiredFlowRates="10000" maxFlowRates="10000" inputs="CrewEnvironment"/>	
 				<airProducer desiredFlowRates="100" maxFlowRates="100" outputs="CrewEnvironment"/>
 				<CO2Producer desiredFlowRates="100" maxFlowRates="100" outputs="DumpedCO2"/>
-				<powerConsumer desiredFlowRates="70000" maxFlowRates="70000" inputs="FuelCells"/>
+				<powerConsumer desiredFlowRates="70000" maxFlowRates="70000" inputs="PowerStore0"/>
 			</VCCR>
 		</air>
 		<power>
-            <PowerPS moduleName="FuelCell 1">
+            <PowerPS moduleName="FuelCell1">
                 <powerProducer desiredFlowRates="0.0" maxFlowRates="0.0" outputs="PowerStore0"/>
             </PowerPS>
-            <PowerPS moduleName="FuelCell 2">
+            <PowerPS moduleName="FuelCell2">
             	<powerProducer desiredFlowRates="0.0" maxFlowRates="0.0" outputs="PowerStore1"/>
            	</PowerPS>
-            <PowerPS moduleName="FuelCell 3">
+            <PowerPS moduleName="FuelCell3">
                 <powerProducer desiredFlowRates="0.0" maxFlowRates="0.0" outputs="PowerStore2"/>
             </PowerPS>
-			<GenericPowerConsumer moduleName="Cabin Lights">
+			<GenericPowerConsumer moduleName="CabinLights">
 				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="PowerStore0"/>
 			</GenericPowerConsumer>
-			<RPCM moduleName="RPCM 1">
+			<RPCM moduleName="RPCM1">
 				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="PowerStore0"/>
 				<powerProducer desiredFlowRates="10" maxFlowRates="10" outputs="PowerStore0"/>
 			</RPCM>

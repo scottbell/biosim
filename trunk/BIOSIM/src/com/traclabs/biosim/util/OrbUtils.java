@@ -137,7 +137,6 @@ public class OrbUtils {
         } catch (Exception e) {
             Logger.getLogger(OrbUtils.class).info(
                     "Had problems getting naming context " + e);
-            e.printStackTrace();
         }
     }
 
@@ -192,7 +191,6 @@ public class OrbUtils {
         } catch (Exception e) {
             Logger.getLogger(OrbUtils.class).info(
                     "nameserver not found, polling again: " + e);
-            e.printStackTrace();
             myOrb = null;
             myRootPOA = null;
             myRootContext = null;
