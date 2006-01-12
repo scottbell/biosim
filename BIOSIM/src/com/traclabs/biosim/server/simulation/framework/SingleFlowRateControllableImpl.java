@@ -63,4 +63,22 @@ public abstract class SingleFlowRateControllableImpl extends
     public void setActualFlowRates(float[] pActualFlowRates) {
         myActualFlowRates = pActualFlowRates;
     }
+    
+    public int getFlowRateCardinality(){
+    	return myActualFlowRates.length;
+    }
+    
+    public float getTotalMaxFlowRate(){
+    	float totalMaxFlowRate = 0;
+    	for (float maxFlowRate : myMaxFlowRates)
+    		totalMaxFlowRate += maxFlowRate;
+    	return totalMaxFlowRate;
+    }
+    
+    public float getTotalDesiredFlowRate(){
+    	float totalDesiredFlowRate = 0;
+    	for (float maxFlowRate : myDesiredFlowRates)
+    		totalDesiredFlowRate += maxFlowRate;
+    	return totalDesiredFlowRate;
+    }
 }

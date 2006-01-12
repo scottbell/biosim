@@ -225,8 +225,10 @@ public class SimulationInitializer {
     private static boolean[] getSwitchValues(Node node) {
         if (node == null)
             return new boolean[0];
-        String arrayString = node.getAttributes().getNamedItem("switchValues")
-                .getNodeValue();
+        Node switchValueNode = node.getAttributes().getNamedItem("switchValues");
+        if (switchValueNode == null)
+        	return new boolean[0];
+        String arrayString = switchValueNode.getNodeValue();
         String[] tokens = arrayString.split("\\s");
         boolean[] switchValues = new boolean[tokens.length];
 
@@ -657,6 +659,7 @@ public class SimulationInitializer {
                         myID).resolve_str(inputNames[i]));
                 myLogger.debug("Fetched " + inputs[i].getModuleName());
             } catch (org.omg.CORBA.UserException e) {
+                myLogger.error("Couldn't find module "+inputNames[i]+" referenced for input in configuration file");
                 e.printStackTrace();
             }
         }
@@ -676,6 +679,8 @@ public class SimulationInitializer {
                         myID).resolve_str(outputNames[i]));
                 myLogger.debug("Fetched " + outputs[i].getModuleName());
             } catch (org.omg.CORBA.UserException e) {
+            	myLogger.error("Couldn't find module "+outputNames[i]+" referenced for output in configuration file");
+                
                 e.printStackTrace();
             }
         }
