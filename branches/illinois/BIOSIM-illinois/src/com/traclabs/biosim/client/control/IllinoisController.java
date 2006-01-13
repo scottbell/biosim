@@ -37,6 +37,13 @@ public class IllinoisController {
 		myController.runSim();
 	}
 
+	/**
+	 * Collects references to BioModules we'll need
+	 * to run/observer/poke the sim.  The BioHolder is 
+	 * a utility for clients to easily access different parts 
+	 * of BioSim.
+	 *
+	 */
 	private void collectReferences() {
 		myBioHolder = BioHolderInitializer.getBioHolder();
 		myBioDriver = myBioHolder.theBioDriver;
@@ -52,16 +59,34 @@ public class IllinoisController {
 				myBioHolder.theGasConcentrationSensors, crewEnvironment
 						.getO2Store()));
 	}
-
+	
+	/**
+	 * Main loop of controller.  Pauses the simulation, then
+	 * ticks it one tick at a time until end condition is met.
+	 */
 	public void runSim() {
 		myBioDriver.setPauseSimulation(true);
 		myBioDriver.startSimulation();
 		myLogger.info("Controller starting run");
-		while (!myBioDriver.isDone())
+		while (!endConditionMet())
 			stepSim();
+		//if we get here, the end condition has been met
+		myBioDriver.endSimulation();
 		myLogger.info("Controller ended on tick " + myBioDriver.getTicks());
 	}
+	
+	/**
+	 * If the oxygen in the cabin drifts below 10%, stop the sim.
+	 */
+	private boolean endConditionMet() {
+		float oxygenPercentage = myO2ConcentrationSensor.getValue();
+		return (oxygenPercentage < 0.10);
+	}
 
+	/**
+	 * Executed every tick.  Looks at a sensor, looks at an actuator,
+	 * then increments the actuator.
+	 */
 	public void stepSim() {
 		//check sensor
 		float sensorValue = myO2ConcentrationSensor.getValue();
