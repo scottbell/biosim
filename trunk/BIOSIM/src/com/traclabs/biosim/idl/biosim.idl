@@ -425,6 +425,7 @@ module com{
                                                 		EnvironmentNitrogenStore getNitrogenStore();
                                                         void setInitialVolume(in float pInitialCO2Moles, in float pInitialO2Moles, in float pInitialOtherMoles, in float pInitialWaterMoles, in float pInitialNitrogenMoles, in float pInitialVolume);
                                                         void setInitialVolumeAtSeaLevel(in float pInitialVolume);
+                                                        void setCurrentVolumeAtSeaLevel(in float pInitialVolume);
                                                         float getInitialVolume();
                                                         float getCurrentVolume();
                                                         float getTotalPressure();
