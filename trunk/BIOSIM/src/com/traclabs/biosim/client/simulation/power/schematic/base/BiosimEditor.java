@@ -53,7 +53,6 @@ public class BiosimEditor extends Editor {
         if (d != null && d instanceof EditorDocument) {
             EditorDocument newDoc = (EditorDocument) d;
             newDoc.addEditor(this);
-            newDoc.updateTitles();
             super.document(newDoc);
             showRoot();
         } else {

@@ -8,11 +8,6 @@
  */
 package com.traclabs.biosim.client.simulation.power.schematic.base;
 
-import java.awt.Frame;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.Reader;
 import java.util.Enumeration;
 import java.util.Vector;
 
@@ -21,8 +16,6 @@ import org.tigris.gef.presentation.Fig;
 
 import com.traclabs.biosim.client.simulation.power.schematic.graph.EditorGraphModel;
 import com.traclabs.biosim.client.simulation.power.schematic.graph.FigModuleNode;
-import com.traclabs.biosim.client.simulation.power.schematic.xml.EditorParser;
-import com.traclabs.biosim.client.simulation.power.schematic.xml.EditorWriter;
 
 /**
  * EditorDocument represents a document which contains a hierachy of nested editor
@@ -44,39 +37,17 @@ public class EditorDocument {
 
     /** The filename for the document set when it is opened or saved */
     protected Vector<BiosimEditor> _editors = new Vector<BiosimEditor>();
-    
-    private EditorWriter myEditorWriter;
-
-    /** The url for the document set when it is opened or saved */
-    File _file;
-
-    /** Reader for this document. */
-    EditorParser _reader;
-
-    /** Writer for this document. */
-    EditorWriter _writer;
-
+ 
     public EditorDocument() {
         this(new EditorLayer("Root"));
     }
 
-    public EditorDocument(EditorLayer root, File file) {
-        this(root);
-        setFile(file);
-    }
-
     public EditorDocument(EditorLayer root) {
         setRoot(root);
-        _reader = createReader();
-        myEditorWriter = new EditorWriter(this);
     }
 
     public EditorDocument(EditorGraphModel model) {
         this(new EditorLayer(model));
-    }
-
-    public EditorDocument(EditorGraphModel model, File file) {
-        this(new EditorLayer(model), file);
     }
 
     private void setRoot(EditorLayer root) {
@@ -93,29 +64,6 @@ public class EditorDocument {
 
     public void setModified(boolean modified) {
         _modifiedFlag = modified;
-    }
-
-    public File getFile() {
-        return _file;
-    }
-
-    public void setFile(File file) {
-        _file = file;
-        updateTitles();
-    }
-
-    public void updateTitles() {
-        String title = "";
-        if (_file != null) {
-            title = _file.getPath();
-        }
-        for (Enumeration e = _editors.elements(); e.hasMoreElements();) {
-            BiosimEditor ed = (BiosimEditor) e.nextElement();
-            Frame frame = ed.findFrame();
-            if (frame != null) {
-                frame.setTitle(getAppName() + " - " + title);
-            }
-        }
     }
 
     public Vector getEditors() {
@@ -160,38 +108,8 @@ public class EditorDocument {
         return "Biosim Editor";
     }
 
-    public EditorParser createReader() {
-        return EditorParser.SINGLETON;
-    }
 
-    /**
-     * Saves the document to the specified file starting at the root diagram.
-     */
-    public void saveDocument(File file) throws Exception {
-        onSaveDocument(file);
-        setFile(file); // assign the filename
-        setModified(false);
-    }
 
-    protected void onSaveDocument(File file){
-        myEditorWriter.saveDocument(file);
-    }
-
-    public void openDocument(File file) throws Exception {
-        onOpenDocument(file);
-        setFile(file);
-        setModified(false);
-    }
-
-    protected void onOpenDocument(File file) throws Exception {
-        Reader in = new BufferedReader(new FileReader(file));
-        _reader.openDocument(in, this);
-    }
-
-    public void pasteSelections(File file, BiosimEditor editor) throws Exception {
-        Reader in = new BufferedReader(new FileReader(file));
-        _reader.pasteSelections(in, editor);
-    }
 
     /** Generate the document tag bases on application name. */
     public String getDocumentTag() {
