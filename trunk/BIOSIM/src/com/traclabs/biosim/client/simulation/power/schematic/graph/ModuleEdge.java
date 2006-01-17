@@ -9,7 +9,7 @@ import org.tigris.gef.base.Layer;
 import org.tigris.gef.graph.presentation.NetEdge;
 import org.tigris.gef.presentation.FigEdge;
 
-import com.traclabs.biosim.client.simulation.power.schematic.graph.environment.SimEnvironmentNode;
+import com.traclabs.biosim.editor.graph.environment.SimEnvironmentNode;
 import com.traclabs.biosim.idl.simulation.environment.StoreEnvironmentProducerOperations;
 import com.traclabs.biosim.idl.simulation.framework.SingleFlowRateControllable;
 import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;

@@ -5,8 +5,8 @@
 package com.traclabs.biosim.client.simulation.power.schematic.ui;
 
 import com.traclabs.biosim.client.simulation.power.schematic.base.CmdCreateModuleNode;
-import com.traclabs.biosim.client.simulation.power.schematic.graph.framework.AccumulatorNode;
-import com.traclabs.biosim.client.simulation.power.schematic.graph.framework.InjectorNode;
+import com.traclabs.biosim.editor.graph.framework.AccumulatorNode;
+import com.traclabs.biosim.editor.graph.framework.InjectorNode;
 
 /**
  * @author scott

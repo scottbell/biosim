@@ -5,7 +5,7 @@
 package com.traclabs.biosim.client.simulation.power.schematic.ui;
 
 import com.traclabs.biosim.client.simulation.power.schematic.base.CmdCreateModuleNode;
-import com.traclabs.biosim.client.simulation.power.schematic.graph.environment.SimEnvironmentNode;
+import com.traclabs.biosim.editor.graph.environment.SimEnvironmentNode;
 
 /**
  * @author scott

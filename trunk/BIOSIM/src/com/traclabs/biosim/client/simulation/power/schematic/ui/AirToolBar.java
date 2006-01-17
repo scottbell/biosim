@@ -1,14 +1,14 @@
 package com.traclabs.biosim.client.simulation.power.schematic.ui;
 
 import com.traclabs.biosim.client.simulation.power.schematic.base.CmdCreateModuleNode;
-import com.traclabs.biosim.client.simulation.power.schematic.graph.air.CO2StoreNode;
-import com.traclabs.biosim.client.simulation.power.schematic.graph.air.CRSNode;
-import com.traclabs.biosim.client.simulation.power.schematic.graph.air.H2StoreNode;
-import com.traclabs.biosim.client.simulation.power.schematic.graph.air.MethaneStoreNode;
-import com.traclabs.biosim.client.simulation.power.schematic.graph.air.NitrogenStoreNode;
-import com.traclabs.biosim.client.simulation.power.schematic.graph.air.O2StoreNode;
-import com.traclabs.biosim.client.simulation.power.schematic.graph.air.OGSNode;
-import com.traclabs.biosim.client.simulation.power.schematic.graph.air.VCCRNode;
+import com.traclabs.biosim.editor.graph.air.CO2StoreNode;
+import com.traclabs.biosim.editor.graph.air.CRSNode;
+import com.traclabs.biosim.editor.graph.air.H2StoreNode;
+import com.traclabs.biosim.editor.graph.air.MethaneStoreNode;
+import com.traclabs.biosim.editor.graph.air.NitrogenStoreNode;
+import com.traclabs.biosim.editor.graph.air.O2StoreNode;
+import com.traclabs.biosim.editor.graph.air.OGSNode;
+import com.traclabs.biosim.editor.graph.air.VCCRNode;
 
 /**
  * @author scott

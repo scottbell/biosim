@@ -5,8 +5,8 @@
 package com.traclabs.biosim.client.simulation.power.schematic.ui;
 
 import com.traclabs.biosim.client.simulation.power.schematic.base.CmdCreateModuleNode;
-import com.traclabs.biosim.client.simulation.power.schematic.graph.waste.DryWasteStoreNode;
-import com.traclabs.biosim.client.simulation.power.schematic.graph.waste.IncineratorNode;
+import com.traclabs.biosim.editor.graph.waste.DryWasteStoreNode;
+import com.traclabs.biosim.editor.graph.waste.IncineratorNode;
 
 /**
  * @author scott
