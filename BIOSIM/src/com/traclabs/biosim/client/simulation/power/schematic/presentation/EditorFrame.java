@@ -53,15 +53,10 @@ import org.tigris.gef.util.ResourceLoader;
 
 import com.traclabs.biosim.client.framework.BioFrame;
 import com.traclabs.biosim.client.simulation.power.schematic.base.BiosimEditor;
-import com.traclabs.biosim.client.simulation.power.schematic.base.CmdNewEditor;
-import com.traclabs.biosim.client.simulation.power.schematic.base.CmdOpenEditor;
-import com.traclabs.biosim.client.simulation.power.schematic.base.CmdSaveAsEditor;
-import com.traclabs.biosim.client.simulation.power.schematic.base.CmdSaveEditor;
 import com.traclabs.biosim.client.simulation.power.schematic.base.CmdTreeLayout;
 import com.traclabs.biosim.client.simulation.power.schematic.base.CmdZoomTo;
 import com.traclabs.biosim.client.simulation.power.schematic.base.EditorCmdCopy;
 import com.traclabs.biosim.client.simulation.power.schematic.base.EditorCmdCut;
-import com.traclabs.biosim.client.simulation.power.schematic.base.EditorCmdPaste;
 import com.traclabs.biosim.client.simulation.power.schematic.base.EditorCmdSpawn;
 import com.traclabs.biosim.client.simulation.power.schematic.base.EditorCmdZoom;
 import com.traclabs.biosim.client.simulation.power.schematic.base.EditorDocument;
@@ -74,6 +69,7 @@ import com.traclabs.biosim.client.simulation.power.schematic.ui.MainToolBar;
 import com.traclabs.biosim.client.simulation.power.schematic.ui.PowerToolBar;
 import com.traclabs.biosim.client.simulation.power.schematic.ui.WasteToolBar;
 import com.traclabs.biosim.client.simulation.power.schematic.ui.WaterToolBar;
+import com.traclabs.biosim.editor.base.EditorCmdPaste;
 
 public class EditorFrame extends BioFrame {
     private BiosimEditor myEditor;
@@ -290,32 +286,6 @@ public class EditorFrame extends BioFrame {
         JMenu file = new JMenu("File");
         file.setMnemonic('F');
         myMenuBar.add(file);
-
-        // Create the New menu item.
-        JMenuItem newItem = file.add(new CmdNewEditor());
-        newItem.setMnemonic('N');
-        KeyStroke ctrlN = KeyStroke.getKeyStroke(KeyEvent.VK_N,
-                KeyEvent.CTRL_MASK);
-        newItem.setAccelerator(ctrlN);
-        file.add(newItem);
-
-        // Create the Open menu item.
-        JMenuItem openItem = file.add(new CmdOpenEditor());
-        openItem.setMnemonic('O');
-        KeyStroke ctrlO = KeyStroke.getKeyStroke(KeyEvent.VK_O,
-                KeyEvent.CTRL_MASK);
-        openItem.setAccelerator(ctrlO);
-
-        // Create the Save menu item.
-        JMenuItem saveItem = file.add(new CmdSaveEditor());
-        saveItem.setMnemonic('S');
-        KeyStroke ctrlS = KeyStroke.getKeyStroke(KeyEvent.VK_S,
-                KeyEvent.CTRL_MASK);
-        saveItem.setAccelerator(ctrlS);
-
-        // Create the Save As menu item.
-        JMenuItem saveAsItem = file.add(new CmdSaveAsEditor());
-        saveAsItem.setMnemonic('A');
 
         file.addSeparator();
 
