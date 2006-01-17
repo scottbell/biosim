@@ -17,7 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import com.traclabs.biosim.client.simulation.power.schematic.graph.ModuleNode;
-import com.traclabs.biosim.client.simulation.power.schematic.graph.environment.FigSimEnvironmentNode;
+import com.traclabs.biosim.editor.graph.environment.FigSimEnvironmentNode;
 import com.traclabs.biosim.server.simulation.environment.SimEnvironmentImpl;
 
 /**

@@ -5,10 +5,10 @@
 package com.traclabs.biosim.client.simulation.power.schematic.ui;
 
 import com.traclabs.biosim.client.simulation.power.schematic.base.CmdCreateModuleNode;
-import com.traclabs.biosim.client.simulation.power.schematic.graph.water.DirtyWaterStoreNode;
-import com.traclabs.biosim.client.simulation.power.schematic.graph.water.GreyWaterStoreNode;
-import com.traclabs.biosim.client.simulation.power.schematic.graph.water.PotableWaterStoreNode;
-import com.traclabs.biosim.client.simulation.power.schematic.graph.water.WaterRSNode;
+import com.traclabs.biosim.editor.graph.water.DirtyWaterStoreNode;
+import com.traclabs.biosim.editor.graph.water.GreyWaterStoreNode;
+import com.traclabs.biosim.editor.graph.water.PotableWaterStoreNode;
+import com.traclabs.biosim.editor.graph.water.WaterRSNode;
 
 /**
  * @author scott

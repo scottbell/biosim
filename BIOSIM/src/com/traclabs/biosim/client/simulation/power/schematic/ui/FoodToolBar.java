@@ -5,10 +5,10 @@
 package com.traclabs.biosim.client.simulation.power.schematic.ui;
 
 import com.traclabs.biosim.client.simulation.power.schematic.base.CmdCreateModuleNode;
-import com.traclabs.biosim.client.simulation.power.schematic.graph.food.BiomassPSNode;
-import com.traclabs.biosim.client.simulation.power.schematic.graph.food.BiomassStoreNode;
-import com.traclabs.biosim.client.simulation.power.schematic.graph.food.FoodProcessorNode;
-import com.traclabs.biosim.client.simulation.power.schematic.graph.food.FoodStoreNode;
+import com.traclabs.biosim.editor.graph.food.BiomassPSNode;
+import com.traclabs.biosim.editor.graph.food.BiomassStoreNode;
+import com.traclabs.biosim.editor.graph.food.FoodProcessorNode;
+import com.traclabs.biosim.editor.graph.food.FoodStoreNode;
 
 /**
  * @author scott
