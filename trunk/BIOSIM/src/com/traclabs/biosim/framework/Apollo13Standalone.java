@@ -4,7 +4,6 @@ import javax.swing.ImageIcon;
 
 import com.traclabs.biosim.client.framework.apollo13.Apollo13Viewer;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
-import com.traclabs.biosim.framework.BiosimStandalone;
 
 
 /**
