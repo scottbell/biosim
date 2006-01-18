@@ -121,12 +121,7 @@ public class PowerSchematicFrame extends BioFrame {
         JMenu help = new JMenu("Help");
         help.setMnemonic('H');
         myMenuBar.add(help);
-
-        JMenuItem CheckNetwork = new JMenuItem("Check Network");
-        CheckNetwork.setMnemonic('C');
-        CheckNetwork.setEnabled(false);
-        help.add(CheckNetwork);
-
+        
         JMenuItem About = new JMenuItem("About Biosim Editor");
         About.setMnemonic('A');
         About.setEnabled(false);
