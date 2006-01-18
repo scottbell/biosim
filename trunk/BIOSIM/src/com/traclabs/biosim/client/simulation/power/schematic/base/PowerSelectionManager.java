@@ -69,8 +69,8 @@ public class PowerSelectionManager extends SelectionManager {
 
     private void modifyDocument() {
         Object doc = _editor.document();
-        if (doc instanceof EditorDocument) {
-            ((EditorDocument) doc).setModified(true);
+        if (doc instanceof PowerSchematicDocument) {
+            ((PowerSchematicDocument) doc).setModified(true);
         }
     }
 

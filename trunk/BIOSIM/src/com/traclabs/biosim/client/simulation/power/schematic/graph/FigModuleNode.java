@@ -22,7 +22,7 @@ import org.tigris.gef.presentation.FigPoly;
 import org.tigris.gef.presentation.FigRect;
 import org.tigris.gef.presentation.FigText;
 
-import com.traclabs.biosim.client.simulation.power.schematic.base.EditorLayer;
+import com.traclabs.biosim.client.simulation.power.schematic.base.PowerSchematicLayer;
 
 /**
  * Fig level representation of a EditorNode. Visually, it has
@@ -46,7 +46,7 @@ public abstract class FigModuleNode extends FigNode {
 
     protected Color _shadowColor = Color.GRAY;
 
-    protected EditorLayer _nestedLayer;
+    protected PowerSchematicLayer _nestedLayer;
 
     public FigModuleNode() {
         super();
@@ -175,7 +175,7 @@ public abstract class FigModuleNode extends FigNode {
         // Tie the nested layer to its GraphModel.
         GraphModel gm = node.getNestedModel();
         if (gm != null) {
-            _nestedLayer = new EditorLayer(getText(), (EditorGraphModel) gm, this);
+            _nestedLayer = new PowerSchematicLayer(getText(), (EditorGraphModel) gm, this);
         }
 
         // Update the fig using net node properties.
@@ -237,7 +237,7 @@ public abstract class FigModuleNode extends FigNode {
         return center;
     }
 
-    public EditorLayer getNestedLayer() {
+    public PowerSchematicLayer getNestedLayer() {
         return _nestedLayer;
     }
 

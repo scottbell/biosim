@@ -9,14 +9,14 @@ package com.traclabs.biosim.client.simulation.power.schematic.base;
 
 import org.tigris.gef.base.Cmd;
 
-import com.traclabs.biosim.client.simulation.power.schematic.presentation.EditorFrame;
+import com.traclabs.biosim.client.simulation.power.schematic.presentation.PowerSchematicFrame;
 
 public class EditorCmdExit extends Cmd {
 
-    EditorFrame _frame;
+    PowerSchematicFrame _frame;
 
 
-    public EditorCmdExit(EditorFrame frame) {
+    public EditorCmdExit(PowerSchematicFrame frame) {
         super("EditorBase", "Exit");
         _frame = frame;
     }

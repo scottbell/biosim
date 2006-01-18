@@ -13,7 +13,7 @@ import java.awt.Dimension;
 import org.tigris.gef.base.Cmd;
 import org.tigris.gef.base.Globals;
 
-import com.traclabs.biosim.client.simulation.power.schematic.presentation.EditorFrame;
+import com.traclabs.biosim.client.simulation.power.schematic.presentation.PowerSchematicFrame;
 
 /**
  * Cmd to open a new editor on the same document as in the current editor. Works
@@ -32,10 +32,10 @@ public class EditorCmdSpawn extends Cmd {
     // doIt must create a EditorFrame instead of a JGraphFrame.
     public void doIt() {
         PowerSchematicEditor ce = (PowerSchematicEditor) Globals.curEditor();
-        EditorFrame frame = (EditorFrame) ce.findFrame();
+        PowerSchematicFrame frame = (PowerSchematicFrame) ce.findFrame();
 
         if (frame != null) {
-            EditorFrame copy = (EditorFrame) frame.clone();
+            PowerSchematicFrame copy = (PowerSchematicFrame) frame.clone();
 
             Object d = getArg("dimension", new Dimension(640, 480));
             if (d instanceof Dimension)

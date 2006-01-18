@@ -22,14 +22,14 @@ public class PowerSchematicEditor extends Editor {
     private JFrame myFrame;
 
     public PowerSchematicEditor() {
-        this(new EditorLayer("Root"));
+        this(new PowerSchematicLayer("Root"));
     }
 
-    public PowerSchematicEditor(EditorLayer lay) {
-        this(new EditorDocument(lay));
+    public PowerSchematicEditor(PowerSchematicLayer lay) {
+        this(new PowerSchematicDocument(lay));
     }
 
-    public PowerSchematicEditor(EditorDocument doc) {
+    public PowerSchematicEditor(PowerSchematicDocument doc) {
         super(doc.getRoot().getGraphModel(), null, doc.getRoot());
 
         doc.addEditor(this);
@@ -44,14 +44,14 @@ public class PowerSchematicEditor extends Editor {
     }
 
     public void document(Object d) {
-        EditorDocument oldDoc = (EditorDocument) document();
+        PowerSchematicDocument oldDoc = (PowerSchematicDocument) document();
 
         if (oldDoc != null) {
             oldDoc.removeEditor(this);
         }
 
-        if (d != null && d instanceof EditorDocument) {
-            EditorDocument newDoc = (EditorDocument) d;
+        if (d != null && d instanceof PowerSchematicDocument) {
+            PowerSchematicDocument newDoc = (PowerSchematicDocument) d;
             newDoc.addEditor(this);
             super.document(newDoc);
             showRoot();
@@ -63,25 +63,25 @@ public class PowerSchematicEditor extends Editor {
     /**
      * Returns the root of the layer tree.
      */
-    public EditorLayer getRoot() {
-        EditorDocument vd = (EditorDocument) _document;
+    public PowerSchematicLayer getRoot() {
+        PowerSchematicDocument vd = (PowerSchematicDocument) _document;
         return vd.getRoot();
     }
 
     public void showRoot() {
         // Switch out the layer that is being displayed.
-        EditorDocument vd = (EditorDocument) _document;
+        PowerSchematicDocument vd = (PowerSchematicDocument) _document;
         getLayerManager().replaceActiveLayer(vd.getRoot());
         getSelectionManager().deselectAll();
         damageAll();
     }
 
     public void showParent() {
-        EditorLayer layer = (EditorLayer) getLayerManager().getActiveLayer();
+        PowerSchematicLayer layer = (PowerSchematicLayer) getLayerManager().getActiveLayer();
         FigModuleNode figNode = layer.getParent();
         // Check for root.
         if (figNode != null) {
-            layer = (EditorLayer) figNode.getLayer();
+            layer = (PowerSchematicLayer) figNode.getLayer();
             getLayerManager().replaceActiveLayer(layer);
             getSelectionManager().deselectAll();
             damageAll();
@@ -90,7 +90,7 @@ public class PowerSchematicEditor extends Editor {
 
     public void expandNode(FigModuleNode figNode) {
         if (figNode != null && figNode.getNestedLayer() != null) {
-            EditorLayer layer = figNode.getNestedLayer();
+            PowerSchematicLayer layer = figNode.getNestedLayer();
             getLayerManager().replaceActiveLayer(layer);
             getSelectionManager().deselectAll();
             damageAll();
@@ -103,7 +103,7 @@ public class PowerSchematicEditor extends Editor {
     public Object clone() {
         // Create a new editor with its own layer manager, selection manager,
         // and mode manager.
-        PowerSchematicEditor ed = new PowerSchematicEditor((EditorDocument) document());
+        PowerSchematicEditor ed = new PowerSchematicEditor((PowerSchematicDocument) document());
         return ed;
     }
 
