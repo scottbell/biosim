@@ -10,11 +10,11 @@ import org.tigris.gef.presentation.Fig;
 
 import com.traclabs.biosim.client.simulation.power.schematic.graph.FigModuleNode;
 
-public class EditorModeManager extends ModeManager {
+public class PowerModeManager extends ModeManager {
 
-    Logger myLogger = Logger.getLogger(EditorModeManager.class);
+    Logger myLogger = Logger.getLogger(PowerModeManager.class);
 
-    public EditorModeManager(Editor par) {
+    public PowerModeManager(Editor par) {
         super(par);
     }
 

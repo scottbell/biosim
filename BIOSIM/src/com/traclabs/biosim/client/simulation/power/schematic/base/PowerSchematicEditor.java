@@ -17,26 +17,26 @@ import com.traclabs.biosim.client.simulation.power.schematic.graph.FigModuleNode
  * child layer (EditorLayer) associated with it that visually represents the
  * nested contents of the node.
  */
-public class BiosimEditor extends Editor {
+public class PowerSchematicEditor extends Editor {
 
     private JFrame myFrame;
 
-    public BiosimEditor() {
+    public PowerSchematicEditor() {
         this(new EditorLayer("Root"));
     }
 
-    public BiosimEditor(EditorLayer lay) {
+    public PowerSchematicEditor(EditorLayer lay) {
         this(new EditorDocument(lay));
     }
 
-    public BiosimEditor(EditorDocument doc) {
+    public PowerSchematicEditor(EditorDocument doc) {
         super(doc.getRoot().getGraphModel(), null, doc.getRoot());
 
         doc.addEditor(this);
         super.document(doc);
 
-        _selectionManager = new EditorSelectionManager(this);
-        _modeManager = new EditorModeManager(this);
+        _selectionManager = new PowerSelectionManager(this);
+        _modeManager = new PowerModeManager(this);
 
         pushMode(new ModeSelect(this));
         pushMode(new ModeDragScroll(this));
@@ -103,7 +103,7 @@ public class BiosimEditor extends Editor {
     public Object clone() {
         // Create a new editor with its own layer manager, selection manager,
         // and mode manager.
-        BiosimEditor ed = new BiosimEditor((EditorDocument) document());
+        PowerSchematicEditor ed = new PowerSchematicEditor((EditorDocument) document());
         return ed;
     }
 

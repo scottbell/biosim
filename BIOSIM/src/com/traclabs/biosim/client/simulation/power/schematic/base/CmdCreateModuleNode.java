@@ -50,7 +50,7 @@ public class CmdCreateModuleNode extends Cmd implements GraphFactory {
      */
     public void doIt() {
         Editor ce = Globals.curEditor();
-        BiosimEditor biosimEditor = (BiosimEditor) (ce);
+        PowerSchematicEditor biosimEditor = (PowerSchematicEditor) (ce);
         biosimEditor.getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         GraphModel gm = ce.getGraphModel();
         if (!(gm instanceof MutableGraphModel))
