@@ -36,7 +36,7 @@ public class EditorDocument {
     protected boolean _modifiedFlag = false;
 
     /** The filename for the document set when it is opened or saved */
-    protected Vector<BiosimEditor> _editors = new Vector<BiosimEditor>();
+    protected Vector<PowerSchematicEditor> _editors = new Vector<PowerSchematicEditor>();
  
     public EditorDocument() {
         this(new EditorLayer("Root"));
@@ -70,12 +70,12 @@ public class EditorDocument {
         return _editors;
     }
 
-    public void addEditor(BiosimEditor e) {
+    public void addEditor(PowerSchematicEditor e) {
         _editors.remove(e);
         _editors.add(e);
     }
 
-    public void removeEditor(BiosimEditor e) {
+    public void removeEditor(PowerSchematicEditor e) {
         _editors.remove(e);
     }
 
@@ -88,7 +88,7 @@ public class EditorDocument {
             FigModuleNode node = (FigModuleNode) f;
             Enumeration eds = _editors.elements();
             while (eds.hasMoreElements()) {
-                BiosimEditor ed = (BiosimEditor) eds.nextElement();
+                PowerSchematicEditor ed = (PowerSchematicEditor) eds.nextElement();
                 Layer layer = ed.getLayerManager().getActiveLayer();
                 if (layer instanceof EditorLayer) {
                     if (((EditorLayer) layer).isDescendantDiagram(node)) {

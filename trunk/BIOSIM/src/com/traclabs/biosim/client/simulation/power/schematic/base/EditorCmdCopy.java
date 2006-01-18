@@ -40,7 +40,7 @@ public class EditorCmdCopy extends Cmd implements ClipboardOwner {
     }
 
     public void doIt() {
-        BiosimEditor ed = (BiosimEditor) Globals.curEditor();
+        PowerSchematicEditor ed = (PowerSchematicEditor) Globals.curEditor();
         try {
             Clipboard clipboard = ed.getJComponent().getToolkit()
                     .getSystemClipboard();

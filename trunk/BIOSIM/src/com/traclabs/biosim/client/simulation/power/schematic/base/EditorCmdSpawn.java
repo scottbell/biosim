@@ -31,7 +31,7 @@ public class EditorCmdSpawn extends Cmd {
 
     // doIt must create a EditorFrame instead of a JGraphFrame.
     public void doIt() {
-        BiosimEditor ce = (BiosimEditor) Globals.curEditor();
+        PowerSchematicEditor ce = (PowerSchematicEditor) Globals.curEditor();
         EditorFrame frame = (EditorFrame) ce.findFrame();
 
         if (frame != null) {

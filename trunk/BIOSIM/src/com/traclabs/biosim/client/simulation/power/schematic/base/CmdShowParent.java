@@ -26,7 +26,7 @@ public class CmdShowParent extends Cmd {
     }
 
     public void doIt() {
-        BiosimEditor editor = (BiosimEditor) Globals.curEditor();
+        PowerSchematicEditor editor = (PowerSchematicEditor) Globals.curEditor();
         editor.showParent();
     }
 

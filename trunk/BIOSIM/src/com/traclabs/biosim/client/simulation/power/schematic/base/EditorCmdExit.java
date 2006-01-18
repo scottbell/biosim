@@ -23,7 +23,7 @@ public class EditorCmdExit extends Cmd {
 
     public void doIt() {
         if (_frame != null) {
-            BiosimEditor ed = (BiosimEditor) _frame.getEditor();
+            PowerSchematicEditor ed = (PowerSchematicEditor) _frame.getEditor();
             _frame.exit();
         }
     }

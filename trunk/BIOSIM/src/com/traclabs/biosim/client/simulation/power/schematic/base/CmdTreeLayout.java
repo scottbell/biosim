@@ -51,7 +51,7 @@ public class CmdTreeLayout extends Cmd {
     }
 
     public void doIt() {
-        BiosimEditor ed = (BiosimEditor) Globals.curEditor();
+        PowerSchematicEditor ed = (PowerSchematicEditor) Globals.curEditor();
 
         Vector selection = ed.getSelectionManager().selections();
         Enumeration sel = selection.elements();

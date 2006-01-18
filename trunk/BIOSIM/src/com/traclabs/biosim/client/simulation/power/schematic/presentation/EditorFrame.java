@@ -52,7 +52,7 @@ import org.tigris.gef.util.Localizer;
 import org.tigris.gef.util.ResourceLoader;
 
 import com.traclabs.biosim.client.framework.BioFrame;
-import com.traclabs.biosim.client.simulation.power.schematic.base.BiosimEditor;
+import com.traclabs.biosim.client.simulation.power.schematic.base.PowerSchematicEditor;
 import com.traclabs.biosim.client.simulation.power.schematic.base.CmdTreeLayout;
 import com.traclabs.biosim.client.simulation.power.schematic.base.CmdZoomTo;
 import com.traclabs.biosim.client.simulation.power.schematic.base.EditorCmdCopy;
@@ -72,7 +72,7 @@ import com.traclabs.biosim.client.simulation.power.schematic.ui.WaterToolBar;
 import com.traclabs.biosim.editor.base.EditorCmdPaste;
 
 public class EditorFrame extends BioFrame {
-    private BiosimEditor myEditor;
+    private PowerSchematicEditor myEditor;
     
     private JMenuBar myMenuBar = new JMenuBar();
     
@@ -113,10 +113,10 @@ public class EditorFrame extends BioFrame {
     private Component myFoodToolBar;
 
     public EditorFrame(String title) {
-        this(title, new BiosimEditor());
+        this(title, new PowerSchematicEditor());
     }
 
-    public EditorFrame(String title, BiosimEditor pEditor) {
+    public EditorFrame(String title, PowerSchematicEditor pEditor) {
         super(title);
         myEditor = pEditor;
         myEditor.setFrame(this);
@@ -205,7 +205,7 @@ public class EditorFrame extends BioFrame {
         if (imgURL != null) {
             return new ImageIcon(imgURL);
         }
-		Logger.getLogger(BiosimEditor.class.toString()).error(
+		Logger.getLogger(PowerSchematicEditor.class.toString()).error(
 		        "Couldn't find file for icon: " + path);
 		return null;
     }
@@ -583,7 +583,7 @@ public class EditorFrame extends BioFrame {
     }
     
     public Object clone() {
-        BiosimEditor newEditor = (BiosimEditor)myEditor.clone();
+        PowerSchematicEditor newEditor = (PowerSchematicEditor)myEditor.clone();
         EditorFrame newFrame = new EditorFrame(getTitle(), newEditor);
         return newFrame;
     }

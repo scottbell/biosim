@@ -35,7 +35,7 @@ public class CmdExpandNode extends Cmd {
 
     public void doIt() {
         // Find out which items are selected.
-        BiosimEditor editor = (BiosimEditor) Globals.curEditor();
+        PowerSchematicEditor editor = (PowerSchematicEditor) Globals.curEditor();
         SelectionManager sm = editor.getSelectionManager();
         Vector selections = sm.getFigs();
 

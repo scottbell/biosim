@@ -17,9 +17,9 @@ import org.tigris.gef.base.Selection;
 import org.tigris.gef.base.SelectionManager;
 import org.tigris.gef.presentation.Handle;
 
-public class EditorSelectionManager extends SelectionManager {
+public class PowerSelectionManager extends SelectionManager {
 
-    public EditorSelectionManager(BiosimEditor editor) {
+    public PowerSelectionManager(PowerSchematicEditor editor) {
         super(editor);
     }
     
