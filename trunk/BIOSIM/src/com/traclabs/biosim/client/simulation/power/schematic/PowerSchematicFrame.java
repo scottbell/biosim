@@ -1,4 +1,4 @@
-package com.traclabs.biosim.client.simulation.power.schematic.presentation;
+package com.traclabs.biosim.client.simulation.power.schematic;
 
 import java.awt.Cursor;
 import java.awt.GridLayout;
@@ -13,56 +13,37 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 import org.apache.log4j.Logger;
-import org.tigris.gef.base.CmdDeleteFromModel;
 import org.tigris.gef.base.CmdOpenWindow;
 import org.tigris.gef.base.CmdPrint;
-import org.tigris.gef.base.Editor;
-import org.tigris.gef.base.Globals;
-import org.tigris.gef.base.Layer;
-import org.tigris.gef.graph.presentation.JGraph;
 import org.tigris.gef.util.Localizer;
 import org.tigris.gef.util.ResourceLoader;
 
 import com.traclabs.biosim.client.framework.BioFrame;
 import com.traclabs.biosim.client.simulation.power.schematic.base.PowerSchematicDocument;
 import com.traclabs.biosim.client.simulation.power.schematic.base.PowerSchematicEditor;
+import com.traclabs.biosim.util.OrbUtils;
 
 public class PowerSchematicFrame extends BioFrame {
-    private PowerSchematicEditor myEditor;
-    
+	private PowerSchematicEditor myEditor;
+	
     private JMenuBar myMenuBar = new JMenuBar();
-    
-    /** The graph pane (shown in middle of window). */
-    private JGraph myGraph;
 
     /** A statusbar (shown at bottom ow window). */
     private JLabel myStatusbar = new JLabel(" ");
     
-    private JPanel myGraphPanel;
+    private PowerSchematicPanel myPowerSchematicPanel;
 
     private QuitAction myQuitAction = new QuitAction("Quit");
 
     public PowerSchematicFrame(String title) {
-        this(title, new PowerSchematicEditor());
-    }
-
-    public PowerSchematicFrame(String title, PowerSchematicEditor pEditor) {
         super(title);
-        myEditor = pEditor;
-        myEditor.setFrame(this);
         loadResources();
         buildGui();
-        Globals.curEditor(myEditor);
-        // make the delete key remove elements from the underlying GraphModel
-        myGraph.bindKey(new CmdDeleteFromModel(), KeyEvent.VK_DELETE, 0);
-    }
-    
-    public Editor getEditor(){
-        return myEditor;
+        myEditor = myPowerSchematicPanel.getEditor();
+        myEditor.setFrame(this);
     }
     
     /**
@@ -83,25 +64,13 @@ public class PowerSchematicFrame extends BioFrame {
      *  
      */
     private void buildGui() {
-        createGraphPanel();
+    	myPowerSchematicPanel = new PowerSchematicPanel();
         getContentPane().setLayout(new GridLayout(1,1));
-        getContentPane().add(myGraphPanel);
+        getContentPane().add(myPowerSchematicPanel);
         //do menu bar
         createMenuBar();
         setJMenuBar(myMenuBar);
         pack();
-    }
-
-    /**
-     *  
-     */
-    private void createGraphPanel() {
-        //need to add ScrollPane
-        myGraph = new JGraph(myEditor);
-        //myGraph.setDrawingSize(0, 0);
-        myGraphPanel = new JPanel();
-        myGraphPanel.setLayout(new GridLayout(1, 1));
-        myGraphPanel.add(myGraph);
     }
 
     /** Returns an ImageIcon, or null if the path was invalid. */
@@ -164,27 +133,6 @@ public class PowerSchematicFrame extends BioFrame {
         help.add(About);
     }
 
-    /**
-     * Close this editor frame.
-     */
-    public void exit() {
-        // Remove the editor from the layer.
-        Layer layer = myEditor.getLayerManager().getActiveLayer();
-        layer.removeEditor(myEditor);
-
-        // Remove the editor from the document.
-        myEditor.document(null);
-
-        // Destroy the window.
-        dispose();
-    }
-    
-    public Object clone() {
-        PowerSchematicEditor newEditor = (PowerSchematicEditor)myEditor.clone();
-        PowerSchematicFrame newFrame = new PowerSchematicFrame(getTitle(), newEditor);
-        return newFrame;
-    }
-
     public PowerSchematicDocument getDocument() {
         return (PowerSchematicDocument) this.myEditor.document();
     }
@@ -204,5 +152,12 @@ public class PowerSchematicFrame extends BioFrame {
             frameClosing();
             setCursor(Cursor.getDefaultCursor());
         }
+    }
+    
+    public static void main(String[] args){
+    	OrbUtils.initializeLog();
+    	PowerSchematicFrame newPowerSchematicFrame = new PowerSchematicFrame("BioSim Power Schematic");
+    	newPowerSchematicFrame.setSize(640, 480);
+    	newPowerSchematicFrame.setVisible(true);
     }
 }
