@@ -80,9 +80,6 @@ public abstract class FlowratePropertiesFrame extends JFrame {
 			float desired = ((Number) myDesiredField.getValue()).floatValue();
 			myOperations.setMaxFlowRate(max, myIndex);
 			myOperations.setDesiredFlowRate(desired, myIndex);
-			myModuleFigEdge.setIsSensed(mySensorCheckBox.isSelected());
-			myModuleFigEdge.setIsActuated(myActuatorCheckBox.isSelected());
-
 			dispose();
 		}
 	}
